@@ -2,7 +2,7 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
 "http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
 <article>
-  <title>Technical Design</title>
+  <title>High-Level Technical Design</title>
 
   <section>
     <title>Overview</title>
@@ -103,17 +103,17 @@
           </row>
 
           <row>
-            <entry>Event / Trip / Route PATH</entry>
+            <entry>Route</entry>
 
-            <entry>EVENT</entry>
+            <entry>ROUTE</entry>
 
             <entry>label with event name</entry>
           </row>
 
           <row>
-            <entry>Event / Trip / Route start and end</entry>
+            <entry>Route start and end</entry>
 
-            <entry>EVENTPT</entry>
+            <entry>ROUTEPT</entry>
 
             <entry>label with event name</entry>
           </row>
@@ -184,7 +184,7 @@
 
     <para>A sample template for the Mapserver MAP file is presented in
     Appendix A [TODO]. All layers are specified as Shapefiles, except for
-    EVENT and EVENTPT</para>
+    ROUTE and ROUTEPT</para>
   </section>
 
   <section>
@@ -197,7 +197,7 @@
 
       <mediaobject>
         <imageobject>
-          <imagedata fileref="design_files/wmsclient.gif" />
+          <imagedata fileref="design_files/wmsclient.png" />
         </imageobject>
       </mediaobject>
     </figure>
@@ -252,8 +252,9 @@
 
       <para>The current data architecture reflects the bike and kayak trip use
       cases, as we generally expect users to upload trips that have a begin
-      point, an end point, and a linear path between the two. Trips are
-      generically called events.</para>
+      point, an end point, and a linear path between the two. The combination
+      of trips (or routes), and their associated descriptive content is called
+      an event.</para>
 
       <figure>
         <title>Database schema</title>
@@ -265,7 +266,7 @@
         </mediaobject>
       </figure>
 
-      <para>Events will have rich descriptive information attached to them. In
+      <para>Trips will have rich descriptive information attached to them. In
       this release we explicitly support text and images, although other media
       may work. This content is stored in a directory on disk in a Web
       server-accessible location. We store content on disk to avoid the
@@ -274,23 +275,24 @@
       relationship between events and content.</para>
 
       <para>When a GetFeatureInfo request is made from the map viewing client,
-      the CMB queries the START, END, AND PATH fields of EVENT, finding the
-      event closest to the user&#39;s map click. Then a Web page is created
+      the CMB queries the START, END, AND PATH fields of FEATURE finding the
+      route closest to the user&#39;s map click. Then a Web page is created
       that contains the content the event creator entered, which is found by
       querying the STORY table for the STORYID and USERID that matches those
-      from the EVENT table. Then all the matching STORYIDs from the CONTENT
-      table are retrieved and the files they reference are displayed. </para>
+      from the FEATURE table. Then all the matching STORYIDs from the CONTENT
+      table are retrieved and the files they reference are displayed.</para>
 
       <para>The HTMLFILE and MEDIAFILE fields contain URL references. They are
       paired in this way to make sure text that goes with a particular file is
-      kept together. Either of these fields, however, may be null. </para>
+      kept together. Either of these fields, however, may be null.</para>
 
       <para>Above this content is a title consisting of the NAME value from
-      the EVENT table. </para>
+      the FEATURE table.</para>
 
       <para>Below this content are links to content other users have created,
-      which are found by querying the STORY table for EVENTIDs that match the
-      EVENT table, but have a USERID that <emphasis>does not</emphasis> match.</para>
+      which are found by querying the STORY table for FEATUREIDs that match
+      the FEATURE table, but have a USERID that <emphasis>does not</emphasis>
+      match.</para>
     </section>
 
     <section>
