@@ -184,7 +184,6 @@ function Extent( model, initialRes ) {
     var bbox = extent.model.getBoundingBox();
     extent.ul = new Array(bbox[0],bbox[3]);
     extent.lr = new Array(bbox[2],bbox[1]);
-    extent.setResolution( new Array(extent.model.getWindowWidth(), extent.model.getWindowHeight() ) );
     if ( initialRes ) {
       extent.setSize( initialRes );
     } else {
