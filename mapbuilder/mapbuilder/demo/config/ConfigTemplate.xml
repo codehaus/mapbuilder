@@ -48,6 +48,16 @@
 
       <!-- I suggest change this to <defaultContextUrl>. Cameron 6 Mar 2004. -->
       <defaultModelUrl>context/atlasWorld.xml</defaultModelUrl>
+      
+      <!-- I disagree with both the above comments: all the widgets listed in this
+      model group apply a stylesheet to a single instance of this model to paint 
+      the view, which in this group happens to be a context.  If we rename <defaultModelUrl>
+      to <defaultContextUrl> we lose the benefits of using an abstract base class.
+      The concept of the modelGroup is to tie all widgets and their tools to a 
+      single instance of a model.  That is, all widgets in a group register with
+      the listeners of the model instance.
+      Mike.
+      -->
 
       <widgets>
         <MapPane id="mainMapPaneId">
@@ -64,6 +74,9 @@
             <GlassPane>  
               <scriptFile>widget/tool/GlassPane3.js</scriptFile>
               <!-- <toolSelect> will select one of the following tools. -->
+              <!-- I can see these living here, however I can also see these
+              together as a separate widget like in the ButtonArray below.
+               -->
               <toolSelect>
                 <ZoomInMouseTool id="ZoomInMouseToolId">
                   <selected>true</selected>
@@ -111,11 +124,13 @@
         <ZoomTool id="zoomToolId">
           <scriptFile>widget/tool/ZoomTool2.js</scriptFile>
         </ZoomTool>
+           -->
         
         <ButtonBar id="buttonBarId">
           <stylesheet>/widget/buttonbar/ButtonBar2.xsl</stylesheet>
           <scriptFile>/widget/buttonbar/ButtonBar3.js</scriptFile>
-          <widgets>
+          <targetWidget>MapPane</targetWidget>
+          <tools>
             <Button id="ZoomInButton">
               <enabledSrc>/images/zoom_in_en.gif</enabledSrc>
               <disabledSrc>/images/zoom_in_dis.gif</disabledSrc>
@@ -134,9 +149,8 @@
               <tooltip>reset the map to full extent</tooltip>
               <modeValue>MODE_RESET</modeValue>
             </Button>
-          </widgets>
+          </tools>
         </ButtonBar>
-           -->
         
       </widgets>
     </Model>
@@ -156,8 +170,8 @@
             <AoiBox>
               <scriptFile>widget/tool/AoiBox2.js</scriptFile>
               <lineColor>#00FF00</lineColor>
-              <lineWidth>2</lineWidth>
-              <crossSize>9</crossSize>
+              <lineWidth>1</lineWidth>
+              <crossSize>5</crossSize>
             </AoiBox>
           </tools> 
         </MapPane>
