@@ -11,9 +11,12 @@ $Id$
  * @author Cameron Shorter cameronATshorter.net
  * @requires Sarissa
  * @param url Url of context document
+ * @param name Variable name referencing this context object
+ * @param baseDir Relative path to base directory of Mapbuilder files
  * @param skin Name of skin to use for look and feel
+ * @param queryLayer Index of layer in Context document that should be used as query layer for GetFeatureInfo requests
  */
-function Context(url, skin) {
+function Context(url, name, node, baseDir, skin, queryLayer) {
 
   /**
    * The Web Map Context Document.
@@ -24,14 +27,15 @@ function Context(url, skin) {
   this.context.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
   this.context.setProperty("SelectionLanguage", "XPath");
   this.context.load(url);
+  this.name=name;
+  this.baseDir=baseDir;
   if(skin==null){
-    skin="basic";
+    this.skin="basic";
   }
-
   /**
    * The name of the skin to use, defaults to skins/basic .*/
   this.skin="skins/"+skin+"/";
-
+  this.queryLayer=queryLayer;
   /*
   // Insert unique Ids into each Layer node.
   var layerNodeList=this.context.selectNodes("/ViewContext");
