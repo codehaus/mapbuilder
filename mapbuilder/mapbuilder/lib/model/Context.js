@@ -221,7 +221,7 @@ function Extent( context ) {
   }
 
   this.getAoi = function() {
-    var plBbox = this.context.getAoi();
+    var plBbox = this.context.getParam("aoi");
     return new Array( this.GetXY(plBbox[0]), this.GetXY(plBbox[1]));
   }
 
