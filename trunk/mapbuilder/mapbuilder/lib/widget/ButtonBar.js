@@ -37,6 +37,6 @@ function ButtonBar(widgetNode, model) {
       if ( objRef[sProperty].selected ) objRef[sProperty].select();
     } 
   }
-  this.model.addListener('loadWidget',this.init,this);
+  this.model.addListener('modelChange',this.init,this);
 }
 
