@@ -52,12 +52,6 @@ $Name$
 
       <form>
 
-        <table border="1" cellpadding="0" cellspacing="0">
-
-          <xsl:apply-templates/>
-
-        </table>
-
         <input type="button" value="Reset"
 
           onclick="config.{$modelId}.{$widgetId}.processButton(config.{$modelId}.{$widgetId},'Reset');"/>
@@ -69,6 +63,12 @@ $Name$
         <input type="button" value="Update Feature"
 
           onclick="config.{$modelId}.{$widgetId}.processButton(config.{$modelId}.{$widgetId},'Update Feature');"/>
+
+        <table border="1" cellpadding="0" cellspacing="0">
+
+          <xsl:apply-templates/>
+
+        </table>
 
       </form>
 
