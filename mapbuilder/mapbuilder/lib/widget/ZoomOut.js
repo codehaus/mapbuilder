@@ -40,6 +40,6 @@ function ZoomOut(toolNode, model) {
       toolRef.mouseHandler.model.addListener('mouseup',toolRef.doAction,toolRef);
     }
   }
-  this.targetModel.addListener( "loadModel", this.setMouseListener, this );
+  config.addListener( "loadModel", this.setMouseListener, this );
 
 }

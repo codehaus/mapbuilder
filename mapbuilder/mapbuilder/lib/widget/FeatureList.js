@@ -24,14 +24,6 @@ function FeatureList(widgetNode, model) {
   this.insertXsl=new XslProcessor(baseDir+"/tool/xsl/wfs_Insert.xsl");
 
   /**
-   * Render this widget.
-   * @param widget This widget object.
-   */
-  this.loadModelListener=function(widget){
-    widget.paint(widget);
-  }
-
-  /**
    * Process a button press.
    * @param objRef Reference to this object.
    * @param button Button name.
@@ -62,6 +54,4 @@ function FeatureList(widgetNode, model) {
         alert("FeatureList: Unknown button: "+button);
     }
   }
-
-  this.model.addListener("loadModel",this.loadModelListener,this);
 }

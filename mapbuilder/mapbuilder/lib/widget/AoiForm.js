@@ -72,14 +72,13 @@ function AoiForm(widgetNode, model) {
    * Refreshes the form onblur handlers when this widget is painted.
    * @param objRef Pointer to this AoiForm object.
    */
-  this.paintHandler = function(objRef) {
+  this.postPaint = function(objRef) {
     objRef.aoiForm = document.getElementById(objRef.formName);
     objRef.aoiForm.westCoord.onblur = objRef.setAoi;
     objRef.aoiForm.northCoord.onblur = objRef.setAoi;
     objRef.aoiForm.eastCoord.onblur = objRef.setAoi;
     objRef.aoiForm.southCoord.onblur = objRef.setAoi;
   }
-  this.addListener('paint', this.paintHandler, this);
 
   //set some properties for the form output
   this.formName = "AoiForm_";// + mbIds.getId();

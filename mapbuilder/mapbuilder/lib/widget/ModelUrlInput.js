@@ -82,14 +82,13 @@ function ModelUrlInput(widgetNode, model) {
    * Refreshes the form and event handlers when this widget is painted.
    * @param objRef Pointer to this CurorTrack object.
    */
-  this.paintHandler = function(objRef) {
+  this.postPaint = function(objRef) {
     objRef.urlInputForm = document.getElementById(objRef.formName);
     objRef.urlInputForm.parentWidget = objRef;
     objRef.urlInputForm.onkeypress = objRef.handleKeyPress;
     //objRef.WebServiceForm.onsubmit = objRef.submitForm;
     //objRef.WebServiceForm.mapsheet.onblur = objRef.setMapsheet;
   }
-  this.addListener('paint', this.paintHandler, this);
 
   //set some properties for the form output
   this.formName = "urlInputForm_";// + mbIds.getId();

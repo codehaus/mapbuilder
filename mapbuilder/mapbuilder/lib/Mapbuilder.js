@@ -155,7 +155,6 @@ function mapbuilderInit(){
     clearInterval(mbTimerId);
     config.init(config);
     config.callListeners("loadModel");
-    config.callListeners("refresh");
   }
 }
 

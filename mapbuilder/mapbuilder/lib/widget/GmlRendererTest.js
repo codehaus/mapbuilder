@@ -28,6 +28,6 @@ function GmlRendererTest(widgetNode, model) {
     var features = objRef.model.doc.selectNodes("//gml:featureMember");
     alert("pretending to paint:"+features.length+" features"+objRef.model.doc.xml);
   }
-  this.model.addListener("loadModel",this.paint,this);
+  //this.model.addListener("loadModel",this.paint,this);
   this.override=true;
 }
