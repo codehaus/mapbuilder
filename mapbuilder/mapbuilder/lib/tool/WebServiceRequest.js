@@ -9,11 +9,17 @@ $Id$
 mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
 
 /**
- * A controller for manipulating a Model's list of models for append/delete/update
- * The list of models is driven by a set of nodes selected from the parent model doc.
+ * A controller issuing OGC web service requests.  The request is generated
+ * by applying a stylesheet to a Layer/FeatureType/Coverage node from a 
+ * capabilities document as a listener function.  The listener event name is 
+ * a combination of the service type and the request name (e.g. wfs_GetFeature)
+ * and the parameter passed to the listener is the featureName (Layer/FeatureType/Coverage).
+ * The response from the request is stored in the targetModel.  If the 
+ * targetModel is a template model (attribute template="true") the a new model 
+ * is created and appended to the parentModel's <models> list.
  * @constructor
- * @param toolNode      The tools's XML object node from the configuration document.
- * @param model  The widget that this tool belongs to
+ * @param toolNode The tools's XML object node from the configuration document.
+ * @param model    The model that this tool belongs to
  */
 function WebServiceRequest(toolNode, model) {
   var base = new ToolBase(this, toolNode, model);
@@ -35,13 +41,15 @@ function WebServiceRequest(toolNode, model) {
   }
 
   /**
-   * Listener function which will issue the request
+   * Listener function which will issue the request.
    * @param requestName the name of the web service operation to execute
    * @param featureNodeId the id of the node in the doc to be processed by the stylesheet
    */
   this.doRequest = function(objRef, featureName) {
     var feature = objRef.model.getFeatureNode(featureName);
 
+    // if the targetModel is a template model, then create new model object and
+    // assign it an id
     if (objRef.targetModel.template) {
       objRef.targetModel.modelNode.removeAttribute("id");
       objRef.targetModel = objRef.model.createObject(objRef.targetModel.modelNode, objRef.model.models);
@@ -83,18 +91,19 @@ function WebServiceRequest(toolNode, model) {
     var httpPayload = new Object();
     httpPayload.method = objRef.targetModel.method;
     objRef.stylesheet.setParameter("httpMethod", httpPayload.method );
-
     httpPayload.postData = objRef.stylesheet.transformNodeToObject(feature);
     //alert("request data:"+httpPayload.postData.xml);
     //var response = postLoad(config.serializeUrl, httpPayload.postData);
 
-
+    //allow the tool to have a serverUrl property which overrides the model server URL
+    //TBD: this still used?
     if (objRef.serverUrl) {
       httpPayload.url = objRef.serverUrl;
     } else {
       httpPayload.url = objRef.model.getServerUrl(objRef.requestName, httpPayload.method, feature);
     }
 
+    //extract the URL from the transformation result for GET method
     if (httpPayload.method.toLowerCase() == "get") {
       var queryString = httpPayload.postData.selectSingleNode("//QueryString");
       if (httpPayload.url.indexOf("?") < 0) httpPayload.url += "?";

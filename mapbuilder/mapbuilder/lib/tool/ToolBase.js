@@ -15,16 +15,17 @@ function ToolBase(tool, toolNode, model) {
   tool.model = model;
   tool.toolNode = toolNode;
 
+  //set the ID for this tool
   var id = toolNode.selectSingleNode("@id");
   if (id) {
     tool.id = id.firstChild.nodeValue;
   } else {
     tool.id = "MbTool_" + mbIds.getId();
   }
-  //config.tools[tool.id] = tool;
 
   /**
-   * Initialize dynamic properties.
+   * Initialize the targetModel property to point to the object.  This happens
+   * as an init listener to ensure that the referenced model has been created.
    * @param toolRef Pointer to this object.
    */
   this.initTargetModel = function(toolRef) {
@@ -41,6 +42,11 @@ function ToolBase(tool, toolNode, model) {
   tool.initTargetModel = this.initTargetModel;
   tool.model.addListener( "init", tool.initTargetModel, tool );
 
+  /**
+   * Initialize the mouseHandler property to point to the object.  This happens
+   * as an init listener to ensure that the referenced model has been created.
+   * @param toolRef Pointer to this object.
+   */
   this.initMouseHandler = function(toolRef) {
     /** Mouse handler which this tool will register listeners with. */
     var mouseHandler = toolRef.toolNode.selectSingleNode("mb:mouseHandler");
@@ -58,5 +64,4 @@ function ToolBase(tool, toolNode, model) {
   tool.enabled = true;
   var enabled = toolNode.selectSingleNode("mb:enabled");
   if (enabled) tool.enabled = eval(enabled.firstChild.nodeValue);
-
 }

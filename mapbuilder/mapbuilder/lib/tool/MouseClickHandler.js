@@ -16,8 +16,8 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * about geography.
  * @constructor
  * @base ToolBase
- * @param toolNode      The node for this tool from the configuration document.
- * @param model  The widget object that contains this tool
+ * @param toolNode  The node for this tool from the configuration document.
+ * @param model     The model object that contains this tool
  */
 function MouseClickHandler(toolNode, model) {
   var base = new ToolBase(this, toolNode, model);

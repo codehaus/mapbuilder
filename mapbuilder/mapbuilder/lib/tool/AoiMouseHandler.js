@@ -12,13 +12,13 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * Tool which implements a click and drag behaviour to set the 
  * Area Of Interest on the model from mouse events.
  * The tool must be enabled before use by calling tool.enable(true);
- * This tool registers mouse event listeners on the parent widget.
- * This tool processes screen coordinates and stores AOI in geographic
- * coordinates.
+ * This tool registers mouse event listeners on the parent model.
+ * This tool processes screen coordinates and stores AOI in the current map
+ * projection coordinates.
  * @constructor
  * @base ToolBase
- * @param toolNode      The node for this tool from the configuration document.
- * @param model  The widget object that contains this tool
+ * @param toolNode The node for this tool from the configuration document.
+ * @param model  The model object that contains this tool
  */
 
 function AoiMouseHandler(toolNode, model) {
@@ -27,18 +27,19 @@ function AoiMouseHandler(toolNode, model) {
   /**
    * Process the mouseup action by stopping the drag.
    * @param objRef      Pointer to this object.
-   * @param targetNode  The node for the enclosing HTML tag for this widget.
+   * @param targetNode  The HTML node that the event occured on
    */
   this.mouseUpHandler = function(objRef,targetNode) {
     if (objRef.enabled) {
       if (objRef.started) objRef.started = false;
+      objRef.model.setParam("aoiSet", objRef.model.getParam('aoi') );
     }
   }
 
   /**
    * Process the mousedown action by setting the anchor point.
    * @param objRef      Pointer to this object.
-   * @param targetNode  The node for the enclosing HTML tag for this widget.
+   * @param targetNode  The HTML node that the event occured on
    */
   this.mouseDownHandler = function(objRef,targetNode) {
     if (objRef.enabled) {
@@ -51,7 +52,7 @@ function AoiMouseHandler(toolNode, model) {
   /**
    * Process a the mousemove action as dragging out a box.
    * @param objRef      Pointer to this object.
-   * @param targetNode  The node for the enclosing HTML tag for this widget.
+   * @param targetNode  The HTML node that the event occured on
    */
   this.mouseMoveHandler = function(objRef,targetNode) {
     if (objRef.enabled) {
@@ -86,8 +87,8 @@ function AoiMouseHandler(toolNode, model) {
     this.model.setParam("aoi", new Array(ul,lr) );
   }
 
-    this.model.addListener('mousedown',this.mouseDownHandler,this);
-    this.model.addListener('mousemove',this.mouseMoveHandler,this);
-    this.model.addListener('mouseup',this.mouseUpHandler,this);
-
+  //register the listeners on the model
+  this.model.addListener('mousedown',this.mouseDownHandler,this);
+  this.model.addListener('mousemove',this.mouseMoveHandler,this);
+  this.model.addListener('mouseup',this.mouseUpHandler,this);
 }

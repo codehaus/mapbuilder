@@ -6,23 +6,24 @@ $Id$
 */
 
 /**
- * Tool to click and drag a map pane to achieve a recentering of the map
- * This object works entirely in pixel/line coordinate space and knows nothing
- * about geography.
+ * Tool to click and drag a map pane to achieve a recentering of the map.
+ * This tool processes screen coordinates and stores AOI in the current map
+ * projection coordinates.
  *
  * @constructor
  * @base ToolBase
  * @param toolNode The tool node from the Config XML file.
- * @param model  The widget object that contains this tool.
+ * @param model  The model object that contains this tool.
  */
 
 function DragPanHandler(toolNode, model) {
   var base = new ToolBase(this, toolNode, model);
 
   /**
-   * Process the mouseup action.  This will reset the AOI on the model
+   * Process the mouseup action.  This will reset the AOI on the model by 
+   * shifting the AOI by the maount that the mouse was dragged.
    * @param objRef Pointer to this DragPanHandler object.
-   * @param targetNode The node for the enclosing HTML tag for this widget.
+   * @param targetNode  The HTML node that the event occured on
    */
   this.mouseUpHandler = function(objRef,targetNode) {
     if (objRef.enabled) {
@@ -40,9 +41,9 @@ function DragPanHandler(toolNode, model) {
   }
 
   /**
-   * Process a mouse action.
+   * Process a mouse down action by starting the drag pan action.
    * @param objRef Pointer to this DragPanHandler object.
-   * @param targetNode The node for the enclosing HTML tag for this widget.
+   * @param targetNode  The HTML node that the event occured on
    */
   this.mouseDownHandler = function(objRef,targetNode) {
     if (objRef.enabled) {
@@ -56,7 +57,7 @@ function DragPanHandler(toolNode, model) {
    * Process a mousemove action.  This method uses DHTML to move the map layers
    * and sets deltaP and deltaL properties on this tool to be used in mouse up.
    * @param objRef Pointer to this DragPanHandler object.
-   * @param targetNode The node for the enclosing HTML tag for this widget.
+   * @param targetNode  The HTML node that the event occured on
    */
   this.mouseMoveHandler = function(objRef,targetNode) {
     if (objRef.enabled) {
@@ -82,6 +83,7 @@ function DragPanHandler(toolNode, model) {
     }
   }
 
+  //register the listeners on the model
   this.model.addListener('mousedown',this.mouseDownHandler,this);
   this.model.addListener('mousemove',this.mouseMoveHandler,this);
   this.model.addListener('mouseup',this.mouseUpHandler,this);

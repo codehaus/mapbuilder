@@ -14,8 +14,8 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * @constructor
  * @base ToolBase
  * @author Adair
- * @param toolNode      The tool node from the config document for this tool
- * @param model  Reference to the widget object that creates this tool
+ * @param toolNode The tool node from the config document for this tool
+ * @param model  the model object that contains this tool
  */
 function MovieLoop(toolNode, model) {
   var base = new ToolBase(this, toolNode, model);
