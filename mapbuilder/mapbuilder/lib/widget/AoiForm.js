@@ -34,10 +34,6 @@ function AoiForm(widgetNode, model) {
     objRef.aoiForm.northCoord.value = aoi[0][1];
     objRef.aoiForm.eastCoord.value = aoi[1][0];
     objRef.aoiForm.southCoord.value = aoi[1][1];
-    objRef.aoiForm.westCoord.model = objRef.model;
-    objRef.aoiForm.northCoord.model = objRef.model;
-    objRef.aoiForm.eastCoord.model = objRef.model;
-    objRef.aoiForm.southCoord.model = objRef.model;
   }
   this.model.addListener('aoi', this.displayAoiCoords, this);
 
@@ -49,23 +45,25 @@ function AoiForm(widgetNode, model) {
    */
   this.setAoi = function(event) {
     var aoi = this.model.getParam("aoi");
-    var ul = aoi[0];
-    var lr = aoi[1];
-    switch(this.name) {
-      case 'westCoord':
-        ul[0] = this.value;
-        break;
-      case 'northCoord':
-        ul[1] = this.value;
-        break;
-      case 'eastCoord':
-        lr[0] = this.value;
-        break;
-      case 'southCoord':
-        lr[1] = this.value;
-        break;
+    if (aoi) {
+      var ul = aoi[0];
+      var lr = aoi[1];
+      switch(this.name) {
+        case 'westCoord':
+          ul[0] = this.value;
+          break;
+        case 'northCoord':
+          ul[1] = this.value;
+          break;
+        case 'eastCoord':
+          lr[0] = this.value;
+          break;
+        case 'southCoord':
+          lr[1] = this.value;
+          break;
+      }
+      this.model.setParam("aoi",new Array(ul,lr) );
     }
-    var aoi = this.model.setParam("aoi",new Array(ul,lr) );
   }
 
   /**
@@ -78,6 +76,10 @@ function AoiForm(widgetNode, model) {
     objRef.aoiForm.northCoord.onblur = objRef.setAoi;
     objRef.aoiForm.eastCoord.onblur = objRef.setAoi;
     objRef.aoiForm.southCoord.onblur = objRef.setAoi;
+    objRef.aoiForm.westCoord.model = objRef.model;
+    objRef.aoiForm.northCoord.model = objRef.model;
+    objRef.aoiForm.eastCoord.model = objRef.model;
+    objRef.aoiForm.southCoord.model = objRef.model;
   }
 
   //set some properties for the form output
