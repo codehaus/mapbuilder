@@ -20,14 +20,15 @@ function Config(url) {
   for (sProperty in modelBase) { 
     this[sProperty] = modelBase[sProperty]; 
   }
+  this.namespace = "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder'";
 
-  this.loadModelDoc(this,url);
+  this.loadModelDoc(url);
   this.modelNode = this.doc.documentElement;
   this.id = this.modelNode.attributes.getNamedItem("id").nodeValue;
 
   //set some global application properties
-  this.skinDir = this.doc.selectSingleNode("/MapbuilderConfig/skinDir").firstChild.nodeValue;
-  var proxyUrl = this.doc.selectSingleNode("/MapbuilderConfig/proxyUrl");
+  this.skinDir = this.doc.selectSingleNode("/mb:MapbuilderConfig/mb:skinDir").firstChild.nodeValue;
+  var proxyUrl = this.doc.selectSingleNode("/mb:MapbuilderConfig/mb:proxyUrl");
   if (proxyUrl) this.proxyUrl = proxyUrl.firstChild.nodeValue;
 
   /**
@@ -39,7 +40,7 @@ function Config(url) {
   this.loadScriptsFromXpath=function(xPath,dir) {
     var nodes = this.doc.selectNodes(xPath);
     for (var i=0; i<nodes.length; i++) {
-      if (nodes[i].selectSingleNode("scriptFile")==null){
+      if (nodes[i].selectSingleNode("mb:scriptFile")==null){
         scriptFile = baseDir+"/"+dir+nodes[i].nodeName+".js";
         mapbuilder.loadScript(scriptFile);
       }
@@ -52,14 +53,14 @@ function Config(url) {
   this.loadConfigScripts=function(){
     // Load script files for all components that don't have <scriptfile> specified
     // in the config file.
-    this.loadScriptsFromXpath("//models/*","model/");
-    this.loadScriptsFromXpath("//widgets/*","widget/");
-    this.loadScriptsFromXpath("//tools/*","tool/");
+    this.loadScriptsFromXpath("//mb:models/*","model/");
+    this.loadScriptsFromXpath("//mb:widgets/*","widget/");
+    this.loadScriptsFromXpath("//mb:tools/*","tool/");
 
     //TBD: Deprecate the following block and move into loadScriptsFromXpath instead.
     //load all scriptfiles called for in the config file.  There seems to be a 
     //problem if this is done anywhere except in the page <HEAD> element.
-    var scriptFileNodes = this.doc.selectNodes("//scriptFile");
+    var scriptFileNodes = this.doc.selectNodes("//mb:scriptFile");
     for (var i=0; i<scriptFileNodes.length; i++ ) {
       scriptFile = baseDir+"/"+scriptFileNodes[i].firstChild.nodeValue;
       mapbuilder.loadScript(scriptFile);
@@ -90,13 +91,13 @@ function Config(url) {
     }
 
     //loop through all models in the config file
-    var models = this.doc.selectNodes( "/MapbuilderConfig/models/*" );
+    var models = this.doc.selectNodes( "/mb:MapbuilderConfig/mb:models/*" );
     for (var i=0; i<models.length; i++ ) {
       modelNode = models[i];
 
       //instantiate the Model object
       var modelType = modelNode.nodeName;
-      var evalStr = "new " + modelType + "(modelNode, this);";
+      var evalStr = "new " + modelType + "(modelNode);";
       var model = eval( evalStr );
       if ( model ) {
         this[model.id] = model;
@@ -114,7 +115,7 @@ function Config(url) {
       } else if (window[model.id]) {  
         initialModel = window[model.id];
       } else {
-        var defaultModel = modelNode.selectSingleNode("defaultModelUrl");
+        var defaultModel = modelNode.selectSingleNode("mb:defaultModelUrl");
         if (defaultModel) initialModel = defaultModel.firstChild.nodeValue;
       }
       this.loadModel( model.id, initialModel );
@@ -122,12 +123,13 @@ function Config(url) {
 
     //load in widgets of the config doc
     this.loadWidgets(this);
+    this.callListeners( "loadModel" );
     this.addListener("loadModel", this.loadWidgets, this);
   }
 
   /**
-   * Load a model and it's widgets scripts.  This function can be called at any
-   * time to load a new model.
+   * Load a model and it's widgets.  
+   * This function can be called at any time to load a new model.
    * TBD Need to distinguish between creating and initialising.
    * @param modelId   the id of the model in config XML to be updated
    * @param modelUrl  URL of the XML model document to be loaded
@@ -137,10 +139,24 @@ function Config(url) {
     var model = this[modelId];
     if (modelUrl) {
       model.callListeners( "newModel" );
-      model.loadModelDoc(this,modelUrl);
+      model.loadModelDoc(modelUrl);
     }
     model.loadWidgets(model);
     model.callListeners( "loadModel" );
+  }
+  this.xxxloadModel = function( modelId, modelUrl ) {
+    //alert(modelId+":"+modelUrl);
+    var model = this[modelId];
+    if (model) {
+      if (modelUrl) {
+        model.callListeners( "newModel" );
+        model.loadModelDoc(modelUrl);
+        model.loadWidgets(model);
+        model.callListeners( "loadModel" );
+      }
+    } else {
+      alert("config.loadModel: unable to locate model:"+modelId);
+    }
   }
 }
 

@@ -25,9 +25,9 @@ mapbuilder.loadScript(baseDir+"/tool/Extent.js");
  * @see ModelBase
  * @see Listener
  */
-function Context(modelNode, parent) {
+function Context(modelNode) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(modelNode, parent);
+  var modelBase = new ModelBase(modelNode);
   for (sProperty in modelBase) { 
     this[sProperty] = modelBase[sProperty]; 
   }
@@ -176,6 +176,32 @@ function Context(modelNode, parent) {
     var win=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:Window");
     win.setAttribute("height", height);
   }
+
+  this.prepareFeatures = function(objRef) {
+    var featureList = objRef.doc.selectNodes("/cml:ViewContext/cml:ResourceList/cml:FeatureType[cml:Server/@service='OGC:WFS']");
+    for (var i=0; i<featureList.length; i++) {
+      var feature = featureList[i];
+      var serverUrl = feature.selectSingleNode("cml:Server/cml:OnlineResource").getAttribute("xlink:href");
+      var version = feature.selectSingleNode("cml:Server").getAttribute("version");
+      var firstJoin = serverUrl.indexOf("?")<0 ? "?" : "&";
+      var featureType = feature.selectSingleNode("Name");
+      var describeFeatureUrl = serverUrl + firstJoin + version + "&REQUEST=DESCRIBEFEATURETYPE" + "&SERVICE=WFS" + "&TYPENAME=" + featureType;
+
+      var configModelNode = config.doc.selectSingleNode("//models/DescribeFeatureType");
+      var model = new DescribeFeatureType(configModelNode);
+      var modelId = "1234"
+      if ( model ) {
+        alert("model created");
+        config[modelId] = model;
+        config.loadModel( modelId, describeFeatureUrl );
+        alert("retrieved:"+config[modelId].doc.xml);
+      } else { 
+        alert("error creating DescribeFeatureType model object");
+      }
+    }
+  }
+  //this.addListener("loadModel",this.prepareFeatures, this);
+  
 
 }
 

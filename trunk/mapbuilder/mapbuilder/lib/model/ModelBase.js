@@ -25,42 +25,36 @@ function ModelBase(modelNode) {
   }
 
   /**
-   * Load a Model's configuration file from an XML node.
-   * @param node Xml node which contains the configuration file.
-   */
-  this.loadModelNode = function(node){
-    this.doc=node;
-    var docId = this.doc.documentElement.attributes.getNamedItem("id");
-    if (docId) this.docId = docId.nodeValue;
-    this.callListeners("loadModel");
-  }
-
-  /**
    * Load a Model's configuration file from url.
    * @param objRef Pointer to this object.
    * @param url Url of the configuration file.
    */
-  this.loadModelDoc = function(objRef,url){
-    var xml;
-    xml = Sarissa.getDomDocument();
-    xml.async = false;
+  this.loadModelDoc = function(url,postData){
+    url=getProxyPlusUrl(url);
+    if (url) {
+      if (postData) {
+        this.doc = postLoad(url,postData);
+        if (this.doc.parseError < 0){
+          alert("error loading document: " + url + " - " + Sarissa.getParseErrorText(this.doc) );
+        }
+      } else {
+        this.doc = Sarissa.getDomDocument();
+        this.doc.async = false;
+        this.doc.validateOnParse=false;  //IE6 SP2 parsing bug
+        this.doc.load(url);
+        if (this.doc.parseError < 0){
+          alert("error loading document: " + url + " - " + Sarissa.getParseErrorText(this.doc) );
+        }
+      }
+    } else {
+      alert("url parameter required for loadModelDoc");
+    }
 
     // the following two lines are needed for IE; set the namespace for selection
-    // in config
-    xml.setProperty("SelectionLanguage", "XPath");
-    if (this.namespace) Sarissa.setXpathNamespaces(xml, this.namespace);
-    xml.validateOnParse=false;
+    this.doc.setProperty("SelectionLanguage", "XPath");
+    if (this.namespace) Sarissa.setXpathNamespaces(this.doc, this.namespace);
 
-    url=objRef.getProxyPlusUrl(url);
-    if (url) {
-      //xml = loadSync(url);
-      xml.load(url);
-      if (xml.parseError < 0){
-        alert("error loading document: " + url + " - " + Sarissa.getParseErrorText(xml) );
-      } else {
-        this.loadModelNode(xml);
-      }
-    }
+    //this.callListeners("loadModel");
   }
 
   /**
@@ -68,7 +62,7 @@ function ModelBase(modelNode) {
    * @param objRef Pointer to this object.
    */
   this.loadWidgets = function(objRef) {
-    var widgets = objRef.modelNode.selectNodes("widgets/*");
+    var widgets = objRef.modelNode.selectNodes("mb:widgets/*");
     for (var j=0; j<widgets.length; j++) {
       var widgetNode = widgets[j];
       var widgetId = widgetNode.attributes.getNamedItem("id")
@@ -98,21 +92,4 @@ function ModelBase(modelNode) {
     }
   }
 
-  /**
-   * If URL is local, then return URL unchanged,
-   * else return URL of http://proxy?url=URL , or null if proxy not defined.
-   * @param url Url of the file to access.
-   * @return Url of the proxy and service in the form http://host/proxy?url=service
-   */
-  this.getProxyPlusUrl=function(url) {
-    if ( url.indexOf("http://")==0 ) {
-      if ( config.proxyUrl ) {
-        url=config.proxyUrl+escape(url).replace(/\+/g, '%2C').replace(/\"/g,'%22').replace(/\'/g, '%27');
-      } else {
-        alert("unable to load external document:"+url+"  Set the proxyUrl property in config.");
-        url=null;
-      }
-    }
-    return url;
-  }
 }
