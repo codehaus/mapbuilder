@@ -27,26 +27,7 @@ function AoiBoxWZ(widgetNode, model) {
   this.lineColor = widgetNode.selectSingleNode("mb:lineColor").firstChild.nodeValue;
   this.crossSize = widgetNode.selectSingleNode("mb:crossSize").firstChild.nodeValue;
 
-  //look for this widgets output and replace if found, otherwise append it
-  var tempNode = document.createElement("DIV");
-  tempNode.innerHTML="<DIV/>";
-  tempNode.firstChild.setAttribute("id", this.mbWidgetId);
-  tempNode.firstChild.style.position="absolute";
-  var outputNode = document.getElementById( this.mbWidgetId );
-  if (outputNode) {
-    this.node.replaceChild(tempNode.firstChild,outputNode);
-  } else {
-    this.node.appendChild(tempNode.firstChild);
-  }
  
-  // WZ Graphics object and rendering functions.
-  this.jg=new jsGraphics(this.node.id);
-  this.jg.setColor(this.lineColor);
-  this.jg.setColor("#00FF00");
-
-  //TBD: The following causes lines to be drawn incorrectly in Mozilla 1.71
-  //this.jg.setStroke(this.lineWidth);
-
   /**
    * Render the widget.
    * If the box width or height is less than the cross size, then draw a cross,
@@ -54,6 +35,27 @@ function AoiBoxWZ(widgetNode, model) {
    * @param objRef Pointer to this object.
    */
   this.paint = function(objRef) {
+    if (! objRef.jg) {
+      //look for this widgets output and replace if found, otherwise append it
+      var tempNode = document.createElement("DIV");
+      tempNode.innerHTML="<DIV/>";
+      tempNode.firstChild.setAttribute("id", objRef.mbWidgetId);
+      tempNode.firstChild.style.position="absolute";
+      var outputNode = document.getElementById( objRef.mbWidgetId );
+      if (outputNode) {
+        objRef.node.replaceChild(tempNode.firstChild,outputNode);
+      } else {
+        objRef.node.appendChild(tempNode.firstChild);
+      }
+      // WZ Graphics object and rendering functions.
+      objRef.jg=new jsGraphics(objRef.mbWidgetId);
+      objRef.jg.setColor(objRef.lineColor);
+      objRef.jg.setColor("#00FF00");
+
+      //TBD: The following causes lines to be drawn incorrectly in Mozilla 1.71
+      //objRef.jg.setStroke(objRef.lineWidth);
+    }
+
     aoiBox = objRef.model.getParam("aoi");
     if (aoiBox) {
       ul = objRef.model.extent.getPL(aoiBox[0]);
@@ -76,6 +78,8 @@ function AoiBoxWZ(widgetNode, model) {
         objRef.jg.drawRect(ul[0],ul[1],width,height);
       }
       objRef.jg.paint();
+    }else{
+      objRef.jg=null;
     }
   }
   model.addListener("aoi",this.paint, this);
