@@ -22,6 +22,8 @@ function MapPane(context,window) {
    * This function should be called at startup.
    */
   this.createLayers=function() {
-    this.wmcLayer2DhtmlLayer.transformNode(this.context.context,this.window);
+    s=this.wmcLayer2DhtmlLayer.transformNode(
+      this.context.context,this.window);
+    document.write(s);
   }
 }
