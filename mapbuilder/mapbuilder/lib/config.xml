@@ -1,22 +1,78 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <MapbuilderConfig id="referenceTemplate">
-  <baseDir>/mapbuilder/lib</BaseDir>
-  <skin>default</Skin>
+  <baseDir>/mapbuilder/lib</baseDir>
+
+  <!--
+    I think the skin should be a URL.  That way a user can define their own
+    skin without having to add it to the mapbuilder library.
+    This would be consistent with the rest of the components where you could replace
+    any component with your own custom built component. (Unlikely, but quite
+    easy to implement so we may as well do it.)
+    Cameron 19 Feb 04.
+  -->
+  <skin>default</skin>
   <models>
-    <Context>
+
+    <!--
+      Although unlikely, it is possible to have multiple context documents
+      on a Web page.  Eg, display a list of WMC documents with a sample image.
+      Each component description should be an instance of an object, and we
+      should have an id with each component.
+      Cameron 19 Feb 04.
+    -->
+    <Context id="contextId">
       <scriptFile>/model/Context.js</scriptFile>
     </Context>
   </models>
+
+  <!--
+    Cameron 19 Feb 04.
+    I suggest we rename <views> as <widget> or <widgets> or rename the Mapbuilder
+    directory widget/ as view/
+  -->
   <views>
-    <MapPane>
+    <MapPane id="mapPaneId">
+      <!--
+        Each widget should reference the contextId it refers to.
+        Ditto for the rest of the widgets.
+        Each widget probably should have an id.
+        Note that we may have more than one MapPane in a web page at once, and tools
+        will need to identify which mapPane they are associated with.
+        Cameron 19 Feb 04.
+      -->
+      <context>contextId</context>
+
       <scriptFile>/widget/mappane/MapPane.js</scriptFile>
       <stylesheet>/widget/mappane/Context2MapPane.xsl</stylesheet>
+
+      <!--
+        MapPane should specify which tool will process mouse clicks on its behalf.
+        In most cases there would only be one tool, but there is probably cases
+        where multiple mouseTools could be added.  Eg: One tool for processing left
+        button and one for right.
+        Cameron 19 Feb 04.
+      -->
+      <mouseTools>
+        <mouseTool>dragZoomTool</mouseTool>
+      </mouseTools>
     </MapPane>
     <Legend>
       <scriptFile>/widget/legend/Legend.js</scriptFile>
       <stylesheet>/widget/legend/Context2Legend.xsl</stylesheet>
     </Legend>
   </views>
+
+  <!--
+    Should these be called <tools>?
+    Should we rename lib/tool/ to lib/controller/ ?
+    Note, that many of the tools described below are actually widgets which contain
+    some tool functionality (rather than the other way around).
+    So ButtonBar should be moved into the <view> group.  Ditto for many of the others.
+    A Controller should not need to render itself, and hence should not need any XSL.
+    Controllers should take a mouseClick or call, process it, then update one of the
+    Model objects.
+    Cameron 19 Feb 04.
+  -->
   <controllers>
     <ButtonBar id="ButtonBar">
       <stylesheet>/widget/mappane/ButtonBar.xsl</stylesheet>
