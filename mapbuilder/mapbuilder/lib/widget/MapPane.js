@@ -7,6 +7,7 @@ $Id$
 
 /**
  * Tools to build a MapPane from a Web Map Context.
+ * This widget extends WidgetBase.
  * @constructor
  * @param context The Web Map Context to use when building this MapPane.
  * @param name Variable name referencing this MapPane object
@@ -14,6 +15,7 @@ $Id$
  * @requires Context
  * @requires Sarissa
  * @requires Util
+ * @see WidgetBase
  */
 function MapPane(widgetNode, group) {
   // Inherit the WidgetBase functions and parameters

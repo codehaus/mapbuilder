@@ -9,6 +9,7 @@ $Id$
  * A widget which contains a collection of buttons.  One button can
  * be selected (Eg a ZoomInButton) and will determine how mouse clicks on a
  * MapPane are processed.
+ * This widget extends WidgetBase.
  *
  * @constructor
  *
@@ -16,6 +17,7 @@ $Id$
  *     document.
  * @param group The ModelGroup XML object from the configuration
  *     document that this widget will update.
+ * @see WidgetBase
  */
 function ButtonBar(widgetNode, group) {
   var base = new WidgetBase(widgetNode, group);
