@@ -27,22 +27,16 @@ function XslProcessor(xslUrl) {
    * @param xmlNode The XML node to be transformed.
    * @return The transformed String.
    */
-  this.transformNode=function(xmlNode) {
-    // transform and build a web page with result
-    s=new String(xmlNode.transformNode(this.xslDom));
-    // Some browsers XSLT engines don't transform &lt; &gt; to < >, so do it here.
-    a=s.split("&lt;");
-    s=a.join("<");
-    a=s.split("&gt;");
-    s=a.join(">");
-    return s;
-  }
   this.transformNodeToObject=function(xmlNode) {
     // transform and build a web page with result
     var result = Sarissa.getDomDocument();
     xmlNode.transformNodeToObject(this.xslDom,result);
     return result;
   }
+
+  /**
+   * Set XSL parameter.
+   */
   this.setParameter=function(paramName, paramValue) {
     Sarissa.setXslParameter( this.xslDom, paramName, "'"+paramValue+"'");
   }
