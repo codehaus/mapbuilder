@@ -90,6 +90,13 @@ function Mapbuilder() {
         this.loadScript(baseDir+"/util/Listener.js");
         this.loadScript(baseDir+"/model/ModelBase.js");
         this.loadScript(baseDir+"/model/Config.js");
+        // Load tools
+        // TBD: Move this to Config.js
+        this.loadScript(baseDir+"/tool/ToolBase.js");
+        this.loadScript(baseDir+"/tool/ZoomIn.js");
+        this.loadScript(baseDir+"/tool/ZoomOut.js");
+        this.loadScript(baseDir+"/tool/DragPan.js");
+        this.loadScript(baseDir+"/tool/Reset.js");
         break;
       case MB_LOAD_WIDGET:
         if(document.readyState){
