@@ -36,13 +36,13 @@ function AoiBoxWZ(widgetNode, model) {
   tempNode.innerHTML="<DIV/>";
   tempNode.firstChild.setAttribute("id", this.mbWidgetId);
   var outputNode = document.getElementById( this.mbWidgetId );
-  /*
   if (outputNode) {
     this.node.replaceChild(tempNode.firstChild,outputNode);
   } else {
     this.node.appendChild(tempNode.firstChild);
   }
  
+  /*
   // WZ Graphics object and rendering functions.
   this.jg=new jsGraphics(this.node.id);
   this.jg.setColor(this.lineColor);
@@ -59,7 +59,6 @@ function AoiBoxWZ(widgetNode, model) {
    * @param objRef Pointer to this object.
    */
   this.paint = function(objRef) {
-    /*
     aoiBox = this.model.getParam("aoi");
     if (aoiBox) {
       ul = objRef.model.extent.getPL(aoiBox[0]);
@@ -84,7 +83,6 @@ function AoiBoxWZ(widgetNode, model) {
       }
       //objRef.jg.paint();
     }
-    */
   }
 
   /**
