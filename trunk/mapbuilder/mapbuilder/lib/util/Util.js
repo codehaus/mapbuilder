@@ -112,25 +112,32 @@ function getPageY(e){
 }
 
 /*
- * parse comma-separated name=value argument pairs from
- * the query string of the URL; the function stores name=value
- * pairs in properties of an object and returns that object. 
 */
+
+/**
+ * parse comma-separated name=value argument pairs from the query string of the URL; the function stores name=value pairs in properties of an object and returns that object. 
+ * @return args Array of arguments passed to page, in form args[argname] = value.
+ */
 function getArgs(){
   var args = new Object();
-  var query = location.search.substring(1);   // Get query string.
-  var pairs = query.split("&");               // Break at ampersand.
+  var query = location.search.substring(1);
+  var pairs = query.split("&");
   for(var i = 0; i < pairs.length; i++) {
-    var pos = pairs[i].indexOf('=');          // Look for "name=value".
-    if (pos == -1) continue;                  // If not found, skip.
-    var argname = pairs[i].substring(0,pos);  // Extract the name.
-    var value = pairs[i].substring(pos+1);    // Extract the value.
-    args[argname] = decode(value);            // Store as a property.
+    var pos = pairs[i].indexOf('=');
+    if (pos == -1) continue;
+    var argname = pairs[i].substring(0,pos);
+    var value = pairs[i].substring(pos+1);
+    args[argname] = decode(value);
   }
-  return args;                                // Return the object.
+  return args;
 }
 
-
+/**
+ * convert geographic x coordinate to screen coordinate.
+ * @param context The context object.
+ * @param xCoord The geographic x coordinate to be converted.
+ * @return x the converted x coordinate.
+ */
 function getScreenX(context, xCoord){
   bbox=context.getBoundingBox();
   width=context.getWindowWidth();
@@ -141,6 +148,12 @@ function getScreenX(context, xCoord){
   return x;
 }
 
+/**
+ * convert geographic y coordinate to screen coordinate.
+ * @param context The context object.
+ * @param yCoord The geographic x coordinate to be converted.
+ * @return y the converted x coordinate.
+ */
 function getScreenY(context, yCoord){
   var bbox=context.getBoundingBox();
   var height=context.getWindowHeight();
@@ -151,6 +164,12 @@ function getScreenY(context, yCoord){
   return y;
 }
 
+/**
+ * convert screen x coordinate to geographic coordinate.
+ * @param context The context object.
+ * @param xCoord The screen x coordinate to be converted.
+ * @return x the converted x coordinate.
+ */
 function getGeoCoordX(context, xCooord) {
   var bbox=context.getBoundingBox();
   var width=context.getWindowWidth();
@@ -161,6 +180,12 @@ function getGeoCoordX(context, xCooord) {
   return x;
 }
 
+/**
+ * convert screen coordinate to screen coordinate.
+ * @param context The context object.
+ * @param yCoord The geographic y coordinate to be converted.
+ * @return y the converted y coordinate.
+ */
 function getGeoCoordY(yCoord){
   var bbox=context.getBoundingBox();
   var height=context.getWindowHeight();
@@ -171,6 +196,11 @@ function getGeoCoordY(yCoord){
   return y;
 }
 
+/**
+ * create an element and append it to the document body element.
+ * @param type The type of element to be created.
+ * @return node The node created and appended.
+ */
 function makeElt(type) {
   var node=document.createElement(type);
   document.getElementsByTagName("body").item(0).appendChild(node);
