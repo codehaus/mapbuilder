@@ -8,6 +8,8 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
 /**
  * Controller for the locator map widget.  
+ * Specify the context that this widget follows by setting the targetModel 
+ * property in config.
  * This will display the AOI of the target model using the AoiBox tool. 
  * This will also process mouse events (click and dragbox) to recenter the 
  * target model and includes coordinate projection transformations if required.
@@ -40,7 +42,7 @@ function ZoomToAoi(toolNode, parentWidget) {
 
   /**
    * Target model bbox change listener.  This sets this model's AOI to be the
-   * same as the target model's AOI.
+   * same as the target model bounding box.
    * @param tool        Pointer to this ZoomToAoi object.
    * @param targetNode  The node for the enclosing HTML tag for this widget, not used.
    */
@@ -79,5 +81,7 @@ function ZoomToAoi(toolNode, parentWidget) {
       tool.targetModel.extent.ZoomToBox( ul, lr );
     }
   }
+
   this.parentWidget.addListener('mouseup',this.mouseUpHandler,this);
+  this.parentWidget["AoiMouseHandler"].enable(true);
 }

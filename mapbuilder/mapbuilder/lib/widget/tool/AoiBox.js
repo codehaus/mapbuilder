@@ -7,16 +7,12 @@ $Id$
 
 /**
  * Tool to draw an Area Of Interest box on a view.  The box can be drawn with
- * the drawBox() method and can be tied to mouse drag with the dragBox() method.
+ * the paint() method and is registered as a listener of the context AOI property.
  * This object works entirely in pixel/line coordinate space and knows nothing
  * about geography.
- * This object extends WidgetBase.
  * @constructor
- * @param widgetNode The Widget's XML object node from the configuration
- *   document.
- * @param group The ModelGroup XML object from the configuration
- *   document that this widget will update.
- * @see WidgetBase
+ * @param toolNode      The node for this tool from the configuration document.
+ * @param parentWidget  The widget object that contains this tool
  */
 
 function AoiBox(toolNode, parentWidget) {
@@ -41,6 +37,8 @@ function AoiBox(toolNode, parentWidget) {
   }
 
   /** draw out the box.
+    * if the box width or height is less than the cross size property, then the
+    * drawCross method is called, otherwise call drawBox.
     */
   this.paint = function() {
     var aoiBox = this.parentWidget.model.getAoi();
@@ -103,15 +101,7 @@ function AoiBox(toolNode, parentWidget) {
     this.Bottom.style.visibility = "hidden";
   }
     
-
-/** Internal method to initialize the box HTML elements
-  */ 
-  this.mouseAddOffset = function( ev ) {
-    targetNode.evpl[0] = targetNode.evpl[0] + targetNode.offsetLeft;
-    targetNode.evpl[1] = targetNode.evpl[1] + targetNode.offsetTop;
-  }
-
-  /** Insert a <div> element into the parentNode html.
+  /** Insert a <div> element into the parentNode html to hold the lines.
     * @return The new <div> node.
     */
   this.getImageDiv = function( parentNode ) {
@@ -141,7 +131,7 @@ function AoiBox(toolNode, parentWidget) {
   }
 
   this.parentWidget.model.addListener("aoi",this.aoiListener, this);
-  this.parentWidget.addPaintListener( this.loadAoiBox, this );
+  this.parentWidget.addListener( "paint", this.loadAoiBox, this );
 }
 
 
