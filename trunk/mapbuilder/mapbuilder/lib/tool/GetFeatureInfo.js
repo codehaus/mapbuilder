@@ -48,7 +48,11 @@ function GetFeatureInfo(toolNode, parentWidget) {
 
   /** Xsl to build a GetFeatureInfo URL */
 
-  this.xsl=new XslProcessor(baseDir+"/tool/GetFeatureInfo.xsl");
+  this.xsl=Sarissa.getDomDocument();
+
+  this.xsl.async=false;
+
+  this.xsl.load(baseDir+"/tool/GetFeatureInfo.xsl");
 
 
 
@@ -80,25 +84,27 @@ function GetFeatureInfo(toolNode, parentWidget) {
 
         Sarissa.setXslParameter(
 
-          objRef.xsl.xslDom,
+          objRef.xsl,
 
           "queryLayer", "'"+queryLayer+"'");
 
         Sarissa.setXslParameter(
 
-          objRef.xsl.xslDom,
+          objRef.xsl,
 
           "xCoord", "'"+targetNode.evpl[0]+"'");
 
         Sarissa.setXslParameter(
 
-          objRef.xsl.xslDom,
+          objRef.xsl,
 
           "yCoord", "'"+targetNode.evpl[1]+"'");
 
 
 
-        s=objRef.xsl.transformNode(objRef.targetModel.doc);
+        s=objRef.targetModel.doc.transformNode(objRef.xsl);
+
+        alert("GetFeatureInfo URL="+s);
 
         s = s.replace(new RegExp("&amp;","g"),"&");
 
