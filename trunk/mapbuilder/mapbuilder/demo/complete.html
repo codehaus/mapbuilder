@@ -22,28 +22,28 @@ $Name$
     <script>
       //Initialize the application.
       //This must be called in the page's HEAD element.
-      //Mapbuilder(config);
+      //mapbuilder=new Mapbuilder(config);
       //  config=URL of Mapbuilder configuration file.
-      Mapbuilder("config/CompleteConfig.xml");
+      var mapbuilder=new Mapbuilder("config/CompleteConfig.xml");
 
       var timerId;
 
-      /** Call config.init() if script has been loaded, else wait to be called
-       *  again.
+      /**
+       * Call mapbuilder.init() if script has been loaded, else wait to be called
+       * again.
        */
-      function configInit() {
-        if(config){
-        //if(document.readyState=="complete"){
+      function mapbuilderInit() {
+        if(Mapbuilder){
           clearInterval(timerId);
-          config.init();
+          mapbuilder.init();
         }
       }
     </script>
   </head>
 
   <body onload="
-    // See if config script has been loaded every 500msecs.
-    timerId=setInterval('configInit()',500);
+    // See if config script has been loaded every 200msecs.
+    timerId=setInterval('mapbuilderInit()',200);
     ">
     <h1><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Demo</h1>
 

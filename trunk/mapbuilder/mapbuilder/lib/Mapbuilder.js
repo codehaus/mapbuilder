@@ -30,11 +30,48 @@ var baseDir;
  * @requires Util
  */
 function Mapbuilder(configUrl) {
+  /** Array of scripts that are loading.  Don't continue initialisation until
+   * all scripts have loaded. */
+  this.loadingScripts=new Array();
+
+  /** Timer to periodically check if scripts have loaded. */
+  this.scriptsTimer=null;
+
+  /**
+   * Called periodically and continues initialisation once scripts have loaded.
+   * This function is only required for IE.  Mozilla waits for scripts to load
+   * before executing.
+   */
+  this.checkScriptsLoaded=function() {
+    // Scripts that have completed loading are removed from the array
+    // Note: readyState is not defined in Mozilla.
+    while(this.loadingScripts.length>0
+      &&(this.loadingScripts[0].readyState=="complete"
+      ||this.loadingScripts[0].readyState==null))
+    {
+      this.loadingScripts.shift();
+    }
+    // Continue initialisation when scripts have loaded.
+    if (this.loadingScripts.length==0){
+      clearInterval(this.scriptsTimer);
+      this.scriptsTimer=null;
+      config=new Config(mbConfigUrl);
+      config.init();
+    }
+  }
+
+  /**
+   * Start a timer which periodically calls checkScriptsLoaded().
+   */
+  this.init=function(){
+    this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded()',200);
+  }
+
   /**
    * Dynamically load a script file if it has not already been loaded.
    * @param url The url of the script.
    */
-  function loadScript (url) {
+  this.loadScript=function(url){
     if(!document.getElementById(url)){
       var script = document.createElement('script');
       script.defer = false;   //not sure of effect of this?
@@ -42,6 +79,7 @@ function Mapbuilder(configUrl) {
       script.src = url;
       script.id = url;
       document.getElementsByTagName('head')[0].appendChild(script);
+      this.loadingScripts.push(script);
     }
   }
 
@@ -61,9 +99,9 @@ function Mapbuilder(configUrl) {
   // Set global variables
   mbConfigUrl=configUrl;
 
-  loadScript(baseDir+"/util/sarissa/Sarissa.js");
-  loadScript(baseDir+"/util/Util.js");
-  loadScript(baseDir+"/util/Listener.js");
-  loadScript(baseDir+"/model/ModelBase.js");
-  loadScript(baseDir+"/model/Config.js");
+  this.loadScript(baseDir+"/util/sarissa/Sarissa.js");
+  this.loadScript(baseDir+"/util/Util.js");
+  this.loadScript(baseDir+"/util/Listener.js");
+  this.loadScript(baseDir+"/model/ModelBase.js");
+  this.loadScript(baseDir+"/model/Config.js");
 }
