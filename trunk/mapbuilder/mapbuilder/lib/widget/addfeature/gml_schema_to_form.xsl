@@ -56,17 +56,27 @@
         <xsl:when test="@type">
           <xsl:if test="$debug"> <b>Element: </b> </xsl:if>
           <xsl:value-of select="@name"/>
-          <xsl:call-template name="schemaBaseType">
+          <xsl:call-template name="processType">
             <xsl:with-param name="type"><xsl:value-of select="@type"/></xsl:with-param>
           </xsl:call-template>
         </xsl:when>
 
         <xsl:when test="@ref">
-          <b>Element Ref:</b> <xsl:value-of select="@ref"/> (TBD: Expand this.)<br/>
-          <xsl:apply-templates select="//xsd:element[@name=@ref]"/>
+          <xsl:if test="$debug">
+            <b>Element Ref: </b>
+            <xsl:value-of select="substring-after(@ref,':')"/><br/>
+          </xsl:if>
+          <xsl:variable name="ref" select="@ref"/>
+          <xsl:apply-templates select="//xsd:element[@name=substring-after($ref,':')]"/>
+          <br/>
+
+          <xsl:for-each select="//xsd:element[@name=substring-after($ref,':')]">
+            <xsl:value-of select="@name"/><br/>
+          </xsl:for-each>
+          <br/>
 
           <!--
-          <xsl:call-template name="schemaBaseType">
+          <xsl:call-template name="processType">
             <xsl:with-param name="type"><xsl:value-of select="@ref"/></xsl:with-param>
           </xsl:call-template>
           -->
@@ -139,7 +149,7 @@
   <!--============================================================================-->
   <xsl:template match="xsd:extension">
     <b>Extension:</b>
-    <xsl:call-template name="schemaBaseType">
+    <xsl:call-template name="processType">
       <xsl:with-param name="type"><xsl:value-of select="@base"/></xsl:with-param>
     </xsl:call-template>
     <xsl:apply-templates/>
@@ -155,7 +165,7 @@
       <b>Restriction of: </b>
       <xsl:copy-of select="$type"/>
     </xsl:if>
-    <xsl:call-template name="schemaBaseType">
+    <xsl:call-template name="processType">
       <xsl:with-param name="type"><xsl:value-of select="@base"/></xsl:with-param>
     </xsl:call-template>
     <xsl:apply-templates/>
@@ -167,83 +177,102 @@
   </xsl:template>
 
   <!--============================================================================-->
-  <!-- Schema base types                                                          -->
+  <!-- processType                                                                -->
+  <!-- Strip namespace off type and call processType2, xs:int becomes int         -->
   <!--============================================================================-->
-  <xsl:template match="
-      xsd:string |
-      xsd:boolean |
-      xsd:float |
-      xsd:double |
-      xsd:decimal |
-      xsd:duration |
-      xsd:dateTime |
-      xsd:time |
-      xsd:date |
-      xsd:gYearMonth |
-      xsd:gYear |
-      xsd:gMonthDay |
-      xsd:gDay |
-      xsd:gMonth |
-      xsd:hexBinary |
-      xsd:base64Binary |
-      xsd:anyURI |
-      xsd:QName |
-      xsd:NOTATION |
-      xsd:normalizedString |
-      xsd:token |
-      xsd:language |
-      xsd:IDREFS |
-      xsd:ENTITIES |
-      xsd:NMTOKEN |
-      xsd:NMTOKENS |
-      xsd:Name |
-      xsd:NCName |
-      xsd:ID |
-      xsd:IDREF |
-      xsd:ENTITY |
-      xsd:integer |
-      xsd:nonPositiveInteger |
-      xsd:negativeInteger |
-      xsd:long |
-      xsd:int |
-      xsd:short |
-      xsd:byte |
-      xsd:nonNegativeInteger |
-      xsd:unsignedLong |
-      xsd:unsignedInt |
-      xsd:unsignedShort |
-      xsd:unsignedByte |
-      xsd:positiveInteger |
-      xsd:derivationControl |
-      xsd:simpleDerivationSet">
-    - <i><xsl:value-of select="$type"/></i>
-    <input type="text" maxlength="20" name="text"/>
+  <xsl:template name="processType">
+    <xsl:param name="type"/>
+  </xsl:template>
+
+  <xsl:template name="processType">
+    <xsl:param name="type"/>
+
+    <xsl:choose>
+      <xsl:when test="contains($type,':')">
+        <xsl:call-template name="processType2">
+          <xsl:with-param name="type">
+            <xsl:value-of select="substring-after($type,':')"/>
+          </xsl:with-param>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="processType2">
+          <xsl:with-param name="type">
+            <xsl:value-of select="$type"/>
+          </xsl:with-param>
+        </xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <!--============================================================================-->
-  <!-- schemaBaseType                                                             -->
+  <!-- processType                                                                -->
   <!--============================================================================-->
-  <xsl:template name="schemaBaseType">
+  <xsl:template name="processType2">
     <xsl:param name="type"/>
 
-    <xsl:variable name="typeName" select="substring-after($type,':')"/>
-    <xsl:variable name="nameSpace" select="substring-before($type,':')"/>
-
     - <i><xsl:value-of select="$type"/></i>
-    <ul>
-      <xsl:apply-templates select="document($geometry_xsd)/xsd:schema/*[@name=$typeName]"/>
-      <xsl:apply-templates select="document($feature_xsd)/xsd:schema/*[@name=$typeName]"/>
-      <xsl:apply-templates select="/xsd:schema/*[@name=$typeName]"/>
-    </ul>
-    <!--
     <xsl:choose>
-      <xsl:when test="contains($nameSpace,'gml')">
+      <xsl:when test="
+          $type='string' or
+          $type='boolean' or
+          $type='float' or
+          $type='double' or
+          $type='decimal' or
+          $type='duration' or
+          $type='dateTime' or
+          $type='time' or
+          $type='date' or
+          $type='gYearMonth' or
+          $type='gYear' or
+          $type='gMonthDay' or
+          $type='gDay' or
+          $type='gMonth' or
+          $type='hexBinary' or
+          $type='base64Binary' or
+          $type='anyURI' or
+          $type='QName' or
+          $type='NOTATION' or
+          $type='normalizedString' or
+          $type='token' or
+          $type='language' or
+          $type='IDREFS' or
+          $type='ENTITIES' or
+          $type='NMTOKEN' or
+          $type='NMTOKENS' or
+          $type='Name' or
+          $type='NCName' or
+          $type='ID' or
+          $type='IDREF' or
+          $type='ENTITY' or
+          $type='integer' or
+          $type='nonPositiveInteger' or
+          $type='negativeInteger' or
+          $type='long' or
+          $type='int' or
+          $type='short' or
+          $type='byte' or
+          $type='nonNegativeInteger' or
+          $type='unsignedLong' or
+          $type='unsignedInt' or
+          $type='unsignedShort' or
+          $type='unsignedByte' or
+          $type='positiveInteger' or
+          $type='derivationControl' or
+          $type='simpleDerivationSet'">
+        <input type="text" maxlength="20" name="text"/>
       </xsl:when>
       <xsl:otherwise>
-        <input type="text" maxlength="20" name="text"/>
+        <ul>
+          <xsl:apply-templates
+            select="document($geometry_xsd)/xsd:schema/*[@name=$type]"/>
+          <xsl:apply-templates
+            select="document($feature_xsd)/xsd:schema/*[@name=$type]"/>
+          <xsl:apply-templates
+            select="/xsd:schema/*[@name=$type]"/>
+        </ul>
       </xsl:otherwise>
     </xsl:choose>
-    -->
   </xsl:template>
 
   <!--============================================================================-->
