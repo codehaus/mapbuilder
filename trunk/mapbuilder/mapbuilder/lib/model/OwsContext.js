@@ -189,7 +189,6 @@ function OwsContext(modelNode, parent) {
     }
   }
   this.addListener("loadModel", this.loadFeatures, this);
-  //config.addListener("loadModel", this.loadFeatures, this);
 
 }
 

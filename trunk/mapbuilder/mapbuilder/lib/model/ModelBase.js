@@ -165,6 +165,7 @@ function ModelBase(model, modelNode, parentModel) {
 
       //call the loadModel event
       modelRef.callListeners("loadModel");
+      modelRef.callListeners("refresh");
 
     } else {
       //no URL means this is a template model
@@ -218,12 +219,11 @@ function ModelBase(model, modelNode, parentModel) {
    * appends a new instance of a model to the model list
    * @param objRef Pointer to this object.
    */
-  this.createObject = function(configNode, list) {
+  this.createObject = function(configNode) {
     var objectType = configNode.nodeName;
     var evalStr = "new " + objectType + "(configNode,this);";
     var newObject = eval( evalStr );
     if ( newObject ) {
-      list[newObject.id] = newObject;
       config.objects[newObject.id] = newObject;
       return newObject;
     } else { 
@@ -240,11 +240,11 @@ function ModelBase(model, modelNode, parentModel) {
    * Similarly, a reference to the model is added as a property of config so it 
    * is also available as "config.subModelId"
    */
-  this.loadObjects = function(objectXpath, list) {
+  this.loadObjects = function(objectXpath) {
     //loop through all child models of this one
     var configObjects = this.modelNode.selectNodes( objectXpath );
     for (var i=0; i<configObjects.length; i++ ) {
-      this.createObject( configObjects[i], list );
+      this.createObject( configObjects[i]);
     }
   }
   model.loadObjects = this.loadObjects;
@@ -256,15 +256,16 @@ function ModelBase(model, modelNode, parentModel) {
    * @param modelRef Pointer to this object.
    */
   model.init = function(modelRef) {
-    modelRef.loadObjects("mb:models/*", modelRef.models = new Object());
-    modelRef.loadObjects("mb:widgets/*", modelRef.widgets = new Object());
-    modelRef.loadObjects("mb:tools/*", modelRef.tools = new Object());
+    modelRef.loadObjects("mb:models/*");
+    modelRef.loadObjects("mb:widgets/*");
+    modelRef.loadObjects("mb:tools/*");
+    modelRef.callListeners("init");
   }
 
   //don't load in models and widgets if this is the config doc, defer to config.init
   if (parentModel && !model.template) {
     parentModel.addListener("loadModel",model.loadModelDoc, model);
-    model.init(model);
+    parentModel.addListener("init",model.init, model);
   }
 
 }
