@@ -37,6 +37,8 @@ Tools:
 - Turning layers on/off in Legend raises constraint error in Mozilla 1.5 (ok in 1.3)
 - Turning layers on/off does not disinguish between MapPane and LocatorMap
   (layer ids are not unique).
+- Mapbuilder only works when installed in http://hostname/mapbuilder/ dir.  In other
+  directories mozilla freezes.
 
 * Update design docs.
 
