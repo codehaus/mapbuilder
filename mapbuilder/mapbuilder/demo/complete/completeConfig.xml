@@ -17,6 +17,14 @@
     This dir is relative the dir of the main html file.
   -->
   <models>
+    <!--Logger id="eventLogDoc">
+      <serializeUrl>../../writeXml</serializeUrl>
+      <widgets>
+        <Widget id="eventLog">
+          <stylesheet>../../lib/widget/EventLog.xsl</stylesheet>
+        </Widget>
+      </widgets>
+    </Logger-->
     <Context id="mainMap">
       <defaultModelUrl>../data/context/atlasWorld.xml</defaultModelUrl>
       <widgets>
@@ -54,8 +62,10 @@
         </SaveModel>
         <WmsCapabilitiesImport id="wmsCapabilitiesImport">
         </WmsCapabilitiesImport>
-        <!--SearchForm id="searchForm">
-        </SearchForm-->
+        <!--
+        <SearchForm id="searchForm">
+        </SearchForm>
+        -->
       </widgets>
       <tools>
         <AoiMouseHandler id="mainAoi"/>
@@ -73,14 +83,14 @@
           <mapContainerId>locatorContainer</mapContainerId>
           <fixedWidth>180</fixedWidth>
         </MapPane>
-        <AoiBoxWZ id="aoiBoxLocator">
+        <AoiBoxDHTML id="aoiBoxLocator">
           <htmlTagId>locatorMap</htmlTagId>
           <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
           <mapContainerId>locatorContainer</mapContainerId>
-        </AoiBoxWZ>
+        </AoiBoxDHTML>
         <ModelUrlInput id="urlInput">
         </ModelUrlInput>
       </widgets>
@@ -146,16 +156,6 @@
         </GmlRendererWZ>
       </widgets>
     </FeatureCollection>
-    <!--
-    <Logger id="eventLogDoc">
-      <serializeUrl>../../writeXml</serializeUrl>
-      <widgets>
-        <Widget id="eventLog">
-          <stylesheet>../../lib/widget/EventLog.xsl</stylesheet>
-        </Widget>
-      </widgets>
-    </Logger>
-    -->
   </models>
   <widgets>
     <WebServiceForm id="ntsLookupForm">
