@@ -454,6 +454,273 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
       </section>
     </section>
 
+    <section>
+      <title>MapBuilder configuration</title>
+
+      <para>All MapBuilder applications are initialized from an XML
+      configuration document. The configuration document is parsed and a
+      global Config object is created. </para>
+
+      <itemizedlist>
+        <listitem>
+          <para></para>
+        </listitem>
+      </itemizedlist>
+
+      <para></para>
+
+      <para></para>
+
+      <para>themselves from - &lt;MapbuilderConfig&gt; has a
+      &lt;modelGroups&gt; property which consists of any number of
+      &lt;Model&gt; objects - a &lt;Model&gt; object represents a single
+      instance of a model, created by calling the constructor of the class
+      defined by the &lt;modelType&gt; property. This could be a context,
+      contextCollection, wms capabilities response, etc. You can reference any
+      instance of a model using the config[modelGroupId] javascript object
+      (e.g. config["mainMapGroup"].model) - a &lt;Model&gt; object has a
+      &lt;widgets&gt; property which consists of any number of Widget objects.
+      A Widget object is a view of the model and all widgets contained in the
+      widgets property will be updated from the same model instance. All
+      widgets in the same group register with the model listeners to be
+      notified of events on the model. Any widget can be referenced in
+      javascript as config[modelGroupId][widgetName] (e.g.
+      config["mainMapGroup"][MapPane].id ) - a Widget object extends the
+      WidgetBase class, which provides some properties common to all widgets.
+      A widget has a stylesheet that gets applied to the parent model object
+      and then associated to an HTML page element via it's id attribute. This
+      is where mapbuilder ties into the application HTML. - a Widget object
+      may have a tools property which consists of any number of Tool objects.
+      A Tool object may be a controller or it may be something else, but it is
+      essentially some code that is specific to that widget and for the
+      purpose of supporting that widget. A tool will usually call either a get
+      or set method of the model. Some concrete examples will help here: &gt;
+      the CursorTrack tool is only interested in the mouse position on the
+      parent mappane widget, so it registers with the mouse event listeners of
+      mappane. It calls the model.getSRS() method. &gt; the AOIBox tool is
+      only used for drawing a box on a mappane, it can't exist independent of
+      a mappane. It gets the coords of the AOI to draw from the model.getAOI()
+      method. &gt; the AoiMouseHandler tool is used to click and drag an AOI
+      on a mappane, so it registers with the mouse event listeners of mappane.
+      It will call the setAoi() method of the model. &gt; a zoomin tool is
+      used to process a mouseup event on the mappane, it will change the model
+      bbox. &gt; a pan tool is used to click and drag the mappane container
+      div, on a mouseup event it will change the model bbox, but it will also
+      have to register mousedown and mousemove functions with the mappane
+      mouse handler arrays. &gt; a highlight tool on a legend widget could
+      register a mouseover listener with the legend widget and call a
+      model.selectLayer method so all widgets interested in layers being
+      selected can be refreshed. &gt; etc. </para>
+
+      <para></para>
+    </section>
+
+    <section>
+      <title>MapBuilder configuration</title>
+
+      <para>This section is intended to explain the configuration data model
+      for programmers to program and extend the mapbuilder codebase.</para>
+
+      <para>All MapBuilder applications are initialized from an XML
+      configuration document.. The configuration document closely follows the
+      MVC design pattern to provide a structured tree of Models, Widgets (read
+      Views) and Tools (read Controllers). The properties and methods of these
+      objects are then used to control the application.</para>
+
+      <para>add picture of tree structure</para>
+
+      <para></para>
+
+      <para>Config XML follows Object-Property-Value rule...As a rule of
+      thumb, this means that parent and child elements alternate between
+      UpperCamelCase and lowerCamelCase, Upper is for objects and lower is for
+      properties. An object can only contain another object through a property
+      value</para>
+
+      <para></para>
+
+      <section>
+        <title>Config</title>
+
+        <para>The Config constructor must be called in the page &lt;HEAD&gt;
+        element. It will first load all javascript files contained in the
+        config document and set some application scope properties. The
+        configuration document is parsed and a global Config object is
+        created. </para>
+
+        <programlisting>var mbConfig = new Config('configDocUrl');</programlisting>
+
+        <para>The Config object provides the init() and loadModel() methods.
+        The init() method is called once during body onload processing.
+        <emphasis>loadModel()</emphasis> can be called at any time to refresh
+        all widgets contained in that ModelGroup. </para>
+
+        <programlisting>mbConfig.loadModel('modelGroupID', 'modelUrl');</programlisting>
+
+        <para>loadModel will create a javascript Model object by retrieving
+        the XML document for the specified URL and then all Widgets in the
+        ModelGroup are refreshed by this calling sequence:</para>
+
+        <programlisting>var widget = new WidgetType()
+widget.loadTools();
+widget.paint();</programlisting>
+
+        <para>Config.js calls widget and tool object constructors using the
+        config element node name,</para>
+      </section>
+
+      <section>
+        <title>ModelGroups</title>
+
+        <para>A ModelGroup is a set of any number of Widgets that all share a
+        single instance of a model. </para>
+
+        <para>Each ModelGroup is assigned as a property of the Config object
+        using the ID provided for the ModelGroup in the configuration
+        document. These means that you can reference any ModelGroup object for
+        javascript links or in any method as:</para>
+
+        <programlisting>mbConfig['modelGroupID']</programlisting>
+
+        <para>The ID is not used to link to any HTML element in the
+        page.</para>
+
+        <para>ModelGroups provide a loadModelListener (TBD)</para>
+      </section>
+
+      <section>
+        <title>Models</title>
+
+        <para>Model objects are javascript representations of an XML document.
+        You can reference any instance of a model by referencing the model
+        property of the ModelGroup object:</para>
+
+        <programlisting>mbConfig['modelGroupID'].model;</programlisting>
+
+        <para>Currently supported model types:</para>
+
+        <variablelist>
+          <varlistentry>
+            <term>Context</term>
+
+            <listitem>
+              <para>OGC Web Map Context Document</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>ContextCollection</term>
+
+            <listitem>
+              <para>OGC WebMap Context Collection</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Gazetteer</term>
+
+            <listitem>
+              <para>tom's location list stuff</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+
+      <section>
+        <title>Widgets</title>
+
+        <para>Widgets represent the views from the MVC design pattern. A
+        Widget object must extend the WidgetBase class, which provides some
+        properties and methods common to all widgets. </para>
+
+        <para>A Widget has a stylesheet that gets applied to the parent model
+        and then associated to an HTML page element via it's ID attribute.
+        This is where mapbuilder ties into the application HTML. A Widget
+        object may have a tools property which consists of any number of Tool
+        objects. A Tool object may be a controller or it may be something
+        else, but it is essentially some code that is specific to that widget
+        and for the purpose of supporting that widget.</para>
+
+        <para>Widget paint listeners</para>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Tools</title>
+
+        <para>A Tool object may be a controller or it may be something else,
+        but it is essentially some code that is specific to that widget and
+        for the purpose of supporting that widget. A tool will usually call
+        either a get or set method of the model. </para>
+
+        <para>Some concrete examples of tools:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>the CursorTrack tool is only interested in the mouse
+            position on the parent mappane widget, so it registers with the
+            mouse event listeners of mappane. It calls the model.getSRS()
+            method.</para>
+          </listitem>
+
+          <listitem>
+            <para>the AOIBox tool is only used for drawing a box on a mappane,
+            it can't exist independent of a mappane. It gets the coords of the
+            AOI to draw from the model.getAOI() method.</para>
+          </listitem>
+
+          <listitem>
+            <para>the AoiMouseHandler tool is used to click and drag an AOI on
+            a mappane, so it registers with the mouse event listeners of
+            mappane. It will call the setAoi() method of the model.</para>
+          </listitem>
+
+          <listitem>
+            <para>a zoomin tool is used to process a mouseup event on the
+            mappane, it will change the model bbox.</para>
+          </listitem>
+
+          <listitem>
+            <para>a pan tool is used to click and drag the mappane container
+            div, on a mouseup event it will change the model bbox, but it will
+            also have to register mousedown and mousemove functions with the
+            mappane mouse handler arrays.</para>
+          </listitem>
+
+          <listitem>
+            <para>a highlight tool on a legend widget could register a
+            mouseover listener with the legend widget and call a
+            model.selectLayer method so all widgets interested in layers being
+            selected can be refreshed.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>The action to be carried out by a tool can target a different
+        ModelGroup by setting a property in the config document.</para>
+      </section>
+
+      <section>
+        <title>Extending the code base</title>
+
+        <para>If you are representing a new XML document type, first code the
+        Model object </para>
+
+        <para>Each model object you intend to represent in the applcaition
+        needs a ModelGroup.</para>
+
+        <para>Add widgets to the ModelGroup</para>
+
+        <para>Add tools to the Wigdets</para>
+      </section>
+
+      <section>
+        <title></title>
+
+        <para></para>
+      </section>
+    </section>
+
     <section id="components">
       <title id="library">Library Components</title>
 
@@ -483,6 +750,8 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
 
         <para>For details on how to build a Main Page, refer to the Users
         Guide.</para>
+
+        <para></para>
       </section>
 
       <section>
