@@ -47,6 +47,6 @@ function DragPan(toolNode, model) {
       toolRef.mouseHandler.model.addListener('mouseup',toolRef.doAction,toolRef);
     }
   }
-  config.addListener( "loadModel", this.setMouseListener, this );
+  this.model.addListener( "refresh", this.setMouseListener, this );
 
 }

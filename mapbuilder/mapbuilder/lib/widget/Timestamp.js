@@ -16,8 +16,12 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 function Timestamp(toolNode, model) {
   var base = new WidgetBase(this, toolNode, model);
 
-  this.model.addListener("timestamp",this.paint, this);
+  this.updateTimestamp = function (objRef, timestamp) {
+    var inputEl = document.getElementById("timestampValue");
+    inputEl.value = objRef.model.timestampList.childNodes[timestamp].firstChild.nodeValue;
+  }
 
+  this.model.addListener("timestamp",this.updateTimestamp, this);
 }
 
 

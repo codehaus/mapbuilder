@@ -18,32 +18,32 @@ Abstract.xsl,v 1.5 2004/06/25 17:59:38 madair1 Exp
   <xsl:param name="widgetNode"/>
   
   <xsl:template match="/">
-    <div>
+    <form STYLE="font: 8pt Verdana, geneva, arial, sans-serif;">
       <xsl:call-template name="title"/>
       <xsl:apply-templates select="wmc:ViewContext/wmc:General/wmc:Extension"/>
-    </div>
+    </form>
   </xsl:template>
 
   
   <!-- Main html -->
   <xsl:template match="mb:TimestampList">
-      <xsl:value-of select="mb:Timestamp[@current='1']"/>
+    <input id="timestampValue" type="text" size="10" class="bareInput">
+      <xsl:attribute name="value">
+        <xsl:value-of select="mb:Timestamp[@current='1']"/>
+      </xsl:attribute>
+    </input>
   </xsl:template>
 
   <xsl:template match="text()|@*"/>
   
   <xsl:template name="title">
+    <span>
     <xsl:choose>
       <xsl:when test="$lang='fr'">Timestamp-fr</xsl:when>
       <xsl:otherwise>Timestamp:</xsl:otherwise>
     </xsl:choose>
+    </span>
   </xsl:template>
-  <xsl:template name="moreInfo">
-    <xsl:choose>
-      <xsl:when test="$lang='fr'">Lisez à propos de cette carte</xsl:when>
-      <xsl:otherwise>Read more about this map</xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
- 
+  
 </xsl:stylesheet>
 

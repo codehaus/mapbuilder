@@ -117,6 +117,6 @@ function ButtonBase(button, widgetNode, model) {
     button[sProperty] = this[sProperty];
   }
 
-  button.model.addListener("loadModel",button.buttonInit,button);
-  config.addListener("loadModel", button.initMouseHandler, button);
+  button.model.addListener("refresh",button.buttonInit,button);
+  button.model.addListener("init", button.initMouseHandler, button);
 }

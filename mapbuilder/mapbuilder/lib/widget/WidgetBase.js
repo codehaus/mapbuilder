@@ -247,7 +247,7 @@ function WidgetBase(widget,widgetNode,model) {
           var jsNode = objRef.stylesheet.transformNodeToObject(objRef.resultDoc);
           var js=jsNode.firstChild.firstChild.nodeValue;
           if (!outputNode) {
-            tempNode.innerHTML = "<div>";
+            tempNode.innerHTML = "<div/>";
             tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
             objRef.node.appendChild(tempNode.firstChild);
           }
@@ -273,24 +273,15 @@ function WidgetBase(widget,widgetNode,model) {
     if (outputNode) objRef.node.removeChild(outputNode);
   }
 
-
-  /**
-   * Initial rendering of this widget when the model is loaded.
-   * @param widget This widget object.
-   */
-  this.loadModelListener=function(widget){
-    widget.paint(widget);
-  }
-
-
   // If this object is being created because a child is extending this object,
   // then child.properties = this.properties
   for (sProperty in this) {
     widget[sProperty] = this[sProperty];
   }
+
   // Call paint when model changes
   //config.addListener( "loadModel", widget.initTargetModel, widget );
-  widget.model.addListener("loadModel",widget.loadModelListener,widget);
+  //widget.model.addListener("loadModel",widget.paint, widget);
   widget.model.addListener("refresh",widget.paint, widget);
   widget.model.addListener("newModel",widget.clearWidget, widget);
 }

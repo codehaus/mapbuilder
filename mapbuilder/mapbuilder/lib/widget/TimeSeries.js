@@ -34,7 +34,11 @@ function TimeSeries(widgetNode, model) {
     var timestamp = objRef.model.getCurrentTimestamp(layerName);
     if (timestamp) layerId += "_" + timestamp;
     var layer = document.getElementById(layerId);
-    if (layer) layer.style.visibility=vis;
+    if (layer) {
+      layer.style.visibility=vis;
+    } else {
+      alert("error finding layerId:"+layerId);
+    }
   }
   this.model.addListener("hidden",this.hiddenListener,this);
 
@@ -51,16 +55,20 @@ function TimeSeries(widgetNode, model) {
     var vis = (timestamp.getAttribute("current")=="1") ? "visible":"hidden";
     var layerId = objRef.model.id + "_" + objRef.id + "_" + layerName + "_" + timestamp.firstChild.nodeValue;
     var layer = document.getElementById(layerId);
-    if (layer) layer.style.visibility=vis;
+    if (layer) {
+      layer.style.visibility=vis;
+    } else {
+      alert("error finding layerId:"+layerId);
+    }
   }
   this.model.addListener("timestamp",this.timestampListener,this);
 
   this.prePaint=function(objRef) {
     var timelist = "";
-    var timestampList = objRef.model.timestampList.childNodes;
+    var timestampList = objRef.model.timestampList;
     if (timestampList) {
-      for (var i=0; i<timestampList.length; ++i) {
-        timelist += timestampList[i].firstChild.nodeValue + ",";
+      for (var i=timestampList.firstFrame; i<=timestampList.lastFrame; ++i) {
+        timelist += timestampList.childNodes[i].firstChild.nodeValue + ",";
       }
       objRef.stylesheet.setParameter("timeList", timelist.substring(0,timelist.length-1));  //remove trailing comma
     }
