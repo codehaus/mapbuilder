@@ -17,7 +17,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  */
 function GmlRenderer(widgetNode, model) {
   // Inherit the WidgetBase functions and parameters
-  var base = new WidgetBase(widgetNode, model,"absolute");
+  var base = new WidgetBase(widgetNode, model);
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 
   }
