@@ -71,7 +71,7 @@ $Name$
             WMTVER=<xsl:value-of select="$version"/>&amp;REQUEST=map
         </xsl:when>            
         <xsl:otherwise>
-            VERSION=<xsl:value-of select="$version"/>&amp;REQUEST=GetMap
+            VERSION=<xsl:value-of select="$version"/>&amp;REQUEST=GetMap&amp;SERVICE=WMS
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -92,8 +92,8 @@ $Name$
 &amp;LAYERS=<xsl:value-of select="wmc:Name"/>
 &amp;STYLES=<xsl:value-of select="translate(wmc:StyleList/wmc:Style[@current='1']/wmc:Name,' ','+')"/>
 &amp;FORMAT=<xsl:value-of select="wmc:FormatList/wmc:Format[@current='1']"/>
-&amp;TRANSPARENT=true
-&amp;BGCOLOR=0xFFFFFF
+&amp;TRANSPARENT=TRUE
+
 <!--	
   //TBD: these still to be properly handled 
   //also sld support
