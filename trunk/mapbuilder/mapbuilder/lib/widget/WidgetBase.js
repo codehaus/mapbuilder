@@ -161,7 +161,7 @@ function WidgetBase(widgetNode,model) {
     if (objRef.model.doc) {
 
       if (objRef.debug) alert("source:"+objRef.model.doc.xml);
-      this.resultDoc = objRef.model.doc; // resultDoc sometimes modified by prePaint()
+      objRef.resultDoc = objRef.model.doc; // resultDoc sometimes modified by prePaint()
       objRef.prePaint(objRef);
 
       //confirm inputs
@@ -169,7 +169,7 @@ function WidgetBase(widgetNode,model) {
       if (objRef.debug) alert("stylesheet:"+objRef.stylesheet.xslDom.xml);
 
       //process the doc with the stylesheet
-      var s = objRef.stylesheet.transformNode(this.resultDoc);
+      var s = objRef.stylesheet.transformNode(objRef.resultDoc);
       if (objRef.debug) alert("painting:"+objRef.id+":"+s);
 
       //set to output to a temporary node
