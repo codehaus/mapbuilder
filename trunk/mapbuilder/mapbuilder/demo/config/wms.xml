@@ -71,7 +71,6 @@
       </tools>
     </Context>
     <Transaction id="transaction">
-      <defaultModelUrl>gml/null.xml</defaultModelUrl>
       <widgets>
         <TransactionResponse id="transactionResponse">
         </TransactionResponse>
