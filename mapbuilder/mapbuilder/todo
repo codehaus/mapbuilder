@@ -1,8 +1,6 @@
 Release 0.1
 ===========
-* Rename stylesheets from *.xml to *.xsl
-
-* Rename addListeners() to postInit() - since it doesn't always call listeners.
+* Remove addPaintListener from WidgetBase and extend Listener.js instead
 
 * Rename "Mode" and "Modal" to something else, eg Selected.
 
