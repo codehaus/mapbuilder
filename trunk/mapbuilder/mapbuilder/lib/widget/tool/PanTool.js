@@ -78,7 +78,7 @@ function PanTool(context, name, node) {
 
     if(percent == null){
 
-      percent=10;
+      percent=50;
 
     }
 
