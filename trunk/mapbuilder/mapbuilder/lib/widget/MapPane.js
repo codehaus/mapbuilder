@@ -32,6 +32,8 @@ function MapPane(widgetNode, model) {
   this.containerId = "mappane_"+model.id;
   this.stylesheet.setParameter("mapContainerId", this.containerId );
 
+  this.node.style.overflow = "hidden";
+
   //adjust the context width and height if required.
   var fixedWidth = false;    //defaults to false
   var xnode = widgetNode.selectSingleNode("fixedWidth");
@@ -60,6 +62,7 @@ function MapPane(widgetNode, model) {
   this.setContainerNodeHandlers = function(objRef) {
     //reset these on a paint because the containerNode is created on paint
     //these added to the containerNode because they will be referenced in that context
+    //var containerNode = objRef.node;
     var containerNode = document.getElementById( objRef.containerId );
     containerNode.widget = objRef;
     containerNode.extent = objRef.model.extent;
@@ -76,9 +79,9 @@ function MapPane(widgetNode, model) {
    * @param objRef MapPane's containing <DIV> tag as an XML node.
    */
   this.setClip=function(objRef){
-    width=objRef.model.getWindowWidth();
-    height=objRef.model.getWindowHeight();
-    objRef.node.style.clip="rect(0," + width + "," + height + ",0)";
+    //width=objRef.model.getWindowWidth();
+    //height=objRef.model.getWindowHeight();
+    //objRef.node.style.clip="rect(0," + width + "," + height + ",0)";
   }
   //this.addListener( "paint", this.setClip, this );
 

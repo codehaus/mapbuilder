@@ -27,7 +27,7 @@ function DragPan(toolNode, parentWidget) {
    */
   this.doAction = function(objRef,targetNode) {
     if (!objRef.enabled) return;
-    alert("drag pan mouseup");
+    alert("drag pan mouseup:"+objRef.mouseHandler.id);
     //TBD: hide the mappane and then recenter at the new position
   }
   if (this.mouseHandler) {
