@@ -6,6 +6,9 @@ $Id$
 /** URL of this Mapbuilder configuration file. */
 var mbConfigUrl;
 
+/** the global config object */
+var config;
+
 /** URL of Mapbuilder's lib/ directory. */
 var baseDir;
 
@@ -50,6 +53,7 @@ function Mapbuilder(configUrl) {
   loadScript(baseDir+"/util/Listener.js");
   loadScript(baseDir+"/model/ModelBase.js");
   loadScript(baseDir+"/model/Config.js");
+
 }
 
 /**
