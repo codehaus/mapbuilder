@@ -21,12 +21,25 @@ Tools:
 * Remove directories:
 widget/toollist
 
+* Implement PanOut
+
+* allow MapPane widget to have a fixed size (values specified in HTML); context 
+  window is resized to fit
+
+* locator map to show main map bbox (as a listener)
+
+* locator map to show thumbnail of mainMap (optional behaviour)
+
+* re-implement getFeatureInfo
+
 * Write up know bugs. 
 - Turning layers on/off in Legend raises constraint error in Mozilla 1.5 (ok in 1.3)
 - Turning layers on/off does not disinguish between MapPane and LocatorMap
   (layer ids are not unique).
 
 * Update design docs.
+
+* write 3-4 config variations: minimal to complete implementation
 
 Future Work
 ===========
@@ -37,6 +50,16 @@ Future Work
 * Legend.js to pass Context param into XSL transform.
 
 * MapPane XSL needs to check if parameters are defined.
+
+* ??Introduce a unique Id into Context for each Layer.
+
+* WMS capabilities model, widgets, tools
+
+* add/remove/re-order context layers
+
+* config schema as RDF extension
+
+* WFS layers as SVG 
 
 * write a build script
   - imports external libraries
