@@ -7,36 +7,38 @@
 
   <models>
 
-    <Context id="firstMap">
+    <Context id="mainMap">
       <defaultModelUrl>/mapbuilder/demo/context/locatorMap.xml</defaultModelUrl>
       
       <widgets>
 
-      <MapPane id="mainMapWidget">
-          <tools> 
-            <AoiMouseHandler/>
-            <AoiBox>
-              <lineColor>magenta</lineColor>
-              <lineWidth>2</lineWidth>
-              <crossSize>1</crossSize>
-            </AoiBox>
-            <DragPanHandler>
-              <enabled>false</enabled>
-            </DragPanHandler>
-          </tools> 
-					<htmlTagId>mainMapPane</htmlTagId>
-					<mapContainerId>mainMapContainer</mapContainerId>
+        <MapPane id="mainMapWidget">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <mapContainerId>mainMapContainer</mapContainerId>
         </MapPane>
-
+        <AoiBoxWZ id="aoiBoxMain">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+          <mapContainerId>mainMapContainer</mapContainerId>
+        </AoiBoxWZ>
         
       </widgets>
+      <tools>
+        <AoiMouseHandler id="mainAoi"/>
+        <DragPanHandler id="mainDragPan">
+          <enabled>false</enabled>
+        </DragPanHandler>
+      </tools>
     </Context>
 
     <ContextCollection id="collectionGroup">
       <defaultModelUrl>/mapbuilder/demo/context/demoCollection.xml</defaultModelUrl>
       <widgets>
         <CollectionList id="collectionList">
-          <targetModel>firstMap</targetModel>
+          <targetModel>mainMap</targetModel>
         </CollectionList>
       </widgets>
     </ContextCollection>
@@ -44,38 +46,53 @@
   </models>
 
   <widgets>
-    <ButtonBar id="buttonBar">  
-      <targetModel>firstMap</targetModel>
-      <tools>
-        <ZoomIn id="zoomIn">
-          <class>RadioButton</class>
-          <selected>true</selected>
-          <mouseHandler>firstMap.mainMapWidget</mouseHandler>
-          <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
-          <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
-          <tooltip>click and drag to zoom in</tooltip>
-        </ZoomIn>
-        <ZoomOut id="zoomOut">
-          <class>RadioButton</class>
-          <mouseHandler>firstMap.mainMapWidget</mouseHandler>
-          <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
-          <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
-          <tooltip>click to zoom out</tooltip>
-        </ZoomOut>
-        <DragPan id="dragPan">
-          <class>RadioButton</class>
-          <mouseHandler>firstMap.mainMapWidget</mouseHandler>
-          <enabledSrc>/images/PanEnable.gif</enabledSrc>
-          <disabledSrc>/images/PanDisable.gif</disabledSrc>
-          <tooltip>click and drag to pan</tooltip>
-        </DragPan>
-        <Reset id="reset">
-          <class>Button</class>
-          <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
-          <tooltip>reset the map to full extent</tooltip>
-        </Reset>
-      </tools>
-    </ButtonBar>
+    <ZoomIn id="zoomIn">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainMap.mainAoi</mouseHandler>
+      <class>RadioButton</class>
+      <selected>true</selected>
+      <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
+      <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
+      <tooltip xml:lang="en">click and drag to zoom in</tooltip>
+      <tooltip xml:lang="fr">cliquer et faire glisser la souris pour agrandir</tooltip>
+    </ZoomIn>
+    <ZoomOut id="zoomOut">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainMap.mainAoi</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
+      <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
+      <tooltip xml:lang="en">click to zoom out</tooltip>
+      <tooltip xml:lang="fr">cliquer pour rée</tooltip>
+    </ZoomOut>
+    <DragPan id="dragPan">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainMap.mainDragPan</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/PanEnable.gif</enabledSrc>
+      <disabledSrc>/images/PanDisable.gif</disabledSrc>
+      <tooltip xml:lang="en">click and drag to pan</tooltip>
+      <tooltip xml:lang="fr">cliquer et faire glisser la souris pour voir un autre parti de la carte</tooltip>
+    </DragPan>
+    <SetAoi id="setAoi">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainMap.mainAoi</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
+      <disabledSrc>/images/SetAoiDisable.gif</disabledSrc>
+      <tooltip xml:lang="en">click and drag to set the area of interest</tooltip>
+    </SetAoi>
+    <Reset id="reset">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
+      <tooltip xml:lang="en">reset the map to full extent</tooltip>
+      <tooltip xml:lang="fr">redonner la carte ses dimensions complèts</tooltip>
+    </Reset>
   </widgets>
-  
 </MapbuilderConfig>
