@@ -8,7 +8,7 @@ $Name$
 
 <html>
   <head>
-    <title>Mapbuilder Demo</title>
+    <title>Mapbuilder Tutorial</title>
 
     <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
 
@@ -20,8 +20,9 @@ $Name$
   </head>
 
   <body onload="mbDoLoad()">
+    <div style="width:800">
     <!-- Layout mapbuilder widgets and HTML -->
-    <h1><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Demo</h1>
+    <h1><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Tutorial</h1>
 
 <h2>Map tools</h2>
 
@@ -39,15 +40,12 @@ $Name$
   In <a href="config/tutorial2.xml" target="ConfigSrcWin">this configuration</a>
   This map also has an AoiBox tool to display an Area of Interest (AOI) for the model.
   The AOI can either be a 
-  <a href="javascript:alert('hover over this link to see the AOI')" 
-      onmouseover="config['firstMap'].extent.setAoi(new Array(-75,45),new Array(0,0))" 
-      onmouseout="config['firstMap'].aoiValid=false">rectangular bounding box
+<a href="javascript:config['firstMap'].setParam('aoi', new Array(new Array(-75,45),new Array(0,0)))"> 
+    rectangular bounding box
   </a>
   or a 
   <a href="javascript:alert('hover over this link to see the AOI')" 
-      onmouseover="config['firstMap'].extent.setAoi(new Array(0,0))" 
-      onmouseout="config['firstMap'].aoiValid=false">single point.
-  </a>
+      onmouseover="config['firstMap'].setParam('aoi', new Array(new Array(0,0),new Array(0,0)))">single point.</a>
   The colour, line width and size of point display are customized in the config
   file.
 </p>
@@ -70,5 +68,6 @@ $Name$
 <p align="right"><a href="tutorial1.html">previous</a>&nbsp;&nbsp;&nbsp; <a href="tutorial3.html">next</a></p>
 <p align="right"><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a><br/>$Name$</p>
 
+  </div>
   </body>
 </html>
