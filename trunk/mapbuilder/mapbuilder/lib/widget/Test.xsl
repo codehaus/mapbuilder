@@ -11,4 +11,7 @@ Add comment
   <xsl:output method="xml" encoding="utf-8"/>
   
   <xsl:template match="/" />
+    <xsl:variable name="fred" select="'x'"/>
+    <b>fred
+    </b>
 </xsl:stylesheet>
