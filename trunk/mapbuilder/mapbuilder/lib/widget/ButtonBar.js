@@ -12,6 +12,8 @@ loadScript(baseDir+"/widget/WidgetBase.js");
  * A widget which contains a collection of buttons.  One button can
  * be selected (Eg a ZoomInButton) and will determine how mouse clicks on a
  * MapPane are processed.
+ * ButtonBar tools process mouseClicks on behalf of the mouseWidget. The
+ * mouseWidget is usually a MapPane.
  * This widget extends WidgetBase.
  * @constructor
  * @param widgetNode The Widget's XML object node from the configuration
@@ -26,7 +28,9 @@ function ButtonBar(widgetNode, group) {
     this[sProperty] = base[sProperty]; 
   } 
 
-  /** Render this widget. */
+  /**
+   * Render this widget.
+   */
   this.paint = function() {
     var s = this.stylesheet.transformNode(config.doc);
     this.node.innerHTML=s;
@@ -39,12 +43,41 @@ function ButtonBar(widgetNode, group) {
   var mouseWidget = widgetNode.selectSingleNode("mouseWidget");
   if (mouseWidget) {
     this.mouseWidget = eval(mouseWidget.firstChild.nodeValue);
-    this.modalMouseUp = function(buttonBar,targetNode) {
-      buttonBar.selectedButton.modalMouseUp(buttonBar.model,targetNode) 
+
+    /**
+     * Process a mouse action.
+     * @param objRef Pointer to this ButtonBar object.
+     * @param targetNode The node for the enclosing HTML tag for this widget,
+     */
+    this.mouseUpHandler = function(objRef,targetNode) {
+      objRef.selectedRadioButton.mouseUpHandler(objRef.model,targetNode) 
     }
-    this.mouseWidget.addListener('mouseup',this.modalMouseUp,this);
+    this.mouseWidget.addListener('mouseup',this.mouseUpHandler,this);
   }
-  
+
+  /**
+   * Called when a user clicks on a button.
+   * @param buttonName Name of the button.
+   * @param buttonType "RadioButton", "Button" or "SelectBox".
+   */
+  this.selectButton = function(buttonName, buttonType) {
+    switch(buttonType){
+      case "RadioButton":
+        // Deselect previous RadioButton
+        if (this.selectedRadioButton){
+          this.selectedRadioButton.image.src=this.selectedRadioButton.disabledImage.src;
+        }
+        this.selectedRadioButton=this.tools[buttonName];
+        break;
+      case "Button":
+        break;
+      case "SelectBox":
+        break;
+      default:
+        alert("ButtonBar.js: Unknown buttonType: "+buttonType);
+    }
+  }
+
   /**
    * Select one of the buttons, which deselects all the other buttons.
    * TBD: I'd prefer to call this selectButton(). Cameron 19 March 2004.
@@ -53,11 +86,11 @@ function ButtonBar(widgetNode, group) {
    * @param mode The modeValue of a Button to select.
    */
   this.setMode = function(mode) {
-    if (this.selectedButton) this.selectedButton.image.src = this.selectedButton.disabledImage.src;
+    if (this.selectedRadioButton) this.selectedRadioButton.image.src = this.selectedRadioButton.disabledImage.src;
     this.mode = mode;
     if ( this[this.mode].enabledImage) {
-      this.selectedButton = this[this.mode];
-      this.selectedButton.image.src = this.selectedButton.enabledImage.src;
+      this.selectedRadioButton = this[this.mode];
+      this.selectedRadioButton.image.src = this.selectedRadioButton.enabledImage.src;
     }
     //if ( this.parentWidget.acceptToolTips ) this.parentWidget.setToolTip( this.title );
   }
@@ -105,7 +138,7 @@ function ButtonBase(toolNode, parentWidget) {
     if ( objRef.parentWidget.mouseWidget==null ) {
       objRef.image = document.getElementById( objRef.id );
       objRef.image.model = objRef.model;
-      objRef.image.onmouseup = objRef.modalMouseUp;
+      objRef.image.onmouseup = objRef.mouseUpHandler;
     }
   }
 }
@@ -120,14 +153,14 @@ function ZoomIn(toolNode, parentWidget) {
   var base = new ButtonBase(toolNode, parentWidget);
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 
-  } 
+  }
 
   /**
    * TBD document me.
    * @param targetNode TBD: Document me.
    * @param model The model that this tool will update.
    */
-  this.modalMouseUp = function(model,targetNode) {
+  this.mouseUpHandler = function(model,targetNode) {
     var bbox = model.getAoi();
     var ul = model.extent.GetXY( bbox[0] );
     var lr = model.extent.GetXY( bbox[1] );
@@ -147,7 +180,7 @@ function ZoomOut(toolNode, parentWidget) {
   for (sProperty in base) { 
     this[sProperty] = base[sProperty];    
   } 
-  this.modalMouseUp = function(model,targetNode) {
+  this.mouseUpHandler = function(model,targetNode) {
     //should be aoi center
     model.extent.CenterAt(targetNode.evxy, model.extent.res[0]*model.extent.zoomBy);
   }
