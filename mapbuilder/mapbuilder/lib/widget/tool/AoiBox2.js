@@ -20,8 +20,11 @@ function AoiBox(toolNode, parentWidget) {
   this.lineWidth = 2;                 // Zoombox line width; pass in as param?
   this.lineColor = "#FF0000";         // color of zoombox lines; pass in as param?
   this.crossSize = 9;
+  this.mode = 'MODE_SET_AOI';   //temporary until mode gets implemented somewhere else
 
   this.node = document.getElementById( parentWidget.containerId );
+
+
 /** Hide or show the box
   * @param vis    boolean true for visible; false for hidden
   * @return       none
@@ -48,13 +51,14 @@ function AoiBox(toolNode, parentWidget) {
 
   this.mouseUpHandler = function( targetNode, objRef ) {
     if (objRef.started) {
-      objRef.stop(false);
+      objRef.started = false;
       var bbox = objRef.getBox();
-      var ul = targetNode.context.extent.GetXY( bbox[0] );
-      var lr = targetNode.context.extent.GetXY( bbox[1] );
-      switch(targetNode.mode) {
+      var ul = targetNode.parentWidget.model.extent.GetXY( bbox[0] );
+      var lr = targetNode.parentWidget.model.extent.GetXY( bbox[1] );
+      switch(objRef.mode) {
         case 'MODE_ZOOM_IN':				//zoom in
-          targetNode.context.extent.ZoomToBox( ul, lr );
+          objRef.setVis(false);
+          targetNode.model.extent.ZoomToBox( ul, lr );
           break;
         case 'MODE_SET_AOI':				//setting AOI
           //call AOI changed listeners?; objRef.setFormAOI( ul, lr );
@@ -66,32 +70,10 @@ function AoiBox(toolNode, parentWidget) {
   }
 
   this.mouseDownHandler = function( targetNode, objRef ) {
-    switch(targetNode.mode) {
-      case 'MODE_ZOOM_IN':				//zoom in
-      case 'MODE_SET_AOI':				//setting AOI
-        objRef.start(targetNode.evpl);
-        break;
-      default:
-        //alert("invalid mode:" +objRef.mode);
-        break;
-    }
+    objRef.start(targetNode.evpl);
   }
   this.mouseMoveHandler = function( targetNode, objRef ) {
-    switch(targetNode.mode) {
-      case 'MODE_ZOOM_IN':				//zoom in
-      case 'MODE_SET_AOI':				//setting AOI
-        if (objRef.started) objRef.dragBox(targetNode.evpl);
-        break;
-      default:
-        //alert("invalid mode:" +objRef.mode);
-        break;
-    }
-  }
-
-  this.addListeners = function() {
-    this.parentWidget.addMouseListener('mouseDown', this.mouseDownHandler, this );
-    this.parentWidget.addMouseListener('mouseMove', this.mouseMoveHandler, this );
-    this.parentWidget.addMouseListener('mouseUp', this.mouseUpHandler, this );
+    if (objRef.started) objRef.dragBox(targetNode.evpl);
   }
 
   this.paint = function() {
@@ -148,13 +130,9 @@ function AoiBox(toolNode, parentWidget) {
   * @return        none
   */
   this.start = function(evpl) {
-    if (this.started) {
-      this.stop(true);
-    } else {
-      this.anchorPoint = evpl;
-      //this.dragBox( evpl );
-      this.started=true;
-    }
+    this.anchorPoint = evpl;
+    this.dragBox( evpl );
+    this.started=true;
   }
 
 /** called to start a drag operation
@@ -231,7 +209,7 @@ function AoiBox(toolNode, parentWidget) {
     return newDiv;
   }
 
-
+  //final initialization
   this.Top = this.getImageDiv( );
   this.Bottom = this.getImageDiv( );
   this.Left = this.getImageDiv( );
@@ -239,13 +217,19 @@ function AoiBox(toolNode, parentWidget) {
   this.ul = new Array(0,0);
   this.lr = new Array(0,0);
 
+  parentWidget.addMouseListener('mouseDown', this.mouseDownHandler, this );
+  parentWidget.addMouseListener('mouseMove', this.mouseMoveHandler, this );
+  parentWidget.addMouseListener('mouseUp', this.mouseUpHandler, this );
+
   //test case
+/*
   this.drawBox( new Array(2,2), new Array(200,200) );
 alert("AOIBox test");
   this.drawCross( new Array(75,75) );
 alert("AOIBox test");
   this.anchorPoint = new Array(75,75);
   this.dragBox( new Array(300, 100) );
+*/
 }
 
 
