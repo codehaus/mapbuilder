@@ -1,7 +1,6 @@
 /*
 Author:       Cameron Shorter cameronAtshorter.net
 License:      GPL as per: http://www.gnu.org/copyleft/gpl.html
-Dependancies: Context, Sarissa, XslProcessor
 
 $Id$
 */
@@ -12,6 +11,7 @@ $Id$
  * @param context The Web Map Context to use when building this MapPane.
  * @param baseDir The base mapbuilder lib directory.
  * @param node Node from the HTML DOM to insert legend HTML into.
+ * @requires Context, Sarissa, Util
  */
 function MapPane(context,baseDir,node) {
   this.context=context;
