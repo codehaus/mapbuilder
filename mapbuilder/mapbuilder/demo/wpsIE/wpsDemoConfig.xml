@@ -63,7 +63,7 @@
     </Context>
     <!-- use this with a WPS capabilities model -->
     <WpsCapabilities id="wpsCapTemplate">
-      <defaultModelUrl>PCIwpsCaps.xml</defaultModelUrl>
+      <!--defaultModelUrl>PCIwpsCaps.xml</defaultModelUrl-->
       <nodeSelectXpath>/wps:Capabilities/wps:ProcessOfferings/wps:Process</nodeSelectXpath>
       <namespace>xmlns:wps='http://www.opengis.net/wps'</namespace>
       <models>
@@ -84,7 +84,6 @@
         <Widget id="selectProcess">
           <stylesheet>SelectProcess.xsl</stylesheet>
         </Widget>
-        <ModelUrlInput id="urlInput"/>
       </widgets>
       <tools>
         <WebServiceRequest id="wpsDescribeProcess">
@@ -99,6 +98,9 @@
     </WpsCapabilities>
   </models>
   <widgets>
+    <ModelUrlInput id="urlInput">
+      <targetModel>wpsCapTemplate</targetModel>
+    </ModelUrlInput>
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
