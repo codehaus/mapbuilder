@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
+<article>
+  <title>Technical Design</title>
+
+  <section>
+    <title>Overview</title>
+
+    <para>The Community Map Builder (CMB) is a framework for collaborative,
+    open sharing of place-based information. It builds upon components that
+    conform to Open GIS&#39;s international Standards for geospatial software
+    development. The aim is to create business logic components to repurpose
+    Open Source, OpenGIS-compliant components for this effort. Map serving
+    will use the OpenGIS<emphasis> Web Map Server</emphasis>-compliant
+    software, <ulink url="http://mapserver.gis.umn.edu">Mapserver.</ulink>
+    Spatial feature updating will use the OpenGIS <emphasis>Web Feature Server</emphasis>-compliant
+    software <ulink url="http://geoserver.sourceforge.net">Geoserver</ulink>,
+    which relies upon Postgres and the PostGIS component as its spatial
+    database. CMB also uses Postgres as a normal database to store
+    community-contributed text and photographs.</para>
+
+    <para>Community Map Builder is more than just a collection of
+    technologies. It is a collection of Web pages, server applications and
+    database schema, along with implementation recommendations.</para>
+
+    <figure>
+      <title>High Level Design</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="design_files/HighLevelDesign.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+
+  <section>
+    <title>Functional Overview</title>
+
+    <para>CMB is designed around two use cases, enabling people to share
+    knowledge about good bicycling routes and sea kayaking trips. These will
+    be referred to generically as &#34;events&#34; throughout this document.
+    We expect users to want to:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Browse a map featuring events, optionally with interesting base
+        map information</para>
+      </listitem>
+
+      <listitem>
+        <para>See events from other CMB sites on the map.</para>
+      </listitem>
+
+      <listitem>
+        <para>Click on an event to view the event publisher&#39;s comments and
+        pictures</para>
+      </listitem>
+
+      <listitem>
+        <para>Drill down to see the comments and pictures of other
+        contributors (OPTIONAL--VERSION 2?)</para>
+      </listitem>
+
+      <listitem>
+        <para>Post new events to the site including text and pictures (and
+        movies and sounds?)</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Map publishing</title>
+
+    <para>The first task is to specify a standard for map publishing, so that
+    CMB users can quickly and easily locate places of interest. The technology
+    used for this purpose will be a map server called, appropriately enough,
+    <ulink url="http://mapserver.gis.umn.edu">Mapserver</ulink>. This software
+    offers the project the ability to publish maps in an OpenGIS-compliant
+    way. It also allows users to click on a place of interest and get detailed
+    information about that location. In the near future, it will support the
+    ability for users to &#34;bookmark&#34; an area of interest (via the Web
+    Map Context specification), to easily get back to that place in the
+    future, or to email a URL for the map with an exact location to someone
+    else.</para>
+
+    <para>To promote interoperability, and especially future integration of
+    Community Map systems, we specify a standard naming scheme for geographic
+    features:</para>
+
+    <table>
+      <title>Standard Layer Naming Scheme</title>
+
+      <tgroup cols="3">
+        <tbody>
+          <row>
+            <entry><emphasis>Geographic Feature</emphasis></entry>
+
+            <entry><emphasis>Name</emphasis></entry>
+
+            <entry><emphasis>Notes</emphasis></entry>
+          </row>
+
+          <row>
+            <entry>Event / Trip / Route PATH</entry>
+
+            <entry>EVENT</entry>
+
+            <entry>label with event name</entry>
+          </row>
+
+          <row>
+            <entry>Event / Trip / Route start and end</entry>
+
+            <entry>EVENTPT</entry>
+
+            <entry>label with event name</entry>
+          </row>
+
+          <row>
+            <entry>Roads</entry>
+
+            <entry>ROADS</entry>
+
+            <entry>Handle highway, street, dirt road, etc. symbolization using
+            multiple CLASS attributes in MAP file</entry>
+          </row>
+
+          <row>
+            <entry>Lakes and ponds</entry>
+
+            <entry>WATERBODY</entry>
+
+            <entry>includes all polygon water features</entry>
+          </row>
+
+          <row>
+            <entry>Rivers, streams</entry>
+
+            <entry>WATERFLOW</entry>
+
+            <entry>includes all linear water features</entry>
+          </row>
+
+          <row>
+            <entry>Local boundary</entry>
+
+            <entry>BOUND1</entry>
+
+            <entry></entry>
+          </row>
+
+          <row>
+            <entry>State boundary</entry>
+
+            <entry>BOUND2</entry>
+
+            <entry></entry>
+          </row>
+
+          <row>
+            <entry>Other boundary</entry>
+
+            <entry>BOUND3</entry>
+
+            <entry></entry>
+          </row>
+
+          <row>
+            <entry>Nation boundary</entry>
+
+            <entry>BOUND4</entry>
+
+            <entry></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <para>Geographic data may be stored in any format supported by Mapserver.
+    However, the event data MUST be stored in Postgis to allow for automated
+    updates.</para>
+
+    <para>A sample template for the Mapserver MAP file is presented in
+    Appendix A [TODO]. All layers are specified as Shapefiles, except for
+    EVENT and EVENTPT</para>
+  </section>
+
+  <section>
+    <title>Map viewing</title>
+
+    <para>The CMB map viewing client uses HTML and Javascript.</para>
+
+    <figure>
+      <title>Map viewer WMS client</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="design_files/wmsclient.gif" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <section>
+      <title>Basic mapping</title>
+
+      <para>The basic map interface will allow users to pan and zoom on a map.
+      The map will consist of events (trips) and base features, such as roads,
+      water features and administrative boundaries (towns, counties, states,
+      nations, etc). There will be a legend, scale bar and north arrows. The
+      legend and scale bars will be context-sensitive, taking advantage of
+      Mapserver&#39;s capabiliities in this area. An example template for the
+      map viewing client Web page is in Appendix B [TODO].</para>
+
+      <para>Notice that the map viewing client produces requests that are
+      compliant to the OGC WMS specification instead of the internal Mapserver
+      format. This is to promote greater interoperability with other Web
+      mapping systems.</para>
+    </section>
+
+    <section>
+      <title>Getting event descriptions</title>
+
+      <para>The map viewing client will also allow the user to click on events
+      to get descriptions, which consist of narrative text and other media.
+      This is accomplished by generating a GetFeatureInfo request, and
+      displaying the results in a new Web page, whose format is listed in
+      Appendix B [TODO].</para>
+    </section>
+
+    <section>
+      <title>Bookmarking locations</title>
+
+      <para>[TODO] Future functionality or now? Have a button that generates
+      the Web Map Context XML.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Data entry (Community Updates)</title>
+
+    <para>The CMB&#39;s primary function is to allow users to share
+    information. This requires a system for people to add information to the
+    database. To enable a wide range of publishers with various system
+    administration expertise to participate in the CMB framework, we will
+    support many methods of information updating. The first to be defined is a
+    semi-automated file-based process defined here.</para>
+
+    <section>
+      <title>Data management</title>
+
+      <para>The current data architecture reflects the bike and kayak trip use
+      cases, as we generally expect users to upload trips that have a begin
+      point, an end point, and a linear path between the two. Trips are
+      generically called events.</para>
+
+      <figure>
+        <title>Database schema</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="design_files/dbtables.png" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>Events will have rich descriptive information attached to them. In
+      this release we explicitly support text and images, although other media
+      may work. This content is stored in a directory on disk in a Web
+      server-accessible location. We store content on disk to avoid the
+      complexities involved with storing data types such as images, movies,
+      sounds in the database. The STORY database table manages the
+      relationship between events and content.</para>
+
+      <para>When a GetFeatureInfo request is made from the map viewing client,
+      the CMB queries the START, END, AND PATH fields of EVENT, finding the
+      event closest to the user&#39;s map click. Then a Web page is created
+      that contains the content the event creator entered, which is found by
+      querying the STORY table for the STORYID and USERID that matches those
+      from the EVENT table. Then all the matching STORYIDs from the CONTENT
+      table are retrieved and the files they reference are displayed. </para>
+
+      <para>The HTMLFILE and MEDIAFILE fields contain URL references. They are
+      paired in this way to make sure text that goes with a particular file is
+      kept together. Either of these fields, however, may be null. </para>
+
+      <para>Above this content is a title consisting of the NAME value from
+      the EVENT table. </para>
+
+      <para>Below this content are links to content other users have created,
+      which are found by querying the STORY table for EVENTIDs that match the
+      EVENT table, but have a USERID that <emphasis>does not</emphasis> match.</para>
+    </section>
+
+    <section>
+      <title>Data entry</title>
+
+      <para>The database schema presented above naturally defines the type of
+      information required from the user. This will be obtained by presenting
+      the user with a set of HTML forms to fill out, presented like a
+      wizard-driven user interface. In its first release, this information
+      will be uploaded and stored on disk in a temporary area. A CMB
+      administrator must regularly examine this directory for new information,
+      review it for appropriateness, and run a script that populates the
+      database and the public Web directory with the content. The
+      administrator can either let the script create new user IDs and event
+      IDs or manually specify existing user and/or event IDs.</para>
+
+      <para>This graphic shows the layout of data content on disk:</para>
+
+      <figure>
+        <title>Web content file structure</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="design_files/directories.png" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para></para>
+
+      <para>The first task is to obtain the spatial location of the event from
+      the user. We do this by presenting a second map viewer with no pan or
+      zoom capability. The page has three radio buttons that the user selects
+      from to define the type of data being entered. These are &#34;Event
+      start point&#34;, &#34;Event end point&#34;, and &#34;Event route&#34;.
+      The start and end point button selections trigger a javascript function
+      that accepts the last mouse click as the point of interest. It also tags
+      the point as being either the start or end. The route selection triggers
+      a javascript function that allows the user to draw a line. There is also
+      a button that deletes the last feature drawn.</para>
+
+      <para>[TODO graphic: event entry ]</para>
+
+      <para>After the spatial data is entered, the user clicks a button to
+      move on to a non-spatial information entry form. The spatial data is
+      saved as hidden fields in this new form. Here the user enters HTML
+      fragments and uploads media files.</para>
+
+      <para>[TODO graphic: content entry]</para>
+
+      <para></para>
+
+      <para></para>
+    </section>
+  </section>
+
+  <bibliography>
+    <title>Bibliography</title>
+
+    <bibliomixed><bibliomset relation="specification"> <citetitle>Web Map
+    Service Implementation Specification</citetitle> <abbrev><ulink
+    url="http://www.opengis.org">OGC_WMS_Spec</ulink></abbrev><edition>1.1.0</edition>
+    <pubdate>June 12, 2001</pubdate> <publisher>
+    <publishername>OpenGIS Consortium, Inc.</publishername> </publisher>
+    <editor> <firstname>Jeff</firstname> <surname> de La Beaujardiére</surname></editor>
+    </bibliomset></bibliomixed>
+
+    <bibliomixed><bibliomset relation="software"> <citetitle>University of
+    Minnesota MapServer</citetitle> <abbrev><ulink
+    url="http://mapserver.gis.umn.edu/">UMN_Mapserver</ulink></abbrev><edition>3.6.5</edition>
+    <publisher> <publishername>University of Minnesota</publishername>
+    </publisher> </bibliomset></bibliomixed>
+
+    <bibliomixed><bibliomset relation="software"> <citetitle>PostGIS:
+    Geographic objects for PostgreSQL</citetitle> <abbrev><ulink
+    url="http://postgis.refractions.net/">PostGIS</ulink></abbrev><edition>0.7.5</edition>
+    </bibliomset></bibliomixed>
+
+    <bibliomixed><bibliomset relation="software"> <citetitle>GeoServer WFS</citetitle><abbrev><ulink
+    url="http://geoserver.sourceforge.net/html/index.php">GeoServer</ulink></abbrev><edition>0.95</edition>
+    </bibliomset></bibliomixed>
+
+    <bibliomixed><citetitle>PostGIS Web hosting from PgHoster</citetitle>
+    <abbrev><ulink url="http://www.pghoster.com">PostGIS_webhosting</ulink></abbrev></bibliomixed>
+  </bibliography>
+</article>
