@@ -1,5 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<ViewContext version="1.1.1" id="ows-context-tie" xmlns="http://www.opengis.net/context" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sld="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xsi:schemaLocation="http://www.opengis.net/context context.xsd">
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<OWSContext version="0.0.5"
+			    id="ows-context-tie"
+			    xmlns="http://www.opengis.net/context"
+			    xmlns:xlink="http://www.w3.org/1999/xlink"
+			    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			    xmlns:sld="http://www.opengis.net/sld"
+			    xmlns:ogc="http://www.opengis.net/ogc"
+			    xsi:schemaLocation="http://www.opengis.net/context context_0_0_5.xsd">
 	<General>
 		<Window width="500" height="300"/>
 		<BoundingBox SRS="EPSG:4326" minx="-71.1485566986829" miny="42.2593928033786" maxx="-71.0016725358029" maxy="42.4399863588876"/>
@@ -35,71 +42,100 @@
 			<ContactElectronicMailAddress>tom.kralidis@ec.gc.ca</ContactElectronicMailAddress>
 		</ContactInformation>
 	</General>
-	<ViewTypes>
-		<LayerList>
-			<Layer queryable="0" hidden="0">
-				<Server service="OGC:WMS" version="1.1.1" title="Cadcorp GeognoSIS.NET Web Map Service">
-					<OnlineResource xlink:type="simple" xlink:href="http://www.cadcorpdev.co.uk/massgis/wms.exe"/>
-				</Server>
-				<Name>BasemapRasterIndex</Name>
-				<Title>BasemapRasterIndex</Title>
-				<Abstract>MassGIS data served using Cadcorp GeognoSIS.NET. Data courtesy of Office of Geographic and Environmental Information (MassGIS), Commonwealth of Massachusetts 	Executive Office of Environmental Affairs.</Abstract>
-				<sld:MinScaleDenominator>100000</sld:MinScaleDenominator>
-				<sld:MaxScaleDenominator>5000</sld:MaxScaleDenominator>
-				<SRS>EPSG:4326</SRS>
-				<FormatList>
-					<Format current="1">image/gif</Format>
-					<Format>image/png</Format>
-					<Format>image/jpeg</Format>
-				</FormatList>
-				<StyleList>
-					<Style current="1">
-						<Name>default</Name>
-						<Title>default</Title>
-					</Style>
-				</StyleList>
-			</Layer>
-			<Layer queryable="0" hidden="0">
-				<Server service="OGC:WMS" version="1.1.1" title="Cadcorp GeognoSIS.NET Web Feature Service">
-					<OnlineResource xlink:type="simple" xlink:href="http://www.cadcorpdev.co.uk/massgis/wms.exe"/>
-				</Server>
-				<Name>TIGER</Name>
-				<Title>TIGER</Title>
-				<Abstract>MassGIS data served using Cadcorp GeognoSIS.NET. Data courtesy of Office of Geographic and Environmental Information (MassGIS), Commonwealth of Massachusetts 	Executive Office of Environmental Affairs.</Abstract>
-				<sld:MinScaleDenominator>100000</sld:MinScaleDenominator>
-				<sld:MaxScaleDenominator>5000</sld:MaxScaleDenominator>
-				<SRS>EPSG:4326</SRS>
-				<FormatList>
-					<Format current="1">image/gif</Format>
-					<Format>image/png</Format>
-					<Format>image/jpeg</Format>
-				</FormatList>
-				<StyleList>
-					<Style current="1">
-						<Name>default</Name>
-						<Title>default</Title>
-					</Style>
-				</StyleList>
-			</Layer>
-		</LayerList>
-		<FeatureTypeList>
-			<FeatureType>
-				<Server service="OGC:WFS" version="1.0.0" title="Cadcorp GeognoSIS.NET Web Feature Service">
-					<OnlineResource xlink:type="simple" xlink:href="http://www.cadcorpdev.co.uk/massgis/wms.exe"/>
-				</Server>
-				<Name>ns:Landuse__Lat_Lon_</Name>
-				<Title>Landuse (Lat/Lon)</Title>
-				<Abstract>Boston Landuse Polygons (Lat/Lon)</Abstract>
-				<sld:MinScaleDenominator>100000</sld:MinScaleDenominator>
-				<sld:MaxScaleDenominator>5000</sld:MaxScaleDenominator>
-				<SRS>EPSG:4326</SRS>
-				<ogc:Filter>
-					<ogc:PropertyIsEqualTo>
-						<ogc:PropertyName>YEAR</ogc:PropertyName>
-						<ogc:Literal>1999</ogc:Literal>
-					</ogc:PropertyIsEqualTo>
-				</ogc:Filter>
-			</FeatureType>
-		</FeatureTypeList>
-	</ViewTypes>
-</ViewContext>
+	<ResourceList>
+		<FeatureType hidden="0">
+			<Server service="OGC:GML" version="2.1.2" title="Cadcorp GeognoSIS.NET Web Feature Service">
+				<OnlineResource xlink:type="simple" xlink:href="http://www.cadcorpdev.co.uk/gml/MassGIS/LandUse.gml"/>
+			</Server>
+			<Name>Landuse</Name>
+			<Title>Landuse</Title>
+			<Abstract>Boston Landuse Polygons</Abstract>
+			<sld:MinScaleDenominator>50000</sld:MinScaleDenominator>
+			<sld:MaxScaleDenominator>5000</sld:MaxScaleDenominator>
+			<SRS>EPSG:26986</SRS>
+			<ogc:Filter>
+				<ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>YEAR</ogc:PropertyName>
+					<ogc:Literal>1999</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+			</ogc:Filter>
+		</FeatureType>
+		<Layer queryable="0" hidden="0">
+			<Server service="OGC:WMS" version="1.1.1" title="Boston on Oracle">
+				<OnlineResource xlink:type="simple" xlink:href="http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA"/>
+			</Server>
+			<Name>hydro</Name>
+			<Title>hydro</Title>
+			<Abstract/>
+			<sld:MinScaleDenominator>50000</sld:MinScaleDenominator>
+			<sld:MaxScaleDenominator>5000</sld:MaxScaleDenominator>
+			<SRS>EPSG:4326</SRS>
+			<FormatList>
+				<Format current="1">image/gif</Format>
+				<Format>image/png</Format>
+				<Format>image/jpeg</Format>
+			</FormatList>
+			<StyleList>
+				<Style current="1">
+					<Name>default</Name>
+					<Title>default</Title>
+				</Style>
+			</StyleList>
+		</Layer>
+		<Layer queryable="0" hidden="0">
+			<Server service="OGC:WMS" version="1.1.1" title="Boston on Oracle">
+				<OnlineResource xlink:type="simple" xlink:href="http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA"/>
+			</Server>
+			<Name>highways</Name>
+			<Title>highways</Title>
+			<Abstract/>
+			<sld:MinScaleDenominator>50000</sld:MinScaleDenominator>
+			<sld:MaxScaleDenominator>5000</sld:MaxScaleDenominator>
+			<SRS>EPSG:4326</SRS>
+			<FormatList>
+				<Format current="1">image/gif</Format>
+				<Format>image/png</Format>
+				<Format>image/jpeg</Format>
+			</FormatList>
+			<StyleList>
+				<Style current="1">
+					<Name>default</Name>
+					<Title>default</Title>
+				</Style>
+			</StyleList>
+		</Layer>
+		<FeatureType hidden="0">
+			<Server service="OGC:WFS" version="1.0.0" title="Boston on Oracle">
+				<OnlineResource xlink:type="simple" xlink:href="http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA"/>
+			</Server>
+			<Name>roads</Name>
+			<Title>roads</Title>
+			<Abstract/>
+			<sld:MinScaleDenominator>50000</sld:MinScaleDenominator>
+			<sld:MaxScaleDenominator>5000</sld:MaxScaleDenominator>
+			<SRS>EPSG:26986</SRS>
+		</FeatureType>
+		<Layer queryable="0" hidden="0">
+			<Server service="OGC:WMS" version="1.1.1" title="Boston on Oracle">
+				<OnlineResource xlink:type="simple" xlink:href="http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA"/>
+			</Server>
+			<Name>place_names</Name>
+			<Title>place_names</Title>
+			<Abstract/>
+			<sld:MinScaleDenominator>50000</sld:MinScaleDenominator>
+			<sld:MaxScaleDenominator>5000</sld:MaxScaleDenominator>
+			<SRS>EPSG:4326</SRS>
+			<FormatList>
+				<Format current="1">image/gif</Format>
+				<Format>image/png</Format>
+				<Format>image/jpeg</Format>
+			</FormatList>
+			<StyleList>
+				<Style current="1">
+					<Name>default</Name>
+					<Title>default</Title>
+				</Style>
+			</StyleList>
+		</Layer>
+	</ResourceList>
+</OWSContext>
