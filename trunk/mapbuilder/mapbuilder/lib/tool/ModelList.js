@@ -32,7 +32,6 @@ function ModelList(toolNode, parentWidget) {
   }
 
   //
-  alert("//mb:*[@id='"+this.targetModel.id+"']");
   this.targetModelNode = config.modelNode.selectSingleNode("//mb:*[@id='"+this.targetModel.id+"']");
 
   /**
@@ -54,8 +53,6 @@ function ModelList(toolNode, parentWidget) {
    */
   this.updateModel = function(model) {
     this.parentWidget.createQuery(model);
-    model.loadModelDoc(model);
-    alert("loaded:"+model.doc.xml);
   }
 
   /**
@@ -63,21 +60,26 @@ function ModelList(toolNode, parentWidget) {
    * @param objRef Pointer to this object.
    */
   this.appendModel = function(sourceNode) {
+    //make the URL valid so this isn't a template
+    this.targetModelNode.url=this.model.getServerUrl(sourceNode);
+
+    //assign an id to the mdoel created so it can be tied to the source node
+    this.targetModelNode.attributes.getNamedItem("id").nodeValue= "MbDynModel_" + mbIds.getId();
+
     var evalStr = "new " + this.targetModelNode.nodeName + "(this.targetModelNode,this.model);";
     var model = eval( evalStr );
     if ( model ) {
-alert("appending:"+evalStr+":"+model.id);
+      sourceNode.modelId = model.id;
       model.sourceNode=sourceNode;
-      //this.model[model.id] = model;
       this.models.push(model);
     } else { 
       alert("ModelList: error creating dynamic model object:" + tool.targetModelNode.nodeName);
     }
 
-    //add listeners for this new model instance
-    this.model.addListener("paint", this.updateModel, model);
-    this.updateModel(model);
+    this.parentWidget.createQuery(model);
   }
+  //add listeners for this new model instance
+  //this.model.addListener("paint", this.updateModel, model);
 
   /**
    * removes an instance of the targetModel model from the list

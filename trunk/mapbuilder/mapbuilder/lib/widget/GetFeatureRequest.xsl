@@ -31,7 +31,7 @@ $Name$
   <xsl:template match="/cml:ViewContext/cml:ResourceList/cml:FeatureType">
     <xsl:param name="resourceName" select="cml:Name"/>
     <xsl:param name="featureSrs" select="cml:SRS"/>
-    <GetFeature version="1.0.0" service="WFS" maxFeatures="50"
+    <GetFeature version="1.0.0" service="WFS" maxFeatures="5"
       xmlns="http://www.opengis.net/wfs"
       xmlns:ogc="http://www.opengis.net/ogc">
       <Query typeName="{$resourceName}">
