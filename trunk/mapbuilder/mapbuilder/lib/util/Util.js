@@ -84,7 +84,7 @@ function postLoad(sUri, docToSend ) {
    var outDoc = Sarissa.getDomDocument();
    var xmlHttp = Sarissa.getXmlHttpRequest();
    if ( sUri.indexOf("http://")==0 ) {
-     xmlHttp.open("POST", "/mapbuilder/proxy", false);
+     xmlHttp.open("POST", config.proxyUrl, false);
      xmlHttp.setRequestHeader("serverUrl",sUri);
    } else {
      xmlHttp.open("POST", sUri, false);
@@ -122,7 +122,7 @@ alert("after");
 function getProxyPlusUrl(url) {
   if ( url.indexOf("http://")==0 ) {
     if ( config.proxyUrl ) {
-      url=config.proxyUrl+escape(url).replace(/\+/g, '%2C').replace(/\"/g,'%22').replace(/\'/g, '%27');
+      url=config.proxyUrl+"?url="+escape(url).replace(/\+/g, '%2C').replace(/\"/g,'%22').replace(/\'/g, '%27');
     } else {
       alert("unable to load external document:"+url+"  Set the proxyUrl property in config.");
       url=null;
