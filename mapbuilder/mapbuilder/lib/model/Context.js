@@ -63,18 +63,6 @@ function Context(url) {
   // Add Listener Functions
   // ===============================
   /**
-   * Add a Listener for boundingBox change.
-   * @param listener The function to call when the boundingBox changes.
-   * @param target The object which owns the listener function.
-   */
-  this.addBoundingBoxChangeListener=function(listener,target) {
-    //cameron
-    //this.boundingBoxChangeListeners[this.boundingBoxChangeListeners.length]=
-    //  new Array(listener,target);
-    this.addListener("boundingBox",listener,target);
-  }
-
-  /**
    * Add a Listener for Hidden attribute.
    * @param listener The fuction to call when a hidden attribute changes.
    * The listener function should be of the form hiddenListener(layerId).
@@ -189,11 +177,6 @@ function Context(url) {
     bbox.setAttribute("maxx", boundingBox[2]);
     bbox.setAttribute("maxy", boundingBox[3]);
     // Call the listeners
-    // cameron
-    //for (var i=0; i<this.boundingBoxChangeListeners.length; i++) {
-    //  this.boundingBoxChangeListeners[i][0](
-    //    this.boundingBoxChangeListeners[i][1]);
-    //}
     this.callListeners("boundingBox");
   }
 

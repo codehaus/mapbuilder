@@ -80,19 +80,19 @@ function MapPane(widgetNode, group) {
     document.getElementById(layerIndex).style.visibility=vis;
   }
 
-
-
   /**
    * Called when the context's boundingBox attribute changes.
    * @param target This object.
    */
   this.boundingBoxChangeListener=function(target){
     target.paint();
-    //target.loadTools();
   }
 
+  /**
+   * Call all this object's listeners.
+   */
   this.addListeners = function() {
-    this.model.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
+    this.model.addListener("boundingBox",this.boundingBoxChangeListener,this);
     this.model.addHiddenListener(this.hiddenListener);
   }
 
