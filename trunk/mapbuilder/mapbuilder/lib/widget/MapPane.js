@@ -23,7 +23,7 @@ function MapPane(context, name, node) {
     node.style.position="absolute";
   }
   this.node=node;
-  this.wmcLayer2DhtmlLayer=new XslProcessor(this.context.baseDir+"/mappane/Context2MapPane.xml");
+  this.wmcLayer2DhtmlLayer=new XslProcessor(this.context.baseDir+"/widget/mappane/Context2MapPane.xml");
   Sarissa.setXslParameter(
     this.wmcLayer2DhtmlLayer.xslDom,
     "baseDir", "'"+this.context.baseDir+"'");

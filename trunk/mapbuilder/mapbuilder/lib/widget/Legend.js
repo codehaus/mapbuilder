@@ -24,7 +24,7 @@ function Legend(context, name, node) {
     node.style.overflow="auto";
   }
   this.node=node;
-  this.context2Legend=new XslProcessor(this.context.baseDir+"/legend/Context2Legend.xml");
+  this.context2Legend=new XslProcessor(this.context.baseDir+"/widget/legend/Context2Legend.xml");
 
   this.move=function(left,top) {
     this.node.style.left=left;

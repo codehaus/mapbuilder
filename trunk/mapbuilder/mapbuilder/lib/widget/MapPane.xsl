@@ -18,7 +18,7 @@ $Name$
   -->
 
   <!-- The coordinates of the DHTML Layer on the HTML page -->
-  <xsl:param name="baseDir" select="'../widget'"/>
+  <xsl:param name="baseDir" select="'../lib'"/>
 
   <xsl:param name="bbox">
     <xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@minx"/>,<xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@miny"/>,
@@ -40,12 +40,12 @@ $Name$
    
         <!-- Image used to accept mouse clicks.  -->
         <DIV STYLE="position:absolute; top:0; left:0;" ID="glass">
-          <IMG src="{$baseDir}/mappane/dot.gif" width="{$width}" height="{$height}"/>
+          <IMG src="{$baseDir}/widget/mappane/dot.gif" width="{$width}" height="{$height}"/>
         </DIV>    
       </DIV>
       <!-- insert spacer image that is used for positioning within HTML page -->
       <DIV>
-        <IMG src="{$baseDir}/mappane/dot.gif" width="{$width}" height="{$height}"/>
+        <IMG src="{$baseDir}/widget/mappane/dot.gif" width="{$width}" height="{$height}"/>
       </DIV>    
     </DIV>
   </xsl:template>
