@@ -22,13 +22,6 @@ function AoiBox(toolNode, parentWidget) {
   this.crossSize = 9;
 
   this.node = document.getElementById( parentWidget.containerId );
-  this.Top = this.getImageDiv( );
-  this.Bottom = this.getImageDiv( );
-  this.Left = this.getImageDiv( );
-  this.Right = this.getImageDiv( );
-  this.ul = new Array(0,0);
-  this.lr = new Array(0,0);
-
 /** Hide or show the box
   * @param vis    boolean true for visible; false for hidden
   * @return       none
@@ -130,9 +123,9 @@ function AoiBox(toolNode, parentWidget) {
   * @param lr    lower right pixel/line coordinates
   * @return       none
   */
-  this.drawCross = function(ul, lr) {
-    this.ul = ul;
-    this.lr = lr;
+  this.drawCross = function(center) {
+    //this.ul = center;
+    //this.lr = cen;
 
     this.Top.style.left = Math.floor( (this.ul[0]+this.lr[0] - this.crossSize)/2);
     this.Top.style.top = Math.floor( (this.ul[1]+this.lr[1] + this.crossSize)/2);
@@ -220,7 +213,7 @@ function AoiBox(toolNode, parentWidget) {
   this.getImageDiv = function( ) {
     var newDiv = document.createElement("DIV");
     newDiv.innerHTML = "&nbsp;";
-    newDiv.style.position = "relative";
+    newDiv.style.position = "absolute";
     newDiv.style.backgroundColor = this.lineColor;
     //newDiv.style.zIndex = 300;
     newDiv.style.visibility = "hidden";
@@ -239,10 +232,19 @@ function AoiBox(toolNode, parentWidget) {
   }
 
 
+  this.Top = this.getImageDiv( );
+  this.Bottom = this.getImageDiv( );
+  this.Left = this.getImageDiv( );
+  this.Right = this.getImageDiv( );
+  this.ul = new Array(0,0);
+  this.lr = new Array(0,0);
 
   //test case
-  this.drawBox( new Array(50,50), new Array(200,200) );
-alert("!");
+  this.drawBox( new Array(2,2), new Array(200,200) );
+alert("AOIBox test");
+  this.drawCross( new Array(75,75) );
+alert("AOIBox test");
+  this.anchorPoint = new Array(75,75);
   this.dragBox( new Array(300, 100) );
 }
 

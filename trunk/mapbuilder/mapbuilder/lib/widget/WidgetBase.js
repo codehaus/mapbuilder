@@ -15,7 +15,7 @@ $Id$
  * @param id            ID of the page element where the widget will be rendered
  * @param stylesheetUrl URL for the stylesheet to process the model
  */
-function WidgetBase(widgetNode) {
+function WidgetBase(widgetNode, group) {
   if ( arguments.length > 0 ) {
 
   this.id = widgetNode.attributes.getNamedItem("id").nodeValue;
@@ -23,6 +23,8 @@ function WidgetBase(widgetNode) {
   if( this.node==null ) {
     alert("HTML node for " + widgetNode.nodeName + " not found: id:" + this.id);
   }
+  this.parentGroup = group;
+  this.model = group.model;
 
   var styleNode = widgetNode.selectSingleNode("stylesheet");
   if ( styleNode ) this.stylesheet = new XslProcessor( config.baseDir + styleNode.firstChild.nodeValue );

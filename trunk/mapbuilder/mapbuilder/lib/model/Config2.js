@@ -52,11 +52,10 @@ function Config(url) {
         var widgetNode = widgets[j];
 
         //call the widget constructor and paint
-        var evalStr = "new " + widgetNode.nodeName + "(widgetNode);";
+        var evalStr = "new " + widgetNode.nodeName + "(widgetNode, group);";
         //alert("Config.loadWidgets eval:" + evalStr);
         var widget = eval( evalStr );
         widget.modelType = group.modelType;
-        widget.model = group.model;
 
         widget.paint();
         //this has to be called after widgets are painted
