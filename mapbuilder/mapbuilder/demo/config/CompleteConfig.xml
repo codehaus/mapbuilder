@@ -124,6 +124,14 @@
           <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
           <tooltip>reset the map to full extent</tooltip>
         </Reset>
+        <Query id="query">
+          <class>RadioButton</class>
+          <mouseHandler>mainMap.mainMapPane</mouseHandler>
+          <dependsOn>mainMap.mainMapPane.MouseClickHandler</dependsOn>
+          <enabledSrc>/images/QueryEnable.gif</enabledSrc>
+          <disabledSrc>/images/QueryDisable.gif</disabledSrc>
+          <tooltip>click on feature for more info</tooltip>
+        </Query>
       </tools>
     </ButtonBar>
   </widgets>
