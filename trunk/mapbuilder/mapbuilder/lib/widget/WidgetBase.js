@@ -31,8 +31,8 @@ function WidgetBase(widgetNode, model) {
     var styleNode = widgetNode.selectSingleNode("stylesheet");
     var styleUrl;
     if ( styleNode ) styleUrl = styleNode.firstChild.nodeValue;
-    else styleUrl = "widget/"+widgetNode.nodeName+".xsl";
-    this.stylesheet = new XslProcessor(baseDir+"/"+styleUrl);
+    else styleUrl = baseDir+"/widget/"+widgetNode.nodeName+".xsl";
+    this.stylesheet = new XslProcessor(styleUrl);
 
     var targetGroup = widgetNode.selectSingleNode("targetWidgetGroup");
     if ( targetGroup ) this.targetGroup = targetGroup.firstChild.nodeValue;
