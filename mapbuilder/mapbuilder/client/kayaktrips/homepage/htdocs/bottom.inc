@@ -10,9 +10,9 @@ border="0" alt="Developed under SourceForge"></a><br>Development Env
 <a href="http://geotools.sourceforge.net"><img
 src="http://www.ccg.leeds.ac.uk/geotools/demos/linked/geotools.jpg"
 alt="Powered by Geotools" width="116" height="24" align="middle"
-border="0"></a><br>Applet Viewer
+border="0"></a><br>Applet Map Viewer
 </td><td>
-<a href="http://mapserver.gis.umn.edu">mapserv</a><br>Web Map Server
+<a href="http://mapserver.gis.umn.edu">mapserv</a><br>Web Map Server &amp; Viewer
 </td><td>
 <a href="http://sf.net/projects/freefs">FreeFS</a><br>Web Feature Server
 </td><td>
