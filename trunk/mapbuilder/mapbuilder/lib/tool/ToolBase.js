@@ -18,18 +18,27 @@ function ToolBase(toolNode, parentWidget) {
   var id = toolNode.selectSingleNode("@id");
   if (id) this.id = id.firstChild.nodeValue;
 
+  //mouse handler which this tool will register listeners with
   var mouseHandler = toolNode.selectSingleNode("mouseHandler");
   if (mouseHandler) this.mouseHandler = eval(mouseHandler.firstChild.nodeValue);
 
-  this.enabled = true;    //tools enabled by default; can turn off in config for initial loading
+  //dependant tools that must be enabled/disabled when this tool is enabled
+  this.dependancies = toolNode.getElementsByTagName("dependsOn");
+
+  //tools enabled by default; can set to false in config for initial loading
+  this.enabled = true;    
   var enabled = toolNode.selectSingleNode("enabled");
   if (enabled) this.enabled = eval(enabled.firstChild.nodeValue);
 
   /**
-   * enable or disable this tool from procesing mouse events.
+   * enable or disable this tool and any dependant tools 
    * @param enabled   set to true or false to enable or disable
    */
   this.enable = function(enabled) {
     this.enabled = enabled;
+    for (var i=0; i<this.dependancies.length; ++i) {
+      var otherTool = eval(this.dependancies[i].firstChild.nodeValue);
+      otherTool.enable(enabled);
+    }
   }
 }

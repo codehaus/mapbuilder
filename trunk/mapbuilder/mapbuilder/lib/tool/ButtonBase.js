@@ -68,7 +68,9 @@ function ButtonBase(toolNode, parentWidget) {
     //enable this tool and any dependancies
     this.enable(true);
 
-    if (this.mouseHandler==null) {
+    if (this.mouseHandler) {
+      //let the mousehandler call doAction
+    } else {
       this.doAction(this);
     }
   }

@@ -24,15 +24,15 @@
       <widgets>
         <MapPane id="mainMapPaneId">
           <tools> 
+            <AoiMouseHandler/>
             <AoiBox>
               <lineColor>#FF0000</lineColor>
               <lineWidth>2</lineWidth>
               <crossSize>1</crossSize>
             </AoiBox>
-            <AoiMouseHandler/>
-            <!--DragPanHandler>
+            <DragPanHandler>
               <enabled>false</enabled>
-            </DragPanHandler-->
+            </DragPanHandler>
             
           </tools> 
         </MapPane>
@@ -50,6 +50,8 @@
               <class>RadioButton</class>
               <selected>true</selected>
               <mouseHandler>config['mainMapGroup']['mainMapPaneId']</mouseHandler>
+              <dependsOn>config['mainMapGroup']['mainMapPaneId']['AoiMouseHandler']</dependsOn>
+              <dependsOn>config['mainMapGroup']['mainMapPaneId']['AoiBox']</dependsOn>
               <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
               <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
               <tooltip>click and drag to zoom in</tooltip>
@@ -57,6 +59,8 @@
             <ZoomOut id="zoomOut">
               <class>RadioButton</class>
               <mouseHandler>config['mainMapGroup']['mainMapPaneId']</mouseHandler>
+              <dependsOn>config['mainMapGroup']['mainMapPaneId']['AoiMouseHandler']</dependsOn>
+              <dependsOn>config['mainMapGroup']['mainMapPaneId']['AoiBox']</dependsOn>
               <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
               <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
               <tooltip>click to zoom out</tooltip>
@@ -64,6 +68,7 @@
             <!--DragPan id="dragPan">
               <class>RadioButton</class>
               <mouseHandler>config['mainMapGroup']['mainMapPaneId']</mouseHandler>
+              <dependsOn>config['mainMapGroup']['mainMapPaneId']['DragPanHandler']</dependsOn>
               <enabledSrc>/images/PanEnable.gif</enabledSrc>
               <disabledSrc>/images/PanDisable.gif</disabledSrc>
               <tooltip>click and drag to pan</tooltip>
