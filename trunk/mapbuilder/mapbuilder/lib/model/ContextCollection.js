@@ -11,9 +11,9 @@ $Id$
  * @requires Sarissa
  * @param url Url of context collection document
  */
-function ContextCollection(url) {
+function ContextCollection(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(url);
+  var modelBase = new ModelBase(modelNode, parent);
   for (sProperty in modelBase) { 
     this[sProperty] = modelBase[sProperty]; 
   }

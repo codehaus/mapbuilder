@@ -33,7 +33,7 @@ function MapPane(widgetNode, group) {
     //these added to the containerNode because they will be referenced in that context
     objRef.containerNode = document.getElementById( objRef.containerId );
     objRef.containerNode.parentObject = objRef;
-    objRef.containerNode.extent = objRef.model.extent;
+    objRef.containerNode.extent = new Extent( objRef.model );
     objRef.containerNode.onmousemove = mouseMoveHandler;
     objRef.containerNode.onmouseout = mouseOutHandler;
     objRef.containerNode.onmouseover = mouseOverHandler;

@@ -12,10 +12,10 @@ $Id$
  * @author Mike Adair 
  * @param widgetNode The Widget's XML object node from the configuration
  *     document.
- * @param group      The ModelGroup XML object from the configuration
- *     document that this widget will update.
+ * @param model      The javascript model object from the configuration
+ *                    document that this widget belongs to.
  */
-function WidgetBase(widgetNode, group) {
+function WidgetBase(widgetNode, model) {
   if ( arguments.length > 0 ) {   //need this for .prototype?
 
     this.id = widgetNode.attributes.getNamedItem("id").nodeValue;
@@ -23,8 +23,7 @@ function WidgetBase(widgetNode, group) {
     if( this.node==null ) {
       alert("HTML node for " + widgetNode.nodeName + " not found: id:" + this.id);
     }
-    this.parentGroup = group;
-    this.model = group.model;
+    this.model = model;
     this.widgetNode = widgetNode;
 
     var styleNode = widgetNode.selectSingleNode("stylesheet");

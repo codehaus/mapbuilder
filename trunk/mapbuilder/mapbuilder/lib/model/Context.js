@@ -18,9 +18,9 @@ $Id$
  * @see ModelBase
  * @see Listener
  */
-function Context(url) {
+function Context(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(url);
+  var modelBase = new ModelBase(modelNode, parent);
   for (sProperty in modelBase) { 
     this[sProperty] = modelBase[sProperty]; 
   }
@@ -217,10 +217,10 @@ function Context(url) {
   }
 
   //add the extent property
-  this.extent = new Extent( this );
+  //this.extent = new Extent( this );
 
   //make a copy in the constructor for reset function
-  this.originalExtent = new Extent( this );   
+  //his.originalExtent = new Extent( this );   
 
   /**
    * Set the end point for an Area Of Interest Box and call aoiListeners,
