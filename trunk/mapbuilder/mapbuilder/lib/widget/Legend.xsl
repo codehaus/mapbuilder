@@ -4,6 +4,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:gml='http://www.opengis.net/gml' 
     xmlns:wfs='http://www.opengis.net/wfs'
+    xmlns:xlink='http://www.w3.org/1999/xlink'
     version="1.0">
 <!--
 Description: Convert a Web Map Context into a HTML Legend
@@ -98,6 +99,19 @@ $Name$
             <xsl:value-of select="wmc:Title"/>
           </xsl:otherwise>
         </xsl:choose>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>
+      <xsl:if test="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL"> 
+          <xsl:element name="IMG">
+              <xsl:attribute name="SRC">
+                <xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL/wmc:OnlineResource/@xlink:href"/> 
+              </xsl:attribute>
+          </xsl:element>
+         </xsl:if>
       </td>
     </tr>
   </xsl:template>
