@@ -18,8 +18,6 @@
 
       <defaultModelUrl>../data/context/atlasWorld.xml</defaultModelUrl>
 
-      
-
       <widgets>
 
         <MapPane id="mainMapWidget">
@@ -38,7 +36,7 @@
 
         </ModelUrlInput>
 
-        <AoiBoxWZ id="aoiBox2">
+        <AoiBoxDHTML id="aoiBox2">
 
           <htmlTagId>mainMapPane</htmlTagId>
 
@@ -52,7 +50,7 @@
 
           <mapContainerId>mainMapContainer</mapContainerId>
 
-        </AoiBoxWZ>
+        </AoiBoxDHTML>
 
         
 
@@ -141,6 +139,24 @@
       <tooltip xml:lang="fr">cliquer et faire glisser la souris pour voir un autre parti de la carte</tooltip>
 
     </DragPan>
+
+    <SetAoi id="setAoi">
+
+      <buttonBar>mainButtonBar</buttonBar>
+
+      <targetModel>mainMap</targetModel>
+
+      <mouseHandler>mainAoi</mouseHandler>
+
+      <class>RadioButton</class>
+
+      <enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
+
+      <disabledSrc>/images/SetAoiDisable.gif</disabledSrc>
+
+      <tooltip xml:lang="en">click and drag to set the area of interest</tooltip>
+
+    </SetAoi>
 
     <Reset id="reset">
 
