@@ -24,7 +24,7 @@
 
         <TimeSeries id="mainMapWidget">
 
-          <stylesheet>/mapbuilder/lib/widget/MapPane.xsl</stylesheet>
+          <stylesheet>../../lib/widget/MapPane.xsl</stylesheet>
 
           <htmlTagId>mainMapPane</htmlTagId>
 
@@ -36,7 +36,7 @@
 
           <htmlTagId>mainMapPane</htmlTagId>
 
-          <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
+          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
 
           <lineColor>#FF0000</lineColor>
 
@@ -62,7 +62,7 @@
 
         <Widget id="mapTitle">
 
-          <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
+          <stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
 
         </Widget>
 
@@ -156,7 +156,7 @@
 
           <outputNodeId>workspaceCanvas</outputNodeId>
 
-          <stylesheet>/mapbuilder/lib/widget/SelectMapLayers.xsl</stylesheet>
+          <stylesheet>../../lib/widget/SelectMapLayers.xsl</stylesheet>
 
         </Widget>
 
@@ -328,11 +328,11 @@
 
   </widgets>
 
-  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+  <skinDir>../../lib/skin/default</skinDir>
 
-  <proxyUrl>/mapbuilder/proxy</proxyUrl>
+  <proxyUrl>../../proxy</proxyUrl>
 
-  <serializeUrl>/mapbuilder/writeXml</serializeUrl>
+  <serializeUrl>../../writeXml</serializeUrl>
 
 
 
