@@ -5,6 +5,7 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/tool/Extent.js");
 
 /**
  * Base class for a MapContainer.  Widgets extending this class will have their
