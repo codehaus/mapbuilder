@@ -88,12 +88,12 @@ function WebServiceRequest(toolNode, model) {
     requestStylesheet.setParameter("httpMethod", httpPayload.method );
     if (targetModel.containerModel) {
       var bBox = targetModel.containerModel.getBoundingBox();
-      var bboxStr = bBox[0]+","+bBox[1]+","+bBox[2]+","+bBox[3];
+      var bboxStr = bBox[0]+","+bBox[1]+" "+bBox[2]+","+bBox[3];
       requestStylesheet.setParameter("bbox", bboxStr );
+      requestStylesheet.setParameter("srs", targetModel.containerModel.getSRS() );
     }
     httpPayload.postData = requestStylesheet.transformNodeToObject(feature);
     if (this.debug) alert("request data:"+httpPayload.postData.xml);
-alert("request data:"+httpPayload.postData.xml);
     if (serverUrl) {
       httpPayload.url = serverUrl;
     } else {
