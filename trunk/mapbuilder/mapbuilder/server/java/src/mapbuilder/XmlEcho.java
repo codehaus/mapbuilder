@@ -30,19 +30,29 @@ import javax.servlet.http.*;
 
 
 
+// import log4j packages
+
+import org.apache.log4j.Logger;
+
+import org.apache.log4j.PropertyConfigurator;
+
+
+
 public class XmlEcho extends HttpServlet
 
 {
 
 
 
+	private final static Logger log =	Logger.getLogger(XmlEcho.class);
+
+  
+
 //---------------------------------------------------------------------------
 
 // Public Methods
 
 //----------------------------------------------------------------------------
-
-  public static final String XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"yes\" ?>";
 
 
 

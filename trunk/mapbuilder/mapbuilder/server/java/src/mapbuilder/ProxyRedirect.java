@@ -38,6 +38,14 @@ import org.apache.commons.httpclient.methods.GetMethod;
 
 
 
+// import log4j packages
+
+import org.apache.log4j.Logger;
+
+import org.apache.log4j.PropertyConfigurator;
+
+
+
 
 
 public class ProxyRedirect extends HttpServlet
@@ -46,19 +54,17 @@ public class ProxyRedirect extends HttpServlet
 
 
 
+	private final static Logger log =	Logger.getLogger(ProxyRedirect.class);
+
+  
+
 //---------------------------------------------------------------------------
 
 // Public Methods
 
 //----------------------------------------------------------------------------
 
-  public boolean debug_ = false;
-
-  public String outputDir_ = null;
-
   public ServletContext context_ = null;
-
-  public static final String XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"yes\" ?>";
 
 
 
@@ -76,11 +82,9 @@ public class ProxyRedirect extends HttpServlet
 
     super.init( config );
 
-    debug_ = new Boolean(config.getInitParameter( "debug" )).booleanValue();
-
-    outputDir_ = config.getInitParameter( "outputDir" );
-
     context_ = config.getServletContext();
+
+    log.info("mapbuilder.ProxyRedirect: context initialized to:" + context_.getServletContextName());
 
   }
 
@@ -100,7 +104,7 @@ public class ProxyRedirect extends HttpServlet
 
     try {
 
-      if (debug_) {
+      if (log.isDebugEnabled()) {
 
         Enumeration e = request.getHeaderNames();
 
@@ -110,7 +114,7 @@ public class ProxyRedirect extends HttpServlet
 
           String value = request.getHeader(name);
 
-          System.err.println("request header:" + name + ":" + value);
+          log.debug("request header:" + name + ":" + value);
 
         }
 
@@ -120,7 +124,7 @@ public class ProxyRedirect extends HttpServlet
 
       // Transfer bytes from in to out
 
-      if (debug_) System.err.println("HTTP GET: transferring...");
+      log.debug("HTTP GET: transferring...");
 
       
 
@@ -128,7 +132,7 @@ public class ProxyRedirect extends HttpServlet
 
       String serverUrl = request.getParameter("url");
 
-      if (debug_) System.err.println("params:" + serverUrl);
+      log.debug("GET param serverUrl:" + serverUrl);
 
       HttpClient client = new HttpClient();
 
@@ -150,7 +154,7 @@ public class ProxyRedirect extends HttpServlet
 
         response.setContentLength(responseBody.length());
 
-        if (debug_) System.err.println("responseBody:" + responseBody);
+        log.debug("responseBody:" + responseBody);
 
         PrintWriter out = response.getWriter();
 
@@ -160,7 +164,7 @@ public class ProxyRedirect extends HttpServlet
 
       } else {
 
-        System.err.println("Unexpected failure: " + httpget.getStatusLine().toString());
+        log.error("Unexpected failure: " + httpget.getStatusLine().toString());
 
       }
 
@@ -196,15 +200,19 @@ public class ProxyRedirect extends HttpServlet
 
     try {
 
-      Enumeration e = request.getHeaderNames();
+      if (log.isDebugEnabled()) {
 
-      while (e.hasMoreElements()) {
+        Enumeration e = request.getHeaderNames();
+
+        while (e.hasMoreElements()) {
 
           String name = (String)e.nextElement();
 
           String value = request.getHeader(name);
 
-          System.err.println("request header:" + name + ":" + value);
+          log.debug("request header:" + name + ":" + value);
+
+        }
 
       }
 
@@ -212,7 +220,7 @@ public class ProxyRedirect extends HttpServlet
 
       // Transfer bytes from in to out
 
-      if (debug_) System.err.println("transfering...");
+      log.debug("HTTP POST transfering...");
 
       PrintWriter out = response.getWriter();
 
@@ -244,13 +252,13 @@ public class ProxyRedirect extends HttpServlet
 
         String responseBody = httppost.getResponseBodyAsString();
 
-        if (debug_) System.err.println("responseBody:" + responseBody);
+        log.debug("responseBody:" + responseBody);
 
         out.print( responseBody );
 
       } else {
 
-        System.err.println("Unexpected failure: " + httppost.getStatusLine().toString());
+        log.error("Unexpected failure: " + httppost.getStatusLine().toString());
 
       }
 
