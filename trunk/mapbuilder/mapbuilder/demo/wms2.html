@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--
+Description: A Browser based Web Map Server Client based on javascript and XSL
+             libraries from http://mapbuilder.sourceforge.net .
+Usage:       Call http://hostname/dir/wms.html?context=UrlOfContext
+             or http://hostname/dir/wms.html (and a default context is used)
+Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+
+$Id$
+$Name$
+-->
+
+<html>
+  <head>
+    <title>WMS Client</title>
+    <script type="text/javascript" src="../util/sarissa/Sarissa.js"></script>
+    <script type="text/javascript" src="../widget/context/Context.js"></script>
+    <script type="text/javascript" src="../widget/mappane/MapPane.js"></script>
+    <script type="text/javascript" src="../widget/legend/Legend.js"></script>
+    <script type="text/javascript" src="../widget/tool/PanTool.js"></script>
+    <script type="text/javascript" src="../widget/tool/ZoomTool.js"></script>
+    <script type="text/javascript" src="../widget/util/Util.js"></script>
+    <style type="text/css">
+      h1 {
+        color: red;
+        background-color: silver;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1><a href="http://mapbuilder.sourceforge.net">Mapbuilder</a>
+      Web Map Server Client</h1>
+    <div id="contextDiv"></div>
+    <table>
+      <tr><th>MapPane</th><th>Legend</td></tr>
+      <tr>
+        <td valign="top">
+          <div id="legendDiv"></div>
+        </td>
+        <td valign="top">
+          <div id="mapPaneDiv"></div>
+          <!--
+          <img src="../widget/mappane/frog.gif" width=500 height=300 />
+          -->
+        </td>
+      </tr>
+    </table>
+    <!--
+    <div id="panToolDiv"></div>
+    <p>After pan</p>
+    <div id="zoomToolDiv"></div>
+    <p>After zoom</p>
+    -->
+    <p><i>A <a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Project</i></p>
+    <script>
+      // Base Mapbuilder library directory
+      baseDir="../widget";
+
+
+      // Get the CGI parameters.  If context is not defined, then set a default.
+      cgiArgs=getArgs();
+      if (!cgiArgs.context) {
+        cgiArgs.context="wmc.xml";
+      }
+
+      // Load a Web Map Context document as defined by:
+      // http://www.opengis.org/docs/03-036r2.pdf
+      context=new Context(
+        cgiArgs.context,
+        "context",
+        document.getElementById("contextDiv"),
+        baseDir,
+        "basic");
+
+      // Create and render a MapPane
+      mapPane=new MapPane(
+        context,
+        "mapPane",
+        document.getElementById("mapPaneDiv"));
+      mapPane.paint();
+
+      // Create and render a Legend
+      legend=new Legend(
+        context,
+        "legend",
+        document.getElementById("legendDiv"));
+      legend.paint();
+
+      // Create and render a PanTool
+      panTool=new PanTool(
+        context,
+        "panTool",
+        document.getElementById("panTool"));
+      panTool.paint();
+
+      // Create and render a ZoomTool
+      zoomTool=new ZoomTool(
+        context,
+        "zoomTool",
+        document.getElementById("panTool"));
+      zoomTool.paint();
+    </script>
+  </body>
+</html>
