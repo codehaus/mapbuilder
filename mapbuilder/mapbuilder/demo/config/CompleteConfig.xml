@@ -114,30 +114,30 @@
       </widgets>
     </Gml2>
     
-		<ModelBase id="locations">
-			<defaultModelUrl>locations/Global.xml</defaultModelUrl>
-			<widgets>
-				<Locations id="locationsSelect">
+    <ModelBase id="locations">
+      <defaultModelUrl>locations/Global.xml</defaultModelUrl>
+      <widgets>
+        <Locations id="locationsSelect">
           <htmlTagId>locationsSelect</htmlTagId>
-					<targetModel>mainMap</targetModel>
-					<stylesheet>../lib/widget/Locations.xsl</stylesheet>
+          <targetModel>mainMap</targetModel>
+          <stylesheet>../lib/widget/Locations.xsl</stylesheet>
           <tools> 
            <ZoomToAoi>
               <targetModel>mainMap</targetModel>
             </ZoomToAoi>
           </tools> 
-				</Locations>
-			</widgets>
-		</ModelBase>
+        </Locations>
+      </widgets>
+    </ModelBase>
     
-		<Gml2 id="ntsGml">
-			<!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
-			<widgets>
+    <Gml2 id="ntsGml">
+      <!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
+      <widgets>
         <Gml2Render id="mainMapPane">
           <htmlTagId>mainMapPane</htmlTagId>
         </Gml2Render>
-			</widgets>
-		</Gml2>
+      </widgets>
+    </Gml2>
   </models>
 
   <widgets>
@@ -206,8 +206,8 @@
     
     <WebServiceForm id="ntsLookupForm">
       <htmlTagId>ntsLookupForm</htmlTagId>
-			<stylesheet>../lib/widget/NtsForm.xsl</stylesheet>
-			<webServiceUrl>http://geoservices.cgdi.ca/NTS/NTSLookup</webServiceUrl>
+      <stylesheet>../lib/widget/NtsForm.xsl</stylesheet>
+      <webServiceUrl>http://geoservices.cgdi.ca/NTS/NTSLookup</webServiceUrl>
       <targetModel>ntsGml</targetModel>
     </WebServiceForm>
     
