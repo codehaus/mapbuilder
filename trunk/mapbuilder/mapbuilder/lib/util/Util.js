@@ -48,8 +48,16 @@ function XslProcessor(xslUrl) {
     var result = Sarissa.getDomDocument();
     result.async = false;
     result.validateOnParse = false;
-    xmlNode.transformNodeToObject(this.xslDom,result);
-    return result;
+
+  		var xsltProcessor = null;
+			xsltProcessor = new XSLTProcessor();
+     	xsltProcessor.importStylesheet(this.xslDom);
+      //var newFragment = xsltProcessor.transformToFragment(this, oResult);
+      var newFragment = xsltProcessor.transformToDocument(xmlNode);
+      return newFragment;
+
+    //xmlNode.transformNodeToObject(this.xslDom,result);
+    //return result;
   }
 
   /**
@@ -67,9 +75,10 @@ function XslProcessor(xslUrl) {
 function postLoad(sUri, docToSend ) {
    var xmlHttp = Sarissa.getXmlHttpRequest();
    xmlHttp.open("POST", sUri, false);
+   xmlHttp.setRequestHeader("content-type","text/xml");
    xmlHttp.send( docToSend );
    //alert(xmlHttp.getResponseHeader("Content-Type"));
-   if ( null==xmlHttp.responseXML ) alert( "null response" );
+   if ( null==xmlHttp.responseXML ) alert( "null response:" + xmlHttp.responseText );
 
    //copy to Sarissa document from a HttpRequest object
    var outDoc = Sarissa.getDomDocument();

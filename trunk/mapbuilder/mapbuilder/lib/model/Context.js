@@ -177,31 +177,14 @@ function Context(modelNode) {
     win.setAttribute("height", height);
   }
 
-  this.prepareFeatures = function(objRef) {
-    var featureList = objRef.doc.selectNodes("/cml:ViewContext/cml:ResourceList/cml:FeatureType[cml:Server/@service='OGC:WFS']");
+  this.getFeatureList = function() {
+    var featureList = this.doc.selectNodes("/cml:ViewContext/cml:ResourceList/cml:FeatureType[cml:Server/@service='OGC:WFS']");
     for (var i=0; i<featureList.length; i++) {
       var feature = featureList[i];
-      var serverUrl = feature.selectSingleNode("cml:Server/cml:OnlineResource").getAttribute("xlink:href");
-      var version = feature.selectSingleNode("cml:Server").getAttribute("version");
-      var firstJoin = serverUrl.indexOf("?")<0 ? "?" : "&";
-      var featureType = feature.selectSingleNode("Name");
-      var describeFeatureUrl = serverUrl + firstJoin + version + "&REQUEST=DESCRIBEFEATURETYPE" + "&SERVICE=WFS" + "&TYPENAME=" + featureType;
-
-      var configModelNode = config.doc.selectSingleNode("//models/DescribeFeatureType");
-      var model = new DescribeFeatureType(configModelNode);
-      var modelId = "1234"
-      if ( model ) {
-        alert("model created");
-        config[modelId] = model;
-        config.loadModel( modelId, describeFeatureUrl );
-        alert("retrieved:"+config[modelId].doc.xml);
-      } else { 
-        alert("error creating DescribeFeatureType model object");
-      }
+      feature.serverUrl = feature.selectSingleNode("cml:Server/cml:OnlineResource").getAttribute("xlink:href");
     }
+    return featureList;
   }
-  //this.addListener("loadModel",this.prepareFeatures, this);
   
-
 }
 

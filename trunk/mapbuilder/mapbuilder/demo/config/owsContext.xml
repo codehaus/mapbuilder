@@ -56,14 +56,15 @@
         </WidgetBase>
 
 				<PostFeatureRequest>
-          <targetModel>features</targetModel>
+          <debug/>
+          <targetModel>gml2FeatureTemplate</targetModel>
 				</PostFeatureRequest>
         
       </widgets>
         
     </Context>
       
-		<Gml2 id="features">
+		<Gml2 id="gml2FeatureTemplate">
 			<widgets>
 				<GmlRenderer id="testGmlRenderer">
           <debug/>
@@ -99,21 +100,21 @@
       </widgets>
     </Context>
     
+  <!-- use this with a WFS capabilities model 
 		<DescribeFeatureType id="featureTypes">
 			<widgets>
-        <!-- will probably need to add support for OGC <filter> expressions
-        -->
-				<!--GetFeatureRequest>
+				<GetFeatureRequest>
           <targetModel>new Gml2</targetModel>
-				</GetFeatureRequest-->
+				</GetFeatureRequest>
 				<PostFeatureRequest>
           <targetModel>features</targetModel>
 				</PostFeatureRequest>
-				<!--SelectAttributes id="attributeSelector">
-          a widget to 
-				</SelectAttributes-->
+				<SelectAttributes id="attributeSelector">
+          a widget to select the attributes to be requested
+				</SelectAttributes>
 			</widgets>
 		</DescribeFeatureType>
+  -->
     
   </models>
 

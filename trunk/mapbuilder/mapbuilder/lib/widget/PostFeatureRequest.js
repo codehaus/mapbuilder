@@ -78,16 +78,44 @@ function PostFeatureRequest(widgetNode, model) {
   this.stylesheet.setParameter("skinDir", config.skinDir );
   this.stylesheet.setParameter("lang", config.lang );
 
+  this.paint = function() { }
+
   /**
    * Render the widget.
    * @param objRef Pointer to this object.
    */
-  this.paint = function(objRef) {
-    if (objRef.model.doc) {
+  this.loadFeature = function(objRef, modelId, feature) {
+    var model = objRef.model[modelId];
+    if (model) {
 
       //confirm inputs
-      if (objRef.debug) alert("source:"+objRef.model.doc.xml);
+      if (objRef.debug) alert("source:"+feature.xml);
       if (objRef.debug) alert("stylesheet:"+objRef.stylesheet.xslDom.xml);
+
+      //process the doc with the stylesheet
+      //var newDoc = objRef.stylesheet.transformNodeToObject(feature);
+      var newDoc = objRef.stylesheet.transformNodeToObject(feature);
+      if (objRef.debug) alert("posting:"+objRef.id+":"+newDoc.xml);
+
+      //var serverUrl = "http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA";
+      //var serverUrl = "http://www.cadcorpdev.co.uk/massgis/wfs.exe";
+      var serverUrl = feature.serverUrl;
+      //var serverUrl = "/mapbuilder/writeXml";
+      model.loadModelDoc(serverUrl,newDoc);
+      alert("loaded:"+model.doc.xml);
+      model.callListeners("loadModel");
+    } else {
+      alert("loadFeature: unable to locate model:" + modelId);
+    }
+  }
+
+  /**
+   * Instantiate all the child tools of this widget.
+   */
+  this.loadFeatureList = function(objRef) {
+    var featureList = objRef.model.getFeatureList();
+    for (var i=0; i<featureList.length; i++) {
+      var feature = featureList[i];
 
       //instantiate the Model object
       //var modelNode = config.doc.getElementById(objRef.targetModel);  //not sure why getEleById doesn't work with the config doc
@@ -97,25 +125,18 @@ function PostFeatureRequest(widgetNode, model) {
       if ( model ) {
         //auto generated ID assigned to this model
         model.id = "MbModel_" + mbIds.getId();
-        config[model.id] = model;
+        objRef.model[model.id] = model;
       } else { 
         alert("error creating model object:" + modelType);
       }
 
-      //process the doc with the stylesheet
-      var newDoc = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
-      if (objRef.debug) alert("painting:"+objRef.id+":"+newDoc.xml);
-
-      var serverUrl = "http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA";
-      model.loadModelDoc(serverUrl,newDoc);
-      alert("loaded:"+model.doc.xml);
-
-      objRef.callListeners("paint");
+      //model.addListener("loadModel",objRef.loadFeature, objRef);
+      objRef.loadFeature(objRef, model.id, feature);
     }
   }
   // Call paint when model changes
-  this.model.addListener("modelChange",this.paint, this);
-
+  this.model.addListener("loadModel",this.loadFeatureList, this);
+  
   /**
    * Instantiate all the child tools of this widget.
    */
