@@ -31,7 +31,23 @@ function FeatureList(widgetNode, model) {
    * @param button Button name.
    */
   this.processButton=function(objRef,button){
-    alert("FeatureList.js: button="+button);
+    switch(button){
+      case "Reset":
+        if(objRef.model.url){
+          httpPayload=new Object();
+          httpPayload.url=objRef.model.url;
+          httpPayload.method="get";
+          httpPayload.postData=null;
+          objRef.model.setParam('httpPayload',httpPayload);
+          break;
+        }
+      case "Insert Feature":
+        break;
+      case "Update Feature":
+        break;
+      default:
+        alert("FeatureList: Unknown button: "+button);
+    }
   }
 
   this.model.addListener("loadModel",this.loadModelListener,this);
