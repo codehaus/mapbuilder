@@ -68,11 +68,11 @@ $Name$
 
     <js>
 
-      if (!objRef.jg){
+      //if (!objRef.jg){
 
         objRef.jg=new jsGraphics(objRef.outputNodeId);
 
-      }
+      //}
 
       objRef.jg.clear();
 

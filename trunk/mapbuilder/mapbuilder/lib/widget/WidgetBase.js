@@ -247,14 +247,21 @@ if (!widget.paint) {
         case "xsl2js":
           jsNode = objRef.stylesheet.transformNodeToObject(objRef.resultDoc);
           js=jsNode.selectSingleNode("js").firstChild.nodeValue;
-          if (!outputNode) {
-            tempNode.innerHTML = "<div/>";
-            tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
-            objRef.node.appendChild(tempNode.firstChild);
+          tempNode.style.position="absolute";
+          tempNode.style.top=0;
+          tempNode.style.left=0;
+          tempNode.setAttribute("id", objRef.outputNodeId);
+          //look for this widgets output and replace if found,
+          //otherwise append it
+          if (outputNode) {
+            objRef.node.replaceChild(tempNode,outputNode);
+          } else {
+            objRef.node.appendChild(tempNode);
           }
           if (objRef.debug) alert("javascript eval:"+js);
           objRef.model.setParam("modelStatus","rendering");
           eval(js);
+
           break;
         default:
           alert("WidgetBase: Invalid paintMethod="+objRef.paintMethod);
