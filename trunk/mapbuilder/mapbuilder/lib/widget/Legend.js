@@ -11,7 +11,6 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * This widget extends WidgetBase.
  * @constructor
  * @author Cameron Shorter cameronATshorter.net
- * @constructor
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */
