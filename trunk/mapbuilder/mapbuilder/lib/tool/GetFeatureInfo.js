@@ -154,7 +154,7 @@ function GetFeatureInfo(toolNode, parentWidget) {
 
           url=objRef.proxy.getUrl(urlNode.documentElement.firstChild.nodeValue);
 
-          alert("url="+url);
+          //alert("url="+url);
 
           // Load the Query result
 
@@ -164,7 +164,7 @@ function GetFeatureInfo(toolNode, parentWidget) {
 
           //result.load(url);
 
-          alert("query result="+result.xml);
+          //alert("query result="+result.xml);
 
           objRef.targetFeatureCollection.loadModelDoc(url);
 
