@@ -41,10 +41,6 @@ function WmsCapabilities(modelNode, parentModel) {
     return node.firstChild.nodeValue;
   }
 
-  this.getMethod = function(feature) {
-    return this.method;
-  }
-
   this.loadFeature = function(featureNodeId) {
     var feature = this.featureList.getFeatureNode(featureNodeId);
     this.setParam("GetMap",feature);
