@@ -40,6 +40,23 @@ function MapPane(widgetNode, group) {
   this.containerId = "mappane_"+group.id;
   this.stylesheet.setParameter("mapContainerId", this.containerId );
 
+  var fixedWidth = false;    //defaults to false
+  var xnode = widgetNode.selectSingleNode("fixedWidth");
+  if ( xnode ) {
+    fixedWidth = eval( xnode.firstChild.nodeValue );
+  }
+  if ( fixedWidth ) {
+    if ( this.node.style.width ) {
+      var newWidth = this.node.style.width;
+      newWidth = newWidth.substring(0,newWidth.length - 2);
+      var aspectRatio = this.model.getWindowHeight()/this.model.getWindowWidth();
+      this.model.setWindowWidth( newWidth );
+      this.model.setWindowHeight( Math.round(aspectRatio*newWidth) );
+    } else {
+      alert("set the CSS width to use fixedWidth property");
+    }
+  }
+
   /**
    * Define mouse and key handler functions for the MapPane.  This function should
    * be called after each paint since the <DIV> tag is recreated after each paint.
@@ -87,24 +104,25 @@ function MapPane(widgetNode, group) {
 
   /**
    * Called when the context's hidden attribute changes.
-   * @param layerIndex The index of the LayerList/Layer from the Context which
+   * @param layerName The Name of the LayerList/Layer from the Context which
    * has changed.
-   * @param target This object.
+   * @param thisWidget This object.
    */
-  this.hiddenListener=function(layerIndex,target){
+  this.hiddenListener=function(layerName, thisWidget){
     var vis="visible";
-    if(target.model.getHidden(layerIndex)=="1"){
+    if(thisWidget.model.getHidden(layerName)=="1"){
       vis="hidden";
     }
-    document.getElementById(layerIndex).style.visibility=vis;
+    var layerId = thisWidget.model.id + "_" + thisWidget.id + "_" + layerName;
+    document.getElementById(layerId).style.visibility=vis;
   }
 
   /**
    * Called when the context's boundingBox attribute changes.
-   * @param target This object.
+   * @param thisWidget This object.
    */
-  this.boundingBoxChangeListener=function(target){
-    target.paint();
+  this.boundingBoxChangeListener=function(thisWidget){
+    thisWidget.paint();
   }
 
   /**
