@@ -15,15 +15,7 @@
 
   <scriptFile>model/Extent.js</scriptFile> 
     
-  <!--
-  -->
   <models>
-    
-  <!--
-    <Config id="config">
-      <defaultModelUrl>config/CompleteConfig.xml</defaultModelUrl>
-    </Config>
-  -->
 
     <Context id="mainMapGroup">
       <defaultModelUrl>context/atlasWorld.xml</defaultModelUrl>
