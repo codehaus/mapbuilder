@@ -210,8 +210,49 @@ EOM
   if ( not $keep_comments ) {
     # Remove comments.
     $debug and warn "$main::prog: Removing comments\n";
-    $contents =~ s%//.*?\n%\n%gs;
-    $contents =~ s%/\*.*?\*/%\n%gs;
+    # Remove comments as long as the comments are not quoted.
+    # $source = the remainder of the document to process
+    my $source=$contents;
+    my $result="";
+
+    while(length($source)>1){
+      # match \" or \' or "" or ''
+      # and copy to result
+      $source =~ s/^(\\"|\\'|""|'')// && do {
+        $result.=$1;
+        next;
+      };
+
+      # match ".." or '..'
+      # and copy quoted text to result
+      $source =~ s/^(".*?[^\\]"|'.*?[^\\]')// && do {
+        $result.=$1;
+        next;
+      };
+
+      # match //
+      # remove text to end of line
+      $source =~ s/^\/\/.*?\n// && do {
+        next;
+      };
+
+      # match /*
+      # remove text to */
+      $source =~ s/^\/\*.*?\*\///s && do {
+        next;
+      };
+
+      # match string before /* or // or \" or \' or " or '
+      $source =~ s/^(.+?)(\/\*|\/\/|\\"|\\'|"|')/$2/s && do {
+        $result.=$1;
+        next;
+      };
+
+      # Copy remainder of input.
+      $result.=$source;
+      last;
+    }
+    $contents=$result;
   }
 
   if ( not $keep_identifiers ) {
