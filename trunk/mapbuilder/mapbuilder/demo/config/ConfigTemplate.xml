@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
+
 <MapbuilderConfig id="referenceTemplate">
+  <!--
+    Description: This configuration file determines what components from the
+                 Mapbuilder library are to be included in a Main Mapbuilder web
+                 page.
+    Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html 
+
+    $Id$
+  -->
 
   <!-- 
   these not loaded on client side, but this file can be used to include these server-side
