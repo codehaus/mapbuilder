@@ -111,9 +111,9 @@ $Id$
   <property name="pack.name" value="mapbuilder-lib"/>
   <property name="app.path" value="/${app.name}"/>
   <property name="app.version" value="0.2-alpha"/>
-  <property name="catalina.home" value="${env.CATALINA_HOME}"/> <!-- UPDATE THIS! -->
-  <property name="deploy.home" value="${catalina.home}/webapps/mapbuilder"/>
+  <property name="catalina.home" value="${env.CATALINA_HOME}"/> <!-- ensure you have this environment var set -->
   <property name="build.home" value="${basedir}/build"/>
+  <property name="deploy.home" value="${catalina.home}/webapps/${app.name}"/>
   <property name="dist.home" value="${basedir}/dist"/>
   <property name="docs.home" value="${build.home}/docs"/>
   <property name="dev.home" value="${basedir}/."/>
@@ -172,6 +172,8 @@ $Id$
         <exclude name="*.war"/>
         <exclude name="*.zip"/>
         <exclude name="bin/**"/>
+        <exclude name="build/**"/>
+        <exclude name="dist/**"/>
         <exclude name="client/**"/>
         <exclude name="server/**"/>
         <exclude name="service/**"/>
@@ -229,6 +231,10 @@ $Id$
     <delete dir="${build.home}"/>
   </target>
 
+  <target description="Delete old build and dist directories" name="cleanTomcat">
+    <delete dir="${deploy.home}"/>
+  </target>
+
 
 
 <!-- ==================== Dist Target ===================================== -->
@@ -259,20 +265,21 @@ $Id$
       <zipfileset
         dir="${basedir}"
         prefix="mapbuilder"
-        includes="demo/** docs/** lib/** server/** CHANGES LICENSE GPL README index.html"/>
+        includes="demo/** docs/** lib/** temp/** server/** CHANGES LICENSE GPL README index.html"/>
     </zip>
 
-    <!-- Create styles only distribution -->
+    <!-- Create styles only distribution 
     <zip destfile="${dist.home}/styles_${pack.name}-${app.version}.zip" update="true">
          <zipfileset dir="${basedir}/lib/" prefix="mapbuilder/lib">
             <include name="**/*.xsl"/>
          </zipfileset>
     </zip>
-
+    -->
+    
     <!-- Create application WAR file -->
     <jar jarfile="${dist.home}/${app.name}.war"
         basedir="${build.home}"
-        includes="demo/** docs/** lib/** server/** CHANGES LICENSE GPL README index.html"/>
+        includes="demo/** docs/** lib/** temp/** WEB-INF/** CHANGES LICENSE GPL README index.html"/>
 
     <!-- zip up the WAR file -->
     <zip destfile="${dist.home}/${pack.name}-${app.version}-war.zip" update="true">
@@ -400,6 +407,10 @@ $Id$
 
   </target>
 
+<!--
+  The "deploy" target synchronizes the build directory with the Java Servlet
+  container directory.  This could also be done by copying in the war file.
+-->
   <target name="deploy"
     description="Copy build directory to $CATALINA_HOME"
     depends="compile">
