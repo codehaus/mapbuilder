@@ -58,10 +58,10 @@ $Name$
     <xsl:param name="baseUrl">
         <xsl:value-of select="cml:Server/cml:OnlineResource/@xlink:href"/>    
     </xsl:param>
-    <xsl:variable name="visible">
+    <xsl:variable name="visibility">
       <xsl:choose>
-        <xsl:when test="@hidden='1'">false</xsl:when>
-        <xsl:otherwise>true</xsl:otherwise>
+        <xsl:when test="@hidden='1'">hidden</xsl:when>
+        <xsl:otherwise>visible</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
     <xsl:variable name="firstJoin">
@@ -83,7 +83,7 @@ $Name$
 
     <DIV>    
         <xsl:attribute name="STYLE">
-          position:absolute; top:0/>; left:0/>;
+          position:absolute; visibility: <xsl:value-of select="$visibility"/>; top:0/>; left:0/>;
         </xsl:attribute>
         <xsl:attribute name="ID">
             <xsl:value-of select="cml:Name"/>
