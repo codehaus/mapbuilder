@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!--
-Description: parses an OGC context document to generate an array of DHTML layers.
+Description: transforms a WMS Layer node into an XML structure that contains
+             the URL for the GetMap request for both context docs and WMS caps.
 Author:      adair
 Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
 
@@ -18,10 +19,6 @@ $Name$
   <!--
   <xsl:include href="ogcMapImgObjects.xsl" />
   -->
-
-  <!-- The coordinates of the DHTML Layer on the HTML page -->
-  <xsl:param name="modelId"/>
-  <xsl:param name="widgetId"/>
 
   <xsl:param name="bbox"/>
   <xsl:param name="width"/>
