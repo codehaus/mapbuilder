@@ -32,7 +32,7 @@ function PanTool(context,baseDir) {
    * This function should be called at startup.
    */
   this.paint=function(){
-    s="Insert Pan Functions here";
+    s="<table border='1px'><tr><td>NW</td><td>N</td><td>NE</td></tr><tr><td style=\"cursor:pointer\" onclick=\"context.panDir('w')\" onmouseover=\"this.style.backgroundColor='silver'\" onmouseout=\"this.style.backgroundColor='white'\" title=\"Pan West\">W</td><td></td><td>E</td></tr><tr><td>SW</td><td>S</td><td>SE</td></tr></table>";
     this.node.innerHTML=s;
   }
 }
