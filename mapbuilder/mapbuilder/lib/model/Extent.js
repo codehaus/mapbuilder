@@ -179,9 +179,9 @@ function fitToWindow(size, minres, maxres) {
   //call centerAt with test as res
 }
 
-  function reset() {
-    //TBD: do something with size?
-    var originalExtent = this.context.originalExtent;
-    this.CenterAt( originalExtent.GetCenter(), originalExtent.res[0] );
-  }
+function reset() {
+  //TBD: do something with size?
+  var originalExtent = this.context.originalExtent;
+  this.CenterAt( originalExtent.GetCenter(), originalExtent.res[0] );
+}
 
