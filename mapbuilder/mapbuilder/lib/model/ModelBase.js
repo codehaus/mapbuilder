@@ -91,7 +91,7 @@ function ModelBase(model, modelNode, parentModel) {
     modelRef.url = httpPayload.url;
     modelRef.method = httpPayload.method;
     modelRef.postData = httpPayload.postData;
-    //modelRef.loadModelDoc(modelRef);
+    modelRef.loadModelDoc(modelRef);
   }
   model.addListener("httpPayload",model.newRequest, model);
 
