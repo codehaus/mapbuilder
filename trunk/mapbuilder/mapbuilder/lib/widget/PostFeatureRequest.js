@@ -106,7 +106,9 @@ function PostFeatureRequest(widgetNode, model) {
       var newDoc = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
       if (objRef.debug) alert("painting:"+objRef.id+":"+newDoc.xml);
 
-      model.loadModelDoc(url,newDoc);
+      var serverUrl = "http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA";
+      model.loadModelDoc(serverUrl,newDoc);
+      alert("loaded:"+model.doc.xml);
 
       objRef.callListeners("paint");
     }
