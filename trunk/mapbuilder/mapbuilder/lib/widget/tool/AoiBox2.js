@@ -47,7 +47,14 @@ function AoiBox(toolNode, parentWidget) {
     ul = aoiBox[0];
     lr = aoiBox[1];
     //check if ul=lr, then draw cross, else drawbox
-    this.drawBox(ul, lr);
+//alert(    Math.abs( ul[0]-lr[0] ) + ":" + Math.abs( ul[1]-lr[1] ) );
+
+    if ( (Math.abs( ul[0]-lr[0] ) < this.crossSize) && 
+        (Math.abs( ul[1]-lr[1] ) < this.crossSize) ) {
+      this.drawCross( new Array( (ul[0]+lr[0])/2, (ul[1]+lr[1])/2) );
+    } else {
+      this.drawBox(ul, lr);
+    }
   }
 
   this.drawBox = function(ul, lr) {
@@ -83,14 +90,14 @@ function AoiBox(toolNode, parentWidget) {
     //this.ul = center;
     //this.lr = cen;
 
-    this.Top.style.left = Math.floor( center[0] - (this.crossSize/2) );
-    this.Top.style.top = Math.floor( center[1] + (this.crossSize/2) );
+    this.Top.style.left = Math.floor( center[0] - this.crossSize/2 );
+    this.Top.style.top = Math.floor( center[1] - this.lineWidth/2 );
     this.Top.style.width = this.crossSize;
     this.Top.style.height = this.lineWidth;
     this.Top.style.visibility = "visible";
 
-    this.Left.style.left = Math.floor( center[0] - (this.crossSize/2) );
-    this.Left.style.top = Math.floor( center[1] + (this.crossSize/2) );
+    this.Left.style.left = Math.floor( center[0] - this.lineWidth/2 );
+    this.Left.style.top = Math.floor( center[1] - this.crossSize/2 );
     this.Left.style.width = this.lineWidth;
     this.Left.style.height = this.crossSize;
     this.Left.style.visibility = "visible";
@@ -102,7 +109,7 @@ function AoiBox(toolNode, parentWidget) {
 
 /** Internal method to initialize the box HTML elements
   */ 
-  this.mouseAddOffset = function( targetNode, objRef ) {
+  this.mouseAddOffset = function( ev ) {
     targetNode.evpl[0] = targetNode.evpl[0] + targetNode.offsetLeft;
     targetNode.evpl[1] = targetNode.evpl[1] + targetNode.offsetTop;
   }
@@ -114,10 +121,11 @@ function AoiBox(toolNode, parentWidget) {
     newDiv.style.backgroundColor = this.lineColor;
     //newDiv.style.zIndex = 300;
     newDiv.style.visibility = "hidden";
+//newDiv.onmousemove = this.mouseAddOffset;
+//newDiv.onmouseover = this.mouseAddOffset;
     parentNode.appendChild( newDiv );
     return newDiv;
   }
-
 
   this.aoiListener = function(objRef) {
     objRef.paint();
@@ -130,18 +138,19 @@ function AoiBox(toolNode, parentWidget) {
     objRef.Bottom = objRef.getImageDiv( containerNode );
     objRef.Left = objRef.getImageDiv( containerNode );
     objRef.Right = objRef.getImageDiv( containerNode );
+
+    //test case
+/*
+    objRef.drawBox( new Array(2,2), new Array(200,200) );
+    alert("AOIBox test");
+    objRef.drawCross( new Array(60,100) );
+    alert("AOIBox test");
+*/
   }
 
   this.parentWidget.model.addAoiListener(this.aoiListener, this);
   this.parentWidget.addPaintListener( this.loadAoiBox, this );
 
-  //test case
-/*
-  this.drawBox( new Array(2,2), new Array(200,200) );
-  alert("AOIBox test");
-  this.drawCross( new Array(75,75) );
-  alert("AOIBox test");
-*/
 }
 
 

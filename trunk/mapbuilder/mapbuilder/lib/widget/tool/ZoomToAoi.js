@@ -23,6 +23,7 @@ function ZoomToAoi(toolNode, parentWidget) {
     this.targetModelGroup = targetModelGroup.firstChild.nodeValue;
     this.init = function( tool ) {
       tool.targetModel = config[tool.targetModelGroup].model;
+      tool.targetModel.proj = new proj( tool.targetModel.getSRS() );
     }
     this.init(this);
     config[this.targetModelGroup].addModelListener( this.init, this );
@@ -34,9 +35,17 @@ function ZoomToAoi(toolNode, parentWidget) {
     var bbox = tool.model.getAoi();
     var ul = tool.model.extent.GetXY( bbox[0] );
     var lr = tool.model.extent.GetXY( bbox[1] );
-    if ( tool.model.getSRS() == 'EPSG:4326' ) {
+    if ( tool.model.getSRS() != tool.targetModel.getSRS() ) {
+      //ul = tool.model.proj.inverse( ul );     //to LL
+      ul = tool.targetModel.proj.Forward( ul ); //to target XY
+      //lr = tool.model.proj.inverse( lr ); 
+      lr = tool.targetModel.proj.Forward( lr );
     }
-    tool.targetModel.extent.ZoomToBox( ul, lr );
+    if ( ( ul[0]==lr[0] ) && ( ul[1]==lr[1] ) ) {
+      tool.targetModel.extent.CenterAt( ul, tool.targetModel.extent.res[0] );
+    } else {
+      tool.targetModel.extent.ZoomToBox( ul, lr );
+    }
   }
 
   this.parentWidget.addMouseListener('mouseUp', this.mouseup, this);
