@@ -25,7 +25,7 @@ $Name$
   <xsl:param name="lineWidth" select="1"/>
   <xsl:param name="crossSize" select="0"/>
   <xsl:param name="skinDir"/>
-  <xsl:param name="pointWidth" select="10"/>
+  <xsl:param name="pointWidth" select="5"/>
 
   <xsl:variable name="xRatio" select="$width div ( $bBoxMaxX - $bBoxMinX )"/>
   <xsl:variable name="yRatio" select="$height div ( $bBoxMaxY - $bBoxMinY )"/>
@@ -97,16 +97,30 @@ $Name$
 
   <!-- Match and render a LineString -->
   <xsl:template match="gml:LineString | gml:LinearRing">
-    <xsl:for-each select="gml:coord">
-      <xsl:if test="following-sibling::gml:coord">
-        // LineString
-        objRef.jg.drawLine(
-          <xsl:value-of select="floor((number(gml:X)-$bBoxMinX)*$xRatio)"/>,
-          <xsl:value-of select="floor($height - (number(gml:Y) -$bBoxMinY)*$yRatio)"/>,
-          <xsl:value-of select="floor((number(following-sibling::gml:coord[position()=1]/gml:X)-$bBoxMinX)*$xRatio)"/>,
-          <xsl:value-of select="floor($height - (number(following-sibling::gml:coord[position()=1]/gml:Y)-$bBoxMinY)*$yRatio)"/>);
-      </xsl:if>
-    </xsl:for-each>
+    <xsl:choose>
+      <!-- Draw a line -->
+      <xsl:when test="count(gml:coord)!=1">
+        <xsl:for-each select="gml:coord">
+          <xsl:if test="following-sibling::gml:coord">
+            // LineString
+            objRef.jg.drawLine(
+              <xsl:value-of select="floor((number(gml:X)-$bBoxMinX)*$xRatio)"/>,
+              <xsl:value-of select="floor($height - (number(gml:Y) -$bBoxMinY)*$yRatio)"/>,
+              <xsl:value-of select="floor((number(following-sibling::gml:coord[position()=1]/gml:X)-$bBoxMinX)*$xRatio)"/>,
+              <xsl:value-of select="floor($height - (number(following-sibling::gml:coord[position()=1]/gml:Y)-$bBoxMinY)*$yRatio)"/>);
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:when>
+
+      <!-- When one coord, draw point -->
+      <xsl:otherwise>
+        <xsl:variable name="x0" select="floor((number(gml:coord/gml:X)-$bBoxMinX)*$xRatio - number($pointWidth) div 2)"/>
+        <xsl:variable name="y0" select="floor($height - (number(gml:coord/gml:Y)-$bBoxMinY)*$yRatio - $pointWidth div 2)"/>
+
+        // LineString - One point
+        objRef.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointWidth"/>,<xsl:value-of select="$pointWidth"/>);
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="text()|@*"/>
