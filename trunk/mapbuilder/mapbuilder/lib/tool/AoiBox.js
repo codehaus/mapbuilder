@@ -38,6 +38,15 @@ function AoiBox(toolNode, parentWidget) {
     this.Bottom.style.visibility = visibility;
   }
 
+  /** Listener to turn the box off
+    * @param tool   reference to this tool object
+    * @return       none
+    */
+  this.clear = function(tool) {
+    tool.setVis(false);
+  }
+  this.model.addListener("loadModel",this.clear, this);
+
   /** draw out the box.
     * if the box width or height is less than the cross size property, then the
     * drawCross method is called, otherwise call drawBox.
@@ -57,22 +66,6 @@ function AoiBox(toolNode, parentWidget) {
     }
   }
   this.model.addListener("aoi",this.paint, this);
-
-  /** called when container node changes 
-  this.refresh = function(objRef) {
-    //objRef.paint
-    var aoiBox = this.model.getParam("aoi");
-    var ul = this.model.extent.getPL(aoiBox[0]);
-    var lr = this.model.extent.getPL(aoiBox[1]);
-    //check if ul=lr, then draw cross, else drawbox
-    if ( (Math.abs( ul[0]-lr[0] ) < this.crossSize) && 
-        (Math.abs( ul[1]-lr[1] ) < this.crossSize) ) {
-      this.drawCross( new Array( (ul[0]+lr[0])/2, (ul[1]+lr[1])/2) );
-    } else {
-      this.drawBox(ul, lr);
-    }
-  }
-    */
   this.parentWidget.addListener("paint",this.paint, this);
 
   /** Draw a box.
@@ -149,6 +142,6 @@ function AoiBox(toolNode, parentWidget) {
     thisTool.Right = thisTool.getImageDiv( containerNode );
     thisTool.paint(thisTool);
   }
-  this.model.addListener("loadModel",this.loadAoiBox, this);
+  this.loadAoiBox(this);
 
 }
