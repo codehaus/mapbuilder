@@ -44,11 +44,11 @@ function MapPane(widgetNode, group) {
     var containerNode = document.getElementById( objRef.containerId );
     containerNode.parentObject = objRef;
     containerNode.extent = objRef.model.extent;
-    containerNode.onmousemove = mouseMoveHandler;
-    containerNode.onmouseout = mouseOutHandler;
-    containerNode.onmouseover = mouseOverHandler;
-    containerNode.onmousedown = mouseDownHandler;
-    containerNode.onmouseup = mouseUpHandler;
+    containerNode.onmousemove = objRef.mouseMoveHandler;
+    containerNode.onmouseout = objRef.mouseOutHandler;
+    containerNode.onmouseover = objRef.mouseOverHandler;
+    containerNode.onmousedown = objRef.mouseDownHandler;
+    containerNode.onmouseup = objRef.mouseUpHandler;
     containerNode.getEvent = getEvent;
   }
 
@@ -148,6 +148,77 @@ function MapPane(widgetNode, group) {
     }
   }
 
+  this.mouseDownHandler=function(ev) {
+    this.getEvent(ev);
+    for (var i=0; i<this.parentObject.mouseDownListeners.length; i++) {
+      this.parentObject.mouseDownListeners[i]( this, this.parentObject.mouseDownObjects[i] );
+    }
+    if (window.event) {
+      window.event.returnValue = false;
+      window.event.cancelBubble = true;
+    } else {
+      ev.stopPropagation();
+    }
+    return false;
+  }
+
+  this.mouseUpHandler=function(ev) {
+    this.getEvent(ev);
+    for (var i=0; i<this.parentObject.mouseUpListeners.length; i++) {
+      this.parentObject.mouseUpListeners[i]( this, this.parentObject.mouseUpObjects[i] );
+    }
+    if (window.event) {
+      window.event.returnValue = false;
+      window.event.cancelBubble = true;
+    } else {
+      ev.stopPropagation();
+    }
+    return false;
+  }
+
+  this.mouseMoveHandler=function(ev) {
+    this.getEvent(ev);
+    for (var i=0; i<this.parentObject.mouseMoveListeners.length; i++) {
+      this.parentObject.mouseMoveListeners[i]( this, this.parentObject.mouseMoveObjects[i] );
+    }
+    if (window.event) {
+      window.event.returnValue = false;
+      window.event.cancelBubble = true;
+    } else {
+      ev.stopPropagation();
+    }
+    return false;
+  }
+
+  this.mouseOverHandler=function(ev) {
+    this.getEvent(ev);
+    for (var i=0; i<this.parentObject.mouseOverListeners.length; i++) {
+      this.parentObject.mouseOverListeners[i]( this, this.parentObject.mouseOverObjects[i] );
+    }
+    if (window.event) {
+      window.event.returnValue = false;
+      window.event.cancelBubble = true;
+    } else {
+      ev.stopPropagation();
+    }
+    return false;
+  }
+
+  this.mouseOutHandler=function(ev) {
+    this.getEvent(ev);
+    for (var i=0; i<this.parentObject.mouseOutListeners.length; i++) {
+      this.parentObject.mouseOutListeners[i]( this, this.parentObject.mouseOutObjects[i] );
+    }
+    if (window.event) {
+      window.event.returnValue = false;
+      window.event.cancelBubble = true;
+    } else {
+      ev.stopPropagation();
+    }
+    return false;
+  }
+
+
 }
 
 // The remaining functions in the file execute as event handlers in the context 
@@ -184,74 +255,4 @@ function getEvent(ev) {
   this.evxy = this.extent.GetXY( this.evpl );
 }
 
-
-function mouseDownHandler(ev) {
-  this.getEvent(ev);
-  for (var i=0; i<this.parentObject.mouseDownListeners.length; i++) {
-    this.parentObject.mouseDownListeners[i]( this, this.parentObject.mouseDownObjects[i] );
-  }
-  if (window.event) {
-    window.event.returnValue = false;
-    window.event.cancelBubble = true;
-  } else {
-    ev.stopPropagation();
-  }
-  return false;
-}
-
-function mouseUpHandler(ev) {
-  this.getEvent(ev);
-  for (var i=0; i<this.parentObject.mouseUpListeners.length; i++) {
-    this.parentObject.mouseUpListeners[i]( this, this.parentObject.mouseUpObjects[i] );
-  }
-  if (window.event) {
-    window.event.returnValue = false;
-    window.event.cancelBubble = true;
-  } else {
-    ev.stopPropagation();
-  }
-  return false;
-}
-
-function mouseMoveHandler(ev) {
-  this.getEvent(ev);
-  for (var i=0; i<this.parentObject.mouseMoveListeners.length; i++) {
-    this.parentObject.mouseMoveListeners[i]( this, this.parentObject.mouseMoveObjects[i] );
-  }
-  if (window.event) {
-    window.event.returnValue = false;
-    window.event.cancelBubble = true;
-  } else {
-    ev.stopPropagation();
-  }
-  return false;
-}
-
-function mouseOverHandler(ev) {
-  this.getEvent(ev);
-  for (var i=0; i<this.parentObject.mouseOverListeners.length; i++) {
-    this.parentObject.mouseOverListeners[i]( this, this.parentObject.mouseOverObjects[i] );
-  }
-  if (window.event) {
-    window.event.returnValue = false;
-    window.event.cancelBubble = true;
-  } else {
-    ev.stopPropagation();
-  }
-  return false;
-}
-
-function mouseOutHandler(ev) {
-  this.getEvent(ev);
-  for (var i=0; i<this.parentObject.mouseOutListeners.length; i++) {
-    this.parentObject.mouseOutListeners[i]( this, this.parentObject.mouseOutObjects[i] );
-  }
-  if (window.event) {
-    window.event.returnValue = false;
-    window.event.cancelBubble = true;
-  } else {
-    ev.stopPropagation();
-  }
-  return false;
-}
 
