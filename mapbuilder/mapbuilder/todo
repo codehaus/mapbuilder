@@ -1,0 +1,36 @@
+Release 0.1
+===========
+* Rename stylesheets from *.xml to *.xsl
+* Rename GlassPane.js to MouseHandler.js
+
+* Ensure there is only one version of everything, ie remove all <filename>2.
+
+* Implement PanOut
+
+* Write up know bugs. 
+
+* Test.
+
+* Produce jsdocs
+
+* Produce design docs.
+
+Future Work
+===========
+* Work out Xpath and updating Context.
+
+* Handle invalid context files and basedir
+
+* Legend.js to pass Context param into XSL transform.
+
+* MapPane XSL needs to check if parameters are defined.
+
+* Introduce a unique Id into Context for each Layer.
+
+* write a build script
+  - imports external libraries
+  - generate jsdocs
+
+* Set up http://generguide.sf.net Developers Guide for this project
+
+* Set up Unit Testing.
