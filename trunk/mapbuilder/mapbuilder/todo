@@ -24,6 +24,7 @@ Query Functionality:
 
 Tools:
 ------
+* There is no tool enabled at startup.
 * Move <dependsOn> property from config file to each Tool js code.
 * Move <class> property from config file to each Tool js code.
 
