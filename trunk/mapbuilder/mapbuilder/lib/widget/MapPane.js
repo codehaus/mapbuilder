@@ -52,7 +52,7 @@ function MapPane(widgetNode, group) {
     containerNode.extent = objRef.model.extent;
     containerNode.onmousemove = objRef.actionHandler;
     containerNode.onmouseout = objRef.mouseOutHandler;
-    containerNode.onmouseover = objRef.mouseOverHandler;
+    containerNode.onmouseover = objRef.actionHandler;
     containerNode.onmousedown = objRef.actionHandler;
     containerNode.onmouseup = objRef.mouseUpHandler;
     containerNode.getEvent = getEvent;
@@ -117,11 +117,9 @@ function MapPane(widgetNode, group) {
 
   this.mouseUpListeners = new Array();
 //  this.mouseDownListeners = new Array();
-  this.mouseOverListeners = new Array();
   this.mouseOutListeners = new Array();
   this.mouseUpObjects = new Array();
 //  this.mouseDownObjects = new Array();
-  this.mouseOverObjects = new Array();
   this.mouseOutObjects = new Array();
 
   this.addMouseListener = function(mouseEvent, listener, objRef) {
@@ -134,10 +132,6 @@ function MapPane(widgetNode, group) {
 //        this.mouseDownListeners.push( listener );
 //        this.mouseDownObjects.push( objRef );
 //        break;
-      case 'mouseOver':				//setting AOI
-        this.mouseOverListeners.push( listener );
-        this.mouseOverObjects.push( objRef );
-        break;
       case 'mouseOut':
         this.mouseOutListeners.push( listener );
         this.mouseOutObjects.push( objRef );
@@ -188,20 +182,6 @@ function MapPane(widgetNode, group) {
     this.getEvent(ev);
     for (var i=0; i<this.parentObject.mouseUpListeners.length; i++) {
       this.parentObject.mouseUpListeners[i]( this, this.parentObject.mouseUpObjects[i] );
-    }
-    if (window.event) {
-      window.event.returnValue = false;
-      window.event.cancelBubble = true;
-    } else {
-      ev.stopPropagation();
-    }
-    return false;
-  }
-
-  this.mouseOverHandler=function(ev) {
-    this.getEvent(ev);
-    for (var i=0; i<this.parentObject.mouseOverListeners.length; i++) {
-      this.parentObject.mouseOverListeners[i]( this, this.parentObject.mouseOverObjects[i] );
     }
     if (window.event) {
       window.event.returnValue = false;
