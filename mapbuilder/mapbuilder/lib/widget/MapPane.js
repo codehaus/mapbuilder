@@ -20,7 +20,7 @@ function MapPane(context,baseDir) {
   var node=makeElt("DIV");
   node.style.position="absolute";
   this.node=node;
-  this.wmcLayer2DhtmlLayer=new XslProcessor(baseDir+"/mappane/WmcLayer2DhtmlLayer.xml");
+  this.wmcLayer2DhtmlLayer=new XslProcessor(baseDir+"/mappane/Context2MapPane.xml");
   Sarissa.setXslParameter(
     this.wmcLayer2DhtmlLayer.xslDom,
     "baseDir", "'"+baseDir+"'");
