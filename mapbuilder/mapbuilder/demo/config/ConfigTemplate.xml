@@ -60,7 +60,7 @@
         <MapPane id="mainMapPaneId">
           <scriptFile>widget/mappane/MapPane2.js</scriptFile>
           <stylesheet>widget/mappane/Context2MapPane2.xml</stylesheet>
-          <tools> 
+          <widgets> 
 
             <AoiBox>
               <scriptFile>widget/tool/AoiBox2.js</scriptFile>
@@ -86,7 +86,7 @@
               <formName>MapDisplayForm</formName>
             </CursorTrack>
 
-          </tools> 
+          </widgets> 
         </MapPane>
         
         <Legend id="legendId">
@@ -100,7 +100,7 @@
           <scriptFile>/widget/buttonbar/ButtonBar3.js</scriptFile>
           <mouseWidget>MapPane</mouseWidget>
           <initialMode>MODE_ZOOM_IN</initialMode>
-          <tools>
+          <widgets>
             <Button id="ZoomInButton">
               <enabledSrc>/images/zoom_in_en.gif</enabledSrc>
               <disabledSrc>/images/zoom_in_dis.gif</disabledSrc>
@@ -119,7 +119,7 @@
               <tooltip>reset the map to full extent</tooltip>
               <modeValue>MODE_RESET</modeValue>
             </Button>
-          </tools>
+          </widgets>
         </ButtonBar>
          -->
 
@@ -159,7 +159,7 @@
           <scriptFile>widget/mappane/MapPane2.js</scriptFile>
           <stylesheet>widget/mappane/Context2MapPane2.xml</stylesheet>
           <targetWidgetGroup>mainMapGroup</targetWidgetGroup>
-           <tools> 
+           <widgets> 
             <AoiBox>
               <scriptFile>widget/tool/AoiBox2.js</scriptFile>
               <lineColor>#0000FF</lineColor>
@@ -170,7 +170,7 @@
               <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
             </AoiMouseHandler>
 
-          </tools> 
+          </widgets> 
         </MapPane>
       </widgets>
     </Model>

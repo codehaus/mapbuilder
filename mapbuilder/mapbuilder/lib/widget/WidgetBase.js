@@ -64,8 +64,8 @@ function WidgetBase(widgetNode, group) {
   /**
    * load all the child tools of this widget
    */
-  this.loadTools = function() {
-    var tools = this.widgetNode.selectNodes( "tools/*" );
+  this.loadSubwidgets = function() {
+    var tools = this.widgetNode.selectNodes( "widgets/*" );
     for (var i=0; i<tools.length; i++ ) {
       var toolNode = tools[i];
       evalStr = "new " + toolNode.nodeName + "(toolNode, this);";
