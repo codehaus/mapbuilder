@@ -97,7 +97,22 @@ function Config(url) {
       model.loadModelDoc(model);
       model.callListeners("refresh");
     } else {
-      alert("config loadmodel error:"+modelId+":"+modelUrl);
+      alert("config loadModel error:"+modelId+":"+modelUrl);
+    }
+  }
+
+  /**
+   * repaint a widget.  
+   * This function can be called at any time to load a new model.
+   * TBD Need to distinguish between creating and initialising.
+   * @param modelId   the id of the model in config XML to be updated
+   * @param modelUrl  URL of the XML model document to be loaded
+   */
+  this.paintWidget = function( widget ) {
+    if (widget) {
+      widget.paint(widget, true);
+    } else {
+      alert("config paintWidget error: widget does not exist");
     }
   }
 }
