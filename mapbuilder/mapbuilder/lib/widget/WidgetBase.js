@@ -26,8 +26,13 @@ function WidgetBase(widgetNode, model) {
     this.model = model;
     this.widgetNode = widgetNode;
 
+    // Set this.stylesheet
+    // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
     var styleNode = widgetNode.selectSingleNode("stylesheet");
-    if ( styleNode ) this.stylesheet = new XslProcessor( config.baseDir + styleNode.firstChild.nodeValue );
+    var styleUrl;
+    if ( styleNode ) styleUrl = styleNode.firstChild.nodeValue;
+    else styleUrl = "widget/"+widgetNode.nodeName+".xsl";
+    this.stylesheet = new XslProcessor( config.baseDir + styleUrl);
 
     var targetGroup = widgetNode.selectSingleNode("targetWidgetGroup");
     if ( targetGroup ) this.targetGroup = targetGroup.firstChild.nodeValue;
