@@ -16,6 +16,10 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * @param parentWidget  The ButtonBar widget.
  */
 function ZoomIn(toolNode, parentWidget) {
+  /** Other required tools. */
+  this.dependancies=["AoiMouseHandler"];
+
+  // Extend ButtonBase
   var base = new ButtonBase(this, toolNode, parentWidget);
 
   this.zoomBy = 4;//TBD: get this from config

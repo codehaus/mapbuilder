@@ -17,6 +17,10 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * @param parentWidget  The ButtonBar widget.
  */
 function AddPoint(toolNode, parentWidget) {
+  /** Other required tools. */
+  this.dependancies=["MouseClickHandler"];
+
+  // Extend ButtonBase
   var base = new ButtonBase(this, toolNode, parentWidget);
 
   /**

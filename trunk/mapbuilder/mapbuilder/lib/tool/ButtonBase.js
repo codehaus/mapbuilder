@@ -50,7 +50,7 @@ function ButtonBase(button, toolNode, parentWidget) {
       if (this.parentWidget.selectedRadioButton) {
         with (this.parentWidget.selectedRadioButton) {
           image.src = disabledImage.src;
-          enable(false);
+          enable(false,this);
         }
       }
       this.parentWidget.selectedRadioButton = this;
@@ -58,7 +58,7 @@ function ButtonBase(button, toolNode, parentWidget) {
     }
 
     //enable this tool and any dependancies
-    this.enable(true);
+    this.enable(true,this);
 
     if (this.mouseHandler) {
       //let the mousehandler call doAction
@@ -70,6 +70,9 @@ function ButtonBase(button, toolNode, parentWidget) {
   var selected = toolNode.selectSingleNode("mb:selected");
   if (selected && selected.firstChild.nodeValue) button.selected = true;
 
+  /**
+   * Initialise buttonBase.
+   */
   button.buttonInit = function(buttonRef) {
     buttonRef.image = document.getElementById( buttonRef.id );
     if (buttonRef.selected) buttonRef.select();

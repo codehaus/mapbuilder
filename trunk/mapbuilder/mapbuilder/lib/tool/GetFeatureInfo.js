@@ -18,6 +18,10 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * @param parentWidget The widget object which this tool is associated with.
  */
 function GetFeatureInfo(toolNode, parentWidget) {
+  /** Other required tools. */
+  this.dependancies=["MouseClickHandler"];
+
+  // Extend ButtonBase
   var base = new ButtonBase(this, toolNode, parentWidget);
 
   /** Xsl to build a GetFeatureInfo URL */

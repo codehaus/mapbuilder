@@ -15,6 +15,10 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * @param parentWidget  The ButtonBar widget.
  */
 function DragPan(toolNode, parentWidget) {
+  /** Other required tools. */
+  this.dependancies=["DragPanHandler"];
+
+  // Extend ButtonBase
   var base = new ButtonBase(this, toolNode, parentWidget);
 
   /**
