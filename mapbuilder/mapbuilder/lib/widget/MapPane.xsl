@@ -90,7 +90,7 @@ $Name$
             WMTVER=<xsl:value-of select="$version"/>&amp;REQUEST=map
         </xsl:when>            
         <xsl:otherwise>
-            VERSION=<xsl:value-of select="$version"/>&amp;REQUEST=GetMap
+            VERSION=<xsl:value-of select="$version"/>&amp;REQUEST=GetMap&amp;SERVICE=WMS
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -111,14 +111,11 @@ $Name$
 &amp;LAYERS=<xsl:value-of select="wmc:Name"/>
 &amp;FORMAT=<xsl:value-of select="$format"/>
        &amp;<xsl:value-of select="$styleParam"/>
-&amp;TRANSPARENT=true
+&amp;TRANSPARENT=TRUE
 <!--	
   //TBD: these still to be properly handled 
-  //also sld support
-  if (this.transparent) src += '&' + 'TRANSPARENT=' + this.transparent;
-	if (this.bgcolor) src += '&' + 'BGCOLOR=' + this.bgcolor;
-	//if (this.exceptions) src += '&' + 'EXCEPTIONS=' + this.exceptions;
-	if (this.vendorstr) src += '&' + this.vendorstr;
+  //if (this.exceptions) src += '&' + 'EXCEPTIONS=' + this.exceptions;
+  //if (this.vendorstr) src += '&' + this.vendorstr;
   // -->
         </xsl:variable>
         <xsl:attribute name="SRC">    
