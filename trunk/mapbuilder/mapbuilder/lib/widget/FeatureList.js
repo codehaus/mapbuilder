@@ -48,7 +48,7 @@ function FeatureList(widgetNode, model) {
         sucess=objRef.targetModel.doc.selectSingleNode("//wfs:TransactionResult/wfs:Status/wfs:SUCCESS");
         if (sucess){
           // Remove FeatureList of feature entry was successful.
-          // Note: httpPayload.url=null
+          httpPayload.url=null;
           objRef.model.newRequest(objRef.model,httpPayload);
         }
         break;
