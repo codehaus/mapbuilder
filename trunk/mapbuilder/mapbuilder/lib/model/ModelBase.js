@@ -25,15 +25,28 @@ function ModelBase(modelNode) {
   }
 
   /**
+   * Load a Model's configuration file from an XML node.
+   * @param node Xml node which contains the configuration file.
+   */
+  this.loadModelNode = function(node){
+    this.doc=node;
+    var docId = this.doc.documentElement.attributes.getNamedItem("id");
+    if (docId) this.docId = docId.nodeValue;
+    this.callListeners("loadModel");
+    alert("loadModelNode");
+  }
+
+  /**
    * Load a Model's configuration file from url.
    * @param url Url of the configuration file.
    */
   this.loadModelDoc = function( url ){
-    this.doc = Sarissa.getDomDocument();
-    this.doc.async = false;
+    var xml;
+    xml = Sarissa.getDomDocument();
+    xml.async = false;
     // the following two lines are needed for IE
-    this.doc.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
-    this.doc.setProperty("SelectionLanguage", "XPath");
+    xml.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
+    xml.setProperty("SelectionLanguage", "XPath");
 
     //check to see if this is coming from a different domain, if so use the proxy URL
     if ( url.indexOf("http://")==0 ) {
@@ -45,13 +58,12 @@ function ModelBase(modelNode) {
       }
     }
 
-    this.doc.load(url);
-    if ( this.doc.parseError < 0 ) alert("error loading document: " + url);
-
-    var docId = this.doc.documentElement.attributes.getNamedItem("id");
-    if (docId) this.docId = docId.nodeValue;
-
-    this.callListeners("loadModel");
+    xml.load(url);
+    if (xml.parseError < 0){
+      alert("error loading document: " + url);
+    } else {
+      this.loadModelNode(xml);
+    }
   }
 
   /**
