@@ -22,7 +22,6 @@
           <widgets>
             <GmlRenderer id="testGmlRenderer">
               <htmlTagId>mainMapPane</htmlTagId>
-              <debug/>
               <mapContainerId>mainMapContainer</mapContainerId>
               <lineColor>#FF0000</lineColor>
               <lineWidth>1</lineWidth>
