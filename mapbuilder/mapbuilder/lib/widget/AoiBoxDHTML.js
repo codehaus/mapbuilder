@@ -6,7 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/tool/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
  * Widget to draw an Area Of Interest box of a model.  The box can be drawn with
@@ -15,15 +15,37 @@ mapbuilder.loadScript(baseDir+"/tool/WidgetBase.js");
  * about geography.
  * @constructor
  * @base ToolBase
- * @param configNode The node for this object from the Config file.
+ * @param widgetNode The node for this object from the Config file.
  * @param model The model that contains this object.
  */
-function AoiBoxDHTML(configNode, model) {
-  var base = new WidgetBase(this, configNode, model);
+function AoiBoxDHTML(widgetNode, model) {
 
-  this.lineWidth = configNode.selectSingleNode("mb:lineWidth").firstChild.nodeValue; // Zoombox line width; pass in as param?
-  this.lineColor = configNode.selectSingleNode("mb:lineColor").firstChild.nodeValue; // color of zoombox lines; pass in as param?
-  this.crossSize = configNode.selectSingleNode("mb:crossSize").firstChild.nodeValue;
+  this.lineWidth = widgetNode.selectSingleNode("mb:lineWidth").firstChild.nodeValue; // Zoombox line width; pass in as param?
+  this.lineColor = widgetNode.selectSingleNode("mb:lineColor").firstChild.nodeValue; // color of zoombox lines; pass in as param?
+  this.crossSize = widgetNode.selectSingleNode("mb:crossSize").firstChild.nodeValue;
+
+  /** draw out the box.
+    * if the box width or height is less than the cross size property, then the
+    * drawCross method is called, otherwise call drawBox.
+    */
+  this.paint = function(objRef) {
+    var aoiBox = objRef.model.getParam("aoi");
+    if (aoiBox) {
+      var ul = objRef.model.extent.getPL(aoiBox[0]);
+      var lr = objRef.model.extent.getPL(aoiBox[1]);
+      //check if ul=lr, then draw cross, else drawbox
+      if ( (Math.abs( ul[0]-lr[0] ) < objRef.crossSize) && 
+          (Math.abs( ul[1]-lr[1] ) < objRef.crossSize) ) {
+        objRef.drawCross( new Array( (ul[0]+lr[0])/2, (ul[1]+lr[1])/2) );
+      } else {
+        objRef.drawBox(ul, lr);
+      }
+    }
+  }
+  model.addListener("aoi",this.paint, this);
+
+  // Inherit the MapContainerBase functions and parameters, paint has to be defined 
+  var base = new MapContainerBase(this,widgetNode, model);
 
   /** Hide or show the box.
     * @param vis    boolean true for visible; false for hidden
@@ -45,28 +67,8 @@ function AoiBoxDHTML(configNode, model) {
   this.clear = function(objRef) {
     objRef.setVis(false);
   }
-  this.model.addListener("loadModel",this.clear, this);
+  this.containerModel.addListener("bbox",this.clear, this);
 
-  /** draw out the box.
-    * if the box width or height is less than the cross size property, then the
-    * drawCross method is called, otherwise call drawBox.
-    */
-  this.paint = function(thisTool) {
-    var aoiBox = thisTool.model.getParam("aoi");widgetNode, model) {
-    if (aoiBox) {
-      var ul = thisTool.model.extent.getPL(aoiBox[0]);
-      var lr = thisTool.model.extent.getPL(aoiBox[1]);
-      //check if ul=lr, then draw cross, else drawbox
-      if ( (Math.abs( ul[0]-lr[0] ) < thisTool.crossSize) && 
-          (Math.abs( ul[1]-lr[1] ) < thisTool.crossSize) ) {
-        thisTool.drawCross( new Array( (ul[0]+lr[0])/2, (ul[1]+lr[1])/2) );
-      } else {
-        thisTool.drawBox(ul, lr);
-      }
-    }
-  }
-  this.model.addListener("aoi",this.paint, this);
-  this.model.addListener("refresh",this.paint, this);
 
   /** Draw a box.
     * @param ul Upper Left position as an (x,y) array in screen coords.
@@ -119,28 +121,27 @@ function AoiBoxDHTML(configNode, model) {
   /** Insert a <div> element into the parentNode html to hold the lines.
     * @return The new <div> node.
     */
-  this.getImageDiv = function( parentNode ) {
+  this.getImageDiv = function( ) {
     var newDiv = document.createElement("DIV");
     newDiv.innerHTML = "<IMG SRC='"+config.skinDir+"/images/Spacer.gif' WIDTH='1' HEIGHT='1'/>";
     newDiv.style.position = "absolute";
     newDiv.style.backgroundColor = this.lineColor;
     newDiv.style.visibility = "hidden";
     newDiv.style.zIndex = 300;
-    parentNode.appendChild( newDiv );
+    this.node.appendChild( newDiv );
     return newDiv;
   }
 
   /**
    * Called when the parent widget is painted to create the aoi box 
-   * @param thisTool This object.
+   * @param objRef This object.
    */
-  this.loadAoiBox = function(thisTool) {
-    var containerNode = thisTool.parentWidget.node;//document.getElementById( thisTool.parentWidget.mbWidgetId );//
-    thisTool.Top = thisTool.getImageDiv( containerNode );
-    thisTool.Bottom = thisTool.getImageDiv( containerNode );
-    thisTool.Left = thisTool.getImageDiv( containerNode );
-    thisTool.Right = thisTool.getImageDiv( containerNode );
-    thisTool.paint(thisTool);
+  this.loadAoiBox = function(objRef) {
+    objRef.Top = objRef.getImageDiv( );
+    objRef.Bottom = objRef.getImageDiv( );
+    objRef.Left = objRef.getImageDiv( );
+    objRef.Right = objRef.getImageDiv( );
+    objRef.paint(objRef);
   }
   this.loadAoiBox(this);
 

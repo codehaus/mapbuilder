@@ -184,6 +184,7 @@ function WidgetBase(widget,widgetNode,model) {
     //no-op by default
   }
 
+if (!widget.paint) {
   /**
    * Render the widget.
    * @param objRef Pointer to widget object.
@@ -262,6 +263,7 @@ function WidgetBase(widget,widgetNode,model) {
       objRef.postPaint(objRef);
     }
   }
+}
 
   /**
    * Remove widget from display.
