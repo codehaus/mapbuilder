@@ -67,6 +67,14 @@ function ModelBase(modelNode) {
     var widgets = objRef.modelNode.selectNodes("widgets/*");
     for (var j=0; j<widgets.length; j++) {
       var widgetNode = widgets[j];
+      var widgetId = widgetNode.attributes.getNamedItem("id").nodeValue;
+
+      if (objRef[widgetId]) {
+        var outputNode = objRef[widgetId].node;
+        while ( outputNode.hasChildNodes() ) {
+          outputNode.removeChild( outputNode.firstChild );
+        }
+      }
 
       //call the widget constructor and paint
       var evalStr = "new " + widgetNode.nodeName + "(widgetNode, objRef);";

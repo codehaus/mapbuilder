@@ -4,13 +4,14 @@
 Description: Output the context title and abstract
 Author:      Mike Adair mike.adairATnrcan.gc.ca
 Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
-$Id$
-$Name$
+Abstract.xsl,v 1.5 2004/06/25 17:59:38 madair1 Exp
+
 -->
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="html" encoding="utf-8"/>
   
   <!-- The common params set for all widgets -->
   <xsl:param name="lang">en</xsl:param>
+  <xsl:param name="widgetNode"/>
   
   <xsl:template match="/">
     <xsl:apply-templates select="wmc:ViewContext/wmc:General"/>
@@ -39,6 +40,7 @@ $Name$
             <xsl:value-of select="wmc:Abstract"/>
           </xsl:otherwise>
         </xsl:choose>
+        <!--br/><xsl:value-of select="{$widgetNode}/stylesheet"/-->
       </p>
       <p>
         <a href='{$metadataUrl}' title='{$metadataUrl}' target="moreInfo"><xsl:call-template name="moreInfo"/></a>

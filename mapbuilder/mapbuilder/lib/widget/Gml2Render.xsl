@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xsl:stylesheet xmlns:wmc="http://www.opengis.net/context" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
 <!--
 
@@ -18,7 +18,7 @@ $Name$
 
 -->
 
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="html" encoding="utf-8"/>
 
   
 
@@ -31,6 +31,34 @@ $Name$
   
 
   <!-- empty template for now -->
+
+  
+
+  <xsl:template match="/*">
+
+    <DIV>    
+
+        <xsl:attribute name="STYLE">position:absolute; top:0; left:0;</xsl:attribute>
+
+  
+
+      <IMG SRC='/mapbuilder/lib/skin/default/images/eye.gif' WIDTH='15' HEIGHT='15'/>
+
+      <script language="javascript">
+
+        alert("script execution");
+
+        //config.loadModel("collectionGroup","/mapbuilder/demo/context/geoConnectionsCollection.xml");
+
+      </script>
+
+    </DIV>
+
+  </xsl:template>
+
+  
+
+  <xsl:template match="text()|@*"/>
 
   
 

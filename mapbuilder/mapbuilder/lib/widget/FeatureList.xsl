@@ -10,7 +10,7 @@ $Id$
 $Name$
 -->
 
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="html" encoding="utf-8"/>
 
 
   <!-- Parameters passed into this xsl -->

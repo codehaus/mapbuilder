@@ -6,10 +6,10 @@ Description: Output a form for display of the context doc AOI
 Author:      Mike Adair
 Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 
-AoiForm.xsl,v 1.2 2004/06/25 17:59:38 madair1 Exp
+$Id$
 -->
 
-  <xsl:output method="html" encoding="utf-8"/>
+  <xsl:output method="xml" encoding="utf-8"/>
 
   <!-- The common params set for all widgets -->
   <xsl:param name="lang">en</xsl:param>
@@ -21,13 +21,23 @@ AoiForm.xsl,v 1.2 2004/06/25 17:59:38 madair1 Exp
 
   <!-- Main html -->
   <xsl:template match="/">
-    <DIV>
-    <FORM NAME="{$formName}" ID="{$formName}">
+    <form name="{$formName}" id="{$formName}" method="get" action="defaultUrl">
       <table>
         <tr>
           <th align="left" colspan="3">
             <xsl:call-template name="title"/>
           </th>
+        </tr>
+        <tr>
+          <td>
+            keyword:
+          </td>
+          <td>
+            <input name="keyword" type="text" size="10"/>
+          </td>
+          <td>
+            <input type="submit"/>
+          </td>
         </tr>
         <tr>
           <td>
@@ -62,11 +72,16 @@ AoiForm.xsl,v 1.2 2004/06/25 17:59:38 madair1 Exp
           </td>
         </tr>
       </table>
-    </FORM>
-    </DIV>
+    </form>
   </xsl:template>
   
   <xsl:template name="title">
+    <xsl:choose>
+      <xsl:when test="$lang='fr'">Search for layers</xsl:when>
+      <xsl:otherwise>Search for layers</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <xsl:template name="aoiTitle">
     <xsl:choose>
       <xsl:when test="$lang='fr'">Région d'intérêt</xsl:when>
       <xsl:otherwise>Area of interest coordinates</xsl:otherwise>

@@ -35,13 +35,13 @@ function Gml2Render(widgetNode, model) {
 
   /**
    * Override the WidgetBase pint() method to use wz_graphics to draw the features
-   */
   this.paint=function(){
     //paint the features and append them to this.node
     if (this.model.doc) {
       alert("render GML here");
     }
   }
+   */
 
   //features will have an extent so add the extent property
   //add the extent property

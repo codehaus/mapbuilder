@@ -9,7 +9,7 @@ Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 -->
 
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="html" encoding="utf-8"/>
 
   <!-- The common params set for all widgets -->
   <xsl:param name="lang">en</xsl:param>
@@ -21,6 +21,7 @@ $Id$
 
   <!-- Main html -->
   <xsl:template match="/">
+    <DIV>
     <form name="{$formName}" id="{$formName}" method="get" action="http://geoservices.cgdi.ca/NTS/NTSLookup">
       <input name="request" type="hidden" value="GetMapsheet"/>
       <input name="version" type="hidden" value="1.1.2"/>
@@ -45,6 +46,7 @@ $Id$
         </tr>
       </table>
     </form>
+    </DIV>
   </xsl:template>
   
   <xsl:template name="title">

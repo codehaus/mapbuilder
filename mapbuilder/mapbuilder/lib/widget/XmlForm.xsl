@@ -6,10 +6,10 @@ Description: Output a form for display of the context doc AOI
 Author:      Mike Adair
 Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 
-$Id$
+XmlForm.xsl,v 1.1 2004/06/28 03:46:49 madair1 Exp
 -->
 
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="html" encoding="utf-8"/>
 
   <!-- The common params set for all widgets -->
   <xsl:param name="modelId"/>
@@ -22,9 +22,11 @@ $Id$
 
   <!-- Main html -->
 	<xsl:template match="/">
+    <DIV>
     <FORM NAME="{$formName}" ID="{$formName}">
       <xsl:apply-templates select="wmc:ViewContext/wmc:General/wmc:ContactInformation"/> 
     </FORM>
+    </DIV>
   </xsl:template>
 
 	<xsl:template match="*">

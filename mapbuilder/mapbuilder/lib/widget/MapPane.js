@@ -27,11 +27,6 @@ function MapPane(widgetNode, model) {
     this[sProperty] = base[sProperty]; 
   } 
 
-  /** Id of <DIV> tag which contains the MapPane HTML. The <DIV> tag is built
-   *  by MapPane.xsl. */
-  this.containerId = "mappane_"+model.id;
-  this.stylesheet.setParameter("mapContainerId", this.containerId );
-
   //adjust the context width and height if required.
   var fixedWidth = widgetNode.selectSingleNode("fixedWidth");
   if ( fixedWidth ) {
@@ -40,11 +35,11 @@ function MapPane(widgetNode, model) {
     var newHeight = Math.round(aspectRatio*fixedWidth);
     this.model.setWindowWidth( fixedWidth );
     this.model.setWindowHeight( newHeight );
-    this.node.style.width = fixedWidth;
   }
   // Set dimensions of containing <div>
-  this.node.parentNode.style.width=this.model.getWindowWidth()+"px";
-  this.node.parentNode.style.height=this.model.getWindowHeight()+"px";
+  this.node.style.width=this.model.getWindowWidth();
+  this.node.style.height=this.model.getWindowHeight();
+  this.node.style.overflow="hidden";
 
   //add the extent property
   this.model.extent = new Extent( this.model );
@@ -63,7 +58,7 @@ function MapPane(widgetNode, model) {
   this.setContainerNodeHandlers = function(objRef) {
     //reset these on a paint because the containerNode is created on paint
     //these added to the containerNode because they will be referenced in that context
-    var containerNode = document.getElementById( objRef.containerId );
+    var containerNode = document.getElementById( objRef.mbWidgetId );
     containerNode.widget = objRef;
     containerNode.onmousemove = objRef.eventHandler;
     containerNode.onmouseout = objRef.eventHandler;
@@ -142,8 +137,8 @@ function MapPane(widgetNode, model) {
   this.eventHandler=function(ev) {
     if (window.event) {
       //IE events
-      var p = window.event.clientX - this.widget.node.offsetLeft + document.documentElement.scrollLeft + document.body.scrollLeft;
-      var l = window.event.clientY - this.widget.node.offsetTop + document.documentElement.scrollTop + document.body.scrollTop;
+      var p = window.event.clientX - this.offsetLeft + document.documentElement.scrollLeft + document.body.scrollLeft;
+      var l = window.event.clientY - this.offsetTop + document.documentElement.scrollTop + document.body.scrollTop;
       this.evpl = new Array(p,l);
       this.eventTarget = window.event.srcElement;
       this.eventType = window.event.type;
@@ -154,8 +149,8 @@ function MapPane(widgetNode, model) {
       window.event.cancelBubble = true;
     } else {
       //mozilla browsers
-      var p = ev.clientX + window.scrollX - this.widget.node.offsetLeft;
-      var l = ev.clientY + window.scrollY - this.widget.node.offsetTop;
+      var p = ev.clientX + window.scrollX - this.offsetLeft;
+      var l = ev.clientY + window.scrollY - this.offsetTop;
       this.evpl = new Array(p,l);
       this.eventTarget = ev.target;
       this.eventType = ev.type;

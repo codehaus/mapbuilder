@@ -11,17 +11,19 @@ $Id$
 $Name$
 -->
 
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="html" encoding="utf-8"/>
 
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
 
   <!-- Main html -->
   <xsl:template match="/">
+    <DIV>
     <form>
       <h3>Load WMS GetCapabilities:</h3>
       <textarea cols="40" rows="1" onkeypress="config.{$modelId}.{$widgetId}.onKeyPress(event)">../lib/widget/wms/GmapCapabilities.xml</textarea> 
     </form>
+    </DIV>
   </xsl:template>
   
   <xsl:template match="text()|@*"/>

@@ -12,7 +12,7 @@ $Id$
 $Name$
 -->
 
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="html" encoding="utf-8"/>
 
   <xsl:param name="lang">en</xsl:param>
 
