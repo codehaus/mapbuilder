@@ -34,8 +34,6 @@
   -->
   <baseDir>/mapbuilder/lib/</baseDir>
   
-  <scriptFile>model/Collection.js</scriptFile>
-  <scriptFile>model/Context.js</scriptFile>
   <scriptFile>model/Extent.js</scriptFile> 
     
   <!--
@@ -134,6 +132,7 @@
     
     <ContextCollection id="collectionGroup">
       <defaultModelUrl>context/demoCollection.ccml</defaultModelUrl>
+      <scriptFile>model/Collection.js</scriptFile>
       <widgets>
         <CollectionList id="collectionListId">
           <scriptFile>widget/collectionList/CollectionList.js</scriptFile>
