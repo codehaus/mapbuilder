@@ -34,7 +34,6 @@ function WidgetBase(widgetNode, model) {
   }
   this.model = model;
   this.widgetNode = widgetNode;
-  this.tools=new Array();
 
   // Set this.stylesheet
   // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
@@ -85,12 +84,8 @@ function WidgetBase(widgetNode, model) {
     for (var i=0; i<toolNodes.length; i++ ) {
       var toolNode = toolNodes[i];
       evalStr = "new " + toolNode.nodeName + "(toolNode, this);";
-      this.tools[toolNode.nodeName] = eval( evalStr );
+      this[toolNode.nodeName] = eval( evalStr );
     }
   }
 
-  /**
-   * no-op function; override in derived classes to add tool listeners to the model.
-   */
-  this.postPaintInit = function() {}
 }
