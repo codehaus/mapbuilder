@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
+<article>
+  <title>Community Map Builder Layout Guide</title>
+
+  <abstract>
+    <para>How to incorporate Mapbuilder Widgets into a Web Page.</para>
+  </abstract>
+
+  <section id="systemoverview">
+    <title>System Overview</title>
+
+    <para>The Community Map Builder (CMB) contains:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>An open source framework for communities to collectively edit
+        geographic data.</para>
+      </listitem>
+
+      <listitem>
+        <para>Javascript and XSL modular libraries which can be integrated to
+        build geographic widgets. The widgets impliment clients to Open GIS
+        Consortium (OGC) services.</para>
+      </listitem>
+
+      <listitem>
+        <para>Specific OGC clients which have been built using CMB
+        widgets.</para>
+      </listitem>
+    </orderedlist>
+  </section>
+
+  <section>
+    <title>Document Overview</title>
+
+    <para>This document describes how to incorporate Mapbuilder Widgets into a
+    Web Page. The reader should understand HTML and have an elementary
+    understanding of Javascript.</para>
+  </section>
+
+  <section>
+    <title>Browser Requirements</title>
+
+    <para>TBD</para>
+  </section>
+
+  <section>
+    <title>Building a Mapbuilder Main Page</title>
+
+    <para>A Mapbuilder main page consists of three sections:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>Include the required libraries.</para>
+      </listitem>
+
+      <listitem>
+        <para>Layout the Widgets within a HTML page.</para>
+      </listitem>
+
+      <listitem>
+        <para>Initialise the Mapbuilder components.</para>
+      </listitem>
+    </orderedlist>
+
+    <example>
+      <title>mapbuilder/demo/simple.html</title>
+
+      <programlisting>&lt;!--
+Description: A simple demonstration of libraries from
+             http://mapbuilder.sourceforge.net .
+Usage:       Call http://hostname/dir/simple.html
+Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+
+$Id$
+$Name$
+--&gt;
+
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Simple Mapbuilder Demo&lt;/title&gt;
+
+    &lt;!-- Include mapbuilder libraries --&gt;
+    &lt;script type="text/javascript" src="../lib/model/Context.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="../lib/widget/mappane/MapPane.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="../lib/widget/legend/Legend.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="../lib/util/sarissa/Sarissa.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="../lib/util/Util.js"&gt;&lt;/script&gt;
+    &lt;link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css"&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;h1&gt;Simple Mapbuilder Demo&lt;/h1&gt;
+
+    &lt;!-- Layout mapbuilder widgets and HTML --&gt;
+    &lt;table&gt;
+      &lt;tr&gt;
+        &lt;td valign="top"&gt;
+          &lt;div id="mapPaneDiv"&gt;&lt;/div&gt;
+        &lt;/td&gt;
+        &lt;td valign="top"&gt;
+          &lt;div id="legendDiv"&gt;&lt;/div&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+
+    &lt;!-- Initialise mapbuilder components --&gt;
+    &lt;script&gt;
+      // Base Mapbuilder library directory
+      baseDir="../lib";
+
+      // Load the context:
+      context=new Context(
+        "context/wmc.xml",
+        "context",
+        baseDir,
+        "default");
+
+      // Create and render a MapPane
+      mapPane=new MapPane(
+        context,
+        "mapPane",
+        document.getElementById("mapPaneDiv"));
+      mapPane.paint();
+
+      // Create and render a Legend
+      legend=new Legend(
+        context,
+        "legend",
+        document.getElementById("legendDiv"));
+      legend.paint();
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</programlisting>
+    </example>
+
+    <section>
+      <title>Include mapbuilder libraries</title>
+
+      <para>To find the required libraries, check the <ulink
+      url="http://mapbuilder.sourceforge.net/docs/jsdoc/index.html">jsdoc</ulink>
+      <emphasis role="bold">Requires</emphasis>: section for all the widgets
+      included in the main page.</para>
+
+      <para>Typically, libraries required include:</para>
+
+      <variablelist>
+        <varlistentry>
+          <term>Context.js</term>
+
+          <listitem>
+            <para>This contains all the map state - like Layers, Bounding Box
+            etc.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Sarissa.js</term>
+
+          <listitem>
+            <para>This is an external library which provides cross browser XML
+            functions.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Util.js</term>
+
+          <listitem>
+            <para>Common utility functions.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>&lt;Widget&gt;.js</term>
+
+          <listitem>
+            <para>All the widgets included on the Main page.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+      <para>A stylesheet skin may be included to customise the Main page look
+      and feel.</para>
+    </section>
+
+    <section>
+      <title>Layout widgets and HTML</title>
+
+      <para>Widgets are inserted into HTML using <literal>&lt;div
+      id="uniqueId"&gt;</literal>. A widget uses Dynamic HTML to render the
+      widget into a <literal>&lt;div&gt;</literal> tag. The
+      <literal>uniqueId</literal> is used when creating an instance of a
+      widget object and identifies where a widget will be rendered.</para>
+    </section>
+
+    <section>
+      <title>Initialise components</title>
+
+      <para>The mapbuilder components need to be instantiated and
+      widget.paint() functions need to be called.</para>
+
+      <para>Parameters required for each widget are descripted in the <ulink
+      url="http://mapbuilder.sourceforge.net/docs/jsdoc/index.html">mapbuilder
+      jsdocs</ulink>.</para>
+
+      <para>TBD: More detail is required here.</para>
+    </section>
+  </section>
+</article>
