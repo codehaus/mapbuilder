@@ -43,6 +43,16 @@ INPUT.bareinput {
 }
 
 
+.footer { 
+  font-size: 80%;  
+  color: #3366cc; 
+  margin: 0; 
+  margin-bottom: 10; 
+  width: 100%; 
+  border-top: 1pt solid #3366cc; 
+  text-align: right
+}
+
 
 H1 { 
   font: normal 18pt;  
