@@ -31,7 +31,7 @@
     <section>
       <title>Identification</title>
 
-      <para>This document is refered to as <citetitle>mapbuilder-lib Software
+      <para>This document is referred to as <citetitle>mapbuilder-lib Software
       Design Description</citetitle>, associated with release $Name$.</para>
 
       <para>The source document is stored in Docbook XML format and is stored
@@ -130,7 +130,7 @@
                 environments currently supported include: Perl, PHP, JSP.
                 Contributions for equivalent functionality in other server
                 environments is encouraged. Please see server
-                dependancies</para>
+                dependencies</para>
 
                 <para>(TBD link a section for server requirements).</para>
               </listitem>
@@ -184,7 +184,7 @@
               </listitem>
 
               <listitem>
-                <para>A modular design is easier to understand, maitain and
+                <para>A modular design is easier to understand, maintain and
                 extend.</para>
               </listitem>
 
@@ -360,7 +360,7 @@
 
             <listitem>
               <para>Views can display the same data in different ways. For
-              example, a Locator Map and Main Map both display the BoundingBox
+              example, a Locater Map and Main Map both display the BoundingBox
               in different ways.</para>
             </listitem>
           </varlistentry>
@@ -437,9 +437,9 @@
       <section id="config">
         <title>Config</title>
 
-        <para>This section explains the mapbuilder object model.</para>
+        <para>This section explains the mapbuilder-lib object model.</para>
 
-        <para>All MapBuilder applications are initialized from an XML
+        <para>All mapbuilder-lib applications are initialized from an XML
         configuration document. The document closely follows the MVC design
         pattern to describe the Models, Widgets (Views) and Tools
         (Controllers) provided by an application.</para>
@@ -523,14 +523,6 @@
           can be used to register models, widgets and tools that are
           interested in when this model is refreshed from a URL, typically
           widgets of a different Model object.</para>
-
-          <para>TBD: put this in a file name convention section. Config.js
-          calls widget and tool object constructors using the config element
-          node name.</para>
-
-          <para>TBD: Cameron 23 March 2004: I think we need to explain what
-          the Config.xml is. I will create UML diagrams (Using Poseidon) for
-          each of the objects.</para>
         </section>
 
         <section id="configmodels">
@@ -615,7 +607,7 @@
               <term>WMS Capabilities</term>
 
               <listitem>
-                <para>OGC Wep Map Server capabilities documents</para>
+                <para>OGC Web Map Server capabilities documents</para>
               </listitem>
             </varlistentry>
           </variablelist>
@@ -685,19 +677,19 @@
             </listitem>
 
             <listitem>
-              <para>the AOIBox tool is only used for drawing a box on a
+              <para>The AOIBox tool is only used for drawing a box on a
               MapPane, it can't exist independent of a MapPane. It gets the
               coords of the AOI to draw from the model.getAOI() method.</para>
             </listitem>
 
             <listitem>
-              <para>the AoiMouseHandler tool is used to click and drag an AOI
+              <para>The AoiMouseHandler tool is used to click and drag an AOI
               on a MapPane, so it registers with the mouse event listeners of
               MapPane. It will call the setAoi() method of the model.</para>
             </listitem>
 
             <listitem>
-              <para>a ZoomIn tool is used to process a mouseup event on the
+              <para>A ZoomIn tool is used to process a mouseup event on the
               MapPane, it will change the model bbox.</para>
             </listitem>
 
@@ -769,7 +761,7 @@
         </figure>
 
         <para>Widgets are responsible for rendering map components into the
-        the MainPage whenever state changes. Usually, the widget uses XSL to
+        MainPage whenever state changes. Usually, the widget uses XSL to
         convert an XML document to an HTML snippet. The HTML snippet is
         inserted into the widget's HTML tag in the MainPage.</para>
       </section>
@@ -863,10 +855,21 @@
         </section>
       </section>
 
+      <section id="mapbuilder">
+        <title>Mapbuilder</title>
+
+        <para>The Mapbuilder object is responsible for loading and
+        initialising required script files. The scripts required is determined
+        from the <link linkend="config">Config</link> file. The Mapbuilder
+        object loads the scripts in order of dependency, periodically checking
+        the load status. When all scripts have loaded, the javascript objects
+        are initialised which triggers the rendering of widgets. </para>
+      </section>
+
       <section id="inheritance">
         <title>Inheritance</title>
 
-        <para>Javascript doesn't naturally provide inheritence. Instead there
+        <para>Javascript doesn't naturally provide inheritance. Instead there
         are a number of hack solutions that a programmer can choose from. In
         mapbuilder-lib, the following method is used:</para>
 
@@ -900,36 +903,14 @@
         for example, the javascript Context code will be loaded from the file
         lib/model/Context.js. This default filename of the javascript object
         code can be over-ridden by setting a &lt;scriptfile&gt; property on
-        the object in the configration document.</para>
+        the object in the configuration document.</para>
 
         <para>In addition, the stylehseet filename for widgets will also use
         the object type name with an extension of .xsl by default. For
         example, the &lt;Legend&gt; XSL file to style the Legend object is
         lib/widget/Legend.xsl by default. This default filename can be
-        over-riden by setting a &lt;stylesheet&gt; property on the widget
+        over-ridden by setting a &lt;stylesheet&gt; property on the widget
         object.</para>
-      </section>
-    </section>
-
-    <section>
-      <title>Concept of Execution</title>
-
-      <section id="loading">
-        <title>Loading</title>
-
-        <para>TBD: This section to cover loading scripts.</para>
-
-        <itemizedlist>
-          <listitem>
-            <para>Need to wait for scripts to load before allowing scripts to
-            call each other.</para>
-          </listitem>
-
-          <listitem>
-            <para>In IE, the onLoad() function doesn't wait for imported
-            scripts to load before being called.</para>
-          </listitem>
-        </itemizedlist>
       </section>
     </section>
   </section>
@@ -940,7 +921,7 @@
     <section>
       <title>Extending the code base</title>
 
-      <para>When extending the mapbuilder codebase, it's usually easiest to
+      <para>When extending the mapbuilder code base, it's usually easiest to
       copy code from other models, widgets and tools.</para>
 
       <para>Depending on what functionality you want to add, you will begin at
@@ -955,12 +936,11 @@
 
           <para>If you are representing a new XML document type not already
           supported by mapbuilder, first code the javascript Model object. All
-          model objects should inherit from ModelBase (TBD?). Javascript
-          source files are added to the lib/models directory. Add a new object
-          to the &lt;models&gt; property of the config document which points
-          to the javascript source file. The model constructor must be named
-          the same as the &lt;modelType&gt; properties of a ModelGroup
-          object.</para>
+          model objects should inherit from ModelBase. Javascript source files
+          are added to the lib/models directory. Add a new object to the
+          &lt;models&gt; property of the config document which points to the
+          javascript source file. The model constructor must be named the same
+          as the &lt;modelType&gt; properties of a ModelGroup object.</para>
         </listitem>
 
         <listitem>
@@ -971,7 +951,7 @@
           the Model an "id" attribute so that it can be referenced using that
           id as the property name of mbConfig (e.g. mbConfig['modelId']). Add
           defaultModelUrl properties to the Model which is the URL of the
-          doument that will be loaded by default.</para>
+          document that will be loaded by default.</para>
         </listitem>
 
         <listitem>
@@ -982,7 +962,7 @@
           objects must inherit from the WidgetBase class. A widget constructor
           must have the same name as the widget object node name in the config
           document. Source code for widgets is added as a subdirectory of
-          lib/widgets containing all files requried to paint the widget. Add
+          lib/widgets containing all files required to paint the widget. Add
           the &lt;scriptfile&gt; and &lt;stylesheet&gt; properties to the
           object in config to point to these source files. The widget will be
           painted to the HTML element with the same id as the "id" attribute
@@ -1017,13 +997,19 @@
           <row>
             <entry>Term</entry>
 
-            <entry>Expanded Accronym</entry>
+            <entry>Expanded Acronym</entry>
 
             <entry>Description</entry>
           </row>
         </thead>
 
         <tbody>
+          <row>
+            <entry>AOI</entry>
+
+            <entry>Area Of Interest</entry>
+          </row>
+
           <row>
             <entry>CSS</entry>
 
@@ -1076,13 +1062,12 @@
           </row>
 
           <row>
-            <entry>LGPL</entry>
+            <entry>GPL</entry>
 
-            <entry><ulink url="http://www.gnu.org/copyleft/lesser.html">Lesser
-            General Public Licence</ulink></entry>
+            <entry><ulink url="http://www.gnu.org/copyleft/gpl.html">GNU
+            General Public License</ulink></entry>
 
-            <entry>Geotools licence which ensures the code is open, free and
-            can be used in proprietry software.</entry>
+            <entry>Open Source License.</entry>
           </row>
 
           <row>
@@ -1102,6 +1087,12 @@
             Consortium</ulink></entry>
 
             <entry>Geographic Standards Body</entry>
+          </row>
+
+          <row>
+            <entry>RDF</entry>
+
+            <entry>Resource Description Framework</entry>
           </row>
 
           <row>
@@ -1166,25 +1157,6 @@
             <entry>Web Map Server</entry>
 
             <entry>Return raster map images and point queries.</entry>
-          </row>
-
-          <row>
-            <entry>WYSIWYG</entry>
-
-            <entry>What You See Is What You Get</entry>
-
-            <entry>Refers to editors (like "word") which display edited text
-            the same way it will be displayed when printed on paper.</entry>
-          </row>
-
-          <row>
-            <entry>WYSIWYM</entry>
-
-            <entry>What You See Is What You Mean</entry>
-
-            <entry>Refers to editors which store symantics instead of print
-            fonts. Eg, store &lt;h1&gt; instead of
-            &lt;fontsize=32&gt;.</entry>
           </row>
 
           <row>
