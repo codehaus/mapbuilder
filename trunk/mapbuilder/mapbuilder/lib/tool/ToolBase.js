@@ -13,30 +13,35 @@ $Id$
 function ToolBase(toolNode, parentWidget) {
   this.model = parentWidget.model;
   this.parentWidget = parentWidget;
-
-  /** The model this tool will update. */
-  var targetModel = toolNode.selectSingleNode("targetModel");
-  if (targetModel) {
-    this.targetModelName = targetModel.firstChild.nodeValue;
-    this.targetModel = eval("config."+this.targetModelName);
-  } else {
-    this.targetModel = parentWidget.targetModel;
-  }
+  this.toolNode = toolNode;
 
   var id = toolNode.selectSingleNode("@id");
   if (id) this.id = id.firstChild.nodeValue;
 
-  /** Mouse handler which this tool will register listeners with. */
-  var mouseHandler = toolNode.selectSingleNode("mouseHandler");
-  if (mouseHandler) {
-    this.mouseHandlerName = mouseHandler.firstChild.nodeValue;
-    var evalObj = eval( "config." + this.mouseHandlerName );
-    if (evalObj) {
-      this.mouseHandler = evalObj;
+  //initialize dynamic properties
+  this.initModels = function(toolRef) {
+    /** The model this tool will update. */
+    var targetModel = toolRef.toolNode.selectSingleNode("targetModel");
+    if (targetModel) {
+      var targetModelName = targetModel.firstChild.nodeValue;
+      toolRef.targetModel = eval("config."+targetModelName);
     } else {
-      alert( "invalid object reference in config:" + mouseHandler.firstChild.nodeValue );
+      toolRef.targetModel = toolRef.parentWidget.targetModel;
+    }
+
+    /** Mouse handler which this tool will register listeners with. */
+    var mouseHandler = toolRef.toolNode.selectSingleNode("mouseHandler");
+    if (mouseHandler) {
+      var evalObj = eval( "config." + mouseHandler.firstChild.nodeValue );
+      if (evalObj) {
+        toolRef.mouseHandler = evalObj;
+      } else {
+        alert( "invalid object reference in config:" + mouseHandler.firstChild.nodeValue );
+      }
     }
   }
+  this.initModels(this);
+  this.targetModel.addListener( "loadModel", this.initModels, this );
 
   //dependant tools that must be enabled/disabled when this tool is enabled
   this.dependancies = toolNode.getElementsByTagName("dependsOn");

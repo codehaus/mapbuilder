@@ -133,13 +133,13 @@ function AoiBox(toolNode, parentWidget) {
    * @param thisTool This object.
    */
   this.loadAoiBox = function(thisTool) {
-    var containerNode = document.getElementById( thisTool.parentWidget.mbWidgetId );//thisTool.parentWidget.node;//
+    var containerNode = thisTool.parentWidget.node;//document.getElementById( thisTool.parentWidget.mbWidgetId );//
     thisTool.Top = thisTool.getImageDiv( containerNode );
     thisTool.Bottom = thisTool.getImageDiv( containerNode );
     thisTool.Left = thisTool.getImageDiv( containerNode );
     thisTool.Right = thisTool.getImageDiv( containerNode );
   }
-  this.parentWidget.addListener("paint",this.loadAoiBox, this);
+  //this.model.addListener("loadModel",this.loadAoiBox, this);
   this.loadAoiBox(this);
 
 }
