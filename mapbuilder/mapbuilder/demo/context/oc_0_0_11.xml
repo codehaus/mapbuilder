@@ -26,11 +26,21 @@
 
 		<ows:BoundingBox crs="EPSG:4326">
 
-			<ows:LowerCorner>-71.1485566986829 42.2593928033786</ows:LowerCorner>
+			<ows:LowerCorner>-71.10285218349743 42.261800717452054</ows:LowerCorner>
 
-			<ows:UpperCorner>-71.0016725358029 42.4399863588876</ows:UpperCorner>
+			<ows:UpperCorner>-71.04767081931412 42.29490953596204</ows:UpperCorner>
 
 		</ows:BoundingBox>
+
+		<!--Window width="400" height="400"/>
+
+		<ows:BoundingBox crs="EPSG:26986">
+
+			<ows:LowerCorner>227317.38 889948.26</ows:LowerCorner>
+
+			<ows:UpperCorner>238669.29 901300.18</ows:UpperCorner>
+
+		</ows:BoundingBox-->
 
 		<Title>OWS Context Document Schema Interoperability Experiment</Title>
 
@@ -289,6 +299,20 @@
 			<Title>roads</Title>
 
 			<Abstract/>
+
+                        <Geometry>GEOMETRY</Geometry>
+
+			<ogc:Filter>
+
+				<ogc:PropertyIsEqualTo>
+
+					<ogc:PropertyName>CLASS</ogc:PropertyName>
+
+					<ogc:Literal>4</ogc:Literal>
+
+				</ogc:PropertyIsEqualTo>
+
+			</ogc:Filter>
 
 			<sld:MinScaleDenominator>50000</sld:MinScaleDenominator>
 
