@@ -88,17 +88,9 @@
       <xs:extension base="mb:AbstractModelType"/>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="Gml2Type">
+  <xs:complexType name="FeatureCollectionType">
     <xs:annotation>
-      <xs:documentation>A representation of geographic features in GML v2 as specified by the Open Geospatial Consortium (http://www.opengis.org/docs/02-069.pdf) </xs:documentation>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="mb:AbstractModelType"/>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="GetFeatureType">
-    <xs:annotation>
-      <xs:documentation>A response from a WFS for a GetFeature operation</xs:documentation>
+      <xs:documentation>A representation of a geographic Feature or Feature Collection in GML as specified by the Open Geospatial Consortium (http://www.opengis.org/docs/02-069.pdf) </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="mb:AbstractModelType"/>
@@ -429,8 +421,7 @@
       <xs:element name="ContextCollection" type="mb:ContextCollectionType"/>
       <xs:element name="WmsCapabilities" type="mb:WmsCapabilitiesType"/>
       <xs:element name="WfsCapabilities" type="mb:WfsCapabilitiesType"/>
-      <xs:element name="Gml2" type="mb:Gml2Type"/>
-      <xs:element name="GetFeature" type="mb:GetFeatureType"/>
+      <xs:element name="FeatureCollection" type="mb:FeatureCollectionType"/>
       <xs:element name="Transaction" type="mb:TransactionType"/>
       <xs:element name="DescribeFeatureType" type="mb:DescribeFeatureTypeType"/>
     </xs:choice>
