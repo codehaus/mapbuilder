@@ -23,27 +23,25 @@ $Name$
       var mbConfigUrl='config/CompleteConfig.xml';
 
       var mapbuilder;
-      var timerId;
+      var mbTimerId;
 
       /**
        * Initialise Mapbuilder if script has been loaded, else wait to be called
        * again.
        */
-      function mapbuilderInit() {
-        if(Mapbuilder){
-          clearInterval(timerId);
-
-          //mapbuilder=new Mapbuilder(config);
-          mapbuilder=new Mapbuilder();
+      function mapbuilderInit(){
+        if(Mapbuilder && mapbuilder.allScriptsLoaded){
+          clearInterval(mbTimerId);
+          config.init();
         }
       }
-
-      // See if config script has been loaded every 200msecs.
-      timerId=setInterval('mapbuilderInit()',200);
     </script>
   </head>
 
-  <body onload=";">
+  <body onload="
+    // See if scripts have been loaded every 100msecs, then call config.init().
+    mbTimerId=setInterval('mapbuilderInit()',100);
+  ">
     <!-- Layout mapbuilder widgets and HTML -->
     <h1><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Demo</h1>
     <table>
