@@ -14,6 +14,8 @@ Tools:
 
 * Remove addPaintListener from WidgetBase and extend Listener.js instead
 
+* Don't support providing alternative <scriptfile> tags in the config.
+
 * MapDisplayForm in wmsConfig.html needs to be moved into a widget.
 
 * Move Context2FeatureInfo.xml out of widget/tool
