@@ -39,17 +39,15 @@ $Name$
           <input type="checkbox" id="legend_{wmc:Name}" onclick="{$context}.setHidden('{wmc:Name}',! document.getElementById('legend_{wmc:Name}').checked)"/>
         </xsl:if>
       </td>
-<!-- Commented out until query is supported
       <td>
         <xsl:if test="@queryable='1'">
           <img
             id="query_{wmc:Name}"
             title="Click to set {wmc:Title} as the query layer"
-            onclick="{$context}.queryLayer='{wmc:Name}'"
+            onclick="{$context}.setParam('queryLayer','{wmc:Name}')"
             src="/mapbuilder/lib/skin/default/images/id.gif" />
         </xsl:if>
       </td>
-      -->
       <td>
         <xsl:value-of select="wmc:Title"/>
       </td>
