@@ -42,9 +42,8 @@ function ZoomToAoi(toolNode, parentWidget) {
    * Target model bbox change listener.  This sets this model's AOI to be the
    * same as the target model bounding box.
    * @param tool        Pointer to this ZoomToAoi object.
-   * @param targetNode  The node for the enclosing HTML tag for this widget, not used.
    */
-  this.showTargetAoi = function( tool, targetNode ) {
+  this.showTargetAoi = function( tool ) {
     var bbox = tool.targetModel.getBoundingBox();  
     var ul = new Array(bbox[0],bbox[3]);
     var lr = new Array(bbox[2],bbox[1]);
@@ -57,7 +56,11 @@ function ZoomToAoi(toolNode, parentWidget) {
     }
     tool.model.setParam("aoi", new Array(ul, lr) );
   }
-  this.targetModel.addListener( "refresh", this.showTargetAoi, this );
+  this.firstInit = function(tool) {
+    tool.targetModel.addListener( "refresh", tool.showTargetAoi, tool );
+    tool.showTargetAoi(tool);
+  }
+  config.addListener( "refresh", this.firstInit, this );
   //this.targetModel.addListener( "loadModel", this.showTargetAoi, this );
 
 
