@@ -20,7 +20,7 @@ $Name$
   <xsl:param name="bBoxMaxX" select="180"/>
   <xsl:param name="bBoxMaxY" select="90"/>
   <xsl:param name="color" select="red"/>
-  <xsl:param name="lineWidth" select="2"/>
+  <xsl:param name="lineWidth" select="1"/>
   <xsl:param name="skinDir"/>
   <xsl:param name="pointDiameter" select="10"/>
 
@@ -78,23 +78,16 @@ $Name$
       <xsl:with-param name="y1" select="$y0"/>
     </xsl:call-template>
 
-    <xsl:call-template name="drawLine">
-      <xsl:with-param name="x0" select="$x0"/>
-      <xsl:with-param name="y0" select="$y0"/>
-      <xsl:with-param name="x1" select="$x1"/>
-      <xsl:with-param name="y1" select="$y1"/>
-    </xsl:call-template>
-    <xsl:call-template name="drawLine">
-      <xsl:with-param name="x0" select="$x0"/>
-      <xsl:with-param name="y0" select="$y1"/>
-      <xsl:with-param name="x1" select="$x1"/>
-      <xsl:with-param name="y1" select="$y0"/>
-    </xsl:call-template>
   </xsl:template>
 
   <!-- Match and render a LineString -->
   <xsl:template match="gml:LineString">
     <xsl:for-each select="gml:coord">
+      <debug lineString="x"
+        x0="{round((number(gml:X)-$bBoxMinX)*$xRatio)}"
+        y0="{round($height - (number(gml:Y) -$bBoxMinY)*$yRatio)}"
+        x1="{round((number(following-sibling::gml:coord[position()=1]/gml:X)-$bBoxMinX)*$xRatio)}"
+        y1="{round($height - (number(following-sibling::gml:coord[position()=1]/gml:Y)-$bBoxMinY)*$yRatio)}"/>
       <xsl:if test="following-sibling::gml:coord">
         <xsl:call-template name="drawLine">
           <xsl:with-param name="x0" select="round((number(gml:X)-$bBoxMinX)*$xRatio)"/>
@@ -115,7 +108,9 @@ $Name$
     <xsl:variable name="slope">
       <xsl:choose>
         <xsl:when test="$x0 = $x1">0</xsl:when>
-        <xsl:otherwise>select="($y1 - $y0) div ($x1 - $x0)"</xsl:otherwise>
+        <xsl:otherwise>
+          <xsl:value-of select="($y1 - $y0) div ($x1 - $x0)"/>
+        </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
 
