@@ -42,7 +42,7 @@ function OwsContext(modelNode, parent) {
     if (hidden) hiddenValue = "1";
       
     //var layers=this.doc.documentElement.getElementsByTagName("Layer");
-    var layers=this.doc.selectNodes("/wmc:OWSContext/wmc:LayerList/wmc:Layer");
+    var layers=this.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:Layer");
     for(var i=0;i<layers.length;i++) {
       if(layers[i].getElementsByTagName("Name").item(0).firstChild.nodeValue == layerIndex) {
         layers[i].setAttribute("hidden", hiddenValue);
@@ -62,7 +62,7 @@ function OwsContext(modelNode, parent) {
   this.getHidden=function(layerIndex){
     var hidden=1;
     //layers=this.doc.documentElement.getElementsByTagName("Layer");
-    var layers=this.doc.selectNodes("/wmc:OWSContext/wmc:LayerList/wmc:Layer");
+    var layers=this.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:Layer");
     for(var i=0;i<layers.length;i++) {
       if(layers[i].getElementsByTagName("Name").item(0).firstChild.nodeValue == layerIndex) {
         hidden=layers[i].getAttribute("hidden");
@@ -196,7 +196,8 @@ function OwsContext(modelNode, parent) {
       objRef.setParam('wfs_GetFeature',featureName);
     }
   }
-  this.addListener("loadModel", this.loadFeatures, this);
+  //this.addListener("loadModel", this.loadFeatures, this);
+  config.addListener("loadModel", this.loadFeatures, this);
 
 }
 
