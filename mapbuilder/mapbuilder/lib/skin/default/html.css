@@ -12,4 +12,11 @@ INPUT.bareinput {
 
 #mainMapContainer {
   border: 1px solid olive;
+  cursor: crosshair;
+}
+
+#legend {
+	font-size: 70%; 
+  font-family: cursive;
+  background-color: silver;
 }
