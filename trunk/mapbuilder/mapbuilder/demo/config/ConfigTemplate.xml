@@ -55,7 +55,7 @@
         <MapPane id="mainMapPaneId">
           <scriptFile>widget/mappane/MapPane2.js</scriptFile>
           <stylesheet>widget/mappane/Context2MapPane2.xml</stylesheet>
-           <tools> 
+          <tools> 
 
             <AoiBox>
               <scriptFile>widget/tool/AoiBox2.js</scriptFile>
@@ -68,17 +68,24 @@
               <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
             </AoiMouseHandler>
 
+            <ZoomInHandler>
+              <scriptFile>widget/tool/ZoomTool3.js</scriptFile>
+              <modeValue>MODE_ZOOM_IN</modeValue>
+            </ZoomInHandler>
+
             <CursorTrack>
               <scriptFile>widget/tool/CursorTrack.js</scriptFile>
               <scriptFile>model/Proj.js</scriptFile>
               <formName>MapDisplayForm</formName>
             </CursorTrack>
 
-            <ButtonBar id="buttonBarId">  <!-- use a different name if required -->
+            <!-- not yet working; uncomment this to try it out
+            <ButtonBar id="buttonBarId">  
               <stylesheet>/widget/buttonbar/ButtonBar2.xsl</stylesheet>
               <scriptFile>/widget/buttonbar/ButtonBar3.js</scriptFile>
-              <targetWidget>MapPane</targetWidget>
-              <tools>
+              <modalButtons>true</modalButtons>
+              <initialMode>MODE_ZOOM_IN</initialMode>
+              <buttons>
                 <Button id="ZoomInButton">
                   <enabledSrc>/images/zoom_in_en.gif</enabledSrc>
                   <disabledSrc>/images/zoom_in_dis.gif</disabledSrc>
@@ -97,8 +104,9 @@
                   <tooltip>reset the map to full extent</tooltip>
                   <modeValue>MODE_RESET</modeValue>
                 </Button>
-              </tools>
+              </buttons>
             </ButtonBar>
+             -->
 
             <ToolList id="toolListId">
               <stylesheet>/widget/toollist/Config2ToolList.xsl</stylesheet>
@@ -146,10 +154,14 @@
            <tools> 
             <AoiBox>
               <scriptFile>widget/tool/AoiBox2.js</scriptFile>
-              <lineColor>#00FF00</lineColor>
+              <lineColor>#0000FF</lineColor>
               <lineWidth>1</lineWidth>
               <crossSize>5</crossSize>
             </AoiBox>
+            <AoiMouseHandler>
+              <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
+            </AoiMouseHandler>
+
           </tools> 
         </MapPane>
       </widgets>

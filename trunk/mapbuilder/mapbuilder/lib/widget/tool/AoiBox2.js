@@ -17,17 +17,16 @@ $Id$
  */
 
 function AoiBox(toolNode, parentWidget) {
-  this.lineWidth = 2;                 // Zoombox line width; pass in as param?
-  this.lineColor = "#FF0000";         // color of zoombox lines; pass in as param?
-  this.crossSize = 9;
+  this.lineWidth = toolNode.selectSingleNode("lineWidth").firstChild.nodeValue; // Zoombox line width; pass in as param?
+  this.lineColor = toolNode.selectSingleNode("lineColor").firstChild.nodeValue; // color of zoombox lines; pass in as param?
+  this.crossSize = toolNode.selectSingleNode("crossSize").firstChild.nodeValue;
 
-  this.model = parentWidget.model;
+  this.parentWidget = parentWidget;
 
   this.aoiListener = function(objRef) {
     objRef.paint();
   }
 
-  this.model.addAoiListener(this.aoiListener, this);
 
 /** Hide or show the box
   * @param vis    boolean true for visible; false for hidden
@@ -48,7 +47,7 @@ function AoiBox(toolNode, parentWidget) {
   * @return       none
   */
   this.paint = function() {
-    var aoiBox = this.model.getAoi();
+    var aoiBox = this.parentWidget.model.getAoi();
     ul = aoiBox[0];
     lr = aoiBox[1];
     //check if ul=lr, then draw cross, else drawbox
@@ -123,20 +122,27 @@ function AoiBox(toolNode, parentWidget) {
     return newDiv;
   }
 
+
   //final initialization
-  var containerNode = document.getElementById( parentWidget.containerId );
-  this.Top = this.getImageDiv( containerNode );
-  this.Bottom = this.getImageDiv( containerNode );
-  this.Left = this.getImageDiv( containerNode );
-  this.Right = this.getImageDiv( containerNode );
-  this.ul = new Array(0,0);
-  this.lr = new Array(0,0);
+  this.loadAoiBox = function( objRef ) {
+    var containerNode = document.getElementById( objRef.parentWidget.containerId );
+    objRef.Top = objRef.getImageDiv( containerNode );
+    objRef.Bottom = objRef.getImageDiv( containerNode );
+    objRef.Left = objRef.getImageDiv( containerNode );
+    objRef.Right = objRef.getImageDiv( containerNode );
+  }
+
+  this.parentWidget.model.addBoundingBoxChangeListener(this.loadAoiBox,this);
+  this.parentWidget.model.addAoiListener(this.aoiListener, this);
+  this.loadAoiBox( this );
 
   //test case
+/*
   this.drawBox( new Array(2,2), new Array(200,200) );
   alert("AOIBox test");
   this.drawCross( new Array(75,75) );
   alert("AOIBox test");
+*/
 }
 
 
