@@ -35,7 +35,7 @@ $Name$
   <xsl:template match="ogcwfs:FeatureType">
     <xsl:param name="resourceName" select="ogcwfs:Name"/>
     <xsl:param name="featureSrs" select="ogcwfs:SRS"/>
-    <GetFeature version="1.0.0" service="WFS" maxFeatures="10">
+    <GetFeature version="1.0.0" service="WFS" maxFeatures="200">
     
     <xsl:choose>
       <xsl:when test="$httpMethod='post'">
@@ -68,7 +68,7 @@ $Name$
   <xsl:template match="wmc:FeatureType[wmc:Server/@service='OGC:WFS']">
     <xsl:param name="resourceName" select="wmc:Name"/>
     <xsl:param name="featureSrs" select="wmc:SRS"/>
-    <GetFeature version="1.0.0" service="WFS" maxFeatures="10"
+    <GetFeature version="1.0.0" service="WFS" maxFeatures="500"
       xmlns="http://www.opengis.net/wfs"
       xmlns:ogc="http://www.opengis.net/ogc">
       <Query typeName="{$resourceName}">
