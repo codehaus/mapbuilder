@@ -66,7 +66,7 @@ function FeatureInfo(context) {
 
     s = s.replace(new RegExp("&amp;","g"),"&");
 
-    openPopup(unescape(s), 300, 200);
+    window.open(s,'queryWin','height=200,width=300,scrollbars=yes');
 
   }
 
