@@ -37,6 +37,7 @@ function GmlRendererWZ(widgetNode, model) {
    * @param objRef Pointer to this object.
    */
   this.prePaint = function(objRef) {
+    objRef.model.setParam("modelStatus","preparing coordinates");
     objRef.stylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
     objRef.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
     bBox=objRef.containerModel.getBoundingBox();

@@ -29,7 +29,7 @@ $Name$
           Map Layers from: <xsl:value-of select="Service/Title"/>
         </th>
         <td colspan="2">
-          <a href="javascript:config.paintWidget(config.wmsServers.wmsServerList)">Back to list</a>
+          <a href="javascript:config.paintWidget(config.models.wmsServers.widgets.wmsServerList)">Back to list</a>
         </td>
       </tr>
       <xsl:apply-templates/>
@@ -45,10 +45,10 @@ $Name$
         <xsl:value-of select="Title"/>
       </td>
       <td>
-        <a href="javascript:config.{$modelId}.{$widgetId}.WebServiceRequest.doRequest('wms:GetMap','{$id}')">preview</a>
+        <a href="javascript:config.models.{$modelId}.setParam('wms_GetMap','{$name}')">preview</a>
       </td>
       <td>
-        <a href="javascript:config.{$modelId}.addToContext('{$id}')">add to map</a>
+        <a href="javascript:config.models.{$modelId}.addToContext('{$name}')">add to map</a>
       </td>
     </tr>
     <xsl:apply-templates/>
