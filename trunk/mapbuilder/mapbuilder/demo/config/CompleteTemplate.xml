@@ -48,8 +48,8 @@
     </ContextCollection>
 
     <Locations id="locationsModelId">
-      <dataFile>/demo/locations/Global.xml</dataFile>
-      <scriptFile>/model/Locations.js</scriptFile>
+      <dataFile>../../demo/locations/Global.xml</dataFile>
+      <scriptFile>/widget/locations/Locations.js</scriptFile>
     </Locations>
 
   </models>
