@@ -22,19 +22,15 @@ function Query(toolNode, parentWidget) {
 
   /**
    * Call a GetFeatureInfo request for the selected layer.
-   * @param objRef      Pointer to this AoiMouseHandler object.
+   * @param objRef      Pointer to this MouseHandler object.
    * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
   this.doAction = function(objRef,targetNode) {
-    alert("Query function not implemented yet.");
-    if (!objRef.enabled) return;
-    //var bbox = objRef.targetModel.getAoi();
-    //var extent = objRef.targetModel.extent
-    //var ul = extent.GetXY( bbox[0] );
-    //var newRes = extent.res[0]*objRef.zoomBy
-    //extent.CenterAt(ul, newRes);
+    if (objRef.enabled) {
+      alert("Query function not implemented yet.");
+    }
   }
   if (this.mouseHandler) {
-    this.mouseHandler.addListener('query',this.doAction,this);
+    this.mouseHandler.addListener('mouseup',this.doAction,this);
   }
 }
