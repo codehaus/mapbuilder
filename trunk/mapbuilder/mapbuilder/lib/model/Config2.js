@@ -111,7 +111,7 @@ function Config(url) {
       widget.modelType = group.modelType;
 
       widget.paint();
-      widget.loadTools();
+      widget.loadSubwidgets();
       //this has to be called after widgets are painted
       widget.addListeners();
       group[widgetNode.nodeName] = widget;
