@@ -9,6 +9,10 @@
 Description: Build a Web Map Server GET map request for one layer from a Web Map
              Context and supplied Layer Name.
 
+Usage:       To select the COASTLINES layer, you can invoke this xsl with:
+     xsltproc - -stringparam layerName COASTLINES Wmc2LayerUrl.xsl SampleContext.cml
+             (note the "- -" above should not have a space.
+
 Author:      Cameron Shorter cameron ATshorter.net
 
 Licence:     This library is free software; you can redistribute it and/or
@@ -34,7 +38,7 @@ $Name$
   <xsl:template match="/">
     <!-- TBD: if General SRS is in Layer SRS then ... -->
 
-    <xsl:apply-templates select="/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='COASTLINES']"/>
+    <xsl:apply-templates select="/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name=$layerName]"/>
     <xsl:apply-templates select="/wmc:ViewContext/wmc:General"/>
   </xsl:template>
 
