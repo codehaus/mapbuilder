@@ -1,12 +1,12 @@
 
-BODY { font-size: 80%; font-family: arial, helvetica, sans-serif; } 
+BODY { font-size: 100%; font-family: arial, helvetica, sans-serif; } 
 
 IMG { border-style: none; }
 
 P { font-size: 80%;  }
-
 /*
-TD { font: normal 100%; color:#000000; }
+DL { font-size: 80%;  }
+TD { font-size: 80% }
 UL { list-style: square; margin-bottom: 0%; line-height:1.3; }
 */
 
