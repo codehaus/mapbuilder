@@ -24,9 +24,9 @@ Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 
 
 
-$Id$
+ButtonBar2.xsl,v 1.3 2004/03/15 04:31:01 madair1 Exp
 
-$Name$
+
 
 -->
 
@@ -36,31 +36,37 @@ $Name$
 
   
 
-  <xsl:param name="functionRef" select="'buttonBar.setMode'"/>
+  <xsl:param name="groupId">mainMapGroup</xsl:param>
+
+  <xsl:param name="widgetName">MapPane</xsl:param>
+
+  <xsl:param name="functionRefxx">config['<xsl:value-of select="$groupId"/>']['<xsl:value-of select="$widgetName"/>'].setMode</xsl:param>
+
+  <xsl:param name="functionRef">config.buttonBar.setMode</xsl:param>
 
   <xsl:param name="skinDir" select="/MapbuilderConfig/skinDir"/>
 
   
 
-  <!-- Main html -->
+  <!-- Main html   -->
+
+
 
   <xsl:template match="/MapbuilderConfig">
 
     <DIV>
 
-      <xsl:apply-templates select="views/ButtonBar/buttonArray/Button"/>
+      <xsl:apply-templates select="modelGroups/Model/widgets/ButtonBar/tools"/>
 
     </DIV>
 
   </xsl:template>
 
-  
 
 
+  <xsl:template match="ButtonBar/tools/*">
 
-  <xsl:template match="Button">
-
-    <xsl:param name="linkUrl">javascript:<xsl:value-of select="$functionRef"/>(<xsl:value-of select="modeValue"/>)</xsl:param>
+    <xsl:param name="linkUrl">javascript:<xsl:value-of select="$functionRef"/>('<xsl:value-of select="modeValue"/>')</xsl:param>
 
     <xsl:param name="imgId"><xsl:value-of select="@id"/></xsl:param>
 
