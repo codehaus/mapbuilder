@@ -20,25 +20,20 @@ function ButtonBase(toolNode, parentWidget) {
     this[sProperty] = base[sProperty]; 
   } 
 
-  this.title = toolNode.selectSingleNode("tooltip").firstChild.nodeValue;
+  //set the button type
   this.buttonType = toolNode.selectSingleNode("class").firstChild.nodeValue;
   if (this.buttonType == "RadioButton") this.enabled = false;
-
 
   //pre-load the button bar images; add them to the config
   this.disabledImage = document.createElement("IMG");
   this.disabledImage.src = config.skinDir + toolNode.selectSingleNode("disabledSrc").firstChild.nodeValue;
-  this.disabledImage.title = this.title;         //img.title is for tool tips, alt for images disabled browsers
 
   var enabledImage = toolNode.selectSingleNode("enabledSrc");
   if (enabledImage) {
     this.enabledImage = document.createElement("IMG");
     this.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
-    this.enabledImage.title = this.title;         //img.title is for tool tips, alt for images disabled browsers
   }
-
   this.image = document.getElementById( this.id );
-  this.image.title = this.title;         //img.title is for tool tips, alt for images disabled browsers
 
   /**
    * Override this in buttons which inherit from this object to carry out the action.
