@@ -33,7 +33,6 @@ function ZoomToAoi(toolNode, parentWidget) {
    * @param tool        Pointer to this ZoomToAoi object.
    */
   this.setModel = function( tool ) {
-    //tool.targetModel = config[tool.targetModelName];
     tool.targetModel.proj = new Proj( tool.targetModel.getSRS() );
     tool.model.proj = new Proj( tool.model.getSRS() );
   }

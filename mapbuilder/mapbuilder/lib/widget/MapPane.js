@@ -27,6 +27,8 @@ function MapPane(widgetNode, model) {
     this[sProperty] = base[sProperty]; 
   } 
 
+  this.model.addListener("newModel",this.removeContainer, this);
+
   //adjust the context width and height if required.
   var fixedWidth = widgetNode.selectSingleNode("fixedWidth");
   if ( fixedWidth ) {

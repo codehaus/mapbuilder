@@ -76,11 +76,9 @@ function WidgetBase(widgetNode,model) {
       }
       this.node = document.getElementById(this.containerNodeId);
       this.removeContainer = function(objRef) {
-        var container = document.getElementById(objRef.containerNodeId);
-        var parent = container.parentNode;
-        parent.removeChild(container);
+        var parent = objRef.node.parentNode;
+        parent.removeChild(objRef.node);
       }
-      this.model.addListener("newModel",this.removeContainer, this);
     }
   }
 
