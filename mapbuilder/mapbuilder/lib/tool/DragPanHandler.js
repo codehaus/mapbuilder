@@ -65,16 +65,18 @@ function DragPanHandler(toolNode, parentWidget) {
         objRef.deltaL = targetNode.evpl[1] - objRef.anchorPoint[1];
 
         //use this form if dragging the container node children
-        var images=targetNode.getElementsByTagName("div");
+        //var images=targetNode.getElementsByTagName("div");
+        var images=targetNode.childNodes;
         for(var i=0; i<images.length; i++) {
           var img=images.item(i);
           img.style.left=objRef.deltaP;
           img.style.top=objRef.deltaL;
         }
-        
+      
         //use this form if dragging the container node
-        //objRef.containerNode.style.left = objRef.deltaP;
-        //objRef.containerNode.style.top = objRef.deltaL;
+        //var containerNode = document.getElementById(objRef.parentWidget.containerNodeId);
+        //containerNode.style.left = objRef.deltaP;
+        //containerNode.style.top = objRef.deltaL;
 
       }
     }
