@@ -58,5 +58,17 @@
         <Format current="1">image/png</Format>
       </FormatList>
     </Layer>
+    <Layer queryable="1" hidden="1">
+      <Server service="OGC:WMS" version="1.1.1" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wms"/>
+      </Server>
+      <Name>topp:tasmania_cities</Name>
+      <Title>Tasmania Major Cities</Title>
+      <Abstract>Tasmania Major based on the Digital Chart of the World.</Abstract>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/png</Format>
+      </FormatList>
+    </Layer>
   </LayerList>
 </ViewContext>
