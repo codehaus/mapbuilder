@@ -72,6 +72,16 @@
 			<xs:extension base="mb:AbstractWidgetType"/>
 		</xs:complexContent>
 	</xs:complexType>
+        <xs:complexType name="SaveModelType">
+                <xs:complexContent>
+                        <xs:extension base="mb:AbstractWidgetType">
+				<xs:sequence>
+					<xs:element name="htmlTagId" type="xs:string"/>
+					<xs:element name="serializeUrl" type="mb:urlPathType"/>
+				</xs:sequence>
+			</xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
 	<xs:complexType name="WmsCapabilitiesImportType">
 		<xs:complexContent>
 			<xs:extension base="mb:AbstractWidgetType"/>
@@ -218,6 +228,7 @@
 			<xs:element name="Legend" type="mb:LegendType"/>
 			<xs:element name="WidgetBase" type="mb:WidgetBaseType"/>
 			<xs:element name="AoiForm" type="mb:AoiFormType"/>
+			<xs:element name="SaveModel" type="mb:SaveModelType"/>
 			<xs:element name="WmsCapabilitiesImport" type="mb:WmsCapabilitiesImportType"/>
 			<xs:element name="CollectionList" type="mb:CollectionListType"/>
 			<xs:element name="FeatureList" type="mb:FeatureListType"/>
