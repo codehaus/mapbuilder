@@ -4,95 +4,22 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/tool/Extent.js");
+mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
 
 /**
  * Stores a GML document as defined by the Open GIS Consortium
- * http://opengis.org and extensions the the WMC.  A unique Id is included for
- * each layer which is used when referencing Dynamic HTML layers in MapPane.
- *
- * Listener Parameters used:
- * "aoi" - ((upperLeftX,upperLeftY),(lowerRigthX,lowerRigthY)),
+ * http://opengis.org and extensions the the WMC.
  *
  * @constructor
  * @base ModelBase
  * @author Cameron Shorter
  * @requires Sarissa
- * @param url Url of Gml2 document
- * @param id ID referencing this Gml2 object
- */
+ * @param modelNode The model's XML object node from the configuration document.
+ * @param parent Parent model, if required.
+  */
 function Gml2(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   var modelBase = new ModelBase(this, modelNode, parent);
   this.namespace = "xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs'";
-
-//  // ===============================
-//  // Update of GML2 Parameters
-//  // ===============================
-//
-//  /**
-//   * Get the BoundingBox.
-//   * @return BoundingBox array in form (xmin,ymin,xmax,ymax).
-//   */
-//  this.getBoundingBox=function() {
-//    // Extract BoundingBox from the document
-//    var boundingBox = this.doc.selectSingleNode("/ntslookup/gml:boundedBy/gml:Box/gml:coordinates");
-//    if ( boundingBox ) {
-//      var corners = boundingBox.firstChild.nodeValue.split(" ",2);
-//      var bbox = new Array();
-//      var minCorner = corners[0].split(",",2);
-//      var maxCorner = corners[1].split(",",2);
-//      bbox[0]=parseFloat(minCorner[0]);
-//      bbox[1]=parseFloat(minCorner[1]);
-//      bbox[2]=parseFloat(maxCorner[0]);
-//      bbox[3]=parseFloat(maxCorner[1]);
-//      return bbox;
-//    } else {
-//      alert("error getting GML2 bounding box");
-//    }
-//  }
-//
-//  /**
-//   * Set the BoundingBox and notify intererested widgets that BoundingBox has changed.
-//   * @param boundingBox array in form (xmin, ymin, xmax, ymax).
-//   */
-//  this.setBoundingBox=function(boundingBox) {
-//    // Set BoundingBox in the GML
-//    //TBD
-//    // Call the listeners
-//    this.callListeners("boundingBox");
-//  }
-//
-//  /**
-//   * Get the Window width.
-//   * @return width The width of map window (therefore of map layer images).
-//   */
-//  this.getWindowWidth=function() {
-//    return this.width;
-//  }
-//
-//  /**
-//   * Set the Window width.
-//   * @param width The width of map window (therefore of map layer images).
-//   */
-//  this.setWindowWidth=function(width) {
-//    this.width = width;
-//  }
-//
-//  /**
-//   * Get the Window height.
-//   * @return height The height of map window (therefore of map layer images).
-//   */
-//  this.getWindowHeight=function() {
-//    return this.height;
-//  }
-//
-//  /**
-//   * Set the Window height.
-//   * @param height The height of map window (therefore of map layer images).
-//   */
-//  this.setWindowHeight=function(height) {
-//    this.height = height;
-//  }
 }
 
