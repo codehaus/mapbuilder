@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--
+Description: A Browser based Transactional Web Feature Server client
+             based on javascript and XSL
+             libraries from http://mapbuilder.sourceforge.net .
+Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+
+$Id$
+$Name$
+-->
+
+<html>
+  <head>
+    <title>WMS Client</title>
+
+    <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css"/>
+
+    <script>
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='config/wms.xml';
+    </script>
+    <script type="text/javascript" src="../lib/Mapbuilder.js"></script>
+  </head>
+
+  <body onload="mbDoLoad()">
+    <!-- Layout mapbuilder widgets and HTML -->
+    <h1><a href="http://mapbuilder.sourceforge.net">Map Builder</a> WMS Demo</h1>
+    <table>
+      <tr><td><h2 id="mapTitle"/></td></tr>
+      <tr valign="top">
+        <td>
+          <table>
+            <tr><td colspan="2" id="mainMapPane"/></tr>
+            <tr>
+              <td align="left" id="mainButtonBar"/>
+              <td align="right" id="cursorTrack" />
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td valign="top" id="locatorMap"/></tr>
+            <tr><td id="legend"/></tr>
+          </table>
+        </td>
+      </tr>
+      <tr><td align="right" colspan="2"><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a><br/>$Name$</td></tr>
+      <tr><td id="eventLog"/></tr>
+    </table>
+  </body>
+</html>
