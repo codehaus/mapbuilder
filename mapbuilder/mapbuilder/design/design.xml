@@ -118,6 +118,17 @@ I think the CMB should also provide logic for community editing of shared data
           </varlistentry>
 
           <varlistentry>
+            <term>Easy to incorporate libraries into a web page</term>
+
+            <listitem>
+              <para>Mapbuilder widgets are to be incorporated into HTML web
+              pages. Incorporating widgets should be kept simple so that
+              someone with basic HTML and Javascript knowledge can build a
+              Mapbuilder Web Page.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
             <term>Keep bandwidth to a minimum</term>
 
             <listitem>
@@ -136,6 +147,31 @@ I think the CMB should also provide logic for community editing of shared data
               <para>Mapbuilder stores state data internally in XML files.
               Converting XML to HTML is done using XSL. XSL has the advantage
               that it can be used both in the client and server.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Modular Design</term>
+
+            <listitem>
+              <para>A modular design has many benefits.</para>
+
+              <orderedlist>
+                <listitem>
+                  <para>A client need only include the module it requires,
+                  hence reducing the size of the client.</para>
+                </listitem>
+
+                <listitem>
+                  <para>A modular design is easier to understand, maitain and
+                  extend.</para>
+                </listitem>
+
+                <listitem>
+                  <para>It is easier to break development up between multiple
+                  developers.</para>
+                </listitem>
+              </orderedlist>
             </listitem>
           </varlistentry>
 
@@ -174,7 +210,8 @@ I think the CMB should also provide logic for community editing of shared data
 
               <itemizedlist>
                 <listitem>
-                  <para>Keep the design simple and easy to understand.</para>
+                  <para>Keep the design simple, modular and easy to
+                  understand.</para>
                 </listitem>
 
                 <listitem>
@@ -188,6 +225,11 @@ I think the CMB should also provide logic for community editing of shared data
                 <listitem>
                   <para>Provide stable releases which are easy to install and
                   evaluate.</para>
+                </listitem>
+
+                <listitem>
+                  <para>Provide demos that potential users and developers and
+                  try.</para>
                 </listitem>
               </itemizedlist>
             </listitem>
@@ -304,6 +346,111 @@ I think the CMB should also provide logic for community editing of shared data
             </varlistentry>
           </variablelist>
         </section>
+      </section>
+
+      <section id="events">
+        <title>Events</title>
+
+        <para>Mapbuilder's Model-View-Controller design requires events. While
+        Javascript provides standard events for some GUI events, it's support
+        for custom events is limited in recent browsers and not provided in
+        older browsers. Consequency, Mapbuilder components use their own event
+        system.</para>
+
+        <para>Here mapbuilder events by example, using BoundingBoxEvent which
+        is sent from Context to MapPane when the BoundingBox changes.</para>
+
+        <variablelist>
+          <varlistentry>
+            <term>Store list of listeners</term>
+
+            <listitem>
+              <para>Context.js stores an array of listeners to call when
+              context changes.</para>
+
+              <programlisting>/** Functions to call when the boundingBox changes. */
+this.boundingBoxChangeListeners=new Array();
+</programlisting>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>add&lt;Event&gt;Listener()</term>
+
+            <listitem>
+              <para>Context.js needs a procedure for registering
+              Listeners.</para>
+
+              <programlisting>/**
+ * Add a Listener for boundingBox change.
+ * @param listener The function to call when the boundingBox changes.
+ * @param target The object which owns the listener function.
+ */
+this.addBoundingBoxChangeListener=function(listener,target) {
+  this.boundingBoxChangeListeners[this.boundingBoxChangeListeners.length]=
+    new Array(listener,target);
+}
+</programlisting>
+
+              <para>Note: the target object which owns the listener function
+              needs to be stored. In javascript, when the listener function is
+              called it does not have a reference back to the object which
+              owns the function.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>call Listeners</term>
+
+            <listitem>
+              <para>When the boundingBox changes in Context.js, call all
+              listeners.</para>
+
+              <programlisting>/**
+ * Set the BoundingBox and notify intererested widgets that BoundingBox
+ * has changed.
+ * @param boundingBox array in form (xmin, ymin, xmax, ymax).
+ */
+this.setBoundingBox=function(boundingBox) {
+  // Set BoundingBox in context
+  // ...
+
+  // Call all listener(target) functions
+  for (var i=0; i&lt;this.boundingBoxChangeListeners.length; i++) {
+    this.boundingBoxChangeListeners[i][0](
+      this.boundingBoxChangeListeners[i][1]);
+  }
+}
+</programlisting>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Listener function</term>
+
+            <listitem>
+              <para>MapPane.js defines a function to call when BoundingBox
+              changes. The function needs to register with Context.js.</para>
+
+              <programlisting>/**
+ * Called when the context's boundingBox attribute changes.
+ * @param target This object.
+ */
+this.boundingBoxChangeListener=function(target){
+  target.paint();
+}
+
+// Register this listener with context.
+this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
+</programlisting>
+
+              <para>Note: The listener function requires this object to be
+              passed in as a parameter. In javascript, when the listener
+              function is called it does not have a reference back to the
+              object which owns the function.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
       </section>
     </section>
 
