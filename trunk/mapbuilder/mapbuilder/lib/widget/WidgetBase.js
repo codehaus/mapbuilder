@@ -101,7 +101,7 @@ function WidgetBase(widget,widgetNode,model) {
   /**
    * Move this widget to the absolute (left,top) position in the browser.
    * @param left Absolute left coordinate.
-   * @param top AMike.Adair@CCRS.NRCan.gc.cabsolute top coordinate.
+   * @param top Absolute top coordinate.
    */
   this.move = function(left,top) {
     this.node.style.left = left;
