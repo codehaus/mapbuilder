@@ -11,6 +11,7 @@ mapbuilder.loadScript(baseDir+"/widget/GmlRenderer.js");
 
 /**
  * Render an Area Of Interest (AOI) Box over a map.
+ * This widget extends GmlRenderer and uses GmlRenderer.xsl to build the HTML box.
  * @constructor
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
@@ -39,6 +40,7 @@ function AoiBox2(widgetNode, model) {
     objRef.stylesheet.setParameter("bBoxMaxY", bBox[3]);
     objRef.stylesheet.setParameter("color", "#FF0000");
     objRef.stylesheet.setParameter("crossSize", "15");
+    objRef.stylesheet.setParameter("lineWidth", "1");
 
     aoiBox = objRef.model.getParam("aoi");
     gml='<?xml version="1.0" encoding="utf-8" standalone="no"?>';
