@@ -130,19 +130,49 @@ function getArgs(){
   return args;                                // Return the object.
 }
 
-// these two not yet usable, require mapWidth/mapHeight...
-function getScreenX(bbox,xCoord){
+
+function getScreenX(context, xCoord){
+  bbox=context.getBoundingBox();
+  width=context.getWindowWidth();
   bbox[0]=parseFloat(bbox[0]);
   bbox[2]=parseFloat(bbox[2]);
-  var xfac = (mapWidth/(bbox[2]-bbox[0]));
+  var xfac = (width/(bbox[2]-bbox[0]));
   x=xfac*(xCoord-bbox[0]);
   return x;
 }
 
-function getScreenY(yCoord){
+function getScreenY(context, yCoord){
+  var bbox=context.getBoundingBox();
+  var height=context.getWindowHeight();
   bbox[1]=parseFloat(bbox[1]);
   bbox[3]=parseFloat(bbox[3]);
-  var yfac = (mapHeight/(bbox[3]-bbox[1]));
-  pt.y=mapHeight-(yfac*(pt.y-bbox[1]));
-  return pt;
+  var yfac = (heighteight/(bbox[3]-bbox[1]));
+  var y=height-(yfac*(pt.y-bbox[1]));
+  return y;
+}
+
+function getGeoCoordX(context, xCooord) {
+  var bbox=context.getBoundingBox();
+  var width=context.getWindowWidth();
+  bbox[0]=parseFloat(bbox[0]);
+  bbox[2]=parseFloat(bbox[2]);
+  var xfac = ((bbox[2]-bbox[0]) / width);
+  var x=bbox[0] + xfac*(xCoord);
+  return x;
+}
+
+function getGeoCoordY(yCoord){
+  var bbox=context.getBoundingBox();
+  var height=context.getWindowHeight();
+  bbox[1]=parseFloat(bbox[1]);
+  bbox[3]=parseFloat(bbox[3]);
+  var yfac = ((bbox[3]-bbox[1]) / height);
+  var y=bbox[1] + yfac*(height-yCoord);
+  return y;
+}
+
+function makeElt(type) {
+  var node=document.createElement(type);
+  document.getElementsByTagName("body").item(0).appendChild(node);
+  return node;
 }

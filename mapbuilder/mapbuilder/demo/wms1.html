@@ -12,17 +12,6 @@
       IMG {
         position: absolute;
       }
-      #mapPaneId {
-        position: absolute;
-        background-color: silver;
-      }
-      #mapToolId {
-        position: absolute;
-      }
-      #legendId {
-        position: absolute;
-        overflow: auto;
-      }
     </style>
   </head>
 
@@ -30,14 +19,6 @@
     <h1><a href="http://mapbuilder.sourceforge.net">Mapbuilder</a>
       Web Map Server Client</h1>
     <p><i>A <a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Project</i></p>
-    <!-- MapPane Goes Here -->
-    <DIV id="mapPaneId"></DIV>
-
-    <!-- PanTool Goes Here -->
-    <DIV id="panToolId"></DIV>
-
-    <!-- Legend Goes Here -->
-    <DIV id="legendId"></DIV>
 
     <script>
       // Base Mapbuilder library directory
@@ -48,20 +29,20 @@
       context=new Context("wmc.xml");
 
       // Create and render a MapPane
-      mapPane=new MapPane(context,baseDir,document.getElementById("mapPaneId"));
+      mapPane=new MapPane(context,baseDir);
       mapPane.move(120,100);
       mapPane.paint();
       //this shows that clipping is working
       mapPane.moveImages(-50,-50);
 
       // Create and render a Legend
-      legend=new Legend(context,baseDir,document.getElementById("legendId"));
+      legend=new Legend(context,baseDir);
       legend.resize(90,150);
       legend.move(10,200);
       legend.paint();
 
       // Create and render a PanTool
-      panTool=new PanTool(context,baseDir,document.getElementById("panToolId"));
+      panTool=new PanTool(context,baseDir);
       panTool.resize(90,100);
 //for some reason, this next line is not working...
       panTool.move(100,500);
