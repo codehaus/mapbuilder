@@ -31,17 +31,6 @@
     </varlistentry>
 
     <varlistentry>
-      <term>Get latest updates from CVS</term>
-
-      <listitem>
-        <para>Ensure you have the latest files from CVS.</para>
-
-        <programlisting>cd mapbuilder/
-cvs update -d .</programlisting>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
       <term>Update the CHANGES file</term>
 
       <listitem>
@@ -76,11 +65,41 @@ cvs update -d .</programlisting>
     </varlistentry>
 
     <varlistentry>
+      <term>Get latest updates from CVS</term>
+
+      <listitem>
+        <para>Ensure you have the latest files from CVS.</para>
+
+        <programlisting>cd mapbuilder/
+cvs update -d .</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term>Tag the release</term>
 
       <listitem>
         <para>Tag the files that should be in the release. (Usually, not all
         files in CVS are included in a release).</para>
+
+        <para>The &lt;tag&gt; should be of the form:
+        <literal>mapbuilder-lib-[number]-[status]</literal></para>
+
+        <para>For example:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>mapbuilder-lib-0_1</para>
+          </listitem>
+
+          <listitem>
+            <para>mapbuilder-lib-0_1-rc3</para>
+          </listitem>
+
+          <listitem>
+            <para>mapbuilder-lib-0_2-alpha</para>
+          </listitem>
+        </itemizedlist>
 
         <programlisting>cd mapbuilder/
 cvs tag &lt;tag&gt; dir1 dir2 dir/file1 ...</programlisting>
@@ -91,7 +110,8 @@ cvs tag &lt;tag&gt; dir1 dir2 dir/file1 ...</programlisting>
       <term>Create a temporary directory</term>
 
       <listitem>
-        <programlisting>mkdir ~/tmp</programlisting>
+        <programlisting>mkdir ~/tmp
+mkdir ~/tmp/dist</programlisting>
       </listitem>
     </varlistentry>
 
@@ -121,30 +141,14 @@ cvs export -r &lt;tag&gt; mapbuilder</programlisting>
     </varlistentry>
 
     <varlistentry>
-      <term>Copy the docs to Sourceforge website</term>
+      <term>Build a source release</term>
 
       <listitem>
-        <programlisting>TBD:
-cd ~/tmp/generguide/docs/desc/html/
-scp -pr * camerons@generguide.sf.net:/home/groups/g/ge/generguide/htdocs/</programlisting>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term>Add tag name to generguide directory</term>
-
-      <listitem>
-        <programlisting>cd ~/tmp
-mv mapbuilder mapbuilder-lib-0.2</programlisting>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term>Zip up a source release</term>
-
-      <listitem>
-        <programlisting>zip -r mapbuilder-src-0_2.zip mapbuilder-lib-0.2
-tar -zxf mapbuilder-src-lib-0_2.tar.gz mapbuilder-lib-0.2</programlisting>
+        <programlisting>cd ~/tmp/mapbuilder/bin
+ant
+ant dist
+cp ~/tmp/mapbuilder/dist/mapbuilder-lib-[version].zip \
+  ~/tmp/dist/mapbuilder-lib-src-[version].zip</programlisting>
       </listitem>
     </varlistentry>
 
@@ -152,16 +156,33 @@ tar -zxf mapbuilder-src-lib-0_2.tar.gz mapbuilder-lib-0.2</programlisting>
       <term>Compress source</term>
 
       <listitem>
-        <programlisting>TBD</programlisting>
+        <programlisting>~/tmp/mapbuider/bin/compress.sh</programlisting>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term>Zip up a compressed release</term>
+      <term>Build a binary (comressed) release</term>
 
       <listitem>
-        <programlisting>zip -r mapbuilder-0_2.zip mapbuilder-lib-0.2
-tar -zxf mapbuilder-lib-0_2.tar.gz mapbuilder-lib-0.2</programlisting>
+        <programlisting>cd ~/tmp/mapbuilder/bin
+rm -fr ../dist
+ant
+ant dist
+cd ~/tmp/mapbuilder/dist
+cp mapbuilder-lib-[version].zip mapbuilder-lib-[version]-war.zip ~/tmp/dist</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Check WAR file</term>
+
+      <listitem>
+        <programlisting>cp ~/tmp/dist/mapbuilder-lib-[version]-war.zip $CATALINA_HOME/webapps
+unzip mapbuilder-lib-[version]-war.zip
+</programlisting>
+
+        <para>In a broswer, view <ulink
+        url="http://localhost:8080/mapbuilder/demo">http://localhost:8080/mapbuilder/demo</ulink></para>
       </listitem>
     </varlistentry>
 
@@ -195,18 +216,18 @@ tar -zxf mapbuilder-lib-0_2.tar.gz mapbuilder-lib-0.2</programlisting>
           </listitem>
 
           <listitem>
-            <para>upload release file.</para>
+            <para>upload release file(s)</para>
           </listitem>
         </itemizedlist>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term>Copy to generguide release directory</term>
+      <term>Move to mapbuilder release directory</term>
 
       <listitem>
         <para>From the <ulink
-        url="http://sourceforge.net/projects/generguide">http://sourceforge.net/projects/generguide</ulink>,
+        url="http://sourceforge.net/projects/generguide">http://sourceforge.net/projects/mapbuilder</ulink>,
         select <literal>Admin</literal>, <literal>File Releases</literal>,
         <literal>Add Release</literal>.</para>
 
@@ -227,7 +248,14 @@ tar -zxf mapbuilder-lib-0_2.tar.gz mapbuilder-lib-0.2</programlisting>
       <term>Copy to Sourceforge demo directory</term>
 
       <listitem>
-        <programlisting>TBD</programlisting>
+        <programlisting>scp ~/tmp/mapbuilder/dist/mapbuilder-lib-[version].zip \
+  username@mapbuilder.sf.net
+ssh -l username mapbuilder.sf.net
+unzip mapbuilder-lib-[version].zip
+mv mapbuilder /home/groups/m/ma/mapbuilder/htdocs/mapbuilder-lib-[version]
+cd /home/groups/m/ma/mapbuilder/htdocs
+rm mapbuilder
+ln -s mapbuilder-lib-[version] mapbuilder</programlisting>
       </listitem>
     </varlistentry>
 
