@@ -146,6 +146,8 @@ public class ProxyRedirect extends HttpServlet
 
           String headerValue = respHeaders[i].getValue();
 
+          if (headerName.equalsIgnoreCase("Content-Type")) headerValue="text/xml"; 
+
           if (debug_) System.err.println("responseHeaders:" + headerName + "=" + headerValue);
 
           response.setHeader(headerName, headerValue);
