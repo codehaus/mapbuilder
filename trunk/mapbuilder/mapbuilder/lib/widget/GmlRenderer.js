@@ -25,10 +25,6 @@ function GmlRenderer(widgetNode, model) {
   /** Xsl to convert Coordinates to Coords. */
   this.coordXsl=new XslProcessor(baseDir+"/widget/GmlCooordinates2Coord.xsl");
 
-  //this.node.style.position="relative";
-  //this.node.style.width=this.model.getWindowWidth();
-  //this.node.style.height=this.model.getWindowHeight();
-
   /**
    * Set up XSL params and convert Gml Coordinate nodes to Gml Coords so that they
    * are easier to process by XSL.
