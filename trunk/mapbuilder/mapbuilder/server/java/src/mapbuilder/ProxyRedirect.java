@@ -52,6 +52,8 @@ public class ProxyRedirect extends HttpServlet
 
 //----------------------------------------------------------------------------
 
+  public boolean debug_ = false;
+
   public String outputDir_ = null;
 
   public ServletContext context_ = null;
@@ -73,6 +75,8 @@ public class ProxyRedirect extends HttpServlet
   {
 
     super.init( config );
+
+    debug_ = new Boolean(config.getInitParameter( "debug" )).booleanValue();
 
     outputDir_ = config.getInitParameter( "outputDir" );
 
@@ -104,7 +108,7 @@ public class ProxyRedirect extends HttpServlet
 
           String value = request.getHeader(name);
 
-          System.err.println("request header:" + name + ":" + value);
+          if (debug_) System.err.println("request header:" + name + ":" + value);
 
       }
 
@@ -112,7 +116,7 @@ public class ProxyRedirect extends HttpServlet
 
       // Transfer bytes from in to out
 
-      System.err.println("HTTP GET: transferring...");
+      if (debug_) System.err.println("HTTP GET: transferring...");
 
       
 
@@ -120,7 +124,7 @@ public class ProxyRedirect extends HttpServlet
 
       String serverUrl = request.getParameter("url");
 
-      System.err.print("params:" + serverUrl);
+      if (debug_) System.err.print("params:" + serverUrl);
 
       HttpClient client = new HttpClient();
 
@@ -142,7 +146,7 @@ public class ProxyRedirect extends HttpServlet
 
           String headerValue = respHeaders[i].getValue();
 
-          System.err.println("responseHeaders:" + headerName + "=" + headerValue);
+          if (debug_) System.err.println("responseHeaders:" + headerName + "=" + headerValue);
 
           response.setHeader(headerName, headerValue);
 
@@ -150,7 +154,7 @@ public class ProxyRedirect extends HttpServlet
 
         String responseBody = httpget.getResponseBodyAsString();
 
-        System.err.println("responseBody:" + responseBody);
+        if (debug_) System.err.println("responseBody:" + responseBody);
 
         PrintWriter out = response.getWriter();
 
@@ -210,7 +214,7 @@ public class ProxyRedirect extends HttpServlet
 
       // Transfer bytes from in to out
 
-      System.err.println("transfering...");
+      if (debug_) System.err.println("transfering...");
 
       PrintWriter out = response.getWriter();
 
@@ -242,7 +246,7 @@ public class ProxyRedirect extends HttpServlet
 
         String responseBody = httppost.getResponseBodyAsString();
 
-        System.err.println("responseBody:" + responseBody);
+        if (debug_) System.err.println("responseBody:" + responseBody);
 
         out.print( responseBody );
 
