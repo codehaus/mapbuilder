@@ -9,9 +9,10 @@ $Id$
  * Tools to build a MapPane from a Web Map Context.
  * This widget extends WidgetBase.
  * @constructor
- * @param context The Web Map Context to use when building this MapPane.
- * @param name Variable name referencing this MapPane object
- * @param node Node from the HTML DOM to insert legend HTML into.
+ * @param widgetNode The Widget's XML object node from the configuration
+ *   document.
+ * @param group The ModelGroup XML object from the configuration
+ *   document that this widget will update.
  * @requires Context
  * @requires Sarissa
  * @requires Util
