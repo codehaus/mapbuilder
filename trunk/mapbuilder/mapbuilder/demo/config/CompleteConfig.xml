@@ -49,17 +49,22 @@
           <initialMode>ZoomInButton</initialMode>
           <tools>
             <ZoomInButton id="ZoomInButton">
+              <class>RadioButton</class>
               <enabledSrc>/images/zoom_in_en.gif</enabledSrc>
               <disabledSrc>/images/zoom_in_dis.gif</disabledSrc>
               <tooltip>click and drag to zoom in</tooltip>
-              <modalButton>true</modalButton>
+              <selected>true</selected>
+              <modalButton>true</modalButton><!--TBD Remove-->
             </ZoomInButton>
             <ZoomOutButton id="ZoomOutButton">
+              <class>RadioButton</class>
               <enabledSrc>/images/zoom_out_en.gif</enabledSrc>
               <disabledSrc>/images/zoom_out_dis.gif</disabledSrc>
               <tooltip>click to zoom out</tooltip>
+              <selected>false</selected>
             </ZoomOutButton>
             <ResetButton id="ResetButton">
+              <class>Button</class>
               <disabledSrc>/images/reset_extent_dis.gif</disabledSrc>
               <tooltip>reset the map to full extent</tooltip>
             </ResetButton>
