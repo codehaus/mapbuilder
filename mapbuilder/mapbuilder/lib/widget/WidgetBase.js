@@ -4,7 +4,7 @@ $Id$
 */
 
 /**
- * Base Class for widgets.  Associates a node on the page with a stylesheet and
+ * Base class for widgets.  Associates a node on the page with a stylesheet and
  * model.  All widgets must extend this base class.
  * Defines the default paint() method for all widgets which is where the 
  * stylesheet is applied to the model XML document.
@@ -22,27 +22,32 @@ $Id$
  */
 function WidgetBase(widget,widgetNode,model) {
   // Inherit the Listener functions and parameters
-  var listener = new Listener(widget);
-  widget.model = model;
-  widget.widgetNode = widgetNode;
+  if (widget){
+    var listener = new Listener(widget);
+  }else{
+    var listener = new Listener(this);
+  }
+
+  this.model = model;
+  this.widgetNode = widgetNode;
 
   /** mbWidgetId is an auto generated ID assigned to the widget output node */
-  widget.mbWidgetId = "MbWidget_" + mbIds.getId();
+  this.mbWidgetId = "MbWidget_" + mbIds.getId();
 
   /** Widget's Id defined in the Config (optional) */
   if (widgetNode.attributes.getNamedItem("id")) {
-    widget.id = widgetNode.attributes.getNamedItem("id").nodeValue;
+    this.id = widgetNode.attributes.getNamedItem("id").nodeValue;
   } else {
-    widget.id = widget.mbWidgetId;
+    this.id = this.mbWidgetId;
   }
 
   //set an empty debug property in config to see inputs and outputs of stylehseet
-  if ( widgetNode.selectSingleNode("mb:debug") ) widget.debug=true;
+  if ( widgetNode.selectSingleNode("mb:debug") ) this.debug=true;
 
   /** Transient var used to store model XML before and then after XSL transform.
    *  It can be modified by prePaint() .
    */
-  widget.resultDoc = null;
+  this.resultDoc = null;
 
   //until htmlTagNode becomes required allow setting of it by widget id
   var htmlTagNode = widgetNode.selectSingleNode("mb:htmlTagId");
@@ -50,15 +55,14 @@ function WidgetBase(widget,widgetNode,model) {
   if (htmlTagNode) {
     htmlTagId = htmlTagNode.firstChild.nodeValue;
   } else {
-    htmlTagId = widget.id;
+    htmlTagId = this.id;
   }
 
   // Node in main HTML to attach widget to.
-  widget.node = document.getElementById(htmlTagId);
-  if(!widget.node) {
+  this.node = document.getElementById(htmlTagId);
+  if(!this.node) {
     //alert("htmlTagId: "+htmlTagId+" for widget "+widgetNode.nodeName+" not found in config");
   }
-
 
   // Set this.stylesheet
   // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
@@ -66,17 +70,17 @@ function WidgetBase(widget,widgetNode,model) {
   var styleUrl;
   if ( styleNode ) styleUrl = styleNode.firstChild.nodeValue;
   else styleUrl = baseDir+"/widget/"+widgetNode.nodeName+".xsl";
-  widget.stylesheet = new XslProcessor(styleUrl);
+  this.stylesheet = new XslProcessor(styleUrl);
 
   //set the target model
   var targetModel = widgetNode.selectSingleNode("mb:targetModel");
   if (targetModel) {
-    widget.targetModel = eval("config."+targetModel.firstChild.nodeValue);
-    if ( !widget.targetModel ) {
-      alert("error finding targetModel:" + targetModel.firstChild.nodeValue + " for:" + widget.id);
+    this.targetModel = eval("config."+targetModel.firstChild.nodeValue);
+    if ( !this.targetModel ) {
+      alert("error finding targetModel:" + targetModel.firstChild.nodeValue + " for:" + this.id);
     } 
   } else {
-    widget.targetModel = widget.model;
+    this.targetModel = this.model;
   }
 
   // Set stylesheet parameters for all the child nodes from the config file
@@ -84,19 +88,19 @@ function WidgetBase(widget,widgetNode,model) {
     if (widgetNode.childNodes[j].firstChild
       && widgetNode.childNodes[j].firstChild.nodeValue)
     {
-      widget.stylesheet.setParameter(
+      this.stylesheet.setParameter(
         widgetNode.childNodes[j].nodeName,
         widgetNode.childNodes[j].firstChild.nodeValue);
     }
   }
   //this is supposed to work too instead of above?
-  //widget.stylesheet.setParameter("widgetNode", widgetNode );
+  //this.stylesheet.setParameter("widgetNode", widgetNode );
 
   //all stylesheets will have these properties available
-  widget.stylesheet.setParameter("modelId", widget.model.id );
-  widget.stylesheet.setParameter("widgetId", widget.id );
-  widget.stylesheet.setParameter("skinDir", config.skinDir );
-  widget.stylesheet.setParameter("lang", config.lang );
+  this.stylesheet.setParameter("modelId", this.model.id );
+  this.stylesheet.setParameter("widgetId", this.id );
+  this.stylesheet.setParameter("skinDir", config.skinDir );
+  this.stylesheet.setParameter("lang", config.lang );
 
   /**
    * Move this widget to the absolute (left,top) position in the browser.
@@ -107,7 +111,6 @@ function WidgetBase(widget,widgetNode,model) {
     this.node.style.left = left;
     this.node.style.top = top;
   }
-  widget.move = this.move;
 
   /**
    * Resize this widget.
@@ -118,7 +121,6 @@ function WidgetBase(widget,widgetNode,model) {
     this.node.style.width = width;
     this.node.style.height = height;
   }
-  widget.resize = this.resize;
 
   /**
    * Called before paint(), can be used to set up a widget's paint parameters,
@@ -128,7 +130,6 @@ function WidgetBase(widget,widgetNode,model) {
   this.prePaint = function(objRef) {
     //no-op by default
   }
-  widget.prePaint = this.prePaint;
 
 
   /**
@@ -167,9 +168,6 @@ function WidgetBase(widget,widgetNode,model) {
       objRef.callListeners("paint");
     }
   }
-  widget.paint = this.paint;
-  // Call paint when model changes
-  widget.model.addListener("loadModel",widget.paint, widget);
 
   /**
    * Instantiate all the child tools of this widget.
@@ -187,5 +185,17 @@ function WidgetBase(widget,widgetNode,model) {
       }
     }
   }
-  widget.loadTools = this.loadTools;
+
+  // If this object is being created because a child is extending this object,
+  // then child.properties = this.properties
+  if (widget) {
+    for (sProperty in this) {
+      widget[sProperty] = this[sProperty];
+    }
+
+    // Call paint when model changes
+    widget.model.addListener("loadModel",widget.paint, widget);
+  } else {
+    this.model.addListener("loadModel",this.paint, this);
+  }
 }
