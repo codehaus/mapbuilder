@@ -23,31 +23,26 @@ jsdocSource=" \
 
 docbookXsl=/usr/share/sgml/docbook/xsl-stylesheets/html/docbook.xsl
 
+docDirectories=" \
+  ${mapbuilderDir}/docs \
+  ${mapbuilderDir}/docs/jsdoc \
+  ${mapbuilderDir}/docs/design \
+  ${mapbuilderDir}/docs/design/images"
+
 
 # Create docs directories
-if [ ! -d ${mapbuilderDir}/docs ]
-then
-  mkdir ${mapbuilderDir}/docs;
-fi;
-if [ ! -d ${mapbuilderDir}/docs/jsdoc ]
-then
-  mkdir ${mapbuilderDir}/docs/jsdoc;
-fi;
-if [ ! -d ${mapbuilderDir}/docs/design ]
-then
-  mkdir ${mapbuilderDir}/docs/design;
-fi;
-if [ ! -d ${mapbuilderDir}/docs/design/images ]
-then
-  mkdir ${mapbuilderDir}/docs/design/images;
-fi;
+for dir in ${docDirectories} ; do
+  if [ ! -d ${dir} ]
+  then
+    mkdir ${dir};
+  fi;
+done
 
 # Execute jsdoc
 ${jsdoc} -d ${jsdocTarget} --project-name "<a href='http://mapbuilder.sourceforge.net'>Community Map Builder</a>" ${jsdocSource}
 
-
 # publish design
-xsltproc --novalid --param section.autolabel 1 --param toc.section.depth 5 -o ${mapbuilderDir}/docs/design/index.html ${docbookXsl} ${mapbuilderDir}/design/design.xml
+xsltproc --novalid --param section.autolabel 1 --param toc.section.depth 5 -o ${mapbuilderDir}/docs/design/index.html ${docbookXsl} ${mapbuilderDir}/design/mapbuilder-lib.xml
 
 # copy the design images
 cp -pr ${mapbuilderDir}/design/images/* ${mapbuilderDir}/docs/design/images/
