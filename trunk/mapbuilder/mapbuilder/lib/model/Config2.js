@@ -4,7 +4,11 @@ $Id$
 */
 
 /**
- * Build a mapbuilder components from a Configuration.xml file.
+ * Config
+ * This Javascript file must be included in the page <HEAD> element.
+ * The application creates a global object called Config from the mapbuilder 
+ * configuration xml file passed in as a parameter.
+ *
  * @constructor
  * @author adair
  * @requires Sarissa
@@ -25,9 +29,11 @@ function Config(url) {
   this.skinDir = this.doc.selectSingleNode("/MapbuilderConfig/skinDir").firstChild.nodeValue;
   this.baseDir = this.doc.selectSingleNode("/MapbuilderConfig/baseDir").firstChild.nodeValue;
 
+  //a global array of the models loaded
   this.modelArray = new Array();
-  this.groupArray = new Array();
 
+  //load all scriptfiles called for in the config file.  There seems to be a 
+  //problem if this is done anywhere except in the page <HEAD> element.
   var scriptFileNodes = this.doc.selectNodes("//scriptFile");
   for (var i=0; i<scriptFileNodes.length; i++ ) {
     scriptFile = this.baseDir + scriptFileNodes[i].firstChild.nodeValue;
@@ -37,8 +43,16 @@ function Config(url) {
   }
 
   /**
-   * TBD: Comment me.
-   */
+  * @function init
+  *
+  * Provides model group objects as properties of config.  A model group is a 
+  * collection of widgets and assocaited tools (controllers) of the same instance 
+  * of a model.  The group object can then be referenced using the id of the 
+  * Model objects in the config file as in config["modelGroupId"].
+  * Also sets the modelType and model properties for the group object.
+  * This must be called once, probably in the body onload event, to initialize the 
+  * global config object from the mapbuilder configuration XML file.
+  */
   this.init = function() {
     var modelGroups = this.doc.selectNodes( "/MapbuilderConfig/modelGroups/*" );
     for (var i=0; i<modelGroups.length; i++ ) {
@@ -64,8 +78,16 @@ function Config(url) {
 
 
   /**
-   * TBD: Comment me.
-   */
+  * @function loadModel
+  *
+  * Loads a model group with a new instance of a model.  The model object is 
+  * created from the URL passed in as a param and all the widgets in this model 
+  * group are repainted.  This method can be called at any time.
+  * TBD: handle the case of loading an already loaded model from the model array?
+  *
+  * @param groupId   the id of the model group element from the application config file
+  * @param modelUrl  the URL of the model to load
+  */
   this.loadModel = function(groupId, modelUrl) {
     var group = this[groupId];
     if ( modelUrl ) {
