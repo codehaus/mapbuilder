@@ -4,7 +4,7 @@ $Id$
 */
 
 // Initialise this object when the script is loaded.
-// mbConfigUrl should be set in the main web page.
+// mbConfigUrl is initialised in Mapbuilder.js.
 config=new Config(mbConfigUrl);
 
 /**
