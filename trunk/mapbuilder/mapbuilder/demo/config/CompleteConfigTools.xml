@@ -69,7 +69,7 @@
 					<fixedWidth>180</fixedWidth>
 				</MapPane>
 				<AoiBoxWZ id="aoiBox2">
-					<htmlTagId>mainMapPane</htmlTagId>
+					<htmlTagId>locatorMap</htmlTagId>
 					<stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
 					<lineColor>#FF0000</lineColor>
 					<lineWidth>1</lineWidth>
