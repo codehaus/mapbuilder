@@ -5,11 +5,11 @@
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
   <!-- $Header$ -->
   <title>Community Map Builder</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
   <meta name="GENERATOR" content="amaya 5.1">
 </head>
 
 <body bgcolor="FFFFFF" color="000000">
- <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
 <!--#include file="top.inc" -->
 
@@ -48,7 +48,7 @@ href="http://slashdot.org">http://slashdot.org</a>.</p>
 
 <h3>Transactional Web Feature Server / Geodatabase</h3>
 
-<p>This will be a server which recieves update requests and updates a
+<p>This will be a server which receives update requests and updates a
 geographic database. It will be designed according to the <em>Transactional
 Web Feature Server</em> specification from the <em>Open GIS Consortium</em> -
 <a href="http://opengis.org">http://opengis.org</a>.  At the time of writing,
@@ -58,26 +58,37 @@ Consortium</em> who have access to this document.</p>
 
 <p>There are a few open source technologies which are looking promising in
 this direction.</p>
-
-<p>Postgresql is a free database - <a
-href="http://www.postgresql.org">http://www.postgresql.org/</a>, postgis -<a
-href="http://postgis.refractions.net/">http://postgis.refractions.net/</a>,
-is providing GIS search functionality into it.</p>
-
-<p>Mapserv - <a
-href="http://mapserv.gis.umn.edu">http://mapserv.gis.umn.edu</a> is another
-potential candidate, especially using the mapscript interface it provides.</p>
-
-<p>However, there is work required to get something up and running here.</p>
+<ol>
+  <li>FreeFS - <a
+    href="http://sourceforge.net/projects/freefs">http://sourceforge.net/projects/freefs</a>,
+    is an upcoming <em>Web Feature Server</em> which uses a Postgres database
+    - <a href="http://www.postgresql.org/">http://www.postgresql.org/</a>,
+    with GIS extentions provided by PostGIS -<a
+    href="http://postgis.refractions.net/">http://postgis.refractions.net/.</a></li>
+  <li>Mapserv - <a
+    href="http://mapserver.gis.umn.edu">http://mapserver.gis.umn.edu</a> is
+    another potential candidate, especially using the mapscript interface it
+    provides.</li>
+</ol>
 
 <h3>Map Viewer</h3>
 
 <p>This is all that an end user will require to view the created maps.  The
 end user will only need a web browser to view the created maps.</p>
 
-<p>There are a few open source technologies available, geotools being a prime
-candidate -  <a
-href="http/geotools.sourceforge.net">http//geotools.sourceforge.net</a>.</p>
+<p>There are a few open source technologies available:</p>
+<ul>
+  <li>Geotools -  <a
+    href="http://geotools.sourceforge.net/">http//geotools.sourceforge.net</a>,
+    provides a fancy java client, however it is probably too large for most
+    viewing applications.</li>
+  <li>SeeYou - <a
+    href="http://sourceforge.net/projects/seeyou">http://sourceforge.net/projects/seeyou</a>
+    is looking promising, but is still in alpha development at the time of
+    writing.  As far as I can work out, it is using HTML layers to provide a
+    nice, light weight client interface (which currently only works on
+    Internet Explorer).</li>
+</ul>
 
 <h3>Web Map Server (WMS)</h3>
 
@@ -87,8 +98,8 @@ Consortium</em>.   It may also be how the maps created by the <em>Community
 Map Builder</em> are served to the web.</p>
 
 <p>Mapserv - <a
-href="http://mapserv.gis.umn.edu">http://mapserv.gis.umn.edu</a> version 3.5
-provides a good open source WMS.</p>
+href="http://mapserver.gis.umn.edu">http://mapserver.gis.umn.edu</a> version
+3.5 provides a good open source WMS.</p>
 
 <p>There are already numourous maps being served to the web using WMS
 protocols.  With a bit of luck, you will be able to find one which will be
