@@ -29,7 +29,7 @@ function Context(url, skin) {
   }
 
   /**
-   * TBD: Comment me */
+   * The name of the skin to use, defaults to skins/basic .*/
   this.skin="skins/"+skin+"/";
 
   /*
@@ -41,52 +41,18 @@ function Context(url, skin) {
   }
   */
 
-  /**
-   * TBD: Deprecated, This function needs to move into the tools directory, or
-   * possibly the util directory. - Cameron.
-   * Resize a spatial extent to have the same aspect ratio as a Window.
-   * @param ext The fuction to call when the bbox changes.
-   * @return ext The adjusted spatial extent, having the same aspect ratio as the Window.
-   * @deprecated.
-   */
-  this.adjustExtent=function(ext) {
-    windowWidth=this.getWindowWidth();
-    windowHeight=this.getWindowHeight();
-    geoWidth = ext[2] - ext[0];
-    geoHeight = ext[3] - ext[1];
-    if(geoWidth/windowWidth>geoHeight/windowHeight){
-      ext[1]=ext[1]-(((geoWidth/windowWidth*windowHeight)-geoHeight)/2);
-      ext[3]=ext[3]+(((geoWidth/windowWidth*windowHeight)-geoHeight)/2);
-    }
-    else{
-      ext[0]=ext[0]-(((geoHeight/windowHeight*windowWidth)-geoWidth)/2);
-      ext[2]=ext[2]+(((geoHeight/windowHeight*windowWidth)-geoWidth)/2);
-    }
-    return ext;
-  }
+  // ===============================
+  // Arrays of Listeners
+  // ===============================
 
   /** Functions to call when the boundingBox has changed,
     * TBD: I think this should be renamed to boundingBoxChangeListeners to be
     * consistant with OGC WMS spec. */
   this.bboxChangeListeners=new Array();
-
   /** TBD: I think this should be deprecated? Isn't it the same as
     * bboxChangeListeners? Cameron.
     * @deprecated */
   this.bboxChangeListenerTargets=new Array();
-
-  /**
-   * Add a Listener for bbox change.
-   * TBD: rename function name to addBoundingBoxListener().
-   * @param listener The function to call when the bbox changes.
-   */
-  this.addBboxChangeListener=function(listener,target) {
-    this.bboxChangeListeners[this.bboxChangeListeners.length]=listener;
-    this.bboxChangeListenerTargets[this.bboxChangeListenerTargets.length]=target;
-  }
-
-  // Array of listener functions.
-
   /** Functions to call when the layer's Hidden attribute changes. */
   this.hiddenListeners=new Array();
   /** Functions to call when one of the Context attributes has changed and
@@ -98,6 +64,19 @@ function Context(url, skin) {
   this.addLayerListeners=new Array();
   /** Functions to call when a layer is deleted. */
   this.deleteLayerListeners=new Array();
+
+  // ===============================
+  // Add Listener Functions
+  // ===============================
+  /**
+   * Add a Listener for bbox change.
+   * TBD: rename function name to addBoundingBoxListener().
+   * @param listener The function to call when the bbox changes.
+   */
+  this.addBboxChangeListener=function(listener,target) {
+    this.bboxChangeListeners[this.bboxChangeListeners.length]=listener;
+    this.bboxChangeListenerTargets[this.bboxChangeListenerTargets.length]=target;
+  }
 
   /**
    * Add a Listener for Hidden attribute.
@@ -146,9 +125,14 @@ function Context(url, skin) {
     this.deleteLayerListeners[this.deleteLayerListeners.length]=listener;
   }
 
+  // ===============================
+  // Update Context Parameters
+  // ===============================
+
   /**
    * Change a Layer's visibility.
-   * @param layerIndex The index of the LayerList/Layer from the Context which has changed.
+   * @param layerIndex The index of the LayerList/Layer from the Context which
+   * has changed.
    * @param hidden, 1=hidden, 0=not hidden.
    */
   this.setHidden=function(layerIndex,hidden){
@@ -308,6 +292,34 @@ function Context(url, skin) {
   this.getContext=function(){
     return this.context;
   }
+
+  // ===============================
+  // Move the following
+  // ===============================
+  /**
+   * TBD: Deprecated, This function needs to move into the tools directory, or
+   * possibly the util directory. - Cameron.
+   * Resize a spatial extent to have the same aspect ratio as a Window.
+   * @param ext The fuction to call when the bbox changes.
+   * @return ext The adjusted spatial extent, having the same aspect ratio as the Window.
+   * @deprecated.
+   */
+  this.adjustExtent=function(ext) {
+    windowWidth=this.getWindowWidth();
+    windowHeight=this.getWindowHeight();
+    geoWidth = ext[2] - ext[0];
+    geoHeight = ext[3] - ext[1];
+    if(geoWidth/windowWidth>geoHeight/windowHeight){
+      ext[1]=ext[1]-(((geoWidth/windowWidth*windowHeight)-geoHeight)/2);
+      ext[3]=ext[3]+(((geoWidth/windowWidth*windowHeight)-geoHeight)/2);
+    }
+    else{
+      ext[0]=ext[0]-(((geoHeight/windowHeight*windowWidth)-geoWidth)/2);
+      ext[2]=ext[2]+(((geoHeight/windowHeight*windowWidth)-geoWidth)/2);
+    }
+    return ext;
+  }
+
 }
 
 // Event objects sent by Context.
