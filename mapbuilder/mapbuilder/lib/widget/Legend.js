@@ -18,6 +18,15 @@ function Legend(context,baseDir,node) {
   this.node=node;
   this.context2Legend=new XslProcessor(baseDir+"/legend/Context2Legend.xml");
 
+
+  this.move=function(left,top) {
+    this.node.style.left=left;
+    this.node.style.top=top;
+  }
+  this.resize=function(width,height) {
+    this.node.style.width=width;
+    this.node.style.height=height;
+  }
   /**
    * Render the legend.
    * This function should be called at startup.
