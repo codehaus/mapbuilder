@@ -10,18 +10,25 @@ $Id$
  * server.
  * @constructor
  * @author Cameron Shorter
+ * @param configModel XML from the Configuration file.
  */
-function Proxy() {
-  /** Url of proxy, TBD: extract this from config file. */
-  this.proxy="../server/proxy/proxy.php?url=";
+function Proxy(configModel) {
+  /** Url of proxy. */
+  proxyNode=configModel.doc.getElementsByTagName("proxyUrl").item(0);
+  if (proxyNode) this.proxy=proxyNode.firstChild.nodeValue;
 
   /**
+   * Return URL of proxy?url=url or null if proxy not defined in config.
    * @param url Url of the service to access.
    * @return Url of the proxy and service in the form http://host/proxy?url=service
    */
   this.getUrl=function(url) {
-    // Convert URL to a form that can be passed as a URL parameter
-    url=escape(url).replace(/\+/g, '%2C').replace(/\"/g,'%22').replace(/\'/g, '%27');
-    return this.proxy+url;
+    if (this.proxy) {
+      url=this.proxy+escape(url).replace(/\+/g, '%2C').replace(/\"/g,'%22').replace(/\'/g, '%27');
+    } else {
+      alert("proxyUrl not defined in the configuration file");
+      url=null;
+    }
+    return url;
   }
 }
