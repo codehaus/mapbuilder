@@ -44,8 +44,12 @@ function FeatureList(widgetNode, model) {
         httpPayload.postData=s;
         httpPayload.url=objRef.webServiceUrl;
         httpPayload.method="post";
-        //objRef.targetModel.setParam('httpPayload',httpPayload);
         objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
+        sucess=objRef.targetModel.doc.selectSingleNode("//wfs:TransactionResult/wfs:Status/wfs:SUCCESS");
+        if (sucess){
+          // Roll back to default feature if Feature Entry if successful
+          objRef.model.loadModelDoc(objRef.model);
+        }
         break;
       case "Update Feature":
         alert("FeatureList: Update Feature not implemented");
