@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<%@page contentType="text/html"%>
 
 <!--
 Description: A Browser based Web Map Server Client based on javascript and XSL
@@ -8,19 +8,19 @@ Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 $Name$
 -->
+<%
+  request.setAttribute("mbConfigUrl", "/demo/complete/completeConfig.xml");
+%>
+
 
 <html>
   <head>
     <title>Mapbuilder Demo</title>
 
-    <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/lib/skin/default/html.css" type="text/css">
 
-    <script>
-      // URL of Mapbuilder configuration file.
-      var mbConfigUrl='config/CompleteConfig.xml';
-      //var language="fr";
-    </script>
-    <script type="text/javascript" src="../lib/Mapbuilder.js"></script>
+  <jsp:include page="/MapbuilderHead.jsp" flush="true"/>
+
   </head>
 
   <body onload="mbDoLoad()">
@@ -32,8 +32,8 @@ $Name$
         <div id="locatorMap" >
         </td>
         <td>
-<h2 id="mapTitle"></h2>
-<div id="mainMapPane"/>
+          <h2 id="mapTitle"></h2>
+          <div id="mainMapPane"/>
         </td>
       </tr>
       <tr>
