@@ -27,6 +27,22 @@ function XslProcessor(xslUrl) {
    * @param xmlNode The XML node to be transformed.
    * @return The transformed String.
    */
+  this.transformNode=function(xmlNode) {
+    // transform and build a web page with result
+    s=new String(xmlNode.transformNode(this.xslDom));
+    // Some browsers XSLT engines don't transform &lt; &gt; to < >, so do it here.
+    a=s.split("&lt;");
+    s=a.join("<");
+    a=s.split("&gt;");
+    s=a.join(">");
+    return s;
+  }
+
+  /**
+   * Transforms XML in the provided xml node according to this XSL.
+   * @param xmlNode The XML node to be transformed.
+   * @return a DOM document object
+   */
   this.transformNodeToObject=function(xmlNode) {
     // transform and build a web page with result
     var result = Sarissa.getDomDocument();
