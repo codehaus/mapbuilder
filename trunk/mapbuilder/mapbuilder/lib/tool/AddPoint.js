@@ -26,7 +26,9 @@ function AddPoint(toolNode, parentWidget) {
   /** Empty GML to load when this tool is selected. */
   this.defaultGml=toolNode.selectSingleNode("mb:defaultGml").firstChild.nodeValue;
   /** Model to update when a feature is added. */
-  this.targetGml=toolNode.selectSingleNode("mb:targetGml").firstChild.nodeValue;
+  this.targetGmlId=toolNode.selectSingleNode("mb:targetGml").firstChild.nodeValue;
+  this.targetGml=eval("config."+this.targetGmlId);
+
   /** Reference to GML node to update when a feature is added. */
   this.featureXlink=toolNode.selectSingleNode("mb:featureXlink").firstChild.nodeValue;
 
@@ -37,7 +39,8 @@ function AddPoint(toolNode, parentWidget) {
    */
   this.doAction = function(objRef,targetNode) {
     if (objRef.enabled) {
-      alert("AddPoint: Add functionality here");
+      feature=objRef.targetGml.doc.selectSingleNode(objRef.featureXlink);
+      alert("AddPoint: feature="+feature.firstChild.nodeValue);
     }
   }
 
@@ -53,18 +56,18 @@ function AddPoint(toolNode, parentWidget) {
       httpPayload.url=objRef.defaultGml;
       httpPayload.method="get";
       httpPayload.postData=null;
-      //objRef.parentWidget.targetModel.setParam("httpPayload",httpPayload);
-      eval("config."+this.targetGml+".setParam('httpPayload',httpPayload);");
+      objRef.targetGml.setParam('httpPayload',httpPayload);
     }
   }
 
   /**
-   * Register for mouseUp events.
+   * Register for mouseup events, called after model loads.
+   * @param objRef Pointer to this object.
    */
-  this.setMouseListener = function(toolRef) {
-    if (toolRef.mouseHandler) {
-      toolRef.mouseHandler.addListener('mouseup',toolRef.doAction,toolRef);
+  this.setMouseListener = function(objRef) {
+    if (objRef.mouseHandler) {
+      objRef.mouseHandler.addListener('mouseup',objRef.doAction,objRef);
     }
   }
-  this.parentWidget.targetModel.addListener( "loadModel", this.setMouseListener, this );
+  this.parentWidget.targetModel.addListener("loadModel",this.setMouseListener, this);
 }
