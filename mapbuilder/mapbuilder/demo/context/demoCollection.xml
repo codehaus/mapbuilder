@@ -7,37 +7,37 @@
 	<ViewContextReference version="1.0.0" id="atlas">
 		<Title>Atlas World base map</Title>
 		<ContextURL>
-			<OnlineResource xlink:type="simple" xlink:href="/mapbuilder/demo/context/atlasWorld.xml"/>
+			<OnlineResource xlink:type="simple" xlink:href="context/atlasWorld.xml"/>
 		</ContextURL>
 	</ViewContextReference>
 	<ViewContextReference version="1.0.0" id="cded">
     <Title>Canadian Digital Elevation Data (GeoBase)</Title>
 		<ContextURL>
-			<OnlineResource xlink:type="simple" xlink:href="/mapbuilder/demo/context/cded.xml"/>
+			<OnlineResource xlink:type="simple" xlink:href="context/cded.xml"/>
 		</ContextURL>
 	</ViewContextReference>
 	<ViewContextReference version="1.0.0" id="lsat7Ortho">
 		<Title>Landsat Orthorectified Imagery over Canada</Title>
 		<ContextURL>
-			<OnlineResource xlink:type="simple" xlink:href="/mapbuilder/demo/context/lsat7Ortho.xml"/>
+			<OnlineResource xlink:type="simple" xlink:href="context/lsat7Ortho.xml"/>
 		</ContextURL>
 	</ViewContextReference>
 	<ViewContextReference version="1.0.0" id="mars">
 		<Title>Mars landings</Title>
 		<ContextURL>
-			<OnlineResource xlink:type="simple" xlink:href="/mapbuilder/demo/context/mars.xml"/>
+			<OnlineResource xlink:type="simple" xlink:href="context/mars.xml"/>
 		</ContextURL>
 	</ViewContextReference>
 	<ViewContextReference version="1.0.0" id="modisWorldMosaic">
     <Title>MODIS world mosaic</Title>
 		<ContextURL>
-			<OnlineResource xlink:type="simple" xlink:href="/mapbuilder/demo/context/modisWorld.xml"/>
+			<OnlineResource xlink:type="simple" xlink:href="context/modisWorld.xml"/>
 		</ContextURL>
 	</ViewContextReference>
 	<ViewContextReference version="1.0.0" id="radarsatMosaicCanada">
     <Title>Radarsat Mosaic of Canada</Title>
 		<ContextURL>
-			<OnlineResource xlink:type="simple" xlink:href="/mapbuilder/demo/context/radarsatMosaic.xml"/>
+			<OnlineResource xlink:type="simple" xlink:href="context/radarsatMosaic.xml"/>
 		</ContextURL>
 	</ViewContextReference>
         <!--
