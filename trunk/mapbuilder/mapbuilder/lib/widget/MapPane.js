@@ -32,7 +32,11 @@ function MapPane(context,baseDir,window) {
    * @param e The event sent to the listener.
    */
   this.hiddenListener=function(e){
-    //alert("Legend hiddenListener called with layer="+e.layerId);
+    var vis="visible";
+    if (e.hidden) {
+      vis="hidden";
+    }
+    document.getElementById(e.layerId).style.visibility=vis;
   }
 
   this.context.addHiddenListener(this.hiddenListener);
