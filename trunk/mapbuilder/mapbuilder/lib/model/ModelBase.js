@@ -24,6 +24,10 @@ function ModelBase(modelNode, parent) {
     this.modelNode = modelNode;
   }
 
+  /**
+   * Load a Mapbuilder configuration file from url.
+   * @param url Url of the configuration file.
+   */
   this.loadModelDoc = function( url ){
     this.doc = Sarissa.getDomDocument();
     this.doc.async = false;
@@ -37,6 +41,9 @@ function ModelBase(modelNode, parent) {
     if (docId) this.docId = docId.nodeValue;
   }
 
+  /**
+   * Paint all the widgets and initialise any tools the widget may have.
+   */
   this.loadWidgets = function() {
     var widgets = this.modelNode.selectNodes("widgets/*");
     for (var j=0; j<widgets.length; j++) {

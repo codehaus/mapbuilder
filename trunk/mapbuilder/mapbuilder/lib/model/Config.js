@@ -72,7 +72,12 @@ function Config(url) {
     }
   }
 
-  // this is split off as a separate function so that it can be called anytime
+  /**
+   * Load a model and it's widgets scripts.  This function can be called at any time
+   * to load a new model.
+   * @param modelId TBD Comment me.
+   * @param modelUrl TBD Comment me.
+   */
   this.loadModel = function( modelId, modelUrl ) {
     var model = this[modelId];
     model.loadModelDoc( modelUrl );
