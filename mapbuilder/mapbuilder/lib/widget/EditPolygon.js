@@ -30,6 +30,7 @@ function EditPolygon(widetNode, model) {
       old=objRef.targetModel.getXpathValue(
         objRef.targetModel,
         objRef.featureXpath);
+      if(!old){old=""}
       sucess=objRef.targetModel.setXpathValue(
         objRef.targetModel,
         objRef.featureXpath,
