@@ -133,6 +133,7 @@ function Config(url) {
    * @param modelUrl  URL of the XML model document to be loaded
    */
   this.loadModel = function( modelId, modelUrl ) {
+    //alert(modelId+":"+modelUrl);
     var model = this[modelId];
     if (modelUrl) {
       model.loadModelDoc(this,modelUrl);

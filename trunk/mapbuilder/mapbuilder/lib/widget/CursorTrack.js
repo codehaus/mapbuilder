@@ -70,7 +70,8 @@ function CursorTrack(widgetNode, model) {
 /** Update the lat/long coordinates in coordForm. */
 function ReportCoords() {
     objRef = window.cursorTrackObject;
-    var evll = objRef.proj.Inverse( window.cursorTrackNode.evxy );
+    var evxy = objRef.model.extent.GetXY( window.cursorTrackNode.evpl );
+    var evll = objRef.proj.Inverse( evxy );
     objRef.coordForm.longitude.value = Math.round(evll[0]*100)/100;
     objRef.coordForm.latitude.value = Math.round(evll[1]*100)/100;
 }

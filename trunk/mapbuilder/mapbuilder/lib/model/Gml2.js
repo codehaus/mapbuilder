@@ -67,9 +67,36 @@ function Gml2(modelNode, parent) {
     this.callListeners("boundingBox");
   }
 
-  //features will have an extent so add the extent property
-  //TBD: still needs so refinement here
-  //this.extent = new Extent( this );
+  /**
+   * Get the Window width.
+   * @return width The width of map window (therefore of map layer images).
+   */
+  this.getWindowWidth=function() {
+    return this.width;
+  }
 
+  /**
+   * Set the Window width.
+   * @param width The width of map window (therefore of map layer images).
+   */
+  this.setWindowWidth=function(width) {
+    this.width = width;
+  }
+
+  /**
+   * Get the Window height.
+   * @return height The height of map window (therefore of map layer images).
+   */
+  this.getWindowHeight=function() {
+    return this.height;
+  }
+
+  /**
+   * Set the Window height.
+   * @param height The height of map window (therefore of map layer images).
+   */
+  this.setWindowHeight=function(height) {
+    this.height = height;
+  }
 }
 

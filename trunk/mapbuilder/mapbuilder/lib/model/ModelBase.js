@@ -73,6 +73,8 @@ function ModelBase(modelNode) {
       var widget = eval( evalStr );
       if (widget) {
         objRef[widget.id] = widget;
+        widget.paint();
+        widget.loadTools();
       } else {
         alert("error creating widget:" + widgetNode.nodeName);
       }

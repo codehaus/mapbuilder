@@ -57,7 +57,7 @@ function ZoomToAoi(toolNode, parentWidget) {
       ul = tool.model.proj.Forward( ul );       //back to XY
       lr = tool.model.proj.Forward( lr );
     }
-    tool.model.extent.setAoi( ul, lr );
+    tool.model.setParam("aoi", new Array(ul, lr) );
   }
   this.targetModel.addListener( "boundingBox", this.showTargetAoi, this );
   this.targetModel.addListener( "loadModel", this.showTargetAoi, this );
@@ -72,9 +72,10 @@ function ZoomToAoi(toolNode, parentWidget) {
    */
   this.mouseUpHandler = function(tool,targetNode) {
     var bbox = tool.model.getParam("aoi");
-    var ul = tool.model.extent.GetXY( bbox[0] );
-    var lr = tool.model.extent.GetXY( bbox[1] );
+    var ul = bbox[0];
+    var lr = bbox[1];
     if ( tool.model.getSRS() != tool.targetModel.getSRS() ) {
+      //TBD: convert XY to lat/long first
       ul = tool.targetModel.proj.Forward( ul ); //to target XY
       lr = tool.targetModel.proj.Forward( lr );
     }

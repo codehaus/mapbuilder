@@ -83,7 +83,9 @@ function AoiMouseHandler(toolNode, parentWidget) {
     }
 
     //set new AOI in context
-    this.model.setParam("aoi",new Array(ul,lr));
+    ul = this.model.extent.GetXY( ul );
+    lr = this.model.extent.GetXY( lr );
+    this.model.setParam("aoi", new Array(ul,lr) );
   }
 
   parentWidget.addListener('mousedown',this.mouseDownHandler,this);

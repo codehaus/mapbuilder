@@ -128,7 +128,6 @@ function Context(modelNode, parent) {
   }
 
   /**
-   * TBD: Deprecated - use getContext() instead.
    * Get the Window width.
    * @return width The width of map window (therefore of map layer images).
    */
@@ -139,7 +138,6 @@ function Context(modelNode, parent) {
   }
 
   /**
-   * TBD: Deprecated - use setContext() instead.
    * Set the Window width.
    * @param width The width of map window (therefore of map layer images).
    */
@@ -149,7 +147,6 @@ function Context(modelNode, parent) {
   }
 
   /**
-   * TBD: Deprecated - use getContext() instead.
    * Get the Window height.
    * @return height The height of map window (therefore of map layer images).
    */
@@ -160,7 +157,6 @@ function Context(modelNode, parent) {
   }
 
   /**
-   * TBD: Deprecated - use setContext() instead.
    * Set the Window height.
    * @param height The height of map window (therefore of map layer images).
    */
@@ -168,9 +164,6 @@ function Context(modelNode, parent) {
     win=this.doc.documentElement.getElementsByTagName("Window").item(0);
     win.setAttribute("height", height);
   }
-
-  //add the extent property
-  this.extent = new Extent( this );
 
 }
 

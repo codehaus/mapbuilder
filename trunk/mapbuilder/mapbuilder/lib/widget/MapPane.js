@@ -40,8 +40,16 @@ function MapPane(widgetNode, model) {
     var newHeight = Math.round(aspectRatio*fixedWidth);
     this.model.setWindowWidth( fixedWidth );
     this.model.setWindowHeight( newHeight );
-    this.model.extent.SetResolution( new Array(fixedWidth, newHeight) );
     this.node.style.width = fixedWidth;
+  }
+
+  //add the extent property
+  this.model.extent = new Extent( this.model );
+  if (this.node.extext) {
+    this.model.extent.SetSize( this.node.extent.res );
+  } else {
+    this.model.extent.SetResolution( new Array(this.model.getWindowWidth(), this.model.getWindowHeight()) );
+    this.node.extent = this.model.extent;
   }
 
   /**
@@ -52,10 +60,8 @@ function MapPane(widgetNode, model) {
   this.setContainerNodeHandlers = function(objRef) {
     //reset these on a paint because the containerNode is created on paint
     //these added to the containerNode because they will be referenced in that context
-    //var containerNode = objRef.node;
     var containerNode = document.getElementById( objRef.containerId );
     containerNode.widget = objRef;
-    containerNode.extent = objRef.model.extent;
     containerNode.onmousemove = objRef.eventHandler;
     containerNode.onmouseout = objRef.eventHandler;
     containerNode.onmouseover = objRef.eventHandler;
@@ -156,7 +162,6 @@ function MapPane(widgetNode, model) {
       ev.stopPropagation();
     }
 
-    this.evxy = this.extent.GetXY( this.evpl );
     this.widget.callListeners(this.eventType,this);
     return false;
   }
