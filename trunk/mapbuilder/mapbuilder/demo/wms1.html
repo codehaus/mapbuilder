@@ -6,7 +6,7 @@
     <script type="text/javascript" src="../widget/context/Context.js"></script>
     <script type="text/javascript" src="../widget/mappane/MapPane.js"></script>
     <script type="text/javascript" src="../widget/legend/Legend.js"></script>
-    <script type="text/javascript" src="../widget/util/XslProcessor.js"></script>
+    <script type="text/javascript" src="../widget/util/Util.js"></script>
   </head>
   <body>
     <h1><a href="http://mapbuilder.sourceforge.net">Mapbuilder</a>
@@ -21,7 +21,7 @@
 
       // Load a Web Map Context document as defined by:
       // http://www.opengis.org/docs/03-036r2.pdf
-      context=new Context("Wmc1.cml");
+      context=new Context("wmc.xml");
 
       // Create and render a MapPane
       mapPane=new MapPane(context,baseDir,null);
