@@ -15,10 +15,12 @@
     <section>
       <title>Identification</title>
 
-      <para>This document describes the design of
-      <citetitle>mapbuilder-lib</citetitle>, a module within the Community Map
-      Builder framework. See the layout guide for instructions on customizing
-      the configuration elements.</para>
+      <para>This document is refered to as <citetitle>mapbuilder-lib Software
+      Design Description</citetitle>, associated with release $Name$.</para>
+
+      <para>The source document is stored in Docbook XML format and is stored
+      in the Community Mapbuilder CVS repository in
+      <filename>mapbuilder/design/mapbuilder-lib.xml</filename>.</para>
     </section>
 
     <section>
@@ -38,6 +40,11 @@
 
     <section>
       <title>Document Overview</title>
+
+      <para>This document describes the design of
+      <citetitle>mapbuilder-lib</citetitle>, a module within the Community Map
+      Builder framework. See the layout guide for instructions on customizing
+      the configuration elements.</para>
 
       <para>The structure of this document is loosely based on the SDD
       template provided by <ulink
@@ -901,39 +908,52 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
     </section>
 
     <section id="components">
-      <title id="library">Library Components<!--this section needs update to the list of currently implemented models, widgets and tools - Mike 27 March 2004--></title>
+      <title id="library">Components</title>
 
-      <para><emphasis role="bold">Warning:</emphasis> This section is out of
-      date.</para>
+      <section>
+        <title>External components to mapbuilder-lib</title>
 
-      <figure>
-        <title>Mapbuilder Library Components</title>
+        <figure>
+          <title>Components required to use mapbuilder-lib</title>
 
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="images/context1.jpg" />
-          </imageobject>
-        </mediaobject>
-      </figure>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/mainpage.gif" />
+            </imageobject>
+          </mediaobject>
+        </figure>
 
-      <section id="mainpage">
-        <title>MainPage</title>
+        <section id="mainpage">
+          <title>MainPage</title>
 
-        <para>The Main Web Page uses HTML to layout the required widgets. It
-        includes the required libraries, creates the required components, then
-        calls the &lt;component&gt;.paint() methods.</para>
+          <para>The Main Web Page uses HTML to layout the required widgets. It
+          includes the required libraries, creates the required components,
+          then calls the &lt;component&gt;.paint() methods.</para>
 
-        <para>This should be the only page Portal Developers need to modify in
-        order to build a Mapbuilder portal.</para>
+          <para>This should be the only page Portal Developers need to modify
+          in order to build a Mapbuilder portal.</para>
 
-        <para>The requirements for building the page need to be kept simple so
-        that HTML developers with minimal javascript knowledge can create
-        it.</para>
+          <para>The requirements for building the page need to be kept simple
+          so that HTML developers with minimal javascript knowledge can create
+          it.</para>
 
-        <para>For details on how to build a Main Page, refer to the Users
-        Guide.</para>
+          <para>For details on how to build a Main Page, refer to the Users
+          Guide.</para>
 
-        <para></para>
+          <para></para>
+        </section>
+
+        <section>
+          <title>Config</title>
+
+          <para></para>
+        </section>
+
+        <section>
+          <title>Context</title>
+
+          <para></para>
+        </section>
       </section>
 
       <section>
