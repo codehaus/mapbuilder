@@ -17,12 +17,25 @@ function MapPane(context,baseDir,node) {
   this.context=context;
   this.node=node;
   this.wmcLayer2DhtmlLayer=new XslProcessor(baseDir+"/mappane/WmcLayer2DhtmlLayer.xml");
+  Sarissa.setXslParameter(
+    this.wmcLayer2DhtmlLayer.xslDom,
+    "baseDir", "'"+baseDir+"'");
 
   /**
    * Create all the layers by rendering them into the current window.
    * This function should be called at startup.
    */
   this.paint=function() {
+    // Set the coordinates of the mapImage for the xsl
+    Sarissa.setXslParameter(
+      this.wmcLayer2DhtmlLayer.xslDom,
+      "left",
+      String(getAbsX(this.node)-1));
+    Sarissa.setXslParameter(
+      this.wmcLayer2DhtmlLayer.xslDom,
+      "top",
+      String(getAbsY(this.node)-1));
+
     s=this.wmcLayer2DhtmlLayer.transformNode(this.context.context);
     this.node.innerHTML=s;
    }
