@@ -67,32 +67,31 @@ function ModelBase(modelNode) {
     var widgets = objRef.modelNode.selectNodes("widgets/*");
     for (var j=0; j<widgets.length; j++) {
       var widgetNode = widgets[j];
-      var widgetId = widgetNode.attributes.getNamedItem("id").nodeValue;
-
-      if (objRef[widgetId]) {
-        var outputNode = objRef[widgetId].node;
-        while ( outputNode.hasChildNodes() ) {
-          outputNode.removeChild( outputNode.firstChild );
-        }
+      var widgetId = widgetNode.attributes.getNamedItem("id")
+      if (widgetId) widgetId = widgetId.nodeValue;
+      
+      //remove widget generated content first
+      var widget = null;
+      if (widgetId && objRef[widgetId]) {
+        //remove any output from this widget
+        widget = objRef[widgetId];
+        var outputNode = document.getElementById( widget.mbWidgetId );
+        if (outputNode) widget.node.removeChild( outputNode );
       }
 
-      //call the widget constructor and paint
+      //call the widget constructor
       var evalStr = "new " + widgetNode.nodeName + "(widgetNode, objRef);";
-      var widget = eval( evalStr );
+      widget = eval( evalStr );
       if (widget) {
+        //paint the widget and load the tools
         objRef[widget.id] = widget;
         widget.paint(widget);
         widget.loadTools();
       } else {
         alert("error creating widget:" + widgetNode.nodeName);
       }
-    }
-    // Trigger widget.paint() calls
-    //objRef.callListeners("modelChange");
 
-    //for (var j=0; j<widgets.length; j++) {
-    //  widget.loadTools();
-    //}
+    }
   }
 
   /**
