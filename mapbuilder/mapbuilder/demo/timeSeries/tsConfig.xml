@@ -86,7 +86,13 @@
 
         </DragPanHandler>
 
-        <MovieLoop id="movieLoop"/>
+        <MovieLoop id="movieLoop">
+
+          <framesPerSecond>4</framesPerSecond>
+
+          <maxFrames>30</maxFrames>
+
+        </MovieLoop>
 
       </tools> 
 

@@ -21,11 +21,26 @@ function MovieLoop(toolNode, model) {
   var base = new ToolBase(this, toolNode, model);
 
   this.frameIncrement = 1;
-  this.delay = 100; //milliseconds
-  this.timestampIndex = 0;
   this.firstFrame = 0;
-  this.maxFrames = 30;
+  this.timestampIndex = 0;
 
+  //
+  var framesPerSecond = toolNode.selectSingleNode("mb:framesPerSecond");
+  if (framesPerSecond) {
+    this.delay = 1000/framesPerSecond.firstChild.nodeValue;
+  } else {
+    this.delay = 1000/10; //milliseconds
+  }
+
+  //set a limit to the munber of frames to be loaded
+  this.maxFrames = 30;
+  var maxFrames = toolNode.selectSingleNode("mb:maxFrames");
+  if (maxFrames) this.maxFrames = maxFrames.firstChild.nodeValue;
+
+  /**
+   * Sets the frame to the specified index in the frame array
+   * @param index the 0-based frame index in the frame array
+   */
   this.setFrame = function(index) {
     var timestampList = this.model.timestampList;
     if (this.timestampIndex!=null) {
@@ -41,6 +56,10 @@ function MovieLoop(toolNode, model) {
     this.model.setParam("timestamp", this.timestampIndex);
   }
 
+  /**
+   * Advances the frame array by the frame increment
+   * @param step optional parameter to override default frame increment
+   */
   this.nextFrame = function(step) {
     var objRef = window.movieLoop;
     var increment = objRef.frameIncrement;
@@ -48,6 +67,11 @@ function MovieLoop(toolNode, model) {
     objRef.setFrame(objRef.timestampIndex + increment);
   }
 
+  /**
+   * Listener fucntion to set the start and end frames based on the 
+   * firstFrame and maxFrames property values.
+   * @param objRef pointer to this object
+   */
   this.setFrameLimits = function(objRef) {
     var timestampList = objRef.model.timestampList;
     timestampList.firstFrame = objRef.firstFrame;  //set these from a widget, or config
@@ -57,29 +81,36 @@ function MovieLoop(toolNode, model) {
   }
   this.model.addListener("loadModel",this.setFrameLimits,this);
 
+  /**
+   * Resets the frame index to the firstFrame property
+   * @param objRef pointer to this object
+   */
   this.reset = function(objRef) {
     objRef.setFrame(objRef.model.timestampList.firstFrame);
   }
   this.model.addListener("refresh",this.reset,this);
 
-  this.setIncrement = function() {
-  }
-
+  /**
+   * Starts the movie loop playing by using a JavaScript timer.
+   */
   this.play = function() {
     window.movieLoop = this;
     this.movieTimer = setInterval('window.movieLoop.nextFrame()',this.delay);
   }
   
+  /**
+   * Stops the JavaScript movie loop timer.
+   */
   this.pause = function() {
     clearInterval(this.movieTimer);
   }
   
+  /**
+   * Stops the JavaScript movie loop timer and sets the index back to the first 
+   * frame.
+   */
   this.stop = function() {
     this.pause();
-    this.reset(this);
-  }
-
-  this.rewind = function() {
     this.reset(this);
   }
 
