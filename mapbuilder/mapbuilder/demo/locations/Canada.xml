@@ -80,7 +80,7 @@
 	</gml:featureMember>
 	<gml:featureMember>
 		<locationDef>
-			<gml:name>-----------Newfoundland</gml:name>
+			<gml:name>-----------Newfoundland and Labrador</gml:name>
 			<spatialKeyword>
 				<gml:location>
 					<gml:Envelope srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
