@@ -17,8 +17,10 @@ $Id$
  * @author Mike Adair 
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
+ * @param position    Style position = "absolute" or "relative" used to specify if the
+ *                    widget should overlay others or not, defaults to "relative".
  */
-function WidgetBase(widgetNode, model) {
+function WidgetBase(widgetNode,model,position) {
   // Inherit the Listener functions and parameters
   var listener = new Listener();
   for (sProperty in listener) { 
@@ -55,6 +57,9 @@ function WidgetBase(widgetNode, model) {
       this.node=document.createElement("DIV");
       //this.node.setAttribute("id",this.id);
       this.node.id=this.id+"MbWidget";
+      if (position=="absolute"){
+        this.node.style.position="absolute";
+      }
       anchorNode.appendChild(this.node);
     }
 
