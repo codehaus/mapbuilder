@@ -57,7 +57,8 @@ $Name$
           <img
             id="query_{wmc:Name}"
             title="Click to set {wmc:Title} as the query layer"
-            src="../lib/skin/default/images/eye.gif" />
+            onclick="{$context}.setQueryLayer({wmc:Name})"
+            src="../lib/skin/default/images/id.gif" />
         </xsl:if>
       </td>
       <td><xsl:value-of select="wmc:Title"/></td>
