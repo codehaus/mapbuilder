@@ -28,9 +28,7 @@ function AddPoint(toolNode, parentWidget) {
   this.doAction = function(objRef,targetNode) {
     if (objRef.enabled) {
       point=objRef.targetModel.extent.getXY(targetNode.evpl);
-      feature=objRef.targetGml.doc.selectSingleNode(objRef.featureXpath);
-      feature.firstChild.nodeValue=point[0]+","+point[1];
-      objRef.targetGml.setParam("refresh");
+      objRef.targetGml.setXlinkValue(objRef.targetGml,objRef.featureXpath,point[0]+","+point[1]);
     }
   }
 }
