@@ -26,6 +26,7 @@ $Name$
   <xsl:param name="cs" select="' '"/>
   <xsl:param name="bbox"/>
   <xsl:param name="srs"/>
+  <xsl:param name="version"/>
   
   <xsl:param name="httpMethod">get</xsl:param>
   <xsl:param name="filter"/>
@@ -46,9 +47,9 @@ $Name$
         <QueryString>
           <xsl:variable name="query">
          request=GetFeature
-    &amp;version=1.0.0
+    &amp;version=<xsl:value-of select="$version"/>
     &amp;service=WFS
-&amp;maxfeatures=20
+&amp;maxfeatures=100
    &amp;typename=<xsl:value-of select="$resourceName"/>
           <xsl:if test="$bbox">
    &amp;bbox=<xsl:value-of select="$bbox"/>
