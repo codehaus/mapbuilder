@@ -102,7 +102,7 @@ cvs update -d .</programlisting>
         </itemizedlist>
 
         <programlisting>cd mapbuilder/
-cvs tag &lt;tag&gt; dir1 dir2 dir/file1 ...</programlisting>
+cvs tag &lt;tag&gt; bin CHANGES demo design docs GPL index.html lib LICENSE metrics README</programlisting>
       </listitem>
     </varlistentry>
 
@@ -130,46 +130,12 @@ cvs export -r &lt;tag&gt; mapbuilder</programlisting>
     </varlistentry>
 
     <varlistentry>
-      <term>Build Documentation</term>
-
-      <listitem>
-        <para>This builds the javadocs and design documentation into the
-        mapbuilder/docs directory.</para>
-
-        <programlisting>~/tmp/mapbuilder/bin/publish.sh</programlisting>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term>Build a source release</term>
+      <term>Build the distribution</term>
 
       <listitem>
         <programlisting>cd ~/tmp/mapbuilder/bin
-ant
 ant dist
-cp ~/tmp/mapbuilder/dist/mapbuilder-lib-[version].zip \
-  ~/tmp/dist/mapbuilder-lib-src-[version].zip</programlisting>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term>Compress source</term>
-
-      <listitem>
-        <programlisting>~/tmp/mapbuider/bin/compress.sh</programlisting>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term>Build a binary (comressed) release</term>
-
-      <listitem>
-        <programlisting>cd ~/tmp/mapbuilder/bin
-rm -fr ../dist
-ant
-ant dist
-cd ~/tmp/mapbuilder/dist
-cp mapbuilder-lib-[version].zip mapbuilder-lib-[version]-war.zip ~/tmp/dist</programlisting>
+</programlisting>
       </listitem>
     </varlistentry>
 
@@ -181,7 +147,7 @@ cp mapbuilder-lib-[version].zip mapbuilder-lib-[version]-war.zip ~/tmp/dist</pro
 unzip mapbuilder-lib-[version]-war.zip
 </programlisting>
 
-        <para>In a broswer, view <ulink
+        <para>In a broswer, view all the demos at <ulink
         url="http://localhost:8080/mapbuilder/demo">http://localhost:8080/mapbuilder/demo</ulink></para>
       </listitem>
     </varlistentry>
@@ -231,7 +197,8 @@ unzip mapbuilder-lib-[version]-war.zip
         select <literal>Admin</literal>, <literal>File Releases</literal>,
         <literal>Add Release</literal>.</para>
 
-        <para>Walk through the various forms.</para>
+        <para>Walk through the various forms. For description of changes, use
+        the text from the CHANGES file.</para>
       </listitem>
     </varlistentry>
 
@@ -274,15 +241,8 @@ ln -s mapbuilder-lib-[version] mapbuilder</programlisting>
 
       <listitem>
         <para>Send an email notification to
-        mapbuilder-announce@lists.sourceforge.net .</para>
-      </listitem>
-    </varlistentry>
-
-    <varlistentry>
-      <term>Update release information on Freshmeat</term>
-
-      <listitem>
-        <para></para>
+        mapbuilder-announce@lists.sourceforge.net with text from the CHANGES
+        file.</para>
       </listitem>
     </varlistentry>
   </variablelist>
