@@ -18,37 +18,43 @@
       <tr>
 <!-- left hand column -->
         <td valign="top" style="padding:10px">
+          <div>
+            <div id="locatorMap"/>
+          </div>
          <div id="legend"/>
-         <div id="locatorMap"/>
         </td>
 
 <!-- right hand column -->
         <td>
           <table width="100%">
             <tr>
-              <td colspan="3">
-                <div id="mainMapPane"/>
-              </td>
-            </tr>
-            <tr>
               <td align="left">
-                <div id="mainButtonBar"/>
-              </td>
-              <td align="center" id="mapScaleText" />
-              <td align="right" id="cursorTrack" />
-            </tr>
-            <tr>
-              <td colspan="3">
-                <div id="abstract"/>
+                <h2 id="mapTitle"></h2>
               </td>
             </tr>
             <tr>
-              <td colspan="3">
-                <div id="eventLog"/>
+              <td align="center">
+                <table>
+                  <tr>
+                    <td colspan="3">
+                      <div id="mainMapPane"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left">
+                      <div id="mainButtonBar"/>
+                    </td>
+                    <td align="center" id="mapScaleText" />
+                    <td align="right" id="cursorTrack" />
+                  </tr>
+                </table>
               </td>
+            </tr>
+            <tr>
+              <td align="left" id="abstract"/>
             </tr>
           </table>
-          <br/>
+          <hr/>
           <p align="right"><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a><br/>$Name$</p>
         </td>
       </tr>
