@@ -18,87 +18,53 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
 function WebServiceRequest(toolNode, model) {
   var base = new ToolBase(this, toolNode, model);
   
-  //get the xpath to select nodes from the parent doc
-  var nodeSelectXpath = toolNode.selectSingleNode("mb:nodeSelectXpath");
-  if (nodeSelectXpath) {
-    this.nodeSelectXpath = nodeSelectXpath.firstChild.nodeValue;
+  //get the request name to add listener to
+  var requestName = toolNode.selectSingleNode("mb:requestName");
+  if (requestName) {
+    this.requestName = requestName.firstChild.nodeValue;
   }
-
-  /**
-   * get the list of source nodes from the parent document
-   * @param objRef Pointer to this object.
-   */
-  this.getFeatureNode = function(id) {
-    return this.model.doc.selectSingleNode(this.nodeSelectXpath+"[@id='"+id+"']");
-  }
-
-  /**
-   * get the list of source nodes from the parent document
-   * @param objRef Pointer to this object.
-   */
-  this.getFeatureList = function() {
-    return this.model.doc.selectNodes(this.nodeSelectXpath);
-  }
-
-  /**
-   * get the list of source nodes from the parent document
-   * @param objRef Pointer to this object.
-   */
-  this.initFeatureList = function(objRef) {
-    var featureList = objRef.getFeatureList();
-    for (var i=0; i<featureList.length; i++) {
-      var feature = featureList[i];
-      feature.setAttribute("id", "MbFeatureNode_" + mbIds.getId());
-      //feature.setAttribute("select", "true");
-    }
-  }
-  this.model.addListener("loadModel", this.initFeatureList, this);
 
   /**
    * Listener function which will issue the request
    * @param requestName the name of the web service operation to execute
    * @param featureNodeId the id of the node in the doc to be processed by the stylesheet
    */
-  this.doRequest = function(requestName, featureNodeId, serverUrl) {
-    var feature = this.getFeatureNode(featureNodeId);
+  this.doRequest = function(objRef, featureName) {
+    var feature = objRef.model.getFeatureNode(featureName);
 
-    var targetModelProperty = this.toolNode.selectSingleNode("mb:targetModel[@request='"+requestName+"']");
-    if (targetModelProperty) {
-      var targetModelId = targetModelProperty.firstChild.nodeValue;
-      var targetModel = config[targetModelId];
-      if (targetModel.template) {
-        targetModel.modelNode.removeAttribute("id");
-        targetModel = this.appendModel(targetModel.modelNode, feature);
-      }
-    } else {
-      alert("unable to locate targetModel for web service request:" + requestName);
-      return;
+    if (objRef.targetModel.template) {
+      objRef.targetModel.modelNode.removeAttribute("id");
+      objRef.targetModel = objRef.model.createObject(objRef.targetModel.modelNode, objRef.model.models);
     }
 
-    var styleUrl = baseDir+"/tool/xsl/"+requestName.replace(/:/,"_")+".xsl";
+    var styleUrl = baseDir+"/tool/xsl/"+objRef.requestName.replace(/:/,"_")+".xsl";
     var requestStylesheet = new XslProcessor(styleUrl);
 
     //confirm inputs
-    if (this.debug) alert("source:"+feature.xml);
-    //if (this.debug) alert("stylesheet:"+requestStylesheet.xslDom.xml);
+    if (objRef.debug) alert("source:"+feature.xml);
+    //if (objRef.debug) alert("stylesheet:"+requestStylesheet.xslDom.xml);
 
     //process the doc with the stylesheet
     var httpPayload = new Object();
-    httpPayload.method = targetModel.method;
+    httpPayload.method = objRef.targetModel.method;
     requestStylesheet.setParameter("httpMethod", httpPayload.method );
-    if (targetModel.containerModel) {
-      var bBox = targetModel.containerModel.getBoundingBox();
+
+    if (objRef.targetModel.containerModel) {
+      var bBox = objRef.targetModel.containerModel.getBoundingBox();
       var bboxStr = bBox[0]+","+bBox[1]+" "+bBox[2]+","+bBox[3];
       requestStylesheet.setParameter("bbox", bboxStr );
-      requestStylesheet.setParameter("srs", targetModel.containerModel.getSRS() );
+      requestStylesheet.setParameter("srs", objRef.targetModel.containerModel.getSRS() );
     }
+
     httpPayload.postData = requestStylesheet.transformNodeToObject(feature);
     if (this.debug) alert("request data:"+httpPayload.postData.xml);
-    if (serverUrl) {
-      httpPayload.url = serverUrl;
+
+    if (objRef.serverUrl) {
+      httpPayload.url = objRef.serverUrl;
     } else {
-      httpPayload.url = this.model.getServerUrl(requestName, httpPayload.method);
+      httpPayload.url = objRef.model.getServerUrl(objRef.requestName, httpPayload.method, feature);
     }
+
     if (httpPayload.method.toLowerCase() == "get") {
       var queryString = httpPayload.postData.selectSingleNode("//QueryString");
       if (httpPayload.url.indexOf("?") < 0) httpPayload.url += "?";
@@ -106,39 +72,7 @@ function WebServiceRequest(toolNode, model) {
       httpPayload.postData = null;
     }
     
-    targetModel.setParam("httpPayload", httpPayload);
+    objRef.targetModel.setParam("httpPayload", httpPayload);
   }
-
-  /**
-   * appends a new instance of a model to the model list
-   * @param objRef Pointer to this object.
-   */
-  this.appendModel = function(targetModelNode, featureNode) {
-    var evalStr = "new " + targetModelNode.nodeName + "(targetModelNode,this.model);";
-    var model = eval( evalStr );
-    if ( model ) {
-      this.model[model.id] = model;
-      config[model.id] = model;
-      featureNode[targetModelNode.nodeName] = model;
-      return model;
-    } else { 
-      alert("ModelList: error creating dynamic model object:" + targetModelNode.nodeName);
-    }
-  }
-
-  /**
-   * loads an instance of the targetModel model with the document
-   * @param objRef Pointer to this object.
-   */
-  this.updateModel = function(model) {
-  }
-
-  /**
-   * removes an instance of the targetModel model from the list
-   * @param objRef Pointer to this object.
-   */
-  this.deleteModel = function(objRef, modelId, feature) {
-  }
-
-  
+  this.model.addListener(this.requestName.replace(/:/,"_"), this.doRequest, this);
 }

@@ -39,7 +39,7 @@ function ToolBase(tool, toolNode, model) {
     }
   }
   tool.initTargetModel = this.initTargetModel;
-  config.addListener( "loadModel", tool.initTargetModel, tool );
+  config.addFirstListener( "loadModel", tool.initTargetModel, tool );
 
   this.initMouseHandler = function(toolRef) {
     /** Mouse handler which this tool will register listeners with. */

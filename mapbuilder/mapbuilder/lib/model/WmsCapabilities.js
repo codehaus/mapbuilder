@@ -18,7 +18,7 @@ function WmsCapabilities(modelNode, parentModel) {
 
   this.namespace = "xmlns:wms='http://www.opengis.net/wms'";
 
-  this.getServerUrl = function(requestName, method) {
+  this.getServerUrl = function(requestName, method, feature) {
     var xpath = "/WMT_MS_Capabilities/Capability/Request/"+requestName;
     if (method.toLowerCase() == "post") {
       xpath += "/DCPType/HTTP/Post/OnlineResource";
@@ -45,8 +45,16 @@ function WmsCapabilities(modelNode, parentModel) {
     return node.firstChild.nodeValue;
   }
 
-  this.addToContext = function(featureNodeId) {
-    var feature = this.featureList.getFeatureNode(featureNodeId);
+  /**
+   * get the list of source nodes from the parent document
+   * @param objRef Pointer to this object.
+   */
+  this.getFeatureNode = function(featureName) {
+    return this.doc.selectSingleNode(this.nodeSelectXpath+"[Name='"+featureName+"']");
+  }
+
+  this.addToContext = function(featureName) {
+    var feature = this.getFeatureNode(featureName);
     this.setParam("AddNodeToContext",feature);
   }
 

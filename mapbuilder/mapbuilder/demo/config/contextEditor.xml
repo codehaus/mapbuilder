@@ -34,7 +34,7 @@
           <loadHidden>false</loadHidden>
         </MapPane>
         <CursorTrack id="cursorTrack">
-          <mouseHandler>mainMap.mainMapWidget</mouseHandler>
+          <mouseHandler>mainMap</mouseHandler>
         </CursorTrack>
         <Widget id="mapTitle">
           <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
@@ -98,6 +98,7 @@
     <!-- use this with a WFS capabilities model -->
     <WfsCapabilities id="wfsCapTemplate">
       <!--defaultModelUrl>http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA?version=1.0.0&amp;service=WFS&amp;request=GetCapabilities</defaultModelUrl-->
+      <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
       <models>
         <DescribeFeatureType id="featureTypeTemplate" template="true">
           <widgets>
@@ -111,11 +112,14 @@
         <FeatureCollection id="getFeatureTemplate" template="true">
           <method>get</method>
           <widgets>
-            <GmlRendererTest id="testGmlRenderer">
+            <GmlRendererWZ id="testGmlRenderer">
               <htmlTagId>mainMapPane</htmlTagId>
               <targetModel>mainMap</targetModel>
+              <lineColor>#FF00FF</lineColor>
+              <lineWidth>1</lineWidth>
+              <pointDiameter>10</pointDiameter>
               <mapContainerId>mainMapContainer</mapContainerId>
-            </GmlRendererTest>
+            </GmlRendererWZ>
           </widgets>
         </FeatureCollection>
         <Transaction id="transactionTemplate" template="true">
@@ -130,19 +134,27 @@
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
           <stylesheet>/mapbuilder/lib/widget/SelectFeatureType.xsl</stylesheet>
+          <toolId>wfsController</toolId>
         </Widget>
       </widgets>
       <tools>
+        <WebServiceRequest id="wfsGetFeature">
+          <targetModel>wfsCapTemplate.models.getFeatureTemplate</targetModel>
+          <requestName>wfs:GetFeature</requestName>
+        </WebServiceRequest>
+        <WebServiceRequest id="wfsDescribeFeature">
+          <targetModel>wfsCapTemplate.models.featureTypeTemplate</targetModel>
+          <requestName>wfs:DescribeFeatureType</requestName>
+        </WebServiceRequest>
         <WebServiceRequest id="wfsController">
-          <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
-          <targetModel request="wfs:DescribeFeatureType">wfsCapTemplate.featureTypeTemplate</targetModel>
-          <targetModel request="wfs:GetFeature">wfsCapTemplate.getFeatureTemplate</targetModel>
-          <targetModel request="wfs:Transaction">wfsCapTemplate.transactionTemplate</targetModel>
+          <targetModel>wfsCapTemplate.models.transactionTemplate</targetModel>
+          <requestName>wfs:Transaction</requestName>
         </WebServiceRequest>
       </tools>
     </WfsCapabilities>
     <WmsCapabilities id="wmsCapTemplate">
       <!--defaultModelUrl>http://www.bsc-eoc.org/cgi-bin/bsc_ows.asp?version=1.1.1&amp;service=WMS&amp;request=GetCapabilities</defaultModelUrl-->
+      <nodeSelectXpath>//Layer</nodeSelectXpath>
       <title>OGC Web Map Server (WMS)</title>
       <models>
         <!--GetFeatureInfo id="featureTypeTemplate" template="true">
@@ -175,10 +187,13 @@
       </widgets>
       <tools>
         <WebServiceRequest id="wmsController">
-          <nodeSelectXpath>//Layer</nodeSelectXpath>
-          <targetModel request="wms:GetMap">wmsCapTemplate.getMapTemplate</targetModel>
-          <targetModel request="wms:GetFeatureInfo">wmsCapTemplate.getFeatureInfoTemplate</targetModel>
+          <targetModel>wmsCapTemplate.models.getMapTemplate</targetModel>
+          <requestName>wms:GetMap</requestName>
         </WebServiceRequest>
+        <!--WebServiceRequest id="wmsController">
+          <targetModel>wmsCapTemplate.models.getFeatureInfoTemplate</targetModel>
+          <requestName>wms:GetFeatureInfo</requestName>
+        </WebServiceRequest-->
       </tools>
     </WmsCapabilities>
     <Model id="wmsServers">
@@ -213,7 +228,7 @@
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainMap.mainAoi</mouseHandler>
+      <mouseHandler>mainMap.tools.mainAoi</mouseHandler>
       <class>RadioButton</class>
       <selected>true</selected>
       <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
@@ -224,7 +239,7 @@
     <ZoomOut id="zoomOut">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainMap.mainAoi</mouseHandler>
+      <mouseHandler>mainMap.tools.mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
       <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
@@ -234,7 +249,7 @@
     <DragPan id="dragPan">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainMap.mainDragPan</mouseHandler>
+      <mouseHandler>mainMap.tools.mainDragPan</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/PanEnable.gif</enabledSrc>
       <disabledSrc>/images/PanDisable.gif</disabledSrc>
@@ -244,7 +259,7 @@
     <SetAoi id="setAoi">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainMap.mainAoi</mouseHandler>
+      <mouseHandler>mainMap.tools.mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
       <disabledSrc>/images/SetAoiDisable.gif</disabledSrc>

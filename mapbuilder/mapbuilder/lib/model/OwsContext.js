@@ -168,7 +168,7 @@ function OwsContext(modelNode, parent) {
     win.setAttribute("height", height);
   }
 
-  this.getServerUrl = function(feature) {
+  this.getServerUrl = function(requestName, method, feature) {
     return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
   }
 
@@ -180,13 +180,20 @@ function OwsContext(modelNode, parent) {
    * get the list of source nodes from the parent document
    * @param objRef Pointer to this object.
    */
+  this.getFeatureNode = function(featureName) {
+    return this.doc.selectSingleNode(this.nodeSelectXpath+"[wmc:Name='"+featureName+"']");
+  }
+
+  /**
+   * get the list of source nodes from the parent document
+   * @param objRef Pointer to this object.
+   */
   this.loadFeatures = function(objRef) {
-    var featureList = objRef.wfsController.getFeatureList();
+    var nodeSelectXpath = objRef.nodeSelectXpath + "/wmc:Name";
+    var featureList = objRef.doc.selectNodes(nodeSelectXpath);
     for (var i=0; i<featureList.length; i++) {
-      var feature = featureList[i];
-      var featureId = feature.attributes.getNamedItem("id").nodeValue;
-      var serverUrl = feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
-      objRef.wfsController.doRequest('wfs:GetFeature',featureId, serverUrl);
+      var featureName = featureList[i].firstChild.nodeValue;
+      objRef.setParam('wfs_GetFeature',featureName);
     }
   }
   this.addListener("loadModel", this.loadFeatures, this);
