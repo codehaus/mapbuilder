@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ViewContext version="1.1.1" id="ows-context-tie" xmlns="http://www.opengis.net/context" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sld="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xsi:schemaLocation="http://www.opengis.net/context context.xsd">
+	<General>
+		<Window width="500" height="300"/>
+		<BoundingBox SRS="EPSG:4326" minx="-71.1485566986829" miny="42.2593928033786" maxx="-71.0016725358029" maxy="42.4399863588876"/>
+		<Title>OWS Context Document Schema Interoperability Experiment</Title>
+		<KeywordList>
+			<Keyword>MassGIS</Keyword>
+			<Keyword>Boston</Keyword>
+			<Keyword>Massachusetts</Keyword>
+		</KeywordList>
+		<Abstract> The OpenGIS Web Services Context Document Schema Interoperability Experiment is initiated by cadcorp, DM Solutions, GeoConnections/Natural Resources Canada, and IONIC Software. It is an Interoperability Experiment intended to an XML schema for encoding OpenGIS Web Services Context documents (OWS Context).  OWS Context documents are related to, but more powerful than, Web Map Context Documents (03-036r2). The latter are limited to referencing OGC Web Map Services (WMS), whereas the former can reference other OGC Web Services, e.g. Web Feature Services (WFS), Web Coverage Services (WCS), etc.</Abstract>
+		<LogoURL width="140" height="65" format="image/gif">
+			<OnlineResource xlink:type="simple" xlink:href="http://www.opengis.org/img/ogc_header_top_left.gif"/>
+		</LogoURL>
+		<DescriptionURL format="text/html">
+			<OnlineResource xlink:type="simple" xlink:href="http://www.opengis.org/press/?page=pressrelease&amp;view=20040525_ContextIE_PR"/>
+		</DescriptionURL>
+		<ContactInformation>
+			<ContactPersonPrimary>
+				<ContactPerson>Tom Kralidis</ContactPerson>
+				<ContactOrganization>Environment Canada</ContactOrganization>
+			</ContactPersonPrimary>
+			<ContactPosition>Systems Scientist</ContactPosition>
+			<ContactAddress>
+				<AddressType>postal</AddressType>
+				<Address>867 Lakeshore Road</Address>
+				<City>Burlington</City>
+				<StateOrProvince>Ontario</StateOrProvince>
+				<PostCode>L7R 4A6</PostCode>
+				<Country>Canada</Country>
+			</ContactAddress>
+			<ContactVoiceTelephone>+01-905-336-4409</ContactVoiceTelephone>
+			<ContactFacsimileTelephone>+01-905-336-4499</ContactFacsimileTelephone>
+			<ContactElectronicMailAddress>tom.kralidis@ec.gc.ca</ContactElectronicMailAddress>
+		</ContactInformation>
+	</General>
+	<ViewTypes>
+		<LayerList>
+			<Layer queryable="0" hidden="0">
+				<Server service="OGC:WMS" version="1.1.1" title="Cadcorp GeognoSIS.NET Web Map Service">
+					<OnlineResource xlink:type="simple" xlink:href="http://www.cadcorpdev.co.uk/massgis/wms.exe"/>
+				</Server>
+				<Name>BasemapRasterIndex</Name>
+				<Title>BasemapRasterIndex</Title>
+				<Abstract>MassGIS data served using Cadcorp GeognoSIS.NET. Data courtesy of Office of Geographic and Environmental Information (MassGIS), Commonwealth of Massachusetts 	Executive Office of Environmental Affairs.</Abstract>
+				<sld:MinScaleDenominator>100000</sld:MinScaleDenominator>
+				<sld:MaxScaleDenominator>5000</sld:MaxScaleDenominator>
+				<SRS>EPSG:4326</SRS>
+				<FormatList>
+					<Format current="1">image/gif</Format>
+					<Format>image/png</Format>
+					<Format>image/jpeg</Format>
+				</FormatList>
+				<StyleList>
+					<Style current="1">
+						<Name>default</Name>
+						<Title>default</Title>
+					</Style>
+				</StyleList>
+			</Layer>
+			<Layer queryable="0" hidden="0">
+				<Server service="OGC:WMS" version="1.1.1" title="Cadcorp GeognoSIS.NET Web Feature Service">
+					<OnlineResource xlink:type="simple" xlink:href="http://www.cadcorpdev.co.uk/massgis/wms.exe"/>
+				</Server>
+				<Name>TIGER</Name>
+				<Title>TIGER</Title>
+				<Abstract>MassGIS data served using Cadcorp GeognoSIS.NET. Data courtesy of Office of Geographic and Environmental Information (MassGIS), Commonwealth of Massachusetts 	Executive Office of Environmental Affairs.</Abstract>
+				<sld:MinScaleDenominator>100000</sld:MinScaleDenominator>
+				<sld:MaxScaleDenominator>5000</sld:MaxScaleDenominator>
+				<SRS>EPSG:4326</SRS>
+				<FormatList>
+					<Format current="1">image/gif</Format>
+					<Format>image/png</Format>
+					<Format>image/jpeg</Format>
+				</FormatList>
+				<StyleList>
+					<Style current="1">
+						<Name>default</Name>
+						<Title>default</Title>
+					</Style>
+				</StyleList>
+			</Layer>
+		</LayerList>
+		<FeatureTypeList>
+			<FeatureType>
+				<Server service="OGC:WFS" version="1.0.0" title="Cadcorp GeognoSIS.NET Web Feature Service">
+					<OnlineResource xlink:type="simple" xlink:href="http://www.cadcorpdev.co.uk/massgis/wms.exe"/>
+				</Server>
+				<Name>ns:Landuse__Lat_Lon_</Name>
+				<Title>Landuse (Lat/Lon)</Title>
+				<Abstract>Boston Landuse Polygons (Lat/Lon)</Abstract>
+				<sld:MinScaleDenominator>100000</sld:MinScaleDenominator>
+				<sld:MaxScaleDenominator>5000</sld:MaxScaleDenominator>
+				<SRS>EPSG:4326</SRS>
+				<ogc:Filter>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>YEAR</ogc:PropertyName>
+						<ogc:Literal>1999</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+				</ogc:Filter>
+			</FeatureType>
+		</FeatureTypeList>
+	</ViewTypes>
+</ViewContext>
