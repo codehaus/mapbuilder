@@ -23,8 +23,14 @@ $Name$
     <xsl:param name="metadataUrl">
       <xsl:value-of select="wmc:DescriptionURL/wmc:OnlineResource/@xlink:href"/>
     </xsl:param>
+    <xsl:param name="logoUrl">
+      <xsl:value-of select="wmc:LogoURL/wmc:OnlineResource/@xlink:href"/>
+    </xsl:param>
     <div>
       <h3>Abstract</h3>
+      <div style="float:right">
+        <img src='{$logoUrl}'/>
+      </div>
       <p>
         <xsl:value-of select="wmc:Abstract"/>
       </p>

@@ -53,6 +53,9 @@
           <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
         </WidgetBase>
 
+        <AoiForm id="aoiForm">
+        </AoiForm>
+
       </widgets>
         
     </Context>
@@ -119,6 +122,15 @@
           <disabledSrc>/images/PanDisable.gif</disabledSrc>
           <tooltip>click and drag to pan</tooltip>
         </DragPan>
+        <SetAoi id="setAoi">
+          <class>RadioButton</class>
+          <mouseHandler>mainMap.mainMapPane</mouseHandler>
+          <dependsOn>mainMap.mainMapPane.AoiMouseHandler</dependsOn>
+          <dependsOn>mainMap.mainMapPane.AoiBox</dependsOn>
+          <enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
+          <disabledSrc>/images/SetAoiDisable.gif</disabledSrc>
+          <tooltip>set the area of interest</tooltip>
+        </SetAoi>
         <Reset id="reset">
           <class>Button</class>
           <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>

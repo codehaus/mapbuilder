@@ -3,16 +3,17 @@
   <General>
     <Window width="400" height="200"/>
     <BoundingBox SRS="EPSG:4326" minx="-180" miny="-90" maxx="180" maxy="90"/>
-    <Title>Atlas World base map</Title>
+    <Title>World Base Map</Title>
     <KeywordList>
+      <Keyword>world</Keyword>
       <Keyword>atlas</Keyword>
     </KeywordList>
-    <Abstract>background map for use in search map widget</Abstract>
-    <LogoURL width="34" height="35" format="image/gif">
-      <OnlineResource xlink:type="simple" xlink:href="http://geodiscover.cgdi.ca/gdp/hmi/common/images/ml/ES.gif"/>
+    <Abstract>Atlas of Canada, World Base Map. Small scale vector based map served by Mapserver WMS.</Abstract>
+    <LogoURL width="34" height="35" format="image/jpg">
+      <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/site/english/atlas_identifier.jpg"/>
     </LogoURL>
     <DescriptionURL format="text/html">
-      <OnlineResource xlink:type="simple" xlink:href="http://geodiscover.cgdi.ca/gdp/about/en/9.1.4.html"/>
+      <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/"/>
     </DescriptionURL>
     <ContactInformation>
       <ContactPersonPrimary>
