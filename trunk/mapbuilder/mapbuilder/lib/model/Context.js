@@ -23,16 +23,13 @@ function Context(url) {
   this.context.setProperty("SelectionLanguage", "XPath");
   this.context.load(url);
 
-  // Insert unique Ids into each Layer node.
   /*
+  // Insert unique Ids into each Layer node.
   var layerNodeList=this.context.selectNodes("/ViewContext");
-  alert("Context 2 length="+layerNodeList.length);
   for (i=0;i<layerNodeList.length;i++){
-    alert("Context 3");
     layerNodeList[i].setAttribute("id","wmc"+UniqueId.getId());
     alert layerNodeList[i].xml;
   }
-  alert("Context 4");
   */
 
   /** Functions to call when the boundingBox has changed. */
