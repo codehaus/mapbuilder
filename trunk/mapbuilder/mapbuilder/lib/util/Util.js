@@ -46,8 +46,8 @@ function XslProcessor(xslUrl) {
   this.transformNodeToObject=function(xmlNode) {
     // transform and build a web page with result
     var result = Sarissa.getDomDocument();
-      result.async = false;
-      result.validateOnParse = false;
+    result.async = false;
+    result.validateOnParse = false;
     xmlNode.transformNodeToObject(this.xslDom,result);
     return result;
   }
@@ -64,40 +64,37 @@ function XslProcessor(xslUrl) {
 /**
  * A more flexible interface for loading docs that allows POST and async loading
  */
-function loadSync(sUri, method, docToSend ) {
-   if ( !method ) method = "GET";   //default
-
+function postLoad(sUri, docToSend ) {
    var xmlHttp = Sarissa.getXmlHttpRequest();
-
-   xmlHttp.open(method, sUri, false);
+   xmlHttp.open("POST", sUri, false);
    xmlHttp.send( docToSend );
-   alert(xmlHttp.getResponseHeader("Content-Type"));
+   //alert(xmlHttp.getResponseHeader("Content-Type"));
    if ( null==xmlHttp.responseXML ) alert( "null response" );
+
+   //copy to Sarissa document from a HttpRequest object
    var outDoc = Sarissa.getDomDocument();
+   outDoc.validateOnParse = false;
    outDoc.loadXML(xmlHttp.responseText);
    return outDoc;
 }
 
-	/** 
-	* Replaces the childNodes of the Document object with the childNodes of 
-	* the object given as the parameter
-	* @private
-	* @argument oDoc the Document to copy the childNodes from
-	*/
-	_copyDOM = function(inDoc)
-	{
-    var outDoc = Sarissa.getDomDocument();
-
-		// importNode is not yet needed in Moz due to a bug but it will be fixed at some point so...
-		if(inDoc.nodeType == Node.DOCUMENT_NODE || inDoc.nodeType == Node.DOCUMENT_FRAGMENT_NODE)
-		{
-			var oNodes = inDoc.childNodes;
-			for(var i=0;i<oNodes.length;i++)
-				outDoc.appendChild(outDoc.importNode(oNodes[i], true));
-		}
-		else if(inDoc.nodeType == Node.ELEMENT_NODE)
-			outDoc.appendChild(outDoc.importNode(inDoc, true));
-	};
+  /**
+   * If URL is local, then return URL unchanged,
+   * else return URL of http://proxy?url=URL , or null if proxy not defined.
+   * @param url Url of the file to access.
+   * @return Url of the proxy and service in the form http://host/proxy?url=service
+   */
+function getProxyPlusUrl(url) {
+  if ( url.indexOf("http://")==0 ) {
+    if ( config.proxyUrl ) {
+      url=config.proxyUrl+escape(url).replace(/\+/g, '%2C').replace(/\"/g,'%22').replace(/\'/g, '%27');
+    } else {
+      alert("unable to load external document:"+url+"  Set the proxyUrl property in config.");
+      url=null;
+    }
+  }
+  return url;
+}
 
 
 /**
@@ -368,22 +365,3 @@ function handleEventWithObject(evt){
   if (obj!=null) obj.handleEvent(evt);
 }
 
-if (MB_IS_MOZ) {
-  /** 
-   * Extends the node class to provide simple node value lookup
-   * @argument nodeXpath  xpath of the node 
-   */
-  Node.prototype.simpleValue = function(nodeXpath)
-  {
-    try
-    {
-      var node = this.selectSingleNode(nodeXpath)
-      return node.firstChild.nodeValue;
-    }
-    catch(e)
-    {
-      alert("simpleValue exception:" + e);
-      throw e;
-    }
-  };
-}
