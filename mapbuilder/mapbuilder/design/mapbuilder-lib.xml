@@ -907,54 +907,54 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
       </section>
     </section>
 
-    <section id="components">
-      <title id="library">Components</title>
+    <section>
+      <title>External components to mapbuilder-lib</title>
+
+      <figure>
+        <title>Components required to use mapbuilder-lib</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/mainpage.gif" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <section id="mainpage">
+        <title>MainPage</title>
+
+        <para>The Main Web Page uses HTML to layout the required widgets. It
+        includes the required libraries, creates the required components, then
+        calls the &lt;component&gt;.paint() methods.</para>
+
+        <para>This should be the only page Portal Developers need to modify in
+        order to build a Mapbuilder portal.</para>
+
+        <para>The requirements for building the page need to be kept simple so
+        that HTML developers with minimal javascript knowledge can create
+        it.</para>
+
+        <para>For details on how to build a Main Page, refer to the Users
+        Guide.</para>
+
+        <para></para>
+      </section>
 
       <section>
-        <title>External components to mapbuilder-lib</title>
+        <title>Config</title>
 
-        <figure>
-          <title>Components required to use mapbuilder-lib</title>
-
-          <mediaobject>
-            <imageobject>
-              <imagedata fileref="images/mainpage.gif" />
-            </imageobject>
-          </mediaobject>
-        </figure>
-
-        <section id="mainpage">
-          <title>MainPage</title>
-
-          <para>The Main Web Page uses HTML to layout the required widgets. It
-          includes the required libraries, creates the required components,
-          then calls the &lt;component&gt;.paint() methods.</para>
-
-          <para>This should be the only page Portal Developers need to modify
-          in order to build a Mapbuilder portal.</para>
-
-          <para>The requirements for building the page need to be kept simple
-          so that HTML developers with minimal javascript knowledge can create
-          it.</para>
-
-          <para>For details on how to build a Main Page, refer to the Users
-          Guide.</para>
-
-          <para></para>
-        </section>
-
-        <section>
-          <title>Config</title>
-
-          <para></para>
-        </section>
-
-        <section>
-          <title>Context</title>
-
-          <para></para>
-        </section>
+        <para></para>
       </section>
+
+      <section>
+        <title>Context</title>
+
+        <para></para>
+      </section>
+    </section>
+
+    <section id="components">
+      <title id="library">mapbuilder-lib Components</title>
 
       <section>
         <title>Model</title>
