@@ -14,7 +14,7 @@ $Id$
  * @param baseDir Relative path to base directory of Mapbuilder files
  * @param skin Name of skin to use for look and feel
  */
-function Collection(url) {
+function ContextCollection(url) {
 
   /**
    * The Web Map Context Collection Document.
@@ -35,7 +35,7 @@ function Collection(url) {
    */
   this.collectionListeners = new Array();
   /** Functions to call when the order of contexts changes. */
-  this.coontextOrderListeners = new Array();
+  this.contextOrderListeners = new Array();
   /** Functions to call when a context is selected. */
   this.selectContextListeners = new Array();
 
