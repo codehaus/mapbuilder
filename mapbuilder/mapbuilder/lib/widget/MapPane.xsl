@@ -118,6 +118,8 @@ $Name$
 
       <xsl:choose>
 
+        <xsl:when test="substring($baseUrl,string-length($baseUrl))='?'"></xsl:when>
+
         <xsl:when test="contains($baseUrl, '?')">&amp;</xsl:when> 
 
         <xsl:otherwise>?</xsl:otherwise>
