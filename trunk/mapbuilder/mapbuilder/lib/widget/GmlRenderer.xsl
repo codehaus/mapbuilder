@@ -21,6 +21,7 @@ $Name$
   <xsl:param name="bBoxMaxY" select="90"/>
   <xsl:param name="color" select="red"/>
   <xsl:param name="lineWidth" select="1"/>
+  <xsl:param name="crossSize" select="0"/>
   <xsl:param name="skinDir"/>
   <xsl:param name="pointDiameter" select="10"/>
 
@@ -52,31 +53,57 @@ $Name$
     <xsl:variable name="x1" select="floor((number(gml:coord[position()=2]/gml:X)-$bBoxMinX)*$xRatio)"/>
     <xsl:variable name="y1" select="floor($height - (number(gml:coord[position()=2]/gml:Y)-$bBoxMinY)*$yRatio)"/>
 
-    <xsl:call-template name="drawLine">
-      <xsl:with-param name="x0" select="$x0"/>
-      <xsl:with-param name="y0" select="$y0"/>
-      <xsl:with-param name="x1" select="$x1"/>
-      <xsl:with-param name="y1" select="$y0"/>
-    </xsl:call-template>
-    <xsl:call-template name="drawLine">
-      <xsl:with-param name="x0" select="$x1"/>
-      <xsl:with-param name="y0" select="$y0"/>
-      <xsl:with-param name="x1" select="$x1"/>
-      <xsl:with-param name="y1" select="$y1"/>
-    </xsl:call-template>
-    <xsl:call-template name="drawLine">
-      <xsl:with-param name="x0" select="$x1"/>
-      <xsl:with-param name="y0" select="$y1"/>
-      <xsl:with-param name="x1" select="$x0"/>
-      <xsl:with-param name="y1" select="$y1"/>
-    </xsl:call-template>
-    <xsl:call-template name="drawLine">
-      <xsl:with-param name="x0" select="$x0"/>
-      <xsl:with-param name="y0" select="$y1"/>
-      <xsl:with-param name="x1" select="$x0"/>
-      <xsl:with-param name="y1" select="$y0"/>
-    </xsl:call-template>
+    <xsl:choose>
+      <!-- If envelope is small, draw a cross instead of a box -->
+      <xsl:when test="($x0 - $x1 &lt; $crossSize) and ($x1 - $x0 &lt; $crossSize) and ($y0 - $y1 &lt; $crossSize) and ($y1 - $y0 &lt; $crossSize)">
+        <debug drawCross="x"/>
+        <xsl:variable name="xMid" select="floor(($x0 + $x1) div 2)"/>
+        <xsl:variable name="yMid" select="floor(($y0 + $y1) div 2)"/>
+        <xsl:variable name="crossHalf" select="floor($crossSize div 2)"/>
+        <xsl:call-template name="drawLine">
+          <xsl:with-param name="x0" select="$xMid"/>
+          <xsl:with-param name="y0" select="$yMid - $crossHalf"/>
+          <xsl:with-param name="x1" select="$xMid"/>
+          <xsl:with-param name="y1" select="$yMid + $crossHalf"/>
+        </xsl:call-template>
+        <xsl:call-template name="drawLine">
+          <xsl:with-param name="x0" select="$xMid - $crossHalf"/>
+          <xsl:with-param name="y0" select="$yMid"/>
+          <xsl:with-param name="x1" select="$xMid + $crossHalf"/>
+          <xsl:with-param name="y1" select="$yMid"/>
+        </xsl:call-template>
+      </xsl:when>
 
+      <!-- draw a box -->
+      <xsl:otherwise>
+        <debug drawBox="x"/>
+        <xsl:call-template name="drawLine">
+          <xsl:with-param name="x0" select="$x0"/>
+          <xsl:with-param name="y0" select="$y0"/>
+          <xsl:with-param name="x1" select="$x1"/>
+          <xsl:with-param name="y1" select="$y0"/>
+        </xsl:call-template>
+        <xsl:call-template name="drawLine">
+          <xsl:with-param name="x0" select="$x1"/>
+          <xsl:with-param name="y0" select="$y0"/>
+          <xsl:with-param name="x1" select="$x1"/>
+          <xsl:with-param name="y1" select="$y1"/>
+        </xsl:call-template>
+        <xsl:call-template name="drawLine">
+          <xsl:with-param name="x0" select="$x1"/>
+          <xsl:with-param name="y0" select="$y1"/>
+          <xsl:with-param name="x1" select="$x0"/>
+          <xsl:with-param name="y1" select="$y1"/>
+        </xsl:call-template>
+        <xsl:call-template name="drawLine">
+          <xsl:with-param name="x0" select="$x0"/>
+          <xsl:with-param name="y0" select="$y1"/>
+          <xsl:with-param name="x1" select="$x0"/>
+          <xsl:with-param name="y1" select="$y0"/>
+        </xsl:call-template>
+
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <!-- Match and render a LineString -->
