@@ -23,19 +23,20 @@ function MovieLoop(toolNode, model) {
   this.frameIncrement = 1;
   this.delay = 100; //milliseconds
   this.timestampIndex = 0;
+  this.firstFrame = 0;
+  this.maxFrames = 30;
 
   this.setFrame = function(index) {
+    var timestampList = this.model.timestampList;
     if (this.timestampIndex!=null) {
-      var timestamp = this.model.timestampList.childNodes[this.timestampIndex];
+      var timestamp = timestampList.childNodes[this.timestampIndex];
       timestamp.setAttribute("current", "0");
       this.model.setParam("timestamp", this.timestampIndex);
     }
-    if (index > this.model.timestampList.childNodes.length-1) {
-      index = 0;
-    }
-    if (index < 0) index = this.model.timestampList.childNodes.length-1;
+    if (index > timestampList.lastFrame) index = timestampList.firstFrame;
+    if (index < timestampList.firstFrame) index = timestampList.lastFrame;
     this.timestampIndex = index;
-    timestamp = this.model.timestampList.childNodes[this.timestampIndex];
+    timestamp = timestampList.childNodes[this.timestampIndex];
     timestamp.setAttribute("current", "1");
     this.model.setParam("timestamp", this.timestampIndex);
   }
@@ -47,10 +48,19 @@ function MovieLoop(toolNode, model) {
     objRef.setFrame(objRef.timestampIndex + increment);
   }
 
-  this.reset = function(objRef) {
-    objRef.setFrame(0);
+  this.setFrameLimits = function(objRef) {
+    var timestampList = objRef.model.timestampList;
+    timestampList.firstFrame = objRef.firstFrame;  //set these from a widget, or config
+    timestampList.lastFrame = timestampList.firstFrame+objRef.maxFrames;
+    if (timestampList.lastFrame > timestampList.childNodes.length) timestampList.lastFrame = timestampList.childNodes.length-1;
+    timestampList.childNodes[timestampList.firstFrame].setAttribute("current","1");
   }
-  this.model.addListener("loadModel",this.reset,this);
+  this.model.addListener("loadModel",this.setFrameLimits,this);
+
+  this.reset = function(objRef) {
+    objRef.setFrame(objRef.model.timestampList.firstFrame);
+  }
+  this.model.addListener("refresh",this.reset,this);
 
   this.setIncrement = function() {
   }

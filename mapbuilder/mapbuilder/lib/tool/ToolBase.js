@@ -39,7 +39,7 @@ function ToolBase(tool, toolNode, model) {
     }
   }
   tool.initTargetModel = this.initTargetModel;
-  config.addFirstListener( "loadModel", tool.initTargetModel, tool );
+  tool.model.addListener( "init", tool.initTargetModel, tool );
 
   this.initMouseHandler = function(toolRef) {
     /** Mouse handler which this tool will register listeners with. */
@@ -52,7 +52,7 @@ function ToolBase(tool, toolNode, model) {
     }
   }
   tool.initMouseHandler = this.initMouseHandler;
-  config.addListener( "loadModel", tool.initMouseHandler, tool );
+  tool.model.addListener( "init", tool.initMouseHandler, tool );
 
   //tools enabled by default; can set to false in config for initial loading
   tool.enabled = true;
