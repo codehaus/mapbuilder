@@ -85,8 +85,9 @@ function WidgetBase(widgetNode, model) {
    * Render the widget.
    */
   this.paint = function() {
+    //alert("painting:"+this.id);
     var s = this.stylesheet.transformNode(this.model.doc);
-    //alert("painting:"+this.id+":"+s);
+    if (this.widgetNode.selectSingleNode("debug") ) alert("painting:"+this.id+":"+s);
     this.node.innerHTML = s;
     this.callListeners("paint");
   }
