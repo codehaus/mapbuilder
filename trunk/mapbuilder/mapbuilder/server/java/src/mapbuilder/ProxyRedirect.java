@@ -65,37 +65,41 @@ public class ProxyRedirect extends HttpServlet
       
       //execute the GET
       String serverUrl = request.getParameter("url");
-      log.debug("GET param serverUrl:" + serverUrl);
-      HttpClient client = new HttpClient();
-      GetMethod httpget = new GetMethod(serverUrl);
-      client.executeMethod(httpget);
-      
-      if (log.isDebugEnabled()) {
-        Header[] respHeaders = httpget.getResponseHeaders();
-        for (int i=0; i<respHeaders.length; ++i) {
-          String headerName = respHeaders[i].getName();
-          String headerValue = respHeaders[i].getValue();
-          log.debug("responseHeaders:" + headerName + "=" + headerValue);
-        }
-      }
+      if (serverUrl.startsWith("http://")) {
+        log.debug("GET param serverUrl:" + serverUrl);
+        HttpClient client = new HttpClient();
+        GetMethod httpget = new GetMethod(serverUrl);
+        client.executeMethod(httpget);
 
-      //dump response to out
-      if (httpget.getStatusCode() == HttpStatus.SC_OK) {
-        //force the response to have XML content type (WMS servers generally don't)
-        response.setContentType("text/xml");
-        String responseBody = httpget.getResponseBodyAsString();
-        response.setContentLength(responseBody.length());
-        log.debug("responseBody:" + responseBody);
-        PrintWriter out = response.getWriter();
-        out.print( responseBody );
-        response.flushBuffer();
+        if (log.isDebugEnabled()) {
+          Header[] respHeaders = httpget.getResponseHeaders();
+          for (int i=0; i<respHeaders.length; ++i) {
+            String headerName = respHeaders[i].getName();
+            String headerValue = respHeaders[i].getValue();
+            log.debug("responseHeaders:" + headerName + "=" + headerValue);
+          }
+        }
+
+        //dump response to out
+        if (httpget.getStatusCode() == HttpStatus.SC_OK) {
+          //force the response to have XML content type (WMS servers generally don't)
+          response.setContentType("text/xml");
+          String responseBody = httpget.getResponseBodyAsString();
+          response.setContentLength(responseBody.length());
+          log.debug("responseBody:" + responseBody);
+          PrintWriter out = response.getWriter();
+          out.print( responseBody );
+          response.flushBuffer();
+        } else {
+          log.error("Unexpected failure: " + httpget.getStatusLine().toString());
+        }
+        httpget.releaseConnection();
       } else {
-        log.error("Unexpected failure: " + httpget.getStatusLine().toString());
+        throw new ServletException("only HTTP protocol supported");
       }
-      httpget.releaseConnection();
       
      
-    } catch (IOException e) {
+    } catch (Throwable e) {
       throw new ServletException(e);
     }    
   }// doGet
@@ -117,42 +121,45 @@ public class ProxyRedirect extends HttpServlet
         }
       }
         
-      // Transfer bytes from in to out
-      log.debug("HTTP POST transfering...");
-      PrintWriter out = response.getWriter();
-      ServletInputStream in = request.getInputStream();
-      
-      HttpClient client = new HttpClient();
-
       String serverUrl = request.getHeader("serverUrl");
-      PostMethod httppost = new PostMethod(serverUrl);
+      if (serverUrl.startsWith("http://")) {
+        PostMethod httppost = new PostMethod(serverUrl);
 
-      httppost.setRequestBody(in);
-      //httppost.setRequestContentLength(PostMethod.CONTENT_LENGTH_CHUNKED);
+        // Transfer bytes from in to out
+        log.debug("HTTP POST transfering...");
+        PrintWriter out = response.getWriter();
+        ServletInputStream in = request.getInputStream();
 
-      client.executeMethod(httppost);
-      if (log.isDebugEnabled()) {
-        Header[] respHeaders = httppost.getResponseHeaders();
-        for (int i=0; i<respHeaders.length; ++i) {
-          String headerName = respHeaders[i].getName();
-          String headerValue = respHeaders[i].getValue();
-          log.debug("responseHeaders:" + headerName + "=" + headerValue);
+        HttpClient client = new HttpClient();
+
+        httppost.setRequestBody(in);
+        //httppost.setRequestContentLength(PostMethod.CONTENT_LENGTH_CHUNKED);
+
+        client.executeMethod(httppost);
+        if (log.isDebugEnabled()) {
+          Header[] respHeaders = httppost.getResponseHeaders();
+          for (int i=0; i<respHeaders.length; ++i) {
+            String headerName = respHeaders[i].getName();
+            String headerValue = respHeaders[i].getValue();
+            log.debug("responseHeaders:" + headerName + "=" + headerValue);
+          }
         }
-      }
 
-      if (httppost.getStatusCode() == HttpStatus.SC_OK) {
-        response.setContentType("text/xml");
-        String responseBody = httppost.getResponseBodyAsString();
-        response.setContentLength(responseBody.length());
-        log.debug("responseBody:" + responseBody);
-        out.print( responseBody );
+        if (httppost.getStatusCode() == HttpStatus.SC_OK) {
+          response.setContentType("text/xml");
+          String responseBody = httppost.getResponseBodyAsString();
+          response.setContentLength(responseBody.length());
+          log.debug("responseBody:" + responseBody);
+          out.print( responseBody );
+        } else {
+          log.error("Unexpected failure: " + httppost.getStatusLine().toString());
+        }
+        httppost.releaseConnection();
       } else {
-        log.error("Unexpected failure: " + httppost.getStatusLine().toString());
+        throw new ServletException("only HTTP protocol supported");
       }
-      httppost.releaseConnection();
-      
      
-    } catch (IOException e) {
+    } catch (Throwable e) {
       throw new ServletException(e);
     }    
   } // doPost
