@@ -56,6 +56,8 @@
         </Widget>
         <AoiForm id="aoiForm">
         </AoiForm>
+        <MapScaleText id="mapScaleText">
+        </MapScaleText>
         <SaveModel id="saveModel">
           <htmlTagId>saveModel</htmlTagId>
           <serializeUrl>/mapbuilder/writeXml</serializeUrl>
@@ -142,6 +144,7 @@
       </widgets>
     </Gml2>
     <Logger id="eventLogDoc">
+      <serializeUrl>/mapbuilder/writeXml</serializeUrl>
       <widgets>
         <Widget id="eventLog">
           <stylesheet>../lib/widget/EventLog.xsl</stylesheet>
