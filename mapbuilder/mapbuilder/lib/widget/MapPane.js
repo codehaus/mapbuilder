@@ -140,11 +140,10 @@ function MapPane(widgetNode, group) {
 
 /** General purpose function for cross-browser event handling.  This function
   * sets properties on this.glassPan: 
-  *   evpl pixel/line of the event relative to the upper left corner of the DIV
-  *   evxy projection x and y of the event calculated via the context.extent
-  *   keypress state for ALT CTL and SHIFT keys
-  * @param ev    the mouse event oject passed in from the browser (may be null for IE)
-  * @return       none
+  * * evpl pixel/line of the event relative to the upper left corner of the DIV.
+  * * evxy projection x and y of the event calculated via the context.extent.
+  * * keypress state for ALT CTL and SHIFT keys.
+  * @param ev the mouse event oject passed in from the browser (may be null for IE)
   */
 function getEvent(ev) {
   if (window.event) {
