@@ -32,7 +32,6 @@ function AoiMouseHandler(toolNode, model) {
   this.mouseUpHandler = function(objRef,targetNode) {
     if (objRef.enabled) {
       if (objRef.started) objRef.started = false;
-      objRef.model.setParam("aoiSet", objRef.model.getParam('aoi') );
     }
   }
 

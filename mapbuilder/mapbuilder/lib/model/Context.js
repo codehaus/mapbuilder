@@ -79,7 +79,7 @@ function Context(modelNode, parent) {
     bbox.setAttribute("maxx", boundingBox[2]);
     bbox.setAttribute("maxy", boundingBox[3]);
     // Call the listeners
-    this.callListeners("refresh");
+    this.callListeners("bbox", boundingBox);
   }
 
   /**
@@ -89,7 +89,7 @@ function Context(modelNode, parent) {
   this.setSRS=function(srs) {
     var bbox=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
     bbox.setAttribute("SRS",srs);
-    this.callListeners("refresh");
+    this.callListeners("srs");
   }
 
   /**
