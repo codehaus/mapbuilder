@@ -23,18 +23,18 @@
           <tools> 
 
             <AoiBox>
-              <scriptFile>widget/tool/AoiBox.js</scriptFile>
+              <scriptFile>tool/AoiBox.js</scriptFile>
               <lineColor>#FF0000</lineColor>
               <lineWidth>2</lineWidth>
               <crossSize>1</crossSize>
             </AoiBox>
 
             <AoiMouseHandler>
-              <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
+              <scriptFile>tool/AoiMouseHandler.js</scriptFile>
             </AoiMouseHandler>
 
             <DragPanHandler>
-              <scriptFile>widget/tool/DragPanHandler.js</scriptFile>
+              <scriptFile>tool/DragPanHandler.js</scriptFile>
             </DragPanHandler>
 
           </tools> 
@@ -89,16 +89,16 @@
           <fixedWidth>true</fixedWidth>
           <tools> 
             <AoiBox>
-              <scriptFile>widget/tool/AoiBox.js</scriptFile>
+              <scriptFile>tool/AoiBox.js</scriptFile>
               <lineColor>red</lineColor>
               <lineWidth>1</lineWidth>
               <crossSize>15</crossSize>
             </AoiBox>
             <AoiMouseHandler>
-              <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
+              <scriptFile>tool/AoiMouseHandler.js</scriptFile>
             </AoiMouseHandler>
             <ZoomToAoi>
-              <scriptFile>widget/tool/ZoomToAoi.js</scriptFile>
+              <scriptFile>tool/ZoomToAoi.js</scriptFile>
               <targetModel>mainMapGroup</targetModel>
             </ZoomToAoi>
           </tools> 
