@@ -58,6 +58,46 @@ function ZoomTool(context,baseDir) {
 
   /**
 
+   * Zoom (reset the BoundingBox).
+
+   * @param action What action to take ("in" or "out").
+
+   */
+
+  this.zoom=function(action) {
+
+    percent=10/100;
+
+    var srs = this.context.getSRS();
+
+    var bbox=this.context.getBoundingBox();
+
+    geoWidth=parseFloat(bbox[2]-bbox[0]);
+
+    geoHeight=parseFloat(bbox[1]-bbox[3]);
+
+    switch(action){
+
+      case "in":
+
+        bbox[0]=bbox[0]+(geoWidth*percent);
+
+        bbox[2]=bbox[2]-(geoWidth*percent);
+
+        bbox[1]=bbox[1]-(geoHeight*percent);
+
+        bbox[3]=bbox[3]+(geoHeight*percent);
+
+        break;
+
+    }
+
+    this.context.setBoundingBox(bbox);
+
+  }
+
+  /**
+
    * Render the zoom icons.
 
    * This function should be called at startup.
@@ -66,9 +106,21 @@ function ZoomTool(context,baseDir) {
 
   this.paint=function(){
 
-    s="<a href=\"javascript:context.zoom('in')\">Zoom in</a>";
+    img=document.createElement("img");
 
-    this.node.innerHTML=s;
+    img.style.cursor="pointer";
+
+    img.setAttribute("src", this.context.skin+"images/zoomIn.gif");
+
+    // this next line doesn't work (object reference lost)
+
+    // img.addEventListener("click", this.zoom, false);
+
+    // so temporarily hardcoding object ref, based on definition in demo page
+
+    img.addEventListener("click", zoomTool.zoom, false);
+
+    this.node.appendChild(img);
 
   }
 
