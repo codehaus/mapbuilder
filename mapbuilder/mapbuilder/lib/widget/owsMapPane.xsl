@@ -10,9 +10,10 @@ $Name$
 -->
 
 <xsl:stylesheet version="1.0" 
-    xmlns:cml="http://www.opengis.net/context" 
+    xmlns:wmc="http://www.opengis.net/context" 
+    xmlns:ows="http://www.opengis.net/ows"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="cml xlink">
+    xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="wmc xlink">
 
   <xsl:output method="xml"/>
   <xsl:strip-space elements="*"/>
@@ -22,78 +23,34 @@ $Name$
   <xsl:param name="widgetId"/>
   <xsl:param name="context">config['<xsl:value-of select="$modelId"/>']</xsl:param>
 
-  <xsl:param name="bbox">
-    <xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@minx"/>,<xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@miny"/>,
-    <xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@maxx"/>,<xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@maxy"/>
-  </xsl:param>
+  <xsl:param name="lowerLeft"><xsl:value-of select="/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:LowerCorner"/></xsl:param>
+  <xsl:param name="upperRight"><xsl:value-of select="/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:UpperCorner"/></xsl:param>
+  <xsl:param name="bbox"><xsl:value-of select="translate($lowerLeft,' ',',')"/>,<xsl:value-of select="translate($upperRight,' ',',')"/></xsl:param>
   <xsl:param name="width">
-    <xsl:value-of select="/cml:ViewContext/cml:General/cml:Window/@width"/>
+    <xsl:value-of select="/wmc:OWSContext/wmc:General/wmc:Window/@width"/>
   </xsl:param>
   <xsl:param name="height">
-    <xsl:value-of select="/cml:ViewContext/cml:General/cml:Window/@height"/>
+    <xsl:value-of select="/wmc:OWSContext/wmc:General/wmc:Window/@height"/>
   </xsl:param>
-  <xsl:param name="srs" select="/cml:ViewContext/cml:General/cml:BoundingBox/@SRS"/>
+  <xsl:param name="srs" select="/wmc:OWSContext/wmc:General/ows:BoundingBox/@crs"/>
   
   <!-- template rule matching source root element -->
-  <xsl:template match="/cml:ViewContext">
+  <xsl:template match="/wmc:OWSContext">
       <DIV STYLE="width:{$width}; height:{$height}; position:relative">
-        <xsl:apply-templates select="cml:ResourceList/*"/>
+        <xsl:apply-templates select="wmc:ResourceList/*"/>
       </DIV>
   </xsl:template>
   
-   <xsl:template match="cml:FeatureType[cml:Server/@service='OGC:GML']">
-    <xsl:param name="version">
-        <xsl:value-of select="cml:Server/@version"/>    
-    </xsl:param>
-    <xsl:param name="baseUrl">
-        <xsl:value-of select="cml:Server/cml:OnlineResource/@xlink:href"/>    
-    </xsl:param>
-    <xsl:variable name="visibility">
-      <xsl:choose>
-        <xsl:when test="@hidden='1'">hidden</xsl:when>
-        <xsl:otherwise>visible</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-    <xsl:variable name="firstJoin">
-      <xsl:choose>
-        <xsl:when test="substring($baseUrl,string-length($baseUrl))='?'"></xsl:when>
-        <xsl:when test="contains($baseUrl, '?')">&amp;</xsl:when> 
-        <xsl:otherwise>?</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-    <xsl:variable name="fid">
-        <xsl:value-of select="$modelId"/>_<xsl:value-of select="$widgetId"/>_<xsl:value-of select="cml:Name"/>
-    </xsl:variable>
-    <xsl:variable name="gmlDataUrl">    
-        <xsl:value-of select="$baseUrl"/>
-    </xsl:variable>
-
-    <DIV>    
-        <xsl:attribute name="STYLE">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0; left:0;</xsl:attribute>
-        <xsl:attribute name="ID"><xsl:value-of select="$fid"/></xsl:attribute>
-        <SCRIPT language="javascript">
-          alert("executing script GML2");
-          var configModelNode = config.doc.selectSingleNode("//models/DescribeFeatureType");
-          var model = new Gml2(configModelNode);
-          if ( model ) {
-            alert("Gml2 model created");
-            config["<xsl:value-of select="$fid"/>"] = model;
-            config.loadModel( "<xsl:value-of select="$fid"/>", "<xsl:value-of select="$gmlDataUrl"/>" );
-            alert("retrieved:"+config["<xsl:value-of select="$fid"/>"].doc.xml);
-          } else { 
-            alert("error creating Gml2 model object");
-          }
-        </SCRIPT>
-    </DIV>    
-  </xsl:template>
-
+  <!-- these handled outside of the stylesheet -->
+  <xsl:template match="wmc:Coverage"/>
+  <xsl:template match="wmc:FeatureType"/>
   
-   <xsl:template match="cml:Layer">
+   <xsl:template match="wmc:Layer">
     <xsl:param name="version">
-        <xsl:value-of select="cml:Server/@version"/>    
+        <xsl:value-of select="wmc:Server/@version"/>    
     </xsl:param>
     <xsl:param name="baseUrl">
-        <xsl:value-of select="cml:Server/cml:OnlineResource/@xlink:href"/>    
+        <xsl:value-of select="wmc:Server/wmc:OnlineResource/@xlink:href"/>    
     </xsl:param>
     <xsl:variable name="visibility">
       <xsl:choose>
@@ -121,9 +78,7 @@ $Name$
 
     <DIV>    
         <xsl:attribute name="STYLE">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0; left:0;</xsl:attribute>
-        <xsl:attribute name="ID">
-            <xsl:value-of select="$modelId"/>_<xsl:value-of select="$widgetId"/>_<xsl:value-of select="cml:Name"/>
-        </xsl:attribute>
+        <xsl:attribute name="ID"><xsl:value-of select="$modelId"/>_<xsl:value-of select="$widgetId"/>_<xsl:value-of select="wmc:Name"/></xsl:attribute>
     
     <xsl:element name="IMG">    
         <xsl:variable name="src">    
@@ -134,9 +89,9 @@ $Name$
   &amp;BBOX=<xsl:value-of select="$bbox"/>
  &amp;WIDTH=<xsl:value-of select="$width"/>
 &amp;HEIGHT=<xsl:value-of select="$height"/>
-&amp;LAYERS=<xsl:value-of select="cml:Name"/>
-&amp;STYLES=<xsl:value-of select="translate(cml:StyleList/cml:Style[@current='1']/cml:Name,' ','+')"/>
-&amp;FORMAT=<xsl:value-of select="cml:FormatList/cml:Format[@current='1']"/>
+&amp;LAYERS=<xsl:value-of select="wmc:Name"/>
+&amp;STYLES=<xsl:value-of select="translate(wmc:StyleList/wmc:Style[@current='1']/wmc:Name,' ','+')"/>
+&amp;FORMAT=<xsl:value-of select="wmc:FormatList/wmc:Format[@current='1']"/>
 &amp;TRANSPARENT=true
 <!--	
   //TBD: these still to be properly handled 
@@ -158,7 +113,7 @@ $Name$
             <xsl:value-of select="$height"/>
         </xsl:attribute>
         <xsl:attribute name="ALT">
-            <xsl:value-of select="cml:Title"/>
+            <xsl:value-of select="wmc:Title"/>
         </xsl:attribute>
     </xsl:element>    
     </DIV>    

@@ -11,6 +11,7 @@ $Name$
 
 <xsl:stylesheet version="1.0" 
     xmlns:ogcwfs="http://www.opengis.net/wfs"
+    xmlns:wmc="http://www.opengis.net/context" 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 		xmlns:ogc="http://www.opengis.net/ogc"
 		xmlns:gml="http://www.opengis.net/gml"
@@ -27,7 +28,7 @@ $Name$
   <xsl:param name="srs"/>
   
   <!-- template rule matching source root element -->
-  <xsl:template match="/ogcwfs:WFS_Capabilities/ogcwfs:FeatureTypeList/ogcwfs:FeatureType">
+  <xsl:template match="ogcwfs:FeatureType">
     <xsl:param name="resourceName" select="ogcwfs:Name"/>
     <xsl:param name="featureSrs" select="ogcwfs:SRS"/>
     <GetFeature version="1.0.0" service="WFS" maxFeatures="10"
@@ -53,6 +54,37 @@ $Name$
               </xsl:if>
             </ogc:And>
           </ogc:Filter-->
+      </Query>
+    </GetFeature>
+  </xsl:template>
+  
+  <!-- template rule matching source root element -->
+  <xsl:template match="wmc:FeatureType[wmc:Server/@service='OGC:WFS']">
+    <xsl:param name="resourceName" select="wmc:Name"/>
+    <xsl:param name="featureSrs" select="wmc:SRS"/>
+    <GetFeature version="1.0.0" service="WFS" maxFeatures="10"
+      xmlns="http://www.opengis.net/wfs"
+      xmlns:ogc="http://www.opengis.net/ogc">
+      <Query typeName="{$resourceName}">
+         <!--ogc:PropertyName>GML_Geometry</ogc:PropertyName>
+         <ogc:PropertyName>DEFINITION</ogc:PropertyName>
+         <ogc:PropertyName>LU37_CODE</ogc:PropertyName>
+         <ogc:PropertyName>YEAR</ogc:PropertyName-->
+         <ogc:Filter>
+            <ogc:And>
+              <xsl:if test="wmc:Geometry">
+                <ogc:BBOX>
+                  <ogc:PropertyName><xsl:value-of select="wmc:Geometry"/></ogc:PropertyName>
+                  <gml:Box srsName="{$srs}">
+                    <gml:coordinates><xsl:value-of select="$bbox"/></gml:coordinates>
+                  </gml:Box>
+                </ogc:BBOX>
+              </xsl:if>
+              <xsl:if test="ogc:Filter">
+                <xsl:copy-of select="ogc:Filter/*"/>
+              </xsl:if>
+            </ogc:And>
+          </ogc:Filter>
       </Query>
     </GetFeature>
   </xsl:template>
