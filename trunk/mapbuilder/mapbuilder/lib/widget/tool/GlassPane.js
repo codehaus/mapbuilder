@@ -148,8 +148,8 @@ TBD: find out why this isn't working
   */
 function getEvent(ev) {
   if (window.event) {
-    //TBD: Correct this for IE
-    //this.evpl = new Array();
+    //IE events
+    this.evpl = new Array(window.event.offsetX, window.event.offsetY);
     this.altKey = window.event.altKey;
     this.ctrlKey = window.event.ctrlKey;
     this.shiftKey = window.event.shiftKey;
@@ -268,10 +268,16 @@ function mouseOutHandler(ev) {
 }
 
 function mouseOverHandler(ev) {
+  // set an interval to output the coords so that it doesn't execute on every move event.
+  // the setInterval method in IE doesn't allow passing of an argument to the function called
+  // so set a global reference to glass pane here;  mouse can only be over one glass pane at 
+  // time so this should be safe
+  if (_SARISSA_IS_IE ) window.GlassPane = this;
   this.mouseTrackTimer = setInterval( ReportCoords, 100, this);
 }
 
 function ReportCoords(glass) {
+    if (_SARISSA_IS_IE ) glass = window.GlassPane;
     if (!glass.mouseMoved) return;
     glass.mouseMoved=false;
     var evll = glass.proj.Inverse( glass.evxy );
