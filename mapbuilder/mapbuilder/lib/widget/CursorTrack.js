@@ -62,7 +62,7 @@ function CursorTrack(widgetNode, model) {
   
   //set some properties for the form output
   this.proj = new Proj( model.getSRS() );
-  this.formName = "CursorTrackForm_" + mbIds.getId();
+  this.formName = "CursorTrackForm_" + UniqueId();
   this.stylesheet.setParameter("formName", this.formName);
 
 }

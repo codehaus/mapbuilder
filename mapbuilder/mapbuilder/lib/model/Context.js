@@ -220,10 +220,9 @@ function Context(modelNode, parent) {
   this.originalExtent = new Extent( this );   
 
   /**
-   * Set the Area Of Interest Box and call aoiListeners,
+   * Set the end point for an Area Of Interest Box and call aoiListeners,
    * note that the end point will be called numerous times as a mouse is dragged.
-   * pass in 
-   * @param 
+   * @param anchorPoint The toPoint of an Aoi as an (x,y) array.
    */
   this.setAoi=function(ul, lr) {
     this.ulAoi = ul;
@@ -289,11 +288,6 @@ function Extent( context ) {
     } else {
       this.context.setAoi(this.GetPL(ul));
     }
-  }
-
-  this.getAoi = function() {
-    var plBbox = this.context.getAoi();
-    return new Array( this.GetXY(plBbox[0]), this.GetXY(plBbox[1]));
   }
 
   this.init = function(extent) {

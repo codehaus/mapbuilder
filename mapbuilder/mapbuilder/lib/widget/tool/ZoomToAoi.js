@@ -4,16 +4,13 @@ Dependancies: Context
 $Id$
 */
 
-mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
 /**
- * Controller for the locator map widget.  
- * This will display the AOI of the target model using the AoiBox tool. 
- * This will also process mouse events (click and dragbox) to recenter the 
- * target model and includes coordinate projection transformations if required.
- * Checking for extent limits is not yet implemented.
+ * Zooms the target model to the AOI of this widget.  
+ * The target model can be this widget's model or anothers
  * @constructor
  * @author Adair
+ * @constructor
  * @param toolNode      The tool node from the config document for this tool
  * @param parentWidget  Reference to the widget object that creates this tool
  */
@@ -22,50 +19,25 @@ function ZoomToAoi(toolNode, parentWidget) {
   this.model = parentWidget.model;
 
   var targetModel = toolNode.selectSingleNode("targetModel");
-  if ( !targetModel ) alert("target model required for ZoomToAoi");
-  this.targetModelName = targetModel.firstChild.nodeValue;
-  
-  /**
-   * Target model loadModel change listener.  This resets the projection objects
-   * if the target model changes.
-   * @param tool        Pointer to this ZoomToAoi object.
-   */
-  this.setModel = function( tool ) {
-    tool.targetModel = config[tool.targetModelName];
-    tool.targetModel.proj = new Proj( tool.targetModel.getSRS() );
-    tool.model.proj = new Proj( tool.model.getSRS() );
-  }
-  this.setModel(this);
-  this.targetModel.addListener( "loadModel", this.setModel, this );
-
-  /**
-   * Target model bbox change listener.  This sets this model's AOI to be the
-   * same as the target model's AOI.
-   * @param tool        Pointer to this ZoomToAoi object.
-   * @param targetNode  The node for the enclosing HTML tag for this widget, not used.
-   */
-  this.showTargetAoi = function( tool, targetNode ) {
-    var bbox = tool.targetModel.getBoundingBox();  
-    var ul = new Array(bbox[0],bbox[3]);
-    var lr = new Array(bbox[2],bbox[1]);
-    if ( tool.model.getSRS() != tool.targetModel.getSRS() ) {
-      ul = tool.targetModel.proj.Inverse( ul ); //to lat-long
-      lr = tool.targetModel.proj.Inverse( lr );
-      ul = tool.model.proj.Forward( ul );       //back to XY
-      lr = tool.model.proj.Forward( lr );
+  if ( targetModel ) {
+    this.targetModel = targetModel.firstChild.nodeValue;
+    this.init = function( tool ) {
+      tool.targetModel = config[tool.targetModel];
+      tool.targetModel.proj = new Proj( tool.targetModel.getSRS() );
     }
-    tool.model.extent.setAoi( ul, lr );
+    this.init(this);
+    this.model.addListener( "loadModel", this.init, this );
+  } else {
+    this.targetModel = tool.model;
   }
-  this.targetModel.addListener( "boundingBox", this.showTargetAoi, this );
-
 
   /**
-   * Process a mouse up action.  This will recenter the target model's bbox
-   * to be equal to this model's AOI.
-   * @param tool        Pointer to this ZoomToAoi object.
-   * @param targetNode  The node for the enclosing HTML tag for this widget, not used.
+   * Process a mouse action.
+   * @param tool Pointer to this ZoomToAoi object.
+   * @param targetNode The node for the enclosing HTML tag for this widget,
+   * not used.
    */
-  this.mouseUpHandler = function(tool,targetNode) {
+   this.mouseUpHandler = function(tool,targetNode) {
     var bbox = tool.model.getAoi();
     var ul = tool.model.extent.GetXY( bbox[0] );
     var lr = tool.model.extent.GetXY( bbox[1] );
@@ -79,5 +51,6 @@ function ZoomToAoi(toolNode, parentWidget) {
       tool.targetModel.extent.ZoomToBox( ul, lr );
     }
   }
+
   this.parentWidget.addListener('mouseup',this.mouseUpHandler,this);
 }
