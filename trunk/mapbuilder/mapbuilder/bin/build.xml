@@ -302,12 +302,20 @@ $Id$
 
 -->
 
-  <target description="Create Javadoc API documentation" name="javadoc">
-
-    <mkdir dir="${dist.home}/docs/api"/>
-    <javadoc destdir="${dist.home}/docs/api" packagenames="*" sourcepath="${src.home}">
-      <classpath refid="compile.classpath"/>
-    </javadoc>
+    <!-- This target not tested at all yet!! -->
+  <target description="Create documentation" name="docs">
+  
+    <mkdir dir="${build.home}/docs"/>
+    
+    <!-- style the design docs from the XBook document -->
+    <style in="${basedir}/design/mapbuilder-lib.xml" style="docbookStylesheet.xsl" out="${build.home}/docs/design/index.html"/>
+    
+    <exec executable="perl jsdoc.pl">
+    <!--
+      figure out how to pass params to the perl script
+    ${jsdoc} -d ${jsdocTarget} - -project-name "<a href='http://mapbuilder.sourceforge.net'>Community Map Builder</a> `date +'%d %b %G'`" ${jsdocSource}
+    -->
+    </exec>
 
   </target>
 
