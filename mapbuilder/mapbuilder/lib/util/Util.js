@@ -314,6 +314,8 @@ function handleEventWithObject(evt){
  * Dynamically load a script file if it has not already been loaded.
  * @param url The url of the script.
  */
+/* Moved into Mapbuilder.js
+
 function loadScript (url) {
   if(!document.getElementById(url)){
     var script = document.createElement('script');
@@ -324,24 +326,28 @@ function loadScript (url) {
     document.getElementsByTagName('head')[0].appendChild(script);
   }
 }
+*/
 
 if (_SARISSA_IS_MOZ ) {
+  /** 
+   * Extends the node class to provide simple node value lookup
+   * @argument nodeXpath  xpath of the node 
+   */
+  Node.prototype.simpleValue = function(nodeXpath)
+  {
+    try
+    {
+      var node = this.selectSingleNode(nodeXpath)
+      return node.firstChild.nodeValue;
+    }
+    catch(e)
+    {
+      alert("simpleValue exception:" + e);
+      throw e;
+    }
+  };
+}
 
-/** 
- * Extends the node class to provide simple node value lookup
- * @argument nodeXpath  xpath of the node 
- */
-Node.prototype.simpleValue = function(nodeXpath)
-{
-  try
-  {
-    var node = this.selectSingleNode(nodeXpath)
-    return node.firstChild.nodeValue;
-  }
-  catch(e)
-  {
-    alert("simpleValue exception:" + e);
-    throw e;
-  }
-};
+function fred(a) {
+  alert(a);
 }

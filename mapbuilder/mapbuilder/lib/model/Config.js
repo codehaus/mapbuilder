@@ -3,6 +3,10 @@ License: GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
+// Initialise this object when the script is loaded.
+// mbConfigUrl should be set in the main web page.
+config=new Config(mbConfigUrl);
+
 /**
  * Config
  * This Javascript file must be included in the page <HEAD> element.
