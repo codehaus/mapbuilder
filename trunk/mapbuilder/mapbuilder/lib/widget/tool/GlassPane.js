@@ -13,7 +13,7 @@ $Id$
  *
  * @constructor
  *
- * @requires RoiBox
+ * @requires AoiBox
  *
  * @param view    the view object for which this object handles mouse events.
  *                the view must have a context object property
