@@ -12,7 +12,7 @@ $Id$
  * @author Cameron Shorter
  * @param model       Pointer to the model instance being created
  * @param modelNode   The model's XML object node from the configuration document.
- * @param parentModel The model object that this widget belongs to.
+ * @param parentModel The model object that this model belongs to.
  */
 function ModelBase(model, modelNode, parentModel) {
   // Inherit the Listener functions and parameters
@@ -186,5 +186,4 @@ function ModelBase(model, modelNode, parentModel) {
     parentModel.addListener("refresh",model.refresh, model);
     model.init(model);
   }
-
 }
