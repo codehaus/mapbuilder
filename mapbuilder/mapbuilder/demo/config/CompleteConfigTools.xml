@@ -240,9 +240,35 @@
       <tooltip xml:lang="en">click on map to add a point to a line</tooltip>
       <tooltip xml:lang="fr">click on map to add a point to a line</tooltip>
       <targetModel>featureCollection</targetModel>
+      <featureXpath>/gml:featureMember/topp:bc_roads/topp:the_geom/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
+      <defaultModelUrl>gml/roads.xml</defaultModelUrl>
+    </EditLine>
+    <!--
+    <EditLine id="editLine">
+      <buttonBar>mainButtonBar</buttonBar>
+      <mouseHandler>mainMap.mainMouseClick</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/EditLineEnable.gif</enabledSrc>
+      <disabledSrc>/images/EditLineDisable.gif</disabledSrc>
+      <tooltip xml:lang="en">click on map to add a point to a line</tooltip>
+      <tooltip xml:lang="fr">click on map to add a point to a line</tooltip>
+      <targetModel>featureCollection</targetModel>
       <featureXpath>/gml:featureMember/lines/_SHAPE_/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
       <defaultModelUrl>gml/defaultAddLine.xml</defaultModelUrl>
     </EditLine>
+    <EditPolygon id="editPolygon">
+      <buttonBar>mainButtonBar</buttonBar>
+      <mouseHandler>mainMap.mainMouseClick</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/EditPolygonEnable.gif</enabledSrc>
+      <disabledSrc>/images/EditPolygonDisable.gif</disabledSrc>
+      <tooltip xml:lang="en">click on map to add a point to a polygon</tooltip>
+      <tooltip xml:lang="fr">click on map to add a point to a polygon</tooltip>
+      <targetModel>featureCollection</targetModel>
+      <featureXpath>/gml:featureMember/topp:states/topp:the_geom/gml:MultiPolygon/gml:polygonMember/gml:Polygon/gml:outerBoundaryIs/gml:LinearRing/gml:coordinates</featureXpath>
+      <defaultModelUrl>gml/states.xml</defaultModelUrl>
+    </EditPolygon>
+    -->
     <Save id="save">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
