@@ -16,7 +16,7 @@
   <models>
 
     <Context id="mainMapGroup">
-      <defaultModelUrl>context/atlasWorld.xml</defaultModelUrl>
+      <defaultModelUrl>context/modisWorld.xml</defaultModelUrl>
       
       <widgets>
         <MapPane id="mainMapPaneId">
