@@ -70,9 +70,9 @@ function ButtonBar(widgetNode, group) {
   }
 
   /**
-   * TBD: Document me.
+   * Initialise the widget after the widget tags have been created by the first paint().
    */
-  this.addListeners = function() {
+  this.postPaintInit = function() {
     var initialMode = this.widgetNode.selectSingleNode("initialMode").firstChild.nodeValue;
     this.setMode( initialMode );
   }

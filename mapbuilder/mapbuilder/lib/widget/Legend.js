@@ -35,7 +35,10 @@ function Legend(widgetNode, model) {
     // TBD check/uncheck Layer's selected box
   }
  
-  this.addListeners = function() {
+  /**
+   * Initialise the widget after the widget tags have been created by the first paint().
+   */
+  this.postPaintInit = function() {
     this.model.addListener("hidden",this.hiddenListener,this);
   }
 }
