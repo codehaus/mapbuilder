@@ -40,25 +40,29 @@
 			<OnlineResource xlink:type="simple" xlink:href="context/radarsatMosaic.xml"/>
 		</ContextURL>
 	</ViewContextReference>
-        <ViewContextReference version="1.0.0" id="cite">
+  <ViewContextReference version="1.0.0" id="cite">
 		<Title>Cite Reference WMS</Title>
 		<ContextURL>
-                  <OnlineResource xlink:type="simple" xlink:href="context/cite.xml"/>
+      <OnlineResource xlink:type="simple" xlink:href="context/cite.xml"/>
 		</ContextURL>
 	</ViewContextReference>
-        <ViewContextReference version="1.0.0" id="boston">
+  <ViewContextReference version="1.0.0" id="sldExample">
+		<Title>SLD param example</Title>
+		<ContextURL>
+      <OnlineResource xlink:type="simple" xlink:href="context/SLDParamExample.xml"/>
+		</ContextURL>
+	</ViewContextReference>
+  <ViewContextReference version="1.0.0" id="boston">
 		<Title>Boston</Title>
 		<ContextURL>
-                  <OnlineResource xlink:type="simple" xlink:href="context/boston.xml"/>
+      <OnlineResource xlink:type="simple" xlink:href="context/boston.xml"/>
 		</ContextURL>
 	</ViewContextReference>
-        <!--
 	<ViewContextReference version="1.0.0" id="aafc">
-		<Title>National Ecological Framework for Canada - Agriculture Canada (external server)</Title>
+		<Title>National Ecological Framework (external server example, requires proxy script)</Title>
 		<ContextURL>
-			<OnlineResource xlink:type="simple" xlink:href="http://geodiscover.cgdi.ca/gdp/contexts/aafc.cml"/>
+			<OnlineResource xlink:type="simple" xlink:href="http://geodiscover.cgdi.ca/gdp/contexts/aafc.xml"/>
 		</ContextURL>
 	</ViewContextReference>
-        -->
   
 </ViewContextCollection>
