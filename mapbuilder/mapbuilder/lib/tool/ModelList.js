@@ -26,14 +26,14 @@ function ModelList(model) {
    * appends a new instance of a model to the model list
    * @param objRef Pointer to this object.
    */
-  this.appendModel = function(targetModelNode, docNode) {
+  this.appendModel = function(targetModelNode, featureNode) {
     var evalStr = "new " + targetModelNode.nodeName + "(targetModelNode,this.model);";
     var model = eval( evalStr );
     if ( model ) {
       this.modelArray.push(model);
 
-      docNode.modelId = model.id;
-      model.doc=docNode;
+      featureNode.modelId = model.id;
+      model.featureNode=featureNode;
       //call the loadModel event
       //model.callListeners("loadModel");
       return model;
@@ -41,8 +41,6 @@ function ModelList(model) {
       alert("ModelList: error creating dynamic model object:" + targetModelNode.nodeName);
     }
   }
-  //add listeners for this new model instance
-  //this.model.addListener("paint", this.updateModel, model);
 
   /**
    * loads an instance of the targetModel model with the document

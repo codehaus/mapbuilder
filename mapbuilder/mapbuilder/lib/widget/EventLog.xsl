@@ -56,7 +56,7 @@ $Name$
 
           <a href="javascript:window.logger.clearLog();">Clear</a> - 
 
-          <a href="javascript:window.logger.callListeners('loadModel');">Refresh</a> - 
+          <a href="javascript:window.logger.callListeners('refresh');">Refresh</a> - 
 
           <a href="javascript:window.logger.saveLog();">Save</a>
 

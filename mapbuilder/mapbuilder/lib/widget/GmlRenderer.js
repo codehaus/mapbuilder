@@ -42,8 +42,10 @@ function GmlRenderer(widgetNode, model) {
   }
 
   // Call paint() when the context changes
+/*
   this.init = function(objRef) {
-    objRef.targetModel.addListener("boundingBox",objRef.paint, objRef);
+    objRef.targetModel.addListener("refresh",objRef.paint, objRef);
   }
   this.model.addListener("loadModel",this.init,this);
+*/
 }

@@ -5,7 +5,6 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
-mapbuilder.loadScript(baseDir+"/tool/Extent.js");
 
 /**
  * Base class for a MapContainer.  Widgets extending this class will have their
@@ -41,12 +40,13 @@ function MapContainerBase(widget,widgetNode,model) {
     alert("MapContainerBase: required property mapContainerId missing in config:"+widget.id);
   }
 
-  /**
-   * Initialize the container if required.
-   */
+/**
+ * Initialize the container if required.
+ */
   var containerNode = document.getElementById(widget.containerNodeId);
   if (containerNode) {
     widget.containerModel = containerNode.widget.model;
+    widget.containerModel.addListener("refresh",widget.paint,widget);
   } else {
     containerNode = document.createElement("DIV");
     containerNode.setAttribute("id",widget.containerNodeId);
@@ -57,10 +57,6 @@ function MapContainerBase(widget,widgetNode,model) {
 
     widget.containerModel = widget.model;
 
-    /**
-     * Set the map area to have a fixed width.
-     * @param objRef Pointer to this object.
-     */
     this.setFixedWidth = function(objRef) {
       //adjust the context width and height if required.
       var fixedWidth = widgetNode.selectSingleNode("mb:fixedWidth");
@@ -79,28 +75,24 @@ function MapContainerBase(widget,widgetNode,model) {
 
     //add the extent tool
     widget.containerModel.extent = new Extent( widget.containerModel );
-    widget.containerModel.addListener( "aoi", widget.containerModel.extent.init, widget.containerModel.extent );
+    widget.containerModel.addListener( "loadModel", widget.containerModel.extent.init, widget.containerModel.extent );
+    widget.containerModel.addListener( "refresh", widget.containerModel.extent.init, widget.containerModel.extent );
     //TBD: do an extent history too by storing extents everytime the aoi changes
 
-    /*
     this.clearContainer = function(objRef) {
       //with objRef.node remove child
     }
     widget.clearContainer = this.clearContainer;
     widget.containerModel.addListener("newModel",widget.clearContainer, widget);
-    */
 
     /**
-     * Called when the context's boundingBox attribute changes.
-     * @param thisWidget This object.
+     * Called just before paint to set the map scale as stylesheet param
+     * @param objRef pointer to this object.
      */
-    this.boundingBoxChangeListener=function(thisWidget){
-      //this.node.extent = 
-      thisWidget.containerModel.extent.init(thisWidget.containerModel.extent);
-      thisWidget.paint(thisWidget);
+    widget.prePaint = function(objRef) {
+      var mapScale = objRef.model.extent.getScale();
+      widget.stylesheet.setParameter("mapScale", mapScale );
     }
-    widget.boundingBoxChangeListener = this.boundingBoxChangeListener;
-    widget.containerModel.addListener("boundingBox",widget.boundingBoxChangeListener,widget);
 
   /** Cross-browser mouse event handling.
     * This function is the event handler for all MapPane mouse events.
@@ -176,4 +168,5 @@ function MapContainerBase(widget,widgetNode,model) {
   }
   widget.hiddenListener = this.hiddenListener;
   widget.model.addListener("hidden",widget.hiddenListener,widget);
+
 }

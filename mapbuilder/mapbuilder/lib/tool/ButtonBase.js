@@ -32,11 +32,6 @@ function ButtonBase(button, toolNode, parentWidget) {
     button.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
   }
 
-  button.buttonInit = function(buttonRef) {
-    buttonRef.image = document.getElementById( buttonRef.id );
-  }
-  button.parentWidget.addListener("paint",button.buttonInit,button);
-
   /**
    * Override this in buttons which inherit from this object to carry out the action.
    * This is the function that will be called either when the button is selected
@@ -74,4 +69,11 @@ function ButtonBase(button, toolNode, parentWidget) {
 
   var selected = toolNode.selectSingleNode("mb:selected");
   if (selected && selected.firstChild.nodeValue) button.selected = true;
+
+  button.buttonInit = function(buttonRef) {
+    buttonRef.image = document.getElementById( buttonRef.id );
+    if (buttonRef.selected) buttonRef.select();
+  }
+  button.model.addListener("refresh",button.buttonInit,button);
+
 }

@@ -12,7 +12,7 @@ var baseDir;
 // LoadState Constants
 var MB_UNLOADED=0;    // Scripts not loaded yet
 var MB_LOAD_CORE=1;   // Loading scripts loaded defined in Mapbuilder
-var MB_LOAD_WIDGET=2; // Loading scripts loaded defined in Config
+var MB_LOAD_CONFIG=2; // Loading scripts loaded defined in Config
 var MB_LOADED=3;      // All scripts loaded
 
 /**
@@ -72,7 +72,7 @@ function Mapbuilder() {
       // Mozilla client
       if(this.loadState==MB_LOAD_CORE && config!=null){
         // Config has finished loading
-        this.setLoadState(MB_LOAD_WIDGET);
+        this.setLoadState(MB_LOAD_CONFIG);
       }
     }
   }
@@ -92,7 +92,8 @@ function Mapbuilder() {
         this.loadScript(baseDir+"/model/ModelBase.js");
         this.loadScript(baseDir+"/model/Config.js");
         break;
-      case MB_LOAD_WIDGET:
+      case MB_LOAD_CONFIG:
+        window.cgiArgs = getArgs();
         if(document.readyState){
           // IE
           config=new Config(mbConfigUrl);
@@ -155,6 +156,7 @@ function mapbuilderInit(){
     clearInterval(mbTimerId);
     config.init(config);
     config.callListeners("loadModel");
+    config.callListeners("refresh");
   }
 }
 

@@ -18,22 +18,20 @@ function ModelBase(model, modelNode, parentModel) {
   // Inherit the Listener functions and parameters
   var listener = new Listener(model);
 
-  //calling ModelBase with no params skips this section (for config)
-  if (modelNode) {
-    model.modelNode = modelNode;
-    var idAttr = modelNode.attributes.getNamedItem("id");
-    if (idAttr) {
-      model.id = idAttr.nodeValue;
-    } else {
-      //auto generated unique ID assigned to this model
-      model.id = "MbModel_" + mbIds.getId();
-    }
+  model.modelNode = modelNode;
+  var idAttr = modelNode.attributes.getNamedItem("id");
+  if (idAttr) {
+    model.id = idAttr.nodeValue;
+  } else {
+    //auto generated unique ID assigned to this model
+    model.id = "MbModel_" + mbIds.getId();
+  }
 
-    var templateAttr = modelNode.attributes.getNamedItem("template");
-    if (templateAttr) {
-      model.template = templateAttr.nodeValue;
-      return;
-    }
+  //go no farther for template models
+  var templateAttr = modelNode.attributes.getNamedItem("template");
+  if (templateAttr) {
+    model.template = templateAttr.nodeValue;
+    return;
   }
 
   /**
@@ -76,13 +74,6 @@ function ModelBase(model, modelNode, parentModel) {
   }
   model.loadModelDoc = this.loadModelDoc;
 
-  //
-  if (parentModel) {
-    model.parentModel = parentModel;
-    parentModel[model.id] = model;
-    parentModel.addListener("initModel",model.loadModelDoc, model);
-  }
-
   /**
    * reload this model as an httpPayload listener
    * @param modelRef    Pointer to the model object being loaded.
@@ -93,6 +84,8 @@ function ModelBase(model, modelNode, parentModel) {
     modelRef.method = httpPayload.method;
     modelRef.postData = httpPayload.postData;
     modelRef.loadModelDoc(modelRef);
+    //call the refresh event listeners, at this point all sub-models/widgets/tools are intialialized
+    modelRef.callListeners("refresh");
   }
   model.newRequest = this.newRequest;
   model.addListener("httpPayload",model.newRequest, model);
@@ -158,17 +151,15 @@ function ModelBase(model, modelNode, parentModel) {
   //load the Model object from the initial URL in config or from a URL param.
   //the URL can also be passed in as a URL parameter by using the model ID
   //as the parameter name (this method takes precendence over the config file
-  if (modelNode) {
-    if (window.cgiArgs[model.id]) {  
-      model.url = window.cgiArgs[model.id];
-    } else if (window[model.id]) {  
-      model.url = window[model.id];
-    } else if (modelNode.url) {  
-      model.url = modelNode.url;
-    } else {
-      var defaultModel = modelNode.selectSingleNode("mb:defaultModelUrl");
-      if (defaultModel) model.url = defaultModel.firstChild.nodeValue;
-    }
+  if (window.cgiArgs[model.id]) {  
+    model.url = window.cgiArgs[model.id];
+  } else if (window[model.id]) {  
+    model.url = window[model.id];
+  } else if (modelNode.url) {  
+    model.url = modelNode.url;
+  } else {
+    var defaultModel = modelNode.selectSingleNode("mb:defaultModelUrl");
+    if (defaultModel) model.url = defaultModel.firstChild.nodeValue;
   }
 
   model.models = new ModelList(model);
@@ -180,8 +171,17 @@ function ModelBase(model, modelNode, parentModel) {
       modelRef.loadModels();
       modelRef.loadWidgets();
     }
-    modelRef.callListeners("initModel");
   }
-  if (parentModel) model.init(model);
+  model.refresh = function(modelRef) {
+    modelRef.callListeners("refresh");
+  }
+  //
+  if (parentModel) {
+    model.parentModel = parentModel;
+    parentModel[model.id] = model;
+    parentModel.addListener("loadModel",model.loadModelDoc, model);
+    parentModel.addListener("refresh",model.refresh, model);
+    model.init(model);
+  }
 
 }

@@ -53,7 +53,7 @@ function ToolBase(tool, toolNode, parentWidget) {
   }
   tool.initModels = this.initModels;
   tool.parentWidget.targetModel.addListener( "loadModel", tool.initModels, tool );
-  tool.initModels(tool);
+  //tool.initModels(tool);
 
   //dependant tools that must be enabled/disabled when this tool is enabled
   tool.dependancies = toolNode.getElementsByTagName("dependsOn");

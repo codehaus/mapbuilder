@@ -37,9 +37,11 @@ $Name$
   <xsl:template match="/cml:ViewContext">
       <DIV STYLE="position:absolute; width:{$width}; height:{$height}">
         <xsl:apply-templates select="cml:LayerList/cml:Layer"/>
+        <xsl:apply-templates select="cml:ResourceList/*"/>
       </DIV>
   </xsl:template>
   
+  <xsl:template match="cml:FeatureType"/>
   <xsl:template match="cml:Layer">
     <xsl:param name="version">
         <xsl:value-of select="cml:Server/@version"/>    
