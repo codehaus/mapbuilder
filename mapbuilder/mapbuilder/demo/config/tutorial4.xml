@@ -24,42 +24,6 @@
           </tools> 
         </MapPane>
 
-        <ButtonBar id="buttonBar">  
-          <tools>
-            <ZoomIn id="zoomIn">
-              <class>RadioButton</class>
-              <selected>true</selected>
-              <mouseHandler>config['firstMap']['mainMapPane']</mouseHandler>
-              <dependsOn>config['firstMap']['mainMapPane']['AoiMouseHandler']</dependsOn>
-              <dependsOn>config['firstMap']['mainMapPane']['AoiBox']</dependsOn>
-              <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
-              <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
-              <tooltip>click and drag to zoom in</tooltip>
-            </ZoomIn>
-            <ZoomOut id="zoomOut">
-              <class>RadioButton</class>
-              <mouseHandler>config['firstMap']['mainMapPane']</mouseHandler>
-              <dependsOn>config['firstMap']['mainMapPane']['AoiMouseHandler']</dependsOn>
-              <dependsOn>config['firstMap']['mainMapPane']['AoiBox']</dependsOn>
-              <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
-              <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
-              <tooltip>click to zoom out</tooltip>
-            </ZoomOut>
-            <DragPan id="dragPan">
-              <class>RadioButton</class>
-              <mouseHandler>config['firstMap']['mainMapPane']</mouseHandler>
-              <dependsOn>config['firstMap']['mainMapPane']['DragPanHandler']</dependsOn>
-              <enabledSrc>/images/PanEnable.gif</enabledSrc>
-              <disabledSrc>/images/PanDisable.gif</disabledSrc>
-              <tooltip>click and drag to pan</tooltip>
-            </DragPan>
-            <Reset id="reset">
-              <class>Button</class>
-              <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
-              <tooltip>reset the map to full extent</tooltip>
-            </Reset>
-          </tools>
-        </ButtonBar>
         
       </widgets>
     </Context>
@@ -75,4 +39,44 @@
     
   </models>
 
+  <widgets>
+    <ButtonBar id="buttonBar">  
+      <targetModel>firstMap</targetModel>
+      <tools>
+        <ZoomIn id="zoomIn">
+          <class>RadioButton</class>
+          <selected>true</selected>
+          <mouseHandler>firstMap.mainMapPane</mouseHandler>
+          <dependsOn>firstMap.mainMapPane.AoiMouseHandler</dependsOn>
+          <dependsOn>firstMap.mainMapPane.AoiBox</dependsOn>
+          <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
+          <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
+          <tooltip>click and drag to zoom in</tooltip>
+        </ZoomIn>
+        <ZoomOut id="zoomOut">
+          <class>RadioButton</class>
+          <mouseHandler>firstMap.mainMapPane</mouseHandler>
+          <dependsOn>firstMap.mainMapPane.AoiMouseHandler</dependsOn>
+          <dependsOn>firstMap.mainMapPane.AoiBox</dependsOn>
+          <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
+          <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
+          <tooltip>click to zoom out</tooltip>
+        </ZoomOut>
+        <DragPan id="dragPan">
+          <class>RadioButton</class>
+          <mouseHandler>firstMap.mainMapPane</mouseHandler>
+          <dependsOn>firstMap.mainMapPane.DragPanHandler</dependsOn>
+          <enabledSrc>/images/PanEnable.gif</enabledSrc>
+          <disabledSrc>/images/PanDisable.gif</disabledSrc>
+          <tooltip>click and drag to pan</tooltip>
+        </DragPan>
+        <Reset id="reset">
+          <class>Button</class>
+          <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
+          <tooltip>reset the map to full extent</tooltip>
+        </Reset>
+      </tools>
+    </ButtonBar>
+  </widgets>
+  
 </MapbuilderConfig>

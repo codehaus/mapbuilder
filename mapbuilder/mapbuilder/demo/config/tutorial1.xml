@@ -8,7 +8,7 @@
       <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="mainMapPane">
-          <fixedWidth>true</fixedWidth>
+          <fixedWidth>250</fixedWidth>
         </MapPane>
       </widgets>
     </Context>
