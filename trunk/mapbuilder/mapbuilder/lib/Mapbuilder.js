@@ -42,12 +42,11 @@ function Mapbuilder() {
    * Once scripts and <body> are loaded, config.init() will be called from
    * <body onload="">
    */
-  this.configInit=function(){
-    config=new Config(mbConfigUrl);
-    config.loadConfigScripts();
-    this.allScriptsLoaded=true;
-    //this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded("config.init()")',100);
-  }
+  //this.configInit=function(){
+  //  //config=new Config(mbConfigUrl);
+  //  //config.loadConfigScripts();
+  //  this.allScriptsLoaded=true;
+  //}
 
   /**
    * Called periodically and continues initialisation once scripts have loaded.
@@ -108,6 +107,6 @@ function Mapbuilder() {
   this.loadScript(baseDir+"/model/Config.js","Config");
 
   // Start a timer which periodically calls checkScriptsLoaded().
-  this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded("this.configInit()")',100);
+  //this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded("this.configInit()")',100);
 }
 mapbuilder=new Mapbuilder();

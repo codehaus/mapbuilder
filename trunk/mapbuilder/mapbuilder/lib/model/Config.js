@@ -112,4 +112,9 @@ function Config(url) {
     model.loadModelDoc( modelUrl );
     model.loadWidgets();
   }
+
+  // Load the Config Scripts at startup
+  this.loadConfigScripts();
 }
+
+config=new Config(mbConfigUrl);
