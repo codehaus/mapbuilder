@@ -3,6 +3,8 @@
 <!--
 Description: A Browser based Web Map Server Client based on javascript and XSL
              libraries from http://mapbuilder.sourceforge.net .
+Usage:       Call http://hostname/dir/wms.html?context=UrlOfContext
+             or http://hostname/dir/wms.html (and a default context is used)
 Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 
 $Id$
@@ -39,9 +41,21 @@ $Name$
       // Base Mapbuilder library directory
       baseDir="../widget";
 
+
+      // Get the CGI parameters.  If context is not defined, then set a default.
+      cgiArgs=getArgs();
+      if (!cgiArgs.context) {
+        cgiArgs.context="wmc.xml";
+      }
+
       // Load a Web Map Context document as defined by:
       // http://www.opengis.org/docs/03-036r2.pdf
-      context=new Context("wmc.xml", "context", document.getElementById("contextDiv"), baseDir, "basic");
+      context=new Context(
+        cgiArgs.context,
+        "context",
+        document.getElementById("contextDiv"),
+        baseDir,
+        "basic");
 
       // Create and render a MapPane
       mapPane=new MapPane(context, "mapPane");
@@ -66,7 +80,6 @@ $Name$
       zoomTool=new ZoomTool(context, "zoomTool");
       zoomTool.move(10,350);
       zoomTool.paint();
-
     </script>
   </body>
 </html>
