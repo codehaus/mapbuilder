@@ -18,6 +18,7 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * targetModel is a template model (attribute template="true") the a new model 
  * is created and appended to the parentModel's <models> list.
  * @constructor
+ * @base ToolBase
  * @param toolNode The tools's XML object node from the configuration document.
  * @param model    The model that this tool belongs to
  */
