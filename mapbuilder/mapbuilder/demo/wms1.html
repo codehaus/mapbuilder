@@ -14,13 +14,13 @@ $Name$
 <html>
   <head>
     <title>WMS Client</title>
-    <script type="text/javascript" src="../util/sarissa/Sarissa.js"></script>
-    <script type="text/javascript" src="../widget/context/Context.js"></script>
-    <script type="text/javascript" src="../widget/mappane/MapPane.js"></script>
-    <script type="text/javascript" src="../widget/legend/Legend.js"></script>
-    <script type="text/javascript" src="../widget/tool/PanTool.js"></script>
-    <script type="text/javascript" src="../widget/tool/ZoomTool.js"></script>
-    <script type="text/javascript" src="../widget/util/Util.js"></script>
+    <script type="text/javascript" src="../lib/model/Context.js"></script>
+    <script type="text/javascript" src="../lib/widget/mappane/MapPane.js"></script>
+    <script type="text/javascript" src="../lib/widget/legend/Legend.js"></script>
+    <script type="text/javascript" src="../lib/widget/tool/PanTool.js"></script>
+    <script type="text/javascript" src="../lib/widget/tool/ZoomTool.js"></script>
+    <script type="text/javascript" src="../lib/util/sarissa/Sarissa.js"></script>
+    <script type="text/javascript" src="../lib/util/Util.js"></script>
     <style type="text/css">
       h1 {
         color: red;
@@ -38,7 +38,7 @@ $Name$
     <p><i>A <a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Project</i></p>
     <script>
       // Base Mapbuilder library directory
-      baseDir="../widget";
+      baseDir="../lib";
 
 
       // Get the CGI parameters.  If context is not defined, then set a default.
@@ -53,7 +53,7 @@ $Name$
         cgiArgs.context,
         "context",
         baseDir,
-        "basic");
+        "default");
 
       // Create and render a MapPane
       mapPane=new MapPane(context, "mapPane");

@@ -30,11 +30,11 @@ function Context(url, name, baseDir, skin, queryLayer) {
   this.name=name;
   this.baseDir=baseDir;
   if(skin==null){
-    this.skin="basic";
+    this.skin="default";
   }
   /**
-   * The name of the skin to use, defaults to skins/basic .*/
-  this.skin="skins/"+skin+"/";
+   * The name of the skin to use, defaults to skin/default .*/
+  this.skin=baseDir+"/skin/"+skin+"/";
   this.queryLayer=queryLayer;
   /*
   // Insert unique Ids into each Layer node.
