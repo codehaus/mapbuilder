@@ -62,6 +62,8 @@ function UniqueId(){
     return this.lastId;
   }
 }
+//use this global object to generate a unique ID via the getId function
+var mbIds = new UniqueId();
 
 /**
  * get the absolute position of HTML element NS4, IE4/5 & NS6, even if it's in a table.
