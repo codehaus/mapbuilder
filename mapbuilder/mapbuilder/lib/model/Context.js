@@ -37,13 +37,15 @@ function Context(url) {
 
   /** Functions to call when the boundingBox has changed. */
   this.bboxChangeListeners=new Array();
+  this.bboxChangeListenerTargets=new Array();
 
   /**
    * Add a Listener for bbox change.
    * @param listener The fuction to call when the bbox changes.
    */
-  this.addBboxChangeListener=function(listener) {
+  this.addBboxChangeListener=function(listener,target) {
     this.bboxChangeListeners[this.bboxChangeListeners.length]=listener;
+    this.bboxChangeListenerTargets[this.bboxChangeListenerTargets.length]=target;
   }
 
   /** Functions to call when the layer's Hidden attribute changes. */
@@ -100,7 +102,7 @@ function Context(url) {
     bbox.setAttribute("maxy", boundingBox[3]);
     // Call the listeners
     for(i=0;i<this.bboxChangeListeners.length;i++) {
-      this.bboxChangeListeners[i]();
+      this.bboxChangeListeners[i](this.bboxChangeListenerTargets[i]);
     }
   }
 
