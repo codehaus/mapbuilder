@@ -4,7 +4,7 @@
     id="owsContextConfig" 
     xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ..//mapbuilder/lib/schemas/config.xsd">
+    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../mapbuilder/lib/schemas/config.xsd">
   <!--
     Description: This configuration file determines what components from the
                  Mapbuilder library are to be included in a Main Mapbuilder web
@@ -45,13 +45,13 @@
       <widgets>
         <MapPane id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-          <stylesheet>/mapbuilder/lib/widget/owsMapPane.xsl</stylesheet>
+          <stylesheet>../../lib/widget/owsMapPane.xsl</stylesheet>
           <mapContainerId>mainMapContainer</mapContainerId>
           <!--fixedWidth>300</fixedWidth-->
         </MapPane>
         <AoiBoxWZ id="aoiBoxMain">
           <htmlTagId>mainMapPane</htmlTagId>
-          <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
+          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
@@ -65,10 +65,10 @@
           <htmlTagId>legend</htmlTagId>
         </Legend>
         <Widget id="abstract">
-          <stylesheet>/mapbuilder/lib/widget/Abstract.xsl</stylesheet>
+          <stylesheet>../../lib/widget/Abstract.xsl</stylesheet>
         </Widget>
         <Widget id="mapTitle">
-          <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
+          <stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
         </Widget>
       </widgets>
       <tools>
@@ -92,7 +92,7 @@
         </MapPane>
         <AoiBoxWZ id="aoiBoxLocator">
           <htmlTagId>locatorMap</htmlTagId>
-          <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
+          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
@@ -107,10 +107,10 @@
       </tools>
     </Context>
     <!--Logger id="eventLogDoc">
-      <serializeUrl>/mapbuilder/writeXml</serializeUrl>
+      <serializeUrl>../../writeXml</serializeUrl>
       <widgets>
         <Widget id="eventLog">
-          <stylesheet>/mapbuilder/lib/widget/EventLog.xsl</stylesheet>
+          <stylesheet>../../lib/widget/EventLog.xsl</stylesheet>
         </Widget>
       </widgets>
     </Logger-->
@@ -174,7 +174,7 @@
       <popupWindowName>modelXML</popupWindowName>
     </Save>
   </widgets>
-  <skinDir>/mapbuilder/lib/skin/default</skinDir>
-  <proxyUrl>/mapbuilder/proxy</proxyUrl>
-  <serializeUrl>/mapbuilder/writeXml</serializeUrl>
+  <skinDir>../../lib/skin/default</skinDir>
+  <proxyUrl>../../proxy</proxyUrl>
+  <serializeUrl>../../writeXml</serializeUrl>
 </MapbuilderConfig>
