@@ -22,5 +22,9 @@ $Name$
 
   <xsl:template match="/" />
 
+    <b>fred
+
+    </b>
+
 </xsl:stylesheet>
 
