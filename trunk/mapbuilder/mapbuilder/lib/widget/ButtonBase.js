@@ -10,7 +10,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * Base Button object that all Buttons extend.  A Button is a tool represented
  * by an image and an optional second image for the enabled state.
  * @constructor
- * @base ToolBase
+ * @base WidgetBase
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
  * @param button Pointer to the button instance being created.
  * @param widgetNode The tool node from the Config XML file.
