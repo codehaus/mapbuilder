@@ -13,7 +13,7 @@ $Id$
  */
 function Proxy() {
   /** Url of proxy, TBD: extract this from config file. */
-  this.proxy="../server/proxy/proxy.php?onlineresource=";
+  this.proxy="../server/proxy/proxy.php?url=";
 
   /**
    * @param url Url of the service to access.

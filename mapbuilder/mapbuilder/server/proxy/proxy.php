@@ -1,10 +1,24 @@
 <?
-// script proxy.php
-// Purpose: accept incoming variables and post content to requested url, then return result
+/*
+License: GPL as per: http://www.gnu.org/copyleft/gpl.html
+$Id$
+$Name$
+*/
+
+////////////////////////////////////////////////////////////////////////////////
+// Description:
+// Script to redirect the request http://host/proxy.php?url=http://someUrl
+// to http://someUrl .
+//
+// This script can be used to circumvent javascript's security requirements
+// which prevent a URL from an external web site being called.
+//
+// Author: Nedjo Rogers
+////////////////////////////////////////////////////////////////////////////////
 
 // read in the variables
 
-$onlineresource=$_REQUEST['onlineresource'];
+$onlineresource=$_REQUEST['url'];
 $parsed = parse_url($onlineresource);
 $host = $parsed["host"];
 $path = $parsed["path"] . "?" . $parsed["query"];
