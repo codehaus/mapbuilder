@@ -20,6 +20,7 @@ $Name$
     <script type="text/javascript" src="../lib/model/Extent.js"></script>
     <script type="text/javascript" src="../lib/widget/mappane/MapPane.js"></script>
     <script type="text/javascript" src="../lib/widget/tool/GlassPane.js"></script>
+    <script type="text/javascript" src="../lib/widget/tool/RoiBox.js"></script>
     <script type="text/javascript" src="../lib/widget/legend/Legend.js"></script>
     <script type="text/javascript" src="../lib/widget/tool/PanTool.js"></script>
     <script type="text/javascript" src="../lib/widget/tool/ZoomTool.js"></script>
@@ -97,7 +98,7 @@ out</A><BR/>
       mapPane.paint();
       
       //add mouse handler function
-      mapPane.mouseHandler = new GlassDiv( mapPane, MODE_ZOOM_IN );
+      mapPane.mouseHandler = new GlassPane( mapPane, MODE_ZOOM_IN );
       mapPane.mouseHandler.setCursorTrackForm( document.MapDisplayForm );
 
       // Create and render a Legend

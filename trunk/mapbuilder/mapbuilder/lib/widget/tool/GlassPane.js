@@ -1,91 +1,129 @@
 /*
-Author:       Mike Adair mike.adair@ccrs.nrcan.gc.ca
+Author:       Mike Adair mike.adairATccrs.nrcan.gc.ca
 License:      GPL as per: http://www.gnu.org/copyleft/gpl.html
 
 $Id$
 */
 
 /**
- * Tools to handle mouse events on the mappane object 
+ * Tool to handle mouse events on the mappane object.  This is the equivalent 
+ * to laying a transparent sheet of glass over the mappane and all onmouse*
+ * events are handled by this object.  The mouse handler is set to one of several
+ * modes for zoom-in, zoom-out, etc.
  *
  * @constructor
- * @param context The Web Map Context to use when building this MapPane.
- * @param name Variable name referencing this MapPane object
- * @param node Node from the HTML DOM to insert legend HTML into.
- * @requires Context
- * @requires Sarissa
- * @requires Util
+ *
+ * @requires RoiBox
+ *
+ * @param view    the view object for which this object handles mouse events.
+ *                the view must have a context object property
+ *                the view must have a "node" property which represents the HTML
+ *                element on which the GlassPane will be overlaid. 
+ * @param mode    (optional) the initial mode to start the GlassPane in; to enable 
+ *                the mouse box behaviour, it must be started with a non-null mode
  */
 
-var zoomby = 4;
-var MODE_ZOOM_IN = 1;
-var MODE_ZOOM_OUT = 2;
-var MODE_PAN = 3;
-var MODE_SET_ROI = 4;
-var MODE_ALT_CLICK = 5;
-var MODE_GETFEATUREINFO = 6;
+//modes supported by this controller
+var MODE_ZOOM_IN = 1;     //single click or drag a box to zoom in to that area
+var MODE_ZOOM_OUT = 2;    //single click to zoom out centered at that point
+var MODE_PAN = 3;         //click and drag to pan the image
+var MODE_SET_ROI = 4;     //click and drag to set a bbox without any change to the image
+var MODE_ALT_CLICK = 5;   //alt-click zooms in; ctl-click zooms out
+var MODE_GETFEATUREINFO = 6;  //single click to send a query to that point
 
-function GlassDiv(mappane, mode) {
-  this.view = mappane;
+var zoomby = 4;   //default fraction to zoom in/out on a click
 
+function GlassPane(view, mode) {
+  this.view = view;
 
-  this.glassDiv = document.getElementById("glass");    //or create this dynamically?
+// fixed ID created by mappane stylesheet
+// TDB create this dynamically
+  this.glassPane = document.getElementById("glass");    //or create this dynamically?
 /*
-  this.glassDiv = document.createElement("DIV");
-  this.view.node.firstChild.firstChild.appendChild( this.glassDiv );
-  var imgsrc = mappane.context.baseDir + "/widget/mappane/dot.gif";
-  this.glassDiv.innerHTML = "<IMG SRC='" + imgsrc + "' WIDTH='1' HEIGHT='1'/>";
-  this.glassDiv.style.position = "absolute";
-  this.glassDiv.style.zIndex = 1000;
-  this.glassDiv.style.width = this.glassDiv.context.getWindowWidth();
-  this.glassDiv.style.height = this.glassDiv.context.getWindowHeight();
-  this.glassDiv.style.offsetLeft = 0;
-  this.glassDiv.style.offsetTop = 0;
+TBD: find out why this isn't working
+  this.glassPane = document.createElement("DIV");
+  this.view.node.firstChild.firstChild.appendChild( this.glassPane );
+  var imgsrc = view.context.baseDir + "/widget/mappane/dot.gif";
+  this.glassPane.innerHTML = "<IMG SRC='" + imgsrc + "' WIDTH='1' HEIGHT='1'/>";
+  this.glassPane.style.position = "absolute";
+  this.glassPane.style.zIndex = 1000;
+  this.glassPane.style.width = this.glassPane.context.getWindowWidth();
+  this.glassPane.style.height = this.glassPane.context.getWindowHeight();
+  this.glassPane.style.offsetLeft = 0;
+  this.glassPane.style.offsetTop = 0;
 */
-  this.glassDiv.context = mappane.context;
+  this.glassPane.context = view.context;
+  this.glassPane.featureInfo = new FeatureInfo(view.context);
 
-  this.glassDiv.featureInfo = new FeatureInfo(mappane.context);
-
-  this.glassDiv.mode = 0;     //no mouse handling by default
+  // non-null initial mode initializes the MouseBox
+  this.glassPane.mode = 0;     //no mouse handling by default
   if (mode) {
-    this.glassDiv.mode = mode;
-    this.glassDiv.mouseBox = new MouseBox( this.glassDiv );
-    this.glassDiv.onmousemove = mouseMoveHandler;
-    this.glassDiv.onmouseout = mouseOutHandler;
-    this.glassDiv.onmousedown = mouseDownHandler;
-    this.glassDiv.onmouseup = mouseUpHandler;
-    this.glassDiv.getEvent = getEvent;
+    this.glassPane.mode = mode;
+    this.glassPane.mouseBox = new RoiBox( this.glassPane );
+    this.glassPane.onmousemove = mouseMoveHandler;
+    this.glassPane.onmouseout = mouseOutHandler;
+    this.glassPane.onmousedown = mouseDownHandler;
+    this.glassPane.onmouseup = mouseUpHandler;
+    this.glassPane.getEvent = getEvent;
   }
 
+/** Set the mode of the GlassPane
+  * @param mode   the mode to be set; defined by global constants above
+  * @return       none
+  */
   this.setMode = function( mode ) {
-    this.glassDiv.mode = mode;
+    this.glassPane.mode = mode;
   }
 
+/** Enable and set the form for cursor tracking output.  If this is called 
+  * then the Proj utility is used.
+  * @requires proj
+  * @param form   the form for coordinate output; it must have text input
+  *               elements named latitude and longitude
+  * @return       none
+  */
   this.setCursorTrackForm = function(form) {   //pass in a form to display coordinates in
-    this.glassDiv.coordForm = form;					
-    this.glassDiv.onmouseover = mouseOverHandler;
+    this.glassPane.proj = new proj( this.glassPane.context.getSRS() );
+    this.glassPane.coordForm = form;					
+    this.glassPane.onmouseover = mouseOverHandler;
   }
 
+/** Set a function to be called on the mouseup event.  It will be called with
+  * this.glassPane as an argument.
+  * @param callBackFunction    the funciton to be called on mouseup
+  * @return       none
+  */
   this.setClickCallBack = function( callBackFunction ) {
     this.callBack = callBackFunction;
-    this.glassDiv.onmouseup = mouseUpHandler;
-    this.glassDiv.getEvent = getEvent;
+    this.glassPane.onmouseup = mouseUpHandler;
+    this.glassPane.getEvent = getEvent;
   }
 
-  /**
-   * Called when the context's boundingBox attribute changes.
-   * @param e The event sent to the listener.
+/**
+ * Listener function called when the context's boundingBox attribute changes.  
+ * This function executes as a context ie. this = context
+ * @param target  second argument in the addListener function
    */
   this.boundingBoxChangeListener=function(target){
-    target.view.node.firstChild.firstChild.appendChild( target.glassDiv );
+    target.view.node.firstChild.firstChild.appendChild( target.glassPane );
   }
 
-  mappane.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
-
+  view.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
 }
 
 
 
+/** The remaining functions in the file execute as event handlers in the context 
+  * of the glassPane, ie. this = the glassPane div
+
+/** General purpose function for cross-browser event handling.  This function
+  * sets properties on this.glassPan: 
+  *   evpl pixel/line of the event relative to the upper left corner of the DIV
+  *   evxy projection x and y of the event calculated via the context.extent
+  *   keypress state for ALT CTL and SHIFT keys
+  * @param ev    the mouse event oject passed in from the browser (may be null for IE)
+  * @return       none
+  */
 function getEvent(ev) {
   if (window.event) {
     //TBD: Correct this for IE
@@ -135,6 +173,9 @@ function mouseUpHandler(ev) {
         this.context.extent.CenterAt(this.evxy, this.context.extent.res[0]*zoomby);
       }
       break;
+    case 6://MODE_GETFEATUREINFO
+      this.featureInfo.get(this.evpl);
+      break;	
     default:
       //alert("invalid mode:" +this.mode);
       break;
@@ -159,11 +200,6 @@ function mouseDownHandler(ev) {
     case 3://MODE_PAN:            //pan
       this.startPan(this.evpl);
       break;
-    case 5://MODE_ALT_CLICK:	
-	  //zoom by ALT/CTRL click
-    case 6:
-      this.featureInfo.get(this.evpl);
-      break;	
     case 2://MODE_ZOOM_OUT:				//zoom out
       //no-op, action happens on mouse up
       break;
@@ -184,7 +220,7 @@ function mouseMoveHandler(ev) {
   switch(this.mode) {
     case 1://MODE_ZOOM_IN:				//zoom in
     case 4://MODE_SET_ROI:				//setting ROI
-      if (this.mouseBox.started) this.mouseBox.setBox(this.evpl);
+      if (this.mouseBox.started) this.mouseBox.dragBox(this.evpl);
       break;
     case 3://MODE_PAN:            //pan
       this.panImage(this.evpl);
@@ -212,148 +248,14 @@ function mouseOverHandler(ev) {
 function ReportCoords(glass) {
     if (!glass.mouseMoved) return;
     glass.mouseMoved=false;
-    var evll = glass.context.extent.proj.Inverse( glass.evxy );
+    var evll = glass.proj.Inverse( glass.evxy );
     glass.coordForm.longitude.value = Math.round(evll[0]*100)/100;
     glass.coordForm.latitude.value = Math.round(evll[1]*100)/100;
 }
 
 
 
-
-
-var mouseBoxColor = "#FF0000";	// color of zoombox
-var ovBoxSize = 2;            // Zoombox line width;
-var x1=0;
-var y1=0;
-var x2=0;
-var y2=0;
-var zleft=0;
-var zright=0;
-var ztop=0;
-var zbottom=0;
-
-
-function MouseBox( glass ) {
-  this.Top = GetImageDiv( glass );
-  this.Bottom = GetImageDiv( glass );
-  this.Left = GetImageDiv( glass );
-  this.Right = GetImageDiv( glass );
-
-  this.setVis = function(vis) {
-    var visibility = "hidden";
-		if (vis) visibility = "visible";
-    this.Top.style.visibility = visibility;
-    this.Left.style.visibility = visibility;
-    this.Right.style.visibility = visibility;
-    this.Bottom.style.visibility = visibility;
-  }
-
-  this.boxIt = function(theLeft,theTop,theRight,theBottom) {
-    //Offset = BaseLayer.layer.GetPageOffset();  
-    Offset = new Array(0,0);
-    this.Top.style.left = theLeft+Offset[0]
-    this.Top.style.top = theTop+Offset[1];
-    this.Top.style.width = theRight-theLeft
-    this.Top.style.height = ovBoxSize;
-
-    this.Left.style.left = theLeft+Offset[0];
-    this.Left.style.top = theTop+Offset[1];
-    this.Left.style.width = ovBoxSize;
-    this.Left.style.height = theBottom-theTop;
-
-    this.Right.style.left = theRight-ovBoxSize+Offset[0]
-    this.Right.style.top = theTop+Offset[1];
-    this.Right.style.width = ovBoxSize;
-    this.Right.style.height = theBottom-theTop;
-
-    this.Bottom.style.left = theLeft+Offset[0];
-    this.Bottom.style.top = theBottom-ovBoxSize+Offset[1];
-    this.Bottom.style.width = theRight-theLeft;
-    this.Bottom.style.height = ovBoxSize;
-
-    this.setVis(true);
-  }
-		
-  // start zoom in.... box displayed
-  this.start = function(evpl) {
-    if (this.started) {
-      this.stop(true);
-    } else {
-      x1=evpl[0];  
-      y1=evpl[1];  
-      x2=x1+ovBoxSize;
-      y2=y1+ovBoxSize;
-      zleft=x1;
-      ztop=y1;
-      zbottom=y1;
-      zright=x1
-      this.boxIt(x1,y1,x2,y2);
-      this.started=true;
-    }
-    return false;
-  }
-
-  // stop zoom box display... 
-  this.stop = function(vis) {
-    this.started=false;
-    this.setVis(vis);
-    //alert(GetLatLonROI());
-  }
-
-  // adjust mouse box layers to mouse coords
-  this.setBox = function( evpl ) {	
-    var tempX=x1;
-    var tempY=y1;
-    x2=evpl[0]; 
-    y2=evpl[1]; 
-    if (x1>x2) {
-      zright=x1;
-      zleft=x2;
-    } else {
-      zleft=x1;
-      zright=x2;
-    }
-    if (y1>y2) {
-      zbottom=y1;
-      ztop=y2;
-    } else {
-      ztop=y1;
-      zbottom=y2;
-    }
-
-    if ((x1 != x2) && (y1 != y2)) {
-      this.boxIt(zleft,ztop,zright,zbottom);
-    }
-  }
-
-  this.getBox = function() {
-    var ulpl = new Array(zleft, ztop);
-    var lrpl = new Array(zright, zbottom);
-    return new Array(ulpl, lrpl);
-  }
-
-
-  //test case
-  this.boxIt(50,50,200,200);
-
-}
-
-function GetImageDiv( glass ) {
-  var newDiv = document.createElement("DIV");
-  newDiv.innerHTML = "<IMG SRC='' WIDTH='1' HEIGHT='1'/>";
-  newDiv.style.position = "absolute";
-  newDiv.style.backgroundColor = mouseBoxColor;
-//  newDiv.style.zIndex = glass.style.zIndex;
-  newDiv.style.zIndex = 300;
-  newDiv.style.visibility = "hidden";
-  newDiv.onmouseup = mouseUpHandler;
-  glass.appendChild( newDiv );
-  return newDiv;
-}
-
-
-
-//not tested past here
+// **** not tested past here *****
 
 function startPan(evp,evl) {
   if (panning) {
@@ -384,7 +286,7 @@ function SetROI(ul, lr) {     //pass coords in lat/lon
   lrxy = BaseLayer.extent.Forward(lr);
   ulpl = BaseLayer.GeoImagePLCoords(ulxy);
   lrpl = BaseLayer.GeoImagePLCoords(lrxy);
-  boxIt(ulpl[0], ulpl[1], lrpl[0], lrpl[1]);
+  drawBox(ulpl[0], ulpl[1], lrpl[0], lrpl[1]);
   setFormROI(ul, lr);
 }
 
@@ -394,4 +296,3 @@ function GetLatLonROI() {
   var lrll = BaseLayer.extent.Inverse(corners[1]);
   return new Array(ulll, lrll);
 }
-

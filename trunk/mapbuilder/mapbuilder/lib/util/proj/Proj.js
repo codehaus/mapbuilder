@@ -1,17 +1,25 @@
 /*
+Author:       Mike Adair mike.adairATccrs.nrcan.gc.ca
 License:      GPL as per: http://www.gnu.org/copyleft/gpl.html
-Dependancies: Sarissa
-
 $Id$
 */
 
 /**
-Transform an XML document using the provided XSL and use the results to build
-a web page.
-@constructor
-@param srs The SRS (EPSG code) of the projection
-@author Mike Adair
-*/
+ * Provides latitude/longitude to map projection transformation methods. 
+ * Initialized with EPSG codes.  Has properties for untis and title strings.
+ * All coordinates are handled as points which is a 2 element array where x is 
+ * the first element and y is the second. 
+ *
+ * TBD: retrieve initialization params (and conversion code?) from a web service 
+ *
+ * @constructor
+ *
+ * @param srs         The SRS (EPSG code) of the projection
+ *
+ * @method Forward    pass in lat/lon, returns XY
+ * @method Inverse    pass in XY, returns lat/long
+ */
+
 
 function proj(srs) {
 	this.srs = srs;
@@ -75,10 +83,11 @@ function identity(coords) {
 
 // scene projection object definition
 // really a pixel representation with bi-linear interpolation of the corner coords
+// forward trasnformation need reverse bilinear interpolation or orbit modelling here
 // forward transformation
 function ll2scene(coords) {
 	alert("ll2scene not defined");
-	//return new Array(124, 15+256);	//for testing only, need reverse bilinear interpolation or orbit modelling here
+	//return new Array(124, 15+256);	//for testing only, 
 	return null;
 }
 
