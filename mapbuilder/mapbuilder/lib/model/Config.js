@@ -23,6 +23,7 @@ function Config(url) {
 
   this.loadModelDoc(url);
   this.modelNode = this.doc.documentElement;
+  this.id = this.modelNode.attributes.getNamedItem("id").nodeValue;
 
   //set some global application properties
   this.skinDir = this.doc.selectSingleNode("/MapbuilderConfig/skinDir").firstChild.nodeValue;
@@ -78,6 +79,10 @@ function Config(url) {
   this.init = function() {
     var cgiArgs = getArgs();
 
+/** language to select; defaults to */
+    this.lang = "en";
+    if (cgiArgs["language"]) this.lang = cgiArgs["language"];
+
     //loop through all models in the config file
     var models = this.doc.selectNodes( "/MapbuilderConfig/models/*" );
     for (var i=0; i<models.length; i++ ) {
@@ -108,7 +113,8 @@ function Config(url) {
     }
 
     //load in widgets of the config doc
-    this.loadWidgets();
+    this.loadWidgets(this);
+    this.addListener("loadModel", this.loadWidgets, this);
   }
 
   /**
@@ -120,7 +126,7 @@ function Config(url) {
   this.loadModel = function( modelId, modelUrl ) {
     var model = this[modelId];
     model.loadModelDoc( modelUrl );
-    model.loadWidgets();
+    model.loadWidgets(model);
     this.callListeners( "loadModel" );
   }
 }
