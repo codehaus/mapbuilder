@@ -25,5 +25,36 @@ function FeatureCollection(modelNode, parent) {
   if (!this.namespace){
     this.namespace = "xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs'";
   }
+
+  /**
+   * convert coordinates in the GML document to the SRS of the map container, 
+   * if required
+   * @param objRef Pointer to this object.
+   */
+  this.convertCoords = function(objRef) {
+    var coordNodes = objRef.doc.selectNodes("//gml:coordinates");
+    if (coordNodes.length>0) {
+      //var srsName = coordNodes[0].parentNode.getAttribute("srsName");
+      var srsNode = coordNodes[0].selectSingleNode("ancestor-or-self::*/@srsName");
+      var sourceProj = new Proj(srsNode.nodeValue);
+      if ( !sourceProj.matchSrs( objRef.containerModel.getSRS() )) {  
+        var containerProj = new Proj(objRef.containerModel.getSRS());
+        for (var i=0; i<coordNodes.length; ++i) {
+          var coords = coordNodes[i].firstChild.nodeValue;
+          var coordsArray = coords.split(' ');
+          var newCoords = '';
+          for (var j=0; j<coordsArray.length; ++j) {
+            var xy = coordsArray[j].split(',');
+            var llTemp = sourceProj.Inverse(xy);
+            xy = containerProj.Forward(llTemp);
+            newCoords += xy.join(',') + ' ';
+          }
+          coordNodes[i].firstChild.nodeValue=newCoords;
+        }
+      }
+    }
+  }
+  this.addFirstListener("loadModel",this.convertCoords,this);
+
 }
 
