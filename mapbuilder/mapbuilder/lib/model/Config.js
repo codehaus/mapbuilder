@@ -50,7 +50,7 @@ function Config(url) {
     // in the config file.
     this.loadScriptsFromXpath("//models/*","model/");
     this.loadScriptsFromXpath("//widgets/*","widget/");
-    //this.loadScriptsFromXpath("//tools/*","widget/tool/");
+    this.loadScriptsFromXpath("//tools/*","tool/");
 
     //TBD: Deprecate the following block and move into loadScriptsFromXpath instead.
     //load all scriptfiles called for in the config file.  There seems to be a 
