@@ -14,6 +14,7 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * This object works entirely in pixel/line coordinate space and knows nothing
  * about geography.
  * @constructor
+ * @base ToolBase
  * @param toolNode      The node for this tool from the configuration document.
  * @param parentWidget  The widget object that contains this tool
  */

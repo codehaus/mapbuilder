@@ -10,6 +10,7 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * When this button is selected, clicks on the MapPane trigger a zoomIn to the 
  * currently set AOI.
  * @constructor
+ * @base ButtonBase
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
  * @param toolNode      The tool node from the Config XML file.
  * @param parentWidget  The ButtonBar widget.

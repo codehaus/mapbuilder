@@ -11,7 +11,9 @@ $Id$
  * about geography.
  *
  * @constructor
- *
+ * @base ToolBase
+ * @param toolNode The tool node from the Config XML file.
+ * @param parentWidget  The widget object that contains this tool.
  */
 
 function DragPanHandler(toolNode, parentWidget) {

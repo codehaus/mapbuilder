@@ -8,6 +8,8 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
 
 /**
  * When this button is pressed the map will reload with it's original extent
+ * @constructor
+ * @base ButtonBase
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
  * @param toolNode      The tool node from the Config XML file.
  * @param parentWidget  The ButtonBar widget.

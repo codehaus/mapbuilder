@@ -9,6 +9,7 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
 /**
  * When this button is selected, click and drag on the MapPane to recenter the map.
  * @constructor
+ * @base ButtonBase
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
  * @param toolNode      The tool node from the Config XML file.
  * @param parentWidget  The ButtonBar widget.
