@@ -177,15 +177,18 @@ function ModelBase(model, modelNode, parentModel) {
    * Load XML for a model from httpPayload event.
    * To update model data, use:<br/>
    * httpPayload=new Object();<br/>
-   * httpPayload.url=url;<br/>
+   * httpPayload.url="url" or null. If set to null, all dependant widgets
+   *   will be removed from the display.<br/>
    * httpPayload.httpMethod="post" or "get"<br/>
    * httpPayload.postData=XML or null<br/>
-   * this.targetModel.setParam("httpPayload", httpPayload);<br/>
    * @param modelRef    Pointer to the model object being loaded.
    * @param httpPayload an object tho fully specify the request to be made
    */
   this.newRequest = function(modelRef, httpPayload){
     modelRef.url = httpPayload.url;
+    if (!modelRef.url){
+      modelRef.doc=null;
+    }
     modelRef.method = httpPayload.method;
     modelRef.postData = httpPayload.postData;
     modelRef.loadModelDoc(modelRef);
