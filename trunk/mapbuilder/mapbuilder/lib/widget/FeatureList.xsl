@@ -118,7 +118,7 @@ $Name$
 
             value="{text()}"
 
-            onchange="config.{$targetModelId}.setXlinkValue(config.{$targetModelId},'{$xlink}',document.getElementById('{$targetModelId}{generate-id()}').value);"/>
+            onchange="config.{$targetModelId}.setXpathValue(config.{$targetModelId},'{$xlink}',document.getElementById('{$targetModelId}{generate-id()}').value);"/>
 
         </td>
 
