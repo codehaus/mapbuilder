@@ -43,14 +43,27 @@ function GetFeatureRequest(widgetNode, model) {
   this.issueRequest = function(targetModel) {
     //confirm inputs
     if (this.debug) alert("source:"+targetModel.featureNode.xml);
-    if (this.debug) alert("stylesheet:"+this.stylesheet.xslDom.xml);
+    //if (this.debug) alert("stylesheet:"+this.stylesheet.xslDom.xml);
 
     //process the doc with the stylesheet
     var httpPayload = new Object();
+    httpPayload.method = this.model.getMethod(targetModel.featureNode);
+    this.stylesheet.setParameter("httpMethod", httpPayload.method );
+    if (this.model.containerModel) {
+      var bBox = this.model.containerModel.getBoundingBox();
+      var bboxStr = bBox[0]+","+bBox[1]+","+bBox[2]+","+bBox[3];
+      alert(bboxStr);
+      this.stylesheet.setParameter("bbox", bboxStr );
+    }
     httpPayload.postData = this.stylesheet.transformNodeToObject(targetModel.featureNode);
     if (this.debug) alert("postData:"+httpPayload.postData.xml);
-    httpPayload.url = this.model.getServerUrl(targetModel.featureNode, "GetFeature");
-    httpPayload.method = "post";//this.model.getMethod(targetModel.featureNode);
+    httpPayload.url = this.model.getServerUrl(targetModel.featureNode, "DescribeFeatureType");
+    if (httpPayload.method.toLowerCase() == "get") {
+      var queryString = httpPayload.postData.selectSingleNode("//QueryString");
+      if (httpPayload.url.indexOf("?") < 0) httpPayload.url += "?";
+      httpPayload.url += queryString.firstChild.nodeValue;
+      httpPayload.postData = null;
+    }
     
     targetModel.setParam("httpPayload", httpPayload);
   }

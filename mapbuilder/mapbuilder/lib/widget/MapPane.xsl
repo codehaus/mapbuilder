@@ -57,9 +57,6 @@ $Name$
     </xsl:variable>
     <xsl:variable name="styleParam">
       <xsl:choose>
-        <xsl:when test="wmc:StyleList/wmc:Style[@current='1']/wmc:Name">
-          STYLES=<xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:Name"/>
-        </xsl:when>
         <xsl:when test="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD">
           SLD=<xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:OnlineResource/@xlink:href"/>
         </xsl:when>
@@ -69,7 +66,9 @@ $Name$
         <xsl:when test="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:FeatureTypeStyle">
           SLD=<xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:FeatureTypeStyle"/>
         </xsl:when>
-        <xsl:otherwise/>
+        <xsl:otherwise>
+          STYLES=<xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:Name"/>
+        </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
     <xsl:variable name="visibility">

@@ -27,7 +27,8 @@ function ModelUrlInput(widgetNode, model) {
   this.submitForm = function() {
     var httpPayload = new Object();
     httpPayload.url = this.urlInputForm.modelUrl.value;
-    var httpMethod = this.urlInputForm.httpMethod;
+    httpPayload.method = this.targetModel.getMethod();
+/*
     for (var i=0; i<httpMethod.length; ++i) {   //loop through radio buttons
       if (httpMethod[i].checked) {
         httpPayload.method = httpMethod[i].value;
@@ -40,7 +41,7 @@ function ModelUrlInput(widgetNode, model) {
         break;
       }
     }
-    
+*/    
     this.targetModel.setParam("httpPayload", httpPayload);
   }
 
@@ -69,13 +70,13 @@ function ModelUrlInput(widgetNode, model) {
   }
 
   /**
-   * initializes the widget values in the form
+   * initializes stylesheet parameters for the form
    * @param objRef Pointer to this widget object.
    */
-  this.init = function(objRef) {
+  this.prePaint = function(objRef) {
     objRef.stylesheet.setParameter("modelUrl", objRef.targetModel.url);
+    objRef.stylesheet.setParameter("modelTitle", objRef.targetModel.title);
   }
-  this.targetModel.addListener('newModel', this.init, this);
 
   /**
    * Refreshes the form and event handlers when this widget is painted.

@@ -33,12 +33,17 @@ function WidgetBase(widget,widgetNode,model) {
   this.paintMethod="xsl2html";
 
   //allow the widget output to be replaced on each paint call
-  var outputNodeId = widgetNode.selectSingleNode("mb:outputNodeId");
-  if ( outputNodeId ) {
-    this.outputNodeId = outputNodeId.firstChild.nodeValue;
+  var outputNode = widgetNode.selectSingleNode("mb:outputNodeId");
+  if ( outputNode ) {
+    this.outputNodeId = outputNode.firstChild.nodeValue;
   } else {
     this.outputNodeId = "MbWidget_" + mbIds.getId();
   }
+
+  //allow the widget output to be replaced on each paint call
+  this.autoRefresh = true;
+  var autoRefreshNode = widgetNode.selectSingleNode("mb:autoRefresh");
+  if ( autoRefreshNode ) this.autoRefresh = (autoRefreshNode.firstChild.nodeValue=="false")?false:true;
 
   /** Widget's Id defined in the Config (optional) */
   if (widgetNode.attributes.getNamedItem("id")) {
@@ -105,6 +110,7 @@ function WidgetBase(widget,widgetNode,model) {
 
   //all stylesheets will have these properties available
   this.stylesheet.setParameter("modelId", this.model.id );
+  this.stylesheet.setParameter("modelTitle", this.model.title );
   this.stylesheet.setParameter("targetModelId", this.targetModel.id );
   this.stylesheet.setParameter("widgetId", this.id );
   this.stylesheet.setParameter("skinDir", config.skinDir );
@@ -153,8 +159,8 @@ function WidgetBase(widget,widgetNode,model) {
    * Render the widget.
    * @param objRef Pointer to widget object.
    */
-  this.paint = function(objRef) {
-    if (objRef.model.doc && objRef.node && !objRef.override) {
+  this.paint = function(objRef, forceRefresh) {
+    if (objRef.model.doc && objRef.node && (objRef.autoRefresh||forceRefresh) && !objRef.override) {
 
       //if (objRef.debug) alert("source:"+objRef.model.doc.xml);
       objRef.resultDoc = objRef.model.doc; // resultDoc sometimes modified by prePaint()
@@ -162,7 +168,7 @@ function WidgetBase(widget,widgetNode,model) {
 
       //confirm inputs
       if (objRef.debug) alert("prepaint:"+objRef.resultDoc.xml);
-      if (objRef.debug) alert("stylesheet:"+objRef.stylesheet.xslDom.xml);
+      //if (objRef.debug) alert("stylesheet:"+objRef.stylesheet.xslDom.xml);
 
       //set to output to a temporary node
       //hack to get by doc parsing problem in IE
@@ -172,7 +178,8 @@ function WidgetBase(widget,widgetNode,model) {
       switch (objRef.paintMethod) {
         case "xsl2html":
           //process the doc with the stylesheet
-          s = objRef.stylesheet.transformNode(objRef.resultDoc);
+          var s = objRef.stylesheet.transformNode(objRef.resultDoc);
+          if (objRef.debug) postLoad("/mapbuilder/writeXml", s);
           if (objRef.debug) alert("painting:"+objRef.id+":"+s);
           tempNode.innerHTML = s;
           tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
@@ -186,14 +193,14 @@ function WidgetBase(widget,widgetNode,model) {
           }
           break;
         case "xsl2js":
-          jsNode = objRef.stylesheet.transformNodeToObject(objRef.resultDoc);
-          js=jsNode.firstChild.firstChild.nodeValue;
+          var jsNode = objRef.stylesheet.transformNodeToObject(objRef.resultDoc);
+          var js=jsNode.firstChild.firstChild.nodeValue;
           if (!outputNode) {
             tempNode.innerHTML = "<div>";
             tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
             objRef.node.appendChild(tempNode.firstChild);
           }
-          //alert("WidgetBase: js ="+js);
+          if (objRef.debug) alert("javascript eval:"+js);
           eval(js);
           break;
         default:
