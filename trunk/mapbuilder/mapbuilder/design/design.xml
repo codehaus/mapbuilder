@@ -108,10 +108,11 @@ I think the CMB should also provide logic for community editing of shared data
                 </listitem>
 
                 <listitem>
-                  <para>If Server Side scripts are used, then Unix Shell
-                  Scripts, Perl, or PHP should be used in preference to Java,
-                  C or C++ in order to target the tools usually provided by
-                  ISPs.</para>
+                  <para>If server side scripts are required, the server
+                  environments currently supported include: Perl, PHP, JSP.
+                  Contributions for equivalent functionality in other server
+                  environments is encouraged. Please see server dependancies
+                  (TBD link a section) for server requirements.</para>
                 </listitem>
               </orderedlist>
             </listitem>
@@ -331,7 +332,7 @@ I think the CMB should also provide logic for community editing of shared data
 
               <listitem>
                 <para>Views can display the same data in different ways. For
-                example, a Locater Map and Main Map both display the
+                example, a Locator Map and Main Map both display the
                 BoundingBox in different ways.</para>
               </listitem>
             </varlistentry>
@@ -470,8 +471,8 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
 
       <para>TBD Cameron 23 March 2004: We need to identify the key files that
       need updating when building a widget and show the relationship between
-      them. Ie, the main html file, config.xml, widgets, tools,
-      controllers.</para>
+      them. Ie, the main html file, config.xml, widgets, tools, controllers.
+      Mike: Let's do this in 3.2.7 below</para>
 
       <para>TBD: add picture of tree structure</para>
 
@@ -497,8 +498,7 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
         <example>
           <title>Example use of Object-Property-Value</title>
 
-          <programlisting>    &lt;Model id="collectionGroup"&gt;
-      &lt;modelType&gt;ContextCollection&lt;/modelType&gt;
+          <programlisting>    &lt;ContextCollection id="collectionGroup"&gt;
       &lt;defaultModelUrl&gt;context/demoCollection.ccml&lt;/defaultModelUrl&gt;
       &lt;widgets&gt;
         &lt;CollectionList id="collectionListId"&gt;
@@ -507,7 +507,7 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
           &lt;targetWidgetGroup&gt;mainMapGroup&lt;/targetWidgetGroup&gt;
         &lt;/CollectionList&gt;
       &lt;/widgets&gt;
-    &lt;/Model&gt;
+    &lt;/ContextCollection&gt;
 </programlisting>
         </example>
 
@@ -519,41 +519,39 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
       <section>
         <title>Config</title>
 
-        <para>The Config constructor must be called in the page &lt;HEAD&gt;
-        element and assigned to a global javascript object with the name
-        "mbConfig".</para>
+        <para>The Config object is the root of the object tree structure. The
+        Config constructor must be called in the page &lt;HEAD&gt; element and
+        assigned to a global javascript object with the name "mbConfig". This
+        is normally accomplished by ...</para>
 
         <programlisting>var mbConfig = new Config('configDocUrl');</programlisting>
 
-        <para>The constructor first loads all javascript files contained in
-        the config document and sets some application scope properties. The
-        configuration document is then parsed and each ModelGroup encountered
-        is instantiated in turn.</para>
+        <para>The constructor will first load all javascript files contained
+        in the config document and then set application scope properties.
+        </para>
 
-        <para>The Config object provides the init() and loadModel() methods.
-        The init() method is called once during body onload processing.</para>
+        <para>The Config object provides the <systemitem>init()</systemitem>
+        and <systemitem>loadModel()</systemitem> methods. </para>
 
-        <para><emphasis>loadModel()</emphasis> can be called at any time to
-        refresh the model for that ModelGroup.
-        <emphasis>loadModel</emphasis>() will create a javascript Model object
-        by retrieving the XML document at the specified URL and storing the
-        object as a property of the Model object.</para>
+        <para>The <systemitem>init() </systemitem>method is called once during
+        body onload processing. The configuration document is parsed and each
+        Model object encountered is instantiated in turn.</para>
+
+        <para>The <systemitem>loadModel()</systemitem> method can be called at
+        any time to refresh the model object by retrieving the XML document at
+        the specified URL and storing the object as the .doc property of the
+        Model object.</para>
 
         <programlisting>mbConfig.loadModel('modelGroupID', 'modelUrl');</programlisting>
 
-        <para>Then all Widgets in the ModelGroup are refreshed by this calling
-        sequence:</para>
+        <para>The Config object implements a "loadModel" listener array that
+        can be used to register models, widgets and tools that are interested
+        in when this model is refreshed from a URL, typically widgets of a
+        different Model object. </para>
 
-        <programlisting>var widget = new WidgetType()
-widget.loadTools();
-widget.paint();</programlisting>
-
-        <para>This is so that any tool which depends on the result of a
-        widget.paint() call can register a paintListener funciton with it's
-        parent widget.</para>
-
-        <para>Config.js calls widget and tool object constructors using the
-        config element node name.</para>
+        <para>TBD: put this in a file name convention section. Config.js calls
+        widget and tool object constructors using the config element node
+        name.</para>
 
         <para>TBD: Cameron 23 March 2004: I think we need to explain what the
         Config.xml is. I will create UML diagrams (Using Poseidon) for each of
@@ -561,43 +559,45 @@ widget.paint();</programlisting>
       </section>
 
       <section>
-        <title>ModelGroups</title>
+        <title>Models</title>
 
-        <para>A ModelGroup object represents a single instance of a model as
-        well as a set of any number of Widgets that are views of that model.
-        The type of the model created is specified using the modelType
-        property in config XML and the initial model URL to be loaded is
-        specified using the defaultModelURL property. The Model object can be
-        loaded at any time from a different URL using the Config.loadModel()
-        method.</para>
+        <para>The model object represents an single instance of an XML
+        document with properties and methods to access the document. A model
+        object must extend the ModelBase class, which provides some properties
+        and methods common to all models. </para>
 
-        <para>TBD: Cameron 23 March 2004: "ModelGroup is an instance of a
-        model"? I thought a model was a component of a ModelGroup.</para>
+        <para>The initial model URL to be loaded is specified using the
+        defaultModelURL property. The model object can be loaded from a
+        different URL at any time using the
+        <systemitem>mbConfig.loadModel()</systemitem> method.</para>
 
         <para>Each Model object is stored as a property of the global Config
         object using the ID provided for it in the configuration document.
-        These means that you can reference any ModelGroup object for
-        javascript links or in any method as:</para>
+        This means that you can reference any Model object (for javascript
+        links or in other objects) as:</para>
 
-        <programlisting>mbConfig['modelGroupID']</programlisting>
+        <programlisting>mbConfig['modelID']</programlisting>
 
-        <para>The ModelGroup ID is not used to link to any HTML element in the
+        <para>The modelID is not used to link to any HTML element in the
         page.</para>
 
-        <para>ModelGroups provide a loadModelListener array that can be used
-        to register widgets and tools that are interested in when the model
-        for this model group changes. These are typically widgets from a
-        separate ModelGroup</para>
-      </section>
+        <para>All models implement the loadModelDoc() and loadWidgets()
+        methods. Derived model types may implement their own custom
+        methods.</para>
 
-      <section>
-        <title>Models</title>
+        <para>loadModelDoc() will issue the HTTP request to retrieve an XML
+        document.</para>
 
-        <para>Model objects are javascript representations of an XML document.
-        You can reference any instance of a model by referencing the model
-        property of the ModelGroup object:</para>
+        <para>The loadWidgets() method instantiates all child widget objects
+        of the model. The tools of each widget are instantiated before the
+        widget is painted by calling WidgetBase's loadTools() method. This is
+        so that tools can register a "paint" listener function with it's
+        parent widget if required. </para>
 
-        <programlisting>mbConfig['modelGroupID'].model;</programlisting>
+        <para>Model objects provide a "loadWidget" listener array that can be
+        used to register widgets and tools that are interested in when this
+        model is refreshed from a URL, typically widgets of a different Model
+        object. </para>
 
         <para>Currently supported model types:</para>
 
@@ -625,6 +625,14 @@ widget.paint();</programlisting>
               <para>tom's location list stuff</para>
             </listitem>
           </varlistentry>
+
+          <varlistentry>
+            <term>WMS Capabilities</term>
+
+            <listitem>
+              <para>OGC Wep Map Server capabilities documents</para>
+            </listitem>
+          </varlistentry>
         </variablelist>
       </section>
 
@@ -634,22 +642,22 @@ widget.paint();</programlisting>
         <para>Widgets represent the views from the MVC design pattern. A
         Widget object must extend the WidgetBase class, which provides some
         properties and methods common to all widgets. Most important of these
-        is the paint method which renders the XML of the model to HTML using
+        is the paint() method which renders the XML of the model to HTML using
         the associated stylesheet.</para>
 
         <para>The HTML output of the stylesheet is then associated to an HTML
         page element via the ID attribute. This is how mapbuilder ties into
         the application HTML. The same ID attribute can be used on several
         widgets; in this case the contents of the HTML web page depends on how
-        the application programs wdiget.paint() calls.</para>
+        the application programs widget.paint() calls.</para>
 
         <para>A Widget object may have a tools property which consists of any
         number of Tool objects. A Tool object may be a controller or it may be
         something else, but it is essentially some code that is specific to
         that widget and for the purpose of supporting that widget.</para>
 
-        <para>All widgets have a paintListener array that can be used by tools
-        that are interested in when the widget is re-painted.</para>
+        <para>All widgets have a "paint" listener array that can be used by
+        tools that are interested in when the widget is re-painted.</para>
       </section>
 
       <section>
@@ -733,20 +741,19 @@ widget.paint();</programlisting>
           </listitem>
 
           <listitem>
-            <para>Add a new ModelGroup:</para>
+            <para>Add a new model:</para>
 
             <para>Only do this if the actual instance of the model you are
-            working with is not already represented as a ModelGroup in config.
-            Assign the ModelGroup an "id" attribute so that it can be
-            referenced using that id as the property name of mbConfig (e.g.
-            mbConfig['modelGroupId']). Add modelType and defaultModelUrl
-            properties to the ModelGroup: "modelType" is the model constructor
-            name and the defaultModelUrl property is the URL of the doument
-            that will be loaded by default.</para>
+            working with is not already represented as a Model in config.
+            Assign the Model an "id" attribute so that it can be referenced
+            using that id as the property name of mbConfig (e.g.
+            mbConfig['modelId']). Add defaultModelUrl properties to the Model
+            which is the URL of the doument that will be loaded by
+            default.</para>
           </listitem>
 
           <listitem>
-            <para>Add widgets to a ModelGroup:</para>
+            <para>Add widgets to a model:</para>
 
             <para>For each view of the model to be displayed on the web page,
             add a widget object to the &lt;widgets&gt; property. All widget
