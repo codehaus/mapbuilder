@@ -30,7 +30,8 @@ function DragPanHandler(toolNode, model) {
       if (objRef.dragging) {
         objRef.dragging = false;
 
-        //set new AOI in context
+        //set new AOI in context, only if it's been moved
+        if ((objRef.deltaP==0) && (objRef.deltaL==0)) return;
         var width = objRef.model.getWindowWidth();
         var height = objRef.model.getWindowHeight();
         var ul = objRef.model.extent.getXY( new Array( -objRef.deltaP, -objRef.deltaL) );  //(0,0) was the original ul AOI 
@@ -50,6 +51,8 @@ function DragPanHandler(toolNode, model) {
       //objRef.containerNode = document.getElementById( objRef.parentWidget.containerId );
       objRef.dragging = true;
       objRef.anchorPoint = targetNode.evpl;
+      objRef.deltaP = 0;
+      objRef.deltaL = 0;
     }
   }
 
