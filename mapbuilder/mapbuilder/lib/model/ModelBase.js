@@ -116,30 +116,37 @@ function ModelBase(model, modelNode, parentModel) {
     if (modelRef.url) {
       modelRef.callListeners( "newModel" );
 
-      if (modelRef.postData) {
-        //http POST
-        modelRef.doc = postLoad(modelRef.url,modelRef.postData);
-        if (modelRef.doc.parseError < 0){
-          alert("error loading document: " + modelRef.url + " - ");// + Sarissa.getParseErrorText(modelRef.doc) );
-        }
+      if (modelRef.contentType == "image") {
+        modelRef.doc = new Image();
+        modelRef.doc.src = modelRef.url;
       } else {
-        //http GET
-        modelRef.doc = Sarissa.getDomDocument();
-        modelRef.doc.async = false;
-        modelRef.doc.validateOnParse=false;  //IE6 SP2 parsing bug
-        var url=getProxyPlusUrl(modelRef.url);
-        modelRef.doc.load(url);
-        if (modelRef.doc.parseError < 0){
-          alert("error loading document: " + modelRef.url + " - " + Sarissa.getParseErrorText(modelRef.doc) );
+        if (modelRef.postData) {
+          //http POST
+          modelRef.doc = postLoad(modelRef.url,modelRef.postData);
+        } else {
+          //http GET
+          modelRef.doc = Sarissa.getDomDocument();
+          modelRef.doc.async = false;
+          modelRef.doc.validateOnParse=false;  //IE6 SP2 parsing bug
+          var url=getProxyPlusUrl(modelRef.url);
+          modelRef.doc.load(url);
         }
+
+        if (modelRef.doc.parseError < 0){
+          var message = "error loading document: " + modelRef.url;
+          if (modelRef.doc.documentElement) message += " - " +Sarissa.getParseErrorText(modelRef.doc);
+          alert(message);
+          return;
+        }
+
+        // the following two lines are needed for IE; set the namespace for selection
+        modelRef.doc.setProperty("SelectionLanguage", "XPath");
+        if (modelRef.namespace) Sarissa.setXpathNamespaces(modelRef.doc, modelRef.namespace);
       }
-      // the following two lines are needed for IE; set the namespace for selection
-      modelRef.doc.setProperty("SelectionLanguage", "XPath");
-      if (modelRef.namespace) Sarissa.setXpathNamespaces(modelRef.doc, modelRef.namespace);
 
       //call the loadModel event
       modelRef.callListeners("loadModel");
-    modelRef.callListeners("refresh");
+      modelRef.callListeners("refresh");
 
     } else {
       //no URL means this is a template model
@@ -171,63 +178,7 @@ function ModelBase(model, modelNode, parentModel) {
   model.newRequest = this.newRequest;
   model.addListener("httpPayload",model.newRequest, model);
 
-  /**
-   * create all the child model javascript objects for this model.
-   * A reference to the created model is stored as a js property of the model
-   * using the model's ID; so you can always get a reference to a widget by
-   * using: "config.modelId.subModelId..."
-   * Similarly, a reference to the model is added as a property of config so it 
-   * is also available as "config.subModelId"
-   */
-  this.loadModels = function() {
-    //loop through all child models of this one
-    var models = this.modelNode.selectNodes( "mb:models/*" );
-    for (var i=0; i<models.length; i++ ) {
-      var modelNode = models[i];
-
-      //instantiate the Model object
-      var modelType = modelNode.nodeName;
-      var evalStr = "new " + modelType + "(modelNode,this);";
-      var model = eval( evalStr );
-      if ( model ) {
-        this[model.id] = model;
-        config[model.id] = model;
-      } else { 
-        alert("error creating model object:" + modelType);
-      }
-    }
-  }
-  model.loadModels = this.loadModels;
-
-  /**
-   * create all the widget javascript objects and create any javascript tool 
-   * objects that each widget may have.
-   * A reference to the created widget is stored as a js property of the model
-   * using the widgets ID; so you can always get a reference to a widget by
-   * using: "config.modelId.widgetId"
-   */
-  this.loadWidgets = function() {
-    var widgets = this.modelNode.selectNodes("mb:widgets/*");
-    for (var j=0; j<widgets.length; j++) {
-      var widgetNode = widgets[j];
-      var widgetId = widgetNode.attributes.getNamedItem("id")
-      if (widgetId) widgetId = widgetId.nodeValue;
-      
-      //call the widget constructor
-      var evalStr = "new " + widgetNode.nodeName + "(widgetNode, this);";
-      widget = eval( evalStr );
-      if (widget) {
-        //store a reference and load the tools
-        this[widget.id] = widget;
-        widget.loadTools();
-      } else {
-        alert("error creating widget:" + widgetNode.nodeName);
-      }
-    }
-  }
-  model.loadWidgets = this.loadWidgets;
-
-  /**
+ /**
    * save the model by posting it to the serializeUrl, which is defined as a 
    * property of config.
    * @param objRef Pointer to this object.
@@ -255,6 +206,33 @@ function ModelBase(model, modelNode, parentModel) {
   }
 
   /**
+   * create all the child model javascript objects for this model.
+   * A reference to the created model is stored as a js property of the model
+   * using the model's ID; so you can always get a reference to a widget by
+   * using: "config.modelId.subModelId..."
+   * Similarly, a reference to the model is added as a property of config so it 
+   * is also available as "config.subModelId"
+   */
+  this.loadObjects = function(objectXpath) {
+    //loop through all child models of this one
+    var configObjects = this.modelNode.selectNodes( objectXpath );
+    for (var i=0; i<configObjects.length; i++ ) {
+      var configNode = configObjects[i];
+
+      //instantiate the Model object
+      var objectType = configNode.nodeName;
+      var evalStr = "new " + objectType + "(configNode,this);";
+      var newObject = eval( evalStr );
+      if ( newObject ) {
+        this[newObject.id] = newObject;
+      } else { 
+        alert("error creating object:" + objType);
+      }
+    }
+  }
+  model.loadObjects = this.loadObjects;
+
+  /**
    * Initialization of the javascript model and widget objects for this model. 
    * This doesn't call the document loading functions, only creates the javascript
    * objects
@@ -262,8 +240,9 @@ function ModelBase(model, modelNode, parentModel) {
    */
   model.init = function(modelRef) {
     if (!modelRef.template) {
-      modelRef.loadModels();
-      modelRef.loadWidgets();
+      modelRef.loadObjects("mb:models/*");
+      modelRef.loadObjects("mb:widgets/*");
+      modelRef.loadObjects("mb:tools/*");
     }
   }
 
