@@ -45,6 +45,10 @@
         <Legend id="legendId">
         </Legend>
         
+        <WidgetBase id="mapTitle">
+          <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
+        </WidgetBase>
+        
         <ButtonBar id="buttonBarId">  
           <tools>
             <ZoomIn id="zoomIn">
