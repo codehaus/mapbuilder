@@ -29,7 +29,7 @@ function Locations(context, name, node) {
     node.style.overflow="auto";
   }
   this.node=node;
-  this.locations2Select = new XslProcessor(this.context.baseDir+"/widget/locations/Locations2Select.xsl");
+  this.locations2Select = new XslProcessor(baseDir+"/widget/locations/Locations2Select.xsl");
 
   /**
    * Render the predefined locations into select box.
@@ -56,6 +56,9 @@ function Locations(context, name, node) {
 /*
  *
  * $Log$
+ * Revision 1.4  2004/04/03 11:15:50  camerons
+ * Use global baseDir variable
+ *
  * Revision 1.3  2004/04/03 10:29:49  camerons
  * WidgetBase.js now loaded when Widget scripts are loaded
  *

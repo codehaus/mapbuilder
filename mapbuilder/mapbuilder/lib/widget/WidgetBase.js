@@ -32,7 +32,7 @@ function WidgetBase(widgetNode, model) {
     var styleUrl;
     if ( styleNode ) styleUrl = styleNode.firstChild.nodeValue;
     else styleUrl = "widget/"+widgetNode.nodeName+".xsl";
-    this.stylesheet = new XslProcessor( config.baseDir + styleUrl);
+    this.stylesheet = new XslProcessor(baseDir+"/"+styleUrl);
 
     var targetGroup = widgetNode.selectSingleNode("targetWidgetGroup");
     if ( targetGroup ) this.targetGroup = targetGroup.firstChild.nodeValue;
