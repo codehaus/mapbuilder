@@ -19,21 +19,36 @@ $Id$
 function AoiMouseHandler(toolNode, parentWidget) {
   this.model = parentWidget.model;
 
+  /**
+   * Process a mouse action.
+   * @param objRef Pointer to this AoiMouseHandler object.
+   * @param targetNode The node for the enclosing HTML tag for this widget.
+   */
   this.mouseUpHandler = function( targetNode, objRef ) {
     if (objRef.started) objRef.started = false;
   }
 
-  this.mouseDownHandler = function( objRef,targetNode ) {
+  /**
+   * Process a mouse action.
+   * @param objRef Pointer to this AoiMouseHandler object.
+   * @param targetNode The node for the enclosing HTML tag for this widget.
+   */
+  this.mouseDownHandler = function(objRef,targetNode) {
     objRef.start(targetNode.evpl);
   }
 
-  this.mouseMoveHandler = function( targetNode, objRef ) {
+  /**
+   * Process a mouse action.
+   * @param objRef Pointer to this AoiMouseHandler object.
+   * @param targetNode The node for the enclosing HTML tag for this widget.
+   */
+  this.mouseMoveHandler = function(objRef,targetNode) {
     if (objRef.started) objRef.dragBox(targetNode.evpl);
   }
 
-/** called for starting a drag operation
-  * @param evpl    the coordinates to start the box at
-  * @return        none
+ /**
+  * Called for starting a drag operation.
+  * @param evpl the coordinates to start the box at
   */
   this.start = function(evpl) {
     this.anchorPoint = evpl;
@@ -44,7 +59,6 @@ function AoiMouseHandler(toolNode, parentWidget) {
 /** Change the coordinate of one corner of the box.  The initial upper left 
   * corner point stays fixed. 
   * @param evpl    new corner coordinate
-  * @return        none
   */
   this.dragBox = function( evpl ) {	
     var ul = new Array();
@@ -69,7 +83,7 @@ function AoiMouseHandler(toolNode, parentWidget) {
   }
 
   parentWidget.addListener('mousedown',this.mouseDownHandler,this);
-  parentWidget.addMouseListener('mouseMove', this.mouseMoveHandler, this );
+  parentWidget.addListener('mousemove', this.mouseMoveHandler, this );
   parentWidget.addMouseListener('mouseUp', this.mouseUpHandler, this );
 }
 

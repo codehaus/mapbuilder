@@ -50,7 +50,7 @@ function MapPane(widgetNode, group) {
     var containerNode = document.getElementById( objRef.containerId );
     containerNode.parentObject = objRef;
     containerNode.extent = objRef.model.extent;
-    containerNode.onmousemove = objRef.mouseMoveHandler;
+    containerNode.onmousemove = objRef.actionHandler;
     containerNode.onmouseout = objRef.mouseOutHandler;
     containerNode.onmouseover = objRef.mouseOverHandler;
     containerNode.onmousedown = objRef.actionHandler;
@@ -117,12 +117,10 @@ function MapPane(widgetNode, group) {
 
   this.mouseUpListeners = new Array();
 //  this.mouseDownListeners = new Array();
-  this.mouseMoveListeners = new Array();
   this.mouseOverListeners = new Array();
   this.mouseOutListeners = new Array();
   this.mouseUpObjects = new Array();
 //  this.mouseDownObjects = new Array();
-  this.mouseMoveObjects = new Array();
   this.mouseOverObjects = new Array();
   this.mouseOutObjects = new Array();
 
@@ -136,10 +134,6 @@ function MapPane(widgetNode, group) {
 //        this.mouseDownListeners.push( listener );
 //        this.mouseDownObjects.push( objRef );
 //        break;
-      case 'mouseMove':            //pan
-        this.mouseMoveListeners.push( listener );
-        this.mouseMoveObjects.push( objRef );
-        break;
       case 'mouseOver':				//setting AOI
         this.mouseOverListeners.push( listener );
         this.mouseOverObjects.push( objRef );
@@ -194,20 +188,6 @@ function MapPane(widgetNode, group) {
     this.getEvent(ev);
     for (var i=0; i<this.parentObject.mouseUpListeners.length; i++) {
       this.parentObject.mouseUpListeners[i]( this, this.parentObject.mouseUpObjects[i] );
-    }
-    if (window.event) {
-      window.event.returnValue = false;
-      window.event.cancelBubble = true;
-    } else {
-      ev.stopPropagation();
-    }
-    return false;
-  }
-
-  this.mouseMoveHandler=function(ev) {
-    this.getEvent(ev);
-    for (var i=0; i<this.parentObject.mouseMoveListeners.length; i++) {
-      this.parentObject.mouseMoveListeners[i]( this, this.parentObject.mouseMoveObjects[i] );
     }
     if (window.event) {
       window.event.returnValue = false;
