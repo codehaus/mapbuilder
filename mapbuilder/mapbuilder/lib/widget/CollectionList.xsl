@@ -50,10 +50,9 @@ $Name$
 
   <xsl:template match="/cml:ViewContextCollection">
 
-    Select a context to load:
 
     <UL>
-
+      Select a context to load:
       <xsl:apply-templates select="cml:ViewContextReference"/>
 
     </UL>
