@@ -83,7 +83,7 @@ function MapPane(context,baseDir) {
     if (e.hidden) {
       vis="hidden";
     }
-    document.getElementById(e.layerId).style.visibility=vis;
+    document.getElementById(e.layerIndex).style.visibility=vis;
   }
 
   this.context.addHiddenListener(this.hiddenListener);
