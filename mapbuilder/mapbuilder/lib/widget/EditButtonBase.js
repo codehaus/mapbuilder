@@ -26,12 +26,15 @@ function EditButtonBase(button,toolNode, model) {
   this.featureXpath=toolNode.selectSingleNode("mb:featureXpath").firstChild.nodeValue;
 
   /**
-   * Load the default GML feature sepecified in the config file.
+   * If tool is selected and the Edit Tool has changed (eg, changed from
+   * LineEdit to PointEdit) then load new default feature.
+   * This function is called when a tool is selected or deselected.
    * @param objRef Pointer to this object.
    * @param selected True when selected.
    */
   this.doSelect = function(selected,objRef) {
-    if (objRef.enabled && selected) {
+    if (objRef.enabled && selected && objRef.targetModel.url!=objRef.defaultModelUrl){
+      objRef.targetModel.url=objRef.defaultModelUrl;
       // load default GML
       var httpPayload=new Object();
       httpPayload.url=objRef.defaultModelUrl;
