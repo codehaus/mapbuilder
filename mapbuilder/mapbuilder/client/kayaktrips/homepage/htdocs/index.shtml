@@ -20,8 +20,8 @@ allow communities to jointly build geographic databases and share them over
 the web.  It will be particulary useful where geographic knowledge is spread
 across a large group of people.  For instance:</p>
 <ul>
+  <li>Mapping favourite off-street bicycle routes in a city.  (My personal interest in this project.)</li>
   <li>Collecting animal sitings</li>
-  <li>Mapping favourite off-street bicycle routes in a city</li>
   <li>Mapping bush fire and walking trails</li>
 </ul>
 
@@ -94,7 +94,7 @@ href="http://sourceforge.net/mail/?group_id=35246">http://sourceforge.net/mail/?
 
 <p>I look forward to hearing from you,</p>
 
-<p>Cameron Shorter, <a
+<p><a href="http://cameron.shorter.net">Cameron Shorter</a>, <a
 href="mailto:cameron@shorter.net">cameron@shorter.net</a></p>
 <!--#include file="bottom.inc" -->
 </body>
