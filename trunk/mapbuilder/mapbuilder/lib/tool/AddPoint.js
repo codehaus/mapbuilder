@@ -23,6 +23,13 @@ function AddPoint(toolNode, parentWidget) {
   // Extend ButtonBase
   var base = new ButtonBase(this, toolNode, parentWidget);
 
+  /** Empty GML to load when this tool is selected. */
+  this.defaultGml=toolNode.selectSingleNode("mb:defaultGml").firstChild.nodeValue;
+  /** Model to update when a feature is added. */
+  this.targetGml=toolNode.selectSingleNode("mb:targetGml").firstChild.nodeValue;
+  /** Reference to GML node to update when a feature is added. */
+  this.featureXlink=toolNode.selectSingleNode("mb:featureXlink").firstChild.nodeValue;
+
   /**
    * Add a point to the enclosing GML model.
    * @param objRef      Pointer to this object.
@@ -31,6 +38,23 @@ function AddPoint(toolNode, parentWidget) {
   this.doAction = function(objRef,targetNode) {
     if (objRef.enabled) {
       alert("AddPoint: Add functionality here");
+    }
+  }
+
+  /**
+   * Load the default GML feature sepecified in the config file.
+   * @param objRef Pointer to this object.
+   * @param selected True when selected.
+   */
+  this.doSelect = function(selected,objRef) {
+    if (objRef.enabled && selected) {
+      // load default GML
+      var httpPayload=new Object();
+      httpPayload.url=objRef.defaultGml;
+      httpPayload.method="get";
+      httpPayload.postData=null;
+      //objRef.parentWidget.targetModel.setParam("httpPayload",httpPayload);
+      eval("config."+this.targetGml+".setParam('httpPayload',httpPayload);");
     }
   }
 
