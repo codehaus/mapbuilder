@@ -40,7 +40,7 @@ function Config(url) {
       var initialModel = modelNode.selectSingleNode("defaultModelUrl");
       if ( initialModel ) {
         var evalStr = "new " + group.modelType + "('" + initialModel.firstChild.nodeValue + "');";
-        alert("group.loadModel eval:" + evalStr);
+        //alert("group.loadModel eval:" + evalStr);
         group.model = eval( evalStr );
         //send out an update event?
         group.model.modelIndex = config.modelArray.push( group.model ) - 1;  //or replace if it exists?

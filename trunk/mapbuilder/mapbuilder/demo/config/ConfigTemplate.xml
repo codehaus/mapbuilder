@@ -15,17 +15,17 @@
   <!--
   all scriptfile and stylesheets are prepended by this URL
   -->
-  <baseDir>../lib</baseDir>
+  <baseDir>../lib/</baseDir>
     
   <models>
 
     <ContextCollection>
-      <scriptFile>/model/Collection2.js</scriptFile>
+      <scriptFile>model/Collection2.js</scriptFile>
     </ContextCollection>
     
     <Context>
-      <scriptFile>/model/Context2.js</scriptFile>
-      <scriptFile>/model/Extent.js</scriptFile> 
+      <scriptFile>model/Context2.js</scriptFile>
+      <scriptFile>model/Extent.js</scriptFile> 
     </Context>
     
   </models>
@@ -39,9 +39,9 @@
       <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorMapId">
-          <scriptFile>/widget/mappane/MapPane2.js</scriptFile>
-          <stylesheet>/widget/mappane/Context2MapPane.xml</stylesheet>
-          <targetWidget>mainMapPaneId</targetWidget>
+          <scriptFile>widget/mappane/MapPane2.js</scriptFile>
+          <stylesheet>widget/mappane/Context2MapPane.xml</stylesheet>
+          <targetWidgetGroup>mainMapGroup</targetWidgetGroup>
         </MapPane>
       </widgets>
     </Model>
@@ -51,15 +51,14 @@
       <defaultModelUrl>context/atlasWorld.xml</defaultModelUrl>
       <widgets>
         <MapPane id="mainMapPaneId">
-          <scriptFile>/widget/mappane/MapPane2.js</scriptFile>
-          <stylesheet>/widget/mappane/Context2MapPane2.xml</stylesheet>
-          <!-- -->
-          <tools> 
+          <scriptFile>widget/mappane/MapPane2.js</scriptFile>
+          <stylesheet>widget/mappane/Context2MapPane2.xml</stylesheet>
+           <tools> 
             <GlassPane>  
-              <scriptFile>/widget/tool/GlassPane3.js</scriptFile>
+              <scriptFile>widget/tool/GlassPane3.js</scriptFile>
             </GlassPane>
             <AoiBox>
-              <scriptFile>/widget/tool/AoiBox2.js</scriptFile>
+              <scriptFile>widget/tool/AoiBox2.js</scriptFile>
               <lineColor>#FF000</lineColor>
               <lineWidth>2</lineWidth>
               <crossSize>9</crossSize>
@@ -68,13 +67,13 @@
         </MapPane>
         
         <Legend id="legendId">
-          <scriptFile>/widget/legend/Legend2.js</scriptFile>
-          <stylesheet>/widget/legend/Context2Legend2.xml</stylesheet>
+          <scriptFile>widget/legend/Legend2.js</scriptFile>
+          <stylesheet>widget/legend/Context2Legend2.xml</stylesheet>
         </Legend>
         
         <!-- further contained widgets     
         <ZoomTool id="zoomToolId">
-          <scriptFile>/widget/tool/ZoomTool2.js</scriptFile>
+          <scriptFile>widget/tool/ZoomTool2.js</scriptFile>
         </ZoomTool>
         
         <ButtonBar id="buttonBarId">
@@ -111,8 +110,8 @@
       <defaultModelUrl>context/demoCollection.ccml</defaultModelUrl>
       <widgets>
         <CollectionList id="collectionListId">
-          <scriptFile>/widget/collectionList/CollectionList2.js</scriptFile>
-          <stylesheet>/widget/collectionList/CollectionToList2.xsl</stylesheet>
+          <scriptFile>widget/collectionList/CollectionList2.js</scriptFile>
+          <stylesheet>widget/collectionList/CollectionToList2.xsl</stylesheet>
           <targetWidgetGroup>mainMapGroup</targetWidgetGroup>
         </CollectionList>
       </widgets>
