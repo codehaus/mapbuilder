@@ -49,13 +49,12 @@ function MapPane(context,baseDir) {
 //      "top",
 //      String(getAbsY(this.node)-1));
 
-//  This method not yet functional--likely because XSL is returning incorrect
-//  object.
+    // This method not yet functional--likely because XSL is returning incorrect object.
 
-//    result=this.wmcLayer2DhtmlLayer.transformNodeToObject(this.context.context);
-//    this.node.appendChild(result);
+    // result=this.wmcLayer2DhtmlLayer.transformNodeToObject(this.context.context);
+    // this.node.appendChild(result.documentElement);
 
-//  So, in meantime, return string instead...
+    //  So, in meantime, return string instead...
     s=this.wmcLayer2DhtmlLayer.transformNode(this.context.context);
     this.node.innerHTML=s;
 

@@ -10,8 +10,10 @@ $Id$
  * @constructor
  * @author Cameron Shorter cameronATshorter.net
  * @requires Sarissa
+ * @param url Url of context document
+ * @param skin Name of skin to use for look and feel
  */
-function Context(url) {
+function Context(url, skin) {
 
   /**
    * The Web Map Context Document.
@@ -22,7 +24,10 @@ function Context(url) {
   this.context.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
   this.context.setProperty("SelectionLanguage", "XPath");
   this.context.load(url);
-
+  if(skin==null){
+    skin="basic";
+  }
+  this.skin="skins/"+skin+"/";
   /*
   // Insert unique Ids into each Layer node.
   var layerNodeList=this.context.selectNodes("/ViewContext");
@@ -60,7 +65,7 @@ function Context(url) {
 
   /**
    * Add a Listener for bbox change.
-   * @param listener The fuction to call when the bbox changes.
+   * @param listener The function to call when the bbox changes.
    */
   this.addBboxChangeListener=function(listener,target) {
     this.bboxChangeListeners[this.bboxChangeListeners.length]=listener;
@@ -85,7 +90,6 @@ function Context(url) {
    */
   this.setHidden=function(layerIndex,hidden){
     // Set the hidden attribute in the Context
-
    layers=this.context.documentElement.getElementsByTagName("Layer");
    
    //disabled for now awaiting change in legend XSL assigning indexes (rather than names)
@@ -178,58 +182,7 @@ function Context(url) {
     win=this.context.documentElement.getElementsByTagName("Window").item(0);
     win.setAttribute("height", height);
   }
-  /**
-   * Zoom (reset the BoundingBox).
-   * @param action What action to take ("in" or "out").
-   */
-  this.zoom=function(action) {
-    percent=10/100;
-    var srs = this.getSRS();
-    var bbox=this.getBoundingBox();
-    geoWidth=parseFloat(bbox[2]-bbox[0]);
-    geoHeight=parseFloat(bbox[1]-bbox[3]);
-    switch(action){
-      case "in":
-        bbox[0]=bbox[0]+(geoWidth*percent);
-        bbox[2]=bbox[2]-(geoWidth*percent);
-        bbox[1]=bbox[1]-(geoHeight*percent);
-        bbox[3]=bbox[3]+(geoHeight*percent);
-        break;
-    }
-    this.setBoundingBox(bbox);
-  }
-  /**
-   * Pan (reset the BoundingBox) in a specified direction.
-   * @param dir The direction to pan in.
-   * @param percent Percentage to pan (of Window width).
-   */
-  this.panDir=function(dir, percent) {
-    if(percent == null){
-      percent=10;
-    }
-    percent=percent/100;
-    var srs = this.getSRS();
-    var bbox=this.getBoundingBox();
-    geoWidth=parseFloat(bbox[2]-bbox[0]);
-    geoHeight=parseFloat(bbox[1]-bbox[3]);
-    switch(dir){
-      case "w":
-        bbox[0]=(bbox[0])-(geoWidth*percent);
-        bbox[2]=(bbox[2])-(geoWidth*percent);
-        break;
-      default:
-        break;
-    }
-    if(srs == "EPSG:4326") {
-      if(bbox[0]<-180) {
-        bbox[2]=bbox[2]-(bbox[0]+180);
-        bbox[0]=-180;
-      }
-    }
-    this.setBoundingBox(bbox);
-  }
 }
-
 /**
  * The event sent when a Hidden attribute changes.
  * @constructor

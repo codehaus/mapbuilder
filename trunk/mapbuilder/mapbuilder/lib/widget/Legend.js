@@ -34,6 +34,9 @@ function Legend(context,baseDir) {
    * This function should be called at startup.
    */
   this.paint=function(){
+    // These two lines not yet working
+    // result=this.context2Legend.transformNodeToObject(this.context.context);
+    // this.node.appendChild(result.documentElement);
     s=this.context2Legend.transformNode(this.context.context);
     this.node.innerHTML=s;
   }
