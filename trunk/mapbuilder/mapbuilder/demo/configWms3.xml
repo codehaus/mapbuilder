@@ -19,8 +19,8 @@
   </views>
   <controllers>
     <ButtonBar id="ButtonBar">
-      <stylesheet>/widget/mappane/ButtonBar.xsl</stylesheet>
-      <scriptFile>/widget/tool/ButtonBar.js</scriptFile>
+      <stylesheet>/widget/tool/ButtonBar.xsl</stylesheet>
+      <scriptFile>/widget/tool/ButtonBar2.js</scriptFile>
       <buttonArray>
         <Button id="ZoomInButton">
           <enabledSrc>/images/zoomIn_en.gif</enabledSrc>
