@@ -10,9 +10,9 @@ $Id$
  * mime type of the model document is probably be an image type.
  * tbd: this still needed?
  * @constructor
- * @base WidgetBase
+ * @base ModelBase
  * @param modelNode  The model's XML object node from the configuration document.
- * @param model      The model object that this widget belongs to.
+ * @param parent The model object that this model belongs to.
  */
 function GetMap(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
