@@ -34,6 +34,17 @@ function ModelBase(modelNode, parent) {
     // the following two lines are needed for IE
     this.doc.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
     this.doc.setProperty("SelectionLanguage", "XPath");
+
+    //check to see if this is coming from a different domain, if so use the proxy URL
+    if ( url.indexOf("http://")==0 ) {
+      if ( config.proxyUrl ) {
+        url = config.proxyUrl + url;
+        //alert("external URL:" + url );
+      } else {
+        alert("unable to load external document:"+url+"  Set the proxyUrl property in config.");
+      }
+    }
+
     this.doc.load(url);
     if ( this.doc.parseError < 0 ) alert("error loading document: " + url);
 

@@ -15,6 +15,7 @@
     This dir is relative the dir of the main html file.
   -->
   <skinDir>../lib/skin/default</skinDir>
+  <proxyUrl>/ql2/proxy?url=</proxyUrl>
 
   <models>
 
