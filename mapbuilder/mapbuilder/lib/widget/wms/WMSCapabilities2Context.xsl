@@ -12,8 +12,21 @@ Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 
   <xsl:output method="xml" encoding="utf-8"/>
 
+    <xsl:param name="wmsVersion">
+        <xsl:value-of select="/WMT_MS_Capabilities/@version"/>    
+    </xsl:param>
+    <xsl:param name="wmsTitle">
+        <xsl:value-of select="/WMT_MS_Capabilities/Service/Title"/>    
+    </xsl:param>
+    <xsl:param name="wmsOnlineResource">
+        <xsl:value-of select="/WMT_MS_Capabilities/Capability/Request/GetMap/DCPType/HTTP/Get/OnlineResource/@xlink:href"/>    
+    </xsl:param>
+    <xsl:param name="wmsSrs">
+        <xsl:value-of select="/WMT_MS_Capabilities/Capability/Layer/SRS"/>    
+    </xsl:param>
+
   <xsl:template match="/">
-<ViewContext version="1.0.0"
+  <ViewContext version="1.0.0"
 			    id="eos_data_gateways"
 			    xmlns="http://www.opengis.net/context"
 			    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -21,40 +34,49 @@ Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 			    xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengis.net/context/1.0.0/context.xsd">
 	<General>
 	</General>
-    <xsl:param name="wmsVersion">
-        <xsl:value-of select="WMT_MS_Capabilities/@version"/>    
-    </xsl:param>
-    <xsl:param name="wmsTitle">
-        <xsl:value-of select="Service/Title"/>    
-    </xsl:param>
-    <xsl:param name="wmsOnlineResource">
-        <xsl:value-of select="Capability/Request/GetMap/DCPType/HTTP/Get/OnlineResource/@xlink:href"/>    
-    </xsl:param>
-    <xsl:param name="wmsSrs">
-        <xsl:value-of select="Capability/Layer/SRS"/>    
-    </xsl:param>
     <LayerList>
-    <xsl:apply-templates/>
+      <xsl:apply-templates select="/WMT_MS_Capabilities/Capability/Layer/Layer"/>
     </LayerList>
 </ViewContext>
   </xsl:template>
 
   <!-- Layer -->
-  <xsl:template match="Capability/Layer/Layer">
+  <xsl:template match="Layer">
     <xsl:param name="queryable">
         <xsl:value-of select="@queryable"/>    
     </xsl:param>
     <xsl:param name="layerSrs">
-        <xsl:value-of select="/SRS"/>    
+        <xsl:value-of select="SRS"/>    
     </xsl:param>
-      <Layer queryable="<xsl:value-of select="$queryable"/>" hidden="0">
-        <Server service="OGC:WMS" version="<xsl:value-of select="$wmsVersion"/>" title="<xsl:value-of select="$wmsTitle"/>">
-          <OnlineResource xlink:type="simple" xlink:href="<xsl:value-of select="$wmsOnlineResource"/>"/>
-        </Server>
-
-        <Name><xsl:value-of select="/Name"/></Name>
-        <Title><xsl:value-of select="/Title"/></Title>
-        <Abstract><xsl:value-of select="/Abstract"/></Abstract>
+    <xsl:element name="Layer">
+      <xsl:attribute name="queryable">
+        <xsl:value-of select="$queryable"/>
+      </xsl:attribute>
+      <xsl:attribute name="hidden">
+        <xsl:text>0</xsl:text>
+      </xsl:attribute>
+      <xsl:element name="Server">
+        <xsl:attribute name="service">
+          <xsl:text>OGC:WMS</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="version">
+          <xsl:value-of select="$wmsVersion"/>
+        </xsl:attribute>
+        <xsl:attribute name="title">
+          <xsl:value-of select="$wmsTitle"/>
+        </xsl:attribute>
+        <xsl:element name="OnlineResource">
+          <xsl:attribute name="xlink:type">
+            <xsl:text>simple</xsl:text>
+          </xsl:attribute>
+          <xsl:attribute name="xlink:href">
+            <xsl:value-of select="$wmsOnlineResource"/>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+        <Name><xsl:value-of select="Name"/></Name>
+        <Title><xsl:value-of select="Title"/></Title>
+        <Abstract><xsl:value-of select="Abstract"/></Abstract>
         <xsl:if test="$layerSrs=''">
           <xsl:param name="layerSrs">
               <xsl:value-of select="$wmsSrs"/>    
@@ -64,6 +86,6 @@ Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
         <FormatList>
         	<Format current="1">image/png</Format>
         </FormatList>
-      </Layer>
+    </xsl:element>
   </xsl:template>
 </xsl:stylesheet>
