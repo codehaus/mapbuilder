@@ -75,7 +75,7 @@
       </widgets>
     </Context>
       
-    <Context id="locatorMap">
+    <Context id="locator">
       <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorMap">
