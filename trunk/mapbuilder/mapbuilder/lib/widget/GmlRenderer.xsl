@@ -30,8 +30,7 @@ $Name$
 
   <!-- Root node -->
   <xsl:template match="/">
-    <!--div style="width: {$width}px; height: {$height}px; overflow: hidden"-->
-      <div style="position:relative; width:{$width}; height:{$height}">
+    <div style="position:relative; width:{$width}; height:{$height}">
       <xsl:apply-templates/>
     </div>
   </xsl:template>
