@@ -7,12 +7,14 @@ $Id$
 
 /**
  * Tools to build a CollectionList from a Web Map Context.
+ * This widget extends WidgetBase.
  * @constructor
  * @param collectionUrl The CollectionList to show.
  * @param name Variable name referencing this CollectionList object
  * @param node Node from the HTML DOM to insert list HTML into.
  * @requires Sarissa
  * @requires Util
+ * @see WidgetBase
  */
 
 function CollectionList(widgetNode, group) {

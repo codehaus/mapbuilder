@@ -5,6 +5,7 @@ $Id$
 
 /**
  * Functions to render and update a Legend from a Web Map Context.
+ * This widget extends WidgetBase.
  * @constructor
  * @author Cameron Shorter cameronATshorter.net
  * @constructor
@@ -14,6 +15,7 @@ $Id$
  * @param context The Web Map Context which contains the state of this legend.
  * @param name Variable name referencing this Legend object
  * @param node Node from the HTML DOM to insert legend HTML into.
+ * @see WidgetBase
  */
 function Legend(widgetNode, group) {
   var base = new WidgetBase(widgetNode, group);
