@@ -63,7 +63,7 @@ function MapPane(context, name, node) {
     // this.node.appendChild(result.documentElement);
 
     //  So, in meantime, return string instead...
-    s=this.wmcLayer2DhtmlLayer.transformNode(this.context.context);
+    var s = this.wmcLayer2DhtmlLayer.transformNode(this.context.context);
     this.node.innerHTML=s;
 
     this.setClip();

@@ -15,31 +15,51 @@ $Id$
  *
  * @param viewNode    the view object node to attach the RoiBox to.
  */
-function ButtonBar2(controller, node) {
+function ButtonBar(controller, skin) {
   this.mapController = controller;
   this.EnabledIcon = null;
-  this.node = node;
-  var buttonBarConfig = config.doc.selectSingleNode("/MapbuilderConfig/controllers/ButtonBar");
-
-  var stylesheet = config.baseDir + buttonBarConfig.selectSingleNode("stylesheet").firstChild.nodeValue;
-  this.stylesheet = new XslProcessor(stylesheet);
-  var s = this.stylesheet.transformNode(config.doc);
-  this.node.innerHTML=s;
 
   //pre-load the button bar images
-/*  this.ModeImagesEn = new Array();
-  this.ModeImagesDis = new Array();
-  var buttonNodes = buttonBarEl.selectNodes("buttonArray/Button");
-  for (var i = 0; i<buttonNodes.length; i++) {
+  this.ModeImagesEn = new Array();
   this.ModeImagesEn[MODE_ZOOM_IN] = new Image();
   this.ModeImagesEn[MODE_ZOOM_IN].src = skin+"images/zoom_in_en.gif";
+  this.ModeImagesEn[MODE_ZOOM_OUT] = new Image();
+  this.ModeImagesEn[MODE_ZOOM_OUT].src = skin+"images/zoom_out_en.gif";
+  this.ModeImagesEn[MODE_PAN] = new Image();
+  this.ModeImagesEn[MODE_PAN].src = skin+"images/pan_en.gif";
+  this.ModeImagesEn[MODE_SET_ROI] = new Image();
+  this.ModeImagesEn[MODE_SET_ROI].src = skin+"images/setAOI_en.gif";
+  this.ModeImagesEn[MODE_GETFEATUREINFO] = new Image();
+  this.ModeImagesEn[MODE_GETFEATUREINFO].src = skin+"images/query_en.gif";
+
+  this.ModeImagesDis = new Array();
   this.ModeImagesDis[MODE_ZOOM_IN] = new Image();
   this.ModeImagesDis[MODE_ZOOM_IN].src = skin+"images/zoom_in_dis.gif";
+  this.ModeImagesDis[MODE_ZOOM_OUT] = new Image();
+  this.ModeImagesDis[MODE_ZOOM_OUT].src = skin+"images/zoom_out_dis.gif";
+  this.ModeImagesDis[MODE_PAN] = new Image();
+  this.ModeImagesDis[MODE_PAN].src = skin+"images/pan_dis.gif";
+  this.ModeImagesDis[MODE_SET_ROI] = new Image();
+  this.ModeImagesDis[MODE_SET_ROI].src = skin+"images/setAOI_dis.gif";
+  this.ModeImagesDis[MODE_GETFEATUREINFO] = new Image();
+  this.ModeImagesDis[MODE_GETFEATUREINFO].src = skin+"images/query_dis.gif";
+
   var icon = document.getElementById("ZoomInButton");
   icon.src = this.ModeImagesDis[MODE_ZOOM_IN].src;
   icon.title = "click and drag to zoom in";
-  }
-*/
+  icon = document.getElementById("ZoomOutButton");
+  icon.src = this.ModeImagesDis[MODE_ZOOM_OUT].src;
+  icon.title = "click to zoom out";
+  icon = document.getElementById("PanButton");
+  icon.src = this.ModeImagesDis[MODE_PAN].src;
+  icon.title = "click and drag to pan";
+  icon = document.getElementById("SetRoiButton");
+  icon.src = this.ModeImagesDis[MODE_SET_ROI].src;
+  icon.title = "click and drag to set the area of interest";
+  icon = document.getElementById("QueryButton");
+  icon.src = this.ModeImagesDis[MODE_GETFEATUREINFO].src;
+  icon.title = "click to query the layer";
+
   this.setMode = function(mode) {
     if (this.EnabledIcon) this.EnabledIcon.src = this.ModeImagesDis[this.mode].src;
     this.mode = mode;

@@ -12,6 +12,7 @@ function Config(url) {
   this.doc.async = false;
   // the following two lines are needed for IE
   this.doc.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
+  //this.doc.setProperty("SelectionNamespaces", "xmlns:mb='http://mapbuilder.sourceforge.net/config'");
   this.doc.setProperty("SelectionLanguage", "XPath");
   this.doc.load(url);
 
