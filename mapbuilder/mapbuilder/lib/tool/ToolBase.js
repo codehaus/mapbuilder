@@ -53,10 +53,6 @@ function ToolBase(tool, toolNode, parentWidget) {
   }
   tool.initModels = this.initModels;
   tool.parentWidget.targetModel.addListener( "loadModel", tool.initModels, tool );
-  //tool.initModels(tool);
-
-  //dependant tools that must be enabled/disabled when this tool is enabled
-  tool.dependancies = toolNode.getElementsByTagName("dependsOn");
 
   //tools enabled by default; can set to false in config for initial loading
   tool.enabled = true;    
@@ -69,12 +65,10 @@ function ToolBase(tool, toolNode, parentWidget) {
    */
   this.enable = function(enabled) {
     this.enabled = enabled;
-    for (var i=0; i<this.dependancies.length; ++i) {
-      var otherTool = eval("config."+this.dependancies[i].firstChild.nodeValue);
-      if (otherTool) {
+    if (this.dependancies){
+      for (var i=0; i<this.dependancies.length; ++i) {
+        var otherTool = eval(this.objEvalStr+"."+this.dependancies[i]);
         otherTool.enable(enabled);
-      } else {
-        alert("invalid dependsOn reference in config:" + this.dependancies[i].firstChild.nodeValue);
       }
     }
   }

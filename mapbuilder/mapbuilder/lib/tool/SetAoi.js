@@ -15,6 +15,10 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * @param parentWidget  The ButtonBar widget.
  */
 function SetAoi(toolNode, parentWidget) {
+  /** Other required tools. */
+  this.dependancies=["AoiMouseHandler"];
+
+  // Extend ButtonBase
   var base = new ButtonBase(this, toolNode, parentWidget);
 
   /**
