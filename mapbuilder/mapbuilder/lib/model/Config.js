@@ -117,4 +117,6 @@ function Config(url) {
   this.loadConfigScripts();
 }
 
+// TBD Move following line to Mapbuilder.js
 config=new Config(mbConfigUrl);
+//config=1;
