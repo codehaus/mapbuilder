@@ -289,6 +289,17 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:complexType name="EditLineType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractButtonType">
+				<xs:sequence>
+					<xs:element name="targetGml" type="xs:string"/>
+					<xs:element name="defaultModelUrl" type="xs:string"/>
+					<xs:element name="featureXpath" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 		<xs:complexType name="SaveType">
 		<xs:complexContent>
 			<xs:extension base="mb:AbstractButtonType">
