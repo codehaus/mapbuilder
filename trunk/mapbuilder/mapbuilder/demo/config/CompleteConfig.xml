@@ -239,8 +239,8 @@
           <enabledSrc>/images/AddPointEnable.gif</enabledSrc>
           <disabledSrc>/images/AddPointDisable.gif</disabledSrc>
           <targetGml>testGml</targetGml>
-          <defaultGml>gml/defaultAddPoint.xml</defaultGml>
-          <featureXlink>gml:featureMember/points/_SHAPE_/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXlink>
+          <defaultModelUrl>gml/defaultAddPoint.xml</defaultModelUrl>
+          <featureXpath>gml:featureMember/points/_SHAPE_/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
           <tooltip xml:lang="en">click on map to create a point feature</tooltip>
           <tooltip xml:lang="fr">click on map to create a point feature</tooltip>
         </AddPoint>
