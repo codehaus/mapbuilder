@@ -18,12 +18,19 @@ function Reset(toolNode, parentWidget) {
     this[sProperty] = base[sProperty]; 
   } 
 
+  //store a copy of the original extent
+  this.originalExtent = new Extent( this.targetModel );   
+  this.originalExtent.init( this.originalExtent );
+
   /**
    * Calls the reset() method of the context doc to reload at with the original extent
    * @param objRef      Pointer to this AoiMouseHandler object.
    * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
   this.doAction = function(objRef,targetNode) {
-    objRef.targetModel.extent.Reset();
+    var originalExtent = objRef.originalExtent;
+    objRef.targetModel.extent.CenterAt( originalExtent.GetCenter(), originalExtent.res[0] );
   }
 }
+
+
