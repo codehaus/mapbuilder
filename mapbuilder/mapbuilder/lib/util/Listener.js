@@ -44,9 +44,8 @@ function Listener(objRef) {
   this.callListeners=function(param,value) {
     if (this.listeners[param]){
       for(var i=0;i<this.listeners[param].length;i++){
-        var fn = this.listeners[param][i][0];
-        // listener(target,value);
         if (window.logger) logger.logEvent(param,this.id,this.listeners[param][i][1].id,value);
+        //this is listenerFunction(target,value)
         this.listeners[param][i][0](this.listeners[param][i][1],value);
       }
     }
