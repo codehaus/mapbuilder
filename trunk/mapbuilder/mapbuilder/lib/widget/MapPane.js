@@ -36,24 +36,25 @@ function MapPane(widgetNode, group) {
   /**
    * Define mouse and key handler functions for the MapPane.  This function should
    * be called after each paint since the <DIV> tag is recreated after each paint.
-   * @param objRef XML reference of MapPane's containing <DIV> tag.
+   * @param objRef The MapPane object.
    */
   this.setContainerNodeHandlers = function(objRef) {
     //reset these on a paint because the containerNode is created on paint
     //these added to the containerNode because they will be referenced in that context
-    objRef.containerNode = document.getElementById( objRef.containerId );
-    objRef.containerNode.parentObject = objRef;
-    objRef.containerNode.extent = objRef.model.extent;
-    objRef.containerNode.onmousemove = mouseMoveHandler;
-    objRef.containerNode.onmouseout = mouseOutHandler;
-    objRef.containerNode.onmouseover = mouseOverHandler;
-    objRef.containerNode.onmousedown = mouseDownHandler;
-    objRef.containerNode.onmouseup = mouseUpHandler;
-    objRef.containerNode.getEvent = getEvent;
+    var containerNode = document.getElementById( objRef.containerId );
+    containerNode.parentObject = objRef;
+    containerNode.extent = objRef.model.extent;
+    containerNode.onmousemove = mouseMoveHandler;
+    containerNode.onmouseout = mouseOutHandler;
+    containerNode.onmouseover = mouseOverHandler;
+    containerNode.onmousedown = mouseDownHandler;
+    containerNode.onmouseup = mouseUpHandler;
+    containerNode.getEvent = getEvent;
   }
 
   /**
    * TBD: Comment me.
+   * @param objRef MapPane's containing <DIV> tag as an XML node.
    */
   this.setClip=function(objRef){
     width=objRef.model.getWindowWidth();
