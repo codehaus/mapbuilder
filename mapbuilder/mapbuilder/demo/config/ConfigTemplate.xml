@@ -68,45 +68,18 @@
               <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
             </AoiMouseHandler>
 
+            <!-- 
             <ZoomInHandler>
               <scriptFile>widget/tool/ZoomTool3.js</scriptFile>
               <modeValue>MODE_ZOOM_IN</modeValue>
             </ZoomInHandler>
+            -->
 
             <CursorTrack>
               <scriptFile>widget/tool/CursorTrack.js</scriptFile>
               <scriptFile>model/Proj.js</scriptFile>
               <formName>MapDisplayForm</formName>
             </CursorTrack>
-
-            <!-- not yet working; uncomment this to try it out
-            <ButtonBar id="buttonBarId">  
-              <stylesheet>/widget/buttonbar/ButtonBar2.xsl</stylesheet>
-              <scriptFile>/widget/buttonbar/ButtonBar3.js</scriptFile>
-              <modalButtons>true</modalButtons>
-              <initialMode>MODE_ZOOM_IN</initialMode>
-              <buttons>
-                <Button id="ZoomInButton">
-                  <enabledSrc>/images/zoom_in_en.gif</enabledSrc>
-                  <disabledSrc>/images/zoom_in_dis.gif</disabledSrc>
-                  <tooltip>click and drag to zoom in</tooltip>
-                  <modeValue>MODE_ZOOM_IN</modeValue>
-                </Button>
-                <Button id="ZoomOutButton">
-                  <enabledSrc>/images/zoom_out_en.gif</enabledSrc>
-                  <disabledSrc>/images/zoom_out_dis.gif</disabledSrc>
-                  <tooltip>click to zoom out</tooltip>
-                  <modeValue>MODE_ZOOM_OUT</modeValue>
-                </Button>
-                <Button id="ResetButton">
-                  <enabledSrc>/images/reset_extent_en.gif</enabledSrc>
-                  <disabledSrc>/images/reset_extent_dis.gif</disabledSrc>
-                  <tooltip>reset the map to full extent</tooltip>
-                  <modeValue>MODE_RESET</modeValue>
-                </Button>
-              </buttons>
-            </ButtonBar>
-             -->
 
             <ToolList id="toolListId">
               <stylesheet>/widget/toollist/Config2ToolList.xsl</stylesheet>
@@ -140,6 +113,35 @@
           <stylesheet>widget/legend/Context2Legend2.xml</stylesheet>
         </Legend>
         
+        <!-- not yet working; uncomment this to try it out
+        <ButtonBar id="buttonBarId">  
+          <stylesheet>/widget/buttonbar/ButtonBar2.xsl</stylesheet>
+          <scriptFile>/widget/buttonbar/ButtonBar3.js</scriptFile>
+          <mouseWidget>MapPane</mouseWidget>
+          <initialMode>MODE_ZOOM_IN</initialMode>
+          <tools>
+            <Button id="ZoomInButton">
+              <enabledSrc>/images/zoom_in_en.gif</enabledSrc>
+              <disabledSrc>/images/zoom_in_dis.gif</disabledSrc>
+              <tooltip>click and drag to zoom in</tooltip>
+              <modeValue>MODE_ZOOM_IN</modeValue>
+            </Button>
+            <Button id="ZoomOutButton">
+              <enabledSrc>/images/zoom_out_en.gif</enabledSrc>
+              <disabledSrc>/images/zoom_out_dis.gif</disabledSrc>
+              <tooltip>click to zoom out</tooltip>
+              <modeValue>MODE_ZOOM_OUT</modeValue>
+            </Button>
+            <Button id="ResetButton">
+              <enabledSrc>/images/reset_extent_en.gif</enabledSrc>
+              <disabledSrc>/images/reset_extent_dis.gif</disabledSrc>
+              <tooltip>reset the map to full extent</tooltip>
+              <modeValue>MODE_RESET</modeValue>
+            </Button>
+          </tools>
+        </ButtonBar>
+         -->
+
       </widgets>
     </Model>
       
