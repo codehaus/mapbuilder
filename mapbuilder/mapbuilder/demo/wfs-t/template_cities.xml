@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!-- $Id$ -->
-<gml:featureMember version="1.0.0"  xmlns:gml="http://www.opengis.net/gml">
+<gml:featureMember xmlns:topp="http://www.openplans.org/topp" xmlns:gml="http://www.opengis.net/gml">
   <topp:tasmania_cities>
     <topp:the_geom>
-      <gml:MultiPoint srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+      <gml:MultiPoint srsName="epsg:4326">
         <gml:pointMember>
           <gml:Point>
             <gml:coordinates decimal="." cs="," ts=" "></gml:coordinates>
