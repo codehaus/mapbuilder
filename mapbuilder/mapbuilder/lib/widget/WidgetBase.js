@@ -6,7 +6,6 @@ $Id$
 /**
  * Base Class for widgets.  Associates a node on the page with a stylesheet and
  * model.  All widgets must extend this base class.
- * TBD: find a way to use the .prototype property to do inheritance.
  * Defines the default paint() method for all widgets which is where the 
  * stylesheet is applied to the model XML document.
  * The stylesheet URL defaults to "widget/<widgetName>.xsl" if it is not defined
@@ -26,32 +25,38 @@ function WidgetBase(widgetNode, model) {
     this[sProperty] = listener[sProperty]; 
   } 
 
-  //set some properties
-  this.id = widgetNode.attributes.getNamedItem("id").nodeValue;
-  this.node = document.getElementById( this.id );
-  if( this.node==null ) {
-    alert("HTML node for " + widgetNode.nodeName + " not found: id:" + this.id);
-  }
   this.model = model;
   this.widgetNode = widgetNode;
+  /** Widget's Id defined in the Config */
+  this.id = widgetNode.attributes.getNamedItem("id").nodeValue;
 
-  // Set this.stylesheet
-  // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
-  var styleNode = widgetNode.selectSingleNode("stylesheet");
-  var styleUrl;
-  if ( styleNode ) styleUrl = styleNode.firstChild.nodeValue;
-  else styleUrl = baseDir+"/widget/"+widgetNode.nodeName+".xsl";
-  this.stylesheet = new XslProcessor(styleUrl);
+  // Node in main HTML to attach widget to.
+  var anchorNode = document.getElementById(this.id);
+  if(anchorNode==null) {
+    alert("HTML node for " + widgetNode.nodeName + " not found: id:" + this.id);
+  }else{
+    /** HTML root <div> node for this widget */
+    this.node=document.createElement("DIV");
+    anchorNode.appendChild(this.node);
 
-  //set the target model
-  var targetModel = widgetNode.selectSingleNode("targetModel");
-  if (targetModel) {
-    this.targetModel = eval("config."+targetModel.firstChild.nodeValue);
-    if ( !this.targetModel ) {
-      alert("error finding targetModel:" + targetModel + " for:" + this.id);
-    } 
-  } else {
-    this.targetModel = this.model;
+    // Set this.stylesheet
+    // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
+    var styleNode = widgetNode.selectSingleNode("stylesheet");
+    var styleUrl;
+    if ( styleNode ) styleUrl = styleNode.firstChild.nodeValue;
+    else styleUrl = baseDir+"/widget/"+widgetNode.nodeName+".xsl";
+    this.stylesheet = new XslProcessor(styleUrl);
+
+    //set the target model
+    var targetModel = widgetNode.selectSingleNode("targetModel");
+    if (targetModel) {
+      this.targetModel = eval("config."+targetModel.firstChild.nodeValue);
+      if ( !this.targetModel ) {
+        alert("error finding targetModel:" + targetModel + " for:" + this.id);
+      } 
+    } else {
+      this.targetModel = this.model;
+    }
   }
 
   //all stylesheets will have these properties available
