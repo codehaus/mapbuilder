@@ -31,7 +31,6 @@ function GmlRenderer(widgetNode, model) {
    * @param objRef Pointer to this object.
    */
   this.prePaint = function(objRef) {
-    alert("prePaint1");
     objRef.stylesheet.setParameter("width", objRef.targetModel.getWindowWidth() );
     objRef.stylesheet.setParameter("height", objRef.targetModel.getWindowHeight() );
     bBox=objRef.targetModel.getBoundingBox();
@@ -41,7 +40,6 @@ function GmlRenderer(widgetNode, model) {
     objRef.stylesheet.setParameter("bBoxMaxY", bBox[3] );
 
     objRef.resultDoc = objRef.coordXsl.transformNodeToObject(objRef.resultDoc);
-    alert("prePaint resultDoc="+objRef.resultDoc.xml);
   }
 
   // Call paint() when the context changes
