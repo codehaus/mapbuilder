@@ -67,9 +67,7 @@ $Name$
     <xsl:param name="baseUrl">
         <xsl:value-of select="wmc:Server/wmc:OnlineResource/@xlink:href"/>    
     </xsl:param>
-    <xsl:param name="timestamp">
-        <xsl:value-of select="wmc:DimensionList/wmc:Dimension[@name='time']/@default"/>    
-    </xsl:param>
+    <xsl:param name="timestamp"><xsl:value-of select="wmc:DimensionList/wmc:Dimension[@name='time']/@default"/></xsl:param>
     <xsl:param name="visibility">
       <xsl:choose>
         <xsl:when test="@hidden='1'">hidden</xsl:when>
@@ -138,7 +136,7 @@ $Name$
 &amp;FORMAT=<xsl:value-of select="$format"/>
        &amp;<xsl:value-of select="$styleParam"/>
 &amp;TRANSPARENT=TRUE
-        <xsl:if test="$timestamp">
+        <xsl:if test="string-length($timestamp)>0">
        &amp;TIME=<xsl:value-of select="$timestamp"/>
         </xsl:if>
 <!--	
