@@ -9,7 +9,8 @@ $Id$
  * @constructor
  * @base ModelBase
  * @author Mike Adair
- * @param url Url of context collection document
+ * @param modelNode Pointer to the xml node for this model from the config file.
+ * @param parent    The parent model for the object.
  */
 function ContextCollection(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
