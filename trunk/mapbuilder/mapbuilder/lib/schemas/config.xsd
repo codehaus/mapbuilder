@@ -74,7 +74,7 @@
   </xs:complexType>
   <xs:complexType name="MapPaneType">
     <xs:annotation>
-      <xs:documentation>Widget which renders a Web Map Context (WMC) as a series of layered map images.</xs:documentation>
+      <xs:documentation>Render a Web Map Context (WMC) document as layered map images.</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="mb:AbstractWidgetType">
