@@ -20,20 +20,28 @@ function GmlRenderer(widgetNode, model) {
   var base = new WidgetBase(widgetNode, model,"absolute");
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 
-  } 
+  }
+
+  /** Xsl to convert Coordinates to Coords. */
+  this.coordXsl=new XslProcessor(baseDir+"/widget/GmlCooordinates2Coord.xsl");
 
   /**
-   * Render the widget.
+   * Set up XSL params and convert Gml Coordinate nodes to Gml Coords so that they
+   * are easier to process by XSL.
    * @param objRef Pointer to this object.
    */
-  this.prePaint = function() {
-    this.stylesheet.setParameter("width", this.targetModel.getWindowWidth() );
-    this.stylesheet.setParameter("height", this.targetModel.getWindowHeight() );
-    bBox=this.targetModel.getBoundingBox();
-    this.stylesheet.setParameter("bBoxMinX", bBox[0] );
-    this.stylesheet.setParameter("bBoxMinY", bBox[1] );
-    this.stylesheet.setParameter("bBoxMaxX", bBox[2] );
-    this.stylesheet.setParameter("bBoxMaxY", bBox[3] );
+  this.prePaint = function(objRef) {
+    alert("prePaint1");
+    objRef.stylesheet.setParameter("width", objRef.targetModel.getWindowWidth() );
+    objRef.stylesheet.setParameter("height", objRef.targetModel.getWindowHeight() );
+    bBox=objRef.targetModel.getBoundingBox();
+    objRef.stylesheet.setParameter("bBoxMinX", bBox[0] );
+    objRef.stylesheet.setParameter("bBoxMinY", bBox[1] );
+    objRef.stylesheet.setParameter("bBoxMaxX", bBox[2] );
+    objRef.stylesheet.setParameter("bBoxMaxY", bBox[3] );
+
+    objRef.resultDoc = objRef.coordXsl.transformNodeToObject(objRef.resultDoc);
+    alert("prePaint resultDoc="+objRef.resultDoc.xml);
   }
 
   // Call paint() when the context changes

@@ -36,6 +36,11 @@ function WidgetBase(widgetNode,model,position) {
   /** HTML root <div> node for this widget */
   this.node=document.getElementById(this.id);
 
+  /** Transient var used to store model XML before and then after XSL transform.
+   *  It can be modified by prePaint() .
+   */
+  this.resultDoc = null;
+
   // Set this.stylesheet
   // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
   var styleNode = widgetNode.selectSingleNode("stylesheet");
@@ -94,9 +99,11 @@ function WidgetBase(widgetNode,model,position) {
   }
 
   /**
-   * Called before paint(), can be used to set up a widget's paint parameters.
+   * Called before paint(), can be used to set up a widget's paint parameters,
+   * or modify model using this.resultDoc().
+   * @param objRef Pointer to this object.
    */
-  this.prePaint = function() {
+  this.prePaint = function(objRef) {
     //no-op by default
   }
 
@@ -106,15 +113,16 @@ function WidgetBase(widgetNode,model,position) {
    */
   this.paint = function(objRef) {
     if (objRef.model.doc) {
-      objRef.prePaint();
-      var resultDoc = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
-      resultDoc.documentElement.setAttribute("id", objRef.mbWidgetId);
-      if (objRef.widgetNode.selectSingleNode("debug") ) alert("painting:"+objRef.id+":"+resultDoc.xml);
+      this.resultDoc = objRef.model.doc; // resultDoc sometimes modified by prePaint()
+      objRef.prePaint(this);
+      this.resultDoc = objRef.stylesheet.transformNodeToObject(this.resultDoc);
+      this.resultDoc.documentElement.setAttribute("id", objRef.mbWidgetId);
+      if (objRef.widgetNode.selectSingleNode("debug") ) alert("painting:"+objRef.id+":"+this.resultDoc.xml);
       var outputNode = document.getElementById( objRef.mbWidgetId );
       if (outputNode) {
-        objRef.node.replaceChild(document.importNode(resultDoc.documentElement,true),outputNode);
+        objRef.node.replaceChild(document.importNode(this.resultDoc.documentElement,true),outputNode);
       } else {
-        objRef.node.appendChild(document.importNode(resultDoc.documentElement,true));
+        objRef.node.appendChild(document.importNode(this.resultDoc.documentElement,true));
       }
         
       objRef.callListeners("paint");
