@@ -30,7 +30,20 @@ var baseDir;
  * @requires Util
  */
 function Mapbuilder(configUrl) {
-  // Set global variables
+  /**
+   * Dynamically load a script file if it has not already been loaded.
+   * @param url The url of the script.
+   */
+  function loadScript (url) {
+    if(!document.getElementById(url)){
+      var script = document.createElement('script');
+      script.defer = false;   //not sure of effect of this?
+      script.type = "text/javascript";
+      script.src = url;
+      script.id = url;
+      document.getElementsByTagName('head')[0].appendChild(script);
+    }
+  }
 
   //derive the baseDir value by looking for the script tag that loaded this file
   var head = document.getElementsByTagName('head')[0];
@@ -46,6 +59,7 @@ function Mapbuilder(configUrl) {
     }
   }
 
+  // Set global variables
   mbConfigUrl=configUrl;
 
   loadScript(baseDir+"/util/sarissa/Sarissa.js");
@@ -53,20 +67,4 @@ function Mapbuilder(configUrl) {
   loadScript(baseDir+"/util/Listener.js");
   loadScript(baseDir+"/model/ModelBase.js");
   loadScript(baseDir+"/model/Config.js");
-
-}
-
-/**
- * Dynamically load a script file if it has not already been loaded.
- * @param url The url of the script.
- */
-function loadScript (url) {
-  if(!document.getElementById(url)){
-    var script = document.createElement('script');
-    script.defer = false;   //not sure of effect of this?
-    script.type = "text/javascript";
-    script.src = url;
-    script.id = url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
 }

@@ -6,7 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-loadScript(baseDir+"/widget/WidgetBase.js");
+Mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
  * Tools to build a CollectionList from a Web Map Context.
