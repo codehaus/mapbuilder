@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0"
-xmlns:wmc="http://www.opengis.net/context"
-xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
+<xsl:stylesheet xmlns:wmc="http://www.opengis.net/context" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 <!--
 Description: Convert a Web Map Context into a HTML Legend
 Author:      Cameron Shorter cameron ATshorter.net
@@ -11,50 +8,38 @@ Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 $Name$
 -->
-
   <xsl:output method="xml" encoding="utf-8"/>
-
-  <!-- The name of the javascript context object to call -->
+<!-- The name of the javascript context object to call -->
   <xsl:param name="modelId"/>
   <xsl:param name="context">config['<xsl:value-of select="$modelId"/>']</xsl:param>
-
-  <!-- Main html -->
+<!-- Main html -->
   <xsl:template match="/">
     <xsl:apply-templates select="/wmc:ViewContext/wmc:LayerList"/>
   </xsl:template>
-
-  <!-- LayerList -->
+<!-- LayerList -->
   <xsl:template match="/wmc:ViewContext/wmc:LayerList">
     <table border="0" cellpadding="1" cellspacing="0">
       <tr>
-       <th colspan="2">
+        <th colspan="2">
          Map Layers
        </th>
       </tr>
       <xsl:apply-templates/>
     </table>
   </xsl:template>
- 
-  <!-- Layer -->
+<!-- Layer -->
   <xsl:template match="/wmc:ViewContext/wmc:LayerList/wmc:Layer">
     <tr>
-      <!-- Visiblity -->
+<!-- Visiblity -->
       <td>
         <xsl:if test="@hidden='0'">
-          <input
-            type="checkbox"
-            checked="true"
-            id="legend_{wmc:Name}"
-            onclick="{$context}.setHidden('{wmc:Name}',!document.getElementById('legend_{wmc:Name}').checked)"/>
+          <input type="checkbox" checked="true" id="legend_{wmc:Name}" onclick="{$context}.setHidden('{wmc:Name}',!document.getElementById('legend_{wmc:Name}').checked)"/>
         </xsl:if>
         <xsl:if test="@hidden='1'">
-          <input
-            type="checkbox"
-            id="legend_{wmc:Name}"
-            onclick="{$context}.setHidden('{wmc:Name}',! document.getElementById('legend_{wmc:Name}').checked)"/>
+          <input type="checkbox" id="legend_{wmc:Name}" onclick="{$context}.setHidden('{wmc:Name}',! document.getElementById('legend_{wmc:Name}').checked)"/>
         </xsl:if>
       </td>
-      <!-- Commented out until query is supported
+<!-- Commented out until query is supported
       <td>
         <xsl:if test="@queryable='1'">
           <img
@@ -65,9 +50,9 @@ $Name$
         </xsl:if>
       </td>
       -->
-      <td><xsl:value-of select="wmc:Title"/></td>
+      <td>
+        <xsl:value-of select="wmc:Title"/>
+      </td>
     </tr>
   </xsl:template>
-
 </xsl:stylesheet>
-
