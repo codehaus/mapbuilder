@@ -15,8 +15,10 @@
     This dir is relative the dir of the main html file.
   -->
   <skinDir>../lib/skin/default</skinDir>
-  <proxyUrl>/ql2/proxy?url=</proxyUrl>
-  <!--proxyUrl>../server/proxy/proxy.php?onlineresource=</proxyUrl-->
+
+  <!-- Url of LOCAL redirection script, required to access external URLs -->
+  <proxyUrl>../server/proxy/proxy.php?url=</proxyUrl>
+  <!--proxyUrl>/ql2/proxy?url=</proxyUrl-->
 
   <models>
 
