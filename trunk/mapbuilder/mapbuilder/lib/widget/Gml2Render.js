@@ -38,8 +38,23 @@ function Gml2Render(widgetNode, model) {
    */
   this.paint=function(){
     //paint the features and append them to this.node
-    alert("render GML here");
+    if (this.model.doc) {
+      alert("render GML here");
+    }
   }
 
+  //features will have an extent so add the extent property
+  //add the extent property
+/*
+  if (this.node.extext!=null) {
+alert(this.node.extent.model.id);
+    this.model.extent = new Extent( this.model, this.node.extent.res );
+    this.node.extent.model.addListener("boundingBox",this.paint,this);
+  } else {
+    this.model.extent = new Extent( this.model );
+    this.model.extent.SetResolution( new Array(this.model.getWindowWidth(), this.model.getWindowHeight()) );
+    this.model.addListener("boundingBox",this.paint,this);
+  }
+*/
 
 }
