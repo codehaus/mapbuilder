@@ -27,6 +27,7 @@
       
       <widgets>
         <MapPane id="mainMapPane">
+          <htmlTagId>mainMapPane</htmlTagId>
           <tools> 
             <AoiMouseHandler/>
             <AoiBox>
@@ -42,35 +43,43 @@
         </MapPane>
         
         <CursorTrack id="cursorTrack">
+          <htmlTagId>cursorTrack</htmlTagId>
           <mouseHandler>mainMap.mainMapPane</mouseHandler>
         </CursorTrack>
             
-        <Legend id="legend"/>
+        <Legend id="legend">
+          <htmlTagId>legend</htmlTagId>
+        </Legend>
         
         <WidgetBase id="abstract">
+          <htmlTagId>abstract</htmlTagId>
           <stylesheet>../lib/widget/Abstract.xsl</stylesheet>
         </WidgetBase>
 
         <WidgetBase id="mapTitle">
+          <htmlTagId>mapTitle</htmlTagId>
           <stylesheet>../lib/widget/MapTitle.xsl</stylesheet>
         </WidgetBase>
 
         <AoiForm id="aoiForm">
+          <htmlTagId>aoiForm</htmlTagId>
         </AoiForm>
 
-        <WmsCapabilitiesImport id="wmsCapabilitiesImport"/>
+        <WmsCapabilitiesImport id="wmsCapabilitiesImport">
+          <htmlTagId>wmsCapabilitiesImport</htmlTagId>
+        </WmsCapabilitiesImport>
 
         <!--SearchForm id="searchForm">
+          <htmlTagId>searchForm</htmlTagId>
         </SearchForm-->
-
       </widgets>
-        
     </Context>
       
     <Context id="locatorMap">
       <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorMap">
+          <htmlTagId>locatorMap</htmlTagId>
           <fixedWidth>180</fixedWidth>
           <tools> 
             <AoiBox>
@@ -91,6 +100,7 @@
       <defaultModelUrl>context/demoCollection.xml</defaultModelUrl>
       <widgets>
         <CollectionList id="collectionList">
+          <htmlTagId>collectionList</htmlTagId>
           <targetModel>mainMap</targetModel>
         </CollectionList>
       </widgets>
@@ -98,7 +108,9 @@
 
     <Gml2 id="gml2">
       <widgets>
-        <FeatureList id="featureList"/>
+        <FeatureList id="featureList">
+          <htmlTagId>featureList</htmlTagId>
+        </FeatureList>
       </widgets>
     </Gml2>
     
@@ -106,6 +118,7 @@
 			<defaultModelUrl>locations/Global.xml</defaultModelUrl>
 			<widgets>
 				<Locations id="locationsSelect">
+          <htmlTagId>locationsSelect</htmlTagId>
 					<targetModel>mainMap</targetModel>
 					<stylesheet>../lib/widget/Locations.xsl</stylesheet>
           <tools> 
@@ -120,13 +133,16 @@
 		<Gml2 id="ntsGml">
 			<!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
 			<widgets>
-        <Gml2Render id="mainMapPane"/>
+        <Gml2Render id="mainMapPane">
+          <htmlTagId>mainMapPane</htmlTagId>
+        </Gml2Render>
 			</widgets>
 		</Gml2>
   </models>
 
   <widgets>
     <ButtonBar id="buttonBar">  
+      <htmlTagId>buttonBar</htmlTagId>  
       <targetModel>mainMap</targetModel>
       <tools>
         <ZoomIn id="zoomIn">
@@ -189,6 +205,7 @@
     </ButtonBar>
     
     <WebServiceForm id="ntsLookupForm">
+      <htmlTagId>ntsLookupForm</htmlTagId>
 			<stylesheet>../lib/widget/NtsForm.xsl</stylesheet>
 			<webServiceUrl>http://geoservices.cgdi.ca/NTS/NTSLookup</webServiceUrl>
       <targetModel>ntsGml</targetModel>
