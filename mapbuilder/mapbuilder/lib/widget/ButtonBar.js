@@ -116,7 +116,7 @@ function ButtonBase(toolNode, parentWidget) {
  * @param toolNode The tool node from the Config XML file.
  * @param parentWidget The ButtonBar node from the Config XML file.
  */
-function ZoomInButton(toolNode, parentWidget) {
+function ZoomIn(toolNode, parentWidget) {
   var base = new ButtonBase(toolNode, parentWidget);
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 
@@ -142,7 +142,7 @@ function ZoomInButton(toolNode, parentWidget) {
   this.parentWidget[this.mode] = this;
 }
 
-function ZoomOutButton(toolNode, parentWidget) {
+function ZoomOut(toolNode, parentWidget) {
   var base = new ButtonBase(toolNode, parentWidget);
   for (sProperty in base) { 
     this[sProperty] = base[sProperty];    
@@ -156,7 +156,7 @@ function ZoomOutButton(toolNode, parentWidget) {
   this.parentWidget[this.mode] = this;
 }
 
-function ResetButton(toolNode, parentWidget) {
+function Reset(toolNode, parentWidget) {
   var base = new ButtonBase(toolNode, parentWidget);
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 
