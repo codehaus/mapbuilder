@@ -32,21 +32,21 @@
 
         </TimeSeries>
 
-				<AoiBoxWZ id="aoiBox2">
+        <AoiBoxWZ id="aoiBox2">
 
-					<htmlTagId>mainMapPane</htmlTagId>
+          <htmlTagId>mainMapPane</htmlTagId>
 
-					<stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
+          <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
 
-					<lineColor>#FF0000</lineColor>
+          <lineColor>#FF0000</lineColor>
 
-					<lineWidth>1</lineWidth>
+          <lineWidth>1</lineWidth>
 
-					<crossSize>15</crossSize>
+          <crossSize>15</crossSize>
 
-					<mapContainerId>mainMapContainer</mapContainerId>
+          <mapContainerId>mainMapContainer</mapContainerId>
 
-				</AoiBoxWZ>
+        </AoiBoxWZ>
 
         <Timestamp id="timestamp"/>
 
