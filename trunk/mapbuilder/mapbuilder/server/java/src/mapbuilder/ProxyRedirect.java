@@ -30,11 +30,11 @@ import javax.servlet.*;
 
 import javax.servlet.http.*;
 
-import org.apache.commons.httpclient.HttpClient;
-
-import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.*;
 
 import org.apache.commons.httpclient.methods.PostMethod;
+
+import org.apache.commons.httpclient.methods.GetMethod;
 
 
 
@@ -94,7 +94,71 @@ public class ProxyRedirect extends HttpServlet
 
   {
 
-    throw new ServletException("XmlSerializer: HTTP GET not supported");
+    try {
+
+      Enumeration e = request.getHeaderNames();
+
+      while (e.hasMoreElements()) {
+
+          String name = (String)e.nextElement();
+
+          String value = request.getHeader(name);
+
+          System.err.println("request header:" + name + ":" + value);
+
+      }
+
+        
+
+      // Transfer bytes from in to out
+
+      System.err.println("HTTP GET: transferring...");
+
+      
+
+      //execute the GET
+
+      String serverUrl = request.getParameter("url");
+
+      System.err.print("params:" + serverUrl);
+
+      HttpClient client = new HttpClient();
+
+      GetMethod httpget = new GetMethod(serverUrl);
+
+      client.executeMethod(httpget);
+
+
+
+      //dump response to out
+
+      if (httpget.getStatusCode() == HttpStatus.SC_OK) {
+
+        String responseBody = httpget.getResponseBodyAsString();
+
+        System.err.println("responseBody:" + responseBody);
+
+        PrintWriter out = response.getWriter();
+
+        out.print( responseBody );
+
+      } else {
+
+        System.err.println("Unexpected failure: " + httpget.getStatusLine().toString());
+
+      }
+
+      httpget.releaseConnection();
+
+      
+
+     
+
+    } catch (IOException e) {
+
+      throw new ServletException(e);
+
+    }    
 
   }// doGet
 
