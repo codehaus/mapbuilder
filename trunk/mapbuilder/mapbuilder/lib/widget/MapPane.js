@@ -33,23 +33,15 @@ function MapPane(widgetNode, model) {
   this.stylesheet.setParameter("mapContainerId", this.containerId );
 
   //adjust the context width and height if required.
-  var fixedWidth = false;    //defaults to false
-  var xnode = widgetNode.selectSingleNode("fixedWidth");
-  if ( xnode ) {
-    fixedWidth = eval( xnode.firstChild.nodeValue );
-  }
+  var fixedWidth = widgetNode.selectSingleNode("fixedWidth");
   if ( fixedWidth ) {
-    if ( this.node.style.width ) {
-      var newWidth = this.node.style.width;
-      newWidth = newWidth.substring(0,newWidth.length - 2);
-      var aspectRatio = this.model.getWindowHeight()/this.model.getWindowWidth();
-      var newHeight = Math.round(aspectRatio*newWidth);
-      this.model.setWindowWidth( newWidth );
-      this.model.setWindowHeight( newHeight );
-      this.model.extent.SetResolution( new Array(newWidth, newHeight) );
-    } else {
-      alert("set the CSS width to use fixedWidth property");
-    }
+    fixedWidth = fixedWidth.firstChild.nodeValue;
+    var aspectRatio = this.model.getWindowHeight()/this.model.getWindowWidth();
+    var newHeight = Math.round(aspectRatio*fixedWidth);
+    this.model.setWindowWidth( fixedWidth );
+    this.model.setWindowHeight( newHeight );
+    this.model.extent.SetResolution( new Array(fixedWidth, newHeight) );
+    this.node.style.width = fixedWidth;
   }
 
   /**
