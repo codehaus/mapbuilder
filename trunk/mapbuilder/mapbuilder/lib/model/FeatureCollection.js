@@ -20,6 +20,11 @@ mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
 function FeatureCollection(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   var modelBase = new ModelBase(this, modelNode, parent);
+
+  /** Namespace to use when doing Xpath queries, usually set in config file.*/
   this.namespace = "xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs'";
+  if (modelNode.selectSingleNode("mb:namespace")){
+    this.namespace = modelNode.selectSingleNode("mb:namespace").firstChild.nodeValue;
+  }
 }
 
