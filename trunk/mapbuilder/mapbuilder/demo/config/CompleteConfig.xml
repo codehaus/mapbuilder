@@ -42,6 +42,7 @@
           </tools> 
         </MapPane>
 
+        <!--
         <AoiBox2 id="aoiBox2">
           <htmlTagId>mainMapPane</htmlTagId>
           <stylesheet>../lib/widget/Null.xsl</stylesheet>
@@ -49,6 +50,7 @@
           <lineWidth>3</lineWidth>
           <crossSize>15</crossSize>
         </AoiBox2>
+        -->
         
         <CursorTrack id="cursorTrack">
           <htmlTagId>cursorTrack</htmlTagId>
