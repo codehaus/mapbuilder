@@ -313,17 +313,14 @@ function handleEventWithObject(evt){
 /**
  * Dynamically load a script file if it has not already been loaded.
  * @param url The url of the script.
- * @param id A unique id for the script, by convension this should be
- * <dir>/<functionName> where dir=model,widget or tool.  If id=null, then the
- * script is loaded without checking for duplicates.
  */
-function loadScript (url,id) {
-  if(!id || !document.getElementById(id)){
+function loadScript (url) {
+  if(!document.getElementById(url)){
     var script = document.createElement('script');
     script.defer = false;   //not sure of effect of this?
     script.type = "text/javascript";
     script.src = url;
-    script.id = id;
+    script.id = url;
     document.getElementsByTagName('head')[0].appendChild(script);
   }
 }
