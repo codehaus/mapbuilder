@@ -31,7 +31,6 @@ function ModelBase(modelNode) {
    */
   this.loadModelDoc = function(url,postData){
     this.url = url;
-    url=getProxyPlusUrl(url);
     if (url) {
       if (postData) {
         this.doc = postLoad(url,postData);
@@ -42,6 +41,7 @@ function ModelBase(modelNode) {
         this.doc = Sarissa.getDomDocument();
         this.doc.async = false;
         this.doc.validateOnParse=false;  //IE6 SP2 parsing bug
+        url=getProxyPlusUrl(url);
         this.doc.load(url);
         if (this.doc.parseError < 0){
           alert("error loading document: " + url + " - " + Sarissa.getParseErrorText(this.doc) );
