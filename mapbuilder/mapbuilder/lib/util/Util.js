@@ -21,7 +21,8 @@ function XslProcessor(xslUrl) {
   this.xslDom = Sarissa.getDomDocument();
   this.xslDom.async = false;
   this.xslDom.load(xslUrl);
-  if ( this.xslDom.parseError < 0 ) alert("error loading XSL stylesheet: " + xslUrl);
+  if ( this.xslDom.parseError < 0 )
+    alert("error loading XSL stylesheet: " + xslUrl);
 
   /**
    * Transforms XML in the provided xml node according to this XSL.
