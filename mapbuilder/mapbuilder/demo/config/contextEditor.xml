@@ -188,7 +188,7 @@
       <tools>
         <WebServiceRequest id="wmsController">
           <targetModel>wmsCapTemplate.models.getMapTemplate</targetModel>
-          <requestName>wms:GetMap</requestName>
+          <requestName>GetMap</requestName>
         </WebServiceRequest>
         <!--WebServiceRequest id="wmsController">
           <targetModel>wmsCapTemplate.models.getFeatureInfoTemplate</targetModel>
