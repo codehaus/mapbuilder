@@ -8,9 +8,9 @@ mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
 mapbuilder.loadScript(baseDir+"/tool/WebServiceRequest.js");
 
 /**
- * Stores a WFS Transaction request reponse as defined by the Open GIS Consortium
+ * Stores a WFS Transaction reponse as defined by the Open GIS Consortium
  * http://opengis.org (WFS).  
- * extends ModelBase, which extends Listener.
+ * Extends ModelBase, which extends Listener.
  *
  * Listener Parameters used:
  * "aoi" - ((upperLeftX,upperLeftY),(lowerRigthX,lowerRigthY)),
