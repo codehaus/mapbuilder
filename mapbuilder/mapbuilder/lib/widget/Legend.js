@@ -1,6 +1,5 @@
 /*
 License: GPL as per: http://www.gnu.org/copyleft/gpl.html
-Dependancies: Sarissa (XML utilities).
 $Id$
 */
 
@@ -9,6 +8,7 @@ $Id$
  * @constructor
  * @author Cameron Shorter cameronATshorter.net
  * @constructor
+ * @requires Sarissa, Util, Context
  * @param context The Web Map Context which contains the state of this legend.
  * @param baseDir The base mapbuilder lib directory.
  * @param node Node from the HTML DOM to insert legend HTML into.
@@ -32,7 +32,7 @@ function Legend(context,baseDir,node) {
    * @param e The event sent to the listener.
    */
   this.hiddenListener=function(e){
-    //alert("MapPane hiddenListener called with layer="+e.layerId);
+    // TBD check/uncheck Layer's selected box
   }
 
   this.context.addHiddenListener(this.hiddenListener);
