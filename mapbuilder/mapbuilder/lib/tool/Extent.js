@@ -4,6 +4,12 @@ License: GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
+
+var Rearth = 6378137.0;                 // Radius of the earth (sphere); different from Proj value?
+var degToMeter = Rearth*2*Math.PI/360;
+var mbScaleFactor = 72 * 39.3701;   //PixelsPerInch*InchesPerMapUnit; magic numbers 
+                                    //need to determine magic number for lat/lon
+
 /**
  * A tool designed to handle geography calcualtions for widgets which render
  * the model in 2D.
@@ -19,12 +25,6 @@ $Id$
  * @param model       the model document that this extent represents
  * @param initialRes  (optional) if supplied the extent resolution will be set to this value
  */
-
-var Rearth = 6378137.0;                 // Radius of the earth (sphere); different from Proj value?
-var degToMeter = Rearth*2*Math.PI/360;
-var mbScaleFactor = 72 * 39.3701;   //PixelsPerInch*InchesPerMapUnit; magic numbers 
-                                    //need to determine magic number for lat/lon
-
 function Extent( model, initialRes ) {
   this.model = model;
   this.size = new Array();
