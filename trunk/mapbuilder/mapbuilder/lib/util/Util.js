@@ -299,3 +299,13 @@ function handleEventWithObject(evt){
   if (obj!=null) obj.handleEvent(evt);
 }
 
+/**
+ * dynamically load a script file.
+ * @param url The url of the script.
+ */
+function loadScript (url) {
+  var script = document.createElement('script');
+  script.defer = true;
+  script.src = url;
+  document.getElementsByTagName('head')[0].appendChild(script);
+}
