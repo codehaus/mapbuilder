@@ -1,3 +1,11 @@
+MapPane cleanup:
+----------------
+* MapPane.containerId should be able to be replaced by this.node.id (the <div>
+  which contains the MapPane widget.
+* We need all widgets to have a <div> wrapper around them so that width/height
+  style attributes can be set to them.  (Currently mapPane widgets write this
+  to the anchor tag.
+
 Query Functionality:
 --------------------
 * Feature to be rendered over MapPane.
