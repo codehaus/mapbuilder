@@ -57,7 +57,7 @@
 
         <c:if test="${fn:startsWith(requestScope.page, 'samples/tutorial')}">        
           <div style="width:100%; font-size:80%; text-align:right; margin:0">
-            <a href='view-source:<c:out value="${pageBody}"/>' target="HtmlSrcWin">view source</a> | <a href='<c:out value="${requestScope.pageConfig}"/>' target="ConfigSrcWin">config file</a>
+            <a href='view-source:http://localhost:8080/mapbuilder/docs/<c:out value="${requestScope.page}"/>.html' target="HtmlSrcWin">view source</a> | <a href='<c:out value="${requestScope.mbConfigUrl}"/>' target="ConfigSrcWin">config file</a>
           </div>
         </c:if>
       </div>
