@@ -50,20 +50,23 @@ function Config(url) {
       }
 
       this[group.id] = group;
-      this.loadModel( group.initialModel, group.id );
+      this.loadModel( group.id, group.initialModel );
     }
   }
 
 
 
-  this.loadModel = function(modelUrl, groupId) {
+  this.loadModel = function(groupId, modelUrl) {
     var group = this[groupId];
-    var evalStr = "new " + group.modelType + "('" + modelUrl + "');";
-    //alert("group.loadModel eval:" + evalStr);
-    group.model = eval( evalStr );
-    //send out an update event?
+    if ( modelUrl ) {
+      var evalStr = "new " + group.modelType + "('" + modelUrl + "');";
+      //alert("group.loadModel eval:" + evalStr);
+      group.model = eval( evalStr );
+      //send out an update event?
+    } else {
+      if (group.model==null) alert("null model attempting to load widget: " + groupId );
+    }
     group.model.modelIndex = config.modelArray.push( group.model ) - 1;  //or replace if it exists?
-    group.widgetArray = new Array();
 
     var widgets = group.modelNode.selectNodes("widgets/*");
     for (var j=0; j<widgets.length; j++) {
@@ -79,8 +82,7 @@ function Config(url) {
       //this has to be called after widgets are painted
       widget.addListeners();
       widget.loadTools();
-
-      group.widgetArray[j] = widget;
+      group[widgetNode.nodeName] = widget;
     }
 
   }
