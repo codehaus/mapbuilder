@@ -30,6 +30,8 @@ function WebServiceAction(){
     httpPayload=new Object();
     param=model.getParam("transactionResponseModel");
     transactionResponseModel=eval("config.objects."+param);
+    param=model.getParam("targetContext");
+    targetContext=eval("config.objects."+param);
 
     switch(action){
       case "Reset":
@@ -51,6 +53,8 @@ function WebServiceAction(){
           // Remove FeatureList if feature entry was successful.
           httpPayload.url=null;
           model.newRequest(model,httpPayload);
+          // Repaint the WMS layers
+          targetContext.callListeners("refresh");
         }
         break;
       case "Update Feature":
