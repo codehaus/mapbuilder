@@ -90,6 +90,9 @@
     </ContextCollection>
 
     <Gml2 id="gml2">
+      <widgets>
+        <FeatureList id="featureList"/>
+      </widgets>
     </Gml2>
     
     <ModelBase id="locations">
