@@ -92,12 +92,32 @@ $Name$
     </xsl:call-template>
   </xsl:template>
 
+  <!-- Match and render a LineString -->
+  <xsl:template match="gml:LineString">
+    <xsl:for-each select="gml:coord">
+      <xsl:if test="following-sibling::gml:coord">
+        <xsl:call-template name="drawLine">
+          <xsl:with-param name="x0" select="round((number(gml:X)-$bBoxMinX)*$xRatio)"/>
+          <xsl:with-param name="y0" select="round($height - (number(gml:Y) -$bBoxMinY)*$yRatio)"/>
+          <xsl:with-param name="x1" select="round((number(following-sibling::gml:coord[position()=1]/gml:X)-$bBoxMinX)*$xRatio)"/>
+          <xsl:with-param name="y1" select="round($height - (number(following-sibling::gml:coord[position()=1]/gml:Y)-$bBoxMinY)*$yRatio)"/>
+        </xsl:call-template>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+
+  <!-- Draw a line.  -->
   <xsl:template name="drawLine">
     <xsl:param name="x0"/>
     <xsl:param name="y0"/>
     <xsl:param name="x1"/>
     <xsl:param name="y1"/>
-    <xsl:variable name="slope" select="($y1 - $y0) div ($x1 - $x0)"/>
+    <xsl:variable name="slope">
+      <xsl:choose>
+        <xsl:when test="$x0 = $x1">0</xsl:when>
+        <xsl:otherwise>select="($y1 - $y0) div ($x1 - $x0)"</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
 
     <debug select="drawLine{$x0},{$y0},{$x1},{$y1} slope={$slope}"/>
     <xsl:choose>
