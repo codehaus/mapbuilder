@@ -19,20 +19,6 @@ function XslProcessor(xslUrl) {
   this.xslDom.load(xslUrl);
 
   /**
-   * Transforms XML in the provided URL according to this XSL.
-   * @param xmlUrl The URL of XML to be transformed.
-   * @return The transformed String.
-   */
-  this.transformUrl=function(xmlUrl) {
-    // get xml source document
-    var xmlDom = Sarissa.getDomDocument();
-    xmlDom.async = false;
-    xmlDom.load(xmlUrl);
-
-    return this.transformNode(xmlDom);
-  }
-
-  /**
    * Transforms XML in the provided xml node according to this XSL.
    * @param xmlNode The XML node to be transformed.
    * @return The transformed String.
@@ -47,7 +33,6 @@ function XslProcessor(xslUrl) {
     s=a.join(">");
     return s;
   }
-
 }
 
 /**
