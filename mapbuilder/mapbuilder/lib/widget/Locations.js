@@ -24,6 +24,7 @@ function Locations(widgetNode, model) {
     this[sProperty] = base[sProperty];
   }
 
+  //TBD: set this from the setAoi function?
   this.model.getSRS = function(){return "EPSG:4326";}
 
   /**

@@ -23,9 +23,6 @@ $Name$Name:  $
 		<xsl:variable name="srsName" select="gml:featureMember/mb:locationDef/mb:spatialKeyword/gml:location/gml:Envelope/@srsName"/>
     <DIV>
     <form>
-    <script language="javascript">
-      config.<xsl:value-of select="$modelId"/>.getSRS = function(){return "EPSG:4326";}
-    </script>
 		<select name="locations" onchange="javascript:config.{$modelId}.{$widgetId}.setAoi(this.options[this.selectedIndex].value,'{$targetModel}');" size="5">
       <xsl:apply-templates select="gml:featureMember/mb:locationDef"/>
 		</select>
