@@ -140,6 +140,8 @@ $Id$
 -->
   <property name="httpClient.jar"  value="${context.home}/lib/commons-httpclient-2.0.1.jar"/>
   <property name="log4j.jar"  value="${context.home}/lib/log4j-1.2.8.jar"/>
+  <property name="jstl.jar"  value="${context.home}/lib/jstl.jar"/>
+  <property name="standard.jar"  value="${context.home}/lib/standard.jar"/>
 
 
 <!-- ==================== Prepare Target ================================== -->
@@ -164,7 +166,14 @@ $Id$
 
     <!-- Copy static content of the mapbuilder project  -->
     <copy todir="${build.home}">
-      <fileset dir="${dev.home}"/>
+      <fileset dir="${dev.home}">
+        <exclude name="*.war"/>
+        <exclude name="*.zip"/>
+        <exclude name="bin/**"/>
+        <exclude name="client/**"/>
+        <exclude name="server/**"/>
+        <exclude name="service/**"/>
+      </fileset>
     </copy>
     
     <!-- Copy static content of this web application -->
@@ -186,6 +195,8 @@ $Id$
 -->
     <copy todir="${build.home}/WEB-INF/lib" file="${httpClient.jar}"/>
     <copy todir="${build.home}/WEB-INF/lib" file="${log4j.jar}"/>
+    <copy todir="${build.home}/WEB-INF/lib" file="${jstl.jar}"/>
+    <copy todir="${build.home}/WEB-INF/lib" file="${standard.jar}"/>
     
   </target>
 
