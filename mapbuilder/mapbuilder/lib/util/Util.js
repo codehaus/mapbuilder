@@ -64,3 +64,29 @@ function UniqueId(){
     return this.lastId;
   }
 }
+
+/**
+ * get the absolute position of HTML element NS4, IE4/5 & NS6, even if it's in a table.
+ * @param element The HTML element.
+ * @return Top left X position.
+ */
+function getAbsX(elt) {
+        return (elt.x) ? elt.x : getAbsPos(elt,"Left") + 2;
+/**
+ * get the absolute position of HTML element NS4, IE4/5 & NS6, even if it's in a table.
+ * @param element The HTML element.
+ * @return Top left Y position.
+ */
+}
+function getAbsY(elt) {
+        return (elt.y) ? elt.y : getAbsPos(elt,"Top") + 2;
+}
+function getAbsPos(elt,which) {
+ iPos = 0;
+ while (elt != null) {
+        iPos += elt["offset" + which];
+        elt = elt.offsetParent;
+ }
+ return iPos;
+}
+
