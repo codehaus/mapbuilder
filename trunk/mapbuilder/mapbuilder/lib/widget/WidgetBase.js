@@ -80,9 +80,9 @@ function WidgetBase(widgetNode, model) {
    * Instantiate all the child tools of this widget.
    */
   this.loadTools = function() {
-    var tools = this.widgetNode.selectNodes( "tools/*" );
-    for (var i=0; i<tools.length; i++ ) {
-      var toolNode = tools[i];
+    var toolNodes = this.widgetNode.selectNodes( "tools/*" );
+    for (var i=0; i<toolNodes.length; i++ ) {
+      var toolNode = toolNodes[i];
       evalStr = "new " + toolNode.nodeName + "(toolNode, this);";
       this[toolNode.nodeName] = eval( evalStr );
     }
