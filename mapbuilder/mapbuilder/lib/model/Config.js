@@ -25,7 +25,7 @@ function Config(url) {
   for (var i=0; i<scriptIncludes.length; i++ ) {
     var node = scriptIncludes[i];
     var scriptFile = this.baseDir + node.firstChild.nodeValue;
-    alert("loading script file:" + scriptFile);
+    //alert("loading script file:" + scriptFile);
     loadScript( scriptFile );
   }
 
