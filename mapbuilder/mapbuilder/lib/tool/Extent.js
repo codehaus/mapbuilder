@@ -83,7 +83,6 @@ function Extent( model, initialRes ) {
 /*
  * FD 2005/03/04 : respect de minScale et maxScale
  * DGR : scale constraints
- */
     var nRmin= minScale/mbScaleFactor;
     var nRmax= maxScale/mbScaleFactor;
     if (newres < nRmin) {
@@ -92,6 +91,7 @@ function Extent( model, initialRes ) {
     if (newres > nRmax) {
       newres= nRmax ;
     }
+ */
     this.lr = new Array(center[0]+half[0]*newres, center[1]-half[1]*newres);
     this.ul = new Array(center[0]-half[0]*newres, center[1]+half[1]*newres);
 
@@ -185,13 +185,13 @@ function Extent( model, initialRes ) {
  * On contraint l'echelle min et max de l'application.
  * A externaliser dans le fichier de config de l'application ;-)
  * DGR : should be in the config
- */
     if (scale < minScale) {
       scale= minScale ;
     }
     if (scale > maxScale) {
       scale= maxScale ;
     }
+ */
     switch(this.model.getSRS()) {
       case "EPSG:4326":				//all projection codes in degrees
       case "EPSG:4269":				
