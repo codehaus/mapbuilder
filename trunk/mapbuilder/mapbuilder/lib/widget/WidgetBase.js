@@ -69,7 +69,7 @@ function WidgetBase(widgetNode, model) {
   /**
    * Move this widget to the absolute (left,top) position in the browser.
    * @param left Absolute left coordinate.
-   * @param top Absolute top coordinate.
+   * @param top AMike.Adair@CCRS.NRCan.gc.cabsolute top coordinate.
    */
   this.move = function(left,top) {
     this.node.style.left = left;
@@ -88,15 +88,17 @@ function WidgetBase(widgetNode, model) {
 
   /**
    * Render the widget.
+   * @param objRef Pointer to this object.
    */
-  this.paint = function() {
-    if (this.model.doc) {
-      var s = this.stylesheet.transformNode(this.model.doc);
-      if (this.widgetNode.selectSingleNode("debug") ) alert("painting:"+this.id+":"+s);
-      this.node.innerHTML = s;
-      this.callListeners("paint");
+  this.paint = function(objRef) {
+    if (objRef.model.doc) {
+      var s = objRef.stylesheet.transformNode(objRef.model.doc);
+      if (objRef.widgetNode.selectSingleNode("debug") ) alert("painting:"+objRef.id+":"+s);
+      objRef.node.innerHTML = s;
+      objRef.callListeners("paint");
     }
   }
+  this.model.addListener("modelChange",this.paint, this);
 
   /**
    * Instantiate all the child tools of this widget.
@@ -114,5 +116,4 @@ function WidgetBase(widgetNode, model) {
       }
     }
   }
-
 }
