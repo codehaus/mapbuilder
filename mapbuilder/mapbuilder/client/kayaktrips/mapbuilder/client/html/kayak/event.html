@@ -1,0 +1,463 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<!-- title inserted in init() -->
+<title></title>
+
+<!-- get global setup parameters -->
+<script language="JavaScript" src="scripts/mapvars.js"></script>
+<!-- drawing library -->
+<script language="JavaScript" src="scripts/wz_jsgraphics.js"></script>	
+	
+<script language="JavaScript1.2">
+<!--
+		var isDOM = false;
+		var isIE = false;
+		var isNS4 = false;
+		var minx=parseFloat(defminx);
+		var maxx=parseFloat(defmaxx);
+		var miny=parseFloat(defminy);
+		var maxy=parseFloat(defmaxy);
+		var layerArray=layers.split(",");
+		var imagereq="&FORMAT=" + imageformat;
+		var versionreq="&VERSION=" + wmsversion;
+		var srsreq="&SRS=" + wmssrs;
+		var imgsizereq="&WIDTH=" + defimgwidth + "&HEIGHT=" + defimgheight;
+		var getmapreq = "";
+		var xminimg = 0;
+		var xmaximg = 0;
+		var yminimg = 0;
+		var ymaximg = 0;
+		var eventXs = new Array();
+		var eventYs = new Array();
+		
+	function postEvent() {
+		document.eventform.tripxcoords.value = eventXs.join(",");
+		document.eventform.tripycoords.value = eventYs.join(",");
+		document.eventform.submit();
+	}
+		
+	// e is the event
+	function addPoint(e) {
+		x = 0; y = 0;
+		
+		if (isIE) {
+			x = e.x;
+			y = e.y;
+		} else {
+			x = parseInt(e.pageX);
+			y = parseInt(e.pageY);
+		}
+		if ( !inMapImage(x,y) ) return;
+
+		x -= xminimg;
+		y -= yminimg;
+		
+		geox = projectX(x, 0, document.mapImage.width, minx, maxx);
+		geoy = projectY(y, 0, document.mapImage.height, miny, maxy);
+		
+		eventXs.push(geox);
+		eventYs.push(geoy);
+
+		draw();
+	}
+	
+	function init() {
+		if ( document.getElementById ) isDOM = true;
+		if ( document.all ) isIE = true;
+		if ( document.layers ) isNS4 = true;
+		document.title = cmbtitle;
+		
+		// get map extents from caller if possible
+		var input = unescape(location.search.substr(1))
+		if (input) {
+			var srchArray = input.split("&");
+			var paramArray = new Array();
+			for (i = 0; i < srchArray.length; i++) {
+				paramArray = srchArray[i].split("=");
+				if (paramArray[0].toLowerCase() == "bbox") {
+					coordArray = paramArray[1].split(",");
+					minx = parseFloat(coordArray[0]);
+					miny = parseFloat(coordArray[1]);
+					maxx = parseFloat(coordArray[2]);
+					maxy = parseFloat(coordArray[3]);
+				}
+			}
+		}
+
+		// listen for mouse click events on the map
+		if (isIE) document.attachEvent("onclick", addPoint);
+		else document.addEventListener("click", addPoint, false);
+		
+		// get the page coordinates of the map image
+		xminimg = getAbsX(document.mapImage);
+		yminimg = getAbsY(document.mapImage);
+		xmaximg = xminimg + document.images.mapImage.width;  
+		ymaximg = yminimg + document.images.mapImage.height;  
+
+		getMap();
+	}
+	
+	function getMap() {
+		//  build style string
+		numLayers = layerArray.length;
+		styles = "";
+		for (i=0; i<numLayers; i++) 
+			styles +=  ",";
+	
+		// build layers/styles string
+		layerreq = "&LAYERS=" + layers + "&STYLES=" + styles;
+			
+		// build bbox string
+		bboxreq = "&bbox="+minx+","+miny+","+maxx+","+maxy;
+		
+		getmapreq = wmsurl + "REQUEST=GetMap" + bboxreq + layerreq + imgsizereq + versionreq;
+		document.mapImage.src = getmapreq;
+		draw();
+	}
+	
+	// directions: 0=north 2=northeast 3=east 4=southeast 5=south 6=southwest 7=west 8=northwest //
+	function pan(direction) {
+		// do we need to check for cross-equator conditions here???
+		dy = panpercent * (maxy - miny);
+		dx = panpercent * (maxx - minx);
+	
+		switch (direction) {
+			case "north":
+				miny += dy; maxy += dy;
+				break;
+			case "south":
+				miny -= dy; maxy -= dy;
+				break;
+			case "east":
+				minx += dx; maxx += dx;
+				break;
+			case "west":
+				minx -= dx; maxx -= dx;
+				break;
+			case "northeast":
+				miny += dy; maxy += dy; minx += dx; maxx += dx;
+				break;
+			case "northwest":
+				miny += dy; maxy += dy; minx -= dx; maxx -= dx;
+				break;
+			case "southeast":
+				miny -= dy; maxy -= dy; minx += dx; maxx += dx;
+				break;
+			case "southwest":
+				miny -= dy; maxy -= dy; minx -= dx; maxx -= dx;
+				break;
+		}
+		
+		getMap();
+	}
+	
+	// zoom in and out
+	// z should be from 1 to the number of elements in zoompercents--inclusive
+	function zoom(z) {
+		if ( z>0 ) {
+			// zoom out
+			zoomval = zoompercents[z-1];
+			dx = zoomval * (maxx - minx);
+			dy = zoomval * (maxy - miny);
+			maxx += dx;
+			minx -= dx;
+			maxy += dy;
+			miny -= dy;
+		} else {
+			// zoom in
+			zoomval = zoompercents[(z*-1)-1];
+			dx = zoomval * (maxx - minx);
+			dy = zoomval * (maxy - miny);
+			maxx -= dx;
+			minx += dx;
+			maxy -= dy;
+			miny += dy;
+		}
+		
+		getMap();
+	}
+	
+	function inMapImage(l,t) {
+		if ((l >= xminimg && l <= xmaximg) && (t >= yminimg && t<= ymaximg)) { // is the click in there?  
+			return true;
+		} 
+		return false;
+	}
+	
+	// get the true offset of anything on NS4, IE4/5 & NS6, even if it's in a table!
+	// the 9 and 2 are hacks that only work with this HTML
+	function getAbsX(elt) {
+		return (elt.x) ? elt.x : getAbsPos(elt,"Left") + 2;
+	}
+	function getAbsY(elt) {
+		return (elt.y) ? elt.y : getAbsPos(elt,"Top") + 2;
+	}
+	function getAbsPos(elt,which) {
+	 iPos = 0;
+	 while (elt != null) {
+		iPos += elt["offset" + which];
+		elt = elt.offsetParent;
+	 }
+	 return iPos;
+	}
+
+function helpwin(theURL) { //v2.0
+	features = "scrollbars=yes,width=200,height=300";
+  hwin = window.open(theURL,"help",features);
+	hwin.focus();
+}
+//-->
+</script>
+	
+	<!-- use a style sheet for formatting text -->
+	<link href="normal.css" rel="stylesheet" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+
+<body bgcolor="#FFFFFF" link="#FFFF00" vlink="#FFCC33" onLoad="init()">
+
+<script language="Javascript">
+	document.writeln("<h2>" + cmbtitle + "</h2>");
+</script>
+
+<table width="466" border="0" cellpadding="0" cellspacing="0" bordercolor="#000000" bgcolor="#000000">
+	<!--DWLayoutTable-->
+	<tr> 
+		<td bordercolor="#000000">
+			<img src="icons/upleftarrow.gif" onclick="pan('northwest')" name="arrownw" width="20" height="20">
+		</td>
+    <td align="center" bordercolor="#000000">
+			<img src="icons/uparrow.gif" onclick="pan('north')" name="arrown" width="20" height="20">
+		</td>
+    <td bordercolor="#000000">
+			<img src="icons/uprightarrow.gif" onclick="pan('northeast')" name="arrowne" width="20" height="20">
+		</td>
+    <td align="center" valign="top" bordercolor="#000000">&nbsp;</td>
+  </tr>
+	<tr>
+		<td rowspan="3" bordercolor="#000000">
+			<img src="icons/leftarrow.gif" onclick="pan('west')" name="arroww" width="20" height="20" border="0">
+		</td>
+    <td rowspan="3" align="center" bordercolor="#666666">
+			<div id="mapCanvas"></div>
+      <a href="#"><img src="" name="mapImage" id="mapImage" width="450" height="350" border="0" onclick="addPoint"></a>
+		</td>
+    <td rowspan="3" bordercolor="#000000">
+			<img src="icons/rightarrow.gif" onclick="pan('east')" name="arrowe" width="20" height="20">
+		</td>
+    <td align="center" valign="top" bordercolor="#000000">
+      <p><img src="icons/zoomout3a.gif" name="zo3" width="38" height="14" onclick="zoom('3')"><br>
+			<img src="icons/zoomout2a.gif" name="zo2" width="29" height="14" onclick="zoom('2')"><br>
+			<img src="icons/zoomout1.gif" name="zo1" width="19" height="14" onclick="zoom('1')"><br>
+			<img src="icons/zoom.gif" name="zoomlabel" width="60" height="20"><br>
+			<img src="icons/zoomin1.gif" name="zi1" width="19" height="14" onclick="zoom('-1')"><br>
+			<img src="icons/zoomin2a.gif"name="zi2"  width="29" height="14" onclick="zoom('-2')"><br>
+			<img src="icons/zoomin3a.gif" name="zi3" width="38" height="14" onclick="zoom('-3')"></p>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="bottom" nowrap bordercolor="#000000" bgcolor="#000000">
+      <div id="overviewMap"></div>
+      <p><img src="icons/overview75x58.png" name="ovMap" width="75" height="58" hspace="6"></p>
+      <p>&nbsp;</p>
+      <p><img src="icons/roundedge_TL.gif" width="20" height="20"><img src="icons/roundedge_SPACER.gif" width="20" height="20"><img src="icons/roundedge_SPACER.gif" width="20" height="20"><img src="icons/roundedge_SPACER.gif" width="20" height="20"><img src="icons/roundedge_TR.gif" width="20" height="20"></p>
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="bottom" bordercolor="#000000" bgcolor="003333">
+      <p align="center"><b>Click on <br>
+        the map to<br>
+        draw a line<br>
+        mapping <br>
+                your route.</b></p>
+      <p align="center">
+        <input name="cleartrip" type="button" id="cleartrip" onClick="clearTrip()" value="Start Over">
+      </p>
+    </td>
+  </tr>
+	<tr> 
+		<td bordercolor="#000000">
+			<img src="icons/downleftarrow.gif" onclick="pan('southwest')" name="arrowsw" width="20" height="20">
+		</td>
+    <td align="center" bordercolor="#000000">
+			<img src="icons/downarrow.gif" onclick="pan('south')" name="arrows" width="20" height="20">
+		</td>
+    <td bordercolor="#000000">
+			<img src="icons/downrightarrow.gif" onclick="pan('southeast')" name="arrowse" width="20" height="20">
+		</td>
+    <td align="center" valign="top" bordercolor="#000000" bgcolor="003333"><!--DWLayoutEmptyCell-->&nbsp;</td>
+  </tr>
+  <tr>
+    <td bordercolor="#000000"><!--DWLayoutEmptyCell-->&nbsp;</td>
+    <td align="left" valign="top"><!--DWLayoutEmptyCell-->&nbsp;</td>
+    <td bordercolor="#000000"><img src="icons/roundedge_LR_r.gif" width="20" height="20"></td>
+    <td align="center" valign="top" bordercolor="#000000" bgcolor="003333"><!--DWLayoutEmptyCell-->&nbsp;</td>
+  </tr>
+	
+	<!-- TRIP DATA ENTRY STARTS HERE -->
+	<form name="eventform" action="middleware/eventFormToDB.pl" method="POST" enctype="multipart/form-data" onsubmit="postEvent()">
+		<input name="tripid" type="hidden" value="">
+		<input name="tripxcoords" type="hidden" value="">
+		<input name="tripycoords" type="hidden" value="">
+  <tr>
+    <td bordercolor="#000000"><img src="icons/roundedge_TL.gif" width="20" height="20"></td>
+    <td align="left" valign="top" bgcolor="#003333">
+			Your email address (required): 
+      <input name="email" type="text" value="kayaker@example.com"> 
+			<a href="" onClick="helpwin('help/privacy.html')">privacy</a>
+    </td>
+    <td bordercolor="#000000" bgcolor="#003333"><!--DWLayoutEmptyCell-->&nbsp;</td>
+    <td align="center" valign="top" bordercolor="#000000" bgcolor="003333"><!--DWLayoutEmptyCell-->&nbsp;</td>
+  </tr>
+    <tr>
+      <td bordercolor="#000000" bgcolor="#003333"><!--DWLayoutEmptyCell-->&nbsp;</td>
+      <td align="left" valign="top" bgcolor="#003333">Event Name (required): 
+        <input name="eventname" type="text">
+      </td>
+      <td bordercolor="#000000" bgcolor="#003333"><!--DWLayoutEmptyCell-->&nbsp;</td>
+      <td align="left" valign="top" bordercolor="#000000" bgcolor="#003333"><!--DWLayoutEmptyCell-->&nbsp;</td>
+    </tr>
+    <tr>
+      <td bordercolor="#000000" bgcolor="#003333"><!--DWLayoutEmptyCell-->&nbsp;</td>
+      <td align="left" valign="top" bgcolor="#003333">Main Trip Narrative (required): <br>
+        <textarea name="triptext" cols="75" rows="6">&lt;p&gt;Information about the trip.&lt;/p&gt;</textarea>
+			<br>
+			Add a photo (optional): 
+        <input name="trippic" type="file" accept="image/jpg,image/jpeg,image/png,image/gif">
+      <br>
+        <br>
+    </td>
+      <td bordercolor="#000000" bgcolor="#003333"><!--DWLayoutEmptyCell-->&nbsp;</td>
+      <td align="left" valign="top" bordercolor="#000000" bgcolor="#003333">
+        <b>Help</b><br>
+          <a href="" onClick="helpwin('help/routes.html')">drawing routes</a>
+        <br>
+                 
+					<a href="" onClick="helpwin('help/text.html')">trip narratives</a>
+        <br>
+					<a href="" onClick="helpwin('help/upload.html')">uploading files</a>
+        <br>
+      </td>
+    </tr>
+    <tr>
+      <td bordercolor="#000000" bgcolor="#003333"><!--DWLayoutEmptyCell-->&nbsp;</td>
+      <td align="left" valign="top" bgcolor="#003333">Trip Start Narrative (optional): <br>
+        <textarea name="tripstarttext" cols="75" rows="6">&lt;p&gt;Information about the beginning of the trip.&lt;/p&gt;</textarea>
+      <br>
+			Add a photo (optional): 
+        <input name="tripstartpic" type="file" accept="image/jpg,image/jpeg,image/png,image/gif">
+      <br>
+        <br>
+    </td>
+      <td bordercolor="#000000" bgcolor="#003333"><!--DWLayoutEmptyCell-->&nbsp;</td>
+      <td align="left" valign="top" bordercolor="#000000" bgcolor="#003333">
+    </td>
+    </tr>
+    <tr>
+      <td bordercolor="#000000" bgcolor="#003333"><!--DWLayoutEmptyCell-->&nbsp;</td>
+      <td align="left" valign="top" bgcolor="#003333">Trip End Narrative (optional): <br>
+        <textarea name="tripendtext" cols="75" rows="6">&lt;p&gt;Information about the end of the trip.&lt;/p&gt;</textarea>
+      <br>
+			Add a photo (optional): 
+        <input name="tripendpic" type="file" accept="image/jpg,image/jpeg,image/png,image/gif">
+      <br>
+        <br>
+    </td>
+      <td bordercolor="#000000" bgcolor="#003333"><!--DWLayoutEmptyCell-->&nbsp;</td>
+      <td align="left" valign="bottom" bordercolor="#000000" bgcolor="#003333">
+        <input name="submitevent" type="submit" value="Submit">
+            </td>
+    </tr>
+	</form>
+  <tr align="left">
+    <td bordercolor="#000000" bgcolor="#003333"><!--DWLayoutEmptyCell-->&nbsp;</td>
+    <td valign="top" bgcolor="#003333"><font color="#FFFFFF" size=-2><br>
+      Powered by: Community Map Builder<br>
+			</font></td>
+    <td bordercolor="#000000" bgcolor="#003333"><!--DWLayoutEmptyCell-->&nbsp;</td>
+    <td align="right" valign="top" bordercolor="#000000" bgcolor="#003333"><!--DWLayoutEmptyCell-->&nbsp;</td>
+  </tr>
+  <tr align="left">
+    <td bordercolor="#000000">
+			<img src="icons/roundedge_LL_white.gif" width="20" height="20">
+		</td>
+    <td valign="top" bgcolor="#003333"><font color="#FFFFFF" size=-2>Tested with these  browsers: Mozilla 1.4,  IE 6.0.</font><font color="#000000" size=-2>&nbsp;			</font></td>
+    <td bordercolor="#000000" bgcolor="#003333"><!--DWLayoutEmptyCell-->&nbsp;</td>
+    <td align="right" valign="top" bordercolor="#000000" bgcolor="#003333">
+      <img src="icons/roundedge_LR_white.gif" width="20" height="20">
+    </td>
+  </tr>
+</table>
+
+<br>
+<p>&nbsp;</p>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+	// the drawing code has to be after the object to draw on, 
+	// in this case the mapCanvas <div> object
+		var jg = new jsGraphics("mapCanvas");
+		var linewidth = 2;
+		var markerdiam = linewidth * 2;
+		var markerrad = markerdiam * 2;
+		jg.setStroke(2);
+		jg.setColor("yellow"); //blue
+
+		// get the page coordinates of the overview map image
+		var ovxminimg = getAbsX(document.ovMap);
+		var ovyminimg = getAbsY(document.ovMap);
+		var ovxmaximg = ovxminimg + document.images.ovMap.width;  
+		var ovymaximg = ovyminimg + document.images.ovMap.height;  
+
+		var jgov = new jsGraphics("overviewMap");
+		jgov.setColor("red"); //("#ffff00");
+
+  function draw() {
+		// convert all geographic coords into image space and draw
+		var imgxs = new Array();
+		var imgys = new Array();
+		for (i=0; i<eventXs.length; i++) {
+			tmp = projectX(eventXs[i], minx, maxx, xminimg, xmaximg);
+			imgxs.push( parseInt(tmp) );
+			tmp = projectY(eventYs[i], miny, maxy, yminimg, ymaximg);
+			imgys.push( parseInt(tmp) );
+		}
+		
+		if ( imgxs.length > 1 ) {
+			jg.clear();
+			jg.fillEllipse(imgxs[0]-markerdiam, imgys[0]-markerdiam, markerrad, markerrad);
+			jg.drawPolyline( imgxs, imgys );
+			jg.fillEllipse(imgxs[imgxs.length-1]-markerdiam, imgys[imgys.length-1]-markerdiam, markerrad, markerrad);
+		} else if ( imgxs.length == 1 ) {
+			jg.fillEllipse(imgxs[0]-markerdiam, imgys[0]-markerdiam, markerrad, markerrad);
+		}
+		jg.paint();
+
+		// draw extent box on overview map
+		ovx = parseInt( projectX(minx, ovminx, ovmaxx, ovxminimg, ovxmaximg) );
+		ovy = parseInt( projectY(maxy, ovminy, ovmaxy, ovyminimg, ovymaximg) );
+		ovwidth = parseInt( projectX(maxx, ovminx, ovmaxx, ovxminimg, ovxmaximg) - ovx );
+		ovheight = parseInt( projectY(miny, ovminy, ovmaxy, ovyminimg, ovymaximg) - ovy );
+		
+		jgov.clear();
+		jgov.drawRect(ovx, ovy, ovwidth, ovheight);
+		jgov.paint();
+		//window.status = "div elements: "+document.getElementsByName("graphic").length;
+  }
+	
+	function clearTrip() {
+		// delete stored geographic coordinates
+		eventXs = new Array();
+		eventYs = new Array();
+		// delete stored image coordinates
+		jg.clear();
+		jg.paint();
+	}
+	
+-->
+</script>
+
+</body>
+</html>
+
