@@ -49,9 +49,7 @@ function Context(modelNode, parent) {
       }
     }
     // Call the listeners
-    for(var i=0;i<this.listeners["hidden"].length;i++) {
-      this.listeners["hidden"][i][0](layerIndex,this.listeners["hidden"][i][1]);
-    }
+    this.callListeners("hidden", layerIndex);
   }
 
   /**

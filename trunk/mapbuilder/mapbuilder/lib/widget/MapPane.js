@@ -99,8 +99,9 @@ function MapPane(widgetNode, model) {
    * @param layerName The Name of the LayerList/Layer from the Context which
    * has changed.
    * @param thisWidget This object.
+   * @param layerName  The name of the layer that was toggled.
    */
-  this.hiddenListener=function(layerName, thisWidget){
+  this.hiddenListener=function(thisWidget, layerName){
     var vis="visible";
     if(thisWidget.model.getHidden(layerName)=="1"){
       vis="hidden";
