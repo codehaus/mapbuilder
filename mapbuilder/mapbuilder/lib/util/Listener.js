@@ -11,13 +11,13 @@ $Id$
  */
 function Listener(objRef) {
   /** An array [params] of (listener, target). */
-  objRef.listeners=new Array();
+  this.listeners=new Array();
 
   /**
    * An array [params] of values. These values might not be used if the set/get
    * functions are overwritten.
    */
-  objRef.values=new Array();
+  this.values=new Array();
 
   /**
    * Add a listener function which will be called when param is updated;  The
