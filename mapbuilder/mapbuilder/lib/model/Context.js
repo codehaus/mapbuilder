@@ -100,8 +100,7 @@ function Context(url, skin) {
   /**
    * Add a Listener for Hidden attribute.
    * @param listener The fuction to call when a hidden attribute changes.
-   * The listener function should be of the form hiddenListener(layer) where
-   * layer is the layerId that has changed visibility.
+   * The listener function should be of the form hiddenListener(layerId).
    */
   this.addHiddenListener=function(listener) {
     this.hiddenListeners[this.hiddenListeners.length]=listener;
@@ -121,10 +120,28 @@ function Context(url, skin) {
    * Add a LayerOrder listener.  This listener is called if the order of layers
    * changes.
    * The listener function should be of the form layerOrderListener().
-   * @param listener The fuction to call when context changes.
+   * @param listener The fuction to call when layerOrder changes.
    */
   this.addLayerOrderListener=function(listener) {
     this.layerOrderListeners[this.layerOrderListeners.length]=listener;
+  }
+
+  /**
+   * Add a AddLayer listener.  This listener is called if a layer is added.
+   * The listener function should be of the form addLayerListener(layerId).
+   * @param listener The fuction to call when a layer is added.
+   */
+  this.addAddLayerListener=function(listener) {
+    this.addLayerListeners[this.addLayerListeners.length]=listener;
+  }
+
+  /**
+   * Add a DeleteLayer listener.  This listener is called if a layer is deleted.
+   * The listener function should be of the form deleteLayerListener(layerId).
+   * @param listener The fuction to call when a layer is deleted.
+   */
+  this.addDeleteLayerListener=function(listener) {
+    this.deleteLayerListeners[this.deleteLayerListeners.length]=listener;
   }
 
   /**
