@@ -30,9 +30,9 @@ $Name$
 
 
 
-  <xsl:param name="listenerFilter"/>
+  <xsl:param name="listenerFilter"></xsl:param>
 
-  <xsl:param name="targetFilter"/>
+  <xsl:param name="targetFilter"></xsl:param>
 
 
 
@@ -54,7 +54,11 @@ $Name$
 
         <td>
 
-          <a href="javascript:window.logger.callListeners('loadModel');">Refresh</a>
+          <a href="javascript:window.logger.clearLog();">Clear</a> - 
+
+          <a href="javascript:window.logger.callListeners('loadModel');">Refresh</a> - 
+
+          <a href="javascript:window.logger.saveLog();">Save</a>
 
         </td>
 
@@ -86,7 +90,21 @@ $Name$
 
         <xsl:when test="string-length($listenerFilter)>0">              
 
-          <xsl:apply-templates select="event[@listener='mainMap']"/>
+          <xsl:choose>
+
+            <xsl:when test="string-length($targetFilter)>0">              
+
+              <xsl:apply-templates select="event[@listener=$listenerFilter and @target=$targetFilter]"/>
+
+            </xsl:when>
+
+            <xsl:otherwise>
+
+              <xsl:apply-templates select="event[@listener=$listenerFilter]"/>
+
+            </xsl:otherwise>
+
+          </xsl:choose>
 
         </xsl:when>
 
