@@ -57,7 +57,7 @@ function Config(url) {
 
       var modelType = modelNode.nodeName;
       var evalStr = "new " + modelType + "(modelNode, this);";
-      alert("init model:" + evalStr);
+      //alert("init model:" + evalStr);
       var model = eval( evalStr );
 
       this[model.id] = model;

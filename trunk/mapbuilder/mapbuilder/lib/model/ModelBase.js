@@ -44,7 +44,7 @@ function ModelBase(modelNode, parent) {
 
       //call the widget constructor and paint
       var evalStr = "new " + widgetNode.nodeName + "(widgetNode, this);";
-      alert("eval: model.loadWidgets:" + evalStr);
+      //alert("eval: model.loadWidgets:" + evalStr);
       var widget = eval( evalStr );
 
       widget.loadTools();
