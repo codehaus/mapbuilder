@@ -38,14 +38,6 @@ function Context(url, name, baseDir, skin, queryLayer) {
    * The name of the skin to use, defaults to skin/default .*/
   this.skin=baseDir+"/skin/"+this.skin+"/";
   this.queryLayer=queryLayer;
-  /*
-  // Insert unique Ids into each Layer node.
-  var layerNodeList=this.context.selectNodes("/ViewContext");
-  for (var i=0;i<layerNodeList.length;i++){
-    layerNodeList[i].setAttribute("id","wmc"+UniqueId.getId());
-    alert layerNodeList[i].xml;
-  }
-  */
 
   // ===============================
   // Arrays of Listeners
