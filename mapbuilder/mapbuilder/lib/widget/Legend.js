@@ -15,47 +15,11 @@ $Id$
  * @param name Variable name referencing this Legend object
  * @param node Node from the HTML DOM to insert legend HTML into.
  */
-function Legend(context, name, node) {
-  this.context=context;
-  this.name=name;
-  if(node==null){
-    node=makeElt("DIV");
-    node.style.position="absolute";
-    node.style.overflow="auto";
-  }
-  this.node=node;
-  this.context2Legend=new XslProcessor(this.context.baseDir+"/widget/legend/Context2Legend.xml");
-
-  /**
-   * Move this widget to the absolute (left,top) position in the browser.
-   * @param left Absolute left coordinate.
-   * @param top Absolute top coordinate.
-   */
-  this.move=function(left,top) {
-    this.node.style.left=left;
-    this.node.style.top=top;
-  }
-
-  /**
-   * Resize this widget.
-   * @param width New width.
-   * @param height New height.
-   */
-  this.resize=function(width,height) {
-    this.node.style.width=width;
-    this.node.style.height=height;
-  }
-  /**
-   * Render the legend.
-   * This function should be called at startup.
-   */
-  this.paint=function(){
-    // These two lines not yet working
-    // result=this.context2Legend.transformNodeToObject(this.context.context);
-    // this.node.appendChild(result.documentElement);
-    s=this.context2Legend.transformNode(this.context.context);
-    this.node.innerHTML=s;
-  }
+function Legend(widgetNode, group) {
+  var base = new WidgetBase(widgetNode, group);
+  for (sProperty in base) { 
+    this[sProperty] = base[sProperty]; 
+  } 
 
   /**
    * Called when the context's hidden attribute changes.
@@ -65,5 +29,7 @@ function Legend(context, name, node) {
     // TBD check/uncheck Layer's selected box
   }
 
-  this.context.addHiddenListener(this.hiddenListener);
+  this.addListeners = function() {
+    this.model.addHiddenListener(this.hiddenListener);
+  }
 }
