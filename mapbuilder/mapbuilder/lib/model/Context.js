@@ -46,11 +46,10 @@ function Context(url, skin) {
   // ===============================
 
   /** Functions to call when the boundingBox has changed,
-    * TBD: I think this should be renamed to boundingBoxChangeListeners to be
-    * consistant with OGC WMS spec. */
-  this.bboxChangeListeners=new Array();
+   */
+  this.boundingBoxChangeListeners=new Array();
   /** TBD: I think this should be deprecated? Isn't it the same as
-    * bboxChangeListeners? Cameron.
+    * boundingBoxChangeListeners? Cameron.
     * @deprecated */
   this.bboxChangeListenerTargets=new Array();
   /** Functions to call when the layer's Hidden attribute changes. */
@@ -69,12 +68,11 @@ function Context(url, skin) {
   // Add Listener Functions
   // ===============================
   /**
-   * Add a Listener for bbox change.
-   * TBD: rename function name to addBoundingBoxListener().
-   * @param listener The function to call when the bbox changes.
+   * Add a Listener for boundingBox change.
+   * @param listener The function to call when the boundingBox changes.
    */
-  this.addBboxChangeListener=function(listener,target) {
-    this.bboxChangeListeners[this.bboxChangeListeners.length]=listener;
+  this.addBoundingBoxChangeListener=function(listener,target) {
+    this.boundingBoxChangeListeners[this.boundingBoxChangeListeners.length]=listener;
     this.bboxChangeListenerTargets[this.bboxChangeListenerTargets.length]=target;
   }
 

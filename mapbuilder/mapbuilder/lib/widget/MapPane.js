@@ -62,19 +62,28 @@ function MapPane(context,baseDir) {
 
     this.setClip();
    }
+
+   /**
+    * TBD: Comment me.
+    */
    this.setClip=function(){
      width=this.context.getWindowWidth();
      height=this.context.getWindowHeight();
      this.node.style.clip="rect(0," + width + "," + height + ",0)";
    }
+
+   /**
+    * TBD: Comment me.
+    */
    this.moveImages=function(left,top){
     images=this.node.firstChild.getElementsByTagName("IMG");
     for(i=0;i<images.length;i++){
       img=images.item(i);
       img.style.left=left;
       img.style.top=top;
-    }
+     }
    }
+
   /**
    * Called when the context's hidden attribute changes.
    * @param e The event sent to the listener.
@@ -94,9 +103,9 @@ function MapPane(context,baseDir) {
    * Called when the context's boundingBox attribute changes.
    * @param e The event sent to the listener.
    */
-  this.bboxChangeListener=function(target){
+  this.boundingBoxChangeListener=function(target){
     target.paint();
   }
 
-  this.context.addBboxChangeListener(this.bboxChangeListener,this);
+  this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
 }
