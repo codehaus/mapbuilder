@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
+<article>
+  <title>Community Map Builder Software Design Description</title>
+
+  <abstract>
+    <para>This document describes the design of Community Map Builder.</para>
+  </abstract>
+
+  <section>
+    <title>Context 0</title>
+
+    <para></para>
+
+    <figure>
+      <title></title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/context0.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+
+  <section>
+    <title>Detailed Design</title>
+
+    <para></para>
+
+    <section>
+      <title>Components</title>
+
+      <para></para>
+
+      <figure>
+        <title></title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/context1.png" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+  </section>
+</article>
