@@ -127,7 +127,7 @@ function getArgs(){
     if (pos == -1) continue;
     var argname = pairs[i].substring(0,pos);
     var value = pairs[i].substring(pos+1);
-    args[argname] = decode(value);
+    args[argname] = unescape(value.replace(/\+/g, " "));
   }
   return args;
 }
