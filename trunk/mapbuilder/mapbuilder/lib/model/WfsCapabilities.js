@@ -18,7 +18,7 @@ function WfsCapabilities(modelNode, parentModel) {
 
   this.namespace = "xmlns:wfs='http://www.opengis.net/wfs'";
 
-  this.getServerUrl = function(requestName, method) {
+  this.getServerUrl = function(requestName, method, feature) {
     var xpath = "/wfs:WFS_Capabilities/wfs:Capability/wfs:Request/"+requestName;
     if (method.toLowerCase() == "post") {
       xpath += "/wfs:DCPType/wfs:HTTP/wfs:Post";
@@ -30,6 +30,14 @@ function WfsCapabilities(modelNode, parentModel) {
 
   this.getMethod = function() {
     return this.method;
+  }
+
+  /**
+   * get the list of source nodes from the parent document
+   * @param objRef Pointer to this object.
+   */
+  this.getFeatureNode = function(featureName) {
+    return this.doc.selectSingleNode(this.nodeSelectXpath+"[wfs:Name='"+featureName+"']");
   }
 
 }

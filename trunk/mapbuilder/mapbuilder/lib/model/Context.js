@@ -167,7 +167,7 @@ function Context(modelNode, parent) {
     win.setAttribute("height", height);
   }
 
-  this.getServerUrl = function(feature) {
+  this.getServerUrl = function(requestName, method, feature) {
     return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
   }
 

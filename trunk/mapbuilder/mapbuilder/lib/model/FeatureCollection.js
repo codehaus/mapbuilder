@@ -38,6 +38,7 @@ function FeatureCollection(modelNode, parent) {
       var srsNode = coordNodes[0].selectSingleNode("ancestor-or-self::*/@srsName");
       var sourceProj = new Proj(srsNode.nodeValue);
       if ( !sourceProj.matchSrs( objRef.containerModel.getSRS() )) {  
+        objRef.setParam("modelStatus","converting coordinates");
         var containerProj = new Proj(objRef.containerModel.getSRS());
         for (var i=0; i<coordNodes.length; ++i) {
           var coords = coordNodes[i].firstChild.nodeValue;
