@@ -5,6 +5,7 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/tool/Extent.js");
 
 /**
  * Base class for a MapContainer.  Widgets extending this class will have their
@@ -40,9 +41,9 @@ function MapContainerBase(widget,widgetNode,model) {
     alert("MapContainerBase: required property mapContainerId missing in config:"+widget.id);
   }
 
-/**
- * Initialize the container if required.
- */
+  /**
+   * Initialize the container if required.
+   */
   var containerNode = document.getElementById(widget.containerNodeId);
   if (containerNode) {
     widget.containerModel = containerNode.widget.model;
@@ -55,7 +56,6 @@ function MapContainerBase(widget,widgetNode,model) {
     containerNode.style.overflow="hidden";
 
     widget.containerModel = widget.model;
-    //widget.containerModel = widget.node.widget.model;
 
     /**
      * Set the map area to have a fixed width.
