@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--
+Description: A Browser based Web Map Server Client based on javascript and XSL
+             libraries from http://mapbuilder.sourceforge.net .
+Usage:       Call http://hostname/dir/wms.html?context=UrlOfContext
+             or http://hostname/dir/wms.html (and a default context is used)
+Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+
+$Id$
+$Name$
+-->
+
+<html>
+  <head>
+    <title>WMS Client</title>
+
+    <!-- Include mapbuilder libraries -->
+    <script type="text/javascript" src="../lib/util/sarissa/Sarissa.js"></script>
+    <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
+
+    <script>
+function XslProcessor(xslUrl) {
+  // get the stylesheet document
+  this.xslDom = Sarissa.getDomDocument();
+  this.xslDom.async = false;
+  this.xslDom.load(xslUrl);
+
+  this.processor = new XSLTProcessor(); //browser check here
+  this.processor.importStylesheet( this.xslDom ); //browser check here
+
+
+  /**
+   * Transforms XML in the provided xml node according to this XSL.
+   * @param xmlNode The XML node to be transformed.
+   * @return The transformed String.
+   */
+  this.transformNode=function(xmlNode) {
+    // transform and build a web page with result
+    s=new String(xmlNode.transformNode(this.xslDom));
+    // Some browsers XSLT engines don't transform &lt; &gt; to < >, so do it here.
+    a=s.split("&lt;");
+    s=a.join("<");
+    a=s.split("&gt;");
+    s=a.join(">");
+    return s;
+  }
+  this.transformNodeToObject=function(xmlNode) {
+    // transform and build a web page with result
+/*
+    var result = Sarissa.getDomDocument();
+    xmlNode.transformNodeToObject(this.xslDom,result);
+    return result;
+*/
+    return this.processor.transformToFragment( xmlNode, document );
+  }
+}
+
+    </script>
+
+
+  </head>
+
+  <body>
+    <h1><a href="http://mapbuilder.sourceforge.net">Mapbuilder</a>
+      XSL test page</h1>
+
+    <!-- Layout mapbuilder widgets and HTML -->
+    <table>
+      <tr>
+        <td valign="top">
+          button bar to go here
+        </td>
+        <td valign="top">
+        <div id="ButtonBar"></DIV>
+        </td>
+      </tr>
+
+    <script>
+
+  var doc = Sarissa.getDomDocument();
+  doc.async = false;
+  // the following two lines are needed for IE
+  doc.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
+  doc.setProperty("SelectionLanguage", "XPath");
+  doc.load("configWms3.xml");
+
+  var stylesheet = new XslProcessor("/mapbuilder/lib/widget/tool/ButtonBar.xsl");
+  var s = stylesheet.transformNodeToObject(doc);
+alert(s.xml);
+
+  var node = document.getElementById("ButtonBar")
+  //node.appendChild(s);
+  node.innerHTML = s.xml;
+
+    </script>
+
+  </body>
+</html>
