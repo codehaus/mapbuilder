@@ -17,16 +17,16 @@
     <Context id="mainMap">
       <defaultModelUrl>context/ows_context.xml</defaultModelUrl>
       <models>
-        <Gml2 id="gml2FeatureTemplate">
+        <Gml2 id="gml2FeatureTemplate" template="true">
           <method>post</method>
           <widgets>
-            <GmlRenderer id="testGmlRenderer">
+            <GmlRendererTest id="testGmlRenderer">
               <htmlTagId>mainMapPane</htmlTagId>
               <mapContainerId>mainMapContainer</mapContainerId>
               <lineColor>#FF0000</lineColor>
               <lineWidth>1</lineWidth>
               <pointDiameter>10</pointDiameter>
-            </GmlRenderer>
+            </GmlRendererTest>
           </widgets>
         </Gml2>
       </models>
@@ -52,22 +52,20 @@
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap.mainMapWidget</mouseHandler>
         </CursorTrack>
-        <Legend id="legend"/>
+        <!--Legend id="legend"/-->
         <Widget id="mapTitle">
           <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
         </Widget>
         <GetFeatureRequest id="getFeatureRequest">
           <targetModel>gml2FeatureTemplate</targetModel>
+          <nodeSelectXpath>/cml:ViewContext/cml:ResourceList/cml:FeatureType[cml:Server/@service='OGC:WFS']</nodeSelectXpath>
           <tools>
-            <ModelList>
-              <nodeSelectXpath>/cml:ViewContext/cml:ResourceList/cml:FeatureType[cml:Server/@service='OGC:WFS']</nodeSelectXpath>
-            </ModelList>
             <!--OgcFilter/-->
           </tools>
         </GetFeatureRequest>
       </widgets>
     </Context>
-    <Context id="locatorMap">
+    <!--Context id="locatorMap">
       <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorMapWidget">
@@ -87,7 +85,7 @@
           <fixedWidth>180</fixedWidth>
         </MapPane>
       </widgets>
-    </Context>
+    </Context-->
   </models>
   <widgets>
     <ButtonBar id="buttonBar">

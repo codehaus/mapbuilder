@@ -40,6 +40,8 @@ $Id$
 
   <!-- The name of the form for coordinate output -->
 
+  <xsl:param name="webServiceUrl">http://geoservices.cgdi.ca/NTS/NTSLookup</xsl:param>
+
   <xsl:param name="formName">NTSForm</xsl:param>
 
 
@@ -50,7 +52,7 @@ $Id$
 
     <DIV>
 
-    <form name="{$formName}" id="{$formName}" method="get" action="http://geoservices.cgdi.ca/NTS/NTSLookup">
+    <form name="{$formName}" id="{$formName}" method="get" action="{$webServiceUrl}">
 
       <input name="request" type="hidden" value="GetMapsheet"/>
 
