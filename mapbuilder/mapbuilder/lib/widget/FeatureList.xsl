@@ -54,6 +54,18 @@ $Name$
 
         </table>
 
+        <input type="button" value="Reset"
+
+          onclick="alert('FeatreList.xsl: Reset');"/>
+
+        <input type="button" value="Insert Feature"
+
+          onclick="alert('FeatreList.xsl: Insert Feature');"/>
+
+        <input type="button" value="Update Feature"
+
+          onclick="alert('FeatreList.xsl: Update Feature');"/>
+
       </form>
 
     </div>
