@@ -36,6 +36,7 @@ function GmlRenderer(widgetNode, model) {
    */
   this.prePaint = function(objRef) {
     objRef.stylesheet.setParameter("width", objRef.targetModel.getWindowWidth() );
+    alert("GmlRenderer.height="+height+" width="+width);
     objRef.stylesheet.setParameter("height", objRef.targetModel.getWindowHeight() );
     bBox=objRef.targetModel.getBoundingBox();
     objRef.stylesheet.setParameter("bBoxMinX", bBox[0] );
@@ -43,10 +44,10 @@ function GmlRenderer(widgetNode, model) {
     objRef.stylesheet.setParameter("bBoxMaxX", bBox[2] );
     objRef.stylesheet.setParameter("bBoxMaxY", bBox[3] );
 
-    objRef.resultDoc = objRef.coordXsl.transformNodeToObject(objRef.resultDoc);
+    //objRef.resultDoc = objRef.coordXsl.transformNodeToObject(objRef.resultDoc);
   }
 
-  this.paint = function() {}
+  //this.paint = function() {}
 
   // Call paint() when the context changes
   this.targetModel.addListener("boundingBox",this.paint, this);
