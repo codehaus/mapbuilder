@@ -35,14 +35,14 @@
           <htmlTagId>secondMapPane</htmlTagId>
           <mapContainerId>secondMapContainer</mapContainerId>
         </MapPane>
-        <!--AoiBoxWZ id="SecondAoiBox">
+        <AoiBoxWZ id="SecondAoiBox">
           <htmlTagId>secondMapPane</htmlTagId>
           <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
           <mapContainerId>secondMapContainer</mapContainerId>
-        </AoiBoxWZ-->
+        </AoiBoxWZ>
       </widgets>
       <tools>
         <AoiMouseHandler id="locatorAoi"/>
