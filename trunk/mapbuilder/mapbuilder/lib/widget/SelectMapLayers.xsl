@@ -45,10 +45,10 @@ $Name$
         <xsl:value-of select="Title"/>
       </td>
       <td>
-        <a href="javascript:config.models.{$modelId}.setParam('wms_GetMap','{$name}')">preview</a>
+        <a href="javascript:config.objects.{$modelId}.setParam('GetMap','{$name}')">preview</a>
       </td>
       <td>
-        <a href="javascript:config.models.{$modelId}.addToContext('{$name}')">add to map</a>
+        <a href="javascript:config.objects.{$modelId}.addToContext('{$name}')">add to map</a>
       </td>
     </tr>
     <xsl:apply-templates/>

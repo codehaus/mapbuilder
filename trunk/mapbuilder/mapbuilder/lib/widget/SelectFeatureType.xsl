@@ -48,10 +48,10 @@ $Name$
         <xsl:value-of select="$title"/> (<xsl:value-of select="$name"/>) <xsl:value-of select="ogcwfs:SRS"/>
       </td>
       <td>
-        <a href="javascript:config.models.{$modelId}.setParam('wfs_GetFeature','{$name}')">load</a>
+        <a href="javascript:config.objects.{$modelId}.setParam('wfs_GetFeature','{$name}')">load</a>
       </td>
       <td>
-        <a href="javascript:config.models.{$modelId}.setParam('wfs_DescribeFeatureType','{$name}')">filter</a>
+        <a href="javascript:config.objects.{$modelId}.setParam('wfs_DescribeFeatureType','{$name}')">filter</a>
       </td>
     </tr>
   </xsl:template>

@@ -52,13 +52,16 @@ function WebServiceRequest(toolNode, model) {
 
     if (objRef.targetModel.containerModel) {
       var bBox = objRef.targetModel.containerModel.getBoundingBox();
-      var bboxStr = bBox[0]+","+bBox[1]+" "+bBox[2]+","+bBox[3];
+      var bboxStr = bBox[0]+","+bBox[1]+","+bBox[2]+","+bBox[3];
       requestStylesheet.setParameter("bbox", bboxStr );
       requestStylesheet.setParameter("srs", objRef.targetModel.containerModel.getSRS() );
+      requestStylesheet.setParameter("width", objRef.targetModel.containerModel.getWindowWidth() );
+      requestStylesheet.setParameter("height", objRef.targetModel.containerModel.getWindowHeight() );
+      requestStylesheet.setParameter("version", objRef.model.getVersion(feature) );
     }
 
     httpPayload.postData = requestStylesheet.transformNodeToObject(feature);
-    if (this.debug) alert("request data:"+httpPayload.postData.xml);
+    alert("request data:"+httpPayload.postData.xml);
 
     if (objRef.serverUrl) {
       httpPayload.url = objRef.serverUrl;

@@ -16,7 +16,7 @@ function WmsCapabilities(modelNode, parentModel) {
   // Inherit the ModelBase functions and parameters
   var modelBase = new ModelBase(this, modelNode, parentModel);
 
-  this.namespace = "xmlns:wms='http://www.opengis.net/wms'";
+  this.namespace = "xmlns:wms='http://www.opengis.net/wms' xmlns:xlink='http://www.w3.org/1999/xlink'";
 
   this.getServerUrl = function(requestName, method, feature) {
     var xpath = "/WMT_MS_Capabilities/Capability/Request/"+requestName;
@@ -25,7 +25,7 @@ function WmsCapabilities(modelNode, parentModel) {
     } else {
       xpath += "/DCPType/HTTP/Get/OnlineResource";
     }
-    return this.doc.selectSingleNode(xpath).getAttribute("onlineResource");
+    return this.doc.selectSingleNode(xpath).getAttribute("xlink:href");
   }
 
   this.getVersion = function() {
