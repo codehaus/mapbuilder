@@ -11,11 +11,11 @@ var mbScaleFactor = 72 * 39.3701;   //PixelsPerInch*InchesPerMapUnit; magic numb
                                     //need to determine magic number for lat/lon
 
 /**
- * A tool designed to handle geography calcualtions for widgets which render
+ * A tool designed to handle geography calculations for widgets which render
  * the model in 2D.
  * Use of this tool requires that it's model implements get/setWindowHeight/Width
  * methods.
- * Encapsulates all geographic and image size aspects of a geographic object 
+ * Encapsulates all geography and image size aspects of a geographic object 
  * displayed in a rectangular area on the screen.
  * All coordinates are handled as points which is a 2 element array, where x is 
  * the first element and y is the second. Coordinates are either pixel and lixel
@@ -138,9 +138,8 @@ function Extent( model, initialRes ) {
   }
 
   /**
-   * Returns pixel/line coordinates for given XY projection coords
-   * @param xy   projection XY coordinate to calculate
-   * @return     point array of pxiel/line coordinates w.r.t. top left corner
+   * Returns the map scale denominator for the current extent resolution
+   * @return map scale denominator
    */
   this.getScale = function() {
     var pixRes = null;
@@ -157,7 +156,8 @@ function Extent( model, initialRes ) {
   }
 
   /**
-   * Sets the model's resolution from mapScale input value.
+   * Sets the model's resolution from mapScale input value.  The map center 
+   * remains fixed.
    * @param scale   map scale denominator value
    */
   this.setScale = function(scale) {
