@@ -11,11 +11,11 @@ $Id$
  * @constructor
  * @param context The Web Map Context which contains the state of this legend.
  * @param baseDir The base mapbuilder lib directory.
- * @param window Not supported yet, writes to the current window.
+ * @param node Node from the HTML DOM to insert legend HTML into.
  */
-function Legend(context,baseDir,window) {
+function Legend(context,baseDir,node) {
   this.context=context;
-  this.window=window;
+  this.node=node;
   this.context2Legend=new XslProcessor(baseDir+"/legend/Context2Legend.xml");
 
   /**
@@ -24,7 +24,7 @@ function Legend(context,baseDir,window) {
    */
   this.paint=function(){
     s=this.context2Legend.transformNode(this.context.context);
-    document.write(s);
+    this.node.innerHTML=s;
   }
 
   /**
