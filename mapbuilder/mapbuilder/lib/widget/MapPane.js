@@ -87,4 +87,15 @@ function MapPane(context,baseDir) {
   }
 
   this.context.addHiddenListener(this.hiddenListener);
+
+
+  /**
+   * Called when the context's boundingBox attribute changes.
+   * @param e The event sent to the listener.
+   */
+  this.bboxChangeListener=function(e){
+    this.paint();
+  }
+
+  this.context.addBboxChangeListener(this.bboxChangeListener);
 }

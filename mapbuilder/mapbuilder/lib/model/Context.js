@@ -35,6 +35,17 @@ function Context(url) {
   alert("Context 4");
   */
 
+  /** Functions to call when the boundingBox has changed. */
+  this.bboxChangeListeners=new Array();
+
+  /**
+   * Add a Listener for bbox change.
+   * @param listener The fuction to call when the bbox changes.
+   */
+  this.addBboxChangeListener=function(listener) {
+    this.bboxChangeListeners[this.bboxChangeListeners.length]=listener;
+  }
+
   /** Functions to call when the layer's Hidden attribute changes. */
   this.hiddenListeners=new Array();
 
@@ -87,6 +98,10 @@ function Context(url) {
     bbox.setAttribute("miny", boundingBox[1]);
     bbox.setAttribute("maxx", boundingBox[2]);
     bbox.setAttribute("maxy", boundingBox[3]);
+    // Call the listeners
+    for(i=0;i<this.bboxChangeListeners.length;i++) {
+      this.bboxChangeListeners[i]();
+    }
   }
 
   /**
@@ -155,7 +170,7 @@ function Context(url) {
         break;
     }
     this.setBoundingBox(bbox);
-    mapPane.paint();
+//    mapPane.paint();
   }
   /**
    * Pan (reset the BoundingBox) in a specified direction.
@@ -186,7 +201,7 @@ function Context(url) {
       }
     }
     this.setBoundingBox(bbox);
-    mapPane.paint();
+//    mapPane.paint();
   }
 }
 
