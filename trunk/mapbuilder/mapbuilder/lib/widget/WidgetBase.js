@@ -34,7 +34,7 @@ function WidgetBase(widgetNode) {
 
   this.loadModel = function( modelUrl ) {
     var evalStr = "new " + this.modelType + "('" + modelUrl + "');";
-    alert("WidgetBase.loadModel eval:" + evalStr);
+    //alert("WidgetBase.loadModel eval:" + evalStr);
     this.model = eval( evalStr );
     //send out an update event?
     this.model.modelIndex = config.modelArray.push( this.model ) - 1;  //or replace if it exists?

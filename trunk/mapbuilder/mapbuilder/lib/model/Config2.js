@@ -72,11 +72,12 @@ function Config(url) {
         }
       }
       widget.paint();
+      //this has to be called after widgets are painted
+      widget.addListeners();
+
 
       //recursively instantiate child widgets
       this.loadWidgets( widgetNode, widget );
-
-      widget.addListeners();
 
       this.widgetArray[i] = widget;
 /*
