@@ -46,10 +46,6 @@ function Context(url, name, baseDir, skin, queryLayer) {
   /** Functions to call when the boundingBox has changed,
    */
   this.boundingBoxChangeListeners=new Array();
-  /** TBD: I think this should be deprecated? Isn't it the same as
-    * boundingBoxChangeListeners? Cameron.
-    * @deprecated */
-  this.bboxChangeListenerTargets=new Array();
   /** Functions to call when the layer's Hidden attribute changes. */
   this.hiddenListeners=new Array();
   /** Functions to call when one of the Context attributes has changed and
@@ -70,10 +66,11 @@ function Context(url, name, baseDir, skin, queryLayer) {
   /**
    * Add a Listener for boundingBox change.
    * @param listener The function to call when the boundingBox changes.
+   * @param target The object which owns the listener function.
    */
   this.addBoundingBoxChangeListener=function(listener,target) {
-    this.boundingBoxChangeListeners[this.boundingBoxChangeListeners.length]=listener;
-    this.bboxChangeListenerTargets[this.bboxChangeListenerTargets.length]=target;
+    this.boundingBoxChangeListeners[this.boundingBoxChangeListeners.length]=
+      new Array(listener,target);
   }
 
   /**
@@ -193,7 +190,8 @@ function Context(url, name, baseDir, skin, queryLayer) {
     bbox.setAttribute("maxy", boundingBox[3]);
     // Call the listeners
     for (var i=0; i<this.boundingBoxChangeListeners.length; i++) {
-      this.boundingBoxChangeListeners[i](this.bboxChangeListenerTargets[i]);
+      this.boundingBoxChangeListeners[i][0](
+        this.boundingBoxChangeListeners[i][1]);
     }
   }
 
