@@ -42,8 +42,7 @@
           <mouseHandler>mainMap.mainMapPane</mouseHandler>
         </CursorTrack>
             
-        <Legend id="legend">
-        </Legend>
+        <Legend id="legend"/>
         
         <WidgetBase id="abstract">
           <stylesheet>/mapbuilder/lib/widget/Abstract.xsl</stylesheet>
@@ -53,8 +52,7 @@
           <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
         </WidgetBase>
 
-        <AoiForm id="aoiForm">
-        </AoiForm>
+        <AoiForm id="aoiForm"/>
 
         <WmsCapabilitiesImport id="wmsCapabilitiesImport"/>
       </widgets>
@@ -81,14 +79,14 @@
       </widgets>
     </Context>
     
-    <ModelBase id="collectionGroup">
+    <ContextCollection id="collectionGroup">
       <defaultModelUrl>context/demoCollection.xml</defaultModelUrl>
       <widgets>
         <CollectionList id="collectionList">
           <targetModel>mainMap</targetModel>
         </CollectionList>
       </widgets>
-    </ModelBase>
+    </ContextCollection>
     
 		<ModelBase id="locations">
 			<defaultModelUrl>locations/Global.xml</defaultModelUrl>
@@ -113,7 +111,8 @@
           <dependsOn>mainMap.mainMapPane.AoiBox</dependsOn>
           <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
           <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
-          <tooltip>click and drag to zoom in</tooltip>
+          <tooltip lang="en">click and drag to zoom in</tooltip>
+          <tooltip lang="fr">cliquer et faire glisser la souris pour agrandir</tooltip>
         </ZoomIn>
         <ZoomOut id="zoomOut">
           <class>RadioButton</class>
@@ -122,7 +121,8 @@
           <dependsOn>mainMap.mainMapPane.AoiBox</dependsOn>
           <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
           <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
-          <tooltip>click to zoom out</tooltip>
+          <tooltip lang="en">click to zoom out</tooltip>
+          <tooltip lang="fr">cliquer pour réduire</tooltip>
         </ZoomOut>
         <DragPan id="dragPan">
           <class>RadioButton</class>
@@ -130,7 +130,8 @@
           <dependsOn>mainMap.mainMapPane.DragPanHandler</dependsOn>
           <enabledSrc>/images/PanEnable.gif</enabledSrc>
           <disabledSrc>/images/PanDisable.gif</disabledSrc>
-          <tooltip>click and drag to pan</tooltip>
+          <tooltip lang="en">click and drag to pan</tooltip>
+          <tooltip lang="fr">cliquer et faire glisser la souris pour voir un autre parti de la carte</tooltip>
         </DragPan>
         <SetAoi id="setAoi">
           <class>RadioButton</class>
@@ -139,12 +140,14 @@
           <dependsOn>mainMap.mainMapPane.AoiBox</dependsOn>
           <enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
           <disabledSrc>/images/SetAoiDisable.gif</disabledSrc>
-          <tooltip>set the area of interest</tooltip>
+          <tooltip lang="en">click and drag to set the area of interest</tooltip>
+          <tooltip lang="fr">cliquer et faire glisser la souris pour positionner une région d'intérêt</tooltip>
         </SetAoi>
         <Reset id="reset">
           <class>Button</class>
           <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
-          <tooltip>reset the map to full extent</tooltip>
+          <tooltip lang="en">reset the map to full extent</tooltip>
+          <tooltip lang="fr">redonner à la carte ses dimensions complètes</tooltip>
         </Reset>
         <GetFeatureInfo id="getFeatureInfo">
           <class>RadioButton</class>
@@ -152,7 +155,8 @@
           <dependsOn>mainMap.mainMapPane.MouseClickHandler</dependsOn>
           <enabledSrc>/images/QueryEnable.gif</enabledSrc>
           <disabledSrc>/images/QueryDisable.gif</disabledSrc>
-          <tooltip>click on feature for more info</tooltip>
+          <tooltip lang="en">click on feature for more info</tooltip>
+          <tooltip lang="fr">cliquer pour obtenir plus d'information pour cette couche</tooltip>
         </GetFeatureInfo>
       </tools>
     </ButtonBar>
