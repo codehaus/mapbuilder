@@ -11,7 +11,8 @@
   <xsl:param name="geometry_xsd" select='"geometry.xsd"'/>
 
   <!-- Set TRUE to produce extra debugging html -->
-  <xsl:param name="debug" select='"TRUE"'/>
+  <!--<xsl:param name="debug" select='"TRUE"'/>-->
+  <xsl:param name="debug"/>
 
 
   <!--============================================================================-->
@@ -64,22 +65,10 @@
         <xsl:when test="@ref">
           <xsl:if test="$debug">
             <b>Element Ref: </b>
-            <xsl:value-of select="substring-after(@ref,':')"/><br/>
+            <xsl:value-of select="@ref"/><br/>
           </xsl:if>
           <xsl:variable name="ref" select="@ref"/>
           <xsl:apply-templates select="//xsd:element[@name=substring-after($ref,':')]"/>
-          <br/>
-
-          <xsl:for-each select="//xsd:element[@name=substring-after($ref,':')]">
-            <xsl:value-of select="@name"/><br/>
-          </xsl:for-each>
-          <br/>
-
-          <!--
-          <xsl:call-template name="processType">
-            <xsl:with-param name="type"><xsl:value-of select="@ref"/></xsl:with-param>
-          </xsl:call-template>
-          -->
         </xsl:when>
 
         <!-- @ref means this element renames another.  Display this element's name
@@ -109,17 +98,9 @@
           <xsl:if test="not(contains($displayName,'false'))">
             <xsl:if test="$debug"><b>Element to expand: </b></xsl:if>
             <xsl:value-of select="@name"/>
-            <xsl:if test="@type">
-              - <i><xsl:value-of select="@type"/></i>
-              <xsl:variable name="typeName" select="substring-after(@type,':')"/>
-              <ul>
-                <xsl:apply-templates select="//xsd:schema/xsd:complexType[@name=$typeName]" mode="expandedElement"/>
-                <xsl:apply-templates select="//xsd:schema/xsd:simpleType[@name=$typeName]" mode="expandedElement"/>
-              </ul>
-              </xsl:if>
-              <xsl:apply-templates/>
-            </xsl:if>
-          <xsl:if test="$debug">end.<br/></xsl:if>
+            <xsl:apply-templates/>
+            <xsl:if test="$debug">...end Element to expand.<br/></xsl:if>
+          </xsl:if>
         </xsl:otherwise>
       </xsl:choose>
   </xsl:template>
@@ -127,7 +108,7 @@
   <!--============================================================================-->
   <!-- complexType                                                                -->
   <!--============================================================================-->
-  <xsl:template match="xsd:complexType" mode="expandedElement">
+  <xsl:template match="xsd:complexType">
     <xsl:if test="$debug">
       <b>complexType:</b> <xsl:value-of select="@name"/><br/>
     </xsl:if>
@@ -137,10 +118,10 @@
   <!--============================================================================-->
   <!-- simpleType                                                                 -->
   <!--============================================================================-->
-  <xsl:template match="xsd:simpleType" mode="expandedElement">
-    <p>
-      <b>simpleType:</b> <xsl:value-of select="@name"/>
-    </p>
+  <xsl:template match="xsd:simpleType">
+    <xsl:if test="$debug">
+      <b>simpleType:</b> <xsl:value-of select="@name"/><br/>
+    </xsl:if>
     <xsl:apply-templates/>
   </xsl:template>
 
@@ -148,7 +129,9 @@
   <!-- extension                                                                  -->
   <!--============================================================================-->
   <xsl:template match="xsd:extension">
+    <xsl:if test="$debug">
     <b>Extension:</b>
+    </xsl:if>
     <xsl:call-template name="processType">
       <xsl:with-param name="type"><xsl:value-of select="@base"/></xsl:with-param>
     </xsl:call-template>
@@ -206,7 +189,7 @@
   </xsl:template>
 
   <!--============================================================================-->
-  <!-- processType                                                                -->
+  <!-- processType2                                                               -->
   <!--============================================================================-->
   <xsl:template name="processType2">
     <xsl:param name="type"/>
@@ -261,6 +244,7 @@
           $type='derivationControl' or
           $type='simpleDerivationSet'">
         <input type="text" maxlength="20" name="text"/>
+        <br/>
       </xsl:when>
       <xsl:otherwise>
         <ul>
