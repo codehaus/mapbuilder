@@ -20,20 +20,9 @@
   <requires>widget/WidgetBase.js</requires>
   <requires>model/Extent.js</requires>  <!-- merge this code to Context ? -->
 
-  <!--
-  all static images should be relative to this URL
-  -->
+  <!-- All static images should be relative to this URL -->
   <skinDir>/mapbuilder/lib/skin/default</skinDir>
 
-  <!--
-  all scriptfile and stylesheets are prepended by this URL.  This can be a
-  relative URL (relative to the HTML page that initializes config, but relative
-  URL doesn't work in IE6.  It can also be a full URL with protocol and port 
-  however that would require a proxy loader on the server to load XML files from
-  a host other than the one serving the HTML page.
-  -->
-  <baseDir>/mapbuilder/lib/</baseDir>
-  
   <scriptFile>model/Extent.js</scriptFile> 
     
   <!--
