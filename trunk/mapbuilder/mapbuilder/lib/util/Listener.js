@@ -21,8 +21,8 @@ function Listener() {
 
   /**
    * Add a listener function which will be called when param is updated;  The
-   * listener function should be of the form: function listener(target) {..}
-   * @param listener The function to call when the Area Of Interest changes.
+   * listener function should usually be: paint(target).
+   * @param listener The function to call when the parameter changes.
    * @param target The object which owns the listener function.
    * @param param Parameter name; if this parameter changes then an event is
    * sent to all interested listeners.
