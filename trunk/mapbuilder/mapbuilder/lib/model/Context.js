@@ -175,8 +175,8 @@ function Context(url, skin) {
     bbox.setAttribute("maxx", boundingBox[2]);
     bbox.setAttribute("maxy", boundingBox[3]);
     // Call the listeners
-    for(i=0;i<this.bboxChangeListeners.length;i++) {
-      this.bboxChangeListeners[i](this.bboxChangeListenerTargets[i]);
+    for(i=0;i<this.boundingBoxChangeListeners.length;i++) {
+      this.boundingBoxChangeListeners[i](this.bboxChangeListenerTargets[i]);
     }
   }
 
