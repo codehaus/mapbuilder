@@ -65,14 +65,14 @@
               <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
               <tooltip>click to zoom out</tooltip>
             </ZoomOut>
-            <!--DragPan id="dragPan">
+            <DragPan id="dragPan">
               <class>RadioButton</class>
               <mouseHandler>config['mainMapGroup']['mainMapPaneId']</mouseHandler>
               <dependsOn>config['mainMapGroup']['mainMapPaneId']['DragPanHandler']</dependsOn>
               <enabledSrc>/images/PanEnable.gif</enabledSrc>
               <disabledSrc>/images/PanDisable.gif</disabledSrc>
               <tooltip>click and drag to pan</tooltip>
-            </DragPan-->
+            </DragPan>
             <Reset id="reset">
               <class>Button</class>
               <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>

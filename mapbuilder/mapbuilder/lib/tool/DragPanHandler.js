@@ -21,13 +21,22 @@ function DragPanHandler(toolNode, parentWidget) {
   } 
 
   /**
-   * Process a mouse action.
+   * Process the mouseup action.  This will reset the AOI on the model
    * @param objRef Pointer to this DragPanHandler object.
    * @param targetNode The node for the enclosing HTML tag for this widget.
    */
   this.mouseUpHandler = function(objRef,targetNode) {
     if (objRef.enabled) {
-      if (objRef.dragging) objRef.dragging = false;
+      if (objRef.dragging) {
+        objRef.dragging = false;
+
+        //set new AOI in context
+        var width = objRef.model.getWindowWidth();
+        var height = objRef.model.getWindowHeight();
+        var ul = new Array( -objRef.deltaP, -objRef.deltaL);  //(0,0) was the original ul AOI 
+        var lr = new Array( width-objRef.deltaP, height-objRef.deltaL);  //(w,h) was the original lr AOI 
+        objRef.model.setAoi( ul, lr );
+      }
     }
   }
 
@@ -45,25 +54,28 @@ function DragPanHandler(toolNode, parentWidget) {
   }
 
   /**
-   * Process a mouse action.
+   * Process a mousemove action.  This method uses DHTML to move the map layers
+   * and sets deltaP and deltaL properties on this tool to be used in mouse up.
    * @param objRef Pointer to this DragPanHandler object.
    * @param targetNode The node for the enclosing HTML tag for this widget.
    */
   this.mouseMoveHandler = function(objRef,targetNode) {
     if (objRef.enabled) {
       if (objRef.dragging) {
-        var xOffset = targetNode.evpl[0] - objRef.anchorPoint[0];
-        var yOffset = targetNode.evpl[1] - objRef.anchorPoint[1];
+        objRef.deltaP = targetNode.evpl[0] - objRef.anchorPoint[0];
+        objRef.deltaL = targetNode.evpl[1] - objRef.anchorPoint[1];
 
+        //use this form if dragging the container node children
         var images=targetNode.getElementsByTagName("div");
         for(var i=0; i<images.length; i++) {
           var img=images.item(i);
-          img.style.left=xOffset;
-          img.style.top=yOffset;
+          img.style.left=objRef.deltaP;
+          img.style.top=objRef.deltaL;
         }
-
-        //objRef.containerNode.style.left = xOffset;
-        //objRef.containerNode.style.top = yOffset;
+        
+        //use this form if dragging the container node
+        //objRef.containerNode.style.left = objRef.deltaP;
+        //objRef.containerNode.style.top = objRef.deltaL;
 
       }
     }
