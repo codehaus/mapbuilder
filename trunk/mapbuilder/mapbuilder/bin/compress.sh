@@ -7,7 +7,7 @@
 
 # Set variables
 mapbuilderDir=`dirname $0`/..;
-targetDir=${mapbuilderDir}/build
+targetDir=${mapbuilderDir}/compressBuild
 tmp="jsjam.tmp";
 
 # Compress javascript files
