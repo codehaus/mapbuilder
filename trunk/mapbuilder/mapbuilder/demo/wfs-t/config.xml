@@ -139,7 +139,7 @@
       <tooltip xml:lang="fr">click on map to create a point feature</tooltip>
       <targetModel>featureCollection</targetModel>
       <transactionResponseModel>transaction</transactionResponseModel>
-      <webServiceUrl>http://localhost:8080/geoserver/wfs</webServiceUrl>
+      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
       <featureXpath>/gml:featureMember/points/_SHAPE_/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
       <defaultModelUrl>../../data/gml/defaultAddPoint.xml</defaultModelUrl>
       <targetContext>mainMap</targetContext>
@@ -154,7 +154,7 @@
       <tooltip xml:lang="fr">click on map to add a point to a line</tooltip>
       <targetModel>featureCollection</targetModel>
       <transactionResponseModel>transaction</transactionResponseModel>
-      <webServiceUrl>http://localhost:8080/geoserver/wfs</webServiceUrl>
+      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
       <featureXpath>/gml:featureMember/topp:bc_roads/topp:the_geom/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
       <defaultModelUrl>../../data/gml/roads.xml</defaultModelUrl>
       <targetContext>mainMap</targetContext>
