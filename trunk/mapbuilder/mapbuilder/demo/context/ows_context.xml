@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<OWSContext version="0.0.5"
+<ViewContext version="0.0.5"
 			    id="ows-context-tie"
 			    xmlns="http://www.opengis.net/context"
 			    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -43,7 +43,7 @@
 		</ContactInformation>
 	</General>
 	<ResourceList>
-		<FeatureType hidden="0">
+		<!--FeatureType hidden="0">
 			<Server service="OGC:GML" version="2.1.2" title="Cadcorp GeognoSIS.NET Web Feature Service">
 				<OnlineResource xlink:type="simple" xlink:href="http://www.cadcorpdev.co.uk/gml/MassGIS/LandUse.gml"/>
 			</Server>
@@ -59,7 +59,7 @@
 					<ogc:Literal>1999</ogc:Literal>
 				</ogc:PropertyIsEqualTo>
 			</ogc:Filter>
-		</FeatureType>
+		</FeatureType-->
 		<Layer queryable="0" hidden="0">
 			<Server service="OGC:WMS" version="1.1.1" title="Boston on Oracle">
 				<OnlineResource xlink:type="simple" xlink:href="http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA"/>
@@ -138,4 +138,4 @@
 			</StyleList>
 		</Layer>
 	</ResourceList>
-</OWSContext>
+</ViewContext>
