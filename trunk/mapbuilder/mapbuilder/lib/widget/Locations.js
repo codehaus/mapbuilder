@@ -37,12 +37,13 @@ function Locations(context, name, node) {
     this.node.innerHTML=s;
   }
 
+
   /**
    * Called when the select box selectedIndex changes
    * @param e The event sent to the listener.
    */
   this.hiddenListener=function(e){
-    context.setBoundingBox(bbox).
+    //context.setBoundingBox("40 40 40 40bbox);
   }
 
   this.context.addHiddenListener(this.hiddenListener);
@@ -52,6 +53,9 @@ function Locations(context, name, node) {
 /*
  *
  * $Log$
+ * Revision 1.2  2004/02/27 14:06:00  tomkralidis
+ * Updates to handle Locations object
+ *
  * Revision 1.1  2004/02/26 19:02:53  tomkralidis
  * Initial add
  *
