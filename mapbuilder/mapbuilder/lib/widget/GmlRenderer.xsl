@@ -136,6 +136,7 @@ $Name$
         <xsl:call-template name="drawSteepLine">
           <xsl:with-param name="slope" select="$slope"/>
           <xsl:with-param name="x0" select="$x0"/>
+          <xsl:with-param name="y0" select="$y0"/>
           <xsl:with-param name="x1" select="$x1"/>
           <xsl:with-param name="y1" select="$y1"/>
         </xsl:call-template>
@@ -143,6 +144,7 @@ $Name$
       <xsl:otherwise>
         <xsl:call-template name="drawFlatLine">
           <xsl:with-param name="slope" select="$slope"/>
+          <xsl:with-param name="x0" select="$x0"/>
           <xsl:with-param name="y0" select="$y0"/>
           <xsl:with-param name="x1" select="$x1"/>
           <xsl:with-param name="y1" select="$y1"/>
@@ -156,6 +158,7 @@ $Name$
   <xsl:template name="drawSteepLine">
     <xsl:param name="slope"/> <!-- height/width -->
     <xsl:param name="x0"/>
+    <xsl:param name="y0"/>
     <xsl:param name="x1"/>
     <xsl:param name="y1"/>
     
@@ -166,16 +169,37 @@ $Name$
       </xsl:choose>
     </xsl:variable>
 
-    <debug select="drawSteepLine {$x0},y0,{$x1},{$y1} slope={$slope} inc={$inc}"/>
+    <debug select="drawSteepLine {$x0},{$y0},{$x1},{$y1} slope={$slope} inc={$inc}"/>
 
     <xsl:call-template name="fillBox">
       <xsl:with-param name="x0" select="$x0 - floor(($lineWidth - 1) div 2)"/>
-      <xsl:with-param name="y0" select="$y1 + floor($slope * ($x0 - $x1))"/>
+
+      <xsl:with-param name="y0">
+        <xsl:choose>
+          <xsl:when test="$y0"> <!-- Start of line -->
+            <xsl:value-of select="$y0"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$y1 + floor($slope * ($x0 - $x1 + 0.5 * $inc))"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:with-param>
+
       <xsl:with-param name="x1" select="$x0 + floor(($lineWidth - 1) div 2)"/>
-      <xsl:with-param name="y1" select="$y1 + floor($slope * ($x0 - $x1 - $inc))"/>
+
+      <xsl:with-param name="y1">
+        <xsl:choose>
+          <xsl:when test="$x0 = $x1"> <!-- End of line -->
+            <xsl:value-of select="$y1"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$y1 + floor($slope * ($x0 - $x1 - 0.5 * $inc))"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:with-param>
     </xsl:call-template>
     
-    <xsl:if test="$x0 + 2 * $inc != $x1">
+    <xsl:if test="$x0 != $x1">
       <xsl:call-template name="drawSteepLine">
         <xsl:with-param name="x0" select="$x0 + $inc"/>
         <xsl:with-param name="x1" select="$x1"/>
@@ -185,10 +209,13 @@ $Name$
     </xsl:if>
   </xsl:template>
 
-  <!-- Draw Line with width > height.  Recursively calls itself drawing a series
-  of horizontal lines with each recursion. -->
+  <!--
+  Draw Line with width > height.  Recursively calls itself drawing a series
+  of horizontal lines with each recursion.
+  -->
   <xsl:template name="drawFlatLine">
     <xsl:param name="slope"/> <!-- height/width -->
+    <xsl:param name="x0"/> <!-- Only defined on first call -->
     <xsl:param name="y0"/>
     <xsl:param name="x1"/>
     <xsl:param name="y1"/>
@@ -200,16 +227,38 @@ $Name$
       </xsl:choose>
     </xsl:variable>
 
-    <debug select="drawFlatLine x0,{$y0},{$x1},{$y1} slope={$slope} inc={$inc}"/>
+    <debug select="drawFlatLine {$x0},{$y0},{$x1},{$y1} slope={$slope} inc={$inc}"/>
 
     <xsl:call-template name="fillBox">
-      <xsl:with-param name="x0" select="$x1 - floor(($y1 - $y0) div $slope)"/>
+
+      <xsl:with-param name="x0">
+        <xsl:choose>
+          <xsl:when test="$x0"> <!-- Start of line -->
+            <xsl:value-of select="$x0"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$x1 - floor(($y1 - $y0 + 0.5 * $inc) div $slope)"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:with-param>
+
       <xsl:with-param name="y0" select="$y0 - floor(($lineWidth - 1) div 2)"/>
-      <xsl:with-param name="x1" select="$x1 - floor(($y1 - $y0 - $inc) div $slope)"/>
+
+      <xsl:with-param name="x1">
+        <xsl:choose>
+          <xsl:when test="$y0 = $y1"> <!-- End of line -->
+            <xsl:value-of select="$x1"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$x1 - floor(($y1 - $y0 - 0.5 * $inc) div $slope)"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:with-param>
+
       <xsl:with-param name="y1" select="$y0 + floor(($lineWidth - 1) div 2)"/>
     </xsl:call-template>
     
-    <xsl:if test="$y0 + $inc != $y1">
+    <xsl:if test="$y0 != $y1">
       <xsl:call-template name="drawFlatLine">
         <xsl:with-param name="y0" select="$y0 + $inc"/>
         <xsl:with-param name="x1" select="$x1"/>
