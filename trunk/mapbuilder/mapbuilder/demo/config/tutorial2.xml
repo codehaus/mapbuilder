@@ -6,7 +6,7 @@
   <models>
 
     <Context id="firstMap">
-      <defaultModelUrl>/mapbuilder/demo/context/locatorMap.xml</defaultModelUrl>
+      <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
       
       <widgets>
         <MapPane id="firstMapPane">
@@ -23,7 +23,7 @@
     </Context>
 
     <Context id="secondMap">
-      <defaultModelUrl>/mapbuilder/demo/context/mars.xml</defaultModelUrl>
+      <defaultModelUrl>context/mars.xml</defaultModelUrl>
       
       <widgets>
         <MapPane id="secondMapPane">

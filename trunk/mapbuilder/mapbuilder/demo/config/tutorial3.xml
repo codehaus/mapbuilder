@@ -6,7 +6,7 @@
   <models>
 
     <Context id="firstMap">
-      <defaultModelUrl>/mapbuilder/demo/context/cded.xml</defaultModelUrl>
+      <defaultModelUrl>context/cded.xml</defaultModelUrl>
       
       <widgets>
         <MapPane id="mainMapPane">
