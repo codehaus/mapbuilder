@@ -15,19 +15,16 @@ $Id$
  * @param url URL of the configuration file.
  */
 function Config(url) {
-  // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(this);
+  this.doc = Sarissa.getDomDocument();
+  this.doc.async = false;
+  this.doc.validateOnParse=false;  //IE6 SP2 parsing bug
+  this.doc.load(url);
+  if (this.doc.parseError < 0){
+    alert("error loading config document: " + url + " - " + Sarissa.getParseErrorText(this.doc) );
+  }
   this.namespace = "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder'";
-
-  this.url = url;
-  this.loadModelDoc(this);
-  this.modelNode = this.doc.documentElement;
-  this.id = this.modelNode.attributes.getNamedItem("id").nodeValue;
-
-  //set some global application properties
-  this.skinDir = this.modelNode.selectSingleNode("mb:skinDir").firstChild.nodeValue;
-  var proxyUrl = this.modelNode.selectSingleNode("mb:proxyUrl");
-  if (proxyUrl) this.proxyUrl = proxyUrl.firstChild.nodeValue;
+  this.doc.setProperty("SelectionLanguage", "XPath");
+  if (this.namespace) Sarissa.setXpathNamespaces(this.doc, this.namespace);
 
   /**
    * Internal function to load scripts for components that don't have <scriptfile>
@@ -64,6 +61,27 @@ function Config(url) {
       mapbuilder.loadScript(scriptFile);
     }
   }
+  this.loadConfigScripts();
+
+  //language to select; defaults to english 
+  //Set via a "language" parameter in the URL, 
+  //or by setting a global "language" Javascript variable in the page <HEAD>
+  //Retrieve the value from the global conifg object as "config.lang"
+  this.lang = "en";
+  if (window.cgiArgs["language"]) {
+    this.lang = window.cgiArgs["language"];
+  } else if (window.language) {
+    this.lang = window.language;
+  }
+
+  //set some global application properties
+  var modelNode = this.doc.documentElement;
+  this.skinDir = modelNode.selectSingleNode("mb:skinDir").firstChild.nodeValue;
+  var proxyUrl = modelNode.selectSingleNode("mb:proxyUrl");
+  if (proxyUrl) this.proxyUrl = proxyUrl.firstChild.nodeValue;
+
+  // Inherit the ModelBase functions and parameters
+  var modelBase = new ModelBase(this, modelNode);
 
   /**
   * @function init
@@ -74,26 +92,10 @@ function Config(url) {
   * the property name.  This means that the model object can then be referenced 
   * as in config["modelId"] in subsequent javascript code.
   */
-  this.init = function() {
-    this.cgiArgs = getArgs();
-
-    //language to select; defaults to english 
-    //Set via a "language" parameter in the URL, 
-    //or by setting a global "language" Javascript variable in the page <HEAD>
-    //Retrieve the value from the global conifg object as "config.lang"
-    this.lang = "en";
-    if (this.cgiArgs["language"]) {
-      this.lang = this.cgiArgs["language"];
-    } else if (window.language) {
-      this.lang = window.language;
-    }
-
-    //load in widgets of the config doc
-    this.loadModels(this);
-    this.loadWidgets(this);
-
+  this.xxxinit = function() {
     //defered call for the loadModel event
-    this.callListeners( "loadModel" );
+    this.callListeners("initModel");
+    //this.callListeners( "loadModel" );
     //this.addListener("loadModel", this.loadWidgets, this);
   }
 
@@ -118,7 +120,7 @@ function Config(url) {
 // Initialise config object.
 if (document.readyState==null){
   // Mozilla
+  window.cgiArgs = getArgs();
   mapbuilder.setLoadState(MB_LOAD_WIDGET);
   config=new Config(mbConfigUrl);
-  config.loadConfigScripts();
 }

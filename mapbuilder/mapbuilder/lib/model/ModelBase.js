@@ -16,10 +16,7 @@ $Id$
  */
 function ModelBase(model, modelNode, parentModel) {
   // Inherit the Listener functions and parameters
-  var listener = new Listener();
-  for (sProperty in listener) { 
-    model[sProperty] = listener[sProperty]; 
-  } 
+  var listener = new Listener(model);
 
   //calling ModelBase with no params skips this section (for config)
   if (modelNode) {
@@ -33,7 +30,10 @@ function ModelBase(model, modelNode, parentModel) {
     }
 
     var templateAttr = modelNode.attributes.getNamedItem("template");
-    if (templateAttr) model.template = templateAttr.nodeValue;
+    if (templateAttr) {
+      model.template = templateAttr.nodeValue;
+      return;
+    }
   }
 
   /**
@@ -80,7 +80,7 @@ function ModelBase(model, modelNode, parentModel) {
   if (parentModel) {
     model.parentModel = parentModel;
     parentModel[model.id] = model;
-    parentModel.addListener("loadModel",model.loadModelDoc, model);
+    parentModel.addListener("initModel",model.loadModelDoc, model);
   }
 
   /**
@@ -158,10 +158,9 @@ function ModelBase(model, modelNode, parentModel) {
   //load the Model object from the initial URL in config or from a URL param.
   //the URL can also be passed in as a URL parameter by using the model ID
   //as the parameter name (this method takes precendence over the config file
-  model.url = null;
   if (modelNode) {
-    if (config.cgiArgs[model.id]) {  
-      model.url = cgiArgs[model.id];
+    if (window.cgiArgs[model.id]) {  
+      model.url = window.cgiArgs[model.id];
     } else if (window[model.id]) {  
       model.url = window[model.id];
     } else if (modelNode.url) {  
@@ -176,8 +175,13 @@ function ModelBase(model, modelNode, parentModel) {
 
   //don't load in models and widgets if this is the config doc, defer to config.init
   //don't load template models (URL is null)
-  if (modelNode && !model.template) {
-    model.loadModels();
-    model.loadWidgets();
+  model.init = function(modelRef) {
+    if (!modelRef.template) {
+      modelRef.loadModels();
+      modelRef.loadWidgets();
+    }
+    modelRef.callListeners("initModel");
   }
+  if (parentModel) model.init(model);
+
 }
