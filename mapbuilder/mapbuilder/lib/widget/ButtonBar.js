@@ -6,7 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js","WidgetBase");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
  * A widget which contains a collection of buttons.  One button can
