@@ -17,8 +17,6 @@ $Id$
  * @author Mike Adair 
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
- * @param position    Style position = "absolute" or "relative" used to specify if the
- *                    widget should overlay others or not, defaults to "relative".
  */
 function WidgetBase(widgetNode,model) {
   // Inherit the Listener functions and parameters
