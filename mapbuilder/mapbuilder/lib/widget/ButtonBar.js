@@ -6,14 +6,14 @@ $Id$
 */
 
 /**
- * Tool to draw a region of interest box on a view.  The box can be drawn with
- * the drawBox() method and can be tied to mouse drag with the dragBox() method.
- * This object works entirely in pixel/line coordinate space and knows nothing
- * about geography.
+ * A collection of buttons.
  *
  * @constructor
  *
- * @param viewNode    the view object node to attach the RoiBox to.
+ * @param widgetNode The Widget's XML object node from the configuration
+ *     document.
+ * @param group      The ModelGroup XML object from the configuration
+ *     document that this widget will update.
  */
 function ButtonBar(widgetNode, group) {
   var base = new WidgetBase(widgetNode, group);
