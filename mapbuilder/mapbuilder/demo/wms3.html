@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--
+Description: A Browser based Web Map Server Client based on javascript and XSL
+             libraries from http://mapbuilder.sourceforge.net .
+Usage:       Call http://hostname/dir/wms.html?context=UrlOfContext
+             or http://hostname/dir/wms.html (and a default context is used)
+Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+
+$Id$
+$Name$
+-->
+
+<html>
+  <head>
+    <title>WMS Client</title>
+
+    <!-- Include mapbuilder libraries -->
+    <script type="text/javascript" src="../lib/Config.js"></script>
+    <script type="text/javascript" src="../lib/model/Extent.js"></script>
+    <script type="text/javascript" src="../lib/model/Collection.js"></script>
+    <script type="text/javascript" src="../lib/widget/collectionList/CollectionList.js"></script>
+    <script type="text/javascript" src="../lib/widget/tool/GlassPane.js"></script>
+    <script type="text/javascript" src="../lib/widget/tool/AoiBox.js"></script>
+    <script type="text/javascript" src="../lib/widget/tool/PanTool.js"></script>
+    <script type="text/javascript" src="../lib/widget/tool/ZoomTool.js"></script>
+    <script type="text/javascript" src="../lib/widget/tool/FeatureInfoTool.js"></script>
+    <script type="text/javascript" src="../lib/util/sarissa/Sarissa.js"></script>
+    <script type="text/javascript" src="../lib/util/Util.js"></script>
+    <script type="text/javascript" src="../lib/util/proj/Proj.js"></script>
+    <script type="text/javascript" src="../lib/util/proj/lcc.js"></script>
+    <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
+  </head>
+
+  <body>
+    <h1><a href="http://mapbuilder.sourceforge.net">Mapbuilder</a>
+      Web Map Server Client</h1>
+
+    <!-- Layout mapbuilder widgets and HTML -->
+    <table>
+      <tr>
+        <td valign="top">
+          <div id="mapPaneDiv"></div>
+        </td>
+        <td valign="top">
+          <div id="panToolDiv"></div>
+          <br/>
+          <div id="zoomToolDiv"></div>
+          <br/>
+          <div id="legendDiv"></div>
+        </td>
+      </tr>
+
+      <tr>
+        <td valign="top">
+           <table width="100%">
+            <tr>
+                <td align="left" valign="top" ID="ButtonBar">
+                </td>
+                <td align="right" valign="top">
+            <FORM NAME="MapDisplayForm" ID="MapDisplayForm" STYLE="margin:0; padding:0;">
+                    long:&nbsp;<input NAME="longitude" TYPE="text" SIZE="6" CLASS="bareinput">
+                    &nbsp;&nbsp;&nbsp;
+                    lat:&nbsp;<input NAME="latitude" TYPE="text" SIZE="6" CLASS="bareinput">
+            </FORM>
+                </td>
+              </tr>
+            </table>
+          </td>
+
+          <td>
+          </td>
+        </tr>
+
+      <tr>
+        <td valign="top">
+            <FORM NAME="AOIForm" ID="AOIForm" STYLE="margin:0; padding:0;">
+            Area of Interest:<BR/>
+            north:&nbsp;<input NAME="northbc" TYPE="text" SIZE="6"/><BR/>
+            south:&nbsp;<input NAME="southbc" TYPE="text" SIZE="6"/><BR/>
+            east:&nbsp;<input NAME="eastbc" TYPE="text" SIZE="6"/><BR/>
+            west:&nbsp;<input NAME="westbc" TYPE="text" SIZE="6"/>
+            </FORM>
+          </td>
+          <td ID="mapList"></td>
+        </tr>
+    </table>
+    <p><i>A <a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Project</i></p>
+
+    <!-- Initialise mapbuilder components -->
+    <script>
+
+      var config = new Config("configWms3.xml");
+      // Get the CGI parameters.  If context is not defined, then set a default.
+
+      cgiArgs=getArgs();
+      if (!cgiArgs.context) {
+        cgiArgs.context="context/wmc.xml";
+      }
+
+      // Load a Web Map Context document as defined by:
+      // http://www.opengis.org/docs/03-036r2.pdf
+      context=new Context(
+        cgiArgs.context,
+        "context",
+        Config.baseDir,
+        "default");
+
+      // Create and render a MapPane
+      var mapPane=new MapPane(
+        context,
+        "mapPane",
+        document.getElementById("mapPaneDiv"));
+      mapPane.paint();
+      
+      //add mouse handler function
+      mapPane.mouseHandler = new GlassPane( mapPane, MODE_ZOOM_IN );
+      mapPane.mouseHandler.setCursorTrackForm( document.MapDisplayForm );
+      mapPane.mouseHandler.setAOIForm( document.AOIForm );
+      var buttonBar = new ButtonBar( mapPane.mouseHandler, context.skin,document.getElementById("ButtonBar") );
+
+      // Create and render a Legend
+      legend=new Legend(
+        context,
+        "legend",
+        document.getElementById("legendDiv"));
+      legend.paint();
+
+      // Create and render a PanTool
+      panTool=new PanTool(
+        context,
+        "panTool",
+        document.getElementById("panToolDiv"));
+      panTool.paint();
+
+      // Create and render a ZoomTool
+      zoomTool=new ZoomTool(
+        context,
+        "zoomTool",
+        document.getElementById("zoomToolDiv"));
+      zoomTool.paint();
+
+      var collection = new Collection("context/mapOfTheWeek.ccml","maps",baseDir,"default");
+      var contextList = new CollectionList(collection, "mapList",document.getElementById("mapList"));
+      contextList.paint();
+    </script>
+  </body>
+</html>

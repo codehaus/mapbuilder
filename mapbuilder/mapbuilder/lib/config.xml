@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<MapbuilderConfig id="referenceTemplate">
+  <baseDir>/mapbuilder/lib</BaseDir>
+  <skin>default</Skin>
+  <models>
+    <Context>
+      <scriptFile>/model/Context.js</scriptFile>
+    </Context>
+  </models>
+  <views>
+    <MapPane>
+      <scriptFile>/widget/mappane/MapPane.js</scriptFile>
+      <stylesheet>/widget/mappane/Context2MapPane.xsl</stylesheet>
+    </MapPane>
+    <Legend>
+      <scriptFile>/widget/legend/Legend.js</scriptFile>
+      <stylesheet>/widget/legend/Context2Legend.xsl</stylesheet>
+    </Legend>
+  </views>
+  <controllers>
+    <ButtonBar id="ButtonBar">
+      <stylesheet>/widget/mappane/ButtonBar.xsl</stylesheet>
+      <scriptFile>/widget/tool/ButtonBar.js</scriptFile>
+      <buttonArray>
+        <Button id="ZoomInButton">
+          <enabledSrc>/images/zoomIn_en.gif</enabledSrc>
+          <disabledSrc>/images/zoomIn_dis.gif</disabledSrc>
+          <tooltip>click and drag to zoom in</tooltip>
+          <modeValue>MODE_ZOOM_IN</modeValue>
+        </Button>
+        <Button id="ZoomOutButton">
+          <enabledSrc>/images/zoomOut_en.gif</enabledSrc>
+          <disabledSrc>/images/zoomOut_dis.gif</disabledSrc>
+          <tooltip>click to zoom out</tooltip>
+          <modeValue>MODE_ZOOM_OUT</modeValue>
+        </Button>
+        <Button id="ResetButton">
+          <enabledSrc>/images/reset_extent_en.gif</enabledSrc>
+          <disabledSrc>/images/reset_extent_dis.gif</disabledSrc>
+          <tooltip>reset the map to full extent</tooltip>
+          <modeValue>MODE_RESET</modeValue>
+        </Button>
+        <Button id="PanButton">
+          <enabledSrc>/images/pan_en.gif</enabledSrc>
+          <disabledSrc>/images/pan_dis.gif</disabledSrc>
+          <tooltip>click and drag to pan</tooltip>
+          <modeValue>MODE_PAN</modeValue>
+        </Button>
+        <Button id="SetAoiButton">
+          <enabledSrc>/images/setAOI_en.gif</enabledSrc>
+          <disabledSrc>/images/setAOI_dis.gif</disabledSrc>
+          <tooltip>click and drag to set the area of interest</tooltip>
+          <modeValue>MODE_SET_ROI</modeValue>
+        </Button>
+        <Button id="QueryButton">
+          <enabledSrc>/images/query_en.gif</enabledSrc>
+          <disabledSrc>/images/query_dis.gif</disabledSrc>
+          <tooltip>click to query the layer</tooltip>
+          <modeValue>MODE_GETFEATUREINFO</modeValue>
+        </Button>
+      </buttonArray>
+    </ButtonBar>
+  </controllers>
+</MapbuilderConfig>
