@@ -4,7 +4,7 @@
   xmlns:gml="http://www.opengis.net/gml"
   version="1.0">
 <!--
-Description: Convert GML to 
+Description: Convert GML to HTML Graphics. 
 Author:      Cameron Shorter cameron ATshorter.net
 Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 
