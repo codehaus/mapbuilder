@@ -60,8 +60,8 @@ function MapPane(context,baseDir,node) {
     this.setClip();
    }
    this.setClip=function(){
-     width=this.context.context.getWindowWidth();
-     height=this.context.context.getWindowHeight();
+     width=this.context.getWindowWidth();
+     height=this.context.getWindowHeight();
      this.node.style.clip="rect(0," + width + "," + height + ",0)";
    }
    this.moveImages=function(left,top){
