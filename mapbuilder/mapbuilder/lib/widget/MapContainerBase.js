@@ -74,7 +74,7 @@ function MapContainerBase(widget,widgetNode,model) {
       objRef.node.style.height=objRef.containerModel.getWindowHeight();
     }
     widget.setFixedWidth = this.setFixedWidth;
-    widget.containerModel.addListener( "loadModel", widget.setFixedWidth, widget );
+    widget.containerModel.addListener( "refresh", widget.setFixedWidth, widget );
 
     //add the extent tool
     widget.containerModel.extent = new Extent( widget.containerModel );

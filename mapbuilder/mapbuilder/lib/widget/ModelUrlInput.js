@@ -27,7 +27,7 @@ function ModelUrlInput(widgetNode, model) {
   this.submitForm = function() {
     var httpPayload = new Object();
     httpPayload.url = this.urlInputForm.modelUrl.value;
-    httpPayload.method = this.targetModel.getMethod();
+    httpPayload.method = this.targetModel.method;
 /*
     for (var i=0; i<httpMethod.length; ++i) {   //loop through radio buttons
       if (httpMethod[i].checked) {
