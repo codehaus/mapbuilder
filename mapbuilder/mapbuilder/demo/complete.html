@@ -25,21 +25,13 @@ $Name$
     <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
 
     <script>
-
-//initialize the application configuration object - global scope
-//this must be called in the page's HEAD element
-var config = new Config("config/CompleteConfig.xml");
-
-function doLoad() {
-  config.init();
-}
-
+      //initialize the application configuration object - global scope
+      //this must be called in the page's HEAD element
+      var config = new Config("config/CompleteConfig.xml");
     </script>
-
-
   </head>
 
-  <body onload="doLoad()">
+  <body onload="config.init()">
     <h1><a href="http://mapbuilder.sourceforge.net">Mapbuilder</a>
       configuration version test page</h1>
 
