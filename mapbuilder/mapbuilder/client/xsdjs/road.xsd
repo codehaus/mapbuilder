@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+  targetNamespace="http://www.openplans.org/topp" 
+  xmlns:topp="http://www.openplans.org/topp"
+  xmlns:gml="http://www.opengis.net/gml"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified" version="1.0">
+
+	<xs:import namespace="http://www.opengis.net/gml" schemaLocation="feature.xsd"/>
+
+  <xs:complexType name="road_Type">
+    <xs:complexContent>
+      <xs:extension base="gml:AbstractFeatureType">
+        <xs:sequence>
+          <xs:element name="the_geom" type="gml:MultiLineStringPropertyType" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="surface_ty" nillable="true" minOccurs="0" maxOccurs="1">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:maxLength value="30"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="name" nillable="true" minOccurs="0" maxOccurs="1">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:maxLength value="100"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element name="nlanes" nillable="true" minOccurs="0" maxOccurs="1">
+            <xs:simpleType>
+              <xs:restriction base="xs:integer">
+                <xs:totalDigits value="2"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:element name='road' type='topp:road_Type' substitutionGroup='gml:_Feature'/>
+
+</xs:schema>

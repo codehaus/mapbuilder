@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<!DOCTYPE html 
+
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+
+<style>
+
+	.stattrib {	margin-left:0pt;width:50pt;clear:both;float:left;
+
+				font-family:Verdana,Arial,sans-serif;font-weight:normal;font-size:7pt;
+
+				color:#339933;background-color:#EEEEEE;
+
+			}
+
+
+
+
+
+	.stelement {	width:75pt;clear:both;float:left;
+
+				font-family:Verdana,Arial,sans-serif;font-weight:bold;font-size:8pt;
+
+				color:#333399;background-color:#EEEEEE;
+
+			}
+
+
+
+	.stf {	background-color:#FFFFCC;}
+
+	.str {	background-color:#CCFFFF;}
+
+
+
+	.stleft {clear:both;float:left;}
+
+
+
+	.sti {	font-style:italic;color:#999999;}
+
+	.stcompositor {clear:all;color:#333399}
+
+	.stdexp {margin-left:15pt;position:relative;margin-bottom:2pt;}
+
+	.button1{	color:#333333;background-color:#EEEEEE;border-color:#CCCCCC;
+
+					font-size:8pt;
+
+					border-width:1px;vertical-align:baseline;padding-left:0pt;margin:0pt;
+
+				}
+
+</style>
+
+<script language="JavaScript">
+
+var gmlNS = "http://www.opengis.net/gml";
+
+var ogcNS = "http://www.opengis.net/ogc";
+
+var wfsNS = "http://www.opengis.net/wfs";
+
+var ttNS  = "http://www.openplans.org/topp";
+
+
+
+var navIE = (navigator.userAgent.toLowerCase().indexOf("msie") > -1)?true:false;
+
+var navMOZ = (document.implementation && document.implementation.createDocument)?true:false;
+
+
+
+var autoexpand=true;
+
+var hideattributes=true;
+
+var hideproperties=true;
+
+var domDoc=new ActiveXObject("Microsoft.XmlDom")
+
+//var domDoc=new ActiveXObject("Msxml2.DOMDocument.3.0")
+
+
+
+	var prevuri=null;
+
+	function ttt(isauto,docuri,hideatt,hideprop){
+
+		if(docuri!=prevuri){
+
+			loadedSchemas=new XMLList();
+
+			_schemalocs=new Array();
+
+		}
+
+		prevuri=docuri;
+
+		autoexpand=isauto;
+
+		hideattributes=hideatt;
+
+		hideproperties=hideprop;
+
+		window.status='loading '+docuri+' ....';
+
+		var xDoc = new ActiveXObject("Microsoft.XmlDom");
+
+		xDoc.load(docuri);
+
+		if(xDoc.readyState == 4) {
+
+			window.status='processing '+docuri+' ....';
+
+			processInstance(xDoc);
+
+		}
+
+	}
+
+	function qqq(docuri){
+
+		processSchema(docuri);
+
+		var schobj=loadedSchemas.get('uri',docuri);
+
+		while(cmp_input.childNodes.length>0){
+
+			cmp_input.removeChild(cmp_input.firstChild);
+
+		}
+
+		var cmps=findXMLNode(schobj.node,'*[@name]');
+
+		for(var i=0;i<cmps.length;i++){
+
+			var a=document.createElement('option');
+
+			a.setAttribute('text',cmps[i].getAttribute('name'));
+
+			a.setAttribute('value',cmps[i].getAttribute('name'));
+
+			cmp_input.add(a);
+
+		}
+
+	}
+
+	function rrr(isauto,docuri,cmpname){
+
+		autoexpand=isauto;
+
+		var schobj=loadedSchemas.get('uri',docuri);
+
+		var ob=getUnmarshalledComponent(schobj,cmpname);
+
+		xsd2html(ob);
+
+	}
+
+
+
+	function js2html(ob,node){
+
+		if(ob==null) return;
+
+		//if(ob.typeName=='elementDecl') ob=ob.typeDef
+
+		while(widget.childNodes.length>0){
+
+			widget.removeChild(widget.firstChild)
+
+		}
+
+		var doc=widget.ownerDocument;
+
+		var aa=ob.bind(node);
+
+		var b=aa.toHTML(doc);
+
+		widget.appendChild(b);
+
+	}
+
+
+
+	function xsd2html(ob){
+
+		if(ob==null) return;
+
+		while(widget.childNodes.length>0){
+
+			widget.removeChild(widget.firstChild)
+
+		}
+
+		var doc=widget.ownerDocument;
+
+		var b=ob.toHTML(doc);
+
+		if(ob.typeName=='elementDecl') {
+
+			b = ob.typeDef.toHTML(doc)
+
+			if(ob.typeDef.typeName=='complexType'){
+
+				if(ob.typeDef.contentType=='empty') alert('this type has no content')
+
+			}
+
+		}
+
+
+
+		if(b.container) {
+
+			widget.appendChild(b.container);
+
+		}else{
+
+			widget.appendChild(b);
+
+		}
+
+	}
+
+
+
+function iterateProps(widget){
+
+	if(!widget) {
+
+		alert('nullllll')
+
+		return;
+
+	}
+
+	var ia = new Array()
+
+	var ab="Properties : "+"\n";
+
+	var cols=4
+
+	var c=0
+
+	for(var props in widget){
+
+		c+=1
+
+		var its = "" + widget[props];
+
+		if(its.indexOf("outerHTML")>-1) continue;
+
+		if(its.indexOf("function")>-1) {
+
+			ab+=props+" (function) ";
+
+		}else{
+
+			ab+=props+" : "+widget[props] + "   ";
+
+		}
+
+		if(parseFloat(c/cols)==parseInt(c/cols)){
+
+			ab+="\n"
+
+		}
+
+	}
+
+	alert(ab)
+
+}
+
+
+
+
+
+</script>
+
+<script language="JavaScript" src="xpath.js"></script>
+
+<script language="JavaScript" src="xsd_util.js"></script>
+
+<script language="JavaScript" src="xsd_unm.js"></script>
+
+<script language="JavaScript" src="xsd_cmp.js"></script>
+
+<script language="JavaScript" src="xsd_html.js"></script>
+
+<script language="JavaScript" src="xsd_bnd.js"></script>
+
+</head>
+
+<body>
+
+ 	(possible memory leaks when using manual expansion;  suspect : insertion of nested event functions into DOM tree )
+
+	<hr />
+
+	Instance Documents : 
+
+	<select id='inst_input' name='inst_input'>
+
+		<option value="getCapabilities.xml">getCapabilities Response</option>
+
+		<option value="result.xml">getFeature Response</option>
+
+	</select>
+
+	<input type='button' value="AutoExpand" onclick="ttt(true,inst_input.value,att_chk.checked,prop_chk.checked)" />
+
+	<input type='button' value="ManualExpand" onclick="ttt(false,inst_input.value,att_chk.checked,prop_chk.checked)" />
+
+	<input type='button' value="Source" onclick="window.open(inst_input.value)" />
+
+	<div style='margin-left:30pt'>
+
+		<input type='checkbox' checked='true' id='att_chk' name='att_chk' >hide unset optional attributes</input>
+
+		<input type='checkbox' checked='true' id='prop_chk' name='prop_chk' >hide unset optional properties</input>
+
+	</div>
+
+	<hr />
+
+
+
+	Schema Documents : 
+
+	<select id='sch_input' name='sch_input'>
+
+		<option value="road.xsd">describeFeatureType Response</option>
+
+		<option value="WFS-basic.xsd">WFS-basic</option>
+
+		<option value="WFS-capabilities.xsd">WFS-capabilities</option>
+
+		<option value="WFS-transaction.xsd">WFS-transaction</option>
+
+		<option value="feature.xsd">OGC Feature</option>
+
+		<option value="geometry.xsd">OGC Geometry</option>
+
+	</select>
+
+	<input type='button' value="Process" onclick="qqq(sch_input.value)" />
+
+	<input type='button' value="Source" onclick="window.open(sch_input.value)" />
+
+	<div style='margin-left:30pt'>
+
+		component list : <select id='cmp_input' name='cmp_input' />
+
+		<input type='button' value="AutoExpand" onclick="rrr(true,sch_input.value,cmp_input.value)" />
+
+		<input type='button' value="ManualExpand" onclick="rrr(false,sch_input.value,cmp_input.value)" />
+
+	</div>
+
+	<hr />
+
+	<br />
+
+	<div id='widget' name='widget'></div>
+
+</body>
+
+</html>
+
