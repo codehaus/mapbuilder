@@ -76,7 +76,7 @@
               <class>Button</class>
               <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
               <tooltip>reset the map to full extent</tooltip>
-            </Reset-->
+            </Reset>
           </tools>
         </ButtonBar>
       </widgets>
