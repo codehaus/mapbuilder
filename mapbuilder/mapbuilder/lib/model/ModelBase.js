@@ -70,8 +70,20 @@ function ModelBase(model, modelNode, parentModel) {
       //no URL means this is a template model
       //alert("url parameter required for loadModelDoc");
     }
-
   }
+
+  /**
+   * reload this model as an httpPayload listener
+   * @param modelRef    Pointer to the model object being loaded.
+   * @param httpPayload an object tho fully specify the request to be made
+   */
+  model.newRequest = function(modelRef, httpPayload){
+    modelRef.url = httpPayload.url;
+    modelRef.method = httpPayload.method;
+    modelRef.postData = httpPayload.postData;
+    modelRef.loadModelDoc(modelRef);
+  }
+  model.addListener("httpPayload",model.newRequest, model);
 
   /**
    * Paint all the widgets and initialise any tools the widget may have.
@@ -95,12 +107,6 @@ function ModelBase(model, modelNode, parentModel) {
       }
     }
   }
-
-  if (parentModel) {
-    model.parentModel = parentModel;
-    parentModel.addListener("loadModel",model.loadModelDoc, model);
-  }
-
 
   /**
    * Paint all the widgets and initialise any tools the widget may have.
@@ -144,14 +150,24 @@ function ModelBase(model, modelNode, parentModel) {
       model.url = cgiArgs[model.id];
     } else if (window[model.id]) {  
       model.url = window[model.id];
+    } else if (modelNode.url) {  
+      model.url = modelNode.url;
     } else {
       var defaultModel = modelNode.selectSingleNode("mb:defaultModelUrl");
       if (defaultModel) model.url = defaultModel.firstChild.nodeValue;
     }
   }
 
+  //
+  if (parentModel) {
+    model.parentModel = parentModel;
+    parentModel[model.id] = model;
+    parentModel.addListener("loadModel",model.loadModelDoc, model);
+  }
+
+
   //don't load in models and widgets if this is the config doc, defer to config.init
-  //don't load template models
+  //don't load template models (URL is null)
   if (modelNode && model.url) {
     model.loadModels();
     model.loadWidgets();

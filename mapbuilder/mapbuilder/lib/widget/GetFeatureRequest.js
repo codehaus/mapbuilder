@@ -21,26 +21,26 @@ function GetFeatureRequest(widgetNode, model) {
   this.paint = function() {
     //no-op
   }
-  this.model.addListener("loadModel",this.paint, this);
+  //this.model.addListener("loadModel",this.paint, this);
 
   /**
    * Render the widget.
    * @param objRef Pointer to this object.
    */
   this.createQuery = function(model) {
-    if (model) {
+    if (model.sourceNode) {
       var feature = model.sourceNode;
       //confirm inputs
       if (this.debug) alert("source:"+feature.xml);
       if (this.debug) alert("stylesheet:"+this.stylesheet.xslDom.xml);
 
       //process the doc with the stylesheet
-      model.postData = this.stylesheet.transformNodeToObject(feature);
-      model.url = this.model.getServerUrl(feature);
-      model.method = "post";//this.model.getMethod(feature);
+      var httpPayload = new Object();
+      httpPayload.postData = this.stylesheet.transformNodeToObject(feature);
+      httpPayload.url = this.model.getServerUrl(feature);
+      httpPayload.method = "post";//this.model.getMethod(feature);
+      model.setParam("httpPayload", httpPayload);
       if (this.debug) alert("result:"+model.postData.xml);
-
-      //this.callListeners("paint");
     }
   }
 }
