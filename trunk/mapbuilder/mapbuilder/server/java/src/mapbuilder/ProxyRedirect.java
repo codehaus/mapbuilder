@@ -134,6 +134,20 @@ public class ProxyRedirect extends HttpServlet
 
       if (httpget.getStatusCode() == HttpStatus.SC_OK) {
 
+        Header[] respHeaders = httpget.getResponseHeaders();
+
+        for (int i=0; i<respHeaders.length; ++i) {
+
+          String headerName = respHeaders[i].getName();
+
+          String headerValue = respHeaders[i].getValue();
+
+          System.err.println("responseHeaders:" + headerName + "=" + headerValue);
+
+          response.setHeader(headerName, headerValue);
+
+        }
+
         String responseBody = httpget.getResponseBodyAsString();
 
         System.err.println("responseBody:" + responseBody);
