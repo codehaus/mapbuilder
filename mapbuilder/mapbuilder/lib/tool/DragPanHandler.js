@@ -35,7 +35,7 @@ function DragPanHandler(toolNode, parentWidget) {
         var height = objRef.model.getWindowHeight();
         var ul = new Array( -objRef.deltaP, -objRef.deltaL);  //(0,0) was the original ul AOI 
         var lr = new Array( width-objRef.deltaP, height-objRef.deltaL);  //(w,h) was the original lr AOI 
-        objRef.model.setAoi( ul, lr );
+        objRef.model.setParam("aoi",new Array(ul,lr));
       }
     }
   }

@@ -11,7 +11,7 @@ $Id$
  * Context extends ModelBase, which extends Listener.
  *
  * Listener Parameters used:
- * "aoi" - (upperLeftX,upperLeftY,lowerRigthX,lowerRigthY),
+ * "aoi" - ((upperLeftX,upperLeftY),(lowerRigthX,lowerRigthY)),
  *
  * @constructor
  * @author Cameron Shorter
@@ -172,25 +172,6 @@ function Context(modelNode, parent) {
 
   //make a copy in the constructor for reset function
   this.originalExtent = new Extent( this );   
-
-  /**
-   * Set the Area Of Interest Box and call aoiListeners,
-   * note that the end point will be called numerous times as a mouse is dragged.
-   * @param ul UpperLeft.
-   * @parm lr LowerRight.
-   */
-  this.setAoi=function(ul, lr) {
-    this.setParam("aoi",new Array(ul,lr));
-  }
-
-  /** Returns an array of the corner coordinates as (ul, lr)
-    * @return        array of point arrays; ul=0, lr=1
-    */
-  this.getAoi = function() {
-    //alert("getAoi="+this.getParam("aoi"));
-    //return new Array(this.ulAoi, this.lrAoi);
-    return this.getParam("aoi");
-  }
 }
 
 
@@ -233,9 +214,9 @@ function Extent( context ) {
 
   this.setAoi = function(ul, lr) {
     if (lr) {
-      this.context.setAoi(this.GetPL(ul), this.GetPL(lr));
+      this.context.setParam("aoi",new Array(this.GetPL(ul), this.GetPL(lr)));
     } else {
-      this.context.setAoi(this.GetPL(ul), this.GetPL(ul));
+      this.context.setParam("aoi",new Array(this.GetPL(ul), this.GetPL(ul)));
     }
   }
 

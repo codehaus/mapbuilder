@@ -46,7 +46,7 @@ function AoiBox(toolNode, parentWidget) {
     * drawCross method is called, otherwise call drawBox.
     */
   this.paint = function() {
-    var aoiBox = this.parentWidget.model.getAoi();
+    var aoiBox = this.parentWidget.model.getParam("aoi");
     var ul = aoiBox[0];
     var lr = aoiBox[1];
     //check if ul=lr, then draw cross, else drawbox
