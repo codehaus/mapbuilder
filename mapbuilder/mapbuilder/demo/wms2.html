@@ -14,6 +14,8 @@ $Name$
 <html>
   <head>
     <title>WMS Client</title>
+
+    <!-- Include mapbuilder libraries -->
     <script type="text/javascript" src="../util/sarissa/Sarissa.js"></script>
     <script type="text/javascript" src="../widget/context/Context.js"></script>
     <script type="text/javascript" src="../widget/mappane/MapPane.js"></script>
@@ -32,6 +34,8 @@ $Name$
   <body>
     <h1><a href="http://mapbuilder.sourceforge.net">Mapbuilder</a>
       Web Map Server Client</h1>
+
+    <!-- Layout mapbuilder widgets and HTML -->
     <table>
       <tr>
         <td valign="top">
@@ -46,10 +50,11 @@ $Name$
     </table>
     <div id="zoomToolDiv"></div>
     <p><i>A <a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Project</i></p>
+
+    <!-- Initialise mapbuilder components -->
     <script>
       // Base Mapbuilder library directory
       baseDir="../widget";
-
 
       // Get the CGI parameters.  If context is not defined, then set a default.
       cgiArgs=getArgs();
