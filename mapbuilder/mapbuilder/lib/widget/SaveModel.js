@@ -26,7 +26,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
  * @constructor
 
- *
+ * @base WidgetBase
 
  * @param widgetNode This widget's object node from the configuration document.
 

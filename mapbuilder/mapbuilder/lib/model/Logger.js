@@ -5,6 +5,8 @@ $Id$
 
 /**
  * Records a log of events that occur over the course of mapbuilder execution
+ * @constructor
+ * @base ModelBase
  * @author Mike Adair
  * @param url Url of context collection document
  */

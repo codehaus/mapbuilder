@@ -10,19 +10,18 @@ mapbuilder.loadScript(baseDir+"/tool/Extent.js");
  * Stores a Web Map Context (WMC) document as defined by the Open GIS Consortium
  * http://opengis.org and extensions the the WMC.  A unique Id is included for
  * each layer which is used when referencing Dynamic HTML layers in MapPane.
- * Context extends ModelBase, which extends Listener.
  *
  * Listener Parameters used:
  * "aoi" - ((upperLeftX,upperLeftY),(lowerRigthX,lowerRigthY)),
  *
  * @constructor
+ * @base ModelBase
  * @author Cameron Shorter
  * @requires Sarissa
  * @param url Url of context document
  * @param id ID referencing this context object
  * @param queryLayer Index of layer in Context document that should be used as
  *   query layer for GetFeatureInfo requests
- * @see ModelBase
  * @see Listener
  */
 function Context(modelNode, parent) {

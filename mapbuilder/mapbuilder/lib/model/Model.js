@@ -7,6 +7,7 @@ $Id$
  * Stores a Web Map Context (WMC) Collection document as defined by the Open 
  * GIS Consortium http://opengis.org and extensions the the WMC.  
  * @constructor
+ * @base ModelBase
  * @author Mike Adair
  * @requires Sarissa
  * @param url Url of context collection document
