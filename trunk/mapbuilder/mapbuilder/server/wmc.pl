@@ -2,6 +2,7 @@
 #
 ################################################################################
 # Description: Build a web page from a Web Map Context based on XslUrl.
+#              This package is part of http://mapbuilder.sourceforge.net .
 #
 # Instalation: Make sure xsltproc is installed
 #              Install into a cgi-bin directory of your web server.
