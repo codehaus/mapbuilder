@@ -153,7 +153,8 @@ var mapbuilder=new Mapbuilder();
 function mapbuilderInit(){
   if(mapbuilder && mapbuilder.loadState==MB_LOADED){
     clearInterval(mbTimerId);
-    config.init();
+    config.init(config);
+    config.callListeners("loadModel");
   }
 }
 
