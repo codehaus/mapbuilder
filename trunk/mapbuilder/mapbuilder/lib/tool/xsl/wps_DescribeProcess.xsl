@@ -20,6 +20,7 @@ $Name$
   <xsl:output method="xml" omit-xml-declaration="no" encoding="utf-8" indent="yes"/>
 
   <xsl:param name="httpMethod">get</xsl:param>
+  <xsl:param name="version"/>
   
   <!-- template rule matching source root element -->
   <xsl:template match="/wps:Capabilities/wps:ProcessOfferings">
@@ -38,8 +39,8 @@ $Name$
         <QueryString>
           <xsl:variable name="query">
       request=DescribeProcess
- &amp;version=0.0.1
  &amp;service=WPS
+ &amp;version=<xsl:value-of select="$version"/>
 &amp;ProcessName=<xsl:value-of select="wps:name"/>
           </xsl:variable>
           <xsl:value-of select="translate(normalize-space($query),' ', '' )" disable-output-escaping="no"/>
