@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!--
-Description: Build a HTML page from Mapbuilder Components XML.
+Description: Build a HTML register of components from a Mapbuilder
+             Config file.
              Descriptions for the components are extracted from the
              config.xsd schema document.
 Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
@@ -30,54 +31,59 @@ $Name$
 
       <body onload="mbDoLoad()">
         <h1>Mapbuilder Components Register</h1>
-        <xsl:apply-templates/>
+        <xsl:apply-templates select="//mb:widgets/*"/>
       </body>
     </html>
   </xsl:template>
 
   <!-- Widget -->
-  <xsl:template match="mb:Widget">
+  <xsl:template match="mb:widgets/*">
     <xsl:variable
       name="widgetName"
-      select="mb:name"/>
+      select="name(.)"/>
     <xsl:variable
       name="componentType"
       select="substring-after(document('../../lib/schemas/config.xsd')//xs:element[@name=$widgetName]/@type,':')"/>
 
-    <h2>Widget <xsl:value-of select="mb:name"/></h2>
+    <h2><xsl:value-of select="name(.)"/> Widget</h2>
     <ul>
-      <p>
-        <!-- Print component description -->
-        <xsl:apply-templates select="document('../../lib/schemas/config.xsd')//xs:complexType[@name=$componentType]/xs:annotation/xs:documentation"/>
-      </p>
-      <xsl:apply-templates select="mb:examples"/>
+      <table border="1">
+        <tr>
+          <th>Description</th>
+          <td>
+            <p>
+              <!-- Print component description -->
+              <xsl:apply-templates select="document('../../lib/schemas/config.xsd')//xs:complexType[@name=$componentType]/xs:annotation/xs:documentation"/>
+            </p>
+
+          </td>
+        </tr>
+        <xsl:if test="mb:stylesheet">
+          <tr>
+            <th>Stylesheet</th>
+            <td><xsl:value-of select="mb:stylesheet"/></td>
+          </tr>
+        </xsl:if>
+        <tr>
+          <th>Example</th>
+          <td>
+            <div>
+              <xsl:attribute name="id">
+                <xsl:choose>
+                  <xsl:when test="mb:htmlTagId">
+                    <xsl:value-of select="mb:htmlTagId"/>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of select="@id"/>
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:attribute>
+            </div>
+          </td>
+        </tr>
+      </table>
     </ul>
   </xsl:template>
-
-  <!-- complex type-->
-  <xsl:template match="xs:complexType">
-    <i>ComplexType:<xsl:value-of select="."/></i>
-  </xsl:template>
-
-  <!-- Schema documentation -->
-  <xsl:template match="xs:documentation">
-    <i><xsl:value-of select="."/></i>
-  </xsl:template>
-
-  <!-- examples -->
-  <xsl:template match="mb:examples">
-    <table border="1">
-      <caption><b><xsl:value-of select="../mb:name"/> Examples</b></caption>
-      <tr>
-        <th>Description</th>
-        <th>Example</th>
-        <th>HTML snippet</th>
-        <th>Config snippet</th>
-      </tr>
-      <xsl:apply-templates select="mb:Example"/>
-    </table>
-  </xsl:template>
-
   <!-- Example -->
   <xsl:template match="mb:Example">
     <tr>
@@ -95,10 +101,17 @@ $Name$
       <td><xsl:value-of select="mb:html"/></td>
       <td><xsl:value-of select="mb:configSnippet"/></td>
     </tr>
-    
   </xsl:template>
- 
-  <!-- Unmatched XML is not copied -->
-  <!--xsl:template match="*|@*|comment()|processing-instruction()|text()"/-->
 
+  <!-- complex type-->
+  <xsl:template match="xs:complexType">
+    <i>ComplexType:<xsl:value-of select="."/></i>
+  </xsl:template>
+
+  <!-- Schema documentation -->
+  <xsl:template match="xs:documentation">
+    <i><xsl:value-of select="."/></i>
+  </xsl:template>
+
+ 
 </xsl:stylesheet>
