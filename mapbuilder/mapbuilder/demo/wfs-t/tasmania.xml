@@ -11,6 +11,18 @@
     <Abstract>Low resolution map of Tasmania, Australia derived from the Digital Chart of the World.</Abstract>
   </General>
   <LayerList>
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="../../../geoserver/wms"/>
+      </Server>
+      <Name>topp:tasmania_state_boundaries</Name>
+      <Title>Tasmania State Boundaries</Title>
+      <Abstract>Tasmania State Boundaries based on the Digital Chart of the World.</Abstract>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/png</Format>
+      </FormatList>
+    </Layer>
     <Layer queryable="0" hidden="0">
       <Server service="wms" version="1.1.0" title="wms">
         <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map"/>
@@ -41,18 +53,6 @@
       <Name>topp:tasmania_roads</Name>
       <Title>Tasmania Roads</Title>
       <Abstract>Tasmania Roads based on the Digital Chart of the World.</Abstract>
-      <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/png</Format>
-      </FormatList>
-    </Layer>
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.1" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="../../../geoserver/wms"/>
-      </Server>
-      <Name>topp:tasmania_state_boundaries</Name>
-      <Title>Tasmania State Boundaries</Title>
-      <Abstract>Tasmania State Boundaries based on the Digital Chart of the World.</Abstract>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/png</Format>
