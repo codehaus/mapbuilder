@@ -4,7 +4,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/EditButtonBase.js");
+mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 
 /**
  * When this button is selected, clicks on the MapPane will add a
@@ -17,7 +17,13 @@ mapbuilder.loadScript(baseDir+"/widget/EditButtonBase.js");
  */
 function EditLine(toolNode, model) {
   // Extend EditButtonBase
-  var base = new EditButtonBase(this, toolNode, model);
+  var base = new ButtonBase(this, toolNode, model);
+
+  /** Empty GML to load when this tool is selected. */
+  //this.defaultModelUrl=toolNode.selectSingleNode("mb:defaultModelUrl").firstChild.nodeValue;
+
+  /** Reference to GML node to update when a feature is added. */
+  this.featureXpath=toolNode.selectSingleNode("mb:featureXpath").firstChild.nodeValue;
 
   /**
    * Append a point to a line.
@@ -26,12 +32,12 @@ function EditLine(toolNode, model) {
    */
   this.doAction = function(objRef,targetNode) {
     if (objRef.enabled) {
-      point=objRef.targetModel.extent.getXY(targetNode.evpl);
-      old=objRef.targetGml.getXlinkValue(
-        objRef.targetGml,
+      point=objRef.mouseHandler.model.extent.getXY(targetNode.evpl);
+      old=objRef.targetModel.getXpathValue(
+        objRef.targetModel,
         objRef.featureXpath);
-      sucess=objRef.targetGml.setXlinkValue(
-        objRef.targetGml,
+      sucess=objRef.targetModel.setXpathValue(
+        objRef.targetModel,
         objRef.featureXpath,
         old+" "+point[0]+","+point[1]);
       if(!sucess){
@@ -39,4 +45,10 @@ function EditLine(toolNode, model) {
       }
     }
   }
+  this.setMouseListener = function(objRef) {
+    if (objRef.mouseHandler) {
+      objRef.mouseHandler.model.addListener('mouseup',objRef.doAction,objRef);
+    }
+  }
+  this.targetModel.addListener( "loadModel", this.setMouseListener, this );
 }

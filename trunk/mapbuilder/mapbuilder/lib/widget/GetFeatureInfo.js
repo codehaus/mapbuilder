@@ -26,13 +26,6 @@ function GetFeatureInfo(toolNode, model) {
   this.xsl.async=false;
   this.xsl.load(baseDir+"/tool/GetFeatureInfo.xsl");
 
-
-  /** Target FeatureCollection model */
-  var targetFeatureCollection = toolNode.selectSingleNode("mb:targetFeatureCollection");
-  this.targetFeatureCollectionName = targetFeatureCollection.firstChild.nodeValue;
-  this.targetFeatureCollection = eval("config."+this.targetFeatureCollectionName);
- 
-
   /** Determine whether Query result is returned as HTML or GML */
   // TBD This should be stored in the Config file.
   this.infoFormat="application/vnd.ogc.gml";
@@ -77,7 +70,7 @@ function GetFeatureInfo(toolNode, model) {
         }else{
           url=objRef.targetModel.getProxyPlusUrl(urlNode.documentElement.firstChild.nodeValue);
           alert("url="+url);
-          objRef.targetFeatureCollection.loadModelDoc(url);
+          objRef.targetModel.loadModelDoc(url);
         }
       }
     }

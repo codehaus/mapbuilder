@@ -21,9 +21,6 @@ function EditButtonBase(button,toolNode, model) {
 
   /** Empty GML to load when this tool is selected. */
   this.defaultModelUrl=toolNode.selectSingleNode("mb:defaultModelUrl").firstChild.nodeValue;
-  targetGmlId=toolNode.selectSingleNode("mb:targetGml").firstChild.nodeValue;
-  /** Model to update when a feature is added. */
-  this.targetGml=eval("config."+targetGmlId);
 
   /** Reference to GML node to update when a feature is added. */
   this.featureXpath=toolNode.selectSingleNode("mb:featureXpath").firstChild.nodeValue;
@@ -40,7 +37,7 @@ function EditButtonBase(button,toolNode, model) {
       httpPayload.url=objRef.defaultModelUrl;
       httpPayload.method="get";
       httpPayload.postData=null;
-      objRef.targetGml.setParam('httpPayload',httpPayload);
+      objRef.targetModel.setParam('httpPayload',httpPayload);
     }
   }
 
@@ -50,7 +47,7 @@ function EditButtonBase(button,toolNode, model) {
    */
   this.setMouseListener = function(objRef) {
     if (objRef.mouseHandler) {
-      objRef.mouseHandler.addListener('mouseup',objRef.doAction,objRef);
+      objRef.mouseHandler.model.addListener('mouseup',objRef.doAction,objRef);
     }
   }
 
@@ -60,5 +57,5 @@ function EditButtonBase(button,toolNode, model) {
     button[sProperty] = this[sProperty];
   }
 
-  button.model.targetModel.addListener("loadModel",button.setMouseListener,button);
+  button.targetModel.addListener("loadModel",button.setMouseListener,button);
 }

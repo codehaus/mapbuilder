@@ -28,7 +28,7 @@ function SetAoi(toolNode, model) {
   }
 
   if (this.mouseHandler) {
-    this.mouseHandler.addListener('mouseup',this.doAction,this);
+    this.mouseHandler.model.addListener('mouseup',this.doAction,this);
   }
 
 }
