@@ -863,7 +863,7 @@
         from the <link linkend="config">Config</link> file. The Mapbuilder
         object loads the scripts in order of dependency, periodically checking
         the load status. When all scripts have loaded, the javascript objects
-        are initialised which triggers the rendering of widgets. </para>
+        are initialised which triggers the rendering of widgets.</para>
       </section>
 
       <section id="inheritance">
@@ -1092,7 +1092,11 @@
           <row>
             <entry>RDF</entry>
 
-            <entry>Resource Description Framework</entry>
+            <entry><ulink url="http://www.w3.org/RDF/">Resource Description
+            Framework</ulink></entry>
+
+            <entry>Framework to describe any Internet resource such as a Web
+            site and its content.</entry>
           </row>
 
           <row>
