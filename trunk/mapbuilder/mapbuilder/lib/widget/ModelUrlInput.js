@@ -41,7 +41,8 @@ function ModelUrlInput(widgetNode, model) {
       }
     }
     
-    this.model.setParam("httpPayload", httpPayload);
+    this.targetModel.setParam("httpPayload", httpPayload);
+    return false;   //prevent the form from actually being submitted
   }
 
   /**
@@ -63,8 +64,9 @@ function ModelUrlInput(widgetNode, model) {
     }
 
     if (keycode == 13) {    //enter key
-      target.parentWidget.submitForm();
+      return target.parentWidget.submitForm();
     }
+    return false;
   }
 
   /**
@@ -72,9 +74,9 @@ function ModelUrlInput(widgetNode, model) {
    * @param objRef Pointer to this widget object.
    */
   this.init = function(objRef) {
-    objRef.stylesheet.setParameter("modelUrl", objRef.model.url);
+    objRef.stylesheet.setParameter("modelUrl", objRef.targetModel.url);
   }
-  this.model.addListener('newModel', this.init, this);
+  this.targetModel.addListener('newModel', this.init, this);
 
   /**
    * Refreshes the form and event handlers when this widget is painted.

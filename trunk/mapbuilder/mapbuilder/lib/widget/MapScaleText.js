@@ -50,6 +50,7 @@ function MapScaleText(widgetNode, model) {
 
     if (keycode == 13) {    //enter key
       target.parentWidget.submitForm();
+    return false
     }
   }
 
