@@ -12,58 +12,10 @@ $Id$
  * @param url Url of context collection document
  */
 function ContextCollection(url) {
-
-  /** The Web Map Context Collection Document. */
-  this.doc = Sarissa.getDomDocument();
-  this.doc.async = false;
-  // the following two lines are needed for IE
-  this.doc.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
-  this.doc.setProperty("SelectionLanguage", "XPath");
-  this.doc.load(url);
-
-
-  // ===============================
-  // Arrays of Listeners
-  // ===============================
-
-  /** Functions to call when the list of contexts is modified
-   */
-  this.collectionListeners = new Array();
-  /** Functions to call when the order of contexts changes. */
-  this.contextOrderListeners = new Array();
-  /** Functions to call when a context is selected. */
-  this.selectContextListeners = new Array();
-
-  // ===============================
-  // Add Listener Functions
-  // ===============================
-  /**
-   * Add a Collection listener.  This listener is called if the Collection is replaced,
-   * or one of the rarely used parameters which has no listener is updated.
-   * The listener function should be of the form collectionListener().
-   * @param listener The fuction to call when Collection changes.
-   */
-  this.addCollectionListener=function(listener) {
-    this.collectionListeners[this.collectionListeners.length]=listener;
-  }
-
-  /**
-   * Add a ContextOrder listener.  This listener is called if the order of layers
-   * changes.
-   * The listener function should be of the form layerOrderListener().
-   * @param listener The fuction to call when layerOrder changes.
-   */
-  this.addOrderListener=function(listener) {
-    this.contextOrderListeners[this.contextOrderListeners.length]=listener;
-  }
-
-  /**
-   * Add a SelectLayer listener.  This listener is called if a layer is selected.
-   * The listener function should be of the form selectLayerListener(layerId).
-   * @param listener The fuction to call when a layer is selected.
-   */
-  this.addSelectListener=function(listener) {
-    this.selectContextListeners[this.selectContextListeners.length]=listener;
+  // Inherit the ModelBase functions and parameters
+  var modelBase = new ModelBase(url);
+  for (sProperty in modelBase) { 
+    this[sProperty] = modelBase[sProperty]; 
   }
 
   /** Insert a new context.
@@ -97,8 +49,8 @@ function ContextCollection(url) {
     * @param selected Set to true/false.
     */
   this.selectContext=function(context,selected){
-    for (var i=0; i<this.selectContextListeners.length; i++) {
-      this.selectContextListeners[i]();
+    for(var i=0;i<this.listeners["select"].length;i++) {
+      this.listeners["select"][i][0](context,this.listeners["select"][i][1]);
     }
   }
 

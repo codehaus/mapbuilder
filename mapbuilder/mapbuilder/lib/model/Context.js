@@ -20,26 +20,13 @@ $Id$
  */
 function Context(url) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase();
+  var modelBase = new ModelBase(url);
   for (sProperty in modelBase) { 
     this[sProperty] = modelBase[sProperty]; 
   }
 
-  /**
-   * The Web Map Context Document.
-   */
-  this.doc = Sarissa.getDomDocument();
-  this.doc.async = false;
-  // the following two lines are needed for IE
-  this.doc.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
-  this.doc.setProperty("SelectionLanguage", "XPath");
-  this.doc.load(url);
-  if ( this.doc.parseError < 0 ) alert("error loading document: " + url);
-  
-  this.id = this.doc.documentElement.attributes.getNamedItem("id").nodeValue;
-
   // ===============================
-  // Update Context Parameters
+  // Update of Context Parameters
   // ===============================
 
   /**

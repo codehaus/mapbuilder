@@ -15,15 +15,11 @@ $Id$
  * @param url URL of the configuration file.
  */
 function Config(url) {
-
-  // Load the mapbuilder configuration file
-  this.doc = Sarissa.getDomDocument();
-  this.doc.async = false;
-  // the following two lines are needed for IE
-  this.doc.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
-  this.doc.setProperty("SelectionLanguage", "XPath");
-  this.doc.load(url);
-  if (this.doc.parseError < 0) alert("Unable to load config file: " + url + "\nCorrect this value in the config(configUrl) constructor in your page head");
+  // Inherit the ModelBase functions and parameters
+  var modelBase = new ModelBase(url);
+  for (sProperty in modelBase) { 
+    this[sProperty] = modelBase[sProperty]; 
+  }
 
   //set some global application properties
   this.skinDir = this.doc.selectSingleNode("/MapbuilderConfig/skinDir").firstChild.nodeValue;

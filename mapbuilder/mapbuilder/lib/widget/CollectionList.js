@@ -27,7 +27,7 @@ function CollectionList(widgetNode, group) {
   this.stylesheet.setParameter("targetId", paramValue );
 
   this.addListeners = function() {
-    this.model.addSelectListener( this.paint );
+    this.model.addListener("select", this.paint);
   }
 }
 
