@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Mike Adair (NRCAN CCRs) -->
-<MapbuilderConfig version="0.2.1" id="owsContextConfig" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+<MapbuilderConfig version="0.2.1" 
+    id="owsContextConfig" 
+    xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
   <!--
     Description: This configuration file determines what components from the
                  Mapbuilder library are to be included in a Main Mapbuilder web
@@ -14,9 +18,9 @@
     This dir is relative the dir of the main html file.
   -->
   <models>
-    <Context id="mainMap">
-      <defaultModelUrl>context/context_0_0_9.xml</defaultModelUrl>
-      <nodeSelectXpath>/cml:ViewContext/cml:ResourceList/cml:FeatureType[cml:Server/@service='OGC:WFS']</nodeSelectXpath>
+    <OwsContext id="mainMap">
+      <defaultModelUrl>context/oc_0_0_11.xml</defaultModelUrl>
+      <nodeSelectXpath>/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[wmc:Server/@service='OGC:WFS']</nodeSelectXpath>
       <models>
         <Gml2 id="gml2FeatureTemplate" template="true">
           <method>post</method>
@@ -34,7 +38,7 @@
       <widgets>
         <MapPane id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-          <!--stylesheet>../lib/widget/owsMapPane.xsl</stylesheet-->
+          <stylesheet>../lib/widget/owsMapPane.xsl</stylesheet>
           <tools>
             <AoiMouseHandler/>
             <AoiBox>
@@ -60,14 +64,14 @@
         </Widget>
         <GetFeatureRequest id="getFeatureRequest">
           <debug/>
-          <stylesheet>/mapbuilder/lib/widget/GetFeatureRequestContext.xsl</stylesheet>
+          <!--stylesheet>/mapbuilder/lib/widget/GetFeatureRequestContext.xsl</stylesheet-->
           <targetModel>gml2FeatureTemplate</targetModel>
           <tools>
             <!--OgcFilter/-->
           </tools>
         </GetFeatureRequest>
       </widgets>
-    </Context>
+    </OwsContext>
     <Context id="locatorMap">
       <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
       <widgets>
@@ -144,5 +148,5 @@
     </ButtonBar>
   </widgets>
   <skinDir>/mapbuilder/lib/skin/default</skinDir>
-  <proxyUrl>/mapbuilder/proxy?url=</proxyUrl>
+  <proxyUrl>/mapbuilder/proxy</proxyUrl>
 </MapbuilderConfig>
