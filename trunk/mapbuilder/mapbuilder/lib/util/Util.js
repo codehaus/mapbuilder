@@ -76,6 +76,12 @@ function getAbsX(elt) {
 function getAbsY(elt) {
         return (elt.y) ? elt.y : getAbsPos(elt,"Top") + 2;
 }
+
+/**
+ * TBD: Comment me.
+ * @param elt TBD
+ * @param which TBD
+ */
 function getAbsPos(elt,which) {
  iPos = 0;
  while (elt != null) {
@@ -108,6 +114,11 @@ function getPageX(e){
   return posx;
 }
 
+/**
+ * get the absolute position of a user event (e.g., a mousedown).
+ * @param e The user event.
+ * @return Left or top position.
+ */
 function getPageY(e){
   var posy = 0;
   if (!e) var e = window.event;
@@ -125,9 +136,6 @@ function getPageY(e){
   }
   return posy;
 }
-
-/*
-*/
 
 /**
  * parse comma-separated name=value argument pairs from the query string of the URL; the function stores name=value pairs in properties of an object and returns that object. 
@@ -303,18 +311,22 @@ function handleEventWithObject(evt){
 }
 
 /**
- * dynamically load a script file.
+ * Dynamically load a script file if it has not already been loaded.
  * @param url The url of the script.
+ * @param id A unique id for the script, by convension this should be
+ * <dir>/<functionName> where dir=model,widget or tool.  If id=null, then the
+ * script is loaded without checking for duplicates.
  */
-function loadScript (url) {
-  var script = document.createElement('script');
-  script.defer = false;   //not sure of effect of this?
-  script.type = "text/javascript";
-  script.src = url;
-  document.getElementsByTagName('head')[0].appendChild(script);
+function loadScript (url,id) {
+  if(!id || !document.getElementById(id)){
+    var script = document.createElement('script');
+    script.defer = false;   //not sure of effect of this?
+    script.type = "text/javascript";
+    script.src = url;
+    script.id = id;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
 }
-
-
 
 if (_SARISSA_IS_MOZ ) {
 
@@ -335,5 +347,4 @@ Node.prototype.simpleValue = function(nodeXpath)
     throw e;
   }
 };
-
 }
