@@ -56,7 +56,7 @@
 
         <Widget id="abstract">
 
-          <stylesheet>/mapbuilder/lib/widget/Abstract.xsl</stylesheet>
+          <stylesheet>Abstract.xsl</stylesheet>
 
         </Widget>
 
