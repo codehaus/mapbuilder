@@ -16,7 +16,7 @@ mapbuilder.loadScript(baseDir+"/tool/EditButtonBase.js");
  * @param toolNode      The tool node from the Config XML file.
  * @param parentWidget  The ButtonBar widget.
  */
-function AddPoint(toolNode, parentWidget) {
+function EditPoint(toolNode, parentWidget) {
   // Extend EditButtonBase
   var base = new EditButtonBase(this, toolNode, parentWidget);
 
