@@ -30,6 +30,10 @@
 
         </MapPane>
 
+        <Loading id="loading">
+
+        </Loading>
+
         <ModelUrlInput id="urlInput">
 
         </ModelUrlInput>
