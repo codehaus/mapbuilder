@@ -33,11 +33,11 @@
   <models>
 
     <ContextCollection>
-      <scriptFile>model/Collection2.js</scriptFile>
+      <scriptFile>model/Collection.js</scriptFile>
     </ContextCollection>
     
     <Context>
-      <scriptFile>model/Context2.js</scriptFile>
+      <scriptFile>model/Context.js</scriptFile>
       <controllers>
         <Extent>
           <scriptFile>model/Extent.js</scriptFile> 
@@ -62,12 +62,12 @@
       
       <widgets>
         <MapPane id="mainMapPaneId">
-          <scriptFile>widget/mappane/MapPane2.js</scriptFile>
-          <stylesheet>widget/mappane/Context2MapPane2.xml</stylesheet>
+          <scriptFile>widget/mappane/MapPane.js</scriptFile>
+          <stylesheet>widget/mappane/Context2MapPane.xml</stylesheet>
           <tools> 
 
             <AoiBox>
-              <scriptFile>widget/tool/AoiBox2.js</scriptFile>
+              <scriptFile>widget/tool/AoiBox.js</scriptFile>
               <lineColor>#FF0000</lineColor>
               <lineWidth>2</lineWidth>
               <crossSize>25</crossSize>
@@ -82,46 +82,17 @@
               <scriptFile>model/Proj.js</scriptFile>
               <formName>MapDisplayForm</formName>
             </CursorTrack>
-
-        <!-- not yet working; uncomment this to try it out
-            <ToolList id="toolListId">
-              <stylesheet>/widget/toollist/Config2ToolList.xsl</stylesheet>
-              <scriptFile>/widget/toollist/ToolList.js</scriptFile>
-              <tools>
-                <Tool id="ZoomInToolId">
-                  <selected>true</selected>
-                  <enabledSrc>images/zoom_in_en.gif</enabledSrc>
-                  <disabledSrc>images/zoom_in_dis.gif</disabledSrc>
-                  <tooltip>click and drag to zoom in</tooltip>
-                </Tool>
-                <Tool id="ZoomOutToolId">
-                  <selected>false</selected>
-                  <enabledSrc>images/zoom_out_en.gif</enabledSrc>
-                  <disabledSrc>images/zoom_out_dis.gif</disabledSrc>
-                  <tooltip>click to zoom out</tooltip>
-                </Tool>
-                <Tool id="PanToolId">
-                  <selected>false</selected>
-                  <enabledSrc>images/pan_en.gif</enabledSrc>
-                  <disabledSrc>images/pan_dis.gif</disabledSrc>
-                  <tooltip>click and drag to pan</tooltip>
-                </Tool>
-              </tools>
-            </ToolList>
-            -->
           </tools> 
         </MapPane>
         
         <Legend id="legendId">
-          <scriptFile>widget/legend/Legend2.js</scriptFile>
-          <stylesheet>widget/legend/Context2Legend2.xml</stylesheet>
+          <scriptFile>widget/legend/Legend.js</scriptFile>
+          <stylesheet>widget/legend/Context2Legend.xml</stylesheet>
         </Legend>
         
-        <!-- not yet working; uncomment this to try it out
-         -->
         <ButtonBar id="buttonBarId">  
-          <stylesheet>/widget/buttonbar/ButtonBar2.xsl</stylesheet>
-          <scriptFile>/widget/buttonbar/ButtonBar3.js</scriptFile>
+          <stylesheet>/widget/buttonbar/ButtonBar.xsl</stylesheet>
+          <scriptFile>/widget/buttonbar/ButtonBar.js</scriptFile>
           <mouseWidget>config['mainMapGroup']['MapPane']</mouseWidget>
           <initialMode>MODE_ZOOM_IN</initialMode>
           <tools>
@@ -153,11 +124,11 @@
       <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorMapId">
-          <scriptFile>widget/mappane/MapPane2.js</scriptFile>
-          <stylesheet>widget/mappane/Context2MapPane2.xml</stylesheet>
+          <scriptFile>widget/mappane/MapPane.js</scriptFile>
+          <stylesheet>widget/mappane/Context2MapPane.xml</stylesheet>
           <tools> 
             <AoiBox>
-              <scriptFile>widget/tool/AoiBox2.js</scriptFile>
+              <scriptFile>widget/tool/AoiBox.js</scriptFile>
               <lineColor>#0000FF</lineColor>
               <lineWidth>1</lineWidth>
               <crossSize>5</crossSize>
@@ -169,7 +140,6 @@
               <scriptFile>widget/tool/ZoomToAoi.js</scriptFile>
               <targetModelGroup>mainMapGroup</targetModelGroup>
             </ZoomToAoi>
-
           </tools> 
         </MapPane>
       </widgets>
@@ -180,8 +150,8 @@
       <defaultModelUrl>context/demoCollection.ccml</defaultModelUrl>
       <widgets>
         <CollectionList id="collectionListId">
-          <scriptFile>widget/collectionList/CollectionList2.js</scriptFile>
-          <stylesheet>widget/collectionList/CollectionToList2.xsl</stylesheet>
+          <scriptFile>widget/collectionList/CollectionList.js</scriptFile>
+          <stylesheet>widget/collectionList/Collection2List.xsl</stylesheet>
           <targetWidgetGroup>mainMapGroup</targetWidgetGroup>
         </CollectionList>
       </widgets>
