@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 
-<MapbuilderConfig id="referenceTemplate">
+<MapbuilderConfig version="0.2.0" id="referenceTemplate">
   <!--
     Description: This configuration file determines what components from the
                  Mapbuilder library are to be included in a Main Mapbuilder web
