@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<ViewContext version="1.0.0"
+             id="na_weather"
+             xmlns="http://www.opengis.net/context"
+             xmlns:xlink="http://www.w3.org/1999/xlink"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengis.net/context/1.0.0/context.xsd">
+	<General>
+		<Window width="500" height="300" />
+		<BoundingBox SRS="EPSG:4326" minx="-160" miny="20.41" maxx="-54.21" maxy="83.8" />
+		<Title>North America Weather Today</Title>
+		<KeywordList>
+			<Keyword>METAR</Keyword>
+			<Keyword>Weather</Keyword>
+			<Keyword>Meteorlogical</Keyword>
+		</KeywordList>
+		<Abstract>METAR is the international standard code format for hourly surface weather observations which is analogous to the SA coding currently used in the US. The acronym roughly translates from French as Aviation Routine Weather Report. These hourly weather reports is harvested by Compusult for North American Airports</Abstract>
+		<LogoURL width="85" height="78" format="image/jpg">
+			<OnlineResource xlink:type="simple" xlink:href="http://weather.noaa.gov/images/nwsright.jpg"/>
+		</LogoURL>
+		<DescriptionURL format="text/html">
+			<OnlineResource xlink:type="simple" xlink:href="http://weather.noaa.gov/weather/metar.shtml"/>
+		</DescriptionURL>
+		<ContactInformation>
+			<ContactPersonPrimary>
+				<ContactPerson>Tom Kralidis</ContactPerson>
+				<ContactOrganization>Environment Canada</ContactOrganization>
+			</ContactPersonPrimary>
+			<ContactPosition>Systems Scientist</ContactPosition>
+			<ContactAddress>
+				<AddressType>postal</AddressType>
+				<Address>867 Lakeshore Road</Address>
+				<City>Burlington</City>
+				<StateOrProvince>Ontario</StateOrProvince>
+				<PostCode>L7R4A6</PostCode>
+				<Country>Canada</Country>
+			</ContactAddress>
+			<ContactVoiceTelephone>+01-905-336-4409</ContactVoiceTelephone>
+			<ContactFacsimileTelephone>+01-905-336-4499</ContactFacsimileTelephone>
+			<ContactElectronicMailAddress>tom.kralidis @ ec.gc.ca</ContactElectronicMailAddress>
+		</ContactInformation>
+	</General>
+	<LayerList>
+		<Layer queryable="0" hidden="0">
+			<Server service="OGC:WMS" version="1.1.1" title="ESA WMS">
+				<OnlineResource xlink:type="simple" xlink:href="http://mapserv2.esrin.esa.it/ionicweb/map/GAEL_WORLD_MARCH"/>
+			</Server>
+			<Name>GAEL_WORLD_MARCH</Name>
+			<Title>Mosaic of MERIS_RR products</Title>
+			<Abstract>Mosaic of MERIS_RR products</Abstract>
+			<SRS>EPSG:4326</SRS>
+			<FormatList>
+				<Format current="1">image/gif</Format>
+				<Format>image/png</Format>
+				<Format>image/jpeg</Format>
+				<Format>image/x-bmp</Format>
+				<Format>image/vnd.wap.wbmp</Format>
+				<Format>image/svg+xml</Format>
+			</FormatList>
+			<StyleList>
+				<Style current="1">
+					<Name>default</Name>
+					<Title>default</Title>
+				</Style>
+			</StyleList>
+		</Layer>
+		<Layer queryable="1" hidden="0">
+  			<Server service="OGC:WMS" version="1.1.1" title="Canada Centre for Remote Sensing Web Map Service">
+				<OnlineResource xlink:type="simple" xlink:href="http://ceoware2.ccrs.nrcan.gc.ca/cubewerx/cubeserv/cubeserv.cgi"/>
+			</Server>
+			<Name>COASTL_BND_1M:Foundation</Name>
+			<Title>Coastlines</Title>
+			<Abstract>VRF Narrative Table for &quot;Coastlines&quot;:Coastline / shorelines (BA010) have been portrayed for coastal islands but not inland islands.</Abstract>			<SRS>EPSG:4326 AUTO:42001 AUTO:42002 AUTO:42003 AUTO:42004 EPSG:2263 EPSG:2283 EPSG:4267 EPSG:4269 EPSG:26703 EPSG:26704 EPSG:26705 EPSG:26706 EPSG:26707 EPSG:26708 EPSG:26709 EPSG:26710 EPSG:26711 EPSG:26712 EPSG:26713 EPSG:26714 EPSG:26715 EPSG:26716 EPSG:26717 EPSG:26718 EPSG:26719 EPSG:26720 EPSG:26721 EPSG:26722 EPSG:26903 EPSG:26904 EPSG:26905 EPSG:26906 EPSG:26907 EPSG:26908 EPSG:26909 EPSG:26910 EPSG:26911 EPSG:26912 EPSG:26913 EPSG:26914 EPSG:26915 EPSG:26916 EPSG:26917 EPSG:26918 EPSG:26919 EPSG:26920 EPSG:26921 EPSG:26922 EPSG:26923 EPSG:26930 EPSG:26985 EPSG:26986 EPSG:26987 EPSG:27582 EPSG:27700 EPSG:32118 EPSG:32128 EPSG:32129 EPSG:32601 EPSG:32602 EPSG:32603 EPSG:32604 EPSG:32605 EPSG:32606 EPSG:32607 EPSG:32608 EPSG:32609 EPSG:32610 EPSG:32611 EPSG:32612 EPSG:32613 EPSG:32614 EPSG:32615 EPSG:32616 EPSG:32617 EPSG:32618 EPSG:32619 EPSG:32620 EPSG:32621 EPSG:32622 EPSG:32623 EPSG:32624 EPSG:32625 EPSG:32626 EPSG:32627 EPSG:32628 EPSG:32629 EPSG:32630 EPSG:32631 EPSG:32632 EPSG:32633 EPSG:32634 EPSG:32635 EPSG:32636 EPSG:32637 EPSG:32638 EPSG:32639 EPSG:32640 EPSG:32641 EPSG:32642 EPSG:32643 EPSG:32644 EPSG:32645 EPSG:32646 EPSG:32647 EPSG:32648 EPSG:32649 EPSG:32650 EPSG:32651 EPSG:32652 EPSG:32653 EPSG:32654 EPSG:32655 EPSG:32656 EPSG:32657 EPSG:32658 EPSG:32659 EPSG:32660 EPSG:32701 EPSG:32702 EPSG:32703 EPSG:32704 EPSG:32705 EPSG:32706 EPSG:32707 EPSG:32708 EPSG:32709 EPSG:32710 EPSG:32711 EPSG:32712 EPSG:32713 EPSG:32714 EPSG:32715 EPSG:32716 EPSG:32717 EPSG:32718 EPSG:32719 EPSG:32720 EPSG:32721 EPSG:32722 EPSG:32723 EPSG:32724 EPSG:32725 EPSG:32726 EPSG:32727 EPSG:32728 EPSG:32729 EPSG:32730 EPSG:32731 EPSG:32732 EPSG:32733 EPSG:32734 EPSG:32735 EPSG:32736 EPSG:32737 EPSG:32738 EPSG:32739 EPSG:32740 EPSG:32741 EPSG:32742 EPSG:32743 EPSG:32744 EPSG:32745 EPSG:32746 EPSG:32747 EPSG:32748 EPSG:32749 EPSG:32750 EPSG:32751 EPSG:32752 EPSG:32753 EPSG:32754 EPSG:32755 EPSG:32756 EPSG:32757 EPSG:32758 EPSG:32759 EPSG:32760 EPSG:41001 EPSG:42101 EPSG:42102 EPSG:42103 EPSG:42104 EPSG:42105 EPSG:42106 EPSG:42301 EPSG:42302 EPSG:42303 EPSG:42304 EPSG:42305 EPSG:42306 EPSG:42307 EPSG:42308 EPSG:42309 EPSG:42310 EPSG:100001</SRS>
+			<FormatList>
+				<Format current="1">image/gif</Format>
+				<Format>image/png</Format>
+				<Format>image/tiff</Format>
+				<Format>image/jpeg</Format>
+				<Format>image/ppm</Format>
+				<Format>application/x-cubestor-wkb</Format>
+				<Format>application/x-cubestor-gml.1</Format>
+				<Format>application/x-cubestor-gml.2</Format>
+			</FormatList>
+			<StyleList>
+				<Style current="1">
+					<Name>default</Name>
+					<Title>default</Title>
+					<LegendURL width="16" height="16" format="image/gif">
+						<OnlineResource xlink:type="simple" xlink:href="http://ceoware2.ccrs.nrcan.gc.ca/cubewerx/cubeserv/cubeserv.cgi?VERSION=1.1.1&amp;REQUEST=GetLegendGraphic&amp;LAYER=COASTL_BND_1M%3AFoundation&amp;FORMAT=image%2Fgif"/>
+					</LegendURL>
+				</Style>
+			</StyleList>
+		</Layer>
+		<Layer queryable="1" hidden="0">
+			<Server service="OGC:WMS" version="1.1.1" title="Canada Centre for Remote Sensing Web Map Service">
+				<OnlineResource xlink:type="simple" xlink:href="http://ceoware2.ccrs.nrcan.gc.ca/cubewerx/cubeserv/cubeserv.cgi"/>
+			</Server>
+		<Name>POLBNDL_BND_1M:Foundation</Name>
+		<Title>Political Boundaries</Title>
+		<Abstract>none</Abstract>
+			<SRS>EPSG:4326 AUTO:42001 AUTO:42002 AUTO:42003 AUTO:42004 EPSG:2263 EPSG:2283 EPSG:4267 EPSG:4269 EPSG:26703 EPSG:26704 EPSG:26705 EPSG:26706 EPSG:26707 EPSG:26708 EPSG:26709 EPSG:26710 EPSG:26711 EPSG:26712 EPSG:26713 EPSG:26714 EPSG:26715 EPSG:26716 EPSG:26717 EPSG:26718 EPSG:26719 EPSG:26720 EPSG:26721 EPSG:26722 EPSG:26903 EPSG:26904 EPSG:26905 EPSG:26906 EPSG:26907 EPSG:26908 EPSG:26909 EPSG:26910 EPSG:26911 EPSG:26912 EPSG:26913 EPSG:26914 EPSG:26915 EPSG:26916 EPSG:26917 EPSG:26918 EPSG:26919 EPSG:26920 EPSG:26921 EPSG:26922 EPSG:26923 EPSG:26930 EPSG:26985 EPSG:26986 EPSG:26987 EPSG:27582 EPSG:27700 EPSG:32118 EPSG:32128 EPSG:32129 EPSG:32601 EPSG:32602 EPSG:32603 EPSG:32604 EPSG:32605 EPSG:32606 EPSG:32607 EPSG:32608 EPSG:32609 EPSG:32610 EPSG:32611 EPSG:32612 EPSG:32613 EPSG:32614 EPSG:32615 EPSG:32616 EPSG:32617 EPSG:32618 EPSG:32619 EPSG:32620 EPSG:32621 EPSG:32622 EPSG:32623 EPSG:32624 EPSG:32625 EPSG:32626 EPSG:32627 EPSG:32628 EPSG:32629 EPSG:32630 EPSG:32631 EPSG:32632 EPSG:32633 EPSG:32634 EPSG:32635 EPSG:32636 EPSG:32637 EPSG:32638 EPSG:32639 EPSG:32640 EPSG:32641 EPSG:32642 EPSG:32643 EPSG:32644 EPSG:32645 EPSG:32646 EPSG:32647 EPSG:32648 EPSG:32649 EPSG:32650 EPSG:32651 EPSG:32652 EPSG:32653 EPSG:32654 EPSG:32655 EPSG:32656 EPSG:32657 EPSG:32658 EPSG:32659 EPSG:32660 EPSG:32701 EPSG:32702 EPSG:32703 EPSG:32704 EPSG:32705 EPSG:32706 EPSG:32707 EPSG:32708 EPSG:32709 EPSG:32710 EPSG:32711 EPSG:32712 EPSG:32713 EPSG:32714 EPSG:32715 EPSG:32716 EPSG:32717 EPSG:32718 EPSG:32719 EPSG:32720 EPSG:32721 EPSG:32722 EPSG:32723 EPSG:32724 EPSG:32725 EPSG:32726 EPSG:32727 EPSG:32728 EPSG:32729 EPSG:32730 EPSG:32731 EPSG:32732 EPSG:32733 EPSG:32734 EPSG:32735 EPSG:32736 EPSG:32737 EPSG:32738 EPSG:32739 EPSG:32740 EPSG:32741 EPSG:32742 EPSG:32743 EPSG:32744 EPSG:32745 EPSG:32746 EPSG:32747 EPSG:32748 EPSG:32749 EPSG:32750 EPSG:32751 EPSG:32752 EPSG:32753 EPSG:32754 EPSG:32755 EPSG:32756 EPSG:32757 EPSG:32758 EPSG:32759 EPSG:32760 EPSG:41001 EPSG:42101 EPSG:42102 EPSG:42103 EPSG:42104 EPSG:42105 EPSG:42106 EPSG:42301 EPSG:42302 EPSG:42303 EPSG:42304 EPSG:42305 EPSG:42306 EPSG:42307 EPSG:42308 EPSG:42309 EPSG:42310 EPSG:100001</SRS>
+			<FormatList>
+				<Format current="1">image/gif</Format>
+				<Format>image/png</Format>
+				<Format>image/tiff</Format>
+				<Format>image/jpeg</Format>
+				<Format>image/ppm</Format>
+				<Format>application/x-cubestor-wkb</Format>
+				<Format>application/x-cubestor-gml.1</Format>
+				<Format>application/x-cubestor-gml.2</Format>
+			</FormatList>
+			<StyleList>
+				<Style current="1">
+					<Name>default</Name>
+					<Title>default</Title>
+					<LegendURL width="16" height="16" format="image/gif">
+						<OnlineResource xlink:type="simple" xlink:href="http://ceoware2.ccrs.nrcan.gc.ca/cubewerx/cubeserv/cubeserv.cgi?VERSION=1.1.1&amp;REQUEST=GetLegendGraphic&amp;LAYER=POLBNDL_BND_1M%3AFoundation&amp;FORMAT=image%2Fgif"/>
+					</LegendURL>
+				</Style>
+			</StyleList>
+		</Layer>
+		<Layer queryable="1" hidden="0">
+			<Server service="OGC:WMS" version="1.1.0" title="Compusult Limited METAR Weather Mapping service">
+				<OnlineResource xlink:type="simple" xlink:href="http://geo.compusult.net/scripts/mapman.dll?Name=weather"/>
+			</Server>
+			<Name>WEATHER</Name>
+			<Title>North American Hourly METAR Weather Reports</Title>
+			<Abstract>METAR is the international standard code format for hourly surface weather observations which is analogous to the SA coding currently used in the US. The acronym roughly translates from French as Aviation Routine Weather Report. These hourly weather reports is harvested by Compusult for North American Airports</Abstract>
+			<SRS>EPSG:4326</SRS>
+			<FormatList>
+				<Format current="1">image/gif</Format>
+				<Format>image/jpeg</Format>
+			</FormatList>
+			<StyleList>
+				<Style current="1">
+					<Name>DEFAULT</Name>
+					<Title>default style</Title>
+					<LegendURL width="226" height="419" format="image/gif">
+						<OnlineResource xlink:type="simple" xlink:href="http://geo.compusult.net/legends/weather.gif"/>
+					</LegendURL>
+				</Style>
+			</StyleList>
+                </Layer>
+		<Layer queryable="1" hidden="0">
+			<Server service="OGC:WMS" version="1.1.0" title="DEMIS World Map Server">
+				<OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/mapserver/request.asp"/>
+			</Server>
+			<Name>Cities</Name>
+			<Title>Cities</Title>
+			<SRS>EPSG:4326</SRS>
+			<FormatList>
+				<Format current="1">image/gif</Format>
+				<Format>image/png</Format>
+				<Format>image/jpeg</Format>
+			</FormatList>
+			<StyleList>
+				<Style current="1">
+					<Name>default</Name>
+					<Title>default</Title>
+				</Style>
+			</StyleList>
+                </Layer>
+	</LayerList>
+</ViewContext>
