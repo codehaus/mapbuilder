@@ -1,13 +1,20 @@
 Release 0.1
 ===========
 * Rename stylesheets from *.xml to *.xsl
-* Rename GlassPane.js to MouseHandler.js
 
-* Ensure there is only one version of everything, ie remove all <filename>2.
+* MapDisplayForm in wmsConfig.html needs to be moved into a widget.
+
+* Move Context2FeatureInfo.xml out of widget/tool
+
+* Remove directories:
+widget/toollist
 
 * Implement PanOut
 
 * Write up know bugs. 
+- Turning layers on/off in Legend raises constraint error in Mozilla 1.5 (ok in 1.3)
+- Turning layers on/off does not disinguish between MapPane and LocatorMap
+  (layer ids are not unique).
 
 * Test.
 
