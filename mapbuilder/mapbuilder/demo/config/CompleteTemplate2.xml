@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<MapbuilderConfig id="referenceTemplate">
+  <baseDir>/mapbuilder/lib</baseDir>
+  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+  <requires>/util/Sarissa/sarissa.js</requires>
+  <requires>/util/Util.js</requires>
+  
+  <models>
+
+    <Config id="configModelId">
+      <scriptFile>/model/Config.js</scriptFile>
+    </Config>
+    
+    <Context id="contextModelId">
+      <scriptFile>/model/Context.js</scriptFile>
+      <scriptFile>/model/Extent.js</scriptFile> <!-- should be a requires? -->
+    </Context>
+    
+    <ContextCollection id="contextCollectionModelId">
+      <scriptFile>/model/Collection.js</scriptFile>
+    </ContextCollection>
+
+    <!--
+      I don't think that <dataFile> should be stored here since we are now mixing
+      presentation with content.
+      Cameron 28 Feb 2004
+    -->
+    <Locations id="locationsModelId">
+      <dataFile>../../demo/locations/Global.xml</dataFile>
+      <scriptFile>/widget/locations/Locations.js</scriptFile>
+    </Locations>
+
+    <!-- A list of Tools which are attached to a MapPane to specify how
+    a mouse actions are processed. -->
+    <ToolSelectList id="toolSelectId">
+      <Option id="ZoomInButton">
+        <selected>true</selected>
+        <enabledSrc>/images/zoom_in_en.gif</enabledSrc>
+        <disabledSrc>/images/zoom_in_dis.gif</disabledSrc>
+        <tooltip>click and drag to zoom in</tooltip>
+        <controller>#ZoomInId</controller>
+      </Option>
+      <Option id="ZoomOutButton">
+        <selected>false</selected>
+        <enabledSrc>/images/zoom_out_en.gif</enabledSrc>
+        <disabledSrc>/images/zoom_out_dis.gif</disabledSrc>
+        <tooltip>click to zoom out</tooltip>
+        <controller>#ZoomOutId</controller>
+      </Option>
+      <Option id="PanButton">
+        <selected>false</selected>
+        <enabledSrc>/images/pan_en.gif</enabledSrc>
+        <disabledSrc>/images/pan_dis.gif</disabledSrc>
+        <tooltip>click and drag to pan</tooltip>
+        <controller>#PanId</controller>
+      </Option>
+      <Option id="SetAoiButton">
+        <selected>false</selected>
+        <enabledSrc>/images/setAOI_en.gif</enabledSrc>
+        <disabledSrc>/images/setAOI_dis.gif</disabledSrc>
+        <tooltip>click and drag to set the area of interest</tooltip>
+        <controller>#SetAoiId</controller>
+      </Option>
+      <Option id="QueryButton">
+        <selected>false</selected>
+        <enabledSrc>/images/query_en.gif</enabledSrc>
+        <disabledSrc>/images/query_dis.gif</disabledSrc>
+        <tooltip>click to query the layer</tooltip>
+        <controller>#QueryId</controller>
+      </Option>
+    </ToolSelectList>
+  </models>
+
+  <views>
+    <MapPane id="mapPaneViewId">
+      <model>#contextModelId</model>
+      <scriptFile>/widget/mappane/MapPane.js</scriptFile>
+      <stylesheet>/widget/mappane/Context2MapPane.xsl</stylesheet>
+    </MapPane>
+
+    <!--
+      Note changes with GlassPane.  GlassPane renders a transparent image
+      and accepts mouse clicks.
+      Cameron 28 Feb 04.
+    -->
+    <GlassPane>
+      <view>#mapPaneViewId</view>
+      <toolSelectList>#toolSelectId</toolSelectList>
+      <scriptFile>/widget/tool/GlassPane2.js</scriptFile>
+      <stylesheet>/widget/legend/Context2GlassPane.xsl</stylesheet>
+    </GlassPane>
+    
+    <Legend>
+      <model>#contextModelId</model>
+      <scriptFile>/widget/legend/Legend.js</scriptFile>
+      <stylesheet>/widget/legend/Context2Legend.xsl</stylesheet>
+    </Legend>
+    
+    <CollectionList>
+      <model>#collectionListModelId</model>
+      <scriptFile>/widget/collectionList/CollectionList.js</scriptFile>
+      <stylesheet>/widget/collectionList/CollectionToList.xsl</stylesheet>
+    </CollectionList>
+    
+    <!--
+      I suggest this tag be renamed to LocationList
+      Cameron 28 Feb 2004
+    -->
+    <Locations>
+      <model>#locationsModelId</model>
+      <scriptFile>/widget/locations/Locations.js</scriptFile>
+      <stylesheet>/widget/locations/Locations2Select.xsl</stylesheet>
+    </Locations>
+
+    <ButtonSelectBar id="ButtonSelectBarId">
+      <toolSelectList>#toolSelectId</toolSelectList>
+      <stylesheet>/widget/buttonbar/ButtonBar2.xsl</stylesheet>
+      <scriptFile>/widget/buttonbar/ButtonBar2.js</scriptFile>
+    </ButtonSelectBar>
+    
+  </views>
+
+  <!--
+    Note, the new format for controllers below.
+    Cameron 19 Feb 04.
+  -->
+  <controllers>
+  
+    <!-- Mouse Action Controllers -->
+    <Controller id="ZoomInToolId">
+      <scriptFile>/widget/tool/ZoomInTool.js</scriptFile>
+      <object>ZoomInTool</object>
+    </Controller>
+
+    <Controller id="ZoomOutToolId">
+      <scriptFile>/widget/tool/ZoomOutTool.js</scriptFile>
+      <object>ZoomOutTool</object>
+    </Controller>
+
+    <Controller id="PanToolId">
+      <scriptFile>/widget/tool/PanToolTool.js</scriptFile>
+      <object>PanToolTool</object>
+    </Controller>
+
+    <Controller id="SetAoiToolId">
+      <scriptFile>/widget/tool/SetAoiTool.js</scriptFile>
+      <object>SetAoiTool</object>
+    </Controller>
+
+    <Controller id="QueryToolId">
+      <scriptFile>/widget/tool/QueryTool.js</scriptFile>
+      <object>QueryTool</object>
+    </Controller>
+
+    <!-- Controllers without mouse actions -->
+    <Controller id="ResetToolId">
+      <scriptFile>/widget/tool/ResetTool.js</scriptFile>
+      <object>ResetTool</object>
+    </Controller>
+
+    <!--
+      I think this logic should be moved into the LocationSelectButton widget.
+      Cameron 29 Feb 2004
+    -->
+    <Controller id="LocationSelecTooltId">
+      <scriptFile>/widget/tool/LocationSelectTool.js</scriptFile>
+      <object>LocationSelectTool</object>
+    </Controller>
+
+  </controllers>
+  
+</MapbuilderConfig>
