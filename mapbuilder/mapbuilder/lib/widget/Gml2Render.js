@@ -45,7 +45,9 @@ function Gml2Render(widgetNode, model) {
 
   //features will have an extent so add the extent property
   //add the extent property
+  //TBD: do this in a loadModel Listener
 /*
+  if (this.model.doc) {
   if (this.node.extext!=null) {
 alert(this.node.extent.model.id);
     this.model.extent = new Extent( this.model, this.node.extent.res );
@@ -54,6 +56,7 @@ alert(this.node.extent.model.id);
     this.model.extent = new Extent( this.model );
     this.model.extent.SetResolution( new Array(this.model.getWindowWidth(), this.model.getWindowHeight()) );
     this.model.addListener("boundingBox",this.paint,this);
+  }
   }
 */
 

@@ -29,8 +29,8 @@ function DragPan(toolNode, parentWidget) {
       var bbox = objRef.targetModel.getParam("aoi");
       if ( objRef.targetModel.getParam("aoi")!=null) {
         var extent = objRef.targetModel.extent;
-        var ul = extent.GetXY( bbox[0] );
-        var lr = extent.GetXY( bbox[1] );
+        var ul = bbox[0];
+        var lr = bbox[1];
         if ( ( ul[0]==lr[0] ) && ( ul[1]==lr[1] ) ) {
           extent.CenterAt( ul, extent.res[0]/objRef.zoomBy );
         } else {

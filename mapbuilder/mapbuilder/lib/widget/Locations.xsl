@@ -18,9 +18,16 @@ $Name$Name:  $
   <xsl:param name="targetModel"/>
   
 	<xsl:template match="/mb:QuickviewPresetResultSet">
+		<xsl:variable name="srsName" select="gml:featureMember/mb:locationDef/mb:spatialKeyword/gml:location/gml:Envelope/@srsName"/>
+    <form>
+    <script language="javascript">
+      config.<xsl:value-of select="$modelId"/>.getSRS = function(){return "EPSG:4326";}
+      alert("location SRS is <xsl:value-of select="$srsName"/>");
+    </script>
 		<select name="locations" onchange="javascript:config.{$modelId}.{$widgetId}.setAoi(this.options[this.selectedIndex].value,'{$targetModel}');" size="5">
       <xsl:apply-templates select="gml:featureMember/mb:locationDef"/>
 		</select>
+    </form>
 	</xsl:template>
   
 	<xsl:template match="mb:locationDef">

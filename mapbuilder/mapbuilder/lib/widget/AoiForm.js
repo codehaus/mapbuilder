@@ -32,7 +32,7 @@ function AoiForm(widgetNode, model) {
    */
   this.displayAoiCoords = function(objRef, targetNode) {
     objRef.aoiForm = document.getElementById(objRef.formName);
-    var aoi = objRef.model.extent.getAoi();
+    var aoi = objRef.model.getParam("aoi");
     objRef.aoiForm.westCoord.value = aoi[0][0];
     objRef.aoiForm.northCoord.value = aoi[0][1];
     objRef.aoiForm.eastCoord.value = aoi[1][0];
@@ -51,7 +51,7 @@ function AoiForm(widgetNode, model) {
    * @param targetNode The node for the enclosing HTML tag for this widget.
    */
   this.setAoi = function(event) {
-    var aoi = this.model.extent.getAoi();
+    var aoi = this.model.getParam("aoi");
     var ul = aoi[0];
     var lr = aoi[1];
     switch(this.name) {
@@ -68,12 +68,12 @@ function AoiForm(widgetNode, model) {
         lr[1] = this.value;
         break;
     }
-    var aoi = this.model.extent.setAoi(ul,lr);
+    var aoi = this.model.setParam("aoi",new Array(ul,lr) );
   }
 
   /**
    * Refreshes the form onblur handlers when this widget is painted.
-   * @param objRef Pointer to this CurorTrack object.
+   * @param objRef Pointer to this AoiForm object.
    */
   this.paintHandler = function(objRef) {
     objRef.aoiForm = document.getElementById(objRef.formName);

@@ -5,14 +5,19 @@ $Id$
 */
 
 /**
- * Encapsulates all geographic and image size aspects of a context document.
+ * A tool designed to handle geography calcualtions for widgets which render
+ * the model in 2D.
+ * Use of this tool requires that it's model implements get/setWindowHeight/Width
+ * methods.
+ * Encapsulates all geographic and image size aspects of a geographic object 
+ * displayed in a rectangular area on the screen.
  * All coordinates are handled as points which is a 2 element array, where x is 
  * the first element and y is the second. Coordinates are either pixel and lixel
  * (pl) relative to the top left of the extent or projection XY values (xy). 
  *
  * @constructor
  *
- * @param context       the context document that this extent represents
+ * @param model       the model document that this extent represents
  *
  * @method GetCenter    returns the XY coordinates of the center of the extent
  * @method GetXY        pass in PL coords and returns projection XY
@@ -25,9 +30,10 @@ $Id$
  */
 
 var mbScaleFactor = 72 * 39.3701;   //PixelsPerInch*InchesPerMapUnit; magic numbers 
+                                    //need to determine magic number for lat/lon
 
-function Extent( context ) {
-  this.context = context;
+function Extent( model, initialRes ) {
+  this.model = model;
   this.size = new Array();
   this.res = new Array();
   this.zoomBy = 4;
@@ -36,7 +42,6 @@ function Extent( context ) {
 	this.GetCenter = getCenter;
 	this.GetXY = getXYCoords;
 	this.GetPL = getPLCoords;
-	this.FitToWindow = fitToWindow;
 	this.CenterAt = centerAt;
 	this.ZoomToBox = zoomToBox;
   this.SetSize = setSize;                 //pass in a resolution and width, height are recalculated
@@ -51,34 +56,24 @@ function Extent( context ) {
     this.CenterAt(center, scale/mbScaleFactor );
   }
 
-
-  this.setAoi = function(ul, lr) {
-    if (lr) {
-      this.context.setParam("aoi",new Array(this.GetPL(ul), this.GetPL(lr)));
-    } else {
-      this.context.setParam("aoi",new Array(this.GetPL(ul), this.GetPL(ul)));
-    }
-  }
-
-  this.getAoi = function() {
-    var plBbox = this.context.getParam("aoi");
-    return new Array( this.GetXY(plBbox[0]), this.GetXY(plBbox[1]));
-  }
-
-  this.init = function(extent) {
-    var bbox = extent.context.getBoundingBox();
+  this.init = function(extent, initialRes) {
+    var bbox = extent.model.getBoundingBox();
     extent.ul = new Array(bbox[0],bbox[3]);
     extent.lr = new Array(bbox[2],bbox[1]);
-    extent.SetResolution( new Array(extent.context.getWindowWidth(), extent.context.getWindowHeight() ) );
+    if ( initialRes ) {
+      extent.SetSize( initialRes );
+    } else {
+      extent.SetResolution( new Array(extent.model.getWindowWidth(), extent.model.getWindowHeight() ) );
+    }
   }
-  context.addListener("loadModel", this.init, this );
+  this.init(this, initialRes);
 }
 
 /**
  * Adjust the width and height to that bbox is displayed at specified resolution
  * @param res   the resolution to be set
  */
-//TBD not tested;  update the context doc
+//TBD update the model doc
 function setSize(res) {
 	this.res[0] = this.res[1] = res;
 	this.size[0] = (this.lr[0] - this.ul[0])/this.res[0];
@@ -91,7 +86,7 @@ function setSize(res) {
  * Adjust the resolution so the bbox fits in the specified width and height
  * @param size   width, height array passed in
  */
-//TBD not tested;  update the context doc
+//TBD update the model doc
 function setResolution(size) {
 	this.size[0] = size[0];
 	this.size[1] = size[1];
@@ -147,7 +142,7 @@ function centerAt(center, newres, limitExtent) {
 	this.lr = new Array(center[0]+half[0]*newres, center[1]-half[1]*newres);
 	this.ul = new Array(center[0]-half[0]*newres, center[1]+half[1]*newres);
   
-  //make sure the request doesn't extend beyond the available context
+  //make sure the request doesn't extend beyond the available model
   //TBD this block not tested
   if ( limitExtent ) {
     var xShift = 0;
@@ -163,7 +158,7 @@ function centerAt(center, newres, limitExtent) {
     this.ul[1] += yShift;
   }
 
-  this.context.setBoundingBox( new Array(this.ul[0], this.lr[1], this.lr[0], this.ul[1]) );
+  this.model.setBoundingBox( new Array(this.ul[0], this.lr[1], this.lr[0], this.ul[1]) );
 	//this.SetResolution(size);
 	this.SetSize(newres);
 //alert("scale:" + this.GetScale() );
@@ -183,27 +178,4 @@ function zoomToBox(ul, lr) {    //pass in xy
   newres = Math.max((lr[0] - ul[0])/this.size[0], (ul[1] - lr[1])/this.size[1]);
   this.CenterAt( center, newres );
 } 
-
-
-/**
- * Fit the whole extent in the given sized window.  Starts at given res and zooms
- * out by 2 until it fits, or maxres is reached.
- * TBD: not  complete or tested
- *
- * @param size      size of the window to fit to
- * @param minres    resolution starting point 
- * @param maxres    resolution stopping point
- * @return            none
- */
-function fitToWindow(size, minres, maxres) {
-	var zoomby = 2;
-	this.res[0] = this.res[1] = minres;		//assumes square pixels
-	var test =  this.GetPL(this.lr);
-	while	( (test[0]>size[0] || test[1]>size[1]) && (this.res[0] < maxres) ) {
-		this.res[0] *= zoomby;
-		this.res[1] *= zoomby;
-		test =  this.GetPL(this.lr);
-	}
-  //call centerAt with test as res
-}
 

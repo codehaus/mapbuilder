@@ -32,9 +32,8 @@ function ZoomOut(toolNode, parentWidget) {
     if (!objRef.enabled) return;
     var bbox = objRef.targetModel.getParam("aoi");
     var extent = objRef.targetModel.extent;
-    var ul = extent.GetXY( bbox[0] );
     var newRes = extent.res[0]*objRef.zoomBy;
-    extent.CenterAt(ul, newRes);
+    extent.CenterAt(bbox[0], newRes);
   }
 
   if (this.mouseHandler) {
