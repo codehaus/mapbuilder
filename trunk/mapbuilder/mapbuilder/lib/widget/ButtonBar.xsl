@@ -46,7 +46,7 @@ $Id$
 
   <xsl:template match="ButtonBar/tools/*">
 
-    <xsl:param name="linkUrl">javascript:<xsl:value-of select="$functionRef"/>('<xsl:value-of select="modeValue"/>')</xsl:param>
+    <xsl:param name="linkUrl">javascript:<xsl:value-of select="$functionRef"/>('<xsl:value-of select="name()"/>')</xsl:param>
 
  
 

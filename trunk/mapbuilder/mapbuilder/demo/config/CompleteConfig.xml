@@ -97,25 +97,22 @@
           <stylesheet>/widget/buttonbar/ButtonBar.xsl</stylesheet>
           <scriptFile>/widget/buttonbar/ButtonBar.js</scriptFile>
           <mouseWidget>config['mainMapGroup']['MapPane']</mouseWidget>
-          <initialMode>MODE_ZOOM_IN</initialMode>
+          <initialMode>ZoomInButton</initialMode>
           <tools>
             <ZoomInButton id="ZoomInButton">
               <enabledSrc>/images/zoom_in_en.gif</enabledSrc>
               <disabledSrc>/images/zoom_in_dis.gif</disabledSrc>
               <tooltip>click and drag to zoom in</tooltip>
-              <modeValue>MODE_ZOOM_IN</modeValue>
               <modalButton>true</modalButton>
             </ZoomInButton>
             <ZoomOutButton id="ZoomOutButton">
               <enabledSrc>/images/zoom_out_en.gif</enabledSrc>
               <disabledSrc>/images/zoom_out_dis.gif</disabledSrc>
               <tooltip>click to zoom out</tooltip>
-              <modeValue>MODE_ZOOM_OUT</modeValue>
             </ZoomOutButton>
             <ResetButton id="ResetButton">
               <disabledSrc>/images/reset_extent_dis.gif</disabledSrc>
               <tooltip>reset the map to full extent</tooltip>
-              <modeValue>MODE_RESET</modeValue>
             </ResetButton>
           </tools>
         </ButtonBar>
