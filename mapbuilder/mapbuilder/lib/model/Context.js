@@ -223,15 +223,15 @@ function Extent( context ) {
   this.zoomBy = 4;
 
 //give some methods for an extent object
-	this.GetCenter = getCenter;
-	this.GetXY = getXYCoords;
-	this.GetPL = getPLCoords;
-	this.FitToWindow = fitToWindow;
-	this.Reset = reset;
-	this.CenterAt = centerAt;
-	this.ZoomToBox = zoomToBox;
+  this.GetCenter = getCenter;
+  this.GetXY = getXYCoords;
+  this.GetPL = getPLCoords;
+  this.FitToWindow = fitToWindow;
+  this.Reset = reset;
+  this.CenterAt = centerAt;
+  this.ZoomToBox = zoomToBox;
   this.SetSize = setSize;                 //pass in a resolution and width, height are recalculated
-	this.SetResolution = setResolution;     //pass in a width, height and res is recalculated
+  this.SetResolution = setResolution;     //pass in a width, height and res is recalculated
 
   this.setAoi = function(ul, lr) {
     if (lr) {
@@ -261,11 +261,11 @@ function Extent( context ) {
  */
 //TBD not tested;  update the context doc
 function setSize(res) {
-	this.res[0] = this.res[1] = res;
-	this.size[0] = (this.lr[0] - this.ul[0])/this.res[0];
-	this.size[1] = (this.ul[1] - this.lr[1])/this.res[1];
-	this.width = Math.ceil(this.size[0]);
-	this.height = Math.ceil(this.size[1]);
+  this.res[0] = this.res[1] = res;
+  this.size[0] = (this.lr[0] - this.ul[0])/this.res[0];
+  this.size[1] = (this.ul[1] - this.lr[1])/this.res[1];
+  this.width = Math.ceil(this.size[0]);
+  this.height = Math.ceil(this.size[1]);
 }
 
 /**
@@ -274,12 +274,12 @@ function setSize(res) {
  */
 //TBD not tested;  update the context doc
 function setResolution(size) {
-	this.size[0] = size[0];
-	this.size[1] = size[1];
-	this.res[0] = (this.lr[0] - this.ul[0])/this.size[0];
-	this.res[1] = (this.ul[1] - this.lr[1])/this.size[1];
-	this.width = Math.ceil(this.size[0]);
-	this.height = Math.ceil(this.size[1]);
+  this.size[0] = size[0];
+  this.size[1] = size[1];
+  this.res[0] = (this.lr[0] - this.ul[0])/this.size[0];
+  this.res[1] = (this.ul[1] - this.lr[1])/this.size[1];
+  this.width = Math.ceil(this.size[0]);
+  this.height = Math.ceil(this.size[1]);
 }
 
 
@@ -288,7 +288,7 @@ function setResolution(size) {
  * @return  array of XY for th center of the extent
  */
 function getCenter() {
-	return new Array((this.ul[0]+this.lr[0])/2, (this.ul[1]+this.lr[1])/2);
+  return new Array((this.ul[0]+this.lr[0])/2, (this.ul[1]+this.lr[1])/2);
 }
 
 /**
@@ -297,9 +297,9 @@ function getCenter() {
  * @return     point array of XY coordinates
  */
 function getXYCoords(pl) {
-	var x = this.ul[0]+pl[0]*this.res[0];
-	var y = this.ul[1]- pl[1]*this.res[1];
-	return new Array(x,y);
+  var x = this.ul[0]+pl[0]*this.res[0];
+  var y = this.ul[1]- pl[1]*this.res[1];
+  return new Array(x,y);
 }
 
 /**
@@ -308,9 +308,9 @@ function getXYCoords(pl) {
  * @return     point array of pxiel/line coordinates w.r.t. top left corner
  */
 function getPLCoords(xy) {
-	var p = Math.floor( (xy[0]-this.ul[0])/this.res[0] );
-	var l = Math.floor( (this.ul[1]-xy[1])/this.res[1] );
-	return new Array(p,l);
+  var p = Math.floor( (xy[0]-this.ul[0])/this.res[0] );
+  var l = Math.floor( (this.ul[1]-xy[1])/this.res[1] );
+  return new Array(p,l);
 }
 
 /**
@@ -325,8 +325,8 @@ function getPLCoords(xy) {
  */
 function centerAt(center, newres, limitExtent) {
   var half = new Array(this.size[0]/2, this.size[1]/2);
-	this.lr = new Array(center[0]+half[0]*newres, center[1]-half[1]*newres);
-	this.ul = new Array(center[0]-half[0]*newres, center[1]+half[1]*newres);
+  this.lr = new Array(center[0]+half[0]*newres, center[1]-half[1]*newres);
+  this.ul = new Array(center[0]-half[0]*newres, center[1]+half[1]*newres);
   
   //make sure the request doesn't extend beyond the available context
   //TBD this block not tested
@@ -345,8 +345,8 @@ function centerAt(center, newres, limitExtent) {
   }
 
   this.context.setBoundingBox( new Array(this.ul[0], this.lr[1], this.lr[0], this.ul[1]) );
-	//this.SetResolution(size);
-	this.SetSize(newres);
+  //this.SetResolution(size);
+  this.SetSize(newres);
 }
 
 /**
@@ -376,14 +376,14 @@ function zoomToBox(ul, lr) {    //pass in xy
  * @return            none
  */
 function fitToWindow(size, minres, maxres) {
-	var zoomby = 2;
-	this.res[0] = this.res[1] = minres;		//assumes square pixels
-	var test =  this.GetPL(this.lr);
-	while	( (test[0]>size[0] || test[1]>size[1]) && (this.res[0] < maxres) ) {
-		this.res[0] *= zoomby;
-		this.res[1] *= zoomby;
-		test =  this.GetPL(this.lr);
-	}
+  var zoomby = 2;
+  this.res[0] = this.res[1] = minres;   //assumes square pixels
+  var test =  this.GetPL(this.lr);
+  while ( (test[0]>size[0] || test[1]>size[1]) && (this.res[0] < maxres) ) {
+    this.res[0] *= zoomby;
+    this.res[1] *= zoomby;
+    test =  this.GetPL(this.lr);
+  }
   //call centerAt with test as res
 }
 
