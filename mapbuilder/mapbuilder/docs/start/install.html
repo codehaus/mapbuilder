@@ -1,59 +1,48 @@
 
-<h2>Insatlling mapbuilder</h2>
+<h2>Installing mapbuilder</h2>
 
 <p>
-There are several common steps for coding a mapbuilder application.  
-In the following code examples, paths starting with "/" are relative
-to your server root.
+Mapbuilder is available as .zip file for use in a Apache/PHP environment, 
+as well as a .war file for J2EE servlet containers like Jakarta Tomcat.
 </p>
 
-<ol class="med">
-  <li><span class="title">Create the HTML for the web page:</span>
-  All that is required is to assign an ID attribute to the HTML elements in the
-  page where mapbuilder widgets will be inserted.
-  For example:
-  <pre>&lt;div&nbsp;id="mbId"&gt;&lt;/div&gt;</pre>
-  where "mbId" corresponds to a widget ID in your configuration file.
-  <br/>
-  <b>Note:</b> don't use the empty node form for mapbuilder elements 
-  (i.e. <b>&lt;div&nbsp;id="mbId"/&gt;</b>).
-  This is because some browsers do not recognize the empty tag as being closed. 
-  </li>
-  <li><span class="title">Create your mapbuilder configuration file:</span>
-  Copy an existing configuration file or create a new one.
-  Adjust the URL of models to point to the documents you wish to load.
-  Then include the widgets desired, setting
-  it's ID attribute to the corresponding HTML element in your page.
-  Finally, add in any tools desired.
-  </li>
-  <li><span class="title">Include the mapbuilder Javascript library:</span>
-  the web page's &lt;HEAD&gt; element must include a reference to the mapbuilder
-  library JavaScript code.  The library must be installed on the same server as 
-  the page using it:
-  <pre>
-  &lt;script type="text/javascript" 
-  src="/mapbuilder/lib/Mapbuilder.js"&gt;&lt;/script&gt;
-  </pre>
-  </li>
-  <li><span class="title">Initialize the mapbuilder library:</span>
-  This involves adding a &lt;SCRIPT&gt; block to your page &lt;HEAD&gt; to initialize the 
-  mapbuilder library, passing the URL of the configuration file created in step 2.
-  <pre>
-    &lt;script&gt;
-      // URL of Mapbuilder configuration file.
-      var mbConfigUrl='config/contextEditor.xml';
-    &lt;/script&gt;
-    &lt;script type="text/javascript" src="../lib/Mapbuilder.js"&gt;&lt;/script&gt;
-  <pre>
-  </li>
-  <li><span class="title">Initialize the application:</span>
-  the page's BODY onload event handler must call mapbuilder's body onload event 
-  handler. 
-  <pre>
-  &lt;body onload='mbDoLoad()'&gt;
-    ..rest of page body...
-  &lt;/body&gt;
-  <pre>
-  </li>
+<dl class="med">
+  <dt class="title">Tomcat environment:</dt>
+  <dd>
+<p>
+  Download the mapbuilder.war file and put it in the tomcat webapps
+  directory. Restart tomcat.
+</p>
+<p>
+  The required server side scripts are automatically available as servlets,
+  and configured in /mapbuilder/WEB-INF/web.xml.
+  By default, these are: /mapbuilder/proxy for the proxyUrl property and 
+  /mapbuilder/writeXml for the serializeUrl config property.
+  Make sure that these properties of MapbuilderConfig are set correctly in 
+  your configuration file.
+</p>
+<p>
+  Installation details for other servlet containers may vary.
+</p>
+  <dd>
+  <dt class="title">Apache/PHP environment</dt>
+  <dd>
+<p>
+  Download the mapbuilder zip file and unpack it into a web accessible directory.
+  With Apache this will be the htdocs directory.
+  Installation details for other web servers may vary.
+</p>
+<p>
+  The required server side scripts are available as: 
+  /mapbuilder/server/proxy/proxy.php for the proxyUrl property and 
+  (not yet implemented) for the serializeUrl config property.
+  Make sure that these properties of MapbuilderConfig are set correctly in 
+  your configuration file.
+</p>
+  </dd>
+</dl>
 
-</ol>
+<p>
+  You should then be able to try it out from this URL: 
+  <a href="http://localhost:8080/mapbuilder/demo/complete.html">http://localhost:8080/mapbuilder/demo/complete.html</a>
+</p>
