@@ -16,12 +16,17 @@ $Name$
     <title>configuration version test page</title>
 
     <!-- Include mapbuilder libraries -->
+    <!-- 
+    I think we should simply this further and merge code from these files
+    into MapBuilder.js so we can just say:
+    <script type="text/javascript" src="../lib/MapBuilder.js"></script>
+    This file would also include the Config object constructor.
+    Util needs clean up as well.
+    Keep Sarissa separate?
+    Mike 27 Mar 2004
+    -->
     <script type="text/javascript" src="../lib/util/sarissa/Sarissa.js"></script>
-    <script type="text/javascript" src="../lib/util/Util.js"></script>
-    <script type="text/javascript" src="../lib/util/Listener.js"></script>
-    <script type="text/javascript" src="../lib/model/ModelBase.js"></script>
-    <script type="text/javascript" src="../lib/model/Config.js"></script>
-    <script type="text/javascript" src="../lib/widget/WidgetBase.js"></script>
+    <script type="text/javascript" src="../lib/Mapbuilder.js"></script>
     <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
 
     <script>
