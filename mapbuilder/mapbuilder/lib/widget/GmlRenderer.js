@@ -47,8 +47,6 @@ function GmlRenderer(widgetNode, model) {
     //objRef.resultDoc = objRef.coordXsl.transformNodeToObject(objRef.resultDoc);
   }
 
-  //this.paint = function() {}
-
   // Call paint() when the context changes
   this.targetModel.addListener("boundingBox",this.paint, this);
 }
