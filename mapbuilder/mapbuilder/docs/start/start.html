@@ -1,0 +1,66 @@
+
+<h2>Getting started</h2>
+
+<p>
+There are several common steps for coding a mapbuilder application.  
+In the following code examples, paths starting with "/" are relative
+to your server root.
+</p>
+
+<ol class="med">
+  <li><span class="title">Create the HTML for the web page:</span>
+  All that is required is to assign an ID attribute to the HTML elements in the
+  page where mapbuilder widgets will be inserted.
+  For example:
+  <pre>&lt;div&nbsp;id="mbId"&gt;&lt;/div&gt;</pre>
+  where "mbId" corresponds to a widget ID in your configuration file.
+  <br/>
+  <b>Note:</b> don't use the empty node form for mapbuilder elements 
+  (i.e. <b>&lt;div&nbsp;id="mbId"/&gt;</b>).
+  This is because some browsers do not recognize the empty tag as being closed. 
+  </li>
+  <li><span class="title">Create your mapbuilder configuration file:</span>
+  Copy an existing configuration file or create a new one.
+  Adjust the URL of models to point to the documents you wish to load.
+  Then include the widgets desired, setting
+  it's ID attribute to the corresponding HTML element in your page.
+  Finally, add in any tools desired.
+  </li>
+  <li><span class="title">Include the mapbuilder Javascript library:</span>
+  the web page's &lt;HEAD&gt; element must include a reference to the mapbuilder
+  library JavaScript code.  The library can be installed on the same server as 
+  the page using it:
+  <pre>
+  &lt;script type="text/javascript" 
+  src="/mapbuilder/lib/Mapbuilder.js"&gt;&lt;/script&gt;
+  </pre>
+  OR, it can be referenced from another server 
+  <em>(not tested yet, might be some issues to be resolved)</em>:
+  <pre>
+  &lt;script type="text/javascript" 
+  src="http://mapbuilder.sourceforge.net/mapbuilder/lib/Mapbuilder.js"&gt;&lt;/script&gt;
+  </pre>
+  To install the library on your server, (full details to be worked out) unzip the 
+  mapbuilder library into an HTTP directory on your server.
+  </li>
+  <li><span class="title">Initialize the mapbuilder library:</span>
+  This involves adding a &lt;SCRIPT&gt; block to your page &lt;HEAD&gt; to initialize the 
+  mapbuilder library, passing the URL of the configuration file created in step 2.
+  <pre>
+  &lt;script&gt;
+  Mapbuilder("/myApp/myAppConfig.xml");
+  &lt;/script&gt;
+  <pre>
+  </li>
+  <li><span class="title">Initialize the application:</span>
+  the page's BODY onload event handler must call mapbuilder's body onload event 
+  handler. 
+  This can be chained with other application onload handlers if required:
+  <pre>
+  &lt;body onload='mbConfig.init(); myApp.onLoadHandler()'&gt;
+    ..rest of page body...
+  &lt;/body&gt;
+  <pre>
+  </li>
+
+</ol>
