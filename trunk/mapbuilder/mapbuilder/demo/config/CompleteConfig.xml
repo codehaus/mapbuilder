@@ -72,13 +72,17 @@
 
         <AoiBox2 id="aoiBox2">
 
-          <stylesheet>../lib/widget/Null.xsl</stylesheet>
+          <htmlTagId>mainMapPane</htmlTagId>
 
-          <lineColor>#FF0000</lineColor>
+          <stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
 
-          <lineWidth>3</lineWidth>
+          <lineColor>#00FF00</lineColor>
+
+          <lineWidth>1</lineWidth>
 
           <crossSize>15</crossSize>
+
+          <mapContainerId>mainMapContainer</mapContainerId>
 
         </AoiBox2>
 
@@ -255,16 +259,6 @@
     <Gml2 id="ntsGml">
 
       <!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
-
-      <widgets>
-
-        <Gml2Render id="testGml2Renderer">
-
-          <htmlTagId>mainMapPane</htmlTagId>
-
-        </Gml2Render>
-
-      </widgets>
 
     </Gml2>
 
