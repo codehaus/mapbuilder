@@ -33,7 +33,6 @@ function ModelBase(modelNode) {
     var docId = this.doc.documentElement.attributes.getNamedItem("id");
     if (docId) this.docId = docId.nodeValue;
     this.callListeners("loadModel");
-    alert("loadModelNode");
   }
 
   /**
