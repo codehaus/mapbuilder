@@ -14,7 +14,7 @@
   -->
   <models>
     <Context id="mainMap">
-      <defaultModelUrl>../../data/context/local.xml</defaultModelUrl>
+      <defaultModelUrl>local.xml</defaultModelUrl>
       <widgets>
         <MapPane id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
