@@ -18,7 +18,7 @@
   -->
   <models>
     <Context id="mainMap">
-      <defaultModelUrl>/mapbuilder/data/context/atlasWorld.xml</defaultModelUrl>
+      <defaultModelUrl>../../data/context/atlasWorld.xml</defaultModelUrl>
       <widgets>
         <MapPane id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
@@ -26,7 +26,7 @@
         </MapPane>
         <AoiBoxWZ id="aoiBoxMain">
           <htmlTagId>mainMapPane</htmlTagId>
-          <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
+          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
@@ -38,10 +38,10 @@
         <Legend id="legend">
         </Legend>
         <Widget id="abstract">
-          <stylesheet>/mapbuilder/lib/widget/Abstract.xsl</stylesheet>
+          <stylesheet>../../lib/widget/Abstract.xsl</stylesheet>
         </Widget>
         <Widget id="mapTitle">
-          <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
+          <stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
         </Widget>
         <AoiForm id="aoiForm">
         </AoiForm>
@@ -64,7 +64,7 @@
       </tools>
     </Context>
     <Context id="locator">
-      <defaultModelUrl>/mapbuilder/data/context/locatorMap.xml</defaultModelUrl>
+      <defaultModelUrl>../../data/context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
@@ -73,7 +73,7 @@
         </MapPane>
         <AoiBoxWZ id="aoiBoxLocator">
           <htmlTagId>locatorMap</htmlTagId>
-          <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
+          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
@@ -90,7 +90,7 @@
       </tools>
     </Context>
     <ContextCollection id="collectionGroup">
-      <defaultModelUrl>/mapbuilder/data/context/demoCollection.xml</defaultModelUrl>
+      <defaultModelUrl>../../data/context/demoCollection.xml</defaultModelUrl>
       <widgets>
         <CollectionList id="collectionList">
           <targetModel>mainMap</targetModel>
@@ -98,7 +98,7 @@
       </widgets>
     </ContextCollection>
     <Model id="locations">
-      <defaultModelUrl>/mapbuilder/data/locations/Global.xml</defaultModelUrl>
+      <defaultModelUrl>../../data/locations/Global.xml</defaultModelUrl>
       <widgets>
         <Locations id="locationsSelect">
           <targetModel>mainMap</targetModel>
@@ -146,10 +146,10 @@
     </FeatureCollection>
     <!--
     <Logger id="eventLogDoc">
-      <serializeUrl>/mapbuilder/writeXml</serializeUrl>
+      <serializeUrl>../../writeXml</serializeUrl>
       <widgets>
         <Widget id="eventLog">
-          <stylesheet>/mapbuilder/lib/widget/EventLog.xsl</stylesheet>
+          <stylesheet>../../lib/widget/EventLog.xsl</stylesheet>
         </Widget>
       </widgets>
     </Logger>
@@ -158,7 +158,7 @@
   <widgets>
     <WebServiceForm id="ntsLookupForm">
       <targetModel>ntsGml</targetModel>
-      <stylesheet>/mapbuilder/lib/widget/NtsForm.xsl</stylesheet>
+      <stylesheet>../../lib/widget/NtsForm.xsl</stylesheet>
       <webServiceUrl>http://geoservices.cgdi.ca/NTS/NTSLookup</webServiceUrl>
     </WebServiceForm>
     <ZoomIn id="zoomIn">
@@ -231,7 +231,7 @@
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>http://localhost:8080/geoserver/wfs</webServiceUrl>
       <featureXpath>/gml:featureMember/points/_SHAPE_/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
-      <defaultModelUrl>/mapbuilder/data/gml/defaultAddPoint.xml</defaultModelUrl>
+      <defaultModelUrl>../../data/gml/defaultAddPoint.xml</defaultModelUrl>
       <targetContext>mainMap</targetContext>
     </EditPoint>
     <EditLine id="editLine">
@@ -246,7 +246,7 @@
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>http://localhost:8080/geoserver/wfs</webServiceUrl>
       <featureXpath>/gml:featureMember/topp:bc_roads/topp:the_geom/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
-      <defaultModelUrl>/mapbuilder/data/gml/roads.xml</defaultModelUrl>
+      <defaultModelUrl>../../data/gml/roads.xml</defaultModelUrl>
       <targetContext>mainMap</targetContext>
     </EditLine>
     <Save id="save">
@@ -261,11 +261,11 @@
   </widgets>
   <tools>
   </tools>
-  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+  <skinDir>../../lib/skin/default</skinDir>
   <!-- Url of LOCAL redirection script, required to access external URLs -->
   <!--proxyUrl>../server/proxy/proxy.php</proxyUrl-->
-  <proxyUrl>/mapbuilder/proxy</proxyUrl>
+  <proxyUrl>../../proxy</proxyUrl>
   <!--serializeUrl>../server/proxy/serializer.php</serializeUrl-->
-  <serializeUrl>/mapbuilder/writeXml</serializeUrl>
+  <serializeUrl>../../writeXml</serializeUrl>
 </MapbuilderConfig>
 
