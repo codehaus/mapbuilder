@@ -41,15 +41,15 @@ function ZoomTool(widgetNode) {
    * This function should be called at startup.
    * or generate this from a stylesheet
    */
-  this.paint=function(){
+  this.paint=function() {
     img=document.createElement("img");
     img.style.cursor="pointer";
     img.setAttribute("src", config.skinDir+"/images/zoomIn.gif");
     img.setAttribute("id", "zoomIn");
-    this.node.appendChild(img);
+    img.onclick = this.zoomIn;
     //img.ownerObj=this;
     //addEvent(img, "click", handleEventWithObject);
-    this.node.onclick = zoomIn;
+    this.node.appendChild(img);
     
   }
 }
