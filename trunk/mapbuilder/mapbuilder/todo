@@ -1,3 +1,18 @@
+Query Functionality:
+--------------------
+* GML to be stored in Model
+* Widgets to render the GML
+* Proxy.js to get proxy url from Config
+* proxy.php to return Content Type
+* Proxy.js to handle Content Type
+* proxy.php to return errors in Service Exception XML format
+* Proxy.js to handle the format.
+* InfoFormat to be stored in Config file.
+* Legend to highlight to selected Layer
+* When Layer is selected, Query button should be selected.
+* SelectedTool state should be stored in a model instead of Widgets so that
+  legend can change it.
+
 Tools:
 ------
 * Move <dependsOn> property from config file to each Tool js code.
