@@ -107,6 +107,17 @@ function Config(url) {
       +modelId
       +"]/widgets/MapPane/tools/GlassPane/toolSelect/*");
 
+    //you might want to try this: pass in groupId instead of model Id
+    //config[groupId] is a pointer to a group object created in config.init
+    //config[groupId].model  - is the currently loaded model in that group
+    //config[groupId]['Mappane'] - is a reference to the javascript widget object 
+    //we could also reference the widgets using an id instead
+    //
+    //Also, I don't think this function belongs in config.js since it is seems 
+    //to be specific to the mappane.  config.js should not know about the details
+    //of any  widgets or tools or models.
+    //Mike 11 Mar 2004
+
     // Set all the tools/selected in the selectedToolList to true/false.
     for(var i=0;i<mapPaneTools.length;i++){
       if (mapPaneTools[i].getAttribute("id")==toolId) {
