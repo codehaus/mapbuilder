@@ -45,8 +45,8 @@ function Config(url) {
 
   // Load script files for all components that don't have <scriptfile> specified
   // in the config file.
-  this.loadScriptFiles("//widgets/*","/widget/");
-  //this.loadScriptFiles("//models/*","/model/");
+  this.loadScriptFiles("//widgets/*","widget/");
+  this.loadScriptFiles("//models/*","model/");
   //this.loadScriptFiles("//tools/*","/tool/");
 
   //TBD: Deprecate the following block and move into loadScriptFiles instead.
