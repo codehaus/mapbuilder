@@ -25,13 +25,6 @@ function AoiBox(toolNode, parentWidget) {
 
   this.node = document.getElementById( parentWidget.containerId );
 
-  if ( parentWidget.targetGroup ) {
-    //add a listener to the targetGroup for updates to AOI box
-    this.targetModel = config[parentWidget.targetGroup].model;
-  } else {
-    this.targetModel = parentWidget.model;
-  }
-
 
 /** Hide or show the box
   * @param vis    boolean true for visible; false for hidden
@@ -66,7 +59,12 @@ function AoiBox(toolNode, parentWidget) {
       switch(objRef.mode) {
         case 'MODE_ZOOM_IN':				//zoom in
           objRef.setVis(false);
-          objRef.targetModel.extent.ZoomToBox( ul, lr );
+          var targetModel = targetNode.parentWidget.model;
+          if ( targetNode.parentWidget.targetGroup ) {
+            //add a listener to the targetGroup for updates to AOI box
+            targetModel = config[targetNode.parentWidget.targetGroup].model;
+          }
+          targetModel.extent.ZoomToBox( ul, lr );
           break;
         case 'MODE_SET_AOI':				//setting AOI
           //call AOI changed listeners?; objRef.setFormAOI( ul, lr );
@@ -159,7 +157,6 @@ function AoiBox(toolNode, parentWidget) {
   * @return        none
   */
   this.dragBox = function( evpl ) {	
-//if (evpl[0]==0) alert(evpl[0]+":"+evpl[1]);
     var ul = new Array();
     var lr = new Array();
     if (this.anchorPoint[0] > evpl[0]) {
@@ -195,8 +192,13 @@ function AoiBox(toolNode, parentWidget) {
   }
 
 /** Internal method to initialize the box HTML elements
-  */
-  this.getImageDiv = function( ) {
+  */ 
+  this.mouseAddOffset = function( targetNode, objRef ) {
+    targetNode.evpl[0] = targetNode.evpl[0] + targetNode.offsetLeft;
+    targetNode.evpl[1] = targetNode.evpl[1] + targetNode.offsetTop;
+  }
+
+  this.getImageDiv = function( parentWidget ) {
     var newDiv = document.createElement("DIV");
     newDiv.innerHTML = "&nbsp;";
     newDiv.style.position = "absolute";
@@ -204,13 +206,10 @@ function AoiBox(toolNode, parentWidget) {
     //newDiv.style.zIndex = 300;
     newDiv.style.visibility = "hidden";
 
-    //let mouse events bubble up to the containing DIV
 /*
-    newDiv.onmousedown = function(ev) {;};// {alert(ev.layerX+":"+ev.layerY);};
-    newDiv.onmouseup = function(ev) {;};// {alert(ev.layerX+":"+ev.layerY);};
-    newDiv.onmousemove = function(ev) {;};// {alert(ev.layerX+":"+ev.layerY);};
-    newDiv.onmouseover = function(ev) {;};// {alert(ev.layerX+":"+ev.layerY);};
-    newDiv.onmouseout = function(ev) {;};// {alert(ev.layerX+":"+ev.layerY);};
+    parentWidget.addMouseListener('mouseDown', this.mouseAddOffset, this );
+    parentWidget.addMouseListener('mouseMove', this.mouseAddOffset, this );
+    parentWidget.addMouseListener('mouseUp', this.mouseAddOffset, this );
 */
 
     this.node.appendChild( newDiv );
@@ -218,10 +217,10 @@ function AoiBox(toolNode, parentWidget) {
   }
 
   //final initialization
-  this.Top = this.getImageDiv( );
-  this.Bottom = this.getImageDiv( );
-  this.Left = this.getImageDiv( );
-  this.Right = this.getImageDiv( );
+  this.Top = this.getImageDiv( parentWidget );
+  this.Bottom = this.getImageDiv( parentWidget );
+  this.Left = this.getImageDiv( parentWidget );
+  this.Right = this.getImageDiv( parentWidget );
   this.ul = new Array(0,0);
   this.lr = new Array(0,0);
 
