@@ -336,7 +336,8 @@ function GetImageDiv( glass ) {
   newDiv.innerHTML = "<IMG SRC='' WIDTH='1' HEIGHT='1'/>";
   newDiv.style.position = "absolute";
   newDiv.style.backgroundColor = mouseBoxColor;
-  newDiv.style.zIndex = glass.style.zIndex;
+//  newDiv.style.zIndex = glass.style.zIndex;
+  newDiv.style.zIndex = 300;
   newDiv.style.visibility = "hidden";
   newDiv.onmouseup = mouseUpHandler;
   glass.appendChild( newDiv );
