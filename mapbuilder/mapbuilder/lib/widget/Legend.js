@@ -26,4 +26,14 @@ function Legend(context,baseDir,window) {
     s=this.context2Legend.transformNode(this.context.context);
     document.write(s);
   }
+
+  /**
+   * Called when the context's hidden attribute changes.
+   * @param e The event sent to the listener.
+   */
+  this.hiddenListener=function(e){
+    //alert("MapPane hiddenListener called with layer="+e.layerId);
+  }
+
+  this.context.addHiddenListener(this.hiddenListener);
 }

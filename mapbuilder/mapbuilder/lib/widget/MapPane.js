@@ -25,5 +25,16 @@ function MapPane(context,baseDir,window) {
   this.paint=function() {
     s=this.wmcLayer2DhtmlLayer.transformNode(this.context.context);
     document.write(s);
+    alert(s);
   }
+
+  /**
+   * Called when the context's hidden attribute changes.
+   * @param e The event sent to the listener.
+   */
+  this.hiddenListener=function(e){
+    //alert("Legend hiddenListener called with layer="+e.layerId);
+  }
+
+  this.context.addHiddenListener(this.hiddenListener);
 }
