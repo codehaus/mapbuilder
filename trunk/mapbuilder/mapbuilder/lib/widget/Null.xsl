@@ -20,7 +20,7 @@ $Name$
 
   
 
-  <xsl:template match="/"/>
+  <xsl:template match="/" />
 
 </xsl:stylesheet>
 
