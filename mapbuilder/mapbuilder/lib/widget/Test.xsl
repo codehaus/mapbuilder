@@ -10,8 +10,10 @@ Add comment
 -->
   <xsl:output method="xml" encoding="utf-8"/>
   
+  <!-- A comment -->
   <xsl:template match="/" />
     <xsl:variable name="fred" select="'x'"/>
-    <b>fred
+    <xsl:variable name="abc" select="'y'"/>
+    <b>freddy
     </b>
 </xsl:stylesheet>
