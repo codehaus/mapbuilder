@@ -37,7 +37,7 @@ function Config(url) {
     for (var i=0; i<nodes.length; i++) {
       if (nodes[i].selectSingleNode("scriptFile")==null){
         scriptFile = baseDir+"/"+dir+nodes[i].nodeName+".js";
-        mapbuilder.loadScript(scriptFile,nodes[i].nodeName);
+        mapbuilder.loadScript(scriptFile);
       }
     }
   }
