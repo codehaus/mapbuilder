@@ -4,9 +4,11 @@ $Id$
 */
 
 /**
- * Base Model class to be instantiated by all Model objects.
- * loads the XML document as the doc property of the model
- * event listeners.
+ * Base Model class to be inherited by all Model objects and provdes methods
+ * and properties common to all models.
+ * Stores the XML document as the .doc property of the model.
+ * Inherits from the Listener class so all models are also listener objects that
+ * can call registered listeners.
  * @constructor
  * @base Listener
  * @author Cameron Shorter
@@ -63,18 +65,10 @@ function ModelBase(model, modelNode, parentModel) {
     model.namespace = namespace.firstChild.nodeValue;
   }
 
-  //don't load in models and widgets if this is the config doc, defer to config.init
-  if (parentModel) {
-    model.parentModel = parentModel;
-    parentModel[model.id] = model;
-  }
-
-  //go no farther for template models
   var templateAttr = modelNode.attributes.getNamedItem("template");
   if (templateAttr) {
     model.template = (templateAttr.nodeValue=="true")?true:false;
     model.modelNode.removeAttribute("template");
-    //return;
   }
 
   //get the xpath to select nodes from the parent doc
@@ -84,10 +78,10 @@ function ModelBase(model, modelNode, parentModel) {
   }
 
   /**
-   * Get the value of a node.
+   * Get the value of a node as selected by an XPath expression.1
    * @param objRef Reference to this node.
-   * @param xpath Xpath of the node to update.
-   * @return value of the node or null if Xpath does not find a node.
+   * @param xpath XPath of the node to update.
+   * @return value of the node or null if XPath does not find a node.
    */
   this.getXpathValue=function(objRef,xpath){
     node=objRef.doc.selectSingleNode(xpath);
@@ -100,7 +94,7 @@ function ModelBase(model, modelNode, parentModel) {
   model.getXpathValue=this.getXpathValue;
 
   /**
-   * Update the value of a node within this model's XML.
+   * Update the value of a node within this model's XML document.
    * Triggers a refresh event from the model.
    * @param objRef Reference to this node.
    * @param xpath Xpath of the node to update.
@@ -126,7 +120,13 @@ function ModelBase(model, modelNode, parentModel) {
   model.setXpathValue=this.setXpathValue;
 
   /**
-   * Load a Model's document from a url.
+   * Load a Model's document.  This will only occur if the model.url property is
+   * set. Calling this method triggers several events:
+   * modelStatus - to indicate that the model state is changing
+   * newModel - to give widgetrs a chance to clear themselves before the doc is loaded
+   * loadModel - to indicate that the document is loaded successfully
+   * refresh - to indicate that widgets should be refreshed
+   *
    * @param modelRef Pointer to the model object being loaded.
    */
   this.loadModelDoc = function(modelRef){
@@ -136,9 +136,11 @@ function ModelBase(model, modelNode, parentModel) {
     if (modelRef.url) {
 
       if (modelRef.contentType == "image") {
+        //image models are set as a DOM image object
         modelRef.doc = new Image();
         modelRef.doc.src = modelRef.url;
       } else {
+        //XML content type
         if (modelRef.postData) {
           //http POST
           modelRef.doc = postLoad(modelRef.url,modelRef.postData);
@@ -175,7 +177,7 @@ function ModelBase(model, modelNode, parentModel) {
   model.loadModelDoc = this.loadModelDoc;
 
   /**
-   * Load XML for a model from httpPayload event.
+   * Load XML for a model from an httpPayload object
    * To update model data, use:<br/>
    * httpPayload=new Object();<br/>
    * httpPayload.url="url" or null. If set to null, all dependant widgets
@@ -216,8 +218,12 @@ function ModelBase(model, modelNode, parentModel) {
   model.saveModel = this.saveModel;
 
   /**
-   * appends a new instance of a model to the model list
-   * @param objRef Pointer to this object.
+   * Creates all mapbuilder JavaScript objects based on the Object nodes defined
+   * in the configuration file.
+   * A reference to the created model is stored as a property of the config.objects
+   * property using the model's ID; you can always get a reference to a mapbuilder
+   * object as: "config.objects.objectId"
+   * @param configNode The node from config for the model to be created
    */
   this.createObject = function(configNode) {
     var objectType = configNode.nodeName;
@@ -233,15 +239,12 @@ function ModelBase(model, modelNode, parentModel) {
   model.createObject = this.createObject;
 
   /**
-   * create all the child model javascript objects for this model.
-   * A reference to the created model is stored as a js property of the model
-   * using the model's ID; so you can always get a reference to a widget by
-   * using: "config.modelId.subModelId..."
-   * Similarly, a reference to the model is added as a property of config so it 
-   * is also available as "config.subModelId"
+   * Creates all the mapbuilder objects from the config file as selected by the
+   * XPath value passed in.
+   * @param objectXpath The XPath for the set of nodes being created
    */
   this.loadObjects = function(objectXpath) {
-    //loop through all child models of this one
+    //loop through all nodes selected from config
     var configObjects = this.modelNode.selectNodes( objectXpath );
     for (var i=0; i<configObjects.length; i++ ) {
       this.createObject( configObjects[i]);
@@ -250,9 +253,8 @@ function ModelBase(model, modelNode, parentModel) {
   model.loadObjects = this.loadObjects;
 
   /**
-   * Initialization of the javascript model and widget objects for this model. 
-   * This doesn't call the document loading functions, only creates the javascript
-   * objects
+   * Initialization of all javascript model, widget and tool objects for this model. 
+   * Calling this method triggers an init event for this model.
    * @param modelRef Pointer to this object.
    */
   model.init = function(modelRef) {
@@ -262,7 +264,8 @@ function ModelBase(model, modelNode, parentModel) {
     modelRef.callListeners("init");
   }
 
-  //don't load in models and widgets if this is the config doc, defer to config.init
+  //don't load in models and widgets if this is the config doc, 
+  //defer that to an explcit config.init() call in mapbuilder.js
   if (parentModel && !model.template) {
     parentModel.addListener("loadModel",model.loadModelDoc, model);
     parentModel.addListener("init",model.init, model);

@@ -5,15 +5,14 @@ License:      GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
-// Ensure this object's dependancies are loaded.
-//mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
-
 /**
- * Widget which generates a WFS query from it's parent document
+ * Model which represents the results of a GetMap request.  In this case the 
+ * mime type of the model document is probably be an image type.
+ * tbd: this still needed?
  * @constructor
  * @base WidgetBase
- * @param widgetNode  The widget's XML object node from the configuration document.
- * @param model       The model object that this widget belongs to.
+ * @param modelNode  The model's XML object node from the configuration document.
+ * @param model      The model object that this widget belongs to.
  */
 function GetMap(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
@@ -34,7 +33,7 @@ function GetMap(modelNode, parent) {
   }
 
   /**
-   * Render the widget.  Equivalent function to paint.
+   * 
    * @param objRef Pointer to this object.
    */
   this.loadLayer = function(objRef, feature) {

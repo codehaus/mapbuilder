@@ -6,11 +6,10 @@ $Id$
 /**
  * Stores a Web Map Context (WMC) document as defined by the Open GIS Consortium
  * http://opengis.org and extensions the the WMC.  
- * each layer which is used when referencing Dynamic HTML layers in MapPane.
  *
  * Listeners supported by this model:
- * "aoi" - ((upperLeftX,upperLeftY),(lowerRigthX,lowerRigthY)),
- * "hidden" - ((upperLeftX,upperLeftY),(lowerRigthX,lowerRigthY)),
+ * "refresh" called when window parameters (width/height, bbox) are changed
+ * "hidden" called when visibilty of a layer is changed
  *
  * @constructor
  * @base ModelBase
@@ -145,7 +144,7 @@ function Context(modelNode, parent) {
    * Returns the serverUrl for the layer passed in as the feature argument.
    * @param requestName ignored for context docs (only GetMap supported)
    * @param method ignored for context docs (only GET supported)
-   * @param feature The Layer node from the Context document to get from
+   * @param feature the Layer node from the context doc
    * @return height String URL for the GetMap request
    */
   this.getServerUrl = function(requestName, method, feature) {
@@ -154,6 +153,7 @@ function Context(modelNode, parent) {
 
   /**
    * Returns the WMS version for the layer passed in as the feature argument
+   * @param feature the Layer node from the context doc
    * @return the WMS GetMap version for the Layer.
    */
   this.getVersion = function(feature) {  
@@ -161,8 +161,9 @@ function Context(modelNode, parent) {
   }
 
   /**
-   * Get the Window height.
-   * @return height The height of map window from the context document.
+   * Get HTTP method for the specified feature
+   * @param feature the Layer node from the context doc
+   * @return the HTTP method to get the feature with
    */
   this.getMethod = function(feature) {
     return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("wmc:method");
@@ -172,6 +173,7 @@ function Context(modelNode, parent) {
    * Adds a node to the Context document extension element.  The extension element
    * will be created if it doesn't already exist.  
    * @param extensionNode the node to be appended in the extension element.
+   * @return the ndoe added to the extension element
    */
   this.setExtension = function(extensionNode) {
     var extension = this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Extension");

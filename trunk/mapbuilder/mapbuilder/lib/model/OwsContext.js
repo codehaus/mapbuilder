@@ -3,20 +3,18 @@ License: GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
-// Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/tool/Extent.js");
-
 /**
- * Stores a Web Map Context (WMC) document as defined by the Open GIS Consortium
- * http://opengis.org and extensions the the WMC.  A unique Id is included for
- * each layer which is used when referencing Dynamic HTML layers in MapPane.
- *
- * Listener Parameters used:
- * "aoi" - ((upperLeftX,upperLeftY),(lowerRigthX,lowerRigthY)),
+ * Stores an OWS Context document as defined by the OGC interoperability
+ * experiment. This model should be eventually merged with the standard OGC 
+ * context doc.
+ * Listeners supported by this model:
+ * "refresh" called when window parameters (width/height, bbox) are changed
+ * "hidden" called when visibilty of a layer is changed
+ * "wfs_getFeature" called when feature resources are loaded
  *
  * @constructor
  * @base ModelBase
- * @author Cameron Shorter
+ * @author Mike Adair
  * @requires Sarissa
  * 
  */
@@ -32,9 +30,8 @@ function OwsContext(modelNode, parent) {
 
   /**
    * Change a Layer's visibility.
-   * @param layerIndex The index of the LayerList/Layer from the Context which
-   * has changed.
-   * @param hidden, 1=hidden, 0=not hidden.
+   * @param layerName  The name of the layer that is to be changed
+   * @param hidden     String with the value to be set; 1=hidden, 0=visible.
    */
   this.setHidden=function(layerName, hidden){
     // Set the hidden attribute in the Context
@@ -48,10 +45,9 @@ function OwsContext(modelNode, parent) {
   }
 
   /**
-   * Get the layer's visiblity.
-   * @param layerIndex The index of the LayerList/Layer from the Context which
-   * has changed.
-   * @return hidden value, 1=hidden, 0=not hidden.
+   * Get the layer's visiblity attribute value.
+   * @param layerName  The name of the layer that is to be changed
+   * @return hidden  String with the value; 1=hidden, 0=visible.
    */
   this.getHidden=function(layerName){
     var hidden=1;
@@ -77,8 +73,8 @@ function OwsContext(modelNode, parent) {
   }
 
   /**
-   * Set the BoundingBox and notify intererested widgets that BoundingBox has changed.
-   * @param boundingBox array in form (xmin, ymin, xmax, ymax).
+   * Set the BoundingBox element and call the refresh listeners
+   * @param boundingBox array in the sequence (xmin, ymin, xmax, ymax).
    */
   this.setBoundingBox=function(boundingBox) {
     // Set BoundingBox in context
@@ -91,7 +87,6 @@ function OwsContext(modelNode, parent) {
   }
 
   /**
-   * TBD: Deprecated - use getContext() instead.
    * Set the Spacial Reference System for layer display and layer requests.
    * @param srs The Spatial Reference System.
    */
@@ -102,7 +97,6 @@ function OwsContext(modelNode, parent) {
   }
 
   /**
-   * TBD: Deprecated - use setContext() instead.
    * Set the Spacial Reference System for layer display and layer requests.
    * @return srs The Spatial Reference System.
    */
@@ -115,7 +109,7 @@ function OwsContext(modelNode, parent) {
 
   /**
    * Get the Window width.
-   * @return width The width of map window (therefore of map layer images).
+   * @return width The width of map window from the context document
    */
   this.getWindowWidth=function() {
     //var win=this.doc.documentElement.getElementsByTagName("Window").item(0);
@@ -136,7 +130,7 @@ function OwsContext(modelNode, parent) {
 
   /**
    * Get the Window height.
-   * @return height The height of map window (therefore of map layer images).
+   * @return height The height of map window from the context document.
    */
   this.getWindowHeight=function() {
     //var win=this.doc.documentElement.getElementsByTagName("Window").item(0);
@@ -155,29 +149,47 @@ function OwsContext(modelNode, parent) {
     win.setAttribute("height", height);
   }
 
+  /**
+   * Returns the serverUrl for the layer passed in as the feature argument.
+   * @param requestName ignored for context docs (only GetMap supported)
+   * @param method ignored for context docs (only GET supported)
+   * @param feature the node for the feature from the context doc
+   * @return height String URL for the GetMap request
+   */
   this.getServerUrl = function(requestName, method, feature) {
     return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
   }
 
-  //this is the GetMap request version, not context doc version.
+  /**
+   * Returns the WMS version for the layer passed in as the feature argument
+   * @param feature the node for the feature from the context doc
+   * @return the WMS GetMap version for the Layer.
+   */
   this.getVersion = function(feature) {  
     return feature.selectSingleNode("wmc:Server").getAttribute("version");
   }
 
+  /**
+   * Get HTTP method for the specified feature
+   * @param feature the Layer node from the context doc
+   * @return the HTTP method to get the feature with
+   */
   this.getMethod = function(feature) {
     return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("wmc:method");
   }
 
   /**
-   * get the list of source nodes from the parent document
-   * @param objRef Pointer to this object.
+   * returns a node that has the specified feature name in the context doc
+   * @param featureName Name element value to return
+   * @return the node from the context doc with the specified feature name
    */
   this.getFeatureNode = function(featureName) {
     return this.doc.selectSingleNode(this.nodeSelectXpath+"/*[wmc:Name='"+featureName+"']");
   }
 
   /**
-   * get the list of source nodes from the parent document
+   * listener method which loads WFS features from the context doc, after WMS 
+   * layers are loaded.
    * @param objRef Pointer to this object.
    */
   this.loadFeatures = function(objRef) {

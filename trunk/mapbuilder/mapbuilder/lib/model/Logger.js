@@ -8,20 +8,19 @@ $Id$
  * @constructor
  * @base ModelBase
  * @author Mike Adair
- * @param url Url of context collection document
+ * @param modelNode Pointer to the xml node for this model from the config file.
+ * @param parent    The parent model for the object.
  */
 function Logger(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   var modelBase = new ModelBase(this, modelNode, parent);
+  this.namespace = "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder'";
 
-  this.doc = Sarissa.getDomDocument("http://mapbuilder.sourceforge.net/mapbuilder","mb:Logger");
-  Sarissa.setXpathNamespaces(this.doc, "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder'");
+  //create a new document
+  this.doc = Sarissa.getDomDocument("http://mapbuilder.sourceforge.net/mapbuilder","mb:Logger");//!no prefix on the URL
+  Sarissa.setXpathNamespaces(this.doc, this.namespace);
   this.doc.async = false;
   this.doc.validateOnParse=false;  //IE6 SP2 parsing bug
-
-  //set the URL to post this data for saving
-  var serializeUrl = modelNode.selectSingleNode("mb:serializeUrl");
-  if (serializeUrl) this.serializeUrl = serializeUrl.firstChild.nodeValue;
 
   /**
    * appends a new entry in the log file
@@ -54,15 +53,15 @@ function Logger(modelNode, parent) {
    * save the log by http post to the serializeUrl URL provided
    */
   this.saveLog = function() {
-    if (logger.serializeUrl) {
-      var tempDoc = postLoad(logger.serializeUrl,logger.doc);
+    if (config.serializeUrl) {
+      var tempDoc = postLoad(config.serializeUrl,logger.doc);
       tempDoc.setProperty("SelectionLanguage", "XPath");
       Sarissa.setXpathNamespaces(tempDoc, "xmlns:xlink='http://www.w3.org/1999/xlink'");
       var onlineResource = tempDoc.selectSingleNode("//OnlineResource");
       var fileUrl = onlineResource.attributes.getNamedItem("xlink:href").nodeValue;
       alert("event log saved as:" + fileUrl);
     } else {
-      alert("unable to save event log; provide a serializeUrl property on the logger model");
+      alert("unable to save event log; provide a serializeUrl property in config");
     }
   }
 
@@ -73,13 +72,7 @@ function Logger(modelNode, parent) {
     objRef.callListeners("refresh");
   }
 
-  //
-  if (parent) {
-    this.parentModel = parent;
-    parent["logger"] = this;
-    parent.addListener("refresh",this.refreshLog, this);
-  }
-
+  if (parent) parent.addListener("refresh",this.refreshLog, this);
   window.onunload = this.saveLog;   //automatically save the log when the page unloads
   window.logger = this;             //global reference to the logger model
 }
