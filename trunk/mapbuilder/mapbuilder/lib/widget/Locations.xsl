@@ -18,7 +18,7 @@ $Name$Name:  $
   <xsl:param name="targetModel"/>
   
 	<xsl:template match="/mb:QuickviewPresetResultSet">
-		<select name="locations" onchange="javascript:config.{$modelId}.{$widgetId}.setAoi(this.options[this.selectedIndex].value,'{$targetModel}');" size="1">
+		<select name="locations" onchange="javascript:config.{$modelId}.{$widgetId}.setAoi(this.options[this.selectedIndex].value,'{$targetModel}');" size="5">
       <xsl:apply-templates select="gml:featureMember/mb:locationDef"/>
 		</select>
 	</xsl:template>
