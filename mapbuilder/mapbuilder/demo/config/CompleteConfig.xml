@@ -10,16 +10,6 @@
     $Id$
   -->
 
-  <!-- 
-  these not loaded on client side, but this file can be used to include these server-side
-  -->
-  <requires>util/Sarissa/sarissa.js</requires>
-  <requires>util/Util.js</requires>
-  <requires>util/Listener.js</requires>
-  <requires>model/ModelBase.js</requires>
-  <requires>widget/WidgetBase.js</requires>
-  <requires>model/Extent.js</requires>  <!-- merge this code to Context ? -->
-
   <!-- All static images should be relative to this URL -->
   <skinDir>/mapbuilder/lib/skin/default</skinDir>
 
