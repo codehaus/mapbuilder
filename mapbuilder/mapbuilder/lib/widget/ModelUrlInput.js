@@ -42,7 +42,7 @@ function ModelUrlInput(widgetNode, model) {
       }
     }
 */    
-    this.targetModel.setParam("httpPayload", httpPayload);
+    this.targetModel.newRequest(this.targetModel,httpPayload);
   }
 
   /**

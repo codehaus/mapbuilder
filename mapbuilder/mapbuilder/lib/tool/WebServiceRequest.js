@@ -102,7 +102,7 @@ function WebServiceRequest(toolNode, model) {
       httpPayload.postData = null;
     }
     
-    objRef.targetModel.setParam("httpPayload", httpPayload);
+    objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
   }
   this.model.addListener(this.requestName.replace(/:/,"_"), this.doRequest, this);
 }
