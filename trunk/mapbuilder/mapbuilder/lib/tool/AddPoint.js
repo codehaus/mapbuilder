@@ -26,8 +26,8 @@ function AddPoint(toolNode, parentWidget) {
   /** Empty GML to load when this tool is selected. */
   this.defaultModelUrl=toolNode.selectSingleNode("mb:defaultModelUrl").firstChild.nodeValue;
   /** Model to update when a feature is added. */
-  this.targetModelId=toolNode.selectSingleNode("mb:targetModel").firstChild.nodeValue;
-  this.targetModel=eval("config."+this.targetModelId);
+  this.targetGmlId=toolNode.selectSingleNode("mb:targetGml").firstChild.nodeValue;
+  this.targetGml=eval("config."+this.targetGmlId);
 
   /** Reference to GML node to update when a feature is added. */
   this.featureXpath=toolNode.selectSingleNode("mb:featureXpath").firstChild.nodeValue;
@@ -40,9 +40,9 @@ function AddPoint(toolNode, parentWidget) {
   this.doAction = function(objRef,targetNode) {
     if (objRef.enabled) {
       point=objRef.targetModel.extent.getXY(targetNode.evpl);
-      feature=objRef.targetModel.doc.selectSingleNode(objRef.featureXpath);
+      feature=objRef.targetGml.doc.selectSingleNode(objRef.featureXpath);
       feature.firstChild.nodeValue=point[0]+","+point[1];
-      objRef.targetModel.setParam("refresh");
+      objRef.targetGml.setParam("refresh");
     }
   }
 
@@ -58,7 +58,7 @@ function AddPoint(toolNode, parentWidget) {
       httpPayload.url=objRef.defaultModelUrl;
       httpPayload.method="get";
       httpPayload.postData=null;
-      objRef.targetModel.setParam('httpPayload',httpPayload);
+      objRef.targetGml.setParam('httpPayload',httpPayload);
     }
   }
 
