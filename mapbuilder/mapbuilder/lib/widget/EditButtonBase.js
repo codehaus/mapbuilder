@@ -11,19 +11,19 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @constructor
  * @base ButtonBase
  * @author Cameron Shorter cameronATshorter.net
- * @param button        Pointer to the button instance being created.
- * @param toolNode      The tool node from the Config XML file.
+ * @param button    Pointer to the button instance being created.
+ * @param widetNode The node from the Config XML file.
  * @param model  The ButtonBar widget.
  */
-function EditButtonBase(button,toolNode, model) {
+function EditButtonBase(button,widetNode, model) {
   // Extend ButtonBase
-  var base = new ButtonBase(button, toolNode, model);
+  var base = new ButtonBase(button, widetNode, model);
 
   /** Empty GML to load when this tool is selected. */
-  this.defaultModelUrl=toolNode.selectSingleNode("mb:defaultModelUrl").firstChild.nodeValue;
+  this.defaultModelUrl=widetNode.selectSingleNode("mb:defaultModelUrl").firstChild.nodeValue;
 
   /** Reference to GML node to update when a feature is added. */
-  this.featureXpath=toolNode.selectSingleNode("mb:featureXpath").firstChild.nodeValue;
+  this.featureXpath=widetNode.selectSingleNode("mb:featureXpath").firstChild.nodeValue;
 
   /**
    * If tool is selected and the Edit Tool has changed (eg, changed from
