@@ -18,7 +18,7 @@ function FeatureList(widgetNode, model) {
   var base = new WidgetBase(this, widgetNode, model);
 
   /** Url of WFS */
-  this.serviceUrl=widgetNode.selectSingleNode("mb:serviceUrl");
+  this.webServiceUrl=widgetNode.selectSingleNode("mb:webServiceUrl");
 
   /** Xsl to convert Feature into a WFS Transation Insert. */
   this.insertXsl=new XslProcessor(baseDir+"/tool/xsl/wfs_Insert.xsl");
@@ -48,13 +48,13 @@ function FeatureList(widgetNode, model) {
           break;
         }
       case "Insert Feature":
-        //alert("FeatureList: model"+objRef.model.doc.xml);
         s=objRef.insertXsl.transformNodeToObject(objRef.model.doc);
-        //alert("FeatureList: insert XML:"+s.xml);
         httpPayload.postData=s;
-        httpPayload.url=objRef.ServiceUrl;
+        httpPayload.url=objRef.webServiceUrl;
         httpPayload.method="post";
-        objRef.targetModel.setParam('httpPayload',httpPayload);
+        //objRef.targetModel.setParam('httpPayload',httpPayload);
+        objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
+        alert("FeatureList: targetModel.doc="+objRef.targetModel.doc.xml);
         break;
       case "Update Feature":
         alert("FeatureList: Update Feature not implemented");
