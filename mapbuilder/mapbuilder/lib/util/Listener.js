@@ -37,8 +37,8 @@ function Listener() {
   /**
    * Call all the listeners that have registered interest in this parameter
    * using addListener.
-   * @param param The parameter to change.
-   * @param value An optional variable that can be sent with the event.
+   * @param param The parameter that has changed.
+   * @param value The new parameter value.
    */
   this.callListeners=function(param,value) {
     if (this.listeners[param]){
@@ -60,7 +60,7 @@ function Listener() {
     this.values[param] = value;
 
     // Call all the interested listeners
-    this.callListeners(param);
+    this.callListeners(param,value);
   }
 
   /**
