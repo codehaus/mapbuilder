@@ -7,25 +7,24 @@ $Id$
  * Stores variables that change dynamically, like the mouse position on a map, and
  * notifies listeners when it changes.
  * @constructor
+ * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
  * @author Cameron Shorter cameronATshorter.net
- * @requires Sarissa
  */
 function DynamicState() {
 
   // ===============================
   // Dynamic Parameters
   // ===============================
-  /**
-   * The Area Of Interest being selected by mouseDrag in geographic coordinates.
-   */
-  this.aoiBoxStartX=0;
-  this.aoiBoxStartY=0;
-  this.aoiBoxEndX=0;
-  this.aoiBoxEndY=0;
-  this.aoiBoxValid=false;
+  /** Start of an AOI drag box.*/
+  this.aoiAnchorPoint=new Array(0,0);
+  /** End of an AOI drag box.*/
+  this.aoiToPoint=new Array(0,0);
+  /** True if the AOI is currently being selected.*/
+  this.aoiValid=false;
 
   /** The mousePosition in geographic coordinates (x,y). **/
   this.mousePosition=new Array(0,0);
+  /** True if the mouse is over the mapImage. */
   this.mousePositionValid=false;
 
   // ===============================
@@ -33,7 +32,7 @@ function DynamicState() {
   // ===============================
 
   /** Functions to call when the Area Of Interest changes. */
-  this.aoiBoxListeners=new Array();
+  this.aoiListeners=new Array();
 
   /** Functions to call when the mousePosition changes. */
   this.mousePositionListeners=new Array();
@@ -46,8 +45,8 @@ function DynamicState() {
    * @param listener The function to call when the Area Of Interest changes.
    * @param target The object which owns the listener function.
    */
-  this.addAoiBoxListener=function(listener,target) {
-    this.aoiBoxListeners[this.aoiBoxListeners.length]=
+  this.addAoiListener=function(listener,target) {
+    this.aoiListeners[this.aoiListeners.length]=
       new Array(listener,target);
   }
 
@@ -68,29 +67,18 @@ function DynamicState() {
 
   /**
    * Get the Area Of Interest being dragged by a mouse.
-   * @return AoiBox array in form (xmin,ymin,xmax,ymax), or null if AoiBox is not
-   * being selected.
-   * TBD.  This function could be simplified with max() and min() functions.
+   * @return Aoi array in form ((xmin,ymin),(xmax,ymax)), or null
+   * if Aoi is not being selected.
    */
-  this.getAoiBox=function() {
-    // Extract AoiBox from the context
-    if (this.aoiBoxValid){
-      var aoiBox=new Array();
-      if (this.aoiBoxStartX<this.aoiBoxEndX){
-        aoiBox[0]=aoiBoxStartX;
-        aoiBox[3]=aoiBoxEndX;
-      }else{
-        aoiBox[0]=aoiBoxEndX;
-        aoiBox[3]=aoiBoxStartX;
-      }
-      if (this.aoiBoxStartY<this.aoiBoxEndY){
-        aoiBox[2]=aoiBoxStartY;
-        aoiBox[4]=aoiBoxEndY;
-      }else{
-        aoiBox[2]=aoiBoxEndY;
-        aoiBox[4]=aoiBoxStartY;
-      }
-      return aoiBox;
+  this.getAoi=function() {
+    if (this.aoiValid){
+      var minPoint=new Array(
+        Math.min(aoiAnchorPoint[0],aoiToPoint[0]),
+        Math.min(aoiAnchorPoint[1],aoiToPoint[1]));
+      var maxPoint=new Array(
+        Math.max(aoiAnchorPoint[0],aoiToPoint[0]),
+        Math.max(aoiAnchorPoint[1],aoiToPoint[1]));
+      return new Array(minPoint,maxPoint);
     } else {
       return null;
     }
@@ -99,40 +87,36 @@ function DynamicState() {
   /**
    * Start building an Area Of Interest, initially just a point, an event is
    * not sent until the EndPoint has been set.
-   * @param x The starting point of an AoiBox.
-   * @param y The starting point of an AoiBox.
+   * @param anchorPoint The starting point of an Aoi as an (x,y) array.
    */
-  this.setStartAoiBox=function(x,y) {
-    this.aoiBoxStartX=x;
-    this.aoiBoxStartY=y;
-    this.aoiBoxValid=false;
+  this.setAoiAnchorPoint=function(anchorPoint) {
+    this.aoiAnchorPoint=anchorPoint;
+    this.aoiToPoint=anchorPoint;
+    this.aoiValid=false;
   }
 
   /**
-   * Set the end point for an Area Of Interest Box and call AoiBoxListeners,
+   * Set the end point for an Area Of Interest Box and call aoiListeners,
    * note that the end point will be called numerous times as a mouse is dragged.
-   * @param x The end point of an AoiBox.
-   * @param y The end point of an AoiBox.
+   * @param anchorPoint The toPoint of an Aoi as an (x,y) array.
    */
-  this.setEndAoiBox=function(x,y) {
-    this.aoiBoxEndX=x;
-    this.aoiBoxEndY=y;
-    this.aoiBoxValid=true;
-    for (var i=0; i<this.aoiBoxListeners.length; i++) {
-      this.aoiBoxListeners[i][0](
-        this.aoiBoxListeners[i][1]);
+  this.setAoi=function(toPoint) {
+    this.aoiToPoint=toPoint;
+    this.aoiValid=true;
+    for (var i=0; i<this.aoiListeners.length; i++) {
+      this.aoiListeners[i][0](
+        this.aoiListeners[i][1]);
     }
   }
 
   /**
-   * Set the Area Of Interest to invalid - this should be called after the mouse
-   * has finished dragging.
+   * Set the Area Of Interest to invalid - this should be called after the
+   * mouse has finished dragging.
    */
-  this.setAoiBoxInvalid=function() {
-    this.aoiBoxValid=false;
-    for (var i=0; i<this.aoiBoxListeners.length; i++) {
-      this.aoiBoxListeners[i][0](
-        this.aoiBoxListeners[i][1]);
+  this.setaoiInvalid=function() {
+    this.aoiValid=false;
+    for (var i=0; i<this.aoiListeners.length; i++) {
+      this.aoiListeners[i][0](this.aoiListeners[i][1]);
     }
   }
 
