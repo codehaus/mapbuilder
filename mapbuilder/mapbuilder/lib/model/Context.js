@@ -29,17 +29,19 @@ function Context(url, name, baseDir, skin, queryLayer) {
   this.context.load(url);
   this.name=name;
   this.baseDir=baseDir;
-  if(skin==null){
+  if (skin) {
+    this.skin = skin;
+  } else {
     this.skin="default";
   }
   /**
    * The name of the skin to use, defaults to skin/default .*/
-  this.skin=baseDir+"/skin/"+skin+"/";
+  this.skin=baseDir+"/skin/"+this.skin+"/";
   this.queryLayer=queryLayer;
   /*
   // Insert unique Ids into each Layer node.
   var layerNodeList=this.context.selectNodes("/ViewContext");
-  for (i=0;i<layerNodeList.length;i++){
+  for (var i=0;i<layerNodeList.length;i++){
     layerNodeList[i].setAttribute("id","wmc"+UniqueId.getId());
     alert layerNodeList[i].xml;
   }
@@ -158,14 +160,14 @@ function Context(url, name, baseDir, skin, queryLayer) {
     }
       
     layers=this.context.documentElement.getElementsByTagName("Layer");
-    for(i=0;i<layers.length;i++) {
+    for(var i=0;i<layers.length;i++) {
       if(layers[i].getElementsByTagName("Name").item(0).firstChild.nodeValue == layerIndex) {
         layers[i].setAttribute("hidden", hiddenValue);
         break;
       }
     }
     // Call the listeners
-    for(i=0;i<this.hiddenListeners.length;i++) {
+    for(var i=0;i<this.hiddenListeners.length;i++) {
       this.hiddenListeners[i](layerIndex,hidden);
     }
   }
@@ -316,6 +318,14 @@ function Context(url, name, baseDir, skin, queryLayer) {
 
 //add the extent property
   this.extent = new Extent( this );
+
+//make a copy in the constructor for reset function
+  this.originalExtent = new Extent( this );   
+  this.reset = function() {
+    //TBD: do something with size?
+    this.extent.CenterAt( this.originalExtent.GetCenter(), this.originalExtent.res[0] );
+  }
+
 
   // ===============================
   // Move the following
