@@ -26,6 +26,7 @@ function Proj(srs) {
   switch(this.srs) {
     case "EPSG:4326":       //lat/lon projection WGS_84
     case "EPSG:4269":       //lat/lon projection WGS_84
+    case "CRS:84":          //lat/lon projection WGS_84
       this.Forward = identity;
       this.Inverse = identity;
       this.units = "degrees";
