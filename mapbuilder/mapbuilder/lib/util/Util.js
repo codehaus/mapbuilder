@@ -206,3 +206,15 @@ function makeElt(type) {
   document.getElementsByTagName("body").item(0).appendChild(node);
   return node;
 }
+
+/**
+ * write debugging info to a textbox onscreen.
+ * @param output String to be output.
+ */
+function debug(output){
+  tarea=makeElt("textarea");
+  tarea.setAttribute("rows","3");
+  tarea.setAttribute("cols","40");
+  tnode=document.createTextNode(output);
+  tarea.appendChild(tnode);
+}
