@@ -10,6 +10,7 @@
       
       <widgets>
         <MapPane id="mainMapPane">
+          <debug/>
           <tools> 
             <AoiBox>
               <lineColor>#FF0000</lineColor>

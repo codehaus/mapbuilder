@@ -19,9 +19,13 @@ function Reset(toolNode, parentWidget) {
   } 
 
   //store a copy of the original extent
-  this.originalExtent = new Extent( this.targetModel );   
-  this.originalExtent.init( this.originalExtent );
-  this.originalExtent.SetResolution( new Array(this.targetModel.getWindowWidth(), this.targetModel.getWindowHeight()) );
+  this.initExtent = function(objRef) {
+    this.originalExtent = new Extent( objRef.targetModel );   
+    this.originalExtent.init( objRef.originalExtent );
+    this.originalExtent.SetResolution( new Array(objRef.targetModel.getWindowWidth(), objRef.targetModel.getWindowHeight()) );
+  }
+  this.targetModel.addListener("loadModel",this.initExtent, this);
+  this.initExtent(this);
 
   /**
    * Calls the reset() method of the context doc to reload at with the original extent

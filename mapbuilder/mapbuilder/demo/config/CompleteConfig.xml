@@ -26,8 +26,9 @@
       <defaultModelUrl>context/atlasWorld.xml</defaultModelUrl>
       
       <widgets>
-        <MapPane id="mainMapPane">
-          <containerNodeId>mainMapPane</containerNodeId>
+        <MapPane id="mainMapWidget">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <mapContainerId>mainMapContainer</mapContainerId>
           <tools> 
             <AoiMouseHandler/>
             <AoiBox>
@@ -52,7 +53,7 @@
         -->
         
         <CursorTrack id="cursorTrack">
-          <mouseHandler>mainMap.mainMapPane</mouseHandler>
+          <mouseHandler>mainMap.mainMapWidget</mouseHandler>
         </CursorTrack>
             
         <Legend id="legend">
@@ -80,9 +81,10 @@
     <Context id="locator">
       <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
       <widgets>
-        <MapPane id="locatorMap">
+        <MapPane id="locatorWidget">
+          <htmlTagId>locatorMap</htmlTagId>
+          <mapContainerId>locatorContainer</mapContainerId>
           <fixedWidth>180</fixedWidth>
-          <containerNodeId>locatorMapContainer</containerNodeId>
           <tools> 
             <AoiBox>
               <lineColor>red</lineColor>
@@ -132,7 +134,9 @@
     <ModelBase id="testGml">
       <defaultModelUrl>gml/Test.xml</defaultModelUrl>
       <widgets>
-        <GmlRenderer id="mainMapPane">
+        <GmlRenderer id="testGmlRenderer">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <mapContainerId>mainMapContainer</mapContainerId>
           <targetModel>mainMap</targetModel>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
@@ -144,7 +148,8 @@
     <Gml2 id="ntsGml">
       <!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
       <widgets>
-        <Gml2Render id="mainMapPane">
+        <Gml2Render id="testGml2Renderer">
+          <htmlTagId>mainMapPane</htmlTagId>
         </Gml2Render>
       </widgets>
     </Gml2>
@@ -157,9 +162,9 @@
         <ZoomIn id="zoomIn">
           <class>RadioButton</class>
           <selected>true</selected>
-          <mouseHandler>mainMap.mainMapPane</mouseHandler>
-          <dependsOn>mainMap.mainMapPane.AoiMouseHandler</dependsOn>
-          <dependsOn>mainMap.mainMapPane.AoiBox</dependsOn>
+          <mouseHandler>mainMap.mainMapWidget</mouseHandler>
+          <dependsOn>mainMap.mainMapWidget.AoiMouseHandler</dependsOn>
+          <dependsOn>mainMap.mainMapWidget.AoiBox</dependsOn>
           <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
           <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
           <tooltip lang="en">click and drag to zoom in</tooltip>
@@ -167,9 +172,9 @@
         </ZoomIn>
         <ZoomOut id="zoomOut">
           <class>RadioButton</class>
-          <mouseHandler>mainMap.mainMapPane</mouseHandler>
-          <dependsOn>mainMap.mainMapPane.AoiMouseHandler</dependsOn>
-          <dependsOn>mainMap.mainMapPane.AoiBox</dependsOn>
+          <mouseHandler>mainMap.mainMapWidget</mouseHandler>
+          <dependsOn>mainMap.mainMapWidget.AoiMouseHandler</dependsOn>
+          <dependsOn>mainMap.mainMapWidget.AoiBox</dependsOn>
           <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
           <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
           <tooltip lang="en">click to zoom out</tooltip>
@@ -177,8 +182,8 @@
         </ZoomOut>
         <DragPan id="dragPan">
           <class>RadioButton</class>
-          <mouseHandler>mainMap.mainMapPane</mouseHandler>
-          <dependsOn>mainMap.mainMapPane.DragPanHandler</dependsOn>
+          <mouseHandler>mainMap.mainMapWidget</mouseHandler>
+          <dependsOn>mainMap.mainMapWidget.DragPanHandler</dependsOn>
           <enabledSrc>/images/PanEnable.gif</enabledSrc>
           <disabledSrc>/images/PanDisable.gif</disabledSrc>
           <tooltip lang="en">click and drag to pan</tooltip>
@@ -186,9 +191,9 @@
         </DragPan>
         <SetAoi id="setAoi">
           <class>RadioButton</class>
-          <mouseHandler>mainMap.mainMapPane</mouseHandler>
-          <dependsOn>mainMap.mainMapPane.AoiMouseHandler</dependsOn>
-          <dependsOn>mainMap.mainMapPane.AoiBox</dependsOn>
+          <mouseHandler>mainMap.mainMapWidget</mouseHandler>
+          <dependsOn>mainMap.mainMapWidget.AoiMouseHandler</dependsOn>
+          <dependsOn>mainMap.mainMapWidget.AoiBox</dependsOn>
           <enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
           <disabledSrc>/images/SetAoiDisable.gif</disabledSrc>
           <tooltip lang="en">click and drag to set the area of interest</tooltip>
@@ -202,8 +207,8 @@
         </Reset>
         <GetFeatureInfo id="getFeatureInfo">
           <class>RadioButton</class>
-          <mouseHandler>mainMap.mainMapPane</mouseHandler>
-          <dependsOn>mainMap.mainMapPane.MouseClickHandler</dependsOn>
+          <mouseHandler>mainMap.mainMapWidget</mouseHandler>
+          <dependsOn>mainMap.mainMapWidget.MouseClickHandler</dependsOn>
           <targetFeatureCollection>gml2</targetFeatureCollection>
           <enabledSrc>/images/QueryEnable.gif</enabledSrc>
           <disabledSrc>/images/QueryDisable.gif</disabledSrc>
