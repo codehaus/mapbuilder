@@ -1,57 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml" version="1.0">
 
-<!--==============================================================================-->
 <!--
 Description: Convert a GML Feature or FeatureCollection into a HTML form.
-
-Author:      Cameron Shorter cameron @shorter.net
-
-Licence:     This library is free software; you can redistribute it and/or
-             modify it under the terms of the GNU Lesser General Public
-             License as published by the Free Software Foundation;
-             version 2.1 of the License.
-
-             This library is distributed in the hope that it will be useful,
-             but WITHOUT ANY WARRANTY; without even the implied warranty of
-             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-             Lesser General Public License for more details.
+Author:      Cameron Shorter cameron ATshorter.net
+Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 
 $Id$
 $Name$
-==================================================================================-->
+-->
 
   <xsl:output method="html" encoding="utf-8"/>
 
 
-  <!--============================================================================-->
-  <!-- Parameters passed into this xsl                                            -->
-  <!--============================================================================-->
+  <!-- Parameters passed into this xsl -->
   <xsl:param name="space" select='""'/>
   <xsl:param name="tabwidth" select='"_ "'/>
 
-  <!--============================================================================-->
-  <!-- Main html                                                                  -->
-  <!--============================================================================-->
+  <!-- Main html -->
   <xsl:template match="/">
-    <html>
-      <head>
-        <title>Feature Entry - Community Map Builder</title>
-      </head>
-      <body>
-        <h1>Feature Entry - Community Map Builder</h1>
-        <form>
-          <table border="1" cellpadding="0" cellspacing="0">
-            <xsl:apply-templates/>
-          </table>
-        </form>
-      </body>
-    </html>
+    <div>
+      <h3>Feature List</h3>
+      <form>
+        <table border="1" cellpadding="0" cellspacing="0">
+          <xsl:apply-templates/>
+        </table>
+      </form>
+    </div>
   </xsl:template>
 
-  <!--============================================================================-->
-  <!-- All nodes                                                                  -->
-  <!--============================================================================-->
+  <!-- All nodes -->
   <xsl:template match="*">
     <xsl:param name="tab"/>
 
@@ -65,10 +43,6 @@ $Name$
           <input
             type="text"
             name="_href_"
-            onchange="updateAttribute(
-              '/generconfig/nodeset/node',
-              'href',
-              document.data._href_.value)"
             size="40"
             value="{text()}"/>
         </td>
@@ -95,9 +69,7 @@ $Name$
     </tr>
   </xsl:template>
 
-  <!--============================================================================-->
-  <!-- Remove documentation, text, comments                                       -->
-  <!--============================================================================-->
+  <!-- Remove documentation, text, comments -->
   <xsl:template match="comment()|text()|processing-instruction()">
   </xsl:template>
 
