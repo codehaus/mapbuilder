@@ -51,7 +51,7 @@ function MapPane(widgetNode, group) {
     containerNode.parentObject = objRef;
     containerNode.extent = objRef.model.extent;
     containerNode.onmousemove = objRef.actionHandler;
-    containerNode.onmouseout = objRef.mouseOutHandler;
+    containerNode.onmouseout = objRef.actionHandler;
     containerNode.onmouseover = objRef.actionHandler;
     containerNode.onmousedown = objRef.actionHandler;
     containerNode.onmouseup = objRef.mouseUpHandler;
@@ -117,10 +117,8 @@ function MapPane(widgetNode, group) {
 
   this.mouseUpListeners = new Array();
 //  this.mouseDownListeners = new Array();
-  this.mouseOutListeners = new Array();
   this.mouseUpObjects = new Array();
 //  this.mouseDownObjects = new Array();
-  this.mouseOutObjects = new Array();
 
   this.addMouseListener = function(mouseEvent, listener, objRef) {
     switch(mouseEvent) {
@@ -132,10 +130,6 @@ function MapPane(widgetNode, group) {
 //        this.mouseDownListeners.push( listener );
 //        this.mouseDownObjects.push( objRef );
 //        break;
-      case 'mouseOut':
-        this.mouseOutListeners.push( listener );
-        this.mouseOutObjects.push( objRef );
-        break;	
       default:
         alert("unreconized mouse event:" + mouseEvent);
         break;
@@ -191,22 +185,6 @@ function MapPane(widgetNode, group) {
     }
     return false;
   }
-
-  this.mouseOutHandler=function(ev) {
-    this.getEvent(ev);
-    for (var i=0; i<this.parentObject.mouseOutListeners.length; i++) {
-      this.parentObject.mouseOutListeners[i]( this, this.parentObject.mouseOutObjects[i] );
-    }
-    if (window.event) {
-      window.event.returnValue = false;
-      window.event.cancelBubble = true;
-    } else {
-      ev.stopPropagation();
-    }
-    return false;
-  }
-
-
 }
 
 // The remaining functions in the file execute as event handlers in the context 

@@ -42,7 +42,7 @@ function CursorTrack(toolNode, parentWidget) {
   }
 
   parentWidget.addListener('mouseover',this.mouseOverHandler,this);
-  parentWidget.addMouseListener('mouseOut', this.mouseOutHandler, this );
+  parentWidget.addListener('mouseout',this.mouseOutHandler,this);
 }
 
 function ReportCoords(objRef) {
