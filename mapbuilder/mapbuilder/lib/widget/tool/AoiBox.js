@@ -24,6 +24,9 @@ function RoiBox( viewNode ) {
   this.Bottom = GetImageDiv( viewNode, this.lineColor );
   this.Left = GetImageDiv( viewNode, this.lineColor );
   this.Right = GetImageDiv( viewNode, this.lineColor );
+  this.ul = new Array(0,0);
+  this.lr = new Array(0,0);
+  this.crossSize = 9;
 
 /** Hide or show the box
   * @param vis    boolean true for visible; false for hidden
@@ -47,28 +50,52 @@ function RoiBox( viewNode ) {
     this.ul = ul;
     this.lr = lr;
 
-    Offset = new Array(0,0);  //not really required anymore?
-    this.Top.style.left = this.ul[0]+Offset[0]
-    this.Top.style.top = this.ul[1]+Offset[1];
+    this.Top.style.left = this.ul[0];
+    this.Top.style.top = this.ul[1];
     this.Top.style.width = this.lr[0]-this.ul[0]
     this.Top.style.height = this.lineWidth;
 
-    this.Left.style.left = this.ul[0]+Offset[0];
-    this.Left.style.top = this.ul[1]+Offset[1];
+    this.Left.style.left = this.ul[0];
+    this.Left.style.top = this.ul[1];
     this.Left.style.width = this.lineWidth;
     this.Left.style.height = this.lr[1]-this.ul[1];
 
-    this.Right.style.left = this.lr[0]-this.lineWidth+Offset[0]
-    this.Right.style.top = this.ul[1]+Offset[1];
+    this.Right.style.left = this.lr[0]-this.lineWidth;
+    this.Right.style.top = this.ul[1];
     this.Right.style.width = this.lineWidth;
     this.Right.style.height = this.lr[1]-this.ul[1];
 
-    this.Bottom.style.left = this.ul[0]+Offset[0];
-    this.Bottom.style.top = this.lr[1]-this.lineWidth+Offset[1];
+    this.Bottom.style.left = this.ul[0];
+    this.Bottom.style.top = this.lr[1]-this.lineWidth;
     this.Bottom.style.width = this.lr[0]-this.ul[0];
     this.Bottom.style.height = this.lineWidth;
 
     this.setVis(true);
+  }
+		
+/** draw out the box
+  * @param ul    upper left pixel/line coordinates
+  * @param lr    lower right pixel/line coordinates
+  * @return       none
+  */
+  this.drawCross = function(ul, lr) {
+    this.ul = ul;
+    this.lr = lr;
+
+    this.Top.style.left = Math.floor( (this.ul[0]+this.lr[0] - this.crossSize)/2);
+    this.Top.style.top = Math.floor( (this.ul[1]+this.lr[1] + this.crossSize)/2);
+    this.Top.style.width = this.crossSize;
+    this.Top.style.height = this.lineWidth;
+    this.Top.style.visibility = "visible";
+
+    this.Left.style.left = Math.floor( (this.ul[0]+this.lr[0] - this.crossSize)/2);
+    this.Left.style.top = Math.floor( (this.ul[1]+this.lr[1] + this.crossSize)/2);
+    this.Left.style.width = this.lineWidth;
+    this.Left.style.height = this.crossSize;
+    this.Left.style.visibility = "visible";
+
+    this.Right.style.visibility = "hidden";
+    this.Bottom.style.visibility = "hidden";
   }
 		
 /** called for starting a drag operation
@@ -79,8 +106,8 @@ function RoiBox( viewNode ) {
     if (this.started) {
       this.stop(true);
     } else {
-      var lr = new Array(evpl[0]+1, evpl[1]+1); //a bug when ul=lr?
-      this.drawBox( evpl, lr );
+      this.anchorPoint = evpl;
+      this.dragBox( evpl );
       this.started=true;
     }
   }
@@ -101,22 +128,32 @@ function RoiBox( viewNode ) {
   * @return        none
   */
   this.dragBox = function( evpl ) {	
-    if (this.ul[0] > evpl[0]) {
-      this.lr[0] = this.ul[0];
-      this.ul[0] = evpl[0];
+//if (evpl[0]==0) alert(evpl[0]+":"+evpl[1]);
+    var ul = new Array();
+    var lr = new Array();
+    if (this.anchorPoint[0] > evpl[0]) {
+      ul[0] = evpl[0];
+      lr[0] = this.anchorPoint[0];
     } else {
-      this.lr[0] = evpl[0];
+      ul[0] = this.anchorPoint[0];
+      lr[0] = evpl[0];
     }
-    if (this.ul[1] > evpl[1]) {
-      this.lr[1] = this.ul[1];
-      this.ul[1] = evpl[1];
+    if (this.anchorPoint[1] > evpl[1]) {
+      ul[1] = evpl[1];
+      lr[1] = this.anchorPoint[1];
     } else {
-      this.lr[1] = evpl[1];
+      ul[1] = this.anchorPoint[1];
+      lr[1] = evpl[1];
     }
 
-    if ( (this.ul[0] != this.lr[0]) && (this.ul[1] != this.lr[1]) ) {
-      this.drawBox( this.ul, this.lr );
+    this.drawBox( ul, lr );
+/*
+    if ( ( Math.abs(ul[0]-lr[0])<9 ) && ( Math.abs(ul[1]-lr[1])<9 ) ) {
+      this.drawCross( ul, lr );
+    } else {
+      this.drawBox( ul, lr );
     }
+*/
   }
 
 /** Returns an array of the corner coordinates as [ul, lr]

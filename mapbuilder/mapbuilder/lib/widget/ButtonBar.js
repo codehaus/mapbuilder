@@ -19,7 +19,6 @@ function ButtonBar(controller, skin) {
   this.mapController = controller;
   this.EnabledIcon = null;
 
-alert(skin);
   //pre-load the button bar images
   this.ModeImagesEn = new Array();
   this.ModeImagesEn[MODE_ZOOM_IN] = new Image();
