@@ -18,8 +18,6 @@ $Name$
   -->
 
   <!-- The coordinates of the DHTML Layer on the HTML page -->
-  <xsl:param name="top" select="'0px'"/>
-  <xsl:param name="left" select="'0px'"/>
   <xsl:param name="baseDir" select="'../widget'"/>
 
   <xsl:param name="bbox">
@@ -36,44 +34,20 @@ $Name$
   
   <!-- template rule matching source root element -->
   <xsl:template match="/cml:ViewContext">
-  
- 
     <DIV>
-      <xsl:attribute name="STYLE">    
-            WIDTH: <xsl:value-of select="$width"/>;
-            HEIGHT: <xsl:value-of select="$height"/>;
-            BACKGROUND-COLOR: #ccffcc; 
-            MARGIN: 0; 
-            PADDING: 0pt; 
-            POSITION: absolute;            
-      </xsl:attribute>
-                
-      <xsl:apply-templates select="cml:LayerList/cml:Layer"/>
-      <!--          
-        <xsl:with-param name="srs"><xsl:value-of select="$srs"/></xsl:with-param>
-        <xsl:with-param name="bbox"><xsl:value-of select="$bbox"/></xsl:with-param>
-        <xsl:with-param name="width"><xsl:value-of select="$width"/></xsl:with-param>
-        <xsl:with-param name="height"><xsl:value-of select="$height"/></xsl:with-param>
-      </xsl:apply-templates>
- -->
- 
- <DIV STYLE="position:absolute; top:{$top}; left:{$left};" ID="glass">
-      <xsl:element name="IMG">    
-        <xsl:attribute name="SRC">    
-          <xsl:value-of select="$baseDir"/>/mappane/dot.gif
-        </xsl:attribute>
-        <xsl:attribute name="WIDTH">
-            <xsl:value-of select="$width"/>
-        </xsl:attribute>
-        <xsl:attribute name="HEIGHT">
-            <xsl:value-of select="$height"/>
-        </xsl:attribute>
-      </xsl:element>    
-    </DIV>    
-               
+      <DIV STYLE="width:{$width}; height:{$height}; margin:0; padding:0pt; position:absolute;">
+        <xsl:apply-templates select="cml:LayerList/cml:Layer"/>
+   
+        <!-- Image used to accept mouse clicks.  -->
+        <DIV STYLE="position:absolute; top:0; left:0;" ID="glass">
+          <IMG src="{$baseDir}/mappane/dot.gif" width="{$width}" height="{$height}"/>
+        </DIV>    
+      </DIV>
+      <!-- insert spacer image that is used for positioning within HTML page -->
+      <DIV>
+        <IMG src="{$baseDir}/mappane/dot.gif" width="{$width}" height="{$height}"/>
+      </DIV>    
     </DIV>
-
-  
   </xsl:template>
   
   
@@ -109,7 +83,7 @@ $Name$
 
     <DIV>    
         <xsl:attribute name="STYLE">
-          position:absolute; top:<xsl:value-of select="$top"/>; left:<xsl:value-of select="$left"/>;
+          position:absolute; top:0/>; left:0/>;
         </xsl:attribute>
         <xsl:attribute name="ID">
             <xsl:value-of select="cml:Name"/>
