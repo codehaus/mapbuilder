@@ -19,11 +19,11 @@
 
   <models>
 
-    <Context id="mainMapGroup">
+    <Context id="mainMap">
       <defaultModelUrl>context/atlasWorld.xml</defaultModelUrl>
       
       <widgets>
-        <MapPane id="mainMapPaneId">
+        <MapPane id="mainMapPane">
           <tools> 
             <AoiMouseHandler/>
             <AoiBox>
@@ -38,69 +38,30 @@
           </tools> 
         </MapPane>
         
-        <CursorTrack id="cursorTrackId">
-          <mouseHandler>config['mainMapGroup']['mainMapPaneId']</mouseHandler>
+        <CursorTrack id="cursorTrack">
+          <mouseHandler>mainMap.mainMapPane</mouseHandler>
         </CursorTrack>
             
-        <Legend id="legendId">
+        <Legend id="legend">
         </Legend>
         
+        <WidgetBase id="abstract">
+          <stylesheet>/mapbuilder/lib/widget/Abstract.xsl</stylesheet>
+        </WidgetBase>
+
         <WidgetBase id="mapTitle">
           <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
         </WidgetBase>
-        
-        <ButtonBar id="buttonBarId">  
-          <tools>
-            <ZoomIn id="zoomIn">
-              <class>RadioButton</class>
-              <selected>true</selected>
-              <mouseHandler>config['mainMapGroup']['mainMapPaneId']</mouseHandler>
-              <dependsOn>config['mainMapGroup']['mainMapPaneId']['AoiMouseHandler']</dependsOn>
-              <dependsOn>config['mainMapGroup']['mainMapPaneId']['AoiBox']</dependsOn>
-              <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
-              <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
-              <tooltip>click and drag to zoom in</tooltip>
-            </ZoomIn>
-            <ZoomOut id="zoomOut">
-              <class>RadioButton</class>
-              <mouseHandler>config['mainMapGroup']['mainMapPaneId']</mouseHandler>
-              <dependsOn>config['mainMapGroup']['mainMapPaneId']['AoiMouseHandler']</dependsOn>
-              <dependsOn>config['mainMapGroup']['mainMapPaneId']['AoiBox']</dependsOn>
-              <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
-              <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
-              <tooltip>click to zoom out</tooltip>
-            </ZoomOut>
-            <DragPan id="dragPan">
-              <class>RadioButton</class>
-              <mouseHandler>config['mainMapGroup']['mainMapPaneId']</mouseHandler>
-              <dependsOn>config['mainMapGroup']['mainMapPaneId']['DragPanHandler']</dependsOn>
-              <enabledSrc>/images/PanEnable.gif</enabledSrc>
-              <disabledSrc>/images/PanDisable.gif</disabledSrc>
-              <tooltip>click and drag to pan</tooltip>
-            </DragPan>
-            <Reset id="reset">
-              <class>Button</class>
-              <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
-              <tooltip>reset the map to full extent</tooltip>
-            </Reset>
-            <Query id="query">
-              <class>RadioButton</class>
-              <mouseHandler>config['mainMapGroup']['mainMapPaneId']</mouseHandler>
-              <dependsOn>config['mainMapGroup']['mainMapPaneId']['MouseClickHandler']</dependsOn>
-              <enabledSrc>/images/QueryEnable.gif</enabledSrc>
-              <disabledSrc>/images/QueryDisable.gif</disabledSrc>
-              <tooltip>click on feature for more info</tooltip>
-            </Query>
-          </tools>
-        </ButtonBar>
+
       </widgets>
+        
     </Context>
       
-    <Context id="locatorMapGroup">
+    <Context id="locatorMap">
       <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
       <widgets>
-        <MapPane id="locatorMapId">
-          <fixedWidth>true</fixedWidth>
+        <MapPane id="locatorMap">
+          <fixedWidth>180</fixedWidth>
           <tools> 
             <AoiBox>
               <lineColor>red</lineColor>
@@ -109,22 +70,62 @@
             </AoiBox>
             <AoiMouseHandler/>
             <ZoomToAoi>
-              <targetModel>mainMapGroup</targetModel>
+              <targetModel>mainMap</targetModel>
             </ZoomToAoi>
           </tools> 
         </MapPane>
       </widgets>
     </Context>
     
-    <ContextCollection id="collectionGroup">
+    <ModelBase id="collectionGroup">
       <defaultModelUrl>context/demoCollection.xml</defaultModelUrl>
       <widgets>
-        <CollectionList id="collectionListId">
-          <targetModel>mainMapGroup</targetModel>
+        <CollectionList id="collectionList">
+          <targetModel>mainMap</targetModel>
         </CollectionList>
       </widgets>
-    </ContextCollection>
+    </ModelBase>
     
   </models>
 
+  <widgets>
+    <ButtonBar id="buttonBar">  
+      <targetModel>mainMap</targetModel>
+      <tools>
+        <ZoomIn id="zoomIn">
+          <class>RadioButton</class>
+          <selected>true</selected>
+          <mouseHandler>mainMap.mainMapPane</mouseHandler>
+          <dependsOn>mainMap.mainMapPane.AoiMouseHandler</dependsOn>
+          <dependsOn>mainMap.mainMapPane.AoiBox</dependsOn>
+          <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
+          <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
+          <tooltip>click and drag to zoom in</tooltip>
+        </ZoomIn>
+        <ZoomOut id="zoomOut">
+          <class>RadioButton</class>
+          <mouseHandler>mainMap.mainMapPane</mouseHandler>
+          <dependsOn>mainMap.mainMapPane.AoiMouseHandler</dependsOn>
+          <dependsOn>mainMap.mainMapPane.AoiBox</dependsOn>
+          <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
+          <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
+          <tooltip>click to zoom out</tooltip>
+        </ZoomOut>
+        <DragPan id="dragPan">
+          <class>RadioButton</class>
+          <mouseHandler>mainMap.mainMapPane</mouseHandler>
+          <dependsOn>mainMap.mainMapPane.DragPanHandler</dependsOn>
+          <enabledSrc>/images/PanEnable.gif</enabledSrc>
+          <disabledSrc>/images/PanDisable.gif</disabledSrc>
+          <tooltip>click and drag to pan</tooltip>
+        </DragPan>
+        <Reset id="reset">
+          <class>Button</class>
+          <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
+          <tooltip>reset the map to full extent</tooltip>
+        </Reset>
+      </tools>
+    </ButtonBar>
+  </widgets>
+      
 </MapbuilderConfig>
