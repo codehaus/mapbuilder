@@ -29,7 +29,7 @@ function ButtonBar(widgetNode, group) {
 
   /** Render this widget. */
   this.paint = function() {
-    var s = this.stylesheet.transformNode(config.doc);//widgetNode);//ideally only process widgetNode here?
+    var s = this.stylesheet.transformNode(config.doc);
     this.node.innerHTML=s;
 
     for (var i=0; i<this.paintListeners.length; i++) {
@@ -43,15 +43,7 @@ function ButtonBar(widgetNode, group) {
     this.modalMouseUp = function(targetNode, buttonBar) {
       buttonBar.selectedButton.modalMouseUp(targetNode, buttonBar.model) 
     }
-    this.modalMouseDown = function(targetNode, buttonBar) {
-      buttonBar.selectedButton.modalMouseDown(targetNode, buttonBar.model) 
-    }
-    this.modalMouseMove = function(targetNode, buttonBar) {
-      buttonBar.selectedButton.modalMouseMove(targetNode, buttonBar.model) 
-    }
     this.mouseWidget.addMouseListener('mouseUp', this.modalMouseUp, this);
-    this.mouseWidget.addMouseListener('mouseDown', this.modalMouseDown, this);
-    this.mouseWidget.addMouseListener('mouseMove', this.modalMouseMove, this);
   }
   
   /**
@@ -118,9 +110,6 @@ function ButtonBase(toolNode, parentWidget) {
       objRef.image.onmouseup = objRef.modalMouseUp;
     }
   }
-
-  this.modalMouseDown = noop;
-  this.modalMouseMove = noop;
 }
 
 /**
