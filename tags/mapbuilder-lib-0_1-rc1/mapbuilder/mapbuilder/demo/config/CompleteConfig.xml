@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+
+<MapbuilderConfig id="referenceTemplate">
+  <!--
+    Description: This configuration file determines what components from the
+                 Mapbuilder library are to be included in a Main Mapbuilder web
+                 page.
+    Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html 
+
+    $Id$
+  -->
+
+  <!-- All static images should be relative to this URL -->
+  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+
+  <models>
+
+    <Context id="mainMapGroup">
+      <defaultModelUrl>context/atlasWorld.xml</defaultModelUrl>
+      
+      <widgets>
+        <MapPane id="mainMapPaneId">
+          <tools> 
+
+            <AoiBox>
+              <scriptFile>widget/tool/AoiBox.js</scriptFile>
+              <lineColor>#FF0000</lineColor>
+              <lineWidth>2</lineWidth>
+              <crossSize>25</crossSize>
+            </AoiBox>
+
+            <AoiMouseHandler>
+              <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
+            </AoiMouseHandler>
+
+          </tools> 
+        </MapPane>
+        
+        <CursorTrack id="cursorTrackId">
+          <mouseWidget>config['mainMapGroup']['MapPane']</mouseWidget>
+        </CursorTrack>
+            
+        <Legend id="legendId">
+        </Legend>
+        
+        <ButtonBar id="buttonBarId">  
+          <mouseWidget>config['mainMapGroup']['MapPane']</mouseWidget>
+          <initialMode>ZoomIn</initialMode>
+          <tools>
+            <ZoomIn id="zoomIn">
+              <class>RadioButton</class>
+              <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
+              <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
+              <tooltip>click and drag to zoom in</tooltip>
+              <selected>true</selected>
+              <modalButton>true</modalButton><!--TBD Remove-->
+            </ZoomIn>
+            <ZoomOut id="zoomOut">
+              <class>RadioButton</class>
+              <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
+              <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
+              <tooltip>click to zoom out</tooltip>
+              <selected>false</selected>
+            </ZoomOut>
+            <Reset id="reset">
+              <class>Button</class>
+              <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
+              <tooltip>reset the map to full extent</tooltip>
+            </Reset>
+          </tools>
+        </ButtonBar>
+      </widgets>
+    </Context>
+      
+    <Context id="locatorMapGroup">
+      <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
+      <widgets>
+        <MapPane id="locatorMapId">
+          <tools> 
+            <AoiBox>
+              <scriptFile>widget/tool/AoiBox.js</scriptFile>
+              <lineColor>#0000FF</lineColor>
+              <lineWidth>1</lineWidth>
+              <crossSize>5</crossSize>
+            </AoiBox>
+            <AoiMouseHandler>
+              <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
+            </AoiMouseHandler>
+            <ZoomToAoi>
+              <scriptFile>widget/tool/ZoomToAoi.js</scriptFile>
+              <targetModel>mainMapGroup</targetModel>
+            </ZoomToAoi>
+          </tools> 
+        </MapPane>
+      </widgets>
+    </Context>
+    
+    <ContextCollection id="collectionGroup">
+      <defaultModelUrl>context/demoCollection.xml</defaultModelUrl>
+      <widgets>
+        <CollectionList id="collectionListId">
+          <targetModel>mainMapGroup</targetModel>
+        </CollectionList>
+      </widgets>
+    </ContextCollection>
+    
+  </models>
+
+</MapbuilderConfig>

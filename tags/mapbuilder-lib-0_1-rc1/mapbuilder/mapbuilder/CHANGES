@@ -1,0 +1,20 @@
+Community Map Builder Release Information
+=========================================
+$Id$
+
+This file contains information about updates to each release:
+
+mapbuilder-lib-0.1-rc1 (alpha quality):
+=======================================
+This initial version of Mapbuilder libraries contains:
+* Web Map Server (WMS) client map.
+* Building of a Map from a Web Map Context (WMC) document.
+* Legend which turns layers on and off.
+* Selection of an Area Of Interest by a locator map.
+* Tools to Zoom in and out.
+* The libraries have been tested on IE 6 and Mozilla 1.3 to 1.6.
+
+The Mapbuilder Configuration file is expected to change in future
+releases and it is not expected that future versions will be
+backwardly compatable with this version (although the upgrade path
+should be simple).

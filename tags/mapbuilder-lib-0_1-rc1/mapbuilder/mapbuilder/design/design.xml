@@ -1,0 +1,1204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
+<article id="design">
+  <title>Community Map Builder Software Design Description</title>
+
+  <abstract>
+    <para>This document describes the design of Community Map Builder.</para>
+  </abstract>
+
+  <section id="systemoverview">
+    <title>System Overview</title>
+
+    <para>The Community Map Builder (CMB) contains:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>An open source framework for communities to collectively edit
+        geographic data.</para>
+      </listitem>
+
+      <listitem>
+        <para>Javascript and XSL modular libraries which can be integrated to
+        build geographic widgets. The widgets implement clients to Open GIS
+        Consortium (OGC) services.</para>
+      </listitem>
+
+      <listitem>
+        <para>Specific OGC clients which have been built using CMB
+        widgets.</para>
+      </listitem>
+    </orderedlist>
+  </section>
+
+  <section id="framework">
+    <title>CMB framework</title>
+
+    <para>The CMB framework is designed for collaborative, open sharing of
+    place-based information. It builds upon components that conform to Open
+    GIS's international Standards for geospatial software development. The aim
+    is to create business logic components using Open Source,
+    OpenGIS-compliant components for this effort. Map serving uses the
+    OpenGIS<emphasis> Web Map Server</emphasis>-compliant software, <ulink
+    url="http://mapserver.gis.umn.edu">Mapserver.</ulink> Spatial feature
+    updating uses the OpenGIS <emphasis>Web Feature
+    Server</emphasis>-compliant software <ulink
+    url="http://geoserver.sourceforge.net">Geoserver</ulink>, which relies
+    upon Postgres and the PostGIS component as its spatial database. CMB also
+    uses Postgres as a normal database to store community-contributed text and
+    photographs.</para>
+
+    <para>Community Map Builder is more than just a collection of
+    technologies. It is a collection of Web pages, server applications and
+    database schema, along with implementation recommendations.<!--Good summary.  It is probably worth coming back and polishing this section and using for
+all the CMB docs.
+I think the CMB should also provide logic for community editing of shared data
+(in a similar fashion to http://slashdot.org).  This would be part of a future phase.--></para>
+
+    <figure>
+      <title>High Level Design</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/context0.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+
+  <section>
+    <title>CMB Libraries</title>
+
+    <para>CMB libraries contain components that can be used to build clients
+    to OGC services.</para>
+
+    <section id="designdecisions">
+      <title>Design Decisions for CMB Libraries</title>
+
+      <section id="designdrivers">
+        <title>Design Drivers</title>
+
+        <para>The goals of the libraries are to provide the following:</para>
+
+        <variablelist>
+          <varlistentry>
+            <term>Client is a Web Browser</term>
+
+            <listitem>
+              <para>Mapbuilder Clients should be easy for users to run. Users
+              should not have to download and install new software. Instead
+              all CMB clients should run inside the commonly used web
+              browsers. In particular, recent Internet Explorer and Mozilla
+              browsers.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Minimal Server Side Functionality</term>
+
+            <listitem>
+              <para>CMB should keep deployment requirements to a minimum in
+              order to maximise the user base. Hence:</para>
+
+              <orderedlist>
+                <listitem>
+                  <para>Where possible, clients should not require server side
+                  scripts.</para>
+                </listitem>
+
+                <listitem>
+                  <para>If server side scripts are required, the server
+                  environments currently supported include: Perl, PHP, JSP.
+                  Contributions for equivalent functionality in other server
+                  environments is encouraged. Please see server dependancies
+                  (TBD link a section) for server requirements.<!--I've converted this statement to be less "anti-Java"--></para>
+                </listitem>
+              </orderedlist>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Easy to incorporate libraries into a web page</term>
+
+            <listitem>
+              <para>Mapbuilder widgets are to be incorporated into HTML web
+              pages. Incorporating widgets should be kept simple so that
+              someone with basic HTML and Javascript knowledge can build a
+              Mapbuilder Web Page.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Keep bandwidth to a minimum</term>
+
+            <listitem>
+              <para>All client functionality needs to be downloaded, so it is
+              important to keep it to a minimum. Files that are downloaded
+              should also be static which means that browsers will cache them
+              locally. (CGI scripts generally do not provide images that are
+              cached).</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Use Javascript/XML/XSL</term>
+
+            <listitem>
+              <para>Mapbuilder stores state data internally in XML files.
+              Converting XML to HTML is done using XSL. XSL has the advantage
+              that it can be used both in the client and server.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Modular Design</term>
+
+            <listitem>
+              <para>A modular design has many benefits.</para>
+
+              <orderedlist>
+                <listitem>
+                  <para>A client need only include the module it requires,
+                  hence reducing the size of the client.</para>
+                </listitem>
+
+                <listitem>
+                  <para>A modular design is easier to understand, maitain and
+                  extend.</para>
+                </listitem>
+
+                <listitem>
+                  <para>It is easier to break development up between multiple
+                  developers.</para>
+                </listitem>
+              </orderedlist>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Modular Design</term>
+
+            <listitem>
+              <para>A modular design has many benefits.</para>
+
+              <orderedlist>
+                <listitem>
+                  <para>A client need only include the module it requires,
+                  hence reducing the size of the client.</para>
+                </listitem>
+
+                <listitem>
+                  <para>A modular design is easier to understand and
+                  maintain.</para>
+                </listitem>
+
+                <listitem>
+                  <para>Extra functionality can be easily added and
+                  removed.</para>
+                </listitem>
+              </orderedlist>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Attract Developers</term>
+
+            <listitem>
+              <para>Hopefully potential developers will extend this project in
+              preference to creating their own. Things that should help
+              attract developers include:</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>Keep the design simple, modular and easy to
+                  understand.</para>
+                </listitem>
+
+                <listitem>
+                  <para>Provide design and user documentation.</para>
+                </listitem>
+
+                <listitem>
+                  <para>Provide discussion forums.</para>
+                </listitem>
+
+                <listitem>
+                  <para>Provide stable releases which are easy to install and
+                  evaluate.</para>
+                </listitem>
+
+                <listitem>
+                  <para>Provide demos that potential users and developers and
+                  try.</para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+
+      <section id="mvc">
+        <title>Model View Controller</title>
+
+        <para>Mapbuilder uses the Model View Controller (MVC) design
+        pattern.</para>
+
+        <section id="mvcoverview">
+          <title>MVC Overview</title>
+
+          <figure>
+            <title>Model View Controller</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/mvc.gif" />
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>The MVC pattern forces one to think of an application in terms
+          of three modules:</para>
+
+          <variablelist>
+            <varlistentry>
+              <term>Model</term>
+
+              <listitem>
+                <para>This maintains the state and data that the application
+                represents. When changes occur in the model, it sends update
+                events to all of its views. <filename>Context</filename> is
+                the Model in the Mapbuilder application and stores Layers,
+                Bounding Box etc.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>View</term>
+
+              <listitem>
+                <para>The user interface which displays information about the
+                model to the user. Views displaying dynamic data need to
+                register for StateChange events from the Model.
+                <filename>Legend</filename>, <filename>MapPane</filename>, etc
+                are all Mapbuilder Views that get update events when
+                <filename>Context</filename> changes.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>Controller</term>
+
+              <listitem>
+                <para>The user interface presented to the user to manipulate
+                the application (ie keyboard and mouse input).
+                <filename>ZoomTool</filename>, <filename>PanTool</filename>,
+                <filename>SelectFeature</filename> are all Mapbuilder
+                Controllers which update <filename>Context</filename>.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+
+          <para>Some components can act as both a View and Controller. For
+          example, a <filename>LocatorMap</filename> may allow users to draw a
+          select box to change the BoundingBox. Also, when the BoundingBox in
+          Context changes, the LocatorMap will draw a new Box over it's
+          basemap.</para>
+
+          <para>There is a lot of literature describing the MVC Design
+          Pattern. Here is <ulink
+          url="http://www.cs.indiana.edu/~cbaray/projects/mvc.html">one</ulink>.</para>
+        </section>
+
+        <section id="mvcbenefits">
+          <title>MVC benefits</title>
+
+          <para>The benefits of using the MVC design pattern include:</para>
+
+          <variablelist>
+            <varlistentry>
+              <term>Modularity</term>
+
+              <listitem>
+                <para>Views and Tools can be added or removed without
+                effecting the rest of the application. Tools do not have any
+                dependencies on Views and visa-versa which makes Tools and
+                Views simpler.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>Multiple Views</term>
+
+              <listitem>
+                <para>Views can display the same data in different ways. For
+                example, a Locator Map and Main Map both display the
+                BoundingBox in different ways.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>Parallel Development</term>
+
+              <listitem>
+                <para>Once the interfaces have been defined, components can be
+                developed in parallel.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </section>
+      </section>
+
+      <section id="events">
+        <title>Events</title>
+
+        <!--TBD:  Can we move this to after 3.2.6 below and have it describe how abstract objects implements the listener 
+arrays and how they get set/called?   Mike March 27, 2004-->
+
+        <para><emphasis role="bold">Warning:</emphasis> This section is out of
+        date.</para>
+
+        <para>Mapbuilder's Model-View-Controller design requires events. While
+        Javascript provides standard events for some GUI events, it's support
+        for custom events is limited in recent browsers and not provided in
+        older browsers. Consequency, Mapbuilder components use their own event
+        system.</para>
+
+        <para>Here mapbuilder events by example, using BoundingBoxEvent which
+        is sent from Context to MapPane when the BoundingBox changes.</para>
+
+        <variablelist>
+          <varlistentry>
+            <term>Store list of listeners</term>
+
+            <listitem>
+              <para>Context.js stores an array of listeners to call when
+              context changes.</para>
+
+              <programlisting>/** Functions to call when the boundingBox changes. */
+this.boundingBoxChangeListeners=new Array();
+</programlisting>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>add&lt;Event&gt;Listener()</term>
+
+            <listitem>
+              <para>Context.js needs a procedure for registering
+              Listeners.</para>
+
+              <programlisting>/**
+ * Add a Listener for boundingBox change.
+ * @param listener The function to call when the boundingBox changes.
+ * @param target The object which owns the listener function.
+ */
+this.addBoundingBoxChangeListener=function(listener,target) {
+  this.boundingBoxChangeListeners[this.boundingBoxChangeListeners.length]=
+    new Array(listener,target);
+}
+</programlisting>
+
+              <para>Note: the target object which owns the listener function
+              needs to be stored. In javascript, when the listener function is
+              called it does not have a reference back to the object which
+              owns the function.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>call Listeners</term>
+
+            <listitem>
+              <para>When the boundingBox changes in Context.js, call all
+              listeners.</para>
+
+              <programlisting>/**
+ * Set the BoundingBox and notify intererested widgets that BoundingBox
+ * has changed.
+ * @param boundingBox array in form (xmin, ymin, xmax, ymax).
+ */
+this.setBoundingBox=function(boundingBox) {
+  // Set BoundingBox in context
+  // ...
+
+  // Call all listener(target) functions
+  for (var i=0; i&lt;this.boundingBoxChangeListeners.length; i++) {
+    this.boundingBoxChangeListeners[i][0](
+      this.boundingBoxChangeListeners[i][1]);
+  }
+}
+</programlisting>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Listener function</term>
+
+            <listitem>
+              <para>MapPane.js defines a function to call when BoundingBox
+              changes. The function needs to register with Context.js.</para>
+
+              <programlisting>/**
+ * Called when the context's boundingBox attribute changes.
+ * @param target This object.
+ */
+this.boundingBoxChangeListener=function(target){
+  target.paint();
+}
+
+// Register this listener with context.
+this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
+</programlisting>
+
+              <para>Note: The listener function requires this object to be
+              passed in as a parameter. In javascript, when the listener
+              function is called it does not have a reference back to the
+              object which owns the function.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+    </section>
+
+    <section>
+      <title>MapBuilder configuration for programmers</title>
+
+      <para><emphasis role="bold">Warning:</emphasis> This section is out of
+      date.</para>
+
+      <para>This section is intended to explain the mapbuilder object model
+      for programmers intending to extend the mapbuilder codebase. See the
+      layout guide for instructions on customizing the configuration
+      elements.</para>
+
+      <para>All MapBuilder applications are initialized from an XML
+      configuration document. The configuration document closely follows the
+      MVC design pattern to provide a structured tree of Models, Widgets
+      (Views) and Tools (Controllers). The properties and methods of these
+      objects are then used to display and control the application.</para>
+
+      <para>TBD Cameron 23 March 2004: We need to identify the key files that
+      need updating when building a widget and show the relationship between
+      them. Ie, the main html file, config.xml, widgets, tools,
+      controllers.<!--Mike: Let's do this in 3.2.6 below,  I've started a section on mapbuilder application programming below (3.2.6)--></para>
+
+      <section>
+        <title>Mapbuilder configuration document schema</title>
+
+        <para>The mapbuilder configuration XML document is based on RDF
+        principles. Future plans include defining a mapbuilder config document
+        schema by extending the RDF schema.</para>
+
+        <para>The config doc follows Object-Property-Value rule of GML3 and
+        RDF. As a rule of thumb, this means that parent and child elements
+        alternate between UpperCamelCase and lowerCamelCase, Upper is for
+        objects and lower is for properties. An object can only contain
+        another object through a property value.</para>
+
+        <example>
+          <title>Example use of Object-Property-Value</title>
+
+          <programlisting>    &lt;ContextCollection id="collectionGroup"&gt;
+      &lt;defaultModelUrl&gt;context/demoCollection.ccml&lt;/defaultModelUrl&gt;
+      &lt;widgets&gt;
+        &lt;CollectionList id="collectionListId"&gt;
+          &lt;scriptFile&gt;widget/collectionList/CollectionList.js&lt;/scriptFile&gt;
+          &lt;stylesheet&gt;widget/collectionList/Collection2List.xsl&lt;/stylesheet&gt;
+          &lt;targetWidgetGroup&gt;mainMapGroup&lt;/targetWidgetGroup&gt;
+        &lt;/CollectionList&gt;
+      &lt;/widgets&gt;
+    &lt;/ContextCollection&gt;
+</programlisting>
+        </example>
+
+        <para>A more complete description of the object-property-value rule
+        can be found in section 2.1 of the document: <ulink
+        url="http://www.geoconnections.org/developersCorner/devCorner_devNetwork/components/GML_bpv1.3_E.pdf">Developing
+        and Managing GML Application Schemas</ulink></para>
+      </section>
+
+      <section>
+        <title>Config</title>
+
+        <para>The Config object is the root of the object tree
+        structure.</para>
+
+        <figure>
+          <title>Top level config object schema</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata depth="329" fileref="images/config.png" width="533" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>The Config constructor must be called in the page &lt;HEAD&gt;
+        element and assigned to a global javascript object with the name
+        "mbConfig". This is normally accomplished by ...</para>
+
+        <programlisting>var mbConfig = new Config('configDocUrl');</programlisting>
+
+        <para>The constructor will first load all javascript files contained
+        in the config document and then set application scope
+        properties.</para>
+
+        <para>The Config object provides the <systemitem>init()</systemitem>
+        and <systemitem>loadModel()</systemitem> methods.</para>
+
+        <para>The <systemitem>init() </systemitem>method is called once during
+        body onload processing. The configuration document is parsed and each
+        Model object encountered is instantiated in turn.</para>
+
+        <para>The <systemitem>loadModel()</systemitem> method can be called at
+        any time to refresh the model object by retrieving the XML document at
+        the specified URL and storing the object as the .doc property of the
+        Model object.</para>
+
+        <programlisting>mbConfig.loadModel('modelGroupID', 'modelUrl');</programlisting>
+
+        <para>The Config object implements a "loadModel" listener array that
+        can be used to register models, widgets and tools that are interested
+        in when this model is refreshed from a URL, typically widgets of a
+        different Model object.</para>
+
+        <para>TBD: put this in a file name convention section. Config.js calls
+        widget and tool object constructors using the config element node
+        name.</para>
+
+        <para>TBD: Cameron 23 March 2004: I think we need to explain what the
+        Config.xml is. I will create UML diagrams (Using Poseidon) for each of
+        the objects.</para>
+      </section>
+
+      <section>
+        <title>Models</title>
+
+        <para>The model object represents an single instance of an XML
+        document with properties and methods to access the document. A model
+        object must extend the ModelBase class, which provides some properties
+        and methods common to all models.</para>
+
+        <figure>
+          <title>Model object schema</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/configModels.png" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>The initial model URL to be loaded is specified using the
+        defaultModelURL property. The model object can be loaded from a
+        different URL at any time using the
+        <systemitem>mbConfig.loadModel()</systemitem> method.</para>
+
+        <para>Each Model object is stored as a property of the global Config
+        object using the ID provided for it in the configuration document.
+        This means that you can reference any Model object (for javascript
+        links or in other objects) as:</para>
+
+        <programlisting>mbConfig['modelID']</programlisting>
+
+        <para>The modelID is not used to link to any HTML element in the
+        page.</para>
+
+        <para>All models implement the loadModelDoc() and loadWidgets()
+        methods. Derived model types may implement their own custom
+        methods.</para>
+
+        <para>loadModelDoc() will issue the HTTP request to retrieve an XML
+        document.</para>
+
+        <para>The loadWidgets() method instantiates all child widget objects
+        of the model. The tools of each widget are instantiated before the
+        widget is painted by calling WidgetBase's loadTools() method. This is
+        so that tools can register a "paint" listener function with it's
+        parent widget if required.</para>
+
+        <para>Model objects provide a "loadWidget" listener array that can be
+        used to register widgets and tools that are interested in when this
+        model is refreshed from a URL, typically widgets of a different Model
+        object.</para>
+
+        <para>Currently supported model types:</para>
+
+        <variablelist>
+          <varlistentry>
+            <term>Context</term>
+
+            <listitem>
+              <para>OGC Web Map Context Document</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>ContextCollection</term>
+
+            <listitem>
+              <para>OGC WebMap Context Collection</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Gazetteer</term>
+
+            <listitem>
+              <para>tom's location list stuff</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>WMS Capabilities</term>
+
+            <listitem>
+              <para>OGC Wep Map Server capabilities documents</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+
+      <section>
+        <title>Widgets</title>
+
+        <para>Widgets represent the views from the MVC design pattern. A
+        Widget object must extend the WidgetBase class, which provides some
+        properties and methods common to all widgets. Most important of these
+        is the paint() method which renders the XML of the model to HTML using
+        the associated stylesheet.</para>
+
+        <figure>
+          <title>Widget object schema</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/configWidgets.png" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>The HTML output of the stylesheet is then associated to an HTML
+        page element via the ID attribute. This is how mapbuilder ties into
+        the application HTML. The same ID attribute can be used on several
+        widgets; in this case the contents of the HTML web page depends on how
+        the application programs widget.paint() calls.</para>
+
+        <para>A Widget object may have a tools property which consists of any
+        number of Tool objects. A Tool object may be a controller or it may be
+        something else, but it is essentially some code that is specific to
+        that widget and for the purpose of supporting that widget.</para>
+
+        <para>All widgets have a "paint" listener array that can be used by
+        tools that are interested in when the widget is re-painted.</para>
+      </section>
+
+      <section>
+        <title>Tools</title>
+
+        <para>A Tool object may be a controller or it may be something else,
+        but it is essentially some code that is specific to that widget and
+        for the purpose of supporting that widget. A tool will usually call
+        either a get or set method of the model.</para>
+
+        <figure>
+          <title>Tool object schema</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/configTools.png" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>Some concrete examples of tools:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>the CursorTrack tool is only interested in the mouse
+            position on the MapPane widget, so it registers with the mouse
+            event listeners of MapPane. It calls the model.getSRS()
+            method.</para>
+          </listitem>
+
+          <listitem>
+            <para>the AOIBox tool is only used for drawing a box on a MapPane,
+            it can't exist independent of a MapPane. It gets the coords of the
+            AOI to draw from the model.getAOI() method.</para>
+          </listitem>
+
+          <listitem>
+            <para>the AoiMouseHandler tool is used to click and drag an AOI on
+            a MapPane, so it registers with the mouse event listeners of
+            MapPane. It will call the setAoi() method of the model.</para>
+          </listitem>
+
+          <listitem>
+            <para>a ZoomIn tool is used to process a mouseup event on the
+            MapPane, it will change the model bbox.</para>
+          </listitem>
+
+          <listitem>
+            <para>a pan tool is used to click and drag the mappane container
+            div, on a mouseup event it will change the model bbox, but it will
+            also have to register mousedown and mousemove functions with the
+            mappane mouse handler arrays.</para>
+          </listitem>
+
+          <listitem>
+            <para>a highlight tool on a legend widget could register a
+            mouseover listener with the legend widget and call a
+            model.selectLayer method so all widgets interested in layers being
+            selected can be refreshed.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>The action to be carried out by a tool can target a different
+        ModelGroup by setting a property in the config document.</para>
+      </section>
+
+      <section>
+        <title>HTML/Javascript object interaction</title>
+
+        <para>Widget objects are painted to the HTML document element
+        identified with the same ID as the config widget object id.
+        example</para>
+
+        <para>The action of a tool can target a different model that the
+        tool's parent by setting a &lt;targetModel&gt; property on the tool(or
+        widget?) object in config. example</para>
+
+        <para>Some widgets output simple link elements with a javascript
+        function call. These will usually call methods of the mapbuilder
+        models and widgets. example</para>
+
+        <para>Listeners provide a further means of programming the
+        application. In some cases the listener functions will automatically
+        referesh models, widgets and tools; in others cases the listener
+        functions will execute DHTML behaviours. example</para>
+      </section>
+
+      <section>
+        <title>Extending the code base</title>
+
+        <para>When extending the mapbuilder codebase, it's usually easiest to
+        copy code from other models, widgets and tools.</para>
+
+        <para>Depending on what functionality you want to add, you will begin
+        at one of the steps listed below. For example you could be just adding
+        a tool to a widget (step 4 only) or you could be adding a whole new
+        model type, along with a new ModelGroup in the config file and
+        associated widgets and tools (steps 1 through 4).</para>
+
+        <orderedlist>
+          <listitem>
+            <para>Add a new model type:</para>
+
+            <para>If you are representing a new XML document type not already
+            supported by mapbuilder, first code the javascript Model object.
+            All model objects should inherit from ModelBase (TBD?). Javascript
+            source files are added to the lib/models directory. Add a new
+            object to the &lt;models&gt; property of the config document which
+            points to the javascript source file. The model constructor must
+            be named the same as the &lt;modelType&gt; properties of a
+            ModelGroup object.</para>
+          </listitem>
+
+          <listitem>
+            <para>Add a new model:</para>
+
+            <para>Only do this if the actual instance of the model you are
+            working with is not already represented as a Model in config.
+            Assign the Model an "id" attribute so that it can be referenced
+            using that id as the property name of mbConfig (e.g.
+            mbConfig['modelId']). Add defaultModelUrl properties to the Model
+            which is the URL of the doument that will be loaded by
+            default.</para>
+          </listitem>
+
+          <listitem>
+            <para>Add widgets to a model:</para>
+
+            <para>For each view of the model to be displayed on the web page,
+            add a widget object to the &lt;widgets&gt; property. All widget
+            objects must inherit from the WidgetBase class. A widget
+            constructor must have the same name as the widget object node name
+            in the config document. Source code for widgets is added as a
+            subdirectory of lib/widgets containing all files requried to paint
+            the widget. Add the &lt;scriptfile&gt; and &lt;stylesheet&gt;
+            properties to the object in config to point to these source files.
+            The widget will be painted to the HTML element with the same id as
+            the "id" attribute of the widget. Customize the widget object as
+            required.</para>
+          </listitem>
+
+          <listitem>
+            <para>Add tools to widgets</para>
+
+            <para>For each controller used to control the model objects, add a
+            tool object to the widget &lt;tools&gt; property. A tool
+            constructor must have the same name as the tool object node name
+            in the config document. Source code for tools are added to the
+            lib/tools directory (TBD: subject to change). Add the
+            &lt;scriptfile&gt; property to the object in config to point to
+            these source files. A tool contained by one model group can be
+            used as a controller of another model group by adding a
+            &lt;targetModelGroup&gt; property which has the value of a
+            ModelGroup id. Customize the tool object as required.</para>
+          </listitem>
+        </orderedlist>
+      </section>
+
+      <section>
+        <title>File and object name convention</title>
+
+        <para>Javascript object constructors must have the same name as the
+        node of it's corresponding object in the configuration document. For
+        example, a &lt;Context&gt; object from the config doc will be
+        instantiated by the javascript call:</para>
+
+        <programlisting>var model = new Context();</programlisting>
+
+        <para>The Javascript code for each model, widget and tool object type
+        should be created in the lib/model, lib/widget and lib/tool
+        directories respectively. By default, the file containing javascript
+        object code will have the same filename as the object type name, so
+        for example, the javascript Context code will be loaded from the file
+        lib/model/Context.js. This default filename of the javascript object
+        code can be over-ridden by setting a &lt;scriptfile&gt; property on
+        the object in the configration document.</para>
+
+        <para>In addition, the stylehseet filename for widgets will also use
+        the object type name with an extension of .xsl by default. For
+        example, the &lt;Legend&gt; XSL file to style the Legend object is
+        lib/widget/Legend.xsl by default. This default filename can be
+        over-riden by setting a &lt;stylesheet&gt; property on the widget
+        object.</para>
+      </section>
+    </section>
+
+    <section id="components">
+      <title id="library">Library Components<!--this section needs update to the list of currently implemented models, widgets and tools - Mike 27 March 2004--></title>
+
+      <para><emphasis role="bold">Warning:</emphasis> This section is out of
+      date.</para>
+
+      <figure>
+        <title>CMB Library Components</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/context1.jpg" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <section id="mainpage">
+        <title>MainPage</title>
+
+        <para>The Main Web Page uses HTML to layout the required widgets. It
+        includes the required libraries, creates the required components, then
+        calls the &lt;component&gt;.paint() methods.</para>
+
+        <para>This should be the only page Portal Developers need to modify in
+        order to build a Mapbuilder portal.</para>
+
+        <para>The requirements for building the page need to be kept simple so
+        that HTML developers with minimal javascript knowledge can create
+        it.</para>
+
+        <para>For details on how to build a Main Page, refer to the Users
+        Guide.</para>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Model</title>
+
+        <para>The model contains components which store CMB state. It is the
+        Model in the Model-View-Controller design pattern.</para>
+
+        <figure>
+          <title>Model Component</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/model.jpg" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <section id="context">
+          <title>Context</title>
+
+          <para>The Context object stores geographic state, like Layers,
+          Bounding Box, etc. The state is stored in XML (which is defined by
+          the OGC Web Map Context (WMC) specification and accessed using
+          Context.js javascript functions.</para>
+
+          <para>Extensions to the WMC specification include:</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>A Layer Id, required to link to the DHTML layer Id.</para>
+            </listitem>
+
+            <listitem>
+              <para>A selected tag for each layer.</para>
+            </listitem>
+
+            <listitem>
+              <para>Extract of a WFS Query, required to show WFS
+              Layers.</para>
+            </listitem>
+          </itemizedlist>
+
+          <para>Widgets which render Context information need to call
+          context.add&lt;Param&gt;Listener(). Context will then call these
+          widgets whenever the param changes.</para>
+
+          <para>There are many WMC parameters that the Context needs to update
+          and in a normal compiled language a get/setParam function would be
+          written for each parameter. However this application is written is
+          client side javascript and Context is going to be used in
+          light-weight applications which require minimal image size.
+          Consequently only the commonly used get/setParam functions will be
+          stored in Context. Applications that require detailed access of
+          Context data (like a Web Map Context Builder) will need to call
+          get/setContext() to rebuild and replace the entire WebMapContext
+          data.</para>
+        </section>
+
+        <section id="config">
+          <title>Config</title>
+
+          <para>The Config object lists all the components to be used by a
+          Mapbuilder Web Page. State data is stored in XML and is usually
+          loaded at startup to define which widgets are provided by this
+          instance of MapBuilder.</para>
+
+          <example>
+            <title></title>
+
+            <programlisting>&lt;MapbuilderConfig&gt;
+  &lt;models&gt;
+    &lt;Config id="configModelId"/&gt;
+
+  &lt;/models&gt;
+  &lt;views&gt;
+    &lt;MapPane id="mapPaneId"&gt;
+      &lt;context="contextId"/&gt;
+    &lt;/MapPane&gt;
+    &lt;ButtonBar id="buttonBar"/&gt;
+      &lt;OptionButton/&gt;
+    &lt;/ButtonBar&gt;
+  &lt;/views&gt;
+&lt;/MapbuilderConfig&gt;</programlisting>
+          </example>
+        </section>
+      </section>
+
+      <section>
+        <title>View</title>
+
+        <para>Views are the components that you can see on a MapBuilder web
+        page, like a MapPane, Legend, or PanRose. A view contains a javascript
+        function which knows how to paint itself and sometimes uses XSL to
+        render the XML from the model.</para>
+
+        <section id="mappane">
+          <title>MapPane</title>
+
+          <para>MapPane uses XSL to render Map Layers from Context as DHTML
+          Layers.</para>
+
+          <figure>
+            <title>MapPane</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/mappane.jpg" />
+              </imageobject>
+            </mediaobject>
+          </figure>
+        </section>
+
+        <section id="glasspane">
+          <title>GlassPane</title>
+
+          <para>GlassPane provides a transparent image overlayer for accepting
+          mouse actions.</para>
+
+          <figure>
+            <title>Attaching Tools to GlassPane</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/glassPane.jpg" />
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>GlassPane overlays another view, usually MapPane. GlassPane
+          accpets all the mouse clicks that a user applies to the View.</para>
+
+          <para>GlassPane does not process the mouse clicks, instead a Tool
+          registers for GlassPane's MouseActionEvents and processes the events
+          on behalf of GlassPane.</para>
+
+          <example>
+            <title>GlassPane Psudocode</title>
+
+            <orderedlist>
+              <title>Initialisation</title>
+
+              <listitem>
+                <para>GlassPane registers for Selection events so that it is
+                notified when the selected Tool changes.</para>
+              </listitem>
+            </orderedlist>
+
+            <orderedlist>
+              <title>Change Tool</title>
+
+              <listitem>
+                <para>OptionButton is clicked.</para>
+              </listitem>
+
+              <listitem>
+                <para>OptionButton calls SelectList.setSelection.</para>
+              </listitem>
+
+              <listitem>
+                <para>SelectionList calls all the SelectionChangeListener
+                functions.</para>
+              </listitem>
+
+              <listitem>
+                <para>GlassPane.selectionChangeListener() destroys the
+                previous Tool instance.</para>
+              </listitem>
+
+              <listitem>
+                <para>GlassPane.selectionChangeListener() creates a Tool
+                instance based on the new Selection.</para>
+              </listitem>
+
+              <listitem>
+                <para>When the new Tool is initialised, it registers for some
+                of GlassPanes's mouseEvents by calling
+                glassPane.addMouseXxxListener().</para>
+              </listitem>
+            </orderedlist>
+
+            <orderedlist>
+              <title>Process Mouse Action</title>
+
+              <listitem>
+                <para>GlassPane recieves a mouseAction - mouseDown, mouseUp,
+                mouseMove, etc.</para>
+              </listitem>
+
+              <listitem>
+                <para>If a Tool has registered for these mouseActions, then
+                the Tool.mouseXxxListener() is called.</para>
+              </listitem>
+
+              <listitem>
+                <para>MouseXxxListener() will process the event and will
+                usually update one of the model objects. For example,
+                PanTool.MouseUpListener() will recalculate the extent then
+                call context.setExtent().</para>
+              </listitem>
+            </orderedlist>
+          </example>
+        </section>
+
+        <section id="legend">
+          <title>Legend</title>
+
+          <para>Legend uses XSL to render a legend based on the Context. Some
+          context information, like LayerVisiblity can be changed through the
+          Legend view.</para>
+
+          <figure>
+            <title>Legend Component</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/legend.jpg" />
+              </imageobject>
+            </mediaobject>
+          </figure>
+        </section>
+
+        <section id="buttonbar">
+          <title>ButtonBar</title>
+
+          <para>A ButtonBar contains a list of Buttons and SelectButtons which
+          are added to a MainPage as one widget.</para>
+
+          <figure>
+            <title>ButtonBar</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/ButtonBar.jpg" />
+              </imageobject>
+            </mediaobject>
+          </figure>
+        </section>
+
+        <section>
+          <title>Button</title>
+
+          <para></para>
+        </section>
+
+        <section>
+          <title>SelectButton</title>
+
+          <para></para>
+        </section>
+
+        <section>
+          <title>Tool</title>
+
+          <para>A Widget Tool contains button(s) that a user can click, like a
+          PanLeft button or a ZoomPanel. The Tools contain logic to update
+          Context when they have been pressed. In the Model-View-Controller
+          design pattern, these Tools are both a View and a Controller.</para>
+
+          <para>TBD: This is to be replaced by Buttons.</para>
+        </section>
+
+        <section id="addfeature">
+          <title>AddFeature</title>
+
+          <figure>
+            <title>Web pages and processes used to add features to a
+            WFS</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/addfeature.png" />
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <section>
+            <title>GmlSchemaToForm</title>
+
+            <para>This is ...</para>
+
+            <para>In order to simplify initial versions of the GmlSchemaToForm
+            XSL transformation, there are restrictions on the DescribeFeature
+            schema that can be returned.</para>
+          </section>
+        </section>
+      </section>
+    </section>
+  </section>
+</article>
