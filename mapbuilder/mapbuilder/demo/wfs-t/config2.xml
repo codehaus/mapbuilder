@@ -43,7 +43,7 @@
       </tools>
     </Context>
     <Context id="locator">
-      <defaultModelUrl>../../data/context/locatorMap.xml</defaultModelUrl>
+      <defaultModelUrl>../data/context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>

@@ -10,7 +10,7 @@
   -->
   <models>
     <Context id="mainMap">
-      <defaultModelUrl>../../data/context/DM_Canada.xml</defaultModelUrl>
+      <defaultModelUrl>../data/context/DM_Canada.xml</defaultModelUrl>
       <widgets>
         <!--GetMapRequest id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
@@ -61,7 +61,7 @@
       </tools>
     </Context>
     <Context id="locator">
-      <defaultModelUrl>../../data/context/locatorMap.xml</defaultModelUrl>
+      <defaultModelUrl>../data/context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
@@ -86,7 +86,7 @@
       </tools>
     </Context>
     <ContextCollection id="myMapCollection">
-      <!--defaultModelUrl>../../data/context/demoCollection.xml</defaultModelUrl-->
+      <!--defaultModelUrl>../data/context/demoCollection.xml</defaultModelUrl-->
       <widgets>
         <CollectionList id="collectionList">
           <htmlTagId>workspace</htmlTagId>
