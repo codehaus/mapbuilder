@@ -109,7 +109,7 @@ $Id$
   <property environment="env"/>
   <property name="app.name" value="mapbuilder"/>
   <property name="app.path" value="/${app.name}"/>
-  <property name="app.version" value="0.1rc4"/>
+  <property name="app.version" value="0.2-alpha"/>
   <property name="catalina.home" value="${env.CATALINA_HOME}"/> <!-- UPDATE THIS! -->
   <property name="build.home"    value="${catalina.home}/webapps/${app.name}"/>
   <property name="dist.home" value="${build.home}/dist"/>
@@ -246,7 +246,9 @@ $Id$
          </zipfileset>
     </zip>
 
-    <!-- Copy additional files to ${dist.home} as necessary -->
+    <!-- Create application WAR file -->
+    <jar jarfile="${basedir}/${app.name}-${app.version}.war"
+         basedir="${build.home}"/>
 
   </target>
 
