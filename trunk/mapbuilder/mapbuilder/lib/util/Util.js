@@ -96,6 +96,12 @@ function getPageX(e){
   else if (e.clientX) {
    posx = e.clientX;
   }
+  if (document.body && document.body.scrollLeft){
+    posx += document.body.scrollLeft;
+  }
+  else if (document.documentElement && document.documentElement.scrollLeft){
+    posx += document.documentElement.scrollLeft;
+  }
   return posx;
 }
 
@@ -107,6 +113,12 @@ function getPageY(e){
   }
   else if (e.clientY) {
     posy = e.clientY;
+  }
+  if (document.body && document.body.scrollTop){
+    posy += document.body.scrollTop;
+  }
+  else if (document.documentElement && document.documentElement.scrollTop){
+    posy += document.documentElement.scrollTop;
   }
   return posy;
 }
