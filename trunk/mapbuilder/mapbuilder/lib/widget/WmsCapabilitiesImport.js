@@ -28,7 +28,7 @@ function WmsCapabilitiesImport(widgetNode, model) {
   this.onKeyPress=function(e) {
     var url;
     var keycode;
-    if (e){
+    if (e.which){
       //Mozilla
       keycode=e.which;
       url=e.currentTarget.value;
