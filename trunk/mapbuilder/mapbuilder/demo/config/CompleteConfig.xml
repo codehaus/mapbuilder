@@ -76,12 +76,13 @@
       <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorMapId">
+          <fixedWidth>true</fixedWidth>
           <tools> 
             <AoiBox>
               <scriptFile>widget/tool/AoiBox.js</scriptFile>
-              <lineColor>#0000FF</lineColor>
+              <lineColor>red</lineColor>
               <lineWidth>1</lineWidth>
-              <crossSize>5</crossSize>
+              <crossSize>9</crossSize>
             </AoiBox>
             <AoiMouseHandler>
               <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
