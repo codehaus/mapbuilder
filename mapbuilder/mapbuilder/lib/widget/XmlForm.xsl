@@ -20,7 +20,7 @@ XmlForm.xsl,v 1.1 2004/06/28 03:46:49 madair1 Exp
 
 
 
-  <xsl:output method="html" encoding="utf-8"/>
+  <xsl:output method="xml" encoding="utf-8"/>
 
 
 

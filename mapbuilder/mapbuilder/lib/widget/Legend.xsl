@@ -8,7 +8,7 @@ Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 $Name$
 -->
-  <xsl:output method="html" encoding="utf-8"/>
+  <xsl:output method="xml" encoding="utf-8"/>
   
   <!-- The common params set for all widgets -->
   <xsl:param name="lang">en</xsl:param>

@@ -20,7 +20,7 @@ $Id$
  * @param position    Style position = "absolute" or "relative" used to specify if the
  *                    widget should overlay others or not, defaults to "relative".
  */
-function WidgetBase(widgetNode,model,position) {
+function WidgetBase(widgetNode,model) {
   // Inherit the Listener functions and parameters
   var listener = new Listener();
   for (sProperty in listener) { 
@@ -33,13 +33,56 @@ function WidgetBase(widgetNode,model,position) {
   this.id = widgetNode.attributes.getNamedItem("id").nodeValue;
   this.mbWidgetId = "MbWidget_" + mbIds.getId();
 
-  /** HTML root <div> node for this widget */
-  this.node=document.getElementById(this.id);
+  //set an empty debug property in config to see inputs and outputs of stylehseet
+  if ( widgetNode.selectSingleNode("debug") ) this.debug=true;
 
   /** Transient var used to store model XML before and then after XSL transform.
    *  It can be modified by prePaint() .
    */
   this.resultDoc = null;
+
+  /** HTML root <div> node for this widget */
+  this.node=null;
+
+  //until htmlTagNode becomes required allow setting of it by widget id
+  var htmlTagNode = widgetNode.selectSingleNode("htmlTagId");
+  var htmlTagId = this.id;
+  if (htmlTagNode) {
+    htmlTagId = htmlTagNode.firstChild.nodeValue;
+  }
+
+  // Node in main HTML to attach widget to.
+  this.node = document.getElementById(htmlTagId);
+  if(!this.node) {
+    alert("htmlTagId: "+htmlTagId+" for widget "+widgetNode.nodeName+" not found in config");
+
+  }else{
+
+    //if there is a container node for this widget, initialize it if not done already
+    var mapContainerNode = widgetNode.selectSingleNode("mapContainerId");
+    if (mapContainerNode) {
+      this.containerNodeId = mapContainerNode.firstChild.nodeValue;
+      var testNode = document.getElementById(this.containerNodeId);
+      if (!testNode) {
+        var newNode = document.createElement("DIV");
+        newNode.setAttribute("id",this.containerNodeId);
+        newNode.id=this.containerNodeId;
+        // Set dimensions of containing <div>this.
+        newNode.style.position="relative";
+        newNode.style.width=this.model.getWindowWidth();
+        newNode.style.height=this.model.getWindowHeight();
+        newNode.style.overflow="hidden";
+        this.node.appendChild(newNode);
+      }
+      this.node = document.getElementById(this.containerNodeId);
+      this.removeContainer = function(objRef) {
+        var container = document.getElementById(objRef.containerNodeId);
+        var parent = container.parentNode;
+        parent.removeChild(container);
+      }
+      this.model.addListener("newModel",this.removeContainer, this);
+    }
+  }
 
   // Set this.stylesheet
   // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
@@ -70,6 +113,8 @@ function WidgetBase(widgetNode,model,position) {
         widgetNode.childNodes[j].firstChild.nodeValue);
     }
   }
+  //this is supposed to work too instead of above?
+  //this.stylesheet.setParameter("widgetNode", widgetNode );
 
   //all stylesheets will have these properties available
   this.stylesheet.setParameter("modelId", this.model.id );
@@ -113,18 +158,33 @@ function WidgetBase(widgetNode,model,position) {
    */
   this.paint = function(objRef) {
     if (objRef.model.doc) {
+      if (objRef.debug) alert("source:"+objRef.model.doc.xml);
+
       this.resultDoc = objRef.model.doc; // resultDoc sometimes modified by prePaint()
-      objRef.prePaint(this);
-      this.resultDoc = objRef.stylesheet.transformNodeToObject(this.resultDoc);
-      this.resultDoc.documentElement.setAttribute("id", objRef.mbWidgetId);
-      if (objRef.widgetNode.selectSingleNode("debug") ) alert("painting:"+objRef.id+":"+this.resultDoc.xml);
+      objRef.prePaint(objRef);
+
+      //confirm inputs
+      if (objRef.debug) alert("prepaint:"+objRef.resultDoc.xml);
+      if (objRef.debug) alert("stylesheet:"+objRef.stylesheet.xslDom.xml);
+
+      //process the doc with the stylesheet
+      var s = objRef.stylesheet.transformNode(this.resultDoc);
+      if (objRef.debug) alert("painting:"+objRef.id+":"+s);
+
+      //set to output to a temporary node
+      //hack to get by doc parsing problem in IE
+      //the firstChild of tempNode will be the root element output by the stylesheet
+      var tempNode = document.createElement("DIV");
+      tempNode.innerHTML = s;
+      tempNode.firstChild.setAttribute("id", objRef.mbWidgetId);
+
+      //look for this widgets output and replace if found, otherwise append it
       var outputNode = document.getElementById( objRef.mbWidgetId );
       if (outputNode) {
-        objRef.node.replaceChild(document.importNode(this.resultDoc.documentElement,true),outputNode);
+        objRef.node.replaceChild(tempNode.firstChild,outputNode);
       } else {
-        objRef.node.appendChild(document.importNode(this.resultDoc.documentElement,true));
+        objRef.node.appendChild(tempNode.firstChild);
       }
-        
       objRef.callListeners("paint");
     }
   }
@@ -138,7 +198,7 @@ function WidgetBase(widgetNode,model,position) {
     var toolNodes = this.widgetNode.selectNodes( "tools/*" );
     for (var i=0; i<toolNodes.length; i++ ) {
       var toolNode = toolNodes[i];
-      evalStr = "new " + toolNode.nodeName + "(toolNode, this);";
+      var evalStr = "new " + toolNode.nodeName + "(toolNode, this);";
       var newTool = eval( evalStr );
       if (newTool) {
         this[toolNode.nodeName] = newTool;

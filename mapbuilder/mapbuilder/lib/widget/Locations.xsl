@@ -12,9 +12,7 @@ Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 
 
 
-$Id: Locations.xsl,v 1.3 2004/02/27 14:05:36 tomkralidis Exp 
-
-$Name$Name:  $
+$Id$Name:  $Name$
 
 -->
 
@@ -22,7 +20,7 @@ $Name$Name:  $
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:gml="http://www.opengis.net/gml" xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder">
 
-	<xsl:output method="html" omit-xml-declaration="yes"/>
+	<xsl:output method="xml" omit-xml-declaration="yes"/>
 
   
 

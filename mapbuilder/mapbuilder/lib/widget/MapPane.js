@@ -22,7 +22,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  */
 function MapPane(widgetNode, model) {
   // Inherit the WidgetBase functions and parameters
-  var base = new WidgetBase(widgetNode, model,"absolute");
+  var base = new WidgetBase(widgetNode, model);
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 
   } 
@@ -36,10 +36,6 @@ function MapPane(widgetNode, model) {
     this.model.setWindowWidth( fixedWidth );
     this.model.setWindowHeight( newHeight );
   }
-  // Set dimensions of containing <div>
-  this.node.style.width=this.model.getWindowWidth();
-  this.node.style.height=this.model.getWindowHeight();
-  this.node.style.overflow="hidden";
 
   //add the extent property
   this.model.extent = new Extent( this.model );
@@ -58,7 +54,7 @@ function MapPane(widgetNode, model) {
   this.setContainerNodeHandlers = function(objRef) {
     //reset these on a paint because the containerNode is created on paint
     //these added to the containerNode because they will be referenced in that context
-    var containerNode = document.getElementById( objRef.mbWidgetId );
+    var containerNode = objRef.node;//document.getElementById( objRef.mbWidgetId );
     containerNode.widget = objRef;
     containerNode.onmousemove = objRef.eventHandler;
     containerNode.onmouseout = objRef.eventHandler;
@@ -66,30 +62,7 @@ function MapPane(widgetNode, model) {
     containerNode.onmousedown = objRef.eventHandler;
     containerNode.onmouseup = objRef.eventHandler;
   }
-  this.addListener( "paint", this.setContainerNodeHandlers, this );
-
-  /**
-   * TBD: Comment me.
-   * @param objRef MapPane's containing <DIV> tag as an XML node.
-   */
-  this.setClip=function(objRef){
-    //width=objRef.model.getWindowWidth();
-    //height=objRef.model.getWindowHeight();
-    //objRef.node.style.clip="rect(0," + width + "," + height + ",0)";
-  }
-  //this.addListener( "paint", this.setClip, this );
-
-  /**
-   * TBD: Comment me.
-   */
-  this.moveImages=function(left,top){
-    var images=this.node.firstChild.getElementsByTagName("img");
-    for(var i=0; i<images.length; i++) {
-      var img=images.item(i);
-      img.style.left=left;
-      img.style.top=top;
-    }
-  }
+  this.targetModel.addListener( "loadModel", this.setContainerNodeHandlers, this );
 
   /**
    * Called when the context's hidden attribute changes.
