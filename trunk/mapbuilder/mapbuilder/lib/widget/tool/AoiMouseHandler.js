@@ -6,58 +6,64 @@ $Id$
 */
 
 /**
- * Tool to draw a region of interest box on a view.  The box can be drawn with
- * the drawBox() method and can be tied to mouse drag with the dragBox() method.
- * This object works entirely in pixel/line coordinate space and knows nothing
+ * Tool which implements a click and drag behaviour to set the 
+ * Area Of Interest on the model from mouse events.
+ * The tool must be enabled before use by calling tool.enable(true);
+ * This tool registers mouse event listeners on the parent widget.
+ * This tool works entirely in pixel/line coordinate space and knows nothing
  * about geography.
- *
  * @constructor
- *
- * @param viewNode    the view object node to attach the RoiBox to.
+ * @param toolNode      The node for this tool from the configuration document.
+ * @param parentWidget  The widget object that contains this tool
  */
 
 function AoiMouseHandler(toolNode, parentWidget) {
   this.model = parentWidget.model;
 
   /**
-   * Process a mouse action.
-   * @param objRef Pointer to this AoiMouseHandler object.
-   * @param targetNode The node for the enclosing HTML tag for this widget.
+   * enable or disable this tool from procesing mouse events.
+   * @param enabled   set to true or false to enable or disable
+   */
+  this.enable = function(enabled) {
+    this.enabled = enabled;
+  }
+
+  /**
+   * Process the mouseup action by stopping the drag.
+   * @param objRef      Pointer to this AoiMouseHandler object.
+   * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
   this.mouseUpHandler = function(objRef,targetNode) {
-    if (objRef.started) objRef.started = false;
+    if (objRef.enabled) {
+      if (objRef.started) objRef.started = false;
+    }
   }
 
   /**
-   * Process a mouse action.
-   * @param objRef Pointer to this AoiMouseHandler object.
-   * @param targetNode The node for the enclosing HTML tag for this widget.
+   * Process the mousedown action by setting the anchor point.
+   * @param objRef      Pointer to this AoiMouseHandler object.
+   * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
   this.mouseDownHandler = function(objRef,targetNode) {
-    objRef.start(targetNode.evpl);
+    if (objRef.enabled) {
+      objRef.started = true;
+      objRef.anchorPoint = targetNode.evpl;
+      objRef.dragBox( targetNode.evpl );
+    }
   }
 
   /**
-   * Process a mouse action.
-   * @param objRef Pointer to this AoiMouseHandler object.
-   * @param targetNode The node for the enclosing HTML tag for this widget.
+   * Process a the mousemove action as dragging out a box.
+   * @param objRef      Pointer to this AoiMouseHandler object.
+   * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
   this.mouseMoveHandler = function(objRef,targetNode) {
-    if (objRef.started) objRef.dragBox(targetNode.evpl);
+    if (objRef.enabled) {
+      if (objRef.started) objRef.dragBox(targetNode.evpl);
+    }
   }
 
- /**
-  * Called for starting a drag operation.
-  * @param evpl the coordinates to start the box at
-  */
-  this.start = function(evpl) {
-    this.anchorPoint = evpl;
-    this.dragBox( evpl );
-    this.started = true;
-  }
-
-/** Change the coordinate of one corner of the box.  The initial upper left 
-  * corner point stays fixed. 
+/** Change the coordinate of one corner of the box.  The anchor point stays fixed. 
   * @param evpl    new corner coordinate
   */
   this.dragBox = function( evpl ) {	
