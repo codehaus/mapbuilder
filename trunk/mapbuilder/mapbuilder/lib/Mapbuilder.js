@@ -88,7 +88,6 @@ function Mapbuilder() {
         this.loadScript(baseDir+"/util/sarissa/Sarissa.js");
         this.loadScript(baseDir+"/util/Util.js");
         this.loadScript(baseDir+"/util/Listener.js");
-        this.loadScript(baseDir+"/tool/ModelList.js");
         this.loadScript(baseDir+"/model/ModelBase.js");
         this.loadScript(baseDir+"/model/Config.js");
         break;
