@@ -13,19 +13,17 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * @param parentWidget  The ButtonBar widget.
  */
 function Reset(toolNode, parentWidget) {
-  var base = new ButtonBase(toolNode, parentWidget);
-  for (sProperty in base) { 
-    this[sProperty] = base[sProperty]; 
-  } 
+  var base = new ButtonBase(this, toolNode, parentWidget);
+
+  this.targetModel = this.parentWidget.targetModel;
 
   //store a copy of the original extent
   this.initExtent = function(objRef) {
-    this.originalExtent = new Extent( objRef.targetModel );   
-    this.originalExtent.init( objRef.originalExtent );
-    this.originalExtent.SetResolution( new Array(objRef.targetModel.getWindowWidth(), objRef.targetModel.getWindowHeight()) );
+    objRef.originalExtent = new Extent( objRef.targetModel );   
+    objRef.originalExtent.init( objRef.originalExtent );
+    objRef.originalExtent.SetResolution( new Array(objRef.targetModel.getWindowWidth(), objRef.targetModel.getWindowHeight()) );
   }
   this.targetModel.addListener("loadModel",this.initExtent, this);
-  this.initExtent(this);
 
   /**
    * Calls the reset() method of the context doc to reload at with the original extent

@@ -17,9 +17,6 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  */
 
 function CollectionList(widgetNode, model) {
-  var base = new WidgetBase(widgetNode, model);
-  for (sProperty in base) { 
-    this[sProperty] = base[sProperty]; 
-  } 
+  var base = new WidgetBase(this, widgetNode, model);
 
 }

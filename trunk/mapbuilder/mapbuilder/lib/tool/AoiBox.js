@@ -19,10 +19,7 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  */
 
 function AoiBox(toolNode, parentWidget) {
-  var base = new ToolBase(toolNode, parentWidget);
-  for (sProperty in base) { 
-    this[sProperty] = base[sProperty]; 
-  } 
+  var base = new ToolBase(this, toolNode, parentWidget);
 
   this.lineWidth = toolNode.selectSingleNode("mb:lineWidth").firstChild.nodeValue; // Zoombox line width; pass in as param?
   this.lineColor = toolNode.selectSingleNode("mb:lineColor").firstChild.nodeValue; // color of zoombox lines; pass in as param?
@@ -47,20 +44,21 @@ function AoiBox(toolNode, parentWidget) {
     */
   this.paint = function(thisTool) {
     var aoiBox = thisTool.model.getParam("aoi");
-    var ul = thisTool.model.extent.GetPL(aoiBox[0]);
-    var lr = thisTool.model.extent.GetPL(aoiBox[1]);
-    //check if ul=lr, then draw cross, else drawbox
-    if ( (Math.abs( ul[0]-lr[0] ) < thisTool.crossSize) && 
-        (Math.abs( ul[1]-lr[1] ) < thisTool.crossSize) ) {
-      thisTool.drawCross( new Array( (ul[0]+lr[0])/2, (ul[1]+lr[1])/2) );
-    } else {
-      thisTool.drawBox(ul, lr);
+    if (aoiBox) {
+      var ul = thisTool.model.extent.GetPL(aoiBox[0]);
+      var lr = thisTool.model.extent.GetPL(aoiBox[1]);
+      //check if ul=lr, then draw cross, else drawbox
+      if ( (Math.abs( ul[0]-lr[0] ) < thisTool.crossSize) && 
+          (Math.abs( ul[1]-lr[1] ) < thisTool.crossSize) ) {
+        thisTool.drawCross( new Array( (ul[0]+lr[0])/2, (ul[1]+lr[1])/2) );
+      } else {
+        thisTool.drawBox(ul, lr);
+      }
     }
   }
   this.model.addListener("aoi",this.paint, this);
 
   /** called when container node changes 
-    */
   this.refresh = function(objRef) {
     //objRef.paint
     var aoiBox = this.model.getParam("aoi");
@@ -74,6 +72,7 @@ function AoiBox(toolNode, parentWidget) {
       this.drawBox(ul, lr);
     }
   }
+    */
   this.parentWidget.addListener("paint",this.paint, this);
 
   /** Draw a box.
@@ -148,8 +147,8 @@ function AoiBox(toolNode, parentWidget) {
     thisTool.Bottom = thisTool.getImageDiv( containerNode );
     thisTool.Left = thisTool.getImageDiv( containerNode );
     thisTool.Right = thisTool.getImageDiv( containerNode );
+    thisTool.paint(thisTool);
   }
-  //this.model.addListener("loadModel",this.loadAoiBox, this);
-  this.loadAoiBox(this);
+  this.model.addListener("loadModel",this.loadAoiBox, this);
 
 }

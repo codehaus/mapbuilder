@@ -14,26 +14,27 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * @param toolNode The tool node from the Config XML file.
  * @param parentWidget The ButtonBar node from the Config XML file.
  */
-function ButtonBase(toolNode, parentWidget) {
-  var base = new ToolBase(toolNode, parentWidget);
-  for (sProperty in base) { 
-    this[sProperty] = base[sProperty]; 
-  } 
+function ButtonBase(button, toolNode, parentWidget) {
+  var base = new ToolBase(button, toolNode, parentWidget);
 
   //set the button type
-  this.buttonType = toolNode.selectSingleNode("mb:class").firstChild.nodeValue;
-  if (this.buttonType == "RadioButton") this.enabled = false;
+  button.buttonType = toolNode.selectSingleNode("mb:class").firstChild.nodeValue;
+  if (button.buttonType == "RadioButton") button.enabled = false;
 
   //pre-load the button bar images; add them to the config
-  this.disabledImage = document.createElement("IMG");
-  this.disabledImage.src = config.skinDir + toolNode.selectSingleNode("mb:disabledSrc").firstChild.nodeValue;
+  button.disabledImage = document.createElement("IMG");
+  button.disabledImage.src = config.skinDir + toolNode.selectSingleNode("mb:disabledSrc").firstChild.nodeValue;
 
   var enabledImage = toolNode.selectSingleNode("mb:enabledSrc");
   if (enabledImage) {
-    this.enabledImage = document.createElement("IMG");
-    this.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
+    button.enabledImage = document.createElement("IMG");
+    button.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
   }
-  this.image = document.getElementById( this.id );
+
+  button.buttonInit = function(buttonRef) {
+    buttonRef.image = document.getElementById( buttonRef.id );
+  }
+  button.parentWidget.addListener("paint",button.buttonInit,button);
 
   /**
    * Override this in buttons which inherit from this object to carry out the action.
@@ -41,14 +42,14 @@ function ButtonBase(toolNode, parentWidget) {
    * via the select() method or on a mouseup event if there is an associated 
    * mouseHandler property in config.
    */
-  this.doAction = function() {}
+  button.doAction = function() {}
 
   /**
    * Called when a user clicks on a button.  Switches the image to the enabled 
    * button source, enables and disables associated tools, then calls the 
    * doAction method defined in derived classes.
    */
-  this.select = function() {
+  button.select = function() {
     if (this.buttonType == "RadioButton") {
       if (this.parentWidget.selectedRadioButton) {
         with (this.parentWidget.selectedRadioButton) {
@@ -71,5 +72,5 @@ function ButtonBase(toolNode, parentWidget) {
   }
 
   var selected = toolNode.selectSingleNode("mb:selected");
-  if (selected && selected.firstChild.nodeValue) this.selected = true;
+  if (selected && selected.firstChild.nodeValue) button.selected = true;
 }

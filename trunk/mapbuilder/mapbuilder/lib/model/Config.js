@@ -16,19 +16,17 @@ $Id$
  */
 function Config(url) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase();
-  for (sProperty in modelBase) { 
-    this[sProperty] = modelBase[sProperty]; 
-  }
+  var modelBase = new ModelBase(this);
   this.namespace = "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder'";
 
-  this.loadModelDoc(url);
+  this.url = url;
+  this.loadModelDoc(this);
   this.modelNode = this.doc.documentElement;
   this.id = this.modelNode.attributes.getNamedItem("id").nodeValue;
 
   //set some global application properties
-  this.skinDir = this.doc.selectSingleNode("/mb:MapbuilderConfig/mb:skinDir").firstChild.nodeValue;
-  var proxyUrl = this.doc.selectSingleNode("/mb:MapbuilderConfig/mb:proxyUrl");
+  this.skinDir = this.modelNode.selectSingleNode("mb:skinDir").firstChild.nodeValue;
+  var proxyUrl = this.modelNode.selectSingleNode("mb:proxyUrl");
   if (proxyUrl) this.proxyUrl = proxyUrl.firstChild.nodeValue;
 
   /**
@@ -77,54 +75,26 @@ function Config(url) {
   * as in config["modelId"] in subsequent javascript code.
   */
   this.init = function() {
-    var cgiArgs = getArgs();
+    this.cgiArgs = getArgs();
 
     //language to select; defaults to english 
     //Set via a "language" parameter in the URL, 
     //or by setting a global "language" Javascript variable in the page <HEAD>
     //Retrieve the value from the global conifg object as "config.lang"
     this.lang = "en";
-    if (cgiArgs["language"]) {
-      this.lang = cgiArgs["language"];
+    if (this.cgiArgs["language"]) {
+      this.lang = this.cgiArgs["language"];
     } else if (window.language) {
       this.lang = window.language;
     }
 
-    //loop through all models in the config file
-    var models = this.doc.selectNodes( "/mb:MapbuilderConfig/mb:models/*" );
-    for (var i=0; i<models.length; i++ ) {
-      modelNode = models[i];
-
-      //instantiate the Model object
-      var modelType = modelNode.nodeName;
-      var evalStr = "new " + modelType + "(modelNode);";
-      var model = eval( evalStr );
-      if ( model ) {
-        this[model.id] = model;
-      } else { 
-        alert("error creating model object:" + modelType);
-      }
-
-
-      //load the Model object from the initial URL in config or from a URL param.
-      //the URL can also be passed in as a URL parameter by using the model ID
-      //as the parameter name (this method takes precendence over the config file
-      var initialModel = null;
-      if (cgiArgs[model.id]) {  
-        initialModel = cgiArgs[model.id];
-      } else if (window[model.id]) {  
-        initialModel = window[model.id];
-      } else {
-        var defaultModel = modelNode.selectSingleNode("mb:defaultModelUrl");
-        if (defaultModel) initialModel = defaultModel.firstChild.nodeValue;
-      }
-      this.loadModel( model.id, initialModel );
-    }
-
     //load in widgets of the config doc
+    this.loadModels(this);
     this.loadWidgets(this);
+
+    //defered call for the loadModel event
     this.callListeners( "loadModel" );
-    this.addListener("loadModel", this.loadWidgets, this);
+    //this.addListener("loadModel", this.loadWidgets, this);
   }
 
   /**
@@ -135,14 +105,13 @@ function Config(url) {
    * @param modelUrl  URL of the XML model document to be loaded
    */
   this.loadModel = function( modelId, modelUrl ) {
-    //alert(modelId+":"+modelUrl);
     var model = this[modelId];
-    if (modelUrl) {
-      model.callListeners( "newModel" );
-      model.loadModelDoc(modelUrl);
+    if (model && modelUrl) {
+      model.url = modelUrl;
+      model.loadModelDoc(model);
+    } else {
+      alert("config loadmodel error:"+modelId+":"+modelUrl);
     }
-    model.loadWidgets(model);
-    model.callListeners( "loadModel" );
   }
 }
 

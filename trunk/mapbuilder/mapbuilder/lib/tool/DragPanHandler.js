@@ -15,10 +15,7 @@ $Id$
  */
 
 function DragPanHandler(toolNode, parentWidget) {
-  var base = new ToolBase(toolNode, parentWidget);
-  for (sProperty in base) { 
-    this[sProperty] = base[sProperty]; 
-  } 
+  var base = new ToolBase(this, toolNode, parentWidget);
 
   /**
    * Process the mouseup action.  This will reset the AOI on the model
@@ -81,9 +78,12 @@ function DragPanHandler(toolNode, parentWidget) {
     }
   }
 
-  parentWidget.addListener('mousedown',this.mouseDownHandler,this);
-  parentWidget.addListener('mousemove',this.mouseMoveHandler,this);
-  parentWidget.addListener('mouseup',this.mouseUpHandler,this);
+  this.init = function(toolRef) {
+    toolRef.parentWidget.addListener('mousedown',toolRef.mouseDownHandler,toolRef);
+    toolRef.parentWidget.addListener('mousemove',toolRef.mouseMoveHandler,toolRef);
+    toolRef.parentWidget.addListener('mouseup',toolRef.mouseUpHandler,toolRef);
+  }
+  this.model.addListener( "loadModel", this.init, this );
 }
 
 

@@ -14,10 +14,7 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * @param parentWidget  The ButtonBar widget.
  */
 function DragPan(toolNode, parentWidget) {
-  var base = new ButtonBase(toolNode, parentWidget);
-  for (sProperty in base) { 
-    this[sProperty] = base[sProperty]; 
-  }
+  var base = new ButtonBase(this, toolNode, parentWidget);
 
   /**
    * Calls the centerAt method of the context doc to recenter to its AOI

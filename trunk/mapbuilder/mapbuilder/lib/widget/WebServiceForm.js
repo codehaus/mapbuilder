@@ -18,10 +18,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  */
 
 function WebServiceForm(widgetNode, model) {
-  var base = new WidgetBase(widgetNode, model);
-  for (sProperty in base) { 
-    this[sProperty] = base[sProperty]; 
-  } 
+  var base = new WidgetBase(this, widgetNode, model);
 
   /**
    * Handles submission of the form (via javascript in an <a> tag)

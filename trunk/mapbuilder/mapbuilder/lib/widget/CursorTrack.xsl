@@ -52,9 +52,9 @@ $Id$
 
     <FORM NAME="{$formName}" ID="{$formName}" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;">
 
-      <xsl:value-of select="$longitude"/> <input NAME="longitude" TYPE="text" SIZE="6" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
+      <xsl:value-of select="$longitude"/> <input NAME="longitude" TYPE="text" SIZE="6" READONLY="true" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
 
-      <xsl:value-of select="$latitude"/> <input NAME="latitude" TYPE="text" SIZE="6" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
+      <xsl:value-of select="$latitude"/> <input NAME="latitude" TYPE="text" SIZE="6" READONLY="true" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
 
     </FORM>
 

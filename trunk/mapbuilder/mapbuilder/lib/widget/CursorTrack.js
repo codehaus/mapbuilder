@@ -20,10 +20,7 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
  */
 
 function CursorTrack(widgetNode, model) {
-  var base = new WidgetBase(widgetNode, model);
-  for (sProperty in base) { 
-    this[sProperty] = base[sProperty]; 
-  } 
+  var base = new WidgetBase(this, widgetNode, model);
 
   /**
    * Start cursor tracking when the mouse is over the mappane.
@@ -38,6 +35,7 @@ function CursorTrack(widgetNode, model) {
     objRef.coordForm = document.getElementById(objRef.formName);
     window.cursorTrackObject = objRef;
     window.cursorTrackNode = targetNode;
+    objRef.mouseOver = true;
     objRef.mouseTrackTimer = setInterval( ReportCoords, 100, objRef);
   }
 
@@ -48,20 +46,28 @@ function CursorTrack(widgetNode, model) {
    */
   this.mouseOutHandler = function(objRef, targetNode) {
     if (objRef.mouseTrackTimer) clearInterval(objRef.mouseTrackTimer);
+    objRef.mouseOver = false;
+    objRef.coordForm.longitude.value = "";
+    objRef.coordForm.latitude.value = "";
   }
 
-  //associate the cursor track with a mappane widget
-  var mouseHandler = widgetNode.selectSingleNode("mb:mouseHandler");
-  if (mouseHandler) {
-    this.mouseHandler = eval("config."+mouseHandler.firstChild.nodeValue);
-    this.mouseHandler.addListener('mouseover', this.mouseOverHandler, this);
-    this.mouseHandler.addListener('mouseout', this.mouseOutHandler, this);
-  } else {
-    alert('CursorTrack requires a mouseHandler property');
+  //initialize dynamic properties
+  this.init = function(toolRef) {
+    //associate the cursor track with a mappane widget
+    var mouseHandler = widgetNode.selectSingleNode("mb:mouseHandler");
+    if (mouseHandler) {
+      toolRef.mouseHandler = eval("config."+mouseHandler.firstChild.nodeValue);
+      toolRef.mouseHandler.addListener('mouseover', toolRef.mouseOverHandler, toolRef);
+      toolRef.mouseHandler.addListener('mouseout', toolRef.mouseOutHandler, toolRef);
+    } else {
+      alert('CursorTrack requires a mouseHandler property');
+    }
+    toolRef.proj = new Proj( toolRef.model.getSRS() );
   }
-  
+  this.model.addListener( "loadModel", this.init, this );
+
+
   //set some properties for the form output
-  this.proj = new Proj( model.getSRS() );
   this.formName = "CursorTrackForm_" + mbIds.getId();
   this.stylesheet.setParameter("formName", this.formName);
 
@@ -69,9 +75,11 @@ function CursorTrack(widgetNode, model) {
 
 /** Update the lat/long coordinates in coordForm. */
 function ReportCoords() {
-    objRef = window.cursorTrackObject;
+  var objRef = window.cursorTrackObject;
+  if (objRef.mouseOver) {
     var evxy = objRef.model.extent.GetXY( window.cursorTrackNode.evpl );
     var evll = objRef.proj.Inverse( evxy );
     objRef.coordForm.longitude.value = Math.round(evll[0]*100)/100;
     objRef.coordForm.latitude.value = Math.round(evll[1]*100)/100;
+  }
 }

@@ -19,10 +19,7 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * @param parentWidget  The widget object that contains this tool
  */
 function MouseClickHandler(toolNode, parentWidget) {
-  var base = new ToolBase(toolNode, parentWidget);
-  for (sProperty in base) { 
-    this[sProperty] = base[sProperty]; 
-  } 
+  var base = new ToolBase(this, toolNode, parentWidget);
 
   /**
    * Process a mouse click action.

@@ -6,7 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/MapContainerBase.js");
 
 /**
  * Render GML into HTML.  this.targetModel references the context model with
@@ -16,11 +16,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * @param model       The model object that this widget belongs to.
  */
 function GmlRenderer(widgetNode, model) {
-  // Inherit the WidgetBase functions and parameters
-  var base = new WidgetBase(widgetNode, model);
-  for (sProperty in base) { 
-    this[sProperty] = base[sProperty]; 
-  }
+  var base = new MapContainerBase(this,widgetNode,model)
 
   /** Xsl to convert Coordinates to Coords. */
   this.coordXsl=new XslProcessor(baseDir+"/widget/GmlCooordinates2Coord.xsl");
@@ -44,5 +40,8 @@ function GmlRenderer(widgetNode, model) {
   }
 
   // Call paint() when the context changes
-  this.targetModel.addListener("boundingBox",this.paint, this);
+  this.init = function(objRef) {
+    objRef.targetModel.addListener("boundingBox",objRef.paint, objRef);
+  }
+  this.model.addListener("loadModel",this.init,this);
 }

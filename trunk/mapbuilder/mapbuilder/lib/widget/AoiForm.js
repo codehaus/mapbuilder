@@ -19,10 +19,7 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
  */
 
 function AoiForm(widgetNode, model) {
-  var base = new WidgetBase(widgetNode, model);
-  for (sProperty in base) { 
-    this[sProperty] = base[sProperty]; 
-  } 
+  var base = new WidgetBase(this, widgetNode, model);
 
   /**
    * Output the AOI coordinates to the associated form input elements.  This

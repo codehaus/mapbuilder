@@ -25,10 +25,7 @@ mapbuilder.loadScript(baseDir+"/tool/Extent.js");
  */
 function Gml2(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(modelNode, parent);
-  for (sProperty in modelBase) { 
-    this[sProperty] = modelBase[sProperty]; 
-  }
+  var modelBase = new ModelBase(this, modelNode, parent);
 
 //  // ===============================
 //  // Update of GML2 Parameters

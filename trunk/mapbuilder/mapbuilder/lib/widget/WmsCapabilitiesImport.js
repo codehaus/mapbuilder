@@ -16,10 +16,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  */
 
 function WmsCapabilitiesImport(widgetNode, model) {
-  var base = new WidgetBase(widgetNode, model);
-  for (sProperty in base) { 
-    this[sProperty] = base[sProperty]; 
-  } 
+  var base = new WidgetBase(this, widgetNode, model);
 
   /**
    * Load Capabilities document when ENTER is pressed.

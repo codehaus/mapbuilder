@@ -14,10 +14,7 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * @param parentWidget  The ButtonBar widget.
  */
 function SetAoi(toolNode, parentWidget) {
-  var base = new ButtonBase(toolNode, parentWidget);
-  for (sProperty in base) { 
-    this[sProperty] = base[sProperty]; 
-  }
+  var base = new ButtonBase(this, toolNode, parentWidget);
 
   /**
    * The action to do on click
