@@ -4,10 +4,13 @@ $Id$
 */
 
 /**
- * Config
- * This Javascript file must be included in the page <HEAD> element.
- * The application creates a global object called mbConfig from the mapbuilder 
- * configuration xml file passed in as a parameter.
+ * The config object is the parent model of all mapbuilder objects.
+ * The application creates a global object called 'config' which represents
+ * the mapbuilder configuration xml file passed in as a parameter.
+ * Config is a model like any other model.  
+ * Any mapbuilder object can be de-referenced by using the 'config.objects' 
+ * property as in config.objects.idValueFromConfig.
+ * The schema for the config can be found at /mabuilder/lib/schemas/config.xsd
  *
  * @constructor
  * @base ModelBase
@@ -28,7 +31,8 @@ function Config(url) {
   if (this.namespace) Sarissa.setXpathNamespaces(this.doc, this.namespace);
 
   /**
-   * Loads the scripts defined in the Config file.
+   * Dynamic loading of the javascript files for objects defined in the Config file.
+   * @private
    */
   this.loadConfigScripts=function(){
     // Load script files for all components that don't have <scriptfile> specified
@@ -47,10 +51,12 @@ function Config(url) {
     }
   }
 
-  //language to select; defaults to english 
-  //Set via a "language" parameter in the URL, 
-  //or by setting a global "language" Javascript variable in the page <HEAD>
-  //Retrieve the value from the global conifg object as "config.lang"
+  /**
+  * multilingual support; defaults to english 
+  * Set via a "language" parameter in the URL, 
+  * or by setting a global "language" Javascript variable in the page <HEAD>.
+  * Retrieve the language value from the global conifg object as "config.lang"
+  */
   this.lang = "en";
   if (window.cgiArgs["language"]) {
     this.lang = window.cgiArgs["language"];
@@ -66,15 +72,20 @@ function Config(url) {
   var serializeUrl = modelNode.selectSingleNode("mb:serializeUrl");
   if (serializeUrl) this.serializeUrl = serializeUrl.firstChild.nodeValue;
 
+  /**
+  * the objects property holds a reference to every mapbuilder javascript object
+  * created.  Each object is added as a property of config.objects using the
+  * value of the object id from the configuration file
+  */
   this.objects = new Object();
 
   // Inherit the ModelBase functions and parameters
   var modelBase = new ModelBase(this, modelNode);
 
   /**
-   * Load a model and it's widgets.  
-   * This function can be called at any time to load a new model.
-   * TBD Need to distinguish between creating and initialising.
+   * Load a model and its child models, widgets and tools.
+   * This function can be called at any time to load a new model or replace an
+   * existing model object.
    * @param modelId   the id of the model in config XML to be updated
    * @param modelUrl  URL of the XML model document to be loaded
    */
@@ -90,11 +101,9 @@ function Config(url) {
   }
 
   /**
-   * repaint a widget.  
-   * This function can be called at any time to load a new model.
-   * TBD Need to distinguish between creating and initialising.
-   * @param modelId   the id of the model in config XML to be updated
-   * @param modelUrl  URL of the XML model document to be loaded
+   * Repaint the widget passed in.  
+   * This function can be called at any time to paint the widget.
+   * @param widget   a pointer to the widget object to be painted.
    */
   this.paintWidget = function( widget ) {
     if (widget) {
@@ -105,8 +114,8 @@ function Config(url) {
   }
 }
 
-// Initialise config object.
-/*
+/**
+* Initialise the global config object for Mozilla browsers.
 */
 if (document.readyState==null){
   // Mozilla

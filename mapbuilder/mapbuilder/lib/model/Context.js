@@ -5,17 +5,18 @@ $Id$
 
 /**
  * Stores a Web Map Context (WMC) document as defined by the Open GIS Consortium
- * http://opengis.org and extensions the the WMC.  A unique Id is included for
+ * http://opengis.org and extensions the the WMC.  
  * each layer which is used when referencing Dynamic HTML layers in MapPane.
  *
- * Listener Parameters used:
+ * Listeners supported by this model:
  * "aoi" - ((upperLeftX,upperLeftY),(lowerRigthX,lowerRigthY)),
+ * "hidden" - ((upperLeftX,upperLeftY),(lowerRigthX,lowerRigthY)),
  *
  * @constructor
  * @base ModelBase
  * @author Cameron Shorter
- * @param model       Pointer to the model instance being created
- * @param modelNode   The model's XML object node from the configuration document.
+ * @param modelNode Pointer to the xml node for this model from the config file.
+ * @param parent    The parent model for the object.
   * 
  */
 function Context(modelNode, parent) {
@@ -24,59 +25,39 @@ function Context(modelNode, parent) {
 
   this.namespace = "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder' xmlns:wmc='http://www.opengis.net/context' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'";
 
-  // ===============================
-  // Update of Context Parameters
-  // ===============================
-
   /**
    * Change a Layer's visibility.
-   * @param layerIndex The index of the LayerList/Layer from the Context which
-   * has changed.
-   * @param hidden, 1=hidden, 0=not hidden.
+   * @param layerName  The name of the layer that is to be changed
+   * @param hidden     String with the value to be set; 1=hidden, 0=visible.
    */
-  this.setHidden=function(layerIndex, hidden){
+  this.setHidden=function(layerName, hidden){
     // Set the hidden attribute in the Context
     var hiddenValue = "0";
     if (hidden) hiddenValue = "1";
       
-    //var layers=this.doc.documentElement.getElementsByTagName("Layer");
-    var layers=this.doc.selectNodes("/wmc:ViewContext/wmc:LayerList/wmc:Layer");
-    for(var i=0;i<layers.length;i++) {
-      if(layers[i].getElementsByTagName("Name").item(0).firstChild.nodeValue == layerIndex) {
-        layers[i].setAttribute("hidden", hiddenValue);
-        break;
-      }
-    }
+    var layer=this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+layerName+"']");
+    if (layer) layer.setAttribute("hidden", hiddenValue);
     // Call the listeners
-    this.callListeners("hidden", layerIndex);
+    this.callListeners("hidden", layerName);
   }
 
   /**
-   * Get the layer's visiblity.
-   * @param layerIndex The index of the LayerList/Layer from the Context which
-   * has changed.
-   * @return hidden value, 1=hidden, 0=not hidden.
+   * Get the layer's visiblity attribute value.
+   * @param layerName  The name of the layer that is to be changed
+   * @return hidden  String with the value; 1=hidden, 0=visible.
    */
-  this.getHidden=function(layerIndex){
+  this.getHidden=function(layerName){
     var hidden=1;
-    //layers=this.doc.documentElement.getElementsByTagName("Layer");
-    var layers=this.doc.selectNodes("/wmc:ViewContext/wmc:LayerList/wmc:Layer");
-    for(var i=0;i<layers.length;i++) {
-      if(layers[i].getElementsByTagName("Name").item(0).firstChild.nodeValue == layerIndex) {
-        hidden=layers[i].getAttribute("hidden");
-        break;
-      }
-    }
+    var layer=this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+layerName+"']");
+    if (layer) hidden = layer.getAttribute("hidden");
     return hidden;
   }
 
   /**
-   * Get the BoundingBox.
-   * @return BoundingBox array in form (xmin,ymin,xmax,ymax).
+   * Get the BoundingBox value from the Context document.
+   * @return BoundingBox array with the sequence (xmin,ymin,xmax,ymax).
    */
   this.getBoundingBox=function() {
-    // Extract BoundingBox from the context
-    //boundingBox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
     var boundingBox=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
     bbox = new Array();
     bbox[0]=parseFloat(boundingBox.getAttribute("minx"));
@@ -87,8 +68,8 @@ function Context(modelNode, parent) {
   }
 
   /**
-   * Set the BoundingBox and notify intererested widgets that BoundingBox has changed.
-   * @param boundingBox array in form (xmin, ymin, xmax, ymax).
+   * Set the BoundingBox element and call the refresh listeners
+   * @param boundingBox array in the sequence (xmin, ymin, xmax, ymax).
    */
   this.setBoundingBox=function(boundingBox) {
     // Set BoundingBox in context
@@ -103,23 +84,20 @@ function Context(modelNode, parent) {
   }
 
   /**
-   * TBD: Deprecated - use getContext() instead.
-   * Set the Spacial Reference System for layer display and layer requests.
+   * Set the Spacial Reference System for the context document.
    * @param srs The Spatial Reference System.
    */
   this.setSRS=function(srs) {
-    //bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
     var bbox=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
     bbox.setAttribute("SRS",srs);
+    this.callListeners("refresh");
   }
 
   /**
-   * TBD: Deprecated - use setContext() instead.
-   * Set the Spacial Reference System for layer display and layer requests.
+   * Get the Spacial Reference System from the context document.
    * @return srs The Spatial Reference System.
    */
   this.getSRS=function() {
-    //bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
     var bbox=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
     srs=bbox.getAttribute("SRS");
     return srs;
@@ -127,13 +105,11 @@ function Context(modelNode, parent) {
 
   /**
    * Get the Window width.
-   * @return width The width of map window (therefore of map layer images).
+   * @return width The width of map window from the context document
    */
   this.getWindowWidth=function() {
-    //var win=this.doc.documentElement.getElementsByTagName("Window").item(0);
     var win=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Window");
-    width=win.getAttribute("width");
-    return width;
+    return win.getAttribute("width");
   }
 
   /**
@@ -141,45 +117,62 @@ function Context(modelNode, parent) {
    * @param width The width of map window (therefore of map layer images).
    */
   this.setWindowWidth=function(width) {
-    //win=this.doc.documentElement.getElementsByTagName("Window").item(0);
     var win=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Window");
     win.setAttribute("width", width);
+    this.callListeners("refresh");
   }
 
   /**
    * Get the Window height.
-   * @return height The height of map window (therefore of map layer images).
+   * @return height The height of map window from the context document.
    */
   this.getWindowHeight=function() {
-    //var win=this.doc.documentElement.getElementsByTagName("Window").item(0);
     var win=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Window");
-    height=win.getAttribute("height");
-    return height;
+    return win.getAttribute("height");
   }
 
   /**
    * Set the Window height.
-   * @param height The height of map window (therefore of map layer images).
+   * @param height The height of map window to set in the context document
    */
   this.setWindowHeight=function(height) {
-    //win=this.doc.documentElement.getElementsByTagName("Window").item(0);
     var win=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Window");
     win.setAttribute("height", height);
+    this.callListeners("refresh");
   }
 
+  /**
+   * Returns the serverUrl for the layer passed in as the feature argument.
+   * @param requestName ignored for context docs (only GetMap supported)
+   * @param method ignored for context docs (only GET supported)
+   * @param feature The Layer node from the Context document to get from
+   * @return height String URL for the GetMap request
+   */
   this.getServerUrl = function(requestName, method, feature) {
     return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
   }
 
-  //this is the GetMap request version, not context doc version.
+  /**
+   * Returns the WMS version for the layer passed in as the feature argument
+   * @return the WMS GetMap version for the Layer.
+   */
   this.getVersion = function(feature) {  
     return feature.selectSingleNode("wmc:Server").getAttribute("version");
   }
 
+  /**
+   * Get the Window height.
+   * @return height The height of map window from the context document.
+   */
   this.getMethod = function(feature) {
     return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("wmc:method");
   }
 
+  /**
+   * Adds a node to the Context document extension element.  The extension element
+   * will be created if it doesn't already exist.  
+   * @param extensionNode the node to be appended in the extension element.
+   */
   this.setExtension = function(extensionNode) {
     var extension = this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Extension");
     if (!extension) {
@@ -189,15 +182,19 @@ function Context(modelNode, parent) {
     return extension.appendChild(extensionNode);
   }
 
+  /**
+   * Returns the contents of the extension element
+   * @return the contents of the extension element
+   */
   this.getExtension = function() {
-    var test = this.doc.selectSingleNode("/wmc:ViewContext/wmc:General");
     return this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Extension");
   }
 
   /**
-   * Target model loadModel change listener.  This resets the projection objects
-   * if the target model changes.
-   * @param tool        Pointer to this ZoomToAoi object.
+   * Parses a Dimension element from the Context document as a loadModel listener.
+   * This results in an XML structure with one element for each GetMap time value 
+   * parameter and added to the Context extrension element.
+   * @param objRef a pointer to this object 
    */
   this.initTimeExtent = function( objRef ) {
     var mbNS = "http://mapbuilder.sourceforge.net/mapbuilder";
@@ -211,7 +208,7 @@ function Context(modelNode, parent) {
       var layerName = extentNode.parentNode.parentNode.selectSingleNode("wmc:Name").firstChild.nodeValue;
       objRef.timestampList.setAttribute("layerName", layerName);
       //alert("found time dimension, extent:"+extentNode.firstChild.nodeValue);
-      var times = extentNode.firstChild.nodeValue.split(",");   //comma separated arguments
+      var times = extentNode.firstChild.nodeValue.split(",");   //comma separated list of arguments
       for (var j=0; j<times.length; ++j) {
         var params = times[j].split("/");     // parses start/end/period
         if (params.length==3) {
@@ -249,6 +246,11 @@ function Context(modelNode, parent) {
   }
   this.addFirstListener( "loadModel", this.initTimeExtent, this );
 
+  /**
+   * Returns the current timestamp value.
+   * @param layerName the name of the Layer from which the timestamp list was generated
+   * @return the current timestamp value.
+   */
   this.getCurrentTimestamp = function( layerName ) {
     var extension = this.getExtension();
     var timestamp = extension.selectSingleNode("mb:TimestampList[@layerName='"+layerName+"']/mb:Timestamp[@current='1']");
