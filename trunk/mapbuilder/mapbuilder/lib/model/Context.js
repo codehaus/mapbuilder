@@ -22,7 +22,7 @@ function Context(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   var modelBase = new ModelBase(this, modelNode, parent);
 
-  this.namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'";
+  this.namespace = "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder' xmlns:wmc='http://www.opengis.net/context' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'";
 
   // ===============================
   // Update of Context Parameters
@@ -179,6 +179,75 @@ function Context(modelNode, parent) {
   this.getMethod = function(feature) {
     return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("wmc:method");
   }
+
+  this.setExtension = function(extensionNode) {
+    var extension = this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Extension");
+    if (!extension) {
+      var general = this.doc.selectSingleNode("/wmc:ViewContext/wmc:General");
+      extension = general.appendChild(this.doc.createElementNS('http://www.opengis.net/context',"Extension"));
+    }
+    return extension.appendChild(extensionNode);
+  }
+
+  this.getExtension = function() {
+    var test = this.doc.selectSingleNode("/wmc:ViewContext/wmc:General");
+    return this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Extension");
+  }
+
+  /**
+   * Target model loadModel change listener.  This resets the projection objects
+   * if the target model changes.
+   * @param tool        Pointer to this ZoomToAoi object.
+   */
+  this.initTimeExtent = function( objRef ) {
+    var mbNS = "http://mapbuilder.sourceforge.net/mapbuilder";
+    //only the first one selected is used as the timestamp source
+    //var extentNode = objRef.doc.selectSingleNode("//wmc:Layer/wmc:Dimension[@name='time']");
+    //TBD: how to deal with multiple time dimensions in one context doc, or caps doc?
+    var timeNodes = objRef.doc.selectNodes("//wmc:Dimension[@name='time']");
+    for (var i=0; i<timeNodes.length; ++i) {
+      var extentNode = timeNodes[i];
+      objRef.timestampList = objRef.doc.createElementNS(mbNS,"TimestampList");  //set mb as namespace instead
+      var layerName = extentNode.parentNode.selectSingleNode("wmc:Name").firstChild.nodeValue;
+      objRef.timestampList.setAttribute("layerName", layerName);
+      //alert("found time dimension, extent:"+extentNode.firstChild.nodeValue);
+      var times = extentNode.firstChild.nodeValue.split(",");   //comma separated arguments
+      for (var j=0; j<times.length; ++j) {
+        var params = times[j].split("/");     // parses start/end/period
+        if (params.length==3) {
+          var start = setISODate(params[0]);
+          var stop = setISODate(params[1]);
+          var period = params[2];
+          var parts = period.match(/^P((\d*)Y)?((\d*)M)?((\d*)D)?T?((\d*)H)?((\d*)M)?((.*)S)?/);
+          for (var i=1; i<parts.length; ++i) {
+            if (!parts[i]) parts[i]=0;
+          }
+          //alert("start time:"+start.toString());
+          do {
+            var timestamp = objRef.doc.createElementNS(mbNS,"Timestamp");
+            timestamp.appendChild(objRef.doc.createTextNode(getISODate(start)));
+            objRef.timestampList.appendChild(timestamp);
+
+            start.setFullYear(start.getFullYear()+parseInt(parts[2],10));
+            start.setMonth(start.getMonth()+parseInt(parts[4],10));
+            start.setDate(start.getDate()+parseInt(parts[6],10));
+            start.setHours(start.getHours()+parseInt(parts[8],10));
+            start.setMinutes(start.getMinutes()+parseInt(parts[10],10));
+            start.setSeconds(start.getSeconds()+parseFloat(parts[12]));
+            //alert("time:"+start.toString());
+          } while(start.getTime() <= stop.getTime());
+
+        } else {
+          //output single date value
+          var timestamp = objRef.doc.createElementNS(mbNS,"Timestamp");
+          timestamp.appendChild(objRef.doc.createTextNode(times[j]));
+          objRef.timestampList.appendChild(timestamp);
+        }
+      }
+      objRef.setExtension(objRef.timestampList);  
+    }
+  }
+  this.addFirstListener( "loadModel", this.initTimeExtent, this );
 
 }
 

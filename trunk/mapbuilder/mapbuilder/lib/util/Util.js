@@ -152,6 +152,47 @@ function UniqueId(){
 //use this global object to generate a unique ID via the getId function
 var mbIds = new UniqueId();
 
+function setISODate(isoDateStr) {
+  var parts = isoDateStr.match(/(\d{4})-?(\d{2})?-?(\d{2})?T?(\d{2})?:?(\d{2})?:?(\d{2})?\.?(\d{0,3})?(Z)?/);
+  var res = null;
+  for (var i=1;i<parts.length;++i){
+    if (!parts[i]) {
+      parts[i] = (i==3)?1:0; //months start with day number 1, not 0
+      if (!res) res = i;
+    }
+  }
+  var isoDate = new Date();
+  isoDate.setFullYear(parseInt(parts[1],10));
+  isoDate.setMonth(parseInt(parts[2]-1,10));
+  isoDate.setDate(parseInt(parts[3],10));
+  isoDate.setHours(parseInt(parts[4],10));
+  isoDate.setMinutes(parseInt(parts[5],10));
+  isoDate.setSeconds(parseFloat(parts[6],10));
+  if (!res) res = 6;
+  isoDate.res = res;
+  return isoDate;
+}
+
+function getISODate(isoDate) {
+  var res = isoDate.res?isoDate.res:6;
+  var dateStr = "";
+  dateStr += res>1?isoDate.getFullYear():"";
+  dateStr += res>2?"-"+leadingZeros(isoDate.getMonth()+1,2):"";
+  dateStr += res>3?"-"+leadingZeros(isoDate.getDate(),2):"";
+  dateStr += res>4?"T"+leadingZeros(isoDate.getHours(),2):"";
+  dateStr += res>5?":"+leadingZeros(isoDate.getMinutes(),2):"";
+  dateStr += res>6?":"+leadingZeros(isoDate.getSeconds(),2):"";
+  return dateStr;
+}
+
+function leadingZeros(num,digits) {
+  var intNum = parseInt(num,10);
+  var base = Math.pow(10,digits);
+  if (intNum<base) intNum += base;
+  return intNum.toString().substr(1);
+}
+
+
 /**
  * get the absolute position of HTML element NS4, IE4/5 & NS6, even if it's in a table.
  * @param element The HTML element.

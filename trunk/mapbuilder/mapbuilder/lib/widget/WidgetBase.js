@@ -215,7 +215,7 @@ function WidgetBase(widget,widgetNode,model) {
         case "xsl2html":
           //process the doc with the stylesheet
           var s = objRef.stylesheet.transformNode(objRef.resultDoc);
-          if (objRef.debug) postLoad("/mapbuilder/writeXml", s);
+          if (objRef.debug) postLoad(config.serializeUrl, s);
           if (objRef.debug) alert("painting:"+objRef.id+":"+s);
           tempNode.innerHTML = s;
           tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
