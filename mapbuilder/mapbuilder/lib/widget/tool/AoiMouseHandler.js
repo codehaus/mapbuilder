@@ -23,7 +23,7 @@ function AoiMouseHandler(toolNode, parentWidget) {
     if (objRef.started) objRef.started = false;
   }
 
-  this.mouseDownHandler = function( targetNode, objRef ) {
+  this.mouseDownHandler = function( objRef,targetNode ) {
     objRef.start(targetNode.evpl);
   }
 
@@ -68,8 +68,7 @@ function AoiMouseHandler(toolNode, parentWidget) {
     this.model.setAoi( ul, lr );
   }
 
-
-  parentWidget.addMouseListener('mouseDown', this.mouseDownHandler, this );
+  parentWidget.addListener('mousedown',this.mouseDownHandler,this);
   parentWidget.addMouseListener('mouseMove', this.mouseMoveHandler, this );
   parentWidget.addMouseListener('mouseUp', this.mouseUpHandler, this );
 }
