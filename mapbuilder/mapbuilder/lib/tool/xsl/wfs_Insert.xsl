@@ -29,7 +29,9 @@ $Name$
 
   <!-- Match featureMember -->
   <xsl:template match="gml:featureMember">
-    <xsl:copy-of select="."/>
+    <xsl:for-each select="./*">
+      <xsl:copy-of select="."/>
+    </xsl:for-each>
   </xsl:template>
 
   <xsl:template match="text()|@*"/>
