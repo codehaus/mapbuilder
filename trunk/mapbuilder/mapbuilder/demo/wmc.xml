@@ -8,7 +8,7 @@
 	<General>
 		<Window width="500" height="300" />
 		<BoundingBox SRS="EPSG:4326" minx="-180.000000" miny="-90.000000" maxx="180.000000" maxy="90.000000"/>
-		<Title>EOS Data Gateways</Title>
+                <Title>MapBuilder Demo</Title>
 		<KeywordList>
 			<Keyword>EOS</Keyword>
 			<Keyword>EOSDIS</Keyword>
