@@ -104,7 +104,7 @@
 				</Style>
 			</StyleList>
 		</Layer>
-		<FeatureType hidden="0">
+		<!--FeatureType hidden="0">
 			<Server service="OGC:WFS" version="1.0.0" title="Boston on Oracle">
 				<OnlineResource xlink:type="simple" xlink:href="http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA"/>
 			</Server>
@@ -114,7 +114,25 @@
 			<sld:MinScaleDenominator>50000</sld:MinScaleDenominator>
 			<sld:MaxScaleDenominator>5000</sld:MaxScaleDenominator>
 			<SRS>EPSG:26986</SRS>
+		</FeatureType-->
+		<FeatureType hidden="0">
+			<Server service="OGC:WFS" version="1.0.0" title="Bird Studies Canada WFS Server">
+				<OnlineResource xlink:type="simple" xlink:href="http://www.bsc-eoc.org/cgi-bin/bsc_ows.asp?"/>
+			</Server>
+			<Name>CBC_PT</Name>
+			<Title>Canadian Christmas Bird Count Locations</Title>
+			<Abstract/>
+			<SRS>EPSG:4326</SRS>
 		</FeatureType>
+    <FeatureType>
+			<Server service="OGC:WFS" version="1.0.0" title="Environment Canada - Pacific and Yukon Region - Water Quality Monitoring Program - WFS">
+				<OnlineResource xlink:type="simple" xlink:href="http://excise.pyr.ec.gc.ca/cgi-bin/mapserv.exe?map=/LocalApps/MapSurfer/PYRWQMP.map"/>
+			</Server>
+        <Name>active_fed</Name>
+        <Title>Active Federal Water Quality Monitoring Stations</Title>
+        <Abstract>Active Federal water quality monitoring stations administered by Environment Canada in the Pacific and Yukon Region</Abstract>
+        <SRS>EPSG:4326</SRS>
+    </FeatureType>
 		<Layer queryable="0" hidden="0">
 			<Server service="OGC:WMS" version="1.1.1" title="Boston on Oracle">
 				<OnlineResource xlink:type="simple" xlink:href="http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA"/>
