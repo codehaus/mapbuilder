@@ -16,38 +16,35 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * mouseWidget is usually a MapPane.
  * This widget extends WidgetBase.
  * @constructor
- * @param widgetNode The Widget's XML object node from the configuration
- *     document.
- * @param group The ModelGroup XML object from the configuration
- *     document that this widget will update.
- * @requires WidgetBase
+ * @param widgetNode  The widget's XML object node from the configuration document.
+ * @param model       The model object that this widget belongs to.
  */
-function ButtonBar(widgetNode, group) {
-  var base = new WidgetBase(widgetNode, group);
+function ButtonBar(widgetNode, model) {
+  var base = new WidgetBase(widgetNode, model);
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 
   } 
 
   /**
    * Render this widget.
+   * This over-rides the default paint() method to transform the config doc 
+   * instead of the model.
    */
   this.paint = function() {
     var s = this.stylesheet.transformNode(config.doc);
     this.node.innerHTML=s;
-
-    for (var i=0; i<this.paintListeners.length; i++) {
-      this.paintListeners[i][0]( this.paintListeners[i][1] );
-    }
+    this.callListeners("paint");
   }
 
+  // if the mouseWidget property is definde for this tool then
   var mouseWidget = widgetNode.selectSingleNode("mouseWidget");
   if (mouseWidget) {
     this.mouseWidget = eval(mouseWidget.firstChild.nodeValue);
 
     /**
-     * Process a mouse action.
-     * @param objRef Pointer to this ButtonBar object.
-     * @param targetNode The node for the enclosing HTML tag for this widget,
+     * Process mouseup event to select a different button.
+     * @param objRef      Pointer to this ButtonBar object.
+     * @param targetNode  The node for the enclosing HTML tag for this widget
      */
     this.mouseUpHandler = function(objRef,targetNode) {
       objRef.selectedRadioButton.mouseUpHandler(objRef.model,targetNode) 
@@ -61,13 +58,21 @@ function ButtonBar(widgetNode, group) {
    * @param buttonType "RadioButton", "Button" or "SelectBox".
    */
   this.selectButton = function(buttonName, buttonType) {
+
+    //disable all tools
+    //TBD: need a way to not hard code these; loop through xml nodes?
+    this.mouseWidget["AoiMouseHandler"].enable(false);
+    this.mouseWidget["DragPanHandler"].enable(false);
+
     switch(buttonType){
       case "RadioButton":
         // Deselect previous RadioButton
         if (this.selectedRadioButton){
           this.selectedRadioButton.image.src=this.selectedRadioButton.disabledImage.src;
         }
-        this.selectedRadioButton=this.tools[buttonName];
+        this.selectedRadioButton=this[buttonName];
+        this.selectedRadioButton.image.src = this.selectedRadioButton.enabledImage.src;
+        this.selectedRadioButton.selectButton();
         break;
       case "Button":
         break;
@@ -76,31 +81,16 @@ function ButtonBar(widgetNode, group) {
       default:
         alert("ButtonBar.js: Unknown buttonType: "+buttonType);
     }
+    //if ( this.mouseWidget.acceptToolTips ) this.mouseWidget.setToolTip( this.title );
   }
 
-  /**
-   * Select one of the buttons, which deselects all the other buttons.
-   * TBD: I'd prefer to call this selectButton(). Cameron 19 March 2004.
-   * TBD: I suggest remove <modeValue> from config and use the Node's name instead.
-   *      Eg: <ZoomInButton> and call it buttonName (or similar). Cameron 19 March 2004.
-   * @param mode The modeValue of a Button to select.
-   */
-  this.setMode = function(mode) {
-    if (this.selectedRadioButton) this.selectedRadioButton.image.src = this.selectedRadioButton.disabledImage.src;
-    this.mode = mode;
-    if ( this[this.mode].enabledImage) {
-      this.selectedRadioButton = this[this.mode];
-      this.selectedRadioButton.image.src = this.selectedRadioButton.enabledImage.src;
-    }
-    //if ( this.parentWidget.acceptToolTips ) this.parentWidget.setToolTip( this.title );
-  }
 
   /**
    * Initialise the widget after the widget tags have been created by the first paint().
    */
   this.postPaintInit = function() {
     var initialMode = this.widgetNode.selectSingleNode("initialMode").firstChild.nodeValue;
-    this.setMode( initialMode );
+    this.selectButton( initialMode, "RadioButton" );
   }
 
   config.buttonBar = this;
@@ -126,7 +116,6 @@ function ButtonBase(toolNode, parentWidget) {
   }
 
   this.title = toolNode.selectSingleNode("tooltip").firstChild.nodeValue;
-  this.mode = toolNode.nodeValue; 
   this.id = toolNode.selectSingleNode("@id").firstChild.nodeValue;
 
   /**
@@ -155,6 +144,10 @@ function ZoomIn(toolNode, parentWidget) {
     this[sProperty] = base[sProperty]; 
   }
 
+  this.selectButton = function() {
+    this.parentWidget.mouseWidget["AoiMouseHandler"].enable(true);
+  }
+
   /**
    * TBD document me.
    * @param targetNode TBD: Document me.
@@ -171,8 +164,7 @@ function ZoomIn(toolNode, parentWidget) {
     }
   }
 
-  this.parentWidget.addPaintListener( this.init, this );
-  this.parentWidget[this.mode] = this;
+  this.parentWidget.addListener( "paint", this.init, this );
 }
 
 function ZoomOut(toolNode, parentWidget) {
@@ -180,13 +172,46 @@ function ZoomOut(toolNode, parentWidget) {
   for (sProperty in base) { 
     this[sProperty] = base[sProperty];    
   } 
+
+  this.selectButton = function() {
+    this.parentWidget.mouseWidget["AoiMouseHandler"].enable(true);
+  }
+
   this.mouseUpHandler = function(model,targetNode) {
     //should be aoi center
     model.extent.CenterAt(targetNode.evxy, model.extent.res[0]*model.extent.zoomBy);
   }
 
-  this.parentWidget.addPaintListener( this.init, this );
-  this.parentWidget[this.mode] = this;
+  this.parentWidget.addListener( "paint", this.init, this );
+}
+
+/**
+ * When this button is selected, clicks on the MapPane trigger a zoomIn at that
+ * point.
+ * @param toolNode The tool node from the Config XML file.
+ * @param parentWidget The ButtonBar node from the Config XML file.
+ */
+function DragPan(toolNode, parentWidget) {
+  var base = new ButtonBase(toolNode, parentWidget);
+  for (sProperty in base) { 
+    this[sProperty] = base[sProperty]; 
+  }
+
+  this.selectButton = function() {
+    this.parentWidget.mouseWidget["DragPanHandler"].enable(true);
+  }
+
+  /**
+   * TBD document me.
+   * @param targetNode TBD: Document me.
+   * @param model The model that this tool will update.
+   */
+  this.mouseUpHandler = function(model,targetNode) {
+    alert("drag pan mouseup");
+    //TBD: hide the mappane and then recenter at the new position
+  }
+
+  this.parentWidget.addListener( "paint", this.init, this );
 }
 
 function Reset(toolNode, parentWidget) {
@@ -198,16 +223,12 @@ function Reset(toolNode, parentWidget) {
   this.doReset = function(ev) {
     ev.target.extent.Reset();
   }
-  this.parentWidget[this.mode] = this;
   
   this.init = function(objRef) {
     objRef.image = document.getElementById( objRef.id );
     objRef.image.extent = objRef.parentWidget.model.extent;
     objRef.image.onclick = objRef.doReset;
   }
-  this.parentWidget.addPaintListener( this.init, this );
+  this.parentWidget.addListener( "paint", this.init, this );
 
 }
-
-/** A function stub that does nothing.*/
-function noop() {;}

@@ -12,14 +12,8 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * @constructor
  * @author Cameron Shorter cameronATshorter.net
  * @constructor
- * @requires Context
- * @requires Sarissa
- * @requires Util
- * @requires WidgetBase
- * @param widgetNode The Widget's XML object node from the configuration
- *   document.
- * @param model The ModelGroup XML object from the configuration
- *   document that this widget will update.
+ * @param widgetNode  The widget's XML object node from the configuration document.
+ * @param model       The model object that this widget belongs to.
  */
 function Legend(widgetNode, model) {
   var base = new WidgetBase(widgetNode, model);

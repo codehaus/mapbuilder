@@ -12,17 +12,12 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * Tools to build a CollectionList from a Web Map Context.
  * This widget extends WidgetBase.
  * @constructor
- * @param widgetNode The Widget's XML object node from the configuration
- *   document.
- * @param group The ModelGroup XML object from the configuration
- *   document that this widget will update.
- * @requires Sarissa
- * @requires Util
- * @see WidgetBase
+ * @param widgetNode  The widget's XML object node from the configuration document.
+ * @param model       The model object that this widget belongs to.
  */
 
-function CollectionList(widgetNode, group) {
-  var base = new WidgetBase(widgetNode, group);
+function CollectionList(widgetNode, model) {
+  var base = new WidgetBase(widgetNode, model);
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 
   } 
