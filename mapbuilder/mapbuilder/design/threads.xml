@@ -55,7 +55,7 @@
           </row>
 
           <row>
-            <entry>Mapbuilder.setLoadState</entry>
+            <entry>Mapbuilder.setLoadState()</entry>
 
             <entry>... this.loadScript()</entry>
 
@@ -63,7 +63,7 @@
           </row>
 
           <row>
-            <entry>Mapbuilder.setLoadState</entry>
+            <entry>Mapbuilder.setLoadState()</entry>
 
             <entry>... config=new Config(mbConfigUrl)<para>...
             config.loadConfigScripts()</para></entry>
@@ -181,7 +181,7 @@
           </row>
 
           <row>
-            <entry>Mabuilder.mapbuilderInit</entry>
+            <entry>Mabuilder.mapbuilderInit()</entry>
 
             <entry>. config.init(config)</entry>
 
@@ -189,17 +189,17 @@
           </row>
 
           <row>
-            <entry>ModelBase.init</entry>
+            <entry>ModelBase.init()</entry>
 
             <entry>.. this.loadObjects()</entry>
 
-            <entry><para>Load models/* widgets/*
-            tools/*</para><emphasis>Shouldn't this function be moved into
+            <entry><para>Load models/* widgets/* tools/*</para><emphasis>CS
+            Jan 05: Shouldn't this function be moved into
             Config.js?</emphasis></entry>
           </row>
 
           <row>
-            <entry>ModelBase.loadObjects</entry>
+            <entry>ModelBase.loadObjects()</entry>
 
             <entry>...newObject=eval("new
             "+objectType+"(configNode)");</entry>
@@ -222,12 +222,12 @@
           </row>
 
           <row>
-            <entry>ModelBase.init</entry>
+            <entry>ModelBase.init()</entry>
 
             <entry>..... this.loadObjects()</entry>
 
-            <entry><emphasis>Called again in the same thread!? Can this be
-            simplified?</emphasis></entry>
+            <entry><emphasis>CS Jan 05: Called again in the same thread!? Can
+            this be simplified?</emphasis></entry>
           </row>
 
           <row>
@@ -239,7 +239,7 @@
           </row>
 
           <row>
-            <entry>Mapbuilder.mapbuilderInit</entry>
+            <entry>Mapbuilder.mapbuilderInit()</entry>
 
             <entry>.. config.callListeners()</entry>
 
@@ -248,5 +248,159 @@
         </tbody>
       </tgroup>
     </table>
+  </section>
+
+  <section>
+    <title>AddNodeToContext event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>aoi event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>boundingBox event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>DescribeFeatureType event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>GetFeature event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>GetMap event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>hidden event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>httpPayload event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>loadModel event</title>
+
+    <para>The "loadModel" event is sent before a new model is loaded so that
+    widgets associated with the previous model are removed from the
+    HTML.</para>
+
+    <para><emphasis>CS Jan 05: HTML nodes shouldn't automatically be removed
+    when a new Model is loaded.</emphasis></para>
+
+    <para><emphasis>CS Jan 05: The only reason to remove nodes is if the
+    Context changes. Therefore, only widgets of Context models should register
+    for this event.</emphasis></para>
+
+    <table>
+      <title>Register for event</title>
+
+      <tgroup cols="3">
+        <thead>
+          <row>
+            <entry>Object</entry>
+
+            <entry>Code</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>WidgetBase</entry>
+
+            <entry>widget.model.addListener( "newModel", widget.clearWidget,
+            widget);</entry>
+
+            <entry><para></para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <table>
+      <title>Process event</title>
+
+      <tgroup cols="3">
+        <thead>
+          <row>
+            <entry>Object</entry>
+
+            <entry>Code</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>ModelBase.loadModelDoc()</entry>
+
+            <entry></entry>
+
+            <entry>Called before new model is loaded.</entry>
+          </row>
+
+          <row>
+            <entry>WidgetBase.clearWidget()</entry>
+
+            <entry></entry>
+
+            <entry><para>Remove old widget from display.</para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+
+  <section>
+    <title>modelSaved event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>mousedown mousemove mouseout mouseover mouseup events</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>newModel event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>paint event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>refresh event</title>
+
+    <para></para>
   </section>
 </section>
