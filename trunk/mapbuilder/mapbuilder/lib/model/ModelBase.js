@@ -45,13 +45,13 @@ function ModelBase(model, modelNode, parentModel) {
   /**
    * Update the value of a node within this model's XML.
    * Triggers a refresh event from the model.
+   * @param objRef Reference to this node.
    * @param xlink Xlink of the node to update.
    * @param value Node's new value.
    */
-  this.setXlinkValue=function(xlink,value){
-    alert("ModelBase.setXlinkValue xlink="+xlink+" value="+value);
-    this.doc.selectSingleNode(xlink).firstChild.nodeValue=value;
-    this.setParam("refresh");
+  this.setXlinkValue=function(objRef,xlink,value){
+    objRef.doc.selectSingleNode(xlink).firstChild.nodeValue=value;
+    objRef.setParam("refresh");
   }
   model.setXlinkValue=this.setXlinkValue;
 
