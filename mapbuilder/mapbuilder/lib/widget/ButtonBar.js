@@ -67,19 +67,19 @@ function ButtonBar(widgetNode, model) {
       case "RadioButton":
         //disable tools
         //TBD: need a way to not hard code these; loop through xml nodes?
-        this.mouseWidget["AoiMouseHandler"].enable(false);
-        this.mouseWidget["DragPanHandler"].enable(false);
+        this.mouseWidget.tools["AoiMouseHandler"].enable(false);
+        this.mouseWidget.tools["DragPanHandler"].enable(false);
 
         // Deselect previous RadioButton
         if (this.selectedRadioButton){
           this.selectedRadioButton.image.src=this.selectedRadioButton.disabledImage.src;
         }
-        this.selectedRadioButton=this[buttonName];
+        this.selectedRadioButton=this.tools[buttonName];
         this.selectedRadioButton.image.src = this.selectedRadioButton.enabledImage.src;
         this.selectedRadioButton.selectButton();
         break;
       case "Button":
-        this[buttonName].selectButton();
+        this.tools[buttonName].selectButton();
         break;
       case "SelectBox":
         break;
@@ -151,7 +151,7 @@ function ZoomIn(toolNode, parentWidget) {
   }
 
   this.selectButton = function() {
-    this.parentWidget.mouseWidget["AoiMouseHandler"].enable(true);
+    this.parentWidget.mouseWidget.tools["AoiMouseHandler"].enable(true);
   }
 
   /**
@@ -186,7 +186,7 @@ function ZoomOut(toolNode, parentWidget) {
   } 
 
   this.selectButton = function() {
-    this.parentWidget.mouseWidget["AoiMouseHandler"].enable(true);
+    this.parentWidget.mouseWidget.tools["AoiMouseHandler"].enable(true);
   }
 
   /**
@@ -216,7 +216,7 @@ function DragPan(toolNode, parentWidget) {
   }
 
   this.selectButton = function() {
-    this.parentWidget.mouseWidget["DragPanHandler"].enable(true);
+    this.parentWidget.mouseWidget.tools["DragPanHandler"].enable(true);
   }
 
   /**
