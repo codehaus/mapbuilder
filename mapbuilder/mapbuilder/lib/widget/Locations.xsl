@@ -10,7 +10,7 @@ $Name$Name:  $
 -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:gml="http://www.opengis.net/gml" xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder">
-	<xsl:output method="html" omit-xml-declaration="yes"/>
+	<xsl:output method="xml" omit-xml-declaration="yes"/>
   
   <!-- The common params set for all widgets -->
   <xsl:param name="modelId"/>
