@@ -26,7 +26,8 @@
       </listitem>
 
       <listitem>
-        <para>Specific OGC clients which have been built using CMB widgets.</para>
+        <para>Specific OGC clients which have been built using CMB
+        widgets.</para>
       </listitem>
     </orderedlist>
   </section>
@@ -36,16 +37,17 @@
 
     <para>The CMB framework is designed for collaborative, open sharing of
     place-based information. It builds upon components that conform to Open
-    GIS&#39;s international Standards for geospatial software development. The
-    aim is to create business logic components using Open Source,
-    OpenGIS-compliant components for this effort. Map serving uses the OpenGIS<emphasis>
-    Web Map Server</emphasis>-compliant software, <ulink
+    GIS's international Standards for geospatial software development. The aim
+    is to create business logic components using Open Source,
+    OpenGIS-compliant components for this effort. Map serving uses the
+    OpenGIS<emphasis> Web Map Server</emphasis>-compliant software, <ulink
     url="http://mapserver.gis.umn.edu">Mapserver.</ulink> Spatial feature
-    updating uses the OpenGIS <emphasis>Web Feature Server</emphasis>-compliant
-    software <ulink url="http://geoserver.sourceforge.net">Geoserver</ulink>,
-    which relies upon Postgres and the PostGIS component as its spatial
-    database. CMB also uses Postgres as a normal database to store
-    community-contributed text and photographs.</para>
+    updating uses the OpenGIS <emphasis>Web Feature
+    Server</emphasis>-compliant software <ulink
+    url="http://geoserver.sourceforge.net">Geoserver</ulink>, which relies
+    upon Postgres and the PostGIS component as its spatial database. CMB also
+    uses Postgres as a normal database to store community-contributed text and
+    photographs.</para>
 
     <para>Community Map Builder is more than just a collection of
     technologies. It is a collection of Web pages, server applications and
@@ -140,11 +142,13 @@ I think the CMB should also provide logic for community editing of shared data
                 </listitem>
 
                 <listitem>
-                  <para>A modular design is easier to understand and maitain.</para>
+                  <para>A modular design is easier to understand and
+                  maitain.</para>
                 </listitem>
 
                 <listitem>
-                  <para>Extra functionality can be easilly added and removed.</para>
+                  <para>Extra functionality can be easilly added and
+                  removed.</para>
                 </listitem>
               </orderedlist>
             </listitem>
@@ -165,7 +169,8 @@ I think the CMB should also provide logic for community editing of shared data
       <section id="mvc">
         <title>Model View Controller</title>
 
-        <para>Mapbuilder uses the Model View Controller (MVC) design pattern.</para>
+        <para>Mapbuilder uses the Model View Controller (MVC) design
+        pattern.</para>
       </section>
 
       <section id="mvcoverview">
@@ -215,10 +220,10 @@ I think the CMB should also provide logic for community editing of shared data
 
             <listitem>
               <para>The user interface presented to the user to manipulate the
-              application (ie keyboard and mouse input). <filename>ZoomTool</filename>,
-              <filename>PanTool</filename>, <filename>SelectFeature</filename>
-              are all Mapbuilder Controllers which update
-              <filename>Context</filename>.</para>
+              application (ie keyboard and mouse input).
+              <filename>ZoomTool</filename>, <filename>PanTool</filename>,
+              <filename>SelectFeature</filename> are all Mapbuilder
+              Controllers which update <filename>Context</filename>.</para>
             </listitem>
           </varlistentry>
         </variablelist>
@@ -226,7 +231,7 @@ I think the CMB should also provide logic for community editing of shared data
         <para>Some components can act as both a View and Controller. For
         example, a <filename>LocatorMap</filename> may allow users to draw a
         select box to change the BoundingBox. Also, when the BoundingBox in
-        Context changes, the LocatorMap will draw a new Box over it&#39;s
+        Context changes, the LocatorMap will draw a new Box over it's
         basemap.</para>
 
         <para>There is a lot of literature describing the MVC Design Pattern.
@@ -246,7 +251,8 @@ I think the CMB should also provide logic for community editing of shared data
             <listitem>
               <para>Views and Tools can be added or removed without effecting
               the rest of the application. Tools do not have any dependancies
-              on Views and visa-versa which makes Tools and Views simpler.</para>
+              on Views and visa-versa which makes Tools and Views
+              simpler.</para>
             </listitem>
           </varlistentry>
 
@@ -290,33 +296,33 @@ I think the CMB should also provide logic for community editing of shared data
 
         <para>A CMB Client page is simple. It includes the required libraries,
         creates the required components, then calls the
-        &#60;component&#62;.paint() method.</para>
+        &lt;component&gt;.paint() method.</para>
 
         <para>TBD: Note: The following code has chaged a bit.</para>
 
         <example>
           <title>Simple WMS Client using CMB libraries</title>
 
-          <programlisting>&#60;html&#62;
-  &#60;head&#62;
-    &#60;title&#62;WMS Client&#60;/title&#62;
-    &#60;!-- Mapbuilder libraries --&#62;
-    &#60;script type=&#34;text/javascript&#34; src=&#34;../util/sarissa/sarissa.js&#34;&#62;&#60;/script&#62;
-    &#60;script type=&#34;text/javascript&#34; src=&#34;../widget/context/Context.js&#34;&#62;&#60;/script&#62;
-    &#60;script type=&#34;text/javascript&#34; src=&#34;../widget/mappane/MapPane.js&#34;&#62;&#60;/script&#62;
-    &#60;script type=&#34;text/javascript&#34; src=&#34;../widget/legend/Legend.js&#34;&#62;&#60;/script&#62;
-    &#60;script type=&#34;text/javascript&#34; src=&#34;../widget/util/Util.js&#34;&#62;&#60;/script&#62;
-  &#60;/head&#62;
-  &#60;body&#62;
-    &#60;h1&#62;Web Map Server Client&#60;/h1&#62;
+          <programlisting>&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;WMS Client&lt;/title&gt;
+    &lt;!-- Mapbuilder libraries --&gt;
+    &lt;script type="text/javascript" src="../util/sarissa/sarissa.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="../widget/context/Context.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="../widget/mappane/MapPane.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="../widget/legend/Legend.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="../widget/util/Util.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Web Map Server Client&lt;/h1&gt;
 
-    &#60;script&#62;
+    &lt;script&gt;
       // Base Mapbuilder library directory
-      baseDir=&#34;../widget&#34;;
+      baseDir="../widget";
 
       // Load a Web Map Context document as defined by:
       // http://www.opengis.org/docs/03-036r2.pdf
-      context=new Context(&#34;Wmc1.cml&#34;);
+      context=new Context("Wmc1.cml");
 
       // Create and render a MapPane
       mapPane=new MapPane(context,baseDir,null);
@@ -325,9 +331,9 @@ I think the CMB should also provide logic for community editing of shared data
       // Create and render a Legend
       legend=new Legend(context,baseDir,null);
       legend.paint();
-    &#60;/script&#62;
-  &#60;/body&#62;
-&#60;/html&#62;</programlisting>
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</programlisting>
         </example>
       </section>
 
@@ -348,7 +354,7 @@ I think the CMB should also provide logic for community editing of shared data
         </figure>
 
         <para>In the Model-View-Controller design pattern, Context is the
-        Model. </para>
+        Model.</para>
 
         <para>Context realises and extends the Web Map Context (WMC)
         specification as defined by the OGC. Extensions include:</para>
@@ -368,7 +374,7 @@ I think the CMB should also provide logic for community editing of shared data
         </itemizedlist>
 
         <para>Widgets which render Context information need to call
-        context.add&#60;Param&#62;Listener(). Context will then call these
+        context.add&lt;Param&gt;Listener(). Context will then call these
         widgets whenever the param changes.</para>
 
         <para>There are many WMC parameters that the Context needs to update
@@ -385,64 +391,70 @@ I think the CMB should also provide logic for community editing of shared data
       <section id="tool">
         <title>Tool</title>
 
-        <para>Tool provides Zoom/Pan etc and updates the Context.</para>
+        <para>Tool provides objects for processing mouse events on behalf of
+        MapPane.</para>
       </section>
 
-      <section id="mappane">
-        <title>MapPane</title>
+      <section>
+        <title>Widget</title>
 
-        <para>MapPane renders Geographic Layers from Context as DHTML Layers,
-        and changes these Layers inline with Context changes.</para>
+        <section id="mappane">
+          <title>MapPane</title>
 
-        <figure>
-          <title>MapPane Component</title>
+          <para>MapPane renders Geographic Layers from Context as DHTML
+          Layers, and changes these Layers inline with Context changes.</para>
 
-          <mediaobject>
-            <imageobject>
-              <imagedata fileref="images/sf_mapbuilder_mappane.png" />
-            </imageobject>
-          </mediaobject>
-        </figure>
-      </section>
+          <figure>
+            <title>MapPane Component</title>
 
-      <section id="legend">
-        <title>Legend</title>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/sf_mapbuilder_mappane.png" />
+              </imageobject>
+            </mediaobject>
+          </figure>
+        </section>
 
-        <para>Legend renders a legend based on the Context. Some context
-        information can be changed through the Legend widget.</para>
+        <section id="legend">
+          <title>Legend</title>
 
-        <figure>
-          <title>Legend Component</title>
+          <para>Legend renders a legend based on the Context. Some context
+          information can be changed through the Legend widget.</para>
 
-          <mediaobject>
-            <imageobject>
-              <imagedata fileref="images/sf_mapbuilder_legend.png" />
-            </imageobject>
-          </mediaobject>
-        </figure>
-      </section>
+          <figure>
+            <title>Legend Component</title>
 
-      <section id="addfeature">
-        <title>AddFeature</title>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/sf_mapbuilder_legend.png" />
+              </imageobject>
+            </mediaobject>
+          </figure>
+        </section>
 
-        <figure>
-          <title>Web pages and processes used to add features to a WFS</title>
+        <section id="addfeature">
+          <title>AddFeature</title>
 
-          <mediaobject>
-            <imageobject>
-              <imagedata fileref="images/addfeature.png" />
-            </imageobject>
-          </mediaobject>
-        </figure>
+          <figure>
+            <title>Web pages and processes used to add features to a
+            WFS</title>
 
-        <section>
-          <title>GmlSchemaToForm</title>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/addfeature.png" />
+              </imageobject>
+            </mediaobject>
+          </figure>
 
-          <para>This is ...</para>
+          <section>
+            <title>GmlSchemaToForm</title>
 
-          <para>In order to simplify initial versions of the GmlSchemaToForm
-          XSL transformation, there are are restrictions on the
-          DescribeFeature schema that can be returned.</para>
+            <para>This is ...</para>
+
+            <para>In order to simplify initial versions of the GmlSchemaToForm
+            XSL transformation, there are are restrictions on the
+            DescribeFeature schema that can be returned.</para>
+          </section>
         </section>
       </section>
     </section>
