@@ -109,7 +109,7 @@ function MapPane(context, name, node) {
 
   /**
    * Called when the context's boundingBox attribute changes.
-   * @param e The event sent to the listener.
+   * @param target This object.
    */
   this.boundingBoxChangeListener=function(target){
     target.paint();

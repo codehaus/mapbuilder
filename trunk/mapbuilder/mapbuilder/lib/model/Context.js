@@ -43,8 +43,7 @@ function Context(url, name, baseDir, skin, queryLayer) {
   // Arrays of Listeners
   // ===============================
 
-  /** Functions to call when the boundingBox has changed,
-   */
+  /** Functions to call when the boundingBox changes. */
   this.boundingBoxChangeListeners=new Array();
   /** Functions to call when the layer's Hidden attribute changes. */
   this.hiddenListeners=new Array();
@@ -181,7 +180,6 @@ function Context(url, name, baseDir, skin, queryLayer) {
    * @param boundingBox array in form (xmin, ymin, xmax, ymax).
    */
   this.setBoundingBox=function(boundingBox) {
-    //boundingBox=this.adjustExtent(boundingBox);
     // Set BoundingBox in context
     bbox=this.context.documentElement.getElementsByTagName("BoundingBox").item(0);
     bbox.setAttribute("minx", boundingBox[0]);
