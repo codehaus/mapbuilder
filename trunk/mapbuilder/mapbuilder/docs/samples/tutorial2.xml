@@ -12,17 +12,17 @@
       
       <widgets>
         <MapPane id="mainMapWidget">
-          <tools> 
-            <AoiBox>
-              <lineColor>magenta</lineColor>
-              <lineWidth>2</lineWidth>
-              <crossSize>25</crossSize>
-            </AoiBox>
-            
-          </tools> 
           <htmlTagId>firstMapPane</htmlTagId>
           <mapContainerId>firstMapContainer</mapContainerId>
         </MapPane>
+        <AoiBoxWZ id="aoiBoxMain">
+          <htmlTagId>firstMapPane</htmlTagId>
+          <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+          <mapContainerId>firstMapContainer</mapContainerId>
+        </AoiBoxWZ>
       </widgets>
     </Context>
 
@@ -31,19 +31,24 @@
       
       <widgets>
         <MapPane id="secondMapWidget">
-          <tools> 
-            <AoiBox>
-              <lineColor>#FF0000</lineColor>
-              <lineWidth>1</lineWidth>
-              <crossSize>15</crossSize>
-            </AoiBox>
-            <AoiMouseHandler/>
-           
-          </tools> 
           <htmlTagId>secondMapPane</htmlTagId>
           <mapContainerId>secondMapContainer</mapContainerId>
         </MapPane>
+        <AoiBoxWZ id="aoiBoxMain">
+          <htmlTagId>secondMapPane</htmlTagId>
+          <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+          <mapContainerId>secondMapContainer</mapContainerId>
+        </AoiBoxWZ>
       </widgets>
+      <tools>
+        <AoiMouseHandler id="locatorAoi"/>
+        <ZoomToAoi id="locatorZoomToAoi">
+          <targetModel>firstMap</targetModel>
+        </ZoomToAoi>
+      </tools>
     </Context>
     
   </models>
