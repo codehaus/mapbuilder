@@ -244,8 +244,8 @@ function WidgetBase(widget,widgetNode,model) {
           }
           break;
         case "xsl2js":
-          var jsNode = objRef.stylesheet.transformNodeToObject(objRef.resultDoc);
-          var js=jsNode.firstChild.firstChild.nodeValue;
+          jsNode = objRef.stylesheet.transformNodeToObject(objRef.resultDoc);
+          js=jsNode.selectSingleNode("js").firstChild.nodeValue;
           if (!outputNode) {
             tempNode.innerHTML = "<div/>";
             tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
