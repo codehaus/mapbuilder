@@ -11,13 +11,16 @@ $Id$
  * @constructor
  * @requires Context
  * @param context The Web Map Context to call when changing extent.
- * @param baseDir The base mapbuilder lib directory.
+ * @param name Variable name referencing this MapPane object
  * @param node Node from the HTML DOM to insert Pan HTML into.
  */
-function PanTool(context,baseDir) {
+function PanTool(context, name, node) {
   this.context=context;
-  var node=makeElt("DIV");
-  node.style.position="absolute";
+  this.name=name;
+  if(node==null){
+    node=makeElt("DIV");
+    node.style.position="absolute";
+  }
   this.node=node;
   this.move=function(left,top) {
     this.node.style.left=left;
