@@ -4,16 +4,17 @@ $Id$
 */
 
 /**
- * Base Button object that all Buttons extend.
+ * Base Tool object that all Tools extend.
  * @constructor
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
  * @param toolNode The tool node from the Config XML file.
- * @param parentWidget The ButtonBar node from the Config XML file.
+ * @param parentWidget The widget object which created this tool.
  */
 function ToolBase(toolNode, parentWidget) {
   this.model = parentWidget.model;
   this.parentWidget = parentWidget;
 
+  /** The model this tool will update. */
   var targetModel = toolNode.selectSingleNode("targetModel");
   if (targetModel) {
     this.targetModelName = targetModel.firstChild.nodeValue;
