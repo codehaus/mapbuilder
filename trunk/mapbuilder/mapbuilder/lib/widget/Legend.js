@@ -8,7 +8,9 @@ $Id$
  * @constructor
  * @author Cameron Shorter cameronATshorter.net
  * @constructor
- * @requires Sarissa, Util, Context
+ * @requires Sarissa
+ * @requires Util
+ * @requires Context
  * @param context The Web Map Context which contains the state of this legend.
  * @param baseDir The base mapbuilder lib directory.
  * @param node Node from the HTML DOM to insert legend HTML into.
