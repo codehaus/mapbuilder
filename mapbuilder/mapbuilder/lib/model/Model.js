@@ -4,7 +4,8 @@ $Id$
 */
 
 /**
- * Stores an XML file.
+ * Generic Model object for models where no specialization is required.  This is
+ * just an instance of a abstract ModelBase.
  * @constructor
  * @base ModelBase
  * @author Mike Adair
