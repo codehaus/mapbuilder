@@ -42,7 +42,7 @@ $Name$
       <input type="hidden" name="page" value="{$pageNum}"/>
       <input type="hidden" name="sortOrder" value="default"/>
       keyword filter:<input type="text" name="keywords"/>
-      <a href="javascript:config.{$modelId}.{$widgetId}.webServiceForm.page.value={$nextPage};config.{$modelId}.{$widgetId}.submitForm()">next</a>
+      <a href="javascript:config.objects.{$widgetId}.webServiceForm.page.value={$nextPage};config.objects.{$widgetId}.submitForm()">next</a>
     <dl>
       <xsl:apply-templates select="searchResults/entry"/>
     </dl>

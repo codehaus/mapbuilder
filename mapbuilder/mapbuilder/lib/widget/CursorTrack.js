@@ -56,7 +56,7 @@ function CursorTrack(widgetNode, model) {
     //associate the cursor track with a mappane widget
     var mouseHandler = widgetNode.selectSingleNode("mb:mouseHandler");
     if (mouseHandler) {
-      toolRef.mouseHandler = eval("config."+mouseHandler.firstChild.nodeValue);
+      toolRef.mouseHandler = eval("config.objects."+mouseHandler.firstChild.nodeValue);
       toolRef.mouseHandler.addListener('mouseover', toolRef.mouseOverHandler, toolRef);
       toolRef.mouseHandler.addListener('mouseout', toolRef.mouseOutHandler, toolRef);
     } else {

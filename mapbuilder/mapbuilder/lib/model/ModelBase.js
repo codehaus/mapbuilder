@@ -222,7 +222,7 @@ function ModelBase(model, modelNode, parentModel) {
     var newObject = eval( evalStr );
     if ( newObject ) {
       list[newObject.id] = newObject;
-      config[newObject.id] = newObject;
+      config.objects[newObject.id] = newObject;
       return newObject;
     } else { 
       alert("error creating object:" + objType);

@@ -19,20 +19,23 @@
   -->
   <models>
     <OwsContext id="mainMap">
-      <defaultModelUrl>context/oc_0_0_11.xml</defaultModelUrl>
-      <nodeSelectXpath>/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[wmc:Server/@service='OGC:WFS']</nodeSelectXpath>
+      <defaultModelUrl>context/oc_0_0_13r1.xml</defaultModelUrl>
+      <nodeSelectXpath>/wmc:OWSContext/wmc:ResourceList</nodeSelectXpath>
       <models>
         <FeatureCollection id="gml2FeatureTemplate" template="true">
           <method>post</method>
           <widgets>
-            <ModelStatus id="gmlModelStatus"/>
+            <!--ModelStatus id="gmlModelStatus"/-->
             <GmlRendererWZ id="testGmlRenderer">
               <htmlTagId>mainMapPane</htmlTagId>
               <mapContainerId>mainMapContainer</mapContainerId>
               <lineColor>#00FF00</lineColor>
-              <lineWidth>1</lineWidth>
+              <lineWidth>2</lineWidth>
               <pointDiameter>10</pointDiameter>
             </GmlRendererWZ>
+            <Legend id="wfsLegend">
+               <htmlTagId>legend</htmlTagId>
+            </Legend>
           </widgets>
         </FeatureCollection>
       </models>
@@ -55,7 +58,9 @@
           <mouseHandler>mainMap</mouseHandler>
         </CursorTrack>
         <MapScaleText id="mapScaleText"/>
-        <Legend id="legend"/>
+        <Legend id="contextLegend">
+          <htmlTagId>legend</htmlTagId>
+        </Legend>
         <Widget id="abstract">
           <stylesheet>../lib/widget/Abstract.xsl</stylesheet>
         </Widget>

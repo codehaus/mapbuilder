@@ -32,7 +32,7 @@ function ToolBase(tool, toolNode, model) {
     var targetModel = toolRef.toolNode.selectSingleNode("mb:targetModel");
     if (targetModel) {
       var targetModelName = targetModel.firstChild.nodeValue;
-      toolRef.targetModel = eval("config."+targetModelName);
+      toolRef.targetModel = eval("config.objects."+targetModelName);
       if (!toolRef.targetModel) alert("error finding targetModel:"+targetModelName+" for tool:"+toolRef.id);
     } else {
       toolRef.targetModel = toolRef.model;
@@ -45,7 +45,7 @@ function ToolBase(tool, toolNode, model) {
     /** Mouse handler which this tool will register listeners with. */
     var mouseHandler = toolRef.toolNode.selectSingleNode("mb:mouseHandler");
     if (mouseHandler) {
-      toolRef.mouseHandler = eval("config." + mouseHandler.firstChild.nodeValue);
+      toolRef.mouseHandler = eval("config.objects." + mouseHandler.firstChild.nodeValue);
       if (!toolRef.mouseHandler) {
         alert("error finding mouseHandler:"+mouseHandler.firstChild.nodeValue+" for tool:"+toolRef.id);
       }

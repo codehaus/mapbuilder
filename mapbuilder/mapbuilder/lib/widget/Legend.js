@@ -17,4 +17,11 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 function Legend(widgetNode, model) {
   var base = new WidgetBase(this, widgetNode, model);
 
+  this.prePaint = function(objRef) {
+    if (objRef.model.featureName) {
+      objRef.stylesheet.setParameter("featureName", objRef.model.featureName );
+      objRef.stylesheet.setParameter("hidden", objRef.model.getHidden(objRef.model.featureName).toString() );
+    }
+  }
+
 }

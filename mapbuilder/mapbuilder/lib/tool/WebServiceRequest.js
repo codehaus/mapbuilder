@@ -36,6 +36,7 @@ function WebServiceRequest(toolNode, model) {
       objRef.targetModel.modelNode.removeAttribute("id");
       objRef.targetModel = objRef.model.createObject(objRef.targetModel.modelNode, objRef.model.models);
     }
+    objRef.targetModel.featureName = featureName;
 
     var styleUrl = baseDir+"/tool/xsl/"+objRef.requestName.replace(/:/,"_")+".xsl";
     var requestStylesheet = new XslProcessor(styleUrl);

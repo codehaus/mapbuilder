@@ -36,21 +36,15 @@ function OwsContext(modelNode, parent) {
    * has changed.
    * @param hidden, 1=hidden, 0=not hidden.
    */
-  this.setHidden=function(layerIndex, hidden){
+  this.setHidden=function(layerName, hidden){
     // Set the hidden attribute in the Context
     var hiddenValue = "0";
     if (hidden) hiddenValue = "1";
       
-    //var layers=this.doc.documentElement.getElementsByTagName("Layer");
-    var layers=this.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:Layer");
-    for(var i=0;i<layers.length;i++) {
-      if(layers[i].getElementsByTagName("Name").item(0).firstChild.nodeValue == layerIndex) {
-        layers[i].setAttribute("hidden", hiddenValue);
-        break;
-      }
-    }
+    var layer=this.getFeatureNode(layerName);
+    layer.setAttribute("hidden", hiddenValue);
     // Call the listeners
-    this.callListeners("hidden", layerIndex);
+    this.callListeners("hidden", layerName);
   }
 
   /**
@@ -59,17 +53,10 @@ function OwsContext(modelNode, parent) {
    * has changed.
    * @return hidden value, 1=hidden, 0=not hidden.
    */
-  this.getHidden=function(layerIndex){
+  this.getHidden=function(layerName){
     var hidden=1;
-    //layers=this.doc.documentElement.getElementsByTagName("Layer");
-    var layers=this.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:Layer");
-    for(var i=0;i<layers.length;i++) {
-      if(layers[i].getElementsByTagName("Name").item(0).firstChild.nodeValue == layerIndex) {
-        hidden=layers[i].getAttribute("hidden");
-        break;
-      }
-    }
-    return hidden;
+    var layer=this.getFeatureNode(layerName)
+    return layer.getAttribute("hidden");
   }
 
   /**
@@ -181,7 +168,7 @@ function OwsContext(modelNode, parent) {
    * @param objRef Pointer to this object.
    */
   this.getFeatureNode = function(featureName) {
-    return this.doc.selectSingleNode(this.nodeSelectXpath+"[wmc:Name='"+featureName+"']");
+    return this.doc.selectSingleNode(this.nodeSelectXpath+"/*[wmc:Name='"+featureName+"']");
   }
 
   /**
@@ -189,15 +176,15 @@ function OwsContext(modelNode, parent) {
    * @param objRef Pointer to this object.
    */
   this.loadFeatures = function(objRef) {
-    var nodeSelectXpath = objRef.nodeSelectXpath + "/wmc:Name";
+    var nodeSelectXpath = objRef.nodeSelectXpath + "/wmc:FeatureType[wmc:Server/@service='OGC:WFS']/wmc:Name";
     var featureList = objRef.doc.selectNodes(nodeSelectXpath);
     for (var i=0; i<featureList.length; i++) {
       var featureName = featureList[i].firstChild.nodeValue;
       objRef.setParam('wfs_GetFeature',featureName);
     }
   }
-  //this.addListener("loadModel", this.loadFeatures, this);
-  config.addListener("loadModel", this.loadFeatures, this);
+  this.addListener("loadModel", this.loadFeatures, this);
+  //config.addListener("loadModel", this.loadFeatures, this);
 
 }
 

@@ -82,6 +82,8 @@ function Config(url) {
   var serializeUrl = modelNode.selectSingleNode("mb:serializeUrl");
   if (serializeUrl) this.serializeUrl = serializeUrl.firstChild.nodeValue;
 
+  this.objects = new Object();
+
   // Inherit the ModelBase functions and parameters
   var modelBase = new ModelBase(this, modelNode);
 
