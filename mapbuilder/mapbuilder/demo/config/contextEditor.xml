@@ -63,12 +63,6 @@
           <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
         </Widget>
 
-        <SaveModel id="saveModelWidget">
-          <htmlTagId>workspace</htmlTagId>
-          <outputNodeId active="true">workspaceCanvas</outputNodeId>
-          <autoRefresh>false</autoRefresh>
-        </SaveModel>
-        
         <Legend id="legend">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
@@ -263,11 +257,12 @@
           <tooltip xml:lang="en">reset the map to full extent</tooltip>
           <tooltip xml:lang="fr">redonner à la carte ses dimensions complès</tooltip>
         </Reset>
-        <Save id="getFeatureInfo">
+        <Save id="save">
           <class>Button</class>
           <disabledSrc>/images/SaveDisable.gif</disabledSrc>
           <tooltip xml:lang="en">click to save this map</tooltip>
           <tooltip xml:lang="fr">cliquer pour sauvegarder</tooltip>
+          <popupWindowName>modelXML</popupWindowName>
         </Save>
       </tools>
     </ButtonBar>

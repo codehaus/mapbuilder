@@ -26,8 +26,8 @@ AoiForm.xsl,v 1.2 2004/06/25 17:59:38 madair1 Exp
     <div>
       <h3>Model URLs: <xsl:value-of select="$modelId"/></h3>
       <a href="{$modelUrl}" target="modelWin">original model URL</a><br/>
-      <a href="javascript:config.{$modelId}.{$widgetId}.saveModel()">save current model to disk</a><br/>
-      <a target="modelWin" id="{$modelId}.{$widgetId}.modelUrl">pick it up here</a><br/>
+      <a href="javascript:config.{$modelId}.saveModel(config.{$modelId})">save current model to disk</a><br/>
+      <a target="modelXML" id="{$modelId}.{$widgetId}.modelUrl">pick it up here</a><br/>
     </div>
   </xsl:template>
   
