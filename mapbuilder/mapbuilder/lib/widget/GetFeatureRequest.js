@@ -78,7 +78,7 @@ function GetFeatureRequest(widgetNode, model) {
    * @param objRef Pointer to this object.
    */
   this.paint = function(objRef) {
-    if (objRef.dynModel.doc) {
+    if (objRef.dynModel) {
       var feature = objRef.modelNode;
       //confirm inputs
       if (objRef.debug) alert("source:"+feature.xml);
