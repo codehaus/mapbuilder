@@ -26,7 +26,7 @@ function DragPan(toolNode, parentWidget) {
    */
   this.doAction = function(objRef,targetNode) {
     if (objRef.enabled) {
-      var bbox = objRef.targetModel.getAoi();
+      var bbox = objRef.targetModel.getParam("aoi");
       if ( objRef.targetModel.getParam("aoi")!=null) {
         var extent = objRef.targetModel.extent;
         var ul = extent.GetXY( bbox[0] );

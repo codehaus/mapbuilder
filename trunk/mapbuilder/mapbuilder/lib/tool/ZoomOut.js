@@ -30,7 +30,7 @@ function ZoomOut(toolNode, parentWidget) {
    */
   this.doAction = function(objRef,targetNode) {
     if (!objRef.enabled) return;
-    var bbox = objRef.targetModel.getAoi();
+    var bbox = objRef.targetModel.getParam("aoi");
     var extent = objRef.targetModel.extent;
     var ul = extent.GetXY( bbox[0] );
     var newRes = extent.res[0]*objRef.zoomBy;

@@ -71,7 +71,7 @@ function ZoomToAoi(toolNode, parentWidget) {
    * @param targetNode  The node for the enclosing HTML tag for this widget, not used.
    */
   this.mouseUpHandler = function(tool,targetNode) {
-    var bbox = tool.model.getAoi();
+    var bbox = tool.model.getParam("aoi");
     var ul = tool.model.extent.GetXY( bbox[0] );
     var lr = tool.model.extent.GetXY( bbox[1] );
     if ( tool.model.getSRS() != tool.targetModel.getSRS() ) {
