@@ -48,6 +48,7 @@ function FeatureList(widgetNode, model) {
         sucess=objRef.targetModel.doc.selectSingleNode("//wfs:TransactionResult/wfs:Status/wfs:SUCCESS");
         if (sucess){
           // Roll back to default feature if Feature Entry if successful
+          objRef.model.url=null;
           objRef.model.loadModelDoc(objRef.model);
         }
         break;
