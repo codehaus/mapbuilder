@@ -38,19 +38,11 @@ $Name$
 
     <DIV>    
 
-        <xsl:attribute name="STYLE">position:absolute; top:0; left:0;</xsl:attribute>
+        <xsl:attribute name="STYLE">position:relative; top:0; left:0;</xsl:attribute>
 
   
 
       <IMG SRC='/mapbuilder/lib/skin/default/images/eye.gif' WIDTH='15' HEIGHT='15'/>
-
-      <script language="javascript">
-
-        alert("script execution");
-
-        //config.loadModel("collectionGroup","/mapbuilder/demo/context/geoConnectionsCollection.xml");
-
-      </script>
 
     </DIV>
 

@@ -32,11 +32,13 @@ $Name$
 
   <xsl:param name="lang">en</xsl:param>
 
+  <xsl:param name="widgetNode"/>
+
 
 
   <!-- Main html -->
 
-  <xsl:template match="/wmc:ViewContext/wmc:General">
+  <xsl:template match="/wmc:ViewContext/wmc:General | /wmc:OWSContext/wmc:General ">
 
     <span>
 
@@ -53,6 +55,8 @@ $Name$
           <xsl:value-of select="wmc:Title"/>
 
         </xsl:otherwise>
+
+        <xsl:copy-of select="$widgetNode"/>
 
       </xsl:choose>
 
