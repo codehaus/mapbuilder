@@ -38,7 +38,14 @@ function DragPan(toolNode, parentWidget) {
     }
   }
 
-  if (this.mouseHandler) {
-    this.mouseHandler.addListener('mouseup',this.doAction,this);
+  /**
+   * Register for mouseUp events.
+   */
+  this.setMouseListener = function(toolRef) {
+    if (toolRef.mouseHandler) {
+      toolRef.mouseHandler.addListener('mouseup',toolRef.doAction,toolRef);
+    }
   }
+  this.parentWidget.targetModel.addListener( "loadModel", this.setMouseListener, this );
+
 }
