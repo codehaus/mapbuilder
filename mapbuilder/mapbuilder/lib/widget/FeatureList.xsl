@@ -30,6 +30,10 @@ $Name$
 
   <xsl:param name="targetModelId"/>
 
+  <xsl:param name="modelId"/>
+
+  <xsl:param name="widgetId"/>
+
   <!-- Parameters passed into this xsl -->
 
   <xsl:param name="space" select='""'/>
@@ -56,15 +60,15 @@ $Name$
 
         <input type="button" value="Reset"
 
-          onclick="alert('FeatreList.xsl: Reset');"/>
+          onclick="config.{$modelId}.{$widgetId}.processButton(config.{$modelId}.{$widgetId},'Reset');"/>
 
         <input type="button" value="Insert Feature"
 
-          onclick="alert('FeatreList.xsl: Insert Feature');"/>
+          onclick="config.{$modelId}.{$widgetId}.processButton(config.{$modelId}.{$widgetId},'Insert Feature');"/>
 
         <input type="button" value="Update Feature"
 
-          onclick="alert('FeatreList.xsl: Update Feature');"/>
+          onclick="config.{$modelId}.{$widgetId}.processButton(config.{$modelId}.{$widgetId},'Update Feature');"/>
 
       </form>
 

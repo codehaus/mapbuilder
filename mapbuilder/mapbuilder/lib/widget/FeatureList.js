@@ -25,5 +25,14 @@ function FeatureList(widgetNode, model) {
     widget.paint(widget);
   }
 
+  /**
+   * Process a button press.
+   * @param objRef Reference to this object.
+   * @param button Button name.
+   */
+  this.processButton=function(objRef,button){
+    alert("FeatureList.js: button="+button);
+  }
+
   this.model.addListener("loadModel",this.loadModelListener,this);
 }
