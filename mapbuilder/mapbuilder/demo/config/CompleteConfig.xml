@@ -34,7 +34,7 @@
             <DragPanHandler>
               <enabled>false</enabled>
             </DragPanHandler>
-            
+            <MouseClickHandler/>
           </tools> 
         </MapPane>
         
@@ -86,7 +86,7 @@
             <Query id="query">
               <class>RadioButton</class>
               <mouseHandler>config['mainMapGroup']['mainMapPaneId']</mouseHandler>
-              <dependsOn>config['mainMapGroup']['mainMapPaneId']['DragPanHandler']</dependsOn>
+              <dependsOn>config['mainMapGroup']['mainMapPaneId']['MouseClickHandler']</dependsOn>
               <enabledSrc>/images/QueryEnable.gif</enabledSrc>
               <disabledSrc>/images/QueryDisable.gif</disabledSrc>
               <tooltip>click on feature for more info</tooltip>
