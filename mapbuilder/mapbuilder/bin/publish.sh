@@ -17,11 +17,6 @@ jsdocTarget="${mapbuilderDir}/docs/jsdoc";
 jsdocSource=" \
   ${mapbuilderDir}/lib/model \
   ${mapbuilderDir}/lib/widget \
-  ${mapbuilderDir}/lib/widget/buttonbar \
-  ${mapbuilderDir}/lib/widget/collectionList \
-  ${mapbuilderDir}/lib/widget/locations \
-  ${mapbuilderDir}/lib/widget/legend \
-  ${mapbuilderDir}/lib/widget/mappane \
   ${mapbuilderDir}/lib/widget/tool \
   ${mapbuilderDir}/lib/util \
   ${mapbuilderDir}/lib/util/sarissa/Sarissa.js"
