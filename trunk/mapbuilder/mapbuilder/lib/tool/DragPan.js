@@ -20,15 +20,24 @@ function DragPan(toolNode, parentWidget) {
   }
 
   /**
-   * Calls the centerAt method of the context doc to recenter with the given 
-   * offset
-   * @param objRef      Pointer to this AoiMouseHandler object.
+   * Calls the centerAt method of the context doc to recenter to its AOI
+   * @param objRef      Pointer to this DragPan tool object.
    * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
   this.doAction = function(objRef,targetNode) {
-    if (!objRef.enabled) return;
-    alert("drag pan mouseup:"+objRef.mouseHandler.id);
-    //TBD: hide the mappane and then recenter at the new position
+    if (objRef.enabled) {
+      var bbox = objRef.targetModel.getAoi();
+      if ( objRef.targetModel.aoiValid) {
+        var extent = objRef.targetModel.extent;
+        var ul = extent.GetXY( bbox[0] );
+        var lr = extent.GetXY( bbox[1] );
+        if ( ( ul[0]==lr[0] ) && ( ul[1]==lr[1] ) ) {
+          extent.CenterAt( ul, extent.res[0]/objRef.zoomBy );
+        } else {
+          extent.ZoomToBox( ul, lr );
+        }
+      }
+    }
   }
   if (this.mouseHandler) {
     this.mouseHandler.addListener('mouseup',this.doAction,this);
