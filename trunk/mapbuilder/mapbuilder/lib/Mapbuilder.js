@@ -156,7 +156,14 @@ function mapbuilderInit(){
   }
 }
 
+/** Timer used when checking if scripts have loaded. */
 var mbTimerId;
+
+/**
+ * Mapbuilder's main initialisation script.
+ * This should be called from the main html file using:
+ *   <body onload="mbDoLoad()">
+ */
 function mbDoLoad() {
   // See if scripts have been loaded every 100msecs, then call config.init().
   mbTimerId=setInterval('mapbuilderInit()',100);
