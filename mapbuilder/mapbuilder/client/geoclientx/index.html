@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>Select WMS to load</title>
+</head>
+<body>
+<h2>GeoClientX web map browser</h2>
+<p>GeoClientX, an upcoming addition to the GeoServer project, is a web map
+browser based on the Open GIS Consortium's Web Map Service and Web Feature
+Service specifications.&nbsp; This initial draft has a number of features only
+roughed in.</p>
+<p>View the Greater Victoria Green Map.  This demonstration map includes 
+ background information from a web map service (WMS) and points from a web 
+ feature service (WFS) layered on top (the points will be loaded after you zoom
+in--hold your mouse over a point to see attribute information).</p>
+<form action="geoclientx.php" method="get">
+<input type="hidden" name="wmss" value="http://scbc2.dyndns.org/cgi-bin/mapserv?map=/usr/local/mapserver/html/gworks/greenmap/greenmap.map&" style="width:280px">
+<input type="hidden" name="wfss" value="http://www.gworks.ca/geoclientx/wfs/simple_wfs.php?" style="width:280px" />
+<input type="submit" value="View Green Map" />
+</form>
+<p>Or connect to another web map service.  Optionally, you can also connect
+ to a web feature service, which must be in the same spatial reference system
+ (projection) as the web map service.  Note that a WFS can be added only if a
+WMS is also loaded and that only point-type features are supported.&nbsp; The
+default WMS address given is for a map of Canada produced by DMSolutions.</p>
+<form action="geoclientx.php" method="get">
+<table cellpadding="3px" cellspacing="0px" border="0px">
+<tr><td>Enter WMS address:</td><td><input type="text" name="wmss" style="width:280px" size="20" value="http://www2.dmsolutions.ca/cgi-bin/mswms_gmap?"></td></tr>
+<tr><td>Enter WFS address:</td><td><input type="text" name="wfss" style="width:280px"></td></tr>
+<tr><td cellspan="2"><input type="submit" value="View Map" /></td></tr>
+</table>
+</form>
+<p>GeoClientX is an open source software available for free download.</p>
+<p><a href="geoclientx.zip">Download GeoClientX software</a></p>
+</body>
+</html>
