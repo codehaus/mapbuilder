@@ -45,8 +45,8 @@ function AoiBox2(widgetNode, model) {
     aoiBox = objRef.model.getParam("aoi");
     gml='<?xml version="1.0" encoding="utf-8" standalone="no"?>';
     if (aoiBox) {
-      ul = objRef.model.extent.GetPL(aoiBox[0]);
-      lr = objRef.model.extent.GetPL(aoiBox[1]);
+      ul = objRef.model.extent.getPL(aoiBox[0]);
+      lr = objRef.model.extent.getPL(aoiBox[1]);
       gml=gml+'<Aoi version="1.0.0" xmlns:gml="http://www.opengis.net/gml">';
       gml=gml+'<gml:Envelope>';
       gml=gml+'<gml:coord>';

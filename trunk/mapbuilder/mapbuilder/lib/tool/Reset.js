@@ -21,7 +21,7 @@ function Reset(toolNode, parentWidget) {
   this.initExtent = function(objRef) {
     objRef.originalExtent = new Extent( objRef.targetModel );   
     objRef.originalExtent.init( objRef.originalExtent );
-    objRef.originalExtent.SetResolution( new Array(objRef.targetModel.getWindowWidth(), objRef.targetModel.getWindowHeight()) );
+    objRef.originalExtent.setResolution( new Array(objRef.targetModel.getWindowWidth(), objRef.targetModel.getWindowHeight()) );
   }
   this.targetModel.addListener("loadModel",this.initExtent, this);
 
@@ -32,7 +32,7 @@ function Reset(toolNode, parentWidget) {
    */
   this.doAction = function(objRef,targetNode) {
     var originalExtent = objRef.originalExtent;
-    objRef.targetModel.extent.CenterAt( originalExtent.GetCenter(), originalExtent.res[0] );
+    objRef.targetModel.extent.centerAt( originalExtent.getCenter(), originalExtent.res[0] );
   }
 }
 
