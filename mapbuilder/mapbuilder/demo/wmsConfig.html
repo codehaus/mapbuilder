@@ -29,7 +29,7 @@ $Name$
 var config = new Config("config/ConfigTemplate.xml");
 
 function doLoad() {
-  config.loadWidgets();
+  config.init();
 }
 
     </script>
@@ -44,7 +44,7 @@ function doLoad() {
     <!-- Layout mapbuilder widgets and HTML -->
     <table>
       <tr>
-        <td id="locatorMapId" valign="top"/>
+        <td id="locatorMapId" valign="top" width="200"/>
         <td id="mainMapPaneId"/>
       </tr>
       <tr>

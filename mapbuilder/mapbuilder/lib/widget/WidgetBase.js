@@ -25,9 +25,13 @@ function WidgetBase(widgetNode, group) {
   }
   this.parentGroup = group;
   this.model = group.model;
+  this.widgetNode = widgetNode;
 
   var styleNode = widgetNode.selectSingleNode("stylesheet");
   if ( styleNode ) this.stylesheet = new XslProcessor( config.baseDir + styleNode.firstChild.nodeValue );
+
+  var targetGroup = widgetNode.selectSingleNode("targetWidgetGroup");
+  if ( targetGroup ) this.targetGroup = targetGroup.firstChild.nodeValue;
 
 
   /**
@@ -58,6 +62,18 @@ function WidgetBase(widgetNode, group) {
     var s = this.stylesheet.transformNode(this.model.doc);
     this.node.innerHTML = s;
   }
+
+  this.loadTools = function() {
+    var tools = this.widgetNode.selectNodes( "tools/*" );
+    for (var i=0; i<tools.length; i++ ) {
+      var toolNode = tools[i];
+      evalStr = "new " + toolNode.nodeName + "(toolNode, this);";
+      //alert("Config.loadWidgets eval:" + evalStr);
+      this[toolNode.nodeName] = eval( evalStr );
+    }
+  }
+
+
 
   /**
    * no-op function; override in derived classes to add listeners to the model
