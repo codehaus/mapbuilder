@@ -12,16 +12,19 @@ $Id$
  * @requires Util
  * @requires Context
  * @param context The Web Map Context which contains the state of this legend.
- * @param baseDir The base mapbuilder lib directory.
+ * @param name Variable name referencing this Legend object
  * @param node Node from the HTML DOM to insert legend HTML into.
  */
-function Legend(context,baseDir) {
+function Legend(context, name, node) {
   this.context=context;
-  var node=makeElt("DIV");
-  node.style.position="absolute";
-  node.style.overflow="auto";
+  this.name=name;
+  if(node==null){
+    node=makeElt("DIV");
+    node.style.position="absolute";
+    node.style.overflow="auto";
+  }
   this.node=node;
-  this.context2Legend=new XslProcessor(baseDir+"/legend/Context2Legend.xml");
+  this.context2Legend=new XslProcessor(this.context.baseDir+"/legend/Context2Legend.xml");
 
   this.move=function(left,top) {
     this.node.style.left=left;
