@@ -73,18 +73,18 @@ function ModelBase(modelNode) {
       var widget = eval( evalStr );
       if (widget) {
         objRef[widget.id] = widget;
-        widget.paint();
+        widget.paint(widget);
         widget.loadTools();
       } else {
         alert("error creating widget:" + widgetNode.nodeName);
       }
     }
     // Trigger widget.paint() calls
-    objRef.callListeners("modelChange");
+    //objRef.callListeners("modelChange");
 
-    for (var j=0; j<widgets.length; j++) {
-      widget.loadTools();
-    }
+    //for (var j=0; j<widgets.length; j++) {
+    //  widget.loadTools();
+    //}
   }
 
   /**

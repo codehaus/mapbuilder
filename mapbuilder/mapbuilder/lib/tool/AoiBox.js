@@ -124,7 +124,7 @@ function AoiBox(toolNode, parentWidget) {
    * @param objRef This object.
    */
   this.aoiListener = function(objRef) {
-    objRef.paint();
+    objRef.paint(objRef);
   }
   this.model.addListener("aoi",this.aoiListener, this);
 
