@@ -219,6 +219,32 @@ function makeElt(type) {
   return node;
 }
 
+// variable needed to determine if a popup window is currently open
+var newWindow = '';
+/**
+ * open a popup window, adapted from http://www.quirksmode.org/js/croswin.html
+ * @param url The url of the page to be opened.
+ * @param width Width of the popup window, in pixels.
+ * @param height Height of the popup window, in pixels.
+ */
+function openPopup(url, width, height) {
+  if(width == null) {
+    width = 300;
+  }
+  if(height == null) {
+    height = 200;
+  }
+  if (!newWindow.closed && newWindow.location) {
+    newWindow.location.href = url;
+  }
+  else {
+    newWindow=window.open(url,'name','height=' + height + ',width=' + width);
+    if (!newWindow.opener) newwindow.opener = self;
+  }
+  if (window.focus) {newWindow.focus()}
+  return false;
+}
+
 /**
  * write debugging info to a textbox onscreen.
  * @param output String to be output.
