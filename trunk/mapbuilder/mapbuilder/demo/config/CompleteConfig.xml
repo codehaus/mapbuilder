@@ -142,7 +142,7 @@
         </GmlRenderer>
       </widgets>
     </Model-->
-    <Model id="testGml">
+    <Gml2 id="testGml">
       <defaultModelUrl>gml/Test.xml</defaultModelUrl>
       <widgets>
         <GmlRendererWZ id="testGmlRenderer">
@@ -156,7 +156,7 @@
         <FeatureList id="featureList">
         </FeatureList>
       </widgets>
-    </Model>
+    </Gml2>
     <Gml2 id="ntsGml">
       <!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
       <widgets>
@@ -240,7 +240,7 @@
           <disabledSrc>/images/AddPointDisable.gif</disabledSrc>
           <targetGml>testGml</targetGml>
           <defaultGml>gml/defaultAddPoint.xml</defaultGml>
-          <featureXlink>gml:featureMember/mb:points/mb:_SHAPE_/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXlink>
+          <featureXlink>gml:featureMember/points/_SHAPE_/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXlink>
           <tooltip xml:lang="en">click on map to create a point feature</tooltip>
           <tooltip xml:lang="fr">click on map to create a point feature</tooltip>
         </AddPoint>
