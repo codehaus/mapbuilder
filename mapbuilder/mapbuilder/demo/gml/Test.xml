@@ -232,4 +232,72 @@
       </_SHAPE_>
     </points>
   </gml:featureMember>
+
+  <!-- Lines -->
+  <gml:featureMember>
+    <lines>
+      <FID>0</FID>
+      <FNODE_>33424</FNODE_>
+      <TNODE_>33425</TNODE_>
+      <LPOLY_>0</LPOLY_>
+      <RPOLY_>0</RPOLY_>
+      <LENGTH>15.003275603900001</LENGTH>
+      <MINTRANS_>30758</MINTRANS_>
+      <MINTRANS_I>35207</MINTRANS_I>
+      <FCODE>30</FCODE>
+      <_SHAPE_>
+        <gml:MultiLineString srsName="epsg:4326">
+          <gml:lineStringMember>
+            <gml:LineString>
+              <gml:coordinates>-171.086204892704458,42.362313967208152 -71.086038515172532,62.362299983553427 -71.086038683883103,42.362289091480335 </gml:coordinates>
+            </gml:LineString>
+          </gml:lineStringMember>
+        </gml:MultiLineString>
+      </_SHAPE_>
+    </lines>
+  </gml:featureMember>
+  <gml:featureMember>
+    <lines>
+      <FID>1</FID>
+      <FNODE_>33415</FNODE_>
+      <TNODE_>33411</TNODE_>
+      <LPOLY_>0</LPOLY_>
+      <RPOLY_>0</RPOLY_>
+      <LENGTH>41.2014103996</LENGTH>
+      <MINTRANS_>30759</MINTRANS_>
+      <MINTRANS_I>35208</MINTRANS_I>
+      <FCODE>30</FCODE>
+      <_SHAPE_>
+        <gml:MultiLineString srsName="epsg:4326">
+          <gml:lineStringMember>
+            <gml:LineString>
+              <gml:coordinates>10.0,12.36 -10.0860,-12.36 32.08,9.36</gml:coordinates>
+            </gml:LineString>
+          </gml:lineStringMember>
+        </gml:MultiLineString>
+      </_SHAPE_>
+    </lines>
+  </gml:featureMember>
+  <gml:featureMember>
+    <lines>
+      <FID>2</FID>
+      <FNODE_>47628</FNODE_>
+      <TNODE_>47570</TNODE_>
+      <LPOLY_>0</LPOLY_>
+      <RPOLY_>0</RPOLY_>
+      <LENGTH>104.45658785099999</LENGTH>
+      <MINTRANS_>44082</MINTRANS_>
+      <MINTRANS_I>49344</MINTRANS_I>
+      <FCODE>30</FCODE>
+      <_SHAPE_>
+        <gml:MultiLineString srsName="epsg:4326">
+          <gml:lineStringMember>
+            <gml:LineString>
+              <gml:coordinates>171.0881,82.36 141.08,62.36 121.08,82.36</gml:coordinates>
+            </gml:LineString>
+          </gml:lineStringMember>
+        </gml:MultiLineString>
+      </_SHAPE_>
+    </lines>
+  </gml:featureMember>
 </QuickviewPresetResultSet>
