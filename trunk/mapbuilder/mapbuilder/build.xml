@@ -213,6 +213,13 @@ $Id$
     
   </target>
 
+  <target name="prepareTomcat" depends="prepare">
+
+    <!-- add dir to make this look like a webapp -->
+    <mkdir  dir="${build.home}/WEB-INF"/>
+
+  </target>
+
 
 
 <!-- ==================== All Target ====================================== -->
