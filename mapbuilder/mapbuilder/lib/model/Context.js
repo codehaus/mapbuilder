@@ -208,7 +208,7 @@ function Context(modelNode, parent) {
     for (var i=0; i<timeNodes.length; ++i) {
       var extentNode = timeNodes[i];
       objRef.timestampList = objRef.doc.createElementNS(mbNS,"TimestampList");  //set mb as namespace instead
-      var layerName = extentNode.parentNode.selectSingleNode("wmc:Name").firstChild.nodeValue;
+      var layerName = extentNode.parentNode.parentNode.selectSingleNode("wmc:Name").firstChild.nodeValue;
       objRef.timestampList.setAttribute("layerName", layerName);
       //alert("found time dimension, extent:"+extentNode.firstChild.nodeValue);
       var times = extentNode.firstChild.nodeValue.split(",");   //comma separated arguments
@@ -244,7 +244,7 @@ function Context(modelNode, parent) {
           objRef.timestampList.appendChild(timestamp);
         }
       }
-      objRef.setExtension(objRef.timestampList);  
+     objRef.setExtension(objRef.timestampList);  
     }
   }
   this.addFirstListener( "loadModel", this.initTimeExtent, this );
