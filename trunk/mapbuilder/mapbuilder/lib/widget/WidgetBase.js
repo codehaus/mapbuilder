@@ -58,6 +58,8 @@ function WidgetBase(widgetNode, model) {
   this.stylesheet.setParameter("modelId", this.model.id );
   this.stylesheet.setParameter("widgetId", this.id );
   this.stylesheet.setParameter("targetModel", this.targetModel.id );
+  this.stylesheet.setParameter("skinDir", config.skinDir );
+  this.stylesheet.setParameter("lang", config.lang );
 
   /**
    * Move this widget to the absolute (left,top) position in the browser.
@@ -84,7 +86,7 @@ function WidgetBase(widgetNode, model) {
    */
   this.paint = function() {
     var s = this.stylesheet.transformNode(this.model.doc);
-//alert(s);
+    //alert("painting:"+this.id+":"+s);
     this.node.innerHTML = s;
     this.callListeners("paint");
   }
