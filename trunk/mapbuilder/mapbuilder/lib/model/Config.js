@@ -21,6 +21,7 @@ function Config(url) {
     this[sProperty] = modelBase[sProperty]; 
   }
 
+
   //set some global application properties
   this.skinDir = this.doc.selectSingleNode("/MapbuilderConfig/skinDir").firstChild.nodeValue;
   this.baseDir = this.doc.selectSingleNode("/MapbuilderConfig/baseDir").firstChild.nodeValue;
@@ -28,6 +29,29 @@ function Config(url) {
   //a global array of the models loaded
   this.modelArray = new Array();
 
+  /**
+   * Internal function to load scripts for components that don't have <scriptfile>
+   * specified in the config file.
+   * @param xPath Xpath match of components from the Config file.
+   * @param dir The directory the script is located in.
+   */
+  this.loadScriptFiles=function(xPath,dir) {
+    var nodes = this.doc.selectNodes(xPath);
+    for (var i=0; i<nodes.length; i++) {
+      if (nodes[i].selectSingleNode("scriptFile")==null){
+        scriptFile = this.baseDir + dir + nodes[i].nodeName+".js";
+        loadScript( scriptFile );
+      }
+    }
+  }
+
+  // Load script files for all components that don't have <scriptfile> specified
+  // in the config file.
+  this.loadScriptFiles("//widgets/*","/widget/");
+  //this.loadScriptFiles("//models/*","/model/");
+  //this.loadScriptFiles("//tools/*","/tool/");
+
+  //TBD: Deprecate the following block and move into loadScriptFiles instead.
   //load all scriptfiles called for in the config file.  There seems to be a 
   //problem if this is done anywhere except in the page <HEAD> element.
   var scriptFileNodes = this.doc.selectNodes("//scriptFile");
