@@ -15,13 +15,11 @@ $Name$
   <head>
     <title>Mapbuilder Demo</title>
 
-    <script type="text/javascript" src="../lib/Mapbuilder.js"></script>
     <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
 
     <script>
       // URL of Mapbuilder configuration file.
       var mbConfigUrl='config/CompleteConfig.xml';
-
       var mapbuilder;
       var mbTimerId;
 
@@ -36,11 +34,12 @@ $Name$
         }
       }
     </script>
+    <script type="text/javascript" src="../lib/Mapbuilder.js"></script>
   </head>
 
   <body onload="
     // See if scripts have been loaded every 100msecs, then call config.init().
-    mbTimerId=setInterval('mapbuilderInit()',100);
+    mbTimerId=setInterval('mapbuilderInit()',500);
   ">
     <!-- Layout mapbuilder widgets and HTML -->
     <h1><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Demo</h1>
