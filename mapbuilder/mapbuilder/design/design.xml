@@ -176,31 +176,6 @@ I think the CMB should also provide logic for community editing of shared data
           </varlistentry>
 
           <varlistentry>
-            <term>Modular Design</term>
-
-            <listitem>
-              <para>A modular design has many benefits.</para>
-
-              <orderedlist>
-                <listitem>
-                  <para>A client need only include the module it requires,
-                  hence reducing the size of the client.</para>
-                </listitem>
-
-                <listitem>
-                  <para>A modular design is easier to understand and
-                  maintain.</para>
-                </listitem>
-
-                <listitem>
-                  <para>Extra functionality can be easily added and
-                  removed.</para>
-                </listitem>
-              </orderedlist>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
             <term>Attract Developers</term>
 
             <listitem>
@@ -459,7 +434,7 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
 
       <para>All MapBuilder applications are initialized from an XML
       configuration document. The configuration document is parsed and a
-      global Config object is created. </para>
+      global Config object is created.</para>
 
       <itemizedlist>
         <listitem>
@@ -510,7 +485,7 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
       mouse handler arrays. &gt; a highlight tool on a legend widget could
       register a mouseover listener with the legend widget and call a
       model.selectLayer method so all widgets interested in layers being
-      selected can be refreshed. &gt; etc. </para>
+      selected can be refreshed. &gt; etc.</para>
 
       <para></para>
     </section>
@@ -546,14 +521,14 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
         element. It will first load all javascript files contained in the
         config document and set some application scope properties. The
         configuration document is parsed and a global Config object is
-        created. </para>
+        created.</para>
 
         <programlisting>var mbConfig = new Config('configDocUrl');</programlisting>
 
         <para>The Config object provides the init() and loadModel() methods.
         The init() method is called once during body onload processing.
         <emphasis>loadModel()</emphasis> can be called at any time to refresh
-        all widgets contained in that ModelGroup. </para>
+        all widgets contained in that ModelGroup.</para>
 
         <programlisting>mbConfig.loadModel('modelGroupID', 'modelUrl');</programlisting>
 
@@ -573,7 +548,7 @@ widget.paint();</programlisting>
         <title>ModelGroups</title>
 
         <para>A ModelGroup is a set of any number of Widgets that all share a
-        single instance of a model. </para>
+        single instance of a model.</para>
 
         <para>Each ModelGroup is assigned as a property of the Config object
         using the ID provided for the ModelGroup in the configuration
@@ -631,7 +606,7 @@ widget.paint();</programlisting>
 
         <para>Widgets represent the views from the MVC design pattern. A
         Widget object must extend the WidgetBase class, which provides some
-        properties and methods common to all widgets. </para>
+        properties and methods common to all widgets.</para>
 
         <para>A Widget has a stylesheet that gets applied to the parent model
         and then associated to an HTML page element via it's ID attribute.
@@ -652,7 +627,7 @@ widget.paint();</programlisting>
         <para>A Tool object may be a controller or it may be something else,
         but it is essentially some code that is specific to that widget and
         for the purpose of supporting that widget. A tool will usually call
-        either a get or set method of the model. </para>
+        either a get or set method of the model.</para>
 
         <para>Some concrete examples of tools:</para>
 
@@ -704,7 +679,7 @@ widget.paint();</programlisting>
         <title>Extending the code base</title>
 
         <para>If you are representing a new XML document type, first code the
-        Model object </para>
+        Model object</para>
 
         <para>Each model object you intend to represent in the applcaition
         needs a ModelGroup.</para>
