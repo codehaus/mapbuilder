@@ -21,14 +21,14 @@ function ButtonBase(toolNode, parentWidget) {
   } 
 
   //set the button type
-  this.buttonType = toolNode.selectSingleNode("class").firstChild.nodeValue;
+  this.buttonType = toolNode.selectSingleNode("mb:class").firstChild.nodeValue;
   if (this.buttonType == "RadioButton") this.enabled = false;
 
   //pre-load the button bar images; add them to the config
   this.disabledImage = document.createElement("IMG");
-  this.disabledImage.src = config.skinDir + toolNode.selectSingleNode("disabledSrc").firstChild.nodeValue;
+  this.disabledImage.src = config.skinDir + toolNode.selectSingleNode("mb:disabledSrc").firstChild.nodeValue;
 
-  var enabledImage = toolNode.selectSingleNode("enabledSrc");
+  var enabledImage = toolNode.selectSingleNode("mb:enabledSrc");
   if (enabledImage) {
     this.enabledImage = document.createElement("IMG");
     this.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
@@ -70,6 +70,6 @@ function ButtonBase(toolNode, parentWidget) {
     }
   }
 
-  var selected = toolNode.selectSingleNode("selected");
+  var selected = toolNode.selectSingleNode("mb:selected");
   if (selected && selected.firstChild.nodeValue) this.selected = true;
 }

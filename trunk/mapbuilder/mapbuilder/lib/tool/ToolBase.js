@@ -21,7 +21,7 @@ function ToolBase(toolNode, parentWidget) {
   //initialize dynamic properties
   this.initModels = function(toolRef) {
     /** The model this tool will update. */
-    var targetModel = toolRef.toolNode.selectSingleNode("targetModel");
+    var targetModel = toolRef.toolNode.selectSingleNode("mb:targetModel");
     if (targetModel) {
       var targetModelName = targetModel.firstChild.nodeValue;
       toolRef.targetModel = eval("config."+targetModelName);
@@ -30,7 +30,7 @@ function ToolBase(toolNode, parentWidget) {
     }
 
     /** Mouse handler which this tool will register listeners with. */
-    var mouseHandler = toolRef.toolNode.selectSingleNode("mouseHandler");
+    var mouseHandler = toolRef.toolNode.selectSingleNode("mb:mouseHandler");
     if (mouseHandler) {
       var evalObj = eval( "config." + mouseHandler.firstChild.nodeValue );
       if (evalObj) {
@@ -48,7 +48,7 @@ function ToolBase(toolNode, parentWidget) {
 
   //tools enabled by default; can set to false in config for initial loading
   this.enabled = true;    
-  var enabled = toolNode.selectSingleNode("enabled");
+  var enabled = toolNode.selectSingleNode("mb:enabled");
   if (enabled) this.enabled = eval(enabled.firstChild.nodeValue);
 
   /**

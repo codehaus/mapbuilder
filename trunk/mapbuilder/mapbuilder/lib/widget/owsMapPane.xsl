@@ -23,76 +23,24 @@ $Name$
   <xsl:param name="context">config['<xsl:value-of select="$modelId"/>']</xsl:param>
 
   <xsl:param name="bbox">
-    <xsl:value-of select="/cml:OWSContext/cml:General/cml:BoundingBox/@minx"/>,<xsl:value-of select="/cml:OWSContext/cml:General/cml:BoundingBox/@miny"/>,
-    <xsl:value-of select="/cml:OWSContext/cml:General/cml:BoundingBox/@maxx"/>,<xsl:value-of select="/cml:OWSContext/cml:General/cml:BoundingBox/@maxy"/>
+    <xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@minx"/>,<xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@miny"/>,
+    <xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@maxx"/>,<xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@maxy"/>
   </xsl:param>
   <xsl:param name="width">
-    <xsl:value-of select="/cml:OWSContext/cml:General/cml:Window/@width"/>
+    <xsl:value-of select="/cml:ViewContext/cml:General/cml:Window/@width"/>
   </xsl:param>
   <xsl:param name="height">
-    <xsl:value-of select="/cml:OWSContext/cml:General/cml:Window/@height"/>
+    <xsl:value-of select="/cml:ViewContext/cml:General/cml:Window/@height"/>
   </xsl:param>
-  <xsl:param name="srs" select="/cml:OWSContext/cml:General/cml:BoundingBox/@SRS"/>
+  <xsl:param name="srs" select="/cml:ViewContext/cml:General/cml:BoundingBox/@SRS"/>
   
   <!-- template rule matching source root element -->
-  <xsl:template match="/cml:OWSContext">
+  <xsl:template match="/cml:ViewContext">
       <DIV STYLE="width:{$width}; height:{$height}; position:relative">
         <xsl:apply-templates select="cml:ResourceList/*"/>
       </DIV>
   </xsl:template>
   
-   <xsl:template match="cml:FeatureType[cml:Server/@service='OGC:WFS']">
-    <xsl:param name="version">
-        <xsl:value-of select="cml:Server/@version"/>    
-    </xsl:param>
-    <xsl:param name="baseUrl">
-        <xsl:value-of select="cml:Server/cml:OnlineResource/@xlink:href"/>    
-    </xsl:param>
-    <xsl:variable name="visibility">
-      <xsl:choose>
-        <xsl:when test="@hidden='1'">hidden</xsl:when>
-        <xsl:otherwise>visible</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-    <xsl:variable name="firstJoin">
-      <xsl:choose>
-        <xsl:when test="substring($baseUrl,string-length($baseUrl))='?'"></xsl:when>
-        <xsl:when test="contains($baseUrl, '?')">&amp;</xsl:when> 
-        <xsl:otherwise>?</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-    <xsl:variable name="fid">
-        <xsl:value-of select="$modelId"/>_<xsl:value-of select="$widgetId"/>_<xsl:value-of select="cml:Name"/>
-    </xsl:variable>
-    <xsl:variable name="describeFeatureRequest">    
-        <xsl:value-of select="$baseUrl"/>
-        <xsl:value-of select="$firstJoin"/>
-     VERSION=<xsl:value-of select="$version"/>
-&amp;REQUEST=DESCRIBEFEATURETYPE
-&amp;SERVICE=WFS
-&amp;TYPENAME=<xsl:value-of select="cml:Name"/>
-    </xsl:variable>
-
-    <DIV>    
-        <xsl:attribute name="STYLE">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0; left:0;</xsl:attribute>
-        <xsl:attribute name="ID"><xsl:value-of select="$fid"/></xsl:attribute>
-        <!--xsl:copy-of select="."/-->
-        <SCRIPT language="javascript">
-          alert("executing script WFS");
-          var configModelNode = config.doc.selectSingleNode("//models/DescribeFeatureType");
-          var model = new DescribeFeatureType(configModelNode);
-          if ( model ) {
-            alert("model created");
-            config["<xsl:value-of select="$fid"/>"] = model;
-            config.loadModel( "<xsl:value-of select="$fid"/>", "<xsl:value-of select="translate(normalize-space($describeFeatureRequest),' ', '' )" disable-output-escaping="no"/>" );
-            alert("retrieved:"+config["<xsl:value-of select="$fid"/>"].doc.xml);
-          } else { 
-            alert("error creating DescribeFeatureType model object");
-          }
-        </SCRIPT>
-    </DIV>    
-  </xsl:template>
-
    <xsl:template match="cml:FeatureType[cml:Server/@service='OGC:GML']">
     <xsl:param name="version">
         <xsl:value-of select="cml:Server/@version"/>    

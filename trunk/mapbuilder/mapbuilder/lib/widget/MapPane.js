@@ -30,7 +30,7 @@ function MapPane(widgetNode, model) {
   this.model.addListener("newModel",this.removeContainer, this);
 
   //adjust the context width and height if required.
-  var fixedWidth = widgetNode.selectSingleNode("fixedWidth");
+  var fixedWidth = widgetNode.selectSingleNode("mb:fixedWidth");
   if ( fixedWidth ) {
     fixedWidth = fixedWidth.firstChild.nodeValue;
     var aspectRatio = this.model.getWindowHeight()/this.model.getWindowWidth();
@@ -88,6 +88,8 @@ function MapPane(widgetNode, model) {
    * @param thisWidget This object.
    */
   this.boundingBoxChangeListener=function(thisWidget){
+    //this.node.extent = 
+    thisWidget.model.extent.init(thisWidget.model.extent);
     thisWidget.paint(thisWidget);
   }
   this.model.addListener("boundingBox",this.boundingBoxChangeListener,this);
