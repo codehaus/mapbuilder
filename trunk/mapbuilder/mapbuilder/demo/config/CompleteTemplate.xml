@@ -213,6 +213,12 @@
       <scriptFile>/widget/tool/ZoomTool.js</scriptFile>
     </ZoomTool>
     
+
+    <LocationsTool>
+      <view>Locations</view>
+      <scriptFile>/widget/tool/ZoomTool.js</scriptFile>
+    </LocationsTool>
+
   </controllers>
   
 </MapbuilderConfig>
