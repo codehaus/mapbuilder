@@ -38,11 +38,13 @@ function Listener() {
    * Call all the listeners that have registered interest in this parameter
    * using addListener.
    * @param param The parameter to change.
+   * @param value An optional variable that can be sent with the event.
    */
-  this.callListeners=function(param) {
+  this.callListeners=function(param,value) {
     if (this.listeners[param]){
       for(var i=0;i<this.listeners[param].length;i++){
-        this.listeners[param][i][0](this.listeners[param][i][1]);
+        // listener(target,value);
+        this.listeners[param][i][0](this.listeners[param][i][1],value);
       }
     }
   }
