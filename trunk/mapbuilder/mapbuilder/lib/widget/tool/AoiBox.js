@@ -116,7 +116,7 @@ function AoiBox(toolNode, parentWidget) {
     */
   this.getImageDiv = function( parentNode ) {
     var newDiv = document.createElement("DIV");
-    newDiv.innerHTML = "&nbsp;";
+    newDiv.innerHTML = "<IMG SRC='"+config.skinDir+"/images/Spacer.gif' WIDTH='1' HEIGHT='1'/>";
     newDiv.style.position = "absolute";
     newDiv.style.backgroundColor = this.lineColor;
     newDiv.style.visibility = "hidden";
