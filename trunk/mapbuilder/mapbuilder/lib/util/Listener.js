@@ -57,7 +57,7 @@ function Listener() {
    * @parma value The new value of the param.
    */
   this.setParam=function(param,value) {
-    this.params[param] = value;
+    this.values[param] = value;
 
     // Call all the interested listeners
     this.callListeners(param);
@@ -69,6 +69,6 @@ function Listener() {
    * an XML document).
    */
   this.getParam=function(param) {
-    return this.params[param][0];
+    return this.values[param];
   }
 }
