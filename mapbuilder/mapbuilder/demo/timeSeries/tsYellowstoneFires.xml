@@ -52,7 +52,7 @@
       <Server service="wms" version="1.3.0" title="wms">
         <OnlineResource xlink:type="simple" xlink:href="http://aes.gsfc.nasa.gov/cgi-bin/wms?"/>
       </Server>
-          <Name>2909_366</Name>
+          <Name>2909_467</Name>
       <DimensionList>
           <Dimension name="time" units="ISO8601" default="1988-10-02">1988-06-30/1988-10-02/P1D</Dimension>
       </DimensionList>

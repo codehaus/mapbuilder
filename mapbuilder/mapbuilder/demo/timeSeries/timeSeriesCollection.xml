@@ -34,11 +34,11 @@
       <OnlineResource xlink:type="simple" xlink:href="tsChinaDustStorm.xml"/>
     </ContextURL>
   </ViewContextReference>
-  <!--ViewContextReference version="1.0.0" id="tsYellowstoneFires">
+  <ViewContextReference version="1.0.0" id="tsYellowstoneFires">
     <Title>Wildfire Growth around Yellowstone National Park in 1988 (1024x1024 Animation)</Title>
     <ContextURL>
       <OnlineResource xlink:type="simple" xlink:href="tsYellowstoneFires.xml"/>
     </ContextURL>
-  </ViewContextReference-->
+  </ViewContextReference>
   
 </ViewContextCollection>
