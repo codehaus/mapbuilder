@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml" version="1.0">
 
+<!--==============================================================================-->
+<!--
+Description: Convert a GML Feature or FeatureCollection into a HTML form.
+
+Author:      Cameron Shorter cameron @shorter.net
+
+Licence:     This library is free software; you can redistribute it and/or
+             modify it under the terms of the GNU Lesser General Public
+             License as published by the Free Software Foundation;
+             version 2.1 of the License.
+
+             This library is distributed in the hope that it will be useful,
+             but WITHOUT ANY WARRANTY; without even the implied warranty of
+             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+             Lesser General Public License for more details.
+
+$Id$
+$Name$
+==================================================================================-->
+
   <xsl:output method="html" encoding="utf-8"/>
 
 
