@@ -5,8 +5,8 @@
   xmlns:gml="http://www.opengis.net/gml"
   topp="http://www.openplans.org/topp"
   wfs="http://www.opengis.net/wfs">
-  <states fid="states.2">
-    <the_geom>
+  <topp:states fid="states.2">
+    <ttopp:he_geom>
       <gml:MultiPolygon srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
         <gml:polygonMember>
           <gml:Polygon>
@@ -25,28 +25,28 @@
           </gml:Polygon>
         </gml:polygonMember>
       </gml:MultiPolygon>
-    </the_geom>
-    <STATE_NAME>District of Columbia</STATE_NAME>
-    <STATE_FIPS>11</STATE_FIPS>
-    <SUB_REGION>S Atl</SUB_REGION>
-    <STATE_ABBR>DC</STATE_ABBR>
-    <LAND_KM>159.055</LAND_KM>
-    <WATER_KM>17.991</WATER_KM>
-    <PERSONS>606900.0</PERSONS>
-    <FAMILIES>122087.0</FAMILIES>
-    <HOUSHOLD>249634.0</HOUSHOLD>
-    <MALE>282970.0</MALE>
-    <FEMALE>323930.0</FEMALE>
-    <WORKERS>229975.0</WORKERS>
-    <DRVALONE>106694.0</DRVALONE>
-    <CARPOOL>36621.0</CARPOOL>
-    <PUBTRANS>111422.0</PUBTRANS>
-    <EMPLOYED>303994.0</EMPLOYED>
-    <UNEMPLOY>23442.0</UNEMPLOY>
-    <SERVICE>65498.0</SERVICE>
-    <MANUAL>22407.0</MANUAL>
-    <P_MALE>0.466</P_MALE>
-    <P_FEMALE>0.534</P_FEMALE>
-    <SAMP_POP>72696.0</SAMP_POP>
-  </states>
+    </ttopp:he_geom>
+    <topp:STATE_NAME>District of Columbia</topp:STATE_NAME>
+    <topp:STATE_FIPS>11</topp:STATE_FIPS>
+    <topp:SUB_REGION>S Atl</topp:SUB_REGION>
+    <topp:STATE_ABBR>DC</topp:STATE_ABBR>
+    <topp:LAND_KM>159.055</topp:LAND_KM>
+    <topp:WATER_KM>17.991</topp:WATER_KM>
+    <topp:PERSONS>606900.0</topp:PERSONS>
+    <topp:FAMILIES>122087.0</topp:FAMILIES>
+    <topp:HOUSHOLD>249634.0</topp:HOUSHOLD>
+    <topp:MALE>282970.0</topp:MALE>
+    <topp:FEMALE>323930.0</topp:FEMALE>
+    <topp:WORKERS>229975.0</topp:WORKERS>
+    <topp:DRVALONE>106694.0</topp:DRVALONE>
+    <topp:CARPOOL>36621.0</topp:CARPOOL>
+    <topp:PUBTRANS>111422.0</topp:PUBTRANS>
+    <topp:EMPLOYED>303994.0</topp:EMPLOYED>
+    <topp:UNEMPLOY>23442.0</topp:UNEMPLOY>
+    <topp:SERVICE>65498.0</topp:SERVICE>
+    <topp:MANUAL>22407.0</topp:MANUAL>
+    <topp:P_MALE>0.466</topp:P_MALE>
+    <topp:P_FEMALE>0.534</topp:P_FEMALE>
+    <topp:SAMP_POP>72696.0</topp:SAMP_POP>
+  </topp:states>
 </gml:featureMember>
