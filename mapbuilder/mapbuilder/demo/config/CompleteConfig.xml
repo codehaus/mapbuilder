@@ -139,7 +139,14 @@
        </GmlRenderer>
       </widgets>
     </Gml2>
-  </models>
+    <Logger id="eventLogDoc">
+      <widgets>
+        <Widget id="eventLog">
+          <stylesheet>../lib/widget/EventLog.xsl</stylesheet>
+        </Widget>
+      </widgets>
+    </Logger>
+   </models>
   <widgets>
     <ButtonBar id="buttonBar">
       <targetModel>mainMap</targetModel>
