@@ -24,7 +24,7 @@ function AoiMouseHandler(toolNode, parentWidget) {
    * @param objRef Pointer to this AoiMouseHandler object.
    * @param targetNode The node for the enclosing HTML tag for this widget.
    */
-  this.mouseUpHandler = function( targetNode, objRef ) {
+  this.mouseUpHandler = function(objRef,targetNode) {
     if (objRef.started) objRef.started = false;
   }
 
@@ -83,8 +83,8 @@ function AoiMouseHandler(toolNode, parentWidget) {
   }
 
   parentWidget.addListener('mousedown',this.mouseDownHandler,this);
-  parentWidget.addListener('mousemove', this.mouseMoveHandler, this );
-  parentWidget.addMouseListener('mouseUp', this.mouseUpHandler, this );
+  parentWidget.addListener('mousemove',this.mouseMoveHandler,this);
+  parentWidget.addListener('mouseup',this.mouseUpHandler,this);
 }
 
 

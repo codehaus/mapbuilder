@@ -54,7 +54,7 @@ function MapPane(widgetNode, group) {
     containerNode.onmouseout = objRef.actionHandler;
     containerNode.onmouseover = objRef.actionHandler;
     containerNode.onmousedown = objRef.actionHandler;
-    containerNode.onmouseup = objRef.mouseUpHandler;
+    containerNode.onmouseup = objRef.actionHandler;
     containerNode.getEvent = getEvent;
   }
 
@@ -115,27 +115,6 @@ function MapPane(widgetNode, group) {
     this.model.addListener("hidden",this.hiddenListener,this);
   }
 
-  this.mouseUpListeners = new Array();
-//  this.mouseDownListeners = new Array();
-  this.mouseUpObjects = new Array();
-//  this.mouseDownObjects = new Array();
-
-  this.addMouseListener = function(mouseEvent, listener, objRef) {
-    switch(mouseEvent) {
-      case 'mouseUp':
-        this.mouseUpListeners.push( listener );
-        this.mouseUpObjects.push( objRef );
-        break;
-//      case 'mouseDown':				//zoom out
-//        this.mouseDownListeners.push( listener );
-//        this.mouseDownObjects.push( objRef );
-//        break;
-      default:
-        alert("unreconized mouse event:" + mouseEvent);
-        break;
-    }
-  }
-
   /**
    * Use this function to replace javascript event handlers for actions.
    * Listeners are defined for all the mouse actions.  This includes:
@@ -146,37 +125,6 @@ function MapPane(widgetNode, group) {
   this.actionHandler=function(ev) {
     this.getEvent(ev);
     this.parentObject.callListeners(ev.type,this);
-    if (window.event) {
-      window.event.returnValue = false;
-      window.event.cancelBubble = true;
-    } else {
-      ev.stopPropagation();
-    }
-    return false;
-  }
-
-/*
-  this.mouseDownHandler=function(ev) {
-    this.getEvent(ev);
-    this.parentObject.callListeners("mousedown",this);
-    //for (var i=0; i<this.parentObject.mouseDownListeners.length; i++) {
-    //  this.parentObject.mouseDownListeners[i]( this, this.parentObject.mouseDownObjects[i] );
-    //}
-    if (window.event) {
-      window.event.returnValue = false;
-      window.event.cancelBubble = true;
-    } else {
-      ev.stopPropagation();
-    }
-    return false;
-  }
-*/
-
-  this.mouseUpHandler=function(ev) {
-    this.getEvent(ev);
-    for (var i=0; i<this.parentObject.mouseUpListeners.length; i++) {
-      this.parentObject.mouseUpListeners[i]( this, this.parentObject.mouseUpObjects[i] );
-    }
     if (window.event) {
       window.event.returnValue = false;
       window.event.cancelBubble = true;
