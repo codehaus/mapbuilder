@@ -21,6 +21,7 @@ $Name$
       // URL of Mapbuilder configuration file.
       var mbConfigUrl='config/CompleteConfig.xml';
       var mapbuilder;
+      var config;
       var mbTimerId;
 
       /**
@@ -28,7 +29,7 @@ $Name$
        * again.
        */
       function mapbuilderInit(){
-        if(Mapbuilder && mapbuilder.allScriptsLoaded){
+        if(mapbuilder && config){
           clearInterval(mbTimerId);
           config.init();
         }
@@ -39,7 +40,7 @@ $Name$
 
   <body onload="
     // See if scripts have been loaded every 100msecs, then call config.init().
-    mbTimerId=setInterval('mapbuilderInit()',500);
+    mbTimerId=setInterval('mapbuilderInit()',100);
   ">
     <!-- Layout mapbuilder widgets and HTML -->
     <h1><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Demo</h1>
