@@ -45,30 +45,30 @@ function MapPane(widgetNode, group) {
     objRef.containerNode.getEvent = getEvent;
   }
 
-   /**
-    * TBD: Comment me.
-    */
-   this.setClip=function(objRef){
-     width=objRef.model.getWindowWidth();
-     height=objRef.model.getWindowHeight();
-     objRef.node.style.clip="rect(0," + width + "," + height + ",0)";
-   }
+  /**
+   * TBD: Comment me.
+   */
+  this.setClip=function(objRef){
+    width=objRef.model.getWindowWidth();
+    height=objRef.model.getWindowHeight();
+    objRef.node.style.clip="rect(0," + width + "," + height + ",0)";
+  }
 
-    this.addPaintListener( this.setClip, this );
-    this.addPaintListener( this.setContainerNodeHandlers, this );
+  this.addPaintListener( this.setClip, this );
+  this.addPaintListener( this.setContainerNodeHandlers, this );
 
 
-   /**
-    * TBD: Comment me.
-    */
-   this.moveImages=function(left,top){
+  /**
+   * TBD: Comment me.
+   */
+  this.moveImages=function(left,top){
     images=this.node.firstChild.getElementsByTagName("img");
     for(i=0;i<images.length;i++){
       img=images.item(i);
       img.style.left=left;
       img.style.top=top;
-     }
-   }
+    }
+  }
 
   /**
    * Called when the context's hidden attribute changes.
@@ -142,8 +142,8 @@ function MapPane(widgetNode, group) {
 
 }
 
-/** The remaining functions in the file execute as event handlers in the context 
-  * of the MapPane container node, ie. this = the container id set in MapPane stylesheet
+// The remaining functions in the file execute as event handlers in the context 
+// of the MapPane container node, ie. this = the container id set in MapPane stylesheet
 
 /** General purpose function for cross-browser event handling.  This function
   * sets properties on this.glassPan: 
