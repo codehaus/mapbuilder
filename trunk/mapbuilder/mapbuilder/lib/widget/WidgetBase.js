@@ -188,8 +188,6 @@ function WidgetBase(widget,widgetNode,model) {
         case "xsl2js":
           jsNode = objRef.stylesheet.transformNodeToObject(objRef.resultDoc);
           js=jsNode.firstChild.firstChild.nodeValue;
-          //look for this widgets output and replace if found,
-          //otherwise append it
           if (!outputNode) {
             tempNode.innerHTML = "<div>";
             tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
