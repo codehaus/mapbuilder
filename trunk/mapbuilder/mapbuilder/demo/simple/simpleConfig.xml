@@ -16,7 +16,7 @@
 
     <Context id="mainMap">
 
-      <defaultModelUrl>/mapbuilder/data/context/atlasWorld.xml</defaultModelUrl>
+      <defaultModelUrl>/mapbuilder/demo/context/atlasWorld.xml</defaultModelUrl>
 
       
 
