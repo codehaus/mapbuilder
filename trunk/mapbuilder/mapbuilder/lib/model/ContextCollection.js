@@ -10,15 +10,10 @@ $Id$
  * @author Mike Adair
  * @requires Sarissa
  * @param url Url of context collection document
- * @param name Variable name referencing this context collection object
- * @param baseDir Relative path to base directory of Mapbuilder files
- * @param skin Name of skin to use for look and feel
  */
 function ContextCollection(url) {
 
-  /**
-   * The Web Map Context Collection Document.
-   */
+  /** The Web Map Context Collection Document. */
   this.doc = Sarissa.getDomDocument();
   this.doc.async = false;
   // the following two lines are needed for IE
@@ -77,14 +72,14 @@ function ContextCollection(url) {
     * to null this context will be inserted at the end.
     * @return The identifier string used to reference this context.
     */
-  this.insertcontext=function(context,zindex){
+  this.insertContext=function(context,zindex){
     //TBD Fill this in.
   }
 
   /** Delete this context.
    * @param id The context identifier.
    */
-  this.deletecontext=function(id){
+  this.deleteContext=function(id){
     //TBD Fill this in.
   }
 
@@ -93,7 +88,7 @@ function ContextCollection(url) {
     * @param zindex The position to move this context to in the contextList, if set
     * to null this context will be inserted at the end.
     */
-  this.reordercontext=function(context,zindex){
+  this.reorderContext=function(context,zindex){
     //TBD Fill this in.
   }
 
