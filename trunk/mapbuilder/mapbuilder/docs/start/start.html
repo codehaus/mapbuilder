@@ -28,36 +28,29 @@ to your server root.
   </li>
   <li><span class="title">Include the mapbuilder Javascript library:</span>
   the web page's &lt;HEAD&gt; element must include a reference to the mapbuilder
-  library JavaScript code.  The library can be installed on the same server as 
+  library JavaScript code.  The library must be installed on the same server as 
   the page using it:
   <pre>
   &lt;script type="text/javascript" 
   src="/mapbuilder/lib/Mapbuilder.js"&gt;&lt;/script&gt;
   </pre>
-  OR, it can be referenced from another server 
-  <em>(not tested yet, might be some issues to be resolved)</em>:
-  <pre>
-  &lt;script type="text/javascript" 
-  src="http://mapbuilder.sourceforge.net/mapbuilder/lib/Mapbuilder.js"&gt;&lt;/script&gt;
-  </pre>
-  To install the library on your server, (full details to be worked out) unzip the 
-  mapbuilder library into an HTTP directory on your server.
   </li>
   <li><span class="title">Initialize the mapbuilder library:</span>
   This involves adding a &lt;SCRIPT&gt; block to your page &lt;HEAD&gt; to initialize the 
   mapbuilder library, passing the URL of the configuration file created in step 2.
   <pre>
-  &lt;script&gt;
-  Mapbuilder("/myApp/myAppConfig.xml");
-  &lt;/script&gt;
+    &lt;script&gt;
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='config/contextEditor.xml';
+    &lt;/script&gt;
+    &lt;script type="text/javascript" src="../lib/Mapbuilder.js"&gt;&lt;/script&gt;
   <pre>
   </li>
   <li><span class="title">Initialize the application:</span>
   the page's BODY onload event handler must call mapbuilder's body onload event 
   handler. 
-  This can be chained with other application onload handlers if required:
   <pre>
-  &lt;body onload='mbConfig.init(); myApp.onLoadHandler()'&gt;
+  &lt;body onload='mbDoLoad()'&gt;
     ..rest of page body...
   &lt;/body&gt;
   <pre>
