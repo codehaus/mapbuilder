@@ -21,18 +21,19 @@
     <OwsContext id="mainMap">
       <defaultModelUrl>context/oc_0_0_11.xml</defaultModelUrl>
       <models>
-        <Gml2 id="gml2FeatureTemplate" template="true">
+        <FeatureCollection id="gml2FeatureTemplate" template="true">
           <method>post</method>
           <widgets>
-            <GmlRendererTest id="testGmlRenderer">
+            <GmlRendererWZ id="testGmlRenderer">
+              <debug/>
               <htmlTagId>mainMapPane</htmlTagId>
               <mapContainerId>mainMapContainer</mapContainerId>
               <lineColor>#FF0000</lineColor>
               <lineWidth>1</lineWidth>
               <pointDiameter>10</pointDiameter>
-            </GmlRendererTest>
+            </GmlRendererWZ>
           </widgets>
-        </Gml2>
+        </FeatureCollection>
       </models>
       <widgets>
         <MapPane id="mainMapWidget">
@@ -41,7 +42,7 @@
           <mapContainerId>mainMapContainer</mapContainerId>
           <!--fixedWidth>300</fixedWidth-->
         </MapPane>
-        <AoiBoxWZ id="aoiBox2">
+        <AoiBoxWZ id="aoiBoxMain">
           <htmlTagId>mainMapPane</htmlTagId>
           <stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
@@ -50,13 +51,15 @@
           <mapContainerId>mainMapContainer</mapContainerId>
         </AoiBoxWZ>
         <CursorTrack id="cursorTrack">
-          <mouseHandler>mainMap.mainMapWidget</mouseHandler>
+          <mouseHandler>mainMap</mouseHandler>
         </CursorTrack>
-        <MapScaleText id="mapScaleText">
-        </MapScaleText>
+        <MapScaleText id="mapScaleText"/>
         <Legend id="legend"/>
         <Widget id="mapTitle">
           <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
+        </Widget>
+        <Widget id="abstract">
+          <stylesheet>../lib/widget/Abstract.xsl</stylesheet>
         </Widget>
       </widgets>
       <tools>
@@ -64,7 +67,6 @@
         <DragPanHandler id="mainDragPan">
           <enabled>false</enabled>
         </DragPanHandler>
-        <MouseClickHandler id="mainMouseClick"/>
         <WebServiceRequest id="wfsController">
           <nodeSelectXpath>/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[wmc:Server/@service='OGC:WFS']</nodeSelectXpath>
           <!--targetModel request="wfs:DescribeFeatureType">featureTypeTemplate</targetModel-->
@@ -81,7 +83,7 @@
           <mapContainerId>locatorContainer</mapContainerId>
           <fixedWidth>180</fixedWidth>
         </MapPane>
-        <AoiBoxWZ id="aoiBox2">
+        <AoiBoxWZ id="aoiBoxLocator">
           <htmlTagId>locatorMap</htmlTagId>
           <stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
@@ -97,6 +99,14 @@
         </ZoomToAoi>
       </tools>
     </Context>
+    <Logger id="eventLogDoc">
+      <serializeUrl>/mapbuilder/writeXml</serializeUrl>
+      <widgets>
+        <Widget id="eventLog">
+          <stylesheet>../lib/widget/EventLog.xsl</stylesheet>
+        </Widget>
+      </widgets>
+    </Logger>
   </models>
   <widgets>
     <ZoomIn id="zoomIn">
