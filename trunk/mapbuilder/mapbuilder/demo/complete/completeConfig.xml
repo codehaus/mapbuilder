@@ -265,6 +265,7 @@
   <!-- Url of LOCAL redirection script, required to access external URLs -->
   <!--proxyUrl>../server/proxy/proxy.php</proxyUrl-->
   <proxyUrl>/mapbuilder/proxy</proxyUrl>
+  <!--proxyUrl>../server/proxy/serializer.php</proxyUrl-->
   <serializeUrl>/mapbuilder/writeXml</serializeUrl>
 </MapbuilderConfig>
 
