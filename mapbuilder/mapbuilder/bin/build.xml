@@ -107,11 +107,13 @@ $Id$
 -->
 
   <property environment="env"/>
-  <property name="app.name" value="mapbuilder-lib"/>
+  <property name="app.name" value="mapbuilder"/>
+  <property name="pack.name" value="mapbuilder-lib"/>
   <property name="app.path" value="/${app.name}"/>
   <property name="app.version" value="0.2-alpha"/>
   <property name="catalina.home" value="${env.CATALINA_HOME}"/> <!-- UPDATE THIS! -->
-  <property name="build.home"    value="${catalina.home}/webapps/mapbuilder"/>
+  <!--property name="build.home" value="${catalina.home}/webapps/mapbuilder"/-->
+  <property name="build.home" value="${basedir}/build"/>
   <property name="dist.home" value="${basedir}/dist"/>
   <property name="docs.home" value="${build.home}/docs"/>
   <property name="dev.home" value="${basedir}/."/>
@@ -250,13 +252,15 @@ $Id$
     <mkdir dir="${dist.home}"/>
 
     <!-- Create application zip file -->
-    <zip destfile="${dist.home}/${app.name}-${app.version}.zip" update="true">
-         <zipfileset dir="${basedir}/lib" prefix="mapbuilder/lib"/>
-         <zipfileset dir="${basedir}/demo" prefix="mapbuilder/demo"/>
+    <zip destfile="${dist.home}/${pack.name}-${app.version}.zip" update="true">
+      <zipfileset
+        dir="${basedir}"
+        prefix="mapbuilder"
+        includes="demo/** docs/** lib/** server/** CHANGES LICENSE GPL README index.html"/>
     </zip>
 
     <!-- Create styles only distribution -->
-    <zip destfile="${dist.home}/styles_${app.name}-${app.version}.zip" update="true">
+    <zip destfile="${dist.home}/styles_${pack.name}-${app.version}.zip" update="true">
          <zipfileset dir="${basedir}/lib/" prefix="mapbuilder/lib">
             <include name="**/*.xsl"/>
          </zipfileset>
@@ -264,11 +268,12 @@ $Id$
 
     <!-- Create application WAR file -->
     <jar jarfile="${dist.home}/${app.name}.war"
-         basedir="${build.home}"/>
+        basedir="${build.home}"
+        includes="demo/** docs/** lib/** server/** CHANGES LICENSE GPL README index.html"/>
 
     <!-- zip up the WAR file -->
-    <zip destfile="${dist.home}/${app.name}-${app.version}-war.zip" update="true">
-         <zipfileset file="${dist.home}/${app.name}.war"/>
+    <zip destfile="${dist.home}/${pack.name}-${app.version}-war.zip" update="true">
+      <zipfileset file="${dist.home}/${app.name}.war"/>
     </zip>
 
   </target>
