@@ -31,6 +31,7 @@ function AoiForm(widgetNode, model) {
    * @param targetNode The node for the enclosing HTML tag for this widget.
    */
   this.displayAoiCoords = function(objRef, targetNode) {
+    objRef.aoiForm = document.getElementById(objRef.formName);
     var aoi = objRef.model.extent.getAoi();
     objRef.aoiForm.westCoord.value = aoi[0][0];
     objRef.aoiForm.northCoord.value = aoi[0][1];
@@ -84,7 +85,7 @@ function AoiForm(widgetNode, model) {
   this.addListener('paint', this.paintHandler, this);
 
   //set some properties for the form output
-  this.formName = "AoiForm_" + mbIds.getId();
+  this.formName = "AoiForm_";// + mbIds.getId();
   this.stylesheet.setParameter("formName", this.formName);
 }
 
