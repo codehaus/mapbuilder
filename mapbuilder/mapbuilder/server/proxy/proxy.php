@@ -12,17 +12,35 @@ if(empty($host)) {
   $host = "localhost";
 }
 $port = $_REQUEST['port'];
+if(empty($port)){
+  $port="80";
+}
 $contenttype = $_REQUEST['contenttype'];
 if(empty($contenttype)) {
   $contenttype = "text/xml";
 }
-if(empty($port)){
-  $port="80";
-}
 $data = $GLOBALS["HTTP_RAW_POST_DATA"];
-
 // define content type
 header("Content-type: " . $contenttype);
+
+if(empty($data)) {
+  $result = send_request();
+}
+else {
+  // post XML
+  $posting = new HTTP_Client($host, $port, $data);
+  $posting->set_path($path);
+  $result = $posting->send_request();
+}
+
+// strip leading text from result and output result
+$len=strlen($result);
+$pos = strpos($result, "<");
+if($pos > 1) {
+  $result = substr($result, $pos, $len);
+}
+$result = str_replace("xlink:","",$result);
+echo $result;
 
 // define class with functions to open socket and post XML
 // from http://www.phpbuilder.com/annotate/message.php3?id=1013274 by Richard Hundt
@@ -43,7 +61,7 @@ class HTTP_Client {
   function HTTP_Client($host, $port, $data, $timeout = 30) { 
     $this->host = $host; 
     $this->port = $port;
-    $this->post_data = $post_data;
+    $this->data = $data;
     $this->timeout = $timeout; 
   } 
   
@@ -72,12 +90,12 @@ class HTTP_Client {
       return false; 
     } 
     else { 
-      $this->result = $this->request($this->post_data); 
+      $this->result = $this->request($this->data);
       return $this->result; 
     } 
   } 
   
-  function request($post_data) { 
+  function request($data) { 
     $this->buf = ""; 
     fwrite($this->socket, 
       "POST $this->path HTTP/1.0\r\n". 
@@ -86,7 +104,7 @@ class HTTP_Client {
       "Content-Type: application/xml\r\n". 
       "Content-Length: ".strlen($post_data). 
       "\r\n". 
-      "\r\n".$post_data. 
+      "\r\n".$data. 
       "\r\n" 
     ); 
   
@@ -97,20 +115,19 @@ class HTTP_Client {
   } 
   
   
-  function close() { 
-    fclose($this->socket); 
+  function close() {
+    fclose($this->socket);
   } 
 } 
 
-// post XML
-$posting=new HTTP_Client($host,$port,$data);
-$posting->set_path($path);
-$result=$posting->send_request();
 
-// strip leading text from result and output result
-$len=strlen($result);
-$pos = strpos($result, "<");
-$result = substr($result, $pos, $len);
-$result = str_replace("xmlns:","",$result);
-echo $result;
+
+function send_request() {
+  global $onlineresource;
+  if(!($response = file($onlineresource))) {
+    echo "Unable to retrieve file '$service_request'";
+  }
+  $response = implode("",$response);
+  return $response;
+}
 ?> 
