@@ -256,3 +256,46 @@ function debug(output){
   tnode=document.createTextNode(output);
   tarea.appendChild(tnode);
 }
+
+/**
+ * determine and return the target element of an event.
+ * @param evt The event.
+ * @return elt The element.
+ */
+function returnTarget(evt){
+  evt = (evt) ? evt : ((window.event) ? window.event : "");
+  var elt=null;
+  if(evt.target){
+    elt=evt.target;
+  }
+  else if(evt.srcElement){
+    elt=evt.srcElement;
+  }
+  return elt;
+}
+
+/**
+ * attach an event to an element.
+ * @param elementObject The object.
+ * @param eventName The name of the event.
+ * @param functionObject The function to be called.
+ */
+function addEvent(elementObject, eventName, functionObject) {
+  if(document.addEventListener) {
+    elementObject.addEventListener(eventName, functionObject, false);
+  }
+  else if(document.attachEvent) {
+    elementObject.attachEvent("on" + eventName, functionObject);
+  }
+}
+
+/**
+ * handle event attached to an object.
+ * @param evt The event.
+ */
+function handleEventWithObject(evt){
+  var elt = returnTarget(evt);
+  var obj = elt.ownerObj;
+  if (obj!=null) obj.handleEvent(evt);
+}
+
