@@ -119,7 +119,7 @@ function Config(url) {
         var defaultModel = modelNode.selectSingleNode("defaultModelUrl");
         if (defaultModel) initialModel = defaultModel.firstChild.nodeValue;
       }
-      if (initialModel) this.loadModel( model.id, initialModel );
+      this.loadModel( model.id, initialModel );
     }
 
     //load in widgets of the config doc
@@ -135,7 +135,9 @@ function Config(url) {
    */
   this.loadModel = function( modelId, modelUrl ) {
     var model = this[modelId];
-    model.loadModelDoc( modelUrl );
+    if (modelUrl) {
+      model.loadModelDoc( modelUrl );
+    }
     model.loadWidgets(model);
     this.callListeners( "loadModel" );
   }

@@ -85,10 +85,12 @@ function WidgetBase(widgetNode, model) {
    * Render the widget.
    */
   this.paint = function() {
-    var s = this.stylesheet.transformNode(this.model.doc);
-    if (this.widgetNode.selectSingleNode("debug") ) alert("painting:"+this.id+":"+s);
-    this.node.innerHTML = s;
-    this.callListeners("paint");
+    if (this.model.doc) {
+      var s = this.stylesheet.transformNode(this.model.doc);
+      if (this.widgetNode.selectSingleNode("debug") ) alert("painting:"+this.id+":"+s);
+      this.node.innerHTML = s;
+      this.callListeners("paint");
+    }
   }
 
   /**
