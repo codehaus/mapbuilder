@@ -20,7 +20,6 @@ UL.sidebar LI { margin-left: 4px; }
 
 .title { font-weight: bold; }
 
-DL { font-size: 80%;  }
 DT { font-weight: bold; }
 
 PRE { font-size: 120% }
@@ -55,7 +54,7 @@ H1 {
   margin-top: 10; 
   width: 100%; 
   border-bottom: 1pt solid #3366cc; 
-  text-align: right}
+  text-align: left}
 
 H2 {  font-size: 130%; font-weight: bold; padding-top: 10px;}
 
