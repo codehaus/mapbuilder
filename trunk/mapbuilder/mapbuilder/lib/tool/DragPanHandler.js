@@ -6,30 +6,23 @@ $Id$
 */
 
 /**
- * Tool to draw a region of interest box on a view.  The box can be drawn with
- * the drawBox() method and can be tied to mouse drag with the dragBox() method.
+ * Tool to click and drag a map pane to achieve a recentering of the map
  * This object works entirely in pixel/line coordinate space and knows nothing
  * about geography.
  *
  * @constructor
  *
- * @param viewNode    the view object node to attach the RoiBox to.
  */
 
 function DragPanHandler(toolNode, parentWidget) {
-  this.model = parentWidget.model;
-
-  /**
-   * enable or disable this tool from procesing mouse events.
-   * @param enabled   set to true or false to enable or disable
-   */
-  this.enable = function(enabled) {
-    this.enabled = enabled;
-  }
+  var base = new ToolBase(toolNode, parentWidget);
+  for (sProperty in base) { 
+    this[sProperty] = base[sProperty]; 
+  } 
 
   /**
    * Process a mouse action.
-   * @param objRef Pointer to this AoiMouseHandler object.
+   * @param objRef Pointer to this DragPanHandler object.
    * @param targetNode The node for the enclosing HTML tag for this widget.
    */
   this.mouseUpHandler = function(objRef,targetNode) {
@@ -40,7 +33,7 @@ function DragPanHandler(toolNode, parentWidget) {
 
   /**
    * Process a mouse action.
-   * @param objRef Pointer to this AoiMouseHandler object.
+   * @param objRef Pointer to this DragPanHandler object.
    * @param targetNode The node for the enclosing HTML tag for this widget.
    */
   this.mouseDownHandler = function(objRef,targetNode) {
@@ -53,7 +46,7 @@ function DragPanHandler(toolNode, parentWidget) {
 
   /**
    * Process a mouse action.
-   * @param objRef Pointer to this AoiMouseHandler object.
+   * @param objRef Pointer to this DragPanHandler object.
    * @param targetNode The node for the enclosing HTML tag for this widget.
    */
   this.mouseMoveHandler = function(objRef,targetNode) {
@@ -61,11 +54,12 @@ function DragPanHandler(toolNode, parentWidget) {
       if (objRef.dragging) {
         var xOffset = targetNode.evpl[0] - objRef.anchorPoint[0];
         var yOffset = targetNode.evpl[1] - objRef.anchorPoint[1];
-        //targetNode.widget.moveImages(targetNode.style.left + xOffset, targetNode.style.top + yOffset);
+        //targetNode.widget.moveImages(xOffset, yOffset);
         targetNode.style.left = xOffset;
         targetNode.style.top = yOffset;
         //targetNode.widget.setClip( targetNode.widget );
-        targetNode.style.clip = objRef.clipStr;
+        //targetNode.widget.node.style.clip = objRef.clipStr;
+        //targetNode.style.clip = objRef.clipStr;
       }
     }
   }

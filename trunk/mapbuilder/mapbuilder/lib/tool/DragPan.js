@@ -4,7 +4,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
+mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
 
 /**
  * When this button is selected, click and drag on the MapPane to recenter the map.
@@ -14,25 +14,23 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * @param parentWidget  The ButtonBar widget.
  */
 function DragPan(toolNode, parentWidget) {
-  var base = new ToolBase(toolNode, parentWidget);
+  var base = new ButtonBase(toolNode, parentWidget);
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 
-  }
-
-  this.selectButton = function() {
-    this.parentWidget.mouseWidget.tools["DragPanHandler"].enable(true);
   }
 
   /**
    * Calls the centerAt method of the context doc to recenter with the given 
    * offset
-   * @param model       The model that this tool will update.
-   * @param targetNode  The element on which the mouse event occured
+   * @param objRef      Pointer to this AoiMouseHandler object.
+   * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
-  this.mouseUpHandler = function(model,targetNode) {
+  this.doAction = function(objRef,targetNode) {
+    if (!objRef.enabled) return;
     alert("drag pan mouseup");
     //TBD: hide the mappane and then recenter at the new position
   }
-
-  this.parentWidget.addListener( "paint", this.init, this );
+  if (this.mouseHandler) {
+    this.mouseHandler.parentWidget.addListener('mouseup',this.doAction,this);
+  }
 }

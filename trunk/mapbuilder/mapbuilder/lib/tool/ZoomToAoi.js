@@ -4,6 +4,8 @@ Dependancies: Context
 $Id$
 */
 
+// Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
 mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
 /**
@@ -20,8 +22,10 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
  * @param parentWidget  Reference to the widget object that creates this tool
  */
 function ZoomToAoi(toolNode, parentWidget) {
-  this.parentWidget = parentWidget;
-  this.model = parentWidget.model;
+  var base = new ToolBase(toolNode, parentWidget);
+  for (sProperty in base) { 
+    this[sProperty] = base[sProperty]; 
+  } 
 
   var targetModel = toolNode.selectSingleNode("targetModel");
   if ( !targetModel ) alert("target model required for ZoomToAoi");
@@ -83,5 +87,5 @@ function ZoomToAoi(toolNode, parentWidget) {
   }
 
   this.parentWidget.addListener('mouseup',this.mouseUpHandler,this);
-  this.parentWidget.tools["AoiMouseHandler"].enable(true);
+  this.parentWidget["AoiMouseHandler"].enable(true);
 }

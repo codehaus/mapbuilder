@@ -11,33 +11,22 @@ $Id$
  * @param parentWidget The ButtonBar node from the Config XML file.
  */
 function ToolBase(toolNode, parentWidget) {
+  this.model = parentWidget.model;
   this.parentWidget = parentWidget;
+  this.targetModel = parentWidget.model;
 
-  this.title = toolNode.selectSingleNode("tooltip").firstChild.nodeValue;
-  this.id = toolNode.selectSingleNode("@id").firstChild.nodeValue;
+  var id = toolNode.selectSingleNode("@id");
+  if (id) this.id = id.firstChild.nodeValue;
 
-  //pre-load the button bar images; add them to the config
-  this.disabledImage = document.createElement("IMG");
-  this.disabledImage.src = config.skinDir + toolNode.selectSingleNode("disabledSrc").firstChild.nodeValue;
-  this.disabledImage.title = this.title;         //img.title is for tool tips, alt for images disabled browsers
-
-  var modalImage = toolNode.selectSingleNode("enabledSrc");
-  if (modalImage) {
-    this.enabledImage = document.createElement("IMG");
-    this.enabledImage.src = config.skinDir + modalImage.firstChild.nodeValue;
-    this.enabledImage.title = this.title;         //img.title is for tool tips, alt for images disabled browsers
-  }
+  var mouseHandler = toolNode.selectSingleNode("mouseHandler");
+  if (mouseHandler) this.mouseHandler = eval(mouseHandler.firstChild.nodeValue);
 
   /**
-   * TBD Document me.
-   * @param objRef TBD Document me.
+   * enable or disable this tool from procesing mouse events.
+   * @param enabled   set to true or false to enable or disable
    */
-  this.init = function(objRef) {
-    objRef.image = document.getElementById( objRef.id );
-    if ( objRef.parentWidget.mouseWidget==null ) {
-      objRef.image.model = objRef.model;
-      objRef.image.onmouseup = objRef.mouseUpHandler;
-    }
-    objRef.image.title = objRef.title; //img.title is for tool tips, alt for images disabled browsers
+  this.enable = function(enabled) {
+    this.enabled = enabled;
+    if (this.mouseHandler) this.mouseHandler.enable(enabled);
   }
 }
