@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <xsl:stylesheet version="1.0" 
-
+  xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder" 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <!--
@@ -38,11 +38,11 @@ ButtonBar.xsl,v 1.5 2004/03/25 21:25:43 madair1 Exp
 
   <!-- Main html   -->
 
-  <xsl:template match="/MapbuilderConfig">
+  <xsl:template match="/mb:MapbuilderConfig">
 
     <DIV>
 
-      <xsl:apply-templates select="widgets/ButtonBar/tools"/>
+      <xsl:apply-templates select="mb:widgets/mb:ButtonBar/mb:tools"/>
 
     </DIV>
 
@@ -50,7 +50,7 @@ ButtonBar.xsl,v 1.5 2004/03/25 21:25:43 madair1 Exp
 
 
 
-  <xsl:template match="ButtonBar/tools/*">
+  <xsl:template match="mb:ButtonBar/mb:tools/*">
 
     <xsl:param name="linkUrl">javascript:config.<xsl:value-of select="$widgetId"/>['<xsl:value-of select="name()"/>'].select()</xsl:param>
 
@@ -58,7 +58,7 @@ ButtonBar.xsl,v 1.5 2004/03/25 21:25:43 madair1 Exp
 
  
 
-    <A HREF="{$linkUrl}"><IMG SRC="{$skinDir}/{disabledSrc}" ID="{@id}" TITLE="{$tooltip}" BORDER="0"/></A>
+    <A HREF="{$linkUrl}"><IMG SRC="{$skinDir}/{mb:disabledSrc}" ID="{@id}" TITLE="{$tooltip}" BORDER="0"/></A>
 
   </xsl:template>
 

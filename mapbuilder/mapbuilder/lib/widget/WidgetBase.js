@@ -26,26 +26,29 @@ function WidgetBase(widgetNode,model) {
   for (sProperty in listener) { 
     this[sProperty] = listener[sProperty]; 
   } 
-
   this.model = model;
   this.widgetNode = widgetNode;
-  /** Widget's Id defined in the Config */
-  this.id = widgetNode.attributes.getNamedItem("id").nodeValue;
+
+  /** mbWidgetId is an auto generated ID assigned to the widget output node */
   this.mbWidgetId = "MbWidget_" + mbIds.getId();
 
+  /** Widget's Id defined in the Config (optional) */
+  if (widgetNode.attributes.getNamedItem("id")) {
+    this.id = widgetNode.attributes.getNamedItem("id").nodeValue;
+  } else {
+    this.id = this.mbWidgetId;
+  }
+
   //set an empty debug property in config to see inputs and outputs of stylehseet
-  if ( widgetNode.selectSingleNode("debug") ) this.debug=true;
+  if ( widgetNode.selectSingleNode("mb:debug") ) this.debug=true;
 
   /** Transient var used to store model XML before and then after XSL transform.
    *  It can be modified by prePaint() .
    */
   this.resultDoc = null;
 
-  /** HTML root <div> node for this widget */
-  this.node=null;
-
   //until htmlTagNode becomes required allow setting of it by widget id
-  var htmlTagNode = widgetNode.selectSingleNode("htmlTagId");
+  var htmlTagNode = widgetNode.selectSingleNode("mb:htmlTagId");
   var htmlTagId = this.id;
   if (htmlTagNode) {
     htmlTagId = htmlTagNode.firstChild.nodeValue;
@@ -58,8 +61,8 @@ function WidgetBase(widgetNode,model) {
 
   }else{
 
-    //if there is a container node for this widget, initialize it if not done already
-    var mapContainerNode = widgetNode.selectSingleNode("mapContainerId");
+    //if there is a container node for this widget, initialize it if required
+    var mapContainerNode = widgetNode.selectSingleNode("mb:mapContainerId");
     if (mapContainerNode) {
       this.containerNodeId = mapContainerNode.firstChild.nodeValue;
       var testNode = document.getElementById(this.containerNodeId);
@@ -84,14 +87,14 @@ function WidgetBase(widgetNode,model) {
 
   // Set this.stylesheet
   // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
-  var styleNode = widgetNode.selectSingleNode("stylesheet");
+  var styleNode = widgetNode.selectSingleNode("mb:stylesheet");
   var styleUrl;
   if ( styleNode ) styleUrl = styleNode.firstChild.nodeValue;
   else styleUrl = baseDir+"/widget/"+widgetNode.nodeName+".xsl";
   this.stylesheet = new XslProcessor(styleUrl);
 
   //set the target model
-  var targetModel = widgetNode.selectSingleNode("targetModel");
+  var targetModel = widgetNode.selectSingleNode("mb:targetModel");
   if (targetModel) {
     this.targetModel = eval("config."+targetModel.firstChild.nodeValue);
     if ( !this.targetModel ) {
@@ -156,8 +159,8 @@ function WidgetBase(widgetNode,model) {
    */
   this.paint = function(objRef) {
     if (objRef.model.doc) {
-      if (objRef.debug) alert("source:"+objRef.model.doc.xml);
 
+      if (objRef.debug) alert("source:"+objRef.model.doc.xml);
       this.resultDoc = objRef.model.doc; // resultDoc sometimes modified by prePaint()
       objRef.prePaint(objRef);
 
@@ -193,7 +196,7 @@ function WidgetBase(widgetNode,model) {
    * Instantiate all the child tools of this widget.
    */
   this.loadTools = function() {
-    var toolNodes = this.widgetNode.selectNodes( "tools/*" );
+    var toolNodes = this.widgetNode.selectNodes( "mb:tools/*" );
     for (var i=0; i<toolNodes.length; i++ ) {
       var toolNode = toolNodes[i];
       var evalStr = "new " + toolNode.nodeName + "(toolNode, this);";

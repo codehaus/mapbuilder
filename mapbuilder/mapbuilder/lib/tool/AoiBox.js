@@ -24,9 +24,9 @@ function AoiBox(toolNode, parentWidget) {
     this[sProperty] = base[sProperty]; 
   } 
 
-  this.lineWidth = toolNode.selectSingleNode("lineWidth").firstChild.nodeValue; // Zoombox line width; pass in as param?
-  this.lineColor = toolNode.selectSingleNode("lineColor").firstChild.nodeValue; // color of zoombox lines; pass in as param?
-  this.crossSize = toolNode.selectSingleNode("crossSize").firstChild.nodeValue;
+  this.lineWidth = toolNode.selectSingleNode("mb:lineWidth").firstChild.nodeValue; // Zoombox line width; pass in as param?
+  this.lineColor = toolNode.selectSingleNode("mb:lineColor").firstChild.nodeValue; // color of zoombox lines; pass in as param?
+  this.crossSize = toolNode.selectSingleNode("mb:crossSize").firstChild.nodeValue;
 
   /** Hide or show the box.
     * @param vis    boolean true for visible; false for hidden
@@ -45,7 +45,24 @@ function AoiBox(toolNode, parentWidget) {
     * if the box width or height is less than the cross size property, then the
     * drawCross method is called, otherwise call drawBox.
     */
-  this.paint = function() {
+  this.paint = function(thisTool) {
+    var aoiBox = thisTool.model.getParam("aoi");
+    var ul = thisTool.model.extent.GetPL(aoiBox[0]);
+    var lr = thisTool.model.extent.GetPL(aoiBox[1]);
+    //check if ul=lr, then draw cross, else drawbox
+    if ( (Math.abs( ul[0]-lr[0] ) < thisTool.crossSize) && 
+        (Math.abs( ul[1]-lr[1] ) < thisTool.crossSize) ) {
+      thisTool.drawCross( new Array( (ul[0]+lr[0])/2, (ul[1]+lr[1])/2) );
+    } else {
+      thisTool.drawBox(ul, lr);
+    }
+  }
+  this.model.addListener("aoi",this.paint, this);
+
+  /** called when container node changes 
+    */
+  this.refresh = function(objRef) {
+    //objRef.paint
     var aoiBox = this.model.getParam("aoi");
     var ul = this.model.extent.GetPL(aoiBox[0]);
     var lr = this.model.extent.GetPL(aoiBox[1]);
@@ -57,6 +74,7 @@ function AoiBox(toolNode, parentWidget) {
       this.drawBox(ul, lr);
     }
   }
+  this.parentWidget.addListener("paint",this.paint, this);
 
   /** Draw a box.
     * @param ul Upper Left position as an (x,y) array in screen coords.
@@ -115,18 +133,10 @@ function AoiBox(toolNode, parentWidget) {
     newDiv.style.position = "absolute";
     newDiv.style.backgroundColor = this.lineColor;
     newDiv.style.visibility = "hidden";
+    newDiv.style.zIndex = 300;
     parentNode.appendChild( newDiv );
     return newDiv;
   }
-
-  /**
-   * Called when the AoiChanged.
-   * @param objRef This object.
-   */
-  this.aoiListener = function(objRef) {
-    objRef.paint(objRef);
-  }
-  this.model.addListener("aoi",this.aoiListener, this);
 
   /**
    * Called when the parent widget is painted to create the aoi box 

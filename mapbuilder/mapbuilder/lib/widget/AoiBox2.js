@@ -21,9 +21,9 @@ function AoiBox2(widgetNode, model) {
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 
   } 
-  this.lineWidth = widgetNode.selectSingleNode("lineWidth").firstChild.nodeValue;
-  this.lineColor = widgetNode.selectSingleNode("lineColor").firstChild.nodeValue;
-  this.crossSize = widgetNode.selectSingleNode("crossSize").firstChild.nodeValue;
+  this.lineWidth = widgetNode.selectSingleNode("mb:lineWidth").firstChild.nodeValue;
+  this.lineColor = widgetNode.selectSingleNode("mb:lineColor").firstChild.nodeValue;
+  this.crossSize = widgetNode.selectSingleNode("mb:crossSize").firstChild.nodeValue;
 
   this.node.style.position="absolute";
   this.node.visibility="hidden";

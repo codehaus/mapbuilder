@@ -58,7 +58,7 @@ function GetFeatureInfo(toolNode, parentWidget) {
 
   /** Target FeatureCollection model */
 
-  var targetFeatureCollection = toolNode.selectSingleNode("targetFeatureCollection");
+  var targetFeatureCollection = toolNode.selectSingleNode("mb:targetFeatureCollection");
 
   this.targetFeatureCollectionName = targetFeatureCollection.firstChild.nodeValue;
 
@@ -154,9 +154,7 @@ function GetFeatureInfo(toolNode, parentWidget) {
 
           alert("url="+url);
 
-          objRef.targetFeatureCollection.loadModelDoc(
-
-            objRef.targetFeatureCollection,url);
+          objRef.targetFeatureCollection.loadModelDoc(url);
 
         }
 

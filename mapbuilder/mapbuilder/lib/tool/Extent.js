@@ -66,6 +66,7 @@ function Extent( model, initialRes ) {
       extent.SetResolution( new Array(extent.model.getWindowWidth(), extent.model.getWindowHeight() ) );
     }
   }
+  //this.model.addListener( "aoi", this.init, this );
   this.init(this, initialRes);
 }
 
