@@ -109,7 +109,6 @@
   <!-- use this with a WFS capabilities model -->
 		<WfsCapabilities id="wfsCapTemplate">
       <!--defaultModelUrl>http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA?version=1.0.0&amp;service=WFS&amp;request=GetCapabilities</defaultModelUrl-->
-      <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
       <models>
         <DescribeFeatureType id="featureTypeTemplate" template="true">
           <widgets>
@@ -130,50 +129,65 @@
             </GmlRendererTest>
           </widgets>
         </GetFeature>
+        <Transaction id="transactionTemplate" template="true">
+          <method>post</method>
+          <widgets>
+            <ShowResponse id="transResponse"/>
+          </widgets>
+        </Transaction>
       </models>
 			<widgets>
         <Widget id="featureTypes">
           <stylesheet>/mapbuilder/lib/widget/SelectFeatureType.xsl</stylesheet>
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
+          <tools>
+            <WebServiceRequest id="wfsController">
+              <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
+              <targetModel request="wfs:DescribeFeatureType">featureTypeTemplate</targetModel>
+              <targetModel request="wfs:GetFeature">getFeatureTemplate</targetModel>
+              <targetModel request="wfs:Transaction">transactionTemplate</targetModel>
+            </WebServiceRequest>
+          </tools>
         </Widget>
 			</widgets>
 		</WfsCapabilities>
     
 		<WmsCapabilities id="wmsCapTemplate">
       <!--defaultModelUrl>http://www.bsc-eoc.org/cgi-bin/bsc_ows.asp?version=1.1.1&amp;service=WMS&amp;request=GetCapabilities</defaultModelUrl-->
-      <nodeSelectXpath>//Layer</nodeSelectXpath>
       <title>OGC Web Map Server (WMS)</title>
       <models>
-        <!--DescribeFeatureType id="featureTypeTemplate" template="true">
+        <!--GetFeatureInfo id="featureTypeTemplate" template="true">
           <widgets>
             <Widget id="attributeFilter">
               <stylesheet>/mapbuilder/lib/widget/FilterAttributes.xsl</stylesheet>
               <outputNodeId>filterForm</outputNodeId>
             </Widget>
           </widgets>
-        </DescribeFeatureType-->
-        <!--GetMap id="getMapTemplate" template="true">
+        </GetFeatureInfo-->
+        <GetMap id="getMapTemplate" template="true">
           <widgets>
-            <MapImage id="renderMap">
+            <!--MapImage id="renderMap">
               <targetModel>mainMap</targetModel>
               <htmlTagId>mainMapPane</htmlTagId>
               <mapContainerId>mainMapContainer</mapContainerId>
-            </MapImage>
+            </MapImage-->
           </widgets>
-        </GetMap-->
+        </GetMap>
       </models>
 			<widgets>
         <Widget id="layerList">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
           <stylesheet>/mapbuilder/lib/widget/SelectMapLayers.xsl</stylesheet>
+          <tools>
+            <WebServiceRequest id="wmsController">
+              <nodeSelectXpath>//Layer</nodeSelectXpath>
+              <targetModel request="wms:GetMap">getMapTemplate</targetModel>
+              <targetModel request="wms:GetFeatureInfo">getFeatureInfoTemplate</targetModel>
+            </WebServiceRequest>
+          </tools>
         </Widget>
-        <GetMapRequest id="getMapRequest">
-          <htmlTagId>mainMapPane</htmlTagId>
-          <targetModel>mainMap</targetModel>
-          <mapContainerId>mainMapContainer</mapContainerId>
-        </GetMapRequest>
         <CopyNode id="copyNodeToContext">
           <targetModel>mainMap</targetModel>
         </CopyNode>

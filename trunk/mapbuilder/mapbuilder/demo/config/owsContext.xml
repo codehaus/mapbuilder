@@ -20,7 +20,6 @@
   <models>
     <OwsContext id="mainMap">
       <defaultModelUrl>context/oc_0_0_11.xml</defaultModelUrl>
-      <nodeSelectXpath>/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[wmc:Server/@service='OGC:WFS']</nodeSelectXpath>
       <models>
         <Gml2 id="gml2FeatureTemplate" template="true">
           <method>post</method>
@@ -49,6 +48,11 @@
             <DragPanHandler>
               <enabled>false</enabled>
             </DragPanHandler>
+            <WebServiceRequest id="wfsController">
+              <nodeSelectXpath>/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[wmc:Server/@service='OGC:WFS']</nodeSelectXpath>
+              <targetModel request="wfs:DescribeFeatureType">featureTypeTemplate</targetModel>
+              <targetModel request="wfs:GetFeature">gml2FeatureTemplate</targetModel>
+            </WebServiceRequest>
           </tools>
           <mapContainerId>mainMapContainer</mapContainerId>
           <!--fixedWidth>300</fixedWidth-->
@@ -100,8 +104,6 @@
       <tools>
         <ZoomIn id="zoomIn">
           <mouseHandler>mainMap.mainMapWidget</mouseHandler>
-          <dependsOn>mainMap.mainMapWidget.AoiMouseHandler</dependsOn>
-          <dependsOn>mainMap.mainMapWidget.AoiBox</dependsOn>
           <class>RadioButton</class>
           <selected>true</selected>
           <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
@@ -111,8 +113,6 @@
         </ZoomIn>
         <ZoomOut id="zoomOut">
           <mouseHandler>mainMap.mainMapWidget</mouseHandler>
-          <dependsOn>mainMap.mainMapWidget.AoiMouseHandler</dependsOn>
-          <dependsOn>mainMap.mainMapWidget.AoiBox</dependsOn>
           <class>RadioButton</class>
           <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
           <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
@@ -121,7 +121,6 @@
         </ZoomOut>
         <DragPan id="dragPan">
           <mouseHandler>mainMap.mainMapWidget</mouseHandler>
-          <dependsOn>mainMap.mainMapWidget.DragPanHandler</dependsOn>
           <class>RadioButton</class>
           <enabledSrc>/images/PanEnable.gif</enabledSrc>
           <disabledSrc>/images/PanDisable.gif</disabledSrc>
@@ -130,8 +129,6 @@
         </DragPan>
         <SetAoi id="setAoi">
           <mouseHandler>mainMap.mainMapWidget</mouseHandler>
-          <dependsOn>mainMap.mainMapWidget.AoiMouseHandler</dependsOn>
-          <dependsOn>mainMap.mainMapWidget.AoiBox</dependsOn>
           <class>RadioButton</class>
           <enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
           <disabledSrc>/images/SetAoiDisable.gif</disabledSrc>
