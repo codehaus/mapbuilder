@@ -49,7 +49,7 @@
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainMap.mainAoi</mouseHandler>
+      <mouseHandler>mainMap.tools.mainAoi</mouseHandler>
       <class>RadioButton</class>
       <selected>true</selected>
       <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
@@ -60,7 +60,7 @@
     <ZoomOut id="zoomOut">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainMap.mainAoi</mouseHandler>
+      <mouseHandler>mainMap.tools.mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
       <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
@@ -70,7 +70,7 @@
     <DragPan id="dragPan">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainMap.mainDragPan</mouseHandler>
+      <mouseHandler>mainMap.tools.mainDragPan</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/PanEnable.gif</enabledSrc>
       <disabledSrc>/images/PanDisable.gif</disabledSrc>
@@ -80,7 +80,7 @@
     <SetAoi id="setAoi">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainMap.mainAoi</mouseHandler>
+      <mouseHandler>mainMap.tools.mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
       <disabledSrc>/images/SetAoiDisable.gif</disabledSrc>
@@ -95,4 +95,5 @@
       <tooltip xml:lang="fr">redonner la carte ses dimensions complèts</tooltip>
     </Reset>
   </widgets>
+  <proxyUrl>/mapbuilder/proxy</proxyUrl>
 </MapbuilderConfig>
