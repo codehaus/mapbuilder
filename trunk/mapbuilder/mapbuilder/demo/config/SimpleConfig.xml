@@ -26,7 +26,9 @@
 
       <widgets>
 
-        <MapPane id="mainMapPane">
+        <MapPane id="mainMapWidget">
+
+          <htmlTagId>mainMapPane</htmlTagId>
 
           <tools> 
 
@@ -44,7 +46,13 @@
 
           </tools> 
 
+          <mapContainerId>mainMapContainer</mapContainerId>
+
         </MapPane>
+
+        <ModelUrlInput id="urlInput">
+
+        </ModelUrlInput>
 
         
 
