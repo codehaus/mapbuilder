@@ -49,6 +49,14 @@ function MapContainerBase(widget,widgetNode,model) {
     widget.containerModel = containerNode.containerModel;
     model.containerModel = containerNode.containerModel;
     widget.containerModel.addListener("refresh",widget.paint,widget);
+
+    this.setContainerWidth = function(objRef) {
+      objRef.node.style.width=objRef.containerModel.getWindowWidth();
+      objRef.node.style.height=objRef.containerModel.getWindowHeight();
+      widget.stylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
+      widget.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
+    }
+
   } else {
     containerNode = document.createElement("DIV");
     containerNode.setAttribute("id",widget.containerNodeId);
@@ -61,7 +69,7 @@ function MapContainerBase(widget,widgetNode,model) {
     widget.containerModel = widget.model;
     model.containerModel = containerNode.containerModel;
 
-    this.setFixedWidth = function(objRef) {
+    this.setContainerWidth = function(objRef) {
       //adjust the context width and height if required.
       var fixedWidth = widgetNode.selectSingleNode("mb:fixedWidth");
       if ( fixedWidth ) {
@@ -76,8 +84,6 @@ function MapContainerBase(widget,widgetNode,model) {
       widget.stylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
       widget.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
     }
-    widget.setFixedWidth = this.setFixedWidth;
-    widget.containerModel.addListener( "loadModel", widget.setFixedWidth, widget );
 
     //add the extent tool
     widget.containerModel.extent = new Extent( widget.containerModel );
@@ -150,4 +156,6 @@ function MapContainerBase(widget,widgetNode,model) {
   }
   widget.node = document.getElementById(widget.containerNodeId);
 
+  widget.setContainerWidth = this.setContainerWidth;
+  widget.containerModel.addListener( "loadModel", widget.setContainerWidth, widget );
 }
