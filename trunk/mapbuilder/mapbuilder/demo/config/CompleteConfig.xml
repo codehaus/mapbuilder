@@ -238,7 +238,7 @@
 					<tooltip xml:lang="fr">click on map to create a point feature</tooltip>
 					<targetGml>testGml</targetGml>
 					<defaultModelUrl>gml/defaultAddPoint.xml</defaultModelUrl>
-          <featureXpath>/gml:featureMember/lines/_SHAPE_/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
+					<featureXpath>/gml:featureMember/points/_SHAPE_/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
 				</EditPoint>
 				<EditLine id="editLine">
 					<mouseHandler>mainMap.mainMapWidget</mouseHandler>
