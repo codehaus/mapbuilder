@@ -109,3 +109,8 @@ function Config(url) {
     model.loadWidgets();
   }
 }
+
+// Initialise this object when the script is loaded.
+// mbConfigUrl is initialised in Mapbuilder.js.
+config=new Config(mbConfigUrl);
+
