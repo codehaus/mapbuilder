@@ -181,6 +181,10 @@ function WidgetBase(widget,widgetNode,model) {
     }
   }
 
+  /**
+   * Remove widget from display.
+   * @param objRef Pointer to this object.
+   */ 
   this.clearWidget = function(objRef) {
     //with objRef.node remove child
     var outputNode = document.getElementById( objRef.outputNodeId );
