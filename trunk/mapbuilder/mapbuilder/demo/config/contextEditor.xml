@@ -141,15 +141,16 @@
         <WebServiceRequest id="wfsGetFeature">
           <targetModel>wfsCapTemplate.models.getFeatureTemplate</targetModel>
           <requestName>wfs:GetFeature</requestName>
+          <maxFeatures>20</maxFeatures>
         </WebServiceRequest>
         <WebServiceRequest id="wfsDescribeFeature">
           <targetModel>wfsCapTemplate.models.featureTypeTemplate</targetModel>
           <requestName>wfs:DescribeFeatureType</requestName>
         </WebServiceRequest>
-        <WebServiceRequest id="wfsController">
+        <!--WebServiceRequest id="wfsTransaction">
           <targetModel>wfsCapTemplate.models.transactionTemplate</targetModel>
           <requestName>wfs:Transaction</requestName>
-        </WebServiceRequest>
+        </WebServiceRequest-->
       </tools>
     </WfsCapabilities>
     <WmsCapabilities id="wmsCapTemplate">
