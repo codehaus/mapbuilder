@@ -251,57 +251,9 @@
   </section>
 
   <section>
-    <title>AddNodeToContext event</title>
+    <title>newModel event</title>
 
-    <para></para>
-  </section>
-
-  <section>
-    <title>aoi event</title>
-
-    <para></para>
-  </section>
-
-  <section>
-    <title>boundingBox event</title>
-
-    <para></para>
-  </section>
-
-  <section>
-    <title>DescribeFeatureType event</title>
-
-    <para></para>
-  </section>
-
-  <section>
-    <title>GetFeature event</title>
-
-    <para></para>
-  </section>
-
-  <section>
-    <title>GetMap event</title>
-
-    <para></para>
-  </section>
-
-  <section>
-    <title>hidden event</title>
-
-    <para></para>
-  </section>
-
-  <section>
-    <title>httpPayload event</title>
-
-    <para></para>
-  </section>
-
-  <section>
-    <title>loadModel event</title>
-
-    <para>The "loadModel" event is sent before a new model is loaded so that
+    <para>The "newModel" event is sent before a new model is loaded so that
     widgets associated with the previous model are removed from the
     HTML.</para>
 
@@ -311,6 +263,14 @@
     <para><emphasis>CS Jan 05: The only reason to remove nodes is if the
     Context changes. Therefore, only widgets of Context models should register
     for this event.</emphasis></para>
+
+    <para><emphasis>CS Jan 05: The process of sending an event to remove html
+    BEFORE loading a new model is flawed. It currently works because events
+    are currently syncronous and are processed in the same thread as where the
+    event is sent. However if events become asyncronous (as may happen in the
+    future), this process will not work because the html will be cleared AFTER
+    the model is loaded (which could be removing the NEW widgets as well as
+    old widgets).</emphasis></para>
 
     <table>
       <title>Register for event</title>
@@ -357,7 +317,7 @@
           <row>
             <entry>ModelBase.loadModelDoc()</entry>
 
-            <entry></entry>
+            <entry>callListeners()</entry>
 
             <entry>Called before new model is loaded.</entry>
           </row>
@@ -365,13 +325,237 @@
           <row>
             <entry>WidgetBase.clearWidget()</entry>
 
-            <entry></entry>
+            <entry>. </entry>
 
             <entry><para>Remove old widget from display.</para></entry>
           </row>
         </tbody>
       </tgroup>
     </table>
+  </section>
+
+  <section>
+    <title>loadModel event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>refresh event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>paint event</title>
+
+    <para>This event is sent after a widget has painted itself.</para>
+
+    <para><emphasis>CS: Jan 05: I suspect that we can deprecate this event and
+    use "refresh" instead. Alternatively, WidgetBase could contain a null
+    postPaint() procedure which can be overwritten by decendant widgets.
+    postPaint() would effectively be the same as
+    paintHandler().</emphasis></para>
+
+    <table>
+      <title>Register for event</title>
+
+      <tgroup cols="3">
+        <thead>
+          <row>
+            <entry>Object</entry>
+
+            <entry>Code</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>AoiForm</entry>
+
+            <entry>this.addListener('paint', this.paintHandler, this);</entry>
+
+            <entry><para></para></entry>
+          </row>
+
+          <row>
+            <entry>MapScaleText</entry>
+
+            <entry>this.addListener('paint', this.paintHandler, this);</entry>
+
+            <entry><para></para></entry>
+          </row>
+
+          <row>
+            <entry>ModelUrlInput</entry>
+
+            <entry>this.addListener('paint', this.paintHandler, this);</entry>
+
+            <entry><para></para></entry>
+          </row>
+
+          <row>
+            <entry>ServiceRegistryList</entry>
+
+            <entry>this.addListener('paint', this.paintHandler, this);</entry>
+
+            <entry><para></para></entry>
+          </row>
+
+          <row>
+            <entry>WebServiceForm</entry>
+
+            <entry>this.addListener('paint', this.paintHandler, this);</entry>
+
+            <entry><para></para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <table>
+      <title>Process event</title>
+
+      <tgroup cols="3">
+        <thead>
+          <row>
+            <entry>Object</entry>
+
+            <entry>Code</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>WidgetBase.paint()</entry>
+
+            <entry>callListeners()</entry>
+
+            <entry>Called after the widget has been painted.</entry>
+          </row>
+
+          <row>
+            <entry>*.paintHandler()</entry>
+
+            <entry>. </entry>
+
+            <entry>Set form values to defaults.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+
+  <section>
+    <title>AddNodeToContext event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>aoi event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>boundingBox event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>DescribeFeatureType event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>GetFeature event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>GetMap event</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>hidden event</title>
+
+    <para>Event sent when a layer is hidden/made visible.</para>
+
+    <table>
+      <title>Register for event</title>
+
+      <tgroup cols="3">
+        <thead>
+          <row>
+            <entry>Object</entry>
+
+            <entry>Code</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>MapContainerBase</entry>
+
+            <entry></entry>
+
+            <entry><para>Register for event.</para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <table>
+      <title>Process event</title>
+
+      <tgroup cols="3">
+        <thead>
+          <row>
+            <entry>Object</entry>
+
+            <entry>Code</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>Context.setHidden</entry>
+
+            <entry>callListeners()</entry>
+
+            <entry></entry>
+          </row>
+
+          <row>
+            <entry>MapContainerBase.hiddenListener()</entry>
+
+            <entry></entry>
+
+            <entry><para></para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+
+  <section>
+    <title>httpPayload event</title>
+
+    <para></para>
   </section>
 
   <section>
@@ -382,24 +566,6 @@
 
   <section>
     <title>mousedown mousemove mouseout mouseover mouseup events</title>
-
-    <para></para>
-  </section>
-
-  <section>
-    <title>newModel event</title>
-
-    <para></para>
-  </section>
-
-  <section>
-    <title>paint event</title>
-
-    <para></para>
-  </section>
-
-  <section>
-    <title>refresh event</title>
 
     <para></para>
   </section>
