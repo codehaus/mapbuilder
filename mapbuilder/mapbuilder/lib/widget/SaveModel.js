@@ -42,8 +42,6 @@ function SaveModel(widgetNode, model) {
 
 
 
-  this.stylesheet.setParameter("modelUrl", this.model.url);
-
   var serializeUrl = widgetNode.selectSingleNode("mb:serializeUrl");
 
   if (serializeUrl) {
@@ -53,6 +51,16 @@ function SaveModel(widgetNode, model) {
     this.stylesheet.setParameter("serializeUrl", this.serializeUrl);
 
   }
+
+  
+
+  this.init = function(objRef) {
+
+    objRef.stylesheet.setParameter("modelUrl", objRef.model.url);
+
+  }
+
+  this.model.addListener("loadModel", this.init, this);
 
 
 

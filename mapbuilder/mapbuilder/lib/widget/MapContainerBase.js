@@ -79,12 +79,6 @@ function MapContainerBase(widget,widgetNode,model) {
     widget.containerModel.addListener( "refresh", widget.containerModel.extent.init, widget.containerModel.extent );
     //TBD: do an extent history too by storing extents everytime the aoi changes
 
-    this.clearContainer = function(objRef) {
-      //with objRef.node remove child
-    }
-    widget.clearContainer = this.clearContainer;
-    widget.containerModel.addListener("newModel",widget.clearContainer, widget);
-
     /**
      * Called just before paint to set the map scale as stylesheet param
      * @param objRef pointer to this object.

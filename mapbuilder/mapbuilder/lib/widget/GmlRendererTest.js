@@ -26,7 +26,7 @@ function GmlRendererTest(widgetNode, model) {
   this.paint = function(objRef) {
     //var response = postLoad("/mapbuilder/writeXml", objRef.model.doc);
     var features = objRef.model.doc.selectNodes("//gml:featureMember");
-    alert("pretending to paint:"+objRef.model.doc.xml);
+    alert("pretending to paint:"+features.length+" features"+objRef.model.doc.xml);
   }
   this.model.addListener("loadModel",this.paint,this);
   this.override=true;

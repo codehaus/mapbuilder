@@ -110,7 +110,7 @@ function PostFeatureRequest(widgetNode, model) {
    * Instantiate all the child tools of this widget.
    */
   this.loadFeatureList = function(objRef) {
-    var featureList = objRef.model.getFeatureList();
+    var featureList = objRef.model.getNodeList();
     for (var i=0; i<featureList.length; i++) {
       var feature = featureList[i];
 
