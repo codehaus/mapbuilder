@@ -11,33 +11,23 @@ $Id$
  * @author Cameron Shorter cameronATshorter.net
  * @requires Sarissa
  * @param url Url of context document
- * @param name Variable name referencing this context object
- * @param baseDir Relative path to base directory of Mapbuilder files
- * @param skin Name of skin to use for look and feel
+ * @param id ID referencing this context object
  * @param queryLayer Index of layer in Context document that should be used as query layer for GetFeatureInfo requests
  */
-function Context(url, name, baseDir, skin, queryLayer) {
+function Context(url) {
 
   /**
    * The Web Map Context Document.
    */
-  this.context = Sarissa.getDomDocument();
-  this.context.async = false;
+  this.doc = Sarissa.getDomDocument();
+  this.doc.async = false;
   // the following two lines are needed for IE
-  this.context.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
-  this.context.setProperty("SelectionLanguage", "XPath");
-  this.context.load(url);
-  this.name=name;
-  this.baseDir=baseDir;
-  if (skin) {
-    this.skin = skin;
-  } else {
-    this.skin="default";
-  }
-  /**
-   * The name of the skin to use, defaults to skin/default .*/
-  this.skin=baseDir+"/skin/"+this.skin+"/";
-  this.queryLayer=queryLayer;
+  this.doc.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
+  this.doc.setProperty("SelectionLanguage", "XPath");
+  this.doc.load(url);
+  if ( this.doc.parseError < 0 ) alert("error loading document: " + url);
+  
+  this.id = this.doc.documentElement.attributes.getNamedItem("id").nodeValue;
 
   // ===============================
   // Arrays of Listeners
@@ -147,7 +137,7 @@ function Context(url, name, baseDir, skin, queryLayer) {
       hiddenValue = "0";
     }
       
-    layers=this.context.documentElement.getElementsByTagName("Layer");
+    layers=this.doc.documentElement.getElementsByTagName("Layer");
     for(var i=0;i<layers.length;i++) {
       if(layers[i].getElementsByTagName("Name").item(0).firstChild.nodeValue == layerIndex) {
         layers[i].setAttribute("hidden", hiddenValue);
@@ -166,7 +156,7 @@ function Context(url, name, baseDir, skin, queryLayer) {
    */
   this.getBoundingBox=function() {
     // Extract BoundingBox from the context
-    boundingBox=this.context.documentElement.getElementsByTagName("BoundingBox").item(0);
+    boundingBox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
     bbox = new Array();
     bbox[0]=parseFloat(boundingBox.getAttribute("minx"));
     bbox[1]=parseFloat(boundingBox.getAttribute("miny"));
@@ -181,7 +171,7 @@ function Context(url, name, baseDir, skin, queryLayer) {
    */
   this.setBoundingBox=function(boundingBox) {
     // Set BoundingBox in context
-    bbox=this.context.documentElement.getElementsByTagName("BoundingBox").item(0);
+    bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
     bbox.setAttribute("minx", boundingBox[0]);
     bbox.setAttribute("miny", boundingBox[1]);
     bbox.setAttribute("maxx", boundingBox[2]);
@@ -199,7 +189,7 @@ function Context(url, name, baseDir, skin, queryLayer) {
    * @param srs The Spatial Reference System.
    */
   this.setSRS=function(srs) {
-    bbox=this.context.documentElement.getElementsByTagName("BoundingBox").item(0);
+    bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
     bbox.setAttribute("SRS",srs);
   }
 
@@ -209,7 +199,7 @@ function Context(url, name, baseDir, skin, queryLayer) {
    * @return srs The Spatial Reference System.
    */
   this.getSRS=function() {
-    bbox=this.context.documentElement.getElementsByTagName("BoundingBox").item(0);
+    bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
     srs=bbox.getAttribute("SRS");
     return srs;
   }
@@ -220,7 +210,7 @@ function Context(url, name, baseDir, skin, queryLayer) {
    * @return width The width of map window (therefore of map layer images).
    */
   this.getWindowWidth=function() {
-    win=this.context.documentElement.getElementsByTagName("Window").item(0);
+    win=this.doc.documentElement.getElementsByTagName("Window").item(0);
     width=win.getAttribute("width");
     return width;
   }
@@ -231,7 +221,7 @@ function Context(url, name, baseDir, skin, queryLayer) {
    * @param width The width of map window (therefore of map layer images).
    */
   this.setWindowWidth=function(width) {
-    win=this.context.documentElement.getElementsByTagName("Window").item(0);
+    win=this.doc.documentElement.getElementsByTagName("Window").item(0);
     win.setAttribute("width", width);
   }
 
@@ -241,7 +231,7 @@ function Context(url, name, baseDir, skin, queryLayer) {
    * @return height The height of map window (therefore of map layer images).
    */
   this.getWindowHeight=function() {
-    win=this.context.documentElement.getElementsByTagName("Window").item(0);
+    win=this.doc.documentElement.getElementsByTagName("Window").item(0);
     height=win.getAttribute("height");
     return height;
   }
@@ -252,7 +242,7 @@ function Context(url, name, baseDir, skin, queryLayer) {
    * @param height The height of map window (therefore of map layer images).
    */
   this.setWindowHeight=function(height) {
-    win=this.context.documentElement.getElementsByTagName("Window").item(0);
+    win=this.doc.documentElement.getElementsByTagName("Window").item(0);
     win.setAttribute("height", height);
   }
 
@@ -301,7 +291,7 @@ function Context(url, name, baseDir, skin, queryLayer) {
     * @return The new context loaded as an XML node.
     */
   this.getContext=function(){
-    return this.context;
+    return this.doc;
   }
 
 //add the extent property
@@ -309,36 +299,44 @@ function Context(url, name, baseDir, skin, queryLayer) {
 
 //make a copy in the constructor for reset function
   this.originalExtent = new Extent( this );   
-  this.reset = function() {
-    //TBD: do something with size?
-    this.extent.CenterAt( this.originalExtent.GetCenter(), this.originalExtent.res[0] );
-  }
 
+  /** Functions to call when the Area Of Interest changes. */
+  this.aoiListeners=new Array();
 
   // ===============================
-  // Move the following
+  // Add Listener Functions
   // ===============================
   /**
-   * TBD: Deprecated, This function needs to move into the tools directory, or
-   * possibly the util directory. - Cameron.
-   * Resize a spatial extent to have the same aspect ratio as a Window.
-   * @param ext The fuction to call when the bbox changes.
-   * @return ext The adjusted spatial extent, having the same aspect ratio as the Window.
-   * @deprecated.
+   * Add a Listener for AoiBox change.
+   * @param listener The function to call when the Area Of Interest changes.
+   * @param target The object which owns the listener function.
    */
-  this.adjustExtent=function(ext) {
-    windowWidth=this.getWindowWidth();
-    windowHeight=this.getWindowHeight();
-    geoWidth = ext[2] - ext[0];
-    geoHeight = ext[3] - ext[1];
-    if(geoWidth/windowWidth>geoHeight/windowHeight){
-      ext[1]=ext[1]-(((geoWidth/windowWidth*windowHeight)-geoHeight)/2);
-      ext[3]=ext[3]+(((geoWidth/windowWidth*windowHeight)-geoHeight)/2);
-    }
-    else{
-      ext[0]=ext[0]-(((geoHeight/windowHeight*windowWidth)-geoWidth)/2);
-      ext[2]=ext[2]+(((geoHeight/windowHeight*windowWidth)-geoWidth)/2);
-    }
-    return ext;
+  this.addAoiListener=function(listener,target) {
+    this.aoiListeners[this.aoiListeners.length]=
+      new Array(listener,target);
   }
+
+  /**
+   * Set the end point for an Area Of Interest Box and call aoiListeners,
+   * note that the end point will be called numerous times as a mouse is dragged.
+   * @param anchorPoint The toPoint of an Aoi as an (x,y) array.
+   */
+  this.setAoi=function(ul, lr) {
+    this.ulAoi = ul;
+    this.lrAoi = lr;
+    this.aoiValid=true;
+    for (var i=0; i<this.aoiListeners.length; i++) {
+      this.aoiListeners[i][0](
+        this.aoiListeners[i][1]);
+    }
+  }
+
+/** Returns an array of the corner coordinates as [ul, lr]
+  * @return        array of point arrays; ul=0, lr=1
+  */
+  this.getAoi = function() {
+    return new Array(this.ulAoi, this.lrAoi);
+  }
+
+
 }
