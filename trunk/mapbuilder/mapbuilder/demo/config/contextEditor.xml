@@ -167,11 +167,11 @@
         </GetFeatureInfo-->
         <GetMap id="getMapTemplate" template="true">
           <widgets>
-            <!--MapImage id="renderMap">
+            <MapImage id="renderMap">
               <targetModel>mainMap</targetModel>
               <htmlTagId>mainMapPane</htmlTagId>
               <mapContainerId>mainMapContainer</mapContainerId>
-            </MapImage-->
+            </MapImage>
           </widgets>
         </GetMap>
       </models>
