@@ -16,17 +16,8 @@ $Id$
  * (pl) relative to the top left of the extent or projection XY values (xy). 
  *
  * @constructor
- *
  * @param model       the model document that this extent represents
- *
- * @method GetCenter    returns the XY coordinates of the center of the extent
- * @method GetXY        pass in PL coords and returns projection XY
- * @method GetPL        pass in projection XY and returns PL coords 
- * @method FitToWindow  adjusts the resolution so that it fits 
- * @method CenterAt     reset the extent to be centered at given xy and resolution
- * @method ZoomToBox    reset the extent to given bbox
- * @method SetSize      pass in a resolution and width, height are recalculated
- * @method SetResolution pass in a width, height and res is recalculated
+ * @param initialRes  (optional) if supplied the extent resolution will be set to this value
  */
 
 var Rearth = 6378137.0;                 // Radius of the earth (sphere); different from Proj value?
@@ -77,7 +68,7 @@ function Extent( model, initialRes ) {
    * ensure that it doesn't go beyond available extent.
    *
    * @param center      projection XY coordinate to center at
-   * @param res         resolution to display at
+   * @param newres      resolution to display at
    * @param limitExtent ensure that the extent doesn't go beyond available bbox (TBD: not complete/tested)
    * @return            none
    */
@@ -110,11 +101,8 @@ function Extent( model, initialRes ) {
   /**
    * Adjust the extent to the given bbox.  Resolution is recalculated. 
    * Extent width and height remain fixed.  
-   *
    * @param ul      upper left coordinate of bbox in XY projection coords
    * @param lr      lower right coordinate of bbox in XY projection coords
-   * @param limitExtent ensure that the extent doesn't go beyond available bbox (TBD: not complete/tested)
-   * @return            none
    */
   this.zoomToBox = function(ul, lr) {    //pass in xy
     var center = new Array((ul[0]+lr[0])/2, (ul[1]+lr[1])/2);
@@ -168,6 +156,10 @@ function Extent( model, initialRes ) {
     return mbScaleFactor*pixRes;
   }
 
+  /**
+   * Sets the model's resolution from mapScale input value.
+   * @param scale   map scale denominator value
+   */
   this.setScale = function(scale) {
     var newRes = null;
     switch(this.model.getSRS()) {
@@ -183,21 +175,24 @@ function Extent( model, initialRes ) {
     this.centerAt(this.getCenter(), newRes );
   }
 
-  this.init = function(extent) {  //, initialRes) {
+  /**
+   * Initialization of the Extent tool, called as a loadModel event listener.
+   * @param extent      the object being initialized
+   * @param initialRes  (optional) if supplied the extent resolution will be set to this value
+   */
+  this.init = function(extent, initialRes) {
     var bbox = extent.model.getBoundingBox();
     extent.ul = new Array(bbox[0],bbox[3]);
     extent.lr = new Array(bbox[2],bbox[1]);
     extent.setResolution( new Array(extent.model.getWindowWidth(), extent.model.getWindowHeight() ) );
-/*
     if ( initialRes ) {
       extent.setSize( initialRes );
     } else {
       extent.setResolution( new Array(extent.model.getWindowWidth(), extent.model.getWindowHeight() ) );
     }
-*/
   }
   this.model.addListener( "loadModel", this.init, this );
-  //this.init(this, initialRes);
+  if ( initialRes ) this.init(this, initialRes);
 }
 
   
