@@ -9,7 +9,7 @@
   <models>
 
     <Context id="mainMap">
-      <defaultModelUrl>/mapbuilder/demo/context/locatorMap.xml</defaultModelUrl>
+      <defaultModelUrl>/mapbuilder/demo/data/context/locatorMap.xml</defaultModelUrl>
       
       <widgets>
 
@@ -36,7 +36,7 @@
     </Context>
 
     <ContextCollection id="collectionGroup">
-      <defaultModelUrl>/mapbuilder/demo/context/demoCollection.xml</defaultModelUrl>
+      <defaultModelUrl>/mapbuilder/docs/samples/demoCollection.xml</defaultModelUrl>
       <widgets>
         <CollectionList id="collectionList">
           <targetModel>mainMap</targetModel>
