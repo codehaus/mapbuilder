@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Capabilities xmlns="http://www.opengis.net/wps" xmlns:ows="http://www.opengis.net/ows" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" version="0.0.1">
+
+  <ProcessOfferings>
+
+    <Process>
+
+      <name>FIMPORT</name>
+
+      <Application>
+
+        <ows:Keywords>
+
+          <ows:Keyword>FIMPORT</ows:Keyword>
+
+        </ows:Keywords>
+
+      </Application>
+
+      <Category>
+
+        <ows:Keywords>
+
+          <ows:Keyword>PACE</ows:Keyword>
+
+        </ows:Keywords>
+
+      </Category>
+
+    </Process>
+
+    <Process>
+
+      <name>SATMODEL</name>
+
+      <Application>
+
+        <ows:Keywords>
+
+          <ows:Keyword>SATMODEL</ows:Keyword>
+
+        </ows:Keywords>
+
+      </Application>
+
+      <Category>
+
+        <ows:Keywords>
+
+          <ows:Keyword>PACE</ows:Keyword>
+
+        </ows:Keywords>
+
+      </Category>
+
+    </Process>
+
+    <Process>
+
+      <name>REGPRO</name>
+
+      <Application>
+
+        <ows:Keywords>
+
+          <ows:Keyword>REGPRO</ows:Keyword>
+
+        </ows:Keywords>
+
+      </Application>
+
+      <Category>
+
+        <ows:Keywords>
+
+          <ows:Keyword>PACE</ows:Keyword>
+
+        </ows:Keywords>
+
+      </Category>
+
+    </Process>
+
+    <Process>
+
+      <name>ORTHO</name>
+
+      <Application>
+
+        <ows:Keywords>
+
+          <ows:Keyword>ORTHO</ows:Keyword>
+
+        </ows:Keywords>
+
+      </Application>
+
+      <Category>
+
+        <ows:Keywords>
+
+          <ows:Keyword>PACE</ows:Keyword>
+
+        </ows:Keywords>
+
+      </Category>
+
+    </Process>
+
+    <Process>
+
+      <name>FEXPORT</name>
+
+      <Application>
+
+        <ows:Keywords>
+
+          <ows:Keyword>FEXPORT</ows:Keyword>
+
+        </ows:Keywords>
+
+      </Application>
+
+      <Category>
+
+        <ows:Keywords>
+
+          <ows:Keyword>PACE</ows:Keyword>
+
+        </ows:Keywords>
+
+      </Category>
+
+    </Process>
+
+    <Process>
+
+      <name>CDSPOT5</name>
+
+      <Application>
+
+        <ows:Keywords>
+
+          <ows:Keyword>CDSPOT5</ows:Keyword>
+
+        </ows:Keywords>
+
+      </Application>
+
+      <Category>
+
+        <ows:Keywords>
+
+          <ows:Keyword>PACE</ows:Keyword>
+
+        </ows:Keywords>
+
+      </Category>
+
+    </Process>
+
+  </ProcessOfferings>
+
+</Capabilities>
+
+
+
