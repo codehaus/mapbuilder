@@ -11,19 +11,22 @@ $Name$Name:  $
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:gml="http://www.opengis.net/gml" xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder">
 	<xsl:output method="xml" omit-xml-declaration="yes"/>
+  <xsl:preserve-space elements="gml:name option"/>
   
   <!-- The common params set for all widgets -->
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
   <xsl:param name="targetModel"/>
   
-  
+  <xsl:param name="selectSize" select="1"/>
+  <xsl:param name="selectedOption"/>
+    
   
 	<xsl:template match="/mb:QuickviewPresetResultSet">
 		<xsl:variable name="srsName" select="gml:featureMember/mb:locationDef/mb:spatialKeyword/gml:location/gml:Envelope/@srsName"/>
     <DIV>
     <form>
-		<select name="locations" onchange="javascript:config.{$modelId}.{$widgetId}.setAoi(this.options[this.selectedIndex].value,'{$targetModel}');" size="5">
+		<select name="locations" onchange="javascript:config.{$modelId}.{$widgetId}.setAoi(this.options[this.selectedIndex].value,'{$targetModel}');" size="{$selectSize}">
       <xsl:apply-templates select="gml:featureMember/mb:locationDef"/>
 		</select>
     </form>
