@@ -86,7 +86,7 @@
 				</Style>
 			</StyleList>
 		</Layer>
-		<Layer queryable="1" hidden="0">
+		<Layer queryable="1" hidden="1">
 			<Server service="OGC:WMS" version="1.0.7" title="The GLOBE Program Visualization Server">
 				<OnlineResource xlink:type="simple" xlink:href="http://globe.digitalearth.gov/viz-bin/wmt.cgi"/>
 			</Server>
