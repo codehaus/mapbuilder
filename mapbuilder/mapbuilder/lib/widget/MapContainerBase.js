@@ -40,7 +40,9 @@ function MapContainerBase(widget,widgetNode,model) {
  * Initialize the container if required.
  */
   var containerNode = document.getElementById(widget.containerNodeId);
-  if (!containerNode) {
+  if (containerNode) {
+    widget.containerModel = containerNode.widget.model;
+  } else {
     containerNode = document.createElement("DIV");
     containerNode.setAttribute("id",widget.containerNodeId);
     containerNode.id=widget.containerNodeId;
@@ -48,33 +50,33 @@ function MapContainerBase(widget,widgetNode,model) {
     containerNode.style.position="relative";
     containerNode.style.overflow="hidden";
 
-    widget.sourceModel = widget.model;
-    //widget.sourceModel = widget.node.widget.model;
+    widget.containerModel = widget.model;
+    //widget.containerModel = widget.node.widget.model;
 
     widget.setFixedWidth = function(objRef) {
       //adjust the context width and height if required.
       var fixedWidth = widgetNode.selectSingleNode("mb:fixedWidth");
       if ( fixedWidth ) {
         fixedWidth = fixedWidth.firstChild.nodeValue;
-        var aspectRatio = objRef.sourceModel.getWindowHeight()/objRef.sourceModel.getWindowWidth();
+        var aspectRatio = objRef.containerModel.getWindowHeight()/objRef.containerModel.getWindowWidth();
         var newHeight = Math.round(aspectRatio*fixedWidth);
-        objRef.sourceModel.setWindowWidth( fixedWidth );
-        objRef.sourceModel.setWindowHeight( newHeight );
+        objRef.containerModel.setWindowWidth( fixedWidth );
+        objRef.containerModel.setWindowHeight( newHeight );
       }
-      objRef.node.style.width=objRef.sourceModel.getWindowWidth();
-      objRef.node.style.height=objRef.sourceModel.getWindowHeight();
+      objRef.node.style.width=objRef.containerModel.getWindowWidth();
+      objRef.node.style.height=objRef.containerModel.getWindowHeight();
     }
-    widget.sourceModel.addListener( "loadModel", widget.setFixedWidth, widget );
+    widget.containerModel.addListener( "loadModel", widget.setFixedWidth, widget );
 
     //add the extent tool
-    widget.sourceModel.extent = new Extent( widget.sourceModel );
-    widget.sourceModel.addListener( "aoi", widget.sourceModel.extent.init, widget.sourceModel.extent );
+    widget.containerModel.extent = new Extent( widget.containerModel );
+    widget.containerModel.addListener( "aoi", widget.containerModel.extent.init, widget.containerModel.extent );
     //TBD: do an extent history too by storing extents everytime the aoi changes
 
     widget.clearContainer = function(objRef) {
       //with objRef.node remove child
     }
-    widget.sourceModel.addListener("newModel",widget.clearContainer, widget);
+    widget.containerModel.addListener("newModel",widget.clearContainer, widget);
 
     /**
      * Called when the context's boundingBox attribute changes.
@@ -82,10 +84,10 @@ function MapContainerBase(widget,widgetNode,model) {
      */
     widget.boundingBoxChangeListener=function(thisWidget){
       //this.node.extent = 
-      thisWidget.sourceModel.extent.init(thisWidget.sourceModel.extent);
+      thisWidget.containerModel.extent.init(thisWidget.containerModel.extent);
       thisWidget.paint(thisWidget);
     }
-    widget.sourceModel.addListener("boundingBox",widget.boundingBoxChangeListener,widget);
+    widget.containerModel.addListener("boundingBox",widget.boundingBoxChangeListener,widget);
 
   /** Cross-browser mouse event handling.
     * This function is the event handler for all MapPane mouse events.
