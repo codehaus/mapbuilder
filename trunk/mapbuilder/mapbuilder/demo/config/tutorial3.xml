@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+
+<MapbuilderConfig id="referenceTemplate">
+  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+
+  <models>
+
+    <Context id="firstMap">
+      <defaultModelUrl>/mapbuilder/demo/context/cded.xml</defaultModelUrl>
+      
+      <widgets>
+        <MapPane id="mainMapPane">
+          <tools> 
+            <AoiBox>
+              <lineColor>magenta</lineColor>
+              <lineWidth>2</lineWidth>
+              <crossSize>25</crossSize>
+            </AoiBox>
+            <AoiMouseHandler/>
+            <DragPanHandler>
+              <enabled>false</enabled>
+            </DragPanHandler>
+          </tools> 
+        </MapPane>
+        
+        <Legend id="defaultLegend"/>
+        
+        <CursorTrack id="cursorTrack">
+          <mouseHandler>config['firstMap']['mainMapPane']</mouseHandler>
+        </CursorTrack>
+
+        <ButtonBar id="buttonBar">  
+          <tools>
+            <ZoomIn id="zoomIn">
+              <class>RadioButton</class>
+              <selected>true</selected>
+              <mouseHandler>config['firstMap']['mainMapPane']</mouseHandler>
+              <dependsOn>config['firstMap']['mainMapPane']['AoiMouseHandler']</dependsOn>
+              <dependsOn>config['firstMap']['mainMapPane']['AoiBox']</dependsOn>
+              <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
+              <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
+              <tooltip>click and drag to zoom in</tooltip>
+            </ZoomIn>
+            <ZoomOut id="zoomOut">
+              <class>RadioButton</class>
+              <mouseHandler>config['firstMap']['mainMapPane']</mouseHandler>
+              <dependsOn>config['firstMap']['mainMapPane']['AoiMouseHandler']</dependsOn>
+              <dependsOn>config['firstMap']['mainMapPane']['AoiBox']</dependsOn>
+              <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
+              <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
+              <tooltip>click to zoom out</tooltip>
+            </ZoomOut>
+            <DragPan id="dragPan">
+              <class>RadioButton</class>
+              <mouseHandler>config['firstMap']['mainMapPane']</mouseHandler>
+              <dependsOn>config['firstMap']['mainMapPane']['DragPanHandler']</dependsOn>
+              <enabledSrc>/images/PanEnable.gif</enabledSrc>
+              <disabledSrc>/images/PanDisable.gif</disabledSrc>
+              <tooltip>click and drag to pan</tooltip>
+            </DragPan>
+            <Reset id="reset">
+              <class>Button</class>
+              <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
+              <tooltip>reset the map to full extent</tooltip>
+            </Reset>
+          </tools>
+        </ButtonBar>
+        
+      </widgets>
+    </Context>
+
+  </models>
+
+</MapbuilderConfig>

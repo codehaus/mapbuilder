@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--
+Description: A Browser based Web Map Server Client based on javascript and XSL
+             libraries from http://mapbuilder.sourceforge.net .
+Usage:       Call http://hostname/dir/wms.html?context=UrlOfContext
+             or http://hostname/dir/wms.html (and a default context is used)
+Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+
+$Id$
+$Name$
+-->
+
+<html>
+  <head>
+    <title>Mapbuilder Demo</title>
+
+    <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
+
+    <script>
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='config/tutorial1.xml';
+    </script>
+    <script type="text/javascript" src="../lib/Mapbuilder.js"></script>
+  </head>
+
+  <body onload="mbDoLoad()">
+    <!-- Layout mapbuilder widgets and HTML -->
+    <h1><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Demo</h1>
+
+<h2>Simple map</h2>
+
+
+<p>
+  In it's most basic configuration, mapbuilder can be used to simply put a map
+  in a web page.
+</p>
+
+<div id="mainMapPane" style="float:right;width:200"></div>
+
+<p>
+  The <a href="config/tutorial1.xml" target="ConfigSrcWin">config file</a> 
+  for this page consists of a single 
+  model (a Web Map Context document) and a single widget (a MapPane).
+</p>
+<p>
+  The ID assigned to the model is used to reference the methods and properties
+  of the JavaScript model object as 'config[modelId]'.
+</p>
+<p>
+  The model ID can also be used as an HTTP request parameter to initialize the 
+  model from a URL.
+  For example, this page can be loaded with a different map using 
+  <a href="javascript:config.loadModel('mainMap','/mapbuilder/demo/context/modisWorld.xml')">
+    JavaScript
+  </a>
+  or 
+  <a href="tutorial1.html?mainMap=/mapbuilder/demo/context/cded.xml">
+    by a parameter in the URL.
+  </a>
+</p>
+
+<p>
+  The MapPane widget renders the model as a set of stacked images and 
+  inserted into the page.  
+  The widget ID in config is used to associate 
+  the MapPane with an HTML page element, in this case a &lt;DIV&gt; element
+  which has it's CSS style set to float on the right hand side of the page.
+</p>
+<p>
+  The transformation is done by applying an XSLT stylehseet applied to the model.
+</p>
+
+    <br/>
+    <p align="right"><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a><br/>$Name$</p>
+
+  </body>
+</html>
