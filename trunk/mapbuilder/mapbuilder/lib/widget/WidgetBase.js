@@ -83,6 +83,17 @@ function WidgetBase(widgetNode,model,position) {
     }
   }
 
+  // Set stylesheet parameters for all the child nodes from the config file
+  for (var j=0;j<widgetNode.childNodes.length;j++) {
+    if (widgetNode.childNodes[j].firstChild
+      && widgetNode.childNodes[j].firstChild.nodeValue)
+    {
+      this.stylesheet.setParameter(
+        widgetNode.childNodes[j].nodeName,
+        widgetNode.childNodes[j].firstChild.nodeValue);
+    }
+  }
+
   //all stylesheets will have these properties available
   this.stylesheet.setParameter("modelId", this.model.id );
   this.stylesheet.setParameter("widgetId", this.id );
