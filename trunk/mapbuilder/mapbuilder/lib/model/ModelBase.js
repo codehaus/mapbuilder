@@ -194,7 +194,6 @@ function ModelBase(model, modelNode, parentModel) {
     modelRef.loadModelDoc(modelRef);
   }
   model.newRequest = this.newRequest;
-  model.addListener("httpPayload",model.newRequest, model);
 
  /**
    * save the model by posting it to the serializeUrl, which is defined as a 
