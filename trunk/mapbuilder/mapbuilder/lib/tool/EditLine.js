@@ -8,31 +8,34 @@ mapbuilder.loadScript(baseDir+"/tool/EditButtonBase.js");
 
 /**
  * When this button is selected, clicks on the MapPane will add a
- * new point to a model.
- * Requires an enclosing GML model.
+ * new point to a line.
  * @constructor
  * @base EditButtonBase
  * @author Cameron Shorter cameronATshorter.net
  * @param toolNode      The tool node from the Config XML file.
  * @param parentWidget  The ButtonBar widget.
  */
-function EditPoint(toolNode, parentWidget) {
+function EditLine(toolNode, parentWidget) {
   // Extend EditButtonBase
   var base = new EditButtonBase(this, toolNode, parentWidget);
 
   /**
-   * Add a point to the enclosing GML model.
+   * Append a point to a line.
    * @param objRef      Pointer to this object.
    * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
   this.doAction = function(objRef,targetNode) {
     if (objRef.enabled) {
       point=objRef.targetModel.extent.getXY(targetNode.evpl);
-      sucess=sucess=objRef.targetGml.setXlinkValue(
+      old=objRef.targetGml.getXlinkValue(
         objRef.targetGml,
-        objRef.featureXpath,point[0]+","+point[1]);
+        objRef.featureXpath);
+      sucess=objRef.targetGml.setXlinkValue(
+        objRef.targetGml,
+        objRef.featureXpath,
+        old+" "+point[0]+","+point[1]);
       if(!sucess){
-        alert("EditPoint: invalid featureXpath in config: "+objRef.featureXpath);
+        alert("EditLine: invalid featureXpath in config: "+objRef.featureXpath);
       }
     }
   }
