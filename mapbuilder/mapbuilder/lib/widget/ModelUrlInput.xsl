@@ -34,6 +34,8 @@ $Id$
 
   <xsl:param name="modelId"/>
 
+  <xsl:param name="targetModel"/>
+
   <xsl:param name="widgetId"/>
 
 
@@ -52,7 +54,7 @@ $Id$
 
     <DIV>
 
-    <form name="{$formName}" id="{$formName}">
+    <form name="{$formName}" id="{$formName}" onsubmit="return config.{$modelId}.{$widgetId}.submitForm()">
 
     
 
@@ -62,7 +64,7 @@ $Id$
 
           <th align="left" colspan="3">
 
-            <xsl:call-template name="title"/><xsl:value-of select="$modelId"/>
+            <xsl:call-template name="title"/><xsl:value-of select="$targetModel"/>
 
           </th>
 
