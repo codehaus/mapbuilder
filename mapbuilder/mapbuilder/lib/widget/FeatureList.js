@@ -17,6 +17,12 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 function FeatureList(widgetNode, model) {
   var base = new WidgetBase(this, widgetNode, model);
 
+  /** Url of WFS */
+  this.serviceUrl=widgetNode.selectSingleNode("mb:serviceUrl");
+
+  /** Xsl to convert Feature into a WFS Transation Insert. */
+  this.insertXsl=new XslProcessor(baseDir+"/tool/xsl/wfs_Insert.xsl");
+
   /**
    * Render this widget.
    * @param widget This widget object.
@@ -31,10 +37,10 @@ function FeatureList(widgetNode, model) {
    * @param button Button name.
    */
   this.processButton=function(objRef,button){
+    httpPayload=new Object();
     switch(button){
       case "Reset":
         if(objRef.model.url){
-          httpPayload=new Object();
           httpPayload.url=objRef.model.url;
           httpPayload.method="get";
           httpPayload.postData=null;
@@ -42,8 +48,16 @@ function FeatureList(widgetNode, model) {
           break;
         }
       case "Insert Feature":
+        //alert("FeatureList: model"+objRef.model.doc.xml);
+        s=objRef.insertXsl.transformNodeToObject(objRef.model.doc);
+        //alert("FeatureList: insert XML:"+s.xml);
+        httpPayload.postData=s;
+        httpPayload.url=objRef.ServiceUrl;
+        httpPayload.method="post";
+        objRef.targetModel.setParam('httpPayload',httpPayload);
         break;
       case "Update Feature":
+        alert("FeatureList: Update Feature not implemented");
         break;
       default:
         alert("FeatureList: Unknown button: "+button);
