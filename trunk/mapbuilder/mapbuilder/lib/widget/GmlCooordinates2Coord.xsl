@@ -21,9 +21,11 @@ $Name$
     <xsl:variable name="str" select="translate(.,@decimal,'.')"/>
     <xsl:variable name="str2" select="translate($str,@cs,',')"/>
     <xsl:variable name="str3" select="translate($str2,@ts,' ')"/>
-    <xsl:call-template name="parseTuples">
-      <xsl:with-param name="str" select="normalize-space($str3)"/>
-    </xsl:call-template>
+    <xsl:if test="string-length(normalize-space($str3))!=0">
+      <xsl:call-template name="parseTuples">
+        <xsl:with-param name="str" select="normalize-space($str3)"/>
+      </xsl:call-template>
+    </xsl:if>
   </xsl:template>
 
   <!-- Print one tuple, then recursively call this template to print remaining tuples -->
