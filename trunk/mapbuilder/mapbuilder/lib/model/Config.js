@@ -139,7 +139,7 @@ function Config(url) {
       model.loadModelDoc(this,modelUrl);
     }
     model.loadWidgets(model);
-    this.callListeners( "loadModel" );
+    model.callListeners( "loadModel" );
   }
 }
 
