@@ -45,13 +45,10 @@ function CursorTrack(toolNode, parentWidget) {
   parentWidget.addListener('mouseout',this.mouseOutHandler,this);
 }
 
-function ReportCoords(objRef) {
+/** Update the lat/long coordinates in coordForm. */
+function ReportCoords() {
     objRef = window.cursorTrackObject;
     var evll = objRef.proj.Inverse( window.cursorTrackNode.evxy );
     objRef.coordForm.longitude.value = Math.round(evll[0]*100)/100;
     objRef.coordForm.latitude.value = Math.round(evll[1]*100)/100;
 }
-
-
-
-
