@@ -25,7 +25,6 @@
           <method>post</method>
           <widgets>
             <GmlRendererWZ id="testGmlRenderer">
-              <debug/>
               <htmlTagId>mainMapPane</htmlTagId>
               <mapContainerId>mainMapContainer</mapContainerId>
               <lineColor>#FF0000</lineColor>
@@ -55,11 +54,11 @@
         </CursorTrack>
         <MapScaleText id="mapScaleText"/>
         <Legend id="legend"/>
-        <Widget id="mapTitle">
-          <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
-        </Widget>
         <Widget id="abstract">
           <stylesheet>../lib/widget/Abstract.xsl</stylesheet>
+        </Widget>
+        <Widget id="mapTitle">
+          <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
         </Widget>
       </widgets>
       <tools>
@@ -75,7 +74,7 @@
       </tools>
     </OwsContext>
     <Context id="locatorMap">
-      <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
+      <defaultModelUrl>context/locatorBoston.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorMapWidget">
           <htmlTagId>locatorMap</htmlTagId>
@@ -99,14 +98,14 @@
         </ZoomToAoi>
       </tools>
     </Context>
-    <Logger id="eventLogDoc">
+    <!--Logger id="eventLogDoc">
       <serializeUrl>/mapbuilder/writeXml</serializeUrl>
       <widgets>
         <Widget id="eventLog">
           <stylesheet>../lib/widget/EventLog.xsl</stylesheet>
         </Widget>
       </widgets>
-    </Logger>
+    </Logger-->
   </models>
   <widgets>
     <ZoomIn id="zoomIn">
