@@ -74,29 +74,29 @@ function ModelBase(model, modelNode, parentModel) {
   /**
    * Get the value of a node.
    * @param objRef Reference to this node.
-   * @param xlink Xlink of the node to update.
-   * @return value of the node or null if Xlink does not find a node.
+   * @param xpath Xpath of the node to update.
+   * @return value of the node or null if Xpath does not find a node.
    */
-  this.getXlinkValue=function(objRef,xlink){
-    node=objRef.doc.selectSingleNode(xlink);
+  this.getXpathValue=function(objRef,xpath){
+    node=objRef.doc.selectSingleNode(xpath);
     if(node){
       return node.firstChild.nodeValue;
     }else{
       return null;
     }
   }
-  model.getXlinkValue=this.getXlinkValue;
+  model.getXpathValue=this.getXpathValue;
 
   /**
    * Update the value of a node within this model's XML.
    * Triggers a refresh event from the model.
    * @param objRef Reference to this node.
-   * @param xlink Xlink of the node to update.
+   * @param xpath Xpath of the node to update.
    * @param value Node's new value.
-   * @return Returns false if Xlink does not find a node.
+   * @return Returns false if Xpath does not find a node.
    */
-  this.setXlinkValue=function(objRef,xlink,value){
-    node=objRef.doc.selectSingleNode(xlink);
+  this.setXpathValue=function(objRef,xpath,value){
+    node=objRef.doc.selectSingleNode(xpath);
     if(node){
       node.firstChild.nodeValue=value;
       objRef.setParam("refresh");
@@ -105,7 +105,7 @@ function ModelBase(model, modelNode, parentModel) {
       return false;
     }
   }
-  model.setXlinkValue=this.setXlinkValue;
+  model.setXpathValue=this.setXpathValue;
 
   /**
    * Load a Model's document from a url.

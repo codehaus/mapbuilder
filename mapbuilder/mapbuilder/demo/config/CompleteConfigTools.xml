@@ -52,11 +52,11 @@
         </SearchForm-->
 			</widgets>
       <tools>
-        <AoiMouseHandler/>
-        <DragPanHandler>
+        <AoiMouseHandler id="mainAoi"/>
+        <DragPanHandler id="mainDragPan">
           <enabled>false</enabled>
         </DragPanHandler>
-        <MouseClickHandler/>
+        <MouseClickHandler id="mainMouseClick"/>
       </tools>
 		</Context>
 		<Context id="locator">
@@ -80,8 +80,8 @@
         </ModelUrlInput>
 			</widgets>
       <tools>
-        <AoiMouseHandler/>
-        <ZoomToAoi>
+        <AoiMouseHandler id="locatorAoi"/>
+        <ZoomToAoi id="locatorZoomToAoi">
           <targetModel>mainMap</targetModel>
         </ZoomToAoi>
       </tools>
@@ -110,7 +110,7 @@
 				</Locations>
 			</widgets>
       <tools>
-        <ZoomToAoi>
+        <ZoomToAoi id="locationsZoomToAoi">
           <targetModel>mainMap</targetModel>
         </ZoomToAoi>
       </tools>
@@ -119,6 +119,36 @@
 			<defaultModelUrl>gml/Test.xml</defaultModelUrl>
 			<widgets>
 				<GmlRendererWZ id="testGmlRenderer">
+					<htmlTagId>mainMapPane</htmlTagId>
+					<targetModel>mainMap</targetModel>
+					<mapContainerId>mainMapContainer</mapContainerId>
+					<lineColor>#FF0000</lineColor>
+					<lineWidth>1</lineWidth>
+					<pointDiameter>10</pointDiameter>
+				</GmlRendererWZ>
+				<FeatureList id="featureList">
+        </FeatureList>
+			</widgets>
+		</Gml2>
+		<Gml2 id="pointGml">
+      <defaultModelUrl>gml/defaultAddPoint.xml</defaultModelUrl>
+			<widgets>
+				<GmlRendererWZ id="testPointGmlRenderer">
+					<htmlTagId>mainMapPane</htmlTagId>
+					<targetModel>mainMap</targetModel>
+					<mapContainerId>mainMapContainer</mapContainerId>
+					<lineColor>#FF0000</lineColor>
+					<lineWidth>1</lineWidth>
+					<pointDiameter>10</pointDiameter>
+				</GmlRendererWZ>
+				<FeatureList id="featureList">
+        </FeatureList>
+			</widgets>
+		</Gml2>
+		<Gml2 id="lineGml">
+      <defaultModelUrl>gml/defaultAddLine.xml</defaultModelUrl>
+			<widgets>
+				<GmlRendererWZ id="testLineGmlRenderer">
 					<htmlTagId>mainMapPane</htmlTagId>
 					<targetModel>mainMap</targetModel>
 					<mapContainerId>mainMapContainer</mapContainerId>
@@ -163,7 +193,7 @@
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainMap</mouseHandler>
+      <mouseHandler>mainMap.mainAoi</mouseHandler>
       <class>RadioButton</class>
       <selected>true</selected>
       <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
@@ -174,7 +204,7 @@
     <ZoomOut id="zoomOut">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainMap</mouseHandler>
+      <mouseHandler>mainMap.mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
       <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
@@ -184,7 +214,7 @@
     <DragPan id="dragPan">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainMap</mouseHandler>
+      <mouseHandler>mainMap.mainDragPan</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/PanEnable.gif</enabledSrc>
       <disabledSrc>/images/PanDisable.gif</disabledSrc>
@@ -192,10 +222,9 @@
       <tooltip xml:lang="fr">cliquer et faire glisser la souris pour voir un autre parti de la carte</tooltip>
     </DragPan>
     <SetAoi id="setAoi">
-      <debug/>
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainMap</mouseHandler>
+      <mouseHandler>mainMap.mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
       <disabledSrc>/images/SetAoiDisable.gif</disabledSrc>
@@ -207,42 +236,40 @@
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
       <tooltip xml:lang="en">reset the map to full extent</tooltip>
-      <tooltip xml:lang="fr">redonner àa carte ses dimensions complè/</tooltip>
+      <tooltip xml:lang="fr">redonner la carte ses dimensions complèts</tooltip>
     </Reset>
     <!--GetFeatureInfo id="getFeatureInfo">
       <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>testGml</targetModel>
       <mouseHandler>mainMap</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/QueryEnable.gif</enabledSrc>
       <disabledSrc>/images/QueryDisable.gif</disabledSrc>
       <tooltip xml:lang="en">click on feature for more info</tooltip>
       <tooltip xml:lang="fr">cliquer pour obtenir plus d'information pour cette couche</tooltip>
-      <targetFeatureCollection>gml2</targetFeatureCollection>
-    </GetFeatureInfo>
+    </GetFeatureInfo-->
     <EditPoint id="editPoint">
       <buttonBar>mainButtonBar</buttonBar>
-      <mouseHandler>mainMap</mouseHandler>
+      <mouseHandler>mainMap.mainMouseClick</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/EditPointEnable.gif</enabledSrc>
       <disabledSrc>/images/EditPointDisable.gif</disabledSrc>
       <tooltip xml:lang="en">click on map to create a point feature</tooltip>
       <tooltip xml:lang="fr">click on map to create a point feature</tooltip>
-      <targetGml>testGml</targetGml>
-      <defaultModelUrl>gml/defaultAddPoint.xml</defaultModelUrl>
+      <targetModel>pointGml</targetModel>
       <featureXpath>/gml:featureMember/points/_SHAPE_/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
     </EditPoint>
     <EditLine id="editLine">
       <buttonBar>mainButtonBar</buttonBar>
-      <mouseHandler>mainMap</mouseHandler>
+      <mouseHandler>mainMap.mainMouseClick</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/EditLineEnable.gif</enabledSrc>
       <disabledSrc>/images/EditLineDisable.gif</disabledSrc>
       <tooltip xml:lang="en">click on map to add a point to a line</tooltip>
       <tooltip xml:lang="fr">click on map to add a point to a line</tooltip>
-      <targetGml>testGml</targetGml>
-      <defaultModelUrl>gml/defaultAddLine.xml</defaultModelUrl>
+      <targetModel>lineGml</targetModel>
       <featureXpath>/gml:featureMember/lines/_SHAPE_/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
-    </EditLine-->
+    </EditLine>
     <Save id="save">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
