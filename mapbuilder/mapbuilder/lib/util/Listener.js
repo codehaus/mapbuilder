@@ -9,15 +9,15 @@ $Id$
  * @constructor
  * @author Cameron Shorter
  */
-function Listener() {
+function Listener(objRef) {
   /** An array [params] of (listener, target). */
-  this.listeners=new Array();
+  objRef.listeners=new Array();
 
   /**
    * An array [params] of values. These values might not be used if the set/get
    * functions are overwritten.
    */
-  this.values=new Array();
+  objRef.values=new Array();
 
   /**
    * Add a listener function which will be called when param is updated;  The
@@ -28,7 +28,7 @@ function Listener() {
    * sent to all interested listeners.
    */
   this.addListener=function(param, listener, target) {
-    //if (window.logger) logger.logEvent("addListener: "+param,this.id,target.id);
+    if (window.logger) logger.logEvent("addListener: "+param,this.id,target.id);
     if(!this.listeners[param]){
       this.listeners[param]=new Array();
     }
@@ -46,7 +46,7 @@ function Listener() {
       for(var i=0;i<this.listeners[param].length;i++){
         var fn = this.listeners[param][i][0];
         // listener(target,value);
-        //if (window.logger) logger.logEvent(param,this.id,this.listeners[param][i][1].id,value);
+        if (window.logger) logger.logEvent(param,this.id,this.listeners[param][i][1].id,value);
         this.listeners[param][i][0](this.listeners[param][i][1],value);
       }
     }
@@ -74,4 +74,9 @@ function Listener() {
   this.getParam=function(param) {
     return this.values[param];
   }
+
+  for (sProperty in this) { 
+    objRef[sProperty] = this[sProperty]; 
+  } 
+
 }
