@@ -5,19 +5,20 @@ License:      GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
+// Ensure this object's dependancies are loaded.
+loadScript(baseDir+"/widget/WidgetBase.js");
+
 /**
  * A widget which contains a collection of buttons.  One button can
  * be selected (Eg a ZoomInButton) and will determine how mouse clicks on a
  * MapPane are processed.
  * This widget extends WidgetBase.
- *
  * @constructor
- *
  * @param widgetNode The Widget's XML object node from the configuration
  *     document.
  * @param group The ModelGroup XML object from the configuration
  *     document that this widget will update.
- * @see WidgetBase
+ * @requires WidgetBase
  */
 function ButtonBar(widgetNode, group) {
   var base = new WidgetBase(widgetNode, group);

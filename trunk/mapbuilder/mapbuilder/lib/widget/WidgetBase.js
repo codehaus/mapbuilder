@@ -11,9 +11,9 @@ $Id$
  * @constructor
  * @author Mike Adair 
  * @param widgetNode The Widget's XML object node from the configuration
- *     document.
- * @param model      The javascript model object from the configuration
- *                    document that this widget belongs to.
+ * document.
+ * @param model The javascript model object from the configuration
+ * document that this widget belongs to.
  */
 function WidgetBase(widgetNode, model) {
   if ( arguments.length > 0 ) {   //need this for .prototype?

@@ -5,6 +5,9 @@ License:      GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
+// Ensure this object's dependancies are loaded.
+loadScript(baseDir+"/widget/WidgetBase.js");
+
 /**
  * Tools to build a MapPane from a Web Map Context.
  * This widget extends WidgetBase.
@@ -16,7 +19,7 @@ $Id$
  * @requires Context
  * @requires Sarissa
  * @requires Util
- * @see WidgetBase
+ * @requires WidgetBase
  */
 function MapPane(widgetNode, group) {
   // Inherit the WidgetBase functions and parameters
