@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <MapbuilderConfig version="0.2.1" id="referenceTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
-	<!--
+  <!--
     Description: This configuration file determines what components from the
                  Mapbuilder library are to be included in a Main Mapbuilder web
                  page.
@@ -8,49 +8,49 @@
 
     $Id$
   -->
-	<!--
+  <!--
     All static images should be relative to this URL.
     This dir is relative the dir of the main html file.
   -->
-	<models>
-		<Context id="mainMap">
-			<defaultModelUrl>context/atlasWorld.xml</defaultModelUrl>
-			<widgets>
-				<MapPane id="mainMapWidget">
-					<htmlTagId>mainMapPane</htmlTagId>
-					<mapContainerId>mainMapContainer</mapContainerId>
-				</MapPane>
-				<AoiBoxWZ id="aoiBox2">
-					<htmlTagId>mainMapPane</htmlTagId>
-					<stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
-					<lineColor>#FF0000</lineColor>
-					<lineWidth>1</lineWidth>
-					<crossSize>15</crossSize>
-					<mapContainerId>mainMapContainer</mapContainerId>
-				</AoiBoxWZ>
-				<CursorTrack id="cursorTrack">
-					<mouseHandler>mainMap</mouseHandler>
-				</CursorTrack>
-				<Legend id="legend">
+  <models>
+    <Context id="mainMap">
+      <defaultModelUrl>context/atlasWorld.xml</defaultModelUrl>
+      <widgets>
+        <MapPane id="mainMapWidget">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <mapContainerId>mainMapContainer</mapContainerId>
+        </MapPane>
+        <AoiBoxWZ id="aoiBox2">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+          <mapContainerId>mainMapContainer</mapContainerId>
+        </AoiBoxWZ>
+        <CursorTrack id="cursorTrack">
+          <mouseHandler>mainMap</mouseHandler>
+        </CursorTrack>
+        <Legend id="legend">
         </Legend>
-				<Widget id="abstract">
-					<stylesheet>../lib/widget/Abstract.xsl</stylesheet>
-				</Widget>
-				<Widget id="mapTitle">
-					<stylesheet>../lib/widget/MapTitle.xsl</stylesheet>
-				</Widget>
-				<AoiForm id="aoiForm">
+        <Widget id="abstract">
+          <stylesheet>../lib/widget/Abstract.xsl</stylesheet>
+        </Widget>
+        <Widget id="mapTitle">
+          <stylesheet>../lib/widget/MapTitle.xsl</stylesheet>
+        </Widget>
+        <AoiForm id="aoiForm">
         </AoiForm>
-				<MapScaleText id="mapScaleText">
+        <MapScaleText id="mapScaleText">
         </MapScaleText>
-				<SaveModel id="saveModelWidget">
-					<htmlTagId>saveModel</htmlTagId>
-				</SaveModel>
-				<WmsCapabilitiesImport id="wmsCapabilitiesImport">
+        <SaveModel id="saveModelWidget">
+          <htmlTagId>saveModel</htmlTagId>
+        </SaveModel>
+        <WmsCapabilitiesImport id="wmsCapabilitiesImport">
         </WmsCapabilitiesImport>
-				<!--SearchForm id="searchForm">
+        <!--SearchForm id="searchForm">
         </SearchForm-->
-			</widgets>
+      </widgets>
       <tools>
         <AoiMouseHandler id="mainAoi"/>
         <DragPanHandler id="mainDragPan">
@@ -58,43 +58,43 @@
         </DragPanHandler>
         <MouseClickHandler id="mainMouseClick"/>
       </tools>
-		</Context>
-		<Context id="locator">
-			<defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
-			<widgets>
-				<MapPane id="locatorWidget">
-					<htmlTagId>locatorMap</htmlTagId>
-					<targetModel>mainMap</targetModel>
-					<mapContainerId>locatorContainer</mapContainerId>
-					<fixedWidth>180</fixedWidth>
-				</MapPane>
-				<AoiBoxWZ id="aoiBox2">
-					<htmlTagId>locatorMap</htmlTagId>
-					<stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
-					<lineColor>#FF0000</lineColor>
-					<lineWidth>1</lineWidth>
-					<crossSize>15</crossSize>
-					<mapContainerId>locatorContainer</mapContainerId>
-				</AoiBoxWZ>
-				<ModelUrlInput id="urlInput">
+    </Context>
+    <Context id="locator">
+      <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
+      <widgets>
+        <MapPane id="locatorWidget">
+          <htmlTagId>locatorMap</htmlTagId>
+          <targetModel>mainMap</targetModel>
+          <mapContainerId>locatorContainer</mapContainerId>
+          <fixedWidth>180</fixedWidth>
+        </MapPane>
+        <AoiBoxWZ id="aoiBox2">
+          <htmlTagId>locatorMap</htmlTagId>
+          <stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+          <mapContainerId>locatorContainer</mapContainerId>
+        </AoiBoxWZ>
+        <ModelUrlInput id="urlInput">
         </ModelUrlInput>
-			</widgets>
+      </widgets>
       <tools>
         <AoiMouseHandler id="locatorAoi"/>
         <ZoomToAoi id="locatorZoomToAoi">
           <targetModel>mainMap</targetModel>
         </ZoomToAoi>
       </tools>
-		</Context>
-		<ContextCollection id="collectionGroup">
-			<defaultModelUrl>context/demoCollection.xml</defaultModelUrl>
-			<widgets>
-				<CollectionList id="collectionList">
-					<targetModel>mainMap</targetModel>
-				</CollectionList>
-			</widgets>
-		</ContextCollection>
-		<!--
+    </Context>
+    <ContextCollection id="collectionGroup">
+      <defaultModelUrl>context/demoCollection.xml</defaultModelUrl>
+      <widgets>
+        <CollectionList id="collectionList">
+          <targetModel>mainMap</targetModel>
+        </CollectionList>
+      </widgets>
+    </ContextCollection>
+    <!--
     <Gml2 id="gml2">
       <widgets>
         <FeatureList id="featureList">
@@ -102,78 +102,78 @@
       </widgets>
     </Gml2>
     -->
-		<Model id="locations">
-			<defaultModelUrl>locations/Global.xml</defaultModelUrl>
-			<widgets>
-				<Locations id="locationsSelect">
-					<targetModel>mainMap</targetModel>
-				</Locations>
-			</widgets>
+    <Model id="locations">
+      <defaultModelUrl>locations/Global.xml</defaultModelUrl>
+      <widgets>
+        <Locations id="locationsSelect">
+          <targetModel>mainMap</targetModel>
+        </Locations>
+      </widgets>
       <tools>
         <ZoomToAoi id="locationsZoomToAoi">
           <targetModel>mainMap</targetModel>
         </ZoomToAoi>
       </tools>
-		</Model>
-		<Gml2 id="testGml">
-			<defaultModelUrl>gml/Test.xml</defaultModelUrl>
-			<widgets>
-				<GmlRendererWZ id="testGmlRenderer">
-					<htmlTagId>mainMapPane</htmlTagId>
-					<targetModel>mainMap</targetModel>
-					<mapContainerId>mainMapContainer</mapContainerId>
-					<lineColor>#FF0000</lineColor>
-					<lineWidth>1</lineWidth>
-					<pointDiameter>10</pointDiameter>
-				</GmlRendererWZ>
-				<FeatureList id="featureList">
+    </Model>
+    <Gml2 id="testGml">
+      <defaultModelUrl>gml/Test.xml</defaultModelUrl>
+      <widgets>
+        <GmlRendererWZ id="testGmlRenderer">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <targetModel>mainMap</targetModel>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <pointDiameter>10</pointDiameter>
+        </GmlRendererWZ>
+        <FeatureList id="featureList">
         </FeatureList>
-			</widgets>
-		</Gml2>
-		<Gml2 id="pointGml">
+      </widgets>
+    </Gml2>
+    <Gml2 id="pointGml">
       <defaultModelUrl>gml/defaultAddPoint.xml</defaultModelUrl>
-			<widgets>
-				<GmlRendererWZ id="testPointGmlRenderer">
-					<htmlTagId>mainMapPane</htmlTagId>
-					<targetModel>mainMap</targetModel>
-					<mapContainerId>mainMapContainer</mapContainerId>
-					<lineColor>#FF0000</lineColor>
-					<lineWidth>1</lineWidth>
-					<pointDiameter>10</pointDiameter>
-				</GmlRendererWZ>
-				<FeatureList id="featureList">
+      <widgets>
+        <GmlRendererWZ id="testPointGmlRenderer">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <targetModel>mainMap</targetModel>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <pointDiameter>10</pointDiameter>
+        </GmlRendererWZ>
+        <FeatureList id="featureList">
         </FeatureList>
-			</widgets>
-		</Gml2>
-		<Gml2 id="lineGml">
+      </widgets>
+    </Gml2>
+    <Gml2 id="lineGml">
       <defaultModelUrl>gml/defaultAddLine.xml</defaultModelUrl>
-			<widgets>
-				<GmlRendererWZ id="testLineGmlRenderer">
-					<htmlTagId>mainMapPane</htmlTagId>
-					<targetModel>mainMap</targetModel>
-					<mapContainerId>mainMapContainer</mapContainerId>
-					<lineColor>#FF0000</lineColor>
-					<lineWidth>1</lineWidth>
-					<pointDiameter>10</pointDiameter>
-				</GmlRendererWZ>
-				<FeatureList id="featureList">
+      <widgets>
+        <GmlRendererWZ id="testLineGmlRenderer">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <targetModel>mainMap</targetModel>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <pointDiameter>10</pointDiameter>
+        </GmlRendererWZ>
+        <FeatureList id="featureList">
         </FeatureList>
-			</widgets>
-		</Gml2>
-		<Gml2 id="ntsGml">
-			<!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
-			<widgets>
-				<GmlRendererWZ id="testNTSRenderer">
-					<htmlTagId>mainMapPane</htmlTagId>
-					<targetModel>mainMap</targetModel>
-					<mapContainerId>mainMapContainer</mapContainerId>
-					<lineColor>#00FF00</lineColor>
-					<lineWidth>1</lineWidth>
-					<pointDiameter>10</pointDiameter>
-				</GmlRendererWZ>
-			</widgets>
-		</Gml2>
-		<!--
+      </widgets>
+    </Gml2>
+    <Gml2 id="ntsGml">
+      <!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
+      <widgets>
+        <GmlRendererWZ id="testNTSRenderer">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <targetModel>mainMap</targetModel>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <lineColor>#00FF00</lineColor>
+          <lineWidth>1</lineWidth>
+          <pointDiameter>10</pointDiameter>
+        </GmlRendererWZ>
+      </widgets>
+    </Gml2>
+    <!--
     <Logger id="eventLogDoc">
       <serializeUrl>/mapbuilder/writeXml</serializeUrl>
       <widgets>
@@ -183,13 +183,13 @@
       </widgets>
     </Logger>
     -->
-	</models>
-	<widgets>
-		<WebServiceForm id="ntsLookupForm">
-			<targetModel>ntsGml</targetModel>
-			<stylesheet>../lib/widget/NtsForm.xsl</stylesheet>
-			<webServiceUrl>http://geoservices.cgdi.ca/NTS/NTSLookup</webServiceUrl>
-		</WebServiceForm>
+  </models>
+  <widgets>
+    <WebServiceForm id="ntsLookupForm">
+      <targetModel>ntsGml</targetModel>
+      <stylesheet>../lib/widget/NtsForm.xsl</stylesheet>
+      <webServiceUrl>http://geoservices.cgdi.ca/NTS/NTSLookup</webServiceUrl>
+    </WebServiceForm>
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
@@ -279,13 +279,13 @@
       <tooltip xml:lang="fr">cliquer pour sauvegarder</tooltip>
       <popupWindowName>modelXML</popupWindowName>
     </Save>
-	</widgets>
+  </widgets>
   <tools>
   </tools>
-	<skinDir>../lib/skin/default</skinDir>
-	<!-- Url of LOCAL redirection script, required to access external URLs -->
-	<!--proxyUrl>../server/proxy/proxy.php</proxyUrl-->
-	<proxyUrl>/mapbuilder/proxy</proxyUrl>
-	<serializeUrl>/mapbuilder/writeXml</serializeUrl>
+  <skinDir>../lib/skin/default</skinDir>
+  <!-- Url of LOCAL redirection script, required to access external URLs -->
+  <!--proxyUrl>../server/proxy/proxy.php</proxyUrl-->
+  <proxyUrl>/mapbuilder/proxy</proxyUrl>
+  <serializeUrl>/mapbuilder/writeXml</serializeUrl>
 </MapbuilderConfig>
 
