@@ -22,7 +22,7 @@ $Id$
 
 
 function Proj(srs) {
-  this.srs = srs;
+  this.srs = srs.toUpperCase();
   switch(this.srs) {
     case "EPSG:4326":       //lat/lon projection WGS_84
     case "EPSG:4269":       //lat/lon projection WGS_84
@@ -64,14 +64,14 @@ function Proj(srs) {
       this.units = "meters";
       this.title = "Polar Stereographic";
       break;
-    case "scene":             //this is really a pixel projection with bilinear interpolation of the corners to get ll
+    case "SCENE":             //this is really a pixel projection with bilinear interpolation of the corners to get ll
       this.Init = sceneInit;
       this.Forward = ll2scene;
       this.Inverse = scene2ll;
       this.GetXYCoords = identity;  //override to get line 0 at top left
       this.GetPLCoords = identity; //
       break;
-    case "pixel":
+    case "PIXEL":
       this.Forward = ll2pixel;
       this.Inverse = pixel2ll;
       this.units = "pixels";
@@ -81,6 +81,11 @@ function Proj(srs) {
     default:
       //or retrieve parameters from web service based on SRS lookup
       alert("unsupported map projection: "+this.srs);
+  }
+
+  this.matchSrs = function(otherSrs) {
+    if (this.srs == otherSrs.toUpperCase() ) return true;
+    return false;
   }
 
 }
@@ -139,9 +144,14 @@ function pixel2ll(coords) {
 }
 
 
-
-
-
+/****************************************************************************
+The following code is a direct port of PROJ4 coordinate transformation code
+from C to Javascript.  For more information go to http://proj.maptools.org/
+Currently suppported projections include: Lambert Conformal Conic (LCC), 
+Lat/Long, Polar Stereographic.
+Porting C to Javascript is fairly straightforward so other support for more 
+projections is easy to add.
+*/
 
 var PI = Math.PI;
 var HALF_PI = PI*0.5;
