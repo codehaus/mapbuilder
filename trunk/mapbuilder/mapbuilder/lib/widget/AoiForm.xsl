@@ -12,6 +12,7 @@ $Id$
   <xsl:output method="xml" encoding="utf-8"/>
 
   <!-- The common params set for all widgets -->
+  <xsl:param name="lang">en</xsl:param>
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
 
@@ -24,14 +25,14 @@ $Id$
       <table>
         <tr>
           <th align="left" colspan="3">
-            AOI coordinates
+            <xsl:call-template name="title"/>
           </th>
         </tr>
         <tr>
           <td>
           </td>
           <td>
-            North:
+            <xsl:call-template name="north"/>
             <input NAME="northCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;"/>
           </td>
           <td>
@@ -39,13 +40,13 @@ $Id$
         </tr>
         <tr>
           <td>
-            West:
+            <xsl:call-template name="west"/>
             <input NAME="westCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;"/>
           </td>
           <td>
           </td>
           <td>
-            East:
+            <xsl:call-template name="east"/>
             <input NAME="eastCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;"/>
           </td>
         </tr>
@@ -53,7 +54,7 @@ $Id$
           <td>
           </td>
           <td>
-            South:
+            <xsl:call-template name="south"/>
             <input NAME="southCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;"/>
           </td>
           <td>
@@ -62,5 +63,36 @@ $Id$
       </table>
     </FORM>
   </xsl:template>
-
+  
+  <xsl:template name="title">
+    <xsl:choose>
+      <xsl:when test="$lang='fr'">Région d'intérêt</xsl:when>
+      <xsl:otherwise>Area of interest coordinates</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <xsl:template name="north">
+    <xsl:choose>
+      <xsl:when test="$lang='fr'">Nord:</xsl:when>
+      <xsl:otherwise>North:</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <xsl:template name="south">
+    <xsl:choose>
+      <xsl:when test="$lang='fr'">Sud:</xsl:when>
+      <xsl:otherwise>South:</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <xsl:template name="east">
+    <xsl:choose>
+      <xsl:when test="$lang='fr'">Est:</xsl:when>
+      <xsl:otherwise>East:</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <xsl:template name="west">
+    <xsl:choose>
+      <xsl:when test="$lang='fr'">Ouest:</xsl:when>
+      <xsl:otherwise>West:</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  
 </xsl:stylesheet>

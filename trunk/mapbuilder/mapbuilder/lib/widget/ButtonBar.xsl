@@ -11,6 +11,8 @@ ButtonBar.xsl,v 1.5 2004/03/25 21:25:43 madair1 Exp
 
   <xsl:output method="xml" omit-xml-declaration="yes"/>
   
+  <!-- The common params set for all widgets -->
+  <xsl:param name="lang">en</xsl:param>
   <xsl:param name="modelId">mainMap</xsl:param>
   <xsl:param name="widgetId"/>
   <xsl:param name="skinDir" select="/MapbuilderConfig/skinDir"/>
@@ -24,8 +26,9 @@ ButtonBar.xsl,v 1.5 2004/03/25 21:25:43 madair1 Exp
 
   <xsl:template match="ButtonBar/tools/*">
     <xsl:param name="linkUrl">javascript:config.<xsl:value-of select="$widgetId"/>['<xsl:value-of select="name()"/>'].select()</xsl:param>
+    <xsl:param name="tooltip"><xsl:value-of select="tooltip[@lang=$lang]"/></xsl:param>
  
-    <A HREF="{$linkUrl}"><IMG SRC="{$skinDir}/{disabledSrc}" ID="{@id}" BORDER="0"/></A>
+    <A HREF="{$linkUrl}"><IMG SRC="{$skinDir}/{disabledSrc}" ID="{@id}" TITLE="{$tooltip}" BORDER="0"/></A>
   </xsl:template>
 
 </xsl:stylesheet>
