@@ -14,7 +14,10 @@ mapbuilderDir=`dirname $0`/..;
 # Set variables
 jsdoc="/home/cameron/work/jsdoc/jsdoc.pl";
 jsdocTarget="${mapbuilderDir}/docs/jsdoc";
+
+# Directories and files that need to have jsdocs built from them
 jsdocSource=" \
+  ${mapbuilderDir}/lib/Mapbuilder.js \
   ${mapbuilderDir}/lib/model \
   ${mapbuilderDir}/lib/widget \
   ${mapbuilderDir}/lib/tool \
