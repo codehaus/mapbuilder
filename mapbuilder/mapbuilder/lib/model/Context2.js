@@ -304,5 +304,43 @@ function Context(url) {
     this.extent.CenterAt( this.originalExtent.GetCenter(), this.originalExtent.res[0] );
   }
 
+  /** Functions to call when the Area Of Interest changes. */
+  this.aoiListeners=new Array();
+
+  // ===============================
+  // Add Listener Functions
+  // ===============================
+  /**
+   * Add a Listener for AoiBox change.
+   * @param listener The function to call when the Area Of Interest changes.
+   * @param target The object which owns the listener function.
+   */
+  this.addAoiListener=function(listener,target) {
+    this.aoiListeners[this.aoiListeners.length]=
+      new Array(listener,target);
+  }
+
+  /**
+   * Set the end point for an Area Of Interest Box and call aoiListeners,
+   * note that the end point will be called numerous times as a mouse is dragged.
+   * @param anchorPoint The toPoint of an Aoi as an (x,y) array.
+   */
+  this.setAoi=function(ul, lr) {
+    this.ulAoi = ul;
+    this.lrAoi = lr;
+    this.aoiValid=true;
+    for (var i=0; i<this.aoiListeners.length; i++) {
+      this.aoiListeners[i][0](
+        this.aoiListeners[i][1]);
+    }
+  }
+
+/** Returns an array of the corner coordinates as [ul, lr]
+  * @return        array of point arrays; ul=0, lr=1
+  */
+  this.getAoi = function() {
+    return new Array(this.ulAoi, this.lrAoi);
+  }
+
 
 }
