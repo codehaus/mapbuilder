@@ -144,20 +144,6 @@ function Config(url) {
     model.loadWidgets(model);
     model.callListeners( "loadModel" );
   }
-  this.xxxloadModel = function( modelId, modelUrl ) {
-    //alert(modelId+":"+modelUrl);
-    var model = this[modelId];
-    if (model) {
-      if (modelUrl) {
-        model.callListeners( "newModel" );
-        model.loadModelDoc(modelUrl);
-        model.loadWidgets(model);
-        model.callListeners( "loadModel" );
-      }
-    } else {
-      alert("config.loadModel: unable to locate model:"+modelId);
-    }
-  }
 }
 
 // Initialise config object.
