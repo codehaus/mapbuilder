@@ -38,7 +38,7 @@ function Config(url) {
     for (var i=0; i<nodes.length; i++) {
       if (nodes[i].selectSingleNode("scriptFile")==null){
         scriptFile = this.baseDir + dir + nodes[i].nodeName+".js";
-        loadScript( scriptFile );
+        loadScript(scriptFile,dir+nodes[i].nodeName);
       }
     }
   }
