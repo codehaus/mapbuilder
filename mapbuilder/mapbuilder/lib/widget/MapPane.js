@@ -32,8 +32,6 @@ function MapPane(widgetNode, model) {
   this.containerId = "mappane_"+model.id;
   this.stylesheet.setParameter("mapContainerId", this.containerId );
 
-  this.node.style.overflow = "hidden";
-
   //adjust the context width and height if required.
   var fixedWidth = false;    //defaults to false
   var xnode = widgetNode.selectSingleNode("fixedWidth");
