@@ -110,9 +110,10 @@ $Id$
   <property name="app.name" value="mapbuilder"/>
   <property name="pack.name" value="mapbuilder-lib"/>
   <property name="app.path" value="/${app.name}"/>
-  <property name="app.version" value="0.2-alpha"/>
+  <property name="app.version" value="0.3-alpha"/>
   <property name="catalina.home" value="${env.CATALINA_HOME}"/> <!-- ensure you have this environment var set -->
   <property name="build.home" value="${basedir}/build"/>
+  <property name="compress.home" value="${basedir}/compressBuild"/>
   <property name="deploy.home" value="${catalina.home}/webapps/${app.name}"/>
   <property name="dist.home" value="${basedir}/dist"/>
   <property name="docs.home" value="${build.home}/docs"/>
@@ -168,16 +169,8 @@ $Id$
 
     <!-- Copy static content of the mapbuilder project  -->
     <copy todir="${build.home}">
-      <fileset dir="${dev.home}">
-        <exclude name="*.war"/>
-        <exclude name="*.zip"/>
-        <exclude name="bin/**"/>
-        <exclude name="build/**"/>
-        <exclude name="dist/**"/>
-        <exclude name="client/**"/>
-        <exclude name="server/**"/>
-        <exclude name="service/**"/>
-      </fileset>
+      <fileset dir="${basedir}"
+        includes="demo/** lib/** CHANGES LICENSE GPL README index.html"/>
     </copy>
     
     <!-- Copy static content of this web application -->
@@ -229,7 +222,13 @@ $Id$
 
   <target description="Delete old build and dist directories" name="clean">
     <delete dir="${build.home}"/>
+    <delete dir="${dist.home}"/>
+    <delete dir="${compress.home}"/>
   </target>
+
+
+
+<!-- ==================== Clean Tomcat ==================================== -->
 
   <target description="Delete old build and dist directories" name="cleanTomcat">
     <delete dir="${deploy.home}"/>
@@ -237,86 +236,17 @@ $Id$
 
 
 
-<!-- ==================== Dist Target ===================================== -->
+<!-- ==================== Documentation =================================== -->
 
-
-<!--
-
-  The "dist" target creates a binary distribution of your application
-  in a directory structure ready to be archived in a tar.gz or zip file.
-  Note that this target depends on two others:
-
-  * "compile" so that the entire web application (including external
-    dependencies) will have been assembled
-
-  * "javadoc" so that the application Javadocs will have been created
-
--->
-
-  <target
-    name="dist"
-    description="Create binary distribution"
-    depends="compile">
-
-    <mkdir dir="${dist.home}"/>
-
-    <!-- Create application zip file -->
-    <zip destfile="${dist.home}/${pack.name}-${app.version}.zip" update="true">
-      <zipfileset
-        dir="${basedir}"
-        prefix="mapbuilder"
-        includes="demo/** docs/** lib/** temp/** server/** CHANGES LICENSE GPL README index.html"/>
-    </zip>
-
-    <!-- Create styles only distribution 
-    <zip destfile="${dist.home}/styles_${pack.name}-${app.version}.zip" update="true">
-         <zipfileset dir="${basedir}/lib/" prefix="mapbuilder/lib">
-            <include name="**/*.xsl"/>
-         </zipfileset>
-    </zip>
-    -->
-    
-    <!-- Create application WAR file -->
-    <jar jarfile="${dist.home}/${app.name}.war"
-        basedir="${build.home}"
-        includes="demo/** docs/** lib/** temp/** WEB-INF/** CHANGES LICENSE GPL README index.html"/>
-
-    <!-- zip up the WAR file -->
-    <zip destfile="${dist.home}/${pack.name}-${app.version}-war.zip" update="true">
-      <zipfileset file="${dist.home}/${app.name}.war"/>
-    </zip>
-
-  </target>
-
-
-
-
-<!-- ==================== Javadoc Target ================================== -->
-
-<!--
-
-  The "javadoc" target creates Javadoc API documentation for the Java
-  classes included in your application.  Normally, this is only required
-  when preparing a distribution release, but is available as a separate
-  target in case the developer wants to create Javadocs independently.
-
--->
-
-    <!-- This target not tested at all yet!! -->
   <target description="Create documentation" name="docs">
   
     <mkdir dir="${build.home}/docs"/>
     
     <!-- style the design docs from the XBook document -->
-    <style in="${basedir}/design/mapbuilder-lib.xml" style="docbookStylesheet.xsl" out="${build.home}/docs/design/index.html"/>
+    <!--style in="${basedir}/design/mapbuilder-lib.xml" style="/usr/share/sgml/docbook/xsl-stylesheets/html/docbook.xsl" out="${build.home}/docs/design/index.html"/-->
     
-    <exec executable="perl jsdoc.pl">
-    <!--
-      figure out how to pass params to the perl script
-    ${jsdoc} -d ${jsdocTarget} - -project-name "<a href='http://mapbuilder.sourceforge.net'>Community Map Builder</a> `date +'%d %b %G'`" ${jsdocSource}
-    -->
+    <exec executable="${basedir}/bin/publish.sh">
     </exec>
-
   </target>
 
 <!--  ==================== Compilation Control Options ==================== -->
@@ -415,6 +345,19 @@ $Id$
 
   </target>
 
+
+<!-- =================== Compress Target ================================== -->
+
+  <target description="Compress JS and XSL files" name="compress" depends="docs,compile">
+    <copy todir="${compress.home}">
+      <fileset dir="${build.home}"/>
+    </copy>
+
+    <exec executable="${basedir}/bin/compress.sh"/>
+  </target>
+
+
+<!-- ==================== Deploy ========================================== -->
 <!--
   The "deploy" target synchronizes the build directory with the Java Servlet
   container directory.  This could also be done by copying in the war file.
@@ -422,11 +365,59 @@ $Id$
   <target name="deploy"
     description="Copy build directory to $CATALINA_HOME"
     depends="compile">
-    <mkdir    dir="${deploy.home}"/>
+    <mkdir dir="${deploy.home}"/>
     <copy todir="${deploy.home}">
       <fileset dir="${build.home}">
       </fileset>
     </copy>
+  </target>
+
+
+
+<!-- ==================== Dist Target ===================================== -->
+<!--
+
+  The "dist" target creates a binary distribution of your application
+  in a directory structure ready to be archived in a tar.gz or zip file.
+  Note that this target depends on two others:
+
+  * "compile" so that the entire web application (including external
+    dependencies) will have been assembled
+-->
+
+  <target
+    name="dist"
+    description="Create binary distribution"
+    depends="compile,docs,compress"
+    >
+
+    <mkdir dir="${dist.home}"/>
+
+    <!-- Create source zip file -->
+    <zip destfile="${dist.home}/${pack.name}-src-${app.version}.zip" update="true">
+      <zipfileset dir="${build.home}" prefix="mapbuilder"/>
+    </zip>
+
+    <!-- Create source WAR file -->
+    <jar jarfile="${dist.home}/${app.name}.war" basedir="${build.home}"/>
+
+    <!-- zip up the application WAR file -->
+    <zip destfile="${dist.home}/${pack.name}-src-${app.version}-war.zip" update="true">
+      <zipfileset file="${dist.home}/${app.name}.war"/>
+    </zip>
+
+    <!-- Create application zip file -->
+    <zip destfile="${dist.home}/${pack.name}-${app.version}.zip" update="true">
+      <zipfileset dir="${compress.home}" prefix="mapbuilder"/>
+    </zip>
+
+    <!-- Create application WAR file -->
+    <jar jarfile="${dist.home}/${app.name}.war" basedir="${compress.home}"/>
+
+    <!-- zip up the application WAR file -->
+    <zip destfile="${dist.home}/${pack.name}-${app.version}-war.zip" update="true">
+      <zipfileset file="${dist.home}/${app.name}.war"/>
+    </zip>
   </target>
 
 </project>
