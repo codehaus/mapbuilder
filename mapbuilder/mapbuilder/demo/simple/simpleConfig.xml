@@ -38,7 +38,7 @@
 
           <htmlTagId>mainMapPane</htmlTagId>
 
-          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
+          <stylesheet>../../lib/widget/Null.xsl</stylesheet>
 
           <lineColor>#FF0000</lineColor>
 
