@@ -4,6 +4,13 @@ $Id$
 
 This file contains information about updates to each release:
 
+mapbuilder-lib-0.1-rc2 (alpha quality):
+=======================================
+* Fixes showstopper bugs in IE relating to loading of scripts.
+* Mapbuilder now takes a while to load because we force scripts to
+  be loaded before rendering widgets.
+* The reset button was commented out because it did not work on IE.
+
 mapbuilder-lib-0.1-rc1 (alpha quality):
 =======================================
 This initial version of Mapbuilder libraries contains:
