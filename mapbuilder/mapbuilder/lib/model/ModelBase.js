@@ -76,11 +76,13 @@ function ModelBase(modelNode) {
       } else {
         alert("error creating widget:" + widgetNode.nodeName);
       }
+    }
+    // Trigger widget.paint() calls
+    objRef.callListeners("modelChange");
 
-      widget.paint();
+    for (var j=0; j<widgets.length; j++) {
       widget.loadTools();
     }
-    objRef.callListeners( "loadWidget" );
   }
 
   /**
