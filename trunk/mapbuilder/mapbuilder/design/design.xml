@@ -454,8 +454,8 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
       </section>
     </section>
 
-    <section>
-      <title id="library">CMB Library Components</title>
+    <section id="components">
+      <title id="library">Library Components</title>
 
       <figure>
         <title>CMB Library Components</title>
@@ -504,11 +504,12 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
         <section id="context">
           <title>Context</title>
 
-          <para>The context object stores geographic state, like Layers,
-          Bounding Box, etc.</para>
+          <para>The Context object stores geographic state, like Layers,
+          Bounding Box, etc. The state is stored in XML (which is defined by
+          the OGC Web Map Context (WMC) specification and accessed using
+          Context.js javascript functions.</para>
 
-          <para>Context realises and extends the Web Map Context (WMC)
-          specification as defined by the OGC. Extensions include:</para>
+          <para>Extensions to the WMC specification include:</para>
 
           <itemizedlist>
             <listitem>
@@ -540,15 +541,43 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
           get/setContext() to rebuild and replace the entire WebMapContext
           data.</para>
         </section>
+
+        <section id="config">
+          <title>Config</title>
+
+          <para>The Config object lists all the components to be used by a
+          Mapbuilder Web Page. State data is stored in XML and is usually
+          loaded at startup to define which widgets are provided by this
+          instance of MapBuilder.</para>
+
+          <example>
+            <title></title>
+
+            <programlisting>&lt;MapbuilderConfig&gt;
+  &lt;models&gt;
+    &lt;Config id="configModelId"/&gt;
+
+  &lt;/models&gt;
+  &lt;views&gt;
+    &lt;MapPane id="mapPaneId"&gt;
+      &lt;context="contextId"/&gt;
+    &lt;/MapPane&gt;
+    &lt;ButtonBar id="buttonBar"/&gt;
+      &lt;OptionButton/&gt;
+    &lt;/ButtonBar&gt;
+  &lt;/views&gt;
+&lt;/MapbuilderConfig&gt;</programlisting>
+          </example>
+        </section>
       </section>
 
       <section>
-        <title>Widget</title>
+        <title>View</title>
 
-        <para>Widgets are the components that you can see on a MapBuilder web
-        page, like a MapPane, Legend, or PanRose. A widget contains a
-        javascript function which knows how to paint itself and sometimes uses
-        XSL to render the Context XML.</para>
+        <para>Views are the components that you can see on a MapBuilder web
+        page, like a MapPane, Legend, or PanRose. A view contains a javascript
+        function which knows how to paint itself and sometimes uses XSL to
+        render the XML from the model.</para>
 
         <section id="mappane">
           <title>MapPane</title>
@@ -557,7 +586,7 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
           Layers.</para>
 
           <figure>
-            <title>MapPane Component</title>
+            <title>MapPane</title>
 
             <mediaobject>
               <imageobject>
@@ -567,12 +596,103 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
           </figure>
         </section>
 
+        <section id="glasspane">
+          <title>GlassPane</title>
+
+          <para>GlassPane provides a transparent image overlayer for accepting
+          mouse actions.</para>
+
+          <figure>
+            <title>Attaching Tools to GlassPane</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/glassPane.jpg" />
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>GlassPane overlays another view, usually MapPane. GlassPane
+          accpets all the mouse clicks that a user applies to the View.</para>
+
+          <para>GlassPane does not process the mouse clicks, instead a Tool
+          registers for GlassPane's MouseActionEvents and processes the events
+          on behalf of GlassPane.</para>
+
+          <example>
+            <title>GlassPane Psudocode</title>
+
+            <orderedlist>
+              <title>Initialisation</title>
+
+              <listitem>
+                <para>GlassPane registers for Selection events so that it is
+                notified when the selected Tool changes.</para>
+              </listitem>
+            </orderedlist>
+
+            <orderedlist>
+              <title>Change Tool</title>
+
+              <listitem>
+                <para>OptionButton is clicked.</para>
+              </listitem>
+
+              <listitem>
+                <para>OptionButton calls SelectList.setSelection.</para>
+              </listitem>
+
+              <listitem>
+                <para>SelectionList calls all the SelectionChangeListener
+                functions.</para>
+              </listitem>
+
+              <listitem>
+                <para>GlassPane.selectionChangeListener() destroys the
+                previous Tool instance.</para>
+              </listitem>
+
+              <listitem>
+                <para>GlassPane.selectionChangeListener() creates a Tool
+                instance based on the new Selection.</para>
+              </listitem>
+
+              <listitem>
+                <para>When the new Tool is initialised, it registers for some
+                of GlassPanes's mouseEvents by calling
+                glassPane.addMouseXxxListener().</para>
+              </listitem>
+            </orderedlist>
+
+            <orderedlist>
+              <title>Process Mouse Action</title>
+
+              <listitem>
+                <para>GlassPane recieves a mouseAction - mouseDown, mouseUp,
+                mouseMove, etc.</para>
+              </listitem>
+
+              <listitem>
+                <para>If a Tool has registered for these mouseActions, then
+                the Tool.mouseXxxListener() is called.</para>
+              </listitem>
+
+              <listitem>
+                <para>MouseXxxListener() will process the event and will
+                usually update one of the model objects. For example,
+                PanTool.MouseUpListener() will recalculate the extent then
+                call context.setExtent().</para>
+              </listitem>
+            </orderedlist>
+          </example>
+        </section>
+
         <section id="legend">
           <title>Legend</title>
 
           <para>Legend uses XSL to render a legend based on the Context. Some
           context information, like LayerVisiblity can be changed through the
-          Legend widget.</para>
+          Legend view.</para>
 
           <figure>
             <title>Legend Component</title>
@@ -585,6 +705,35 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
           </figure>
         </section>
 
+        <section id="buttonbar">
+          <title>ButtonBar</title>
+
+          <para>A ButtonBar contains a list of Buttons and SelectButtons which
+          are added to a MainPage as one widget.</para>
+
+          <figure>
+            <title>ButtonBar</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/ButtonBar.jpg" />
+              </imageobject>
+            </mediaobject>
+          </figure>
+        </section>
+
+        <section>
+          <title>Button</title>
+
+          <para></para>
+        </section>
+
+        <section>
+          <title>SelectButton</title>
+
+          <para></para>
+        </section>
+
         <section>
           <title>Tool</title>
 
@@ -592,6 +741,8 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
           PanLeft button or a ZoomPanel. The Tools contain logic to update
           Context when they have been pressed. In the Model-View-Controller
           design pattern, these Tools are both a View and a Controller.</para>
+
+          <para>TBD: This is to be replaced by Buttons.</para>
         </section>
 
         <section id="addfeature">
