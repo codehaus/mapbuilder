@@ -32,7 +32,7 @@ function ModelList(toolNode, parentWidget) {
   }
 
   //
-  this.targetModelNode = this.parentWidget.selectSingleNode("//mb:*[@id='"+tool.targetModel+"']");
+  this.targetModelNode = this.parentWidget.model.modelNode.selectSingleNode("//mb:*[@id='"+this.targetModel+"']");
 
   /**
    * get the list of source nodes from the parent document
@@ -48,6 +48,22 @@ function ModelList(toolNode, parentWidget) {
   this.model.addListener("loadModel", this.initModelList, this);
 
   /**
+   * loads an instance of the targetModel model with the document
+   * @param objRef Pointer to this object.
+   */
+  this.updateModel = function(tool) {
+    tool.parentWidget.createQuery(feature);
+      model.url=this.model.getServerUrl(sourceNode);
+      model.method=this.model.getHttpMethod(sourceNode);
+      model.postData=null;
+    serverUrl = model.url
+    postData = model.postData
+    model.loadModelDoc(serverUrl,postData);
+    alert("loaded:"+model.doc.xml);
+    model.callListeners("loadModel");
+  }
+
+  /**
    * appends a new instance of the targetModel model to the list
    * @param objRef Pointer to this object.
    */
@@ -55,32 +71,15 @@ function ModelList(toolNode, parentWidget) {
     var evalStr = "new " + this.targetModelNode.nodeName + "(sourceNode);";
     var model = eval( evalStr );
     if ( model ) {
-      //auto generated ID assigned to this model
-      model.id = "MbModel_" + mbIds.getId();
+alert("appending:"+evalStr+":"+model.id);
       this.model[model.id] = model;
       this.models.push(model);
-      model.url=this.model.getServerUrl(sourceNode);
-      model.method=this.model.getHttpMethod(sourceNode);
-      model.postData=null;
     } else { 
-      alert("error creating dynamic model object:" + tool.targetModelNode.nodeName);
+      alert("ModelList: error creating dynamic model object:" + tool.targetModelNode.nodeName);
     }
 
     //add listeners for this new model instance
-    model.addListener
-  }
-
-  /**
-   * loads an instance of the targetModel model with the document
-   * @param objRef Pointer to this object.
-   */
-  this.updateModel = function(objRef, modelId, feature) {
-    parentWidget.createQuery(feature);
-    serverUrl = model.url
-    postData = model.postData
-    model.loadModelDoc(serverUrl,postData);
-    alert("loaded:"+model.doc.xml);
-    model.callListeners("loadModel");
+    model.addListener("paint", this.updateModel, model);
   }
 
   /**

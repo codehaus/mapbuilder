@@ -69,21 +69,26 @@ function GetFeatureRequest(widgetNode, model) {
   this.stylesheet.setParameter("skinDir", config.skinDir );
   this.stylesheet.setParameter("lang", config.lang );
 
+  this.xxpaint = function() {
+    //no-op
+  }
+
   /**
    * Render the widget.
    * @param objRef Pointer to this object.
    */
-  this.createQuery = function(dynModelRef) {
-    if (this.model.doc) {
-      feature = dynModelRef.modelNode
+  this.paint = function(objRef) {
+    if (objRef.dynModel.doc) {
+      var feature = objRef.modelNode;
       //confirm inputs
       if (objRef.debug) alert("source:"+feature.xml);
       if (objRef.debug) alert("stylesheet:"+objRef.stylesheet.xslDom.xml);
 
       //process the doc with the stylesheet
-      dynModelRef.postData = objRef.stylesheet.transformNodeToObject(feature);
-      if (objRef.debug) alert("result:"+dynModelRef.postData.xml);
+      objRef.postData = objRef.stylesheet.transformNodeToObject(feature);
+      if (objRef.debug) alert("result:"+objRef.postData.xml);
 
+      objRef.callListeners("paint");
     }
   }
 
