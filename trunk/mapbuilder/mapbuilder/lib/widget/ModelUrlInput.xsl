@@ -34,6 +34,8 @@ $Id$
 
   <xsl:param name="modelId"/>
 
+  <xsl:param name="modelTitle"/>
+
   <xsl:param name="targetModel"/>
 
   <xsl:param name="widgetId"/>
@@ -64,7 +66,7 @@ $Id$
 
           <th align="left" colspan="3">
 
-            <xsl:call-template name="title"/><xsl:value-of select="$targetModel"/>
+            <xsl:call-template name="title"/><xsl:value-of select="$modelTitle"/>
 
           </th>
 
@@ -82,11 +84,13 @@ $Id$
 
             <input name="modelUrl" type="text" size="30" value="{$modelUrl}"/>
 
+            <a href="javascript:config.{$modelId}.{$widgetId}.submitForm();">load</a>
+
           </td>
 
         </tr>
 
-        <tr>
+        <!--tr>
 
           <td>
 
@@ -104,13 +108,13 @@ $Id$
 
           <td>
 
-            <!--input type="submit"/-->
+            <input type="submit"/>
 
             <a href="javascript:config.{$modelId}.{$widgetId}.submitForm();">load model</a>
 
           </td>
 
-        </tr>
+        </tr-->
 
       </table>
 
@@ -128,7 +132,7 @@ $Id$
 
       <xsl:when test="$lang='fr'">Model URL for:</xsl:when>
 
-      <xsl:otherwise>Model URL for:</xsl:otherwise>
+      <xsl:otherwise>Enter a URL for: </xsl:otherwise>
 
     </xsl:choose>
 

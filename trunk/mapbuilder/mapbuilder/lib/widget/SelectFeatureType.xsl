@@ -37,10 +37,11 @@ $Name$
   <!-- template rule matching source root element -->
   <xsl:template match="ogcwfs:FeatureType">
     <xsl:variable name="name"><xsl:value-of select="ogcwfs:Name"/></xsl:variable>
+    <xsl:variable name="title"><xsl:value-of select="ogcwfs:Title"/></xsl:variable>
     <xsl:variable name="id"><xsl:value-of select="@id"/></xsl:variable>
     <tr>
       <td>
-        <xsl:value-of select="$name"/>
+        <xsl:value-of select="$title"/>
       </td>
       <td>
         <a href="javascript:config.{$modelId}.loadFeature('{$id}')">load</a>

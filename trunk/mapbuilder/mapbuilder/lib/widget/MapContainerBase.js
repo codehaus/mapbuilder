@@ -47,6 +47,7 @@ function MapContainerBase(widget,widgetNode,model) {
   var containerNode = document.getElementById(widget.containerNodeId);
   if (containerNode) {
     widget.containerModel = containerNode.widget.model;
+    if (model.parentModel) model.parentModel.containerModel = widget.containerModel;
     widget.containerModel.addListener("refresh",widget.paint,widget);
   } else {
     containerNode = document.createElement("DIV");
@@ -57,6 +58,7 @@ function MapContainerBase(widget,widgetNode,model) {
     containerNode.style.overflow="hidden";
 
     widget.containerModel = widget.model;
+    widget.model.containerModel = widget.model;
 
     this.setFixedWidth = function(objRef) {
       //adjust the context width and height if required.
