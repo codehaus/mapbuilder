@@ -60,11 +60,11 @@ function ZoomToAoi(toolNode, model) {
     tool.model.setParam("aoi", new Array(ul, lr) );
   }
   this.firstInit = function(tool) {
-    tool.targetModel.addListener( "refresh", tool.showTargetAoi, tool );
+    tool.targetModel.addListener( "loadModel", tool.showTargetAoi, tool );
+    tool.targetModel.addListener( "bbox", tool.showTargetAoi, tool );
     tool.showTargetAoi(tool);
   }
   config.addListener( "loadModel", this.firstInit, this );
-  //this.targetModel.addListener( "loadModel", this.showTargetAoi, this );
 
 
   /**
