@@ -4,6 +4,18 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://www.opengis.net http://schemas.opengis.net/context/1.0.0/collection.xsd">
 	<!-- List of context XML URLs -->
+	<ViewContextReference version="1.0.0" id="tsPrecipAnomaly">
+		<Title>Precipitation Anomalies</Title>
+		<ContextURL>
+			<OnlineResource xlink:type="simple" xlink:href="/mapbuilder/demo/context/tsPrecipAnomaly.xml"/>
+		</ContextURL>
+	</ViewContextReference>
+	<!--ViewContextReference version="1.0.0" id="tsWorldTemp">
+		<Title>World Temperature</Title>
+		<ContextURL>
+			<OnlineResource xlink:type="simple" xlink:href="/mapbuilder/demo/context/tsWorldTemp.xml"/>
+		</ContextURL>
+	</ViewContextReference-->
 	<ViewContextReference version="1.0.0" id="testDemo">
 		<Title>Ozone from new Microwave Limb Sounder on Aura (72x89 Animation)</Title>
 		<ContextURL>
