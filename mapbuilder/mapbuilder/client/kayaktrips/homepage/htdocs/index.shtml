@@ -40,7 +40,7 @@ functionality.</p>
     href="http://mapserver.gis.umn.edu">Mapserv</a> provides a beta level
     open source Web Map Service.</li>
   <li>Develop a Web Map Server client.  I've helped incorporate this
-    functionality into <a href="http://geotools.sorceforge.net">Geotools</a>,
+    functionality into <a href="http://geotools.sourceforge.net">Geotools</a>,
     a web based java applet.</li>
 </ul>
 
