@@ -11,7 +11,7 @@ $Id$
  * @author Cameron Shorter
  * @see Listener
  */
-function ModelBase(modelNode, parent) {
+function ModelBase(modelNode) {
   // Inherit the Listener functions and parameters
   var listener = new Listener();
   for (sProperty in listener) { 
@@ -65,12 +65,15 @@ function ModelBase(modelNode, parent) {
       //call the widget constructor and paint
       var evalStr = "new " + widgetNode.nodeName + "(widgetNode, this);";
       var widget = eval( evalStr );
-      this[widget.id] = widget;
+      if (widget) {
+        this[widget.id] = widget;
+      } else {
+        alert("error creating widget:" + widgetNode.nodeName);
+      }
 
       widget.paint();
       widget.loadTools();
-
-      widget.callListeners( "loadWidget" );
     }
+    this.callListeners( "loadWidget" );
   }
 }

@@ -22,6 +22,7 @@ function Config(url) {
   }
 
   this.loadModelDoc(url);
+  this.modelNode = this.doc.documentElement;
 
   //set some global application properties
   this.skinDir = this.doc.selectSingleNode("/MapbuilderConfig/skinDir").firstChild.nodeValue;
@@ -87,8 +88,12 @@ function Config(url) {
       var evalStr = "new " + modelType + "(modelNode, this);";
       //alert("init model:" + evalStr);
       var model = eval( evalStr );
+      if ( model ) {
+        this[model.id] = model;
+      } else { 
+        alert("error creating model object:" + modelType);
+      }
 
-      this[model.id] = model;
 
       //load the Model object from the initial URL in config or from a URL param.
       //the URL can also be passed in as a URL parameter by using the model ID
@@ -101,6 +106,9 @@ function Config(url) {
       }
       this.loadModel( model.id, initialModel );
     }
+
+    //load in widgets of the config doc
+    this.loadWidgets();
   }
 
   /**
@@ -113,6 +121,7 @@ function Config(url) {
     var model = this[modelId];
     model.loadModelDoc( modelUrl );
     model.loadWidgets();
+    this.callListeners( "loadModel" );
   }
 }
 
