@@ -26,9 +26,12 @@ $Name$
   <xsl:template match="/ogcwfs:WFS_Capabilities">
     <table>
       <tr>
-        <th colspan="3">
+        <th>
           Feature types from: <xsl:value-of select="ogcwfs:Service/ogcwfs:Title"/>
         </th>
+        <td colspan="2">
+          <a href="javascript:config.paintWidget(config.wfsServers.wfsServerList)">Back to list</a>
+        </td>
       </tr>
       <xsl:apply-templates select="ogcwfs:FeatureTypeList/ogcwfs:FeatureType"/>
     </table>
@@ -41,7 +44,7 @@ $Name$
     <xsl:variable name="id"><xsl:value-of select="@id"/></xsl:variable>
     <tr>
       <td>
-        <xsl:value-of select="$title"/>
+        <xsl:value-of select="$title"/> (<xsl:value-of select="$name"/>) <xsl:value-of select="ogcwfs:SRS"/>
       </td>
       <td>
         <a href="javascript:config.{$modelId}.loadFeature('{$id}')">load</a>

@@ -28,6 +28,9 @@ $Name$
         <th colspan="3">
           Map Layers from: <xsl:value-of select="Service/Title"/>
         </th>
+        <td colspan="2">
+          <a href="javascript:config.paintWidget(config.wmsServers.wmsServerList)">Back to list</a>
+        </td>
       </tr>
       <xsl:apply-templates/>
     </table>

@@ -175,9 +175,24 @@ function ModelBase(model, modelNode, parentModel) {
     model.method = "get";
   }
 
-  model.loadFeatureList = function(objRef) {
+  this.saveModel = function(objRef) {
+    if (config.serializeUrl) {
+      var response = postLoad(config.serializeUrl, objRef.doc);
+      response.setProperty("SelectionLanguage", "XPath");
+      Sarissa.setXpathNamespaces(response, "xmlns:xlink='http://www.w3.org/1999/xlink'");
+      var onlineResource = response.selectSingleNode("//OnlineResource");
+      var fileUrl = onlineResource.attributes.getNamedItem("xlink:href").nodeValue;
+      objRef.setParam("modelSaved", fileUrl);
+    } else {
+      alert("serializeUrl must be specified in config to save a model");
+    }
+  }
+  model.saveModel = this.saveModel;
+
+  this.loadFeatureList = function(objRef) {
     objRef.featureList = new ModelList(objRef);
   }
+  model.loadFeatureList = this.loadFeatureList;
 
   //get the xpath to select nodes from the parent doc
   var nodeSelectXpath = modelNode.selectSingleNode("mb:nodeSelectXpath");
@@ -194,6 +209,7 @@ function ModelBase(model, modelNode, parentModel) {
       modelRef.loadWidgets();
     }
   }
+
   model.refresh = function(modelRef) {
     modelRef.callListeners("refresh");
   }
