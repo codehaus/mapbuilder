@@ -15,71 +15,40 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * @param toolNode      The tools's XML object node from the configuration document.
  * @param parentWidget  The widget that this tool belongs to
  */
-function ModelList(toolNode, parentWidget) {
-  this.parentWidget = parentWidget;
-  this.toolNode = toolNode;
-  this.model = parentWidget.model;            //.model is the parent model, eg. WFS caps doc
-  this.targetModel = parentWidget.targetModel;//.targetModel is a template for creating new models
-  this.models = new Array();                  //.models is an array of the dynamic models created
+function ModelList(model) {
+  this.model = model;            //.model is the parent model, eg. WFS caps doc
+  this.modelArray = new Array();                  //.models is an array of the dynamic models created
   //TBD: actually insert Model nodes for these in the config.doc
 
-  //get the xpath to select nodes from the parent doc
-  var nodeSelectXpath = toolNode.selectSingleNode("mb:nodeSelectXpath");
-  if (nodeSelectXpath) {
-    this.nodeSelectXpath = nodeSelectXpath.firstChild.nodeValue;
-  } else {
-    alert("no nodeSelectXpath");
-  }
-
-  //
-  this.targetModelNode = config.modelNode.selectSingleNode("//mb:*[@id='"+this.targetModel.id+"']");
 
   /**
-   * get the list of source nodes from the parent document
+   * appends a new instance of a model to the model list
    * @param objRef Pointer to this object.
    */
-  this.initModelList = function(tool) {
-    var featureList = tool.model.getFeatureList(tool.nodeSelectXpath);
-    for (var i=0; i<featureList.length; i++) {
-      var sourceNode = featureList[i];
-      tool.appendModel(sourceNode);
+  this.appendModel = function(targetModelNode, docNode) {
+    var evalStr = "new " + targetModelNode.nodeName + "(targetModelNode,this.model);";
+    var model = eval( evalStr );
+    if ( model ) {
+      this.modelArray.push(model);
+
+      docNode.modelId = model.id;
+      model.doc=docNode;
+      //call the loadModel event
+      //model.callListeners("loadModel");
+      return model;
+    } else { 
+      alert("ModelList: error creating dynamic model object:" + targetModelNode.nodeName);
     }
   }
-  this.model.addListener("loadModel", this.initModelList, this);
+  //add listeners for this new model instance
+  //this.model.addListener("paint", this.updateModel, model);
 
   /**
    * loads an instance of the targetModel model with the document
    * @param objRef Pointer to this object.
    */
   this.updateModel = function(model) {
-    this.parentWidget.createQuery(model);
   }
-
-  /**
-   * appends a new instance of the targetModel model to the list
-   * @param objRef Pointer to this object.
-   */
-  this.appendModel = function(sourceNode) {
-    //make the URL valid so this isn't a template
-    this.targetModelNode.url=this.model.getServerUrl(sourceNode);
-
-    //assign an id to the mdoel created so it can be tied to the source node
-    this.targetModelNode.attributes.getNamedItem("id").nodeValue= "MbDynModel_" + mbIds.getId();
-
-    var evalStr = "new " + this.targetModelNode.nodeName + "(this.targetModelNode,this.model);";
-    var model = eval( evalStr );
-    if ( model ) {
-      sourceNode.modelId = model.id;
-      model.sourceNode=sourceNode;
-      this.models.push(model);
-    } else { 
-      alert("ModelList: error creating dynamic model object:" + tool.targetModelNode.nodeName);
-    }
-
-    this.parentWidget.createQuery(model);
-  }
-  //add listeners for this new model instance
-  //this.model.addListener("paint", this.updateModel, model);
 
   /**
    * removes an instance of the targetModel model from the list
