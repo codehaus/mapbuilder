@@ -32,11 +32,23 @@ import javax.servlet.http.*;
 
 
 
+// import log4j packages
+
+import org.apache.log4j.Logger;
+
+import org.apache.log4j.PropertyConfigurator;
+
+
+
 public class XmlSerializer extends HttpServlet
 
 {
 
 
+
+	private final static Logger log =	Logger.getLogger(XmlSerializer.class);
+
+  
 
 //---------------------------------------------------------------------------
 
@@ -66,9 +78,13 @@ public class XmlSerializer extends HttpServlet
 
     super.init( config );
 
+    context_ = config.getServletContext();
+
+    log.info("mapbuilder.XmlSerializer: context initialized to:" + context_.getServletContextName());
+
     outputDir_ = config.getInitParameter( "outputDir" );
 
-    context_ = config.getServletContext();
+    log.info("mapbuilder.XmlSerializer: outputDir initialized to:" + context_.getRealPath( outputDir_) );
 
   }
 
@@ -108,7 +124,7 @@ public class XmlSerializer extends HttpServlet
 
     try {
 
-      File dstDir = new File( context_.getRealPath(outputDir_) );
+      File dstDir = new File( context_.getRealPath( outputDir_ ) );
 
       File dst = File.createTempFile("cmb", ".xml", dstDir);
 
@@ -120,27 +136,27 @@ public class XmlSerializer extends HttpServlet
 
 
 
-      /*
+      if (log.isDebugEnabled()) {
 
-      Enumeration e = request.getHeaderNames();
+        Enumeration e = request.getHeaderNames();
 
-      while (e.hasMoreElements()) {
+        while (e.hasMoreElements()) {
 
           String name = (String)e.nextElement();
 
           String value = request.getHeader(name);
 
-          System.err.println("request header:" + name + ":" + value);
+          log.debug("request header:" + name + ":" + value);
+
+        }
 
       }
-
-       */
 
         
 
       // Transfer bytes from in to out
 
-      System.err.println("transfering...");
+      log.debug("xmlSerializer transfering...");
 
       BufferedReader in = request.getReader();
 
@@ -150,13 +166,13 @@ public class XmlSerializer extends HttpServlet
 
       //also, for some reason the above code does not work in some cases (buffer too small?)
 
-      char[] buf = new char[1 * 1024];  // 4Kchar buffer
+      char[] buf = new char[1 * 1024];  // 1Kchar buffer
 
       int len;
 
       while ((len = in.read(buf, 0, buf.length)) != -1) {
 
-        System.err.println("line:"+new String(buf));
+        log.debug("line:"+new String(buf));
 
         out.write(buf, 0, len);
 
@@ -168,7 +184,7 @@ public class XmlSerializer extends HttpServlet
 
       out.close();  
 
-      System.err.println("...done.");
+      log.debug("...done.");
 
       
 
