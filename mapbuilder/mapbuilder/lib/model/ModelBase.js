@@ -30,6 +30,7 @@ function ModelBase(modelNode) {
    * @param url Url of the configuration file.
    */
   this.loadModelDoc = function(url,postData){
+    this.url = url;
     url=getProxyPlusUrl(url);
     if (url) {
       if (postData) {
