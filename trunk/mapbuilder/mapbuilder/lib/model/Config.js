@@ -113,10 +113,13 @@ function Config(url) {
       var initialModel = null;
       if (cgiArgs[model.id]) {  
         initialModel = cgiArgs[model.id];
+      } else if (window[model.id]) {  
+        initialModel = window[model.id];
       } else {
-        initialModel = modelNode.selectSingleNode("defaultModelUrl").firstChild.nodeValue;
+        var defaultModel = modelNode.selectSingleNode("defaultModelUrl");
+        if (defaultModel) initialModel = defaultModel.firstChild.nodeValue;
       }
-      this.loadModel( model.id, initialModel );
+      if (initialModel) this.loadModel( model.id, initialModel );
     }
 
     //load in widgets of the config doc
