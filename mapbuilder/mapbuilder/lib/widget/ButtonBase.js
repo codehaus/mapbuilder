@@ -73,6 +73,7 @@ function ButtonBase(button, widgetNode, model) {
         with (this.node.selectedRadioButton) {
           image.src = disabledImage.src;
           enabled = false;
+          if ( mouseHandler ) mouseHandler.enabled = false;
           doSelect(false,this);
         }
       }
@@ -82,6 +83,7 @@ function ButtonBase(button, widgetNode, model) {
 
     //enable this tool and any dependancies
     this.enabled = true;
+    if ( this.mouseHandler ) this.mouseHandler.enabled = true;
     this.doSelect(true,this);
   }
 

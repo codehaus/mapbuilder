@@ -28,8 +28,10 @@ function MouseClickHandler(toolNode, model) {
    * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
   this.clickHandler = function(objRef,targetNode) {
-    alert("MouseClickHandler click point="+targetNode.evpl);
+    //TBD: or convert to map XY here?
+    objRef.model.setParam("clickPoint", targetNode.evpl);
+    //alert("MouseClickHandler click point="+targetNode.evpl);
   }
 
-  model.addListener('click',this.clickHandler,this);
+  model.addListener('mouseup',this.clickHandler,this);
 }

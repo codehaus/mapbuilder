@@ -4,7 +4,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/EditButtonBase.js");
+mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 
 /**
  * When this button is selected, clicks on the MapPane will add a
@@ -18,7 +18,13 @@ mapbuilder.loadScript(baseDir+"/widget/EditButtonBase.js");
  */
 function EditPoint(toolNode, model) {
   // Extend EditButtonBase
-  var base = new EditButtonBase(this, toolNode, model);
+  var base = new ButtonBase(this, toolNode, model);
+
+  /** Empty GML to load when this tool is selected. */
+  //this.defaultModelUrl=toolNode.selectSingleNode("mb:defaultModelUrl").firstChild.nodeValue;
+
+  /** Reference to GML node to update when a feature is added. */
+  this.featureXpath=toolNode.selectSingleNode("mb:featureXpath").firstChild.nodeValue;
 
   /**
    * Add a point to the enclosing GML model.
@@ -27,13 +33,19 @@ function EditPoint(toolNode, model) {
    */
   this.doAction = function(objRef,targetNode) {
     if (objRef.enabled) {
-      point=objRef.targetModel.extent.getXY(targetNode.evpl);
-      sucess=sucess=objRef.targetGml.setXlinkValue(
-        objRef.targetGml,
+      point=objRef.mouseHandler.model.extent.getXY(targetNode.evpl);
+      sucess=objRef.targetModel.setXpathValue(
+        objRef.targetModel,
         objRef.featureXpath,point[0]+","+point[1]);
       if(!sucess){
         alert("EditPoint: invalid featureXpath in config: "+objRef.featureXpath);
       }
     }
   }
+  this.setMouseListener = function(objRef) {
+    if (objRef.mouseHandler) {
+      objRef.mouseHandler.model.addListener('mouseup',objRef.doAction,objRef);
+    }
+  }
+  this.targetModel.addListener( "loadModel", this.setMouseListener, this );
 }
