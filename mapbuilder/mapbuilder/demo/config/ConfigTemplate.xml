@@ -32,39 +32,40 @@
 
   <!--
   -->
-  <widgets>
+  <widgetGroups>
     
-    <MapPane id="locatorMapId">
-      <scriptFile>/widget/mappane/MapPane2.js</scriptFile>
-      <stylesheet>/widget/mappane/Context2MapPane.xml</stylesheet>
+    <Model id="locatorMapGroup">
       <modelType>Context</modelType>
-      <defaultModelUrl>/mapbuilder/demo/context/locatorMap.xml</defaultModelUrl>
-      <targetWidget>mainMapPaneId</targetWidget>
-    </MapPane>
+      <defaultModelUrl>demo/context/locatorMap.xml</defaultModelUrl>
+      <widgets>
+        <MapPane id="locatorMapId">
+          <scriptFile>/widget/mappane/MapPane2.js</scriptFile>
+          <stylesheet>/widget/mappane/Context2MapPane.xml</stylesheet>
+          <targetWidget>mainMapPaneId</targetWidget>
+        </MapPane>
+      </widgets>
+    </Model>
     
-    <MapPane id="mainMapPaneId">
-      <scriptFile>/widget/mappane/MapPane2.js</scriptFile>
-      <stylesheet>/widget/mappane/Context2MapPane2.xml</stylesheet>
+    <Model id="mainMapGroup">
       <modelType>Context</modelType>
-      <defaultModelUrl>/mapbuilder/demo/context/atlasWorld.xml</defaultModelUrl>
-      
-      <!-- contained widgets register with the parent widget's model listeners -->
-      <widgets> 
-      
-        <!-- further contained widgets        -->
-
-        <GlassPane>  
-          <scriptFile>/widget/tool/GlassPane3.js</scriptFile>
-          <widgets> <!-- further contained widgets; or call this tools??-->
+      <defaultModelUrl>demo/context/atlasWorld.xml</defaultModelUrl>
+      <widgets>
+        <MapPane id="mainMapPaneId">
+          <scriptFile>/widget/mappane/MapPane2.js</scriptFile>
+          <stylesheet>/widget/mappane/Context2MapPane2.xml</stylesheet>
+          <!-- -->
+          <tools> 
+            <GlassPane>  
+              <scriptFile>/widget/tool/GlassPane3.js</scriptFile>
+            </GlassPane>
             <AoiBox>
               <scriptFile>/widget/tool/AoiBox2.js</scriptFile>
-              <color>#FF000</color>
+              <lineColor>#FF000</lineColor>
               <lineWidth>2</lineWidth>
               <crossSize>9</crossSize>
             </AoiBox>
-        
-          </widgets>
-        </GlassPane>
+          </tools> 
+        </MapPane>
         
         <Legend id="legendId">
           <scriptFile>/widget/legend/Legend2.js</scriptFile>
@@ -103,16 +104,20 @@
            -->
         
       </widgets>
-    </MapPane>
+    </Model>
       
-    <CollectionList id="collectionListId">
-      <scriptFile>/widget/collectionList/CollectionList2.js</scriptFile>
-      <stylesheet>/widget/collectionList/CollectionToList2.xsl</stylesheet>
+    <Model id="collectionGroup">
       <modelType>ContextCollection</modelType>
-      <defaultModelUrl>/mapbuilder/demo/context/demoCollection.ccml</defaultModelUrl>
-      <targetWidget>mainMapPaneId</targetWidget>
-    </CollectionList>
+      <defaultModelUrl>demo/context/demoCollection.ccml</defaultModelUrl>
+      <widgets>
+        <CollectionList id="collectionListId">
+          <scriptFile>/widget/collectionList/CollectionList2.js</scriptFile>
+          <stylesheet>/widget/collectionList/CollectionToList2.xsl</stylesheet>
+          <targetWidgetGroup>mainMapGroup</targetWidgetGroup>
+        </CollectionList>
+      </widgets>
+    </Model>
     
-  </widgets>
+  </widgetGroups>
 
 </MapbuilderConfig>

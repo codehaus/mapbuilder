@@ -27,21 +27,6 @@ function WidgetBase(widgetNode) {
   var styleNode = widgetNode.selectSingleNode("stylesheet");
   if ( styleNode ) this.stylesheet = new XslProcessor( config.baseDir + styleNode.firstChild.nodeValue );
 
-  var modelTypeNode = widgetNode.selectSingleNode("modelType");
-  if ( modelTypeNode ) this.modelType = modelTypeNode.firstChild.nodeValue;
-  
-  this.childWidgets = new Array();
-
-  this.loadModel = function( modelUrl ) {
-    var evalStr = "new " + this.modelType + "('" + modelUrl + "');";
-    //alert("WidgetBase.loadModel eval:" + evalStr);
-    this.model = eval( evalStr );
-    //send out an update event?
-    this.model.modelIndex = config.modelArray.push( this.model ) - 1;  //or replace if it exists?
-    //can't call paint here because sub-class stylesheet params still need to be set
-    return this.model;
-  }
-
 
   /**
    * Move this widget to the absolute (left,top) position in the browser.
