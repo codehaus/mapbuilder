@@ -17,6 +17,7 @@ $Name$
 
     <!-- Include mapbuilder libraries -->
     <script type="text/javascript" src="../lib/util/sarissa/Sarissa.js"></script>
+    <script type="text/javascript" src="../lib/util/xmlextras.js"></script>
     <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
 
     <script>
@@ -26,10 +27,6 @@ function XslProcessor(xslUrl) {
   this.xslDom = Sarissa.getDomDocument();
   this.xslDom.async = false;
   this.xslDom.load(xslUrl);
-
-  this.processor = new XSLTProcessor(); //browser check here
-  this.processor.importStylesheet( this.xslDom ); //browser check here
-
 
   /**
    * Transforms XML in the provided xml node according to this XSL.
@@ -46,17 +43,33 @@ function XslProcessor(xslUrl) {
     s=a.join(">");
     return s;
   }
-  this.transformNodeToObject=function(xmlNode) {
+
+  this.transformNodeToObject=function(xmlNode, standaloneDoc) {
     // transform and build a web page with result
 
-/*
-    var result = Sarissa.getDomDocument();
-    xmlNode.transformNodeToObject(this.xslDom,result);
+    var result = null;
+    if ( standaloneDoc ) {
+        result = Sarissa.getDomDocument();
+    } else {
+        result = document;
+    }
+    xmlNode.transformNodeToObject(this.xslDom, result);
     return result;
-*/
-    return this.processor.transformToFragment( xmlNode, document );
+
+    //return this.processor.transformToFragment( xmlNode, document );
   }
+
+  this.pureMozillaXslt=function(xmlDoc) {
+        var xsltProcessor = new XSLTProcessor();
+        xsltProcessor.importStylesheet(this.xslDom);
+        var newFragment = xsltProcessor.transformToFragment(xmlDoc, document);
+        return newFragment;
+  }
+
 }
+
+
+
 
     </script>
 
@@ -71,10 +84,33 @@ function XslProcessor(xslUrl) {
     <table>
       <tr>
         <td valign="top">
-          button bar to go here
+          button bar via innerHTML:
         </td>
+        <td valign="top" id="ButtonBar2">
+        </td>
+      </tr>
+
+      <tr>
         <td valign="top">
-        <div id="ButtonBar"></DIV>
+          button bar via append:
+        </td>
+        <td valign="top" id="ButtonBar1">
+        </td>
+      </tr>
+
+      <tr>
+        <td valign="top">
+          button bar via pure Mozilla processor:
+        </td>
+        <td valign="top" id="ButtonBar3">
+        </td>
+      </tr>
+
+      <tr>
+        <td valign="top">
+          button bar via xmlExtras:
+        </td>
+        <td valign="top" id="ButtonBar4">
         </td>
       </tr>
 
@@ -88,12 +124,31 @@ function XslProcessor(xslUrl) {
   doc.load("configWms3.xml");
 
   var stylesheet = new XslProcessor("/mapbuilder/lib/widget/tool/ButtonBar.xsl");
-  var s = stylesheet.transformNodeToObject(doc);
+  var s = stylesheet.transformNodeToObject(doc, true);
 alert(s.xml);
 
-  var node = document.getElementById("ButtonBar")
-  node.appendChild(s);
-  //node.innerHTML = s.xml;
+  var node1 = document.getElementById("ButtonBar2")
+  node1.innerHTML = s.xml;
+alert(node1.xml);
+
+  var node2 = document.getElementById("ButtonBar1")
+  var removed = node2.removeChild( node2.firstChild );
+  //var xslResult = s.documentElement;
+  node2.appendChild(document.importNode(s.documentElement,true));
+alert(node2.xml);
+
+  var node3 = document.getElementById("ButtonBar3")
+  removed = node3.removeChild( node3.firstChild );
+  var xslResult = stylesheet.pureMozillaXslt(doc);
+  node3.appendChild(xslResult);
+alert(node3.xml);
+
+  var node4 = document.getElementById("ButtonBar4")
+  var xtraDoc = loadSync("configWms3.xml");
+  var xtraStyle = new XslProcessorXtra( "/mapbuilder/lib/widget/tool/ButtonBar.xsl" );
+  xslResult = xtraStyle.toFragment(xtraDoc);
+  node4.appendChild(xslResult);
+alert(node4.xml);
 
     </script>
 
