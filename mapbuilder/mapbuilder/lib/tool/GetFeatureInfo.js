@@ -64,6 +64,18 @@ function GetFeatureInfo(toolNode, parentWidget) {
 
 
 
+  /** Target FeatureCollection model */
+
+  var targetFeatureCollection = toolNode.selectSingleNode("targetFeatureCollection");
+
+  this.targetFeatureCollectionName = targetFeatureCollection.firstChild.nodeValue;
+
+  this.targetFeatureCollection = eval("config."+this.targetFeatureCollectionName);
+
+
+
+ 
+
   /** Determine whether Query result is returned as HTML or GML */
 
   // TBD This should be stored in the Config file.
@@ -146,13 +158,15 @@ function GetFeatureInfo(toolNode, parentWidget) {
 
           // Load the Query result
 
-          result=Sarissa.getDomDocument();
+          //result=Sarissa.getDomDocument();
 
-          result.async=false;
+          //result.async=false;
 
-          result.load(url);
+          //result.load(url);
 
           alert("query result="+result.xml);
+
+          objRef.targetFeatureCollection.loadModelDoc(url);
 
         }
 
