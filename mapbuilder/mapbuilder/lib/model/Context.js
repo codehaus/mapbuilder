@@ -66,9 +66,14 @@ function Context(url) {
    * @return BoundingBox array in form (xmin,ymin,xmax,ymax).
    */
   this.getBoundingBox=function() {
-    // TBD: Extract BoundingBox from the context
-    bbox=this.context.documentElement.selectNodes("/ViewContext/General/BoundingBox").item(0);
-    return new Array(bbox.getAttribute("minx"),bbox.getAttribute("miny"),bbox.getAttribute("maxx"),bbox.getAttribute("maxy"));
+    // Extract BoundingBox from the context
+    boundingBox=this.context.documentElement.getElementsByTagName("BoundingBox").item(0);
+    bbox = new Array();
+    bbox[0]=parseFloat(boundingBox.getAttribute("minx"));
+    bbox[1]=parseFloat(boundingBox.getAttribute("miny"));
+    bbox[2]=parseFloat(boundingBox.getAttribute("maxx"));
+    bbox[3]=parseFloat(boundingBox.getAttribute("maxy"));
+    return bbox;
   }
 
   /**
@@ -76,12 +81,22 @@ function Context(url) {
    * @param boundingBox array in form (xmin, ymin, xmax, ymax).
    */
   this.setBoundingBox=function(boundingBox) {
-    // TBD: Set BoundingBox in context
-    bbox=this.context.documentElement.selectNodes("/ViewContext/General/BoundingBox").item(0);
-    bbox.setAttribute("minx", bbox[0]);
-    bbox.setAttribute("miny", bbox[1]);
-    bbox.setAttribute("maxx", bbox[2]);
-    bbox.setAttribute("maxy", bbox[3]);
+    // Set BoundingBox in context
+    bbox=this.context.documentElement.getElementsByTagName("BoundingBox").item(0);
+    bbox.setAttribute("minx", boundingBox[0]);
+    bbox.setAttribute("miny", boundingBox[1]);
+    bbox.setAttribute("maxx", boundingBox[2]);
+    bbox.setAttribute("maxy", boundingBox[3]);
+  }
+
+  /**
+   * Get the Window SRS.
+   * @return srs The Spatial Reference System of the map window.
+   */
+  this.getSRS=function() {
+    bbox=this.context.documentElement.getElementsByTagName("BoundingBox").item(0);
+    srs=bbox.getAttribute("SRS");
+    return srs;
   }
 
   /**
@@ -122,6 +137,40 @@ function Context(url) {
     win.setAttribute("height", height);
   }
 
+  /**
+   * Pan (reset the BoundingBox) in a specified direction.
+   * @param dir The direction to pan in.
+   * @param percent Percentage to pan (of Window width).
+   */
+  this.panDir=function(dir, percent) {
+    if(percent == null){
+      percent=10;
+    }
+    percent=percent/100;
+    bbox=this.getBoundingBox();
+alert(bbox[0]);
+    geoWidth=bbox[2]-bbox[0];
+alert(geoWidth);
+    geoHeight=bbox[1]-bbox[3];
+    switch(dir){
+      case "w":
+        bbox[0]=parseFloat(bbox[0])-(geoWidth*percent);
+        bbox[2]=parseFloat(bbox[0])-(geoWidth*percent);
+        break;
+      default:
+        break;
+    }
+    var srs= this.getSRS();
+alert(bbox[0]);
+    if(srs=="EPSG:4326") {
+      if(bbox[0]<-180) {
+        bbox[0]=-1*(bbox[0]-180);
+      }
+    }
+alert(bbox[0]);
+    this.setBoundingBox(bbox);
+    mapPane.paint();
+  }
 }
 
 
