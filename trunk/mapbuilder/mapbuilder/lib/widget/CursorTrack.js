@@ -64,7 +64,7 @@ function CursorTrack(widgetNode, model) {
     }
     toolRef.proj = new Proj( toolRef.model.getSRS() );
   }
-  this.model.addListener( "loadModel", this.init, this );
+  this.model.addListener("refresh", this.init, this );
 
 
   //set some properties for the form output
