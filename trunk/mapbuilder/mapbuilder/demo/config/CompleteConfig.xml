@@ -140,6 +140,19 @@
         </GmlRenderer>
       </widgets>
     </Model-->
+    <Model id="testGml">
+      <defaultModelUrl>gml/Test.xml</defaultModelUrl>
+      <widgets>
+        <GmlRendererWZ id="testGmlRenderer">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <targetModel>mainMap</targetModel>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <pointDiameter>10</pointDiameter>
+        </GmlRendererWZ>
+      </widgets>
+    </Model>
     <Gml2 id="ntsGml">
       <!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
       <widgets>
