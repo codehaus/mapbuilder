@@ -54,18 +54,18 @@
           <tools> 
 
             <AoiBox>
-              <scriptFile>tool/AoiBox.js</scriptFile>
+              <scriptFile>widget/tool/AoiBox.js</scriptFile>
               <lineColor>#FF0000</lineColor>
               <lineWidth>2</lineWidth>
               <crossSize>25</crossSize>
             </AoiBox>
 
             <AoiMouseHandler>
-              <scriptFile>tool/AoiMouseHandler.js</scriptFile>
+              <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
             </AoiMouseHandler>
 
             <CursorTrack>
-              <scriptFile>tool/CursorTrack.js</scriptFile>
+              <scriptFile>widget/tool/CursorTrack.js</scriptFile>
               <scriptFile>model/Proj.js</scriptFile>
               <formName>MapDisplayForm</formName>
             </CursorTrack>
@@ -105,16 +105,16 @@
         <MapPane id="locatorMapId">
           <tools> 
             <AoiBox>
-              <scriptFile>tool/AoiBox.js</scriptFile>
+              <scriptFile>widget/tool/AoiBox.js</scriptFile>
               <lineColor>#0000FF</lineColor>
               <lineWidth>1</lineWidth>
               <crossSize>5</crossSize>
             </AoiBox>
             <AoiMouseHandler>
-              <scriptFile>tool/AoiMouseHandler.js</scriptFile>
+              <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
             </AoiMouseHandler>
             <ZoomToAoi>
-              <scriptFile>tool/ZoomToAoi.js</scriptFile>
+              <scriptFile>widget/tool/ZoomToAoi.js</scriptFile>
               <targetModelGroup>mainMapGroup</targetModelGroup>
             </ZoomToAoi>
           </tools> 
