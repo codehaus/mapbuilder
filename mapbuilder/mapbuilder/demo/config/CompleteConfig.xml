@@ -33,14 +33,13 @@
               <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
             </AoiMouseHandler>
 
-            <CursorTrack>
-              <scriptFile>widget/tool/CursorTrack.js</scriptFile>
-              <scriptFile>model/Proj.js</scriptFile>
-              <formName>MapDisplayForm</formName>
-            </CursorTrack>
           </tools> 
         </MapPane>
         
+        <CursorTrack id="cursorTrackId">
+          <mouseWidget>config['mainMapGroup']['MapPane']</mouseWidget>
+        </CursorTrack>
+            
         <Legend id="legendId">
         </Legend>
         
