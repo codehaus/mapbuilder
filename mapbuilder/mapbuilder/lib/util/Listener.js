@@ -28,6 +28,7 @@ function Listener() {
    * sent to all interested listeners.
    */
   this.addListener=function(param, listener, target) {
+    //if (window.logger) logger.logEvent("addListener: "+param,this.id,target.id);
     if(!this.listeners[param]){
       this.listeners[param]=new Array();
     }
@@ -43,7 +44,9 @@ function Listener() {
   this.callListeners=function(param,value) {
     if (this.listeners[param]){
       for(var i=0;i<this.listeners[param].length;i++){
+        var fn = this.listeners[param][i][0];
         // listener(target,value);
+        //if (window.logger) logger.logEvent(param,this.id,this.listeners[param][i][1].id,value);
         this.listeners[param][i][0](this.listeners[param][i][1],value);
       }
     }
