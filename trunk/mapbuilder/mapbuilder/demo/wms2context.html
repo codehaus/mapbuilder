@@ -20,15 +20,31 @@
 
   <body>
 
+  <form name="loadForm">
+
+    WMS getcapabilites request url:<br />
+
+    <input name="url" style="width:550px" type="text" value="http://atlas.gc.ca/cgi-bin/atlaswms_en?VERSION=1.1.0&request=GetCapabilities"/><br />
+
+    <input type="button" value="load" onclick="loadWMS(document.loadForm.url.value);"/>
+
+  </form>
+
   <script>
 
     baseDir="../lib";
 
     proxyScript="../server/proxy/proxy.php";
 
-    var wms = new WMS(baseDir + "/widget/wms/GmapCapabilities.xml");
+    function loadWMS(url) {
 
-    wms.paint();
+      var wms = new WMS(url);
+
+//    var wms = new WMS(baseDir + "/widget/wms/GmapCapabilities.xml");
+
+      wms.paint();
+
+    }
 
   </script>
 
