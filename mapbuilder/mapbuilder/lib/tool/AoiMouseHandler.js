@@ -5,6 +5,9 @@ License:      GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
+// Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
+
 /**
  * Tool which implements a click and drag behaviour to set the 
  * Area Of Interest on the model from mouse events.
@@ -18,15 +21,10 @@ $Id$
  */
 
 function AoiMouseHandler(toolNode, parentWidget) {
-  this.model = parentWidget.model;
-
-  /**
-   * enable or disable this tool from procesing mouse events.
-   * @param enabled   set to true or false to enable or disable
-   */
-  this.enable = function(enabled) {
-    this.enabled = enabled;
-  }
+  var base = new ToolBase(toolNode, parentWidget);
+  for (sProperty in base) { 
+    this[sProperty] = base[sProperty]; 
+  } 
 
   /**
    * Process the mouseup action by stopping the drag.
@@ -92,5 +90,3 @@ function AoiMouseHandler(toolNode, parentWidget) {
   parentWidget.addListener('mousemove',this.mouseMoveHandler,this);
   parentWidget.addListener('mouseup',this.mouseUpHandler,this);
 }
-
-

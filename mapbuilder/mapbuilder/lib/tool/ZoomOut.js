@@ -4,7 +4,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
+mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
 
 /**
  * When this button is selected, click and drag on the MapPane to recenter the map.
@@ -14,26 +14,29 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * @param parentWidget  The ButtonBar widget.
  */
 function ZoomOut(toolNode, parentWidget) {
-  var base = new ToolBase(toolNode, parentWidget);
+  var base = new ButtonBase(toolNode, parentWidget);
   for (sProperty in base) { 
     this[sProperty] = base[sProperty];    
   } 
 
-  this.selectButton = function() {
-    this.parentWidget.mouseWidget.tools["AoiMouseHandler"].enable(true);
-  }
+  this.zoomBy = 4;//TBD: get this from config
 
   /**
    * Calls the centerAt method of the context doc to zoom out, recentering at 
    * the mouse event coordinates.
    * TBD: set the zoomBy property as a button property in conifg
-   * @param model       The model that this tool will update.
-   * @param targetNode  The element on which the mouse event occured
+   * @param objRef      Pointer to this AoiMouseHandler object.
+   * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
-  this.mouseUpHandler = function(model,targetNode) {
-    //should be aoi center?
-    model.extent.CenterAt(targetNode.evxy, model.extent.res[0]*model.extent.zoomBy);
+  this.doAction = function(objRef,targetNode) {
+    if (!objRef.enabled) return;
+    var bbox = objRef.targetModel.getAoi();
+    var extent = objRef.targetModel.extent
+    var ul = extent.GetXY( bbox[0] );
+    var newRes = extent.res[0]*objRef.zoomBy
+    extent.CenterAt(ul, newRes);
   }
-
-  this.parentWidget.addListener( "paint", this.init, this );
+  if (this.mouseHandler) {
+    this.mouseHandler.parentWidget.addListener('mouseup',this.doAction,this);
+  }
 }

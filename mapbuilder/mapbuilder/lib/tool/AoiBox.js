@@ -5,6 +5,9 @@ License:      GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
+// Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
+
 /**
  * Tool to draw an Area Of Interest box on a view.  The box can be drawn with
  * the paint() method and is registered as a listener of the context AOI property.
@@ -16,12 +19,14 @@ $Id$
  */
 
 function AoiBox(toolNode, parentWidget) {
+  var base = new ToolBase(toolNode, parentWidget);
+  for (sProperty in base) { 
+    this[sProperty] = base[sProperty]; 
+  } 
+
   this.lineWidth = toolNode.selectSingleNode("lineWidth").firstChild.nodeValue; // Zoombox line width; pass in as param?
   this.lineColor = toolNode.selectSingleNode("lineColor").firstChild.nodeValue; // color of zoombox lines; pass in as param?
   this.crossSize = toolNode.selectSingleNode("crossSize").firstChild.nodeValue;
-
-  this.parentWidget = parentWidget;
-
 
   /** Hide or show the box.
     * @param vis    boolean true for visible; false for hidden
@@ -116,22 +121,25 @@ function AoiBox(toolNode, parentWidget) {
 
   /**
    * Called when the AoiChanged.
-   * @param objRef This object.*/
+   * @param objRef This object.
+   */
   this.aoiListener = function(objRef) {
     objRef.paint();
   }
+  this.model.addListener("aoi",this.aoiListener, this);
 
-  //final initialization
-  this.loadAoiBox = function( objRef ) {
-    var containerNode = document.getElementById( objRef.parentWidget.containerId );
-    objRef.Top = objRef.getImageDiv( containerNode );
-    objRef.Bottom = objRef.getImageDiv( containerNode );
-    objRef.Left = objRef.getImageDiv( containerNode );
-    objRef.Right = objRef.getImageDiv( containerNode );
+  /**
+   * Called when the parent widget is painted to create the aoi box 
+   * @param thisTool This object.
+   */
+  this.loadAoiBox = function(thisTool) {
+    var containerNode = document.getElementById( thisTool.parentWidget.containerId );
+    thisTool.Top = thisTool.getImageDiv( containerNode );
+    thisTool.Bottom = thisTool.getImageDiv( containerNode );
+    thisTool.Left = thisTool.getImageDiv( containerNode );
+    thisTool.Right = thisTool.getImageDiv( containerNode );
   }
+  this.parentWidget.addListener("paint",this.loadAoiBox, this);
+  this.loadAoiBox(this);
 
-  this.parentWidget.model.addListener("aoi",this.aoiListener, this);
-  this.parentWidget.addListener( "paint", this.loadAoiBox, this );
 }
-
-
