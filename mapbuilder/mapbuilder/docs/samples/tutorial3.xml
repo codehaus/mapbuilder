@@ -31,7 +31,7 @@
 
         <!--
         <Legend id="dynSidebar">
-          <stylesheet>/ql2/mbTutorial/Legend.xsl</stylesheet>
+          <stylesheet>/mapbuilder/lib/widget/Legend.xsl</stylesheet>
         </Legend>
         -->
         
