@@ -28,7 +28,7 @@ $Name$
 
   <!-- Common params for all widgets -->
 
-  <xsl:param name="targetModelId"/>
+  <!--xsl:param name="targetModelId"/-->
 
   <xsl:param name="modelId"/>
 
@@ -112,13 +112,13 @@ $Name$
 
             type="text"
 
-            id="{$targetModelId}{generate-id()}"
+            id="{$widgetId}{generate-id()}"
 
             size="40"
 
             value="{text()}"
 
-            onchange="config.{$targetModelId}.setXpathValue(config.{$targetModelId},'{$xlink}',document.getElementById('{$targetModelId}{generate-id()}').value);"/>
+            onchange="config.{$modelId}.setXpathValue(config.{$modelId},'{$xlink}',document.getElementById('{$widgetId}{generate-id()}').value);"/>
 
         </td>
 
