@@ -112,7 +112,7 @@ I think the CMB should also provide logic for community editing of shared data
                   environments currently supported include: Perl, PHP, JSP.
                   Contributions for equivalent functionality in other server
                   environments is encouraged. Please see server dependancies
-                  (TBD link a section) for server requirements.</para>
+                  (TBD link a section) for server requirements.<!--I've converted this statement to be less "anti-Java"--></para>
                 </listitem>
               </orderedlist>
             </listitem>
@@ -352,6 +352,9 @@ I think the CMB should also provide logic for community editing of shared data
       <section id="events">
         <title>Events</title>
 
+        <!--TBD:  Can we move this to after 3.2.6 below and have it describe how abstract objects implements the listener 
+arrays and how they get set/called?   Mike March 27, 2004-->
+
         <para>Mapbuilder's Model-View-Controller design requires events. While
         Javascript provides standard events for some GUI events, it's support
         for custom events is limited in recent browsers and not provided in
@@ -472,28 +475,20 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
       <para>TBD Cameron 23 March 2004: We need to identify the key files that
       need updating when building a widget and show the relationship between
       them. Ie, the main html file, config.xml, widgets, tools, controllers.
-      Mike: Let's do this in 3.2.7 below</para>
-
-      <para>TBD: add picture of tree structure</para>
-
-      <figure>
-        <title></title>
-
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="???" />
-          </imageobject>
-        </mediaobject>
-      </figure>
+      <!--Mike: Let's do this in 3.2.6 below,  I've started a section on mapbuilder application programming below (3.2.6)--></para>
 
       <section>
-        <title>XML naming convensions</title>
+        <title>Mapbuilder configuration document schema</title>
 
-        <para>Config XML follows Object-Property-Value rule. As a rule of
-        thumb, this means that parent and child elements alternate between
-        UpperCamelCase and lowerCamelCase, Upper is for objects and lower is
-        for properties. An object can only contain another object through a
-        property value.</para>
+        <para>The mapbuilder configuration XML document is based on RDF
+        principles. Future plans include defining a mapbuilder config document
+        schema by extending the RDF schema.</para>
+
+        <para>The config doc follows Object-Property-Value rule of GML3 and
+        RDF. As a rule of thumb, this means that parent and child elements
+        alternate between UpperCamelCase and lowerCamelCase, Upper is for
+        objects and lower is for properties. An object can only contain
+        another object through a property value.</para>
 
         <example>
           <title>Example use of Object-Property-Value</title>
@@ -511,18 +506,31 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
 </programlisting>
         </example>
 
-        <para>TBD: Add more here.</para>
-
-        <para>TBD: Cameron 22 March 2004: Link to URL describing this.</para>
+        <para>A more complete description of the object-property-value rule
+        can be found in section 2.1 of the document: <ulink
+        url="http://www.geoconnections.org/developersCorner/devCorner_devNetwork/components/GML_bpv1.3_E.pdf">Developing
+        and Managing GML Application Schemas</ulink></para>
       </section>
 
       <section>
         <title>Config</title>
 
-        <para>The Config object is the root of the object tree structure. The
-        Config constructor must be called in the page &lt;HEAD&gt; element and
-        assigned to a global javascript object with the name "mbConfig". This
-        is normally accomplished by ...</para>
+        <para>The Config object is the root of the object tree structure.
+        </para>
+
+        <figure>
+          <title>Top level config object schema</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata depth="329" fileref="images/config.png" width="533" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>The Config constructor must be called in the page &lt;HEAD&gt;
+        element and assigned to a global javascript object with the name
+        "mbConfig". This is normally accomplished by ...</para>
 
         <programlisting>var mbConfig = new Config('configDocUrl');</programlisting>
 
@@ -565,6 +573,16 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
         document with properties and methods to access the document. A model
         object must extend the ModelBase class, which provides some properties
         and methods common to all models. </para>
+
+        <figure>
+          <title>Model object schema</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/configModels.png" />
+            </imageobject>
+          </mediaobject>
+        </figure>
 
         <para>The initial model URL to be loaded is specified using the
         defaultModelURL property. The model object can be loaded from a
@@ -645,6 +663,16 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
         is the paint() method which renders the XML of the model to HTML using
         the associated stylesheet.</para>
 
+        <figure>
+          <title>Widget object schema</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/configWidgets.png" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
         <para>The HTML output of the stylesheet is then associated to an HTML
         page element via the ID attribute. This is how mapbuilder ties into
         the application HTML. The same ID attribute can be used on several
@@ -667,6 +695,16 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
         but it is essentially some code that is specific to that widget and
         for the purpose of supporting that widget. A tool will usually call
         either a get or set method of the model.</para>
+
+        <figure>
+          <title>Tool object schema</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/configTools.png" />
+            </imageobject>
+          </mediaobject>
+        </figure>
 
         <para>Some concrete examples of tools:</para>
 
@@ -712,6 +750,27 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
 
         <para>The action to be carried out by a tool can target a different
         ModelGroup by setting a property in the config document.</para>
+      </section>
+
+      <section>
+        <title>HTML/Javascript object interaction</title>
+
+        <para>Widget objects are painted to the HTML document element
+        identified with the same ID as the config widget object id.
+        example</para>
+
+        <para>The action of a tool can target a different model that the
+        tool's parent by setting a &lt;targetModel&gt; property on the tool(or
+        widget?) object in config. example</para>
+
+        <para>Some widgets output simple link elements with a javascript
+        function call. These will usually call methods of the mapbuilder
+        models and widgets. example</para>
+
+        <para>Listeners provide a further means of programming the
+        application. In some cases the listener functions will automatically
+        referesh models, widgets and tools; in others cases the listener
+        functions will execute DHTML behaviours. example</para>
       </section>
 
       <section>
@@ -786,14 +845,35 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
       </section>
 
       <section>
-        <title></title>
+        <title>File and object name convention</title>
 
-        <para></para>
+        <para>Javascript object constructors must have the same name as the
+        node of it's corresponding object in the configuration document. For
+        example, a &lt;Context&gt; object from the config doc will be
+        instantiated by the javascript call:</para>
+
+        <programlisting>var model = new Context();</programlisting>
+
+        <para>The Javascript code for each model, widget and tool object type
+        should be created in the lib/model, lib/widget and lib/tool
+        directories respectively. By default, the file containing javascript
+        object code will have the same filename as the object type name, so
+        for example, the javascript Context code will be loaded from the file
+        lib/model/Context.js. This default filename of the javascript object
+        code can be over-ridden by setting a &lt;scriptfile&gt; property on
+        the object in the configration document.</para>
+
+        <para>In addition, the stylehseet filename for widgets will also use
+        the object type name with an extension of .xsl by default. For
+        example, the &lt;Legend&gt; XSL file to style the Legend object is
+        lib/widget/Legend.xsl by default. This default filename can be
+        over-riden by setting a &lt;stylesheet&gt; property on the widget
+        object.</para>
       </section>
     </section>
 
     <section id="components">
-      <title id="library">Library Components</title>
+      <title id="library">Library Components<!--this section needs update to the list of currently implemented models, widgets and tools - Mike 27 March 2004--></title>
 
       <figure>
         <title>CMB Library Components</title>
