@@ -18,7 +18,6 @@ var baseDir;
  * when they are loaded.
  *
  * @constructor
- * @param baseDirectory URL of Mapbuilder's lib/ directory.
  * @param configUrl URL of this Mapbuilder configuration file.
  * @author Cameron Shorter
  * @requires Config
@@ -27,10 +26,24 @@ var baseDir;
  * @requires Sarissa
  * @requires Util
  */
-function Mapbuilder(configUrl,baseDirectory) {
+function Mapbuilder(configUrl) {
   // Set global variables
+
+  //derive the baseDir value by looking for the script tag that loaded this file
+  var head = document.getElementsByTagName('head')[0];
+  var nodes = head.childNodes;
+  for (var i=0; i<nodes.length; ++i ){
+    var src = nodes.item(i).src;
+    if (src) {
+      var index = src.indexOf("/Mapbuilder.js");
+      if (index>=0) {
+        baseDir = src.substring(0, index);
+        //alert("baseDir set to:" + baseDir);
+      }
+    }
+  }
+
   mbConfigUrl=configUrl;
-  baseDir=baseDirectory;
 
   loadScript(baseDir+"/util/sarissa/Sarissa.js");
   loadScript(baseDir+"/util/Util.js");
