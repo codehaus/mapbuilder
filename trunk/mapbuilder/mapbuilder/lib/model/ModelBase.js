@@ -25,7 +25,7 @@ function ModelBase(modelNode, parent) {
   }
 
   /**
-   * Load a Mapbuilder configuration file from url.
+   * Load a Model's configuration file from url.
    * @param url Url of the configuration file.
    */
   this.loadModelDoc = function( url ){
@@ -51,7 +51,6 @@ function ModelBase(modelNode, parent) {
 
       //call the widget constructor and paint
       var evalStr = "new " + widgetNode.nodeName + "(widgetNode, this);";
-      //alert("eval: model.loadWidgets:" + evalStr);
       var widget = eval( evalStr );
 
       widget.loadTools();
