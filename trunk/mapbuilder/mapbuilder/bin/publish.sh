@@ -41,10 +41,6 @@ if [ ! -d ${mapbuilderDir}/docs/design/images ]
 then
   mkdir ${mapbuilderDir}/docs/design/images;
 fi;
-if [ ! -d ${mapbuilderDir}/docs/layoutguide ]
-then
-  mkdir ${mapbuilderDir}/docs/layoutguide;
-fi;
 
 # Execute jsdoc
 ${jsdoc} -d ${jsdocTarget} --project-name "<a href='http://mapbuilder.sourceforge.net'>Community Map Builder</a>" ${jsdocSource}
@@ -55,7 +51,3 @@ xsltproc --novalid --param section.autolabel 1 --param toc.section.depth 5 -o ${
 
 # copy the design images
 cp -pr ${mapbuilderDir}/design/images/* ${mapbuilderDir}/docs/design/images/
-
-# publish LayoutGuide
-xsltproc --novalid --param section.autolabel 1 --param toc.section.depth 5 -o ${mapbuilderDir}/docs/layoutguide/index.html ${docbookXsl} ${mapbuilderDir}/design/LayoutGuide.xml
-
