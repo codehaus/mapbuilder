@@ -4,6 +4,12 @@ $Id$
 
 This file contains information about updates to each release:
 
+mapbuilder-lib-0.1-rc3 (beta quality):
+======================================
+* Added Reset button which resets to original area of interest
+* Simplified the Main html page by moving the Javascript to Mapbuilder.js
+* General cleanup and restructuring of Tools code
+
 mapbuilder-lib-0.1-rc2 (alpha quality):
 =======================================
 * Fixes showstopper bugs in IE relating to loading of scripts.
