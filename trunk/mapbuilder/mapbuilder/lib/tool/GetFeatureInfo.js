@@ -128,6 +128,12 @@ function GetFeatureInfo(toolNode, parentWidget) {
 
           "infoFormat", "'"+objRef.infoFormat+"'");
 
+        Sarissa.setXslParameter(
+
+          objRef.xsl,
+
+          "featureCount", "'1'");
+
 
 
         urlNode=Sarissa.getDomDocument();
@@ -146,17 +152,7 @@ function GetFeatureInfo(toolNode, parentWidget) {
 
           url=objRef.targetModel.getProxyPlusUrl(urlNode.documentElement.firstChild.nodeValue);
 
-          //alert("url="+url);
-
-          // Load the Query result
-
-          //result=Sarissa.getDomDocument();
-
-          //result.async=false;
-
-          //result.load(url);
-
-          //alert("query result="+result.xml);
+          alert("url="+url);
 
           objRef.targetFeatureCollection.loadModelDoc(
 
