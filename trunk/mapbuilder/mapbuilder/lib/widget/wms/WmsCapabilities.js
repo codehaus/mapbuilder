@@ -26,6 +26,10 @@ function WMS(url, node) {
 
   this.wms.setProperty("SelectionLanguage", "XPath");
 
+
+
+  url = proxyScript + "?onlineresource=" + escape(url);
+
   this.wms.load(url);
 
   this.wmsCapabilities2Context=new XslProcessor(baseDir + "/widget/wms/WMSCapabilities2Context.xsl");
@@ -42,9 +46,7 @@ function WMS(url, node) {
 
     var s = this.wmsCapabilities2Context.transformNode(this.wms);
 
-    alert(s);
-
-    prompt("context", s);
+    prompt(s);
 
   }
 
