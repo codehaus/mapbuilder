@@ -97,6 +97,15 @@
 			</widgets>
 		</Gml2>
     
+		<DescribeFeatureType id="featureTypes">
+			<widgets>
+				<GetFeatureRequest>
+				</GetFeatureRequest>
+				<!--SelectAttributes id="attributeSeelector">
+				</SelectAttributes-->
+			</widgets>
+		</DescribeFeatureType>
+    
   </models>
 
   <widgets>

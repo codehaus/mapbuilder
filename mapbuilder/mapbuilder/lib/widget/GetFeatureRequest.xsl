@@ -12,7 +12,7 @@ $Name$
 <xsl:stylesheet version="1.0" 
     xmlns:cml="http://www.opengis.net/context" 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="cml xlink">
+    xmlns:xlink="http://www.w3.org/1999/xlink">
 
   <xsl:output method="html"/>
   <xsl:strip-space elements="*"/>
@@ -21,6 +21,7 @@ $Name$
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
   <xsl:param name="context">config['<xsl:value-of select="$modelId"/>']</xsl:param>
+  <xsl:param name="mapContainerId">mappane_glass</xsl:param>
 
   <xsl:param name="bbox">
     <xsl:value-of select="/cml:OWSContext/cml:General/cml:BoundingBox/@minx"/>,<xsl:value-of select="/cml:OWSContext/cml:General/cml:BoundingBox/@miny"/>,
@@ -36,7 +37,7 @@ $Name$
   
   <!-- template rule matching source root element -->
   <xsl:template match="/cml:OWSContext">
-      <DIV STYLE="width:{$width}; height:{$height}; position:relative">
+      <DIV ID="{$mapContainerId}" STYLE="width:{$width}; height:{$height}; margin:0; padding:0pt; position:relative; overflow:hidden">
         <xsl:apply-templates select="cml:ResourceList/*"/>
       </DIV>
   </xsl:template>
@@ -74,11 +75,12 @@ $Name$
     </xsl:variable>
 
     <DIV>    
-        <xsl:attribute name="STYLE">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0; left:0;</xsl:attribute>
+        <xsl:attribute name="STYLE">
+          position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0; left:0;
+        </xsl:attribute>
         <xsl:attribute name="ID"><xsl:value-of select="$fid"/></xsl:attribute>
-        <!--xsl:copy-of select="."/-->
+        <xsl:copy-of select="."/>
         <SCRIPT language="javascript">
-          alert("executing script WFS");
           var configModelNode = config.doc.selectSingleNode("//models/DescribeFeatureType");
           var model = new DescribeFeatureType(configModelNode);
           if ( model ) {
@@ -88,52 +90,6 @@ $Name$
             alert("retrieved:"+config["<xsl:value-of select="$fid"/>"].doc.xml);
           } else { 
             alert("error creating DescribeFeatureType model object");
-          }
-        </SCRIPT>
-    </DIV>    
-  </xsl:template>
-
-   <xsl:template match="cml:FeatureType[cml:Server/@service='OGC:GML']">
-    <xsl:param name="version">
-        <xsl:value-of select="cml:Server/@version"/>    
-    </xsl:param>
-    <xsl:param name="baseUrl">
-        <xsl:value-of select="cml:Server/cml:OnlineResource/@xlink:href"/>    
-    </xsl:param>
-    <xsl:variable name="visibility">
-      <xsl:choose>
-        <xsl:when test="@hidden='1'">hidden</xsl:when>
-        <xsl:otherwise>visible</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-    <xsl:variable name="firstJoin">
-      <xsl:choose>
-        <xsl:when test="substring($baseUrl,string-length($baseUrl))='?'"></xsl:when>
-        <xsl:when test="contains($baseUrl, '?')">&amp;</xsl:when> 
-        <xsl:otherwise>?</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-    <xsl:variable name="fid">
-        <xsl:value-of select="$modelId"/>_<xsl:value-of select="$widgetId"/>_<xsl:value-of select="cml:Name"/>
-    </xsl:variable>
-    <xsl:variable name="gmlDataUrl">    
-        <xsl:value-of select="$baseUrl"/>
-    </xsl:variable>
-
-    <DIV>    
-        <xsl:attribute name="STYLE">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0; left:0;</xsl:attribute>
-        <xsl:attribute name="ID"><xsl:value-of select="$fid"/></xsl:attribute>
-        <SCRIPT language="javascript">
-          alert("executing script GML2");
-          var configModelNode = config.doc.selectSingleNode("//models/DescribeFeatureType");
-          var model = new Gml2(configModelNode);
-          if ( model ) {
-            alert("Gml2 model created");
-            config["<xsl:value-of select="$fid"/>"] = model;
-            config.loadModel( "<xsl:value-of select="$fid"/>", "<xsl:value-of select="$gmlDataUrl"/>" );
-            alert("retrieved:"+config["<xsl:value-of select="$fid"/>"].doc.xml);
-          } else { 
-            alert("error creating Gml2 model object");
           }
         </SCRIPT>
     </DIV>    
@@ -172,7 +128,9 @@ $Name$
     </xsl:variable>
 
     <DIV>    
-        <xsl:attribute name="STYLE">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0; left:0;</xsl:attribute>
+        <xsl:attribute name="STYLE">
+          position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0; left:0;
+        </xsl:attribute>
         <xsl:attribute name="ID">
             <xsl:value-of select="$modelId"/>_<xsl:value-of select="$widgetId"/>_<xsl:value-of select="cml:Name"/>
         </xsl:attribute>
