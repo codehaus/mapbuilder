@@ -21,8 +21,6 @@ $Id$
  * @param model       The model object that this widget belongs to.
  */
 function WidgetBase(widget,widgetNode,model) {
-  // Inherit the Listener functions and parameters
-  var listener = new Listener(widget);
   widget.model = model;
   widget.widgetNode = widgetNode;
 
@@ -98,6 +96,26 @@ function WidgetBase(widget,widgetNode,model) {
   } else {
     widget.targetModel = widget.model;
   }
+  widget.stylesheet.setParameter("targetModelId", widget.targetModel.id );
+
+  /**
+   * Initialize dynamic properties.
+   * @param toolRef Pointer to this object.
+  this.initTargetModel = function(objRef) {
+    //set the target model
+    var targetModel = objRef.widgetNode.selectSingleNode("mb:targetModel");
+    if (targetModel) {
+      objRef.targetModel = eval("config."+targetModel.firstChild.nodeValue);
+      if ( !objRef.targetModel ) {
+        alert("error finding targetModel:" + targetModel.firstChild.nodeValue + " for:" + objRef.id);
+      }
+    } else {
+      objRef.targetModel = objRef.model;
+    }
+    objRef.stylesheet.setParameter("targetModelId", objRef.targetModel.id );
+  }
+   */
+
 
   // Set stylesheet parameters for all the child nodes from the config file
   for (var j=0;j<widgetNode.childNodes.length;j++) {
@@ -115,7 +133,6 @@ function WidgetBase(widget,widgetNode,model) {
   //all stylesheets will have these properties available
   widget.stylesheet.setParameter("modelId", widget.model.id );
   widget.stylesheet.setParameter("modelTitle", widget.model.title );
-  widget.stylesheet.setParameter("targetModelId", widget.targetModel.id );
   widget.stylesheet.setParameter("widgetId", widget.id );
   widget.stylesheet.setParameter("skinDir", config.skinDir );
   widget.stylesheet.setParameter("lang", config.lang );
@@ -156,6 +173,15 @@ function WidgetBase(widget,widgetNode,model) {
    * @param objRef Pointer to this object.
    */
   this.prePaint = function(objRef) {
+    //no-op by default
+  }
+
+  /**
+   * Called before paint(), can be used to set up a widget's paint parameters,
+   * or modify model using this.resultDoc().
+   * @param objRef Pointer to this object.
+   */
+  this.postPaint = function(objRef) {
     //no-op by default
   }
 
@@ -223,7 +249,7 @@ function WidgetBase(widget,widgetNode,model) {
           alert("WidgetBase: Invalid paintMethod="+objRef.paintMethod);
       }
 
-      objRef.callListeners("paint");
+      objRef.postPaint(objRef);
     }
   }
 
@@ -238,6 +264,14 @@ function WidgetBase(widget,widgetNode,model) {
   }
 
 
+  /**
+   * Initial rendering of this widget when the model is loaded.
+   * @param widget This widget object.
+   */
+  this.loadModelListener=function(widget){
+    widget.paint(widget);
+  }
+
 
   // If this object is being created because a child is extending this object,
   // then child.properties = this.properties
@@ -245,6 +279,8 @@ function WidgetBase(widget,widgetNode,model) {
     widget[sProperty] = this[sProperty];
   }
   // Call paint when model changes
+  //config.addListener( "loadModel", widget.initTargetModel, widget );
+  widget.model.addListener("loadModel",widget.loadModelListener,widget);
   widget.model.addListener("refresh",widget.paint, widget);
   widget.model.addListener("newModel",widget.clearWidget, widget);
 }

@@ -36,7 +36,7 @@ $Name$
   
   <!-- template rule matching source root element -->
   <xsl:template match="/wmc:OWSContext">
-      <DIV STYLE="width:{$width}; height:{$height}; position:relative">
+      <DIV STYLE="width:{$width}; height:{$height}; position:absolute">
         <xsl:apply-templates select="wmc:ResourceList/*"/>
       </DIV>
   </xsl:template>
@@ -45,7 +45,7 @@ $Name$
   <xsl:template match="wmc:Coverage"/>
   <xsl:template match="wmc:FeatureType"/>
   
-   <xsl:template match="wmc:Layer">
+  <xsl:template match="wmc:Layer">
     <xsl:param name="version">
         <xsl:value-of select="wmc:Server/@version"/>    
     </xsl:param>
@@ -93,6 +93,7 @@ $Name$
 &amp;STYLES=<xsl:value-of select="translate(wmc:StyleList/wmc:Style[@current='1']/wmc:Name,' ','+')"/>
 &amp;FORMAT=<xsl:value-of select="wmc:FormatList/wmc:Format[@current='1']"/>
 &amp;TRANSPARENT=true
+&amp;BGCOLOR=0xFFFFFF
 <!--	
   //TBD: these still to be properly handled 
   //also sld support
@@ -115,7 +116,7 @@ $Name$
         <xsl:attribute name="ALT">
             <xsl:value-of select="wmc:Title"/>
         </xsl:attribute>
-    </xsl:element>    
+    </xsl:element>
     </DIV>    
   </xsl:template>
 

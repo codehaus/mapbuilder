@@ -180,7 +180,7 @@ function OwsContext(modelNode, parent) {
    * get the list of source nodes from the parent document
    * @param objRef Pointer to this object.
    */
-  this.initDynModelList = function(objRef) {
+  this.loadFeatures = function(objRef) {
     var featureList = objRef.wfsController.getFeatureList();
     for (var i=0; i<featureList.length; i++) {
       var feature = featureList[i];
@@ -189,7 +189,7 @@ function OwsContext(modelNode, parent) {
       objRef.wfsController.doRequest('wfs:GetFeature',featureId, serverUrl);
     }
   }
-  //this.addListener("loadModel", this.initDynModelList, this);
+  this.addListener("loadModel", this.loadFeatures, this);
 
 }
 

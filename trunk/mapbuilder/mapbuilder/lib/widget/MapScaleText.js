@@ -69,13 +69,12 @@ function MapScaleText(widgetNode, model) {
    * Refreshes the form and event handlers when this widget is painted.
    * @param objRef Pointer to this CurorTrack object.
    */
-  this.paintHandler = function(objRef) {
+  this.postPaint = function(objRef) {
     objRef.mapScaleTextForm = document.getElementById(objRef.formName);
     objRef.mapScaleTextForm.parentWidget = objRef;
     objRef.mapScaleTextForm.onkeypress = objRef.handleKeyPress;
     objRef.mapScaleTextForm.mapScale.value = Math.round(objRef.targetModel.extent.getScale());
   }
-  this.addListener('paint', this.paintHandler, this);
 
   //set some properties for the form output
   this.formName = "MapScaleText_" + mbIds.getId();

@@ -41,15 +41,6 @@ function ButtonBase(button, widgetNode, model) {
     button.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
   }
 
-  /** Mouse handler which this tool will register listeners with. */
-  var mouseHandler = button.widgetNode.selectSingleNode("mb:mouseHandler");
-  if (mouseHandler) {
-    button.mouseHandler = eval("config." + mouseHandler.firstChild.nodeValue);
-    if ( !button.mouseHandler ) {
-      alert("error finding mouseHandler:" + mouseHandler.firstChild.nodeValue + " for:" + tool.id);
-    }
-  }
-
   this.prePaint = function(objRef) {
     objRef.resultDoc = objRef.widgetNode;
   }
@@ -98,6 +89,17 @@ function ButtonBase(button, widgetNode, model) {
   var selected = widgetNode.selectSingleNode("mb:selected");
   if (selected && selected.firstChild.nodeValue) button.selected = true;
 
+  this.initMouseHandler = function(objRef) {
+    /** Mouse handler which this tool will register listeners with. */
+    var mouseHandler = objRef.widgetNode.selectSingleNode("mb:mouseHandler");
+    if (mouseHandler) {
+      objRef.mouseHandler = eval("config." + mouseHandler.firstChild.nodeValue);
+      if (!objRef.mouseHandler) {
+        alert("error finding mouseHandler:"+mouseHandler.firstChild.nodeValue+" for tool:"+objRef.id);
+      }
+    }
+  }
+
   /**
    * Initialise buttonBase.
    * @param objRef Reference to this object.
@@ -113,5 +115,6 @@ function ButtonBase(button, widgetNode, model) {
     button[sProperty] = this[sProperty];
   }
 
-  button.model.addListener("refresh",button.buttonInit,button);
+  button.model.addListener("loadModel",button.buttonInit,button);
+  config.addListener("loadModel", button.initMouseHandler, button);
 }

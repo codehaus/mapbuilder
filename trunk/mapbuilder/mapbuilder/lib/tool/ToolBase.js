@@ -23,55 +23,39 @@ function ToolBase(tool, toolNode, model) {
   }
   //config.tools[tool.id] = tool;
 
-  //set the target model
-  var targetModel = toolNode.selectSingleNode("mb:targetModel");
-  if (targetModel) {
-    tool.targetModel = eval("config."+targetModel.firstChild.nodeValue);
-    if ( !tool.targetModel ) {
-      alert("error finding targetModel:" + targetModel.firstChild.nodeValue + " for:" + tool.id);
-    } 
-  } else {
-    tool.targetModel = tool.model;
-  }
-
-  /** Mouse handler which this tool will register listeners with. */
-  var mouseHandler = tool.toolNode.selectSingleNode("mb:mouseHandler");
-  if (mouseHandler) {
-    tool.mouseHandler = eval("config." + mouseHandler.firstChild.nodeValue);
-    if ( !tool.mouseHandler ) {
-      alert("error finding mouseHandler:" + mouseHandler.firstChild.nodeValue + " for:" + tool.id);
-    }
-  }
-
   /**
    * Initialize dynamic properties.
    * @param toolRef Pointer to this object.
    */
-  this.initModels = function(toolRef) {
+  this.initTargetModel = function(toolRef) {
     /** The model this tool will update. */
     var targetModel = toolRef.toolNode.selectSingleNode("mb:targetModel");
     if (targetModel) {
       var targetModelName = targetModel.firstChild.nodeValue;
       toolRef.targetModel = eval("config."+targetModelName);
+      if (!toolRef.targetModel) alert("error finding targetModel:"+targetModelName+" for tool:"+toolRef.id);
     } else {
       toolRef.targetModel = toolRef.model;
     }
+  }
+  tool.initTargetModel = this.initTargetModel;
+  config.addListener( "loadModel", tool.initTargetModel, tool );
 
+  this.initMouseHandler = function(toolRef) {
     /** Mouse handler which this tool will register listeners with. */
-    if (toolRef.objEvalStr) {
-      var evalObj = eval(toolRef.objEvalStr);
-      if (evalObj) {
-        toolRef.mouseHandler = evalObj;
-      } else {
-        alert( "ToolBase.init: invalid object reference in config:" + toolRef.objEvalStr);
+    var mouseHandler = toolRef.toolNode.selectSingleNode("mb:mouseHandler");
+    if (mouseHandler) {
+      toolRef.mouseHandler = eval("config." + mouseHandler.firstChild.nodeValue);
+      if (!toolRef.mouseHandler) {
+        alert("error finding mouseHandler:"+mouseHandler.firstChild.nodeValue+" for tool:"+toolRef.id);
       }
     }
   }
-  tool.initModels = this.initModels;
-  //tool.targetModel.addListener( "loadModel", tool.initModels, tool );
+  tool.initMouseHandler = this.initMouseHandler;
+  config.addListener( "loadModel", tool.initMouseHandler, tool );
 
   //tools enabled by default; can set to false in config for initial loading
-  tool.enabled = true;    
+  tool.enabled = true;
   var enabled = toolNode.selectSingleNode("mb:enabled");
   if (enabled) tool.enabled = eval(enabled.firstChild.nodeValue);
 

@@ -41,12 +41,11 @@ function WebServiceForm(widgetNode, model) {
    * Refreshes the form onblur handlers when this widget is painted.
    * @param objRef Pointer to this CurorTrack object.
    */
-  this.paintHandler = function(objRef) {
+  this.postPaint = function(objRef) {
     objRef.webServiceForm = document.getElementById(objRef.formName);
     //objRef.WebServiceForm.onsubmit = objRef.submitForm;
     //objRef.WebServiceForm.mapsheet.onblur = objRef.setMapsheet;
   }
-  this.addListener('paint', this.paintHandler, this);
 
   //set some properties for the form output
   this.formName = "WebServiceForm_";// + mbIds.getId();

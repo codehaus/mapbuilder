@@ -158,7 +158,6 @@ function ModelBase(model, modelNode, parentModel) {
 
       //call the loadModel event
       modelRef.callListeners("loadModel");
-      modelRef.callListeners("refresh");
 
     } else {
       //no URL means this is a template model
@@ -183,9 +182,6 @@ function ModelBase(model, modelNode, parentModel) {
     modelRef.method = httpPayload.method;
     modelRef.postData = httpPayload.postData;
     modelRef.loadModelDoc(modelRef);
-    //call the refresh event listeners seperately from loadModel event, 
-    //at this point all sub-models/widgets/tools are intialialized
-    modelRef.callListeners("refresh");
   }
   model.newRequest = this.newRequest;
   model.addListener("httpPayload",model.newRequest, model);
@@ -208,14 +204,6 @@ function ModelBase(model, modelNode, parentModel) {
     }
   }
   model.saveModel = this.saveModel;
-
-  /**
-   * Listener method to call the "refresh" event listeners of this model.
-   * @param modelRef Pointer to this object.
-   */
-  model.refresh = function(modelRef) {
-    modelRef.callListeners("refresh");
-  }
 
   /**
    * create all the child model javascript objects for this model.
@@ -260,9 +248,8 @@ function ModelBase(model, modelNode, parentModel) {
   }
 
   //don't load in models and widgets if this is the config doc, defer to config.init
-  if (parentModel) {
+  if (parentModel && !model.template) {
     parentModel.addListener("loadModel",model.loadModelDoc, model);
-    //parentModel.addListener("refresh",model.refresh, model);
     model.init(model);
   }
 
