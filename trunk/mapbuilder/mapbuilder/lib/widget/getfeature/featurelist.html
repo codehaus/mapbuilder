@@ -8,5 +8,16 @@ $Id:
 ======================================================================= -->
 
 <script type="text/javascript" src="../../util/sarissa/sarissa.js"></script>
-<script type="text/javascript" src="processxsl.js"></script>
-<script>processXsl("feature2form.xsl","../testwfs/GetFeature")</script>
+<script type="text/javascript" src="../selection/selection.js"></script>
+<script>
+  selection=new Selection();
+  // Load the WFS Query
+  selection.setFeatureFromUrl("../testwfs/GetFeature");
+
+  // Load the XSL Stylesheet
+  var xsl = Sarissa.getDomDocument();
+  xsl.async = false;
+  xsl.load("../getfeature/feature2form.xsl");
+
+  selection.processXsl(xsl,"../testwfs/GetFeature");
+</script>
