@@ -17,6 +17,7 @@ a web page.
 */
 function XslProcessor(xslUrl) {
   // get the stylesheet document
+  this.xslUrl=xslUrl;
   this.xslDom = Sarissa.getDomDocument();
   this.xslDom.async = false;
   this.xslDom.load(xslUrl);
@@ -28,14 +29,20 @@ function XslProcessor(xslUrl) {
    * @return The transformed String.
    */
   this.transformNode=function(xmlNode) {
-    // transform and build a web page with result
-    s=new String(xmlNode.transformNode(this.xslDom));
-    // Some browsers XSLT engines don't transform &lt; &gt; to < >, so do it here.
-    a=s.split("&lt;");
-    s=a.join("<");
-    a=s.split("&gt;");
-    s=a.join(">");
-    return s;
+    try {
+      // transform and build a web page with result
+      s=new String(xmlNode.transformNode(this.xslDom));
+      // Some browsers XSLT engines don't transform &lt; &gt; to < >, so do it here.
+      a=s.split("&lt;");
+      s=a.join("<");
+      a=s.split("&gt;");
+      s=a.join(">");
+      return s;
+    } catch(e){
+      alert("Exception transforming doc with XSL: " + this.xslUrl);
+      alert("XSL="+this.xslDom.xml);
+      alert("XML="+xmlNode.xml);
+    }
   }
 
   /**
