@@ -37,7 +37,7 @@ $Name$
   
   <!-- template rule matching source root element -->
   <xsl:template match="/cml:ViewContext">
-      <DIV ID="{$mapContainerId}" STYLE="width:{$width}; height:{$height}; margin:0; padding:0pt; position:relative">
+      <DIV ID="{$mapContainerId}" STYLE="width:{$width}; height:{$height}; margin:0; padding:0pt; position:relative; overflow:hidden">
         <xsl:apply-templates select="cml:LayerList/cml:Layer"/>
       </DIV>
   </xsl:template>

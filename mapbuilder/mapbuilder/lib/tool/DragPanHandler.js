@@ -38,9 +38,9 @@ function DragPanHandler(toolNode, parentWidget) {
    */
   this.mouseDownHandler = function(objRef,targetNode) {
     if (objRef.enabled) {
+      objRef.containerNode = document.getElementById( objRef.parentWidget.containerId );
       objRef.dragging = true;
       objRef.anchorPoint = targetNode.evpl;
-      objRef.clipStr = "rect(0px," + targetNode.style.width + "," + targetNode.style.height + ",0px)";
     }
   }
 
@@ -54,12 +54,17 @@ function DragPanHandler(toolNode, parentWidget) {
       if (objRef.dragging) {
         var xOffset = targetNode.evpl[0] - objRef.anchorPoint[0];
         var yOffset = targetNode.evpl[1] - objRef.anchorPoint[1];
-        //targetNode.widget.moveImages(xOffset, yOffset);
-        targetNode.style.left = xOffset;
-        targetNode.style.top = yOffset;
-        //targetNode.widget.setClip( targetNode.widget );
-        //targetNode.widget.node.style.clip = objRef.clipStr;
-        //targetNode.style.clip = objRef.clipStr;
+
+        var images=targetNode.getElementsByTagName("div");
+        for(var i=0; i<images.length; i++) {
+          var img=images.item(i);
+          img.style.left=xOffset;
+          img.style.top=yOffset;
+        }
+
+        //objRef.containerNode.style.left = xOffset;
+        //objRef.containerNode.style.top = yOffset;
+
       }
     }
   }
