@@ -98,6 +98,7 @@ function WidgetBase(widgetNode, model) {
       objRef.callListeners("paint");
     }
   }
+  // Call paint when model changes
   this.model.addListener("modelChange",this.paint, this);
 
   /**
