@@ -10,10 +10,11 @@
 # $Name$
 
 mapbuilderDir=`dirname $0`/..;
+targetDir="${mapbuilderDir}/build";
 
 # Set variables
 jsdoc="/home/cameron/work/jsdoc/jsdoc.pl";
-jsdocTarget="${mapbuilderDir}/docs/jsdoc";
+jsdocTarget="${targetDir}/docs/jsdoc";
 
 # Directories and files that need to have jsdocs built from them
 jsdocSource=" \
@@ -27,10 +28,11 @@ jsdocSource=" \
 docbookXsl=/usr/share/sgml/docbook/xsl-stylesheets/html/docbook.xsl
 
 docDirectories=" \
-  ${mapbuilderDir}/docs \
-  ${mapbuilderDir}/docs/jsdoc \
-  ${mapbuilderDir}/docs/design \
-  ${mapbuilderDir}/docs/design/images"
+  ${targetDir} \
+  ${targetDir}/docs \
+  ${targetDir}/docs/jsdoc \
+  ${targetDir}/docs/design \
+  ${targetDir}/docs/design/images"
 
 
 # Create docs directories
@@ -45,7 +47,7 @@ done
 ${jsdoc} -d ${jsdocTarget} --project-name "<a href='http://mapbuilder.sourceforge.net'>Community Map Builder</a> `date +'%d %b %G'`" ${jsdocSource}
 
 # publish design
-xsltproc --novalid --param section.autolabel 1 --param toc.section.depth 5 -o ${mapbuilderDir}/docs/design/index.html ${docbookXsl} ${mapbuilderDir}/design/mapbuilder-lib.xml
+xsltproc --novalid --param section.autolabel 1 --param toc.section.depth 5 -o ${targetDir}/docs/design/index.html ${docbookXsl} ${mapbuilderDir}/design/mapbuilder-lib.xml
 
 # copy the design images
 cp -pr ${mapbuilderDir}/design/images/* ${mapbuilderDir}/docs/design/images/
