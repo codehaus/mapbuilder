@@ -14,6 +14,7 @@ Add comment
   <xsl:template match="/" />
     <xsl:variable name="fred" select="'x'"/>
     <xsl:variable name="abc" select="'y'"/>
-    <b>freddy
-    </b>
+    <xsl:variable name="yes" select="'no'"/>
+    <i>freddy
+    </i>
 </xsl:stylesheet>
