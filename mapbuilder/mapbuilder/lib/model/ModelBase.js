@@ -77,6 +77,12 @@ function ModelBase(model, modelNode, parentModel) {
     //return;
   }
 
+  //get the xpath to select nodes from the parent doc
+  var nodeSelectXpath = modelNode.selectSingleNode("mb:nodeSelectXpath");
+  if (nodeSelectXpath) {
+    model.nodeSelectXpath = nodeSelectXpath.firstChild.nodeValue;
+  }
+
   /**
    * Get the value of a node.
    * @param objRef Reference to this node.
@@ -124,6 +130,7 @@ function ModelBase(model, modelNode, parentModel) {
    * @param modelRef Pointer to the model object being loaded.
    */
   this.loadModelDoc = function(modelRef){
+    modelRef.setParam("modelStatus","loading");
 
     if (modelRef.url) {
       modelRef.callListeners( "newModel" );
@@ -206,6 +213,24 @@ function ModelBase(model, modelNode, parentModel) {
   model.saveModel = this.saveModel;
 
   /**
+   * appends a new instance of a model to the model list
+   * @param objRef Pointer to this object.
+   */
+  this.createObject = function(configNode, list) {
+    var objectType = configNode.nodeName;
+    var evalStr = "new " + objectType + "(configNode,this);";
+    var newObject = eval( evalStr );
+    if ( newObject ) {
+      list[newObject.id] = newObject;
+      config[newObject.id] = newObject;
+      return newObject;
+    } else { 
+      alert("error creating object:" + objType);
+    }
+  }
+  model.createObject = this.createObject;
+
+  /**
    * create all the child model javascript objects for this model.
    * A reference to the created model is stored as a js property of the model
    * using the model's ID; so you can always get a reference to a widget by
@@ -213,22 +238,11 @@ function ModelBase(model, modelNode, parentModel) {
    * Similarly, a reference to the model is added as a property of config so it 
    * is also available as "config.subModelId"
    */
-  this.loadObjects = function(objectXpath) {
+  this.loadObjects = function(objectXpath, list) {
     //loop through all child models of this one
     var configObjects = this.modelNode.selectNodes( objectXpath );
     for (var i=0; i<configObjects.length; i++ ) {
-      var configNode = configObjects[i];
-
-      //instantiate the Model object
-      var objectType = configNode.nodeName;
-      var evalStr = "new " + objectType + "(configNode,this);";
-      var newObject = eval( evalStr );
-      if ( newObject ) {
-        this[newObject.id] = newObject;
-        config[newObject.id] = newObject;
-      } else { 
-        alert("error creating object:" + objType);
-      }
+      this.createObject( configObjects[i], list );
     }
   }
   model.loadObjects = this.loadObjects;
@@ -240,11 +254,9 @@ function ModelBase(model, modelNode, parentModel) {
    * @param modelRef Pointer to this object.
    */
   model.init = function(modelRef) {
-    if (!modelRef.template) {
-      modelRef.loadObjects("mb:models/*");
-      modelRef.loadObjects("mb:widgets/*");
-      modelRef.loadObjects("mb:tools/*");
-    }
+    modelRef.loadObjects("mb:models/*", modelRef.models = new Object());
+    modelRef.loadObjects("mb:widgets/*", modelRef.widgets = new Object());
+    modelRef.loadObjects("mb:tools/*", modelRef.tools = new Object());
   }
 
   //don't load in models and widgets if this is the config doc, defer to config.init
