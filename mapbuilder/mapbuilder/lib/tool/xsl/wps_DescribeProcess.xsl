@@ -13,6 +13,7 @@ $Name$
     xmlns:wps="http://www.opengis.net/wps"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 		xmlns:ogc="http://www.opengis.net/ogc"
+    xmlns:ows="http://www.opengis.net/ows"
 		xmlns:gml="http://www.opengis.net/gml"
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
@@ -39,7 +40,7 @@ $Name$
       request=DescribeProcess
  &amp;version=0.0.1
  &amp;service=WPS
-&amp;typename=<xsl:value-of select="wps:name"/>
+&amp;ProcessName=<xsl:value-of select="wps:name"/>
           </xsl:variable>
           <xsl:value-of select="translate(normalize-space($query),' ', '' )" disable-output-escaping="no"/>
         </QueryString>
