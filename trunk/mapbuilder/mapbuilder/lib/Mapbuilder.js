@@ -54,7 +54,6 @@ function Mapbuilder(configUrl) {
       var index = src.indexOf("/Mapbuilder.js");
       if (index>=0) {
         baseDir = src.substring(0, index);
-        //alert("baseDir set to:" + baseDir);
       }
     }
   }
