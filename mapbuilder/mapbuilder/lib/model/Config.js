@@ -21,7 +21,7 @@ function Config(url) {
     this[sProperty] = modelBase[sProperty]; 
   }
 
-  this.loadModelDoc(url);
+  this.loadModelDoc(this,url);
   this.modelNode = this.doc.documentElement;
   this.id = this.modelNode.attributes.getNamedItem("id").nodeValue;
 
@@ -136,7 +136,7 @@ function Config(url) {
   this.loadModel = function( modelId, modelUrl ) {
     var model = this[modelId];
     if (modelUrl) {
-      model.loadModelDoc( modelUrl );
+      model.loadModelDoc(this,modelUrl);
     }
     model.loadWidgets(model);
     this.callListeners( "loadModel" );

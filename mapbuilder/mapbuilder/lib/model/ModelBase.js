@@ -37,9 +37,10 @@ function ModelBase(modelNode) {
 
   /**
    * Load a Model's configuration file from url.
+   * @param objRef Pointer to this object.
    * @param url Url of the configuration file.
    */
-  this.loadModelDoc = function( url ){
+  this.loadModelDoc = function(objRef,url){
     var xml;
     xml = Sarissa.getDomDocument();
     xml.async = false;
@@ -47,26 +48,20 @@ function ModelBase(modelNode) {
     xml.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
     xml.setProperty("SelectionLanguage", "XPath");
 
-    //check to see if this is coming from a different domain, if so use the proxy URL
-    if ( url.indexOf("http://")==0 ) {
-      if ( config.proxyUrl ) {
-        url = config.proxyUrl + url;
-        //alert("external URL:" + url );
+    url=objRef.getProxyPlusUrl(url);
+    if (url) {
+      xml.load(url);
+      if (xml.parseError < 0){
+        alert("error loading document: " + url);
       } else {
-        alert("unable to load external document:"+url+"  Set the proxyUrl property in config.");
+        this.loadModelNode(xml);
       }
-    }
-
-    xml.load(url);
-    if (xml.parseError < 0){
-      alert("error loading document: " + url);
-    } else {
-      this.loadModelNode(xml);
     }
   }
 
   /**
    * Paint all the widgets and initialise any tools the widget may have.
+   * @param objRef Pointer to this object.
    */
   this.loadWidgets = function(objRef) {
     var widgets = objRef.modelNode.selectNodes("widgets/*");
@@ -86,5 +81,23 @@ function ModelBase(modelNode) {
       widget.loadTools();
     }
     objRef.callListeners( "loadWidget" );
+  }
+
+  /**
+   * If URL is local, then return URL unchanged,
+   * else return URL of http://proxy?url=URL , or null if proxy not defined.
+   * @param url Url of the file to access.
+   * @return Url of the proxy and service in the form http://host/proxy?url=service
+   */
+  this.getProxyPlusUrl=function(url) {
+    if ( url.indexOf("http://")==0 ) {
+      if ( config.proxyUrl ) {
+        url=config.proxyUrl+escape(url).replace(/\+/g, '%2C').replace(/\"/g,'%22').replace(/\'/g, '%27');
+      } else {
+        alert("unable to load external document:"+url+"  Set the proxyUrl property in config.");
+        url=null;
+      }
+    }
+    return url;
   }
 }
