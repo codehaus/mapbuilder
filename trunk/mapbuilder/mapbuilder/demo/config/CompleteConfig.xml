@@ -18,6 +18,7 @@
   <requires>util/Listener.js</requires>
   <requires>model/ModelBase.js</requires>
   <requires>widget/WidgetBase.js</requires>
+  <requires>model/Extent.js</requires>  <!-- merge this code to Context ? -->
 
   <!--
   all static images should be relative to this URL
@@ -32,35 +33,22 @@
   a host other than the one serving the HTML page.
   -->
   <baseDir>/mapbuilder/lib/</baseDir>
+  
+  <scriptFile>model/Collection.js</scriptFile>
+  <scriptFile>model/Context.js</scriptFile>
+  <scriptFile>model/Extent.js</scriptFile> 
     
-  <models>
-
-    <ContextCollection>
-      <scriptFile>model/Collection.js</scriptFile>
-    </ContextCollection>
-    
-    <Context>
-      <scriptFile>model/Context.js</scriptFile>
-      <controllers>
-        <Extent>
-          <scriptFile>model/Extent.js</scriptFile> 
-        </Extent>
-      </controllers>
-    </Context>
-    
-  </models>
-
   <!--
   -->
-  <modelGroups>
+  <models>
     
-    <Model id="config">
-      <modelType>Config</modelType>
+  <!--
+    <Config id="config">
       <defaultModelUrl>config/CompleteConfig.xml</defaultModelUrl>
-    </Model>
+    </Config>
+  -->
 
-    <Model id="mainMapGroup">
-      <modelType>Context</modelType>
+    <Context id="mainMapGroup">
       <defaultModelUrl>context/atlasWorld.xml</defaultModelUrl>
       
       <widgets>
@@ -117,10 +105,9 @@
           </tools>
         </ButtonBar>
       </widgets>
-    </Model>
+    </Context>
       
-    <Model id="locatorMapGroup">
-      <modelType>Context</modelType>
+    <Context id="locatorMapGroup">
       <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorMapId">
@@ -143,10 +130,9 @@
           </tools> 
         </MapPane>
       </widgets>
-    </Model>
+    </Context>
     
-    <Model id="collectionGroup">
-      <modelType>ContextCollection</modelType>
+    <ContextCollection id="collectionGroup">
       <defaultModelUrl>context/demoCollection.ccml</defaultModelUrl>
       <widgets>
         <CollectionList id="collectionListId">
@@ -155,8 +141,8 @@
           <targetWidgetGroup>mainMapGroup</targetWidgetGroup>
         </CollectionList>
       </widgets>
-    </Model>
+    </ContextCollection>
     
-  </modelGroups>
+  </models>
 
 </MapbuilderConfig>
