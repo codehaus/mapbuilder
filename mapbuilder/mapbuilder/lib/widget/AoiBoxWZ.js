@@ -35,18 +35,8 @@ function AoiBoxWZ(widgetNode, model) {
    * @param objRef Pointer to this object.
    */
   this.paint = function(objRef) {
+    var outputNode = document.getElementById( objRef.mbWidgetId );
     if (! objRef.jg) {
-      //look for this widgets output and replace if found, otherwise append it
-      var tempNode = document.createElement("DIV");
-      tempNode.innerHTML="<DIV/>";
-      tempNode.firstChild.setAttribute("id", objRef.mbWidgetId);
-      tempNode.firstChild.style.position="absolute";
-      var outputNode = document.getElementById( objRef.mbWidgetId );
-      if (outputNode) {
-        objRef.node.replaceChild(tempNode.firstChild,outputNode);
-      } else {
-        objRef.node.appendChild(tempNode.firstChild);
-      }
       // WZ Graphics object and rendering functions.
       objRef.jg=new jsGraphics(objRef.mbWidgetId);
       objRef.jg.setColor(objRef.lineColor);
