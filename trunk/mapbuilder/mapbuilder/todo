@@ -1,3 +1,8 @@
+Utils cleanup:
+--------------
+* Xsltprocessor can now be used and replace the function in Util.js:
+  https://sourceforge.net/forum/message.php?msg_id=2732230
+
 MapPane cleanup:
 ----------------
 * MapPane.containerId should be able to be replaced by this.node.id (the <div>
