@@ -110,9 +110,7 @@ function WidgetBase(widgetNode,model,position) {
   }
 
   /**
-   * Resize this widget.
-   * @param width New width.
-   * @param height New height.
+   * Called before paint(), can be used to set up a widget's paint parameters.
    */
   this.prePaint = function() {
     //no-op by default
