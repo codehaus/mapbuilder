@@ -2,7 +2,7 @@ Release 0.1
 ===========
 Tools:
 ------
-* Set up naming convension for button images which is derived from the Tool Name.
+* All tools to be renamed from <Tool>Button to <Tool> in Config.xml
 
 * Rename "Mode" and "Modal" to RadioButton, SelectBox, Button, etc.
 
