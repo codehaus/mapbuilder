@@ -85,6 +85,8 @@
           <mapContainerId>locatorContainer</mapContainerId>
           <fixedWidth>180</fixedWidth>
         </MapPane>
+        <ModelUrlInput id="urlInput">
+        </ModelUrlInput>
       </widgets>
     </Context>
     <ContextCollection id="collectionGroup">
@@ -195,7 +197,7 @@
           <class>Button</class>
           <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
           <tooltip xml:lang="en">reset the map to full extent</tooltip>
-          <tooltip xml:lang="fr">redonner àa carte ses dimensions complès</tooltip>
+          <tooltip xml:lang="fr">redonner à la carte ses dimensions complès</tooltip>
         </Reset>
         <GetFeatureInfo id="getFeatureInfo">
           <mouseHandler>mainMap.mainMapWidget</mouseHandler>

@@ -5,10 +5,21 @@
     <script>
       // URL of Mapbuilder configuration file.
       var mbConfigUrl='config/SimpleConfig.xml';
+    	function noActiveXHandler() {
+        document.getElementById("mainMapPane").innerHTML = "help for setting security settings inIE";
+    		//window.open("IESetup.html", "IESetup");
+      }
+
     </script>
     <script type="text/javascript" src="../lib/Mapbuilder.js"></script>
   </head>
   <body onload="mbDoLoad()">
-    <div id="mainMapPane"></div>
+    <div id="mainMapPane">
+        <noscript>
+            this page requires Javascript to be enabled
+        </noscript>
+    </div>
+    <div id="urlInput">
+    </div>
   </body>
 </html>
