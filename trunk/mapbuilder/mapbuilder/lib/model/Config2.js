@@ -14,6 +14,7 @@ function Config(url) {
   this.doc.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
   this.doc.setProperty("SelectionLanguage", "XPath");
   this.doc.load(url);
+  if (this.doc.parseError < 0) alert("Unable to load config file: " + url + "\nCorrect this value in the config(configUrl) constructor in your page head");
 
   //set some global application properties
   this.skinDir = this.doc.selectSingleNode("/MapbuilderConfig/skinDir").firstChild.nodeValue;
