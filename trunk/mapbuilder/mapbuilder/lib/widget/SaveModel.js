@@ -42,18 +42,6 @@ function SaveModel(widgetNode, model) {
 
 
 
-  var serializeUrl = widgetNode.selectSingleNode("mb:serializeUrl");
-
-  if (serializeUrl) {
-
-    this.serializeUrl = serializeUrl.firstChild.nodeValue;
-
-    this.stylesheet.setParameter("serializeUrl", this.serializeUrl);
-
-  }
-
-  
-
   /**
 
    * Initialise params.
@@ -80,25 +68,33 @@ function SaveModel(widgetNode, model) {
 
    */
 
-  this.saveModel = function() {
+  this.saveLink = function(objRef, fileUrl) {
 
-    var response = postLoad(this.serializeUrl, this.model.doc);
-
-    response.setProperty("SelectionLanguage", "XPath");
-
-    Sarissa.setXpathNamespaces(response, "xmlns:xlink='http://www.w3.org/1999/xlink'");
-
-    var onlineResource = response.selectSingleNode("//OnlineResource");
-
-    var fileUrl = onlineResource.attributes.getNamedItem("xlink:href").nodeValue;
-
-
-
-    var modelAnchor = document.getElementById(this.model.id+"."+this.id+".modelUrl");
+    var modelAnchor = document.getElementById(objRef.model.id+"."+objRef.id+".modelUrl");
 
     modelAnchor.href = fileUrl;
 
   }
+
+  //this.model.addListener("modelSaved", this.saveLink, this);
+
+
+
+  /**
+
+   * opens a saved model in a new window
+
+   * @param objRef Pointer to this SaveModel object.
+
+   */
+
+  this.savedModelPopup = function(objRef, fileUrl) {
+
+    window.open(fileUrl, "modelXML");
+
+  }
+
+  this.model.addListener("modelSaved", this.savedModelPopup, this);
 
 }
 

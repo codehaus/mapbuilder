@@ -63,11 +63,10 @@
           <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
         </Widget>
 
-        <SaveModel id="saveModel">
+        <SaveModel id="saveModelWidget">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId active="true">workspaceCanvas</outputNodeId>
           <autoRefresh>false</autoRefresh>
-          <serializeUrl>/mapbuilder/writeXml</serializeUrl>
         </SaveModel>
         
         <Legend id="legend">
@@ -118,7 +117,7 @@
       <!--defaultModelUrl>http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA?version=1.0.0&amp;service=WFS&amp;request=GetCapabilities</defaultModelUrl-->
       <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
       <models>
-        <DescribeFeatureType id="featureTypeTemplate" template="true">
+        <DescribeFeatureType id="featureTypeTemplate">
           <widgets>
             <Widget id="attributeFilter">
               <htmlTagId>workspace</htmlTagId>
@@ -130,16 +129,16 @@
         <GetFeature id="getFeatureTemplate">
           <method>get</method>
           <widgets>
-            <GmlRendererWZ id="testGmlRenderer">
+            <GmlRendererTest id="testGmlRenderer">
               <htmlTagId>mainMapPane</htmlTagId>
               <targetModel>mainMap</targetModel>
               <mapContainerId>mainMapContainer</mapContainerId>
-            </GmlRendererWZ>
+            </GmlRendererTest>
           </widgets>
         </GetFeature>
       </models>
 			<widgets>
-        <Widget id="featureList">
+        <Widget id="featureTypes">
           <stylesheet>/mapbuilder/lib/widget/SelectFeatureType.xsl</stylesheet>
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
@@ -195,7 +194,7 @@
 			</widgets>
 		</WmsCapabilities>
     
-    <Model id="wmsServerList">
+    <Model id="wmsServers">
       <title>Web Map Servers</title>
       <widgets>
         <WebServiceForm id="wmsServerList">
@@ -207,7 +206,7 @@
       </widgets>
     </Model>
     
-    <Model id="wfsServerList">
+    <Model id="wfsServers">
       <title>Web Feature Servers</title>
       <widgets>
         <WebServiceForm id="wfsServerList">
@@ -227,8 +226,6 @@
       <tools>
         <ZoomIn id="zoomIn">
           <mouseHandler>mainMap.mainMapWidget</mouseHandler>
-          <dependsOn>mainMap.mainMapWidget.AoiMouseHandler</dependsOn>
-          <dependsOn>mainMap.mainMapWidget.AoiBox</dependsOn>
           <class>RadioButton</class>
           <selected>true</selected>
           <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
@@ -238,8 +235,6 @@
         </ZoomIn>
         <ZoomOut id="zoomOut">
           <mouseHandler>mainMap.mainMapWidget</mouseHandler>
-          <dependsOn>mainMap.mainMapWidget.AoiMouseHandler</dependsOn>
-          <dependsOn>mainMap.mainMapWidget.AoiBox</dependsOn>
           <class>RadioButton</class>
           <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
           <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
@@ -248,7 +243,6 @@
         </ZoomOut>
         <DragPan id="dragPan">
           <mouseHandler>mainMap.mainMapWidget</mouseHandler>
-          <dependsOn>mainMap.mainMapWidget.DragPanHandler</dependsOn>
           <class>RadioButton</class>
           <enabledSrc>/images/PanEnable.gif</enabledSrc>
           <disabledSrc>/images/PanDisable.gif</disabledSrc>
@@ -257,8 +251,6 @@
         </DragPan>
         <SetAoi id="setAoi">
           <mouseHandler>mainMap.mainMapWidget</mouseHandler>
-          <dependsOn>mainMap.mainMapWidget.AoiMouseHandler</dependsOn>
-          <dependsOn>mainMap.mainMapWidget.AoiBox</dependsOn>
           <class>RadioButton</class>
           <enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
           <disabledSrc>/images/SetAoiDisable.gif</disabledSrc>
@@ -271,16 +263,12 @@
           <tooltip xml:lang="en">reset the map to full extent</tooltip>
           <tooltip xml:lang="fr">redonner à la carte ses dimensions complès</tooltip>
         </Reset>
-        <GetFeatureInfo id="getFeatureInfo">
-          <mouseHandler>mainMap.mainMapWidget</mouseHandler>
-          <dependsOn>mainMap.mainMapWidget.MouseClickHandler</dependsOn>
-          <class>RadioButton</class>
-          <enabledSrc>/images/QueryEnable.gif</enabledSrc>
-          <disabledSrc>/images/QueryDisable.gif</disabledSrc>
-          <tooltip xml:lang="en">click on feature for more info</tooltip>
-          <tooltip xml:lang="fr">cliquer pour obtenir plus d'information pour cette couche</tooltip>
-          <targetFeatureCollection>gml2</targetFeatureCollection>
-        </GetFeatureInfo>
+        <Save id="getFeatureInfo">
+          <class>Button</class>
+          <disabledSrc>/images/SaveDisable.gif</disabledSrc>
+          <tooltip xml:lang="en">click to save this map</tooltip>
+          <tooltip xml:lang="fr">cliquer pour sauvegarder</tooltip>
+        </Save>
       </tools>
     </ButtonBar>
     <ModelUrlInput id="urlInput">
@@ -296,5 +284,6 @@
   -->
   <skinDir>/mapbuilder/lib/skin/default</skinDir>
   <proxyUrl>/mapbuilder/proxy</proxyUrl>
+  <serializeUrl>/mapbuilder/writeXml</serializeUrl>
 
 </MapbuilderConfig>

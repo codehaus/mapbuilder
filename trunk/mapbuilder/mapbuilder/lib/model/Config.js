@@ -79,6 +79,8 @@ function Config(url) {
   this.skinDir = modelNode.selectSingleNode("mb:skinDir").firstChild.nodeValue;
   var proxyUrl = modelNode.selectSingleNode("mb:proxyUrl");
   if (proxyUrl) this.proxyUrl = proxyUrl.firstChild.nodeValue;
+  var serializeUrl = modelNode.selectSingleNode("mb:serializeUrl");
+  if (serializeUrl) this.serializeUrl = serializeUrl.firstChild.nodeValue;
 
   // Inherit the ModelBase functions and parameters
   var modelBase = new ModelBase(this, modelNode);
