@@ -13,8 +13,6 @@
   <!-- All static images should be relative to this URL -->
   <skinDir>/mapbuilder/lib/skin/default</skinDir>
 
-  <scriptFile>model/Extent.js</scriptFile> 
-    
   <models>
 
     <Context id="mainMapGroup">
