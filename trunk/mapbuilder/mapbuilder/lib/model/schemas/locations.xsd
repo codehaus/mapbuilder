@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- $Id$ -->
-<xs:schema targetNamespace="http://mapbuilder.sourceforge.net/lib/model/locations" xmlns:gml="http://www.opengis.net/gml" xmlns:loc="http://mapbuilder.sourceforge.net/lib/model/locations" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+<xs:schema targetNamespace="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:gml="http://www.opengis.net/gml" xmlns:loc="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
 	<xs:annotation>
 		<xs:appinfo>locations.xsd $Revision$ 2004-02</xs:appinfo>
 		<xs:documentation xml:lang="en">GML schema for Community Mapbuilder quickview zoom presets</xs:documentation>
