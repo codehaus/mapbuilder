@@ -14,43 +14,27 @@ $Id$
  * @requires Sarissa
  * @requires Util
  */
-function CollectionList(collection, name, node) {
-  this.collection=collection;
-  this.name=name;
-  if(node==null){
-    node=makeElt("DIV");
-    node.style.position="absolute";
+function CollectionList(collection, node) {
+  this.collection = collection;
+  this.collection.addSelectListener( this.paint );
+
+  if(node == null) {
+    node = makeElt("DIV");
+    node.style.position = "absolute";
   }
-  this.node=node;
-  this.stylesheet = new XslProcessor(this.collection.baseDir+"/widget/collectionList/Collection2List.xsl");
-  Sarissa.setXslParameter( this.stylesheet.xslDom, "baseDir", "'"+this.collection.baseDir+"'");
-  Sarissa.setXslParameter( this.stylesheet.xslDom, "collection", "'"+this.collection.name+"'");
+  this.node = node;
+
+  var listConfig = config.doc.selectSingleNode("/MapbuilderConfig/views/CollectionList");
+  var stylesheetUrl = config.baseDir + listConfig.simpleValue("stylesheet");
+  this.stylesheet = new XslProcessor(stylesheetUrl);
 
   /**
    * Create all the layers by rendering them into the current window.
    * This function should be called at startup.
    */
   this.paint=function() {
-    // Set the coordinates of the mapImage for the xsl
-// These calls disabled here since shouldn't offset
-// from absolutely positioned containing div
-//    Sarissa.setXslParameter(
-//      this.wmcLayer2DhtmlLayer.xslDom,
-//      "left",
-//      String(getAbsX(this.node)-1));
-//    Sarissa.setXslParameter(
-//     this.wmcLayer2DhtmlLayer.xslDom,
-//      "top",
-//      String(getAbsY(this.node)-1));
-
-    // This method not yet functional--likely because XSL is returning incorrect object.
-
-    // result=this.wmcLayer2DhtmlLayer.transformNodeToObject(this.context.context);
-    // this.node.appendChild(result.documentElement);
-
-    //  So, in meantime, return string instead...
     var s = this.stylesheet.transformNode(this.collection.doc);
-    this.node.innerHTML=s;
+    this.node.innerHTML = s;
    }
 
 }

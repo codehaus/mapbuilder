@@ -18,12 +18,50 @@ $Name$
     <!-- Include mapbuilder libraries -->
     <script type="text/javascript" src="../lib/util/sarissa/Sarissa.js"></script>
     <script type="text/javascript" src="../lib/util/Util.js"></script>
-    <script type="text/javascript" src="../lib/Config.js"></script>
+    <script type="text/javascript" src="../lib/model/Config.js"></script>
     <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
 
     <script>
       //initialize the application configuration object - global scope
-      var config = new Config("config/wms3.xml");
+      var config = new Config("config/CompleteTemplate.xml");
+      var buttonBar = null;
+      var mapPane = null;
+
+      config.contextArray = new Array();
+      config.loadContext = function( contextUrl ) {
+
+          // Load a Web Map Context document 
+          var context = new Context( contextUrl ,"context", "/mapbuilder/lib", "default");
+          this.contextArray.push( context );
+
+          // Create and render a MapPane
+          //this should register itself as a view of the context; context calls paint initially
+          mapPane = new MapPane( context, "mapPane",document.getElementById("mapPaneDiv"));
+          mapPane.paint();
+
+          //add mouse handler function
+          mapPane.mouseHandler = new GlassPane( mapPane, 'MODE_ZOOM_IN' );
+          mapPane.mouseHandler.setCursorTrackForm( document.MapDisplayForm );
+          mapPane.mouseHandler.setAOIForm( document.AOIForm );
+
+          //create a button bar
+          buttonBar = new ButtonBar2( mapPane.mouseHandler, document.getElementById("ButtonBar") );
+
+          // Create and render a Legend
+          //this should register itself as a view of the context; context calls paint initially
+          legend=new Legend( context, "legend", document.getElementById("legendDiv"));
+          legend.paint();
+
+          // Create and render a PanTool
+          panTool=new PanTool( context,"panTool",document.getElementById("panToolDiv"));
+          panTool.paint();
+
+          // Create and render a ZoomTool
+          zoomTool=new ZoomTool(context,"zoomTool",document.getElementById("zoomToolDiv"));
+          zoomTool.paint();
+      }
+
+
     </script>
 
   </head>
@@ -71,6 +109,9 @@ $Name$
         </tr>
 
       <tr>
+
+        <td ID="mapList"></td>
+
         <td valign="top">
             <FORM NAME="AOIForm" ID="AOIForm" STYLE="margin:0; padding:0;">
             Area of Interest:<BR/>
@@ -79,9 +120,8 @@ $Name$
             east:&nbsp;<input NAME="eastbc" TYPE="text" SIZE="6"/><BR/>
             west:&nbsp;<input NAME="westbc" TYPE="text" SIZE="6"/>
             </FORM>
-          </td>
-          <td ID="mapList"></td>
-        </tr>
+        </td>
+      </tr>
     </table>
     <p><i>A <a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Project</i></p>
 
@@ -92,50 +132,10 @@ $Name$
         cgiArgs.context="context/wmc.xml";
       }
 
-      // Load a Web Map Context document as defined by:
-      // http://www.opengis.org/docs/03-036r2.pdf
-      context=new Context(
-        cgiArgs.context,
-        "context",
-        config.baseDir,
-        "default");
+      config.loadContext( cgiArgs.context );
 
-      // Create and render a MapPane
-      var mapPane=new MapPane(
-        context,
-        "mapPane",
-        document.getElementById("mapPaneDiv"));
-      mapPane.paint();
-      
-      //add mouse handler function
-      mapPane.mouseHandler = new GlassPane( mapPane, MODE_ZOOM_IN );
-      mapPane.mouseHandler.setCursorTrackForm( document.MapDisplayForm );
-      mapPane.mouseHandler.setAOIForm( document.AOIForm );
-      var buttonBar = new ButtonBar2( mapPane.mouseHandler, document.getElementById("ButtonBar") );
-
-      // Create and render a Legend
-      legend=new Legend(
-        context,
-        "legend",
-        document.getElementById("legendDiv"));
-      legend.paint();
-
-      // Create and render a PanTool
-      panTool=new PanTool(
-        context,
-        "panTool",
-        document.getElementById("panToolDiv"));
-      panTool.paint();
-
-      // Create and render a ZoomTool
-      zoomTool=new ZoomTool(
-        context,
-        "zoomTool",
-        document.getElementById("zoomToolDiv"));
-      zoomTool.paint();
-
-      var collection = new Collection("context/mapOfTheWeek.ccml","maps",baseDir,"default");
-      var contextList = new CollectionList(collection, "mapList",document.getElementById("mapList"));
+      var collection = new Collection("context/demoCollection.ccml");
+      var contextList = new CollectionList(collection, document.getElementById("mapList"));
       contextList.paint();
     </script>
   </body>

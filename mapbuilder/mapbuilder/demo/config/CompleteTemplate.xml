@@ -40,7 +40,7 @@
     
     <Context id="contextModelId">
       <scriptFile>/model/Context.js</scriptFile>
-      <requires>/model/Extent.js</requires>
+      <scriptFile>/model/Extent.js</scriptFile> <!-- should be a requires? -->
     </Context>
     
     <ContextCollection id="contextCollectionModelId">
@@ -93,20 +93,26 @@
       <stylesheet>/widget/legend/Context2Legend.xsl</stylesheet>
     </Legend>
     
+    <CollectionList>
+      <model>#collectionListModelId</model>
+      <scriptFile>/widget/collectionList/CollectionList.js</scriptFile>
+      <stylesheet>/widget/collectionList/CollectionToList.xsl</stylesheet>
+    </CollectionList>
+    
     <ButtonBar id="ButtonBar">
       <model>#configModelId</model>
-      <stylesheet>/widget/mappane/ButtonBar.xsl</stylesheet>
-      <scriptFile>/widget/tool/ButtonBar.js</scriptFile>
+      <stylesheet>/widget/buttonbar/ButtonBar2.xsl</stylesheet>
+      <scriptFile>/widget/buttonbar/ButtonBar2.js</scriptFile>
       <buttonArray>
         <Button id="ZoomInButton">
-          <enabledSrc>/images/zoomIn_en.gif</enabledSrc>
-          <disabledSrc>/images/zoomIn_dis.gif</disabledSrc>
+          <enabledSrc>/images/zoom_in_en.gif</enabledSrc>
+          <disabledSrc>/images/zoom_in_dis.gif</disabledSrc>
           <tooltip>click and drag to zoom in</tooltip>
           <modeValue>MODE_ZOOM_IN</modeValue>
         </Button>
         <Button id="ZoomOutButton">
-          <enabledSrc>/images/zoomOut_en.gif</enabledSrc>
-          <disabledSrc>/images/zoomOut_dis.gif</disabledSrc>
+          <enabledSrc>/images/zoom_out_en.gif</enabledSrc>
+          <disabledSrc>/images/zoom_out_dis.gif</disabledSrc>
           <tooltip>click to zoom out</tooltip>
           <modeValue>MODE_ZOOM_OUT</modeValue>
         </Button>
@@ -126,7 +132,7 @@
           <enabledSrc>/images/setAOI_en.gif</enabledSrc>
           <disabledSrc>/images/setAOI_dis.gif</disabledSrc>
           <tooltip>click and drag to set the area of interest</tooltip>
-          <modeValue>MODE_SET_ROI</modeValue>
+          <modeValue>MODE_SET_AOI</modeValue>
         </Button>
         <Button id="QueryButton">
           <enabledSrc>/images/query_en.gif</enabledSrc>
@@ -156,9 +162,45 @@
   
     <GlassPane>
       <view>MapPane</view>
-      <scriptFile>/widget/tool/GlassPane.js</scriptFile>
+      <scriptFile>/widget/tool/GlassPane2.js</scriptFile>
+      <scriptFile>/widget/tool/AoiBox.js</scriptFile>
+      <scriptFile>/model/Proj.js</scriptFile>
       <stylesheet>/widget/legend/Context2Legend.xsl</stylesheet>
+      <supportedModes>
+        <Mode>
+          <modeValue>MODE_ZOOM_IN</modeValue>
+        </Mode>
+        <Mode>
+          <modeValue>MODE_ZOOM_OUT</modeValue>
+        </Mode>
+        <Mode>
+          <modeValue>MODE_RESET</modeValue>
+        </Mode>
+        <Mode>
+          <modeValue>MODE_PAN</modeValue>
+        </Mode>
+        <Mode>
+          <modeValue>MODE_SET_AOI</modeValue>
+        </Mode>
+        <Mode>
+          <modeValue>MODE_GETFEATUREINFO</modeValue>
+        </Mode>
+      </supportedModes>
     </GlassPane>
+    
+    <FeatureInfoTool>
+      <view>MapPane</view>
+      <scriptFile>/widget/tool/FeatureInfoTool.js</scriptFile>
+      <stylesheet>/widget/tool/Context2FeatureInfo.xml</stylesheet>
+    </FeatureInfoTool>
+    
+    <PanTool>
+      <scriptFile>/widget/tool/PanTool.js</scriptFile>
+    </PanTool>
+    
+    <ZoomTool>
+      <scriptFile>/widget/tool/ZoomTool.js</scriptFile>
+    </ZoomTool>
     
   </controllers>
   
