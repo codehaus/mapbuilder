@@ -6,8 +6,8 @@ $Id$
 
 
 /**
- * Zooms the target model to the AOI of this widget.  The target model can be 
- * this modelGroup's model or anothers
+ * Zooms the target model to the AOI of this widget.  
+ * The target model can be this widget's model or anothers
  * @constructor
  * @author Adair
  * @constructor
@@ -18,11 +18,11 @@ function ZoomToAoi(toolNode, parentWidget) {
   this.parentWidget = parentWidget;
   this.model = parentWidget.model;
 
-  var targetModelGroup = toolNode.selectSingleNode("targetModelGroup");
-  if ( targetModelGroup ) {
-    this.targetModelGroup = targetModelGroup.firstChild.nodeValue;
+  var targetModel = toolNode.selectSingleNode("targetModel");
+  if ( targetModel ) {
+    this.targetModel = targetModel.firstChild.nodeValue;
     this.init = function( tool ) {
-      tool.targetModel = config[tool.targetModelGroup];
+      tool.targetModel = config[tool.targetModel];
       tool.targetModel.proj = new Proj( tool.targetModel.getSRS() );
     }
     this.init(this);

@@ -38,14 +38,10 @@ function Context(modelNode, parent) {
    */
   this.setHidden=function(layerIndex, hidden){
     // Set the hidden attribute in the Context
-    if(hidden) {
-      hiddenValue = "1";
-    }
-    else {
-      hiddenValue = "0";
-    }
+    var hiddenValue = "0";
+    if (hidden) hiddenValue = "1";
       
-    layers=this.doc.documentElement.getElementsByTagName("Layer");
+    var layers=this.doc.documentElement.getElementsByTagName("Layer");
     for(var i=0;i<layers.length;i++) {
       if(layers[i].getElementsByTagName("Name").item(0).firstChild.nodeValue == layerIndex) {
         layers[i].setAttribute("hidden", hiddenValue);

@@ -34,6 +34,10 @@ function WidgetBase(widgetNode, model) {
     else styleUrl = baseDir+"/widget/"+widgetNode.nodeName+".xsl";
     this.stylesheet = new XslProcessor(styleUrl);
 
+    //all stylesheets will have these properties available
+    this.stylesheet.setParameter("modelId", this.model.id );
+    this.stylesheet.setParameter("widgetId", this.id );
+
     var targetGroup = widgetNode.selectSingleNode("targetWidgetGroup");
     if ( targetGroup ) this.targetGroup = targetGroup.firstChild.nodeValue;
 
@@ -62,7 +66,6 @@ function WidgetBase(widgetNode, model) {
      * Render the widget.
      */
     this.paint = function() {
-      this.stylesheet.setParameter("modelIndex", this.model.modelIndex );
       var s = this.stylesheet.transformNode(this.model.doc);
       this.node.innerHTML = s;
 
