@@ -26,7 +26,7 @@ function GmlRendererWZ(widgetNode, model) {
   /** Output of XSL will be javascript which will be executed when painting.*/
   this.paintMethod="xsl2js";
 
-  /** Xsl to convert Coordinates to Coords. */
+  /** Xsl to convert GML Coordinates to Coords. */
   this.coordXsl=new XslProcessor(baseDir+"/widget/GmlCooordinates2Coord.xsl");
 
   /**
@@ -45,33 +45,5 @@ function GmlRendererWZ(widgetNode, model) {
     objRef.stylesheet.setParameter("color", "#FF0000" );
 
     objRef.resultDoc = objRef.coordXsl.transformNodeToObject(objRef.resultDoc);
-
-    // WZ Graphics object and rendering functions.
-    /*
-    if (! objRef.jg) {
-      objRef.jg=new jsGraphics(objRef.outputNodeId);
-      objRef.jg.setColor(objRef.lineColor);
-      //TBD: The following causes lines to be drawn incorrectly in Mozilla 1.71
-      //objRef.jg.setStroke(objRef.lineWidth);
-    }
-    objRef.jg.clear();
-    */
   }
-
-  /**
-   * Reset internal variables after container is redrawn due to refreshing
-   * of the model.
-   */
-  this.refresh = function(objRef) {
-    objRef.jg=null;
-  }
-  model.addListener("refresh",this.refresh, this);
-
-  // Call paint() when the context changes
-/*
-  this.init = function(objRef) {
-    objRef.targetModel.addListener("refresh",objRef.paint, objRef);
-  }
-  this.model.addListener("loadModel",this.init,this);
-*/
 }
