@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<MapbuilderConfig version="0.2.0" id="referenceTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+<MapbuilderConfig version="0.2.0" id="referenceTemplate" 
+    xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
 	<!--
     Description: This configuration file determines what components from the
                  Mapbuilder library are to be included in a Main Mapbuilder web
@@ -14,8 +17,8 @@
   -->
 	<skinDir>../lib/skin/default</skinDir>
 	<!-- Url of LOCAL redirection script, required to access external URLs -->
-	<!--proxyUrl>../server/proxy/proxy.php?url=</proxyUrl-->
-	<proxyUrl>/ql2/proxy?url=</proxyUrl>
+	<proxyUrl>../server/proxy/proxy.php?url=</proxyUrl>
+	<!--proxyUrl>/ql2/proxy?url=</proxyUrl-->
 	<models>
 		<Context id="mainMap">
 			<defaultModelUrl>context/atlasWorld.xml</defaultModelUrl>
@@ -112,7 +115,8 @@
 				</Locations>
 			</widgets>
 		</ModelBase>
-		<ModelBase id="testGml">
+		<!--ModelBase id="testGml">
+       TBD: GML renderer is causing Mozilla to lock up whenever the map is re-drawn
 			<defaultModelUrl>gml/Test.xml</defaultModelUrl>
 			<widgets>
 				<GmlRenderer id="testGmlRenderer">
@@ -124,7 +128,7 @@
 					<pointDiameter>10</pointDiameter>
 				</GmlRenderer>
 			</widgets>
-		</ModelBase>
+		</ModelBase-->
 		<Gml2 id="ntsGml">
 			<!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
 			<widgets>
