@@ -21,12 +21,15 @@ function ToolBase(toolNode, parentWidget) {
   var mouseHandler = toolNode.selectSingleNode("mouseHandler");
   if (mouseHandler) this.mouseHandler = eval(mouseHandler.firstChild.nodeValue);
 
+  this.enabled = true;    //tools enabled by default; can turn off in config for initial loading
+  var enabled = toolNode.selectSingleNode("enabled");
+  if (enabled) this.enabled = eval(enabled.firstChild.nodeValue);
+
   /**
    * enable or disable this tool from procesing mouse events.
    * @param enabled   set to true or false to enable or disable
    */
   this.enable = function(enabled) {
     this.enabled = enabled;
-    if (this.mouseHandler) this.mouseHandler.enable(enabled);
   }
 }
