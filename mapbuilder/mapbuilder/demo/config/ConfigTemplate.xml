@@ -99,7 +99,29 @@
                 </Button>
               </tools>
             </ButtonBar>
-        
+
+            <toolList>
+              <stylesheet>/widget/toollist/Config2ToolList.xsl</stylesheet>
+              <scriptFile>/widget/toollist/ToolList.js</scriptFile>
+              <tool id="ZoomInToolId">
+                <selected>true</selected>
+                <enabledSrc>images/zoom_in_en.gif</enabledSrc>
+                <disabledSrc>images/zoom_in_dis.gif</disabledSrc>
+                <tooltip>click and drag to zoom in</tooltip>
+              </tool>
+              <tool id="ZoomOutToolId">
+                <selected>false</selected>
+                <enabledSrc>images/zoom_out_en.gif</enabledSrc>
+                <disabledSrc>images/zoom_out_dis.gif</disabledSrc>
+                <tooltip>click to zoom out</tooltip>
+              </tool>
+              <tool id="PanToolId">
+                <selected>false</selected>
+                <enabledSrc>images/pan_en.gif</enabledSrc>
+                <disabledSrc>images/pan_dis.gif</disabledSrc>
+                <tooltip>click and drag to pan</tooltip>
+              </tool>
+            </toolList>
           </tools> 
         </MapPane>
         
