@@ -51,23 +51,21 @@
       
       <widgets>
         <MapPane id="mainMapPaneId">
-          <scriptFile>widget/mappane/MapPane.js</scriptFile>
-          <stylesheet>widget/mappane/Context2MapPane.xml</stylesheet>
           <tools> 
 
             <AoiBox>
-              <scriptFile>widget/tool/AoiBox.js</scriptFile>
+              <scriptFile>tool/AoiBox.js</scriptFile>
               <lineColor>#FF0000</lineColor>
               <lineWidth>2</lineWidth>
               <crossSize>25</crossSize>
             </AoiBox>
 
             <AoiMouseHandler>
-              <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
+              <scriptFile>tool/AoiMouseHandler.js</scriptFile>
             </AoiMouseHandler>
 
             <CursorTrack>
-              <scriptFile>widget/tool/CursorTrack.js</scriptFile>
+              <scriptFile>tool/CursorTrack.js</scriptFile>
               <scriptFile>model/Proj.js</scriptFile>
               <formName>MapDisplayForm</formName>
             </CursorTrack>
@@ -75,13 +73,9 @@
         </MapPane>
         
         <Legend id="legendId">
-          <scriptFile>widget/legend/Legend.js</scriptFile>
-          <stylesheet>widget/legend/Context2Legend.xml</stylesheet>
         </Legend>
         
         <ButtonBar id="buttonBarId">  
-          <stylesheet>/widget/buttonbar/ButtonBar.xsl</stylesheet>
-          <scriptFile>/widget/buttonbar/ButtonBar.js</scriptFile>
           <mouseWidget>config['mainMapGroup']['MapPane']</mouseWidget>
           <initialMode>ZoomInButton</initialMode>
           <tools>
@@ -109,20 +103,18 @@
       <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorMapId">
-          <scriptFile>widget/mappane/MapPane.js</scriptFile>
-          <stylesheet>widget/mappane/Context2MapPane.xml</stylesheet>
           <tools> 
             <AoiBox>
-              <scriptFile>widget/tool/AoiBox.js</scriptFile>
+              <scriptFile>tool/AoiBox.js</scriptFile>
               <lineColor>#0000FF</lineColor>
               <lineWidth>1</lineWidth>
               <crossSize>5</crossSize>
             </AoiBox>
             <AoiMouseHandler>
-              <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
+              <scriptFile>tool/AoiMouseHandler.js</scriptFile>
             </AoiMouseHandler>
             <ZoomToAoi>
-              <scriptFile>widget/tool/ZoomToAoi.js</scriptFile>
+              <scriptFile>tool/ZoomToAoi.js</scriptFile>
               <targetModelGroup>mainMapGroup</targetModelGroup>
             </ZoomToAoi>
           </tools> 
@@ -132,11 +124,8 @@
     
     <ContextCollection id="collectionGroup">
       <defaultModelUrl>context/demoCollection.ccml</defaultModelUrl>
-      <scriptFile>model/Collection.js</scriptFile>
       <widgets>
         <CollectionList id="collectionListId">
-          <scriptFile>widget/collectionList/CollectionList.js</scriptFile>
-          <stylesheet>widget/collectionList/Collection2List.xsl</stylesheet>
           <targetWidgetGroup>mainMapGroup</targetWidgetGroup>
         </CollectionList>
       </widgets>
