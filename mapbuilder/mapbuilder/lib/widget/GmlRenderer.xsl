@@ -13,14 +13,16 @@ $Name$
 -->
   <xsl:output method="xml" encoding="utf-8"/>
   
-  <xsl:param name="width"/>
-  <xsl:param name="height"/>
-  <xsl:param name="bBoxMinX"/>
-  <xsl:param name="bBoxMinY"/>
-  <xsl:param name="bBoxMaxX"/>
-  <xsl:param name="bBoxMaxY"/>
+  <xsl:param name="width" select="400"/>
+  <xsl:param name="height" select="200"/>
+  <xsl:param name="bBoxMinX" select="-180"/>
+  <xsl:param name="bBoxMinY" select="-90"/>
+  <xsl:param name="bBoxMaxX" select="180"/>
+  <xsl:param name="bBoxMaxY" select="90"/>
   <xsl:param name="lineColor" select="red"/>
   <xsl:param name="lineWidth" select="2"/>
+  <xsl:param name="skinDir"/>
+  <xsl:param name="pointDiameter" select="10"/>
 
   <xsl:variable name="xRatio" select="$width div ( $bBoxMaxX - $bBoxMinX )"/>
   <xsl:variable name="yRatio" select="$height div ( $bBoxMaxY - $bBoxMinY )"/>
@@ -28,10 +30,23 @@ $Name$
 
   <!-- Root node -->
   <xsl:template match="/">
-        <!--div style="width: {$width}px; height: {$height}px; overflow: hidden"-->
-        <div>
-          <xsl:apply-templates/>
-        </div>
+    <!--div style="width: {$width}px; height: {$height}px; overflow: hidden"-->
+    <div>
+      <xsl:apply-templates/>
+    </div>
+  </xsl:template>
+
+  <!-- Match and render a GML Point -->
+  <xsl:template match="gml:pointMember/gml:Point">
+    <xsl:variable name="box" select="gml:coordinates"/>
+    <xsl:variable name="x0" select="round((substring-before($box,',')-$bBoxMinX)*$xRatio - number($pointDiameter) div 2)"/>
+    <xsl:variable name="box2" select="substring-after($box,',')"/>
+    <xsl:variable name="y0" select="round($height - (substring-before($box2,' ')-$bBoxMinY)*$yRatio - $pointDiameter div 2)"/>
+
+    <div style="position:absolute; left:{$x0}px; top:{$y0}px; width:{$pointDiameter}px; height:{$pointDiameter}px">
+      <img src="{$skinDir}/images/Dot.gif"/>
+    </div>
+
   </xsl:template>
 
   <!-- Match and render a GML Envelope -->
