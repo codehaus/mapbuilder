@@ -45,5 +45,11 @@ function GmlRendererWZ(widgetNode, model) {
     objRef.stylesheet.setParameter("color", "#FF0000" );
 
     objRef.resultDoc = objRef.coordXsl.transformNodeToObject(objRef.resultDoc);
+
+    // Force refresh of the wz_jsgraphics handle when the widget's node
+    // has been refreshed.
+    if (!document.getElementById(objRef.outputNodeId)){
+      objRef.jg=null;
+    }
   }
 }
