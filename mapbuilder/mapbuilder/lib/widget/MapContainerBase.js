@@ -57,6 +57,10 @@ function MapContainerBase(widget,widgetNode,model) {
     widget.containerModel = widget.model;
     //widget.containerModel = widget.node.widget.model;
 
+    /**
+     * Set the map area to have a fixed width.
+     * @param objRef Pointer to this object.
+     */
     this.setFixedWidth = function(objRef) {
       //adjust the context width and height if required.
       var fixedWidth = widgetNode.selectSingleNode("mb:fixedWidth");
@@ -78,11 +82,13 @@ function MapContainerBase(widget,widgetNode,model) {
     widget.containerModel.addListener( "aoi", widget.containerModel.extent.init, widget.containerModel.extent );
     //TBD: do an extent history too by storing extents everytime the aoi changes
 
+    /*
     this.clearContainer = function(objRef) {
       //with objRef.node remove child
     }
     widget.clearContainer = this.clearContainer;
     widget.containerModel.addListener("newModel",widget.clearContainer, widget);
+    */
 
     /**
      * Called when the context's boundingBox attribute changes.
@@ -170,5 +176,4 @@ function MapContainerBase(widget,widgetNode,model) {
   }
   widget.hiddenListener = this.hiddenListener;
   widget.model.addListener("hidden",widget.hiddenListener,widget);
-
 }
