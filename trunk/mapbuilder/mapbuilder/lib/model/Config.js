@@ -79,9 +79,16 @@ function Config(url) {
   this.init = function() {
     var cgiArgs = getArgs();
 
-/** language to select; defaults to */
+    //language to select; defaults to english 
+    //Set via a "language" parameter in the URL, 
+    //or by setting a global "language" Javascript variable in the page <HEAD>
+    //Retrieve the value from the global conifg object as "config.lang"
     this.lang = "en";
-    if (cgiArgs["language"]) this.lang = cgiArgs["language"];
+    if (cgiArgs["language"]) {
+      this.lang = cgiArgs["language"];
+    } else if (window.language) {
+      this.lang = window.language;
+    }
 
     //loop through all models in the config file
     var models = this.doc.selectNodes( "/MapbuilderConfig/models/*" );
