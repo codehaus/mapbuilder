@@ -6,18 +6,18 @@ License:      GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 mapbuilder.loadScript(baseDir+"/widget/GmlRenderer.js");
 
 /**
  * Render an Area Of Interest (AOI) Box over a map.
  * This widget extends GmlRenderer and uses GmlRenderer.xsl to build the HTML box.
  * @constructor
+ * @base GmlRenderer
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */
 function AoiBox2(widgetNode, model) {
-  // Inherit the GmlRenderer and WidgetBase functions and parameters
+  // Inherit the GmlRenderer functions and parameters
   var base = new GmlRenderer(widgetNode, model);
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 

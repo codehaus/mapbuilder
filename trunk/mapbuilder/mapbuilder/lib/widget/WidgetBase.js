@@ -14,6 +14,7 @@ $Id$
  * All stylesheets will have "modelId" and "widgetId" parameters set when called.
  *
  * @constructor
+ * @base Listener
  * @author Mike Adair 
  * @param widget      Pointer to the widget instance being created
  * @param widgetNode  The widget's XML object node from the configuration document.

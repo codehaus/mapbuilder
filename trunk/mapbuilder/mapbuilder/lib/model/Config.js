@@ -10,6 +10,7 @@ $Id$
  * configuration xml file passed in as a parameter.
  *
  * @constructor
+ * @base ModelBase
  * @author adair
  * @requires Sarissa
  * @param url URL of the configuration file.

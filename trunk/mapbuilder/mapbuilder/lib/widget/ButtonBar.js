@@ -16,8 +16,8 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * ButtonBar tools process mouseClicks on behalf of the mouseWidget. The
  * mouseWidget is usually a MapPane.  If the mouseWidget property is not set in 
  * config, then the mouseUp action only happens when the button is click
- * This widget extends WidgetBase.
  * @constructor
+ * @base WidgetBase
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */

@@ -8,8 +8,8 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
  * Build a WMC document from a WMS GetCapabilities response.
- * This widget extends WidgetBase.
  * @constructor
+ * @base WidgetBase
  * @author Cameron Shorter cameronATshorter.net
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.

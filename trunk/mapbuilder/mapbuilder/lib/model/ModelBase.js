@@ -6,10 +6,10 @@ $Id$
 /**
  * Base Model class to be instantiated by all Model objects.
  * loads the XML document as the doc property of the model
- * event listeners.  ModelBase extends Listener.
+ * event listeners.
  * @constructor
+ * @base Listener
  * @author Cameron Shorter
- * @see Listener
  * @param model       Pointer to the model instance being created
  * @param modelNode   The model's XML object node from the configuration document.
  * @param parentModel The model object that this widget belongs to.

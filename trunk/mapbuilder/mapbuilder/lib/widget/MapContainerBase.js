@@ -23,6 +23,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * define mouse event callbacks.
  *
  * @constructor
+ * @base WidgetBase
  * @author Mike Adair 
  * @param widget      Pointer to the widget instance being created
  * @param widgetNode  The widget's XML object node from the configuration document.

@@ -6,17 +6,17 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/Listener.js");
 
 /**
  * Widget to render a map from an OGC context document.
- * This widget extends WidgetBase.
  * If the widget has the fixedWidth property set to true, then the width of the
  * MapPane will be taken from the width of the HTML element.  Height will be set
  * to maintain a constant aspect ratio.
  * This widget implements listeners for all mouse event types so that tools can
  * define mouse event callbacks.
  * @constructor
+ * @base Listener
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */

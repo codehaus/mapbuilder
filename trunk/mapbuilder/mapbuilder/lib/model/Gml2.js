@@ -10,18 +10,16 @@ mapbuilder.loadScript(baseDir+"/tool/Extent.js");
  * Stores a GML document as defined by the Open GIS Consortium
  * http://opengis.org and extensions the the WMC.  A unique Id is included for
  * each layer which is used when referencing Dynamic HTML layers in MapPane.
- * Gml2 extends ModelBase, which extends Listener.
  *
  * Listener Parameters used:
  * "aoi" - ((upperLeftX,upperLeftY),(lowerRigthX,lowerRigthY)),
  *
  * @constructor
+ * @base ModelBase
  * @author Cameron Shorter
  * @requires Sarissa
  * @param url Url of Gml2 document
  * @param id ID referencing this Gml2 object
- * @see ModelBase
- * @see Listener
  */
 function Gml2(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
