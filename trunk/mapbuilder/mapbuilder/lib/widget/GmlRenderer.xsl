@@ -44,32 +44,76 @@ $Name$
     <xsl:variable name="x1" select="round((substring-before($box3,',')-$bBoxMinX)*$xRatio)"/>
     <xsl:variable name="y1" select="round($height - (substring-after($box3,',')-$bBoxMinY)*$yRatio)"/>
 
+    <xsl:variable name="xMax">
+      <xsl:choose>
+        <xsl:when test="$x1 > $x0">
+          <xsl:value-of select="$x1"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$x0"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="xMin">
+      <xsl:choose>
+        <xsl:when test="$x1 > $x0">
+          <xsl:value-of select="$x0"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$x1"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="yMin">
+      <xsl:choose>
+        <xsl:when test="$y1 > $y0">
+          <xsl:value-of select="$y1"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$y0"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="yMax">
+      <xsl:choose>
+        <xsl:when test="$y1 > $y0">
+          <xsl:value-of select="$y0"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$y1"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
     <xsl:call-template name="mkDiv">
-      <xsl:with-param name="x" select="$x0"/>
-      <xsl:with-param name="y" select="$y0 - $lineWidth + 1"/>
-      <xsl:with-param name="w" select="$x1 - $x0"/>
+      <xsl:with-param name="x" select="$xMin"/>
+      <xsl:with-param name="y" select="$yMin - $lineWidth + 1"/>
+      <xsl:with-param name="w" select="$xMax - $xMin"/>
       <xsl:with-param name="h" select="$lineWidth"/>
     </xsl:call-template>
 
     <xsl:call-template name="mkDiv">
-      <xsl:with-param name="x" select="$x1 - $lineWidth + 1"/>
-      <xsl:with-param name="y" select="$y1"/>
+      <xsl:with-param name="x" select="$xMax - $lineWidth + 1"/>
+      <xsl:with-param name="y" select="$yMax"/>
       <xsl:with-param name="w" select="$lineWidth"/>
-      <xsl:with-param name="h" select="$y0 - $y1"/>
+      <xsl:with-param name="h" select="$yMin - $yMax"/>
     </xsl:call-template>
 
     <xsl:call-template name="mkDiv">
-      <xsl:with-param name="x" select="$x0"/>
-      <xsl:with-param name="y" select="$y1"/>
-      <xsl:with-param name="w" select="$x1 - $x0"/>
+      <xsl:with-param name="x" select="$xMin"/>
+      <xsl:with-param name="y" select="$yMax"/>
+      <xsl:with-param name="w" select="$xMax - $xMin"/>
       <xsl:with-param name="h" select="$lineWidth"/>
     </xsl:call-template>
 
     <xsl:call-template name="mkDiv">
-      <xsl:with-param name="x" select="$x0"/>
-      <xsl:with-param name="y" select="$y1"/>
+      <xsl:with-param name="x" select="$xMin"/>
+      <xsl:with-param name="y" select="$yMax"/>
       <xsl:with-param name="w" select="$lineWidth"/>
-      <xsl:with-param name="h" select="$y0 - $y1"/>
+      <xsl:with-param name="h" select="$yMin - $yMax"/>
     </xsl:call-template>
   </xsl:template>
 
