@@ -180,10 +180,8 @@ function Context(modelNode, parent) {
    * @parm lr LowerRight.
    */
   this.setAoi=function(ul, lr) {
-    this.aoiValid=true;
     this.setParam("aoi",new Array(ul,lr));
   }
-  this.aoiValid=false;
 
   /** Returns an array of the corner coordinates as (ul, lr)
     * @return        array of point arrays; ul=0, lr=1
