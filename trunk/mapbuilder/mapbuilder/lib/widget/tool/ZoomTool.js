@@ -24,19 +24,23 @@ $Id$
 
  * @param context The Web Map Context to call when changing extent.
 
- * @param baseDir The base mapbuilder lib directory.
-
  * @param node Node from the HTML DOM to insert Pan HTML into.
 
  */
 
-function ZoomTool(context,baseDir) {
+function ZoomTool(context, name, node) {
 
   this.context=context;
 
-  var node=makeElt("DIV");
+  this.name=name;
 
-  node.style.position="absolute";
+  if(node==null){
+
+    node=makeElt("DIV");
+
+    node.style.position="absolute";
+
+  }
 
   this.node=node;
 
@@ -58,39 +62,27 @@ function ZoomTool(context,baseDir) {
 
   /**
 
-   * Zoom (reset the BoundingBox).
-
-   * @param action What action to take ("in" or "out").
+   * Zoom in (reset the BoundingBox).
 
    */
 
-  this.zoom=function(action) {
+  this.zoomIn=function() {
 
     percent=10/100;
 
-    var srs = this.context.getSRS();
-
-    var bbox=this.context.getBoundingBox();
+    bbox=this.context.getBoundingBox();
 
     geoWidth=parseFloat(bbox[2]-bbox[0]);
 
     geoHeight=parseFloat(bbox[1]-bbox[3]);
 
-    switch(action){
+    bbox[0]=bbox[0]+(geoWidth*percent);
 
-      case "in":
+    bbox[2]=bbox[2]-(geoWidth*percent);
 
-        bbox[0]=bbox[0]+(geoWidth*percent);
+    bbox[1]=bbox[1]-(geoHeight*percent);
 
-        bbox[2]=bbox[2]-(geoWidth*percent);
-
-        bbox[1]=bbox[1]-(geoHeight*percent);
-
-        bbox[3]=bbox[3]+(geoHeight*percent);
-
-        break;
-
-    }
+    bbox[3]=bbox[3]+(geoHeight*percent);
 
     this.context.setBoundingBox(bbox);
 
@@ -112,13 +104,11 @@ function ZoomTool(context,baseDir) {
 
     img.setAttribute("src", this.context.skin+"images/zoomIn.gif");
 
-    // this next line doesn't work (object reference lost)
+    // next line not working, so using setAttribute instead...
 
-    // img.addEventListener("click", this.zoom, false);
+    // img.addEventListener("click", eval(this.name+".zoomIn"), false);
 
-    // so temporarily hardcoding object ref, based on definition in demo page
-
-    img.addEventListener("click", zoomTool.zoom, false);
+    img.setAttribute("onclick",this.name+".zoomIn();");
 
     this.node.appendChild(img);
 
