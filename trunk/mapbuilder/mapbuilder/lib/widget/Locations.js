@@ -29,9 +29,14 @@ function Locations(widgetNode, model) {
    * @param bbox the bbox value of the location keyword chosen
    */
 
-  this.setAoi = function(bbox) {
+  this.setAoi = function(bbox, targetModel) {
     var bboxArray = new Array();
     bboxArray     = bbox.split(",");
-    config.setParam("aoi", new Array(new Array(bboxArray[0],bboxArray[3]), new Array(bboxArray[2], bboxArray[1])));
+    var ul = new Array(bboxArray[0],bboxArray[3]);
+    var lr = new Array(bboxArray[2],bboxArray[1]);
+    //convert this.model XY to latlong
+    //convert latlong to targetmodel XY
+    //extent.setAoi takes XY as input
+    config[targetModel].extent.setAoi(ul,lr);
   }
 }

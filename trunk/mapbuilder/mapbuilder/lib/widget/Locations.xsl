@@ -11,12 +11,21 @@ $Name$Name:  $
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:gml="http://www.opengis.net/gml" xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder">
 	<xsl:output method="xml" omit-xml-declaration="yes"/>
-	<xsl:template match="/">
-		<select name="locations" onchange="javascript:config.globalModelId.locationsId.setAoi(this.options[this.selectedIndex].value);" size="5">
-		<xsl:for-each select="mb:QuickviewPresetResultSet/gml:featureMember/mb:locationDef">
-			<xsl:variable name="bbox" select="translate(mb:spatialKeyword/gml:location/gml:Envelope/gml:coordinates,' ',',')"/>
-			<option value="{$bbox}"><xsl:value-of select="gml:name"/></option>
-		</xsl:for-each>
+  
+  <!-- The common params set for all widgets -->
+  <xsl:param name="modelId"/>
+  <xsl:param name="widgetId"/>
+  <xsl:param name="targetModel"/>
+  
+	<xsl:template match="/mb:QuickviewPresetResultSet">
+		<select name="locations" onchange="javascript:config.{$modelId}.{$widgetId}.setAoi(this.options[this.selectedIndex].value,'{$targetModel}');" size="5">
+      <xsl:apply-templates select="gml:featureMember/mb:locationDef"/>
 		</select>
 	</xsl:template>
+  
+	<xsl:template match="mb:locationDef">
+		<xsl:variable name="bbox" select="translate(mb:spatialKeyword/gml:location/gml:Envelope/gml:coordinates,' ',',')"/>
+		<option value="{$bbox}"><xsl:value-of select="gml:name"/></option>
+	</xsl:template>
+  
 </xsl:stylesheet>
