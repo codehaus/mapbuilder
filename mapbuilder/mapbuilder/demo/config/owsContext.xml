@@ -101,19 +101,43 @@
     </Context>
     
   <!-- use this with a WFS capabilities model 
-		<DescribeFeatureType id="featureTypes">
+  
+		<WfsCapabilities id="wfsCapTemplate">
 			<widgets>
-				<GetFeatureRequest>
-          <targetModel>new Gml2</targetModel>
-				</GetFeatureRequest>
-				<PostFeatureRequest>
-          <targetModel>features</targetModel>
-				</PostFeatureRequest>
+        <SelectFeatureTypes/>
+				<DescribeFeatureTypeRequest>
+          <targetModel>featureTypeTemplate</targetModel>
+          <method>get</method>
+				</DescribeFeatureTypeRequest>
+        <ModelUrlInput/>
+			</widgets>
+		</DescribeFeatureType>
+    
+		<DescribeFeatureType id="featureTypeTemplate">
+			<widgets>
 				<SelectAttributes id="attributeSelector">
           a widget to select the attributes to be requested
 				</SelectAttributes>
+				<GetFeatureRequest>
+          <targetModel>gml2FeatureTemplate</targetModel>
+          <method>get</method>
+          <tools> 
+            <OgcFilter/>
+          </tools> 
+				</GetFeatureRequest>
 			</widgets>
 		</DescribeFeatureType>
+    
+		<Gml2 id="gml2FeatureTemplate">
+			<widgets>
+				<GmlRenderer id="testGmlRenderer">
+ 					<targetModel>mainMap</targetModel>
+					<htmlTagId>mainMapPane</htmlTagId>
+					<mapContainerId>mainMapContainer</mapContainerId>
+				</GmlRenderer>
+			</widgets>
+		</Gml2>
+    
   -->
     
   </models>
