@@ -31,14 +31,18 @@ function ZoomToAoi(toolNode, parentWidget) {
     this.targetModel = tool.model;
   }
 
-  this.mouseup = function( targetNode, tool ) {
+  /**
+   * Process a mouse action.
+   * @param tool Pointer to this ZoomToAoi object.
+   * @param targetNode The node for the enclosing HTML tag for this widget,
+   * not used.
+   */
+   this.mouseUpHandler = function(tool,targetNode) {
     var bbox = tool.model.getAoi();
     var ul = tool.model.extent.GetXY( bbox[0] );
     var lr = tool.model.extent.GetXY( bbox[1] );
     if ( tool.model.getSRS() != tool.targetModel.getSRS() ) {
-      //ul = tool.model.proj.inverse( ul );     //to LL
       ul = tool.targetModel.proj.Forward( ul ); //to target XY
-      //lr = tool.model.proj.inverse( lr ); 
       lr = tool.targetModel.proj.Forward( lr );
     }
     if ( ( ul[0]==lr[0] ) && ( ul[1]==lr[1] ) ) {
@@ -48,5 +52,5 @@ function ZoomToAoi(toolNode, parentWidget) {
     }
   }
 
-  this.parentWidget.addMouseListener('mouseUp', this.mouseup, this);
+  this.parentWidget.addListener('mouseup',this.mouseUpHandler,this);
 }

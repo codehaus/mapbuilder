@@ -39,10 +39,10 @@ function ButtonBar(widgetNode, group) {
   var mouseWidget = widgetNode.selectSingleNode("mouseWidget");
   if (mouseWidget) {
     this.mouseWidget = eval(mouseWidget.firstChild.nodeValue);
-    this.modalMouseUp = function(targetNode, buttonBar) {
-      buttonBar.selectedButton.modalMouseUp(targetNode, buttonBar.model) 
+    this.modalMouseUp = function(buttonBar,targetNode) {
+      buttonBar.selectedButton.modalMouseUp(buttonBar.model,targetNode) 
     }
-    this.mouseWidget.addMouseListener('mouseUp', this.modalMouseUp, this);
+    this.mouseWidget.addListener('mouseup',this.modalMouseUp,this);
   }
   
   /**
@@ -127,7 +127,7 @@ function ZoomInButton(toolNode, parentWidget) {
    * @param targetNode TBD: Document me.
    * @param model The model that this tool will update.
    */
-  this.modalMouseUp = function(targetNode, model) {
+  this.modalMouseUp = function(model,targetNode) {
     var bbox = model.getAoi();
     var ul = model.extent.GetXY( bbox[0] );
     var lr = model.extent.GetXY( bbox[1] );
@@ -147,7 +147,7 @@ function ZoomOutButton(toolNode, parentWidget) {
   for (sProperty in base) { 
     this[sProperty] = base[sProperty];    
   } 
-  this.modalMouseUp = function(targetNode, model) {
+  this.modalMouseUp = function(model,targetNode) {
     //should be aoi center
     model.extent.CenterAt(targetNode.evxy, model.extent.res[0]*model.extent.zoomBy);
   }
