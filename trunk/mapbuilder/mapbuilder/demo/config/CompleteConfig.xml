@@ -29,39 +29,40 @@
               <lineWidth>2</lineWidth>
               <crossSize>1</crossSize>
             </AoiBox>
-            <AoiMouseHandler/>
+            <AoiMouseHandler>
+              <mouseHandler>config['mainMapGroup']['mainMapPaneId']['AoiBox']</mouseHandler>
+            </AoiMouseHandler>
             <DragPanHandler/>
           </tools> 
         </MapPane>
         
         <CursorTrack id="cursorTrackId">
-          <mouseWidget>config['mainMapGroup']['MapPane']</mouseWidget>
+          <mouseWidget>config['mainMapGroup']['mainMapPaneId']</mouseWidget>
         </CursorTrack>
             
         <Legend id="legendId">
         </Legend>
         
         <ButtonBar id="buttonBarId">  
-          <mouseWidget>config['mainMapGroup']['MapPane']</mouseWidget>
-          <initialMode>ZoomIn</initialMode>
           <tools>
             <ZoomIn id="zoomIn">
               <class>RadioButton</class>
+              <selected>true</selected>
+              <mouseHandler>config['mainMapGroup']['mainMapPaneId']['AoiMouseHandler']</mouseHandler>
               <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
               <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
               <tooltip>click and drag to zoom in</tooltip>
-              <selected>true</selected>
-              <modalButton>true</modalButton><!--TBD Remove-->
             </ZoomIn>
             <ZoomOut id="zoomOut">
               <class>RadioButton</class>
+              <mouseHandler>config['mainMapGroup']['mainMapPaneId']['AoiMouseHandler']</mouseHandler>
               <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
               <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
               <tooltip>click to zoom out</tooltip>
-              <selected>false</selected>
             </ZoomOut>
             <DragPan id="dragPan">
               <class>RadioButton</class>
+              <mouseHandler>config['mainMapGroup']['mainMapPaneId']['DragPanHandler']</mouseHandler>
               <enabledSrc>/images/PanEnable.gif</enabledSrc>
               <disabledSrc>/images/PanDisable.gif</disabledSrc>
               <tooltip>click and drag to pan</tooltip>
