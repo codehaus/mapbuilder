@@ -299,10 +299,6 @@ function Context(url) {
 
 //make a copy in the constructor for reset function
   this.originalExtent = new Extent( this );   
-  this.reset = function() {
-    //TBD: do something with size?
-    this.extent.CenterAt( this.originalExtent.GetCenter(), this.originalExtent.res[0] );
-  }
 
   /** Functions to call when the Area Of Interest changes. */
   this.aoiListeners=new Array();

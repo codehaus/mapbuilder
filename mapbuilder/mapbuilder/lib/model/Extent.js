@@ -31,12 +31,14 @@ function Extent( context ) {
   this.lr = new Array(bbox[2],bbox[1]);
   this.size = new Array();
   this.res = new Array();
+  this.zoomBy = 4;
 
 //give some methods for an extent object
 	this.GetCenter = getCenter;
 	this.GetXY = getXYCoords;
 	this.GetPL = getPLCoords;
 	this.FitToWindow = fitToWindow;
+	this.Reset = reset;
 	this.CenterAt = centerAt;
 	this.ZoomToBox = zoomToBox;
   this.SetSize = setSize;                 //pass in a resolution and width, height are recalculated
@@ -176,3 +178,10 @@ function fitToWindow(size, minres, maxres) {
 	}
   //call centerAt with test as res
 }
+
+  function reset() {
+    //TBD: do something with size?
+    var originalExtent = this.context.originalExtent;
+    this.CenterAt( originalExtent.GetCenter(), originalExtent.res[0] );
+  }
+
