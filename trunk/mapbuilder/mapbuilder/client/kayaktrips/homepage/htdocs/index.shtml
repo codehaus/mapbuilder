@@ -46,6 +46,13 @@ functionality.</p>
 
 <p>To Do:</p>
 <ul>
+  <li>Develop feature entry module in geotools</li>
+  <li>Get Geotools communicating directly with PostGIS with data entry</li>
+  <li>Get Geotools acting as a PostGIS client redering GML</li>
+</ul>
+
+<p>Release 1 - Prototype data entry/retrieval</p>
+<ul>
   <li>Develop an open source Web Feature Server based on Open GIS Standards.
     This will probably be done best with <a
     href="http://postgis.refractions.net/">PostGIS</a>.  I'd be interested to
@@ -57,7 +64,7 @@ functionality.</p>
   <li>Develop Transactional Web Feature Server client interface.</li>
 </ul>
 
-<p>Release 1 - Prototype</p>
+<p>Release 2 - Prototype using WFS</p>
 <ul>
   <li>Design data models, interfaces etc to drive the components.</li>
   <li>Design business logic to control update procedures.  I'm invisaging
@@ -65,7 +72,7 @@ functionality.</p>
     href="http://slashdot.org">http://slashdot.org</a></li>
 </ul>
 
-<p>Release 2 - Core functionality</p>
+<p>Release 3 - Core functionality</p>
 <ul>
   <li>Lots of possible features to add later.</li>
 </ul>
