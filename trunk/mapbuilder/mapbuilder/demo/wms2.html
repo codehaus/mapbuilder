@@ -54,20 +54,23 @@ $Name$
 
       <tr>
         <td valign="top">
+           <table width="100%">
+            <tr>
+                <td align="left" valign="top">
+<A HREF="javascript:buttonBar.setMode(MODE_ZOOM_IN)"><IMG ID="ZoomInButton" BORDER="0"/></A><A HREF="javascript:buttonBar.setMode(MODE_ZOOM_OUT)"><IMG ID="ZoomOutButton" BORDER="0"/></A><A HREF="javascript:buttonBar.resetExtent()"><IMG SRC="../lib/skin/default/images/reset_extent_dis.gif" ID="Extent" TITLE="reset the map to full extent" BORDER="0"/></A><A HREF="javascript:buttonBar.setMode(MODE_PAN)"><IMG ID="PanButton" BORDER="0"/></A><A HREF="javascript:buttonBar.setMode(MODE_SET_ROI)"><IMG ID="SetRoiButton" BORDER="0"/></A><A HREF="javascript:buttonBar.setMode(MODE_GETFEATUREINFO)"><IMG ID="QueryButton" BORDER="0"/></A>
+                </td>
+                <td align="right" valign="top">
             <FORM NAME="MapDisplayForm" ID="MapDisplayForm" STYLE="margin:0; padding:0;">
                     long:&nbsp;<input NAME="longitude" TYPE="text" SIZE="6" CLASS="bareinput">
                     &nbsp;&nbsp;&nbsp;
                     lat:&nbsp;<input NAME="latitude" TYPE="text" SIZE="6" CLASS="bareinput">
             </FORM>
+                </td>
+              </tr>
+            </table>
           </td>
 
           <td>
-<A HREF="javascript:buttonBar.setMode(MODE_ZOOM_IN)"><IMG ID="ZoomInButton"/></A>
-<A HREF="javascript:buttonBar.setMode(MODE_ZOOM_OUT)"><IMG ID="ZoomOutButton"/></A>
-<A HREF="javascript:buttonBar.resetExtent()"><IMG SRC="mapbuilder/lib/skin/default/images/reset_extent_dis.gif" ID="Extent" TITLE="reset the map to full extent"/></A>
-<A HREF="javascript:buttonBar.setMode(MODE_PAN)"><IMG ID="PanButton"/></A>
-<A HREF="javascript:buttonBar.setMode(MODE_SET_ROI)"><IMG ID="SetRoiButton"/></A>
-<A HREF="javascript:buttonBar.setMode(MODE_GETFEATUREINFO)"><IMG ID="QueryButton"/></A>
           </td>
         </tr>
 
