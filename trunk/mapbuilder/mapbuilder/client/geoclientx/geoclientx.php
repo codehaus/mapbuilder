@@ -3,10 +3,10 @@
 Script name: geoclientx.php
 Description: Written in XHTML, GeoClientX is a client for web map services (WMSs) 
 and web feature services (WFSs) as defined by the Open GIS Consortium.
-Date: August 20, 2003
+Date: June 1, 2003
 Author: Nedjo Rogers, GroundWorks Learning Centre, nedjo@gworks.ca
 
-Copyright (C) 2003  Nedjo Rogers
+Copyright (C) 2003  Nedjo Rogers & Amri Rosyada
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -62,6 +62,7 @@ $useMeters="true"; //assume meters if SRS not lon/lat?
 $tryRaster="true"; //try to load raster version if wfs points fail to load
 $ptSizeThresh="50"; //feature count threshold above which to reduce size
 $useIcons="true"; //use icons
+$iconFormat="png"; //default format for icon files
 $toolsDef[0]="true"; //show idenfity tool
 $toolsDef[1]="true"; //show zoom in tool
 $toolsDef[2]="true"; //show zoom out tool
@@ -69,9 +70,9 @@ $toolsDef[3]="true"; //show pan tool
 $toolsDef[4]="false"; //show label tool (tool not yet functional)
 $toolsDef[5]="true"; //show home tool
 $toolsDef[6]="false"; //show edit tool (tool not yet functional)
-$toolsDef[7]="false"; //show point input tool (tool not yet functional)
-$toolsDef[8]="false"; //show line input tool (tool not yet functional)
-$toolsDef[9]="false"; //show polygon input tool (tool not yet functional)
+$toolsDef[7]="true"; //show point input tool (tool not yet functional)
+$toolsDef[8]="true"; //show line input tool (tool not yet functional)
+$toolsDef[9]="true"; //show polygon input tool (tool not yet functional)
 //end of settings
 
 $browser=$_SERVER["HTTP_USER_AGENT"];
@@ -123,8 +124,6 @@ else{
 
 body {font-family:<?=$fontFamily?>; font-size:10pt; color:<?=$textcolor1?>; margin:0px; padding:0px; }
 
-point:circle {stroke:red; stroke-width:1; fill-opacity:0.4;}
-
 td {
   font-size:10pt;
 }
@@ -158,10 +157,7 @@ td {
   padding: 0px;
   position: absolute;
   clip: rect(0,100%,100%,0);
-  visibility: visible;
-  z-index:210;
-  width=0px;
-  height=0px;
+  visibility: hidden;
 }
 
 #formHeader {
@@ -203,7 +199,8 @@ td {
   z-index:200;
   visibility:hidden;
   filter: alpha(opacity=75);
-  -moz-opacity: 0.75;
+  filter: progid:DXImageTransform.Microsoft.Alpha(opacity=75);
+  -moz-opacity: 75%;
   cursor: move;
 }
 
@@ -400,6 +397,7 @@ var panTarg; //target of pan action
 var svgdoc; //reference to SVG editing element
 var tryRaster=<?=$tryRaster?>;
 var useIcons=<?=$useIcons?>;
+var iconFormat="<?=$iconFormat?>";
 var ptSizeThresh=<?=$ptSizeThresh?>;
 var PixelsPerInch = 72; 
 var InchesPerMapUnit;
@@ -479,7 +477,7 @@ function addWFSFrame(i){
   }
   var child=divMaster.cloneNode(false);
   newFrame.appendChild(child);
-  dragFrame.insertBefore(newFrame,dragFrame.firstChild);
+  dragFrame.appendChild(newFrame);
   var featureFrame=divMaster.cloneNode(false);
   featureFrame.setAttribute("id","featureFrame"+i);
   featureFrame.style.visibility="hidden";
@@ -1760,15 +1758,15 @@ function addPoint(wfs,featureType,feature,small) {
   var pt=new Point(parseFloat(wfss[wfs].featureTypes[featureType].features[feature].coord.x),parseFloat(wfss[wfs].featureTypes[featureType].features[feature].coord.y));
   coord=getScreenCoords(pt);
   if(small==false){
-    newnode.setAttribute("width","17");
-    newnode.setAttribute("height","15");
+    newnode.setAttribute("width","14");
+    newnode.setAttribute("height","13");
     with(newnode.style){
-      left=coord.x-8+"px";
-      top=coord.y-7+"px";
+      left=coord.x-7+"px";
+      top=coord.y-6+"px";
     }
     if(useIcons==true){
       if(wfss[wfs].featureTypes[featureType].features[feature].iconId!=null){
-        iconImg="images/icons/"+wfss[wfs].featureTypes[featureType].features[feature].iconId+".gif";
+        iconImg="images/icons/"+wfss[wfs].featureTypes[featureType].features[feature].iconId+"."+iconFormat;
       }
       else{
         iconImg="images/icons/large.gif";
@@ -2007,7 +2005,6 @@ function getMap(){
         }
       }
       url=wmss[i].onlineresource+'VERSION=1.1.0&REQUEST=GetMap&LAYERS='+layersStr+'&SRS='+wmss[i].srs+'&BBOX='+bbox.join(",")+'&WIDTH='+mapWidth+'&HEIGHT='+mapHeight;
-      prompt("url",url);
       mapImg.src = url;
       document.getElementById("wmsFrame"+i).setAttribute("src",mapImg.src);
     }
@@ -2346,7 +2343,7 @@ function initMap(){
       svgdoc=document;
       break;
     case "control":
-      inputFrame.innerHTML='<embed name="inputImage" id="inputImage" height="0" width="0" name="Top" type="image/svg+xml" src="embed.svg" wmode="transparent"/>';
+      inputFrame.innerHTML='<embed name="inputImage" id="inputImage" height="150" width="300" name="Top" type="image/svg+xml" src="embed.svg" wmode="transparent"/>';
       break;
     case "none":
       var imageMaster=document.getElementById("imageMaster");
@@ -2439,13 +2436,17 @@ function resizeMap(){
   keyMap.setAttribute("height",keyMapHeight);
   var inputFrame=document.getElementById("inputFrame");
   with(inputFrame.style){
+    width=mapWidth;
+    height=mapHeight;
     left=findPosX(anchor)+"px";
     top=findPosY(anchor)+"px";
   }
-
+  var inputImage=inputFrame.firstChild;
+  inputImage.setAttribute("width",mapWidth);
+  inputImage.setAttribute("height",mapHeight);
   var dragFrame=document.getElementById("dragFrame");
+  dragFrame.style.visibility="visible";
   with(dragFrame.style){
-    visibility="visible";
     width=mapWidth+"px";
     height=mapHeight+"px";
     left=findPosX(anchor)+"px";
@@ -2643,13 +2644,10 @@ function setCurrentTool(tool){
       dragFrame.onmousedown=null;
       break;
     case 5:
-      endInput();
       break;
     case 6:
-      endInput();
       break;
     default:
-      endInput();
       break;
   }
   switch(currentTool){
@@ -2687,6 +2685,7 @@ function setCurrentTool(tool){
     if(inputType!="point"){
       clearInput();
     }
+    dragFrame.style.visibility='hidden';
     inputType="point";
     beginInput();
     break;
@@ -2694,6 +2693,7 @@ function setCurrentTool(tool){
     if(inputType!="linestring"){
       clearInput();
     }
+    dragFrame.style.visibility='hidden';
     inputType="linestring";
     beginInput();
     break;
@@ -2701,6 +2701,7 @@ function setCurrentTool(tool){
     if(inputType!="polygon"){
       clearInput();
     }
+    dragFrame.style.visibility='hidden';
     inputType="polygon";
     beginInput();
     break;
@@ -2757,109 +2758,51 @@ function beginInput(){
   }
   var inputFrame=document.getElementById("inputFrame");
   with(inputFrame.style){
-    height=mapHeight+"px";
-    width=mapWidth+"px";
+//    width=mapWidth;
+//    height=mapHeight;
     visibility="visible";
   }
-  var inputImage=inputFrame.firstChild;
-  inputImage.setAttribute("width",mapWidth+"px");
-  inputImage.setAttribute("height",mapHeight+"px");
-  inputFrame.style.cursor="crosshair";
-  inputFrame.onmousedown=inputPt;
+  var dragFrame=document.getElementById("dragFrame");
+  dragFrame.style.visibility="visible";
+  dragFrame.style.cursor="crosshair";
+  dragFrame.onmousedown=inputPt;
 }
 
-function addSelectPt(coord,ind) {
-  var pointDivMaster=document.getElementById("pointImgMaster");
-  var newnode=pointDivMaster.cloneNode(false);
-  newnode.setAttribute("width","17");
-  newnode.setAttribute("height","15");
-  with(newnode.style){
-    left=coord.x-8+"px";
-    top=coord.y-7+"px";
-  }
-  if(useIcons==true){
-    if(wfss[wfs].featureTypes[featureType].features[feature].iconId!=null){
-      iconImg="images/icons/"+wfss[wfs].featureTypes[featureType].features[feature].iconId+".gif";
-    }
-    else{
-      iconImg="images/icons/large.gif";
-    }
-    newnode.setAttribute("src",iconImg);
-  }
-  newnode.setAttribute("id", ind);
-  var node = document.getElementById("imageFrame");
-  node.appendChild(newnode);
-}
-
-function endInput(){
-  var inputFrame=document.getElementById("inputFrame");
-  with(inputFrame.style){
-    height=0+"px";
-    width=0+"px";
-    visibility="hidden";
-  }
-  inputFrame.onmousedown=null;
-  var inputImage=inputFrame.firstChild;
-  inputImage.setAttribute("width",0+"px");
-  inputImage.setAttribute("height",0+"px");
-}
-
-function overSelect(evt){
-	obj=returnTarget(evt);
-	obj.getStyle().setProperty("fill","pink");
-}
-
-function outSelect(evt){
-	obj=returnTarget(evt);
-	obj.getStyle().setProperty("fill","blue");
-}
-var activePt;
-
-function beginPtDrag(evt){
-//alert("begin");
-//  targ=returnTarget(evt);
-//  activePt=targ.getAttribute("id");
-//activePt=0;
-//  document.onmousemove=inputPt;
-//  document.onmouseup=endPtDrag;
-}
-
-function endPtDrag(){
-  activePt=null;
-  document.onmousemove=null;
-  document.onmouseup=null;
-}
 function inputPt(evt){
-  targ=returnTarget(evt);
-//  tid=targ.getAttribute("id");
-//alert(tid);
   var anchor=document.getElementById("anchor");
   var pt=new Point(getPageX(evt)-findPosX(anchor),getPageY(evt)-findPosY(anchor));
   pt=getGeoCoords(pt);
   if((pt.x==prevPt.x)&&(pt.y==prevPt.y)){
-    var dragFrame=document.getElementById("inputFrame");
-    inputFrame.onclick=null;
+    var dragFrame=document.getElementById("dragFrame");
+    dragFrame.onclick=null;
     postFeature();
     return;
   }
-  if(activePt!=null){
-    inputPoints[activePt]= pt;
+  inputPoints[inputPoints.length]= pt;
+  if(svgSupport=="none"){
+    getInputMap();
   }
   else{
-    inputPoints[inputPoints.length]= pt;
+    showInput();
   }
-  showInput();
   prevPt=pt;
-  addSelectPt(getScreenCoords(pt),inputPoints.length-1);
-  return false;
 }
 
 function showInput(){
   str="";
+  var gelt=svgdoc.getElementById("pts");
+  var newGelt=gelt.cloneNode(false);
+  newGelt.setAttribute("id","newgelt");
   for(i=0;i<inputPoints.length;i++){
     var ipt=new Point(inputPoints[i].x,inputPoints[i].y);
     var pt=getScreenCoords(ipt);
     str+=pt.x+","+pt.y+" ";
+    var circ=svgdoc.getElementById("circ").cloneNode(false);
+    circ.setAttribute("cx",pt.x+"px");
+    circ.setAttribute("cy",pt.y+"px");
+    circ.setAttribute("id","circtest");
+//    circ.addEventListener("mousedown", mousedown_listener, false);
+    newGelt.appendChild(circ);
   }
   gelt.replaceChild(newGelt,gelt.firstChild);
   switch(inputType){
@@ -2885,10 +2828,10 @@ function postFeature(){
       str+="<Point><coordinates>";
       break;
     case "linestring":
-      str+="<Polyline><coordinates>";
+      str+="<LineString><coordinates>";
       break;
     case "polygon":
-      str+="<Polygon><outerRing><coordinates>";
+      str+="<Polygon><outerBoundaryIs><LinearRing><coordinates>";
       break;
     default:
       break;
@@ -2901,10 +2844,10 @@ function postFeature(){
       str+="</coordinates></Point>";
       break;
     case "linestring":
-      str+="</coordinates></Polyline>";
+      str+="</coordinates></LineString>";
       break;
     case "polygon":
-      str+="</coordinates></outerRing></Polygon>";
+      str+="</coordinates></outerBoundaryIs><LinearRing></Polygon>";
       break;
     default:
       break;
@@ -3085,7 +3028,7 @@ closeScript();
 <div id="formShell"><div></div></div>
 <div id="noticeShell"><div></div></div>
 <div id="featureMembers"></div>
-<div id="inputFrame" style="-moz-opacity:0.75;"><svg id="inputImage" xmlns="http://www.w3.org/2000/svg" width="0" height="0">
+<div id="inputFrame" style="-moz-opacity:50%;"><svg id="inputImage" xmlns="http://www.w3.org/2000/svg" width="180" height="86">
 <g id="cont">
 <circle id="circ" cx="" cy="" r="3" />
 <polygon id="poly" points="" style="stroke:red; stroke-width:2; stroke-opacity:1; fill:yellow; fill-opacity:0.8;" />
@@ -3104,8 +3047,7 @@ closeScript();
 <img id="imageMaster" src="images/blank.gif" width="0" height="0" />
 <img id="eyeImageMaster" src="images/eye.gif" width="17" height="11" onclick="zoomToLayer(this)"/>
 <img id="wmsFrameMaster" src="images/blank.gif" width="0" height="0" onload="showLoaded(this.id);"/>
-<table id="loadFormMasterTest" width="100%" cellpadding="0" cellspacing="0"><tr><td id="formHeader">Add Service</td></tr><tr><td style="padding:3px"><form name="serverSettings">Server Type:<br /><input type="radio" name="type" value="wms" checked="true" onclick="setService(this)" /> Web Map Server<br /><input type="radio" name="type" value="wfs" onclick="setService(this)" /> Web Feature Server<br />Address: <input type="text" name="url" onblur="setGetUrl(this)" length="100" value="" /><br /><span onmouseover="showTooltips('Enter the address here of a web feature service that includes one or more of the datasets in a web map service that you are adding.','Add linked WFS');" onmouseout="hideOver();">Linked WFS:</span> <input type="text" name="wfsurl" onblur="setLinkedWFS(this)" length="100" value="" /><br /><span onmouseover="showTooltips('Enter here a filter to be applied to a web feature service that you are adding','Apply WFS Filter');" onmouseout="hideOver();">WFS filter:</span> <input type="text" name="wfsFilter" onblur="setWFSFilter(this)" length="100" value="" /><br /><input type="button" value="Connect" onclick="getCapabilities(service,getUrl)" /><input type="button" value="Cancel" onclick="closeForm()" /></form></td></tr></table>
-<table id="loadFormMaster" width="100%" cellpadding="0" cellspacing="0"><tr><td id="formHeader">Add Service</td></tr><tr><td style="padding:3px"><form name="serverSettings">Server Type:<br /><input type="radio" name="type" value="wms" checked="true" onclick="setService(this)" /> Web Map Server<br /><input type="radio" name="type" value="wfs" onclick="setService(this)" /> Web Feature Server<br />Address: <input type="text" name="url" onblur="setGetUrl(this)" length="100" value="" /><br /><input type="button" value="Connect" onclick="getCapabilities(service,getUrl)" /><input type="button" value="Cancel" onclick="closeForm()" /></form></td></tr></table>
+<table id="loadFormMaster" width="100%" cellpadding="0" cellspacing="0"><tr><td id="formHeader">Add Service</td></tr><tr><td style="padding:3px"><form name="serverSettings">Server Type:<br /><input type="radio" name="type" value="wms" checked="true" onclick="setService(this)" /> Web Map Server<br /><input type="radio" name="type" value="wfs" onclick="setService(this)" /> Web Feature Server<br />Address: <input type="text" name="url" onblur="setGetUrl(this)" length="100" value="" /><br /><span onmouseover="showTooltips('Enter the address here of a web feature service that includes one or more of the datasets in a web map service that you are adding.','Add linked WFS');" onmouseout="hideOver();">Linked WFS:</span> <input type="text" name="wfsurl" onblur="setLinkedWFS(this)" length="100" value="" /><br /><span onmouseover="showTooltips('Enter here a filter to be applied to a web feature service that you are adding','Apply WFS Filter');" onmouseout="hideOver();">WFS filter:</span> <input type="text" name="wfsFilter" onblur="setWFSFilter(this)" length="100" value="" /><br /><input type="button" value="Connect" onclick="getCapabilities(service,getUrl)" /><input type="button" value="Cancel" onclick="closeForm()" /></form></td></tr></table>
 <table id="noSvgNotice" width="100%" cellpadding="0" cellspacing="0"><tr><td id="formHeader">No SVG Support</td></tr><tr><td style="padding:3px">Use of this tool requires support for Scaleable Vector Graphics (SVG).  To add SVG support, use an SVG-enabled version of Mozilla (see <a href="http://www.mozilla.org/projects/svg/">Mozilla SVG project</a> page) or download and install the Adobe SVG Viewer from <a href="http://www.adobe.com/svg">Adobe</a>.<input type="button" value="OK" onclick="closeForm()" /></td></tr></table>
 <table id="searchFormMaster" width="100%" cellpadding="0" cellspacing="0"><tr><td id="formHeader">Search</td></tr><tr><td style="padding:3px"><form name="searchSettings">Find: <input type="text" name="searchStr" onblur="setSearchStr(this)" length="70px" /><br /><input type="button" value="Search" onclick="doSearch(searchStr)" /><input type="button" value="Cancel" onclick="closeForm()" /></form></td></tr></table>
 <table id="legendTableMaster" width="100%"><tbody><tr id="titleRowMaster" style="background-color: salmon"><td id="serverTitleCell" colspan="3" valign="top"><img border="0" hspace="2" onclick="toggleServer(this)" onmouseout="hideOver()" onmouseover="showTooltips('Click to show or hide available layers','Show or Hide')" src="images/collapse.gif" /><span></span><img hspace="2" onclick="removeServer(this)" onmouseout="hideOver()" onmouseover="showTooltips('Click to remove this web server','Remove Server')" src="images/x.gif" /></td></tr><tr id="wmsRowMaster" style="background-color: white;border: solid 1px white"><td valign="top" id="toggleLayerCell"><input onclick="toggleLayers(this);" onmouseover="showTooltips('Click to display or hide layer','Show or hide')" onmouseout="hideOver()" type="checkbox" /></td><td valign="top" id="layerQueryCell"><img src="images/layer_info.gif" onclick="setQueryLayer(this);" onmouseover="showTooltips('Click to set this as the query layer--then click on the map to get information on a feature.','Set Query Layer');" onmouseout="hideOver();" style="cursor:hand;cursor:pointer" /></td><td valign="top" id="layerInfoCell"><span onmouseover="layerInfo(this);" onmouseout="hideOver()" onclick="setActiveLayer(this)" style="color:blue"></span></td></tr><tr id="wfsRowMaster" style="background-color: white;border: solid 1px white"><td valign="top" id="toggleLayerCell"><input onclick="toggleLayers(this);" title="Click to display or hide layer" type="checkbox" /></td><td valign="top" id="layerQueryCell"></td><td valign="top" id="layerInfoCell"><span onmouseover="layerInfo(this);" onmouseout="hideOver()" onclick="setActiveLayer(this)" style="color:blue"></span></td></tr></tbody></table>
