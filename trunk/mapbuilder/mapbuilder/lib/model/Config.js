@@ -32,7 +32,7 @@ function Config(url) {
    * @param xPath Xpath match of components from the Config file.
    * @param dir The directory the script is located in.
    */
-  this.loadScriptFiles=function(xPath,dir) {
+  this.loadScriptsFromXpath=function(xPath,dir) {
     var nodes = this.doc.selectNodes(xPath);
     for (var i=0; i<nodes.length; i++) {
       if (nodes[i].selectSingleNode("scriptFile")==null){
@@ -42,20 +42,24 @@ function Config(url) {
     }
   }
 
-  // Load script files for all components that don't have <scriptfile> specified
-  // in the config file.
-  this.loadScriptFiles("//models/*","model/");
-  this.loadScriptFiles("//widgets/*","widget/");
-  //this.loadScriptFiles("//tools/*","widget/tool/");
-  //this.loadScriptFiles("//tools/*","/tool/");
+  /**
+   * Loads the scripts defined in the Config file.
+   */
+  this.loadConfigScripts=function(){
+    // Load script files for all components that don't have <scriptfile> specified
+    // in the config file.
+    this.loadScriptsFromXpath("//models/*","model/");
+    this.loadScriptsFromXpath("//widgets/*","widget/");
+    //this.loadScriptsFromXpath("//tools/*","widget/tool/");
 
-  //TBD: Deprecate the following block and move into loadScriptFiles instead.
-  //load all scriptfiles called for in the config file.  There seems to be a 
-  //problem if this is done anywhere except in the page <HEAD> element.
-  var scriptFileNodes = this.doc.selectNodes("//scriptFile");
-  for (var i=0; i<scriptFileNodes.length; i++ ) {
-    scriptFile = baseDir+"/"+scriptFileNodes[i].firstChild.nodeValue;
-    mapbuilder.loadScript(scriptFile);
+    //TBD: Deprecate the following block and move into loadScriptsFromXpath instead.
+    //load all scriptfiles called for in the config file.  There seems to be a 
+    //problem if this is done anywhere except in the page <HEAD> element.
+    var scriptFileNodes = this.doc.selectNodes("//scriptFile");
+    for (var i=0; i<scriptFileNodes.length; i++ ) {
+      scriptFile = baseDir+"/"+scriptFileNodes[i].firstChild.nodeValue;
+      mapbuilder.loadScript(scriptFile);
+    }
   }
 
   /**
@@ -109,8 +113,3 @@ function Config(url) {
     model.loadWidgets();
   }
 }
-
-// Initialise this object when the script is loaded.
-// mbConfigUrl is initialised in Mapbuilder.js.
-config=new Config(mbConfigUrl);
-

@@ -16,38 +16,36 @@ $Name$
     <title>Mapbuilder Demo</title>
 
     <script type="text/javascript" src="../lib/Mapbuilder.js"></script>
-
     <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
 
     <script>
-      //Initialize the application.
-      //This must be called in the page's HEAD element.
-      //mapbuilder=new Mapbuilder(config);
-      //  config=URL of Mapbuilder configuration file.
-      var mapbuilder=new Mapbuilder("config/CompleteConfig.xml");
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='config/CompleteConfig.xml';
 
+      var mapbuilder;
       var timerId;
 
       /**
-       * Call mapbuilder.init() if script has been loaded, else wait to be called
+       * Initialise Mapbuilder if script has been loaded, else wait to be called
        * again.
        */
       function mapbuilderInit() {
         if(Mapbuilder){
           clearInterval(timerId);
-          mapbuilder.init();
+
+          //mapbuilder=new Mapbuilder(config);
+          mapbuilder=new Mapbuilder();
         }
       }
+
+      // See if config script has been loaded every 200msecs.
+      timerId=setInterval('mapbuilderInit()',200);
     </script>
   </head>
 
-  <body onload="
-    // See if config script has been loaded every 200msecs.
-    timerId=setInterval('mapbuilderInit()',200);
-    ">
-    <h1><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Demo</h1>
-
+  <body onload=";">
     <!-- Layout mapbuilder widgets and HTML -->
+    <h1><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Demo</h1>
     <table>
       <tr>
         <td id="locatorMapId" valign="top" width="200"/>

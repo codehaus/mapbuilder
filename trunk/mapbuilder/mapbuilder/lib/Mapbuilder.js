@@ -3,9 +3,6 @@ License: GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
-/** URL of this Mapbuilder configuration file. */
-var mbConfigUrl;
-
 /** the global config object */
 var config;
 
@@ -38,11 +35,22 @@ function Mapbuilder(configUrl) {
   this.scriptsTimer=null;
 
   /**
+   * Instantiate Config, wait for scripts to be loaded by Config, then call
+   * config.init.
+   */
+  this.configInit=function(){
+    config=new Config(mbConfigUrl);
+    config.loadConfigScripts();
+    this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded("config.init()")',1000);
+  }
+
+  /**
    * Called periodically and continues initialisation once scripts have loaded.
    * This function is only required for IE.  Mozilla waits for scripts to load
    * before executing.
+   * @parm fn function to call when scripts are loaded.
    */
-  this.checkScriptsLoaded=function() {
+  this.checkScriptsLoaded=function(fn) {
     // Scripts that have completed loading are removed from the array
     // Note: readyState is not defined in Mozilla.
     while(this.loadingScripts.length>0
@@ -51,20 +59,12 @@ function Mapbuilder(configUrl) {
     {
       this.loadingScripts.shift();
     }
-    // Continue initialisation when scripts have loaded.
+    // Call fn when scripts have loaded.
     if (this.loadingScripts.length==0){
       clearInterval(this.scriptsTimer);
       this.scriptsTimer=null;
-      config=new Config(mbConfigUrl);
-      config.init();
+      eval(fn);
     }
-  }
-
-  /**
-   * Start a timer which periodically calls checkScriptsLoaded().
-   */
-  this.init=function(){
-    this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded()',200);
   }
 
   /**
@@ -96,12 +96,12 @@ function Mapbuilder(configUrl) {
     }
   }
 
-  // Set global variables
-  mbConfigUrl=configUrl;
-
   this.loadScript(baseDir+"/util/sarissa/Sarissa.js");
   this.loadScript(baseDir+"/util/Util.js");
   this.loadScript(baseDir+"/util/Listener.js");
   this.loadScript(baseDir+"/model/ModelBase.js");
   this.loadScript(baseDir+"/model/Config.js");
+
+  // Start a timer which periodically calls checkScriptsLoaded().
+  this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded("this.configInit()")',1000);
 }
