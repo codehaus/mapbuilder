@@ -3,7 +3,7 @@
   <General>
     <Window width="400" height="200"/>
     <Title>deegree wms</Title>
-    <BoundingBox SRS="EPSG:4326" minx="-180" miny="-90" maxx="180" maxy="90"/>
+    <BoundingBox SRS="EPSG:4326" minx="-18" miny="-9" maxx="18" maxy="9"/>
   </General>
   <LayerList>
     <Layer queryable="1" hidden="0">
