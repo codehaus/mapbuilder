@@ -39,15 +39,48 @@
   <modelGroups>
     
     <Model id="mainMapGroup">
+      <!--
+        Model contains more than just Context so this <modelType> tag should
+        be removed.
+        Cameron 6 Mar 2004.
+      -->
       <modelType>Context</modelType>
+
+      <!-- I suggest change this to <defaultContextUrl>. Cameron 6 Mar 2004. -->
       <defaultModelUrl>context/atlasWorld.xml</defaultModelUrl>
+
       <widgets>
         <MapPane id="mainMapPaneId">
           <scriptFile>widget/mappane/MapPane2.js</scriptFile>
           <stylesheet>widget/mappane/Context2MapPane2.xml</stylesheet>
+           <!--
+            The following tool tag should be removed.  AoiTool should be a child
+            of GlassPane.  AoiBox should be a child of MapPane.  Ditto for
+            CursorTrack.
+            Cameron 6 Mar 2004.
+           -->
            <tools> 
+
             <GlassPane>  
               <scriptFile>widget/tool/GlassPane3.js</scriptFile>
+              <!-- <toolSelect> will select one of the following tools. -->
+              <toolSelect>
+                <ZoomInMouseTool id="ZoomInMouseToolId">
+                  <selected>true</selected>
+                  <enabledSrc>images/zoom_in_en.gif</enabledSrc>
+                  <disabledSrc>images/zoom_in_dis.gif</disabledSrc>
+                  <tooltip>click and drag to zoom in</tooltip>
+                </ZoomInMouseTool>
+                <PanMouseTool id="PanMouseToolId">
+                  <selected>false</selected>
+                  <enabledSrc>images/pan_en.gif</enabledSrc>
+                  <disabledSrc>images/pan_dis.gif</disabledSrc>
+                  <tooltip>click and drag to pan</tooltip>
+                </PanMouseTool>
+              </toolSelect>
+
+              <!-- CursorTrack should be inserted in here. Cameron 6 Mar 2004. -->
+
             </GlassPane>
             <AoiBox>
               <scriptFile>widget/tool/AoiBox2.js</scriptFile>
@@ -55,11 +88,17 @@
               <lineWidth>2</lineWidth>
               <crossSize>9</crossSize>
             </AoiBox>
+
+            <!--
+              <CursorTrack> should become a child of GlassPane.
+              Cameron 6 Mar 2004.
+            -->
             <CursorTrack>
               <scriptFile>widget/tool/CursorTrack.js</scriptFile>
               <scriptFile>model/Proj.js</scriptFile>
               <formName>MapDisplayForm</formName>
             </CursorTrack>
+
           </tools> 
         </MapPane>
         
