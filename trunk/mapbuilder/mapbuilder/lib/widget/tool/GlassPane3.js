@@ -25,22 +25,19 @@ $Id$
 
 
 function GlassPane(toolNode, parentWidget) {
-
-  this.mode = 'MODE_SET_AOI';   //TBD: get this from config.xml widgetNode
-  this.zoomBy = 4;   //default fraction to zoom in/out on a click
   this.node = document.getElementById( parentWidget.containerId );
-  this.node.context = parentWidget.model;
+  this.node.parentWidget = parentWidget;
 
-  this.node.mouseUpListeners = new Array();
-  this.node.mouseDownListeners = new Array();
-  this.node.mouseMoveListeners = new Array();
-  this.node.mouseOverListeners = new Array();
-  this.node.mouseOutListeners = new Array();
-  this.node.mouseUpObjects = new Array();
-  this.node.mouseDownObjects = new Array();
-  this.node.mouseMoveObjects = new Array();
-  this.node.mouseOverObjects = new Array();
-  this.node.mouseOutObjects = new Array();
+  parentWidget.mouseUpListeners = new Array();
+  parentWidget.mouseDownListeners = new Array();
+  parentWidget.mouseMoveListeners = new Array();
+  parentWidget.mouseOverListeners = new Array();
+  parentWidget.mouseOutListeners = new Array();
+  parentWidget.mouseUpObjects = new Array();
+  parentWidget.mouseDownObjects = new Array();
+  parentWidget.mouseMoveObjects = new Array();
+  parentWidget.mouseOverObjects = new Array();
+  parentWidget.mouseOutObjects = new Array();
 
   this.node.onmousemove = mouseMoveHandler;
   this.node.onmouseout = mouseOutHandler;
@@ -48,48 +45,27 @@ function GlassPane(toolNode, parentWidget) {
   this.node.onmouseup = mouseUpHandler;
   this.node.getEvent = getEvent;
 
-
-/** Set the mode of the GlassPane
-  * @param mode   the mode to be set; defined by global constants above
-  * @return       none
-  */
-  this.setMode = function( mode ) {
-    if ( mode == 'MODE_RESET' ) {
-      this.model.reset();
-    } else {
-      this.mode = mode;
-      this.node.mode = mode;
-    }
-  }
-  this.setMode( this.mode );
-
-
-  this.acceptToolTips = true;   //set to false to prevent button bar from changing the tooltip
-  this.setToolTip = function( tip ) {
-    //this.node.image??.title = tip;
-  }
-
-  this.addMouseListener = function(mouseEvent, listener, objRef) {
+  parentWidget.addMouseListener = function(mouseEvent, listener, objRef) {
     switch(mouseEvent) {
       case 'mouseUp':
-        this.node.mouseUpListeners.push( listener );
-        this.node.mouseUpObjects.push( objRef );
+        this.mouseUpListeners.push( listener );
+        this.mouseUpObjects.push( objRef );
         break;
       case 'mouseDown':				//zoom out
-        this.node.mouseDownListeners.push( listener );
-        this.node.mouseDownObjects.push( objRef );
+        this.mouseDownListeners.push( listener );
+        this.mouseDownObjects.push( objRef );
         break;
       case 'mouseMove':            //pan
-        this.node.mouseMoveListeners.push( listener );
-        this.node.mouseMoveObjects.push( objRef );
+        this.mouseMoveListeners.push( listener );
+        this.mouseMoveObjects.push( objRef );
         break;
       case 'mouseOver':				//setting AOI
-        this.node.mouseOverListeners.push( listener );
-        this.node.mouseOverObjects.push( objRef );
+        this.mouseOverListeners.push( listener );
+        this.mouseOverObjects.push( objRef );
         break;
       case 'mouseOut':
-        this.node.mouseOutListeners.push( listener );
-        this.node.mouseOutObjects.push( objRef );
+        this.mouseOutListeners.push( listener );
+        this.mouseOutObjects.push( objRef );
         break;	
       default:
         alert("unreconized mouse event:" + mouseEvent);
@@ -125,42 +101,75 @@ function getEvent(ev) {
     this.ctrlKey = ev.ctrlKey;
     this.shiftKey = ev.shiftKey;
   }
-  //alert(this.evpl[0] + ":" + this.evpl[1]);
-  this.evxy = this.context.extent.GetXY( this.evpl );
 }
 
 
 function mouseDownHandler(ev) {
   this.getEvent(ev);
-  for (var i=0; i<this.mouseDownListeners.length; i++) {
-    this.mouseDownListeners[i]( this, this.mouseDownObjects[i] );
+  for (var i=0; i<this.parentWidget.mouseDownListeners.length; i++) {
+    this.parentWidget.mouseDownListeners[i]( this, this.parentWidget.mouseDownObjects[i] );
   }
+  if (window.event) {
+    window.event.returnValue = false;
+    window.event.cancelBubble = true;
+  } else {
+    ev.stopPropagation();
+  }
+  return false;
 }
 
 function mouseUpHandler(ev) {
   this.getEvent(ev);
-  for (var i=0; i<this.mouseUpListeners.length; i++) {
-    this.mouseUpListeners[i]( this, this.mouseUpObjects[i] );
+  for (var i=0; i<this.parentWidget.mouseUpListeners.length; i++) {
+    this.parentWidget.mouseUpListeners[i]( this, this.parentWidget.mouseUpObjects[i] );
   }
+  if (window.event) {
+    window.event.returnValue = false;
+    window.event.cancelBubble = true;
+  } else {
+    ev.stopPropagation();
+  }
+  return false;
 }
 
 function mouseMoveHandler(ev) {
   this.getEvent(ev);
-  for (var i=0; i<this.mouseMoveListeners.length; i++) {
-    this.mouseMoveListeners[i]( this, this.mouseMoveObjects[i] );
+  for (var i=0; i<this.parentWidget.mouseMoveListeners.length; i++) {
+    this.parentWidget.mouseMoveListeners[i]( this, this.parentWidget.mouseMoveObjects[i] );
   }
+  if (window.event) {
+    window.event.returnValue = false;
+    window.event.cancelBubble = true;
+  } else {
+    ev.stopPropagation();
+  }
+  return false;
 }
 
 function mouseOverHandler(ev) {
   this.getEvent(ev);
-  for (var i=0; i<this.mouseOverListeners.length; i++) {
-    this.mouseOverListeners[i]( this, this.mouseOverObjects[i] );
+  for (var i=0; i<this.parentWidget.mouseOverListeners.length; i++) {
+    this.parentWidget.mouseOverListeners[i]( this, this.parentWidget.mouseOverObjects[i] );
   }
+  if (window.event) {
+    window.event.returnValue = false;
+    window.event.cancelBubble = true;
+  } else {
+    ev.stopPropagation();
+  }
+  return false;
 }
 
 function mouseOutHandler(ev) {
   this.getEvent(ev);
-  for (var i=0; i<this.mouseOutListeners.length; i++) {
-    this.mouseOutListeners[i]( this, this.mouseOutObjects[i] );
+  for (var i=0; i<this.parentWidget.mouseOutListeners.length; i++) {
+    this.parentWidget.mouseOutListeners[i]( this, this.parentWidget.mouseOutObjects[i] );
   }
+  if (window.event) {
+    window.event.returnValue = false;
+    window.event.cancelBubble = true;
+  } else {
+    ev.stopPropagation();
+  }
+  return false;
 }
