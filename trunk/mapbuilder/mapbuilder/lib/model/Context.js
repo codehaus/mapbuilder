@@ -66,9 +66,10 @@ function Context(url) {
    * Add a Listener for Hidden attribute.
    * @param listener The fuction to call when a hidden attribute changes.
    * The listener function should be of the form hiddenListener(layerId).
+   * @param target The object which owns the listener function.
    */
-  this.addHiddenListener=function(listener) {
-    this.hiddenListeners[this.hiddenListeners.length]=listener;
+  this.addHiddenListener=function(listener,target) {
+    this.hiddenListeners[this.hiddenListeners.length]=new Array(listener,target);
   }
 
   /**
@@ -146,8 +147,26 @@ function Context(url) {
     }
     // Call the listeners
     for(var i=0;i<this.hiddenListeners.length;i++) {
-      this.hiddenListeners[i](layerIndex,hidden);
+      this.hiddenListeners[i][0](layerIndex,this.hiddenListeners[i][1]);
     }
+  }
+
+  /**
+   * Get the layer's visiblity.
+   * @param layerIndex The index of the LayerList/Layer from the Context which
+   * has changed.
+   * @return hidden value, 1=hidden, 0=not hidden.
+   */
+  this.getHidden=function(layerIndex){
+    var hidden=1;
+    layers=this.doc.documentElement.getElementsByTagName("Layer");
+    for(var i=0;i<layers.length;i++) {
+      if(layers[i].getElementsByTagName("Name").item(0).firstChild.nodeValue == layerIndex) {
+        hidden=layers[i].getAttribute("hidden");
+        break;
+      }
+    }
+    return hidden;
   }
 
   /**
