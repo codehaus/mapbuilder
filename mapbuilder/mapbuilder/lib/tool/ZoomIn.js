@@ -23,7 +23,7 @@ function ZoomIn(toolNode, parentWidget) {
   /**
    * Calls the model's ceter at method to zoom in.  If the AOI is a single point,
    * it zooms in by the zoomBy factor.
-   * @param objRef      Pointer to this AoiMouseHandler object.
+   * @param objRef      Pointer to this object.
    * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
   this.doAction = function(objRef,targetNode) {
@@ -42,6 +42,9 @@ function ZoomIn(toolNode, parentWidget) {
     }
   }
 
+  /**
+   * Register for mouseUp events.
+   */
   this.setMouseListener = function(toolRef) {
     if (toolRef.mouseHandler) {
       toolRef.mouseHandler.addListener('mouseup',toolRef.doAction,toolRef);
