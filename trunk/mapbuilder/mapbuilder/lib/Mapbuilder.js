@@ -84,11 +84,11 @@ function Mapbuilder() {
     this.loadState=newState;
     switch (newState){
       case MB_LOAD_CORE:
-        this.loadScript(baseDir+"/util/sarissa/Sarissa.js","Sarissa");
-        this.loadScript(baseDir+"/util/Util.js","Util");
-        this.loadScript(baseDir+"/util/Listener.js","Listener");
-        this.loadScript(baseDir+"/model/ModelBase.js","ModelBase");
-        this.loadScript(baseDir+"/model/Config.js","Config");
+        this.loadScript(baseDir+"/util/sarissa/Sarissa.js");
+        this.loadScript(baseDir+"/util/Util.js");
+        this.loadScript(baseDir+"/util/Listener.js");
+        this.loadScript(baseDir+"/model/ModelBase.js");
+        this.loadScript(baseDir+"/model/Config.js");
         break;
       case MB_LOAD_WIDGET:
         if(document.readyState){
@@ -108,11 +108,9 @@ function Mapbuilder() {
 
   /**
    * Dynamically load a script file if it has not already been loaded.
-   * TBD: We can remove the object param because it is not used anymore.
    * @param url The url of the script.
-   * @param object Name of the object being loaded.
    */
-  this.loadScript=function(url,object){
+  this.loadScript=function(url){
     if(!document.getElementById(url)){
       var script = document.createElement('script');
       script.defer = false;   //not sure of effect of this?
@@ -120,9 +118,7 @@ function Mapbuilder() {
       script.src = url;
       script.id = url;
       document.getElementsByTagName('head')[0].appendChild(script);
-      if(object){
-        this.loadingScripts.push(script);
-      }
+      this.loadingScripts.push(script);
     }
   }
 
