@@ -59,7 +59,8 @@ function Mapbuilder() {
       // Scripts are removed from array when they have loaded
       while(this.loadingScripts.length>0
         &&(this.loadingScripts[0].readyState=="loaded"
-        ||this.loadingScripts[0].readyState==null))
+          ||this.loadingScripts[0].readyState=="complete"
+          ||this.loadingScripts[0].readyState==null))
       {
         this.loadingScripts.shift();
       }
