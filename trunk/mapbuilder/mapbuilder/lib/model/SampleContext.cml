@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <ViewContext version="1.0.0"
 			    id="eos_data_gateways"
+			    xmlns="http://www.opengis.net/context"
 			    xmlns:xlink="http://www.w3.org/1999/xlink"
 			    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			    xsi:schemaLocation="http://www.opengis.net/context context.xsd">
