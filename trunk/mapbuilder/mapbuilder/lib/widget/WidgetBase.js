@@ -21,10 +21,7 @@ $Id$
  */
 function WidgetBase(widget,widgetNode,model) {
   // Inherit the Listener functions and parameters
-  var listener = new Listener();
-  for (sProperty in listener) { 
-    widget[sProperty] = listener[sProperty]; 
-  } 
+  var listener = new Listener(widget);
   widget.model = model;
   widget.widgetNode = widgetNode;
 
