@@ -16,7 +16,7 @@ function WpsCapabilities(modelNode, parentModel) {
   // Inherit the ModelBase functions and parameters
   var modelBase = new ModelBase(this, modelNode, parentModel);
 
-  this.namespace = "xmlns:wps='http://www.opengis.net/wps'";
+  this.namespace = "xmlns:wps='http://www.opengis.net/wps' xmlns:ows='http://www.opengis.net/ows' xmlns:xlink='http://www.w3.org/1999/xlink'";
 
   /**
    * Returns the serverUrl for the WFS request passed in with the specified
@@ -27,14 +27,14 @@ function WpsCapabilities(modelNode, parentModel) {
    * @return URL for the specified request with the specified method
    */
   this.getServerUrl = function(requestName, method, feature) {
-    var xpath = "/wfs:WFS_Capabilities/wfs:Capability/wfs:Request/"+requestName;
+    var requestParts = requestName.split(':');
+    var xpath = "/wps:Capabilities/ows:OperationsMetadata/ows:Operation[@name='"+requestParts[1]+"']";
     if (method.toLowerCase() == "post") {
-      xpath += "/wfs:DCPType/wfs:HTTP/wfs:Post";
+      xpath += "/ows:DCP/ows:HTTP/ows:Post";
     } else {
-      xpath += "/wfs:DCPType/wfs:HTTP/wfs:Get";
+      xpath += "/ows:DCP/ows:HTTP/ows:Get";
     }
-    return "http://gws2.pcigeomatics.com/wps/wps";
-    //return this.doc.selectSingleNode(xpath).getAttribute("onlineResource");
+    return this.doc.selectSingleNode(xpath).getAttribute("xlink:href");
   }
 
   /**
