@@ -36,21 +36,6 @@ function WidgetBase(widgetNode,model,position) {
   /** HTML root <div> node for this widget */
   this.node=document.getElementById(this.id);
 
-  // Node in main HTML to attach widget to.
-/*
-  var containerNode = widgetNode.selectSingleNode("containerNodeId");
-  if (containerNode) {
-    this.containerNodeId = containerNode.firstChild.nodeValue;
-    var containerNode = document.getElementById(this.containerNodeId);
-    if (!containerNode) {
-      containerNode = document.createElement("DIV");
-      containerNode.setAttribute("id",this.containerNodeId);
-      this.node.appendChild(containerNode);
-    }
-    this.node = document.getElementById(this.containerNodeId);
-  }
-*/
-
   // Set this.stylesheet
   // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
   var styleNode = widgetNode.selectSingleNode("stylesheet");
@@ -122,9 +107,6 @@ function WidgetBase(widgetNode,model,position) {
    */
   this.paint = function(objRef) {
     if (objRef.model.doc) {
-      //var s = objRef.stylesheet.transformNode(objRef.model.doc);
-      //if (objRef.widgetNode.selectSingleNode("debug") ) alert("painting:"+objRef.id+":"+s);
-      //objRef.node.innerHTML = s;
       objRef.prePaint();
       var resultDoc = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
       resultDoc.documentElement.setAttribute("id", objRef.mbWidgetId);
