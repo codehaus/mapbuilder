@@ -3,9 +3,6 @@ License: GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
-// Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
-
 /**
  * Stores a GML Feature or FeatureCollection as defined by the
  * Open GIS Conortium http://opengis.org.
@@ -15,7 +12,7 @@ mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
  * @author Cameron Shorter
  * @requires Sarissa
  * @param modelNode The model's XML object node from the configuration document.
- * @param parent Parent model, if required.
+ * @param parent    The parent model for the object.
   */
 function FeatureCollection(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
@@ -28,7 +25,7 @@ function FeatureCollection(modelNode, parent) {
 
   /**
    * convert coordinates in the GML document to the SRS of the map container, 
-   * if required
+   * if required.  The coordinate values are replaced in the GML document.
    * @param objRef Pointer to this object.
    */
   this.convertCoords = function(objRef) {
@@ -58,9 +55,8 @@ function FeatureCollection(modelNode, parent) {
   this.addFirstListener("loadModel",this.convertCoords,this);
 
   /**
-   * Change a Layer's visibility.
-   * @param layerIndex The index of the LayerList/Layer from the Context which
-   * has changed.
+   * Change a feature's visibility.
+   * @param featureName The name of the feature to set the hidden value for
    * @param hidden, 1=hidden, 0=not hidden.
    */
   this.setHidden=function(featureName, hidden){
@@ -69,9 +65,8 @@ function FeatureCollection(modelNode, parent) {
   }
 
   /**
-   * Get the layer's visiblity.
-   * @param layerIndex The index of the LayerList/Layer from the Context which
-   * has changed.
+   * Geta feature's visibility.
+   * @param featureName The name of the feature to set the hidden value for
    * @return hidden value, true=hidden, false=not hidden.
    */
   this.getHidden=function(layerName){
