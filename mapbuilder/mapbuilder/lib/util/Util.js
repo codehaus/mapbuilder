@@ -81,6 +81,7 @@ function XslProcessor(xslUrl) {
  * A more flexible interface for loading docs that allows POST and async loading
  */
 function postLoad(sUri, docToSend ) {
+   var outDoc = Sarissa.getDomDocument();
    var xmlHttp = Sarissa.getXmlHttpRequest();
    if ( sUri.indexOf("http://")==0 ) {
      xmlHttp.open("POST", "/mapbuilder/proxy", false);
@@ -90,14 +91,26 @@ function postLoad(sUri, docToSend ) {
    }
    xmlHttp.setRequestHeader("content-type","text/xml");
    xmlHttp.send( docToSend );
-   //alert(xmlHttp.getResponseHeader("Content-Type"));
-   if ( null==xmlHttp.responseXML ) alert( "null response:" + xmlHttp.responseText );
+   if (_SARISSA_IS_IE) {
+alert("before");
+    xmlHttp.status = xmlHttp.Status;
+alert("after");
+    xmlHttp.statusText = xmlHttp.StatusText;
+    xmlHttp.responseText = xmlHttp.ResponseText;
+   }
+   if (xmlHttp.status >= 400) {   //http errors status start at 400
+      alert("error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText );
+      outDoc.parseError = -1;
+      return outDoc;
+   } else {
+     //alert(xmlHttp.getResponseHeader("Content-Type"));
+     if ( null==xmlHttp.responseXML ) alert( "null XML response:" + xmlHttp.responseText );
 
-   //copy to Sarissa document from a HttpRequest object
-   var outDoc = Sarissa.getDomDocument();
-   outDoc.validateOnParse = false;
-   outDoc.loadXML(xmlHttp.responseText);
-   return outDoc;
+     //copy to Sarissa document from a HttpRequest object
+     outDoc.validateOnParse = false;
+     outDoc.loadXML(xmlHttp.responseText);
+     return outDoc;
+   }
 }
 
   /**
