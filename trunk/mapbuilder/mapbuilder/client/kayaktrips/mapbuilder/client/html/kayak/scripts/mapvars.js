@@ -1,8 +1,8 @@
 // JavaScript Document
 cmbtitle="Kayaking New England";
 // if WMS is on a different server, add fully qualified domain name, e.g.
-// wmsurl='http://www.spatialweb.net/cgi-bin/kayakmapserv?';
-wmsurl='/cgi-bin/kayakmapserv?';
+ wmsurl='http://www.spatialweb.net/cgi-bin/kayakmapserv?';
+//wmsurl='/cgi-bin/kayakmapserv?';
 wmsfeaureinfourl='/cmb/www/middleware/cmbWMSGetFeatureInfo.pl?';
 wmsversion='1.1.0';
 wmssrs='EPSG:4326';
