@@ -27,7 +27,7 @@
             <GmlRendererWZ id="testGmlRenderer">
               <htmlTagId>mainMapPane</htmlTagId>
               <mapContainerId>mainMapContainer</mapContainerId>
-              <lineColor>#FF0000</lineColor>
+              <lineColor>#00FF00</lineColor>
               <lineWidth>1</lineWidth>
               <pointDiameter>10</pointDiameter>
             </GmlRendererWZ>
@@ -156,7 +156,17 @@
       <tooltip xml:lang="en">reset the map to full extent</tooltip>
       <tooltip xml:lang="fr">redonner la carte ses dimensions complèts</tooltip>
     </Reset>
+    <Save id="save">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/SaveDisable.gif</disabledSrc>
+      <tooltip xml:lang="en">click to save this map</tooltip>
+      <tooltip xml:lang="fr">cliquer pour sauvegarder</tooltip>
+      <popupWindowName>modelXML</popupWindowName>
+    </Save>
   </widgets>
   <skinDir>/mapbuilder/lib/skin/default</skinDir>
   <proxyUrl>/mapbuilder/proxy</proxyUrl>
+  <serializeUrl>/mapbuilder/writeXml</serializeUrl>
 </MapbuilderConfig>
