@@ -88,7 +88,8 @@
           <!--tools> 
             add other tools as required
             <AoiMouseHandler/>
-            <FeatureSelect/>
+            <SelectFeature/>
+            <SelectVertex/>
           </tools--> 
 				</Gml2Render>
 			</widgets>
