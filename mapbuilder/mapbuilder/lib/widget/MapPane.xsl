@@ -32,6 +32,7 @@ $Name$
     <xsl:value-of select="/wmc:ViewContext/wmc:General/wmc:Window/@height"/>
   </xsl:param>
   <xsl:param name="srs" select="/wmc:ViewContext/wmc:General/wmc:BoundingBox/@SRS"/>
+  <xsl:param name="timeList"/>
   
   <!-- template rule matching source root element -->
   <xsl:template match="/wmc:ViewContext">
@@ -43,11 +44,36 @@ $Name$
   
   <xsl:template match="wmc:FeatureType"/>
   <xsl:template match="wmc:Layer">
+    
+    <xsl:choose>
+      <xsl:when test="$timeList">
+          <xsl:call-template name="tokenize">
+            <xsl:with-param name="str" select="$timeList"/>
+            <xsl:with-param name="sep" select="','"/>
+          </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="layerOutput"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    
+  </xsl:template>
+
+  <xsl:template name="layerOutput">
     <xsl:param name="version">
         <xsl:value-of select="wmc:Server/@version"/>    
     </xsl:param>
     <xsl:param name="baseUrl">
         <xsl:value-of select="wmc:Server/wmc:OnlineResource/@xlink:href"/>    
+    </xsl:param>
+    <xsl:param name="timestamp">
+        <xsl:value-of select="wmc:Dimension/@default"/>    
+    </xsl:param>
+    <xsl:param name="visibility">
+      <xsl:choose>
+        <xsl:when test="@hidden='1'">hidden</xsl:when>
+        <xsl:otherwise>visible</xsl:otherwise>
+      </xsl:choose>
     </xsl:param>
     <xsl:variable name="format">
       <xsl:choose>
@@ -71,12 +97,6 @@ $Name$
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    <xsl:variable name="visibility">
-      <xsl:choose>
-        <xsl:when test="@hidden='1'">hidden</xsl:when>
-        <xsl:otherwise>visible</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
     <xsl:variable name="firstJoin">
       <xsl:choose>
         <xsl:when test="substring($baseUrl,string-length($baseUrl))='?'"></xsl:when>
@@ -97,7 +117,12 @@ $Name$
 
     <DIV>    
       <xsl:attribute name="STYLE">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0; left:0;</xsl:attribute>
-      <xsl:attribute name="ID"><xsl:value-of select="$modelId"/>_<xsl:value-of select="$widgetId"/>_<xsl:value-of select="wmc:Name"/></xsl:attribute>
+      <xsl:attribute name="ID">
+        <xsl:value-of select="$modelId"/>_<xsl:value-of select="$widgetId"/>_<xsl:value-of select="wmc:Name"/><xsl:if test="$timestamp">_<xsl:value-of select="$timestamp"/></xsl:if>
+      </xsl:attribute>
+      <xsl:if test="$timestamp">
+        <xsl:attribute name="TIME"><xsl:value-of select="$timestamp"/></xsl:attribute>
+      </xsl:if>
     
     <xsl:element name="IMG">    
         <xsl:variable name="src">    
@@ -112,6 +137,9 @@ $Name$
 &amp;FORMAT=<xsl:value-of select="$format"/>
        &amp;<xsl:value-of select="$styleParam"/>
 &amp;TRANSPARENT=TRUE
+        <xsl:if test="$timestamp">
+       &amp;TIME=<xsl:value-of select="$timestamp"/>
+        </xsl:if>
 <!--	
   //TBD: these still to be properly handled 
   //if (this.exceptions) src += '&' + 'EXCEPTIONS=' + this.exceptions;
@@ -134,4 +162,34 @@ $Name$
     </DIV>    
   </xsl:template>
 
+  
+<xsl:template name="tokenize"> <!-- tokenize a string -->
+ <xsl:param name="str"/> <!-- String to process -->
+ <xsl:param name="sep"/> <!-- Legal separator character -->
+ <xsl:choose>
+  <xsl:when test="contains($str,$sep)"> <!-- Only tokenize if there is a separator present in the string -->
+    <xsl:call-template name="process-token"> <!-- Process the token before the separator -->
+      <xsl:with-param name="token" select="substring-before($str,$sep)"/>
+    </xsl:call-template>
+    <xsl:call-template name="tokenize">  <!-- Re-tokenize the new string which is contained after the separator -->
+      <xsl:with-param name="str" select="substring-after($str,$sep)"/>
+      <xsl:with-param name="sep" select="$sep"/> <!-- carriage return -->
+    </xsl:call-template>
+  </xsl:when>
+  <xsl:otherwise>  <!-- If there is nothing else to tokenize, just treat the last part of the str as a regular token -->
+    <xsl:call-template name="process-token">
+      <xsl:with-param name="token" select="$str"/>
+    </xsl:call-template>
+  </xsl:otherwise>
+ </xsl:choose>
+</xsl:template>
+
+<xsl:template name="process-token">  <!-- process - separate with <br> -->
+  <xsl:param name="token"/> <!-- token to process -->
+  <xsl:call-template name="layerOutput">
+    <xsl:with-param name="timestamp" select="$token"/>
+    <xsl:with-param name="visibility">hidden</xsl:with-param>
+  </xsl:call-template>
+</xsl:template>
+  
 </xsl:stylesheet>

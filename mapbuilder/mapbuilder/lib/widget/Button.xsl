@@ -17,10 +17,11 @@ ButtonBar.xsl,v 1.5 2004/03/25 21:25:43 madair1 Exp
   <xsl:param name="lang">en</xsl:param>
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
+  <xsl:param name="action"><xsl:value-of select="$widgetId"/>.select()</xsl:param>
   <xsl:param name="skinDir" select="/mb:MapbuilderConfig/mb:skinDir"/>
   
   <xsl:template match="*">
-    <xsl:param name="linkUrl">javascript:config.objects.<xsl:value-of select="$widgetId"/>.select()</xsl:param>
+    <xsl:param name="linkUrl">javascript:config.objects.<xsl:value-of select="$action"/></xsl:param>
     <xsl:param name="buttonTitle"><xsl:value-of select="mb:tooltip[@xml:lang=$lang]"/></xsl:param>
     <A HREF="{$linkUrl}"><IMG SRC="{$skinDir}{mb:disabledSrc}" ID="{@id}" TITLE="{$buttonTitle}" BORDER="0"/></A>
   </xsl:template>
