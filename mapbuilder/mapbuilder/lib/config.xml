@@ -15,7 +15,10 @@
     part is missing then it references the localhost.
     Mike 19 Feb 2004
   -->
-  <skin>default</skin>
+  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+  <requires>/util/Sarissa/sarissa.js</requires>
+  <requires>/util/Util.js</requires>
+  
   <models>
 
     <!--
@@ -33,14 +36,15 @@
     -->
     <Config id="configModelId">
       <scriptFile>/model/Config.js</scriptFile>
-    </ContextCollection>
+    </Config>
     
     <Context id="contextModelId">
       <scriptFile>/model/Context.js</scriptFile>
+      <requires>/model/Extent.js</requires>
     </Context>
     
     <ContextCollection id="contextCollectionModelId">
-      <scriptFile>/model/ContextCollection.js</scriptFile>
+      <scriptFile>/model/Collection.js</scriptFile>
     </ContextCollection>
     
   </models>
@@ -68,7 +72,6 @@
         Mike 19 Feb 2004
       -->
       <model>#contextModelId</model>
-
       <scriptFile>/widget/mappane/MapPane.js</scriptFile>
       <stylesheet>/widget/mappane/Context2MapPane.xsl</stylesheet>
 
@@ -79,31 +82,19 @@
         button and one for right.
         Cameron 19 Feb 04.
       -->
-      <mouseTools>
-        <mouseTool>dragZoomTool</mouseTool>
-      </mouseTools>
+      <controller>GlassPane</controller>
+      <controller>ZoomTool</controller>
+      <controller>PanTool</controller>
     </MapPane>
+    
     <Legend>
+      <model>#contextModelId</model>
       <scriptFile>/widget/legend/Legend.js</scriptFile>
       <stylesheet>/widget/legend/Context2Legend.xsl</stylesheet>
     </Legend>
-  </views>
-
-  <!--
-    Should these be called <tools>?
-    Should we rename lib/tool/ to lib/controller/ ?
-    Note, that many of the tools described below are actually widgets which contain
-    some tool functionality (rather than the other way around).
-    So ButtonBar should be moved into the <view> group.  Ditto for many of the others.
-    A Controller should not need to render itself, and hence should not need any XSL.
-    Controllers should take a mouseClick or call, process it, then update one of the
-    Model objects.
-    Cameron 19 Feb 04.
     
-    Good points.  ButtonBar is really a view of the config model.  
-  -->
-  <controllers>
     <ButtonBar id="ButtonBar">
+      <model>#configModelId</model>
       <stylesheet>/widget/mappane/ButtonBar.xsl</stylesheet>
       <scriptFile>/widget/tool/ButtonBar.js</scriptFile>
       <buttonArray>
@@ -145,5 +136,30 @@
         </Button>
       </buttonArray>
     </ButtonBar>
+    
+  </views>
+
+  <!--
+    Should these be called <tools>?
+    Should we rename lib/tool/ to lib/controller/ ?
+    Note, that many of the tools described below are actually widgets which contain
+    some tool functionality (rather than the other way around).
+    So ButtonBar should be moved into the <view> group.  Ditto for many of the others.
+    A Controller should not need to render itself, and hence should not need any XSL.
+    Controllers should take a mouseClick or call, process it, then update one of the
+    Model objects.
+    Cameron 19 Feb 04.
+    
+    Good points.  ButtonBar is really a view of the config model.  moved it
+  -->
+  <controllers>
+  
+    <GlassPane>
+      <view>MapPane</view>
+      <scriptFile>/widget/tool/GlassPane.js</scriptFile>
+      <stylesheet>/widget/legend/Context2Legend.xsl</stylesheet>
+    </GlassPane>
+    
   </controllers>
+  
 </MapbuilderConfig>

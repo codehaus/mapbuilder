@@ -15,14 +15,15 @@ $Id: Context2Legend.xml,v 1.6 2004/02/15 00:53:49 nedjo Exp $
 $Name:  $
 -->
 
-  <xsl:output method="html"/>
+  <xsl:output method="xml"/>
   
   <xsl:param name="functionRef" select="'buttonBar.setMode'"/>
+  <xsl:param name="skinDir" select="/MapbuilderConfig/skinDir"/>
   
   <!-- Main html -->
   <xsl:template match="/MapbuilderConfig">
     <DIV>
-      <xsl:apply-templates select="controllers/ButtonBar/buttonArray/Button"/>
+      <xsl:apply-templates select="views/ButtonBar/buttonArray/Button"/>
     </DIV>
   </xsl:template>
   
@@ -30,8 +31,9 @@ $Name:  $
   <xsl:template match="Button">
     <xsl:param name="linkUrl">javascript:<xsl:value-of select="$functionRef"/>(<xsl:value-of select="modeValue"/>)</xsl:param>
     <xsl:param name="imgId"><xsl:value-of select="@id"/></xsl:param>
+    <xsl:param name="imgSrc"><xsl:value-of select="$skinDir"/><xsl:value-of select="disabledSrc"/></xsl:param>
  
-    <A HREF="{$linkUrl}"><IMG ID="{$imgId}" BORDER="0"/></A>
+    <A HREF="{$linkUrl}"><IMG SRC="{$imgSrc}" ID="{$imgId}" BORDER="0"/></A>
   </xsl:template>
 
 </xsl:stylesheet>

@@ -20,6 +20,7 @@ $Name$
     <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
 
     <script>
+
 function XslProcessor(xslUrl) {
   // get the stylesheet document
   this.xslDom = Sarissa.getDomDocument();
@@ -47,6 +48,7 @@ function XslProcessor(xslUrl) {
   }
   this.transformNodeToObject=function(xmlNode) {
     // transform and build a web page with result
+
 /*
     var result = Sarissa.getDomDocument();
     xmlNode.transformNodeToObject(this.xslDom,result);
@@ -90,8 +92,8 @@ function XslProcessor(xslUrl) {
 alert(s.xml);
 
   var node = document.getElementById("ButtonBar")
-  //node.appendChild(s);
-  node.innerHTML = s.xml;
+  node.appendChild(s);
+  //node.innerHTML = s.xml;
 
     </script>
 
