@@ -16,7 +16,7 @@
 
     <Context id="mainMap">
 
-      <defaultModelUrl>context/tsChinaDustStorm.xml</defaultModelUrl>
+      <defaultModelUrl>context/tsPrecipAnomaly.xml</defaultModelUrl>
 
       
 
