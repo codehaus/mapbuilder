@@ -50,4 +50,4 @@ ${jsdoc} -d ${jsdocTarget} --project-name "<a href='http://mapbuilder.sourceforg
 xsltproc --novalid --param section.autolabel 1 --param toc.section.depth 5 -o ${targetDir}/docs/design/index.html ${docbookXsl} ${mapbuilderDir}/design/mapbuilder-lib.xml
 
 # copy the design images
-cp -pr ${mapbuilderDir}/design/images/* ${mapbuilderDir}/docs/design/images/
+cp -pr ${mapbuilderDir}/design/images/* ${targetDir}/docs/design/images/
