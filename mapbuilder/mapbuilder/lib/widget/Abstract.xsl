@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0"
+xmlns:wmc="http://www.opengis.net/context"
+xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+<!--
+Description: Output the context title and abstract
+Author:      Mike Adair mike.adairATnrcan.gc.ca
+Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+
+$Id$
+$Name$
+-->
+
+  <xsl:output method="xml" encoding="utf-8"/>
+
+
+  <!-- Main html -->
+  <xsl:template match="/wmc:ViewContext/wmc:General">
+    <div>
+      <h3>Abstract</h3>
+      <p>
+        <xsl:value-of select="wmc:Abstract"/>
+      </p>
+      <p>
+        <a href=''>more information</a>
+      </p>
+    </div>
+  </xsl:template>
+
+  <xsl:template match="text()|@*"/>
+ 
+</xsl:stylesheet>
+
