@@ -37,6 +37,5 @@ function GmlRenderer(widgetNode, model) {
   }
 
   // Call paint() when the context changes
-  this.targetModel.addListener("modelChange",this.paint, this);
   this.targetModel.addListener("boundingBox",this.paint, this);
 }
