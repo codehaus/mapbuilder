@@ -12,8 +12,14 @@
     <h1><a href="http://mapbuilder.sourceforge.net">Mapbuilder</a>
       Web Map Server Client</h1>
 
+    <!-- MapPane Goes Here -->
+    <DIV id="mapPane"><p>mapPane</p></DIV>
+
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
     <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+    <!-- Legend Goes Here -->
+    <DIV id="legend"><p>legend</p></DIV>
 
     <script>
       // Base Mapbuilder library directory
@@ -24,11 +30,11 @@
       context=new Context("wmc.xml");
 
       // Create and render a MapPane
-      mapPane=new MapPane(context,baseDir,null);
+      mapPane=new MapPane(context,baseDir,document.getElementById("mapPane"));
       mapPane.paint();
 
       // Create and render a Legend
-      legend=new Legend(context,baseDir,null);
+      legend=new Legend(context,baseDir,document.getElementById("legend"));
       legend.paint();
     </script>
 

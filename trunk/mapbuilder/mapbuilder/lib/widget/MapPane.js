@@ -11,11 +11,11 @@ $Id$
  * @constructor
  * @param context The Web Map Context to use when building this MapPane.
  * @param baseDir The base mapbuilder lib directory.
- * @param window Not supported yet, writes to the current window.
+ * @param node Node from the HTML DOM to insert legend HTML into.
  */
-function MapPane(context,baseDir,window) {
+function MapPane(context,baseDir,node) {
   this.context=context;
-  this.window=window;
+  this.node=node;
   this.wmcLayer2DhtmlLayer=new XslProcessor(baseDir+"/mappane/WmcLayer2DhtmlLayer.xml");
 
   /**
@@ -24,8 +24,8 @@ function MapPane(context,baseDir,window) {
    */
   this.paint=function() {
     s=this.wmcLayer2DhtmlLayer.transformNode(this.context.context);
-    document.write(s);
-  }
+    this.node.innerHTML=s;
+   }
 
   /**
    * Called when the context's hidden attribute changes.
