@@ -1,0 +1,35 @@
+<html>
+
+  <head>
+
+    <title>WMS Client</title>
+
+
+
+    <!-- Include mapbuilder libraries -->
+
+    <script type="text/javascript" src="../lib/util/sarissa/Sarissa.js"></script>
+
+    <script type="text/javascript" src="../lib/util/Util.js"></script>
+
+    <script type="text/javascript" src="../lib/widget/wms/wms.js"></script>
+
+  </head>
+
+
+
+  <body>
+
+  <script>
+
+    baseDir="../lib";
+
+    var wms = new WMS(baseDir + "/widget/wms/GmapCapabilities.xml");
+
+    wms.paint();
+
+  </script>
+
+  </body>
+
+</html>
