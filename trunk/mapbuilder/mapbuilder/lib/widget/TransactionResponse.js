@@ -19,4 +19,5 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 function TransactionResponse(widgetNode, model) {
   var base = new WidgetBase(this,widgetNode,model);
 
+  this.model.addListener("httpPayload",this.paint,this);
 }
