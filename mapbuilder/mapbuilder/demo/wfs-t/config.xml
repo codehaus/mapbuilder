@@ -10,11 +10,11 @@
   -->
   <!--
     All static images should be relative to this URL.
-    This dir is relative the dir of the main html file.
+    This dir is relative the dir of the main html file. 
   -->
   <models>
     <Context id="mainMap">
-      <defaultModelUrl>local.xml</defaultModelUrl>
+      <defaultModelUrl>tasmania.xml</defaultModelUrl>
       <widgets>
         <MapPane id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
@@ -140,8 +140,8 @@
       <targetModel>featureCollection</targetModel>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
-      <featureXpath>/gml:featureMember/points/_SHAPE_/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
-      <defaultModelUrl>../data/gml/defaultAddPoint.xml</defaultModelUrl>
+      <featureXpath>/gml:featureMember/topp:tasmania_cities/topp:the_geom/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
+      <defaultModelUrl>template_cities.xml</defaultModelUrl>
       <targetContext>mainMap</targetContext>
     </EditPoint>
     <EditLine id="editLine">
@@ -155,8 +155,8 @@
       <targetModel>featureCollection</targetModel>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
-      <featureXpath>/gml:featureMember/topp:bc_roads/topp:the_geom/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
-      <defaultModelUrl>../data/gml/roads.xml</defaultModelUrl>
+      <featureXpath>/gml:featureMember/topp:tasmania_roads/topp:the_geom/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
+      <defaultModelUrl>template_road.xml</defaultModelUrl>
       <targetContext>mainMap</targetContext>
     </EditLine>
   </widgets>
