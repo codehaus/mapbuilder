@@ -39,7 +39,7 @@ for dir in ${docDirectories} ; do
 done
 
 # Execute jsdoc
-${jsdoc} -d ${jsdocTarget} --project-name "<a href='http://mapbuilder.sourceforge.net'>Community Map Builder</a>" ${jsdocSource}
+${jsdoc} -d ${jsdocTarget} --project-name "<a href='http://mapbuilder.sourceforge.net'>Community Map Builder</a> `date +'%d %b %G'`" ${jsdocSource}
 
 # publish design
 xsltproc --novalid --param section.autolabel 1 --param toc.section.depth 5 -o ${mapbuilderDir}/docs/design/index.html ${docbookXsl} ${mapbuilderDir}/design/mapbuilder-lib.xml
