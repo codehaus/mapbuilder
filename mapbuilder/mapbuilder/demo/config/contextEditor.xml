@@ -44,14 +44,14 @@
           <outputNodeId>workspaceCanvas</outputNodeId>
           <autoRefresh>false</autoRefresh>
         </Legend>
-				<AoiBoxWZ id="aoiBox2">
-					<htmlTagId>mainMapPane</htmlTagId>
-					<stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
-					<lineColor>#FF0000</lineColor>
-					<lineWidth>1</lineWidth>
-					<crossSize>15</crossSize>
-					<mapContainerId>mainMapContainer</mapContainerId>
-				</AoiBoxWZ>
+        <AoiBoxWZ id="aoiBox2">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+          <mapContainerId>mainMapContainer</mapContainerId>
+        </AoiBoxWZ>
       </widgets>
       <tools>
         <AoiMouseHandler id="mainAoi"/>
@@ -69,14 +69,14 @@
           <mapContainerId>locatorContainer</mapContainerId>
           <fixedWidth>180</fixedWidth>
         </MapPane>
-				<AoiBoxWZ id="aoiBox2">
-					<htmlTagId>locatorMap</htmlTagId>
-					<stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
-					<lineColor>#FF0000</lineColor>
-					<lineWidth>1</lineWidth>
-					<crossSize>15</crossSize>
-					<mapContainerId>locatorContainer</mapContainerId>
-				</AoiBoxWZ>
+        <AoiBoxWZ id="aoiBox2">
+          <htmlTagId>locatorMap</htmlTagId>
+          <stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+          <mapContainerId>locatorContainer</mapContainerId>
+        </AoiBoxWZ>
       </widgets>
       <tools>
         <AoiMouseHandler id="locatorAoi"/>
