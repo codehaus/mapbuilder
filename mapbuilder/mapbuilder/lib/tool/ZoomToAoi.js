@@ -17,6 +17,7 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
  * target model and includes coordinate projection transformations if required.
  * Checking for extent limits is not yet implemented.
  * @constructor
+ * @base ToolBase
  * @author Adair
  * @param toolNode      The tool node from the config document for this tool
  * @param parentWidget  Reference to the widget object that creates this tool

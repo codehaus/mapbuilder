@@ -11,6 +11,7 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * Implements WMS GetFeatureInfo functionality, popping up a query result
  * window when user clicks on map.
  * @constructor
+ * @base ButtonBase
  * @author Nedjo
  * @constructor
  * @param toolNode The XML node in the Config file referencing this object.

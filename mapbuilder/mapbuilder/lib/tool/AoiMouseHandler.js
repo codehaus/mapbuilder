@@ -16,6 +16,7 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * This tool processes screen coordinates and stores AOI in geographic
  * coordinates.
  * @constructor
+ * @base ToolBase
  * @param toolNode      The node for this tool from the configuration document.
  * @param parentWidget  The widget object that contains this tool
  */
