@@ -10,7 +10,7 @@ config=new Config(mbConfigUrl);
 /**
  * Config
  * This Javascript file must be included in the page <HEAD> element.
- * The application creates a global object called Config from the mapbuilder 
+ * The application creates a global object called mbConfig from the mapbuilder 
  * configuration xml file passed in as a parameter.
  *
  * @constructor
@@ -66,21 +66,22 @@ function Config(url) {
   /**
   * @function init
   *
-  * Provides model group objects as properties of config.  A model group is a 
-  * collection of widgets and assocaited tools (controllers) of the same instance 
-  * of a model.  The group object can then be referenced using the id of the 
-  * Model objects in the config file as in config["modelGroupId"].
-  * Also sets the modelType and model properties for the group object.
-  * This must be called once, probably in the body onload event, to initialize the 
-  * global config object from the mapbuilder configuration XML file.
+  * Main initialization method for mapbuilder applications.  
+  * This method calls the loadModel method for all models included in the config
+  * file a store them as a property of the config object using the model ID as
+  * the property name.  This means that the model object can then be referenced 
+  * as in config["modelId"] in subsequent javascript code.
+  * This must be called once in the body onload event.
   */
   this.init = function() {
     var cgiArgs = getArgs();
 
+    //loop through all models in the config file
     var models = this.doc.selectNodes( "/MapbuilderConfig/models/*" );
     for (var i=0; i<models.length; i++ ) {
       modelNode = models[i];
 
+      //instantiate the Model object
       var modelType = modelNode.nodeName;
       var evalStr = "new " + modelType + "(modelNode, this);";
       //alert("init model:" + evalStr);
@@ -88,6 +89,7 @@ function Config(url) {
 
       this[model.id] = model;
 
+      //load the Model object from the initial URL in config or from a URL param
       var initialModel = null;
       if (cgiArgs[modelType]) {  //TBD: need a better way to do this comparison
         initialModel = cgiArgs[modelType];
@@ -99,16 +101,15 @@ function Config(url) {
   }
 
   /**
-   * Load a model and it's widgets scripts.  This function can be called at any time
-   * to load a new model.
-   * @param modelId TBD Comment me.
-   * @param modelUrl TBD Comment me.
+   * Load a model and it's widgets scripts.  This function can be called at any
+   * time to load a new model.
+   * @param modelId   the id of the model in config XML to be updated
+   * @param modelUrl  URL of the XML model document to be loaded
    */
   this.loadModel = function( modelId, modelUrl ) {
     var model = this[modelId];
     model.loadModelDoc( modelUrl );
     model.loadWidgets();
-    this.callListeners("loadModel");
   }
 }
 

@@ -4,8 +4,6 @@ Dependancies: Context
 $Id$
 */
 
-// Ensure this object's dependancies are loaded.
-loadScript(baseDir+"/model/Extent.js");
 
 /**
  * Zooms the target model to the AOI of this widget.  The target model can be 
@@ -19,7 +17,6 @@ loadScript(baseDir+"/model/Extent.js");
 function ZoomToAoi(toolNode, parentWidget) {
   this.parentWidget = parentWidget;
   this.model = parentWidget.model;
-  this.model.extent = new Extent( parentWidget.model );
 
   var targetModelGroup = toolNode.selectSingleNode("targetModelGroup");
   if ( targetModelGroup ) {
@@ -27,10 +24,9 @@ function ZoomToAoi(toolNode, parentWidget) {
     this.init = function( tool ) {
       tool.targetModel = config[tool.targetModelGroup];
       tool.targetModel.proj = new Proj( tool.targetModel.getSRS() );
-      tool.targetModel.extent = new Extent( tool.targetModel );
     }
     this.init(this);
-    config.addListener( "loadModel", this.init, this );
+    this.model.addListener( "loadModel", this.init, this );
   } else {
     this.targetModel = tool.model;
   }
