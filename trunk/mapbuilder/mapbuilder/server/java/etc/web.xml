@@ -176,6 +176,20 @@ $Id$
 
     </servlet>
 
+    <servlet>
+
+      <servlet-name>userGuideServlet</servlet-name>
+
+      <description>
+
+        This servlet is for the userguide documentation
+
+      </description>
+
+      <jsp-file>/docs/userGuideServlet.jsp</jsp-file>
+
+    </servlet>
+
     
 
     <!-- Define mappings that are used by the servlet container to
@@ -209,6 +223,14 @@ $Id$
       <servlet-name>xmlDocEcho</servlet-name>
 
       <url-pattern>/echoXml</url-pattern>
+
+    </servlet-mapping>
+
+    <servlet-mapping>
+
+      <servlet-name>userGuideServlet</servlet-name>
+
+      <url-pattern>/userGuide</url-pattern>
 
     </servlet-mapping>
 
