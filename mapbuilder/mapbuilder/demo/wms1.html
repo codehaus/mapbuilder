@@ -32,7 +32,7 @@
 
       // Load a Web Map Context document as defined by:
       // http://www.opengis.org/docs/03-036r2.pdf
-      context=new Context("wmc.xml");
+      context=new Context("wmc.xml", "basic");
 
       // Create and render a MapPane
       mapPane=new MapPane(context,baseDir);
