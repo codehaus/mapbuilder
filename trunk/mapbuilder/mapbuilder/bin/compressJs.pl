@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w
+#!/usr/bin/perl -w
 
 # Description: Strips white space and comments from javascript.
 #   Assumes js lines are terminated with a semicolin rather
@@ -6,7 +6,12 @@
 # Author: Not sure.
 # $Id$
 
+use strict;
+
+@ARGV == 1 or die "Usage: $0 <file>\n";
+
 my $file = $ARGV[0];
+
 my $comment = '';
 my $content = '';
 
