@@ -1,0 +1,40 @@
+ 
+<h2>Server requirements</h2>
+
+<p>
+While the design philosphy of mapbuilder is to minimize server requirements,
+there are some cases where you have to modify your server configuration or
+provide server CGI/script processing.
+<ul>
+  <li><span class="title">XML mime types:</span>
+    The XML documents you retrieve must have a mime type of "text/xml".
+    File types that typically aren't served with that mime type include 
+    context documents (.cml), collections (.ccml) 
+    and often XSL files as well (.xsl).
+    Check that the mime type mapping file for your server contains a line like:
+    <pre>text/xml      xml xsl cml ccml</pre>
+    If you are using Apache, this file will be specified in the httpd.conf.
+  </li>
+  <li><span class="title">Proxy script:</span>
+    By default, you can only load XML documents served from a server in
+    the same domain as your web page.
+    If you want to be able to load XML documents from anywhere on the Internet, 
+    you will have to install a proxy loader script on your server to make it 
+    look like these documents come from your domain.  
+    Implementations of this script for the PHP, Perl and
+    JSP server environments are available in the mapbuilder distribution in 
+    /mapbuilder/server subdirectory.
+  </li>
+  <li><span class="title">IE 5 support:</span>
+    The method used to render XML into HTML in mapbuilder requires that the
+    browser has a native XSL processor.  
+    Most modern <a href="/ql2/mb?page=browsers">browsers</a> have this 
+    capability built in.  
+    If support for older browsers is required, the XSL
+    processing function has to be carried out on the server using the scripts
+    supplied in the mapbuilder distribution in /mapbuilder/server subdirectory.
+    (NOTE: not diffcult to do, but not yet implemented).
+  </li>
+</ul>
+</p>
+

@@ -1,0 +1,44 @@
+
+<h2>Map tools</h2>
+
+
+<p>
+  A map can also have some interactive functionality by adding tools to the 
+  MapPane widget.  
+</p>
+
+<div style="float:right;width:auto; padding: 4px">
+  <div id="firstMapPane"></div>
+</div>
+
+<p>
+  In <a href="/ql2/mbTutorial/tutorial2.xml" target="ConfigSrcWin">this configuration</a>
+  This map also has an AoiBox tool to display an Area of Interest (AOI) for the model.
+  The AOI can either be a 
+  <a href="javascript:alert('hover over this link to see the AOI')" 
+      onmouseover="config['firstMap'].extent.setAoi(new Array(-75,45),new Array(0,0))" 
+      onmouseout="config['firstMap'].aoiValid=false">rectangular bounding box
+  </a>
+  or a 
+  <a href="javascript:alert('hover over this link to see the AOI')" 
+      onmouseover="config['firstMap'].extent.setAoi(new Array(0,0))" 
+      onmouseout="config['firstMap'].aoiValid=false">single point.
+  </a>
+  The colour, line width and size of point display are customized in the config
+  file.
+</p>
+
+<div id="secondMapPane" style="float: left; width: auto; padding: 4px"></div>
+
+<p>
+  A tool is also available to handle mouse events on the MapPane widget.  
+  <b>Click</b>, or <b>click and drag</b> out an AOI box on this map.  
+  In the next sample page, these mouse events will be used to control 
+  zoom in and out for the map.
+</p>
+
+<p>
+  This tutorial page also demostrates that any number of models can be added to
+  the same page.
+</p>
+
