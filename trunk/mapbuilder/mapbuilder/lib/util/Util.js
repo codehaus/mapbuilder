@@ -30,6 +30,8 @@ function XslProcessor(xslUrl) {
   this.transformNodeToObject=function(xmlNode) {
     // transform and build a web page with result
     var result = Sarissa.getDomDocument();
+      result.async = false;
+      result.validateOnParse = false;
     xmlNode.transformNodeToObject(this.xslDom,result);
     return result;
   }
@@ -38,9 +40,49 @@ function XslProcessor(xslUrl) {
    * Set XSL parameter.
    */
   this.setParameter=function(paramName, paramValue) {
-    Sarissa.setXslParameter( this.xslDom, paramName, "'"+paramValue+"'");
+    if ( typeof paramValue == "string" || typeof paramValue == "number") paramValue="'"+paramValue+"'";
+    Sarissa.setXslParameter( this.xslDom, paramName, paramValue);
   }
 }
+
+/**
+ * A more flexible interface for loading docs that allows POST and async loading
+ */
+function loadSync(sUri, method, docToSend ) {
+   if ( !method ) method = "GET";   //default
+
+   var xmlHttp = Sarissa.getXmlHttpRequest();
+
+   xmlHttp.open(method, sUri, false);
+   xmlHttp.send( docToSend );
+   alert(xmlHttp.getResponseHeader("Content-Type"));
+   if ( null==xmlHttp.responseXML ) alert( "null response" );
+   var outDoc = Sarissa.getDomDocument();
+   outDoc.loadXML(xmlHttp.responseText);
+   return outDoc;
+}
+
+	/** 
+	* Replaces the childNodes of the Document object with the childNodes of 
+	* the object given as the parameter
+	* @private
+	* @argument oDoc the Document to copy the childNodes from
+	*/
+	_copyDOM = function(inDoc)
+	{
+    var outDoc = Sarissa.getDomDocument();
+
+		// importNode is not yet needed in Moz due to a bug but it will be fixed at some point so...
+		if(inDoc.nodeType == Node.DOCUMENT_NODE || inDoc.nodeType == Node.DOCUMENT_FRAGMENT_NODE)
+		{
+			var oNodes = inDoc.childNodes;
+			for(var i=0;i<oNodes.length;i++)
+				outDoc.appendChild(outDoc.importNode(oNodes[i], true));
+		}
+		else if(inDoc.nodeType == Node.ELEMENT_NODE)
+			outDoc.appendChild(outDoc.importNode(inDoc, true));
+	};
+
 
 /**
  * Create a unique Id which can be used for classes to link themselves to HTML
