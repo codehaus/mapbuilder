@@ -33,11 +33,12 @@ function Reset(toolNode, parentWidget) {
   /**
    * Calls the reset() method of the context doc to reload at with the original extent
    * @param objRef      Pointer to this AoiMouseHandler object.
-   * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
-  this.doAction = function(objRef,targetNode) {
-    var originalExtent = objRef.originalExtent;
-    objRef.targetModel.extent.centerAt( originalExtent.getCenter(), originalExtent.res[0] );
+  this.doSelect = function(selected,objRef) {
+    if (selected){
+      var originalExtent = objRef.originalExtent;
+      objRef.targetModel.extent.centerAt( originalExtent.getCenter(), originalExtent.res[0] );
+    }
   }
 }
 

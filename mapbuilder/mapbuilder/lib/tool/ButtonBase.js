@@ -51,6 +51,7 @@ function ButtonBase(button, toolNode, parentWidget) {
         with (this.parentWidget.selectedRadioButton) {
           image.src = disabledImage.src;
           enable(false,this);
+          doSelect(false,this);
         }
       }
       this.parentWidget.selectedRadioButton = this;
@@ -61,13 +62,19 @@ function ButtonBase(button, toolNode, parentWidget) {
     this.enable(true,this);
 
     if (this.mouseHandler) {
-      var outputNode = document.getElementById( this.mouseHandler.outputNodeId );
-      outputNode.lastChild.firstChild.title = this.image.title;   //TBD this doesn't seem to work for some reason
-
       //let the mousehandler call doAction
     } else {
       this.doAction(this);
     }
+    this.doSelect(true,this);
+  }
+
+  /**
+   * Override this function in Buttons to process select/deselect calls.
+   * @param selected True when selected, false when deselected.
+   * @objRef Reference to this object.
+   */
+  this.doSelect = function(selected, objRef) {
   }
 
   var selected = toolNode.selectSingleNode("mb:selected");
