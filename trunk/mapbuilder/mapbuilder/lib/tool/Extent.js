@@ -184,11 +184,15 @@ function Extent( model, initialRes ) {
     var bbox = extent.model.getBoundingBox();
     extent.ul = new Array(bbox[0],bbox[3]);
     extent.lr = new Array(bbox[2],bbox[1]);
+/*
+TBD: when called as a listener this gets a bbox array passed in, not initialRes value
     if ( initialRes ) {
       extent.setSize( initialRes );
     } else {
       extent.setResolution( new Array(extent.model.getWindowWidth(), extent.model.getWindowHeight() ) );
     }
+*/
+    extent.setResolution( new Array(extent.model.getWindowWidth(), extent.model.getWindowHeight() ) );
   }
   if ( initialRes ) this.init(this, initialRes);
 }
