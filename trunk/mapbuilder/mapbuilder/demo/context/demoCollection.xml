@@ -40,6 +40,18 @@
 			<OnlineResource xlink:type="simple" xlink:href="context/radarsatMosaic.xml"/>
 		</ContextURL>
 	</ViewContextReference>
+        <ViewContextReference version="1.0.0" id="cite">
+		<Title>Cite Reference WMS</Title>
+		<ContextURL>
+                  <OnlineResource xlink:type="simple" xlink:href="context/cite.xml"/>
+		</ContextURL>
+	</ViewContextReference>
+        <ViewContextReference version="1.0.0" id="boston">
+		<Title>Boston</Title>
+		<ContextURL>
+                  <OnlineResource xlink:type="simple" xlink:href="context/boston.xml"/>
+		</ContextURL>
+	</ViewContextReference>
         <!--
 	<ViewContextReference version="1.0.0" id="aafc">
 		<Title>National Ecological Framework for Canada - Agriculture Canada (external server)</Title>
