@@ -9,11 +9,13 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
- * A widget which contains a collection of buttons.  One button can
+ * A widget which contains a collection of buttons.  Supports radio buttons,
+ * select buttons and simple push buttons.  A radio button can
  * be selected (Eg a ZoomInButton) and will determine how mouse clicks on a
  * MapPane are processed.
  * ButtonBar tools process mouseClicks on behalf of the mouseWidget. The
- * mouseWidget is usually a MapPane.
+ * mouseWidget is usually a MapPane.  If the mouseWidget property is not set in 
+ * config, then the mouseUp action only happens when the button is click
  * This widget extends WidgetBase.
  * @constructor
  * @param widgetNode  The widget's XML object node from the configuration document.
@@ -36,7 +38,9 @@ function ButtonBar(widgetNode, model) {
     this.callListeners("paint");
   }
 
-  // if the mouseWidget property is definde for this tool then
+  // if the mouseWidget property is defined for this tool then, a mouseup event 
+  // listeners is registered with that widget, otherwise mouseup event is for 
+  // the button image itself
   var mouseWidget = widgetNode.selectSingleNode("mouseWidget");
   if (mouseWidget) {
     this.mouseWidget = eval(mouseWidget.firstChild.nodeValue);
@@ -59,13 +63,13 @@ function ButtonBar(widgetNode, model) {
    */
   this.selectButton = function(buttonName, buttonType) {
 
-    //disable all tools
-    //TBD: need a way to not hard code these; loop through xml nodes?
-    this.mouseWidget["AoiMouseHandler"].enable(false);
-    this.mouseWidget["DragPanHandler"].enable(false);
-
     switch(buttonType){
       case "RadioButton":
+        //disable tools
+        //TBD: need a way to not hard code these; loop through xml nodes?
+        this.mouseWidget["AoiMouseHandler"].enable(false);
+        this.mouseWidget["DragPanHandler"].enable(false);
+
         // Deselect previous RadioButton
         if (this.selectedRadioButton){
           this.selectedRadioButton.image.src=this.selectedRadioButton.disabledImage.src;
@@ -75,13 +79,13 @@ function ButtonBar(widgetNode, model) {
         this.selectedRadioButton.selectButton();
         break;
       case "Button":
+        this[buttonName].selectButton();
         break;
       case "SelectBox":
         break;
       default:
         alert("ButtonBar.js: Unknown buttonType: "+buttonType);
     }
-    //if ( this.mouseWidget.acceptToolTips ) this.mouseWidget.setToolTip( this.title );
   }
 
 
@@ -105,18 +109,20 @@ function ButtonBar(widgetNode, model) {
 function ButtonBase(toolNode, parentWidget) {
   this.parentWidget = parentWidget;
 
+  this.title = toolNode.selectSingleNode("tooltip").firstChild.nodeValue;
+  this.id = toolNode.selectSingleNode("@id").firstChild.nodeValue;
+
   //pre-load the button bar images; add them to the config
   this.disabledImage = document.createElement("IMG");
   this.disabledImage.src = config.skinDir + toolNode.selectSingleNode("disabledSrc").firstChild.nodeValue;
+  this.disabledImage.title = this.title;         //img.title is for tool tips, alt for images disabled browsers
 
   var modalImage = toolNode.selectSingleNode("enabledSrc");
   if (modalImage) {
     this.enabledImage = document.createElement("IMG");
     this.enabledImage.src = config.skinDir + modalImage.firstChild.nodeValue;
+    this.enabledImage.title = this.title;         //img.title is for tool tips, alt for images disabled browsers
   }
-
-  this.title = toolNode.selectSingleNode("tooltip").firstChild.nodeValue;
-  this.id = toolNode.selectSingleNode("@id").firstChild.nodeValue;
 
   /**
    * TBD Document me.
@@ -125,18 +131,18 @@ function ButtonBase(toolNode, parentWidget) {
   this.init = function(objRef) {
     objRef.image = document.getElementById( objRef.id );
     if ( objRef.parentWidget.mouseWidget==null ) {
-      objRef.image = document.getElementById( objRef.id );
       objRef.image.model = objRef.model;
       objRef.image.onmouseup = objRef.mouseUpHandler;
     }
+    objRef.image.title = objRef.title;         //img.title is for tool tips, alt for images disabled browsers
   }
 }
 
 /**
- * When this button is selected, clicks on the MapPane trigger a zoomIn at that
- * point.
- * @param toolNode The tool node from the Config XML file.
- * @param parentWidget The ButtonBar node from the Config XML file.
+ * When this button is selected, clicks on the MapPane trigger a zoomIn to the 
+ * currently set AOI.
+ * @param toolNode      The tool node from the Config XML file.
+ * @param parentWidget  The ButtonBar widget.
  */
 function ZoomIn(toolNode, parentWidget) {
   var base = new ButtonBase(toolNode, parentWidget);
@@ -149,9 +155,10 @@ function ZoomIn(toolNode, parentWidget) {
   }
 
   /**
-   * TBD document me.
-   * @param targetNode TBD: Document me.
-   * @param model The model that this tool will update.
+   * Calls the model's ceter at method to zoom in.  If the AOI is a single point,
+   * it zooms in by the zoomBy factor.
+   * @param model       The model that this tool will update.
+   * @param targetNode  The element on which the mouse event occured
    */
   this.mouseUpHandler = function(model,targetNode) {
     var bbox = model.getAoi();
@@ -167,6 +174,11 @@ function ZoomIn(toolNode, parentWidget) {
   this.parentWidget.addListener( "paint", this.init, this );
 }
 
+/**
+ * When this button is selected, click and drag on the MapPane to recenter the map.
+ * @param toolNode      The tool node from the Config XML file.
+ * @param parentWidget  The ButtonBar widget.
+ */
 function ZoomOut(toolNode, parentWidget) {
   var base = new ButtonBase(toolNode, parentWidget);
   for (sProperty in base) { 
@@ -177,8 +189,15 @@ function ZoomOut(toolNode, parentWidget) {
     this.parentWidget.mouseWidget["AoiMouseHandler"].enable(true);
   }
 
+  /**
+   * Calls the centerAt method of the context doc to zoom out, recentering at 
+   * the mouse event coordinates.
+   * TBD: set the zoomBy property as a button property in conifg
+   * @param model       The model that this tool will update.
+   * @param targetNode  The element on which the mouse event occured
+   */
   this.mouseUpHandler = function(model,targetNode) {
-    //should be aoi center
+    //should be aoi center?
     model.extent.CenterAt(targetNode.evxy, model.extent.res[0]*model.extent.zoomBy);
   }
 
@@ -186,10 +205,9 @@ function ZoomOut(toolNode, parentWidget) {
 }
 
 /**
- * When this button is selected, clicks on the MapPane trigger a zoomIn at that
- * point.
- * @param toolNode The tool node from the Config XML file.
- * @param parentWidget The ButtonBar node from the Config XML file.
+ * When this button is selected, click and drag on the MapPane to recenter the map.
+ * @param toolNode      The tool node from the Config XML file.
+ * @param parentWidget  The ButtonBar widget.
  */
 function DragPan(toolNode, parentWidget) {
   var base = new ButtonBase(toolNode, parentWidget);
@@ -202,9 +220,10 @@ function DragPan(toolNode, parentWidget) {
   }
 
   /**
-   * TBD document me.
-   * @param targetNode TBD: Document me.
-   * @param model The model that this tool will update.
+   * Calls the centerAt method of the context doc to recenter with the given 
+   * offset
+   * @param model       The model that this tool will update.
+   * @param targetNode  The element on which the mouse event occured
    */
   this.mouseUpHandler = function(model,targetNode) {
     alert("drag pan mouseup");
@@ -214,21 +233,24 @@ function DragPan(toolNode, parentWidget) {
   this.parentWidget.addListener( "paint", this.init, this );
 }
 
+/**
+ * When this button is pressed the map will reload with it's original extent
+ * @param toolNode      The tool node from the Config XML file.
+ * @param parentWidget  The ButtonBar widget.
+ */
 function Reset(toolNode, parentWidget) {
   var base = new ButtonBase(toolNode, parentWidget);
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 
   } 
 
-  this.doReset = function(ev) {
-    ev.target.extent.Reset();
+  /**
+   * Calls the reset() method of the context doc to reload at with the original extent
+   */
+  this.selectButton = function() {
+    this.parentWidget.mouseWidget.model.extent.Reset();
   }
-  
-  this.init = function(objRef) {
-    objRef.image = document.getElementById( objRef.id );
-    objRef.image.extent = objRef.parentWidget.model.extent;
-    objRef.image.onclick = objRef.doReset;
-  }
+
   this.parentWidget.addListener( "paint", this.init, this );
 
 }
