@@ -212,13 +212,13 @@
 					<enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
 					<disabledSrc>/images/SetAoiDisable.gif</disabledSrc>
 					<tooltip xml:lang="en">click and drag to set the area of interest</tooltip>
-					<tooltip xml:lang="fr">cliquer et faire glisser la souris pour positionner une ré d'inté/tooltip>
+					<tooltip xml:lang="fr">cliquer et faire glisser la souris pour positionner une ré d'inté/t</tooltip>
 				</SetAoi>
 				<Reset id="reset">
 					<class>Button</class>
 					<disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
 					<tooltip xml:lang="en">reset the map to full extent</tooltip>
-					<tooltip xml:lang="fr">redonner àa carte ses dimensions complè/tooltip>
+					<tooltip xml:lang="fr">redonner àa carte ses dimensions complè/</tooltip>
 				</Reset>
 				<GetFeatureInfo id="getFeatureInfo">
 					<mouseHandler>mainMap.mainMapWidget</mouseHandler>
