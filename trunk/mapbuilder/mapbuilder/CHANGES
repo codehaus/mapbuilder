@@ -5,6 +5,46 @@ $Id$
 This file contains information about updates to each release:
 
 
+mapbuilder-lib-0.3-alpha (alpha quality)
+========================================
+This release fixes some of the demos which were not able access server side
+functionality as well as addressing the following bugs:
+
+Bugs fixed:
+-----------
+962714  Slow load with no user feedback
+1065426 Create AoiBox widget which is not dependant on wz_jsgraphics
+1103047 XSL files not using CR/LF properly and are all on one line
+
+
+Outstanding Issues (highest priority fist):
+-------------------------------------------
+1064707 GmlRender image does not move during a ZoomPan
+1104715 MapPane doesn't refresh after a new feature is submitted
+1119953 Feature Entry should use WebServiceRequest.js
+967933  layer list ordering
+967937  aspect ratio on startup
+973651  add more img attributes
+995127  Error during loading process on IE 6 on Windows XP
+1118377 Geoserver to be packaged with suitable layers for mapbuilder
+1157443 Give visual marker to current active layer in legend
+1162293 Default load WMC doc is invalid
+1115672 User should be able to deselect EditFeature buttons
+1116660 Remove TransactionStatus widget when EditFeature selected
+1118614 IE - handle disabled ActiveX objects
+967806  CursorTrack.xsl units label display
+1166844 ant script create build/build/build/... directories
+968519  query icon
+1013754 Coord string does not handle space char inside tuple
+1153752 demo/index.html should explain need for Tomcat installation
+1157444 Remove the title attribute from map images
+1168981 bin/publish.sh references incorrect XSL
+1168984 publish.sh references incorrect jsdoc.pl
+1164770 links in mapbuilder/index.html broker
+1102212 EditTools don't contain French tooltip
+1162133 Add GPL header to all source files.
+1071242 Move util.js into JS objects
+
 mapbuilder-lib-0.2-alpha (alpha quality)
 ========================================
 This released is designed to provide a demonstration of a number of
@@ -27,32 +67,32 @@ Minor changes to the schema are expected for the next release.
 
 Outstanding Issues (highest priority fist):
 -------------------------------------------
-1064707	GmlRender image does not move during a ZoomPan
-962714	Slow load with no user feedback
-1069050	Limit multiple paint requests
-1119953	Feature Entry should use WebServiceRequest.js
-1104715	MapPane doesn't refresh after a new feature is submitted
-1164770	links in mapbuilder/index.html broker
-1162293	Default load WMC doc is invalid
-1157443	Give visual marker to current active layer in legend
-1118377	Geoserver to be packaged with suitable layers for mapbuilder
-995127	Error during loading process on IE 6 on Windows XP
-967937	aspect ratio on startup
-967933	layer list ordering
-973651	add more img attributes
-1116660	Remove TransactionStatus widget when EditFeature selected
-1115672	User should be able to deselect EditFeature buttons
-1065426	Create AoiBox widget which is not dependant on wz_jsgraphics
-1118614	IE - handle disabled ActiveX objects
-967806	CursorTrack.xsl units label display
-1157444	Remove the title attribute from map images
-1153752	demo/index.html should explain need for Tomcat installation
-968519	query icon
-1013754	Coord string does not handle space char inside tuple
-1162133	Add GPL header to all source files.
-1102212	EditTools don't contain French tooltip
-1103047	XSL files not using CR/LF properly and are all on one line
-1071242	Move util.js into JS objects
+1064707 GmlRender image does not move during a ZoomPan
+962714  Slow load with no user feedback
+1069050 Limit multiple paint requests
+1119953 Feature Entry should use WebServiceRequest.js
+1104715 MapPane doesn't refresh after a new feature is submitted
+1164770 links in mapbuilder/index.html broker
+1162293 Default load WMC doc is invalid
+1157443 Give visual marker to current active layer in legend
+1118377 Geoserver to be packaged with suitable layers for mapbuilder
+995127  Error during loading process on IE 6 on Windows XP
+967937  aspect ratio on startup
+967933  layer list ordering
+973651  add more img attributes
+1116660 Remove TransactionStatus widget when EditFeature selected
+1115672 User should be able to deselect EditFeature buttons
+1065426 Create AoiBox widget which is not dependant on wz_jsgraphics
+1118614 IE - handle disabled ActiveX objects
+967806  CursorTrack.xsl units label display
+1157444 Remove the title attribute from map images
+1153752 demo/index.html should explain need for Tomcat installation
+968519  query icon
+1013754 Coord string does not handle space char inside tuple
+1162133 Add GPL header to all source files.
+1102212 EditTools don't contain French tooltip
+1103047 XSL files not using CR/LF properly and are all on one line
+1071242 Move util.js into JS objects
 
 mapbuilder-lib-0.1 (beta quality)
 =================================
