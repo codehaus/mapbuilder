@@ -47,10 +47,6 @@
       <scriptFile>/model/Collection.js</scriptFile>
     </ContextCollection>
     
-    <Config id="projModelId">
-      <scriptFile>/model/Proj.js</scriptFile>
-    </Config>
-    
   </models>
 
   <!--

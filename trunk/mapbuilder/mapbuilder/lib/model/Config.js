@@ -16,15 +16,11 @@ function Config(url) {
   this.doc.setProperty("SelectionLanguage", "XPath");
   this.doc.load(url);
 
+  //set some properties
   this.baseDir = this.doc.selectSingleNode("/MapbuilderConfig/baseDir").firstChild.nodeValue;
-  var skin = this.doc.selectSingleNode("/MapbuilderConfig/skin");
-  if ( skin ) {
-    skin = skin.firstChild.nodeValue;   //why firstChild?
-  } else {
-    skin = "default";
-  }
-  this.skinDir = this.baseDir + "/skin/" + skin;
+  var skinDir = this.doc.selectSingleNode("/MapbuilderConfig/skinDir");
 
+  //load in required script files
   var scriptIncludes = this.doc.selectNodes("//scriptFile");
   for (var i=0; i<scriptIncludes.length; i++ ) {
     var node = scriptIncludes[i];

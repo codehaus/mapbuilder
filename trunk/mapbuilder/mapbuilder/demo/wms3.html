@@ -16,25 +16,14 @@ $Name$
     <title>WMS Client</title>
 
     <!-- Include mapbuilder libraries -->
-    <script type="text/javascript" src="../lib/Config.js"></script>
-    <script type="text/javascript" src="../lib/model/Extent.js"></script>
-    <script type="text/javascript" src="../lib/model/Collection.js"></script>
-    <script type="text/javascript" src="../lib/widget/collectionList/CollectionList.js"></script>
-    <script type="text/javascript" src="../lib/widget/tool/GlassPane.js"></script>
-    <script type="text/javascript" src="../lib/widget/tool/AoiBox.js"></script>
-    <script type="text/javascript" src="../lib/widget/tool/PanTool.js"></script>
-    <script type="text/javascript" src="../lib/widget/tool/ZoomTool.js"></script>
-    <script type="text/javascript" src="../lib/widget/tool/FeatureInfoTool.js"></script>
     <script type="text/javascript" src="../lib/util/sarissa/Sarissa.js"></script>
     <script type="text/javascript" src="../lib/util/Util.js"></script>
-    <script type="text/javascript" src="../lib/util/proj/Proj.js"></script>
-    <script type="text/javascript" src="../lib/util/proj/lcc.js"></script>
+    <script type="text/javascript" src="../lib/Config.js"></script>
     <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
 
     <script>
-
-      var config = new Config("configWms3.xml");
-      // Get the CGI parameters.  If context is not defined, then set a default.
+      //initialize the application configuration object - global scope
+      var config = new Config("config/wms3.xml");
     </script>
 
   </head>
@@ -42,6 +31,8 @@ $Name$
   <body>
     <h1><a href="http://mapbuilder.sourceforge.net">Mapbuilder</a>
       Web Map Server Client</h1>
+
+<P>Built using config file.</P>
 
     <!-- Layout mapbuilder widgets and HTML -->
     <table>
