@@ -27,6 +27,14 @@ function ModelBase(model, modelNode, parentModel) {
     model.id = "MbModel_" + mbIds.getId();
   }
 
+  //get the human readable title for the model
+  var titleNode = modelNode.selectSingleNode("mb:title");
+  if (titleNode) {
+    model.title = titleNode.firstChild.nodeValue;
+  } else {
+    model.title = model.id;
+  }
+
   //go no farther for template models
   var templateAttr = modelNode.attributes.getNamedItem("template");
   if (templateAttr) {
@@ -47,7 +55,7 @@ function ModelBase(model, modelNode, parentModel) {
         //http POST
         modelRef.doc = postLoad(modelRef.url,modelRef.postData);
         if (modelRef.doc.parseError < 0){
-          alert("error loading document: " + modelRef.url + " - " + Sarissa.getParseErrorText(modelRef.doc) );
+          alert("error loading document: " + modelRef.url + " - ");// + Sarissa.getParseErrorText(modelRef.doc) );
         }
       } else {
         //http GET
@@ -165,6 +173,17 @@ function ModelBase(model, modelNode, parentModel) {
     model.method = method.firstChild.nodeValue;
   } else {
     model.method = "get";
+  }
+
+  model.loadFeatureList = function(objRef) {
+    objRef.featureList = new ModelList(objRef);
+  }
+
+  //get the xpath to select nodes from the parent doc
+  var nodeSelectXpath = modelNode.selectSingleNode("mb:nodeSelectXpath");
+  if (nodeSelectXpath) {
+    model.nodeSelectXpath = nodeSelectXpath.firstChild.nodeValue;
+    model.addListener("loadModel",model.loadFeatureList,model);
   }
 
   //don't load in models and widgets if this is the config doc, defer to config.init

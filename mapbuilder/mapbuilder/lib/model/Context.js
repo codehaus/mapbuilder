@@ -23,14 +23,7 @@ function Context(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   var modelBase = new ModelBase(this, modelNode, parent);
 
-  this.namespace = "xmlns:cml='http://www.opengis.net/context' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'";
-
-  //get the xpath to select nodes from the parent doc
-  var nodeSelectXpath = modelNode.selectSingleNode("mb:nodeSelectXpath");
-  if (nodeSelectXpath) {
-    this.nodeSelectXpath = nodeSelectXpath.firstChild.nodeValue;
-    this.featureList = new ModelList(this);
-  }
+  this.namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'";
 
   // ===============================
   // Update of Context Parameters
@@ -48,7 +41,7 @@ function Context(modelNode, parent) {
     if (hidden) hiddenValue = "1";
       
     //var layers=this.doc.documentElement.getElementsByTagName("Layer");
-    var layers=this.doc.selectNodes("/cml:ViewContext/cml:LayerList/cml:Layer");
+    var layers=this.doc.selectNodes("/wmc:ViewContext/wmc:LayerList/wmc:Layer");
     for(var i=0;i<layers.length;i++) {
       if(layers[i].getElementsByTagName("Name").item(0).firstChild.nodeValue == layerIndex) {
         layers[i].setAttribute("hidden", hiddenValue);
@@ -68,7 +61,7 @@ function Context(modelNode, parent) {
   this.getHidden=function(layerIndex){
     var hidden=1;
     //layers=this.doc.documentElement.getElementsByTagName("Layer");
-    var layers=this.doc.selectNodes("/cml:ViewContext/cml:LayerList/cml:Layer");
+    var layers=this.doc.selectNodes("/wmc:ViewContext/wmc:LayerList/wmc:Layer");
     for(var i=0;i<layers.length;i++) {
       if(layers[i].getElementsByTagName("Name").item(0).firstChild.nodeValue == layerIndex) {
         hidden=layers[i].getAttribute("hidden");
@@ -85,7 +78,7 @@ function Context(modelNode, parent) {
   this.getBoundingBox=function() {
     // Extract BoundingBox from the context
     //boundingBox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
-    var boundingBox=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:BoundingBox");
+    var boundingBox=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
     bbox = new Array();
     bbox[0]=parseFloat(boundingBox.getAttribute("minx"));
     bbox[1]=parseFloat(boundingBox.getAttribute("miny"));
@@ -101,7 +94,7 @@ function Context(modelNode, parent) {
   this.setBoundingBox=function(boundingBox) {
     // Set BoundingBox in context
     //bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
-    var bbox=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:BoundingBox");
+    var bbox=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
     bbox.setAttribute("minx", boundingBox[0]);
     bbox.setAttribute("miny", boundingBox[1]);
     bbox.setAttribute("maxx", boundingBox[2]);
@@ -117,7 +110,7 @@ function Context(modelNode, parent) {
    */
   this.setSRS=function(srs) {
     //bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
-    var bbox=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:BoundingBox");
+    var bbox=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
     bbox.setAttribute("SRS",srs);
   }
 
@@ -128,7 +121,7 @@ function Context(modelNode, parent) {
    */
   this.getSRS=function() {
     //bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
-    var bbox=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:BoundingBox");
+    var bbox=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
     srs=bbox.getAttribute("SRS");
     return srs;
   }
@@ -139,7 +132,7 @@ function Context(modelNode, parent) {
    */
   this.getWindowWidth=function() {
     //var win=this.doc.documentElement.getElementsByTagName("Window").item(0);
-    var win=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:Window");
+    var win=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Window");
     width=win.getAttribute("width");
     return width;
   }
@@ -150,7 +143,7 @@ function Context(modelNode, parent) {
    */
   this.setWindowWidth=function(width) {
     //win=this.doc.documentElement.getElementsByTagName("Window").item(0);
-    var win=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:Window");
+    var win=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Window");
     win.setAttribute("width", width);
   }
 
@@ -160,7 +153,7 @@ function Context(modelNode, parent) {
    */
   this.getWindowHeight=function() {
     //var win=this.doc.documentElement.getElementsByTagName("Window").item(0);
-    var win=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:Window");
+    var win=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Window");
     height=win.getAttribute("height");
     return height;
   }
@@ -171,29 +164,22 @@ function Context(modelNode, parent) {
    */
   this.setWindowHeight=function(height) {
     //win=this.doc.documentElement.getElementsByTagName("Window").item(0);
-    var win=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:Window");
+    var win=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Window");
     win.setAttribute("height", height);
   }
 
   this.getServerUrl = function(feature) {
-    return feature.selectSingleNode("cml:Server/cml:OnlineResource").getAttribute("xlink:href");
-  }
-  this.getMethod = function(feature) {
-    return feature.selectSingleNode("cml:Server/cml:OnlineResource").getAttribute("cml:method");
+    return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
   }
 
-  /**
-   * get the list of source nodes from the parent document
-   * @param objRef Pointer to this object.
-   */
-  this.initDynModelList = function(objRef) {
-    var featureList = objRef.featureList.getFeatureList();
-    for (var i=0; i<featureList.length; i++) {
-      var feature = featureList[i];
-      objRef.setParam("GetFeature",feature);
-    }
+  //this is the GetMap request version, not context doc version.
+  this.getVersion = function(feature) {  
+    return feature.selectSingleNode("wmc:Server").getAttribute("version");
   }
-  if ( this.featureList) this.addListener("refresh", this.initDynModelList, this);
+
+  this.getMethod = function(feature) {
+    return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("wmc:method");
+  }
 
 }
 
