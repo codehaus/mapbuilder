@@ -9,7 +9,7 @@
   <models>
 
     <Context id="firstMap">
-      <defaultModelUrl>/mapbuilder/demo/context/locatorMap.xml</defaultModelUrl>
+      <defaultModelUrl>/mapbuilder/demo/data/context/locatorMap.xml</defaultModelUrl>
       
       <widgets>
         <MapPane id="mainMapWidget">
@@ -28,7 +28,7 @@
     </Context>
 
     <Context id="firstMapPane">
-      <defaultModelUrl>/mapbuilder/demo/context/DM_Canada.xml</defaultModelUrl>
+      <defaultModelUrl>/mapbuilder/demo/data/context/DM_Canada.xml</defaultModelUrl>
       
       <widgets>
         <MapPane id="secondMapWidget">

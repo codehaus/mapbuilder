@@ -9,7 +9,7 @@
   <models>
 
     <Context id="mainMap">
-      <defaultModelUrl>/mapbuilder/demo/context/cded.xml</defaultModelUrl>
+      <defaultModelUrl>/mapbuilder/demo/data/context/cded.xml</defaultModelUrl>
       
       <widgets>
         <MapPane id="mainMapWidget">

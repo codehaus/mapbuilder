@@ -8,7 +8,7 @@
 
   <models>
     <Context id="mainMap">
-      <defaultModelUrl>/mapbuilder/demo/context/locatorMap.xml</defaultModelUrl>
+      <defaultModelUrl>/mapbuilder/demo/data/context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="mainMapWidget">
           <fixedWidth>250</fixedWidth>
