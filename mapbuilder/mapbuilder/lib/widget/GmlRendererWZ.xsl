@@ -4,9 +4,11 @@
   xmlns:gml="http://www.opengis.net/gml"
   version="1.0">
 <!--
-Description: Convert GML to wz_jsgraphics function calls.
-Author:      Cameron Shorter cameron ATshorter.net
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Description:  Convert GML to wz_jsgraphics function calls.
+Precondition: <coordinates> have been converted to <coords> (using
+    GmlCoordinates2Coord.xsl).
+Author:       Cameron Shorter cameron ATshorter.net
+Licence:      GPL as per: http://www.gnu.org/copyleft/gpl.html
 
 $Id$
 $Name$
