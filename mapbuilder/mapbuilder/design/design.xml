@@ -9,12 +9,53 @@
   </abstract>
 
   <section>
-    <title>Context 0</title>
+    <title>System Overview</title>
 
-    <para></para>
+    <para>The Community Map Builder (CMB) contains:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>An open source framework for communities to collectively edit
+        geographic data.</para>
+      </listitem>
+
+      <listitem>
+        <para>Javascript and XSL modular libraries which can be integrated to
+        build geographic widgets. The widgets impliment clients to Open GIS
+        Consortium (OGC) services.</para>
+      </listitem>
+
+      <listitem>
+        <para>Specific OGC clients which have been built using CMB widgets.</para>
+      </listitem>
+    </orderedlist>
+  </section>
+
+  <section>
+    <title>CMB framework</title>
+
+    <para>The CMB framework is designed for collaborative, open sharing of
+    place-based information. It builds upon components that conform to Open
+    GIS&#39;s international Standards for geospatial software development. The
+    aim is to create business logic components using Open Source,
+    OpenGIS-compliant components for this effort. Map serving uses the OpenGIS<emphasis>
+    Web Map Server</emphasis>-compliant software, <ulink
+    url="http://mapserver.gis.umn.edu">Mapserver.</ulink> Spatial feature
+    updating uses the OpenGIS <emphasis>Web Feature Server</emphasis>-compliant
+    software <ulink url="http://geoserver.sourceforge.net">Geoserver</ulink>,
+    which relies upon Postgres and the PostGIS component as its spatial
+    database. CMB also uses Postgres as a normal database to store
+    community-contributed text and photographs.</para>
+
+    <para>Community Map Builder is more than just a collection of
+    technologies. It is a collection of Web pages, server applications and
+    database schema, along with implementation recommendations.<!--Good summary.  It is probably worth coming back and polishing this section and using for
+all the CMB docs.
+I think the CMB should also provide logic for community editing of shared data
+(in a similar fasion to http://slashdot.org).  This would be part of a future phase.--></para>
 
     <figure>
-      <title></title>
+      <title>High Level Design</title>
 
       <mediaobject>
         <imageobject>
@@ -25,24 +66,249 @@
   </section>
 
   <section>
-    <title>Detailed Design</title>
+    <title>CMB Libraries</title>
 
-    <para></para>
+    <para>CMB libraries contain components that can be used to build clients
+    to OGC services.</para>
 
     <section>
-      <title>Components</title>
+      <title>Design Decisions for CMB Libraries</title>
 
-      <para></para>
+      <para>The goals of the libaries are to provide the following:</para>
+
+      <variablelist>
+        <varlistentry>
+          <term>Client is a Web Browser</term>
+
+          <listitem>
+            <para>Mapbuilder Clients should be easy for users to run. Users
+            should not have to download and install new software. Instead all
+            CMB clients should run inside the commonly used web browsers. In
+            particular, recent Internet Explorer and Mozilla browsers.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Minimal Server Side Functionality</term>
+
+          <listitem>
+            <para>CMB should keep deployment requirements to a minimum in
+            order to maximise the user base. Hence:</para>
+
+            <orderedlist>
+              <listitem>
+                <para>Where possible, clients should not require server side
+                scripts.</para>
+              </listitem>
+
+              <listitem>
+                <para>If Server Side scripts are used, then Unix Shell
+                Scripts, Perl, or PHP should be used in preference to Java, C
+                or C++ in order to target the tools usually provided by ISPs.</para>
+              </listitem>
+            </orderedlist>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Keep bandwidth to a minimum</term>
+
+          <listitem>
+            <para>All client functionality needs to be downloaded, so it is
+            important to keep it to a minimum. Files that are downloaded
+            should also be static which means that browsers will cache them
+            locally. (CGI scripts generally do not provide images that are
+            cached).</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Modular Design</term>
+
+          <listitem>
+            <para>A modular design has many benefits.</para>
+
+            <orderedlist>
+              <listitem>
+                <para>A client need only include the module it requires, hence
+                reducing the size of the client.</para>
+              </listitem>
+
+              <listitem>
+                <para>A modular design is easier to understand and maitain.</para>
+              </listitem>
+
+              <listitem>
+                <para>Extra functionality can be easilly added.</para>
+              </listitem>
+            </orderedlist>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Use Javascript/XML/XSL</term>
+
+          <listitem>
+            <para>Mapbuilder stores state data interally in XML files.
+            Converting XML to HTML is done using XSL. XSL has the advantage
+            that it can be used both in the client and server.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </section>
+
+    <section>
+      <title>CMB Library Components</title>
 
       <figure>
-        <title></title>
+        <title>CMB Library Components</title>
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="images/context1.png" />
+            <imagedata fileref="images/sf_mapbuilder.png" />
           </imageobject>
         </mediaobject>
       </figure>
+
+      <section>
+        <title>MainPage</title>
+
+        <para>A CMB Client page is quite simple. It includes the required
+        libraries, creates the required components, then calls the
+        &#60;component&#62;.paint() method.</para>
+
+        <example>
+          <title>Simple WMS Client using CMB libraries</title>
+
+          <programlisting>&#60;html&#62;
+  &#60;head&#62;
+    &#60;title&#62;WMS Client&#60;/title&#62;
+    &#60;!-- Mapbuilder libraries --&#62;
+    &#60;script type=&#34;text/javascript&#34; src=&#34;../util/sarissa/sarissa.js&#34;&#62;&#60;/script&#62;
+    &#60;script type=&#34;text/javascript&#34; src=&#34;../widget/context/Context.js&#34;&#62;&#60;/script&#62;
+    &#60;script type=&#34;text/javascript&#34; src=&#34;../widget/mappane/MapPane.js&#34;&#62;&#60;/script&#62;
+    &#60;script type=&#34;text/javascript&#34; src=&#34;../widget/legend/Legend.js&#34;&#62;&#60;/script&#62;
+    &#60;script type=&#34;text/javascript&#34; src=&#34;../widget/util/Util.js&#34;&#62;&#60;/script&#62;
+  &#60;/head&#62;
+  &#60;body&#62;
+    &#60;h1&#62;Web Map Server Client&#60;/h1&#62;
+
+    &#60;script&#62;
+      // Base Mapbuilder library directory
+      baseDir=&#34;../widget&#34;;
+
+      // Load a Web Map Context document as defined by:
+      // http://www.opengis.org/docs/03-036r2.pdf
+      context=new Context(&#34;Wmc1.cml&#34;);
+
+      // Create and render a MapPane
+      mapPane=new MapPane(context,baseDir,null);
+      mapPane.paint();
+
+      // Create and render a Legend
+      legend=new Legend(context,baseDir,null);
+      legend.paint();
+    &#60;/script&#62;
+  &#60;/body&#62;
+&#60;/html&#62;</programlisting>
+        </example>
+      </section>
+
+      <section>
+        <title>Context</title>
+
+        <para>The context object stores geographic state, like Layers,
+        Bounding Box, etc. Context extends the Web Map Context (WMC) as
+        defined by the OGC to include:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>A Layer Id, required to link to the DHTML layer Id.</para>
+          </listitem>
+
+          <listitem>
+            <para>WFS Queries, required to show WFS Layers.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Other components which render Context information need to call
+        context.addXXXListener(). Context will then call these components
+        whenever the XXX state changes.</para>
+
+        <figure>
+          <title>Context Component</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/sf_mapbuilder_context.png" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+
+      <section>
+        <title>Tool</title>
+
+        <para>Tool provides Zoom/Pan etc and updates the Context.</para>
+      </section>
+
+      <section>
+        <title>MapPane</title>
+
+        <para>MapPane renders Geographic Layers from Context as DHTML Layers,
+        and changes these Layers inline with Context changes.</para>
+
+        <figure>
+          <title>MapPane Component</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/sf_mapbuilder_mappane.png" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+
+      <section>
+        <title>Legend</title>
+
+        <para>Legend renders a legend based on the Context. Some context
+        information can be changed through the Legend widget. </para>
+
+        <figure>
+          <title>Legend Component</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/sf_mapbuilder_legend.png" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+
+      <section>
+        <title>AddFeature</title>
+
+        <figure>
+          <title>Web pages and processes used to add features to a WFS</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/addfeature.png" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <section>
+          <title>GmlSchemaToForm</title>
+
+          <para>This is ...</para>
+
+          <para>In order to simplify initial versions of the GmlSchemaToForm
+          XSL transformation, there are are restrictions on the
+          DescribeFeature schema that can be returned.</para>
+        </section>
+      </section>
     </section>
   </section>
 </article>
