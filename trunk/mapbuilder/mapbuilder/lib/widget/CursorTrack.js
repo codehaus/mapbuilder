@@ -51,13 +51,13 @@ function CursorTrack(widgetNode, model) {
   }
 
   //associate the cursor track with a mappane widget
-  var mouseWidget = widgetNode.selectSingleNode("mouseWidget");
-  if (mouseWidget) {
-    this.mouseWidget = eval(mouseWidget.firstChild.nodeValue);
-    this.mouseWidget.addListener('mouseover', this.mouseOverHandler, this);
-    this.mouseWidget.addListener('mouseout', this.mouseOutHandler, this);
+  var mouseHandler = widgetNode.selectSingleNode("mouseHandler");
+  if (mouseHandler) {
+    this.mouseHandler = eval(mouseHandler.firstChild.nodeValue);
+    this.mouseHandler.addListener('mouseover', this.mouseOverHandler, this);
+    this.mouseHandler.addListener('mouseout', this.mouseOutHandler, this);
   } else {
-    alert('CursorTrack requires a mouseWidget property');
+    alert('CursorTrack requires a mouseHandler property');
   }
   
   //set some properties for the form output
