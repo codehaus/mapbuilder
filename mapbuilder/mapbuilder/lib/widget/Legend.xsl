@@ -32,7 +32,8 @@ $Name$
       <tr>
         <th colspan="3"><xsl:call-template name="title"/></th>
       </tr>
-      <xsl:apply-templates select="wmc:ResourceList/*"/>
+      <xsl:apply-templates select="wmc:ResourceList/wmc:Layer"/>
+      <xsl:apply-templates select="wmc:ResourceList/wmc:FeatureType[wmc:Server/@service='OGC:WFS']"/>
     </table>
   </xsl:template>
   
