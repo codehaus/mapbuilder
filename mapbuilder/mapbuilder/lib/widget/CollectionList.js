@@ -14,27 +14,20 @@ $Id$
  * @requires Sarissa
  * @requires Util
  */
-function CollectionList(collection, node) {
-  this.collection = collection;
-  this.collection.addSelectListener( this.paint );
 
-  if(node == null) {
-    node = makeElt("DIV");
-    node.style.position = "absolute";
+function CollectionList(widgetNode, group) {
+  var base = new WidgetBase(widgetNode, group);
+  for (sProperty in base) { 
+    this[sProperty] = base[sProperty]; 
+  } 
+
+  var paramValue = widgetNode.selectSingleNode("targetWidgetGroup").firstChild.nodeValue;
+  this.stylesheet.setParameter("targetId", paramValue );
+
+  this.addListeners = function() {
+    this.model.addSelectListener( this.paint );
   }
-  this.node = node;
-
-  var listConfig = config.doc.selectSingleNode("/MapbuilderConfig/views/CollectionList");
-  var stylesheetUrl = config.baseDir + listConfig.selectSingleNode("stylesheet").firstChild.nodeValue;
-  this.stylesheet = new XslProcessor(stylesheetUrl);
-
-  /**
-   * Create all the layers by rendering them into the current window.
-   * This function should be called at startup.
-   */
-  this.paint=function() {
-    var s = this.stylesheet.transformNode(this.collection.doc);
-    this.node.innerHTML = s;
-   }
-
 }
+
+//CollectionList.prototype = new WidgetBase();
+//CollectionList.prototype.constructor = CollectionList;
