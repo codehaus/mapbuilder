@@ -10,9 +10,17 @@ $Id$
 
 
 
+// Ensure this object's dependancies are loaded.
+
+mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
+
+
+
 /**
 
- * Implements WMS GetFeatureInfo functionality, popping up a query window when user clicks on map.
+ * Implements WMS GetFeatureInfo functionality, popping up a query result
+
+ * window when user clicks on map.
 
  * @constructor
 
@@ -20,53 +28,93 @@ $Id$
 
  * @constructor
 
- * @requires Context
+ * @param objRef      Pointer to this Query object.
 
- * @param context The Web Map Context to call when changing extent.
+ * @param targetNode  The node for the enclosing HTML tag for this widget.
 
  */
 
-function FeatureInfo(context) {
+function GetFeatureInfo(toolNode, parentWidget) {
 
-  this.context=context;
+  var base = new ButtonBase(toolNode, parentWidget);
 
-  this.context2FeatureInfo=new XslProcessor(baseDir+"/widget/tool/Context2FeatureInfo.xml");
+  for (sProperty in base) { 
+
+    this[sProperty] = base[sProperty];    
+
+  } 
+
+
+
+  /** Xsl to build a GetFeatureInfo URL */
+
+  this.xsl=new XslProcessor(baseDir+"/tool/GetFeatureInfo.xsl");
+
+
 
   /**
 
    * Open window with query info.
 
-   * This function is called when user clicks map with GetFeatureInfo tool.
+   * This function is called when user clicks map with Query tool.
+
+   * @param objRef      Pointer to this GetFeatureInfo object.
+
+   * @param targetNode  The node for the enclosing HTML tag for this widget.
 
    */
 
-  this.get=function(evpl){
+  this.doAction = function(objRef,targetNode) {
 
-    Sarissa.setXslParameter(
+    if (objRef.enabled) {
 
-      this.context2FeatureInfo.xslDom,
+      var queryLayer=objRef.targetModel.getParam("queryLayer");
 
-      "queryLayer", "'"+this.context.queryLayer+"'");
+      if (queryLayer==null) {
 
-    Sarissa.setXslParameter(
+        alert("Query layer not selected, select a queryable layer in the Legend.");
 
-      this.context2FeatureInfo.xslDom,
+      }
 
-      "xCoord", "'"+evpl[0]+"'");
+      else {
 
-    Sarissa.setXslParameter(
+        Sarissa.setXslParameter(
 
-      this.context2FeatureInfo.xslDom,
+          objRef.xsl.xslDom,
 
-      "yCoord", "'"+evpl[1]+"'");
+          "queryLayer", "'"+queryLayer+"'");
 
-    s=this.context2FeatureInfo.transformNode(this.context.context);
+        Sarissa.setXslParameter(
+
+          objRef.xsl.xslDom,
+
+          "xCoord", "'"+targetNode.evpl[0]+"'");
+
+        Sarissa.setXslParameter(
+
+          objRef.xsl.xslDom,
+
+          "yCoord", "'"+targetNode.evpl[1]+"'");
 
 
 
-    s = s.replace(new RegExp("&amp;","g"),"&");
+        s=objRef.xsl.transformNode(objRef.targetModel.doc);
 
-    window.open(s,'queryWin','height=200,width=300,scrollbars=yes');
+        s = s.replace(new RegExp("&amp;","g"),"&");
+
+        window.open(s,'queryWin','height=200,width=300,scrollbars=yes');
+
+      }
+
+    }
+
+  }
+
+
+
+  if (this.mouseHandler) {
+
+    this.mouseHandler.addListener('mouseup',this.doAction,this);
 
   }
 
