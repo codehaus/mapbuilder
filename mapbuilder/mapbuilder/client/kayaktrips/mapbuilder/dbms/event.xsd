@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:gml="http://www.opengis.net/gml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.2">
+<element name="Event" type="ex:EventType" substitutionGroup="gml:_Feature"/>
+<complexType name="EventType">
+	<complexContent>
+		<extension base="gml:AbstractFeatureType">
+			<sequence>
+				<element name="time" type="string"/>
+				<element name="email" type="string"/>
+				<element name="tripname" type="string"/>
+				<element name="triptext" type="string"/>
+				<element name="trippicpath" type="string" minOccurs="0"/>
+				<element name="starttext" type="string"/>
+				<element name="tripstartpicpath" type="string" minOccurs="0"/>
+				<element name="endtext" type="string"/>
+				<element name="tripendpicpath" type="string" minOccurs="0"/>
+				<element name="routestart" type="gml:PointPropertyType"/>
+				<element name="route" type="gml:LineStringPropertyType"/>
+				<element name="routeend" type="gml:PointPropertyType"/>
+			</sequence>
+		</extension>
+	</complexContent>
+</complexType>
