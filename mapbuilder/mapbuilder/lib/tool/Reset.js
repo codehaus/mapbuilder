@@ -17,7 +17,10 @@ function Reset(toolNode, parentWidget) {
 
   this.targetModel = this.parentWidget.targetModel;
 
-  //store a copy of the original extent
+  /**
+   * Store a copy of the original extent locally.
+   * @param objRef Pointer to this object.
+   */
   this.initExtent = function(objRef) {
     objRef.originalExtent = new Extent( objRef.targetModel );   
     objRef.originalExtent.init( objRef.originalExtent );
