@@ -16,7 +16,7 @@ $Id$
 function Legend(context,baseDir,window) {
   this.context=context;
   this.window=window;
-  this.context2Legend=new XslProcessor(baseDir+"/legend/Context2Legend.xsl");
+  this.context2Legend=new XslProcessor(baseDir+"/legend/Context2Legend.xml");
 
   /**
    * Render the legend.

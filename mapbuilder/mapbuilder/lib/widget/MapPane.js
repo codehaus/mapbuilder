@@ -16,7 +16,7 @@ $Id$
 function MapPane(context,baseDir,window) {
   this.context=context;
   this.window=window;
-  this.wmcLayer2DhtmlLayer=new XslProcessor(baseDir+"/mappane/WmcLayer2DhtmlLayer.xsl");
+  this.wmcLayer2DhtmlLayer=new XslProcessor(baseDir+"/mappane/WmcLayer2DhtmlLayer.xml");
 
   /**
    * Create all the layers by rendering them into the current window.
