@@ -20,6 +20,7 @@ $Name$
     <script type="text/javascript" src="../lib/model/Extent.js"></script>
     <script type="text/javascript" src="../lib/widget/mappane/MapPane.js"></script>
     <script type="text/javascript" src="../lib/widget/tool/GlassPane.js"></script>
+    <script type="text/javascript" src="../lib/widget/tool/ButtonBar.js"></script>
     <script type="text/javascript" src="../lib/widget/tool/AoiBox.js"></script>
     <script type="text/javascript" src="../lib/widget/legend/Legend.js"></script>
     <script type="text/javascript" src="../lib/widget/tool/PanTool.js"></script>
@@ -61,12 +62,26 @@ $Name$
           </td>
 
           <td>
-            <A HREF="javascript:mapPane.mouseHandler.setMode( MODE_ZOOM_IN )">set to mode zoom
-in</A><BR/>
-            <A HREF="javascript:mapPane.mouseHandler.setMode( MODE_ZOOM_OUT )">set to mode zoom
-out</A><BR/>
-            <A HREF="javascript:mapPane.mouseHandler.setMode( MODE_GETFEATUREINFO )">set to mode GetFeatureInfo</A><BR/>
+<A HREF="javascript:buttonBar.setMode(MODE_ZOOM_IN)"><IMG ID="ZoomInButton"/></A>
+<A HREF="javascript:buttonBar.setMode(MODE_ZOOM_OUT)"><IMG ID="ZoomOutButton"/></A>
+<A HREF="javascript:buttonBar.resetExtent()"><IMG SRC="mapbuilder/lib/skin/default/images/reset_extent_dis.gif" ID="Extent" TITLE="reset the map to full extent"/></A>
+<A HREF="javascript:buttonBar.setMode(MODE_PAN)"><IMG ID="PanButton"/></A>
+<A HREF="javascript:buttonBar.setMode(MODE_SET_ROI)"><IMG ID="SetRoiButton"/></A>
+<A HREF="javascript:buttonBar.setMode(MODE_GETFEATUREINFO)"><IMG ID="QueryButton"/></A>
           </td>
+        </tr>
+
+      <tr>
+        <td valign="top">
+            <FORM NAME="AOIForm" ID="AOIForm" STYLE="margin:0; padding:0;">
+            Area of Interest:<BR/>
+            north:&nbsp;<input NAME="northbc" TYPE="text" SIZE="6"/><BR/>
+            south:&nbsp;<input NAME="southbc" TYPE="text" SIZE="6"/><BR/>
+            east:&nbsp;<input NAME="eastbc" TYPE="text" SIZE="6"/><BR/>
+            west:&nbsp;<input NAME="westbc" TYPE="text" SIZE="6"/>
+            </FORM>
+          </td>
+          <td>&nbsp;</td>
         </tr>
     </table>
     <p><i>A <a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Project</i></p>
@@ -100,6 +115,8 @@ out</A><BR/>
       //add mouse handler function
       mapPane.mouseHandler = new GlassPane( mapPane, MODE_ZOOM_IN );
       mapPane.mouseHandler.setCursorTrackForm( document.MapDisplayForm );
+      mapPane.mouseHandler.setAOIForm( document.AOIForm );
+      var buttonBar = new ButtonBar( mapPane.mouseHandler, context.skin );
 
       // Create and render a Legend
       legend=new Legend(

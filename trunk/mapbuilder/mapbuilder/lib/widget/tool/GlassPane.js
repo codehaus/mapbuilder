@@ -65,6 +65,7 @@ TBD: find out why this isn't working
     this.glassPane.onmousedown = mouseDownHandler;
     this.glassPane.onmouseup = mouseUpHandler;
     this.glassPane.getEvent = getEvent;
+    this.glassPane.setFormAOI = setFormAOI;
   }
 
 /** Set the mode of the GlassPane
@@ -73,6 +74,7 @@ TBD: find out why this isn't working
   */
   this.setMode = function( mode ) {
     this.glassPane.mode = mode;
+
   }
 
 /** Enable and set the form for cursor tracking output.  If this is called 
@@ -86,6 +88,17 @@ TBD: find out why this isn't working
     this.glassPane.proj = new proj( this.glassPane.context.getSRS() );
     this.glassPane.coordForm = form;					
     this.glassPane.onmouseover = mouseOverHandler;
+  }
+
+/** Enable and set the form for AOI
+  * @requires proj
+  * @param form   the form for AOI coordinate output; it must have text input
+  *               elements named northbc, southbc, eastbc and southbc
+  * @return       none
+  */
+  this.setAOIForm = function(form) {   //pass in a form to display coordinates in
+    this.glassPane.proj = new proj( this.glassPane.context.getSRS() );
+    this.glassPane.AOIForm = form;					
   }
 
 /** Set a function to be called on the mouseup event.  It will be called with
@@ -109,6 +122,15 @@ TBD: find out why this isn't working
   }
 
   view.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
+
+  this.acceptToolTips = true;   //set to false to prevent button bar from changing the tooltip
+  this.setToolTip = function( tip ) {
+    //this.glassPane.image??.title = tip;
+  }
+
+  this.resetExtent = function() {
+    this.glassPane.context.reset();
+  }
 }
 
 
@@ -161,10 +183,14 @@ function mouseUpHandler(ev) {
     case 3://MODE_PAN:            //pan
       this.stopPan(this.evpl);
       break;
-    case 4://MODE_SET_ROI:				//setting ROI
-      if (this.mouseBox.started) this.mouseBox.stop(true);
-      var ROIBox = this.GetROI();
-      this.setFormROI(ROIBox[0], ROIBox[1]);
+    case 4://MODE_SET_ROI:				//setting AOI
+      if (this.mouseBox.started) {
+        this.mouseBox.stop(true);
+        var bbox = this.mouseBox.getBox();
+        var ul = this.context.extent.GetXY( bbox[0] );
+        var lr = this.context.extent.GetXY( bbox[1] );
+        this.setFormAOI( ul, lr );
+      }
       break;
     case 5://MODE_ALT_CLICK:		  //zoom by ALT/CTRL click
       if (this.altKey) {
@@ -253,6 +279,16 @@ function ReportCoords(glass) {
     glass.coordForm.latitude.value = Math.round(evll[1]*100)/100;
 }
 
+function setFormAOI(ul, lr) {
+  if ( this.AOIForm ) {
+    this.AOIForm.eastbc.value = Math.round(lr[0]*100)/100;
+    this.AOIForm.northbc.value = Math.round(ul[1]*100)/100;
+    this.AOIForm.westbc.value = Math.round(ul[0]*100)/100;
+    this.AOIForm.southbc.value = Math.round(lr[1]*100)/100;
+  }
+}
+
+
 
 
 // **** not tested past here *****
@@ -281,18 +317,4 @@ function panImage(evp,evl) {
 }
 
 
-function SetROI(ul, lr) {     //pass coords in lat/lon
-  ulxy = BaseLayer.extent.Forward(ul);
-  lrxy = BaseLayer.extent.Forward(lr);
-  ulpl = BaseLayer.GeoImagePLCoords(ulxy);
-  lrpl = BaseLayer.GeoImagePLCoords(lrxy);
-  drawBox(ulpl[0], ulpl[1], lrpl[0], lrpl[1]);
-  setFormROI(ul, lr);
-}
 
-function GetLatLonROI() {
-  var corners = GetROI();
-  var ulll = BaseLayer.extent.Inverse(corners[0]);
-  var lrll = BaseLayer.extent.Inverse(corners[1]);
-  return new Array(ulll, lrll);
-}
