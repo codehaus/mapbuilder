@@ -8,8 +8,8 @@
               xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengis.net/context/1.0.0/context.xsd">
   <General>
     <Window width="400" height="250"/>
-    <BoundingBox SRS="EPSG:4326" minx="-140" miny="40" maxx="-60" maxy="90"/>
-    <Title>GDP MODIS search map</Title>
+    <BoundingBox SRS="EPSG:4326" minx="-180" miny="-90" maxx="180" maxy="90"/>
+    <Title>MODIS composite</Title>
     <KeywordList>
       <Keyword>MODIS</Keyword>
     </KeywordList>
