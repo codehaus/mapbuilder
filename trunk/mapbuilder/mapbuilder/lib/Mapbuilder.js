@@ -33,14 +33,20 @@ function Mapbuilder() {
   /** Timer to periodically check if scripts have loaded. */
   this.scriptsTimer=null;
 
+  /** True when all scripts from Config file have been loaded. */
+  this.allScriptsLoaded=false;
+
   /**
-   * Instantiate Config, wait for scripts to be loaded by Config, then call
-   * config.init.
+   * Instantiate Config, wait for scripts to be loaded by Config, then set
+   * this.allScriptsLoaded=true.
+   * Once scripts and <body> are loaded, config.init() will be called from
+   * <body onload="">
    */
   this.configInit=function(){
     config=new Config(mbConfigUrl);
     config.loadConfigScripts();
-    this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded("config.init()")',100);
+    this.allScriptsLoaded=true;
+    //this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded("config.init()")',100);
   }
 
   /**
@@ -104,3 +110,4 @@ function Mapbuilder() {
   // Start a timer which periodically calls checkScriptsLoaded().
   this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded("this.configInit()")',100);
 }
+mapbuilder=new Mapbuilder();
