@@ -19,7 +19,7 @@ $Name$
   <xsl:param name="bBoxMinY" select="-90"/>
   <xsl:param name="bBoxMaxX" select="180"/>
   <xsl:param name="bBoxMaxY" select="90"/>
-  <xsl:param name="lineColor" select="red"/>
+  <xsl:param name="color" select="red"/>
   <xsl:param name="lineWidth" select="2"/>
   <xsl:param name="skinDir"/>
   <xsl:param name="pointDiameter" select="10"/>
@@ -27,10 +27,11 @@ $Name$
   <xsl:variable name="xRatio" select="$width div ( $bBoxMaxX - $bBoxMinX )"/>
   <xsl:variable name="yRatio" select="$height div ( $bBoxMaxY - $bBoxMinY )"/>
 
+
   <!-- Root node -->
   <xsl:template match="/">
     <!--div style="width: {$width}px; height: {$height}px; overflow: hidden"-->
-      <div style="position:absolute; width:{$width}; height:{$height}">
+      <div style="position:relative; width:{$width}; height:{$height}">
       <xsl:apply-templates/>
     </div>
   </xsl:template>
@@ -43,7 +44,6 @@ $Name$
     <div style="position:absolute; left:{$x0}px; top:{$y0}px; width:{$pointDiameter}px; height:{$pointDiameter}px">
       <img src="{$skinDir}/images/Dot.gif"/>
     </div>
-
   </xsl:template>
 
   <!-- Match and render a GML Envelope -->
@@ -53,6 +53,165 @@ $Name$
     <xsl:variable name="x1" select="round((number(gml:coord[position()=2]/gml:X)-$bBoxMinX)*$xRatio)"/>
     <xsl:variable name="y1" select="round($height - (number(gml:coord[position()=2]/gml:Y)-$bBoxMinY)*$yRatio)"/>
 
+    <xsl:call-template name="drawLine">
+      <xsl:with-param name="x0" select="$x0"/>
+      <xsl:with-param name="y0" select="$y0"/>
+      <xsl:with-param name="x1" select="$x1"/>
+      <xsl:with-param name="y1" select="$y0"/>
+    </xsl:call-template>
+    <xsl:call-template name="drawLine">
+      <xsl:with-param name="x0" select="$x1"/>
+      <xsl:with-param name="y0" select="$y0"/>
+      <xsl:with-param name="x1" select="$x1"/>
+      <xsl:with-param name="y1" select="$y1"/>
+    </xsl:call-template>
+    <xsl:call-template name="drawLine">
+      <xsl:with-param name="x0" select="$x1"/>
+      <xsl:with-param name="y0" select="$y1"/>
+      <xsl:with-param name="x1" select="$x0"/>
+      <xsl:with-param name="y1" select="$y1"/>
+    </xsl:call-template>
+    <xsl:call-template name="drawLine">
+      <xsl:with-param name="x0" select="$x0"/>
+      <xsl:with-param name="y0" select="$y1"/>
+      <xsl:with-param name="x1" select="$x0"/>
+      <xsl:with-param name="y1" select="$y0"/>
+    </xsl:call-template>
+
+    <xsl:call-template name="drawLine">
+      <xsl:with-param name="x0" select="$x0"/>
+      <xsl:with-param name="y0" select="$y0"/>
+      <xsl:with-param name="x1" select="$x1"/>
+      <xsl:with-param name="y1" select="$y1"/>
+    </xsl:call-template>
+    <xsl:call-template name="drawLine">
+      <xsl:with-param name="x0" select="$x0"/>
+      <xsl:with-param name="y0" select="$y1"/>
+      <xsl:with-param name="x1" select="$x1"/>
+      <xsl:with-param name="y1" select="$y0"/>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template name="drawLine">
+    <xsl:param name="x0"/>
+    <xsl:param name="y0"/>
+    <xsl:param name="x1"/>
+    <xsl:param name="y1"/>
+    <xsl:variable name="slope" select="($y1 - $y0) div ($x1 - $x0)"/>
+
+    <debug select="drawLine{$x0},{$y0},{$x1},{$y1} slope={$slope}"/>
+    <xsl:choose>
+      <xsl:when test="$x0 = $x1">
+        <xsl:call-template name="fillBox">
+          <xsl:with-param name="x0" select="$x0 - round($lineWidth div 2)"/>
+          <xsl:with-param name="y0" select="$y0"/>
+          <xsl:with-param name="x1" select="$x0 + round($lineWidth div 2)"/>
+          <xsl:with-param name="y1" select="$y1"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:when test="$y0 = $y1">
+        <xsl:call-template name="fillBox">
+          <xsl:with-param name="x0" select="$x0"/>
+          <xsl:with-param name="y0" select="$y0 - round($lineWidth div 2)"/>
+          <xsl:with-param name="x1" select="$x1"/>
+          <xsl:with-param name="y1" select="$y1 + round($lineWidth div 2)"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:when test="$slope > 0.5 or $slope &lt; -0.5">
+        <xsl:call-template name="drawSteepLine">
+          <xsl:with-param name="slope" select="$slope"/>
+          <xsl:with-param name="x0" select="$x0"/>
+          <xsl:with-param name="x1" select="$x1"/>
+          <xsl:with-param name="y1" select="$y1"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="drawFlatLine">
+          <xsl:with-param name="slope" select="$slope"/>
+          <xsl:with-param name="y0" select="$y0"/>
+          <xsl:with-param name="x1" select="$x1"/>
+          <xsl:with-param name="y1" select="$y1"/>
+        </xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  
+  <!-- Draw Line with height > width.  Recursively calls itself drawing a series
+  of vertical lines with each recursion. -->
+  <xsl:template name="drawSteepLine">
+    <xsl:param name="slope"/> <!-- height/width -->
+    <xsl:param name="x0"/>
+    <xsl:param name="x1"/>
+    <xsl:param name="y1"/>
+    
+    <xsl:variable name="inc">
+      <xsl:choose>
+        <xsl:when test="$x0 &lt; $x1">1</xsl:when>
+        <xsl:otherwise>-1</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <debug select="drawSteepLine {$x0},y0,{$x1},{$y1} slope={$slope} inc={$inc}"/>
+
+    <xsl:call-template name="fillBox">
+      <xsl:with-param name="x0" select="$x0 - round(($lineWidth - 1) div 2)"/>
+      <xsl:with-param name="y0" select="$y1 + round($slope * ($x0 - $x1))"/>
+      <xsl:with-param name="x1" select="$x0 + round(($lineWidth - 1) div 2)"/>
+      <xsl:with-param name="y1" select="$y1 + round($slope * ($x0 - $x1 - $inc))"/>
+    </xsl:call-template>
+    
+    <xsl:if test="$x0 + 2 * $inc != $x1">
+      <xsl:call-template name="drawSteepLine">
+        <xsl:with-param name="x0" select="$x0 + $inc"/>
+        <xsl:with-param name="x1" select="$x1"/>
+        <xsl:with-param name="y1" select="$y1"/>
+        <xsl:with-param name="slope" select="$slope"/>
+      </xsl:call-template>
+    </xsl:if>
+  </xsl:template>
+
+  <!-- Draw Line with width > height.  Recursively calls itself drawing a series
+  of horizontal lines with each recursion. -->
+  <xsl:template name="drawFlatLine">
+    <xsl:param name="slope"/> <!-- height/width -->
+    <xsl:param name="y0"/>
+    <xsl:param name="x1"/>
+    <xsl:param name="y1"/>
+    
+    <xsl:variable name="inc">
+      <xsl:choose>
+        <xsl:when test="$y0 &lt; $y1">1</xsl:when>
+        <xsl:otherwise>-1</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <debug select="drawFlatLine x0,{$y0},{$x1},{$y1} slope={$slope} inc={$inc}"/>
+
+    <xsl:call-template name="fillBox">
+      <xsl:with-param name="x0" select="$x1 - round(($y1 - $y0) div $slope)"/>
+      <xsl:with-param name="y0" select="$y0 - round(($lineWidth - 1) div 2)"/>
+      <xsl:with-param name="x1" select="$x1 - round(($y1 - $y0 - $inc) div $slope)"/>
+      <xsl:with-param name="y1" select="$y0 + round(($lineWidth - 1) div 2)"/>
+    </xsl:call-template>
+    
+    <xsl:if test="$y0 + 2 * $inc != $y1">
+      <xsl:call-template name="drawFlatLine">
+        <xsl:with-param name="y0" select="$y0 + $inc"/>
+        <xsl:with-param name="x1" select="$x1"/>
+        <xsl:with-param name="y1" select="$y1"/>
+        <xsl:with-param name="slope" select="$slope"/>
+      </xsl:call-template>
+    </xsl:if>
+  </xsl:template>
+
+  <!-- Render a solid box -->
+  <xsl:template name="fillBox">
+    <xsl:param name="x0"/>
+    <xsl:param name="y0"/>
+    <xsl:param name="x1"/>
+    <xsl:param name="y1"/>
+
+    <debug select="fillBox {$x0},{$y0},{$x1},{$y1}"/>
     <xsl:variable name="xMax">
       <xsl:choose>
         <xsl:when test="$x1 > $x0">
@@ -76,18 +235,6 @@ $Name$
     </xsl:variable>
 
     <xsl:variable name="yMin">
-
-     <xsl:choose>
-        <xsl:when test="$y1 > $y0">
-          <xsl:value-of select="$y1"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="$y0"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-
-    <xsl:variable name="yMax">
       <xsl:choose>
         <xsl:when test="$y1 > $y0">
           <xsl:value-of select="$y0"/>
@@ -98,33 +245,18 @@ $Name$
       </xsl:choose>
     </xsl:variable>
 
-    <xsl:call-template name="mkDiv">
-      <xsl:with-param name="x" select="$xMin"/>
-      <xsl:with-param name="y" select="$yMin - $lineWidth + 1"/>
-      <xsl:with-param name="w" select="$xMax - $xMin"/>
-      <xsl:with-param name="h" select="$lineWidth"/>
-    </xsl:call-template>
+    <xsl:variable name="yMax">
+      <xsl:choose>
+        <xsl:when test="$y1 > $y0">
+          <xsl:value-of select="$y1"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$y0"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
 
-    <xsl:call-template name="mkDiv">
-      <xsl:with-param name="x" select="$xMax - $lineWidth + 1"/>
-      <xsl:with-param name="y" select="$yMax"/>
-      <xsl:with-param name="w" select="$lineWidth"/>
-      <xsl:with-param name="h" select="$yMin - $yMax"/>
-    </xsl:call-template>
-
-    <xsl:call-template name="mkDiv">
-      <xsl:with-param name="x" select="$xMin"/>
-      <xsl:with-param name="y" select="$yMax"/>
-      <xsl:with-param name="w" select="$xMax - $xMin"/>
-      <xsl:with-param name="h" select="$lineWidth"/>
-    </xsl:call-template>
-
-    <xsl:call-template name="mkDiv">
-      <xsl:with-param name="x" select="$xMin"/>
-      <xsl:with-param name="y" select="$yMax"/>
-      <xsl:with-param name="w" select="$lineWidth"/>
-      <xsl:with-param name="h" select="$yMin - $yMax"/>
-    </xsl:call-template>
+    <div style="position:absolute; left:{$xMin}px; top:{$yMin}px; width:{$xMax - $xMin +1}px; height:{$yMax -$yMin +1}px; background-color:{$color}"><i/></div>
   </xsl:template>
 
   <!-- Render a <div> box -->
@@ -134,10 +266,9 @@ $Name$
     <xsl:param name="w"/>
     <xsl:param name="h"/>
 
-    <div style="position:absolute; left:{$x}px; top:{$y}px; width:{$w}px; height:{$h}px; background-color:{$lineColor}"><i/></div>
+    <div style="position:absolute; left:{$x}px; top:{$y}px; width:{$w}px; height:{$h}px; background-color:{$color}"><i/></div>
   </xsl:template>
 
   <xsl:template match="text()|@*"/>
   
 </xsl:stylesheet>
-
