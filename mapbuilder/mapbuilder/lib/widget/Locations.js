@@ -3,6 +3,9 @@ License: GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
+// Ensure this object's dependancies are loaded.
+loadScript(baseDir+"/widget/WidgetBase.js");
+
 /**
  * Functions to render a Predefined Locations select box from a GML document
  * with locations and their coordinates 
@@ -53,6 +56,9 @@ function Locations(context, name, node) {
 /*
  *
  * $Log$
+ * Revision 1.3  2004/04/03 10:29:49  camerons
+ * WidgetBase.js now loaded when Widget scripts are loaded
+ *
  * Revision 1.2  2004/02/27 14:06:00  tomkralidis
  * Updates to handle Locations object
  *
