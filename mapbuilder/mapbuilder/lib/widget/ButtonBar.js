@@ -6,13 +6,15 @@ $Id$
 */
 
 /**
- * A collection of buttons.
+ * A widget which contains a collection of buttons.  One button can
+ * be selected (Eg a ZoomInButton) and will determine how mouse clicks on a
+ * MapPane are processed.
  *
  * @constructor
  *
  * @param widgetNode The Widget's XML object node from the configuration
  *     document.
- * @param group      The ModelGroup XML object from the configuration
+ * @param group The ModelGroup XML object from the configuration
  *     document that this widget will update.
  */
 function ButtonBar(widgetNode, group) {
@@ -35,7 +37,6 @@ function ButtonBar(widgetNode, group) {
   if (mouseWidget) {
     this.mouseWidget = eval(mouseWidget.firstChild.nodeValue);
     this.modalMouseUp = function(targetNode, buttonBar) {
-      //alert(buttonBar.selectedButton.modalMouseUp);
       buttonBar.selectedButton.modalMouseUp(targetNode, buttonBar.model) 
     }
     this.modalMouseDown = function(targetNode, buttonBar) {
@@ -50,8 +51,11 @@ function ButtonBar(widgetNode, group) {
   }
   
   /**
-   * Set the mode (eg Zoom_In) for this ButtonBar.
-   * @deprecated I think that this function is not used any more.  Cameron 19 March 2004.
+   * Select one of the buttons, which deselects all the other buttons.
+   * TBD: I'd prefer to call this selectButton(). Cameron 19 March 2004.
+   * TBD: I suggest remove <modeValue> from config and use the Node's name instead.
+   *      Eg: <ZoomInButton> and call it buttonName (or similar). Cameron 19 March 2004.
+   * @param mode The modeValue of a Button to select.
    */
   this.setMode = function(mode) {
     if (this.selectedButton) this.selectedButton.image.src = this.selectedButton.disabledImage.src;
@@ -64,7 +68,7 @@ function ButtonBar(widgetNode, group) {
   }
 
   /**
-   * TBD: Document me.  Is this function deprecated?  Cameron 19 March 2004.
+   * TBD: Document me.
    */
   this.addListeners = function() {
     var initialMode = this.widgetNode.selectSingleNode("initialMode").firstChild.nodeValue;
@@ -77,8 +81,8 @@ function ButtonBar(widgetNode, group) {
 
 /**
  * Base Button object that all Buttons extend.
- * @param toolNode TBD document me.
- * @param parentWidget TBD document me.
+ * @param toolNode The tool node from the Config XML file.
+ * @param parentWidget The ButtonBar node from the Config XML file.
  */
 function ButtonBase(toolNode, parentWidget) {
   this.parentWidget = parentWidget;
@@ -97,6 +101,10 @@ function ButtonBase(toolNode, parentWidget) {
   this.mode = toolNode.selectSingleNode("modeValue").firstChild.nodeValue; 
   this.id = toolNode.selectSingleNode("@id").firstChild.nodeValue;
 
+  /**
+   * TBD Document me.
+   * @param objRef TBD Document me.
+   */
   this.init = function(objRef) {
     objRef.image = document.getElementById( objRef.id );
     if ( objRef.parentWidget.mouseWidget==null ) {
@@ -110,11 +118,23 @@ function ButtonBase(toolNode, parentWidget) {
   this.modalMouseMove = noop;
 }
 
+/**
+ * When this button is selected, clicks on the MapPane trigger a zoomIn at that
+ * point.
+ * @param toolNode The tool node from the Config XML file.
+ * @param parentWidget The ButtonBar node from the Config XML file.
+ */
 function ZoomInButton(toolNode, parentWidget) {
   var base = new ButtonBase(toolNode, parentWidget);
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 
   } 
+
+  /**
+   * TBD document me.
+   * @param targetNode TBD: Document me.
+   * @param model The model that this tool will update.
+   */
   this.modalMouseUp = function(targetNode, model) {
     var bbox = model.getAoi();
     var ul = model.extent.GetXY( bbox[0] );
@@ -163,4 +183,5 @@ function ResetButton(toolNode, parentWidget) {
 
 }
 
+/** A function stub that does nothing.*/
 function noop() {;}
