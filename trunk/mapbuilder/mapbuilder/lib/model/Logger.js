@@ -17,6 +17,17 @@ function Logger(modelNode, parent) {
   this.doc.async = false;
   this.doc.validateOnParse=false;  //IE6 SP2 parsing bug
 
+  //set the URL to post this data for saving
+  var serializeUrl = modelNode.selectSingleNode("mb:serializeUrl");
+  if (serializeUrl) this.serializeUrl = serializeUrl.firstChild.nodeValue;
+
+  /**
+   * appends a new entry in the log file
+   * @param evenType    the name of the event that occured
+   * @param listenerId  the ID of the listener object
+   * @param targetId    the ID of the object passed to the listener function
+   * @param paramValue  any parameter info supplied to the listener function
+   */
   this.logEvent = function(eventType, listenerId, targetId, paramValue) {
     var eventLog = this.doc.createElement("event");
     eventLog.setAttribute("time", new Date().getTime());
@@ -27,10 +38,33 @@ function Logger(modelNode, parent) {
     this.doc.documentElement.appendChild(eventLog);
   }
 
-  this.saveLog = function() {
-    var tempDoc = postLoad("/mapbuilder/writeXml",logger.doc);
+  /**
+   * clears all entries in the log file
+   */
+  this.clearLog = function() {
+    while (this.doc.documentElement.hasChildNodes() ) {
+      this.doc.documentElement.removeChild(this.doc.documentElement.firstChild);
+    }
+    this.callListeners("loadModel");
   }
-  window.onunload = this.saveLog;
-  window.logger = this;
+
+  /**
+   * save the log by http post to the serializeUrl URL provided
+   */
+  this.saveLog = function() {
+    if (logger.serializeUrl) {
+      var tempDoc = postLoad(logger.serializeUrl,logger.doc);
+      tempDoc.setProperty("SelectionLanguage", "XPath");
+      Sarissa.setXpathNamespaces(tempDoc, "xmlns:xlink='http://www.w3.org/1999/xlink'");
+      var onlineResource = tempDoc.selectSingleNode("//OnlineResource");
+      var fileUrl = onlineResource.attributes.getNamedItem("xlink:href").nodeValue;
+      alert("event log saved as:" + fileUrl);
+    } else {
+      alert("unable to save event log; provide a serializeUrl property on the logger model");
+    }
+  }
+
+  window.onunload = this.saveLog;   //automatically save the log when the page unloads
+  window.logger = this;             //global reference to the logger model
   this.callListeners("loadModel");
 }
