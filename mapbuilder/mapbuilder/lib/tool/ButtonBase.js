@@ -60,12 +60,6 @@ function ButtonBase(button, toolNode, parentWidget) {
 
     //enable this tool and any dependancies
     this.enable(true,this);
-
-    if (this.mouseHandler) {
-      //let the mousehandler call doAction
-    } else {
-      this.doAction(this);
-    }
     this.doSelect(true,this);
   }
 
