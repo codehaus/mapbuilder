@@ -1,4 +1,4 @@
 <?
-$db = mysql_connect("localhost", "gworks","s98Df6wW");
+$db = mysql_connect("localhost", "root","password");
 mysql_select_db("gworks",$db);
 ?>
