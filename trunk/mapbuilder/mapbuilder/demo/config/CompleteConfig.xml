@@ -62,11 +62,12 @@
               <tooltip>click to zoom out</tooltip>
               <selected>false</selected>
             </ZoomOut>
-            <Reset id="reset">
+            <!-- Reset button removed because it causes JS errors on IE -->
+            <!--Reset id="reset">
               <class>Button</class>
               <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
               <tooltip>reset the map to full extent</tooltip>
-            </Reset>
+            </Reset-->
           </tools>
         </ButtonBar>
       </widgets>
