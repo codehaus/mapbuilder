@@ -167,6 +167,7 @@ function WidgetBase(widget,widgetNode,model) {
       //set to output to a temporary node
       //hack to get by doc parsing problem in IE
       //the firstChild of tempNode will be the root element output by the stylesheet
+      var outputNode = document.getElementById( objRef.outputNodeId );
       var tempNode = document.createElement("DIV");
       switch (objRef.paintMethod) {
         case "xsl2html":
@@ -175,26 +176,32 @@ function WidgetBase(widget,widgetNode,model) {
           if (objRef.debug) alert("painting:"+objRef.id+":"+s);
           tempNode.innerHTML = s;
           tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
+
+          //look for this widgets output and replace if found,
+          //otherwise append it
+          if (outputNode) {
+            objRef.node.replaceChild(tempNode.firstChild,outputNode);
+          } else {
+            objRef.node.appendChild(tempNode.firstChild);
+          }
           break;
         case "xsl2js":
-          result = objRef.stylesheet.transformNodeToObject(objRef.resultDoc);
-          js=result.firstChild.firstChild.nodeValue;
-          tempNode.innerHTML = "<div>";
-          tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
+          jsNode = objRef.stylesheet.transformNodeToObject(objRef.resultDoc);
+          js=jsNode.firstChild.firstChild.nodeValue;
+          //look for this widgets output and replace if found,
+          //otherwise append it
+          if (!outputNode) {
+            tempNode.innerHTML = "<div>";
+            tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
+            objRef.node.appendChild(tempNode.firstChild);
+          }
           //alert("WidgetBase: js ="+js);
-          //eval(js);
+          eval(js);
           break;
         default:
           alert("WidgetBase: Invalid paintMethod="+objRef.paintMethod);
       }
 
-      //look for this widgets output and replace if found, otherwise append it
-      var outputNode = document.getElementById( objRef.outputNodeId );
-      if (outputNode) {
-        objRef.node.replaceChild(tempNode.firstChild,outputNode);
-      } else {
-        objRef.node.appendChild(tempNode.firstChild);
-      }
       objRef.callListeners("paint");
     }
   }
