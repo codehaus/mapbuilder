@@ -93,7 +93,7 @@ function ButtonBase(button, widgetNode, model) {
     /** Mouse handler which this tool will register listeners with. */
     var mouseHandler = objRef.widgetNode.selectSingleNode("mb:mouseHandler");
     if (mouseHandler) {
-      objRef.mouseHandler = eval("config.models." + mouseHandler.firstChild.nodeValue);
+      objRef.mouseHandler = eval("config.objects." + mouseHandler.firstChild.nodeValue);
       if (!objRef.mouseHandler) {
         alert("error finding mouseHandler:"+mouseHandler.firstChild.nodeValue+" for tool:"+objRef.id);
       }

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:wmc="http://www.opengis.net/context" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:stylesheet 
+    xmlns:wmc="http://www.opengis.net/context" 
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+    xmlns:gml='http://www.opengis.net/gml' 
+    xmlns:wfs='http://www.opengis.net/wfs'
+    version="1.0">
 <!--
 Description: Convert a Web Map Context into a HTML Legend
 Author:      Cameron Shorter cameron ATshorter.net
@@ -15,7 +20,9 @@ $Name$
   <xsl:param name="modelId"/>
   
 <!-- The name of the javascript context object to call -->
-  <xsl:param name="context">config['<xsl:value-of select="$modelId"/>']</xsl:param>
+  <xsl:param name="featureName"/>
+  <xsl:param name="hidden"/>
+  <xsl:param name="context">config.objects.<xsl:value-of select="$modelId"/></xsl:param>
   
 <!-- Main html -->
   <xsl:template match="/wmc:ViewContext">
@@ -30,15 +37,39 @@ $Name$
   <xsl:template match="/wmc:OWSContext">
     <table border="0" cellpadding="1" cellspacing="0">
       <tr>
-        <th colspan="3"><xsl:call-template name="title"/></th>
+        <th colspan="3">WMS <xsl:call-template name="title"/></th>
       </tr>
       <xsl:apply-templates select="wmc:ResourceList/wmc:Layer"/>
-      <xsl:apply-templates select="wmc:ResourceList/wmc:FeatureType[wmc:Server/@service='OGC:WFS']"/>
+    </table>
+  </xsl:template>
+  
+  <xsl:template match="/wfs:FeatureCollection">
+    <table border="0" cellpadding="1" cellspacing="0">
+      <tr>
+        <th colspan="3">WFS Features</th>
+      </tr>
+      <tr>
+  <!-- Visiblity -->
+        <td>
+          <xsl:if test="$hidden='false'">
+            <input type="checkbox" checked="true" id="legend_{$featureName}" onclick="{$context}.setHidden('{$featureName}',!document.getElementById('legend_{$featureName}').checked)"/>
+          </xsl:if>
+          <xsl:if test="$hidden='true'">
+            <input type="checkbox" id="legend_{$featureName}" onclick="{$context}.setHidden('{$featureName}',! document.getElementById('legend_{$featureName}').checked)"/>
+          </xsl:if>
+        </td>
+  <!-- No query capability yet -->
+        <td>
+        </td>
+        <td>
+          <xsl:value-of select="$featureName"/>
+        </td>
+      </tr>
     </table>
   </xsl:template>
   
 <!-- Layer -->
-  <xsl:template match="wmc:Layer | wmc:FeatureType">
+  <xsl:template match="wmc:Layer">
     <tr>
 <!-- Visiblity -->
       <td>

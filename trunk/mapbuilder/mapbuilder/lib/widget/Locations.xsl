@@ -10,7 +10,7 @@ $Name$Name:  $
 -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:gml="http://www.opengis.net/gml" xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder">
-	<xsl:output method="xml" omit-xml-declaration="yes"/>
+  <xsl:output method="xml" omit-xml-declaration="yes"/>
   <xsl:preserve-space elements="gml:name option"/>
   
   <!-- The common params set for all widgets -->
@@ -22,20 +22,20 @@ $Name$Name:  $
   <xsl:param name="selectedOption"/>
     
   
-	<xsl:template match="/mb:QuickviewPresetResultSet">
-		<xsl:variable name="srsName" select="gml:featureMember/mb:locationDef/mb:spatialKeyword/gml:location/gml:Envelope/@srsName"/>
+  <xsl:template match="/mb:QuickviewPresetResultSet">
+  <xsl:variable name="srsName" select="gml:featureMember/mb:locationDef/mb:spatialKeyword/gml:location/gml:Envelope/@srsName"/>
     <DIV>
     <form>
-		<select name="locations" onchange="javascript:config.{$modelId}.{$widgetId}.setAoi(this.options[this.selectedIndex].value,'{$targetModel}');" size="{$selectSize}">
-      <xsl:apply-templates select="gml:featureMember/mb:locationDef"/>
-		</select>
+      <select name="locations" onchange="javascript:config.objects.{$widgetId}.setAoi(this.options[this.selectedIndex].value,'{$targetModel}');" size="{$selectSize}">
+        <xsl:apply-templates select="gml:featureMember/mb:locationDef"/>
+      </select>
     </form>
     </DIV>
-	</xsl:template>
-  
-	<xsl:template match="mb:locationDef">
-		<xsl:variable name="bbox" select="translate(mb:spatialKeyword/gml:location/gml:Envelope/gml:coordinates,' ',',')"/>
-		<option value="{$bbox}"><xsl:value-of select="gml:name"/></option>
-	</xsl:template>
-  
+  </xsl:template>
+
+  <xsl:template match="mb:locationDef">
+    <xsl:variable name="bbox" select="translate(mb:spatialKeyword/gml:location/gml:Envelope/gml:coordinates,' ',',')"/>
+    <option value="{$bbox}"><xsl:value-of select="gml:name"/></option>
+  </xsl:template>
+
 </xsl:stylesheet>

@@ -56,7 +56,7 @@ $Id$
 
     <DIV>
 
-    <form name="{$formName}" id="{$formName}" onsubmit="return config.{$modelId}.{$widgetId}.submitForm()">
+    <form name="{$formName}" id="{$formName}" onsubmit="return config.objects.{$widgetId}.submitForm()">
 
     
 
@@ -84,7 +84,7 @@ $Id$
 
             <input name="modelUrl" type="text" size="30" value="{$modelUrl}"/>
 
-            <a href="javascript:config.{$modelId}.{$widgetId}.submitForm();">load</a>
+            <a href="javascript:config.objects.{$widgetId}.submitForm();">load</a>
 
           </td>
 
@@ -110,7 +110,7 @@ $Id$
 
             <input type="submit"/>
 
-            <a href="javascript:config.{$modelId}.{$widgetId}.submitForm();">load model</a>
+            <a href="javascript:config.objects.{$widgetId}.submitForm();">load model</a>
 
           </td>
 

@@ -22,16 +22,17 @@ function MapPane(widgetNode, model) {
    * Called when the context's hidden attribute changes.
    * @param layerName The Name of the LayerList/Layer from the Context which
    * has changed.
-   * @param thisWidget This object.
+   * @param objRef This object.
    * @param layerName  The name of the layer that was toggled.
    */
-  this.hiddenListener=function(thisWidget, layerName){
+  this.hiddenListener=function(objRef, layerName){
     var vis="visible";
-    if(thisWidget.model.getHidden(layerName)=="1"){
+    if(objRef.model.getHidden(layerName)=="1") {
       vis="hidden";
     }
-    var layerId = thisWidget.model.id + "_" + thisWidget.id + "_" + layerName;
-    document.getElementById(layerId).style.visibility=vis;
+    var layerId = objRef.model.id + "_" + objRef.id + "_" + layerName;
+    var layer = document.getElementById(layerId);
+    if (layer) layer.style.visibility=vis;
   }
   this.model.addListener("hidden",this.hiddenListener,this);
 

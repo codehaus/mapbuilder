@@ -88,7 +88,7 @@ function WidgetBase(widget,widgetNode,model) {
   //set the target model
   var targetModel = widgetNode.selectSingleNode("mb:targetModel");
   if (targetModel) {
-    widget.targetModel = eval("config."+targetModel.firstChild.nodeValue);
+    widget.targetModel = eval("config.objects."+targetModel.firstChild.nodeValue);
     if ( !widget.targetModel ) {
       alert("error finding targetModel:" + targetModel.firstChild.nodeValue + " for:" + widget.id);
     } 
@@ -104,7 +104,7 @@ function WidgetBase(widget,widgetNode,model) {
     //set the target model
     var targetModel = objRef.widgetNode.selectSingleNode("mb:targetModel");
     if (targetModel) {
-      objRef.targetModel = eval("config."+targetModel.firstChild.nodeValue);
+      objRef.targetModel = eval("config.objects."+targetModel.firstChild.nodeValue);
       if ( !objRef.targetModel ) {
         alert("error finding targetModel:" + targetModel.firstChild.nodeValue + " for:" + objRef.id);
       }
@@ -189,6 +189,7 @@ function WidgetBase(widget,widgetNode,model) {
    * @param objRef Pointer to widget object.
    */
   this.paint = function(objRef, forceRefresh) {
+    if (objRef.model.template) return;
     if (objRef.model.doc && objRef.node && (objRef.autoRefresh||forceRefresh) && !objRef.override) {
 
       //if (objRef.debug) alert("source:"+objRef.model.doc.xml);

@@ -55,4 +55,24 @@ function GmlRendererWZ(widgetNode, model) {
       objRef.jg=null;
     }
   }
+
+  /**
+   * Called when the context's hidden attribute changes.
+   * @param layerName The Name of the LayerList/Layer from the Context which
+   * has changed.
+   * @param objRef This object.
+   * @param layerName  The name of the layer that was toggled.
+   */
+  this.hiddenListener=function(objRef, layerName){
+    var vis="visible";
+    if(objRef.model.getHidden(layerName)) {
+      vis="hidden";
+    }
+    var outputNode = document.getElementById(objRef.outputNodeId)
+    for (var i=0; i< outputNode.childNodes.length; ++i) {
+      outputNode.childNodes[i].style.visibility=vis;
+    }
+  }
+  this.model.addListener("hidden",this.hiddenListener,this);
+
 }

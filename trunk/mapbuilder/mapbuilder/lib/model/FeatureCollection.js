@@ -57,5 +57,27 @@ function FeatureCollection(modelNode, parent) {
   }
   this.addFirstListener("loadModel",this.convertCoords,this);
 
+  /**
+   * Change a Layer's visibility.
+   * @param layerIndex The index of the LayerList/Layer from the Context which
+   * has changed.
+   * @param hidden, 1=hidden, 0=not hidden.
+   */
+  this.setHidden=function(featureName, hidden){
+    this.hidden = hidden;
+    this.callListeners("hidden", featureName);
+  }
+
+  /**
+   * Get the layer's visiblity.
+   * @param layerIndex The index of the LayerList/Layer from the Context which
+   * has changed.
+   * @return hidden value, true=hidden, false=not hidden.
+   */
+  this.getHidden=function(layerName){
+    return this.hidden;
+  }
+  this.hidden = false;
+
 }
 

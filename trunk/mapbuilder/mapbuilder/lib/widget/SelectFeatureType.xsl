@@ -31,7 +31,7 @@ $Name$
           Feature types from: <xsl:value-of select="ogcwfs:Service/ogcwfs:Title"/>
         </th>
         <td colspan="2">
-          <a href="javascript:config.paintWidget(config.models.wfsServers.widgets.wfsServerList)">Back to list</a>
+          <a href="javascript:config.paintWidget(config.objects.wfsServerList)">Back to list</a>
         </td>
       </tr>
       <xsl:apply-templates select="ogcwfs:FeatureTypeList/ogcwfs:FeatureType"/>

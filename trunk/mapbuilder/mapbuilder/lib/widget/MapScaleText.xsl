@@ -52,7 +52,7 @@ $Id$
 
     <div>
 
-      <form name="{$formName}" id="{$formName}" onsubmit="return config.{$modelId}.{$widgetId}.submitForm()">
+      <form name="{$formName}" id="{$formName}" onsubmit="return config.objects.{$widgetId}.submitForm()">
 
         scale 1:<input name="mapScale" type="text" size="10" value="{$mapScale}"/>
 

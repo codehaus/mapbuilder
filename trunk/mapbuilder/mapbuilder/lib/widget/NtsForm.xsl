@@ -90,7 +90,7 @@ $Id$
 
             <!--input type="submit"/-->
 
-            <a href="javascript:config.{$widgetId}.submitForm();">load web service data</a>
+            <a href="javascript:config.objects.{$widgetId}.submitForm();">load web service data</a>
 
           </td>
 
