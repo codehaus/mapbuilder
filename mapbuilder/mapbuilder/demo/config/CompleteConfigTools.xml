@@ -107,8 +107,15 @@
         </ZoomToAoi>
       </tools>
     </Model>
+    <Transaction id="transaction">
+      <defaultModelUrl>gml/null.xml</defaultModelUrl>
+      <widgets>
+        <TransactionResponse id="transactionResponse">
+        </TransactionResponse>
+      </widgets>
+    </Transaction>
     <FeatureCollection id="featureCollection">
-      <defaultModelUrl>gml/Test.xml</defaultModelUrl>
+      <defaultModelUrl>gml/null.xml</defaultModelUrl>
       <widgets>
         <GmlRendererWZ id="testGmlRenderer">
           <htmlTagId>mainMapPane</htmlTagId>
@@ -119,16 +126,11 @@
           <pointDiameter>10</pointDiameter>
         </GmlRendererWZ>
         <FeatureList id="featureList">
+          <targetModel>transaction</targetModel>
+          <webServiceUrl>http://localhost:8080/geoserver/wfs</webServiceUrl>
         </FeatureList>
       </widgets>
     </FeatureCollection>
-    <Transaction id="transaction">
-      <defaultModelUrl>gml/null.xml</defaultModelUrl>
-      <widgets>
-        <TransactionResponse id="transactionResponse">
-        </TransactionResponse>
-      </widgets>
-    </Transaction>
     <FeatureCollection id="ntsGml">
       <!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
       <widgets>
