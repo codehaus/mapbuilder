@@ -25,6 +25,26 @@ function TimeSeries(widgetNode, model) {
    * @param objRef This object.
    * @param layerName  The name of the layer that was toggled.
    */
+  this.hiddenListener=function(objRef, layerName){
+    var vis="visible";
+    if(objRef.model.getHidden(layerName)=="1") {
+      vis="hidden";
+    }
+    var layerId = objRef.model.id + "_" + objRef.id + "_" + layerName;
+    var timestamp = objRef.model.getCurrentTimestamp(layerName);
+    if (timestamp) layerId += "_" + timestamp;
+    var layer = document.getElementById(layerId);
+    if (layer) layer.style.visibility=vis;
+  }
+  this.model.addListener("hidden",this.hiddenListener,this);
+
+  /**
+   * Called when the map timestamp is changed
+   * @param layerName The Name of the LayerList/Layer from the Context which
+   * has changed.
+   * @param objRef This object.
+   * @param layerName  The name of the layer that was toggled.
+   */
   this.timestampListener=function(objRef, timestampIndex){
     var layerName = objRef.model.timestampList.getAttribute("layerName");
     var timestamp = objRef.model.timestampList.childNodes[timestampIndex];

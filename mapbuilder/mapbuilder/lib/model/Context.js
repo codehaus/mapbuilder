@@ -249,5 +249,10 @@ function Context(modelNode, parent) {
   }
   this.addFirstListener( "loadModel", this.initTimeExtent, this );
 
+  this.getCurrentTimestamp = function( layerName ) {
+    var extension = this.getExtension();
+    var timestamp = extension.selectSingleNode("mb:TimestampList[@layerName='"+layerName+"']/mb:Timestamp[@current='1']");
+    return timestamp;
+  }
 }
 

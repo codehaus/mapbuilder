@@ -33,6 +33,7 @@ $Name$
   </xsl:param>
   <xsl:param name="srs" select="/wmc:ViewContext/wmc:General/wmc:BoundingBox/@SRS"/>
   <xsl:param name="timeList"/>
+  <xsl:param name="timeListName"/>
   
   <!-- template rule matching source root element -->
   <xsl:template match="/wmc:ViewContext">
@@ -46,7 +47,7 @@ $Name$
   <xsl:template match="wmc:Layer">
     
     <xsl:choose>
-      <xsl:when test="$timeList">
+      <xsl:when test="$timeList and wmc:Dimension">
           <xsl:call-template name="tokenize">
             <xsl:with-param name="str" select="$timeList"/>
             <xsl:with-param name="sep" select="','"/>
@@ -118,9 +119,9 @@ $Name$
     <DIV>    
       <xsl:attribute name="STYLE">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0; left:0;</xsl:attribute>
       <xsl:attribute name="ID">
-        <xsl:value-of select="$modelId"/>_<xsl:value-of select="$widgetId"/>_<xsl:value-of select="wmc:Name"/><xsl:if test="$timestamp">_<xsl:value-of select="$timestamp"/></xsl:if>
+        <xsl:value-of select="$modelId"/>_<xsl:value-of select="$widgetId"/>_<xsl:value-of select="wmc:Name"/><xsl:if test="$timestamp and wmc:Dimension">_<xsl:value-of select="$timestamp"/></xsl:if>
       </xsl:attribute>
-      <xsl:if test="$timestamp">
+      <xsl:if test="$timestamp and wmc:Dimension">
         <xsl:attribute name="TIME"><xsl:value-of select="$timestamp"/></xsl:attribute>
       </xsl:if>
     
