@@ -252,9 +252,9 @@
         <Style current="1">
           <Name>default</Name>
           <Title>default</Title>
-          <LegendURL width="16" height="16" format="image/gif">
+          <!--LegendURL width="16" height="16" format="image/gif">
             <OnlineResource xlink:type="simple" xlink:href="http://ceoware2.ccrs.nrcan.gc.ca/cubewerx/cubeserv/cubeserv.cgi?VERSION=1.1.1&amp;REQUEST=GetLegendGraphic&amp;LAYER=POPPLACE_PT%3ACEOWARE2&amp;FORMAT=image%2Fgif"/>
-          </LegendURL>
+          </LegendURL-->
         </Style>
       </StyleList>
     </Layer>
