@@ -27,17 +27,13 @@ function ZoomToAoi(toolNode, parentWidget) {
     this[sProperty] = base[sProperty]; 
   } 
 
-  var targetModel = toolNode.selectSingleNode("targetModel");
-  if ( !targetModel ) alert("target model required for ZoomToAoi");
-  this.targetModelName = targetModel.firstChild.nodeValue;
-  
   /**
    * Target model loadModel change listener.  This resets the projection objects
    * if the target model changes.
    * @param tool        Pointer to this ZoomToAoi object.
    */
   this.setModel = function( tool ) {
-    tool.targetModel = config[tool.targetModelName];
+    //tool.targetModel = config[tool.targetModelName];
     tool.targetModel.proj = new Proj( tool.targetModel.getSRS() );
     tool.model.proj = new Proj( tool.model.getSRS() );
   }

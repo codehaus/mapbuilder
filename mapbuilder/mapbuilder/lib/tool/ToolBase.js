@@ -13,14 +13,29 @@ $Id$
 function ToolBase(toolNode, parentWidget) {
   this.model = parentWidget.model;
   this.parentWidget = parentWidget;
-  this.targetModel = parentWidget.model;
+
+  var targetModel = toolNode.selectSingleNode("targetModel");
+  if (targetModel) {
+    this.targetModelName = targetModel.firstChild.nodeValue;
+    this.targetModel = eval("config."+this.targetModelName);
+  } else {
+    this.targetModel = parentWidget.targetModel;
+  }
 
   var id = toolNode.selectSingleNode("@id");
   if (id) this.id = id.firstChild.nodeValue;
 
   /** Mouse handler which this tool will register listeners with. */
   var mouseHandler = toolNode.selectSingleNode("mouseHandler");
-  if (mouseHandler) this.mouseHandler = eval(mouseHandler.firstChild.nodeValue);
+  if (mouseHandler) {
+    this.mouseHandlerName = mouseHandler.firstChild.nodeValue;
+    var evalObj = eval( "config." + this.mouseHandlerName );
+    if (evalObj) {
+      this.mouseHandler = evalObj;
+    } else {
+      alert( "invalid object reference in config:" + mouseHandler.firstChild.nodeValue );
+    }
+  }
 
   //dependant tools that must be enabled/disabled when this tool is enabled
   this.dependancies = toolNode.getElementsByTagName("dependsOn");
@@ -37,8 +52,25 @@ function ToolBase(toolNode, parentWidget) {
   this.enable = function(enabled) {
     this.enabled = enabled;
     for (var i=0; i<this.dependancies.length; ++i) {
-      var otherTool = eval(this.dependancies[i].firstChild.nodeValue);
-      otherTool.enable(enabled);
+      var otherTool = eval("config."+this.dependancies[i].firstChild.nodeValue);
+      if (otherTool) {
+        otherTool.enable(enabled);
+      } else {
+        alert("invalid dependsOn reference in config:" + this.dependancies[i].firstChild.nodeValue);
+      }
     }
   }
+
+  /**
+   * Refresh the tool's mouseHandler and re-register the listener when that 
+   * widget changes after a model is loaded.
+   * @param objRef      Pointer to this AoiMouseHandler object.
+   */
+  this.setListeners = function(objRef) {
+    if (objRef.mouseHandlerName) {
+      objRef.mouseHandler = eval( "config." + objRef.mouseHandlerName );
+      objRef.mouseHandler.addListener('mouseup',objRef.doAction,objRef);
+    }
+  }
+
 }
