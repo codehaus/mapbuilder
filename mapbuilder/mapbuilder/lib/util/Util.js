@@ -39,6 +39,9 @@ function XslProcessor(xslUrl) {
     xmlNode.transformNodeToObject(this.xslDom,result);
     return result;
   }
+  this.setParameter=function(paramName, paramValue) {
+    Sarissa.setXslParameter( this.xslDom, paramName, "'"+paramValue+"'");
+  }
 }
 
 /**
@@ -305,7 +308,8 @@ function handleEventWithObject(evt){
  */
 function loadScript (url) {
   var script = document.createElement('script');
-  script.defer = true;
+  script.defer = false;   //not sure of effect of this?
+  script.type = "text/javascript";
   script.src = url;
   document.getElementsByTagName('head')[0].appendChild(script);
 }
