@@ -112,11 +112,12 @@ function Config(url) {
     model.loadModelDoc( modelUrl );
     model.loadWidgets();
   }
-
-  // Load the Config Scripts at startup
-  this.loadConfigScripts();
 }
 
-// TBD Move following line to Mapbuilder.js
-config=new Config(mbConfigUrl);
-//config=1;
+// Initialise config object.
+if (document.readyState==null){
+  // Mozilla
+  mapbuilder.setLoadState(MB_LOAD_WIDGET);
+  config=new Config(mbConfigUrl);
+  config.loadConfigScripts();
+}

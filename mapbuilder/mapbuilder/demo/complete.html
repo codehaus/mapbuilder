@@ -29,7 +29,7 @@ $Name$
        * again.
        */
       function mapbuilderInit(){
-        if(mapbuilder && config){
+        if(mapbuilder && mapbuilder.loadState==MB_LOADED){
           clearInterval(mbTimerId);
           config.init();
         }
