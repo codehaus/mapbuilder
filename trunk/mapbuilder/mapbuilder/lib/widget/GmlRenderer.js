@@ -43,6 +43,7 @@ function GmlRenderer(widgetNode, model) {
     objRef.stylesheet.setParameter("bBoxMinY", bBox[1] );
     objRef.stylesheet.setParameter("bBoxMaxX", bBox[2] );
     objRef.stylesheet.setParameter("bBoxMaxY", bBox[3] );
+    objRef.stylesheet.setParameter("color", "#FF0000" );
 
     objRef.resultDoc = objRef.coordXsl.transformNodeToObject(objRef.resultDoc);
   }
