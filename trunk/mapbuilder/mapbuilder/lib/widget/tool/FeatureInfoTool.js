@@ -30,7 +30,7 @@ function FeatureInfo(context) {
 
   this.context=context;
 
-  this.context2FeatureInfo=new XslProcessor(this.context.baseDir+"/widget/tool/Context2FeatureInfo.xml");
+  this.context2FeatureInfo=new XslProcessor(baseDir+"/widget/tool/Context2FeatureInfo.xml");
 
   /**
 

@@ -41,7 +41,7 @@ function Config(url) {
     var nodes = this.doc.selectNodes(xPath);
     for (var i=0; i<nodes.length; i++) {
       if (nodes[i].selectSingleNode("scriptFile")==null){
-        scriptFile = this.baseDir + dir + nodes[i].nodeName+".js";
+        scriptFile = baseDir+"/"+dir+nodes[i].nodeName+".js";
         loadScript( scriptFile );
       }
     }
@@ -58,7 +58,7 @@ function Config(url) {
   //problem if this is done anywhere except in the page <HEAD> element.
   var scriptFileNodes = this.doc.selectNodes("//scriptFile");
   for (var i=0; i<scriptFileNodes.length; i++ ) {
-    scriptFile = this.baseDir + scriptFileNodes[i].firstChild.nodeValue;
+    scriptFile = baseDir+"/"+scriptFileNodes[i].firstChild.nodeValue;
     //TBD: add some checks to see if it is already loaded?
     //alert("loading script file:" + scriptFile);
     loadScript( scriptFile );
