@@ -9,9 +9,14 @@ $Id$
 $Name$
 -->
   <xsl:output method="xml" encoding="utf-8"/>
-<!-- The name of the javascript context object to call -->
+  
+  <!-- The common params set for all widgets -->
+  <xsl:param name="lang">en</xsl:param>
   <xsl:param name="modelId"/>
+  
+<!-- The name of the javascript context object to call -->
   <xsl:param name="context">config['<xsl:value-of select="$modelId"/>']</xsl:param>
+  
 <!-- Main html -->
   <xsl:template match="/">
     <xsl:apply-templates select="/wmc:ViewContext/wmc:LayerList"/>
@@ -20,9 +25,7 @@ $Name$
   <xsl:template match="/wmc:ViewContext/wmc:LayerList">
     <table border="0" cellpadding="1" cellspacing="0">
       <tr>
-        <th colspan="2">
-         Map Layers
-       </th>
+        <th colspan="3"><xsl:call-template name="title"/></th>
       </tr>
       <xsl:apply-templates/>
     </table>
@@ -49,8 +52,23 @@ $Name$
         </xsl:if>
       </td>
       <td>
-        <xsl:value-of select="wmc:Title"/>
+        <xsl:choose>
+          <xsl:when test="wmc:Title/@xml:lang">              
+            <xsl:value-of select="wmc:Title[@xml:lang=$lang]"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="wmc:Title"/>
+          </xsl:otherwise>
+        </xsl:choose>
       </td>
     </tr>
   </xsl:template>
+  
+  <xsl:template name="title">
+    <xsl:choose>
+      <xsl:when test="$lang='fr'">Couches de la carte</xsl:when>
+      <xsl:otherwise>Map Layers</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  
 </xsl:stylesheet>

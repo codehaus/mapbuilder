@@ -11,15 +11,21 @@ $Id$
 
   <xsl:output method="xml" encoding="utf-8"/>
 
+  <!-- The common params set for all widgets -->
+  <xsl:param name="lang">en</xsl:param>
+  
+  <!-- text value params -->
+  <xsl:param name="longitude">lon:</xsl:param>
+  <xsl:param name="latitude">lat:</xsl:param>
+  
   <!-- The name of the form for coordinate output -->
   <xsl:param name="formName"/>
 
   <!-- Main html -->
   <xsl:template match="/">
     <FORM NAME="{$formName}" ID="{$formName}" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;">
-      long: <input NAME="longitude" TYPE="text" SIZE="6" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
-         
-      lat: <input NAME="latitude" TYPE="text" SIZE="6" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
+      <xsl:value-of select="$longitude"/> <input NAME="longitude" TYPE="text" SIZE="6" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
+      <xsl:value-of select="$latitude"/> <input NAME="latitude" TYPE="text" SIZE="6" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
     </FORM>
   </xsl:template>
 

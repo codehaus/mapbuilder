@@ -7,27 +7,59 @@ Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 $Name$
 -->
-	<xsl:output method="xml" encoding="utf-8"/>
-	<!-- Main html -->
-	<xsl:template match="/wmc:ViewContext/wmc:General">
-		<xsl:param name="metadataUrl">
-			<xsl:value-of select="wmc:DescriptionURL/wmc:OnlineResource/@xlink:href"/>
-		</xsl:param>
-		<xsl:param name="logoUrl">
-			<xsl:value-of select="wmc:LogoURL/wmc:OnlineResource/@xlink:href"/>
-		</xsl:param>
-		<div>
-			<h3>Abstract</h3>
-			<div style="float:right">
-				<img src='{$logoUrl}' alt='{$logoUrl}'/>
-			</div>
-			<p>
-				<xsl:value-of select="wmc:Abstract"/>
-			</p>
-			<p>
-				<a href='{$metadataUrl}' title='{$metadataUrl}'>more information</a>
-			</p>
-		</div>
-	</xsl:template>
-	<xsl:template match="text()|@*"/>
+  <xsl:output method="xml" encoding="utf-8"/>
+  
+  <!-- The common params set for all widgets -->
+  <xsl:param name="lang">en</xsl:param>
+  
+  <xsl:template match="/">
+    <xsl:apply-templates select="wmc:ViewContext/wmc:General"/>
+  </xsl:template>
+
+  
+  <!-- Main html -->
+  <xsl:template match="wmc:General">
+    <xsl:param name="metadataUrl">
+      <xsl:value-of select="wmc:DescriptionURL/wmc:OnlineResource/@xlink:href"/>
+    </xsl:param>
+    <xsl:param name="logoUrl">
+      <xsl:value-of select="wmc:LogoURL/wmc:OnlineResource/@xlink:href"/>
+    </xsl:param>
+    <div>
+      <h3><xsl:call-template name="title"/></h3>
+      <xsl:if test="$logoUrl">
+        <div style="float:right"><img src='{$logoUrl}' alt='{$logoUrl}'/></div>
+      </xsl:if>
+      <p>
+        <xsl:choose>
+          <xsl:when test="wmc:Abstract/@xml:lang">              
+            <xsl:value-of select="wmc:Abstract[@xml:lang=$lang]"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="wmc:Abstract"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </p>
+      <p>
+        <a href='{$metadataUrl}' title='{$metadataUrl}' target="moreInfo"><xsl:call-template name="moreInfo"/></a>
+      </p>
+    </div>
+  </xsl:template>
+
+  <xsl:template match="text()|@*"/>
+  
+  <xsl:template name="title">
+    <xsl:choose>
+      <xsl:when test="$lang='fr'">Résumé</xsl:when>
+      <xsl:otherwise>Abstract</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <xsl:template name="moreInfo">
+    <xsl:choose>
+      <xsl:when test="$lang='fr'">Lisez à propos de cette carte</xsl:when>
+      <xsl:otherwise>Read more about this map</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+ 
 </xsl:stylesheet>
+

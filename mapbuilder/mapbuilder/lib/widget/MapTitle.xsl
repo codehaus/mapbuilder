@@ -14,7 +14,7 @@ $Name$
 
   <xsl:output method="xml" encoding="utf-8"/>
 
-  <xsl:param name="lang">fr</xsl:param>
+  <xsl:param name="lang">en</xsl:param>
 
   <!-- Main html -->
   <xsl:template match="/wmc:ViewContext/wmc:General">
