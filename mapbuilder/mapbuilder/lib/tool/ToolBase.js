@@ -27,7 +27,10 @@ function ToolBase(tool, toolNode, parentWidget) {
   var mouseHandler = tool.toolNode.selectSingleNode("mb:mouseHandler");
   if (mouseHandler) tool.objEvalStr = "config." + mouseHandler.firstChild.nodeValue;
 
-  //initialize dynamic properties
+  /**
+   * Initialize dynamic properties.
+   * @param toolRef Pointer to this object.
+   */
   tool.initModels = function(toolRef) {
     /** The model this tool will update. */
     var targetModel = toolRef.toolNode.selectSingleNode("mb:targetModel");
