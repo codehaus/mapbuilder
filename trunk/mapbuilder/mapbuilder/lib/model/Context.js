@@ -32,6 +32,28 @@ function Context(url) {
   }
   */
 
+  /**
+   * Resize a spatial extent to have the same aspect ratio as a Window.
+   * @param ext The fuction to call when the bbox changes.
+   * @return ext The adjusted spatial extent, having the same aspect ratio as the Window.
+   */
+
+  this.adjustExtent=function(ext) {
+    windowWidth=this.getWindowWidth();
+    windowHeight=this.getWindowHeight();
+    geoWidth = ext[2] - ext[0];
+    geoHeight = ext[3] - ext[1];
+    if(geoWidth/windowWidth>geoHeight/windowHeight){
+      ext[1]=ext[1]-(((geoWidth/windowWidth*windowHeight)-geoHeight)/2);
+      ext[3]=ext[3]+(((geoWidth/windowWidth*windowHeight)-geoHeight)/2);
+    }
+    else{
+      ext[0]=ext[0]-(((geoHeight/windowHeight*windowWidth)-geoWidth)/2);
+      ext[2]=ext[2]+(((geoHeight/windowHeight*windowWidth)-geoWidth)/2);
+    }
+    return ext;
+  }
+
   /** Functions to call when the boundingBox has changed. */
   this.bboxChangeListeners=new Array();
   this.bboxChangeListenerTargets=new Array();
@@ -58,14 +80,19 @@ function Context(url) {
 
   /**
    * Change a Layer's visibility.
-   * @param layerId The LayerList/Layer/Name from the Context which has changed.
+   * @param layerIndex The index of the LayerList/Layer from the Context which has changed.
    * @param hidden, 1=hidden, 0=not hidden.
    */
-  this.setHidden=function(layerId,hidden){
-    // TBD: Set the hidden attribute in the Context
+  this.setHidden=function(layerIndex,hidden){
+    // Set the hidden attribute in the Context
+
+   layers=this.context.documentElement.getElementsByTagName("Layer");
+   
+   //disabled for now awaiting change in legend XSL assigning indexes (rather than names)
+   // layers.item(layerIndex).setAttribute("hidden",hidden);
 
     // Call the listeners
-    hiddenEvent=new HiddenEvent(layerId,hidden);
+    hiddenEvent=new HiddenEvent(layerIndex,hidden);
     for(i=0;i<this.hiddenListeners.length;i++) {
       this.hiddenListeners[i](hiddenEvent);
     }
@@ -91,6 +118,7 @@ function Context(url) {
    * @param boundingBox array in form (xmin, ymin, xmax, ymax).
    */
   this.setBoundingBox=function(boundingBox) {
+    boundingBox=this.adjustExtent(boundingBox);
     // Set BoundingBox in context
     bbox=this.context.documentElement.getElementsByTagName("BoundingBox").item(0);
     bbox.setAttribute("minx", boundingBox[0]);
@@ -169,7 +197,6 @@ function Context(url) {
         break;
     }
     this.setBoundingBox(bbox);
-//    mapPane.paint();
   }
   /**
    * Pan (reset the BoundingBox) in a specified direction.
@@ -200,19 +227,18 @@ function Context(url) {
       }
     }
     this.setBoundingBox(bbox);
-//    mapPane.paint();
   }
 }
 
 /**
  * The event sent when a Hidden attribute changes.
  * @constructor
- * @param layerId The LayerList/Layer/Name from the Context which has changed.
+ * @param layerIndex The index of the LayerList/Layer from the Context which has changed.
  * @param hidden, 1=hidden, 0=not hidden.
  */
-function HiddenEvent(layerId,hidden){
- /** layer The Layer/Name from the Context which has changed. */
- this.layerId=layerId;
+function HiddenEvent(layerIndex,hidden){
+ /** layer The index of the layer from the Context which has changed. */
+ this.layerIndex=layerIndex;
  /** 1=layer hidden, 0=layer not hidden. */
  this.hidden=hidden;
 }
