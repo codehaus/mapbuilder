@@ -71,6 +71,18 @@ function Config(url) {
         if ( group.initialModel ) group.initialModel = group.initialModel.firstChild.nodeValue;
       }
 
+      /** Functions to call when the a model is loaded*/
+      group.modelListeners = new Array();
+      /**
+       * Add a Listener for loadModel event.
+       * @param listener The function to call when the model is loaded.
+       * @param target The object which owns the listener function.
+       */
+      group.addModelListener = function(listener,target) {
+        this.modelListeners[this.modelListeners.length] = new Array(listener,target);
+      }
+
+
       this[group.id] = group;
       this.loadModel( group.id, group.initialModel );
     }
@@ -113,8 +125,13 @@ function Config(url) {
       widget.loadTools();
       widget.paint();
       //this has to be called after widgets are painted
+      //I'd like to get rid of this, they should be handled as paintListeners
       widget.addListeners();
       group[widgetNode.nodeName] = widget;
+
+      for (var i=0; i<group.modelListeners.length; i++) {
+        group.modelListeners[i][0]( group.modelListeners[i][1] );
+      }
     }
   }
 

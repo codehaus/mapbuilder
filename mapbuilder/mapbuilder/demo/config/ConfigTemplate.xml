@@ -77,13 +77,6 @@
               <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
             </AoiMouseHandler>
 
-            <!-- 
-            <ZoomInHandler>
-              <scriptFile>widget/tool/ZoomTool3.js</scriptFile>
-              <modeValue>MODE_ZOOM_IN</modeValue>
-            </ZoomInHandler>
-            -->
-
             <CursorTrack>
               <scriptFile>widget/tool/CursorTrack.js</scriptFile>
               <scriptFile>model/Proj.js</scriptFile>
@@ -188,8 +181,7 @@
         <MapPane id="locatorMapId">
           <scriptFile>widget/mappane/MapPane2.js</scriptFile>
           <stylesheet>widget/mappane/Context2MapPane2.xml</stylesheet>
-          <targetWidgetGroup>mainMapGroup</targetWidgetGroup>
-           <tools> 
+          <tools> 
             <AoiBox>
               <scriptFile>widget/tool/AoiBox2.js</scriptFile>
               <lineColor>#0000FF</lineColor>
@@ -199,6 +191,10 @@
             <AoiMouseHandler>
               <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
             </AoiMouseHandler>
+            <ZoomToAoi>
+              <scriptFile>widget/tool/ZoomToAoi.js</scriptFile>
+              <targetModelGroup>mainMapGroup</targetModelGroup>
+            </ZoomToAoi>
 
           </tools> 
         </MapPane>
