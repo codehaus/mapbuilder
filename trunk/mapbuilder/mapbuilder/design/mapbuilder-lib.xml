@@ -40,7 +40,8 @@
       <title>Document Overview</title>
 
       <para>The structure of this document is loosely based on the SDD
-      template provided by <ulink url="???">MIL-STD 498</ulink>.</para>
+      template provided by <ulink
+      url="http://www.pogner.demon.co.uk/mil_498/">MIL-STD 498</ulink>.</para>
     </section>
   </section>
 
@@ -54,8 +55,9 @@
       </listitem>
 
       <listitem>
-        <para><ulink url="???">mapbuilder-lib Web Builder's
-        tutorial</ulink>.</para>
+        <para><ulink
+        url="http://quicklook.ccrs.nrcan.gc.ca/ql2/mb">mapbuilder-lib Web
+        Builder's tutorial</ulink>.</para>
       </listitem>
 
       <listitem>
@@ -1304,7 +1306,9 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
           <row>
             <entry>MIL-STD 498</entry>
 
-            <entry><ulink url="???">Military Standard 498</ulink></entry>
+            <entry><ulink
+            url="http://www.pogner.demon.co.uk/mil_498/">Military Standard
+            498</ulink></entry>
 
             <entry>Set of processes for software development.</entry>
           </row>
