@@ -463,20 +463,58 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
       elements.</para>
 
       <para>All MapBuilder applications are initialized from an XML
-      configuration document.. The configuration document closely follows the
+      configuration document. The configuration document closely follows the
       MVC design pattern to provide a structured tree of Models, Widgets
       (Views) and Tools (Controllers). The properties and methods of these
       objects are then used to display and control the application.</para>
 
-      <para>add picture of tree structure</para>
+      <para>TBD Cameron 23 March 2004: We need to identify the key files that
+      need updating when building a widget and show the relationship between
+      them. Ie, the main html file, config.xml, widgets, tools,
+      controllers.</para>
 
-      <para></para>
+      <para>TBD: add picture of tree structure</para>
 
-      <para>Config XML follows Object-Property-Value rule...As a rule of
-      thumb, this means that parent and child elements alternate between
-      UpperCamelCase and lowerCamelCase, Upper is for objects and lower is for
-      properties. An object can only contain another object through a property
-      value. Add more here.</para>
+      <figure>
+        <title></title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="???" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <section>
+        <title>XML naming convensions</title>
+
+        <para>Config XML follows Object-Property-Value rule. As a rule of
+        thumb, this means that parent and child elements alternate between
+        UpperCamelCase and lowerCamelCase, Upper is for objects and lower is
+        for properties. An object can only contain another object through a
+        property value.</para>
+
+        <example>
+          <title>Example use of Object-Property-Value</title>
+
+          <programlisting>    &lt;Model id="collectionGroup"&gt;
+      &lt;modelType&gt;ContextCollection&lt;/modelType&gt;
+      &lt;defaultModelUrl&gt;context/demoCollection.ccml&lt;/defaultModelUrl&gt;
+      &lt;widgets&gt;
+        &lt;CollectionList id="collectionListId"&gt;
+          &lt;scriptFile&gt;widget/collectionList/CollectionList.js&lt;/scriptFile&gt;
+          &lt;stylesheet&gt;widget/collectionList/Collection2List.xsl&lt;/stylesheet&gt;
+          &lt;targetWidgetGroup&gt;mainMapGroup&lt;/targetWidgetGroup&gt;
+        &lt;/CollectionList&gt;
+      &lt;/widgets&gt;
+    &lt;/Model&gt;
+</programlisting>
+        </example>
+
+        <para>TBD: Add more here.</para>
+
+        <para>TBD: Cameron 22 March 2004: Link to URL describing this.</para>
+      </section>
 
       <section>
         <title>Config</title>
@@ -493,8 +531,7 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
         is instantiated in turn.</para>
 
         <para>The Config object provides the init() and loadModel() methods.
-        The init() method is called once during body onload processing.
-        </para>
+        The init() method is called once during body onload processing.</para>
 
         <para><emphasis>loadModel()</emphasis> can be called at any time to
         refresh the model for that ModelGroup.
@@ -516,7 +553,11 @@ widget.paint();</programlisting>
         parent widget.</para>
 
         <para>Config.js calls widget and tool object constructors using the
-        config element node name,</para>
+        config element node name.</para>
+
+        <para>TBD: Cameron 23 March 2004: I think we need to explain what the
+        Config.xml is. I will create UML diagrams (Using Poseidon) for each of
+        the objects.</para>
       </section>
 
       <section>
@@ -529,6 +570,9 @@ widget.paint();</programlisting>
         specified using the defaultModelURL property. The Model object can be
         loaded at any time from a different URL using the Config.loadModel()
         method.</para>
+
+        <para>TBD: Cameron 23 March 2004: "ModelGroup is an instance of a
+        model"? I thought a model was a component of a ModelGroup.</para>
 
         <para>Each Model object is stored as a property of the global Config
         object using the ID provided for it in the configuration document.
@@ -605,7 +649,7 @@ widget.paint();</programlisting>
         that widget and for the purpose of supporting that widget.</para>
 
         <para>All widgets have a paintListener array that can be used by tools
-        that are interested in when the widget is re-painted. </para>
+        that are interested in when the widget is re-painted.</para>
       </section>
 
       <section>
