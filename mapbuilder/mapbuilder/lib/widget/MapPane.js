@@ -25,7 +25,6 @@ function MapPane(context,baseDir,window) {
   this.paint=function() {
     s=this.wmcLayer2DhtmlLayer.transformNode(this.context.context);
     document.write(s);
-    alert(s);
   }
 
   /**
