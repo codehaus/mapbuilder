@@ -325,7 +325,7 @@
           <row>
             <entry>WidgetBase.clearWidget()</entry>
 
-            <entry>. </entry>
+            <entry>.</entry>
 
             <entry><para>Remove old widget from display.</para></entry>
           </row>
@@ -344,110 +344,6 @@
     <title>refresh event</title>
 
     <para></para>
-  </section>
-
-  <section>
-    <title>paint event</title>
-
-    <para>This event is sent after a widget has painted itself.</para>
-
-    <para><emphasis>CS: Jan 05: I suspect that we can deprecate this event and
-    use "refresh" instead. Alternatively, WidgetBase could contain a null
-    postPaint() procedure which can be overwritten by decendant widgets.
-    postPaint() would effectively be the same as
-    paintHandler().</emphasis></para>
-
-    <table>
-      <title>Register for event</title>
-
-      <tgroup cols="3">
-        <thead>
-          <row>
-            <entry>Object</entry>
-
-            <entry>Code</entry>
-
-            <entry>Description</entry>
-          </row>
-        </thead>
-
-        <tbody>
-          <row>
-            <entry>AoiForm</entry>
-
-            <entry>this.addListener('paint', this.paintHandler, this);</entry>
-
-            <entry><para></para></entry>
-          </row>
-
-          <row>
-            <entry>MapScaleText</entry>
-
-            <entry>this.addListener('paint', this.paintHandler, this);</entry>
-
-            <entry><para></para></entry>
-          </row>
-
-          <row>
-            <entry>ModelUrlInput</entry>
-
-            <entry>this.addListener('paint', this.paintHandler, this);</entry>
-
-            <entry><para></para></entry>
-          </row>
-
-          <row>
-            <entry>ServiceRegistryList</entry>
-
-            <entry>this.addListener('paint', this.paintHandler, this);</entry>
-
-            <entry><para></para></entry>
-          </row>
-
-          <row>
-            <entry>WebServiceForm</entry>
-
-            <entry>this.addListener('paint', this.paintHandler, this);</entry>
-
-            <entry><para></para></entry>
-          </row>
-        </tbody>
-      </tgroup>
-    </table>
-
-    <table>
-      <title>Process event</title>
-
-      <tgroup cols="3">
-        <thead>
-          <row>
-            <entry>Object</entry>
-
-            <entry>Code</entry>
-
-            <entry>Description</entry>
-          </row>
-        </thead>
-
-        <tbody>
-          <row>
-            <entry>WidgetBase.paint()</entry>
-
-            <entry>callListeners()</entry>
-
-            <entry>Called after the widget has been painted.</entry>
-          </row>
-
-          <row>
-            <entry>*.paintHandler()</entry>
-
-            <entry>. </entry>
-
-            <entry>Set form values to defaults.</entry>
-          </row>
-        </tbody>
-      </tgroup>
-    </table>
   </section>
 
   <section>
