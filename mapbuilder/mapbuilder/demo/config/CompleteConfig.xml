@@ -53,7 +53,7 @@
     
     <Model id="config">
       <modelType>Config</modelType>
-      <defaultModelUrl>config/ConfigTemplate.xml</defaultModelUrl>
+      <defaultModelUrl>config/CompleteConfig.xml</defaultModelUrl>
     </Model>
 
     <Model id="mainMapGroup">
