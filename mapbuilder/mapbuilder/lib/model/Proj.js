@@ -5,21 +5,19 @@ $Id$
 */
 
 /**
- * Provides latitude/longitude to map projection transformation methods. 
- * Initialized with EPSG codes.  Has properties for untis and title strings.
+ * Provides latitude/longitude to map projection (and vice versa) transformation methods. 
+ * Initialized with EPSG codes.  Has properties for units and title strings.
  * All coordinates are handled as points which is a 2 element array where x is 
  * the first element and y is the second. 
+ * For the Forward() method pass in lat/lon and it returns map XY.
+ * For the Inverse() method pass in map XY and it returns lat/long.
  *
  * TBD: retrieve initialization params (and conversion code?) from a web service 
  *
  * @constructor
  *
  * @param srs         The SRS (EPSG code) of the projection
- *
- * @method Forward    pass in lat/lon, returns XY
- * @method Inverse    pass in XY, returns lat/long
  */
-
 
 function Proj(srs) {
   this.srs = srs.toUpperCase();
@@ -95,17 +93,25 @@ function identity(coords) {
   return coords;
 }
 
-// scene projection object definition
-// really a pixel representation with bi-linear interpolation of the corner coords
-// forward trasnformation need reverse bilinear interpolation or orbit modelling here
-// forward transformation
+/**
+ * Scene projection forward transformation.
+ * Forward trasnformation need reverse bilinear interpolation or orbit modelling 
+ * (to be implemented)
+ * @param coords  Lat/Long coords passed in
+ * @return map coordinates
+ */
 function ll2scene(coords) {
   alert("ll2scene not defined");
   //return new Array(124, 15+256);  //for testing only, 
   return null;
 }
 
-// inverse transformation
+/**
+ * Scene projection Inverse transformation.
+ * This is really a pixel representation with bi-linear interpolation of the corner coords.
+ * @param coords  map coordinates passed in
+ * @return Lat/Long coords 
+ */
 function scene2ll(coords) {
   var xpct = (coords[0]-this.ul[0])/(this.lr[0]-this.ul[0]);
   var ypct = (coords[1]-this.ul[1])/(this.lr[1]-this.ul[1]);
@@ -115,6 +121,11 @@ function scene2ll(coords) {
   return new Array(lon, lat);
 }
 
+/**
+ * Scene projection initialization function
+ * @param param  array of the corner coordinates (which are in turn 2D point arrays)
+ * in the order upper-left, upper-right, lower-left, lower-right
+ */
 function sceneInit(param) {
   this.cul = param[0];
   this.cur = param[1];
@@ -122,10 +133,23 @@ function sceneInit(param) {
   this.clr = param[3];
 }
 
+/**
+ * Bilinear interpolation function to return an interpolated value for either
+ * x or y for some point located within a box where the XY of the corners are known.
+ * This should be applied to the x and y coordinates separately, 
+ * ie. first interpolate for the x value, then the y.
+ * the a,b,c,d params are thus the x or y values at the corners.
+ * @param x distance from the left side of the box as a percentage
+ * @param y distance from the top of the box as a percentage
+ * @param a either x or y value at the UL corner of the box
+ * @param b either x or y value at the UR corner of the box
+ * @param c either x or y value at the LL corner of the box
+ * @param d either x or y value at the LR corner of the box
+ */
 function bilinterp(x, y, a, b, c, d) {
   var top = x*(b-a) + a;
   var bot = x*(d-c) + c;
-//  alert("top:"+top+"  bot:"+bot);
+//alert("top:"+top+"  bot:"+bot);
   return y*(bot-top) + top;
 }
 

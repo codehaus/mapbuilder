@@ -145,7 +145,7 @@ function Context(modelNode, parent) {
    * @param requestName ignored for context docs (only GetMap supported)
    * @param method ignored for context docs (only GET supported)
    * @param feature the Layer node from the context doc
-   * @return height String URL for the GetMap request
+   * @return URL for the GetMap request 
    */
   this.getServerUrl = function(requestName, method, feature) {
     return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
