@@ -3,8 +3,8 @@
 
 
 <p>
-  A map can also have some interactive functionality by adding tools to the 
-  MapPane widget.  
+  A map can also have some interactive functionality by adding tools (controllers)
+  to the MapPane widget.  
 </p>
 
 <div style="float:right;width:auto; padding: 4px">
@@ -12,23 +12,19 @@
 </div>
 
 <p>
-  In <a href="/ql2/mbTutorial/tutorial2.xml" target="ConfigSrcWin">this configuration</a>
-  This map also has an AoiBox tool to display an Area of Interest (AOI) for the model.
+  In this configuration we have included two different maps that use tools.
+  The first map has an AoiBox tool to display an Area of Interest (AOI) for the model.
   The AOI can either be a 
-  <a href="javascript:alert('hover over this link to see the AOI')" 
-      onmouseover="config['firstMap'].extent.setAoi(new Array(-75,45),new Array(0,0))" 
-      onmouseout="config['firstMap'].aoiValid=false">rectangular bounding box
+<a href="javascript:alert('hover over this link to see the AOI')" 
+      onmouseover="javascript:config['firstMap'].setParam('aoi', new Array(new Array(-75,45),new Array(0,0)))"> 
+    rectangular bounding box
   </a>
   or a 
   <a href="javascript:alert('hover over this link to see the AOI')" 
-      onmouseover="config['firstMap'].extent.setAoi(new Array(0,0))" 
-      onmouseout="config['firstMap'].aoiValid=false">single point.
-  </a>
+      onmouseover="config['firstMap'].setParam('aoi', new Array(new Array(0,0),new Array(0,0)))">single point.</a>
   The colour, line width and size of point display are customized in the config
   file.
 </p>
-
-<div id="secondMapPane" style="float: left; width: auto; padding: 4px"></div>
 
 <p>
   A tool is also available to handle mouse events on the MapPane widget.  
@@ -37,8 +33,12 @@
   zoom in and out for the map.
 </p>
 
+<div id="secondMapPane" style="float: left; width: auto; padding: 4px"></div>
+
 <p>
   This tutorial page also demostrates that any number of models can be added to
   the same page.
 </p>
 
+<p style="text-align:right; clear:left"><a href="?page=samples/tutorial1">previous</a>&nbsp;&nbsp;&nbsp; 
+<a href="?page=samples/tutorial3">next</a></p>
