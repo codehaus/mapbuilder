@@ -11,7 +11,9 @@ $Id$
  * @param context The Web Map Context to use when building this MapPane.
  * @param baseDir The base mapbuilder lib directory.
  * @param node Node from the HTML DOM to insert legend HTML into.
- * @requires Context, Sarissa, Util
+ * @requires Context
+ * @requires Sarissa
+ * @requires Util
  */
 function MapPane(context,baseDir) {
   this.context=context;
