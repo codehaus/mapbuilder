@@ -25,7 +25,7 @@ function CollectionList(collection, node) {
   this.node = node;
 
   var listConfig = config.doc.selectSingleNode("/MapbuilderConfig/views/CollectionList");
-  var stylesheetUrl = config.baseDir + listConfig.simpleValue("stylesheet");
+  var stylesheetUrl = config.baseDir + listConfig.selectSingleNode("stylesheet").firstChild.nodeValue;
   this.stylesheet = new XslProcessor(stylesheetUrl);
 
   /**

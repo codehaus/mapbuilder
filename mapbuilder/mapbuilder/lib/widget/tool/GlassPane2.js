@@ -46,12 +46,12 @@ TBD: find out why this isn't working
   var imgsrc = view.context.baseDir + "/widget/mappane/dot.gif";
   this.glassPane.innerHTML = "<IMG SRC='" + imgsrc + "' WIDTH='1' HEIGHT='1'/>";
   this.glassPane.style.position = "absolute";
-  this.glassPane.style.zIndex = 1000;
   this.glassPane.style.width = this.glassPane.context.getWindowWidth();
   this.glassPane.style.height = this.glassPane.context.getWindowHeight();
   this.glassPane.style.offsetLeft = 0;
   this.glassPane.style.offsetTop = 0;
 */
+  this.glassPane.style.zIndex = 1000;
   this.glassPane.context = view.context;
   this.glassPane.featureInfo = new FeatureInfo(view.context);
 
@@ -59,11 +59,11 @@ TBD: find out why this isn't working
   this.glassPane.mode = "";     //no mouse handling by default
   if (mode) {
     this.glassPane.mode = mode;
-    this.glassPane.mouseBox = new RoiBox( this.glassPane );
     this.glassPane.onmousemove = mouseMoveHandler;
     this.glassPane.onmouseout = mouseOutHandler;
     this.glassPane.onmousedown = mouseDownHandler;
     this.glassPane.onmouseup = mouseUpHandler;
+    this.glassPane.mouseBox = new RoiBox( this.glassPane );
     this.glassPane.getEvent = getEvent;
     this.glassPane.setFormAOI = setFormAOI;
   }
@@ -149,7 +149,7 @@ TBD: find out why this isn't working
 function getEvent(ev) {
   if (window.event) {
     //TBD: Correct this for IE
-    //this.evpl = new Array();
+    this.evpl = new Array(window.event.offsetX, window.event.offsetY);
     this.altKey = window.event.altKey;
     this.ctrlKey = window.event.ctrlKey;
     this.shiftKey = window.event.shiftKey;
@@ -160,6 +160,7 @@ function getEvent(ev) {
     this.ctrlKey = ev.ctrlKey;
     this.shiftKey = ev.shiftKey;
   }
+  //alert(this.evpl[0] + ":" + this.evpl[1]);
   this.evxy = this.context.extent.GetXY( this.evpl );
 }
 

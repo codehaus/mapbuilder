@@ -181,10 +181,33 @@ function GetImageDiv( viewNode, lineColor ) {
 //  newDiv.style.zIndex = viewNode.style.zIndex;
   newDiv.style.zIndex = 300;
   newDiv.style.visibility = "hidden";
+  newDiv.onmousedown = mouseDownHandler;
   newDiv.onmouseup = mouseUpHandler;
+  newDiv.onmousemove = mouseMoveHandler;
+  newDiv.getEvent = aoiGetEvent;
+  newDiv.viewNode = viewNode;
   viewNode.appendChild( newDiv );
   return newDiv;
 }
+
+function aoiGetEvent(ev) {
+  if (window.event) {
+    //TBD: Correct this for IE
+    //this.evpl = new Array();
+    this.altKey = window.event.altKey;
+    this.ctrlKey = window.event.ctrlKey;
+    this.shiftKey = window.event.shiftKey;
+  } else {
+    //mozilla
+    this.evpl = new Array(ev.layerX+this.offsetLeft, ev.layerY+this.offsetTop);
+    this.altKey = ev.altKey;
+    this.ctrlKey = ev.ctrlKey;
+    this.shiftKey = ev.shiftKey;
+  }
+  this.evxy = this.viewNode.context.extent.GetXY( this.evpl );
+}
+
+
 
 
 
