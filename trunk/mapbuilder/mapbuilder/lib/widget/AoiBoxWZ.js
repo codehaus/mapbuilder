@@ -1,5 +1,4 @@
 /*
-Author:       Mike Adair mike.adairATccrs.nrcan.gc.ca
 Author:       Cameron Shorter cameronATshorter.net
 License:      GPL as per: http://www.gnu.org/copyleft/gpl.html
 
@@ -28,15 +27,11 @@ function AoiBoxWZ(widgetNode, model) {
   this.lineColor = widgetNode.selectSingleNode("mb:lineColor").firstChild.nodeValue;
   this.crossSize = widgetNode.selectSingleNode("mb:crossSize").firstChild.nodeValue;
 
-  //this.node.style.position="absolute";
-  //this.node.visibility="hidden";
-
   //look for this widgets output and replace if found, otherwise append it
   var tempNode = document.createElement("DIV");
   tempNode.innerHTML="<DIV/>";
   tempNode.firstChild.setAttribute("id", this.mbWidgetId);
   tempNode.firstChild.style.position="absolute";
-  //tempNode.firstChild.visibility="hidden";
   var outputNode = document.getElementById( this.mbWidgetId );
   if (outputNode) {
     this.node.replaceChild(tempNode.firstChild,outputNode);
@@ -48,8 +43,6 @@ function AoiBoxWZ(widgetNode, model) {
   this.jg=new jsGraphics(this.node.id);
   this.jg.setColor(this.lineColor);
   this.jg.setColor("#00FF00");
-  /*
-  */
 
   //TBD: The following causes lines to be drawn incorrectly in Mozilla 1.71
   //this.jg.setStroke(this.lineWidth);
@@ -80,7 +73,6 @@ function AoiBoxWZ(widgetNode, model) {
         objRef.jg.drawLine(x,y+c,x,y-c);
       } else {
         // draw box
-        //TBD the following line seems to disable the mouseup event in Mozilla
         objRef.jg.drawRect(ul[0],ul[1],width,height);
       }
       objRef.jg.paint();
