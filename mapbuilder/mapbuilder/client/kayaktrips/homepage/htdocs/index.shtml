@@ -44,27 +44,36 @@ functionality.</p>
     a web based java applet.</li>
 </ul>
 
+<p>Release 0.1 - Web Map Server and Web Map Server client.</p>
+<ul>
+  <li>Develop a Web Feature Server (server).  An alpha version is already
+    finished by the guys at: <a
+    href="http://sourceforge.net/projects/freefs">http://sourceforge.net/projects/freefs</a>.
+    This uses the free <a
+    href="http://postgis.refractions.net/">PostGIS</a>/Postgres database at
+    the backend.</li>
+  <li>Develop feature entry tool in geotools.</li>
+  <li>Get Geotools rendering GML.  Alpha version completed by James
+  MacGill.</li>
+</ul>
+
 <p>To Do:</p>
 <ul>
-  <li>Develop feature entry module in geotools</li>
-  <li>Get Geotools communicating directly with PostGIS with data entry</li>
-  <li>Get Geotools acting as a PostGIS client redering GML</li>
+  <li>Get Geotools to build and send a WFS query.</li>
 </ul>
 
-<p>Release 1 - Prototype data entry/retrieval</p>
+<p>Release 0.2 WFS client and server</p>
 <ul>
-  <li>Develop an open source Web Feature Server based on Open GIS Standards.
-    This will probably be done best with <a
-    href="http://postgis.refractions.net/">PostGIS</a>.  I'd be interested to
-    hear if anyone is working on this.</li>
-  <li>Develop a Web Feature Server interface to Geotools.  I plan to help out
-    with this next.</li>
-  <li>Develop a Transactional Web Feature Server interface.  Again, I'd look
-    to PostGIS for this.</li>
-  <li>Develop Transactional Web Feature Server client interface.</li>
+  <li>Develop transactional WFS functionality into <em>freefs</em>.</li>
+  <li>Develop layer-&gt;transaction functionality into geotools.</li>
 </ul>
 
-<p>Release 2 - Prototype using WFS</p>
+<p>Release 0.3 - Prototype data entry/retrieval</p>
+<ul>
+  <li>Ruggedise the functionality.</li>
+</ul>
+
+<p>Release 1.0 - Fully working data entry/retrieval</p>
 <ul>
   <li>Design data models, interfaces etc to drive the components.</li>
   <li>Design business logic to control update procedures.  I'm invisaging
@@ -72,7 +81,7 @@ functionality.</p>
     href="http://slashdot.org">http://slashdot.org</a></li>
 </ul>
 
-<p>Release 3 - Core functionality</p>
+<p>Release 2.0 - Core functionality for a mapbuilder</p>
 <ul>
   <li>Lots of possible features to add later.</li>
 </ul>
