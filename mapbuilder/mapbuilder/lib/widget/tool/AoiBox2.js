@@ -23,10 +23,6 @@ function AoiBox(toolNode, parentWidget) {
 
   this.parentWidget = parentWidget;
 
-  this.aoiListener = function(objRef) {
-    objRef.paint();
-  }
-
 
 /** Hide or show the box
   * @param vis    boolean true for visible; false for hidden
@@ -123,6 +119,10 @@ function AoiBox(toolNode, parentWidget) {
   }
 
 
+  this.aoiListener = function(objRef) {
+    objRef.paint();
+  }
+
   //final initialization
   this.loadAoiBox = function( objRef ) {
     var containerNode = document.getElementById( objRef.parentWidget.containerId );
@@ -132,9 +132,8 @@ function AoiBox(toolNode, parentWidget) {
     objRef.Right = objRef.getImageDiv( containerNode );
   }
 
-  this.parentWidget.model.addBoundingBoxChangeListener(this.loadAoiBox,this);
   this.parentWidget.model.addAoiListener(this.aoiListener, this);
-  this.loadAoiBox( this );
+  this.parentWidget.addPaintListener( this.loadAoiBox, this );
 
   //test case
 /*

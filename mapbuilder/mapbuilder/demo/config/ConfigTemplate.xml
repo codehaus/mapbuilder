@@ -38,7 +38,11 @@
     
     <Context>
       <scriptFile>model/Context2.js</scriptFile>
-      <scriptFile>model/Extent.js</scriptFile> 
+      <controllers>
+        <Extent>
+          <scriptFile>model/Extent.js</scriptFile> 
+        </Extent>
+      </controllers>
     </Context>
     
   </models>
@@ -86,6 +90,32 @@
               <formName>MapDisplayForm</formName>
             </CursorTrack>
 
+        <!-- not yet working; uncomment this to try it out
+            <ToolList id="toolListId">
+              <stylesheet>/widget/toollist/Config2ToolList.xsl</stylesheet>
+              <scriptFile>/widget/toollist/ToolList.js</scriptFile>
+              <tools>
+                <Tool id="ZoomInToolId">
+                  <selected>true</selected>
+                  <enabledSrc>images/zoom_in_en.gif</enabledSrc>
+                  <disabledSrc>images/zoom_in_dis.gif</disabledSrc>
+                  <tooltip>click and drag to zoom in</tooltip>
+                </Tool>
+                <Tool id="ZoomOutToolId">
+                  <selected>false</selected>
+                  <enabledSrc>images/zoom_out_en.gif</enabledSrc>
+                  <disabledSrc>images/zoom_out_dis.gif</disabledSrc>
+                  <tooltip>click to zoom out</tooltip>
+                </Tool>
+                <Tool id="PanToolId">
+                  <selected>false</selected>
+                  <enabledSrc>images/pan_en.gif</enabledSrc>
+                  <disabledSrc>images/pan_dis.gif</disabledSrc>
+                  <tooltip>click and drag to pan</tooltip>
+                </Tool>
+              </tools>
+            </ToolList>
+            -->
           </tools> 
         </MapPane>
         
@@ -95,33 +125,33 @@
         </Legend>
         
         <!-- not yet working; uncomment this to try it out
+         -->
         <ButtonBar id="buttonBarId">  
           <stylesheet>/widget/buttonbar/ButtonBar2.xsl</stylesheet>
           <scriptFile>/widget/buttonbar/ButtonBar3.js</scriptFile>
-          <mouseWidget>MapPane</mouseWidget>
+          <mouseWidget>config['mainMapGroup']['MapPane']</mouseWidget>
           <initialMode>MODE_ZOOM_IN</initialMode>
           <tools>
-            <Button id="ZoomInButton">
+            <ZoomInButton id="ZoomInButton">
               <enabledSrc>/images/zoom_in_en.gif</enabledSrc>
               <disabledSrc>/images/zoom_in_dis.gif</disabledSrc>
               <tooltip>click and drag to zoom in</tooltip>
               <modeValue>MODE_ZOOM_IN</modeValue>
-            </Button>
-            <Button id="ZoomOutButton">
+              <modalButton>true</modalButton>
+            </ZoomInButton>
+            <ZoomOutButton id="ZoomOutButton">
               <enabledSrc>/images/zoom_out_en.gif</enabledSrc>
               <disabledSrc>/images/zoom_out_dis.gif</disabledSrc>
               <tooltip>click to zoom out</tooltip>
               <modeValue>MODE_ZOOM_OUT</modeValue>
-            </Button>
-            <Button id="ResetButton">
-              <enabledSrc>/images/reset_extent_en.gif</enabledSrc>
+            </ZoomOutButton>
+            <ResetButton id="ResetButton">
               <disabledSrc>/images/reset_extent_dis.gif</disabledSrc>
               <tooltip>reset the map to full extent</tooltip>
               <modeValue>MODE_RESET</modeValue>
-            </Button>
+            </ResetButton>
           </tools>
         </ButtonBar>
-         -->
 
         <ToolList id="toolListId">
           <stylesheet>/widget/toollist/Config2ToolList.xsl</stylesheet>
