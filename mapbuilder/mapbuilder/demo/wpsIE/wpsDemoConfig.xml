@@ -93,10 +93,10 @@
           <targetModel>describeProcessTemplate</targetModel>
           <requestName>wps:DescribeProcess</requestName>
         </WebServiceRequest>
-        <WebServiceRequest id="wpsExecuteProcess">
+        <!--WebServiceRequest id="wpsExecuteProcess">
           <targetModel>executeProcessTemplate</targetModel>
           <requestName>wps:Execute</requestName>
-        </WebServiceRequest>
+        </WebServiceRequest-->
       </tools>
     </WpsCapabilities>
   </models>
