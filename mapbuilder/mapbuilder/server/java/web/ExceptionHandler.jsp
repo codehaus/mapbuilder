@@ -26,13 +26,9 @@ M. Adair     21-May-2002     319    Initial Release
 
 <%@ page contentType="text/xml; charset=ISO-8859-1" isErrorPage="true" %>
 
+<serviceException>
 
+  <message><%= exception.getMessage() %></message>
 
-an error has occured<BR />
-
-message is:<BR />
-
-
-
-<%= exception.getMessage() %>
+</serviceException>
 
