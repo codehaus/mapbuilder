@@ -134,10 +134,6 @@ function MapPane(widgetNode, group) {
 //        this.mouseDownListeners.push( listener );
 //        this.mouseDownObjects.push( objRef );
 //        break;
-      case 'mouseOver':				//setting AOI
-        this.mouseOverListeners.push( listener );
-        this.mouseOverObjects.push( objRef );
-        break;
       case 'mouseOut':
         this.mouseOutListeners.push( listener );
         this.mouseOutObjects.push( objRef );
