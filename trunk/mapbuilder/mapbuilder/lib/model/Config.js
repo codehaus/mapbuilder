@@ -74,7 +74,6 @@ function Config(url) {
   * file a store them as a property of the config object using the model ID as
   * the property name.  This means that the model object can then be referenced 
   * as in config["modelId"] in subsequent javascript code.
-  * This must be called once in the body onload event.
   */
   this.init = function() {
     var cgiArgs = getArgs();
@@ -98,7 +97,6 @@ function Config(url) {
       //instantiate the Model object
       var modelType = modelNode.nodeName;
       var evalStr = "new " + modelType + "(modelNode, this);";
-      //alert("init model:" + evalStr);
       var model = eval( evalStr );
       if ( model ) {
         this[model.id] = model;
@@ -130,6 +128,7 @@ function Config(url) {
   /**
    * Load a model and it's widgets scripts.  This function can be called at any
    * time to load a new model.
+   * TBD Need to distinguish between creating and initialising.
    * @param modelId   the id of the model in config XML to be updated
    * @param modelUrl  URL of the XML model document to be loaded
    */
