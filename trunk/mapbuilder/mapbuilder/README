@@ -1,7 +1,27 @@
-Community Map Builder
-=====================
+mapbuilder-lib
+==============
 $Id$
 
-Refer to documentation at http://mapbuilder.sourceforge.net for details,
-or if you are in a hurry, try viewing the file mapbuilder/demo/complete.html
-in a browser.
+Installation
+============
+Download the latest mapbuilder-lib file from
+http://sourceforge.net/projects/mapbuilder
+
+Uncompress the downloaded file.
+
+Run
+===
+You can view the demonstration application by viewing the following file
+in a recent web browser:  mapbuilder\demo\complete.html
+
+You should see a main map, locator map, legend, selection of Web Map Contexts
+and navigation buttons.
+
+Browser Support
+===============
+Internet Explorer 6+, Netscape 6+, Mozilla 1.3+ are supported.
+
+Documentation
+=============
+More detailed documentation is available at
+http://mapbuilder.sourceforge.net
