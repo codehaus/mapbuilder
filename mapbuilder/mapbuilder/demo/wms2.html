@@ -17,12 +17,16 @@ $Name$
 
     <!-- Include mapbuilder libraries -->
     <script type="text/javascript" src="../lib/model/Context.js"></script>
+    <script type="text/javascript" src="../lib/model/Extent.js"></script>
     <script type="text/javascript" src="../lib/widget/mappane/MapPane.js"></script>
+    <script type="text/javascript" src="../lib/widget/tool/GlassPane.js"></script>
     <script type="text/javascript" src="../lib/widget/legend/Legend.js"></script>
     <script type="text/javascript" src="../lib/widget/tool/PanTool.js"></script>
     <script type="text/javascript" src="../lib/widget/tool/ZoomTool.js"></script>
     <script type="text/javascript" src="../lib/util/sarissa/Sarissa.js"></script>
     <script type="text/javascript" src="../lib/util/Util.js"></script>
+    <script type="text/javascript" src="../lib/util/proj/Proj.js"></script>
+    <script type="text/javascript" src="../lib/util/proj/lcc.js"></script>
     <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
   </head>
 
@@ -44,6 +48,23 @@ $Name$
           <div id="legendDiv"></div>
         </td>
       </tr>
+
+      <tr>
+        <td valign="top">
+            <FORM NAME="MapDisplayForm" ID="MapDisplayForm" STYLE="margin:0; padding:0;">
+                    long:&nbsp;<input NAME="longitude" TYPE="text" SIZE="6" CLASS="bareinput">
+                    &nbsp;&nbsp;&nbsp;
+                    lat:&nbsp;<input NAME="latitude" TYPE="text" SIZE="6" CLASS="bareinput">
+            </FORM>
+          </td>
+
+          <td>
+            <A HREF="javascript:mapPane.mouseHandler.setMode( MODE_ZOOM_IN )">set to mode zoom
+in</A><BR/>
+            <A HREF="javascript:mapPane.mouseHandler.setMode( MODE_ZOOM_OUT )">set to mode zoom
+out</A><BR/>
+          </td>
+        </tr>
     </table>
     <p><i>A <a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Project</i></p>
 
@@ -67,11 +88,15 @@ $Name$
         "default");
 
       // Create and render a MapPane
-      mapPane=new MapPane(
+      var mapPane=new MapPane(
         context,
         "mapPane",
         document.getElementById("mapPaneDiv"));
       mapPane.paint();
+      
+      //add mouse handler function
+      mapPane.mouseHandler = new GlassDiv( mapPane, MODE_ZOOM_IN );
+      mapPane.mouseHandler.setCursorTrackForm( document.MapDisplayForm );
 
       // Create and render a Legend
       legend=new Legend(
