@@ -21,7 +21,7 @@ $Name$
   <xsl:param name="bBoxMinY" select="-90"/>
   <xsl:param name="bBoxMaxX" select="180"/>
   <xsl:param name="bBoxMaxY" select="90"/>
-  <xsl:param name="color" select="'red'"/>
+  <xsl:param name="lineColor" select="'red'"/>
   <xsl:param name="lineWidth" select="1"/>
   <xsl:param name="crossSize" select="0"/>
   <xsl:param name="skinDir"/>
@@ -37,7 +37,7 @@ $Name$
         objRef.jg=new jsGraphics(objRef.outputNodeId);
       }
       objRef.jg.clear();
-      objRef.jg.setColor("<xsl:value-of select="$color"/>");
+      objRef.jg.setColor("<xsl:value-of select="$lineColor"/>");
       objRef.jg.setStroke(parseInt(<xsl:value-of select="$lineWidth"/>));
       <xsl:apply-templates/>
       objRef.jg.paint();
