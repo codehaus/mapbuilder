@@ -47,7 +47,7 @@ function MapContainerBase(widget,widgetNode,model) {
   var containerNode = document.getElementById(widget.containerNodeId);
   if (containerNode) {
     widget.containerModel = containerNode.containerModel;
-    //??if (model.parentModel) model.parentModel.containerModel = widget.containerModel;
+    model.containerModel = containerNode.containerModel;
     widget.containerModel.addListener("refresh",widget.paint,widget);
   } else {
     containerNode = document.createElement("DIV");
@@ -59,6 +59,7 @@ function MapContainerBase(widget,widgetNode,model) {
 
     containerNode.containerModel = widget.model;
     widget.containerModel = widget.model;
+    model.containerModel = containerNode.containerModel;
 
     this.setFixedWidth = function(objRef) {
       //adjust the context width and height if required.
@@ -72,6 +73,8 @@ function MapContainerBase(widget,widgetNode,model) {
       }
       objRef.node.style.width=objRef.containerModel.getWindowWidth();
       objRef.node.style.height=objRef.containerModel.getWindowHeight();
+      widget.stylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
+      widget.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
     }
     widget.setFixedWidth = this.setFixedWidth;
     widget.containerModel.addListener( "loadModel", widget.setFixedWidth, widget );
@@ -146,23 +149,5 @@ function MapContainerBase(widget,widgetNode,model) {
     widget.node.appendChild(containerNode);
   }
   widget.node = document.getElementById(widget.containerNodeId);
-
-  /**
-   * Called when the context's hidden attribute changes.
-   * @param layerName The Name of the LayerList/Layer from the Context which
-   * has changed.
-   * @param thisWidget This object.
-   * @param layerName  The name of the layer that was toggled.
-   */
-  this.hiddenListener=function(thisWidget, layerName){
-    var vis="visible";
-    if(thisWidget.model.getHidden(layerName)=="1"){
-      vis="hidden";
-    }
-    var layerId = thisWidget.model.id + "_" + thisWidget.id + "_" + layerName;
-    document.getElementById(layerId).style.visibility=vis;
-  }
-  widget.hiddenListener = this.hiddenListener;
-  widget.model.addListener("hidden",widget.hiddenListener,widget);
 
 }
