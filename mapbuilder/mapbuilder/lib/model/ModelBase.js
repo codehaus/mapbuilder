@@ -57,6 +57,12 @@ function ModelBase(model, modelNode, parentModel) {
     model.method = "get";
   }
 
+  //set the namespace property
+  var namespace = modelNode.selectSingleNode("mb:namespace");
+  if (namespace) {
+    model.namespace = namespace.firstChild.nodeValue;
+  }
+
   //don't load in models and widgets if this is the config doc, defer to config.init
   if (parentModel) {
     model.parentModel = parentModel;
