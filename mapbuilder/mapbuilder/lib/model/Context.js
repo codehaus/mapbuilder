@@ -190,7 +190,7 @@ function Context(url, name, baseDir, skin, queryLayer) {
    * @param boundingBox array in form (xmin, ymin, xmax, ymax).
    */
   this.setBoundingBox=function(boundingBox) {
-    boundingBox=this.adjustExtent(boundingBox);
+    //boundingBox=this.adjustExtent(boundingBox);
     // Set BoundingBox in context
     bbox=this.context.documentElement.getElementsByTagName("BoundingBox").item(0);
     bbox.setAttribute("minx", boundingBox[0]);
@@ -198,7 +198,7 @@ function Context(url, name, baseDir, skin, queryLayer) {
     bbox.setAttribute("maxx", boundingBox[2]);
     bbox.setAttribute("maxy", boundingBox[3]);
     // Call the listeners
-    for(i=0;i<this.boundingBoxChangeListeners.length;i++) {
+    for (var i=0; i<this.boundingBoxChangeListeners.length; i++) {
       this.boundingBoxChangeListeners[i](this.bboxChangeListenerTargets[i]);
     }
   }
@@ -313,6 +313,9 @@ function Context(url, name, baseDir, skin, queryLayer) {
   this.getContext=function(){
     return this.context;
   }
+
+//add the extent property
+  this.extent = new Extent( this );
 
   // ===============================
   // Move the following
