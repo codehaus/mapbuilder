@@ -4,6 +4,18 @@
 <article>
   <title>Community Map Builder Layout Guide</title>
 
+  <articleinfo>
+    <date>$Date$</date>
+
+    <releaseinfo>$Name$</releaseinfo>
+
+    <author>
+      <firstname>Cameron</firstname>
+
+      <surname>Shorter</surname>
+    </author>
+  </articleinfo>
+
   <abstract>
     <para>How to incorporate Mapbuilder Widgets into a Web Page.</para>
   </abstract>
@@ -21,7 +33,7 @@
 
       <listitem>
         <para>Javascript and XSL modular libraries which can be integrated to
-        build geographic widgets. The widgets impliment clients to Open GIS
+        build geographic widgets. The widgets implement clients to Open GIS
         Consortium (OGC) services.</para>
       </listitem>
 
@@ -38,12 +50,6 @@
     <para>This document describes how to incorporate Mapbuilder Widgets into a
     Web Page. The reader should understand HTML and have an elementary
     understanding of Javascript.</para>
-  </section>
-
-  <section>
-    <title>Browser Requirements</title>
-
-    <para>TBD</para>
   </section>
 
   <section>
@@ -202,11 +208,10 @@ $Name$
       <para>The mapbuilder components need to be instantiated and
       widget.paint() functions need to be called.</para>
 
-      <para>Parameters required for each widget are descripted in the <ulink
+      <para>Parameters required for each widget are described in the <emphasis
+      role="bold">Constructor</emphasis> section of the <ulink
       url="http://mapbuilder.sourceforge.net/docs/jsdoc/index.html">mapbuilder
-      jsdocs</ulink>.</para>
-
-      <para>TBD: More detail is required here.</para>
+      jsdoc</ulink>.</para>
     </section>
   </section>
 </article>
