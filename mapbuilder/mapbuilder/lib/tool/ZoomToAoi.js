@@ -63,6 +63,8 @@ function ZoomToAoi(toolNode, parentWidget) {
     tool.model.extent.setAoi( ul, lr );
   }
   this.targetModel.addListener( "boundingBox", this.showTargetAoi, this );
+  this.targetModel.addListener( "loadModel", this.showTargetAoi, this );
+  this.showTargetAoi(this);   
 
 
   /**
@@ -85,7 +87,5 @@ function ZoomToAoi(toolNode, parentWidget) {
       tool.targetModel.extent.ZoomToBox( ul, lr );
     }
   }
-
   this.parentWidget.addListener('mouseup',this.mouseUpHandler,this);
-  this.parentWidget["AoiMouseHandler"].enable(true);
 }
