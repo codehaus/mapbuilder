@@ -7,6 +7,7 @@ a web page.
 @param xslUrl The URL of an XSL stylesheet.
 @param xmlUrl The URL of XML to be transformed.
 @author Cameron Shorter
+@deprecated Use util/XslProcessor instead.
 */
 function processXsl(xslUrl, xmlUrl) {
   // get the stylesheet document
