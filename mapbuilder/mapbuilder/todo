@@ -1,6 +1,5 @@
 Query Functionality:
 --------------------
-* GetFeatureInfo.xsl should have a maxFeature param which defaults to 1
 * Feature to be rendered over MapPane.
 * Gml2.js to be renamed to FeatureCollection.js
 * proxy.php to return Content Type
