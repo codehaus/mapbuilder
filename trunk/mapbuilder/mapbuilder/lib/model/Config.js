@@ -62,7 +62,6 @@ function Config(url) {
       mapbuilder.loadScript(scriptFile);
     }
   }
-  this.loadConfigScripts();
 
   //language to select; defaults to english 
   //Set via a "language" parameter in the URL, 
@@ -85,22 +84,6 @@ function Config(url) {
   var modelBase = new ModelBase(this, modelNode);
 
   /**
-  * @function init
-  *
-  * Main initialization method for mapbuilder applications.  
-  * This method calls the loadModel method for all models included in the config
-  * file a store them as a property of the config object using the model ID as
-  * the property name.  This means that the model object can then be referenced 
-  * as in config["modelId"] in subsequent javascript code.
-  */
-  this.xxxinit = function() {
-    //defered call for the loadModel event
-    this.callListeners("initModel");
-    //this.callListeners( "loadModel" );
-    //this.addListener("loadModel", this.loadWidgets, this);
-  }
-
-  /**
    * Load a model and it's widgets.  
    * This function can be called at any time to load a new model.
    * TBD Need to distinguish between creating and initialising.
@@ -112,6 +95,7 @@ function Config(url) {
     if (model && modelUrl) {
       model.url = modelUrl;
       model.loadModelDoc(model);
+      model.callListeners("refresh");
     } else {
       alert("config loadmodel error:"+modelId+":"+modelUrl);
     }
@@ -121,7 +105,7 @@ function Config(url) {
 // Initialise config object.
 if (document.readyState==null){
   // Mozilla
-  window.cgiArgs = getArgs();
-  mapbuilder.setLoadState(MB_LOAD_WIDGET);
+  mapbuilder.setLoadState(MB_LOAD_CONFIG);
   config=new Config(mbConfigUrl);
+  config.loadConfigScripts();
 }

@@ -46,37 +46,40 @@ function GetFeatureRequest(widgetNode, model) {
         feature.setAttribute("id", "MbDynModel_" + mbIds.getId());
       }
 
-      var newModel = objRef.model.models.appendModel(objRef.targetModelNode, feature);
-      objRef.paint(newModel, feature);  //do this as listener somehow?
+      objRef.model.models.appendModel(objRef.targetModelNode, feature);
     }
   }
   this.model.addListener("loadModel", this.initDynModelList, this);
 
-  this.xxxxpaint = function() {
-    //no-op
+  /**
+   * get the list of source nodes from the parent document
+   * @param objRef Pointer to this object.
+   */
+  this.refreshDynModelList = function(objRef) {
+    for (var i=0; i<objRef.model.models.modelArray.length; i++) {
+      var model = objRef.model.models.modelArray[i];
+      objRef.paint(model);  
+    }
   }
-  //this.model.addListener("loadModel",this.paint, this);
+  this.model.addListener("refresh", this.refreshDynModelList, this);
 
   /**
    * Render the widget.  Equivalent function to paint.
    * @param objRef Pointer to this object.
    */
-  this.paint = function(targetModel, feature) {
+  this.paint = function(targetModel) {
     //confirm inputs
-    if (this.debug) alert("source:"+feature.xml);
+    if (this.debug) alert("source:"+targetModel.featureNode.xml);
     if (this.debug) alert("stylesheet:"+this.stylesheet.xslDom.xml);
 
     //process the doc with the stylesheet
     var httpPayload = new Object();
-    httpPayload.postData = this.stylesheet.transformNodeToObject(feature);
+    httpPayload.postData = this.stylesheet.transformNodeToObject(targetModel.featureNode);
     if (this.debug) alert("postData:"+httpPayload.postData.xml);
-    httpPayload.url = this.model.getServerUrl(feature);
-    httpPayload.method = "post";//this.model.getMethod(feature);
+    httpPayload.url = this.model.getServerUrl(targetModel.featureNode);
+    httpPayload.method = "post";//this.model.getMethod(targetModel.featureNode);
     
     targetModel.setParam("httpPayload", httpPayload);
   }
-  // Call paint when model changes
-  //widget.model.addListener("featureSelect", widget.paint, widget);
-
 
 }

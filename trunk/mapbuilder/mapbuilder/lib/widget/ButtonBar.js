@@ -26,12 +26,12 @@ function ButtonBar(widgetNode, model) {
 
   /**
    * calls the select() method for any selected buttons in this widget.
-   */
   this.init = function(objRef) {
     for (var sProperty in objRef) { 
       if ( objRef[sProperty].selected ) objRef[sProperty].select();
     } 
   }
   this.model.addListener('loadModel',this.init,this);
+   */
 }
 

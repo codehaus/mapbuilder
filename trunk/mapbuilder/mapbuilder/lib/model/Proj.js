@@ -47,6 +47,14 @@ function Proj(srs) {
       this.units = "meters";
       this.title = "Lambert Conformal Conic";
 			break;
+		case "EPSG:26986":				//NAD83 / Massachusetts Mainland
+			this.Init = lccinit;
+			this.Forward = ll2lcc;
+			this.Inverse = lcc2ll;
+			this.Init(new Array(6378137.0,6356752.314,42.68333333333333,41.71666666666667,-71.5, 41.0, 200000, 750000));
+      this.units = "meters";
+      this.title = "Massachusetts Mainland (LCC)";
+			break;
 		case "EPSG:32761":				//Polar Stereographic
 		case "EPSG:32661":
 			this.Init = psinit;

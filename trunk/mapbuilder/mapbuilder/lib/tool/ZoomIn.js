@@ -47,7 +47,6 @@ function ZoomIn(toolNode, parentWidget) {
       toolRef.mouseHandler.addListener('mouseup',toolRef.doAction,toolRef);
     }
   }
-  //this.setMouseListener(this);
   this.parentWidget.targetModel.addListener( "loadModel", this.setMouseListener, this );
 
 }

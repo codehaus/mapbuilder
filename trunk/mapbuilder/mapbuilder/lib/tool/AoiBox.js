@@ -67,7 +67,7 @@ function AoiBox(toolNode, parentWidget) {
     }
   }
   this.model.addListener("aoi",this.paint, this);
-  this.parentWidget.addListener("paint",this.paint, this);
+  this.model.addListener("refresh",this.paint, this);
 
   /** Draw a box.
     * @param ul Upper Left position as an (x,y) array in screen coords.

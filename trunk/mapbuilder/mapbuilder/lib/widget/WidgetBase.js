@@ -4,7 +4,7 @@ $Id$
 */
 
 /**
- * Base class for widgets.  Associates a node on the page with a stylesheet and
+ * Base Class for widgets.  Associates a node on the page with a stylesheet and
  * model.  All widgets must extend this base class.
  * Defines the default paint() method for all widgets which is where the 
  * stylesheet is applied to the model XML document.
@@ -22,12 +22,7 @@ $Id$
  */
 function WidgetBase(widget,widgetNode,model) {
   // Inherit the Listener functions and parameters
-  if (widget){
-    var listener = new Listener(widget);
-  }else{
-    var listener = new Listener(this);
-  }
-
+  var listener = new Listener(widget);
   this.model = model;
   this.widgetNode = widgetNode;
 
@@ -63,6 +58,7 @@ function WidgetBase(widget,widgetNode,model) {
   if(!this.node) {
     //alert("htmlTagId: "+htmlTagId+" for widget "+widgetNode.nodeName+" not found in config");
   }
+
 
   // Set this.stylesheet
   // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
@@ -137,7 +133,7 @@ function WidgetBase(widget,widgetNode,model) {
    * @param objRef Pointer to widget object.
    */
   this.paint = function(objRef) {
-    if (objRef.model.doc && objRef.node) {
+    if (objRef.model.doc && objRef.node && !objRef.override) {
 
       if (objRef.debug) alert("source:"+objRef.model.doc.xml);
       objRef.resultDoc = objRef.model.doc; // resultDoc sometimes modified by prePaint()
@@ -188,14 +184,9 @@ function WidgetBase(widget,widgetNode,model) {
 
   // If this object is being created because a child is extending this object,
   // then child.properties = this.properties
-  if (widget) {
-    for (sProperty in this) {
-      widget[sProperty] = this[sProperty];
-    }
-
-    // Call paint when model changes
-    widget.model.addListener("loadModel",widget.paint, widget);
-  } else {
-    this.model.addListener("loadModel",this.paint, this);
+  for (sProperty in this) {
+    widget[sProperty] = this[sProperty];
   }
+  // Call paint when model changes
+  widget.model.addListener("refresh",widget.paint, widget);
 }

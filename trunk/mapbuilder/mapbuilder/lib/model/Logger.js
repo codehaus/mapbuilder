@@ -47,7 +47,7 @@ function Logger(modelNode, parent) {
     while (this.doc.documentElement.hasChildNodes() ) {
       this.doc.documentElement.removeChild(this.doc.documentElement.firstChild);
     }
-    this.callListeners("loadModel");
+    this.callListeners("refresh");
   }
 
   /**
@@ -66,7 +66,20 @@ function Logger(modelNode, parent) {
     }
   }
 
+  /**
+   * save the log by http post to the serializeUrl URL provided
+   */
+  this.refreshLog = function(objRef) {
+    objRef.callListeners("refresh");
+  }
+
+  //
+  if (parent) {
+    this.parentModel = parent;
+    parent["logger"] = this;
+    parent.addListener("refresh",this.refreshLog, this);
+  }
+
   window.onunload = this.saveLog;   //automatically save the log when the page unloads
   window.logger = this;             //global reference to the logger model
-  this.callListeners("loadModel");
 }

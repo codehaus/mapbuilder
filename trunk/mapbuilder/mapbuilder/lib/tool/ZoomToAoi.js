@@ -57,7 +57,7 @@ function ZoomToAoi(toolNode, parentWidget) {
     }
     tool.model.setParam("aoi", new Array(ul, lr) );
   }
-  this.targetModel.addListener( "boundingBox", this.showTargetAoi, this );
+  this.targetModel.addListener( "refresh", this.showTargetAoi, this );
   //this.targetModel.addListener( "loadModel", this.showTargetAoi, this );
 
 
