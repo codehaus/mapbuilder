@@ -37,6 +37,6 @@ function ZoomOut(toolNode, parentWidget) {
     extent.CenterAt(ul, newRes);
   }
   if (this.mouseHandler) {
-    this.mouseHandler.parentWidget.addListener('mouseup',this.doAction,this);
+    this.mouseHandler.addListener('mouseup',this.doAction,this);
   }
 }

@@ -30,7 +30,6 @@ function ZoomIn(toolNode, parentWidget) {
    */
   this.doAction = function(objRef,targetNode) {
     if (objRef.enabled) {
-//alert("zoomin:" + objRef.enabled);
       var bbox = objRef.targetModel.getAoi();
       if ( objRef.targetModel.aoiValid) {
         var extent = objRef.targetModel.extent;
@@ -45,11 +44,8 @@ function ZoomIn(toolNode, parentWidget) {
     }
   }
   if (this.mouseHandler) {
-    this.mouseHandler.parentWidget.addListener('mouseup',this.doAction,this);
+    this.mouseHandler.addListener('mouseup',this.doAction,this);
   }
 
-  //TBD: if there is no mousehandler for this tool then the mousehandler on the 
-  //mapppane has to be enabled somehow
-  //config['mainMapGroup']['mainMapPaneId']['AoiMouseHandler'].enable(true);
 }
 

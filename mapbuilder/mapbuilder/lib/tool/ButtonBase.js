@@ -22,6 +22,8 @@ function ButtonBase(toolNode, parentWidget) {
 
   this.title = toolNode.selectSingleNode("tooltip").firstChild.nodeValue;
   this.buttonType = toolNode.selectSingleNode("class").firstChild.nodeValue;
+  if (this.buttonType == "RadioButton") this.enabled = false;
+
 
   //pre-load the button bar images; add them to the config
   this.disabledImage = document.createElement("IMG");
