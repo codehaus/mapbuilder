@@ -108,7 +108,7 @@
             </Widget>
           </widgets>
         </DescribeFeatureType>
-        <GetFeature id="getFeatureTemplate" template="true">
+        <FeatureCollection id="getFeatureTemplate" template="true">
           <method>get</method>
           <widgets>
             <GmlRendererTest id="testGmlRenderer">
@@ -117,7 +117,7 @@
               <mapContainerId>mainMapContainer</mapContainerId>
             </GmlRendererTest>
           </widgets>
-        </GetFeature>
+        </FeatureCollection>
         <Transaction id="transactionTemplate" template="true">
           <method>post</method>
           <widgets>

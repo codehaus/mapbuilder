@@ -94,14 +94,6 @@
         </CollectionList>
       </widgets>
     </ContextCollection>
-    <!--
-    <Gml2 id="gml2">
-      <widgets>
-        <FeatureList id="featureList">
-        </FeatureList>
-      </widgets>
-    </Gml2>
-    -->
     <Model id="locations">
       <defaultModelUrl>locations/Global.xml</defaultModelUrl>
       <widgets>
@@ -115,7 +107,7 @@
         </ZoomToAoi>
       </tools>
     </Model>
-    <Gml2 id="testGml">
+    <FeatureCollection id="featureCollection">
       <defaultModelUrl>gml/Test.xml</defaultModelUrl>
       <widgets>
         <GmlRendererWZ id="testGmlRenderer">
@@ -129,8 +121,8 @@
         <FeatureList id="featureList">
         </FeatureList>
       </widgets>
-    </Gml2>
-    <Gml2 id="ntsGml">
+    </FeatureCollection>
+    <FeatureCollection id="ntsGml">
       <!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
       <widgets>
         <GmlRendererWZ id="testNTSRenderer">
@@ -142,7 +134,7 @@
           <pointDiameter>10</pointDiameter>
         </GmlRendererWZ>
       </widgets>
-    </Gml2>
+    </FeatureCollection>
     <!--
     <Logger id="eventLogDoc">
       <serializeUrl>/mapbuilder/writeXml</serializeUrl>
@@ -210,7 +202,7 @@
     </Reset>
     <!--GetFeatureInfo id="getFeatureInfo">
       <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>testGml</targetModel>
+      <targetModel>featureCollection</targetModel>
       <mouseHandler>mainMap</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/QueryEnable.gif</enabledSrc>
@@ -226,7 +218,7 @@
       <disabledSrc>/images/EditPointDisable.gif</disabledSrc>
       <tooltip xml:lang="en">click on map to create a point feature</tooltip>
       <tooltip xml:lang="fr">click on map to create a point feature</tooltip>
-      <targetModel>testGml</targetModel>
+      <targetModel>featureCollection</targetModel>
       <featureXpath>/gml:featureMember/points/_SHAPE_/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
       <defaultModelUrl>gml/defaultAddPoint.xml</defaultModelUrl>
     </EditPoint>
@@ -238,7 +230,7 @@
       <disabledSrc>/images/EditLineDisable.gif</disabledSrc>
       <tooltip xml:lang="en">click on map to add a point to a line</tooltip>
       <tooltip xml:lang="fr">click on map to add a point to a line</tooltip>
-      <targetModel>testGml</targetModel>
+      <targetModel>featureCollection</targetModel>
       <featureXpath>/gml:featureMember/lines/_SHAPE_/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
       <defaultModelUrl>gml/defaultAddLine.xml</defaultModelUrl>
     </EditLine>
