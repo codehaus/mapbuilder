@@ -54,10 +54,7 @@ function WmsCapabilitiesImport(widgetNode, model) {
       alert("context="+context.xml);
 
       // Load the new Context Document
-      // TBD: The following function needs to be derived from
-      // ModelBase.loadModelDoc()
-      //
-      //this.model.loadModelNode(context);
+      this.model.loadModelNode(context);
     }
   }
 }
