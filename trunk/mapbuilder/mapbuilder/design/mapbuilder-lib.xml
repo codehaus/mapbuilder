@@ -79,14 +79,24 @@
 
       <listitem>
         <para><ulink
-        url="http://quicklook.ccrs.nrcan.gc.ca/ql2/mb">mapbuilder-lib Web
-        Builder's tutorial</ulink>.</para>
+        url="http://mapbuilder.sourceforge.net/?q=node/view/52">mapbuilder-lib
+        Web Builder's tutorial</ulink>.</para>
       </listitem>
 
       <listitem>
         <para><ulink
         url="http://mapbuilder.sourceforge.net/docs/jsdocs/index.html">jsdocs</ulink>
         of javascript objects. (Similar to javadocs).</para>
+      </listitem>
+
+      <listitem>
+        <para><ulink url="http://www.opengis.org/specs/?page=specs">Web Map
+        Service</ulink> specification.</para>
+      </listitem>
+
+      <listitem>
+        <para><ulink url="http://www.opengis.org/specs/?page=specs">Web Map
+        Context</ulink> specification.</para>
       </listitem>
     </itemizedlist>
   </section>
@@ -397,10 +407,32 @@
       <section id="mainpage">
         <title>MainPage</title>
 
-        <para>The Main Web Page uses HTML to layout the page. mapbuilder-lib
-        widgets are inserted using HTML tags with unique identifies. When
-        mapbuilder-lib renders it's widgets, HTML is inserted into the widget
-        tags.</para>
+        <para>The Main Web Page uses include and initialise mapbuilder-lib and
+        to layout the page.</para>
+
+        <example>
+          <title>Including and initialising mapbuilder-lib</title>
+
+          <programlisting>&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Mapbuilder Demo&lt;/title&gt;
+    &lt;link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css"&gt;
+    &lt;script&gt;
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='config/CompleteConfig.xml';
+    &lt;/script&gt;
+    &lt;script type="text/javascript" src="../lib/Mapbuilder.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+
+  &lt;body onload="mbDoLoad()"&gt;
+    &lt;Insert more html here/&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</programlisting>
+        </example>
+
+        <para>mapbuilder-lib widgets are inserted using HTML tags with unique
+        identifies. When mapbuilder-lib renders widgets, HTML is inserted into
+        the widget tags.</para>
 
         <example>
           <title>HTML with widget tags</title>
@@ -414,15 +446,11 @@
       &lt;div id="buttonBarId"/&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
-&lt;/table&gt;
-</programlisting>
+&lt;/table&gt;</programlisting>
         </example>
 
-        <para>The main page also needs to include the main mapbuilder-lib
-        script and initialise it.</para>
-
-        <para>For details on how to build a Main Page, refer to the Users
-        Guide.</para>
+        <para>For further details on how to use mapbuilder-lib, refer to the
+        Users Guide.</para>
       </section>
 
       <section id="webmapcontext">
@@ -437,17 +465,22 @@
       <section id="config">
         <title>Config</title>
 
-        <para>This section explains the mapbuilder-lib object model.</para>
+        <para>This section explains the structure of the mapbuilder-lib Config
+        file.</para>
 
-        <para>All mapbuilder-lib applications are initialized from an XML
-        configuration document. The document closely follows the MVC design
-        pattern to describe the Models, Widgets (Views) and Tools
-        (Controllers) provided by an application.</para>
+        <para>The Config file is an XML document which describes which
+        mapbuilder-lib components should be included in an application.</para>
+
+        <para>TBD: This section contains information about javascript
+        implementation of classes which should be moved to the Components
+        section.</para>
+
+        <para>TBD: Some information in this section is out of date.</para>
 
         <section id="configdocumentschema">
           <title>Config Document Schema</title>
 
-          <para>The mapbuilder configuration XML document is based on RDF
+          <para>The mapbuilder-lib configuration XML document is based on RDF
           principles. Future plans include defining a mapbuilder config
           document schema by extending the RDF schema.</para>
 
