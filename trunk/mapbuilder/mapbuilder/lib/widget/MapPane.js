@@ -28,6 +28,12 @@ function MapPane(widgetNode, group) {
     this[sProperty] = base[sProperty]; 
   } 
 
+  // Inherit the Listener functions and parameters
+  var listener = new Listener();
+  for (sProperty in listener) { 
+    this[sProperty] = listener[sProperty]; 
+  } 
+
   /** Id of <DIV> tag which contains the MapPane HTML. The <DIV> tag is built
    *  by MapPane.xsl. */
   this.containerId = "mappane_"+group.id;
@@ -47,7 +53,7 @@ function MapPane(widgetNode, group) {
     containerNode.onmousemove = objRef.mouseMoveHandler;
     containerNode.onmouseout = objRef.mouseOutHandler;
     containerNode.onmouseover = objRef.mouseOverHandler;
-    containerNode.onmousedown = objRef.mouseDownHandler;
+    containerNode.onmousedown = objRef.actionHandler;
     containerNode.onmouseup = objRef.mouseUpHandler;
     containerNode.getEvent = getEvent;
   }
@@ -110,12 +116,12 @@ function MapPane(widgetNode, group) {
   }
 
   this.mouseUpListeners = new Array();
-  this.mouseDownListeners = new Array();
+//  this.mouseDownListeners = new Array();
   this.mouseMoveListeners = new Array();
   this.mouseOverListeners = new Array();
   this.mouseOutListeners = new Array();
   this.mouseUpObjects = new Array();
-  this.mouseDownObjects = new Array();
+//  this.mouseDownObjects = new Array();
   this.mouseMoveObjects = new Array();
   this.mouseOverObjects = new Array();
   this.mouseOutObjects = new Array();
@@ -126,10 +132,10 @@ function MapPane(widgetNode, group) {
         this.mouseUpListeners.push( listener );
         this.mouseUpObjects.push( objRef );
         break;
-      case 'mouseDown':				//zoom out
-        this.mouseDownListeners.push( listener );
-        this.mouseDownObjects.push( objRef );
-        break;
+//      case 'mouseDown':				//zoom out
+//        this.mouseDownListeners.push( listener );
+//        this.mouseDownObjects.push( objRef );
+//        break;
       case 'mouseMove':            //pan
         this.mouseMoveListeners.push( listener );
         this.mouseMoveObjects.push( objRef );
@@ -148,11 +154,16 @@ function MapPane(widgetNode, group) {
     }
   }
 
-  this.mouseDownHandler=function(ev) {
+  /**
+   * Use this function to replace javascript event handlers for actions.
+   * Listeners are defined for all the mouse actions.  This includes:
+   * "mouseup", "mousedown", "mousemove", "mouseover", "mouseout".
+   * Note: "this" refers to the HTML <DIV> tag which encloses the MapPane.
+   * @param ev The javascript action event.
+   */
+  this.actionHandler=function(ev) {
     this.getEvent(ev);
-    for (var i=0; i<this.parentObject.mouseDownListeners.length; i++) {
-      this.parentObject.mouseDownListeners[i]( this, this.parentObject.mouseDownObjects[i] );
-    }
+    this.parentObject.callListeners(ev.type,this);
     if (window.event) {
       window.event.returnValue = false;
       window.event.cancelBubble = true;
@@ -161,6 +172,23 @@ function MapPane(widgetNode, group) {
     }
     return false;
   }
+
+/*
+  this.mouseDownHandler=function(ev) {
+    this.getEvent(ev);
+    this.parentObject.callListeners("mousedown",this);
+    //for (var i=0; i<this.parentObject.mouseDownListeners.length; i++) {
+    //  this.parentObject.mouseDownListeners[i]( this, this.parentObject.mouseDownObjects[i] );
+    //}
+    if (window.event) {
+      window.event.returnValue = false;
+      window.event.cancelBubble = true;
+    } else {
+      ev.stopPropagation();
+    }
+    return false;
+  }
+*/
 
   this.mouseUpHandler=function(ev) {
     this.getEvent(ev);
