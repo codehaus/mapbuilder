@@ -139,7 +139,7 @@
           <htmlTagId>mainMapPane</htmlTagId>
           <targetModel>mainMap</targetModel>
           <mapContainerId>mainMapContainer</mapContainerId>
-          <lineColor>#00FF00</lineColor>
+          <lineColor>#0000FF</lineColor>
           <lineWidth>1</lineWidth>
           <pointDiameter>10</pointDiameter>
         </GmlRendererWZ>
