@@ -347,7 +347,3 @@ if (_SARISSA_IS_MOZ ) {
     }
   };
 }
-
-function fred(a) {
-  alert(a);
-}
