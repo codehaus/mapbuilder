@@ -14,7 +14,7 @@ $Id$
  * @param id ID referencing this context object
  * @param queryLayer Index of layer in Context document that should be used as query layer for GetFeatureInfo requests
  */
-function Context(url, ID, queryLayer) {
+function Context(url) {
 
   /**
    * The Web Map Context Document.
@@ -25,8 +25,9 @@ function Context(url, ID, queryLayer) {
   this.doc.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
   this.doc.setProperty("SelectionLanguage", "XPath");
   this.doc.load(url);
-
-  this.queryLayer=queryLayer;
+  if ( this.doc.parseError < 0 ) alert("error loading document: " + url);
+  
+  this.id = this.doc.documentElement.attributes.getNamedItem("id").nodeValue;
 
   // ===============================
   // Arrays of Listeners

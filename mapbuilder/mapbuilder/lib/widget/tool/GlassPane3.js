@@ -29,7 +29,8 @@ function GlassPane(toolNode, parentWidget) {
   this.mode = 'MODE_SET_AOI';   //TBD: get this from config.xml widgetNode
   this.zoomBy = 4;   //default fraction to zoom in/out on a click
   this.node = document.getElementById( parentWidget.containerId );
-  this.node.context = this.model;
+  this.node.context = parentWidget.model;
+
   this.node.mouseUpListeners = new Array();
   this.node.mouseDownListeners = new Array();
   this.node.mouseMoveListeners = new Array();

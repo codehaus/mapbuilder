@@ -13,8 +13,8 @@ $Id$
  * @param context The Web Map Context to call when changing extent.
  * @param node Node from the HTML DOM to insert Pan HTML into.
  */
-function ZoomTool(widgetNode) {
-  var base = new WidgetBase(widgetNode);
+function ZoomTool(widgetNode, group) {
+  var base = new WidgetBase(widgetNode, group);
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 
   } 

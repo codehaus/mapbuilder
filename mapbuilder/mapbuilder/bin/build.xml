@@ -41,7 +41,7 @@ $Id$
      set to the current working directory.
 -->
 
-<project name="mapbuilder" default="prepare" basedir=".">
+<project name="mapbuilder" default="prepare" basedir="..">
 
 
 

@@ -15,7 +15,7 @@
   <!--
   all scriptfile and stylesheets are prepended by this URL
   -->
-  <baseDir>/mapbuilder/lib</baseDir>
+  <baseDir>../lib</baseDir>
     
   <models>
 
@@ -36,7 +36,7 @@
     
     <Model id="locatorMapGroup">
       <modelType>Context</modelType>
-      <defaultModelUrl>demo/context/locatorMap.xml</defaultModelUrl>
+      <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorMapId">
           <scriptFile>/widget/mappane/MapPane2.js</scriptFile>
@@ -48,7 +48,7 @@
     
     <Model id="mainMapGroup">
       <modelType>Context</modelType>
-      <defaultModelUrl>demo/context/atlasWorld.xml</defaultModelUrl>
+      <defaultModelUrl>context/atlasWorld.xml</defaultModelUrl>
       <widgets>
         <MapPane id="mainMapPaneId">
           <scriptFile>/widget/mappane/MapPane2.js</scriptFile>
@@ -72,11 +72,11 @@
           <stylesheet>/widget/legend/Context2Legend2.xml</stylesheet>
         </Legend>
         
+        <!-- further contained widgets     
         <ZoomTool id="zoomToolId">
           <scriptFile>/widget/tool/ZoomTool2.js</scriptFile>
         </ZoomTool>
         
-        <!-- further contained widgets     
         <ButtonBar id="buttonBarId">
           <stylesheet>/widget/buttonbar/ButtonBar2.xsl</stylesheet>
           <scriptFile>/widget/buttonbar/ButtonBar3.js</scriptFile>
@@ -108,7 +108,7 @@
       
     <Model id="collectionGroup">
       <modelType>ContextCollection</modelType>
-      <defaultModelUrl>demo/context/demoCollection.ccml</defaultModelUrl>
+      <defaultModelUrl>context/demoCollection.ccml</defaultModelUrl>
       <widgets>
         <CollectionList id="collectionListId">
           <scriptFile>/widget/collectionList/CollectionList2.js</scriptFile>
