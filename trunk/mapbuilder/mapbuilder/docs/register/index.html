@@ -10,64 +10,234 @@
 </head>
 <body onload="mbDoLoad()">
 <h1>Mapbuilder Components Register</h1>
-  
-    <h2>Widget MapTitle</h2>
-<ul>
-<p></p>
-<table border="1">
-<caption><b>MapTitle Examples</b></caption>
+<h2>MapPane Widget</h2>
+<ul><table border="1">
 <tr>
 <th>Description</th>
+<td><p><i>Render a Web Map Context (WMC) document as layered map images.</i></p></td>
+</tr>
+<tr>
 <th>Example</th>
-<th>HTML snippet</th>
-<th>Config snippet</th>
-</tr>
-<tr>
-<td>
-<h3>MapTitle</h3>
-<p>The mapTitle, often put inside a heading tag.</p>
-</td>
-<td><div id="mapTitle"></div></td>
-<td>&lt;div id="mapTitle"/&gt;</td>
-<td>
-          </td>
-</tr>
-</table>
-</ul>
-
-    <h2>Widget MapPane</h2>
-<ul>
-<p><i>Render a Web Map Context (WMC) document as layered map images.</i></p>
-<table border="1">
-<caption><b>MapPane Examples</b></caption>
-<tr>
-<th>Description</th>
-<th>Example</th>
-<th>HTML snippet</th>
-<th>Config snippet</th>
-</tr>
-<tr>
-<td>
-<h3>Simple MapPane</h3>
-<p>A static MapPane</p>
-</td>
 <td><div id="mainMapPane"></div></td>
-<td>&lt;div id="mainMapPane"/&gt;</td>
-<td> &lt;MapPane id="mainMapWidget"&gt;
-          &lt;htmlTagId&gt;mainMapPane&lt;/htmlTagId&gt; &lt;tools&gt;
-          &lt;AoiMouseHandler/&gt; &lt;AoiBox&gt;
-          &lt;lineColor&gt;#FF0000&lt;/lineColor&gt;
-          &lt;lineWidth&gt;2&lt;/lineWidth&gt;
-          &lt;crossSize&gt;1&lt;/crossSize&gt; &lt;/AoiBox&gt;
-          &lt;DragPanHandler&gt; &lt;enabled&gt;false&lt;/enabled&gt;
-          &lt;/DragPanHandler&gt; &lt;MouseClickHandler/&gt; &lt;/tools&gt;
-          &lt;mapContainerId&gt;mainMapContainer&lt;/mapContainerId&gt;
-          &lt;/MapPane&gt; </td>
 </tr>
-</table>
-</ul>
-  
-  
-  
+</table></ul>
+<h2>AoiBox2 Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p></p></td>
+</tr>
+<tr>
+<th>Stylesheet</th>
+<td>../lib/widget/GmlRenderer.xsl</td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="mainMapPane"></div></td>
+</tr>
+</table></ul>
+<h2>CursorTrack Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p></p></td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="cursorTrack"></div></td>
+</tr>
+</table></ul>
+<h2>Legend Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p></p></td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="legend"></div></td>
+</tr>
+</table></ul>
+<h2>Widget Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p></p></td>
+</tr>
+<tr>
+<th>Stylesheet</th>
+<td>../lib/widget/Abstract.xsl</td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="abstract"></div></td>
+</tr>
+</table></ul>
+<h2>Widget Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p></p></td>
+</tr>
+<tr>
+<th>Stylesheet</th>
+<td>../lib/widget/MapTitle.xsl</td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="mapTitle"></div></td>
+</tr>
+</table></ul>
+<h2>AoiForm Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p></p></td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="aoiForm"></div></td>
+</tr>
+</table></ul>
+<h2>MapScaleText Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p></p></td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="mapScaleText"></div></td>
+</tr>
+</table></ul>
+<h2>SaveModel Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p></p></td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="saveModel"></div></td>
+</tr>
+</table></ul>
+<h2>WmsCapabilitiesImport Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p></p></td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="wmsCapabilitiesImport"></div></td>
+</tr>
+</table></ul>
+<h2>MapPane Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p><i>Render a Web Map Context (WMC) document as layered map images.</i></p></td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="locatorMap"></div></td>
+</tr>
+</table></ul>
+<h2>ModelUrlInput Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p></p></td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="urlInput"></div></td>
+</tr>
+</table></ul>
+<h2>CollectionList Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p></p></td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="collectionList"></div></td>
+</tr>
+</table></ul>
+<h2>FeatureList Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p></p></td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="featureList"></div></td>
+</tr>
+</table></ul>
+<h2>Locations Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p></p></td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="locationsSelect"></div></td>
+</tr>
+</table></ul>
+<h2>GmlRenderer Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p></p></td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="mainMapPane"></div></td>
+</tr>
+</table></ul>
+<h2>Widget Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p></p></td>
+</tr>
+<tr>
+<th>Stylesheet</th>
+<td>../lib/widget/EventLog.xsl</td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="eventLog"></div></td>
+</tr>
+</table></ul>
+<h2>ButtonBar Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p></p></td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="buttonBar"></div></td>
+</tr>
+</table></ul>
+<h2>WebServiceForm Widget</h2>
+<ul><table border="1">
+<tr>
+<th>Description</th>
+<td><p></p></td>
+</tr>
+<tr>
+<th>Stylesheet</th>
+<td>../lib/widget/NtsForm.xsl</td>
+</tr>
+<tr>
+<th>Example</th>
+<td><div id="ntsLookupForm"></div></td>
+</tr>
+</table></ul>
 </body>
 </html>
