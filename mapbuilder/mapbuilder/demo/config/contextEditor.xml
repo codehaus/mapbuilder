@@ -111,7 +111,7 @@
       <!--defaultModelUrl>http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA?version=1.0.0&amp;service=WFS&amp;request=GetCapabilities</defaultModelUrl-->
       <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
       <models>
-        <DescribeFeatureType id="featureTypeTemplate">
+        <DescribeFeatureType id="featureTypeTemplate" template="true">
           <widgets>
             <Widget id="attributeFilter">
               <htmlTagId>workspace</htmlTagId>
@@ -120,7 +120,7 @@
             </Widget>
           </widgets>
         </DescribeFeatureType>
-        <GetFeature id="getFeatureTemplate">
+        <GetFeature id="getFeatureTemplate" template="true">
           <method>get</method>
           <widgets>
             <GmlRendererTest id="testGmlRenderer">
@@ -137,14 +137,6 @@
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
         </Widget>
-				<DescribeFeatureTypeRequest>
-          <targetModel>featureTypeTemplate</targetModel>
-				</DescribeFeatureTypeRequest>
-        <GetFeatureRequest id="getFeatureRequest">
-          <debug/>
-          <targetModel>getFeatureTemplate</targetModel>
-          <debug/>
-        </GetFeatureRequest>
 			</widgets>
 		</WfsCapabilities>
     
