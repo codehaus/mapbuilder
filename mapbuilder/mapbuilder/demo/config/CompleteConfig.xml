@@ -10,8 +10,11 @@
     $Id$
   -->
 
-  <!-- All static images should be relative to this URL -->
-  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+  <!--
+    All static images should be relative to this URL.
+    This dir is relative the dir of the main html file.
+  -->
+  <skinDir>../lib/skin/default</skinDir>
 
   <models>
 
