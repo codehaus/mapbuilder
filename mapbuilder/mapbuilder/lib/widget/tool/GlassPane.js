@@ -23,9 +23,11 @@ var MODE_ZOOM_OUT = 2;
 var MODE_PAN = 3;
 var MODE_SET_ROI = 4;
 var MODE_ALT_CLICK = 5;
+var MODE_GETFEATUREINFO = 6;
 
 function GlassDiv(mappane, mode) {
   this.view = mappane;
+
 
   this.glassDiv = document.getElementById("glass");    //or create this dynamically?
 /*
@@ -42,6 +44,7 @@ function GlassDiv(mappane, mode) {
 */
   this.glassDiv.context = mappane.context;
 
+  this.glassDiv.featureInfo = new FeatureInfo(mappane.context);
 
   this.glassDiv.mode = 0;     //no mouse handling by default
   if (mode) {
@@ -156,7 +159,11 @@ function mouseDownHandler(ev) {
     case 3://MODE_PAN:            //pan
       this.startPan(this.evpl);
       break;
-    case 5://MODE_ALT_CLICK:		  //zoom by ALT/CTRL click
+    case 5://MODE_ALT_CLICK:	
+	  //zoom by ALT/CTRL click
+    case 6:
+      this.featureInfo.get(this.evpl);
+      break;	
     case 2://MODE_ZOOM_OUT:				//zoom out
       //no-op, action happens on mouse up
       break;
