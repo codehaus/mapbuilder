@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+Description: parses an OGC context document to generate a GetFeatureInfo url
+Author:      Nedjo
+Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
+
+$Id$
+$Name$
+-->
+
+<xsl:stylesheet version="1.0" xmlns:cml="http://www.opengis.net/context" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+  <xsl:output method="xml"/>
+  <xsl:strip-space elements="*"/>
+
+  <!-- The URL of the WMS GetFeatureInfo request -->
+  <xsl:param name="queryLayer"/>
+  <xsl:param name="xCoord"/>
+  <xsl:param name="yCoord"/>
+
+  <xsl:param name="bbox">
+    <xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@minx"/>,<xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@miny"/>,
+    <xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@maxx"/>,<xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@maxy"/>
+  </xsl:param>
+  <xsl:param name="width">
+    <xsl:value-of select="/cml:ViewContext/cml:General/cml:Window/@width"/>
+  </xsl:param>
+  <xsl:param name="height">
+    <xsl:value-of select="/cml:ViewContext/cml:General/cml:Window/@height"/>
+  </xsl:param>
+  <xsl:param name="srs" select="/cml:ViewContext/cml:General/cml:BoundingBox/@SRS"/>
+  
+    <xsl:param name="version">
+        <xsl:value-of select="cml:Server/@version"/>    
+    </xsl:param>
+    <xsl:param name="baseUrl">
+        <xsl:value-of select="cml:Server/cml:OnlineResource/@xlink:href"/>    
+    </xsl:param>
+    <xsl:variable name="visibility">
+      <xsl:choose>
+        <xsl:when test="@hidden='1'">hidden</xsl:when>
+        <xsl:otherwise>visible</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:variable name="firstJoin">
+      <xsl:choose>
+        <xsl:when test="contains($baseUrl, '?')">&amp;</xsl:when> 
+        <xsl:otherwise>?</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:variable name="mapRequest">
+      <xsl:choose>
+        <xsl:when test="starts-with($version, '1.0')">
+            WMTVER=<xsl:value-of select="$version"/>&amp;REQUEST=map
+        </xsl:when>            
+        <xsl:otherwise>
+            VERSION=<xsl:value-of select="$version"/>&amp;REQUEST=GetMap
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+       <xsl:variable name="src">    
+            <xsl:value-of select="$baseUrl"/>
+            <xsl:value-of select="$firstJoin"/>
+             <xsl:value-of select="$mapRequest"/>
+   &amp;SRS=<xsl:value-of select="$srs"/>
+  &amp;BBOX=<xsl:value-of select="$bbox"/>
+ &amp;WIDTH=<xsl:value-of select="$width"/>
+&amp;HEIGHT=<xsl:value-of select="$height"/>
+&amp;QUERYLAYER=<xsl:value-of select="$queryLayer"/>
+&amp;X=<xsl:value-of select="$xCoord"/>
+&amp;Y=<xsl:value-of select="$yCoord"/>
+        </xsl:variable>
+    <xsl:element name="url">    
+            <xsl:value-of select="translate(normalize-space($src),' ', '' )" disable-output-escaping="no"/>
+    </xsl:element>    
+  </xsl:template>
+</xsl:stylesheet>
