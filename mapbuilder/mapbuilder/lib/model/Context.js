@@ -27,7 +27,11 @@ function Context(url, skin) {
   if(skin==null){
     skin="basic";
   }
+
+  /**
+   * TBD: Comment me */
   this.skin="skins/"+skin+"/";
+
   /*
   // Insert unique Ids into each Layer node.
   var layerNodeList=this.context.selectNodes("/ViewContext");
@@ -38,11 +42,13 @@ function Context(url, skin) {
   */
 
   /**
+   * TBD: Deprecated, This function needs to move into the tools directory, or
+   * possibly the util directory. - Cameron.
    * Resize a spatial extent to have the same aspect ratio as a Window.
    * @param ext The fuction to call when the bbox changes.
    * @return ext The adjusted spatial extent, having the same aspect ratio as the Window.
+   * @deprecated.
    */
-
   this.adjustExtent=function(ext) {
     windowWidth=this.getWindowWidth();
     windowHeight=this.getWindowHeight();
@@ -61,10 +67,15 @@ function Context(url, skin) {
 
   /** Functions to call when the boundingBox has changed. */
   this.bboxChangeListeners=new Array();
+
+  /** TBD: I think this should be deprecated? Isn't it the same as
+    * bboxChangeListeners? Cameron.
+    * @deprecated */
   this.bboxChangeListenerTargets=new Array();
 
   /**
    * Add a Listener for bbox change.
+   * TBD: rename function name to addBoundingBoxListener().
    * @param listener The function to call when the bbox changes.
    */
   this.addBboxChangeListener=function(listener,target) {
@@ -72,15 +83,48 @@ function Context(url, skin) {
     this.bboxChangeListenerTargets[this.bboxChangeListenerTargets.length]=target;
   }
 
+  // Array of listener functions.
+
   /** Functions to call when the layer's Hidden attribute changes. */
   this.hiddenListeners=new Array();
+  /** Functions to call when one of the Context attributes has changed and
+   no other listener has been called to notify the change. */
+  this.contextListeners=new Array();
+  /** Functions to call when the order of layers changes. */
+  this.layerOrderListeners=new Array();
+  /** Functions to call when a layer is added. */
+  this.addLayerListeners=new Array();
+  /** Functions to call when a layer is deleted. */
+  this.deleteLayerListeners=new Array();
 
   /**
    * Add a Listener for Hidden attribute.
    * @param listener The fuction to call when a hidden attribute changes.
+   * The listener function should be of the form hiddenListener(layer) where
+   * layer is the layerId that has changed visibility.
    */
   this.addHiddenListener=function(listener) {
     this.hiddenListeners[this.hiddenListeners.length]=listener;
+  }
+
+  /**
+   * Add a Context listener.  This listener is called if the context is replaced,
+   * or one of the rarely used parameters which has no listener is updated.
+   * The listener function should be of the form contextListener().
+   * @param listener The fuction to call when context changes.
+   */
+  this.addContextListener=function(listener) {
+    this.contextListeners[this.hiddenListeners.length]=listener;
+  }
+
+  /**
+   * Add a LayerOrder listener.  This listener is called if the order of layers
+   * changes.
+   * The listener function should be of the form layerOrderListener().
+   * @param listener The fuction to call when context changes.
+   */
+  this.addLayerOrderListener=function(listener) {
+    this.layerOrderListeners[this.layerOrderListeners.length]=listener;
   }
 
   /**
@@ -118,7 +162,7 @@ function Context(url, skin) {
   }
 
   /**
-   * Set the BoundingBox.
+   * Set the BoundingBox and notify intererested widgets that BoundingBox has changed.
    * @param boundingBox array in form (xmin, ymin, xmax, ymax).
    */
   this.setBoundingBox=function(boundingBox) {
@@ -136,8 +180,19 @@ function Context(url, skin) {
   }
 
   /**
-   * Get the Window SRS.
-   * @return srs The Spatial Reference System of the map window.
+   * TBD: Deprecated - use getContext() instead.
+   * Set the Spacial Reference System for layer display and layer requests.
+   * @param srs The Spatial Reference System.
+   */
+  this.setSRS=function(srs) {
+    bbox=this.context.documentElement.getElementsByTagName("BoundingBox").item(0);
+    bbox.setAttribute("SRS",srs);
+  }
+
+  /**
+   * TBD: Deprecated - use setContext() instead.
+   * Set the Spacial Reference System for layer display and layer requests.
+   * @return srs The Spatial Reference System.
    */
   this.getSRS=function() {
     bbox=this.context.documentElement.getElementsByTagName("BoundingBox").item(0);
@@ -146,6 +201,7 @@ function Context(url, skin) {
   }
 
   /**
+   * TBD: Deprecated - use getContext() instead.
    * Get the Window width.
    * @return width The width of map window (therefore of map layer images).
    */
@@ -156,6 +212,7 @@ function Context(url, skin) {
   }
 
   /**
+   * TBD: Deprecated - use setContext() instead.
    * Set the Window width.
    * @param width The width of map window (therefore of map layer images).
    */
@@ -165,6 +222,7 @@ function Context(url, skin) {
   }
 
   /**
+   * TBD: Deprecated - use getContext() instead.
    * Get the Window height.
    * @return height The height of map window (therefore of map layer images).
    */
@@ -175,6 +233,7 @@ function Context(url, skin) {
   }
 
   /**
+   * TBD: Deprecated - use setContext() instead.
    * Set the Window height.
    * @param height The height of map window (therefore of map layer images).
    */
@@ -182,25 +241,69 @@ function Context(url, skin) {
     win=this.context.documentElement.getElementsByTagName("Window").item(0);
     win.setAttribute("height", height);
   }
+
+  /** Insert a new layer.
+    * @param layer An XML node which describes the layer.
+    * @param zindex The position to insert this layer in the layerList, if set
+    * to null this layer will be inserted at the end.
+    * @return The identifier string used to reference this layer.
+    */
+  this.insertLayer=function(layer,zindex){
+    //TBD Fill this in.
+  }
+
+  /** Delete this layer.
+   * @param id The layer identifier.
+   */
+  this.deleteLayer=function(id){
+    //TBD Fill this in.
+  }
+
+  /** Move this layer to a new position in the LayerList.
+    * @param layer The layer id to move.
+    * @param zindex The position to move this layer to in the layerList, if set
+    * to null this layer will be inserted at the end.
+    */
+  this.repositionLayer=function(layer,zindex){
+    //TBD Fill this in.
+  }
+
+  /** Select this layer for further operations (like a query).
+    * @param layer The layer id to select.
+    * @param selected Set to true/false.
+    */
+  this.selectLayer=function(layer,selected){
+    //TBD Fill this in.
+  }
+
+  /** Set a new Context and notify interested widgets.
+    * @param context The new context loaded as an XML node.
+    */
+  this.setContext=function(context){
+    //TBD Fill this in.
+  }
+
+  /** Get the context.
+    * @return The new context loaded as an XML node.
+    */
+  this.getContext=function(){
+    return this.context;
+  }
 }
+
+// Event objects sent by Context.
+
 /**
+ * TBD: Deprecated this event and only send layerId to hiddenListeners instead.
  * The event sent when a Hidden attribute changes.
  * @constructor
  * @param layerIndex The index of the LayerList/Layer from the Context which has changed.
  * @param hidden, 1=hidden, 0=not hidden.
+ * @deprecated
  */
 function HiddenEvent(layerIndex,hidden){
  /** layer The index of the layer from the Context which has changed. */
  this.layerIndex=layerIndex;
  /** 1=layer hidden, 0=layer not hidden. */
  this.hidden=hidden;
-}
-
-/**
- * The event sent when BoundingBox changes.
- * @constructor
- * @param boundingBox The new BoundingBox array in the form (xmin,ymin,xmax,ymax).
- */
-function BoundingBoxEvent(boundingBox){
- this.boundingBox=boundingBox;
 }
