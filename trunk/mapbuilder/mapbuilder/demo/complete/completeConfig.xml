@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <MapbuilderConfig 
     xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -265,7 +265,7 @@
   <!-- Url of LOCAL redirection script, required to access external URLs -->
   <!--proxyUrl>../server/proxy/proxy.php</proxyUrl-->
   <proxyUrl>/mapbuilder/proxy</proxyUrl>
-  <!--proxyUrl>../server/proxy/serializer.php</proxyUrl-->
+  <!--serializeUrl>../server/proxy/serializer.php</serializeUrl-->
   <serializeUrl>/mapbuilder/writeXml</serializeUrl>
 </MapbuilderConfig>
 
