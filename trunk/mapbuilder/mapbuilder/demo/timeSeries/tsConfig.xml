@@ -48,6 +48,10 @@
 
         </AoiBoxWZ>
 
+        <Loading id="loading">
+
+        </Loading>
+
         <Timestamp id="timestamp"/>
 
         <Legend id="legend">

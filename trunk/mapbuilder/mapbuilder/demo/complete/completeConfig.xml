@@ -24,6 +24,8 @@
           <htmlTagId>mainMapPane</htmlTagId>
           <mapContainerId>mainMapContainer</mapContainerId>
         </MapPane>
+        <Loading id="loading">
+        </Loading>
         <AoiBoxWZ id="aoiBoxMain">
           <htmlTagId>mainMapPane</htmlTagId>
           <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>

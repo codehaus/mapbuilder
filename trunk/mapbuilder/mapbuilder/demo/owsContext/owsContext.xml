@@ -49,6 +49,8 @@
           <mapContainerId>mainMapContainer</mapContainerId>
           <!--fixedWidth>300</fixedWidth-->
         </MapPane>
+        <Loading id="loading">
+        </Loading>
         <AoiBoxWZ id="aoiBoxMain">
           <htmlTagId>mainMapPane</htmlTagId>
           <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>

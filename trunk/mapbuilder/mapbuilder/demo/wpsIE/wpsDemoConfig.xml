@@ -17,6 +17,8 @@
           <mapContainerId>mainMapContainer</mapContainerId>
           <loadHidden>false</loadHidden>
         </MapPane>
+        <Loading id="loading">
+        </Loading>
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
         </CursorTrack>
