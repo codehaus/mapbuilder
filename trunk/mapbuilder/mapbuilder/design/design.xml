@@ -355,6 +355,9 @@ I think the CMB should also provide logic for community editing of shared data
         <!--TBD:  Can we move this to after 3.2.6 below and have it describe how abstract objects implements the listener 
 arrays and how they get set/called?   Mike March 27, 2004-->
 
+        <para><emphasis role="bold">Warning:</emphasis> This section is out of
+        date.</para>
+
         <para>Mapbuilder's Model-View-Controller design requires events. While
         Javascript provides standard events for some GUI events, it's support
         for custom events is limited in recent browsers and not provided in
@@ -461,6 +464,9 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
     <section>
       <title>MapBuilder configuration for programmers</title>
 
+      <para><emphasis role="bold">Warning:</emphasis> This section is out of
+      date.</para>
+
       <para>This section is intended to explain the mapbuilder object model
       for programmers intending to extend the mapbuilder codebase. See the
       layout guide for instructions on customizing the configuration
@@ -474,8 +480,8 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
 
       <para>TBD Cameron 23 March 2004: We need to identify the key files that
       need updating when building a widget and show the relationship between
-      them. Ie, the main html file, config.xml, widgets, tools, controllers.
-      <!--Mike: Let's do this in 3.2.6 below,  I've started a section on mapbuilder application programming below (3.2.6)--></para>
+      them. Ie, the main html file, config.xml, widgets, tools,
+      controllers.<!--Mike: Let's do this in 3.2.6 below,  I've started a section on mapbuilder application programming below (3.2.6)--></para>
 
       <section>
         <title>Mapbuilder configuration document schema</title>
@@ -515,8 +521,8 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
       <section>
         <title>Config</title>
 
-        <para>The Config object is the root of the object tree structure.
-        </para>
+        <para>The Config object is the root of the object tree
+        structure.</para>
 
         <figure>
           <title>Top level config object schema</title>
@@ -535,11 +541,11 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
         <programlisting>var mbConfig = new Config('configDocUrl');</programlisting>
 
         <para>The constructor will first load all javascript files contained
-        in the config document and then set application scope properties.
-        </para>
+        in the config document and then set application scope
+        properties.</para>
 
         <para>The Config object provides the <systemitem>init()</systemitem>
-        and <systemitem>loadModel()</systemitem> methods. </para>
+        and <systemitem>loadModel()</systemitem> methods.</para>
 
         <para>The <systemitem>init() </systemitem>method is called once during
         body onload processing. The configuration document is parsed and each
@@ -555,7 +561,7 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
         <para>The Config object implements a "loadModel" listener array that
         can be used to register models, widgets and tools that are interested
         in when this model is refreshed from a URL, typically widgets of a
-        different Model object. </para>
+        different Model object.</para>
 
         <para>TBD: put this in a file name convention section. Config.js calls
         widget and tool object constructors using the config element node
@@ -572,7 +578,7 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
         <para>The model object represents an single instance of an XML
         document with properties and methods to access the document. A model
         object must extend the ModelBase class, which provides some properties
-        and methods common to all models. </para>
+        and methods common to all models.</para>
 
         <figure>
           <title>Model object schema</title>
@@ -610,12 +616,12 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
         of the model. The tools of each widget are instantiated before the
         widget is painted by calling WidgetBase's loadTools() method. This is
         so that tools can register a "paint" listener function with it's
-        parent widget if required. </para>
+        parent widget if required.</para>
 
         <para>Model objects provide a "loadWidget" listener array that can be
         used to register widgets and tools that are interested in when this
         model is refreshed from a URL, typically widgets of a different Model
-        object. </para>
+        object.</para>
 
         <para>Currently supported model types:</para>
 
@@ -874,6 +880,9 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
 
     <section id="components">
       <title id="library">Library Components<!--this section needs update to the list of currently implemented models, widgets and tools - Mike 27 March 2004--></title>
+
+      <para><emphasis role="bold">Warning:</emphasis> This section is out of
+      date.</para>
 
       <figure>
         <title>CMB Library Components</title>
