@@ -20,7 +20,9 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
 
- * Save a model to a URL.
+ * Widget which will display some anchor tags for accessing model URLs.  
+
+ * TBD: which is the prefered method to use here, 
 
  *
 
@@ -62,7 +64,7 @@ function SaveModel(widgetNode, model) {
 
   /**
 
-   * Refreshes the form onblur handlers when this widget is painted.
+   * a listenet to set the saved model URL as the href attribute in an anchor link 
 
    * @param objRef Pointer to this SaveModel object.
 
@@ -76,25 +78,9 @@ function SaveModel(widgetNode, model) {
 
   }
 
-  //this.model.addListener("modelSaved", this.saveLink, this);
+  this.model.addListener("modelSaved", this.saveLink, this);
 
 
-
-  /**
-
-   * opens a saved model in a new window
-
-   * @param objRef Pointer to this SaveModel object.
-
-   */
-
-  this.savedModelPopup = function(objRef, fileUrl) {
-
-    window.open(fileUrl, "modelXML");
-
-  }
-
-  this.model.addListener("modelSaved", this.savedModelPopup, this);
 
 }
 

@@ -68,9 +68,8 @@
         </AoiForm>
         <MapScaleText id="mapScaleText">
         </MapScaleText>
-        <SaveModel id="saveModel">
+        <SaveModel id="saveModelWidget">
           <htmlTagId>saveModel</htmlTagId>
-          <serializeUrl>/mapbuilder/writeXml</serializeUrl>
         </SaveModel>
         <WmsCapabilitiesImport id="wmsCapabilitiesImport">
         </WmsCapabilitiesImport>
@@ -160,14 +159,14 @@
     <Gml2 id="ntsGml">
       <!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
       <widgets>
-        <GmlRenderer id="testGml2Renderer">
+        <GmlRendererWZ id="testNTSRenderer">
           <htmlTagId>mainMapPane</htmlTagId>
           <targetModel>mainMap</targetModel>
           <mapContainerId>mainMapContainer</mapContainerId>
-          <lineColor>#FF0000</lineColor>
+          <lineColor>#00FF00</lineColor>
           <lineWidth>1</lineWidth>
           <pointDiameter>10</pointDiameter>
-       </GmlRenderer>
+       </GmlRendererWZ>
       </widgets>
     </Gml2>
     <!--
@@ -244,6 +243,13 @@
           <tooltip xml:lang="en">click on map to create a point feature</tooltip>
           <tooltip xml:lang="fr">click on map to create a point feature</tooltip>
         </AddPoint>
+        <Save id="save">
+          <class>Button</class>
+          <disabledSrc>/images/SaveDisable.gif</disabledSrc>
+          <tooltip xml:lang="en">click to save this map</tooltip>
+          <tooltip xml:lang="fr">cliquer pour sauvegarder</tooltip>
+          <popupWindowName>modelXML</popupWindowName>
+        </Save>
       </tools>
     </ButtonBar>
     <WebServiceForm id="ntsLookupForm">
@@ -256,4 +262,5 @@
   <!-- Url of LOCAL redirection script, required to access external URLs -->
   <proxyUrl>../server/proxy/proxy.php</proxyUrl>
   <!--proxyUrl>/mapbuilder/proxy</proxyUrl-->
+  <serializeUrl>/mapbuilder/writeXml</serializeUrl>
 </MapbuilderConfig>
