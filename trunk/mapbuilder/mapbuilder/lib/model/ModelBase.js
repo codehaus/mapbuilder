@@ -35,10 +35,58 @@ function ModelBase(model, modelNode, parentModel) {
     model.title = model.id;
   }
 
+  //load the Model object from the initial URL in config or from a URL param.
+  //the URL can also be passed in as a URL parameter by using the model ID
+  //as the parameter name (this method takes precendence over the config file
+  if (window.cgiArgs[model.id]) {  
+    model.url = window.cgiArgs[model.id];
+  } else if (window[model.id]) {  
+    model.url = window[model.id];
+  } else if (modelNode.url) {  
+    model.url = modelNode.url;
+  } else {
+    var defaultModel = modelNode.selectSingleNode("mb:defaultModelUrl");
+    if (defaultModel) model.url = defaultModel.firstChild.nodeValue;
+  }
+
+  //set the method property
+  var method = modelNode.selectSingleNode("mb:httpMethod");
+  if (method) {
+    model.method = method.firstChild.nodeValue;
+  } else {
+    model.method = "get";
+  }
+
+  /**
+   * initializes a new ModelList object for the model.  This happens as a listener
+   * of the loadModel event, only if there is a nodeSelectXpath property defined 
+   * for the model.  Then the nodes in the ModelList will consist of the nodes
+   * selected by the Xpath.
+   * @param objRef Pointer to this object.
+   */
+  this.loadFeatureList = function(objRef) {
+    objRef.featureList = new ModelList(objRef);
+  }
+  model.loadFeatureList = this.loadFeatureList;
+
+  //get the xpath to select nodes from the parent doc
+  var nodeSelectXpath = modelNode.selectSingleNode("mb:nodeSelectXpath");
+  if (nodeSelectXpath) {
+    model.nodeSelectXpath = nodeSelectXpath.firstChild.nodeValue;
+    model.addListener("loadModel",model.loadFeatureList,model);
+  }
+
+  //don't load in models and widgets if this is the config doc, defer to config.init
+  if (parentModel) {
+    model.parentModel = parentModel;
+    parentModel[model.id] = model;
+  }
+
   //go no farther for template models
   var templateAttr = modelNode.attributes.getNamedItem("template");
   if (templateAttr) {
-    model.template = templateAttr.nodeValue;
+    model.template = (templateAttr.nodeValue=="true")?true:false;
+    model.modelNode.removeAttribute("template");
     return;
   }
 
@@ -87,6 +135,7 @@ function ModelBase(model, modelNode, parentModel) {
 
       //call the loadModel event
       modelRef.callListeners("loadModel");
+    modelRef.callListeners("refresh");
 
     } else {
       //no URL means this is a template model
@@ -111,7 +160,8 @@ function ModelBase(model, modelNode, parentModel) {
     modelRef.method = httpPayload.method;
     modelRef.postData = httpPayload.postData;
     modelRef.loadModelDoc(modelRef);
-    //call the refresh event listeners, at this point all sub-models/widgets/tools are intialialized
+    //call the refresh event listeners seperately from loadModel event, 
+    //at this point all sub-models/widgets/tools are intialialized
     modelRef.callListeners("refresh");
   }
   model.newRequest = this.newRequest;
@@ -173,28 +223,6 @@ function ModelBase(model, modelNode, parentModel) {
   }
   model.loadWidgets = this.loadWidgets;
 
-  //load the Model object from the initial URL in config or from a URL param.
-  //the URL can also be passed in as a URL parameter by using the model ID
-  //as the parameter name (this method takes precendence over the config file
-  if (window.cgiArgs[model.id]) {  
-    model.url = window.cgiArgs[model.id];
-  } else if (window[model.id]) {  
-    model.url = window[model.id];
-  } else if (modelNode.url) {  
-    model.url = modelNode.url;
-  } else {
-    var defaultModel = modelNode.selectSingleNode("mb:defaultModelUrl");
-    if (defaultModel) model.url = defaultModel.firstChild.nodeValue;
-  }
-
-  //set the method property
-  var method = modelNode.selectSingleNode("mb:httpMethod");
-  if (method) {
-    model.method = method.firstChild.nodeValue;
-  } else {
-    model.method = "get";
-  }
-
   /**
    * save the model by posting it to the serializeUrl, which is defined as a 
    * property of config.
@@ -215,22 +243,11 @@ function ModelBase(model, modelNode, parentModel) {
   model.saveModel = this.saveModel;
 
   /**
-   * initializes a new ModelList object for the model.  This happens as a listener
-   * of the loadModel event, only if there is a nodeSelectXpath property defined 
-   * for the model.  Then the nodes in the ModelList will consist of the nodes
-   * selected by the Xpath.
-   * @param objRef Pointer to this object.
+   * Listener method to call the "refresh" event listeners of this model.
+   * @param modelRef Pointer to this object.
    */
-  this.loadFeatureList = function(objRef) {
-    objRef.featureList = new ModelList(objRef);
-  }
-  model.loadFeatureList = this.loadFeatureList;
-
-  //get the xpath to select nodes from the parent doc
-  var nodeSelectXpath = modelNode.selectSingleNode("mb:nodeSelectXpath");
-  if (nodeSelectXpath) {
-    model.nodeSelectXpath = nodeSelectXpath.firstChild.nodeValue;
-    model.addListener("loadModel",model.loadFeatureList,model);
+  model.refresh = function(modelRef) {
+    modelRef.callListeners("refresh");
   }
 
   /**
@@ -246,20 +263,11 @@ function ModelBase(model, modelNode, parentModel) {
     }
   }
 
-  /**
-   * Listener method to call the "refresh" event listeners of this model.
-   * @param modelRef Pointer to this object.
-   */
-  model.refresh = function(modelRef) {
-    modelRef.callListeners("refresh");
-  }
-
   //don't load in models and widgets if this is the config doc, defer to config.init
   if (parentModel) {
-    model.parentModel = parentModel;
-    parentModel[model.id] = model;
     parentModel.addListener("loadModel",model.loadModelDoc, model);
-    parentModel.addListener("refresh",model.refresh, model);
+    //parentModel.addListener("refresh",model.refresh, model);
     model.init(model);
   }
+
 }

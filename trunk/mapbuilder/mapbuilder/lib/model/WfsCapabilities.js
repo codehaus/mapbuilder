@@ -18,9 +18,14 @@ function WfsCapabilities(modelNode, parentModel) {
 
   this.namespace = "xmlns:wfs='http://www.opengis.net/wfs'";
 
-  this.getServerUrl = function(feature, request) {
-    var xpath = "/wfs:WFS_Capabilities/wfs:Capability/wfs:Request/wfs:"+request+"/wfs:DCPType/wfs:HTTP/wfs:Get";
-    return feature.selectSingleNode(xpath).getAttribute("onlineResource");
+  this.getServerUrl = function(feature, requestName ) {
+    var xpath = "/wfs:WFS_Capabilities/wfs:Capability/wfs:Request/wfs:"+requestName;
+    if (feature[requestName].method.toLowerCase() == "post") {
+      xpath += "/wfs:DCPType/wfs:HTTP/wfs:Post";
+    } else {
+      xpath += "/wfs:DCPType/wfs:HTTP/wfs:Get";
+    }
+    return this.doc.selectSingleNode(xpath).getAttribute("onlineResource");
   }
 
   this.getMethod = function(feature) {
