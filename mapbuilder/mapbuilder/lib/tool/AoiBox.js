@@ -45,8 +45,8 @@ function AoiBox(toolNode, parentWidget) {
   this.paint = function(thisTool) {
     var aoiBox = thisTool.model.getParam("aoi");
     if (aoiBox) {
-      var ul = thisTool.model.extent.GetPL(aoiBox[0]);
-      var lr = thisTool.model.extent.GetPL(aoiBox[1]);
+      var ul = thisTool.model.extent.getPL(aoiBox[0]);
+      var lr = thisTool.model.extent.getPL(aoiBox[1]);
       //check if ul=lr, then draw cross, else drawbox
       if ( (Math.abs( ul[0]-lr[0] ) < thisTool.crossSize) && 
           (Math.abs( ul[1]-lr[1] ) < thisTool.crossSize) ) {
@@ -62,8 +62,8 @@ function AoiBox(toolNode, parentWidget) {
   this.refresh = function(objRef) {
     //objRef.paint
     var aoiBox = this.model.getParam("aoi");
-    var ul = this.model.extent.GetPL(aoiBox[0]);
-    var lr = this.model.extent.GetPL(aoiBox[1]);
+    var ul = this.model.extent.getPL(aoiBox[0]);
+    var lr = this.model.extent.getPL(aoiBox[1]);
     //check if ul=lr, then draw cross, else drawbox
     if ( (Math.abs( ul[0]-lr[0] ) < this.crossSize) && 
         (Math.abs( ul[1]-lr[1] ) < this.crossSize) ) {

@@ -80,8 +80,8 @@ function AoiMouseHandler(toolNode, parentWidget) {
     }
 
     //set new AOI in context
-    ul = this.model.extent.GetXY( ul );
-    lr = this.model.extent.GetXY( lr );
+    ul = this.model.extent.getXY( ul );
+    lr = this.model.extent.getXY( lr );
     this.model.setParam("aoi", new Array(ul,lr) );
   }
 

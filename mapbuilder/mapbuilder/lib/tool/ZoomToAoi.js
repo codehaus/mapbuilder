@@ -76,9 +76,9 @@ function ZoomToAoi(toolNode, parentWidget) {
       lr = tool.targetModel.proj.Forward( lr );
     }
     if ( ( ul[0]==lr[0] ) && ( ul[1]==lr[1] ) ) {
-      tool.targetModel.extent.CenterAt( ul, tool.targetModel.extent.res[0] );
+      tool.targetModel.extent.centerAt( ul, tool.targetModel.extent.res[0] );
     } else {
-      tool.targetModel.extent.ZoomToBox( ul, lr );
+      tool.targetModel.extent.zoomToBox( ul, lr );
     }
   }
   this.parentWidget.addListener('mouseup',this.mouseUpHandler,this);

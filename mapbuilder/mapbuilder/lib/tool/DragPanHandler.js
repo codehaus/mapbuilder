@@ -30,8 +30,8 @@ function DragPanHandler(toolNode, parentWidget) {
         //set new AOI in context
         var width = objRef.model.getWindowWidth();
         var height = objRef.model.getWindowHeight();
-        var ul = objRef.model.extent.GetXY( new Array( -objRef.deltaP, -objRef.deltaL) );  //(0,0) was the original ul AOI 
-        var lr = objRef.model.extent.GetXY( new Array( width-objRef.deltaP, height-objRef.deltaL) );  //(w,h) was the original lr AOI 
+        var ul = objRef.model.extent.getXY( new Array( -objRef.deltaP, -objRef.deltaL) );  //(0,0) was the original ul AOI 
+        var lr = objRef.model.extent.getXY( new Array( width-objRef.deltaP, height-objRef.deltaL) );  //(w,h) was the original lr AOI 
         objRef.model.setParam("aoi",new Array(ul,lr));
       }
     }
