@@ -26,7 +26,7 @@ function AoiMouseHandler(toolNode, parentWidget) {
 
   /**
    * Process the mouseup action by stopping the drag.
-   * @param objRef      Pointer to this AoiMouseHandler object.
+   * @param objRef      Pointer to this object.
    * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
   this.mouseUpHandler = function(objRef,targetNode) {
@@ -37,7 +37,7 @@ function AoiMouseHandler(toolNode, parentWidget) {
 
   /**
    * Process the mousedown action by setting the anchor point.
-   * @param objRef      Pointer to this AoiMouseHandler object.
+   * @param objRef      Pointer to this object.
    * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
   this.mouseDownHandler = function(objRef,targetNode) {
@@ -50,7 +50,7 @@ function AoiMouseHandler(toolNode, parentWidget) {
 
   /**
    * Process a the mousemove action as dragging out a box.
-   * @param objRef      Pointer to this AoiMouseHandler object.
+   * @param objRef      Pointer to this object.
    * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
   this.mouseMoveHandler = function(objRef,targetNode) {
