@@ -18,7 +18,7 @@
   -->
   <models>
     <Context id="mainMap">
-      <defaultModelUrl>../../data/context/atlasWorld.xml</defaultModelUrl>
+      <defaultModelUrl>../data/context/atlasWorld.xml</defaultModelUrl>
       <widgets>
         <MapPane id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
@@ -64,7 +64,7 @@
       </tools>
     </Context>
     <Context id="locator">
-      <defaultModelUrl>../../data/context/locatorMap.xml</defaultModelUrl>
+      <defaultModelUrl>../data/context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
@@ -90,7 +90,7 @@
       </tools>
     </Context>
     <ContextCollection id="collectionGroup">
-      <defaultModelUrl>../../data/context/demoCollection.xml</defaultModelUrl>
+      <defaultModelUrl>../data/context/demoCollection.xml</defaultModelUrl>
       <widgets>
         <CollectionList id="collectionList">
           <targetModel>mainMap</targetModel>
@@ -98,7 +98,7 @@
       </widgets>
     </ContextCollection>
     <Model id="locations">
-      <defaultModelUrl>../../data/locations/Global.xml</defaultModelUrl>
+      <defaultModelUrl>../data/locations/Global.xml</defaultModelUrl>
       <widgets>
         <Locations id="locationsSelect">
           <targetModel>mainMap</targetModel>
@@ -231,7 +231,7 @@
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>http://localhost:8080/geoserver/wfs</webServiceUrl>
       <featureXpath>/gml:featureMember/points/_SHAPE_/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
-      <defaultModelUrl>../../data/gml/defaultAddPoint.xml</defaultModelUrl>
+      <defaultModelUrl>../data/gml/defaultAddPoint.xml</defaultModelUrl>
       <targetContext>mainMap</targetContext>
     </EditPoint>
     <EditLine id="editLine">
@@ -246,7 +246,7 @@
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>http://localhost:8080/geoserver/wfs</webServiceUrl>
       <featureXpath>/gml:featureMember/topp:bc_roads/topp:the_geom/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
-      <defaultModelUrl>../../data/gml/roads.xml</defaultModelUrl>
+      <defaultModelUrl>../data/gml/roads.xml</defaultModelUrl>
       <targetContext>mainMap</targetContext>
     </EditLine>
     <Save id="save">

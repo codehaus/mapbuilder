@@ -68,17 +68,20 @@
       <namespace>xmlns:wps='http://www.opengis.net/wps'</namespace>
       <models>
         <Model id="describeProcessTemplate">
+          <nodeSelectXpath>/wps:ProcessDescription/wps:Process</nodeSelectXpath>
           <widgets>
             <Widget id="argsInput">
               <stylesheet>ProcessArgumentsForm.xsl</stylesheet>
+              <targeModel>executeProcessTemplate</targeModel>
             </Widget>
           </widgets>
+          <tools>
+          </tools>
         </Model>
-        <!--Model id="executeProcessTemplate" template="true">
-          <method>get</method>
+        <Model id="executeProcessTemplate">
           <widgets>
           </widgets>
-        </Model-->
+        </Model>
       </models>
       <widgets>
         <Widget id="selectProcess">
@@ -90,10 +93,10 @@
           <targetModel>describeProcessTemplate</targetModel>
           <requestName>wps:DescribeProcess</requestName>
         </WebServiceRequest>
-        <!--WebServiceRequest id="wpsExecuteProcess">
+        <WebServiceRequest id="wpsExecuteProcess">
           <targetModel>executeProcessTemplate</targetModel>
           <requestName>wps:Execute</requestName>
-        </WebServiceRequest-->
+        </WebServiceRequest>
       </tools>
     </WpsCapabilities>
   </models>
