@@ -116,6 +116,7 @@
     </Transaction>
     <FeatureCollection id="featureCollection">
       <defaultModelUrl>gml/null.xml</defaultModelUrl>
+      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
       <widgets>
         <GmlRendererWZ id="testGmlRenderer">
           <htmlTagId>mainMapPane</htmlTagId>
