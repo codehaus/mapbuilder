@@ -42,7 +42,6 @@ function ModelUrlInput(widgetNode, model) {
     }
     
     this.targetModel.setParam("httpPayload", httpPayload);
-    return false;   //prevent the form from actually being submitted
   }
 
   /**
@@ -64,9 +63,9 @@ function ModelUrlInput(widgetNode, model) {
     }
 
     if (keycode == 13) {    //enter key
-      return target.parentWidget.submitForm();
+      target.parentWidget.submitForm();
+    return false;   //prevent the form from actually being submitted
     }
-    return false;
   }
 
   /**
