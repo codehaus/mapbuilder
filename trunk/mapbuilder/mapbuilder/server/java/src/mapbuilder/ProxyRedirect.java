@@ -100,15 +100,19 @@ public class ProxyRedirect extends HttpServlet
 
     try {
 
-      Enumeration e = request.getHeaderNames();
+      if (debug_) {
 
-      while (e.hasMoreElements()) {
+        Enumeration e = request.getHeaderNames();
+
+        while (e.hasMoreElements()) {
 
           String name = (String)e.nextElement();
 
           String value = request.getHeader(name);
 
-          if (debug_) System.err.println("request header:" + name + ":" + value);
+          System.err.println("request header:" + name + ":" + value);
+
+        }
 
       }
 
@@ -124,7 +128,7 @@ public class ProxyRedirect extends HttpServlet
 
       String serverUrl = request.getParameter("url");
 
-      if (debug_) System.err.print("params:" + serverUrl);
+      if (debug_) System.err.println("params:" + serverUrl);
 
       HttpClient client = new HttpClient();
 
