@@ -68,7 +68,7 @@ function WidgetBase(widgetNode, group) {
     }
 
     /**
-     * load all the child tools of this widget.
+     * Instantiate all the child tools of this widget.
      */
     this.loadTools = function() {
       var tools = this.widgetNode.selectNodes( "tools/*" );
@@ -95,6 +95,5 @@ function WidgetBase(widgetNode, group) {
      * no-op function; override in derived classes to add listeners to the model.
      */
     this.addListeners = function() {}
-
   }
 }
