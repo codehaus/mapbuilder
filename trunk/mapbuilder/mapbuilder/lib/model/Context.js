@@ -7,9 +7,9 @@ $Id$
  * Stores a Web Map Context (WMC) document as defined by the Open GIS Consortium
  * http://opengis.org and extensions the the WMC.  A unique Id is included for
  * each layer which is used when referencing Dynamic HTML layers in MapPane.
- * Dependancies: Sarissa (XML utilities).
  * @constructor
  * @author Cameron Shorter cameronATshorter.net
+ * @requires Sarissa
  */
 function Context(url) {
 
