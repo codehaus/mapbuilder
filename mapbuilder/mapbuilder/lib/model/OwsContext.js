@@ -159,6 +159,11 @@ function OwsContext(modelNode, parent) {
     return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
   }
 
+  //this is the GetMap request version, not context doc version.
+  this.getVersion = function(feature) {  
+    return feature.selectSingleNode("wmc:Server").getAttribute("version");
+  }
+
   this.getMethod = function(feature) {
     return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("wmc:method");
   }

@@ -223,6 +223,9 @@ function WidgetBase(widget,widgetNode,model) {
           }
           break;
         case "image2html":
+          tempNode.style.position="absolute";
+          tempNode.style.top=0;
+          tempNode.style.left=0;
           tempNode.appendChild(objRef.model.doc);
           tempNode.setAttribute("id", objRef.outputNodeId);
 

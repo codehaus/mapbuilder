@@ -28,6 +28,11 @@ function WfsCapabilities(modelNode, parentModel) {
     return this.doc.selectSingleNode(xpath).getAttribute("onlineResource");
   }
 
+  this.getVersion = function() {
+    var xpath = "/wfs:WFS_Capabilities";
+    return this.doc.selectSingleNode(xpath).getAttribute("version");
+  }
+
   this.getMethod = function() {
     return this.method;
   }

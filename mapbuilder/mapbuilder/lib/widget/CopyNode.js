@@ -24,7 +24,7 @@ function CopyNode(widgetNode, model) {
    */
   this.copyNode = function(objRef, feature) {
     objRef.stylesheet.setParameter("version", objRef.model.getVersion() );
-    objRef.stylesheet.setParameter("serverUrl", objRef.model.getServerUrl("GetMap") );
+    objRef.stylesheet.setParameter("serverUrl", objRef.model.getServerUrl("GetMap","get") );
     objRef.stylesheet.setParameter("serverTitle", objRef.model.getServerTitle() );
     objRef.stylesheet.setParameter("serviceName", "wms");//objRef.model.getServiceName() );
     var newNode = objRef.stylesheet.transformNodeToObject(feature);
