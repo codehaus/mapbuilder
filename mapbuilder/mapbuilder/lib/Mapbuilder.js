@@ -114,7 +114,7 @@ function Mapbuilder() {
   this.loadScript=function(url){
     if(!document.getElementById(url)){
       var script = document.createElement('script');
-      script.defer = false;   //not sure of effect of this?
+      script.defer = true;   //not sure of effect of this?
       script.type = "text/javascript";
       script.src = url;
       script.id = url;
@@ -143,4 +143,21 @@ function Mapbuilder() {
   this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded()',100);
 }
 
-mapbuilder=new Mapbuilder();
+var mapbuilder=new Mapbuilder();
+
+/**
+ * Initialise Mapbuilder if script has been loaded, else wait to be called
+ * again.
+ */
+function mapbuilderInit(){
+  if(mapbuilder && mapbuilder.loadState==MB_LOADED){
+    clearInterval(mbTimerId);
+    config.init();
+  }
+}
+
+var mbTimerId;
+function mbDoLoad() {
+  // See if scripts have been loaded every 100msecs, then call config.init().
+  mbTimerId=setInterval('mapbuilderInit()',100);
+}
