@@ -4,7 +4,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-loadScript(baseDir+"/widget/WidgetBase.js");
+Mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
  * Functions to render and update a Legend from a Web Map Context.

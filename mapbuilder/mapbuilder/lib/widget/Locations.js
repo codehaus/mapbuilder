@@ -4,7 +4,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-loadScript(baseDir+"/widget/WidgetBase.js");
+Mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
  * Functions to render a Predefined Locations select box from a GML document
@@ -56,6 +56,9 @@ function Locations(context, name, node) {
 /*
  *
  * $Log$
+ * Revision 1.5  2004/04/26 20:37:56  camerons
+ * Moved loadScript to Mapbuilder.loadScript()
+ *
  * Revision 1.4  2004/04/03 11:15:50  camerons
  * Use global baseDir variable
  *

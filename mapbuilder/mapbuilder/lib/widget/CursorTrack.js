@@ -6,8 +6,8 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-loadScript(baseDir+"/widget/WidgetBase.js");
-loadScript(baseDir+"/model/Proj.js");
+Mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+Mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
 /**
  * Widget to display the mouse coordinates when it is over a sibling mappane
