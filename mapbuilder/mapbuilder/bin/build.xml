@@ -136,13 +136,9 @@ $Id$
 -->
 
 <!--
-  <property name="cgdiutil.jar"     value="${basedir}/lib/cgdiutil.jar"/>
-  <property name="dom4j.jar"        value="${basedir}/lib/dom4j.jar"/>
-  <property name="httpclient.jar"   value="${basedir}/lib/httpclient.jar"/>
-  <property name="io.jar"           value="${basedir}/lib/taglibs-io.jar"/>
-  <property name="xtags.jar"        value="${basedir}/lib/xtags.jar"/>
-  <property name="xmlparserv2.jar"  value="${env.XSQL_HOME}/lib/xmlparserv2.jar"/>
+  <property name="foo.jar"  value="$/lib/foo.jar"/>
 -->
+  <property name="httpClient.jar"  value="${context.home}/lib/commons-httpclient-2.0.1.jar"/>
 
 
 <!-- ==================== Prepare Target ================================== -->
@@ -185,8 +181,9 @@ $Id$
     <!-- *** CUSTOMIZE HERE AS REQUIRED BY YOUR APPLICATION *** -->
     <mkdir  dir="${build.home}/WEB-INF/lib"/>
 <!--
-    <copy todir="${context.home}/WEB-INF/lib" file="${foo.jar}"/>
+    <copy todir="${build.home}/WEB-INF/lib" file="${foo.jar}"/>
 -->
+    <copy todir="${build.home}/WEB-INF/lib" file="${httpClient.jar}"/>
   </target>
 
 
@@ -327,6 +324,7 @@ $Id$
 <!--
     <pathelement location="${foo.jar}"/>
 -->
+    <pathelement location="${httpClient.jar}"/>
 
     <!-- Include all elements that Tomcat exposes to applications -->
     <pathelement location="${catalina.home}/common/classes"/>

@@ -100,7 +100,13 @@ $Id$
 
       </description>
 
-      <jsp-file>/scripts/redirect.jsp</jsp-file>
+      <!--jsp-file>/scripts/redirect.jsp</jsp-file-->
+
+      <servlet-class>
+
+        mapbuilder.ProxyRedirect
+
+      </servlet-class>
 
     </servlet>
 
