@@ -98,23 +98,15 @@ $Name$
 
   <!-- Match and render a GML Envelope -->
 
-  <!--
-
   <xsl:template match="gml:Envelope">
 
-    <xsl:variable name="box" select="gml:coordinates"/>
+    <xsl:variable name="x0" select="round((number(gml:coord[position()=1]/gml:X)-$bBoxMinX)*$xRatio)"/>
 
-    <xsl:variable name="x0" select="round((substring-before($box,',')-$bBoxMinX)*$xRatio)"/>
+    <xsl:variable name="y0" select="round($height - (number(gml:coord[position()=1]/gml:Y) -$bBoxMinY)*$yRatio)"/>
 
-    <xsl:variable name="box2" select="substring-after($box,',')"/>
+    <xsl:variable name="x1" select="round((number(gml:coord[position()=2]/gml:X)-$bBoxMinX)*$xRatio)"/>
 
-    <xsl:variable name="y0" select="round($height - (substring-before($box2,' ')-$bBoxMinY)*$yRatio)"/>
-
-    <xsl:variable name="box3" select="substring-after($box2,' ')"/>
-
-    <xsl:variable name="x1" select="round((substring-before($box3,',')-$bBoxMinX)*$xRatio)"/>
-
-    <xsl:variable name="y1" select="round($height - (substring-after($box3,',')-$bBoxMinY)*$yRatio)"/>
+    <xsl:variable name="y1" select="round($height - (number(gml:coord[position()=2]/gml:Y)-$bBoxMinY)*$yRatio)"/>
 
 
 
@@ -261,8 +253,6 @@ $Name$
     </xsl:call-template>
 
   </xsl:template>
-
-  -->
 
 
 
