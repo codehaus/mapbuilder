@@ -22,6 +22,4 @@ function CollectionList(widgetNode, model) {
     this[sProperty] = base[sProperty]; 
   } 
 
-  var paramValue = widgetNode.selectSingleNode("targetModel").firstChild.nodeValue;
-  this.stylesheet.setParameter("targetModel", paramValue );
 }
