@@ -15,68 +15,41 @@ $Id$
  * @requires Sarissa
  * @requires Util
  */
-function MapPane(context, name, node) {
-  this.context=context;
-  this.name=name;
-  if(node==null){
-    node=makeElt("DIV");
-    node.style.position="absolute";
+function MapPane(widgetNode, group) {
+  var base = new WidgetBase(widgetNode, group);
+  for (sProperty in base) { 
+    this[sProperty] = base[sProperty]; 
+  } 
+
+  this.containerId = "mappane_"+group.id;
+  this.stylesheet.setParameter("mapContainerId", this.containerId );
+
+  this.setContainerNodeHandlers = function(objRef) {
+    //reset these on a paint because the containerNode is created on paint
+    //these added to the containerNode because they will be referenced in that context
+    objRef.containerNode = document.getElementById( objRef.containerId );
+    objRef.containerNode.parentObject = objRef;
+    objRef.containerNode.extent = objRef.model.extent;
+    objRef.containerNode.onmousemove = mouseMoveHandler;
+    objRef.containerNode.onmouseout = mouseOutHandler;
+    objRef.containerNode.onmouseover = mouseOverHandler;
+    objRef.containerNode.onmousedown = mouseDownHandler;
+    objRef.containerNode.onmouseup = mouseUpHandler;
+    objRef.containerNode.getEvent = getEvent;
   }
-  this.node=node;
-  this.wmcLayer2DhtmlLayer=new XslProcessor(this.context.baseDir+"/widget/mappane/Context2MapPane.xml");
-  Sarissa.setXslParameter(
-    this.wmcLayer2DhtmlLayer.xslDom,
-    "baseDir", "'"+this.context.baseDir+"'");
-  Sarissa.setXslParameter(
-    this.wmcLayer2DhtmlLayer.xslDom,
-    "context", "'"+this.context.name+"'");
-
-  this.move=function(left,top) {
-    this.node.style.left=left;
-    this.node.style.top=top;
-  }
-  this.resize=function(width,height) {
-    this.node.style.width=width;
-    this.node.style.height=height;
-  }
-
-  /**
-   * Create all the layers by rendering them into the current window.
-   * This function should be called at startup.
-   */
-  this.paint=function() {
-    // Set the coordinates of the mapImage for the xsl
-// These calls disabled here since shouldn't offset
-// from absolutely positioned containing div
-//    Sarissa.setXslParameter(
-//      this.wmcLayer2DhtmlLayer.xslDom,
-//      "left",
-//      String(getAbsX(this.node)-1));
-//    Sarissa.setXslParameter(
-//     this.wmcLayer2DhtmlLayer.xslDom,
-//      "top",
-//      String(getAbsY(this.node)-1));
-
-    // This method not yet functional--likely because XSL is returning incorrect object.
-
-    // result=this.wmcLayer2DhtmlLayer.transformNodeToObject(this.context.context);
-    // this.node.appendChild(result.documentElement);
-
-    //  So, in meantime, return string instead...
-    var s = this.wmcLayer2DhtmlLayer.transformNode(this.context.context);
-    this.node.innerHTML=s;
-
-    this.setClip();
-   }
 
    /**
     * TBD: Comment me.
     */
-   this.setClip=function(){
-     width=this.context.getWindowWidth();
-     height=this.context.getWindowHeight();
-     this.node.style.clip="rect(0," + width + "," + height + ",0)";
+   this.setClip=function(objRef){
+     width=objRef.model.getWindowWidth();
+     height=objRef.model.getWindowHeight();
+     objRef.node.style.clip="rect(0," + width + "," + height + ",0)";
    }
+
+    this.addPaintListener( this.setClip, this );
+    this.addPaintListener( this.setContainerNodeHandlers, this );
+
 
    /**
     * TBD: Comment me.
@@ -104,7 +77,6 @@ function MapPane(context, name, node) {
     document.getElementById(layerIndex).style.visibility=vis;
   }
 
-  this.context.addHiddenListener(this.hiddenListener);
 
 
   /**
@@ -113,7 +85,157 @@ function MapPane(context, name, node) {
    */
   this.boundingBoxChangeListener=function(target){
     target.paint();
+    //target.loadTools();
   }
 
-  this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
+  this.addListeners = function() {
+    this.model.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
+    this.model.addHiddenListener(this.hiddenListener);
+  }
+
+  this.mouseUpListeners = new Array();
+  this.mouseDownListeners = new Array();
+  this.mouseMoveListeners = new Array();
+  this.mouseOverListeners = new Array();
+  this.mouseOutListeners = new Array();
+  this.mouseUpObjects = new Array();
+  this.mouseDownObjects = new Array();
+  this.mouseMoveObjects = new Array();
+  this.mouseOverObjects = new Array();
+  this.mouseOutObjects = new Array();
+
+  this.addMouseListener = function(mouseEvent, listener, objRef) {
+    switch(mouseEvent) {
+      case 'mouseUp':
+        this.mouseUpListeners.push( listener );
+        this.mouseUpObjects.push( objRef );
+        break;
+      case 'mouseDown':				//zoom out
+        this.mouseDownListeners.push( listener );
+        this.mouseDownObjects.push( objRef );
+        break;
+      case 'mouseMove':            //pan
+        this.mouseMoveListeners.push( listener );
+        this.mouseMoveObjects.push( objRef );
+        break;
+      case 'mouseOver':				//setting AOI
+        this.mouseOverListeners.push( listener );
+        this.mouseOverObjects.push( objRef );
+        break;
+      case 'mouseOut':
+        this.mouseOutListeners.push( listener );
+        this.mouseOutObjects.push( objRef );
+        break;	
+      default:
+        alert("unreconized mouse event:" + mouseEvent);
+        break;
+    }
+  }
+
 }
+
+/** The remaining functions in the file execute as event handlers in the context 
+  * of the MapPane container node, ie. this = the container id set in MapPane stylesheet
+
+/** General purpose function for cross-browser event handling.  This function
+  * sets properties on this.glassPan: 
+  *   evpl pixel/line of the event relative to the upper left corner of the DIV
+  *   evxy projection x and y of the event calculated via the context.extent
+  *   keypress state for ALT CTL and SHIFT keys
+  * @param ev    the mouse event oject passed in from the browser (may be null for IE)
+  * @return       none
+  */
+function getEvent(ev) {
+  if (window.event) {
+    //IE events
+    //this.evpl = new Array(window.event.offsetX, window.event.offsetY);
+    var x = window.event.clientX - this.offsetLeft + document.documentElement.scrollLeft + document.body.scrollLeft;
+    var y = window.event.clientY - this.offsetTop + document.documentElement.scrollTop + document.body.scrollTop;
+    this.evpl = new Array(x,y);
+    this.altKey = window.event.altKey;
+    this.ctrlKey = window.event.ctrlKey;
+    this.shiftKey = window.event.shiftKey;
+  } else {
+    //mozilla
+    //this.evpl = new Array(ev.layerX, ev.layerY);
+    var x = ev.clientX + window.scrollX - this.offsetLeft;
+    var y = ev.clientY + window.scrollY - this.offsetTop;
+    this.evpl = new Array(x,y);
+    this.altKey = ev.altKey;
+    this.ctrlKey = ev.ctrlKey;
+    this.shiftKey = ev.shiftKey;
+  }
+  this.evxy = this.extent.GetXY( this.evpl );
+}
+
+
+function mouseDownHandler(ev) {
+  this.getEvent(ev);
+  for (var i=0; i<this.parentObject.mouseDownListeners.length; i++) {
+    this.parentObject.mouseDownListeners[i]( this, this.parentObject.mouseDownObjects[i] );
+  }
+  if (window.event) {
+    window.event.returnValue = false;
+    window.event.cancelBubble = true;
+  } else {
+    ev.stopPropagation();
+  }
+  return false;
+}
+
+function mouseUpHandler(ev) {
+  this.getEvent(ev);
+  for (var i=0; i<this.parentObject.mouseUpListeners.length; i++) {
+    this.parentObject.mouseUpListeners[i]( this, this.parentObject.mouseUpObjects[i] );
+  }
+  if (window.event) {
+    window.event.returnValue = false;
+    window.event.cancelBubble = true;
+  } else {
+    ev.stopPropagation();
+  }
+  return false;
+}
+
+function mouseMoveHandler(ev) {
+  this.getEvent(ev);
+  for (var i=0; i<this.parentObject.mouseMoveListeners.length; i++) {
+    this.parentObject.mouseMoveListeners[i]( this, this.parentObject.mouseMoveObjects[i] );
+  }
+  if (window.event) {
+    window.event.returnValue = false;
+    window.event.cancelBubble = true;
+  } else {
+    ev.stopPropagation();
+  }
+  return false;
+}
+
+function mouseOverHandler(ev) {
+  this.getEvent(ev);
+  for (var i=0; i<this.parentObject.mouseOverListeners.length; i++) {
+    this.parentObject.mouseOverListeners[i]( this, this.parentObject.mouseOverObjects[i] );
+  }
+  if (window.event) {
+    window.event.returnValue = false;
+    window.event.cancelBubble = true;
+  } else {
+    ev.stopPropagation();
+  }
+  return false;
+}
+
+function mouseOutHandler(ev) {
+  this.getEvent(ev);
+  for (var i=0; i<this.parentObject.mouseOutListeners.length; i++) {
+    this.parentObject.mouseOutListeners[i]( this, this.parentObject.mouseOutObjects[i] );
+  }
+  if (window.event) {
+    window.event.returnValue = false;
+    window.event.cancelBubble = true;
+  } else {
+    ev.stopPropagation();
+  }
+  return false;
+}
+
