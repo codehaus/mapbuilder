@@ -21,27 +21,11 @@ function Config(url) {
   this.doc.validateOnParse=false;  //IE6 SP2 parsing bug
   this.doc.load(url);
   if (this.doc.parseError < 0){
-    alert("error loading config document: " + url + " - " + Sarissa.getParseErrorText(this.doc) );
+    alert("error loading config document: " + url );//+ " - " + Sarissa.getParseErrorText(this.doc) );
   }
   this.namespace = "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder'";
   this.doc.setProperty("SelectionLanguage", "XPath");
   if (this.namespace) Sarissa.setXpathNamespaces(this.doc, this.namespace);
-
-  /**
-   * Internal function to load scripts for components that don't have <scriptfile>
-   * specified in the config file.
-   * @param xPath Xpath match of components from the Config file.
-   * @param dir The directory the script is located in.
-   */
-  this.loadScriptsFromXpath=function(xPath,dir) {
-    var nodes = this.doc.selectNodes(xPath);
-    for (var i=0; i<nodes.length; i++) {
-      if (nodes[i].selectSingleNode("mb:scriptFile")==null){
-        scriptFile = baseDir+"/"+dir+nodes[i].nodeName+".js";
-        mapbuilder.loadScript(scriptFile);
-      }
-    }
-  }
 
   /**
    * Loads the scripts defined in the Config file.
@@ -49,9 +33,9 @@ function Config(url) {
   this.loadConfigScripts=function(){
     // Load script files for all components that don't have <scriptfile> specified
     // in the config file.
-    this.loadScriptsFromXpath("//mb:models/*","model/");
-    this.loadScriptsFromXpath("//mb:widgets/*","widget/");
-    this.loadScriptsFromXpath("//mb:tools/*","tool/");
+    mapbuilder.loadScriptsFromXpath(this.doc.selectNodes("//mb:models/*"),"model/");
+    mapbuilder.loadScriptsFromXpath(this.doc.selectNodes("//mb:widgets/*"),"widget/");
+    mapbuilder.loadScriptsFromXpath(this.doc.selectNodes("//mb:tools/*"),"tool/");
 
     //TBD: Deprecate the following block and move into loadScriptsFromXpath instead.
     //load all scriptfiles called for in the config file.  There seems to be a 
@@ -122,6 +106,8 @@ function Config(url) {
 }
 
 // Initialise config object.
+/*
+*/
 if (document.readyState==null){
   // Mozilla
   mapbuilder.setLoadState(MB_LOAD_CONFIG);

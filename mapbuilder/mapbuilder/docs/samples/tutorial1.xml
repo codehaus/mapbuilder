@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<MapbuilderConfig version="0.2.0" id="tutorial1" 
+<MapbuilderConfig
     xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd"
+     version="0.2.0" id="tutorial1" >
   <skinDir>/mapbuilder/lib/skin/default</skinDir>
 
   <models>

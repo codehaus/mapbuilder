@@ -9,29 +9,19 @@
   String pageRequest = request.getParameter("page");
   if ( null == pageRequest ) pageRequest = "intro";
   request.setAttribute("page", pageRequest);
-  request.setAttribute("mbConfigUrl", "/mapbuilder/docs/" + pageRequest + ".xml");
+  request.setAttribute("mbConfigUrl", "/docs/" + pageRequest + ".xml");
 %>
 
 <head>
 <title>Mapbuilder User Guide</title>
-<link rel='StyleSheet' type='text/css' href='/mapbuilder/docs/userGuide.css'>
+<link rel='StyleSheet' type='text/css' href='/mapbuilder/docs/userGuide.css'/>
 
-<%
-  if ( pageRequest.startsWith("samples/tutorial") ) {
-%>
-    <script>
-      // URL of Mapbuilder configuration file.
-      var mbConfigUrl='<%= request.getAttribute("mbConfigUrl") %>';
-      //var language="fr";
-    </script>
-    <script type="text/javascript" src="/mapbuilder/lib/Mapbuilder.js"></script>
+<c:if test="${fn:startsWith(param.page, 'samples/tutorial')}">
+  <jsp:include page="/MapbuilderHead.jsp" flush="true"/>
+</c:if>
+
 </head>
 <body onload='mbDoLoad()'>  
-<% } else { %>
-
-</head>
-<body>
-<% } %>
 
 <table width="800" border="0" cellspacing="0" cellpadding="0" summary="Table used for page layout">
 

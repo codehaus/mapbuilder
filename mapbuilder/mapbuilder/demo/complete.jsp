@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<%@page contentType="text/html"%>
 
 <!--
 Description: A Browser based Web Map Server Client based on javascript and XSL
@@ -8,6 +8,10 @@ Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 $Name$
 -->
+<%
+  request.setAttribute("mbConfigUrl", "/demo/config/CompleteConfig.xml");
+%>
+
 
 <html>
   <head>
@@ -15,12 +19,8 @@ $Name$
 
     <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
 
-    <script>
-      // URL of Mapbuilder configuration file.
-      var mbConfigUrl='config/CompleteConfig.xml';
-      //var language="fr";
-    </script>
-    <script type="text/javascript" src="../lib/Mapbuilder.js"></script>
+  <jsp:include page="/MapbuilderHead.jsp" flush="true"/>
+
   </head>
 
   <body onload="mbDoLoad()">
