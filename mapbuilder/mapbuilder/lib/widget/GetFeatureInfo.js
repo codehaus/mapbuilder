@@ -15,14 +15,11 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * @author Nedjo
  * @constructor
  * @param toolNode The XML node in the Config file referencing this object.
- * @param parentWidget The widget object which this tool is associated with.
+ * @param model The widget object which this tool is associated with.
  */
-function GetFeatureInfo(toolNode, parentWidget) {
-  /** Other required tools. */
-  this.dependancies=["MouseClickHandler"];
-
+function GetFeatureInfo(toolNode, model) {
   // Extend ButtonBase
-  var base = new ButtonBase(this, toolNode, parentWidget);
+  var base = new ButtonBase(this, toolNode, model);
 
   /** Xsl to build a GetFeatureInfo URL */
   this.xsl=Sarissa.getDomDocument();

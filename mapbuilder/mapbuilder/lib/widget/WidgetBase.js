@@ -23,76 +23,80 @@ $Id$
 function WidgetBase(widget,widgetNode,model) {
   // Inherit the Listener functions and parameters
   var listener = new Listener(widget);
-  this.model = model;
-  this.widgetNode = widgetNode;
+  widget.model = model;
+  widget.widgetNode = widgetNode;
 
   /** Method used for painting.
    * xsl2html (default) => output of XSL will be HTML.
    * xsl2js => output of XSL will be javascript to execute.
    */
-  this.paintMethod="xsl2html";
+  widget.paintMethod="xsl2html";
 
   //allow the widget output to be replaced on each paint call
   var outputNode = widgetNode.selectSingleNode("mb:outputNodeId");
   if ( outputNode ) {
-    this.outputNodeId = outputNode.firstChild.nodeValue;
+    widget.outputNodeId = outputNode.firstChild.nodeValue;
   } else {
-    this.outputNodeId = "MbWidget_" + mbIds.getId();
+    widget.outputNodeId = "MbWidget_" + mbIds.getId();
+  }
+
+  /** Widget's Id defined in the Config (required) */
+  if (widgetNode.attributes.getNamedItem("id")) {
+    widget.id = widgetNode.attributes.getNamedItem("id").nodeValue;
+  } else {
+    alert("id required for object:" + widgetNode.nodeName );
+  }
+
+  //until htmlTagNode becomes required allow setting of it by widget id
+  if (!widget.htmlTagId) {
+    var htmlTagNode = widgetNode.selectSingleNode("mb:htmlTagId");
+    if (htmlTagNode) {
+      widget.htmlTagId = htmlTagNode.firstChild.nodeValue;
+    } else {
+      widget.htmlTagId = widget.id;
+    }
+  }
+
+  // Node in main HTML to attach widget to.
+  widget.node = document.getElementById(widget.htmlTagId);
+  if(!widget.node) {
+    //alert("htmlTagId: "+widget.htmlTagId+" for widget "+widgetNode.nodeName+" not found in config");
   }
 
   //allow the widget output to be replaced on each paint call
-  this.autoRefresh = true;
+  widget.autoRefresh = true;
   var autoRefreshNode = widgetNode.selectSingleNode("mb:autoRefresh");
-  if ( autoRefreshNode ) this.autoRefresh = (autoRefreshNode.firstChild.nodeValue=="false")?false:true;
-
-  /** Widget's Id defined in the Config (optional) */
-  if (widgetNode.attributes.getNamedItem("id")) {
-    this.id = widgetNode.attributes.getNamedItem("id").nodeValue;
-  } else {
-    this.id = this.outputNodeId;
-  }
+  if ( autoRefreshNode ) widget.autoRefresh = (autoRefreshNode.firstChild.nodeValue=="false")?false:true;
 
   //set an empty debug property in config to see inputs and outputs of stylehseet
-  if ( widgetNode.selectSingleNode("mb:debug") ) this.debug=true;
+  if ( widgetNode.selectSingleNode("mb:debug") ) widget.debug=true;
 
   /** Transient var used to store model XML before and then after XSL transform.
    *  It can be modified by prePaint() .
    */
-  this.resultDoc = null;
-
-  //until htmlTagNode becomes required allow setting of it by widget id
-  var htmlTagNode = widgetNode.selectSingleNode("mb:htmlTagId");
-  var htmlTagId = null;
-  if (htmlTagNode) {
-    htmlTagId = htmlTagNode.firstChild.nodeValue;
-  } else {
-    htmlTagId = this.id;
-  }
-
-  // Node in main HTML to attach widget to.
-  this.node = document.getElementById(htmlTagId);
-  if(!this.node) {
-    //alert("htmlTagId: "+htmlTagId+" for widget "+widgetNode.nodeName+" not found in config");
-  }
+  widget.resultDoc = null;
 
 
   // Set this.stylesheet
   // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
-  var styleNode = widgetNode.selectSingleNode("mb:stylesheet");
-  var styleUrl;
-  if ( styleNode ) styleUrl = styleNode.firstChild.nodeValue;
-  else styleUrl = baseDir+"/widget/"+widgetNode.nodeName+".xsl";
-  this.stylesheet = new XslProcessor(styleUrl);
+  if ( !widget.stylesheet ) {
+    var styleNode = widgetNode.selectSingleNode("mb:stylesheet");
+    if (styleNode ) {
+      widget.stylesheet = new XslProcessor(styleNode.firstChild.nodeValue);
+    } else {
+      widget.stylesheet = new XslProcessor(baseDir+"/widget/"+widgetNode.nodeName+".xsl");
+    }
+  }
 
   //set the target model
   var targetModel = widgetNode.selectSingleNode("mb:targetModel");
   if (targetModel) {
-    this.targetModel = eval("config."+targetModel.firstChild.nodeValue);
-    if ( !this.targetModel ) {
-      alert("error finding targetModel:" + targetModel.firstChild.nodeValue + " for:" + this.id);
+    widget.targetModel = eval("config."+targetModel.firstChild.nodeValue);
+    if ( !widget.targetModel ) {
+      alert("error finding targetModel:" + targetModel.firstChild.nodeValue + " for:" + widget.id);
     } 
   } else {
-    this.targetModel = this.model;
+    widget.targetModel = widget.model;
   }
 
   // Set stylesheet parameters for all the child nodes from the config file
@@ -100,21 +104,21 @@ function WidgetBase(widget,widgetNode,model) {
     if (widgetNode.childNodes[j].firstChild
       && widgetNode.childNodes[j].firstChild.nodeValue)
     {
-      this.stylesheet.setParameter(
+      widget.stylesheet.setParameter(
         widgetNode.childNodes[j].nodeName,
         widgetNode.childNodes[j].firstChild.nodeValue);
     }
   }
   //this is supposed to work too instead of above?
-  //this.stylesheet.setParameter("widgetNode", widgetNode );
+  //widget.stylesheet.setParameter("widgetNode", widgetNode );
 
   //all stylesheets will have these properties available
-  this.stylesheet.setParameter("modelId", this.model.id );
-  this.stylesheet.setParameter("modelTitle", this.model.title );
-  this.stylesheet.setParameter("targetModelId", this.targetModel.id );
-  this.stylesheet.setParameter("widgetId", this.id );
-  this.stylesheet.setParameter("skinDir", config.skinDir );
-  this.stylesheet.setParameter("lang", config.lang );
+  widget.stylesheet.setParameter("modelId", widget.model.id );
+  widget.stylesheet.setParameter("modelTitle", widget.model.title );
+  widget.stylesheet.setParameter("targetModelId", widget.targetModel.id );
+  widget.stylesheet.setParameter("widgetId", widget.id );
+  widget.stylesheet.setParameter("skinDir", config.skinDir );
+  widget.stylesheet.setParameter("lang", config.lang );
 
   /**
    * Move this widget to the absolute (left,top) position in the browser.
@@ -168,7 +172,7 @@ function WidgetBase(widget,widgetNode,model) {
 
       //confirm inputs
       if (objRef.debug) alert("prepaint:"+objRef.resultDoc.xml);
-      //if (objRef.debug) alert("stylesheet:"+objRef.stylesheet.xslDom.xml);
+      if (objRef.debug) alert("stylesheet:"+objRef.stylesheet.xslDom.xml);
 
       //set to output to a temporary node
       //hack to get by doc parsing problem in IE
@@ -190,6 +194,18 @@ function WidgetBase(widget,widgetNode,model) {
             objRef.node.replaceChild(tempNode.firstChild,outputNode);
           } else {
             objRef.node.appendChild(tempNode.firstChild);
+          }
+          break;
+        case "image2html":
+          tempNode.appendChild(objRef.model.doc);
+          tempNode.setAttribute("id", objRef.outputNodeId);
+
+          //look for this widgets output and replace if found,
+          //otherwise append it
+          if (outputNode) {
+            objRef.node.replaceChild(tempNode,outputNode);
+          } else {
+            objRef.node.appendChild(tempNode);
           }
           break;
         case "xsl2js":
@@ -219,23 +235,6 @@ function WidgetBase(widget,widgetNode,model) {
     //with objRef.node remove child
     var outputNode = document.getElementById( objRef.outputNodeId );
     if (outputNode) objRef.node.removeChild(outputNode);
-  }
-
-  /**
-   * Instantiate all the child tools of this widget.
-   */
-  this.loadTools = function() {
-    var toolNodes = this.widgetNode.selectNodes( "mb:tools/*" );
-    for (var i=0; i<toolNodes.length; i++ ) {
-      var toolNode = toolNodes[i];
-      var evalStr = "new " + toolNode.nodeName + "(toolNode, this);";
-      var newTool = eval( evalStr );
-      if (newTool) {
-        this[toolNode.nodeName] = newTool;
-      } else {
-        alert("error creating tool:" + toolNode.nodeName);
-      }
-    }
   }
 
 

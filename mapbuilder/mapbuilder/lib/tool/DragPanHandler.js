@@ -13,11 +13,11 @@ $Id$
  * @constructor
  * @base ToolBase
  * @param toolNode The tool node from the Config XML file.
- * @param parentWidget  The widget object that contains this tool.
+ * @param model  The widget object that contains this tool.
  */
 
-function DragPanHandler(toolNode, parentWidget) {
-  var base = new ToolBase(this, toolNode, parentWidget);
+function DragPanHandler(toolNode, model) {
+  var base = new ToolBase(this, toolNode, model);
 
   /**
    * Process the mouseup action.  This will reset the AOI on the model
@@ -46,7 +46,7 @@ function DragPanHandler(toolNode, parentWidget) {
    */
   this.mouseDownHandler = function(objRef,targetNode) {
     if (objRef.enabled) {
-      objRef.containerNode = document.getElementById( objRef.parentWidget.containerId );
+      //objRef.containerNode = document.getElementById( objRef.parentWidget.containerId );
       objRef.dragging = true;
       objRef.anchorPoint = targetNode.evpl;
     }
@@ -83,9 +83,9 @@ function DragPanHandler(toolNode, parentWidget) {
   }
 
   this.init = function(toolRef) {
-    toolRef.parentWidget.addListener('mousedown',toolRef.mouseDownHandler,toolRef);
-    toolRef.parentWidget.addListener('mousemove',toolRef.mouseMoveHandler,toolRef);
-    toolRef.parentWidget.addListener('mouseup',toolRef.mouseUpHandler,toolRef);
+    toolRef.model.addListener('mousedown',toolRef.mouseDownHandler,toolRef);
+    toolRef.model.addListener('mousemove',toolRef.mouseMoveHandler,toolRef);
+    toolRef.model.addListener('mouseup',toolRef.mouseUpHandler,toolRef);
   }
   this.model.addListener( "loadModel", this.init, this );
 }

@@ -20,12 +20,10 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
  * @base ToolBase
  * @author Adair
  * @param toolNode      The tool node from the config document for this tool
- * @param parentWidget  Reference to the widget object that creates this tool
+ * @param model  Reference to the widget object that creates this tool
  */
-function ZoomToAoi(toolNode, parentWidget) {
-  var base = new ToolBase(this, toolNode, parentWidget);
-
-  this.targetModel = this.parentWidget.targetModel;
+function ZoomToAoi(toolNode, model) {
+  var base = new ToolBase(this, toolNode, model);
 
   /**
    * Target model loadModel change listener.  This resets the projection objects
@@ -85,5 +83,5 @@ function ZoomToAoi(toolNode, parentWidget) {
       tool.targetModel.extent.zoomToBox( ul, lr );
     }
   }
-  this.parentWidget.addListener('mouseup',this.mouseUpHandler,this);
+  this.model.addListener('mouseup',this.mouseUpHandler,this);
 }

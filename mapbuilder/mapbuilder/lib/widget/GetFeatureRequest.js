@@ -52,11 +52,10 @@ function GetFeatureRequest(widgetNode, model) {
     if (this.model.containerModel) {
       var bBox = this.model.containerModel.getBoundingBox();
       var bboxStr = bBox[0]+","+bBox[1]+","+bBox[2]+","+bBox[3];
-      alert(bboxStr);
       this.stylesheet.setParameter("bbox", bboxStr );
     }
     httpPayload.postData = this.stylesheet.transformNodeToObject(targetModel.featureNode);
-    if (this.debug) alert("postData:"+httpPayload.postData.xml);
+    if (this.debug) alert("request data:"+httpPayload.postData.xml);
     httpPayload.url = this.model.getServerUrl(targetModel.featureNode, "DescribeFeatureType");
     if (httpPayload.method.toLowerCase() == "get") {
       var queryString = httpPayload.postData.selectSingleNode("//QueryString");

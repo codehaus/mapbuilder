@@ -4,7 +4,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
+mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 
 /**
  * When this button is pressed the map will reload with it's original extent
@@ -12,12 +12,10 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * @base ButtonBase
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
  * @param toolNode      The tool node from the Config XML file.
- * @param parentWidget  The ButtonBar widget.
+ * @param model  The ButtonBar widget.
  */
-function Reset(toolNode, parentWidget) {
-  var base = new ButtonBase(this, toolNode, parentWidget);
-
-  this.targetModel = this.parentWidget.targetModel;
+function Reset(toolNode, model) {
+  var base = new ButtonBase(this, toolNode, model);
 
   /**
    * Store a copy of the original extent locally.

@@ -13,10 +13,10 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * The list of models is driven by a set of nodes selected from the parent model doc.
  * @constructor
  * @param toolNode      The tools's XML object node from the configuration document.
- * @param parentWidget  The widget that this tool belongs to
+ * @param model  The widget that this tool belongs to
  */
-function WebServiceRequest(toolNode, parentWidget) {
-  var base = new ToolBase(this, toolNode, parentWidget);
+function WebServiceRequest(toolNode, model) {
+  var base = new ToolBase(this, toolNode, model);
   
   //get the xpath to select nodes from the parent doc
   var nodeSelectXpath = toolNode.selectSingleNode("mb:nodeSelectXpath");
@@ -66,8 +66,8 @@ function WebServiceRequest(toolNode, parentWidget) {
     if (targetModelProperty) {
       var targetModelId = targetModelProperty.firstChild.nodeValue;
       var targetModel = config[targetModelId];
-      if (!targetModel || targetModel.template) {
-        if (targetModel && targetModel.template) targetModel.modelNode.removeAttribute("id");
+      if (targetModel.template) {
+        targetModel.modelNode.removeAttribute("id");
         targetModel = this.appendModel(targetModel.modelNode, feature);
       }
     } else {

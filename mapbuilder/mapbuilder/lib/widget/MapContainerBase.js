@@ -46,8 +46,8 @@ function MapContainerBase(widget,widgetNode,model) {
  */
   var containerNode = document.getElementById(widget.containerNodeId);
   if (containerNode) {
-    widget.containerModel = containerNode.widget.model;
-    if (model.parentModel) model.parentModel.containerModel = widget.containerModel;
+    widget.containerModel = containerNode.containerModel;
+    //??if (model.parentModel) model.parentModel.containerModel = widget.containerModel;
     widget.containerModel.addListener("refresh",widget.paint,widget);
   } else {
     containerNode = document.createElement("DIV");
@@ -57,8 +57,8 @@ function MapContainerBase(widget,widgetNode,model) {
     containerNode.style.position="relative";
     containerNode.style.overflow="hidden";
 
+    containerNode.containerModel = widget.model;
     widget.containerModel = widget.model;
-    widget.model.containerModel = widget.model;
 
     this.setFixedWidth = function(objRef) {
       //adjust the context width and height if required.
@@ -133,12 +133,12 @@ function MapContainerBase(widget,widgetNode,model) {
         ev.stopPropagation();
       }
 
-      this.widget.callListeners(this.eventType,this);
+      //this.widget.callListeners(this.eventType,this);
+      this.containerModel.setParam(this.eventType,this);
       return false;
     }
     widget.eventHandler = this.eventHandler;
 
-    containerNode.widget = widget;
     containerNode.onmousemove = widget.eventHandler;
     containerNode.onmouseout = widget.eventHandler;
     containerNode.onmouseover = widget.eventHandler;

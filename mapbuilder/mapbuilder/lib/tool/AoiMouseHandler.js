@@ -18,11 +18,11 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * @constructor
  * @base ToolBase
  * @param toolNode      The node for this tool from the configuration document.
- * @param parentWidget  The widget object that contains this tool
+ * @param model  The widget object that contains this tool
  */
 
-function AoiMouseHandler(toolNode, parentWidget) {
-  var base = new ToolBase(this, toolNode, parentWidget);
+function AoiMouseHandler(toolNode, model) {
+  var base = new ToolBase(this, toolNode, model);
 
   /**
    * Process the mouseup action by stopping the drag.
@@ -87,9 +87,9 @@ function AoiMouseHandler(toolNode, parentWidget) {
   }
 
   this.init = function(toolRef) {
-    toolRef.parentWidget.addListener('mousedown',toolRef.mouseDownHandler,toolRef);
-    toolRef.parentWidget.addListener('mousemove',toolRef.mouseMoveHandler,toolRef);
-    toolRef.parentWidget.addListener('mouseup',toolRef.mouseUpHandler,toolRef);
+    toolRef.model.addListener('mousedown',toolRef.mouseDownHandler,toolRef);
+    toolRef.model.addListener('mousemove',toolRef.mouseMoveHandler,toolRef);
+    toolRef.model.addListener('mouseup',toolRef.mouseUpHandler,toolRef);
   }
   this.model.addListener( "loadModel", this.init, this );
 

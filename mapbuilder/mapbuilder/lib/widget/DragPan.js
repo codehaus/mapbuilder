@@ -4,36 +4,29 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
+mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 
 /**
- * When this button is selected, clicks on the MapPane trigger a zoomIn to the 
- * currently set AOI.
+ * When this button is selected, click and drag on the MapPane to recenter the map.
  * @constructor
  * @base ButtonBase
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
  * @param toolNode      The tool node from the Config XML file.
- * @param parentWidget  The ButtonBar widget.
+ * @param model  The parent model for this widget
  */
-function ZoomIn(toolNode, parentWidget) {
-  /** Other required tools. */
-  this.dependancies=["AoiMouseHandler"];
-
+function DragPan(toolNode, model) {
   // Extend ButtonBase
-  var base = new ButtonBase(this, toolNode, parentWidget);
-
-  this.zoomBy = 4;//TBD: get this from config
+  var base = new ButtonBase(this, toolNode, model);
 
   /**
-   * Calls the model's ceter at method to zoom in.  If the AOI is a single point,
-   * it zooms in by the zoomBy factor.
-   * @param objRef      Pointer to this object.
+   * Calls the centerAt method of the context doc to recenter to its AOI
+   * @param objRef      Pointer to this DragPan tool object.
    * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
   this.doAction = function(objRef,targetNode) {
     if (objRef.enabled) {
       var bbox = objRef.targetModel.getParam("aoi");
-      if ( bbox!=null) {
+      if ( objRef.targetModel.getParam("aoi")!=null) {
         var extent = objRef.targetModel.extent;
         var ul = bbox[0];
         var lr = bbox[1];
@@ -54,7 +47,6 @@ function ZoomIn(toolNode, parentWidget) {
       toolRef.mouseHandler.addListener('mouseup',toolRef.doAction,toolRef);
     }
   }
-  this.parentWidget.targetModel.addListener( "loadModel", this.setMouseListener, this );
+  this.model.addListener( "loadModel", this.setMouseListener, this );
 
 }
-
