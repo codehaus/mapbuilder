@@ -4,7 +4,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
+mapbuilder.loadScript(baseDir+"/widget/EditButtonBase.js");
 
 /**
  * When this button is selected, clicks on the MapPane will add a
@@ -18,13 +18,7 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  */
 function EditPoint(toolNode, model) {
   // Extend EditButtonBase
-  var base = new ButtonBase(this, toolNode, model);
-
-  /** Empty GML to load when this tool is selected. */
-  //this.defaultModelUrl=toolNode.selectSingleNode("mb:defaultModelUrl").firstChild.nodeValue;
-
-  /** Reference to GML node to update when a feature is added. */
-  this.featureXpath=toolNode.selectSingleNode("mb:featureXpath").firstChild.nodeValue;
+  var base = new EditButtonBase(this, toolNode, model);
 
   /**
    * Add a point to the enclosing GML model.
@@ -42,10 +36,4 @@ function EditPoint(toolNode, model) {
       }
     }
   }
-  this.setMouseListener = function(objRef) {
-    if (objRef.mouseHandler) {
-      objRef.mouseHandler.model.addListener('mouseup',objRef.doAction,objRef);
-    }
-  }
-  this.targetModel.addListener( "loadModel", this.setMouseListener, this );
 }
