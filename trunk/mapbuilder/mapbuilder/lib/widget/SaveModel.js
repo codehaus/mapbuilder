@@ -20,7 +20,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
 
- * Widget to display the AOI box coordinates
+ * Save a model to a URL.
 
  *
 
@@ -53,6 +53,14 @@ function SaveModel(widgetNode, model) {
   }
 
   
+
+  /**
+
+   * Initialise params.
+
+   * @param objRef Pointer to this SaveModel object.
+
+   */
 
   this.init = function(objRef) {
 
