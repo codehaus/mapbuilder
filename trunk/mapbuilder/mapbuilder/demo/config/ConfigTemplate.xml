@@ -63,6 +63,10 @@
               <lineWidth>2</lineWidth>
               <crossSize>9</crossSize>
             </AoiBox>
+            <CursorTrack>
+              <scriptFile>widget/tool/CursorTrack.js</scriptFile>
+              <scriptFile>model/Proj.js</scriptFile>
+            </CursorTrack>
           </tools> 
         </MapPane>
         

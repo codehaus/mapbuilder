@@ -28,53 +28,13 @@ function GlassPane(toolNode, parentWidget) {
   this.node = document.getElementById( parentWidget.containerId );
   this.node.parentWidget = parentWidget;
 
-  parentWidget.mouseUpListeners = new Array();
-  parentWidget.mouseDownListeners = new Array();
-  parentWidget.mouseMoveListeners = new Array();
-  parentWidget.mouseOverListeners = new Array();
-  parentWidget.mouseOutListeners = new Array();
-  parentWidget.mouseUpObjects = new Array();
-  parentWidget.mouseDownObjects = new Array();
-  parentWidget.mouseMoveObjects = new Array();
-  parentWidget.mouseOverObjects = new Array();
-  parentWidget.mouseOutObjects = new Array();
-
   this.node.onmousemove = mouseMoveHandler;
   this.node.onmouseout = mouseOutHandler;
+  this.node.onmouseover = mouseOverHandler;
   this.node.onmousedown = mouseDownHandler;
   this.node.onmouseup = mouseUpHandler;
   this.node.getEvent = getEvent;
-
-  parentWidget.addMouseListener = function(mouseEvent, listener, objRef) {
-    switch(mouseEvent) {
-      case 'mouseUp':
-        this.mouseUpListeners.push( listener );
-        this.mouseUpObjects.push( objRef );
-        break;
-      case 'mouseDown':				//zoom out
-        this.mouseDownListeners.push( listener );
-        this.mouseDownObjects.push( objRef );
-        break;
-      case 'mouseMove':            //pan
-        this.mouseMoveListeners.push( listener );
-        this.mouseMoveObjects.push( objRef );
-        break;
-      case 'mouseOver':				//setting AOI
-        this.mouseOverListeners.push( listener );
-        this.mouseOverObjects.push( objRef );
-        break;
-      case 'mouseOut':
-        this.mouseOutListeners.push( listener );
-        this.mouseOutObjects.push( objRef );
-        break;	
-      default:
-        alert("unreconized mouse event:" + mouseEvent);
-        break;
-    }
-  }
 }
-
-
 
 /** The remaining functions in the file execute as event handlers in the context 
   * of the GlassPane node, ie. this = the glass div loaded by MapPane stylesheet
@@ -101,6 +61,7 @@ function getEvent(ev) {
     this.ctrlKey = ev.ctrlKey;
     this.shiftKey = ev.shiftKey;
   }
+  this.evxy = this.parentWidget.model.extent.GetXY( this.evpl );
 }
 
 
