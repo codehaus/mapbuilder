@@ -62,15 +62,6 @@ function Context(url) {
   // ===============================
   // Add Listener Functions
   // ===============================
-  /**
-   * Add a Listener for Hidden attribute.
-   * @param listener The fuction to call when a hidden attribute changes.
-   * The listener function should be of the form hiddenListener(layerId).
-   * @param target The object which owns the listener function.
-   */
-  this.addHiddenListener=function(listener,target) {
-    this.hiddenListeners[this.hiddenListeners.length]=new Array(listener,target);
-  }
 
   /**
    * Add a Context listener.  This listener is called if the context is replaced,
@@ -146,8 +137,8 @@ function Context(url) {
       }
     }
     // Call the listeners
-    for(var i=0;i<this.hiddenListeners.length;i++) {
-      this.hiddenListeners[i][0](layerIndex,this.hiddenListeners[i][1]);
+    for(var i=0;i<this.listeners["hidden"].length;i++) {
+      this.listeners["hidden"][i][0](layerIndex,this.listeners["hidden"][i][1]);
     }
   }
 

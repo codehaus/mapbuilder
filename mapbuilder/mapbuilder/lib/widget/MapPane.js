@@ -93,7 +93,7 @@ function MapPane(widgetNode, group) {
    */
   this.addListeners = function() {
     this.model.addListener("boundingBox",this.boundingBoxChangeListener,this);
-    this.model.addHiddenListener(this.hiddenListener,this);
+    this.model.addListener("hidden",this.hiddenListener,this);
   }
 
   this.mouseUpListeners = new Array();

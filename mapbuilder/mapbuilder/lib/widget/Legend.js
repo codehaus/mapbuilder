@@ -25,13 +25,15 @@ function Legend(widgetNode, group) {
 
   /**
    * Called when the context's hidden attribute changes.
-   * @param e The event sent to the listener.
+   * @param layerIndex The index of the LayerList/Layer from the Context which
+   * has changed.
+   * @param target This object.
    */
-  this.hiddenListener=function(e){
+   this.hiddenListener=function(layerIndex,target){
     // TBD check/uncheck Layer's selected box
   }
-
+ 
   this.addListeners = function() {
-    this.model.addHiddenListener(this.hiddenListener);
+    this.model.addListener("hidden",this.hiddenListener,this);
   }
 }
