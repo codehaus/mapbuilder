@@ -7,19 +7,23 @@ $Id$
  * Stores a Web Map Context (WMC) document as defined by the Open GIS Consortium
  * http://opengis.org and extensions the the WMC.  A unique Id is included for
  * each layer which is used when referencing Dynamic HTML layers in MapPane.
+ * Context extends ModelBase, which extends Listener.
  * @constructor
- * @author Cameron Shorter cameronATshorter.net
+ * @author Cameron Shorter
  * @requires Sarissa
  * @param url Url of context document
  * @param id ID referencing this context object
- * @param queryLayer Index of layer in Context document that should be used as query layer for GetFeatureInfo requests
+ * @param queryLayer Index of layer in Context document that should be used as
+ *   query layer for GetFeatureInfo requests
+ * @see ModelBase
+ * @see Listener
  */
 function Context(url) {
-  // Inherit the Listener functions and parameters
-  var listener = new Listener();
-  for (sProperty in listener) { 
-    this[sProperty] = listener[sProperty]; 
-  } 
+  // Inherit the ModelBase functions and parameters
+  var modelBase = new ModelBase();
+  for (sProperty in modelBase) { 
+    this[sProperty] = modelBase[sProperty]; 
+  }
 
   /**
    * The Web Map Context Document.
