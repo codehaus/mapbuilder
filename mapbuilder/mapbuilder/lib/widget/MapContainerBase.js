@@ -100,6 +100,12 @@ function MapContainerBase(widget,widgetNode,model) {
       widget.stylesheet.setParameter("mapScale", mapScale );
     }
 
+    widget.setTooltip = function(objRef, tooltip) {
+      //alert("setting mappane tooltip to:"+tooltip);
+      //TBD: implement some sort of map pane hover mechanism to show the tooltip
+    }
+    widget.containerModel.addListener( "tooltip", widget.setTooltip, widget);
+
   /** Cross-browser mouse event handling.
     * This function is the event handler for all MapPane mouse events.
     * Listeners are defined for all the mouse actions.  This includes:
