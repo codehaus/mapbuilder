@@ -85,7 +85,7 @@ function ModelBase(model, modelNode, parentModel) {
    */
   this.getXpathValue=function(objRef,xpath){
     node=objRef.doc.selectSingleNode(xpath);
-    if(node){
+    if(node && node.firstChild){
       return node.firstChild.nodeValue;
     }else{
       return null;
@@ -104,7 +104,13 @@ function ModelBase(model, modelNode, parentModel) {
   this.setXpathValue=function(objRef,xpath,value){
     node=objRef.doc.selectSingleNode(xpath);
     if(node){
-      node.firstChild.nodeValue=value;
+      if(node.firstChild){
+        node.firstChild.nodeValue=value;
+      }else{
+        dom=Sarissa.getDomDocument();
+        v=dom.createTextNode(value);
+        node.appendChild(v);
+      }
       objRef.setParam("refresh");
       return true;
     }else{
