@@ -22,23 +22,23 @@
 			<OnlineResource xlink:type="simple" xlink:href="tsOzoneMLS.xml"/>
 		</ContextURL>
 	</ViewContextReference>
-	<ViewContextReference version="1.0.0" id="tsAfricaFires">
+	<!--ViewContextReference version="1.0.0" id="tsAfricaFires">
     <Title>African Fires during 2002 (1024x1024 Animation)</Title>
 		<ContextURL>
 			<OnlineResource xlink:type="simple" xlink:href="tsAfricaFires.xml"/>
 		</ContextURL>
-	</ViewContextReference>
+	</ViewContextReference-->
 	<ViewContextReference version="1.0.0" id="tsChinaDustStorm">
 		<Title>China Dust Storm during April 2001 (1024x512 Animation)</Title>
 		<ContextURL>
 			<OnlineResource xlink:type="simple" xlink:href="tsChinaDustStorm.xml"/>
 		</ContextURL>
 	</ViewContextReference>
-	<ViewContextReference version="1.0.0" id="tsYellowstoneFires">
+	<!--ViewContextReference version="1.0.0" id="tsYellowstoneFires">
 		<Title>Wildfire Growth around Yellowstone National Park in 1988 (1024x1024 Animation)</Title>
 		<ContextURL>
 			<OnlineResource xlink:type="simple" xlink:href="tsYellowstoneFires.xml"/>
 		</ContextURL>
-	</ViewContextReference>
+	</ViewContextReference-->
   
 </ViewContextCollection>
