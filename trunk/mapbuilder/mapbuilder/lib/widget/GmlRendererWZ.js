@@ -7,6 +7,7 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/MapContainerBase.js");
+mapbuilder.loadScript(baseDir+"/util/wz_jsgraphics/wz_jsgraphics.js");
 
 /**
  * Render GML into HTML.
