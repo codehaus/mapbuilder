@@ -238,9 +238,18 @@ $Id$
 
   <target name="dist" description="Create binary distribution">
 
-    <!-- Create application JAR file -->
-    <jar jarfile="${dist.home}/${app.name}-${app.version}.war"
-         basedir="${build.home}"/>
+    <!-- Create application zip file -->
+    <zip destfile="${basedir}/${app.name}-${app.version}.zip" update="true">
+         <zipfileset dir="${basedir}/lib" prefix="mapbuilder/lib"/>
+         <zipfileset dir="${basedir}/demo" prefix="mapbuilder/demo"/>
+    </zip>
+
+    <!-- Create styles only distribution -->
+    <zip destfile="${basedir}/styles_${app.name}-${app.version}.zip" update="true">
+         <zipfileset dir="${basedir}/lib/" prefix="mapbuilder/lib">
+            <include name="**/*.xsl"/>
+         </zipfileset>
+    </zip>
 
     <!-- Copy additional files to ${dist.home} as necessary -->
 
