@@ -40,7 +40,7 @@ function EditButtonBase(button,widetNode, model) {
       httpPayload.url=objRef.defaultModelUrl;
       httpPayload.method="get";
       httpPayload.postData=null;
-      objRef.targetModel.setParam('httpPayload',httpPayload);
+      objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
     }
   }
 
