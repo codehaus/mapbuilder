@@ -67,29 +67,18 @@
       <nodeSelectXpath>/wps:Capabilities/wps:ProcessOfferings/wps:Process</nodeSelectXpath>
       <namespace>xmlns:wps='http://www.opengis.net/wps'</namespace>
       <models>
-        <Model id="describeProcessTemplate" template="true">
+        <Model id="describeProcessTemplate">
           <widgets>
+            <Widget id="argsInput">
+              <stylesheet>ProcessArgumentsForm.xsl</stylesheet>
+            </Widget>
           </widgets>
         </Model>
-        <!--Model id="getFeatureTemplate" template="true">
+        <!--Model id="executeProcessTemplate" template="true">
           <method>get</method>
           <widgets>
-            <GmlRendererWZ id="testGmlRenderer">
-              <htmlTagId>mainMapPane</htmlTagId>
-              <targetModel>mainMap</targetModel>
-              <lineColor>#FF00FF</lineColor>
-              <lineWidth>1</lineWidth>
-              <pointDiameter>10</pointDiameter>
-              <mapContainerId>mainMapContainer</mapContainerId>
-            </GmlRendererWZ>
           </widgets>
-        </FeatureCollection>
-        <Transaction id="transactionTemplate" template="true">
-          <method>post</method>
-          <widgets>
-            <ShowResponse id="transResponse"/>
-          </widgets>
-        </Transaction-->
+        </Model-->
       </models>
       <widgets>
         <Widget id="selectProcess">
@@ -102,27 +91,12 @@
           <targetModel>describeProcessTemplate</targetModel>
           <requestName>wps:DescribeProcess</requestName>
         </WebServiceRequest>
-        <!--WebServiceRequest id="wfsDescribeFeature">
-          <targetModel>featureTypeTemplate</targetModel>
-          <requestName>wfs:DescribeFeatureType</requestName>
-        </WebServiceRequest>
-        <WebServiceRequest id="wfsTransaction">
-          <targetModel>transactionTemplate</targetModel>
-          <requestName>wfs:Transaction</requestName>
+        <!--WebServiceRequest id="wpsExecuteProcess">
+          <targetModel>executeProcessTemplate</targetModel>
+          <requestName>wps:Execute</requestName>
         </WebServiceRequest-->
       </tools>
     </WpsCapabilities>
-    <!--Model id="wfsServers">
-      <title>Web Feature Servers</title>
-      <widgets>
-        <WebServiceForm id="wfsServerList">
-          <htmlTagId>workspace</htmlTagId>
-          <outputNodeId>workspaceCanvas</outputNodeId>
-          <stylesheet>/mapbuilder/lib/widget/ServiceRegistryList.xsl</stylesheet>
-          <targetModel2>wfsCapTemplate</targetModel2>
-        </WebServiceForm>
-      </widgets>
-    </Model-->
   </models>
   <widgets>
     <ZoomIn id="zoomIn">
