@@ -15,7 +15,9 @@ $Id$
  * @base ModelBase
  * @author Cameron Shorter
  * @requires Sarissa
- * 
+ * @param model       Pointer to the model instance being created
+ * @param modelNode   The model's XML object node from the configuration document.
+  * 
  */
 function Context(modelNode, parent) {
   // Inherit the ModelBase functions and parameters

@@ -4,13 +4,12 @@ $Id$
 */
 
 /**
- * Stores a Web Map Context (WMC) Collection document as defined by the Open 
- * GIS Consortium http://opengis.org and extensions the the WMC.  
+ * Stores an XML file.
  * @constructor
  * @base ModelBase
  * @author Mike Adair
- * @requires Sarissa
- * @param url Url of context collection document
+ * @param modelNode The model's XML object node from the configuration document
+ * @param parent Parent of this model, set to null if there is no parent.
  */
 function Model(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
