@@ -96,19 +96,13 @@ $Name$
 
             type="text"
 
-            name="_href_"
+            id="{$targetModelId}{generate-id()}"
 
             size="40"
 
             value="{text()}"
 
-            onchange="config.{$targetModelId}.setXlinkValue('{$xlink}','fred');"/>
-
-        </td>
-
-        <td>
-
-          <xsl:value-of select="$xlink"/>
+            onchange="config.{$targetModelId}.setXlinkValue(config.{$targetModelId},'{$xlink}',document.getElementById('{$targetModelId}{generate-id()}').value);"/>
 
         </td>
 
