@@ -84,33 +84,11 @@ function SaveModel(widgetNode, model) {
 
 
 
-    alert(this.model.id+"."+this.id+".modelUrl");
-
     var modelAnchor = document.getElementById(this.model.id+"."+this.id+".modelUrl");
 
     modelAnchor.href = fileUrl;
 
   }
-
-  //this.addListener('paint', this.paintHandler, this);
-
-
-
-  /**
-
-   * Refreshes the form onblur handlers when this widget is painted.
-
-   * @param objRef Pointer to this SaveModel object.
-
-   */
-
-  this.paintHandler = function(objRef) {
-
-    //postLoad('{$serializeUrl}',config.{$modelId}.doc);
-
-  }
-
-  //this.addListener('paint', this.paintHandler, this);
 
 }
 
