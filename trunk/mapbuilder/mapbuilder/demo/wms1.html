@@ -14,13 +14,13 @@
       Web Map Server Client</h1>
 
     <!-- MapPane Goes Here -->
-    <DIV id="mapPane"></DIV>
+    <DIV id="mapPaneId"></DIV>
 
     <!-- PanTool Goes Here -->
-    <DIV id="panTool"></DIV>
+    <DIV id="panToolId"></DIV>
 
     <!-- Legend Goes Here -->
-    <DIV id="legend"></DIV>
+    <DIV id="legendId"></DIV>
 
     <script>
       // Base Mapbuilder library directory
@@ -31,15 +31,15 @@
       context=new Context("wmc.xml");
 
       // Create and render a MapPane
-      mapPane=new MapPane(context,baseDir,document.getElementById("mapPane"));
+      mapPane=new MapPane(context,baseDir,document.getElementById("mapPaneId"));
       mapPane.paint();
 
       // Create and render a PanTool
-      panTool=new PanTool(context,baseDir,document.getElementById("panTool"));
+      panTool=new PanTool(context,baseDir,document.getElementById("panToolId"));
       panTool.paint();
 
       // Create and render a Legend
-      legend=new Legend(context,baseDir,document.getElementById("legend"));
+      legend=new Legend(context,baseDir,document.getElementById("legendId"));
       legend.paint();
     </script>
 
