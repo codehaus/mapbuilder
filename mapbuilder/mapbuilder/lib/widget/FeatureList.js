@@ -18,9 +18,9 @@ function FeatureList(widgetNode, model) {
   var base = new WidgetBase(this, widgetNode, model);
 
   /** Url of WFS */
-  this.webServiceUrl=widgetNode.selectSingleNode("mb:webServiceUrl");
+  this.webServiceUrl=widgetNode.selectSingleNode("mb:webServiceUrl").firstChild.nodeValue;
 
-  /** Xsl to convert Feature into a WFS Transation Insert. */
+  /** Xsl to convert Feature into a WFS Transaction Insert. */
   this.insertXsl=new XslProcessor(baseDir+"/tool/xsl/wfs_Insert.xsl");
 
   /**
