@@ -83,5 +83,5 @@ function ZoomToAoi(toolNode, parentWidget) {
   }
 
   this.parentWidget.addListener('mouseup',this.mouseUpHandler,this);
-  this.parentWidget["AoiMouseHandler"].enable(true);
+  this.parentWidget.tools["AoiMouseHandler"].enable(true);
 }
