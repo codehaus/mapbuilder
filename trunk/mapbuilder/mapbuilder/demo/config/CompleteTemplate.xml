@@ -46,7 +46,12 @@
     <ContextCollection id="contextCollectionModelId">
       <scriptFile>/model/Collection.js</scriptFile>
     </ContextCollection>
-    
+
+    <Locations id="locationsModelId">
+      <dataFile>/demo/locations/Global.xml</dataFile>
+      <scriptFile>/model/Locations.js</scriptFile>
+    </Locations>
+
   </models>
 
   <!--
@@ -99,6 +104,12 @@
       <stylesheet>/widget/collectionList/CollectionToList.xsl</stylesheet>
     </CollectionList>
     
+    <Locations>
+      <model>#locationsModelId</model>
+      <scriptFile>/widget/locations/Locations.js</scriptFile>
+      <stylesheet>/widget/locations/Locations2Select.xsl</stylesheet>
+    </Locations>
+
     <ButtonBar id="ButtonBar">
       <model>#configModelId</model>
       <stylesheet>/widget/buttonbar/ButtonBar2.xsl</stylesheet>
