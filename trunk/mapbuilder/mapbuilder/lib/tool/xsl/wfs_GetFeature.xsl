@@ -30,13 +30,14 @@ $Name$
   
   <xsl:param name="httpMethod">get</xsl:param>
   <xsl:param name="filter"/>
+  <xsl:param name="maxFeatures">100</xsl:param>
   <xsl:param name="geometry"/>
   
   <!-- template rule matching source root element -->
   <xsl:template match="ogcwfs:FeatureType">
     <xsl:param name="resourceName" select="ogcwfs:Name"/>
     <xsl:param name="featureSrs" select="ogcwfs:SRS"/>
-    <GetFeature version="1.0.0" service="WFS" maxFeatures="200">
+    <GetFeature version="1.0.0" service="WFS" maxFeatures="{$maxFeatures}">
     
     <xsl:choose>
       <xsl:when test="$httpMethod='post'">
@@ -47,9 +48,9 @@ $Name$
         <QueryString>
           <xsl:variable name="query">
          request=GetFeature
-    &amp;version=<xsl:value-of select="$version"/>
     &amp;service=WFS
-&amp;maxfeatures=100
+    &amp;version=<xsl:value-of select="$version"/>
+&amp;maxfeatures=<xsl:value-of select="$maxFeatures"/>
    &amp;typename=<xsl:value-of select="$resourceName"/>
           <xsl:if test="$bbox">
    &amp;bbox=<xsl:value-of select="$bbox"/>
@@ -69,7 +70,7 @@ $Name$
   <xsl:template match="wmc:FeatureType[wmc:Server/@service='OGC:WFS']">
     <xsl:param name="resourceName" select="wmc:Name"/>
     <xsl:param name="featureSrs" select="wmc:SRS"/>
-    <GetFeature version="1.0.0" service="WFS" maxFeatures="500"
+    <GetFeature version="1.0.0" service="WFS" maxFeatures="{$maxFeatures}"
       xmlns="http://www.opengis.net/wfs"
       xmlns:ogc="http://www.opengis.net/ogc">
       <Query typeName="{$resourceName}">
