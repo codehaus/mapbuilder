@@ -9,6 +9,12 @@ var Rearth = 6378137.0;                 // Radius of the earth (sphere); differe
 var degToMeter = Rearth*2*Math.PI/360;
 var mbScaleFactor = 72 * 39.3701;   //PixelsPerInch*InchesPerMapUnit; magic numbers 
                                     //need to determine magic number for lat/lon
+/*
+ * FD 2005/03/04 : minScale et maxScale
+ * DGR : should be in config ?
+ */
+var minScale = 1000;
+var maxScale = 200000;
 
 /**
  * A tool designed to handle geography calculations for widgets which render
@@ -74,6 +80,18 @@ function Extent( model, initialRes ) {
    */
   this.centerAt = function(center, newres, limitExtent) {
     var half = new Array(this.size[0]/2, this.size[1]/2);
+/*
+ * FD 2005/03/04 : respect de minScale et maxScale
+ * DGR : scale constraints
+ */
+    var nRmin= minScale/mbScaleFactor;
+    var nRmax= maxScale/mbScaleFactor;
+    if (newres < nRmin) {
+      newres= nRmin ;
+    }
+    if (newres > nRmax) {
+      newres= nRmax ;
+    }
     this.lr = new Array(center[0]+half[0]*newres, center[1]-half[1]*newres);
     this.ul = new Array(center[0]-half[0]*newres, center[1]+half[1]*newres);
 
@@ -162,6 +180,18 @@ function Extent( model, initialRes ) {
    */
   this.setScale = function(scale) {
     var newRes = null;
+/*
+ * FD 2005/03/04
+ * On contraint l'echelle min et max de l'application.
+ * A externaliser dans le fichier de config de l'application ;-)
+ * DGR : should be in the config
+ */
+    if (scale < minScale) {
+      scale= minScale ;
+    }
+    if (scale > maxScale) {
+      scale= maxScale ;
+    }
     switch(this.model.getSRS()) {
       case "EPSG:4326":				//all projection codes in degrees
       case "EPSG:4269":				
@@ -174,6 +204,7 @@ function Extent( model, initialRes ) {
     }
     this.centerAt(this.getCenter(), newRes );
   }
+
 
   /**
    * Initialization of the Extent tool, called as a loadModel event listener.
@@ -197,4 +228,5 @@ TBD: when called as a listener this gets a bbox array passed in, not initialRes 
   if ( initialRes ) this.init(this, initialRes);
 }
 
+  
   
