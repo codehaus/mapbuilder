@@ -47,10 +47,10 @@ $Name$
         <xsl:value-of select="$title"/> (<xsl:value-of select="$name"/>) <xsl:value-of select="ogcwfs:SRS"/>
       </td>
       <td>
-        <a href="javascript:config.{$modelId}.loadFeature('{$id}')">load</a>
+        <a href="javascript:config.{$modelId}.{$widgetId}.WebServiceRequest.doRequest('wfs:GetFeature','{$id}')">load</a>
       </td>
       <td>
-        <a href="javascript:config.{$modelId}.filterFeature('{$id}')">filter</a>
+        <a href="javascript:config.{$modelId}.{$widgetId}.WebServiceRequest.doRequest('wfs:DescribeFeatureType','{$id}')">filter</a>
       </td>
     </tr>
   </xsl:template>

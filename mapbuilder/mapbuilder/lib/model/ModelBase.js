@@ -50,30 +50,11 @@ function ModelBase(model, modelNode, parentModel) {
   }
 
   //set the method property
-  var method = modelNode.selectSingleNode("mb:httpMethod");
+  var method = modelNode.selectSingleNode("mb:method");
   if (method) {
     model.method = method.firstChild.nodeValue;
   } else {
     model.method = "get";
-  }
-
-  /**
-   * initializes a new ModelList object for the model.  This happens as a listener
-   * of the loadModel event, only if there is a nodeSelectXpath property defined 
-   * for the model.  Then the nodes in the ModelList will consist of the nodes
-   * selected by the Xpath.
-   * @param objRef Pointer to this object.
-   */
-  this.loadFeatureList = function(objRef) {
-    objRef.featureList = new ModelList(objRef);
-  }
-  model.loadFeatureList = this.loadFeatureList;
-
-  //get the xpath to select nodes from the parent doc
-  var nodeSelectXpath = modelNode.selectSingleNode("mb:nodeSelectXpath");
-  if (nodeSelectXpath) {
-    model.nodeSelectXpath = nodeSelectXpath.firstChild.nodeValue;
-    model.addListener("loadModel",model.loadFeatureList,model);
   }
 
   //don't load in models and widgets if this is the config doc, defer to config.init
@@ -87,7 +68,7 @@ function ModelBase(model, modelNode, parentModel) {
   if (templateAttr) {
     model.template = (templateAttr.nodeValue=="true")?true:false;
     model.modelNode.removeAttribute("template");
-    return;
+    //return;
   }
 
   /**

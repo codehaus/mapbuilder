@@ -8,18 +8,22 @@ mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
 mapbuilder.loadScript(baseDir+"/tool/WebServiceRequest.js");
 
 /**
- * Stores a WFS DescribeFeatureType request reponse as defined by the Open GIS Consortium
+ * Stores a WFS Transaction request reponse as defined by the Open GIS Consortium
  * http://opengis.org (WFS).  
+ * extends ModelBase, which extends Listener.
  *
  * Listener Parameters used:
  * "aoi" - ((upperLeftX,upperLeftY),(lowerRigthX,lowerRigthY)),
  *
  * @constructor
- * @base ModelBase
  * @author Mike Adair
+ * @see ModelBase
+ * @see Listener
  */
-function DescribeFeatureType(modelNode, parent) {
+function Transaction(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   var modelBase = new ModelBase(this, modelNode, parent);
+  this.namespace = "xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs'";
+
 }
 
