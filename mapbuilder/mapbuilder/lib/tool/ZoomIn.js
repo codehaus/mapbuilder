@@ -44,9 +44,8 @@ function ZoomIn(toolNode, parentWidget) {
     }
   }
 
-  if (this.mouseHandlerName) {
-    this.setListeners(this);
-    config.addListener('loadModel',this.setListeners,this);
+  if (this.mouseHandler) {
+    this.mouseHandler.addListener('mouseup',this.doAction,this);
   }
 
 }
