@@ -52,7 +52,7 @@ function GmlRendererWZ(widgetNode, model) {
     // Force refresh of the wz_jsgraphics handle when the widget's node
     // has been refreshed.
     if (!document.getElementById(objRef.outputNodeId)){
-      objRef.jg=null;
+      //objRef.jg=null;
     }
   }
 
