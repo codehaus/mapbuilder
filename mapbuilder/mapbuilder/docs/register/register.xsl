@@ -38,12 +38,12 @@ $Name$
     <h2>Widget <xsl:value-of select="mb:name"/></h2>
     <ul>
       <p><xsl:value-of select="mb:description"/></p>
-      <xsl:apply-templates select="mb:Examples"/>
+      <xsl:apply-templates select="mb:examples"/>
     </ul>
   </xsl:template>
 
-  <!-- Example -->
-  <xsl:template match="mb:Examples">
+  <!-- examples -->
+  <xsl:template match="mb:examples">
     <table border="1">
       <caption><b><xsl:value-of select="../mb:name"/> Examples</b></caption>
       <tr>
@@ -52,12 +52,12 @@ $Name$
         <th>HTML snippet</th>
         <th>Config snippet</th>
       </tr>
-      <xsl:apply-templates select="mb:example"/>
+      <xsl:apply-templates select="mb:Example"/>
     </table>
   </xsl:template>
 
-  <!-- example -->
-  <xsl:template match="mb:example">
+  <!-- Example -->
+  <xsl:template match="mb:Example">
     <tr>
       <td>
         <h3><xsl:value-of select="mb:title"/></h3>

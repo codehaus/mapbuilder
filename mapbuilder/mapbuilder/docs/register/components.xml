@@ -9,16 +9,16 @@
       <name>MapTitle</name>
       <componentType>Widget</componentType>
       <description>Shows the title of a Web Map Context Document.</description>
-      <Examples>
-        <example>
+      <examples>
+        <Example>
           <title>MapTitle</title>
           <description>The mapTitle, often put inside a heading tag.</description>
           <divId>mapTitle</divId>
           <html>&lt;div id="mapTitle"/&gt;</html>
           <configSnippet>
           </configSnippet>
-        </example>
-      </Examples>
+        </Example>
+      </examples>
     </Widget>
 
     <Widget>
@@ -27,8 +27,8 @@
       <description> The MapPane widget converts a Web Map
       Context (WMC) document into geographic layers using HTML &lt;DIV&gt;
       tags. Each layer corresponds to a WMS layer. </description>
-      <Examples>
-        <example>
+      <examples>
+        <Example>
           <title>Simple MapPane</title>
           <description>A static MapPane</description>
           <divId>mainMapPane</divId>
@@ -44,8 +44,8 @@
           &lt;/DragPanHandler&gt; &lt;MouseClickHandler/&gt; &lt;/tools&gt;
           &lt;mapContainerId&gt;mainMapContainer&lt;/mapContainerId&gt;
           &lt;/MapPane&gt; </configSnippet>
-        </example>
-      </Examples>
+        </Example>
+      </examples>
     </Widget>
   </widgets>
   <tools>
