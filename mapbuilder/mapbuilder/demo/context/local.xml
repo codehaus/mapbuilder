@@ -7,7 +7,8 @@
 			    xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengis.net/context/1.0.0/context.xsd">
 	<General>
 		<Window width="500" height="300" />
-		<BoundingBox SRS="EPSG:4326" minx="-180.000000" miny="-90.000000" maxx="180.000000" maxy="90.000000"/>
+    <BoundingBox SRS="EPSG:4326" minx="489154" miny="5433017" maxx="505234" maxy="5448023"/>
+		<!--BoundingBox SRS="EPSG:4326" minx="-180.000000" miny="-90.000000" maxx="180.000000" maxy="90.000000"/-->
 		<Title>http://localhost:8080/geoserver</Title>
 		<KeywordList>
 			<Keyword>EOS</Keyword>
