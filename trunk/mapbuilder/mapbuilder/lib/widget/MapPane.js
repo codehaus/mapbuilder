@@ -22,7 +22,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  */
 function MapPane(widgetNode, model) {
   // Inherit the WidgetBase functions and parameters
-  var base = new WidgetBase(widgetNode, model);
+  var base = new WidgetBase(widgetNode, model,"absolute");
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 
   } 
@@ -42,6 +42,9 @@ function MapPane(widgetNode, model) {
     this.model.setWindowHeight( newHeight );
     this.node.style.width = fixedWidth;
   }
+  // Set dimensions of containing <div>
+  this.node.parentNode.style.width=this.model.getWindowWidth()+"px";
+  this.node.parentNode.style.height=this.model.getWindowHeight()+"px";
 
   //add the extent property
   this.model.extent = new Extent( this.model );
