@@ -39,20 +39,25 @@ function WmsCapabilitiesImport(widgetNode, model) {
     }
 
     if (keycode == 13) {
-      alert("Url="+url);
+      capabilities = Sarissa.getDomDocument();
+      capabilities.async = false;
+      capabilities.load(url);
+      alert("capabilities="+capabilities.xml);
 
-      this.capabilities = Sarissa.getDomDocument();
-      this.capabilities.async = false;
-      // the following two lines are needed for IE
-      this.capabilities.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
-      this.capabilities.setProperty("SelectionLanguage", "XPath");
+      xsl = Sarissa.getDomDocument();
+      xsl.async = false;
+      xsl.load(baseDir+"/widget/wms/WMSCapabilities2Context.xsl");
+      alert("xsl="+xsl.xml);
 
-      this.capabilities.load(url);
-      this.xsl=new XslProcessor(baseDir + "/widget/wms/WMSCapabilities2Context.xsl");
-      alert("xsl="+this.xsl.xslDom.xml);
-      context=this.xsl.transformNode(this.capabilities);
-      alert(context.xml);
+      context=Sarissa.getDomDocument();
+      capabilities.transformNodeToObject(xsl,context);
+      alert("context="+context.xml);
 
+      // Load the new Context Document
+      // TBD: The following function needs to be derived from
+      // ModelBase.loadModelDoc()
+      //
+      //this.model.loadModelNode(context);
     }
   }
 }
