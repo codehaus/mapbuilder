@@ -96,7 +96,7 @@
     </Context>
     
     <ContextCollection id="collectionGroup">
-      <defaultModelUrl>context/demoCollection.ccml</defaultModelUrl>
+      <defaultModelUrl>context/demoCollection.xml</defaultModelUrl>
       <widgets>
         <CollectionList id="collectionListId">
           <targetWidgetGroup>mainMapGroup</targetWidgetGroup>
