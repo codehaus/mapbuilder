@@ -6,6 +6,7 @@
 		<select name="locations" onchange="javascript:alert('test');">
 		<xsl:for-each select="loc:QuickviewPresetResultSet/gml:featureMember/loc:locationDef">
 			<xsl:variable name="bbox" select="loc:spatialKeyword/gml:location/gml:Envelope/gml:coordinates"/>
+               <script>alert('hi');</script>
 			<option value="{$bbox}"><xsl:value-of select="gml:name"/></option>
 		</xsl:for-each>
 		</select>
