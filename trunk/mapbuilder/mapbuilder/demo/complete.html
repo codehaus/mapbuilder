@@ -25,18 +25,27 @@ $Name$
     Keep Sarissa separate?
     Mike 27 Mar 2004
     -->
-    <script type="text/javascript" src="../lib/util/sarissa/Sarissa.js"></script>
     <script type="text/javascript" src="../lib/Mapbuilder.js"></script>
+
+    <!-- TBD: I think this can be moved into the Mapbuilder Bootstrap. -->
     <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
 
     <script>
-      //initialize the application configuration object - global scope
+      // URL of Mapbuilder Config file
+      mbConfigUrl="config/CompleteConfig.xml";
+
+      // URL of mapbuilder's lib directory
+      // TBD: Can we derive this from the Mapbuilder.js URL?
+      baseDir="/mapbuilder/lib";
+
+      //initialize the application
       //this must be called in the page's HEAD element
-      var config = new Config("config/CompleteConfig.xml");
+      Mapbuilder();
     </script>
   </head>
 
-  <body onload="config.init()">
+  <body onload="
+    config.init()">
     <h1><a href="http://mapbuilder.sourceforge.net">Mapbuilder</a>
       configuration version test page</h1>
 
