@@ -11,8 +11,7 @@
   <xsl:param name="geometry_xsd" select='"geometry.xsd"'/>
 
   <!-- Set TRUE to produce extra debugging html -->
-  <!--<xsl:param name="debug" select='"TRUE"'/>-->
-  <xsl:param name="debug"/>
+  <xsl:param name="debug" select='"TRUE"'/>
 
 
   <!--============================================================================-->
@@ -55,10 +54,17 @@
       <xsl:choose>
         <!-- match schema primative and derived data types. -->
         <xsl:when test="@type">
-          <xsl:if test="$debug"> <b>Element: </b> </xsl:if>
+          <xsl:if test="$debug">
+            <b>Element: </b>
+            <xsl:for-each select="ancestor::*">
+              ancestor=<xsl:value-of select="name(.)"/><br/>
+            </xsl:for-each>
+            <br/>
+          </xsl:if>
           <xsl:value-of select="@name"/>
           <xsl:call-template name="processType">
             <xsl:with-param name="type"><xsl:value-of select="@type"/></xsl:with-param>
+            <xsl:with-param name="calledby">element type <xsl:value-of select="@name"/></xsl:with-param>
           </xsl:call-template>
         </xsl:when>
 
@@ -67,6 +73,12 @@
             <b>Element Ref: </b>
             <xsl:value-of select="@ref"/><br/>
           </xsl:if>
+          <!--
+          <xsl:call-template name="processType">
+            <xsl:with-param name="type"><xsl:value-of select="@ref"/></xsl:with-param>
+            <xsl:with-param name="calledby">element ref <xsl:value-of select="@name"/></xsl:with-param>
+          </xsl:call-template>
+          -->
           <xsl:variable name="ref" select="@ref"/>
           <xsl:apply-templates select="//xsd:element[@name=substring-after($ref,':')]"/>
         </xsl:when>
@@ -133,7 +145,10 @@
     <b>Extension:</b>
     </xsl:if>
     <xsl:call-template name="processType">
-      <xsl:with-param name="type"><xsl:value-of select="@base"/></xsl:with-param>
+      <xsl:with-param name="type">
+        <xsl:value-of select="@base"/>
+        <xsl:with-param name="calledby">extension <xsl:value-of select="@name"/></xsl:with-param>
+      </xsl:with-param>
     </xsl:call-template>
     <xsl:apply-templates/>
   </xsl:template>
@@ -143,20 +158,15 @@
   <!-- Provide simple re-casting to the parent type                               -->
   <!--============================================================================-->
   <xsl:template match="xsd:restriction">
-    <xsl:variable name="type" select="substring-after(@base,':')"/>
     <xsl:if test="$debug">
       <b>Restriction of: </b>
-      <xsl:copy-of select="$type"/>
+      <xsl:value-of select="@base"/>
     </xsl:if>
     <xsl:call-template name="processType">
       <xsl:with-param name="type"><xsl:value-of select="@base"/></xsl:with-param>
+      <xsl:with-param name="calledby">restriction <xsl:value-of select="@base"/></xsl:with-param>
     </xsl:call-template>
     <xsl:apply-templates/>
-    <!--
-    <xsl:call-template name="importedcomplextype">
-      <xsl:with-param name="type"><xsl:value-of select="$type"/></xsl:with-param>
-    </xsl:call-template>
-    -->
   </xsl:template>
 
   <!--============================================================================-->
@@ -165,10 +175,12 @@
   <!--============================================================================-->
   <xsl:template name="processType">
     <xsl:param name="type"/>
-  </xsl:template>
+    <xsl:param name="calledby"/>
 
-  <xsl:template name="processType">
-    <xsl:param name="type"/>
+    <xsl:message>
+      <xsl:value-of select="$type"/>           (called by)            <xsl:value-of select="$calledby"/>
+      <xsl:value-of select="$type"/>           (called by)            <xsl:value-of select="$calledby"/>
+    </xsl:message>
 
     <xsl:choose>
       <xsl:when test="contains($type,':')">
