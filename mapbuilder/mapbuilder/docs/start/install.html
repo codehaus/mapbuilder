@@ -9,36 +9,30 @@ as well as a .war file for J2EE servlet containers like Jakarta Tomcat.
 <dl class="med">
   <dt class="title">Tomcat environment:</dt>
   <dd>
-<p>
   Download the mapbuilder.war file and put it in the tomcat webapps
   directory. Restart tomcat.
-</p>
-<p>
+  Installation details for other servlet containers may vary.
+<br/>
+<br/>
   The required server side scripts are automatically available as servlets,
   and configured in /mapbuilder/WEB-INF/web.xml.
   By default, these are: /mapbuilder/proxy for the proxyUrl property and 
   /mapbuilder/writeXml for the serializeUrl config property.
   Make sure that these properties of MapbuilderConfig are set correctly in 
   your configuration file.
-</p>
-<p>
-  Installation details for other servlet containers may vary.
-</p>
   <dd>
   <dt class="title">Apache/PHP environment</dt>
   <dd>
-<p>
   Download the mapbuilder zip file and unpack it into a web accessible directory.
   With Apache this will be the htdocs directory.
   Installation details for other web servers may vary.
-</p>
-<p>
+<br/>
+<br/>
   The required server side scripts are available as: 
   /mapbuilder/server/proxy/proxy.php for the proxyUrl property and 
   (not yet implemented) for the serializeUrl config property.
   Make sure that these properties of MapbuilderConfig are set correctly in 
   your configuration file.
-</p>
   </dd>
 </dl>
 

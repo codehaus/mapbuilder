@@ -2,6 +2,16 @@
 <h2>Coding your web page</h2>
 
 <p>
+When developing an application, keep it separate from the 
+mapbuilder codebase so that you can update your mapbuilder installation
+without affecting your application.  
+Customization of the widgets is done through the stylesheet property, when
+required.
+The only requirement is that mapbuilder and your application must share the
+same domain name.
+</p>
+
+<p>
 There are several common steps for coding a mapbuilder application.  
 In the following code examples, paths starting with "/" are relative
 to your server root, otherwise they are relative to the web page's base URL.
@@ -29,7 +39,7 @@ to your server root, otherwise they are relative to the web page's base URL.
       // URL of Mapbuilder configuration file.
       var mbConfigUrl='config/contextEditor.xml';
     &lt;/script&gt;
-  <pre>
+  </pre>
   </li>
   <li><span class="title">Include the mapbuilder Javascript library:</span>
   the web page's &lt;HEAD&gt; element must include a reference to the mapbuilder
