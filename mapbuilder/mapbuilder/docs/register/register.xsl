@@ -33,9 +33,9 @@ $Name$
     </html>
   </xsl:template>
 
-  <!-- Component -->
-  <xsl:template match="mb:Component">
-    <h2><xsl:value-of select="mb:name"/></h2>
+  <!-- Widget -->
+  <xsl:template match="mb:Widget">
+    <h2>Widget <xsl:value-of select="mb:name"/></h2>
     <ul>
       <p><xsl:value-of select="mb:description"/></p>
       <xsl:apply-templates select="mb:Examples"/>
