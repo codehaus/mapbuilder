@@ -23,7 +23,7 @@
     </Context>
 
     <Context id="secondMap">
-      <defaultModelUrl>/ql2/contexts/mars.xml</defaultModelUrl>
+      <defaultModelUrl>/mapbuilder/demo/context/mars.xml</defaultModelUrl>
       
       <widgets>
         <MapPane id="secondMapPane">

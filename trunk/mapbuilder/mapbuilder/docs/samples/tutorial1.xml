@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 
 <MapbuilderConfig id="referenceTemplate">
-  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+  <skinDir>/mapbuilder1/lib/skin/default</skinDir>
 
   <models>
     <Context id="mainMap">
-      <defaultModelUrl>/mapbuilder/demo/context/locatorMap.xml</defaultModelUrl>
+      <defaultModelUrl>/mapbuilder1/demo/context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="mainMapPane">
           <fixedWidth>true</fixedWidth>

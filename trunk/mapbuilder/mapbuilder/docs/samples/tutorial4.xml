@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 
 <MapbuilderConfig id="referenceTemplate">
-  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+  <skinDir>/mapbuilder1/lib/skin/default</skinDir>
 
   <models>
 
     <Context id="firstMap">
-      <defaultModelUrl>/mapbuilder/demo/context/locatorMap.xml</defaultModelUrl>
+      <defaultModelUrl>/mapbuilder1/demo/context/locatorMap.xml</defaultModelUrl>
       
       <widgets>
 
@@ -58,7 +58,7 @@
     </Context>
 
     <ContextCollection id="collectionGroup">
-      <defaultModelUrl>/mapbuilder/demo/context/demoCollection.xml</defaultModelUrl>
+      <defaultModelUrl>/mapbuilder1/demo/context/demoCollection.xml</defaultModelUrl>
       <widgets>
         <CollectionList id="collectionList">
           <targetModel>firstMap</targetModel>
