@@ -9,7 +9,7 @@
     <Window width="500" height="300" />
     <BoundingBox SRS="EPSG:4326" minx="489154" miny="5433017" maxx="505234" maxy="5448023"/>
     <!--BoundingBox SRS="EPSG:4326" minx="-180.000000" miny="-90.000000" maxx="180.000000" maxy="90.000000"/-->
-    <Title>http://localhost:8080/geoserver</Title>
+    <Title>../../../geoserver</Title>
     <KeywordList>
       <Keyword>EOS</Keyword>
       <Keyword>EOSDIS</Keyword>
@@ -23,7 +23,7 @@
   <LayerList>
     <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.1.1" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wms"/>
+        <OnlineResource xlink:type="simple" xlink:href="../../../geoserver/wms"/>
       </Server>
       <Name>topp:states</Name>
       <Title>USA Population</Title>
@@ -41,7 +41,7 @@
     </Layer>
     <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.1.1" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wms"/>
+        <OnlineResource xlink:type="simple" xlink:href="../../../geoserver/wms"/>
       </Server>
       <Name>topp:bc_roads</Name>
       <Title>BC Roads</Title>
