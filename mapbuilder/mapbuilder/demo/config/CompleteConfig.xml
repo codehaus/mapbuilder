@@ -238,17 +238,13 @@
 
 		</ModelBase>
 
-		<!--ModelBase id="testGml">
-
-       TBD: GML renderer is causing Mozilla to lock up whenever the map is re-drawn
+		<ModelBase id="testGml">
 
 			<defaultModelUrl>gml/Test.xml</defaultModelUrl>
 
 			<widgets>
 
 				<GmlRenderer id="testGmlRenderer">
-
-          <debug/>
 
 					<targetModel>mainMap</targetModel>
 
@@ -266,7 +262,7 @@
 
 			</widgets>
 
-		</ModelBase-->
+		</ModelBase>
 
 		<Gml2 id="ntsGml">
 
