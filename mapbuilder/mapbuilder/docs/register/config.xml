@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Mike Adair (NRCAN CCRs) -->
+<MapbuilderConfig version="0.2.1" id="referenceTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+  <!--
+    Description: This configuration file determines what components from the
+                 Mapbuilder library are to be included in a Main Mapbuilder web
+                 page.
+    Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html 
+
+    $Id$
+  -->
+  <!--
+    All static images should be relative to this URL.
+    This dir is relative the dir of the main html file.
+  -->
+  <models>
+    <Context id="mainMap">
+      <defaultModelUrl>context/atlasWorld.xml</defaultModelUrl>
+      <widgets>
+        <MapPane id="mainMapWidget">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <mapContainerId>mainMapContainer</mapContainerId>
+        </MapPane>
+        <Widget id="mapTitle">
+          <stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
+        </Widget>
+      </widgets>
+    </Context>
+  </models>
+  <skinDir>../../lib/skin/default</skinDir>
+  <!-- Url of LOCAL redirection script, required to access external URLs -->
+  <proxyUrl>../server/proxy/proxy.php?url=</proxyUrl>
+  <!--proxyUrl>/mapbuilder/proxy?url=</proxyUrl-->
+</MapbuilderConfig>

@@ -1,0 +1,77 @@
+<html xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Mapbuilder Components Register</title>
+<link rel="stylesheet" href="../../lib/skin/default/html.css" type="text/css">
+<script>
+          // URL of Mapbuilder configuration file.
+          var mbConfigUrl='config.xml';
+        </script><script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
+</head>
+<body onload="mbDoLoad()">
+<h1>Mapbuilder Components Register</h1>
+  
+    
+      MapTitle
+      Widget
+      Shows the title of a Web Map Context Document.
+      <table border="1">
+<caption><b>MapTitle Examples</b></caption>
+<tr>
+<th>Description</th>
+<th>Example</th>
+<th>HTML snippet</th>
+<th>Config snippet</th>
+</tr>
+<tr>
+<td>
+<h3>MapTitle</h3>
+<p>The mapTitle, often put inside a heading tag.</p>
+</td>
+<td><div id="mapTitle"></div></td>
+<td>&lt;div id=&quot;mapTitle&quot;/&gt;</td>
+<td>
+          </td>
+</tr>
+</table>
+    
+
+    
+      MapPane
+      Widget
+       The MapPane widget converts a Web Map
+      Context (WMC) document into geographic layers using HTML &lt;DIV&gt;
+      tags. Each layer corresponds to a WMS layer. 
+      <table border="1">
+<caption><b>MapPane Examples</b></caption>
+<tr>
+<th>Description</th>
+<th>Example</th>
+<th>HTML snippet</th>
+<th>Config snippet</th>
+</tr>
+<tr>
+<td>
+<h3>Simple MapPane</h3>
+<p>A static MapPane</p>
+</td>
+<td><div id="mainMapPane"></div></td>
+<td>&lt;div id=&quot;mainMapPane&quot;/&gt;</td>
+<td> &lt;MapPane id=&quot;mainMapWidget&quot;&gt;
+          &lt;htmlTagId&gt;mainMapPane&lt;/htmlTagId&gt; &lt;tools&gt;
+          &lt;AoiMouseHandler/&gt; &lt;AoiBox&gt;
+          &lt;lineColor&gt;#FF0000&lt;/lineColor&gt;
+          &lt;lineWidth&gt;2&lt;/lineWidth&gt;
+          &lt;crossSize&gt;1&lt;/crossSize&gt; &lt;/AoiBox&gt;
+          &lt;DragPanHandler&gt; &lt;enabled&gt;false&lt;/enabled&gt;
+          &lt;/DragPanHandler&gt; &lt;MouseClickHandler/&gt; &lt;/tools&gt;
+          &lt;mapContainerId&gt;mainMapContainer&lt;/mapContainerId&gt;
+          &lt;/MapPane&gt; </td>
+</tr>
+</table>
+    
+  
+  
+  
+</body>
+</html>
