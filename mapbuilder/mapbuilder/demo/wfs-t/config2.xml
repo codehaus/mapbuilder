@@ -140,7 +140,7 @@
       <targetModel>featureCollection</targetModel>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>http://localhost:8080/geoserver/wfs</webServiceUrl>
-      <featureXpath>/gml:featureMember/points/_SHAPE_/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
+      <featureXpath>/gml:featureMember/topp:tasmania_cities/topp:the_geom/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
       <defaultModelUrl>template_cities.xml</defaultModelUrl>
       <targetContext>mainMap</targetContext>
     </EditPoint>
