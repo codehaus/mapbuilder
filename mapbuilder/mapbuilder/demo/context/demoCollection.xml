@@ -58,6 +58,12 @@
       <OnlineResource xlink:type="simple" xlink:href="context/boston.xml"/>
 		</ContextURL>
 	</ViewContextReference>
+  <ViewContextReference version="1.0.0" id="local">
+    <Title>http://localhost:8080/geoserver</Title>
+		<ContextURL>
+      <OnlineResource xlink:type="simple" xlink:href="context/local.xml"/>
+		</ContextURL>
+	</ViewContextReference>
 	<ViewContextReference version="1.0.0" id="aafc">
 		<Title>External server example (requires proxy script)</Title>
 		<ContextURL>
