@@ -11,7 +11,7 @@ Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 $Name$
 -->
-  <xsl:output method="html" encoding="utf-8"/>
+  <xsl:output method="xml" encoding="utf-8"/>
   
   <xsl:param name="width" select="400"/>
   <xsl:param name="height" select="200"/>
