@@ -17,7 +17,7 @@ jsdocTarget="${mapbuilderDir}/docs/jsdoc";
 jsdocSource=" \
   ${mapbuilderDir}/lib/model \
   ${mapbuilderDir}/lib/widget \
-  ${mapbuilderDir}/lib/widget/tool \
+  ${mapbuilderDir}/lib/tool \
   ${mapbuilderDir}/lib/util \
   ${mapbuilderDir}/lib/util/sarissa/Sarissa.js"
 
