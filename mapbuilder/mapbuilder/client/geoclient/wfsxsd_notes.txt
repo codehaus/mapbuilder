@@ -1,0 +1,139 @@
+*********************************
+xsd_unm.js
+*********************************
+
+Unmarshalling xsd components, building components in memory using objects from xsd_cmp.js as template.
+
+1. Main code starts with xsSchemaUnmarshaller(schemauri,componentName) function.
+	schemauri : uri for the schema
+	componentName : optional param to unmarshall a particular component inside a schema, if omitted will unmarshall all components of the current schema.
+
+The unmarshaller will search for any included or imported external schemas if any.
+This function basically calls other unmarshaller function for a specific component, or if the specific component not found inside current schema, will load and unmarshall the referred external schemas.
+
+The processed schema in the end will contain components from included/imported shcemas (only the required components, not all components).
+
+2. Other specific component unmarshallers starts with xsIncludeUnmarshaller up to xsAnnotationUnmarshaller function.
+Those functions generally accept parameters in form of:
+- schobj : xsSchema object (see xsd_cmp.js), an object represents a schema document.
+- node : xml dom node of the particular xsd component.
+
+If the current component being processed contains other component : 
+If the other component already stored in the schobj, it will use it; otherwise the appropriate component unmarshaller will be called and the process continue when the other component unmarshalled and stored.
+
+As in xsSchemaUnmarshaller function, the process of finding other components inside current component rely heavily on xml dom method (using xpath syntax in traversing the tree). 
+The structure of the unmarshaller code is built to use dom parser, not sax.
+The dom methods contribute to slower processing speed.
+
+Several other functions with different parameters are utility functions for simpleContent and complexContent components.
+
+3.HELPER FUNCTIONS
+There are two groups of significant helper functions : wildcard and resolver.
+Functions for wildcard only rarely use in general wfs communication, i write them only to satisfy the schema spec on wildcard (not sure if my interpretation of the confusing wildcard is correct).
+The resolver functions serve as tools to find the base/ref of the currently processed component.
+It will also search in included or imported schemas, either directly or indirectly included/imported.
+
+resolveComp : will extract the value of 'base' or 'ref' attribute, then call 
+resolveCompVal : first, determine the namespace of the referenced component.
+	If it live in the same namespace call 
+		resolveNode : search in current schema object and unmarshall if not already.
+		or resolveInclude : if not exists in current schema object.
+		If the component from included schema already unmarshalled, it should already exists in current schema object.
+	If it live in different namespace call 
+		resolveImport : search in imported schemas.
+
+The resolvers first will check if the imported/included docs already loaded into memory. If not then it will be loaded and unmarshall the sought component (it also create a new schema object for that particular document).
+This will ensure that we only unmarshall a specific component only once.
+
+
+*** NOTE ***
+These are quick and dirty functions : 
+processInstance(adoc)
+processNode(node)
+processSchema(schemauri,componentName)
+initSchema()
+loadResource(referer,schemauri,callback)
+The loadResource function still using proprietary MS DOM method. 
+xsSchemaUnmarshaller & resolveNode functions are also still use MS 'selectNodes' method.
+
+Should replace them with more flexible methods (ie. Sarissa's)
+
+*********************************
+xsd_cmp.js
+*********************************
+This js serve as the template for xsd component objects, also the creation of built-in xsd/xsi primitive and derived components. The primitives/derives exist in every schema object.
+
+1. xsSchema : a js object for schema which store all the components it needs, the hierarchy of imported/included schema, and other miscellaneous information about a schema (uri, node, namespace).
+
+2. Functions represent xsd components : from xsElementDecl to xsNotation.
+I tried to follow the xml schema specs on each components, only to their primary properties.
+It will be modified during unmarshall process, according to the components xml attribute.
+
+3. Functions to create built in xsd types
+- buildPrimitives : actually the types only mapped to number and string; date types cannot be mapped to js date object because it use different syntax, simply mapped to string.
+- buildDerives : almost identical to primitives.  The exceptions are for derives with list type (IDREFS,NMTOKENS and ENTITIES).
+Note  : There's a potential problem because js can't handle the numerical limit of long and unsignedLong types. Also all types currently only mapped to js string or number.
+- buildXSITypes : for built in xsi type.  NOTE : the components not yet capable of processing xsi:schemaLocation attribute.
+
+All those function accept one parameter : schemaobj, a schema object into which the types will be stored as components. 
+
+4. Facets
+- Facets : these functions available for all components for creating their facets, wether it is single facet or enumerated/pattern. Also handle the aggregation of the component's facets.
+
+
+
+
+
+
+__________________________________________________________________________________
+
+The two js documents above will create a monolithic schema object from a schema document (including its included/imported schema).  The components stored in the schema object are still too complex and inpractical for me, so they must be mapped to some custom js objects.
+
+There exists a possibility of mapping them directly during the first unmarshalling process, but i choose to use two steps, for it help me to learn the unmarshalling process and also i don't have a firm concept about what the custom js objects should be. Using this approach i can modify the custom js structure without affecting the unmarshaller code.
+
+I have looked at the jaxb and castor java model, and try to follow them, but too difficult for me to apply in js.
+
+
+*********************************
+xsd_bnd.js
+*********************************
+This js document is for mapping the components to some custom js objects.
+
+I use four custom js objects :
+- jsEnumeration : for xsSimpleType with enumerated facet.
+	Still very rude, should be able to handle addition/removal and setting facet values etc. 
+- jsAttribute : xsAttributeUse component
+	This is for attribute (this should be a simple type)
+- jsProperty : for xsWildcard, xsSimpleUrType, xsUrType, xsSimpleType with non enumerated facet
+	This is for objects without nested structure.
+- jsComplexProperty : complexType
+	This is for objects with its properties containing other properties (other jsProperty or jsCoplexProperty). This object has a property called 'expansionSlot', a <div> element into where the content of the properties will be displayed.
+
+I also mapped the substitution group of each components (if any), and displayed them in a form of listbox.
+All of the custom objects has a method 'toHTML', which convert the object into html forms.
+The methods for setting attribute and adding/deleting properties/attributes are not yet finished.
+
+The xsd components (the result of unmarshalling) which mapped directly are as listed above, other components like xsElementDecl, xsParticle, xsModelGroup etc are mapped according to their base type definition or their contents base type def.  For xsModelGroup, the compositor type ('all', 'sequence', 'choice') determined what html form will be used to represent it.
+xsIdentityConstraint, xsNotation and xsAnnotation are not yet mapped.
+
+*********************************
+xpath.js
+*********************************
+This is a crude xpath implementation, very slow but work ok. I use this because xpath functions in ie6 still not return the correct result. This xpath is taking the largest portion of processing time.  I hope i can have equal xpath conformance accross browser.
+Note that this xsd processor still only work in ie6.
+
+*********************************
+xsd_util.js
+*********************************
+Miscellaneous helper functions. Nothing special.
+There are several unused functions which should be deleted.
+
+*********************************
+xsd_html.js
+*********************************
+this document is deprecated, can be safely ignored. This is my earlier attempt on binding xsd components to html forms.
+
+
+
+
+

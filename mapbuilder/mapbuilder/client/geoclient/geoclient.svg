@@ -1,0 +1,2496 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+
+<?xml-stylesheet href="geoclient.css" type="text/css"?>
+
+<!-- 
+
+This is an open source project (see definition at http://www.opensource.org/docs/definition_plain.html).
+
+and is distributed under the GNU General Public License (see http://www.gnu.org/copyleft/gpl.html).
+
+	for Netscape4 : must use ASV internal script engine to enable svg widgets 
+
+	for Netscape6 : you'll probably postURL problem, please contact me if you have any success with NN6.
+
+	to display server response : use browser script engine, not ASV
+
+-->
+
+<!--
+
+<svg id="thesvg" onload="init(evt);arrangeSVG(evt,0.8);initzp(evt);createToolbarButton(evt);"
+
+	  style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision;"  
+
+     xmlns="http://www.w3.org/2000/svg"
+
+	  xmlns:a3="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+
+	  a3:scriptImplementation="Adobe" 
+
+     xmlns:gml="http://www.opengis.org/gml"
+
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+
+-->
+
+<svg id="thesvg" onload="init(evt);arrangeSVG(evt,0.8);initzp(evt);createToolbarButton(evt);"
+
+	  style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision;"  
+
+     xmlns="http://www.w3.org/2000/svg"
+
+	  xmlns:xlink="http://www.w3.org/1999/xlink"
+
+     xmlns:gml="http://www.opengis.org/gml">
+
+
+
+<script xlink:href="geoclient.jsgz"/>
+
+<script xlink:href="widget.jsgz"/>
+
+<script xlink:href="setting.jsgz"/>
+
+<script xlink:href="legend.jsgz"/>
+
+
+
+<script><![CDATA[
+
+var showCalls=null;
+
+//uncomment these next two lines to avoid the two initial prompts when application loads
+
+wfsPath="simple_wfs.php";
+
+//showCalls=false;
+
+if(showCalls==null){
+
+  showCalls=confirm("Display requests and responses?");
+
+}
+
+var svgdoc;
+
+var theLayers= new Array();
+
+var wfsPath;
+
+var zoomer; var panner;
+
+//global variable for bounding box, if set through url
+
+var bbox=null;
+
+var currentMapScale;
+
+var maxScales=new Array();
+
+var minScales=new Array();
+
+function pn(obj){
+
+	return printNode(obj);
+
+}
+
+function pxml(str){
+
+	return parseXML(str,svgdoc);
+
+}
+
+
+
+//read any url-encoded variables
+
+function readVars(){
+
+/*
+
+//commented out because not working in NS 4
+
+  str=unescape(location.search.substring(1));
+
+  if (str){
+
+    ampIndex=str.indexOf("&");
+
+    if(ampIndex!=-1){
+
+      var strPairs=str.split("&");
+
+    }
+
+    else{
+
+      var strPairs=new Array();
+
+      strPairs[0]=str;
+
+    }
+
+    for(i=0;i<strPairs.length;i++){
+
+      strVars = strPairs[i].split("=");
+
+      switch(strVars[0]){
+
+        case "bbox":
+
+          bbox=strVars[1];
+
+          ext=getExtent(bbox);
+
+          createExtent(ext);
+
+          break;
+
+        case "wfsPath":
+
+          wfsPath=strVars[1];
+
+          break;
+
+      }
+
+    }
+
+ */
+
+}
+
+//end added NR
+
+
+
+function init(evt){
+
+//added NR
+
+  readVars();
+
+//end added NR
+
+  svgdoc = evt.getTarget().getOwnerDocument();
+
+  getCapabilities();
+
+}
+
+
+
+function getCapabilities(){
+
+  statusText("request","capabilities"); 
+
+  theCall=svgdoc.createElement("GetCapabilities");
+
+  nodeText=printNode(theCall);
+
+  if(showCalls==true){
+
+    alert(nodeText);
+
+  }
+
+  if(wfsPath==null){
+
+    wfsPath=prompt("Enter path to web feature server","simple_wfs.php");
+
+  }
+
+  result=postURL(wfsPath,nodeText,parseCapabilities,"text/plain",null);
+
+}
+
+
+
+function getExtent(ext){
+
+  reComma=new RegExp(",", "g");
+
+  ext=ext.replace(reComma," ");
+
+  return ext.split(" ");
+
+}
+
+
+
+function createExtent(extent){
+
+  xmin = extent[0];
+
+  ymin = extent[1];
+
+  width= extent[2] - extent[0];
+
+  height= extent[3] - extent[1];
+
+  height2= ((extent[3]) - (-1*(extent[1])));
+
+//added NR
+
+//so that events will be captured on <svg id="map"> element
+
+  backgr=svgdoc.getElementById("bg");
+
+  backgr.setAttribute("x",xmin);
+
+  backgr.setAttribute("y",ymin);
+
+  backgr.setAttribute("width",width);
+
+  backgr.setAttribute("height",height);
+
+//end added NR
+
+  svgdoc.getElementById('map').setAttribute("viewBox",xmin+" " +ymin+" "+width+" "+height);
+
+  svgdoc.getElementById('keyMap').setAttribute("viewBox",xmin+" " +ymin+" "+width+" "+height);
+
+  matrix="matrix(1 0 0 -1 0 "+height2+")";
+
+  mapLayers = svgdoc.getElementById("mapLayers");
+
+  mapLayers.setAttribute("transform",matrix);
+
+  keyMapLayers = svgdoc.getElementById("keyMapLayers");
+
+  keyMapLayers.setAttribute("transform",matrix);
+
+}
+
+
+
+function statusText(type,content){
+
+  switch(type){
+
+    case "request":
+
+      window.status="Requesting "+content+" from server...";
+
+      break;
+
+    case "response":
+
+      window.status="Parsing "+content+"...";
+
+      break;
+
+  }
+
+}
+
+
+
+function dropNS(str,ns){
+
+  reNS=new RegExp(ns+":", "g");
+
+  str=str.replace(reNS,"");
+
+  return str;
+
+}
+
+
+
+//added NR
+
+
+
+function addNS(str,ns,elt){
+
+  reNS=new RegExp(elt, "g");
+
+  str=str.replace(reNS,ns+":"+elt);
+
+  return str;
+
+}
+
+
+
+//end added NR
+
+
+
+function trimHeader(str){
+
+  strlen=str.length;
+
+  endindex=str.indexOf("?>");
+
+  if(endindex!=-1){
+
+    str = (str.substring(endindex+2,strlen));
+
+  }
+
+  return str;
+
+}
+
+
+
+function trimLastCh(str){
+
+  strlen=str.length;
+
+  str = (str.substring(0,strlen-1));
+
+  return str;
+
+}
+
+
+
+function parseCapabilities(res){
+
+  statusText("response","capabilities");
+
+  text=res.content;
+
+	if(text.indexOf("<b>Warning</b>")>-1){
+
+		alert("GeoClient detects a WARNING in server response : "+"\n"+text);
+
+	}
+
+  if(text==""){
+
+    alert("Empty response from server.");
+
+  }
+
+  else{
+
+    genFeatLater=false;
+
+    text=trimHeader(text);
+
+    var thenode = svgdoc.getElementById("capabilities");
+
+    newNode = parseXML( text, svgdoc );
+
+    if(showCalls==true){
+
+      prompt("Capabilities response: ",printNode(newNode));
+
+    }
+
+    subnode=newNode.firstChild;
+
+    thenode.appendChild (subnode);
+
+//added NR
+
+    if((text.indexOf("GetExtendedProjectDescriptor"))!=-1){
+
+      getEPD();
+
+    }
+
+//end added NR
+
+    if((text.indexOf("GetStyledLayerDescriptor"))!=-1){
+
+      getSLD();
+
+    }
+
+    if((text.indexOf("GetExtendedLayerDescriptor"))!=-1){
+
+      getELD();
+
+      genFeatLater=true;
+
+    }
+
+//edited NR
+
+    if((text.indexOf("DescribeFeatureType"))!=-1){
+
+      getXSD();
+
+    }
+
+//end edited NR
+
+    if(genFeatLater==false){
+
+      genFeatureList();
+
+    }
+
+  }
+
+}
+
+
+
+//also added <g id="xsd"> to svg element
+
+function getXSD(){
+
+  statusText("request","XML schema");
+
+  theCall=svgdoc.createElement("DescribeFeatureType");
+
+  theCall.setAttribute("outputFormat","XMLSCHEMA");
+
+  var thenode = svgdoc.getElementById("capabilities");
+
+//added NR
+
+  path=thenode.getElementsByTagName("DescribeFeatureType").item(0).getElementsByTagName("Post").item(0).getAttribute("onlineResource");
+
+//end added NR
+
+//added AR : to prevent security violation if domain name not equal.(e.g. sometimes 127.0.0.1 != localhost)
+
+//if not then simply use relative ref. (Must check wether simple_wfs in the same dir)
+
+  if (!checkDomain(path)) {
+
+		path=wfsPath;
+
+  }
+
+//end added AR
+
+  theFeatureTypes=thenode.getElementsByTagName('FeatureType');
+
+  for (i=0;i<theFeatureTypes.length;i++){
+
+    name=theFeatureTypes.item(i).getElementsByTagName('Name').item(0).firstChild.nodeValue;
+
+    text=svgdoc.createTextNode(name);
+
+    typeName=svgdoc.createElement("TypeName");
+
+    typeName.appendChild(text);
+
+    theCall.appendChild(typeName);    
+
+  }
+
+  nodeText=printNode(theCall);
+
+  if(showCalls==true){
+
+    alert(nodeText);
+
+  }
+
+//edited NR (wfsPath to path)
+
+  result=postURL(path,nodeText,parseXSD,"text/plain",null);
+
+//end edited NR
+
+}
+
+
+
+function parseXSD(res){
+
+  statusText("response","XML schema");
+
+  text=res.content;
+
+  if((text=="")||(text==null)){
+
+    alert("Empty response from server.");
+
+  }
+
+  else{
+
+    text=dropNS(text,"gml");
+
+    text=dropNS(text,"xsd");
+
+    text=trimHeader(text);
+
+    var thenode = svgdoc.getElementById("xsd");
+
+    newNode = parseXML( text, svgdoc );
+
+    if(showCalls==true){
+
+      prompt("XMLSchema response: ",printNode(newNode));
+
+    }
+
+    subnode=newNode.firstChild;
+
+    thenode.appendChild (subnode);
+
+    listFields();
+
+  }
+
+}
+
+
+
+function listFields(){
+
+  text="";
+
+  var thenode = svgdoc.getElementById("xsd");
+
+  theComplexTypes=thenode.getElementsByTagName('complexType');
+
+  for (i=0;i<theComplexTypes.length;i++){
+
+    table=theComplexTypes.item(i).getAttribute('name');
+
+    nameLength=table.length;
+
+    typeIndex=table.indexOf("_Type");
+
+    if(typeIndex!=-1){
+
+      table = (table.substring(0,nameLength-typeIndex+1));
+
+    }
+
+    text += "table "+i+": "+table+" ";
+
+    theElements=theComplexTypes.item(i).getElementsByTagName('element');
+
+    for(j=0;j<theElements.length;j++){
+
+      fieldName=theElements.item(j).getAttribute("name");
+
+      fieldNameLength=fieldName.length;
+
+      periodIndex=fieldName.indexOf(".");
+
+      if(periodIndex!=-1){
+
+        fieldName = (fieldName.substring(periodIndex,fieldNameLength));
+
+      }
+
+      text += "field "+j+": "+fieldName+" ";
+
+    }
+
+  }
+
+  if(showCalls==true){
+
+    //alert(text);
+
+  }
+
+}
+
+
+
+//added NR
+
+//also added <g id="epd"> to svg element
+
+function getEPD(){
+
+  statusText("request","extended project descriptor");
+
+  theCall=svgdoc.createElement("GetExtendedProjectDescriptor");
+
+  nodeText=printNode(theCall);
+
+  if(showCalls==true){
+
+    alert(nodeText);
+
+  }
+
+//added NR
+
+  path=svgdoc.getElementById("capabilities").getElementsByTagName("GetExtendedProjectDescriptor").item(0).getElementsByTagName("Post").item(0).getAttribute("onlineResource");
+
+//end added NR
+
+//if not then simply use relative ref. (Must check wether simple_wfs in the same dir)
+
+  if (!checkDomain(path)) {
+
+		path=wfsPath;
+
+  }
+
+//end added AR
+
+  result=postURL(path,nodeText,parseEPD,"text/plain",null);
+
+}
+
+
+
+var scaleFactor=null;
+
+function parseEPD(res){
+
+  statusText("response","extended project descriptor");
+
+  text=res.content;
+
+  if(text==""){
+
+    alert("Empty response from server.");
+
+  }
+
+  else{
+
+    text=trimHeader(text);
+
+    var thenode = svgdoc.getElementById("epd");
+
+    newNode = parseXML( text, svgdoc );
+
+    subnode=newNode.firstChild;
+
+    if(showCalls==true){
+
+      prompt("EPD response: ",printNode(subnode));
+
+    }
+
+    thenode.appendChild (subnode);
+
+    theEPD=svgdoc.getElementsByTagName("ExtendedProjectDescriptor").item(0);
+
+    theSFnl = theEPD.getElementsByTagName("ScaleFactor");
+
+    theSFnl.length==0 ? scaleFactor =null : scaleFactor = theSFnl.item(0).firstChild.nodeValue;
+
+    if(bbox==null){
+
+      theBBnl = theEPD.getElementsByTagName("BBox");
+
+      bboxinit = theBBnl.item(0).firstChild.nodeValue;
+
+      ext=getExtent(bboxinit);
+
+      createExtent(ext);
+
+    }
+
+    calcScale();
+
+  }
+
+}
+
+
+
+//global variable scale of map at initial load
+
+var baseScale=null;
+
+function calcScale(){
+
+
+
+  mapv=svgdoc.getElementById("map");
+
+  mapW = parseFloat(mapv.getAttribute('width'));
+
+
+
+  mvb=mapv.getAttribute("viewBox").split(" ");
+
+
+
+  mapGW=(parseFloat(mvb[2]))-(parseFloat(mvb[0]));
+
+//********* shouldn't width equal to mvb[2] ?
+
+  baseScale=mapGW/(mapW*scaleFactor);
+
+  currentMapScale=baseScale;
+
+}
+
+
+
+//end added NR
+
+
+
+function getSLD(){
+
+  statusText("request","styled layer descriptor");
+
+  theCall=svgdoc.createElement("GetStyledLayerDescriptor");
+
+  nodeText=printNode(theCall);
+
+  if(showCalls==true){
+
+    alert(nodeText);
+
+  }
+
+  result=postURL(wfsPath,nodeText,parseSLD,"text/plain",null);
+
+}
+
+
+
+function parseSLD(res){
+
+  statusText("response","styled layer descriptor");
+
+  text=res.content;
+
+  if(text==""){
+
+    alert("Empty response from server.");
+
+  }
+
+  else{
+
+    text=trimHeader(text);
+
+    var thenode = svgdoc.getElementById("sld");
+
+    newNode = parseXML( text, svgdoc );
+
+    if(showCalls==true){
+
+      prompt("SLD response: ",printNode(newNode));
+
+    }
+
+    subnode=newNode.firstChild;
+
+    thenode.appendChild (subnode);
+
+  }
+
+}
+
+
+
+function getELD(){
+
+  statusText("request","extended layer descriptor");
+
+  theCall=svgdoc.createElement("GetExtendedLayerDescriptor");
+
+  nodeText=printNode(theCall);
+
+  if(showCalls==true){
+
+    alert(nodeText);
+
+  }
+
+  result=postURL(wfsPath,nodeText,parseELD,"text/plain",null);
+
+}
+
+
+
+function parseELD(res){
+
+  statusText("response","extended layer descriptor");
+
+  text=res.content;
+
+  if(text==""){
+
+    alert("Empty response from server.");
+
+  }
+
+  else{
+
+    text=trimHeader(text);
+
+    var thenode = svgdoc.getElementById("eld");
+
+    newNode = parseXML( text, svgdoc );
+
+    subnode=newNode.firstChild;
+
+    if(showCalls==true){
+
+      prompt("ELD response: ",printNode(subnode));
+
+    }
+
+    thenode.appendChild (subnode);
+
+  }
+
+//added NR
+
+  setScaleThresholds();
+
+  genFeatureList();
+
+//end added NR
+
+}
+
+
+
+//added NR
+
+
+
+function setScaleThresholds(){
+
+  theELD=svgdoc.getElementsByTagName("ExtendedLayerDescriptor").item(0);
+
+  theELDNL =theELD.getElementsByTagName("NamedLayer");
+
+  for(i=0;i<theELDNL.length;i++){
+
+    enlnod=theELDNL.item(i);
+
+    theName=enlnod.getAttribute("name");
+
+    theMaxnl = enlnod.getElementsByTagName("MaxScale");
+
+    theMaxnl.length==0 ? maxScales[theName] =null : maxScales[theName] = theMaxnl.item(0).firstChild.nodeValue;
+
+    theMinnl = enlnod.getElementsByTagName("MinScale");
+
+    theMinnl.length==0 ? minScales[theName] =null : minScales[theName] = theMinnl.item(0).firstChild.nodeValue;
+
+  }
+
+}
+
+
+
+//end added NR
+
+function genFeatureList(){
+
+  var thenode = svgdoc.getElementById("capabilities");
+
+  theFeatureTypes=thenode.getElementsByTagName('FeatureType');
+
+  for (i=0;i<theFeatureTypes.length;i++){
+
+    theLayers[i]=theFeatureTypes.item(i).getElementsByTagName('Name').item(0).firstChild.nodeValue;
+
+    writeLayer(theLayers[i],i);
+
+  }
+
+//added NR
+
+  addExtras();
+
+//end added NR
+
+  var sld = svgdoc.getElementById("sld");
+
+  if(sld.hasChildNodes()==true){
+
+    layerNodes=sld.getElementsByTagName("NamedLayer");
+
+    for(i=0;i<layerNodes.length;i++){
+
+      itemName=layerNodes.item(i).getAttribute("name");
+
+      childs=layerNodes.item(i).getElementsByTagName("UserStyle").item(0).childNodes;
+
+      for(j=0;j<childs.length;j++){
+
+        if((childs.item(j).nodeName=="PolygonSymbol")||(childs.item(j).nodeName=="LineStringSymbol")||(childs.item(j).nodeName=="PointSymbol")){
+
+          atts=childs.item(j).childNodes;
+
+          break;
+
+        }
+
+      }
+
+      layerStyle = svgdoc.getElementById("l"+itemName).getStyle();
+
+      for(k=0;k<atts.length;k++){
+
+        switch(atts.item(k).nodeName){
+
+          case "FillColor":
+
+            layerStyle.setProperty("fill",atts.item(k).firstChild.nodeValue);
+
+            break;
+
+          case "StrokeColor":
+
+            layerStyle.setProperty("stroke",atts.item(k).firstChild.nodeValue);
+
+            break;
+
+          default:
+
+            break;
+
+        }
+
+      }
+
+    } 
+
+  }
+
+  else{
+
+    for (i=0;i<theFeatureTypes.length;i++){
+
+      layerStyle=svgdoc.getElementById("l"+theFeatureTypes.item(i).getElementsByTagName('Name').item(0).firstChild.nodeValue).getStyle();
+
+      layerStyle.setProperty("stroke","black");
+
+    }
+
+  }
+
+//edited NR
+
+  if(bbox==null){
+
+    getFeatureInit();
+
+  }
+
+  else{
+
+    getFeature();
+
+  }
+
+//end edited NR
+
+}
+
+
+
+function writeLayer(layer,index){
+
+  theMapLayer=svgdoc.createElement("g");
+
+  theMapLayer.setAttribute("id","l"+layer);
+
+  mapNode = svgdoc.getElementById("mapLayers");
+
+  mapNode.appendChild(theMapLayer);
+
+}
+
+
+
+//changed function name NR
+
+function getFeatureInit(){
+
+  statusText("request","features");
+
+  theCall=svgdoc.createElement("GetFeature");
+
+  theCall.setAttribute("maxFeatures", "1000" );
+
+  for(i=0;i<theLayers.length;i++){
+
+    if(baseScale!=null){
+
+      if(isDisplayed(theLayers[i],baseScale,true)){
+
+        theQuery=svgdoc.createElement("Query");
+
+        theQuery.setAttribute("typeName",theLayers[i]);
+
+        theQuery=theCall.appendChild(theQuery);
+
+      }
+
+    }
+
+    else{
+
+      theQuery=svgdoc.createElement("Query");
+
+      theQuery.setAttribute("typeName",theLayers[i]);
+
+      theQuery=theCall.appendChild(theQuery);
+
+    }
+
+  }
+
+  queries=svgdoc.getElementById("queries");
+
+  queries.appendChild(theCall);
+
+  nodeText=printNode(theCall);
+
+  if(showCalls==true){
+
+    alert("Request: "+nodeText);
+
+  }
+
+  result=postURL(wfsPath,nodeText,parseFeatureMembers,"text/plain",null);
+
+}
+
+
+
+function parseFeatureMembers(res){
+
+  statusText("response","features");
+
+  text=res.content;
+
+  if(text==""){
+
+    alert("Empty response from server.");
+
+  }
+
+  else{
+
+    text=dropNS(text,"gml");
+
+    text=trimHeader(text);
+
+    node = parseXML( text, svgdoc );
+
+    subnode=node.firstChild;
+
+    if(showCalls==true){
+
+      prompt("FeatureMembers result: ",printNode(subnode));
+
+    }
+
+    featureCollections=svgdoc.getElementById("featureCollections");
+
+    featureCollections.appendChild(subnode);
+
+//added/changed NR
+
+    if((bbox==null)&&(bboxinit==null)){
+
+      boundedBy=subnode.getElementsByTagName("boundedBy").item(0);
+
+      bboxinit=boundedBy.getElementsByTagName("coordinates").item(0).firstChild.nodeValue;
+
+      ext=getExtent(bboxinit);
+
+      createExtent(ext);
+
+    }
+
+//end added/changed NR
+
+    features=subnode.getElementsByTagName("featureMember");
+
+	var prevlayer = "";
+
+	var idxxx=1;
+
+    for (i=0;i<features.length;i++){
+
+      childs=features.item(i).childNodes;
+
+      for(j=0;j<childs.length;j++){
+
+        theNodeName=childs.item(j).nodeName;
+
+        if(theNodeName!="#text"){
+
+          layer=theNodeName;
+
+          break;
+
+        }
+
+      }
+
+	  layer==prevlayer ? idxxx+=1 :	idxxx=1;
+
+      genFeature(layer,features.item(i),idxxx);
+
+	  prevlayer = layer;
+
+    }
+
+  }
+
+//modified NR
+
+//test if panbox already created...
+
+  pbExists=false;
+
+  rects=svgdoc.getElementsByTagName("rect");
+
+  if(rects.length>0){
+
+    for(i=0;i<rects.length;i++){
+
+      if(rects.item(i).getAttribute("id")=="panBox"){
+
+        pbExists=true;
+
+        break;
+
+      }
+
+    }
+
+  }
+
+  if(!pbExists){
+
+    addEvents();
+
+    addPanBox();
+
+  }
+
+//end modified NR
+
+//  resetSymbols();  //AR : not using circle anymore.
+
+
+
+}
+
+
+
+function genFeature(layer,node,idxxx){
+
+  coords=node.getElementsByTagName("coordinates");
+
+  //if there is only one point, assume that it is a point layer
+
+  if((coords.length==1)&&(coords.item(0).firstChild.nodeValue.indexOf(" ")==-1)){
+
+// Modified AR : creation of <use> for points handled by "drawMarkers" function on geoclient.js
+
+//    geom=coords.item(0).firstChild.nodeValue.split(",");
+
+//    cx=geom[0];
+
+//    cy=geom[1];
+
+//    addPoint(layer,cx,cy,idxxx);
+
+// end modified AR
+
+  }
+
+  //otherwise, begin generating a path
+
+  else{
+
+    d="";
+
+    for (j=0;j<coords.length;j++){
+
+    itemx=coords.item(j).firstChild.nodeValue;
+
+      reSpace=new RegExp(" ", "g");
+
+      reComma=new RegExp(",", "g");
+
+      itemx=itemx.replace(reSpace," L ");
+
+      itemx=itemx.replace(reComma," ");
+
+      d += "M "+itemx;
+
+    }
+
+    addPath(layer,d,idxxx);
+
+  }
+
+}
+
+
+
+function addPath(layer,d,idxxx) {
+
+  var newnodea=svgdoc.createElement("path");
+
+  newnodea.setAttribute('d', d);
+
+  newnodea.setAttribute('id', "l"+layer+"f"+idxxx);
+
+  var mapNode = svgdoc.getElementById("l"+layer);
+
+  mapNode.appendChild(newnodea);
+
+}
+
+
+
+
+
+var oldlayer=""; //these variables to ensure we recalculate only when the layer change
+
+var rsize=0;
+
+function addPoint(layer,cx,cy,idxxx) {
+
+  var newnodea=svgdoc.createElement("circle");
+
+  newnodea.setAttribute('cx', cx);
+
+  newnodea.setAttribute('cy', cy);
+
+  newnodea.setAttribute('id', "l"+layer+"f"+idxxx);
+
+//changed nr
+
+  if (oldlayer!=layer) rsize = calcSize(layer,"SymbolSize");
+
+//end changed nr
+
+  newnodea.setAttribute('r', rsize);
+
+  var mapNode = svgdoc.getElementById("l"+layer);
+
+  mapNode.appendChild(newnodea);
+
+  oldlayer = layer;
+
+}
+
+
+
+function calcSize(theLayer,setting){
+
+  	eld = svgdoc.getElementsByTagName("ExtendedLayerDescriptor").item(0);
+
+  	eldnl = eld.getElementsByTagName("NamedLayer");
+
+  	for (ix=0;ix<eldnl.length;ix++){
+
+		eldnli=eldnl.item(ix);
+
+		if (eldnli.getAttribute('name')==theLayer) {
+
+			ssz = eldnli.getElementsByTagName(setting);
+
+			thesize = parseFloat(ssz.item(0).firstChild.nodeValue);
+
+		}
+
+	}
+
+//changed NR
+
+	return getSize(thesize);
+
+}
+
+//added NR
+
+
+
+function getSize(thesize){
+
+	map = svgdoc.getElementById("map");
+
+	mapWd = parseFloat(map.getAttribute('width'));
+
+	screenWd = parseFloat(screen.width);
+
+	mapVb = map.getAttribute('viewBox').split(' ');
+
+	vbWd  = parseFloat(mapVb[2]);
+
+	resultsize = parseFloat(thesize*vbWd/screenWd);
+
+	return resultsize;
+
+}
+
+
+
+function doZoom(evt){
+
+  SetStaticZP(evt); //add evt for event type check
+
+  resetSymbols();
+
+  if(baseScale!=null){
+
+    getFeature();
+
+  }
+
+}
+
+
+
+function doScroll(evt){
+
+	SetStaticZP(evt)
+
+	if(baseScale!=null){
+
+	//  getFeature();
+
+	}
+
+}
+
+
+
+//this function will send a GetFeature request
+
+//for layers set to display at (new) current scale
+
+function getFeature(){
+
+  currentMapScale=baseScale/(svgDocument.documentElement.currentScale);
+
+//first, test if there is at least one layer to load
+
+  load = false;
+
+  for(i=0;i<theLayers.length;i++){
+
+    if(isDisplayed(theLayers[i],currentMapScale,false)==true){
+
+      load = true;
+
+      break;
+
+    }
+
+  }
+
+  if(load==true){
+
+  mapR = svgdoc.rootElement;
+
+  mapv=svgdoc.getElementById("map");
+
+
+
+  mvb=mapv.getAttribute("viewBox").split(" ");
+
+  mcs=mapR.currentScale;
+
+
+
+  minX=parseFloat(mvb[0])+mapR.currentTranslate.x;
+
+  minY=parseFloat(mvb[1])+mapR.currentTranslate.y;
+
+  maxX=minX+(parseFloat(mvb[2])*mcs);
+
+  maxY=minY+(parseFloat(mvb[3])*mcs);
+
+
+
+  statusText("request","features");
+
+  theCall=svgdoc.createElement("GetFeature");
+
+  theCall.setAttribute("maxFeatures", "1000" );
+
+  for(i=0;i<theLayers.length;i++){
+
+    if(isDisplayed(theLayers[i],currentMapScale,false)==true){
+
+      theQuery=svgdoc.createElement("Query");
+
+      theQuery.setAttribute("typeName",theLayers[i]);
+
+      theQuery=theCall.appendChild(theQuery);
+
+    }
+
+  }
+
+  theFilter=svgdoc.createElement("Filter");
+
+  theNot=svgdoc.createElement("Not");
+
+  theDisjoint=svgdoc.createElement("Disjoint");
+
+  thePropertyName=svgdoc.createElement("PropertyName");
+
+  nodeText="";
+
+  for(i=0;i<theLayers.length;i++){
+
+    if(isDisplayed(theLayers[i],currentMapScale,false)==true){
+
+      nodeText+=theLayers[i]+"/"+theLayers[i]+".the_geom|";
+
+    }
+
+  }
+
+  nodeText=trimLastCh(nodeText);
+
+  theTextNode=svgdoc.createTextNode(nodeText);
+
+  thePropertyName.appendChild(theTextNode);
+
+  theDisjoint.appendChild(thePropertyName);
+
+  theBox=svgdoc.createElementNS("gml","box");
+
+  theCoordinates=svgdoc.createElementNS("gml","coordinates");
+
+  theTextNode=svgdoc.createTextNode(minX+","+minY+" "+maxX+","+maxY);
+
+  theCoordinates.appendChild(theTextNode);
+
+  theBox.appendChild(theCoordinates);
+
+  theDisjoint.appendChild(theBox);
+
+  theNot.appendChild(theDisjoint);
+
+  theFilter.appendChild(theNot);
+
+  logNode = svgdoc.getElementById("viewboxLog");
+
+  entries=logNode.getElementsByTagName("entry");
+
+  if(entries.length>0){
+
+    for(i=0;i<entries.length;i++){
+
+      entry=entries.item(i);
+
+      scale=parseFloat(entry.getElementsByTagName('scale').item(0).firstChild.nodeValue);
+
+      viewbox=entry.getElementsByTagName('coordinates').item(0).firstChild.nodeValue;
+
+      disjoint=false;
+
+      for(j=0;j<theLayers.length;j++){
+
+        if((isDisplayed(theLayers[j],currentMapScale,false)==true)&&(isDisplayed(theLayers[j],scale,false)==true)){
+
+          disjoint=true;
+
+          break;
+
+        }
+
+      }
+
+      if(disjoint==true){
+
+        theDisjoint=svgdoc.createElement("Disjoint");
+
+        thePropertyName=svgdoc.createElement("PropertyName");
+
+        nodeText="";
+
+        for(j=0;j<theLayers.length;j++){
+
+          if((isDisplayed(theLayers[j],currentMapScale,false)==true)&&(isDisplayed(theLayers[j],scale,false)==true)){
+
+            nodeText+=theLayers[j]+"/"+theLayers[j]+".the_geom|";
+
+          }
+
+        }
+
+        nodeText=trimLastCh(nodeText);
+
+        theTextNode=svgdoc.createTextNode(nodeText);
+
+        thePropertyName.appendChild(theTextNode);
+
+        theDisjoint.appendChild(thePropertyName);
+
+        theBox=svgdoc.createElementNS("gml","box");
+
+        theCoordinates=svgdoc.createElementNS("gml","coordinates");
+
+        theTextNode=svgdoc.createTextNode(viewbox);
+
+        theCoordinates.appendChild(theTextNode);
+
+        theBox.appendChild(theCoordinates);
+
+        theDisjoint.appendChild(theBox);
+
+        theFilter.appendChild(theDisjoint);
+
+      }
+
+    }
+
+  }
+
+  theCall.appendChild(theFilter);
+
+  queries=svgdoc.getElementById("queries");
+
+  queries.appendChild(theCall);
+
+  nodeText=printNode(theCall);
+
+  nodeText=addNS(nodeText,"gml","box");
+
+  nodeText=addNS(nodeText,"gml","coordinates");
+
+//  if(showCalls==true){
+
+    alert("Request: "+nodeText);
+
+//  }
+
+  result=postURL(wfsPath,nodeText,parseFeatureMembers,"text/plain",null);
+
+  theEntry = svgdoc.createElement("entry");
+
+  theCoordsNode=svgdoc.createElement("coordinates");
+
+  theCoords=svgdoc.createTextNode(minX+","+minY+" "+maxX+","+maxY);
+
+  theCoordsNode.appendChild(theCoords);
+
+  theEntry.appendChild(theCoordsNode);
+
+  theScaleNode=svgdoc.createElement("scale");
+
+  theScale=svgdoc.createTextNode(currentMapScale);
+
+  theScaleNode.appendChild(theScale);
+
+  theEntry.appendChild(theScaleNode);
+
+  logNode.appendChild (theEntry);
+
+  }
+
+}
+
+
+
+//this function to test if the given layer should be displayed
+
+//at the current scale--checks MaxScale and MinScale loaded with 
+
+//extended layer descriptor
+
+
+
+function isDisplayed(layer,scale,isinit){
+
+  if((bbox==null)&&(isinit==false)){
+
+    if (!(((baseScale>minScales[layer])||(minScales[layer]==0)) && ((baseScale<maxScales[layer])||(maxScales[layer]==0))) && (((scale>minScales[layer])||(minScales[layer]==0)) && ((scale<maxScales[layer])||(maxScales[layer]==0)))) {  
+
+      return true;
+
+    }
+
+    else{
+
+      return false;
+
+    }
+
+  }
+
+  else{
+
+    if(((scale>minScales[layer])||(minScales[layer]==0)) && ((scale<maxScales[layer])||(maxScales[layer]==0))){
+
+      return true;
+
+    }
+
+    else{
+
+      return false;
+
+    }
+
+  }
+
+}
+
+
+
+function getSetting(layer,settingType,dataType,setting){
+
+	theSetting=null;
+
+  	ld = svgdoc.getElementsByTagName(settingType).item(0);
+
+  	ldnl = ld.getElementsByTagName("NamedLayer");
+
+  	for (ix=0;ix<ldnl.length;ix++){
+
+		ldnli=ldnl.item(ix);
+
+		if (ldnli.getAttribute('name')==layer) {
+
+			settingNode = ldnli.getElementsByTagName(setting);
+
+			settingNode.length==0 ? theSetting =null:theSetting =settingNode.item(0).firstChild.nodeValue;
+
+			if(dataType=="number"){
+
+				theSetting=parseFloat(theSetting);
+
+			}
+
+		}
+
+	}
+
+	return theSetting;
+
+}
+
+
+
+function resetSymbols(){
+
+  for (i=0;i<theLayers.length;i++){
+
+    type=getSetting(theLayers[1],"ExtendedLayerDescriptor","string","Shape");
+
+    if((type=="line") || (type=="polygon")){
+
+      node=svgdoc.getElementById("l"+theLayers[i]);
+
+      strokeWid=getSetting(theLayers[i],"StyledLayerDescriptor","string","StrokeWidth");
+
+      node.getStyle().setProperty("stroke-width",strokeWid);
+
+    }
+
+    else{
+
+// Modified AR : resizing the use elements instead of circles for point feature
+
+      thePoints=svgdoc.getElementById("l"+theLayers[i]).getElementsByTagName("use");
+
+      if(thePoints.length>0){
+
+			rsize = calcSize(theLayers[i],"SymbolSize")/svgDocument.documentElement.currentScale;
+
+			setMarkerSize(theLayers[i],"marker",rsize);
+
+      }
+
+//end modified AR
+
+    }
+
+  }
+
+  resetExtras();
+
+}
+
+
+
+function addExtras(){
+
+  theMapLayer=svgdoc.createElement("g");
+
+  theMapLayer.setAttribute("id","extras");
+
+  theExt=svgdoc.createElement("rect");
+
+  mapNode = svgdoc.getElementById("mapLayers");
+
+  mapNode.appendChild(theMapLayer);
+
+}
+
+function resetExtras(){
+
+  wid=getSize(1);
+
+  pa=svgdoc.getElementById("pathadder");
+
+  pa.getStyle().setProperty("stroke-width",wid);
+
+  pa2=svgdoc.getElementById("pathadder2");
+
+  pa2.getStyle().setProperty("stroke-width",wid);
+
+  zm=svgdoc.getElementById("zoomer");
+
+  zm.getStyle().setProperty("stroke-width",wid);
+
+  pm=svgdoc.getElementById("panner");
+
+  pm.getStyle().setProperty("stroke-width",wid);
+
+}
+
+//added NR
+
+
+
+function startZoom(evt){
+
+  zoomer = svgDoc.getElementById("zoomer");
+
+  zoomer.getStyle().setProperty("visibility", "visible");
+
+}
+
+
+
+function continueZoom(evt){
+
+  zoomer.setAttribute("width",(Math.abs(newX-origX))*scaleFactor);
+
+  zoomer.setAttribute("height",(Math.abs(newY-origY))*scaleFactor);
+
+}
+
+
+
+function endZoom(evt){
+
+	if( zoomer != null )
+
+	{
+
+		zoomer.getStyle().setProperty("visibility", "hidden");
+
+		zoomer.setAttribute("width","0");
+
+		zoomer.setAttribute("height","0");
+
+		oldCurrentWidth=currentWidth;
+
+		oldCurrentHeight=currentHeight;
+
+		newWidth=(newX-origX)*scaleFactor;
+
+		newHeight=(newY-origY)*scaleFactor;
+
+		if (!newWidth==0) 
+
+		{
+
+			if((newHeight/newWidth)>heightFactor) 
+
+			{
+
+				currentHeight=newHeight;
+
+				currentWidth=newHeight/heightFactor;
+
+				minX=minX-((currentWidth-newWidth)/2);
+
+			}
+
+			else 
+
+			{
+
+				currentWidth=newWidth;
+
+				currentHeight=newWidth*heightFactor;
+
+				minY=minY-((currentHeight-newHeight)/2);
+
+			}
+
+			svgDoc.getElementById('theSVG').setAttribute("viewBox",minX+" "+minY+" "+ currentWidth+" "+currentHeight);
+
+			currentScale=baseScale*scaleFactor;
+
+			loadSVG(minX,minY,currentWidth,currentHeight,currentScale);
+
+			scaleFactor=currentWidth/mapWidth;
+
+			setScale(currentScale);
+
+			resetSymbols();
+
+			showHideRows();
+
+		}
+
+		else 
+
+		{
+
+			minX=oldMinX;
+
+			minY=oldMinY;
+
+			alert("To zoom in, click and drag around the area you want to view.");
+
+		}
+
+	}
+
+	zoomer = null;
+
+}
+
+
+
+//to be called from external js for script debug and svg-html communication
+
+function xPrintNode(aNode){
+
+	return printNode(aNode);
+
+}
+
+function xParseXML(aString){
+
+	return parseXML(aString);
+
+}
+
+function be(txt){
+
+	browserEval(txt);
+
+}
+
+
+
+//to check if we post to the same domain 
+
+function checkDomain(postPath){
+
+	//docDomain=window.location.host; //not working in Netscape
+
+	var docDomain=getHost(getSrc());
+
+	var domainName=getHost(postPath);
+
+	if (domainName==docDomain) {
+
+		return true;
+
+	}else{
+
+		if(showCalls==true){
+
+			alert("Cannot postURL to  : "+domainName+"\n"+"this SVG doc host is : "+docDomain+"\n"+"Using relative path to prevent security violation.")
+
+		}
+
+		return false;
+
+	}
+
+}
+
+function getHost(url){
+
+	dblSlash=url.indexOf("//",0);
+
+	firstSlash=url.indexOf("/",dblSlash+2);
+
+	var host=url.substring(dblSlash+2,firstSlash);
+
+	return host;
+
+}
+
+//list features name and type from schema; return array of name-type array
+
+function getFeatureList(){
+
+	var sch=svgdoc.getElementsByTagName("schema").item(0);
+
+	var schc=sch.getChildNodes();
+
+	var ntarray=new Array();
+
+	for (var i=0;i<schc.length;i++){
+
+		var schci=schc.item(i)
+
+		if (schci.nodeName=="element"){
+
+			if (schci.getAttribute("substitutionGroup")!="_Feature") continue;
+
+			var fename= schci.getAttribute("name");
+
+			var fetype= schci.getAttribute("type");
+
+			eltype=dropNS(eltype,"wfs");
+
+			ntarray[ntarray.length]={name:fename,type:fetype};
+
+		}
+
+	}
+
+	return ntarray;
+
+}
+
+//return complextype node 
+
+function getComplexTypeNode(complexTypeName){
+
+	var sch=svgdoc.getElementsByTagName("schema").item(0);
+
+	var cts=sch.getElementsByTagName("complexType");
+
+	var cti;
+
+	for (var i=0;i<cts.length;i++){
+
+		cti=cts.item(i);
+
+		if (cti.getAttribute("name")==complexTypeName) break;
+
+	}
+
+	return cti;
+
+}
+
+//list elements('fields') name and type from complextype-extension node; 
+
+//return array of name-type array
+
+//still a test to use xsd instead of eld to retrieve field names.
+
+function TESTgetFieldList(aComplexTypeNode){
+
+	//var aComplexTypeNode=getComplexTypeNode(aComplexTypeName)
+
+	var exts = aComplexTypeNode.getElementsByTagName("extension")
+
+	for (var i=0;i<exts.length;i++){
+
+		if (exts.item(i).getAttribute("base")=="AbstractFeatureType") {
+
+			var elts = exts.item(i).getElementsByTagName("element")
+
+			var elarray=new Array();
+
+			for (var j=0;j<elts.length;j++){
+
+				var elname=elts.item(j).getAttribute("name");
+
+				var eltype=elts.item(j).getAttribute("type");
+
+				elarray[elarray.length]={name:elname,type:eltype};
+
+			}
+
+		}
+
+	}
+
+	return elarray;
+
+}
+
+
+
+]]></script>
+
+
+
+	<svg id="map" >
+
+		<g id="mapLayers" style="fill:none;fill-rule:evenodd;stroke-antialiasing:true;">
+
+			<rect id="bg" style="fill:white;opacity:0;"/>
+
+			<rect id="zoomer" x="0" y="0" width="0" height="0" style="visibility: hidden; fill: none;stroke:red;stroke-width:1"/>
+
+			<line id="panner" x1="0" y1="0" x2="0" y2="0" style="visibility: hidden; stroke:red;stroke-width:1"/>
+
+			<path id="pathadder" style="fill:none;visibility: hidden; stroke:red;stroke-width:0.1" d=""/>
+
+			<path id="pathadder2" style="fill:magenta;fill-rule:evenodd;opacity:0.3;visibility: hidden; stroke:red;stroke-width:0.1" d=""/>
+
+		</g>
+
+		<g id="featureCollections"/>
+
+		<g id="queries"/>
+
+		<g id="capabilities"/>
+
+		<g id="epd"/>
+
+		<g id="viewboxLog"/>
+
+		<g id="sld"/>
+
+		<g id="eld"/>
+
+		<g id="xsd"/>
+
+	</svg>
+
+	<svg id="keyMap" >
+
+		<use id="useMapLayers" xlink:href="#mapLayers" x="0" y="0" width="100%" height="100%" />
+
+		<g id="keyMapLayers" class="keymaplayers"/>
+
+	</svg>
+
+	<svg id="legend" x="0" y="0" width="2" height="100" >
+
+		<rect id="legBack" x="0" y="0" width="100%" height="100%" class="legendbackground"/>
+
+		<svg id='tester' x="0" y="0" width="2" height="100" preserveAspectRatio="xMinyMin meet">
+
+			<g id='legendLayers'>
+
+				<text x="2" y="12" class="legendtitle">GeoClient</text>
+
+				<a>
+
+					<g id="cboxes" transform="translate(2,36)" onclick='chk(evt);'></g>
+
+					<g id="legends" transform="translate(20,36)" onclick="showSymbolEditor(evt,'changeSymbolColor(evt)')"></g>
+
+					<g id="keylabels" transform="translate(20,36)" onclick="showLegendTypeChanger(evt)"></g>
+
+				</a>
+
+			</g>
+
+		</svg>
+
+		<g id='legbutton'>
+
+			<rect id="butBack" x="0" y="0" width="1000" height="18" class="scrollerback"/>
+
+			<text x="2" y="12" class="legendtitle">Legend</text>
+
+			<use id="legup" onclick="legscroll(evt)" onmousedown="chbutd(evt)" onmouseup="chbutu(evt)" xlink:href="#triangleup" x="0" y="0" width="14" height="14" />
+
+			<use id="legdown" onclick="legscroll(evt)" onmousedown="chbutd(evt)" onmouseup="chbutu(evt)" xlink:href="#triangledown" x="0" y="0" width="14" height="14" />
+
+		</g>
+
+	</svg>
+
+	<svg id="geoWin" viewBox="0 0 100 100" x="0" y="0" width="1" height="1" display="" preserveAspectRatio="xMinYMin slice" />
+
+	<rect id="windowcover" fill="none" x="0" y="0" width="1" height="1" pointer-events="none"/>
+
+	<svg id="toolbar" style="text-rendering:optimizeLegibility;" width="100" height="30" preserveAspectRatio="xMidyMid meet" onmouseover="" onmouseout="" >
+
+		<rect pointer-events="none" id='hh' x='0' y='0' width='100%' height='100%' class="toolbarback"/>
+
+		<line x1="0" y1="100%" x2="100%" y2="100%" class="toolbarshadow"/>
+
+		<line x1="100%" y1="100%" x2="100%" y2="0" class="toolbarshadow"/>
+
+		<line x1="0" y1="0" x2="0" y2="100%" class="toolbarlight"/>
+
+		<line x1="0" y1="0" x2="100%" y2="0" class="toolbarlight"/>
+
+	</svg>
+
+	<defs id="map_symbols">
+
+		<use id="masterUse" xlink:href="" x="0" y="0" width="100%" height="100%" />
+
+		<use id="usetest" xlink:href=""></use>
+
+		<symbol id='marker' viewBox="0 0 20 20" preserveAspectRatio="xMidyMid meet">
+
+			<ellipse cx="10" cy="10" rx="10" ry="10"/>
+
+		</symbol>
+
+		<symbol id='fill' viewBox="0 0 20 20" preserveAspectRatio="xMidyMid meet">
+
+			<rect x="0" y="0" width="20" height="20" />
+
+		</symbol>
+
+		<symbol id='pen' viewBox="0 0 20 20" preserveAspectRatio="xMidyMid meet">
+
+			<path d="M 0 16 L 7 3 L 14 16 L 20 0" fill="none"/>
+
+		</symbol>
+
+		<symbol id="check" viewBox="0 0 10 10" preserveAspectRatio="xMidyMid meet">
+
+			<rect class="checkbox" x="0" y="0" width="10" height="10"/>
+
+			<path class="checkmark" d="M2,5 L5,8 8,2"/>
+
+		</symbol>
+
+		<symbol id="uncheck" viewBox="0 0 10 10" preserveAspectRatio="xMidyMid meet">
+
+			<rect class="checkbox" x="0" y="0" width="10" height="10"/>
+
+		</symbol>
+
+		<symbol id="triangledown" viewBox="0 0 10 10" preserveAspectRatio="xMidyMid meet">
+
+			<path class="scrollershadow" d="M1,1 L5,9 9,1 z" transform="translate(1,1)" />
+
+			<path class="scrollerface" d="M1,1 L5,9 9,1 z"/>
+
+			<path class="scrollerlight" d="M5,9 L1,1 9,1"/>
+
+		</symbol>
+
+		<symbol id="triangledown2" viewBox="0 0 10 10" preserveAspectRatio="xMidyMid meet">
+
+			<path class="scrollerfacedown" d="M1,1 L5,9 9,1 z"/>
+
+		</symbol>
+
+		<symbol id="droparrow" viewBox="0 0 10 10" preserveAspectRatio="xMidyMid meet">
+
+			<path class="toolbarback" stroke='#000' d="M2,2 L5,8 8,2 z"/>
+
+		</symbol>
+
+		<symbol id="uparrow" viewBox="0 0 10 10" preserveAspectRatio="xMidyMid meet">
+
+			<path class="toolbarback" stroke='#000' d="M2,8 L5,2 8,8 z"/>
+
+		</symbol>
+
+		<symbol id="triangleup" viewBox="0 0 10 10" preserveAspectRatio="xMidyMid meet">
+
+			<path class="scrollershadow" d="M1,9 L5,1 9,9 z" transform="translate(1,1)"/>
+
+			<path class="scrollerface" d="M1,9 L5,1 9,9 z"/>
+
+			<path class="scrollerlight" d="M1,9 L5,1 "/>
+
+		</symbol>
+
+		<symbol id="triangleup2" viewBox="0 0 10 10" preserveAspectRatio="xMidyMid meet">
+
+			<path class="scrollerfacedown" d="M1,9 L5,1 9,9 z"/>
+
+		</symbol>
+
+
+
+		<symbol id="bt_up" viewBox="0 0 30 26" preserveAspectRatio="none">
+
+			<rect class="buttonlight" id="r1" x="0" y="0" width="28" height="24" rx="5" ry="5" />
+
+			<rect class="buttonshadow" id="r3" x="2" y="2" width="28" height="24" rx="5" ry="5"/>
+
+			<rect class="buttonface" id="r2" x="1" y="1" width="28" height="24" rx="5" ry="5"/>
+
+		</symbol>
+
+		<symbol id="bt_down" viewBox="0 0 30 26" preserveAspectRatio="none">
+
+			<rect class="buttonfacedown" id="r2" x="1" y="1" width="28" height="24" rx="5" ry="5"/>
+
+		</symbol>
+
+		<symbol id="keymap" viewBox="0 0 30 26" preserveAspectRatio="none">
+
+			<path d="M15,4 V22 M6,13 H24" class="buttonstroke0"/>
+
+			<polygon points="10,8 20,8 20,18 10,18" class="panner buttonstroke1"/>
+
+		</symbol>
+
+		<symbol id="legendsetting" viewBox="160 0 35 30" preserveAspectRatio="none">
+
+			<path d="M188.556 14.8889 L181.773 24 L164.223 24 L172.023 14.8889 z"
+
+				 style="fill:#080;stroke-width:1;stroke:#000"/>
+
+			<path d="M189 10.4444 L182.217 19.5556 L164.667 19.5556 L172.467 10.4444 z"
+
+				 style="fill:#FF0;stroke-width:1;stroke:#000"/>
+
+			<path d="M189 6.44444 L182.217 15.5556 L164.667 15.5556 L172.467 6.44444 z"
+
+				 style="fill:#0D0;stroke-width:1;stroke:rgb(0,0,0)"/>
+
+		</symbol>
+
+		<symbol id="pref" viewBox="0 0 30 26" preserveAspectRatio="none">
+
+			<rect x="4" y="4" width="20" height="18" fill="#DDD" stroke="#000"/>
+
+			<rect x="7" y="7" width="3" height="3" fill="#F00" stroke="#000"/>
+
+			<rect x="7" y="12" width="3" height="3" fill="#0F0" stroke="#000"/>
+
+			<rect x="7" y="17" width="3" height="3" fill="#00F" stroke="#000"/>
+
+			<path d="M12,8 h8 M12,13 h8 M12,18 h8" class="buttonstroke0"/>
+
+		</symbol>
+
+		<symbol id="input" viewBox="0 0 30 26" preserveAspectRatio="none">
+
+			<line x1="15" y1="6" x2="15" y2="20" stroke='#000'/>
+
+			<line x1="9" y1="13" x2="21" y2="13" stroke='#000'/>
+
+		</symbol>
+
+		<symbol id="hilite" viewBox="0 0 30 26" preserveAspectRatio="none">
+
+			<rect x="16" y="7" width="8" height="6" transform='translate(16,7) rotate(-30) translate(-16,-7)' stroke='black' fill='#090' />
+
+			<path d="M3,10 L15,8 18,13 12,23 z " stroke='none' fill='inherit' />
+
+		</symbol>
+
+		<symbol id="labelsetting" viewBox="0 0 30 26" preserveAspectRatio="none">
+
+			<polygon transform="translate(-3,0)" points="10,13 15,7 26,7 26,19 15,19" fill='#FF0' stroke='#000'/>
+
+			<path transform="translate(-3,0)" d="M15,11 h9 M15,15 h9" stroke-width="2" stroke='#000' fill='none' />
+
+		</symbol>
+
+		<symbol id="autolabel" viewBox="0 0 30 26" preserveAspectRatio="none">
+
+			<polygon points="10,13 15,7 26,7 26,19 15,19" fill='#090' stroke='#000'/>
+
+			<polygon transform="translate(-3,3)" points="10,13 15,7 26,7 26,19 15,19" fill='lime' stroke='#000'/>
+
+			<ellipse transform="translate(-3,3)" cx='16' cy='13' rx='2.5' ry='2.5' fill='#DDD' stroke='#000'/>
+
+			<ellipse transform='translate(9,12) rotate(45) translate(-9,-9)' cx="9" cy="9" rx="7" ry="2" fill="none" stroke='#000'/>
+
+		</symbol>
+
+		<symbol id="label" viewBox="0 0 30 26" preserveAspectRatio="none">
+
+			<polygon points="10,13 15,7 26,7 26,19 15,19" fill='#090' stroke='#000'/>
+
+			<ellipse cx='16' cy='13' rx='2.5' ry='2.5' fill='#DDD' stroke='#000'/>
+
+			<ellipse transform='translate(9,9) rotate(45) translate(-9,-9)' cx="9" cy="9" rx="7" ry="2" fill="none" stroke='#000'/>
+
+		</symbol>
+
+		<symbol id="identify" viewBox="0 0 30 26" preserveAspectRatio="none">
+
+			<ellipse cx="15" cy="13" rx="10" ry="10" class="buttonfill0"/>
+
+			<text x="12" y="19" class="buttonfont0">i</text>
+
+		</symbol>
+
+		<symbol id="helpz" viewBox="0 0 30 26" preserveAspectRatio="none">
+
+			<text x="6" y="21" class="buttonfont">?</text>
+
+		</symbol>
+
+		<symbol id="find" viewBox="2 2 30 26" preserveAspectRatio="none">
+
+			<g transform="translate(2,1)" style="fill:url(#green-metallic);stroke:#004400;stroke-width:.2">
+
+				<rect x="6.3126" y="8.64304" width="5.12" height="8"/>
+
+				<rect x="4.9113" y="16.8922" width="7.9" height="6.46"/>
+
+				<rect x="5.70931" y="4.25491" width="6.335" height="4.16151"/>
+
+				<rect x="17.8103" y="8.58636" width="5.12" height="8"/>
+
+				<rect x="16.409" y="16.8356" width="7.9" height="6.46"/>
+
+				<rect x="17.207" y="4.19823" width="6.335" height="4.16151"/>
+
+				<rect x="11.4656" y="9.37506" width="6.4" height="5"/>
+
+			</g>
+
+		</symbol>
+
+		<symbol id="zoomplus" viewBox="2 2 30 26" preserveAspectRatio="none" >
+
+			<g id="df" pointer-events="none" class="buttonstroke0">
+
+				<ellipse cx="14" cy="14" rx="9.5" ry="9.5"/>
+
+				<line x1="21.3333" y1="19.8889" x2="28.8889" y2="25.2222"/>
+
+				<line x1="8.44444" y1="14.5556" x2="19.5556" y2="14.5556"/>
+
+				<line x1="13.7778" y1="19.4444" x2="13.7778" y2="9.22222"/>
+
+			</g>
+
+		</symbol>
+
+		<symbol id="nozoom" viewBox="34 2 30 26" preserveAspectRatio="none">
+
+			<g pointer-events="none" class="buttonstroke0">
+
+				<ellipse cx="46" cy="13.6667" rx="9.5" ry="9.5" />
+
+				<line x1="53.3333" y1="19.5556" x2="60.8889" y2="24.8889"/>
+
+				<line x1="52.4444" y1="7" x2="39.1111" y2="20.3333" />
+
+			</g>
+
+		</symbol>
+
+		<symbol id="zoommin" viewBox="66 2 30 26" preserveAspectRatio="none">
+
+			<g pointer-events="none" class="buttonstroke0">
+
+				<line x1="85.3333" y1="19.5556" x2="92.8889" y2="24.8889"/>
+
+				<ellipse cx="78" cy="13.6667" rx="9.5" ry="9.5"/>
+
+				<line x1="72.8889" y1="13.6667" x2="83.1111" y2="13.6667"/>
+
+			</g>
+
+		</symbol>
+
+		<symbol id="quick" viewBox="0 0 30 26" preserveAspectRatio="none">
+
+			<polygon points="10,23 13,15 10,15 13,09 9,09 13,3 19,3 15,09 18,09 14,15 16,15" class="toolbarback" stroke='#000'/>
+
+		</symbol>
+
+		<symbol id="minimizewin" viewBox="0 0 30 26" preserveAspectRatio="none">
+
+				<rect fill="#003399" stroke="none" x="4" y="11" width="20" height="4"/>
+
+		</symbol>
+
+		<symbol id="restorewin" viewBox="0 0 30 26" preserveAspectRatio="none">
+
+				<rect fill="none" stroke="#003399" stroke-width="4" x="7" y="5" width="16" height="14" />
+
+		</symbol>
+
+		<symbol id="closewin" viewBox="0 0 30 26" preserveAspectRatio="none">
+
+			<line x1="6" y1="4" x2="24" y2="22" stroke='#000'/>
+
+			<line x1="6" y1="22" x2="24" y2="4" stroke='#000'/>
+
+		</symbol>
+
+		<linearGradient id="green-metallic" x1="0%" y1="0%" x2="100%" y2="0%" spreadMethod="pad" gradientUnits="objectBoundingBox">
+
+			<stop offset="1%" style="stop-color:rgb(118,166,128);stop-opacity:1"/>
+
+			<stop offset="18%" style="stop-color:rgb(0,78,0);stop-opacity:1"/>
+
+			<stop offset="48%" style="stop-color:rgb(164,188,168);stop-opacity:1"/>
+
+			<stop offset="83%" style="stop-color:rgb(122,205,142);stop-opacity:1"/>
+
+			<stop offset="99%" style="stop-color:rgb(0,78,0);stop-opacity:1"/>
+
+		</linearGradient>
+
+		<linearGradient id="litegrad" gradientUnits="objectBoundingBox" x1="1" y1="1" x2="0" y2="0">
+
+			<stop offset=".3" class="hilitelight"/>
+
+			<stop offset=".9" class="hilitedark"/>
+
+		</linearGradient>
+
+		<linearGradient id="bargrad" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="1" y2="0">
+
+			<stop offset=".0" style="stop-color:#003366"/>
+
+			<stop offset=".8" style="stop-color:#0066CC"/>
+
+		</linearGradient>
+
+		<linearGradient id="homegrad" gradientUnits="objectBoundingBox" x1="0" y1="1" x2="0" y2="0">
+
+			<stop offset=".0" style="stop-color:palegreen"/>
+
+			<stop offset=".8" style="stop-color:rgb(00,88,00)"/>
+
+		</linearGradient>
+
+		<radialGradient id="buttongrad" gradientUnits="objectBoundingBox" x1="0" y1="1" x2="0" y2="0">
+
+			<stop offset=".35" class="butlight"/>
+
+			<stop offset=".99" class="butdark"/>
+
+		</radialGradient>
+
+		<radialGradient id="overgrad" gradientUnits="objectBoundingBox" x1="0" y1="1" x2="0" y2="0">
+
+			<stop offset=".05" class="hilitelight"/>
+
+			<stop offset=".90" class="hilitedark"/>
+
+		</radialGradient>
+
+		<linearGradient id="ltanx" gradientUnits="objectBoundingBox" x1="0" y1="1" x2="" y2="">
+
+			<stop offset=".2" style="stop-color:chocolate"/>
+
+			<stop offset=".8" style="stop-color:tan"/>
+
+		</linearGradient>
+
+		<linearGradient id="ltan" gradientUnits="objectBoundingBox" x1="0" y1="1" x2="" y2="">
+
+			<stop offset=".2" style="stop-color:#CC9933"/>
+
+			<stop offset=".8" style="stop-color:#FFCC99"/>
+
+		</linearGradient>
+
+		<linearGradient id="lflag" gradientUnits="objectBoundingBox" x1="0" y1="1" x2="0" y2="0">
+
+			<stop offset=".05" style="stop-color:#FF0000"/>
+
+			<stop offset=".65" style="stop-color:#FFFFFF"/>
+
+		</linearGradient>
+
+	</defs>
+
+
+
+</svg>
+
