@@ -5,6 +5,29 @@ $Id$
 This file contains information about updates to each release:
 
 
+mapbuilder-lib-0.2-alpha (alpha quality)
+========================================
+This released is designed to provide a demonstration of a number of
+features which have been developed since the last release.  The new
+features are considered alpha quality and we suggest waiting for a future
+release before using these features in a production product.
+
+Extra functionality introduced in this release includes:
+* Time series Web Map Service (WMS) client
+* A gazateer (pull down list of placenames)
+* GML Rendering
+* Feature rendering from a Web Feature Service (WFS) query
+* Feature entry to a Transactional Web Feature Service (WFS-T)
+* Web Map Context (WMC) Editor client
+
+The schema for the configuration file has changed since last release
+which means configuration files from release 0.1 will not work with 0.2.
+Minor changes to the schema are expected for the next release.
+
+Outstanding Issues:
+-------------------
+TBD:
+
 mapbuilder-lib-0.1 (beta quality)
 =================================
 This release has become very stable.  The only known issue of consequence is
