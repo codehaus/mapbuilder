@@ -125,15 +125,6 @@ function ModelBase(model, modelNode, parentModel) {
       var widgetId = widgetNode.attributes.getNamedItem("id")
       if (widgetId) widgetId = widgetId.nodeValue;
       
-      //remove widget generated content first
-      var widget = null;
-      if (widgetId && this[widgetId]) {
-        //remove any output from this widget
-        widget = this[widgetId];
-        var outputNode = document.getElementById( widget.mbWidgetId );
-        if (outputNode) widget.node.removeChild( outputNode );
-      }
-
       //call the widget constructor
       var evalStr = "new " + widgetNode.nodeName + "(widgetNode, this);";
       widget = eval( evalStr );
@@ -162,7 +153,13 @@ function ModelBase(model, modelNode, parentModel) {
     if (defaultModel) model.url = defaultModel.firstChild.nodeValue;
   }
 
-  model.models = new ModelList(model);
+  //set the method property
+  var method = modelNode.selectSingleNode("mb:httpMethod");
+  if (method) {
+    model.method = method.firstChild.nodeValue;
+  } else {
+    model.method = "get";
+  }
 
   //don't load in models and widgets if this is the config doc, defer to config.init
   //don't load template models (URL is null)

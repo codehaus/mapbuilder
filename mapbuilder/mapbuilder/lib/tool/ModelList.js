@@ -17,10 +17,50 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  */
 function ModelList(model) {
   this.model = model;            //.model is the parent model, eg. WFS caps doc
-  this.modelArray = new Array();                  //.models is an array of the dynamic models created
-  //TBD: actually insert Model nodes for these in the config.doc
   this.id = model.id + "_ModelList";
 
+  /**
+   * get the list of source nodes from the parent document
+   * @param objRef Pointer to this object.
+   */
+  this.getFeatureNode = function(id) {
+    return this.model.doc.selectSingleNode(this.model.nodeSelectXpath+"[@id='"+id+"']");
+  }
+
+  /**
+   * get the list of source nodes from the parent document
+   * @param objRef Pointer to this object.
+   */
+  this.getFeatureList = function() {
+    return this.model.doc.selectNodes(this.model.nodeSelectXpath);
+  }
+
+  /**
+   * get the list of source nodes from the parent document
+   * @param objRef Pointer to this object.
+   */
+  this.initFeatureList = function(objRef) {
+    var featureList = objRef.getFeatureList();
+    for (var i=0; i<featureList.length; i++) {
+      var feature = featureList[i];
+      feature.setAttribute("id", "MbFeatureNode_" + mbIds.getId());
+      feature.setAttribute("select", "true");
+    }
+  }
+  this.model.addListener("loadModel", this.initFeatureList, this);
+
+  /**
+   * get the list of source nodes from the parent document
+   * @param objRef Pointer to this object.
+   */
+  this.refreshDynModelList = function(objRef) {
+    var featureList = objRef.getFeatureList();
+    for (var i=0; i<featureList.length; i++) {
+      var feature = featureList[i];
+      objRef.model.setParam("loadFeature", feature);
+    }
+  }
+  this.model.addListener("refresh", this.refreshDynModelList, this);
 
   /**
    * appends a new instance of a model to the model list
@@ -30,12 +70,10 @@ function ModelList(model) {
     var evalStr = "new " + targetModelNode.nodeName + "(targetModelNode,this.model);";
     var model = eval( evalStr );
     if ( model ) {
-      this.modelArray.push(model);
-
-      featureNode.modelId = model.id;
+      this.model[model.id] = model;
+      config[model.id] = model;
       model.featureNode=featureNode;
-      //call the loadModel event
-      //model.callListeners("loadModel");
+      featureNode[targetModelNode.nodeName] = model;
       return model;
     } else { 
       alert("ModelList: error creating dynamic model object:" + targetModelNode.nodeName);
