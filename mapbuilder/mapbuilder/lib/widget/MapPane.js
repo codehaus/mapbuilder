@@ -70,11 +70,11 @@ function MapPane(widgetNode, group) {
    * Called when the context's hidden attribute changes.
    * @param layerIndex The index of the LayerList/Layer from the Context which
    * has changed.
-   * @param hidden, 1=hidden, 0=not hidden.
+   * @param target This object.
    */
-  this.hiddenListener=function(layerIndex,hidden){
+  this.hiddenListener=function(layerIndex,target){
     var vis="visible";
-    if (hidden) {
+    if(target.model.getHidden(layerIndex)=="1"){
       vis="hidden";
     }
     document.getElementById(layerIndex).style.visibility=vis;
@@ -93,7 +93,7 @@ function MapPane(widgetNode, group) {
    */
   this.addListeners = function() {
     this.model.addListener("boundingBox",this.boundingBoxChangeListener,this);
-    this.model.addHiddenListener(this.hiddenListener);
+    this.model.addHiddenListener(this.hiddenListener,this);
   }
 
   this.mouseUpListeners = new Array();
