@@ -14,6 +14,13 @@
     This dir is relative the dir of the main html file.
   -->
   <models>
+    <Logger id="eventLogDoc">
+      <widgets>
+        <Widget id="eventLog">
+          <stylesheet>../lib/widget/EventLog.xsl</stylesheet>
+        </Widget>
+      </widgets>
+    </Logger>
     <Context id="mainMap">
       <defaultModelUrl>context/ows_context.xml</defaultModelUrl>
       <models>
@@ -44,7 +51,6 @@
             <DragPanHandler>
               <enabled>false</enabled>
             </DragPanHandler>
-            <MouseClickHandler/>
           </tools>
           <mapContainerId>mainMapContainer</mapContainerId>
           <!--fixedWidth>300</fixedWidth-->
@@ -65,7 +71,7 @@
         </GetFeatureRequest>
       </widgets>
     </Context>
-    <!--Context id="locatorMap">
+    <Context id="locatorMap">
       <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorMapWidget">
@@ -85,7 +91,7 @@
           <fixedWidth>180</fixedWidth>
         </MapPane>
       </widgets>
-    </Context-->
+    </Context>
   </models>
   <widgets>
     <ButtonBar id="buttonBar">
