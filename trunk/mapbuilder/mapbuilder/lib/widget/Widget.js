@@ -7,7 +7,7 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
- * Functions to render and update a Legend from a Web Map Context.
+ * This generic widget requires the config file to specify a <stylesheet>.
  * This widget extends WidgetBase.
  * @constructor
  * @author Cameron Shorter cameronATshorter.net
