@@ -25,11 +25,26 @@ $Name$
       //Mapbuilder(config);
       //  config=URL of Mapbuilder configuration file.
       Mapbuilder("config/CompleteConfig.xml");
+
+      var timerId;
+
+      /** Call config.init() if script has been loaded, else wait to be called
+       *  again.
+       */
+      function configInit() {
+        if(config){
+        //if(document.readyState=="complete"){
+          clearInterval(timerId);
+          config.init();
+        }
+      }
     </script>
   </head>
 
   <body onload="
-    config.init()">
+    // See if config script has been loaded every 500msecs.
+    timerId=setInterval('configInit()',500);
+    ">
     <h1><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Demo</h1>
 
     <!-- Layout mapbuilder widgets and HTML -->
@@ -57,8 +72,7 @@ $Name$
       </tr>
     </table>
     <br/><br/>
-    <p align="right">A <a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Project.
-    <br/>$Name$.</p>
+    <p align="right"><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> $Name$</p>
 
   </body>
 </html>
