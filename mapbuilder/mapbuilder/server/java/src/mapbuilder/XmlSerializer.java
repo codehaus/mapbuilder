@@ -108,21 +108,19 @@ public class XmlSerializer extends HttpServlet
 
     try {
 
-      System.err.println("outputDir:"+outputDir_);
-
       File dstDir = new File( context_.getRealPath(outputDir_) );
-
-      System.err.println("dest dir:"+dstDir.getAbsolutePath());
 
       File dst = File.createTempFile("cmb", ".xml", dstDir);
 
-      System.err.println("absolutePath:"+dst.getName());
+      //System.err.println("absolutePath:"+dst.getName());
 
 
 
       BufferedWriter out = new BufferedWriter(new FileWriter(dst));
 
 
+
+      /*
 
       Enumeration e = request.getHeaderNames();
 
@@ -135,6 +133,8 @@ public class XmlSerializer extends HttpServlet
           System.err.println("request header:" + name + ":" + value);
 
       }
+
+       */
 
         
 
@@ -160,7 +160,11 @@ public class XmlSerializer extends HttpServlet
 
         out.write(buf, 0, len);
 
+        out.flush();
+
       }
+
+      in.close();  
 
       out.close();  
 

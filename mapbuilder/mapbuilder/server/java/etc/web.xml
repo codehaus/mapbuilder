@@ -108,6 +108,20 @@ $Id$
 
       </servlet-class>
 
+      <init-param>
+
+        <param-name>debug</param-name>
+
+        <param-value>true</param-value>
+
+        <description>
+
+          shows extra debugging output on System.err
+
+        </description>
+
+      </init-param>
+
     </servlet>
 
     <servlet>
