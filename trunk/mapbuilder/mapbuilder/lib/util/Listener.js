@@ -43,6 +43,22 @@ function Listener(objRef) {
   }
 
   /**
+   * Add a listener function at the start of the list.  
+   * @param listener The function to call when the parameter changes.
+   * @param target The object which owns the listener function.
+   * @param param Parameter name; if this parameter changes then an event is
+   * sent to all interested listeners.
+   */
+  this.addFirstListener=function(param, listener, target) {
+    if (window.logger) logger.logEvent("addFirstListener: "+param,this.id,target.id);
+    if(!this.listeners[param]){
+      this.listeners[param]=new Array();
+    }
+    this.removeListener(param,listener,target);
+    this.listeners[param].unshift(new Array(listener,target));
+  }
+
+  /**
    * Remove a listener so that it is not called anymore when a param changes.
    * @param listener The function to call when the parameter changes.
    * @param target The object which owns the listener function.
@@ -51,9 +67,9 @@ function Listener(objRef) {
    */
   this.removeListener=function(param,listener,target){
     if(this.listeners[param]){
-      for(i=0;i<this.listeners[param].length;i++){
+      for(var i=0;i<this.listeners[param].length;i++){
         if(this.listeners[param][i][0]==listener && this.listeners[param][i][1]==target){
-          for(j=i;i<this.listeners[param].length-1;i++){
+          for(var j=i;i<this.listeners[param].length-1;i++){
             this.listeners[param][j]=this.listeners[param][j+1];
           }
           this.listeners[param].pop();
@@ -71,7 +87,8 @@ function Listener(objRef) {
    */
   this.callListeners=function(param,value) {
     if (this.listeners[param]){
-      for(var i=0;i<this.listeners[param].length;i++){
+      var count = this.listeners[param].length;
+      for(var i=0;i<count;i++){
         if (window.logger) logger.logEvent(param,this.id,this.listeners[param][i][1].id,value);
         //this is listenerFunction(target,value)
         this.listeners[param][i][0](this.listeners[param][i][1],value);
