@@ -17,6 +17,8 @@ $Name$Name:  $
   <xsl:param name="widgetId"/>
   <xsl:param name="targetModel"/>
   
+  
+  
 	<xsl:template match="/mb:QuickviewPresetResultSet">
 		<xsl:variable name="srsName" select="gml:featureMember/mb:locationDef/mb:spatialKeyword/gml:location/gml:Envelope/@srsName"/>
     <DIV>
