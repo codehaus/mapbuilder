@@ -30,10 +30,10 @@ function ButtonBase(toolNode, parentWidget) {
   this.disabledImage.src = config.skinDir + toolNode.selectSingleNode("disabledSrc").firstChild.nodeValue;
   this.disabledImage.title = this.title;         //img.title is for tool tips, alt for images disabled browsers
 
-  var modalImage = toolNode.selectSingleNode("enabledSrc");
-  if (modalImage) {
+  var enabledImage = toolNode.selectSingleNode("enabledSrc");
+  if (enabledImage) {
     this.enabledImage = document.createElement("IMG");
-    this.enabledImage.src = config.skinDir + modalImage.firstChild.nodeValue;
+    this.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
     this.enabledImage.title = this.title;         //img.title is for tool tips, alt for images disabled browsers
   }
 
