@@ -3,6 +3,9 @@ License: GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
+// Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+
 /**
  * Base class for a MapContainer.  Widgets extending this class will have their
  * output appended to the document in a shared container. 
