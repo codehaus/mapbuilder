@@ -104,6 +104,17 @@ function ModelBase(model, modelNode, parentModel) {
   model.setXlinkValue=this.setXlinkValue;
 
   /**
+   * Get the value of a node.
+   * @param objRef Reference to this node.
+   * @param xlink Xlink of the node to update.
+   * @return value of the node.
+   */
+  this.getXlinkValue=function(objRef,xlink){
+    return objRef.doc.selectSingleNode(xlink).firstChild.nodeValue;
+  }
+  model.getXlinkValue=this.getXlinkValue;
+
+  /**
    * Load a Model's document from a url.
    * @param modelRef Pointer to the model object being loaded.
    */
