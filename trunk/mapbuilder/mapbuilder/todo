@@ -1,8 +1,18 @@
 Release 0.1
 ===========
-* Remove addPaintListener from WidgetBase and extend Listener.js instead
+Tools:
+------
+* Set up naming convension for button images which is derived from the Tool Name.
 
-* Rename "Mode" and "Modal" to something else, eg Selected.
+* Rename "Mode" and "Modal" to RadioButton, SelectBox, Button, etc.
+
+* Move Tools out of ButtonBar.js and into lib/tool/
+
+---<end Tools todo>
+
+* Use .prototype for inheritence?
+
+* Remove addPaintListener from WidgetBase and extend Listener.js instead
 
 * MapDisplayForm in wmsConfig.html needs to be moved into a widget.
 
