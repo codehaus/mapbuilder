@@ -143,11 +143,14 @@ function MapPane(widgetNode, group) {
    */
   this.actionHandler=function(ev) {
     this.getEvent(ev);
-    this.parentObject.callListeners(ev.type,this);
     if (window.event) {
+      //IE browsers
+      this.parentObject.callListeners(window.event.type,this);
       window.event.returnValue = false;
       window.event.cancelBubble = true;
     } else {
+      //mozilla browsers
+      this.parentObject.callListeners(ev.type,this);
       ev.stopPropagation();
     }
     return false;
