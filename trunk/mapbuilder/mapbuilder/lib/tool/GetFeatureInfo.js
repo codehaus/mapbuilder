@@ -14,8 +14,6 @@ $Id$
 
 mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
 
-mapbuilder.loadScript(baseDir+"/util/Proxy.js");
-
 
 
 /**
@@ -55,12 +53,6 @@ function GetFeatureInfo(toolNode, parentWidget) {
   this.xsl.async=false;
 
   this.xsl.load(baseDir+"/tool/GetFeatureInfo.xsl");
-
-
-
-  /** Proxy for requesting external URLs. */
-
-  this.proxy=new Proxy(parentWidget.model);
 
 
 
@@ -152,7 +144,7 @@ function GetFeatureInfo(toolNode, parentWidget) {
 
         }else{
 
-          url=objRef.proxy.getUrl(urlNode.documentElement.firstChild.nodeValue);
+          url=objRef.targetModel.getProxyPlusUrl(urlNode.documentElement.firstChild.nodeValue);
 
           //alert("url="+url);
 
@@ -166,7 +158,9 @@ function GetFeatureInfo(toolNode, parentWidget) {
 
           //alert("query result="+result.xml);
 
-          objRef.targetFeatureCollection.loadModelDoc(url);
+          objRef.targetFeatureCollection.loadModelDoc(
+
+            objRef.targetFeatureCollection,url);
 
         }
 
