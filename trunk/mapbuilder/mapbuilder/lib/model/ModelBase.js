@@ -54,14 +54,12 @@ function ModelBase(modelNode, parent) {
       //call the widget constructor and paint
       var evalStr = "new " + widgetNode.nodeName + "(widgetNode, this);";
       var widget = eval( evalStr );
+      this[widget.id] = widget;
 
-      widget.loadTools();
       widget.paint();
-      //this has to be called after widgets are painted
-      widget.postPaintInit();
-      this[widgetNode.nodeName] = widget;
+      widget.loadTools();
 
-      this.callListeners( "loadWidget" );
+      widget.callListeners( "loadWidget" );
     }
   }
 }

@@ -108,6 +108,7 @@ function MapPane(widgetNode, model) {
     var layerId = thisWidget.model.id + "_" + thisWidget.id + "_" + layerName;
     document.getElementById(layerId).style.visibility=vis;
   }
+  this.model.addListener("hidden",this.hiddenListener,this);
 
   /**
    * Called when the context's boundingBox attribute changes.
@@ -116,15 +117,7 @@ function MapPane(widgetNode, model) {
   this.boundingBoxChangeListener=function(thisWidget){
     thisWidget.paint();
   }
-
-  /**
-   * Initialise the widget after the widget tags have been created by the first paint().
-   * Add this object's listeners.
-   */
-  this.postPaintInit = function() {
-    this.model.addListener("boundingBox",this.boundingBoxChangeListener,this);
-    this.model.addListener("hidden",this.hiddenListener,this);
-  }
+  this.model.addListener("boundingBox",this.boundingBoxChangeListener,this);
 
 
 /** Cross-browser mouse event handling.

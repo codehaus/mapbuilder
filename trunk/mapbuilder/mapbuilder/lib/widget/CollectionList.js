@@ -23,12 +23,5 @@ function CollectionList(widgetNode, model) {
   } 
 
   var paramValue = widgetNode.selectSingleNode("targetModel").firstChild.nodeValue;
-  this.stylesheet.setParameter("targetId", paramValue );
-
-  /**
-   * Initialise the widget after the widget tags have been created by the first paint().
-   */
-  this.postPaintInit = function() {
-    this.model.addListener("select", this.paint);
-  }
+  this.stylesheet.setParameter("targetModel", paramValue );
 }

@@ -41,8 +41,7 @@ $Name$
   <!-- The coordinates of the DHTML Layer on the HTML page -->
 
   <xsl:param name="jsfunction">config.loadModel('</xsl:param>
-
-  <xsl:param name="targetId"/>
+  <xsl:param name="targetModel"/>
 
 
 
@@ -63,7 +62,7 @@ $Name$
 
   <xsl:template match="cml:ViewContextReference">
 
-    <xsl:param name="linkUrl">javascript:<xsl:value-of select="$jsfunction"/><xsl:value-of select="$targetId"/>','<xsl:value-of select="cml:ContextURL/cml:OnlineResource/@xlink:href"/>')</xsl:param>
+    <xsl:param name="linkUrl">javascript:<xsl:value-of select="$jsfunction"/><xsl:value-of select="$targetModel"/>','<xsl:value-of select="cml:ContextURL/cml:OnlineResource/@xlink:href"/>')</xsl:param>
 
     <LI>    
 
