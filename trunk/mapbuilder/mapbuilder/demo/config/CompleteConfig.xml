@@ -68,7 +68,6 @@
       <widgets>
         <MapPane id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
-          <targetModel>mainMap</targetModel>
           <mapContainerId>locatorContainer</mapContainerId>
           <fixedWidth>180</fixedWidth>
         </MapPane>
