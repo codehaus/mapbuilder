@@ -167,54 +167,6 @@ function Context(modelNode, parent) {
     win.setAttribute("height", height);
   }
 
-  /** Insert a new layer.
-    * @param layer An XML node which describes the layer.
-    * @param zindex The position to insert this layer in the layerList, if set
-    * to null this layer will be inserted at the end.
-    * @return The identifier string used to reference this layer.
-    */
-  this.insertLayer=function(layer,zindex){
-    //TBD Fill this in.
-  }
-
-  /** Delete this layer.
-   * @param id The layer identifier.
-   */
-  this.deleteLayer=function(id){
-    //TBD Fill this in.
-  }
-
-  /** Move this layer to a new position in the LayerList.
-    * @param layer The layer id to move.
-    * @param zindex The position to move this layer to in the layerList, if set
-    * to null this layer will be inserted at the end.
-    */
-  this.reorderLayer=function(layer,zindex){
-    //TBD Fill this in.
-  }
-
-  /** Select this layer for further operations (like a query).
-    * @param layer The layer id to select.
-    * @param selected Set to true/false.
-    */
-  this.selectLayer=function(layer,selected){
-    //TBD Fill this in.
-  }
-
-  /** Set a new Context and notify interested widgets.
-    * @param context The new context loaded as an XML node.
-    */
-  this.setContext=function(context){
-    //TBD Fill this in.
-  }
-
-  /** Get the context.
-    * @return The new context loaded as an XML node.
-    */
-  this.getContext=function(){
-    return this.doc;
-  }
-
   //add the extent property
   this.extent = new Extent( this );
 
