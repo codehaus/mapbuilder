@@ -9,6 +9,11 @@
     any component with your own custom built component. (Unlikely, but quite
     easy to implement so we may as well do it.)
     Cameron 19 Feb 04.
+    
+    I agree with this.  Likewise for baseDir above, which could be on a a completely 
+    different server than the app, maybe rename to baseHref?  If the http://host/
+    part is missing then it references the localhost.
+    Mike 19 Feb 2004
   -->
   <skin>default</skin>
   <models>
@@ -19,19 +24,38 @@
       Each component description should be an instance of an object, and we
       should have an id with each component.
       Cameron 19 Feb 04.
+      
+      Actually, the app I am working towards, context editor, will have an unkown
+      number of contexts and it will be impossible to give them an ID beforehand.
+      An ID would be useful here to reference this object in other parts of the 
+      config (via XPointer?)
+      Mike 19 Feb 2004
     -->
-    <Context id="contextId">
+    <Config id="configModelId">
+      <scriptFile>/model/Config.js</scriptFile>
+    </ContextCollection>
+    
+    <Context id="contextModelId">
       <scriptFile>/model/Context.js</scriptFile>
     </Context>
+    
+    <ContextCollection id="contextCollectionModelId">
+      <scriptFile>/model/ContextCollection.js</scriptFile>
+    </ContextCollection>
+    
   </models>
 
   <!--
     Cameron 19 Feb 04.
     I suggest we rename <views> as <widget> or <widgets> or rename the Mapbuilder
     directory widget/ as view/
+    
+    I would prefer to flatten the /lib directory structure to lib/model, lib//view
+    lib/controller and lib/util.  See email discussion.
+    Mike 19 Feb 2004
   -->
   <views>
-    <MapPane id="mapPaneId">
+    <MapPane id="mapPaneViewId">
       <!--
         Each widget should reference the contextId it refers to.
         Ditto for the rest of the widgets.
@@ -39,8 +63,11 @@
         Note that we may have more than one MapPane in a web page at once, and tools
         will need to identify which mapPane they are associated with.
         Cameron 19 Feb 04.
+        
+        Rather, views should refer to the model that it supports.
+        Mike 19 Feb 2004
       -->
-      <context>contextId</context>
+      <model>#contextModelId</model>
 
       <scriptFile>/widget/mappane/MapPane.js</scriptFile>
       <stylesheet>/widget/mappane/Context2MapPane.xsl</stylesheet>
@@ -72,6 +99,8 @@
     Controllers should take a mouseClick or call, process it, then update one of the
     Model objects.
     Cameron 19 Feb 04.
+    
+    Good points.  ButtonBar is really a view of the config model.  
   -->
   <controllers>
     <ButtonBar id="ButtonBar">
