@@ -10,10 +10,10 @@ var config;
 var baseDir;
 
 // LoadState Constants
-const MB_UNLOADED=0;    // Scripts not loaded yet
-const MB_LOAD_CORE=1;   // Loading scripts loaded defined in Mapbuilder
-const MB_LOAD_WIDGET=2; // Loading scripts loaded defined in Config
-const MB_LOADED=3;      // All scripts loaded
+var MB_UNLOADED=0;    // Scripts not loaded yet
+var MB_LOAD_CORE=1;   // Loading scripts loaded defined in Mapbuilder
+var MB_LOAD_WIDGET=2; // Loading scripts loaded defined in Config
+var MB_LOADED=3;      // All scripts loaded
 
 /**
  * This Object bootstraps the Mapbuilder libraries by loading the core
@@ -64,7 +64,7 @@ function Mapbuilder() {
         this.loadingScripts.shift();
       }
       if (this.loadingScripts.length==0){
-        this.setLoadState(this.LoadState+1);
+        this.setLoadState(this.loadState+1);
       }
     }
     else{
