@@ -14,6 +14,10 @@ Run
 You can view an index of demonstration applications by viewing the
 following file in a recent web browser:  mapbuilder\demo\index.html
 
+Some demonstrations require mapbuilder to be installed in a web server
+which supports PHP (like Apache), or a Servlet Container (like Tomcat).
+
+For more information, refer to the documentation.
 
 Browser Support
 ===============
