@@ -2,6 +2,8 @@ Release 0.1
 ===========
 * Rename stylesheets from *.xml to *.xsl
 
+* Rename addListeners() to postInit() - since it doesn't always call listeners.
+
 * MapDisplayForm in wmsConfig.html needs to be moved into a widget.
 
 * Move Context2FeatureInfo.xml out of widget/tool
