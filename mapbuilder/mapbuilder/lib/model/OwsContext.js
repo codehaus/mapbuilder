@@ -181,15 +181,15 @@ function OwsContext(modelNode, parent) {
    * @param objRef Pointer to this object.
    */
   this.initDynModelList = function(objRef) {
-    var featureList = objRef.mainMapWidget.WebServiceRequest.getFeatureList();
+    var featureList = objRef.wfsController.getFeatureList();
     for (var i=0; i<featureList.length; i++) {
       var feature = featureList[i];
       var featureId = feature.attributes.getNamedItem("id").nodeValue;
       var serverUrl = feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
-      objRef.mainMapWidget.WebServiceRequest.doRequest('wfs:GetFeature',featureId, serverUrl);
+      objRef.wfsController.doRequest('wfs:GetFeature',featureId, serverUrl);
     }
   }
-  this.addListener("loadModel", this.initDynModelList, this);
+  //this.addListener("loadModel", this.initDynModelList, this);
 
 }
 
