@@ -16,6 +16,7 @@ $Id$
  * @requires Util
  */
 function MapPane(widgetNode, group) {
+  // Inherit the WidgetBase functions and parameters
   var base = new WidgetBase(widgetNode, group);
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 

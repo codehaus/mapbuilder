@@ -15,6 +15,11 @@ $Id$
  * @param queryLayer Index of layer in Context document that should be used as query layer for GetFeatureInfo requests
  */
 function Context(url) {
+  // Inherit the Listener functions and parameters
+  var listener = new Listener();
+  for (sProperty in listener) { 
+    this[sProperty] = listener[sProperty]; 
+  } 
 
   /**
    * The Web Map Context Document.
@@ -33,8 +38,9 @@ function Context(url) {
   // Arrays of Listeners
   // ===============================
 
-  /** Functions to call when the boundingBox changes. */
-  this.boundingBoxChangeListeners=new Array();
+  /* Functions to call when the boundingBox changes. */
+  //this.boundingBoxChangeListeners=new Array();
+
   /** Functions to call when the layer's Hidden attribute changes. */
   this.hiddenListeners=new Array();
   /** Functions to call when one of the Context attributes has changed and
@@ -58,8 +64,10 @@ function Context(url) {
    * @param target The object which owns the listener function.
    */
   this.addBoundingBoxChangeListener=function(listener,target) {
-    this.boundingBoxChangeListeners[this.boundingBoxChangeListeners.length]=
-      new Array(listener,target);
+    //cameron
+    //this.boundingBoxChangeListeners[this.boundingBoxChangeListeners.length]=
+    //  new Array(listener,target);
+    this.addListener("boundingBox",listener,target);
   }
 
   /**
@@ -177,10 +185,12 @@ function Context(url) {
     bbox.setAttribute("maxx", boundingBox[2]);
     bbox.setAttribute("maxy", boundingBox[3]);
     // Call the listeners
-    for (var i=0; i<this.boundingBoxChangeListeners.length; i++) {
-      this.boundingBoxChangeListeners[i][0](
-        this.boundingBoxChangeListeners[i][1]);
-    }
+    // cameron
+    //for (var i=0; i<this.boundingBoxChangeListeners.length; i++) {
+    //  this.boundingBoxChangeListeners[i][0](
+    //    this.boundingBoxChangeListeners[i][1]);
+    //}
+    this.callListeners("boundingBox");
   }
 
   /**
@@ -337,6 +347,4 @@ function Context(url) {
   this.getAoi = function() {
     return new Array(this.ulAoi, this.lrAoi);
   }
-
-
 }
