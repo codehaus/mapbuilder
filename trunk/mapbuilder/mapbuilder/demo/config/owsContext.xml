@@ -14,16 +14,9 @@
     This dir is relative the dir of the main html file.
   -->
   <models>
-    <Logger id="eventLogDoc">
-      <serializeUrl>/mapbuilder/writeXml</serializeUrl>
-      <widgets>
-        <Widget id="eventLog">
-          <stylesheet>../lib/widget/EventLog.xsl</stylesheet>
-        </Widget>
-      </widgets>
-    </Logger>
     <Context id="mainMap">
       <defaultModelUrl>context/context_0_0_9.xml</defaultModelUrl>
+      <nodeSelectXpath>/cml:ViewContext/cml:ResourceList/cml:FeatureType[cml:Server/@service='OGC:WFS']</nodeSelectXpath>
       <models>
         <Gml2 id="gml2FeatureTemplate" template="true">
           <method>post</method>
@@ -67,8 +60,8 @@
         </Widget>
         <GetFeatureRequest id="getFeatureRequest">
           <debug/>
+          <stylesheet>/mapbuilder/lib/widget/GetFeatureRequestContext.xsl</stylesheet>
           <targetModel>gml2FeatureTemplate</targetModel>
-          <nodeSelectXpath>/cml:ViewContext/cml:ResourceList/cml:FeatureType[cml:Server/@service='OGC:WFS']</nodeSelectXpath>
           <tools>
             <!--OgcFilter/-->
           </tools>

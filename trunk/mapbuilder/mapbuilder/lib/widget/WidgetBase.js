@@ -26,14 +26,19 @@ function WidgetBase(widget,widgetNode,model) {
   this.model = model;
   this.widgetNode = widgetNode;
 
-  /** mbWidgetId is an auto generated ID assigned to the widget output node */
-  this.mbWidgetId = "MbWidget_" + mbIds.getId();
+  //allow the widget output to be replaced on each paint call
+  var outputNodeId = widgetNode.selectSingleNode("mb:outputNodeId");
+  if ( outputNodeId ) {
+    this.outputNodeId = outputNodeId.firstChild.nodeValue;
+  } else {
+    this.outputNodeId = "MbWidget_" + mbIds.getId();
+  }
 
   /** Widget's Id defined in the Config (optional) */
   if (widgetNode.attributes.getNamedItem("id")) {
     this.id = widgetNode.attributes.getNamedItem("id").nodeValue;
   } else {
-    this.id = this.mbWidgetId;
+    this.id = this.outputNodeId;
   }
 
   //set an empty debug property in config to see inputs and outputs of stylehseet
@@ -94,6 +99,7 @@ function WidgetBase(widget,widgetNode,model) {
 
   //all stylesheets will have these properties available
   this.stylesheet.setParameter("modelId", this.model.id );
+  this.stylesheet.setParameter("targetModelId", this.targetModel.id );
   this.stylesheet.setParameter("widgetId", this.id );
   this.stylesheet.setParameter("skinDir", config.skinDir );
   this.stylesheet.setParameter("lang", config.lang );
@@ -119,6 +125,16 @@ function WidgetBase(widget,widgetNode,model) {
   }
 
   /**
+   * Called change the visibility of this widget's output node
+   * @param vis   boolean true or false 
+   */
+  this.setVisibility = function(vis) {
+    var vis="visible";
+    if (vis) vis="hidden";
+    document.getElementById(this.outputNodeId).style.visibility = vis;
+  }
+
+  /**
    * Called before paint(), can be used to set up a widget's paint parameters,
    * or modify model using this.resultDoc().
    * @param objRef Pointer to this object.
@@ -135,7 +151,7 @@ function WidgetBase(widget,widgetNode,model) {
   this.paint = function(objRef) {
     if (objRef.model.doc && objRef.node && !objRef.override) {
 
-      if (objRef.debug) alert("source:"+objRef.model.doc.xml);
+      //if (objRef.debug) alert("source:"+objRef.model.doc.xml);
       objRef.resultDoc = objRef.model.doc; // resultDoc sometimes modified by prePaint()
       objRef.prePaint(objRef);
 
@@ -152,10 +168,10 @@ function WidgetBase(widget,widgetNode,model) {
       //the firstChild of tempNode will be the root element output by the stylesheet
       var tempNode = document.createElement("DIV");
       tempNode.innerHTML = s;
-      tempNode.firstChild.setAttribute("id", objRef.mbWidgetId);
+      tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
 
       //look for this widgets output and replace if found, otherwise append it
-      var outputNode = document.getElementById( objRef.mbWidgetId );
+      var outputNode = document.getElementById( objRef.outputNodeId );
       if (outputNode) {
         objRef.node.replaceChild(tempNode.firstChild,outputNode);
       } else {
@@ -163,6 +179,12 @@ function WidgetBase(widget,widgetNode,model) {
       }
       objRef.callListeners("paint");
     }
+  }
+
+  this.clearWidget = function(objRef) {
+    //with objRef.node remove child
+    var outputNode = document.getElementById( objRef.outputNodeId );
+    if (outputNode) objRef.node.removeChild(outputNode);
   }
 
   /**
@@ -182,6 +204,8 @@ function WidgetBase(widget,widgetNode,model) {
     }
   }
 
+
+
   // If this object is being created because a child is extending this object,
   // then child.properties = this.properties
   for (sProperty in this) {
@@ -189,4 +213,5 @@ function WidgetBase(widget,widgetNode,model) {
   }
   // Call paint when model changes
   widget.model.addListener("refresh",widget.paint, widget);
+  widget.model.addListener("newModel",widget.clearWidget, widget);
 }
