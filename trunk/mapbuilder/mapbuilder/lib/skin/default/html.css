@@ -9,3 +9,7 @@ INPUT.bareinput {
   color: #000000;
   background-color: transparent;
 }
+
+#mainMapContainer {
+  border: 1px solid olive;
+}
