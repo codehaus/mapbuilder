@@ -30,9 +30,9 @@ mapbuilder.loadScript(baseDir+"/util/Proxy.js");
 
  * @constructor
 
- * @param objRef      Pointer to this Query object.
+ * @param toolNode The XML node in the Config file referencing this object.
 
- * @param targetNode  The node for the enclosing HTML tag for this widget.
+ * @param parentWidget The widget object which this tool is associated with.
 
  */
 
@@ -60,7 +60,7 @@ function GetFeatureInfo(toolNode, parentWidget) {
 
   /** Proxy for requesting external URLs. */
 
-  this.proxy=new Proxy();
+  this.proxy=new Proxy(parentWidget.model);
 
 
 
