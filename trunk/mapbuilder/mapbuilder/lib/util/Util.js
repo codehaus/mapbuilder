@@ -309,3 +309,25 @@ function loadScript (url) {
   script.src = url;
   document.getElementsByTagName('head')[0].appendChild(script);
 }
+
+
+
+/** 
+ * Extends the Document class to emulate IE's transformNodeToObject
+ * @uses Mozilla's XSLTProcessor
+ * @argument xslDoc The stylesheet to use (a DOM Document instance)
+ * @argument oResult The Document to store the transformation result
+ */
+Node.prototype.simpleValue = function(nodeXpath)
+{
+  try
+  {
+    var node = this.selectSingleNode(nodeXpath)
+    return node.firstChild.nodeValue;
+  }
+  catch(e)
+  {
+    alert("simpleValue exception:" + e);
+    throw e;
+  }
+};

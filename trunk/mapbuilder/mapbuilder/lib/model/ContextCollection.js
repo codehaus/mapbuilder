@@ -14,7 +14,7 @@ $Id$
  * @param baseDir Relative path to base directory of Mapbuilder files
  * @param skin Name of skin to use for look and feel
  */
-function Collection(url, name, baseDir, skin) {
+function Collection(url) {
 
   /**
    * The Web Map Context Collection Document.
@@ -25,16 +25,7 @@ function Collection(url, name, baseDir, skin) {
   this.doc.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
   this.doc.setProperty("SelectionLanguage", "XPath");
   this.doc.load(url);
-  this.name=name;
-  this.baseDir=baseDir;
-  if (skin) {
-    this.skin = skin;
-  } else {
-    this.skin="default";
-  }
-  /**
-   * The name of the skin to use, defaults to skin/default .*/
-  this.skin=baseDir+"/skin/"+this.skin+"/";
+
 
   // ===============================
   // Arrays of Listeners
@@ -80,20 +71,6 @@ function Collection(url, name, baseDir, skin) {
     this.selectContextListeners[this.selectContextListeners.length]=listener;
   }
 
-  // ===============================
-  // Update Collection Parameters
-  // ===============================
-
-  /**
-   * Get the BoundingBox.
-   * @return BoundingBox array in form (xmin,ymin,xmax,ymax).
-   */
-  this.getContextUrl = function( contextId ) {
-    bbox=this.context.documentElement.getElementsByTagName("BoundingBox").item(0);
-    srs=bbox.getAttribute("SRS");
-    return bbox;
-  }
-
   /** Insert a new context.
     * @param context An XML node which describes the context.
     * @param zindex The position to insert this context in the contextList, if set
@@ -120,12 +97,14 @@ function Collection(url, name, baseDir, skin) {
     //TBD Fill this in.
   }
 
-  /** Select this context for further operations (like a query).
+  /** Select this context for further operations 
     * @param context The context id to select.
     * @param selected Set to true/false.
     */
-  this.selectcontext=function(context,selected){
-    //TBD Fill this in.
+  this.selectContext=function(context,selected){
+    for (var i=0; i<this.selectContextListeners.length; i++) {
+      this.selectContextListeners[i]();
+    }
   }
 
 }
