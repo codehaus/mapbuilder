@@ -11,13 +11,12 @@ mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
  * http://opengis.org (WFS).  
  * Extends ModelBase, which extends Listener.
  *
- * Listener Parameters used:
- * "aoi" - ((upperLeftX,upperLeftY),(lowerRigthX,lowerRigthY)),
+ * Listeners implemented:
  *
  * @constructor
  * @author Mike Adair
- * @see ModelBase
- * @see Listener
+ * @param modelNode Pointer to the xml node for this model from the config file.
+ * @param parent    The parent model for the object.
  */
 function Transaction(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
