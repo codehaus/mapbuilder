@@ -19,6 +19,7 @@ Extra functionality introduced in this release includes:
 * Feature rendering from a Web Feature Service (WFS) query
 * Feature entry to a Transactional Web Feature Service (WFS-T)
 * Web Map Context (WMC) Editor client
+* Javascript and XSL is now compressed to reduce downloads.
 
 The schema for the configuration file has changed since last release
 which means configuration files from release 0.1 will not work with 0.2.
