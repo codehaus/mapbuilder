@@ -4,6 +4,9 @@ Dependancies: Context
 $Id$
 */
 
+// Ensure this object's dependancies are loaded.
+loadScript(baseDir+"/model/Extent.js");
+
 /**
  * Zooms the target model to the AOI of this widget.  The target model can be 
  * this modelGroup's model or anothers

@@ -7,6 +7,7 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 loadScript(baseDir+"/widget/WidgetBase.js");
+loadScript(baseDir+"/model/Extent.js");
 
 /**
  * Tools to build a MapPane from a Web Map Context.

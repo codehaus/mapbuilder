@@ -3,6 +3,9 @@ License: GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
+// Ensure this object's dependancies are loaded.
+loadScript(baseDir+"/model/Extent.js");
+
 /**
  * Stores a Web Map Context (WMC) document as defined by the Open GIS Consortium
  * http://opengis.org and extensions the the WMC.  A unique Id is included for
