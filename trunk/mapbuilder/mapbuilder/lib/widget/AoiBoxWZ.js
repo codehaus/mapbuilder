@@ -42,7 +42,7 @@ function AoiBoxWZ(widgetNode, model) {
       objRef.jg.setColor(objRef.lineColor);
 
       //TBD: The following causes lines to be drawn incorrectly in Mozilla 1.71
-      //objRef.jg.setStroke(objRef.lineWidth);
+      objRef.jg.setStroke(parseInt(objRef.lineWidth));
     }
 
     aoiBox = objRef.model.getParam("aoi");
