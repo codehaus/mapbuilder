@@ -35,10 +35,10 @@ function AoiBoxWZ(widgetNode, model) {
    * @param objRef Pointer to this object.
    */
   this.paint = function(objRef) {
-    var outputNode = document.getElementById( objRef.mbWidgetId );
+    var outputNode = document.getElementById( objRef.outputNodeId );
     if (! objRef.jg) {
       // WZ Graphics object and rendering functions.
-      objRef.jg=new jsGraphics(objRef.mbWidgetId);
+      objRef.jg=new jsGraphics(objRef.outputNodeId);
       objRef.jg.setColor(objRef.lineColor);
 
       //TBD: The following causes lines to be drawn incorrectly in Mozilla 1.71
