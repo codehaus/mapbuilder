@@ -124,7 +124,9 @@ function AoiBox(toolNode, parentWidget) {
     return newDiv;
   }
 
-  /** Called when the AoiChanged. */
+  /**
+   * Called when the AoiChanged.
+   * @param objRef This object.*/
   this.aoiListener = function(objRef) {
     objRef.paint();
   }
@@ -138,7 +140,7 @@ function AoiBox(toolNode, parentWidget) {
     objRef.Right = objRef.getImageDiv( containerNode );
   }
 
-  this.parentWidget.model.addAoiListener(this.aoiListener, this);
+  this.parentWidget.model.addListener("aoi",this.aoiListener, this);
   this.parentWidget.addPaintListener( this.loadAoiBox, this );
 }
 

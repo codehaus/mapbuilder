@@ -39,78 +39,6 @@ function Context(url) {
   this.id = this.doc.documentElement.attributes.getNamedItem("id").nodeValue;
 
   // ===============================
-  // Arrays of Listeners
-  // ===============================
-
-  /* Functions to call when the boundingBox changes. */
-  //this.boundingBoxChangeListeners=new Array();
-
-  /** Functions to call when the layer's Hidden attribute changes. */
-  this.hiddenListeners=new Array();
-  /** Functions to call when one of the Context attributes has changed and
-   no other listener has been called to notify the change. */
-  this.contextListeners=new Array();
-  /** Functions to call when the order of layers changes. */
-  this.layerOrderListeners=new Array();
-  /** Functions to call when a layer is added. */
-  this.addLayerListeners=new Array();
-  /** Functions to call when a layer is deleted. */
-  this.deleteLayerListeners=new Array();
-  /** Functions to call when a layer is selected. */
-  this.selectLayerListeners=new Array();
-
-  // ===============================
-  // Add Listener Functions
-  // ===============================
-
-  /**
-   * Add a Context listener.  This listener is called if the context is replaced,
-   * or one of the rarely used parameters which has no listener is updated.
-   * The listener function should be of the form contextListener().
-   * @param listener The fuction to call when context changes.
-   */
-  this.addContextListener=function(listener) {
-    this.contextListeners[this.contextListeners.length]=listener;
-  }
-
-  /**
-   * Add a LayerOrder listener.  This listener is called if the order of layers
-   * changes.
-   * The listener function should be of the form layerOrderListener().
-   * @param listener The fuction to call when layerOrder changes.
-   */
-  this.addLayerOrderListener=function(listener) {
-    this.layerOrderListeners[this.layerOrderListeners.length]=listener;
-  }
-
-  /**
-   * Add a AddLayer listener.  This listener is called if a layer is added.
-   * The listener function should be of the form addLayerListener(layerId).
-   * @param listener The fuction to call when a layer is added.
-   */
-  this.addAddLayerListener=function(listener) {
-    this.addLayerListeners[this.addLayerListeners.length]=listener;
-  }
-
-  /**
-   * Add a DeleteLayer listener.  This listener is called if a layer is deleted.
-   * The listener function should be of the form deleteLayerListener(layerId).
-   * @param listener The fuction to call when a layer is deleted.
-   */
-  this.addDeleteLayerListener=function(listener) {
-    this.deleteLayerListeners[this.deleteLayerListeners.length]=listener;
-  }
-
-  /**
-   * Add a SelectLayer listener.  This listener is called if a layer is selected.
-   * The listener function should be of the form selectLayerListener(layerId).
-   * @param listener The fuction to call when a layer is selected.
-   */
-  this.addSelectLayerListener=function(listener) {
-    this.selectLayerListeners[this.selectLayerListeners.length]=listener;
-  }
-
-  // ===============================
   // Update Context Parameters
   // ===============================
 
@@ -301,27 +229,11 @@ function Context(url) {
     return this.doc;
   }
 
-//add the extent property
+  //add the extent property
   this.extent = new Extent( this );
 
-//make a copy in the constructor for reset function
+  //make a copy in the constructor for reset function
   this.originalExtent = new Extent( this );   
-
-  /** Functions to call when the Area Of Interest changes. */
-  this.aoiListeners=new Array();
-
-  // ===============================
-  // Add Listener Functions
-  // ===============================
-  /**
-   * Add a Listener for AoiBox change.
-   * @param listener The function to call when the Area Of Interest changes.
-   * @param target The object which owns the listener function.
-   */
-  this.addAoiListener=function(listener,target) {
-    this.aoiListeners[this.aoiListeners.length]=
-      new Array(listener,target);
-  }
 
   /**
    * Set the end point for an Area Of Interest Box and call aoiListeners,
@@ -332,15 +244,13 @@ function Context(url) {
     this.ulAoi = ul;
     this.lrAoi = lr;
     this.aoiValid=true;
-    for (var i=0; i<this.aoiListeners.length; i++) {
-      this.aoiListeners[i][0](
-        this.aoiListeners[i][1]);
-    }
+    // Call the listeners
+    this.callListeners("aoi");
   }
 
-/** Returns an array of the corner coordinates as [ul, lr]
-  * @return        array of point arrays; ul=0, lr=1
-  */
+  /** Returns an array of the corner coordinates as (ul, lr)
+    * @return        array of point arrays; ul=0, lr=1
+    */
   this.getAoi = function() {
     return new Array(this.ulAoi, this.lrAoi);
   }
