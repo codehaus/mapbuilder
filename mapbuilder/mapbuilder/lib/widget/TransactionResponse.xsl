@@ -32,4 +32,18 @@ $Name$
       </tr>
     </table>
   </xsl:template>
+
+  <!-- Transaction Response -->
+  <xsl:template match="wfs:WFS_TransactionResponse">
+    <table>
+      <tr>
+        <td>Transaction Status:</td>
+        <td><xsl:value-of select="name(wfs:TransactionResult/wfs:Status/*)"/></td>
+      </tr>
+      <tr>
+        <td>New Feature Id:</td>
+        <td><xsl:value-of select="wfs:InsertResult/ogc:FeatureId/@fid"/></td>
+      </tr>
+    </table>
+  </xsl:template>
 </xsl:stylesheet>
