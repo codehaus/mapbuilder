@@ -5,7 +5,6 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
-mapbuilder.loadScript(baseDir+"/tool/WebServiceRequest.js");
 
 /**
  * Stores a WFS DescribeFeatureType request reponse as defined by the Open GIS Consortium
@@ -25,7 +24,5 @@ function GetFeature(modelNode, parent) {
   var modelBase = new ModelBase(this, modelNode, parent);
   this.namespace = "xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs'";
 
-  var styleUrl = baseDir+"/widget/"+modelNode.nodeName+"Request.xsl";
-  this.requestTool = new WebServiceRequest(this, styleUrl);
 }
 

@@ -26,13 +26,6 @@ function OwsContext(modelNode, parent) {
 
   this.namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:ows='http://www.opengis.net/ows' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'";
 
-  //get the xpath to select nodes from the parent doc
-  var nodeSelectXpath = modelNode.selectSingleNode("mb:nodeSelectXpath");
-  if (nodeSelectXpath) {
-    this.nodeSelectXpath = nodeSelectXpath.firstChild.nodeValue;
-    this.featureList = new ModelList(this);
-  }
-
   // ===============================
   // Update of Context Parameters
   // ===============================
@@ -178,6 +171,7 @@ function OwsContext(modelNode, parent) {
   this.getServerUrl = function(feature) {
     return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
   }
+
   this.getMethod = function(feature) {
     return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("wmc:method");
   }
@@ -187,13 +181,15 @@ function OwsContext(modelNode, parent) {
    * @param objRef Pointer to this object.
    */
   this.initDynModelList = function(objRef) {
-    var featureList = objRef.featureList.getFeatureList();
+    var featureList = objRef.mainMapWidget.WebServiceRequest.getFeatureList();
     for (var i=0; i<featureList.length; i++) {
       var feature = featureList[i];
-      objRef.setParam("GetFeature",feature);
+      var featureId = feature.attributes.getNamedItem("id").nodeValue;
+      var serverUrl = feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
+      objRef.mainMapWidget.WebServiceRequest.doRequest('wfs:GetFeature',featureId, serverUrl);
     }
   }
-  if ( this.featureList) this.addListener("refresh", this.initDynModelList, this);
+  this.addListener("loadModel", this.initDynModelList, this);
 
 }
 

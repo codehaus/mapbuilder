@@ -45,7 +45,7 @@ $Name$
         <xsl:value-of select="Title"/>
       </td>
       <td>
-        <a href="javascript:config.{$modelId}.loadFeature('{$id}')">preview</a>
+        <a href="javascript:config.{$modelId}.{$widgetId}.WebServiceRequest.doRequest('wms:GetMap','{$id}')">preview</a>
       </td>
       <td>
         <a href="javascript:config.{$modelId}.addToContext('{$id}')">add to map</a>

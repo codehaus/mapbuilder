@@ -18,9 +18,9 @@ function WfsCapabilities(modelNode, parentModel) {
 
   this.namespace = "xmlns:wfs='http://www.opengis.net/wfs'";
 
-  this.getServerUrl = function(feature, requestName ) {
-    var xpath = "/wfs:WFS_Capabilities/wfs:Capability/wfs:Request/wfs:"+requestName;
-    if (feature[requestName].method.toLowerCase() == "post") {
+  this.getServerUrl = function(requestName, method) {
+    var xpath = "/wfs:WFS_Capabilities/wfs:Capability/wfs:Request/"+requestName;
+    if (method.toLowerCase() == "post") {
       xpath += "/wfs:DCPType/wfs:HTTP/wfs:Post";
     } else {
       xpath += "/wfs:DCPType/wfs:HTTP/wfs:Get";
@@ -28,18 +28,8 @@ function WfsCapabilities(modelNode, parentModel) {
     return this.doc.selectSingleNode(xpath).getAttribute("onlineResource");
   }
 
-  this.getMethod = function(feature) {
+  this.getMethod = function() {
     return this.method;
-  }
-
-  this.loadFeature = function(featureNodeId) {
-    var feature = this.featureList.getFeatureNode(featureNodeId);
-    this.setParam("GetFeature",feature);
-  }
-
-  this.filterFeature = function(featureNodeId) {
-    var feature = this.featureList.getFeatureNode(featureNodeId);
-    this.setParam("DescribeFeatureType",feature);
   }
 
 }

@@ -18,10 +18,14 @@ function WmsCapabilities(modelNode, parentModel) {
 
   this.namespace = "xmlns:wms='http://www.opengis.net/wms'";
 
-  this.getServerUrl = function(request) {
-    var xpath = "/WMT_MS_Capabilities/Capability/Request/"+request+"/DCPType/HTTP/Get/OnlineResource";
-    var node = this.doc.selectSingleNode(xpath);
-    return this.doc.selectSingleNode(xpath).getAttribute("xlink:href");
+  this.getServerUrl = function(requestName, method) {
+    var xpath = "/WMT_MS_Capabilities/Capability/Request/"+requestName;
+    if (method.toLowerCase() == "post") {
+      xpath += "/DCPType/HTTP/Post/OnlineResource";
+    } else {
+      xpath += "/DCPType/HTTP/Get/OnlineResource";
+    }
+    return this.doc.selectSingleNode(xpath).getAttribute("onlineResource");
   }
 
   this.getVersion = function() {
@@ -39,11 +43,6 @@ function WmsCapabilities(modelNode, parentModel) {
     var xpath = "/WMT_MS_Capabilities/Service/Name";
     var node = this.doc.selectSingleNode(xpath);
     return node.firstChild.nodeValue;
-  }
-
-  this.loadFeature = function(featureNodeId) {
-    var feature = this.featureList.getFeatureNode(featureNodeId);
-    this.setParam("GetMap",feature);
   }
 
   this.addToContext = function(featureNodeId) {
