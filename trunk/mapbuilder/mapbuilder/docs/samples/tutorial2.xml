@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
-
-<MapbuilderConfig id="referenceTemplate">
+<MapbuilderConfig version="0.2.0" id="tutorial2" 
+    xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
   <skinDir>/mapbuilder/lib/skin/default</skinDir>
 
   <models>
@@ -9,7 +11,7 @@
       <defaultModelUrl>/mapbuilder/demo/context/locatorMap.xml</defaultModelUrl>
       
       <widgets>
-        <MapPane id="firstMapPane">
+        <MapPane id="mainMapWidget">
           <tools> 
             <AoiBox>
               <lineColor>magenta</lineColor>
@@ -18,15 +20,17 @@
             </AoiBox>
             
           </tools> 
+          <htmlTagId>firstMapPane</htmlTagId>
+          <mapContainerId>firstMapContainer</mapContainerId>
         </MapPane>
       </widgets>
     </Context>
 
-    <Context id="secondMap">
-      <defaultModelUrl>/mapbuilder/demo/context/mars.xml</defaultModelUrl>
+    <Context id="firstMapPane">
+      <defaultModelUrl>/mapbuilder/demo/context/DM_Canada.xml</defaultModelUrl>
       
       <widgets>
-        <MapPane id="secondMapPane">
+        <MapPane id="secondMapWidget">
           <tools> 
             <AoiBox>
               <lineColor>#FF0000</lineColor>
@@ -36,6 +40,8 @@
             <AoiMouseHandler/>
            
           </tools> 
+          <htmlTagId>secondMapPane</htmlTagId>
+          <mapContainerId>secondMapContainer</mapContainerId>
         </MapPane>
       </widgets>
     </Context>

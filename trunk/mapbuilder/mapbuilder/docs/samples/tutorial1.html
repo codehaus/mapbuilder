@@ -7,11 +7,10 @@
   in a web page.
 </p>
 
-<div id="mainMapPane" style="float:right;width:200"></div>
+<div id="mainMapPane" style="float:right"></div>
 
 <p>
-  The <a href="/ql2/mbTutorial/demos/tutorial1.xml" target="ConfigSrcWin">config file</a> 
-  for this page consists of a single 
+  The configuration for this page consists of a single 
   model (a Web Map Context document) and a single widget (a MapPane).
 </p>
 <p>
@@ -21,9 +20,14 @@
 <p>
   The model ID can also be used as an HTTP request parameter to initialize the 
   model from a URL.
-  For example, 
-  <a href="/ql2/mb?page=demos/tutorial1&mainMap=/mapbuilder/demo/context/modisWorld.xml">
-  this page can be loaded with a different map.</a>
+  For example, this page can be loaded with a different map using 
+  <a href="javascript:config.loadModel('mainMap','/mapbuilder/demo/context/modisWorld.xml')">
+    JavaScript
+  </a>
+  or 
+  <a href="?page=samples/tutorial1&mainMap=/mapbuilder/demo/context/cded.xml">
+    by a parameter in the URL.
+  </a>
 </p>
 
 <p>
@@ -36,4 +40,6 @@
 <p>
   The transformation is done by applying an XSLT stylehseet applied to the model.
 </p>
+
+<p align="right"><a href="?page=samples/tutorial2">next</a></p>
 
