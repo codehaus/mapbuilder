@@ -34,6 +34,7 @@
 	
 	<xs:complexType name="_widgetsType">
 		<xs:sequence>
+			<xs:element name="htmlTagId" type="xs:string" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="mouseHandler" type="xs:string" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="stylesheet" type="xs:string" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="fixedWidth" type="xs:integer" minOccurs="0" maxOccurs="1"/>
