@@ -237,7 +237,7 @@ function Extent( context ) {
     if (lr) {
       this.context.setAoi(this.GetPL(ul), this.GetPL(lr));
     } else {
-      this.context.setAoi(this.GetPL(ul));
+      this.context.setAoi(this.GetPL(ul), this.GetPL(ul));
     }
   }
 

@@ -47,8 +47,8 @@ function AoiBox(toolNode, parentWidget) {
     */
   this.paint = function() {
     var aoiBox = this.parentWidget.model.getAoi();
-    ul = aoiBox[0];
-    lr = aoiBox[1];
+    var ul = aoiBox[0];
+    var lr = aoiBox[1];
     //check if ul=lr, then draw cross, else drawbox
     if ( (Math.abs( ul[0]-lr[0] ) < this.crossSize) && 
         (Math.abs( ul[1]-lr[1] ) < this.crossSize) ) {

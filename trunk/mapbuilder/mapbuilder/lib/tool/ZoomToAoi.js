@@ -53,6 +53,7 @@ function ZoomToAoi(toolNode, parentWidget) {
     if ( tool.model.getSRS() != tool.targetModel.getSRS() ) {
       ul = tool.targetModel.proj.Inverse( ul ); //to lat-long
       lr = tool.targetModel.proj.Inverse( lr );
+      if (ul[0]>lr[0]) ul[0] = ul[0]-360.0;     //make sure ul is left of lr
       ul = tool.model.proj.Forward( ul );       //back to XY
       lr = tool.model.proj.Forward( lr );
     }
