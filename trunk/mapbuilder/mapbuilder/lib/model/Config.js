@@ -107,5 +107,6 @@ if (document.readyState==null){
   // Mozilla
   mapbuilder.setLoadState(MB_LOAD_CONFIG);
   config=new Config(mbConfigUrl);
+  config[config.id] = config;
   config.loadConfigScripts();
 }
