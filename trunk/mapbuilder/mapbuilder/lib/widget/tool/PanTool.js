@@ -9,6 +9,7 @@ $Id$
  * @constructor
  * @author Nedjo
  * @constructor
+ * @requires Context
  * @param context The Web Map Context to call when changing extent.
  * @param baseDir The base mapbuilder lib directory.
  * @param node Node from the HTML DOM to insert Pan HTML into.
