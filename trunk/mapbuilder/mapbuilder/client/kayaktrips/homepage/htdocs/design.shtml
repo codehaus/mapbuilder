@@ -32,7 +32,7 @@ business logic to drive them.</p>
 it should run in a web browser.</p>
 
 <p>Currently, work in underway to enhance the geotools java applet to provide
-the required functionality for this.  It is open source under the GPL.  See
+the required functionality for this.  It is open source under the LGPL.  See
 <a
 href="http://geotools.sourceforge.net">http//geotools.sourceforge.net</a></p>
 
@@ -78,6 +78,7 @@ end user will only need a web browser to view the created maps.</p>
 
 <p>There are a few open source technologies available:</p>
 <ul>
+  <li>Mapserv - <a href="http://mapserver.gis.umn.edu">http://mapserver.gis.umn.edu</a> provides a Web Map Server (WMS) client which sounds promising.
   <li>Geotools -  <a
     href="http://geotools.sourceforge.net/">http//geotools.sourceforge.net</a>,
     provides a fancy java client, however it is probably too large for most
@@ -98,8 +99,8 @@ Consortium</em>.   It may also be how the maps created by the <em>Community
 Map Builder</em> are served to the web.</p>
 
 <p>Mapserv - <a
-href="http://mapserver.gis.umn.edu">http://mapserver.gis.umn.edu</a> version
-3.5 provides a good open source WMS.</p>
+href="http://mapserver.gis.umn.edu">http://mapserver.gis.umn.edu</a>
+provides a good open source WMS.</p>
 
 <p>There are already numourous maps being served to the web using WMS
 protocols.  With a bit of luck, you will be able to find one which will be
