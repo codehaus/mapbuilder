@@ -148,10 +148,22 @@ function Context(url, name, baseDir, skin, queryLayer) {
    * has changed.
    * @param hidden, 1=hidden, 0=not hidden.
    */
-  this.setHidden=function(layerIndex,hidden){
+  this.setHidden=function(layerIndex, hidden){
     // Set the hidden attribute in the Context
-   layers=this.context.documentElement.getElementsByTagName("Layer");
-   
+    if(hidden) {
+      hiddenValue = "1";
+    }
+    else {
+      hiddenValue = "0";
+    }
+      
+    layers=this.context.documentElement.getElementsByTagName("Layer");
+    for(i=0;i<layers.length;i++) {
+      if(layers[i].getElementsByTagName("Name").item(0).firstChild.nodeValue == layerIndex) {
+        layers[i].setAttribute("hidden", hiddenValue);
+        break;
+      }
+    }
     // Call the listeners
     for(i=0;i<this.hiddenListeners.length;i++) {
       this.hiddenListeners[i](layerIndex,hidden);
