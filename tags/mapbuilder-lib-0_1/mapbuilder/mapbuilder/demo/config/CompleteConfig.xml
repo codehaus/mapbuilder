@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+
+<MapbuilderConfig id="referenceTemplate">
+  <!--
+    Description: This configuration file determines what components from the
+                 Mapbuilder library are to be included in a Main Mapbuilder web
+                 page.
+    Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html 
+
+    $Id$
+  -->
+
+  <!--
+    All static images should be relative to this URL.
+    This dir is relative the dir of the main html file.
+  -->
+  <skinDir>../lib/skin/default</skinDir>
+
+  <models>
+
+    <Context id="mainMapGroup">
+      <defaultModelUrl>context/atlasWorld.xml</defaultModelUrl>
+      
+      <widgets>
+        <MapPane id="mainMapPaneId">
+          <tools> 
+            <AoiMouseHandler/>
+            <AoiBox>
+              <lineColor>#FF0000</lineColor>
+              <lineWidth>2</lineWidth>
+              <crossSize>1</crossSize>
+            </AoiBox>
+            <DragPanHandler>
+              <enabled>false</enabled>
+            </DragPanHandler>
+            
+          </tools> 
+        </MapPane>
+        
+        <CursorTrack id="cursorTrackId">
+          <mouseHandler>config['mainMapGroup']['mainMapPaneId']</mouseHandler>
+        </CursorTrack>
+            
+        <Legend id="legendId">
+        </Legend>
+        
+        <ButtonBar id="buttonBarId">  
+          <tools>
+            <ZoomIn id="zoomIn">
+              <class>RadioButton</class>
+              <selected>true</selected>
+              <mouseHandler>config['mainMapGroup']['mainMapPaneId']</mouseHandler>
+              <dependsOn>config['mainMapGroup']['mainMapPaneId']['AoiMouseHandler']</dependsOn>
+              <dependsOn>config['mainMapGroup']['mainMapPaneId']['AoiBox']</dependsOn>
+              <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
+              <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
+              <tooltip>click and drag to zoom in</tooltip>
+            </ZoomIn>
+            <ZoomOut id="zoomOut">
+              <class>RadioButton</class>
+              <mouseHandler>config['mainMapGroup']['mainMapPaneId']</mouseHandler>
+              <dependsOn>config['mainMapGroup']['mainMapPaneId']['AoiMouseHandler']</dependsOn>
+              <dependsOn>config['mainMapGroup']['mainMapPaneId']['AoiBox']</dependsOn>
+              <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
+              <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
+              <tooltip>click to zoom out</tooltip>
+            </ZoomOut>
+            <DragPan id="dragPan">
+              <class>RadioButton</class>
+              <mouseHandler>config['mainMapGroup']['mainMapPaneId']</mouseHandler>
+              <dependsOn>config['mainMapGroup']['mainMapPaneId']['DragPanHandler']</dependsOn>
+              <enabledSrc>/images/PanEnable.gif</enabledSrc>
+              <disabledSrc>/images/PanDisable.gif</disabledSrc>
+              <tooltip>click and drag to pan</tooltip>
+            </DragPan>
+            <Reset id="reset">
+              <class>Button</class>
+              <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
+              <tooltip>reset the map to full extent</tooltip>
+            </Reset>
+          </tools>
+        </ButtonBar>
+      </widgets>
+    </Context>
+      
+    <Context id="locatorMapGroup">
+      <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
+      <widgets>
+        <MapPane id="locatorMapId">
+          <fixedWidth>true</fixedWidth>
+          <tools> 
+            <AoiBox>
+              <lineColor>red</lineColor>
+              <lineWidth>1</lineWidth>
+              <crossSize>15</crossSize>
+            </AoiBox>
+            <AoiMouseHandler/>
+            <ZoomToAoi>
+              <targetModel>mainMapGroup</targetModel>
+            </ZoomToAoi>
+          </tools> 
+        </MapPane>
+      </widgets>
+    </Context>
+    
+    <ContextCollection id="collectionGroup">
+      <defaultModelUrl>context/demoCollection.xml</defaultModelUrl>
+      <widgets>
+        <CollectionList id="collectionListId">
+          <targetModel>mainMapGroup</targetModel>
+        </CollectionList>
+      </widgets>
+    </ContextCollection>
+    
+  </models>
+
+</MapbuilderConfig>
