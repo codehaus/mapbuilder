@@ -171,7 +171,7 @@
 
         <tbody>
           <row>
-            <entry>Mabuilder</entry>
+            <entry>Mapbuilder</entry>
 
             <entry>mapbuilderInit()</entry>
 
@@ -216,7 +216,7 @@
           <row>
             <entry>ModelBase</entry>
 
-            <entry>model.init</entry>
+            <entry>.... model.init</entry>
 
             <entry></entry>
           </row>
@@ -224,7 +224,7 @@
           <row>
             <entry>ModelBase.init</entry>
 
-            <entry>.. this.loadObjects()</entry>
+            <entry>..... this.loadObjects()</entry>
 
             <entry><emphasis>Called again in the same thread!? Can this be
             simplified?</emphasis></entry>
