@@ -324,7 +324,6 @@
       <xs:element name="targetModel" type="xs:string" minOccurs="0"/>
       <xs:element name="mouseHandler" type="xs:string" minOccurs="0"/>
       <xs:element name="enabled" type="xs:boolean" minOccurs="0"/>
-      <xs:element name="dependsOn" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="id" type="mb:idType" use="optional"/>
   </xs:complexType>
