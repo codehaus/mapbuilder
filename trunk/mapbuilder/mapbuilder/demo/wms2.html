@@ -34,25 +34,18 @@ $Name$
       Web Map Server Client</h1>
     <div id="contextDiv"></div>
     <table>
-      <tr><th>MapPane</th><th>Legend</td></tr>
       <tr>
         <td valign="top">
-          <div id="legendDiv"></div>
+          <div id="mapPaneDiv"></div>
         </td>
         <td valign="top">
-          <div id="mapPaneDiv"></div>
-          <!--
-          <img src="../widget/mappane/frog.gif" width=500 height=300 />
-          -->
+          <div id="panToolDiv"></div>
+          <br/>
+          <div id="legendDiv"></div>
         </td>
       </tr>
     </table>
-    <!--
-    <div id="panToolDiv"></div>
-    <p>After pan</p>
     <div id="zoomToolDiv"></div>
-    <p>After zoom</p>
-    -->
     <p><i>A <a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Project</i></p>
     <script>
       // Base Mapbuilder library directory
@@ -92,14 +85,14 @@ $Name$
       panTool=new PanTool(
         context,
         "panTool",
-        document.getElementById("panTool"));
+        document.getElementById("panToolDiv"));
       panTool.paint();
 
       // Create and render a ZoomTool
       zoomTool=new ZoomTool(
         context,
         "zoomTool",
-        document.getElementById("panTool"));
+        document.getElementById("panToolDiv"));
       zoomTool.paint();
     </script>
   </body>
