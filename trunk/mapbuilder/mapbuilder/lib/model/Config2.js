@@ -15,21 +15,70 @@ function Config(url) {
   this.doc.setProperty("SelectionLanguage", "XPath");
   this.doc.load(url);
 
-  //set some properties
+  //set some global application properties
   this.skinDir = this.doc.selectSingleNode("/MapbuilderConfig/skinDir").firstChild.nodeValue;
   this.baseDir = this.doc.selectSingleNode("/MapbuilderConfig/baseDir").firstChild.nodeValue;
 
   this.modelArray = new Array();
-  this.widgetArray = new Array();
+  this.groupArray = new Array();
 
   var scriptFileNodes = this.doc.selectNodes("//scriptFile");
   for (var i=0; i<scriptFileNodes.length; i++ ) {
     scriptFile = this.baseDir + scriptFileNodes[i].firstChild.nodeValue;
+    //TBD: add some checks to see if it is already loaded?
     //alert("loading script file:" + scriptFile);
     loadScript( scriptFile );
   }
 
-  this.loadWidgetModel = function(modelUrl, widgetId ) {
+  this.loadWidgets = function() {
+    //load in widgets
+    var widgetGroups = this.doc.selectNodes( "/MapbuilderConfig/widgetGroups/*" );
+    for (var i=0; i<widgetGroups.length; i++ ) {
+      var modelNode = widgetGroups[i];
+      var group = new Object();
+      group.modelType = modelNode.selectSingleNode("modelType").firstChild.nodeValue;
+      var initialModel = modelNode.selectSingleNode("defaultModelUrl");
+      if ( initialModel ) {
+        var evalStr = "new " + group.modelType + "('" + initialModel.firstChild.nodeValue + "');";
+        alert("group.loadModel eval:" + evalStr);
+        group.model = eval( evalStr );
+        //send out an update event?
+        group.model.modelIndex = config.modelArray.push( group.model ) - 1;  //or replace if it exists?
+      }
+      group.widgetArray = new Array();
+
+      var widgets = modelNode.selectNodes("widgets/*");
+      for (var j=0; j<widgets.length; j++) {
+        var widgetNode = widgets[j];
+
+        //call the widget constructor and paint
+        var evalStr = "new " + widgetNode.nodeName + "(widgetNode);";
+        //alert("Config.loadWidgets eval:" + evalStr);
+        var widget = eval( evalStr );
+        widget.modelType = group.modelType;
+        widget.model = group.model;
+
+        widget.paint();
+        //this has to be called after widgets are painted
+        widget.addListeners();
+
+        widget.toolArray = new Array();
+        var tools = widgetNode.selectNodes( "tools/*" );
+        for (var k=0; k<tools.length; k++ ) {
+          var toolNode = tools[k];
+          evalStr = "new " + toolNode.nodeName + "(toolNode, widget);";
+          alert("Config.loadWidgets eval:" + evalStr);
+          var tool = eval( evalStr );
+          widget.toolArray[k] = tool;
+        }
+
+        group.widgetArray[j] = widget;
+      }
+      this.groupArray[i] = group;
+    }
+  }
+
+  this.loadModel = function(modelUrl, widgetGroupId ) {
     //load in a model
     for (var i=0; i<this.widgetArray.length; i++ ) {
       var widget = this.widgetArray[i];
@@ -43,55 +92,6 @@ function Config(url) {
         }
         break;
       }
-    }
-  }
-
-  this.loadWidgets = function(parentNode, parentWidget) {
-    //load in widgets
-    var widgets = parentNode.selectNodes( "widgets/*" );
-    for (var i=0; i<widgets.length; i++ ) {
-      var widgetNode = widgets[i];
-
-      //call the widget constructor and paint
-      var evalStr = "new " + widgetNode.nodeName + "(widgetNode);";
-      //alert("Config.loadWidgets eval:" + evalStr);
-      var widget = eval( evalStr );
-
-      if ( parentWidget ) {
-        widget.parentWidget = parentWidget;
-        parentWidget.childWidgets.push( widget );
-        widget.modelType = parentWidget.modelType;
-        widget.model = parentWidget.model;
-
-      } else {
-        //otherwise instantiate the model for this tree of widgets
-        widget.parentWidget = null;
-        var initialModel = widgetNode.selectSingleNode("defaultModelUrl");
-        if ( initialModel ) {
-          widget.loadModel( initialModel.firstChild.nodeValue );
-        }
-      }
-      widget.paint();
-      //this has to be called after widgets are painted
-      widget.addListeners();
-
-
-      //recursively instantiate child widgets
-      this.loadWidgets( widgetNode, widget );
-
-      this.widgetArray[i] = widget;
-/*
-      widget.toolArray = new Array();
-      var tools = widgetNode.selectNodes( "/tools/*" );
-      for (var i=0; i<tools.length; i++ ) {
-        var toolNode = tools[i];
-        //var stylesheetUrl = toolNode.selectSingleNode("stylesheet").firstChild.nodeValue;
-        evalStr = "new " + toolNode.nodeName + "(toolNode, widget.model);";
-        alert("Config.loadWidgets eval:" + evalStr);
-        var tool = eval( evalStr );
-        widget.toolArray[i] = tool;
-      }
-*/
     }
   }
 

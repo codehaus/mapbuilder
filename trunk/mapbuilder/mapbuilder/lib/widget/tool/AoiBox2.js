@@ -16,10 +16,18 @@ $Id$
  * @param viewNode    the view object node to attach the RoiBox to.
  */
 
-function AoiBox(widgetNode) {
+function AoiBox(toolNode, parentWidget) {
   this.lineWidth = 2;                 // Zoombox line width; pass in as param?
   this.lineColor = "#FF0000";         // color of zoombox lines; pass in as param?
   this.crossSize = 9;
+
+  this.node = document.getElementById( parentWidget.containerId );
+  this.Top = this.getImageDiv( );
+  this.Bottom = this.getImageDiv( );
+  this.Left = this.getImageDiv( );
+  this.Right = this.getImageDiv( );
+  this.ul = new Array(0,0);
+  this.lr = new Array(0,0);
 
 /** Hide or show the box
   * @param vis    boolean true for visible; false for hidden
@@ -38,12 +46,12 @@ function AoiBox(widgetNode) {
   * @param ul    upper left pixel/line coordinates
   * @param lr    lower right pixel/line coordinates
   * @return       none
+  */
   this.drawBox = function(ul, lr) {
     this.ul = ul;
     this.lr = lr;
     this.paint();
   }
-  */
 
   this.mouseUpHandler = function( targetNode, objRef ) {
     if (objRef.started) {
@@ -94,19 +102,6 @@ function AoiBox(widgetNode) {
   }
 
   this.paint = function() {
-    this.node = document.getElementById( this.parentWidget.parentWidget.containerId );
-    this.Top = this.getImageDiv( );
-    this.Bottom = this.getImageDiv( );
-    this.Left = this.getImageDiv( );
-    this.Right = this.getImageDiv( );
-    this.ul = new Array(0,0);
-    this.lr = new Array(0,0);
-  }
-
-  this.drawBox = function(ul, lr) {
-    this.ul = ul;
-    this.lr = lr;
-
     this.Top.style.left = this.ul[0];
     this.Top.style.top = this.ul[1];
     this.Top.style.width = this.lr[0]-this.ul[0]
@@ -246,10 +241,9 @@ function AoiBox(widgetNode) {
 
 
   //test case
-/*
   this.drawBox( new Array(50,50), new Array(200,200) );
+alert("!");
   this.dragBox( new Array(300, 100) );
-*/
 }
 
 

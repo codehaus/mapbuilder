@@ -13,7 +13,7 @@ $Name$
 
 <html>
   <head>
-    <title>XSL Processor test page</title>
+    <title>configuration version test page</title>
 
     <!-- Include mapbuilder libraries -->
     <script type="text/javascript" src="../lib/util/sarissa/Sarissa.js"></script>
@@ -29,8 +29,7 @@ $Name$
 var config = new Config("config/ConfigTemplate.xml");
 
 function doLoad() {
-  var mapbuilderNode = config.doc.selectSingleNode("/MapbuilderConfig" );
-  config.loadWidgets(mapbuilderNode);
+  config.loadWidgets();
 }
 
     </script>
@@ -40,7 +39,7 @@ function doLoad() {
 
   <body onload="doLoad()">
     <h1><a href="http://mapbuilder.sourceforge.net">Mapbuilder</a>
-      Dynamic object test</h1>
+      configuration version test page</h1>
 
     <!-- Layout mapbuilder widgets and HTML -->
     <table>

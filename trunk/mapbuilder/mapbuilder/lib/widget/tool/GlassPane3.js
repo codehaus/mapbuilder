@@ -24,18 +24,28 @@ $Id$
  */
 
 
-function GlassPane(widgetNode) {
+function GlassPane(toolNode, parentWidget) {
 
   this.mode = 'MODE_SET_AOI';   //TBD: get this from config.xml widgetNode
   this.zoomBy = 4;   //default fraction to zoom in/out on a click
+  this.node = document.getElementById( parentWidget.containerId );
+  this.node.context = this.model;
+  this.node.mouseUpListeners = new Array();
+  this.node.mouseDownListeners = new Array();
+  this.node.mouseMoveListeners = new Array();
+  this.node.mouseOverListeners = new Array();
+  this.node.mouseOutListeners = new Array();
+  this.node.mouseUpObjects = new Array();
+  this.node.mouseDownObjects = new Array();
+  this.node.mouseMoveObjects = new Array();
+  this.node.mouseOverObjects = new Array();
+  this.node.mouseOutObjects = new Array();
 
-  this.childWidgets = new Array();
-
-  this.paint = function() {
-    // mouse events attache themselves to container DIV in the mappane
-    this.node = document.getElementById( this.parentWidget.containerId );
-    this.node.context = this.model;
-  }
+  this.node.onmousemove = mouseMoveHandler;
+  this.node.onmouseout = mouseOutHandler;
+  this.node.onmousedown = mouseDownHandler;
+  this.node.onmouseup = mouseUpHandler;
+  this.node.getEvent = getEvent;
 
 
 /** Set the mode of the GlassPane
@@ -50,43 +60,8 @@ function GlassPane(widgetNode) {
       this.node.mode = mode;
     }
   }
+  this.setMode( this.mode );
 
-/**
- * Listener function called when the context's boundingBox attribute changes.  
- * This function executes as a context ie. this = context
- * @param target  second argument in the addListener function
-   */
-  this.boundingBoxChangeListener=function(target){
-    //?target.view.node.firstChild.firstChild.appendChild( target.node );
-  }
-
-  this.addListeners = function() {
-    this.node.mouseUpListeners = new Array();
-    this.node.mouseDownListeners = new Array();
-    this.node.mouseMoveListeners = new Array();
-    this.node.mouseOverListeners = new Array();
-    this.node.mouseOutListeners = new Array();
-    this.node.mouseUpObjects = new Array();
-    this.node.mouseDownObjects = new Array();
-    this.node.mouseMoveObjects = new Array();
-    this.node.mouseOverObjects = new Array();
-    this.node.mouseOutObjects = new Array();
-
-    this.setMode( this.mode );
-
-    // non-null initial mode initializes the MouseBox
-    this.node.mode = "";     //no mouse handling by default
-    if (this.mode) {
-      this.node.mode = this.mode;
-      this.node.onmousemove = mouseMoveHandler;
-      this.node.onmouseout = mouseOutHandler;
-      this.node.onmousedown = mouseDownHandler;
-      this.node.onmouseup = mouseUpHandler;
-      this.node.getEvent = getEvent;
-    }
-
-    this.model.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
-  }
 
   this.acceptToolTips = true;   //set to false to prevent button bar from changing the tooltip
   this.setToolTip = function( tip ) {
