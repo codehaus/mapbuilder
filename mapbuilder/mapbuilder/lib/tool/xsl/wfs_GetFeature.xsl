@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!--
-Description: parses an OGC context document to generate an array of DHTML layers.
+Description: transforms a WFS FeatureType node to a GetFeatureType request
 Author:      adair
 Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
 
@@ -20,10 +20,6 @@ $Name$
   <xsl:output method="xml" omit-xml-declaration="no" encoding="utf-8" indent="yes"/>
   <xsl:preserve-space elements="gml:coordinates"/>
 
-  <!-- The coordinates of the DHTML Layer on the HTML page -->
-  <xsl:param name="modelId"/>
-  <xsl:param name="widgetId"/>
-  
   <xsl:param name="cs" select="','"/>
   <xsl:param name="ts" select="' '"/>
   <xsl:param name="bBoxMinX"/>
