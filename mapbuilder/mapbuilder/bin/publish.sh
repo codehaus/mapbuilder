@@ -52,7 +52,7 @@ then
 fi;
 
 # Execute jsdoc
-${jsdoc} -d ${jsdocTarget} --project-name "<a href='http://mapbuilder.sf.net'>Community Map Builder</a>" ${jsdocSource}
+${jsdoc} -d ${jsdocTarget} --project-name "<a href='http://mapbuilder.sourceforge.net'>Community Map Builder</a>" ${jsdocSource}
 
 
 # publish design
