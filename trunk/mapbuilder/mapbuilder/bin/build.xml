@@ -37,7 +37,7 @@ $Id$
      from which Ant executes the requested task.  This is normally
      set to the current working directory.
 -->
-  <project basedir=".." default="compile" name="mapbuilder">
+  <project basedir=".." default="deploy" name="mapbuilder">
 
 <!-- ===================== Property Definitions =========================== -->
 <!--
@@ -112,7 +112,7 @@ $Id$
   <property name="app.path" value="/${app.name}"/>
   <property name="app.version" value="0.2-alpha"/>
   <property name="catalina.home" value="${env.CATALINA_HOME}"/> <!-- UPDATE THIS! -->
-  <!--property name="build.home" value="${catalina.home}/webapps/mapbuilder"/-->
+  <property name="deploy.home" value="${catalina.home}/webapps/mapbuilder"/>
   <property name="build.home" value="${basedir}/build"/>
   <property name="dist.home" value="${basedir}/dist"/>
   <property name="docs.home" value="${build.home}/docs"/>
@@ -247,7 +247,10 @@ $Id$
 
 -->
 
-  <target description="Create binary distribution" name="dist">
+  <target
+    name="dist"
+    description="Create binary distribution"
+    depends="compile">
 
     <mkdir dir="${dist.home}"/>
 
@@ -395,6 +398,16 @@ $Id$
       <fileset dir="${src.home}" excludes="**/*.java"/>
     </copy>
 
+  </target>
+
+  <target name="deploy"
+    description="Copy build directory to $CATALINA_HOME"
+    depends="compile">
+    <mkdir    dir="${deploy.home}"/>
+    <copy todir="${deploy.home}">
+      <fileset dir="${build.home}">
+      </fileset>
+    </copy>
   </target>
 
 </project>
