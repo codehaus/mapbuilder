@@ -9,6 +9,10 @@ $Id$
  * http://opengis.org and extensions the the WMC.  A unique Id is included for
  * each layer which is used when referencing Dynamic HTML layers in MapPane.
  * Context extends ModelBase, which extends Listener.
+ *
+ * Listener Parameters used:
+ * "aoi" - (upperLeftX,upperLeftY,lowerRigthX,lowerRigthY),
+ *
  * @constructor
  * @author Cameron Shorter
  * @requires Sarissa
@@ -220,19 +224,12 @@ function Context(modelNode, parent) {
   /**
    * Set the Area Of Interest Box and call aoiListeners,
    * note that the end point will be called numerous times as a mouse is dragged.
-   * pass in 
-   * @param 
+   * @param ul UpperLeft.
+   * @parm lr LowerRight.
    */
   this.setAoi=function(ul, lr) {
-    this.ulAoi = ul;
-    if (lr) {
-      this.lrAoi = lr;
-    } else {
-      this.lrAoi = ul;    //for point AOI
-    }
     this.aoiValid=true;
-    // Call the listeners
-    this.callListeners("aoi");
+    this.setParam("aoi",new Array(ul,lr));
   }
   this.aoiValid=false;
 
@@ -240,7 +237,9 @@ function Context(modelNode, parent) {
     * @return        array of point arrays; ul=0, lr=1
     */
   this.getAoi = function() {
-    return new Array(this.ulAoi, this.lrAoi);
+    //alert("getAoi="+this.getParam("aoi"));
+    //return new Array(this.ulAoi, this.lrAoi);
+    return this.getParam("aoi");
   }
 }
 
