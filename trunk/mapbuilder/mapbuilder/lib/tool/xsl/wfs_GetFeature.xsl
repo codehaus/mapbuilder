@@ -30,7 +30,7 @@ $Name$
   
   <xsl:param name="httpMethod">get</xsl:param>
   <xsl:param name="filter"/>
-  <xsl:param name="maxFeatures">100</xsl:param>
+  <xsl:param name="maxFeatures">500</xsl:param>
   <xsl:param name="geometry"/>
   
   <!-- template rule matching source root element -->
