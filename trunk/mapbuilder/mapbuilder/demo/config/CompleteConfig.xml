@@ -123,7 +123,7 @@
     </Gml2>
     
     <ModelBase id="locations">
-      <defaultModelUrl>locations/Global.xml</defaultModelUrl>
+      <defaultModelUrl>locations/Simple.xml</defaultModelUrl>
       <widgets>
         <Locations id="locationsSelect">
           <htmlTagId>locationsSelect</htmlTagId>
@@ -135,6 +135,12 @@
             </ZoomToAoi>
           </tools> 
         </Locations>
+        <GmlRenderer id="gmlRenderer">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <targetModel>mainMap</targetModel>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+        </GmlRenderer>
       </widgets>
     </ModelBase>
     
