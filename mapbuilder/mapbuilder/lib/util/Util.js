@@ -74,7 +74,12 @@ function XslProcessor(xslUrl) {
  */
 function postLoad(sUri, docToSend ) {
    var xmlHttp = Sarissa.getXmlHttpRequest();
-   xmlHttp.open("POST", sUri, false);
+   if ( sUri.indexOf("http://")==0 ) {
+     xmlHttp.open("POST", "/mapbuilder/proxy", false);
+     xmlHttp.setRequestHeader("serverUrl",sUri);
+   } else {
+     xmlHttp.open("POST", sUri, false);
+   }
    xmlHttp.setRequestHeader("content-type","text/xml");
    xmlHttp.send( docToSend );
    //alert(xmlHttp.getResponseHeader("Content-Type"));
