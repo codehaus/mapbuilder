@@ -13,8 +13,8 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * Area Of Interest on the model from mouse events.
  * The tool must be enabled before use by calling tool.enable(true);
  * This tool registers mouse event listeners on the parent widget.
- * This tool works entirely in pixel/line coordinate space and knows nothing
- * about geography.
+ * This tool processes screen coordinates and stores AOI in geographic
+ * coordinates.
  * @constructor
  * @param toolNode      The node for this tool from the configuration document.
  * @param parentWidget  The widget object that contains this tool
