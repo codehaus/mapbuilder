@@ -17,7 +17,14 @@ $Id$
 function PanTool(context,baseDir,node) {
   this.context=context;
   this.node=node;
-
+  this.move=function(left,top) {
+    this.node.style.left=left;
+    this.node.style.top=top;
+  }
+  this.resize=function(width,height) {
+    this.node.style.width=width;
+    this.node.style.height=height;
+  }
   /**
    * Render the pan icons.
    * This function should be called at startup.
