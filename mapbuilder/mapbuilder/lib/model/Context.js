@@ -32,6 +32,8 @@ function Context(modelNode, parent) {
     this[sProperty] = modelBase[sProperty]; 
   }
 
+  this.namespace = "xmlns:cml='http://www.opengis.net/context' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'";
+
   // ===============================
   // Update of Context Parameters
   // ===============================
@@ -47,7 +49,8 @@ function Context(modelNode, parent) {
     var hiddenValue = "0";
     if (hidden) hiddenValue = "1";
       
-    var layers=this.doc.documentElement.getElementsByTagName("Layer");
+    //var layers=this.doc.documentElement.getElementsByTagName("Layer");
+    var layers=this.doc.selectNodes("/cml:ViewContext/cml:LayerList/cml:Layer");
     for(var i=0;i<layers.length;i++) {
       if(layers[i].getElementsByTagName("Name").item(0).firstChild.nodeValue == layerIndex) {
         layers[i].setAttribute("hidden", hiddenValue);
@@ -66,7 +69,8 @@ function Context(modelNode, parent) {
    */
   this.getHidden=function(layerIndex){
     var hidden=1;
-    layers=this.doc.documentElement.getElementsByTagName("Layer");
+    //layers=this.doc.documentElement.getElementsByTagName("Layer");
+    var layers=this.doc.selectNodes("/cml:ViewContext/cml:LayerList/cml:Layer");
     for(var i=0;i<layers.length;i++) {
       if(layers[i].getElementsByTagName("Name").item(0).firstChild.nodeValue == layerIndex) {
         hidden=layers[i].getAttribute("hidden");
@@ -82,7 +86,8 @@ function Context(modelNode, parent) {
    */
   this.getBoundingBox=function() {
     // Extract BoundingBox from the context
-    boundingBox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
+    //boundingBox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
+    var boundingBox=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:BoundingBox");
     bbox = new Array();
     bbox[0]=parseFloat(boundingBox.getAttribute("minx"));
     bbox[1]=parseFloat(boundingBox.getAttribute("miny"));
@@ -97,7 +102,8 @@ function Context(modelNode, parent) {
    */
   this.setBoundingBox=function(boundingBox) {
     // Set BoundingBox in context
-    bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
+    //bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
+    var bbox=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:BoundingBox");
     bbox.setAttribute("minx", boundingBox[0]);
     bbox.setAttribute("miny", boundingBox[1]);
     bbox.setAttribute("maxx", boundingBox[2]);
@@ -112,7 +118,8 @@ function Context(modelNode, parent) {
    * @param srs The Spatial Reference System.
    */
   this.setSRS=function(srs) {
-    bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
+    //bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
+    var bbox=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:BoundingBox");
     bbox.setAttribute("SRS",srs);
   }
 
@@ -122,7 +129,8 @@ function Context(modelNode, parent) {
    * @return srs The Spatial Reference System.
    */
   this.getSRS=function() {
-    bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
+    //bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
+    var bbox=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:BoundingBox");
     srs=bbox.getAttribute("SRS");
     return srs;
   }
@@ -132,7 +140,8 @@ function Context(modelNode, parent) {
    * @return width The width of map window (therefore of map layer images).
    */
   this.getWindowWidth=function() {
-    win=this.doc.documentElement.getElementsByTagName("Window").item(0);
+    //var win=this.doc.documentElement.getElementsByTagName("Window").item(0);
+    var win=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:Window");
     width=win.getAttribute("width");
     return width;
   }
@@ -142,7 +151,8 @@ function Context(modelNode, parent) {
    * @param width The width of map window (therefore of map layer images).
    */
   this.setWindowWidth=function(width) {
-    win=this.doc.documentElement.getElementsByTagName("Window").item(0);
+    //win=this.doc.documentElement.getElementsByTagName("Window").item(0);
+    var win=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:Window");
     win.setAttribute("width", width);
   }
 
@@ -151,7 +161,8 @@ function Context(modelNode, parent) {
    * @return height The height of map window (therefore of map layer images).
    */
   this.getWindowHeight=function() {
-    win=this.doc.documentElement.getElementsByTagName("Window").item(0);
+    //var win=this.doc.documentElement.getElementsByTagName("Window").item(0);
+    var win=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:Window");
     height=win.getAttribute("height");
     return height;
   }
@@ -161,7 +172,8 @@ function Context(modelNode, parent) {
    * @param height The height of map window (therefore of map layer images).
    */
   this.setWindowHeight=function(height) {
-    win=this.doc.documentElement.getElementsByTagName("Window").item(0);
+    //win=this.doc.documentElement.getElementsByTagName("Window").item(0);
+    var win=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:Window");
     win.setAttribute("height", height);
   }
 
