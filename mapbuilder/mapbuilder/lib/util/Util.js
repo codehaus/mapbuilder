@@ -5,6 +5,9 @@ Dependancies: Sarissa
 $Id$
 */
 
+// some basic browser detection
+var MB_IS_MOZ = (document.implementation && document.implementation.createDocument)?true:false;
+
 /**
 Transform an XML document using the provided XSL and use the results to build
 a web page.
@@ -311,7 +314,7 @@ function handleEventWithObject(evt){
   if (obj!=null) obj.handleEvent(evt);
 }
 
-if (_SARISSA_IS_MOZ ) {
+if (MB_IS_MOZ) {
   /** 
    * Extends the node class to provide simple node value lookup
    * @argument nodeXpath  xpath of the node 
