@@ -78,9 +78,16 @@ function AoiBoxWZ(widgetNode, model) {
         objRef.jg.drawRect(ul[0],ul[1],width,height);
       }
       objRef.jg.paint();
-    }else{
-      objRef.jg=null;
     }
   }
   model.addListener("aoi",this.paint, this);
+
+  /**
+   * Reset internal variables after container is redrawn due to refreshing
+   * of the model.
+   */
+  this.refresh = function(objRef) {
+    objRef.jg=null;
+  }
+  model.addListener("refresh",this.refresh, this);
 }
