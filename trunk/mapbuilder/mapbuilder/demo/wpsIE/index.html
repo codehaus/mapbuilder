@@ -13,25 +13,72 @@
   <body onload="mbDoLoad()">
     <table style="width:800">
       <tr>
-        <td style="width:200"></td>
-        <td style="width:600"><h1>Mapbuilder WPS IE Client</h1></td>
-      </tr>
-      <tr>
-        <td valign="top" style="padding:8px">
+        <td style="width:200">
           <div>
             <div id="locatorMap"/>
           </div>
-            Web processing services<br/>
+        </td>
+        <td style="width:600">
+          <h1>Mapbuilder WPS Client</h1>
+          <p>A generic client to demonstrate Web Processing Services (WPS) from
+          the OGC Interoperability Experiment.
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" style="padding:8px">
+          <ul>
+            Web processing services
+            <li>
             <a href="javascript:config.loadModel('wpsCapTemplate','PCIwpsCaps.xml')">
-            Sample instance</a><br/>
-            <hr/>
+            Sample instance</a>
+            </li>
+            <li>
+            <a href="javascript:config.loadModel('wpsCapTemplate','http://wms1.agr.gc.ca/GeoPS/gdas_GeoPS.php?request=GetCapabilities&service=WPS')">
+            GDAS XML Stream Based Geoprocessing Service</a>
+            </li>
+            <li>
+            <a href="javascript:config.loadModel('wpsCapTemplate','http://wms1.agr.gc.ca:8081/geoproc/servlet/SpatialOperation?SERVICE=WPS&REQUEST=GetCapabilities')">
+            Spatial Operation</a>
+            </li>
+            <li>
+            <a href="javascript:config.loadModel('wpsCapTemplate','http://wms1.agr.gc.ca:8081/geoproc/servlet/FeatureDataFormatConversion?SERVICE=WPS&REQUEST=GetCapabilities')">
+            Feature Data Format Conversion</a>
+            </li>
+            <li>
+            <a href="javascript:config.loadModel('wpsCapTemplate','http://wms1.agr.gc.ca:8081/geoproc/servlet/FeatureLocator?SERVICE=WPS&REQUEST=GetCapabilities')">
+            ESRI Shapefile Feature Locator</a>
+            </li>
+            <li>
+            <a href="javascript:config.loadModel('wpsCapTemplate','http://gws2.pcigeomatics.com/wps/wps?request=GetCapabilities&service=WPS')">
+            PCI Remote Sensing Calculations (needs more metadata in caps document)</a>
+            </li>
+          </ul>
+          <ul>
+            Web processing clients
+            <li>
+            <a href="http://wms1.agr.gc.ca/GeoPS/gdas_GeoPS_client.php">
+            AAFC GDAS Based GeoPS Client</a>
+            </li>
+            <li>
+            <a href="http://wms1.agr.gc.ca:8081/geoproc/index.jsp">
+            AAFC client</a>
+            </li>
+          </ul>
+          <ul>
+            <li>
             <a href="http://portal.opengeospatial.org/wiki/twiki/bin/view/WPSie/WpsOverview">
-            About the WPS IE</a><br/>
-            <hr/>
+            About the WPS IE</a>
+            </li>
+            <li>
+            <a href="http://www.opengeospatial.org/press/?page=pressrelease&year=0&prid=211">
+            OGC Press Release</a>
+            </li>
+            <li>
             <a href="../index.html">
-            other mapbuilder demos</a><br/>
-            <a href="javascript:alert('no link provided')">
-            other links here</a><br/>
+            other mapbuilder demos</a>
+            </li>
+          </ul>
         </td>
         <td>
           <table width="100%">
