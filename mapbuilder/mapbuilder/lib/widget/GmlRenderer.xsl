@@ -20,7 +20,7 @@ $Name$
   <xsl:param name="bBoxMaxX" select="-73.0"/>
   <xsl:param name="bBoxMaxY" select="47.0"/>
   <xsl:param name="color" select="FF0000"/>
-  <xsl:param name="stroke" select="5"/>
+  <xsl:param name="stroke" select="2"/>
 
   <xsl:variable name="xRatio" select="$width div ( $bBoxMaxX - $bBoxMinX )"/>
   <xsl:variable name="yRatio" select="$height div ( $bBoxMaxY - $bBoxMinY )"/>
@@ -41,39 +41,39 @@ $Name$
   <!-- Match and render a GML BBox -->
   <xsl:template match="gml:Box">
     <xsl:variable name="box" select="gml:coordinates"/>
-    <xsl:variable name="minX" select="round((substring-before($box,',')-$bBoxMinX)*$xRatio)"/>
+    <xsl:variable name="x0" select="round((substring-before($box,',')-$bBoxMinX)*$xRatio)"/>
     <xsl:variable name="box2" select="substring-after($box,',')"/>
-    <xsl:variable name="minY" select="round((substring-before($box2,' ')-$bBoxMinY)*$yRatio)"/>
+    <xsl:variable name="y0" select="round($height - (substring-before($box2,' ')-$bBoxMinY)*$yRatio)"/>
     <xsl:variable name="box3" select="substring-after($box2,' ')"/>
-    <xsl:variable name="maxX" select="round((substring-before($box3,',')-$bBoxMinX)*$xRatio)"/>
-    <xsl:variable name="maxY" select="round((substring-after($box3,',')-$bBoxMinY)*$yRatio)"/>
+    <xsl:variable name="x1" select="round((substring-before($box3,',')-$bBoxMinX)*$xRatio)"/>
+    <xsl:variable name="y1" select="round($height - (substring-after($box3,',')-$bBoxMinY)*$yRatio)"/>
 
     <xsl:call-template name="mkDiv">
-      <xsl:with-param name="x" select="$minX"/>
-      <xsl:with-param name="y" select="$minY + $stroke - 1"/>
-      <xsl:with-param name="w" select="$maxX - $minX"/>
+      <xsl:with-param name="x" select="$x0"/>
+      <xsl:with-param name="y" select="$y0 - $stroke + 1"/>
+      <xsl:with-param name="w" select="$x1 - $x0"/>
       <xsl:with-param name="h" select="$stroke"/>
     </xsl:call-template>
 
     <xsl:call-template name="mkDiv">
-      <xsl:with-param name="x" select="$maxX - $stroke + 1"/>
-      <xsl:with-param name="y" select="$minY"/>
+      <xsl:with-param name="x" select="$x1 - $stroke + 1"/>
+      <xsl:with-param name="y" select="$y1"/>
       <xsl:with-param name="w" select="$stroke"/>
-      <xsl:with-param name="h" select="$maxY - $minY"/>
+      <xsl:with-param name="h" select="$y0 - $y1"/>
     </xsl:call-template>
 
     <xsl:call-template name="mkDiv">
-      <xsl:with-param name="x" select="$minX"/>
-      <xsl:with-param name="y" select="$maxY"/>
-      <xsl:with-param name="w" select="$maxX - $minX"/>
+      <xsl:with-param name="x" select="$x0"/>
+      <xsl:with-param name="y" select="$y1"/>
+      <xsl:with-param name="w" select="$x1 - $x0"/>
       <xsl:with-param name="h" select="$stroke"/>
     </xsl:call-template>
 
     <xsl:call-template name="mkDiv">
-      <xsl:with-param name="x" select="$minX"/>
-      <xsl:with-param name="y" select="$minY"/>
+      <xsl:with-param name="x" select="$x0"/>
+      <xsl:with-param name="y" select="$y1"/>
       <xsl:with-param name="w" select="$stroke"/>
-      <xsl:with-param name="h" select="$maxY - $minY"/>
+      <xsl:with-param name="h" select="$y0 - $y1"/>
     </xsl:call-template>
   </xsl:template>
 
