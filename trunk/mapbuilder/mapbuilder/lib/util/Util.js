@@ -85,12 +85,14 @@ function postLoad(sUri, docToSend ) {
    var xmlHttp = Sarissa.getXmlHttpRequest();
    if ( sUri.indexOf("http://")==0 ) {
      xmlHttp.open("POST", config.proxyUrl, false);
-     xmlHttp.setRequestHeader("serverUrl",sUri);
+     xmlHttp.setRequestHeader("serverUrl",sUri);//escape(sUri).replace(/\+/g, '%2C').replace(/\"/g,'%22').replace(/\'/g, '%27'));
    } else {
      xmlHttp.open("POST", sUri, false);
    }
    xmlHttp.setRequestHeader("content-type","text/xml");
+   //alert("sending:"+docToSend.xml);
    xmlHttp.send( docToSend );
+/*
    if (_SARISSA_IS_IE) {
 alert("before");
     xmlHttp.status = xmlHttp.Status;
@@ -98,6 +100,7 @@ alert("after");
     xmlHttp.statusText = xmlHttp.StatusText;
     xmlHttp.responseText = xmlHttp.ResponseText;
    }
+*/
    if (xmlHttp.status >= 400) {   //http errors status start at 400
       alert("error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText );
       outDoc.parseError = -1;
