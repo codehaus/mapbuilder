@@ -28,23 +28,15 @@ function ButtonBar(widgetNode, model) {
   } 
 
   /**
-   * Render this widget.
+   * calls the select() method for any selected buttons in this widget.
    * This over-rides the default paint() method to transform the config doc 
    * instead of the model.
    */
-  this.paint = function() {
-    var s = this.stylesheet.transformNode(config.doc);
-    this.node.innerHTML=s;
-    this.callListeners("paint");
-  }
-
   this.init = function(objRef) {
     for (var sProperty in objRef) { 
       if ( objRef[sProperty].selected ) objRef[sProperty].select();
     } 
   }
-  this.addListener('loadWidget',this.init,this);
-
-  config.buttonBar = this;
+  this.model.addListener('loadWidget',this.init,this);
 }
 

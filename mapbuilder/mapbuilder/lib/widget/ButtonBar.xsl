@@ -11,18 +11,19 @@ ButtonBar.xsl,v 1.5 2004/03/25 21:25:43 madair1 Exp
 
   <xsl:output method="xml" omit-xml-declaration="yes"/>
   
-  <xsl:param name="functionRef">config.buttonBar</xsl:param>
+  <xsl:param name="modelId"/>
+  <xsl:param name="widgetId"/>
   <xsl:param name="skinDir" select="/MapbuilderConfig/skinDir"/>
   
   <!-- Main html   -->
   <xsl:template match="/MapbuilderConfig">
     <DIV>
-      <xsl:apply-templates select="models/Context/widgets/ButtonBar/tools"/>
+      <xsl:apply-templates select="widgets/ButtonBar/tools"/>
     </DIV>
   </xsl:template>
 
   <xsl:template match="ButtonBar/tools/*">
-    <xsl:param name="linkUrl">javascript:<xsl:value-of select="$functionRef"/>['<xsl:value-of select="name()"/>'].select()</xsl:param>
+    <xsl:param name="linkUrl">javascript:config.<xsl:value-of select="$modelId"/>.<xsl:value-of select="$widgetId"/>['<xsl:value-of select="name()"/>'].select()</xsl:param>
  
     <A HREF="{$linkUrl}"><IMG SRC="{$skinDir}/{disabledSrc}" ID="{@id}" BORDER="0"/></A>
   </xsl:template>
