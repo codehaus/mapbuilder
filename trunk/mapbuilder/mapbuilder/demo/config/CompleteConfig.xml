@@ -108,6 +108,11 @@
 				<Locations id="locationsSelect">
 					<targetModel>mainMap</targetModel>
 					<stylesheet>../lib/widget/Locations.xsl</stylesheet>
+          <tools> 
+           <ZoomToAoi>
+              <targetModel>mainMap</targetModel>
+            </ZoomToAoi>
+          </tools> 
 				</Locations>
 			</widgets>
 		</ModelBase>
