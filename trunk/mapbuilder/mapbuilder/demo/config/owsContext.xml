@@ -36,6 +36,9 @@
             <Legend id="wfsLegend">
                <htmlTagId>legend</htmlTagId>
             </Legend>
+            <SaveModel id="saveModelWidget">
+              <htmlTagId>saveModel</htmlTagId>
+            </SaveModel>
           </widgets>
         </FeatureCollection>
       </models>
