@@ -90,9 +90,10 @@ function MapPane(widgetNode, group) {
   }
 
   /**
-   * Call all this object's listeners.
+   * Initialise the widget after the widget tags have been created by the first paint().
+   * Add this object's listeners.
    */
-  this.addListeners = function() {
+  this.postPaintInit = function() {
     this.model.addListener("boundingBox",this.boundingBoxChangeListener,this);
     this.model.addListener("hidden",this.hiddenListener,this);
   }

@@ -26,7 +26,10 @@ function CollectionList(widgetNode, group) {
   var paramValue = widgetNode.selectSingleNode("targetWidgetGroup").firstChild.nodeValue;
   this.stylesheet.setParameter("targetId", paramValue );
 
-  this.addListeners = function() {
+  /**
+   * Initialise the widget after the widget tags have been created by the first paint().
+   */
+  this.postPaintInit = function() {
     this.model.addListener("select", this.paint);
   }
 }

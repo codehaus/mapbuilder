@@ -56,8 +56,7 @@ function ModelBase(modelNode, parent) {
       widget.loadTools();
       widget.paint();
       //this has to be called after widgets are painted
-      //I'd like to get rid of this, they should be handled as paintListeners
-      widget.addListeners();
+      widget.postPaintInit();
       this[widgetNode.nodeName] = widget;
 
       this.callListeners( "loadWidget" );

@@ -98,6 +98,6 @@ function WidgetBase(widgetNode, model) {
     /**
      * no-op function; override in derived classes to add listeners to the model.
      */
-    this.addListeners = function() {}
+    this.postPaintInit = function() {}
   }
 }
