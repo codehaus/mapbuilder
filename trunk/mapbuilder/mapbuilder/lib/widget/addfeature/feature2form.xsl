@@ -7,7 +7,8 @@
   <!--============================================================================-->
   <!-- Parameters passed into this xsl                                            -->
   <!--============================================================================-->
-  <xsl:param name="tabwidth" select='"_"'/>
+  <xsl:param name="space" select='"."'/>
+  <xsl:param name="tabwidth" select='"_ "'/>
 
   <!--============================================================================-->
   <!-- Main html                                                                  -->
@@ -20,7 +21,7 @@
       <body>
         <h1>Feature Entry - Community Map Builder</h1>
         <form>
-          <table>
+          <table border="1" cellpadding="0" cellspacing="0">
             <xsl:apply-templates/>
           </table>
         </form>
@@ -38,7 +39,7 @@
       <xsl:if test="text()">
         <td>
           <xsl:value-of select="$tab"/>
-          <b><xsl:value-of select="name(.)"/></b>=
+          <b><xsl:value-of select="name(.)"/></b>
         </td>
         <td><xsl:value-of select="text()"/></td>
         <xsl:apply-templates>
@@ -53,7 +54,7 @@
           <xsl:value-of select="$tab"/>
           <xsl:value-of select="name(.)"/>
         </td>
-        <td></td>
+        <td><xsl:value-of select="$space"/></td>
         <xsl:apply-templates>
           <xsl:with-param name="tab">
             <xsl:value-of select="$tab"/>
