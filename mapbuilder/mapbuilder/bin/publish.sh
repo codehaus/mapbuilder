@@ -16,6 +16,7 @@ jsdoc="/home/cameron/work/jsdoc/jsdoc.pl";
 jsdocTarget="${mapbuilderDir}/docs/jsdoc";
 jsdocSource=" \
   ${mapbuilderDir}/lib/model \
+  ${mapbuilderDir}/lib/widget \
   ${mapbuilderDir}/lib/widget/buttonbar \
   ${mapbuilderDir}/lib/widget/collectionList \
   ${mapbuilderDir}/lib/widget/locations \
