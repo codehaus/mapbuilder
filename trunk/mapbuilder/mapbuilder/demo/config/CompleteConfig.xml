@@ -16,6 +16,7 @@
   -->
   <skinDir>../lib/skin/default</skinDir>
   <proxyUrl>/ql2/proxy?url=</proxyUrl>
+  <!--proxyUrl>../server/proxy/proxy.php?onlineresource=</proxyUrl-->
 
   <models>
 
@@ -87,16 +88,19 @@
         </CollectionList>
       </widgets>
     </ContextCollection>
+
+    <Gml2 id="gml2">
+    </Gml2>
     
-		<ModelBase id="locations">
-			<defaultModelUrl>locations/Global.xml</defaultModelUrl>
-			<widgets>
-				<Locations id="locationsSelect">
-					<targetModel>mainMap</targetModel>
-					<stylesheet>../lib/widget/Locations.xsl</stylesheet>
-				</Locations>
-			</widgets>
-		</ModelBase>
+    <ModelBase id="locations">
+      <defaultModelUrl>locations/Global.xml</defaultModelUrl>
+      <widgets>
+        <Locations id="locationsSelect">
+          <targetModel>mainMap</targetModel>
+          <stylesheet>../lib/widget/Locations.xsl</stylesheet>
+        </Locations>
+      </widgets>
+    </ModelBase>
   </models>
 
   <widgets>
@@ -153,6 +157,7 @@
           <class>RadioButton</class>
           <mouseHandler>mainMap.mainMapPane</mouseHandler>
           <dependsOn>mainMap.mainMapPane.MouseClickHandler</dependsOn>
+          <targetFeatureCollection>gml2</targetFeatureCollection>
           <enabledSrc>/images/QueryEnable.gif</enabledSrc>
           <disabledSrc>/images/QueryDisable.gif</disabledSrc>
           <tooltip lang="en">click on feature for more info</tooltip>
