@@ -6,7 +6,6 @@ $Id$
 /**
  * Base Tool object that all Tools extend.
  * @constructor
- * @base ToolBase
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
  * @param tool     Pointer to the tool instance being created
  * @param toolNode The tool node from the Config XML file.
