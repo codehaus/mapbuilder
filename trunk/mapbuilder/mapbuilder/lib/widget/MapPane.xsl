@@ -42,6 +42,8 @@ $Name$
 
   <xsl:param name="context">config['<xsl:value-of select="$modelId"/>']</xsl:param>
 
+  <xsl:param name="extraAttributes">true</xsl:param>
+
 
 
   <xsl:param name="bbox">
@@ -316,21 +318,25 @@ $Name$
 
         </xsl:attribute>
 
-        <xsl:attribute name="ALT">
+        <xsl:if test="starts-with($extraAttributes,'true')">
 
-            <xsl:value-of select="wmc:Title"/>
+          <xsl:attribute name="ALT">
 
-        </xsl:attribute>
+              <xsl:value-of select="wmc:Title"/>
 
-        <xsl:attribute name="TITLE">
+          </xsl:attribute>
 
-            <xsl:value-of select="wmc:Title"/>
+          <xsl:attribute name="TITLE">
 
-        </xsl:attribute>
+              <xsl:value-of select="wmc:Title"/>
 
-        <xsl:if test="string-length($metadataUrl)>0">
+          </xsl:attribute>
 
-          <xsl:attribute name="LONGDESC"><xsl:value-of select="$metadataUrl"/></xsl:attribute>
+          <xsl:if test="string-length($metadataUrl)>0">
+
+            <xsl:attribute name="LONGDESC"><xsl:value-of select="$metadataUrl"/></xsl:attribute>
+
+          </xsl:if>
 
         </xsl:if>
 
