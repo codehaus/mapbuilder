@@ -21,7 +21,7 @@
 
       <listitem>
         <para>Javascript and XSL modular libraries which can be integrated to
-        build geographic widgets. The widgets impliment clients to Open GIS
+        build geographic widgets. The widgets implement clients to Open GIS
         Consortium (OGC) services.</para>
       </listitem>
 
@@ -54,7 +54,7 @@
     database schema, along with implementation recommendations.<!--Good summary.  It is probably worth coming back and polishing this section and using for
 all the CMB docs.
 I think the CMB should also provide logic for community editing of shared data
-(in a similar fasion to http://slashdot.org).  This would be part of a future phase.--></para>
+(in a similar fashion to http://slashdot.org).  This would be part of a future phase.--></para>
 
     <figure>
       <title>High Level Design</title>
@@ -79,7 +79,7 @@ I think the CMB should also provide logic for community editing of shared data
       <section id="designdrivers">
         <title>Design Drivers</title>
 
-        <para>The goals of the libaries are to provide the following:</para>
+        <para>The goals of the libraries are to provide the following:</para>
 
         <variablelist>
           <varlistentry>
@@ -133,7 +133,7 @@ I think the CMB should also provide logic for community editing of shared data
             <term>Use Javascript/XML/XSL</term>
 
             <listitem>
-              <para>Mapbuilder stores state data interally in XML files.
+              <para>Mapbuilder stores state data internally in XML files.
               Converting XML to HTML is done using XSL. XSL has the advantage
               that it can be used both in the client and server.</para>
             </listitem>
@@ -153,11 +153,11 @@ I think the CMB should also provide logic for community editing of shared data
 
                 <listitem>
                   <para>A modular design is easier to understand and
-                  maitain.</para>
+                  maintain.</para>
                 </listitem>
 
                 <listitem>
-                  <para>Extra functionality can be easilly added and
+                  <para>Extra functionality can be easily added and
                   removed.</para>
                 </listitem>
               </orderedlist>
@@ -200,110 +200,110 @@ I think the CMB should also provide logic for community editing of shared data
 
         <para>Mapbuilder uses the Model View Controller (MVC) design
         pattern.</para>
-      </section>
 
-      <section id="mvcoverview">
-        <title>MVC Overview</title>
+        <section id="mvcoverview">
+          <title>MVC Overview</title>
 
-        <figure>
-          <title>Model View Controller</title>
+          <figure>
+            <title>Model View Controller</title>
 
-          <mediaobject>
-            <imageobject>
-              <imagedata fileref="images/mvc.gif" />
-            </imageobject>
-          </mediaobject>
-        </figure>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/mvc.gif" />
+              </imageobject>
+            </mediaobject>
+          </figure>
 
-        <para>The MVC pattern forces one to think of an application in terms
-        of three modules:</para>
+          <para>The MVC pattern forces one to think of an application in terms
+          of three modules:</para>
 
-        <variablelist>
-          <varlistentry>
-            <term>Model</term>
+          <variablelist>
+            <varlistentry>
+              <term>Model</term>
 
-            <listitem>
-              <para>This maintains the state and data that the application
-              represents. When changes occur in the model, it sends update
-              events to all of its views. <filename>Context</filename> is the
-              Model in the Mapbuilder application and stores Layers, Bounding
-              Box etc.</para>
-            </listitem>
-          </varlistentry>
+              <listitem>
+                <para>This maintains the state and data that the application
+                represents. When changes occur in the model, it sends update
+                events to all of its views. <filename>Context</filename> is
+                the Model in the Mapbuilder application and stores Layers,
+                Bounding Box etc.</para>
+              </listitem>
+            </varlistentry>
 
-          <varlistentry>
-            <term>View</term>
+            <varlistentry>
+              <term>View</term>
 
-            <listitem>
-              <para>The user interface which displays information about the
-              model to the user. Views displaying dynamic data need to
-              register for StateChange events from the Model.
-              <filename>Legend</filename>, <filename>MapPane</filename>, etc
-              are all Mapbuilder Views that get update events when
-              <filename>Context</filename> changes.</para>
-            </listitem>
-          </varlistentry>
+              <listitem>
+                <para>The user interface which displays information about the
+                model to the user. Views displaying dynamic data need to
+                register for StateChange events from the Model.
+                <filename>Legend</filename>, <filename>MapPane</filename>, etc
+                are all Mapbuilder Views that get update events when
+                <filename>Context</filename> changes.</para>
+              </listitem>
+            </varlistentry>
 
-          <varlistentry>
-            <term>Controller</term>
+            <varlistentry>
+              <term>Controller</term>
 
-            <listitem>
-              <para>The user interface presented to the user to manipulate the
-              application (ie keyboard and mouse input).
-              <filename>ZoomTool</filename>, <filename>PanTool</filename>,
-              <filename>SelectFeature</filename> are all Mapbuilder
-              Controllers which update <filename>Context</filename>.</para>
-            </listitem>
-          </varlistentry>
-        </variablelist>
+              <listitem>
+                <para>The user interface presented to the user to manipulate
+                the application (ie keyboard and mouse input).
+                <filename>ZoomTool</filename>, <filename>PanTool</filename>,
+                <filename>SelectFeature</filename> are all Mapbuilder
+                Controllers which update <filename>Context</filename>.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
 
-        <para>Some components can act as both a View and Controller. For
-        example, a <filename>LocatorMap</filename> may allow users to draw a
-        select box to change the BoundingBox. Also, when the BoundingBox in
-        Context changes, the LocatorMap will draw a new Box over it's
-        basemap.</para>
+          <para>Some components can act as both a View and Controller. For
+          example, a <filename>LocatorMap</filename> may allow users to draw a
+          select box to change the BoundingBox. Also, when the BoundingBox in
+          Context changes, the LocatorMap will draw a new Box over it's
+          basemap.</para>
 
-        <para>There is a lot of literature describing the MVC Design Pattern.
-        Here is <ulink
-        url="http://www.cs.indiana.edu/~cbaray/projects/mvc.html">one</ulink>.</para>
-      </section>
+          <para>There is a lot of literature describing the MVC Design
+          Pattern. Here is <ulink
+          url="http://www.cs.indiana.edu/~cbaray/projects/mvc.html">one</ulink>.</para>
+        </section>
 
-      <section id="mvcbenefits">
-        <title>MVC benefits</title>
+        <section id="mvcbenefits">
+          <title>MVC benefits</title>
 
-        <para>The benefits of using the MVC design pattern include:</para>
+          <para>The benefits of using the MVC design pattern include:</para>
 
-        <variablelist>
-          <varlistentry>
-            <term>Modularity</term>
+          <variablelist>
+            <varlistentry>
+              <term>Modularity</term>
 
-            <listitem>
-              <para>Views and Tools can be added or removed without effecting
-              the rest of the application. Tools do not have any dependancies
-              on Views and visa-versa which makes Tools and Views
-              simpler.</para>
-            </listitem>
-          </varlistentry>
+              <listitem>
+                <para>Views and Tools can be added or removed without
+                effecting the rest of the application. Tools do not have any
+                dependencies on Views and visa-versa which makes Tools and
+                Views simpler.</para>
+              </listitem>
+            </varlistentry>
 
-          <varlistentry>
-            <term>Multiple Views</term>
+            <varlistentry>
+              <term>Multiple Views</term>
 
-            <listitem>
-              <para>Views can display the same data in different ways. For
-              example, a Locator Map and Main Map both display the BoundingBox
-              in different ways.</para>
-            </listitem>
-          </varlistentry>
+              <listitem>
+                <para>Views can display the same data in different ways. For
+                example, a Locater Map and Main Map both display the
+                BoundingBox in different ways.</para>
+              </listitem>
+            </varlistentry>
 
-          <varlistentry>
-            <term>Parallel Development</term>
+            <varlistentry>
+              <term>Parallel Development</term>
 
-            <listitem>
-              <para>Once the interfaces have been defined, components can be
-              developed in parallel.</para>
-            </listitem>
-          </varlistentry>
-        </variablelist>
+              <listitem>
+                <para>Once the interfaces have been defined, components can be
+                developed in parallel.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </section>
       </section>
     </section>
 
@@ -315,7 +315,7 @@ I think the CMB should also provide logic for community editing of shared data
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="images/sf_mapbuilder.png" />
+            <imagedata fileref="images/context1.jpg" />
           </imageobject>
         </mediaobject>
       </figure>
@@ -344,21 +344,21 @@ I think the CMB should also provide logic for community editing of shared data
         <para>The model contains components which store CMB state. It is the
         Model in the Model-View-Controller design pattern.</para>
 
+        <figure>
+          <title>Model Component</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/model.jpg" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
         <section id="context">
           <title>Context</title>
 
           <para>The context object stores geographic state, like Layers,
           Bounding Box, etc.</para>
-
-          <figure>
-            <title>Context Component</title>
-
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="images/sf_mapbuilder_context.png" />
-              </imageobject>
-            </mediaobject>
-          </figure>
 
           <para>Context realises and extends the Web Map Context (WMC)
           specification as defined by the OGC. Extensions include:</para>
@@ -414,7 +414,7 @@ I think the CMB should also provide logic for community editing of shared data
 
             <mediaobject>
               <imageobject>
-                <imagedata fileref="images/sf_mapbuilder_mappane.png" />
+                <imagedata fileref="images/mappane.jpg" />
               </imageobject>
             </mediaobject>
           </figure>
@@ -432,7 +432,7 @@ I think the CMB should also provide logic for community editing of shared data
 
             <mediaobject>
               <imageobject>
-                <imagedata fileref="images/sf_mapbuilder_legend.png" />
+                <imagedata fileref="images/legend.jpg" />
               </imageobject>
             </mediaobject>
           </figure>
@@ -467,19 +467,10 @@ I think the CMB should also provide logic for community editing of shared data
             <para>This is ...</para>
 
             <para>In order to simplify initial versions of the GmlSchemaToForm
-            XSL transformation, there are are restrictions on the
-            DescribeFeature schema that can be returned.</para>
+            XSL transformation, there are restrictions on the DescribeFeature
+            schema that can be returned.</para>
           </section>
         </section>
-      </section>
-
-      <section id="tool">
-        <title>Tool</title>
-
-        <para>Tool provides objects for processing mouse events on behalf of
-        MapPane.</para>
-
-        <para>TBD: Expand on this and provide a diagram.</para>
       </section>
     </section>
   </section>
