@@ -31,6 +31,9 @@ function ModelBase(model, modelNode, parentModel) {
       //auto generated unique ID assigned to this model
       model.id = "MbModel_" + mbIds.getId();
     }
+
+    var templateAttr = modelNode.attributes.getNamedItem("template");
+    if (templateAttr) model.template = templateAttr.nodeValue;
   }
 
   /**
@@ -72,6 +75,13 @@ function ModelBase(model, modelNode, parentModel) {
     }
   }
 
+  //
+  if (parentModel) {
+    model.parentModel = parentModel;
+    parentModel[model.id] = model;
+    parentModel.addListener("loadModel",model.loadModelDoc, model);
+  }
+
   /**
    * reload this model as an httpPayload listener
    * @param modelRef    Pointer to the model object being loaded.
@@ -81,7 +91,7 @@ function ModelBase(model, modelNode, parentModel) {
     modelRef.url = httpPayload.url;
     modelRef.method = httpPayload.method;
     modelRef.postData = httpPayload.postData;
-    modelRef.loadModelDoc(modelRef);
+    //modelRef.loadModelDoc(modelRef);
   }
   model.addListener("httpPayload",model.newRequest, model);
 
@@ -132,7 +142,7 @@ function ModelBase(model, modelNode, parentModel) {
       var evalStr = "new " + widgetNode.nodeName + "(widgetNode, this);";
       widget = eval( evalStr );
       if (widget) {
-        //paint the widget and load the tools
+        //store a reference and load the tools
         this[widget.id] = widget;
         widget.loadTools();
       } else {
@@ -158,17 +168,11 @@ function ModelBase(model, modelNode, parentModel) {
     }
   }
 
-  //
-  if (parentModel) {
-    model.parentModel = parentModel;
-    parentModel[model.id] = model;
-    parentModel.addListener("loadModel",model.loadModelDoc, model);
-  }
-
+  model.models = new ModelList(model);
 
   //don't load in models and widgets if this is the config doc, defer to config.init
   //don't load template models (URL is null)
-  if (modelNode && model.url) {
+  if (modelNode && !model.template) {
     model.loadModels();
     model.loadWidgets();
   }
