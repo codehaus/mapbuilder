@@ -100,7 +100,7 @@ function ButtonBase(toolNode, parentWidget) {
   }
 
   this.title = toolNode.selectSingleNode("tooltip").firstChild.nodeValue;
-  this.mode = toolNode.selectSingleNode("modeValue").firstChild.nodeValue; 
+  this.mode = toolNode.nodeValue; 
   this.id = toolNode.selectSingleNode("@id").firstChild.nodeValue;
 
   /**
