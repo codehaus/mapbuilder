@@ -17,8 +17,8 @@
   <skinDir>../lib/skin/default</skinDir>
 
   <!-- Url of LOCAL redirection script, required to access external URLs -->
-  <proxyUrl>../server/proxy/proxy.php?url=</proxyUrl>
-  <!--proxyUrl>/ql2/proxy?url=</proxyUrl-->
+  <!--proxyUrl>../server/proxy/proxy.php?url=</proxyUrl-->
+  <proxyUrl>/ql2/proxy?url=</proxyUrl>
 
   <models>
 
@@ -55,9 +55,14 @@
           <stylesheet>../lib/widget/MapTitle.xsl</stylesheet>
         </WidgetBase>
 
-        <AoiForm id="aoiForm"/>
+        <AoiForm id="aoiForm">
+        </AoiForm>
 
         <WmsCapabilitiesImport id="wmsCapabilitiesImport"/>
+
+        <!--SearchForm id="searchForm">
+        </SearchForm-->
+
       </widgets>
         
     </Context>
@@ -97,15 +102,22 @@
       </widgets>
     </Gml2>
     
-    <ModelBase id="locations">
-      <defaultModelUrl>locations/Global.xml</defaultModelUrl>
-      <widgets>
-        <Locations id="locationsSelect">
-          <targetModel>mainMap</targetModel>
-          <stylesheet>../lib/widget/Locations.xsl</stylesheet>
-        </Locations>
-      </widgets>
-    </ModelBase>
+		<ModelBase id="locations">
+			<defaultModelUrl>locations/Global.xml</defaultModelUrl>
+			<widgets>
+				<Locations id="locationsSelect">
+					<targetModel>mainMap</targetModel>
+					<stylesheet>../lib/widget/Locations.xsl</stylesheet>
+				</Locations>
+			</widgets>
+		</ModelBase>
+    
+		<Gml2 id="ntsGml">
+			<!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
+			<widgets>
+        <Gml2Render id="mainMapPane"/>
+			</widgets>
+		</Gml2>
   </models>
 
   <widgets>
@@ -170,6 +182,13 @@
         </GetFeatureInfo>
       </tools>
     </ButtonBar>
+    
+    <WebServiceForm id="ntsLookupForm">
+			<stylesheet>../lib/widget/NtsForm.xsl</stylesheet>
+			<webServiceUrl>http://geoservices.cgdi.ca/NTS/NTSLookup</webServiceUrl>
+      <targetModel>ntsGml</targetModel>
+    </WebServiceForm>
+    
   </widgets>
       
 </MapbuilderConfig>
