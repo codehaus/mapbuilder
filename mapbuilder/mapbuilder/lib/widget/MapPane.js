@@ -92,14 +92,16 @@ function MapPane(context, name, node) {
 
   /**
    * Called when the context's hidden attribute changes.
-   * @param e The event sent to the listener.
+   * @param layerIndex The index of the LayerList/Layer from the Context which
+   * has changed.
+   * @param hidden, 1=hidden, 0=not hidden.
    */
-  this.hiddenListener=function(e){
+  this.hiddenListener=function(layerIndex,hidden){
     var vis="visible";
-    if (e.hidden) {
+    if (hidden) {
       vis="hidden";
     }
-    document.getElementById(e.layerIndex).style.visibility=vis;
+    document.getElementById(layerIndex).style.visibility=vis;
   }
 
   this.context.addHiddenListener(this.hiddenListener);

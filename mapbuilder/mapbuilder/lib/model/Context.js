@@ -98,7 +98,7 @@ function Context(url, name, baseDir, skin, queryLayer) {
    * @param listener The fuction to call when context changes.
    */
   this.addContextListener=function(listener) {
-    this.contextListeners[this.hiddenListeners.length]=listener;
+    this.contextListeners[this.contextListeners.length]=listener;
   }
 
   /**
@@ -152,13 +152,9 @@ function Context(url, name, baseDir, skin, queryLayer) {
     // Set the hidden attribute in the Context
    layers=this.context.documentElement.getElementsByTagName("Layer");
    
-   //disabled for now awaiting change in legend XSL assigning indexes (rather than names)
-   // layers.item(layerIndex).setAttribute("hidden",hidden);
-
     // Call the listeners
-    hiddenEvent=new HiddenEvent(layerIndex,hidden);
     for(i=0;i<this.hiddenListeners.length;i++) {
-      this.hiddenListeners[i](hiddenEvent);
+      this.hiddenListeners[i](layerIndex,hidden);
     }
   }
 
@@ -332,22 +328,4 @@ function Context(url, name, baseDir, skin, queryLayer) {
     }
     return ext;
   }
-
-}
-
-// Event objects sent by Context.
-
-/**
- * TBD: Deprecated this event and only send layerId to hiddenListeners instead.
- * The event sent when a Hidden attribute changes.
- * @constructor
- * @param layerIndex The index of the LayerList/Layer from the Context which has changed.
- * @param hidden, 1=hidden, 0=not hidden.
- * @deprecated
- */
-function HiddenEvent(layerIndex,hidden){
- /** layer The index of the layer from the Context which has changed. */
- this.layerIndex=layerIndex;
- /** 1=layer hidden, 0=layer not hidden. */
- this.hidden=hidden;
 }
