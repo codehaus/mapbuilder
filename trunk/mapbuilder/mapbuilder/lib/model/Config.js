@@ -25,6 +25,8 @@ function Config(url) {
 
   //set some global application properties
   this.skinDir = this.doc.selectSingleNode("/MapbuilderConfig/skinDir").firstChild.nodeValue;
+  var proxyUrl = this.doc.selectSingleNode("/MapbuilderConfig/proxyUrl");
+  if (proxyUrl) this.proxyUrl = proxyUrl.firstChild.nodeValue;
 
   /**
    * Internal function to load scripts for components that don't have <scriptfile>
