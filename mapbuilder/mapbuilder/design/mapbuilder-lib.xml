@@ -751,15 +751,12 @@
         <para>Model components store mapbuilder state and notify widgets when
         state changes. State is often read from and stored in XML
         files.</para>
+
+        <para>TBD: Explain how state is stored in Listener objects.</para>
       </section>
 
       <section>
         <title>Widget</title>
-
-        <para>Widgets are responsible for rendering map components into the
-        the MainPage whenever state changes. Usually, the widget uses XSL to
-        convert an XML document to an HTML snippet. The HTML snippet is
-        inserted into the widget's HTML tag in the MainPage.</para>
 
         <figure>
           <title>Widget Components</title>
@@ -771,147 +768,78 @@
           </mediaobject>
         </figure>
 
-        <section id="mappane">
-          <title>MapPane</title>
-
-          <para>MapPane uses XSL to render Map Layers from Context as DHTML
-          Layers.</para>
-
-          <figure>
-            <title>MapPane</title>
-
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="images/mappane.jpg" />
-              </imageobject>
-            </mediaobject>
-          </figure>
-        </section>
-
-        <section id="legend">
-          <title>Legend</title>
-
-          <para>Legend uses XSL to render a legend based on the Context. Some
-          context information, like LayerVisiblity can be changed through the
-          Legend view.</para>
-
-          <figure>
-            <title>Legend Component</title>
-
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="images/legend.jpg" />
-              </imageobject>
-            </mediaobject>
-          </figure>
-        </section>
-
-        <section id="buttonbar">
-          <title>ButtonBar</title>
-
-          <para>A ButtonBar contains a list of Buttons and SelectButtons which
-          are added to a MainPage as one widget.</para>
-
-          <figure>
-            <title>ButtonBar</title>
-
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="images/ButtonBar.jpg" />
-              </imageobject>
-            </mediaobject>
-          </figure>
-        </section>
-
-        <section>
-          <title>Button</title>
-
-          <para></para>
-        </section>
-
-        <section>
-          <title>SelectButton</title>
-
-          <para></para>
-        </section>
-
-        <section>
-          <title>Tool</title>
-
-          <para>A Widget Tool contains button(s) that a user can click, like a
-          PanLeft button or a ZoomPanel. The Tools contain logic to update
-          Context when they have been pressed. In the Model-View-Controller
-          design pattern, these Tools are both a View and a Controller.</para>
-
-          <para>TBD: This is to be replaced by Buttons.</para>
-        </section>
-
-        <section id="addfeature">
-          <title>AddFeature</title>
-
-          <figure>
-            <title>Web pages and processes used to add features to a
-            WFS</title>
-
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="images/addfeature.png" />
-              </imageobject>
-            </mediaobject>
-          </figure>
-
-          <section>
-            <title>GmlSchemaToForm</title>
-
-            <para>This is ...</para>
-
-            <para>In order to simplify initial versions of the GmlSchemaToForm
-            XSL transformation, there are restrictions on the DescribeFeature
-            schema that can be returned.</para>
-          </section>
-        </section>
+        <para>Widgets are responsible for rendering map components into the
+        the MainPage whenever state changes. Usually, the widget uses XSL to
+        convert an XML document to an HTML snippet. The HTML snippet is
+        inserted into the widget's HTML tag in the MainPage.</para>
       </section>
 
-      <section id="events">
-        <title>Events</title>
+      <section id="tool">
+        <title>Tool</title>
 
-        <!--TBD:  Can we move this to after 3.2.6 below and have it describe how abstract objects implements the listener 
+        <figure>
+          <title>Tool Components</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/tool.gif" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>Tool Components process mouse and key actions on behalf of a
+        widget and update Model Components with new state information.</para>
+
+        <para>A Widget Tool contains button(s) that a user can click, like a
+        PanLeft button or a ZoomPanel. The Tools contain logic to update
+        Context when they have been pressed. In the Model-View-Controller
+        design pattern, these Tools are both a View and a Controller.</para>
+      </section>
+
+      <section id="util">
+        <title>Util</title>
+
+        <section id="events">
+          <title>Events</title>
+
+          <!--TBD:  Can we move this to after 3.2.6 below and have it describe how abstract objects implements the listener 
 arrays and how they get set/called?   Mike March 27, 2004-->
 
-        <para><emphasis role="bold">Warning:</emphasis> This section is out of
-        date.</para>
+          <para><emphasis role="bold">Warning:</emphasis> This section is out
+          of date.</para>
 
-        <para>Mapbuilder's Model-View-Controller design requires events. While
-        Javascript provides standard events for some GUI events, it's support
-        for custom events is limited in recent browsers and not provided in
-        older browsers. Consequency, Mapbuilder components use their own event
-        system.</para>
+          <para>Mapbuilder's Model-View-Controller design requires events.
+          While Javascript provides standard events for some GUI events, it's
+          support for custom events is limited in recent browsers and not
+          provided in older browsers. Consequency, Mapbuilder components use
+          their own event system.</para>
 
-        <para>Here mapbuilder events by example, using BoundingBoxEvent which
-        is sent from Context to MapPane when the BoundingBox changes.</para>
+          <para>Here mapbuilder events by example, using BoundingBoxEvent
+          which is sent from Context to MapPane when the BoundingBox
+          changes.</para>
 
-        <variablelist>
-          <varlistentry>
-            <term>Store list of listeners</term>
+          <variablelist>
+            <varlistentry>
+              <term>Store list of listeners</term>
 
-            <listitem>
-              <para>Context.js stores an array of listeners to call when
-              context changes.</para>
+              <listitem>
+                <para>Context.js stores an array of listeners to call when
+                context changes.</para>
 
-              <programlisting>/** Functions to call when the boundingBox changes. */
+                <programlisting>/** Functions to call when the boundingBox changes. */
 this.boundingBoxChangeListeners=new Array();
 </programlisting>
-            </listitem>
-          </varlistentry>
+              </listitem>
+            </varlistentry>
 
-          <varlistentry>
-            <term>add&lt;Event&gt;Listener()</term>
+            <varlistentry>
+              <term>add&lt;Event&gt;Listener()</term>
 
-            <listitem>
-              <para>Context.js needs a procedure for registering
-              Listeners.</para>
+              <listitem>
+                <para>Context.js needs a procedure for registering
+                Listeners.</para>
 
-              <programlisting>/**
+                <programlisting>/**
  * Add a Listener for boundingBox change.
  * @param listener The function to call when the boundingBox changes.
  * @param target The object which owns the listener function.
@@ -922,21 +850,21 @@ this.addBoundingBoxChangeListener=function(listener,target) {
 }
 </programlisting>
 
-              <para>Note: the target object which owns the listener function
-              needs to be stored. In javascript, when the listener function is
-              called it does not have a reference back to the object which
-              owns the function.</para>
-            </listitem>
-          </varlistentry>
+                <para>Note: the target object which owns the listener function
+                needs to be stored. In javascript, when the listener function
+                is called it does not have a reference back to the object
+                which owns the function.</para>
+              </listitem>
+            </varlistentry>
 
-          <varlistentry>
-            <term>call Listeners</term>
+            <varlistentry>
+              <term>call Listeners</term>
 
-            <listitem>
-              <para>When the boundingBox changes in Context.js, call all
-              listeners.</para>
+              <listitem>
+                <para>When the boundingBox changes in Context.js, call all
+                listeners.</para>
 
-              <programlisting>/**
+                <programlisting>/**
  * Set the BoundingBox and notify intererested widgets that BoundingBox
  * has changed.
  * @param boundingBox array in form (xmin, ymin, xmax, ymax).
@@ -952,17 +880,18 @@ this.setBoundingBox=function(boundingBox) {
   }
 }
 </programlisting>
-            </listitem>
-          </varlistentry>
+              </listitem>
+            </varlistentry>
 
-          <varlistentry>
-            <term>Listener function</term>
+            <varlistentry>
+              <term>Listener function</term>
 
-            <listitem>
-              <para>MapPane.js defines a function to call when BoundingBox
-              changes. The function needs to register with Context.js.</para>
+              <listitem>
+                <para>MapPane.js defines a function to call when BoundingBox
+                changes. The function needs to register with
+                Context.js.</para>
 
-              <programlisting>/**
+                <programlisting>/**
  * Called when the context's boundingBox attribute changes.
  * @param target This object.
  */
@@ -974,13 +903,20 @@ this.boundingBoxChangeListener=function(target){
 this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
 </programlisting>
 
-              <para>Note: The listener function requires this object to be
-              passed in as a parameter. In javascript, when the listener
-              function is called it does not have a reference back to the
-              object which owns the function.</para>
-            </listitem>
-          </varlistentry>
-        </variablelist>
+                <para>Note: The listener function requires this object to be
+                passed in as a parameter. In javascript, when the listener
+                function is called it does not have a reference back to the
+                object which owns the function.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </section>
+      </section>
+
+      <section id="inheritance">
+        <title>Inheritance</title>
+
+        <para></para>
       </section>
 
       <section>
