@@ -17,7 +17,11 @@ function ToolBase(tool, toolNode, parentWidget) {
   tool.toolNode = toolNode;
 
   var id = toolNode.selectSingleNode("@id");
-  if (id) tool.id = id.firstChild.nodeValue;
+  if (id) {
+    tool.id = id.firstChild.nodeValue;
+  } else {
+    tool.id = parentWidget.id + "_" + toolNode.nodeName;
+  }
 
   /** Mouse handler which this tool will register listeners with. */
   var mouseHandler = tool.toolNode.selectSingleNode("mb:mouseHandler");

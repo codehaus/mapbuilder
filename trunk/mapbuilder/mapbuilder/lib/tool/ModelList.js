@@ -19,6 +19,7 @@ function ModelList(model) {
   this.model = model;            //.model is the parent model, eg. WFS caps doc
   this.modelArray = new Array();                  //.models is an array of the dynamic models created
   //TBD: actually insert Model nodes for these in the config.doc
+  this.id = model.id + "_ModelList";
 
 
   /**

@@ -37,6 +37,7 @@ function Extent( model, initialRes ) {
   this.size = new Array();
   this.res = new Array();
   this.zoomBy = 4;
+  this.id = model.id + "_MbExtent" + mbIds.getId();
 
 //give some methods for an extent object
 	this.GetCenter = getCenter;
