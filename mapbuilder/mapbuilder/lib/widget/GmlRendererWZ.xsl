@@ -94,7 +94,7 @@ $Name$
   </xsl:template>
 
   <!-- Match and render a LineString -->
-  <xsl:template match="gml:LineString">
+  <xsl:template match="gml:LineString | gml:LinearRing">
     <xsl:for-each select="gml:coord">
       <xsl:if test="following-sibling::gml:coord">
         // LineString
