@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+
+<MapbuilderConfig version="0.2.1" id="simpleTemplate" 
+
+    xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
+
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+
+    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+
+    
+
+  <models>
+
+
+
+    <Context id="mainMap">
+
+      <defaultModelUrl>tsPrecipAnomaly.xml</defaultModelUrl>
+
+      
+
+      <widgets>
+
+        <TimeSeries id="mainMapWidget">
+
+          <stylesheet>../../lib/widget/MapPane.xsl</stylesheet>
+
+          <htmlTagId>mainMapPane</htmlTagId>
+
+          <mapContainerId>mainMapContainer</mapContainerId>
+
+        </TimeSeries>
+
+        <AoiBoxWZ id="aoiBox2">
+
+          <htmlTagId>mainMapPane</htmlTagId>
+
+          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
+
+          <lineColor>#FF0000</lineColor>
+
+          <lineWidth>1</lineWidth>
+
+          <crossSize>15</crossSize>
+
+          <mapContainerId>mainMapContainer</mapContainerId>
+
+        </AoiBoxWZ>
+
+        <Timestamp id="timestamp"/>
+
+        <Legend id="legend">
+
+        </Legend>
+
+        <Widget id="abstract">
+
+          <stylesheet>Abstract.xsl</stylesheet>
+
+        </Widget>
+
+        <Widget id="mapTitle">
+
+          <stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
+
+        </Widget>
+
+        <CursorTrack id="cursorTrack">
+
+          <mouseHandler>mainMap</mouseHandler>
+
+        </CursorTrack>
+
+        
+
+      </widgets>
+
+      <tools> 
+
+        <AoiMouseHandler id="mainAoi"/>
+
+        <DragPanHandler id="mainDragPan">
+
+          <enabled>false</enabled>
+
+        </DragPanHandler>
+
+        <MovieLoop id="movieLoop">
+
+          <framesPerSecond>4</framesPerSecond>
+
+          <maxFrames>30</maxFrames>
+
+        </MovieLoop>
+
+      </tools> 
+
+    </Context>
+
+      
+
+    <ContextCollection id="collection">
+
+      <defaultModelUrl>timeSeriesCollection.xml</defaultModelUrl>
+
+      <widgets>
+
+        <CollectionList id="collectionList">
+
+          <targetModel>mainMap</targetModel>
+
+        </CollectionList>
+
+      </widgets>
+
+    </ContextCollection>
+
+    
+
+    <!--WmsCapabilities id="wmsCapTemplate">
+
+      <defaultModelUrl>http://iridl.ldeo.columbia.edu/expert/home/.mbell/.IRI/.MD/.CID/wms.xml</defaultModelUrl>
+
+      <nodeSelectXpath>//Layer</nodeSelectXpath>
+
+      <title>OGC Web Map Server (WMS)</title>
+
+      <models>
+
+        <GetMap id="getMapTemplate" template="true">
+
+          <widgets>
+
+            <MapImage id="renderMap">
+
+              <targetModel>mainMap</targetModel>
+
+              <htmlTagId>mainMapPane</htmlTagId>
+
+              <mapContainerId>mainMapContainer</mapContainerId>
+
+            </MapImage>
+
+          </widgets>
+
+        </GetMap>
+
+      </models>
+
+      <widgets>
+
+        <Widget id="layerList">
+
+          <htmlTagId>workspace</htmlTagId>
+
+          <outputNodeId>workspaceCanvas</outputNodeId>
+
+          <stylesheet>../../lib/widget/SelectMapLayers.xsl</stylesheet>
+
+        </Widget>
+
+        <CopyNode id="copyNodeToContext">
+
+          <targetModel>mainMap</targetModel>
+
+        </CopyNode>
+
+      </widgets>
+
+      <tools>
+
+        <WebServiceRequest id="wmsController">
+
+          <targetModel>wmsCapTemplate.models.getMapTemplate</targetModel>
+
+          <requestName>GetMap</requestName>
+
+        </WebServiceRequest>
+
+      </tools>
+
+    </WmsCapabilities-->
+
+    
+
+  </models>
+
+
+
+  <widgets>
+
+    <Button id="play">
+
+      <buttonBar>tsButtonBar</buttonBar>
+
+      <targetModel>mainMap</targetModel>
+
+      <action>movieLoop.play()</action>
+
+      <class>RadioButton</class>
+
+      <disabledSrc>/images/PlayDisable.gif</disabledSrc>
+
+      <enabledSrc>/images/PlayEnable.gif</enabledSrc>
+
+      <tooltip xml:lang="en">click to run the movie</tooltip>
+
+      <tooltip xml:lang="fr">click to run the movie -fr</tooltip>
+
+    </Button>
+
+    <Button id="pause">
+
+      <buttonBar>tsButtonBar</buttonBar>
+
+      <targetModel>mainMap</targetModel>
+
+      <action>movieLoop.pause()</action>
+
+      <class>RadioButton</class>
+
+      <disabledSrc>/images/PauseDisable.gif</disabledSrc>
+
+      <enabledSrc>/images/PauseEnable.gif</enabledSrc>
+
+      <tooltip xml:lang="en">click to pause the movie</tooltip>
+
+      <tooltip xml:lang="fr">click to pause the movie -fr</tooltip>
+
+    </Button>
+
+    <Button id="stop">
+
+      <buttonBar>tsButtonBar</buttonBar>
+
+      <targetModel>mainMap</targetModel>
+
+      <action>movieLoop.stop()</action>
+
+      <class>RadioButton</class>
+
+      <disabledSrc>/images/StopDisable.gif</disabledSrc>
+
+      <enabledSrc>/images/StopEnable.gif</enabledSrc>
+
+      <tooltip xml:lang="en">click to stop the movie</tooltip>
+
+      <tooltip xml:lang="fr">click to stop the movie -fr</tooltip>
+
+    </Button>
+
+    <ZoomIn id="zoomIn">
+
+      <buttonBar>mainButtonBar</buttonBar>
+
+      <targetModel>mainMap</targetModel>
+
+      <mouseHandler>mainAoi</mouseHandler>
+
+      <class>RadioButton</class>
+
+      <selected>true</selected>
+
+      <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
+
+      <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
+
+      <tooltip xml:lang="en">click and drag to zoom in</tooltip>
+
+      <tooltip xml:lang="fr">cliquer et faire glisser la souris pour agrandir</tooltip>
+
+    </ZoomIn>
+
+    <ZoomOut id="zoomOut">
+
+      <buttonBar>mainButtonBar</buttonBar>
+
+      <targetModel>mainMap</targetModel>
+
+      <mouseHandler>mainAoi</mouseHandler>
+
+      <class>RadioButton</class>
+
+      <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
+
+      <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
+
+      <tooltip xml:lang="en">click to zoom out</tooltip>
+
+      <tooltip xml:lang="fr">cliquer pour rée</tooltip>
+
+    </ZoomOut>
+
+    <Reset id="reset">
+
+      <buttonBar>mainButtonBar</buttonBar>
+
+      <targetModel>mainMap</targetModel>
+
+      <class>Button</class>
+
+      <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
+
+      <tooltip xml:lang="en">reset the map to full extent</tooltip>
+
+      <tooltip xml:lang="fr">redonner la carte ses dimensions complèts</tooltip>
+
+    </Reset>
+
+  </widgets>
+
+  <skinDir>../../lib/skin/default</skinDir>
+
+
+
+</MapbuilderConfig>
+
