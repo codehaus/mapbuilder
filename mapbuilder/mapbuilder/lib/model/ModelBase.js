@@ -91,28 +91,40 @@ function ModelBase(model, modelNode, parentModel) {
   }
 
   /**
+   * Get the value of a node.
+   * @param objRef Reference to this node.
+   * @param xlink Xlink of the node to update.
+   * @return value of the node or null if Xlink does not find a node.
+   */
+  this.getXlinkValue=function(objRef,xlink){
+    node=objRef.doc.selectSingleNode(xlink);
+    if(node){
+      return node.firstChild.nodeValue;
+    }else{
+      return null;
+    }
+  }
+  model.getXlinkValue=this.getXlinkValue;
+
+  /**
    * Update the value of a node within this model's XML.
    * Triggers a refresh event from the model.
    * @param objRef Reference to this node.
    * @param xlink Xlink of the node to update.
    * @param value Node's new value.
+   * @return Returns false if Xlink does not find a node.
    */
   this.setXlinkValue=function(objRef,xlink,value){
-    objRef.doc.selectSingleNode(xlink).firstChild.nodeValue=value;
-    objRef.setParam("refresh");
+    node=objRef.doc.selectSingleNode(xlink);
+    if(node){
+      node.firstChild.nodeValue=value;
+      objRef.setParam("refresh");
+      return true;
+    }else{
+      return false;
+    }
   }
   model.setXlinkValue=this.setXlinkValue;
-
-  /**
-   * Get the value of a node.
-   * @param objRef Reference to this node.
-   * @param xlink Xlink of the node to update.
-   * @return value of the node.
-   */
-  this.getXlinkValue=function(objRef,xlink){
-    return objRef.doc.selectSingleNode(xlink).firstChild.nodeValue;
-  }
-  model.getXlinkValue=this.getXlinkValue;
 
   /**
    * Load a Model's document from a url.
