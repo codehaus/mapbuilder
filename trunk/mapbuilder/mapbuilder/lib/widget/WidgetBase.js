@@ -10,8 +10,10 @@ $Id$
  *
  * @constructor
  * @author Mike Adair 
- * @param widgetNode   The Widget oject node from the configuration document
- * @param group        The model group object to associate this widget with
+ * @param widgetNode The Widget's XML object node from the configuration
+ *     document.
+ * @param group      The ModelGroup XML object from the configuration
+ *     document that this widget will update.
  */
 function WidgetBase(widgetNode, group) {
   if ( arguments.length > 0 ) {   //need this for .prototype?
