@@ -16,7 +16,7 @@ $Id$
  * @param skin Name of skin to use for look and feel
  * @param queryLayer Index of layer in Context document that should be used as query layer for GetFeatureInfo requests
  */
-function Context(url, name, node, baseDir, skin, queryLayer) {
+function Context(url, name, baseDir, skin, queryLayer) {
 
   /**
    * The Web Map Context Document.
