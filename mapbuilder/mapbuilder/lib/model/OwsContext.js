@@ -3,6 +3,9 @@ License: GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
+// Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/tool/Extent.js");
+
 /**
  * Stores a Web Map Context (WMC) document as defined by the Open GIS Consortium
  * http://opengis.org and extensions the the WMC.  A unique Id is included for
@@ -17,11 +20,11 @@ $Id$
  * @requires Sarissa
  * 
  */
-function Context(modelNode, parent) {
+function OwsContext(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   var modelBase = new ModelBase(this, modelNode, parent);
 
-  this.namespace = "xmlns:cml='http://www.opengis.net/context' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'";
+  this.namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:ows='http://www.opengis.net/ows' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'";
 
   //get the xpath to select nodes from the parent doc
   var nodeSelectXpath = modelNode.selectSingleNode("mb:nodeSelectXpath");
@@ -46,7 +49,7 @@ function Context(modelNode, parent) {
     if (hidden) hiddenValue = "1";
       
     //var layers=this.doc.documentElement.getElementsByTagName("Layer");
-    var layers=this.doc.selectNodes("/cml:ViewContext/cml:LayerList/cml:Layer");
+    var layers=this.doc.selectNodes("/wmc:OWSContext/wmc:LayerList/wmc:Layer");
     for(var i=0;i<layers.length;i++) {
       if(layers[i].getElementsByTagName("Name").item(0).firstChild.nodeValue == layerIndex) {
         layers[i].setAttribute("hidden", hiddenValue);
@@ -66,7 +69,7 @@ function Context(modelNode, parent) {
   this.getHidden=function(layerIndex){
     var hidden=1;
     //layers=this.doc.documentElement.getElementsByTagName("Layer");
-    var layers=this.doc.selectNodes("/cml:ViewContext/cml:LayerList/cml:Layer");
+    var layers=this.doc.selectNodes("/wmc:OWSContext/wmc:LayerList/wmc:Layer");
     for(var i=0;i<layers.length;i++) {
       if(layers[i].getElementsByTagName("Name").item(0).firstChild.nodeValue == layerIndex) {
         hidden=layers[i].getAttribute("hidden");
@@ -83,12 +86,13 @@ function Context(modelNode, parent) {
   this.getBoundingBox=function() {
     // Extract BoundingBox from the context
     //boundingBox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
-    var boundingBox=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:BoundingBox");
-    bbox = new Array();
-    bbox[0]=parseFloat(boundingBox.getAttribute("minx"));
-    bbox[1]=parseFloat(boundingBox.getAttribute("miny"));
-    bbox[2]=parseFloat(boundingBox.getAttribute("maxx"));
-    bbox[3]=parseFloat(boundingBox.getAttribute("maxy"));
+    var lowerLeft=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:LowerCorner");
+    var upperRight=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:UpperCorner");
+    var strBbox = new String(lowerLeft.firstChild.nodeValue + " " + upperRight.firstChild.nodeValue).split(" ");
+    var bbox = new Array();
+    for (i=0; i<strBbox.length; ++i) {
+      bbox[i] = parseFloat(strBbox[i]);
+    }
     return bbox;
   }
 
@@ -98,12 +102,10 @@ function Context(modelNode, parent) {
    */
   this.setBoundingBox=function(boundingBox) {
     // Set BoundingBox in context
-    //bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
-    var bbox=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:BoundingBox");
-    bbox.setAttribute("minx", boundingBox[0]);
-    bbox.setAttribute("miny", boundingBox[1]);
-    bbox.setAttribute("maxx", boundingBox[2]);
-    bbox.setAttribute("maxy", boundingBox[3]);
+    var lowerLeft=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:LowerCorner");
+    lowerLeft.firstChild.nodeValue = boundingBox[0] + " " + boundingBox[1];
+    var upperRight=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:UpperCorner");
+    upperRight.firstChild.nodeValue = boundingBox[2] + " " + boundingBox[3];
     // Call the listeners
     this.callListeners("refresh");
   }
@@ -115,8 +117,8 @@ function Context(modelNode, parent) {
    */
   this.setSRS=function(srs) {
     //bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
-    var bbox=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:BoundingBox");
-    bbox.setAttribute("SRS",srs);
+    var bbox=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox");
+    bbox.setAttribute("crs",srs);
   }
 
   /**
@@ -126,8 +128,8 @@ function Context(modelNode, parent) {
    */
   this.getSRS=function() {
     //bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
-    var bbox=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:BoundingBox");
-    srs=bbox.getAttribute("SRS");
+    var bbox=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox");
+    srs=bbox.getAttribute("crs");
     return srs;
   }
 
@@ -137,7 +139,7 @@ function Context(modelNode, parent) {
    */
   this.getWindowWidth=function() {
     //var win=this.doc.documentElement.getElementsByTagName("Window").item(0);
-    var win=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:Window");
+    var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
     width=win.getAttribute("width");
     return width;
   }
@@ -148,7 +150,7 @@ function Context(modelNode, parent) {
    */
   this.setWindowWidth=function(width) {
     //win=this.doc.documentElement.getElementsByTagName("Window").item(0);
-    var win=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:Window");
+    var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
     win.setAttribute("width", width);
   }
 
@@ -158,7 +160,7 @@ function Context(modelNode, parent) {
    */
   this.getWindowHeight=function() {
     //var win=this.doc.documentElement.getElementsByTagName("Window").item(0);
-    var win=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:Window");
+    var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
     height=win.getAttribute("height");
     return height;
   }
@@ -169,15 +171,15 @@ function Context(modelNode, parent) {
    */
   this.setWindowHeight=function(height) {
     //win=this.doc.documentElement.getElementsByTagName("Window").item(0);
-    var win=this.doc.selectSingleNode("/cml:ViewContext/cml:General/cml:Window");
+    var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
     win.setAttribute("height", height);
   }
 
   this.getServerUrl = function(feature) {
-    return feature.selectSingleNode("cml:Server/cml:OnlineResource").getAttribute("xlink:href");
+    return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
   }
   this.getMethod = function(feature) {
-    return feature.selectSingleNode("cml:Server/cml:OnlineResource").getAttribute("cml:method");
+    return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("wmc:method");
   }
 
   /**
