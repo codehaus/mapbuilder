@@ -21,11 +21,13 @@
           <htmlTagId>mainMapPane</htmlTagId>
           <tools>
             <AoiMouseHandler/>
+            <!--
             <AoiBox>
               <lineColor>#FF0000</lineColor>
               <lineWidth>2</lineWidth>
               <crossSize>1</crossSize>
             </AoiBox>
+            -->
             <DragPanHandler>
               <enabled>false</enabled>
             </DragPanHandler>
@@ -43,6 +45,14 @@
           <mapContainerId>mainMapContainer</mapContainerId>
         </AoiBox2>
         -->
+        <AoiBoxWZ id="aoiBox2">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+          <mapContainerId>mainMapContainer</mapContainerId>
+        </AoiBoxWZ>
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap.mainMapWidget</mouseHandler>
         </CursorTrack>
@@ -143,6 +153,7 @@
        </GmlRenderer>
       </widgets>
     </Gml2>
+    <!--
     <Logger id="eventLogDoc">
       <serializeUrl>/mapbuilder/writeXml</serializeUrl>
       <widgets>
@@ -151,6 +162,7 @@
         </Widget>
       </widgets>
     </Logger>
+    -->
    </models>
   <widgets>
     <ButtonBar id="buttonBar">
@@ -159,7 +171,6 @@
         <ZoomIn id="zoomIn">
           <mouseHandler>mainMap.mainMapWidget</mouseHandler>
           <dependsOn>mainMap.mainMapWidget.AoiMouseHandler</dependsOn>
-          <dependsOn>mainMap.mainMapWidget.AoiBox</dependsOn>
           <class>RadioButton</class>
           <selected>true</selected>
           <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
@@ -170,7 +181,6 @@
         <ZoomOut id="zoomOut">
           <mouseHandler>mainMap.mainMapWidget</mouseHandler>
           <dependsOn>mainMap.mainMapWidget.AoiMouseHandler</dependsOn>
-          <dependsOn>mainMap.mainMapWidget.AoiBox</dependsOn>
           <class>RadioButton</class>
           <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
           <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
@@ -189,7 +199,6 @@
         <SetAoi id="setAoi">
           <mouseHandler>mainMap.mainMapWidget</mouseHandler>
           <dependsOn>mainMap.mainMapWidget.AoiMouseHandler</dependsOn>
-          <dependsOn>mainMap.mainMapWidget.AoiBox</dependsOn>
           <class>RadioButton</class>
           <enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
           <disabledSrc>/images/SetAoiDisable.gif</disabledSrc>
