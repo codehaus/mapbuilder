@@ -131,39 +131,9 @@ $Id$
   <property name="dev.home"      value="${basedir}/."/>
 
 
-<!-- ================== Custom Ant Task Definitions ======================= -->
-
-
-<!--
-
-  These properties define custom tasks for the Ant build tool that interact
-  with the "/manager" web application installed with Tomcat 5.  Before they
-  can be successfully utilized, you must perform the following steps:
-
-  - Copy the file "server/lib/catalina-ant.jar" from your Tomcat 5
-    installation into the "lib" directory of your Ant installation.
-
-  - Create a "build.properties" file in your application's top-level
-    source directory (or your user login home directory) that defines
-    appropriate values for the "manager.password", "manager.url", and
-    "manager.username" properties described above.
-
-  For more information about the Manager web application, and the functionality
-  of these tasks, see <http://localhost:8080/tomcat-docs/manager-howto.html>.
-
-
-  <taskdef name="install" classname="org.apache.catalina.ant.InstallTask"/>
-  <taskdef name="list"    classname="org.apache.catalina.ant.ListTask"/>
-  <taskdef name="reload"  classname="org.apache.catalina.ant.ReloadTask"/>
-  <taskdef name="remove"  classname="org.apache.catalina.ant.RemoveTask"/>
--->
-
-
 <!-- ==================== External Dependencies =========================== -->
 
-
 <!--
-
   Use property values to define the locations of external JAR files on which
   your application will depend.  In general, these values will be used for
   two purposes:
@@ -175,7 +145,6 @@ $Id$
   exposes to web applications, we will not need to explicitly list any of those
   dependencies.  You only need to worry about external dependencies for JAR
   files that you are going to include inside your "/WEB-INF/lib" directory.
-
 -->
 
 <!--
