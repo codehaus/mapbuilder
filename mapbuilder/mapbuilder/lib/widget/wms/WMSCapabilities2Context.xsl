@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
 xmlns:wmc="http://www.opengis.net/context"
-xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+xmlns:xlink="http://www.w3.org/1999/xlink">
 
 <!--
 Description: Convert a WFS Capabilities document to a Web Map Context
@@ -36,6 +37,10 @@ $Name$
 			    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			    xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengis.net/context/1.0.0/context.xsd">
 	<General>
+          <Window width="400" height="200"/>
+          <Title><xsl:value-of select="/WMT_MS_Capabilities/Service/Title"/></Title>
+          <!-- TBD: The following should be extracted -->
+          <BoundingBox SRS="EPSG:4326" minx="-180" miny="-90" maxx="180" maxy="90"/>
 	</General>
     <LayerList>
       <xsl:apply-templates select="/WMT_MS_Capabilities/Capability/Layer/Layer"/>
