@@ -20,8 +20,6 @@ Tools:
 
 * Move Context2FeatureInfo.xml out of widget/tool
 
-* In MapPane, replace mouseListeners() with Listener.js functions.
-
 * Remove directories:
 widget/toollist
 
