@@ -44,15 +44,19 @@ function ModelBase(modelNode) {
     var xml;
     xml = Sarissa.getDomDocument();
     xml.async = false;
-    // the following two lines are needed for IE
-    xml.setProperty("SelectionNamespaces", "xmlns:xsl='http://www.w3.org/1999/XSL/Transform'");
+
+    // the following two lines are needed for IE; set the namespace for selection
+    // in config
     xml.setProperty("SelectionLanguage", "XPath");
+    if (this.namespace) Sarissa.setXpathNamespaces(xml, this.namespace);
+    xml.validateOnParse=false;
 
     url=objRef.getProxyPlusUrl(url);
     if (url) {
+      //xml = loadSync(url);
       xml.load(url);
       if (xml.parseError < 0){
-        alert("error loading document: " + url);
+        alert("error loading document: " + url + " - " + Sarissa.getParseErrorText(xml) );
       } else {
         this.loadModelNode(xml);
       }

@@ -136,6 +136,7 @@ function Config(url) {
     //alert(modelId+":"+modelUrl);
     var model = this[modelId];
     if (modelUrl) {
+      model.callListeners( "newModel" );
       model.loadModelDoc(this,modelUrl);
     }
     model.loadWidgets(model);
