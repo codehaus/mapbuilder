@@ -29,11 +29,25 @@ function EditButtonBase(button,widetNode, model) {
    * If tool is selected and the Edit Tool has changed (eg, changed from
    * LineEdit to PointEdit) then load new default feature.
    * This function is called when a tool is selected or deselected.
+   * The following parameters are copied from this button's config node into
+   * the target model:<br/>
+   * "transactionResponseModel", "webServiceUrl", "featureXpath",
+   * "defaultModelUrl", "targetContext".
+   * These values will be used by WebServiceAction when processing a
+   * transaction.
    * @param objRef Pointer to this object.
    * @param selected True when selected.
    */
   this.doSelect = function(selected,objRef) {
     if (objRef.enabled && selected && objRef.targetModel.url!=objRef.defaultModelUrl){
+      a=new Array("transactionResponseModel","webServiceUrl","featureXpath","defaultModelUrl","targetContext");
+      for (i in a){
+        param=widetNode.selectSingleNode("mb:"+a[i]);
+        if(param){
+          objRef.targetModel.setParam(a[i],param.firstChild.nodeValue);
+        }
+      }
+
       objRef.targetModel.url=objRef.defaultModelUrl;
       // load default GML
       var httpPayload=new Object();
