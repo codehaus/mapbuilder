@@ -66,7 +66,7 @@ function ZoomTool(context,baseDir) {
 
   this.paint=function(){
 
-    s="<span onclick=\"context.zoom('in')\">Zoom in</span>";
+    s="<a href=\"javascript:context.zoom('in')\">Zoom in</a>";
 
     this.node.innerHTML=s;
 
