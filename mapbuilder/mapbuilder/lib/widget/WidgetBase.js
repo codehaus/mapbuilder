@@ -26,6 +26,12 @@ function WidgetBase(widget,widgetNode,model) {
   this.model = model;
   this.widgetNode = widgetNode;
 
+  /** Method used for painting.
+   * xsl2html (default) => output of XSL will be HTML.
+   * xsl2js => output of XSL will be javascript to execute.
+   */
+  this.paintMethod="xsl2html";
+
   //allow the widget output to be replaced on each paint call
   var outputNodeId = widgetNode.selectSingleNode("mb:outputNodeId");
   if ( outputNodeId ) {
@@ -143,7 +149,6 @@ function WidgetBase(widget,widgetNode,model) {
     //no-op by default
   }
 
-
   /**
    * Render the widget.
    * @param objRef Pointer to widget object.
@@ -159,16 +164,29 @@ function WidgetBase(widget,widgetNode,model) {
       if (objRef.debug) alert("prepaint:"+objRef.resultDoc.xml);
       if (objRef.debug) alert("stylesheet:"+objRef.stylesheet.xslDom.xml);
 
-      //process the doc with the stylesheet
-      var s = objRef.stylesheet.transformNode(objRef.resultDoc);
-      if (objRef.debug) alert("painting:"+objRef.id+":"+s);
-
       //set to output to a temporary node
       //hack to get by doc parsing problem in IE
       //the firstChild of tempNode will be the root element output by the stylesheet
       var tempNode = document.createElement("DIV");
-      tempNode.innerHTML = s;
-      tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
+      switch (objRef.paintMethod) {
+        case "xsl2html":
+          //process the doc with the stylesheet
+          s = objRef.stylesheet.transformNode(objRef.resultDoc);
+          if (objRef.debug) alert("painting:"+objRef.id+":"+s);
+          tempNode.innerHTML = s;
+          tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
+          break;
+        case "xsl2js":
+          result = objRef.stylesheet.transformNodeToObject(objRef.resultDoc);
+          js=result.firstChild.firstChild.nodeValue;
+          tempNode.innerHTML = "<div>";
+          tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
+          //alert("WidgetBase: js ="+js);
+          //eval(js);
+          break;
+        default:
+          alert("WidgetBase: Invalid paintMethod="+objRef.paintMethod);
+      }
 
       //look for this widgets output and replace if found, otherwise append it
       var outputNode = document.getElementById( objRef.outputNodeId );
