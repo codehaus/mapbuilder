@@ -69,7 +69,7 @@ $Name$
           <xsl:value-of select="$wmsTitle"/>
         </xsl:attribute>
         <xsl:element name="OnlineResource">
-          <xsl:attribute name="xlink:type">
+          <xsl:attribute name="type">
             <xsl:text>simple</xsl:text>
           </xsl:attribute>
           <xsl:attribute name="xlink:href">
