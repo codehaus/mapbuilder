@@ -38,64 +38,13 @@ function ButtonBar(widgetNode, model) {
     this.callListeners("paint");
   }
 
-  // if the mouseWidget property is defined for this tool then, a mouseup event 
-  // listeners is registered with that widget, otherwise mouseup event is for 
-  // the button image itself
-  var mouseWidget = widgetNode.selectSingleNode("mouseWidget");
-  if (mouseWidget) {
-    this.mouseWidget = eval(mouseWidget.firstChild.nodeValue);
-
-    /**
-     * Process mouseup event to select a different button.
-     * @param objRef      Pointer to this ButtonBar object.
-     * @param targetNode  The node for the enclosing HTML tag for this widget
-     */
-    this.mouseUpHandler = function(objRef,targetNode) {
-      objRef.selectedRadioButton.mouseUpHandler(objRef.model,targetNode) 
-    }
-    this.mouseWidget.addListener('mouseup',this.mouseUpHandler,this);
+  this.init = function(objRef) {
+    for (var sProperty in objRef) { 
+      if ( objRef[sProperty].selected ) objRef[sProperty].select();
+    } 
   }
-
-  /**
-   * Called when a user clicks on a button.
-   * @param buttonName Name of the button.
-   * @param buttonType "RadioButton", "Button" or "SelectBox".
-   */
-  this.selectButton = function(buttonName, buttonType) {
-
-    switch(buttonType){
-      case "RadioButton":
-        //disable tools
-        //TBD: need a way to not hard code these; loop through xml nodes?
-        this.mouseWidget.tools["AoiMouseHandler"].enable(false);
-        this.mouseWidget.tools["DragPanHandler"].enable(false);
-
-        // Deselect previous RadioButton
-        if (this.selectedRadioButton){
-          this.selectedRadioButton.image.src=this.selectedRadioButton.disabledImage.src;
-        }
-        this.selectedRadioButton=this.tools[buttonName];
-        this.selectedRadioButton.image.src = this.selectedRadioButton.enabledImage.src;
-        this.selectedRadioButton.selectButton();
-        break;
-      case "Button":
-        this.tools[buttonName].selectButton();
-        break;
-      case "SelectBox":
-        break;
-      default:
-        alert("ButtonBar.js: Unknown buttonType: "+buttonType);
-    }
-  }
-
-
-  /**
-   * Initialise the widget after the widget tags have been created by the first paint().
-   */
-  this.postPaintInit = function() {
-    var initialMode = this.widgetNode.selectSingleNode("initialMode").firstChild.nodeValue;
-    this.selectButton( initialMode, "RadioButton" );
-  }
+  this.addListener('loadWidget',this.init,this);
 
   config.buttonBar = this;
 }
+

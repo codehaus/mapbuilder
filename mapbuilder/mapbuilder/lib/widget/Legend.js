@@ -20,22 +20,4 @@ function Legend(widgetNode, model) {
     this[sProperty] = base[sProperty]; 
   } 
 
-  this.stylesheet.setParameter("modelId", model.id );
-
-  /**
-   * Called when the context's hidden attribute changes.
-   * @param layerIndex The index of the LayerList/Layer from the Context which
-   * has changed.
-   * @param target This object.
-   */
-   this.hiddenListener=function(layerIndex,target){
-    // TBD check/uncheck Layer's selected box
-  }
- 
-  /**
-   * Initialise the widget after the widget tags have been created by the first paint().
-   */
-  this.postPaintInit = function() {
-    this.model.addListener("hidden",this.hiddenListener,this);
-  }
 }

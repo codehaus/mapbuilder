@@ -236,6 +236,7 @@ function Context(modelNode, parent) {
     // Call the listeners
     this.callListeners("aoi");
   }
+  this.aoiValid=false;
 
   /** Returns an array of the corner coordinates as (ul, lr)
     * @return        array of point arrays; ul=0, lr=1
