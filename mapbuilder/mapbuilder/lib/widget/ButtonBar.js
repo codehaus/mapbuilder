@@ -7,7 +7,6 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 loadScript(baseDir+"/widget/WidgetBase.js");
-loadScript(baseDir+"/model/Extent.js");
 
 /**
  * A widget which contains a collection of buttons.  One button can
@@ -71,7 +70,6 @@ function ButtonBar(widgetNode, group) {
     this.setMode( initialMode );
   }
 
-  this.model.extent = new Extent( this.model );
   config.buttonBar = this;
 }
 
@@ -163,8 +161,6 @@ function ResetButton(toolNode, parentWidget) {
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 
   } 
-
-  parentWidget.model.originalExtent = new Extent( parentWidget.model );
 
   this.doReset = function(ev) {
     ev.target.extent.Reset();

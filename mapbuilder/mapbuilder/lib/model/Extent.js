@@ -26,9 +26,6 @@ $Id$
 
 function Extent( context ) {
   this.context = context;
-  var bbox = this.context.getBoundingBox();
-  this.ul = new Array(bbox[0],bbox[3]);
-  this.lr = new Array(bbox[2],bbox[1]);
   this.size = new Array();
   this.res = new Array();
   this.zoomBy = 4;
@@ -44,7 +41,21 @@ function Extent( context ) {
   this.SetSize = setSize;                 //pass in a resolution and width, height are recalculated
 	this.SetResolution = setResolution;     //pass in a width, height and res is recalculated
 
-  this.SetResolution( new Array(context.getWindowWidth(), context.getWindowHeight() ) );
+  this.setAoi = function(ul, lr) {
+    if (lr) {
+      this.context.setAoi(this.GetPL(ul), this.GetPL(lr));
+    } else {
+      this.context.setAoi(this.GetPL(ul));
+    }
+  }
+
+  this.init = function(extent) {
+    var bbox = extent.context.getBoundingBox();
+    extent.ul = new Array(bbox[0],bbox[3]);
+    extent.lr = new Array(bbox[2],bbox[1]);
+    extent.SetResolution( new Array(extent.context.getWindowWidth(), extent.context.getWindowHeight() ) );
+  }
+  context.addListener("loadModel", this.init, this );
 }
 
 /**

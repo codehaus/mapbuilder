@@ -7,7 +7,6 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 loadScript(baseDir+"/widget/WidgetBase.js");
-loadScript(baseDir+"/model/Extent.js");
 
 /**
  * Tools to build a MapPane from a Web Map Context.
@@ -37,7 +36,7 @@ function MapPane(widgetNode, group) {
     //these added to the containerNode because they will be referenced in that context
     objRef.containerNode = document.getElementById( objRef.containerId );
     objRef.containerNode.parentObject = objRef;
-    objRef.containerNode.extent = new Extent( objRef.model );
+    objRef.containerNode.extent = objRef.model.extent;
     objRef.containerNode.onmousemove = mouseMoveHandler;
     objRef.containerNode.onmouseout = mouseOutHandler;
     objRef.containerNode.onmouseover = mouseOverHandler;
