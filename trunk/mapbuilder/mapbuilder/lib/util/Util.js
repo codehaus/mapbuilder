@@ -247,6 +247,8 @@ function getArgs(){
   }
   return args;
 }
+//initialize the array once
+window.cgiArgs = getArgs();
 
 /**
  * convert geographic x coordinate to screen coordinate.

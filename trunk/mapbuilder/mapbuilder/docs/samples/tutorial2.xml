@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<MapbuilderConfig version="0.2.0" id="tutorial2" 
+<MapbuilderConfig 
     xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd"
+    version="0.2.0" id="tutorial2" >
   <skinDir>/mapbuilder/lib/skin/default</skinDir>
 
   <models>
@@ -15,7 +16,7 @@
           <htmlTagId>firstMapPane</htmlTagId>
           <mapContainerId>firstMapContainer</mapContainerId>
         </MapPane>
-        <AoiBoxWZ id="aoiBoxMain">
+        <AoiBoxWZ id="firstAoiBox">
           <htmlTagId>firstMapPane</htmlTagId>
           <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
@@ -34,14 +35,14 @@
           <htmlTagId>secondMapPane</htmlTagId>
           <mapContainerId>secondMapContainer</mapContainerId>
         </MapPane>
-        <AoiBoxWZ id="aoiBoxMain">
+        <!--AoiBoxWZ id="SecondAoiBox">
           <htmlTagId>secondMapPane</htmlTagId>
           <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
           <mapContainerId>secondMapContainer</mapContainerId>
-        </AoiBoxWZ>
+        </AoiBoxWZ-->
       </widgets>
       <tools>
         <AoiMouseHandler id="locatorAoi"/>

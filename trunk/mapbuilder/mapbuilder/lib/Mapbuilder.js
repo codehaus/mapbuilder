@@ -3,6 +3,9 @@ License: GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
+/** get a time stamp at start of the page load */
+var mbTimerStart = new Date();
+
 /** the global config object */
 var config;
 
@@ -92,7 +95,6 @@ function Mapbuilder() {
         this.loadScript(baseDir+"/model/Config.js");
         break;
       case MB_LOAD_CONFIG:
-        window.cgiArgs = getArgs();
         if(document.readyState){
           // IE
           config=new Config(mbConfigUrl);
@@ -121,6 +123,22 @@ function Mapbuilder() {
       script.id = url;
       document.getElementsByTagName('head')[0].appendChild(script);
       this.loadingScripts.push(script);
+    }
+  }
+
+  /**
+   * Internal function to load scripts for components that don't have <scriptfile>
+   * specified in the config file.
+   * @param xPath Xpath match of components from the Config file.
+   * @param dir The directory the script is located in.
+   */
+  this.loadScriptsFromXpath=function(nodes,dir) {
+    //var nodes = this.doc.selectNodes(xPath);
+    for (var i=0; i<nodes.length; i++) {
+      if (nodes[i].selectSingleNode("mb:scriptFile")==null){
+        scriptFile = baseDir+"/"+dir+nodes[i].nodeName+".js";
+        this.loadScript(scriptFile);
+      }
     }
   }
 
@@ -154,6 +172,8 @@ function mapbuilderInit(){
   if(mapbuilder && mapbuilder.loadState==MB_LOADED){
     clearInterval(mbTimerId);
     config.init(config);
+    var mbTimerStop = new Date();
+    //alert("load time:"+(mbTimerStop.getTime()-mbTimerStart.getTime()) );
     config.callListeners("loadModel");
   }
 }
