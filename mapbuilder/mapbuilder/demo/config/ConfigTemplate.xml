@@ -100,7 +100,7 @@
               </tools>
             </ButtonBar>
 
-            <toolList>
+            <toolList id="toolListId">
               <stylesheet>/widget/toollist/Config2ToolList.xsl</stylesheet>
               <scriptFile>/widget/toollist/ToolList.js</scriptFile>
               <tool id="ZoomInToolId">
