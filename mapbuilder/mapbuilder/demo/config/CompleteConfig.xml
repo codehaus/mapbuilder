@@ -48,7 +48,7 @@
           <mouseWidget>config['mainMapGroup']['MapPane']</mouseWidget>
           <initialMode>ZoomIn</initialMode>
           <tools>
-            <ZoomIn id="ZoomIn">
+            <ZoomIn id="zoomIn">
               <class>RadioButton</class>
               <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
               <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
@@ -56,14 +56,14 @@
               <selected>true</selected>
               <modalButton>true</modalButton><!--TBD Remove-->
             </ZoomIn>
-            <ZoomOut id="ZoomOut">
+            <ZoomOut id="zoomOut">
               <class>RadioButton</class>
               <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
               <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
               <tooltip>click to zoom out</tooltip>
               <selected>false</selected>
             </ZoomOut>
-            <Reset id="Reset">
+            <Reset id="reset">
               <class>Button</class>
               <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
               <tooltip>reset the map to full extent</tooltip>
