@@ -138,6 +138,12 @@ $Name$
 
     <xsl:param name="timestamp"><xsl:value-of select="wmc:DimensionList/wmc:Dimension[@name='time']/@default"/></xsl:param>
 
+    <xsl:param name="metadataUrl">
+
+        <xsl:value-of select="wmc:MetadataURL/wmc:OnlineResource/@xlink:href"/>    
+
+    </xsl:param>
+
     <xsl:param name="visibility">
 
       <xsl:choose>
@@ -315,6 +321,18 @@ $Name$
             <xsl:value-of select="wmc:Title"/>
 
         </xsl:attribute>
+
+        <xsl:attribute name="TITLE">
+
+            <xsl:value-of select="wmc:Title"/>
+
+        </xsl:attribute>
+
+        <xsl:if test="string-length($metadataUrl)>0">
+
+          <xsl:attribute name="LONGDESC"><xsl:value-of select="$metadataUrl"/></xsl:attribute>
+
+        </xsl:if>
 
     </xsl:element>    
 
