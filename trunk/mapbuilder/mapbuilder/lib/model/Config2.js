@@ -3,11 +3,16 @@ License: GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
+/**
+ * Build a mapbuilder components from a Configuration.xml file.
+ * @constructor
+ * @author adair
+ * @requires Sarissa
+ * @param url URL of the configuration file.
+ */
 function Config(url) {
 
-  /**
-   * Load the mapbuilder configuration file
-   */
+  // Load the mapbuilder configuration file
   this.doc = Sarissa.getDomDocument();
   this.doc.async = false;
   // the following two lines are needed for IE
@@ -31,6 +36,9 @@ function Config(url) {
     loadScript( scriptFile );
   }
 
+  /**
+   * TBD: Comment me.
+   */
   this.init = function() {
     var modelGroups = this.doc.selectNodes( "/MapbuilderConfig/modelGroups/*" );
     for (var i=0; i<modelGroups.length; i++ ) {
@@ -55,7 +63,9 @@ function Config(url) {
   }
 
 
-
+  /**
+   * TBD: Comment me.
+   */
   this.loadModel = function(groupId, modelUrl) {
     var group = this[groupId];
     if ( modelUrl ) {
@@ -84,8 +94,33 @@ function Config(url) {
       widget.loadTools();
       group[widgetNode.nodeName] = widget;
     }
-
   }
 
+  /**
+   * Set the selected tool for a MapPane.
+   */
+  this.setSelectedTool = function(modelId, toolId) {
+    alert("setSelectedTool");
+    /*
+    mapPaneTools=doc.selectNodes(
+      "/MapbuilderConfig/modelGroups/Model[id="
+      +modelId
+      +"]/widgets/MapPane/tools/GlassPane/toolSelect/*");
 
+    // Set all the tools/selected in the selectedToolList to true/false.
+    for(var i=0;i<mapPaneTools.length;i++){
+      if (mapPaneTools[i].getAttribute("id")==toolId) {
+        mapPaneTools[i].selectSingleNode("selected").nodeValue="true";
+      } else {
+        mapPaneTools[i].selectSingleNode("selected").nodeValue="false";
+      }
+    }
+
+    // Call the listeners
+    for (var i=0; i<this.selectedToolListeners.length; i++) {
+      this.selectedToolListeners[i][0](
+        this.selectedToolListeners[i][1]);
+    }
+    */
+  }
 }
