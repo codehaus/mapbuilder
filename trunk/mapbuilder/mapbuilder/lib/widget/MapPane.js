@@ -28,9 +28,16 @@ function MapPane(widgetNode, group) {
     this[sProperty] = base[sProperty]; 
   } 
 
+  /** Id of <DIV> tag which contains the MapPane HTML. The <DIV> tag is built
+   *  by MapPane.xsl. */
   this.containerId = "mappane_"+group.id;
   this.stylesheet.setParameter("mapContainerId", this.containerId );
 
+  /**
+   * Define mouse and key handler functions for the MapPane.  This function should
+   * be called after each paint since the <DIV> tag is recreated after each paint.
+   * @param objRef XML reference of MapPane's containing <DIV> tag.
+   */
   this.setContainerNodeHandlers = function(objRef) {
     //reset these on a paint because the containerNode is created on paint
     //these added to the containerNode because they will be referenced in that context
