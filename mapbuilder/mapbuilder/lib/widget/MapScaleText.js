@@ -63,7 +63,7 @@ function MapScaleText(widgetNode, model) {
     objRef.stylesheet.setParameter("mapScale", newScale);
     objRef.mapScaleTextForm.mapScale.value = Math.round(newScale);
   }
-  this.targetModel.addListener('boundingBox', this.init, this);
+  this.targetModel.addListener("bbox", this.init, this);
 
   /**
    * Refreshes the form and event handlers when this widget is painted.
