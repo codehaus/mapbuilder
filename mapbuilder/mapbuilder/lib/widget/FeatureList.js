@@ -54,7 +54,6 @@ function FeatureList(widgetNode, model) {
         httpPayload.method="post";
         //objRef.targetModel.setParam('httpPayload',httpPayload);
         objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
-        alert("FeatureList: targetModel.doc="+objRef.targetModel.doc.xml);
         break;
       case "Update Feature":
         alert("FeatureList: Update Feature not implemented");
