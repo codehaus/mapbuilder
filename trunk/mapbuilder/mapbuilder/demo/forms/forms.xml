@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 
 <MapbuilderConfig id="simpleTemplate">
-  <skinDir>../lib/skin/default</skinDir>
+  <skinDir>../../lib/skin/default</skinDir>
 
   <models>
 
     <ModelBase id="mainMap">
       <!--defaultModelUrl>config/simpleConfig.xml</defaultModelUrl-->
-      <defaultModelUrl>context/atlasWorld.xml</defaultModelUrl>
+      <defaultModelUrl>../../data/context/atlasWorld.xml</defaultModelUrl>
       
       <widgets>
         
         <WidgetBase id="xmlForm">
-          <stylesheet>/mapbuilder/lib/widget/XmlForm.xsl</stylesheet>
+          <stylesheet>../../lib/widget/XmlForm.xsl</stylesheet>
           <debug/>
         </WidgetBase>
         
@@ -20,11 +20,11 @@
     </ModelBase>
       
     <ModelBase id="schema">
-      <defaultModelUrl>../lib/schemas/context.xsd</defaultModelUrl>
+      <defaultModelUrl>../../lib/schemas/context.xsd</defaultModelUrl>
       
       <widgets>
         <WidgetBase id="xmlSchemaForm">
-          <stylesheet>/mapbuilder/lib/widget/XmlSchemaForm.xsl</stylesheet>
+          <stylesheet>../../lib/widget/XmlSchemaForm.xsl</stylesheet>
           <debug/>
         </WidgetBase>
         
