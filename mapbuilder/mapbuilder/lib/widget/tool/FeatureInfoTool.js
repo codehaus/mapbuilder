@@ -26,11 +26,9 @@ $Id$
 
  */
 
-function FeatureInfo(context, name) {
+function FeatureInfo(context) {
 
   this.context=context;
-
-  this.name=name;
 
   this.context2FeatureInfo=new XslProcessor(this.context.baseDir+"/widget/tool/Context2FeatureInfo.xml");
 
@@ -42,7 +40,7 @@ function FeatureInfo(context, name) {
 
    */
 
-  this.get=function(xCoord, yCoord){
+  this.get=function(evpl){
 
     Sarissa.setXslParameter(
 
@@ -54,17 +52,21 @@ function FeatureInfo(context, name) {
 
       this.context2FeatureInfo.xslDom,
 
-      "xCoord", "'"+xCoord+"'");
+      "xCoord", "'"+evpl[0]+"'");
 
     Sarissa.setXslParameter(
 
       this.context2FeatureInfo.xslDom,
 
-      "yCoord", "'"+yCoord+"'");
+      "yCoord", "'"+evpl[1]+"'");
 
     s=this.context2FeatureInfo.transformNode(this.context.context);
 
-    openPopup(s, 300, 200);
+
+
+    s = s.replace(new RegExp("&amp;","g"),"&");
+
+    openPopup(unescape(s), 300, 200);
 
   }
 
