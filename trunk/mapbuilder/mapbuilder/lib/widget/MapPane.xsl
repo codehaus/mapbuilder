@@ -1,49 +1,43 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-
-
 <!--
-  Document   : parseContext 
-  Created on : November 20, 2002 
-  Author     : adair
-  Purpose    : parses ANYOGC context document to generate an array of ogcWindow 
-                JavaScript objects.
+Description: parses an OGC context document to generate an array of DHTML layers.
+Author:      adair
+Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
+
+$Id$
+$Name$
 -->
-
-
 
 <xsl:stylesheet version="1.0" xmlns:cml="http://www.opengis.net/context" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink">
 
-  <xsl:output method="html"/>
+  <xsl:output method="xml"/>
   <xsl:strip-space elements="*"/>
   <!--
   <xsl:include href="ogcMapImgObjects.xsl" />
   -->
-  <xsl:param name="srs"/>
-  <xsl:param name="bbox"/>
-  <xsl:param name="width"/>
-  <xsl:param name="height"/>
+
+  <!-- The coordinates of the DHTML Layer on the HTML page -->
+  <xsl:param name="top" select="'0px'"/>
+  <xsl:param name="left" select="'0px'"/>
+  <xsl:param name="baseDir" select="'../widget'"/>
+
+  <xsl:param name="bbox">
+    <xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@minx"/>,<xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@miny"/>,
+    <xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@maxx"/>,<xsl:value-of select="/cml:ViewContext/cml:General/cml:BoundingBox/@maxy"/>
+  </xsl:param>
+  <xsl:param name="width">
+    <xsl:value-of select="/cml:ViewContext/cml:General/cml:Window/@width"/>
+  </xsl:param>
+  <xsl:param name="height">
+    <xsl:value-of select="/cml:ViewContext/cml:General/cml:Window/@height"/>
+  </xsl:param>
+  <xsl:param name="srs" select="/cml:ViewContext/cml:General/cml:BoundingBox/@SRS"/>
   
   <!-- template rule matching source root element -->
   <xsl:template match="/cml:ViewContext">
   
  
-      <!--          
-    <xsl:param name="bbox">
-        <xsl:value-of select="cml:General/cml:BoundingBox/@minx"/>,<xsl:value-of select="cml:General/cml:BoundingBox/@miny"/>,
-        <xsl:value-of select="cml:General/cml:BoundingBox/@maxx"/>,<xsl:value-of select="cml:General/cml:BoundingBox/@maxy"/>
-    </xsl:param>
-    <xsl:param name="width">
-      <xsl:value-of select="cml:General/cml:Window/@width"/>
-    </xsl:param>
-    <xsl:param name="height">
-      <xsl:value-of select="cml:General/cml:Window/@height"/>
-    </xsl:param>
-    <xsl:param name="srs">
-      <xsl:value-of select="cml:General/cml:BoundingBox/@SRS"/>
-    </xsl:param>
-    -->
-  
     <DIV>
       <xsl:attribute name="STYLE">    
             WIDTH: <xsl:value-of select="$width"/>;
@@ -63,10 +57,10 @@
       </xsl:apply-templates>
  -->
  
-    <DIV STYLE="position:absolute; top:0; left:0;" ID="glass">
+ <DIV STYLE="position:absolute; top:{$top}; left:{$left};" ID="glass">
       <xsl:element name="IMG">    
         <xsl:attribute name="SRC">    
-            graphics/spacer.gif
+          <xsl:value-of select="$baseDir"/>/mappane/dot.gif
         </xsl:attribute>
         <xsl:attribute name="WIDTH">
             <xsl:value-of select="$width"/>
@@ -115,7 +109,7 @@
 
     <DIV>    
         <xsl:attribute name="STYLE">
-            position:absolute; top:0; left:0;
+          position:absolute; top:<xsl:value-of select="$top"/>; left:<xsl:value-of select="$left"/>;
         </xsl:attribute>
         <xsl:attribute name="ID">
             <xsl:value-of select="cml:Name"/>
