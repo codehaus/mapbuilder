@@ -115,7 +115,7 @@ function MapPane(widgetNode, model) {
    * @param thisWidget This object.
    */
   this.boundingBoxChangeListener=function(thisWidget){
-    thisWidget.paint();
+    thisWidget.paint(thisWidget);
   }
   this.model.addListener("boundingBox",this.boundingBoxChangeListener,this);
 

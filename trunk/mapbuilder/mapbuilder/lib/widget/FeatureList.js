@@ -25,7 +25,7 @@ function FeatureList(widgetNode, model) {
    * @param widget This widget object.
    */
   this.loadModelListener=function(widget){
-    widget.paint();
+    widget.paint(widget);
   }
 
   this.model.addListener("loadModel",this.loadModelListener,this);
