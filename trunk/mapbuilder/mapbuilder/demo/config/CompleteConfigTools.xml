@@ -122,6 +122,13 @@
         </FeatureList>
       </widgets>
     </FeatureCollection>
+    <Transaction id="transaction">
+      <defaultModelUrl>gml/null.xml</defaultModelUrl>
+      <widgets>
+        <TransactionResponse id="transactionResponse">
+        </TransactionResponse>
+      </widgets>
+    </Transaction>
     <FeatureCollection id="ntsGml">
       <!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
       <widgets>
