@@ -125,15 +125,6 @@
       <tooltip xml:lang="en">click and drag to pan</tooltip>
       <tooltip xml:lang="fr">cliquer et faire glisser la souris pour voir un autre parti de la carte</tooltip>
     </DragPan>
-    <SetAoi id="setAoi">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
-      <class>RadioButton</class>
-      <enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
-      <disabledSrc>/images/SetAoiDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click and drag to set the area of interest</tooltip>
-    </SetAoi>
     <Reset id="reset">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
@@ -142,16 +133,6 @@
       <tooltip xml:lang="en">reset the map to full extent</tooltip>
       <tooltip xml:lang="fr">redonner la carte ses dimensions complèts</tooltip>
     </Reset>
-    <!--GetFeatureInfo id="getFeatureInfo">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>featureCollection</targetModel>
-      <mouseHandler>mainMap</mouseHandler>
-      <class>RadioButton</class>
-      <enabledSrc>/images/QueryEnable.gif</enabledSrc>
-      <disabledSrc>/images/QueryDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click on feature for more info</tooltip>
-      <tooltip xml:lang="fr">cliquer pour obtenir plus d'information pour cette couche</tooltip>
-    </GetFeatureInfo-->
     <EditPoint id="editPoint">
       <buttonBar>mainButtonBar</buttonBar>
       <mouseHandler>mainMouseClick</mouseHandler>
@@ -179,7 +160,6 @@
   </widgets>
   <skinDir>../lib/skin/default</skinDir>
   <!-- Url of LOCAL redirection script, required to access external URLs -->
-  <!--proxyUrl>../server/proxy/proxy.php</proxyUrl-->
   <proxyUrl>/mapbuilder/proxy</proxyUrl>
   <serializeUrl>/mapbuilder/writeXml</serializeUrl>
 </MapbuilderConfig>
