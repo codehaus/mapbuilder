@@ -13,11 +13,10 @@ $Name$
 
 <html>
   <head>
-    <title>WMS Client</title>
+    <title>XSL Processor test page</title>
 
     <!-- Include mapbuilder libraries -->
     <script type="text/javascript" src="../lib/util/sarissa/Sarissa.js"></script>
-    <script type="text/javascript" src="../lib/util/xmlextras.js"></script>
     <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
 
     <script>
@@ -44,19 +43,12 @@ function XslProcessor(xslUrl) {
     return s;
   }
 
-  this.transformNodeToObject=function(xmlNode, standaloneDoc) {
+  this.transformNodeToObject=function(xmlNode) {
     // transform and build a web page with result
 
-    var result = null;
-    if ( standaloneDoc ) {
-        result = Sarissa.getDomDocument();
-    } else {
-        result = document;
-    }
+    var result = Sarissa.getDomDocument();
     xmlNode.transformNodeToObject(this.xslDom, result);
     return result;
-
-    //return this.processor.transformToFragment( xmlNode, document );
   }
 
   this.pureMozillaXslt=function(xmlDoc) {
@@ -86,32 +78,28 @@ function XslProcessor(xslUrl) {
         <td valign="top">
           button bar via innerHTML:
         </td>
-        <td valign="top" id="ButtonBar2">
-        </td>
+        <td valign="top" id="ButtonBar1"/>
       </tr>
 
       <tr>
         <td valign="top">
           button bar via append:
         </td>
-        <td valign="top" id="ButtonBar1">
-        </td>
+        <td valign="top" id="ButtonBar2"/>
       </tr>
 
       <tr>
         <td valign="top">
           button bar via pure Mozilla processor:
         </td>
-        <td valign="top" id="ButtonBar3">
-        </td>
+        <td valign="top" id="ButtonBar3"/>
       </tr>
 
       <tr>
         <td valign="top">
           button bar via xmlExtras:
         </td>
-        <td valign="top" id="ButtonBar4">
-        </td>
+        <td valign="top" id="ButtonBar4"/>
       </tr>
 
     <script>
@@ -127,28 +115,20 @@ function XslProcessor(xslUrl) {
   var s = stylesheet.transformNodeToObject(doc, true);
 alert(s.xml);
 
-  var node1 = document.getElementById("ButtonBar2")
+  var node1 = document.getElementById("ButtonBar1")
   node1.innerHTML = s.xml;
-alert(node1.xml);
+alert(node1.innerHTML);
 
-  var node2 = document.getElementById("ButtonBar1")
-  var removed = node2.removeChild( node2.firstChild );
-  //var xslResult = s.documentElement;
+  var node2 = document.getElementById("ButtonBar2")
+  var removed = node2.removeChild( node2.firstChild );  //td el contains a text node by default
   node2.appendChild(document.importNode(s.documentElement,true));
-alert(node2.xml);
+alert(node2.innerHTML);
 
   var node3 = document.getElementById("ButtonBar3")
   removed = node3.removeChild( node3.firstChild );
   var xslResult = stylesheet.pureMozillaXslt(doc);
   node3.appendChild(xslResult);
-alert(node3.xml);
-
-  var node4 = document.getElementById("ButtonBar4")
-  var xtraDoc = loadSync("configWms3.xml");
-  var xtraStyle = new XslProcessorXtra( "/mapbuilder/lib/widget/tool/ButtonBar.xsl" );
-  xslResult = xtraStyle.toFragment(xtraDoc);
-  node4.appendChild(xslResult);
-alert(node4.xml);
+alert(node3.innerHTML);
 
     </script>
 
