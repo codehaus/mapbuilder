@@ -5,7 +5,6 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
-mapbuilder.loadScript(baseDir+"/tool/WebServiceRequest.js");
 
 /**
  * Stores a WFS Transaction reponse as defined by the Open GIS Consortium
