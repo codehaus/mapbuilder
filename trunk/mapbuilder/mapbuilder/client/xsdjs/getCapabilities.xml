@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><WFS_Capabilities version="1.0.0"
+   xmlns="http://www.opengis.net/wfs"
+   xmlns:myns="http://www.openplans.org/myns"
+   xmlns:topp="http://www.openplans.org/topp"
+   xmlns:ogc="http://www.opengis.net/ogc">
+  <Service>
+    <Name>FreeFS</Name>
+    <Title>The Open Planning Project Basemap Server</Title>
+    <Abstract>This is a test server.  It contains some basemap data from New York City.</Abstract>
+    <Keywords>WFS. CITE. New York</Keywords>
+    <OnlineResource>http://www.openplans.org/</OnlineResource>
+    <Fees>This is a free server.</Fees>
+    <AccessConstraints>There are no access constraints to this server.</AccessConstraints>
+  </Service>
+
+  <Capability>
+    <Request>
+      <GetCapabilities>
+        <DCPType><HTTP><Get onlineResource="http://beta.openplans.org/geoserver/GetCapabilities?"/></HTTP></DCPType>
+        <DCPType><HTTP><Post onlineResource="http://beta.openplans.org/geoserver/GetCapabilities"/></HTTP></DCPType>
+      </GetCapabilities>
+      <DescribeFeatureType>
+        <SchemaDescriptionLanguage><XMLSCHEMA/></SchemaDescriptionLanguage>
+        <DCPType><HTTP><Get onlineResource="http://beta.openplans.org/geoserver/DescribeFeatureType?"/></HTTP></DCPType>
+        <DCPType><HTTP><Post onlineResource="http://beta.openplans.org/geoserver/DescribeFeatureType"/></HTTP></DCPType>
+      </DescribeFeatureType>
+      <GetFeature>
+        <ResultFormat><GML2/></ResultFormat>
+        <DCPType><HTTP><Get onlineResource="http://beta.openplans.org/geoserver/GetFeature?"/></HTTP></DCPType>
+        <DCPType><HTTP><Post onlineResource="http://beta.openplans.org/geoserver/GetFeature"/></HTTP></DCPType>
+      </GetFeature>
+      <Transaction>
+        <DCPType><HTTP><Get onlineResource="http://beta.openplans.org/geoserver/Transaction?"/></HTTP></DCPType>
+        <DCPType><HTTP><Post onlineResource="http://beta.openplans.org/geoserver/Transaction"/></HTTP></DCPType>
+      </Transaction>
+      <LockFeature>
+        <DCPType><HTTP><Get onlineResource="http://beta.openplans.org/geoserver/LockFeature?"/></HTTP></DCPType>
+        <DCPType><HTTP><Post onlineResource="http://beta.openplans.org/geoserver/LockFeature"/></HTTP></DCPType>
+      </LockFeature>
+      <GetFeatureWithLock>
+        <ResultFormat><GML2/></ResultFormat>
+        <DCPType><HTTP><Get onlineResource="http://beta.openplans.org/geoserver/GetFeatureWithLock?"/></HTTP></DCPType>
+        <DCPType><HTTP><Post onlineResource="http://beta.openplans.org/geoserver/GetFeatureWithLock"/></HTTP></DCPType>
+      </GetFeatureWithLock>
+    </Request>
+  </Capability>
+  <FeatureTypeList>
+   <Operations>
+    <Query/>
+    <Lock/>
+   </Operations>
+    <FeatureType>
+      <Name>topp:road</Name>
+      <Title>Random Road Centerlines</Title>
+      <Abstract>This is some random road features</Abstract>
+      <Keywords>road, New York City, TOPP</Keywords>
+      <SRS>http://www.opengis.net/gml/srs/epsg#32118</SRS>
+      <LatLongBoundingBox minx="-74.27000" miny="40.50000" maxx="-73.80000" maxy="40.94000"/>
+    </FeatureType>
+    <FeatureType>
+      <Name>myns:rail</Name>
+      <Title>NYC Rail Centerlines</Title>
+      <Abstract>This is a simple rail coverage from the New York City basemap.</Abstract>
+      <Keywords>OWS1, rail, railroad, World Trade Center, New York City</Keywords>
+      <SRS>http://www.opengis.net/gml/srs/epsg#-1</SRS>
+      <LatLongBoundingBox minx="-74.27000" miny="40.50000" maxx="-73.80000" maxy="40.94000"/>
+    </FeatureType>
+  </FeatureTypeList>
+  <ogc:Filter_Capabilities>
+    <ogc:Spatial_Capabilities>
+      <ogc:Spatial_Operators>
+        <ogc:Disjoint/>
+        <ogc:Equals/>
+        <ogc:DWithin/>
+        <ogc:Beyond/>
+	<ogc:Intersect/>
+        <ogc:Touches/>
+	<ogc:Crosses/>
+	<ogc:Within/>
+	<ogc:Contains/>
+	<ogc:Overlaps/>
+        <ogc:BBOX/>
+      </ogc:Spatial_Operators>
+    </ogc:Spatial_Capabilities>
+    <ogc:Scalar_Capabilities>
+      <ogc:Logical_Operators/>  
+      <ogc:Comparison_Operators>
+        <ogc:Simple_Comparisons/>
+        <ogc:Between/> 
+        <ogc:Like/>
+        <ogc:NullCheck/>   
+      </ogc:Comparison_Operators>
+      <ogc:Arithmetic_Operators>
+        <ogc:Simple_Arithmetic/>
+      </ogc:Arithmetic_Operators>
+    </ogc:Scalar_Capabilities>  
+  </ogc:Filter_Capabilities>
+</WFS_Capabilities>

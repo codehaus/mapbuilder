@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.0 U (http://www.xmlspy.com) by Rob Hranac (Rob Hranac) -->
+<!--  File: geometry.xsd  -->
+<schema targetNamespace="http://www.opengis.net/gml" 
+		xmlns:xlink="http://www.w3.org/1999/xlink" 
+		xmlns:gml="http://www.opengis.net/gml" 
+		xmlns="http://www.w3.org/2001/XMLSchema" 
+		elementFormDefault="qualified" version="2.05">
+
+	<!-- bring in the XLink attributes -->
+	<import namespace="http://www.w3.org/1999/xlink" schemaLocation="xlinks.xsd"/>
+
+	<!-- ==============================================================
+       global declarations
+  =================================================================== -->
+	<element name="_Geometry" type="gml:AbstractGeometryType" abstract="true"/>
+	<element name="_GeometryCollection" type="gml:GeometryCollectionType" abstract="true"/>
+	<element name="geometryMember" type="gml:GeometryAssociationType"/>
+	<!-- primitive geometry elements -->
+	<element name="Point" type="gml:PointType" substitutionGroup="gml:_Geometry"/>
+	<element name="LineString" type="gml:LineStringType" substitutionGroup="gml:_Geometry"/>
+	<element name="LinearRing" type="gml:LinearRingType" substitutionGroup="gml:_Geometry"/>
+	<element name="Polygon" type="gml:PolygonType" substitutionGroup="gml:_Geometry"/>
+	<element name="Box" type="gml:BoxType"/>
+	<!-- aggregate geometry elements -->
+	<element name="MultiGeometry" type="gml:GeometryCollectionType"/>
+	<element name="MultiPoint" type="gml:MultiPointType" substitutionGroup="gml:_Geometry"/>
+	<element name="MultiLineString" type="gml:MultiLineStringType" substitutionGroup="gml:_Geometry"/>
+	<element name="MultiPolygon" type="gml:MultiPolygonType" substitutionGroup="gml:_Geometry"/>
+	<!-- coordinate elements -->
+	<element name="coord" type="gml:CoordType"/>
+	<element name="coordinates" type="gml:CoordinatesType"/>
+<!-- this attribute gives the location where an element is defined -->
+	<attribute name="remoteSchema" type="anyURI"/>
+
+	<!-- ==============================================================
+       abstract supertypes
+  =================================================================== -->
+	<complexType name="AbstractGeometryType" abstract="true">
+		<attribute name="gid" type="ID" use="optional"/>
+		<attribute name="srsName" type="anyURI" use="optional"/>
+	</complexType>
+
+	<complexType name="AbstractGeometryCollectionBaseType" abstract="true">
+		<complexContent>
+			<restriction base="gml:AbstractGeometryType">
+				<attribute name="gid" type="ID" use="optional"/>
+				<attribute name="srsName" type="anyURI" use="required"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+
+	<attributeGroup name="AssociationAttributeGroup">
+		<attributeGroup ref="xlink:simpleLink"/>
+		<attribute ref="gml:remoteSchema" use="optional"/>
+	</attributeGroup>
+
+	<complexType name="GeometryAssociationType">
+		<sequence>
+			<element ref="gml:_Geometry" minOccurs="0"/>
+		</sequence>
+		<attributeGroup ref="gml:AssociationAttributeGroup"/>
+	</complexType>
+
+
+	<!-- ==============================================================
+       primitive geometry types
+  =================================================================== -->
+	<complexType name="PointType">
+		<complexContent>
+			<extension base="gml:AbstractGeometryType">
+				<sequence>
+					<choice>
+						<element ref="gml:coord"/>
+						<element ref="gml:coordinates"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="LineStringType">
+		<complexContent>
+			<extension base="gml:AbstractGeometryType">
+				<sequence>
+					<choice>
+						<element ref="gml:coord" minOccurs="2" maxOccurs="unbounded"/>
+						<element ref="gml:coordinates"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="LinearRingType">
+		<complexContent>
+			<extension base="gml:AbstractGeometryType">
+				<sequence>
+					<choice>
+						<element ref="gml:coord" minOccurs="4" maxOccurs="unbounded"/>
+						<element ref="gml:coordinates"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="BoxType">
+		<complexContent>
+			<extension base="gml:AbstractGeometryType">
+				<sequence>
+					<choice>
+						<element ref="gml:coord" minOccurs="2" maxOccurs="2"/>
+						<element ref="gml:coordinates"/>
+					</choice>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="PolygonType">
+		<complexContent>
+			<extension base="gml:AbstractGeometryType">
+				<sequence>
+					<element name="outerBoundaryIs">
+						<complexType>
+							<sequence>
+								<element ref="gml:LinearRing"/>
+							</sequence>
+						</complexType>
+					</element>
+					<element name="innerBoundaryIs" minOccurs="0" maxOccurs="unbounded">
+						<complexType>
+							<sequence>
+								<element ref="gml:LinearRing"/>
+							</sequence>
+						</complexType>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+
+	<!-- ==============================================================
+       aggregate geometry types
+  =================================================================== -->
+	<complexType name="GeometryCollectionType">
+		<complexContent>
+			<extension base="gml:AbstractGeometryCollectionBaseType">
+				<sequence>
+					<element ref="gml:geometryMember" maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="MultiPointType">
+		<complexContent>
+			<restriction base="gml:GeometryCollectionType">
+				<sequence>
+					<element name="pointMember" maxOccurs="unbounded">
+						<complexType>
+							<sequence>
+								<element ref="gml:Point"/>
+							</sequence>
+						</complexType>
+					</element>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+
+	<complexType name="MultiLineStringType">
+		<complexContent>
+			<restriction base="gml:GeometryCollectionType">
+				<sequence>
+					<element name="lineStringMember" maxOccurs="unbounded">
+						<complexType>
+							<sequence>
+								<element ref="gml:LineString"/>
+							</sequence>
+						</complexType>
+					</element>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+
+	<complexType name="MultiPolygonType">
+		<complexContent>
+			<restriction base="gml:GeometryCollectionType">
+				<sequence>
+					<element name="polygonMember" maxOccurs="unbounded">
+						<complexType>
+							<sequence>
+								<element ref="gml:Polygon"/>
+							</sequence>
+						</complexType>
+					</element>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+
+
+	<!-- ==============================================================
+       There are two ways to represent coordinates: (1) as a sequence
+       of <coord> elements that encapsulate tuples, or (2) using a
+       single <coordinates> string.
+  =================================================================== -->
+	<complexType name="CoordType">
+		<sequence>
+			<element name="X" type="decimal"/>
+			<element name="Y" type="decimal" minOccurs="0"/>
+			<element name="Z" type="decimal" minOccurs="0"/>
+		</sequence>
+	</complexType>
+
+	<complexType name="CoordinatesType">
+		<simpleContent>
+			<extension base="string">
+				<attribute name="decimal" type="string" default="."/>
+				<attribute name="cs" type="string" default=","/>
+				<attribute name="ts" type="string" default="&#x20;"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+</schema>
