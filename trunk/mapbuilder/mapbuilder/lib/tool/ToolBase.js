@@ -31,7 +31,7 @@ function ToolBase(tool, toolNode, parentWidget) {
    * Initialize dynamic properties.
    * @param toolRef Pointer to this object.
    */
-  tool.initModels = function(toolRef) {
+  this.initModels = function(toolRef) {
     /** The model this tool will update. */
     var targetModel = toolRef.toolNode.selectSingleNode("mb:targetModel");
     if (targetModel) {
@@ -51,6 +51,7 @@ function ToolBase(tool, toolNode, parentWidget) {
       }
     }
   }
+  tool.initModels = this.initModels;
   tool.parentWidget.targetModel.addListener( "loadModel", tool.initModels, tool );
   tool.initModels(tool);
 
@@ -66,7 +67,7 @@ function ToolBase(tool, toolNode, parentWidget) {
    * enable or disable this tool and any dependant tools 
    * @param enabled   set to true or false to enable or disable
    */
-  tool.enable = function(enabled) {
+  this.enable = function(enabled) {
     this.enabled = enabled;
     for (var i=0; i<this.dependancies.length; ++i) {
       var otherTool = eval("config."+this.dependancies[i].firstChild.nodeValue);
@@ -77,5 +78,6 @@ function ToolBase(tool, toolNode, parentWidget) {
       }
     }
   }
+  tool.enable = this.enable;
 
 }

@@ -40,7 +40,7 @@ function ModelBase(model, modelNode, parentModel) {
    * Load a Model's document from a url.
    * @param modelRef Pointer to the model object being loaded.
    */
-  model.loadModelDoc = function(modelRef){
+  this.loadModelDoc = function(modelRef){
 
     if (modelRef.url) {
       modelRef.callListeners( "newModel" );
@@ -74,6 +74,7 @@ function ModelBase(model, modelNode, parentModel) {
       //alert("url parameter required for loadModelDoc");
     }
   }
+  model.loadModelDoc = this.loadModelDoc;
 
   //
   if (parentModel) {
@@ -87,19 +88,20 @@ function ModelBase(model, modelNode, parentModel) {
    * @param modelRef    Pointer to the model object being loaded.
    * @param httpPayload an object tho fully specify the request to be made
    */
-  model.newRequest = function(modelRef, httpPayload){
+  this.newRequest = function(modelRef, httpPayload){
     modelRef.url = httpPayload.url;
     modelRef.method = httpPayload.method;
     modelRef.postData = httpPayload.postData;
     modelRef.loadModelDoc(modelRef);
   }
+  model.newRequest = this.newRequest;
   model.addListener("httpPayload",model.newRequest, model);
 
   /**
    * Paint all the widgets and initialise any tools the widget may have.
    * @param objRef Pointer to this object.
    */
-  model.loadModels = function() {
+  this.loadModels = function() {
     //loop through all child models of this one
     var models = this.modelNode.selectNodes( "mb:models/*" );
     for (var i=0; i<models.length; i++ ) {
@@ -117,12 +119,13 @@ function ModelBase(model, modelNode, parentModel) {
       }
     }
   }
+  model.loadModels = this.loadModels;
 
   /**
    * Paint all the widgets and initialise any tools the widget may have.
    * @param objRef Pointer to this object.
    */
-  model.loadWidgets = function() {
+  this.loadWidgets = function() {
     var widgets = this.modelNode.selectNodes("mb:widgets/*");
     for (var j=0; j<widgets.length; j++) {
       var widgetNode = widgets[j];
@@ -150,6 +153,7 @@ function ModelBase(model, modelNode, parentModel) {
       }
     }
   }
+  model.loadWidgets = this.loadWidgets;
 
   //load the Model object from the initial URL in config or from a URL param.
   //the URL can also be passed in as a URL parameter by using the model ID

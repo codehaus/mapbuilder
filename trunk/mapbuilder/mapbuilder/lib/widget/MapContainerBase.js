@@ -56,7 +56,7 @@ function MapContainerBase(widget,widgetNode,model) {
     widget.containerModel = widget.model;
     //widget.containerModel = widget.node.widget.model;
 
-    widget.setFixedWidth = function(objRef) {
+    this.setFixedWidth = function(objRef) {
       //adjust the context width and height if required.
       var fixedWidth = widgetNode.selectSingleNode("mb:fixedWidth");
       if ( fixedWidth ) {
@@ -69,6 +69,7 @@ function MapContainerBase(widget,widgetNode,model) {
       objRef.node.style.width=objRef.containerModel.getWindowWidth();
       objRef.node.style.height=objRef.containerModel.getWindowHeight();
     }
+    widget.setFixedWidth = this.setFixedWidth;
     widget.containerModel.addListener( "loadModel", widget.setFixedWidth, widget );
 
     //add the extent tool
@@ -76,20 +77,22 @@ function MapContainerBase(widget,widgetNode,model) {
     widget.containerModel.addListener( "aoi", widget.containerModel.extent.init, widget.containerModel.extent );
     //TBD: do an extent history too by storing extents everytime the aoi changes
 
-    widget.clearContainer = function(objRef) {
+    this.clearContainer = function(objRef) {
       //with objRef.node remove child
     }
+    widget.clearContainer = this.clearContainer;
     widget.containerModel.addListener("newModel",widget.clearContainer, widget);
 
     /**
      * Called when the context's boundingBox attribute changes.
      * @param thisWidget This object.
      */
-    widget.boundingBoxChangeListener=function(thisWidget){
+    this.boundingBoxChangeListener=function(thisWidget){
       //this.node.extent = 
       thisWidget.containerModel.extent.init(thisWidget.containerModel.extent);
       thisWidget.paint(thisWidget);
     }
+    widget.boundingBoxChangeListener = this.boundingBoxChangeListener;
     widget.containerModel.addListener("boundingBox",widget.boundingBoxChangeListener,widget);
 
   /** Cross-browser mouse event handling.
@@ -108,7 +111,7 @@ function MapContainerBase(widget,widgetNode,model) {
     *
     * @param ev the mouse event oject passed in from the browser (will be null for IE)
     */
-    widget.eventHandler=function(ev) {
+    this.eventHandler=function(ev) {
       if (window.event) {
         //IE events
         var p = window.event.clientX - this.offsetLeft + document.documentElement.scrollLeft + document.body.scrollLeft;
@@ -137,6 +140,7 @@ function MapContainerBase(widget,widgetNode,model) {
       this.widget.callListeners(this.eventType,this);
       return false;
     }
+    widget.eventHandler = this.eventHandler;
 
     containerNode.widget = widget;
     containerNode.onmousemove = widget.eventHandler;
@@ -155,7 +159,7 @@ function MapContainerBase(widget,widgetNode,model) {
    * @param thisWidget This object.
    * @param layerName  The name of the layer that was toggled.
    */
-  widget.hiddenListener=function(thisWidget, layerName){
+  this.hiddenListener=function(thisWidget, layerName){
     var vis="visible";
     if(thisWidget.model.getHidden(layerName)=="1"){
       vis="hidden";
@@ -163,6 +167,7 @@ function MapContainerBase(widget,widgetNode,model) {
     var layerId = thisWidget.model.id + "_" + thisWidget.id + "_" + layerName;
     document.getElementById(layerId).style.visibility=vis;
   }
+  widget.hiddenListener = this.hiddenListener;
   widget.model.addListener("hidden",widget.hiddenListener,widget);
 
 }
