@@ -12,12 +12,12 @@ mapbuilder.loadScript(baseDir+"/widget/EditButtonBase.js");
  * @constructor
  * @base EditButtonBase
  * @author Cameron Shorter cameronATshorter.net
- * @param toolNode      The tool node from the Config XML file.
+ * @param widgetNode The from the Config XML file.
  * @param model  The ButtonBar widget.
  */
-function EditLine(toolNode, model) {
+function EditLine(widgetNode, model) {
   // Extend EditButtonBase
-  var base = new EditButtonBase(this, toolNode, model);
+  var base = new EditButtonBase(this, widgetNode, model);
 
   /**
    * Append a point to a line.
