@@ -124,7 +124,7 @@ $Id$
   <property name="app.name"      value="mapbuilder"/>
   <property name="app.path"      value="/${app.name}"/>
   <property name="app.version"   value="0.1"/>
-  <property name="build.home"    value="${env.HTDOCS}"/>
+  <property name="build.home"    value="${env.HTDOCS}/${app.name}"/>
   <property name="dist.home"     value="${build.home}/dist"/>
   <property name="docs.home"     value="${build.home}/docs"/>
   <property name="src.home"      value="${basedir}/src"/>
@@ -260,8 +260,7 @@ $Id$
 
 -->
 
-  <target name="dist" depends="compile"
-   description="Create binary distribution">
+  <target name="dist" description="Create binary distribution">
 
     <!-- Create application JAR file -->
     <jar jarfile="${dist.home}/${app.name}-${app.version}.war"
@@ -285,8 +284,7 @@ $Id$
 
 -->
 
-  <target name="javadoc" depends="compile"
-   description="Create Javadoc API documentation">
+  <target name="javadoc" description="Create Javadoc API documentation">
 
     <mkdir          dir="${dist.home}/docs/api"/>
     <javadoc sourcepath="${src.home}"
