@@ -20,8 +20,14 @@ function ModelBase(modelNode) {
 
   //calling ModelBase with no params skips this section
   if (modelNode) {
-    this.id = modelNode.attributes.getNamedItem("id").nodeValue;
     this.modelNode = modelNode;
+    var idAttr = modelNode.attributes.getNamedItem("id");
+    if (idAttr) {
+      this.id = idAttr.nodeValue;
+    } else {
+      //auto generated unique ID assigned to this model
+      this.id = "MbModel_" + mbIds.getId();
+    }
   }
 
   /**
