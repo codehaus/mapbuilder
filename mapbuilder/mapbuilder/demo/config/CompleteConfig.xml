@@ -26,12 +26,16 @@
               <scriptFile>widget/tool/AoiBox.js</scriptFile>
               <lineColor>#FF0000</lineColor>
               <lineWidth>2</lineWidth>
-              <crossSize>25</crossSize>
+              <crossSize>1</crossSize>
             </AoiBox>
 
             <AoiMouseHandler>
               <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
             </AoiMouseHandler>
+
+            <DragPanHandler>
+              <scriptFile>widget/tool/DragPanHandler.js</scriptFile>
+            </DragPanHandler>
 
           </tools> 
         </MapPane>
@@ -62,8 +66,13 @@
               <tooltip>click to zoom out</tooltip>
               <selected>false</selected>
             </ZoomOut>
-            <!-- Reset button removed because it causes JS errors on IE -->
-            <!--Reset id="reset">
+            <DragPan id="dragPan">
+              <class>RadioButton</class>
+              <enabledSrc>/images/PanEnable.gif</enabledSrc>
+              <disabledSrc>/images/PanDisable.gif</disabledSrc>
+              <tooltip>click and drag to pan</tooltip>
+            </DragPan>
+            <Reset id="reset">
               <class>Button</class>
               <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
               <tooltip>reset the map to full extent</tooltip>
@@ -83,7 +92,7 @@
               <scriptFile>widget/tool/AoiBox.js</scriptFile>
               <lineColor>red</lineColor>
               <lineWidth>1</lineWidth>
-              <crossSize>9</crossSize>
+              <crossSize>15</crossSize>
             </AoiBox>
             <AoiMouseHandler>
               <scriptFile>widget/tool/AoiMouseHandler.js</scriptFile>
