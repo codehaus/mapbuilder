@@ -37,7 +37,7 @@ function Config(url) {
     for (var i=0; i<nodes.length; i++) {
       if (nodes[i].selectSingleNode("scriptFile")==null){
         scriptFile = baseDir+"/"+dir+nodes[i].nodeName+".js";
-        Mapbuilder.loadScript( scriptFile );
+        mapbuilder.loadScript( scriptFile );
       }
     }
   }
@@ -46,7 +46,7 @@ function Config(url) {
   // in the config file.
   this.loadScriptFiles("//models/*","model/");
   this.loadScriptFiles("//widgets/*","widget/");
-  this.loadScriptFiles("//tools/*","widget/tool/");
+  //this.loadScriptFiles("//tools/*","widget/tool/");
   //this.loadScriptFiles("//tools/*","/tool/");
 
   //TBD: Deprecate the following block and move into loadScriptFiles instead.
@@ -55,9 +55,7 @@ function Config(url) {
   var scriptFileNodes = this.doc.selectNodes("//scriptFile");
   for (var i=0; i<scriptFileNodes.length; i++ ) {
     scriptFile = baseDir+"/"+scriptFileNodes[i].firstChild.nodeValue;
-    //TBD: add some checks to see if it is already loaded?
-    //alert("loading script file:" + scriptFile);
-    Mapbuilder.loadScript( scriptFile );
+    mapbuilder.loadScript(scriptFile);
   }
 
   /**
@@ -111,8 +109,3 @@ function Config(url) {
     model.loadWidgets();
   }
 }
-
-// Initialise this object when the script is loaded.
-// mbConfigUrl is initialised in Mapbuilder.js.
-config=new Config(mbConfigUrl);
-

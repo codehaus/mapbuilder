@@ -51,25 +51,3 @@ function Locations(context, name, node) {
 
   this.context.addHiddenListener(this.hiddenListener);
 }
-
-
-/*
- *
- * $Log$
- * Revision 1.5  2004/04/26 20:37:56  camerons
- * Moved loadScript to Mapbuilder.loadScript()
- *
- * Revision 1.4  2004/04/03 11:15:50  camerons
- * Use global baseDir variable
- *
- * Revision 1.3  2004/04/03 10:29:49  camerons
- * WidgetBase.js now loaded when Widget scripts are loaded
- *
- * Revision 1.2  2004/02/27 14:06:00  tomkralidis
- * Updates to handle Locations object
- *
- * Revision 1.1  2004/02/26 19:02:53  tomkralidis
- * Initial add
- *
- *
-*/
