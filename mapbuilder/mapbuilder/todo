@@ -4,6 +4,8 @@ Release 0.1
 
 * Rename addListeners() to postInit() - since it doesn't always call listeners.
 
+* Rename "Mode" and "Modal" to something else, eg Selected.
+
 * MapDisplayForm in wmsConfig.html needs to be moved into a widget.
 
 * Move Context2FeatureInfo.xml out of widget/tool
