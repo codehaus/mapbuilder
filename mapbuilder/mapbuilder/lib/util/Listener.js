@@ -114,6 +114,8 @@ function Listener(objRef) {
    * Return the param value, or return null if it does not exist.  This
    * function may be overloaded to store the param elsewhere (eg in
    * an XML document).
+   * @param param The parameter to get.
+   * @return The value of the param.
    */
   this.getParam=function(param) {
     return this.values[param];
