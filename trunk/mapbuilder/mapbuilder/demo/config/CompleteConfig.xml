@@ -229,7 +229,7 @@
 					<tooltip xml:lang="fr">cliquer pour obtenir plus d'information pour cette couche</tooltip>
 					<targetFeatureCollection>gml2</targetFeatureCollection>
 				</GetFeatureInfo>
-				<AddPoint id="addPoint">
+				<EditPoint id="editPoint">
 					<mouseHandler>mainMap.mainMapWidget</mouseHandler>
 					<class>RadioButton</class>
 					<enabledSrc>/images/AddPointEnable.gif</enabledSrc>
@@ -239,7 +239,7 @@
 					<targetGml>testGml</targetGml>
 					<defaultModelUrl>gml/defaultAddPoint.xml</defaultModelUrl>
 					<featureXpath>gml:featureMember/points/_SHAPE_/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
-				</AddPoint>
+				</EditPoint>
 				<Save id="save">
 					<class>Button</class>
 					<disabledSrc>/images/SaveDisable.gif</disabledSrc>
