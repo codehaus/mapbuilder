@@ -26,20 +26,14 @@ function GmlRenderer(widgetNode, model) {
    * Render the widget.
    * @param objRef Pointer to this object.
    */
-  this.paint = function(objRef) {
-    objRef.stylesheet.setParameter("width", objRef.targetModel.getWindowWidth() );
-    objRef.stylesheet.setParameter("height", objRef.targetModel.getWindowHeight() );
-    bBox=objRef.targetModel.getBoundingBox();
-    objRef.stylesheet.setParameter("bBoxMinX", bBox[0] );
-    objRef.stylesheet.setParameter("bBoxMinY", bBox[1] );
-    objRef.stylesheet.setParameter("bBoxMaxX", bBox[2] );
-    objRef.stylesheet.setParameter("bBoxMaxY", bBox[3] );
-    if (objRef.model.doc) {
-      var s = objRef.stylesheet.transformNode(objRef.model.doc);
-      if (objRef.widgetNode.selectSingleNode("debug") ) alert("painting:"+objRef.id+":"+s);
-      objRef.node.innerHTML = s;
-      objRef.callListeners("paint");
-    }
+  this.prePaint = function() {
+    this.stylesheet.setParameter("width", this.targetModel.getWindowWidth() );
+    this.stylesheet.setParameter("height", this.targetModel.getWindowHeight() );
+    bBox=this.targetModel.getBoundingBox();
+    this.stylesheet.setParameter("bBoxMinX", bBox[0] );
+    this.stylesheet.setParameter("bBoxMinY", bBox[1] );
+    this.stylesheet.setParameter("bBoxMaxX", bBox[2] );
+    this.stylesheet.setParameter("bBoxMaxY", bBox[3] );
   }
 
   // Call paint() when the context changes

@@ -11,7 +11,7 @@ Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 $Name$
 -->
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="html" encoding="utf-8"/>
   
   <xsl:param name="width" select="400"/>
   <xsl:param name="height" select="200"/>
@@ -31,7 +31,7 @@ $Name$
   <!-- Root node -->
   <xsl:template match="/">
     <!--div style="width: {$width}px; height: {$height}px; overflow: hidden"-->
-    <div>
+      <div style="position:relative; width:{$width}; height:{$height}">
       <xsl:apply-templates/>
     </div>
   </xsl:template>

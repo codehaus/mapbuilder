@@ -31,56 +31,43 @@ function WidgetBase(widgetNode,model,position) {
   this.widgetNode = widgetNode;
   /** Widget's Id defined in the Config */
   this.id = widgetNode.attributes.getNamedItem("id").nodeValue;
+  this.mbWidgetId = "MbWidget_" + mbIds.getId();
 
   /** HTML root <div> node for this widget */
-  this.node=null;
-
-  var htmlTagNode = widgetNode.selectSingleNode("htmlTagId");
-  if (htmlTagNode) {
-    htmlTagId = htmlTagNode.firstChild.nodeValue;
-  }
+  this.node=document.getElementById(this.id);
 
   // Node in main HTML to attach widget to.
-  anchorNode = document.getElementById(htmlTagId);
-  if(!anchorNode) {
-    alert("htmlTagId: "+htmlTagId+" for widget "+widgetNode.nodeName+" not found in config");
-  }else{
-    // Reuse widget node if it already exists
-    for (i=0;i<anchorNode.childNodes.length;i++){
-      if (anchorNode.childNodes[i].id==this.id+"MbWidget")
-      {
-        this.node=anchorNode.childNodes[i];
-      }
+/*
+  var containerNode = widgetNode.selectSingleNode("containerNodeId");
+  if (containerNode) {
+    this.containerNodeId = containerNode.firstChild.nodeValue;
+    var containerNode = document.getElementById(this.containerNodeId);
+    if (!containerNode) {
+      containerNode = document.createElement("DIV");
+      containerNode.setAttribute("id",this.containerNodeId);
+      this.node.appendChild(containerNode);
     }
-    // Create containing <div> node if it doesn't already exist
-    if (!this.node){
-      this.node=document.createElement("DIV");
-      //this.node.setAttribute("id",this.id);
-      this.node.id=this.id+"MbWidget";
-      if (position=="absolute"){
-        this.node.style.position="absolute";
-      }
-      anchorNode.appendChild(this.node);
-    }
+    this.node = document.getElementById(this.containerNodeId);
+  }
+*/
 
-    // Set this.stylesheet
-    // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
-    var styleNode = widgetNode.selectSingleNode("stylesheet");
-    var styleUrl;
-    if ( styleNode ) styleUrl = styleNode.firstChild.nodeValue;
-    else styleUrl = baseDir+"/widget/"+widgetNode.nodeName+".xsl";
-    this.stylesheet = new XslProcessor(styleUrl);
+  // Set this.stylesheet
+  // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
+  var styleNode = widgetNode.selectSingleNode("stylesheet");
+  var styleUrl;
+  if ( styleNode ) styleUrl = styleNode.firstChild.nodeValue;
+  else styleUrl = baseDir+"/widget/"+widgetNode.nodeName+".xsl";
+  this.stylesheet = new XslProcessor(styleUrl);
 
-    //set the target model
-    var targetModel = widgetNode.selectSingleNode("targetModel");
-    if (targetModel) {
-      this.targetModel = eval("config."+targetModel.firstChild.nodeValue);
-      if ( !this.targetModel ) {
-        alert("error finding targetModel:" + targetModel + " for:" + this.id);
-      } 
-    } else {
-      this.targetModel = this.model;
-    }
+  //set the target model
+  var targetModel = widgetNode.selectSingleNode("targetModel");
+  if (targetModel) {
+    this.targetModel = eval("config."+targetModel.firstChild.nodeValue);
+    if ( !this.targetModel ) {
+      alert("error finding targetModel:" + targetModel + " for:" + this.id);
+    } 
+  } else {
+    this.targetModel = this.model;
   }
 
   // Set stylesheet parameters for all the child nodes from the config file
@@ -93,6 +80,7 @@ function WidgetBase(widgetNode,model,position) {
         widgetNode.childNodes[j].firstChild.nodeValue);
     }
   }
+  //this.stylesheet.setParameter("widgetNode", widgetNode );
 
   //all stylesheets will have these properties available
   this.stylesheet.setParameter("modelId", this.model.id );
@@ -122,14 +110,34 @@ function WidgetBase(widgetNode,model,position) {
   }
 
   /**
+   * Resize this widget.
+   * @param width New width.
+   * @param height New height.
+   */
+  this.prePaint = function() {
+    //no-op by default
+  }
+
+  /**
    * Render the widget.
    * @param objRef Pointer to this object.
    */
   this.paint = function(objRef) {
     if (objRef.model.doc) {
-      var s = objRef.stylesheet.transformNode(objRef.model.doc);
-      if (objRef.widgetNode.selectSingleNode("debug") ) alert("painting:"+objRef.id+":"+s);
-      objRef.node.innerHTML = s;
+      //var s = objRef.stylesheet.transformNode(objRef.model.doc);
+      //if (objRef.widgetNode.selectSingleNode("debug") ) alert("painting:"+objRef.id+":"+s);
+      //objRef.node.innerHTML = s;
+      objRef.prePaint();
+      var resultDoc = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
+      resultDoc.documentElement.setAttribute("id", objRef.mbWidgetId);
+      if (objRef.widgetNode.selectSingleNode("debug") ) alert("painting:"+objRef.id+":"+resultDoc.xml);
+      var outputNode = document.getElementById( objRef.mbWidgetId );
+      if (outputNode) {
+        objRef.node.replaceChild(document.importNode(resultDoc.documentElement,true),outputNode);
+      } else {
+        objRef.node.appendChild(document.importNode(resultDoc.documentElement,true));
+      }
+        
       objRef.callListeners("paint");
     }
   }

@@ -133,7 +133,7 @@ function AoiBox(toolNode, parentWidget) {
    * @param thisTool This object.
    */
   this.loadAoiBox = function(thisTool) {
-    var containerNode = document.getElementById( thisTool.parentWidget.containerId );
+    var containerNode = document.getElementById( thisTool.parentWidget.mbWidgetId );
     thisTool.Top = thisTool.getImageDiv( containerNode );
     thisTool.Bottom = thisTool.getImageDiv( containerNode );
     thisTool.Left = thisTool.getImageDiv( containerNode );

@@ -9,7 +9,7 @@ Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 -->
 
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="html" encoding="utf-8"/>
 
   <!-- The common params set for all widgets -->
   <xsl:param name="modelId"/>
@@ -26,11 +26,13 @@ $Id$
 	<xsl:template match="/">
     <xsl:variable name="typeName"><xsl:value-of select="substring-after($nsTypeName,':')"/></xsl:variable>
     id:<xsl:value-of select="$xmlDoc/ViewContext/@id"/>
+    <DIV>
     <FORM NAME="{$formName}" ID="{$formName}">
       <xsl:apply-templates select="xs:schema/xs:complexType[@name=$typeName]"> 
         <xsl:with-param name="currentDocNode" select="$xmlDoc/ViewContext/General/ContactInformation"/>
       </xsl:apply-templates>
     </FORM>
+    </DIV>
   </xsl:template>
 	
 	<xsl:template match="xs:element">
