@@ -310,24 +310,6 @@ function handleEventWithObject(evt){
   if (obj!=null) obj.handleEvent(evt);
 }
 
-/**
- * Dynamically load a script file if it has not already been loaded.
- * @param url The url of the script.
- */
-/* Moved into Mapbuilder.js
-
-function loadScript (url) {
-  if(!document.getElementById(url)){
-    var script = document.createElement('script');
-    script.defer = false;   //not sure of effect of this?
-    script.type = "text/javascript";
-    script.src = url;
-    script.id = url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
-}
-*/
-
 if (_SARISSA_IS_MOZ ) {
   /** 
    * Extends the node class to provide simple node value lookup
