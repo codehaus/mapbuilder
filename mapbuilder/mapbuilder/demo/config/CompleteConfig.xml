@@ -109,12 +109,14 @@
         </CollectionList>
       </widgets>
     </ContextCollection>
+    <!--
     <Gml2 id="gml2">
       <widgets>
         <FeatureList id="featureList">
         </FeatureList>
       </widgets>
     </Gml2>
+    -->
     <Model id="locations">
       <defaultModelUrl>locations/Global.xml</defaultModelUrl>
       <widgets>
@@ -151,6 +153,8 @@
           <lineWidth>1</lineWidth>
           <pointDiameter>10</pointDiameter>
         </GmlRendererWZ>
+        <FeatureList id="featureList">
+        </FeatureList>
       </widgets>
     </Model>
     <Gml2 id="ntsGml">
@@ -234,6 +238,17 @@
           <tooltip xml:lang="fr">cliquer pour obtenir plus d'information pour cette couche</tooltip>
           <targetFeatureCollection>gml2</targetFeatureCollection>
         </GetFeatureInfo>
+        <AddPoint id="addPoint">
+          <mouseHandler>mainMap.mainMapWidget</mouseHandler>
+          <dependsOn>mainMap.mainMapWidget.MouseClickHandler</dependsOn>
+          <class>RadioButton</class>
+          <enabledSrc>/images/AddPointEnable.gif</enabledSrc>
+          <disabledSrc>/images/AddPointDisable.gif</disabledSrc>
+          <targetGml>testGml</targetGml>
+          <defaultGml>gml/defaultAddPoint.xml</defaultGml>
+          <tooltip xml:lang="en">click on map to create a point feature</tooltip>
+          <tooltip xml:lang="fr">click on map to create a point feature</tooltip>
+        </AddPoint>
       </tools>
     </ButtonBar>
     <WebServiceForm id="ntsLookupForm">
