@@ -1,106 +1,295 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xs:schema targetNamespace="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder" elementFormDefault="qualified" version="0.2.0">
 	<xs:annotation>
 		<xs:appinfo>$Id$</xs:appinfo>
 		<xs:documentation xml:lang="en">
-			Application schema for Mapbuilder runtime configuration
-			License:     GPL as per: http://www.gnu.org/copyleft/gpl.html 
+			<xs:description>Application schema for Mapbuilder runtime configuration</xs:description>
+			<xs:copyright>License: GPL as per: http://www.gnu.org/copyleft/gpl.html</xs:copyright>
 		</xs:documentation>
 	</xs:annotation>
-
-	<!-- ==============================================================
-       global declarations
-	=================================================================== -->
-  
-  	<xs:complexType name="_modelsType">
-		<xs:sequence>
-			<xs:element name="defaultModelUrl" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="widgets" type="mb:widgetsType" minOccurs="0" maxOccurs="1"/>
-		</xs:sequence>
-		<xs:attribute name="id" type="xs:string" use="optional"/>
+	<!-- imports -->
+	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+	<!-- global model extension types -->
+	<xs:complexType name="ContextType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractModelType"/>
+		</xs:complexContent>
 	</xs:complexType>
-	
-	<xs:complexType name="widgetsType">
-		<xs:sequence>
-			<xs:element name="ButtonBar" type="mb:_widgetsType" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="CollectionList" type="mb:_widgetsType" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="MapPane" type="mb:_widgetsType" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="CursorTrack" type="mb:_widgetsType" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="Legend" type="mb:_widgetsType" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="WidgetBase" type="mb:_widgetsType" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element name="AoiForm" type="mb:_widgetsType" minOccurs="0" maxOccurs="1"/>
-		</xs:sequence>
+	<xs:complexType name="ContextCollectionType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractModelType"/>
+		</xs:complexContent>
 	</xs:complexType>
-	
-	<xs:complexType name="_widgetsType">
-		<xs:sequence>
-			<xs:element name="htmlTagId" type="xs:string" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="mouseHandler" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="stylesheet" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="fixedWidth" type="xs:integer" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="fixedHeight" type="xs:integer" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="targetModel" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="tools" type="mb:toolsType" minOccurs="0" maxOccurs="1"/>
-		</xs:sequence>
-		<xs:attribute name="id" type="xs:string" use="optional"/>
+	<xs:complexType name="Gml2Type">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractModelType"/>
+		</xs:complexContent>
 	</xs:complexType>
-
-	<xs:complexType name="toolsType">
-		<xs:sequence>
-			<xs:element name="AoiMouseHandler" type="mb:_toolsType" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="AoiBox" type="mb:_toolsType" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="ZoomToAoi" type="mb:_toolsType" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="DragPanHandler" type="mb:_toolsType" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="MouseClickHandler" type="mb:_toolsType" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="ZoomIn" type="mb:_toolsType" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="ZoomOut" type="mb:_toolsType" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="DragPan" type="mb:_toolsType" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="SetAoi" type="mb:_toolsType" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="Reset" type="mb:_toolsType" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="GetFeatureInfo" type="mb:_toolsType" minOccurs="0" maxOccurs="1"/>
-		</xs:sequence>
+	<xs:complexType name="ModelBaseType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractModelType"/>
+		</xs:complexContent>
 	</xs:complexType>
-
-	<xs:complexType name="_toolsType">
-		<xs:sequence>
-			<xs:element name="class" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="selected" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="mouseHandler" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="dependsOn" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element name="enabledSrc" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="disabledSrc" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="tooltip" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="lineColor" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="lineWidth" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="crossSize" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="targetModel" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="enabled" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
-		</xs:sequence>
-		<xs:attribute name="id" type="xs:string" use="optional"/>
+	<xs:complexType name="DescribeFeatureTypeType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractModelType"/>
+		</xs:complexContent>
 	</xs:complexType>
-
-	<!-- ==============================================================
-       document structure
-	=================================================================== -->
-	
+	<!-- global widget extension types -->
+	<xs:complexType name="MapPaneType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractWidgetType">
+				<xs:sequence>
+					<xs:element name="htmlTagId" type="xs:string"/>
+					<xs:element name="mapContainerId" type="xs:string"/>
+					<xs:element name="fixedWidth" type="xs:integer" minOccurs="0"/>
+					<xs:element name="fixedHeight" type="xs:integer" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="LegendType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractWidgetType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CursorTrackType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractWidgetType">
+				<xs:sequence>
+					<xs:element name="mouseHandler" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="WidgetBaseType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractWidgetType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AoiFormType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractWidgetType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="WmsCapabilitiesImportType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractWidgetType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CollectionListType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractWidgetType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="FeatureListType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractWidgetType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="LocationsType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractWidgetType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GmlRendererType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractWidgetType">
+				<xs:sequence>
+					<xs:element name="htmlTagId" type="xs:string"/>
+					<xs:element name="mapContainerId" type="xs:string"/>
+					<xs:element name="pointDiameter" type="xs:integer"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Gml2RenderType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractWidgetType">
+				<xs:sequence>
+					<xs:element name="htmlTagId" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ButtonBarType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractWidgetType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="WebServiceFormType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractWidgetType">
+				<xs:sequence>
+					<xs:element name="webServiceUrl" type="xs:anyURI"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- global tools extension types -->
+	<xs:complexType name="AoiMouseHandlerType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractToolType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AoiBoxType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractToolType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DragPanHandlerType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractToolType">
+				<xs:sequence>
+					<xs:element name="enabled" type="xs:boolean"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MouseClickHandlerType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractToolType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ZoomToAoiType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractToolType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ZoomInType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractToolType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ZoomOutType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractToolType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DragPanType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractToolType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SetAoiType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractToolType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ResetType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractToolType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetFeatureInfoType">
+		<xs:complexContent>
+			<xs:extension base="mb:AbstractToolType">
+				<xs:sequence>
+					<xs:element name="targetFeatureCollection" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--	document structure -->
 	<xs:element name="MapbuilderConfig" type="mb:MapbuilderConfigType"/>
-
 	<xs:complexType name="MapbuilderConfigType">
 		<xs:sequence>
-			<xs:element name="skinDir" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="proxyUrl" type="xs:string" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="models" type="mb:modelsType" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="widgets" type="mb:widgetsType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="skinDir" type="mb:urlPathType" minOccurs="0"/>
+			<xs:element name="proxyUrl" type="mb:urlPathType" minOccurs="0"/>
+			<xs:element name="models" type="mb:modelsType" minOccurs="0"/>
+			<xs:element name="widgets" type="mb:widgetsType" minOccurs="0"/>
 		</xs:sequence>
 		<xs:attribute name="version" type="xs:string" use="required" fixed="0.2.0"/>
-		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="id" type="mb:idType" use="required"/>
 	</xs:complexType>
-	
 	<xs:complexType name="modelsType">
-		<xs:sequence>
-			<xs:element name="Context" type="mb:_modelsType" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element name="ModelBase" type="mb:_modelsType" minOccurs="0" maxOccurs="unbounded"/>
-		</xs:sequence>
+		<xs:choice maxOccurs="unbounded">
+			<xs:element name="Context" type="mb:ContextType"/>
+			<xs:element name="ContextCollection" type="mb:ContextCollectionType"/>
+			<xs:element name="Gml2" type="mb:Gml2Type"/>
+			<xs:element name="ModelBase" type="mb:ModelBaseType"/>
+			<xs:element name="DescribeFeatureType" type="mb:DescribeFeatureTypeType"/>
+		</xs:choice>
 	</xs:complexType>
+	<xs:complexType name="widgetsType">
+		<xs:choice maxOccurs="unbounded">
+			<xs:element name="MapPane" type="mb:MapPaneType"/>
+			<xs:element name="CursorTrack" type="mb:CursorTrackType"/>
+			<xs:element name="Legend" type="mb:LegendType"/>
+			<xs:element name="WidgetBase" type="mb:WidgetBaseType"/>
+			<xs:element name="AoiForm" type="mb:AoiFormType"/>
+			<xs:element name="WmsCapabilitiesImport" type="mb:WmsCapabilitiesImportType"/>
+			<xs:element name="CollectionList" type="mb:CollectionListType"/>
+			<xs:element name="FeatureList" type="mb:FeatureListType"/>
+			<xs:element name="Locations" type="mb:LocationsType"/>
+			<xs:element name="GmlRenderer" type="mb:GmlRendererType"/>
+			<xs:element name="Gml2Render" type="mb:Gml2RenderType"/>
+			<xs:element name="ButtonBar" type="mb:ButtonBarType"/>
+			<xs:element name="WebServiceForm" type="mb:WebServiceFormType"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="toolsType">
+		<xs:choice maxOccurs="unbounded">
+			<xs:element name="AoiMouseHandler" type="mb:AoiMouseHandlerType"/>
+			<xs:element name="AoiBox" type="mb:AoiBoxType"/>
+			<xs:element name="DragPanHandler" type="mb:DragPanHandlerType"/>
+			<xs:element name="MouseClickHandler" type="mb:MouseClickHandlerType"/>
+			<xs:element name="ZoomToAoi" type="mb:ZoomToAoiType"/>
+			<xs:element name="ZoomIn" type="mb:ZoomInType"/>
+			<xs:element name="ZoomOut" type="mb:ZoomOutType"/>
+			<xs:element name="DragPan" type="mb:DragPanType"/>
+			<xs:element name="SetAoi" type="mb:SetAoiType"/>
+			<xs:element name="Reset" type="mb:ResetType"/>
+			<xs:element name="GetFeatureInfo" type="mb:GetFeatureInfoType"/>
+		</xs:choice>
+	</xs:complexType>
+	<!-- 	global base types -->
+	<xs:complexType name="AbstractModelType" abstract="true">
+		<xs:sequence>
+			<xs:element name="defaultModelUrl" type="mb:urlPathType" minOccurs="0"/>
+			<xs:element name="widgets" type="mb:widgetsType"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="mb:idType" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="AbstractWidgetType" abstract="true">
+		<xs:sequence>
+			<xs:element name="targetModel" type="xs:string" minOccurs="0"/>
+			<xs:element name="lineColor" type="xs:string" minOccurs="0"/>
+			<xs:element name="lineWidth" type="xs:integer" minOccurs="0"/>			
+			<xs:element name="stylesheet" type="xs:string" minOccurs="0"/>
+			<xs:element name="tools" type="mb:toolsType" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="mb:idType" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="AbstractToolType" abstract="true">
+		<xs:sequence>
+			<xs:element name="targetModel" type="xs:string" minOccurs="0"/>
+			<xs:element name="lineColor" type="xs:string" minOccurs="0"/>
+			<xs:element name="lineWidth" type="xs:integer" minOccurs="0"/>
+			<xs:element name="crossSize" type="xs:integer" minOccurs="0"/>
+			<xs:element name="class" type="xs:string" minOccurs="0"/>
+			<xs:element name="selected" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="mouseHandler" type="xs:string" minOccurs="0"/>
+			<xs:element name="dependsOn" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="enabledSrc" type="mb:urlPathType" minOccurs="0"/>
+			<xs:element name="disabledSrc" type="mb:urlPathType" minOccurs="0"/>
+			<xs:element name="tooltip" type="mb:tooltipType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="mb:idType" use="optional"/>
+	</xs:complexType>
+	<xs:simpleType name="idType">
+		<xs:restriction base="xs:ID"/>
+	</xs:simpleType>
+	<xs:simpleType name="urlPathType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	
+	<xs:complexType name="tooltipType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute ref="xml:lang"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>	
 </xs:schema>
 
