@@ -47,7 +47,7 @@ $Name$
   <xsl:template match="wmc:Layer">
     
     <xsl:choose>
-      <xsl:when test="$timeList and wmc:Dimension">
+      <xsl:when test="$timeList and wmc:DimensionList/wmc:Dimension[@name='time']">
           <xsl:call-template name="tokenize">
             <xsl:with-param name="str" select="$timeList"/>
             <xsl:with-param name="sep" select="','"/>
@@ -68,7 +68,7 @@ $Name$
         <xsl:value-of select="wmc:Server/wmc:OnlineResource/@xlink:href"/>    
     </xsl:param>
     <xsl:param name="timestamp">
-        <xsl:value-of select="wmc:Dimension/@default"/>    
+        <xsl:value-of select="wmc:DimensionList/wmc:Dimension[@name='time']/@default"/>    
     </xsl:param>
     <xsl:param name="visibility">
       <xsl:choose>
@@ -119,9 +119,9 @@ $Name$
     <DIV>    
       <xsl:attribute name="STYLE">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0; left:0;</xsl:attribute>
       <xsl:attribute name="ID">
-        <xsl:value-of select="$modelId"/>_<xsl:value-of select="$widgetId"/>_<xsl:value-of select="wmc:Name"/><xsl:if test="$timestamp and wmc:Dimension">_<xsl:value-of select="$timestamp"/></xsl:if>
+        <xsl:value-of select="$modelId"/>_<xsl:value-of select="$widgetId"/>_<xsl:value-of select="wmc:Name"/><xsl:if test="$timestamp and wmc:DimensionList/wmc:Dimension[@name='time']">_<xsl:value-of select="$timestamp"/></xsl:if>
       </xsl:attribute>
-      <xsl:if test="$timestamp and wmc:Dimension">
+      <xsl:if test="$timestamp and wmc:DimensionList/wmc:Dimension[@name='time']">
         <xsl:attribute name="TIME"><xsl:value-of select="$timestamp"/></xsl:attribute>
       </xsl:if>
     
