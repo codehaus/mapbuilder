@@ -20,7 +20,7 @@ $Name$
   <xsl:template match="/">
     <form>
       <h3>Load WMS GetCapabilities:</h3>
-      <textarea cols="40" rows="1" onkeypress="config.{$modelId}.{$widgetId}.onKeyPress(event)">http://localhost/mapbuilder/lib/widget/wms/GmapCapabilities.xml</textarea> 
+      <textarea cols="40" rows="1" onkeypress="config.{$modelId}.{$widgetId}.onKeyPress(event)">../lib/widget/wms/GmapCapabilities.xml</textarea> 
     </form>
   </xsl:template>
   
