@@ -8,6 +8,8 @@ Tools:
 
 * Move Tools out of ButtonBar.js and into lib/tool/
 
+* Remove directory widget/tool
+
 ---<end Tools todo>
 
 * Use .prototype for inheritence?
@@ -19,9 +21,6 @@ Tools:
 * MapDisplayForm in wmsConfig.html needs to be moved into a widget.
 
 * Move Context2FeatureInfo.xml out of widget/tool
-
-* Remove directories:
-widget/toollist
 
 * Implement PanOut
 
