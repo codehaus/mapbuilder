@@ -13,9 +13,13 @@
   <skinDir>/mapbuilder/lib/skin/default</skinDir>
 
   <!--
-  all scriptfile and stylesheets are prepended by this URL
+  all scriptfile and stylesheets are prepended by this URL.  This can be a
+  relative URL (relative to the HTML page that initializes config, but relative
+  URL doesn't work in IE6.  It can also be a full URL with protocol and port 
+  however that would require a proxy loader on the server to load XML files from
+  a host other than the one serving the HTML page.
   -->
-  <baseDir>../lib/</baseDir>
+  <baseDir>/mapbuilder/lib/</baseDir>
     
   <models>
 
@@ -32,19 +36,7 @@
 
   <!--
   -->
-  <widgetGroups>
-    
-    <Model id="locatorMapGroup">
-      <modelType>Context</modelType>
-      <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
-      <widgets>
-        <MapPane id="locatorMapId">
-          <scriptFile>widget/mappane/MapPane2.js</scriptFile>
-          <stylesheet>widget/mappane/Context2MapPane.xml</stylesheet>
-          <targetWidgetGroup>mainMapGroup</targetWidgetGroup>
-        </MapPane>
-      </widgets>
-    </Model>
+  <modelGroups>
     
     <Model id="mainMapGroup">
       <modelType>Context</modelType>
@@ -59,7 +51,7 @@
             </GlassPane>
             <AoiBox>
               <scriptFile>widget/tool/AoiBox2.js</scriptFile>
-              <lineColor>#FF000</lineColor>
+              <lineColor>#FF0000</lineColor>
               <lineWidth>2</lineWidth>
               <crossSize>9</crossSize>
             </AoiBox>
@@ -109,6 +101,29 @@
       </widgets>
     </Model>
       
+    <Model id="locatorMapGroup">
+      <modelType>Context</modelType>
+      <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
+      <widgets>
+        <MapPane id="locatorMapId">
+          <scriptFile>widget/mappane/MapPane2.js</scriptFile>
+          <stylesheet>widget/mappane/Context2MapPane2.xml</stylesheet>
+          <targetWidgetGroup>mainMapGroup</targetWidgetGroup>
+           <tools> 
+            <GlassPane>  
+              <scriptFile>widget/tool/GlassPane3.js</scriptFile>
+            </GlassPane>
+            <AoiBox>
+              <scriptFile>widget/tool/AoiBox2.js</scriptFile>
+              <lineColor>#00FF00</lineColor>
+              <lineWidth>2</lineWidth>
+              <crossSize>9</crossSize>
+            </AoiBox>
+          </tools> 
+        </MapPane>
+      </widgets>
+    </Model>
+    
     <Model id="collectionGroup">
       <modelType>ContextCollection</modelType>
       <defaultModelUrl>context/demoCollection.ccml</defaultModelUrl>
@@ -121,6 +136,6 @@
       </widgets>
     </Model>
     
-  </widgetGroups>
+  </modelGroups>
 
 </MapbuilderConfig>

@@ -30,68 +30,59 @@ function Config(url) {
     loadScript( scriptFile );
   }
 
-  this.loadWidgets = function() {
-    //load in widgets
-    var widgetGroups = this.doc.selectNodes( "/MapbuilderConfig/widgetGroups/*" );
-    for (var i=0; i<widgetGroups.length; i++ ) {
-      var modelNode = widgetGroups[i];
+  this.init = function() {
+    var modelGroups = this.doc.selectNodes( "/MapbuilderConfig/modelGroups/*" );
+    for (var i=0; i<modelGroups.length; i++ ) {
       var group = new Object();
-      group.modelType = modelNode.selectSingleNode("modelType").firstChild.nodeValue;
-      var initialModel = modelNode.selectSingleNode("defaultModelUrl");
-      if ( initialModel ) {
-        var evalStr = "new " + group.modelType + "('" + initialModel.firstChild.nodeValue + "');";
-        //alert("group.loadModel eval:" + evalStr);
-        group.model = eval( evalStr );
-        //send out an update event?
-        group.model.modelIndex = config.modelArray.push( group.model ) - 1;  //or replace if it exists?
+      group.modelNode = modelGroups[i];
+      group.id = group.modelNode.attributes.getNamedItem("id").nodeValue;
+      group.modelType = group.modelNode.selectSingleNode("modelType").firstChild.nodeValue;
+
+      // Get the CGI parameters.  If context is not defined, then set a default.
+      group.initialModel = null;
+      cgiArgs=getArgs();
+      if (group.modelType=="Context" && cgiArgs.context) {  //TBD: need a better way to do this comparison
+        group.initialModel = cgiArgs.context;
+      } else {
+        group.initialModel = group.modelNode.selectSingleNode("defaultModelUrl");
+        if ( group.initialModel ) group.initialModel = group.initialModel.firstChild.nodeValue;
       }
-      group.widgetArray = new Array();
 
-      var widgets = modelNode.selectNodes("widgets/*");
-      for (var j=0; j<widgets.length; j++) {
-        var widgetNode = widgets[j];
-
-        //call the widget constructor and paint
-        var evalStr = "new " + widgetNode.nodeName + "(widgetNode, group);";
-        //alert("Config.loadWidgets eval:" + evalStr);
-        var widget = eval( evalStr );
-        widget.modelType = group.modelType;
-
-        widget.paint();
-        //this has to be called after widgets are painted
-        widget.addListeners();
-
-        widget.toolArray = new Array();
-        var tools = widgetNode.selectNodes( "tools/*" );
-        for (var k=0; k<tools.length; k++ ) {
-          var toolNode = tools[k];
-          evalStr = "new " + toolNode.nodeName + "(toolNode, widget);";
-          alert("Config.loadWidgets eval:" + evalStr);
-          var tool = eval( evalStr );
-          widget.toolArray[k] = tool;
-        }
-
-        group.widgetArray[j] = widget;
-      }
-      this.groupArray[i] = group;
+      this[group.id] = group;
+      this.loadModel( group.initialModel, group.id );
     }
   }
 
-  this.loadModel = function(modelUrl, widgetGroupId ) {
-    //load in a model
-    for (var i=0; i<this.widgetArray.length; i++ ) {
-      var widget = this.widgetArray[i];
-      if ( widget.id == widgetId ) {
-        widget.loadModel( modelUrl, widget.modelType );
-        widget.paint();
-        //paint all child widgets
-        for (var i=0; i<widget.childWidgets.length; i++ ) {
-          widget.childWidgets[i].model = widget.model;
-          widget.childWidgets[i].paint();
-        }
-        break;
-      }
+
+
+  this.loadModel = function(modelUrl, groupId) {
+    var group = this[groupId];
+    var evalStr = "new " + group.modelType + "('" + modelUrl + "');";
+    //alert("group.loadModel eval:" + evalStr);
+    group.model = eval( evalStr );
+    //send out an update event?
+    group.model.modelIndex = config.modelArray.push( group.model ) - 1;  //or replace if it exists?
+    group.widgetArray = new Array();
+
+    var widgets = group.modelNode.selectNodes("widgets/*");
+    for (var j=0; j<widgets.length; j++) {
+      var widgetNode = widgets[j];
+
+      //call the widget constructor and paint
+      var evalStr = "new " + widgetNode.nodeName + "(widgetNode, group);";
+      //alert("Config.loadWidgets eval:" + evalStr);
+      var widget = eval( evalStr );
+      widget.modelType = group.modelType;
+
+      widget.paint();
+      //this has to be called after widgets are painted
+      widget.addListeners();
+      widget.loadTools();
+
+      group.widgetArray[j] = widget;
     }
+
   }
+
 
 }

@@ -20,9 +20,17 @@ function AoiBox(toolNode, parentWidget) {
   this.lineWidth = 2;                 // Zoombox line width; pass in as param?
   this.lineColor = "#FF0000";         // color of zoombox lines; pass in as param?
   this.crossSize = 9;
-  this.mode = 'MODE_SET_AOI';   //temporary until mode gets implemented somewhere else
+  //this.mode = 'MODE_SET_AOI';   //temporary until mode gets implemented somewhere else?
+  this.mode = 'MODE_ZOOM_IN';   //temporary until mode gets implemented somewhere else?
 
   this.node = document.getElementById( parentWidget.containerId );
+
+  if ( parentWidget.targetGroup ) {
+    //add a listener to the targetGroup for updates to AOI box
+    this.targetModel = config[parentWidget.targetGroup].model;
+  } else {
+    this.targetModel = parentWidget.model;
+  }
 
 
 /** Hide or show the box
@@ -58,7 +66,7 @@ function AoiBox(toolNode, parentWidget) {
       switch(objRef.mode) {
         case 'MODE_ZOOM_IN':				//zoom in
           objRef.setVis(false);
-          targetNode.model.extent.ZoomToBox( ul, lr );
+          objRef.targetModel.extent.ZoomToBox( ul, lr );
           break;
         case 'MODE_SET_AOI':				//setting AOI
           //call AOI changed listeners?; objRef.setFormAOI( ul, lr );
