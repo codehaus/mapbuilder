@@ -102,13 +102,15 @@ function GetFeatureInfo(toolNode, parentWidget) {
 
 
 
-        s=objRef.targetModel.doc.transformNode(objRef.xsl);
+        urlNode=Sarissa.getDomDocument();
 
-        alert("GetFeatureInfo URL="+s);
+        objRef.targetModel.doc.transformNodeToObject(objRef.xsl,urlNode);
 
-        s = s.replace(new RegExp("&amp;","g"),"&");
+        url=urlNode.documentElement.firstChild.nodeValue;
 
-        window.open(s,'queryWin','height=200,width=300,scrollbars=yes');
+        alert("url="+url);
+
+        window.open(url,'queryWin','height=200,width=300,scrollbars=yes');
 
       }
 

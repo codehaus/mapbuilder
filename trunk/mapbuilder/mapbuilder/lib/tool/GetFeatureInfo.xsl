@@ -9,8 +9,8 @@ $Id$
 $Name$
 -->
 <xsl:stylesheet version="1.0" xmlns:cml="http://www.opengis.net/context" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <xsl:output method="text"/>
-  <xsl:strip-space elements="*"/>
+  <xsl:output method="xml"/>
+  <!--xsl:strip-space elements="*"/-->
 
   <!-- parameters to be passed into the XSL -->
   <!-- The name of the WMS GetFeatureInfo layer -->
@@ -54,6 +54,8 @@ $Name$
     </xsl:variable>
 
     <!-- Print the URL -->
-    <xsl:value-of select="$baseUrl"/><xsl:value-of select="$firstJoin"/>VERSION=<xsl:value-of select="$version"/>&amp;REQUEST=GetFeatureInfo&amp;SRS=<xsl:value-of select="$srs"/>&amp;BBOX=<xsl:value-of select="$bbox"/>&amp;WIDTH=<xsl:value-of select="$width"/>&amp;HEIGHT=<xsl:value-of select="$height"/>&amp;QUERY_LAYERS=<xsl:value-of select="$queryLayer"/>&amp;X=<xsl:value-of select="$xCoord"/>&amp;Y=<xsl:value-of select="$yCoord"/>
+    <url>
+      <xsl:value-of select="$baseUrl"/><xsl:value-of select="$firstJoin"/>VERSION=<xsl:value-of select="$version"/>&amp;REQUEST=GetFeatureInfo&amp;SRS=<xsl:value-of select="$srs"/>&amp;BBOX=<xsl:value-of select="$bbox"/>&amp;WIDTH=<xsl:value-of select="$width"/>&amp;HEIGHT=<xsl:value-of select="$height"/>&amp;QUERY_LAYERS=<xsl:value-of select="$queryLayer"/>&amp;X=<xsl:value-of select="$xCoord"/>&amp;Y=<xsl:value-of select="$yCoord"/>
+    </url>
   </xsl:template>
 </xsl:stylesheet>
