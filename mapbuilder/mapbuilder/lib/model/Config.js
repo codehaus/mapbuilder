@@ -29,7 +29,7 @@ function Config(url) {
 
   //set some global application properties
   this.skinDir = this.doc.selectSingleNode("/MapbuilderConfig/skinDir").firstChild.nodeValue;
-  this.baseDir = this.doc.selectSingleNode("/MapbuilderConfig/baseDir").firstChild.nodeValue;
+  this.baseDir=baseDir+"/";
 
   /**
    * Internal function to load scripts for components that don't have <scriptfile>
