@@ -39,8 +39,10 @@ function AddPoint(toolNode, parentWidget) {
    */
   this.doAction = function(objRef,targetNode) {
     if (objRef.enabled) {
+      point=objRef.targetModel.extent.getXY(targetNode.evpl);
       feature=objRef.targetGml.doc.selectSingleNode(objRef.featureXlink);
-      alert("AddPoint: feature="+feature.firstChild.nodeValue);
+      feature.firstChild.nodeValue=point[0]+","+point[1];
+      objRef.targetGml.setParam("refresh");
     }
   }
 
