@@ -30,6 +30,13 @@ $Name$
     <script type="text/javascript" src="../lib/util/proj/Proj.js"></script>
     <script type="text/javascript" src="../lib/util/proj/lcc.js"></script>
     <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
+
+    <script>
+
+      var config = new Config("configWms3.xml");
+      // Get the CGI parameters.  If context is not defined, then set a default.
+    </script>
+
   </head>
 
   <body>
@@ -89,10 +96,6 @@ $Name$
 
     <!-- Initialise mapbuilder components -->
     <script>
-
-      var config = new Config("configWms3.xml");
-      // Get the CGI parameters.  If context is not defined, then set a default.
-
       cgiArgs=getArgs();
       if (!cgiArgs.context) {
         cgiArgs.context="context/wmc.xml";
@@ -103,7 +106,7 @@ $Name$
       context=new Context(
         cgiArgs.context,
         "context",
-        Config.baseDir,
+        config.baseDir,
         "default");
 
       // Create and render a MapPane
@@ -117,7 +120,7 @@ $Name$
       mapPane.mouseHandler = new GlassPane( mapPane, MODE_ZOOM_IN );
       mapPane.mouseHandler.setCursorTrackForm( document.MapDisplayForm );
       mapPane.mouseHandler.setAOIForm( document.AOIForm );
-      var buttonBar = new ButtonBar( mapPane.mouseHandler, context.skin,document.getElementById("ButtonBar") );
+      var buttonBar = new ButtonBar2( mapPane.mouseHandler, document.getElementById("ButtonBar") );
 
       // Create and render a Legend
       legend=new Legend(
