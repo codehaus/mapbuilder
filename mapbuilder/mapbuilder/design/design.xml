@@ -144,7 +144,7 @@ I think the CMB should also provide logic for community editing of shared data
                 </listitem>
 
                 <listitem>
-                  <para>Extra functionality can be easilly added.</para>
+                  <para>Extra functionality can be easilly added and removed.</para>
                 </listitem>
               </orderedlist>
             </listitem>
@@ -288,9 +288,11 @@ I think the CMB should also provide logic for community editing of shared data
       <section id="mainpage">
         <title>MainPage</title>
 
-        <para>A CMB Client page is quite simple. It includes the required
-        libraries, creates the required components, then calls the
+        <para>A CMB Client page is simple. It includes the required libraries,
+        creates the required components, then calls the
         &#60;component&#62;.paint() method.</para>
+
+        <para>TBD: Note: The following code has chaged a bit.</para>
 
         <example>
           <title>Simple WMS Client using CMB libraries</title>
@@ -333,22 +335,7 @@ I think the CMB should also provide logic for community editing of shared data
         <title>Context</title>
 
         <para>The context object stores geographic state, like Layers,
-        Bounding Box, etc. Context extends the Web Map Context (WMC) as
-        defined by the OGC to include:</para>
-
-        <itemizedlist>
-          <listitem>
-            <para>A Layer Id, required to link to the DHTML layer Id.</para>
-          </listitem>
-
-          <listitem>
-            <para>WFS Queries, required to show WFS Layers.</para>
-          </listitem>
-        </itemizedlist>
-
-        <para>Other components which render Context information need to call
-        context.addXXXListener(). Context will then call these components
-        whenever the XXX state changes.</para>
+        Bounding Box, etc.</para>
 
         <figure>
           <title>Context Component</title>
@@ -359,6 +346,40 @@ I think the CMB should also provide logic for community editing of shared data
             </imageobject>
           </mediaobject>
         </figure>
+
+        <para>In the Model-View-Controller design pattern, Context is the
+        Model. </para>
+
+        <para>Context realises and extends the Web Map Context (WMC)
+        specification as defined by the OGC. Extensions include:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>A Layer Id, required to link to the DHTML layer Id.</para>
+          </listitem>
+
+          <listitem>
+            <para>A selected tag for each layer.</para>
+          </listitem>
+
+          <listitem>
+            <para>Extract of a WFS Query, required to show WFS Layers.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Widgets which render Context information need to call
+        context.add&#60;Param&#62;Listener(). Context will then call these
+        widgets whenever the param changes.</para>
+
+        <para>There are many WMC parameters that the Context needs to update
+        and in a normal compiled language a get/setParam function would be
+        written for each parameter. However this application is written is
+        client side javascript and Context is going to be used in light-weight
+        applications which require minimal image size. Consequently only the
+        commonly used get/setParam functions will be stored in Context.
+        Applications that require detailed access of Context data (like a Web
+        Map Context Builder) will need to call get/setContext() to rebuild and
+        replace the entire WebMapContext data.</para>
       </section>
 
       <section id="tool">
