@@ -33,11 +33,12 @@ function AoiBox2(widgetNode, model) {
     objRef.stylesheet.setParameter("width", objRef.targetModel.getWindowWidth() );
     objRef.stylesheet.setParameter("height", objRef.targetModel.getWindowHeight() );
     bBox=objRef.targetModel.getBoundingBox();
-    objRef.stylesheet.setParameter("bBoxMinX", bBox[0] );
-    objRef.stylesheet.setParameter("bBoxMinY", bBox[1] );
-    objRef.stylesheet.setParameter("bBoxMaxX", bBox[2] );
-    objRef.stylesheet.setParameter("bBoxMaxY", bBox[3] );
-    objRef.stylesheet.setParameter("color", "#00FF00" );
+    objRef.stylesheet.setParameter("bBoxMinX", bBox[0]);
+    objRef.stylesheet.setParameter("bBoxMinY", bBox[1]);
+    objRef.stylesheet.setParameter("bBoxMaxX", bBox[2]);
+    objRef.stylesheet.setParameter("bBoxMaxY", bBox[3]);
+    objRef.stylesheet.setParameter("color", "#FF0000");
+    objRef.stylesheet.setParameter("crossSize", "15");
 
     aoiBox = objRef.model.getParam("aoi");
     gml='<?xml version="1.0" encoding="utf-8" standalone="no"?>';
