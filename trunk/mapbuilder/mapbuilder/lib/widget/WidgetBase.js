@@ -43,9 +43,21 @@ function WidgetBase(widgetNode, model) {
   else styleUrl = baseDir+"/widget/"+widgetNode.nodeName+".xsl";
   this.stylesheet = new XslProcessor(styleUrl);
 
+  //set the target model
+  var targetModel = widgetNode.selectSingleNode("targetModel");
+  if (targetModel) {
+    this.targetModel = eval("config."+targetModel.firstChild.nodeValue);
+    if ( !this.targetModel ) {
+      alert("error finding targetModel:" + targetModel + " for:" + this.id);
+    } 
+  } else {
+    this.targetModel = this.model;
+  }
+
   //all stylesheets will have these properties available
   this.stylesheet.setParameter("modelId", this.model.id );
   this.stylesheet.setParameter("widgetId", this.id );
+  this.stylesheet.setParameter("targetModel", this.targetModel.id );
 
   /**
    * Move this widget to the absolute (left,top) position in the browser.
@@ -72,6 +84,7 @@ function WidgetBase(widgetNode, model) {
    */
   this.paint = function() {
     var s = this.stylesheet.transformNode(this.model.doc);
+//alert(s);
     this.node.innerHTML = s;
     this.callListeners("paint");
   }
@@ -84,7 +97,12 @@ function WidgetBase(widgetNode, model) {
     for (var i=0; i<toolNodes.length; i++ ) {
       var toolNode = toolNodes[i];
       evalStr = "new " + toolNode.nodeName + "(toolNode, this);";
-      this[toolNode.nodeName] = eval( evalStr );
+      var newTool = eval( evalStr );
+      if (newTool) {
+        this[toolNode.nodeName] = newTool;
+      } else {
+        alert("error creating tool:" + toolNode.nodeName);
+      }
     }
   }
 
