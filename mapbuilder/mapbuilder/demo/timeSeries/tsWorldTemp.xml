@@ -9,6 +9,9 @@
     <BoundingBox SRS="EPSG:4326" minx="-180" miny="-90" maxx="180" maxy="90"/>
     <Title>Maximum Temperature from world weather stations</Title>
     <Abstract>Maximum Temperature from world weather stations.</Abstract>
+    <DescriptionURL format="text/html">
+      <OnlineResource xlink:type="simple" xlink:href="http://globe.digitalearth.gov/" />
+    </DescriptionURL>
     <KeywordList>
       <Keyword>Temperature</Keyword>
     </KeywordList>

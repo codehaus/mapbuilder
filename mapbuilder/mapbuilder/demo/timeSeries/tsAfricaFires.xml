@@ -22,14 +22,10 @@
             <Keyword vocabulary="GCMD">EARTH SCIENCE:Human Dimensions:Natural Hazards:Fires</Keyword>
           </KeywordList>
     <LogoURL width="273" height="22" format="image/png">
-      <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" 
-           xlink:type="simple"
-           xlink:href="http://svs.gsfc.nasa.gov/svs_icons/nasalogo.png"/>
+      <OnlineResource xlink:type="simple" xlink:href="http://svs.gsfc.nasa.gov/svs_icons/nasalogo.png"/>
     </LogoURL>
     <DescriptionURL format="text/html">
-        <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" 
-         xlink:type="simple"
-         xlink:href="http://svs.gsfc.nasa.gov/vis/a000000/a002800/a002890/"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://svs.gsfc.nasa.gov/vis/a000000/a002800/a002890/"/>
     </DescriptionURL>
     <ContactInformation>
       <ContactPersonPrimary>
