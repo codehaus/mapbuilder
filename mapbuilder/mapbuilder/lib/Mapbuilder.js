@@ -18,7 +18,6 @@ var baseDir;
  * when they are loaded.
  *
  * @constructor
- * @param configUrl URL of this Mapbuilder configuration file.
  * @author Cameron Shorter
  * @requires Config
  * @requires Listener
@@ -26,10 +25,10 @@ var baseDir;
  * @requires Sarissa
  * @requires Util
  */
-function Mapbuilder(configUrl) {
-  /** Array of scripts that are loading.  Don't continue initialisation until
-   * all scripts have loaded. */
-  this.loadingScripts=new Array();
+function Mapbuilder() {
+  /** Array of objects that are loading.  Don't continue initialisation until
+   * all objects have loaded. */
+  this.loadingObjects=new Array();
 
   /** Timer to periodically check if scripts have loaded. */
   this.scriptsTimer=null;
@@ -41,7 +40,7 @@ function Mapbuilder(configUrl) {
   this.configInit=function(){
     config=new Config(mbConfigUrl);
     config.loadConfigScripts();
-    this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded("config.init()")',1000);
+    this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded("config.init()")',100);
   }
 
   /**
@@ -51,16 +50,13 @@ function Mapbuilder(configUrl) {
    * @parm fn function to call when scripts are loaded.
    */
   this.checkScriptsLoaded=function(fn) {
-    // Scripts that have completed loading are removed from the array
-    // Note: readyState is not defined in Mozilla.
-    while(this.loadingScripts.length>0
-      &&(this.loadingScripts[0].readyState=="complete"
-      ||this.loadingScripts[0].readyState==null))
+    // Objects that have completed loading are removed from the array
+    while(this.loadingObjects.length>0 && this.loadingObjects[0])
     {
-      this.loadingScripts.shift();
+      this.loadingObjects.shift();
     }
-    // Call fn when scripts have loaded.
-    if (this.loadingScripts.length==0){
+    // Call fn when all scripts have loaded.
+    if (this.loadingObjects.length==0){
       clearInterval(this.scriptsTimer);
       this.scriptsTimer=null;
       eval(fn);
@@ -70,8 +66,9 @@ function Mapbuilder(configUrl) {
   /**
    * Dynamically load a script file if it has not already been loaded.
    * @param url The url of the script.
+   * @param object Name of the object being loaded.
    */
-  this.loadScript=function(url){
+  this.loadScript=function(url,object){
     if(!document.getElementById(url)){
       var script = document.createElement('script');
       script.defer = false;   //not sure of effect of this?
@@ -79,7 +76,9 @@ function Mapbuilder(configUrl) {
       script.src = url;
       script.id = url;
       document.getElementsByTagName('head')[0].appendChild(script);
-      this.loadingScripts.push(script);
+      if(object){
+        this.loadingObjects.push(object);
+      }
     }
   }
 
@@ -96,12 +95,12 @@ function Mapbuilder(configUrl) {
     }
   }
 
-  this.loadScript(baseDir+"/util/sarissa/Sarissa.js");
-  this.loadScript(baseDir+"/util/Util.js");
-  this.loadScript(baseDir+"/util/Listener.js");
-  this.loadScript(baseDir+"/model/ModelBase.js");
-  this.loadScript(baseDir+"/model/Config.js");
+  this.loadScript(baseDir+"/util/sarissa/Sarissa.js","Sarissa");
+  this.loadScript(baseDir+"/util/Util.js","Util");
+  this.loadScript(baseDir+"/util/Listener.js","Listener");
+  this.loadScript(baseDir+"/model/ModelBase.js","ModelBase");
+  this.loadScript(baseDir+"/model/Config.js","Config");
 
   // Start a timer which periodically calls checkScriptsLoaded().
-  this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded("this.configInit()")',1000);
+  this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded("this.configInit()")',100);
 }
