@@ -24,7 +24,7 @@ $Name$
 
   <!-- LayerList -->
   <xsl:template match="/wmc:ViewContext/wmc:LayerList">
-    <table border="1" cellpadding="0" cellspacing="0">
+    <table border="0" cellpadding="1" cellspacing="0">
       <xsl:apply-templates/>
     </table>
   </xsl:template>
@@ -50,6 +50,14 @@ $Name$
             onclick="{$context}.setHidden(
               '{wmc:Name}',
               ! document.getElementById('legend_{wmc:Name}').checked)"/>
+        </xsl:if>
+      </td>
+      <td>
+        <xsl:if test="@queryable='1'">
+          <img
+            id="query_{wmc:Name}"
+            title="Click to set {wmc:Title} as the query layer"
+            src="skins/basic/images/eye.gif" />
         </xsl:if>
       </td>
       <td><xsl:value-of select="wmc:Title"/></td>
