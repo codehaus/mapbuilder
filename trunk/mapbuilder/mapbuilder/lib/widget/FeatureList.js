@@ -36,7 +36,7 @@ function FeatureList(widgetNode, model) {
           httpPayload.url=objRef.model.url;
           httpPayload.method="get";
           httpPayload.postData=null;
-          objRef.model.setParam('httpPayload',httpPayload);
+          objRef.model.newRequest(objRef.model,httpPayload);
           break;
         }
       case "Insert Feature":
@@ -47,9 +47,9 @@ function FeatureList(widgetNode, model) {
         objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
         sucess=objRef.targetModel.doc.selectSingleNode("//wfs:TransactionResult/wfs:Status/wfs:SUCCESS");
         if (sucess){
-          // Roll back to default feature if Feature Entry if successful
-          objRef.model.url=null;
-          objRef.model.loadModelDoc(objRef.model);
+          // Remove FeatureList of feature entry was successful.
+          // Note: httpPayload.url=null
+          objRef.model.newRequest(objRef.model,httpPayload);
         }
         break;
       case "Update Feature":
