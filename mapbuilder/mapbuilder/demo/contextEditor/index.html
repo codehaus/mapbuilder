@@ -2,12 +2,12 @@
 <html>
   <head>
     <title>Mapbuilder Context Editor Prototype</title>
-    <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
+    <link rel="stylesheet" href="/mapbuilder/lib/skin/default/html.css" type="text/css">
     <script>
       // URL of Mapbuilder configuration file.
-      var mbConfigUrl='config/contextEditor.xml';
+      var mbConfigUrl='contextEditor.xml';
     </script>
-    <script type="text/javascript" src="../lib/Mapbuilder.js"></script>
+    <script type="text/javascript" src="/mapbuilder/lib/Mapbuilder.js"></script>
   </head>
   <body onload="mbDoLoad()">
     <table style="width:800">
@@ -20,16 +20,13 @@
           <div>
             <div id="locatorMap"/>
           </div>
-            <a
-href="javascript:config.loadModel('myMapCollection','context/demoCollection.xml')">
+            <a href="javascript:config.loadModel('myMapCollection','context/demoCollection.xml')">
             My map collection</a><br/>
-            <a
-href="javascript:config.loadModel('wmsServers','http://geodiscover.cgdi.ca/ceonetWeb/biz?request=searchForService&language=en&levelOfDetail=brief&serviceType=CgdiMapServices&numResultsPerPage=10&page=1')">
+            <a href="javascript:config.loadModel('wmsServers','http://geodiscover.cgdi.ca/ceonetWeb/biz?request=searchForService&language=en&levelOfDetail=brief&serviceType=CgdiMapServices&numResultsPerPage=10&page=1')">
             Browse WMS servers</a><br/>
             <a href="javascript:config.loadModel('wfsServers','http://geodiscover.cgdi.ca/ceonetWeb/biz?request=searchForService&language=en&levelOfDetail=brief&serviceType=CgdiFeatureServices')">
             Browse WFS servers</a><br/>
-            <a
-href="javascript:config.paintWidget(config.models.mainMap.widgets.legend)">
+            <a href="javascript:config.paintWidget(config.objects.legend)">
             Map layer control</a><br/>
         </td>
         <td>
