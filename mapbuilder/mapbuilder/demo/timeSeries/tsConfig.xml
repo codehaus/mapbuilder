@@ -308,31 +308,9 @@
 
     </Reset>
 
-    <Save id="save">
-
-      <buttonBar>mainButtonBar</buttonBar>
-
-      <targetModel>mainMap</targetModel>
-
-      <class>Button</class>
-
-      <disabledSrc>/images/SaveDisable.gif</disabledSrc>
-
-      <tooltip xml:lang="en">click to save this map</tooltip>
-
-      <tooltip xml:lang="fr">cliquer pour sauvegarder</tooltip>
-
-      <popupWindowName>modelXML</popupWindowName>
-
-    </Save>
-
   </widgets>
 
   <skinDir>../../lib/skin/default</skinDir>
-
-  <proxyUrl>../../proxy</proxyUrl>
-
-  <serializeUrl>../../writeXml</serializeUrl>
 
 
 
