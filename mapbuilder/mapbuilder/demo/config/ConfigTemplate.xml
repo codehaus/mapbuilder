@@ -58,6 +58,7 @@
             <CursorTrack>
               <scriptFile>widget/tool/CursorTrack.js</scriptFile>
               <scriptFile>model/Proj.js</scriptFile>
+              <formName>MapDisplayForm</formName>
             </CursorTrack>
           </tools> 
         </MapPane>
