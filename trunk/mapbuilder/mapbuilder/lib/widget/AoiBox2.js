@@ -7,7 +7,7 @@ $Id$
 */
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
-mapbuilder.loadScript(baseDir+"/util/wz_jsgraphics/wz_jsgraphics.js");
+mapbuilder.loadScript(baseDir+"/widget/GmlRenderer.js");
 
 /**
  * Render an Area Of Interest (AOI) Box over a map.
@@ -16,58 +16,54 @@ mapbuilder.loadScript(baseDir+"/util/wz_jsgraphics/wz_jsgraphics.js");
  * @param model       The model object that this widget belongs to.
  */
 function AoiBox2(widgetNode, model) {
-  // Inherit the WidgetBase functions and parameters
-  var base = new WidgetBase(widgetNode, model,"absolute");
+  // Inherit the GmlRenderer and WidgetBase functions and parameters
+  var base = new GmlRenderer(widgetNode, model);
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 
   } 
-  this.lineWidth = widgetNode.selectSingleNode("mb:lineWidth").firstChild.nodeValue;
-  this.lineColor = widgetNode.selectSingleNode("mb:lineColor").firstChild.nodeValue;
-  this.crossSize = widgetNode.selectSingleNode("mb:crossSize").firstChild.nodeValue;
 
-  this.node.style.position="absolute";
-  this.node.visibility="hidden";
-
-  /** WZ Graphics object and rendering functions. */
-  this.jg=new jsGraphics(this.node.id);
-  this.jg.setColor(this.lineColor);
-  this.jg.setColor("#00FF00");
-  //TBD: The following causes lines to be drawn incorrectly in Mozilla 1.71
-  //this.jg.setStroke(this.lineWidth);
+  /** Use the GmlRenderer stylesheet. */
+  this.stylesheet=new XslProcessor(baseDir+"/widget/GmlRenderer.xsl");
 
   /**
-   * Render the widget.
-   * If the box width or height is less than the cross size, then draw a cross,
-   * otherwise draw a box.
+   * Build Gml Envelope from AOI and set XSL params.
    * @param objRef Pointer to this object.
    */
-  this.paint = function(objRef) {
-    aoiBox = this.model.getParam("aoi");
+  this.prePaint = function(objRef) {
+    objRef.stylesheet.setParameter("width", objRef.targetModel.getWindowWidth() );
+    objRef.stylesheet.setParameter("height", objRef.targetModel.getWindowHeight() );
+    bBox=objRef.targetModel.getBoundingBox();
+    objRef.stylesheet.setParameter("bBoxMinX", bBox[0] );
+    objRef.stylesheet.setParameter("bBoxMinY", bBox[1] );
+    objRef.stylesheet.setParameter("bBoxMaxX", bBox[2] );
+    objRef.stylesheet.setParameter("bBoxMaxY", bBox[3] );
+    objRef.stylesheet.setParameter("color", "#00FF00" );
+
+    aoiBox = objRef.model.getParam("aoi");
+    gml='<?xml version="1.0" encoding="utf-8" standalone="no"?>';
     if (aoiBox) {
-      ul = this.model.extent.GetPL(aoiBox[0]);
-      lr = this.model.extent.GetPL(aoiBox[1]);
-      width= lr[0]-ul[0];
-      height= lr[1]-ul[1];
-
-      objRef.jg.clear();
-
-      //check if ul=lr, then draw cross, else drawbox
-      if ((width < this.crossSize) && (height < this.crossSize) ) {
-        // draw cross
-        x=(lr[0]+ul[0])/2;
-        y=(lr[1]+ul[1])/2;
-        c=objRef.crossSize/2;
-        objRef.jg.drawLine(x+c,y,x-c,y);
-        objRef.jg.drawLine(x,y+c,x,y-c);
-      } else {
-        // draw box
-        //TBD the following line seems to disable the mouseup event in Mozilla
-        //objRef.jg.drawRect(ul[0],ul[1],width,height);
-      }
-      objRef.jg.paint();
+      ul = objRef.model.extent.GetPL(aoiBox[0]);
+      lr = objRef.model.extent.GetPL(aoiBox[1]);
+      gml=gml+'<Aoi version="1.0.0" xmlns:gml="http://www.opengis.net/gml">';
+      gml=gml+'<gml:Envelope>';
+      gml=gml+'<gml:coord>';
+      gml=gml+'<gml:X>'+aoiBox[0][0]+'</gml:X>';
+      gml=gml+'<gml:Y>'+aoiBox[0][1]+'</gml:Y>';
+      gml=gml+'</gml:coord>';
+      gml=gml+'<gml:coord>';
+      gml=gml+'<gml:X>'+aoiBox[1][0]+'</gml:X>';
+      gml=gml+'<gml:Y>'+aoiBox[1][1]+'</gml:Y>';
+      gml=gml+'</gml:coord>';
+      gml=gml+'</gml:Envelope>';
+      gml=gml+'</Aoi>';
+    } else {
+      gml=gml+"<null/>";
     }
+
+    objRef.resultDoc = Sarissa.getDomDocument();
+    objRef.resultDoc.loadXML(gml);
   }
- 
+
   /**
    * Called when the AoiChanged.
    * @param objRef This object.
@@ -75,7 +71,5 @@ function AoiBox2(widgetNode, model) {
   this.aoiListener = function(objRef) {
     objRef.paint(objRef);
   }
-  this.model.addListener("aoi",this.aoiListener, this);
-
   model.addListener("aoi",this.aoiListener, this);
 }
