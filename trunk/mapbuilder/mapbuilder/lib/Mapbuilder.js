@@ -3,6 +3,12 @@ License: GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
+/** URL of this Mapbuilder configuration file. */
+var mbConfigUrl;
+
+/** URL of Mapbuilder's lib/ directory. */
+var baseDir;
+
 /**
  * This Object bootstraps the Mapbuilder libraries by loading the core
  * script files.
@@ -12,6 +18,8 @@ $Id$
  * when they are loaded.
  *
  * @constructor
+ * @param baseDirectory URL of Mapbuilder's lib/ directory.
+ * @param configUrl URL of this Mapbuilder configuration file.
  * @author Cameron Shorter
  * @requires Config
  * @requires Listener
@@ -19,7 +27,11 @@ $Id$
  * @requires Sarissa
  * @requires Util
  */
-function Mapbuilder() {
+function Mapbuilder(configUrl,baseDirectory) {
+  // Set global variables
+  mbConfigUrl=configUrl;
+  baseDir=baseDirectory;
+
   loadScript(baseDir+"/util/sarissa/Sarissa.js");
   loadScript(baseDir+"/util/Util.js");
   loadScript(baseDir+"/util/Listener.js");

@@ -15,32 +15,18 @@ $Name$
   <head>
     <title>configuration version test page</title>
 
-    <!-- Include mapbuilder libraries -->
-    <!-- 
-    I think we should simply this further and merge code from these files
-    into MapBuilder.js so we can just say:
-    <script type="text/javascript" src="../lib/MapBuilder.js"></script>
-    This file would also include the Config object constructor.
-    Util needs clean up as well.
-    Keep Sarissa separate?
-    Mike 27 Mar 2004
-    -->
     <script type="text/javascript" src="../lib/Mapbuilder.js"></script>
 
     <!-- TBD: I think this can be moved into the Mapbuilder Bootstrap. -->
     <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
 
     <script>
-      // URL of Mapbuilder Config file
-      mbConfigUrl="config/CompleteConfig.xml";
-
-      // URL of mapbuilder's lib directory
-      // TBD: Can we derive this from the Mapbuilder.js URL?
-      baseDir="/mapbuilder/lib";
-
       //initialize the application
       //this must be called in the page's HEAD element
-      Mapbuilder();
+      //Mapbuilder(config,baseDir);
+      //  config=URL of Mapbuilder configuration file.
+      //  baseDir=URL of Mapbuilder lib/ directory.
+      Mapbuilder("config/CompleteConfig.xml","../lib");
     </script>
   </head>
 
