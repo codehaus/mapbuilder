@@ -1,0 +1,324 @@
+<html>
+<head>
+	<title>title inserted in init()</title>
+
+	<!-- get global setup parameters -->
+	<script language="JavaScript" type="text/javascript" src="scripts/mapvars.js"></script>
+	<!-- drawing library -->
+	<script language="JavaScript" src="scripts/wz_jsgraphics.js"></script>
+	
+	<script language="JavaScript1.2" type="text/javascript">
+	
+		var isDOM = false;
+		var isIE = false;
+		var isNS4 = false;
+		var minx=defminx;
+		var maxx=defmaxx;
+		var miny=defminy;
+		var maxy=defmaxy;
+		var layerArray=layers.split(",");
+		var imagereq="&FORMAT=" + imageformat;
+		var versionreq="&VERSION=" + wmsversion;
+		var srsreq="&SRS=" + wmssrs;
+		var imgsizereq="&WIDTH=" + defimgwidth + "&HEIGHT=" + defimgheight;
+		var getmapreq = "";
+		var xminimg = 0;
+		var xmaximg = 0;
+		var yminimg = 0;
+		var ymaximg = 0;
+	
+	function init() {
+		if ( document.getElementById ) isDOM = true;
+		if ( document.all ) isIE = true;
+		if ( document.layers ) isNS4 = true;
+		document.title = cmbtitle;
+
+		// listen for mouse click events on the map
+		if (isIE) document.attachEvent("onclick", eventGetFeatureInfo);
+		else document.addEventListener("click", eventGetFeatureInfo, false);
+		
+		// get the page coordinates of the map image
+		xminimg = getAbsX(document.mapImage);
+		yminimg = getAbsY(document.mapImage);
+		xmaximg = xminimg + document.mapImage.width;  
+		ymaximg = yminimg + document.mapImage.height;  
+
+		getMap();
+	}
+	
+	// e is the event
+	function eventGetFeatureInfo(e) {
+		x = 0; y = 0;
+		
+		if (isIE) {
+			x = e.x;
+			y = e.y;
+		} else {
+			x = parseInt(e.pageX);
+			y = parseInt(e.pageY);
+		}
+		if ( !inMapImage(x,y) ) return;
+
+		x -= xminimg;
+		y -= yminimg;
+
+		// image pixel coordinates
+		locreq = "&X=" + x + "&Y=" + y;
+
+		// build bbox string
+		bboxreq = "&bbox="+minx+","+miny+","+maxx+","+maxy;
+		
+		// query layers
+		queryreq = "&QUERY_LAYERS=route";
+		
+		// maximum number of features to return
+		numfeaturesreq = "&FEATURE_COUNT=5";
+		
+		// data format of response
+		infofmtreq = "&INFO_FORMAT=text/html";
+		
+		// data format for errors
+		errreq ="&EXCEPTIONS=text/html";
+		req = wmsfeaureinfourl + "REQUEST=GetFeatureInfo";
+		req += locreq + bboxreq + queryreq + numfeaturesreq + imgsizereq + infofmtreq + versionreq + errreq;
+
+		// add some wiggle room by making this a bounding box query
+		wiggle = 2;
+		findminx = x - wiggle;
+		findmaxx = x + wiggle;
+		findminy = y + wiggle;
+		findmaxy = y - wiggle;
+		
+		geofindminx = projectX(findminx, 0, document.mapImage.width, minx, maxx);
+		geofindmaxx = projectX(findmaxx, 0, document.mapImage.width, minx, maxx);
+		geofindminy = projectY(findminy, 0, document.mapImage.height, miny, maxy);
+		geofindmaxy = projectY(findmaxy, 0, document.mapImage.height, miny, maxy);
+		
+		features = "scrollbars=yes,width=500,height=400";
+		hwin = window.open(req,"event",features);
+		hwin.focus();
+	}
+	
+	function getMap() {
+		//  build style string
+		numLayers = layerArray.length;
+		styles = "";
+		for (i=0; i<numLayers; i++) 
+			styles +=  ",";
+	
+		// build layers/styles string
+		layerreq = "&LAYERS=" + layers + "&STYLES=" + styles;
+			
+		// build bbox string
+		bboxreq = "&bbox="+minx+","+miny+","+maxx+","+maxy;
+		
+		getmapreq = wmsurl + "REQUEST=GetMap" + bboxreq + layerreq + imgsizereq + versionreq;
+	
+		document.mapImage.src = getmapreq;
+		draw();
+	}
+	
+	// directions: 0=north 2=northeast 3=east 4=southeast 5=south 6=southwest 7=west 8=northwest //
+	function pan(direction) {
+		// do we need to check for cross-equator conditions here???
+		dy = panpercent * (maxy - miny);
+		dx = panpercent * (maxx - minx);
+	
+		switch (direction) {
+			case "north":
+				miny += dy; maxy += dy;
+				break;
+			case "south":
+				miny -= dy; maxy -= dy;
+				break;
+			case "east":
+				minx += dx; maxx += dx;
+				break;
+			case "west":
+				minx -= dx; maxx -= dx;
+				break;
+			case "northeast":
+				miny += dy; maxy += dy; minx += dx; maxx += dx;
+				break;
+			case "northwest":
+				miny += dy; maxy += dy; minx -= dx; maxx -= dx;
+				break;
+			case "southeast":
+				miny -= dy; maxy -= dy; minx += dx; maxx += dx;
+				break;
+			case "southwest":
+				miny -= dy; maxy -= dy; minx -= dx; maxx -= dx;
+				break;
+		}
+		
+		getMap();
+	}
+	
+	// zoom in and out
+	// z should be from 1 to the number of elements in zoompercents--inclusive
+	function zoom(z) {
+		if ( z>0 ) {
+			// zoom out
+			zoomval = zoompercents[z-1];
+			dx = zoomval * (maxx - minx);
+			dy = zoomval * (maxy - miny);
+			maxx += dx;
+			minx -= dx;
+			maxy += dy;
+			miny -= dy;
+		} else {
+			// zoom in
+			zoomval = zoompercents[(z*-1)-1];
+			dx = zoomval * (maxx - minx);
+			dy = zoomval * (maxy - miny);
+			maxx -= dx;
+			minx += dx;
+			maxy -= dy;
+			miny += dy;
+		}
+		
+		getMap();
+	}
+	
+	// display UI for adding events
+	function update() {
+		// build bbox string
+		bboxreq = "bbox="+minx+","+miny+","+maxx+","+maxy;
+		window.location.href="event.html?" + escape(bboxreq);
+	}
+	
+	function inMapImage(l,t) {
+		if ((l >= xminimg && l <= xmaximg) && (t >= yminimg && t<= ymaximg)) { // is the click in there?  
+			return true;
+		} 
+		return false;
+	}
+	
+</script>
+	
+	<!-- use a style sheet for formatting text -->
+	<link href="normal.css" rel="stylesheet" type="text/css">
+</head>
+
+<body onLoad="init()">
+
+<script language="Javascript" type="text/javascript">
+	document.writeln("<h2>" + cmbtitle + "</h2>");
+</script>
+
+<table width="466" border="0" cellpadding="0" cellspacing="0" bordercolor="#000000" bgcolor="#000000">
+	<!--DWLayoutTable-->
+	<tr> 
+		<td bordercolor="#000000">
+			<img src="icons/upleftarrow.gif" onClick="pan('northwest')" width="20" height="20">
+		</td>
+    <td align="center" bordercolor="#000000">
+			<img src="icons/uparrow.gif" onClick="pan('north')" width="20" height="20">
+		</td>
+    <td bordercolor="#000000">
+			<img src="icons/uprightarrow.gif" onClick="pan('northeast')" width="20" height="20">
+		</td>
+    <td align="center" valign="top" bordercolor="#000000"><!--DWLayoutEmptyCell-->&nbsp;</td>
+  </tr>
+	<tr>
+		<td rowspan="2" bordercolor="#000000">
+			<img src="icons/leftarrow.gif" onClick="pan('west')" width="20" height="20" border="0">
+		</td>
+    <td rowspan="2" align="center" bordercolor="#666666"> 
+      <img src="" name="mapImage" width="450" height="350" border="0" onclick="eventGetFeatureInfo">
+			<!--<img src="" name="map" id="map" width="450" height="350" border="0">-->
+		</td>
+    <td rowspan="2" bordercolor="#000000">
+			<img src="icons/rightarrow.gif" onClick="pan('east')" width="20" height="20">
+		</td>
+    <td align="center" valign="top" bordercolor="#000000">
+      <p><img src="icons/zoomout3a.gif" width="38" height="14" onClick="zoom('3')"><br>
+			<img src="icons/zoomout2a.gif" width="29" height="14" onClick="zoom('2')"><br>
+			<img src="icons/zoomout1.gif" width="19" height="14" onClick="zoom('1')"><br>
+			<img src="icons/zoom.gif" width="60" height="20"><br>
+			<img src="icons/zoomin1.gif" width="19" height="14" onClick="zoom('-1')"><br>
+			<img src="icons/zoomin2a.gif" width="29" height="14" onClick="zoom('-2')"><br>
+			<img src="icons/zoomin3a.gif" width="38" height="14" onClick="zoom('-3')"></p>
+      <p>&nbsp;</p>
+      <div id="overviewMap"></div>
+      <img src="icons/overview75x58.png" name="ovMap" width="75" height="58" hspace="6"><p></p>
+      </td>
+  </tr>
+  <tr>
+    <td align="center" valign="bottom" bordercolor="#000000">Click on a blue route to see more about the event or...<br>
+      <img src="icons/addtrip.gif" width="50" height="50" border="2" onClick="update()"></td>
+  </tr>
+	<tr> 
+		<td bordercolor="#000000">
+			<img src="icons/downleftarrow.gif" onClick="pan('southwest')" width="20" height="20">
+		</td>
+    <td align="center" bordercolor="#000000">
+			<img src="icons/downarrow.gif" onClick="pan('south')" width="20" height="20">
+		</td>
+    <td bordercolor="#000000">
+			<img src="icons/downrightarrow.gif" onClick="pan('southeast')" width="20" height="20">
+		</td>
+    <td align="center" valign="top" bordercolor="#000000"><!--DWLayoutEmptyCell-->&nbsp;</td>
+  </tr>
+  <tr>
+    <td bordercolor="#000000"><!--DWLayoutEmptyCell-->&nbsp;</td>
+    <td align="left" valign="top">
+			<font color="#FFFFFF" size=-2 face="arial,helvetica">
+				Powered by: Community Map Builder<br>
+Tested with these  browsers: Mozilla 1.4,  IE 6.0.</font></td>
+    <td bordercolor="#000000"><br>
+      </td>
+    <td align="center" valign="top" bordercolor="#000000"><!--DWLayoutEmptyCell-->&nbsp;</td>
+  </tr>
+</table>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+	// the drawing code has to be after the object to draw on, 
+	// in this case the overviewMap <div> object
+
+		// get the page coordinates of the map image
+		var ovxminimg = getAbsX(document.ovMap);
+		var ovyminimg = getAbsY(document.ovMap);
+		var ovxmaximg = ovxminimg + document.ovMap.width;  
+		var ovymaximg = ovyminimg + document.ovMap.height;  
+
+		var jg = new jsGraphics("overviewMap");
+		jg.setColor("red"); //("#ffff00");
+
+  function draw() {
+		ovx = parseInt( projectX(minx, ovminx, ovmaxx, ovxminimg, ovxmaximg) );
+		ovy = parseInt( projectY(maxy, ovminy, ovmaxy, ovyminimg, ovymaximg) );
+		ovwidth = parseInt( projectX(maxx, ovminx, ovmaxx, ovxminimg, ovxmaximg) - ovx );
+		ovheight = parseInt( projectY(miny, ovminy, ovmaxy, ovyminimg, ovymaximg) - ovy );
+		
+		jg.clear();
+		jg.drawRect(ovx, ovy, ovwidth, ovheight);
+		jg.paint();
+		//window.status = "img coords: "+ovx+", "+ovy+", "+ovwidth+", "+ovheight;
+  }
+	
+	// get the true offset of anything on NS4, IE4/5 & NS6, even if it's in a table!
+	// the 9 and 2 are hacks that only work with this HTML
+	function getAbsX(elt) {
+		return (elt.x) ? elt.x : getAbsPos(elt,"Left") + 2;
+	}
+	function getAbsY(elt) {
+		return (elt.y) ? elt.y : getAbsPos(elt,"Top") + 2;
+	}
+	function getAbsPos(elt,which) {
+	 iPos = 0;
+	 while (elt != null) {
+		iPos += elt["offset" + which];
+		elt = elt.offsetParent;
+	 }
+	 return iPos;
+	}
+
+-->
+</script>
+
+<p>&nbsp;</p>
+</body>
+</html>
+
