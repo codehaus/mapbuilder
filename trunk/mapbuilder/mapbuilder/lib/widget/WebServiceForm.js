@@ -24,7 +24,6 @@ function WebServiceForm(widgetNode, model) {
    * Handles submission of the form (via javascript in an <a> tag)
    */
   this.submitForm = function() {
-    alert("submitForm");
 
     //create the http GET URL
     //TBD: handle POST submission
@@ -34,7 +33,7 @@ function WebServiceForm(widgetNode, model) {
       var element = this.webServiceForm.elements[i];
       webServiceUrl += element.name + "=" + element.value + "&";
     }
-    alert(webServiceUrl);
+    if (this.debug) alert(webServiceUrl);
     config.loadModel( this.targetModel.id, webServiceUrl);
   }
 
