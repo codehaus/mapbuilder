@@ -139,6 +139,7 @@ $Id$
   <property name="foo.jar"  value="$/lib/foo.jar"/>
 -->
   <property name="httpClient.jar"  value="${context.home}/lib/commons-httpclient-2.0.1.jar"/>
+  <property name="log4j.jar"  value="${context.home}/lib/log4j-1.2.8.jar"/>
 
 
 <!-- ==================== Prepare Target ================================== -->
@@ -184,6 +185,8 @@ $Id$
     <copy todir="${build.home}/WEB-INF/lib" file="${foo.jar}"/>
 -->
     <copy todir="${build.home}/WEB-INF/lib" file="${httpClient.jar}"/>
+    <copy todir="${build.home}/WEB-INF/lib" file="${log4j.jar}"/>
+    
   </target>
 
 
@@ -247,7 +250,7 @@ $Id$
     </zip>
 
     <!-- Create application WAR file -->
-    <jar jarfile="${basedir}/${app.name}-${app.version}.war"
+    <jar jarfile="${basedir}/${app.name}.war"
          basedir="${build.home}"/>
 
   </target>
@@ -327,6 +330,7 @@ $Id$
     <pathelement location="${foo.jar}"/>
 -->
     <pathelement location="${httpClient.jar}"/>
+    <pathelement location="${log4j.jar}"/>
 
     <!-- Include all elements that Tomcat exposes to applications -->
     <pathelement location="${catalina.home}/common/classes"/>
