@@ -14,7 +14,7 @@
     All static images should be relative to this URL.
     This dir is relative the dir of the main html file.
   -->
-  <skinDir>../lib/skin/default</skinDir>
+  <skinDir>/mapbuilder/lib/skin/default</skinDir>
   <proxyUrl>/ql2/proxy?url=</proxyUrl>
 
   <models>
@@ -90,6 +90,15 @@
       </widgets>
     </ModelBase>
     
+		<ModelBase id="locations">
+			<defaultModelUrl>locations/Global.xml</defaultModelUrl>
+			<widgets>
+				<Locations id="locationsSelect">
+					<targetModel>mainMap</targetModel>
+					<stylesheet>/mapbuilder/lib/widget/Locations.xsl</stylesheet>
+				</Locations>
+			</widgets>
+		</ModelBase>
   </models>
 
   <widgets>
