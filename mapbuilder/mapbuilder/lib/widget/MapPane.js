@@ -10,13 +10,14 @@ loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
  * Tools to build a MapPane from a Web Map Context.
- * This widget extends WidgetBase.
+ * This widget extends WidgetBase and Listener.
  * @constructor
  * @param widgetNode The Widget's XML object node from the configuration
  *   document.
  * @param group The ModelGroup XML object from the configuration
  *   document that this widget will update.
  * @requires Context
+ * @requires Listener
  * @requires Sarissa
  * @requires Util
  * @requires WidgetBase
