@@ -36,7 +36,7 @@ $Id$
 
     <DIV>
 
-      <xsl:apply-templates select="modelGroups/Model/widgets/ButtonBar/tools"/>
+      <xsl:apply-templates select="models/Context/widgets/ButtonBar/tools"/>
 
     </DIV>
 

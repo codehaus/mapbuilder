@@ -16,42 +16,17 @@ $Id$
  */
 function Config(url) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(url);
+  var modelBase = new ModelBase();
   for (sProperty in modelBase) { 
     this[sProperty] = modelBase[sProperty]; 
   }
 
+  this.loadModelDoc(url);
 
   //set some global application properties
   this.skinDir = this.doc.selectSingleNode("/MapbuilderConfig/skinDir").firstChild.nodeValue;
   this.baseDir = this.doc.selectSingleNode("/MapbuilderConfig/baseDir").firstChild.nodeValue;
 
-  //a global array of the models loaded
-  this.modelArray = new Array();
-
-  /**
-   * Internal function to load scripts for components that don't have <scriptfile>
-   * specified in the config file.
-   * @param xPath Xpath match of components from the Config file.
-   * @param dir The directory the script is located in.
-   */
-  this.loadScriptFiles=function(xPath,dir) {
-    var nodes = this.doc.selectNodes(xPath);
-    for (var i=0; i<nodes.length; i++) {
-      if (nodes[i].selectSingleNode("scriptFile")==null){
-        scriptFile = this.baseDir + dir + nodes[i].nodeName+".js";
-        loadScript( scriptFile );
-      }
-    }
-  }
-
-  // Load script files for all components that don't have <scriptfile> specified
-  // in the config file.
-  this.loadScriptFiles("//widgets/*","/widget/");
-  //this.loadScriptFiles("//models/*","/model/");
-  //this.loadScriptFiles("//tools/*","/tool/");
-
-  //TBD: Deprecate the following block and move into loadScriptFiles instead.
   //load all scriptfiles called for in the config file.  There seems to be a 
   //problem if this is done anywhere except in the page <HEAD> element.
   var scriptFileNodes = this.doc.selectNodes("//scriptFile");
@@ -74,84 +49,35 @@ function Config(url) {
   * global config object from the mapbuilder configuration XML file.
   */
   this.init = function() {
-    var modelGroups = this.doc.selectNodes( "/MapbuilderConfig/modelGroups/*" );
-    for (var i=0; i<modelGroups.length; i++ ) {
-      var group = new Object();
-      group.modelNode = modelGroups[i];
-      group.id = group.modelNode.attributes.getNamedItem("id").nodeValue;
-      group.modelType = group.modelNode.selectSingleNode("modelType").firstChild.nodeValue;
+    var cgiArgs = getArgs();
 
-      // Get the CGI parameters.  If context is not defined, then set a default.
-      group.initialModel = null;
-      cgiArgs=getArgs();
-      if (group.modelType=="Context" && cgiArgs.context) {  //TBD: need a better way to do this comparison
-        group.initialModel = cgiArgs.context;
+    var models = this.doc.selectNodes( "/MapbuilderConfig/models/*" );
+    for (var i=0; i<models.length; i++ ) {
+      modelNode = models[i];
+
+      var modelType = modelNode.nodeName;
+      var evalStr = "new " + modelType + "(modelNode, this);";
+      alert("init model:" + evalStr);
+      var model = eval( evalStr );
+
+      this[model.id] = model;
+
+      var initialModel = null;
+      if (cgiArgs[modelType]) {  //TBD: need a better way to do this comparison
+        initialModel = cgiArgs[modelType];
       } else {
-        group.initialModel = group.modelNode.selectSingleNode("defaultModelUrl");
-        if ( group.initialModel ) group.initialModel = group.initialModel.firstChild.nodeValue;
+        initialModel = modelNode.selectSingleNode("defaultModelUrl").firstChild.nodeValue;
       }
-
-      /** Functions to call when the a model is loaded*/
-      group.modelListeners = new Array();
-      /**
-       * Add a Listener for loadModel event.
-       * @param listener The function to call when the model is loaded.
-       * @param target The object which owns the listener function.
-       */
-      group.addModelListener = function(listener,target) {
-        this.modelListeners[this.modelListeners.length] = new Array(listener,target);
-      }
-
-
-      this[group.id] = group;
-      this.loadModel( group.id, group.initialModel );
+      this.loadModel( model.id, initialModel );
     }
   }
 
-
-  /**
-  * @function loadModel
-  *
-  * Loads a model group with a new instance of a model.  The model object is 
-  * created from the URL passed in as a param and all the widgets in this model 
-  * group are repainted.  This method can be called at any time.
-  * TBD: handle the case of loading an already loaded model from the model array?
-  *
-  * @param groupId   the id of the model group element from the application config file
-  * @param modelUrl  the URL of the model to load
-  */
-  this.loadModel = function(groupId, modelUrl) {
-    var group = this[groupId];
-    if ( modelUrl ) {
-      var evalStr = "new " + group.modelType + "('" + modelUrl + "');";
-      //alert("group.loadModel eval:" + evalStr);
-      group.model = eval( evalStr );
-      //send out an update event?
-    } else {
-      if (group.model==null) alert("null model attempting to load widget: " + groupId );
-    }
-    group.model.modelIndex = config.modelArray.push( group.model ) - 1;  //or replace if it exists?
-
-    var widgets = group.modelNode.selectNodes("widgets/*");
-    for (var j=0; j<widgets.length; j++) {
-      var widgetNode = widgets[j];
-
-      //call the widget constructor and paint
-      var evalStr = "new " + widgetNode.nodeName + "(widgetNode, group);";
-      //alert("Config.loadWidgets eval:" + evalStr);
-      var widget = eval( evalStr );
-      widget.modelType = group.modelType;
-
-      widget.loadTools();
-      widget.paint();
-      //this has to be called after widgets are painted
-      //I'd like to get rid of this, they should be handled as paintListeners
-      widget.addListeners();
-      group[widgetNode.nodeName] = widget;
-
-      for (var i=0; i<group.modelListeners.length; i++) {
-        group.modelListeners[i][0]( group.modelListeners[i][1] );
-      }
-    }
+  // this is split off as a separate function so that it can be called anytime
+  this.loadModel = function( modelId, modelUrl ) {
+    var model = this[modelId];
+    model.loadModelDoc( modelUrl );
+    model.loadWidgets();
+    this.callListeners("loadModel");
   }
 }
+

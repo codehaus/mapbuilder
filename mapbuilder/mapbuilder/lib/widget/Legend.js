@@ -17,11 +17,13 @@ $Id$
  * @param node Node from the HTML DOM to insert legend HTML into.
  * @see WidgetBase
  */
-function Legend(widgetNode, group) {
-  var base = new WidgetBase(widgetNode, group);
+function Legend(widgetNode, model) {
+  var base = new WidgetBase(widgetNode, model);
   for (sProperty in base) { 
     this[sProperty] = base[sProperty]; 
   } 
+
+  this.stylesheet.setParameter("modelId", model.id );
 
   /**
    * Called when the context's hidden attribute changes.

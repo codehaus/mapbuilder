@@ -32,9 +32,9 @@ $Name$
 
   <!-- The name of the javascript context object to call -->
 
-  <xsl:param name="modelIndex"/>
+  <xsl:param name="modelId"/>
 
-  <xsl:param name="context">config.modelArray[<xsl:value-of select="$modelIndex"/>]</xsl:param>
+  <xsl:param name="context">config['<xsl:value-of select="$modelId"/>']</xsl:param>
 
 
 

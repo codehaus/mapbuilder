@@ -16,17 +16,18 @@ $Id$
 function ZoomToAoi(toolNode, parentWidget) {
   this.parentWidget = parentWidget;
   this.model = parentWidget.model;
-
+  this.model.extent = new Extent( parentWidget.model );
 
   var targetModelGroup = toolNode.selectSingleNode("targetModelGroup");
   if ( targetModelGroup ) {
     this.targetModelGroup = targetModelGroup.firstChild.nodeValue;
     this.init = function( tool ) {
-      tool.targetModel = config[tool.targetModelGroup].model;
+      tool.targetModel = config[tool.targetModelGroup];
       tool.targetModel.proj = new Proj( tool.targetModel.getSRS() );
+      tool.targetModel.extent = new Extent( tool.targetModel );
     }
     this.init(this);
-    config[this.targetModelGroup].addModelListener( this.init, this );
+    config.addListener( "loadModel", this.init, this );
   } else {
     this.targetModel = tool.model;
   }
