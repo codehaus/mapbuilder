@@ -25,9 +25,34 @@ The schema for the configuration file has changed since last release
 which means configuration files from release 0.1 will not work with 0.2.
 Minor changes to the schema are expected for the next release.
 
-Outstanding Issues:
--------------------
-TBD:
+Outstanding Issues (highest priority fist):
+-------------------------------------------
+1064707	GmlRender image does not move during a ZoomPan
+962714	Slow load with no user feedback
+1069050	Limit multiple paint requests
+1119953	Feature Entry should use WebServiceRequest.js
+1104715	MapPane doesn't refresh after a new feature is submitted
+1164770	links in mapbuilder/index.html broker
+1162293	Default load WMC doc is invalid
+1157443	Give visual marker to current active layer in legend
+1118377	Geoserver to be packaged with suitable layers for mapbuilder
+995127	Error during loading process on IE 6 on Windows XP
+967937	aspect ratio on startup
+967933	layer list ordering
+973651	add more img attributes
+1116660	Remove TransactionStatus widget when EditFeature selected
+1115672	User should be able to deselect EditFeature buttons
+1065426	Create AoiBox widget which is not dependant on wz_jsgraphics
+1118614	IE - handle disabled ActiveX objects
+967806	CursorTrack.xsl units label display
+1157444	Remove the title attribute from map images
+1153752	demo/index.html should explain need for Tomcat installation
+968519	query icon
+1013754	Coord string does not handle space char inside tuple
+1162133	Add GPL header to all source files.
+1102212	EditTools don't contain French tooltip
+1103047	XSL files not using CR/LF properly and are all on one line
+1071242	Move util.js into JS objects
 
 mapbuilder-lib-0.1 (beta quality)
 =================================
