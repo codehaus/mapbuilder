@@ -17,15 +17,15 @@ function Config(url) {
   this.doc.load(url);
 
   //set some properties
-  this.baseDir = this.doc.simpleValue("/MapbuilderConfig/baseDir");
-  this.skinDir = this.doc.simpleValue("/MapbuilderConfig/skinDir");
+  this.baseDir = this.doc.selectSingleNode("/MapbuilderConfig/baseDir").firstChild.nodeValue;
+  this.skinDir = this.doc.selectSingleNode("/MapbuilderConfig/skinDir").firstChild.nodeValue;
 
   //load in required script files
   var scriptIncludes = this.doc.selectNodes("//scriptFile");
   for (var i=0; i<scriptIncludes.length; i++ ) {
     var node = scriptIncludes[i];
     var scriptFile = this.baseDir + node.firstChild.nodeValue;
-    //alert("loading script file:" + scriptFile);
+    alert("loading script file:" + scriptFile);
     loadScript( scriptFile );
   }
 

@@ -312,11 +312,11 @@ function loadScript (url) {
 
 
 
+if (_SARISSA_IS_MOZ ) {
+
 /** 
- * Extends the Document class to emulate IE's transformNodeToObject
- * @uses Mozilla's XSLTProcessor
- * @argument xslDoc The stylesheet to use (a DOM Document instance)
- * @argument oResult The Document to store the transformation result
+ * Extends the node class to provide simple node value lookup
+ * @argument nodeXpath  xpath of the node 
  */
 Node.prototype.simpleValue = function(nodeXpath)
 {
@@ -331,3 +331,5 @@ Node.prototype.simpleValue = function(nodeXpath)
     throw e;
   }
 };
+
+}
