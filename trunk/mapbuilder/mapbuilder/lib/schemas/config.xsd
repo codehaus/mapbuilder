@@ -278,7 +278,7 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="AddPointType">
+	<xs:complexType name="EditPointType">
 		<xs:complexContent>
 			<xs:extension base="mb:AbstractButtonType">
 				<xs:sequence>
@@ -353,7 +353,7 @@
 			<xs:element name="SetAoi" type="mb:SetAoiType"/>
 			<xs:element name="Reset" type="mb:ResetType"/>
 			<xs:element name="GetFeatureInfo" type="mb:GetFeatureInfoType"/>
-			<xs:element name="AddPoint" type="mb:AddPointType"/>
+			<xs:element name="EditPoint" type="mb:EditPointType"/>
 			<xs:element name="Save" type="mb:SaveType"/>
 			<xs:element name="ModelList" type="mb:ModelList"/>
 		</xs:choice>
