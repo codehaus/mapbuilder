@@ -89,10 +89,12 @@ function Config(url) {
 
       this[model.id] = model;
 
-      //load the Model object from the initial URL in config or from a URL param
+      //load the Model object from the initial URL in config or from a URL param.
+      //the URL can also be passed in as a URL parameter by using the model ID
+      //as the parameter name (this method takes precendence over the config file
       var initialModel = null;
-      if (cgiArgs[modelType]) {  //TBD: need a better way to do this comparison
-        initialModel = cgiArgs[modelType];
+      if (cgiArgs[model.id]) {  
+        initialModel = cgiArgs[model.id];
       } else {
         initialModel = modelNode.selectSingleNode("defaultModelUrl").firstChild.nodeValue;
       }
