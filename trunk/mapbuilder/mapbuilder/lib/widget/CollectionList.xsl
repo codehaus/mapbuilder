@@ -66,7 +66,7 @@ $Name$
 
 
 
-  <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8"/>
+  <xsl:output method="xml" omit-xml-declaration="yes" encoding="utf-8"/>
 
 
 

@@ -14,7 +14,7 @@ $Name$
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
-  <xsl:output method="html"/>
+  <xsl:output method="xml"/>
   <xsl:strip-space elements="*"/>
 
   <!-- The coordinates of the DHTML Layer on the HTML page -->
@@ -79,7 +79,7 @@ $Name$
           position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0; left:0;
         </xsl:attribute>
         <xsl:attribute name="ID"><xsl:value-of select="$fid"/></xsl:attribute>
-        <xsl:copy-of select="."/>
+        <!--xsl:copy-of select="."/-->
         <SCRIPT language="javascript">
           var configModelNode = config.doc.selectSingleNode("//models/DescribeFeatureType");
           var model = new DescribeFeatureType(configModelNode);

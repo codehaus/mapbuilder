@@ -20,7 +20,7 @@ ButtonBar.xsl,v 1.5 2004/03/25 21:25:43 madair1 Exp
 
 
 
-  <xsl:output method="html" omit-xml-declaration="yes"/>
+  <xsl:output method="xml" omit-xml-declaration="yes"/>
 
   
 

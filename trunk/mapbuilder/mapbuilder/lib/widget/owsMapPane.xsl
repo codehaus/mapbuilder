@@ -14,7 +14,7 @@ $Name$
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="cml xlink">
 
-  <xsl:output method="html"/>
+  <xsl:output method="xml"/>
   <xsl:strip-space elements="*"/>
 
   <!-- The coordinates of the DHTML Layer on the HTML page -->

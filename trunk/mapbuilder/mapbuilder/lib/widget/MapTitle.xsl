@@ -26,13 +26,11 @@ $Name$
 
 
 
-  <xsl:output method="html" encoding="utf-8"/>
+  <xsl:output method="xml" encoding="utf-8"/>
 
 
 
   <xsl:param name="lang">en</xsl:param>
-
-  <xsl:param name="widgetNode"/>
 
 
 
@@ -55,8 +53,6 @@ $Name$
           <xsl:value-of select="wmc:Title"/>
 
         </xsl:otherwise>
-
-        <xsl:copy-of select="$widgetNode"/>
 
       </xsl:choose>
 
