@@ -16,15 +16,20 @@
         <td><h2 id="mapTitle"></h2></td>
       </tr>
       <tr>
-        <td id="locatorMap" valign="top" style="padding:10px"/>
-        <td/>
-            <div id="mainMapPane"/>
+<!-- left hand column -->
+        <td valign="top" style="padding:10px">
+         <div id="legend"/>
+         <div id="locatorMap"/>
         </td>
-      </tr>
-      <tr>
-        <td/>
-        <td valign="top">
+
+<!-- right hand column -->
+        <td>
           <table width="100%">
+            <tr>
+              <td colspan="2">
+                <div id="mainMapPane"/>
+              </td>
+            </tr>
             <tr>
               <td align="left">
                 <div id="buttonBar"/>
@@ -32,15 +37,12 @@
               <td align="right" id="cursorTrack" />
             </tr>
           </table>
+          <br/>
+          <p align="right"><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a><br/>$Name$</p>
         </td>
       </tr>
-      <tr>
-        <td id="legend"/>
-        <td/>
-      </tr>
+
     </table>
-    <br/>
-    <p align="right"><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a><br/>$Name$</p>
 
   </body>
 </html>
