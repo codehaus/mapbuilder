@@ -38,7 +38,7 @@
 
           <htmlTagId>mainMapPane</htmlTagId>
 
-          <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
+          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
 
           <lineColor>#FF0000</lineColor>
 
@@ -160,7 +160,7 @@
 
 
 
-  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+  <skinDir>../../lib/skin/default</skinDir>
 
 
 
