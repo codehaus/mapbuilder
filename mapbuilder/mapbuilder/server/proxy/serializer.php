@@ -14,7 +14,7 @@ $Name$
 
 
 // Set save directory.  This should be set to a writable, web-accessible directory.
-$dir = "./temp";
+$outputDir = "/temp";
 
 // Read in data.
 $data = $GLOBALS["HTTP_RAW_POST_DATA"];
@@ -23,7 +23,7 @@ $data = $GLOBALS["HTTP_RAW_POST_DATA"];
 $data = serialize($data);
 
 // Create file and save data to it.
-$tmpfname = tempnam($dir, "cmb") . ".xml";
+$tmpfname = tempnam($outputDir, "cmb") . ".xml";
 
 $handle = fopen($tmpfname, "w");
 fwrite($handle, $data);
