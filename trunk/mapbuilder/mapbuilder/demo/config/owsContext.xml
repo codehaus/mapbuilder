@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Mike Adair (NRCAN CCRs) -->
-<MapbuilderConfig version="0.2.1" id="owsContextTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+<MapbuilderConfig version="0.2.1" id="owsContextConfig" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
   <!--
     Description: This configuration file determines what components from the
                  Mapbuilder library are to be included in a Main Mapbuilder web
@@ -15,6 +15,7 @@
   -->
   <models>
     <Logger id="eventLogDoc">
+      <serializeUrl>/mapbuilder/writeXml</serializeUrl>
       <widgets>
         <Widget id="eventLog">
           <stylesheet>../lib/widget/EventLog.xsl</stylesheet>
@@ -22,7 +23,7 @@
       </widgets>
     </Logger>
     <Context id="mainMap">
-      <defaultModelUrl>context/ows_context.xml</defaultModelUrl>
+      <defaultModelUrl>context/context_0_0_9.xml</defaultModelUrl>
       <models>
         <Gml2 id="gml2FeatureTemplate" template="true">
           <method>post</method>
@@ -40,7 +41,7 @@
       <widgets>
         <MapPane id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-          <stylesheet>../lib/widget/owsMapPane.xsl</stylesheet>
+          <!--stylesheet>../lib/widget/owsMapPane.xsl</stylesheet-->
           <tools>
             <AoiMouseHandler/>
             <AoiBox>
@@ -58,11 +59,14 @@
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap.mainMapWidget</mouseHandler>
         </CursorTrack>
+        <MapScaleText id="mapScaleText">
+        </MapScaleText>
         <!--Legend id="legend"/-->
         <Widget id="mapTitle">
           <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
         </Widget>
         <GetFeatureRequest id="getFeatureRequest">
+          <debug/>
           <targetModel>gml2FeatureTemplate</targetModel>
           <nodeSelectXpath>/cml:ViewContext/cml:ResourceList/cml:FeatureType[cml:Server/@service='OGC:WFS']</nodeSelectXpath>
           <tools>
