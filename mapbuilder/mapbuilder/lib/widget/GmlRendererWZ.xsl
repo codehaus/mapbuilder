@@ -31,13 +31,12 @@ $Name$
   <!-- Root node -->
   <xsl:template match="/">
     <js>
-      if (objRef.jg){
-        objRef.jg.clear();
-      }else{
+      if (!objRef.jg){
         objRef.jg=new jsGraphics(objRef.outputNodeId);
       }
+      objRef.jg.clear();
       objRef.jg.setColor("<xsl:value-of select="$color"/>");
-      objRef.jg.setStroke(1);
+      objRef.jg.setStroke(parseInt(<xsl:value-of select="$lineWidth"/>));
       <xsl:apply-templates/>
       objRef.jg.paint();
     </js>
@@ -81,11 +80,15 @@ $Name$
       <!-- draw a box -->
       <xsl:otherwise>
         // Envelope - box
+        x0=<xsl:value-of select="$x0"/>;
+        y0=<xsl:value-of select="$y0"/>;
+        x1=<xsl:value-of select="$x1"/>;
+        y1=<xsl:value-of select="$y1"/>;
         objRef.jg.drawRect(
-          <xsl:value-of select="$x0"/>,
-          <xsl:value-of select="$y0"/>,
-          <xsl:value-of select="$x1 - $x0"/>,
-          <xsl:value-of select="$y1 - $y0"/>);
+          Math.min(x0,x1),
+          Math.min(y0,y1),
+          Math.abs(x1-x0),
+          Math.abs(y1-y0));
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
