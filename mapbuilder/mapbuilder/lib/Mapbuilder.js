@@ -175,6 +175,7 @@ function mapbuilderInit(){
     var mbTimerStop = new Date();
     //alert("load time:"+(mbTimerStop.getTime()-mbTimerStart.getTime()) );
     config.callListeners("loadModel");
+    config.callListeners("refresh");
   }
 }
 
