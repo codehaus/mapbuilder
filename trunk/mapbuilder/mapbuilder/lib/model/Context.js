@@ -55,7 +55,7 @@ function Context(url) {
     // TBD: Set the hidden attribute in the Context
 
     // Call the listeners
-    hiddenEvent=new HiddenEvent(layerId);
+    hiddenEvent=new HiddenEvent(layerId,hidden);
     for(i=0;i<this.hiddenListeners.length;i++) {
       this.hiddenListeners[i](hiddenEvent);
     }
@@ -66,8 +66,11 @@ function Context(url) {
  * The event sent when a Hidden attribute changes.
  * @constructor
  * @param layerId The LayerList/Layer/Name from the Context which has changed.
+ * @param hidden, 1=hidden, 0=not hidden.
  */
-function HiddenEvent(layerId){
+function HiddenEvent(layerId,hidden){
  /** layer The Layer/Name from the Context which has changed. */
  this.layerId=layerId;
+ /** 1=layer hidden, 0=layer not hidden. */
+ this.hidden=hidden;
 }
