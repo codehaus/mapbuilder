@@ -21,6 +21,7 @@ $Id$
  *
  * @constructor
  * @author Mike Adair 
+ * @param widget      Pointer to the widget instance being created
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */
