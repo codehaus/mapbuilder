@@ -30,14 +30,33 @@ function WidgetBase(widgetNode, model) {
   /** Widget's Id defined in the Config */
   this.id = widgetNode.attributes.getNamedItem("id").nodeValue;
 
+  /** HTML root <div> node for this widget */
+  this.node=null;
+
+  var htmlTagNode = widgetNode.selectSingleNode("htmlTagId");
+  if (htmlTagNode) {
+    htmlTagId = htmlTagNode.firstChild.nodeValue;
+  }
+
   // Node in main HTML to attach widget to.
-  var anchorNode = document.getElementById(this.id);
-  if(anchorNode==null) {
-    alert("HTML node for " + widgetNode.nodeName + " not found: id:" + this.id);
+  anchorNode = document.getElementById(htmlTagId);
+  if(!anchorNode) {
+    alert("htmlTagId: "+htmlTagId+" for widget "+widgetNode.nodeName+" not found in config");
   }else{
-    /** HTML root <div> node for this widget */
-    this.node=document.createElement("DIV");
-    anchorNode.appendChild(this.node);
+    // Reuse widget node if it already exists
+    for (i=0;i<anchorNode.childNodes.length;i++){
+      if (anchorNode.childNodes[i].id==this.id+"MbWidget")
+      {
+        this.node=anchorNode.childNodes[i];
+      }
+    }
+    // Create containing <div> node if it doesn't already exist
+    if (!this.node){
+      this.node=document.createElement("DIV");
+      //this.node.setAttribute("id",this.id);
+      this.node.id=this.id+"MbWidget";
+      anchorNode.appendChild(this.node);
+    }
 
     // Set this.stylesheet
     // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
