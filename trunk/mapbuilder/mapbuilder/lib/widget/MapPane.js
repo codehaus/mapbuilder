@@ -142,8 +142,8 @@ function MapPane(widgetNode, model) {
   this.eventHandler=function(ev) {
     if (window.event) {
       //IE events
-      var p = window.event.clientX - this.offsetLeft + document.documentElement.scrollLeft + document.body.scrollLeft;
-      var l = window.event.clientY - this.offsetTop + document.documentElement.scrollTop + document.body.scrollTop;
+      var p = window.event.clientX - this.widget.node.offsetLeft + document.documentElement.scrollLeft + document.body.scrollLeft;
+      var l = window.event.clientY - this.widget.node.offsetTop + document.documentElement.scrollTop + document.body.scrollTop;
       this.evpl = new Array(p,l);
       this.eventTarget = window.event.srcElement;
       this.eventType = window.event.type;
@@ -154,8 +154,8 @@ function MapPane(widgetNode, model) {
       window.event.cancelBubble = true;
     } else {
       //mozilla browsers
-      var p = ev.clientX + window.scrollX - this.offsetLeft;
-      var l = ev.clientY + window.scrollY - this.offsetTop;
+      var p = ev.clientX + window.scrollX - this.widget.node.offsetLeft;
+      var l = ev.clientY + window.scrollY - this.widget.node.offsetTop;
       this.evpl = new Array(p,l);
       this.eventTarget = ev.target;
       this.eventType = ev.type;
