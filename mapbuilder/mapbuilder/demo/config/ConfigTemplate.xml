@@ -44,61 +44,63 @@
     
     <MapPane id="mainMapPaneId">
       <scriptFile>/widget/mappane/MapPane2.js</scriptFile>
-      <stylesheet>/widget/mappane/Context2MapPane.xml</stylesheet>
+      <stylesheet>/widget/mappane/Context2MapPane2.xml</stylesheet>
       <modelType>Context</modelType>
-      <defaultModelUrl>/mapbuilder/demo/context/modisWorld.xml</defaultModelUrl>
+      <defaultModelUrl>/mapbuilder/demo/context/atlasWorld.xml</defaultModelUrl>
       
       <!-- contained widgets register with the parent widget's model listeners -->
       <widgets> 
       
+        <!-- further contained widgets        -->
+
+        <GlassPane>  
+          <scriptFile>/widget/tool/GlassPane3.js</scriptFile>
+          <widgets> <!-- further contained widgets; or call this tools??-->
+            <AoiBox>
+              <scriptFile>/widget/tool/AoiBox2.js</scriptFile>
+              <color>#FF000</color>
+              <lineWidth>2</lineWidth>
+              <crossSize>9</crossSize>
+            </AoiBox>
+        
+          </widgets>
+        </GlassPane>
+        
         <Legend id="legendId">
           <scriptFile>/widget/legend/Legend2.js</scriptFile>
           <stylesheet>/widget/legend/Context2Legend2.xml</stylesheet>
         </Legend>
         
-        <!-- further contained widgets
-        <GlassPane>  
-          <scriptFile>/widget/tool/GlassPane.js</scriptFile>
-          
-          <widgets> 
-          
-            <AoiBox>
-              <scriptFile>/widget/tool/AoiBox.js</scriptFile>
-              <color>#FF000</color>
-              <lineWidth>2</lineWidth>
-            </AoiBox>
-            
-            <ButtonBar id="buttonBarId">
-              <stylesheet>/widget/buttonbar/ButtonBar2.xsl</stylesheet>
-              <scriptFile>/widget/buttonbar/ButtonBar.js</scriptFile>
-              <widgets>
-                <Button id="ZoomInButton">
-                  <enabledSrc>/images/zoom_in_en.gif</enabledSrc>
-                  <disabledSrc>/images/zoom_in_dis.gif</disabledSrc>
-                  <tooltip>click and drag to zoom in</tooltip>
-                  <modeValue>MODE_ZOOM_IN</modeValue>
-                </Button>
-                <Button id="ZoomOutButton">
-                  <enabledSrc>/images/zoom_out_en.gif</enabledSrc>
-                  <disabledSrc>/images/zoom_out_dis.gif</disabledSrc>
-                  <tooltip>click to zoom out</tooltip>
-                  <modeValue>MODE_ZOOM_OUT</modeValue>
-                </Button>
-                <Button id="ResetButton">
-                  <enabledSrc>/images/reset_extent_en.gif</enabledSrc>
-                  <disabledSrc>/images/reset_extent_dis.gif</disabledSrc>
-                  <tooltip>reset the map to full extent</tooltip>
-                  <modeValue>MODE_RESET</modeValue>
-                </Button>
-              </widgets>
-            </ButtonBar>
-          </widgets>
-        </GlassPane>
-        -->
-        
         <ZoomTool id="zoomToolId">
           <scriptFile>/widget/tool/ZoomTool2.js</scriptFile>
         </ZoomTool>
+        
+        <!-- further contained widgets     
+        <ButtonBar id="buttonBarId">
+          <stylesheet>/widget/buttonbar/ButtonBar2.xsl</stylesheet>
+          <scriptFile>/widget/buttonbar/ButtonBar3.js</scriptFile>
+          <widgets>
+            <Button id="ZoomInButton">
+              <enabledSrc>/images/zoom_in_en.gif</enabledSrc>
+              <disabledSrc>/images/zoom_in_dis.gif</disabledSrc>
+              <tooltip>click and drag to zoom in</tooltip>
+              <modeValue>MODE_ZOOM_IN</modeValue>
+            </Button>
+            <Button id="ZoomOutButton">
+              <enabledSrc>/images/zoom_out_en.gif</enabledSrc>
+              <disabledSrc>/images/zoom_out_dis.gif</disabledSrc>
+              <tooltip>click to zoom out</tooltip>
+              <modeValue>MODE_ZOOM_OUT</modeValue>
+            </Button>
+            <Button id="ResetButton">
+              <enabledSrc>/images/reset_extent_en.gif</enabledSrc>
+              <disabledSrc>/images/reset_extent_dis.gif</disabledSrc>
+              <tooltip>reset the map to full extent</tooltip>
+              <modeValue>MODE_RESET</modeValue>
+            </Button>
+          </widgets>
+        </ButtonBar>
+           -->
         
       </widgets>
     </MapPane>
