@@ -8,6 +8,9 @@ Description: Convert a WFS Capabilities document to a Web Map Context
 Author:      Nedjo Rogers nedjo AT gworks.ca
 Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 
+$Id$
+$Name$
+
 -->
 
   <xsl:output method="xml" encoding="utf-8"/>
