@@ -67,6 +67,8 @@ function Context(url, name, node, baseDir, skin, queryLayer) {
   this.addLayerListeners=new Array();
   /** Functions to call when a layer is deleted. */
   this.deleteLayerListeners=new Array();
+  /** Functions to call when a layer is selected. */
+  this.selectLayerListeners=new Array();
 
   // ===============================
   // Add Listener Functions
@@ -125,6 +127,15 @@ function Context(url, name, node, baseDir, skin, queryLayer) {
    */
   this.addDeleteLayerListener=function(listener) {
     this.deleteLayerListeners[this.deleteLayerListeners.length]=listener;
+  }
+
+  /**
+   * Add a SelectLayer listener.  This listener is called if a layer is selected.
+   * The listener function should be of the form selectLayerListener(layerId).
+   * @param listener The fuction to call when a layer is selected.
+   */
+  this.addSelectLayerListener=function(listener) {
+    this.selectLayerListeners[this.selectLayerListeners.length]=listener;
   }
 
   // ===============================
