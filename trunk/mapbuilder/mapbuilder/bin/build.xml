@@ -107,12 +107,12 @@ $Id$
 -->
 
   <property environment="env"/>
-  <property name="app.name" value="mapbuilder"/>
+  <property name="app.name" value="mapbuilder-lib"/>
   <property name="app.path" value="/${app.name}"/>
   <property name="app.version" value="0.2-alpha"/>
   <property name="catalina.home" value="${env.CATALINA_HOME}"/> <!-- UPDATE THIS! -->
-  <property name="build.home"    value="${catalina.home}/webapps/${app.name}"/>
-  <property name="dist.home" value="${build.home}/dist"/>
+  <property name="build.home"    value="${catalina.home}/webapps/mapbuilder"/>
+  <property name="dist.home" value="${basedir}/dist"/>
   <property name="docs.home" value="${build.home}/docs"/>
   <property name="dev.home" value="${basedir}/."/>
   <property name="context.home" value="${dev.home}/server/java"/>
@@ -247,22 +247,29 @@ $Id$
 
   <target description="Create binary distribution" name="dist">
 
+    <mkdir dir="${dist.home}"/>
+
     <!-- Create application zip file -->
-    <zip destfile="${basedir}/${app.name}-${app.version}.zip" update="true">
+    <zip destfile="${dist.home}/${app.name}-${app.version}.zip" update="true">
          <zipfileset dir="${basedir}/lib" prefix="mapbuilder/lib"/>
          <zipfileset dir="${basedir}/demo" prefix="mapbuilder/demo"/>
     </zip>
 
     <!-- Create styles only distribution -->
-    <zip destfile="${basedir}/styles_${app.name}-${app.version}.zip" update="true">
+    <zip destfile="${dist.home}/styles_${app.name}-${app.version}.zip" update="true">
          <zipfileset dir="${basedir}/lib/" prefix="mapbuilder/lib">
             <include name="**/*.xsl"/>
          </zipfileset>
     </zip>
 
     <!-- Create application WAR file -->
-    <jar jarfile="${basedir}/${app.name}.war"
+    <jar jarfile="${dist.home}/${app.name}.war"
          basedir="${build.home}"/>
+
+    <!-- zip up the WAR file -->
+    <zip destfile="${dist.home}/${app.name}-${app.version}-war.zip" update="true">
+         <zipfileset file="${dist.home}/${app.name}.war"/>
+    </zip>
 
   </target>
 
