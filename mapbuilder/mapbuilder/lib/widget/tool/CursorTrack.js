@@ -19,7 +19,8 @@ $Id$
 function CursorTrack(toolNode, parentWidget) {
   this.node = document.getElementById( parentWidget.containerId );
   this.proj = new proj( parentWidget.model.getSRS() );
-  this.coordForm = document.getElementById("MapDisplayForm");
+  var formName = toolNode.selectSingleNode("formName").firstChild.nodeValue;
+  this.coordForm = document.getElementById(formName);
 
 
   this.mouseOverHandler = function( targetNode, objRef ) {
