@@ -65,7 +65,9 @@ function Context(url, skin) {
     return ext;
   }
 
-  /** Functions to call when the boundingBox has changed. */
+  /** Functions to call when the boundingBox has changed,
+    * TBD: I think this should be renamed to boundingBoxChangeListeners to be
+    * consistant with OGC WMS spec. */
   this.bboxChangeListeners=new Array();
 
   /** TBD: I think this should be deprecated? Isn't it the same as
@@ -281,7 +283,7 @@ function Context(url, skin) {
     * @param zindex The position to move this layer to in the layerList, if set
     * to null this layer will be inserted at the end.
     */
-  this.repositionLayer=function(layer,zindex){
+  this.reorderLayer=function(layer,zindex){
     //TBD Fill this in.
   }
 
