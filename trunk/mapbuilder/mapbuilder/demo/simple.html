@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--
+Description: A simple demonstration of libraries from
+             http://mapbuilder.sourceforge.net .
+Usage:       Call http://hostname/dir/simple.html
+Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+
+$Id$
+$Name$
+-->
+
+<html>
+  <head>
+    <title>Simple Mapbuilder Demo</title>
+
+    <!-- Include mapbuilder libraries -->
+    <script type="text/javascript" src="../lib/model/Context.js"></script>
+    <script type="text/javascript" src="../lib/widget/mappane/MapPane.js"></script>
+    <script type="text/javascript" src="../lib/widget/legend/Legend.js"></script>
+    <script type="text/javascript" src="../lib/util/sarissa/Sarissa.js"></script>
+    <script type="text/javascript" src="../lib/util/Util.js"></script>
+    <link rel="stylesheet" href="../lib/skin/default/html.css" type="text/css">
+  </head>
+
+  <body>
+    <h1>Simple Mapbuilder Demo</h1>
+
+    <!-- Layout mapbuilder widgets and HTML -->
+    <table>
+      <tr>
+        <td valign="top">
+          <div id="mapPaneDiv"></div>
+        </td>
+        <td valign="top">
+          <div id="legendDiv"></div>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Initialise mapbuilder components -->
+    <script>
+      // Base Mapbuilder library directory
+      baseDir="../lib";
+
+      // Load the context:
+      context=new Context(
+        "context/wmc.xml",
+        "context",
+        baseDir,
+        "default");
+
+      // Create and render a MapPane
+      mapPane=new MapPane(
+        context,
+        "mapPane",
+        document.getElementById("mapPaneDiv"));
+      mapPane.paint();
+
+      // Create and render a Legend
+      legend=new Legend(
+        context,
+        "legend",
+        document.getElementById("legendDiv"));
+      legend.paint();
+    </script>
+  </body>
+</html>
