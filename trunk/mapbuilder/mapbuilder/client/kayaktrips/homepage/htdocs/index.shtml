@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <!-- $Header$ -->
+  <title>Community Map Builder</title>
+  <meta name="GENERATOR" content="amaya 5.1">
+</head>
+
+<body bgcolor="FFFFFF" color="000000">
+
+<!--#include file="top.inc" -->
+
+
+<h1>Home</h1>
+
+<p>The Community Map Builder will provide an Open Source framework which will
+allow communities to jointly build geographic databases and share them over
+the web.  It will be particulary useful where geographic knowledge is spread
+across a large group of people.  For instance:</p>
+<ul>
+  <li>Collecting animal sitings</li>
+  <li>Mapping favourite off-street bicycle routes in a city</li>
+  <li>Mapping bush fire and walking trails</li>
+</ul>
+
+<p>The Community Map Builder is being built to Open GIS standards, which
+means it will be inter-operable with numerous other Web Mapping Services.</p>
+
+<p>Initial development will focus on enhancing the current open source
+components, before working on the core Community Map Builder
+functionality.</p>
+
+<h2>Schedule</h2>
+
+<p>Done:</p>
+<ul>
+  <li>Develop Web Map Server based on Open GIS Standards.  Version 3.5 of <a
+    href="http://mapserver.gis.umn.edu">Mapserv</a> provides a beta level
+    open source Web Map Service.</li>
+  <li>Develop a Web Map Server client.  I've helped incorporate this
+    functionality into <a href="http://geotools.sorceforge.net">Geotools</a>,
+    a web based java applet.</li>
+</ul>
+
+<p>To Do:</p>
+<ul>
+  <li>Develop an open source Web Feature Server based on Open GIS Standards.
+    This will probably be done best with <a
+    href="http://postgis.refractions.net/">PostGIS</a>.  I'd be interested to
+    hear if anyone is working on this.</li>
+  <li>Develop a Web Feature Server interface to Geotools.  I plan to help out
+    with this next.</li>
+  <li>Develop a Transactional Web Feature Server interface.  Again, I'd look
+    to PostGIS for this.</li>
+  <li>Develop Transactional Web Feature Server client interface.</li>
+</ul>
+
+<p>Release 1 - Prototype</p>
+<ul>
+  <li>Design data models, interfaces etc to drive the components.</li>
+  <li>Design business logic to control update procedures.  I'm invisaging
+    something similar to the comments moderation on <a
+    href="http://slashdot.org">http://slashdot.org</a></li>
+</ul>
+
+<p>Release 2 - Core functionality</p>
+<ul>
+  <li>Lots of possible features to add later.</li>
+</ul>
+
+<h2>Email lists</h2>
+
+<p>If you would like to help out, or keep informed, or offer to pay me to
+work on this full time :), join one of the email lists at: <a
+href="http://sourceforge.net/mail/?group_id=35246">http://sourceforge.net/mail/?group_id=35246</a>.</p>
+
+<p>I look forward to hearing from you,</p>
+
+<p>Cameron Shorter, <a
+href="mailto:cameron@shorter.net">cameron@shorter.net</a></p>
+<!--#include file="bottom.inc" -->
+</body>
+</html>
