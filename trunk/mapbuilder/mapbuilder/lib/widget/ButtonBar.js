@@ -15,85 +15,141 @@ $Id$
  *
  * @param viewNode    the view object node to attach the RoiBox to.
  */
-function ButtonBar(controller, skin) {
-  this.mapController = controller;
-  this.EnabledIcon = null;
+function ButtonBar(widgetNode, group) {
+  var base = new WidgetBase(widgetNode, group);
+  for (sProperty in base) { 
+    this[sProperty] = base[sProperty]; 
+  } 
 
-  //pre-load the button bar images
-  this.ModeImagesEn = new Array();
-  this.ModeImagesEn[MODE_ZOOM_IN] = new Image();
-  this.ModeImagesEn[MODE_ZOOM_IN].src = skin+"images/zoom_in_en.gif";
-  this.ModeImagesEn[MODE_ZOOM_OUT] = new Image();
-  this.ModeImagesEn[MODE_ZOOM_OUT].src = skin+"images/zoom_out_en.gif";
-  this.ModeImagesEn[MODE_PAN] = new Image();
-  this.ModeImagesEn[MODE_PAN].src = skin+"images/pan_en.gif";
-  this.ModeImagesEn[MODE_SET_ROI] = new Image();
-  this.ModeImagesEn[MODE_SET_ROI].src = skin+"images/setAOI_en.gif";
-  this.ModeImagesEn[MODE_GETFEATUREINFO] = new Image();
-  this.ModeImagesEn[MODE_GETFEATUREINFO].src = skin+"images/query_en.gif";
+  //override to process the config doc instead of model doc
+  this.paint = function() {
+    var s = this.stylesheet.transformNode(config.doc);//widgetNode);//ideally only process widgetNode here?
+    //alert(s);
+    this.node.innerHTML=s;
 
-  this.ModeImagesDis = new Array();
-  this.ModeImagesDis[MODE_ZOOM_IN] = new Image();
-  this.ModeImagesDis[MODE_ZOOM_IN].src = skin+"images/zoom_in_dis.gif";
-  this.ModeImagesDis[MODE_ZOOM_OUT] = new Image();
-  this.ModeImagesDis[MODE_ZOOM_OUT].src = skin+"images/zoom_out_dis.gif";
-  this.ModeImagesDis[MODE_PAN] = new Image();
-  this.ModeImagesDis[MODE_PAN].src = skin+"images/pan_dis.gif";
-  this.ModeImagesDis[MODE_SET_ROI] = new Image();
-  this.ModeImagesDis[MODE_SET_ROI].src = skin+"images/setAOI_dis.gif";
-  this.ModeImagesDis[MODE_GETFEATUREINFO] = new Image();
-  this.ModeImagesDis[MODE_GETFEATUREINFO].src = skin+"images/query_dis.gif";
+    for (var i=0; i<this.paintListeners.length; i++) {
+      this.paintListeners[i][0]( this.paintListeners[i][1] );
+    }
+  }
 
-  var icon = document.getElementById("ZoomInButton");
-  icon.src = this.ModeImagesDis[MODE_ZOOM_IN].src;
-  icon.title = "click and drag to zoom in";
-  icon = document.getElementById("ZoomOutButton");
-  icon.src = this.ModeImagesDis[MODE_ZOOM_OUT].src;
-  icon.title = "click to zoom out";
-  icon = document.getElementById("PanButton");
-  icon.src = this.ModeImagesDis[MODE_PAN].src;
-  icon.title = "click and drag to pan";
-  icon = document.getElementById("SetRoiButton");
-  icon.src = this.ModeImagesDis[MODE_SET_ROI].src;
-  icon.title = "click and drag to set the area of interest";
-  icon = document.getElementById("QueryButton");
-  icon.src = this.ModeImagesDis[MODE_GETFEATUREINFO].src;
-  icon.title = "click to query the layer";
-
+  var mouseWidget = widgetNode.selectSingleNode("mouseWidget");
+  if (mouseWidget) {
+    this.mouseWidget = eval(mouseWidget.firstChild.nodeValue);
+    this.modalMouseUp = function(targetNode, buttonBar) {
+      //alert(buttonBar.selectedButton.modalMouseUp);
+      buttonBar.selectedButton.modalMouseUp(targetNode, buttonBar.model) 
+    }
+    this.modalMouseDown = function(targetNode, buttonBar) {
+      buttonBar.selectedButton.modalMouseDown(targetNode, buttonBar.model) 
+    }
+    this.modalMouseMove = function(targetNode, buttonBar) {
+      buttonBar.selectedButton.modalMouseMove(targetNode, buttonBar.model) 
+    }
+    this.mouseWidget.addMouseListener('mouseUp', this.modalMouseUp, this);
+    this.mouseWidget.addMouseListener('mouseDown', this.modalMouseDown, this);
+    this.mouseWidget.addMouseListener('mouseMove', this.modalMouseMove, this);
+  }
+  
   this.setMode = function(mode) {
-    if (this.EnabledIcon) this.EnabledIcon.src = this.ModeImagesDis[this.mode].src;
+    if (this.selectedButton) this.selectedButton.image.src = this.selectedButton.disabledImage.src;
     this.mode = mode;
-    this.mapController.setMode(this.mode);
-    switch(this.mode) {
-      case MODE_ZOOM_IN:				//zoom in
-        this.EnabledIcon = document.getElementById("ZoomInButton");
-        break;
-      case MODE_ZOOM_OUT:				//zoom out
-        this.EnabledIcon = document.getElementById("ZoomOutButton");
-        break;
-      case MODE_PAN:				//pan
-        this.EnabledIcon = document.getElementById("PanButton");
-        break;
-      case MODE_SET_ROI:				//set roi
-        this.EnabledIcon = document.getElementById("SetRoiButton");
-        break;
-      case MODE_GETFEATUREINFO:				//query mode
-        this.EnabledIcon = document.getElementById("QueryButton");
-        break;
-      default:
-        //alert("invalid mode:" +MapMode);
-        break;
+    if ( this[this.mode].enabledImage) {
+      this.selectedButton = this[this.mode];
+      this.selectedButton.image.src = this.selectedButton.enabledImage.src;
     }
-    if (this.EnabledIcon) {
-      this.EnabledIcon.src = this.ModeImagesEn[mode].src;
-      if ( this.mapController.acceptToolTips ) this.mapController.setToolTip( this.EnabledIcon.title );
-    }
+    //if ( this.parentWidget.acceptToolTips ) this.parentWidget.setToolTip( this.title );
   }
 
-  this.resetExtent = function() {
-    this.mapController.resetExtent();
+  this.addListeners = function() {
+    var initialMode = this.widgetNode.selectSingleNode("initialMode").firstChild.nodeValue;
+    this.setMode( initialMode );
   }
 
-  //initialize the button bar
-  this.setMode( this.mapController.glassPane.mode );
+  config.buttonBar = this;
 }
+
+
+function ButtonBase(toolNode, parentWidget) {
+  this.parentWidget = parentWidget;
+
+  //pre-load the button bar images; add them to the config
+  this.disabledImage = document.createElement("IMG");
+  this.disabledImage.src = config.skinDir + toolNode.selectSingleNode("disabledSrc").firstChild.nodeValue;
+
+  var modalImage = toolNode.selectSingleNode("enabledSrc");
+  if (modalImage) {
+    this.enabledImage = document.createElement("IMG");
+    this.enabledImage.src = config.skinDir + modalImage.firstChild.nodeValue;
+  }
+
+  this.title = toolNode.selectSingleNode("tooltip").firstChild.nodeValue;
+  this.mode = toolNode.selectSingleNode("modeValue").firstChild.nodeValue; 
+  this.id = toolNode.selectSingleNode("@id").firstChild.nodeValue;
+
+  this.init = function(objRef) {
+    objRef.image = document.getElementById( objRef.id );
+    if ( objRef.parentWidget.mouseWidget==null ) {
+      objRef.image = document.getElementById( objRef.id );
+      objRef.image.model = objRef.model;
+      objRef.image.onmouseup = objRef.modalMouseUp;
+    }
+  }
+
+  this.modalMouseDown = noop;
+  this.modalMouseMove = noop;
+}
+
+function ZoomInButton(toolNode, parentWidget) {
+  var base = new ButtonBase(toolNode, parentWidget);
+  for (sProperty in base) { 
+    this[sProperty] = base[sProperty]; 
+  } 
+  this.modalMouseUp = function(targetNode, model) {
+    var bbox = model.getAoi();
+    var ul = model.extent.GetXY( bbox[0] );
+    var lr = model.extent.GetXY( bbox[1] );
+    if ( ( ul[0]==lr[0] ) && ( ul[1]==lr[1] ) ) {
+      model.extent.CenterAt( ul, model.extent.res[0]/model.extent.zoomBy );
+    } else {
+      model.extent.ZoomToBox( ul, lr );
+    }
+  }
+
+  this.parentWidget.addPaintListener( this.init, this );
+  this.parentWidget[this.mode] = this;
+}
+
+function ZoomOutButton(toolNode, parentWidget) {
+  var base = new ButtonBase(toolNode, parentWidget);
+  for (sProperty in base) { 
+    this[sProperty] = base[sProperty];    
+  } 
+  this.modalMouseUp = function(targetNode, model) {
+    //should be aoi center
+    model.extent.CenterAt(targetNode.evxy, model.extent.res[0]*model.extent.zoomBy);
+  }
+
+  this.parentWidget.addPaintListener( this.init, this );
+  this.parentWidget[this.mode] = this;
+}
+
+function ResetButton(toolNode, parentWidget) {
+  var base = new ButtonBase(toolNode, parentWidget);
+  for (sProperty in base) { 
+    this[sProperty] = base[sProperty]; 
+  } 
+  this.doReset = function(ev) {
+    ev.target.extent.Reset();
+  }
+  this.parentWidget[this.mode] = this;
+  
+  this.init = function(objRef) {
+    objRef.image = document.getElementById( objRef.id );
+    objRef.image.extent = objRef.parentWidget.model.extent;
+    objRef.image.onclick = objRef.doReset;
+  }
+  this.parentWidget.addPaintListener( this.init, this );
+
+}
+
+function noop() {;}
