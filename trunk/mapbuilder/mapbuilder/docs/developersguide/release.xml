@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
+<section>
+  <title>mapbuilder-lib release process</title>
+
+  <para>This article describes the steps to follow when building a
+  mapbuilder-lib release.</para>
+
+  <variablelist>
+    <varlistentry>
+      <term>Notify developers that you are about to make a release</term>
+
+      <listitem>
+        <para>At least 24 hours before building a release, send an email to
+        the mapbuilder-lib developers notifying them you are about to cut a
+        release. This should allow them to ensure their fixes are in the code
+        base.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Check all code back into CVS</term>
+
+      <listitem>
+        <para>If you have not done so already, check all the code you have
+        been editing into CVS.</para>
+
+        <programlisting>cvs commit -m"Fixed xxx bugs" &lt;filenames&gt;</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Get latest updates from CVS</term>
+
+      <listitem>
+        <para>Ensure you have the latest files from CVS.</para>
+
+        <programlisting>cd mapbuilder/
+cvs update -d .</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Update the CHANGES file</term>
+
+      <listitem>
+        <para>Update and commit CHANGES file with updates between the last
+        release and this one. These files should be in the base
+        directory.</para>
+
+        <para>Each update should contain:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Release name.</para>
+          </listitem>
+
+          <listitem>
+            <para>Status - alpha, beta, stable</para>
+          </listitem>
+
+          <listitem>
+            <para>Description of changes.</para>
+          </listitem>
+
+          <listitem>
+            <para>List of problems fixed since last build.</para>
+          </listitem>
+
+          <listitem>
+            <para>List of known outstanding problems.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Tag the release</term>
+
+      <listitem>
+        <para>Tag the files that should be in the release. (Usually, not all
+        files in CVS are included in a release).</para>
+
+        <programlisting>cd mapbuilder/
+cvs tag &lt;tag&gt; dir1 dir2 dir/file1 ...</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Create a temporary directory</term>
+
+      <listitem>
+        <programlisting>mkdir ~/tmp</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Export the release</term>
+
+      <listitem>
+        <para>Exporting code from CVS is the same as checking it out, except
+        that the CVS/ directories are not checked out as well.</para>
+
+        <programlisting>cd ~/tmp
+export CVS_RSH=ssh
+export CVSROOT=:ext:camerons@cvs.sourceforge.net:/cvsroot/mapbuilder
+cvs export -r &lt;tag&gt; mapbuilder</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Build Documentation</term>
+
+      <listitem>
+        <para>This builds the javadocs and design documentation into the
+        mapbuilder/docs directory.</para>
+
+        <programlisting>~/tmp/mapbuilder/bin/publish.sh</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Copy the docs to Sourceforge website</term>
+
+      <listitem>
+        <programlisting>TBD:
+cd ~/tmp/generguide/docs/desc/html/
+scp -pr * camerons@generguide.sf.net:/home/groups/g/ge/generguide/htdocs/</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Add tag name to generguide directory</term>
+
+      <listitem>
+        <programlisting>cd ~/tmp
+mv mapbuilder mapbuilder-lib-0.2</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Zip up a source release</term>
+
+      <listitem>
+        <programlisting>zip -r mapbuilder-src-0_2.zip mapbuilder-lib-0.2
+tar -zxf mapbuilder-src-lib-0_2.tar.gz mapbuilder-lib-0.2</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Compress source</term>
+
+      <listitem>
+        <programlisting>TBD</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Zip up a compressed release</term>
+
+      <listitem>
+        <programlisting>zip -r mapbuilder-0_2.zip mapbuilder-lib-0.2
+tar -zxf mapbuilder-lib-0_2.tar.gz mapbuilder-lib-0.2</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Ftp release file Sourceforge</term>
+
+      <listitem>
+        <para>Refer to the Sourceforge <ulink
+        url="http://sourceforge.net/docman/display_doc.php?docid=6445&amp;group_id=1#frsinterface">File
+        Release System</ulink> for more information.</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>ftp to upload.sourceforge.net</para>
+          </listitem>
+
+          <listitem>
+            <para>login as "anonymous"</para>
+          </listitem>
+
+          <listitem>
+            <para>use email address as password</para>
+          </listitem>
+
+          <listitem>
+            <para>set ftp client to binary mode</para>
+          </listitem>
+
+          <listitem>
+            <para>cd /incoming (on the server)</para>
+          </listitem>
+
+          <listitem>
+            <para>upload release file.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Copy to generguide release directory</term>
+
+      <listitem>
+        <para>From the <ulink
+        url="http://sourceforge.net/projects/generguide">http://sourceforge.net/projects/generguide</ulink>,
+        select <literal>Admin</literal>, <literal>File Releases</literal>,
+        <literal>Add Release</literal>.</para>
+
+        <para>Walk through the various forms.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Download and test</term>
+
+      <listitem>
+        <para>Download the release from sourceforge, uncompress it, and check
+        it.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Copy to Sourceforge demo directory</term>
+
+      <listitem>
+        <programlisting>TBD</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Install release on the Demonstration server</term>
+
+      <listitem>
+        <para>TBD: Demo server is yet to be identified.</para>
+
+        <programlisting></programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Email release message</term>
+
+      <listitem>
+        <para>Send an email notification to
+        mapbuilder-announce@lists.sourceforge.net .</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Update release information on Freshmeat</term>
+
+      <listitem>
+        <para></para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+</section>
