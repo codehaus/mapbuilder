@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
 "http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
-<article>
+<article id="sdd">
   <title>Community Map Builder Software Design Description</title>
 
   <abstract>
     <para>This document describes the design of Community Map Builder.</para>
   </abstract>
 
-  <section>
+  <section id="systemoverview">
     <title>System Overview</title>
 
     <para>The Community Map Builder (CMB) contains:</para>
@@ -31,7 +31,7 @@
     </orderedlist>
   </section>
 
-  <section>
+  <section id="framework">
     <title>CMB framework</title>
 
     <para>The CMB framework is designed for collaborative, open sharing of
@@ -71,94 +71,195 @@ I think the CMB should also provide logic for community editing of shared data
     <para>CMB libraries contain components that can be used to build clients
     to OGC services.</para>
 
-    <section>
+    <section id="designdecisions">
       <title>Design Decisions for CMB Libraries</title>
 
-      <para>The goals of the libaries are to provide the following:</para>
+      <section id="designdrivers">
+        <title>Design Drivers</title>
 
-      <variablelist>
-        <varlistentry>
-          <term>Client is a Web Browser</term>
+        <para>The goals of the libaries are to provide the following:</para>
 
-          <listitem>
-            <para>Mapbuilder Clients should be easy for users to run. Users
-            should not have to download and install new software. Instead all
-            CMB clients should run inside the commonly used web browsers. In
-            particular, recent Internet Explorer and Mozilla browsers.</para>
-          </listitem>
-        </varlistentry>
+        <variablelist>
+          <varlistentry>
+            <term>Client is a Web Browser</term>
 
-        <varlistentry>
-          <term>Minimal Server Side Functionality</term>
+            <listitem>
+              <para>Mapbuilder Clients should be easy for users to run. Users
+              should not have to download and install new software. Instead
+              all CMB clients should run inside the commonly used web
+              browsers. In particular, recent Internet Explorer and Mozilla
+              browsers.</para>
+            </listitem>
+          </varlistentry>
 
-          <listitem>
-            <para>CMB should keep deployment requirements to a minimum in
-            order to maximise the user base. Hence:</para>
+          <varlistentry>
+            <term>Minimal Server Side Functionality</term>
 
-            <orderedlist>
-              <listitem>
-                <para>Where possible, clients should not require server side
-                scripts.</para>
-              </listitem>
+            <listitem>
+              <para>CMB should keep deployment requirements to a minimum in
+              order to maximise the user base. Hence:</para>
 
-              <listitem>
-                <para>If Server Side scripts are used, then Unix Shell
-                Scripts, Perl, or PHP should be used in preference to Java, C
-                or C++ in order to target the tools usually provided by ISPs.</para>
-              </listitem>
-            </orderedlist>
-          </listitem>
-        </varlistentry>
+              <orderedlist>
+                <listitem>
+                  <para>Where possible, clients should not require server side
+                  scripts.</para>
+                </listitem>
 
-        <varlistentry>
-          <term>Keep bandwidth to a minimum</term>
+                <listitem>
+                  <para>If Server Side scripts are used, then Unix Shell
+                  Scripts, Perl, or PHP should be used in preference to Java,
+                  C or C++ in order to target the tools usually provided by
+                  ISPs.</para>
+                </listitem>
+              </orderedlist>
+            </listitem>
+          </varlistentry>
 
-          <listitem>
-            <para>All client functionality needs to be downloaded, so it is
-            important to keep it to a minimum. Files that are downloaded
-            should also be static which means that browsers will cache them
-            locally. (CGI scripts generally do not provide images that are
-            cached).</para>
-          </listitem>
-        </varlistentry>
+          <varlistentry>
+            <term>Keep bandwidth to a minimum</term>
 
-        <varlistentry>
-          <term>Modular Design</term>
+            <listitem>
+              <para>All client functionality needs to be downloaded, so it is
+              important to keep it to a minimum. Files that are downloaded
+              should also be static which means that browsers will cache them
+              locally. (CGI scripts generally do not provide images that are
+              cached).</para>
+            </listitem>
+          </varlistentry>
 
-          <listitem>
-            <para>A modular design has many benefits.</para>
+          <varlistentry>
+            <term>Modular Design</term>
 
-            <orderedlist>
-              <listitem>
-                <para>A client need only include the module it requires, hence
-                reducing the size of the client.</para>
-              </listitem>
+            <listitem>
+              <para>A modular design has many benefits.</para>
 
-              <listitem>
-                <para>A modular design is easier to understand and maitain.</para>
-              </listitem>
+              <orderedlist>
+                <listitem>
+                  <para>A client need only include the module it requires,
+                  hence reducing the size of the client.</para>
+                </listitem>
 
-              <listitem>
-                <para>Extra functionality can be easilly added.</para>
-              </listitem>
-            </orderedlist>
-          </listitem>
-        </varlistentry>
+                <listitem>
+                  <para>A modular design is easier to understand and maitain.</para>
+                </listitem>
 
-        <varlistentry>
-          <term>Use Javascript/XML/XSL</term>
+                <listitem>
+                  <para>Extra functionality can be easilly added.</para>
+                </listitem>
+              </orderedlist>
+            </listitem>
+          </varlistentry>
 
-          <listitem>
-            <para>Mapbuilder stores state data interally in XML files.
-            Converting XML to HTML is done using XSL. XSL has the advantage
-            that it can be used both in the client and server.</para>
-          </listitem>
-        </varlistentry>
-      </variablelist>
+          <varlistentry>
+            <term>Use Javascript/XML/XSL</term>
+
+            <listitem>
+              <para>Mapbuilder stores state data interally in XML files.
+              Converting XML to HTML is done using XSL. XSL has the advantage
+              that it can be used both in the client and server.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+
+      <section id="mvc">
+        <title>Model View Controller</title>
+
+        <figure>
+          <title>Model View Controller</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/mvc.gif" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>Mapbuilder uses the Model View Controller (MVC) design pattern.
+        The MVC pattern forces one to think of an application in terms of
+        three modules:</para>
+
+        <variablelist>
+          <varlistentry>
+            <term>Model</term>
+
+            <listitem>
+              <para>This maintains the state and data that the application
+              represents. When changes occur in the model, it sends update
+              events to all of its views. <filename>Context</filename> is the
+              Model in the Mapbuilder application and stores Layers, Bounding
+              Box etc.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>View</term>
+
+            <listitem>
+              <para>The user interface which displays information about the
+              model to the user. Views displaying dynamic data need to
+              register for StateChange events from the Model.
+              <filename>Legend</filename>, <filename>MapPane</filename>,
+              <filename>LocatorMap</filename>, etc are all Mapbuilder Views
+              that get update events when <filename>Context</filename>
+              changes.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Controller</term>
+
+            <listitem>
+              <para>The user interface presented to the user to manipulate the
+              application (ie keyboard and mouse input). <filename>ZoomTool</filename>,
+              <filename>PanTool</filename>, <filename>SelectFeature</filename>
+              are all Mapbuilder Controllers which update
+              <filename>Context</filename>.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+
+        <para>The benefits of using the MVC design pattern include:</para>
+
+        <variablelist>
+          <varlistentry>
+            <term>Modularity</term>
+
+            <listitem>
+              <para>Views and Tools can be added or removed without effecting
+              the rest of the application. Tools do not have any dependancies
+              on Views and visa-versa which makes Tools and Views simpler.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Multiple Views</term>
+
+            <listitem>
+              <para>Views can display the same data in different ways. For
+              example, a Locator Map and Main Map both display the BoundingBox
+              in different ways.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Parallel Development</term>
+
+            <listitem>
+              <para>Once the interfaces have been defined, components can be
+              developed in parallel.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+
+        <para>There is a lot of literature describing the MVC Design Pattern.
+        Here is <ulink
+        url="http://www.cs.indiana.edu/~cbaray/projects/mvc.html">one</ulink>.</para>
+      </section>
     </section>
 
     <section>
-      <title>CMB Library Components</title>
+      <title id="library">CMB Library Components</title>
 
       <figure>
         <title>CMB Library Components</title>
@@ -170,7 +271,7 @@ I think the CMB should also provide logic for community editing of shared data
         </mediaobject>
       </figure>
 
-      <section>
+      <section id="mainpage">
         <title>MainPage</title>
 
         <para>A CMB Client page is quite simple. It includes the required
@@ -214,7 +315,7 @@ I think the CMB should also provide logic for community editing of shared data
         </example>
       </section>
 
-      <section>
+      <section id="context">
         <title>Context</title>
 
         <para>The context object stores geographic state, like Layers,
@@ -246,13 +347,13 @@ I think the CMB should also provide logic for community editing of shared data
         </figure>
       </section>
 
-      <section>
+      <section id="tool">
         <title>Tool</title>
 
         <para>Tool provides Zoom/Pan etc and updates the Context.</para>
       </section>
 
-      <section>
+      <section id="mappane">
         <title>MapPane</title>
 
         <para>MapPane renders Geographic Layers from Context as DHTML Layers,
@@ -269,11 +370,11 @@ I think the CMB should also provide logic for community editing of shared data
         </figure>
       </section>
 
-      <section>
+      <section id="legend">
         <title>Legend</title>
 
         <para>Legend renders a legend based on the Context. Some context
-        information can be changed through the Legend widget. </para>
+        information can be changed through the Legend widget.</para>
 
         <figure>
           <title>Legend Component</title>
@@ -286,7 +387,7 @@ I think the CMB should also provide logic for community editing of shared data
         </figure>
       </section>
 
-      <section>
+      <section id="addfeature">
         <title>AddFeature</title>
 
         <figure>
