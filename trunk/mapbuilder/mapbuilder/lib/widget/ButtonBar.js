@@ -21,10 +21,9 @@ function ButtonBar(widgetNode, group) {
     this[sProperty] = base[sProperty]; 
   } 
 
-  //override to process the config doc instead of model doc
+  /** Render this widget. */
   this.paint = function() {
     var s = this.stylesheet.transformNode(config.doc);//widgetNode);//ideally only process widgetNode here?
-    //alert(s);
     this.node.innerHTML=s;
 
     for (var i=0; i<this.paintListeners.length; i++) {
@@ -50,6 +49,10 @@ function ButtonBar(widgetNode, group) {
     this.mouseWidget.addMouseListener('mouseMove', this.modalMouseMove, this);
   }
   
+  /**
+   * Set the mode (eg Zoom_In) for this ButtonBar.
+   * @deprecated I think that this function is not used any more.  Cameron 19 March 2004.
+   */
   this.setMode = function(mode) {
     if (this.selectedButton) this.selectedButton.image.src = this.selectedButton.disabledImage.src;
     this.mode = mode;
@@ -60,6 +63,9 @@ function ButtonBar(widgetNode, group) {
     //if ( this.parentWidget.acceptToolTips ) this.parentWidget.setToolTip( this.title );
   }
 
+  /**
+   * TBD: Document me.  Is this function deprecated?  Cameron 19 March 2004.
+   */
   this.addListeners = function() {
     var initialMode = this.widgetNode.selectSingleNode("initialMode").firstChild.nodeValue;
     this.setMode( initialMode );
@@ -69,6 +75,11 @@ function ButtonBar(widgetNode, group) {
 }
 
 
+/**
+ * Base Button object that all Buttons extend.
+ * @param toolNode TBD document me.
+ * @param parentWidget TBD document me.
+ */
 function ButtonBase(toolNode, parentWidget) {
   this.parentWidget = parentWidget;
 
