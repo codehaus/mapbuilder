@@ -4,6 +4,28 @@ $Id$
 
 This file contains information about updates to each release:
 
+
+mapbuilder-lib-0.1 (beta quality)
+=================================
+This release has become very stable.  The only known issue of consequence is
+that the pages take a long time to load over a slow connection without any user
+feedback.  This is not a problem if you install mapbuilder-lib locally.
+
+Outstanding Issues:
+-------------------
+962714 Slow load with no user feedback
+964720 lat/long populated even when mouse is off widget
+
+Issues addressed since last release:
+------------------------------------
+962718 Selection of Layers in Mozilla 1.5
+963966 enabling tools from buttons
+966438 Query image icon broken for relative directories
+966436 Add Pan Tool
+958878 AOI box larger than locator map
+960701 AOI Box not visible at startup
+
+
 mapbuilder-lib-0.1-rc3 (beta quality):
 ======================================
 * Added Reset button which resets to original area of interest
