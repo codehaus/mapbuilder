@@ -12,8 +12,6 @@
 
   <models>
 
-
-
     <Context id="mainMap">
 
       <defaultModelUrl>../data/context/atlasWorld.xml</defaultModelUrl>
@@ -52,8 +50,6 @@
 
         </AoiBoxDHTML>
 
-        
-
       </widgets>
 
       <tools>
@@ -70,11 +66,7 @@
 
     </Context>
 
-      
-
   </models>
-
-  
 
   <widgets>
 
@@ -140,24 +132,6 @@
 
     </DragPan>
 
-    <SetAoi id="setAoi">
-
-      <buttonBar>mainButtonBar</buttonBar>
-
-      <targetModel>mainMap</targetModel>
-
-      <mouseHandler>mainAoi</mouseHandler>
-
-      <class>RadioButton</class>
-
-      <enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
-
-      <disabledSrc>/images/SetAoiDisable.gif</disabledSrc>
-
-      <tooltip xml:lang="en">click and drag to set the area of interest</tooltip>
-
-    </SetAoi>
-
     <Reset id="reset">
 
       <buttonBar>mainButtonBar</buttonBar>
@@ -174,15 +148,9 @@
 
     </Reset>
 
-  
-
   </widgets>
 
-
-
   <skinDir>../../lib/skin/default</skinDir>
-
-
 
 </MapbuilderConfig>
 
