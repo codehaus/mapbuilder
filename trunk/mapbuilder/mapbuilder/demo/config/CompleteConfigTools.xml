@@ -20,7 +20,7 @@
           <htmlTagId>mainMapPane</htmlTagId>
           <mapContainerId>mainMapContainer</mapContainerId>
         </MapPane>
-        <AoiBoxWZ id="aoiBox2">
+        <AoiBoxWZ id="aoiBoxMain">
           <htmlTagId>mainMapPane</htmlTagId>
           <stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
@@ -68,7 +68,7 @@
           <mapContainerId>locatorContainer</mapContainerId>
           <fixedWidth>180</fixedWidth>
         </MapPane>
-        <AoiBoxWZ id="aoiBox2">
+        <AoiBoxWZ id="aoiBoxLocator">
           <htmlTagId>locatorMap</htmlTagId>
           <stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
