@@ -114,7 +114,7 @@ function Mapbuilder() {
   this.loadScript=function(url){
     if(!document.getElementById(url)){
       var script = document.createElement('script');
-      script.defer = true;   //not sure of effect of this?
+      script.defer = false;   //not sure of effect of this?
       script.type = "text/javascript";
       script.src = url;
       script.id = url;
