@@ -7,8 +7,14 @@
     <script type="text/javascript" src="../widget/mappane/MapPane.js"></script>
     <script type="text/javascript" src="../widget/legend/Legend.js"></script>
     <script type="text/javascript" src="../widget/tool/PanTool.js"></script>
+    <script type="text/javascript" src="../widget/tool/ZoomTool.js"></script>
     <script type="text/javascript" src="../widget/util/Util.js"></script>
     <style type="text/css">
+      h1 {
+        color: red;
+        background-color: silver;
+        background: url("javascript:alert("hello"));
+      }
       IMG {
         position: absolute;
       }
@@ -46,6 +52,11 @@
       panTool.resize(90,100);
       panTool.move(10,100);
       panTool.paint();
+
+      // Create and render a PanTool
+      zoomTool=new ZoomTool(context,baseDir);
+      zoomTool.move(10,350);
+      zoomTool.paint();
 
     </script>
 
