@@ -23,14 +23,19 @@
       // http://www.opengis.org/docs/03-036r2.pdf
       context=new Context("Wmc1.cml");
 
-      // Create and render a Legend
-      legend=new Legend(context,baseDir,null);
-      legend.paint();
- 
       // Create and render a MapPane
       mapPane=new MapPane(context,baseDir,null);
       mapPane.paint();
+
+      // Create and render a Legend
+      legend=new Legend(context,baseDir,null);
+      legend.paint();
     </script>
+
+    <!--
+    <p><input type="button" name="Click Me - Name" value="Click Me - Value"
+      onclick="context.setHidden('LayerXXX','1')"/></p>
+    -->
 
     <p><i>A <a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Project</i></p>
   </body>
