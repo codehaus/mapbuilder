@@ -90,7 +90,7 @@ function Config(url) {
    * @param modelUrl  URL of the XML model document to be loaded
    */
   this.loadModel = function( modelId, modelUrl ) {
-    var model = this[modelId];
+    var model = this.objects[modelId];
     if (model && modelUrl) {
       model.url = modelUrl;
       model.loadModelDoc(model);
