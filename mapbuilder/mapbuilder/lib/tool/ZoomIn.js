@@ -15,10 +15,7 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * @param parentWidget  The ButtonBar widget.
  */
 function ZoomIn(toolNode, parentWidget) {
-  var base = new ButtonBase(toolNode, parentWidget);
-  for (sProperty in base) { 
-    this[sProperty] = base[sProperty]; 
-  }
+  var base = new ButtonBase(this, toolNode, parentWidget);
 
   this.zoomBy = 4;//TBD: get this from config
 
@@ -49,8 +46,8 @@ function ZoomIn(toolNode, parentWidget) {
       toolRef.mouseHandler.addListener('mouseup',toolRef.doAction,toolRef);
     }
   }
-  this.setMouseListener(this);
-  this.targetModel.addListener( "loadModel", this.setMouseListener, this );
+  //this.setMouseListener(this);
+  this.parentWidget.targetModel.addListener( "loadModel", this.setMouseListener, this );
 
 }
 

@@ -16,12 +16,9 @@ $Id$
  * @see ModelBase
  * @see Listener
  */
-function DescribeFeatureType(modelNode) {
+function DescribeFeatureType(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(modelNode);
-  for (sProperty in modelBase) { 
-    this[sProperty] = modelBase[sProperty]; 
-  }
+  var modelBase = new ModelBase(this, modelNode, parent);
 
 }
 

@@ -22,15 +22,10 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * @param model       The model object that this widget belongs to.
  */
 function ButtonBar(widgetNode, model) {
-  var base = new WidgetBase(widgetNode, model);
-  for (sProperty in base) { 
-    this[sProperty] = base[sProperty]; 
-  } 
+  var base = new WidgetBase(this, widgetNode, model);
 
   /**
    * calls the select() method for any selected buttons in this widget.
-   * This over-rides the default paint() method to transform the config doc 
-   * instead of the model.
    */
   this.init = function(objRef) {
     for (var sProperty in objRef) { 

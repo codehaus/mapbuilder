@@ -21,10 +21,7 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  */
 
 function AoiMouseHandler(toolNode, parentWidget) {
-  var base = new ToolBase(toolNode, parentWidget);
-  for (sProperty in base) { 
-    this[sProperty] = base[sProperty]; 
-  } 
+  var base = new ToolBase(this, toolNode, parentWidget);
 
   /**
    * Process the mouseup action by stopping the drag.
@@ -88,7 +85,11 @@ function AoiMouseHandler(toolNode, parentWidget) {
     this.model.setParam("aoi", new Array(ul,lr) );
   }
 
-  parentWidget.addListener('mousedown',this.mouseDownHandler,this);
-  parentWidget.addListener('mousemove',this.mouseMoveHandler,this);
-  parentWidget.addListener('mouseup',this.mouseUpHandler,this);
+  this.init = function(toolRef) {
+    toolRef.parentWidget.addListener('mousedown',toolRef.mouseDownHandler,toolRef);
+    toolRef.parentWidget.addListener('mousemove',toolRef.mouseMoveHandler,toolRef);
+    toolRef.parentWidget.addListener('mouseup',toolRef.mouseUpHandler,toolRef);
+  }
+  this.model.addListener( "loadModel", this.init, this );
+
 }

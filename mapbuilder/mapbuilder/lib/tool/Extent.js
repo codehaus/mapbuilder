@@ -56,18 +56,21 @@ function Extent( model, initialRes ) {
     this.CenterAt(center, scale/mbScaleFactor );
   }
 
-  this.init = function(extent, initialRes) {
+  this.init = function(extent) {  //, initialRes) {
     var bbox = extent.model.getBoundingBox();
     extent.ul = new Array(bbox[0],bbox[3]);
     extent.lr = new Array(bbox[2],bbox[1]);
+    extent.SetResolution( new Array(extent.model.getWindowWidth(), extent.model.getWindowHeight() ) );
+/*
     if ( initialRes ) {
       extent.SetSize( initialRes );
     } else {
       extent.SetResolution( new Array(extent.model.getWindowWidth(), extent.model.getWindowHeight() ) );
     }
+*/
   }
-  //this.model.addListener( "aoi", this.init, this );
-  this.init(this, initialRes);
+  this.model.addListener( "loadModel", this.init, this );
+  //this.init(this, initialRes);
 }
 
 /**

@@ -22,22 +22,20 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
  * @param parentWidget  Reference to the widget object that creates this tool
  */
 function ZoomToAoi(toolNode, parentWidget) {
-  var base = new ToolBase(toolNode, parentWidget);
-  for (sProperty in base) { 
-    this[sProperty] = base[sProperty]; 
-  } 
+  var base = new ToolBase(this, toolNode, parentWidget);
+
+  this.targetModel = this.parentWidget.targetModel;
 
   /**
    * Target model loadModel change listener.  This resets the projection objects
    * if the target model changes.
    * @param tool        Pointer to this ZoomToAoi object.
    */
-  this.setModel = function( tool ) {
-    tool.targetModel.proj = new Proj( tool.targetModel.getSRS() );
-    tool.model.proj = new Proj( tool.model.getSRS() );
+  this.initProj = function( modelRef ) {
+    modelRef.proj = new Proj( modelRef.getSRS() );
   }
-  this.setModel(this);
-  this.targetModel.addListener( "loadModel", this.setModel, this );
+  this.model.addListener( "loadModel", this.initProj, this.model );
+  this.targetModel.addListener( "loadModel", this.initProj, this.targetModel );
 
   /**
    * Target model bbox change listener.  This sets this model's AOI to be the
@@ -59,8 +57,7 @@ function ZoomToAoi(toolNode, parentWidget) {
     tool.model.setParam("aoi", new Array(ul, lr) );
   }
   this.targetModel.addListener( "boundingBox", this.showTargetAoi, this );
-  this.targetModel.addListener( "loadModel", this.showTargetAoi, this );
-  this.showTargetAoi(this);   
+  //this.targetModel.addListener( "loadModel", this.showTargetAoi, this );
 
 
   /**

@@ -7,19 +7,24 @@ $Id$
  * Base Tool object that all Tools extend.
  * @constructor
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
+ * @param tool     Pointer to the tool instance being created
  * @param toolNode The tool node from the Config XML file.
  * @param parentWidget The widget object which created this tool.
  */
-function ToolBase(toolNode, parentWidget) {
-  this.model = parentWidget.model;
-  this.parentWidget = parentWidget;
-  this.toolNode = toolNode;
+function ToolBase(tool, toolNode, parentWidget) {
+  tool.model = parentWidget.model;
+  tool.parentWidget = parentWidget;
+  tool.toolNode = toolNode;
 
   var id = toolNode.selectSingleNode("@id");
-  if (id) this.id = id.firstChild.nodeValue;
+  if (id) tool.id = id.firstChild.nodeValue;
+
+  /** Mouse handler which this tool will register listeners with. */
+  var mouseHandler = tool.toolNode.selectSingleNode("mb:mouseHandler");
+  if (mouseHandler) tool.objEvalStr = "config." + mouseHandler.firstChild.nodeValue;
 
   //initialize dynamic properties
-  this.initModels = function(toolRef) {
+  tool.initModels = function(toolRef) {
     /** The model this tool will update. */
     var targetModel = toolRef.toolNode.selectSingleNode("mb:targetModel");
     if (targetModel) {
@@ -30,32 +35,31 @@ function ToolBase(toolNode, parentWidget) {
     }
 
     /** Mouse handler which this tool will register listeners with. */
-    var mouseHandler = toolRef.toolNode.selectSingleNode("mb:mouseHandler");
-    if (mouseHandler) {
-      var evalObj = eval( "config." + mouseHandler.firstChild.nodeValue );
+    if (toolRef.objEvalStr) {
+      var evalObj = eval(toolRef.objEvalStr);
       if (evalObj) {
         toolRef.mouseHandler = evalObj;
       } else {
-        alert( "invalid object reference in config:" + mouseHandler.firstChild.nodeValue );
+        alert( "ToolBase.init: invalid object reference in config:" + toolRef.objEvalStr);
       }
     }
   }
-  this.initModels(this);
-  this.targetModel.addListener( "loadModel", this.initModels, this );
+  tool.parentWidget.targetModel.addListener( "loadModel", tool.initModels, tool );
+  tool.initModels(tool);
 
   //dependant tools that must be enabled/disabled when this tool is enabled
-  this.dependancies = toolNode.getElementsByTagName("dependsOn");
+  tool.dependancies = toolNode.getElementsByTagName("dependsOn");
 
   //tools enabled by default; can set to false in config for initial loading
-  this.enabled = true;    
+  tool.enabled = true;    
   var enabled = toolNode.selectSingleNode("mb:enabled");
-  if (enabled) this.enabled = eval(enabled.firstChild.nodeValue);
+  if (enabled) tool.enabled = eval(enabled.firstChild.nodeValue);
 
   /**
    * enable or disable this tool and any dependant tools 
    * @param enabled   set to true or false to enable or disable
    */
-  this.enable = function(enabled) {
+  tool.enable = function(enabled) {
     this.enabled = enabled;
     for (var i=0; i<this.dependancies.length; ++i) {
       var otherTool = eval("config."+this.dependancies[i].firstChild.nodeValue);

@@ -58,18 +58,13 @@ function PostFeatureRequest(widgetNode, model) {
     alert("no targetModel");
   }
 
-  // Set stylesheet parameters for all the child nodes from the config file
+  // Set stylesheet parameters for all the child text nodes from the config file
   for (var j=0;j<widgetNode.childNodes.length;j++) {
-    if (widgetNode.childNodes[j].firstChild
-      && widgetNode.childNodes[j].firstChild.nodeValue)
-    {
-      this.stylesheet.setParameter(
-        widgetNode.childNodes[j].nodeName,
-        widgetNode.childNodes[j].firstChild.nodeValue);
+    with (widgetNode.childNodes[j]) {
+      if (firstChild.nodeName == "tools") continue;
+      if (firstChild.nodeValue) this.stylesheet.setParameter( firstChild.nodeName, firstChild.nodeValue);
     }
   }
-  //this is supposed to work too instead of above?
-  //this.stylesheet.setParameter("widgetNode", widgetNode );
 
   //all stylesheets will have these properties available
   this.stylesheet.setParameter("modelId", this.model.id );
@@ -93,14 +88,16 @@ function PostFeatureRequest(widgetNode, model) {
       if (objRef.debug) alert("stylesheet:"+objRef.stylesheet.xslDom.xml);
 
       //process the doc with the stylesheet
-      //var newDoc = objRef.stylesheet.transformNodeToObject(feature);
       var newDoc = objRef.stylesheet.transformNodeToObject(feature);
-      if (objRef.debug) alert("posting:"+objRef.id+":"+newDoc.xml);
 
-      //var serverUrl = "http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA";
-      //var serverUrl = "http://www.cadcorpdev.co.uk/massgis/wfs.exe";
       var serverUrl = feature.serverUrl;
-      //var serverUrl = "/mapbuilder/writeXml";
+      if (feature.method == "get") {
+        newDoc = null;
+        if (objRef.debug) alert("http get:"+objRef.id+":"+serverUrl);
+      } else {
+        //serverUrl = "/mapbuilder/writeXml";
+        if (objRef.debug) alert("http post:"+objRef.id+": to :"+serverUrl+":"+newDoc.xml);
+      }
       model.loadModelDoc(serverUrl,newDoc);
       alert("loaded:"+model.doc.xml);
       model.callListeners("loadModel");

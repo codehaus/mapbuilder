@@ -11,35 +11,45 @@ $Name$
 
 <xsl:stylesheet version="1.0" 
     xmlns:cml="http://www.opengis.net/context" 
+    xmlns:wfs="http://www.opengis.net/wfs"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
-  <xsl:output method="xml"/>
-  <xsl:strip-space elements="*"/>
+  <xsl:output method="xml" omit-xml-declaration="no" encoding="utf-8" indent="yes"/>
 
   <!-- The coordinates of the DHTML Layer on the HTML page -->
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
-  <xsl:param name="context">config['<xsl:value-of select="$modelId"/>']</xsl:param>
-
+  
   <xsl:param name="bbox">
     <xsl:value-of select="/cml:OWSContext/cml:General/cml:BoundingBox/@minx"/>,<xsl:value-of select="/cml:OWSContext/cml:General/cml:BoundingBox/@miny"/>,
     <xsl:value-of select="/cml:OWSContext/cml:General/cml:BoundingBox/@maxx"/>,<xsl:value-of select="/cml:OWSContext/cml:General/cml:BoundingBox/@maxy"/>
   </xsl:param>
-  <xsl:param name="width">
-    <xsl:value-of select="/cml:OWSContext/cml:General/cml:Window/@width"/>
-  </xsl:param>
-  <xsl:param name="height">
-    <xsl:value-of select="/cml:OWSContext/cml:General/cml:Window/@height"/>
-  </xsl:param>
   <xsl:param name="srs" select="/cml:OWSContext/cml:General/cml:BoundingBox/@SRS"/>
   
   <!-- template rule matching source root element -->
-  <xsl:template match="/cml:OWSContext">
-      <DIV ID="{$mapContainerId}" STYLE="width:{$width}; height:{$height}; margin:0; padding:0pt; position:relative; overflow:hidden">
-        <xsl:apply-templates select="cml:ResourceList/*"/>
-      </DIV>
+  <xsl:template match="/cml:ViewContext/cml:ResourceList/cml:FeatureType">
+    <xsl:param name="resourceName" select="cml:Name"/>
+    <xsl:param name="featureSrs" select="cml:SRS"/>
+    <GetFeature version="1.0.0" service="WFS" maxFeatures="50"
+      xmlns="http://www.opengis.net/wfs"
+      xmlns:ogc="http://www.opengis.net/ogc">
+      <Query typeName="{$resourceName}">
+         <!--ogc:PropertyName>GML_Geometry</ogc:PropertyName>
+         <ogc:PropertyName>DEFINITION</ogc:PropertyName>
+         <ogc:PropertyName>LU37_CODE</ogc:PropertyName>
+         <ogc:PropertyName>YEAR</ogc:PropertyName>
+          <Filter xmlns="http://www.opengis.net/ogc">
+            <PropertyIsEqualTo>
+              <PropertyName>CATEGORY</PropertyName>
+              <Literal>Forest</Literal>
+            </PropertyIsEqualTo>
+          </Filter-->
+      </Query>
+    </GetFeature>
   </xsl:template>
   
+  
+  <xsl:template match="text()|@*"/>
 
 </xsl:stylesheet>

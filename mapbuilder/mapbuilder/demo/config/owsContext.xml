@@ -22,7 +22,6 @@
           <widgets>
             <GmlRenderer id="testGmlRenderer">
               <htmlTagId>mainMapPane</htmlTagId>
-              <targetModel>mainMap</targetModel>
               <debug/>
               <mapContainerId>mainMapContainer</mapContainerId>
               <lineColor>#FF0000</lineColor>
@@ -55,9 +54,9 @@
           <mouseHandler>mainMap.mainMapWidget</mouseHandler>
         </CursorTrack>
         <Legend id="legend"/>
-        <WidgetBase id="mapTitle">
+        <Widget id="mapTitle">
           <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
-        </WidgetBase>
+        </Widget>
         <GetFeatureRequest id="getFeatureRequest">
           <targetModel>gml2FeatureTemplate</targetModel>
           <tools>
@@ -74,6 +73,7 @@
       <widgets>
         <MapPane id="locatorMapWidget">
           <htmlTagId>locatorMap</htmlTagId>
+          <targetModel>mainMap</targetModel>
           <tools>
             <AoiBox>
               <lineColor>red</lineColor>
@@ -82,7 +82,6 @@
             </AoiBox>
             <AoiMouseHandler/>
             <ZoomToAoi>
-              <targetModel>mainMap</targetModel>
             </ZoomToAoi>
           </tools>
           <mapContainerId>locatorContainer</mapContainerId>

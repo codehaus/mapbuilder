@@ -25,12 +25,9 @@ mapbuilder.loadScript(baseDir+"/tool/Extent.js");
  * @see ModelBase
  * @see Listener
  */
-function Context(modelNode) {
+function Context(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(modelNode);
-  for (sProperty in modelBase) { 
-    this[sProperty] = modelBase[sProperty]; 
-  }
+  var modelBase = new ModelBase(this, modelNode, parent);
 
   this.namespace = "xmlns:cml='http://www.opengis.net/context' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'";
 
@@ -177,14 +174,16 @@ function Context(modelNode) {
     win.setAttribute("height", height);
   }
 
-  this.getFeatureList = function() {
-    var featureList = this.doc.selectNodes("/cml:ViewContext/cml:ResourceList/cml:FeatureType[cml:Server/@service='OGC:WFS']");
-    for (var i=0; i<featureList.length; i++) {
-      var feature = featureList[i];
-      feature.serverUrl = feature.selectSingleNode("cml:Server/cml:OnlineResource").getAttribute("xlink:href");
-    }
-    return featureList;
+  this.getFeatureList = function(nodeSelectXpath) {
+    return this.doc.selectNodes("/cml:ViewContext/cml:ResourceList/cml:FeatureType[cml:Server/@service='OGC:WFS']");
   }
   
+  this.getServerUrl = function(feature) {
+    return feature.selectSingleNode("cml:Server/cml:OnlineResource").getAttribute("xlink:href");
+  }
+  this.getMethod = function(feature) {
+    return feature.selectSingleNode("cml:Server/cml:OnlineResource").getAttribute("cml:method");
+  }
+
 }
 

@@ -10,66 +10,104 @@ $Id$
  * @constructor
  * @author Cameron Shorter
  * @see Listener
+ * @param model       Pointer to the model instance being created
+ * @param modelNode   The model's XML object node from the configuration document.
+ * @param parentModel The model object that this widget belongs to.
  */
-function ModelBase(modelNode) {
+function ModelBase(model, modelNode, parentModel) {
   // Inherit the Listener functions and parameters
   var listener = new Listener();
   for (sProperty in listener) { 
-    this[sProperty] = listener[sProperty]; 
+    model[sProperty] = listener[sProperty]; 
   } 
 
-  //calling ModelBase with no params skips this section
+  //calling ModelBase with no params skips this section (for config)
   if (modelNode) {
-    this.modelNode = modelNode;
+    model.modelNode = modelNode;
     var idAttr = modelNode.attributes.getNamedItem("id");
     if (idAttr) {
-      this.id = idAttr.nodeValue;
+      model.id = idAttr.nodeValue;
     } else {
       //auto generated unique ID assigned to this model
-      this.id = "MbModel_" + mbIds.getId();
+      model.id = "MbModel_" + mbIds.getId();
     }
   }
 
   /**
-   * Load a Model's configuration file from url.
-   * @param objRef Pointer to this object.
-   * @param url Url of the configuration file.
+   * Load a Model's document from a url.
+   * @param modelRef Pointer to the model object being loaded.
    */
-  this.loadModelDoc = function(url,postData){
-    this.url = url;
-    if (url) {
-      if (postData) {
-        this.doc = postLoad(url,postData);
-        if (this.doc.parseError < 0){
-          alert("error loading document: " + url + " - " + Sarissa.getParseErrorText(this.doc) );
+  model.loadModelDoc = function(modelRef){
+
+    if (modelRef.url) {
+      modelRef.callListeners( "newModel" );
+
+      if (modelRef.postData) {
+        //http POST
+        modelRef.doc = postLoad(modelRef.url,modelRef.postData);
+        if (modelRef.doc.parseError < 0){
+          alert("error loading document: " + modelRef.url + " - " + Sarissa.getParseErrorText(modelRef.doc) );
         }
       } else {
-        this.doc = Sarissa.getDomDocument();
-        this.doc.async = false;
-        this.doc.validateOnParse=false;  //IE6 SP2 parsing bug
-        url=getProxyPlusUrl(url);
-        this.doc.load(url);
-        if (this.doc.parseError < 0){
-          alert("error loading document: " + url + " - " + Sarissa.getParseErrorText(this.doc) );
+        //http GET
+        modelRef.doc = Sarissa.getDomDocument();
+        modelRef.doc.async = false;
+        modelRef.doc.validateOnParse=false;  //IE6 SP2 parsing bug
+        var url=getProxyPlusUrl(modelRef.url);
+        modelRef.doc.load(url);
+        if (modelRef.doc.parseError < 0){
+          alert("error loading document: " + modelRef.url + " - " + Sarissa.getParseErrorText(modelRef.doc) );
         }
       }
+      // the following two lines are needed for IE; set the namespace for selection
+      modelRef.doc.setProperty("SelectionLanguage", "XPath");
+      if (modelRef.namespace) Sarissa.setXpathNamespaces(modelRef.doc, modelRef.namespace);
+
+      //call the loadModel event
+      modelRef.callListeners("loadModel");
+
     } else {
-      alert("url parameter required for loadModelDoc");
+      //no URL means this is a template model
+      //alert("url parameter required for loadModelDoc");
     }
 
-    // the following two lines are needed for IE; set the namespace for selection
-    this.doc.setProperty("SelectionLanguage", "XPath");
-    if (this.namespace) Sarissa.setXpathNamespaces(this.doc, this.namespace);
-
-    //this.callListeners("loadModel");
   }
 
   /**
    * Paint all the widgets and initialise any tools the widget may have.
    * @param objRef Pointer to this object.
    */
-  this.loadWidgets = function(objRef) {
-    var widgets = objRef.modelNode.selectNodes("mb:widgets/*");
+  model.loadModels = function() {
+    //loop through all child models of this one
+    var models = this.modelNode.selectNodes( "mb:models/*" );
+    for (var i=0; i<models.length; i++ ) {
+      var modelNode = models[i];
+
+      //instantiate the Model object
+      var modelType = modelNode.nodeName;
+      var evalStr = "new " + modelType + "(modelNode,this);";
+      var model = eval( evalStr );
+      if ( model ) {
+        this[model.id] = model;
+        config[model.id] = model;
+      } else { 
+        alert("error creating model object:" + modelType);
+      }
+    }
+  }
+
+  if (parentModel) {
+    model.parentModel = parentModel;
+    parentModel.addListener("loadModel",model.loadModelDoc, model);
+  }
+
+
+  /**
+   * Paint all the widgets and initialise any tools the widget may have.
+   * @param objRef Pointer to this object.
+   */
+  model.loadWidgets = function() {
+    var widgets = this.modelNode.selectNodes("mb:widgets/*");
     for (var j=0; j<widgets.length; j++) {
       var widgetNode = widgets[j];
       var widgetId = widgetNode.attributes.getNamedItem("id")
@@ -77,26 +115,45 @@ function ModelBase(modelNode) {
       
       //remove widget generated content first
       var widget = null;
-      if (widgetId && objRef[widgetId]) {
+      if (widgetId && this[widgetId]) {
         //remove any output from this widget
-        widget = objRef[widgetId];
+        widget = this[widgetId];
         var outputNode = document.getElementById( widget.mbWidgetId );
         if (outputNode) widget.node.removeChild( outputNode );
       }
 
       //call the widget constructor
-      var evalStr = "new " + widgetNode.nodeName + "(widgetNode, objRef);";
+      var evalStr = "new " + widgetNode.nodeName + "(widgetNode, this);";
       widget = eval( evalStr );
       if (widget) {
         //paint the widget and load the tools
-        objRef[widget.id] = widget;
-        widget.paint(widget);
+        this[widget.id] = widget;
         widget.loadTools();
       } else {
         alert("error creating widget:" + widgetNode.nodeName);
       }
-
     }
   }
 
+  //load the Model object from the initial URL in config or from a URL param.
+  //the URL can also be passed in as a URL parameter by using the model ID
+  //as the parameter name (this method takes precendence over the config file
+  model.url = null;
+  if (modelNode) {
+    if (config.cgiArgs[model.id]) {  
+      model.url = cgiArgs[model.id];
+    } else if (window[model.id]) {  
+      model.url = window[model.id];
+    } else {
+      var defaultModel = modelNode.selectSingleNode("mb:defaultModelUrl");
+      if (defaultModel) model.url = defaultModel.firstChild.nodeValue;
+    }
+  }
+
+  //don't load in models and widgets if this is the config doc, defer to config.init
+  //don't load template models
+  if (modelNode && model.url) {
+    model.loadModels();
+    model.loadWidgets();
+  }
 }

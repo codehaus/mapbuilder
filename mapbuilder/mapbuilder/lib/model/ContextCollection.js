@@ -13,10 +13,7 @@ $Id$
  */
 function ContextCollection(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(modelNode, parent);
-  for (sProperty in modelBase) { 
-    this[sProperty] = modelBase[sProperty]; 
-  }
+  var modelBase = new ModelBase(this, modelNode, parent);
 
   /** Insert a new context.
     * @param context An XML node which describes the context.

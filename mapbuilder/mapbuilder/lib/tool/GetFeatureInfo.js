@@ -35,14 +35,7 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  */
 
 function GetFeatureInfo(toolNode, parentWidget) {
-
-  var base = new ButtonBase(toolNode, parentWidget);
-
-  for (sProperty in base) { 
-
-    this[sProperty] = base[sProperty];    
-
-  } 
+  var base = new ButtonBase(this, toolNode, parentWidget);
 
 
 
