@@ -3,6 +3,9 @@ License: GPL as per: http://www.gnu.org/copyleft/gpl.html
 $Id$
 */
 
+// Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
+
 /**
  * When this button is selected, clicks on the MapPane trigger a zoomIn to the 
  * currently set AOI.
