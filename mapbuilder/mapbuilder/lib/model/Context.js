@@ -47,7 +47,7 @@ function Context(url) {
   }
 
   /**
-   * Change a Layer's visability.
+   * Change a Layer's visibility.
    * @param layerId The LayerList/Layer/Name from the Context which has changed.
    * @param hidden, 1=hidden, 0=not hidden.
    */
@@ -65,20 +65,65 @@ function Context(url) {
    * Get the BoundingBox.
    * @return BoundingBox array in form (xmin,ymin,xmax,ymax).
    */
-  this.getBoundingBox=function(){
+  this.getBoundingBox=function() {
     // TBD: Extract BoundingBox from the context
-    return new Array(-18.0,-9.0,18.0,9.0);
+    bbox=this.context.documentElement.selectNodes("/ViewContext/General/BoundingBox").item(0);
+    return new Array(bbox.getAttribute("minx"),bbox.getAttribute("miny"),bbox.getAttribute("maxx"),bbox.getAttribute("maxy"));
   }
 
   /**
    * Set the BoundingBox.
-   * @param boundingBox array in form (xmin,ymin,xmax,ymax).
+   * @param boundingBox array in form (xmin, ymin, xmax, ymax).
    */
-  this.getBoundingBox=function(boundingBox){
+  this.setBoundingBox=function(boundingBox) {
     // TBD: Set BoundingBox in context
-    alert("boundingBox="+boundingBox);
+    bbox=this.context.documentElement.selectNodes("/ViewContext/General/BoundingBox").item(0);
+    bbox.setAttribute("minx", bbox[0]);
+    bbox.setAttribute("miny", bbox[1]);
+    bbox.setAttribute("maxx", bbox[2]);
+    bbox.setAttribute("maxy", bbox[3]);
   }
+
+  /**
+   * Get the Window width.
+   * @return width The width of map window (therefore of map layer images).
+   */
+  this.getWindowWidth=function() {
+    win=this.context.documentElement.getElementsByTagName("Window").item(0);
+    width=win.getAttribute("width");
+    return width;
+  }
+
+  /**
+   * Set the Window width.
+   * @param width The width of map window (therefore of map layer images).
+   */
+  this.setWindowWidth=function(width) {
+    win=this.context.documentElement.getElementsByTagName("Window").item(0);
+    win.setAttribute("width", width);
+  }
+
+  /**
+   * Get the Window height.
+   * @return height The height of map window (therefore of map layer images).
+   */
+  this.getWindowHeight=function() {
+    win=this.context.documentElement.getElementsByTagName("Window").item(0);
+    height=win.getAttribute("height");
+    return height;
+  }
+
+  /**
+   * Set the Window height.
+   * @param height The height of map window (therefore of map layer images).
+   */
+  this.setWindowHeight=function(height) {
+    win=this.context.documentElement.getElementsByTagName("Window").item(0);
+    win.setAttribute("height", height);
+  }
+
 }
+
 
 /**
  * The event sent when a Hidden attribute changes.
