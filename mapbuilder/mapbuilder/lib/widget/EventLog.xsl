@@ -10,9 +10,9 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <!--
 
-Description: Convert a Web Map Context into a HTML Legend
+Description: Show an event log, used for debugging.
 
-Author:      Cameron Shorter cameron ATshorter.net
+Author:      Mike Adair
 
 Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 
