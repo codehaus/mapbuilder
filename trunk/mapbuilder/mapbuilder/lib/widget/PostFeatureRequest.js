@@ -90,9 +90,9 @@ function PostFeatureRequest(widgetNode, model) {
       if (objRef.debug) alert("stylesheet:"+objRef.stylesheet.xslDom.xml);
 
       //instantiate the Model object
-      var modelType = objRef.targetModel;
-      var modelNode = config.doc.getElementById(objRef.targetModel);
-      var evalStr = "new " + modelType + "(modelNode);";
+      //var modelNode = config.doc.getElementById(objRef.targetModel);  //not sure why getEleById doesn't work with the config doc
+      var targetModelNode = config.doc.documentElement.selectSingleNode("//mb:*[@id='"+objRef.targetModel+"']");
+      var evalStr = "new " + targetModelNode.nodeName + "(targetModelNode);";
       var model = eval( evalStr );
       if ( model ) {
         //auto generated ID assigned to this model
