@@ -790,133 +790,97 @@
         <para>Tool Components process mouse and key actions on behalf of a
         widget and update Model Components with new state information.</para>
 
-        <para>A Widget Tool contains button(s) that a user can click, like a
-        PanLeft button or a ZoomPanel. The Tools contain logic to update
-        Context when they have been pressed. In the Model-View-Controller
-        design pattern, these Tools are both a View and a Controller.</para>
+        <section>
+          <title>ButtonBase</title>
+
+          <para>Tools which extend ButtonBase have a Button image associated
+          with the Tool which allows a user to select the Tool using the
+          Button.</para>
+        </section>
       </section>
 
       <section id="util">
         <title>Util</title>
 
-        <section id="events">
-          <title>Events</title>
+        <section id="listener">
+          <title>Listener</title>
 
-          <!--TBD:  Can we move this to after 3.2.6 below and have it describe how abstract objects implements the listener 
-arrays and how they get set/called?   Mike March 27, 2004-->
+          <para>The Listener object provides setParam() and getParam()
+          methods, and notifies Listeners when the parameter changes. Objects
+          requiring this functionality extend the Listener object.</para>
 
-          <para><emphasis role="bold">Warning:</emphasis> This section is out
-          of date.</para>
+          <para>The Listener object was introduced to overcome Javascript's
+          poor support for events.</para>
 
-          <para>Mapbuilder's Model-View-Controller design requires events.
-          While Javascript provides standard events for some GUI events, it's
-          support for custom events is limited in recent browsers and not
-          provided in older browsers. Consequency, Mapbuilder components use
-          their own event system.</para>
+          <example>
+            <title>Simple use of Listener</title>
 
-          <para>Here mapbuilder events by example, using BoundingBoxEvent
-          which is sent from Context to MapPane when the BoundingBox
-          changes.</para>
+            <blockquote>
+              <para><citetitle>SomeModel</citetitle> contains a parameter
+              <citetitle>someParam</citetitle> and
+              <citetitle>SomeWidget</citetitle> needs to repaint itself
+              whenever <citetitle>someParam</citetitle> changes.</para>
 
-          <variablelist>
-            <varlistentry>
-              <term>Store list of listeners</term>
+              <variablelist>
+                <varlistentry>
+                  <term>SomeModel extends Listener()</term>
 
-              <listitem>
-                <para>Context.js stores an array of listeners to call when
-                context changes.</para>
-
-                <programlisting>/** Functions to call when the boundingBox changes. */
-this.boundingBoxChangeListeners=new Array();
-</programlisting>
-              </listitem>
-            </varlistentry>
-
-            <varlistentry>
-              <term>add&lt;Event&gt;Listener()</term>
-
-              <listitem>
-                <para>Context.js needs a procedure for registering
-                Listeners.</para>
-
-                <programlisting>/**
- * Add a Listener for boundingBox change.
- * @param listener The function to call when the boundingBox changes.
- * @param target The object which owns the listener function.
- */
-this.addBoundingBoxChangeListener=function(listener,target) {
-  this.boundingBoxChangeListeners[this.boundingBoxChangeListeners.length]=
-    new Array(listener,target);
-}
-</programlisting>
-
-                <para>Note: the target object which owns the listener function
-                needs to be stored. In javascript, when the listener function
-                is called it does not have a reference back to the object
-                which owns the function.</para>
-              </listitem>
-            </varlistentry>
-
-            <varlistentry>
-              <term>call Listeners</term>
-
-              <listitem>
-                <para>When the boundingBox changes in Context.js, call all
-                listeners.</para>
-
-                <programlisting>/**
- * Set the BoundingBox and notify intererested widgets that BoundingBox
- * has changed.
- * @param boundingBox array in form (xmin, ymin, xmax, ymax).
- */
-this.setBoundingBox=function(boundingBox) {
-  // Set BoundingBox in context
-  // ...
-
-  // Call all listener(target) functions
-  for (var i=0; i&lt;this.boundingBoxChangeListeners.length; i++) {
-    this.boundingBoxChangeListeners[i][0](
-      this.boundingBoxChangeListeners[i][1]);
+                  <listitem>
+                    <programlisting>function SomeModel() {
+  // Inherit the Listener functions and parameters
+  var listener = new Listener();
+  for (sProperty in listener) { 
+    this[sProperty] = listener[sProperty]; 
   }
-}
-</programlisting>
-              </listitem>
-            </varlistentry>
+  ...</programlisting>
+                  </listitem>
+                </varlistentry>
 
-            <varlistentry>
-              <term>Listener function</term>
+                <varlistentry>
+                  <term>SomeWidget registers to receive update events when
+                  someParam changes</term>
 
-              <listitem>
-                <para>MapPane.js defines a function to call when BoundingBox
-                changes. The function needs to register with
-                Context.js.</para>
+                  <listitem>
+                    <programlisting>  /** Function called when someParam changes */
+  this.someFunction=function(objRef){
+    alert("someParam has changed");
+  }
+  someModel.addListener("someParam",this.someFunction,this);</programlisting>
+                  </listitem>
+                </varlistentry>
 
-                <programlisting>/**
- * Called when the context's boundingBox attribute changes.
- * @param target This object.
- */
-this.boundingBoxChangeListener=function(target){
-  target.paint();
-}
+                <varlistentry>
+                  <term>SomeTool updates someParam and triggers a call to
+                  SomeWidget.someFunction</term>
 
-// Register this listener with context.
-this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
-</programlisting>
-
-                <para>Note: The listener function requires this object to be
-                passed in as a parameter. In javascript, when the listener
-                function is called it does not have a reference back to the
-                object which owns the function.</para>
-              </listitem>
-            </varlistentry>
-          </variablelist>
+                  <listitem>
+                    <programlisting>  SomeModel.setParam("someParam", "newValue");</programlisting>
+                  </listitem>
+                </varlistentry>
+              </variablelist>
+            </blockquote>
+          </example>
         </section>
       </section>
 
       <section id="inheritance">
         <title>Inheritance</title>
 
-        <para></para>
+        <para>Javascript doesn't naturally provide inheritence. Instead there
+        are a number of hack solutions that a programmer can choose from. In
+        mapbuilder-lib, the following method is used:</para>
+
+        <example>
+          <title>SomeObject inherits from the Listener Object</title>
+
+          <programlisting>function SomeObject() {
+  // Inherit the Listener functions and parameters
+  var listener = new Listener();
+  for (sProperty in listener) { 
+    this[sProperty] = listener[sProperty]; 
+  }
+  ...</programlisting>
+        </example>
       </section>
 
       <section>
@@ -953,7 +917,7 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
       <section id="loading">
         <title>Loading</title>
 
-        <para>This section to cover loading scripts.</para>
+        <para>TBD: This section to cover loading scripts.</para>
 
         <itemizedlist>
           <listitem>
