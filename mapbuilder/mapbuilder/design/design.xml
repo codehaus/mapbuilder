@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
 "http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
-<article id="sdd">
+<article id="design">
   <title>Community Map Builder Software Design Description</title>
 
   <abstract>
@@ -165,6 +165,12 @@ I think the CMB should also provide logic for community editing of shared data
       <section id="mvc">
         <title>Model View Controller</title>
 
+        <para>Mapbuilder uses the Model View Controller (MVC) design pattern.</para>
+      </section>
+
+      <section id="mvcoverview">
+        <title>MVC Overview</title>
+
         <figure>
           <title>Model View Controller</title>
 
@@ -175,9 +181,8 @@ I think the CMB should also provide logic for community editing of shared data
           </mediaobject>
         </figure>
 
-        <para>Mapbuilder uses the Model View Controller (MVC) design pattern.
-        The MVC pattern forces one to think of an application in terms of
-        three modules:</para>
+        <para>The MVC pattern forces one to think of an application in terms
+        of three modules:</para>
 
         <variablelist>
           <varlistentry>
@@ -199,10 +204,9 @@ I think the CMB should also provide logic for community editing of shared data
               <para>The user interface which displays information about the
               model to the user. Views displaying dynamic data need to
               register for StateChange events from the Model.
-              <filename>Legend</filename>, <filename>MapPane</filename>,
-              <filename>LocatorMap</filename>, etc are all Mapbuilder Views
-              that get update events when <filename>Context</filename>
-              changes.</para>
+              <filename>Legend</filename>, <filename>MapPane</filename>, etc
+              are all Mapbuilder Views that get update events when
+              <filename>Context</filename> changes.</para>
             </listitem>
           </varlistentry>
 
@@ -218,6 +222,20 @@ I think the CMB should also provide logic for community editing of shared data
             </listitem>
           </varlistentry>
         </variablelist>
+
+        <para>Some components can act as both a View and Controller. For
+        example, a <filename>LocatorMap</filename> may allow users to draw a
+        select box to change the BoundingBox. Also, when the BoundingBox in
+        Context changes, the LocatorMap will draw a new Box over it&#39;s
+        basemap.</para>
+
+        <para>There is a lot of literature describing the MVC Design Pattern.
+        Here is <ulink
+        url="http://www.cs.indiana.edu/~cbaray/projects/mvc.html">one</ulink>.</para>
+      </section>
+
+      <section id="mvcbenefits">
+        <title>MVC benefits</title>
 
         <para>The benefits of using the MVC design pattern include:</para>
 
@@ -251,10 +269,6 @@ I think the CMB should also provide logic for community editing of shared data
             </listitem>
           </varlistentry>
         </variablelist>
-
-        <para>There is a lot of literature describing the MVC Design Pattern.
-        Here is <ulink
-        url="http://www.cs.indiana.edu/~cbaray/projects/mvc.html">one</ulink>.</para>
       </section>
     </section>
 
