@@ -78,13 +78,9 @@ $Name$
 
   <xsl:template match="gml:pointMember/gml:Point">
 
-    <xsl:variable name="box" select="gml:coordinates"/>
+    <xsl:variable name="x0" select="round((number(gml:coord/gml:X)-$bBoxMinX)*$xRatio - number($pointDiameter) div 2)"/>
 
-    <xsl:variable name="x0" select="round((substring-before($box,',')-$bBoxMinX)*$xRatio - number($pointDiameter) div 2)"/>
-
-    <xsl:variable name="box2" select="substring-after($box,',')"/>
-
-    <xsl:variable name="y0" select="round($height - (substring-before($box2,' ')-$bBoxMinY)*$yRatio - $pointDiameter div 2)"/>
+    <xsl:variable name="y0" select="round($height - (number(gml:coord/gml:Y)-$bBoxMinY)*$yRatio - $pointDiameter div 2)"/>
 
 
 
@@ -101,6 +97,8 @@ $Name$
 
 
   <!-- Match and render a GML Envelope -->
+
+  <!--
 
   <xsl:template match="gml:Envelope">
 
@@ -263,6 +261,8 @@ $Name$
     </xsl:call-template>
 
   </xsl:template>
+
+  -->
 
 
 
