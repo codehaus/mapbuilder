@@ -110,8 +110,8 @@ function Config(url) {
       var widget = eval( evalStr );
       widget.modelType = group.modelType;
 
-      widget.paint();
       widget.loadTools();
+      widget.paint();
       //this has to be called after widgets are painted
       widget.addListeners();
       group[widgetNode.nodeName] = widget;

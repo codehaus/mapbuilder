@@ -48,16 +48,23 @@ function doLoad() {
         <td id="mainMapPaneId"/>
       </tr>
       <tr>
-        <td>
-          <div id="toolListId"/>
-          <div id="buttonBarId"/>
+        <td id="toolListId">
         </td>
-        <td align="right" valign="top">
-    <FORM NAME="MapDisplayForm" ID="MapDisplayForm" STYLE="margin:0; padding:0; font-size:6pt;">
-            long:&nbsp;<input NAME="longitude" TYPE="text" SIZE="6" CLASS="bareinput">
-            &nbsp;&nbsp;&nbsp;
-            lat:&nbsp;<input NAME="latitude" TYPE="text" SIZE="6" CLASS="bareinput">
-    </FORM>
+        <td valign="top">
+          <table width="100%">
+            <tr>
+              <td align="left">
+                <div id="buttonBarId"/>
+              </td>
+              <td align="right">
+                <FORM NAME="MapDisplayForm" ID="MapDisplayForm" STYLE="margin:0; padding:0; font-size:6pt;">
+                  long:&nbsp;<input NAME="longitude" TYPE="text" SIZE="6" CLASS="bareinput">
+                  &nbsp;&nbsp;&nbsp;
+                  lat:&nbsp;<input NAME="latitude" TYPE="text" SIZE="6" CLASS="bareinput">
+                </FORM>
+              </td>
+            </tr>
+          </table>
         </td>
       </tr>
       <tr>

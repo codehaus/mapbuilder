@@ -59,6 +59,11 @@ function WidgetBase(widgetNode, group) {
     this.stylesheet.setParameter("modelIndex", this.model.modelIndex );
     var s = this.stylesheet.transformNode(this.model.doc);
     this.node.innerHTML = s;
+
+    for (var i=0; i<this.paintListeners.length; i++) {
+      this.paintListeners[i][0]( this.paintListeners[i][1] );
+    }
+
   }
 
   /**
@@ -72,6 +77,18 @@ function WidgetBase(widgetNode, group) {
       //alert("Config.loadWidgets eval:" + evalStr);
       this[toolNode.nodeName] = eval( evalStr );
     }
+  }
+
+  /** Functions to call when the widget is painted */
+  this.paintListeners = new Array();
+
+  /**
+   * Add a Listener for AoiBox change.
+   * @param listener The function to call when the Area Of Interest changes.
+   * @param target The object which owns the listener function.
+   */
+  this.addPaintListener = function(listener,target) {
+    this.paintListeners[this.paintListeners.length] = new Array(listener,target);
   }
 
 
