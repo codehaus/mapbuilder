@@ -136,7 +136,27 @@ function Context(url) {
     win=this.context.documentElement.getElementsByTagName("Window").item(0);
     win.setAttribute("height", height);
   }
-
+  /**
+   * Zoom (reset the BoundingBox).
+   * @param action What action to take ("in" or "out").
+   */
+  this.zoom=function(action) {
+    percent=10/100;
+    var srs = this.getSRS();
+    var bbox=this.getBoundingBox();
+    geoWidth=parseFloat(bbox[2]-bbox[0]);
+    geoHeight=parseFloat(bbox[1]-bbox[3]);
+    switch(action){
+      case "in":
+        bbox[0]=bbox[0]+(geoWidth*percent);
+        bbox[2]=bbox[2]-(geoWidth*percent);
+        bbox[1]=bbox[1]-(geoHeight*percent);
+        bbox[3]=bbox[3]+(geoHeight*percent);
+        break;
+    }
+    this.setBoundingBox(bbox);
+    mapPane.paint();
+  }
   /**
    * Pan (reset the BoundingBox) in a specified direction.
    * @param dir The direction to pan in.
@@ -147,27 +167,24 @@ function Context(url) {
       percent=10;
     }
     percent=percent/100;
-    bbox=this.getBoundingBox();
-alert(bbox[0]);
-    geoWidth=bbox[2]-bbox[0];
-alert(geoWidth);
-    geoHeight=bbox[1]-bbox[3];
+    var srs = this.getSRS();
+    var bbox=this.getBoundingBox();
+    geoWidth=parseFloat(bbox[2]-bbox[0]);
+    geoHeight=parseFloat(bbox[1]-bbox[3]);
     switch(dir){
       case "w":
-        bbox[0]=parseFloat(bbox[0])-(geoWidth*percent);
-        bbox[2]=parseFloat(bbox[0])-(geoWidth*percent);
+        bbox[0]=(bbox[0])-(geoWidth*percent);
+        bbox[2]=(bbox[2])-(geoWidth*percent);
         break;
       default:
         break;
     }
-    var srs= this.getSRS();
-alert(bbox[0]);
-    if(srs=="EPSG:4326") {
+    if(srs == "EPSG:4326") {
       if(bbox[0]<-180) {
-        bbox[0]=-1*(bbox[0]-180);
+        bbox[2]=bbox[2]-(bbox[0]+180);
+        bbox[0]=-180;
       }
     }
-alert(bbox[0]);
     this.setBoundingBox(bbox);
     mapPane.paint();
   }
