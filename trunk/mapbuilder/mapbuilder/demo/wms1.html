@@ -23,7 +23,6 @@ $Name$
       h1 {
         color: red;
         background-color: silver;
-        background: url("javascript:alert("hello"));
       }
       IMG {
         position: absolute;
@@ -35,36 +34,36 @@ $Name$
     <h1><a href="http://mapbuilder.sourceforge.net">Mapbuilder</a>
       Web Map Server Client</h1>
     <p><i>A <a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Project</i></p>
-
+    <div id="contextDiv"></div>
     <script>
       // Base Mapbuilder library directory
       baseDir="../widget";
 
       // Load a Web Map Context document as defined by:
       // http://www.opengis.org/docs/03-036r2.pdf
-      context=new Context("wmc.xml", "basic");
+      context=new Context("wmc.xml", "context", document.getElementById("contextDiv"), baseDir, "basic");
 
       // Create and render a MapPane
-      mapPane=new MapPane(context,baseDir);
-      mapPane.move(120,100);
+      mapPane=new MapPane(context, "mapPane");
+      mapPane.move(120, 100);
       mapPane.paint();
-      //this shows that clipping is working
+      //this tests whether clipping is working
       mapPane.moveImages(-50,-50);
 
       // Create and render a Legend
-      legend=new Legend(context,baseDir);
+      legend=new Legend(context, "legend");
       legend.resize(90,150);
       legend.move(10,200);
       legend.paint();
 
       // Create and render a PanTool
-      panTool=new PanTool(context,baseDir);
+      panTool=new PanTool(context, "panTool");
       panTool.resize(90,100);
       panTool.move(10,100);
       panTool.paint();
 
       // Create and render a PanTool
-      zoomTool=new ZoomTool(context,baseDir);
+      zoomTool=new ZoomTool(context, "zoomTool");
       zoomTool.move(10,350);
       zoomTool.paint();
 
