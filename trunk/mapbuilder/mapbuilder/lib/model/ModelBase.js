@@ -105,8 +105,12 @@ function ModelBase(model, modelNode, parentModel) {
   model.addListener("httpPayload",model.newRequest, model);
 
   /**
-   * Paint all the widgets and initialise any tools the widget may have.
-   * @param objRef Pointer to this object.
+   * create all the child model javascript objects for this model.
+   * A reference to the created model is stored as a js property of the model
+   * using the model's ID; so you can always get a reference to a widget by
+   * using: "config.modelId.subModelId..."
+   * Similarly, a reference to the model is added as a property of config so it 
+   * is also available as "config.subModelId"
    */
   this.loadModels = function() {
     //loop through all child models of this one
@@ -129,8 +133,11 @@ function ModelBase(model, modelNode, parentModel) {
   model.loadModels = this.loadModels;
 
   /**
-   * Paint all the widgets and initialise any tools the widget may have.
-   * @param objRef Pointer to this object.
+   * create all the widget javascript objects and create any javascript tool 
+   * objects that each widget may have.
+   * A reference to the created widget is stored as a js property of the model
+   * using the widgets ID; so you can always get a reference to a widget by
+   * using: "config.modelId.widgetId"
    */
   this.loadWidgets = function() {
     var widgets = this.modelNode.selectNodes("mb:widgets/*");
@@ -175,6 +182,11 @@ function ModelBase(model, modelNode, parentModel) {
     model.method = "get";
   }
 
+  /**
+   * save the model by posting it to the serializeUrl, which is defined as a 
+   * property of config.
+   * @param objRef Pointer to this object.
+   */
   this.saveModel = function(objRef) {
     if (config.serializeUrl) {
       var response = postLoad(config.serializeUrl, objRef.doc);
@@ -189,6 +201,13 @@ function ModelBase(model, modelNode, parentModel) {
   }
   model.saveModel = this.saveModel;
 
+  /**
+   * initializes a new ModelList object for the model.  This happens as a listener
+   * of the loadModel event, only if there is a nodeSelectXpath property defined 
+   * for the model.  Then the nodes in the ModelList will consist of the nodes
+   * selected by the Xpath.
+   * @param objRef Pointer to this object.
+   */
   this.loadFeatureList = function(objRef) {
     objRef.featureList = new ModelList(objRef);
   }
@@ -201,8 +220,12 @@ function ModelBase(model, modelNode, parentModel) {
     model.addListener("loadModel",model.loadFeatureList,model);
   }
 
-  //don't load in models and widgets if this is the config doc, defer to config.init
-  //don't load template models (URL is null)
+  /**
+   * Initialization of the javascript model and widget objects for this model. 
+   * This doesn't call the document loading functions, only creates the javascript
+   * objects
+   * @param modelRef Pointer to this object.
+   */
   model.init = function(modelRef) {
     if (!modelRef.template) {
       modelRef.loadModels();
@@ -210,10 +233,15 @@ function ModelBase(model, modelNode, parentModel) {
     }
   }
 
+  /**
+   * Listener method to call the "refresh" event listeners of this model.
+   * @param modelRef Pointer to this object.
+   */
   model.refresh = function(modelRef) {
     modelRef.callListeners("refresh");
   }
-  //
+
+  //don't load in models and widgets if this is the config doc, defer to config.init
   if (parentModel) {
     model.parentModel = parentModel;
     parentModel[model.id] = model;
