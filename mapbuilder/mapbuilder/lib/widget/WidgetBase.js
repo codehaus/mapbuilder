@@ -242,6 +242,7 @@ function WidgetBase(widget,widgetNode,model) {
             objRef.node.appendChild(tempNode.firstChild);
           }
           if (objRef.debug) alert("javascript eval:"+js);
+          objRef.model.setParam("modelStatus","rendering");
           eval(js);
           break;
         default:

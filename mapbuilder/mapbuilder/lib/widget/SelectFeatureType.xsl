@@ -21,6 +21,7 @@ $Name$
   <!-- The coordinates of the DHTML Layer on the HTML page -->
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
+  <xsl:param name="toolId"/>
   
   <!-- template rule matching source root element -->
   <xsl:template match="/ogcwfs:WFS_Capabilities">
@@ -30,7 +31,7 @@ $Name$
           Feature types from: <xsl:value-of select="ogcwfs:Service/ogcwfs:Title"/>
         </th>
         <td colspan="2">
-          <a href="javascript:config.paintWidget(config.wfsServers.wfsServerList)">Back to list</a>
+          <a href="javascript:config.paintWidget(config.models.wfsServers.widgets.wfsServerList)">Back to list</a>
         </td>
       </tr>
       <xsl:apply-templates select="ogcwfs:FeatureTypeList/ogcwfs:FeatureType"/>
@@ -47,10 +48,10 @@ $Name$
         <xsl:value-of select="$title"/> (<xsl:value-of select="$name"/>) <xsl:value-of select="ogcwfs:SRS"/>
       </td>
       <td>
-        <a href="javascript:config.{$modelId}.{$widgetId}.WebServiceRequest.doRequest('wfs:GetFeature','{$id}')">load</a>
+        <a href="javascript:config.models.{$modelId}.setParam('wfs_GetFeature','{$name}')">load</a>
       </td>
       <td>
-        <a href="javascript:config.{$modelId}.{$widgetId}.WebServiceRequest.doRequest('wfs:DescribeFeatureType','{$id}')">filter</a>
+        <a href="javascript:config.models.{$modelId}.setParam('wfs_DescribeFeatureType','{$name}')">filter</a>
       </td>
     </tr>
   </xsl:template>
