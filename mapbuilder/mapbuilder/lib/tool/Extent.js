@@ -190,7 +190,7 @@ function Extent( model, initialRes ) {
       extent.setResolution( new Array(extent.model.getWindowWidth(), extent.model.getWindowHeight() ) );
     }
   }
-  this.model.addListener( "loadModel", this.init, this );
+  config.addListener( "refresh", this.init, this );
   if ( initialRes ) this.init(this, initialRes);
 }
 
