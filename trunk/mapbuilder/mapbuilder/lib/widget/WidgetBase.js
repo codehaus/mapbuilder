@@ -190,6 +190,12 @@ function WidgetBase(widget,widgetNode,model) {
    */
   this.paint = function(objRef, forceRefresh) {
     if (objRef.model.template) return;
+
+    // Remove widget from display if the model is empty
+    if (!objRef.model.doc){
+      objRef.clearWidget(objRef);
+    }
+
     if (objRef.model.doc && objRef.node && (objRef.autoRefresh||forceRefresh) && !objRef.override) {
 
       //if (objRef.debug) alert("source:"+objRef.model.doc.xml);

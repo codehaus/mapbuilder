@@ -132,8 +132,8 @@ function ModelBase(model, modelNode, parentModel) {
   this.loadModelDoc = function(modelRef){
     modelRef.setParam("modelStatus","loading");
 
+    modelRef.callListeners( "newModel" );
     if (modelRef.url) {
-      modelRef.callListeners( "newModel" );
 
       if (modelRef.contentType == "image") {
         modelRef.doc = new Image();
