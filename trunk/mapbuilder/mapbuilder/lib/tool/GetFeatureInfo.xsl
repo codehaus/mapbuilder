@@ -35,24 +35,21 @@ $Name$
     <xsl:apply-templates select="cml:ViewContext/cml:LayerList/cml:Layer[cml:Name=$queryLayer]"/>
   </xsl:template>
 
-   <!-- Layer template -->
-   <xsl:template match="cml:Layer">
+  <!-- Layer template -->
+  <xsl:template match="cml:Layer">
 
     <!-- Layer variables -->
     <xsl:variable name="version">
-        <xsl:value-of select="cml:Server/@version"/>    
+      <xsl:value-of select="cml:Server/@version"/>    
     </xsl:variable>
     <xsl:variable name="baseUrl">
-        <xsl:value-of select="cml:Server/cml:OnlineResource/@xlink:href"/>    
+      <xsl:value-of select="cml:Server/cml:OnlineResource/@xlink:href"/>    
     </xsl:variable>
     <xsl:variable name="firstJoin">
       <xsl:choose>
         <xsl:when test="contains($baseUrl, '?')">&amp;</xsl:when> 
         <xsl:otherwise>?</xsl:otherwise>
       </xsl:choose>
-    </xsl:variable>
-    <xsl:variable name="mapRequest">
-
     </xsl:variable>
 
     <!-- Print the URL -->
