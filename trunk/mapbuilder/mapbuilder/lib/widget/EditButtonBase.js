@@ -4,7 +4,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
+mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 
 /**
  * Base class for tools which update GML by clicking on the mapPane.
@@ -13,14 +13,11 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * @author Cameron Shorter cameronATshorter.net
  * @param button        Pointer to the button instance being created.
  * @param toolNode      The tool node from the Config XML file.
- * @param parentWidget  The ButtonBar widget.
+ * @param model  The ButtonBar widget.
  */
-function EditButtonBase(button,toolNode, parentWidget) {
-  /** Other required tools. */
-  button.dependancies=["MouseClickHandler"];
-
+function EditButtonBase(button,toolNode, model) {
   // Extend ButtonBase
-  var base = new ButtonBase(button, toolNode, parentWidget);
+  var base = new ButtonBase(button, toolNode, model);
 
   /** Empty GML to load when this tool is selected. */
   this.defaultModelUrl=toolNode.selectSingleNode("mb:defaultModelUrl").firstChild.nodeValue;
@@ -63,5 +60,5 @@ function EditButtonBase(button,toolNode, parentWidget) {
     button[sProperty] = this[sProperty];
   }
 
-  button.parentWidget.targetModel.addListener("loadModel",button.setMouseListener,button);
+  button.model.targetModel.addListener("loadModel",button.setMouseListener,button);
 }

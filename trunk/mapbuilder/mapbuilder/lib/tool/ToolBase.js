@@ -9,23 +9,39 @@ $Id$
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
  * @param tool     Pointer to the tool instance being created
  * @param toolNode The tool node from the Config XML file.
- * @param parentWidget The widget object which created this tool.
+ * @param model    The widget object which created this tool.
  */
-function ToolBase(tool, toolNode, parentWidget) {
-  tool.model = parentWidget.model;
-  tool.parentWidget = parentWidget;
+function ToolBase(tool, toolNode, model) {
+  tool.model = model;
   tool.toolNode = toolNode;
 
   var id = toolNode.selectSingleNode("@id");
   if (id) {
     tool.id = id.firstChild.nodeValue;
   } else {
-    tool.id = parentWidget.id + "_" + toolNode.nodeName;
+    tool.id = "MbTool_" + mbIds.getId();
+  }
+  //config.tools[tool.id] = tool;
+
+  //set the target model
+  var targetModel = toolNode.selectSingleNode("mb:targetModel");
+  if (targetModel) {
+    tool.targetModel = eval("config."+targetModel.firstChild.nodeValue);
+    if ( !tool.targetModel ) {
+      alert("error finding targetModel:" + targetModel.firstChild.nodeValue + " for:" + tool.id);
+    } 
+  } else {
+    tool.targetModel = tool.model;
   }
 
   /** Mouse handler which this tool will register listeners with. */
   var mouseHandler = tool.toolNode.selectSingleNode("mb:mouseHandler");
-  if (mouseHandler) tool.objEvalStr = "config." + mouseHandler.firstChild.nodeValue;
+  if (mouseHandler) {
+    tool.mouseHandler = eval("config." + mouseHandler.firstChild.nodeValue);
+    if ( !tool.mouseHandler ) {
+      alert("error finding mouseHandler:" + mouseHandler.firstChild.nodeValue + " for:" + tool.id);
+    }
+  }
 
   /**
    * Initialize dynamic properties.
@@ -38,7 +54,7 @@ function ToolBase(tool, toolNode, parentWidget) {
       var targetModelName = targetModel.firstChild.nodeValue;
       toolRef.targetModel = eval("config."+targetModelName);
     } else {
-      toolRef.targetModel = toolRef.parentWidget.targetModel;
+      toolRef.targetModel = toolRef.model;
     }
 
     /** Mouse handler which this tool will register listeners with. */
@@ -52,26 +68,11 @@ function ToolBase(tool, toolNode, parentWidget) {
     }
   }
   tool.initModels = this.initModels;
-  tool.parentWidget.targetModel.addListener( "loadModel", tool.initModels, tool );
+  //tool.targetModel.addListener( "loadModel", tool.initModels, tool );
 
   //tools enabled by default; can set to false in config for initial loading
   tool.enabled = true;    
   var enabled = toolNode.selectSingleNode("mb:enabled");
   if (enabled) tool.enabled = eval(enabled.firstChild.nodeValue);
-
-  /**
-   * enable or disable this tool and any dependant tools 
-   * @param enabled   set to true or false to enable or disable
-   */
-  this.enable = function(enabled) {
-    this.enabled = enabled;
-    if (this.dependancies){
-      for (var i=0; i<this.dependancies.length; ++i) {
-        var otherTool = eval(this.objEvalStr+"."+this.dependancies[i]);
-        otherTool.enable(enabled);
-      }
-    }
-  }
-  tool.enable = this.enable;
 
 }

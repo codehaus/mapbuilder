@@ -4,7 +4,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
  * Base Button object that all Buttons extend.  A Button is a tool represented
@@ -13,24 +13,45 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * @base ToolBase
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
  * @param button Pointer to the button instance being created.
- * @param toolNode The tool node from the Config XML file.
- * @param parentWidget The ButtonBar node from the Config XML file.
+ * @param widgetNode The tool node from the Config XML file.
+ * @param model The parent model object (optional).
  */
-function ButtonBase(button, toolNode, parentWidget) {
-  var base = new ToolBase(button, toolNode, parentWidget);
+function ButtonBase(button, widgetNode, model) {
+  button.stylesheet = new XslProcessor(baseDir+"/widget/Button.xsl");
+  var buttonBarNode = widgetNode.selectSingleNode("mb:buttonBar");
+  if ( buttonBarNode ) {
+    button.htmlTagId = buttonBarNode.firstChild.nodeValue;
+  } else {
+    alert("buttonBar property required for object:" + widgetNode.nodeName );
+  }
+
+  var base = new WidgetBase(button, widgetNode, model);
 
   //set the button type
-  this.buttonType = toolNode.selectSingleNode("mb:class").firstChild.nodeValue;
-  if (this.buttonType == "RadioButton") this.enabled = false;
+  button.buttonType = widgetNode.selectSingleNode("mb:class").firstChild.nodeValue;
+  if (button.buttonType == "RadioButton") button.enabled = false;
 
   //pre-load the button bar images; add them to the config
-  this.disabledImage = document.createElement("IMG");
-  this.disabledImage.src = config.skinDir + toolNode.selectSingleNode("mb:disabledSrc").firstChild.nodeValue;
+  button.disabledImage = document.createElement("IMG");
+  button.disabledImage.src = config.skinDir + widgetNode.selectSingleNode("mb:disabledSrc").firstChild.nodeValue;
 
-  var enabledImage = toolNode.selectSingleNode("mb:enabledSrc");
+  var enabledImage = widgetNode.selectSingleNode("mb:enabledSrc");
   if (enabledImage) {
-    this.enabledImage = document.createElement("IMG");
-    this.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
+    button.enabledImage = document.createElement("IMG");
+    button.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
+  }
+
+  /** Mouse handler which this tool will register listeners with. */
+  var mouseHandler = button.widgetNode.selectSingleNode("mb:mouseHandler");
+  if (mouseHandler) {
+    button.mouseHandler = eval("config." + mouseHandler.firstChild.nodeValue);
+    if ( !button.mouseHandler ) {
+      alert("error finding mouseHandler:" + mouseHandler.firstChild.nodeValue + " for:" + tool.id);
+    }
+  }
+
+  this.prePaint = function(objRef) {
+    objRef.resultDoc = objRef.widgetNode;
   }
 
   /**
@@ -48,19 +69,19 @@ function ButtonBase(button, toolNode, parentWidget) {
    */
   this.select = function() {
     if (this.buttonType == "RadioButton") {
-      if (this.parentWidget.selectedRadioButton) {
-        with (this.parentWidget.selectedRadioButton) {
+      if (this.node.selectedRadioButton) {
+        with (this.node.selectedRadioButton) {
           image.src = disabledImage.src;
-          enable(false,this);
+          enabled = false;
           doSelect(false,this);
         }
       }
-      this.parentWidget.selectedRadioButton = this;
+      this.node.selectedRadioButton = this;
       this.image.src = this.enabledImage.src;
     }
 
     //enable this tool and any dependancies
-    this.enable(true,this);
+    this.enabled = true;
     this.doSelect(true,this);
   }
 
@@ -72,8 +93,8 @@ function ButtonBase(button, toolNode, parentWidget) {
   this.doSelect = function(selected, objRef) {
   }
 
-  var selected = toolNode.selectSingleNode("mb:selected");
-  if (selected && selected.firstChild.nodeValue) this.selected = true;
+  var selected = widgetNode.selectSingleNode("mb:selected");
+  if (selected && selected.firstChild.nodeValue) button.selected = true;
 
   /**
    * Initialise buttonBase.

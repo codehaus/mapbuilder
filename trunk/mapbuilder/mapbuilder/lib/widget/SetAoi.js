@@ -4,7 +4,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
+mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 
 /**
  * When this button is selected, the AOI box stays visible and no zoom happens. 
@@ -12,14 +12,11 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * @base ButtonBase
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
  * @param toolNode      The tool node from the Config XML file.
- * @param parentWidget  The ButtonBar widget.
+ * @param model  The ButtonBar widget.
  */
-function SetAoi(toolNode, parentWidget) {
-  /** Other required tools. */
-  this.dependancies=["AoiMouseHandler"];
-
+function SetAoi(toolNode, model) {
   // Extend ButtonBase
-  var base = new ButtonBase(this, toolNode, parentWidget);
+  var base = new ButtonBase(this, toolNode, model);
 
   /**
    * The action to do on click

@@ -17,10 +17,10 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * @constructor
  * @base ToolBase
  * @param toolNode      The node for this tool from the configuration document.
- * @param parentWidget  The widget object that contains this tool
+ * @param model  The widget object that contains this tool
  */
-function MouseClickHandler(toolNode, parentWidget) {
-  var base = new ToolBase(this, toolNode, parentWidget);
+function MouseClickHandler(toolNode, model) {
+  var base = new ToolBase(this, toolNode, model);
 
   /**
    * Process a mouse click action.
@@ -31,5 +31,5 @@ function MouseClickHandler(toolNode, parentWidget) {
     alert("MouseClickHandler click point="+targetNode.evpl);
   }
 
-  parentWidget.addListener('click',this.clickHandler,this);
+  model.addListener('click',this.clickHandler,this);
 }
