@@ -27,7 +27,7 @@ function GmlRenderer(widgetNode, model) {
    * @param objRef Pointer to this object.
    */
   this.prePaint = function(objRef) {
-alert("GmlRenderer prepaint on:" + objRef.model.id);
+    //alert("GmlRenderer prepaint on:" + objRef.model.id);
     objRef.stylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
     objRef.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
     bBox=objRef.containerModel.getBoundingBox();
