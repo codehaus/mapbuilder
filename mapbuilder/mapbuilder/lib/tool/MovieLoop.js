@@ -22,11 +22,13 @@ function MovieLoop(toolNode, model) {
 
   this.frameIncrement = 1;
   this.delay = 100; //milliseconds
+  this.timestampIndex = 0;
 
   this.setFrame = function(index) {
-    if (this.timestampIndex) {
+    if (this.timestampIndex!=null) {
       var timestamp = this.model.timestampList.childNodes[this.timestampIndex];
       timestamp.setAttribute("current", "0");
+      this.model.setParam("timestamp", this.timestampIndex);
     }
     if (index > this.model.timestampList.childNodes.length-1) {
       index = 0;
@@ -64,6 +66,10 @@ function MovieLoop(toolNode, model) {
   
   this.stop = function() {
     this.pause();
+    this.reset(this);
+  }
+
+  this.rewind = function() {
     this.reset(this);
   }
 

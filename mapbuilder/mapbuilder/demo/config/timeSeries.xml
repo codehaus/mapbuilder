@@ -16,7 +16,7 @@
 
     <Context id="mainMap">
 
-      <defaultModelUrl>context/timeSeries.xml</defaultModelUrl>
+      <defaultModelUrl>context/tsChinaDustStorm.xml</defaultModelUrl>
 
       
 
@@ -48,6 +48,24 @@
 
 				</AoiBoxWZ>
 
+        <Timestamp id="timestamp"/>
+
+        <Legend id="legend">
+
+        </Legend>
+
+        <Widget id="abstract">
+
+          <stylesheet>../lib/widget/Abstract.xsl</stylesheet>
+
+        </Widget>
+
+        <Widget id="mapTitle">
+
+          <stylesheet>../lib/widget/MapTitle.xsl</stylesheet>
+
+        </Widget>
+
         
 
       </widgets>
@@ -64,11 +82,47 @@
 
       
 
+    <ContextCollection id="collection">
+
+      <defaultModelUrl>context/timeSeriesCollection.xml</defaultModelUrl>
+
+      <widgets>
+
+        <CollectionList id="collectionList">
+
+          <targetModel>mainMap</targetModel>
+
+        </CollectionList>
+
+      </widgets>
+
+    </ContextCollection>
+
+    
+
   </models>
 
 
 
   <widgets>
+
+    <Button id="rewind">
+
+      <buttonBar>tsButtonBar</buttonBar>
+
+      <targetModel>mainMap</targetModel>
+
+      <action>movieLoop.rewind()</action>
+
+      <class>Button</class>
+
+      <disabledSrc>/images/RewindDisable.gif</disabledSrc>
+
+      <tooltip xml:lang="en">click to rewind to the beginning</tooltip>
+
+      <tooltip xml:lang="fr">click to rewind to the beginning -fr</tooltip>
+
+    </Button>
 
     <Button id="play">
 
@@ -78,13 +132,15 @@
 
       <action>movieLoop.play()</action>
 
-      <class>Button</class>
+      <class>RadioButton</class>
 
-      <disabledSrc>/images/SaveDisable.gif</disabledSrc>
+      <disabledSrc>/images/PlayDisable.gif</disabledSrc>
+
+      <enabledSrc>/images/PlayEnable.gif</enabledSrc>
 
       <tooltip xml:lang="en">click to run the movie</tooltip>
 
-      <tooltip xml:lang="fr">cliquer pour sauvegarder</tooltip>
+      <tooltip xml:lang="fr">click to run the movie -fr</tooltip>
 
     </Button>
 
@@ -96,13 +152,35 @@
 
       <action>movieLoop.pause()</action>
 
-      <class>Button</class>
+      <class>RadioButton</class>
 
-      <disabledSrc>/images/SaveEnable.gif</disabledSrc>
+      <disabledSrc>/images/PauseDisable.gif</disabledSrc>
 
-      <tooltip xml:lang="en">click to run the movie</tooltip>
+      <enabledSrc>/images/PauseEnable.gif</enabledSrc>
 
-      <tooltip xml:lang="fr">cliquer pour sauvegarder</tooltip>
+      <tooltip xml:lang="en">click to pause the movie</tooltip>
+
+      <tooltip xml:lang="fr">click to pause the movie -fr</tooltip>
+
+    </Button>
+
+    <Button id="stop">
+
+      <buttonBar>tsButtonBar</buttonBar>
+
+      <targetModel>mainMap</targetModel>
+
+      <action>movieLoop.stop()</action>
+
+      <class>RadioButton</class>
+
+      <disabledSrc>/images/StopDisable.gif</disabledSrc>
+
+      <enabledSrc>/images/StopEnable.gif</enabledSrc>
+
+      <tooltip xml:lang="en">click to stop the movie</tooltip>
+
+      <tooltip xml:lang="fr">click to stop the movie -fr</tooltip>
 
     </Button>
 
