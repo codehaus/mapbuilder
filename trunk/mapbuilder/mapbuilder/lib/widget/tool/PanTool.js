@@ -14,8 +14,10 @@ $Id$
  * @param baseDir The base mapbuilder lib directory.
  * @param node Node from the HTML DOM to insert Pan HTML into.
  */
-function PanTool(context,baseDir,node) {
+function PanTool(context,baseDir) {
   this.context=context;
+  var node=makeElt("DIV");
+  node.style.position="absolute";
   this.node=node;
   this.move=function(left,top) {
     this.node.style.left=left;

@@ -13,8 +13,10 @@ $Id$
  * @param node Node from the HTML DOM to insert legend HTML into.
  * @requires Context, Sarissa, Util
  */
-function MapPane(context,baseDir,node) {
+function MapPane(context,baseDir) {
   this.context=context;
+  var node=makeElt("DIV");
+  node.style.position="absolute";
   this.node=node;
   this.wmcLayer2DhtmlLayer=new XslProcessor(baseDir+"/mappane/WmcLayer2DhtmlLayer.xml");
   Sarissa.setXslParameter(
