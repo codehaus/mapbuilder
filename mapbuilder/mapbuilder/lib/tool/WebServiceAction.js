@@ -51,10 +51,6 @@ function WebServiceAction(){
           // Remove FeatureList if feature entry was successful.
           httpPayload.url=null;
           model.newRequest(model,httpPayload);
-          // Update the MapPane which shows the layer that was updated
-          //if (objRef.targetContext){
-          //  objRef.targetContext.callListeners("refresh");
-          //}
         }
         break;
       case "Update Feature":
