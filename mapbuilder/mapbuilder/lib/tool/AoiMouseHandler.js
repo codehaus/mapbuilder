@@ -86,11 +86,8 @@ function AoiMouseHandler(toolNode, model) {
     this.model.setParam("aoi", new Array(ul,lr) );
   }
 
-  this.init = function(toolRef) {
-    toolRef.model.addListener('mousedown',toolRef.mouseDownHandler,toolRef);
-    toolRef.model.addListener('mousemove',toolRef.mouseMoveHandler,toolRef);
-    toolRef.model.addListener('mouseup',toolRef.mouseUpHandler,toolRef);
-  }
-  this.model.addListener( "loadModel", this.init, this );
+    this.model.addListener('mousedown',this.mouseDownHandler,this);
+    this.model.addListener('mousemove',this.mouseMoveHandler,this);
+    this.model.addListener('mouseup',this.mouseUpHandler,this);
 
 }

@@ -27,8 +27,8 @@ ButtonBar.xsl,v 1.5 2004/03/25 21:25:43 madair1 Exp
  -->
   <xsl:template match="/*[mb:buttonBar]">
     <xsl:param name="linkUrl">javascript:config.<xsl:value-of select="$widgetId"/>.select()</xsl:param>
-    <xsl:param name="tooltip"><xsl:value-of select="mb:tooltip[@xml:lang=$lang]"/></xsl:param>
-    <A HREF="{$linkUrl}"><IMG SRC="{$skinDir}{mb:disabledSrc}" ID="{@id}" TITLE="{$tooltip}" BORDER="0"/></A>
+    <xsl:param name="buttonTitle"><xsl:value-of select="mb:tooltip[@xml:lang=$lang]"/></xsl:param>
+    <A HREF="{$linkUrl}"><IMG SRC="{$skinDir}{mb:disabledSrc}" ID="{@id}" TITLE="{$buttonTitle}" BORDER="0"/></A>
   </xsl:template>
 
 </xsl:stylesheet>
