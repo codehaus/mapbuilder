@@ -10,6 +10,7 @@
   <xsl:param name="geometry_xsd" select='"geometry.xsd"'/>
 
   <!-- Set TRUE to produce extra debugging html -->
+  <!--<xsl:param name="debug" select='"TRUE"'/>-->
   <xsl:param name="debug"/>
 
 
@@ -102,32 +103,35 @@
         ">
           <xsl:if test="not(contains($displayName,'false'))">
             <li>
-              <b>Element: </b>
+              <xsl:if test="$debug"> <b>Element: </b> </xsl:if>
               <xsl:value-of select="@name"/>
               <xsl:if test="@type">
-                - <xsl:value-of select="@type"/>
+                - <i><xsl:value-of select="@type"/></i>
               </xsl:if>
-              <br/>
-              <textarea cols="20" rows="1" name="textinput"></textarea>
+              <input type="text" maxlength="20" name="text"/>
             </li>
           </xsl:if>
           <!-- xsl:else -->
           <xsl:if test="contains($displayName,'false')">
-            <textarea cols="20" rows="1" name="textinput"></textarea>
+            <input type="text" maxlength="20" name="text"/>
           </xsl:if>
         </xsl:when>
 
         <!-- @ref means this element renames another.  Display this element's name
         but use displayName="false" to ensure the renamed element is not printed. -->
         <xsl:when test="@ref">
-          <xsl:if test="not(contains($displayName,'false'))">
-            <li>
-              <b>Ref Element: </b>
-              <xsl:value-of select="@ref"/>
-              <xsl:if test="@type">
-                - <xsl:value-of select="@type"/>
+          <xsl:if test="$debug">
+            <xsl:if test="not(contains($displayName,'false'))">
+              <xsl:if test="$debug">
+                <li>
+                  <b>Ref Element: </b>
+                  <xsl:value-of select="@ref"/>
+                  <xsl:if test="@type">
+                    - <xsl:value-of select="@type"/>
+                  </xsl:if>
+                </li>
               </xsl:if>
-            </li>
+            </xsl:if>
           </xsl:if>
           <xsl:variable name="ref" select="substring-after(@ref,':')"/>
           <xsl:apply-templates select="//xsd:element[@name=$ref]">
@@ -138,7 +142,7 @@
         <!-- Elements that can be expanded -->
         <xsl:otherwise>
           <xsl:if test="not(contains($displayName,'false'))">
-            <b>Element to expand: </b>
+            <xsl:if test="$debug"><b>Element to expand: </b></xsl:if>
             <xsl:value-of select="@name"/>
             <xsl:if test="@type">
               - <i><xsl:value-of select="@type"/></i>
@@ -149,7 +153,7 @@
             <xsl:apply-templates select="//xsd:schema/xsd:complexType[@name=$typeName]" mode="expandedElement"/>
             <xsl:apply-templates select="//xsd:schema/xsd:simpleType[@name=$typeName]" mode="expandedElement"/>
           </ul>
-          end.<br/>
+          <xsl:if test="$debug">end.<br/></xsl:if>
         </xsl:otherwise>
       </xsl:choose>
   </xsl:template>
@@ -158,7 +162,9 @@
   <!-- complexType                                                                -->
   <!--============================================================================-->
   <xsl:template match="xsd:complexType" mode="expandedElement">
-    <b>complexType:</b> <xsl:value-of select="@name"/><br/>
+    <xsl:if test="$debug">
+      <b>complexType:</b> <xsl:value-of select="@name"/><br/>
+    </xsl:if>
     <xsl:apply-templates/>
   </xsl:template>
 
@@ -179,9 +185,11 @@
     <xsl:choose>
       <xsl:when test="contains(@base,'gml:')">
         <xsl:variable name="type" select="substring-after(@base,':')"/>
-        <b>extension of: </b>
-        <xsl:copy-of select="$type"/>
-        <br/>
+        <xsl:if test="$debug">
+          <b>extension of: </b>
+          <xsl:copy-of select="$type"/>
+          <br/>
+        </xsl:if>
         <xsl:apply-templates/>
         <!--
         <xsl:call-template name="importedcomplextype">
@@ -203,8 +211,10 @@
   <!--============================================================================-->
   <xsl:template match="xsd:restriction">
     <xsl:variable name="type" select="substring-after(@base,':')"/>
-    <b>restriction of: </b>
-    <xsl:copy-of select="$type"/>
+    <xsl:if test="$debug">
+      <b>restriction of: </b>
+      <xsl:copy-of select="$type"/>
+    </xsl:if>
     <xsl:apply-templates/>
     <!--
     <xsl:call-template name="importedcomplextype">
