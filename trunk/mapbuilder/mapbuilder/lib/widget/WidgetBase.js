@@ -65,7 +65,6 @@ function WidgetBase(widgetNode,model,position) {
         widgetNode.childNodes[j].firstChild.nodeValue);
     }
   }
-  //this.stylesheet.setParameter("widgetNode", widgetNode );
 
   //all stylesheets will have these properties available
   this.stylesheet.setParameter("modelId", this.model.id );
