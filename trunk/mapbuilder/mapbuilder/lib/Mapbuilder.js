@@ -26,6 +26,18 @@ var baseDir;
  * @requires Util
  */
 function Mapbuilder() {
+
+   // LoadState Constants
+   const MB_UNLOADED=0;    // Scripts not loaded yet
+   const MB_LOAD_CORE=1;   // Loading scripts loaded defined in Mapbuilder
+   const MB_LOAD_WIDGET=2; // Loading scripts loaded defined in Config
+   const MB_LOADED=3;      // All scripts loaded
+  /**
+   * Determines which Mapbuilder scripts are loading.
+   * TBD: Is it possible to use enumerated types in JS?
+   */
+  this.loadState=MB_UNLOADED;
+
   /** Array of objects that are loading.  Don't continue initialisation until
    * all objects have loaded. */
   this.loadingScripts=new Array();
@@ -33,30 +45,52 @@ function Mapbuilder() {
   /** Timer to periodically check if scripts have loaded. */
   this.scriptsTimer=null;
 
-  /** True when all scripts from Config file have been loaded. */
-  this.allScriptsLoaded=false;
-
   /**
-   * Called periodically and continues initialisation once scripts have loaded.
+   * Called periodically and moves onto the next loadState when this round of
+   * scripts have loaded.
    * This function uses object.readyState which is only valid for IE.  Mozilla
    * works fine without this function.
    */
   this.checkScriptsLoaded=function() {
-    // Objects that have completed loading are removed from the array
-    alert("checkScriptsLoaded length="+this.loadingScripts.length
-      +" readyState="+this.loadingScripts[0].readyState);
-    while(this.loadingScripts.length>0
-      &&(this.loadingScripts[0].readyState=="loaded"
-      ||this.loadingScripts[0].readyState==null))
-    {
-      this.loadingScripts.shift();
-      if (this.loadingScripts.length==1){
-        alert("checkScriptsLoaded - loaded "+this.loadingScripts[0].id);
+    if (document.readyState!=null){
+      // IE client
+      // Objects that have completed loading are removed from the array
+      while(this.loadingScripts.length>0
+        &&(this.loadingScripts[0].readyState=="loaded"
+        ||this.loadingScripts[0].readyState==null))
+      {
+        this.loadingScripts.shift();
+      }
+      if (this.loadingScripts.length==0){
+        clearInterval(this.scriptsTimer);
+        this.setLoadState(this.LoadState+1);
       }
     }
-    if (this.loadingScripts.length==0){
-      clearInterval(this.scriptsTimer);
-      this.allScriptsLoaded=true;
+    else{
+      // Mozilla client
+      if(newState=MB_LOAD_CORE && config!=null){
+        // Config has finished loading
+        this.setLoadState(MB_LOAD_WIDGET);
+      }
+    }
+  }
+
+  /**
+   * Notify that a set of scripts has competed loading - used by Mozilla which does
+   * not have an object.loadingScripts state.
+   * @param newState The new loading state.
+   */
+  this.setLoadState=function(newState){
+    this.loadState=newState;
+    if(newState=MB_LOAD_CORE){
+      this.loadScript(baseDir+"/util/sarissa/Sarissa.js","Sarissa");
+      this.loadScript(baseDir+"/util/Util.js","Util");
+      this.loadScript(baseDir+"/util/Listener.js","Listener");
+      this.loadScript(baseDir+"/model/ModelBase.js","ModelBase");
+      this.loadScript(baseDir+"/model/Config.js","Config");
+    }
+    if(newState=MB_LOAD_WIDGET){;
+      //config=new Config(mbConfigUrl);
     }
   }
 
@@ -93,16 +127,12 @@ function Mapbuilder() {
     }
   }
 
-  this.loadScript(baseDir+"/util/sarissa/Sarissa.js","Sarissa");
-  this.loadScript(baseDir+"/util/Util.js","Util");
-  this.loadScript(baseDir+"/util/Listener.js","Listener");
-  this.loadScript(baseDir+"/model/ModelBase.js","ModelBase");
-  this.loadScript(baseDir+"/model/Config.js","Config");
+  this.setLoadState(MB_LOAD_CORE);
 
   // Start a timer which periodically calls checkScriptsLoaded().
   this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded()',100);
 
   // TBD: Remove following line - it is used for debugging.
-  setTimeout('clearInterval(this.scriptsTimer)',5000);
+  //setTimeout('clearInterval(this.scriptsTimer)',5000);
 }
 mapbuilder=new Mapbuilder();
