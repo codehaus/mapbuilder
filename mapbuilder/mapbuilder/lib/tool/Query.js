@@ -8,7 +8,7 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
 
 /**
  * When this button is selected, call a GetFeatureInfo request for the selected
- * layer.
+ * layer and point clicked.
  * @constructor
  * @author Cameron Shorter cameronATshorter.net
  * @param toolNode      The tool node from the Config XML file.
@@ -26,8 +26,8 @@ function Query(toolNode, parentWidget) {
    * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
   this.doAction = function(objRef,targetNode) {
-    if (!objRef.enabled) return;
     alert("Query function not implemented yet.");
+    if (!objRef.enabled) return;
     //var bbox = objRef.targetModel.getAoi();
     //var extent = objRef.targetModel.extent
     //var ul = extent.GetXY( bbox[0] );

@@ -18,7 +18,7 @@ function ToolBase(toolNode, parentWidget) {
   var id = toolNode.selectSingleNode("@id");
   if (id) this.id = id.firstChild.nodeValue;
 
-  //mouse handler which this tool will register listeners with
+  /** Mouse handler which this tool will register listeners with. */
   var mouseHandler = toolNode.selectSingleNode("mouseHandler");
   if (mouseHandler) this.mouseHandler = eval(mouseHandler.firstChild.nodeValue);
 

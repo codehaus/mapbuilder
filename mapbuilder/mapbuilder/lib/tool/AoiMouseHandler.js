@@ -61,9 +61,9 @@ function AoiMouseHandler(toolNode, parentWidget) {
     }
   }
 
-/** Change the coordinate of one corner of the box.  The anchor point stays fixed. 
-  * @param evpl    new corner coordinate
-  */
+  /** Change the coordinate of one corner of the box.  The anchor point stays fixed. 
+   * @param evpl    new corner coordinate.
+   */
   this.dragBox = function( evpl ) {	
     var ul = new Array();
     var lr = new Array();
