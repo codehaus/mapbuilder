@@ -25,7 +25,7 @@
 # $Name$
 ################################################################################
 
-$mapbuilderBaseUrl="..";
+$mapbuilderBaseUrl="../html/mapbuilder";
 %cgiVars=getCgiVars();
 
 print "Content-type: text/html\n\n";
