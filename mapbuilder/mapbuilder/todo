@@ -11,18 +11,12 @@ Release 0.1
 * Remove directories:
 widget/toollist
 
-* Implement PanOut
-
 * Write up know bugs. 
 - Turning layers on/off in Legend raises constraint error in Mozilla 1.5 (ok in 1.3)
 - Turning layers on/off does not disinguish between MapPane and LocatorMap
   (layer ids are not unique).
 
-* Test.
-
-* Produce jsdocs
-
-* Produce design docs.
+* Update design docs.
 
 Future Work
 ===========
@@ -33,8 +27,6 @@ Future Work
 * Legend.js to pass Context param into XSL transform.
 
 * MapPane XSL needs to check if parameters are defined.
-
-* Introduce a unique Id into Context for each Layer.
 
 * write a build script
   - imports external libraries
