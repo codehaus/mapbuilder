@@ -35,6 +35,8 @@ function AoiBoxWZ(widgetNode, model) {
   var tempNode = document.createElement("DIV");
   tempNode.innerHTML="<DIV/>";
   tempNode.firstChild.setAttribute("id", this.mbWidgetId);
+  tempNode.firstChild.style.position="absolute";
+  //tempNode.firstChild.visibility="hidden";
   var outputNode = document.getElementById( this.mbWidgetId );
   if (outputNode) {
     this.node.replaceChild(tempNode.firstChild,outputNode);
@@ -42,11 +44,11 @@ function AoiBoxWZ(widgetNode, model) {
     this.node.appendChild(tempNode.firstChild);
   }
  
-  /*
   // WZ Graphics object and rendering functions.
   this.jg=new jsGraphics(this.node.id);
   this.jg.setColor(this.lineColor);
   this.jg.setColor("#00FF00");
+  /*
   */
 
   //TBD: The following causes lines to be drawn incorrectly in Mozilla 1.71
@@ -59,14 +61,14 @@ function AoiBoxWZ(widgetNode, model) {
    * @param objRef Pointer to this object.
    */
   this.paint = function(objRef) {
-    aoiBox = this.model.getParam("aoi");
+    aoiBox = objRef.model.getParam("aoi");
     if (aoiBox) {
       ul = objRef.model.extent.getPL(aoiBox[0]);
       lr = objRef.model.extent.getPL(aoiBox[1]);
       width= lr[0]-ul[0];
       height= lr[1]-ul[1];
 
-      //objRef.jg.clear();
+      objRef.jg.clear();
 
       //check if ul=lr, then draw cross, else drawbox
       if ((width < objRef.crossSize) && (height < objRef.crossSize) ) {
@@ -74,29 +76,15 @@ function AoiBoxWZ(widgetNode, model) {
         x=(lr[0]+ul[0])/2;
         y=(lr[1]+ul[1])/2;
         c=objRef.crossSize/2;
-        //objRef.jg.drawLine(x+c,y,x-c,y);
-        //objRef.jg.drawLine(x,y+c,x,y-c);
+        objRef.jg.drawLine(x+c,y,x-c,y);
+        objRef.jg.drawLine(x,y+c,x,y-c);
       } else {
         // draw box
         //TBD the following line seems to disable the mouseup event in Mozilla
-        //objRef.jg.drawRect(ul[0],ul[1],width,height);
+        objRef.jg.drawRect(ul[0],ul[1],width,height);
       }
-      //objRef.jg.paint();
+      objRef.jg.paint();
     }
   }
-
-  /**
-   * Render an Area Of Interest Box.
-   * @param objRef Pointer to this object.
-   */
-  this.paint = function(objRef) {}
-
-  /**
-   * Called when the AoiChanged.
-   * @param objRef This object.
-   */
-  this.aoiListener = function(objRef) {
-    objRef.paint(objRef);
-  }
-  model.addListener("aoi",this.aoiListener, this);
+  model.addListener("aoi",this.paint, this);
 }
