@@ -1,12 +1,11 @@
-Release 0.1
-===========
 Tools:
 ------
+* Move <dependsOn> property from config file to each Tool js code.
+* Move <class> property from config file to each Tool js code.
+
 * Remove directory widget/tool
 
 * Add a getVersion() function which returns the mapbuilder-lib version.
-
-* Remove addPaintListener from WidgetBase and extend Listener.js instead
 
 * Move Context2FeatureInfo.xml out of widget/tool
 
@@ -16,6 +15,8 @@ Tools:
 * locator map to show thumbnail of mainMap (optional behaviour)
 
 * re-implement getFeatureInfo
+
+* Move Extent out of Context.js
 
 Future Work
 ===========
