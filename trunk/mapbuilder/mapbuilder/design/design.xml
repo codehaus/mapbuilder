@@ -11,7 +11,7 @@
   <section id="systemoverview">
     <title>System Overview</title>
 
-    <para>The Community Map Builder (CMB) contains:</para>
+    <para>The Community Mapbuilder contains:</para>
 
     <orderedlist>
       <listitem>
@@ -20,41 +20,39 @@
       </listitem>
 
       <listitem>
-        <para>Javascript and XSL modular libraries which can be integrated to
+        <para>Javascript and XSL modular libraries (called
+        <citetitle>mapbuilder-lib</citetitle>) which can be integrated to
         build geographic widgets. The widgets implement clients to Open GIS
         Consortium (OGC) services.</para>
       </listitem>
 
       <listitem>
-        <para>Specific OGC clients which have been built using CMB
+        <para>Specific OGC clients which have been built using Mapbuilder
         widgets.</para>
       </listitem>
     </orderedlist>
   </section>
 
   <section id="framework">
-    <title>CMB framework</title>
+    <title>Framework</title>
 
-    <para>The CMB framework is designed for collaborative, open sharing of
-    place-based information. It builds upon components that conform to Open
-    GIS's international Standards for geospatial software development. The aim
-    is to create business logic components using Open Source,
-    OpenGIS-compliant components for this effort. Map serving uses the
-    OpenGIS<emphasis> Web Map Server</emphasis>-compliant software, <ulink
+    <para>The Mapbuilder framework is designed for collaborative, open sharing
+    of place-based information. It builds upon components that conform to Open
+    GIS's international Standards for geospatial software development. It
+    provides business logic components using Open Source, OpenGIS-compliant
+    components for this effort. Map serving uses the OpenGIS<emphasis> Web Map
+    Server</emphasis>-compliant software, <ulink
     url="http://mapserver.gis.umn.edu">Mapserver.</ulink> Spatial feature
     updating uses the OpenGIS <emphasis>Web Feature
     Server</emphasis>-compliant software <ulink
     url="http://geoserver.sourceforge.net">Geoserver</ulink>, which relies
-    upon Postgres and the PostGIS component as its spatial database. CMB also
-    uses Postgres as a normal database to store community-contributed text and
-    photographs.</para>
+    upon Postgres and the PostGIS component as its spatial database.
+    Mapbuilder also uses Postgres as a normal database to store
+    community-contributed text and photographs.</para>
 
-    <para>Community Map Builder is more than just a collection of
-    technologies. It is a collection of Web pages, server applications and
-    database schema, along with implementation recommendations.<!--Good summary.  It is probably worth coming back and polishing this section and using for
-all the CMB docs.
-I think the CMB should also provide logic for community editing of shared data
-(in a similar fashion to http://slashdot.org).  This would be part of a future phase.--></para>
+    <para>Community Mapbuilder is more than just a collection of technologies.
+    It is a collection of Web pages, server applications and database schema,
+    along with implementation recommendations.</para>
 
     <figure>
       <title>High Level Design</title>
@@ -67,14 +65,14 @@ I think the CMB should also provide logic for community editing of shared data
     </figure>
   </section>
 
-  <section>
-    <title>CMB Libraries</title>
+  <section id="mapbuilder-lib">
+    <title>mapbuilder-lib</title>
 
-    <para>CMB libraries contain components that can be used to build clients
-    to OGC services.</para>
+    <para>Mapbuilder libraries contain components that can be used to build
+    clients to OGC services.</para>
 
     <section id="designdecisions">
-      <title>Design Decisions for CMB Libraries</title>
+      <title>Design Decisions for mapbuilder-lib</title>
 
       <section id="designdrivers">
         <title>Design Drivers</title>
@@ -88,7 +86,7 @@ I think the CMB should also provide logic for community editing of shared data
             <listitem>
               <para>Mapbuilder Clients should be easy for users to run. Users
               should not have to download and install new software. Instead
-              all CMB clients should run inside the commonly used web
+              all Mapbuilder clients should run inside the commonly used web
               browsers. In particular, recent Internet Explorer and Mozilla
               browsers.</para>
             </listitem>
@@ -98,8 +96,8 @@ I think the CMB should also provide logic for community editing of shared data
             <term>Minimal Server Side Functionality</term>
 
             <listitem>
-              <para>CMB should keep deployment requirements to a minimum in
-              order to maximise the user base. Hence:</para>
+              <para>Mapbuilder should keep deployment requirements to a
+              minimum in order to maximise the user base. Hence:</para>
 
               <orderedlist>
                 <listitem>
@@ -111,8 +109,10 @@ I think the CMB should also provide logic for community editing of shared data
                   <para>If server side scripts are required, the server
                   environments currently supported include: Perl, PHP, JSP.
                   Contributions for equivalent functionality in other server
-                  environments is encouraged. Please see server dependancies
-                  (TBD link a section) for server requirements.<!--I've converted this statement to be less "anti-Java"--></para>
+                  environments is encouraged. Please see server
+                  dependancies</para>
+
+                  <para>(TBD link a section for server requirements).</para>
                 </listitem>
               </orderedlist>
             </listitem>
@@ -169,6 +169,11 @@ I think the CMB should also provide logic for community editing of shared data
                 </listitem>
 
                 <listitem>
+                  <para>Extra functionality can be easily added and
+                  removed.</para>
+                </listitem>
+
+                <listitem>
                   <para>It is easier to break development up between multiple
                   developers.</para>
                 </listitem>
@@ -177,27 +182,30 @@ I think the CMB should also provide logic for community editing of shared data
           </varlistentry>
 
           <varlistentry>
-            <term>Modular Design</term>
+            <term>Open Source</term>
 
             <listitem>
-              <para>A modular design has many benefits.</para>
+              <para>Mapbuilder software is open source. Open source was chosen
+              because:</para>
 
               <orderedlist>
                 <listitem>
-                  <para>A client need only include the module it requires,
-                  hence reducing the size of the client.</para>
+                  <para>Part of our target audience are community groups who
+                  often cannot justify buying software.</para>
                 </listitem>
 
                 <listitem>
-                  <para>A modular design is easier to understand and
-                  maintain.</para>
+                  <para>Developers are more likely to extend open source
+                  software.</para>
                 </listitem>
 
                 <listitem>
-                  <para>Extra functionality can be easily added and
-                  removed.</para>
+                  <para>It's fun developing open source software.</para>
                 </listitem>
               </orderedlist>
+
+              <para>Any libraries that Mapbuilder uses or extends should not
+              introduce an incompatible or closed license.</para>
             </listitem>
           </varlistentry>
 
@@ -347,117 +355,6 @@ I think the CMB should also provide logic for community editing of shared data
             </varlistentry>
           </variablelist>
         </section>
-      </section>
-
-      <section id="events">
-        <title>Events</title>
-
-        <!--TBD:  Can we move this to after 3.2.6 below and have it describe how abstract objects implements the listener 
-arrays and how they get set/called?   Mike March 27, 2004-->
-
-        <para><emphasis role="bold">Warning:</emphasis> This section is out of
-        date.</para>
-
-        <para>Mapbuilder's Model-View-Controller design requires events. While
-        Javascript provides standard events for some GUI events, it's support
-        for custom events is limited in recent browsers and not provided in
-        older browsers. Consequency, Mapbuilder components use their own event
-        system.</para>
-
-        <para>Here mapbuilder events by example, using BoundingBoxEvent which
-        is sent from Context to MapPane when the BoundingBox changes.</para>
-
-        <variablelist>
-          <varlistentry>
-            <term>Store list of listeners</term>
-
-            <listitem>
-              <para>Context.js stores an array of listeners to call when
-              context changes.</para>
-
-              <programlisting>/** Functions to call when the boundingBox changes. */
-this.boundingBoxChangeListeners=new Array();
-</programlisting>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term>add&lt;Event&gt;Listener()</term>
-
-            <listitem>
-              <para>Context.js needs a procedure for registering
-              Listeners.</para>
-
-              <programlisting>/**
- * Add a Listener for boundingBox change.
- * @param listener The function to call when the boundingBox changes.
- * @param target The object which owns the listener function.
- */
-this.addBoundingBoxChangeListener=function(listener,target) {
-  this.boundingBoxChangeListeners[this.boundingBoxChangeListeners.length]=
-    new Array(listener,target);
-}
-</programlisting>
-
-              <para>Note: the target object which owns the listener function
-              needs to be stored. In javascript, when the listener function is
-              called it does not have a reference back to the object which
-              owns the function.</para>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term>call Listeners</term>
-
-            <listitem>
-              <para>When the boundingBox changes in Context.js, call all
-              listeners.</para>
-
-              <programlisting>/**
- * Set the BoundingBox and notify intererested widgets that BoundingBox
- * has changed.
- * @param boundingBox array in form (xmin, ymin, xmax, ymax).
- */
-this.setBoundingBox=function(boundingBox) {
-  // Set BoundingBox in context
-  // ...
-
-  // Call all listener(target) functions
-  for (var i=0; i&lt;this.boundingBoxChangeListeners.length; i++) {
-    this.boundingBoxChangeListeners[i][0](
-      this.boundingBoxChangeListeners[i][1]);
-  }
-}
-</programlisting>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term>Listener function</term>
-
-            <listitem>
-              <para>MapPane.js defines a function to call when BoundingBox
-              changes. The function needs to register with Context.js.</para>
-
-              <programlisting>/**
- * Called when the context's boundingBox attribute changes.
- * @param target This object.
- */
-this.boundingBoxChangeListener=function(target){
-  target.paint();
-}
-
-// Register this listener with context.
-this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
-</programlisting>
-
-              <para>Note: The listener function requires this object to be
-              passed in as a parameter. In javascript, when the listener
-              function is called it does not have a reference back to the
-              object which owns the function.</para>
-            </listitem>
-          </varlistentry>
-        </variablelist>
       </section>
     </section>
 
@@ -779,6 +676,135 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
         functions will execute DHTML behaviours. example</para>
       </section>
 
+      <section id="events">
+        <title>Events</title>
+
+        <!--TBD:  Can we move this to after 3.2.6 below and have it describe how abstract objects implements the listener 
+arrays and how they get set/called?   Mike March 27, 2004-->
+
+        <para><emphasis role="bold">Warning:</emphasis> This section is out of
+        date.</para>
+
+        <para>Mapbuilder's Model-View-Controller design requires events. While
+        Javascript provides standard events for some GUI events, it's support
+        for custom events is limited in recent browsers and not provided in
+        older browsers. Consequency, Mapbuilder components use their own event
+        system.</para>
+
+        <para>Here mapbuilder events by example, using BoundingBoxEvent which
+        is sent from Context to MapPane when the BoundingBox changes.</para>
+
+        <variablelist>
+          <varlistentry>
+            <term>Store list of listeners</term>
+
+            <listitem>
+              <para>Context.js stores an array of listeners to call when
+              context changes.</para>
+
+              <programlisting>/** Functions to call when the boundingBox changes. */
+this.boundingBoxChangeListeners=new Array();
+</programlisting>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>add&lt;Event&gt;Listener()</term>
+
+            <listitem>
+              <para>Context.js needs a procedure for registering
+              Listeners.</para>
+
+              <programlisting>/**
+ * Add a Listener for boundingBox change.
+ * @param listener The function to call when the boundingBox changes.
+ * @param target The object which owns the listener function.
+ */
+this.addBoundingBoxChangeListener=function(listener,target) {
+  this.boundingBoxChangeListeners[this.boundingBoxChangeListeners.length]=
+    new Array(listener,target);
+}
+</programlisting>
+
+              <para>Note: the target object which owns the listener function
+              needs to be stored. In javascript, when the listener function is
+              called it does not have a reference back to the object which
+              owns the function.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>call Listeners</term>
+
+            <listitem>
+              <para>When the boundingBox changes in Context.js, call all
+              listeners.</para>
+
+              <programlisting>/**
+ * Set the BoundingBox and notify intererested widgets that BoundingBox
+ * has changed.
+ * @param boundingBox array in form (xmin, ymin, xmax, ymax).
+ */
+this.setBoundingBox=function(boundingBox) {
+  // Set BoundingBox in context
+  // ...
+
+  // Call all listener(target) functions
+  for (var i=0; i&lt;this.boundingBoxChangeListeners.length; i++) {
+    this.boundingBoxChangeListeners[i][0](
+      this.boundingBoxChangeListeners[i][1]);
+  }
+}
+</programlisting>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Listener function</term>
+
+            <listitem>
+              <para>MapPane.js defines a function to call when BoundingBox
+              changes. The function needs to register with Context.js.</para>
+
+              <programlisting>/**
+ * Called when the context's boundingBox attribute changes.
+ * @param target This object.
+ */
+this.boundingBoxChangeListener=function(target){
+  target.paint();
+}
+
+// Register this listener with context.
+this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
+</programlisting>
+
+              <para>Note: The listener function requires this object to be
+              passed in as a parameter. In javascript, when the listener
+              function is called it does not have a reference back to the
+              object which owns the function.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+
+      <section id="loading">
+        <title>Loading</title>
+
+        <para>This section to cover loading scripts.</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Need to wait for scripts to load before allowing scripts to
+            call each other.</para>
+          </listitem>
+
+          <listitem>
+            <para>In IE, the onLoad() function doesn't wait for imported
+            scripts to load before being called.</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
       <section>
         <title>Extending the code base</title>
 
@@ -885,7 +911,7 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
       date.</para>
 
       <figure>
-        <title>CMB Library Components</title>
+        <title>Mapbuilder Library Components</title>
 
         <mediaobject>
           <imageobject>
@@ -917,8 +943,8 @@ this.context.addBoundingBoxChangeListener(this.boundingBoxChangeListener,this);
       <section>
         <title>Model</title>
 
-        <para>The model contains components which store CMB state. It is the
-        Model in the Model-View-Controller design pattern.</para>
+        <para>The model contains components which store Mapbuilder state. It
+        is the Model in the Model-View-Controller design pattern.</para>
 
         <figure>
           <title>Model Component</title>
