@@ -60,6 +60,24 @@ function Context(url) {
       this.hiddenListeners[i](hiddenEvent);
     }
   }
+
+  /**
+   * Get the BoundingBox.
+   * @return BoundingBox array in form (xmin,ymin,xmax,ymax).
+   */
+  this.getBoundingBox=function(){
+    // TBD: Extract BoundingBox from the context
+    return new Array(-18.0,-9.0,18.0,9.0);
+  }
+
+  /**
+   * Set the BoundingBox.
+   * @param boundingBox array in form (xmin,ymin,xmax,ymax).
+   */
+  this.getBoundingBox=function(boundingBox){
+    // TBD: Set BoundingBox in context
+    alert("boundingBox="+boundingBox);
+  }
 }
 
 /**
