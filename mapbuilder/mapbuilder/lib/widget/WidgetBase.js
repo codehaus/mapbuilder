@@ -105,36 +105,39 @@ function WidgetBase(widget,widgetNode,model) {
    * @param left Absolute left coordinate.
    * @param top AMike.Adair@CCRS.NRCan.gc.cabsolute top coordinate.
    */
-  widget.move = function(left,top) {
+  this.move = function(left,top) {
     this.node.style.left = left;
     this.node.style.top = top;
   }
+  widget.move = this.move;
 
   /**
    * Resize this widget.
    * @param width New width.
    * @param height New height.
    */
-  widget.resize = function(width,height) {
+  this.resize = function(width,height) {
     this.node.style.width = width;
     this.node.style.height = height;
   }
+  widget.resize = this.resize;
 
   /**
    * Called before paint(), can be used to set up a widget's paint parameters,
    * or modify model using this.resultDoc().
    * @param objRef Pointer to this object.
    */
-  widget.prePaint = function(objRef) {
+  this.prePaint = function(objRef) {
     //no-op by default
   }
+  widget.prePaint = this.prePaint;
 
 
   /**
    * Render the widget.
    * @param objRef Pointer to widget object.
    */
-  widget.paint = function(objRef) {
+  this.paint = function(objRef) {
     if (objRef.model.doc && objRef.node) {
 
       if (objRef.debug) alert("source:"+objRef.model.doc.xml);
@@ -166,13 +169,14 @@ function WidgetBase(widget,widgetNode,model) {
       objRef.callListeners("paint");
     }
   }
+  widget.paint = this.paint;
   // Call paint when model changes
   widget.model.addListener("loadModel",widget.paint, widget);
 
   /**
    * Instantiate all the child tools of this widget.
    */
-  widget.loadTools = function() {
+  this.loadTools = function() {
     var toolNodes = this.widgetNode.selectNodes( "mb:tools/*" );
     for (var i=0; i<toolNodes.length; i++ ) {
       var toolNode = toolNodes[i];
@@ -185,4 +189,5 @@ function WidgetBase(widget,widgetNode,model) {
       }
     }
   }
+  widget.loadTools = this.loadTools;
 }
