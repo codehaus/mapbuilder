@@ -14,7 +14,7 @@
     All static images should be relative to this URL.
     This dir is relative the dir of the main html file.
   -->
-  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+  <skinDir>../lib/skin/default</skinDir>
   <proxyUrl>/ql2/proxy?url=</proxyUrl>
 
   <models>
@@ -45,11 +45,11 @@
         <Legend id="legend"/>
         
         <WidgetBase id="abstract">
-          <stylesheet>/mapbuilder/lib/widget/Abstract.xsl</stylesheet>
+          <stylesheet>../lib/widget/Abstract.xsl</stylesheet>
         </WidgetBase>
 
         <WidgetBase id="mapTitle">
-          <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
+          <stylesheet>../lib/widget/MapTitle.xsl</stylesheet>
         </WidgetBase>
 
         <AoiForm id="aoiForm"/>
@@ -93,7 +93,7 @@
 			<widgets>
 				<Locations id="locationsSelect">
 					<targetModel>mainMap</targetModel>
-					<stylesheet>/mapbuilder/lib/widget/Locations.xsl</stylesheet>
+					<stylesheet>../lib/widget/Locations.xsl</stylesheet>
 				</Locations>
 			</widgets>
 		</ModelBase>
