@@ -61,16 +61,4 @@ function ToolBase(toolNode, parentWidget) {
     }
   }
 
-  /**
-   * Refresh the tool's mouseHandler and re-register the listener when that 
-   * widget changes after a model is loaded.
-   * @param objRef      Pointer to this AoiMouseHandler object.
-   */
-  this.setListeners = function(objRef) {
-    if (objRef.mouseHandlerName) {
-      objRef.mouseHandler = eval( "config." + objRef.mouseHandlerName );
-      objRef.mouseHandler.addListener('mouseup',objRef.doAction,objRef);
-    }
-  }
-
 }
