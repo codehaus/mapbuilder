@@ -57,16 +57,16 @@ function ModelBase(modelNode) {
   /**
    * Paint all the widgets and initialise any tools the widget may have.
    */
-  this.loadWidgets = function() {
-    var widgets = this.modelNode.selectNodes("widgets/*");
+  this.loadWidgets = function(objRef) {
+    var widgets = objRef.modelNode.selectNodes("widgets/*");
     for (var j=0; j<widgets.length; j++) {
       var widgetNode = widgets[j];
 
       //call the widget constructor and paint
-      var evalStr = "new " + widgetNode.nodeName + "(widgetNode, this);";
+      var evalStr = "new " + widgetNode.nodeName + "(widgetNode, objRef);";
       var widget = eval( evalStr );
       if (widget) {
-        this[widget.id] = widget;
+        objRef[widget.id] = widget;
       } else {
         alert("error creating widget:" + widgetNode.nodeName);
       }
@@ -74,6 +74,6 @@ function ModelBase(modelNode) {
       widget.paint();
       widget.loadTools();
     }
-    this.callListeners( "loadWidget" );
+    objRef.callListeners( "loadWidget" );
   }
 }
