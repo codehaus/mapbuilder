@@ -204,7 +204,6 @@ function Context(url) {
   }
 }
 
-
 /**
  * The event sent when a Hidden attribute changes.
  * @constructor
@@ -216,4 +215,13 @@ function HiddenEvent(layerId,hidden){
  this.layerId=layerId;
  /** 1=layer hidden, 0=layer not hidden. */
  this.hidden=hidden;
+}
+
+/**
+ * The event sent when BoundingBox changes.
+ * @constructor
+ * @param boundingBox The new BoundingBox array in the form (xmin,ymin,xmax,ymax).
+ */
+function BoundingBoxEvent(boundingBox){
+ this.boundingBox=boundingBox;
 }
