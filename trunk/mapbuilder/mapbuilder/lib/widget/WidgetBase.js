@@ -5,18 +5,16 @@ $Id$
 
 /**
  * Base Class for widgets.  Associates a node on the page with a stylesheet and
- * model.
+ * model.  All widgets must extend this base class.
+ * TBD: find a way to use the .prototype property to do inheritance.
  *
  * @constructor
  * @author Mike Adair 
- * @constructor
- * @requires Sarissa
- * @param model         The model that this widget is associated with
- * @param id            ID of the page element where the widget will be rendered
- * @param stylesheetUrl URL for the stylesheet to process the model
+ * @param widgetNode   The Widget oject node from the configuration document
+ * @param group        The model group object to associate this widget with
  */
 function WidgetBase(widgetNode, group) {
-  if ( arguments.length > 0 ) {
+  if ( arguments.length > 0 ) {   //need this for .prototype?
 
   this.id = widgetNode.attributes.getNamedItem("id").nodeValue;
   this.node = document.getElementById( this.id );
@@ -63,6 +61,9 @@ function WidgetBase(widgetNode, group) {
     this.node.innerHTML = s;
   }
 
+  /**
+   * load all the child tools of this widget
+   */
   this.loadTools = function() {
     var tools = this.widgetNode.selectNodes( "tools/*" );
     for (var i=0; i<tools.length; i++ ) {
