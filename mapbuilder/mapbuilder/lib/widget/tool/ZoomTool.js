@@ -68,7 +68,7 @@ function ZoomTool(context, name, node) {
 
   this.zoomIn=function() {
 
-    percent=10/100;
+    percent=20/100;
 
     bbox=this.context.getBoundingBox();
 
