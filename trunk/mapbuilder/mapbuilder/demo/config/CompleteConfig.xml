@@ -141,7 +141,7 @@
     </ModelBase>
     
     <ModelBase id="testGml">
-      <defaultModelUrl>locations/Simple.xml</defaultModelUrl>
+      <defaultModelUrl>gml/Test.xml</defaultModelUrl>
       <widgets>
         <GmlRenderer id="gmlRenderer">
           <htmlTagId>mainMapPane</htmlTagId>
