@@ -9,21 +9,27 @@ $Id$
  * Tools to build a MapPane from a Web Map Context.
  * @constructor
  * @param context The Web Map Context to use when building this MapPane.
- * @param baseDir The base mapbuilder lib directory.
+ * @param name Variable name referencing this MapPane object
  * @param node Node from the HTML DOM to insert legend HTML into.
  * @requires Context
  * @requires Sarissa
  * @requires Util
  */
-function MapPane(context,baseDir) {
+function MapPane(context, name, node) {
   this.context=context;
-  var node=makeElt("DIV");
-  node.style.position="absolute";
+  this.name=name;
+  if(node==null){
+    node=makeElt("DIV");
+    node.style.position="absolute";
+  }
   this.node=node;
-  this.wmcLayer2DhtmlLayer=new XslProcessor(baseDir+"/mappane/Context2MapPane.xml");
+  this.wmcLayer2DhtmlLayer=new XslProcessor(this.context.baseDir+"/mappane/Context2MapPane.xml");
   Sarissa.setXslParameter(
     this.wmcLayer2DhtmlLayer.xslDom,
-    "baseDir", "'"+baseDir+"'");
+    "baseDir", "'"+this.context.baseDir+"'");
+  Sarissa.setXslParameter(
+    this.wmcLayer2DhtmlLayer.xslDom,
+    "context", "'"+this.context.name+"'");
 
   this.move=function(left,top) {
     this.node.style.left=left;
@@ -76,7 +82,7 @@ function MapPane(context,baseDir) {
     * TBD: Comment me.
     */
    this.moveImages=function(left,top){
-    images=this.node.firstChild.getElementsByTagName("IMG");
+    images=this.node.firstChild.getElementsByTagName("img");
     for(i=0;i<images.length;i++){
       img=images.item(i);
       img.style.left=left;
