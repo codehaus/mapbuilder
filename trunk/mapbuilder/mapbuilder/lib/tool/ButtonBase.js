@@ -12,6 +12,7 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * @constructor
  * @base ToolBase
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
+ * @param button Pointer to the button instance being created.
  * @param toolNode The tool node from the Config XML file.
  * @param parentWidget The ButtonBar node from the Config XML file.
  */
