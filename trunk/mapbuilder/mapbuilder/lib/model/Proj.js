@@ -21,7 +21,7 @@ $Id$
  */
 
 
-function proj(srs) {
+function Proj(srs) {
 	this.srs = srs;
 	switch(this.srs) {
 		case "EPSG:4326":				//lat/lon projection WGS_84

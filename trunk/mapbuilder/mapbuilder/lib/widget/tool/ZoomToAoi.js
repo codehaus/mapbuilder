@@ -23,7 +23,7 @@ function ZoomToAoi(toolNode, parentWidget) {
     this.targetModelGroup = targetModelGroup.firstChild.nodeValue;
     this.init = function( tool ) {
       tool.targetModel = config[tool.targetModelGroup].model;
-      tool.targetModel.proj = new proj( tool.targetModel.getSRS() );
+      tool.targetModel.proj = new Proj( tool.targetModel.getSRS() );
     }
     this.init(this);
     config[this.targetModelGroup].addModelListener( this.init, this );

@@ -18,7 +18,7 @@ $Id$
 
 function CursorTrack(toolNode, parentWidget) {
   this.node = document.getElementById( parentWidget.containerId );
-  this.proj = new proj( parentWidget.model.getSRS() );
+  this.proj = new Proj( parentWidget.model.getSRS() );
   var formName = toolNode.selectSingleNode("formName").firstChild.nodeValue;
   this.coordForm = document.getElementById(formName);
 
