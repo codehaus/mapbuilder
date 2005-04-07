@@ -22,7 +22,7 @@ $Name$
 
 <xsl:stylesheet version="1.0" 
 
-    xmlns:ogcwfs="http://www.opengis.net/wfs"
+    xmlns:wfs="http://www.opengis.net/wfs"
 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 
@@ -44,11 +44,11 @@ $Name$
 
   <!-- template rule matching source root element -->
 
-  <xsl:template match="/ogcwfs:WFS_Capabilities/ogcwfs:FeatureTypeList">
+  <xsl:template match="/wfs:WFS_Capabilities/wfs:FeatureTypeList">
 
     <DescribeFeatureType version="1.0.0" service="WFS">
 
-      <xsl:apply-templates select="ogcwfs:FeatureType"/>
+      <xsl:apply-templates select="wfs:FeatureType"/>
 
     </DescribeFeatureType>
 
@@ -58,13 +58,13 @@ $Name$
 
   <!-- template rule matching source root element -->
 
-  <xsl:template match="ogcwfs:FeatureType">
+  <xsl:template match="wfs:FeatureType">
 
     <xsl:choose>
 
       <xsl:when test="$httpMethod='post'">
 
-        <TypeName><xsl:value-of select="ogcwfs:Name"/></TypeName>
+        <TypeName><xsl:value-of select="wfs:Name"/></TypeName>
 
       </xsl:when>
 
@@ -80,7 +80,7 @@ $Name$
 
  &amp;service=WFS
 
-&amp;typename=<xsl:value-of select="ogcwfs:Name"/>
+&amp;typename=<xsl:value-of select="wfs:Name"/>
 
           </xsl:variable>
 
