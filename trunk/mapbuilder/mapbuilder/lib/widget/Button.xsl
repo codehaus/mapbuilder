@@ -3,8 +3,12 @@
   xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder" 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <!--
-Description: Convert Mapbuilder Config to a list of buttons.  This stylesheet 
-            takes a Button node from config as input
+Description: Convert Mapbuilder Config to a button image and link.  This stylesheet 
+            takes a Button node from config as input.  The link executes two
+            Javascript methods:
+            - button.select() see ButtonBase
+            - config.objects.$action where $action is a objectReference.method() 
+              specified in config.
 Author:      Mike Adair
 Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 

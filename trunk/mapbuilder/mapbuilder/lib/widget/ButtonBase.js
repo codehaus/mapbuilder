@@ -17,6 +17,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * @param model The parent model object (optional).
  */
 function ButtonBase(button, widgetNode, model) {
+  //stylesheet is fixed to this one
   button.stylesheet = new XslProcessor(baseDir+"/widget/Button.xsl");
   var buttonBarNode = widgetNode.selectSingleNode("mb:buttonBar");
   if ( buttonBarNode ) {
@@ -45,6 +46,11 @@ function ButtonBase(button, widgetNode, model) {
   var tooltip = widgetNode.selectSingleNode("mb:tooltip[@xml:lang='"+config.lang+"']");
   if (tooltip) button.tooltip = tooltip.firstChild.nodeValue;
 
+  /**
+   * Override of widgetBase prePaint to set the doc to be styled as the widget
+   * node for this button.
+   * @param objRef Pointer to this object.
+   */
   this.prePaint = function(objRef) {
     objRef.resultDoc = objRef.widgetNode;
   }
@@ -87,7 +93,7 @@ function ButtonBase(button, widgetNode, model) {
   /**
    * Override this function in Buttons to process select/deselect calls.
    * @param selected True when selected, false when deselected.
-   * @objRef Reference to this object.
+   * @param objRef Reference to this object.
    */
   this.doSelect = function(selected, objRef) {
   }
@@ -95,6 +101,12 @@ function ButtonBase(button, widgetNode, model) {
   var selected = widgetNode.selectSingleNode("mb:selected");
   if (selected && selected.firstChild.nodeValue) button.selected = true;
 
+  /**
+   * A listener method to initialize the mouse handler, if configured.  This is
+   * called as an init event so that the object pointed to is guaranteed to 
+   * be instantiated.
+   * @param objRef Reference to this object.
+   */
   this.initMouseHandler = function(objRef) {
     /** Mouse handler which this tool will register listeners with. */
     var mouseHandler = objRef.widgetNode.selectSingleNode("mb:mouseHandler");
@@ -109,7 +121,7 @@ function ButtonBase(button, widgetNode, model) {
   }
 
   /**
-   * Initialise buttonBase.
+   * Initialise image for the button an select it if required.
    * @param objRef Reference to this object.
    */
   this.buttonInit = function(objRef) {

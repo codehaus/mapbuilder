@@ -9,7 +9,7 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
- * Tools to build a CollectionList from a Web Map Context.
+ * A widget to display a list of context docs to pick from.
  * @constructor
  * @base WidgetBase
  * @param widgetNode  The widget's XML object node from the configuration document.
