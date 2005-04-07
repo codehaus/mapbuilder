@@ -48,7 +48,7 @@ $Name$
         <a href="javascript:config.objects.{$modelId}.setParam('GetMap','{$name}')">preview</a>
       </td>
       <td>
-        <a href="javascript:config.objects.{$modelId}.addToContext('{$name}')">add to map</a>
+        <a href="javascript:config.objects.{$modelId}.setParam('AddNode','{$name}')">add to map</a>
       </td>
     </tr>
     <xsl:apply-templates/>
