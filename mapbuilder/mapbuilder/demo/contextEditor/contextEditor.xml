@@ -184,9 +184,6 @@
           <outputNodeId>workspaceCanvas</outputNodeId>
           <stylesheet>../../lib/widget/SelectMapLayers.xsl</stylesheet>
         </Widget>
-        <CopyNode id="copyNodeToContext">
-          <targetModel>mainMap</targetModel>
-        </CopyNode>
       </widgets>
       <tools>
         <WebServiceRequest id="wmsController">
@@ -197,6 +194,9 @@
           <targetModel>getFeatureInfoTemplate</targetModel>
           <requestName>wms:GetFeatureInfo</requestName>
         </WebServiceRequest-->
+        <EditContext id="editContext">
+          <targetModel>mainMap</targetModel>
+        </EditContext>
       </tools>
     </WmsCapabilities>
     <Model id="wmsServers">

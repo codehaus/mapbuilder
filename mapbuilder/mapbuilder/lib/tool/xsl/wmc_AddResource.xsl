@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!--
-Description: parses an OGC context document to generate an array of DHTML layers.
+Description: parses a WMS capabilities Layer element and transforms it to a
+             Web Map Context document Layer element.
 Author:      adair
 Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
 
-$Id$
-$Name$
+$Id: CopyNode.xsl,v 1.2 2005/03/30 20:27:00 camerons Exp $
+$Name:  $
 -->
 
 <xsl:stylesheet version="1.0" 

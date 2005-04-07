@@ -170,6 +170,18 @@ function Context(modelNode, parent) {
   }
 
   /**
+   * Method to add a Layer to the LayerList
+   * @param feature the Layer node from the context doc
+   * @return the HTTP method to get the feature with
+   */
+  this.addLayer = function(layerNode) {
+    var parentNode = this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList");
+    parentNode.appendChild(this.doc.importNode(layerNode,true));
+    this.callListeners("refresh");
+  }
+
+
+  /**
    * Adds a node to the Context document extension element.  The extension element
    * will be created if it doesn't already exist.  
    * @param extensionNode the node to be appended in the extension element.

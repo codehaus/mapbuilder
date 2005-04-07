@@ -73,16 +73,5 @@ function WmsCapabilities(modelNode, parentModel) {
     return this.doc.selectSingleNode(this.nodeSelectXpath+"[Name='"+featureName+"']");
   }
 
-  /**
-   * Looks up a Layer node from the capabilities document based on the name
-   * passed in and sets that as a model param for any objects regsitered for
-   * the "AddNodeToContext" listener.
-   * @param featureName name of the featureType to look up
-   */
-  this.addToContext = function(featureName) {
-    var feature = this.getFeatureNode(featureName);
-    this.setParam("AddNodeToContext",feature);
-  }
-
 }
 
