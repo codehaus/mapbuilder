@@ -10,7 +10,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
 /**
- * Widget to display the AOI box coordinates
+ * Widget to display the AOI box coordinates in a form.
  *
  * @constructor
  * @base WidgetBase

@@ -12,9 +12,9 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * Widget to draw an Area Of Interest box of a model.  The box can be drawn with
  * the paint() method and is registered as a listener of the context AOI property.
  * This object works entirely in pixel/line coordinate space and knows nothing
- * about geography.
+ * about geography.  This widget uses DHTML methods to draw the box.
  * @constructor
- * @base ToolBase
+ * @base MapContainerBase
  * @param widgetNode The node for this object from the Config file.
  * @param model The model that contains this object.
  */

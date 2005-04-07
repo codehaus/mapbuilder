@@ -9,10 +9,12 @@ mapbuilder.loadScript(baseDir+"/widget/MapContainerBase.js");
 mapbuilder.loadScript(baseDir+"/util/wz_jsgraphics/wz_jsgraphics.js");
 
 /**
- * Render an Area Of Interest (AOI) Box over a map.
- * This widget extends GmlRenderer and uses GmlRenderer.xsl to build the HTML box.
+ * Widget to draw an Area Of Interest box of a model.  The box can be drawn with
+ * the paint() method and is registered as a listener of the context AOI property.
+ * This object works entirely in pixel/line coordinate space and knows nothing
+ * about geography.  This widget uses the Walter-Zorn graphics library to draw.
  * @constructor
- * @base GmlRenderer
+ * @base MapContainerBase
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */
