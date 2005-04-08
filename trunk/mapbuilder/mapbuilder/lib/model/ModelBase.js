@@ -160,6 +160,10 @@ function ModelBase(model, modelNode, parentModel) {
           return;
         }
 
+        if (modelRef.doc.documentElement.nodeName.search(/exception/i)>=0) {
+          alert("Exception:"+modelRef.doc.xml);
+        }
+
         // the following two lines are needed for IE; set the namespace for selection
         modelRef.doc.setProperty("SelectionLanguage", "XPath");
         if (modelRef.namespace) Sarissa.setXpathNamespaces(modelRef.doc, modelRef.namespace);
