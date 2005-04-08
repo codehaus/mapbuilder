@@ -10,7 +10,7 @@
   -->
   <models>
     <Context id="mainMap">
-      <defaultModelUrl>/mapbuilder/data/context/atlasWorld.xml</defaultModelUrl>
+      <defaultModelUrl>../data/context/atlasWorld.xml</defaultModelUrl>
       <widgets>
         <MapPane id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
@@ -22,14 +22,13 @@
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
         </CursorTrack>
-        <AoiBoxWZ id="aoiBox2">
+        <AoiBoxDHTML id="aoiBox2">
           <htmlTagId>mainMapPane</htmlTagId>
-          <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
           <mapContainerId>mainMapContainer</mapContainerId>
-        </AoiBoxWZ>
+        </AoiBoxDHTML>
       </widgets>
       <tools>
         <AoiMouseHandler id="mainAoi"/>
@@ -39,7 +38,7 @@
       </tools>
     </Context>
     <Context id="locator">
-      <defaultModelUrl>/mapbuilder/data/context/locatorMap.xml</defaultModelUrl>
+      <defaultModelUrl>../data/context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
@@ -47,14 +46,13 @@
           <mapContainerId>locatorContainer</mapContainerId>
           <fixedWidth>180</fixedWidth>
         </MapPane>
-        <AoiBoxWZ id="aoiBox2">
+        <AoiBoxDHTML id="aoiBox2">
           <htmlTagId>locatorMap</htmlTagId>
-          <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
           <mapContainerId>locatorContainer</mapContainerId>
-        </AoiBoxWZ>
+        </AoiBoxDHTML>
       </widgets>
       <tools>
         <AoiMouseHandler id="locatorAoi"/>
@@ -70,12 +68,19 @@
       <namespace>xmlns:wps='http://www.opengis.net/wps'</namespace>
       <models>
         <Model id="describeProcessTemplate">
+          <!--defaultModelUrl>DescribeProcess_MinValue.xml</defaultModelUrl-->
           <nodeSelectXpath>/wps:ProcessDescription/wps:Process</nodeSelectXpath>
           <widgets>
             <Widget id="argsInput">
               <stylesheet>ProcessArgumentsForm.xsl</stylesheet>
               <targeModel>executeProcessTemplate</targeModel>
             </Widget>
+            <Save id="saveDP">
+              <buttonBar>DPButtonBar</buttonBar>
+              <class>Button</class>
+              <disabledSrc>/images/SaveDisable.gif</disabledSrc>
+              <popupWindowName>modelXML</popupWindowName>
+            </Save>
           </widgets>
           <tools>
           </tools>
@@ -89,6 +94,12 @@
         <Widget id="selectProcess">
           <stylesheet>SelectProcess.xsl</stylesheet>
         </Widget>
+        <Save id="saveCaps">
+          <buttonBar>urlInput</buttonBar>
+          <class>Button</class>
+          <disabledSrc>/images/SaveDisable.gif</disabledSrc>
+          <popupWindowName>modelXML</popupWindowName>
+        </Save>
       </widgets>
       <tools>
         <WebServiceRequest id="wpsDescribeProcess">

@@ -34,6 +34,10 @@
             Sample capabilities instance</a>
             </li>
             <li>
+            <a href="javascript:config.loadModel('describeProcessTemplate','DescribeProcess_MinValue.xml')">
+            Sample Describe Process response</a>
+            </li>
+            <li>
             <a href="javascript:config.loadModel('wpsCapTemplate','http://geotech.lih.rwth-aachen.de/wps/wps?request=GetCapabilities&version=0.2.1&service=wps')">
             Intersection of GML themes (Aachen U.)</a>
             </li>
@@ -67,6 +71,10 @@
             <li>
             <a href="http://wms1.agr.gc.ca:8081/geoproc/index.jsp">
             AAFC client</a>
+            </li>
+            <li>
+            <a href="http://itrim4.demo.galdosinc.com/client/clientservlet">
+            Galdos client</a>
             </li>
           </ul>
           <ul>
@@ -117,23 +125,16 @@
               <td align="left">
                 <dl>
                   <dt>1. Specify the web processing service</dt>
-                  <dd>Enter the URL for a WPS GetCapabilities document.
-                  The URL could also be selected from a search in a WPS registry
-                  once one of these exists.
-                  </dd>
+                  <dd>Select a processing service from the list or enter the URL here:</dd>
                   <dd id="urlInput"/>
-                  <dt>2. Select the process to execute
-                  </dt>
-                  <dd id="selectProcess">
-                  </dd>
-                  <dt>3. Enter the arguments for the process and invoke
-                  </dt>
-                  <dd id="argsInput">
-                  </dd>
-                  <dt>4. Access the results
-                  </dt>
-                  <dd id="accessResults">
-                  </dd>
+                  <dd id="CapsButtonBar">capabilities doc</dd>
+                  <dt>2. Select the process to execute</dt>
+                  <dd id="selectProcess"></dd>
+                  <dd id="DPButtonBar">Describe Process response</dd>
+                  <dt>3. Enter the arguments for the process and invoke</dt>
+                  <dd id="argsInput"></dd>
+                  <dt>4. Access the results</dt>
+                  <dd id="accessResults"></dd>
                 </dl>
               </td>
             </tr>

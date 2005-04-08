@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ProcessDescription xmlns="http://www.opengis.net/wps" xmlns:ows="http://www.opengis.net/ows" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps
+
+wpsDescribeProcess.xsd">
+
+	<ProcessMember>
+
+		<Process>
+
+			<Name>minValue</Name>
+
+			<Label>Minimum value</Label>
+
+			<Description>Identifies the minimum value of a given grid coverage</Description>
+
+			<version>0.2.3</version>
+
+			<Application>
+
+				<ows:Keywords>
+
+					<ows:Keyword>Grid processing</ows:Keyword>
+
+				</ows:Keywords>
+
+			</Application>
+
+			<Category>
+
+				<ows:Keywords>
+
+					<ows:Keyword>Statistics</ows:Keyword>
+
+				</ows:Keywords>
+
+			</Category>
+
+			<Input>
+
+				<Parameter>
+
+					<Name>inputGridCoverage</Name>
+
+					<Label>Input Grid Coverage</Label>
+
+					<Description>Coverage that will be processed. This can be a reference URI to a GeoTiff or a WCS request when returning a GeoTiff</Description>
+
+					<minimumOccurs>1</minimumOccurs>
+
+					<datatype>
+
+            <Reference xlink:href="anyURI">
+
+              <ows:Format>image/GeoTiff</ows:Format>
+
+            </Reference>
+
+					</datatype>
+
+				</Parameter>
+
+			</Input>
+
+      
+
+			<Input>
+
+				<Parameter>
+
+					<Name>bbox</Name>
+
+					<Label>Bounding Box</Label>
+
+					<Description>bounding box to be processed</Description>
+
+					<minimumOccurs>1</minimumOccurs>
+
+					<datatype>
+
+            <ows:BoundingBox crs="EPSG:4326">
+
+              <ows:LowerCorner>-71.10285218349743 42.261800717452054</ows:LowerCorner>
+
+              <ows:UpperCorner>-71.04767081931412 42.29490953596204</ows:UpperCorner>
+
+            </ows:BoundingBox>
+
+					</datatype>
+
+				</Parameter>
+
+			</Input>
+
+      
+
+			<Input>
+
+				<Parameter>
+
+					<Name>image</Name>
+
+					<Label>image of interest</Label>
+
+					<Description>number of image of interest, needed in case more than one image is encoded in a GeoTIFF: initial value is 1</Description>
+
+					<minimumOccurs>0</minimumOccurs>
+
+					<datatype>
+
+						<LiteralValue>
+
+							<Value ows:type="integer"/>
+
+						</LiteralValue>
+
+					</datatype>
+
+				</Parameter>
+
+			</Input>
+
+			<Input>
+
+				<Parameter>
+
+					<Name>band</Name>
+
+					<Label>band of interest</Label>
+
+					<Description>and for which the statistics shall be provided: initial value is 1</Description>
+
+					<minimumOccurs>0</minimumOccurs>
+
+					<datatype>
+
+						<LiteralValue>
+
+							<Value ows:type="integer"/>
+
+							<defaultValue>1</defaultValue>
+
+						</LiteralValue>
+
+					</datatype>
+
+				</Parameter>
+
+			</Input>
+
+			<Input>
+
+				<Parameter>
+
+					<Name>valueToIgnore</Name>
+
+					<Label>Value to ignore</Label>
+
+					<Description>Some values might be known to not be the minimum value. They should be ignored in output statistics (e.g. 0 or -9999), Example: valueToIgnore = -9999</Description>
+
+					<minimumOccurs>0</minimumOccurs>
+
+					<datatype>
+
+						<LiteralValue>
+
+							<Value ows:type="decimal"/>
+
+						</LiteralValue>
+
+					</datatype>
+
+				</Parameter>
+
+			</Input>
+
+			<Output store="false">
+
+				<parameterName>minValueResult</parameterName>
+
+			</Output>
+
+		</Process>
+
+	</ProcessMember>
+
+</ProcessDescription>
+
+
+
