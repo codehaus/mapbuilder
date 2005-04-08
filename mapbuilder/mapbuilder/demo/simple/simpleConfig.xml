@@ -30,10 +30,6 @@
 
         </Loading>
 
-        <ModelUrlInput id="urlInput">
-
-        </ModelUrlInput>
-
         <AoiBoxDHTML id="aoiBox2">
 
           <htmlTagId>mainMapPane</htmlTagId>
