@@ -16,6 +16,13 @@ $Id$
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
 
+  <!-- Text params for this widget -->
+  <xsl:param name="searchFormTitle"/>
+  <xsl:param name="north"/>
+  <xsl:param name="south"/>
+  <xsl:param name="east"/>
+  <xsl:param name="west"/>
+  
   <!-- The name of the form for coordinate output -->
   <xsl:param name="formName">AOIForm</xsl:param>
 
@@ -25,7 +32,7 @@ $Id$
       <table>
         <tr>
           <th align="left" colspan="3">
-            <xsl:call-template name="title"/>
+            <xsl:value-of select="$searchFormTitle"/>
           </th>
         </tr>
         <tr>
@@ -43,7 +50,7 @@ $Id$
           <td>
           </td>
           <td>
-            <xsl:call-template name="north"/>
+            <xsl:value-of select="$north"/>
             <input NAME="northCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;"/>
           </td>
           <td>
@@ -51,13 +58,13 @@ $Id$
         </tr>
         <tr>
           <td>
-            <xsl:call-template name="west"/>
+            <xsl:value-of select="$west"/>
             <input NAME="westCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;"/>
           </td>
           <td>
           </td>
           <td>
-            <xsl:call-template name="east"/>
+            <xsl:value-of select="$east"/>
             <input NAME="eastCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;"/>
           </td>
         </tr>
@@ -65,7 +72,7 @@ $Id$
           <td>
           </td>
           <td>
-            <xsl:call-template name="south"/>
+            <xsl:value-of select="$south"/>
             <input NAME="southCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;"/>
           </td>
           <td>
@@ -73,43 +80,6 @@ $Id$
         </tr>
       </table>
     </form>
-  </xsl:template>
-  
-  <xsl:template name="title">
-    <xsl:choose>
-      <xsl:when test="$lang='fr'">Search for layers</xsl:when>
-      <xsl:otherwise>Search for layers</xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-  <xsl:template name="aoiTitle">
-    <xsl:choose>
-      <xsl:when test="$lang='fr'">Région d'intérêt</xsl:when>
-      <xsl:otherwise>Area of interest coordinates</xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-  <xsl:template name="north">
-    <xsl:choose>
-      <xsl:when test="$lang='fr'">Nord:</xsl:when>
-      <xsl:otherwise>North:</xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-  <xsl:template name="south">
-    <xsl:choose>
-      <xsl:when test="$lang='fr'">Sud:</xsl:when>
-      <xsl:otherwise>South:</xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-  <xsl:template name="east">
-    <xsl:choose>
-      <xsl:when test="$lang='fr'">Est:</xsl:when>
-      <xsl:otherwise>East:</xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-  <xsl:template name="west">
-    <xsl:choose>
-      <xsl:when test="$lang='fr'">Ouest:</xsl:when>
-      <xsl:otherwise>West:</xsl:otherwise>
-    </xsl:choose>
   </xsl:template>
   
 </xsl:stylesheet>

@@ -18,16 +18,17 @@ ButtonBar.xsl,v 1.5 2004/03/25 21:25:43 madair1 Exp
   <xsl:output method="xml" omit-xml-declaration="yes"/>
   
   <!-- The common params set for all widgets -->
-  <xsl:param name="lang">en</xsl:param>
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
   <xsl:param name="action"/>
   <xsl:param name="skinDir" select="/mb:MapbuilderConfig/mb:skinDir"/>
-  
+
+  <!-- Text params for this widget -->
+  <xsl:param name="tooltip">set the tooltip property in WidgetText file</xsl:param>
+    
   <xsl:template match="*">
     <xsl:param name="linkUrl">javascript:config.objects.<xsl:value-of select="$widgetId"/>.select()<xsl:if test="$action">;config.objects.<xsl:value-of select="$action"/></xsl:if></xsl:param>
-    <xsl:param name="buttonTitle"><xsl:value-of select="mb:tooltip[@xml:lang=$lang]"/></xsl:param>
-    <A HREF="{$linkUrl}"><IMG SRC="{$skinDir}{mb:disabledSrc}" ID="{@id}" TITLE="{$buttonTitle}" BORDER="0"/></A>
+    <A HREF="{$linkUrl}"><IMG SRC="{$skinDir}{mb:disabledSrc}" ID="{@id}" TITLE="{$tooltip}" BORDER="0"/></A>
   </xsl:template>
 
 </xsl:stylesheet>

@@ -42,6 +42,12 @@ $Name$
 
   
 
+  <!-- Text params for this widget -->
+
+  <xsl:param name="title"/>
+
+  
+
 <!-- The name of the javascript context object to call -->
 
   <xsl:param name="featureName"/>
@@ -60,7 +66,7 @@ $Name$
 
       <tr>
 
-        <th colspan="3"><xsl:call-template name="title"/></th>
+        <th colspan="3"><xsl:value-of select="$title"/></th>
 
       </tr>
 
@@ -78,7 +84,7 @@ $Name$
 
       <tr>
 
-        <th colspan="3">WMS <xsl:call-template name="title"/></th>
+        <th colspan="3">WMS <xsl:value-of select="$title"/></th>
 
       </tr>
 
@@ -229,20 +235,6 @@ $Name$
       </td>
 
     </tr>
-
-  </xsl:template>
-
-  
-
-  <xsl:template name="title">
-
-    <xsl:choose>
-
-      <xsl:when test="$lang='fr'">Couches de la carte</xsl:when>
-
-      <xsl:otherwise>Map Layers</xsl:otherwise>
-
-    </xsl:choose>
 
   </xsl:template>
 

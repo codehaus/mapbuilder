@@ -100,8 +100,6 @@
       <selected>true</selected>
       <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
       <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click and drag to zoom in</tooltip>
-      <tooltip xml:lang="fr">cliquer et faire glisser la souris pour agrandir</tooltip>
     </ZoomIn>
     <ZoomOut id="zoomOut">
       <buttonBar>mainButtonBar</buttonBar>
@@ -110,8 +108,6 @@
       <class>RadioButton</class>
       <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
       <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click to zoom out</tooltip>
-      <tooltip xml:lang="fr">cliquer pour rée</tooltip>
     </ZoomOut>
     <DragPan id="dragPan">
       <buttonBar>mainButtonBar</buttonBar>
@@ -120,16 +116,12 @@
       <class>RadioButton</class>
       <enabledSrc>/images/PanEnable.gif</enabledSrc>
       <disabledSrc>/images/PanDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click and drag to pan</tooltip>
-      <tooltip xml:lang="fr">cliquer et faire glisser la souris pour voir un autre parti de la carte</tooltip>
     </DragPan>
     <Reset id="reset">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">reset the map to full extent</tooltip>
-      <tooltip xml:lang="fr">redonner la carte ses dimensions complèts</tooltip>
     </Reset>
     <EditPoint id="editPoint">
       <buttonBar>mainButtonBar</buttonBar>
@@ -137,8 +129,6 @@
       <class>RadioButton</class>
       <enabledSrc>/images/EditPointEnable.gif</enabledSrc>
       <disabledSrc>/images/EditPointDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click on map to create a point feature</tooltip>
-      <tooltip xml:lang="fr">click on map to create a point feature</tooltip>
       <targetModel>featureCollection</targetModel>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
@@ -152,8 +142,6 @@
       <class>RadioButton</class>
       <enabledSrc>/images/EditLineEnable.gif</enabledSrc>
       <disabledSrc>/images/EditLineDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click on map to add a point to a line</tooltip>
-      <tooltip xml:lang="fr">click on map to add a point to a line</tooltip>
       <targetModel>featureCollection</targetModel>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
@@ -163,6 +151,7 @@
     </EditLine>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
+  <widgetTextUrl>/widgetText.xml</widgetTextUrl> <!-- relative to the skin dir -->
   <!-- Url of LOCAL redirection script, required to access external URLs -->
   <proxyUrl>../../proxy</proxyUrl>
   <serializeUrl>../../writeXml</serializeUrl>

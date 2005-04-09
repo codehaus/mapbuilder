@@ -16,10 +16,13 @@ Abstract.xsl,v 1.5 2004/06/25 17:59:38 madair1 Exp
   <!-- The common params set for all widgets -->
   <xsl:param name="lang">en</xsl:param>
   <xsl:param name="widgetNode"/>
+
+  <!-- Text params for this widget -->
+  <xsl:param name="title"/>
   
   <xsl:template match="/">
     <form STYLE="font: 8pt Verdana, geneva, arial, sans-serif;">
-      <xsl:call-template name="title"/>
+      <xsl:value-of select="$title"/>
       <xsl:apply-templates select="wmc:ViewContext/wmc:General/wmc:Extension"/>
     </form>
   </xsl:template>
@@ -35,15 +38,6 @@ Abstract.xsl,v 1.5 2004/06/25 17:59:38 madair1 Exp
   </xsl:template>
 
   <xsl:template match="text()|@*"/>
-  
-  <xsl:template name="title">
-    <span>
-    <xsl:choose>
-      <xsl:when test="$lang='fr'">Timestamp-fr</xsl:when>
-      <xsl:otherwise>Timestamp:</xsl:otherwise>
-    </xsl:choose>
-    </span>
-  </xsl:template>
   
 </xsl:stylesheet>
 
