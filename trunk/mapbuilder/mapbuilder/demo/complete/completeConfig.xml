@@ -82,6 +82,7 @@
           <htmlTagId>locatorMap</htmlTagId>
           <mapContainerId>locatorContainer</mapContainerId>
           <fixedWidth>180</fixedWidth>
+          <extraAttributes>false</extraAttributes>
         </MapPane>
         <AoiBoxDHTML id="aoiBoxLocator">
           <htmlTagId>locatorMap</htmlTagId>
@@ -132,6 +133,7 @@
       <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
       <widgets>
         <GmlRendererWZ id="testGmlRenderer">
+        <debug/>
           <htmlTagId>mainMapPane</htmlTagId>
           <targetModel>mainMap</targetModel>
           <mapContainerId>mainMapContainer</mapContainerId>
@@ -171,8 +173,6 @@
       <selected>true</selected>
       <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
       <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click and drag to zoom in</tooltip>
-      <tooltip xml:lang="fr">cliquer et faire glisser la souris pour agrandir</tooltip>
     </ZoomIn>
     <ZoomOut id="zoomOut">
       <buttonBar>mainButtonBar</buttonBar>
@@ -181,8 +181,6 @@
       <class>RadioButton</class>
       <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
       <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click to zoom out</tooltip>
-      <tooltip xml:lang="fr">cliquer pour rée</tooltip>
     </ZoomOut>
     <DragPan id="dragPan">
       <buttonBar>mainButtonBar</buttonBar>
@@ -191,8 +189,6 @@
       <class>RadioButton</class>
       <enabledSrc>/images/PanEnable.gif</enabledSrc>
       <disabledSrc>/images/PanDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click and drag to pan</tooltip>
-      <tooltip xml:lang="fr">cliquer et faire glisser la souris pour voir un autre parti de la carte</tooltip>
     </DragPan>
     <SetAoi id="setAoi">
       <buttonBar>mainButtonBar</buttonBar>
@@ -201,15 +197,12 @@
       <class>RadioButton</class>
       <enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
       <disabledSrc>/images/SetAoiDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click and drag to set the area of interest</tooltip>
     </SetAoi>
     <Reset id="reset">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">reset the map to full extent</tooltip>
-      <tooltip xml:lang="fr">redonner la carte ses dimensions complèts</tooltip>
     </Reset>
     <!--GetFeatureInfo id="getFeatureInfo">
       <buttonBar>mainButtonBar</buttonBar>
@@ -218,17 +211,13 @@
       <class>RadioButton</class>
       <enabledSrc>/images/QueryEnable.gif</enabledSrc>
       <disabledSrc>/images/QueryDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click on feature for more info</tooltip>
-      <tooltip xml:lang="fr">cliquer pour obtenir plus d'information pour cette couche</tooltip>
     </GetFeatureInfo-->
-    <EditPoint id="editPoint">
+    <!--EditPoint id="editPoint">
       <buttonBar>mainButtonBar</buttonBar>
       <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/EditPointEnable.gif</enabledSrc>
       <disabledSrc>/images/EditPointDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click on map to create a point feature</tooltip>
-      <tooltip xml:lang="fr">click on map to create a point feature</tooltip>
       <targetModel>featureCollection</targetModel>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>http://localhost:8080/geoserver/wfs</webServiceUrl>
@@ -242,28 +231,26 @@
       <class>RadioButton</class>
       <enabledSrc>/images/EditLineEnable.gif</enabledSrc>
       <disabledSrc>/images/EditLineDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click on map to add a point to a line</tooltip>
-      <tooltip xml:lang="fr">click on map to add a point to a line</tooltip>
       <targetModel>featureCollection</targetModel>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>http://localhost:8080/geoserver/wfs</webServiceUrl>
       <featureXpath>/gml:featureMember/topp:bc_roads/topp:the_geom/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
       <defaultModelUrl>../data/gml/roads.xml</defaultModelUrl>
       <targetContext>mainMap</targetContext>
-    </EditLine>
+    </EditLine-->
     <Save id="save">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <class>Button</class>
       <disabledSrc>/images/SaveDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click to save this map</tooltip>
-      <tooltip xml:lang="fr">cliquer pour sauvegarder</tooltip>
       <popupWindowName>modelXML</popupWindowName>
     </Save>
   </widgets>
   <tools>
   </tools>
   <skinDir>../../lib/skin/default</skinDir>
+  <languages>en,fr,fr-CA</languages>
+  <widgetTextUrl>widgetText.xml</widgetTextUrl> <!-- relative to the skinDir + language subdir -->
   <!-- Url of LOCAL redirection script, required to access external URLs -->
   <!--proxyUrl>../server/proxy/proxy.php</proxyUrl-->
   <proxyUrl>../../proxy</proxyUrl>

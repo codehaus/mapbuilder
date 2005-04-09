@@ -18,6 +18,10 @@ $Id$
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
 
+  <!-- Text params for this widget -->
+  <xsl:param name="ntsTitle"/>
+  <xsl:param name="mapsheet"/>
+
   <!-- The name of the form for coordinate output -->
   <xsl:param name="webServiceUrl">http://geoservices.cgdi.ca/NTS/NTSLookup</xsl:param>
   <xsl:param name="formName">NTSForm</xsl:param>
@@ -32,12 +36,12 @@ $Id$
       <table>
         <tr>
           <th align="left" colspan="3">
-            <xsl:call-template name="title"/>
+            <xsl:value-of select="$ntsTitle"/>
           </th>
         </tr>
         <tr>
           <td>
-            <xsl:call-template name="mapsheet"/>
+            <xsl:value-of select="$mapsheet"/>
           </td>
           <td>
             <input name="mapsheet" type="text" size="10" value="31G05"/>
@@ -50,19 +54,6 @@ $Id$
       </table>
     </form>
     </DIV>
-  </xsl:template>
-  
-  <xsl:template name="title">
-    <xsl:choose>
-      <xsl:when test="$lang='fr'">NTS Lookup web service</xsl:when>
-      <xsl:otherwise>NTS Lookup web service</xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-  <xsl:template name="mapsheet">
-    <xsl:choose>
-      <xsl:when test="$lang='fr'">NTS index:</xsl:when>
-      <xsl:otherwise>NTS index:</xsl:otherwise>
-    </xsl:choose>
   </xsl:template>
   
 </xsl:stylesheet>

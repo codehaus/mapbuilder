@@ -28,7 +28,7 @@ function Config(url) {
   }
   this.namespace = "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder' xmlns:xml='http://www.w3.org/XML/1998/namespace'";
   this.doc.setProperty("SelectionLanguage", "XPath");
-  if (this.namespace) Sarissa.setXpathNamespaces(this.doc, this.namespace);
+  Sarissa.setXpathNamespaces(this.doc, this.namespace);
 
   /**
    * Dynamic loading of the javascript files for objects defined in the Config file.
@@ -71,6 +71,20 @@ function Config(url) {
   if (proxyUrl) this.proxyUrl = proxyUrl.firstChild.nodeValue;
   var serializeUrl = modelNode.selectSingleNode("mb:serializeUrl");
   if (serializeUrl) this.serializeUrl = serializeUrl.firstChild.nodeValue;
+
+  var widgetText = modelNode.selectSingleNode("mb:widgetTextUrl");
+  if (widgetText) {
+    var widgetTextUrl = this.skinDir + "/" + this.lang + "/" + widgetText.firstChild.nodeValue;
+    this.widgetText = Sarissa.getDomDocument();
+    this.widgetText.async = false;
+    this.widgetText.validateOnParse=false;  //IE6 SP2 parsing bug
+    this.widgetText.load(widgetTextUrl);
+    if (this.widgetText.parseError < 0){
+      alert("error loading widgetText document: " + widgetTextUrl );//+ " - " + Sarissa.getParseErrorText(this.doc) );
+    }
+    this.widgetText.setProperty("SelectionLanguage", "XPath");
+    Sarissa.setXpathNamespaces(this.widgetText, this.namespace);
+  }
 
   /**
   * the objects property holds a reference to every mapbuilder javascript object

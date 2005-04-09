@@ -208,10 +208,6 @@
 
       <enabledSrc>/images/PlayEnable.gif</enabledSrc>
 
-      <tooltip xml:lang="en">click to run the movie</tooltip>
-
-      <tooltip xml:lang="fr">click to run the movie -fr</tooltip>
-
     </Button>
 
     <Button id="pause">
@@ -228,10 +224,6 @@
 
       <enabledSrc>/images/PauseEnable.gif</enabledSrc>
 
-      <tooltip xml:lang="en">click to pause the movie</tooltip>
-
-      <tooltip xml:lang="fr">click to pause the movie -fr</tooltip>
-
     </Button>
 
     <Button id="stop">
@@ -247,10 +239,6 @@
       <disabledSrc>/images/StopDisable.gif</disabledSrc>
 
       <enabledSrc>/images/StopEnable.gif</enabledSrc>
-
-      <tooltip xml:lang="en">click to stop the movie</tooltip>
-
-      <tooltip xml:lang="fr">click to stop the movie -fr</tooltip>
 
     </Button>
 
@@ -270,10 +258,6 @@
 
       <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
 
-      <tooltip xml:lang="en">click and drag to zoom in</tooltip>
-
-      <tooltip xml:lang="fr">cliquer et faire glisser la souris pour agrandir</tooltip>
-
     </ZoomIn>
 
     <ZoomOut id="zoomOut">
@@ -290,10 +274,6 @@
 
       <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
 
-      <tooltip xml:lang="en">click to zoom out</tooltip>
-
-      <tooltip xml:lang="fr">cliquer pour rée</tooltip>
-
     </ZoomOut>
 
     <Reset id="reset">
@@ -306,15 +286,13 @@
 
       <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
 
-      <tooltip xml:lang="en">reset the map to full extent</tooltip>
-
-      <tooltip xml:lang="fr">redonner la carte ses dimensions complèts</tooltip>
-
     </Reset>
 
   </widgets>
 
   <skinDir>../../lib/skin/default</skinDir>
+
+  <widgetTextUrl>/widgetText.xml</widgetTextUrl> <!-- relative to the skin dir -->
 
 
 

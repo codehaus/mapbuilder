@@ -20,7 +20,10 @@ $Id$
   <xsl:param name="targetModel"/>
   <xsl:param name="widgetId"/>
 
-  <!-- The name of the form for coordinate output -->
+  <!-- Text params for this widget -->
+  <xsl:param name="title"/>
+
+    <!-- The name of the form for coordinate output -->
   <xsl:param name="modelUrl"/>
   <xsl:param name="formName">ModelUrlInputForm</xsl:param>
 
@@ -32,7 +35,7 @@ $Id$
       <table>
         <tr>
           <th align="left" colspan="3">
-            <xsl:call-template name="title"/><xsl:value-of select="$modelTitle"/>
+            <xsl:value-of select="$title"/><xsl:value-of select="$modelTitle"/>
           </th>
         </tr>
         <tr>
@@ -60,13 +63,6 @@ $Id$
       </table>
     </form>
     </DIV>
-  </xsl:template>
-  
-  <xsl:template name="title">
-    <xsl:choose>
-      <xsl:when test="$lang='fr'">Model URL for:</xsl:when>
-      <xsl:otherwise>Enter a URL for: </xsl:otherwise>
-    </xsl:choose>
   </xsl:template>
   
 </xsl:stylesheet>

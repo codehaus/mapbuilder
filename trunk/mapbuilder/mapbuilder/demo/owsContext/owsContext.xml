@@ -126,8 +126,6 @@
       <selected>true</selected>
       <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
       <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click and drag to zoom in</tooltip>
-      <tooltip xml:lang="fr">cliquer et faire glisser la souris pour agrandir</tooltip>
     </ZoomIn>
     <ZoomOut id="zoomOut">
       <buttonBar>mainButtonBar</buttonBar>
@@ -136,8 +134,6 @@
       <class>RadioButton</class>
       <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
       <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click to zoom out</tooltip>
-      <tooltip xml:lang="fr">cliquer pour rée</tooltip>
     </ZoomOut>
     <DragPan id="dragPan">
       <buttonBar>mainButtonBar</buttonBar>
@@ -146,8 +142,6 @@
       <class>RadioButton</class>
       <enabledSrc>/images/PanEnable.gif</enabledSrc>
       <disabledSrc>/images/PanDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click and drag to pan</tooltip>
-      <tooltip xml:lang="fr">cliquer et faire glisser la souris pour voir un autre parti de la carte</tooltip>
     </DragPan>
     <SetAoi id="setAoi">
       <buttonBar>mainButtonBar</buttonBar>
@@ -156,27 +150,23 @@
       <class>RadioButton</class>
       <enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
       <disabledSrc>/images/SetAoiDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click and drag to set the area of interest</tooltip>
     </SetAoi>
     <Reset id="reset">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">reset the map to full extent</tooltip>
-      <tooltip xml:lang="fr">redonner la carte ses dimensions complèts</tooltip>
     </Reset>
     <Save id="save">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <class>Button</class>
       <disabledSrc>/images/SaveDisable.gif</disabledSrc>
-      <tooltip xml:lang="en">click to save this map</tooltip>
-      <tooltip xml:lang="fr">cliquer pour sauvegarder</tooltip>
       <popupWindowName>modelXML</popupWindowName>
     </Save>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
+  <widgetTextUrl>/widgetText.xml</widgetTextUrl> <!-- relative to the skin dir -->
   <proxyUrl>../../proxy</proxyUrl>
   <serializeUrl>../../writeXml</serializeUrl>
 </MapbuilderConfig>

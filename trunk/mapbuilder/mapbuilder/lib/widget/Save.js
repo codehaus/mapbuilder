@@ -38,10 +38,14 @@ function Save(toolNode, model) {
   this.savedModelPopup = function(objRef, fileUrl) {
     window.open(fileUrl, this.popupWindowName);
   }
+  this.initReset = function(objRef) {
+    objRef.targetModel.addListener("modelSaved",objRef.savedModelPopup, objRef);
+  }
   var popupWindowName = toolNode.selectSingleNode("mb:popupWindowName");
   if (popupWindowName) {
     this.popupWindowName = popupWindowName.firstChild.nodeValue;
-    this.targetModel.addListener("modelSaved", this.savedModelPopup, this);
+    this.model.addListener("init",this.initReset, this);
+    //this.targetModel.addListener("modelSaved", this.savedModelPopup, this);
   }
 
 

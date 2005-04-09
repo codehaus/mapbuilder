@@ -19,21 +19,17 @@ $Id$
   <xsl:param name="modelTitle"/>
   <xsl:param name="widgetId"/>
 
+  <!-- Text params for this widget -->
+  <xsl:param name="title"/>
+  
   <!-- The name of the form for coordinate output -->
   <xsl:param name="statusMessage"/>
 
   <!-- Main html -->
   <xsl:template match="/">
     <DIV>
-      <xsl:call-template name="title"/><xsl:value-of select="$modelTitle"/><xsl:value-of select="$statusMessage"/>
+      <xsl:value-of select="$title"/><xsl:value-of select="$modelTitle"/><xsl:value-of select="$statusMessage"/>
     </DIV>
-  </xsl:template>
-  
-  <xsl:template name="title">
-    <xsl:choose>
-      <xsl:when test="$lang='fr'">Status for:</xsl:when>
-      <xsl:otherwise>Status for:</xsl:otherwise>
-    </xsl:choose>
   </xsl:template>
   
 </xsl:stylesheet>

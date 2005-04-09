@@ -21,6 +21,9 @@ $Name$
   <!-- The common params set for all widgets -->
   <xsl:param name="lang">en</xsl:param>
 
+  <!-- Text params for this widget -->
+  <xsl:param name="title"/>
+
   <!-- The coordinates of the DHTML Layer on the HTML page -->
   <xsl:param name="jsfunction">config.loadModel('</xsl:param>
   <xsl:param name="targetModel"/>
@@ -29,7 +32,7 @@ $Name$
   <xsl:template match="/wmc:ViewContextCollection">
 
     <UL>
-      <xsl:call-template name="title"/>
+      <xsl:value-of select="$title"/>
       <xsl:apply-templates select="wmc:ViewContextReference"/>
     </UL>
 
@@ -51,11 +54,4 @@ $Name$
     </LI>    
   </xsl:template>
   
-  <xsl:template name="title">
-    <xsl:choose>
-      <xsl:when test="$lang='fr'">Choisir une carte pour regardez:</xsl:when>
-      <xsl:otherwise>Select a map to load:</xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-
 </xsl:stylesheet>

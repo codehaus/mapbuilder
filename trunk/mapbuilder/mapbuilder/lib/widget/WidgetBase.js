@@ -86,6 +86,7 @@ function WidgetBase(widget,widgetNode,model) {
   }
 
   //set the target model
+/*
   var targetModel = widgetNode.selectSingleNode("mb:targetModel");
   if (targetModel) {
     widget.targetModel = eval("config.objects."+targetModel.firstChild.nodeValue);
@@ -96,10 +97,12 @@ function WidgetBase(widget,widgetNode,model) {
     widget.targetModel = widget.model;
   }
   widget.stylesheet.setParameter("targetModelId", widget.targetModel.id );
+   */
 
   /**
    * Initialize dynamic properties.
    * @param toolRef Pointer to this object.
+   */
   this.initTargetModel = function(objRef) {
     //set the target model
     var targetModel = objRef.widgetNode.selectSingleNode("mb:targetModel");
@@ -113,7 +116,6 @@ function WidgetBase(widget,widgetNode,model) {
     }
     objRef.stylesheet.setParameter("targetModelId", objRef.targetModel.id );
   }
-   */
 
 
   // Set stylesheet parameters for all the child nodes from the config file
@@ -126,8 +128,14 @@ function WidgetBase(widget,widgetNode,model) {
         widgetNode.childNodes[j].firstChild.nodeValue);
     }
   }
-  //this is supposed to work too instead of above?
-  //widget.stylesheet.setParameter("widgetNode", widgetNode );
+
+  // Set widget text values as parameters 
+  var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName + "/*";
+  var textParams = config.widgetText.selectNodes(textNodeXpath);
+  for (var j=0;j<textParams.length;j++) {
+    widget.stylesheet.setParameter(textParams[j].nodeName,textParams[j].firstChild.nodeValue);
+  }
+
 
   //all stylesheets will have these properties available
   widget.stylesheet.setParameter("modelId", widget.model.id );
@@ -291,6 +299,7 @@ if (!widget.paint) {
   // Call paint when model changes
   //config.addListener( "loadModel", widget.initTargetModel, widget );
   //widget.model.addListener("loadModel",widget.paint, widget);
+  widget.model.addListener("init", widget.initTargetModel, widget);
   widget.model.addListener("refresh",widget.paint, widget);
   widget.model.addListener("newModel",widget.clearWidget, widget);
 }
