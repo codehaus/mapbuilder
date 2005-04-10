@@ -26,7 +26,7 @@ function Config(url) {
   if (this.doc.parseError < 0){
     alert("error loading config document: " + url );//+ " - " + Sarissa.getParseErrorText(this.doc) );
   }
-  this.namespace = "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder' xmlns:xml='http://www.w3.org/XML/1998/namespace'";
+  this.namespace = "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder'";
   this.doc.setProperty("SelectionLanguage", "XPath");
   Sarissa.setXpathNamespaces(this.doc, this.namespace);
 
