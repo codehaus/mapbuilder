@@ -42,10 +42,6 @@ function ButtonBase(button, widgetNode, model) {
     button.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
   }
 
-  //get the tooltip value
-  var tooltip = widgetNode.selectSingleNode("mb:tooltip[@xml:lang='"+config.lang+"']");
-  if (tooltip) button.tooltip = tooltip.firstChild.nodeValue;
-
   /**
    * Override of widgetBase prePaint to set the doc to be styled as the widget
    * node for this button.
@@ -81,8 +77,6 @@ function ButtonBase(button, widgetNode, model) {
       this.node.selectedRadioButton = this;
       this.image.src = this.enabledImage.src;
     }
-
-    this.model.setParam("tooltip", this.tooltip);
 
     //enable this tool and any dependancies
     this.enabled = true;
