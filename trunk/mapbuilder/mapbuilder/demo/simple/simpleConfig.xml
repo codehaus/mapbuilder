@@ -14,6 +14,8 @@
         </MapPane>
         <Loading id="loading">
         </Loading>
+        <ModelUrlInput id="urlInput">
+        </ModelUrlInput>
         <AoiBoxDHTML id="aoiBox2">
           <htmlTagId>mainMapPane</htmlTagId>
           <stylesheet>../../lib/widget/Null.xsl</stylesheet>
@@ -22,6 +24,16 @@
           <crossSize>15</crossSize>
           <mapContainerId>mainMapContainer</mapContainerId>
         </AoiBoxDHTML>
+      </widgets>
+      <tools>
+        <AoiMouseHandler id="mainAoi"/>
+        <DragPanHandler id="mainDragPan">
+          <enabled>false</enabled>
+        </DragPanHandler>
+      </tools>
+    </Context>
+  </models>
+  <widgets>
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
@@ -61,17 +73,7 @@
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
     </Reset>
-      </widgets>
-      <tools>
-        <AoiMouseHandler id="mainAoi"/>
-        <DragPanHandler id="mainDragPan">
-          <enabled>false</enabled>
-        </DragPanHandler>
-      </tools>
-    </Context>
-  </models>
-  <widgets>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
-  <widgetTextUrl>/widgetText.xml</widgetTextUrl> <!-- relative to the skin dir -->
+  <widgetTextUrl>widgetText.xml</widgetTextUrl> <!-- relative to the skin dir -->
 </MapbuilderConfig>
