@@ -18,6 +18,13 @@
     This dir is relative the dir of the main html file.
   -->
   <models>
+    <Logger id="eventLogDoc">
+      <widgets>
+        <Widget id="eventLog">
+          <stylesheet>../../lib/widget/EventLog.xsl</stylesheet>
+        </Widget>
+      </widgets>
+    </Logger>
     <OwsContext id="mainMap">
       <defaultModelUrl>oc_0_0_13r1.xml</defaultModelUrl>
       <nodeSelectXpath>/wmc:OWSContext/wmc:ResourceList</nodeSelectXpath>
@@ -29,7 +36,7 @@
             <GmlRendererWZ id="testGmlRenderer">
               <htmlTagId>mainMapPane</htmlTagId>
               <mapContainerId>mainMapContainer</mapContainerId>
-              <lineColor>#00FF00</lineColor>
+              <lineColor>#0000FF</lineColor>
               <lineWidth>2</lineWidth>
               <pointDiameter>10</pointDiameter>
             </GmlRendererWZ>
@@ -51,14 +58,14 @@
         </MapPane>
         <Loading id="loading">
         </Loading>
-        <AoiBoxWZ id="aoiBoxMain">
+        <AoiBoxDHTML id="aoiBoxMain">
           <htmlTagId>mainMapPane</htmlTagId>
           <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
           <mapContainerId>mainMapContainer</mapContainerId>
-        </AoiBoxWZ>
+        </AoiBoxDHTML>
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
         </CursorTrack>
@@ -85,7 +92,7 @@
       </tools>
     </OwsContext>
     <Context id="locatorMap">
-      <defaultModelUrl>locatorBoston.xml</defaultModelUrl>
+      <defaultModelUrl>../data/context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorMapWidget">
           <htmlTagId>locatorMap</htmlTagId>
@@ -108,14 +115,6 @@
         </ZoomToAoi>
       </tools>
     </Context>
-    <!--Logger id="eventLogDoc">
-      <serializeUrl>../../writeXml</serializeUrl>
-      <widgets>
-        <Widget id="eventLog">
-          <stylesheet>../../lib/widget/EventLog.xsl</stylesheet>
-        </Widget>
-      </widgets>
-    </Logger-->
   </models>
   <widgets>
     <ZoomIn id="zoomIn">
