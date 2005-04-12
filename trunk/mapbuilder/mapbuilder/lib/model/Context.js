@@ -118,7 +118,7 @@ function Context(modelNode, parent) {
   this.setWindowWidth=function(width) {
     var win=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Window");
     win.setAttribute("width", width);
-    this.callListeners("refresh");
+    this.callListeners("resize");
   }
 
   /**
@@ -137,7 +137,7 @@ function Context(modelNode, parent) {
   this.setWindowHeight=function(height) {
     var win=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Window");
     win.setAttribute("height", height);
-    this.callListeners("refresh");
+    this.callListeners("resize");
   }
 
   /**
