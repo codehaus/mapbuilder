@@ -107,7 +107,7 @@ function ButtonBase(button, widgetNode, model) {
     if (mouseHandler) {
       objRef.mouseHandler = eval("config.objects." + mouseHandler.firstChild.nodeValue);
       if (!objRef.mouseHandler) {
-        alert("error finding mouseHandler:"+mouseHandler.firstChild.nodeValue+" for tool:"+objRef.id);
+        alert("error finding mouseHandler:"+mouseHandler.firstChild.nodeValue+" for button:"+objRef.id);
       }
     } else {
       objRef.mouseHandler = null;
