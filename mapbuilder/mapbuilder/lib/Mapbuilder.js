@@ -172,6 +172,7 @@ function mapbuilderInit(){
   if(mapbuilder && mapbuilder.loadState==MB_LOADED){
     clearInterval(mbTimerId);
     config.init(config);
+    config.callListeners("init");
     var mbTimerStop = new Date();
     //alert("load time:"+(mbTimerStop.getTime()-mbTimerStart.getTime()) );
     config.callListeners("loadModel");
