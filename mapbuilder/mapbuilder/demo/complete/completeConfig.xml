@@ -133,7 +133,6 @@
       <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
       <widgets>
         <GmlRendererWZ id="testGmlRenderer">
-        <debug/>
           <htmlTagId>mainMapPane</htmlTagId>
           <targetModel>mainMap</targetModel>
           <mapContainerId>mainMapContainer</mapContainerId>
@@ -212,7 +211,7 @@
       <enabledSrc>/images/QueryEnable.gif</enabledSrc>
       <disabledSrc>/images/QueryDisable.gif</disabledSrc>
     </GetFeatureInfo-->
-    <!--EditPoint id="editPoint">
+    <EditPoint id="editPoint">
       <buttonBar>mainButtonBar</buttonBar>
       <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
@@ -237,7 +236,7 @@
       <featureXpath>/gml:featureMember/topp:bc_roads/topp:the_geom/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
       <defaultModelUrl>../data/gml/roads.xml</defaultModelUrl>
       <targetContext>mainMap</targetContext>
-    </EditLine-->
+    </EditLine>
     <Save id="save">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
