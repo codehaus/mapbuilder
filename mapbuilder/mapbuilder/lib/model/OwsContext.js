@@ -83,7 +83,7 @@ function OwsContext(modelNode, parent) {
     var upperRight=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:UpperCorner");
     upperRight.firstChild.nodeValue = boundingBox[2] + " " + boundingBox[3];
     // Call the listeners
-    this.callListeners("refresh");
+    this.callListeners("bbox");
   }
 
   /**
@@ -94,6 +94,7 @@ function OwsContext(modelNode, parent) {
     //bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
     var bbox=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox");
     bbox.setAttribute("crs",srs);
+    this.callListeners("srs");
   }
 
   /**
@@ -126,6 +127,7 @@ function OwsContext(modelNode, parent) {
     //win=this.doc.documentElement.getElementsByTagName("Window").item(0);
     var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
     win.setAttribute("width", width);
+    this.callListeners("resize");
   }
 
   /**
@@ -147,6 +149,7 @@ function OwsContext(modelNode, parent) {
     //win=this.doc.documentElement.getElementsByTagName("Window").item(0);
     var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
     win.setAttribute("height", height);
+    this.callListeners("resize");
   }
 
   /**
