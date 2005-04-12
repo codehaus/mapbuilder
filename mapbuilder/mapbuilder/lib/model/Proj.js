@@ -54,6 +54,8 @@ function Proj(srs) {
 
     case "EPSG:4965":       //lat/lon projection RGF93G IGN-F FD 2005
 
+    case new String("http://www.opengis.net/gml/srs/epsg.xml#4326").toUpperCase():
+
       this.Forward = identity;
 
       this.Inverse = identity;
