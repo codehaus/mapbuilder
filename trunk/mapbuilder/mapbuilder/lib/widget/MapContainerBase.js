@@ -48,7 +48,7 @@ function MapContainerBase(widget,widgetNode,model) {
   if (containerNode) {
     widget.containerModel = containerNode.containerModel;
     model.containerModel = containerNode.containerModel;
-    widget.containerModel.addListener("refresh",widget.paint,widget);
+    //widget.containerModel.addListener("bbox",widget.paint,widget);
 
     this.setContainerWidth = function(objRef) {
       objRef.node.style.width=objRef.containerModel.getWindowWidth();

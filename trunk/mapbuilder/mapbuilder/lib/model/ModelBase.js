@@ -171,7 +171,7 @@ function ModelBase(model, modelNode, parentModel) {
 
       //call the loadModel event
       modelRef.callListeners("loadModel");
-      modelRef.callListeners("refresh");
+      //modelRef.callListeners("refresh");
 
     } else {
       //no URL means this is a template model
@@ -262,17 +262,25 @@ function ModelBase(model, modelNode, parentModel) {
    * @param modelRef Pointer to this object.
    */
   model.init = function(modelRef) {
-    modelRef.loadObjects("mb:models/*");
     modelRef.loadObjects("mb:widgets/*");
     modelRef.loadObjects("mb:tools/*");
+    modelRef.loadObjects("mb:models/*");
+  }
+
+  model.callInit = function(modelRef) {
     modelRef.callListeners("init");
+  }
+  model.refresh = function(modelRef) {
+    modelRef.callListeners("refresh");
   }
 
   //don't load in models and widgets if this is the config doc, 
   //defer that to an explcit config.init() call in mapbuilder.js
   if (parentModel && !model.template) {
+    parentModel.addListener("init",model.callInit, model);
     parentModel.addListener("loadModel",model.loadModelDoc, model);
-    parentModel.addListener("init",model.init, model);
+    parentModel.addListener("refresh",model.refresh, model);
+    model.init(model);
   }
 
 }

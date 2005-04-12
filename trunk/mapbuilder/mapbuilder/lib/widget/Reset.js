@@ -26,7 +26,11 @@ function Reset(toolNode, model) {
     objRef.originalExtent.init( objRef.originalExtent );
     objRef.originalExtent.setResolution( new Array(objRef.targetModel.getWindowWidth(), objRef.targetModel.getWindowHeight()) );
   }
-  //this.targetModel.addListener("loadModel",this.initExtent, this);
+
+  /**
+   * Set the loadModel listener in response to init event
+   * @param objRef Pointer to this object.
+   */
   this.initReset = function(objRef) {
     objRef.targetModel.addListener("loadModel",objRef.initExtent, objRef);
   }

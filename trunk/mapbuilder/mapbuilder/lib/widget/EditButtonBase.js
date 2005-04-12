@@ -68,11 +68,19 @@ function EditButtonBase(button,widetNode, model) {
     }
   }
 
+  /**
+   * Set the loadModel listener in response to init event
+   * @param objRef Pointer to this object.
+   */
+  this.initButton = function(objRef) {
+    objRef.targetModel.addListener("loadModel",objRef.setMouseListener, objRef);
+  }
+
   // If this object is being created because a child is extending this object,
   // then child.properties = this.properties
   for (sProperty in this) {
     button[sProperty] = this[sProperty];
   }
 
-  button.targetModel.addListener("loadModel",button.setMouseListener,button);
+  button.model.addListener("init",button.initButton, button);
 }
