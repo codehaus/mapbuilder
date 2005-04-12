@@ -251,6 +251,36 @@
   </section>
 
   <section>
+    <title>init event</title>
+
+    <para></para>
+
+    <table>
+      <title></title>
+
+      <tgroup cols="3">
+        <thead>
+          <row>
+            <entry>Object</entry>
+
+            <entry>Code</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry></entry>
+
+            <entry><para></para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+
+  <section>
     <title>newModel event</title>
 
     <para>The "newModel" event is sent before a new model is loaded so that
