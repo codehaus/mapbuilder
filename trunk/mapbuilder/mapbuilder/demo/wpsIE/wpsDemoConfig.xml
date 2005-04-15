@@ -9,11 +9,28 @@
     $Id$
   -->
   <models>
-    <Context id="mainMap">
-      <defaultModelUrl>../data/context/atlasWorld.xml</defaultModelUrl>
+    <OwsContext id="mainMap">
+      <defaultModelUrl>../owsContext/oc_0_0_13r1.xml</defaultModelUrl>
+      <nodeSelectXpath>/wmc:OWSContext/wmc:ResourceList</nodeSelectXpath>
+      <models>
+        <FeatureCollection id="gml2FeatureTemplate">
+          <method>post</method>
+          <widgets>
+            <!--ModelStatus id="gmlModelStatus"/-->
+            <GmlRendererWZ id="testGmlRenderer">
+              <htmlTagId>mainMapPane</htmlTagId>
+              <mapContainerId>mainMapContainer</mapContainerId>
+              <lineColor>#0000FF</lineColor>
+              <lineWidth>2</lineWidth>
+              <pointDiameter>10</pointDiameter>
+            </GmlRendererWZ>
+          </widgets>
+        </FeatureCollection>
+      </models>
       <widgets>
         <MapPane id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
+          <stylesheet>../../lib/widget/owsMapPane.xsl</stylesheet>
           <mapContainerId>mainMapContainer</mapContainerId>
           <loadHidden>false</loadHidden>
         </MapPane>
@@ -30,14 +47,22 @@
           <crossSize>15</crossSize>
           <mapContainerId>mainMapContainer</mapContainerId>
         </AoiBoxDHTML>
+        <Widget id="dataSelector">
+          <stylesheet>ResourceDropDown.xsl</stylesheet>
+          <targetModel>describeProcessTemplate</targetModel>
+        </Widget>
       </widgets>
       <tools>
         <AoiMouseHandler id="mainAoi"/>
         <DragPanHandler id="mainDragPan">
           <enabled>false</enabled>
         </DragPanHandler>
+        <WebServiceRequest id="wfsController">
+          <targetModel>gml2FeatureTemplate</targetModel>
+          <requestName>wfs:GetFeature</requestName>
+        </WebServiceRequest>
       </tools>
-    </Context>
+    </OwsContext>
     <Context id="locator">
       <defaultModelUrl>../data/context/locatorMap.xml</defaultModelUrl>
       <widgets>
