@@ -41,9 +41,15 @@
 		</ContextURL>
 	</ViewContextReference>
   <ViewContextReference version="1.0.0" id="cite">
-		<Title>Cite Reference WMS</Title>
+		<Title>Cite Reference (local geoserver)</Title>
 		<ContextURL>
       <OnlineResource xlink:type="simple" xlink:href="../data/context/cite.xml"/>
+		</ContextURL>
+	</ViewContextReference>
+  <ViewContextReference version="1.0.0" id="cite">
+		<Title>Cite Reference (deegree server)</Title>
+		<ContextURL>
+      <OnlineResource xlink:type="simple" xlink:href="../data/context/cite_deegree.xml"/>
 		</ContextURL>
 	</ViewContextReference>
   <ViewContextReference version="1.0.0" id="sldExample">
