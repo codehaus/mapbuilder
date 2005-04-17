@@ -84,7 +84,7 @@ public class ProxyRedirect extends HttpServlet
         if (httpget.getStatusCode() == HttpStatus.SC_OK) {
           //force the response to have XML content type (WMS servers generally don't)
           response.setContentType("text/xml");
-          String responseBody = httpget.getResponseBodyAsString();
+          String responseBody = httpget.getResponseBodyAsString().trim();
           response.setContentLength(responseBody.length());
           log.debug("responseBody:" + responseBody);
           PrintWriter out = response.getWriter();
