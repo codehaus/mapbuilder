@@ -46,7 +46,7 @@ function Config(url) {
     //problem if this is done anywhere except in the page <HEAD> element.
     var scriptFileNodes = this.doc.selectNodes("//mb:scriptFile");
     for (var i=0; i<scriptFileNodes.length; i++ ) {
-      scriptFile = baseDir+"/"+scriptFileNodes[i].firstChild.nodeValue;
+      scriptFile = scriptFileNodes[i].firstChild.nodeValue;
       mapbuilder.loadScript(scriptFile);
     }
   }
