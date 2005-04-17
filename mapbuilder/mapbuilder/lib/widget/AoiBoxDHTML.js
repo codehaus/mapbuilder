@@ -44,7 +44,9 @@ function AoiBoxDHTML(widgetNode, model) {
   }
   model.addListener("aoi",this.paint, this);
 
+
   // Inherit the MapContainerBase functions and parameters, paint has to be defined 
+  this.stylesheet = new XslProcessor(baseDir+"/widget/Null.xsl");
   var base = new MapContainerBase(this,widgetNode, model);
 
   /** Hide or show the box.
