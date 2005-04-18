@@ -74,7 +74,6 @@ function ModelUrlInput(widgetNode, model) {
    * @param objRef Pointer to this widget object.
    */
   this.prePaint = function(objRef) {
-    objRef.stylesheet.setParameter("modelUrl", objRef.targetModel.url);
     objRef.stylesheet.setParameter("modelTitle", objRef.targetModel.title);
   }
 

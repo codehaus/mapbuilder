@@ -22,6 +22,7 @@ $Id$
 
   <!-- Text params for this widget -->
   <xsl:param name="title"/>
+  <xsl:param name="load"/>
 
     <!-- The name of the form for coordinate output -->
   <xsl:param name="modelUrl"/>
@@ -29,40 +30,12 @@ $Id$
 
   <!-- Main html -->
   <xsl:template match="/">
-    <DIV>
-    <form name="{$formName}" id="{$formName}" onsubmit="return config.objects.{$widgetId}.submitForm()">
-    
-      <table>
-        <tr>
-          <th align="left" colspan="3">
-            <xsl:value-of select="$title"/><xsl:value-of select="$modelTitle"/>
-          </th>
-        </tr>
-        <tr>
-          <td>
-            URL:
-          </td>
-          <td colspan="2">
-            <input name="modelUrl" type="text" size="30" value="{$modelUrl}"/>
-            <a href="javascript:config.objects.{$widgetId}.submitForm();">load</a>
-          </td>
-        </tr>
-        <!--tr>
-          <td>
-            method:
-          </td>
-          <td>
-            get <input name="httpMethod" type="radio" value="GET" checked="true"/> - 
-            post <input name="httpMethod" type="radio" value="POST"/>
-          </td>
-          <td>
-            <input type="submit"/>
-            <a href="javascript:config.objects.{$widgetId}.submitForm();">load model</a>
-          </td>
-        </tr-->
-      </table>
-    </form>
-    </DIV>
+    <div>
+      <form name="{$formName}" id="{$formName}" onsubmit="return config.objects.{$widgetId}.submitForm()">
+        <xsl:value-of select="$title"/><input name="modelUrl" type="text" size="30" value="{$modelUrl}"/>
+        <a href="javascript:config.objects.{$widgetId}.submitForm();"><xsl:value-of select="$load"/></a>
+      </form>
+    </div>
   </xsl:template>
   
 </xsl:stylesheet>

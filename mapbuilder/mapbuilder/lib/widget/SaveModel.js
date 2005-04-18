@@ -46,24 +46,6 @@ function SaveModel(widgetNode, model) {
 
   /**
 
-   * Initialise params.
-
-   * @param objRef Pointer to this SaveModel object.
-
-   */
-
-  this.init = function(objRef) {
-
-    objRef.stylesheet.setParameter("modelUrl", objRef.model.url);
-
-  }
-
-  this.model.addListener("loadModel", this.init, this);
-
-
-
-  /**
-
    * a listenet to set the saved model URL as the href attribute in an anchor link 
 
    * @param objRef Pointer to this SaveModel object.

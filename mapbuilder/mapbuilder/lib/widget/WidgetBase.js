@@ -206,6 +206,7 @@ if (!widget.paint) {
     }
 
     if (objRef.model.doc && objRef.node && (objRef.autoRefresh||forceRefresh) && !objRef.override) {
+      objRef.stylesheet.setParameter("modelUrl", objRef.model.url);
 
       //if (objRef.debug) alert("source:"+objRef.model.doc.xml);
       objRef.resultDoc = objRef.model.doc; // resultDoc sometimes modified by prePaint()
