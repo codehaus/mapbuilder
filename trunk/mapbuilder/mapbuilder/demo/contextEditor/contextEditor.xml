@@ -48,7 +48,6 @@
         </Legend>
         <AoiBoxDHTML id="aoiBox2">
           <htmlTagId>mainMapPane</htmlTagId>
-          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
@@ -73,7 +72,6 @@
         </MapPane>
         <AoiBoxDHTML id="aoiBox2">
           <htmlTagId>locatorMap</htmlTagId>
-          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
