@@ -7,6 +7,15 @@
     <script>
       // URL of Mapbuilder configuration file.
       var mbConfigUrl='wpsDemoConfig.xml';
+
+      function loadProcess(capsUrl) {
+        config.loadModel('wpsCapTemplate',capsUrl);
+        config.paintWidget(config.objects.selectProcess);
+      }
+      function loadProcessDescription(capsUrl) {
+        config.loadModel('describeProcessTemplate',capsUrl);
+        config.paintWidget(config.objects.argsInput);
+      }
     </script>
     <script type="text/javascript" src="/mapbuilder/lib/Mapbuilder.js"></script>
   </head>
@@ -30,35 +39,35 @@
           <ul>
             Web processing services
             <li>
-            <a href="javascript:config.loadModel('wpsCapTemplate','PCIwpsCaps.xml')">
+            <a href="javascript:loadProcess('PCIwpsCaps.xml');">
             Sample capabilities instance</a>
             </li>
             <li>
-            <a href="javascript:config.loadModel('describeProcessTemplate','DescribeProcess_MinValue.xml')">
+            <a href="javascript:loadProcessDescription('DescribeProcess_MinValue.xml')">
             Sample Describe Process response</a>
             </li>
             <li>
-            <a href="javascript:config.loadModel('wpsCapTemplate','http://geotech.lih.rwth-aachen.de/wps/wps?request=GetCapabilities&version=0.2.1&service=wps')">
+            <a href="javascript:loadProcess('http://geotech.lih.rwth-aachen.de/wps/wps?request=GetCapabilities&version=0.2.1&service=wps')">
             Intersection of GML themes (Aachen U.)</a>
             </li>
             <li>
-            <a href="javascript:config.loadModel('wpsCapTemplate','http://wms1.agr.gc.ca/GeoPS/gdas_GeoPS.php?request=GetCapabilities&service=WPS')">
+            <a href="javascript:loadProcess('http://wms1.agr.gc.ca/GeoPS/gdas_GeoPS.php?request=GetCapabilities&service=WPS')">
             GDAS XML Stream Based Geoprocessing Service (AAFC)</a>
             </li>
             <li>
-            <a href="javascript:config.loadModel('wpsCapTemplate','http://wms1.agr.gc.ca:8081/geoproc/servlet/SpatialOperation?SERVICE=WPS&REQUEST=GetCapabilities')">
+            <a href="javascript:loadProcess('http://wms1.agr.gc.ca:8081/geoproc/servlet/SpatialOperation?SERVICE=WPS&REQUEST=GetCapabilities')">
             Spatial Operation (AAFC)</a>
             </li>
             <li>
-            <a href="javascript:config.loadModel('wpsCapTemplate','http://wms1.agr.gc.ca:8081/geoproc/servlet/FeatureDataFormatConversion?SERVICE=WPS&REQUEST=GetCapabilities')">
+            <a href="javascript:loadProcess('http://wms1.agr.gc.ca:8081/geoproc/servlet/FeatureDataFormatConversion?SERVICE=WPS&REQUEST=GetCapabilities')">
             Feature Data Format Conversion (AAFC)</a>
             </li>
             <li>
-            <a href="javascript:config.loadModel('wpsCapTemplate','http://wms1.agr.gc.ca:8081/geoproc/servlet/FeatureLocator?SERVICE=WPS&REQUEST=GetCapabilities')">
+            <a href="javascript:loadProcess('http://wms1.agr.gc.ca:8081/geoproc/servlet/FeatureLocator?SERVICE=WPS&REQUEST=GetCapabilities')">
             ESRI Shapefile Feature Locator (AAFC)</a>
             </li>
             <li>
-            <a href="javascript:config.loadModel('wpsCapTemplate','http://gws2.pcigeomatics.com/wps/wps?request=GetCapabilities&service=WPS')">
+            <a href="javascript:loadProcess('http://gws2.pcigeomatics.com/wps/wps?request=GetCapabilities&service=WPS')">
             PCI Remote Sensing Calculations (PCI)</a>
             </li>
           </ul>
@@ -92,7 +101,7 @@
             </li>
           </ul>
         </td>
-        <td>
+        <td valign="top">
           <table width="100%">
             <tr>
               <td align="left">
@@ -123,20 +132,18 @@
             </tr>
             <tr>
               <td align="left">
-                <dl>
-                  <dt>geo data sources: <span id="dataSelector"/></dt>
-                  <dt>1. Specify the web processing service</dt>
-                  <dd>Select a processing service from the list or enter the URL here:</dd>
-                  <dd id="urlInput"/>
-                  <dd id="CapsButtonBar">capabilities doc</dd>
-                  <dt>2. Select the process to execute</dt>
-                  <dd id="selectProcess"></dd>
-                  <dd id="DPButtonBar">Describe Process response</dd>
-                  <dt>3. Enter the arguments for the process and invoke</dt>
-                  <dd id="argsInput"></dd>
-                  <dt>4. Access the results</dt>
-                  <dd id="accessResults"></dd>
-                </dl>
+                <a href="javascript:config.paintWidget(config.objects.urlInput)">1. Select a service</a>
+                <a href="javascript:config.paintWidget(config.objects.selectProcess)">2. Select a process</a>
+                <a href="javascript:config.paintWidget(config.objects.argsInput)">3. Set arguments</a>
+                <a href="javascript:config.paintWidget(config.objects.accessOutputs)">4. Access results</a>
+              </td>
+            </tr>
+            <tr>
+              <td id="workspace" align="left">
+              </td>
+            </tr>
+            <tr>
+              <td align="left">
               </td>
             </tr>
           </table>

@@ -10,7 +10,7 @@
   -->
   <models>
     <OwsContext id="mainMap">
-      <defaultModelUrl>../owsContext/oc_0_0_13r1.xml</defaultModelUrl>
+      <defaultModelUrl>../owsContext/cite.xml</defaultModelUrl>
       <nodeSelectXpath>/wmc:OWSContext/wmc:ResourceList</nodeSelectXpath>
       <models>
         <FeatureCollection id="gml2FeatureTemplate">
@@ -47,10 +47,11 @@
           <crossSize>15</crossSize>
           <mapContainerId>mainMapContainer</mapContainerId>
         </AoiBoxDHTML>
-        <Widget id="dataSelector">
+        <ResourceDropDown id="dataSelector">
+          <scriptFile>ResourceDropDown.js</scriptFile>
           <stylesheet>ResourceDropDown.xsl</stylesheet>
           <targetModel>describeProcessTemplate</targetModel>
-        </Widget>
+        </ResourceDropDown>
       </widgets>
       <tools>
         <AoiMouseHandler id="mainAoi"/>
@@ -97,10 +98,14 @@
           <!--defaultModelUrl>DescribeProcess_MinValue.xml</defaultModelUrl-->
           <nodeSelectXpath>/wps:ProcessDescription/wps:Process</nodeSelectXpath>
           <widgets>
-            <Widget id="argsInput">
+            <ProcessArgumentsForm id="argsInput">
+              <htmlTagId>workspace</htmlTagId>
+              <outputNodeId>workspaceCanvas</outputNodeId>
               <stylesheet>ProcessArgumentsForm.xsl</stylesheet>
-              <targeModel>executeProcessTemplate</targeModel>
-            </Widget>
+              <scriptFile>ProcessArgumentsForm.js</scriptFile>
+              <targetModel>executeProcessTemplate</targetModel>
+              <mapModel>mainMap</mapModel>
+            </ProcessArgumentsForm>
             <Save id="saveDP">
               <buttonBar>DPButtonBar</buttonBar>
               <class>Button</class>
@@ -118,6 +123,8 @@
       </models>
       <widgets>
         <Widget id="selectProcess">
+          <htmlTagId>workspace</htmlTagId>
+          <outputNodeId>workspaceCanvas</outputNodeId>
           <stylesheet>SelectProcess.xsl</stylesheet>
         </Widget>
         <Save id="saveCaps">
@@ -140,9 +147,6 @@
     </WpsCapabilities>
   </models>
   <widgets>
-    <ModelUrlInput id="urlInput">
-      <targetModel>wpsCapTemplate</targetModel>
-    </ModelUrlInput>
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
@@ -189,6 +193,12 @@
       <disabledSrc>/images/SaveDisable.gif</disabledSrc>
       <popupWindowName>modelXML</popupWindowName>
     </Save>
+    <ModelUrlInput id="urlInput">
+      <htmlTagId>workspace</htmlTagId>
+      <outputNodeId>workspaceCanvas</outputNodeId>
+      <targetModel>wpsCapTemplate</targetModel>
+      <stylesheet>ModelUrlInput.xsl</stylesheet>
+    </ModelUrlInput>
   </widgets>
   <!--
     All static images should be relative to this URL.
