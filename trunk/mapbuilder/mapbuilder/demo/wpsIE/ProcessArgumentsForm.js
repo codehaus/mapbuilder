@@ -26,7 +26,7 @@ function ProcessArgumentsForm(widgetNode, model) {
    * @param toolRef Pointer to this object.
    */
   this.initMapModel = function(objRef) {
-    //set the target model
+    //set the map model
     var mapModel = objRef.widgetNode.selectSingleNode("mb:mapModel");
     if (mapModel) {
       objRef.mapModel = eval("config.objects."+mapModel.firstChild.nodeValue);
@@ -46,7 +46,7 @@ function ProcessArgumentsForm(widgetNode, model) {
    */
   this.displayAoiCoords = function(objRef) {
     objRef.aoiForm = document.getElementById(objRef.formName);
-    var aoi = objRef.model.getParam("aoi");
+    var aoi = objRef.mapModel.getParam("aoi");
     objRef.aoiForm.westCoord.value = aoi[0][0];
     objRef.aoiForm.northCoord.value = aoi[0][1];
     objRef.aoiForm.eastCoord.value = aoi[1][0];
@@ -59,7 +59,7 @@ function ProcessArgumentsForm(widgetNode, model) {
    * @param objRef Pointer to this CurorTrack object.
    */
   this.setAoi = function(event) {
-    var aoi = this.model.getParam("aoi");
+    var aoi = this.mapModel.getParam("aoi");
     if (aoi) {
       var ul = aoi[0];
       var lr = aoi[1];
@@ -77,7 +77,7 @@ function ProcessArgumentsForm(widgetNode, model) {
           lr[1] = this.value;
           break;
       }
-      this.model.setParam("aoi",new Array(ul,lr) );
+      this.mapModel.setParam("aoi",new Array(ul,lr) );
     }
   }
 
