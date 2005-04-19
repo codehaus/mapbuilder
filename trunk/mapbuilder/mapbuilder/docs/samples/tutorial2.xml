@@ -10,39 +10,35 @@
 
     <Context id="firstMap">
       <defaultModelUrl>/mapbuilder/demo/data/context/locatorMap.xml</defaultModelUrl>
-      
       <widgets>
         <MapPane id="mainMapWidget">
           <htmlTagId>firstMapPane</htmlTagId>
           <mapContainerId>firstMapContainer</mapContainerId>
         </MapPane>
-        <AoiBoxWZ id="firstAoiBox">
+        <AoiBoxDHTML id="firstAoiBox">
           <htmlTagId>firstMapPane</htmlTagId>
-          <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
           <mapContainerId>firstMapContainer</mapContainerId>
-        </AoiBoxWZ>
+        </AoiBoxDHTML>
       </widgets>
     </Context>
 
     <Context id="firstMapPane">
       <defaultModelUrl>/mapbuilder/demo/data/context/DM_Canada.xml</defaultModelUrl>
-      
       <widgets>
         <MapPane id="secondMapWidget">
           <htmlTagId>secondMapPane</htmlTagId>
           <mapContainerId>secondMapContainer</mapContainerId>
         </MapPane>
-        <AoiBoxWZ id="SecondAoiBox">
+        <AoiBoxDHTML id="SecondAoiBox">
           <htmlTagId>secondMapPane</htmlTagId>
-          <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
           <mapContainerId>secondMapContainer</mapContainerId>
-        </AoiBoxWZ>
+        </AoiBoxDHTML>
       </widgets>
       <tools>
         <AoiMouseHandler id="locatorAoi"/>
@@ -53,5 +49,8 @@
     </Context>
     
   </models>
+  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+  <languages>en,fr</languages>
+  <widgetTextUrl>widgetText.xml</widgetTextUrl> <!-- relative to the skinDir + language subdir -->
 
 </MapbuilderConfig>
