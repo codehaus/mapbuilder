@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Capabilities xmlns="http://www.opengis.net/wps" xmlns:ows="http://www.opengis.net/ows" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" version="0.0.1">
+<Capabilities 
+
+xmlns="http://www.opengis.net/wps" 
+
+xmlns:ows="http://www.opengis.net/ows" 
+
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+
+xmlns:xlink="http://www.w3.org/1999/xlink" 
+
+xsi:schemaLocation="http://www.opengis.net/wps file:///C:/Docume~1/adair/MYDOCU~1/wpsIE/schemas/0.2.4/wpsGetCapabilities.xsd"
+
+version="0.2.4">
 
 	<ows:ServiceIdentification>
 
@@ -14,7 +26,7 @@
 
 		<ows:Keywords>
 
-      <ows:Keyword>PACE</ows:Keyword>
+			<ows:Keyword>PACE</ows:Keyword>
 
 		</ows:Keywords>
 
@@ -24,57 +36,57 @@
 
 	</ows:ServiceIdentification>
 
-  <ows:ServiceProvider>
+	<ows:ServiceProvider>
 
-    <ows:ProviderName>PCI</ows:ProviderName>
+		<ows:ProviderName>PCI</ows:ProviderName>
 
-    <ows:ProviderSite xlink:type="simple" xlink:href="http://www.pcigeomatics.com/"/>
+		<ows:ProviderSite xlink:type="simple" xlink:href="http://www.pcigeomatics.com/"/>
 
-    <ows:ServiceContact>
+		<ows:ServiceContact>
 
-      <ows:IndividualName>Steve Keens</ows:IndividualName>
+			<ows:IndividualName>Steve Keens</ows:IndividualName>
 
-      <ows:PositionName>Systems Scientist</ows:PositionName>
+			<ows:PositionName>Systems Scientist</ows:PositionName>
 
-      <ows:ContactInfo>
+			<ows:ContactInfo>
 
-        <ows:Phone>
+				<ows:Phone>
 
-          <ows:Voice>+01-905-336-4409</ows:Voice>
+					<ows:Voice>+01-905-336-4409</ows:Voice>
 
-          <ows:Facsimile>+01-905-336-4499</ows:Facsimile>
+					<ows:Facsimile>+01-905-336-4499</ows:Facsimile>
 
-        </ows:Phone>
+				</ows:Phone>
 
-        <ows:Address>
+				<ows:Address>
 
-          <ows:DeliveryPoint>867 Lakeshore Road</ows:DeliveryPoint>
+					<ows:DeliveryPoint>867 Lakeshore Road</ows:DeliveryPoint>
 
-          <ows:City>Burlington</ows:City>
+					<ows:City>Burlington</ows:City>
 
-          <ows:AdministrativeArea>Ontario</ows:AdministrativeArea>
+					<ows:AdministrativeArea>Ontario</ows:AdministrativeArea>
 
-          <ows:PostalCode>L7R4A6</ows:PostalCode>
+					<ows:PostalCode>L7R4A6</ows:PostalCode>
 
-          <ows:Country>Canada</ows:Country>
+					<ows:Country>Canada</ows:Country>
 
-          <ows:ElectronicMailAddress>tom.kralidis@ec.gc.ca</ows:ElectronicMailAddress>
+					<ows:ElectronicMailAddress>tom.kralidis@ec.gc.ca</ows:ElectronicMailAddress>
 
-        </ows:Address>
+				</ows:Address>
 
-        <ows:OnlineResource xlink:type="simple" xlink:href="http://www.pcigeomatics.com/"/>
+				<ows:OnlineResource xlink:type="simple" xlink:href="http://www.pcigeomatics.com/"/>
 
-        <ows:HoursOfService>0700h - 1500h (EST), Monday - Friday</ows:HoursOfService>
+				<ows:HoursOfService>0700h - 1500h (EST), Monday - Friday</ows:HoursOfService>
 
-        <ows:ContactInstructions>Just call or email</ows:ContactInstructions>
+				<ows:ContactInstructions>Just call or email</ows:ContactInstructions>
 
-      </ows:ContactInfo>
+			</ows:ContactInfo>
 
-      <ows:Role>Systems Scientist</ows:Role>
+			<ows:Role>Systems Scientist</ows:Role>
 
-    </ows:ServiceContact>
+		</ows:ServiceContact>
 
-  </ows:ServiceProvider>
+	</ows:ServiceProvider>
 
 	<ows:OperationsMetadata>
 
@@ -100,11 +112,7 @@
 
 					<ows:Get xlink:href="http://gws2.pcigeomatics.com/wps/wps?"/>
 
-					<ows:Post xlink:href="http://gws2.pcigeomatics.com/wps/wps?">
-
-						<ows:InputFormat>text/xml</ows:InputFormat>
-
-					</ows:Post>
+					<ows:Post xlink:href="http://gws2.pcigeomatics.com/wps/wps?"/>
 
 				</ows:HTTP>
 
@@ -128,193 +136,189 @@
 
 	</ows:OperationsMetadata>
 
+	<ProcessOfferings>
 
+		<Process>
 
-  <ProcessOfferings>
+			<Name>FIMPORT</Name>
 
-    <Process>
-
-      <name>FIMPORT</name>
-
-      <description>
+			<Description>
 
         Transfers all the image, and auxiliary information from a source file to a newly created PCIDSK file. All GDB supported file types may be imported.
 
-      </description>
+      </Description>
 
-      <Application>
+			<Application>
 
-        <ows:Keywords>
+				<ows:Keywords>
 
-          <ows:Keyword>FIMPORT</ows:Keyword>
+					<ows:Keyword>FIMPORT</ows:Keyword>
 
-        </ows:Keywords>
+				</ows:Keywords>
 
-      </Application>
+			</Application>
 
-      <Category>
+			<Category>
 
-        <ows:Keywords>
+				<ows:Keywords>
 
-          <ows:Keyword>PACE</ows:Keyword>
+					<ows:Keyword>PACE</ows:Keyword>
 
-        </ows:Keywords>
+				</ows:Keywords>
 
-      </Category>
+			</Category>
 
-    </Process>
+		</Process>
 
-    <Process>
+		<Process>
 
-      <name>SATMODEL</name>
+			<Name>SATMODEL</Name>
 
-      <description>Calculate the model (SATMODEL).</description>
+			<Description>Calculate the model (SATMODEL).</Description>
 
-      <Application>
+			<Application>
 
-        <ows:Keywords>
+				<ows:Keywords>
 
-          <ows:Keyword>SATMODEL</ows:Keyword>
+					<ows:Keyword>SATMODEL</ows:Keyword>
 
-        </ows:Keywords>
+				</ows:Keywords>
 
-      </Application>
+			</Application>
 
-      <Category>
+			<Category>
 
-        <ows:Keywords>
+				<ows:Keywords>
 
-          <ows:Keyword>PACE</ows:Keyword>
+					<ows:Keyword>PACE</ows:Keyword>
 
-        </ows:Keywords>
+				</ows:Keywords>
 
-      </Category>
+			</Category>
 
-    </Process>
+		</Process>
 
-    <Process>
+		<Process>
 
-      <name>REGPRO</name>
+			<Name>REGPRO</Name>
 
-      <description>
+			<Description>
 
         Performs image registration of an input image to an output image.
 
-      </description>
+      </Description>
 
-      <Application>
+			<Application>
 
-        <ows:Keywords>
+				<ows:Keywords>
 
-          <ows:Keyword>REGPRO</ows:Keyword>
+					<ows:Keyword>REGPRO</ows:Keyword>
 
-        </ows:Keywords>
+				</ows:Keywords>
 
-      </Application>
+			</Application>
 
-      <Category>
+			<Category>
 
-        <ows:Keywords>
+				<ows:Keywords>
 
-          <ows:Keyword>PACE</ows:Keyword>
+					<ows:Keyword>PACE</ows:Keyword>
 
-        </ows:Keywords>
+				</ows:Keywords>
 
-      </Category>
+			</Category>
 
-    </Process>
+		</Process>
 
-    <Process>
+		<Process>
 
-      <name>ORTHO</name>
+			<Name>ORTHO</Name>
 
-      <description>Ortho correct the file (ORTHO).</description>
+			<Description>Ortho correct the file (ORTHO).</Description>
 
-      <Application>
+			<Application>
 
-        <ows:Keywords>
+				<ows:Keywords>
 
-          <ows:Keyword>ORTHO</ows:Keyword>
+					<ows:Keyword>ORTHO</ows:Keyword>
 
-        </ows:Keywords>
+				</ows:Keywords>
 
-      </Application>
+			</Application>
 
-      <Category>
+			<Category>
 
-        <ows:Keywords>
+				<ows:Keywords>
 
-          <ows:Keyword>PACE</ows:Keyword>
+					<ows:Keyword>PACE</ows:Keyword>
 
-        </ows:Keywords>
+				</ows:Keywords>
 
-      </Category>
+			</Category>
 
-    </Process>
+		</Process>
 
-    <Process>
+		<Process>
 
-      <name>FEXPORT</name>
+			<Name>FEXPORT</Name>
 
-      <description>
+			<Description>
 
         Transfers all the requested image, and auxiliary information from a source file to an output file. Only some supported GDB formats may be exported to.
 
-      </description>
+      </Description>
 
-      <Application>
+			<Application>
 
-        <ows:Keywords>
+				<ows:Keywords>
 
-          <ows:Keyword>FEXPORT</ows:Keyword>
+					<ows:Keyword>FEXPORT</ows:Keyword>
 
-        </ows:Keywords>
+				</ows:Keywords>
 
-      </Application>
+			</Application>
 
-      <Category>
+			<Category>
 
-        <ows:Keywords>
+				<ows:Keywords>
 
-          <ows:Keyword>PACE</ows:Keyword>
+					<ows:Keyword>PACE</ows:Keyword>
 
-        </ows:Keywords>
+				</ows:Keywords>
 
-      </Category>
+			</Category>
 
-    </Process>
+		</Process>
 
-    <Process>
+		<Process>
 
-      <name>CDSPOT5</name>
+			<Name>CDSPOT5</Name>
 
-      <description>CD SPOT 5 imports SPOT 5 data into pix.</description>
+			<Description>CD SPOT 5 imports SPOT 5 data into pix.</Description>
 
-      <Application>
+			<Application>
 
-        <ows:Keywords>
+				<ows:Keywords>
 
-          <ows:Keyword>CDSPOT5</ows:Keyword>
+					<ows:Keyword>CDSPOT5</ows:Keyword>
 
-        </ows:Keywords>
+				</ows:Keywords>
 
-      </Application>
+			</Application>
 
-      <Category>
+			<Category>
 
-        <ows:Keywords>
+				<ows:Keywords>
 
-          <ows:Keyword>PACE</ows:Keyword>
+					<ows:Keyword>PACE</ows:Keyword>
 
-        </ows:Keywords>
+				</ows:Keywords>
 
-      </Category>
+			</Category>
 
-    </Process>
+		</Process>
 
-  </ProcessOfferings>
+	</ProcessOfferings>
 
 </Capabilities>
-
-
 
