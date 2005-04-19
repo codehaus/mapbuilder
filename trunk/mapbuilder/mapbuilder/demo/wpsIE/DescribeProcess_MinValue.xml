@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<ProcessDescription xmlns="http://www.opengis.net/wps" xmlns:ows="http://www.opengis.net/ows" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps
+<ProcessDescription 
 
-wpsDescribeProcess.xsd">
+xmlns="http://www.opengis.net/wps" 
+
+xmlns:ows="http://www.opengis.net/ows" 
+
+xmlns:xlink="http://www.w3.org/1999/xlink" 
+
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+
+xsi:schemaLocation="http://www.opengis.net/wps file:///C:/Docume~1/adair/MYDOCU~1/wpsIE/schemas/0.2.4/wpsDescribeProcess.xsd"
+
+version="0.2.4">
 
 	<ProcessMember>
 
-		<Process>
+		<Process store="false">
 
 			<Name>minValue</Name>
 
@@ -14,7 +24,7 @@ wpsDescribeProcess.xsd">
 
 			<Description>Identifies the minimum value of a given grid coverage</Description>
 
-			<version>0.2.3</version>
+			<Version>0.2.3</Version>
 
 			<Application>
 
@@ -46,23 +56,21 @@ wpsDescribeProcess.xsd">
 
 					<Description>Coverage that will be processed. This can be a reference URI to a GeoTiff or a WCS request when returning a GeoTiff</Description>
 
-					<minimumOccurs>1</minimumOccurs>
+					<MinimumOccurs>1</MinimumOccurs>
 
-					<datatype>
+					<Datatype>
 
-            <Reference xlink:href="anyURI">
+						<Reference xlink:href="anyURI">
 
-              <ows:Format>image/GeoTiff</ows:Format>
+							<ows:Format>image/GeoTiff</ows:Format>
 
-            </Reference>
+						</Reference>
 
-					</datatype>
+					</Datatype>
 
 				</Parameter>
 
 			</Input>
-
-      
 
 			<Input>
 
@@ -74,25 +82,23 @@ wpsDescribeProcess.xsd">
 
 					<Description>bounding box to be processed</Description>
 
-					<minimumOccurs>1</minimumOccurs>
+					<MinimumOccurs>1</MinimumOccurs>
 
-					<datatype>
+					<Datatype>
 
-            <ows:BoundingBox crs="EPSG:4326">
+						<BoundingBox crs="EPSG:4326">
 
-              <ows:LowerCorner>-71.10285218349743 42.261800717452054</ows:LowerCorner>
+							<ows:LowerCorner>-71.10285218349743 42.261800717452054</ows:LowerCorner>
 
-              <ows:UpperCorner>-71.04767081931412 42.29490953596204</ows:UpperCorner>
+							<ows:UpperCorner>-71.04767081931412 42.29490953596204</ows:UpperCorner>
 
-            </ows:BoundingBox>
+						</BoundingBox>
 
-					</datatype>
+					</Datatype>
 
 				</Parameter>
 
 			</Input>
-
-      
 
 			<Input>
 
@@ -104,17 +110,13 @@ wpsDescribeProcess.xsd">
 
 					<Description>number of image of interest, needed in case more than one image is encoded in a GeoTIFF: initial value is 1</Description>
 
-					<minimumOccurs>0</minimumOccurs>
+					<MinimumOccurs>0</MinimumOccurs>
 
-					<datatype>
+					<Datatype>
 
-						<LiteralValue>
+						<LiteralValue ows:type="integer"/>
 
-							<Value ows:type="integer"/>
-
-						</LiteralValue>
-
-					</datatype>
+					</Datatype>
 
 				</Parameter>
 
@@ -130,19 +132,17 @@ wpsDescribeProcess.xsd">
 
 					<Description>and for which the statistics shall be provided: initial value is 1</Description>
 
-					<minimumOccurs>0</minimumOccurs>
+					<MinimumOccurs>0</MinimumOccurs>
 
-					<datatype>
+					<Datatype>
 
-						<LiteralValue>
+						<LiteralValue ows:type="integer">
 
-							<Value ows:type="integer"/>
-
-							<defaultValue>1</defaultValue>
+							<DefaultValue>1</DefaultValue>
 
 						</LiteralValue>
 
-					</datatype>
+					</Datatype>
 
 				</Parameter>
 
@@ -158,25 +158,31 @@ wpsDescribeProcess.xsd">
 
 					<Description>Some values might be known to not be the minimum value. They should be ignored in output statistics (e.g. 0 or -9999), Example: valueToIgnore = -9999</Description>
 
-					<minimumOccurs>0</minimumOccurs>
+					<MinimumOccurs>0</MinimumOccurs>
 
-					<datatype>
+					<Datatype>
 
-						<LiteralValue>
+						<LiteralValue ows:type="decimal"/>
 
-							<Value ows:type="decimal"/>
-
-						</LiteralValue>
-
-					</datatype>
+					</Datatype>
 
 				</Parameter>
 
 			</Input>
 
-			<Output store="false">
+			<Output>
 
-				<parameterName>minValueResult</parameterName>
+				<Parameter>
+
+					<Name>minValueResult</Name>
+
+					<Datatype>
+
+						<LiteralValue ows:type="decimal"/>
+
+					</Datatype>
+
+				</Parameter>
 
 			</Output>
 
@@ -185,6 +191,4 @@ wpsDescribeProcess.xsd">
 	</ProcessMember>
 
 </ProcessDescription>
-
-
 
