@@ -24,9 +24,11 @@ $Name:  $
 
   <!-- template rule matching source root element -->
   <xsl:template match="/wmc:OWSContext">
-      <select>
+    <form>
+      <select onchange="javascript:config.objects.{$widgetId}.selectResource(this.options[this.selectedIndex].value);" >
         <xsl:apply-templates select="wmc:ResourceList/*"/>
       </select>
+    </form>
   </xsl:template>
   
   <!-- these handled outside of the stylesheet -->

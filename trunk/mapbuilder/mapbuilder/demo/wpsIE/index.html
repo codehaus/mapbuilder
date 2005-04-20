@@ -4,17 +4,19 @@
     <title>Mapbuilder WPS Interoperability Experiment Client</title>
     <link rel='StyleSheet' type='text/css' href='/mapbuilder/lib/skin/default/docsStyle.css'>
     <link rel='StyleSheet' type='text/css' href='wpsStyle.css'>
+    <link rel='StyleSheet' type='text/css' href='tabList.css'>
     <script>
       // URL of Mapbuilder configuration file.
       var mbConfigUrl='wpsDemoConfig.xml';
+      var selectedTabIndex = null;
 
       function loadProcess(capsUrl) {
         config.loadModel('wpsCapTemplate',capsUrl);
-        config.paintWidget(config.objects.selectProcess);
+        config.objects.mainTabs.selectTab(1,config.objects.selectProcess);
       }
       function loadProcessDescription(capsUrl) {
         config.loadModel('describeProcessTemplate',capsUrl);
-        config.paintWidget(config.objects.argsInput);
+        config.objects.mainTabs.selectTab(2,config.objects.argsInput);
       }
     </script>
     <script type="text/javascript" src="/mapbuilder/lib/Mapbuilder.js"></script>
@@ -130,12 +132,12 @@
                 </table>
               </td>
             </tr>
+            <!--tr>
+              <td align="left" id="dataSelector">
+              </td>
+            </tr-->
             <tr>
-              <td align="left">
-                <a href="javascript:config.paintWidget(config.objects.urlInput)">1. Select a service</a>
-                <a href="javascript:config.paintWidget(config.objects.selectProcess)">2. Select a process</a>
-                <a href="javascript:config.paintWidget(config.objects.argsInput)">3. Set arguments</a>
-                <a href="javascript:config.paintWidget(config.objects.accessOutputs)">4. Access results</a>
+              <td align="left" id="tablist">
               </td>
             </tr>
             <tr>

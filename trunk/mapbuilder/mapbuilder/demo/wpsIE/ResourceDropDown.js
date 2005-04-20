@@ -26,18 +26,7 @@ function ResourceDropDown(widgetNode, model) {
    * @param bbox the bbox value of the location keyword chosen
    */
 
-  this.selectResource = function(bbox, targetModel) {
-    var bboxArray = new Array();
-    bboxArray     = bbox.split(",");
-    var ul = new Array(parseFloat(bboxArray[0]),parseFloat(bboxArray[3]));
-    var lr = new Array(parseFloat(bboxArray[2]),parseFloat(bboxArray[1]));
-    this.model.setParam("aoi",new Array(ul,lr));
-
-    //convert this.model XY to latlong
-    //convert latlong to targetmodel XY
-    //extent.setAoi takes XY as input
-    this.targetModel.setParam("aoi", new Array(ul,lr));
-    this.targetModel.setParam("mouseup",this);
+  this.selectResource = function() {
   }
 
   this.setTargetListener = function(objRef) {
