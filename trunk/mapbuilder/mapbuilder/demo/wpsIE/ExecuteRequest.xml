@@ -1,70 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<wps:Execute service="WPS" version="0.2.3" xmlns:wps="http://www.opengis.net/wps" xmlns:gml="http://www.opengis.net/gml" xmlns:ows="http://www.opengis.net/ows" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps
+<Execute service="WPS" version="0.2.4" store="false" 
 
-wpsExecute.xsd">
+		xmlns="http://www.opengis.net/wps" 
 
-	<wps:ProcessName>minValue</wps:ProcessName>
+		xmlns:gml="http://www.opengis.net/gml"
 
-	<wps:Input>
+		xmlns:ows="http://www.opengis.net/ows" 
 
-		<wps:ParameterValue>
+		xmlns:xlink="http://www.w3.org/1999/xlink" 
 
-			<wps:Name>inputGridCoverage</wps:Name>
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 
-			<wps:Label>Input Grid Coverage</wps:Label>
+		xsi:schemaLocation="http://www.opengis.net/wps file:///C:/Docume~1/adair/MYDOCU~1/wpsIE/schemas/0.2.4/wpsExecute.xsd" >
 
-			<wps:Description>Coverage that will be processed. This can be a reference URI to a GeoTiff or a WCS 			request when returning a GeoTiff</wps:Description>
+	<ProcessName>minValue</ProcessName>
 
-			<wps:Reference xlink:href="http://triangulum.uni-muenster.de:8080/cdd/wcs?				REQUEST=GetCoverage&amp;SERVICE=WCS&amp;VERSION=1.0.0&amp;BBOX=-30,55,80,85&amp;TIME=2005-03	&amp;CRS=EPSG:4326&amp;COVERAGE=TEMPERATURE">
+	<Input>
+
+		<ParameterValue>
+
+			<Name>inputGridCoverage</Name>
+
+			<Label>Input Grid Coverage</Label>
+
+			<Description>Coverage that will be processed. This can be a reference URI to a GeoTiff or a WCS request when returning a GeoTiff</Description>
+
+			<Reference xlink:href="http://triangulum.uni-muenster.de:8080/cdd/wcs?REQUEST=GetCoverage&amp;SERVICE=WCS&amp;VERSION=1.0.0&amp;BBOX=-30,55,80,85&amp;TIME=2005-03&amp;CRS=EPSG:4326&amp;COVERAGE=TEMPERATURE">
 
 				<ows:Abstract>This is the GeoTIFF online source</ows:Abstract>
 
-			</wps:Reference>
+			</Reference>
 
-		</wps:ParameterValue>
+		</ParameterValue>
 
-	</wps:Input>
+	</Input>
 
-	<wps:Input>
+	<Input>
 
-		<wps:ParameterValue>
+		<ParameterValue>
 
-			<wps:Name>valueToIgnore</wps:Name>
+			<Name>valueToIgnore</Name>
 
-			<wps:Label>Value to ignore</wps:Label>
+			<Label>Value to ignore</Label>
 
-			<wps:Description>Some values might be known to not be the minimum value. They should be ignored in output statistics (e.g. 0 or -9999), Example: valueToIgnore = -9999</wps:Description>
+			<Description>Some values might be known to not be the minimum value. They should be ignored in output statistics (e.g. 0 or -9999), Example: valueToIgnore = -9999</Description>
 
-			<wps:Literal>-9999</wps:Literal>
+			<LiteralValue>-9999</LiteralValue>
 
-		</wps:ParameterValue>
+		</ParameterValue>
 
-	</wps:Input>
+	</Input>
 
-	<wps:Output>
+	<Output>
 
-		<wps:ParameterValue>
+		<Name>minValueResult</Name>
 
-			<wps:Name>minValueResult</wps:Name>
+	</Output>
 
-			<wps:Literal ows:type="double"/>
-
-		</wps:ParameterValue>
-
-	</wps:Output>
-
-<!--	
-
-	<wps:Output store="false">
-
-		<wps:parameterName>minValueResult</wps:parameterName>
-
-		<wps:Literal ows:type="double"/>
-
-	</wps:Output> -->
-
-</wps:Execute>
-
-
+</Execute>
 

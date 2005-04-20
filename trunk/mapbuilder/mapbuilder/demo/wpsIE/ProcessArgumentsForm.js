@@ -21,6 +21,10 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
 function ProcessArgumentsForm(widgetNode, model) {
   var base = new WidgetBase(this, widgetNode, model);
 
+  this.executeProcess = function(processName) {
+    alert("execute not implemented yet");
+  }
+
   /**
    * Initialize dynamic properties.
    * @param toolRef Pointer to this object.
