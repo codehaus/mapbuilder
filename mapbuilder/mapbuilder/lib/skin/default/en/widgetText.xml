@@ -21,6 +21,7 @@
       <south>South:</south>
       <east>East:</east>
       <west>West:</west>
+      <tabLabel>2. Select a process</tabLabel>
     </Widget>
     <ZoomIn>
       <tooltip>click and drag to zoom in</tooltip>
@@ -68,7 +69,17 @@
     <ModelUrlInput>
       <title>URL:</title>
       <load>load</load>
+      <tabLabel>1. Select a service</tabLabel>
     </ModelUrlInput>
+    <SelectProcess>
+      <tabLabel>2. Select a process</tabLabel>
+    </SelectProcess>
+    <ProcessArgumentsForm>
+      <tabLabel>3. Set arguments</tabLabel>
+    </ProcessArgumentsForm>
+    <ExecuteProcessResponse>
+      <tabLabel>4. Access results</tabLabel>
+    </ExecuteProcessResponse>
     <WebServiceForm>
       <ntsTitle>NTS Lookup web service</ntsTitle>
       <mapsheet>NTS index:</mapsheet>
