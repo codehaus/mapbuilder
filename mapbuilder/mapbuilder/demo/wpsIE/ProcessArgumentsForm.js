@@ -95,6 +95,8 @@ function ProcessArgumentsForm(widgetNode, model) {
     objRef.aoiForm.northCoord.model = objRef.model;
     objRef.aoiForm.eastCoord.model = objRef.model;
     objRef.aoiForm.southCoord.model = objRef.model;
+    config.objects.dataSelector.node = document.getElementById(objRef.id+"_dataSelector");
+    config.objects.dataSelector.paint(config.objects.dataSelector);
   }
 
   //set some properties for the form output

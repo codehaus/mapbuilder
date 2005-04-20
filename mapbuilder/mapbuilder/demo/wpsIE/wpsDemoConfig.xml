@@ -96,22 +96,14 @@
       <models>
         <Model id="describeProcessTemplate">
           <!--defaultModelUrl>DescribeProcess_MinValue.xml</defaultModelUrl-->
-          <nodeSelectXpath>/wps:ProcessDescription/wps:Process</nodeSelectXpath>
           <widgets>
             <ProcessArgumentsForm id="argsInput">
-              <htmlTagId>workspace</htmlTagId>
-              <outputNodeId>workspaceCanvas</outputNodeId>
+              <tabbedContent order="2">mainTabs</tabbedContent>
               <stylesheet>ProcessArgumentsForm.xsl</stylesheet>
               <scriptFile>ProcessArgumentsForm.js</scriptFile>
               <targetModel>executeProcessTemplate</targetModel>
               <mapModel>mainMap</mapModel>
             </ProcessArgumentsForm>
-            <Save id="saveDP">
-              <buttonBar>DPButtonBar</buttonBar>
-              <class>Button</class>
-              <disabledSrc>/images/SaveDisable.gif</disabledSrc>
-              <popupWindowName>modelXML</popupWindowName>
-            </Save>
           </widgets>
           <tools>
           </tools>
@@ -123,16 +115,9 @@
       </models>
       <widgets>
         <Widget id="selectProcess">
-          <htmlTagId>workspace</htmlTagId>
-          <outputNodeId>workspaceCanvas</outputNodeId>
+          <tabbedContent order="1">mainTabs</tabbedContent>
           <stylesheet>SelectProcess.xsl</stylesheet>
         </Widget>
-        <Save id="saveCaps">
-          <buttonBar>urlInput</buttonBar>
-          <class>Button</class>
-          <disabledSrc>/images/SaveDisable.gif</disabledSrc>
-          <popupWindowName>modelXML</popupWindowName>
-        </Save>
       </widgets>
       <tools>
         <WebServiceRequest id="wpsDescribeProcess">
@@ -147,6 +132,11 @@
     </WpsCapabilities>
   </models>
   <widgets>
+    <TabbedContent id="mainTabs">
+      <htmlTagId>workspace</htmlTagId>
+      <stylesheet>TabbedContent.xsl</stylesheet>
+      <scriptFile>TabbedContent.js</scriptFile>
+    </TabbedContent>
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
@@ -194,8 +184,7 @@
       <popupWindowName>modelXML</popupWindowName>
     </Save>
     <ModelUrlInput id="urlInput">
-      <htmlTagId>workspace</htmlTagId>
-      <outputNodeId>workspaceCanvas</outputNodeId>
+      <tabbedContent order="0">mainTabs</tabbedContent>
       <targetModel>wpsCapTemplate</targetModel>
       <stylesheet>ModelUrlInput.xsl</stylesheet>
     </ModelUrlInput>
