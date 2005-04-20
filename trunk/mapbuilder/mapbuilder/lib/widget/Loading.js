@@ -24,7 +24,7 @@ function Loading(widgetNode, model) {
    * Remove the contents of the HTML tag for this widget.
    * @param objRef Reference to this object.
    */
-  this.prePaint= function(objRef, forceRefresh) {
+  this.prePaint= function(objRef) {
     while (objRef.node.childNodes.length>0) {
       objRef.node.removeChild(objRef.node.childNodes[0]);
     }
