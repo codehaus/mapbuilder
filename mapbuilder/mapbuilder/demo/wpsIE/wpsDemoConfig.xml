@@ -10,11 +10,11 @@
   -->
   <models>
     <OwsContext id="mainMap">
-      <defaultModelUrl>../owsContext/oc_0_0_13r1.xml</defaultModelUrl>
+      <defaultModelUrl>../owsContext/cite.xml</defaultModelUrl>
       <nodeSelectXpath>/wmc:OWSContext/wmc:ResourceList</nodeSelectXpath>
       <models>
         <FeatureCollection id="gml2FeatureTemplate">
-          <method>post</method>
+          <!--method>post</method-->
           <widgets>
             <!--ModelStatus id="gmlModelStatus"/-->
             <GmlRendererWZ id="testGmlRenderer">
@@ -110,6 +110,11 @@
         </Model>
         <Model id="executeProcessTemplate">
           <widgets>
+            <ShowProcessResult id="results">
+              <tabbedContent order="3">mainTabs</tabbedContent>
+              <stylesheet>ShowProcessResult.xsl</stylesheet>
+              <scriptFile>ShowProcessResult.js</scriptFile>
+            </ShowProcessResult>
           </widgets>
         </Model>
       </models>

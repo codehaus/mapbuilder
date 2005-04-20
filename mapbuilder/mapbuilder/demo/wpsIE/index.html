@@ -18,6 +18,10 @@
         config.loadModel('describeProcessTemplate',capsUrl);
         config.objects.mainTabs.selectTab(2,config.objects.argsInput);
       }
+      function loadExecuteResponse(capsUrl) {
+        config.loadModel('executeProcessTemplate',capsUrl);
+        config.objects.mainTabs.selectTab(3,config.objects.results);
+      }
     </script>
     <script type="text/javascript" src="/mapbuilder/lib/Mapbuilder.js"></script>
   </head>
@@ -39,15 +43,22 @@
       <tr>
         <td valign="top" style="padding:8px">
           <ul>
-            Web processing services
+            Sample v0.2.4 documents
             <li>
             <a href="javascript:loadProcess('PCIwpsCaps.xml');">
-            Sample capabilities instance</a>
+            Capabilities doc</a>
             </li>
             <li>
             <a href="javascript:loadProcessDescription('DescribeProcess_MinValue.xml')">
-            Sample Describe Process response</a>
+            Describe Process response</a>
             </li>
+            <li>
+            <a href="javascript:loadExecuteResponse('ExecuteRequestResponse.xml')">
+            Execute Process response</a>
+            </li>
+          </ul>
+          <ul>
+            Web processing services
             <li>
             <a href="javascript:loadProcess('http://geotech.lih.rwth-aachen.de/wps/wps?request=GetCapabilities&version=0.2.1&service=wps')">
             Intersection of GML themes (Aachen U.)</a>

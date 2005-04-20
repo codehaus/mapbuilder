@@ -27,6 +27,7 @@ function ResourceDropDown(widgetNode, model) {
    */
 
   this.selectResource = function() {
+    alert("not implemented yet; this will populate the URI input box with the URI to the selected resource");
   }
 
   this.setTargetListener = function(objRef) {
