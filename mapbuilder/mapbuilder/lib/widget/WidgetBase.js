@@ -29,6 +29,13 @@ function WidgetBase(widget,widgetNode,model) {
    */
   widget.paintMethod="xsl2html";
 
+  /** Widget's Id defined in the Config (required) */
+  if (widgetNode.attributes.getNamedItem("id")) {
+    widget.id = widgetNode.attributes.getNamedItem("id").nodeValue;
+  } else {
+    alert("id required for object:" + widgetNode.nodeName );
+  }
+
   //allow the widget output to be replaced on each paint call
   var outputNode = widgetNode.selectSingleNode("mb:outputNodeId");
   if ( outputNode ) {
@@ -37,11 +44,15 @@ function WidgetBase(widget,widgetNode,model) {
     widget.outputNodeId = "MbWidget_" + mbIds.getId();
   }
 
-  /** Widget's Id defined in the Config (required) */
-  if (widgetNode.attributes.getNamedItem("id")) {
-    widget.id = widgetNode.attributes.getNamedItem("id").nodeValue;
-  } else {
-    alert("id required for object:" + widgetNode.nodeName );
+  //allow the widget output to be replaced on each paint call
+  var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName;
+  var tabbedContent = widgetNode.selectSingleNode("mb:tabbedContent");
+  if ( tabbedContent ) {
+    var tabWidget = config.objects[tabbedContent.firstChild.nodeValue];
+    var textTabLabel = config.widgetText.selectSingleNode(textNodeXpath+"/mb:tabLabel");
+    var tabLabel = widget.id;
+    if (textTabLabel) tabLabel = textTabLabel.firstChild.nodeValue;
+    tabWidget.addWidget(widget, tabbedContent.getAttribute("order"), tabLabel);
   }
 
   //until htmlTagNode becomes required allow setting of it by widget id
@@ -130,12 +141,12 @@ function WidgetBase(widget,widgetNode,model) {
   }
 
   // Set widget text values as parameters 
-  var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName + "/*";
-  var textParams = config.widgetText.selectNodes(textNodeXpath);
+  var textParams = config.widgetText.selectNodes("/*"+textNodeXpath);
   for (var j=0;j<textParams.length;j++) {
     widget.stylesheet.setParameter(textParams[j].nodeName,textParams[j].firstChild.nodeValue);
   }
-
+  if (tabbedContent) {
+  }
 
   //all stylesheets will have these properties available
   widget.stylesheet.setParameter("modelId", widget.model.id );
