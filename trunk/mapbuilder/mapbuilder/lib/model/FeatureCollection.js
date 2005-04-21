@@ -43,9 +43,11 @@ function FeatureCollection(modelNode, parent) {
           var newCoords = '';
           for (var j=0; j<coordsArray.length; ++j) {
             var xy = coordsArray[j].split(',');
-            var llTemp = sourceProj.Inverse(xy);
-            xy = containerProj.Forward(llTemp);
-            newCoords += xy.join(',') + ' ';
+            if (xy.length==2) {
+              var llTemp = sourceProj.Inverse(xy);
+              xy = containerProj.Forward(llTemp);
+              newCoords += xy.join(',') + ' ';
+            }
           }
           coordNodes[i].firstChild.nodeValue=newCoords;
         }
