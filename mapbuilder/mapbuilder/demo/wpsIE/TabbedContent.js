@@ -21,11 +21,30 @@ var mbNS = "http://mapbuilder.sourceforge.net/mapbuilder";
 
 function TabbedContent(widgetNode, model) {
   var base = new WidgetBase(this, widgetNode, model);
-  this.selectedTabIndex = null;
-  this.tabArray = new Array();
+  this.selectedTab = null;
+  var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:TabbedContent/mb:tabLabel";
+  this.tabLabels = config.widgetText.selectNodes(textNodeXpath);
 
   /**
-   * Change the AOI coordinates from select box choice of prefined locations
+   * 
+   * @param widget the widget to be added to the list of tabs
+   * @param order  the order within the tabs
+   */
+  this.initTabs = function(objRef) {
+    var tabs = objRef.widgetNode.selectNodes("mb:tab");
+    for (var i=0; i<tabs.length; ++i) {
+      var tab = tabs[i];
+      var tabWidgetId = tab.firstChild.nodeValue;
+      var tabWidget = config.objects[tabWidgetId];
+      tabWidget.htmlTagId = objRef.htmlTagId;
+      tabWidget.outputNodeId = objRef.id+"_workspace";
+      tab.setAttribute("label",objRef.tabLabels[i].firstChild.nodeValue);
+    }
+  }
+  this.model.addListener("init",this.initTabs,this);
+
+  /**
+   * 
    * @param widget the widget to be added to the list of tabs
    * @param order  the order within the tabs
    */
@@ -43,9 +62,9 @@ function TabbedContent(widgetNode, model) {
    * @param widget the widget to be added to the list of tabs
    * @param order  the order within the tabs
    */
-  this.selectTab = function(tabIndex) {
+  this.selectTab = function(tabWidgetId) {
     var tabList=document.getElementById(this.outputNodeId);
-    if (this.selectedTabIndex!=null) tabList.childNodes[this.selectedTabIndex].firstChild.className = '';
+    if (this.selectedTab!=null) tabList.childNodes[this.selectedTabIndex].firstChild.className = '';
     tabList.childNodes[tabIndex].firstChild.className = 'current';
     this.selectedTabIndex = tabIndex;
     config.paintWidget(this.tabArray[tabIndex]);

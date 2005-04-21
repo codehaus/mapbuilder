@@ -14,7 +14,7 @@
       <nodeSelectXpath>/wmc:OWSContext/wmc:ResourceList</nodeSelectXpath>
       <models>
         <FeatureCollection id="gml2FeatureTemplate">
-          <!--method>post</method-->
+          <method>post</method>
           <widgets>
             <!--ModelStatus id="gmlModelStatus"/-->
             <GmlRendererWZ id="testGmlRenderer">
@@ -98,7 +98,6 @@
           <!--defaultModelUrl>DescribeProcess_MinValue.xml</defaultModelUrl-->
           <widgets>
             <ProcessArgumentsForm id="argsInput">
-              <tabbedContent order="2">mainTabs</tabbedContent>
               <stylesheet>ProcessArgumentsForm.xsl</stylesheet>
               <scriptFile>ProcessArgumentsForm.js</scriptFile>
               <targetModel>executeProcessTemplate</targetModel>
@@ -111,7 +110,6 @@
         <Model id="executeProcessTemplate">
           <widgets>
             <ShowProcessResult id="results">
-              <tabbedContent order="3">mainTabs</tabbedContent>
               <stylesheet>ShowProcessResult.xsl</stylesheet>
               <scriptFile>ShowProcessResult.js</scriptFile>
             </ShowProcessResult>
@@ -120,7 +118,6 @@
       </models>
       <widgets>
         <Widget id="selectProcess">
-          <tabbedContent order="1">mainTabs</tabbedContent>
           <stylesheet>SelectProcess.xsl</stylesheet>
         </Widget>
       </widgets>
@@ -141,6 +138,10 @@
       <htmlTagId>workspace</htmlTagId>
       <stylesheet>TabbedContent.xsl</stylesheet>
       <scriptFile>TabbedContent.js</scriptFile>
+      <tab>urlInput</tab>
+      <tab>selectProcess</tab>
+      <tab>argsInput</tab>
+      <tab>results</tab>
     </TabbedContent>
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
@@ -189,7 +190,6 @@
       <popupWindowName>modelXML</popupWindowName>
     </Save>
     <ModelUrlInput id="urlInput">
-      <tabbedContent order="0">mainTabs</tabbedContent>
       <targetModel>wpsCapTemplate</targetModel>
       <stylesheet>ModelUrlInput.xsl</stylesheet>
     </ModelUrlInput>
