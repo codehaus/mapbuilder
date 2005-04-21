@@ -28,10 +28,10 @@ $Name:  $
   </xsl:template>
   
   <xsl:template match="mb:tab">
-    <xsl:variable name="index" select="position()-1"/>
+    <xsl:variable name="tabWidgetId" select="."/>
     <li>
-      <a href="javascript:config.objects.{$widgetId}.selectTab({$index})">
-        <xsl:value-of select="."/>
+      <a href="javascript:config.objects.{$widgetId}.selectTab('{$tabWidgetId}')">
+        <xsl:value-of select="@label"/>
       </a>
     </li>
   </xsl:template>
