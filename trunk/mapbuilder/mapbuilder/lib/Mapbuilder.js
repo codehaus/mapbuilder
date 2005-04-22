@@ -89,6 +89,9 @@ function Mapbuilder() {
     switch (newState){
       case MB_LOAD_CORE:
         this.loadScript(baseDir+"/util/sarissa/Sarissa.js");
+        //this.loadScript(baseDir+"/util/sarissa/sarissa_dhtml.js");
+        this.loadScript(baseDir+"/util/sarissa/sarissa_ieemu_xpath.js");
+        //this.loadScript(baseDir+"/util/sarissa/sarissa_ieemu_xslt.js");//all deprecated
         this.loadScript(baseDir+"/util/Util.js");
         this.loadScript(baseDir+"/util/Listener.js");
         this.loadScript(baseDir+"/model/ModelBase.js");
@@ -162,6 +165,35 @@ function Mapbuilder() {
   this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded()',100);
 }
 
+/**
+ * copied from sarissa, a function to check browser security setting in IE, 
+ * opens a help page if ActiveX objects are disabled
+ * ProgIDs for IE, then gets destroyed.
+ */
+function checkIESecurity()
+{
+  var testPrefixes = ["Msxml2.DOMDocument.9.0","Msxml2.DOMDocument.5.0", "Msxml2.DOMDocument.4.0", "Msxml2.DOMDocument.3.0", "MSXML2.DOMDocument", "MSXML.DOMDocument", "Microsoft.XMLDOM"];
+  // found progID flag
+  var bFound = false;
+  for(var i=0; i < testPrefixes.length && !bFound; i++)
+  {
+    try {
+      var oDoc = new ActiveXObject(testPrefixes[i]);
+      bFound = true;
+    }
+    catch (e) {
+      //trap; try next progID
+      alert("ActiveX create exception:" + i + ":" + testPrefixes[i]);
+      alert("exception:" + e + ":" + e.number & 0xFFFF );
+    }
+  }
+  if (!bFound) {
+    window.open("/mapbuilder/demo/IESetup.html","IEHelp");
+    //alert("Could not retreive a valid progID of Class");
+  }
+}
+
+//if (navigator.userAgent.toLowerCase().indexOf("msie") > -1) checkIESecurity();
 var mapbuilder=new Mapbuilder();
 
 /**
