@@ -43,19 +43,22 @@ function TabbedContent(widgetNode, model) {
       var tab = tabs[i];
       var tabWidgetId = tab.firstChild.nodeValue;
       var tabWidget = config.objects[tabWidgetId];
-      if (tabWidget) {
-        tabWidget.htmlTagId = objRef.htmlWorkspace;
-        tabWidget.outputNodeId = objRef.id+"_workspace";
-        tabWidget.node = document.getElementById(tabWidget.htmlTagId);
-      } else {
+      if (!tabWidget) {
         alert("tab widget not found:"+tabWidgetId);
+        return;
       }
+
+      tabWidget.htmlTagId = objRef.htmlWorkspace;
+      tabWidget.outputNodeId = objRef.id+"_workspace";
+      tabWidget.node = document.getElementById(tabWidget.htmlTagId);
+      tabWidget.tabList = objRef;
+
       var tabLabel = tabWidgetId;
       var textNode = config.widgetText.selectSingleNode(textNodeXpath+"/mb:"+tabWidgetId);
       if (textNode) tabLabel = textNode.firstChild.nodeValue;
       tab.setAttribute("label",tabLabel);
       
-      //tabWidget.model.addListener("loadModel",objRef.selectTab,objRef);
+      tabWidget.model.addListener("refresh",objRef.selectTab,tabWidget);
     }
   }
   this.model.addListener("init",this.initTabs,this);
@@ -79,13 +82,13 @@ function TabbedContent(widgetNode, model) {
    * @param widget the widget to be added to the list of tabs
    * @param order  the order within the tabs
    */
-  this.selectTab = function(tabWidgetId) {
-    var newTab = document.getElementById(this.id+"_"+tabWidgetId);
-    if (this.selectedTab!=null) this.selectedTab.className = '';
-    newTab.className = 'current';
-    this.selectedTab = newTab;
-    //this.model.setParam("tabUpdate",tabWidgetId);
-    config.paintWidget(config.objects[tabWidgetId]);
+  this.selectTab = function(tabWidget) {
+    var tabList = tabWidget.tabList;
+    var newAnchor = document.getElementById(tabList.id+"_"+tabWidget.id);
+    if (tabList.selectedTab!=null) tabList.selectedTab.className = '';
+    newAnchor.className = 'current';
+    tabList.selectedTab = newAnchor;
+    tabWidget.paint(tabWidget);
   }
 
   this.prePaint = function(objRef){

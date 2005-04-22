@@ -26,8 +26,9 @@ function ResourceDropDown(widgetNode, model) {
    * @param bbox the bbox value of the location keyword chosen
    */
 
-  this.selectResource = function() {
-    alert("not implemented yet; this will populate the URI input box with the URI to the selected resource");
+  this.selectResource = function(featureName) {
+    alert("not implemented yet; this will populate the URI input box with the URI to:"+featureName);
+    objRef.createHttpPayload(objRef, featureName);
   }
 
   this.setTargetListener = function(objRef) {
