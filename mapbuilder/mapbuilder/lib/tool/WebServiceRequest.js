@@ -42,11 +42,11 @@ function WebServiceRequest(toolNode, model) {
   }
 
   /**
-   * Listener function which will issue the request.
+   * Function which create the HTTP payload for a request
    * @param requestName the name of the web service operation to execute
    * @param featureNodeId the id of the node in the doc to be processed by the stylesheet
    */
-  this.doRequest = function(objRef, featureName) {
+  this.createHttpPayload = function(objRef, featureName) {
     var feature = objRef.model.getFeatureNode(featureName);
 
     // if the targetModel is a template model, then create new model object and
@@ -58,8 +58,8 @@ function WebServiceRequest(toolNode, model) {
     objRef.targetModel.featureName = featureName;
 
     //confirm inputs
-    if (objRef.debug) alert("source:"+feature.xml);
-    //if (objRef.debug) alert("stylesheet:"+objRef.stylesheet.xslDom.xml);
+    if (objRef.debug) alert("source:"+Sarissa.serialize(feature));
+    //if (objRef.debug) alert("stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
 
     if (objRef.targetModel.containerModel) {
 
@@ -93,7 +93,7 @@ function WebServiceRequest(toolNode, model) {
     httpPayload.method = objRef.targetModel.method;
     objRef.stylesheet.setParameter("httpMethod", httpPayload.method );
     httpPayload.postData = objRef.stylesheet.transformNodeToObject(feature);
-    //alert("request data:"+httpPayload.postData.xml);
+    //alert("request data:"+Sarissa.serialize(httpPayload.postData));
     //var response = postLoad(config.serializeUrl, httpPayload.postData);
 
     //allow the tool to have a serverUrl property which overrides the model server URL
@@ -111,8 +111,17 @@ function WebServiceRequest(toolNode, model) {
       httpPayload.url += queryString.firstChild.nodeValue;
       httpPayload.postData = null;
     }
-    
-    objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
+    objRef.httpPayload = httpPayload;
+  }
+
+  /**
+   * Listener function which will actually issue the request.
+   * @param requestName the name of the web service operation to execute
+   * @param featureNodeId the id of the node in the doc to be processed by the stylesheet
+   */
+  this.doRequest = function(objRef, featureName) {
+    objRef.createHttpPayload(objRef, featureName);
+    objRef.targetModel.newRequest(objRef.targetModel,objRef.httpPayload);
   }
   this.model.addListener(this.requestName.replace(/:/,"_"), this.doRequest, this);
 }
