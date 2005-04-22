@@ -199,6 +199,7 @@ function ModelBase(model, modelNode, parentModel) {
     modelRef.method = httpPayload.method;
     modelRef.postData = httpPayload.postData;
     modelRef.loadModelDoc(modelRef);
+    modelRef.callListeners("refresh");
   }
   model.newRequest = this.newRequest;
 
