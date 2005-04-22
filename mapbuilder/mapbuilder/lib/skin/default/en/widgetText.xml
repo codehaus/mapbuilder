@@ -73,8 +73,9 @@
     </SelectProcess>
     <ProcessArgumentsForm>
     </ProcessArgumentsForm>
-    <ExecuteProcessResponse>
-    </ExecuteProcessResponse>
+    <ShowProcessResult>
+      <tabLabel>4. Access results</tabLabel>
+    </ShowProcessResult>
     <WebServiceForm>
       <ntsTitle>NTS Lookup web service</ntsTitle>
       <mapsheet>NTS index:</mapsheet>
@@ -83,10 +84,10 @@
       <title>Timestamp:</title>
     </Timestamp>
     <TabbedContent>
-      <tabLabel>1. Select a service</tabLabel>
-      <tabLabel>2. Select a process</tabLabel>
-      <tabLabel>3. Set arguments</tabLabel>
-      <tabLabel>4. Access results</tabLabel>
+      <urlInput>1. Select a service</urlInput>
+      <selectProcess>2. Select a process</selectProcess>
+      <argsInput>3. Set arguments</argsInput>
+      <results>4. Access results</results>
     </TabbedContent>
   </widgets>
 </WidgetText>
