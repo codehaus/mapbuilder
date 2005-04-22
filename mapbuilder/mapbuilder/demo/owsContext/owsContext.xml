@@ -18,13 +18,13 @@
     This dir is relative the dir of the main html file.
   -->
   <models>
-    <Logger id="eventLogDoc">
+    <!--Logger id="eventLogDoc">
       <widgets>
         <Widget id="eventLog">
           <stylesheet>../../lib/widget/EventLog.xsl</stylesheet>
         </Widget>
       </widgets>
-    </Logger>
+    </Logger-->
     <OwsContext id="mainMap">
       <defaultModelUrl>oc_0_0_13r1.xml</defaultModelUrl>
       <nodeSelectXpath>/wmc:OWSContext/wmc:ResourceList</nodeSelectXpath>
