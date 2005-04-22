@@ -15,7 +15,7 @@ a web page.
 @param xslUrl The URL of an XSL stylesheet.
 @author Cameron Shorter - Cameron AT Shorter.net
 */
-function XslProcessor(xslUrl) {
+function XslProcessor(xslUrl,docNSUri) {
   // get the stylesheet document
   this.xslUrl=xslUrl;
   this.xslDom = Sarissa.getDomDocument();
@@ -24,25 +24,26 @@ function XslProcessor(xslUrl) {
   if ( this.xslDom.parseError < 0 )
     alert("error loading XSL stylesheet: " + xslUrl);
 
+  this.processor = new XSLTProcessor();
+  this.processor.importStylesheet(this.xslDom);
+
+  this.docNSUri = docNSUri;
+
   /**
    * Transforms XML in the provided xml node according to this XSL.
    * @param xmlNode The XML node to be transformed.
    * @return The transformed String.
    */
-  this.transformNode=function(xmlNode) {
+  this.transformNodeToString = function(xmlNode) {
     try {
       // transform and build a web page with result
-      s=new String(xmlNode.transformNode(this.xslDom));
-      // Some browsers XSLT engines don't transform &lt; &gt; to < >, so do it here.
-      a=s.split("&lt;");
-      s=a.join("<");
-      a=s.split("&gt;");
-      s=a.join(">");
-      return s;
+      var newDoc = this.transformNodeToObject(xmlNode);
+      var s = Sarissa.serialize(newDoc);
+      return Sarissa.unescape(s);
     } catch(e){
       alert("Exception transforming doc with XSL: " + this.xslUrl);
-      alert("XSL="+this.xslDom.xml);
-      alert("XML="+xmlNode.xml);
+      alert("XSL="+Sarissa.serialize(this.xslDom));
+      alert("XML="+Sarissa.serialize(xmlNode));
     }
   }
 
@@ -52,28 +53,16 @@ function XslProcessor(xslUrl) {
    * @return a DOM document object
    */
   this.transformNodeToObject=function(xmlNode) {
-    // transform and build a web page with result
-    var result = Sarissa.getDomDocument();
-    result.async = false;
-    result.validateOnParse = false;
-
-  		var xsltProcessor = null;
-			xsltProcessor = new XSLTProcessor();
-     	xsltProcessor.importStylesheet(this.xslDom);
-      //var newFragment = xsltProcessor.transformToFragment(this, oResult);
-      var newFragment = xsltProcessor.transformToDocument(xmlNode);
-      return newFragment;
-
-    //xmlNode.transformNodeToObject(this.xslDom,result);
-    //return result;
+    var newFragment = this.processor.transformToDocument(xmlNode);
+    return newFragment;
   }
 
   /**
    * Set XSL parameter.
    */
-  this.setParameter=function(paramName, paramValue) {
-    if ( typeof paramValue == "string" || typeof paramValue == "number") paramValue="'"+paramValue+"'";
-    Sarissa.setXslParameter( this.xslDom, paramName, paramValue);
+  this.setParameter=function(paramName, paramValue, nsUri) {
+    //if ( typeof paramValue == "string" || typeof paramValue == "number") paramValue="'"+paramValue+"'";
+    this.processor.setParameter( null, paramName, paramValue);
   }
 }
 
