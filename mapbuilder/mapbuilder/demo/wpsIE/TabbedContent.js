@@ -22,9 +22,16 @@ var mbNS = "http://mapbuilder.sourceforge.net/mapbuilder";
 function TabbedContent(widgetNode, model) {
   var base = new WidgetBase(this, widgetNode, model);
   this.selectedTab = null;
-  var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:TabbedContent/mb:tabLabel";
+  var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:TabbedContent";
   this.tabLabels = config.widgetText.selectNodes(textNodeXpath);
 
+  //find the workspace node controlled by these tabs
+  var workspace = widgetNode.selectSingleNode("mb:htmlWorkspace");
+  if ( workspace ) {
+    this.htmlWorkspace = workspace.firstChild.nodeValue;
+  } else {
+    alert("htmlWorkspace must be defined for TabbedContent widget");
+  }
   /**
    * 
    * @param widget the widget to be added to the list of tabs
@@ -36,9 +43,19 @@ function TabbedContent(widgetNode, model) {
       var tab = tabs[i];
       var tabWidgetId = tab.firstChild.nodeValue;
       var tabWidget = config.objects[tabWidgetId];
-      tabWidget.htmlTagId = objRef.htmlTagId;
-      tabWidget.outputNodeId = objRef.id+"_workspace";
-      tab.setAttribute("label",objRef.tabLabels[i].firstChild.nodeValue);
+      if (tabWidget) {
+        tabWidget.htmlTagId = objRef.htmlWorkspace;
+        tabWidget.outputNodeId = objRef.id+"_workspace";
+        tabWidget.node = document.getElementById(tabWidget.htmlTagId);
+      } else {
+        alert("tab widget not found:"+tabWidgetId);
+      }
+      var tabLabel = tabWidgetId;
+      var textNode = config.widgetText.selectSingleNode(textNodeXpath+"/mb:"+tabWidgetId);
+      if (textNode) tabLabel = textNode.firstChild.nodeValue;
+      tab.setAttribute("label",tabLabel);
+      
+      //tabWidget.model.addListener("loadModel",objRef.selectTab,objRef);
     }
   }
   this.model.addListener("init",this.initTabs,this);
@@ -63,11 +80,12 @@ function TabbedContent(widgetNode, model) {
    * @param order  the order within the tabs
    */
   this.selectTab = function(tabWidgetId) {
-    var tabList=document.getElementById(this.outputNodeId);
-    if (this.selectedTab!=null) tabList.childNodes[this.selectedTabIndex].firstChild.className = '';
-    tabList.childNodes[tabIndex].firstChild.className = 'current';
-    this.selectedTabIndex = tabIndex;
-    config.paintWidget(this.tabArray[tabIndex]);
+    var newTab = document.getElementById(this.id+"_"+tabWidgetId);
+    if (this.selectedTab!=null) this.selectedTab.className = '';
+    newTab.className = 'current';
+    this.selectedTab = newTab;
+    //this.model.setParam("tabUpdate",tabWidgetId);
+    config.paintWidget(config.objects[tabWidgetId]);
   }
 
   this.prePaint = function(objRef){
