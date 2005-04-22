@@ -30,7 +30,7 @@ $Name:  $
   <xsl:template match="mb:tab">
     <xsl:variable name="tabWidgetId" select="."/>
     <li>
-      <a href="javascript:config.objects.{$widgetId}.selectTab('{$tabWidgetId}')">
+      <a href="javascript:config.objects.{$widgetId}.selectTab(config.objects.{$tabWidgetId})" id="{$widgetId}_{$tabWidgetId}">
         <xsl:value-of select="@label"/>
       </a>
     </li>

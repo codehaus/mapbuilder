@@ -10,7 +10,8 @@
   -->
   <models>
     <OwsContext id="mainMap">
-      <defaultModelUrl>../owsContext/cite.xml</defaultModelUrl>
+      <!--defaultModelUrl>../owsContext/cite.xml</defaultModelUrl-->
+      <defaultModelUrl>../owsContext/oc_0_0_13r1.xml</defaultModelUrl>
       <nodeSelectXpath>/wmc:OWSContext/wmc:ResourceList</nodeSelectXpath>
       <models>
         <FeatureCollection id="gml2FeatureTemplate">
@@ -135,7 +136,7 @@
   </models>
   <widgets>
     <TabbedContent id="mainTabs">
-      <htmlTagId>workspace</htmlTagId>
+      <htmlWorkspace>workspace</htmlWorkspace>
       <stylesheet>TabbedContent.xsl</stylesheet>
       <scriptFile>TabbedContent.js</scriptFile>
       <tab>urlInput</tab>

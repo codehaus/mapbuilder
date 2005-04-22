@@ -39,7 +39,6 @@ function ProcessArgumentsForm(widgetNode, model) {
       }
     }
     objRef.stylesheet.setParameter("mapModelId", objRef.mapModel.id );
-    objRef.mapModel.addListener('aoi', objRef.displayAoiCoords, objRef);
   }
   this.model.addListener("init", this.initMapModel, this);
 
@@ -91,14 +90,17 @@ function ProcessArgumentsForm(widgetNode, model) {
    */
   this.postPaint = function(objRef) {
     objRef.aoiForm = document.getElementById(objRef.formName);
-    objRef.aoiForm.westCoord.onblur = objRef.setAoi;
-    objRef.aoiForm.northCoord.onblur = objRef.setAoi;
-    objRef.aoiForm.eastCoord.onblur = objRef.setAoi;
-    objRef.aoiForm.southCoord.onblur = objRef.setAoi;
-    objRef.aoiForm.westCoord.model = objRef.model;
-    objRef.aoiForm.northCoord.model = objRef.model;
-    objRef.aoiForm.eastCoord.model = objRef.model;
-    objRef.aoiForm.southCoord.model = objRef.model;
+    if (objRef.aoiForm) {
+      objRef.aoiForm.westCoord.onblur = objRef.setAoi;
+      objRef.aoiForm.northCoord.onblur = objRef.setAoi;
+      objRef.aoiForm.eastCoord.onblur = objRef.setAoi;
+      objRef.aoiForm.southCoord.onblur = objRef.setAoi;
+      objRef.aoiForm.westCoord.model = objRef.model;
+      objRef.aoiForm.northCoord.model = objRef.model;
+      objRef.aoiForm.eastCoord.model = objRef.model;
+      objRef.aoiForm.southCoord.model = objRef.model;
+      if (objRef.mapModel) objRef.mapModel.addListener('aoi', objRef.displayAoiCoords, objRef);
+    }
     config.objects.dataSelector.node = document.getElementById(objRef.id+"_dataSelector");
     config.objects.dataSelector.paint(config.objects.dataSelector);
   }
