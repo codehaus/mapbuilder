@@ -61,7 +61,7 @@ function WpsCapabilities(modelNode, parentModel) {
    * @return the featureType node with the specified name.
    */
   this.getFeatureNode = function(featureName) {
-    return this.doc.selectSingleNode(this.nodeSelectXpath+"[wps:name='"+featureName+"']");
+    return this.doc.selectSingleNode(this.nodeSelectXpath+"[wps:Name='"+featureName+"']");
   }
 
 }
