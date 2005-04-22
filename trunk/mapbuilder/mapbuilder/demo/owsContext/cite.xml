@@ -68,7 +68,7 @@
 
       <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
 
-        <OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wms"/>
+        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
 
       </Server>
 
@@ -86,7 +86,7 @@
 
       <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
 
-        <OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wms"/>
+        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
 
       </Server>
 
@@ -100,11 +100,11 @@
 
     </Layer>
 
-    <FeatureType hidden="0">
+    <Layer hidden="0">
 
-      <Server service="OGC:WFS" version="1.0.0" title="Cite Lakes">
+      <Server service="OGC:WMS" version="1.1.1" title="Cite Lakes">
 
-        <OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wfs"/>
+        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
 
       </Server>
 
@@ -116,13 +116,15 @@
 
       <SRS>EPSG:4326</SRS>
 
-    </FeatureType>
+      <FormatList><Format current="1">image/png</Format></FormatList>
+
+    </Layer>
 
     <Layer queryable="1" hidden="0">
 
       <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
 
-        <OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wms"/>
+        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
 
       </Server>
 
@@ -140,7 +142,7 @@
 
       <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
 
-        <OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wms"/>
+        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
 
       </Server>
 
@@ -158,7 +160,7 @@
 
       <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
 
-        <OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wms"/>
+        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
 
       </Server>
 
@@ -176,7 +178,7 @@
 
       <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
 
-        <OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wms"/>
+        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
 
       </Server>
 
@@ -194,7 +196,7 @@
 
       <Server service="OGC:WFS" version="1.0.0" title="Cite Road Segments">
 
-        <OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wfs"/>
+        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wfs"/>
 
       </Server>
 
@@ -212,7 +214,7 @@
 
       <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
 
-        <OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wms"/>
+        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
 
       </Server>
 
@@ -230,7 +232,7 @@
 
       <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
 
-        <OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wms"/>
+        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
 
       </Server>
 
