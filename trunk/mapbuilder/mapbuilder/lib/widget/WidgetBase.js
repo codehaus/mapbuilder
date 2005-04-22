@@ -60,11 +60,6 @@ function WidgetBase(widget,widgetNode,model) {
     //alert("htmlTagId: "+widget.htmlTagId+" for widget "+widgetNode.nodeName+" not found in config");
   }
 
-  //allow the widget output to be replaced on each paint call
-  widget.autoRefresh = true;
-  var autoRefreshNode = widgetNode.selectSingleNode("mb:autoRefresh");
-  if ( autoRefreshNode ) widget.autoRefresh = (autoRefreshNode.firstChild.nodeValue=="false")?false:true;
-
   //set an empty debug property in config to see inputs and outputs of stylehseet
   if ( widgetNode.selectSingleNode("mb:debug") ) widget.debug=true;
 
@@ -73,34 +68,19 @@ function WidgetBase(widget,widgetNode,model) {
    */
   widget.resultDoc = null;
 
-
   // Set this.stylesheet
   // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
   if ( !widget.stylesheet ) {
     var styleNode = widgetNode.selectSingleNode("mb:stylesheet");
     if (styleNode ) {
-      widget.stylesheet = new XslProcessor(styleNode.firstChild.nodeValue);
+      widget.stylesheet = new XslProcessor(styleNode.firstChild.nodeValue,model.namespace);
     } else {
-      widget.stylesheet = new XslProcessor(baseDir+"/widget/"+widgetNode.nodeName+".xsl");
+      widget.stylesheet = new XslProcessor(baseDir+"/widget/"+widgetNode.nodeName+".xsl",model.namespace);
     }
   }
 
-  //set the target model
-/*
-  var targetModel = widgetNode.selectSingleNode("mb:targetModel");
-  if (targetModel) {
-    widget.targetModel = eval("config.objects."+targetModel.firstChild.nodeValue);
-    if ( !widget.targetModel ) {
-      alert("error finding targetModel:" + targetModel.firstChild.nodeValue + " for:" + widget.id);
-    } 
-  } else {
-    widget.targetModel = widget.model;
-  }
-  widget.stylesheet.setParameter("targetModelId", widget.targetModel.id );
-   */
-
   /**
-   * Initialize dynamic properties.
+   * Initialize dynamic properties.set the target model
    * @param toolRef Pointer to this object.
    */
   this.initTargetModel = function(objRef) {
@@ -196,7 +176,7 @@ if (!widget.paint) {
    * Render the widget.
    * @param objRef Pointer to widget object.
    */
-  this.paint = function(objRef, forceRefresh) {
+  this.paint = function(objRef) {
     if (objRef.model.template) return;
 
     // Remove widget from display if the model is empty
@@ -204,16 +184,16 @@ if (!widget.paint) {
       objRef.clearWidget(objRef);
     }
 
-    if (objRef.model.doc && objRef.node && (objRef.autoRefresh||forceRefresh) && !objRef.override) {
+    if (objRef.model.doc && objRef.node) {
       objRef.stylesheet.setParameter("modelUrl", objRef.model.url);
 
-      //if (objRef.debug) alert("source:"+objRef.model.doc.xml);
+      //if (objRef.debug) alert("source:"+Sarissa.serialize(objRef.model.doc));
       objRef.resultDoc = objRef.model.doc; // resultDoc sometimes modified by prePaint()
       objRef.prePaint(objRef);
 
       //confirm inputs
-      if (objRef.debug) alert("prepaint:"+objRef.resultDoc.xml);
-      if (objRef.debug) alert("stylesheet:"+objRef.stylesheet.xslDom.xml);
+      if (objRef.debug) alert("prepaint:"+Sarissa.serialize(objRef.resultDoc));
+      if (objRef.debug) alert("stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
 
       //set to output to a temporary node
       //hack to get by doc parsing problem in IE
@@ -223,8 +203,8 @@ if (!widget.paint) {
       switch (objRef.paintMethod) {
         case "xsl2html":
           //process the doc with the stylesheet
-          var s = objRef.stylesheet.transformNode(objRef.resultDoc);
-          if (objRef.debug) postLoad(config.serializeUrl, s);
+          var s = objRef.stylesheet.transformNodeToString(objRef.resultDoc);
+          if (config.serializeUrl && objRef.debug) postLoad(config.serializeUrl, s);
           if (objRef.debug) alert("painting:"+objRef.id+":"+s);
           tempNode.innerHTML = s;
           tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
