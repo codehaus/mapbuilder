@@ -161,7 +161,7 @@ function ModelBase(model, modelNode, parentModel) {
         }
 
         if (modelRef.doc.documentElement.nodeName.search(/exception/i)>=0) {
-          alert("Exception:"+modelRef.doc.xml);
+          alert("Exception:"+Sarissa.serialize(modelRef.doc));
         }
 
         // the following two lines are needed for IE; set the namespace for selection
