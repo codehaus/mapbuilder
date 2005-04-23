@@ -26,9 +26,9 @@
 
     <ows:BoundingBox crs="EPSG:4326">
 
-      <ows:LowerCorner>-71.10285218349743 42.261800717452054</ows:LowerCorner>
+      <ows:LowerCorner>-71.10307290895416 42.26191108018042</ows:LowerCorner>
 
-      <ows:UpperCorner>-71.04767081931412 42.29490953596204</ows:UpperCorner>
+      <ows:UpperCorner>-71.04789154477085 42.295019898690406</ows:UpperCorner>
 
     </ows:BoundingBox>
 
@@ -121,6 +121,40 @@
   </General>
 
   <ResourceList>
+
+  <Layer queryable="0" hidden="0">
+
+   <Server service="OGC:WMS" version="1.1.1" title="OGC:WMS">
+
+    <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/ows1/cubeserv/cubeserv.cgi"/>
+
+   </Server>
+
+   <Name>DOQ:TerraService</Name>
+
+   <Title>USGS Digital Ortho-Quadrangles</Title>
+
+   <SRS>EPSG:4326</SRS>
+
+   <FormatList>
+
+    <Format current="1">image/gif</Format>
+
+   </FormatList>
+
+   <StyleList>
+
+   <Style current="1">
+
+    <Name>default</Name>
+
+    <Title>default</Title>
+
+   </Style>
+
+   </StyleList>
+
+  </Layer>
 
     <Coverage hidden="0">
 
