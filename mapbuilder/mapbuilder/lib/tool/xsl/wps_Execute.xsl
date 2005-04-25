@@ -14,6 +14,7 @@ $Name:  $
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 		xmlns:ogc="http://www.opengis.net/ogc"
     xmlns:ows="http://www.opengis.net/ows"
+    xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder" 
 		xmlns:gml="http://www.opengis.net/gml"
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
@@ -33,7 +34,7 @@ $Name:  $
         	<wps:ProcessName><xsl:value-of select="$processName"/></wps:ProcessName>
         </xsl:when>
         <xsl:otherwise>
-          <QueryString>
+          <mb:QueryString>
             <xsl:variable name="query">
         request=Execute
    &amp;service=WPS
@@ -42,7 +43,7 @@ $Name:  $
               <xsl:apply-templates select="wps:Input"/>
             </xsl:variable>
             <xsl:value-of select="translate(normalize-space($query),' ', '' )" disable-output-escaping="no"/>
-          </QueryString>
+          </mb:QueryString>
         </xsl:otherwise>
       </xsl:choose>
       <xsl:apply-templates select="wps:Output"/>

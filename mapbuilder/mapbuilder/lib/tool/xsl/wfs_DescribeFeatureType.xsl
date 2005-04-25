@@ -28,6 +28,8 @@ $Name$
 
 		xmlns:ogc="http://www.opengis.net/ogc"
 
+    xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder" 
+
 		xmlns:gml="http://www.opengis.net/gml"
 
     xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -70,7 +72,7 @@ $Name$
 
       <xsl:otherwise>
 
-        <QueryString>
+        <mb:QueryString>
 
           <xsl:variable name="query">
 
@@ -86,7 +88,7 @@ $Name$
 
           <xsl:value-of select="translate(normalize-space($query),' ', '' )" disable-output-escaping="no"/>
 
-        </QueryString>
+        </mb:QueryString>
 
       </xsl:otherwise>
 

@@ -28,6 +28,8 @@ $Name$
 
     xmlns:wmc="http://www.opengis.net/context" 
 
+    xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder" 
+
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 
     xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -126,7 +128,7 @@ $Name$
 
     <GetMap>
 
-      <QueryString>
+      <mb:QueryString>
 
         <xsl:variable name="src">    
 
@@ -174,7 +176,7 @@ $Name$
 
         <xsl:value-of select="translate(normalize-space($src),' ', '' )" disable-output-escaping="no"/>
 
-      </QueryString>
+      </mb:QueryString>
 
     </GetMap>
 
@@ -328,7 +330,7 @@ $Name$
 
     <GetMap>
 
-      <QueryString>
+      <mb:QueryString>
 
         <xsl:variable name="src">    
 
@@ -376,7 +378,7 @@ $Name$
 
         <xsl:value-of select="translate(normalize-space($src),' ', '' )" disable-output-escaping="no"/>
 
-      </QueryString>
+      </mb:QueryString>
 
     </GetMap>
 
