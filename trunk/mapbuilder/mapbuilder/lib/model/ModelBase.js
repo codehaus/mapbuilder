@@ -278,6 +278,7 @@ function ModelBase(model, modelNode, parentModel) {
   //don't load in models and widgets if this is the config doc, 
   //defer that to an explcit config.init() call in mapbuilder.js
   if (parentModel && !model.template) {
+    model.parentModel = parentModel;
     parentModel.addListener("init",model.callInit, model);
     parentModel.addListener("loadModel",model.loadModelDoc, model);
     parentModel.addListener("refresh",model.refresh, model);
