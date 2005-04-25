@@ -22,7 +22,7 @@ $Name$
 
 <xsl:stylesheet version="1.0" 
 
-    xmlns:ogcwfs="http://www.opengis.net/wfs"
+    xmlns:wfs="http://www.opengis.net/wfs"
 
     xmlns:wmc="http://www.opengis.net/context" 
 
@@ -72,11 +72,11 @@ $Name$
 
   <!-- template rule matching source root element -->
 
-  <xsl:template match="ogcwfs:FeatureType">
+  <xsl:template match="wfs:FeatureType">
 
-    <xsl:param name="resourceName" select="ogcwfs:Name"/>
+    <xsl:param name="resourceName" select="wfs:Name"/>
 
-    <xsl:param name="featureSrs" select="ogcwfs:SRS"/>
+    <xsl:param name="featureSrs" select="wfs:SRS"/>
 
     <GetFeature version="1.0.0" service="WFS" maxFeatures="{$maxFeatures}">
 
@@ -192,7 +192,13 @@ $Name$
 
       xmlns="http://www.opengis.net/wfs"
 
+      xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder" 
+
       xmlns:ogc="http://www.opengis.net/ogc">
+
+    <xsl:choose>
+
+      <xsl:when test="$httpMethod='post'">
 
       <Query typeName="{$resourceName}">
 
@@ -237,6 +243,54 @@ $Name$
           </ogc:Filter>
 
       </Query>
+
+      </xsl:when>
+
+      <xsl:otherwise>
+
+        <mb:QueryString>
+
+          <xsl:variable name="bbox">
+
+            <xsl:value-of select="$bBoxMinX"/>,<xsl:value-of select="$bBoxMinY"/>,
+
+            <xsl:value-of select="$bBoxMaxX"/>,<xsl:value-of select="$bBoxMaxY"/>
+
+          </xsl:variable>
+
+          <xsl:variable name="query">
+
+         request=GetFeature
+
+    &amp;service=WFS
+
+    &amp;version=<xsl:value-of select="$version"/>
+
+&amp;maxfeatures=<xsl:value-of select="$maxFeatures"/>
+
+   &amp;typename=<xsl:value-of select="$resourceName"/>
+
+          <xsl:if test="$bbox">
+
+   &amp;bbox=<xsl:value-of select="$bbox"/>
+
+          </xsl:if>
+
+          <xsl:if test="$filter">
+
+   &amp;filter=<xsl:value-of select="$filter"/>
+
+          </xsl:if>
+
+          </xsl:variable>
+
+          <xsl:value-of select="translate(normalize-space($query),' ','')" disable-output-escaping="no"/>
+
+        </mb:QueryString>
+
+      </xsl:otherwise>
+
+    </xsl:choose>
 
     </GetFeature>
 
