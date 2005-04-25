@@ -24,8 +24,8 @@ $Name$
   
   <!-- template rule matching source root element -->
   <xsl:template match="/wps:Capabilities/wps:ProcessOfferings">
-    <DescribeProcess version="1.0.0" service="WFS">
-      <xsl:apply-templates select="wps:FeatureType"/>
+    <DescribeProcess version="{$version}" service="WPS">
+      <xsl:apply-templates select="wps:Process"/>
     </DescribeProcess>
   </xsl:template>
 
@@ -33,7 +33,7 @@ $Name$
   <xsl:template match="wps:Process">
     <xsl:choose>
       <xsl:when test="$httpMethod='post'">
-        <name><xsl:value-of select="wps:name"/></name>
+        <ProcessName><xsl:value-of select="wps:Name"/></ProcessName>
       </xsl:when>
       <xsl:otherwise>
         <QueryString>
@@ -41,7 +41,7 @@ $Name$
       request=DescribeProcess
  &amp;service=WPS
  &amp;version=<xsl:value-of select="$version"/>
-&amp;ProcessName=<xsl:value-of select="wps:name"/>
+&amp;ProcessName=<xsl:value-of select="wps:Name"/>
           </xsl:variable>
           <xsl:value-of select="translate(normalize-space($query),' ', '' )" disable-output-escaping="no"/>
         </QueryString>

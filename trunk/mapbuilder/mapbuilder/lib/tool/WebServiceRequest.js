@@ -46,72 +46,62 @@ function WebServiceRequest(toolNode, model) {
    * @param requestName the name of the web service operation to execute
    * @param featureNodeId the id of the node in the doc to be processed by the stylesheet
    */
-  this.createHttpPayload = function(objRef, featureName) {
-    var feature = objRef.model.getFeatureNode(featureName);
-
-    // if the targetModel is a template model, then create new model object and
-    // assign it an id
-    if (objRef.targetModel.template) {
-      objRef.targetModel.modelNode.removeAttribute("id");
-      objRef.targetModel = objRef.model.createObject(objRef.targetModel.modelNode, objRef.model.models);
-    }
-    objRef.targetModel.featureName = featureName;
-
+  this.createHttpPayload = function(feature) {
     //confirm inputs
-    if (objRef.debug) alert("source:"+Sarissa.serialize(feature));
-    //if (objRef.debug) alert("stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
+    if (this.debug) alert("source:"+Sarissa.serialize(feature));
+    //if (this.debug) alert("stylesheet:"+Sarissa.serialize(this.stylesheet.xslDom));
 
-    if (objRef.targetModel.containerModel) {
+    if (this.targetModel.containerModel) {
 
       //this block is to get by a Mapserver WFS bug where the tuple separator 
       //is set to a comma instead of space; and post method doesn't work
       var ts = " ";
 /*
-      var comment = objRef.model.doc.documentElement.childNodes[1];
+      var comment = this.model.doc.documentElement.childNodes[1];
       if (comment && comment.nodeType==comment.COMMENT_NODE) {
         //alert(comment.nodeValue);
         if (comment.nodeValue.substring("MapServer version 4.4.")) {
           ts = ",";
-          objRef.targetModel.method="get";
+          this.targetModel.method="get";
         }
       }
 */
 
-      var bBox = objRef.targetModel.containerModel.getBoundingBox();
-      objRef.stylesheet.setParameter("bBoxMinX", bBox[0] );
-      objRef.stylesheet.setParameter("bBoxMinY", bBox[1] );
-      objRef.stylesheet.setParameter("bBoxMaxX", bBox[2] );
-      objRef.stylesheet.setParameter("bBoxMaxY", bBox[3] );
-      objRef.stylesheet.setParameter("srs", objRef.targetModel.containerModel.getSRS() );
-      objRef.stylesheet.setParameter("width", objRef.targetModel.containerModel.getWindowWidth() );
-      objRef.stylesheet.setParameter("height", objRef.targetModel.containerModel.getWindowHeight() );
+      var bBox = this.targetModel.containerModel.getBoundingBox();
+      this.stylesheet.setParameter("bBoxMinX", bBox[0] );
+      this.stylesheet.setParameter("bBoxMinY", bBox[1] );
+      this.stylesheet.setParameter("bBoxMaxX", bBox[2] );
+      this.stylesheet.setParameter("bBoxMaxY", bBox[3] );
+      this.stylesheet.setParameter("srs", this.targetModel.containerModel.getSRS() );
+      this.stylesheet.setParameter("width", this.targetModel.containerModel.getWindowWidth() );
+      this.stylesheet.setParameter("height", this.targetModel.containerModel.getWindowHeight() );
     }
-    objRef.stylesheet.setParameter("version", objRef.model.getVersion(feature) );
+    this.stylesheet.setParameter("version", this.model.getVersion(feature) );
 
     //process the doc with the stylesheet
     var httpPayload = new Object();
-    httpPayload.method = objRef.targetModel.method;
-    objRef.stylesheet.setParameter("httpMethod", httpPayload.method );
-    httpPayload.postData = objRef.stylesheet.transformNodeToObject(feature);
-    //alert("request data:"+Sarissa.serialize(httpPayload.postData));
+    httpPayload.method = this.targetModel.method;
+    this.stylesheet.setParameter("httpMethod", httpPayload.method );
+    httpPayload.postData = this.stylesheet.transformNodeToObject(feature);
+    alert("request data:"+Sarissa.serialize(httpPayload.postData));
     //var response = postLoad(config.serializeUrl, httpPayload.postData);
 
     //allow the tool to have a serverUrl property which overrides the model server URL
     //TBD: this still used?
-    if (objRef.serverUrl) {
-      httpPayload.url = objRef.serverUrl;
+    if (this.serverUrl) {
+      httpPayload.url = this.serverUrl;
     } else {
-      httpPayload.url = objRef.model.getServerUrl(objRef.requestName, httpPayload.method, feature);
+      httpPayload.url = this.model.getServerUrl(this.requestName, httpPayload.method, feature);
     }
 
     //extract the URL from the transformation result for GET method
     if (httpPayload.method.toLowerCase() == "get") {
-      var queryString = httpPayload.postData.selectSingleNode("//QueryString");
+      var queryString = httpPayload.postData.selectSingleNode("//mb:QueryString");
       if (httpPayload.url.indexOf("?") < 0) httpPayload.url += "?";
       httpPayload.url += queryString.firstChild.nodeValue;
       httpPayload.postData = null;
     }
-    objRef.httpPayload = httpPayload;
+    return httpPayload;
   }
 
   /**
@@ -120,8 +110,17 @@ function WebServiceRequest(toolNode, model) {
    * @param featureNodeId the id of the node in the doc to be processed by the stylesheet
    */
   this.doRequest = function(objRef, featureName) {
-    objRef.createHttpPayload(objRef, featureName);
-    objRef.targetModel.newRequest(objRef.targetModel,objRef.httpPayload);
+    // if the targetModel is a template model, then create new model object and
+    // assign it an id
+    if (objRef.targetModel.template) {
+      objRef.targetModel.modelNode.removeAttribute("id");
+      objRef.targetModel = objRef.model.createObject(objRef.targetModel.modelNode, objRef.model.models);
+    }
+    objRef.targetModel.featureName = featureName;
+
+    var feature = objRef.model.getFeatureNode(featureName);
+    var httpPayload = objRef.createHttpPayload(feature);
+    objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
   }
   this.model.addListener(this.requestName.replace(/:/,"_"), this.doRequest, this);
 }

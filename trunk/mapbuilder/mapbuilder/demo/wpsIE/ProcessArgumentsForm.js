@@ -22,7 +22,7 @@ function ProcessArgumentsForm(widgetNode, model) {
   var base = new WidgetBase(this, widgetNode, model);
 
   this.executeProcess = function(processName) {
-    alert("execute not implemented yet");
+    this.model.setParam("wps_Execute",processName);
   }
 
   /**
@@ -45,15 +45,15 @@ function ProcessArgumentsForm(widgetNode, model) {
   /**
    * Output the AOI coordinates to the associated form input elements.  This
    * method is registered as an AOI listener on the context doc.
-   * @param objRef Pointer to this AoiForm object.
+   * @param objRef Pointer to this argsForm object.
    */
   this.displayAoiCoords = function(objRef) {
-    objRef.aoiForm = document.getElementById(objRef.formName);
+    objRef.argsForm = document.getElementById(objRef.formName);
     var aoi = objRef.mapModel.getParam("aoi");
-    objRef.aoiForm.westCoord.value = aoi[0][0];
-    objRef.aoiForm.northCoord.value = aoi[0][1];
-    objRef.aoiForm.eastCoord.value = aoi[1][0];
-    objRef.aoiForm.southCoord.value = aoi[1][1];
+    objRef.argsForm.westCoord.value = aoi[0][0];
+    objRef.argsForm.northCoord.value = aoi[0][1];
+    objRef.argsForm.eastCoord.value = aoi[1][0];
+    objRef.argsForm.southCoord.value = aoi[1][1];
   }
 
   /**
@@ -86,27 +86,48 @@ function ProcessArgumentsForm(widgetNode, model) {
 
   /**
    * Refreshes the form onblur handlers when this widget is painted.
-   * @param objRef Pointer to this AoiForm object.
+   * @param objRef Pointer to this argsForm object.
    */
   this.postPaint = function(objRef) {
-    objRef.aoiForm = document.getElementById(objRef.formName);
-    if (objRef.aoiForm) {
-      objRef.aoiForm.westCoord.onblur = objRef.setAoi;
-      objRef.aoiForm.northCoord.onblur = objRef.setAoi;
-      objRef.aoiForm.eastCoord.onblur = objRef.setAoi;
-      objRef.aoiForm.southCoord.onblur = objRef.setAoi;
-      objRef.aoiForm.westCoord.model = objRef.model;
-      objRef.aoiForm.northCoord.model = objRef.model;
-      objRef.aoiForm.eastCoord.model = objRef.model;
-      objRef.aoiForm.southCoord.model = objRef.model;
-      if (objRef.mapModel) objRef.mapModel.addListener('aoi', objRef.displayAoiCoords, objRef);
+    objRef.argsForm = document.getElementById(objRef.formName);
+    var argsArray = objRef.model.doc.selectNodes("/wps:ProcessDescription/wps:ProcessMember/wps:Process/wps:Input");
+    for (var i=0; i<argsArray.length; ++i) {
+      var input= argsArray[i];
+      var argType = input.selectSingleNode("wps:Parameter/wps:Datatype/*").nodeName;
+      var argName = input.selectSingleNode("wps:Parameter/wps:Name").firstChild.nodeValue;
+      switch (argType) {
+        case "Reference":
+        case "wps:Reference":
+          config.objects.dataSelector.stylesheet.setParameter("selectName",objRef.id+"_"+argName+"_dataSelector");
+          config.objects.dataSelector.node = document.getElementById(objRef.id+"_"+argName+"_dataSelectorWidget");
+          config.objects.dataSelector.paint(config.objects.dataSelector);
+          config.objects.dataSelector.targetInput = objRef.argsForm[objRef.id+"_"+argName];
+          break;
+        case "BoundingBox":
+        case "wps:BoundingBox":
+          objRef.argsForm.westCoord.onblur = objRef.setAoi;
+          objRef.argsForm.northCoord.onblur = objRef.setAoi;
+          objRef.argsForm.eastCoord.onblur = objRef.setAoi;
+          objRef.argsForm.southCoord.onblur = objRef.setAoi;
+          objRef.argsForm.westCoord.model = objRef.model;
+          objRef.argsForm.northCoord.model = objRef.model;
+          objRef.argsForm.eastCoord.model = objRef.model;
+          objRef.argsForm.southCoord.model = objRef.model;
+          if (objRef.mapModel) objRef.mapModel.addListener('aoi', objRef.displayAoiCoords, objRef);
+          break;
+        case "LiteralValue":
+          break;
+        case "ComplexValue":
+          break;
+        default:
+          alert("invalid argument datatype:"+argType);
+          break;
+      }
     }
-    config.objects.dataSelector.node = document.getElementById(objRef.id+"_dataSelector");
-    config.objects.dataSelector.paint(config.objects.dataSelector);
   }
 
   //set some properties for the form output
-  this.formName = "AoiForm_";// + mbIds.getId();
+  this.formName = "ProcessArgsForm_";// + mbIds.getId();
   this.stylesheet.setParameter("formName", this.formName);
 }
 

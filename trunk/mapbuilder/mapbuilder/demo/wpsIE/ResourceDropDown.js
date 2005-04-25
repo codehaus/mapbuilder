@@ -27,8 +27,26 @@ function ResourceDropDown(widgetNode, model) {
    */
 
   this.selectResource = function(featureName) {
-    alert("not implemented yet; this will populate the URI input box with the URI to:"+featureName);
-    objRef.createHttpPayload(objRef, featureName);
+    if (featureName.length>0) {
+      var httpPayload = null;
+      var parts = featureName.split("_");
+      var feature = this.model.getFeatureNode(parts[1]);
+      switch(parts[0]) {
+        case "wfs":
+          httpPayload = config.objects.wfsController.createHttpPayload(feature);//TBD: remove hard-coded ID
+          break;
+        case "wcs":
+          alert("not implemented yet; this will populate the URI input box with the URI to:"+featureName);
+          break;
+        case "wms":
+          alert("not implemented yet; this will populate the URI input box with the URI to:"+featureName);
+          break;
+        case "gml":
+          alert("not implemented yet; this will populate the URI input box with the URI to:"+featureName);
+          break;
+      }
+      this.targetInput.value = httpPayload.url;
+    }
   }
 
   this.setTargetListener = function(objRef) {

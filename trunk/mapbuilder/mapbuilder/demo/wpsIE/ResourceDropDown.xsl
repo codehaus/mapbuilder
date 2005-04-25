@@ -21,34 +21,44 @@ $Name:  $
   <!-- The coordinates of the DHTML Layer on the HTML page -->
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
+  <xsl:param name="selectName">resourceSelect</xsl:param>
 
   <!-- template rule matching source root element -->
   <xsl:template match="/wmc:OWSContext">
-    <form>
-      <select onchange="javascript:config.objects.{$widgetId}.selectResource(this.options[this.selectedIndex].value);" >
+      <select name="{$selectName}" onchange="javascript:config.objects.{$widgetId}.selectResource(this.options[this.selectedIndex].value);" >
+        <option value="">Select a map resource</option>
         <xsl:apply-templates select="wmc:ResourceList/*"/>
       </select>
-    </form>
   </xsl:template>
   
   <!-- these handled outside of the stylesheet -->
   <xsl:template match="wmc:Coverage">
     <option>
-      <xsl:attribute name="value"><xsl:value-of select="wmc:Name"/></xsl:attribute>
+      <xsl:attribute name="value">wcs_<xsl:value-of select="wmc:Name"/></xsl:attribute>
       WCS: <xsl:value-of select="wmc:Title"/>
     </option>
   </xsl:template>
   
   <xsl:template match="wmc:FeatureType">
-    <option>
-      <xsl:attribute name="value"><xsl:value-of select="wmc:Name"/></xsl:attribute>
-      WFS: <xsl:value-of select="wmc:Title"/>
-    </option>
+    <xsl:choose>
+      <xsl:when test="wmc:Server/@service='OGC:GML'">
+        <option>
+          <xsl:attribute name="value">gml_<xsl:value-of select="wmc:Name"/></xsl:attribute>
+          GML: <xsl:value-of select="wmc:Title"/>
+        </option>
+      </xsl:when>
+      <xsl:otherwise>
+        <option>
+          <xsl:attribute name="value">wfs_<xsl:value-of select="wmc:Name"/></xsl:attribute>
+          WFS: <xsl:value-of select="wmc:Title"/>
+        </option>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
   
   <xsl:template match="wmc:Layer">
     <option>
-      <xsl:attribute name="value"><xsl:value-of select="wmc:Name"/></xsl:attribute>
+      <xsl:attribute name="value">wms_<xsl:value-of select="wmc:Name"/></xsl:attribute>
       WMS: <xsl:value-of select="wmc:Title"/>
     </option>
   </xsl:template>
