@@ -51,6 +51,18 @@ function WebServiceRequest(toolNode, model) {
     if (this.debug) alert("source:"+Sarissa.serialize(feature));
     //if (this.debug) alert("stylesheet:"+Sarissa.serialize(this.stylesheet.xslDom));
 
+    var featureSRS = null;
+    //TBD: this is for ows wmc; other document types may need to set other params
+    if (feature.namespace == "http://www.opengis.net/context") {
+      featureSRS = feature.selectSingleNode("wmc:SRS");  
+      if (feature.selectSingleNode("ogc:Filter")) {
+        this.stylesheet.setParameter("filter", escape(Sarissa.serialize(feature.selectSingleNode("ogc:Filter"))) );
+      }
+    }
+    if (feature.namespace == "http://www.opengis.net/wfs") {
+      featureSRS = feature.selectSingleNode("wfs:SRS"); 
+    }
+
     if (this.targetModel.containerModel) {
 
       //this block is to get by a Mapserver WFS bug where the tuple separator 
@@ -68,8 +80,9 @@ function WebServiceRequest(toolNode, model) {
 */
 
       var bbox = this.targetModel.containerModel.getBoundingBox();
+
+      //convert the BBOX to the feature SRS for the request
       var containerSRS = this.targetModel.containerModel.getSRS();
-      var featureSRS = feature.selectSingleNode("wmc:SRS");  //TBD: this is for ows wmc; there may be other ways to set feature SRS
       if (featureSRS) {
         var sourceProj = new Proj(featureSRS.firstChild.nodeValue);
         if ( !sourceProj.matchSrs( containerSRS )) {  
@@ -91,9 +104,6 @@ function WebServiceRequest(toolNode, model) {
       this.stylesheet.setParameter("height", this.targetModel.containerModel.getWindowHeight() );
     }
     this.stylesheet.setParameter("version", this.model.getVersion(feature) );
-    if (feature.selectSingleNode("ogc:Filter")) {
-      this.stylesheet.setParameter("filter", escape(Sarissa.serialize(feature.selectSingleNode("ogc:Filter"))) );
-    }
 
     //process the doc with the stylesheet
     var httpPayload = new Object();
