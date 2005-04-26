@@ -28,6 +28,8 @@ $Name$
 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 
+    xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder" 
+
 		xmlns:ogc="http://www.opengis.net/ogc"
 
 		xmlns:gml="http://www.opengis.net/gml"
@@ -130,7 +132,7 @@ $Name$
 
       <xsl:otherwise>
 
-        <QueryString>
+        <mb:QueryString>
 
           <xsl:variable name="bbox">
 
@@ -168,7 +170,7 @@ $Name$
 
           <xsl:value-of select="translate(normalize-space($query),' ','')" disable-output-escaping="no"/>
 
-        </QueryString>
+        </mb:QueryString>
 
       </xsl:otherwise>
 
@@ -191,8 +193,6 @@ $Name$
     <GetFeature version="1.0.0" service="WFS" maxFeatures="{$maxFeatures}"
 
       xmlns="http://www.opengis.net/wfs"
-
-      xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder" 
 
       xmlns:ogc="http://www.opengis.net/ogc">
 
@@ -250,6 +250,8 @@ $Name$
 
         <mb:QueryString>
 
+          <xsl:variable name="cFilterStr"><xsl:value-of select="ogc:Filter"/></xsl:variable>
+
           <xsl:variable name="bbox">
 
             <xsl:value-of select="$bBoxMinX"/>,<xsl:value-of select="$bBoxMinY"/>,
@@ -278,7 +280,7 @@ $Name$
 
           <xsl:if test="$filter">
 
-   &amp;filter=<xsl:value-of select="$filter"/>
+  &amp;filter=<xsl:value-of select="$filter"/>
 
           </xsl:if>
 

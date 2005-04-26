@@ -67,16 +67,33 @@ function WebServiceRequest(toolNode, model) {
       }
 */
 
-      var bBox = this.targetModel.containerModel.getBoundingBox();
-      this.stylesheet.setParameter("bBoxMinX", bBox[0] );
-      this.stylesheet.setParameter("bBoxMinY", bBox[1] );
-      this.stylesheet.setParameter("bBoxMaxX", bBox[2] );
-      this.stylesheet.setParameter("bBoxMaxY", bBox[3] );
-      this.stylesheet.setParameter("srs", this.targetModel.containerModel.getSRS() );
+      var bbox = this.targetModel.containerModel.getBoundingBox();
+      var containerSRS = this.targetModel.containerModel.getSRS();
+      var featureSRS = feature.selectSingleNode("wmc:SRS");  //TBD: this is for ows wmc; there may be other ways to set feature SRS
+      if (featureSRS) {
+        var sourceProj = new Proj(featureSRS.firstChild.nodeValue);
+        if ( !sourceProj.matchSrs( containerSRS )) {  
+          var containerProj = new Proj(this.targetModel.containerModel.getSRS());
+          var llTemp = containerProj.Inverse(new Array(bbox[0],bbox[1]));
+          var xy = sourceProj.Forward(llTemp);
+          bbox[0] = xy[0]; bbox[1] = xy[1];
+          llTemp = containerProj.Inverse(new Array(bbox[2],bbox[3]));
+          xy = sourceProj.Forward(llTemp);
+          bbox[2] = xy[0]; bbox[3] = xy[1];
+        }
+      }
+      this.stylesheet.setParameter("bBoxMinX", bbox[0] );
+      this.stylesheet.setParameter("bBoxMinY", bbox[1] );
+      this.stylesheet.setParameter("bBoxMaxX", bbox[2] );
+      this.stylesheet.setParameter("bBoxMaxY", bbox[3] );
+      this.stylesheet.setParameter("srs", containerSRS );
       this.stylesheet.setParameter("width", this.targetModel.containerModel.getWindowWidth() );
       this.stylesheet.setParameter("height", this.targetModel.containerModel.getWindowHeight() );
     }
     this.stylesheet.setParameter("version", this.model.getVersion(feature) );
+    if (feature.selectSingleNode("ogc:Filter")) {
+      this.stylesheet.setParameter("filter", escape(Sarissa.serialize(feature.selectSingleNode("ogc:Filter"))) );
+    }
 
     //process the doc with the stylesheet
     var httpPayload = new Object();
@@ -84,7 +101,7 @@ function WebServiceRequest(toolNode, model) {
     this.stylesheet.setParameter("httpMethod", httpPayload.method );
     httpPayload.postData = this.stylesheet.transformNodeToObject(feature);
     alert("request data:"+Sarissa.serialize(httpPayload.postData));
-    //var response = postLoad(config.serializeUrl, httpPayload.postData);
+    var response = postLoad(config.serializeUrl, httpPayload.postData);
 
     //allow the tool to have a serverUrl property which overrides the model server URL
     //TBD: this still used?
@@ -96,6 +113,8 @@ function WebServiceRequest(toolNode, model) {
 
     //extract the URL from the transformation result for GET method
     if (httpPayload.method.toLowerCase() == "get") {
+      httpPayload.postData.setProperty("SelectionLanguage", "XPath");
+      Sarissa.setXpathNamespaces(httpPayload.postData, "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder'");
       var queryString = httpPayload.postData.selectSingleNode("//mb:QueryString");
       if (httpPayload.url.indexOf("?") < 0) httpPayload.url += "?";
       httpPayload.url += queryString.firstChild.nodeValue;
