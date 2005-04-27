@@ -25,42 +25,19 @@ $Name:  $
 
   <!-- template rule matching source root element -->
   <xsl:template match="/wmc:OWSContext">
-      <select name="{$selectName}" onchange="javascript:config.objects.{$widgetId}.selectResource(this.options[this.selectedIndex].value);" >
+      <select name="{$selectName}" onchange="javascript:config.objects.{$widgetId}.selectResource(this.options[this.selectedIndex]);" >
         <option value="">Select a map resource</option>
         <xsl:apply-templates select="wmc:ResourceList/*"/>
       </select>
   </xsl:template>
   
   <!-- these handled outside of the stylesheet -->
-  <xsl:template match="wmc:Coverage">
+  <xsl:template match="wmc:Coverage | wmc:FeatureType | wmc:Layer">
     <option>
-      <xsl:attribute name="value">wcs_<xsl:value-of select="wmc:Name"/></xsl:attribute>
-      WCS: <xsl:value-of select="wmc:Title"/>
+      <xsl:attribute name="resourceType"><xsl:value-of select="wmc:Server/@service"/></xsl:attribute>
+      <xsl:attribute name="value"><xsl:value-of select="wmc:Name"/></xsl:attribute>
+      <b><xsl:value-of select="wmc:Server/@service"/></b> - <xsl:value-of select="wmc:Title"/>
     </option>
   </xsl:template>
   
-  <xsl:template match="wmc:FeatureType">
-    <xsl:choose>
-      <xsl:when test="wmc:Server/@service='OGC:GML'">
-        <option>
-          <xsl:attribute name="value">gml_<xsl:value-of select="wmc:Name"/></xsl:attribute>
-          GML: <xsl:value-of select="wmc:Title"/>
-        </option>
-      </xsl:when>
-      <xsl:otherwise>
-        <option>
-          <xsl:attribute name="value">wfs_<xsl:value-of select="wmc:Name"/></xsl:attribute>
-          WFS: <xsl:value-of select="wmc:Title"/>
-        </option>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-  
-  <xsl:template match="wmc:Layer">
-    <option>
-      <xsl:attribute name="value">wms_<xsl:value-of select="wmc:Name"/></xsl:attribute>
-      WMS: <xsl:value-of select="wmc:Title"/>
-    </option>
-  </xsl:template>
-
 </xsl:stylesheet>

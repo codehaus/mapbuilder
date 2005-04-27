@@ -26,23 +26,24 @@ function ResourceDropDown(widgetNode, model) {
    * @param bbox the bbox value of the location keyword chosen
    */
 
-  this.selectResource = function(featureName) {
-    if (featureName.length>0) {
+  this.selectResource = function(selectedOption) {
+    if (selectedOption.value.length>0) {
       var httpPayload = null;
-      var parts = featureName.split("_");
-      var feature = this.model.getFeatureNode(parts[1]);
-      switch(parts[0]) {
-        case "wfs":
+      var feature = this.model.getFeatureNode(selectedOption.value);
+      var resourceType = selectedOption.getAttribute("resourceType");
+      switch(resourceType) {
+        case "OGC:WFS":
           httpPayload = config.objects.wfsController.createHttpPayload(feature);//TBD: remove hard-coded ID
           break;
-        case "wcs":
-          alert("not implemented yet; this will populate the URI input box with the URI to:"+featureName);
+        case "OGC:WCS":
+          httpPayload = config.objects.wcsController.createHttpPayload(feature);//TBD: remove hard-coded ID
           break;
         case "wms":
           alert("not implemented yet; this will populate the URI input box with the URI to:"+featureName);
           break;
-        case "gml":
-          alert("not implemented yet; this will populate the URI input box with the URI to:"+featureName);
+        case "OGC:GML":
+          httpPayload = new Object();
+          httpPayload.url = feature.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href").nodeValue;
           break;
       }
       this.targetInput.value = httpPayload.url;

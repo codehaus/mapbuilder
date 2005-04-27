@@ -27,6 +27,9 @@
             </GmlRendererWZ>
           </widgets>
         </FeatureCollection>
+        <Model id="coverageTemplate">
+          <method>get</method>
+        </Model>
       </models>
       <widgets>
         <MapPane id="mainMapWidget">
@@ -62,6 +65,10 @@
         <WebServiceRequest id="wfsController">
           <targetModel>gml2FeatureTemplate</targetModel>
           <requestName>wfs:GetFeature</requestName>
+        </WebServiceRequest>
+        <WebServiceRequest id="wcsController">
+          <targetModel>gml2FeatureTemplate</targetModel>
+          <requestName>wcs:GetCoverage</requestName>
         </WebServiceRequest>
       </tools>
     </OwsContext>
