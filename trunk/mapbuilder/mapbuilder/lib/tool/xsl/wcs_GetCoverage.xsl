@@ -19,13 +19,20 @@ $Name:  $
   <xsl:output method="xml"/>
   <xsl:strip-space elements="*"/>
 
-  <xsl:param name="bbox"/>
+  <xsl:param name="bBoxMinX"/>
+  <xsl:param name="bBoxMinY"/>
+  <xsl:param name="bBoxMaxX"/>
+  <xsl:param name="bBoxMaxY"/>
   <xsl:param name="width"/>
   <xsl:param name="height"/>
   <xsl:param name="srs"/>
   <xsl:param name="version"/>
   
   <xsl:template match="wmc:Coverage">
+    <xsl:variable name="bbox">
+      <xsl:value-of select="$bBoxMinX"/>,<xsl:value-of select="$bBoxMinY"/>,
+      <xsl:value-of select="$bBoxMaxX"/>,<xsl:value-of select="$bBoxMaxY"/>
+    </xsl:variable>
     <GetCoverage>
       <mb:QueryString>
         <xsl:variable name="src">    
