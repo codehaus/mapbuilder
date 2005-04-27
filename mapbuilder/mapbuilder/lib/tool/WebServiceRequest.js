@@ -53,13 +53,13 @@ function WebServiceRequest(toolNode, model) {
 
     var featureSRS = null;
     //TBD: this is for ows wmc; other document types may need to set other params
-    if (feature.namespace == "http://www.opengis.net/context") {
+    var namespacePrefixes = feature.ownerDocument._sarissa_xpathNamespaces;
+    if (namespacePrefixes["wmc"]) {
       featureSRS = feature.selectSingleNode("wmc:SRS");  
       if (feature.selectSingleNode("ogc:Filter")) {
         this.stylesheet.setParameter("filter", escape(Sarissa.serialize(feature.selectSingleNode("ogc:Filter"))) );
       }
-    }
-    if (feature.namespace == "http://www.opengis.net/wfs") {
+    } else if (namespacePrefixes["wfs"]) {
       featureSRS = feature.selectSingleNode("wfs:SRS"); 
     }
 
@@ -110,7 +110,7 @@ function WebServiceRequest(toolNode, model) {
     httpPayload.method = this.targetModel.method;
     this.stylesheet.setParameter("httpMethod", httpPayload.method );
     httpPayload.postData = this.stylesheet.transformNodeToObject(feature);
-    alert("request data:"+Sarissa.serialize(httpPayload.postData));
+    //alert("request data:"+Sarissa.serialize(httpPayload.postData));
     var response = postLoad(config.serializeUrl, httpPayload.postData);
 
     //allow the tool to have a serverUrl property which overrides the model server URL
