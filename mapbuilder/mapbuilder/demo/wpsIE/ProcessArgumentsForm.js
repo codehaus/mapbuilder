@@ -100,6 +100,7 @@ function ProcessArgumentsForm(widgetNode, model) {
         case "wps:Reference":
           config.objects.dataSelector.stylesheet.setParameter("selectName",objRef.id+"_"+argName+"_dataSelector");
           config.objects.dataSelector.node = document.getElementById(objRef.id+"_"+argName+"_dataSelectorWidget");
+          config.objects.dataSelector.outputNodeId = objRef.id+"_"+argName+"_dataSelectorWidget_outputNode";
           config.objects.dataSelector.paint(config.objects.dataSelector);
           config.objects.dataSelector.targetInput = objRef.argsForm[objRef.id+"_"+argName];
           break;
