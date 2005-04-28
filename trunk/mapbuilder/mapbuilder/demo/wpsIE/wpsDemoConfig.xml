@@ -51,7 +51,12 @@
           <crossSize>15</crossSize>
           <mapContainerId>mainMapContainer</mapContainerId>
         </AoiBoxDHTML>
-        <ResourceDropDown id="dataSelector">
+        <ResourceDropDown id="dataSelector0">
+          <scriptFile>ResourceDropDown.js</scriptFile>
+          <stylesheet>ResourceDropDown.xsl</stylesheet>
+          <targetModel>describeProcessTemplate</targetModel>
+        </ResourceDropDown>
+        <ResourceDropDown id="dataSelector1">
           <scriptFile>ResourceDropDown.js</scriptFile>
           <stylesheet>ResourceDropDown.xsl</stylesheet>
           <targetModel>describeProcessTemplate</targetModel>
@@ -153,6 +158,7 @@
       <tab>selectProcess</tab>
       <tab>argsInput</tab>
       <tab>results</tab>
+      <!--tab>moreData</tab-->
     </TabbedContent>
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
@@ -204,6 +210,10 @@
       <targetModel>wpsCapTemplate</targetModel>
       <stylesheet>ModelUrlInput.xsl</stylesheet>
     </ModelUrlInput>
+    <Widget id="moreData">
+      <targetModel>wpsCapTemplate</targetModel>
+      <stylesheet>ModelUrlInput.xsl</stylesheet>
+    </Widget>
   </widgets>
   <!--
     All static images should be relative to this URL.

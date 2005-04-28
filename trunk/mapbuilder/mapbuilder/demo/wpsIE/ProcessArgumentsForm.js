@@ -22,7 +22,21 @@ function ProcessArgumentsForm(widgetNode, model) {
   var base = new WidgetBase(this, widgetNode, model);
 
   this.executeProcess = function(processName) {
-    this.model.setParam("wps_Execute",processName);
+    var webServiceUrl = this.argsForm.action + "?";
+    var queryString = "";
+    for (var i=0; i<this.argsForm.elements.length; ++i) {
+      var element = this.argsForm.elements[i];
+      queryString += element.name + "=" + encodeURIComponent(element.value) + "&";
+    }
+    if (this.targetModel.method == "get") {
+      webServiceUrl += queryString;
+      this.targetModel.postData = null;
+      if (this.debug) alert(webServiceUrl);
+    } else {
+      this.targetModel.postData = queryString;
+      if (this.debug) alert(webServiceUrl+" posting:"+queryString);
+    }
+    config.loadModel( this.targetModel.id, webServiceUrl);
   }
 
   /**
@@ -88,9 +102,28 @@ function ProcessArgumentsForm(widgetNode, model) {
    * Refreshes the form onblur handlers when this widget is painted.
    * @param objRef Pointer to this argsForm object.
    */
+  this.prePaint = function(objRef) {
+    var serviceUrl = objRef.model.parentModel.getServerUrl("wps:Execute", "get");
+    if (serviceUrl) {
+      objRef.stylesheet.setParameter("webServiceUrl",serviceUrl);
+      objRef.stylesheet.setParameter("webServiceMethod","get");
+      objRef.targetModel.method = "get";
+    } else {
+      serviceUrl = objRef.model.parentModel.getServerUrl("wps:Execute", "post");
+      objRef.stylesheet.setParameter("webServiceUrl",serviceUrl);
+      objRef.stylesheet.setParameter("webServiceMethod","post");
+      objRef.targetModel.method = "post";
+    }
+  }
+
+  /**
+   * Refreshes the form onblur handlers when this widget is painted.
+   * @param objRef Pointer to this argsForm object.
+   */
   this.postPaint = function(objRef) {
     objRef.argsForm = document.getElementById(objRef.formName);
     var argsArray = objRef.model.doc.selectNodes("/wps:ProcessDescription/wps:ProcessMember/wps:Process/wps:Input");
+    var selectorIndex=0;
     for (var i=0; i<argsArray.length; ++i) {
       var input= argsArray[i];
       var argType = input.selectSingleNode("wps:Parameter/wps:Datatype/*").nodeName;
@@ -98,11 +131,15 @@ function ProcessArgumentsForm(widgetNode, model) {
       switch (argType) {
         case "Reference":
         case "wps:Reference":
-          config.objects.dataSelector.stylesheet.setParameter("selectName",objRef.id+"_"+argName+"_dataSelector");
-          config.objects.dataSelector.node = document.getElementById(objRef.id+"_"+argName+"_dataSelectorWidget");
-          config.objects.dataSelector.outputNodeId = objRef.id+"_"+argName+"_dataSelectorWidget_outputNode";
-          config.objects.dataSelector.paint(config.objects.dataSelector);
-          config.objects.dataSelector.targetInput = objRef.argsForm[objRef.id+"_"+argName];
+          if (selectorIndex<2) {
+            var selector = config.objects["dataSelector"+selectorIndex];
+            ++selectorIndex;
+            selector.stylesheet.setParameter("selectName",objRef.id+"_"+argName+"_dataSelector");
+            selector.node = document.getElementById(objRef.id+"_"+argName+"_dataSelectorWidget");
+            selector.outputNodeId = objRef.id+"_"+argName+"_dataSelectorWidget_outputNode";
+            selector.paint(selector);
+            selector.targetInput = objRef.argsForm[argName];
+          }
           break;
         case "BoundingBox":
         case "wps:BoundingBox":
