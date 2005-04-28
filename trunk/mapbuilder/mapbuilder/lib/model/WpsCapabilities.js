@@ -34,7 +34,12 @@ function WpsCapabilities(modelNode, parentModel) {
     } else {
       xpath += "/ows:DCP/ows:HTTP/ows:Get";
     }
-    return this.doc.selectSingleNode(xpath).getAttribute("xlink:href");
+    var urlNode = this.doc.selectSingleNode(xpath);
+    if (urlNode) {
+      return urlNode.getAttribute("xlink:href");
+    } else {
+      return null;
+    }
   }
 
   /**
