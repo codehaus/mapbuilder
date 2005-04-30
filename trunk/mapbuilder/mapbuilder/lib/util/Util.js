@@ -182,6 +182,27 @@ function leadingZeros(num,digits) {
 }
 
 
+// Correctly handle PNG transparency in Win IE 5.5 or higher.
+// this method should be set as an IMG onload handler for PNG map layers
+// thanks to Caroklyn Cole for this fix.  For an explanation see:
+// http://homepage.ntlworld.com/bobosola. Updated 02-March-2004
+// modified to the images as visible after this has been called.
+function fixPNG(myImage) {
+  if (_SARISSA_IS_IE) {
+    var imgID = (myImage.id) ? "id='" + myImage.id + "' " : ""
+    var imgClass = (myImage.className) ? "class='" + myImage.className + "' " : ""
+    var imgTitle = (myImage.title) ? "title='" + myImage.title + "' " : "title='" + myImage.alt + "' "
+    var imgStyle = "display:inline-block;" + myImage.style.cssText 
+    var strNewHTML = "<span " + imgID + imgClass + imgTitle
+    strNewHTML += " style=\"" + "width:" + myImage.width + "px; height:" + myImage.height + "px;" + imgStyle + ";"
+    strNewHTML += "filter:progid:DXImageTransform.Microsoft.AlphaImageLoader"
+    strNewHTML += "(src=\'" + myImage.src + "\', sizingMethod='scale'); visibility:visible\"></span>" 
+    myImage.outerHTML = strNewHTML
+  }
+}
+
+
+
 /**
  * get the absolute position of HTML element NS4, IE4/5 & NS6, even if it's in a table.
  * @param element The HTML element.
