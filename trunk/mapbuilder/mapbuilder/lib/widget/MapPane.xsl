@@ -46,6 +46,8 @@ $Name$
 
   <xsl:param name="extraAttributes">true</xsl:param>
 
+  <xsl:param name="isIE">false</xsl:param>
+
 
 
   <xsl:param name="bbox">
@@ -323,6 +325,14 @@ $Name$
             <xsl:value-of select="$height"/>
 
         </xsl:attribute>
+
+        <xsl:if test="starts-with($isIE,'true') and $format='image/png'">
+
+          <xsl:attribute name="onload">fixPNG(this)</xsl:attribute>
+
+          <xsl:attribute name="style">visibility:hidden</xsl:attribute>
+
+        </xsl:if>
 
         <xsl:if test="starts-with($extraAttributes,'true')">
 

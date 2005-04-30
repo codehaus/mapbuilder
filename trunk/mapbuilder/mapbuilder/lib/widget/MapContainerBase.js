@@ -108,6 +108,7 @@ function MapContainerBase(widget,widgetNode,model) {
     widget.prePaint = function(objRef) {
       var mapScale = objRef.model.extent.getScale();
       widget.stylesheet.setParameter("mapScale", mapScale );
+      if (_SARISSA_IS_IE) widget.stylesheet.setParameter("isIE", "true" );
     }
 
     /**
