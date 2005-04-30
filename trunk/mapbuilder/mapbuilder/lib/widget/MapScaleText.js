@@ -10,7 +10,8 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
  * Widget to display the scale of a map.  The target model of this widget
- * must have an extent object associated with it.
+ * must have an extent object associated with it which is the case when the 
+ * targetModel has a MapContanier widget.
  *
  * @constructor
  * @base WidgetBase
@@ -63,7 +64,11 @@ function MapScaleText(widgetNode, model) {
     objRef.stylesheet.setParameter("mapScale", newScale);
     objRef.mapScaleTextForm.mapScale.value = Math.round(newScale);
   }
-  //this.targetModel.addListener("bbox", this.init, this);
+
+  /**
+   * adds a bbox listener on the targetModel 
+   * @param objRef Pointer to this widget object.
+   */
   this.initListener = function(objRef) {
     objRef.targetModel.addListener("bbox",objRef.init, objRef);
   }
