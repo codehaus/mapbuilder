@@ -54,7 +54,7 @@ function WebServiceAction(){
           httpPayload.url=null;
           model.newRequest(model,httpPayload);
           // Repaint the WMS layers
-          targetContext.callListeners("refresh");
+          targetContext.callListeners("refreshWmsLayers");
         }
         break;
       case "Update Feature":
