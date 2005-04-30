@@ -27,6 +27,7 @@ function AoiBoxDHTML(widgetNode, model) {
   /** draw out the box.
     * if the box width or height is less than the cross size property, then the
     * drawCross method is called, otherwise call drawBox.
+    * @param objRef a pointer to this widget object
     */
   this.paint = function(objRef) {
     var aoiBox = objRef.model.getParam("aoi");

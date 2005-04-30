@@ -40,10 +40,8 @@ function AoiForm(widgetNode, model) {
   /**
    * Handles user input from the form element.  This is an onblur handler for 
    * the input elements.
-   * @param objRef Pointer to this CurorTrack object.
-   * @param targetNode The node for the enclosing HTML tag for this widget.
    */
-  this.setAoi = function(event) {
+  this.setAoi = function() {
     var aoi = this.model.getParam("aoi");
     if (aoi) {
       var ul = aoi[0];
