@@ -36,4 +36,15 @@ function MapPane(widgetNode, model) {
   }
   this.model.addListener("hidden",this.hiddenListener,this);
 
+  /**
+   * Called after a feature has been added to a WFS.  This function triggers
+   * the WMS basemaps to be redrawn.  A timestamp param is added to the URL
+   * to ensure the basemap image is not cached.
+   */
+  this.refreshWmsLayers=function(objRef){
+    objRef.d=new Date();
+    objRef.stylesheet.setParameter("uniqueId",objRef.d.getTime());
+    objRef.paint(objRef);
+  }
+  this.model.addListener("refreshWmsLayers",this.refreshWmsLayers,this);
 }

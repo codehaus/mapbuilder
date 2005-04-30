@@ -72,6 +72,8 @@ $Name$
 
   <xsl:param name="timeListName"/>
 
+  <xsl:param name="uniqueId"/>
+
   
 
   <!-- template rule matching source root element -->
@@ -287,6 +289,8 @@ $Name$
        &amp;TIME=<xsl:value-of select="$timestamp"/>
 
         </xsl:if>
+
+        &amp;UNIQUEID=<xsl:value-of select="$uniqueId"/>
 
 <!--	
 
