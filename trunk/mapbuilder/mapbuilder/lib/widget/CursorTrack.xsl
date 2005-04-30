@@ -17,6 +17,9 @@ $Id$
   <!-- text value params -->
   <xsl:param name="longitude">lon:</xsl:param>
   <xsl:param name="latitude">lat:</xsl:param>
+  <xsl:param name="xcoord">x:</xsl:param>
+  <xsl:param name="ycoord">y:</xsl:param>
+  <xsl:param name="showXY">false</xsl:param>
   
   <!-- The name of the form for coordinate output -->
   <xsl:param name="formName"/>
@@ -25,8 +28,16 @@ $Id$
   <xsl:template match="/">
     <DIV>
     <FORM NAME="{$formName}" ID="{$formName}" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;">
-      <xsl:value-of select="$longitude"/> <input NAME="longitude" TYPE="text" SIZE="6" READONLY="true" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
-      <xsl:value-of select="$latitude"/> <input NAME="latitude" TYPE="text" SIZE="6" READONLY="true" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
+      <xsl:choose>
+        <xsl:when test="$showXY='true'">
+          <xsl:value-of select="$xcoord"/> <input NAME="longitude" TYPE="text" SIZE="10" READONLY="true" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
+          <xsl:value-of select="$ycoord"/> <input NAME="latitude" TYPE="text" SIZE="10" READONLY="true" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$longitude"/> <input NAME="longitude" TYPE="text" SIZE="6" READONLY="true" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
+          <xsl:value-of select="$latitude"/> <input NAME="latitude" TYPE="text" SIZE="6" READONLY="true" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </FORM>
     </DIV>
   </xsl:template>
