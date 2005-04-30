@@ -84,6 +84,7 @@ function AoiBoxWZ(widgetNode, model) {
   /**
    * Reset internal variables after container is redrawn due to refreshing
    * of the model.
+   * @param objRef Pointer to this object.
    */
   this.clearAoiBox = function(objRef) {
     if (objRef.jg) objRef.jg.clear();
@@ -93,6 +94,7 @@ function AoiBoxWZ(widgetNode, model) {
   /**
    * Reset internal variables after container is redrawn due to refreshing
    * of the model.
+   * @param objRef Pointer to this object.
    */
   this.refresh = function(objRef) {
     objRef.clearAoiBox(objRef);

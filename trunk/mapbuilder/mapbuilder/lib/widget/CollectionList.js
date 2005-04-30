@@ -9,7 +9,8 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
- * A widget to display a list of context docs to pick from.
+ * A widget to display a list of context docs to pick from.  This is a view of 
+ * a Context Collection as specified in the OGC Context specification.
  * @constructor
  * @base WidgetBase
  * @param widgetNode  The widget's XML object node from the configuration document.

@@ -7,8 +7,9 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
- * Base Button object that all Buttons extend.  A Button is a tool represented
- * by an image and an optional second image for the enabled state.
+ * Abstract base Button object that all Buttons extend.  
+ * A Button is a widget which renders an image and an optional second image 
+ * for the enabled state.
  * @constructor
  * @base WidgetBase
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
@@ -36,6 +37,7 @@ function ButtonBase(button, widgetNode, model) {
   button.disabledImage = document.createElement("IMG");
   button.disabledImage.src = config.skinDir + widgetNode.selectSingleNode("mb:disabledSrc").firstChild.nodeValue;
 
+  //optional second image to be displayed in the enabled state
   var enabledImage = widgetNode.selectSingleNode("mb:enabledSrc");
   if (enabledImage) {
     button.enabledImage = document.createElement("IMG");
@@ -44,7 +46,7 @@ function ButtonBase(button, widgetNode, model) {
 
   /**
    * Override of widgetBase prePaint to set the doc to be styled as the widget
-   * node for this button.
+   * node in config for this button.
    * @param objRef Pointer to this object.
    */
   this.prePaint = function(objRef) {
@@ -62,7 +64,7 @@ function ButtonBase(button, widgetNode, model) {
   /**
    * Called when a user clicks on a button.  Switches the image to the enabled 
    * button source, enables and disables associated tools, then calls the 
-   * doAction method defined in derived classes.
+   * doSelect method defined in derived classes.
    */
   this.select = function() {
     if (this.buttonType == "RadioButton") {
@@ -92,6 +94,7 @@ function ButtonBase(button, widgetNode, model) {
   this.doSelect = function(selected, objRef) {
   }
 
+  //a button may be set as selected in the config file
   var selected = widgetNode.selectSingleNode("mb:selected");
   if (selected && selected.firstChild.nodeValue) button.selected = true;
 
@@ -115,7 +118,7 @@ function ButtonBase(button, widgetNode, model) {
   }
 
   /**
-   * Initialise image for the button an select it if required.
+   * Initialise image for the button and select it if required.
    * @param objRef Reference to this object.
    */
   this.buttonInit = function(objRef) {
