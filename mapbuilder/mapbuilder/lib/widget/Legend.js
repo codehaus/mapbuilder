@@ -17,6 +17,11 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 function Legend(widgetNode, model) {
   var base = new WidgetBase(this, widgetNode, model);
 
+  /**
+   * Override of widget prepaint to set some stylesheet parameters including 
+   * featureName (for OWS Context) and hidden attribute.
+   * @param objRef Pointer to this object.
+   */
   this.prePaint = function(objRef) {
     if (objRef.model.featureName) {
       objRef.stylesheet.setParameter("featureName", objRef.model.featureName );

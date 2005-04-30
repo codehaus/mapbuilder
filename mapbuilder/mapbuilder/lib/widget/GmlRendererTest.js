@@ -9,25 +9,24 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/MapContainerBase.js");
 
 /**
- * Render GML into HTML.  this.targetModel references the context model with
- * width/height attributes.
+ * This is a GML rendering widget that does all the pre-processing but doesn't
+ * actually render to the page.  It is used for debugging purposes.
  * @constructor
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */
 function GmlRendererTest(widgetNode, model) {
-  var base = new MapContainerBase(this,widgetNode,model)
 
   /**
-   * Set up XSL params and convert Gml Coordinate nodes to Gml Coords so that they
-   * are easier to process by XSL.
+   * Override of the widget paint method to just pop up an alert with the 
+   * transformed GML document.
    * @param objRef Pointer to this object.
    */
   this.paint = function(objRef) {
     //var response = postLoad("/mapbuilder/writeXml", objRef.model.doc);
     var features = objRef.model.doc.selectNodes("//gml:featureMember");
-    alert("pretending to paint:"+features.length+" features"+objRef.model.doc.xml);
+    alert("pretending to paint:"+features.length+" features"+Sarissa.serialize(objRef.model.doc));
   }
-  //this.model.addListener("loadModel",this.paint,this);
-  this.override=true;
+
+  var base = new MapContainerBase(this,widgetNode,model)
 }

@@ -4,7 +4,7 @@ xmlns:wmc="http://www.opengis.net/context"
 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <!--
-Description: Convert a Web Map Context into a HTML Legend
+Description: Displays the Title value from a Web Map Context document
 Author:      Cameron Shorter cameron ATshorter.net
 Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 

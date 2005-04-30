@@ -9,7 +9,9 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/MapContainerBase.js");
 
 /**
- * Widget to render a map from an OGC context document.
+ * Widget to render a map from an OGC context document.  The layers are rendered
+ * as an array of DHTML layers that contain an <IMG> tag with src attribute set 
+ * to the GetMap request.
  * @constructor
  * @base MapContainerBase
  * @param widgetNode  The widget's XML object node from the configuration document.
@@ -20,8 +22,6 @@ function MapPane(widgetNode, model) {
 
   /**
    * Called when the context's hidden attribute changes.
-   * @param layerName The Name of the LayerList/Layer from the Context which
-   * has changed.
    * @param objRef This object.
    * @param layerName  The name of the layer that was toggled.
    */

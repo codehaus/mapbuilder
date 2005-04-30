@@ -2,7 +2,9 @@
 
 <!--
 
-Description: parses an OGC context document to generate an array of DHTML layers.
+Description: parses an OGC context document to generate an array of DHTML layers
+
+            that contain an <IMG> tag with src attribute set to the GetMap request.
 
 Author:      adair
 

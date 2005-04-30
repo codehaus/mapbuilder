@@ -9,7 +9,9 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
- * Widget to display predefined locations.
+ * Widget to display predefined locations (as per schema at lib/model/schemas/locations.xsd)
+ * into a HTML select box. Changing a location will set the AOI of the targetModel.
+ * TBD: projection coordinate conversion still to be implemented.
  * @constructor
  * @base WidgetBase
  * @param widgetNode This widget's object node from the configuration document.
@@ -20,14 +22,14 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 function Locations(widgetNode, model) {
   var base = new WidgetBase(this, widgetNode, model);
 
-  //TBD: set this from the setAoi function?
+  //TBD: implement this in a Locations model
   this.model.getSRS = function(){return "EPSG:4326";}
 
-  /**
-   * Change the AOI coordinates from select box choice of prefined locations
-   * @param bbox the bbox value of the location keyword chosen
-   */
-
+/**
+ * Change the AOI coordinates from select box choice of prefined locations
+ * @param bbox the bbox value of the location keyword chosen
+ * @param targetModel the model on which to set the AOI
+ */
   this.setAoi = function(bbox, targetModel) {
     var bboxArray = new Array();
     bboxArray     = bbox.split(",");

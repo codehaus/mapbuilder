@@ -11,16 +11,16 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @constructor
  * @base ButtonBase
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
- * @param toolNode      The tool node from the Config XML file.
+ * @param widgetNode  The widget node from the Config XML file.
  * @param model  The parent model for this widget
  */
-function DragPan(toolNode, model) {
+function DragPan(widgetNode, model) {
   // Extend ButtonBase
-  var base = new ButtonBase(this, toolNode, model);
+  var base = new ButtonBase(this, widgetNode, model);
 
   /**
-   * Calls the centerAt method of the context doc to recenter to its AOI
-   * @param objRef      Pointer to this DragPan tool object.
+   * Calls the centerAt method of the context doc extent to recenter to its AOI
+   * @param objRef      Pointer to this DragPan object.
    * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
   this.doAction = function(objRef,targetNode) {
@@ -41,10 +41,11 @@ function DragPan(toolNode, model) {
 
   /**
    * Register for mouseUp events.
+   * @param objRef      Pointer to this DragPan object.
    */
-  this.setMouseListener = function(toolRef) {
-    if (toolRef.mouseHandler) {
-      toolRef.mouseHandler.model.addListener('mouseup',toolRef.doAction,toolRef);
+  this.setMouseListener = function(objRef) {
+    if (objRef.mouseHandler) {
+      objRef.mouseHandler.model.addListener('mouseup',objRef.doAction,objRef);
     }
   }
   this.model.addListener( "refresh", this.setMouseListener, this );

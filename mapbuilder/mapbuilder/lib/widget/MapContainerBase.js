@@ -12,11 +12,12 @@ mapbuilder.loadScript(baseDir+"/tool/Extent.js");
  * output appended to the document in a shared container. 
  * The container instance is specified by the mapContainerId property in config. 
  * Only one instance of the container can be created and it should have only 
- * one model which defines it.  
+ * one model which defines it and set as the widget.containerModel property.  
  * Therefore only the first instance of this class with the given id will actually 
- * create the container div and it will have only one source model.
- * For subsequent instances of this class with same id, the widget.node value is 
- * simply replaced with the container node.
+ * create the container div and containerModel property.  
+ * Subsequent instances of this class with same mapContainerId will have their
+ * widget.node value set to the container node and will have access to a 
+ * widget.containerModel property.
  * If the widget has the fixedWidth property set to true, then the width of the
  * MapPane will be taken from the width of the HTML element.  Height will be set
  * to maintain a constant aspect ratio.
@@ -57,6 +58,9 @@ function MapContainerBase(widget,widgetNode,model) {
       widget.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
     }
 
+/**
+ * the containerModel is initialized here
+ */
   } else {
     containerNode = document.createElement("DIV");
     containerNode.setAttribute("id",widget.containerNodeId);
@@ -69,6 +73,12 @@ function MapContainerBase(widget,widgetNode,model) {
     widget.containerModel = widget.model;
     model.containerModel = containerNode.containerModel;
 
+    /**
+     * method to adjust the width of the container DIV on startup.  If the 
+     * <fixedWidth> property is set in config, width and height of the context
+     * doc will be adjusted.
+     * @param objRef pointer to this object.
+     */
     this.setContainerWidth = function(objRef) {
       //adjust the context width and height if required.
       var fixedWidth = widgetNode.selectSingleNode("mb:fixedWidth");
@@ -89,7 +99,7 @@ function MapContainerBase(widget,widgetNode,model) {
     widget.containerModel.extent = new Extent( widget.containerModel );
     widget.containerModel.addListener( "loadModel", widget.containerModel.extent.init, widget.containerModel.extent );
     widget.containerModel.addListener( "bbox", widget.containerModel.extent.init, widget.containerModel.extent );
-    //TBD: do an extent history too by storing extents everytime the aoi changes
+    //TBD: do an extent history by storing extents every time the aoi changes
 
     /**
      * Called just before paint to set the map scale as stylesheet param
@@ -100,18 +110,23 @@ function MapContainerBase(widget,widgetNode,model) {
       widget.stylesheet.setParameter("mapScale", mapScale );
     }
 
+    /**
+     * Called just before paint to set a help message for when the cursor is 
+     * over the map container.
+      //TBD: implement some sort of map pane hover mechanism to show the tooltip
+     * @param objRef pointer to this object.
+     */
     widget.setTooltip = function(objRef, tooltip) {
       //alert("setting mappane tooltip to:"+tooltip);
-      //TBD: implement some sort of map pane hover mechanism to show the tooltip
     }
     widget.containerModel.addListener( "tooltip", widget.setTooltip, widget);
 
   /** Cross-browser mouse event handling.
-    * This function is the event handler for all MapPane mouse events.
+    * This function is the event handler for all MapContainer mouse events.
     * Listeners are defined for all the mouse actions.  This includes:
     * "mouseup", "mousedown", "mousemove", "mouseover", "mouseout".
-    * This function executes in the context of the MapPane container node, 
-    * ie. this = the container with id set in MapPane stylesheet.
+    * This function executes in the context of the MapContainer node, 
+    * ie. this = MapContainer node
     * It will set some properties on this node, which is passed on for further 
     * use by any regsitered listeners:
     * * evpl      pixel/line of the event relative to the upper left corner of the DIV.

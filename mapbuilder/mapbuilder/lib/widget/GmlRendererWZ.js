@@ -58,8 +58,6 @@ function GmlRendererWZ(widgetNode, model) {
 
   /**
    * Called when the context's hidden attribute changes.
-   * @param layerName The Name of the LayerList/Layer from the Context which
-   * has changed.
    * @param objRef This object.
    * @param layerName  The name of the layer that was toggled.
    */
