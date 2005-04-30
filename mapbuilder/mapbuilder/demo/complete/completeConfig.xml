@@ -44,6 +44,7 @@
         </AoiBoxWZ>
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
+          <showXY>false</showXY>
         </CursorTrack>
         <Legend id="legend">
         </Legend>
