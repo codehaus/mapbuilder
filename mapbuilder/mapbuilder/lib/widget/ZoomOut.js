@@ -7,16 +7,16 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 
 /**
- * When this button is selected, click and drag on the MapPane to recenter the map.
+ * When this button is selected, click on the map to zoom out centered at the click.
  * @constructor
  * @base ButtonBase
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
- * @param toolNode      The tool node from the Config XML file.
- * @param model  The ButtonBar widget.
+ * @param widgetNode The widget node from the Config XML file.
+ * @param model  The model for this widget
  */
-function ZoomOut(toolNode, model) {
+function ZoomOut(widgetNode, model) {
   // Extend ButtonBase
-  var base = new ButtonBase(this, toolNode, model);
+  var base = new ButtonBase(this, widgetNode, model);
 
   this.zoomBy = 4;//TBD: get this from config
 
@@ -35,9 +35,13 @@ function ZoomOut(toolNode, model) {
     extent.centerAt(bbox[0], newRes);
   }
 
-  this.setMouseListener = function(toolRef) {
-    if (toolRef.mouseHandler) {
-      toolRef.mouseHandler.model.addListener('mouseup',toolRef.doAction,toolRef);
+  /**
+   * Register for mouseUp events.
+   * @param objRef  Pointer to this object.
+   */
+  this.setMouseListener = function(objRef) {
+    if (objRef.mouseHandler) {
+      objRef.mouseHandler.model.addListener('mouseup',objRef.doAction,objRef);
     }
   }
   config.addListener( "loadModel", this.setMouseListener, this );

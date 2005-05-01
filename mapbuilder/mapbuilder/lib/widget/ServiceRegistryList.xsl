@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!--
-Description: parses an service registry listing of OGC servers
+Description: parses an listing of OGC services from the Discovery Portal registry
 Author:      adair
 Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
 

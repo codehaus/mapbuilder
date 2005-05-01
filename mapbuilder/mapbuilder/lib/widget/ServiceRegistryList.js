@@ -9,7 +9,8 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
- * Widget to display the AOI box coordinates
+ * Widget to display a list of web services from a registry.
+ * TBD: not compelted yet.
  *
  * @constructor
  * @base WidgetBase
@@ -17,7 +18,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * @param model The model that this widget is a view of.
  */
 
-function WebServiceForm(widgetNode, model) {
+function ServiceRegistryList(widgetNode, model) {
   var base = new WidgetBase(this, widgetNode, model);
 
   /**

@@ -4,7 +4,9 @@
 
 <!--
 
-Description: parses an OGC context document to generate an array of DHTML layers.
+Description: presents the list of FeatureTypes from a WFS capabilities doc.
+
+            Links provided to filter and load the selected FeatureType.
 
 Author:      adair
 
@@ -22,7 +24,7 @@ $Name$
 
 <xsl:stylesheet version="1.0" 
 
-    xmlns:ogcwfs="http://www.opengis.net/wfs"
+    xmlns:wfs="http://www.opengis.net/wfs"
 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 
@@ -50,7 +52,7 @@ $Name$
 
   <!-- template rule matching source root element -->
 
-  <xsl:template match="/ogcwfs:WFS_Capabilities">
+  <xsl:template match="/wfs:WFS_Capabilities">
 
     <table>
 
@@ -58,7 +60,7 @@ $Name$
 
         <th>
 
-          Feature types from: <xsl:value-of select="ogcwfs:Service/ogcwfs:Title"/>
+          Feature types from: <xsl:value-of select="wfs:Service/wfs:Title"/>
 
         </th>
 
@@ -70,7 +72,7 @@ $Name$
 
       </tr>
 
-      <xsl:apply-templates select="ogcwfs:FeatureTypeList/ogcwfs:FeatureType"/>
+      <xsl:apply-templates select="wfs:FeatureTypeList/wfs:FeatureType"/>
 
     </table>
 
@@ -80,11 +82,11 @@ $Name$
 
   <!-- template rule matching source root element -->
 
-  <xsl:template match="ogcwfs:FeatureType">
+  <xsl:template match="wfs:FeatureType">
 
-    <xsl:variable name="name"><xsl:value-of select="ogcwfs:Name"/></xsl:variable>
+    <xsl:variable name="name"><xsl:value-of select="wfs:Name"/></xsl:variable>
 
-    <xsl:variable name="title"><xsl:value-of select="ogcwfs:Title"/></xsl:variable>
+    <xsl:variable name="title"><xsl:value-of select="wfs:Title"/></xsl:variable>
 
     <xsl:variable name="id"><xsl:value-of select="@id"/></xsl:variable>
 
@@ -92,7 +94,7 @@ $Name$
 
       <td>
 
-        <xsl:value-of select="$title"/> (<xsl:value-of select="$name"/>) <xsl:value-of select="ogcwfs:SRS"/>
+        <xsl:value-of select="$title"/> (<xsl:value-of select="$name"/>) <xsl:value-of select="wfs:SRS"/>
 
       </td>
 

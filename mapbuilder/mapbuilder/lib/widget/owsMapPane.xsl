@@ -2,6 +2,8 @@
 
 <!--
 Description: parses an OGC context document to generate an array of DHTML layers.
+            The context doc is from the OGC COntext IE where FeatureTypes, static
+            GML and Coverages can be listed in addition to WMS layers.
 Author:      adair
 Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
 

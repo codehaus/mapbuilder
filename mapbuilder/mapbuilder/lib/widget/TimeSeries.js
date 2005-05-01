@@ -1,5 +1,5 @@
 /*
-Author:       Cameron Shorter cameronAtshorter.net
+Author:       Mike Adair
 License:      GPL as per: http://www.gnu.org/copyleft/gpl.html
 
 $Id$
@@ -9,7 +9,12 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/MapContainerBase.js");
 
 /**
- * Widget to render a map from an OGC context document.
+ * Widget to render a time series of maps from an OGC context document.  Each 
+ * map layer is rendered one on top of the other and only the first one is visible.
+ * the MovieLoop tool is used to cycle the visibility of the layers.
+ * The timstamping is handled as an array, ie the array index is used to select
+ * layers.
+ * 
  * @constructor
  * @base MapContainerBase
  * @param widgetNode  The widget's XML object node from the configuration document.
@@ -43,11 +48,9 @@ function TimeSeries(widgetNode, model) {
   this.model.addListener("hidden",this.hiddenListener,this);
 
   /**
-   * Called when the map timestamp is changed
-   * @param layerName The Name of the LayerList/Layer from the Context which
-   * has changed.
+   * Called when the map timestamp is changed so set the layer visiblity.
    * @param objRef This object.
-   * @param layerName  The name of the layer that was toggled.
+   * @param timestampIndex  The array index for the layer to be displayed. 
    */
   this.timestampListener=function(objRef, timestampIndex){
     var layerName = objRef.model.timestampList.getAttribute("layerName");
@@ -63,6 +66,11 @@ function TimeSeries(widgetNode, model) {
   }
   this.model.addListener("timestamp",this.timestampListener,this);
 
+  /**
+   * override of prePaint to set the selected timestamp values as a comma-
+   * separated list stylesheet parameter.  
+   * @param objRef This object.
+   */
   this.prePaint=function(objRef) {
     var timelist = "";
     var timestampList = objRef.model.timestampList;

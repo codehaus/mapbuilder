@@ -7,7 +7,9 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
- * This generic widget requires the config file to specify a <stylesheet>.
+ * Generic Widget object for widgets where no specialization is required.  
+ * This is just an instance of a abstract WidgetBase object.
+ * This widget requires a <stylesheet> property in the config file.
  * @constructor
  * @base WidgetBase
  * @author Cameron Shorter cameronATshorter.net

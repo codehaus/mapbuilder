@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!--
-Description: parses an OGC context document to generate an array of DHTML layers.
+Description: presents the list of Layers from a WMS capabilities doc.
+            Links provided to preview and add a layer to a Context doc.
 Author:      adair
 Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
 

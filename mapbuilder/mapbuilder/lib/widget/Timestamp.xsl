@@ -5,7 +5,7 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
   xmlns:xlink="http://www.w3.org/1999/xlink" >
 <!--
-Description: Output the context title and abstract
+Description: Output the timestamp value
 Author:      Mike Adair mike.adairATnrcan.gc.ca
 Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 Abstract.xsl,v 1.5 2004/06/25 17:59:38 madair1 Exp

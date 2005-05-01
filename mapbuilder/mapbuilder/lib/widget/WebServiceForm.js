@@ -9,7 +9,13 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
- * Widget to display the AOI box coordinates
+ * Widget to display a form for input of parameters to generate a web service 
+ * request.  This JS object handles the form submit via HTTP Get by appending 
+ * a query string to the form's action URL.  The query string is created from
+ * all input elements and their values.
+ * The target model is then loaded from the URL created.
+ * A stylehseet must be specified as a property in config for this widget.  
+ * See widget/NtsForm.xsl for an example. 
  *
  * @constructor
  * @base WidgetBase
