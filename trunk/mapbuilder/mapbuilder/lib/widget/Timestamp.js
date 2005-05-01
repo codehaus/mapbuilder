@@ -7,7 +7,7 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
- * Adds a timstamp listener to refresh the output
+ * Adds a timstamp listener to show the curretn timestamp value in a form.
  * @constructor
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
  * @param toolNode      The tool node from the Config XML file.

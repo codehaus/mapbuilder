@@ -4,7 +4,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <!--
-Description: Output a form for setting any model's url and method values
+Description: Widget to display the status of a model
 Author:      Mike Adair
 Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 

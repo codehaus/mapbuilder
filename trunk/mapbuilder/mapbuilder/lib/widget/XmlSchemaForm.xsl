@@ -2,7 +2,7 @@
 <xsl:stylesheet version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wmc="http://www.opengis.net/context" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" >
 
 <!--
-Description: Output a form for display of the context doc AOI
+Description: Prototype stylesheet to automatically generate a form from an XML schema.
 Author:      Mike Adair
 Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 

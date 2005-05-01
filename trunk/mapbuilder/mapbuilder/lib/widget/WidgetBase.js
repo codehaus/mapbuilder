@@ -8,6 +8,7 @@ $Id$
  * model.  All widgets must extend this base class.
  * Defines the default paint() method for all widgets which is where the 
  * stylesheet is applied to the model XML document.
+ * To override widget.paint(), define it before calling this constructor.
  * The stylesheet URL defaults to "widget/<widgetName>.xsl" if it is not defined
  * in config file.  Set a stylesheet property containing an XSL URL in config
  * to customize the stylesheet used.
@@ -26,6 +27,7 @@ function WidgetBase(widget,widgetNode,model) {
   /** Method used for painting.
    * xsl2html (default) => output of XSL will be HTML.
    * xsl2js => output of XSL will be javascript to execute.
+   * image2html => where the model doc has content type image/*
    */
   widget.paintMethod="xsl2html";
 
@@ -110,10 +112,12 @@ function WidgetBase(widget,widgetNode,model) {
   }
 
   // Set widget text values as parameters 
-  var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName;
-  var textParams = config.widgetText.selectNodes(textNodeXpath+"/*");
-  for (var j=0;j<textParams.length;j++) {
-    widget.stylesheet.setParameter(textParams[j].nodeName,textParams[j].firstChild.nodeValue);
+  if (config.widgetText) {
+    var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName;
+    var textParams = config.widgetText.selectNodes(textNodeXpath+"/*");
+    for (var j=0;j<textParams.length;j++) {
+      widget.stylesheet.setParameter(textParams[j].nodeName,textParams[j].firstChild.nodeValue);
+    }
   }
 
   //all stylesheets will have these properties available
@@ -163,15 +167,19 @@ function WidgetBase(widget,widgetNode,model) {
   }
 
   /**
-   * Called before paint(), can be used to set up a widget's paint parameters,
-   * or modify model using this.resultDoc().
+   * Called after paint(), can be used to initialize things that depend on the
+   * the widget output being presetn, eg. form and form elements
    * @param objRef Pointer to this object.
    */
   this.postPaint = function(objRef) {
     //no-op by default
   }
 
+//to override the paint method, define it in the exetnsion class before calling 
+//the WidgetBase constructor.  This is so that when paint is registered as a
+//listener, the method from the instance is used.
 if (!widget.paint) {
+
   /**
    * Render the widget.
    * @param objRef Pointer to widget object.
@@ -218,6 +226,7 @@ if (!widget.paint) {
           }
           break;
         case "image2html":
+          //here the model document is an image
           tempNode.style.position="absolute";
           tempNode.style.top=0;
           tempNode.style.left=0;
@@ -277,8 +286,6 @@ if (!widget.paint) {
   }
 
   // Call paint when model changes
-  //config.addListener( "loadModel", widget.initTargetModel, widget );
-  //widget.model.addListener("loadModel",widget.paint, widget);
   widget.model.addListener("init", widget.initTargetModel, widget);
   widget.model.addListener("refresh",widget.paint, widget);
   widget.model.addListener("newModel",widget.clearWidget, widget);

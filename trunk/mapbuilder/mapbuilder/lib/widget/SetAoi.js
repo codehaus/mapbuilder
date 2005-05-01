@@ -10,13 +10,13 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * When this button is selected, the AOI box stays visible and no zoom happens. 
  * @constructor
  * @base ButtonBase
- * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
- * @param toolNode      The tool node from the Config XML file.
- * @param model  The ButtonBar widget.
+ * @author Mike Adair 
+ * @param widgetNode The widget node from the Config XML file.
+ * @param model  The model for this widget
  */
-function SetAoi(toolNode, model) {
+function SetAoi(widgetNode, model) {
   // Extend ButtonBase
-  var base = new ButtonBase(this, toolNode, model);
+  var base = new ButtonBase(this, widgetNode, model);
 
   /**
    * The action to do on click

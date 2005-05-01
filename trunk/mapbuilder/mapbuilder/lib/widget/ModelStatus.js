@@ -9,8 +9,9 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
- * Widget to display the a form to input any model's URL and load the new URL 
- * as the model's document
+ * Widget to display the status of a model, repainted whenever the model status
+ * param is set.
+ * TBD: not yet completed
  *
  * @constructor
  * @base WidgetBase
@@ -28,14 +29,6 @@ function ModelStatus(widgetNode, model) {
   this.prePaint = function(objRef) {
     objRef.stylesheet.setParameter("statusMessage", objRef.targetModel.getParam("modelStatus"));
   }
-
-  /**
-   * Refreshes the form and event handlers when this widget is painted.
-   * @param objRef Pointer to this CurorTrack object.
-   */
-  this.showStatus = function(objRef) {
-    objRef.paint(objRef);
-  }
-  this.model.addListener("modelStatus",this.showStatus,this);
+  this.model.addListener("modelStatus",this.paint,this);
 }
 
