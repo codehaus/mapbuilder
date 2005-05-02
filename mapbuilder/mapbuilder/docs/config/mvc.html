@@ -11,6 +11,10 @@ good separation between the information content, the presentation of that
 information and the application state.
 </p>
 
+<div id="mainMapPane" style="float:right">
+<img src="docs/config/mvc.gif"/>
+</div>
+
 <p>
 A <span class="regbld">Model</span> represents the information of the application,
 typically in the form of an XML document retreived from a web service or in the
@@ -41,14 +45,30 @@ In Mapbuilder, views are called tools.
 </p>
 
 <p>
-many models in a web app
+The separation of model and view allows multiple views to use the same model. 
+Consequently, model components are easier to implement, test, and maintain, 
+since all access to the model goes through these components.
+This also makes it easy to extend because you can simply write a view and 
+some controller logic and wire them into the existing application.
 </p>
 
 <p>
-config itself is a model
+Mapbuilder can dynamically retrieve and store many different models within the 
+same web application.
+In order to provide some struture to the various models that can be realized, 
+a model may contain an array of other models in a parent-child replationship.
+For example, a WFS DescribeFeatureType response model can be logically represented
+as a child of a WFS GetCapabilities model since they are initimately related.
 </p>
 
 <p>
+In the Mapbuilder object-oriented design, models, widgets and tools are all 
+realized as object instances in Javascript.
+The list of objects to be created and the relationship between them is
+specified in the configuration file.  
+Properties are also optionally assigned to aach object in the configuration file.
+The actual objects that mapbuilder supports and the properties that can be 
+assigned to them is detailed in the <a href="docs/register">Component register.</a>
 </p>
 
 <p>
