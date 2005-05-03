@@ -1,7 +1,7 @@
-<h2>Object-Property-Value rule</h2>
+<h2>Config file structure</h2>
 
 <p>
-A Mapbuilder configuration document follows Object-Property-Value 
+A Mapbuilder configuration document follows the Object-Property-Value 
 rule which is borrowed from RDF and GML3.
 As a rule of thumb, this means that elements in the config file
 alternate between UpperCamelCase and lowerCamelCase, 
@@ -26,33 +26,14 @@ and it makes the configuration file much easier to parse.
 </p>
 
 <p>
-Keeping in mind that the config file is itself a Model object, 
-the basic structure will look like this:
+Practically all object properties are optional.
 </p>
-<pre>
-&lt;MapbuilderConfig&gt;
-  &lt;property_1&gt;pvalue&lt;/property_1&gt;
-  &lt;property_2&gt;pvalue&lt;/property_2&gt;
-  ...
-  &lt;models&gt;
-    &lt;Model_a&gt;...&lt;/Model_a&gt;
-    &lt;Model_b&gt;...&lt;/Model_b&gt;
-    ...
-  &lt;/models&gt;
-  &lt;widgets&gt;
-    &lt;Widget_i&gt;...&lt;/Widget_i&gt;
-    &lt;Widget_j&gt;...&lt;/Widget_j&gt;
-    ...
-  &lt;/widgets&gt;
-  &lt;tools&gt;
-    &lt;Tool_x&gt;...&lt;/Tool_x&gt;
-    &lt;Tool_y&gt;...&lt;/Tool_y&gt;
-  &lt;/tools&gt;
-&lt;/MapbuilderConfig&gt;
-</pre>
+
 <p>
-and each Model in turn will be structured in a similar way 
-(the config file is itself a Model object):
+In addition to simple properties, Models may have &lt;models&gt;, &lt;widgets&gt;
+and &lt;tools&gt; properties which list the objects of those types that act
+on that model.
+A Model object will therefore look like:
 </p>
 <pre>
 &lt;Model_a&gt;
@@ -60,13 +41,13 @@ and each Model in turn will be structured in a similar way
   &lt;property_2&gt;pvalue&lt;/property_2&gt;
   ...
   &lt;models&gt;
-    ...
+    ...(model objects)...
   &lt;/models&gt;
   &lt;widgets&gt;
-    ...
+    ...(widget objects)...
   &lt;/widgets&gt;
   &lt;tools&gt;
-    ...
+    ...(tool objects)...
   &lt;/tools&gt;
 &lt;/Model_a&gt;
 </pre>
@@ -90,6 +71,32 @@ and:
   &lt;property_2&gt;pvalue&lt;/property_2&gt;
   ...
 &lt;/Tool_x&gt;
+</pre>
+
+<p>
+Keeping in mind that the config is itself a Model object, 
+the basic structure of a Mapbuilder configuration file will look like this:
+</p>
+<pre>
+&lt;MapbuilderConfig&gt;
+  &lt;property_1&gt;pvalue&lt;/property_1&gt;
+  &lt;property_2&gt;pvalue&lt;/property_2&gt;
+  ...
+  &lt;models&gt;
+    &lt;Model_a&gt;...&lt;/Model_a&gt;
+    &lt;Model_b&gt;...&lt;/Model_b&gt;
+    ...
+  &lt;/models&gt;
+  &lt;widgets&gt;
+    &lt;Widget_i&gt;...&lt;/Widget_i&gt;
+    &lt;Widget_j&gt;...&lt;/Widget_j&gt;
+    ...
+  &lt;/widgets&gt;
+  &lt;tools&gt;
+    &lt;Tool_x&gt;...&lt;/Tool_x&gt;
+    &lt;Tool_y&gt;...&lt;/Tool_y&gt;
+  &lt;/tools&gt;
+&lt;/MapbuilderConfig&gt;
 </pre>
 
 <p>

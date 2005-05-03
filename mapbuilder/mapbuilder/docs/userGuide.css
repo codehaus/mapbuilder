@@ -10,8 +10,8 @@ TD { font: normal 100%; color:#000000; }
 UL { list-style: square; margin-bottom: 0%; line-height:1.3; }
 */
 
-UL { font-size: 80%; list-style: square; padding: 0 }
-OL { font-size: 80%; padding: 0 }
+UL { font-size: 100%; list-style: square; padding: 0 }
+OL { font-size: 100%; padding: 0 }
 UL LI { margin-left: 1em; }
 OL LI { margin-left: 1em; }
 
@@ -23,7 +23,7 @@ UL.sidebar LI { margin-left: 4px; }
 DL { font-size: 80%;  }
 DT { font-weight: bold; }
 
-PRE { font-size: 120% }
+PRE { font-size: 100%; background-color: silver; }
 
 A:active { color: #0000CC; }
 

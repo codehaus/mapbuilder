@@ -1,27 +1,68 @@
-<h2>Common patterns in config</h2>
+<h2>Common properties in config</h2>
 
 <p>
-some object properties are used repeatedly
+There are some object properties that are commonly used in the config file.
+All common properties are optional and if they are missing, a reasonable default 
+behaviour is provided.
+Specific Objects may define additional properties and these may be required.
 </p>
 
 <p>
-object IDs
+Every Object in the config file must have a unique ID assigned to it.
+ID's are assigned to the objects as an attribute, not as a property.
 </p>
 
+<h3>Model properties</h3>
+<dl>
+<dt>defaultModelUrl</dt>
+<dd>The URL where the model gets loaded from.  
+  If the method is HTTP GET, then include the full query string in the URL.  
+  If present, the model will be loaded when the application loads.
+</dd>
+<dt>method</dt>
+<dd>The HTTP method to use to retrieve the model.  Defaults to GET.
+</dd>
+</dl>
+
+<h3>Tool properties</h3>
+<dl>
+<dt>targetModel</dt>
+<dd>The id of a model object which this tool acts on.  
+If absent the action happens on the parent model of this tool.
+</dd>
+<dt>enabled</dt>
+<dd>A flag to indicate if this tool should initially be enabled; 
+accepts values of true and false.  Tools are enabled by default.
+</dd>
+</dl>
+
+<h3>Widget properties</h3>
+<dl>
+<dt>htmlTagId</dt>
+<dd>The ID of the HTML element in the web page where this widget's output 
+should be placed.  
+If this property is missing, the widget's ID attribute will be used instead.
+</dd>
+<dt>targetModel</dt>
+<dd>The id of a model object which this tool acts on.  
+If absent the action happens on the parent model of this tool.
+</dd>
+<dt>stylesheet</dt>
+<dd>This property specifies a relative or absolute URL to a stylesheet that 
+can replace the default stylesheet.  
+The stylesheet must be served from the same domain as the mapbuilder applicaiton.  
+</dd>
+<dt>debug</dt>
+<dd>An empty property element to show debugging output during widget processing.
+</dd>
+</dl>
+
 <p>
-htmlTagId
+
 </p>
 
 <p>
 mapContainers
-</p>
-
-<p>
-target model
-</p>
-
-<p>
-stylesheets
 </p>
 
 <p>
