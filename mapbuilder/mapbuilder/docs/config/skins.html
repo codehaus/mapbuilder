@@ -1,13 +1,30 @@
 <h2>Skins, CSS and multilingual support</h2>
 
 <p>
-how to customize the look of the application
+It's relatively easy to change the way your application looks, 
+including the text and images output by the widgets.  
+This is accomplished using a "skin" concept in addition to 
+Cascading Stylesheets (CSS).
+</p>
+
+<h3>The skin directory</h3>
+<p>
+The skin directory is a property of the config file and points to a directory 
+on the web server where images and other items coded into widget stylesheets
+can be located.
+The directory can be an absolute path or relative to the base directory
+of the page being loaded.
 </p>
 
 <p>
-skin dir
+Curently on Button images come from the skin dir, but all future Mapbuilder
+extensions using images will come from this directory.
+To create the URL for a button image, the button enabled/disabledSrc path
+as appended to the skin directory.
+This directory is also used as the root for the widget text file (see below).
 </p>
 
+<h3>Multilingual support</h3>
 <p>
 widget text file
 </p>
