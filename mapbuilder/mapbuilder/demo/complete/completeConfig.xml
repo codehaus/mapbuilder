@@ -145,10 +145,23 @@
         </FeatureList>
       </widgets>
     </FeatureCollection>
-    <FeatureCollection id="ntsGml">
+    <FeatureCollection id="ntsGml" template="true">
       <!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
       <widgets>
         <GmlRendererWZ id="testNTSRenderer">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <targetModel>mainMap</targetModel>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <lineColor>#FF00FF</lineColor>
+          <lineWidth>2</lineWidth>
+          <pointDiameter>10</pointDiameter>
+        </GmlRendererWZ>
+      </widgets>
+    </FeatureCollection>
+    <FeatureCollection id="watershedGml">
+      <!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
+      <widgets>
+        <GmlRendererWZ id="watershedRenderer">
           <htmlTagId>mainMapPane</htmlTagId>
           <targetModel>mainMap</targetModel>
           <mapContainerId>mainMapContainer</mapContainerId>
@@ -164,6 +177,12 @@
       <targetModel>ntsGml</targetModel>
       <stylesheet>../../lib/widget/NtsForm.xsl</stylesheet>
       <webServiceUrl>http://geoservices.cgdi.ca/NTS/NTSLookup</webServiceUrl>
+    </WebServiceForm>
+    <WebServiceForm id="watershedLookupForm">
+      <htmlTagId>ntsLookupForm</htmlTagId>
+      <targetModel>watershedGml</targetModel>
+      <stylesheet>../../lib/widget/CdnWatershedForm.xsl</stylesheet>
+      <webServiceUrl>http://devgeo.cciw.ca:8080/WatershedLookupServlet/WatershedLookupServlet</webServiceUrl>
     </WebServiceForm>
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
