@@ -34,8 +34,11 @@ function ButtonBase(button, widgetNode, model) {
   if (button.buttonType == "RadioButton") button.enabled = false;
 
   //pre-load the button bar images; add them to the config
-  button.disabledImage = document.createElement("IMG");
-  button.disabledImage.src = config.skinDir + widgetNode.selectSingleNode("mb:disabledSrc").firstChild.nodeValue;
+  var disabledImage = widgetNode.selectSingleNode("mb:disabledSrc");
+  if (disabledImage) {
+    button.disabledImage = document.createElement("IMG");
+    button.disabledImage.src = config.skinDir + disabledImage.firstChild.nodeValue;
+  }
 
   //optional second image to be displayed in the enabled state
   var enabledImage = widgetNode.selectSingleNode("mb:enabledSrc");
@@ -70,14 +73,16 @@ function ButtonBase(button, widgetNode, model) {
     if (this.buttonType == "RadioButton") {
       if (this.node.selectedRadioButton) {
         with (this.node.selectedRadioButton) {
-          image.src = disabledImage.src;
+          if (disabledImage) image.src = disabledImage.src;
           enabled = false;
           if ( mouseHandler ) mouseHandler.enabled = false;
+          link.className = "mbButton";
           doSelect(false,this);
         }
       }
       this.node.selectedRadioButton = this;
-      this.image.src = this.enabledImage.src;
+      if (this.enabledImage) this.image.src = this.enabledImage.src;
+      this.link.className = "mbButtonSelected";
     }
 
     //enable this tool and any dependancies
@@ -122,7 +127,8 @@ function ButtonBase(button, widgetNode, model) {
    * @param objRef Reference to this object.
    */
   this.buttonInit = function(objRef) {
-    objRef.image = document.getElementById( objRef.id );
+    objRef.image = document.getElementById( objRef.id+"_image" );
+    objRef.link = document.getElementById( objRef.outputNodeId );
     if (objRef.selected) objRef.select();
   }
 
