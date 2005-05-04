@@ -27,15 +27,15 @@ $Id$
   <!-- Main html -->
   <xsl:template match="/">
     <DIV>
-    <FORM NAME="{$formName}" ID="{$formName}" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;">
+    <FORM NAME="{$formName}" ID="{$formName}">
       <xsl:choose>
         <xsl:when test="$showXY='true'">
-          <xsl:value-of select="$xcoord"/> <input NAME="longitude" TYPE="text" SIZE="10" READONLY="true" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
-          <xsl:value-of select="$ycoord"/> <input NAME="latitude" TYPE="text" SIZE="10" READONLY="true" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
+          <xsl:value-of select="$xcoord"/> <input NAME="longitude" TYPE="text" SIZE="10" READONLY="true"/>
+          <xsl:value-of select="$ycoord"/> <input NAME="latitude" TYPE="text" SIZE="10" READONLY="true"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="$longitude"/> <input NAME="longitude" TYPE="text" SIZE="6" READONLY="true" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
-          <xsl:value-of select="$latitude"/> <input NAME="latitude" TYPE="text" SIZE="6" READONLY="true" STYLE="border: 0px blue none; font: 8pt Verdana, geneva, arial, sans-serif;"/>
+          <xsl:value-of select="$longitude"/> <input NAME="longitude" TYPE="text" SIZE="6" READONLY="true"/>
+          <xsl:value-of select="$latitude"/> <input NAME="latitude" TYPE="text" SIZE="6" READONLY="true"/>
         </xsl:otherwise>
       </xsl:choose>
     </FORM>
