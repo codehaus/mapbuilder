@@ -20,13 +20,14 @@ $Id$
 
   <!-- The name of the form for coordinate output -->
   <xsl:param name="mapScale"/>
+  <xsl:param name="mapScaleLabel">scale 1:</xsl:param>
   <xsl:param name="formName">MapScaleTextForm</xsl:param>
 
   <!-- Main html -->
   <xsl:template match="/">
     <div>
       <form name="{$formName}" id="{$formName}" onsubmit="return config.objects.{$widgetId}.submitForm()">
-        scale 1:<input name="mapScale" type="text" size="10" value="{$mapScale}"/>
+        <xsl:value-of select="$mapScaleLabel"/><input name="mapScale" type="text" size="10" value="{$mapScale}"/>
         <!--input type="submit" value="set scale"/-->
         <!--a href="javascript:config.{$modelId}.{$widgetId}.submitForm();">set new scale</a-->
       </form>

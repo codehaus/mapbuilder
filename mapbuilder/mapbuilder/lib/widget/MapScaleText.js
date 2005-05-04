@@ -27,7 +27,7 @@ function MapScaleText(widgetNode, model) {
    */
   this.submitForm = function() {
     var newScale = this.mapScaleTextForm.mapScale.value;
-    this.targetModel.extent.setScale(newScale);
+    this.targetModel.extent.setScale(newScale.split(",").join(""));
     return false;   //prevent the form from actually being submitted
   }
 
@@ -56,13 +56,20 @@ function MapScaleText(widgetNode, model) {
   }
 
   /**
-   * initializes the widget values in the form
+   * outputs the scale value to the form element
    * @param objRef Pointer to this widget object.
    */
-  this.init = function(objRef) {
-    var newScale = objRef.targetModel.extent.getScale();
-    objRef.stylesheet.setParameter("mapScale", newScale);
-    objRef.mapScaleTextForm.mapScale.value = Math.round(newScale);
+  this.showScale = function(objRef) {
+    var newScale = Math.round(objRef.targetModel.extent.getScale());
+    var parts = new Array();
+    while (newScale>=1000.0) {
+      var newPart = newScale/1000.0;
+      newScale = Math.floor(newPart);
+      var strPart = leadingZeros(Math.round((newPart-newScale)*1000).toString(),3);
+      parts.unshift(strPart);
+    }
+    parts.unshift(newScale);
+    objRef.mapScaleTextForm.mapScale.value = parts.join(",");
   }
 
   /**
@@ -70,7 +77,7 @@ function MapScaleText(widgetNode, model) {
    * @param objRef Pointer to this widget object.
    */
   this.initListener = function(objRef) {
-    objRef.targetModel.addListener("bbox",objRef.init, objRef);
+    objRef.targetModel.addListener("bbox",objRef.showScale, objRef);
   }
   this.model.addListener("init",this.initListener, this);
 
@@ -82,7 +89,7 @@ function MapScaleText(widgetNode, model) {
     objRef.mapScaleTextForm = document.getElementById(objRef.formName);
     objRef.mapScaleTextForm.parentWidget = objRef;
     objRef.mapScaleTextForm.onkeypress = objRef.handleKeyPress;
-    objRef.mapScaleTextForm.mapScale.value = Math.round(objRef.targetModel.extent.getScale());
+    objRef.showScale(objRef);
   }
 
   //set some properties for the form output
