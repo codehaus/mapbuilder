@@ -1,17 +1,59 @@
-<h2>Listeners</h2>
+<h2>Listeners and object methods</h2>
 
 <p>
-how to program actions in event handlers and links
+More advanced applications will likely want to add functionality by
+performing specific actions in response to user input.
+There are a few methods provided in Mapbuilder to customize your application.
 </p>
 
 <p>
-model.loadModel()
+An important aspect of the MVC design pattern is that it is event driven.
+Almost everything that happens over the course of the application execution
+is the result of an event being triggered on a model, which then calls listener
+functions registered with that model.
+This allows the models, widgets and tools to remain independant of each other 
+and makes Mapbuilder very modular - objects can be added and removed from the
+configuration without affecting the other objects.
 </p>
 
 <p>
-model.setParam()
+There is a global "config" object that can be referenced form anywhere.
+You can retrieve a reference to all other objects by using the config.objects property.
+For example, a model with an ID of "model_x" would be referenced as 
+config.objects.model_x, or config.objects["model_x"].
 </p>
 
+<p>
+The following methods can be called as the HREF element of an anchor tag:
+<pre>
+&lt;a href="javascript:config.loadModel(...)"/&gt;
+</pre>
+or as an event handler on any HTML element that allows it:
+<pre>
+&lt;td onclick="config.loadModel(...)"/&gt;
+</pre>
+</p>
+
+<dl>
+<dt>config.loadModel(modelId,docUrl)</dt>
+<dd>This method will load the model with the specified <i>modelId</i> from
+the <i>docUrl</i> provided.
+This will also trigger a "loadModel" event for that model.
+</dd>
+<dt>model.setParam(param,value)</dt>
+<dd>The HTTP method to use to retrieve the model.  Defaults to GET.
+</dd>
+<dt>model.setXpath(xpath,value)</dt>
+<dd>The HTTP method to use to retrieve the model.  Defaults to GET.
+</dd>
+<dt>button action property</dt>
+<dd>The HTTP method to use to retrieve the model.  Defaults to GET.
+</dd>
+</dl>
+
+<p>
+init event
+</p>
 
 <p>
 </p>
