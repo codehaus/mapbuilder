@@ -1,11 +1,30 @@
 <h2>Extending with new objects</h2>
 
 <p>
-how to extend mapbuilder with new Models, Widgets and Tools
+The widgets and models provided in the Mapbuilder distribution are 
+intended to meet most application requirements however they can't meet all 
+requirements.
+Fortunately the modular design makes it very easy to customize and extend 
+to meet your requiremetns.
 </p>
 
 <p>
-generic objects
+Both widgets and models can be specified in the config file using generic 
+&lt;Widget&gt; and &lt;Model&gt; objects where no specialized 
+JavaScript code is required.
+The &lt;stylesheet&gt; property must be specified for generic Widget objects.
+</p>
+
+<p>
+The widget &lt;stylesheet&gt; property can also be specified for any widget 
+object to replace the stylesheet supplied in the Mapbuilder distribution.
+The typical way to use this is to copy the default stylesheet into your 
+application's directory and customize it as required, 
+and setting the path to this new file in the config file.
+</p>
+
+<p>
+properties are set as stylesheet params
 </p>
 
 <p>
@@ -13,11 +32,7 @@ the scriptfile property
 </p>
 
 <p>
-the stylesheet property
-</p>
-
-<p>
-properties are set as stylesheet params
+init event
 </p>
 
 
