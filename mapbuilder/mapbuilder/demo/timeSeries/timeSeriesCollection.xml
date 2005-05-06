@@ -5,6 +5,12 @@
     xsi:schemaLocation="http://www.opengis.net http://schemas.opengis.net/context/1.0.0/collection.xsd">
   <!-- List of context XML URLs -->
   <ViewContextReference version="1.0.0" id="tsPrecipAnomaly">
+    <Title>The BALANCE Climate Change Visualization Server</Title>
+    <ContextURL>
+      <OnlineResource xlink:type="simple" xlink:href="tsIFGITemp.xml"/>
+    </ContextURL>
+  </ViewContextReference>
+  <ViewContextReference version="1.0.0" id="tsPrecipAnomaly">
     <Title>Precipitation Anomalies (IRI Columbia U.)</Title>
     <ContextURL>
       <OnlineResource xlink:type="simple" xlink:href="tsPrecipAnomaly.xml"/>
