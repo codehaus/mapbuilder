@@ -66,7 +66,7 @@ public class ProxyRedirect extends HttpServlet
       //execute the GET
       String serverUrl = request.getParameter("url");
       if (serverUrl.startsWith("http://")) {
-        log.debug("GET param serverUrl:" + serverUrl);
+        log.info("GET param serverUrl:" + serverUrl);
         HttpClient client = new HttpClient();
         GetMethod httpget = new GetMethod(serverUrl);
         client.executeMethod(httpget);
@@ -126,7 +126,7 @@ public class ProxyRedirect extends HttpServlet
         PostMethod httppost = new PostMethod(serverUrl);
 
         // Transfer bytes from in to out
-        log.debug("HTTP POST transfering...");
+        log.info("HTTP POST transfering..." + serverUrl);
         PrintWriter out = response.getWriter();
         ServletInputStream in = request.getInputStream();
 
