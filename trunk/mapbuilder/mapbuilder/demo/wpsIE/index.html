@@ -3,6 +3,7 @@
   <head>
     <title>Mapbuilder WPS Interoperability Experiment Client</title>
     <link rel='StyleSheet' type='text/css' href='/mapbuilder/lib/skin/default/docsStyle.css'>
+    <link rel='StyleSheet' type='text/css' href='/mapbuilder/lib/skin/default/html.css'>
     <link rel='StyleSheet' type='text/css' href='wpsStyle.css'>
     <link rel='StyleSheet' type='text/css' href='tabList.css'>
     <script>
@@ -10,8 +11,9 @@
       var mbConfigUrl='wpsDemoConfig.xml';
       var selectedTabIndex = null;
 
-      function loadProcess(capsUrl) {
+      function loadProcess(capsUrl, contextUrl) {
         config.loadModel('wpsCapTemplate',capsUrl);
+        if (contextUrl) config.loadModel('mainMap', contextUrl);
         //config.objects.mainTabs.selectTab(config.objects.selectProcess);
       }
       function loadProcessDescription(capsUrl) {
@@ -68,7 +70,7 @@
             Intersection of GML themes (Aachen U.)</a>
             </li>
             <li>
-            <a href="javascript:loadProcess('http://triangulum.uni-muenster.de:8000/SCS/SCS?service=WPS&version=0.2.4&request=GetCapabilities')">
+            <a href="javascript:loadProcess('http://triangulum.uni-muenster.de:80/SCS/SCS?service=WPS&version=0.2.4&request=GetCapabilities','IFGITemp.xml')">
             Statistical Calculation Service (IFGI)</a>
             </li>
             <li>
@@ -80,7 +82,7 @@
             Spatial Operation (AAFC)</a>
             </li>
             <li>
-            <a href="javascript:loadProcess('http://wms1.agr.gc.ca:8081/geoproc/servlet/FeatureDataFormatConversion?SERVICE=WPS&REQUEST=GetCapabilities')">
+            <a href="javascript:loadProcess('http://192.197.71.149/geoproc2/servlet/FeatureDataFormatConversion?&request=GetCapabilities&service=WPS')">
             Feature Data Format Conversion (AAFC)</a>
             </li>
             <li>
