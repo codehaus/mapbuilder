@@ -16,7 +16,7 @@
 
     <Context id="mainMap">
 
-      <defaultModelUrl>tsPrecipAnomaly.xml</defaultModelUrl>
+      <defaultModelUrl>tsIFGITemp.xml</defaultModelUrl>
 
       
 
@@ -208,6 +208,8 @@
 
       <enabledSrc>/images/PlayEnable.gif</enabledSrc>
 
+      <tooltip>play the movie</tooltip>
+
     </Button>
 
     <Button id="pause">
@@ -224,6 +226,8 @@
 
       <enabledSrc>/images/PauseEnable.gif</enabledSrc>
 
+      <tooltip>pause the movie</tooltip>
+
     </Button>
 
     <Button id="stop">
@@ -239,6 +243,8 @@
       <disabledSrc>/images/StopDisable.gif</disabledSrc>
 
       <enabledSrc>/images/StopEnable.gif</enabledSrc>
+
+      <tooltip>stop and rewind to beginning</tooltip>
 
     </Button>
 
