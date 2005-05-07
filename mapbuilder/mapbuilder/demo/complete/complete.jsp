@@ -17,7 +17,7 @@ $Name$
   <head>
     <title>Mapbuilder Demo</title>
 
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/lib/skin/default/html.css" type="text/css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/lib/skin/default/mapStyle.css" type="text/css">
 
   <jsp:include page="/MapbuilderHead.jsp" flush="true"/>
 
