@@ -35,6 +35,9 @@
         </CursorTrack>
         <Legend id="legend">
         </Legend>
+        <Widget id="version">
+          <stylesheet>../../lib/widget/Version.xsl</stylesheet>
+        </Widget>
       </widgets>
       <tools>
         <AoiMouseHandler id="mainAoi"/>
