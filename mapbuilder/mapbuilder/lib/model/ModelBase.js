@@ -268,11 +268,30 @@ function ModelBase(model, modelNode, parentModel) {
     modelRef.loadObjects("mb:models/*");
   }
 
+  /**
+   * Listener registered with the parent model to call init listeners
+   * @param modelRef Pointer to this object.
+   */
   model.callInit = function(modelRef) {
     modelRef.callListeners("init");
   }
+
+  /**
+   * Listener registered with the parent model to call refresh listeners
+   * @param modelRef Pointer to this object.
+   */
   model.refresh = function(modelRef) {
     modelRef.callListeners("refresh");
+  }
+
+  /**
+   * Listener registered with the parent model to remove the doc and url 
+   * of child models whenever the parent is reloaded.
+   * @param modelRef Pointer to this object.
+   */
+  model.clearModel = function(modelRef) {
+    modelRef.doc=null;
+    modelRef.url=null;
   }
 
   //don't load in models and widgets if this is the config doc, 
@@ -281,6 +300,7 @@ function ModelBase(model, modelNode, parentModel) {
     model.parentModel = parentModel;
     parentModel.addListener("init",model.callInit, model);
     parentModel.addListener("loadModel",model.loadModelDoc, model);
+    parentModel.addListener("newModel",model.clearModel, model);
     parentModel.addListener("refresh",model.refresh, model);
     model.init(model);
   }
