@@ -22,10 +22,12 @@ function ProcessArgumentsForm(widgetNode, model) {
   var base = new WidgetBase(this, widgetNode, model);
 
   this.executeProcess = function(processName) {
-    var webServiceUrl = this.argsForm.action + "?";
+    var webServiceUrl = this.argsForm.action
+    if (this.argsForm.action.indexOf("?")<0) webServiceUrl += "?";
     var queryString = "";
     for (var i=0; i<this.argsForm.elements.length; ++i) {
       var element = this.argsForm.elements[i];
+      if (element.name.indexOf("_dataSelector")>0) continue;
       queryString += element.name + "=" + encodeURIComponent(element.value) + "&";
     }
     if (this.targetModel.method == "get") {
@@ -68,6 +70,14 @@ function ProcessArgumentsForm(widgetNode, model) {
     objRef.argsForm.northCoord.value = aoi[0][1];
     objRef.argsForm.eastCoord.value = aoi[1][0];
     objRef.argsForm.southCoord.value = aoi[1][1];
+  }
+
+  /**
+   * Set the argument value as a param on the model
+   * @param objRef Pointer to this argsForm object.
+   */
+  this.setArgument = function(event) {
+    this.model.setParam(this.name,this.value);
   }
 
   /**
@@ -140,6 +150,10 @@ function ProcessArgumentsForm(widgetNode, model) {
             selector.paint(selector);
             selector.targetInput = objRef.argsForm[argName];
           }
+          objRef.argsForm[argName].model = objRef.model;
+          objRef.argsForm[argName].onblur = objRef.setArgument;
+          objRef.argsForm[argName].onchange = objRef.setArgument;
+          if (objRef.model.getParam(argName)) objRef.argsForm[argName].value = objRef.model.getParam(argName);
           break;
         case "BoundingBox":
         case "wps:BoundingBox":
@@ -154,8 +168,16 @@ function ProcessArgumentsForm(widgetNode, model) {
           if (objRef.mapModel) objRef.mapModel.addListener('aoi', objRef.displayAoiCoords, objRef);
           break;
         case "LiteralValue":
+        case "wps:LiteralValue":
+          objRef.argsForm[argName].model = objRef.model;
+          objRef.argsForm[argName].onblur = objRef.setArgument;
+          if (objRef.model.getParam(argName)) objRef.argsForm[argName].value = objRef.model.getParam(argName);
           break;
         case "ComplexValue":
+        case "wps:ComplexValue":
+          objRef.argsForm[argName].model = objRef.model;
+          objRef.argsForm[argName].onblur = objRef.setArgument;
+          if (objRef.model.getParam(argName)) objRef.argsForm[argName].value = objRef.model.getParam(argName);
           break;
         default:
           alert("invalid argument datatype:"+argType);

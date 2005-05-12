@@ -152,8 +152,6 @@
   <widgets>
     <TabbedContent id="mainTabs">
       <htmlWorkspace>workspace</htmlWorkspace>
-      <stylesheet>TabbedContent.xsl</stylesheet>
-      <scriptFile>TabbedContent.js</scriptFile>
       <tab>urlInput</tab>
       <tab>selectProcess</tab>
       <tab>argsInput</tab>

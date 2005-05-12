@@ -47,6 +47,7 @@ function ResourceDropDown(widgetNode, model) {
           break;
       }
       this.targetInput.value = httpPayload.url;
+      this.targetInput.focus();
     }
   }
 
