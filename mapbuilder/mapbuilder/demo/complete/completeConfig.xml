@@ -145,7 +145,7 @@
         </FeatureList>
       </widgets>
     </FeatureCollection>
-    <FeatureCollection id="ntsGml" template="true">
+    <FeatureCollection id="ntsGml">
       <!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
       <widgets>
         <GmlRendererWZ id="testNTSRenderer">
