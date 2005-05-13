@@ -13,8 +13,11 @@ $Id: XmlSchemaForm.xsl,v 1.6 2005/05/01 02:03:50 madair1 Exp $
 -->
 
   <xsl:output method="xml" encoding="utf-8" indent="yes"/>
+  
   <xsl:param name="widgetId"/>
   <xsl:param name="listType">modelsType</xsl:param>
+  <xsl:param name="subType"/>
+  
   <xsl:variable name="docRoot" select="/xs:schema"/>
 
 	<xsl:template match="/xs:schema">
@@ -22,8 +25,10 @@ $Id: XmlSchemaForm.xsl,v 1.6 2005/05/01 02:03:50 madair1 Exp $
       <xsl:for-each select="xs:complexType[@name=$listType]/xs:choice/*">
         <xsl:variable name="typeName" select="substring-after(@type,':')"/>
         <xsl:variable name="typeDef" select="$docRoot/xs:complexType[@name=$typeName]"/>
-        <dt><a href="javascript:config.objects.{$widgetId}.showDetails('{$typeName}')"><xsl:value-of select="@name"/></a></dt>
-        <dd><xsl:value-of select="$typeDef/xs:annotation/xs:documentation"/></dd>
+        <xsl:if test="string-length($subType)=0 or $typeDef/xs:complexContent/xs:extension/@base=$subType">
+          <dt><a href="javascript:config.objects.{$widgetId}.showDetails('{$typeName}')"><xsl:value-of select="@name"/></a></dt>
+          <dd><xsl:value-of select="$typeDef/xs:annotation/xs:documentation"/></dd>
+        </xsl:if>
       </xsl:for-each>
     </dl>
 	</xsl:template>

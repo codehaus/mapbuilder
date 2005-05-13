@@ -2,7 +2,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Mapbuilder Components Register</title>
-    <link rel="stylesheet" href="../../lib/skin/default/docsStyle.css" type="text/css">
+    <link rel="stylesheet" href="registerStyle.css" type="text/css">
     <link rel="stylesheet" href="../../lib/skin/default/tabList.css" type="text/css">
     <script>
     // URL of Mapbuilder configuration file.
@@ -12,14 +12,20 @@
   </head>
   <body onload="mbDoLoad()">
     <h1>Mapbuilder Components Register</h1>
-    <table border="1">
-      <tr>
-        <td id="tabList" width="50%"></td>
-        <td width="50%">Object details</td>
+    <table>
+      <tr width="100%">
+        <td id="tabList"></td>
+        <td valign="bottom"><h3>Object properties for:</h3></td>
       </tr>
       <tr>
-        <td id="workspace" valign="top"></td>
-        <td id="objectDetails" valign="top"></td>
+        <td id="workspace" valign="top" width="40%"></td>
+        <td id="objectDetails" valign="top" style="border-left:thin solid #3366cc"></td>
+      </tr>
+    </table>
+    <table class="footer">
+      <tr>
+        <td><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a><br/>$Name$</td>
+        <td width="60"><img src="/mapbuilder/lib/skin/default/images/Icon.gif"/></td>
       </tr>
     </table>
   </body>
