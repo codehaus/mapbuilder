@@ -18,6 +18,7 @@ $Id: XmlSchemaForm.xsl,v 1.6 2005/05/01 02:03:50 madair1 Exp $
 
 	<xsl:template match="/xs:schema">
     <dl>
+      <h3><xsl:value-of select="$objectType"/></h3>
       <xsl:apply-templates select="xs:complexType[@name=$objectType]"/>
     </dl>
 	</xsl:template>

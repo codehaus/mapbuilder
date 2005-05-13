@@ -24,6 +24,19 @@
           <scriptFile>ObjectList.js</scriptFile>
           <stylesheet>ObjectList.xsl</stylesheet>
           <listType>widgetsType</listType>
+          <subType>mb:AbstractWidgetType</subType>
+        </ObjectList>
+        <ObjectList id="mapContainerListWidget">
+          <scriptFile>ObjectList.js</scriptFile>
+          <stylesheet>ObjectList.xsl</stylesheet>
+          <listType>widgetsType</listType>
+          <subType>mb:AbstractMapWidgetType</subType>
+        </ObjectList>
+        <ObjectList id="buttonListWidget">
+          <scriptFile>ObjectList.js</scriptFile>
+          <stylesheet>ObjectList.xsl</stylesheet>
+          <listType>widgetsType</listType>
+          <subType>mb:AbstractButtonType</subType>
         </ObjectList>
         <ObjectList id="modelsListWidget">
           <scriptFile>ObjectList.js</scriptFile>
@@ -42,8 +55,10 @@
     <TabbedContent id="tabList">
       <htmlWorkspace>workspace</htmlWorkspace>
       <tab label="Models">modelsListWidget</tab>
-      <tab>widgetsListWidget</tab>
-      <tab>toolsListWidget</tab>
+      <tab label="Widgets">widgetsListWidget</tab>
+      <tab label="Maps">mapContainerListWidget</tab>
+      <tab label="Buttons">buttonListWidget</tab>
+      <tab label="Tools">toolsListWidget</tab>
     </TabbedContent>
   </widgets>
   <!--
