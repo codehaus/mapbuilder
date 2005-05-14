@@ -52,7 +52,8 @@ function TabbedContent(widgetNode, model) {
       tabWidget.node = document.getElementById(tabWidget.htmlTagId);
       tabWidget.tabList = objRef;
 
-      var tabLabel = tabWidgetId;
+      var tabLabel = tab.getAttribute("label"); 
+      if (!tabLabel) tabLabel = tabWidgetId;
       var textNode = config.widgetText.selectSingleNode(textNodeXpath+"/mb:"+tabWidgetId);
       if (textNode) tabLabel = textNode.firstChild.nodeValue;
       tab.setAttribute("label",tabLabel);
