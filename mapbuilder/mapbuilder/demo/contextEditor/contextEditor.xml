@@ -122,12 +122,12 @@
             </GmlRendererWZ>
           </widgets>
         </FeatureCollection>
-        <Transaction id="transactionTemplate" template="true">
+        <!--Transaction id="transactionTemplate" template="true">
           <method>post</method>
           <widgets>
             <ShowResponse id="transResponse"/>
           </widgets>
-        </Transaction>
+        </Transaction-->
       </models>
       <widgets>
         <Widget id="featureTypes">
@@ -204,7 +204,7 @@
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
           <stylesheet>../../lib/widget/ServiceRegistryList.xsl</stylesheet>
-          <targetModel2>wmsCapTemplate</targetModel2>
+          <targetModel>wmsCapTemplate</targetModel>
         </WebServiceForm>
       </widgets>
     </Model>
@@ -215,7 +215,7 @@
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
           <stylesheet>../../lib/widget/ServiceRegistryList.xsl</stylesheet>
-          <targetModel2>wfsCapTemplate</targetModel2>
+          <targetModel>wfsCapTemplate</targetModel>
         </WebServiceForm>
       </widgets>
     </Model>
