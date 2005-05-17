@@ -53,13 +53,14 @@ function WebServiceRequest(toolNode, model) {
 
     var featureSRS = null;
     //TBD: this is for ows wmc; other document types may need to set other params
-    var namespacePrefixes = feature.ownerDocument._sarissa_xpathNamespaces;
-    if (namespacePrefixes["wmc"]) {
+    //var namespacePrefixes = feature.ownerDocument._sarissa_xpathNamespaces;
+    //if (namespacePrefixes["wmc"]) {
+    if (feature.namespaceURI=="http://www.opengis.net/context") {
       featureSRS = feature.selectSingleNode("wmc:SRS");  
       if (feature.selectSingleNode("ogc:Filter")) {
         this.stylesheet.setParameter("filter", escape(Sarissa.serialize(feature.selectSingleNode("ogc:Filter"))) );
       }
-    } else if (namespacePrefixes["wfs"]) {
+    } else if (feature.namespaceURI=="http://www.opengis.net/wfs") {
       featureSRS = feature.selectSingleNode("wfs:SRS"); 
     }
 
@@ -143,7 +144,7 @@ function WebServiceRequest(toolNode, model) {
     // assign it an id
     if (objRef.targetModel.template) {
       objRef.targetModel.modelNode.removeAttribute("id");
-      objRef.targetModel = objRef.model.createObject(objRef.targetModel.modelNode, objRef.model.models);
+      objRef.targetModel = objRef.model.createObject(objRef.targetModel.modelNode);
     }
     objRef.targetModel.featureName = featureName;
 
