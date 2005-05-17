@@ -22,7 +22,7 @@ $Name$
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
   <xsl:param name="targetModelId"/>
-  <xsl:param name="targetModel2"/>
+  <xsl:param name="targetModel"/>
   
   <xsl:param name="webServiceUrl">http://geodiscover.cgdi.ca/ceonetWeb/biz</xsl:param>
   <xsl:param name="formName">OGCServiceList</xsl:param>
@@ -41,8 +41,10 @@ $Name$
       <input type="hidden" name="numResultsPerPage" value="{$numPerPage}"/>
       <input type="hidden" name="page" value="{$pageNum}"/>
       <input type="hidden" name="sortOrder" value="default"/>
-      keyword filter:<input type="text" name="keywords"/>
+      <p>
+      paging info - 
       <a href="javascript:config.objects.{$widgetId}.webServiceForm.page.value={$nextPage};config.objects.{$widgetId}.submitForm()">next</a>
+      </p>
     <dl>
       <xsl:apply-templates select="searchResults/entry"/>
     </dl>
@@ -51,13 +53,14 @@ $Name$
 
   <!-- template rule matching source root element -->
   <xsl:template match="entry">
+    <xsl:variable name="rowClass">altRow_<xsl:value-of select="position() mod 2"/></xsl:variable>
     <xsl:variable name="capsUrl"><xsl:value-of select="accessUrl"/></xsl:variable>
-    <dt>
-      <a href="javascript:config.loadModel('{$targetModel2}','{$capsUrl}')">
+    <dt class="{$rowClass}">
+      <a href="javascript:config.loadModel('{$targetModel}','{$capsUrl}')">
         <xsl:value-of select="name"/>
       </a>
     </dt>
-    <dd><xsl:value-of select="custodianName"/></dd>
+    <dd class="{$rowClass}"><xsl:value-of select="custodianName"/></dd>
   </xsl:template>
 
   <xsl:template match="text()|@*"/>

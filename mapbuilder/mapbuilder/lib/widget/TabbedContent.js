@@ -68,13 +68,23 @@ function TabbedContent(widgetNode, model) {
    * @param widget the widget to be added to the list of tabs
    * @param order  the order within the tabs
    */
-  this.addWidget = function(widget,order,tabLabel) {
-    widget.htmlTagId = this.htmlTagId;
-    widget.outputNodeId = this.id+"_workspace";
-    this.tabArray[order] = widget;
-    var tabLabelNode = this.model.doc.createElementNS(mbNS,"tab");
-    tabLabelNode.appendChild(this.model.doc.createTextNode(tabLabel));
-    this.widgetNode.appendChild(tabLabelNode);
+  this.addWidget = function(tabWidget,tabLabel) {
+    tabWidget.htmlTagId = this.htmlWorkspace;
+    tabWidget.outputNodeId = this.id+"_workspace";
+    tabWidget.node = document.getElementById(tabWidget.htmlTagId);
+    tabWidget.tabList = this;
+
+    if (!tabLabel) tabLabel = tabWidget.id;
+    var textNode = config.widgetText.selectSingleNode(textNodeXpath+"/mb:"+tabWidget.id);
+    if (textNode) tabLabel = textNode.firstChild.nodeValue;
+
+    var tabNode = this.model.doc.createElementNS(mbNS,"tab");
+    tabNode.appendChild(this.model.doc.createTextNode(tabWidget.id));
+    tabNode.setAttribute("label",tabLabel);
+    this.widgetNode.appendChild(tabNode);
+
+    this.paint(this);
+    this.selectTab(tabWidget);
   }
 
   /**
@@ -89,6 +99,7 @@ function TabbedContent(widgetNode, model) {
     newAnchor.className = 'current';
     tabList.selectedTab = newAnchor;
     tabWidget.paint(tabWidget);
+    //tabWidget.targetModel.callListeners("refresh");
   }
 
   /**

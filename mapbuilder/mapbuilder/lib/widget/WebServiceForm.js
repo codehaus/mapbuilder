@@ -30,6 +30,7 @@ function WebServiceForm(widgetNode, model) {
    * Handles submission of the form (via javascript in an <a> tag)
    */
   this.submitForm = function() {
+    this.webServiceForm = document.getElementById(this.formName);
 
     //create the http GET URL
     //TBD: handle POST submission
@@ -40,6 +41,13 @@ function WebServiceForm(widgetNode, model) {
       webServiceUrl += element.name + "=" + element.value + "&";
     }
     if (this.debug) alert(webServiceUrl);
+
+    // if the targetModel is a template model, then create new model object and
+    // assign it an id
+    if (this.targetModel.template) {
+      this.targetModel.modelNode.removeAttribute("id");
+      this.targetModel = this.model.createObject(this.targetModel.modelNode);
+    }
     config.loadModel( this.targetModel.id, webServiceUrl);
   }
 
@@ -54,7 +62,7 @@ function WebServiceForm(widgetNode, model) {
   }
 
   //set some properties for the form output
-  this.formName = "WebServiceForm_";// + mbIds.getId();
+  this.formName = "WebServiceForm_" + mbIds.getId();
   this.stylesheet.setParameter("formName", this.formName);
 }
 
