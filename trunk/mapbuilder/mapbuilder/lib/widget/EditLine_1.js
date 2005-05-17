@@ -19,6 +19,9 @@ function EditLine_1(widgetNode, model) {
   // Extend EditButtonBase
   var base = new ButtonBase(this, widgetNode, model);
 
+  /** Reference to GML node to update when a feature is added. */
+  this.featureXpath=widgetNode.selectSingleNode("mb:featureXpath").firstChild.nodeValue;
+
   /**
    * Append a point to a line.
    * @param objRef      Pointer to this object.
@@ -29,14 +32,14 @@ function EditLine_1(widgetNode, model) {
       point=objRef.targetModel.containerModel.extent.getXY(targetNode.evpl);
       old=objRef.targetModel.getXpathValue(
         objRef.targetModel,
-        objRef.targetModel.nodeSelectXpath);
+        objRef.targetModel.nodeSelectXpath+objRef.featureXpath);
       if(!old){old=""};
       sucess=objRef.targetModel.setXpathValue(
         objRef.targetModel,
-        objRef.targetModel.nodeSelectXpath,
+        objRef.targetModel.nodeSelectXpath+objRef.featureXpath,
         old+" "+point[0]+","+point[1]);
       if(!sucess){
-        alert("EditLine: invalid featureXpath in config: "+objRef.targetModel.nodeSelectXpath);
+        alert("EditLine: invalid featureXpath in config: "+objRef.targetModel.nodeSelectXpath+objRef.featureXpath);
       }
     }
   }
