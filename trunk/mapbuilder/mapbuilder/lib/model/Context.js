@@ -171,12 +171,56 @@ function Context(modelNode, parent) {
 
   /**
    * Method to add a Layer to the LayerList
-   * @param feature the Layer node from the context doc
-   * @return the HTTP method to get the feature with
+   * @param layerNode the Layer node from another context doc or capabiltiies doc
    */
   this.addLayer = function(layerNode) {
     var parentNode = this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList");
     parentNode.appendChild(this.doc.importNode(layerNode,true));
+    this.modified = true;
+    this.callListeners("refresh");
+  }
+
+  /**
+   * Method to remove a Layer from the LayerList
+   * @param layerName the Layer to be deleted
+   */
+  this.deleteLayer = function(layerName) {
+    var deletedNode = this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+layerName+"']");
+    if (!deletedNode) {
+      alert("node note found; unable to delete node:"+layerName);
+      return;
+    }
+    deletedNode.parentNode.removeChild(deletedNode);
+    this.modified = true;
+    this.callListeners("refresh");
+  }
+
+  /**
+   * Method to move a Layer in the LayerList up or down
+   * @param nodeIndex the index in the LayerList of Layer to be moved 
+   * @param dir direction to move >0 means up, <0 means down
+   */
+  this.moveLayer = function(nodeIndex, dir) {
+    var listNodeArray = this.doc.selectNodes("/wmc:ViewContext/wmc:LayerList/wmc:Layer");
+    var movedNode = null;
+    var sibNode = null;
+    if (dir<0) {
+      if (nodeIndex<1) {
+        alert("can't move node past beginning of list:"+nodeIndex);
+        return;
+      }
+      movedNode = listNodeArray[nodeIndex];
+      sibNode = listNodeArray[nodeIndex-1];
+    } else {
+      if (nodeIndex>listNodeArray.length-2) {
+        alert("can't move node past end of list:"+nodeIndex);
+        return;
+      }
+      movedNode = listNodeArray[nodeIndex+1];
+      sibNode = listNodeArray[nodeIndex];
+    }
+    movedNode.parentNode.insertBefore(movedNode,sibNode);
+    this.modified = true;
     this.callListeners("refresh");
   }
 
