@@ -30,7 +30,7 @@ $Name$
 
 
 
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="xml" encoding="utf-8" indent="yes"/>
 
 
 
@@ -66,9 +66,7 @@ $Name$
 
 			    id="eos_data_gateways"
 
-			    xmlns="http://www.opengis.net/context"
-
-			    xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns="http://www.opengis.net/context"
 
 			    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 
@@ -114,7 +112,7 @@ $Name$
 
     </xsl:param>
 
-    <xsl:element name="Layer">
+    <xsl:element name="Layer" namespace="http://www.opengis.net/context">
 
       <xsl:attribute name="queryable">
 
@@ -128,7 +126,7 @@ $Name$
 
       </xsl:attribute>
 
-      <xsl:element name="Server">
+      <xsl:element name="Server" namespace="http://www.opengis.net/context">
 
         <xsl:attribute name="service">
 
@@ -148,7 +146,7 @@ $Name$
 
         </xsl:attribute>
 
-        <xsl:element name="OnlineResource">
+        <xsl:element name="OnlineResource" namespace="http://www.opengis.net/context">
 
           <xsl:attribute name="type">
 
@@ -166,29 +164,39 @@ $Name$
 
       </xsl:element>
 
-        <Name><xsl:value-of select="Name"/></Name>
+        <Name xmlns="http://www.opengis.net/context"><xsl:value-of select="Name"/></Name>
 
-        <Title><xsl:value-of select="Title"/></Title>
+        <Title xmlns="http://www.opengis.net/context"><xsl:value-of select="Title"/></Title>
 
-        <Abstract><xsl:value-of select="Abstract"/></Abstract>
+        <Abstract xmlns="http://www.opengis.net/context"><xsl:value-of select="Abstract"/></Abstract>
 
         <xsl:if test="$layerSrs=''">
 
-          <xsl:param name="layerSrs">
+          <xsl:variable name="layerSrs">
 
               <xsl:value-of select="$wmsSrs"/>    
 
-          </xsl:param>
+          </xsl:variable>
 
         </xsl:if>
 
-        <SRS><xsl:value-of select="$layerSrs"/></SRS>
+        <SRS xmlns="http://www.opengis.net/context"><xsl:value-of select="$layerSrs"/></SRS>
 
-        <FormatList>
+        <FormatList xmlns="http://www.opengis.net/context">
 
-        	<Format current="1">image/png</Format>
+        	<Format current="1" xmlns="http://www.opengis.net/context">image/png</Format>
 
         </FormatList>
+
+        <StyleList xmlns="http://www.opengis.net/context">
+
+          <Style xmlns="http://www.opengis.net/context" current="1">
+
+          <xsl:copy-of select="Style/*"/>
+
+          </Style>
+
+        </StyleList>
 
     </xsl:element>
 
