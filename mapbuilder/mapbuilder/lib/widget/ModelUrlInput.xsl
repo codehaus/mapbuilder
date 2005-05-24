@@ -25,14 +25,14 @@ $Id$
   <xsl:param name="load"/>
 
     <!-- The name of the form for coordinate output -->
-  <xsl:param name="modelUrl"/>
+  <xsl:param name="defaultUrl"/>
   <xsl:param name="formName">ModelUrlInputForm</xsl:param>
 
   <!-- Main html -->
   <xsl:template match="/">
     <div>
       <form name="{$formName}" id="{$formName}" onsubmit="return config.objects.{$widgetId}.submitForm()">
-        <xsl:value-of select="$title"/><input name="modelUrl" type="text" size="30" value="{$modelUrl}"/>
+        <xsl:value-of select="$title"/><input name="defaultUrl" type="text" size="30" value="{$defaultUrl}"/>
         <a href="javascript:config.objects.{$widgetId}.submitForm();"><xsl:value-of select="$load"/></a>
       </form>
     </div>
