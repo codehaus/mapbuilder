@@ -20,6 +20,7 @@ function XslProcessor(xslUrl,docNSUri) {
   this.xslUrl=xslUrl;
   this.xslDom = Sarissa.getDomDocument();
   this.xslDom.async = false;
+  this.xslDom.validateOnParse=false;  //IE6 SP2 parsing bug
   this.xslDom.load(xslUrl);
   if ( this.xslDom.parseError < 0 )
     alert("error loading XSL stylesheet: " + xslUrl);
@@ -69,7 +70,7 @@ function XslProcessor(xslUrl,docNSUri) {
 /**
  * A more flexible interface for loading docs that allows POST and async loading
  */
-function postLoad(sUri, docToSend ) {
+function postLoad(sUri, docToSend, contentType ) {
    var outDoc = Sarissa.getDomDocument();
    var xmlHttp = Sarissa.getXmlHttpRequest();
    if ( sUri.indexOf("http://")==0 ) {
@@ -79,6 +80,7 @@ function postLoad(sUri, docToSend ) {
      xmlHttp.open("POST", sUri, false);
    }
    xmlHttp.setRequestHeader("content-type","text/xml");
+   if (contentType) xmlHttp.setRequestHeader("content-type",contentType);
    //alert("sending:"+docToSend.xml);
    xmlHttp.send( docToSend );
 /*
