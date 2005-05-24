@@ -179,6 +179,6 @@ function MapContainerBase(widget,widgetNode,model) {
   widget.node = document.getElementById(widget.containerNodeId);
 
   widget.setContainerWidth = this.setContainerWidth;
-  widget.containerModel.addListener( "loadModel", widget.setContainerWidth, widget );
+  widget.containerModel.addFirstListener( "loadModel", widget.setContainerWidth, widget );
   widget.containerModel.addListener( "bbox", widget.paint, widget );
 }
