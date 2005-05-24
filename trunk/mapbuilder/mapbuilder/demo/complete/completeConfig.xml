@@ -61,8 +61,6 @@
         <SaveModel id="saveModelWidget">
           <htmlTagId>saveModel</htmlTagId>
         </SaveModel>
-        <WmsCapabilitiesImport id="wmsCapabilitiesImport">
-        </WmsCapabilitiesImport>
         <!--
         <SearchForm id="searchForm">
         </SearchForm>
@@ -94,6 +92,7 @@
           <mapContainerId>locatorContainer</mapContainerId>
         </AoiBoxDHTML>
         <ModelUrlInput id="urlInput">
+          <defaultUrl>../data/context/modisWorld.xml</defaultUrl>
         </ModelUrlInput>
       </widgets>
       <tools>
@@ -171,8 +170,22 @@
         </GmlRendererWZ>
       </widgets>
     </FeatureCollection>
+    <WmsCapabilities id="wmsCapTemplate">
+      <nodeSelectXpath>//Layer</nodeSelectXpath>
+      <widgets>
+      </widgets>
+      <tools>
+        <Caps2Context id="convertCaps">
+          <targetModel>mainMap</targetModel>
+        </Caps2Context>
+      </tools>
+    </WmsCapabilities>
   </models>
   <widgets>
+    <ModelUrlInput id="wmsCapsUrlInput">
+      <defaultUrl>http://localhost:8080/geoserver/wms/GetCapabilities</defaultUrl>
+      <targetModel>wmsCapTemplate</targetModel>
+    </ModelUrlInput>
     <WebServiceForm id="ntsLookupForm">
       <targetModel>ntsGml</targetModel>
       <stylesheet>../../lib/widget/NtsForm.xsl</stylesheet>
