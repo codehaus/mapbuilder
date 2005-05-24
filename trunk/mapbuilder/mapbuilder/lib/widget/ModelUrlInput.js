@@ -26,7 +26,7 @@ function ModelUrlInput(widgetNode, model) {
    */
   this.submitForm = function() {
     var httpPayload = new Object();
-    httpPayload.url = this.urlInputForm.modelUrl.value;
+    httpPayload.url = this.urlInputForm.defaultUrl.value;
     httpPayload.method = this.targetModel.method;
 /*
     for (var i=0; i<httpMethod.length; ++i) {   //loop through radio buttons
@@ -90,7 +90,7 @@ function ModelUrlInput(widgetNode, model) {
   }
 
   //set some properties for the form output
-  this.formName = "urlInputForm_";// + mbIds.getId();
+  this.formName = "urlInputForm_" + mbIds.getId();
   this.stylesheet.setParameter("formName", this.formName);
 }
 
