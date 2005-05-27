@@ -1,39 +1,20 @@
-
 <h2>Coding your web page</h2>
 
 <p>
-When developing an application, keep it separate from the 
-mapbuilder codebase so that you can update your mapbuilder installation
-without affecting your application.  
-Customization of the widgets is done through the stylesheet property, when
-required.
-The only requirement is that mapbuilder and your application must share the
-same domain name.
-</p>
-
+There are several common steps for coding a mapbuilder application: 
+your HTML page include a Javascript library, 
+which opens and reads a configuration file in the BODY onload event.
 <p>
-There are several common steps for coding a mapbuilder application.  
+
+</p>
 In the following code examples, paths starting with "/" are relative
 to your server root, otherwise they are relative to the web page's base URL.
 </p>
 
 <ol class="med">
-  <li><span class="title">Create the HTML for the web page:</span>
-  All that is required is to assign an ID attribute to the HTML elements in the
-  page where mapbuilder widget output will be inserted.
-  For example:
-  <pre>&lt;div&nbsp;id="mbId"&gt;&lt;/div&gt;</pre>
-  where "mbId" corresponds to a widget ID in your configuration file.
-  </li>
-  <li><span class="title">Create your mapbuilder configuration file:</span>
-  Copy an existing configuration file or create a new one.
-  Adjust the URL of models to point to the documents you wish to load.
-  Then include the widgets desired, setting
-  it's ID attribute to the corresponding HTML element in your page.
-  Finally, add in any tools desired.
-  Reference the configuration file in the web page's &lt;HEAD&gt; element
-  (before including the library in the next step).  This variable must be named
-  exactly as specified here.
+  <li><span class="title">Create your configuration file:</span>
+  Reference the configuration file in the web page's &lt;HEAD&gt; element.
+  This variable must be named "mbConfigUrl".
   <pre>
     &lt;script&gt;
       // URL of Mapbuilder configuration file.
@@ -58,5 +39,21 @@ to your server root, otherwise they are relative to the web page's base URL.
   &lt;/body&gt;
   <pre>
   </li>
+  <li><span class="title">Create the HTML for the web page:</span>
+  Assign an ID attribute to the HTML elements in the
+  page where mapbuilder widget output will be inserted.
+  For example:
+  <pre>&lt;div&nbsp;id="mbId"&gt;&lt;/div&gt;</pre>
+  where "mbId" corresponds to a widget ID in your configuration file.
+  </li>
 
 </ol>
+<p>
+When developing an application, it's best to keep it separate from the 
+mapbuilder codebase so that you can update your mapbuilder installation
+without affecting your application.  
+Custom widgets can be included using the stylesheet property, when required.
+The only requirement is that Mapbuilder and your application must share the
+same domain name.
+</p>
+
