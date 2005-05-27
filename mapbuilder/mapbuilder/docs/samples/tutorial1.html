@@ -1,6 +1,4 @@
-
 <h2>Simple map</h2>
-
 
 <p>
   In it's most basic configuration, mapbuilder can be used to simply put a map
@@ -13,10 +11,7 @@
   The configuration for this page consists of a single 
   model (a Web Map Context document) and a single widget (a MapPane).
 </p>
-<p>
-  The ID assigned to the model is used to reference the methods and properties
-  of the JavaScript model object as 'config[modelId]'.
-</p>
+
 <p>
   The model ID can also be used as an HTTP request parameter to initialize the 
   model from a URL.
@@ -33,12 +28,14 @@
 <p>
   The MapPane widget renders the model as a set of stacked images and 
   inserted into the page.  
-  The widget ID in config is used to associate 
+  The 'htmlTagID' in the config file is used to associate 
   the MapPane with an HTML page element, in this case a &lt;DIV&gt; element
   which has it's CSS style set to float on the right hand side of the page.
+  The transformation is done by applying an XSLT stylehseet applied to the model.
 </p>
 <p>
-  The transformation is done by applying an XSLT stylehseet applied to the model.
+  The ID assigned to the model can be used to reference the methods and properties
+  of the JavaScript model object as 'config.objects[modelId]'.
 </p>
 
 <p align="right"><a href="?page=samples/tutorial2">next</a></p>

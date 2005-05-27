@@ -25,14 +25,14 @@
       </widgets>
     </Context>
 
-    <Context id="firstMapPane">
+    <Context id="secondMap">
       <defaultModelUrl>/mapbuilder/demo/data/context/DM_Canada.xml</defaultModelUrl>
       <widgets>
         <MapPane id="secondMapWidget">
           <htmlTagId>secondMapPane</htmlTagId>
           <mapContainerId>secondMapContainer</mapContainerId>
         </MapPane>
-        <AoiBoxDHTML id="SecondAoiBox">
+        <AoiBoxDHTML id="secondAoiBox">
           <htmlTagId>secondMapPane</htmlTagId>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
@@ -42,7 +42,7 @@
       </widgets>
       <tools>
         <AoiMouseHandler id="locatorAoi"/>
-        <ZoomToAoi id="locatorZoomToAoi">
+        <ZoomToAoi id="zoomToAoi">
           <targetModel>firstMap</targetModel>
         </ZoomToAoi>
       </tools>
