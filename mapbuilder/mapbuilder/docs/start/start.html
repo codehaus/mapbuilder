@@ -2,16 +2,13 @@
 
 <p>
 There are several common steps for coding a mapbuilder application: 
-your HTML page include a Javascript library, 
+your HTML page includes a Javascript library, 
 which opens and reads a configuration file in the BODY onload event.
-<p>
-
-</p>
 In the following code examples, paths starting with "/" are relative
 to your server root, otherwise they are relative to the web page's base URL.
 </p>
 
-<ol class="med">
+<ol>
   <li><span class="title">Create your configuration file:</span>
   Reference the configuration file in the web page's &lt;HEAD&gt; element.
   This variable must be named "mbConfigUrl".
@@ -24,7 +21,8 @@ to your server root, otherwise they are relative to the web page's base URL.
   </li>
   <li><span class="title">Include the mapbuilder Javascript library:</span>
   the web page's &lt;HEAD&gt; element must include a reference to the mapbuilder
-  library JavaScript code.  The library must be installed on the same server as 
+  library JavaScript code.  
+  The library must be <a href="?page=start/install">installed</a> on the same server as 
   the page using it:
   <pre>
   &lt;script type="text/javascript" src="/mapbuilder/lib/Mapbuilder.js"&gt;&lt;/script&gt;
@@ -37,7 +35,7 @@ to your server root, otherwise they are relative to the web page's base URL.
   &lt;body onload='mbDoLoad()'&gt;
     ..rest of page body...
   &lt;/body&gt;
-  <pre>
+  </pre>
   </li>
   <li><span class="title">Create the HTML for the web page:</span>
   Assign an ID attribute to the HTML elements in the
@@ -48,6 +46,15 @@ to your server root, otherwise they are relative to the web page's base URL.
   </li>
 
 </ol>
+
+<p>
+You can see the whole thing put together in the Mapbuilder 
+<a href="/mapbuilder/demo/simple">Simple Demo</a> which is also a good 
+example to copy as a starting point for your own applications.
+Be sure to inspect the source code for the demo and it's 
+<a href="/mapbuilder/demo/simple/simpleConfig.xml">configuration file.</a>
+</p>
+
 <p>
 When developing an application, it's best to keep it separate from the 
 mapbuilder codebase so that you can update your mapbuilder installation

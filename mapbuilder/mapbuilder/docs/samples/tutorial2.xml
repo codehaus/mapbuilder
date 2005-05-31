@@ -17,8 +17,8 @@
         </MapPane>
         <AoiBoxDHTML id="firstAoiBox">
           <htmlTagId>firstMapPane</htmlTagId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>1</lineWidth>
+          <lineColor>#FF0077</lineColor>
+          <lineWidth>3</lineWidth>
           <crossSize>15</crossSize>
           <mapContainerId>firstMapContainer</mapContainerId>
         </AoiBoxDHTML>
