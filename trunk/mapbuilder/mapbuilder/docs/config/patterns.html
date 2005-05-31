@@ -19,9 +19,6 @@ ID's are assigned to the objects as an attribute, not as a property.
   If the method is HTTP GET, then include the full query string in the URL.  
   If present, the model will be loaded when the application loads.
 </dd>
-<dt>method</dt>
-<dd>The HTTP method to use to retrieve the model.  Defaults to GET.
-</dd>
 </dl>
 
 <h3>Tool properties</h3>
@@ -29,10 +26,6 @@ ID's are assigned to the objects as an attribute, not as a property.
 <dt>targetModel</dt>
 <dd>The id of a model object which this tool acts on.  
 If absent the action happens on the parent model of this tool.
-</dd>
-<dt>enabled</dt>
-<dd>A flag to indicate if this tool should initially be enabled; 
-accepts values of true and false.  Tools are enabled by default.
 </dd>
 </dl>
 
@@ -65,6 +58,11 @@ These widgets can have all the above properties but also define some properties
 of their own.
 </p>
 
+<h3>MapContainer widgets</h3>
+<p>
+A MapContainer widget is one that renders geography in 2 dimensions.
+</p>
+
 <dl>
 <dt>mapContainerId</dt>
 <dd>The ID of a &lt;DIV&gt; element that will be created to hold the output of widgets
@@ -74,6 +72,7 @@ mapContainerId in the order that they are encountered in the config file.
 </dd>
 </dl>
 
+<h3>Button widgets</h3>
 <p>
 Buttons are widgets whose output is a linked image which executes a function
 when clicked.
@@ -112,9 +111,6 @@ Optional, if absent mouse events are not handled and the action is the doSelect 
 </dd>
 </dl>
 
-
-<p>
-</p>
 
 <p align="right">
 <a href="?page=config/opvRule">previous</a>&nbsp;&nbsp;&nbsp; 
