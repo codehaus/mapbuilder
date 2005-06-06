@@ -167,33 +167,26 @@ function Mapbuilder() {
 
 /**
  * copied from sarissa, a function to check browser security setting in IE, 
- * opens a help page if ActiveX objects are disabled
- * ProgIDs for IE, then gets destroyed.
+ * opens a help page if ActiveX objects are disabled.
  */
 function checkIESecurity()
 {
-  var testPrefixes = ["Msxml2.DOMDocument.9.0","Msxml2.DOMDocument.5.0", "Msxml2.DOMDocument.4.0", "Msxml2.DOMDocument.3.0", "MSXML2.DOMDocument", "MSXML.DOMDocument", "Microsoft.XMLDOM"];
+  var testPrefixes = ["Msxml2.DOMDocument.5.0", "Msxml2.DOMDocument.4.0", "Msxml2.DOMDocument.3.0", "MSXML2.DOMDocument", "MSXML.DOMDocument", "Microsoft.XMLDOM"];
   // found progID flag
   var bFound = false;
-  for(var i=0; i < testPrefixes.length && !bFound; i++)
-  {
+  for(var i=0; i < testPrefixes.length && !bFound; i++) {
     try {
       var oDoc = new ActiveXObject(testPrefixes[i]);
       bFound = true;
     }
     catch (e) {
       //trap; try next progID
-      alert("ActiveX create exception:" + i + ":" + testPrefixes[i]);
-      alert("exception:" + e + ":" + e.number & 0xFFFF );
     }
   }
-  if (!bFound) {
-    window.open("/mapbuilder/demo/IESetup.html","IEHelp");
-    //alert("Could not retreive a valid progID of Class");
-  }
+  if (!bFound) window.open("/mapbuilder/docs/help/IESetup.html");  //TBD: set this URL in config
 }
 
-//if (navigator.userAgent.toLowerCase().indexOf("msie") > -1) checkIESecurity();
+if (navigator.userAgent.toLowerCase().indexOf("msie") > -1) checkIESecurity();
 var mapbuilder=new Mapbuilder();
 
 /**
@@ -204,6 +197,7 @@ function mapbuilderInit(){
   if(mapbuilder && mapbuilder.loadState==MB_LOADED){
     clearInterval(mbTimerId);
     config.init(config);
+    if (window.mbInit) window.mbInit();
     config.callListeners("init");
     var mbTimerStop = new Date();
     //alert("load time:"+(mbTimerStop.getTime()-mbTimerStart.getTime()) );
@@ -219,8 +213,12 @@ var mbTimerId;
  * Mapbuilder's main initialisation script.
  * This should be called from the main html file using:
  *   <body onload="mbDoLoad()">
+ * @param initFunction Optional - A function reference that will be called after 
+ * config.init() has been called.  This is to give application code a chance to
+ * do initialization and be guaranteed that all objects exist (inlcuding config).
  */
-function mbDoLoad() {
+function mbDoLoad(initFunction) {
   // See if scripts have been loaded every 100msecs, then call config.init().
   mbTimerId=setInterval('mapbuilderInit()',100);
+  if (initFunction) window.mbInit = initFunction;
 }
