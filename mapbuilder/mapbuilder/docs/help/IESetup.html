@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+  <HEAD>
+    <TITLE>Mapbuilder: Help for  IE security configuration</TITLE>
+    <link rel='StyleSheet' type='text/css' href='/mapbuilder/lib/skin/default/docsStyle.css'>
+  </HEAD>
+  <BODY>
+    <H1>Mapbuilder: Help for  IE security configuration</H1>
+    <p>
+      It appears that your security settings in MS Internet Explorer are set to high to allow this application to run.
+      The problem is that ActiveX controls aren't being permitted to run.
+      In order to see this application run (and it's worth seeing!) you can:
+    </p>
+    <dl>
+      <dt style="clear:both">Use Firefox (or other Mozilla-based browsers)
+      </dt>
+      <dd>
+<a href="http://www.spreadfirefox.com/?q=affiliates&amp;id=0&amp;t=67">
+<img border="0" alt="Get Firefox!" title="Get Firefox!" src="http://sfx-images.mozilla.org/affiliates/Buttons/88x31/trust.gif" style="float:left;clear:left"/></a>
+works out of the box ;-)
+    </dd>
+      <dt style="clear:both">Add this site to the "Trusted sites" list for IE.</dt>
+      <dd><img border="0" src="IETrusted.png" style="float:left;clear:left"/>
+Click on the "Tools" menu item, then "Internet Options", then select the "Security" tab.
+      Then select the "Trusted Sites" zone and the "Sites" button.
+      Add the URL for this web site to the list.
+      Reload the page that you came from.
+    </dd>
+      <dt style="clear:both">Change your security settings for the Internet zone</dt>
+      <dd><img border="0" src="IEActiveXSettings.png" style="float:left;clear:left"/>
+Click on the "Tools" menu item, then "Internet Options", then select the "Security" tab.
+      Then select the "Internet" zone and the "Custom level" button.
+      Scroll to find the section for "ActiveX controls and plugins".
+      Make sure that all the radio buttons are set to either "prompt" or "enable".
+      If you set the state to "prompt", you will be asked if ActiveX controls should be allowed
+      to run whenever they are required.
+      If you trust the site, allow them to run when prompted.
+    </dd>
+    </dl>
+    
+  
+  </BODY>
+</HTML>
