@@ -52,11 +52,37 @@ function WebServiceForm(widgetNode, model) {
   }
 
   /**
+   * handles keypress events to filter out everything except "enter".  
+   * Pressing the "enter" key will trigger a form submit
+   * @param event  the event object passed in for Mozilla; IE uses window.event
+   */
+  this.handleKeyPress = function(event) {
+    var keycode;
+    var target;
+    if (event){
+      //Mozilla
+      keycode=event.which;
+      target=event.currentTarget;
+    }else{
+      //IE
+      keycode=window.event.keyCode;
+      target=window.event.srcElement.form;
+    }
+
+    if (keycode == 13) {    //enter key
+      target.parentWidget.submitForm();
+      return false;
+    }
+  }
+
+  /**
    * Refreshes the form onblur handlers when this widget is painted.
    * @param objRef Pointer to this CurorTrack object.
    */
   this.postPaint = function(objRef) {
     objRef.webServiceForm = document.getElementById(objRef.formName);
+    objRef.webServiceForm.parentWidget = objRef;
+    objRef.webServiceForm.onkeypress = objRef.handleKeyPress;
     //objRef.WebServiceForm.onsubmit = objRef.submitForm;
     //objRef.WebServiceForm.mapsheet.onblur = objRef.setMapsheet;
   }
