@@ -235,7 +235,8 @@ function Context(modelNode, parent) {
     var extension = this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Extension");
     if (!extension) {
       var general = this.doc.selectSingleNode("/wmc:ViewContext/wmc:General");
-      extension = general.appendChild(this.doc.createElementNS('http://www.opengis.net/context',"Extension"));
+      var newChild = createElementWithNS(this.doc,"Extension",'http://www.opengis.net/context');
+      extension = general.appendChild(newChild);
     }
     return extension.appendChild(extensionNode);
   }
@@ -255,14 +256,13 @@ function Context(modelNode, parent) {
    * @param objRef a pointer to this object 
    */
   this.initTimeExtent = function( objRef ) {
-    var mbNS = "http://mapbuilder.sourceforge.net/mapbuilder";
     //only the first one selected is used as the timestamp source
     //var extentNode = objRef.doc.selectSingleNode("//wmc:Layer/wmc:Dimension[@name='time']");
     //TBD: how to deal with multiple time dimensions in one context doc, or caps doc?
     var timeNodes = objRef.doc.selectNodes("//wmc:Dimension[@name='time']");
     for (var i=0; i<timeNodes.length; ++i) {
       var extentNode = timeNodes[i];
-      objRef.timestampList = objRef.doc.createElementNS(mbNS,"TimestampList");  //set mb as namespace instead
+      objRef.timestampList = createElementWithNS(objRef.doc,"TimestampList",mbNsUrl);
       var layerName = extentNode.parentNode.parentNode.selectSingleNode("wmc:Name").firstChild.nodeValue;
       objRef.timestampList.setAttribute("layerName", layerName);
       //alert("found time dimension, extent:"+extentNode.firstChild.nodeValue);
@@ -279,7 +279,7 @@ function Context(modelNode, parent) {
           }
           //alert("start time:"+start.toString());
           do {
-            var timestamp = objRef.doc.createElementNS(mbNS,"Timestamp");
+            var timestamp = createElementWithNS(objRef.doc,"Timestamp",mbNsUrl);
             timestamp.appendChild(objRef.doc.createTextNode(getISODate(start)));
             objRef.timestampList.appendChild(timestamp);
 
@@ -294,7 +294,7 @@ function Context(modelNode, parent) {
 
         } else {
           //output single date value
-          var timestamp = objRef.doc.createElementNS(mbNS,"Timestamp");
+          var timestamp = createElementWithNS(objRef.doc,"Timestamp",mbNsUrl);
           timestamp.appendChild(objRef.doc.createTextNode(times[j]));
           objRef.timestampList.appendChild(timestamp);
         }
@@ -310,9 +310,8 @@ function Context(modelNode, parent) {
    * @return the current timestamp value.
    */
   this.getCurrentTimestamp = function( layerName ) {
-    var extension = this.getExtension();
-    var timestamp = extension.selectSingleNode("mb:TimestampList[@layerName='"+layerName+"']/mb:Timestamp[@current='1']");
-    return timestamp;
+    var index = this.getParam("timestamp");
+    return this.timestampList.childNodes[index].firstChild.nodeValue;
   }
 }
 

@@ -21,8 +21,9 @@ function MovieLoop(toolNode, model) {
   var base = new ToolBase(this, toolNode, model);
 
   this.frameIncrement = 1;
-  this.firstFrame = 0;
+  this.model.setParam("firstFrame", 0);
   this.timestampIndex = 0;
+  window.movieLoop = this;
 
   //
   var framesPerSecond = toolNode.selectSingleNode("mb:framesPerSecond");
@@ -48,8 +49,10 @@ function MovieLoop(toolNode, model) {
       timestamp.setAttribute("current", "0");
       this.model.setParam("timestamp", this.timestampIndex);
     }
-    if (index > timestampList.lastFrame) index = timestampList.firstFrame;
-    if (index < timestampList.firstFrame) index = timestampList.lastFrame;
+    var firstFrame = this.model.getParam("firstFrame");
+    var lastFrame = this.model.getParam("lastFrame");
+    if (index > lastFrame) index = firstFrame;
+    if (index < firstFrame) index = lastFrame;
     this.timestampIndex = index;
     timestamp = timestampList.childNodes[this.timestampIndex];
     timestamp.setAttribute("current", "1");
@@ -74,10 +77,12 @@ function MovieLoop(toolNode, model) {
    */
   this.setFrameLimits = function(objRef) {
     var timestampList = objRef.model.timestampList;
-    timestampList.firstFrame = objRef.firstFrame;  //set these from a widget, or config
-    timestampList.lastFrame = timestampList.firstFrame+objRef.maxFrames;
-    if (timestampList.lastFrame > timestampList.childNodes.length) timestampList.lastFrame = timestampList.childNodes.length-1;
-    timestampList.childNodes[timestampList.firstFrame].setAttribute("current","1");
+    //timestampList.firstFrame = objRef.firstFrame;  //set these from a widget, or config
+    var firstFrame = objRef.model.getParam("firstFrame");
+    var lastFrame = firstFrame+objRef.maxFrames;
+    if (lastFrame > timestampList.childNodes.length) lastFrame = timestampList.childNodes.length-1;
+    objRef.model.setParam("lastFrame",lastFrame);
+    timestampList.childNodes[firstFrame].setAttribute("current","1");
   }
   this.model.addListener("loadModel",this.setFrameLimits,this);
 
@@ -86,7 +91,7 @@ function MovieLoop(toolNode, model) {
    * @param objRef pointer to this object
    */
   this.reset = function(objRef) {
-    objRef.setFrame(objRef.model.timestampList.firstFrame);
+    objRef.setFrame(objRef.model.getParam("firstFrame"));
   }
   this.model.addListener("refresh",this.reset,this);
 
@@ -94,7 +99,6 @@ function MovieLoop(toolNode, model) {
    * Starts the movie loop playing by using a JavaScript timer.
    */
   this.play = function() {
-    window.movieLoop = this;
     this.movieTimer = setInterval('window.movieLoop.nextFrame()',this.delay);
   }
   
@@ -113,6 +117,16 @@ function MovieLoop(toolNode, model) {
     this.pause();
     this.reset(this);
   }
+
+  /**
+   * A "stopLoop" event listener to call the stop method
+   * @param objRef pointer to this object
+   */
+  this.stopListener = function(objRef) {
+    objRef.stop();
+  }
+  this.model.addListener("stopLoop",this.stopListener,this);
+
 
 }
 
