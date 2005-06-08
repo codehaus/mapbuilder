@@ -23,20 +23,31 @@ Abstract.xsl,v 1.5 2004/06/25 17:59:38 madair1 Exp
   <xsl:template match="/">
     <form STYLE="font: 8pt Verdana, geneva, arial, sans-serif;">
       <xsl:value-of select="$title"/>
-      <xsl:apply-templates select="wmc:ViewContext/wmc:General/wmc:Extension"/>
+      <xsl:apply-templates select="wmc:ViewContext/wmc:General"/>
     </form>
   </xsl:template>
 
   
-  <!-- Main html -->
+  <!-- readonly input element to display the time value -->
   <xsl:template match="mb:TimestampList">
-    <input id="timestampValue" type="text" size="10" class="bareInput">
+    <input id="timestampValue" type="text" size="10" class="bareInput" readonly="true">
       <xsl:attribute name="value">
         <xsl:value-of select="mb:Timestamp[@current='1']"/>
       </xsl:attribute>
     </input>
   </xsl:template>
 
+  <!-- readonly input element to display the time value 
+  repeated here without namespaces because IE doesn't support the createElementNS function
+  and this part of the extension is output without any apparent namespace
+  -->
+  <xsl:template match="TimestampList">
+    <input id="timestampValue" type="text" size="10" class="bareInput" readonly="true">
+      <xsl:attribute name="value">
+        <xsl:value-of select="Timestamp[@current='1']"/>
+      </xsl:attribute>
+    </input>
+  </xsl:template>
   <xsl:template match="text()|@*"/>
   
 </xsl:stylesheet>

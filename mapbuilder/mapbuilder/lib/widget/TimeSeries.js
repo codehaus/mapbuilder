@@ -36,8 +36,8 @@ function TimeSeries(widgetNode, model) {
       vis="hidden";
     }
     var layerId = objRef.model.id + "_" + objRef.id + "_" + layerName;
-    var timestamp = objRef.model.getCurrentTimestamp(layerName);
-    if (timestamp) layerId += "_" + timestamp;
+    var timestampIndex = objRef.model.getParam("timestamp");
+    if (timestampIndex) layerId += "_" + timestampIndex;
     var layer = document.getElementById(layerId);
     if (layer) {
       layer.style.visibility=vis;
@@ -75,7 +75,7 @@ function TimeSeries(widgetNode, model) {
     var timelist = "";
     var timestampList = objRef.model.timestampList;
     if (timestampList) {
-      for (var i=timestampList.firstFrame; i<=timestampList.lastFrame; ++i) {
+      for (var i=objRef.model.getParam("firstFrame"); i<=objRef.model.getParam("lastFrame"); ++i) {
         timelist += timestampList.childNodes[i].firstChild.nodeValue + ",";
       }
       objRef.stylesheet.setParameter("timeList", timelist.substring(0,timelist.length-1));  //remove trailing comma
