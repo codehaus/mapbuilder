@@ -19,6 +19,9 @@ $Id$
  * @param url URL of the configuration file.
  */
 function Config(url) {
+/**
+ * open the application specific configuration document, passed in aas the url argument.
+ */
   this.doc = Sarissa.getDomDocument();
   this.doc.async = false;
   this.doc.validateOnParse=false;  //IE6 SP2 parsing bug
@@ -27,9 +30,28 @@ function Config(url) {
     alert("error loading config document: " + url );//+ " - " + Sarissa.getParseErrorText(this.doc) );
   }
   this.url = url;
-  this.namespace = "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder'";
+  this.namespace = "xmlns:mb='"+mbNsUrl+"'";
   this.doc.setProperty("SelectionLanguage", "XPath");
   Sarissa.setXpathNamespaces(this.doc, this.namespace);
+
+/**
+ * Set the serializeUrl and proxyUrl values from a global configuration document.
+ */
+  var configDoc = Sarissa.getDomDocument();
+  configDoc.async = false;
+  configDoc.validateOnParse=false;  //IE6 SP2 parsing bug
+  configDoc.load(baseDir+"/"+mbServerConfig);
+  if (configDoc.parseError < 0) {
+    alert("error loading server config document: " + baseDir+"/"+mbServerConfig );
+  } else {
+    configDoc.setProperty("SelectionLanguage", "XPath");
+    Sarissa.setXpathNamespaces(configDoc, this.namespace);
+    var node = configDoc.selectSingleNode("/mb:MapbuilderConfig/mb:proxyUrl");
+    if (node) this.proxyUrl = node.firstChild.nodeValue;
+    node = configDoc.selectSingleNode("/mb:MapbuilderConfig/mb:serializeUrl");
+    if (node) this.serializeUrl = node.firstChild.nodeValue;
+  }
+  configDoc = null;
 
   /**
    * Dynamic loading of the javascript files for objects defined in the Config file.
