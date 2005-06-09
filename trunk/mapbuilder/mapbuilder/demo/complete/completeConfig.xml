@@ -283,10 +283,6 @@
   <skinDir>../../lib/skin/default</skinDir>
   <languages>en,fr,fr-CA</languages>
   <widgetTextUrl>widgetText.xml</widgetTextUrl> <!-- relative to the skinDir + language subdir -->
-  <!-- Url of LOCAL redirection script, required to access external URLs -->
-  <!--proxyUrl>../server/proxy/proxy.php</proxyUrl-->
-  <proxyUrl>../../proxy</proxyUrl>
-  <!--serializeUrl>../server/proxy/serializer.php</serializeUrl-->
-  <serializeUrl>../../writeXml</serializeUrl>
+  <proxyUrl>../../MapbuilderProxy.jsp</proxyUrl> <!-- example of overriding the server config values -->
 </MapbuilderConfig>
 
