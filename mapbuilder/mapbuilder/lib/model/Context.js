@@ -259,6 +259,7 @@ function Context(modelNode, parent) {
     //only the first one selected is used as the timestamp source
     //var extentNode = objRef.doc.selectSingleNode("//wmc:Layer/wmc:Dimension[@name='time']");
     //TBD: how to deal with multiple time dimensions in one context doc, or caps doc?
+    mbNsUrl="http://mapbuilder.sourceforge.net/mapbuilder";
     var timeNodes = objRef.doc.selectNodes("//wmc:Dimension[@name='time']");
     for (var i=0; i<timeNodes.length; ++i) {
       var extentNode = timeNodes[i];
