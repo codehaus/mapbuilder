@@ -279,6 +279,4 @@
   -->
   <skinDir>../../lib/skin/default</skinDir>
   <widgetTextUrl>/widgetText.xml</widgetTextUrl> <!-- in the skin dir -->
-  <proxyUrl>../../proxy</proxyUrl>
-  <serializeUrl>../../writeXml</serializeUrl>
 </MapbuilderConfig>

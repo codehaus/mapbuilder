@@ -113,7 +113,5 @@
   <skinDir>../../lib/skin/default</skinDir>
   <widgetTextUrl>/widgetText.xml</widgetTextUrl> <!-- relative to the skin dir -->
   <!-- Url of LOCAL redirection script, required to access external URLs -->
-  <proxyUrl>/mapbuilder/proxy</proxyUrl>
-  <serializeUrl>/mapbuilder/writeXml</serializeUrl>
 </MapbuilderConfig>
 
