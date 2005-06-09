@@ -73,7 +73,7 @@
 	<ViewContextReference version="1.0.0" id="aafc">
 		<Title>External server example (requires proxy script)</Title>
 		<ContextURL>
-			<OnlineResource xlink:type="simple" xlink:href="http://geodiscover.cgdi.ca/gdp/contexts/aafc.xml"/>
+			<OnlineResource xlink:type="simple" xlink:href="http://geodiscover.cgdi.ca/gdp/contexts/radarsatMosaic.xml"/>
 		</ContextURL>
 	</ViewContextReference>
   
