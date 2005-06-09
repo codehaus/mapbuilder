@@ -110,7 +110,7 @@ $Id$
   <property name="app.name" value="mapbuilder"/>
   <property name="pack.name" value="mapbuilder-lib"/>
   <property name="app.path" value="/${app.name}"/>
-  <property name="app.version" value="0.3-alpha"/>
+  <property name="app.version" value="0.4-alpha"/>
   <property name="catalina.home" value="${env.CATALINA_HOME}"/> <!-- ensure you have this environment var set -->
   <property name="build.home" value="${basedir}/build"/>
   <property name="compress.home" value="${basedir}/compressBuild"/>
@@ -165,20 +165,35 @@ $Id$
 
     <!-- Create build directories as needed -->
     <mkdir dir="${build.home}"/>
-    <mkdir  dir="${build.home}/WEB-INF"/>
-    <mkdir  dir="${build.home}/WEB-INF/classes"/>
 
     <!-- Copy static content of the mapbuilder project  -->
     <copy todir="${build.home}">
       <fileset dir="${basedir}"
-        includes="demo/** lib/** docs/** CHANGES LICENSE GPL README index.html"/>
+        includes="demo/** lib/** docs/** server/php/** CHANGES LICENSE GPL README index.html"/>
     </copy>
+    <copy file="${basedir}/server/php/mapbuilderConfig.xml" todir="${build.home}/lib" overwrite="true"/>
     
+  </target>
+
+  <target name="prepare-tomcat" depends="prepare">
+
+    <!-- Create build directories as needed -->
+    <mkdir dir="${build.home}"/>
+    <mkdir  dir="${build.home}/WEB-INF"/>
+    <mkdir  dir="${build.home}/WEB-INF/classes"/>
+
     <!-- Copy static content of this web application -->
     <copy todir="${build.home}">
       <fileset dir="${context.home}/web"/>
     </copy>
-    
+    <copy file="${context.home}/web/lib/mapbuilderConfig.xml" todir="${build.home}/lib" overwrite="true"/>
+
+    <!-- set the global server config file to the JSP version -->   
+    <echo message="setting mbServerConfig URL to JSP version"/>
+    <delete file="${build.home}/lib/Mapbuilder.js.temp" quiet="true"/>
+    <copy file="${basedir}/lib/Mapbuilder.js" todir="${build.home}/lib" overwrite="true"/>
+    <replace file="${build.home}/lib/Mapbuilder.js" token="mapbuilderConfig.xml" value="mapbuilderConfig.jsp"/>
+        
     <!-- copy all files from etc to WEB-INF; includes tld files and scaf tokens-->   
     <copy todir="${build.home}/WEB-INF">
     	<fileset dir="${context.home}/etc">
@@ -232,7 +247,7 @@ $Id$
 
 <!-- ==================== Clean Tomcat ==================================== -->
 
-  <target description="Delete old build and dist directories" name="cleanTomcat">
+  <target description="Delete old build and dist directories" name="clean-tomcat">
     <delete dir="${deploy.home}"/>
   </target>
 
@@ -247,7 +262,8 @@ $Id$
     <!-- style the design docs from the XBook document -->
     <!--style in="${basedir}/design/mapbuilder-lib.xml" style="/usr/share/sgml/docbook/xsl-stylesheets/html/docbook.xsl" out="${build.home}/docs/design/index.html"/-->
     
-    <exec executable="${basedir}/bin/publish.sh">
+    <echo message="os name=${os.name}"/>
+    <exec executable="${basedir}/bin/publish.sh" os="linux">
     </exec>
   </target>
 
@@ -329,7 +345,7 @@ $Id$
   unpacked directory hierarchy under "/WEB-INF/classes".
 -->
 
-  <target name="compile" depends="prepare" description="Compile Java sources">
+  <target name="compile" depends="prepare-tomcat" description="Compile Java sources">
 
     <!-- Compile Java classes as necessary -->
     <mkdir    dir="${build.home}/WEB-INF/classes"/>
@@ -351,12 +367,12 @@ $Id$
 
 <!-- =================== Compress Target ================================== -->
 
-  <target description="Compress JS and XSL files" name="compress" depends="docs,compile">
+  <target description="Compress JS and XSL files" name="compress" depends="prepare">
     <copy todir="${compress.home}">
       <fileset dir="${build.home}"/>
     </copy>
 
-    <exec executable="${basedir}/bin/compress.sh"/>
+    <exec executable="${basedir}/bin/compress.sh" os="linux"/>
   </target>
 
 
@@ -365,7 +381,7 @@ $Id$
   The "deploy" target synchronizes the build directory with the Java Servlet
   container directory.  This could also be done by copying in the war file.
 -->
-  <target name="deploy"
+  <target name="deploy-tomcat"
     description="Copy build directory to $CATALINA_HOME"
     depends="compile">
     <mkdir dir="${deploy.home}"/>
@@ -391,30 +407,33 @@ $Id$
   <target
     name="dist"
     description="Create binary distribution"
-    depends="compile,docs,compress"
+    depends="clean,docs">
+    
+    <!-- first do the apache distribution -->
+    <antcall target="dist-apache"/>
+    
+    <!-- remove the compress directory, recreated in tomcat distribution -->
+    <delete dir="${compress.home}"/>
+    
+    <!-- do the tomcat distribution -->
+    <antcall target="dist-tomcat"/>
+
+  </target>
+
+<!--
+  The "dist-tomcat" target creates the war file distribution of your application
+  only without creating all docs, zips, etc.  This is to be used for deploying
+  your application to a produciton server.
+-->
+  <target
+    name="dist-tomcat"
+    description="Create binary distribution"
+    depends="compile,compress"
     >
-
+    
     <mkdir dir="${dist.home}"/>
-
-    <!-- Create source zip file -->
-    <zip destfile="${dist.home}/${pack.name}-src-${app.version}.zip" update="true">
-      <zipfileset dir="${build.home}" prefix="mapbuilder"/>
-    </zip>
-
+    
     <!-- Create source WAR file -->
-    <jar jarfile="${dist.home}/${app.name}.war" basedir="${build.home}"/>
-
-    <!-- zip up the application WAR file -->
-    <zip destfile="${dist.home}/${pack.name}-src-${app.version}-war.zip" update="true">
-      <zipfileset file="${dist.home}/${app.name}.war"/>
-    </zip>
-
-    <!-- Create application zip file -->
-    <zip destfile="${dist.home}/${pack.name}-${app.version}.zip" update="true">
-      <zipfileset dir="${compress.home}" prefix="mapbuilder"/>
-    </zip>
-
-    <!-- Create application WAR file -->
     <jar jarfile="${dist.home}/${app.name}.war" basedir="${compress.home}"/>
 
     <!-- zip up the application WAR file -->
@@ -424,20 +443,26 @@ $Id$
   </target>
 
 <!--
-  The "dist-war-only" target creates the war file distribution of your application
-  only without creating all docs, zips, etc.  This is to be used for deploying
-  your application to a produciton server.
+  The "dist-apache" target creates the zip file distribution for the Apache/PHP
+  environment.
 -->
   <target
-    name="dist-war-only"
+    name="dist-apache"
     description="Create binary distribution"
-    depends="compile"
+    depends="prepare,compress"
     >
 
     <mkdir dir="${dist.home}"/>
 
-    <!-- Create source WAR file -->
-    <jar jarfile="${dist.home}/${app.name}.war" basedir="${build.home}"/>
+    <!-- Create source zip file -->
+    <zip destfile="${dist.home}/${pack.name}-src-${app.version}.zip" update="true">
+      <zipfileset dir="${basedir}" excludes="build/** dist/** compressBuild/** client/** design/**" prefix="mapbuilder"/>
+    </zip>
+    
+    <!-- Create application zip file -->
+    <zip destfile="${dist.home}/${pack.name}-${app.version}.zip" update="true">
+      <zipfileset dir="${compress.home}" prefix="mapbuilder"/>
+    </zip>
 
   </target>
 
