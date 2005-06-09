@@ -7,8 +7,12 @@ $Id$
 
 var Rearth = 6378137.0;                 // Radius of the earth (sphere); different from Proj value?
 var degToMeter = Rearth*2*Math.PI/360;
-var mbScaleFactor = 72 * 39.3701;   //PixelsPerInch*InchesPerMapUnit; magic numbers 
+//var mbScaleFactor = 72 * 39.3701;   //PixelsPerInch*InchesPerMapUnit; magic numbers 
                                     //need to determine magic number for lat/lon
+var mbScaleFactor = 3571.428   //magic number, for Geoserver SLD compatibility
+                               // 1/0.00028 (0.28 mm "is a common actual size for
+                               // contemporary display" as written in the SLD specification ...
+
 /*
  * FD 2005/03/04 : minScale et maxScale
  * DGR : should be in config ?
