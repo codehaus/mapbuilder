@@ -12,6 +12,13 @@ var config;
 /** URL of Mapbuilder's lib/ directory. */
 var baseDir;
 
+/** mapbuilder environement settings, defaults to a .xml extension but is 
+  auto-configured by the ant build script to .jsp for tomcat environment 
+  the URL to this file will be pre-pended with the baseDir value.
+*/
+var mbServerConfig = "mapbuilderConfig.xml";
+var mbNsUrl = "http://mapbuilder.sourceforge.net/mapbuilder";
+
 // LoadState Constants
 var MB_UNLOADED=0;    // Scripts not loaded yet
 var MB_LOAD_CORE=1;   // Loading scripts loaded defined in Mapbuilder
