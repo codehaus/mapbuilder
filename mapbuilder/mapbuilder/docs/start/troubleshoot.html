@@ -25,6 +25,11 @@ The following doctype declarations are known to work correctly:
 <pre>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"&gt;</pre>
 <pre>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"&gt;</pre>
   </li>
+  <li><span class="title">no extra whitespace in config properties</span>
+  don't put in extra whitespace or comments for properties in config.
+  Properties should look like <b>&lt;property&gt;value&lt;/property&gt;</b>
+  and not have any carriage returns within the element.
+  </li>
   <li><span class="title">Empty HTML tags</span>
   Don't use the empty node form in the HTML page for mapbuilder elements 
   (i.e. <b>&lt;div&nbsp;id="mbId"/&gt;</b>).
