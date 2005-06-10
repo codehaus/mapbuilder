@@ -37,7 +37,7 @@ $Id$
      from which Ant executes the requested task.  This is normally
      set to the current working directory.
 -->
-  <project basedir=".." default="deploy" name="mapbuilder">
+  <project basedir=".." default="deploy-tomcat" name="mapbuilder">
 
 <!-- ===================== Property Definitions =========================== -->
 <!--
