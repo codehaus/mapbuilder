@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+  <head>
+    <title>Mapbuilder Time Series Demo</title>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/docsStyle.css'>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'>
+    <script>
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='tsConfig.xml';
+    </script>
+    <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
+  </head>
+  <body onload="mbDoLoad()">
+    <h1><a href="http://mapbuilder.sourceforge.net">MapBuilder</a> Time Series Demo</h1>
+    <table>
+      <tr>
+        <td id="tsButtonBar" align="left"/>
+        <td id="timestamp" align="right"/>
+        <td><h2 id="mapTitle"></h2><td/>
+      </tr>
+      <tr>
+        <td colspan="2" valign="top">
+          <div id="mainMapPane"/>
+          <div id="loading">
+            <p>Loading Program<br/>
+            <img src="../../lib/skin/default/images/Loading.gif"/>
+            </p>
+          </div>
+          <noscript>this page requires Javascript to be enabled</noscript>
+        </td>
+        <td valign="top">
+          <div id="abstract"></div>
+        </td>
+      </tr>
+      <tr>
+        <td id="mainButtonBar" valign="top" align="left"/>
+        <td id="cursorTrack" valign="top" align="right"/>
+        <td id="collectionList" valign="top"/>
+      </tr>
+      <tr>
+        <td id="legend" colspan="2" valign="top" align="left"/>
+        <td/>
+      </tr>
+      <tr>
+        <td id="workspaceCanvas" colspan="2" valign="top" align="left"/>
+        <td/>
+      </tr>
+    </table>
+
+    <table class="footer">
+      <tr>
+        <td><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a><br/>$Name$</td>
+        <td width="60"><img src="../../lib/skin/default/images/Icon.gif"/></td>
+      </tr>
+    </table>
+  </body>
+</html>
