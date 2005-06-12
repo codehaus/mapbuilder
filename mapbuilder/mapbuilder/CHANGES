@@ -5,6 +5,63 @@ $Id$
 This file contains information about updates to each release:
 
 
+mapbuilder-lib-0.3.1-alpha (alpha quality)
+========================================
+This is an interum bug fix release to ensure releases keep up with the
+head development.  This release has had minimal testing done on it.
+
+Bugs fixed:
+-----------
+1216418	build leaves out /server/php
+1176000	Selecting "My map collection" not working
+1119953	Feature Entry should use WebServiceRequest.js
+1104715	MapPane doesn't refresh after a new feature is submitted
+1069050	Limit multiple paint requests
+1064707	GmlRender image does not move during a ZoomPan
+1216926	missing proxy files
+1187614	"input out of range error" when using NTS Service in LCC
+1180306	refactor language handling
+1174320	mapscale text update
+1162293	Default load WMC doc is invalid
+1118614	IE - handle disabled ActiveX objects
+1118377	Geoserver to be packaged with suitable layers for mapbuilder
+995127	Error during loading process on IE 6 on Windows XP
+973651	add more img attributes
+967806	CursorTrack.xsl units label display
+1191479	WFS-T demo uses absolute URLs to geoserver
+1175577	The build process doesnt copy images for design doc
+1166844	ant script create build/build/build/... directories
+1157444	Remove the title attribute from map images
+
+Outstanding Issues (highest priority fist):
+-------------------------------------------
+1213206	implement asynchronous document loading
+1192667	PNG format doesn't use transparancy on IE
+1175989	js error when loading WFS Servers
+1195505	graphical map scale bar
+1193142	Incorrect click position in WFS-T demo on IE
+1191398	model template attribute not working correctly
+1177691	Problems panning/zooming off the map area
+1174298	use scalehints in context docs
+1116660	Remove TransactionStatus widget when EditFeature selected
+1115672	User should be able to deselect EditFeature buttons
+967937	aspect ratio on startup
+967933	layer list ordering
+1196838	Mapbuilder and Geoserver to use the same demos
+1181411	ZoomBy factor should be in config file
+1168984	publish.sh references incorrect jsdoc.pl
+1168981	bin/publish.sh references incorrect XSL
+1164770	links in mapbuilder/index.html broker
+1153752	demo/index.html should explain need for Tomcat installation
+1013754	Coord string does not handle space char inside tuple
+968519	query icon
+1175978	rename model/DescribeFeatureType.js
+1168180	Change Open GIS to Open Geospacial
+1162133	Add GPL header to all source files.
+1102212	EditTools don't contain French tooltip
+1071242	Move util.js into JS objects
+
+
 mapbuilder-lib-0.3-alpha (alpha quality)
 ========================================
 This release fixes some of the demos which were not able access server side
