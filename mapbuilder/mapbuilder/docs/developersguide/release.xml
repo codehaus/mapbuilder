@@ -63,7 +63,8 @@
               </listitem>
 
               <listitem>
-                <para>Select Status=Closed, Group=[last release]</para>
+                <para>Select Status=Closed, Group=[last release], Sort
+                By=Priority</para>
               </listitem>
             </itemizedlist>
           </listitem>
@@ -81,6 +82,10 @@
                 <para>Select Status=Open, Group=[last release]</para>
               </listitem>
             </itemizedlist>
+          </listitem>
+
+          <listitem>
+            <para>Commit CHANGES back into CVS.</para>
           </listitem>
         </itemizedlist>
       </listitem>
