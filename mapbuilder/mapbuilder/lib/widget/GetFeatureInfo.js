@@ -28,8 +28,8 @@ function GetFeatureInfo(toolNode, model) {
 
   /** Determine whether Query result is returned as HTML or GML */
   // TBD This should be stored in the Config file.
-  this.infoFormat="application/vnd.ogc.gml";
-  //this.infoFormat="text/html";
+  //this.infoFormat="application/vnd.ogc.gml";
+  this.infoFormat="text/html";
 
   /**
    * Open window with query info.
@@ -76,7 +76,14 @@ function GetFeatureInfo(toolNode, model) {
     }
   }
 
-  if (this.mouseHandler) {
-    this.mouseHandler.addListener('mouseup',this.doAction,this);
+  /**
+   * Register for mouseUp events.
+   * @param objRef  Pointer to this object.
+   */
+  this.setMouseListener = function(objRef) {
+    if (objRef.mouseHandler) {
+      objRef.mouseHandler.model.addListener('mouseup',objRef.doAction,objRef);
+    }
   }
+  config.addListener( "loadModel", this.setMouseListener, this );
 }
