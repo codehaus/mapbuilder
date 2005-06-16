@@ -220,10 +220,6 @@ $CATALINA_HOME/bin/startup.sh</programlisting>
       <term>Move to mapbuilder release directory</term>
 
       <listitem>
-        <para></para>
-
-        <para></para>
-
         <itemizedlist>
           <listitem>
             <para>From the <ulink
