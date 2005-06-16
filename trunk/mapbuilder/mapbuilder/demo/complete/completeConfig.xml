@@ -236,14 +236,14 @@
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
     </Reset>
-    <!--GetFeatureInfo id="getFeatureInfo">
+    <GetFeatureInfo id="getFeatureInfo">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureCollection</targetModel>
-      <mouseHandler>mainMap</mouseHandler>
+      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/QueryEnable.gif</enabledSrc>
       <disabledSrc>/images/QueryDisable.gif</disabledSrc>
-    </GetFeatureInfo-->
+    </GetFeatureInfo>
     <EditPoint id="editPoint">
       <buttonBar>mainButtonBar</buttonBar>
       <mouseHandler>mainMouseClick</mouseHandler>
