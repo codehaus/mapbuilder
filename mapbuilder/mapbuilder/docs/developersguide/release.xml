@@ -170,9 +170,10 @@ ant dist
       <term>Check WAR file</term>
 
       <listitem>
-        <programlisting>cp ~/tmp/dist/mapbuilder-lib-[version]-war.zip $CATALINA_HOME/webapps
+        <programlisting>$CATALINA_HOME/bin/shutdown.sh
+cp ~/tmp/dist/mapbuilder-lib-[version]-war.zip $CATALINA_HOME/webapps
 unzip mapbuilder-lib-[version]-war.zip
-</programlisting>
+$CATALINA_HOME/bin/startup.sh</programlisting>
 
         <para>In a broswer, view all the demos at <ulink
         url="http://localhost:8080/mapbuilder/demo">http://localhost:8080/mapbuilder/demo</ulink></para>
@@ -219,13 +220,70 @@ unzip mapbuilder-lib-[version]-war.zip
       <term>Move to mapbuilder release directory</term>
 
       <listitem>
-        <para>From the <ulink
-        url="http://sourceforge.net/projects/generguide">http://sourceforge.net/projects/mapbuilder</ulink>,
-        select <literal>Admin</literal>, <literal>File Releases</literal>,
-        <literal>Add Release</literal>.</para>
+        <para></para>
 
-        <para>Walk through the various forms. For description of changes, use
-        the text from the CHANGES file.</para>
+        <para></para>
+
+        <itemizedlist>
+          <listitem>
+            <para>From the <ulink
+            url="http://sourceforge.net/projects/generguide">https://sourceforge.net/projects/mapbuilder</ulink>,
+            select <literal>Admin</literal>, <literal>File Releases</literal>,
+            <literal>Add Release (for mapbuilder-lib)</literal>.</para>
+          </listitem>
+
+          <listitem>
+            <para>Walk through the various forms. For description of changes,
+            use the text from the CHANGES file.</para>
+
+            <variablelist>
+              <varlistentry>
+                <term>Select release name</term>
+
+                <listitem>
+                  <para>Something like: mapbuilder-lib-0.2-alpha . Note that
+                  underscores have been replaced with full stops.</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>Step 1</term>
+
+                <listitem>
+                  <para>Notes comes from the description of release and
+                  Outstanding Bugs in the mapbuilder/CHANGES file.</para>
+
+                  <para>Changes comes from the Bugs Fixed in
+                  mapbuilder/CHANGES file.</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>Step 2</term>
+
+                <listitem>
+                  <para></para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>Step 3</term>
+
+                <listitem>
+                  <para>Processor=Any, File Type=.zip</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>Step 4</term>
+
+                <listitem>
+                  <para></para>
+                </listitem>
+              </varlistentry>
+            </variablelist>
+          </listitem>
+        </itemizedlist>
       </listitem>
     </varlistentry>
 
@@ -254,12 +312,22 @@ ln -s mapbuilder-lib-[version] mapbuilder</programlisting>
     </varlistentry>
 
     <varlistentry>
+      <term>Update links on the mapbuilder demo's webpage</term>
+
+      <listitem>
+        <para>Edit links on <ulink
+        url="http://mapbuilder.sourceforge.net/?q=taxonomy/term/5">http://mapbuilder.sourceforge.net/?q=taxonomy/term/5</ulink></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term>Install release on the Demonstration server</term>
 
       <listitem>
-        <para>TBD: Demo server is yet to be identified.</para>
-
-        <programlisting></programlisting>
+        <programlisting>scp ~/tmp/mapbuilder/dist/mapbuilder-lib-0.3.1-alpha-war.zip bikemap.openearth.com.au:
+ssh bikemap.openearth.com.au
+unzip mapbuilder-lib-0.3.1-alpha-war.zip
+mv mapbuilder.war $CATALINA_HOME/webapps/mapbuilder-lib-0.3.1-alpha.war</programlisting>
       </listitem>
     </varlistentry>
 
@@ -277,13 +345,12 @@ ln -s mapbuilder-lib-[version] mapbuilder</programlisting>
       <term>Create a new group in in the Sourceforge bug list</term>
 
       <listitem>
-        <para></para>
+        <para>Select Bugs-&gt;Admin-&gt;Bugs-&gt;Add/Update Group</para>
       </listitem>
     </varlistentry>
 
     <varlistentry>
-      <term>Set all outstanding bugs to be assigned to the new release
-      group</term>
+      <term>Set all Open bugs to be assigned to the new release group</term>
 
       <listitem>
         <para></para>
