@@ -86,7 +86,7 @@ public class ProxyRedirect extends HttpServlet
           response.setContentType("text/xml");
           String responseBody = httpget.getResponseBodyAsString().trim();
           response.setContentLength(responseBody.length());
-          log.debug("responseBody:" + responseBody);
+          log.info("responseBody:" + responseBody);
           PrintWriter out = response.getWriter();
           out.print( responseBody );
           response.flushBuffer();
@@ -149,7 +149,7 @@ public class ProxyRedirect extends HttpServlet
           response.setContentType("text/xml");
           String responseBody = httppost.getResponseBodyAsString();
           response.setContentLength(responseBody.length());
-          log.debug("responseBody:" + responseBody);
+          log.info("responseBody:" + responseBody);
           out.print( responseBody );
         } else {
           log.error("Unexpected failure: " + httppost.getStatusLine().toString());
