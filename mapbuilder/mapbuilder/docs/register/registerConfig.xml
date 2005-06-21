@@ -10,7 +10,7 @@
   -->
   <models>
     <Model id="mbConfigSchema">
-      <defaultModelUrl>../../lib/schemas/config.xsd</defaultModelUrl>
+      <defaultModelUrl>http://localhost:8080/mapbuilder/lib/schemas/config.xsd</defaultModelUrl>
       <!--nodeSelectXpath>/wmc:OWSContext/wmc:ResourceList</nodeSelectXpath-->
       <models>
       </models>
