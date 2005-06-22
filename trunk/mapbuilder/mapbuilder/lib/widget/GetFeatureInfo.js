@@ -49,8 +49,9 @@ function GetFeatureInfo(toolNode, model) {
         objRef.xsl.setParameter("infoFormat", objRef.infoFormat);
         objRef.xsl.setParameter("featureCount", "1");
 
+        urlNode=objRef.xsl.transformNodeToObject(objRef.context.doc);
         url=urlNode.documentElement.firstChild.nodeValue;
-        alert("GetFeatureInfo: url="+url);
+        //alert("GetFeatureInfo: url="+url);
 
         if (objRef.infoFormat=="text/html"){
           window.open(url,'queryWin','height=200,width=300,scrollbars=yes');
