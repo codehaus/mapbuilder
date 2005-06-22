@@ -34,7 +34,6 @@ function Legend(widgetNode, model) {
    * @param layer The selected layer.
    */
   this.selectLayer = function(objRef,layer) {
-    alert("Legend.selectLayer: layer="+layer);
     objRef.model.setParam('selectedLayer',layer);
   }
 }
