@@ -40,6 +40,8 @@ $Name$
 
   <xsl:param name="modelId"/>
 
+  <xsl:param name="widgetId"/>
+
   
 
   <!-- Text params for this widget -->
@@ -180,7 +182,7 @@ $Name$
 
             title="Click to set {wmc:Title} as the query layer"
 
-            onclick="{$context}.setParam('queryLayer','{wmc:Name}')"
+            onclick="config.objects.{$widgetId}.selectLayer(config.objects.{$widgetId},'{wmc:Name}')"
 
             src="/mapbuilder/lib/skin/default/images/id.gif" />
 

@@ -22,10 +22,8 @@ function GetFeatureInfo(toolNode, model) {
   var base = new ButtonBase(this, toolNode, model);
 
   /** Xsl to build a GetFeatureInfo URL */
-  this.xsl=Sarissa.getDomDocument();
-  this.xsl.async=false;
-  this.xsl.load(baseDir+"/tool/GetFeatureInfo.xsl");
-
+  this.xsl=new XslProcessor(baseDir+"/tool/GetFeatureInfo.xsl");
+  
   /** Determine whether Query result is returned as HTML or GML */
   // TBD This should be stored in the Config file.
   //this.infoFormat="application/vnd.ogc.gml";
@@ -40,38 +38,43 @@ function GetFeatureInfo(toolNode, model) {
 
   this.doAction = function(objRef,targetNode) {
     if (objRef.enabled) {
-      var queryLayer=objRef.targetModel.getParam("queryLayer");
-      if (queryLayer==null) {
+      var selectedLayer=objRef.context.getParam("selectedLayer");
+      if (selectedLayer==null) {
         alert("Query layer not selected, select a queryable layer in the Legend.");
       }
       else {
-        Sarissa.setXslParameter(
-          objRef.xsl,
-          "queryLayer", "'"+queryLayer+"'");
-        Sarissa.setXslParameter(
-          objRef.xsl,
+        objRef.xsl.setParameter(
+          "SelectionLanguage", "XPath");
+        objRef.xsl.setParameter(
+          "SelectionNamespace", "xmlns:wmc='http://www.opengis.net/context' xmlns: xsl='http://www.w3.org/1999/XSL/Transform' xmlns:xlink='http://www.w3.org/1999/xlink'");
+        objRef.xsl.setParameter(
+          "queryLayer", "'"+selectedLayer+"'");
+        objRef.xsl.setParameter(
           "xCoord", "'"+targetNode.evpl[0]+"'");
-        Sarissa.setXslParameter(
-          objRef.xsl,
+        objRef.xsl.setParameter(
           "yCoord", "'"+targetNode.evpl[1]+"'");
-        Sarissa.setXslParameter(
-          objRef.xsl,
+        objRef.xsl.setParameter(
           "infoFormat", "'"+objRef.infoFormat+"'");
-        Sarissa.setXslParameter(
-          objRef.xsl,
+        objRef.xsl.setParameter(
           "featureCount", "'1'");
 
-        urlNode=Sarissa.getDomDocument();
-        objRef.targetModel.doc.transformNodeToObject(objRef.xsl,urlNode);
+        urlNode=objRef.xsl.transformNodeToObject(objRef.context.doc);
+        //alert("GetFeatureInfo: context="+Sarissa.serialize(objRef.context.doc));
+        alert("GetFeatureInfo: urlNode="+Sarissa.serialize(urlNode));
+        url=urlNode.documentElement.firstChild.nodeValue;
+        alert("GetFeatureInfo: url="+url);
+        //url=objRef.targetModel.getProxyPlusUrl(urlNode.documentElement.firstChild.nodeValue);
+        //urlNode=Sarissa.getDomDocument();
+        //objRef.targetModel.doc.transformNodeToObject(objRef.xsl,urlNode);
 
         if (objRef.infoFormat=="text/html"){
-          alert("url="+url);
           window.open(url,'queryWin','height=200,width=300,scrollbars=yes');
-        }else{
-          url=objRef.targetModel.getProxyPlusUrl(urlNode.documentElement.firstChild.nodeValue);
-          alert("url="+url);
-          objRef.targetModel.loadModelDoc(url);
         }
+        //else{
+        //  url=objRef.targetModel.getProxyPlusUrl(urlNode.documentElement.firstChild.nodeValue);
+        //  alert("url="+url);
+        //  objRef.targetModel.loadModelDoc(url);
+        //}
       }
     }
   }
@@ -83,6 +86,10 @@ function GetFeatureInfo(toolNode, model) {
   this.setMouseListener = function(objRef) {
     if (objRef.mouseHandler) {
       objRef.mouseHandler.model.addListener('mouseup',objRef.doAction,objRef);
+    }
+    objRef.context=objRef.widgetNode.selectSingleNode("mb:context");
+    if (objRef.context){
+      objRef.context=eval("config.objects."+objRef.context.firstChild.nodeValue);
     }
   }
   config.addListener( "loadModel", this.setMouseListener, this );
