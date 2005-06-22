@@ -86,11 +86,7 @@ $Name$
 
   <xsl:template match="wmc:Layer">
 
-
-
-    name=<xsl:value-of select="wmc:Name"/>
-
-    <xsl:if test="$queryLayer=wmc:Name">
+    <xsl:if test="contains($queryLayer,wmc:Name)">
 
       <!-- Layer variables -->
 

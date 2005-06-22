@@ -43,38 +43,18 @@ function GetFeatureInfo(toolNode, model) {
         alert("Query layer not selected, select a queryable layer in the Legend.");
       }
       else {
-        objRef.xsl.setParameter(
-          "SelectionLanguage", "XPath");
-        objRef.xsl.setParameter(
-          "SelectionNamespace", "xmlns:wmc='http://www.opengis.net/context' xmlns: xsl='http://www.w3.org/1999/XSL/Transform' xmlns:xlink='http://www.w3.org/1999/xlink'");
-        objRef.xsl.setParameter(
-          "queryLayer", "'"+selectedLayer+"'");
-        objRef.xsl.setParameter(
-          "xCoord", "'"+targetNode.evpl[0]+"'");
-        objRef.xsl.setParameter(
-          "yCoord", "'"+targetNode.evpl[1]+"'");
-        objRef.xsl.setParameter(
-          "infoFormat", "'"+objRef.infoFormat+"'");
-        objRef.xsl.setParameter(
-          "featureCount", "'1'");
+        objRef.xsl.setParameter("queryLayer", selectedLayer);
+        objRef.xsl.setParameter("xCoord", targetNode.evpl[0]);
+        objRef.xsl.setParameter("yCoord", targetNode.evpl[1]);
+        objRef.xsl.setParameter("infoFormat", objRef.infoFormat);
+        objRef.xsl.setParameter("featureCount", "1");
 
-        urlNode=objRef.xsl.transformNodeToObject(objRef.context.doc);
-        //alert("GetFeatureInfo: context="+Sarissa.serialize(objRef.context.doc));
-        alert("GetFeatureInfo: urlNode="+Sarissa.serialize(urlNode));
         url=urlNode.documentElement.firstChild.nodeValue;
         alert("GetFeatureInfo: url="+url);
-        //url=objRef.targetModel.getProxyPlusUrl(urlNode.documentElement.firstChild.nodeValue);
-        //urlNode=Sarissa.getDomDocument();
-        //objRef.targetModel.doc.transformNodeToObject(objRef.xsl,urlNode);
 
         if (objRef.infoFormat=="text/html"){
           window.open(url,'queryWin','height=200,width=300,scrollbars=yes');
         }
-        //else{
-        //  url=objRef.targetModel.getProxyPlusUrl(urlNode.documentElement.firstChild.nodeValue);
-        //  alert("url="+url);
-        //  objRef.targetModel.loadModelDoc(url);
-        //}
       }
     }
   }
