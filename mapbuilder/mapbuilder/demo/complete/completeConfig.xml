@@ -239,6 +239,7 @@
     <GetFeatureInfo id="getFeatureInfo">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureCollection</targetModel>
+      <context>mainMap</context>
       <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/QueryEnable.gif</enabledSrc>

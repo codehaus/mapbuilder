@@ -29,4 +29,12 @@ function Legend(widgetNode, model) {
     }
   }
 
+  /**
+   * @param objRef Pointer to this object.
+   * @param layer The selected layer.
+   */
+  this.selectLayer = function(objRef,layer) {
+    alert("Legend.selectLayer: layer="+layer);
+    objRef.model.setParam('selectedLayer',layer);
+  }
 }
