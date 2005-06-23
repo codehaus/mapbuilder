@@ -38,10 +38,11 @@ $Name:  $
   </xsl:template>
 
   <xsl:template match="rss:item">
-    <xsl:variable name="x"><xsl:value-of select="geo:Point/geo:long"/></xsl:variable>
-    <xsl:variable name="y"><xsl:value-of select="geo:Point/geo:lat"/></xsl:variable>
+    <xsl:variable name="fid"><xsl:value-of select="@id"/></xsl:variable>
+    <xsl:variable name="x"><xsl:value-of select="geo:long"/></xsl:variable>
+    <xsl:variable name="y"><xsl:value-of select="geo:lat"/></xsl:variable>
     <xsl:variable name="link"><xsl:value-of select="rss:link"/></xsl:variable>
-    <tr onmouseover="config.objects.{$targetModelId}.setParam('aoi',new Array(new Array({$x},{$y}),new Array({$x},{$y})))">
+    <tr onmouseover="config.objects.{$modelId}.setParam('highlightFeature','{$fid}')" onmouseout="config.objects.{$modelId}.setParam('dehighlightFeature','{$fid}')">
       <td>
         <a href="{$link}"><xsl:value-of select="rss:title"/></a>
         - <xsl:value-of select="rss:description"/>

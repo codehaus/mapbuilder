@@ -11,12 +11,13 @@
         <MapPane id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
           <mapContainerId>mainMapContainer</mapContainerId>
+          <fixedWidth>216</fixedWidth>
         </MapPane>
         <Loading id="loading">
         </Loading>
         <AoiBoxDHTML id="aoiBox2">
           <htmlTagId>mainMapPane</htmlTagId>
-          <stylesheet>../../lib/widget/Null.xsl</stylesheet>
+          <stylesheet>/mapbuilder/lib/widget/Null.xsl</stylesheet>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
@@ -32,16 +33,13 @@
     </Context>
     <GeoRSS id="geoRSS">
       <!--defaultModelUrl>http://crcp-blogger.mit.edu/geoblogger/rss.php</defaultModelUrl-->
-      <!--scriptFile>/geoRSS/GeoRSS.js</scriptFile-->
       <defaultModelUrl>geoRSS.xml</defaultModelUrl>
       <namespace>xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:rss='http://purl.org/rss/1.0/' xmlns:taxo='http://purl.org/rss/1.0/modules/taxonomy/' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:syn='http://purl.org/rss/1.0/modules/syndication/' xmlns:geo='http://www.w3.org/2003/01/geo/wgs84_pos#'</namespace>
-      <nodeSelectXpath>/rdf:RDF/rss:item</nodeSelectXpath>
       <widgets>
         <Widget id="eventsListing">
-          <stylesheet>GeoRSSListing.xsl</stylesheet>
-          <targetModel>mainMap</targetModel>
+          <stylesheet>GeoRSSListing2.xsl</stylesheet>
         </Widget>
-        <GmlPointRenderer id="pointRenderer">
+        <GmlPointRenderer id="testGmlRenderer">
           <htmlTagId>mainMapPane</htmlTagId>
           <mapContainerId>mainMapContainer</mapContainerId>
           <normalImage>/images/MarkerA.gif</normalImage>
@@ -88,6 +86,6 @@
       <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
     </Reset>
   </widgets>
-  <skinDir>../../lib/skin/default</skinDir>
+  <skinDir>/mapbuilder/lib/skin/default</skinDir>
   <widgetTextUrl>widgetText.xml</widgetTextUrl> <!-- relative to the skin dir -->
 </MapbuilderConfig>

@@ -18,7 +18,41 @@
 
 <LayerList>
 
-<Layer queryable="0" hidden="0">
+  <Layer queryable="0" hidden="0">
+
+   <Server service="OGC:WMS" version="1.1.1" title="OGC:WMS">
+
+    <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/ows1/cubeserv/cubeserv.cgi"/>
+
+   </Server>
+
+   <Name>DOQ:TerraService</Name>
+
+   <Title>USGS Digital Ortho-Quadrangles</Title>
+
+   <SRS>EPSG:4326</SRS>
+
+   <FormatList>
+
+    <Format current="1">image/gif</Format>
+
+   </FormatList>
+
+   <StyleList>
+
+   <Style current="1">
+
+    <Name>default</Name>
+
+    <Title>default</Title>
+
+   </Style>
+
+   </StyleList>
+
+  </Layer>
+
+<Layer queryable="0" hidden="1">
 
 <Server service="OGC:WMS" version="1.1.0" title="GEORSS">
 
@@ -186,7 +220,7 @@
 
 </Layer>
 
-<Layer queryable="0" hidden="0">
+<Layer queryable="0" hidden="1">
 
 <Server service="OGC:WMS" version="1.1.0" title="GEORSS">
 
