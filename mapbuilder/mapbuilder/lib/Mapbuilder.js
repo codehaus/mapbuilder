@@ -204,10 +204,10 @@ function mapbuilderInit(){
   if(mapbuilder && mapbuilder.loadState==MB_LOADED){
     clearInterval(mbTimerId);
     config.init(config);
-    if (window.mbInit) window.mbInit();
     config.callListeners("init");
     var mbTimerStop = new Date();
     //alert("load time:"+(mbTimerStop.getTime()-mbTimerStart.getTime()) );
+    if (window.mbInit) window.mbInit();
     config.callListeners("loadModel");
     config.callListeners("refresh");
   }
