@@ -76,5 +76,50 @@ function FeatureCollection(modelNode, parent) {
   }
   this.hidden = false;
 
+  /**
+   * Returns the list of nodes selected by the nodeSelectpath.  These nodes
+   * will be the individual feature memebers from the collection.
+   * @return list of nodes selected 
+   */
+  this.getFeatureNodes = function() {
+    return this.doc.selectNodes(this.nodeSelectXpath);
+  }
+
+  /**
+   * Returns a label for a node in the feature list
+   * @param featureNode the feature node to selectfrom
+   * @return a label for this feature
+   */
+  this.getFeatureName = function(featureNode) {
+    var labelNode = featureNode.selectSingleNode("topp:CITY_NAME");   //TBD: set this dynamically
+    return labelNode?labelNode.firstChild.nodeValue:"No RSS title";
+  }
+
+  /**
+   * Returns an ID value for a node in the feature list
+   * @param featureNode the feature node to selectfrom
+   * @return ID for this feature
+   */
+  this.getFeatureId = function(featureNode) {
+    return featureNode.getAttribute("fid")?featureNode.getAttribute("fid"):"no_id";
+  }
+
+  /**
+   * Returns a point geometry for the feature
+   * @param featureNode the feature node to select from
+   * @return the geometric point for the node
+   */
+  this.getFeaturePoint = function(featureNode) {
+	 var coordSelectXpath = "topp:the_geom/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates";//TBD: set this dynamically
+    var coords = featureNode.selectSingleNode(coordSelectXpath);
+    if (coords) {
+      var point = coords.firstChild.nodeValue.split(',');
+      return point
+    } else {
+      return new Array(0,0);  //or some other error to return?
+    }
+  }
+
+
 }
 
