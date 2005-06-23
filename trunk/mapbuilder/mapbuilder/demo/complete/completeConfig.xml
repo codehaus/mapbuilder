@@ -170,6 +170,19 @@
         </GmlRendererWZ>
       </widgets>
     </FeatureCollection>
+    <FeatureCollection id="pointFeatures">
+      <defaultModelUrl>../data/gml/topp_cities.xml</defaultModelUrl>
+      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
+      <nodeSelectXpath>/wfs:FeatureCollection/gml:featureMember/topp:tasmania_cities</nodeSelectXpath>
+      <widgets>
+        <GmlPointRenderer id="pointRenderer">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <normalImage>/images/MarkerA.gif</normalImage>
+          <highlightImage>/images/MarkerB.gif</highlightImage>
+        </GmlPointRenderer>
+      </widgets>
+    </FeatureCollection>
     <WmsCapabilities id="wmsCapTemplate">
       <nodeSelectXpath>//Layer</nodeSelectXpath>
       <widgets>
