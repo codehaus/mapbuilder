@@ -33,4 +33,14 @@ function FeatureList(widgetNode, model) {
     objRef.webServiceAction.processAction(
       objRef.webServiceAction,objRef.model,button);
   }
+
+  /**
+   * Set the value of an attribute from the FeatureList.
+   * @param objRef Reference to this object.
+   * @param xpath Xpath reference to the attribute in the GML.
+   * @param value New attribute value.
+   */
+  this.setAttr=function(objRef,xpath,value){
+    objRef.model.setXpathValue(objRef.model,xpath,value);
+  }
 }

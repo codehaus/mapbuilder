@@ -58,7 +58,7 @@ $Name$
             id="{$widgetId}{generate-id()}"
             size="40"
             value="{text()}"
-            onchange="config.{$modelId}.setXpathValue(config.{$modelId},'{$xlink}',document.getElementById('{$widgetId}{generate-id()}').value);"/>
+            onchange="config.objects.{$widgetId}.setAttr(config.objects.{$widgetId},'{$xlink}',document.getElementById('{$widgetId}{generate-id()}').value);"/>
         </td>
         <xsl:apply-templates>
           <xsl:with-param name="tab">
