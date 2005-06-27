@@ -7,11 +7,10 @@
   <General>
     <Window width="440" height="240"/>
     <BoundingBox SRS="EPSG:4326" miny="55" maxy="85" maxx="60" minx="5"/>
-    <Title>BALANCE Visualization Server</Title>
+    <Title>Monthly Mean Temperature</Title>
     <Abstract>Web Map Server maintained for BALANCE Project by Institute for Geoinformatics, University of Muenster.  Contact: tegtmeyer@uni-muenster.de.</Abstract>
         <KeywordList>
             <Keyword>Barents Sea</Keyword>
-
             <Keyword>arctic</Keyword>
             <Keyword>climate</Keyword>
             <Keyword>BALANCE</Keyword>
@@ -21,7 +20,6 @@
     </DescriptionURL>
         <ContactInformation>
             <ContactPersonPrimary>
-
                 <ContactPerson>Sascha Tegtmeyer</ContactPerson>
                 <ContactOrganization>IFGI</ContactOrganization>
             </ContactPersonPrimary>
@@ -29,7 +27,6 @@
             <ContactAddress>
                 <AddressType>postal</AddressType>
                 <Address>Robert-Koch-Str. 26-28 </Address>
-
                 <City>Muenster</City>
                 <StateOrProvince>NRW</StateOrProvince>
                 <PostCode>48145</PostCode>
@@ -41,7 +38,7 @@
   </General>
   <LayerList>
     <Layer queryable="1" hidden="0">
-      <Server service="wms" version="1.1.1" title="wms">
+      <Server service="wms" version="1.1.1" title="BALANCE Visualization Server">
         <OnlineResource xlink:type="simple" xlink:href="http://triangulum.uni-muenster.de:8080/cdd/wms"/>
       </Server>
                     <Name>TEMPERATURE</Name>
@@ -49,7 +46,7 @@
                     <Abstract>Monthly Mean Temperature from REMO</Abstract>
       <DimensionList>
                     <!--Extent nearestValue="0" default="2005-04" name="time">1962-01/2098-12/P1M</Extent-->
-        <Dimension name="time" units="ISO8601" nearestValue="1">2004-04/2005-04/P1M</Dimension>
+        <Dimension name="time" units="ISO8601" nearestValue="1">1962-01/2005-12/P1M</Dimension>
       </DimensionList>
       <MetadataURL format="text/xml">
         <OnlineResource xlink:type="simple" xlink:href="http://geo-hermes.uni-muenster.de:8080/balance/servlet/de.ifgi.wmsclient.balance.util.LegendServlet?HEIGHT=25&amp;WIDTH=95&amp;MIN=%3C%3D+-30&amp;MAX=%3E+30&amp;FONTSIZE=12&amp;FONTWEIGHT=BOLD&amp;COLORS=%23000033,%234169E1,%230FDDAF,%23FFFF00,%23FFA500,%23FF0000,%23CD0000,%23660000"/>

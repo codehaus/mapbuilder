@@ -52,7 +52,9 @@
 
         </Loading>
 
-        <Timestamp id="timestamp"/>
+        <Timestamp id="timestamp">
+
+        </Timestamp>
 
         <Legend id="legend">
 
@@ -69,6 +71,10 @@
           <stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
 
         </Widget>
+
+        <!--SelectTimeFrame id="timeRangeSelect">
+
+        </SelectTimeFrame-->
 
         <CursorTrack id="cursorTrack">
 
@@ -94,7 +100,7 @@
 
           <framesPerSecond>4</framesPerSecond>
 
-          <maxFrames>30</maxFrames>
+          <maxFrames>15</maxFrames>
 
         </MovieLoop>
 
@@ -122,35 +128,13 @@
 
     
 
-    <!--WmsCapabilities id="wmsCapTemplate">
+    <WmsCapabilities id="wmsCapTemplate">
 
-      <defaultModelUrl>http://iridl.ldeo.columbia.edu/expert/home/.mbell/.IRI/.MD/.CID/wms.xml</defaultModelUrl>
+      <!--defaultModelUrl>NASAWMSCaps.xml</defaultModelUrl-->
 
       <nodeSelectXpath>//Layer</nodeSelectXpath>
 
       <title>OGC Web Map Server (WMS)</title>
-
-      <models>
-
-        <GetMap id="getMapTemplate" template="true">
-
-          <widgets>
-
-            <MapImage id="renderMap">
-
-              <targetModel>mainMap</targetModel>
-
-              <htmlTagId>mainMapPane</htmlTagId>
-
-              <mapContainerId>mainMapContainer</mapContainerId>
-
-            </MapImage>
-
-          </widgets>
-
-        </GetMap>
-
-      </models>
 
       <widgets>
 
@@ -164,27 +148,19 @@
 
         </Widget>
 
-        <CopyNode id="copyNodeToContext">
-
-          <targetModel>mainMap</targetModel>
-
-        </CopyNode>
-
       </widgets>
 
       <tools>
 
-        <WebServiceRequest id="wmsController">
+        <Caps2Context id="convertCaps">
 
-          <targetModel>wmsCapTemplate.models.getMapTemplate</targetModel>
+          <targetModel>mainMap</targetModel>
 
-          <requestName>GetMap</requestName>
-
-        </WebServiceRequest>
+        </Caps2Context>
 
       </tools>
 
-    </WmsCapabilities-->
+    </WmsCapabilities>
 
     
 
@@ -193,6 +169,30 @@
 
 
   <widgets>
+
+    <ModelUrlInput id="wmsCapsUrlInput">
+
+      <defaultUrl>http://aes.gsfc.nasa.gov/cgi-bin/wms?request=GetCapabilities</defaultUrl>
+
+      <targetModel>wmsCapTemplate</targetModel>
+
+    </ModelUrlInput>
+
+    <Button id="stepBack">
+
+      <buttonBar>tsButtonBar</buttonBar>
+
+      <targetModel>mainMap</targetModel>
+
+      <action>movieLoop.nextFrame(-1)</action>
+
+      <class>Button</class>
+
+      <disabledSrc>/images/StepBack.gif</disabledSrc>
+
+      <tooltip>step back one frame</tooltip>
+
+    </Button>
 
     <Button id="play">
 
@@ -248,6 +248,22 @@
 
     </Button>
 
+    <Button id="stepAhead">
+
+      <buttonBar>tsButtonBar</buttonBar>
+
+      <targetModel>mainMap</targetModel>
+
+      <action>movieLoop.nextFrame(1)</action>
+
+      <class>Button</class>
+
+      <disabledSrc>/images/StepForward.gif</disabledSrc>
+
+      <tooltip>step ahead one frame</tooltip>
+
+    </Button>
+
     <ZoomIn id="zoomIn">
 
       <buttonBar>mainButtonBar</buttonBar>
@@ -293,6 +309,20 @@
       <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
 
     </Reset>
+
+    <Save id="save">
+
+      <buttonBar>mainButtonBar</buttonBar>
+
+      <targetModel>mainMap</targetModel>
+
+      <class>Button</class>
+
+      <disabledSrc>/images/SaveDisable.gif</disabledSrc>
+
+      <popupWindowName>modelXML</popupWindowName>
+
+    </Save>
 
   </widgets>
 

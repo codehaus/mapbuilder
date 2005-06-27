@@ -5,7 +5,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengis.net/context/1.0.0/context.xsd">
   <General>
-    <Window width="290" height="142"/>
+    <Window width="500" height="245"/>
     <BoundingBox SRS="EPSG:4326" minx="-181.25" miny="-88.75" maxx="181.25" maxy="88.75" resx="2.5" resy="2.5" />
     <Title>Precipitation Anomaly Time Series</Title>
     <Abstract>Precipitation anomalies by International Research Institute for Climate Prediction, Columbia University, USA</Abstract>

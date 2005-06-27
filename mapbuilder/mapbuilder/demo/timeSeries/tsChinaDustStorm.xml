@@ -50,7 +50,7 @@
       <Server service="wms" version="1.3.0" title="wms">
         <OnlineResource xlink:type="simple" xlink:href="http://aes.gsfc.nasa.gov/cgi-bin/wms?"/>
       </Server>
-          <Name>2956_70</Name>
+          <Name>2956_530</Name>
           <Title>China Dust Storm during April 2001 (1024x512 Animation)</Title>
           <Abstract>A major dust storm occurred in April 2001 over parts of China and Mongolia. Dust from this storm was transported all the way to the coast of the United States.  Although dust from the Sahara Desert is routinely transported across the Atlantic to the east coast of the United States, Asian dust rarely makes the distance across the Pacific to the west coast.  These airborne microscopic dust and smoke particles, or aerosols, were measured by the TOMS instrument on the Earth Probe satellite.  For governments struggling to meet national air quality standards, knowing more about the sources and movement of pollution across national borders has become an important issue.</Abstract>
           <KeywordList>
@@ -78,7 +78,7 @@
       <FormatList>
         <Format current="1">image/png</Format>
       </FormatList>
-          <Stylelist>
+          <StyleList>
           <Style current="1">
             <Name>composite</Name>
             <Title>Overlay Composited with Background Image</Title>
@@ -113,7 +113,7 @@
                xlink:href="http://svs.gsfc.nasa.gov/vis/a000000/a002900/a002956/chinadust-colorbar.jpg"/>
             </LegendURL>
           </Style>
-          </Stylelist>
+          </StyleList>
         </Layer>
   </LayerList>
 </ViewContext>

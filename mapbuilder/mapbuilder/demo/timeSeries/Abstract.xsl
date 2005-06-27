@@ -42,8 +42,11 @@ Abstract.xsl,v 1.5 2004/06/25 17:59:38 madair1 Exp
         </xsl:choose>
         <!--br/><xsl:value-of select="{$widgetNode}/stylesheet"/-->
       </p>
-      <p>
+      <p style="float:left; clear:left">
         <a href='{$metadataUrl}' title='{$metadataUrl}' target="moreInfo"><xsl:call-template name="moreInfo"/></a>
+      </p>
+      <p style="float:right; clear:right">
+        provided by: <xsl:value-of select="wmc:ContactInformation/wmc:ContactPersonPrimary/wmc:ContactOrganization"/>
       </p>
     </div>
   </xsl:template>
