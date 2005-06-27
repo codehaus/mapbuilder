@@ -23,33 +23,40 @@ $Name$
   <xsl:param name="widgetId"/>
   
   <!-- template rule matching source root element -->
-  <xsl:template match="/WMT_MS_Capabilities">
+  <xsl:template match="/WMT_MS_Capabilities | /wms:WMS_Capabilities">
     <table>
       <tr>
-        <th colspan="3">
-          Map Layers from: <xsl:value-of select="Service/Title"/>
+        <th colspan="2" align="left">
+          Map Layers from: <xsl:value-of select="wms:Service/wms:Title"/><xsl:value-of select="Service/Title"/>
         </th>
-        <td colspan="2">
-          <a href="javascript:config.paintWidget(config.objects.wmsServerList)">Back to list</a>
-        </td>
       </tr>
       <xsl:apply-templates/>
     </table>
   </xsl:template>
 
-  <!-- template rule matching source root element -->
-  <xsl:template match="Layer">
+  <!-- template rule matching displayable layers -->
+  <xsl:template match="Layer[Name]">
     <xsl:variable name="name"><xsl:value-of select="Name"/></xsl:variable>
-    <xsl:variable name="id"><xsl:value-of select="@id"/></xsl:variable>
     <tr>
       <td>
         <xsl:value-of select="Title"/>
       </td>
+      <td width="200px" nowrap="true">
+        <a href="javascript:config.objects.{$modelId}.setParam('mapLayer','{$name}')">show map</a>
+      </td>
+    </tr>
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <!-- template rule matching displayable layers for v1.3.x servers-->
+  <xsl:template match="wms:Layer[wms:Name and wms:Dimension/@name='time']">
+    <xsl:variable name="name"><xsl:value-of select="wms:Name"/></xsl:variable>
+    <tr>
       <td>
-        <a href="javascript:config.objects.{$modelId}.setParam('GetMap','{$name}')">preview</a>
+        <xsl:value-of select="wms:Title"/>
       </td>
       <td>
-        <a href="javascript:config.objects.{$modelId}.setParam('AddNode','{$name}')">add to map</a>
+        <a href="javascript:config.objects.{$modelId}.setParam('mapLayer','{$name}')">show map</a>
       </td>
     </tr>
     <xsl:apply-templates/>
