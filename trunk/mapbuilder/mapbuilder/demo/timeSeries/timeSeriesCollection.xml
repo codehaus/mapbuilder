@@ -10,6 +10,12 @@
       <OnlineResource xlink:type="simple" xlink:href="tsIFGITemp.xml"/>
     </ContextURL>
   </ViewContextReference>
+  <!--ViewContextReference version="1.0.0" id="tsPrecipAnomaly">
+    <Title>AVHRR Composite - Geocomp (CCRS)</Title>
+    <ContextURL>
+      <OnlineResource xlink:type="simple" xlink:href="tsGeocomp.xml"/>
+    </ContextURL>
+  </ViewContextReference-->
   <ViewContextReference version="1.0.0" id="tsPrecipAnomaly">
     <Title>Precipitation Anomalies (IRI Columbia U.)</Title>
     <ContextURL>
@@ -23,7 +29,7 @@
     </ContextURL>
   </ViewContextReference>
   <ViewContextReference version="1.0.0" id="tsPrecipAnomaly">
-    <Title>Estimated Precipitation Africa (10-day)(IRI Columbia U.)</Title>
+    <Title>Estimated Precipitation Africa (10-day) (IRI Columbia U.)</Title>
     <ContextURL>
       <OnlineResource xlink:type="simple" xlink:href="tsEstPrecip10Day.xml"/>
     </ContextURL>
@@ -34,18 +40,18 @@
       <OnlineResource xlink:type="simple" xlink:href="tsWorldTemp.xml"/>
     </ContextURL>
   </ViewContextReference>
-  <ViewContextReference version="1.0.0" id="tsOzoneMLS">
+  <!--ViewContextReference version="1.0.0" id="tsOzoneMLS">
     <Title>Ozone from new Microwave Limb Sounder on Aura (72x89 - no zoom) (NASA)</Title>
     <ContextURL>
       <OnlineResource xlink:type="simple" xlink:href="tsOzoneMLS.xml"/>
     </ContextURL>
   </ViewContextReference>
-  <!--ViewContextReference version="1.0.0" id="tsAfricaFires">
+  <ViewContextReference version="1.0.0" id="tsAfricaFires">
     <Title>African Fires during 2002 (1024x1024 Animation)</Title>
     <ContextURL>
       <OnlineResource xlink:type="simple" xlink:href="tsAfricaFires.xml"/>
     </ContextURL>
-  </ViewContextReference-->
+  </ViewContextReference>
   <ViewContextReference version="1.0.0" id="tsChinaDustStorm">
     <Title>China Dust Storm during April 2001 (1024x512 - no zoom) (NASA)</Title>
     <ContextURL>
@@ -57,6 +63,6 @@
     <ContextURL>
       <OnlineResource xlink:type="simple" xlink:href="tsYellowstoneFires.xml"/>
     </ContextURL>
-  </ViewContextReference>
+  </ViewContextReference-->
   
 </ViewContextCollection>

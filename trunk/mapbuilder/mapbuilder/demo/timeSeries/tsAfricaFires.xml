@@ -75,7 +75,7 @@
       <Server service="wms" version="1.3.0" title="wms">
         <OnlineResource xlink:type="simple" xlink:href="http://aes.gsfc.nasa.gov/cgi-bin/wms?"/>
       </Server>
-          <Name>2890_244</Name>
+          <Name>2890_296</Name>
       <DimensionList>
           <Dimension name="time" units="ISO8601" default="2002-12-31">2002-01-01/2002-12-31/P10D</Dimension>
           <!-- full year will crash your system!!
@@ -97,8 +97,8 @@
       <FormatList>
         <Format current="1">image/png</Format>
       </FormatList>
-          <Stylelist>
-          <Style>
+          <StyleList>
+          <Style current="1">
             <Name>composite</Name>
             <Title>Overlay Composited with Background Image</Title>
             <Abstract>This animation shows fire activity in Africa during 2002.  This version provides the transparent overlay composited with a background image.</Abstract>
@@ -115,7 +115,7 @@
                xlink:href="http://svs.gsfc.nasa.gov/vis/a000000/a002800/a002890/firebar.jpg"/>
             </LegendURL>
           </Style>
-          <Style current="1">
+          <Style>
             <Name>overlay</Name>
             <Title>Transparent Overlay Only</Title>
             <Abstract>This animation shows fire activity in Africa during 2002.  This version provides only the transparent overlay.</Abstract>
@@ -132,7 +132,7 @@
                xlink:href="http://svs.gsfc.nasa.gov/vis/a000000/a002800/a002890/firebar.jpg"/>
             </LegendURL>
           </Style>
-          </Stylelist>
+          </StyleList>
         </Layer>
   </LayerList>
 </ViewContext>
