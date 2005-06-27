@@ -42,7 +42,7 @@ function EditContext(toolNode, model) {
     if (objRef.debug) alert(newNode.xml);
     objRef.targetModel.addLayer(newNode.documentElement);
   }
-  this.model.addListener("AddNode", this.addNodeToModel, this);
+  this.model.addListener("mapLayer", this.addNodeToModel, this);
 
   /**
    * Reorders layers in the context document

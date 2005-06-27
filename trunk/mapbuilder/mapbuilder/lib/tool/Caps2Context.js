@@ -2,11 +2,17 @@
 
  * Build a Web Map Context (WMC) from a Web Map Server getCapabilities response.
 
+ * This tool will replace the identified targetModel as opposed to editing
+
+ * the target model which the EditContext tool will do. 
+
  * @constructor
 
- * @param url TBD Comment me.
+ * @base ToolBase
 
- * @param node TBD Comment me.
+ * @param toolNode The tools's XML object node from the configuration document.
+
+ * @param model    The model that this tool belongs to
 
  */
 
@@ -46,7 +52,9 @@ function Caps2Context(toolNode, model) {
 
    */
 
-  this.doRequest = function(objRef) {
+  this.mapAllLayers = function(objRef) {
+
+    objRef.stylesheet.setParameter("selectedLayer",'');
 
     var newContext = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
 
@@ -64,7 +72,45 @@ function Caps2Context(toolNode, model) {
 
   }
 
-  this.model.addListener("loadModel", this.doRequest, this);
+  this.model.addListener("mapAllLayers", this.mapAllLayers, this);
+
+
+
+  /**
+
+   * Listener function which does the transformation and loads the target model.
+
+   * this wersion will convert a single layer from the Capabilities doc into a
+
+   * context doc.
+
+   * @param requestName the name of the web service operation to execute
+
+   * @param featureNodeId the id of the node in the doc to be processed by the stylesheet
+
+   */
+
+  this.mapSingleLayer = function(objRef, layerName) {
+
+    objRef.stylesheet.setParameter("selectedLayer",layerName);
+
+    var newContext = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
+
+    newContext.setProperty("SelectionLanguage", "XPath");
+
+    if (objRef.targetModel.namespace) Sarissa.setXpathNamespaces(newContext, objRef.targetModel.namespace);
+
+    objRef.targetModel.url = '';
+
+    objRef.targetModel.doc = newContext;
+
+    objRef.targetModel.callListeners("loadModel");
+
+    objRef.targetModel.callListeners("refresh");
+
+  }
+
+  this.model.addListener("mapLayer", this.mapSingleLayer, this);
 
 
 
