@@ -186,6 +186,12 @@
     <WmsCapabilities id="wmsCapTemplate">
       <nodeSelectXpath>//Layer</nodeSelectXpath>
       <widgets>
+        <Widget id="loadAllLayers">
+          <stylesheet>../../lib/widget/SelectAllMapLayers.xsl</stylesheet>
+        </Widget>
+        <Widget id="layerList">
+          <stylesheet>../../lib/widget/SelectMapLayers.xsl</stylesheet>
+        </Widget>
       </widgets>
       <tools>
         <Caps2Context id="convertCaps">
