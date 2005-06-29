@@ -40,7 +40,7 @@ AoiForm.xsl,v 1.2 2004/06/25 17:59:38 madair1 Exp
           </td>
           <td>
             <xsl:value-of select="$north"/>
-            <input NAME="northCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;"/>
+            <input NAME="northCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;" READONLY="readonly"/>
           </td>
           <td>
           </td>
@@ -48,13 +48,13 @@ AoiForm.xsl,v 1.2 2004/06/25 17:59:38 madair1 Exp
         <tr>
           <td>
             <xsl:value-of select="$west"/>
-            <input NAME="westCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;"/>
+            <input NAME="westCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;" READONLY="readonly"/>
           </td>
           <td>
           </td>
           <td>
             <xsl:value-of select="$east"/>
-            <input NAME="eastCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;"/>
+            <input NAME="eastCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;" READONLY="readonly"/>
           </td>
         </tr>
         <tr>
@@ -62,7 +62,7 @@ AoiForm.xsl,v 1.2 2004/06/25 17:59:38 madair1 Exp
           </td>
           <td>
             <xsl:value-of select="$south"/>
-            <input NAME="southCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;"/>
+            <input NAME="southCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;" READONLY="readonly"/>
           </td>
           <td>
           </td>
