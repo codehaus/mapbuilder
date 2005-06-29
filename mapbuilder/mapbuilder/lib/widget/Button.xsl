@@ -31,10 +31,10 @@ ButtonBar.xsl,v 1.5 2004/03/25 21:25:43 madair1 Exp
     <xsl:param name="linkUrl">javascript:config.objects.<xsl:value-of select="$widgetId"/>.select()<xsl:if test="$action">;config.objects.<xsl:value-of select="$action"/></xsl:if></xsl:param>
     <xsl:param name="imageID"><xsl:value-of select="@id"/>_image</xsl:param>
     <xsl:param name="imageSrc"><xsl:value-of select="mb:disabledSrc"/></xsl:param>
-    <A HREF="{$linkUrl}" class="mbButton">
-      <xsl:if test="string-length($imageSrc)>0"><IMG SRC="{$skinDir}{$imageSrc}" ID="{$imageID}" TITLE="{$tooltip}" BORDER="0"/></xsl:if>
+    <a href="{$linkUrl}" class="mbButton">
+      <xsl:if test="string-length($imageSrc)>0"><img src="{$skinDir}{$imageSrc}" id="{$imageID}" title="{$tooltip}" border="0"/></xsl:if>
       <xsl:if test="string-length($buttonText)>0"><xsl:value-of select="$buttonText"/></xsl:if>
-    </A>
+    </a>
   </xsl:template>
 
 </xsl:stylesheet>

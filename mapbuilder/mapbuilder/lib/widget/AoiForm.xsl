@@ -27,8 +27,8 @@ AoiForm.xsl,v 1.2 2004/06/25 17:59:38 madair1 Exp
   
   <!-- Main html -->
   <xsl:template match="/">
-    <DIV>
-    <FORM NAME="{$formName}" ID="{$formName}">
+    <div>
+    <form name="{$formName}" id="{$formName}">
       <table>
         <tr>
           <th align="left" colspan="3">
@@ -40,7 +40,7 @@ AoiForm.xsl,v 1.2 2004/06/25 17:59:38 madair1 Exp
           </td>
           <td>
             <xsl:value-of select="$north"/>
-            <input NAME="northCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;" READONLY="readonly"/>
+            <input name="northCoord" type="text" size="10" style="font: 8pt Verdana, geneva, arial, sans-serif;" readonly="readonly"/>
           </td>
           <td>
           </td>
@@ -48,13 +48,13 @@ AoiForm.xsl,v 1.2 2004/06/25 17:59:38 madair1 Exp
         <tr>
           <td>
             <xsl:value-of select="$west"/>
-            <input NAME="westCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;" READONLY="readonly"/>
+            <input name="westCoord" type="text" size="10" style="font: 8pt Verdana, geneva, arial, sans-serif;" readonly="readonly"/>
           </td>
           <td>
           </td>
           <td>
             <xsl:value-of select="$east"/>
-            <input NAME="eastCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;" READONLY="readonly"/>
+            <input name="eastCoord" type="text" size="10" style="font: 8pt Verdana, geneva, arial, sans-serif;" readonly="readonly"/>
           </td>
         </tr>
         <tr>
@@ -62,14 +62,14 @@ AoiForm.xsl,v 1.2 2004/06/25 17:59:38 madair1 Exp
           </td>
           <td>
             <xsl:value-of select="$south"/>
-            <input NAME="southCoord" TYPE="text" SIZE="10" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;" READONLY="readonly"/>
+            <input name="southCoord" type="text" size="10" style="font: 8pt Verdana, geneva, arial, sans-serif;" readonly="readonly"/>
           </td>
           <td>
           </td>
         </tr>
       </table>
-    </FORM>
-    </DIV>
+    </form>
+    </div>
   </xsl:template>
   
 </xsl:stylesheet>

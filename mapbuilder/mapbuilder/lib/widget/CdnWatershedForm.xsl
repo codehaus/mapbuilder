@@ -28,7 +28,7 @@ $Id: NtsForm.xsl,v 1.9 2005/04/09 20:45:30 madair1 Exp $
 
   <!-- Main html -->
   <xsl:template match="/">
-    <DIV>
+    <div>
     <form name="{$formName}" id="{$formName}" method="get" action="{$webServiceUrl}">
       <input name="request" type="hidden" value="GetWatershed"/>
       <input name="version" type="hidden" value="1.0.0"/>
@@ -53,7 +53,7 @@ $Id: NtsForm.xsl,v 1.9 2005/04/09 20:45:30 madair1 Exp $
         </tr>
       </table>
     </form>
-    </DIV>
+    </div>
   </xsl:template>
   
 </xsl:stylesheet>
