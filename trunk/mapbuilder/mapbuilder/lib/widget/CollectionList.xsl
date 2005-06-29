@@ -31,16 +31,16 @@ $Name$
   <!-- template rule matching source root element -->
   <xsl:template match="/wmc:ViewContextCollection">
 
-    <UL>
+    <ul>
       <xsl:apply-templates select="wmc:ViewContextReference"/>
-    </UL>
+    </ul>
 
   </xsl:template>
 
   <xsl:template match="wmc:ViewContextReference">
     <xsl:param name="linkUrl">javascript:<xsl:value-of select="$jsfunction"/><xsl:value-of select="$targetModel"/>','<xsl:value-of select="wmc:ContextURL/wmc:OnlineResource/@xlink:href"/>')</xsl:param>
-    <LI>    
-      <A HREF="{$linkUrl}">
+    <li>    
+      <a href="{$linkUrl}">
         <xsl:choose>
           <xsl:when test="wmc:Title/@xml:lang">              
             <xsl:value-of select="wmc:Title[@xml:lang=$lang]"/>
@@ -49,8 +49,8 @@ $Name$
             <xsl:value-of select="wmc:Title"/>
           </xsl:otherwise>
         </xsl:choose>
-      </A>
-    </LI>    
+      </a>
+    </li>    
   </xsl:template>
   
 </xsl:stylesheet>

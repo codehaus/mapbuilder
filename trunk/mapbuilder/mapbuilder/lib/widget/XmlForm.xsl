@@ -22,11 +22,11 @@ XmlForm.xsl,v 1.1 2004/06/28 03:46:49 madair1 Exp
 
   <!-- Main html -->
 	<xsl:template match="/">
-    <DIV>
-    <FORM NAME="{$formName}" ID="{$formName}">
+    <div>
+    <form name="{$formName}" id="{$formName}">
       <xsl:apply-templates select="wmc:ViewContext/wmc:General/wmc:ContactInformation"/> 
-    </FORM>
-    </DIV>
+    </form>
+    </div>
   </xsl:template>
 
 	<xsl:template match="*">
