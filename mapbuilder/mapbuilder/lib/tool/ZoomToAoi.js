@@ -39,7 +39,7 @@ function ZoomToAoi(toolNode, model) {
     toolRef.initProj( toolRef.model);
     toolRef.initProj( toolRef.targetModel);
   }
-  config.addListener( "loadModel", this.setListeners, this);
+  this.model.addListener( "loadModel", this.setListeners, this);
 
   /**
    * Target model bbox change listener.  This sets this model's AOI to be the
@@ -64,7 +64,7 @@ function ZoomToAoi(toolNode, model) {
     tool.targetModel.addListener( "bbox", tool.showTargetAoi, tool );
     tool.showTargetAoi(tool);
   }
-  config.addListener( "loadModel", this.firstInit, this );
+  this.model.addListener( "loadModel", this.firstInit, this );
 
 
   /**

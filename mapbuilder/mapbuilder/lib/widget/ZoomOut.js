@@ -44,6 +44,6 @@ function ZoomOut(widgetNode, model) {
       objRef.mouseHandler.model.addListener('mouseup',objRef.doAction,objRef);
     }
   }
-  config.addListener( "loadModel", this.setMouseListener, this );
+  this.model.addListener( "loadModel", this.setMouseListener, this );
 
 }
