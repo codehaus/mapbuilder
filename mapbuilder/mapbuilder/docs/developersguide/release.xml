@@ -9,6 +9,28 @@
 
   <variablelist>
     <varlistentry>
+      <term>Install programs required for build</term>
+
+      <listitem>
+        <para>In order to build the documentation, you will need the following
+        installed:</para>
+
+        <orderedlist>
+          <listitem>
+            <para>xsltproc, install procedure at: <ulink
+            url="http://www.sagehill.net/docbookxsl/InstallingAProcessor.html#InstallXsltproc">http://www.sagehill.net/docbookxsl/InstallingAProcessor.html#InstallXsltproc</ulink>.</para>
+          </listitem>
+
+          <listitem>
+            <para>perl and the Template.PM perl module which is used by jsdoc.
+            Refer to install instructions at: <ulink
+            url="http://jsdoc.sourceforge.net/#install">http://jsdoc.sourceforge.net/#install</ulink>.</para>
+          </listitem>
+        </orderedlist>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
       <term>Notify developers that you are about to make a release</term>
 
       <listitem>
