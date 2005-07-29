@@ -59,6 +59,28 @@ function AoiMouseHandler(toolNode, model) {
     }
   }
 
+  /**
+   * Process a the mouseout action when the mouse moves out of the mappane
+   * @param objRef      Pointer to this object.
+   * @param targetNode  The HTML node that the event occured on
+   */
+  this.mouseOutHandler = function(objRef,targetNode) {
+    if (objRef.enabled) {
+      if (objRef.started) objRef.started = false;
+    }
+  }
+
+  /**
+   * Process a the mousemove action as dragging out a box.
+   * @param objRef      Pointer to this object.
+   * @param targetNode  The HTML node that the event occured on
+   */
+  this.mouseOverHandler = function(objRef,targetNode) {
+    if (objRef.enabled) {
+      //if (objRef.started) objRef.dragBox(targetNode.evpl);
+    }
+  }
+
   /** Change the coordinate of one corner of the box.  The anchor point stays fixed. 
    * @param evpl    new corner coordinate.
    */
@@ -90,4 +112,6 @@ function AoiMouseHandler(toolNode, model) {
   this.model.addListener('mousedown',this.mouseDownHandler,this);
   this.model.addListener('mousemove',this.mouseMoveHandler,this);
   this.model.addListener('mouseup',this.mouseUpHandler,this);
+  //this.model.addListener('mouseout',this.mouseOutHandler,this);
+  //this.model.addListener('mouseover',this.mouseOutHandler,this);
 }
