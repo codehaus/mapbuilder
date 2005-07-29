@@ -84,7 +84,7 @@ function MovieLoop(toolNode, model) {
     objRef.model.setParam("lastFrame",lastFrame);
     timestampList.childNodes[firstFrame].setAttribute("current","1");
   }
-  this.model.addListener("loadModel",this.setFrameLimits,this);
+  this.model.addFirstListener("refresh",this.setFrameLimits,this);
   this.model.addListener("firstFrame",this.setFrameLimits,this);
 
   /**

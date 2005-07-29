@@ -97,7 +97,7 @@ function MapContainerBase(widget,widgetNode,model) {
 
     //add the extent tool
     widget.containerModel.extent = new Extent( widget.containerModel );
-    widget.containerModel.addListener( "loadModel", widget.containerModel.extent.init, widget.containerModel.extent );
+    widget.containerModel.addFirstListener( "loadModel", widget.containerModel.extent.init, widget.containerModel.extent );
     widget.containerModel.addListener( "bbox", widget.containerModel.extent.init, widget.containerModel.extent );
     //TBD: do an extent history by storing extents every time the aoi changes
 

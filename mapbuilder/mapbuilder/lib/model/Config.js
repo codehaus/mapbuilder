@@ -131,7 +131,6 @@ function Config(url) {
     if (model && modelUrl) {
       model.url = modelUrl;
       model.loadModelDoc(model);
-      model.callListeners("refresh");
     } else {
       alert("config loadModel error:"+modelId+":"+modelUrl);
     }

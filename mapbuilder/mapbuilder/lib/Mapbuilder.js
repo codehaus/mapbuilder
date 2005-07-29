@@ -209,7 +209,6 @@ function mapbuilderInit(){
     //alert("load time:"+(mbTimerStop.getTime()-mbTimerStart.getTime()) );
     if (window.mbInit) window.mbInit();
     config.callListeners("loadModel");
-    config.callListeners("refresh");
   }
 }
 

@@ -9,9 +9,9 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
- * Widget to display the scale of a map.  The target model of this widget
+ * Widget to display the scale of a map.  The model of this widget
  * must have an extent object associated with it which is the case when the 
- * targetModel has a MapContanier widget.
+ * model has a MapContanier widget.
  *
  * @constructor
  * @base WidgetBase
@@ -27,7 +27,7 @@ function MapScaleText(widgetNode, model) {
    */
   this.submitForm = function() {
     var newScale = this.mapScaleTextForm.mapScale.value;
-    this.targetModel.extent.setScale(newScale.split(",").join(""));
+    this.model.extent.setScale(newScale.split(",").join(""));
     return false;   //prevent the form from actually being submitted
   }
 
@@ -60,7 +60,7 @@ function MapScaleText(widgetNode, model) {
    * @param objRef Pointer to this widget object.
    */
   this.showScale = function(objRef) {
-    var newScale = Math.round(objRef.targetModel.extent.getScale());
+    var newScale = Math.round(objRef.model.extent.getScale());
     var parts = new Array();
     while (newScale>=1000.0) {
       var newPart = newScale/1000.0;
@@ -73,13 +73,10 @@ function MapScaleText(widgetNode, model) {
   }
 
   /**
-   * adds a bbox listener on the targetModel 
-   * @param objRef Pointer to this widget object.
+   * adds a bbox listener on the model 
    */
-  this.initListener = function(objRef) {
-    objRef.targetModel.addListener("bbox",objRef.showScale, objRef);
-  }
-  this.model.addListener("init",this.initListener, this);
+  this.model.addListener("bbox", this.showScale, this);
+  this.model.addListener("refresh", this.showScale, this);
 
   /**
    * Refreshes the form and event handlers when this widget is painted.
