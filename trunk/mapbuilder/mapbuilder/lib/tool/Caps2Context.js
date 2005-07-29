@@ -58,17 +58,11 @@ function Caps2Context(toolNode, model) {
 
     var newContext = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
 
-    newContext.setProperty("SelectionLanguage", "XPath");
-
-    if (objRef.targetModel.namespace) Sarissa.setXpathNamespaces(newContext, objRef.targetModel.namespace);
-
     objRef.targetModel.url = '';
 
     objRef.targetModel.doc = newContext;
 
-    objRef.targetModel.callListeners("loadModel");
-
-    objRef.targetModel.callListeners("refresh");
+    objRef.targetModel.finishLoading();
 
   }
 
@@ -96,17 +90,11 @@ function Caps2Context(toolNode, model) {
 
     var newContext = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
 
-    newContext.setProperty("SelectionLanguage", "XPath");
-
-    if (objRef.targetModel.namespace) Sarissa.setXpathNamespaces(newContext, objRef.targetModel.namespace);
-
     objRef.targetModel.url = '';
 
     objRef.targetModel.doc = newContext;
 
-    objRef.targetModel.callListeners("loadModel");
-
-    objRef.targetModel.callListeners("refresh");
+    objRef.targetModel.finishLoading();
 
   }
 

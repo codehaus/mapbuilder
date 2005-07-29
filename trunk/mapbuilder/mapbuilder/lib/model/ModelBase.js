@@ -20,6 +20,10 @@ function ModelBase(model, modelNode, parentModel) {
   // Inherit the Listener functions and parameters
   var listener = new Listener(model);
 
+  //models are loaded asynchronously by default; 
+  model.async = true;   //change to false for sync loading
+  model.contentType = "text/xml";
+
   model.modelNode = modelNode;
   var idAttr = modelNode.attributes.getNamedItem("id");
   if (idAttr) {
@@ -37,9 +41,11 @@ function ModelBase(model, modelNode, parentModel) {
     model.title = model.id;
   }
 
-  //load the Model object from the initial URL in config or from a URL param.
-  //the URL can also be passed in as a URL parameter by using the model ID
-  //as the parameter name (this method takes precendence over the config file
+  /**
+  * set the initial model URL in config.
+  * the URL can also be passed in as a URL parameter by using the model ID 
+  * as the parameter name (which takes precendence over the config file)
+  **/
   if (window.cgiArgs[model.id]) {  
     model.url = window.cgiArgs[model.id];
   } else if (window[model.id]) {  
@@ -120,12 +126,13 @@ function ModelBase(model, modelNode, parentModel) {
   model.setXpathValue=this.setXpathValue;
 
   /**
-   * Load a Model's document.  This will only occur if the model.url property is
-   * set. Calling this method triggers several events:
-   * modelStatus - to indicate that the model state is changing
-   * newModel - to give widgetrs a chance to clear themselves before the doc is loaded
-   * loadModel - to indicate that the document is loaded successfully
-   * refresh - to indicate that widgets should be refreshed
+   * Load a Model's document.  
+   * This will only occur if the model.url property is set. 
+   * Calling this method triggers several events:
+   *   modelStatus - to indicate that the model state is changing
+   *   newModel - to give widgetrs a chance to clear themselves before the doc is loaded
+   *   loadModel - to indicate that the document is loaded successfully
+   *   refresh - to indicate that widgets should be refreshed
    *
    * @param modelRef Pointer to the model object being loaded.
    */
@@ -139,46 +146,83 @@ function ModelBase(model, modelNode, parentModel) {
         //image models are set as a DOM image object
         modelRef.doc = new Image();
         modelRef.doc.src = modelRef.url;
+        //modelRef.doc.onload = callback //TBD: for when image is loaded
+
       } else {
         //XML content type
-        if (modelRef.postData) {
-          //http POST
-          modelRef.doc = postLoad(modelRef.url,modelRef.postData);
-        } else {
-          //http GET
-          modelRef.doc = Sarissa.getDomDocument();
-          modelRef.doc.async = false;
-          modelRef.doc.validateOnParse=false;  //IE6 SP2 parsing bug
-          var url=getProxyPlusUrl(modelRef.url);
-          modelRef.doc.load(url);
+
+        var xmlHttp = Sarissa.getXmlHttpRequest();
+        var sUri = modelRef.url;
+        if ( sUri.indexOf("http://")==0 ) {
+          if (modelRef.method == "get") {
+            sUri = getProxyPlusUrl(sUri);
+          } else {
+            xmlHttp.setRequestHeader("content-type",modelRef.contentType);
+            xmlHttp.setRequestHeader("serverUrl",sUri);
+            sUri = config.proxyUrl;
+          }
+        }
+        xmlHttp.open(modelRef.method, sUri, modelRef.async);
+        
+        xmlHttp.onreadystatechange = function() {
+          modelRef.setParam("modelStatus",xmlHttp.readyState);
+          if (xmlHttp.readyState==4) {
+            if (xmlHttp.status >= 400) {   //http errors status start at 400
+              alert("error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText );
+              modelRef.setParam("modelStatus",-1);
+              return;
+            } else {
+              //alert(xmlHttp.getResponseHeader("Content-Type"));
+              if ( null==xmlHttp.responseXML ) {
+                alert( "null XML response:" + xmlHttp.responseText );
+              } else {
+                modelRef.doc = xmlHttp.responseXML;
+                if (modelRef.doc.documentElement.nodeName.search(/exception/i)>=0) {
+                  modelRef.setParam("modelStatus",-1);
+                  alert("Exception:"+Sarissa.serialize(xmlHttp.responseText));
+                }
+              }
+              modelRef.finishLoading();
+            }
+          }
         }
 
-        if (modelRef.doc.parseError < 0){
-          var message = "error loading document: " + modelRef.url;
-          if (modelRef.doc.documentElement) message += " - " +Sarissa.getParseErrorText(modelRef.doc);
-          alert(message);
-          return;
+        xmlHttp.send(modelRef.postData);
+
+        if (!modelRef.async) {
+          if (xmlHttp.status >= 400) {   //http errors status start at 400
+            alert("error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText );
+            this.model.setParam("modelStatus",-1);
+            return;
+          } else {
+            //alert(xmlHttp.getResponseHeader("Content-Type"));
+            if ( null==xmlHttp.responseXML ) alert( "null XML response:" + xmlHttp.responseText );
+            modelRef.doc = xmlHttp.responseXML;
+            modelRef.finishLoading();
+          }
         }
 
-        if (modelRef.doc.documentElement.nodeName.search(/exception/i)>=0) {
-          alert("Exception:"+Sarissa.serialize(modelRef.doc));
-        }
-
-        // the following two lines are needed for IE; set the namespace for selection
-        modelRef.doc.setProperty("SelectionLanguage", "XPath");
-        if (modelRef.namespace) Sarissa.setXpathNamespaces(modelRef.doc, modelRef.namespace);
+        //modelRef.doc.validateOnParse=false;  //IE6 SP2 parsing bug
       }
-
-      //call the loadModel event
-      modelRef.callListeners("loadModel");
-      //modelRef.callListeners("refresh");
-
     } else {
       //no URL means this is a template model
       //alert("url parameter required for loadModelDoc");
     }
   }
   model.loadModelDoc = this.loadModelDoc;
+
+  /**
+   * Common steps to be carried out after all manner of model loading
+   * Called to set the namespace for XPath selections and call the loadModel
+   * listeners.
+   */
+  this.finishLoading = function() {
+    // the following two lines are needed for IE; set the namespace for selection
+    this.doc.setProperty("SelectionLanguage", "XPath");
+    if (this.namespace) Sarissa.setXpathNamespaces(this.doc, this.namespace);
+    this.callListeners("loadModel");
+  }
+  model.finishLoading = this.finishLoading;
 
   /**
    * Load XML for a model from an httpPayload object
@@ -189,7 +233,7 @@ function ModelBase(model, modelNode, parentModel) {
    * httpPayload.httpMethod="post" or "get"<br/>
    * httpPayload.postData=XML or null<br/>
    * @param modelRef    Pointer to the model object being loaded.
-   * @param httpPayload an object tho fully specify the request to be made
+   * @param httpPayload an object to fully specify the request to be made
    */
   this.newRequest = function(modelRef, httpPayload){
     modelRef.url = httpPayload.url;
@@ -199,7 +243,6 @@ function ModelBase(model, modelNode, parentModel) {
     modelRef.method = httpPayload.method;
     modelRef.postData = httpPayload.postData;
     modelRef.loadModelDoc(modelRef);
-    modelRef.callListeners("refresh");
   }
   model.newRequest = this.newRequest;
 
@@ -266,23 +309,18 @@ function ModelBase(model, modelNode, parentModel) {
     modelRef.loadObjects("mb:widgets/*");
     modelRef.loadObjects("mb:tools/*");
     modelRef.loadObjects("mb:models/*");
-  }
-
-  /**
-   * Listener registered with the parent model to call init listeners
-   * @param modelRef Pointer to this object.
-   */
-  model.callInit = function(modelRef) {
     modelRef.callListeners("init");
   }
 
   /**
-   * Listener registered with the parent model to call refresh listeners
+   * Listener registered with the parent model to call refresh listeners when 
+   * the model document is loaded
    * @param modelRef Pointer to this object.
    */
   model.refresh = function(modelRef) {
     modelRef.callListeners("refresh");
   }
+  model.addListener("loadModel",model.refresh, model);
 
   /**
    * Listener registered with the parent model to remove the doc and url 
@@ -298,10 +336,8 @@ function ModelBase(model, modelNode, parentModel) {
   //defer that to an explcit config.init() call in mapbuilder.js
   if (parentModel && !model.template) {
     model.parentModel = parentModel;
-    parentModel.addListener("init",model.callInit, model);
     parentModel.addListener("loadModel",model.loadModelDoc, model);
-    parentModel.addListener("newModel",model.clearModel, model);
-    parentModel.addListener("refresh",model.refresh, model);
+    parentModel.addListener("newModel", model.clearModel, model);
     model.init(model);
   }
 
