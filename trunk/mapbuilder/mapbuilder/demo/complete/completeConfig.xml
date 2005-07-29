@@ -189,7 +189,13 @@
         <Widget id="loadAllLayers">
           <stylesheet>../../lib/widget/SelectAllMapLayers.xsl</stylesheet>
         </Widget>
-        <Widget id="layerList">
+        <ModelStatus id="wmsLoadStatus">
+          <htmlTagId>layerList</htmlTagId>
+          <outputNodeId>layerListCanvas</outputNodeId>
+        </ModelStatus>
+        <Widget id="layerListWidget">
+          <htmlTagId>layerList</htmlTagId>
+          <outputNodeId>layerListCanvas</outputNodeId>
           <stylesheet>../../lib/widget/SelectMapLayers.xsl</stylesheet>
         </Widget>
       </widgets>
