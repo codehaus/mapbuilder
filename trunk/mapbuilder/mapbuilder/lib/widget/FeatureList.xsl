@@ -16,9 +16,6 @@ $Name$
   <!--xsl:param name="targetModelId"/-->
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
-  <!-- Parameters passed into this xsl -->
-  <xsl:param name="space" select='""'/>
-  <xsl:param name="tabwidth" select='"_ "'/>
 
   <!-- Main html -->
   <xsl:template match="/">
@@ -40,16 +37,14 @@ $Name$
 
   <!-- All nodes -->
   <xsl:template match="*">
-    <xsl:param name="tab"/>
     <xsl:variable name="xlink">
       <xsl:call-template name="getXpath">
         <xsl:with-param name="node" select="."/>
       </xsl:call-template>
     </xsl:variable>
     <tr>
-      <xsl:if test="text()">
+      <xsl:if test="not(./*)">
         <td>
-          <xsl:value-of select="$tab"/>
           <xsl:value-of select="name(.)"/>
         </td>
         <td>
@@ -60,24 +55,9 @@ $Name$
             value="{text()}"
             onchange="config.objects.{$widgetId}.setAttr(config.objects.{$widgetId},'{$xlink}',document.getElementById('{$widgetId}{generate-id()}').value);"/>
         </td>
-        <xsl:apply-templates>
-          <xsl:with-param name="tab">
-            <xsl:value-of select="$tab"/>
-            <xsl:value-of select="$tabwidth"/>
-          </xsl:with-param>
-        </xsl:apply-templates>
       </xsl:if>
-      <xsl:if test="not(text())">
-        <td>
-          <xsl:value-of select="$tab"/>
-          <b><xsl:value-of select="name(.)"/></b>
-        </td>
-        <td><xsl:value-of select="$space"/></td>
+      <xsl:if test="./*">
         <xsl:apply-templates>
-          <xsl:with-param name="tab">
-            <xsl:value-of select="$tab"/>
-            <xsl:value-of select="$tabwidth"/>
-          </xsl:with-param>
         </xsl:apply-templates>
       </xsl:if>
     </tr>
