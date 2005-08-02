@@ -35,14 +35,15 @@ function Config(url) {
   Sarissa.setXpathNamespaces(this.doc, this.namespace);
 
 /**
- * Set the serializeUrl and proxyUrl values from a global configuration document.
+ * Set the serializeUrl and proxyUrl values from a global configuration document
+ * Optional, these can also be set in individual config docs.
  */
   var configDoc = Sarissa.getDomDocument();
   configDoc.async = false;
   configDoc.validateOnParse=false;  //IE6 SP2 parsing bug
   configDoc.load(baseDir+"/"+mbServerConfig);
   if (configDoc.parseError < 0) {
-    alert("error loading server config document: " + baseDir+"/"+mbServerConfig );
+    //alert("error loading server config document: " + baseDir+"/"+mbServerConfig );
   } else {
     configDoc.setProperty("SelectionLanguage", "XPath");
     Sarissa.setXpathNamespaces(configDoc, this.namespace);
