@@ -64,7 +64,7 @@ without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 
 See the GNU General Public License
 
-at http://www.gnu.org/copyleft/gpl.html for more details.
+at http://www.gnu.org/copyleft/lesser.html for more details.
 
 */
 

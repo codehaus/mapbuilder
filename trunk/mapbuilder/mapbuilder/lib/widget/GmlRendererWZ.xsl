@@ -18,7 +18,7 @@ Precondition: <coordinates> have been converted to <coords> (using
 
 Author:       Cameron Shorter cameron ATshorter.net
 
-Licence:      GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 
 

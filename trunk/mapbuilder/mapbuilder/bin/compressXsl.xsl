@@ -2,7 +2,7 @@
 <!--
 Description: Strip white space and comments from XSL to make it more compact.
 Author:      Cameron Shorter
-Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
+Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
 $Id$
 $Name$

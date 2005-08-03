@@ -4,7 +4,7 @@
 Description: Extract FeatureMembers from a FeatureCollection and build
   into a WFS Insert transaction.
 Author:      Cameron Shorter
-Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
+Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
 $Id: wfs_Insert.xsl,v 1.3 2005/03/30 20:26:54 camerons Exp $
 $Name:  $

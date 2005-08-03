@@ -12,7 +12,7 @@ Description: transforms a WMS Layer node into an XML structure that contains
 
 Author:      adair
 
-Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
+Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
 
 

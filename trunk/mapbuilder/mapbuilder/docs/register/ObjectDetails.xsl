@@ -7,7 +7,7 @@
 <!--
 Description: Generate the component register from the config XML schema.
 Author:      Mike Adair
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 $Id: XmlSchemaForm.xsl,v 1.6 2005/05/01 02:03:50 madair1 Exp $
 -->

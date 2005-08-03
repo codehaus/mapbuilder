@@ -8,7 +8,7 @@ Description: An empty stylesheet for widgets which don't use XSL to render.
 
 Author:      Cameron Shorter cameron ATshorter.net
 
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 
 

@@ -1,7 +1,7 @@
 <?
 /*
 script name: convertgeom.php
-distributed under GNU GPL license
+distributed under GNU LGPL license
 info: Nedjo Rogers, nedjo@gworks.ca
 */
 

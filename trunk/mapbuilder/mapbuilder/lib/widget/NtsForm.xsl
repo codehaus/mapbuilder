@@ -7,7 +7,7 @@
 Description: Outputs a form for use as a WebServiceForm widget that connects to
              the CGDI NTS lookup service (returns outline of NTS Mapsheet indexes).
 Author:      Mike Adair
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 $Id$
 -->

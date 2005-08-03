@@ -4,7 +4,7 @@ Description: Convert GML coords to Screen coords.
              This XSL does not process <coordinates> tags.  Refer to
              GmlCooordinates2Coord.xsl to convert <coordinates> to <coord> tags.
 Author:      Cameron Shorter cameron ATshorter.net
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 $Id$
 $Name$

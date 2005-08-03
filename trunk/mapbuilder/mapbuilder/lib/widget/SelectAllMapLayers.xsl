@@ -4,7 +4,7 @@
 Description: link to load the WMS Capabilities doc as a context document.  
             This works with the Caps2Context tool which implements the listener
 Author:      adair
-Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
+Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
 $Id: SelectMapLayers.xsl,v 1.9 2005/05/01 02:03:49 madair1 Exp $
 $Name:  $

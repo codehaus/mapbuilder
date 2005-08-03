@@ -1095,9 +1095,9 @@
           </row>
 
           <row>
-            <entry>GPL</entry>
+            <entry>LGPL</entry>
 
-            <entry><ulink url="http://www.gnu.org/copyleft/gpl.html">GNU
+            <entry><ulink url="http://www.gnu.org/copyleft/lesser.html">GNU
             General Public License</ulink></entry>
 
             <entry>Open Source License.</entry>

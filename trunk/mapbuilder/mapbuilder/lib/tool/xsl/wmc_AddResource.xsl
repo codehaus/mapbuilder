@@ -3,7 +3,7 @@
 Description: parses a WMS capabilities Layer element and transforms it to a
              Web Map Context document Layer element.
 Author:      adair
-Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
+Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
 $Id: CopyNode.xsl,v 1.2 2005/03/30 20:27:00 camerons Exp $
 $Name:  $

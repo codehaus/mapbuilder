@@ -4,7 +4,7 @@
     Description: This configuration file determines what components from the
                  Mapbuilder library are to be included in a Main Mapbuilder web
                  page.
-    Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html 
+    Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
 
     $Id$
   -->

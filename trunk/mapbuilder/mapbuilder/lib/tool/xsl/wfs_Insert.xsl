@@ -10,7 +10,7 @@ Description: Extract FeatureMembers from a FeatureCollection and build
 
 Author:      Cameron Shorter
 
-Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
+Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
 
 

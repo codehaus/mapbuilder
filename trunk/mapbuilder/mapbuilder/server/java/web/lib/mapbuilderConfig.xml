@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <MapbuilderConfig 
     xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -7,7 +7,7 @@
   <!--
     Description: This configuration file sets server level configuration parameters
                  for the proxyUrl and the serailizeUrl
-    Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html 
+    Licence:     LGPL as per: hhttp://www.gnu.org/copyleft/lesser.html
 
     $Id$
   -->

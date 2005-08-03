@@ -6,7 +6,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <!--
 Description: Show an event log, used for debugging.
 Author:      Mike Adair
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 $Id$
 $Name$

@@ -6,7 +6,7 @@
 <!--
 Description: Output a form for displaying and setting the map scale denominator
 Author:      Mike Adair
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 $Id$
 -->

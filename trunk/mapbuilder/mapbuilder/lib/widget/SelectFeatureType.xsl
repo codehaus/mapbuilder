@@ -10,7 +10,7 @@ Description: presents the list of FeatureTypes from a WFS capabilities doc.
 
 Author:      adair
 
-Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
+Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
 
 

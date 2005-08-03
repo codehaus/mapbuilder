@@ -151,7 +151,7 @@ cvs update -d .</programlisting>
         </itemizedlist>
 
         <programlisting>cd mapbuilder/
-cvs tag &lt;tag&gt; bin CHANGES demo design docs GPL index.html lib LICENSE metrics README server</programlisting>
+cvs tag &lt;tag&gt; bin CHANGES demo design docs LGPL index.html lib LICENSE metrics README server</programlisting>
       </listitem>
     </varlistentry>
 

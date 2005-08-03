@@ -4,7 +4,7 @@
 <!--
 Description: Prototype stylesheet to automatically generate a form from an XML schema.
 Author:      Mike Adair
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 $Id$
 -->

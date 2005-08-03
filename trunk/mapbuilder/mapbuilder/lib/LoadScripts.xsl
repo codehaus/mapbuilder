@@ -6,7 +6,7 @@
 <!--
 Description: Convert Mapbuilder Config to a list of buttons.
 Author:      Mike Adair
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 ButtonBar.xsl,v 1.5 2004/03/25 21:25:43 madair1 Exp
  || mb:widgets/* || mb:tools/*

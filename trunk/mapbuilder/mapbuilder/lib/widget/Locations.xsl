@@ -8,7 +8,7 @@ Description: Convert a Locations XML document (as per schema at lib/model/schema
 
 Author:      Tom Kralidis
 
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 
 
