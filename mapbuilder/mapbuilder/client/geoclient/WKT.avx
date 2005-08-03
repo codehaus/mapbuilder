@@ -2474,7 +2474,7 @@
 
 	SourceCode:	"str=\"Before exporting, make sure the map units are set for the active view and make all layers you wish to export active.\"\nstr= str + nl + \"(shift+click for multiple layer selections)\" \n\nstr= str + nl + nl+ \"The large listbox contains the names of settings to be exported (the top row) and below this the settings for each layer.\"\nstr= str + nl + \"For information about the settings, click on their names.  You can change settings by clicking on them and making changes in the popup dialogs, then closing those d
 
-ialogs. \"\n\nstr= str + nl+nl + \"When the settings are complete, click \"\"Export\"\".\"\nstr= str + nl+nl + \"This utility is distributed under the terms of the GNU GPL, see: http://www.gnu.org/.\"\nmsgbox.report(str,\"Instruction\")"
+ialogs. \"\n\nstr= str + nl+nl + \"When the settings are complete, click \"\"Export\"\".\"\nstr= str + nl+nl + \"This utility is distributed under the terms of the GNU LGPL, see: http://www.gnu.org/.\"\nmsgbox.report(str,\"Instruction\")"
 
 )
 

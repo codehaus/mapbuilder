@@ -4,7 +4,7 @@
 Description: presents the list of Layers from a WMS capabilities doc.
             Links provided to preview and add a layer to a Context doc.
 Author:      adair
-Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
+Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
 $Id$
 $Name$

@@ -4,7 +4,7 @@
 Description: a TabbedContent node from config to output some tabs, 
               this requires a CSS file, see skin/default/tablist.css
 Author:      adair/stella
-Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
+Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
 $Id: TabbedContent.xsl,v 1.1 2005/05/02 18:11:38 fstella Exp $
 $Name:  $

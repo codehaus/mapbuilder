@@ -3,7 +3,7 @@
 <!--
 Description: A Browser based Web Map Server Client based on javascript and XSL
              libraries from http://mapbuilder.sourceforge.net .
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 $Id$
 $Name$

@@ -10,7 +10,7 @@ Description: Outputs model URL and a link to save the current version of it
 
 Author:      Mike Adair
 
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 
 

@@ -8,7 +8,7 @@
     Description: This file contains all text used in widgets for multilingual 
                   support.  The text values are set as XSL params before the 
                   widget is painted.
-    Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html 
+    Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
 
     $Id$
   -->

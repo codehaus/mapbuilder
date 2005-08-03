@@ -5,7 +5,7 @@
 		<xs:appinfo>$Id$</xs:appinfo>
 		<xs:documentation xml:lang="en">
 			<xs:description>Application schema for Mapbuilder runtime configuration</xs:description>
-			<xs:copyright>License: GPL as per: http://www.gnu.org/copyleft/gpl.html</xs:copyright>
+			<xs:copyright>License: LGPL as per: http://www.gnu.org/copyleft/lesser.html</xs:copyright>
 		</xs:documentation>
 	</xs:annotation>
 	<!-- imports -->

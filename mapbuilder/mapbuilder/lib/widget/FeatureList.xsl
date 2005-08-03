@@ -5,7 +5,7 @@
 <!--
 Description: Convert a GML Feature or FeatureCollection into a HTML form.
 Author:      Cameron Shorter cameron ATshorter.net
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 $Name$
 -->

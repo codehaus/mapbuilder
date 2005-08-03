@@ -5,7 +5,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <!--
 Description: Provides a form to enter a WMS GetCapabilities URL into.
 Author:      Cameron Shorter cameron ATshorter.net
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 $Id$
 $Name$

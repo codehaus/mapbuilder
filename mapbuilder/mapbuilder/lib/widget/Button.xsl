@@ -10,7 +10,7 @@ Description: Convert Mapbuilder Config to a button image and link.  This stylesh
             - config.objects.$action where $action is a objectReference.method() 
               specified in config.
 Author:      Mike Adair
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 ButtonBar.xsl,v 1.5 2004/03/25 21:25:43 madair1 Exp
 -->

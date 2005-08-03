@@ -10,7 +10,7 @@
 # Usage:       Call via http://hostname/cgi-bin/wmc.pl?context=url
 #
 # Author:      Cameron Shorter cameron @shorter.net
-# License:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+# License:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public

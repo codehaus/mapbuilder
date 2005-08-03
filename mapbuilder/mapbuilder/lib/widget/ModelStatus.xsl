@@ -6,7 +6,7 @@
 <!--
 Description: Widget to display the status of a model
 Author:      Mike Adair
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 $Id$
 -->

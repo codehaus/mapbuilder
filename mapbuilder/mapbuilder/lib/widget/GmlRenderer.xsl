@@ -14,7 +14,7 @@ Description: Convert GML to HTML Graphics.
 
 Author:      Cameron Shorter cameron ATshorter.net
 
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 
 

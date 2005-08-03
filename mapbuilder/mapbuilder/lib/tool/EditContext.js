@@ -1,6 +1,6 @@
 /*
 Author:       Mike Adair  mike.adairATccrs.nrcan.gc.ca
-License:      GPL as per: http://www.gnu.org/copyleft/gpl.html
+License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 $Id$
 */

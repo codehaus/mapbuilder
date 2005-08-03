@@ -8,7 +8,7 @@ This preliminary script is part of OpenSVGMapServer project, see
 
 http://www.carto.net/opensvgmapserver
 
-distributed under GNU GPL license
+distributed under GNU LGPL license
 
 info: Nedjo Rogers, nedjo@miningwatch.org
 

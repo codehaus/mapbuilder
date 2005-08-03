@@ -8,7 +8,7 @@ Description: transforms a WFS FeatureType node to a GetFeatureType request
 
 Author:      adair
 
-Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
+Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
 
 

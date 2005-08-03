@@ -4,7 +4,7 @@
 <!--
 Description: Prototype stylesheet to automatically generate a form from an XML doc.
 Author:      Mike Adair
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 XmlForm.xsl,v 1.1 2004/06/28 03:46:49 madair1 Exp
 -->

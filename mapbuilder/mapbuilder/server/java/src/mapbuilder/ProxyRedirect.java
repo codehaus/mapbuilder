@@ -5,7 +5,7 @@ Purpose: This servlet will write the body content of a request to a file.
  *        The file name is returned as the response.
  *        Set the output directory as servlet init-param in web.xml
  
-License: GPL as per: http://www.gnu.org/copyleft/gpl.html
+License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 **************************************************************************/
 package mapbuilder;

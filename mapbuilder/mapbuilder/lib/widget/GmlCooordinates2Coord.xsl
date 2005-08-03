@@ -8,7 +8,7 @@ Description: Convert <coordinates> to <coord x> <coord y>
 
 Author:      Cameron Shorter cameron ATshorterDOTnet
 
-Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
+Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
 
 

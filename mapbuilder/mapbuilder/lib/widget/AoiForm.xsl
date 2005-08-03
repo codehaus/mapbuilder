@@ -4,7 +4,7 @@
 <!--
 Description: Output a form for display of the context doc AOI
 Author:      Mike Adair
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 AoiForm.xsl,v 1.2 2004/06/25 17:59:38 madair1 Exp
 -->

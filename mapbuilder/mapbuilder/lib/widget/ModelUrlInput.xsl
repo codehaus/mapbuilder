@@ -6,7 +6,7 @@
 <!--
 Description: Output a form for setting any model's url and method values
 Author:      Mike Adair
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 $Id$
 -->

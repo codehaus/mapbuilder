@@ -3,7 +3,7 @@
 <!--
 Description: parses an listing of OGC services from the Discovery Portal registry
 Author:      adair
-Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
+Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
 $Id$
 $Name$

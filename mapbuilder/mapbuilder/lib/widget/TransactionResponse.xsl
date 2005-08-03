@@ -6,7 +6,7 @@ Description: Render a WFS Transaction Response.
 
 Author:      Cameron Shorter
 
-Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
+Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
 
 

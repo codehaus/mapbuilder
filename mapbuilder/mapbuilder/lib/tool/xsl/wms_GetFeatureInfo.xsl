@@ -8,7 +8,7 @@ Description: parses an OGC context document to generate a GetFeatureInfo url
 
 Author:      Nedjo
 
-Licence:     GPL as specified in http://www.gnu.org/copyleft/gpl.html .
+Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
 
 

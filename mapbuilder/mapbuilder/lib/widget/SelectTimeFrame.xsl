@@ -7,7 +7,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <!--
 Description: Displays the Title value from a Web Map Context document
 Author:      Mike Adair
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 $Id: MapTitle.xsl,v 1.8 2005/04/30 18:35:29 madair1 Exp $
 $Name:  $
