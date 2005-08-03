@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Mike Adair (NRCAN CCRs) -->
+<MapbuilderConfig version="0.2.1" 
+    id="owsContextConfig" 
+    xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../mapbuilder/lib/schemas/config.xsd">
+  <!--
+    Description: This configuration file determines what components from the
+                 Mapbuilder library are to be included in a Main Mapbuilder web
+                 page.
+    Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+
+    $Id$
+  -->
+  <!--
+    All static images should be relative to this URL.
+    This dir is relative the dir of the main html file.
+  -->
+  <models>
+    <!--Logger id="eventLogDoc">
+      <widgets>
+        <Widget id="eventLog">
+          <stylesheet>../../lib/widget/EventLog.xsl</stylesheet>
+        </Widget>
+      </widgets>
+    </Logger-->
+    <OwsContext id="mainMap">
+      <defaultModelUrl>oc_0_0_13r1.xml</defaultModelUrl>
+      <nodeSelectXpath>/wmc:OWSContext/wmc:ResourceList</nodeSelectXpath>
+      <models>
+        <FeatureCollection id="gml2FeatureTemplate">
+          <method>post</method>
+          <widgets>
+            <!--ModelStatus id="gmlModelStatus"/-->
+            <GmlRendererWZ id="testGmlRenderer">
+              <htmlTagId>mainMapPane</htmlTagId>
+              <mapContainerId>mainMapContainer</mapContainerId>
+              <lineColor>#0000FF</lineColor>
+              <lineWidth>2</lineWidth>
+              <pointDiameter>10</pointDiameter>
+            </GmlRendererWZ>
+            <Legend id="wfsLegend">
+               <htmlTagId>legend</htmlTagId>
+            </Legend>
+            <SaveModel id="saveModelWidget">
+              <htmlTagId>saveModel</htmlTagId>
+            </SaveModel>
+          </widgets>
+        </FeatureCollection>
+      </models>
+      <widgets>
+        <MapPane id="mainMapWidget">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <stylesheet>../../lib/widget/owsMapPane.xsl</stylesheet>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <!--fixedWidth>300</fixedWidth-->
+        </MapPane>
+        <Loading id="loading">
+        </Loading>
+        <AoiBoxDHTML id="aoiBoxMain">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+          <mapContainerId>mainMapContainer</mapContainerId>
+        </AoiBoxDHTML>
+        <CursorTrack id="cursorTrack">
+          <mouseHandler>mainMap</mouseHandler>
+        </CursorTrack>
+        <MapScaleText id="mapScaleText"/>
+        <Legend id="contextLegend">
+          <htmlTagId>legend</htmlTagId>
+        </Legend>
+        <Widget id="abstract">
+          <stylesheet>../../lib/widget/Abstract.xsl</stylesheet>
+        </Widget>
+        <Widget id="mapTitle">
+          <stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
+        </Widget>
+      </widgets>
+      <tools>
+        <AoiMouseHandler id="mainAoi"/>
+        <DragPanHandler id="mainDragPan">
+          <enabled>false</enabled>
+        </DragPanHandler>
+        <WebServiceRequest id="wfsController">
+          <targetModel>gml2FeatureTemplate</targetModel>
+          <requestName>wfs:GetFeature</requestName>
+        </WebServiceRequest>
+      </tools>
+    </OwsContext>
+    <Context id="locatorMap">
+      <defaultModelUrl>../data/context/locatorMap.xml</defaultModelUrl>
+      <widgets>
+        <MapPane id="locatorMapWidget">
+          <htmlTagId>locatorMap</htmlTagId>
+          <mapContainerId>locatorContainer</mapContainerId>
+          <fixedWidth>180</fixedWidth>
+        </MapPane>
+        <AoiBoxWZ id="aoiBoxLocator">
+          <htmlTagId>locatorMap</htmlTagId>
+          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+          <mapContainerId>locatorContainer</mapContainerId>
+        </AoiBoxWZ>
+      </widgets>
+      <tools>
+        <AoiMouseHandler id="locatorAoi"/>
+        <ZoomToAoi id="locatorZoomToAoi">
+          <targetModel>mainMap</targetModel>
+        </ZoomToAoi>
+      </tools>
+    </Context>
+  </models>
+  <widgets>
+    <ZoomIn id="zoomIn">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainAoi</mouseHandler>
+      <class>RadioButton</class>
+      <selected>true</selected>
+      <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
+      <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
+    </ZoomIn>
+    <ZoomOut id="zoomOut">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainAoi</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
+      <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
+    </ZoomOut>
+    <DragPan id="dragPan">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainDragPan</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/PanEnable.gif</enabledSrc>
+      <disabledSrc>/images/PanDisable.gif</disabledSrc>
+    </DragPan>
+    <SetAoi id="setAoi">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainAoi</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
+      <disabledSrc>/images/SetAoiDisable.gif</disabledSrc>
+    </SetAoi>
+    <Reset id="reset">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
+    </Reset>
+    <Save id="save">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/SaveDisable.gif</disabledSrc>
+      <popupWindowName>modelXML</popupWindowName>
+    </Save>
+  </widgets>
+  <skinDir>../../lib/skin/default</skinDir>
+  <widgetTextUrl>/widgetText.xml</widgetTextUrl> <!-- relative to the skin dir -->
+</MapbuilderConfig>

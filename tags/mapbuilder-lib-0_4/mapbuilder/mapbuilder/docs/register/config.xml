@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml-stylesheet type="text/xsl" href="register.xsl"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Mike Adair (NRCAN CCRs) -->
+<MapbuilderConfig version="0.2.1" id="referenceTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+  <!--
+    Description: This configuration file determines what components from the
+                 Mapbuilder library are to be included in a Main Mapbuilder web
+                 page.
+    Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+
+    $Id$
+  -->
+  <!--
+    All static images should be relative to this URL.
+    This dir is relative the dir of the main html file.
+  -->
+  <models>
+    <Context id="mainMap">
+      <defaultModelUrl>context/atlasWorld.xml</defaultModelUrl>
+      <widgets>
+        <MapPane id="mainMapWidget">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <tools>
+            <AoiMouseHandler/>
+            <!--
+            <AoiBox>
+              <lineColor>#FF0000</lineColor>
+              <lineWidth>2</lineWidth>
+              <crossSize>1</crossSize>
+            </AoiBox>
+            -->
+            <DragPanHandler>
+              <enabled>false</enabled>
+            </DragPanHandler>
+            <MouseClickHandler/>
+          </tools>
+          <mapContainerId>mainMapContainer</mapContainerId>
+        </MapPane>
+        <AoiBox2 id="aoiBox2">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
+          <lineColor>#00FF00</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+          <mapContainerId>mainMapContainer</mapContainerId>
+        </AoiBox2>
+        <CursorTrack id="cursorTrack">
+          <mouseHandler>mainMap.mainMapWidget</mouseHandler>
+        </CursorTrack>
+        <Legend id="legend">
+        </Legend>
+        <Widget id="abstract">
+          <stylesheet>../../lib/widget/Abstract.xsl</stylesheet>
+        </Widget>
+        <Widget id="mapTitle">
+          <stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
+        </Widget>
+        <AoiForm id="aoiForm">
+        </AoiForm>
+        <MapScaleText id="mapScaleText">
+        </MapScaleText>
+        <SaveModel id="saveModel">
+          <htmlTagId>saveModel</htmlTagId>
+          <serializeUrl>/mapbuilder/writeXml</serializeUrl>
+        </SaveModel>
+        <WmsCapabilitiesImport id="wmsCapabilitiesImport">
+        </WmsCapabilitiesImport>
+        <!--SearchForm id="searchForm">
+        </SearchForm-->
+      </widgets>
+    </Context>
+    <Context id="locator">
+      <defaultModelUrl>context/locatorMap.xml</defaultModelUrl>
+      <widgets>
+        <MapPane id="locatorWidget">
+          <htmlTagId>locatorMap</htmlTagId>
+          <targetModel>mainMap</targetModel>
+          <tools>
+            <AoiBox>
+              <lineColor>red</lineColor>
+              <lineWidth>1</lineWidth>
+              <crossSize>15</crossSize>
+            </AoiBox>
+            <AoiMouseHandler/>
+            <ZoomToAoi>
+            </ZoomToAoi>
+          </tools>
+          <mapContainerId>locatorContainer</mapContainerId>
+          <fixedWidth>180</fixedWidth>
+        </MapPane>
+        <ModelUrlInput id="urlInput">
+        </ModelUrlInput>
+      </widgets>
+    </Context>
+    <ContextCollection id="collectionGroup">
+      <defaultModelUrl>context/demoCollection.xml</defaultModelUrl>
+      <widgets>
+        <CollectionList id="collectionList">
+          <targetModel>mainMap</targetModel>
+        </CollectionList>
+      </widgets>
+    </ContextCollection>
+    <Gml2 id="gml2">
+      <widgets>
+        <FeatureList id="featureList">
+        </FeatureList>
+      </widgets>
+    </Gml2>
+    <Model id="locations">
+      <defaultModelUrl>locations/Global.xml</defaultModelUrl>
+      <widgets>
+        <Locations id="locationsSelect">
+          <targetModel>mainMap</targetModel>
+          <tools>
+            <ZoomToAoi>
+            </ZoomToAoi>
+          </tools>
+        </Locations>
+      </widgets>
+    </Model>
+    <!--Model id="testGml">
+      <defaultModelUrl>gml/Test.xml</defaultModelUrl>
+      <widgets>
+        <GmlRenderer id="testGmlRenderer">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <targetModel>mainMap</targetModel>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <pointDiameter>10</pointDiameter>
+        </GmlRenderer>
+      </widgets>
+    </Model-->
+    <Gml2 id="ntsGml">
+      <!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
+      <widgets>
+        <GmlRenderer id="testGml2Renderer">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <targetModel>mainMap</targetModel>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <pointDiameter>10</pointDiameter>
+       </GmlRenderer>
+      </widgets>
+    </Gml2>
+    <Logger id="eventLogDoc">
+      <serializeUrl>/mapbuilder/writeXml</serializeUrl>
+      <widgets>
+        <Widget id="eventLog">
+          <stylesheet>../../lib/widget/EventLog.xsl</stylesheet>
+        </Widget>
+      </widgets>
+    </Logger>
+   </models>
+  <widgets>
+    <ButtonBar id="buttonBar">
+      <targetModel>mainMap</targetModel>
+      <tools>
+        <ZoomIn id="zoomIn">
+          <mouseHandler>mainMap.mainMapWidget</mouseHandler>
+          <dependsOn>mainMap.mainMapWidget.AoiMouseHandler</dependsOn>
+          <class>RadioButton</class>
+          <selected>true</selected>
+          <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
+          <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
+          <tooltip xml:lang="en">click and drag to zoom in</tooltip>
+          <tooltip xml:lang="fr">cliquer et faire glisser la souris pour agrandir</tooltip>
+        </ZoomIn>
+        <ZoomOut id="zoomOut">
+          <mouseHandler>mainMap.mainMapWidget</mouseHandler>
+          <dependsOn>mainMap.mainMapWidget.AoiMouseHandler</dependsOn>
+          <class>RadioButton</class>
+          <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
+          <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
+          <tooltip xml:lang="en">click to zoom out</tooltip>
+          <tooltip xml:lang="fr">cliquer pour réire</tooltip>
+        </ZoomOut>
+        <DragPan id="dragPan">
+          <mouseHandler>mainMap.mainMapWidget</mouseHandler>
+          <dependsOn>mainMap.mainMapWidget.DragPanHandler</dependsOn>
+          <class>RadioButton</class>
+          <enabledSrc>/images/PanEnable.gif</enabledSrc>
+          <disabledSrc>/images/PanDisable.gif</disabledSrc>
+          <tooltip xml:lang="en">click and drag to pan</tooltip>
+          <tooltip xml:lang="fr">cliquer et faire glisser la souris pour voir un autre parti de la carte</tooltip>
+        </DragPan>
+        <SetAoi id="setAoi">
+          <mouseHandler>mainMap.mainMapWidget</mouseHandler>
+          <dependsOn>mainMap.mainMapWidget.AoiMouseHandler</dependsOn>
+          <class>RadioButton</class>
+          <enabledSrc>/images/SetAoiEnable.gif</enabledSrc>
+          <disabledSrc>/images/SetAoiDisable.gif</disabledSrc>
+          <tooltip xml:lang="en">click and drag to set the area of interest</tooltip>
+          <tooltip xml:lang="fr">cliquer et faire glisser la souris pour positionner une réon d'intét</tooltip>
+        </SetAoi>
+        <Reset id="reset">
+          <class>Button</class>
+          <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
+          <tooltip xml:lang="en">reset the map to full extent</tooltip>
+          <tooltip xml:lang="fr">redonner à la carte ses dimensions complès</tooltip>
+        </Reset>
+        <GetFeatureInfo id="getFeatureInfo">
+          <mouseHandler>mainMap.mainMapWidget</mouseHandler>
+          <dependsOn>mainMap.mainMapWidget.MouseClickHandler</dependsOn>
+          <class>RadioButton</class>
+          <enabledSrc>/images/QueryEnable.gif</enabledSrc>
+          <disabledSrc>/images/QueryDisable.gif</disabledSrc>
+          <tooltip xml:lang="en">click on feature for more info</tooltip>
+          <tooltip xml:lang="fr">cliquer pour obtenir plus d'information pour cette couche</tooltip>
+          <targetFeatureCollection>gml2</targetFeatureCollection>
+        </GetFeatureInfo>
+      </tools>
+    </ButtonBar>
+    <WebServiceForm id="ntsLookupForm">
+      <targetModel>ntsGml</targetModel>
+      <stylesheet>../../lib/widget/NtsForm.xsl</stylesheet>
+      <webServiceUrl>http://geoservices.cgdi.ca/NTS/NTSLookup</webServiceUrl>
+    </WebServiceForm>
+  </widgets>
+  <skinDir>../../lib/skin/default</skinDir>
+  <!-- Url of LOCAL redirection script, required to access external URLs -->
+  <proxyUrl>../../server/proxy/proxy.php?url=</proxyUrl>
+  <!--proxyUrl>/mapbuilder/proxy?url=</proxyUrl-->
+</MapbuilderConfig>

@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
+<section>
+  <title>mapbuilder-lib release process</title>
+
+  <para>This article describes the steps to follow when building a
+  mapbuilder-lib release.</para>
+
+  <variablelist>
+    <varlistentry>
+      <term>Install programs required for build</term>
+
+      <listitem>
+        <para>In order to build the documentation, you will need the following
+        installed:</para>
+
+        <orderedlist>
+          <listitem>
+            <para>xsltproc, install procedure at: <ulink
+            url="http://www.sagehill.net/docbookxsl/InstallingAProcessor.html#InstallXsltproc">http://www.sagehill.net/docbookxsl/InstallingAProcessor.html#InstallXsltproc</ulink>.</para>
+          </listitem>
+
+          <listitem>
+            <para>perl and the Template.PM perl module which is used by jsdoc.
+            Refer to install instructions at: <ulink
+            url="http://jsdoc.sourceforge.net/#install">http://jsdoc.sourceforge.net/#install</ulink>.</para>
+          </listitem>
+        </orderedlist>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Notify developers that you are about to make a release</term>
+
+      <listitem>
+        <para>At least 24 hours before building a release, send an email to
+        the mapbuilder-lib developers notifying them you are about to cut a
+        release. This should allow them to ensure their fixes are in the code
+        base.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Check all code back into CVS</term>
+
+      <listitem>
+        <para>If you have not done so already, check all the code you have
+        been editing into CVS.</para>
+
+        <programlisting>cvs commit -m"Fixed xxx bugs" &lt;filenames&gt;</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Update the CHANGES file</term>
+
+      <listitem>
+        <para>Update and commit CHANGES file with updates between the last
+        release and this one. These files should be in the base
+        directory.</para>
+
+        <para>Each update should contain:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Release name.</para>
+          </listitem>
+
+          <listitem>
+            <para>Status - alpha, beta, stable</para>
+          </listitem>
+
+          <listitem>
+            <para>Description of changes.</para>
+          </listitem>
+
+          <listitem>
+            <para>List of problems fixed since last build:</para>
+
+            <itemizedlist>
+              <listitem>
+                <para>Select Bugs on sourceforge site: <ulink
+                url="https://sourceforge.net/tracker/?group_id=35246&amp;atid=413775">https://sourceforge.net/tracker/?group_id=35246&amp;atid=413775</ulink></para>
+              </listitem>
+
+              <listitem>
+                <para>Select Status=Closed, Group=[last release], Sort
+                By=Priority</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+
+          <listitem>
+            <para>List of known outstanding problems.</para>
+
+            <itemizedlist>
+              <listitem>
+                <para>Select Bugs on sourceforge site: <ulink
+                url="https://sourceforge.net/tracker/?group_id=35246&amp;atid=413775">https://sourceforge.net/tracker/?group_id=35246&amp;atid=413775</ulink></para>
+              </listitem>
+
+              <listitem>
+                <para>Select Status=Open, Group=[last release]</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+
+          <listitem>
+            <para>Commit CHANGES back into CVS.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Get latest updates from CVS</term>
+
+      <listitem>
+        <para>Ensure you have the latest files from CVS.</para>
+
+        <programlisting>cd mapbuilder/
+cvs update -d .</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Tag the release</term>
+
+      <listitem>
+        <para>Tag the files that should be in the release. (Usually, not all
+        files in CVS are included in a release).</para>
+
+        <para>The &lt;tag&gt; should be of the form:
+        <literal>mapbuilder-lib-[number]-[status]</literal></para>
+
+        <para>For example:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>mapbuilder-lib-0_1</para>
+          </listitem>
+
+          <listitem>
+            <para>mapbuilder-lib-0_1-rc3</para>
+          </listitem>
+
+          <listitem>
+            <para>mapbuilder-lib-0_2-alpha</para>
+          </listitem>
+        </itemizedlist>
+
+        <programlisting>cd mapbuilder/
+cvs tag &lt;tag&gt; bin CHANGES demo design docs LGPL index.html lib LICENSE metrics README server</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Create a temporary directory</term>
+
+      <listitem>
+        <programlisting>mkdir ~/tmp
+</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Export the release</term>
+
+      <listitem>
+        <para>Exporting code from CVS is the same as checking it out, except
+        that the CVS/ directories are not checked out as well.</para>
+
+        <programlisting>cd ~/tmp
+export CVS_RSH=ssh
+export CVSROOT=:ext:camerons@cvs.sourceforge.net:/cvsroot/mapbuilder
+cvs export -r &lt;tag&gt; mapbuilder</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Build the distribution</term>
+
+      <listitem>
+        <programlisting>cd ~/tmp/mapbuilder/bin
+ant dist
+</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Check WAR file</term>
+
+      <listitem>
+        <programlisting>$CATALINA_HOME/bin/shutdown.sh
+cp ~/tmp/dist/mapbuilder-lib-[version]-war.zip $CATALINA_HOME/webapps
+unzip mapbuilder-lib-[version]-war.zip
+$CATALINA_HOME/bin/startup.sh</programlisting>
+
+        <para>In a broswer, view all the demos at <ulink
+        url="http://localhost:8080/mapbuilder/demo">http://localhost:8080/mapbuilder/demo</ulink></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Ftp release file Sourceforge</term>
+
+      <listitem>
+        <para>Refer to the Sourceforge <ulink
+        url="http://sourceforge.net/docman/display_doc.php?docid=6445&amp;group_id=1#frsinterface">File
+        Release System</ulink> for more information.</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>ftp to upload.sourceforge.net</para>
+          </listitem>
+
+          <listitem>
+            <para>login as "anonymous"</para>
+          </listitem>
+
+          <listitem>
+            <para>use email address as password</para>
+          </listitem>
+
+          <listitem>
+            <para>set ftp client to binary mode</para>
+          </listitem>
+
+          <listitem>
+            <para>cd /incoming (on the server)</para>
+          </listitem>
+
+          <listitem>
+            <para>upload release file(s)</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Move to mapbuilder release directory</term>
+
+      <listitem>
+        <itemizedlist>
+          <listitem>
+            <para>From the <ulink
+            url="http://sourceforge.net/projects/generguide">https://sourceforge.net/projects/mapbuilder</ulink>,
+            select <literal>Admin</literal>, <literal>File Releases</literal>,
+            <literal>Add Release (for mapbuilder-lib)</literal>.</para>
+          </listitem>
+
+          <listitem>
+            <para>Walk through the various forms. For description of changes,
+            use the text from the CHANGES file.</para>
+
+            <variablelist>
+              <varlistentry>
+                <term>Select release name</term>
+
+                <listitem>
+                  <para>Something like: mapbuilder-lib-0.2-alpha . Note that
+                  underscores have been replaced with full stops.</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>Step 1</term>
+
+                <listitem>
+                  <para>Notes comes from the description of release and
+                  Outstanding Bugs in the mapbuilder/CHANGES file.</para>
+
+                  <para>Changes comes from the Bugs Fixed in
+                  mapbuilder/CHANGES file.</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>Step 2</term>
+
+                <listitem>
+                  <para></para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>Step 3</term>
+
+                <listitem>
+                  <para>Processor=Any, File Type=.zip</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>Step 4</term>
+
+                <listitem>
+                  <para></para>
+                </listitem>
+              </varlistentry>
+            </variablelist>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Download and test</term>
+
+      <listitem>
+        <para>Download the release from sourceforge, uncompress it, and check
+        it.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Copy to Sourceforge demo directory</term>
+
+      <listitem>
+        <programlisting>scp ~/tmp/mapbuilder/dist/mapbuilder-lib-[version].zip \
+  username@mapbuilder.sf.net
+ssh -l username mapbuilder.sf.net
+unzip mapbuilder-lib-[version].zip
+mv mapbuilder /home/groups/m/ma/mapbuilder/htdocs/mapbuilder-lib-[version]
+cd /home/groups/m/ma/mapbuilder/htdocs
+rm mapbuilder
+ln -s mapbuilder-lib-[version] mapbuilder</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Update links on the mapbuilder demo's webpage</term>
+
+      <listitem>
+        <para>Edit links on <ulink
+        url="http://mapbuilder.sourceforge.net/?q=taxonomy/term/5">http://mapbuilder.sourceforge.net/?q=taxonomy/term/5</ulink></para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Install release on the Demonstration server</term>
+
+      <listitem>
+        <programlisting>scp ~/tmp/mapbuilder/dist/mapbuilder-lib-0.3.1-alpha-war.zip bikemap.openearth.com.au:
+ssh bikemap.openearth.com.au
+unzip mapbuilder-lib-0.3.1-alpha-war.zip
+mv mapbuilder.war $CATALINA_HOME/webapps/mapbuilder-lib-0.3.1-alpha.war</programlisting>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Email release message</term>
+
+      <listitem>
+        <para>Send an email notification to
+        mapbuilder-announce@lists.sourceforge.net with text from the CHANGES
+        file.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Create a new group in in the Sourceforge bug list</term>
+
+      <listitem>
+        <para>Select Bugs-&gt;Admin-&gt;Bugs-&gt;Add/Update Group</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Set all Open bugs to be assigned to the new release group</term>
+
+      <listitem>
+        <para></para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+</section>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<MapbuilderConfig version="0.2.1" id="registerConfig" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ..//mapbuilder/lib/schemas/config.xsd">
+  <!--
+    Description: This configuration file determines what components from the
+                 Mapbuilder library are to be included in a Main Mapbuilder web
+                 page.
+    Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+
+    $Id$
+  -->
+  <models>
+    <Model id="mbConfigSchema">
+      <defaultModelUrl>http://localhost:8080/mapbuilder/lib/schemas/config.xsd</defaultModelUrl>
+      <!--nodeSelectXpath>/wmc:OWSContext/wmc:ResourceList</nodeSelectXpath-->
+      <models>
+      </models>
+      <widgets>
+        <ObjectList id="toolsListWidget">
+          <scriptFile>ObjectList.js</scriptFile>
+          <stylesheet>ObjectList.xsl</stylesheet>
+          <listType>toolsType</listType>
+        </ObjectList>
+        <ObjectList id="widgetsListWidget">
+          <scriptFile>ObjectList.js</scriptFile>
+          <stylesheet>ObjectList.xsl</stylesheet>
+          <listType>widgetsType</listType>
+          <subType>mb:AbstractWidgetType</subType>
+        </ObjectList>
+        <ObjectList id="mapContainerListWidget">
+          <scriptFile>ObjectList.js</scriptFile>
+          <stylesheet>ObjectList.xsl</stylesheet>
+          <listType>widgetsType</listType>
+          <subType>mb:AbstractMapWidgetType</subType>
+        </ObjectList>
+        <ObjectList id="buttonListWidget">
+          <scriptFile>ObjectList.js</scriptFile>
+          <stylesheet>ObjectList.xsl</stylesheet>
+          <listType>widgetsType</listType>
+          <subType>mb:AbstractButtonType</subType>
+        </ObjectList>
+        <ObjectList id="modelsListWidget">
+          <scriptFile>ObjectList.js</scriptFile>
+          <stylesheet>ObjectList.xsl</stylesheet>
+          <listType>modelsType</listType>
+        </ObjectList>
+        <Widget id="objectDetails">
+          <stylesheet>ObjectDetails.xsl</stylesheet>
+        </Widget>
+      </widgets>
+      <tools>
+      </tools>
+    </Model>
+  </models>
+  <widgets>
+    <TabbedContent id="tabList">
+      <htmlWorkspace>workspace</htmlWorkspace>
+      <tab label="Models">modelsListWidget</tab>
+      <tab label="Widgets">widgetsListWidget</tab>
+      <tab label="Maps">mapContainerListWidget</tab>
+      <tab label="Buttons">buttonListWidget</tab>
+      <tab label="Tools">toolsListWidget</tab>
+    </TabbedContent>
+  </widgets>
+  <!--
+    All static images should be relative to this URL.
+    This dir is relative the dir of the main html file.
+  -->
+  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+  <widgetTextUrl>/widgetText.xml</widgetTextUrl> <!-- relative to the skin dir -->
+  <proxyUrl>/mapbuilder/proxy</proxyUrl>
+  <serializeUrl>/mapbuilder/writeXml</serializeUrl>
+</MapbuilderConfig>
