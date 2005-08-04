@@ -25,7 +25,7 @@ jsdocSource=" \
   ${mapbuilderDir}/lib/util \
   ${mapbuilderDir}/lib/util/sarissa/Sarissa.js"
 
-docbookXsl=/usr/share/sgml/docbook/xsl-stylesheets/html/docbook.xsl
+docbookXsl=${mapbuilderDir}/bin/docbook-xsl/html/docbook.xsl
 
 docDirectories=" \
   ${targetDir} \
