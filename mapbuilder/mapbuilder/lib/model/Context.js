@@ -83,6 +83,24 @@ function Context(modelNode, parent) {
   }
 
   /**
+   * Set the BoundingBox element and call the refresh listeners
+   * @param boundingBox array in the sequence (xmin, ymin, xmax, ymax).
+   */
+  this.initParams=function(objRef) {
+    // Set BoundingBox in context from URL CGI params
+    if (window.cgiArgs["bbox"]) {     //set as minx,miny,maxx,maxy
+      var boundingBox = window.cgiArgs["bbox"].split(',');
+      objRef.setBoundingBox(boundingBox);
+    }
+    // Set AOI of context from URL CGI params
+    if (window.cgiArgs["aoi"]) {      //set as ul,lr point arrays
+      var aoi = window.cgiArgs["aoi"].split(',');
+      objRef.setParam("aoi",new Array(new Array(aoi[0],aoi[3]),new Array(aoi[2],aoi[1])));
+    }
+  }
+  this.addListener( "loadModel", this.initParams, this );
+
+  /**
    * Set the Spacial Reference System for the context document.
    * @param srs The Spatial Reference System.
    */
