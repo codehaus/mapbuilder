@@ -60,16 +60,18 @@ function MapScaleText(widgetNode, model) {
    * @param objRef Pointer to this widget object.
    */
   this.showScale = function(objRef) {
-    var newScale = Math.round(objRef.model.extent.getScale());
-    var parts = new Array();
-    while (newScale>=1000.0) {
-      var newPart = newScale/1000.0;
-      newScale = Math.floor(newPart);
-      var strPart = leadingZeros(Math.round((newPart-newScale)*1000).toString(),3);
-      parts.unshift(strPart);
+    if (objRef.mapScaleTextForm) {
+      var newScale = Math.round(objRef.model.extent.getScale());
+      var parts = new Array();
+      while (newScale>=1000.0) {
+        var newPart = newScale/1000.0;
+        newScale = Math.floor(newPart);
+        var strPart = leadingZeros(Math.round((newPart-newScale)*1000).toString(),3);
+        parts.unshift(strPart);
+      }
+      parts.unshift(newScale);
+      objRef.mapScaleTextForm.mapScale.value = parts.join(",");
     }
-    parts.unshift(newScale);
-    objRef.mapScaleTextForm.mapScale.value = parts.join(",");
   }
 
   /**

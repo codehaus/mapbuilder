@@ -31,48 +31,50 @@ function GmlPointRenderer(widgetNode, model) {
     * @param objRef a pointer to this widget object
     */
   this.paint = function(objRef) {
-    var containerProj = new Proj(objRef.containerModel.getSRS());
-    var features = objRef.model.getFeatureNodes();
-    for (var i=0; i<features.length; ++i) {
-      var feature = features[i];
-      var title = objRef.model.getFeatureName(feature);
-      var itemId = objRef.model.getFeatureId(feature);   //or feature id's for feature collections?
-      var point = objRef.model.getFeaturePoint(feature);
-      point = containerProj.Forward(point);
-      point = objRef.containerModel.extent.getPL(point);
+    if (objRef.model.doc && objRef.node) {
+      var containerProj = new Proj(objRef.containerModel.getSRS());
+      var features = objRef.model.getFeatureNodes();
+      for (var i=0; i<features.length; ++i) {
+        var feature = features[i];
+        var title = objRef.model.getFeatureName(feature);
+        var itemId = objRef.model.getFeatureId(feature);   //or feature id's for feature collections?
+        var point = objRef.model.getFeaturePoint(feature);
+        point = containerProj.Forward(point);
+        point = objRef.containerModel.extent.getPL(point);
 
-      var normalImageDiv = document.getElementById(itemId+"_normal");
-      var highlightImageDiv = document.getElementById(itemId+"_highlight");
-      if (!normalImageDiv) {
-        //add in the normalImage
-        normalImageDiv = document.createElement("DIV");
-        normalImageDiv.setAttribute("id",itemId+"_normal");
-        normalImageDiv.style.position = "absolute";
-        normalImageDiv.style.visibility = "visible";
-        normalImageDiv.style.zIndex = 300;
-        var newImage = document.createElement("IMG");
-        newImage.src = config.skinDir+objRef.normalImage;
-        newImage.title = title;
-        normalImageDiv.appendChild(newImage);
-        objRef.node.appendChild( normalImageDiv );
+        var normalImageDiv = document.getElementById(itemId+"_normal");
+        var highlightImageDiv = document.getElementById(itemId+"_highlight");
+        if (!normalImageDiv) {
+          //add in the normalImage
+          normalImageDiv = document.createElement("DIV");
+          normalImageDiv.setAttribute("id",itemId+"_normal");
+          normalImageDiv.style.position = "absolute";
+          normalImageDiv.style.visibility = "visible";
+          normalImageDiv.style.zIndex = 300;
+          var newImage = document.createElement("IMG");
+          newImage.src = config.skinDir+objRef.normalImage;
+          newImage.title = title;
+          normalImageDiv.appendChild(newImage);
+          objRef.node.appendChild( normalImageDiv );
 
-        //add in the highlightImage
-        highlightImageDiv = document.createElement("DIV");
-        highlightImageDiv.setAttribute("id",itemId+"_highlight");
-        highlightImageDiv.style.position = "absolute";
-        highlightImageDiv.style.visibility = "hidden";
-        highlightImageDiv.style.zIndex = 301;   //all highlight images are on top of others
-        var newImage = document.createElement("IMG");
-        newImage.src = config.skinDir+objRef.highlightImage;
-        newImage.title = title;
-        highlightImageDiv.appendChild(newImage);
-        objRef.node.appendChild( highlightImageDiv );
+          //add in the highlightImage
+          highlightImageDiv = document.createElement("DIV");
+          highlightImageDiv.setAttribute("id",itemId+"_highlight");
+          highlightImageDiv.style.position = "absolute";
+          highlightImageDiv.style.visibility = "hidden";
+          highlightImageDiv.style.zIndex = 301;   //all highlight images are on top of others
+          var newImage = document.createElement("IMG");
+          newImage.src = config.skinDir+objRef.highlightImage;
+          newImage.title = title;
+          highlightImageDiv.appendChild(newImage);
+          objRef.node.appendChild( highlightImageDiv );
+        }
+
+        normalImageDiv.style.left = point[0];
+        normalImageDiv.style.top = point[1];
+        highlightImageDiv.style.left = point[0];
+        highlightImageDiv.style.top = point[1];
       }
-
-      normalImageDiv.style.left = point[0];
-      normalImageDiv.style.top = point[1];
-      highlightImageDiv.style.left = point[0];
-      highlightImageDiv.style.top = point[1];
     }
   }
 
