@@ -170,6 +170,7 @@
         </GmlRendererWZ>
       </widgets>
     </FeatureCollection>
+    <!-- example of the point feature renderer
     <FeatureCollection id="pointFeatures">
       <defaultModelUrl>../data/gml/topp_cities.xml</defaultModelUrl>
       <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
@@ -183,6 +184,7 @@
         </GmlPointRenderer>
       </widgets>
     </FeatureCollection>
+    -->
     <WmsCapabilities id="wmsCapTemplate">
       <nodeSelectXpath>//Layer</nodeSelectXpath>
       <widgets>
