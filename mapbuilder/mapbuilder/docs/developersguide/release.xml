@@ -371,10 +371,33 @@ mv mapbuilder.war $CATALINA_HOME/webapps/mapbuilder-lib-0.3.1-alpha.war</program
     </varlistentry>
 
     <varlistentry>
-      <term>Set all Open bugs to be assigned to the new release group</term>
+      <term>Select all the Open bugs</term>
 
       <listitem>
-        <para></para>
+        <para>Select Bugs, then</para>
+
+        <para>Assignee=Any</para>
+
+        <para>Status=Open</para>
+
+        <para>Catagory=mapbuilder-lib</para>
+
+        <para>Group=Any</para>
+
+        <para>Then press the Browse button.</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>Set all Open bugs to the new release group</term>
+
+      <listitem>
+        <para>Down the bottom of the bug list, select "Check All" to select
+        all Open bugs.</para>
+
+        <para>Select Group=The new release group.</para>
+
+        <para>Select "Mass Update"</para>
       </listitem>
     </varlistentry>
   </variablelist>
