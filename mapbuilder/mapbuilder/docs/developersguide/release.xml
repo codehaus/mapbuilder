@@ -363,6 +363,9 @@ mv mapbuilder.war $CATALINA_HOME/webapps/mapbuilder-lib-0.3.1-alpha.war</program
       <term>Create a new group in in the Sourceforge bug list</term>
 
       <listitem>
+        <para>Note: This step requires Administrator prividges on the
+        Sourceforge Mapbuilder project.</para>
+
         <para>Select Bugs-&gt;Admin-&gt;Bugs-&gt;Add/Update Group</para>
       </listitem>
     </varlistentry>
