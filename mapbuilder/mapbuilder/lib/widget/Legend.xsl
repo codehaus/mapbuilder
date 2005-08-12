@@ -42,6 +42,10 @@ $Name$
 
   <xsl:param name="widgetId"/>
 
+
+
+  <xsl:param name="skinDir"/>
+
   
 
   <!-- Text params for this widget -->
@@ -184,7 +188,7 @@ $Name$
 
             onclick="config.objects.{$widgetId}.selectLayer(config.objects.{$widgetId},'{wmc:Name}')"
 
-            src="/mapbuilder/lib/skin/default/images/id.gif" />
+            src="{$skinDir}/images/id.gif" />
 
         </xsl:if>
 
