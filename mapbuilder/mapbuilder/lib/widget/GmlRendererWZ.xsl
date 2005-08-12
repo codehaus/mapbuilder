@@ -92,7 +92,7 @@ $Name$
 
   <!-- Match and render a GML Point -->
 
-  <xsl:template match="gml:pointMember/gml:Point | gml:pointProperty/gml:Point">
+  <xsl:template match="gml:Point">
 
     <xsl:variable name="x0" select="floor((number(gml:coord/gml:X)-$bBoxMinX)*$xRatio - number($pointWidth) div 2)"/>
 
