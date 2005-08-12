@@ -372,7 +372,7 @@ $Id$
       <fileset dir="${build.home}"/>
     </copy>
 
-    <exec executable="${basedir}/bin/compress.sh" os="linux"/>
+    <exec executable="${basedir}/bin/compress.sh" os="Linux"/>
   </target>
 
 
