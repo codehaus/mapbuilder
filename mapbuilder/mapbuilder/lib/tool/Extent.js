@@ -230,6 +230,13 @@ TBD: when called as a listener this gets a bbox array passed in, not initialRes 
     extent.setResolution( new Array(extent.model.getWindowWidth(), extent.model.getWindowHeight() ) );
   }
   if ( initialRes ) this.init(this, initialRes);
+
+
+  this.firstInit = function(extent, initialRes) {
+  	extent.init(extent, initialRes);
+	extent.zoomToBox(extent.ul,extent.lr);
+  }
+
 }
 
   
