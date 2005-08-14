@@ -62,7 +62,7 @@ $Name$
 
   <xsl:param name="context">config.objects.<xsl:value-of select="$modelId"/></xsl:param>
 
-  
+
 
 <!-- Main html -->
 
@@ -76,8 +76,11 @@ $Name$
 
       </tr>
 
-      <xsl:apply-templates select="wmc:LayerList/*"/>
 
+      <xsl:apply-templates select="wmc:LayerList/wmc:Layer[1]"/>
+
+ 	  <xsl:apply-templates select="wmc:LayerList/wmc:OWSContext"/>
+	  <xsl:apply-templates select="wmc:LayerList/wfs:FeatureCollection"/>
     </table>
 
   </xsl:template>
@@ -94,7 +97,7 @@ $Name$
 
       </tr>
 
-      <xsl:apply-templates select="wmc:ResourceList/wmc:Layer"/>
+      <xsl:apply-templates select="wmc:ResourceList/wmc:Layer[1]"/>
 
     </table>
 
@@ -156,9 +159,12 @@ $Name$
 
   <xsl:template match="wmc:Layer">
 
+	<xsl:if test="following-sibling::node()">
+      <xsl:apply-templates select="following-sibling::node()"/>
+    </xsl:if>
     <tr>
 
-<!-- Visiblity -->
+  <!-- Visiblity -->
 
       <td>
 
@@ -176,6 +182,7 @@ $Name$
 
       </td>
 
+  <!-- Query Image -->
       <td>
 
         <xsl:if test="@queryable='1'">
@@ -194,6 +201,7 @@ $Name$
 
       </td>
 
+  <!-- Title -->
       <td>
 
         <xsl:choose>
@@ -216,6 +224,7 @@ $Name$
 
     </tr>
 
+  <!-- StyleList -->
     <tr>
 
       <td></td>
