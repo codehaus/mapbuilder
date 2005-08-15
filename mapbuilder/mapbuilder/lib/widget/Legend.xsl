@@ -159,8 +159,8 @@ $Name$
 
   <xsl:template match="wmc:Layer">
 
-	<xsl:if test="following-sibling::node()">
-      <xsl:apply-templates select="following-sibling::node()"/>
+    <xsl:if test="following-sibling::node()">
+      <xsl:apply-templates select="following-sibling::node()[2]"/><!-- this matches the next-sibling node -->
     </xsl:if>
     <tr>
 
