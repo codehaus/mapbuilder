@@ -90,6 +90,12 @@
       </listitem>
 
       <listitem>
+        <para><ulink
+        url="http://bikemap.openearth.com.au:8080/mapbuilder/docs/register/">Mapbuilder
+        Components Register</ulink>.</para>
+      </listitem>
+
+      <listitem>
         <para><ulink url="http://www.opengis.org/specs/?page=specs">Web Map
         Service</ulink> specification.</para>
       </listitem>
@@ -97,6 +103,12 @@
       <listitem>
         <para><ulink url="http://www.opengis.org/specs/?page=specs">Web Map
         Context</ulink> specification.</para>
+      </listitem>
+
+      <listitem>
+        <para><ulink
+        url="https://portal.opengeospatial.org/files/?artifact_id=8339">Web
+        Feature Service</ulink> specification.</para>
       </listitem>
     </itemizedlist>
   </section>
@@ -275,121 +287,143 @@
         </varlistentry>
       </variablelist>
     </section>
-
-    <section id="mvc">
-      <title>Model View Controller</title>
-
-      <para>Mapbuilder uses the Model View Controller (MVC) design
-      pattern.</para>
-
-      <section id="mvcoverview">
-        <title>MVC Overview</title>
-
-        <figure>
-          <title>Model View Controller</title>
-
-          <mediaobject>
-            <imageobject>
-              <imagedata fileref="images/mvc.gif" />
-            </imageobject>
-          </mediaobject>
-        </figure>
-
-        <para>The MVC pattern forces one to think of an application in terms
-        of three modules:</para>
-
-        <variablelist>
-          <varlistentry>
-            <term>Model</term>
-
-            <listitem>
-              <para>This maintains the state and data that the application
-              represents. When changes occur in the model, it sends update
-              events to all of its views. <filename>Context</filename> is the
-              Model in the Mapbuilder application and stores Layers, Bounding
-              Box etc.</para>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term>View</term>
-
-            <listitem>
-              <para>The user interface which displays information about the
-              model to the user. Views displaying dynamic data need to
-              register for StateChange events from the Model.
-              <filename>Legend</filename>, <filename>MapPane</filename>, etc
-              are all Mapbuilder Views that get update events when
-              <filename>Context</filename> changes.</para>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term>Controller</term>
-
-            <listitem>
-              <para>The user interface presented to the user to manipulate the
-              application (ie keyboard and mouse input).
-              <filename>ZoomTool</filename>, <filename>PanTool</filename>,
-              <filename>SelectFeature</filename> are all Mapbuilder
-              Controllers which update <filename>Context</filename>.</para>
-            </listitem>
-          </varlistentry>
-        </variablelist>
-
-        <para>Some components can act as both a View and Controller. For
-        example, a <filename>LocatorMap</filename> may allow users to draw a
-        select box to change the BoundingBox. Also, when the BoundingBox in
-        Context changes, the LocatorMap will draw a new Box over it's
-        basemap.</para>
-
-        <para>There is a lot of literature describing the MVC Design Pattern.
-        Here is <ulink
-        url="http://www.cs.indiana.edu/~cbaray/projects/mvc.html">one</ulink>.</para>
-      </section>
-
-      <section id="mvcbenefits">
-        <title>MVC benefits</title>
-
-        <para>The benefits of using the MVC design pattern include:</para>
-
-        <variablelist>
-          <varlistentry>
-            <term>Modularity</term>
-
-            <listitem>
-              <para>Views and Tools can be added or removed without effecting
-              the rest of the application. Tools do not have any dependencies
-              on Views and visa-versa which makes Tools and Views
-              simpler.</para>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term>Multiple Views</term>
-
-            <listitem>
-              <para>Views can display the same data in different ways. For
-              example, a Locater Map and Main Map both display the BoundingBox
-              in different ways.</para>
-            </listitem>
-          </varlistentry>
-
-          <varlistentry>
-            <term>Parallel Development</term>
-
-            <listitem>
-              <para>Once the interfaces have been defined, components can be
-              developed in parallel.</para>
-            </listitem>
-          </varlistentry>
-        </variablelist>
-      </section>
-    </section>
   </section>
 
   <section>
     <title>Architectural Design</title>
+
+    <section id="patterns">
+      <title>Design Patterns</title>
+
+      <section id="mvc">
+        <title>Model View Controller</title>
+
+        <para>Mapbuilder uses the Model View Controller (MVC) design pattern
+        for rendering widgets. Unlike many Content Management Systems,
+        mapbuilder stores it's all it's model data in the web browser, which
+        speeds up user interactions because communication with the server is
+        reduced.</para>
+
+        <section id="mvcoverview">
+          <title>MVC Overview</title>
+
+          <figure>
+            <title>Model View Controller</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/mvc.gif" />
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>The MVC pattern forces one to think of an application in terms
+          of three modules:</para>
+
+          <variablelist>
+            <varlistentry>
+              <term>Model</term>
+
+              <listitem>
+                <para>This maintains the state and data that the application
+                represents. When changes occur in the model, it sends update
+                events to all of its views. <filename>Context</filename> is
+                the Model in the Mapbuilder application and stores Layers,
+                Bounding Box etc.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>View</term>
+
+              <listitem>
+                <para>The user interface which displays information about the
+                model to the user. Views displaying dynamic data need to
+                register for StateChange events from the Model.
+                <filename>Legend</filename>, <filename>MapPane</filename>, etc
+                are all Mapbuilder Views that get update events when
+                <filename>Context</filename> changes.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>Controller</term>
+
+              <listitem>
+                <para>The user interface presented to the user to manipulate
+                the application (ie keyboard and mouse input).
+                <filename>ZoomTool</filename>, <filename>PanTool</filename>,
+                <filename>SelectFeature</filename> are all Mapbuilder
+                Controllers which update <filename>Context</filename>.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+
+          <para>Some components can act as both a View and Controller. For
+          example, a <filename>LocatorMap</filename> may allow users to draw a
+          select box to change the BoundingBox. Also, when the BoundingBox in
+          Context changes, the LocatorMap will draw a new Box over it's
+          basemap.</para>
+
+          <para>There is a lot of literature describing the MVC Design
+          Pattern. Here is <ulink
+          url="http://www.cs.indiana.edu/~cbaray/projects/mvc.html">one</ulink>.</para>
+
+          <para>The components are explained in more detail in <xref
+          linkend="components" />.</para>
+        </section>
+
+        <section id="mvcbenefits">
+          <title>MVC benefits</title>
+
+          <para>The benefits of using the MVC design pattern include:</para>
+
+          <variablelist>
+            <varlistentry>
+              <term>Modularity</term>
+
+              <listitem>
+                <para>Views and Tools can be added or removed without
+                effecting the rest of the application. Tools do not have any
+                dependencies on Views and visa-versa which makes Tools and
+                Views simpler.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>Multiple Views</term>
+
+              <listitem>
+                <para>Views can display the same data in different ways. For
+                example, a Locater Map and Main Map both display the
+                BoundingBox in different ways.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>Parallel Development</term>
+
+              <listitem>
+                <para>Once the interfaces have been defined, components can be
+                developed in parallel.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </section>
+      </section>
+
+      <section>
+        <title>Inheritence</title>
+
+        <para>TBD</para>
+      </section>
+
+      <section id="events">
+        <title>Events</title>
+
+        <para>TBD</para>
+      </section>
+    </section>
 
     <section id="interfacedesign">
       <title>Interface Design</title>
@@ -451,6 +485,18 @@
 
         <para>For further details on how to use mapbuilder-lib, refer to the
         Users Guide.</para>
+
+        <section>
+          <title>Design Notes</title>
+
+          <para>Layout of widgets should be done using CSS instead of tables.
+          Most Content Management Systems (CMS) use CSS for layout. The CSS
+          can be maintained as a "skin" and a different skin can be selected
+          easilly by users.</para>
+
+          <para>A minor change needs to be made to the paint() methods so that
+          painting to an undefined HTML id will work.</para>
+        </section>
       </section>
 
       <section id="webmapcontext">
@@ -460,22 +506,21 @@
         Bounding Box, etc. The format is defined by the OGC's <ulink
         url="http://www.opengis.org/specs/?page=specs">Web Map Context</ulink>
         (WMC) specification.</para>
+
+        <para>At least one context.xml file is required for each Mapbuilder
+        application and is referenced from the config.xml file.</para>
       </section>
 
       <section id="config">
         <title>Config</title>
 
-        <para>This section explains the structure of the mapbuilder-lib Config
-        file.</para>
-
         <para>The Config file is an XML document which describes which
-        mapbuilder-lib components should be included in an application.</para>
-
-        <para>TBD: This section contains information about javascript
-        implementation of classes which should be moved to the Components
-        section.</para>
-
-        <para>TBD: Some information in this section is out of date.</para>
+        mapbuilder-lib components should be included in an application. The
+        schema for the config file is stored at <ulink
+        url="../lib/schemas/config.xsd">mapbuilder/lib/schema/config.xsd</ulink>
+        and can be viewed more easilly using the <ulink
+        url="http://bikemap.openearth.com.au:8080/mapbuilder/docs/register/">Mapbuilder
+        Components Register</ulink>.</para>
 
         <section id="configdocumentschema">
           <title>Config Document Schema</title>
@@ -509,240 +554,7 @@
           <para>A more complete description of the object-property-value rule
           can be found in section 2.1 of the document: <ulink
           url="http://www.geoconnections.org/developersCorner/devCorner_devNetwork/components/GML_bpv1.3_E.pdf">Developing
-          and Managing GML Application Schemas</ulink></para>
-        </section>
-
-        <section id="MapbuilderConfig">
-          <title>MapbuilderConfig</title>
-
-          <para>The MapbuilderConfig object is the root of the object tree
-          structure.</para>
-
-          <figure>
-            <title>Top level config object schema</title>
-
-            <mediaobject>
-              <imageobject>
-                <imagedata depth="329" fileref="images/config.png" width="533" />
-              </imageobject>
-            </mediaobject>
-          </figure>
-
-          <para>The Config constructor must be called in the page &lt;HEAD&gt;
-          element and assigned to a global javascript object with the name
-          "mbConfig". This is normally accomplished by ...</para>
-
-          <programlisting>var mbConfig = new Config('configDocUrl');</programlisting>
-
-          <para>The constructor will first load all javascript files contained
-          in the config document and then set application scope
-          properties.</para>
-
-          <para>The Config object provides the <systemitem>init()</systemitem>
-          and <systemitem>loadModel()</systemitem> methods.</para>
-
-          <para>The <systemitem>init() </systemitem>method is called once
-          during body onload processing. The configuration document is parsed
-          and each Model object encountered is instantiated in turn.</para>
-
-          <para>The <systemitem>loadModel()</systemitem> method can be called
-          at any time to refresh the model object by retrieving the XML
-          document at the specified URL and storing the object as the .doc
-          property of the Model object.</para>
-
-          <programlisting>mbConfig.loadModel('modelGroupID', 'modelUrl');</programlisting>
-
-          <para>The Config object implements a "loadModel" listener array that
-          can be used to register models, widgets and tools that are
-          interested in when this model is refreshed from a URL, typically
-          widgets of a different Model object.</para>
-        </section>
-
-        <section id="configmodels">
-          <title>Models</title>
-
-          <para>The model object represents an single instance of an XML
-          document with properties and methods to access the document. A model
-          object must extend the ModelBase class, which provides some
-          properties and methods common to all models.</para>
-
-          <figure>
-            <title>Model object schema</title>
-
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="images/configModels.png" />
-              </imageobject>
-            </mediaobject>
-          </figure>
-
-          <para>The initial model URL to be loaded is specified using the
-          defaultModelURL property. The model object can be loaded from a
-          different URL at any time using the
-          <systemitem>mbConfig.loadModel()</systemitem> method.</para>
-
-          <para>Each Model object is stored as a property of the global Config
-          object using the ID provided for it in the configuration document.
-          This means that you can reference any Model object (for javascript
-          links or in other objects) as:</para>
-
-          <programlisting>mbConfig['modelID']</programlisting>
-
-          <para>The modelID is not used to link to any HTML element in the
-          page.</para>
-
-          <para>All models implement the loadModelDoc() and loadWidgets()
-          methods. Derived model types may implement their own custom
-          methods.</para>
-
-          <para>loadModelDoc() will issue the HTTP request to retrieve an XML
-          document.</para>
-
-          <para>The loadWidgets() method instantiates all child widget objects
-          of the model. The tools of each widget are instantiated before the
-          widget is painted by calling WidgetBase's loadTools() method. This
-          is so that tools can register a "paint" listener function with it's
-          parent widget if required.</para>
-
-          <para>Model objects provide a "loadWidget" listener array that can
-          be used to register widgets and tools that are interested in when
-          this model is refreshed from a URL, typically widgets of a different
-          Model object.</para>
-
-          <para>Currently supported model types:</para>
-
-          <variablelist>
-            <varlistentry>
-              <term>Context</term>
-
-              <listitem>
-                <para>OGC Web Map Context Document</para>
-              </listitem>
-            </varlistentry>
-
-            <varlistentry>
-              <term>ContextCollection</term>
-
-              <listitem>
-                <para>OGC WebMap Context Collection</para>
-              </listitem>
-            </varlistentry>
-
-            <varlistentry>
-              <term>Gazetteer</term>
-
-              <listitem>
-                <para>tom's location list stuff</para>
-              </listitem>
-            </varlistentry>
-
-            <varlistentry>
-              <term>WMS Capabilities</term>
-
-              <listitem>
-                <para>OGC Web Map Server capabilities documents</para>
-              </listitem>
-            </varlistentry>
-          </variablelist>
-        </section>
-
-        <section id="configwidgets">
-          <title>Widgets</title>
-
-          <para>Widgets represent the views from the MVC design pattern. A
-          Widget object must extend the WidgetBase class, which provides some
-          properties and methods common to all widgets. Most important of
-          these is the paint() method which renders the XML of the model to
-          HTML using the associated stylesheet.</para>
-
-          <figure>
-            <title>Widget object schema</title>
-
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="images/configWidgets.png" />
-              </imageobject>
-            </mediaobject>
-          </figure>
-
-          <para>The HTML output of the stylesheet is then associated to an
-          HTML page element via the ID attribute. This is how mapbuilder ties
-          into the application HTML. The same ID attribute can be used on
-          several widgets; in this case the contents of the HTML web page
-          depends on how the application programs widget.paint() calls.</para>
-
-          <para>A Widget object may have a tools property which consists of
-          any number of Tool objects. A Tool object may be a controller or it
-          may be something else, but it is essentially some code that is
-          specific to that widget and for the purpose of supporting that
-          widget.</para>
-
-          <para>All widgets have a "paint" listener array that can be used by
-          tools that are interested in when the widget is re-painted.</para>
-        </section>
-
-        <section id="configtools">
-          <title>Tools</title>
-
-          <para>A Tool object may be a controller or it may be something else,
-          but it is essentially some code that is specific to that widget and
-          for the purpose of supporting that widget. A tool will usually call
-          either a get or set method of the model.</para>
-
-          <figure>
-            <title>Tool object schema</title>
-
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="images/configTools.png" />
-              </imageobject>
-            </mediaobject>
-          </figure>
-
-          <para>Some concrete examples of tools:</para>
-
-          <itemizedlist>
-            <listitem>
-              <para>the CursorTrack tool is only interested in the mouse
-              position on the MapPane widget, so it registers with the mouse
-              event listeners of MapPane. It calls the model.getSRS()
-              method.</para>
-            </listitem>
-
-            <listitem>
-              <para>The AOIBox tool is only used for drawing a box on a
-              MapPane, it can't exist independent of a MapPane. It gets the
-              coords of the AOI to draw from the model.getAOI() method.</para>
-            </listitem>
-
-            <listitem>
-              <para>The AoiMouseHandler tool is used to click and drag an AOI
-              on a MapPane, so it registers with the mouse event listeners of
-              MapPane. It will call the setAoi() method of the model.</para>
-            </listitem>
-
-            <listitem>
-              <para>A ZoomIn tool is used to process a mouseup event on the
-              MapPane, it will change the model bbox.</para>
-            </listitem>
-
-            <listitem>
-              <para>a pan tool is used to click and drag the mappane container
-              div, on a mouseup event it will change the model bbox, but it
-              will also have to register mousedown and mousemove functions
-              with the mappane mouse handler arrays.</para>
-            </listitem>
-
-            <listitem>
-              <para>a highlight tool on a legend widget could register a
-              mouseover listener with the legend widget and call a
-              model.selectLayer method so all widgets interested in layers
-              being selected can be refreshed.</para>
-            </listitem>
-          </itemizedlist>
-
-          <para>The action to be carried out by a tool can target a different
-          ModelGroup by setting a property in the config document.</para>
+          and Managing GML Application Schemas</ulink>.</para>
         </section>
       </section>
     </section>
