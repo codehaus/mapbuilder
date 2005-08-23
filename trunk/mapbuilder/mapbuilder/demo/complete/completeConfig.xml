@@ -61,6 +61,8 @@
         <SaveModel id="saveModelWidget">
           <htmlTagId>saveModel</htmlTagId>
         </SaveModel>
+        <LayerControl id="layerControl">
+        </LayerControl>
         <!--
         <SearchForm id="searchForm">
         </SearchForm>
