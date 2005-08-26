@@ -6,7 +6,7 @@
     
   <models>
     <Context id="mainMap">
-      <defaultModelUrl>../data/context/atlasWorld.xml</defaultModelUrl>
+      <defaultModelUrl>atlasWorld.xml</defaultModelUrl>
       <widgets>
         <MapPane id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
