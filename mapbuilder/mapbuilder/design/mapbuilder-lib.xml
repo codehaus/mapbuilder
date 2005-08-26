@@ -413,9 +413,56 @@
       </section>
 
       <section>
-        <title>Inheritence</title>
+        <title>Inheritance</title>
 
-        <para>TBD</para>
+        <para>Javascript doesn't provide inheritance, however there are a
+        number of sub-optimal hacks available and we have used a couple of
+        them in mapbuilder. Most are similar to this example where Legend
+        extends WidgetBase.</para>
+
+        <variablelist>
+          <varlistentry>
+            <term>Legend.js</term>
+
+            <listitem>
+              <programlisting>var base = new WidgetBase(this, widgetNode, model);</programlisting>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>WidgetBase.js</term>
+
+            <listitem>
+              <programlisting>  ...
+  // If this object is being created because a child is extending this object,
+  // then child.properties = this.properties
+  for (sProperty in this) {
+    widget[sProperty] = this[sProperty];
+  }
+</programlisting>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+
+        <para>It is important to note that our implementation of inheritance
+        requires each function call to be passed it's object instance (usually
+        called objRef). Eg:</para>
+
+        <programlisting>  /**
+   * Remove widget from display.
+   * @param objRef Pointer to this object.
+   */ 
+  this.clearWidget = function(objRef) {
+    ..
+  }</programlisting>
+
+        <section>
+          <title>Design Notes</title>
+
+          <para>We should use the Javascript .apply() method for inheritance
+          as used by the kamap project as it provides a cleaner
+          implimentation.</para>
+        </section>
       </section>
 
       <section id="events">
