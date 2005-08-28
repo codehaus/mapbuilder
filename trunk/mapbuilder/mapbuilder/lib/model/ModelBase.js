@@ -134,62 +134,62 @@ function ModelBase(model, modelNode, parentModel) {
    *   loadModel - to indicate that the document is loaded successfully
    *   refresh - to indicate that widgets should be refreshed
    *
-   * @param modelRef Pointer to the model object being loaded.
+   * @param objRef Pointer to the model object being loaded.
    */
-  this.loadModelDoc = function(modelRef){
-    modelRef.setParam("modelStatus","loading");
+  this.loadModelDoc = function(objRef){
+    objRef.setParam("modelStatus","loading");
 
-    modelRef.callListeners( "newModel" );
-    if (modelRef.url) {
+    objRef.callListeners( "newModel" );
+    if (objRef.url) {
 
-      if (modelRef.contentType == "image") {
+      if (objRef.contentType == "image") {
         //image models are set as a DOM image object
-        modelRef.doc = new Image();
-        modelRef.doc.src = modelRef.url;
-        //modelRef.doc.onload = callback //TBD: for when image is loaded
+        objRef.doc = new Image();
+        objRef.doc.src = objRef.url;
+        //objRef.doc.onload = callback //TBD: for when image is loaded
 
       } else {
         //XML content type
 
         var xmlHttp = Sarissa.getXmlHttpRequest();
-        var sUri = modelRef.url;
+        var sUri = objRef.url;
         if ( sUri.indexOf("http://")==0 ) {
-          if (modelRef.method == "get") {
+          if (objRef.method == "get") {
             sUri = getProxyPlusUrl(sUri);
           } else {
-            xmlHttp.setRequestHeader("content-type",modelRef.contentType);
+            xmlHttp.setRequestHeader("content-type",objRef.contentType);
             xmlHttp.setRequestHeader("serverUrl",sUri);
             sUri = config.proxyUrl;
           }
         }
-        xmlHttp.open(modelRef.method, sUri, modelRef.async);
+        xmlHttp.open(objRef.method, sUri, objRef.async);
         
         xmlHttp.onreadystatechange = function() {
-          modelRef.setParam("modelStatus",xmlHttp.readyState);
+          objRef.setParam("modelStatus",xmlHttp.readyState);
           if (xmlHttp.readyState==4) {
             if (xmlHttp.status >= 400) {   //http errors status start at 400
               alert("error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText );
-              modelRef.setParam("modelStatus",-1);
+              objRef.setParam("modelStatus",-1);
               return;
             } else {
               //alert(xmlHttp.getResponseHeader("Content-Type"));
               if ( null==xmlHttp.responseXML ) {
                 alert( "null XML response:" + xmlHttp.responseText );
               } else {
-                modelRef.doc = xmlHttp.responseXML;
-                if (modelRef.doc.documentElement.nodeName.search(/exception/i)>=0) {
-                  modelRef.setParam("modelStatus",-1);
+                objRef.doc = xmlHttp.responseXML;
+                if (objRef.doc.documentElement.nodeName.search(/exception/i)>=0) {
+                  objRef.setParam("modelStatus",-1);
                   alert("Exception:"+Sarissa.serialize(xmlHttp.responseText));
                 }
               }
-              modelRef.finishLoading();
+              objRef.finishLoading();
             }
           }
         }
 
-        xmlHttp.send(modelRef.postData);
+        xmlHttp.send(objRef.postData);
 
-        if (!modelRef.async) {
+        if (!objRef.async) {
           if (xmlHttp.status >= 400) {   //http errors status start at 400
             alert("error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText );
             this.model.setParam("modelStatus",-1);
@@ -197,12 +197,12 @@ function ModelBase(model, modelNode, parentModel) {
           } else {
             //alert(xmlHttp.getResponseHeader("Content-Type"));
             if ( null==xmlHttp.responseXML ) alert( "null XML response:" + xmlHttp.responseText );
-            modelRef.doc = xmlHttp.responseXML;
-            modelRef.finishLoading();
+            objRef.doc = xmlHttp.responseXML;
+            objRef.finishLoading();
           }
         }
 
-        //modelRef.doc.validateOnParse=false;  //IE6 SP2 parsing bug
+        //objRef.doc.validateOnParse=false;  //IE6 SP2 parsing bug
       }
     } else {
       //no URL means this is a template model
@@ -232,17 +232,17 @@ function ModelBase(model, modelNode, parentModel) {
    *   will be removed from the display.<br/>
    * httpPayload.httpMethod="post" or "get"<br/>
    * httpPayload.postData=XML or null<br/>
-   * @param modelRef    Pointer to the model object being loaded.
+   * @param objRef    Pointer to the model object being loaded.
    * @param httpPayload an object to fully specify the request to be made
    */
-  this.newRequest = function(modelRef, httpPayload){
-    modelRef.url = httpPayload.url;
-    if (!modelRef.url){
-      modelRef.doc=null;
+  this.newRequest = function(objRef, httpPayload){
+    objRef.url = httpPayload.url;
+    if (!objRef.url){
+      objRef.doc=null;
     }
-    modelRef.method = httpPayload.method;
-    modelRef.postData = httpPayload.postData;
-    modelRef.loadModelDoc(modelRef);
+    objRef.method = httpPayload.method;
+    objRef.postData = httpPayload.postData;
+    objRef.loadModelDoc(objRef);
   }
   model.newRequest = this.newRequest;
 
@@ -303,33 +303,33 @@ function ModelBase(model, modelNode, parentModel) {
   /**
    * Initialization of all javascript model, widget and tool objects for this model. 
    * Calling this method triggers an init event for this model.
-   * @param modelRef Pointer to this object.
+   * @param objRef Pointer to this object.
    */
-  model.init = function(modelRef) {
-    modelRef.loadObjects("mb:widgets/*");
-    modelRef.loadObjects("mb:tools/*");
-    modelRef.loadObjects("mb:models/*");
-    modelRef.callListeners("init");
+  model.init = function(objRef) {
+    objRef.loadObjects("mb:widgets/*");
+    objRef.loadObjects("mb:tools/*");
+    objRef.loadObjects("mb:models/*");
+    objRef.callListeners("init");
   }
 
   /**
    * Listener registered with the parent model to call refresh listeners when 
    * the model document is loaded
-   * @param modelRef Pointer to this object.
+   * @param objRef Pointer to this object.
    */
-  model.refresh = function(modelRef) {
-    modelRef.callListeners("refresh");
+  model.refresh = function(objRef) {
+    objRef.callListeners("refresh");
   }
   model.addListener("loadModel",model.refresh, model);
 
   /**
    * Listener registered with the parent model to remove the doc and url 
    * of child models whenever the parent is reloaded.
-   * @param modelRef Pointer to this object.
+   * @param objRef Pointer to this object.
    */
-  model.clearModel = function(modelRef) {
-    modelRef.doc=null;
-    modelRef.url=null;
+  model.clearModel = function(objRef) {
+    objRef.doc=null;
+    objRef.url=null;
   }
 
   //don't load in models and widgets if this is the config doc, 
