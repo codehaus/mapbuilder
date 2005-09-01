@@ -111,10 +111,10 @@ function MapContainerBase(widget,widgetNode,model) {
 	 *@param newImgNode  the new image object
 	 *@param i			 the index of the image in the for loop of prepaint (for debuging purpose)
 	 */
-	 function replace(oldImgNode,newImgNode,i){
-		oldImgNode.src = newImgNode.src;
+	 function replace(newImgNode){
+		document.getElementById("real"+this.id ).src = this.src;
 		//Note that we are keeping the old div that contains divs that contain images in it position and adjusting the divs that contains images position to compensate the other div position. So this result in the image at position top:0 left: 0 
-		oldImgNode.setAttribute("onLoad","this.parentNode.style.left=-1*parseInt(this.parentNode.parentNode.style.left);this.parentNode.style.top=-1*parseInt(this.parentNode.parentNode.style.top);");
+		//oldImgNode.setAttribute("onLoad","this.parentNode.style.left=-1*parseInt(this.parentNode.parentNode.style.left);this.parentNode.style.top=-1*parseInt(this.parentNode.parentNode.style.top);");
 	 }
 
 
@@ -148,9 +148,11 @@ function MapContainerBase(widget,widgetNode,model) {
 	  for (var i=0;i<images.length;i++){
 	  	var real_src = images[i].getAttribute("src");
 		// preload image
-		images[i].real_img = new Image();
-		images[i].real_img.src=real_src;
-		images[i].real_img.onload = replace(realimages[i],images[i],i);
+		new_img = new Image();
+		new_img.src=real_src;
+		new_img.id=Math.random();
+		realimages[i].id = "real"+new_img.id;
+		new_img.onload = replace;
 	  }    
     }
 
