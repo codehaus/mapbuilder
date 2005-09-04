@@ -11,11 +11,11 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @constructor
  * @base ButtonBase
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
- * @param toolNode      The tool node from the Config XML file.
+ * @param widgetNode      The widget node from the Config XML file.
  * @param model  The model for this widget
  */
-function Reset(toolNode, model) {
-  var base = new ButtonBase(this, toolNode, model);
+function Reset(widgetNode, model) {
+  var base = new ButtonBase(this, widgetNode, model);
 
   /**
    * Store a copy of the original extent locally as a loadModel event listener.
