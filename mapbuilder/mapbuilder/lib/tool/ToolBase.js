@@ -7,20 +7,20 @@ $Id$
  * Base Tool object that all Tools extend.
  * @constructor
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
- * @param tool     Pointer to the tool instance being created
+ * @param objRef   Pointer to the tool instance being created
  * @param toolNode The tool node from the Config XML file.
  * @param model    The widget object which created this tool.
  */
-function ToolBase(tool, toolNode, model) {
-  tool.model = model;
-  tool.toolNode = toolNode;
+function ToolBase(objRef, toolNode, model) {
+  objRef.model = model;
+  objRef.toolNode = toolNode;
 
   //set the ID for this tool
   var id = toolNode.selectSingleNode("@id");
   if (id) {
-    tool.id = id.firstChild.nodeValue;
+    objRef.id = id.firstChild.nodeValue;
   } else {
-    tool.id = "MbTool_" + mbIds.getId();
+    objRef.id = "MbTool_" + mbIds.getId();
   }
 
   /**
@@ -39,8 +39,8 @@ function ToolBase(tool, toolNode, model) {
       toolRef.targetModel = toolRef.model;
     }
   }
-  tool.initTargetModel = this.initTargetModel;
-  tool.model.addListener( "init", tool.initTargetModel, tool );
+  objRef.initTargetModel = this.initTargetModel;
+  objRef.model.addListener( "init", objRef.initTargetModel, objRef );
 
   /**
    * Initialize the mouseHandler property to point to the object.  This happens
@@ -57,11 +57,11 @@ function ToolBase(tool, toolNode, model) {
       }
     }
   }
-  tool.initMouseHandler = this.initMouseHandler;
-  tool.model.addListener( "init", tool.initMouseHandler, tool );
+  objRef.initMouseHandler = this.initMouseHandler;
+  objRef.model.addListener( "init", objRef.initMouseHandler, objRef );
 
   //tools enabled by default; can set to false in config for initial loading
-  tool.enabled = true;
+  objRef.enabled = true;
   var enabled = toolNode.selectSingleNode("mb:enabled");
-  if (enabled) tool.enabled = eval(enabled.firstChild.nodeValue);
+  if (enabled) objRef.enabled = eval(enabled.firstChild.nodeValue);
 }
