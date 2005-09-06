@@ -225,7 +225,8 @@ function ModelBase(model, modelNode, parentModel) {
   model.finishLoading = this.finishLoading;
 
   /**
-   * Load XML for a model from an httpPayload object
+   * Load XML for a model from an httpPayload object.  This will also handle
+   * instantiating template models if they have the "template" attribute set.
    * To update model data, use:<br/>
    * httpPayload=new Object();<br/>
    * httpPayload.url="url" or null. If set to null, all dependant widgets
@@ -236,6 +237,17 @@ function ModelBase(model, modelNode, parentModel) {
    * @param httpPayload an object to fully specify the request to be made
    */
   this.newRequest = function(objRef, httpPayload){
+    // if the targetModel is a template model, then create new model object and
+    // assign it an id
+    if (objRef.template) {
+      var parentNode = objRef.modelNode.parentNode;
+      var newConfigNode = parentNode.appendChild(objRef.modelNode.ownerDocument.importNode(objRef.modelNode,true));
+      newConfigNode.removeAttribute("id");  //this will get created automatically
+      //set defaultModelUrl config properties
+      objRef = objRef.createObject(newConfigNode);
+    }
+
+    //set the payload in the model and issue the request
     objRef.url = httpPayload.url;
     if (!objRef.url){
       objRef.doc=null;
@@ -332,13 +344,14 @@ function ModelBase(model, modelNode, parentModel) {
     objRef.url=null;
   }
 
+  if (parentModel) model.init(model);
+
   //don't load in models and widgets if this is the config doc, 
   //defer that to an explcit config.init() call in mapbuilder.js
   if (parentModel && !model.template) {
     model.parentModel = parentModel;
     parentModel.addListener("loadModel",model.loadModelDoc, model);
     parentModel.addListener("newModel", model.clearModel, model);
-    model.init(model);
   }
 
 }

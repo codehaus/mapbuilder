@@ -135,17 +135,12 @@ function WebServiceRequest(toolNode, model) {
   }
 
   /**
-   * Listener function which will actually issue the request.
+   * Listener function which will actually issue the request.  This method
+   * will prepare the HTTP payload for a particular featureName.
    * @param requestName the name of the web service operation to execute
    * @param featureNodeId the id of the node in the doc to be processed by the stylesheet
    */
   this.doRequest = function(objRef, featureName) {
-    // if the targetModel is a template model, then create new model object and
-    // assign it an id
-    if (objRef.targetModel.template) {
-      objRef.targetModel.modelNode.removeAttribute("id");
-      objRef.targetModel = objRef.model.createObject(objRef.targetModel.modelNode);
-    }
     objRef.targetModel.featureName = featureName;
 
     var feature = objRef.model.getFeatureNode(featureName);
