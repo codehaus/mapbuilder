@@ -59,13 +59,19 @@ $Name:  $
         </input>
       </td>
       <td>
-        <img title="{$moveLayerUpTip}" onclick="{$context}.moveLayer({$nodeIndex},-1)" src="{$skinDir}/images/MoveLayerUp.gif" />
+       <a href="javascript:{$context}.moveLayer({$nodeIndex},-1)" class="mbButton">
+        <img title="{$moveLayerUpTip}" src="{$skinDir}/images/MoveLayerUp.gif" />
+       </a>
       </td>
       <td>
-        <img title="{$moveLayerDownTip}" onclick="{$context}.moveLayer({$nodeIndex},1)" src="{$skinDir}/images/MoveLayerDown.gif" />
+       <a href="javascript:{$context}.moveLayer({$nodeIndex},1)" class="mbButton">
+        <img title="{$moveLayerDownTip}" src="{$skinDir}/images/MoveLayerDown.gif" />
+       </a>
       </td>
-      <td onclick="{$context}.deleteLayer('{$layerName}')">
+      <td>
+       <a href="javascript:{$context}.deleteLayer('{$layerName}')" class="mbButton">
         <img title="{$deleteLayerTip}" src="{$skinDir}/images/DeleteLayer.gif" />
+       </a>
       </td>
       <td onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}')">
         <xsl:choose>
@@ -77,6 +83,17 @@ $Name:  $
           </xsl:otherwise>
         </xsl:choose>
       </td>
+    </tr>
+    <tr class="{$rowClass}" onmouseover="config.objects.{$widgetId}.highlightLayer('{$layerName}')">
+     <td colspan="5">
+       <xsl:if test="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL"> 
+          <xsl:element name="IMG">
+              <xsl:attribute name="SRC">
+                <xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL/wmc:OnlineResource/@xlink:href"/> 
+              </xsl:attribute>
+          </xsl:element>
+         </xsl:if>
+     </td>
     </tr>
   </xsl:template>
   
