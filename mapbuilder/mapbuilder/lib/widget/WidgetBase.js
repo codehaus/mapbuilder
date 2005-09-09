@@ -8,7 +8,7 @@ $Id$
  * model.  All widgets must extend this base class.
  * Defines the default paint() method for all widgets which is where the 
  * stylesheet is applied to the model XML document.
- * To override widget.paint(), define it before calling this constructor.
+ * To override paint(), define it before calling this constructor.
  * The stylesheet URL defaults to "widget/<widgetName>.xsl" if it is not defined
  * in config file.  Set a stylesheet property containing an XSL URL in config
  * to customize the stylesheet used.
@@ -16,24 +16,24 @@ $Id$
  *
  * @constructor
  * @author Mike Adair 
- * @param widget      Pointer to the widget instance being created
+ * @param objRef      Pointer to the widget instance being created
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */
-function WidgetBase(widget,widgetNode,model) {
-  widget.model = model;
-  widget.widgetNode = widgetNode;
+function WidgetBase(objRef,widgetNode,model) {
+  objRef.model = model;
+  objRef.widgetNode = widgetNode;
 
   /** Method used for painting.
    * xsl2html (default) => output of XSL will be HTML.
    * xsl2js => output of XSL will be javascript to execute.
    * image2html => where the model doc has content type image/*
    */
-  widget.paintMethod="xsl2html";
+  objRef.paintMethod="xsl2html";
 
   /** Widget's Id defined in the Config (required) */
   if (widgetNode.attributes.getNamedItem("id")) {
-    widget.id = widgetNode.attributes.getNamedItem("id").nodeValue;
+    objRef.id = widgetNode.attributes.getNamedItem("id").nodeValue;
   } else {
     alert("id required for object:" + widgetNode.nodeName );
   }
@@ -41,43 +41,43 @@ function WidgetBase(widget,widgetNode,model) {
   //allow the widget output to be replaced on each paint call
   var outputNode = widgetNode.selectSingleNode("mb:outputNodeId");
   if ( outputNode ) {
-    widget.outputNodeId = outputNode.firstChild.nodeValue;
+    objRef.outputNodeId = outputNode.firstChild.nodeValue;
   } else {
-    widget.outputNodeId = "MbWidget_" + mbIds.getId();
+    objRef.outputNodeId = "MbWidget_" + mbIds.getId();
   }
 
   //until htmlTagNode becomes required allow setting of it by widget id
-  if (!widget.htmlTagId) {
+  if (!objRef.htmlTagId) {
     var htmlTagNode = widgetNode.selectSingleNode("mb:htmlTagId");
     if (htmlTagNode) {
-      widget.htmlTagId = htmlTagNode.firstChild.nodeValue;
+      objRef.htmlTagId = htmlTagNode.firstChild.nodeValue;
     } else {
-      widget.htmlTagId = widget.id;
+      objRef.htmlTagId = objRef.id;
     }
   }
 
   // Node in main HTML to attach widget to.
-  widget.node = document.getElementById(widget.htmlTagId);
-  if(!widget.node) {
+  objRef.node = document.getElementById(objRef.htmlTagId);
+  if(!objRef.node) {
     //alert("htmlTagId: "+widget.htmlTagId+" for widget "+widgetNode.nodeName+" not found in config");
   }
 
   //set an empty debug property in config to see inputs and outputs of stylehseet
-  if ( widgetNode.selectSingleNode("mb:debug") ) widget.debug=true;
+  if ( widgetNode.selectSingleNode("mb:debug") ) objRef.debug=true;
 
   /** Transient var used to store model XML before and then after XSL transform.
    *  It can be modified by prePaint() .
    */
-  widget.resultDoc = null;
+  objRef.resultDoc = null;
 
   // Set this.stylesheet
   // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
-  if ( !widget.stylesheet ) {
+  if ( !objRef.stylesheet ) {
     var styleNode = widgetNode.selectSingleNode("mb:stylesheet");
     if (styleNode ) {
-      widget.stylesheet = new XslProcessor(styleNode.firstChild.nodeValue,model.namespace);
+      objRef.stylesheet = new XslProcessor(styleNode.firstChild.nodeValue,model.namespace);
     } else {
-      widget.stylesheet = new XslProcessor(baseDir+"/widget/"+widgetNode.nodeName+".xsl",model.namespace);
+      objRef.stylesheet = new XslProcessor(baseDir+"/widget/"+widgetNode.nodeName+".xsl",model.namespace);
     }
   }
 
@@ -105,7 +105,7 @@ function WidgetBase(widget,widgetNode,model) {
     if (widgetNode.childNodes[j].firstChild
       && widgetNode.childNodes[j].firstChild.nodeValue)
     {
-      widget.stylesheet.setParameter(
+      objRef.stylesheet.setParameter(
         widgetNode.childNodes[j].nodeName,
         widgetNode.childNodes[j].firstChild.nodeValue);
     }
@@ -116,16 +116,16 @@ function WidgetBase(widget,widgetNode,model) {
     var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName;
     var textParams = config.widgetText.selectNodes(textNodeXpath+"/*");
     for (var j=0;j<textParams.length;j++) {
-      widget.stylesheet.setParameter(textParams[j].nodeName,textParams[j].firstChild.nodeValue);
+      objRef.stylesheet.setParameter(textParams[j].nodeName,textParams[j].firstChild.nodeValue);
     }
   }
 
   //all stylesheets will have these properties available
-  widget.stylesheet.setParameter("modelId", widget.model.id );
-  widget.stylesheet.setParameter("modelTitle", widget.model.title );
-  widget.stylesheet.setParameter("widgetId", widget.id );
-  widget.stylesheet.setParameter("skinDir", config.skinDir );
-  widget.stylesheet.setParameter("lang", config.lang );
+  objRef.stylesheet.setParameter("modelId", objRef.model.id );
+  objRef.stylesheet.setParameter("modelTitle", objRef.model.title );
+  objRef.stylesheet.setParameter("widgetId", objRef.id );
+  objRef.stylesheet.setParameter("skinDir", config.skinDir );
+  objRef.stylesheet.setParameter("lang", config.lang );
 
   /**
    * Move this widget to the absolute (left,top) position in the browser.
@@ -178,7 +178,7 @@ function WidgetBase(widget,widgetNode,model) {
 //to override the paint method, define it in the exetnsion class before calling 
 //the WidgetBase constructor.  This is so that when paint is registered as a
 //listener, the method from the instance is used.
-if (!widget.paint) {
+if (!objRef.paint) {
 
   /**
    * Render the widget.
@@ -282,11 +282,11 @@ if (!widget.paint) {
   // If this object is being created because a child is extending this object,
   // then child.properties = this.properties
   for (sProperty in this) {
-    widget[sProperty] = this[sProperty];
+    objRef[sProperty] = this[sProperty];
   }
 
   // Call paint when model changes
-  widget.model.addListener("init", widget.initTargetModel, widget);
-  widget.model.addListener("refresh",widget.paint, widget);
-  widget.model.addListener("newModel",widget.clearWidget, widget);
+  objRef.model.addListener("init", objRef.initTargetModel, objRef);
+  objRef.model.addListener("refresh",objRef.paint, objRef);
+  objRef.model.addListener("newModel",objRef.clearWidget, objRef);
 }
