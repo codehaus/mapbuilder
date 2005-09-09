@@ -2,22 +2,18 @@
  * ====================================================================
  * About
  * ====================================================================
- * Sarissa cross browser XML library 
- * @version 0.9.5.2
- * @author: Manos Batsis, mailto: mbatsis at users full stop sourceforge full stop net
- *
  * Sarissa is an ECMAScript library acting as a cross-browser wrapper for native XML APIs.
  * The library supports Gecko based browsers like Mozilla and Firefox,
- * Internet Explorer (5.5+ with MSXML3.0+) and, last but not least, KHTML based browsers like
- * Konqueror and Safari.
- *
+ * Internet Explorer (5.5+ with MSXML3.0+), Konqueror, Safari and a little of Opera
+ * @version 0.9.6.1
+ * @author: Manos Batsis, mailto: mbatsis at users full stop sourceforge full stop net
  * ====================================================================
  * Licence
  * ====================================================================
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 or
  * the GNU Lesser General Public License version 2.1 as published by
- * the Free Software Foundation (your choice of the two).
+ * the Free Software Foundation (your choice between the two).
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -31,7 +27,7 @@
  *
  */
 /**
- * <p>Sarissa is a utility class. Provides static methods for DOMDocument and 
+ * <p>Sarissa is a utility class. Provides "static" methods for DOMDocument and 
  * XMLHTTP objects, DOM Node serializatrion to XML strings and other goodies.</p>
  * @constructor
  */
@@ -52,13 +48,6 @@ Sarissa.IS_ENABLED_TRANSFORM_NODE = false;
  */
 Sarissa.IS_ENABLED_XMLHTTP = false;
 /**
- * <b>Deprecated, will be removed in 0.9.6</b>. Check for 
- * <code>window.XSLTProcessor</code> instead to see if 
- * XSLTProcessor is available.
- * @type boolean
- */
-Sarissa.IS_ENABLED_XSLTPROC = false;
-/**
  * tells you whether selectNodes/selectSingleNode is available
  * @type boolean
  */
@@ -68,16 +57,13 @@ var _SARISSA_IEPREFIX4XSLPARAM = "";
 var _SARISSA_HAS_DOM_IMPLEMENTATION = document.implementation && true;
 var _SARISSA_HAS_DOM_CREATE_DOCUMENT = _SARISSA_HAS_DOM_IMPLEMENTATION && document.implementation.createDocument;
 var _SARISSA_HAS_DOM_FEATURE = _SARISSA_HAS_DOM_IMPLEMENTATION && document.implementation.hasFeature;
-/** <b>Deprecated, will be removed in 0.9.6</b>. @deprecated */
 var _SARISSA_IS_MOZ = _SARISSA_HAS_DOM_CREATE_DOCUMENT && _SARISSA_HAS_DOM_FEATURE;
-/** <b>Deprecated, will be removed in 0.9.6</b>. @deprecated */
-var _SARISSA_IS_IE = document.all && window.ActiveXObject &&  (navigator.userAgent.toLowerCase().indexOf("msie") > -1);
-//==========================================
-// Implement Node constants if not available
-//==========================================
+var _SARISSA_IS_SAFARI = (navigator.userAgent && navigator.vendor && (navigator.userAgent.toLowerCase().indexOf("applewebkit") != -1 || navigator.vendor.indexOf("Apple") != -1));
+var _SARISSA_IS_IE = document.all && window.ActiveXObject && navigator.userAgent.toLowerCase().indexOf("msie") > -1  && navigator.userAgent.toLowerCase().indexOf("opera") == -1;
 if(!window.Node || !window.Node.ELEMENT_NODE){
     var Node = {ELEMENT_NODE: 1, ATTRIBUTE_NODE: 2, TEXT_NODE: 3, CDATA_SECTION_NODE: 4, ENTITY_REFERENCE_NODE: 5,  ENTITY_NODE: 6, PROCESSING_INSTRUCTION_NODE: 7, COMMENT_NODE: 8, DOCUMENT_NODE: 9, DOCUMENT_TYPE_NODE: 10, DOCUMENT_FRAGMENT_NODE: 11, NOTATION_NODE: 12};
 };
+
 // IE initialization
 if(_SARISSA_IS_IE){
     // for XSLT parameter names, prefix needed by IE
@@ -91,7 +77,7 @@ if(_SARISSA_IS_IE){
      * @param idList an array of MSXML PROGIDs from which the most recent will be picked for a given object
      * @param enabledList an array of arrays where each array has two items; the index of the PROGID for which a certain feature is enabled
      */
-    function pickRecentProgID(idList, enabledList){
+    pickRecentProgID = function (idList, enabledList){
         // found progID flag
         var bFound = false;
         for(var i=0; i < idList.length && !bFound; i++){
@@ -139,15 +125,6 @@ if(_SARISSA_IS_IE){
         };
         return oDoc;
     };
-    if(!window.XMLHttpRequest){
-        /**
-         * Emulate XMLHttpRequest
-         * @constructor
-         */
-        function XMLHttpRequest(){
-            return new ActiveXObject(_SARISSA_XMLHTTP_PROGID);
-        };
-    };
     // see non-IE version   
     Sarissa.getParseErrorText = function (oDoc) {
         var parseErrorText = Sarissa.PARSED_OK;
@@ -175,7 +152,7 @@ if(_SARISSA_IS_IE){
      * Reuses the same XSLT stylesheet for multiple transforms
      * @constructor
      */
-    function XSLTProcessor(){
+    XSLTProcessor = function(){
         this.template = new ActiveXObject(_SARISSA_XSLTEMPLATE_PROGID);
         this.processor = null;
     };
@@ -205,15 +182,6 @@ if(_SARISSA_IS_IE){
         return outDoc;
     };
     /**
-     * Not sure if this works in IE. Maybe this will allow non-well-formed
-     * transformation results (i.e. with no single root element)
-     * @argument sourceDoc The XML DOMDocument to transform
-     * @return The transformation result as a DOM Fragment
-     */
-    XSLTProcessor.prototype.transformToFragment = function(sourceDoc, ownerDocument){
-        return this.transformToDocument(sourceDoc);
-    };
-    /**
      * Set global XSLT parameter of the imported stylesheet
      * @argument nsURI The parameter namespace URI
      * @argument name The parameter base name
@@ -240,14 +208,51 @@ if(_SARISSA_IS_IE){
      * @return The parameter value if reviously set by setParameter, null otherwise
      */
     XSLTProcessor.prototype.getParameter = function(nsURI, name){
-        if(this.paramsSet[""+nsURI] && this.paramsSet[""+nsURI][name])
-            return this.paramsSet[""+nsURI][name];
-        else
+        nsURI = nsURI || "";
+        if(nsURI in this.paramsSet && name in this.paramsSet[nsURI]){
+            return this.paramsSet[nsURI][name];
+        }else{
             return null;
+        };
     };
 }
 else{ /* end IE initialization, try to deal with real browsers now ;-) */
-   if(_SARISSA_HAS_DOM_CREATE_DOCUMENT){
+    if(_SARISSA_HAS_DOM_CREATE_DOCUMENT){
+        /**
+         * <p>Ensures the document was loaded correctly, otherwise sets the
+         * parseError to -1 to indicate something went wrong. Internal use</p>
+         * @private
+         */
+        Sarissa.__handleLoad__ = function(oDoc){
+            if (!oDoc.documentElement || oDoc.documentElement.tagName == "parsererror")
+                oDoc.parseError = -1;
+            Sarissa.__setReadyState__(oDoc, 4);
+        };
+        /**
+        * <p>Attached by an event handler to the load event. Internal use.</p>
+        * @private
+        */
+        _sarissa_XMLDocument_onload = function(){
+            Sarissa.__handleLoad__(this);
+        };
+        /**
+         * <p>Sets the readyState property of the given DOM Document object.
+         * Internal use.</p>
+         * @private
+         * @argument oDoc the DOM Document object to fire the
+         *          readystatechange event
+         * @argument iReadyState the number to change the readystate property to
+         */
+        Sarissa.__setReadyState__ = function(oDoc, iReadyState){
+            oDoc.readyState = iReadyState;
+            if (oDoc.onreadystatechange != null && typeof oDoc.onreadystatechange == "function")
+                oDoc.onreadystatechange();
+        };
+        Sarissa.getDomDocument = function(sUri, sName){
+            var oDoc = document.implementation.createDocument(sUri?sUri:"", sName?sName:"", null);
+            oDoc.addEventListener("load", _sarissa_XMLDocument_onload, false);
+            return oDoc;
+        };
         if(window.XMLDocument){
             /**
             * <p>Emulate IE's onreadystatechange attribute</p>
@@ -272,16 +277,7 @@ else{ /* end IE initialization, try to deal with real browsers now ;-) */
             // BTW the try>catch block is for 1.4; I haven't found a way to check if
             // the property is implemented without
             // causing an error and I dont want to use user agent stuff for that...
-            var _SARISSA_SYNC_NON_IMPLEMENTED = false;
-            try{
-                /**
-                * <p>Emulates IE's async property for Moz versions prior to 1.4.
-                * It controls whether loading of remote XML files works
-                * synchronously or asynchronously.</p>
-                */
-                XMLDocument.prototype.async = true;
-                _SARISSA_SYNC_NON_IMPLEMENTED = true;
-            }catch(e){/* trap */};
+            var _SARISSA_SYNC_NON_IMPLEMENTED = false;// ("async" in XMLDocument.prototype) ? false: true;
             /**
             * <p>Keeps a handle to the original load() method. Internal use and only
             * if Mozilla version is lower than 1.4</p>
@@ -323,102 +319,116 @@ else{ /* end IE initialization, try to deal with real browsers now ;-) */
                 };
                 return oDoc;
             };
-
-            if(window.DOMParser && !XMLDocument.loadXML){
-                /**
-                * <p>Parses the String given as parameter to build the document content
-                * for the object, exactly like IE's loadXML()</p>
-                * @argument strXML The XML String to load as the Document's childNodes
-                * @returns the old Document structure serialized as an XML String
-                */
-                XMLDocument.prototype.loadXML = function(strXML){
-                    Sarissa.__setReadyState__(this, 1);
-                    var sOldXML = this.xml;
-                    var oDoc = (new DOMParser()).parseFromString(strXML, "text/xml");
-                    Sarissa.__setReadyState__(this, 2);
-                    Sarissa.copyChildNodes(oDoc, this);
-                    Sarissa.__setReadyState__(this, 3);
-                    Sarissa.__handleLoad__(this);
-                    return sOldXML;
+            
+            
+        }//if(window.XMLDocument)
+        else if(document.implementation && document.implementation.hasFeature && document.implementation.hasFeature('LS', '3.0')){
+            Document.prototype.async = true;
+            Document.prototype.onreadystatechange = null;
+            Document.prototype.parseError = 0;
+            Document.prototype.load = function(sURI) {
+                var parser = document.implementation.createLSParser(this.async ? document.implementation.MODE_ASYNCHRONOUS : document.implementation.MODE_SYNCHRONOUS, null);
+                if(this.async){
+                    var self = this;
+                    parser.addEventListener("load", 
+                        function(e) { 
+                            self.readyState = 4;
+                            Sarissa.copyChildNodes(e.newDocument, self.documentElement, false);
+                            self.onreadystatechange.call(); 
+                        }, 
+                        false); 
                 };
-            };//if(window.DOMParser && !XMLDocument.loadXML)
-        };//if(window.XMLDocument)
-
-        /**
-         * <p>Ensures the document was loaded correctly, otherwise sets the
-         * parseError to -1 to indicate something went wrong. Internal use</p>
-         * @private
-         */
-        Sarissa.__handleLoad__ = function(oDoc){
-            if (!oDoc.documentElement || oDoc.documentElement.tagName == "parsererror")
-                oDoc.parseError = -1;
-            Sarissa.__setReadyState__(oDoc, 4);
+                try {
+                    var oDoc = parser.parseURI(sURI);
+                }
+                catch(e){
+                    this.parseError = -1;
+                };
+                if(!this.async)
+                   Sarissa.copyChildNodes(oDoc, this.documentElement, false);
+                return oDoc;
+            };
+            /**
+            * <p>Factory method to obtain a new DOM Document object</p>
+            * @argument sUri the namespace of the root node (if any)
+            * @argument sUri the local name of the root node (if any)
+            * @returns a new DOM Document
+            */
+            Sarissa.getDomDocument = function(sUri, sName){
+                return document.implementation.createDocument(sUri?sUri:"", sName?sName:"", null);
+            };        
         };
-        /**
-        * <p>Attached by an event handler to the load event. Internal use.</p>
-        * @private
-        */
-        function _sarissa_XMLDocument_onload()        {
-            Sarissa.__handleLoad__(this);
-        };
-        /**
-         * <p>Sets the readyState property of the given DOM Document object.
-         * Internal use.</p>
-         * @private
-         * @argument oDoc the DOM Document object to fire the
-         *          readystatechange event
-         * @argument iReadyState the number to change the readystate property to
-         */
-        Sarissa.__setReadyState__ = function(oDoc, iReadyState){
-            oDoc.readyState = iReadyState;
-            if (oDoc.onreadystatechange != null && typeof oDoc.onreadystatechange == "function")
-                oDoc.onreadystatechange();
-        };
-        /**
-        * <p>Factory method to obtain a new DOM Document object</p>
-        * @argument sUri the namespace of the root node (if any)
-        * @argument sUri the local name of the root node (if any)
-        * @returns a new DOM Document
-        */
-        Sarissa.getDomDocument = function(sUri, sName){
-            var oDoc = document.implementation.createDocument(sUri?sUri:"", sName?sName:"", null);
-            oDoc.addEventListener("load", _sarissa_XMLDocument_onload, false);
-            return oDoc;
-        };        
     };//if(_SARISSA_HAS_DOM_CREATE_DOCUMENT)
 };
 //==========================================
 // Common stuff
 //==========================================
-if(window.XMLHttpRequest){
-    /**
-    * <p><b>Deprecated, will be removed in 0.9.6</b>. Factory method to obtain a new XMLHTTP Request object</p>
-    * @returns a new XMLHTTP Request object
-    * @deprecated
+if(!window.DOMParser){
+    /*
+    * DOMParser is a utility class, used to construct DOMDocuments from XML strings
+    * @constructor
     */
-    Sarissa.getXmlHttpRequest = function()  {
-        return new XMLHttpRequest();
+    DOMParser = function() {
+    };
+    if(_SARISSA_IS_SAFARI){
+        /** 
+        * Construct a new DOM Document from the given XMLstring
+        * @param sXml the given XML string
+        * @param contentType the content type of the document the given string represents (one of text/xml, application/xml, application/xhtml+xml). 
+        * @return a new DOM Document from the given XML string
+        */
+        DOMParser.prototype.parseFromString = function(sXml, contentType){
+            if(contentType.toLowerCase() != "application/xml"){
+                throw "Cannot handle content type: \"" + contentType + "\"";
+            };
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", "data:text/xml;charset=utf-8," + encodeURIComponent(str), false);
+            xmlhttp.send(null);
+            return xmlhttp.responseXML;
+        };
+    }else if(Sarissa.getDomDocument && Sarissa.getDomDocument() && "loadXML" in Sarissa.getDomDocument()){
+        DOMParser.prototype.parseFromString = function(sXml, contentType){
+            var doc = Sarissa.getDomDocument();
+            doc.loadXML(sXml);
+            return doc;
+        };
+    };
+};
+
+if(window.XMLHttpRequest){
+    Sarissa.IS_ENABLED_XMLHTTP = true;
+}
+else if(_SARISSA_IS_IE){
+    /**
+     * Emulate XMLHttpRequest
+     * @constructor
+     */
+    XMLHttpRequest = function() {
+        return new ActiveXObject(_SARISSA_XMLHTTP_PROGID);
     };
     Sarissa.IS_ENABLED_XMLHTTP = true;
 };
-if(!window.document.importNode){
-    /**
-     * Implements importNode for the current window document in IE using innerHTML.
-     * Testing showed that DOM was multiple times slower than innerHTML for this,
-     * sorry folks. If you encounter trouble (who knows what IE does behind innerHTML)
-     * please gimme a call.
-     * @param oNode the Node to import
-     * @param bChildren whether to include the children of oNode
-     * @returns the imported node for further use
-     */
-    window.document.importNode = function(oNode, bChildren){
-        var importNode = document.createElement("div");
-        if(bChildren)
-            importNode.innerHTML = Sarissa.serialize(oNode);
-        else
-            importNode.innerHTML = Sarissa.serialize(oNode.cloneNode(false));
-        return importNode.firstChild;
-    };
+
+if(!window.document.importNode && _SARISSA_IS_IE){
+    try{
+        /**
+        * Implements importNode for the current window document in IE using innerHTML.
+        * Testing showed that DOM was multiple times slower than innerHTML for this,
+        * sorry folks. If you encounter trouble (who knows what IE does behind innerHTML)
+        * please gimme a call.
+        * @param oNode the Node to import
+        * @param bChildren whether to include the children of oNode
+        * @returns the imported node for further use
+        */
+        window.document.importNode = function(oNode, bChildren){
+            var importNode = document.createElement("div");
+            if(bChildren)
+                importNode.innerHTML = Sarissa.serialize(oNode);
+            else
+                importNode.innerHTML = Sarissa.serialize(oNode.cloneNode(false));
+            return importNode.firstChild;
+        };
+        }catch(e){};
 };
 if(!Sarissa.getParseErrorText){
     /**
@@ -432,16 +442,16 @@ if(!Sarissa.getParseErrorText){
      */
     Sarissa.getParseErrorText = function (oDoc){
         var parseErrorText = Sarissa.PARSED_OK;
-        if(oDoc.parseError != 0){
+        if(oDoc && oDoc.parseError && oDoc.parseError != 0){
             /*moz*/
             if(oDoc.documentElement.tagName == "parsererror"){
                 parseErrorText = oDoc.documentElement.firstChild.data;
                 parseErrorText += "\n" +  oDoc.documentElement.firstChild.nextSibling.firstChild.data;
             }/*konq*/
-            else if(oDoc.documentElement.tagName == "html"){
-                parseErrorText = Sarissa.getText(oDoc.documentElement.getElementsByTagName("h1")[0], false) + "\n";
+            else{
+                parseErrorText = Sarissa.getText(oDoc.documentElement);/*.getElementsByTagName("h1")[0], false) + "\n";
                 parseErrorText += Sarissa.getText(oDoc.documentElement.getElementsByTagName("body")[0], false) + "\n";
-                parseErrorText += Sarissa.getText(oDoc.documentElement.getElementsByTagName("pre")[0], false);
+                parseErrorText += Sarissa.getText(oDoc.documentElement.getElementsByTagName("pre")[0], false);*/
             };
         };
         return parseErrorText;
@@ -452,13 +462,13 @@ Sarissa.getText = function(oNode, deep){
     var nodes = oNode.childNodes;
     for(var i=0; i < nodes.length; i++){
         var node = nodes[i];
-        if(node.nodeType == Node.TEXT_NODE){
+        var nodeType = node.nodeType;
+        if(nodeType == Node.TEXT_NODE || nodeType == Node.CDATA_SECTION_NODE){
             s += node.data;
         }else if(deep == true
-                    && (node.nodeType == Node.ELEMENT_NODE
-                        || node.nodeType == Node.DOCUMENT_NODE
-                        || node.nodeType == Node.DOCUMENT_FRAGMENT_NODE)){
-        
+                    && (nodeType == Node.ELEMENT_NODE
+                        || nodeType == Node.DOCUMENT_NODE
+                        || nodeType == Node.DOCUMENT_FRAGMENT_NODE)){
             s += Sarissa.getText(node, true);
         };
     };
@@ -470,14 +480,21 @@ if(window.XMLSerializer){
      * @returns the serialized Node as an XML string
      */
     Sarissa.serialize = function(oDoc){
-        return (new XMLSerializer()).serializeToString(oDoc);
+        var s = null;
+        if(oDoc){
+            s = oDoc.innerHTML?oDoc.innerHTML:(new XMLSerializer()).serializeToString(oDoc);
+        };
+        return s;
     };
 }else{
-    if((Sarissa.getDomDocument("","foo", null)).xml){
+    if(Sarissa.getDomDocument && (Sarissa.getDomDocument("","foo", null)).xml){
         // see non-IE version
         Sarissa.serialize = function(oDoc) {
-            // TODO: check for HTML document and return innerHTML instead
-            return oDoc.xml;
+            var s = null;
+            if(oDoc){
+                s = oDoc.innerHTML?oDoc.innerHTML:oDoc.xml;
+            };
+            return s;
         };
         /**
          * Utility class to serialize DOM Node objects to XML strings
@@ -493,9 +510,7 @@ if(window.XMLSerializer){
         };
     };
 };
-if(window.XSLTProcessor){
-    Sarissa.IS_ENABLED_XSLTPROC = true;
-};
+
 /**
  * strips tags from a markup string
  */
@@ -507,22 +522,29 @@ Sarissa.stripTags = function (s) {
  * @argument oNode the Node to empty
  */
 Sarissa.clearChildNodes = function(oNode) {
-    while(oNode.hasChildNodes()){
+    // need to check for firstChild due to opera 8 bug with hasChildNodes
+    while(oNode.firstChild){
         oNode.removeChild(oNode.firstChild);
     };
 };
 /**
- * <p> Replaces the childNodes of the toDoc object with the childNodes of
- * the fromDoc object</p>
- * <p> <b>Note:</b> The second object's original content is deleted before the copy operation</p>
+ * <p> Copies the childNodes of nodeFrom to nodeTo</p>
+ * <p> <b>Note:</b> The second object's original content is deleted before 
+ * the copy operation, unless you supply a true third parameter</p>
  * @argument nodeFrom the Node to copy the childNodes from
  * @argument nodeTo the Node to copy the childNodes to
+ * @argument bPreserveExisting whether to preserve the original content of nodeTo, default is false
  */
-Sarissa.copyChildNodes = function(nodeFrom, nodeTo) {
-    Sarissa.clearChildNodes(nodeTo);
+Sarissa.copyChildNodes = function(nodeFrom, nodeTo, bPreserveExisting) {
+    if((!nodeFrom) || (!nodeTo)){
+        throw "Both source and destination nodes must be provided";
+    };
+    if(!bPreserveExisting){
+        Sarissa.clearChildNodes(nodeTo);
+    };
     var ownerDoc = nodeTo.nodeType == Node.DOCUMENT_NODE ? nodeTo : nodeTo.ownerDocument;
     var nodes = nodeFrom.childNodes;
-    if(typeof(ownerDoc.importNode) == "function"){
+    if(ownerDoc.importNode && (!_SARISSA_IS_IE)) {
         for(var i=0;i < nodes.length;i++) {
             nodeTo.appendChild(ownerDoc.importNode(nodes[i], true));
         };
@@ -531,6 +553,42 @@ Sarissa.copyChildNodes = function(nodeFrom, nodeTo) {
         for(var i=0;i < nodes.length;i++) {
             nodeTo.appendChild(nodes[i].cloneNode(true));
         };
+    };
+};
+
+/**
+ * <p> Moves the childNodes of nodeFrom to nodeTo</p>
+ * <p> <b>Note:</b> The second object's original content is deleted before 
+ * the move operation, unless you supply a true third parameter</p>
+ * @argument nodeFrom the Node to copy the childNodes from
+ * @argument nodeTo the Node to copy the childNodes to
+ * @argument bPreserveExisting whether to preserve the original content of nodeTo, default is
+ */ 
+Sarissa.moveChildNodes = function(nodeFrom, nodeTo, bPreserveExisting) {
+    if((!nodeFrom) || (!nodeTo)){
+        throw "Both source and destination nodes must be provided";
+    };
+    if(!bPreserveExisting){
+        Sarissa.clearChildNodes(nodeTo);
+    };
+    var nodes = nodeFrom.childNodes;
+    // if within the same doc, just move, else copy and delete
+    if(nodeFrom.ownerDocument == nodeTo.ownerDocument){
+        while(nodeFrom.firstChild){
+            nodeTo.appendChild(nodeFrom.firstChild);
+        };
+    }else{
+        var ownerDoc = nodeTo.nodeType == Node.DOCUMENT_NODE ? nodeTo : nodeTo.ownerDocument;
+        if(ownerDoc.importNode && (!_SARISSA_IS_IE)) {
+           for(var i=0;i < nodes.length;i++) {
+               nodeTo.appendChild(ownerDoc.importNode(nodes[i], true));
+           };
+        }else{
+           for(var i=0;i < nodes.length;i++) {
+               nodeTo.appendChild(nodes[i].cloneNode(true));
+           };
+        };
+        Sarissa.clearChildNodes(nodeFrom);
     };
 };
 
