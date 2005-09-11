@@ -56,12 +56,12 @@ function InsertFeature(widgetNode, model) {
   this.handleResponse=function(objRef){
     sucess=objRef.transactionResponseModel.doc.selectSingleNode("//wfs:TransactionResult/wfs:Status/wfs:SUCCESS");
     if (sucess){
-          // Remove FeatureList if feature entry was successful.
+      // Remove FeatureList if feature entry was successful.
       httpPayload.url=null;
       objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
-          // Repaint the WMS layers
-          targetContext.callListeners("refreshWmsLayers");
-        }
+      // Repaint the WMS layers
+      targetContext.callListeners("refreshWmsLayers");
+    }
   }
 
 }
