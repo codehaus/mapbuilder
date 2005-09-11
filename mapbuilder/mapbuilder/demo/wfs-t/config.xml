@@ -152,6 +152,16 @@
       <defaultModelUrl>template_road.xml</defaultModelUrl>
       <targetContext>mainMap</targetContext>
     </EditLine>
+    <InsertFeature id="insertFeature">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>featureCollection</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/SaveDisable.gif</disabledSrc>
+      <targetModel>featureCollection</targetModel>
+      <transactionResponseModel>transaction</transactionResponseModel>
+      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
+      <targetContext>mainMap</targetContext>
+    </InsertFeature>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
   <widgetTextUrl>/widgetText.xml</widgetTextUrl> <!-- relative to the skin dir -->
