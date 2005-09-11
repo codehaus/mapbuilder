@@ -21,17 +21,9 @@ $Name$
   <xsl:template match="/">
     <div>
       <h3>Feature List</h3>
-      <form>
-        <input type="button" value="Reset"
-          onclick="config.objects.{$widgetId}.processButton(config.objects.{$widgetId},'Reset');"/>
-        <input type="button" value="Insert Feature"
-          onclick="config.objects.{$widgetId}.processButton(config.objects.{$widgetId},'Insert Feature');"/>
-        <input type="button" value="Update Feature"
-          onclick="config.objects.{$widgetId}.processButton(config.objects.{$widgetId},'Update Feature');"/>
         <table border="1" cellpadding="0" cellspacing="0">
           <xsl:apply-templates/>
         </table>
-      </form>
     </div>
   </xsl:template>
 
