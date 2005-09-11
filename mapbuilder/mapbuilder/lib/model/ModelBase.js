@@ -227,6 +227,9 @@ function ModelBase(objRef, modelNode, parentModel) {
     // the following two lines are needed for IE; set the namespace for selection
     this.doc.setProperty("SelectionLanguage", "XPath");
     if (this.namespace) Sarissa.setXpathNamespaces(this.doc, this.namespace);
+
+    // Show the newly loaded XML document
+    if(this.debug) alert("Loading Model:"+objRef.id+" "+Sarissa.serialize(this.doc));
     this.callListeners("loadModel");
   }
   objRef.finishLoading = this.finishLoading;
