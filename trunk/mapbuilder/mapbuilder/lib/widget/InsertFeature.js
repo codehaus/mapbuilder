@@ -19,6 +19,7 @@ function InsertFeature(widgetNode, model) {
 
   this.trm=widgetNode.selectSingleNode("mb:transactionResponseModel").firstChild.nodeValue;
   this.tm=widgetNode.selectSingleNode("mb:targetModel").firstChild.nodeValue;
+  this.tc=widgetNode.selectSingleNode("mb:targetContext").firstChild.nodeValue;
 
   this.httpPayload=new Object();
   this.httpPayload.url=widgetNode.selectSingleNode("mb:webServiceUrl").firstChild.nodeValue;
@@ -41,6 +42,9 @@ function InsertFeature(widgetNode, model) {
       if (!objRef.targetModel){
         objRef.targetModel=eval("config.objects."+objRef.tm);
       }
+      if (!objRef.targetContext){
+        objRef.targetContext=eval("config.objects."+objRef.tc);
+      }
       s=objRef.insertXsl.transformNodeToObject(objRef.targetModel.doc);
       objRef.httpPayload.postData=s;
       objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
@@ -57,10 +61,11 @@ function InsertFeature(widgetNode, model) {
     sucess=objRef.transactionResponseModel.doc.selectSingleNode("//wfs:TransactionResult/wfs:Status/wfs:SUCCESS");
     if (sucess){
       // Remove FeatureList if feature entry was successful.
+      httpPayload=new Object();
       httpPayload.url=null;
       objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
       // Repaint the WMS layers
-      targetContext.callListeners("refreshWmsLayers");
+      objRef.targetContext.callListeners("refreshWmsLayers");
     }
   }
 
