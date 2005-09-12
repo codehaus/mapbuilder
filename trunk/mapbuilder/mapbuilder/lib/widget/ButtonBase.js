@@ -18,6 +18,9 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * @param model The parent model object (optional).
  */
 function ButtonBase(button, widgetNode, model) {
+
+  this.cursor = "default";	// Adding support for customized cursors
+
   //stylesheet is fixed to this one
   button.stylesheet = new XslProcessor(baseDir+"/widget/Button.xsl");
   var buttonBarNode = widgetNode.selectSingleNode("mb:buttonBar");
@@ -97,6 +100,24 @@ function ButtonBase(button, widgetNode, model) {
    * @param objRef Reference to this object.
    */
   this.doSelect = function(selected, objRef) {
+     // Add support to change cursors in the map area based on:
+     // either user selected cursor in config file
+     // or default tool cursor as defined in constructor
+     
+     if( selected == true ) {
+         var a = document.getElementById("mainMapContainer");
+         if( a != null ) {
+             // default tool cursor
+             a.style.cursor = this.cursor;
+             
+             // Check for user override
+             var cursorNode =  objRef.widgetNode.selectSingleNode("mb:cursor");
+             if( cursorNode != null ) {
+                 var cursor = cursorNode.firstChild.nodeValue;
+                 a.style.cursor = cursor;
+             }
+         }  
+     }
   }
 
   //a button may be set as selected in the config file
