@@ -15,8 +15,13 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @param model  The parent model for this widget
  */
 function DragPan(widgetNode, model) {
+
   // Extend ButtonBase
   var base = new ButtonBase(this, widgetNode, model);
+
+  // override default cursor by user
+  // cursor can be changed by spefying a new cursor in config file
+  this.cursor = "move";	
 
   /**
    * Calls the centerAt method of the context doc extent to recenter to its AOI

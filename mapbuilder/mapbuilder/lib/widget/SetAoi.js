@@ -15,8 +15,13 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @param model  The model for this widget
  */
 function SetAoi(widgetNode, model) {
+
   // Extend ButtonBase
   var base = new ButtonBase(this, widgetNode, model);
+
+  // override default cursor by user
+  // cursor can be changed by spefying a new cursor in config file
+  this.cursor = "crosshair";
 
   /**
    * The action to do on click
@@ -30,6 +35,5 @@ function SetAoi(widgetNode, model) {
   if (this.mouseHandler) {
     this.mouseHandler.model.addListener('mouseup',this.doAction,this);
   }
-
 }
 
