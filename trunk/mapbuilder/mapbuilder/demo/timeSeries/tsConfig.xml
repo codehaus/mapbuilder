@@ -1,336 +1,312 @@
-<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 
-<MapbuilderConfig version="0.2.1" id="simpleTemplate" 
+<MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
 
-    xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
+	<models>
 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		<Context id="mainMap">
 
-    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+			<defaultModelUrl>tsIFGITemp.xml</defaultModelUrl>
 
-    
+			<widgets>
 
-  <models>
+				<AoiBoxWZ id="aoiBox2">
 
+					<htmlTagId>mainMapPane</htmlTagId>
 
+					<stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
 
-    <Context id="mainMap">
+					<mapContainerId>mainMapContainer</mapContainerId>
 
-      <defaultModelUrl>tsIFGITemp.xml</defaultModelUrl>
+					<lineColor>#FF0000</lineColor>
 
-      
+					<lineWidth>1</lineWidth>
 
-      <widgets>
+					<crossSize>15</crossSize>
 
-        <TimeSeries id="mainMapWidget">
+				</AoiBoxWZ>
 
-          <stylesheet>../../lib/widget/MapPane.xsl</stylesheet>
+				<TimeSeries id="mainMapWidget">
 
-          <htmlTagId>mainMapPane</htmlTagId>
+					<htmlTagId>mainMapPane</htmlTagId>
 
-          <mapContainerId>mainMapContainer</mapContainerId>
+					<stylesheet>../../lib/widget/MapPane.xsl</stylesheet>
 
-        </TimeSeries>
+					<mapContainerId>mainMapContainer</mapContainerId>
 
-        <AoiBoxWZ id="aoiBox2">
+				</TimeSeries>
 
-          <htmlTagId>mainMapPane</htmlTagId>
+				<Loading id="loading"/>
 
-          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
-
-          <lineColor>#FF0000</lineColor>
-
-          <lineWidth>1</lineWidth>
-
-          <crossSize>15</crossSize>
-
-          <mapContainerId>mainMapContainer</mapContainerId>
-
-        </AoiBoxWZ>
-
-        <Loading id="loading">
-
-        </Loading>
-
-        <Timestamp id="timestamp">
+				<Timestamp id="timestamp">
 
         </Timestamp>
 
-        <Legend id="legend">
+				<Legend id="legend">
 
         </Legend>
 
-        <Widget id="abstract">
+				<Widget id="abstract">
 
-          <stylesheet>Abstract.xsl</stylesheet>
+					<stylesheet>Abstract.xsl</stylesheet>
 
-        </Widget>
+				</Widget>
 
-        <Widget id="mapTitle">
+				<Widget id="mapTitle">
 
-          <stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
+					<stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
 
-        </Widget>
+				</Widget>
 
-        <!--SelectTimeFrame id="timeRangeSelect">
+				<!--SelectTimeFrame id="timeRangeSelect">
 
         </SelectTimeFrame-->
 
-        <CursorTrack id="cursorTrack">
+				<CursorTrack id="cursorTrack">
 
-          <mouseHandler>mainMap</mouseHandler>
+					<mouseHandler>mainMap</mouseHandler>
 
-        </CursorTrack>
+				</CursorTrack>
 
-        
+			</widgets>
 
-      </widgets>
+			<tools>
 
-      <tools> 
+				<AoiMouseHandler id="mainAoi"/>
 
-        <AoiMouseHandler id="mainAoi"/>
+				<DragPanHandler id="mainDragPan">
 
-        <DragPanHandler id="mainDragPan">
+					<enabled>false</enabled>
 
-          <enabled>false</enabled>
+				</DragPanHandler>
 
-        </DragPanHandler>
+				<MovieLoop id="movieLoop">
 
-        <MovieLoop id="movieLoop">
+					<framesPerSecond>4</framesPerSecond>
 
-          <framesPerSecond>4</framesPerSecond>
+					<maxFrames>15</maxFrames>
 
-          <maxFrames>15</maxFrames>
+				</MovieLoop>
 
-        </MovieLoop>
+			</tools>
 
-      </tools> 
+		</Context>
 
-    </Context>
+		<ContextCollection id="collection">
 
-      
+			<defaultModelUrl>timeSeriesCollection.xml</defaultModelUrl>
 
-    <ContextCollection id="collection">
+			<widgets>
 
-      <defaultModelUrl>timeSeriesCollection.xml</defaultModelUrl>
+				<CollectionList id="collectionList">
 
-      <widgets>
+					<targetModel>mainMap</targetModel>
 
-        <CollectionList id="collectionList">
+				</CollectionList>
 
-          <targetModel>mainMap</targetModel>
+			</widgets>
 
-        </CollectionList>
+		</ContextCollection>
 
-      </widgets>
+		<WmsCapabilities id="wmsCapTemplate">
 
-    </ContextCollection>
+			<!--defaultModelUrl>NASAWMSCaps.xml</defaultModelUrl-->
 
-    
+			<title>OGC Web Map Server (WMS)</title>
 
-    <WmsCapabilities id="wmsCapTemplate">
+			<widgets>
 
-      <!--defaultModelUrl>NASAWMSCaps.xml</defaultModelUrl-->
+				<Widget id="layerList">
 
-      <nodeSelectXpath>//Layer</nodeSelectXpath>
+					<htmlTagId>workspace</htmlTagId>
 
-      <title>OGC Web Map Server (WMS)</title>
+					<outputNodeId>workspaceCanvas</outputNodeId>
 
-      <widgets>
+					<stylesheet>../../lib/widget/SelectMapLayers.xsl</stylesheet>
 
-        <Widget id="layerList">
+				</Widget>
 
-          <htmlTagId>workspace</htmlTagId>
+			</widgets>
 
-          <outputNodeId>workspaceCanvas</outputNodeId>
+			<tools>
 
-          <stylesheet>../../lib/widget/SelectMapLayers.xsl</stylesheet>
+				<Caps2Context id="convertCaps">
 
-        </Widget>
+					<targetModel>mainMap</targetModel>
 
-      </widgets>
+				</Caps2Context>
 
-      <tools>
+			</tools>
 
-        <Caps2Context id="convertCaps">
+			<nodeSelectXpath>//Layer</nodeSelectXpath>
 
-          <targetModel>mainMap</targetModel>
+		</WmsCapabilities>
 
-        </Caps2Context>
+	</models>
 
-      </tools>
+	<widgets>
 
-    </WmsCapabilities>
+		<ModelUrlInput id="wmsCapsUrlInput">
 
-    
+			<targetModel>wmsCapTemplate</targetModel>
 
-  </models>
+			<defaultUrl>http://aes.gsfc.nasa.gov/cgi-bin/wms?request=GetCapabilities</defaultUrl>
 
+		</ModelUrlInput>
 
+		<Button id="play">
 
-  <widgets>
+			<buttonBar>tsButtonBar</buttonBar>
 
-    <ModelUrlInput id="wmsCapsUrlInput">
+			<targetModel>mainMap</targetModel>
 
-      <defaultUrl>http://aes.gsfc.nasa.gov/cgi-bin/wms?request=GetCapabilities</defaultUrl>
+			<class>RadioButton</class>
 
-      <targetModel>wmsCapTemplate</targetModel>
+			<enabledSrc>/images/PlayEnable.gif</enabledSrc>
 
-    </ModelUrlInput>
+			<disabledSrc>/images/PlayDisable.gif</disabledSrc>
 
-    <Button id="stepBack">
+			<tooltip>play the movie</tooltip>
 
-      <buttonBar>tsButtonBar</buttonBar>
+			<action>movieLoop.play()</action>
 
-      <targetModel>mainMap</targetModel>
+		</Button>
 
-      <action>movieLoop.nextFrame(-1)</action>
+		<Button id="stepBack">
 
-      <class>Button</class>
+			<buttonBar>tsButtonBar</buttonBar>
 
-      <disabledSrc>/images/StepBack.gif</disabledSrc>
+			<targetModel>mainMap</targetModel>
 
-      <tooltip>step back one frame</tooltip>
+			<class>Button</class>
 
-    </Button>
+			<disabledSrc>/images/StepBack.gif</disabledSrc>
 
-    <Button id="play">
+			<tooltip>step back one frame</tooltip>
 
-      <buttonBar>tsButtonBar</buttonBar>
+			<action>movieLoop.nextFrame(-1)</action>
 
-      <targetModel>mainMap</targetModel>
+		</Button>
 
-      <action>movieLoop.play()</action>
+		<Button id="pause">
 
-      <class>RadioButton</class>
+			<buttonBar>tsButtonBar</buttonBar>
 
-      <disabledSrc>/images/PlayDisable.gif</disabledSrc>
+			<targetModel>mainMap</targetModel>
 
-      <enabledSrc>/images/PlayEnable.gif</enabledSrc>
+			<class>RadioButton</class>
 
-      <tooltip>play the movie</tooltip>
+			<enabledSrc>/images/PauseEnable.gif</enabledSrc>
 
-    </Button>
+			<disabledSrc>/images/PauseDisable.gif</disabledSrc>
 
-    <Button id="pause">
+			<tooltip>pause the movie</tooltip>
 
-      <buttonBar>tsButtonBar</buttonBar>
+			<action>movieLoop.pause()</action>
 
-      <targetModel>mainMap</targetModel>
+		</Button>
 
-      <action>movieLoop.pause()</action>
+		<Button id="stop">
 
-      <class>RadioButton</class>
+			<buttonBar>tsButtonBar</buttonBar>
 
-      <disabledSrc>/images/PauseDisable.gif</disabledSrc>
+			<targetModel>mainMap</targetModel>
 
-      <enabledSrc>/images/PauseEnable.gif</enabledSrc>
+			<class>RadioButton</class>
 
-      <tooltip>pause the movie</tooltip>
+			<enabledSrc>/images/StopEnable.gif</enabledSrc>
 
-    </Button>
+			<disabledSrc>/images/StopDisable.gif</disabledSrc>
 
-    <Button id="stop">
+			<tooltip>stop and rewind to beginning</tooltip>
 
-      <buttonBar>tsButtonBar</buttonBar>
+			<action>movieLoop.stop()</action>
 
-      <targetModel>mainMap</targetModel>
+		</Button>
 
-      <action>movieLoop.stop()</action>
+		<Button id="stepAhead">
 
-      <class>RadioButton</class>
+			<buttonBar>tsButtonBar</buttonBar>
 
-      <disabledSrc>/images/StopDisable.gif</disabledSrc>
+			<targetModel>mainMap</targetModel>
 
-      <enabledSrc>/images/StopEnable.gif</enabledSrc>
+			<class>Button</class>
 
-      <tooltip>stop and rewind to beginning</tooltip>
+			<disabledSrc>/images/StepForward.gif</disabledSrc>
 
-    </Button>
+			<tooltip>step ahead one frame</tooltip>
 
-    <Button id="stepAhead">
+			<action>movieLoop.nextFrame(1)</action>
 
-      <buttonBar>tsButtonBar</buttonBar>
+		</Button>
 
-      <targetModel>mainMap</targetModel>
+		<ZoomIn id="zoomIn">
 
-      <action>movieLoop.nextFrame(1)</action>
+			<buttonBar>mainButtonBar</buttonBar>
 
-      <class>Button</class>
+			<targetModel>mainMap</targetModel>
 
-      <disabledSrc>/images/StepForward.gif</disabledSrc>
+			<mouseHandler>mainAoi</mouseHandler>
 
-      <tooltip>step ahead one frame</tooltip>
+			<class>RadioButton</class>
 
-    </Button>
+			<selected>true</selected>
 
-    <ZoomIn id="zoomIn">
+			<enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
 
-      <buttonBar>mainButtonBar</buttonBar>
+			<disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
 
-      <targetModel>mainMap</targetModel>
+		</ZoomIn>
 
-      <mouseHandler>mainAoi</mouseHandler>
+		<ZoomOut id="zoomOut">
 
-      <class>RadioButton</class>
+			<buttonBar>mainButtonBar</buttonBar>
 
-      <selected>true</selected>
+			<targetModel>mainMap</targetModel>
 
-      <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
+			<mouseHandler>mainAoi</mouseHandler>
 
-      <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
+			<class>RadioButton</class>
 
-    </ZoomIn>
+			<enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
 
-    <ZoomOut id="zoomOut">
+			<disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
 
-      <buttonBar>mainButtonBar</buttonBar>
+		</ZoomOut>
 
-      <targetModel>mainMap</targetModel>
+		<Reset id="reset">
 
-      <mouseHandler>mainAoi</mouseHandler>
+			<buttonBar>mainButtonBar</buttonBar>
 
-      <class>RadioButton</class>
+			<targetModel>mainMap</targetModel>
 
-      <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
+			<class>Button</class>
 
-      <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
+			<disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
 
-    </ZoomOut>
+		</Reset>
 
-    <Reset id="reset">
+		<Save id="save">
 
-      <buttonBar>mainButtonBar</buttonBar>
+			<buttonBar>mainButtonBar</buttonBar>
 
-      <targetModel>mainMap</targetModel>
+			<targetModel>mainMap</targetModel>
 
-      <class>Button</class>
+			<class>Button</class>
 
-      <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
+			<disabledSrc>/images/SaveDisable.gif</disabledSrc>
 
-    </Reset>
+			<popupWindowName>modelXML</popupWindowName>
 
-    <Save id="save">
+		</Save>
 
-      <buttonBar>mainButtonBar</buttonBar>
+	</widgets>
 
-      <targetModel>mainMap</targetModel>
+	<skinDir>../../lib/skin/default</skinDir>
 
-      <class>Button</class>
+	<widgetTextUrl>/widgetText.xml</widgetTextUrl>
 
-      <disabledSrc>/images/SaveDisable.gif</disabledSrc>
-
-      <popupWindowName>modelXML</popupWindowName>
-
-    </Save>
-
-  </widgets>
-
-  <skinDir>../../lib/skin/default</skinDir>
-
-  <widgetTextUrl>/widgetText.xml</widgetTextUrl> <!-- relative to the skin dir -->
-
-
+	<!-- relative to the skin dir -->
 
 </MapbuilderConfig>
 

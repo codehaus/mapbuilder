@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<MapbuilderConfig version="0.2.1" id="referenceTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../mapbuilder/lib/schemas/config.xsd">
-  <!--
+<MapbuilderConfig version="0.2.1" id="referenceTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+	<!--
     Description: This configuration file determines what components from the
                  Mapbuilder library are to be included in a Main Mapbuilder web
                  page.
@@ -8,78 +8,75 @@
 
     $Id$
   -->
-  <!--
+	<!--
     All static images should be relative to this URL.
     This dir is relative the dir of the main html file. 
   -->
-  <models>
-    <Context id="mainMap">
-      <defaultModelUrl>tasmania.xml</defaultModelUrl>
-      <widgets>
-        <MapPane id="mainMapWidget">
-          <htmlTagId>mainMapPane</htmlTagId>
-          <mapContainerId>mainMapContainer</mapContainerId>
-        </MapPane>
-        <Loading id="loading">
-        </Loading>
-        <AoiBoxWZ id="aoiBox2">
-          <htmlTagId>mainMapPane</htmlTagId>
-          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>1</lineWidth>
-          <crossSize>15</crossSize>
-          <mapContainerId>mainMapContainer</mapContainerId>
-        </AoiBoxWZ>
-        <CursorTrack id="cursorTrack">
-          <mouseHandler>mainMap</mouseHandler>
-        </CursorTrack>
-        <Legend id="legend">
-        </Legend>
-        <Widget id="version">
-          <stylesheet>../../lib/widget/Version.xsl</stylesheet>
-        </Widget>
-      </widgets>
-      <tools>
-        <AoiMouseHandler id="mainAoi"/>
-        <DragPanHandler id="mainDragPan">
-          <enabled>false</enabled>
-        </DragPanHandler>
-        <MouseClickHandler id="mainMouseClick"/>
-      </tools>
-    </Context>
-    <Context id="locator">
-      <defaultModelUrl>../data/context/locatorMap.xml</defaultModelUrl>
-      <widgets>
-        <MapPane id="locatorWidget">
-          <htmlTagId>locatorMap</htmlTagId>
-          <targetModel>mainMap</targetModel>
-          <mapContainerId>locatorContainer</mapContainerId>
-          <fixedWidth>180</fixedWidth>
-        </MapPane>
-        <AoiBoxWZ id="aoiBox2">
-          <htmlTagId>locatorMap</htmlTagId>
-          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>1</lineWidth>
-          <crossSize>15</crossSize>
-          <mapContainerId>locatorContainer</mapContainerId>
-        </AoiBoxWZ>
-      </widgets>
-      <tools>
-        <AoiMouseHandler id="locatorAoi"/>
-        <ZoomToAoi id="locatorZoomToAoi">
-          <targetModel>mainMap</targetModel>
-        </ZoomToAoi>
-      </tools>
-    </Context>
-    <Transaction id="transaction">
-      <widgets>
-        <TransactionResponse id="transactionResponse">
+	<models>
+		<Context id="mainMap">
+			<defaultModelUrl>tasmania.xml</defaultModelUrl>
+			<widgets>
+				<MapPane id="mainMapWidget">
+					<htmlTagId>mainMapPane</htmlTagId>
+					<mapContainerId>mainMapContainer</mapContainerId>
+				</MapPane>
+				<Loading id="loading"/>
+				<AoiBoxWZ id="aoiBox2">
+					<htmlTagId>mainMapPane</htmlTagId>
+					<stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
+					<mapContainerId>mainMapContainer</mapContainerId>
+					<lineColor>#FF0000</lineColor>
+					<lineWidth>1</lineWidth>
+					<crossSize>15</crossSize>
+				</AoiBoxWZ>
+				<CursorTrack id="cursorTrack">
+					<mouseHandler>mainMap</mouseHandler>
+				</CursorTrack>
+				<Legend id="legend"/>
+				<Widget id="version">
+					<stylesheet>../../lib/widget/Version.xsl</stylesheet>
+				</Widget>
+			</widgets>
+			<tools>
+				<AoiMouseHandler id="mainAoi"/>
+				<DragPanHandler id="mainDragPan">
+					<enabled>false</enabled>
+				</DragPanHandler>
+				<MouseClickHandler id="mainMouseClick"/>
+			</tools>
+		</Context>
+		<Context id="locator">
+			<defaultModelUrl>../data/context/locatorMap.xml</defaultModelUrl>
+			<widgets>
+				<MapPane id="locatorWidget">
+					<htmlTagId>locatorMap</htmlTagId>
+					<targetModel>mainMap</targetModel>
+					<mapContainerId>locatorContainer</mapContainerId>
+					<fixedWidth>180</fixedWidth>
+				</MapPane>
+				<AoiBoxWZ id="aoiBox3">
+					<htmlTagId>locatorMap</htmlTagId>
+					<stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
+					<mapContainerId>locatorContainer</mapContainerId>
+					<lineColor>#FF0000</lineColor>
+					<lineWidth>1</lineWidth>
+					<crossSize>15</crossSize>
+				</AoiBoxWZ>
+			</widgets>
+			<tools>
+				<AoiMouseHandler id="locatorAoi"/>
+				<ZoomToAoi id="locatorZoomToAoi">
+					<targetModel>mainMap</targetModel>
+				</ZoomToAoi>
+			</tools>
+		</Context>
+		<Transaction id="transaction">
+			<widgets>
+				<TransactionResponse id="transactionResponse">
         </TransactionResponse>
       </widgets>
     </Transaction>
     <FeatureCollection id="featureCollection">
-      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
       <widgets>
         <GmlRendererWZ id="testGmlRenderer">
           <htmlTagId>mainMapPane</htmlTagId>
@@ -92,6 +89,7 @@
         <FeatureList id="featureList">
         </FeatureList>
       </widgets>
+      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
     </FeatureCollection>
   </models>
   <widgets>
@@ -128,11 +126,11 @@
     </Reset>
     <EditPoint id="editPoint">
       <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>featureCollection</targetModel>
       <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/EditPointEnable.gif</enabledSrc>
       <disabledSrc>/images/EditPointDisable.gif</disabledSrc>
-      <targetModel>featureCollection</targetModel>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
       <featureXpath>/gml:featureMember/topp:tasmania_cities/topp:the_geom/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
@@ -141,11 +139,11 @@
     </EditPoint>
     <EditLine id="editLine">
       <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>featureCollection</targetModel>
       <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/EditLineEnable.gif</enabledSrc>
       <disabledSrc>/images/EditLineDisable.gif</disabledSrc>
-      <targetModel>featureCollection</targetModel>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
       <featureXpath>/gml:featureMember/topp:tasmania_roads/topp:the_geom/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
@@ -167,4 +165,3 @@
   <widgetTextUrl>/widgetText.xml</widgetTextUrl> <!-- relative to the skin dir -->
   <!-- Url of LOCAL redirection script, required to access external URLs -->
 </MapbuilderConfig>
-
