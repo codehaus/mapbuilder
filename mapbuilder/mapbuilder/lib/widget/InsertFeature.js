@@ -45,9 +45,11 @@ function InsertFeature(widgetNode, model) {
       if (!objRef.targetContext){
         objRef.targetContext=eval("config.objects."+objRef.tc);
       }
-      s=objRef.insertXsl.transformNodeToObject(objRef.targetModel.doc);
-      objRef.httpPayload.postData=s;
-      objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
+      if (objRef.targetModel.doc){
+        s=objRef.insertXsl.transformNodeToObject(objRef.targetModel.doc);
+        objRef.httpPayload.postData=s;
+        objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
+      }else alert("No feature available to insert");
     }
   }
 
