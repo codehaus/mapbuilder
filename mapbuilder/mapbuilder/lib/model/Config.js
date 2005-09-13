@@ -130,8 +130,10 @@ function Config(url) {
   this.loadModel = function( modelId, modelUrl ) {
     var model = this.objects[modelId];
     if (model && modelUrl) {
-      model.url = modelUrl;
-      model.loadModelDoc(model);
+      var httpPayload = new Object();
+      httpPayload.method = model.method;
+      httpPayload.url = modelUrl;
+      model.newRequest(model,httpPayload);
     } else {
       alert("config loadModel error:"+modelId+":"+modelUrl);
     }
