@@ -10,7 +10,7 @@
   -->
   <models>
     <Model id="mbConfigSchema">
-      <defaultModelUrl>http://localhost:8080/mapbuilder/lib/schemas/config.xsd</defaultModelUrl>
+      <defaultModelUrl>../../lib/schemas/config.xsd</defaultModelUrl>
       <!--nodeSelectXpath>/wmc:OWSContext/wmc:ResourceList</nodeSelectXpath-->
       <models>
       </models>
@@ -65,8 +65,8 @@
     All static images should be relative to this URL.
     This dir is relative the dir of the main html file.
   -->
-  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+  <skinDir>../../lib/skin/default</skinDir>
   <widgetTextUrl>/widgetText.xml</widgetTextUrl> <!-- relative to the skin dir -->
-  <proxyUrl>/mapbuilder/proxy</proxyUrl>
-  <serializeUrl>/mapbuilder/writeXml</serializeUrl>
+  <!--proxyUrl>/mapbuilder/proxy</proxyUrl-->
+  <!--serializeUrl>/mapbuilder/writeXml</serializeUrl-->
 </MapbuilderConfig>
