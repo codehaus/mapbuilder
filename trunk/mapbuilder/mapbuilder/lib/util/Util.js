@@ -71,8 +71,7 @@ function XslProcessor(xslUrl,docNSUri) {
  * A more flexible interface for loading docs that allows POST and async loading
  */
 function postLoad(sUri, docToSend, contentType ) {
-   var outDoc = Sarissa.getDomDocument();
-   var xmlHttp = Sarissa.getXmlHttpRequest();
+   var xmlHttp = new XMLHttpRequest();
    if ( sUri.indexOf("http://")==0 ) {
      xmlHttp.open("POST", config.proxyUrl, false);
      xmlHttp.setRequestHeader("serverUrl",sUri);//escape(sUri).replace(/\+/g, '%2C').replace(/\"/g,'%22').replace(/\'/g, '%27'));
@@ -94,16 +93,13 @@ alert("after");
 */
    if (xmlHttp.status >= 400) {   //http errors status start at 400
       alert("error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText );
+      var outDoc = Sarissa.getDomDocument();
       outDoc.parseError = -1;
       return outDoc;
    } else {
      //alert(xmlHttp.getResponseHeader("Content-Type"));
      if ( null==xmlHttp.responseXML ) alert( "null XML response:" + xmlHttp.responseText );
-
-     //copy to Sarissa document from a HttpRequest object
-     outDoc.validateOnParse = false;
-     outDoc.loadXML(xmlHttp.responseText);
-     return outDoc;
+     return xmlHttp.responseXML;
    }
 }
 
