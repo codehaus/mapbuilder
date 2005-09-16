@@ -203,7 +203,7 @@ var mapbuilder=new Mapbuilder();
 function mapbuilderInit(){
   if(mapbuilder && mapbuilder.loadState==MB_LOADED){
     clearInterval(mbTimerId);
-    config.init(config);
+    config.parseConfig(config);
     config.callListeners("init");
     var mbTimerStop = new Date();
     //alert("load time:"+(mbTimerStop.getTime()-mbTimerStart.getTime()) );

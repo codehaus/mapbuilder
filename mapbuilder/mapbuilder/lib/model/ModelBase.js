@@ -327,11 +327,10 @@ function ModelBase(objRef, modelNode, parentModel) {
    * Calling this method triggers an init event for this model.
    * @param objRef Pointer to this object.
    */
-  objRef.init = function(objRef) {
+  objRef.parseConfig = function(objRef) {
     objRef.loadObjects("mb:widgets/*");
     objRef.loadObjects("mb:tools/*");
     objRef.loadObjects("mb:models/*");
-    objRef.callListeners("init");
   }
 
   /**
@@ -345,6 +344,16 @@ function ModelBase(objRef, modelNode, parentModel) {
   objRef.addListener("loadModel",objRef.refresh, objRef);
 
   /**
+   * Listener registered with the parent model to call init listeners when 
+   * the parent model is init'ed
+   * @param objRef Pointer to this object.
+   */
+  objRef.init = function(objRef) {
+    objRef.callListeners("init");
+  }
+  if (parentModel) parentModel.addListener("init",objRef.init, objRef);
+
+  /**
    * Listener registered with the parent model to remove the doc and url 
    * of child models whenever the parent is reloaded.
    * @param objRef Pointer to this object.
@@ -354,7 +363,7 @@ function ModelBase(objRef, modelNode, parentModel) {
     objRef.url=null;
   }
 
-  if (parentModel) objRef.init(objRef);
+  if (parentModel) objRef.parseConfig(objRef);
 
   //don't load in models and widgets if this is the config doc, 
   //defer that to an explcit config.init() call in mapbuilder.js
