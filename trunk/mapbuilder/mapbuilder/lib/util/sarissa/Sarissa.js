@@ -8,7 +8,7 @@
  * @version 0.9.6.1
  * @author: Manos Batsis, mailto: mbatsis at users full stop sourceforge full stop net
  * ====================================================================
- * Licence
+ * Licence 
  * ====================================================================
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 or
