@@ -11,7 +11,7 @@
  * is easy with IE's setProperty. 
  * USers may also map a namespace prefix to a default (unprefixed) namespace in the
  * source document with Sarissa.setXpathNamespaces
- *
+ * 
  *
  * ====================================================================
  * Licence
@@ -32,6 +32,9 @@
  * or visit http://www.gnu.org
  *
  */
+ var _SARISSA_HAS_DOM_IMPLEMENTATION = document.implementation && true;
+ var _SARISSA_HAS_DOM_FEATURE = _SARISSA_HAS_DOM_IMPLEMENTATION && document.implementation.hasFeature;
+ 
 if(_SARISSA_HAS_DOM_FEATURE && document.implementation.hasFeature("XPath", "3.0")){
     /**
     * <p>SarissaNodeList behaves as a NodeList but is only used as a result to <code>selectNodes</code>,

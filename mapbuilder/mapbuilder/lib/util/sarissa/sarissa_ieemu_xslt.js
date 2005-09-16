@@ -12,7 +12,7 @@
  *
  * All functionality in this file is DEPRECATED, the XSLTProcessor
  * should be used instead.
- *
+ * 
  * ====================================================================
  * Licence
  * ====================================================================
