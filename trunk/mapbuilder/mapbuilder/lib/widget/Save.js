@@ -19,7 +19,7 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @param model  The model for this widget
  */
 function Save(widgetNode, model) {
-  var base = new ButtonBase(this, widgetNode, model);
+  ButtonBase.apply(this, new Array(widgetNode, model));
 
   /**
    * Calls the targetModel's saveModel() method to serialize the model document.

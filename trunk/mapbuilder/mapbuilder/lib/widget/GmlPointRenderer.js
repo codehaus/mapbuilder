@@ -23,6 +23,8 @@ mapbuilder.loadScript(baseDir+"/widget/MapContainerBase.js");
  * @param model       The model object that this widget belongs to.
  */
 function GmlPointRenderer(widgetNode, model) {
+  WidgetBase.apply(this,new Array(widgetNode, model));
+  MapContainerBase.apply(this,new Array(widgetNode, model));
 
   this.normalImage = widgetNode.selectSingleNode("mb:normalImage").firstChild.nodeValue; 
   this.highlightImage = widgetNode.selectSingleNode("mb:highlightImage").firstChild.nodeValue; 
@@ -77,9 +79,7 @@ function GmlPointRenderer(widgetNode, model) {
       }
     }
   }
-
-  this.stylesheet = new XslProcessor(baseDir+"/widget/Null.xsl");
-  var base = new MapContainerBase(this,widgetNode,model);
+  this.model.addListener("refresh",this.paint, this); 
 
   /** highlights the selected feature by switching to the highlight image
     * @param objRef a pointer to this widget object

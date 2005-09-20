@@ -4,18 +4,18 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
  * Functions to render and update a Legend from a Web Map Context.
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @author Cameron Shorter cameronATshorter.net
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */
 function Legend(widgetNode, model) {
-  var base = new WidgetBase(this, widgetNode, model);
+  WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
   /**
    * Override of widget prepaint to set some stylesheet parameters including 

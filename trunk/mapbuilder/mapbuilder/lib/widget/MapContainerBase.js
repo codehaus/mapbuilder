@@ -4,7 +4,6 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 mapbuilder.loadScript(baseDir+"/tool/Extent.js");
 
 /**
@@ -25,53 +24,56 @@ mapbuilder.loadScript(baseDir+"/tool/Extent.js");
  * define mouse event callbacks.
  *
  * @constructor
- * @base WidgetBase
  * @author Mike Adair 
  * @param widget      Pointer to the widget instance being created
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */
-function MapContainerBase(widget,widgetNode,model) {
-  var base = new WidgetBase(widget, widgetNode, model);
+function MapContainerBase(widgetNode,model) {
 
-  //if there is a container node for this widget, initialized later
+  //make sure that the containerNodeId is set in config
   var mapContainerNode = widgetNode.selectSingleNode("mb:mapContainerId");
   if (mapContainerNode) {
-    widget.containerNodeId = mapContainerNode.firstChild.nodeValue;
+    this.containerNodeId = mapContainerNode.firstChild.nodeValue;
   } else {
-    alert("MapContainerBase: required property mapContainerId missing in config:"+widget.id);
+    alert("MapContainerBase: required property mapContainerId missing in config:"+this.id);
   }
 
 /**
- * Initialize the container if required.
+ * Initialize the container.  Only the first widget to attach to this container
+ * configures the container, all others carry out a much simpler initialization.
+ * All widgets share the same widget.containerModel, widget.containerModel.extent
+ * and HTML containerNode.
  */
-  var containerNode = document.getElementById(widget.containerNodeId);
+  var containerNode = document.getElementById(this.containerNodeId);
   if (containerNode) {
-    widget.containerModel = containerNode.containerModel;
+    this.containerModel = containerNode.containerModel;
     model.containerModel = containerNode.containerModel;
-    //widget.containerModel.addListener("bbox",widget.paint,widget);
+    //this.containerModel.addListener("bbox",this.paint,this);
 
     this.setContainerWidth = function(objRef) {
       objRef.node.style.width=objRef.containerModel.getWindowWidth();
       objRef.node.style.height=objRef.containerModel.getWindowHeight();
-      widget.stylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
-      widget.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
+      if (this.stylesheet) {
+        this.stylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
+        this.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
+      }
     }
 
 /**
  * the containerModel is initialized here
  */
   } else {
+    //create the container node and set it's properties
     containerNode = document.createElement("DIV");
-    containerNode.setAttribute("id",widget.containerNodeId);
-    containerNode.id=widget.containerNodeId;
-    // Set dimensions of containing <div>widget.
+    containerNode.setAttribute("id",this.containerNodeId);
+    containerNode.id=this.containerNodeId;
     containerNode.style.position="relative";
     containerNode.style.overflow="hidden";
 
-    containerNode.containerModel = widget.model;
-    widget.containerModel = widget.model;
-    model.containerModel = containerNode.containerModel;
+    containerNode.containerModel = this.model;
+    this.containerModel = this.model;
+    model.containerModel = containerNode.containerModel;   
 
     /**
      * method to adjust the width of the container DIV on startup.  If the 
@@ -91,24 +93,26 @@ function MapContainerBase(widget,widgetNode,model) {
       }
       objRef.node.style.width=objRef.containerModel.getWindowWidth();
       objRef.node.style.height=objRef.containerModel.getWindowHeight();
-      widget.stylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
-      widget.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
+      if (this.stylesheet) {
+        this.stylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
+        this.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
+      }
     }
 
     //add the extent tool
-    widget.containerModel.extent = new Extent( widget.containerModel );
-    widget.containerModel.addFirstListener( "loadModel", widget.containerModel.extent.firstInit, widget.containerModel.extent );
-    widget.containerModel.addListener( "bbox", widget.containerModel.extent.init, widget.containerModel.extent );
+    this.containerModel.extent = new Extent( this.containerModel );
+    this.containerModel.addFirstListener( "loadModel", this.containerModel.extent.firstInit, this.containerModel.extent );
+    this.containerModel.addListener( "bbox", this.containerModel.extent.init, this.containerModel.extent );
     //TBD: do an extent history by storing extents every time the aoi changes
 
     /**
      * Called just before paint to set the map scale as stylesheet param
      * @param objRef pointer to this object.
      */
-    widget.prePaint = function(objRef) {
+    this.prePaint = function(objRef) {
       var mapScale = objRef.model.extent.getScale();
-      widget.stylesheet.setParameter("mapScale", mapScale );
-      if (_SARISSA_IS_IE) widget.stylesheet.setParameter("isIE", "true" );
+      if (this.stylesheet) this.stylesheet.setParameter("mapScale", mapScale );
+      if (_SARISSA_IS_IE) this.stylesheet.setParameter("isIE", "true" );
     }
 
     /**
@@ -117,10 +121,10 @@ function MapContainerBase(widget,widgetNode,model) {
       //TBD: implement some sort of map pane hover mechanism to show the tooltip
      * @param objRef pointer to this object.
      */
-    widget.setTooltip = function(objRef, tooltip) {
+    this.setTooltip = function(objRef, tooltip) {
       //alert("setting mappane tooltip to:"+tooltip);
     }
-    widget.containerModel.addListener( "tooltip", widget.setTooltip, widget);
+    this.containerModel.addListener( "tooltip", this.setTooltip, this);
 
   /** Cross-browser mouse event handling.
     * This function is the event handler for all MapContainer mouse events.
@@ -167,18 +171,18 @@ function MapContainerBase(widget,widgetNode,model) {
       this.containerModel.setParam(this.eventType,this);
       return false;
     }
-    widget.eventHandler = this.eventHandler;
+    this.eventHandler = this.eventHandler;
 
-    containerNode.onmousemove = widget.eventHandler;
-    containerNode.onmouseout = widget.eventHandler;
-    containerNode.onmouseover = widget.eventHandler;
-    containerNode.onmousedown = widget.eventHandler;
-    containerNode.onmouseup = widget.eventHandler;
-    widget.node.appendChild(containerNode);
+    containerNode.onmousemove = this.eventHandler;
+    containerNode.onmouseout = this.eventHandler;
+    containerNode.onmouseover = this.eventHandler;
+    containerNode.onmousedown = this.eventHandler;
+    containerNode.onmouseup = this.eventHandler;
+    this.node.appendChild(containerNode);
   }
-  widget.node = document.getElementById(widget.containerNodeId);
+  this.node = document.getElementById(this.containerNodeId);
 
-  widget.setContainerWidth = this.setContainerWidth;
-  widget.containerModel.addFirstListener( "loadModel", widget.setContainerWidth, widget );
-  widget.containerModel.addListener( "bbox", widget.paint, widget );
+  this.setContainerWidth = this.setContainerWidth;
+  this.containerModel.addFirstListener( "loadModel", this.setContainerWidth, this );
+  this.containerModel.addListener( "bbox", this.paint, this );
 }

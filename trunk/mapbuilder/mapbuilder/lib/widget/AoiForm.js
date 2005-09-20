@@ -6,7 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
 /**
@@ -19,7 +19,7 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
  */
 
 function AoiForm(widgetNode, model) {
-  var base = new WidgetBase(this, widgetNode, model);
+  WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
   /**
    * Output the AOI coordinates to the associated form input elements.  This

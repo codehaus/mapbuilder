@@ -14,12 +14,12 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * @base ButtonBase
  * @author Nedjo
  * @constructor
- * @param toolNode The XML node in the Config file referencing this object.
+ * @param widgetNode The XML node in the Config file referencing this object.
  * @param model The widget object which this tool is associated with.
  */
-function GetFeatureInfo(toolNode, model) {
+function GetFeatureInfo(widgetNode, model) {
   // Extend ButtonBase
-  var base = new ButtonBase(this, toolNode, model);
+  ButtonBase.apply(this, new Array(widgetNode, model));
 
   /** Xsl to build a GetFeatureInfo URL */
   this.xsl=new XslProcessor(baseDir+"/tool/GetFeatureInfo.xsl");

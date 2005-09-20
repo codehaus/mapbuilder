@@ -15,7 +15,8 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @param model The model for this widget
  */
 function InsertFeature(widgetNode, model) {
-  var base = new ButtonBase(this, widgetNode, model);
+  // Extend ButtonBase
+  ButtonBase.apply(this, new Array(widgetNode, model));
 
   this.trm=widgetNode.selectSingleNode("mb:transactionResponseModel").firstChild.nodeValue;
   this.tm=widgetNode.selectSingleNode("mb:targetModel").firstChild.nodeValue;

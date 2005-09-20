@@ -6,7 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
  * Widget to display a list of web services from a registry.
@@ -19,7 +19,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  */
 
 function ServiceRegistryList(widgetNode, model) {
-  var base = new WidgetBase(this, widgetNode, model);
+  WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
   /**
    * Handles submission of the form (via javascript in an <a> tag)

@@ -17,7 +17,7 @@ mapbuilder.loadScript(baseDir+"/widget/EditButtonBase.js");
  */
 function EditLine(widgetNode, model) {
   // Extend EditButtonBase
-  var base = new EditButtonBase(this, widgetNode, model);
+  EditButtonBase.apply(this, new Array(widgetNode, model));
 
   /**
    * Append a point to a line.

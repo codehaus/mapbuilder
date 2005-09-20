@@ -4,19 +4,19 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
  * Build a WMC document from a WMS GetCapabilities response.
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @author Cameron Shorter cameronATshorter.net
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */
 
 function WmsCapabilitiesImport(widgetNode, model) {
-  var base = new WidgetBase(this, widgetNode, model);
+  WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
   /**
    * Load Capabilities document when ENTER is pressed.

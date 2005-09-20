@@ -17,7 +17,7 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 function DragPan(widgetNode, model) {
 
   // Extend ButtonBase
-  var base = new ButtonBase(this, widgetNode, model);
+  ButtonBase.apply(this, new Array(widgetNode, model));
 
   // override default cursor by user
   // cursor can be changed by spefying a new cursor in config file

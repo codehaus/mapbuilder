@@ -19,6 +19,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * @param model The model that contains this object.
  */
 function AoiBoxDHTML(widgetNode, model) {
+  WidgetBase.apply(this,new Array(widgetNode, model));
 
   this.lineWidth = widgetNode.selectSingleNode("mb:lineWidth").firstChild.nodeValue; // Zoombox line width; pass in as param?
   this.lineColor = widgetNode.selectSingleNode("mb:lineColor").firstChild.nodeValue; // color of zoombox lines; pass in as param?
@@ -45,10 +46,7 @@ function AoiBoxDHTML(widgetNode, model) {
   }
   model.addListener("aoi",this.paint, this);
 
-
-  // Inherit the MapContainerBase functions and parameters, paint has to be defined 
-  this.stylesheet = new XslProcessor(baseDir+"/widget/Null.xsl");
-  var base = new MapContainerBase(this,widgetNode, model);
+  MapContainerBase.apply(this,new Array(widgetNode, model));
 
   /** Hide or show the box.
     * @param vis    boolean true for visible; false for hidden

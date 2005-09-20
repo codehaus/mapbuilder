@@ -4,18 +4,18 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
- * Functions to render and update a Legend from a Web Map Context.
+ * Widget to allow control of layer odering, visibility, deletion
  * @constructor
- * @base WidgetBase
- * @author Cameron Shorter cameronATshorter.net
+ * @base WidgetBaseXSL
+ * @author adair
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */
 function LayerControl(widgetNode, model) {
-  var base = new WidgetBase(this, widgetNode, model);
+  WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
   /**
    * Override of widget prepaint to set some stylesheet parameters including 
@@ -29,6 +29,10 @@ function LayerControl(widgetNode, model) {
     }
   }
 
+  /**
+   * Displays a layer in a preview pane when mouse is over the table row
+   * @param layerName  the name of the layer to highlight
+   */
   this.highlightLayer = function(layerName) {
     var layerId = this.model.id + "_" + "mainMapWidget" + "_" + layerName;
     var previewImage = document.getElementById("previewImage");
@@ -36,6 +40,10 @@ function LayerControl(widgetNode, model) {
     previewImage.src = layer.firstChild.src;
   }
 
+  /**
+   * not working yet
+   * @param layerName  the name of the layer to highlight
+   */
   this.showLayerMetadata = function(layerName) {
     var metadataWidget = config.objects.layerMetadata;
     metadataWidget.stylesheet.setParameter("featureName",layerName);

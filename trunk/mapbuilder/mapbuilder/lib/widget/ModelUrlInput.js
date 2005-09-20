@@ -13,13 +13,13 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * as the model's document
  *
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @param widgetNode  This widget's object node from the configuration document.
  * @param model       The model that this widget is a view of.
  */
 
 function ModelUrlInput(widgetNode, model) {
-  var base = new WidgetBase(this, widgetNode, model);
+  WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
   /**
    * Handles submission of the form (via javascript in an <a> tag)

@@ -18,15 +18,16 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * @param model The model object that this widget belongs to.
  */
 function Loading(widgetNode, model) {
-  var base = new WidgetBase(this, widgetNode, model);
+  WidgetBase.apply(this,new Array(widgetNode, model));
 
   /**
    * Remove the contents of the HTML tag for this widget.
    * @param objRef Reference to this object.
    */
-  this.prePaint= function(objRef) {
+  this.paint= function(objRef) {
     while (objRef.node.childNodes.length>0) {
       objRef.node.removeChild(objRef.node.childNodes[0]);
     }
   }
+  this.model.addListener("refresh",this.paint, this);
 }

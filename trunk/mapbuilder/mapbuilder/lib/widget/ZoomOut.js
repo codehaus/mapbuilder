@@ -16,7 +16,7 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  */
 function ZoomOut(widgetNode, model) {
   // Extend ButtonBase
-  var base = new ButtonBase(this, widgetNode, model);
+  ButtonBase.apply(this, new Array(widgetNode, model));
 
   this.zoomBy = 4;//TBD: get this from config
 

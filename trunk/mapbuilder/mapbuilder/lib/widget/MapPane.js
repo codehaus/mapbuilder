@@ -13,12 +13,14 @@ mapbuilder.loadScript(baseDir+"/widget/MapContainerBase.js");
  * as an array of DHTML layers that contain an <IMG> tag with src attribute set 
  * to the GetMap request.
  * @constructor
+ * @base WidgetBaseXSL
  * @base MapContainerBase
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */
 function MapPane(widgetNode, model) {
-  var base = new MapContainerBase(this,widgetNode,model);
+  WidgetBaseXSL.apply(this,new Array(widgetNode, model));
+  MapContainerBase.apply(this,new Array(widgetNode, model));
 
   /**
    * Called when the context's hidden attribute changes.
