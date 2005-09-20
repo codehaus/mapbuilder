@@ -6,7 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
  * A widget to display a list of context docs to pick from.  This is a view of 
@@ -18,6 +18,6 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  */
 
 function CollectionList(widgetNode, model) {
-  var base = new WidgetBase(this, widgetNode, model);
+  WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
 }

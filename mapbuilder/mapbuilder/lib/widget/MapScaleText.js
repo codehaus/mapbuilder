@@ -6,7 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
  * Widget to display the scale of a map.  The model of this widget
@@ -14,13 +14,13 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * model has a MapContanier widget.
  *
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @param widgetNode  This widget's object node from the configuration document.
  * @param model       The model that this widget is a view of.
  */
 
 function MapScaleText(widgetNode, model) {
-  var base = new WidgetBase(this, widgetNode, model);
+  WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
   /**
    * Handles submission of the form (via javascript in an <a> tag or onsubmit handler)

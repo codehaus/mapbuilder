@@ -6,20 +6,20 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
  * Widget to display various other widgets by selecting a tab in a tab bar.
  * 
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @param widgetNode This widget's object node from the configuration document.
  * @param model The model that this widget is a view of.
  */
-var mbNS = "http://mapbuilder.sourceforge.net/mapbuilder";  //TBD: set this somewhere else
 
 function TabbedContent(widgetNode, model) {
-  var base = new WidgetBase(this, widgetNode, model);
+  WidgetBaseXSL.apply(this,new Array(widgetNode, model));
+
   this.selectedTab = null;
   var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:TabbedContent";
   this.tabLabels = config.widgetText.selectNodes(textNodeXpath);

@@ -11,11 +11,11 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * method to be called when selected
  * @base ButtonBase
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
- * @param toolNode      The tool node from the Config XML file.
+ * @param widgetNode      The tool node from the Config XML file.
  * @param model  The ButtonBar widget.
  */
-function Button(toolNode, model) {
-  var base = new ButtonBase(this, toolNode, model);
+function Button(widgetNode, model) {
+  ButtonBase.apply(this, new Array(widgetNode, model));
 
 }
 

@@ -4,7 +4,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
  * Generic Widget object for widgets where no specialization is required.  
@@ -17,6 +17,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * @param model       The model object that this widget belongs to.
  */
 function Widget(widgetNode, model) {
-  var base = new WidgetBase(this, widgetNode, model);
+  //var base = new WidgetBaseXSL(this, widgetNode, model);
+  WidgetBaseXSL.apply(this, new Array(widgetNode, model));
 
 }

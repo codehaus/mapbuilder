@@ -17,37 +17,37 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * @param widgetNode The tool node from the Config XML file.
  * @param model The parent model object (optional).
  */
-function ButtonBase(button, widgetNode, model) {
+function ButtonBase(widgetNode, model) {
 
   this.cursor = "default";	// Adding support for customized cursors
 
   //stylesheet is fixed to this one
-  button.stylesheet = new XslProcessor(baseDir+"/widget/Button.xsl");
+  this.stylesheet = new XslProcessor(baseDir+"/widget/Button.xsl");
   var buttonBarNode = widgetNode.selectSingleNode("mb:buttonBar");
   if ( buttonBarNode ) {
-    button.htmlTagId = buttonBarNode.firstChild.nodeValue;
+    this.htmlTagId = buttonBarNode.firstChild.nodeValue;
   } else {
     alert("buttonBar property required for object:" + widgetNode.nodeName );
   }
 
-  var base = new WidgetBase(button, widgetNode, model);
+  WidgetBaseXSL.apply(this, new Array(widgetNode, model));
 
   //set the button type
-  button.buttonType = widgetNode.selectSingleNode("mb:class").firstChild.nodeValue;
-  if (button.buttonType == "RadioButton") button.enabled = false;
+  this.buttonType = widgetNode.selectSingleNode("mb:class").firstChild.nodeValue;
+  if (this.buttonType == "RadioButton") this.enabled = false;
 
   //pre-load the button bar images; add them to the config
   var disabledImage = widgetNode.selectSingleNode("mb:disabledSrc");
   if (disabledImage) {
-    button.disabledImage = document.createElement("IMG");
-    button.disabledImage.src = config.skinDir + disabledImage.firstChild.nodeValue;
+    this.disabledImage = document.createElement("IMG");
+    this.disabledImage.src = config.skinDir + disabledImage.firstChild.nodeValue;
   }
 
   //optional second image to be displayed in the enabled state
   var enabledImage = widgetNode.selectSingleNode("mb:enabledSrc");
   if (enabledImage) {
-    button.enabledImage = document.createElement("IMG");
-    button.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
+    this.enabledImage = document.createElement("IMG");
+    this.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
   }
 
   /**
@@ -68,7 +68,7 @@ function ButtonBase(button, widgetNode, model) {
   this.doAction = function() {}
 
   /**
-   * Called when a user clicks on a button.  Switches the image to the enabled 
+   * Called when a user clicks on a this.  Switches the image to the enabled 
    * button source, enables and disables associated tools, then calls the 
    * doSelect method defined in derived classes.
    */
@@ -122,7 +122,7 @@ function ButtonBase(button, widgetNode, model) {
 
   //a button may be set as selected in the config file
   var selected = widgetNode.selectSingleNode("mb:selected");
-  if (selected && selected.firstChild.nodeValue) button.selected = true;
+  if (selected && selected.firstChild.nodeValue) this.selected = true;
 
   /**
    * A listener method to initialize the mouse handler, if configured.  This is
@@ -153,12 +153,6 @@ function ButtonBase(button, widgetNode, model) {
     if (objRef.selected) objRef.select();
   }
 
-  // If this object is being created because a child is extending this object,
-  // then child.properties = this.properties
-  for (sProperty in this) {
-    button[sProperty] = this[sProperty];
-  }
-
-  button.model.addListener("refresh",button.buttonInit,button);
-  button.model.addListener("init", button.initMouseHandler, button);
+  this.model.addListener("refresh",this.buttonInit,this);
+  this.model.addListener("init", this.initMouseHandler, this);
 }

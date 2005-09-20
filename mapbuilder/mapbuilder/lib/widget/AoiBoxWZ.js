@@ -19,6 +19,7 @@ mapbuilder.loadScript(baseDir+"/util/wz_jsgraphics/wz_jsgraphics.js");
  * @param model       The model object that this widget belongs to.
  */
 function AoiBoxWZ(widgetNode, model) {
+  WidgetBase.apply(this,new Array(widgetNode, model));
 
   this.lineWidth = widgetNode.selectSingleNode("mb:lineWidth").firstChild.nodeValue;
   this.lineColor = widgetNode.selectSingleNode("mb:lineColor").firstChild.nodeValue;
@@ -76,10 +77,9 @@ function AoiBoxWZ(widgetNode, model) {
       objRef.jg.paint();
     }
   }
-  model.addListener("aoi",this.paint, this);
+  this.model.addListener("aoi",this.paint, this);
 
-  // Inherit the MapContainerBase functions and parameters
-  var base = new MapContainerBase(this,widgetNode, model);
+  MapContainerBase.apply(this,new Array(widgetNode, model));
 
   /**
    * Reset internal variables after container is redrawn due to refreshing
@@ -89,7 +89,7 @@ function AoiBoxWZ(widgetNode, model) {
   this.clearAoiBox = function(objRef) {
     if (objRef.jg) objRef.jg.clear();
   }
-  model.addListener("bbox",this.clearAoiBox, this);
+  this.model.addListener("bbox",this.clearAoiBox, this);
 
   /**
    * Reset internal variables after container is redrawn due to refreshing
@@ -100,6 +100,6 @@ function AoiBoxWZ(widgetNode, model) {
     objRef.clearAoiBox(objRef);
     objRef.jg=null;
   }
-  model.addListener("newModel",this.refresh, this);
+  this.model.addListener("newModel",this.refresh, this);
 
 }

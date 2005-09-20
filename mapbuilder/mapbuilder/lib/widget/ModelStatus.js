@@ -6,7 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
  * Widget to display the status of a model, repainted whenever the model status
@@ -14,13 +14,13 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * TBD: not yet completed
  *
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @param widgetNode  This widget's object node from the configuration document.
  * @param model       The model that this widget is a view of.
  */
 
 function ModelStatus(widgetNode, model) {
-  var base = new WidgetBase(this, widgetNode, model);
+  WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
   /**
    * initializes stylesheet parameters for the widget

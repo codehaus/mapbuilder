@@ -15,7 +15,7 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @param model  The model for this widget
  */
 function Reset(widgetNode, model) {
-  var base = new ButtonBase(this, widgetNode, model);
+  ButtonBase.apply(this, new Array(widgetNode, model));
 
   /**
    * Store a copy of the original extent locally as a loadModel event listener.

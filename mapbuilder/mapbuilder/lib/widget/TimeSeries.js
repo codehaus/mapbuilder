@@ -6,6 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 mapbuilder.loadScript(baseDir+"/widget/MapContainerBase.js");
 
 /**
@@ -17,11 +18,13 @@ mapbuilder.loadScript(baseDir+"/widget/MapContainerBase.js");
  * 
  * @constructor
  * @base MapContainerBase
+ * @base MapContainerBase
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */
 function TimeSeries(widgetNode, model) {
-  var base = new MapContainerBase(this,widgetNode,model);
+  WidgetBaseXSL.apply(this,new Array(widgetNode, model));
+  MapContainerBase.apply(this,new Array(widgetNode, model));
 
   /**
    * Called when the context's hidden attribute changes.

@@ -6,19 +6,19 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
  * Widget to specify the start and stop frames for a time series context
  *
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @param widgetNode This widget's object node from the configuration document.
  * @param model The model that this widget is a view of.
  */
 
 function SelectTimeFrame(widgetNode, model) {
-  var base = new WidgetBase(this, widgetNode, model);
+  WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
   /**
    * Sets the frame index for the time series to start

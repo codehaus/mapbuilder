@@ -18,7 +18,7 @@ mapbuilder.loadScript(baseDir+"/widget/EditButtonBase.js");
  */
 function EditPoint(widgetNode, model) {
   // Extend EditButtonBase
-  var base = new EditButtonBase(this, widgetNode, model);
+  EditButtonBase.apply(this, new Array(widgetNode, model));
 
   /**
    * Add a point to the enclosing GML model.

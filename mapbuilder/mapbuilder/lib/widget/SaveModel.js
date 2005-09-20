@@ -14,7 +14,7 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 
 
@@ -28,7 +28,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
  * @constructor
 
- * @base WidgetBase
+ * @base WidgetBaseXSL
 
  * @param widgetNode This widget's object node from the configuration document.
 
@@ -40,7 +40,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 function SaveModel(widgetNode, model) {
 
-  var base = new WidgetBase(this, widgetNode, model);
+  WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
 
 

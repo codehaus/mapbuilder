@@ -12,12 +12,12 @@ mapbuilder.loadScript(baseDir+"/widget/EditButtonBase.js");
  * @constructor
  * @base EditButtonBase
  * @author Cameron Shorter cameronATshorter.net
- * @param widetNode The node from the Config XML file.
+ * @param widgetNode The node from the Config XML file.
  * @param model  The ButtonBar widget.
  */
-function EditPolygon(widetNode, model) {
+function EditPolygon(widgetNode, model) {
   // Extend EditButtonBase
-  var base = new EditButtonBase(this, widetNode, model);
+  EditButtonBase.apply(this, new Array(widgetNode, model));
 
   /**
    * Append a point to a polygon.

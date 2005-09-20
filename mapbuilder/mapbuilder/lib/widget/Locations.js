@@ -6,21 +6,21 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
  * Widget to display predefined locations (as per schema at lib/model/schemas/locations.xsd)
  * into a HTML select box. Changing a location will set the AOI of the targetModel.
  * TBD: projection coordinate conversion still to be implemented.
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @param widgetNode This widget's object node from the configuration document.
  * @param model The model that this widget is a view of.
  */
 
 
 function Locations(widgetNode, model) {
-  var base = new WidgetBase(this, widgetNode, model);
+  WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
   //TBD: implement this in a Locations model
   this.model.getSRS = function(){return "EPSG:4326";}

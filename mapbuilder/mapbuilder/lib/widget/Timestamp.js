@@ -4,17 +4,18 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
  * Adds a timstamp listener to show the curretn timestamp value in a form.
  * @constructor
+ * @base WidgetBaseXSL
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
- * @param toolNode      The tool node from the Config XML file.
+ * @param widgetNode      The tool node from the Config XML file.
  * @param model  The ButtonBar widget.
  */
-function Timestamp(toolNode, model) {
-  var base = new WidgetBase(this, toolNode, model);
+function Timestamp(widgetNode, model) {
+  WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
   this.updateTimestamp = function (objRef, timestamp) {
     var inputEl = document.getElementById("timestampValue");
