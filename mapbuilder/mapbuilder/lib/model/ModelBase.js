@@ -252,6 +252,7 @@ function ModelBase(modelNode, parentModel) {
       newConfigNode.removeAttribute("id");  //this will get created automatically
       //set defaultModelUrl config properties
       objRef = objRef.createObject(newConfigNode);
+      objRef.callListeners("init");
     }
 
     //set the payload in the model and issue the request
@@ -263,7 +264,7 @@ function ModelBase(modelNode, parentModel) {
     objRef.postData = httpPayload.postData;
     objRef.loadModelDoc(objRef);
   }
-
+ 
  /**
    * save the model by posting it to the serializeUrl, which is defined as a 
    * property of config.
