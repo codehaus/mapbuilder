@@ -16,7 +16,7 @@ $Id$
   */
 function FeatureCollection(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(this, modelNode, parent);
+  ModelBase.apply(this, new Array(modelNode, parent));
 
   // Namespace to use when doing Xpath queries, usually set in config file.
   if (!this.namespace){

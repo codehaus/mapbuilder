@@ -23,7 +23,7 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
  * @param model  Reference to the widget object that creates this tool
  */
 function ZoomToAoi(toolNode, model) {
-  var base = new ToolBase(this, toolNode, model);
+  ToolBase.apply(this, new Array(toolNode, model));
 
   /**
    * Target model loadModel change listener.  This resets the projection objects

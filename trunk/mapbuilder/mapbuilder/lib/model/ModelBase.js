@@ -12,79 +12,78 @@ $Id$
  * @constructor
  * @base Listener
  * @author Cameron Shorter
- * @param objRef       Pointer to the model instance being created
  * @param modelNode   The model's XML object node from the configuration document.
  * @param parentModel The model object that this model belongs to.
  */
-function ModelBase(objRef, modelNode, parentModel) {
+function ModelBase(modelNode, parentModel) {
   // Inherit the Listener functions and parameters
-  var listener = new Listener(objRef);
+  Listener.apply(this);
 
   //models are loaded asynchronously by default; 
-  objRef.async = true;   //change to false for sync loading
-  objRef.contentType = "text/xml";
+  this.async = true;   //change to false for sync loading
+  this.contentType = "text/xml";
 
-  objRef.modelNode = modelNode;
+  this.modelNode = modelNode;
   var idAttr = modelNode.attributes.getNamedItem("id");
   if (idAttr) {
-    objRef.id = idAttr.nodeValue;
+    this.id = idAttr.nodeValue;
   } else {
     //auto generated unique ID assigned to this model
-    objRef.id = "MbModel_" + mbIds.getId();
+    this.id = "MbModel_" + mbIds.getId();
   }
 
   //get the human readable title for the model
   var titleNode = modelNode.selectSingleNode("mb:title");
   if (titleNode) {
-    objRef.title = titleNode.firstChild.nodeValue;
+    this.title = titleNode.firstChild.nodeValue;
   } else {
-    objRef.title = objRef.id;
+    this.title = this.id;
   }
 
   // set an empty debug property which turns of alert messages for a
   // particular model
-  if(modelNode.selectSingleNode("mb:debug"))objRef.debug="true";
+  if(modelNode.selectSingleNode("mb:debug"))this.debug="true";
 
   /**
   * set the initial model URL in config.
   * the URL can also be passed in as a URL parameter by using the model ID 
   * as the parameter name (which takes precendence over the config file)
   **/
-  if (window.cgiArgs[objRef.id]) {  
-    objRef.url = window.cgiArgs[objRef.id];
-  } else if (window[objRef.id]) {  
-    objRef.url = window[objRef.id];
+  if (window.cgiArgs[this.id]) {  
+    this.url = window.cgiArgs[this.id];
+  } else if (window[this.id]) {  
+    this.url = window[this.id];
   } else if (modelNode.url) {  
-    objRef.url = modelNode.url;
+    this.url = modelNode.url;
   } else {
     var defaultModel = modelNode.selectSingleNode("mb:defaultModelUrl");
-    if (defaultModel) objRef.url = defaultModel.firstChild.nodeValue;
+    if (defaultModel) this.url = defaultModel.firstChild.nodeValue;
   }
 
   //set the method property
   var method = modelNode.selectSingleNode("mb:method");
   if (method) {
-    objRef.method = method.firstChild.nodeValue;
+    this.method = method.firstChild.nodeValue;
   } else {
-    objRef.method = "get";
+    this.method = "get";
   }
 
   //set the namespace property
   var namespace = modelNode.selectSingleNode("mb:namespace");
   if (namespace) {
-    objRef.namespace = namespace.firstChild.nodeValue;
+    this.namespace = namespace.firstChild.nodeValue;
   }
 
   var templateAttr = modelNode.attributes.getNamedItem("template");
   if (templateAttr) {
-    objRef.template = (templateAttr.nodeValue=="true")?true:false;
-    objRef.modelNode.removeAttribute("template");
+    this.template = (templateAttr.nodeValue=="true")?true:false;
+    this.modelNode.removeAttribute("template");
   }
 
   //get the xpath to select nodes from the parent doc
   var nodeSelectXpath = modelNode.selectSingleNode("mb:nodeSelectXpath");
   if (nodeSelectXpath) {
-    objRef.nodeSelectXpath = nodeSelectXpath.firstChild.nodeValue;
+    this.nodeSelectXpath = nodeSelectXpath.firstChild.nodeValue;
   }
 
   /**
@@ -101,7 +100,6 @@ function ModelBase(objRef, modelNode, parentModel) {
       return null;
     }
   }
-  objRef.getXpathValue=this.getXpathValue;
 
   /**
    * Update the value of a node within this model's XML document.
@@ -127,20 +125,19 @@ function ModelBase(objRef, modelNode, parentModel) {
       return false;
     }
   }
-  objRef.setXpathValue=this.setXpathValue;
 
   /**
    * Load a Model's document.  
    * This will only occur if the model.url property is set. 
    * Calling this method triggers several events:
    *   modelStatus - to indicate that the model state is changing
-   *   newModel - to give widgetrs a chance to clear themselves before the doc is loaded
+   *   newModel - to give widgets a chance to clear themselves before the doc is loaded
    *   loadModel - to indicate that the document is loaded successfully
-   *   refresh - to indicate that widgets should be refreshed
    *
    * @param objRef Pointer to the model object being loaded.
    */
   this.loadModelDoc = function(objRef){
+    //alert("loading:"+objRef.url);
     objRef.setParam("modelStatus","loading");
 
     objRef.callListeners( "newModel" );
@@ -164,12 +161,14 @@ function ModelBase(objRef, modelNode, parentModel) {
           if (objRef.method == "get") {
             sUri = getProxyPlusUrl(sUri);
           } else {
-            xmlHttp.setRequestHeader("content-type",objRef.contentType);
-            xmlHttp.setRequestHeader("serverUrl",sUri);
             sUri = config.proxyUrl;
           }
         }
         xmlHttp.open(objRef.method, sUri, objRef.async);
+        if (objRef.method == "post") {
+          xmlHttp.setRequestHeader("content-type",objRef.contentType);
+          xmlHttp.setRequestHeader("serverUrl",objRef.url);
+        }
         
         xmlHttp.onreadystatechange = function() {
           objRef.setParam("modelStatus",xmlHttp.readyState);
@@ -216,7 +215,6 @@ function ModelBase(objRef, modelNode, parentModel) {
       //alert("url parameter required for loadModelDoc");
     }
   }
-  objRef.loadModelDoc = this.loadModelDoc;
 
   /**
    * Common steps to be carried out after all manner of model loading
@@ -229,10 +227,9 @@ function ModelBase(objRef, modelNode, parentModel) {
     if (this.namespace) Sarissa.setXpathNamespaces(this.doc, this.namespace);
 
     // Show the newly loaded XML document
-    if(this.debug) alert("Loading Model:"+objRef.id+" "+Sarissa.serialize(this.doc));
+    if(this.debug) alert("Loading Model:"+this.id+" "+Sarissa.serialize(this.doc));
     this.callListeners("loadModel");
   }
-  objRef.finishLoading = this.finishLoading;
 
   /**
    * Load XML for a model from an httpPayload object.  This will also handle
@@ -266,7 +263,6 @@ function ModelBase(objRef, modelNode, parentModel) {
     objRef.postData = httpPayload.postData;
     objRef.loadModelDoc(objRef);
   }
-  objRef.newRequest = this.newRequest;
 
  /**
    * save the model by posting it to the serializeUrl, which is defined as a 
@@ -285,7 +281,6 @@ function ModelBase(objRef, modelNode, parentModel) {
       alert("serializeUrl must be specified in config to save a model");
     }
   }
-  objRef.saveModel = this.saveModel;
 
   /**
    * Creates all mapbuilder JavaScript objects based on the Object nodes defined
@@ -306,7 +301,6 @@ function ModelBase(objRef, modelNode, parentModel) {
       alert("error creating object:" + objType);
     }
   }
-  objRef.createObject = this.createObject;
 
   /**
    * Creates all the mapbuilder objects from the config file as selected by the
@@ -320,14 +314,13 @@ function ModelBase(objRef, modelNode, parentModel) {
       this.createObject( configObjects[i]);
     }
   }
-  objRef.loadObjects = this.loadObjects;
 
   /**
    * Initialization of all javascript model, widget and tool objects for this model. 
    * Calling this method triggers an init event for this model.
    * @param objRef Pointer to this object.
    */
-  objRef.parseConfig = function(objRef) {
+  this.parseConfig = function(objRef) {
     objRef.loadObjects("mb:widgets/*");
     objRef.loadObjects("mb:tools/*");
     objRef.loadObjects("mb:models/*");
@@ -338,38 +331,37 @@ function ModelBase(objRef, modelNode, parentModel) {
    * the model document is loaded
    * @param objRef Pointer to this object.
    */
-  objRef.refresh = function(objRef) {
+  this.refresh = function(objRef) {
     objRef.callListeners("refresh");
   }
-  objRef.addListener("loadModel",objRef.refresh, objRef);
+  this.addListener("loadModel",this.refresh, this);
 
   /**
    * Listener registered with the parent model to call init listeners when 
    * the parent model is init'ed
    * @param objRef Pointer to this object.
    */
-  objRef.init = function(objRef) {
+  this.init = function(objRef) {
     objRef.callListeners("init");
   }
-  if (parentModel) parentModel.addListener("init",objRef.init, objRef);
 
   /**
    * Listener registered with the parent model to remove the doc and url 
    * of child models whenever the parent is reloaded.
    * @param objRef Pointer to this object.
    */
-  objRef.clearModel = function(objRef) {
+  this.clearModel = function(objRef) {
     objRef.doc=null;
     objRef.url=null;
   }
 
-  if (parentModel) objRef.parseConfig(objRef);
-
   //don't load in models and widgets if this is the config doc, 
   //defer that to an explcit config.init() call in mapbuilder.js
-  if (parentModel && !objRef.template) {
-    objRef.parentModel = parentModel;
-    parentModel.addListener("loadModel",objRef.loadModelDoc, objRef);
-    parentModel.addListener("newModel", objRef.clearModel, objRef);
+  if (parentModel) {
+    this.parentModel = parentModel;
+    this.parentModel.addListener("init",this.init, this);
+    this.parentModel.addListener("loadModel",this.loadModelDoc, this);
+    this.parentModel.addListener("newModel", this.clearModel, this);
+    this.parseConfig(this);
   }
 }

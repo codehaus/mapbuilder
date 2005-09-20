@@ -16,7 +16,7 @@ $Id$
  */
 function GetMap(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(this, modelNode, parent);
+  ModelBase.apply(this, new Array(modelNode, parent));
   this.namespace = "xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs'";
 
   this.prePaint = function(objRef) {

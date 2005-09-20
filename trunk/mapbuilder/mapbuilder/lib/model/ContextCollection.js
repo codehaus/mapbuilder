@@ -14,7 +14,7 @@ $Id$
  */
 function ContextCollection(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(this, modelNode, parent);
+  ModelBase.apply(this, new Array(modelNode, parent));
 
   /** Insert a new context.
     * @param context An XML node which describes the context.

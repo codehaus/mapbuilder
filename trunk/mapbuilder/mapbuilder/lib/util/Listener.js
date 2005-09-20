@@ -9,7 +9,7 @@ $Id$
  * @constructor
  * @author Cameron Shorter
  */
-function Listener(objRef) {
+function Listener() {
   /** An array [params] of (listener, target). */
   this.listeners=new Array();
 
@@ -91,7 +91,11 @@ function Listener(objRef) {
       for(var i=0;i<count;i++){
         if (window.logger) logger.logEvent(param,this.id,this.listeners[param][i][1].id,value);
         //this is listenerFunction(target,value)
-        this.listeners[param][i][0](this.listeners[param][i][1],value);
+        if (this.listeners[param][i][0]) {
+          this.listeners[param][i][0](this.listeners[param][i][1],value);
+        } else {
+          alert("Listener error:"+param+":"+this.listeners[param][i][1].id);
+        }
       }
     }
   }
@@ -120,8 +124,4 @@ function Listener(objRef) {
   this.getParam=function(param) {
     return this.values[param];
   }
-
-  for (sProperty in this) { 
-    objRef[sProperty] = this[sProperty]; 
-  } 
 }

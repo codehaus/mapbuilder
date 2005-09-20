@@ -13,7 +13,7 @@ $Id$
  */
 function Logger(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(this, modelNode, parent);
+  ModelBase.apply(this, new Array(modelNode, parent));
   this.namespace = "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder'";
 
   //create a new document
