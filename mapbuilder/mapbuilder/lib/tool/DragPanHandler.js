@@ -17,7 +17,7 @@ $Id$
  */
 
 function DragPanHandler(toolNode, model) {
-  var base = new ToolBase(this, toolNode, model);
+  ToolBase.apply(this, new Array(toolNode, model));
 
   /**
    * Process the mouseup action.  This will reset the AOI on the model by 

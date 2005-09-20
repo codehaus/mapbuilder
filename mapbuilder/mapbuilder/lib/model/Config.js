@@ -118,7 +118,7 @@ function Config(url) {
   this.objects = new Object();
 
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(this, modelNode);
+  ModelBase.apply(this, new Array(modelNode));
 
   /**
    * Load a model and its child models, widgets and tools.

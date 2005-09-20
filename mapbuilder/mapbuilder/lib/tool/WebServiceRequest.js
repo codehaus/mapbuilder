@@ -23,7 +23,7 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * @param model    The model that this tool belongs to
  */
 function WebServiceRequest(toolNode, model) {
-  var base = new ToolBase(this, toolNode, model);
+  ToolBase.apply(this, new Array(toolNode, model));
   
   //get the request name to add listener to
   var requestName = toolNode.selectSingleNode("mb:requestName");
@@ -112,7 +112,7 @@ function WebServiceRequest(toolNode, model) {
     this.stylesheet.setParameter("httpMethod", httpPayload.method );
     httpPayload.postData = this.stylesheet.transformNodeToObject(feature);
     //alert("request data:"+Sarissa.serialize(httpPayload.postData));
-    var response = postLoad(config.serializeUrl, httpPayload.postData);
+    //var response = postLoad(config.serializeUrl, httpPayload.postData);
 
     //allow the tool to have a serverUrl property which overrides the model server URL
     //TBD: this still used?

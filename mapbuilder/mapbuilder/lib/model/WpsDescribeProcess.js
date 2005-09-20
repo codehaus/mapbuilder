@@ -10,11 +10,11 @@ $Id$
  * @constructor
  * @author Mike Adair
  * @param modelNode   The model's XML object node from the configuration document.
- * @param parentModel The model object that this widget belongs to.
+ * @param parent The model object that this widget belongs to.
  */
-function WpsDescribeProcess(modelNode, parentModel) {
+function WpsDescribeProcess(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(this, modelNode, parentModel);
+  ModelBase.apply(this, new Array(modelNode, parent));
 
   this.namespace = "xmlns:wps='http://www.opengis.net/wps' xmlns:ows='http://www.opengis.net/ows' xmlns:xlink='http://www.w3.org/1999/xlink'";
 

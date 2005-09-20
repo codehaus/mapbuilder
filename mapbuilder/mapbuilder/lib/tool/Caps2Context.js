@@ -18,7 +18,7 @@
 
 function Caps2Context(toolNode, model) {
 
-  var base = new ToolBase(this, toolNode, model);
+  ToolBase.apply(this, new Array(toolNode, model));
 
   
 

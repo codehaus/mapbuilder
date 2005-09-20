@@ -6,20 +6,20 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
  * Widget to display a list of resources in a context doc to be selected for use
  * as input to another form.
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @param widgetNode This widget's object node from the configuration document.
  * @param model The model that this widget is a view of.
  */
 
 
 function ResourceDropDown(widgetNode, model) {
-  var base = new WidgetBase(this, widgetNode, model);
+  WidgetBaseXSL.apply(this, new Array(widgetNode, model));
 
   /**
    * Change the AOI coordinates from select box choice of prefined locations

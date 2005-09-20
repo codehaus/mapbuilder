@@ -18,7 +18,7 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * @param model  the model object that contains this tool
  */
 function MovieLoop(toolNode, model) {
-  var base = new ToolBase(this, toolNode, model);
+  ToolBase.apply(this, new Array(toolNode, model));
 
   this.frameIncrement = 1;
   this.model.setParam("firstFrame", 0);

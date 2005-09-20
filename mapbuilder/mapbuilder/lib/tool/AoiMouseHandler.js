@@ -22,7 +22,7 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  */
 
 function AoiMouseHandler(toolNode, model) {
-  var base = new ToolBase(this, toolNode, model);
+  ToolBase.apply(this, new Array(toolNode, model));
 
   /**
    * Process the mouseup action by stopping the drag.

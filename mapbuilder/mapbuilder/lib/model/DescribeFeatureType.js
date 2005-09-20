@@ -15,6 +15,6 @@ $Id$
  */
 function DescribeFeatureType(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(this, modelNode, parent);
+  ModelBase.apply(this, new Array(modelNode, parent));
 }
 

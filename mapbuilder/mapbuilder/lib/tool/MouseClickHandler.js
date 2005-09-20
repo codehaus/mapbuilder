@@ -20,7 +20,7 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * @param model     The model object that contains this tool
  */
 function MouseClickHandler(toolNode, model) {
-  var base = new ToolBase(this, toolNode, model);
+  ToolBase.apply(this, new Array(toolNode, model));
 
   /**
    * Process a mouse click action.

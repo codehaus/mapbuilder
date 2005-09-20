@@ -10,11 +10,11 @@ $Id$
  * @constructor
  * @author Mike Adair
  * @param modelNode   The model's XML object node from the configuration document.
- * @param parentModel The model object that this widget belongs to.
+ * @param parent The model object that this widget belongs to.
  */
-function WmsCapabilities(modelNode, parentModel) {
+function WmsCapabilities(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(this, modelNode, parentModel);
+  ModelBase.apply(this, new Array(modelNode, parent));
 
   this.namespace = "xmlns:wms='http://www.opengis.net/wms' xmlns:xlink='http://www.w3.org/1999/xlink'";
 

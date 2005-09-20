@@ -16,7 +16,7 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * @param model       The model object that this widget belongs to.
  */
 function EditContext(toolNode, model) {
-  var base = new ToolBase(this, toolNode, model);
+  ToolBase.apply(this, new Array(toolNode, model));
 
   var styleUrl = baseDir+"/tool/xsl/wmc_AddResource.xsl";   //TBD figure out a way to set this for other operations
   this.stylesheet = new XslProcessor(styleUrl);

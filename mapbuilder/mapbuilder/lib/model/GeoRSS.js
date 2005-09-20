@@ -16,7 +16,7 @@ $Id$
   */
 function GeoRSS(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
-  var modelBase = new ModelBase(this, modelNode, parent);
+  ModelBase.apply(this, new Array(modelNode, parent));
 
   /**
    * convert coordinates in the GML document to the SRS of the map container, 
