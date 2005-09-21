@@ -188,6 +188,15 @@ function Context(modelNode, parent) {
   }
 
   /**
+   * Method to get a list of queryable layers
+   * @return the list with queryable layers
+   */
+  this.getQueryableLayers = function() {
+    var listNodeArray = this.doc.selectNodes("/wmc:ViewContext/wmc:LayerList/wmc:Layer[attribute::queryable='1']/wmc:Name");
+    return listNodeArray;
+  }
+
+  /**
    * Method to add a Layer to the LayerList
    * @param layerNode the Layer node from another context doc or capabiltiies doc
    */
