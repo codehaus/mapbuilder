@@ -6,7 +6,6 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
-
 /**
  * Implements WMS GetFeatureInfo functionality, popping up a query result
  * window when user clicks on map.
@@ -14,20 +13,21 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * @base ButtonBase
  * @author Nedjo
  * @constructor
- * @param widgetNode The XML node in the Config file referencing this object.
+ * @param toolNode The XML node in the Config file referencing this object.
  * @param model The widget object which this tool is associated with.
  */
-function GetFeatureInfo(widgetNode, model) {
+function GetFeatureInfo(toolNode, model) {
   // Extend ButtonBase
-  ButtonBase.apply(this, new Array(widgetNode, model));
+  ButtonBase.apply(this, new Array(toolNode, model));
 
   /** Xsl to build a GetFeatureInfo URL */
   this.xsl=new XslProcessor(baseDir+"/tool/GetFeatureInfo.xsl");
   
   /** Determine whether Query result is returned as HTML or GML */
   // TBD This should be stored in the Config file.
-  //this.infoFormat="application/vnd.ogc.gml";
-  this.infoFormat="text/html";
+  this.infoFormat="application/vnd.ogc.gml";
+  //this.infoFormat="text/plain";
+  //this.infoFormat="text/html";
 
   /**
    * Open window with query info.
@@ -40,7 +40,33 @@ function GetFeatureInfo(widgetNode, model) {
     if (objRef.enabled) {
       var selectedLayer=objRef.context.getParam("selectedLayer");
       if (selectedLayer==null) {
-        alert("Query layer not selected, select a queryable layer in the Legend.");
+        var queryList=objRef.context.getQueryableLayers();
+      	if (queryList==null) {
+           alert("There are no queryable layers available, please add a queryable layer to the context.");
+           return;
+      	}
+        // Steven added the following code to query multiple layers.
+        else {
+          for (var i=0; i<queryList.length; ++i) {
+            var layerNode=queryList[i];
+            var layerName=layerNode.firstChild.data;
+            objRef.xsl.setParameter("queryLayer", layerName);
+            objRef.xsl.setParameter("xCoord", targetNode.evpl[0]);
+            objRef.xsl.setParameter("yCoord", targetNode.evpl[1]);
+            objRef.xsl.setParameter("infoFormat", objRef.infoFormat);
+            objRef.xsl.setParameter("featureCount", "1");
+
+            urlNode=objRef.xsl.transformNodeToObject(objRef.context.doc);
+            url=urlNode.documentElement.firstChild.nodeValue;
+alert(url);
+            httpPayload = new Object();
+	          httpPayload.url = url;
+            httpPayload.method="get";
+            httpPayload.postData=null;
+            objRef.targetModel.newRequest(objRef.targetModel,httpPayload);    
+            }
+          }
+        }
       }
       else {
         objRef.xsl.setParameter("queryLayer", selectedLayer);
@@ -51,14 +77,13 @@ function GetFeatureInfo(widgetNode, model) {
 
         urlNode=objRef.xsl.transformNodeToObject(objRef.context.doc);
         url=urlNode.documentElement.firstChild.nodeValue;
-        //alert("GetFeatureInfo: url="+url);
 
         if (objRef.infoFormat=="text/html"){
           window.open(url,'queryWin','height=200,width=300,scrollbars=yes');
         }
-      }
+      } 
     }
-  }
+  
 
   /**
    * Register for mouseUp events.
