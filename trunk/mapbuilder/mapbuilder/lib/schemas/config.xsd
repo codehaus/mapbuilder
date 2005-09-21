@@ -295,6 +295,7 @@
 				<xs:sequence>
 					<xs:element name="lineColor"/>
 					<xs:element name="lineWidth"/>
+					<xs:element name="fill"/>
 					<xs:element name="pointDiameter" type="xs:integer"/>
 				</xs:sequence>
 			</xs:extension>
