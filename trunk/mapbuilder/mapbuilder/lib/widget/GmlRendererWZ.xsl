@@ -48,6 +48,8 @@ $Name$
 
   <xsl:param name="lineWidth" select="1"/>
 
+  <xsl:param name="fill" select="'grey'"/>
+
   <xsl:param name="crossSize" select="0"/>
 
   <xsl:param name="skinDir"/>
@@ -194,7 +196,7 @@ $Name$
 
   <!-- Match and render a LineString -->
 
-  <xsl:template match="gml:LineString | gml:LinearRing">
+  <xsl:template match="gml:LineString">
 
     <xsl:choose>
 
@@ -221,6 +223,94 @@ $Name$
           </xsl:if>
 
         </xsl:for-each>
+
+      </xsl:when>
+
+
+
+      <!-- When one coord, draw point -->
+
+      <xsl:otherwise>
+
+        <xsl:variable name="x0" select="floor((number(gml:coord/gml:X)-$bBoxMinX)*$xRatio - number($pointWidth) div 2)"/>
+
+        <xsl:variable name="y0" select="floor($height - (number(gml:coord/gml:Y)-$bBoxMinY)*$yRatio - $pointWidth div 2)"/>
+
+
+
+        // LineString - One point
+
+        objRef.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointWidth"/>,<xsl:value-of select="$pointWidth"/>);
+
+      </xsl:otherwise>
+
+    </xsl:choose>
+
+  </xsl:template>
+
+
+
+  <!-- Match and render a Polygon -->
+
+  <xsl:template match="gml:LinearRing">
+
+    <xsl:choose>
+
+      <xsl:when test="count(gml:coord)!=1">
+
+      	<!-- Fill Polygon -->
+
+        objRef.jg.setColor("<xsl:value-of select="$fill"/>");
+
+        objRef.jg.fillPolygon(new Array( 
+
+        <xsl:for-each select="gml:coord">
+
+          <xsl:value-of select="floor((number(gml:X)-$bBoxMinX)*$xRatio)"/>
+
+	  <xsl:if test="following-sibling::gml:coord">,</xsl:if>
+
+        </xsl:for-each>
+
+	),new Array(
+
+        <xsl:for-each select="gml:coord">
+
+          <xsl:value-of select="floor($height - (number(gml:Y) -$bBoxMinY)*$yRatio)"/>
+
+	  <xsl:if test="following-sibling::gml:coord">,</xsl:if>
+
+        </xsl:for-each>
+
+	));
+
+
+
+        <!-- Outline Polygon -->
+
+        objRef.jg.setColor("<xsl:value-of select="$lineColor"/>");
+
+        objRef.jg.drawPolygon(new Array( 
+
+        <xsl:for-each select="gml:coord">
+
+          <xsl:value-of select="floor((number(gml:X)-$bBoxMinX)*$xRatio)"/>
+
+	  <xsl:if test="following-sibling::gml:coord">,</xsl:if>
+
+        </xsl:for-each>
+
+	),new Array(
+
+        <xsl:for-each select="gml:coord">
+
+          <xsl:value-of select="floor($height - (number(gml:Y) -$bBoxMinY)*$yRatio)"/>
+
+	  <xsl:if test="following-sibling::gml:coord">,</xsl:if>
+
+        </xsl:for-each>
+
+	));
 
       </xsl:when>
 
