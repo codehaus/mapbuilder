@@ -31,10 +31,9 @@ function FeatureCollection(modelNode, parent) {
   this.convertCoords = function(objRef) {
     var coordNodes = objRef.doc.selectNodes("//gml:coordinates");
     if (coordNodes.length>0) {
-      //var srsName = coordNodes[0].parentNode.getAttribute("srsName");
       var srsNode = coordNodes[0].selectSingleNode("ancestor-or-self::*/@srsName");
-      var sourceProj = new Proj(srsNode.nodeValue);
-      if ( !sourceProj.matchSrs( objRef.containerModel.getSRS() )) {  
+      if ( srsNode.nodeValue.toUpperCase() != objRef.containerModel.getSRS().toUpperCase() ) {
+        var sourceProj = new Proj(srsNode.nodeValue);
         objRef.setParam("modelStatus","converting coordinates");
         var containerProj = new Proj(objRef.containerModel.getSRS());
         for (var i=0; i<coordNodes.length; ++i) {
