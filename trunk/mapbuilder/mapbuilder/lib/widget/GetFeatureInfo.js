@@ -41,7 +41,7 @@ function GetFeatureInfo(toolNode, model) {
       var selectedLayer=objRef.context.getParam("selectedLayer");
       if (selectedLayer==null) {
         var queryList=objRef.context.getQueryableLayers();
-      	if (queryList==null) {
+      	if (queryList.length==0) {
            alert("There are no queryable layers available, please add a queryable layer to the context.");
            return;
       	}
@@ -58,7 +58,6 @@ function GetFeatureInfo(toolNode, model) {
 
             urlNode=objRef.xsl.transformNodeToObject(objRef.context.doc);
             url=urlNode.documentElement.firstChild.nodeValue;
-alert(url);
             httpPayload = new Object();
 	          httpPayload.url = url;
             httpPayload.method="get";
