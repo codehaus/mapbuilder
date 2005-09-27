@@ -53,6 +53,20 @@ function DragPanHandler(toolNode, model) {
       objRef.anchorPoint = targetNode.evpl;
       objRef.deltaP = 0;
       objRef.deltaL = 0;
+//Michael Jenik added this
+      //objRef.oldPos stores the old positions of targetNode.childNodes divs
+      var images=targetNode.childNodes;
+      objRef.oldPos = new Array(images.length);
+      for(var i=0; i<images.length; i++) {
+        var img=images.item(i);
+        var P = img.style.left;
+        var L = img.style.top;
+        if(P && L)
+          objRef.oldPos[i] = new Array(parseInt(P),parseInt(L));
+        else
+          objRef.oldPos[i] = new Array(0,0);
+      }
+
     }
   }
 
@@ -73,8 +87,9 @@ function DragPanHandler(toolNode, model) {
         var images=targetNode.childNodes;
         for(var i=0; i<images.length; i++) {
           var img=images.item(i);
-          img.style.left=objRef.deltaP;
-          img.style.top=objRef.deltaL;
+//Michael Jenik added the plus ...
+          img.style.left=objRef.deltaP + objRef.oldPos[i][0];
+          img.style.top=objRef.deltaL + objRef.oldPos[i][1];
         }
       
         //use this form if dragging the container node
