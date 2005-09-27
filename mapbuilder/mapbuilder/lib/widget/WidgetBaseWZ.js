@@ -22,9 +22,9 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */
-function WidgetBaseWZ(widget,widgetNode,model) {
+function WidgetBaseWZ(widgetNode,model) {
   // Extend WidgetBase
-  var base = new WidgetBase(widget, widgetNode, model);
+  WidgetBase.apply(this, new Array(widgetNode, model));
 
   // Set this.stylesheet
   // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
