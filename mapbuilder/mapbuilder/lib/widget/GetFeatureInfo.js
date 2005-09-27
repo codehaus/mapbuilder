@@ -66,21 +66,21 @@ function GetFeatureInfo(toolNode, model) {
             }
           }
         }
-      }
-      else {
-        objRef.xsl.setParameter("queryLayer", selectedLayer);
-        objRef.xsl.setParameter("xCoord", targetNode.evpl[0]);
-        objRef.xsl.setParameter("yCoord", targetNode.evpl[1]);
-        objRef.xsl.setParameter("infoFormat", objRef.infoFormat);
-        objRef.xsl.setParameter("featureCount", "1");
+        else {
+          objRef.xsl.setParameter("queryLayer", selectedLayer);
+          objRef.xsl.setParameter("xCoord", targetNode.evpl[0]);
+          objRef.xsl.setParameter("yCoord", targetNode.evpl[1]);
+          objRef.xsl.setParameter("infoFormat", objRef.infoFormat);
+          objRef.xsl.setParameter("featureCount", "1");
 
-        urlNode=objRef.xsl.transformNodeToObject(objRef.context.doc);
-        url=urlNode.documentElement.firstChild.nodeValue;
+          urlNode=objRef.xsl.transformNodeToObject(objRef.context.doc);
+          url=urlNode.documentElement.firstChild.nodeValue;
 
-        if (objRef.infoFormat=="text/html"){
-          window.open(url,'queryWin','height=200,width=300,scrollbars=yes');
+          if (objRef.infoFormat=="text/html"){
+            window.open(url,'queryWin','height=200,width=300,scrollbars=yes');
+          }
         }
-      } 
+      }
     }
   
 
