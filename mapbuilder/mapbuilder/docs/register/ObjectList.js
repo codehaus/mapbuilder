@@ -20,7 +20,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 
 function ObjectList(widgetNode, model) {
-  var base = new WidgetBase(this, widgetNode, model);
+  WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
 /**
  * Change the AOI coordinates from select box choice of prefined locations
