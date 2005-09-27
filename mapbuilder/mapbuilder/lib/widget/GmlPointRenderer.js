@@ -29,10 +29,36 @@ function GmlPointRenderer(widgetNode, model) {
   this.normalImage = widgetNode.selectSingleNode("mb:normalImage").firstChild.nodeValue; 
   this.highlightImage = widgetNode.selectSingleNode("mb:highlightImage").firstChild.nodeValue; 
 
+  this.model.addListener("refresh",this.paint, this); 
+
+  /** highlights the selected feature by switching to the highlight image
+    * @param objRef a pointer to this widget object
+    */
+  this.highlight = function(objRef, featureId) {
+    var normalImageDiv = document.getElementById(featureId+"_normal");
+    normalImageDiv.style.visibility = "hidden";
+    var highlightImageDiv = document.getElementById(featureId+"_highlight");
+    highlightImageDiv.style.visibility = "visible";
+  }
+  this.model.addListener("highlightFeature",this.highlight, this);
+
+  /** highlights the selected feature by switching to the highlight image
+    * @param objRef a pointer to this widget object
+    */
+  this.dehighlight = function(objRef, featureId) {
+    var normalImageDiv = document.getElementById(featureId+"_normal");
+    normalImageDiv.style.visibility = "visible";
+    var highlightImageDiv = document.getElementById(featureId+"_highlight");
+    highlightImageDiv.style.visibility = "hidden";
+  }
+  this.model.addListener("dehighlightFeature",this.dehighlight, this);
+
+}
+
   /** draw the points by putting the image at the point
     * @param objRef a pointer to this widget object
     */
-  this.paint = function(objRef) {
+  GmlPointRenderer.prototype.paint = function(objRef) {
     if (objRef.model.doc && objRef.node) {
       var containerProj = new Proj(objRef.containerModel.getSRS());
       var features = objRef.model.getFeatureNodes();
@@ -79,28 +105,4 @@ function GmlPointRenderer(widgetNode, model) {
       }
     }
   }
-  this.model.addListener("refresh",this.paint, this); 
 
-  /** highlights the selected feature by switching to the highlight image
-    * @param objRef a pointer to this widget object
-    */
-  this.highlight = function(objRef, featureId) {
-    var normalImageDiv = document.getElementById(featureId+"_normal");
-    normalImageDiv.style.visibility = "hidden";
-    var highlightImageDiv = document.getElementById(featureId+"_highlight");
-    highlightImageDiv.style.visibility = "visible";
-  }
-  this.model.addListener("highlightFeature",this.highlight, this);
-
-  /** highlights the selected feature by switching to the highlight image
-    * @param objRef a pointer to this widget object
-    */
-  this.dehighlight = function(objRef, featureId) {
-    var normalImageDiv = document.getElementById(featureId+"_normal");
-    normalImageDiv.style.visibility = "visible";
-    var highlightImageDiv = document.getElementById(featureId+"_highlight");
-    highlightImageDiv.style.visibility = "hidden";
-  }
-  this.model.addListener("dehighlightFeature",this.dehighlight, this);
-
-}
