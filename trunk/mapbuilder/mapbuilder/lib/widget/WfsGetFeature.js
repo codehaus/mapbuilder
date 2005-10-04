@@ -21,6 +21,14 @@ function WfsGetFeature(toolNode, model) {
   this.tolerance= toolNode.selectSingleNode('mb:tolerance').firstChild.nodeValue;
   this.typeName= toolNode.selectSingleNode('mb:typeName').firstChild.nodeValue;
   this.webServiceUrl= toolNode.selectSingleNode('mb:webServiceUrl').firstChild.nodeValue;
+  this.httpPayload=new Object();
+  this.httpPayload.method="get";
+  this.httpPayload.postData=null;
+
+  /** Xsl to convert Feature into a WFS Transaction Insert. */
+  this.insertXsl=new XslProcessor(baseDir+"/tool/xsl/wfs_Insert.xsl");
+
+
 
   /**
    * Open window with query info.
@@ -39,8 +47,23 @@ function WfsGetFeature(toolNode, model) {
       alert("WfsGetFeature:res="+extent.res[0]);
       alert("WfsGetFeature:bbox1="+objRef.targetModel.getBoundingBox());
       bbox=(point[0]-xPixel)+","+(point[1]-yPixel)+","+(point[0]+xPixel)+","+(point[1]+yPixel);
-      URL=objRef.webServiceUrl+"?typeName="+objRef.typeName+"&bbox="+bbox;
-      alert("WfsGetFeature:URL="+URL);
+      objRef.httpPayload.url=objRef.webServiceUrl+"?typeName="+objRef.typeName+"&bbox="+bbox;
+      alert("WfsGetFeature:URL="+objRef.httpPayload.url);
+
+      /*
+      // Model that will be populated with the WFS response.
+      if (!objRef.transactionResponseModel){
+        objRef.transactionResponseModel=eval("config.objects."+objRef.trm);
+        //objRef.transactionResponseModel.addListener("loadModel",objRef.handleResponse, objRef);
+      }
+      if (!objRef.targetModel){
+        objRef.targetModel=eval("config.objects."+objRef.tm);
+      }
+      if (objRef.targetModel.doc){
+        s=objRef.insertXsl.transformNodeToObject(objRef.targetModel.doc);
+        objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
+      }else alert("No feature available to insert");
+      */
     }
   }
   
