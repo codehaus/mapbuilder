@@ -155,11 +155,23 @@
       <targetModel>featureCollection</targetModel>
       <class>Button</class>
       <disabledSrc>/images/SaveDisable.gif</disabledSrc>
-      <targetModel>featureCollection</targetModel>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
       <targetContext>mainMap</targetContext>
     </InsertFeature>
+    <WfsGetFeature id="wfsGetFeature">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainMouseClick</mouseHandler>
+      <class>RadioButton</class>
+      <disabledSrc>/images/QueryDisable.gif</disabledSrc>
+      <enabledSrc>/images/QueryEnable.gif</enabledSrc>
+      <typeName>topp:tasmania_cities,topp:tasmania_roads</typeName>
+      <tolerance>2</tolerance>
+      <transactionResponseModel>featureCollection</transactionResponseModel>
+      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
+      <!--targetContext>mainMap</targetContext-->
+    </WfsGetFeature>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
   <widgetTextUrl>/widgetText.xml</widgetTextUrl> <!-- relative to the skin dir -->
