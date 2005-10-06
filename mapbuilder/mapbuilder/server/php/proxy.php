@@ -116,7 +116,7 @@ class HTTP_Client {
       "Host:$this->host\r\n". 
       "User-Agent: $this->agent_name\r\n". 
       "Content-Type: application/xml\r\n". 
-      "Content-Length: ".strlen($post_data). 
+      "Content-Length: ".strlen($data). 
       "\r\n". 
       "\r\n".$data. 
       "\r\n" 
