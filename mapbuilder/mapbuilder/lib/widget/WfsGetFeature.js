@@ -12,23 +12,19 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * @constructor
  * @base ButtonBase
  * @author Cameron Shorter
- * @param toolNode The XML node in the Config file referencing this object.
+ * @param widgetNode The XML node in the Config file referencing this object.
  * @param model The Context object which this tool is associated with.
  */
-function WfsGetFeature(toolNode, model) {
+function WfsGetFeature(widgetNode, model) {
   // Extend ButtonBase
-  ButtonBase.apply(this, new Array(toolNode, model));
-  this.tolerance= toolNode.selectSingleNode('mb:tolerance').firstChild.nodeValue;
-  this.typeName= toolNode.selectSingleNode('mb:typeName').firstChild.nodeValue;
-  this.webServiceUrl= toolNode.selectSingleNode('mb:webServiceUrl').firstChild.nodeValue;
+  ButtonBase.apply(this, new Array(widgetNode, model));
+  this.tolerance= widgetNode.selectSingleNode('mb:tolerance').firstChild.nodeValue;
+  this.typeName= widgetNode.selectSingleNode('mb:typeName').firstChild.nodeValue;
+  this.webServiceUrl= widgetNode.selectSingleNode('mb:webServiceUrl').firstChild.nodeValue;
   this.httpPayload=new Object();
   this.httpPayload.method="get";
   this.httpPayload.postData=null;
-
-  /** Xsl to convert Feature into a WFS Transaction Insert. */
-  this.insertXsl=new XslProcessor(baseDir+"/tool/xsl/wfs_Insert.xsl");
-
-
+  this.trm=widgetNode.selectSingleNode("mb:transactionResponseModel").firstChild.nodeValue;
 
   /**
    * Open window with query info.
@@ -40,30 +36,18 @@ function WfsGetFeature(toolNode, model) {
     if (objRef.enabled) {
       extent=objRef.targetModel.extent;
       point=extent.getXY(targetNode.evpl);
-      xPixel=objRef.targetModel.getWindowWidth()*extent.res[0];
-      yPixel=objRef.targetModel.getWindowHeight()*extent.res[1];
-      //alert("WfsGetFeature:yPixel="+yPixel);
-      alert("WfsGetFeature:width="+objRef.targetModel.getWindowWidth());
-      alert("WfsGetFeature:res="+extent.res[0]);
-      alert("WfsGetFeature:bbox1="+objRef.targetModel.getBoundingBox());
+      xPixel=extent.res[0]*objRef.tolerance;
+      yPixel=extent.res[1]*objRef.tolerance;
       bbox=(point[0]-xPixel)+","+(point[1]-yPixel)+","+(point[0]+xPixel)+","+(point[1]+yPixel);
-      objRef.httpPayload.url=objRef.webServiceUrl+"?typeName="+objRef.typeName+"&bbox="+bbox;
+      objRef.httpPayload.url=objRef.webServiceUrl+"?request=GetFeature&typeName="+objRef.typeName+"&bbox="+bbox;
       alert("WfsGetFeature:URL="+objRef.httpPayload.url);
 
-      /*
       // Model that will be populated with the WFS response.
       if (!objRef.transactionResponseModel){
         objRef.transactionResponseModel=eval("config.objects."+objRef.trm);
         //objRef.transactionResponseModel.addListener("loadModel",objRef.handleResponse, objRef);
-      }
-      if (!objRef.targetModel){
-        objRef.targetModel=eval("config.objects."+objRef.tm);
-      }
-      if (objRef.targetModel.doc){
-        s=objRef.insertXsl.transformNodeToObject(objRef.targetModel.doc);
         objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
-      }else alert("No feature available to insert");
-      */
+      }
     }
   }
   
