@@ -93,12 +93,18 @@ function TabbedContent(widgetNode, model) {
    * @param tabWidget the widget to be selected
    */
   this.selectTab = function(tabWidget) {
+    if (!tabWidget.model.doc) {
+      alert("no data to show yet");
+      return;
+    }
     var tabList = tabWidget.tabList;
-    var newAnchor = document.getElementById(tabList.id+"_"+tabWidget.id);
     if (tabList.selectedTab!=null) tabList.selectedTab.className = '';
-    newAnchor.className = 'current';
-    tabList.selectedTab = newAnchor;
-    tabWidget.paint(tabWidget);
+    var newAnchor = document.getElementById(tabList.id+"_"+tabWidget.id);
+    if (newAnchor) {
+      newAnchor.className = 'current';
+      tabList.selectedTab = newAnchor;
+      tabWidget.paint(tabWidget,true);
+    }
     //tabWidget.targetModel.callListeners("refresh");
   }
 

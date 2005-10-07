@@ -68,9 +68,9 @@ function WidgetBaseXSL(widgetNode,model) {
    * Render the widget.
    * @param objRef Pointer to widget object.
    */
-  this.paint = function(objRef) {
+  this.paint = function(objRef, refresh) {
 
-    if (objRef.model.doc && objRef.node) {
+    if (objRef.model.doc && objRef.node && (objRef.autoRefresh||refresh) ) {
       objRef.stylesheet.setParameter("modelUrl", objRef.model.url);
       objRef.stylesheet.setParameter("targetModelId", objRef.targetModel.id );
 
