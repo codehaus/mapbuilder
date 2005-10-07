@@ -31,13 +31,19 @@ function WebServiceRequest(toolNode, model) {
     this.requestName = requestName.firstChild.nodeValue;
   }
 
+  //get the request filter to add to the request
+  var requestFilter = toolNode.selectSingleNode("mb:requestFilter");
+  if (requestFilter) {
+    this.requestFilter = requestFilter.firstChild.nodeValue;
+  }
+
   var styleUrl = baseDir+"/tool/xsl/"+this.requestName.replace(/:/,"_")+".xsl";
-  this.stylesheet = new XslProcessor(styleUrl);
+  this.requestStylesheet = new XslProcessor(styleUrl);
 
   // Set stylesheet parameters for all the child nodes from the config file
   for (var j=0;j<toolNode.childNodes.length;j++) {
     if (toolNode.childNodes[j].firstChild && toolNode.childNodes[j].firstChild.nodeValue) {
-      this.stylesheet.setParameter(toolNode.childNodes[j].nodeName,toolNode.childNodes[j].firstChild.nodeValue);
+      this.requestStylesheet.setParameter(toolNode.childNodes[j].nodeName,toolNode.childNodes[j].firstChild.nodeValue);
     }
   }
 
@@ -49,70 +55,26 @@ function WebServiceRequest(toolNode, model) {
   this.createHttpPayload = function(feature) {
     //confirm inputs
     if (this.debug) alert("source:"+Sarissa.serialize(feature));
-    //if (this.debug) alert("stylesheet:"+Sarissa.serialize(this.stylesheet.xslDom));
+    //if (this.debug) alert("stylesheet:"+Sarissa.serialize(this.requestStylesheet.xslDom));
 
-    var featureSRS = null;
-    //TBD: this is for ows wmc; other document types may need to set other params
-    //var namespacePrefixes = feature.ownerDocument._sarissa_xpathNamespaces;
-    //if (namespacePrefixes["wmc"]) {
-    if (feature.namespaceURI=="http://www.opengis.net/context") {
-      featureSRS = feature.selectSingleNode("wmc:SRS");  
-      if (feature.selectSingleNode("ogc:Filter")) {
-        this.stylesheet.setParameter("filter", escape(Sarissa.serialize(feature.selectSingleNode("ogc:Filter"))) );
-      }
-    } else if (feature.namespaceURI=="http://www.opengis.net/wfs") {
-      featureSRS = feature.selectSingleNode("wfs:SRS"); 
-    }
 
-    if (this.targetModel.containerModel) {
-
-      //this block is to get by a Mapserver WFS bug where the tuple separator 
-      //is set to a comma instead of space; and post method doesn't work
-      var ts = " ";
-/*
-      var comment = this.model.doc.documentElement.childNodes[1];
-      if (comment && comment.nodeType==comment.COMMENT_NODE) {
-        //alert(comment.nodeValue);
-        if (comment.nodeValue.substring("MapServer version 4.4.")) {
-          ts = ",";
-          this.targetModel.method="get";
-        }
-      }
-*/
-
-      var bbox = this.targetModel.containerModel.getBoundingBox();
-
-      //convert the BBOX to the feature SRS for the request
-      var containerSRS = this.targetModel.containerModel.getSRS();
-      if (featureSRS) {
-        var sourceProj = new Proj(featureSRS.firstChild.nodeValue);
-        if ( !sourceProj.matchSrs( containerSRS )) {  
-          var containerProj = new Proj(this.targetModel.containerModel.getSRS());
-          var llTemp = containerProj.Inverse(new Array(bbox[0],bbox[1]));
-          var xy = sourceProj.Forward(llTemp);
-          bbox[0] = xy[0]; bbox[1] = xy[1];
-          llTemp = containerProj.Inverse(new Array(bbox[2],bbox[3]));
-          xy = sourceProj.Forward(llTemp);
-          bbox[2] = xy[0]; bbox[3] = xy[1];
-        }
-      }
-      this.stylesheet.setParameter("bBoxMinX", bbox[0] );
-      this.stylesheet.setParameter("bBoxMinY", bbox[1] );
-      this.stylesheet.setParameter("bBoxMaxX", bbox[2] );
-      this.stylesheet.setParameter("bBoxMaxY", bbox[3] );
-      this.stylesheet.setParameter("srs", containerSRS );
-      this.stylesheet.setParameter("width", this.targetModel.containerModel.getWindowWidth() );
-      this.stylesheet.setParameter("height", this.targetModel.containerModel.getWindowHeight() );
-    }
-    this.stylesheet.setParameter("version", this.model.getVersion(feature) );
-
-    //process the doc with the stylesheet
+    //prepare the stylesheet
     var httpPayload = new Object();
     httpPayload.method = this.targetModel.method;
-    this.stylesheet.setParameter("httpMethod", httpPayload.method );
-    httpPayload.postData = this.stylesheet.transformNodeToObject(feature);
-    //alert("request data:"+Sarissa.serialize(httpPayload.postData));
-    //var response = postLoad(config.serializeUrl, httpPayload.postData);
+    this.requestStylesheet.setParameter("httpMethod", httpPayload.method );
+    this.requestStylesheet.setParameter("version", this.model.getVersion(feature) );
+    if (this.requestFilter) {
+      var filter = config.objects[this.requestFilter];
+      this.requestStylesheet.setParameter("filter", escape(Sarissa.serialize(filter.doc)) );
+      alert(Sarissa.serialize(filter.doc));
+    }
+
+    //process the doc with the stylesheet
+    httpPayload.postData = this.requestStylesheet.transformNodeToObject(feature);
+    if (this.debug) {
+      alert("request data:"+Sarissa.serialize(httpPayload.postData));
+      if (config.serializeUrl) var response = postLoad(config.serializeUrl, httpPayload.postData);
+    }
 
     //allow the tool to have a serverUrl property which overrides the model server URL
     //TBD: this still used?
@@ -134,6 +96,7 @@ function WebServiceRequest(toolNode, model) {
     return httpPayload;
   }
 
+
   /**
    * Listener function which will actually issue the request.  This method
    * will prepare the HTTP payload for a particular featureName.
@@ -144,8 +107,49 @@ function WebServiceRequest(toolNode, model) {
     objRef.targetModel.featureName = featureName;
 
     var feature = objRef.model.getFeatureNode(featureName);
+    if (objRef.model.setRequestParameters) objRef.model.setRequestParameters(featureName, objRef.requestStylesheet);
     var httpPayload = objRef.createHttpPayload(feature);
     objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
   }
   this.model.addListener(this.requestName.replace(/:/,"_"), this.doRequest, this);
+
+  this.setAoiParameters = function(objRef,bbox) {
+    if (objRef.targetModel.containerModel) {
+      var featureSRS = null;
+      var containerSRS = "EPSG:4326";
+      //var bbox = objRef.targetModel.containerModel.getBoundingBox();
+  /*
+      //convert the BBOX to the feature SRS for the request
+      var containerSRS = objRef.targetModel.containerModel.getSRS();
+      if (featureSRS) {
+        var sourceProj = new Proj(featureSRS.firstChild.nodeValue);
+        if ( !sourceProj.matchSrs( containerSRS )) {  
+          var containerProj = new Proj(objRef.targetModel.containerModel.getSRS());
+          var llTemp = containerProj.Inverse(new Array(bbox[0],bbox[1]));
+          var xy = sourceProj.Forward(llTemp);
+          bbox[0] = xy[0]; bbox[1] = xy[1];
+          llTemp = containerProj.Inverse(new Array(bbox[2],bbox[3]));
+          xy = sourceProj.Forward(llTemp);
+          bbox[2] = xy[0]; bbox[3] = xy[1];
+        }
+      }
+  */
+      objRef.requestStylesheet.setParameter("bBoxMinX", bbox[0][0] );
+      objRef.requestStylesheet.setParameter("bBoxMinY", bbox[1][1] );
+      objRef.requestStylesheet.setParameter("bBoxMaxX", bbox[1][0] );
+      objRef.requestStylesheet.setParameter("bBoxMaxY", bbox[0][1] );
+      objRef.requestStylesheet.setParameter("srs", containerSRS );
+      objRef.requestStylesheet.setParameter("width", objRef.targetModel.containerModel.getWindowWidth() );
+      objRef.requestStylesheet.setParameter("height", objRef.targetModel.containerModel.getWindowHeight() );
+    }
+  }
+
+  this.init = function(objRef) {
+    if (objRef.targetModel.containerModel) {
+      objRef.targetModel.containerModel.addListener("aoi", objRef.setAoiParameters, objRef);
+      //TBD: another one for bbox
+    }
+  }
+  this.model.addListener("init", this.init, this);
+
 }
