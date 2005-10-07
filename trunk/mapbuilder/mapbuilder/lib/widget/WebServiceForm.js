@@ -42,13 +42,10 @@ function WebServiceForm(widgetNode, model) {
     }
     if (this.debug) alert(webServiceUrl);
 
-    // if the targetModel is a template model, then create new model object and
-    // assign it an id
-    if (this.targetModel.template) {
-      this.targetModel.modelNode.removeAttribute("id");
-      this.targetModel = this.model.createObject(this.targetModel.modelNode);
-    }
-    config.loadModel( this.targetModel.id, webServiceUrl);
+    var httpPayload = new Object();
+    httpPayload.method = "get";
+    httpPayload.url = webServiceUrl;
+    this.targetModel.newRequest(this.targetModel,httpPayload);
   }
 
   /**
