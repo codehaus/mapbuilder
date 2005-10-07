@@ -3,6 +3,7 @@
   <head>
     <title>Mapbuilder Context Editor Prototype</title>
     <link rel="stylesheet" href="../../lib/skin/default/mapStyle.css" type="text/css">
+    <link rel='StyleSheet' type='text/css' href='tabList.css'>
     <script>
       // URL of Mapbuilder configuration file.
       var mbConfigUrl='contextEditor.xml';
@@ -26,8 +27,12 @@
             Browse WMS servers</a><br/>
             <a href="javascript:config.loadModel('wfsServers','http://geodiscover.cgdi.ca/ceonetWeb/biz?request=searchForService&language=en&levelOfDetail=brief&serviceType=CgdiFeatureServices')">
             Browse WFS servers</a><br/>
-            <a href="javascript:config.paintWidget(config.objects.legend)">
+            <a href="javascript:config.paintWidget(config.objects.contextLegend)">
             Map layer control</a><br/>
+            <a href="javascript:config.paintWidget(config.objects.owsCatSearchForm)">
+            Search form</a><br/>
+            <a href="javascript:config.saveModel(config)">
+            Save config</a><br/>
         </td>
         <td>
           <table width="100%">
@@ -59,8 +64,7 @@
               </td>
             </tr>
             <tr>
-              <td align="left" id="mainTabs">
-                model tabs
+              <td align="left" id="tabBar">
               </td>
             </tr>
             <tr>
