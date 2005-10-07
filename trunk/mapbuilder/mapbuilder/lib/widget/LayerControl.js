@@ -37,7 +37,7 @@ function LayerControl(widgetNode, model) {
     var layerId = this.model.id + "_" + "mainMapWidget" + "_" + layerName;
     var previewImage = document.getElementById("previewImage");
     var layer = document.getElementById(layerId);
-    previewImage.src = layer.firstChild.src;
+    if (previewImage) previewImage.src = layer.firstChild.src;
   }
 
   /**
