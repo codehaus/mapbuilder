@@ -234,7 +234,8 @@ TBD: when called as a listener this gets a bbox array passed in, not initialRes 
 
   this.firstInit = function(extent, initialRes) {
   	extent.init(extent, initialRes);
-	extent.zoomToBox(extent.ul,extent.lr);
+    //TBD: this causes 2 paint() calls on initial load, not sure why it's here - MA
+	  //extent.zoomToBox(extent.ul,extent.lr);
   }
 
 }
