@@ -33,9 +33,11 @@ function WidgetBase(widgetNode,model) {
   }
 
   //allow the widget output to be replaced on each paint call
+  this.autoRefresh = true;
   var outputNode = widgetNode.selectSingleNode("mb:outputNodeId");
   if ( outputNode ) {
     this.outputNodeId = outputNode.firstChild.nodeValue;
+    this.autoRefresh = false;
   } else {
     this.outputNodeId = "MbWidget_" + mbIds.getId();
   }

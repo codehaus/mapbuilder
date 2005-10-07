@@ -110,7 +110,7 @@ function ModelBase(modelNode, parentModel) {
    * @return Returns false if Xpath does not find a node.
    */
   this.setXpathValue=function(objRef,xpath,value){
-    node=objRef.doc.selectSingleNode(xpath);
+    var node=objRef.doc.selectSingleNode(xpath);
     if(node){
       if(node.firstChild){
         node.firstChild.nodeValue=value;
@@ -140,8 +140,8 @@ function ModelBase(modelNode, parentModel) {
     //alert("loading:"+objRef.url);
     objRef.setParam("modelStatus","loading");
 
-    objRef.callListeners( "newModel" );
     if (objRef.url) {
+      objRef.callListeners( "newModel" );
 
       if (objRef.contentType == "image") {
         //image models are set as a DOM image object
@@ -333,7 +333,7 @@ function ModelBase(modelNode, parentModel) {
    * @param objRef Pointer to this object.
    */
   this.refresh = function(objRef) {
-    objRef.callListeners("refresh");
+    objRef.setParam("refresh",true);
   }
   this.addListener("loadModel",this.refresh, this);
 
@@ -353,7 +353,7 @@ function ModelBase(modelNode, parentModel) {
    */
   this.clearModel = function(objRef) {
     objRef.doc=null;
-    objRef.url=null;
+    //objRef.url=null;
   }
 
   //don't load in models and widgets if this is the config doc, 
