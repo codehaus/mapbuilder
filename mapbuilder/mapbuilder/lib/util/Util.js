@@ -63,6 +63,10 @@ function XslProcessor(xslUrl,docNSUri) {
    */
   this.setParameter=function(paramName, paramValue, nsUri) {
     //if ( typeof paramValue == "string" || typeof paramValue == "number") paramValue="'"+paramValue+"'";
+    if (!paramValue) {
+      alert("null value for stylesheet param:"+paramName+":"+paramValue);
+      return;
+    }
     this.processor.setParameter( null, paramName, paramValue);
   }
 }
