@@ -15,15 +15,16 @@ $Name$
     xmlns:wmc="http://www.opengis.net/context" 
     xmlns:ows="http://www.opengis.net/ows"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="wmc xlink">
+    xmlns:xlink="http://www.w3.org/1999/xlink">
 
-  <xsl:output method="xml"/>
+  <xsl:output method="xml" omit-xml-declaration="yes"/>
   <xsl:strip-space elements="*"/>
 
   <!-- The coordinates of the DHTML Layer on the HTML page -->
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
   <xsl:param name="context">config['<xsl:value-of select="$modelId"/>']</xsl:param>
+  <xsl:param name="outputNodeId"/>
 
   <xsl:param name="lowerLeft"><xsl:value-of select="/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:LowerCorner"/></xsl:param>
   <xsl:param name="upperRight"><xsl:value-of select="/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:UpperCorner"/></xsl:param>
@@ -38,7 +39,7 @@ $Name$
   
   <!-- template rule matching source root element -->
   <xsl:template match="/wmc:OWSContext">
-      <DIV STYLE="width:{$width}; height:{$height}; position:absolute">
+      <DIV STYLE="width:{$width}; height:{$height}; position:absolute" ID="{$outputNodeId}">
         <xsl:apply-templates select="wmc:ResourceList/*"/>
       </DIV>
   </xsl:template>

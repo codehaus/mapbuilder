@@ -205,5 +205,18 @@ function OwsContext(modelNode, parent) {
   }
   this.addListener("loadModel", this.loadFeatures, this);
 
+  /**
+   * Listener function which sets stylesheet params for WebServiceRequests
+   * @param objRef pointer to this object
+   * @param featureNodeId the id of the node in the doc to be processed by the stylesheet
+   */
+  this.setRequestParameters = function(featureName, requestStylesheet) {
+    var feature = this.getFeatureNode(featureName);
+    if (feature.selectSingleNode("ogc:Filter")) {
+      requestStylesheet.setParameter("filter", escape(Sarissa.serialize(feature.selectSingleNode("ogc:Filter"))) );
+    }
+  }
+  //this.addFirstListener("wfs_GetFeature", this.setRequestParameters, this);
+
 }
 
