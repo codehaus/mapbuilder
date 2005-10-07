@@ -477,9 +477,9 @@
               <xs:documentation>The number of pixels around the click point that are included in the query.  tollerance=0 means a Bbox of 1x1 pixel is queried, tollerance=1 means a Bbox of 3x3 is queried, tolerance=2 means a Bbo of 5x5 is queried.</xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element name="targetContext" type="xs:string" minOccurs="0">
+          <xs:element name="maxFeatures" type="xs:string" minOccurs="0">
             <xs:annotation>
-              <xs:documentation>After a feature has been successfully sent to the Web Service, the targetContext will send a "refresh" event which will cause the map layers to re-render themselves.  This will ensure a modified WFS feature will be re-rendered correctly by the querying WMS.</xs:documentation>
+              <xs:documentation>The maximum number of features returned by the query.</xs:documentation>
             </xs:annotation>
           </xs:element>
         </xs:sequence>
