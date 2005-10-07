@@ -25,6 +25,7 @@ function WfsGetFeature(widgetNode, model) {
   this.httpPayload.method="get";
   this.httpPayload.postData=null;
   this.trm=widgetNode.selectSingleNode("mb:transactionResponseModel").firstChild.nodeValue;
+  this.transactionResponseModel="init";
 
   /**
    * Open window with query info.
@@ -43,11 +44,11 @@ function WfsGetFeature(widgetNode, model) {
       alert("WfsGetFeature:URL="+objRef.httpPayload.url);
 
       // Model that will be populated with the WFS response.
-      if (!objRef.transactionResponseModel){
+      if (objRef.transactionResponseModel="init"){
         objRef.transactionResponseModel=eval("config.objects."+objRef.trm);
         //objRef.transactionResponseModel.addListener("loadModel",objRef.handleResponse, objRef);
-        objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
       }
+      objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
     }
   }
   
