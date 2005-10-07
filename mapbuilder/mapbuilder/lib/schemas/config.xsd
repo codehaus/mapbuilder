@@ -450,6 +450,42 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  <xs:complexType name="WfsGetFeatureType">
+    <xs:annotation>
+      <xs:documentation>After this button is selected, clicks on a MapPane will initiate a WFS GetFeature GET request and the result will be stored in the targetModel FeatureCollection.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="mb:AbstractButtonType">
+        <xs:sequence>
+          <xs:element name="transactionResponseModel" type="xs:string" minOccurs="1">
+            <xs:annotation>
+              <xs:documentation>The model which will be populated with the server response.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="webServiceUrl" type="mb:urlPathType" minOccurs="1">
+            <xs:annotation>
+              <xs:documentation>The base URL of the Web Service that will be queried.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="typeName" type="xs:string" minOccurs="1">
+            <xs:annotation>
+              <xs:documentation>A commer seperated list of layers to query.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="tolerance" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>The number of pixels around the click point that are included in the query.  tollerance=0 means a Bbox of 1x1 pixel is queried, tollerance=1 means a Bbox of 3x3 is queried, tolerance=2 means a Bbo of 5x5 is queried.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="targetContext" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>After a feature has been successfully sent to the Web Service, the targetContext will send a "refresh" event which will cause the map layers to re-render themselves.  This will ensure a modified WFS feature will be re-rendered correctly by the querying WMS.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="ProcessArgumentsFormType">
     <xs:complexContent>
       <xs:extension base="mb:AbstractWidgetType">
@@ -612,6 +648,7 @@
       <xs:element name="EditPoint" type="mb:EditButtonType"/>
       <xs:element name="EditLine" type="mb:EditButtonType"/>
       <xs:element name="InsertFeature" type="mb:InsertFeatureType"/>
+      <xs:element name="WfsGetFeature" type="mb:WfsGetFeatureType"/>
       <xs:element name="Save" type="mb:SaveType"/>
       <xs:element name="Loading" type="mb:WidgetType"/>
       <xs:element name="LayerControl" type="mb:WidgetType"/>
