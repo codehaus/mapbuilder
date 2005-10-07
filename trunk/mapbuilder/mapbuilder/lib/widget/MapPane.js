@@ -6,7 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 mapbuilder.loadScript(baseDir+"/widget/MapContainerBase.js");
 
 /**
@@ -24,7 +24,15 @@ function MapPane(widgetNode, model) {
   MapContainerBase.apply(this,new Array(widgetNode, model));
 
   // Set this.stylesheet
-  this.stylesheet = new XslProcessor(baseDir+"/widget/"+widgetNode.nodeName+".xsl",model.namespace);
+  // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
+  if ( !this.stylesheet ) {
+    var styleNode = widgetNode.selectSingleNode("mb:stylesheet");
+    if (styleNode ) {
+      this.stylesheet = new XslProcessor(styleNode.firstChild.nodeValue,model.namespace);
+    } else {
+      this.stylesheet = new XslProcessor(baseDir+"/widget/"+widgetNode.nodeName+".xsl",model.namespace);
+    }
+  }
 
   // Set stylesheet parameters for all the child nodes from the config file
   for (var j=0;j<widgetNode.childNodes.length;j++) {
@@ -39,10 +47,11 @@ function MapPane(widgetNode, model) {
 
   //all stylesheets will have these properties available
   this.stylesheet.setParameter("modelId", this.model.id );
+  this.stylesheet.setParameter("modelTitle", this.model.title );
   this.stylesheet.setParameter("widgetId", this.id );
-  this.stylesheet.setParameter("outputNodeId", this.outputNodeId );
   this.stylesheet.setParameter("skinDir", config.skinDir );
   this.stylesheet.setParameter("lang", config.lang );
+
 
   /**
    * Called when the context's hidden attribute changes.
@@ -79,9 +88,9 @@ function MapPane(widgetNode, model) {
    * Render the widget.
    * @param objRef Pointer to widget object.
    */
-  MapPane.prototype.paint = function(objRef) {
+  MapPane.prototype.paint = function(objRef, refresh) {
 
-    if (objRef.model.doc && objRef.node) {
+    if (objRef.model.doc && objRef.node && (objRef.autoRefresh||refresh) ) {
       //if (objRef.debug) alert("source:"+Sarissa.serialize(objRef.model.doc));
       objRef.resultDoc = objRef.model.doc; // resultDoc sometimes modified by prePaint()
       objRef.prePaint(objRef);
@@ -94,6 +103,7 @@ function MapPane(widgetNode, model) {
 
       //process the doc with the stylesheet
       var s = objRef.stylesheet.transformNodeToString(objRef.resultDoc);
+      if (objRef.debug) alert("result:"+s);
       if (config.serializeUrl && objRef.debug) postLoad(config.serializeUrl, s);
       if (objRef.debug) alert("painting:"+objRef.id+":"+s);
       var tempNode = document.createElement("DIV");
@@ -111,25 +121,29 @@ function MapPane(widgetNode, model) {
         //the following is null if the above append ocurred!!
         var images = tempNode.getElementsByTagName("img"); //the new images
         for (var i=0;i<images.length;i++){
-          var real_src = images[i].getAttribute("src");
-          // preload image
-          realimages[i].new_img = new Image();
-          realimages[i].new_img.src=real_src;
-          realimages[i].new_img.id=Math.random();
-          realimages[i].id = "real"+realimages[i].new_img.id;
-          realimages[i].offset = new Array(outputNode.style.left,outputNode.style.top);
-	/**
-	 *Replaces the source with the new one and fixes the displacement to 
-   *compensate the container main div displacemen to result in in a zero displacement.
-	 *@author Michael Jenik     
-	 */
-          realimages[i].new_img.onload = function() {
-            var oldImg = document.getElementById("real"+this.id );
-            //Note that we are keeping the old div that contains divs that contain images in it position and adjusting the divs that contains images position to compensate the other div position. So this result in the image at position top:0 left: 0 
-            oldImg.parentNode.style.left=-1*parseInt(oldImg.offset[0]);
-            oldImg.parentNode.style.top=-1*parseInt(oldImg.offset[1]);
-            oldImg.src = this.src;
-          };
+          if (realimages[i]) {
+            var real_src = images[i].getAttribute("src");
+            // preload image
+            realimages[i].new_img = new Image();
+            realimages[i].new_img.src=real_src;
+            realimages[i].new_img.id=Math.random();
+            realimages[i].id = "real"+realimages[i].new_img.id;
+            realimages[i].offset = new Array(outputNode.style.left,outputNode.style.top);
+    /**
+     *Replaces the source with the new one and fixes the displacement to 
+     *compensate the container main div displacemen to result in in a zero displacement.
+     *@author Michael Jenik     
+     */
+            realimages[i].new_img.onload = function() {
+              var oldImg = document.getElementById("real"+this.id );
+              //Note that we are keeping the old div that contains divs that contain images in it position and adjusting the divs that contains images position to compensate the other div position. So this result in the image at position top:0 left: 0 
+              oldImg.parentNode.style.left=-1*parseInt(oldImg.offset[0]);
+              oldImg.parentNode.style.top=-1*parseInt(oldImg.offset[1]);
+              oldImg.src = this.src;
+            };
+          } else {  //this means it's a new layer added to the context doc
+            outputNode.appendChild(images[i].parentNode);
+          }
         }
       }
 
