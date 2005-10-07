@@ -30,7 +30,7 @@ function FeatureCollection(modelNode, parent) {
    */
   this.convertCoords = function(objRef) {
     var coordNodes = objRef.doc.selectNodes("//gml:coordinates");
-    if (coordNodes.length>0) {
+    if (coordNodes.length>0 && objRef.containerModel) {
       var srsNode = coordNodes[0].selectSingleNode("ancestor-or-self::*/@srsName");
       if ( srsNode.nodeValue.toUpperCase() != objRef.containerModel.getSRS().toUpperCase() ) {
         var sourceProj = new Proj(srsNode.nodeValue);
