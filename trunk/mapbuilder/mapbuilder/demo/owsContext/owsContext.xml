@@ -25,7 +25,7 @@
 			<defaultModelUrl>oc_0_0_13r1.xml</defaultModelUrl>
 			<models>
 				<FeatureCollection id="gml2FeatureTemplate">
-					<method>post</method>
+					<method>get</method>
 					<widgets>
 						<!--ModelStatus id="gmlModelStatus"/-->
 						<GmlRendererWZ id="testGmlRenderer">
@@ -38,9 +38,6 @@
 						<Legend id="wfsLegend">
 							<htmlTagId>legend</htmlTagId>
 						</Legend>
-						<SaveModel id="saveModelWidget">
-							<htmlTagId>saveModel</htmlTagId>
-						</SaveModel>
 					</widgets>
 				</FeatureCollection>
 			</models>
