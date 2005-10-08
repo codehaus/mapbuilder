@@ -34,8 +34,8 @@ $Name$
         <xsl:with-param name="node" select="."/>
       </xsl:call-template>
     </xsl:variable>
-    <tr>
-      <xsl:if test="not(./*)">
+    <xsl:if test="not(./*)">
+      <tr>
         <td>
           <xsl:value-of select="name(.)"/>
         </td>
@@ -47,12 +47,12 @@ $Name$
             value="{text()}"
             onchange="config.objects.{$widgetId}.setAttr(config.objects.{$widgetId},'{$xlink}',document.getElementById('{$widgetId}{generate-id()}').value);"/>
         </td>
-      </xsl:if>
-      <xsl:if test="./*">
-        <xsl:apply-templates>
-        </xsl:apply-templates>
-      </xsl:if>
-    </tr>
+      </tr>
+    </xsl:if>
+    <xsl:if test="./*">
+      <xsl:apply-templates>
+      </xsl:apply-templates>
+    </xsl:if>
   </xsl:template>
 
   <!-- Return xpath reference to a node. Calls itself recursively -->
