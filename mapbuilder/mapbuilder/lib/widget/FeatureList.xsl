@@ -21,9 +21,20 @@ $Name$
   <xsl:template match="/">
     <div>
       <h3>Feature List</h3>
-        <table border="1" cellpadding="0" cellspacing="0">
-          <xsl:apply-templates/>
-        </table>
+      <xsl:apply-templates/>
+    </div>
+  </xsl:template>
+
+  <!-- don't print boundedBy -->
+  <xsl:template match="gml:boundedBy"/>
+
+  <!-- featureMember -->
+  <xsl:template match="gml:featureMember">
+    <div>
+      <table border="1" cellpadding="0" cellspacing="0">
+        <xsl:apply-templates/>
+      </table>
+      <br/>
     </div>
   </xsl:template>
 
