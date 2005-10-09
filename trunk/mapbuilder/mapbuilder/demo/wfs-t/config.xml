@@ -167,10 +167,9 @@
       <disabledSrc>/images/QueryDisable.gif</disabledSrc>
       <enabledSrc>/images/QueryEnable.gif</enabledSrc>
       <typeName>topp:tasmania_cities,topp:tasmania_roads</typeName>
-      <tolerance>2</tolerance>
+      <tolerance>5</tolerance>
       <transactionResponseModel>featureCollection</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
-      <!--targetContext>mainMap</targetContext-->
     </WfsGetFeature>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
