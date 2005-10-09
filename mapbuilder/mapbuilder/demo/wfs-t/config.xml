@@ -83,7 +83,7 @@
           <targetModel>mainMap</targetModel>
           <mapContainerId>mainMapContainer</mapContainerId>
           <lineColor>#FF0000</lineColor>
-          <lineWidth>1</lineWidth>
+          <lineWidth>3</lineWidth>
           <pointDiameter>10</pointDiameter>
         </GmlRendererWZ>
         <FeatureList id="featureList">
