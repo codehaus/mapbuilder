@@ -24,11 +24,13 @@ function Forward(widgetNode, model) {
    */
   this.doSelect = function(selected,objRef) {
     if (selected){
-      var nextExtent = objRef.targetModel.history.forward(objRef);
+
+		this.targetModel.setParam("historyForward");
+      var nextExtent = objRef.targetModel.nextExtent;
       if(nextExtent){
-        objRef.targetModel.history.stop(objRef);
+        this.targetModel.setParam("historyStop");
         objRef.targetModel.extent.zoomToBox( nextExtent[0], nextExtent[1] );
-        objRef.targetModel.history.start(objRef);
+        this.targetModel.setParam("historyStart");
       }
     }
   }

@@ -24,11 +24,13 @@ function Back(widgetNode, model) {
    */
   this.doSelect = function(selected,objRef) {
     if (selected){
-      var previousExtent = objRef.targetModel.history.back(objRef);
+
+		this.targetModel.setParam("historyBack");
+      var previousExtent = objRef.targetModel.previousExtent;
       if(previousExtent){
-        objRef.targetModel.history.stop(objRef);
+        this.targetModel.setParam("historyStop");
         objRef.targetModel.extent.zoomToBox( previousExtent[0], previousExtent[1] );
-        objRef.targetModel.history.start(objRef);
+        this.targetModel.setParam("historyStart");
       }
     }
   }
