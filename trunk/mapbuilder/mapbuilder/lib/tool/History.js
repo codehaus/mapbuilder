@@ -4,27 +4,34 @@ License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 */
 
+// Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
+
 
 /**
  * A tool designed to store the history of the extent during a session
  *
  * @constructor
- * @param model the model document that this history represent
+ * @base ToolBase
+ * @param toolNode  The node for this tool from the configuration document.
+ * @param model     The model object that contains this tool
  */
-function History( model ) {
-  this.model = model;
-  this.id = model.id + "_MbHistory" + mbIds.getId();
-  this.historyList = new Array();
-  this.active = -1;
-  
+function History(toolNode, model) {
+  ToolBase.apply(this, new Array(toolNode, model));
 
+	
+
+	
+  this.model.historyList = new Array();
+  this.active = -1; //This is to make sure the historyList[0] is also accessible
+  
   /**
    * This adds the current extent to the historyList
    * @param objRef  pointer to this object.
    */
   this.add = function(objRef) {
     place = objRef.active;
-    list = objRef.historyList;
+    list = objRef.model.historyList;
     newExtent = new Array();
     newExtent[0] = objRef.model.extent.ul;
     newExtent[1] = objRef.model.extent.lr;
@@ -39,7 +46,7 @@ function History( model ) {
       list.push(newExtent);
     }
     objRef.active = place;
-    objRef.historyList = list;
+    objRef.model.historyList = list;
   }
 
   /**
@@ -48,15 +55,14 @@ function History( model ) {
    */
 
   this.back = function(objRef){
-    place = this.active;
+    place = objRef.active;
     if(place<1) {
       alert("You can't go further back");
     }
     else {
       place = place -1;
-      this.active = place;
-      this.previousExtent = objRef.targetModel.history.historyList[place];
-      return this.previousExtent;
+      objRef.active = place;
+      objRef.model.previousExtent = objRef.model.historyList[place];
     }
 
   }
@@ -65,26 +71,23 @@ function History( model ) {
    * @param objRef  pointer to this object.
    */
   this.forward = function(objRef) {
-    place = this.active;
-    if(place<(this.historyList.length-1)) {
+    place = objRef.active;
+    if(place<(objRef.model.historyList.length-1)) {
       place = place +1;
-      this.active = place;
-      nextExtent = this.historyList[place];
-      return nextExtent;
+      objRef.active = place;
+      objRef.model.nextExtent = objRef.model.historyList[place];
     }
     else {
       alert("You can't go further forward");
     }
   }
 
-  this.model.addListener("bbox",this.add, this);
-
   /**
    * This stops the listener, to prevent the undo/redo steps to appear in the list
    * @param objRef  pointer to this object.
    */
   this.stop = function(objRef) {
-    this.model.removeListener("bbox",this.add, this);
+    objRef.model.removeListener("bbox",objRef.add, objRef);
   }
   
   /**
@@ -92,8 +95,20 @@ function History( model ) {
    * @param objRef  pointer to this object.
    */
   this.start = function(objRef) {
-    this.model.addListener("bbox",this.add, this);
+    objRef.model.addListener("bbox",objRef.add, objRef);
   }
+
+	
+
+	this.model.addListener("bbox", this.add, this);
+
+	this.model.addListener("historyBack", this.back, this);
+
+	this.model.addListener("historyForward", this.forward, this);
+
+	this.model.addListener("historyStart", this.start, this);
+
+	this.model.addListener("historyStop", this.stop, this);
 }
 
   
