@@ -47,7 +47,7 @@ function History(toolNode, model) {
    * @param objRef  pointer to this object.
    */
   this.add = function(objRef) {
-    place = objRef.active;
+    place = objRef.model.active;
     list = objRef.model.historyList;
     newExtent = new Array();
     newExtent[0] = objRef.model.extent.ul;
@@ -62,7 +62,7 @@ function History(toolNode, model) {
       list = list.slice(0,place);
       list.push(newExtent);
     }
-    objRef.active = place;
+    objRef.model.active = place;
     objRef.model.historyList = list;
   }
 
@@ -72,13 +72,13 @@ function History(toolNode, model) {
    */
 
   this.back = function(objRef){
-    place = objRef.active;
+    place = objRef.model.active;
     if(place<1) {
       alert("You can't go further back");
     }
     else {
       place = place -1;
-      objRef.active = place;
+      objRef.model.active = place;
       objRef.model.previousExtent = objRef.model.historyList[place];
     }
 
@@ -88,10 +88,10 @@ function History(toolNode, model) {
    * @param objRef  pointer to this object.
    */
   this.forward = function(objRef) {
-    place = objRef.active;
+    place = objRef.model.active;
     if(place<(objRef.model.historyList.length-1)) {
       place = place +1;
-      objRef.active = place;
+      objRef.model.active = place;
       objRef.model.nextExtent = objRef.model.historyList[place];
     }
     else {
