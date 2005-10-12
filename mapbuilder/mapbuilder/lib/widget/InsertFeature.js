@@ -46,10 +46,18 @@ function InsertFeature(widgetNode, model) {
       if (!objRef.targetContext){
         objRef.targetContext=eval("config.objects."+objRef.tc);
       }
+      //fid=objRef.targetModel.getXpathValue(objRef.targetModel,"//topp:tasmania_roads/topp:the_geom/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates");
+      fid=objRef.targetModel.getXpathValue(objRef.targetModel,"//@fid");
       if (objRef.targetModel.doc){
-        s=objRef.insertXsl.transformNodeToObject(objRef.targetModel.doc);
-        objRef.httpPayload.postData=s;
-        objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
+        //if fid exists, then we are modifying an existing feature,
+        // otherwise we are adding a new feature
+        if(fid){
+          alert("InsertFeature fid="+fid);
+        }else{
+          s=objRef.insertXsl.transformNodeToObject(objRef.targetModel.doc);
+          objRef.httpPayload.postData=s;
+          objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
+        }
       }else alert("No feature available to insert");
     }
   }
