@@ -37,6 +37,12 @@
     <Reset>
       <tooltip>reset the map to full extent</tooltip>
     </Reset>
+    <Back>
+      <tooltip>get the previous extent</tooltip>
+    </Back>
+    <Forward>
+      <tooltip>get the next extent</tooltip>
+    </Forward>
     <GetFeatureInfo>
       <tooltip>click on feature for more info</tooltip>
     </GetFeatureInfo>
