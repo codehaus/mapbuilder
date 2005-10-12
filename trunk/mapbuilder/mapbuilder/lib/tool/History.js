@@ -20,11 +20,28 @@ function History(toolNode, model) {
   ToolBase.apply(this, new Array(toolNode, model));
 
 	
+  /**
+    * Inititialising the history and setting start parameters
+    * @param objRef  pointer to this object.
+    */
 
-	
-  this.model.historyList = new Array();
-  this.active = -1; //This is to make sure the historyList[0] is also accessible
-  
+	this.init = function(objRef) {
+    place = -1;
+    list = new Array();
+
+		var bbox = objRef.targetModel.getBoundingBox();
+    newExtent = new Array();
+    newExtent[0] = new Array(bbox[0],bbox[3]);
+    newExtent[1] = new Array(bbox[2],bbox[1]);
+		list.push(newExtent); 
+
+		place = place+1; 
+
+		objRef.model.active = place;
+    objRef.model.historyList = list;
+
+  }
+
   /**
    * This adds the current extent to the historyList
    * @param objRef  pointer to this object.
@@ -97,6 +114,15 @@ function History(toolNode, model) {
   this.start = function(objRef) {
     objRef.model.addListener("bbox",objRef.add, objRef);
   }
+  /**
+    * Set the loadModel listener in response to the init event
+    * @param objRef pointer to this object.
+    */
+  this.initReset = function(objRef) {
+
+    objRef.targetModel.addListener("loadModel", objRef.init, objRef);
+
+	 }
 
 	
 
@@ -109,6 +135,7 @@ function History(toolNode, model) {
 	this.model.addListener("historyStart", this.start, this);
 
 	this.model.addListener("historyStop", this.stop, this);
+  this.model.addListener("init",this.initReset, this);
 }
 
   
