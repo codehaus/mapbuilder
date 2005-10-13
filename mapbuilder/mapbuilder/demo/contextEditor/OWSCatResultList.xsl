@@ -38,14 +38,17 @@ $Name:  $
 
   <!-- template rule matching source root element -->
   <xsl:template match="owscat:service_resources">
-    <tr>
+    <xsl:variable name="rowClass">altRow_<xsl:value-of select="position() mod 2"/></xsl:variable>
+    <xsl:variable name="abstract" select="owscat:abstract"/>
+    <xsl:variable name="name" select="owscat:name"/>
+    <tr class="{$rowClass}">
       <td>
         <h4><xsl:value-of select="owscat:title"/></h4>
-        <xsl:value-of select="owscat:abstract"/>
-        <span class="source"><xsl:value-of select="owscat:organization"/></span>
+        <xsl:value-of select="concat(substring($abstract, 0, 200),'...')"/>
+        <span class="dataSource">provided by: <xsl:value-of select="owscat:organization"/></span>
       </td>
       <td>
-        <a href="javascript:config.objects.{$modelId}.setParam('wfs_GetFeature','{$modelId}')">add to map</a>
+        <a href="javascript:config.objects.{$modelId}.setParam('addLayerFromCat','{$name}')">add to map</a>
       </td>
     </tr>
   </xsl:template>
