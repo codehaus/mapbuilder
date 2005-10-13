@@ -30,15 +30,11 @@ $Id$
 
     xmlns:gml="http://www.opengis.net/gml"
 
-    xmlns:xlink="http://www.w3.org/1999/xlink">
+    xlink="http://www.w3.org/1999/xlink">
 
 
 
   <xsl:output method="xml" omit-xml-declaration="no" encoding="utf-8" indent="yes"/>
-
-
-
-  <xsl:param name="typeName"/>
 
 
 
@@ -48,11 +44,7 @@ $Id$
 
     <wfs:Transaction service="WFS" version="1.0.0">
 
-      <wfs:Update typeName="{$typeName}">
-
-        <xsl:apply-templates/>
-
-      </wfs:Update>
+      <xsl:apply-templates/>
 
     </wfs:Transaction>
 
@@ -64,41 +56,45 @@ $Id$
 
   <xsl:template match="gml:featureMember/*[@fid]">
 
-    <ogc:Filter>
+    <wfs:Update typeName="{name()}">
 
-      <ogc:FeatureId fid="{./@fid}"/>
+      <ogc:Filter>
 
-    </ogc:Filter>
+        <ogc:FeatureId fid="{./@fid}"/>
 
-    <xsl:for-each select="./*">
+      </ogc:Filter>
 
-      <wfs:Property>
+      <xsl:for-each select="./*">
 
-        <wfs:Name>
+        <wfs:Property>
 
-          <xsl:value-of select="name()"/>
+          <wfs:Name>
 
-        </wfs:Name>
+            <xsl:value-of select="name()"/>
 
-        <wfs:Value>
+          </wfs:Name>
 
-          <xsl:if test="./*">
+          <wfs:Value>
 
-            <xsl:copy-of select="./*"/>
+            <xsl:if test="./*">
 
-          </xsl:if>
+              <xsl:copy-of select="./*"/>
 
-          <xsl:if test="not(./*)">
+            </xsl:if>
 
-            <xsl:value-of select="."/>
+            <xsl:if test="not(./*)">
 
-          </xsl:if>
+              <xsl:value-of select="."/>
 
-        </wfs:Value>
+            </xsl:if>
 
-      </wfs:Property>
+          </wfs:Value>
 
-    </xsl:for-each>
+        </wfs:Property>
+
+      </xsl:for-each>
+
+    </wfs:Update>
 
   </xsl:template>
 
