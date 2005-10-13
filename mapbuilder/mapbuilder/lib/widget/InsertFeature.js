@@ -29,6 +29,9 @@ function InsertFeature(widgetNode, model) {
   /** Xsl to convert Feature into a WFS Transaction Insert. */
   this.insertXsl=new XslProcessor(baseDir+"/tool/xsl/wfs_Insert.xsl");
 
+  /** Xsl to convert Feature into a WFS Transaction Update. */
+  this.updateXsl=new XslProcessor(baseDir+"/tool/xsl/wfs_Update.xsl");
+
   /**
    * Start a WFS-T InsertFeature transaction.
    * @param objRef Pointer to this object.
@@ -52,12 +55,12 @@ function InsertFeature(widgetNode, model) {
         //if fid exists, then we are modifying an existing feature,
         // otherwise we are adding a new feature
         if(fid){
-          alert("InsertFeature fid="+fid);
+          s=objRef.updateXsl.transformNodeToObject(objRef.targetModel.doc);
         }else{
           s=objRef.insertXsl.transformNodeToObject(objRef.targetModel.doc);
-          objRef.httpPayload.postData=s;
-          objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
         }
+        objRef.httpPayload.postData=s;
+        objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
       }else alert("No feature available to insert");
     }
   }
