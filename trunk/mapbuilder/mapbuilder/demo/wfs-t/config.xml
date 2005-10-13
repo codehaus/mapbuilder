@@ -159,6 +159,15 @@
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
       <targetContext>mainMap</targetContext>
     </InsertFeature>
+    <DeleteFeature id="insertFeature">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>featureCollection</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/DeleteFeatureDisable.gif</disabledSrc>
+      <transactionResponseModel>transaction</transactionResponseModel>
+      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
+      <targetContext>mainMap</targetContext>
+    </DeleteFeature>
     <WfsGetFeature id="wfsGetFeature">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
