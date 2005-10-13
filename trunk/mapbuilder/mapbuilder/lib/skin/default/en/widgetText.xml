@@ -52,6 +52,15 @@
     <EditLine>
       <tooltip>click on map to add a point to a line</tooltip>
     </EditLine>
+    <InsertFeature>
+      <tooltip>Save the current Feature(s) to the server</tooltip>
+    </InsertFeature>
+    <DeleteFeature>
+      <tooltip>Delete the current Feature(s) on the server</tooltip>
+    </DeleteFeature>
+    <WfsGetFeature>
+      <tooltip>Click on feature to query it</tooltip>
+    </WfsGetFeature>
     <Save>
       <tooltip>click to save this map</tooltip>
     </Save>
