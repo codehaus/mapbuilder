@@ -114,6 +114,8 @@ function WebServiceRequest(toolNode, model) {
   this.model.addListener(this.requestName.replace(/:/,"_"), this.doRequest, this);
 
   this.setAoiParameters = function(objRef,bbox) {
+    //TBD: this depends on the targetModel having a containerModel to extract the AOI from.
+    //we probably need a config property to point to the AOI model to handle this properly.
     if (objRef.targetModel.containerModel) {
       var featureSRS = null;
       var containerSRS = "EPSG:4326";

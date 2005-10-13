@@ -237,7 +237,8 @@
       <defaultModelUrl>http://devgeo.cciw.ca/cgi-bin/mapserv/owscat?version=1.0.0&amp;service=WFS&amp;request=GetCapabilities</defaultModelUrl>
       <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
       <models>
-        <FeatureCollection id="owsCatResults">
+        <OwsCatResources id="owsCatResults">
+          <nodeSelectXpath>/wfs:FeatureCollection/gml:featureMember/owscat:service_resources</nodeSelectXpath>
           <method>get</method>
           <widgets>
             <GmlRendererWZ id="resultBbox">
@@ -254,7 +255,12 @@
               <outputNodeId>workspaceCanvas</outputNodeId>
             </Widget>
           </widgets>
-        </FeatureCollection>
+          <tools>
+            <EditContext id="addLayer">
+              <targetModel>mainMap</targetModel>
+            </EditContext>
+          </tools>
+        </OwsCatResources>
         <Model id="filterExpression">
           <defaultModelUrl>OWSCatResourceFilter.xml</defaultModelUrl>
         </Model>

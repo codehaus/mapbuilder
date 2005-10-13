@@ -45,6 +45,18 @@ function EditContext(toolNode, model) {
   this.model.addListener("mapLayer", this.addNodeToModel, this);
 
   /**
+   * Adds a new layer to the end of the context document
+   * @param objRef Pointer to this object.
+   */
+  this.addNodeToModelFromCat = function(objRef, featureName) {
+    var feature = objRef.model.getFeatureNode(featureName);
+    var newNode = objRef.stylesheet.transformNodeToObject(feature);
+    if (objRef.debug) alert(newNode.xml);
+    objRef.targetModel.addLayer(newNode.documentElement);
+  }
+  this.model.addListener("addLayerFromCat", this.addNodeToModelFromCat, this);
+
+  /**
    * Reorders layers in the context document
    * @param objRef Pointer to this object.
    */

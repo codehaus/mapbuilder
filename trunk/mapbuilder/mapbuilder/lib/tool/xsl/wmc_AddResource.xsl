@@ -14,6 +14,7 @@ $Name:  $
     xmlns:wms="http://www.opengis.net/wms" 
     xmlns:wfs="http://www.opengis.net/wfs" 
 		xmlns:sld="http://www.opengis.net/sld"
+    xmlns:owscat="http://www.ec.gc.ca/owscat"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
@@ -29,6 +30,7 @@ $Name:  $
   <xsl:param name="serviceName"/>
   <xsl:param name="serverTitle"/>
   
+  <!-- for selecting nodes from an WMS Capabilities document -->
   <xsl:template match="Layer">
     <wmc:Layer>
       <xsl:attribute name="queryable">0</xsl:attribute>
@@ -64,6 +66,46 @@ $Name:  $
   </xsl:template>
   
   <xsl:template match="SRS">
+    <wmc:SRS><xsl:value-of select="."/></wmc:SRS>
+  </xsl:template>
+
+  <!-- for selecting nodes from an OWSCat result set -->
+  <xsl:template match="owscat:service_resources">
+    <xsl:variable name="serverUrl"><xsl:value-of select="owscat:endpoint_getresource"/></xsl:variable>
+    <wmc:Layer>
+      <xsl:attribute name="queryable">0</xsl:attribute>
+      <xsl:attribute name="hidden">0</xsl:attribute>
+			<wmc:Server>
+        <xsl:attribute name="service"><xsl:value-of select="owscat:service_type"/></xsl:attribute>
+        <xsl:attribute name="version"><xsl:value-of select="owscat:service_version"/></xsl:attribute>
+        <xsl:attribute name="title"><xsl:value-of select="owscat:organization"/></xsl:attribute>
+				<wmc:OnlineResource xlink:type="simple" xlink:href="{$serverUrl}"/>
+			</wmc:Server>
+      <xsl:apply-templates/>
+    </wmc:Layer>
+  </xsl:template>
+  
+  <xsl:template match="owscat:title">
+    <wmc:Title><xsl:value-of select="."/></wmc:Title>
+  </xsl:template>
+  
+  <xsl:template match="owscat:name">
+    <wmc:Name><xsl:value-of select="."/></wmc:Name>
+  </xsl:template>
+  
+  <xsl:template match="owscat:abstract">
+    <wmc:Abstract><xsl:value-of select="."/></wmc:Abstract>
+  </xsl:template>
+  
+  <xsl:template match="owscat:dataurl">
+    <wmc:DataURL><xsl:value-of select="."/></wmc:DataURL>
+  </xsl:template>
+  
+  <xsl:template match="owscat:metadataurl">
+    <wmc:MetadataURL><xsl:value-of select="."/></wmc:MetadataURL>
+  </xsl:template>
+  
+  <xsl:template match="owscat:srs">
     <wmc:SRS><xsl:value-of select="."/></wmc:SRS>
   </xsl:template>
   
