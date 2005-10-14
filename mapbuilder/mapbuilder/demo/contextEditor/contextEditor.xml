@@ -241,14 +241,14 @@
           <nodeSelectXpath>/wfs:FeatureCollection/gml:featureMember/owscat:service_resources</nodeSelectXpath>
           <method>get</method>
           <widgets>
-            <GmlRendererWZ id="resultBbox">
+            <!--GmlRendererWZ id="resultBbox">
               <htmlTagId>mainMapPane</htmlTagId>
               <targetModel>mainMap</targetModel>
               <lineColor>#FF0000</lineColor>
               <lineWidth>2</lineWidth>
               <pointDiameter>10</pointDiameter>
               <mapContainerId>mainMapContainer</mapContainerId>
-            </GmlRendererWZ>
+            </GmlRendererWZ-->
             <Widget id="resultList">
               <stylesheet>OWSCatResultList.xsl</stylesheet>
               <htmlTagId>workspace</htmlTagId>
