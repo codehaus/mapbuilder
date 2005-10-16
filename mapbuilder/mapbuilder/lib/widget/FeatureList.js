@@ -16,4 +16,14 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  */
 function FeatureList(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
+
+  /**
+   * Set the value of an attribute from the FeatureList.
+   * @param objRef Reference to this object.
+   * @param xpath Xpath reference to the attribute in the GML.
+   * @param value New attribute value.
+   */
+  this.setAttr=function(objRef,xpath,value){
+    objRef.model.setXpathValue(objRef.model,xpath,value);
+  }
 }
