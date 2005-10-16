@@ -49,7 +49,6 @@ function InsertFeature(widgetNode, model) {
       if (!objRef.targetContext){
         objRef.targetContext=eval("config.objects."+objRef.tc);
       }
-      //fid=objRef.targetModel.getXpathValue(objRef.targetModel,"//topp:tasmania_roads/topp:the_geom/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates");
       fid=objRef.targetModel.getXpathValue(objRef.targetModel,"//@fid");
       if (objRef.targetModel.doc){
         //if fid exists, then we are modifying an existing feature,
