@@ -197,6 +197,16 @@ function Context(modelNode, parent) {
   }
 
   /**
+   * Method to get a list of all layers in the context doc
+   * TBD: merge this with above, passing queryable as an optional boolean param?
+   * @return the list with all layers
+   */
+  this.getAllLayers = function() {
+    var listNodeArray = this.doc.selectNodes("/wmc:ViewContext/wmc:LayerList/wmc:Layer");
+    return listNodeArray;
+  }
+
+  /**
    * Method to add a Layer to the LayerList
    * @param layerNode the Layer node from another context doc or capabiltiies doc
    */
