@@ -257,6 +257,13 @@ $Id$
 
   <target description="Create documentation" name="docs">
   
+    <!--
+      When mapbuilder loads config.xsd into a model from Apache,
+      Sarrissa doesn't recognise the .xsd file as XML, so we need to
+      change the extension.
+    -->
+    <copy file="${basedir}/lib/schemas/config.xsd" tofile="${build.home}/lib/schemas/config.xml" overwrite="true"/>
+
     <mkdir dir="${build.home}/docs"/>
     
     <!-- style the design docs from the XBook document -->

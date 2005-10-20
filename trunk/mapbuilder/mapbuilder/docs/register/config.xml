@@ -220,6 +220,6 @@
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
   <!-- Url of LOCAL redirection script, required to access external URLs -->
-  <proxyUrl>../../server/proxy/proxy.php?url=</proxyUrl>
+  <!--proxyUrl>../../server/proxy/proxy.php?url=</proxyUrl-->
   <!--proxyUrl>/mapbuilder/proxy?url=</proxyUrl-->
 </MapbuilderConfig>
