@@ -43,7 +43,7 @@ $Name$
       select="name(.)"/>
     <xsl:variable
       name="componentType"
-      select="substring-after(document('../../lib/schemas/config.xsd')//xs:element[@name=$widgetName]/@type,':')"/>
+      select="substring-after(document('../../lib/schemas/config.xml')//xs:element[@name=$widgetName]/@type,':')"/>
 
     <h2><xsl:value-of select="name(.)"/> Widget</h2>
     <ul>
@@ -53,7 +53,7 @@ $Name$
           <td>
             <p>
               <!-- Print component description -->
-              <xsl:apply-templates select="document('../../lib/schemas/config.xsd')//xs:complexType[@name=$componentType]/xs:annotation/xs:documentation"/>
+              <xsl:apply-templates select="document('../../lib/schemas/config.xml')//xs:complexType[@name=$componentType]/xs:annotation/xs:documentation"/>
             </p>
 
           </td>
