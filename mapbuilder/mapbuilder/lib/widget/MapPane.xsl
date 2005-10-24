@@ -326,12 +326,6 @@ $Name$
 
         </xsl:attribute>
 
-        <xsl:attribute name="onload">
-
-          <xsl:if test="starts-with($isIE,'true') and $format='image/png'">fixPNG(this);</xsl:if>
-
-        </xsl:attribute>
-
         <xsl:if test="starts-with($extraAttributes,'true')">
 
           <xsl:attribute name="ALT">

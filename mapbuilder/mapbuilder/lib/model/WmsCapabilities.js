@@ -55,6 +55,15 @@ function WmsCapabilities(modelNode, parent) {
   }
 
   /**
+   * @return the first image format listed
+   */
+  this.getImageFormat = function() {
+    var xpath = "/WMT_MS_Capabilities/Capability/Request/GetMap/Format";
+    var node = this.doc.selectSingleNode(xpath);
+    return node.firstChild.nodeValue;
+  }
+
+  /**
    * @return the name of the WMS server
    */
   this.getServiceName = function() {

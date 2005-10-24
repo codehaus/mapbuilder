@@ -139,7 +139,7 @@
 			</widgets>
 			<namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
 		</FeatureCollection>
-		<FeatureCollection id="ntsGml">
+		<FeatureCollection id="ntsGml" template="true">
 			<!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
 			<widgets>
 				<GmlRendererWZ id="testNTSRenderer">
@@ -199,6 +199,9 @@
 				<Caps2Context id="convertCaps">
 					<targetModel>mainMap</targetModel>
 				</Caps2Context>
+        <EditContext id="editContext">
+          <targetModel>mainMap</targetModel>
+        </EditContext>
 			</tools>
 			<nodeSelectXpath>//Layer</nodeSelectXpath>
 		</WmsCapabilities>
@@ -317,6 +320,5 @@
 	<languages>en,fr,fr-CA</languages>
 	<widgetTextUrl>widgetText.xml</widgetTextUrl>
 	<!-- relative to the skinDir + language subdir -->
-    	<proxyUrl>../../server/php/proxy.php</proxyUrl>
 	<!-- example of overriding the server config values -->
 </MapbuilderConfig>

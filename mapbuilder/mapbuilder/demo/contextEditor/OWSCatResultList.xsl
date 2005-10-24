@@ -48,7 +48,7 @@ $Name:  $
         <span class="dataSource">provided by: <xsl:value-of select="owscat:organization"/></span>
       </td>
       <td>
-        <a href="javascript:config.objects.{$modelId}.setParam('addLayerFromCat','{$name}')">add to map</a>
+        <a href="javascript:config.objects.addLayer.addLayerFromCat('{$name}')">add to map</a>
       </td>
     </tr>
   </xsl:template>

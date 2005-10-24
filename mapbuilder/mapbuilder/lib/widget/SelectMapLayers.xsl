@@ -42,7 +42,8 @@ $Name$
         <xsl:value-of select="Title"/>
       </td>
       <td width="200px" nowrap="true">
-        <a href="javascript:config.objects.{$modelId}.setParam('mapLayer','{$name}')">show map</a>
+        <a href="javascript:config.objects.editContext.addNodeToModel('{$name}')">add to map</a>
+        <!--a href="javascript:config.objects.{$modelId}.setParam('GetMap','{$name}')">show map</a-->
       </td>
     </tr>
     <xsl:apply-templates/>
@@ -57,6 +58,7 @@ $Name$
       </td>
       <td>
         <a href="javascript:config.objects.{$modelId}.setParam('mapLayer','{$name}')">show map</a>
+        <!--a href="javascript:config.objects.{$modelId}.setParam('GetMap','{$name}')">show map</a-->
       </td>
     </tr>
     <xsl:apply-templates/>

@@ -81,6 +81,15 @@ function MapScaleText(widgetNode, model) {
   this.model.addListener("refresh", this.showScale, this);
 
   /**
+   * Called just before paint to set the map scale as stylesheet param
+   * @param objRef pointer to this object.
+   */
+  this.prePaint = function(objRef) {
+    var mapScale = objRef.model.extent.getScale();
+    this.stylesheet.setParameter("mapScale", mapScale );
+  }
+
+  /**
    * Refreshes the form and event handlers when this widget is painted.
    * @param objRef Pointer to this CurorTrack object.
    */

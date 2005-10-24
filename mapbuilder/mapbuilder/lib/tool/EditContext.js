@@ -30,31 +30,30 @@ function EditContext(toolNode, model) {
 
   /**
    * Adds a new layer to the end of the context document
-   * @param objRef Pointer to this object.
+   * @param featureName the name of the feature to be added
    */
-  this.addNodeToModel = function(objRef, featureName) {
-    var feature = objRef.model.getFeatureNode(featureName);
-    objRef.stylesheet.setParameter("version", objRef.model.getVersion() );
-    objRef.stylesheet.setParameter("serverUrl", objRef.model.getServerUrl("GetMap","get") );
-    objRef.stylesheet.setParameter("serverTitle", objRef.model.getServerTitle() );
-    objRef.stylesheet.setParameter("serviceName", "wms");//objRef.model.getServiceName() );
-    var newNode = objRef.stylesheet.transformNodeToObject(feature);
-    if (objRef.debug) alert(newNode.xml);
-    objRef.targetModel.addLayer(newNode.documentElement);
+  this.addNodeToModel = function(featureName) {
+    var feature = this.model.getFeatureNode(featureName);
+    this.stylesheet.setParameter("version", this.model.getVersion() );
+    this.stylesheet.setParameter("serverUrl", this.model.getServerUrl("GetMap","get") );
+    this.stylesheet.setParameter("serverTitle", this.model.getServerTitle() );
+    this.stylesheet.setParameter("serviceName", "wms");//this.model.getServiceName() );
+    this.stylesheet.setParameter("format", this.model.getImageFormat() );
+    var newNode = this.stylesheet.transformNodeToObject(feature);
+    if (this.debug) alert(newNode.xml);
+    this.targetModel.setParam('addLayer',newNode.documentElement);
   }
-  this.model.addListener("mapLayer", this.addNodeToModel, this);
 
   /**
    * Adds a new layer to the end of the context document
-   * @param objRef Pointer to this object.
+   * @param featureName the name of the feature to be added
    */
-  this.addNodeToModelFromCat = function(objRef, featureName) {
-    var feature = objRef.model.getFeatureNode(featureName);
-    var newNode = objRef.stylesheet.transformNodeToObject(feature);
-    if (objRef.debug) alert(newNode.xml);
-    objRef.targetModel.addLayer(newNode.documentElement);
+  this.addLayerFromCat = function(featureName) {
+    var feature = this.model.getFeatureNode(featureName);
+    var newNode = this.stylesheet.transformNodeToObject(feature);
+    if (this.debug) alert(newNode.xml);
+    this.targetModel.setParam('addLayer',newNode.documentElement);
   }
-  this.model.addListener("addLayerFromCat", this.addNodeToModelFromCat, this);
 
   /**
    * Reorders layers in the context document

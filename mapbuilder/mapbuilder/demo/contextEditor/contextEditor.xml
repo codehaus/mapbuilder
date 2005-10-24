@@ -198,10 +198,10 @@
         </Widget>
       </widgets>
       <tools>
-        <WebServiceRequest id="wmsController">
+        <!--WebServiceRequest id="wmsController">
           <targetModel>getMapTemplate</targetModel>
           <requestName>GetMap</requestName>
-        </WebServiceRequest>
+        </WebServiceRequest-->
         <!--WebServiceRequest id="wmsController">
           <targetModel>getFeatureInfoTemplate</targetModel>
           <requestName>wms:GetFeatureInfo</requestName>
@@ -250,6 +250,7 @@
               <mapContainerId>mainMapContainer</mapContainerId>
             </GmlRendererWZ-->
             <Widget id="resultList">
+            <debug/>
               <stylesheet>OWSCatResultList.xsl</stylesheet>
               <htmlTagId>workspace</htmlTagId>
               <outputNodeId>workspaceCanvas</outputNodeId>
