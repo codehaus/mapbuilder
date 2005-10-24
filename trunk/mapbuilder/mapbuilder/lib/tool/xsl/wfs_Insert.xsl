@@ -28,9 +28,7 @@ $Name$
 
     xmlns:wfs="http://www.opengis.net/wfs"
 
-    xmlns:gml="http://www.opengis.net/gml"
-
-    xmlns:xlink="http://www.w3.org/1999/xlink">
+    xmlns:gml="http://www.opengis.net/gml">
 
 
 
