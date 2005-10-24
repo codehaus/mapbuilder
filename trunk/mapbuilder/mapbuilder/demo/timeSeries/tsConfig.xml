@@ -6,7 +6,7 @@
 
 		<Context id="mainMap">
 
-			<defaultModelUrl>tsIFGITemp.xml</defaultModelUrl>
+			<defaultModelUrl>tsEstPrecip.xml</defaultModelUrl>
 
 			<widgets>
 
@@ -110,7 +110,7 @@
 
 		<WmsCapabilities id="wmsCapTemplate">
 
-			<!--defaultModelUrl>NASAWMSCaps.xml</defaultModelUrl-->
+			<!--defaultModelUrl>../data/test/tsNasaCaps.xml</defaultModelUrl-->
 
 			<title>OGC Web Map Server (WMS)</title>
 
