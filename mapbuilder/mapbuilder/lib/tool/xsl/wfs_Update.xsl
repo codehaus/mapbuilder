@@ -28,9 +28,7 @@ $Id$
 
     xmlns:ogc="http://www.opengis.net/ogc"
 
-    xmlns:gml="http://www.opengis.net/gml"
-
-    xlink="http://www.w3.org/1999/xlink">
+    xmlns:gml="http://www.opengis.net/gml">
 
 
 
