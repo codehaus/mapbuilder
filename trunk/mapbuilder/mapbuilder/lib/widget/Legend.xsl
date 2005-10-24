@@ -39,8 +39,6 @@ $Name$
       </tr>
 
       <xsl:apply-templates select="wmc:LayerList/wmc:Layer[1]"/>
- 	  <xsl:apply-templates select="wmc:LayerList/wmc:OWSContext"/>
-	  <xsl:apply-templates select="wmc:LayerList/wfs:FeatureCollection"/>
     </table>
   </xsl:template>
   

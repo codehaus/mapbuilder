@@ -51,4 +51,8 @@ function LayerControl(widgetNode, model) {
     metadataWidget.paint(metadataWidget);
   }
 
+  this.model.addListener("deleteLayer",this.paint, this);
+  this.model.addListener("moveLayerUp",this.paint, this);
+  this.model.addListener("moveLayerDown",this.paint, this);
+  this.model.addListener("addLayer",this.paint, this);
 }

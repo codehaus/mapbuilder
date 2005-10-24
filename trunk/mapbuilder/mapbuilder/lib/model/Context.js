@@ -207,60 +207,75 @@ function Context(modelNode, parent) {
   }
 
   /**
+   * Method to get a layer with the specified name in the context doc
+   * @param layerName the layer to be returned
+   * @return the list with all layers
+   */
+  this.getLayer = function(layerName) {
+    var layer = this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+layerName+"']");
+    //TBD: add in time stamp
+    return layer;
+  }
+
+  /**
    * Method to add a Layer to the LayerList
    * @param layerNode the Layer node from another context doc or capabiltiies doc
    */
-  this.addLayer = function(layerNode) {
-    var parentNode = this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList");
-    parentNode.appendChild(this.doc.importNode(layerNode,true));
-    this.modified = true;
-    this.callListeners("refresh");
+  this.addLayer = function(objRef, layerNode) {
+    var parentNode = objRef.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList");
+    parentNode.appendChild(objRef.doc.importNode(layerNode,true));
+    objRef.modified = true;
+    objRef.callListeners("refresh");
   }
+  this.addFirstListener( "addLayer", this.addLayer, this );
 
   /**
    * Method to remove a Layer from the LayerList
    * @param layerName the Layer to be deleted
    */
-  this.deleteLayer = function(layerName) {
-    var deletedNode = this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+layerName+"']");
+  this.deleteLayer = function(objRef, layerName) {
+    var deletedNode = objRef.getLayer(layerName);
     if (!deletedNode) {
       alert("node note found; unable to delete node:"+layerName);
       return;
     }
     deletedNode.parentNode.removeChild(deletedNode);
-    this.modified = true;
-    this.callListeners("refresh");
+    objRef.modified = true;
   }
+  this.addFirstListener( "deleteLayer", this.deleteLayer, this );
 
   /**
-   * Method to move a Layer in the LayerList up or down
-   * @param nodeIndex the index in the LayerList of Layer to be moved 
-   * @param dir direction to move >0 means up, <0 means down
+   * Method to move a Layer in the LayerList up
+   * @param layerName the layer to be moved
    */
-  this.moveLayer = function(nodeIndex, dir) {
-    var listNodeArray = this.doc.selectNodes("/wmc:ViewContext/wmc:LayerList/wmc:Layer");
-    var movedNode = null;
-    var sibNode = null;
-    if (dir<0) {
-      if (nodeIndex<1) {
-        alert("can't move node past beginning of list:"+nodeIndex);
-        return;
-      }
-      movedNode = listNodeArray[nodeIndex];
-      sibNode = listNodeArray[nodeIndex-1];
-    } else {
-      if (nodeIndex>listNodeArray.length-2) {
-        alert("can't move node past end of list:"+nodeIndex);
-        return;
-      }
-      movedNode = listNodeArray[nodeIndex+1];
-      sibNode = listNodeArray[nodeIndex];
+  this.moveLayerUp = function(objRef, layerName) {
+    var movedNode = objRef.getLayer(layerName);
+    var sibNode = movedNode.selectSingleNode("following-sibling::*");
+    if (!sibNode) {
+      alert("can't move node past beginning of list:"+layerName);
+      return;
+    }
+    movedNode.parentNode.insertBefore(sibNode,movedNode);
+    objRef.modified = true;
+  }
+  this.addFirstListener( "moveLayerUp", this.moveLayerUp, this );
+
+  /**
+   * Method to move a Layer in the LayerList down
+   * @param layerName the layer to be moved
+   */
+  this.moveLayerDown = function(objRef, layerName) {
+    var movedNode = objRef.getLayer(layerName);
+    var listNodeArray = movedNode.selectNodes("preceding-sibling::*");  //preceding-sibling axis contains all previous siblings
+    var sibNode = listNodeArray[listNodeArray.length-1];
+    if (!sibNode) {
+      alert("can't move node past beginning of list:"+layerName);
+      return;
     }
     movedNode.parentNode.insertBefore(movedNode,sibNode);
-    this.modified = true;
-    this.callListeners("refresh");
+    objRef.modified = true;
   }
-
+  this.addFirstListener( "moveLayerDown", this.moveLayerDown, this );
 
   /**
    * Adds a node to the Context document extension element.  The extension element

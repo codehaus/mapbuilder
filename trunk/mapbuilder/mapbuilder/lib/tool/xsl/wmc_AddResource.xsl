@@ -29,6 +29,7 @@ $Name:  $
   <xsl:param name="serverUrl"/>
   <xsl:param name="serviceName"/>
   <xsl:param name="serverTitle"/>
+  <xsl:param name="format"/>
   
   <!-- for selecting nodes from an WMS Capabilities document -->
   <xsl:template match="Layer">
@@ -42,18 +43,21 @@ $Name:  $
 				<wmc:OnlineResource xlink:type="simple" xlink:href="{$serverUrl}"/>
 			</wmc:Server>
       <xsl:apply-templates select="child::node()"/>
+      <wmc:FormatList>
+        <wmc:Format current="1"><xsl:value-of select="$format"/></wmc:Format>
+      </wmc:FormatList>
     </wmc:Layer>
   </xsl:template>
   
-  <xsl:template match="Title">
+  <xsl:template match="Layer/Title">
     <wmc:Title><xsl:value-of select="."/></wmc:Title>
   </xsl:template>
   
-  <xsl:template match="Name">
+  <xsl:template match="Layer/Name">
     <wmc:Name><xsl:value-of select="."/></wmc:Name>
   </xsl:template>
   
-  <xsl:template match="Abstract">
+  <xsl:template match="Layer/Abstract">
     <wmc:Abstract><xsl:value-of select="."/></wmc:Abstract>
   </xsl:template>
   

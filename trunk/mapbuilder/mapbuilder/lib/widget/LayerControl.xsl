@@ -41,7 +41,9 @@ $Name:  $
         <!--tr>
           <td colspan="5">Layer Control | Layer metadata | Map metadata</td>
         </tr-->
-        <xsl:apply-templates select="wmc:LayerList/*"/>
+        <xsl:apply-templates select="wmc:LayerList/wmc:Layer">
+          <xsl:sort select="position()" order="descending"/>
+        </xsl:apply-templates>
       </table>
     </div>
   </xsl:template>
@@ -49,7 +51,6 @@ $Name:  $
 <!-- Layer -->
   <xsl:template match="wmc:Layer">
     <xsl:variable name="layerName" select="wmc:Name"/>
-    <xsl:variable name="nodeIndex" select="position()-1"/>
     <xsl:variable name="rowClass">altRow_<xsl:value-of select="position() mod 2"/></xsl:variable>
     <tr class="{$rowClass}" onmouseover="config.objects.{$widgetId}.highlightLayer('{$layerName}')">
 <!-- Visiblity -->
@@ -59,17 +60,17 @@ $Name:  $
         </input>
       </td>
       <td>
-       <a href="javascript:{$context}.moveLayer({$nodeIndex},-1)" class="mbButton">
+       <a href="javascript:{$context}.setParam('moveLayerUp','{$layerName}')" class="mbButton">
         <img title="{$moveLayerUpTip}" src="{$skinDir}/images/MoveLayerUp.gif" />
        </a>
       </td>
       <td>
-       <a href="javascript:{$context}.moveLayer({$nodeIndex},1)" class="mbButton">
+       <a href="javascript:{$context}.setParam('moveLayerDown','{$layerName}')" class="mbButton">
         <img title="{$moveLayerDownTip}" src="{$skinDir}/images/MoveLayerDown.gif" />
        </a>
       </td>
       <td>
-       <a href="javascript:{$context}.deleteLayer('{$layerName}')" class="mbButton">
+       <a href="javascript:{$context}.setParam('deleteLayer','{$layerName}')" class="mbButton">
         <img title="{$deleteLayerTip}" src="{$skinDir}/images/DeleteLayer.gif" />
        </a>
       </td>

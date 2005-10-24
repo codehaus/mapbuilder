@@ -218,5 +218,36 @@ function OwsContext(modelNode, parent) {
   }
   //this.addFirstListener("wfs_GetFeature", this.setRequestParameters, this);
 
+  /**
+   * Method to get a list of queryable layers
+   * @return the list with queryable layers
+   */
+  this.getQueryableLayers = function() {
+    var listNodeArray = this.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[attribute::queryable='1']/wmc:Name");
+    return listNodeArray;
+  }
+
+  /**
+   * Method to get a list of all layers in the context doc
+   * TBD: merge this with above, passing queryable as an optional boolean param?
+   * @return the list with all layers
+   */
+  this.getAllLayers = function() {
+    var listNodeArray = this.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:Layer");
+    return listNodeArray;
+  }
+
+  /**
+   * Method to get a layer with the specified name in the context doc
+   * @param layerName the layer to be returned
+   * @return the list with all layers
+   */
+  this.getLayer = function(layerName) {
+    var layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
+    //TBD: add in time stamp
+    return layer;
+  }
+
+
 }
 

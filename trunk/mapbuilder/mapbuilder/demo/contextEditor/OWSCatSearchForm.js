@@ -133,8 +133,13 @@ function OWSCatSearchForm(widgetNode, model) {
     var filter = config.objects["filterExpression"];    //TBD get this ID from config
 
     var aoi = this.model.getParam("aoi");
-    if (!aoi) aoi = this.model.getBoundingBox();
-    var bboxStr = aoi[0][0]+","+aoi[1][1]+" "+aoi[1][0]+","+aoi[0][1];
+    var bboxStr = "";
+    if (aoi) {
+      bboxStr = aoi[0][0]+","+aoi[1][1]+" "+aoi[1][0]+","+aoi[0][1];
+    } else {
+      var bbox = this.model.getBoundingBox();
+      bboxStr = bbox[0]+","+bbox[1]+" "+bbox[2]+","+bbox[3];
+    }
     filter.setXpathValue(filter,"/Filter/And/BBOX/Box/coordinates",bboxStr);
     var keywords = "*"+objRef.searchForm.keywords.value+"*";
     filter.setXpathValue(filter,"/Filter/And/Or/Or/PropertyIsLike[PropertyName='title']/Literal",keywords);

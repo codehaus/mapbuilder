@@ -82,72 +82,176 @@ function MapPane(widgetNode, model) {
   this.model.addListener("refreshWmsLayers",this.refreshWmsLayers,this);
 
   this.model.addListener("refresh",this.paint, this);
+  //this.model.addListener("addLayer",this.addLayer, this);
+  this.model.addListener("deleteLayer",this.deleteLayer, this);
+  this.model.addListener("moveLayerUp",this.moveLayerUp, this);
+  this.model.addListener("moveLayerDown",this.moveLayerDown, this);
 }
 
-  /**
-   * Render the widget.
-   * @param objRef Pointer to widget object.
-   */
-  MapPane.prototype.paint = function(objRef, refresh) {
+/**
+ * Render the widget.
+ * @param objRef Pointer to widget object.
+ */
+MapPane.prototype.paint = function(objRef, refresh) {
 
-    if (objRef.model.doc && objRef.node && (objRef.autoRefresh||refresh) ) {
-      //if (objRef.debug) alert("source:"+Sarissa.serialize(objRef.model.doc));
-      objRef.resultDoc = objRef.model.doc; // resultDoc sometimes modified by prePaint()
-      objRef.prePaint(objRef);
+  if (objRef.model.doc && objRef.node && (objRef.autoRefresh||refresh) ) {
+    //if (objRef.debug) alert("source:"+Sarissa.serialize(objRef.model.doc));
+    objRef.resultDoc = objRef.model.doc; // resultDoc sometimes modified by prePaint()
+    objRef.prePaint(objRef);
 
-      //confirm inputs
-      if (objRef.debug) alert("prepaint:"+Sarissa.serialize(objRef.resultDoc));
-      if (objRef.debug) alert("stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
+    //confirm inputs
+    if (objRef.debug) alert("prepaint:"+Sarissa.serialize(objRef.resultDoc));
+    if (objRef.debug) alert("stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
 
-      /* @author Michael Jenik  */
+    /* @author Michael Jenik  */
 
-      //process the doc with the stylesheet
-      var s = objRef.stylesheet.transformNodeToString(objRef.resultDoc);
-      if (objRef.debug) alert("result:"+s);
-      if (config.serializeUrl && objRef.debug) postLoad(config.serializeUrl, s);
-      if (objRef.debug) alert("painting:"+objRef.id+":"+s);
-      var tempNode = document.createElement("DIV");
-      tempNode.innerHTML = s;
-      tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
-      var outputNode = document.getElementById( objRef.outputNodeId );
-      if (!outputNode) {
-        objRef.node.appendChild(tempNode.firstChild);
-        outputNode = document.getElementById( objRef.outputNodeId );
-        outputNode.style.left=0;
-        outputNode.style.top=0;
-      } else {
+    //process the doc with the stylesheet
+    var s = objRef.stylesheet.transformNodeToString(objRef.resultDoc);
+    var tempNode = document.createElement("DIV");
+    tempNode.innerHTML = s;
 
-        var realimages = outputNode.getElementsByTagName("img");//the old images
-        //the following is null if the above append ocurred!!
-        var images = tempNode.getElementsByTagName("img"); //the new images
-        for (var i=0;i<images.length;i++){
-          if (realimages[i]) {
-            var real_src = images[i].getAttribute("src");
-            // preload image
-            realimages[i].new_img = new Image();
-            realimages[i].new_img.src=real_src;
-            realimages[i].new_img.id=Math.random();
-            realimages[i].id = "real"+realimages[i].new_img.id;
-            realimages[i].offset = new Array(outputNode.style.left,outputNode.style.top);
-    /**
-     *Replaces the source with the new one and fixes the displacement to 
-     *compensate the container main div displacemen to result in in a zero displacement.
-     *@author Michael Jenik     
-     */
-            realimages[i].new_img.onload = function() {
-              var oldImg = document.getElementById("real"+this.id );
-              //Note that we are keeping the old div that contains divs that contain images in it position and adjusting the divs that contains images position to compensate the other div position. So this result in the image at position top:0 left: 0 
-              oldImg.parentNode.style.left=-1*parseInt(oldImg.offset[0]);
-              oldImg.parentNode.style.top=-1*parseInt(oldImg.offset[1]);
-              oldImg.src = this.src;
-            };
-          } else {  //this means it's a new layer added to the context doc
-            outputNode.appendChild(images[i].parentNode);
-          }
-        }
-      }
+    if (objRef.debug) alert("result:"+s);
+    if (config.serializeUrl && objRef.debug) postLoad(config.serializeUrl, s);
+    if (objRef.debug) alert("painting:"+objRef.id+":"+s);
 
-      objRef.postPaint(objRef);
+    var outputNode = document.getElementById( objRef.outputNodeId );
+    if (!outputNode) {
+      outputNode = document.createElement("DIV");
+      outputNode.setAttribute("id", objRef.outputNodeId);
+      outputNode.style.left=0;
+      outputNode.style.top=0;
+      outputNode.style.position = "absolute"; 
+      objRef.node.appendChild(outputNode);
+    } 
+
+    var layers = objRef.model.getAllLayers();
+    for (var i=0;i<layers.length;i++){
+      var newDiv = tempNode.firstChild.childNodes[i]; 
+      objRef.loadImgDiv(layers[i],newDiv);
     }
+
+    objRef.postPaint(objRef);
+  }
+}
+
+/**
+ * Returns an ID for the image DIV given a layer name
+ * @param layerName the name of the WMS layer
+ */
+MapPane.prototype.getLayerDivId = function(layerName) {
+  return this.model.id +"_"+ this.id +"_"+ layerName; //TBD: add in timestamps
+}
+
+/**
+ * Adds a layer into the output
+ * @param layerName the WMS anme for the layer to be removed
+ */
+MapPane.prototype.addLayer = function(objRef, layerNode) {
+  //process the doc with the stylesheet
+  var s = objRef.stylesheet.transformNodeToString(layerNode);
+  var tempNode = document.createElement("DIV");
+  tempNode.innerHTML = s;
+  var newDiv = tempNode.firstChild; 
+
+  objRef.loadImgDiv(layerNode,newDiv);
+}
+
+/**
+ * Removes a layer from the output
+ * @param layerName the WMS anme for the layer to be removed
+ */
+MapPane.prototype.deleteLayer = function(objRef, layerName) {
+  var imgDivId = objRef.getLayerDivId(layerName); 
+  var imgDiv = document.getElementById(imgDivId);
+  var outputNode = document.getElementById( objRef.outputNodeId );
+  outputNode.removeChild(imgDiv);
+}
+
+/**
+ * Moves a layer up in the stack of map layers
+ * @param layerName the WMS anme for the layer to be removed
+ */
+MapPane.prototype.moveLayerUp = function(objRef, layerName) {
+  var outputNode = document.getElementById( objRef.outputNodeId );
+  var imgDivId = objRef.getLayerDivId(layerName); 
+  var movedNode = document.getElementById(imgDivId);
+  var sibNode = movedNode.nextSibling;
+  if (!sibNode) {
+    alert("can't move node past beginning of list:"+layerName);
+    return;
+  }
+  outputNode.insertBefore(sibNode,movedNode);
+}
+
+/**
+ * Moves a layer up in the stack of map layers
+ * @param layerName the WMS anme for the layer to be removed
+ */
+MapPane.prototype.moveLayerDown = function(objRef, layerName) {
+  var outputNode = document.getElementById( objRef.outputNodeId );
+  var imgDivId = objRef.getLayerDivId(layerName); 
+  var movedNode = document.getElementById(imgDivId);
+  var sibNode = movedNode.previousSibling;
+  if (!sibNode) {
+    alert("can't move node past end of list:"+layerName);
+    return;
+  }
+  outputNode.insertBefore(movedNode,sibNode);
+}
+
+/**
+ * Moves a layer up in the stack of map layers
+ * @param layerNode the WMS name for the layer to be removed
+ */
+MapPane.prototype.loadImgDiv = function(layerNode,newDiv) {
+  var outputNode = document.getElementById( this.outputNodeId );
+  var layerName = layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue;  
+  var layerHidden = layerNode.getAttribute("hidden");  
+  var imageFormat = "image/gif";
+  var imageFormatNode = layerNode.selectSingleNode("wmc:FormatList/wmc:Format[@current='1']");  
+  if (imageFormatNode) imageFormat = imageFormatNode.firstChild.nodeValue;  
+  var imgDivId = this.getLayerDivId(layerName); 
+  var imgDiv = document.getElementById(imgDivId);
+  if (!imgDiv) {
+    imgDiv = document.createElement("DIV");
+    imgDiv.setAttribute("id", imgDivId);
+    imgDiv.style.position = "absolute"; 
+    imgDiv.style.visibility = (layerHidden==1)?"hidden":"visible";
+    imgDiv.style.top = 0; 
+    imgDiv.style.left = 0;
+    imgDiv.imgId = Math.random().toString(); 
+    var domImg = document.createElement("IMG");
+    domImg.id = "real"+imgDiv.imgId;
+    domImg.src = "../../lib/skin/default/images/Loading.gif";
+    domImg.offset = new Array(outputNode.style.left,outputNode.style.top);
+    domImg.size = new Array(this.model.getWindowWidth(), this.model.getWindowHeight());
+    if (_SARISSA_IS_IE && imageFormat=="image/png") domImg.fixPng = true;
+    imgDiv.appendChild(domImg);
+    outputNode.appendChild(imgDiv);
   }
 
+  // preload image
+  var newSrc = newDiv.firstChild.getAttribute("src");
+  newDiv.new_img = new Image();
+  newDiv.new_img.src = newSrc;
+  newDiv.new_img.id = imgDiv.imgId;
+
+/**
+*Replaces the source with the new one and fixes the displacement to 
+*compensate the container main div displacemen to result in in a zero displacement.
+*@author Michael Jenik     
+*/
+  newDiv.new_img.onload = function() {
+    var oldImg = document.getElementById("real"+this.id );
+    //Note that we are keeping the old div that contains divs that contain images in it position and adjusting the divs that contains images position to compensate the other div position. So this result in the image at position top:0 left: 0 
+    oldImg.parentNode.style.left=-1*parseInt(oldImg.offset[0]);
+    oldImg.parentNode.style.top=-1*parseInt(oldImg.offset[1]);
+    oldImg.width = oldImg.size[0];
+    oldImg.height = oldImg.size[1];
+    oldImg.src = this.src;
+    oldImg.parentNode.parentNode.style.left=0;
+    oldImg.parentNode.parentNode.style.top=0;
+    if (oldImg.fixPng) fixPNG(this);  //TBD and if it's a PNG
+
+  };
+}

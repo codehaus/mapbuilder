@@ -106,16 +106,6 @@ function MapContainerBase(widgetNode,model) {
     //TBD: do an extent history by storing extents every time the aoi changes
 
     /**
-     * Called just before paint to set the map scale as stylesheet param
-     * @param objRef pointer to this object.
-     */
-    this.prePaint = function(objRef) {
-      var mapScale = objRef.model.extent.getScale();
-      if (this.stylesheet) this.stylesheet.setParameter("mapScale", mapScale );
-      if (_SARISSA_IS_IE) this.stylesheet.setParameter("isIE", "true" );
-    }
-
-    /**
      * Called just before paint to set a help message for when the cursor is 
      * over the map container.
       //TBD: implement some sort of map pane hover mechanism to show the tooltip

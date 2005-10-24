@@ -58,6 +58,8 @@ function Caps2Context(toolNode, model) {
 
     var newContext = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
 
+    objRef.targetModel.setParam("newModel", null);
+
     objRef.targetModel.url = '';
 
     objRef.targetModel.doc = newContext;
@@ -89,6 +91,8 @@ function Caps2Context(toolNode, model) {
     objRef.stylesheet.setParameter("selectedLayer",layerName);
 
     var newContext = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
+
+    objRef.targetModel.setParam("newModel", null);
 
     objRef.targetModel.url = '';
 
