@@ -97,7 +97,7 @@
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureCollection</targetModel>
       <class>Button</class>
-      <disabledSrc>/images/DeleteFeatureDisable.gif</disabledSrc>
+      <disabledSrc>/images/DeleteDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
       <targetContext>mainMap</targetContext>
@@ -108,38 +108,38 @@
       <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <selected>true</selected>
-      <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
-      <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
+      <enabledSrc>/images/ZoomInEnable.png</enabledSrc>
+      <disabledSrc>/images/ZoomInDisable.png</disabledSrc>
     </ZoomIn>
     <ZoomOut id="zoomOut">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
-      <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
-      <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
+      <enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
+      <disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
     </ZoomOut>
     <DragPan id="dragPan">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <mouseHandler>mainDragPan</mouseHandler>
       <class>RadioButton</class>
-      <enabledSrc>/images/PanEnable.gif</enabledSrc>
-      <disabledSrc>/images/PanDisable.gif</disabledSrc>
+      <enabledSrc>/images/PanEnable.png</enabledSrc>
+      <disabledSrc>/images/PanDisable.png</disabledSrc>
     </DragPan>
     <Reset id="reset">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <class>Button</class>
-      <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
+      <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
     </Reset>
     <EditPoint id="editPoint">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureCollection</targetModel>
       <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
-      <enabledSrc>/images/EditPointEnable.gif</enabledSrc>
-      <disabledSrc>/images/EditPointDisable.gif</disabledSrc>
+      <enabledSrc>/images/EditPointEnable.png</enabledSrc>
+      <disabledSrc>/images/EditPointDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
       <featureXpath>/gml:featureMember/topp:tasmania_cities/topp:the_geom/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
@@ -151,8 +151,8 @@
       <targetModel>featureCollection</targetModel>
       <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
-      <enabledSrc>/images/EditLineEnable.gif</enabledSrc>
-      <disabledSrc>/images/EditLineDisable.gif</disabledSrc>
+      <enabledSrc>/images/EditLineEnable.png</enabledSrc>
+      <disabledSrc>/images/EditLineDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
       <featureXpath>/gml:featureMember/topp:tasmania_roads/topp:the_geom/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
@@ -163,7 +163,7 @@
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureCollection</targetModel>
       <class>Button</class>
-      <disabledSrc>/images/SaveDisable.gif</disabledSrc>
+      <disabledSrc>/images/SaveDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
       <targetContext>mainMap</targetContext>
@@ -173,8 +173,8 @@
       <targetModel>mainMap</targetModel>
       <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
-      <disabledSrc>/images/QueryDisable.gif</disabledSrc>
-      <enabledSrc>/images/QueryEnable.gif</enabledSrc>
+      <disabledSrc>/images/QueryDisable.png</disabledSrc>
+      <enabledSrc>/images/QueryEnable.png</enabledSrc>
       <typeName>topp:tasmania_cities,topp:tasmania_roads</typeName>
       <tolerance>5</tolerance>
       <transactionResponseModel>featureCollection</transactionResponseModel>

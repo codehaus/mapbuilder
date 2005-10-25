@@ -162,9 +162,9 @@
 
 			<class>RadioButton</class>
 
-			<enabledSrc>/images/PlayEnable.gif</enabledSrc>
+			<enabledSrc>/images/PlayEnable.png</enabledSrc>
 
-			<disabledSrc>/images/PlayDisable.gif</disabledSrc>
+			<disabledSrc>/images/PlayDisable.png</disabledSrc>
 
 			<tooltip>play the movie</tooltip>
 
@@ -180,7 +180,7 @@
 
 			<class>Button</class>
 
-			<disabledSrc>/images/StepBack.gif</disabledSrc>
+			<disabledSrc>/images/StepBackwardDisable.png</disabledSrc>
 
 			<tooltip>step back one frame</tooltip>
 
@@ -196,9 +196,9 @@
 
 			<class>RadioButton</class>
 
-			<enabledSrc>/images/PauseEnable.gif</enabledSrc>
+			<enabledSrc>/images/PauseEnable.png</enabledSrc>
 
-			<disabledSrc>/images/PauseDisable.gif</disabledSrc>
+			<disabledSrc>/images/PauseDisable.png</disabledSrc>
 
 			<tooltip>pause the movie</tooltip>
 
@@ -214,9 +214,9 @@
 
 			<class>RadioButton</class>
 
-			<enabledSrc>/images/StopEnable.gif</enabledSrc>
+			<enabledSrc>/images/StopEnable.png</enabledSrc>
 
-			<disabledSrc>/images/StopDisable.gif</disabledSrc>
+			<disabledSrc>/images/StopDisable.png</disabledSrc>
 
 			<tooltip>stop and rewind to beginning</tooltip>
 
@@ -232,7 +232,7 @@
 
 			<class>Button</class>
 
-			<disabledSrc>/images/StepForward.gif</disabledSrc>
+			<disabledSrc>/images/StepForwardDisable.png</disabledSrc>
 
 			<tooltip>step ahead one frame</tooltip>
 
@@ -252,9 +252,9 @@
 
 			<selected>true</selected>
 
-			<enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
+			<enabledSrc>/images/ZoomInEnable.png</enabledSrc>
 
-			<disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
+			<disabledSrc>/images/ZoomInDisable.png</disabledSrc>
 
 		</ZoomIn>
 
@@ -268,9 +268,9 @@
 
 			<class>RadioButton</class>
 
-			<enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
+			<enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
 
-			<disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
+			<disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
 
 		</ZoomOut>
 
@@ -282,7 +282,7 @@
 
 			<class>Button</class>
 
-			<disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
+			<disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
 
 		</Reset>
 
@@ -294,7 +294,7 @@
 
 			<class>Button</class>
 
-			<disabledSrc>/images/SaveDisable.gif</disabledSrc>
+			<disabledSrc>/images/SaveDisable.png</disabledSrc>
 
 			<popupWindowName>modelXML</popupWindowName>
 
