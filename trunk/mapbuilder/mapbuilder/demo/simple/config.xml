@@ -34,30 +34,30 @@
 			<mouseHandler>mainAoi</mouseHandler>
 			<class>RadioButton</class>
 			<selected>true</selected>
-			<enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
-			<disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
+			<enabledSrc>/images/ZoomInEnable.png</enabledSrc>
+			<disabledSrc>/images/ZoomInDisable.png</disabledSrc>
 		</ZoomIn>
 		<ZoomOut id="zoomOut">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
 			<mouseHandler>mainAoi</mouseHandler>
 			<class>RadioButton</class>
-			<enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
-			<disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
+			<enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
+			<disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
 		</ZoomOut>
 		<DragPan id="dragPan">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
 			<mouseHandler>mainDragPan</mouseHandler>
 			<class>RadioButton</class>
-			<enabledSrc>/images/PanEnable.gif</enabledSrc>
-			<disabledSrc>/images/PanDisable.gif</disabledSrc>
+			<enabledSrc>/images/PanEnable.png</enabledSrc>
+			<disabledSrc>/images/PanDisable.png</disabledSrc>
 		</DragPan>
 		<Reset id="reset">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
 			<class>Button</class>
-			<disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
+			<disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
 		</Reset>
 	</widgets>
 	<skinDir>../../lib/skin/default</skinDir>
