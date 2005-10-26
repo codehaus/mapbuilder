@@ -45,24 +45,26 @@ function GetFeatureInfo(toolNode, model) {
            alert("There are no queryable layers available, please add a queryable layer to the context.");
            return;
       	}
-        // Steven added the following code to query multiple layers.
         else {
           for (var i=0; i<queryList.length; ++i) {
             var layerNode=queryList[i];
             var layerName=layerNode.firstChild.data;
-            objRef.xsl.setParameter("queryLayer", layerName);
-            objRef.xsl.setParameter("xCoord", targetNode.evpl[0]);
-            objRef.xsl.setParameter("yCoord", targetNode.evpl[1]);
-            objRef.xsl.setParameter("infoFormat", objRef.infoFormat);
-            objRef.xsl.setParameter("featureCount", "1");
+            var hidden = objRef.context.getHidden(layerName);
+            if (hidden == 0) { //query only visible layers
+              objRef.xsl.setParameter("queryLayer", layerName);
+              objRef.xsl.setParameter("xCoord", targetNode.evpl[0]);
+              objRef.xsl.setParameter("yCoord", targetNode.evpl[1]);
+              objRef.xsl.setParameter("infoFormat", objRef.infoFormat);
+              objRef.xsl.setParameter("featureCount", "1");
 
-            urlNode=objRef.xsl.transformNodeToObject(objRef.context.doc);
-            url=urlNode.documentElement.firstChild.nodeValue;
-            httpPayload = new Object();
-	          httpPayload.url = url;
-            httpPayload.method="get";
-            httpPayload.postData=null;
-            objRef.targetModel.newRequest(objRef.targetModel,httpPayload);    
+              urlNode=objRef.xsl.transformNodeToObject(objRef.context.doc);
+              url=urlNode.documentElement.firstChild.nodeValue;
+              httpPayload = new Object();
+  	          httpPayload.url = url;
+              httpPayload.method="get";
+              httpPayload.postData=null;
+              objRef.targetModel.newRequest(objRef.targetModel,httpPayload);    
+              }
             }
           }
         }
