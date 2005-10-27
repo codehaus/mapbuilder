@@ -48,6 +48,9 @@
         <LayerControl id="contextLegend">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
+          <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
+          <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
+          <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
         </LayerControl>
         <OWSCatSearchForm id="owsCatSearchForm">
           <htmlTagId>workspace</htmlTagId>
@@ -250,7 +253,6 @@
               <mapContainerId>mainMapContainer</mapContainerId>
             </GmlRendererWZ-->
             <Widget id="resultList">
-            <debug/>
               <stylesheet>OWSCatResultList.xsl</stylesheet>
               <htmlTagId>workspace</htmlTagId>
               <outputNodeId>workspaceCanvas</outputNodeId>

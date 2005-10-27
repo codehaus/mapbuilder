@@ -1,3 +1,5 @@
+IMG { border-style: none; }
+
 #cursorTrack, #cursorTrack INPUT
 {
   border: 0px blue none;
