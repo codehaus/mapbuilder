@@ -30,12 +30,14 @@ $Id$
     <form name="{$formName}" id="{$formName}">
       <xsl:choose>
         <xsl:when test="$showXY='true'">
-          <xsl:value-of select="$xcoord"/> <input name="longitude" type="text" size="10" readonly="readonly"/>
-          <xsl:value-of select="$ycoord"/> <input name="latitude" type="text" size="10" readonly="readonly"/>
+          <xsl:value-of select="$longitude"/> <input name="longitude" type="text" SIZE="8" readonly="readonly"/>
+          <xsl:value-of select="$xcoord"/> <input name="xpos" type="text" size="8" readonly="readonly"/>
+          <xsl:value-of select="$latitude"/> <input name="latitude" type="text" SIZE="8" readonly="readonly"/>
+          <xsl:value-of select="$ycoord"/> <input name="ypos" type="text" size="8" readonly="readonly"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="$longitude"/> <input name="longitude" type="text" SIZE="6" readonly="readonly"/>
-          <xsl:value-of select="$latitude"/> <input name="latitude" type="text" SIZE="6" readonly="readonly"/>
+          <xsl:value-of select="$longitude"/> <input name="longitude" type="text" SIZE="8" readonly="readonly"/>
+          <xsl:value-of select="$latitude"/> <input name="latitude" type="text" SIZE="8" readonly="readonly"/>
         </xsl:otherwise>
       </xsl:choose>
     </form>
