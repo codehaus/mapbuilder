@@ -25,7 +25,12 @@ function CursorTrack(widgetNode, model) {
   this.showXY = false;
   var showXYNode = widgetNode.selectSingleNode("mb:showXY");
   if (showXYNode) this.showXY = (showXYNode.firstChild.nodeValue=="false")?false:true;
-
+  
+  this.precision = 2;
+  var precision = widgetNode.selectSingleNode("mb:precision");
+  if (precision) 
+    this.precision = precision.firstChild.nodeValue;
+  
   /**
    * Start cursor tracking when the mouse is over the MapContainer.
    * set an interval to output the coords so that it doesn't execute on every
@@ -53,6 +58,10 @@ function CursorTrack(widgetNode, model) {
     objRef.mouseOver = false;
     objRef.coordForm.longitude.value = "";
     objRef.coordForm.latitude.value = "";
+    if( objRef.coordForm.xpos)
+      objRef.coordForm.xpos.value = "";
+    if( objRef.coordForm.ypos)
+     objRef.coordForm.ypos.value = "";
   }
 
   /**
@@ -87,10 +96,26 @@ function CursorTrack(widgetNode, model) {
  */
 function ReportCoords() {
   var objRef = window.cursorTrackObject;
+  
   if (objRef.mouseOver) {
-    var evxy = objRef.model.extent.getXY( window.cursorTrackNode.evpl );
-    if (!objRef.showXY) evxy = objRef.proj.Inverse( evxy );   //convert to lat/long
-    objRef.coordForm.longitude.value = Math.round(evxy[0]*100)/100;
-    objRef.coordForm.latitude.value = Math.round(evxy[1]*100)/100;
+    var evXY =  window.cursorTrackNode.evpl;
+    
+    if( objRef.coordForm.xpos )
+      objRef.coordForm.xpos.value = evXY[0];
+    if( objRef.coordForm.ypos )
+      objRef.coordForm.ypos.value = evXY[1];
+
+    //if (!objRef.showXY) { 
+      var evLatLon = objRef.model.extent.getXY( evXY );
+      if( objRef.proj )
+        evLatLon = objRef.proj.Inverse( evLatLon );   //convert to lat/long
+      //objRef.coordForm.longitude.value = Math.round(evLatLon[0]*100)/100;
+      //objRef.coordForm.latitude.value = Math.round(evLatLon[1]*100)/100;
+      if( objRef.coordForm.longitude )
+        objRef.coordForm.longitude.value = evLatLon[0].toFixed(objRef.precision);
+      if( objRef.coordForm.latitude )
+        objRef.coordForm.latitude.value = evLatLon[1].toFixed(objRef.precision);
+    //}
+    
   }
 }
