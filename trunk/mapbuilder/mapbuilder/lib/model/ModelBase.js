@@ -228,6 +228,7 @@ function ModelBase(modelNode, parentModel) {
 
     // Show the newly loaded XML document
     if(this.debug) alert("Loading Model:"+this.id+" "+Sarissa.serialize(this.doc));
+    this.callListeners("contextLoaded");  //PGC
     this.callListeners("loadModel");
   }
 
