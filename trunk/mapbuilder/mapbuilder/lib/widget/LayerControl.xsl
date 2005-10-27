@@ -21,9 +21,9 @@ $Name:  $
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
   <xsl:param name="skinDir"/>
-  <xsl:param name="MoveUpImage"/>
-  <xsl:param name="MoveDownImage"/>
-  <xsl:param name="DeleteImage"/>
+  <xsl:param name="moveUpImage"/>
+  <xsl:param name="moveDownImage"/>
+  <xsl:param name="deleteImage"/>
   
   <!-- Text params for this widget -->
   <xsl:param name="title"/>
@@ -64,17 +64,17 @@ $Name:  $
       </td>
       <td>
        <a href="javascript:{$context}.setParam('moveLayerUp','{$layerName}')" class="mbButton">
-        <img title="{$moveLayerUpTip}" src="{$skinDir}{$MoveUpImage}" />
+        <img title="{$moveLayerUpTip}" src="{$skinDir}{$moveUpImage}" />
        </a>
       </td>
       <td>
        <a href="javascript:{$context}.setParam('moveLayerDown','{$layerName}')" class="mbButton">
-        <img title="{$moveLayerDownTip}" src="{$skinDir}{$MoveDownImage}" />
+        <img title="{$moveLayerDownTip}" src="{$skinDir}{$moveDownImage}" />
        </a>
       </td>
       <td>
        <a href="javascript:{$context}.setParam('deleteLayer','{$layerName}')" class="mbButton">
-        <img title="{$deleteLayerTip}" src="{$skinDir}{$DeleteImage}" />
+        <img title="{$deleteLayerTip}" src="{$skinDir}{$deleteImage}" />
        </a>
       </td>
       <td onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}')">
