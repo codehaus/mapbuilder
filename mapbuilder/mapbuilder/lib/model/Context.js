@@ -98,7 +98,8 @@ function Context(modelNode, parent) {
       objRef.setParam("aoi",new Array(new Array(aoi[0],aoi[3]),new Array(aoi[2],aoi[1])));
     }
   }
-  this.addListener( "loadModel", this.initParams, this );
+  //PGC this.addListener( "loadModel", this.initParams, this );
+  this.addListener( "contextLoaded", this.initParams, this );
 
   /**
    * Set the Spacial Reference System for the context document.
