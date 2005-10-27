@@ -66,7 +66,7 @@ function WebServiceRequest(toolNode, model) {
     if (this.requestFilter) {
       var filter = config.objects[this.requestFilter];
       this.requestStylesheet.setParameter("filter", escape(Sarissa.serialize(filter.doc)) );
-      alert(Sarissa.serialize(filter.doc));
+      if (this.debug) alert(Sarissa.serialize(filter.doc));
     }
 
     //process the doc with the stylesheet
