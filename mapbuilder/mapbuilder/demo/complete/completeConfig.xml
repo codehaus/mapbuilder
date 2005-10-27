@@ -54,9 +54,9 @@
 					<htmlTagId>saveModel</htmlTagId>
 				</SaveModel>
 				<LayerControl id="layerControl">
-				<MoveUpImage>/images/LayerMoveUpDisable.png</MoveUpImage>
-				<MoveDownImage>/images/LayerMoveDownDisable.png</MoveDownImage>
-				<DeleteImage>/images/LayerRemoveDisable.png</DeleteImage>
+          <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
+          <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
+          <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
 				</LayerControl>
 				<!--
         <SearchForm id="searchForm">
