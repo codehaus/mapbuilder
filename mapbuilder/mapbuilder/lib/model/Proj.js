@@ -718,6 +718,204 @@ function lcc2ll(coords) {
 
 
 
+//*******************************************************************************
+
+//NAME                            POLAR STEREOGRAPHIC 
+
+// converted from the GCTPC package
+
+//* Variables common to all subroutines in this code file
+
+//  static double r_major;		/* major axis			*/
+
+//  static double r_minor;		/* minor axis			*/
+
+//  static double e;			/* eccentricity			*/
+
+//  static double e4;			/* e4 calculated from eccentricity*/
+
+//  static double center_lon;		/* center longitude		*/
+
+//  static double center_lat;		/* center latitude		*/
+
+//  static double fac;			/* sign variable		*/
+
+//  static double ind;			/* flag variable		*/
+
+//  static double mcs;			/* small m			*/
+
+//  static double tcs;			/* small t			*/
+
+//  static double false_northing;		/* y offset in meters		*/
+
+//  static double false_easting;		/* x offset in meters		*/
+
+
+
+
+
+//* Initialize the Polar Stereographic projection
+
+function psinit(param) {
+
+// array consisting of:  r_maj,r_min,c_lon,c_lat,false_east,false_north) 
+
+//double c_lon;				/* center longitude	in degrees	*/
+
+//double c_lat;				/* center latitude in degrees		*/
+
+//double r_maj;				/* major axis			*/
+
+//double r_min;				/* minor axis			*/
+
+//double false_east;			/* x offset in meters		*/
+
+//double false_north;			/* y offset in meters		*/
+
+
+
+	this.r_major = param[0];
+
+	this.r_minor = param[1];
+
+	this.center_lon = param[2] * D2R;
+
+	this.center_lat = param[3] * D2R;
+
+	this.false_easting = param[4];
+
+	this.false_northing = param[5];
+
+
+
+	var temp = this.r_minor / this.r_major;
+
+	this.e = 1.0 - temp*temp;
+
+	this.e = Math.sqrt(this.e);
+
+	var con = 1.0 + this.e;
+
+	var com = 1.0 - this.e;
+
+	this.e4 = Math.sqrt( Math.pow(con,con) * Math.pow(com,com) );
+
+  this.fac = (this.center_lat < 0) ? -1.0 : 1.0;
+
+	this.ind = 0;
+
+	if (Math.abs(Math.abs(this.center_lat) - HALF_PI) > EPSLN) {
+
+		this.ind = 1;
+
+		var con1 = this.fac * this.center_lat; 
+
+		var sinphi = Math.sin(con1);
+
+		this.mcs = msfnz(this.e, sinphi, Math.cos(con1));
+
+		this.tcs = tsfnz(this.e, con1, sinphi);
+
+	}
+
+}
+
+
+
+//* Polar Stereographic forward equations--mapping lat,long to x,y
+
+//  --------------------------------------------------------------*/
+
+function ll2ps(coords) {
+
+
+
+	var lon = coords[0];
+
+	var lat = coords[1];
+
+
+
+	var con1 = this.fac * adjust_lon(lon - this.center_lon);
+
+	var con2 = this.fac * lat;
+
+	var sinphi = Math.sin(con2);
+
+	var ts = tsfnz(this.e, con2, sinphi);
+
+	if (this.ind != 0) {
+
+		rh = this.r_major * this.mcs * ts / this.tcs;
+
+	} else {
+
+		rh = 2.0 * this.r_major * ts / this.e4;
+
+	}
+
+	var x = this.fac * rh * Math.sin(con1) + this.false_easting;
+
+	var y = -this.fac * rh * Math.cos(con1) + this.false_northing;;
+
+
+
+	return new Array(x,y);
+
+}
+
+
+
+//* Polar Stereographic inverse equations--mapping x,y to lat/long
+
+//  --------------------------------------------------------------*/
+
+function ps2ll(coords) {
+
+
+
+	x = (coords[0] - this.false_easting) * this.fac;
+
+	y = (coords[1] - this.false_northing) * this.fac;
+
+	var rh = Math.sqrt(x * x + y * y);
+
+	if (this.ind != 0) {
+
+		ts = rh * this.tcs/(this.r_major * this.mcs);
+
+	} else {
+
+		ts = rh * this.e4/(this.r_major * 2.0);
+
+	}
+
+	var lat = this.fac * phi2z(this.e, ts);
+
+	if (lat == -9999) return null;
+
+	var lon = 0;
+
+	if (rh == 0) {
+
+		lon = this.fac * this.center_lon;
+
+	} else {
+
+		lon = adjust_lon(this.fac * Math.atan2(x, -y) + this.center_lon);
+
+	}
+
+	return new Array(R2D*lon, R2D*lat);
+
+}
+
+
+
+
+
+
+
 // Function to compute the constant small m which is the radius of
 
 //   a parallel of latitude, phi, divided by the semimajor axis.
