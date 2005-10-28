@@ -2,7 +2,7 @@
 <MapbuilderConfig version="0.2.1" id="DemisMapExample" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
 	<models>
 		<Context id="mainMap">
-			<defaultModelUrl>atlasWorld.xml</defaultModelUrl>
+			<defaultModelUrl>DemisWorldMap.xml</defaultModelUrl>
 			
       <widgets>
 				<MapPane id="mainMapWidget">
@@ -26,7 +26,10 @@
         -->        
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
-          <showXY>true</showXY>
+          <showPx>false</showPx>
+          <showDMS>true</showDMS>
+          <showLatLong>false</showLatLong>
+          <showMGRS>false</showMGRS>
           <precision>2</precision>
         </CursorTrack>
         
