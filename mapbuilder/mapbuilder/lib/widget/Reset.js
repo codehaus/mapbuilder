@@ -17,6 +17,10 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 function Reset(widgetNode, model) {
   ButtonBase.apply(this, new Array(widgetNode, model));
 
+  // override default cursor by user
+  // cursor can be changed by spefying a new cursor in config file
+  this.cursor = "default"; 
+
   /**
    * Store a copy of the original extent locally as a loadModel event listener.
    * @param objRef Pointer to this object.
