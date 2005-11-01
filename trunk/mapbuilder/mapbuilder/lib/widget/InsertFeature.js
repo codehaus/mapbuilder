@@ -15,6 +15,11 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @param model The model for this widget
  */
 function InsertFeature(widgetNode, model) {
+
+  // override default cursor by user
+  // cursor can be changed by spefying a new cursor in config file
+  this.cursor = "default"; 
+
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
 
