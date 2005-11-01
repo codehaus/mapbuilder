@@ -17,6 +17,10 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 function DeleteFeature(widgetNode, model) {
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
+  
+  // override default cursor by user
+  // cursor can be changed by spefying a new cursor in config file
+  this.cursor = "default"; 
 
   this.trm=widgetNode.selectSingleNode("mb:transactionResponseModel").firstChild.nodeValue;
   this.tm=widgetNode.selectSingleNode("mb:targetModel").firstChild.nodeValue;

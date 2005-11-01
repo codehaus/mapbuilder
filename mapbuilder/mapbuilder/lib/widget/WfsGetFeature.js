@@ -27,6 +27,10 @@ function WfsGetFeature(widgetNode, model) {
   this.trm=widgetNode.selectSingleNode("mb:transactionResponseModel").firstChild.nodeValue;
   this.transactionResponseModel="init";
 
+  // override default cursor by user
+  // cursor can be changed by spefying a new cursor in config file
+  this.cursor = "pointer"; 
+
   /**
    * Open window with query info.
    * This function is called when user clicks map with Query tool.

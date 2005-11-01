@@ -73,6 +73,23 @@ function ButtonBase(widgetNode, model) {
    * doSelect method defined in derived classes.
    */
   this.select = function() {
+  
+    // Add support to change cursors in the map area based on:
+    // either user selected cursor in config file using <cursor> tag
+    // or default tool cursor as defined in constructor   
+    var a = document.getElementById("mainMapContainer");
+    if( a != null ) {
+      // default tool cursor
+      a.style.cursor = this.cursor;
+             
+      // Check for user override
+      var cursorNode = this.widgetNode.selectSingleNode("mb:cursor");
+      if( cursorNode != null ) {
+        var cursor = cursorNode.firstChild.nodeValue;
+        a.style.cursor = cursor;
+      }
+    }  
+       
     if (this.buttonType == "RadioButton") {
       if (this.node.selectedRadioButton) {
         with (this.node.selectedRadioButton) {
@@ -87,7 +104,7 @@ function ButtonBase(widgetNode, model) {
       if (this.enabledImage) this.image.src = this.enabledImage.src;
       this.link.className = "mbButtonSelected";
     }
-
+    
     //enable this tool and any dependancies
     this.enabled = true;
     if ( this.mouseHandler ) this.mouseHandler.enabled = true;
@@ -95,27 +112,11 @@ function ButtonBase(widgetNode, model) {
   }
 
   /**
-   * Set the tool's cursor based on either button's <cursor> tag in config
-   * file or default tool's cursor defined in the JS constructor.
+   * Method overriden by subclasses
    * @param selected True when selected, false when deselected.
    * @param objRef Reference to this object.
    */
   this.doSelect = function(selected, objRef) {
-    // Set cursor
-    if( selected == true ) {
-      var a = document.getElementById("mainMapContainer");
-      if( a != null ) {
-        // default tool cursor
-        a.style.cursor = this.cursor;
-            
-        // Check for user override
-        var cursorNode =  objRef.widgetNode.selectSingleNode("mb:cursor");
-        if( cursorNode != null ) {
-          var cursor = cursorNode.firstChild.nodeValue;
-          a.style.cursor = cursor;
-        }
-      }  
-    }
   }
 
   //a button may be set as selected in the config file
