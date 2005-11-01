@@ -45,7 +45,7 @@ $Id$
         
         <xsl:if test="$showDMS='true'">
           <xsl:value-of select="$longitude"/> 
-          <input name="longdeg" type="text" size="2" readonly="readonly"/>&#176;
+          <input name="longdeg" type="text" size="3" readonly="readonly"/>&#176;
           <input name="longmin" type="text" size="2" readonly="readonly"/>&quot;
           <input name="longsec" type="text" size="2" readonly="readonly"/>&apos;
           <input name="longH" type="text" size="1" readonly="readonly"/>&#8195;
