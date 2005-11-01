@@ -196,6 +196,11 @@
         <xs:sequence>
           <xs:element name="mouseHandler" type="xs:string"/>
           <xs:element name="showXY" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="showPx" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="showDMS" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="showLatLong" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="showMGRS" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="precision" type="xs:integer" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -822,6 +827,11 @@
             </xs:annotation>
           </xs:element>
           <xs:element name="action" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation/>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="cursor" type="xs:string" minOccurs="0">
             <xs:annotation>
               <xs:documentation/>
             </xs:annotation>
