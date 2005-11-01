@@ -38,6 +38,22 @@ function EditButtonBase(widgetNode, model) {
    * @param selected True when selected.
    */
   this.doSelect = function(selected,objRef) {
+    // Set cursor
+    if( selected == true ) {
+      var a = document.getElementById("mainMapContainer");
+      if( a != null ) {
+        // default tool cursor
+        a.style.cursor = this.cursor;
+            
+        // Check for user override
+        var cursorNode =  objRef.widgetNode.selectSingleNode("mb:cursor");
+        if( cursorNode != null ) {
+          var cursor = cursorNode.firstChild.nodeValue;
+          a.style.cursor = cursor;
+        }
+      }  
+    }
+    // Load default feature.
     if (objRef.enabled && selected && objRef.targetModel.url!=objRef.defaultModelUrl){
       a=new Array("transactionResponseModel","webServiceUrl","featureXpath","defaultModelUrl","targetContext");
       for (i in a){
