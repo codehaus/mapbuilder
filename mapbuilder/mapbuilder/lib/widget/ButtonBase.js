@@ -95,29 +95,27 @@ function ButtonBase(widgetNode, model) {
   }
 
   /**
-   * Override this function in Buttons to process select/deselect calls.
+   * Set the tool's cursor based on either button's <cursor> tag in config
+   * file or default tool's cursor defined in the JS constructor.
    * @param selected True when selected, false when deselected.
    * @param objRef Reference to this object.
    */
   this.doSelect = function(selected, objRef) {
-     // Add support to change cursors in the map area based on:
-     // either user selected cursor in config file
-     // or default tool cursor as defined in constructor
-     
-     if( selected == true ) {
-         var a = document.getElementById("mainMapContainer");
-         if( a != null ) {
-             // default tool cursor
-             a.style.cursor = this.cursor;
-             
-             // Check for user override
-             var cursorNode =  objRef.widgetNode.selectSingleNode("mb:cursor");
-             if( cursorNode != null ) {
-                 var cursor = cursorNode.firstChild.nodeValue;
-                 a.style.cursor = cursor;
-             }
-         }  
-     }
+    // Set cursor
+    if( selected == true ) {
+      var a = document.getElementById("mainMapContainer");
+      if( a != null ) {
+        // default tool cursor
+        a.style.cursor = this.cursor;
+            
+        // Check for user override
+        var cursorNode =  objRef.widgetNode.selectSingleNode("mb:cursor");
+        if( cursorNode != null ) {
+          var cursor = cursorNode.firstChild.nodeValue;
+          a.style.cursor = cursor;
+        }
+      }  
+    }
   }
 
   //a button may be set as selected in the config file
