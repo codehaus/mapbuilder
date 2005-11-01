@@ -19,8 +19,6 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
  */
 function ButtonBase(widgetNode, model) {
 
-  this.cursor = "default";	// Adding support for customized cursors
-
   //stylesheet is fixed to this one
   this.stylesheet = new XslProcessor(baseDir+"/widget/Button.xsl");
   var buttonBarNode = widgetNode.selectSingleNode("mb:buttonBar");
@@ -48,6 +46,15 @@ function ButtonBase(widgetNode, model) {
   if (enabledImage) {
     this.enabledImage = document.createElement("IMG");
     this.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
+  }
+  
+  // Check for cursor override
+  var cursorNode = this.widgetNode.selectSingleNode("mb:cursor");
+  if( cursorNode != null ) {
+    var cursor = cursorNode.firstChild.nodeValue;
+    this.cursor = cursor;
+  } else {
+    this.cursor = "default"; // Adding support for customized cursors
   }
 
   /**
@@ -79,15 +86,8 @@ function ButtonBase(widgetNode, model) {
     // or default tool cursor as defined in constructor   
     var a = document.getElementById("mainMapContainer");
     if( a != null ) {
-      // default tool cursor
+      // default or user selected cursor
       a.style.cursor = this.cursor;
-             
-      // Check for user override
-      var cursorNode = this.widgetNode.selectSingleNode("mb:cursor");
-      if( cursorNode != null ) {
-        var cursor = cursorNode.firstChild.nodeValue;
-        a.style.cursor = cursor;
-      }
     }  
        
     if (this.buttonType == "RadioButton") {
