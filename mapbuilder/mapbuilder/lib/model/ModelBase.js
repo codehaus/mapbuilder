@@ -151,10 +151,7 @@ function ModelBase(modelNode, parentModel) {
 
       } else {
         //XML content type
-
-        //PatC deprecated with Sarissa 0.9.6.1
-        //var xmlHttp = Sarissa.getXmlHttpRequest();
-        var xmlHttp = new XMLHttpRequest(); // PatC
+        var xmlHttp = new XMLHttpRequest();
         
         var sUri = objRef.url;
         if ( sUri.indexOf("http://")==0 ) {
