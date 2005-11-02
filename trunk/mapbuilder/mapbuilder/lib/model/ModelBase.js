@@ -214,19 +214,32 @@ function ModelBase(modelNode, parentModel) {
   }
 
   /**
+   * Set the model's XML document using an XML object as a parameter.
+   * @param objRef Pointer to this object.
+   * @param newModel XML object to be inserted into the new model.
+   */
+  this.setModel=function(objRef,newModel){
+    objRef.callListeners("newModel");
+    objRef.doc=newModel;
+    objRef.finishLoading();
+  }
+
+  /**
    * Common steps to be carried out after all manner of model loading
    * Called to set the namespace for XPath selections and call the loadModel
    * listeners.
    */
   this.finishLoading = function() {
     // the following two lines are needed for IE; set the namespace for selection
-    this.doc.setProperty("SelectionLanguage", "XPath");
-    if (this.namespace) Sarissa.setXpathNamespaces(this.doc, this.namespace);
+    if(this.doc){
+      this.doc.setProperty("SelectionLanguage", "XPath");
+      if(this.namespace) Sarissa.setXpathNamespaces(this.doc, this.namespace);
 
-    // Show the newly loaded XML document
-    if(this.debug) alert("Loading Model:"+this.id+" "+Sarissa.serialize(this.doc));
-    this.callListeners("contextLoaded");  //PGC
-    this.callListeners("loadModel");
+      // Show the newly loaded XML document
+      if(this.debug) alert("Loading Model:"+this.id+" "+Sarissa.serialize(this.doc));
+      this.callListeners("contextLoaded");  //PGC
+      this.callListeners("loadModel");
+    }
   }
 
   /**
