@@ -45,15 +45,6 @@ function EditButtonBase(widgetNode, model) {
   
     // Load default feature.
     if (objRef.enabled && selected && objRef.targetModel.url!=objRef.defaultModelUrl){
-     
-      a=new Array("transactionResponseModel","webServiceUrl","featureXpath","defaultModelUrl","targetContext");
-      for (i in a){
-        param=widgetNode.selectSingleNode("mb:"+a[i]);
-        if(param){
-          objRef.targetModel.setParam(a[i],param.firstChild.nodeValue);
-        }
-      }
-
       objRef.targetModel.url=objRef.defaultModelUrl;
       // load default GML
       var httpPayload=new Object();
