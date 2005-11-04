@@ -124,10 +124,15 @@ MapPane.prototype.paint = function(objRef, refresh) {
       objRef.node.appendChild(outputNode);
     } 
 
+
     var layers = objRef.model.getAllLayers();
+    if (!objRef.imageStack) objRef.imageStack = new Array(layers.length);
+    objRef.firstImageLoaded = false;
     for (var i=0;i<layers.length;i++){
-      var newDiv = tempNode.firstChild.childNodes[i]; 
-      objRef.loadImgDiv(layers[i],newDiv);
+      var newSrc = tempNode.firstChild.childNodes[i].firstChild.getAttribute("src"); 
+      objRef.imageStack[i] = new Image();
+      objRef.imageStack[i].objRef = objRef;
+      objRef.loadImgDiv(layers[i],newSrc,objRef.imageStack[i]);
     }
 
     objRef.postPaint(objRef);
@@ -151,9 +156,11 @@ MapPane.prototype.addLayer = function(objRef, layerNode) {
   var s = objRef.stylesheet.transformNodeToString(layerNode);
   var tempNode = document.createElement("DIV");
   tempNode.innerHTML = s;
-  var newDiv = tempNode.firstChild; 
+  var newSrc = tempNode.firstChild.firstChild.getAttribute("src"); 
 
-  objRef.loadImgDiv(layerNode,newDiv);
+  objRef.imageStack.push(new Image());
+  objRef.firstImageLoaded = true;
+  objRef.loadImgDiv(layerNode,newSrc,objRef.imageStack[objRef.imageStack.length-1]);
 }
 
 /**
@@ -200,58 +207,76 @@ MapPane.prototype.moveLayerDown = function(objRef, layerName) {
 }
 
 /**
- * Moves a layer up in the stack of map layers
- * @param layerNode the WMS name for the layer to be removed
+ * sets up the image div to be loaded.  Images are preloaded in the imageStack
+ * array and replaced in the document DOM in the onload handler
+ * @param layerNode the context layer to be loaded
+ * @param newSrc the new URL to be used for the image
+ * 
+ * @param layerNode the context layer to be loaded
  */
-MapPane.prototype.loadImgDiv = function(layerNode,newDiv) {
+MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
   var outputNode = document.getElementById( this.outputNodeId );
   var layerName = layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue;  
-  var layerHidden = layerNode.getAttribute("hidden");  
+  var layerHidden = (layerNode.getAttribute("hidden")==1)?true:false;  
   var imageFormat = "image/gif";
   var imageFormatNode = layerNode.selectSingleNode("wmc:FormatList/wmc:Format[@current='1']");  
   if (imageFormatNode) imageFormat = imageFormatNode.firstChild.nodeValue;  
   var imgDivId = this.getLayerDivId(layerName); 
   var imgDiv = document.getElementById(imgDivId);
+  var fixPng = false;
   if (!imgDiv) {
     imgDiv = document.createElement("DIV");
     imgDiv.setAttribute("id", imgDivId);
     imgDiv.style.position = "absolute"; 
-    imgDiv.style.visibility = (layerHidden==1)?"hidden":"visible";
+    imgDiv.style.visibility = (layerHidden)?"hidden":"visible";
     imgDiv.style.top = 0; 
     imgDiv.style.left = 0;
     imgDiv.imgId = Math.random().toString(); 
     var domImg = document.createElement("IMG");
     domImg.id = "real"+imgDiv.imgId;
     domImg.src = "../../lib/skin/default/images/Loading.gif";
-    domImg.offset = new Array(outputNode.style.left,outputNode.style.top);
-    domImg.size = new Array(this.model.getWindowWidth(), this.model.getWindowHeight());
-    if (_SARISSA_IS_IE && imageFormat=="image/png") domImg.fixPng = true;
+    domImg.layerHidden = layerHidden;
     imgDiv.appendChild(domImg);
     outputNode.appendChild(imgDiv);
   }
 
   // preload image
-  var newSrc = newDiv.firstChild.getAttribute("src");
-  newDiv.new_img = new Image();
-  newDiv.new_img.src = newSrc;
-  newDiv.new_img.id = imgDiv.imgId;
+  newImg.src = newSrc;
+  newImg.id = imgDiv.imgId;
+  if (_SARISSA_IS_IE && imageFormat=="image/png") newImg.fixPng = true;
 
 /**
-*Replaces the source with the new one and fixes the displacement to 
-*compensate the container main div displacemen to result in in a zero displacement.
-*@author Michael Jenik     
+* image onload handler function.
+* Replaces the source with the new one and fixes the displacement to 
+* compensate the container main div displacement to result in in a zero displacement.
+* @author Michael Jenik     
 */
-  newDiv.new_img.onload = function() {
+  newImg.onload = function() {
     var oldImg = document.getElementById("real"+this.id );
-    //Note that we are keeping the old div that contains divs that contain images in it position and adjusting the divs that contains images position to compensate the other div position. So this result in the image at position top:0 left: 0 
-    oldImg.parentNode.style.left=-1*parseInt(oldImg.offset[0]);
-    oldImg.parentNode.style.top=-1*parseInt(oldImg.offset[1]);
-    oldImg.width = oldImg.size[0];
-    oldImg.height = oldImg.size[1];
-    oldImg.src = this.src;
-    oldImg.parentNode.parentNode.style.left=0;
-    oldImg.parentNode.parentNode.style.top=0;
-    if (oldImg.fixPng) fixPNG(this);  //TBD and if it's a PNG
-
+    var outputNode = oldImg.parentNode.parentNode;
+    if (!this.objRef.firstImageLoaded) {
+      var siblingImageDivs = outputNode.childNodes;
+      for (var i=0; i<siblingImageDivs.length ;++i) {
+        var sibImg = siblingImageDivs[i].firstChild;
+        sibImg.parentNode.style.visibility = "hidden";
+        //Note that we are keeping the old div that contains divs that contain images in it 
+        //position and adjusting the divs that contains images position to compensate the 
+        //other div position. So this result in the image at position top:0 left: 0 
+        //sibImg.parentNode.style.left=-1*parseInt(outputNode.style.left);
+        //sibImg.parentNode.style.top=-1*parseInt(outputNode.style.top);
+      }
+      outputNode.style.left=0;
+      outputNode.style.top=0;   
+      this.objRef.firstImageLoaded = true;
+    }
+    //alert("onload:"+this.src+":"+oldImg.outerHTML);
+    if (this.fixPng) {
+      oldImg.outerHTML = fixPNG(this,"real"+this.id);
+    } else {
+      oldImg.src = this.src;
+      oldImg.width = this.objRef.model.getWindowWidth();
+      oldImg.height = this.objRef.model.getWindowHeight();
+      if (!oldImg.layerHidden) oldImg.parentNode.style.visibility = "visible";
+    }
   };
 }
