@@ -113,7 +113,7 @@
       <!--defaultModelUrl>http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA?version=1.0.0&amp;service=WFS&amp;request=GetCapabilities</defaultModelUrl-->
       <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
       <models>
-        <DescribeFeatureType id="featureTypeTemplate" template="true">
+        <FeatureTypeSchema id="featureTypeTemplate" template="true">
           <widgets>
             <Widget id="attributeFilter">
               <htmlTagId>workspace</htmlTagId>
@@ -121,7 +121,7 @@
               <stylesheet>../../lib/widget/FilterAttributes.xsl</stylesheet>
             </Widget>
           </widgets>
-        </DescribeFeatureType>
+        </FeatureTypeSchema>
         <FeatureCollection id="getFeatureTemplate" template="true">
           <method>get</method>
           <widgets>

@@ -13,7 +13,7 @@ $Id$
  * @param modelNode Pointer to the xml node for this model from the config file.
  * @param parent    The parent model for the object.
  */
-function DescribeFeatureType(modelNode, parent) {
+function FeatureTypeSchema(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   ModelBase.apply(this, new Array(modelNode, parent));
 }
