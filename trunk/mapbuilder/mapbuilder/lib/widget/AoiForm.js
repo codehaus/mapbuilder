@@ -30,10 +30,12 @@ function AoiForm(widgetNode, model) {
   this.displayAoiCoords = function(objRef, targetNode) {
     objRef.aoiForm = document.getElementById(objRef.formName);
     var aoi = objRef.model.getParam("aoi");
-    objRef.aoiForm.westCoord.value = aoi[0][0];
-    objRef.aoiForm.northCoord.value = aoi[0][1];
-    objRef.aoiForm.eastCoord.value = aoi[1][0];
-    objRef.aoiForm.southCoord.value = aoi[1][1];
+    if (aoi && objRef.aoiForm) {
+      objRef.aoiForm.westCoord.value = aoi[0][0];
+      objRef.aoiForm.northCoord.value = aoi[0][1];
+      objRef.aoiForm.eastCoord.value = aoi[1][0];
+      objRef.aoiForm.southCoord.value = aoi[1][1];
+    }
   }
   this.model.addListener('aoi', this.displayAoiCoords, this);
 
