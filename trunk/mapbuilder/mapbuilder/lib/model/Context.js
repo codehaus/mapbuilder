@@ -86,20 +86,29 @@ function Context(modelNode, parent) {
    * Set the BoundingBox element and call the refresh listeners
    * @param boundingBox array in the sequence (xmin, ymin, xmax, ymax).
    */
-  this.initParams=function(objRef) {
+  this.initBbox=function(objRef) {
     // Set BoundingBox in context from URL CGI params
     if (window.cgiArgs["bbox"]) {     //set as minx,miny,maxx,maxy
       var boundingBox = window.cgiArgs["bbox"].split(',');
       objRef.setBoundingBox(boundingBox);
     }
+  }
+  //PGC this.addListener( "loadModel", this.initBbox, this );
+  this.addListener( "contextLoaded", this.initBbox, this );
+
+  /**
+   * Set the aoi param and call the refresh listeners
+   * @param boundingBox array in the sequence (xmin, ymin, xmax, ymax).
+   */
+  this.initAoi=function(objRef) {
     // Set AOI of context from URL CGI params
     if (window.cgiArgs["aoi"]) {      //set as ul,lr point arrays
       var aoi = window.cgiArgs["aoi"].split(',');
       objRef.setParam("aoi",new Array(new Array(aoi[0],aoi[3]),new Array(aoi[2],aoi[1])));
     }
   }
-  //PGC this.addListener( "loadModel", this.initParams, this );
-  this.addListener( "contextLoaded", this.initParams, this );
+  this.addListener( "loadModel", this.initAoi, this );
+  //MA this.addListener( "contextLoaded", this.initAoi, this );
 
   /**
    * Set the Spacial Reference System for the context document.
@@ -226,7 +235,7 @@ function Context(modelNode, parent) {
     var parentNode = objRef.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList");
     parentNode.appendChild(objRef.doc.importNode(layerNode,true));
     objRef.modified = true;
-    objRef.callListeners("refresh");
+    //objRef.callListeners("refresh");
   }
   this.addFirstListener( "addLayer", this.addLayer, this );
 
