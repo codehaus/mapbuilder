@@ -208,7 +208,7 @@ function leadingZeros(num,digits) {
 // thanks to Caroklyn Cole for this fix.  For an explanation see:
 // http://homepage.ntlworld.com/bobosola. Updated 02-March-2004
 // modified to the images as visible after this has been called.
-function fixPNG(myImage,myId,vis) {
+function fixPNG(myImage,myId) {
   if (_SARISSA_IS_IE) {
     var imgID = "id='" + myId + "' ";
     var imgClass = (myImage.className) ? "class='" + myImage.className + "' " : ""
@@ -217,7 +217,7 @@ function fixPNG(myImage,myId,vis) {
     var strNewHTML = "<span " + imgID + imgClass + imgTitle
     strNewHTML += " style=\"" + "width:" + myImage.width + "px; height:" + myImage.height + "px;" + imgStyle + ";"
     strNewHTML += "filter:progid:DXImageTransform.Microsoft.AlphaImageLoader";
-    strNewHTML += "(src=\'" + myImage.src + "\', sizingMethod='scale'); visibility:"+vis+"\"></span>" ;
+    strNewHTML += "(src=\'" + myImage.src + "\', sizingMethod='scale'); \"></span>" ;
     //myImage.outerHTML = strNewHTML;
     //alert(strNewHTML);
     return strNewHTML;
