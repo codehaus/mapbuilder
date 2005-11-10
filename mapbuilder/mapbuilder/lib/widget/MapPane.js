@@ -259,6 +259,7 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
 
   // preload image
   newImg.id = imgDiv.imgId;
+  newImg.hidden = layerHidden;
   if (_SARISSA_IS_IE && imageFormat=="image/png") newImg.fixPng = true;
   newImg.onload = MapImgLoadHandler;
   newImg.src = newSrc;
@@ -289,7 +290,7 @@ function MapImgLoadHandler() {
   if (this.fixPng) {
     var vis = oldImg.layerHidden?"hidden":"visible";
     oldImg.outerHTML = fixPNG(this,"real"+this.id);
-    if (!oldImg.layerHidden) {
+    if (!this.hidden) {
       fixImg = document.getElementById("real"+this.id); // The result of fixPng is a span, so we need to set that particular element visible
       fixImg.style.visibility = "visibile"
     }
@@ -297,7 +298,7 @@ function MapImgLoadHandler() {
     oldImg.src = this.src;
     oldImg.width = this.objRef.model.getWindowWidth();
     oldImg.height = this.objRef.model.getWindowHeight();
-    if (!oldImg.layerHidden) {
+    if (!this.hidden) {
       oldImg.parentNode.style.visibility = "visible";
       oldImg.style.visibility = "visible"; //Make sure for IE that the child node is visible as well
     }
