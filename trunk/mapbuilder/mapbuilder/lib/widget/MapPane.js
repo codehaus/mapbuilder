@@ -65,7 +65,12 @@ function MapPane(widgetNode, model) {
     }
     var layerId = objRef.model.id + "_" + objRef.id + "_" + layerName;
     var layer = document.getElementById(layerId);
-    if (layer) layer.style.visibility=vis;
+    if (layer) {
+      layer.style.visibility=vis;
+      imgId = "real"+layer.imgId;
+      img = document.getElementById(imgId); // Hack to make sure that the child element is toggled in IE
+      if(img) img.style.visibility=vis;
+    }
   }
   this.model.addListener("hidden",this.hiddenListener,this);
 
@@ -253,10 +258,10 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
   }
 
   // preload image
-  newImg.src = newSrc;
   newImg.id = imgDiv.imgId;
   if (_SARISSA_IS_IE && imageFormat=="image/png") newImg.fixPng = true;
   newImg.onload = MapImgLoadHandler;
+  newImg.src = newSrc;
 }
 
 /**
@@ -275,6 +280,7 @@ function MapImgLoadHandler() {
     for (var i=0; i<siblingImageDivs.length ;++i) {
       var sibImg = siblingImageDivs[i].firstChild;
       sibImg.parentNode.style.visibility = "hidden";
+      sibImg.style.visibility = "hidden";//Make sure for IE that the child node is hidden as well
     }
     outputNode.style.left=0;
     outputNode.style.top=0;   
@@ -282,11 +288,18 @@ function MapImgLoadHandler() {
   }
   if (this.fixPng) {
     var vis = oldImg.layerHidden?"hidden":"visible";
-    oldImg.outerHTML = fixPNG(this,"real"+this.id,vis);
+    oldImg.outerHTML = fixPNG(this,"real"+this.id);
+    if (!oldImg.layerHidden) {
+      fixImg = document.getElementById("real"+this.id); // The result of fixPng is a span, so we need to set that particular element visible
+      fixImg.style.visibility = "visibile"
+    }
   } else {
     oldImg.src = this.src;
     oldImg.width = this.objRef.model.getWindowWidth();
     oldImg.height = this.objRef.model.getWindowHeight();
-    if (!oldImg.layerHidden) oldImg.parentNode.style.visibility = "visible";
+    if (!oldImg.layerHidden) {
+      oldImg.parentNode.style.visibility = "visible";
+      oldImg.style.visibility = "visible"; //Make sure for IE that the child node is visible as well
+    }
   }
 }
