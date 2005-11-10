@@ -78,8 +78,7 @@ function InsertFeature(widgetNode, model) {
   this.handleResponse=function(objRef){
     sucess=objRef.transactionResponseModel.doc.selectSingleNode("//wfs:TransactionResult/wfs:Status/wfs:SUCCESS");
     if (sucess){
-      // Remove FeatureList and repaint WMS layers if feature entry
-      // was successful.
+      // Remove FeatureList
       objRef.targetModel.setModel(objRef.targetModel,null);
 
       // Repaint the WMS layers
