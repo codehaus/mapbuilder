@@ -37,8 +37,10 @@ $Name$
       <tr>
         <th colspan="3"><xsl:value-of select="$title"/></th>
       </tr>
+      <xsl:apply-templates select="wmc:LayerList/*">
+        <xsl:sort select="position()" order="descending" data-type="number"/>
+      </xsl:apply-templates>
 
-      <xsl:apply-templates select="wmc:LayerList/wmc:Layer[1]"/>
     </table>
   </xsl:template>
   
@@ -47,7 +49,9 @@ $Name$
       <tr>
         <th colspan="3">WMS <xsl:value-of select="$title"/></th>
       </tr>
-      <xsl:apply-templates select="wmc:ResourceList/wmc:Layer[1]"/>
+      <xsl:apply-templates select="wmc:ResourceList/wmc:Layer">
+        <xsl:sort select="position()" order="descending" data-type="number"/>
+      </xsl:apply-templates>
     </table>
   </xsl:template>
   
@@ -78,9 +82,6 @@ $Name$
   
 <!-- Layer -->
   <xsl:template match="wmc:Layer">
-    <xsl:if test="following-sibling::node()">
-      <xsl:apply-templates select="following-sibling::node()[2]"/><!-- this matches the next-sibling node -->
-    </xsl:if>
     <tr>
   <!-- Visiblity -->
       <td>

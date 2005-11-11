@@ -45,7 +45,7 @@ $Name:  $
           <td colspan="5">Layer Control | Layer metadata | Map metadata</td>
         </tr-->
         <xsl:apply-templates select="wmc:LayerList/wmc:Layer">
-          <xsl:sort select="position()" order="descending"/>
+          <xsl:sort select="position()" order="descending" data-type="number"/>
         </xsl:apply-templates>
       </table>
     </div>
