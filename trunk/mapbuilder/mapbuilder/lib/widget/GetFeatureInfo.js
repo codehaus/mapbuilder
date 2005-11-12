@@ -38,6 +38,7 @@ function GetFeatureInfo(toolNode, model) {
 
   this.doAction = function(objRef,targetNode) {
     if (objRef.enabled) {
+      objRef.targetModel.deleteTemplates();
       var selectedLayer=objRef.context.getParam("selectedLayer");
       if (selectedLayer==null) {
         var queryList=objRef.context.getQueryableLayers();
@@ -63,7 +64,7 @@ function GetFeatureInfo(toolNode, model) {
   	          httpPayload.url = url;
               httpPayload.method="get";
               httpPayload.postData=null;
-              objRef.targetModel.newRequest(objRef.targetModel,httpPayload);    
+              objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
               }
             }
           }
@@ -75,11 +76,17 @@ function GetFeatureInfo(toolNode, model) {
           objRef.xsl.setParameter("infoFormat", objRef.infoFormat);
           objRef.xsl.setParameter("featureCount", "1");
 
-          urlNode=objRef.xsl.transformNodeToObject(objRef.context.doc);
-          url=urlNode.documentElement.firstChild.nodeValue;
+          var urlNode=objRef.xsl.transformNodeToObject(objRef.context.doc);
+          var url=urlNode.documentElement.firstChild.nodeValue;
 
           if (objRef.infoFormat=="text/html"){
             window.open(url,'queryWin','height=200,width=300,scrollbars=yes');
+          } else {
+            var httpPayload = new Object();
+            httpPayload.url = url;
+            httpPayload.method="get";
+            httpPayload.postData=null;
+            objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
           }
         }
       }
