@@ -207,9 +207,6 @@ function ModelBase(modelNode, parentModel) {
 
         //objRef.doc.validateOnParse=false;  //IE6 SP2 parsing bug
       }
-    } else {
-      //no URL means this is a template model
-      //alert("url parameter required for loadModelDoc");
     }
   }
 
@@ -255,6 +252,7 @@ function ModelBase(modelNode, parentModel) {
    * @param httpPayload an object to fully specify the request to be made
    */
   this.newRequest = function(objRef, httpPayload){
+    var model = objRef;
     // if the targetModel is a template model, then create new model object and
     // assign it an id
     if (objRef.template) {
@@ -262,20 +260,33 @@ function ModelBase(modelNode, parentModel) {
       var newConfigNode = parentNode.appendChild(objRef.modelNode.ownerDocument.importNode(objRef.modelNode,true));
       newConfigNode.removeAttribute("id");  //this will get created automatically
       //set defaultModelUrl config properties
-      objRef = objRef.createObject(newConfigNode);
-      objRef.callListeners("init");
+      model = objRef.createObject(newConfigNode);
+      model.callListeners("init");
+      if (!objRef.templates) objRef.templates = new Array();
+      objRef.templates.push(model);
     }
 
     //set the payload in the model and issue the request
-    objRef.url = httpPayload.url;
-    if (!objRef.url){
-      objRef.doc=null;
-    }
-    objRef.method = httpPayload.method;
-    objRef.postData = httpPayload.postData;
-    objRef.loadModelDoc(objRef);
+    model.url = httpPayload.url;
+    if (!model.url) model.doc=null;
+    model.method = httpPayload.method;
+    model.postData = httpPayload.postData;
+    model.loadModelDoc(model);
   }
  
+ /**
+   * deletes all template models and clears their widgets
+   */
+  this.deleteTemplates = function() {
+    if (this.templates) {
+      while( model=this.templates.pop() ) {
+        model.setParam("newModel");
+        var parentNode = this.modelNode.parentNode;
+        parentNode.removeChild(model.modelNode);
+      }
+    }
+  }
+
  /**
    * save the model by posting it to the serializeUrl, which is defined as a 
    * property of config.
