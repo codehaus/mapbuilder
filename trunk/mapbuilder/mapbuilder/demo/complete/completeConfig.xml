@@ -129,6 +129,14 @@
         </TransactionResponse>
 			</widgets>
 		</Transaction>
+    <Model id="featureInfoResponse" template="true">
+      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
+      <widgets>
+        <FeatureInfo id="features">
+          <htmlTagId>featureInfo</htmlTagId>
+        </FeatureInfo>
+      </widgets>
+    </Model>
 		<FeatureCollection id="featureCollection">
 			<widgets>
 				<GmlRendererWZ id="testGmlRenderer">
@@ -279,7 +287,7 @@
 		</Reset>
 		<GetFeatureInfo id="getFeatureInfo">
 			<buttonBar>mainButtonBar</buttonBar>
-			<targetModel>featureCollection</targetModel>
+			<targetModel>featureInfoResponse</targetModel>
 			<mouseHandler>mainAoi</mouseHandler>
 			<class>RadioButton</class>
 			<enabledSrc>/images/QueryEnable.png</enabledSrc>

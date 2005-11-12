@@ -31,8 +31,9 @@ $Name$
       config.loadModel('mainMap','../data/context/modisWorld.xml');
     }
     function aoiInit() {
+      //example of setting AOI or bbox when the page loads
       //window.cgiArgs['bbox'] = "0,0,50,50";
-      window.cgiArgs['aoi'] = "0,0,50,50";
+      //window.cgiArgs['aoi'] = "0,0,50,50";
       //or else set these as URL params for the same effect
     }
     </script>
@@ -81,11 +82,13 @@ $Name$
         <td id="legend"/>
         <td>
           Select a map to load:
-          <div id="collectionList"/>
+          <div id="collectionList" style="float:left"/>
+          <div id="featureInfo" style="float:right"></div>
         </td>
       </tr>
       <tr>
-        <td><img id="previewImage" src="../../lib/skin/default/images/Spacer.gif" width="180"/></td>
+        <td><img id="previewImage" src="../../lib/skin/default/images/Spacer.gif" width="180"/>
+        </td>
         <td id="layerControl"/>
       </tr>
       <tr>
