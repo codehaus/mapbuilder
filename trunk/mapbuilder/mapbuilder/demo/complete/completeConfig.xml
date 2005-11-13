@@ -22,7 +22,7 @@
       </widgets>
     </Logger-->
 		<Context id="mainMap">
-			<defaultModelUrl>../data/context/atlasWorld.xml</defaultModelUrl>
+			<defaultModelUrl>../data/context/demisWorldMap.xml</defaultModelUrl>
 			<widgets>
 				<MapPane id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
@@ -294,7 +294,7 @@
 			<disabledSrc>/images/QueryDisable.png</disabledSrc>
 			<context>mainMap</context>
 		</GetFeatureInfo>
-		<EditPoint id="editPoint">
+		<!--EditPoint id="editPoint">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>featureCollection</targetModel>
 			<mouseHandler>mainMouseClick</mouseHandler>
@@ -306,8 +306,8 @@
 			<featureXpath>/gml:featureMember/points/_SHAPE_/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
 			<defaultModelUrl>../data/gml/defaultAddPoint.xml</defaultModelUrl>
 			<targetContext>mainMap</targetContext>
-		</EditPoint>
-		<EditLine id="editLine">
+		</EditPoint-->
+		<!--EditLine id="editLine">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>featureCollection</targetModel>
 			<mouseHandler>mainMouseClick</mouseHandler>
@@ -319,7 +319,7 @@
 			<featureXpath>/gml:featureMember/topp:bc_roads/topp:the_geom/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
 			<defaultModelUrl>../data/gml/roads.xml</defaultModelUrl>
 			<targetContext>mainMap</targetContext>
-		</EditLine>
+		</EditLine-->
 		<Save id="save">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
