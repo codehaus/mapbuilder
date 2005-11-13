@@ -10,6 +10,12 @@
 			<OnlineResource xlink:type="simple" xlink:href="../data/context/atlasWorld.xml"/>
 		</ContextURL>
 	</ViewContextReference>
+	<ViewContextReference version="1.0.0" id="demis">
+		<Title>Demis World map</Title>
+		<ContextURL>
+			<OnlineResource xlink:type="simple" xlink:href="../data/context/demisWorldMap.xml"/>
+		</ContextURL>
+	</ViewContextReference>
 	<ViewContextReference version="1.0.0" id="cded">
     <Title>Canadian Digital Elevation Data (GeoBase)</Title>
 		<ContextURL>
