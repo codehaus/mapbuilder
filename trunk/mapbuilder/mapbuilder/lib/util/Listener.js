@@ -94,7 +94,7 @@ function Listener() {
         if (this.listeners[param][i][0]) {
           this.listeners[param][i][0](this.listeners[param][i][1],value);
         } else {
-          alert("Listener error:"+param+":"+this.listeners[param][i][1].id);
+          alert("Listener error: param="+param+", target="+this.listeners[param][i][1].id+", callBackFunction="+this.listeners[param][i][0]);
         }
       }
     }
