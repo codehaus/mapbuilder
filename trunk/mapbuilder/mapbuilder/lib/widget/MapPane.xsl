@@ -128,6 +128,14 @@ $Name$
 
 
 
+  <xsl:template match="wmc:StyledLayerDescriptor">
+
+    <xsl:apply-templates mode="serialize" select="."/>
+
+  </xsl:template>
+
+
+
   <xsl:template name="layerOutput">
 
     <xsl:param name="version">
@@ -180,15 +188,15 @@ $Name$
 
       <xsl:choose>
 
-        <xsl:when test="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD">
+        <xsl:when test="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:OnlineResource">
 
           SLD=<xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:OnlineResource/@xlink:href"/>
 
         </xsl:when>
 
-        <xsl:when test="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:StyeLayerDescriptor">
+        <xsl:when test="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:StyledLayerDescriptor">
 
-          SLD=<xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:StyeLayerDescriptor"/>
+          SLD_BODY=<xsl:apply-templates select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:StyledLayerDescriptor" />
 
         </xsl:when>
 
@@ -413,6 +421,148 @@ $Name$
     </xsl:call-template>
 
   </xsl:template>
+
+  
+
+<!-- String replacemnent -->
+
+<xsl:template name="replace-string">
+
+  <xsl:param name="text"/>
+
+  <xsl:param name="replace"/>
+
+  <xsl:param name="with"/>
+
+  <xsl:choose>
+
+    <xsl:when test="contains($text,$replace)">
+
+      <xsl:value-of select="substring-before($text,$replace)"/>
+
+      <xsl:value-of select="$with"/>
+
+      <xsl:call-template name="replace-string">
+
+        <xsl:with-param name="text" select="substring-after($text,$replace)"/>
+
+        <xsl:with-param name="replace" select="$replace"/>
+
+        <xsl:with-param name="with" select="$with"/>
+
+      </xsl:call-template>
+
+    </xsl:when>
+
+    <xsl:otherwise>
+
+      <xsl:value-of select="$text"/>
+
+    </xsl:otherwise>
+
+  </xsl:choose>
+
+</xsl:template>
+
+
+
+<!-- escape URI -->
+
+<xsl:template name="escape-uri">
+
+  <xsl:param name="text"/>
+
+
+
+  <xsl:param name="tmp">
+
+  <xsl:call-template name="replace-string">
+
+    <xsl:with-param name="text" select="$text"/>
+
+    <xsl:with-param name="replace" select="' '"/>
+
+    <xsl:with-param name="with" select="'%20'"/>
+
+  </xsl:call-template>
+
+  </xsl:param>
+
+
+
+  <xsl:call-template name="replace-string">
+
+    <xsl:with-param name="text" select="$tmp"/>
+
+    <xsl:with-param name="replace" select="'#'"/>
+
+    <xsl:with-param name="with" select="'%23'"/>
+
+  </xsl:call-template>
+
+
+
+</xsl:template>
+
+
+
+<!-- Serialize node using escape URI -->
+
+<xsl:template match="*" mode="serialize">
+
+  <xsl:param name="count"><xsl:value-of select="count(*)"/></xsl:param>
+
+  <xsl:param name="value"><xsl:apply-templates mode="serialize"/></xsl:param>
+
+
+
+  <xsl:text/>%3C<xsl:value-of select="name()"/>
+
+  <xsl:apply-templates select="@*" mode="serialize"/>%3E<xsl:text/>
+
+  <xsl:choose>
+
+    <xsl:when test="$count=0"> 
+
+      <xsl:call-template name="escape-uri">
+
+        <xsl:with-param name="text" select="$value"/>
+
+      </xsl:call-template>
+
+    </xsl:when>
+
+    <xsl:otherwise>
+
+      <xsl:value-of select="$value"/>    
+
+    </xsl:otherwise>
+
+  </xsl:choose>
+
+  <xsl:text/>%3C/<xsl:value-of select="name()"/>%3E<xsl:text/>
+
+</xsl:template>
+
+
+
+<xsl:template match="@*" mode="serialize">
+
+  <xsl:param name="value"><xsl:value-of select="."/></xsl:param>
+
+  <!-- Attention: double quotes (%22) around parametr break it somewhere -->
+
+  %20<xsl:value-of select="name()"/>=%22
+
+  <xsl:call-template name="escape-uri">
+
+    <xsl:with-param name="text" select="$value"/>
+
+  </xsl:call-template>%22
+
+</xsl:template>
+
+
 
   
 
