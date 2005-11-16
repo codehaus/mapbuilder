@@ -96,15 +96,31 @@ $Name$
 
   <xsl:template match="gml:Point">
 
-    <xsl:variable name="x0" select="floor((number(gml:coord/gml:X)-$bBoxMinX)*$xRatio - number($pointWidth) div 2)"/>
+    <xsl:choose>
 
-    <xsl:variable name="y0" select="floor($height - (number(gml:coord/gml:Y)-$bBoxMinY)*$yRatio - $pointWidth div 2)"/>
+      <xsl:when test="count(gml:coord)=1">
+
+        <xsl:variable name="x0" select="floor((number(gml:coord/gml:X)-$bBoxMinX)*$xRatio - number($pointWidth) div 2)"/>
+
+        <xsl:variable name="y0" select="floor($height - (number(gml:coord/gml:Y)-$bBoxMinY)*$yRatio - $pointWidth div 2)"/>
+
+        // Point
+
+        objRef.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointWidth"/>,<xsl:value-of select="$pointWidth"/>);
+
+      </xsl:when>
 
 
 
-    // Point
+      <!-- When no coord do nothing -->
 
-    objRef.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointWidth"/>,<xsl:value-of select="$pointWidth"/>);
+      <xsl:otherwise>
+
+        // Do nothing (0 vertices )
+
+      </xsl:otherwise>
+
+    </xsl:choose>
 
   </xsl:template>
 
@@ -202,7 +218,7 @@ $Name$
 
       <!-- Draw a line -->
 
-      <xsl:when test="count(gml:coord)!=1">
+      <xsl:when test="count(gml:coord)>1">
 
         <xsl:for-each select="gml:coord">
 
@@ -230,7 +246,7 @@ $Name$
 
       <!-- When one coord, draw point -->
 
-      <xsl:otherwise>
+      <xsl:when test="count(gml:coord)=1">
 
         <xsl:variable name="x0" select="floor((number(gml:coord/gml:X)-$bBoxMinX)*$xRatio - number($pointWidth) div 2)"/>
 
@@ -241,6 +257,16 @@ $Name$
         // LineString - One point
 
         objRef.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointWidth"/>,<xsl:value-of select="$pointWidth"/>);
+
+      </xsl:when>
+
+
+
+      <!-- When no coord do nothing -->
+
+      <xsl:otherwise>
+
+        // Do nothing (0 vertices )
 
       </xsl:otherwise>
 
@@ -256,7 +282,7 @@ $Name$
 
     <xsl:choose>
 
-      <xsl:when test="count(gml:coord)!=1">
+      <xsl:when test="count(gml:coord)>1">
 
       	<!-- Fill Polygon -->
 
@@ -318,7 +344,7 @@ $Name$
 
       <!-- When one coord, draw point -->
 
-      <xsl:otherwise>
+      <xsl:when test="count(gml:coord)=1">
 
         <xsl:variable name="x0" select="floor((number(gml:coord/gml:X)-$bBoxMinX)*$xRatio - number($pointWidth) div 2)"/>
 
@@ -329,6 +355,16 @@ $Name$
         // LineString - One point
 
         objRef.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointWidth"/>,<xsl:value-of select="$pointWidth"/>);
+
+      </xsl:when>
+
+
+
+      <!-- When no coord do nothing -->
+
+      <xsl:otherwise>
+
+        // Do nothing (0 vertices )
 
       </xsl:otherwise>
 
