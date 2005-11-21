@@ -4,6 +4,39 @@ $Id$
 
 This file contains information about updates to each release:
 
+mapbuilder-lib-1.0-rc1 (stable)
+===============================
+This commences the first release candidate of the 1.0 release
+of mapbuilder.
+
+It contains a host of new features, an improved skin library,
+and substantial stability improvements.
+
+Bugs fixed:
+-----------
+1257487 First feature entry causes JS error
+1192667 PNG format doesn't use transparancy on IE
+1175978 rename model/DescribeFeatureType.js
+1257981 Comments are not stripped out when building a distribution
+1253624 image src in Legend.xml is not with skinDir. little fix
+1253597 GmlRenderWZ.xsl more versatil
+1253586 bug with fix in FeatureList.xsl
+1253581 Initial deformaton in the image.
+1221091 pb with the tool zoom in
+1191398 model template attribute not working correctly
+1177691 Problems panning/zooming off the map area
+1116660 Remove TransactionStatus widget when EditFeature selected
+967937  aspect ratio on startup
+967933 	layer list ordering
+1162133 Add GPL header to all source files.
+
+Outstanding Issues (highest priority first):
+--------------------------------------------
+1352137 error initializing mapbuilder when used in drupal module
+1174298 use scalehints in context docs
+1181411 ZoomBy factor should be in config file
+1013754 Coord string does not handle space char inside tuple
+
 mapbuilder-lib-0.4
 ==================
 This is the first release under the Lesser GNU Public License (LGPL).
@@ -19,7 +52,7 @@ Bugs fixed:
 1168984	publish.sh references incorrect jsdoc.pl
 1168981	bin/publish.sh references incorrect XSL
 
-Outstanding Issues (highest priority fist):
+Outstanding Issues (highest priority first):
 -------------------------------------------
 1193142	Incorrect click position in WFS-T demo on IE
 1175989	js error when loading WFS Servers
