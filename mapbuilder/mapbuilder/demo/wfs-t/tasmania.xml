@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <ViewContext version="1.0.0" id="atlas_world" xmlns="http://www.opengis.net/context" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengis.net/context/1.0.0/context.xsd">
   <General>
-    <Window width="400" height="300"/>
+    <Window width="600" height="300"/>
     <BoundingBox SRS="EPSG:4326" minx="141.57875" miny="-44.26625" maxx="151.03125" maxy="-39.56375"/>
     <Title>Tasmania, Austalia</Title>
     <KeywordList>
