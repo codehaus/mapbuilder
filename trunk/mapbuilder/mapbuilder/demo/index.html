@@ -7,42 +7,21 @@
   </HEAD>
   <BODY>
     <h1>Mapbuilder Demo Pages</h1>
-    <p>Browsers supported are Internet Explorer 6 or later, Mozilla 1.3 or later, Netscape 6 or later.</p>
     <DL>
     
     <DT>
         <A href="simple/index.html">Simple Map Viewer</A>
     </DT>
     <DD>
-      A minimal map viewer which allows a user to view layers from
-      Web Map Services (WMS) as configured by a Web Map Context (WMC) document
-      which describes layers to view.
+      A minimal map viewer implementation.
       This is a good demo to copy when building a new application.
-      <table>
-        <tr>
-          <td valign="top">Status:</td>
-          <td valign="top">beta</td>
-        </tr>
-        <tr>
-        </tr>
-      </table>
     </DD>
     
     <DT>
         <A href="Demis/index.html">Demis Maps Viewer</A>
     </DT>
     <DD>
-      A Demis maps viewer which allows a user to switch maps from various
-      Web Map Services (WMS) as configured by a Web Map Context (WMC) document
-      which describes layers to view.
-      <table>
-        <tr>
-          <td valign="top">Status:</td>
-          <td valign="top">beta</td>
-        </tr>
-        <tr>
-        </tr>
-      </table>
+      A Demis maps viewer which allows a user to switch maps Google style.
     </DD>
     
     <DT>
@@ -50,12 +29,6 @@
     </DT>
     <DD>
       Shows maps as a time series.  Zoom in to a region of interest.
-      <table>
-        <tr>
-          <td valign="top">Status:</td>
-          <td valign="top">alpha</td>
-        </tr>
-      </table>
     </DD>
     <DT>
         <A href="complete/index.html">Complete configuration</A>
@@ -63,24 +36,6 @@
     <DD>
       Not pretty to look at but shows integration of most components.
       Intended for testing extensions to the code base.
-      <table>
-        <tr>
-          <td valign="top">Status:</td>
-          <td valign="top">alpha</td>
-        </tr>
-        <tr>
-          <td valign="top">Requirements:</td>
-          <td valign="top">
-            <ul>
-              <li>Some functionality requires the server proxy and serialize 
-              scripts in the configuration file.  Implementations of these 
-              are available for PHP enabled servers and Java Servlet Container 
-              (like Tomcat).
-              </li>
-            </ul>
-          </td>
-        </tr>
-      </table>
     </DD>
     <DT>
         <A href="wfs-t/index.html">Feature Entry</A>
@@ -88,27 +43,10 @@
     <DD>
       Shows editing and updating of GML features and uploading to a
       Transactional Web Feature Service (WFS-T).
-      <table>
-        <tr>
-          <td valign="top">Status:</td>
-          <td valign="top">prototype</td>
-        </tr>
-        <tr>
-          <td valign="top">Requirements:</td>
-          <td valign="top">
-            <ul>
-              <li>Mapbuilder needs to be installed in a Java Servlet container
-              (like Tomcat) in order to upload events to a WFS-T</li>
-              <li>This demo accesses data from a default
-              <a href="http://geoserver.sourceforge.net">Geoserver</a>
-              installation which should be installed in the same
-              Java Servlet Webapps directory as Mapbuilder.</li>
-            </ul>
-          </td>
-        </tr>
-      </table>
-      For more details, refer to the <a href="wfs-t/install.html">Installation
-        Instructions</a>.
+      This demo accesses data from a 
+      <a href="http://geoserver.sourceforge.net">Geoserver</a>
+      installation <a href="wfs-t/install.html">installed</a> in the same
+      Java Servlet Webapps directory as Mapbuilder.
     </DD>
     <DT>
         <A href="contextEditor/index.html">Context Editor</A>
@@ -117,19 +55,8 @@
       Creation and editing of Web Map Context documents from searching and browsing a registry.
       <table>
         <tr>
-          <td valign="top">Status:</td>
-          <td valign="top">prototype</td>
-        </tr>
-        <tr>
           <td valign="top">Requirements:</td>
           <td valign="top">
-            <ul>
-              <li>Some functionality requires the server proxy and serialize 
-              scripts in the configuration file.  Implementations of these 
-              are available for PHP enabled servers and Java Servlet Container 
-              (like Tomcat).
-              </li>
-            </ul>
           </td>
         </tr>
       </table>
@@ -142,14 +69,6 @@
       that showed how to extend Mapbuilder.  
       This one adds a GmlPointRenderer to the suite of MapContainer widgets.
       Also this <a href="geoRSS/index2.html">variation of it</a>.
-      <table>
-        <tr>
-          <td valign="top">Status:</td>
-          <td valign="top">done</td>
-        </tr>
-        <tr>
-        </tr>
-      </table>
     </DD>
     <!--
     <DT>
@@ -209,6 +128,14 @@
     </DD>
     -->
     </DL>
+    <ul>
+      <li>Browsers supported are Internet Explorer 6 or later, Mozilla 1.3 or later, Netscape 6 or later.</li>
+      <li>Some functionality requires the server proxy and serialize 
+      scripts in the configuration file.  Implementations of these 
+      are available for PHP enabled servers and Java Servlet Container 
+      (like Tomcat).
+      </li>
+    </ul>
   
     <table class="footer">
       <tr>
