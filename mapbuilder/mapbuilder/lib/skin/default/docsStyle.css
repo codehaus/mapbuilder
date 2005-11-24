@@ -28,7 +28,7 @@ A:active { color: #0000CC; }
 
 A:link { color: #0000CC; }
 
-A:visited { color: #336633; }
+A:visited { color: #3300CC; }
 
 A:hover { color: #FF0000; }
 
@@ -43,6 +43,8 @@ H1 {
   width: 100%; 
   border-bottom: 1pt solid #3366cc; 
   text-align: left}
+
+H1 A { text-decoration: none; }
 
 H2 {  font-size: 130%; font-weight: bold; padding-top: 10px;}
 

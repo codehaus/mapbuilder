@@ -2,6 +2,8 @@
 <html>
   <head>
     <title>Mapbuilder Context Editor Prototype</title>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/docsStyle.css'>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'>
     <link rel='StyleSheet' type='text/css' href='contextEditor.css'>
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/button.css'>
     <script>
@@ -13,16 +15,17 @@
   <body onload="mbDoLoad()">
     <table style="width:800">
       <tr>
-        <td style="width:200">Site Logo</td>
-        <td style="width:600">Site Banner</td>
+        <td colspan="2">
+          <h1><a href="http://mapbuilder.sourceforge.net">MapBuilder</a> Context Editor</h1>
+        </td>
       </tr>
       <tr>
-        <td valign="top" style="padding:8px">
+        <td valign="top" style="padding:8px; width:200">
           <div>
             <div id="locatorMap"/>
           </div>
             <a href="javascript:config.loadModel('myMapCollection','../data/context/demoCollection.xml')">
-            My map collection</a><br/>
+            Map collection</a><br/>
             <a href="javascript:config.loadModel('wmsServers','http://geodiscover.cgdi.ca/ceonetWeb/biz?request=searchForService&language=en&levelOfDetail=brief&serviceType=CgdiMapServices&numResultsPerPage=10&page=1')">
             Browse WMS servers</a><br/>
             <a href="javascript:config.loadModel('wfsServers','http://geodiscover.cgdi.ca/ceonetWeb/biz?request=searchForService&language=en&levelOfDetail=brief&serviceType=CgdiFeatureServices')">
@@ -34,10 +37,10 @@
             <!--a href="javascript:config.saveModel(config)">
             Save config</a><br/-->
         </td>
-        <td>
+        <td style="width:600">
           <table width="100%">
             <tr>
-              <td align="left">
+              <td>
                 <h2 id="mapTitle"></h2>
               </td>
             </tr>
@@ -71,12 +74,18 @@
               <td align="left" id="workspace"/>
             </tr>
           </table>
-          <hr/>
-          <p align="right"><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a></p>
-        </td>
+         </td>
       </tr>
 
     </table>
+    
+    <table class="footer">
+      <tr>
+        <td><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a><br/>$Name$</td>
+        <td width="60"><img src="../lib/skin/default/images/Icon.gif"/></td>
+      </tr>
+    </table>
+
 
   </body>
 </html>
