@@ -359,6 +359,7 @@ $Id$
     <javac srcdir="${src.home}"
           destdir="${build.home}/WEB-INF/classes"
             debug="${compile.debug}"
+            target="1.4"
       deprecation="${compile.deprecation}"
          optimize="${compile.optimize}">
         <classpath refid="compile.classpath"/>
