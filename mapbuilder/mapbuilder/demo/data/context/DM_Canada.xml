@@ -4,11 +4,11 @@
     <Window width="400" height="200"/>
     <BoundingBox SRS="EPSG:4326" minx="-142" miny="40" maxx="-52" maxy="85"/>
     <!--BoundingBox SRS="EPSG:42304" minx="-2600000" miny="-1000000" maxx="3100000" maxy="3800000"/-->
-    <Title>Canada locator map (DM Solutions)</Title>
+    <Title>Canada Map</Title>
     <KeywordList>
       <Keyword>Canada</Keyword>
     </KeywordList>
-    <Abstract>A simple map for use as a locator</Abstract>
+    <Abstract>A UMN MapServer installation at DM Solutions.</Abstract>
     <ContactInformation>
       <ContactPersonPrimary> 
         <ContactPerson>Michael Adair</ContactPerson>
