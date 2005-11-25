@@ -233,7 +233,7 @@ function Context(modelNode, parent) {
    */
   this.addLayer = function(objRef, layerNode) {
     var parentNode = objRef.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList");
-    parentNode.appendChild(objRef.doc.importNode(layerNode,true));
+    parentNode.appendChild(layerNode.cloneNode(true));
     objRef.modified = true;
     //objRef.callListeners("refresh");
   }
