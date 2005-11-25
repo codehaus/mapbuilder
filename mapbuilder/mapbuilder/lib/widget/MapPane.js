@@ -292,7 +292,7 @@ function MapImgLoadHandler() {
     oldImg.outerHTML = fixPNG(this,"real"+this.id);
     if (!this.hidden) {
       fixImg = document.getElementById("real"+this.id); // The result of fixPng is a span, so we need to set that particular element visible
-      fixImg.style.visibility = "visibile"
+      fixImg.style.visibility = "visible"
     }
   } else {
     oldImg.src = this.src;
