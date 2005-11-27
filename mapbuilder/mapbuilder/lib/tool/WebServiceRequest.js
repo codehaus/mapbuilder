@@ -24,6 +24,8 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  */
 function WebServiceRequest(toolNode, model) {
   ToolBase.apply(this, new Array(toolNode, model));
+
+  //this.debug=true;
   
   //get the request name to add listener to
   var requestName = toolNode.selectSingleNode("mb:requestName");
@@ -65,7 +67,7 @@ function WebServiceRequest(toolNode, model) {
     this.requestStylesheet.setParameter("version", this.model.getVersion(feature) );
     if (this.requestFilter) {
       var filter = config.objects[this.requestFilter];
-      this.requestStylesheet.setParameter("filter", escape(Sarissa.serialize(filter.doc)) );
+      this.requestStylesheet.setParameter("filter", escape(Sarissa.serialize(filter.doc).replace(/[\n\f\r\t]/g,'') ));
       if (this.debug) alert(Sarissa.serialize(filter.doc));
     }
 
@@ -93,6 +95,7 @@ function WebServiceRequest(toolNode, model) {
       httpPayload.url += queryString.firstChild.nodeValue;
       httpPayload.postData = null;
     }
+    if (this.debug) alert("URL:"+httpPayload.url);
     return httpPayload;
   }
 
