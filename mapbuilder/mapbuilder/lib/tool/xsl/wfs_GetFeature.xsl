@@ -38,7 +38,7 @@ $Name$
 
 
 
-  <xsl:output method="xml" omit-xml-declaration="no" encoding="utf-8" indent="yes"/>
+  <xsl:output method="xml" omit-xml-declaration="no" encoding="utf-8" indent="no"/>
 
   <xsl:preserve-space elements="gml:coordinates"/>
 
@@ -154,21 +154,15 @@ $Name$
 
    &amp;typename=<xsl:value-of select="$resourceName"/>
 
-          <xsl:if test="$bbox">
+          <xsl:if test="$bBoxMinX">
 
    &amp;bbox=<xsl:value-of select="$bbox"/>
 
           </xsl:if>
 
-          <xsl:if test="$filter">
-
-   &amp;filter=<xsl:value-of select="$filter"/>
-
-          </xsl:if>
-
           </xsl:variable>
 
-          <xsl:value-of select="translate(normalize-space($query),' ','')" disable-output-escaping="no"/>
+          <xsl:value-of select="translate(normalize-space($query),' ','')" disable-output-escaping="no"/><xsl:if test="$filter">&amp;filter=<xsl:value-of select="$filter"/></xsl:if>
 
         </mb:QueryString>
 
@@ -272,21 +266,17 @@ $Name$
 
    &amp;typename=<xsl:value-of select="$resourceName"/>
 
-          <xsl:if test="$bbox">
+          <xsl:if test="$bBoxMinX">
 
    &amp;bbox=<xsl:value-of select="$bbox"/>
 
           </xsl:if>
 
-          <xsl:if test="$filter">
-
-  &amp;filter=<xsl:value-of select="$filter"/>
-
-          </xsl:if>
-
           </xsl:variable>
 
-          <xsl:value-of select="translate(normalize-space($query),' ','')" disable-output-escaping="no"/>
+          <xsl:value-of select="translate(normalize-space($query),' ','')" disable-output-escaping="no"/><xsl:if test="$cFilterStr">&amp;filter=<xsl:value-of select="normalize-space($cFilterStr)"/></xsl:if>
+
+<!-- TBD something still wrong with filter parameter here -->
 
         </mb:QueryString>
 
