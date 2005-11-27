@@ -17,9 +17,9 @@ $Name$
   
   <!-- Root node -->
   <xsl:template match="/">
-    <xsl:text><js></xsl:text>
+    <js>
     <xsl:apply-templates/>
-    <xsl:text></js></xsl:text>
+    </js>
   </xsl:template>
 
   <!-- Match and render a GML Point -->
