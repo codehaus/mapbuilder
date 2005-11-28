@@ -20,6 +20,8 @@ function History(toolNode, model) {
   ToolBase.apply(this, new Array(toolNode, model));
 
 	
+  var doAdd = new Boolean();
+
   /**
     * Inititialising the history and setting start parameters
     * @param objRef  pointer to this object.
@@ -74,6 +76,7 @@ function History(toolNode, model) {
   this.back = function(objRef){
     place = objRef.model.active;
     if(place<1) {
+      objRef.model.previousExtent = null;
       alert("You can't go further back");
     }
     else {
@@ -95,6 +98,7 @@ function History(toolNode, model) {
       objRef.model.nextExtent = objRef.model.historyList[place];
     }
     else {
+      objRef.model.nextExtent = null;
       alert("You can't go further forward");
     }
   }
