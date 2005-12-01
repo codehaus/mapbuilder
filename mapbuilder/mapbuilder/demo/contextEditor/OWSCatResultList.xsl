@@ -23,6 +23,9 @@ $Name:  $
   <!-- The coordinates of the DHTML Layer on the HTML page -->
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
+  <xsl:param name="skinDir"/>
+
+  <xsl:param name="tooltip">click to add the layer to the map</xsl:param>
   
   <!-- template rule matching source root element -->
   <xsl:template match="/wfs:FeatureCollection">
@@ -43,12 +46,13 @@ $Name:  $
     <xsl:variable name="name" select="owscat:name"/>
     <tr class="{$rowClass}">
       <td>
-        <h4><xsl:value-of select="owscat:title"/></h4>
+        <h4>
+        <a href="javascript:config.objects.addLayer.addLayerFromCat('{$name}')" class="mbButton">
+          <img src="{$skinDir}/images/LayerAddDisable.png" title="{$tooltip}" border="0"/>
+        </a>
+        <xsl:value-of select="owscat:title"/></h4>
         <xsl:value-of select="concat(substring($abstract, 0, 200),'...')"/>
         <span class="dataSource">provided by: <xsl:value-of select="owscat:organization"/></span>
-      </td>
-      <td>
-        <a href="javascript:config.objects.addLayer.addLayerFromCat('{$name}')">add to map</a>
       </td>
     </tr>
   </xsl:template>

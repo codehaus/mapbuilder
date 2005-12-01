@@ -25,6 +25,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 function WebServiceForm(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
+  this.formElements = new Object();
 
   /**
    * Handles submission of the form (via javascript in an <a> tag)
@@ -39,6 +40,7 @@ function WebServiceForm(widgetNode, model) {
     for (var i=0; i<this.webServiceForm.elements.length; ++i) {
       var element = this.webServiceForm.elements[i];
       webServiceUrl += element.name + "=" + element.value + "&";
+      this.formElements[element.name] = element.value;
     }
     if (this.debug) alert(webServiceUrl);
 
@@ -74,7 +76,7 @@ function WebServiceForm(widgetNode, model) {
 
   /**
    * Refreshes the form onblur handlers when this widget is painted.
-   * @param objRef Pointer to this CurorTrack object.
+   * @param objRef Pointer to this object.
    */
   this.postPaint = function(objRef) {
     objRef.webServiceForm = document.getElementById(objRef.formName);
@@ -87,5 +89,17 @@ function WebServiceForm(widgetNode, model) {
   //set some properties for the form output
   this.formName = "WebServiceForm_" + mbIds.getId();
   this.stylesheet.setParameter("formName", this.formName);
+
+  /**
+   * Sets value for form elements
+   * @param objRef Pointer to this object.
+   */
+  this.prePaint = function(objRef) {
+    for (var elementName in objRef.formElements) {
+      objRef.stylesheet.setParameter(elementName, objRef.formElements[elementName]);
+    }
+  }
+
+
 }
 

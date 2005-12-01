@@ -16,29 +16,11 @@
 			<defaultModelUrl>../data/context/DM_Canada.xml</defaultModelUrl>
 			<!--defaultModelUrl>../data/context/atlasWorld.xml</defaultModelUrl-->
 			<widgets>
-				<!--GetMapRequest id="mainMapWidget">
-          <htmlTagId>mainMapPane</htmlTagId>
-          <targetModel>mainMap</targetModel>
-          <mapContainerId>mainMapContainer</mapContainerId>
-          <tools>
-            <AoiMouseHandler/>
-            <AoiBox>
-              <lineColor>#FF0000</lineColor>
-              <lineWidth>2</lineWidth>
-              <crossSize>1</crossSize>
-            </AoiBox>
-            <DragPanHandler>
-              <enabled>false</enabled>
-            </DragPanHandler>
-          </tools>
-        </GetMapRequest-->
 				<MapPane id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
 					<mapContainerId>mainMapContainer</mapContainerId>
 					<loadHidden>false</loadHidden>
 				</MapPane>
-				<Loading id="loading">
-        </Loading>
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
         </CursorTrack>
@@ -183,7 +165,7 @@
             </Widget>
           </widgets>
         </GetFeatureInfo-->
-        <GetMap id="getMapTemplate" template="true">
+        <!--GetMap id="getMapTemplate" template="true">
           <widgets>
             <MapImage id="renderMap">
               <targetModel>mainMap</targetModel>
@@ -191,7 +173,7 @@
               <mapContainerId>mainMapContainer</mapContainerId>
             </MapImage>
           </widgets>
-        </GetMap>
+        </GetMap-->
       </models>
       <widgets>
         <Widget id="layerList">
@@ -199,6 +181,10 @@
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
         </Widget>
+        <Loading2 id="loading3">
+					<htmlTagId>workspace</htmlTagId>
+					<outputNodeId>workspaceCanvas</outputNodeId>
+        </Loading2>
       </widgets>
       <tools>
         <!--WebServiceRequest id="wmsController">
@@ -221,8 +207,13 @@
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
           <stylesheet>../../lib/widget/ServiceRegistryList.xsl</stylesheet>
-          <targetModel>wmsCapTemplate</targetModel>
+          <capabilitiesModel>wmsCapTemplate</capabilitiesModel>
+          <serviceType>CgdiMapServices</serviceType>
         </WebServiceForm>
+        <Loading2 id="loading1">
+					<htmlTagId>workspace</htmlTagId>
+					<outputNodeId>workspaceCanvas</outputNodeId>
+        </Loading2>
       </widgets>
     </Model>
     <Model id="wfsServers">
@@ -232,8 +223,13 @@
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
           <stylesheet>../../lib/widget/ServiceRegistryList.xsl</stylesheet>
-          <targetModel>wfsCapTemplate</targetModel>
+          <capabilitiesModel>wfsCapTemplate</capabilitiesModel>
+          <serviceType>CgdiFeatureServices</serviceType>
         </WebServiceForm>
+        <Loading2 id="loading2">
+					<htmlTagId>workspace</htmlTagId>
+					<outputNodeId>workspaceCanvas</outputNodeId>
+        </Loading2>
       </widgets>
     </Model>
     <WfsCapabilities id="owsCatSearch">
@@ -269,6 +265,10 @@
         </Model>
       </models>
       <widgets>
+				<Loading2 id="loading">
+          <htmlTagId>workspace</htmlTagId>
+          <outputNodeId>workspaceCanvas</outputNodeId>
+        </Loading2>
       </widgets>
       <tools>
         <WebServiceRequest id="owsCatGetFeature">
@@ -341,6 +341,10 @@
       <disabledSrc>/images/SaveDisable.png</disabledSrc>
       <popupWindowName>modelXML</popupWindowName>
     </Save>
+    <Loading2 id="loading">
+      <htmlTagId>workspace</htmlTagId>
+      <outputNodeId>workspaceCanvas</outputNodeId>
+    </Loading2>
   </widgets>
   <!--
     All static images should be relative to this URL.

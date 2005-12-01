@@ -4,15 +4,38 @@
     <title>Mapbuilder Context Editor Prototype</title>
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/docsStyle.css'>
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'>
-    <link rel='StyleSheet' type='text/css' href='contextEditor.css'>
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/button.css'>
+    <link rel='StyleSheet' type='text/css' href='contextEditor.css'>
+    <style type="text/css">
+      #workspace {
+        overflow: auto;
+        position: relative;
+        border: 0;
+      }
+    </style>
     <script>
       // URL of Mapbuilder configuration file.
       var mbConfigUrl='contextEditor.xml';
+      
+      function mbOnload() {
+        config.objects.mainMap.addListener("loadModel",initWorkspace,null);
+        window.onresize = initWorkspace;
+      }
+      
+      function initWorkspace() {
+        var pageBody = document.getElementsByTagName("body")[0];
+        var workDiv = document.getElementById("workspace");
+        var footerDiv = document.getElementById("mbFooter");
+        if (_SARISSA_IS_IE) {
+          workDiv.style.height = pageBody.offsetHeight - workDiv.offsetTop - footerDiv.offsetHeight - 30;  //20 is a fudge factor
+        } else {
+          workDiv.style.height = window.innerHeight - workDiv.offsetTop - footerDiv.offsetHeight - 20;  //20 is a fudge factor
+        }
+      }
     </script>
     <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
   </head>
-  <body onload="mbDoLoad()">
+  <body onload="mbDoLoad(mbOnload)">
     <table style="width:800">
       <tr>
         <td colspan="2">
@@ -28,7 +51,7 @@
             Map collection</a><br/>
             <a href="javascript:config.loadModel('wmsServers','http://geodiscover.cgdi.ca/ceonetWeb/biz?request=searchForService&language=en&levelOfDetail=brief&serviceType=CgdiMapServices&numResultsPerPage=10&page=1')">
             Browse WMS servers</a><br/>
-            <a href="javascript:config.loadModel('wfsServers','http://geodiscover.cgdi.ca/ceonetWeb/biz?request=searchForService&language=en&levelOfDetail=brief&serviceType=CgdiFeatureServices')">
+            <a href="javascript:config.loadModel('wfsServers','http://geodiscover.cgdi.ca/ceonetWeb/biz?request=searchForService&language=en&levelOfDetail=brief&serviceType=CgdiFeatureServices&numResultsPerPage=10&page=1')">
             Browse WFS servers</a><br/>
             <a href="javascript:config.paintWidget(config.objects.contextLegend)">
             Map layer control</a><br/>
@@ -50,11 +73,6 @@
                   <tr>
                     <td colspan="2">
                       <div id="mainMapPane"/>
-                      <div id="loading">
-                        <p>Loading Program<br/>
-                        <img src="../../lib/skin/default/images/Loading.gif"/>
-                        </p>
-                      </div>
                     </td>
                   </tr>
                   <tr>
@@ -71,20 +89,18 @@
               </td>
             </tr>
             <tr>
-              <td align="left" id="workspace"/>
+              <td align="left">
+                <div id="workspace"></div>
+              </td>
             </tr>
           </table>
          </td>
       </tr>
 
       <tr>
-        <td colspan="2">
-    <table class="footer">
-      <tr>
-        <td><a href="http://mapbuilder.sourceforge.net">Community Map Builder</a><br/>$Name$</td>
-        <td width="60"><img src="../../lib/skin/default/images/Icon.gif"/></td>
-      </tr>
-    </table>
+        <td colspan="2" class="footer" id="mbFooter">
+          <img src="../../lib/skin/default/images/Icon.gif" style="float:right"/>
+          <a href="http://mapbuilder.sourceforge.net">Community Map Builder</a><br/>$Name$
         </td>
       </tr>
 
