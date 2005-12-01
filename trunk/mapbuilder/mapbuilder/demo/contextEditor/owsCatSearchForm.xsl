@@ -52,13 +52,11 @@ $Name:  $
       <xsl:call-template name="locations">
         <xsl:with-param name="locationsDoc" select="$searchConfigDoc"/>
       </xsl:call-template>
-      <xsl:call-template name="rucs"/>
       <xsl:call-template name="aoiBox"/>
-      <xsl:call-template name="ntsInput"/>
       <h3>Service Type</h3>
       <select name="serviceType">
         <option></option>
-        <option>WMS</option>
+        <option selected="true">WMS</option>
         <option>WFS</option>
       </select>
       <input class="button" type="reset"/>
@@ -84,15 +82,6 @@ $Name:  $
     <xsl:apply-templates select="location">
       <xsl:with-param name="indent"><xsl:value-of select="$indent"/>&#160;&#160;</xsl:with-param>
     </xsl:apply-templates>
-  </xsl:template>
-  
-  <xsl:template name="rucs">
-    <p>
-      or 
-      <a class="button" onclick="config.objects.{$widgetId}.openRucWindow('placename' );return false;">Select by placename</a>
-      or
-      <a class="button" onclick="config.objects.{$widgetId}.openRucWindow('postalCode' );return false;">Select by postal code</a>
-    </p>
   </xsl:template>
   
   <xsl:template name="aoiBox">
