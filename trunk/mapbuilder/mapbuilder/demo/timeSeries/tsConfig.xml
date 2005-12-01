@@ -36,11 +36,11 @@
 
 				</TimeSeries>
 
-				<Loading id="loading"/>
-
 				<Timestamp id="timestamp">
 
         </Timestamp>
+
+				<Loading id="loading"/>
 
 				<Legend id="legend">
 
@@ -125,6 +125,16 @@
 					<stylesheet>../../lib/widget/SelectMapLayers.xsl</stylesheet>
 
 				</Widget>
+
+        <Loading2 id="loading2">
+
+					<htmlTagId>workspace</htmlTagId>
+
+					<outputNodeId>workspaceCanvas</outputNodeId>
+
+          <textMessage>This is a large file, please wait for it to load...</textMessage>
+
+        </Loading2>
 
 			</widgets>
 
