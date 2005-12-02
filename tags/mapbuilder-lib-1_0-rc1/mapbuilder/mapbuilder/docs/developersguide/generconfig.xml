@@ -1,0 +1,59 @@
+<generconfig>
+  <nodeset filter="BLACK">
+    <node id="identification" filter="BLACK"/>
+    <node id="systemoverview" filter="BLACK"/>
+    <node id="doclicense" filter="EXCLUDE"/>
+    <node id="sourcelicense" filter="EXCLUDE"/>
+    <node id="dependancies" filter="EXCLUDE"/>
+    <node id="requirementtracing" filter="EXCLUDE"/>
+    <node id="language" filter="WHITE"/>
+    
+    <node id="javascript" filter="BLACK"/>
+    <node id="configurationmanagement" filter="BLACK"/>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <node id="communication" filter="BLACK"/>
+    <node id="irc" filter="EXCLUDE"/>
+    <node id="email" filter="BLACK"/>
+    <node id="bugtracking" filter="BLACK"/>
+    <node id="inlinetasktracking" filter="EXCLUDE"/>
+    <node id="build" filter="WHITE"/>
+    
+    
+    <node id="jscompression" filter="BLACK"/>
+    <node id="design" filter="BLACK"/>
+    
+    <node id="inlinedocumentation" filter="WHITE"/>
+    
+    <node id="jsdoc" filter="BLACK"/>
+    
+    <node id="poseidon" filter="BLACK"/>
+    <node id="ide" filter="EXCLUDE"/>
+    
+    
+    <node id="codingconventions" filter="WHITE"/>
+    
+    
+    
+    
+    
+    <node id="directorynames" filter="BLACK"/>
+    <node id="classnames" filter="BLACK"/>
+    <node id="refactoring" filter="WHITE"/>
+    
+    <node id="codeprofiling" filter="WHITE"/>
+    
+    <node id="testing" filter="WHITE"/>
+    
+    
+    <node id="documentation" filter="BLACK"/>
+  </nodeset>
+</generconfig>
