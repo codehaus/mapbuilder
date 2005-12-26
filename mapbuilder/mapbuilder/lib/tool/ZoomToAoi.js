@@ -31,7 +31,9 @@ function ZoomToAoi(toolNode, model) {
    * @param tool        Pointer to this ZoomToAoi object.
    */
   this.initProj = function( modelRef ) {
-    modelRef.proj = new Proj( modelRef.getSRS() );
+    if( modelRef.doc ) {
+      modelRef.proj = new Proj( modelRef.getSRS() );
+    }
   }
   this.setListeners = function( toolRef ) {
     toolRef.model.addListener( "loadModel", toolRef.initProj, toolRef.model );

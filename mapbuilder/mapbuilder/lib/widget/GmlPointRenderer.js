@@ -59,7 +59,7 @@ function GmlPointRenderer(widgetNode, model) {
     * @param objRef a pointer to this widget object
     */
   GmlPointRenderer.prototype.paint = function(objRef) {
-    if (objRef.model.doc && objRef.node) {
+    if (objRef.model.doc && objRef.node && objRef.mode.containerModel.doc ) {
       var containerProj = new Proj(objRef.containerModel.getSRS());
       var features = objRef.model.getFeatureNodes();
       for (var i=0; i<features.length; ++i) {
