@@ -49,17 +49,19 @@ function ZoomToAoi(toolNode, model) {
    * @param tool        Pointer to this ZoomToAoi object.
    */
   this.showTargetAoi = function( tool ) {
-    var bbox = tool.targetModel.getBoundingBox();  
-    var ul = new Array(bbox[0],bbox[3]);
-    var lr = new Array(bbox[2],bbox[1]);
-    if ( tool.model.getSRS() != tool.targetModel.getSRS() ) {
-      ul = tool.targetModel.proj.Inverse( ul ); //to lat-long
-      lr = tool.targetModel.proj.Inverse( lr );
-      if (ul[0]>lr[0]) ul[0] = ul[0]-360.0;     //make sure ul is left of lr
-      ul = tool.model.proj.Forward( ul );       //back to XY
-      lr = tool.model.proj.Forward( lr );
+    if( tool.targetModel.doc ) {
+	    var bbox = tool.targetModel.getBoundingBox();  
+	    var ul = new Array(bbox[0],bbox[3]);
+	    var lr = new Array(bbox[2],bbox[1]);
+	    if ( tool.model.getSRS() != tool.targetModel.getSRS() ) {
+	      ul = tool.targetModel.proj.Inverse( ul ); //to lat-long
+	      lr = tool.targetModel.proj.Inverse( lr );
+	      if (ul[0]>lr[0]) ul[0] = ul[0]-360.0;     //make sure ul is left of lr
+	      ul = tool.model.proj.Forward( ul );       //back to XY
+	      lr = tool.model.proj.Forward( lr );
+	    }
+	    tool.model.setParam("aoi", new Array(ul, lr) );
     }
-    tool.model.setParam("aoi", new Array(ul, lr) );
   }
   this.firstInit = function(tool) {
     tool.targetModel.addListener( "loadModel", tool.showTargetAoi, tool );
