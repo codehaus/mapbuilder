@@ -1,0 +1,10 @@
+!2 How to, in storytests
+ * Ignore some tables in a page/file: ^IgnoreTables
+ * Avoid lots of similar workflow storytests, which are boring, difficult to change, and rather verbose: ^ExtractCalculations
+----
+!2 How to, for Developers
+ * Keep the HTML tags within a table cell, as they're important to the test: ^KeepTags
+ * Find out what's happening in ''!-FitLibrary-!'' when things go wrong: ^LoggingSupport
+ * Make sure that Entity references work correctly: ^EntityReferences
+---- * ''Copyright (c) 2005 Rick Mugridge, Rimu Research.''
+ * ''Released under the terms of the GNU General Public License version 2 or later.''
