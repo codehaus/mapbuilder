@@ -1,0 +1,34 @@
+!1 Demis Demo
+
+Override Setup
+!|Action Fixture|
+|start|Mb.Setup|
+|enter|host|${MAPBUILDER}|
+|enter|webapp|demo/Demis|
+|enter|config file|${CONFIGFILE}|
+|press|goto it|
+
+Go to the Simple demo page and check the model
+|Action Fixture|
+|start|Mb.Model|
+|enter|timeout|10|
+|check|model loaded|true|
+
+Check the various layers (specify starting name if too long)
+
+|Mb.DisplayLayers|
+|map|layer name|loaded?|src?|
+|mainMap|Bathymetry|true||
+
+
+Check Model Switching
+!see .MapBuilder.AcceptanceTests.WidgetsTests.ModelSwitcherTest
+
+Check Menu Widgets
+
+!see .MapBuilder.AcceptanceTests.MenuButtons.ZoominButton
+!see .MapBuilder.AcceptanceTests.MenuButtons.ZoomoutButton
+!see .MapBuilder.AcceptanceTests.MenuButtons.DragPanButton
+!see .MapBuilder.AcceptanceTests.MenuButtons.ResetButton
+!see .MapBuilder.AcceptanceTests.WidgetsTests.MapScaleTextTest
+!see .MapBuilder.AcceptanceTests.MenuButtons.SetAoiButton
