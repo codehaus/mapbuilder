@@ -93,16 +93,17 @@ function WidgetBaseXSL(widgetNode,model) {
       if (config.serializeUrl && objRef.debug) postLoad(config.serializeUrl, s);
       if (objRef.debug) alert("painting:"+objRef.id+":"+s);
       tempNode.innerHTML = s;
-      tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
+      if( tempNode.firstChild != null ) { //Could be null!
+        tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
 
-      //look for this widgets output and replace if found,
-      //otherwise append it
-      if (outputNode) {
-        objRef.node.replaceChild(tempNode.firstChild,outputNode);
-      } else {
-        objRef.node.appendChild(tempNode.firstChild);
+	    //look for this widgets output and replace if found,
+	    //otherwise append it
+	    if (outputNode) {
+	      objRef.node.replaceChild(tempNode.firstChild,outputNode);
+	    } else {
+	      objRef.node.appendChild(tempNode.firstChild);
+	    }
       }
-
       objRef.postPaint(objRef);
     }
   }
