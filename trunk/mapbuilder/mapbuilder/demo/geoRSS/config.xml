@@ -27,9 +27,9 @@
 			</tools>
 		</Context>
 		<GeoRSS id="geoRSS">
-			<!--defaultModelUrl>http://crcp-blogger.mit.edu/geoblogger/rss.php</defaultModelUrl-->
+			<defaultModelUrl>http://crcp-blogger.mit.edu/geoblogger/rss.php</defaultModelUrl>
 			<!--scriptFile>/geoRSS/GeoRSS.js</scriptFile-->
-			<defaultModelUrl>geoRSS.xml</defaultModelUrl>
+			<!-- defaultModelUrl>geoRSS.xml</defaultModelUrl -->
 
 			<widgets>
 				<Widget id="eventsListing">
