@@ -14,7 +14,7 @@ Make sure to add your localhost in trusted sites
 You might need to enable ActiveX control in the Browser
 ----
 !2 ''Mapbuilder Under Test''
-!define MAPBUILDER {http://192.168.15.102:8080/mapbuilder}
+!define MAPBUILDER {http://localhost:8080/mapbuilder}
 !define WEBAPP {demo/Demis}
 !define CONFIGFILE {config.xml}
 ----
