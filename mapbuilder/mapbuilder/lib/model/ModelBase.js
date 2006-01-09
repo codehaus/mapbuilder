@@ -321,7 +321,7 @@ function ModelBase(modelNode, parentModel) {
       config.objects[newObject.id] = newObject;
       return newObject;
     } else { 
-      alert("error creating object:" + objType);
+      alert("error creating object:" + objectType);
     }
   }
 
