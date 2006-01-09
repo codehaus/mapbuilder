@@ -34,6 +34,14 @@ function MapPane(widgetNode, model) {
     }
   }
 
+  //loading img to be displayed while models load
+  var loadingSrc = widgetNode.selectSingleNode("mb:loadingSrc");
+  if (loadingSrc) {
+    this.loadingSrc = config.skinDir + loadingSrc.firstChild.nodeValue;
+  } else {
+    this.loadingSrc = config.skinDir + "/images/Loading.gif";
+  }
+
   // Set stylesheet parameters for all the child nodes from the config file
   for (var j=0;j<widgetNode.childNodes.length;j++) {
     if (widgetNode.childNodes[j].firstChild
@@ -251,7 +259,7 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
     imgDiv.imgId = Math.random().toString(); 
     var domImg = document.createElement("IMG");
     domImg.id = "real"+imgDiv.imgId;
-    domImg.src = "../../lib/skin/default/images/Loading.gif";
+    domImg.src = this.loadingSrc;
     domImg.layerHidden = layerHidden;
     imgDiv.appendChild(domImg);
     outputNode.appendChild(imgDiv);
