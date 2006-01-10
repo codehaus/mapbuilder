@@ -35,7 +35,7 @@ function GmlRendererWZ(widgetNode, model) {
   }
 
   this.paint = function(objRef) {
-    if (objRef.model.doc && objRef.node) {
+    if (objRef.model.doc && objRef.node && objRef.containerModel && objRef.containerModel.doc) {
       objRef.stylesheet.setParameter("modelUrl", objRef.model.url);
 
       //if (objRef.debug) alert("source:"+Sarissa.serialize(objRef.model.doc));
