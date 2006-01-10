@@ -29,27 +29,29 @@ function FeatureCollection(modelNode, parent) {
    * @param objRef Pointer to this object.
    */
   this.convertCoords = function(objRef) {
-    var coordNodes = objRef.doc.selectNodes("//gml:coordinates");
-    if (coordNodes.length>0 && objRef.containerModel) {
-      var srsNode = coordNodes[0].selectSingleNode("ancestor-or-self::*/@srsName");
-      if ( srsNode.nodeValue.toUpperCase() != objRef.containerModel.getSRS().toUpperCase() ) {
-        var sourceProj = new Proj(srsNode.nodeValue);
-        objRef.setParam("modelStatus","converting coordinates");
-        var containerProj = new Proj(objRef.containerModel.getSRS());
-        for (var i=0; i<coordNodes.length; ++i) {
-          var coords = coordNodes[i].firstChild.nodeValue;
-          var coordsArray = coords.split(' ');
-          var newCoords = '';
-          for (var j=0; j<coordsArray.length; ++j) {
-            var xy = coordsArray[j].split(',');
-            if (xy.length==2) {
-              var llTemp = sourceProj.Inverse(xy);
-              xy = containerProj.Forward(llTemp);
-              newCoords += xy.join(',') + ' ';
-            }
-          }
-          coordNodes[i].firstChild.nodeValue=newCoords;
-        }
+    if( objeRef.doc && objRef.containerModel.doc ) {
+	  var coordNodes = objRef.doc.selectNodes("//gml:coordinates");
+	  if (coordNodes.length>0 && objRef.containerModel) {
+	    var srsNode = coordNodes[0].selectSingleNode("ancestor-or-self::*/@srsName");
+	    if ( srsNode.nodeValue.toUpperCase() != objRef.containerModel.getSRS().toUpperCase() ) {
+	      var sourceProj = new Proj(srsNode.nodeValue);
+	      objRef.setParam("modelStatus","converting coordinates");
+	      var containerProj = new Proj(objRef.containerModel.getSRS());
+	      for (var i=0; i<coordNodes.length; ++i) {
+	        var coords = coordNodes[i].firstChild.nodeValue;
+	        var coordsArray = coords.split(' ');
+	        var newCoords = '';
+	        for (var j=0; j<coordsArray.length; ++j) {
+	          var xy = coordsArray[j].split(',');
+	          if (xy.length==2) {
+	            var llTemp = sourceProj.Inverse(xy);
+	            xy = containerProj.Forward(llTemp);
+	            newCoords += xy.join(',') + ' ';
+	          }
+	        }
+	        coordNodes[i].firstChild.nodeValue=newCoords;
+	      }
+	    }
       }
     }
   }
