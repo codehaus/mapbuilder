@@ -28,6 +28,19 @@
 					<htmlTagId>mainMapPane</htmlTagId>
 					<mapContainerId>mainMapContainer</mapContainerId>
 				</MapPane>
+				<MapScaleBar id="scalebar">
+        	<!--all of these properties are optional--> 
+        	<!--displaySystem>english</displaySystem--> 
+        	<displaySystem>metric</displaySystem> 
+          <minWidth>100</minWidth>
+          <maxWidth>300</maxWidth>
+        	<divisions>4</divisions>
+          <subdivisions>2</subdivisions>
+        	<showMinorMeasures>false</showMinorMeasures>
+          <abbreviateLabel>true</abbreviateLabel>
+          <singleLine>false</singleLine>
+          <align>left</align>  <!-- left, center, or right -->
+        </MapScaleBar>
 				<Loading id="loading"/>
 				<AoiBoxWZ id="aoiBoxMain">
 					<htmlTagId>mainMapPane</htmlTagId>
@@ -48,7 +61,7 @@
 				<Widget id="mapTitle">
 					<stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
 				</Widget>
-				<AoiForm id="aoiForm"/>
+				<!--AoiForm id="aoiForm"/-->
 				<MapScaleText id="mapScaleText"/>
 				<SaveModel id="saveModelWidget">
 					<htmlTagId>saveModel</htmlTagId>
