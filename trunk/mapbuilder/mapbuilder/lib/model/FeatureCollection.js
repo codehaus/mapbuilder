@@ -29,7 +29,7 @@ function FeatureCollection(modelNode, parent) {
    * @param objRef Pointer to this object.
    */
   this.convertCoords = function(objRef) {
-    if( objeRef.doc && objRef.containerModel.doc ) {
+    if( objRef.doc && objRef.containerModel.doc ) {
 	  var coordNodes = objRef.doc.selectNodes("//gml:coordinates");
 	  if (coordNodes.length>0 && objRef.containerModel) {
 	    var srsNode = coordNodes[0].selectSingleNode("ancestor-or-self::*/@srsName");
@@ -56,6 +56,7 @@ function FeatureCollection(modelNode, parent) {
     }
   }
   this.addFirstListener("loadModel",this.convertCoords,this);
+  this.containerModel.addListener("loadModel",this.convertCoords,this);
 
   /**
    * Change a feature's visibility.
