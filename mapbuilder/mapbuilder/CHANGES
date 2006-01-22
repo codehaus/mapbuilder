@@ -5,6 +5,78 @@ $Id$
 
 This file contains information about updates to each release:
 
+mapbuilder-lib-1.0-rc2 (stable)
+===============================
+This commences the second release candidate of the 1.0 release
+of mapbuilder.
+
+This is the first release developed using the suite of tools
+provided by Codehaus. 
+
+Note: All bug numbers have been reassigned to a new JIRA-specific format.
+Original SourceForge bug number is appended to issue description, along
+with original author.
+
+Bugs fixed:
+-----------
+MAP-1 Jira setup for mapbuilder.
+
+Outstanding Issues (highest priority first):
+--------------------------------------------
+MAP-20	map doesn't move while panning
+MAP-19	IE problem: "Error: 'this.doc' is null or not an object Submitted: Cappelaere SF-1390868
+MAP-10 	fixedWidth MapPane property broken Submitted: madair1 SF-1399511
+MAP-6 	Problem with two WMS layers with the same name submitted: kc7bfi SF-1400521
+MAP-4 	errors because of missing 'px' in MapPane.xsl was SF-1387043
+MAP-2 	Hardcoded reference to localhost will prevent remote machines from viewing Generated Content
+MAP-56 	Give visual marker to current active layer in legend Submitted By: Nedjo Rogers SF - 1157443
+MAP-54 	CSS Buttons Submitted By: Mike Adair SF - 1195495
+MAP-52 	Add support for WKT data source. Submitted: Nedjo Rogers SF-1203287
+MAP-50 	Add SVG rendering of GML data Submitted: Nedjo Rogers
+MAP-49 	set properties by URL parameters Submitted: Mike Adair SF - 1257212
+MAP-48 	show busy signal Submitted: Steven M Ottens SF - 1322587
+MAP-47 	process multiple context documents in one page Submitted John Pulles SF- 1401526
+MAP-45 	java servlets compiled with JDK1.5 fail when run in 1.4 Submitted: madair1 SF-1365816
+MAP-44 	hide layer not working in IE Submitted: camerons SF-1364550
+MAP-43 	duplicate layers mess up when deleting them Submitted: graphrisc SF-1361616
+MAP-42 	error initializing mapbuilder when used in drupal module Submitted: openwereld SF-1352137
+MAP-41 	MapPane HTML 4.01 and XHTML compatibility Submitted: sgillies SF-1294608
+MAP-40 	GeoRSS divs not cleared on loadModel Submitted: nobody SF-1291065
+MAP-39 	Feature isn't deselected after it was deleted Submitted: camerons SF-1364103
+MAP-38 	Null gml:coordinate Point is rendered in top left of MapPane Submitted: Camerons SF-1351128
+MAP-37 	CSS error in Firefox 1.5beta causes layers not to load Submitted: camerons SF-1337858
+MAP-36 	Drag Pan Tool: Mouseup outside the map should be procesed Submitted: maiqui SF-1259486
+MAP-35 	use scalehints in context docs Submitted: madair1 SF-1174298
+MAP-24 	Gazetteer widget auto zoom Submitted: nobody SF-1380974
+MAP-23 	PHP proxy strips attribute namespaces Submitted: madair1 SF-1386495
+MAP-22 	wfs-t java.lang.ExceptionInInitializerError Submitted: mneteler SF-1383838
+MAP-21 	<widget> is not defined" javascript errors Submitted: openwereld SF-1386001
+MAP-18 	js error passing bbox in via URL submitted: davidherbert2 SF-1391168
+MAP-17 	Line 96 Error firstChild is null or not an object Submitted: Cappelaere SF-1392108
+MAP-16 	Line 278 Object required Submitted: Cappelaere SF-1392112
+MAP-15 	Line 29 invalid argument Context Editor Submitted: Cappelaere SF-1392122
+MAP-14 	Update GeoRSS demo to new feed format Submitted: Cappelaere SF-1394556
+MAP-13 	FF 1.5 docStyle.css error Submitted: Cappelaere SF-1394569
+MAP-12 	wrong value for port in proxy.php Submitted: zjonp SF-1397656
+MAP-11 	EditPolygon Tool Problem Submitted: nobody SF-1397748
+MAP-9 	Layer Control does not update when a new layer is loaded Submitted: Cappelaere SF-1393270
+MAP-8 	GetFeatureInfo fails against GeoServer WFS Submitted: kc7bfi SF-1400525
+MAP-7 	Graphical Highlight of WFS Polygon is mangled Submitted: sjf_8 SF-1404143
+MAP-5 	add Transverse Mercator (and UTM) to Proj submitted:madair1 SF:1404410
+MAP-57 	Inconsistency in handling of aspect ratio for map viewer between bounding box and image size
+MAP-55 	Create hover-over popups when mouse hovers over a feature Submitted By: Cameron Shorter SF - 1173569
+MAP-53 	Mapbuilder and Geoserver to use the same demos Submitted by: Cameron Shorter SF - 1196838
+MAP-51 	set the locator map with an image Submitted Virginie Berre SF - 1220313
+MAP-34 	GmlRenderer complexity OUT OF CONTROL with zoomin Submitted: maiqui SF-1306834
+MAP-33 	Gml point opacity - transparensity has changed Submitted: maiqui SF-1258381
+MAP-32 	Incorrect click position in WFS-T demo on IE Submitted: camerons SF-1193142
+MAP-30 	Links in mapbuilder/index.html broker Submitted: camerons SF-1164770
+MAP-29 	Coord string does not handle space char inside tuple Submitted camerons SF-1013754
+MAP-28 	query icon Submitted: tomkralidis SF-968519
+MAP-27 	Change Open GIS to Open Geospacial Submitted: camerons SF-1168180
+MAP-26 	Layers from geoserver periodically not returned Submitted: camerons SF-1357587
+MAP-25 	Move util.js into JS objects Submitted: camerons SF-1071242
+
 mapbuilder-lib-1.0-rc1 (stable)
 ===============================
 This commences the first release candidate of the 1.0 release
