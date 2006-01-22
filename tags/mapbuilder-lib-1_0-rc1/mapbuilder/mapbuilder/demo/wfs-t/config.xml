@@ -14,8 +14,13 @@
   -->
   <models>
     <Context id="mainMap">
-      <defaultModelUrl>tasmania.xml</defaultModelUrl>
+      <defaultModelUrl>DemisWorldMap.xml</defaultModelUrl>
       <widgets>
+        <Gmap id="gmap">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <apiId>ABQIAAAAn32WrFuq_-Cbh-Cj6yZnTxRc5N-P1NpY03Egq3jSesNMkYFHpRSRm9tGTNY_BWRov1Mtx29lGWIJqA</apiId>
+        </Gmap>
         <MapPane id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
           <mapContainerId>mainMapContainer</mapContainerId>
@@ -70,38 +75,8 @@
         </ZoomToAoi>
       </tools>
     </Context>
-    <Transaction id="transaction">
-      <widgets>
-        <TransactionResponse id="transactionResponse">
-        </TransactionResponse>
-      </widgets>
-    </Transaction>
-    <FeatureCollection id="featureCollection">
-      <widgets>
-        <GmlRendererWZ id="testGmlRenderer">
-          <htmlTagId>mainMapPane</htmlTagId>
-          <targetModel>mainMap</targetModel>
-          <mapContainerId>mainMapContainer</mapContainerId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>3</lineWidth>
-          <pointDiameter>10</pointDiameter>
-        </GmlRendererWZ>
-        <FeatureList id="featureList">
-        </FeatureList>
-      </widgets>
-      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
-    </FeatureCollection>
   </models>
   <widgets>
-    <DeleteFeature id="deleteFeature">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>featureCollection</targetModel>
-      <class>Button</class>
-      <disabledSrc>/images/DeleteDisable.png</disabledSrc>
-      <transactionResponseModel>transaction</transactionResponseModel>
-      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
-      <targetContext>mainMap</targetContext>
-    </DeleteFeature>
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
@@ -133,53 +108,6 @@
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
     </Reset>
-    <EditPoint id="editPoint">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>featureCollection</targetModel>
-      <mouseHandler>mainMouseClick</mouseHandler>
-      <class>RadioButton</class>
-      <enabledSrc>/images/EditPointEnable.png</enabledSrc>
-      <disabledSrc>/images/EditPointDisable.png</disabledSrc>
-      <transactionResponseModel>transaction</transactionResponseModel>
-      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
-      <featureXpath>/gml:featureMember/topp:tasmania_cities/topp:the_geom/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
-      <defaultModelUrl>template_cities.xml</defaultModelUrl>
-      <targetContext>mainMap</targetContext>
-    </EditPoint>
-    <EditLine id="editLine">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>featureCollection</targetModel>
-      <mouseHandler>mainMouseClick</mouseHandler>
-      <class>RadioButton</class>
-      <enabledSrc>/images/EditLineEnable.png</enabledSrc>
-      <disabledSrc>/images/EditLineDisable.png</disabledSrc>
-      <transactionResponseModel>transaction</transactionResponseModel>
-      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
-      <featureXpath>/gml:featureMember/topp:tasmania_roads/topp:the_geom/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
-      <defaultModelUrl>template_road.xml</defaultModelUrl>
-      <targetContext>mainMap</targetContext>
-    </EditLine>
-    <InsertFeature id="insertFeature">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>featureCollection</targetModel>
-      <class>Button</class>
-      <disabledSrc>/images/SaveDisable.png</disabledSrc>
-      <transactionResponseModel>transaction</transactionResponseModel>
-      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
-      <targetContext>mainMap</targetContext>
-    </InsertFeature>
-    <WfsGetFeature id="wfsGetFeature">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <mouseHandler>mainMouseClick</mouseHandler>
-      <class>RadioButton</class>
-      <disabledSrc>/images/QueryDisable.png</disabledSrc>
-      <enabledSrc>/images/QueryEnable.png</enabledSrc>
-      <typeName>topp:tasmania_cities,topp:tasmania_roads</typeName>
-      <tolerance>5</tolerance>
-      <transactionResponseModel>featureCollection</transactionResponseModel>
-      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
-    </WfsGetFeature>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
   <widgetTextUrl>/widgetText.xml</widgetTextUrl> <!-- relative to the skin dir -->

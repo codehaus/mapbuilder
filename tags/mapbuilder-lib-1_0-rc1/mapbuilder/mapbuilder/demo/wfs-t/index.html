@@ -12,7 +12,7 @@ $Name$
 
 <html>
   <head>
-    <title>WFS-T Client</title>
+    <title>Mapbuilder using a Google Maps layer</title>
 
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/docsStyle.css'>
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'>
@@ -22,11 +22,13 @@ $Name$
       var mbConfigUrl='config.xml';
     </script>
     <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
+    <script src="http://maps.google.com/maps?file=api&v=1&key=ABQIAAAAn32WrFuq_-Cbh-Cj6yZnTxTc1BRwEgPWcJqjD52HZV9HOxsKnRTp_3G8CLoC5BIt8gTgVnYfuNUpoA" type="text/javascript"></script>
+
   </head>
 
   <body onload="mbDoLoad()">
     <!-- Layout mapbuilder widgets and HTML -->
-    <h1><a href="http://mapbuilder.sourceforge.net">MapBuilder</a> WFS-T Demo</h1>
+    <h1><a href="http://mapbuilder.sourceforge.net">MapBuilder</a> using a Google Maps layer</h1>
     <table>
       <tr>
         <td valign="top" id="locatorMap"/>
