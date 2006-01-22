@@ -1,0 +1,14 @@
+!2 The Map defines a set of elements (key and value).
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border="1" cellspacing="0">
+<tr><td colspan="2">fitlibrary.specify.MapFixture</td></tr>
+<tr><td colspan=2>subset map</td></tr>
+<tr><td><i>key</i></td><td><i>value</i></td></tr>
+<tr><td>a</td><td>b</td></tr>
+</table>-!|
+|!-<table border="1" cellspacing="0">
+<tr><td colspan="2">fitlibrary.specify.MapFixture</td></tr>
+<tr><td colspan=2>subset map</td></tr>
+<tr><td><i>key</i></td><td><i>value</i></td></tr>
+<tr><td class="pass">a</td><td class="pass">b</td></tr>
+</table>-!|

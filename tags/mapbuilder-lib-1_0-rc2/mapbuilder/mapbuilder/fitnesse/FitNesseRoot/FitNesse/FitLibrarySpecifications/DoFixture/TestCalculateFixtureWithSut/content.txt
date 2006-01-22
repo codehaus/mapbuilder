@@ -1,0 +1,17 @@
+!2 A special action of a flow-based ''!-DoFixture-!'' action is to return a ''!-CalculateFixture-!'' on the current SUT which is applied to the rest of the table:
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border><tr><td>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+</table>
+<table border>
+<tr><td>calculate</td></tr>
+<tr><td>a</td><td>b</td><td></td><td>+</td></tr>
+<tr><td>0</td><td>1</td><td></td><td>1</td></tr>
+<tr><td>1</td><td>-1</td><td></td><td>0</td></tr>
+</table>-!|!-<table border><tr><td>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+</table>
+<table border>
+<tr><td>calculate</td></tr>
+<tr><td>a</td><td>b</td><td></td><td>+</td></tr>
+<tr><td>0</td><td>1</td><td></td><td class="pass">1</td></tr>
+<tr><td>1</td><td>-1</td><td></td><td class="pass">0</td></tr>
+</table>-!|

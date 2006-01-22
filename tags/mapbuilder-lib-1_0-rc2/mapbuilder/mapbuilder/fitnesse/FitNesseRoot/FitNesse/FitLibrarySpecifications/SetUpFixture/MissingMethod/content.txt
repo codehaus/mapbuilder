@@ -1,0 +1,10 @@
+!2 An exception is thrown if the method doesn't exist.
+!|fitlibrary.spec.SpecifyFixture|
+|!-<table border="1" cellspacing="0">
+<tr><td colspan="2">fitlibrary.specify.SetUpFixtureUnderTest</td></tr>
+<tr><td>name</td><td>age</td></tr>
+</table>-!|
+|!-<table border="1" cellspacing="0">
+<tr><td colspan="2">fitlibrary.specify.SetUpFixtureUnderTest</td></tr>
+<tr><td class="error">name<hr/> <span class="fit_label">Missing method</span></td><td>age</td></tr>
+</table>-!|

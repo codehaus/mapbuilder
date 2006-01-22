@@ -1,0 +1,10 @@
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border="1" cellspacing="0">
+<tr><td colspan="2">fitlibrary.specify.SetUpFixtureUnderTest</td></tr>
+<tr><td>a</td><td>b</td></tr>
+<tr><td>-1</td><td>2</td></tr>
+</table>-!|!-<table border="1" cellspacing="0">
+<tr><td colspan="2">fitlibrary.specify.SetUpFixtureUnderTest</td></tr>
+<tr><td>a</td><td>b</td></tr>
+<tr><td class="error">-1<hr><pre><div class="fit_stacktrace"></div></pre></td><td>2</td></tr>
+</table>-!|
