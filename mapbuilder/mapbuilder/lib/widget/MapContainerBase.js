@@ -103,6 +103,7 @@ function MapContainerBase(widgetNode,model) {
     this.containerModel.extent = new Extent( this.containerModel );
     this.containerModel.addListener( "contextLoaded", this.containerModel.extent.firstInit, this.containerModel.extent );
     this.containerModel.addListener( "bbox", this.containerModel.extent.init, this.containerModel.extent );
+    this.containerModel.addListener( "resize", this.containerModel.extent.init, this.containerModel.extent );
     //TBD: do an extent history by storing extents every time the aoi changes
 
     /**
