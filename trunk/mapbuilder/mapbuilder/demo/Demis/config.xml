@@ -32,9 +32,6 @@
           <showMGRS>false</showMGRS>
           <precision>2</precision>
         </CursorTrack>
-        <AoiForm id="aoiForm"> <!-- changed to be invisible -->
-          <stylesheet>./AoiForm.xsl</stylesheet>
-        </AoiForm>
 			</widgets>
       
 			<tools>
