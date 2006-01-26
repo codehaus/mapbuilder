@@ -144,8 +144,10 @@ function CursorTrack(widgetNode, model) {
       alert('CursorTrack requires a mouseHandler property');
     }
     
-    objRef.proj = new Proj( objRef.model.getSRS() );
-    
+    if( objRef.showLatLong || objRef.showDMS || objRef.showMGRS ) {
+      objRef.proj = new Proj( objRef.model.getSRS() );
+    }
+
     if( this.showMGRS )
       this.MGRS = new MGRS();
   }
