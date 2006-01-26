@@ -37,6 +37,15 @@ function WidgetBaseXSL(widgetNode,model) {
     }
   }
 
+  // Set widget text values as parameters 
+  if (config.widgetText) {
+    var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName;
+    var textParams = config.widgetText.selectNodes(textNodeXpath+"/*");
+    for (var j=0;j<textParams.length;j++) {
+      this.stylesheet.setParameter(textParams[j].nodeName,textParams[j].firstChild.nodeValue);
+    }
+  }
+
   // Set stylesheet parameters for all the child nodes from the config file
   for (var j=0;j<widgetNode.childNodes.length;j++) {
     if (widgetNode.childNodes[j].firstChild
@@ -45,15 +54,6 @@ function WidgetBaseXSL(widgetNode,model) {
       this.stylesheet.setParameter(
         widgetNode.childNodes[j].nodeName,
         widgetNode.childNodes[j].firstChild.nodeValue);
-    }
-  }
-
-  // Set widget text values as parameters 
-  if (config.widgetText) {
-    var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName;
-    var textParams = config.widgetText.selectNodes(textNodeXpath+"/*");
-    for (var j=0;j<textParams.length;j++) {
-      this.stylesheet.setParameter(textParams[j].nodeName,textParams[j].firstChild.nodeValue);
     }
   }
 
