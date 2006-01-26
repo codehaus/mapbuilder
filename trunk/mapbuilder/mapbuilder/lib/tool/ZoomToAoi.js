@@ -30,16 +30,18 @@ function ZoomToAoi(toolNode, model) {
    * if the target model changes.
    * @param tool        Pointer to this ZoomToAoi object.
    */
-  this.initProj = function( modelRef ) {
-    if( modelRef.doc ) {
-      modelRef.proj = new Proj( modelRef.getSRS() );
+  this.initProj = function( toolRef ) {
+    if( toolRef.model.doc && toolRef.targetModel.doc ) {
+      if ( toolRef.model.getSRS() != toolRef.targetModel.getSRS() ) {
+          toolRef.model.proj = new Proj( toolRef.model.getSRS() );
+          toolRef.targetModel.proj = new Proj( toolRef.targetModel.getSRS() );
+      }
     }
   }
   this.setListeners = function( toolRef ) {
-    toolRef.model.addListener( "loadModel", toolRef.initProj, toolRef.model );
-    toolRef.targetModel.addListener( "loadModel", toolRef.initProj, toolRef.targetModel );
-    toolRef.initProj( toolRef.model);
-    toolRef.initProj( toolRef.targetModel);
+    toolRef.model.addListener( "loadModel", toolRef.initProj, toolRef );
+    toolRef.targetModel.addListener( "loadModel", toolRef.initProj, toolRef );
+    toolRef.initProj( toolRef );
   }
   this.model.addListener( "loadModel", this.setListeners, this);
 
