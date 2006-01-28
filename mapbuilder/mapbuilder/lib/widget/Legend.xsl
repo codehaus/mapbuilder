@@ -22,6 +22,7 @@ $Name$
   <xsl:param name="widgetId"/>
 
   <xsl:param name="skinDir"/>
+  <xsl:param name="selectIcon">/images/id.gif</xsl:param>
   
   <!-- Text params for this widget -->
   <xsl:param name="title"/>
@@ -99,7 +100,7 @@ $Name$
             id="query_{wmc:Name}"
             title="Click to set {wmc:Title} as the query layer"
             onclick="config.objects.{$widgetId}.selectLayer(config.objects.{$widgetId},'{wmc:Name}')"
-            src="{$skinDir}/images/id.gif" />
+            src="{$skinDir}{$selectIcon}" />
         </xsl:if>
       </td>
   <!-- Title -->
