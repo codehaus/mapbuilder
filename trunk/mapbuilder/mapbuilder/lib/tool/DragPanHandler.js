@@ -88,8 +88,8 @@ function DragPanHandler(toolNode, model) {
         for(var i=0; i<images.length; i++) {
           var img=images.item(i);
 //Michael Jenik added the plus ...
-          img.style.left=objRef.deltaP + objRef.oldPos[i][0];
-          img.style.top=objRef.deltaL + objRef.oldPos[i][1];
+          img.style.left=objRef.deltaP + objRef.oldPos[i][0]+'px';
+          img.style.top=objRef.deltaL + objRef.oldPos[i][1]+'px';
         }
       
         //use this form if dragging the container node
