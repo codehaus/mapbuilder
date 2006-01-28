@@ -39,8 +39,14 @@ function TimeSeries(widgetNode, model) {
       vis="hidden";
     }
     var layerId = objRef.model.id + "_" + objRef.id + "_" + layerName;
-    var timestampIndex = objRef.model.getParam("timestamp");
-    if (timestampIndex) layerId += "_" + timestampIndex;
+
+    //add timestamp to layerID if layer have a timestampList
+    if (objRef.model.timestampList && objRef.model.timestampList.getAttribute("layerName") == layerName) {  
+      var timestampIndex = objRef.model.getParam("timestamp");
+      var timestamp = objRef.model.timestampList.childNodes[timestampIndex];
+      layerId += "_" + timestamp.firstChild.nodeValue;
+    }
+
     var layer = document.getElementById(layerId);
     if (layer) {
       layer.style.visibility=vis;
