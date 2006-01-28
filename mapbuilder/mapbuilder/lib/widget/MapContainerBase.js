@@ -52,8 +52,8 @@ function MapContainerBase(widgetNode,model) {
     //this.containerModel.addListener("bbox",this.paint,this);
 
     this.setContainerWidth = function(objRef) {
-      objRef.node.style.width=objRef.containerModel.getWindowWidth();
-      objRef.node.style.height=objRef.containerModel.getWindowHeight();
+      objRef.node.style.width=objRef.containerModel.getWindowWidth()+'px';
+      objRef.node.style.height=objRef.containerModel.getWindowHeight()+'px';
       if (this.stylesheet) {
         this.stylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
         this.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
@@ -91,8 +91,8 @@ function MapContainerBase(widgetNode,model) {
         objRef.containerModel.setWindowWidth( fixedWidth );
         objRef.containerModel.setWindowHeight( newHeight );
       }
-      objRef.node.style.width=objRef.containerModel.getWindowWidth();
-      objRef.node.style.height=objRef.containerModel.getWindowHeight();
+      objRef.node.style.width=objRef.containerModel.getWindowWidth() +'px';
+      objRef.node.style.height=objRef.containerModel.getWindowHeight()+'px';
       if (this.stylesheet) {
         this.stylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
         this.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );

@@ -42,7 +42,7 @@ $Name$
   
   <!-- template rule matching source root element -->
   <xsl:template match="/wmc:ViewContext">
-      <DIV STYLE="position:absolute; width:{$width}; height:{$height}" ID="{$outputNodeId}">
+      <DIV STYLE="position:absolute; width:{$width}px; height:{$height}px" ID="{$outputNodeId}">
         <xsl:apply-templates select="wmc:LayerList/wmc:Layer"/>
       </DIV>
   </xsl:template>
@@ -137,7 +137,7 @@ $Name$
     </xsl:variable>
 
     <DIV>    
-      <xsl:attribute name="STYLE">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0; left:0;</xsl:attribute>
+      <xsl:attribute name="STYLE">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0px; left:0px;</xsl:attribute>
       <xsl:attribute name="ID">
         <xsl:value-of select="$modelId"/>_<xsl:value-of select="$widgetId"/>_<xsl:value-of select="$layerName"/><xsl:if test="$timestamp and wmc:DimensionList/wmc:Dimension[@name='time']">_<xsl:value-of select="$timestamp"/></xsl:if>
       </xsl:attribute>
