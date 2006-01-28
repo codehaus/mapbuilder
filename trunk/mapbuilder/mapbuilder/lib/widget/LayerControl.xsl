@@ -40,7 +40,7 @@ $Name:  $
 <!-- Main html -->
   <xsl:template match="/wmc:ViewContext">
     <div>
-      <table class="layerControl" cellspacing="0" width="340">
+      <table class="layerControl" cellspacing="0" width="340px">
         <!--tr>
           <td colspan="5">Layer Control | Layer metadata | Map metadata</td>
         </tr-->

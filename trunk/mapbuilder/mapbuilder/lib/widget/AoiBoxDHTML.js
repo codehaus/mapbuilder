@@ -76,25 +76,25 @@ function AoiBoxDHTML(widgetNode, model) {
     * @param lr Lower Right position as an (x,y) array in screen coords.
     */
   this.drawBox = function(ul, lr) {
-    this.Top.style.left = ul[0];
-    this.Top.style.top = ul[1];
-    this.Top.style.width = lr[0]-ul[0]
-    this.Top.style.height = this.lineWidth;
+    this.Top.style.left = ul[0] +'px';
+    this.Top.style.top = ul[1] +'px';
+    this.Top.style.width = lr[0]-ul[0]  +'px';
+    this.Top.style.height = this.lineWidth +'px';
 
-    this.Left.style.left = ul[0];
-    this.Left.style.top = ul[1];
-    this.Left.style.width = this.lineWidth;
-    this.Left.style.height = lr[1]-ul[1];
+    this.Left.style.left = ul[0]  +'px';
+    this.Left.style.top = ul[1]  +'px';
+    this.Left.style.width = this.lineWidth  +'px';
+    this.Left.style.height = lr[1]-ul[1]  +'px';
 
-    this.Right.style.left = lr[0]-this.lineWidth;
-    this.Right.style.top = ul[1];
-    this.Right.style.width = this.lineWidth;
-    this.Right.style.height = lr[1]-ul[1];
+    this.Right.style.left = lr[0]-this.lineWidth  +'px';
+    this.Right.style.top = ul[1]  +'px';
+    this.Right.style.width = this.lineWidth +'px';
+    this.Right.style.height = lr[1]-ul[1] +'px';
 
-    this.Bottom.style.left = ul[0];
-    this.Bottom.style.top = lr[1]-this.lineWidth;
-    this.Bottom.style.width = lr[0]-ul[0];
-    this.Bottom.style.height = this.lineWidth;
+    this.Bottom.style.left = ul[0] +'px';
+    this.Bottom.style.top = lr[1]-this.lineWidth  +'px';
+    this.Bottom.style.width = lr[0]-ul[0] +'px';
+    this.Bottom.style.height = this.lineWidth +'px';
 
     this.setVis(true);
   }

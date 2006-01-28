@@ -137,8 +137,8 @@ MapPane.prototype.paint = function(objRef, refresh) {
     if (!outputNode) {
       outputNode = document.createElement("DIV");
       outputNode.setAttribute("id", objRef.outputNodeId);
-      outputNode.style.left=0;
-      outputNode.style.top=0;
+      outputNode.style.left='0px';
+      outputNode.style.top='0px';
       outputNode.style.position = "absolute"; 
       objRef.node.appendChild(outputNode);
     } 
@@ -254,8 +254,8 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
     imgDiv.setAttribute("id", imgDivId);
     imgDiv.style.position = "absolute"; 
     imgDiv.style.visibility = (layerHidden)?"hidden":"visible";
-    imgDiv.style.top = 0; 
-    imgDiv.style.left = 0;
+    imgDiv.style.top = '0px'; 
+    imgDiv.style.left = '0px';
     imgDiv.imgId = Math.random().toString(); 
     var domImg = document.createElement("IMG");
     domImg.id = "real"+imgDiv.imgId;
@@ -291,8 +291,8 @@ function MapImgLoadHandler() {
       sibImg.parentNode.style.visibility = "hidden";
       sibImg.style.visibility = "hidden";//Make sure for IE that the child node is hidden as well
     }
-    outputNode.style.left=0;
-    outputNode.style.top=0;   
+    outputNode.style.left='0px';
+    outputNode.style.top='0px';   
     this.objRef.firstImageLoaded = true;
   }
   if (this.fixPng) {
