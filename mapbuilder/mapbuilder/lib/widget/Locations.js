@@ -39,8 +39,6 @@ function Locations(widgetNode, model) {
 
     //convert this.model XY to latlong
     //convert latlong to targetmodel XY
-    //extent.setAoi takes XY as input
-    this.targetModel.setParam("aoi", new Array(ul,lr));
-    this.targetModel.setParam("mouseup",this);
+    this.targetModel.extent.zoomToBox( ul, lr );
   }
 }
