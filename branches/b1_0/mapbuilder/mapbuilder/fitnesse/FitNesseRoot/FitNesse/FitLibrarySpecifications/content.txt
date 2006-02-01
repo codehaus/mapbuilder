@@ -1,0 +1,8 @@
+!2 Some of the additions here are works in progress
+ * The core fixture specs are based on the behaviour of the core Java version released on the Fit website
+|!contents|
+
+!path fitLibrary.jar
+
+---- * ''Copyright (c) 2004, 2005 Rick Mugridge, Rimu Research.''
+ * ''Released under the terms of the GNU General Public License version 2 or later.''

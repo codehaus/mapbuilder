@@ -1,0 +1,39 @@
+
+<h2>Multiple models</h2>
+
+
+<div style="float:right;width:auto; padding: 4px">
+  <div id="firstMapPane"></div>
+</div>
+
+<p>
+  This example includes two different maps that both have a MapPane widget
+  as well as an Area of Interest (AOI) widgets which displays an AOI for the model.
+  The AOI can either be a 
+<a href="javascript:alert('hover over this link to see the AOI')" 
+      onmouseover="javascript:config.objects['firstMap'].setParam('aoi', new Array(new Array(-75,45),new Array(0,0)))"> 
+    rectangular bounding box
+  </a>
+  or a 
+  <a href="javascript:alert('hover over this link to see the AOI')" 
+      onmouseover="config.objects['firstMap'].setParam('aoi', new Array(new Array(0,0),new Array(0,0)))">single point.</a>
+  The colour, line width and size of point display are customized in the config
+  file.
+  These links also demonstrate how to reference Mapbuilder objects using 
+  the 'config.objects' array, as well as calling a model listener function.
+</p>
+
+<div id="secondMapPane" style="float: left; width: auto; padding: 4px"></div>
+
+<p>
+  A map can also have some interactive functionality by adding tools 
+  (controllers) to the Context document model.
+  In this case the secondMap has a tool to handle mouse events on the 
+  MapPane widget, as well as a tool to control the firstMap by
+  using the 'targetModel' property.  
+  <b>Click</b>, or <b>click and drag</b> out an AOI box on the second map 
+  to control the area displayed in the firstMap.
+</p>
+
+<p style="text-align:right; clear:left"><a href="?page=samples/tutorial1">previous</a>&nbsp;&nbsp;&nbsp; 
+<a href="?page=samples/tutorial3">next</a></p>
