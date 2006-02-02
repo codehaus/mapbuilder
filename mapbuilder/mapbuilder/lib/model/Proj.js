@@ -145,6 +145,13 @@ function Proj(srs) {
       this.Init(new Array(grs80[0], grs80[1], 0.9996, srs.substr(8,2)));
       this.units="meters";
     break;
+    case "EPSG:26591":this.title="Monte Mario (Rome) / Italy zone 1";
+      this.Init=tminit;
+      this.Forward=ll2tm
+      this.Inverse=tm2ll;
+      this.Init(new Array(6378388.0, 6356911.94612795,0.9996, 9, 0.0, 1500000.0, 0.0));
+      this.units="meters";
+      break;
     case "SCENE":             //this is really a pixel projection with bilinear interpolation of the corners to get ll
       this.Init = sceneInit;
       this.Forward = ll2scene;
