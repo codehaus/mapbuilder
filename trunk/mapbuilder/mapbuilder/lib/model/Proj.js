@@ -1,18 +1,19 @@
 /*
 Author:       Mike Adair mike.adairATccrs.nrcan.gc.ca
+              Richard Greenwood rich@greenwoodmap.com
 License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 */
 
 /**
- * Provides latitude/longitude to map projection (and vice versa) transformation methods. 
+ * Provides latitude/longitude to map projection (and vice versa) transformation methods.
  * Initialized with EPSG codes.  Has properties for units and title strings.
- * All coordinates are handled as points which is a 2 element array where x is 
- * the first element and y is the second. 
+ * All coordinates are handled as points which is a 2 element array where x is
+ * the first element and y is the second.
  * For the Forward() method pass in lat/lon and it returns map XY.
  * For the Inverse() method pass in map XY and it returns lat/long.
  *
- * TBD: retrieve initialization params (and conversion code?) from a web service 
+ * TBD: retrieve initialization params (and conversion code?) from a web service
  *
  * @constructor
  *
@@ -145,6 +146,42 @@ function Proj(srs) {
       this.Init(new Array(grs80[0], grs80[1], 0.9996, srs.substr(8,2)));
       this.units="meters";
     break;
+    // UTM WGS84 Zones 1 thru 60 North
+    case"EPSG:32601":case"EPSG:32602":
+    case"EPSG:32603":case"EPSG:32604":case"EPSG:32605":case"EPSG:32606":case"EPSG:32607":case"EPSG:32608":case"EPSG:32609":
+    case"EPSG:32610":case"EPSG:32611":case"EPSG:32612":case"EPSG:32613":case"EPSG:32614":case"EPSG:32615":case"EPSG:32616":
+    case"EPSG:32617":case"EPSG:32618":case"EPSG:32619":case"EPSG:32620":case"EPSG:32621":case"EPSG:32622":case"EPSG:32623":
+    case"EPSG:32624":case"EPSG:32625":case"EPSG:32626":case"EPSG:32627":case"EPSG:32628":case"EPSG:32629":
+    case"EPSG:32630":case"EPSG:32631":case"EPSG:32632":case"EPSG:32633":case"EPSG:32634":case"EPSG:32635":case"EPSG:32636":
+    case"EPSG:32637":case"EPSG:32638":case"EPSG:32639":case"EPSG:32640":case"EPSG:32641":case"EPSG:32642":
+    case"EPSG:32643":case"EPSG:32644":case"EPSG:32645":case"EPSG:32646":case"EPSG:32647":case"EPSG:32648":case"EPSG:32649":
+    case"EPSG:32650":case"EPSG:32651":case"EPSG:32652":case"EPSG:32653":case"EPSG:32654":case"EPSG:32655":case"EPSG:32656":
+    case"EPSG:32657":case"EPSG:32658":case"EPSG:32659":case"EPSG:32660":
+      this.title="WGS84 / UTM zone " + srs.substr(8,2) + "N";
+      this.Init=utminit;
+      this.Forward=ll2tm;
+      this.Inverse=tm2ll;
+      this.Init(new Array(wgs84[0], wgs84[1], 0.9996, srs.substr(8,2)));
+      this.units="meters";
+    break;
+    // UTM WGS84 Zones 1 thru 60 South
+    case"EPSG:32701":case"EPSG:32702":
+    case"EPSG:32703":case"EPSG:32704":case"EPSG:32705":case"EPSG:32706":case"EPSG:32707":case"EPSG:32708":case"EPSG:32709":
+    case"EPSG:32710":case"EPSG:32711":case"EPSG:32712":case"EPSG:32713":case"EPSG:32714":case"EPSG:32715":case"EPSG:32716":
+    case"EPSG:32717":case"EPSG:32718":case"EPSG:32719":case"EPSG:32720":case"EPSG:32721":case"EPSG:32722":case"EPSG:32723":
+    case"EPSG:32724":case"EPSG:32725":case"EPSG:32726":case"EPSG:32727":case"EPSG:32728":case"EPSG:32729":
+    case"EPSG:32730":case"EPSG:32731":case"EPSG:32732":case"EPSG:32733":case"EPSG:32734":case"EPSG:32735":case"EPSG:32736":
+    case"EPSG:32737":case"EPSG:32738":case"EPSG:32739":case"EPSG:32740":case"EPSG:32741":case"EPSG:32742":
+    case"EPSG:32743":case"EPSG:32744":case"EPSG:32745":case"EPSG:32746":case"EPSG:32747":case"EPSG:32748":case"EPSG:32749":
+    case"EPSG:32750":case"EPSG:32751":case"EPSG:32752":case"EPSG:32753":case"EPSG:32754":case"EPSG:32755":case"EPSG:32756":
+    case"EPSG:32757":case"EPSG:32758":case"EPSG:32759":case"EPSG:32760":
+      this.title="WGS84 / UTM zone " + srs.substr(8,2) + "S";
+      this.Init=utminit;
+      this.Forward=ll2tm;
+      this.Inverse=tm2ll;
+      this.Init(new Array(wgs84[0], wgs84[1], 0.9996, "-"+srs.substr(8,2)));
+      this.units="meters";
+    break;
     case "EPSG:26591":this.title="Monte Mario (Rome) / Italy zone 1";
       this.Init=tminit;
       this.Forward=ll2tm
@@ -184,14 +221,14 @@ function identity(coords) {
 
 /**
  * Scene projection forward transformation.
- * Forward trasnformation need reverse bilinear interpolation or orbit modelling 
+ * Forward trasnformation need reverse bilinear interpolation or orbit modelling
  * (to be implemented)
  * @param coords  Lat/Long coords passed in
  * @return map coordinates
  */
 function ll2scene(coords) {
   alert("ll2scene not defined");
-  //return new Array(124, 15+256);  //for testing only, 
+  //return new Array(124, 15+256);  //for testing only,
   return null;
 }
 
@@ -199,7 +236,7 @@ function ll2scene(coords) {
  * Scene projection Inverse transformation.
  * This is really a pixel representation with bi-linear interpolation of the corner coords.
  * @param coords  map coordinates passed in
- * @return Lat/Long coords 
+ * @return Lat/Long coords
  */
 function scene2ll(coords) {
   var xpct = (coords[0]-this.ul[0])/(this.lr[0]-this.ul[0]);
@@ -225,7 +262,7 @@ function sceneInit(param) {
 /**
  * Bilinear interpolation function to return an interpolated value for either
  * x or y for some point located within a box where the XY of the corners are known.
- * This should be applied to the x and y coordinates separately, 
+ * This should be applied to the x and y coordinates separately,
  * ie. first interpolate for the x value, then the y.
  * the a,b,c,d params are thus the x or y values at the corners.
  * @param x distance from the left side of the box as a percentage
@@ -243,7 +280,7 @@ function bilinterp(x, y, a, b, c, d) {
 }
 
 // pixel projection object definition
-// a pixel representation 
+// a pixel representation
 // forward transformation
 function ll2pixel(coords) {
   alert("ll2pixel not defined");
@@ -261,9 +298,9 @@ function pixel2ll(coords) {
 /****************************************************************************
 The following code is a direct port of PROJ4 coordinate transformation code
 from C to Javascript.  For more information go to http://proj.maptools.org/
-Currently suppported projections include: Lambert Conformal Conic (LCC), 
+Currently suppported projections include: Lambert Conformal Conic (LCC),
 Lat/Long, Polar Stereographic.
-Porting C to Javascript is fairly straightforward so other support for more 
+Porting C to Javascript is fairly straightforward so other support for more
 projections is easy to add.
 */
 
@@ -311,12 +348,12 @@ function lccinit(param) {
   var cos1 = Math.cos(lat1);
   var ms1 = msfnz(this.e, sin1, cos1);
   var ts1 = tsfnz(this.e, lat1, sin1);
-  
+
   var sin2 = Math.sin(lat2);
   var cos2 = Math.cos(lat2);
   var ms2 = msfnz(this.e, sin2, cos2);
   var ts2 = tsfnz(this.e, lat2, sin2);
-  
+
   var ts0 = tsfnz(this.e, this.center_lat, Math.sin(this.center_lat));
 
   if (Math.abs(lat1 - lat2) > EPSLN) {
@@ -397,104 +434,109 @@ function lcc2ll(coords) {
 }
 
 //*******************************************************************************
-//NAME                            POLAR STEREOGRAPHIC 
+//NAME                            POLAR STEREOGRAPHIC
 // converted from the GCTPC package
 //* Variables common to all subroutines in this code file
-//  static double r_major;		/* major axis			*/
-//  static double r_minor;		/* minor axis			*/
-//  static double e;			/* eccentricity			*/
-//  static double e4;			/* e4 calculated from eccentricity*/
-//  static double center_lon;		/* center longitude		*/
-//  static double center_lat;		/* center latitude		*/
-//  static double fac;			/* sign variable		*/
-//  static double ind;			/* flag variable		*/
-//  static double mcs;			/* small m			*/
-//  static double tcs;			/* small t			*/
-//  static double false_northing;		/* y offset in meters		*/
-//  static double false_easting;		/* x offset in meters		*/
+//  static double r_major;    /* major axis     */
+//  static double r_minor;    /* minor axis     */
+//  static double e;      /* eccentricity     */
+//  static double e4;     /* e4 calculated from eccentricity*/
+//  static double center_lon;   /* center longitude   */
+//  static double center_lat;   /* center latitude    */
+//  static double fac;      /* sign variable    */
+//  static double ind;      /* flag variable    */
+//  static double mcs;      /* small m      */
+//  static double tcs;      /* small t      */
+//  static double false_northing;   /* y offset in meters   */
+//  static double false_easting;    /* x offset in meters   */
 
 
 //* Initialize the Polar Stereographic projection
 function psinit(param) {
-// array consisting of:  r_maj,r_min,c_lon,c_lat,false_east,false_north) 
-//double c_lon;				/* center longitude	in degrees	*/
-//double c_lat;				/* center latitude in degrees		*/
-//double r_maj;				/* major axis			*/
-//double r_min;				/* minor axis			*/
-//double false_east;			/* x offset in meters		*/
-//double false_north;			/* y offset in meters		*/
+// array consisting of:  r_maj,r_min,c_lon,c_lat,false_east,false_north)
+//double c_lon;       /* center longitude in degrees  */
+//double c_lat;       /* center latitude in degrees   */
+//double r_maj;       /* major axis     */
+//double r_min;       /* minor axis     */
+//double false_east;      /* x offset in meters   */
+//double false_north;     /* y offset in meters   */
 
-	this.r_major = param[0];
-	this.r_minor = param[1];
-	this.center_lon = param[2] * D2R;
-	this.center_lat = param[3] * D2R;
-	this.false_easting = param[4];
-	this.false_northing = param[5];
+  this.r_major = param[0];
+  this.r_minor = param[1];
+  this.center_lon = param[2] * D2R;
+  this.center_lat = param[3] * D2R;
+  this.false_easting = param[4];
+  this.false_northing = param[5];
 
-	var temp = this.r_minor / this.r_major;
-	this.e = 1.0 - temp*temp;
-	this.e = Math.sqrt(this.e);
-	var con = 1.0 + this.e;
-	var com = 1.0 - this.e;
-	this.e4 = Math.sqrt( Math.pow(con,con) * Math.pow(com,com) );
+  var temp = this.r_minor / this.r_major;
+  this.e = 1.0 - temp*temp;
+  this.e = Math.sqrt(this.e);
+  var con = 1.0 + this.e;
+  var com = 1.0 - this.e;
+  this.e4 = Math.sqrt( Math.pow(con,con) * Math.pow(com,com) );
   this.fac = (this.center_lat < 0) ? -1.0 : 1.0;
-	this.ind = 0;
-	if (Math.abs(Math.abs(this.center_lat) - HALF_PI) > EPSLN) {
-		this.ind = 1;
-		var con1 = this.fac * this.center_lat; 
-		var sinphi = Math.sin(con1);
-		this.mcs = msfnz(this.e, sinphi, Math.cos(con1));
-		this.tcs = tsfnz(this.e, con1, sinphi);
-	}
+  this.ind = 0;
+  if (Math.abs(Math.abs(this.center_lat) - HALF_PI) > EPSLN) {
+    this.ind = 1;
+    var con1 = this.fac * this.center_lat;
+    var sinphi = Math.sin(con1);
+    this.mcs = msfnz(this.e, sinphi, Math.cos(con1));
+    this.tcs = tsfnz(this.e, con1, sinphi);
+  }
 }
 
 //* Polar Stereographic forward equations--mapping lat,long to x,y
 //  --------------------------------------------------------------*/
 function ll2ps(coords) {
 
-	var lon = coords[0];
-	var lat = coords[1];
+  var lon = coords[0];
+  var lat = coords[1];
 
-	var con1 = this.fac * adjust_lon(lon - this.center_lon);
-	var con2 = this.fac * lat;
-	var sinphi = Math.sin(con2);
-	var ts = tsfnz(this.e, con2, sinphi);
-	if (this.ind != 0) {
-		rh = this.r_major * this.mcs * ts / this.tcs;
-	} else {
-		rh = 2.0 * this.r_major * ts / this.e4;
-	}
-	var x = this.fac * rh * Math.sin(con1) + this.false_easting;
-	var y = -this.fac * rh * Math.cos(con1) + this.false_northing;;
+  var con1 = this.fac * adjust_lon(lon - this.center_lon);
+  var con2 = this.fac * lat;
+  var sinphi = Math.sin(con2);
+  var ts = tsfnz(this.e, con2, sinphi);
+  if (this.ind != 0) {
+    rh = this.r_major * this.mcs * ts / this.tcs;
+  } else {
+    rh = 2.0 * this.r_major * ts / this.e4;
+  }
+  var x = this.fac * rh * Math.sin(con1) + this.false_easting;
+  var y = -this.fac * rh * Math.cos(con1) + this.false_northing;;
 
-	return new Array(x,y);
+  return new Array(x,y);
 }
 
 //* Polar Stereographic inverse equations--mapping x,y to lat/long
 //  --------------------------------------------------------------*/
 function ps2ll(coords) {
 
-	x = (coords[0] - this.false_easting) * this.fac;
-	y = (coords[1] - this.false_northing) * this.fac;
-	var rh = Math.sqrt(x * x + y * y);
-	if (this.ind != 0) {
-		ts = rh * this.tcs/(this.r_major * this.mcs);
-	} else {
-		ts = rh * this.e4/(this.r_major * 2.0);
-	}
-	var lat = this.fac * phi2z(this.e, ts);
-	if (lat == -9999) return null;
-	var lon = 0;
-	if (rh == 0) {
-		lon = this.fac * this.center_lon;
-	} else {
-		lon = adjust_lon(this.fac * Math.atan2(x, -y) + this.center_lon);
-	}
-	return new Array(R2D*lon, R2D*lat);
+  x = (coords[0] - this.false_easting) * this.fac;
+  y = (coords[1] - this.false_northing) * this.fac;
+  var rh = Math.sqrt(x * x + y * y);
+  if (this.ind != 0) {
+    ts = rh * this.tcs/(this.r_major * this.mcs);
+  } else {
+    ts = rh * this.e4/(this.r_major * 2.0);
+  }
+  var lat = this.fac * phi2z(this.e, ts);
+  if (lat == -9999) return null;
+  var lon = 0;
+  if (rh == 0) {
+    lon = this.fac * this.center_lon;
+  } else {
+    lon = adjust_lon(this.fac * Math.atan2(x, -y) + this.center_lon);
+  }
+  return new Array(R2D*lon, R2D*lat);
 }
 
-// following constants added by Greenwood for Transverse Mercator projections
-var grs80 = new Array(6378137.0, 6356752.31414036); // r_maj, r_min
+// following constants added by Greenwood
+function semi_minor(a, f) { return a-(a*(1/f)); }
+
+var grs80  = new Array(6378137.0, 6356752.31414036); // r_maj, r_min
+var wgs84  = new Array(6378137.0, 6356752.31424518);
+var wgs72  = new Array(6378135.0, 6356750.52001609);
+var intl  = new Array(6378388.0, 6356911.94612795); // (f=297) from ESRI
 
 var usfeet = 1200/3937;  // US Survey foot
 var feet = 0.3048;  // International foot
@@ -506,7 +548,9 @@ function e2fn(x){return(0.05859375*x*x*(1.0+0.75*x));}
 function e3fn(x){return(x*x*x*(35.0/3072.0));}
 function mlfn(e0,e1,e2,e3,phi){return(e0*phi-e1*Math.sin(2.0*phi)+e2*Math.sin(4.0*phi)-e3*Math.sin(6.0*phi));}
 
-/************************************************************/
+/**
+  Initialize Transverse Mercator projection
+*/
 function tminit(param)  {
   this.r_maj=param[0];
   this.r_min=param[1];
@@ -527,7 +571,9 @@ function tminit(param)  {
   this.ind = (this.es < .00001) ? 1 : 0;
 }
 
-/************************************************************/
+/**
+  Initialize UTM projection
+*/
 function utminit(param) {
   this.r_maj=param[0];
   this.r_min=param[1];
@@ -549,7 +595,9 @@ function utminit(param) {
   this.ind = (this.es < .00001) ? 1 : 0;
 } // utminit()
 
-/************************************************************/
+/**
+  Transverse Mercator Forward  - long/lat to x/y
+*/
 function ll2tm(coords) {
   var lon=coords[0]*D2R;
   var lat=coords[1]*D2R;
@@ -598,7 +646,9 @@ function ll2tm(coords) {
   return new Array(x,y);
 } // ll2tm()
 
-/************************************************************/
+/**
+  Transverse Mercator Inverse  -  x/y to long/lat
+*/
 function tm2ll(coords) {
   var x=coords[0];
   var y=coords[1];
@@ -676,7 +726,7 @@ function msfnz(eccent, sinphi, cosphi) {
 // -----------------------------------------------------------------
 function tsfnz(eccent, phi, sinphi) {
   var con = eccent * sinphi;
-  var com = .5 * eccent; 
+  var com = .5 * eccent;
   con = Math.pow(((1.0 - con) / (1.0 + con)), com);
   return (Math.tan(.5 * (HALF_PI - phi))/con);
 }
@@ -692,7 +742,7 @@ function phi2z(eccent, ts) {
   for (i = 0; i <= 15; i++) {
     con = eccent * Math.sin(phi);
     dphi = HALF_PI - 2 * Math.atan(ts *(Math.pow(((1.0 - con)/(1.0 + con)),eccnth))) - phi;
-    phi += dphi; 
+    phi += dphi;
     if (Math.abs(dphi) <= .0000000001) return phi;
   }
   alert("Convergence error - phi2z");
@@ -704,3 +754,4 @@ function sign(x) { if (x < 0.0) return(-1); else return(1);}
 
 // Function to adjust longitude to -180 to 180; input in radians
 function adjust_lon(x) {x=(Math.abs(x)<PI)?x:(x-(sign(x)*TWO_PI));return(x);}
+
