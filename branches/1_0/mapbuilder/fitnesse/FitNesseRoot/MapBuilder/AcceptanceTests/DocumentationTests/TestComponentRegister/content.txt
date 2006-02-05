@@ -1,0 +1,7 @@
+!1 Check Component Register Page
+|Action Fixture|
+|start|Mb.CheckPage|
+|enter|url|${MAPBUILDER}/docs/register|
+|press|check links|
+|check|all links|good|
+|check|results||

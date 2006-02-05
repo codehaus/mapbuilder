@@ -1,0 +1,70 @@
+!2 An ''!-ArrayFixture-!'' table may have nested tables (for arrays or sets)
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border="1" cellspacing="0">
+<tr><td colspan="2">fitlibrary.specify.NestedLists</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td colspan="2"><i>nested</i></td></tr>
+<tr><td><i>name</i></td><td><i>elements</i></td></tr>
+<tr><td>apple</td><td><table border="1" cellspacing="0">
+<tr><td><i>id</i></td><td><i>count</i></td></tr>
+<tr><td>a</td><td>1</td></tr>
+<tr><td>b</td><td>2</td></tr>
+</table></td></tr>
+<tr><td>orange</td><td><table border="1" cellspacing="0">
+<tr><td><i>id</i></td></tr>
+<tr><td>c</td></tr>
+</table></td></tr>
+<tr><td>pear</td><td></td></tr>
+</table>-!|!-<table border="1" cellspacing="0">
+<tr><td colspan="2">fitlibrary.specify.NestedLists</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td colspan="2"><i>nested</i></td></tr>
+<tr><td><i>name</i></td><td><i>elements</i></td></tr>
+<tr><td class="pass">apple</td><td><table border="1" cellspacing="0">
+<tr><td><i>id</i></td><td><i>count</i></td></tr>
+<tr><td class="pass">a</td><td class="pass">1</td></tr>
+<tr><td class="pass">b</td><td class="pass">2</td></tr>
+</table></td></tr>
+<tr><td class="pass">orange</td><td><table border="1" cellspacing="0">
+<tr><td><i>id</i></td></tr>
+<tr><td class="pass">c</td></tr>
+</table></td></tr>
+<tr><td class="pass">pear</td><td class="pass"></td></tr>
+</table>-!|
+ * The report when an embedded table is missing isn't so good.
+ * But how to decide whether to put the List into a table? And what labels?
+ * And whether to include embedded tables to some depth?
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border="1" cellspacing="0">
+<tr><td colspan="2">fitlibrary.specify.NestedLists</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td colspan="2"><i>nested</i></td></tr>
+<tr><td><i>name</i></td><td><i>elements</i></td></tr>
+<tr><td>orange</td><td><table border="1" cellspacing="0">
+<tr><td><i>id</i></td></tr>
+<tr><td>c</td></tr>
+</table></td></tr>
+<tr><td>pear</td><td></td></tr>
+</table>-!|!-<table border="1" cellspacing="0">
+<tr><td colspan="2">fitlibrary.specify.NestedLists</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td colspan="2"><i>nested</i></td></tr>
+<tr><td><i>name</i></td><td><i>elements</i></td></tr>
+<tr><td class="fail">orange <span class="fit_label">missing</span></td><td><table border="1" cellspacing="0">
+<tr><td><i>id</i></td></tr>
+<tr><td>c</td></tr>
+</table></td></tr>
+<tr><td class="fail">pear <span class="fit_label">missing</span></td><td></td></tr>
+<tr>
+<td class="fail"> <span class="fit_grey">apple</span> <span class="fit_label">surplus</span></td>
+<td> <span class="fit_grey">Element(a,1), Element(b,2)</span></td></tr>
+<tr>
+<td class="fail"> <span class="fit_grey">orange</span> <span class="fit_label">surplus</span></td>
+<td> <span class="fit_grey">Element(c,3)</span></td></tr>
+<tr>
+<td class="fail"> <span class="fit_grey">pear</span> <span class="fit_label">surplus</span></td>
+<td> <span class="fit_grey"></span></td></tr></table>-!|
