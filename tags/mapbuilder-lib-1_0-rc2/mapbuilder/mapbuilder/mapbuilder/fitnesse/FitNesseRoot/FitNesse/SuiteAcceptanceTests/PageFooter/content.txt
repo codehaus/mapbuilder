@@ -1,2 +1,0 @@
-----
-.FrontPage .RecentChanges .FitNesse.SuiteAcceptanceTests
