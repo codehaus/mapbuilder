@@ -1,0 +1,20 @@
+!2 Boolean actions have to return true to be right:
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border><tr><td>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+</table>
+<table border>
+<tr><td>a right action</td><td>1</td></tr>
+</table>
+<table border>
+<tr><td>a wrong action</td><td>1.5</td><td></td><td>2.2</td></tr>
+<tr><td>an exception action</td></tr>
+</table>-!|
+|!-<table border><tr><td>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+</table>
+<table border>
+<tr><td class="pass">a right action</td><td>1</td></tr>
+</table>
+<table border>
+<tr><td class="fail">a wrong action</td><td>1.5</td><td class="fail"></td><td>2.2</td></tr>
+<tr><td class="error">an exception action<hr><pre><div class="fit_stacktrace">java.lang.RuntimeException: testing</div></pre></td></tr>
+</table>-!|

@@ -1,0 +1,7 @@
+!1 Check Demo Page
+|Action Fixture|
+|start|Mb.CheckPage|
+|enter|url|${MAPBUILDER}/demo|
+|press|check links|
+|check|all links|good|
+|check|results||

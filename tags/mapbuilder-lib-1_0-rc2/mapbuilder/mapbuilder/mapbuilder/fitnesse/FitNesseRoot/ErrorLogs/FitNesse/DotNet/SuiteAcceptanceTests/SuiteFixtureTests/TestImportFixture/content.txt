@@ -1,0 +1,21 @@
+|'''Date: '''|!-7:53:49 PM (EST) on Thursday, December 22, 2005-!|
+|'''Command: '''|!-C:\fitnesse20050405\fitnesse\dotnet\FitServer.exe H:\eclipse\workspace\MapbuilderFit\dotnet\acceptanceTests.dll;H:\eclipse\workspace\MapbuilderFit\dotnet\eg.dll;H:\eclipse\workspace\MapbuilderFit\dotnet\fit.dll;fitnesse.jar;fitlibrary.jar localhost 8088 29-!|
+|'''Exit code: '''|!--1-!|
+|'''Time elapsed: '''|!--1.135299229359E9 seconds-!|
+----'''Internal Exception:'''
+{{{ java.io.IOException: CreateProcess: C:\fitnesse20050405\fitnesse\dotnet\FitServer.exe H:\eclipse\workspace\MapbuilderFit\dotnet\acceptanceTests.dll;H:\eclipse\workspace\MapbuilderFit\dotnet\eg.dll;H:\eclipse\workspace\MapbuilderFit\dotnet\fit.dll;fitnesse.jar;fitlibrary.jar localhost 8088 29 error=3
+	java.lang.ProcessImpl.create(Native Method)
+	java.lang.ProcessImpl.<init>(ProcessImpl.java:81)
+	java.lang.ProcessImpl.start(ProcessImpl.java:30)
+	java.lang.ProcessBuilder.start(ProcessBuilder.java:451)
+	java.lang.Runtime.exec(Runtime.java:591)
+	java.lang.Runtime.exec(Runtime.java:429)
+	java.lang.Runtime.exec(Runtime.java:326)
+	fitnesse.components.CommandRunner.start(Unknown Source)
+	fitnesse.components.CommandRunningFitClient.start(Unknown Source)
+	fitnesse.responders.run.TestResponder.doSending(Unknown Source)
+	fitnesse.responders.ChunkingResponder.startSending(Unknown Source)
+	fitnesse.responders.ChunkingResponder.access$000(Unknown Source)
+	fitnesse.responders.ChunkingResponder$RespondingRunnable.run(Unknown Source)
+	java.lang.Thread.run(Thread.java:595)
+}}}
