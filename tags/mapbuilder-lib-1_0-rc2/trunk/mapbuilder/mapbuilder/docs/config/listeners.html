@@ -1,0 +1,75 @@
+<h2>Listeners and object methods</h2>
+
+<p>
+More advanced applications will likely want to add functionality by
+performing specific actions in response to user input.
+There are a few methods provided in Mapbuilder to customize your application.
+</p>
+
+<p>
+An important aspect of the MVC design pattern is that it is event driven.
+Almost everything that happens over the course of the application execution
+is the result of an event being triggered on a model, which then calls listener
+functions registered with that model.
+This allows the models, widgets and tools to remain independant of each other 
+and makes Mapbuilder very modular - objects can be added and removed from the
+configuration without affecting the other objects.
+</p>
+
+<p>
+There is a global "config" object that can be referenced from anywhere.
+You can retrieve a reference to all other objects by using the config.objects property.
+For example, a model with an ID of "model_x" would be referenced as 
+config.objects.model_x, or config.objects["model_x"].
+</p>
+
+<p>
+The following functions are available for carrying out user actions:
+</p>
+
+<dl>
+<dt>config.loadModel(modelId,docUrl)</dt>
+<dd>This method will load the model with the specified <i>modelId</i> from
+the <i>docUrl</i> provided.
+This will also trigger a "loadModel" event for that model.
+</dd>
+<dt>model.setParam(param,value)</dt>
+<dd>This method updates a parameter and call all interested listeners. 
+For example, you can set an area of interest on a Context document by 
+setting the "aoi" parameter.
+Any listeners registered to listen for the "aoi" event would then be called and
+the value is passed to the listener functions as an argument.
+The value can be any Javascript object, e.g. a string, integer, array, or object.
+</dd>
+<dt>model.setXpath(xpath,value)</dt>
+<dd>Updates the value of a node in the model's XML document and
+triggers a "refresh" event for this model.
+The node updated is specified by the xpath argument.
+</dd>
+<dt>button action property</dt>
+<dd>Buttons in the configuration file accept an &lt;action&gt; property
+which specifies an object method to be called when a button is selected. 
+</dd>
+</dl>
+
+<p>
+The way to use these functions is to set them as the HREF element of an anchor tag:
+</p>
+<pre>
+&lt;a href="javascript:config.loadModel(...)"/&gt;
+</pre>
+<p>
+or as an event handler (onclick, onmouseover, etc.) on any HTML element that allows it:
+</p>
+<pre>
+&lt;td onclick="config.loadModel(...)"/&gt;
+</pre>
+</p>
+
+<p>
+</p>
+
+<p align="right">
+<a href="?page=config/skins">previous</a>&nbsp;&nbsp;&nbsp; 
+<a href="?page=config/extend">next</a>
+</p>

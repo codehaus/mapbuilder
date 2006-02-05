@@ -1,0 +1,16 @@
+!2 handle spaces in layer names
+http://sourceforge.net/tracker/index.php?func=detail&aid=1386497&group_id=35246&atid=413775
+
+Override Setup
+!|Action Fixture|
+|start|Mb.Setup|
+|enter|host|${MAPBUILDER}|
+|enter|webapp|!-demo/simple?mainMap=testCaseContextDoc.xml-!|
+|enter|config file|${CONFIGFILE}|
+|press|goto it|
+
+Go to the Simple demo page and check the model
+|Action Fixture|
+|start|Mb.Model|
+|enter|timeout|10|
+|check|model loaded|true|
