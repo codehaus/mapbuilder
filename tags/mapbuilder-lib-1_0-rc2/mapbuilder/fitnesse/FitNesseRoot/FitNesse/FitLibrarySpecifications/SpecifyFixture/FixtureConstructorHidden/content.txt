@@ -1,0 +1,7 @@
+!3 This error needs a proper ''!-FitFailureException-!'' error message instead of a stack dump
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border>
+<tr><td>fitlibrary.specify.FixtureWithHiddenConstructor</td></tr>
+</table>-!|!-<table border>
+<tr><td class="error">fitlibrary.specify.FixtureWithHiddenConstructor<hr><pre><div class="fit_stacktrace"></div></pre></td></tr>
+</table>-!|

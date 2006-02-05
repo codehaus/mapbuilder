@@ -1,0 +1,4 @@
+^DocumentationTests
+^DemosTests
+^BugFixesTests
+^EnhancementsTests
