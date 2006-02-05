@@ -1,4 +1,0 @@
-|'''Date: '''|!-9:22:10 AM (EST) on Sunday, December 18, 2005-!|
-|'''Command: '''|!-ruby -I fitnesse.jar;fitlibrary.jar ruby/bin/FitServer.rb localhost 8088 2-!|
-|'''Exit code: '''|!-4-!|
-|'''Time elapsed: '''|!-0.703 seconds-!|
