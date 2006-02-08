@@ -138,9 +138,9 @@ function ModelBase(modelNode, parentModel) {
    */
   this.loadModelDoc = function(objRef){
     //alert("loading:"+objRef.url);
-    objRef.setParam("modelStatus","loading");
 
     if (objRef.url) {
+      objRef.setParam("modelStatus","loading");
       objRef.callListeners( "newModel" );
 
       if (objRef.contentType == "image") {
