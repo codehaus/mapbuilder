@@ -7,13 +7,18 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
- * This widget can be used to insert a message while the Mapbuilder
- * javascript is loading.  The message is removed once Mapbuilder
- * javascript is loaded.  In the main HTML file, insert something like:<br/>
- * &lt;div id="loading"&gt;&lt;p&gt;Loading Program&lt;/p&gt;&lt;/div&gt;.
+ * This widget is used to display ModelStatus messages.  This widget is used
+ * like any other except that it is clreaed on the loadModel event and painted
+ * on the "newModel" and "modelStatus" events.
+ * Optional config parameters are an image source (usually an animated GIF) in 
+ * the imageSource property, an optional static text message to be displayed as 
+ * the textMessage property and if the widget is to be displayed over top of a 
+ * map you can also specify the mapContainerId property.
+ * Dynamic message can be displayed by listening on the "modelStatus" event which
+ * sends a message as the parameter.  Send a null message param to clear the widget.
  * @constructor
  * @base WidgetBase
- * @author Cameron Shorter
+ * @author Mike Adair
  * @param widgetNode The widget's XML object node from the configuration document.
  * @param model The model object that this widget belongs to.
  */
@@ -35,10 +40,21 @@ function Loading2(widgetNode, model) {
   } else {
     this.textMessage = "Document loading, please wait...";
   }
+  this.updateMessage = this.textMessage;
+
+  //check to see if this is to be put over a map if there isa mapContainerID supplied
+  var mapContainerNode = widgetNode.selectSingleNode("mb:mapContainerId");
+  if (mapContainerNode) {
+    this.containerNodeId = mapContainerNode.firstChild.nodeValue;
+    this.node = document.getElementById(this.containerNodeId);
+  }
 
   //paint it on the "newModel" event, clear it on "loadModel" event
   this.model.addListener("newModel",this.paint, this);
   this.model.addListener("loadModel",this.clear, this);
+  this.model.addListener("bbox", this.paint, this );
+  this.model.addListener("refresh",this.paint, this);
+  this.model.addListener("modelStatus",this.update, this);
 }
 
 /**
@@ -52,17 +68,28 @@ Loading2.prototype.paint = function(objRef) {
     if (!outputNode) {
       outputNode = document.createElement("div");
       outputNode.setAttribute("id",objRef.outputNodeId+"_loading");
-      if (objRef.imageSrc) {
-        var loadingImg = document.createElement("img");
-        loadingImg.src = objRef.imageSrc;
-        outputNode.appendChild(loadingImg);
-      }
-      if (objRef.textMessage) {
-        var loadingMsg = document.createElement("p");
-        loadingMsg.innerHTML = objRef.textMessage;
-        outputNode.appendChild(loadingMsg);
-      }
       objRef.node.appendChild(outputNode);
+    }
+    outputNode.className = "loadingIndicator";
+    outputNode.style.zindex = 1000;
+    outputNode.style.position="relative";
+    if (objRef.imageSrc) {
+      var imageNode = document.getElementById( objRef.outputNodeId+"_imageNode" );
+      if (!imageNode) {
+        imageNode = document.createElement("img");
+        imageNode.setAttribute("id",objRef.outputNodeId+"_imageNode");
+        outputNode.appendChild(imageNode);
+      }
+      imageNode.src = objRef.imageSrc;
+    }
+    if (objRef.updateMessage) {
+      var messageNode = document.getElementById( objRef.outputNodeId+"_messageNode" );
+      if (!messageNode) {
+        messageNode = document.createElement("p");
+        messageNode.setAttribute("id",objRef.outputNodeId+"_messageNode");
+        outputNode.appendChild(messageNode);
+      }
+      messageNode.innerHTML = objRef.updateMessage;
     }
   }
 }
@@ -74,5 +101,19 @@ Loading2.prototype.paint = function(objRef) {
 Loading2.prototype.clear= function(objRef) {
   var outputNode = document.getElementById( objRef.outputNodeId+"_loading" );
   if (outputNode) objRef.node.removeChild(outputNode);
+}
+
+/**
+ * Updates the loading indicator with a new message as a "updateStatus" listener.
+ * Send an null message to clear the loading indicator.
+ * @param objRef Reference to this object.
+ */
+Loading2.prototype.update= function(objRef, message) {
+  if (message) {
+    objRef.updateMessage = message;
+    objRef.paint(objRef);
+  } else {
+    objRef.clear(objRef);
+  }
 }
 
