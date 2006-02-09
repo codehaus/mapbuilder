@@ -8,7 +8,6 @@
 					<htmlTagId>mainMapPane</htmlTagId>
 					<mapContainerId>mainMapContainer</mapContainerId>
 				</MapPane>
-				<Loading id="loading"/>
 				<ModelUrlInput id="urlInput"/>
 				<AoiBoxDHTML id="aoiBox2">
 					<htmlTagId>mainMapPane</htmlTagId>
@@ -18,6 +17,9 @@
 					<lineWidth>1</lineWidth>
 					<crossSize>15</crossSize>
 				</AoiBoxDHTML>
+        <Loading2 id="loading2">
+					<mapContainerId>mainMapContainer</mapContainerId>
+        </Loading2>
 			</widgets>
 			<tools>
 				<AoiMouseHandler id="mainAoi"/>

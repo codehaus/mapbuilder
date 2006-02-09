@@ -119,12 +119,12 @@ MapPane.prototype.paint = function(objRef, refresh) {
     if (objRef.debug) alert("painting:"+Sarissa.serialize(objRef.model.doc));
     if (objRef.debug) alert("stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
 
-    /* @author Michael Jenik and Mike Adair */
-
     //process the doc with the stylesheet
-    var s = objRef.stylesheet.transformNodeToString(objRef.model.doc);
-    var tempNode = document.createElement("DIV");
-    tempNode.innerHTML = s;
+    //var s = objRef.stylesheet.transformNodeToString(objRef.model.doc);
+    //var tempNode = document.createElement("DIV");
+    //tempNode.innerHTML = s;
+    var tempDom = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
+    var tempNodeList = tempDom.selectNodes("//IMG");
 
     //debug output
     if (objRef.debug) {
@@ -137,25 +137,40 @@ MapPane.prototype.paint = function(objRef, refresh) {
     if (!outputNode) {
       outputNode = document.createElement("DIV");
       outputNode.setAttribute("id", objRef.outputNodeId);
-      outputNode.style.left='0px';
-      outputNode.style.top='0px';
       outputNode.style.position = "absolute"; 
       objRef.node.appendChild(outputNode);
     } 
+    outputNode.style.left='0px';
+    outputNode.style.top='0px';
 
     //loop through all layers and create an array of IMG objects for preloading 
     // the WMS getMap calls
     var layers = objRef.model.getAllLayers();
     if (!objRef.imageStack) objRef.imageStack = new Array(layers.length);
     objRef.firstImageLoaded = false;
+
+    var siblingImageDivs = outputNode.childNodes;
+    for (var i=0; i<siblingImageDivs.length ;++i) {
+      var sibImg = siblingImageDivs[i].firstChild;
+      sibImg.parentNode.style.visibility = "hidden";
+      sibImg.style.visibility = "hidden";//Make sure for IE that the child node is hidden as well
+    }
+
+
+    objRef.layerCount = layers.length;
+    var message = "loading " + objRef.layerCount + " map layers"
+    objRef.model.setParam("modelStatus", message);
+
     for (var i=0;i<layers.length;i++){
       if (!objRef.imageStack[i]) {
         objRef.imageStack[i] = new Image();
         objRef.imageStack[i].objRef = objRef;
       }
-      var newSrc = tempNode.firstChild.childNodes[i].firstChild.getAttribute("src"); 
+      //var newSrc = tempNode.firstChild.childNodes[i].firstChild.getAttribute("src"); 
+      var newSrc = tempNodeList[i].getAttribute("SRC");
       objRef.loadImgDiv(layers[i],newSrc,objRef.imageStack[i]);
     }
+    if (_SARISSA_IS_IE) siblingImageDivs[0].firstChild.parentNode.parentNode.style.visibility = "hidden";
   }
 }
 
@@ -268,6 +283,7 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
   // preload image
   newImg.id = imgDiv.imgId;
   newImg.hidden = layerHidden;
+  newImg.fixPng = false;
   if (_SARISSA_IS_IE && imageFormat=="image/png") newImg.fixPng = true;
   newImg.onload = MapImgLoadHandler;
   newImg.src = newSrc;
@@ -283,18 +299,15 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
 */
 function MapImgLoadHandler() {
   var oldImg = document.getElementById("real"+this.id );
-  var outputNode = oldImg.parentNode.parentNode;
-  if (!this.objRef.firstImageLoaded) {
-    var siblingImageDivs = outputNode.childNodes;
-    for (var i=0; i<siblingImageDivs.length ;++i) {
-      var sibImg = siblingImageDivs[i].firstChild;
-      sibImg.parentNode.style.visibility = "hidden";
-      sibImg.style.visibility = "hidden";//Make sure for IE that the child node is hidden as well
-    }
-    outputNode.style.left='0px';
-    outputNode.style.top='0px';   
-    this.objRef.firstImageLoaded = true;
+  --this.objRef.layerCount;
+  if (this.objRef.layerCount > 0) {
+    var message = "loading " + this.objRef.layerCount + " map layers"
+    this.objRef.model.setParam("modelStatus", message);
+  } else {
+    this.objRef.model.setParam("modelStatus");
   }
+
+  if (_SARISSA_IS_IE) oldImg.parentNode.parentNode.style.visibility = "visible";
   if (this.fixPng) {
     var vis = oldImg.layerHidden?"hidden":"visible";
     oldImg.outerHTML = fixPNG(this,"real"+this.id);
