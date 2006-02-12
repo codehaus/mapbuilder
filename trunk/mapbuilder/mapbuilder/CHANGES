@@ -19,52 +19,63 @@ with original author.
 
 Bugs fixed:
 -----------
-MAP-1 	Jira setup for mapbuilder.
-MAP-4	errors because of missing 'px' in MapPane.xsl was SF-1387043
-MAP-8	GetFeatureInfo fails against GeoServer WMS Submitted: kc7bfi SF-1400525
-MAP-10	fixedWidth MapPane property broken Submitted: madair1 SF-1399511
-MAP-20	map doesn't move while panning Submitted: openwereld SF-1386852
-MAP-44	hide layer not working in IE Submitted: camerons SF-1364550
-MAP-45	java servlets compiled with JDK1.5 fail when run in 1.4 Submitted: madair1 SF-1365816
-MAP-62	config text stylesheet should override widgetText file values
-MAP-65	No EditPolygon Implementation
+MAP-1 	JIRA setup for mapbuilder 
+MAP-3 	Import existing SF Open Bug reports 
+MAP-4 	errors because of missing 'px' in MapPane.xsl was SF-1387043 
+MAP-5 	add Transverse Mercator (and UTM) to Proj submitted:madair1 SF:1404410 
+MAP-8 	GetFeatureInfo fails against GeoServer WMS Submitted: kc7bfi SF-1400525 
+MAP-10 	fixedWidth MapPane property broken Submitted: madair1 SF-1399511 
+MAP-20 	map doesn't move while panning Submitted: openwereld SF-1386852 
+MAP-28 	query icon Submitted: tomkralidis SF-968519 
+MAP-30 	Links in mapbuilder/index.html broker Submitted: camerons SF-1164770 
+MAP-44 	hide layer not working in IE Submitted: camerons SF-1364550 
+MAP-45 	java servlets compiled with JDK1.5 fail when run in 1.4 Submitted: madair1 SF-1365816 
+MAP-58 	Improper handling of GetFeatureInfo url generation - URL repeated in variable string 
+MAP-60 	Demis demo - AOIForm.xsl error 
+MAP-62 	config text stylesheet should override widgetText file values 
+MAP-64 	incorrect aspect ratio in modisWorld context file 
+MAP-65 	No EditPolygon Implementation 
+
 
 Outstanding Issues (highest priority first):
 --------------------------------------------
-MAP-63	More than ONE editing widgets
-MAP-2	Hardcoded reference to localhost will prevent remote machines from viewing Generated Content
-MAP-6	Problem with two WMS layers with the same name submitted: kc7bfi SF-1400521
-MAP-9	Layer Control does not update when a new layer is loaded Submitted: Cappelaere SF-1393270
-MAP-19	IE problem: "Error: 'this.doc' is null or not an object Submitted: Cappelaere SF-1390868
-MAP-7	Graphical Highlight of WFS Polygon is mangled Submitted: sjf_8 SF-1404143
-MAP-11	EditPolygon Tool Problem Submitted: nobody SF-1397748
-MAP-12	wrong value for port in proxy.php Submitted: zjonp SF-1397656
-MAP-13	FF 1.5 docStyle.css error Submitted: Cappelaere SF-1394569
-MAP-14	Update GeoRSS demo to new feed format Submitted: Cappelaere SF-1394556
-MAP-15	Line 29 invalid argument Context Editor Submitted: Cappelaere SF-1392122
-MAP-16	Line 278 Object required Submitted: Cappelaere SF-1392112
-MAP-17	Line 96 Error firstChild is null or not an object Submitted: Cappelaere SF-1392108
-MAP-18	js error passing bbox in via URL submitted: davidherbert2 SF-1391168
-MAP-21	<widget> is not defined" javascript errors Submitted: openwereld SF-1386001
-MAP-22	wfs-t java.lang.ExceptionInInitializerError Submitted: mneteler SF-1383838
-MAP-23	PHP proxy strips attribute namespaces Submitted: madair1 SF-1386495
-MAP-24	Gazetteer widget auto zoom Submitted: nobody SF-1380974
-MAP-25	Move util.js into JS objects Submitted: camerons SF-1071242
-MAP-35	use scalehints in context docs Submitted: madair1 SF-1174298
-MAP-36	Drag Pan Tool: Mouseup outside the map should be procesed Submitted: maiqui SF-1259486
-MAP-37	CSS error in Firefox 1.5beta causes layers not to load Submitted: camerons SF-1337858
-MAP-38	Null gml:coordinate Point is rendered in top left of MapPane Submitted: Camerons SF-1351128
-MAP-39	Feature isn't deselected after it was deleted Submitted: camerons SF-1364103
-MAP-40	GeoRSS divs not cleared on loadModel Submitted: nobody SF-1291065
-MAP-41	MapPane HTML 4.01 and XHTML compatibility Submitted: sgillies SF-1294608
-MAP-42	error initializing mapbuilder when used in drupal module Submitted: openwereld SF-1352137
-MAP-43	duplicate layers mess up when deleting them Submitted: graphrisc SF-1361616
-MAP-59	GetFeatureInfo URL generated for a second WMS in same context as first is repeated in the variable string.
-MAP-26	Layers from geoserver periodically not returned Submitted: camerons SF-1357587
-MAP-29	Coord string does not handle space char inside tuple Submitted camerons SF-1013754
-MAP-32	Incorrect click position in WFS-T demo on IE Submitted: camerons SF-1193142
-MAP-34	GmlRenderer complexity OUT OF CONTROL with zoomin Submitted: maiqui SF-1306834
-MAP-57	Inconsistency in handling of aspect ratio for map viewer between bounding box and image size
+MAP-68 	IE: MapPane refreshing layers 
+MAP-6 	Problem with two WMS layers with the same name submitted: kc7bfi SF-1400521 
+MAP-2 	Hardcoded reference to localhost will prevent remote machines from viewing Generated Content 
+MAP-9 	Layer Control does not update when a new layer is loaded Submitted: Cappelaere SF-1393270 
+MAP-19 	IE problem: "Error: 'this.doc' is null or not an object Submitted: Cappelaere SF-1390868 
+MAP-7 	Graphical Highlight of WFS Polygon is mangled Submitted: sjf_8 SF-1404143 
+MAP-11 	EditPolygon Tool Problem Submitted: nobody SF-1397748 
+MAP-38 	Null gml:coordinate Point is rendered in top left of MapPane Submitted: Camerons SF-1351128 
+MAP-17 	Line 96 Error firstChild is null or not an object Submitted: Cappelaere SF-1392108 
+MAP-16 	Line 278 Object required Submitted: Cappelaere SF-1392112 
+MAP-12 	wrong value for port in proxy.php Submitted: zjonp SF-1397656 
+MAP-37 	CSS error in Firefox 1.5beta causes layers not to load Submitted: camerons SF-1337858 
+MAP-13 	FF 1.5 docStyle.css error Submitted: Cappelaere SF-1394569 
+MAP-42 	error initializing mapbuilder when used in drupal module Submitted: openwereld SF-1352137 
+MAP-21 	<widget> is not defined" javascript errors Submitted: openwereld SF-1386001 
+MAP-40 	GeoRSS divs not cleared on loadModel Submitted: nobody SF-1291065 
+MAP-59 	GetFeatureInfo URL generated for a second WMS in same context as first is repeated in the variable string. 
+MAP-22 	wfs-t java.lang.ExceptionInInitializerError Submitted: mneteler SF-1383838 
+MAP-39 	Feature isn't deselected after it was deleted Submitted: camerons SF-1364103 
+MAP-41 	MapPane HTML 4.01 and XHTML compatibility Submitted: sgillies SF-1294608 
+MAP-18 	js error passing bbox in via URL submitted: davidherbert2 SF-1391168 
+MAP-35 	use scalehints in context docs Submitted: madair1 SF-1174298 
+MAP-43 	duplicate layers mess up when deleting them Submitted: graphrisc SF-1361616 
+MAP-24 	Gazetteer widget auto zoom Submitted: nobody SF-1380974 
+MAP-23 	PHP proxy strips attribute namespaces Submitted: madair1 SF-1386495 
+MAP-14 	Update GeoRSS demo to new feed format Submitted: Cappelaere SF-1394556 
+MAP-25 	Move util.js into JS objects Submitted: camerons SF-1071242 
+MAP-15 	Line 29 invalid argument Context Editor Submitted: Cappelaere SF-1392122 
+MAP-36 	Drag Pan Tool: Mouseup outside the map should be procesed Submitted: maiqui SF-1259486 
+MAP-71 	Duplicate GetFeatureInfo responses forced if mouse click occurs before previous query finished. 
+MAP-32 	Incorrect click position in WFS-T demo on IE Submitted: camerons SF-1193142 
+MAP-26 	Layers from geoserver periodically not returned Submitted: camerons SF-1357587 
+MAP-34 	GmlRenderer complexity OUT OF CONTROL with zoomin Submitted: maiqui SF-1306834 
+MAP-29 	Coord string does not handle space char inside tuple Submitted camerons SF-1013754 
+MAP-31 	ZoomBy factor should be in config file Submitted: camerons SF-1181411 
+MAP-57 	Inconsistency in handling of aspect ratio for map viewer between bounding box and image size 
+
 
 mapbuilder-lib-1.0-rc1 (stable)
 ===============================

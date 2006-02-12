@@ -110,7 +110,7 @@ $Id$
   <property name="app.name" value="mapbuilder"/>
   <property name="pack.name" value="mapbuilder-lib"/>
   <property name="app.path" value="/${app.name}"/>
-  <property name="app.version" value="1.0-rc1"/>
+  <property name="app.version" value="1.0-rc2"/>
   <property name="catalina.home" value="${env.CATALINA_HOME}"/> <!-- ensure you have this environment var set -->
   <property name="build.home" value="${basedir}/build"/>
   <property name="compress.home" value="${basedir}/compressBuild"/>
