@@ -1,0 +1,48 @@
+<h2>Introduction</h2>
+
+<p>
+Mapbuilder is an open source project that implements a framework
+dynamic web page content from XML documents.
+The techniques used by this package are now being called 
+<a href="http://www.adaptivepath.com/publications/essays/archives/000385.php">AJAX</a> 
+which is shorthand for Asynchronous JavaScript + XML.
+</p>
+
+<p>
+Mapbuilder consists of a JavaScript library that 
+implements the Model-View-Controller (MVC) design pattern.
+The model, view and controller objects to be used in the web page are configured
+in an XML configuration file.
+The schema of the configuration file is derived from RDF and is fully described 
+in the <a href="?page=config/config">mapbuilder configuration documentation</a>.
+</p>
+
+<p>
+This User Guide explains how to configure and link Mapbuilder components into a web page.
+Several different Mapbuilder configurations will be demonstrated along with some
+ideas for how to include it in the web page layout.
+The target audience for this tutorial is those tasked with implementing an 
+application in HTML and have a basic understanding of HTML, XML and Javascript.
+Developer's seeking to extend or modify the code-base should consult 
+the mapbuilder <a href="?page=reference#mapbuilder">design documentation.</a> 
+</p>
+
+<p>
+One design goal of mapbuilder is to let page designers do page layout
+and design, and simply link in mapbuilder JavaScript code using HTML element IDs. 
+Being a JavaScript implementation, CSS and DHTML techniques are then used for
+manipulating these elements.
+</p>
+
+<p>
+Mapbuilder was originally conceived to render 
+<a href="?page=reference#ogc">Web Map Context documents</a> 
+to create interactive mapping applications on the web.
+However the modular design framework
+allows mapbuilder to be extended to handle almost any XML document type.
+</p>
+
+<p>
+The tutorial starts with the common steps required to code a mapbuilder
+application.
+</p>

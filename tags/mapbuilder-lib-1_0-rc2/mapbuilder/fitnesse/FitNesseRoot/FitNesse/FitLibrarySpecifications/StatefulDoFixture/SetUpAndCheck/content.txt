@@ -1,0 +1,15 @@
+|!-fitlibrary.specify.SetUpAndCheck-!|
+
+|''colours''|
+|''colour name''|
+|red|
+|green|
+|blue|
+
+|''start action''|
+
+|''colours''|
+|''colour name''|
+|red|
+|green|
+|blue|
