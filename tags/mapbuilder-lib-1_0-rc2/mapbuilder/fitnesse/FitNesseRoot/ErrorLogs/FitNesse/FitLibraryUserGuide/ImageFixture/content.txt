@@ -1,4 +1,0 @@
-|'''Date: '''|!-3:45:32 PM (EST) on Saturday, December 24, 2005-!|
-|'''Command: '''|!-java -cp fitLibrary.jar;Examples/ExampleTables/build;Examples/ChatServer/build;fitnesse.jar;fitlibrary.jar fit.FitServer localhost 8088 44-!|
-|'''Exit code: '''|!-0-!|
-|'''Time elapsed: '''|!-0.547 seconds-!|
