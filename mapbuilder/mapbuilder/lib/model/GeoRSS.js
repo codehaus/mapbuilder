@@ -18,26 +18,21 @@ function GeoRSS(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   ModelBase.apply(this, new Array(modelNode, parent));
 
-  /**
-   * convert coordinates in the GML document to the SRS of the map container, 
-   * if required.  The coordinate values are replaced in the GML document.
+  /** init
    * @param objRef Pointer to this object.
    */
   this.initItems = function(objRef) {
     var items = objRef.doc.selectNodes("rdf:RDF/rss:item");
     if( items.length == 0 ) {
       items = objRef.doc.selectNodes("atom:feed/atom:entry");
-    }
-    //alert(Sarissa.serialize(objRef.doc) );
-    //alert( "items:"+items.length );
-    
+     }
+   
     for (var i=0; i<items.length; ++i) {
       var item = items[i];
-      item.setAttribute("id", "RSS_Item_"+mbIds.getId());
-      //convert to GML?
+      item.setAttribute("divid", "RSS_Item_"+mbIds.getId());
     }
   }
-  this.addFirstListener("loadModel",this.initItems,this);
+  // OBE this.addFirstListener("loadModel",this.initItems,this);
 
   /**
    * Returns the list of nodes selected by the nodeSelectpath
@@ -65,11 +60,7 @@ function GeoRSS(modelNode, parent) {
    * @return ID for this feature
    */
   this.getFeatureId = function(featureNode) {
-    var id = featureNode.getAttribute("id")
-    if( id )
-      return id;
-      
-    id = featureNode.getAttribute("atom:id")
+    var id = featureNode.getAttribute("divid")
     if( id )
       return id;
       
@@ -101,6 +92,61 @@ function GeoRSS(modelNode, parent) {
     }
   }
  
+ /**
+   * Returns the geometry for the feature
+   * @param featureNode the feature node to select from
+   * @return the geometric point for the node
+   */
+  this.getFeatureGeometry = function(featureNode) {
+    if (featureNode.selectSingleNode("geo:long")) {
+      var pointX = featureNode.selectSingleNode("geo:long").firstChild.nodeValue;
+      var pointY = featureNode.selectSingleNode("geo:lat").firstChild.nodeValue;
+      return "POINT " + pointX + "," + pointY;
+    } 
+      
+    var pos = featureNode.selectSingleNode("georss:where/gml:Point/gml:pos")
+    if( pos != null ) {
+	  var coordstr = pos.firstChild.nodeValue
+	  return "POINT " + coordstr;
+    } 
+    
+    var posList = featureNode.selectSingleNode("georss:where/gml:LineString/gml:posList")
+    if( posList != null ) { //WARNING: could overflow so get all nodes
+      var children = posList.childNodes;       
+      var count = children.length;
+      var text="";     
+      for( var i=0; i<count; i++ ) {
+        text += children[i].nodeValue;
+      }
+      //alert("count:"+ count + " length:"+text.length)
+      
+      return "LINESTRING " + text;
+    }
+ 
+    var posList = featureNode.selectSingleNode("georss:where/gml:Polygon/gml:exterior/gml:LinearRing")
+    if( posList != null ) {
+      var coordstr = posList.firstChild.nodeValue
+      return "POLYGON " + coordstr;
+    } 
+    
+    alert ("Invalid GML Geometry" )
+    return null
+  }
+  
+  /**
+    * Get the GML Node out of the RSS feed
+    */
+  this.getFeatureGml = function(featureNode) {
+    var where = featureNode.selectSingleNode("georss:where")
+    if( where != null ) {
+      var gml = where.firstChild; 
+      return gml;
+    } else {
+      return null;
+    }
+  }
+  
+  
   /**
   * Returns a specific icon for that entry
   * @param featureNode the feature node to select from
@@ -118,6 +164,5 @@ function GeoRSS(modelNode, parent) {
       return null;
     }
   }
-
 }
 

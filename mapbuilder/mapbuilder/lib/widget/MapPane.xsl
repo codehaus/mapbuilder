@@ -42,9 +42,9 @@ $Name$
   
   <!-- template rule matching source root element -->
   <xsl:template match="/wmc:ViewContext">
-      <DIV STYLE="position:absolute; width:{$width}px; height:{$height}px" ID="{$outputNodeId}">
+      <div style="position:absolute; width:{$width}px; height:{$height}px" id="{$outputNodeId}">
         <xsl:apply-templates select="wmc:LayerList/wmc:Layer"/>
-      </DIV>
+      </div>
   </xsl:template>
   
   <xsl:template match="wmc:Layer">
@@ -101,16 +101,16 @@ $Name$
     <xsl:variable name="styleParam">
       <xsl:choose>
         <xsl:when test="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:OnlineResource">
-          SLD=<xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:OnlineResource/@xlink:href"/>
+          sld=<xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:OnlineResource/@xlink:href"/>
         </xsl:when>
         <xsl:when test="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:StyledLayerDescriptor">
-          SLD_BODY=<xsl:apply-templates select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:StyledLayerDescriptor" />
+          sld_body=<xsl:apply-templates select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:StyledLayerDescriptor" />
         </xsl:when>
         <xsl:when test="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:FeatureTypeStyle">
-          SLD=<xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:FeatureTypeStyle"/>
+          sld=<xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:FeatureTypeStyle"/>
         </xsl:when>
         <xsl:otherwise>
-          STYLES=<xsl:call-template name="replace-string">
+          styles=<xsl:call-template name="replace-string">
             <xsl:with-param name="text"><xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:Name"/></xsl:with-param>
             <xsl:with-param name="replace"><xsl:value-of select="' '"/></xsl:with-param>
             <xsl:with-param name="with"><xsl:value-of select="'+'"/></xsl:with-param>
@@ -128,68 +128,68 @@ $Name$
     <xsl:variable name="mapRequest">
       <xsl:choose>
         <xsl:when test="starts-with($version, '1.0')">
-            WMTVER=<xsl:value-of select="$version"/>&amp;REQUEST=map
+            wmtver=<xsl:value-of select="$version"/>&amp;request=map
         </xsl:when>            
         <xsl:otherwise>
-            VERSION=<xsl:value-of select="$version"/>&amp;REQUEST=GetMap&amp;SERVICE=WMS
+            version=<xsl:value-of select="$version"/>&amp;request=GetMap&amp;service=wms
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
 
-    <DIV>    
-      <xsl:attribute name="STYLE">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0px; left:0px;</xsl:attribute>
-      <xsl:attribute name="ID">
+    <div>    
+      <xsl:attribute name="style">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0px; left:0px;</xsl:attribute>
+      <xsl:attribute name="id">
         <xsl:value-of select="$modelId"/>_<xsl:value-of select="$widgetId"/>_<xsl:value-of select="$layerName"/><xsl:if test="$timestamp and wmc:DimensionList/wmc:Dimension[@name='time']">_<xsl:value-of select="$timestamp"/></xsl:if>
       </xsl:attribute>
       <xsl:if test="$timestamp and wmc:DimensionList/wmc:Dimension[@name='time']">
-        <xsl:attribute name="TIME"><xsl:value-of select="$timestamp"/></xsl:attribute>
+        <xsl:attribute name="time"><xsl:value-of select="$timestamp"/></xsl:attribute>
       </xsl:if>
     
-    <xsl:element name="IMG">    
+    <xsl:element name="img">    
         <xsl:variable name="src">    
             <xsl:value-of select="$baseUrl"/>
             <xsl:value-of select="$firstJoin"/>
             <xsl:value-of select="$mapRequest"/>
-&amp;LAYERS=<xsl:value-of select="$layerName"/>
-   &amp;SRS=<xsl:value-of select="$srs"/>
-  &amp;BBOX=<xsl:value-of select="$bbox"/>
- &amp;WIDTH=<xsl:value-of select="$width"/>
-&amp;HEIGHT=<xsl:value-of select="$height"/>
-&amp;FORMAT=<xsl:value-of select="$format"/>
+&amp;layers=<xsl:value-of select="$layerName"/>
+   &amp;srs=<xsl:value-of select="$srs"/>
+  &amp;bbox=<xsl:value-of select="$bbox"/>
+ &amp;width=<xsl:value-of select="$width"/>
+&amp;height=<xsl:value-of select="$height"/>
+&amp;format=<xsl:value-of select="$format"/>
        &amp;<xsl:value-of select="$styleParam"/>
-&amp;TRANSPARENT=TRUE
+&amp;transparent=true
         <xsl:if test="string-length($timestamp)>0"> 
-       &amp;TIME=<xsl:value-of select="$timestamp"/>
+       &amp;time=<xsl:value-of select="$timestamp"/>
         </xsl:if>
-        &amp;UNIQUEID=<xsl:value-of select="$uniqueId"/>
+        &amp;uniqued=<xsl:value-of select="$uniqueId"/>
 <!--	
   //TBD: these still to be properly handled 
   //if (this.exceptions) src += '&' + 'EXCEPTIONS=' + this.exceptions;
   //if (this.vendorstr) src += '&' + this.vendorstr;
   // -->
         </xsl:variable>
-        <xsl:attribute name="SRC">    
+        <xsl:attribute name="src">    
             <xsl:value-of select="translate(normalize-space($src),' ', '' )" disable-output-escaping="no"/>
         </xsl:attribute>
-        <xsl:attribute name="WIDTH">
+        <xsl:attribute name="width">
             <xsl:value-of select="$width"/>
         </xsl:attribute>
-        <xsl:attribute name="HEIGHT">
+        <xsl:attribute name="height">
             <xsl:value-of select="$height"/>
         </xsl:attribute>
         <xsl:if test="starts-with($extraAttributes,'true')">
-          <xsl:attribute name="ALT">
+          <xsl:attribute name="alt">
               <xsl:value-of select="wmc:Title"/>
           </xsl:attribute>
-          <xsl:attribute name="TITLE">
+          <xsl:attribute name="title">
               <xsl:value-of select="wmc:Title"/>
           </xsl:attribute>
           <xsl:if test="string-length($metadataUrl)>0">
-            <xsl:attribute name="LONGDESC"><xsl:value-of select="$metadataUrl"/></xsl:attribute>
+            <xsl:attribute name="longdesc"><xsl:value-of select="$metadataUrl"/></xsl:attribute>
           </xsl:if>
         </xsl:if>
     </xsl:element>    
-    </DIV>    
+    </div>    
   </xsl:template>
 
   

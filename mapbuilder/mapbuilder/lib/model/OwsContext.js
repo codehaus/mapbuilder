@@ -83,9 +83,41 @@ function OwsContext(modelNode, parent) {
     var upperRight=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:UpperCorner");
     upperRight.firstChild.nodeValue = boundingBox[2] + " " + boundingBox[3];
     // Call the listeners
-    this.callListeners("bbox");
+    //PatC this.callListeners("bbox");
+    this.callListeners("bbox", boundingBox); // from Context.js
+    
   }
 
+  /*PatC Added from Context.js */
+  /**
+   * Set the BoundingBox element and call the refresh listeners
+   * @param boundingBox array in the sequence (xmin, ymin, xmax, ymax).
+   */
+  this.initBbox=function(objRef) {
+    // Set BoundingBox in context from URL CGI params
+    if (window.cgiArgs["bbox"]) {     //set as minx,miny,maxx,maxy
+      var boundingBox = window.cgiArgs["bbox"].split(',');
+      objRef.setBoundingBox(boundingBox);
+    }
+  }
+  //PGC this.addListener( "loadModel", this.initBbox, this );
+  this.addListener( "contextLoaded", this.initBbox, this );
+
+  /**
+   * Set the aoi param and call the refresh listeners
+   * @param boundingBox array in the sequence (xmin, ymin, xmax, ymax).
+   */
+  this.initAoi=function(objRef) {
+    // Set AOI of context from URL CGI params
+    if (window.cgiArgs["aoi"]) {      //set as ul,lr point arrays
+      var aoi = window.cgiArgs["aoi"].split(',');
+      objRef.setParam("aoi",new Array(new Array(aoi[0],aoi[3]),new Array(aoi[2],aoi[1])));
+    }
+  }
+  this.addListener( "loadModel", this.initAoi, this );
+  //MA this.addListener( "contextLoaded", this.initAoi, this );
+  /*End of addition */
+  
   /**
    * Set the Spacial Reference System for layer display and layer requests.
    * @param srs The Spatial Reference System.
@@ -103,9 +135,11 @@ function OwsContext(modelNode, parent) {
    */
   this.getSRS=function() {
     //bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
-    var bbox=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox");
-    srs=bbox.getAttribute("crs");
-    return srs;
+    if( this.doc ) {
+      var bbox=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox");
+      srs=bbox.getAttribute("crs");
+      return srs;
+    } 
   }
 
   /**
@@ -113,10 +147,12 @@ function OwsContext(modelNode, parent) {
    * @return width The width of map window from the context document
    */
   this.getWindowWidth=function() {
-    //var win=this.doc.documentElement.getElementsByTagName("Window").item(0);
-    var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
-    width=win.getAttribute("width");
-    return width;
+    if( this.doc ) {
+      //var win=this.doc.documentElement.getElementsByTagName("Window").item(0);
+      var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
+      width=win.getAttribute("width");
+      return width;
+    }
   }
 
   /**
@@ -136,9 +172,11 @@ function OwsContext(modelNode, parent) {
    */
   this.getWindowHeight=function() {
     //var win=this.doc.documentElement.getElementsByTagName("Window").item(0);
-    var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
-    height=win.getAttribute("height");
-    return height;
+    if( this.doc ) {
+      var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
+      height=win.getAttribute("height");
+      return height;
+    }
   }
 
   /**
@@ -187,7 +225,16 @@ function OwsContext(modelNode, parent) {
    * @return the node from the context doc with the specified feature name
    */
   this.getFeatureNode = function(featureName) {
-    return this.doc.selectSingleNode(this.nodeSelectXpath+"/*[wmc:Name='"+featureName+"']");
+    if( this.doc ) {
+	  var feature = this.doc.selectSingleNode(this.nodeSelectXpath+"/*[wmc:Name='"+featureName+"']");
+	    
+	  if(feature == null )
+	    feature = this.doc.selectSingleNode("//wmc:RssLayer[wmc:Title='"+featureName+"']");
+	     
+	  //alert("getFeatureNode RssLayer:"+featureName+"="+feature);
+	  //alert( Sarissa.serialize( this.doc ));  
+	  return feature;
+    }
   }
 
   /**
@@ -248,6 +295,70 @@ function OwsContext(modelNode, parent) {
     return layer;
   }
 
+  /* PAtC Added from Context.js */
+  /**
+   * Method to add a Layer to the LayerList
+   * @param layerNode the Layer node from another context doc or capabiltiies doc
+   */
+  this.addLayer = function(objRef, layerNode) {
+   
+    var parentNode = objRef.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList");
+   
+    //var node = objRef.doc.importNode(layerNode.childNodes[0],true);
+    var node = objRef.doc.importNode(layerNode,true);
+    parentNode.appendChild( node );
+    objRef.modified = true;
+    //objRef.callListeners("refresh");
+  }
+  this.addFirstListener( "addLayer", this.addLayer, this );
 
+  /**
+   * Method to remove a Layer from the LayerList
+   * @param layerName the Layer to be deleted
+   */
+  this.deleteLayer = function(objRef, layerName) {
+    var deletedNode = objRef.getLayer(layerName);
+    if (!deletedNode) {
+      alert("node note found; unable to delete node:"+layerName);
+      return;
+    }
+    deletedNode.parentNode.removeChild(deletedNode);
+    objRef.modified = true;
+  }
+  this.addFirstListener( "deleteLayer", this.deleteLayer, this );
+
+  /**
+   * Method to move a Layer in the LayerList up
+   * @param layerName the layer to be moved
+   */
+  this.moveLayerUp = function(objRef, layerName) {
+    var movedNode = objRef.getLayer(layerName);
+    var sibNode = movedNode.selectSingleNode("following-sibling::*");
+    if (!sibNode) {
+      alert("can't move node past beginning of list:"+layerName);
+      return;
+    }
+    movedNode.parentNode.insertBefore(sibNode,movedNode);
+    objRef.modified = true;
+  }
+  this.addFirstListener( "moveLayerUp", this.moveLayerUp, this );
+
+  /**
+   * Method to move a Layer in the LayerList down
+   * @param layerName the layer to be moved
+   */
+  this.moveLayerDown = function(objRef, layerName) {
+    var movedNode = objRef.getLayer(layerName);
+    var listNodeArray = movedNode.selectNodes("preceding-sibling::*");  //preceding-sibling axis contains all previous siblings
+    var sibNode = listNodeArray[listNodeArray.length-1];
+    if (!sibNode) {
+      alert("can't move node past beginning of list:"+layerName);
+      return;
+    }
+    movedNode.parentNode.insertBefore(movedNode,sibNode);
+    objRef.modified = true;
+  }
+  this.addFirstListener( "moveLayerDown", this.moveLayerDown, this );
+  /*PatC End of Addition */
 }
 
