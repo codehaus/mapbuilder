@@ -8,6 +8,7 @@ $Id$
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 mapbuilder.loadScript(baseDir+"/widget/MapContainerBase.js");
+mapbuilder.loadScript(baseDir+"/graphics/MapLayerMgr.js");
 
 /**
  * Widget to render a map from an OGC context document.  The layers are rendered
@@ -60,12 +61,15 @@ function MapPane(widgetNode, model) {
   this.stylesheet.setParameter("skinDir", config.skinDir );
   this.stylesheet.setParameter("lang", config.lang );
 
+  this.MapLayerMgr = new MapLayerMgr(this, model); //PatC
 
   /**
    * Called when the context's hidden attribute changes.
    * @param objRef This object.
    * @param layerName  The name of the layer that was toggled.
    */
+   
+  /* PGC Moved to LayerMgr
   this.hiddenListener=function(objRef, layerName){
     var vis="visible";
     if(objRef.model.getHidden(layerName)=="1") {
@@ -81,7 +85,8 @@ function MapPane(widgetNode, model) {
     }
   }
   this.model.addListener("hidden",this.hiddenListener,this);
-
+  */
+  
   /**
    * Called after a feature has been added to a WFS.  This function triggers
    * the WMS basemaps to be redrawn.  A timestamp param is added to the URL
@@ -124,7 +129,7 @@ MapPane.prototype.paint = function(objRef, refresh) {
     //var tempNode = document.createElement("DIV");
     //tempNode.innerHTML = s;
     var tempDom = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
-    var tempNodeList = tempDom.selectNodes("//IMG");
+    var tempNodeList = tempDom.selectNodes("//img");
 
     //debug output
     if (objRef.debug) {
@@ -135,7 +140,7 @@ MapPane.prototype.paint = function(objRef, refresh) {
     //create a DIV to hold all the individual image DIVs
     var outputNode = document.getElementById( objRef.outputNodeId );
     if (!outputNode) {
-      outputNode = document.createElement("DIV");
+      outputNode = document.createElement("div");
       outputNode.setAttribute("id", objRef.outputNodeId);
       outputNode.style.position = "absolute"; 
       objRef.node.appendChild(outputNode);
@@ -145,6 +150,7 @@ MapPane.prototype.paint = function(objRef, refresh) {
 
     //loop through all layers and create an array of IMG objects for preloading 
     // the WMS getMap calls
+    /* PGC Moved to LayerMgr
     var layers = objRef.model.getAllLayers();
     if (!objRef.imageStack) objRef.imageStack = new Array(layers.length);
     objRef.firstImageLoaded = false;
@@ -171,7 +177,19 @@ MapPane.prototype.paint = function(objRef, refresh) {
       objRef.loadImgDiv(layers[i],newSrc,objRef.imageStack[i]);
     }
     if (_SARISSA_IS_IE) siblingImageDivs[0].firstChild.parentNode.parentNode.style.visibility = "hidden";
+    
+    PGC */
+    
+    objRef.MapLayerMgr.paint( objRef );
+     
   }
+}
+
+/**
+  * returns layer form LayerMgr
+  */
+MapPane.prototype.getLayer = function(layerName) {
+  return this.MapLayerMgr( layerName );
 }
 
 /**
@@ -188,19 +206,23 @@ MapPane.prototype.getLayerDivId = function(layerName) {
  */
 MapPane.prototype.addLayer = function(objRef, layerNode) {
   //process the doc with the stylesheet
+  // Note PGC This is really geared for WMS layers
+    
   objRef.stylesheet.setParameter("width", objRef.model.getWindowWidth());
   objRef.stylesheet.setParameter("height", objRef.model.getWindowHeight());
   objRef.stylesheet.setParameter("bbox", objRef.model.getBoundingBox().join(","));
   objRef.stylesheet.setParameter("srs", objRef.model.getSRS());
   var s = objRef.stylesheet.transformNodeToString(layerNode);
-  var tempNode = document.createElement("DIV");
-  tempNode.innerHTML = s;
-  var newSrc = tempNode.firstChild.firstChild.getAttribute("src"); 
+  if( s.length > 0 ) {
+    var tempNode = document.createElement("div");
+    tempNode.innerHTML = s;
+    var newSrc = tempNode.firstChild.firstChild.getAttribute("src"); 
 
-  objRef.imageStack.push(new Image());
-  objRef.imageStack[objRef.imageStack.length-1].objRef = objRef;
-  objRef.firstImageLoaded = true;
-  objRef.loadImgDiv(layerNode,newSrc,objRef.imageStack[objRef.imageStack.length-1]);
+    objRef.imageStack.push(new Image());
+    objRef.imageStack[objRef.imageStack.length-1].objRef = objRef;
+    objRef.firstImageLoaded = true;
+    objRef.loadImgDiv(layerNode,newSrc,objRef.imageStack[objRef.imageStack.length-1]);
+  }
 }
 
 /**
@@ -265,14 +287,14 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
   var imgDivId = this.getLayerDivId(layerName); 
   var imgDiv = document.getElementById(imgDivId);
   if (!imgDiv) {
-    imgDiv = document.createElement("DIV");
+    imgDiv = document.createElement("div");
     imgDiv.setAttribute("id", imgDivId);
     imgDiv.style.position = "absolute"; 
     imgDiv.style.visibility = (layerHidden)?"hidden":"visible";
     imgDiv.style.top = '0px'; 
     imgDiv.style.left = '0px';
     imgDiv.imgId = Math.random().toString(); 
-    var domImg = document.createElement("IMG");
+    var domImg = document.createElement("img");
     domImg.id = "real"+imgDiv.imgId;
     domImg.src = this.loadingSrc;
     domImg.layerHidden = layerHidden;

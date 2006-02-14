@@ -35,12 +35,12 @@
 				<Widget id="eventsListing">
 					<stylesheet>GeoRSSListing2.xsl</stylesheet>
 				</Widget>
-				<GmlPointRenderer id="testGmlRenderer">
+				<GeoRssRenderer id="testGmlRenderer">
 					<htmlTagId>mainMapPane</htmlTagId>
 					<mapContainerId>mainMapContainer</mapContainerId>
 					<normalImage>/images/MarkerA.gif</normalImage>
 					<highlightImage>/images/MarkerB.gif</highlightImage>
-				</GmlPointRenderer>
+				</GeoRssRenderer>
 			</widgets>
 			<!--tools>
         <ZoomToAoi id="locationsZoomToAoi">

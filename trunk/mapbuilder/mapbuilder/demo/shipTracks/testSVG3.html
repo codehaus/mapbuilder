@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html 
+  xmlns:vml="urn:schemas-microsoft-com:vml" 
+  xmlns:svg="http://www.w3.org/2000/svg"  xmlns:xlink="http://www.w3.org/1999/xlink"
+  >
+  
+  <head>
+ 
+    <title>hi</title>
+ 
+    <script type="text/javascript">
+      function overCircle() {
+        alert( "over circle");
+      }
+      
+      function overImage() {
+        alert( "over image" );
+      }
+      
+      function jsHack() {
+ 
+        var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+ 
+        svg.setAttribute('width', '200');
+ 
+        svg.setAttribute('height', '200');
+ 
+        svg.setAttribute('viewBox', '0 0 400 800');
+ 
+        var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+ 
+        circle.setAttribute('cx', '10');
+ 
+        circle.setAttribute('cy', '10');
+ 
+        circle.setAttribute('r', '30');
+ 
+        circle.setAttribute('fill', 'green');
+        circle.setAttribute('onmouseover', 'overCircle()' );
+        
+        svg.appendChild(circle);
+ 
+        var img = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+        img.setAttribute('height', '16' );
+        img.setAttribute('width', '16' );
+        img.setAttribute( 'x', '100' );
+        img.setAttribute( 'y', '100' );
+        img.setAttributeNS( 'http://www.w3.org/1999/xlink', 'href', 'http://192.168.15.102:8080/mapbuilder/demo/shipTracks/images/frog.gif' );
+        img.setAttribute('onmouseover', 'overImage()' );
+ 
+        svg.appendChild( img );
+ 
+        var poly = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+        poly.setAttribute('onmouseover', 'overImage()' );
+        poly.setAttribute('stroke', '#ff0000' );        
+        poly.setAttribute('fill', 'none' );
+        
+        poly.setAttribute('points', "548,110 548,110 548,110 548,110 548,110 548,110 548,110 548,110 548,110 548,110 548,110 548,110 548,110 548,110 548,110 548,110 548,111 549,111 549,110 548,110 548,110 548,110 548,109 548,109 547,108 547,108 547,108 547,107 546,107 546,107 546,107 545,106 545,106 545,106 544,105 544,105 544,104 544,104 547,101 547,101 547,101 547,101 547,101 547,101 547,101 547,101 547,101 547,101 547,101 547,101 547,101 547,101 547,101 547,101 548,110 548,110 549,111 549,111 549,111 549,111 549,112 549,112 550,112 550,113 550,113 551,113 551,114 552,114 552,115 552,115 553,115 553,116 554,116 554,116 555,116 556,116 556,117 557,117 557,117 558,117 558,117 559,118");
+       
+        svg.appendChild( poly );
+
+        document.body.appendChild(svg);     
+ 
+      }
+ 
+    </script>
+ 
+  
+ 
+  </head>
+ 
+  <body>
+ 
+    JS-HACK:<br />
+      <input type='button' value='testsvg' onClick='jsHack()' /> 
+ 
+  </body>
+ 
+</html>

@@ -57,12 +57,18 @@ function Context(modelNode, parent) {
    * @return BoundingBox array with the sequence (xmin,ymin,xmax,ymax).
    */
   this.getBoundingBox=function() {
-    var boundingBox=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
     bbox = new Array();
-    bbox[0]=parseFloat(boundingBox.getAttribute("minx"));
-    bbox[1]=parseFloat(boundingBox.getAttribute("miny"));
-    bbox[2]=parseFloat(boundingBox.getAttribute("maxx"));
-    bbox[3]=parseFloat(boundingBox.getAttribute("maxy"));
+    if( this.doc != null ) {
+      var boundingBox=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
+      if( boundingBox != null ) {
+        bbox[0]=parseFloat(boundingBox.getAttribute("minx"));
+        bbox[1]=parseFloat(boundingBox.getAttribute("miny"));
+        bbox[2]=parseFloat(boundingBox.getAttribute("maxx"));
+        bbox[3]=parseFloat(boundingBox.getAttribute("maxy"));
+      } else {
+        Sarissa.serialize( this.doc );
+      }
+    }
     return bbox;
   }
 

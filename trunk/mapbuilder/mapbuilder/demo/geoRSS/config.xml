@@ -28,8 +28,7 @@
 		</Context>
 		<GeoRSS id="geoRSS">
 			<defaultModelUrl>http://crcp-blogger.mit.edu/geoblogger/rss.php</defaultModelUrl>
-			<!--scriptFile>/geoRSS/GeoRSS.js</scriptFile-->
-			<!-- defaultModelUrl>geoRSS.xml</defaultModelUrl -->
+			<!--  defaultModelUrl>geoRSS.xml</defaultModelUrl -->
 
 			<widgets>
 				<Widget id="eventsListing">
@@ -48,7 +47,7 @@
           <targetModel>mainMap</targetModel>
         </ZoomToAoi>
       </tools-->
-			<namespace>xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:rss='http://purl.org/rss/1.0/' xmlns:taxo='http://purl.org/rss/1.0/modules/taxonomy/' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:syn='http://purl.org/rss/1.0/modules/syndication/' xmlns:geo='http://www.w3.org/2003/01/geo/wgs84_pos#'</namespace>
+			<namespace>xmlns:atom='http://www.w3.org/2005/Atom' xmlns:georss='http://www.georss.org/rss' xmlns:gml='http://www.opengis.net/gml/3.1.1' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:rss='http://purl.org/rss/1.0/' xmlns:taxo='http://purl.org/rss/1.0/modules/taxonomy/' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:syn='http://purl.org/rss/1.0/modules/syndication/' xmlns:geo='http://www.w3.org/2003/01/geo/wgs84_pos#'</namespace>
 			<nodeSelectXpath>/rdf:RDF/rss:item</nodeSelectXpath>
 
 		</GeoRSS>
