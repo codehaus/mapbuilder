@@ -64,7 +64,7 @@ $Name$
 
   <xsl:template match="/">
 
-    <div style="position:relative; width:{$width}; height:{$height}">
+    <div style="position:relative; width:{$width}px; height:{$height}px">
 
       <xsl:apply-templates/>
 
