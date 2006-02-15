@@ -65,7 +65,7 @@ function MapContainerBase(widgetNode,model) {
  */
   } else {
     //create the container node and set it's properties
-    containerNode = document.createElement("DIV");
+    containerNode = document.createElement("div");
     containerNode.setAttribute("id",this.containerNodeId);
     containerNode.id=this.containerNodeId;
     containerNode.style.position="relative";
