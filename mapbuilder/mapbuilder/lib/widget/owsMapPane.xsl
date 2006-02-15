@@ -39,9 +39,9 @@ $Name$
   
   <!-- template rule matching source root element -->
   <xsl:template match="/wmc:OWSContext">
-      <DIV STYLE="width:{$width}; height:{$height}; position:absolute" ID="{$outputNodeId}">
+      <div style="width:{$width}; height:{$height}; position:absolute" id="{$outputNodeId}">
         <xsl:apply-templates select="wmc:ResourceList/*"/>
-      </DIV>
+      </div>
   </xsl:template>
   
   <!-- these handled outside of the stylesheet -->
@@ -71,31 +71,31 @@ $Name$
     <xsl:variable name="mapRequest">
       <xsl:choose>
         <xsl:when test="starts-with($version, '1.0')">
-            WMTVER=<xsl:value-of select="$version"/>&amp;REQUEST=map
+            wmtver=<xsl:value-of select="$version"/>&amp;request=map
         </xsl:when>            
         <xsl:otherwise>
-            VERSION=<xsl:value-of select="$version"/>&amp;REQUEST=GetMap&amp;SERVICE=WMS
+            version=<xsl:value-of select="$version"/>&amp;request=GetMap&amp;service=wms
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
 
     <DIV>    
-        <xsl:attribute name="STYLE">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0; left:0;</xsl:attribute>
-        <xsl:attribute name="ID"><xsl:value-of select="$modelId"/>_<xsl:value-of select="$widgetId"/>_<xsl:value-of select="wmc:Name"/></xsl:attribute>
+        <xsl:attribute name="style">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0px; left:0px;</xsl:attribute>
+        <xsl:attribute name="id"><xsl:value-of select="$modelId"/>_<xsl:value-of select="$widgetId"/>_<xsl:value-of select="wmc:Name"/></xsl:attribute>
     
-    <xsl:element name="IMG">    
+    <xsl:element name="img">    
         <xsl:variable name="src">    
             <xsl:value-of select="$baseUrl"/>
             <xsl:value-of select="$firstJoin"/>
              <xsl:value-of select="$mapRequest"/>
-   &amp;SRS=<xsl:value-of select="$srs"/>
-  &amp;BBOX=<xsl:value-of select="$bbox"/>
- &amp;WIDTH=<xsl:value-of select="$width"/>
-&amp;HEIGHT=<xsl:value-of select="$height"/>
-&amp;LAYERS=<xsl:value-of select="wmc:Name"/>
-&amp;STYLES=<xsl:value-of select="translate(wmc:StyleList/wmc:Style[@current='1']/wmc:Name,' ','+')"/>
-&amp;FORMAT=<xsl:value-of select="wmc:FormatList/wmc:Format[@current='1']"/>
-&amp;TRANSPARENT=TRUE
+   &amp;srs=<xsl:value-of select="$srs"/>
+  &amp;bbox=<xsl:value-of select="$bbox"/>
+ &amp;width=<xsl:value-of select="$width"/>
+&amp;height=<xsl:value-of select="$height"/>
+&amp;layers=<xsl:value-of select="wmc:Name"/>
+&amp;styles=<xsl:value-of select="translate(wmc:StyleList/wmc:Style[@current='1']/wmc:Name,' ','+')"/>
+&amp;format=<xsl:value-of select="wmc:FormatList/wmc:Format[@current='1']"/>
+&amp;transparent=true
 
 <!--	
   //TBD: these still to be properly handled 
@@ -107,16 +107,16 @@ $Name$
   //
         -->
         </xsl:variable>
-        <xsl:attribute name="SRC">    
+        <xsl:attribute name="src">    
             <xsl:value-of select="translate(normalize-space($src),' ', '' )" disable-output-escaping="no"/>
         </xsl:attribute>
-        <xsl:attribute name="WIDTH">
+        <xsl:attribute name="width">
             <xsl:value-of select="$width"/>
         </xsl:attribute>
-        <xsl:attribute name="HEIGHT">
+        <xsl:attribute name="height">
             <xsl:value-of select="$height"/>
         </xsl:attribute>
-        <xsl:attribute name="ALT">
+        <xsl:attribute name="alt">
             <xsl:value-of select="wmc:Title"/>
         </xsl:attribute>
     </xsl:element>
