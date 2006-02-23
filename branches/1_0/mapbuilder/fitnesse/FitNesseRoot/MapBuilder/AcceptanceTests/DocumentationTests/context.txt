@@ -1,6 +1,0 @@
-!1 Check Main Page
-|Action Fixture|
-|start|Mb.CheckLinks|
-|enter|url|${MAPBUILDER}|
-|press|check links|
-|check|links|ok|
