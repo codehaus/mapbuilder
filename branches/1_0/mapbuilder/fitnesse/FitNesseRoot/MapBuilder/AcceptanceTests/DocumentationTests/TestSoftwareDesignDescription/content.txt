@@ -1,0 +1,7 @@
+!1 Check Software Design Page
+|Action Fixture|
+|start|Mb.CheckPage|
+|enter|url|${MAPBUILDER}/docs/design/index.html|
+|press|check links|
+|check|all links|good|
+|check|results||
