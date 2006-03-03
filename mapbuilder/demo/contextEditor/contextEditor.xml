@@ -48,6 +48,9 @@
           <crossSize>15</crossSize>
           <mapContainerId>mainMapContainer</mapContainerId>
         </AoiBoxDHTML>
+        <Loading2 id="loading2">
+					<mapContainerId>mainMapContainer</mapContainerId>
+        </Loading2>
       </widgets>
       <tools>
         <AoiMouseHandler id="mainAoi"/>

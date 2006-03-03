@@ -140,7 +140,7 @@ function ModelBase(modelNode, parentModel) {
     //alert("loading:"+objRef.url);
 
     if (objRef.url) {
-      objRef.setParam("modelStatus","loading");
+      objRef.setParam("modelStatus","loading: "+objRef.url);
       objRef.callListeners( "newModel" );
 
       if (objRef.contentType == "image") {

@@ -42,6 +42,9 @@
           <align>left</align>  <!-- left, center, or right -->
         </MapScaleBar>
 				<Loading id="loading"/>
+        <Loading2 id="loading2">
+					<mapContainerId>mainMapContainer</mapContainerId>
+        </Loading2>
 				<AoiBoxWZ id="aoiBoxMain">
 					<htmlTagId>mainMapPane</htmlTagId>
 					<stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
