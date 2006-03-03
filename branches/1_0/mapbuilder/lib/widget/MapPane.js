@@ -120,9 +120,6 @@ MapPane.prototype.paint = function(objRef, refresh) {
     if (objRef.debug) alert("stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
 
     //process the doc with the stylesheet
-    //var s = objRef.stylesheet.transformNodeToString(objRef.model.doc);
-    //var tempNode = document.createElement("DIV");
-    //tempNode.innerHTML = s;
     var tempDom = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
     var tempNodeList = tempDom.selectNodes("//IMG");
 
@@ -139,9 +136,9 @@ MapPane.prototype.paint = function(objRef, refresh) {
       outputNode.setAttribute("id", objRef.outputNodeId);
       outputNode.style.position = "absolute"; 
       objRef.node.appendChild(outputNode);
+      outputNode.style.left='0px';
+      outputNode.style.top='0px';
     } 
-    outputNode.style.left='0px';
-    outputNode.style.top='0px';
 
     //loop through all layers and create an array of IMG objects for preloading 
     // the WMS getMap calls
@@ -149,17 +146,7 @@ MapPane.prototype.paint = function(objRef, refresh) {
     if (!objRef.imageStack) objRef.imageStack = new Array(layers.length);
     objRef.firstImageLoaded = false;
 
-    var siblingImageDivs = outputNode.childNodes;
-    for (var i=0; i<siblingImageDivs.length ;++i) {
-      var sibImg = siblingImageDivs[i].firstChild;
-      sibImg.parentNode.style.visibility = "hidden";
-      sibImg.style.visibility = "hidden";//Make sure for IE that the child node is hidden as well
-    }
-
-
     objRef.layerCount = layers.length;
-    var message = "loading " + objRef.layerCount + " map layers"
-    objRef.model.setParam("modelStatus", message);
 
     for (var i=0;i<layers.length;i++){
       if (!objRef.imageStack[i]) {
@@ -170,7 +157,8 @@ MapPane.prototype.paint = function(objRef, refresh) {
       var newSrc = tempNodeList[i].getAttribute("SRC");
       objRef.loadImgDiv(layers[i],newSrc,objRef.imageStack[i]);
     }
-    if (_SARISSA_IS_IE) siblingImageDivs[0].firstChild.parentNode.parentNode.style.visibility = "hidden";
+    var message = "loading " + objRef.layerCount + " map layers"
+    objRef.model.setParam("modelStatus", message);
   }
 }
 
@@ -274,7 +262,8 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
     imgDiv.imgId = Math.random().toString(); 
     var domImg = document.createElement("IMG");
     domImg.id = "real"+imgDiv.imgId;
-    domImg.src = this.loadingSrc;
+    //domImg.src = this.loadingSrc;
+    domImg.src = config.skinDir+"/images/Spacer.gif";
     domImg.layerHidden = layerHidden;
     imgDiv.appendChild(domImg);
     outputNode.appendChild(imgDiv);
@@ -295,10 +284,25 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
 * compensate the container main div displacement to result in in a zero displacement.
 * The first image to be returned will hide all other layers and re-position them
 * and they are made visible when their onload event fires.
-* @author Michael Jenik     
 */
 function MapImgLoadHandler() {
   var oldImg = document.getElementById("real"+this.id );
+
+  if (!this.objRef.firstImageLoaded) {
+    this.objRef.firstImageLoaded = true;
+    var outputNode = document.getElementById( this.objRef.outputNodeId );
+    var siblingImageDivs = outputNode.childNodes;
+    for (var i=0; i<siblingImageDivs.length ;++i) {
+      var sibImg = siblingImageDivs[i].firstChild;
+      sibImg.parentNode.style.visibility = "hidden";
+      sibImg.style.visibility = "hidden";//Make sure for IE that the child node is hidden as well
+      //if (_SARISSA_IS_IE) sibImg.src = config.skinDir+"/images/Spacer.gif";
+    }
+    if (_SARISSA_IS_IE) siblingImageDivs[0].firstChild.parentNode.parentNode.style.visibility = "hidden";
+    outputNode.style.left='0px';
+    outputNode.style.top='0px';
+  }
+
   --this.objRef.layerCount;
   if (this.objRef.layerCount > 0) {
     var message = "loading " + this.objRef.layerCount + " map layers"

@@ -47,6 +47,18 @@
 	filter: alpha(opacity=75);
 }
 
+.loadingIndicator p
+{
+  margin: 0px;
+  padding: 2px;
+}
+
+.loadingIndicator img
+{
+  padding: 2px;
+  margin: 0px;
+  float: left;
+}
 /*
 #legend {
 	font-size: 70%; 

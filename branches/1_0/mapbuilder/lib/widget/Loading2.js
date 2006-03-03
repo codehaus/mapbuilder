@@ -51,7 +51,7 @@ function Loading2(widgetNode, model) {
 
   //paint it on the "newModel" event, clear it on "loadModel" event
   this.model.addListener("newModel",this.paint, this);
-  this.model.addListener("loadModel",this.clear, this);
+  this.model.addListener("contextLoaded",this.clear, this);
   this.model.addListener("bbox", this.paint, this );
   this.model.addListener("refresh",this.paint, this);
   this.model.addListener("modelStatus",this.update, this);
@@ -79,6 +79,7 @@ Loading2.prototype.paint = function(objRef) {
         imageNode = document.createElement("img");
         imageNode.setAttribute("id",objRef.outputNodeId+"_imageNode");
         outputNode.appendChild(imageNode);
+        imageNode.style.zindex = 1000;
       }
       imageNode.src = objRef.imageSrc;
     }
