@@ -45,14 +45,13 @@
         <Loading2 id="loading2">
 					<mapContainerId>mainMapContainer</mapContainerId>
         </Loading2>
-				<AoiBoxWZ id="aoiBoxMain">
+				<AoiBoxDHTML id="aoiBoxMain">
 					<htmlTagId>mainMapPane</htmlTagId>
-					<stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
 					<mapContainerId>mainMapContainer</mapContainerId>
 					<lineColor>#FF0000</lineColor>
 					<lineWidth>1</lineWidth>
 					<crossSize>15</crossSize>
-				</AoiBoxWZ>
+				</AoiBoxDHTML>
 				<CursorTrack id="cursorTrack">
 					<mouseHandler>mainMap</mouseHandler>
 					<showXY>false</showXY>
