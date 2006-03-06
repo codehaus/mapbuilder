@@ -121,7 +121,7 @@ MapPane.prototype.paint = function(objRef, refresh) {
 
     //process the doc with the stylesheet
     var tempDom = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
-    var tempNodeList = tempDom.selectNodes("//IMG");
+    var tempNodeList = tempDom.selectNodes("//img");
 
     //debug output
     if (objRef.debug) {
@@ -132,7 +132,7 @@ MapPane.prototype.paint = function(objRef, refresh) {
     //create a DIV to hold all the individual image DIVs
     var outputNode = document.getElementById( objRef.outputNodeId );
     if (!outputNode) {
-      outputNode = document.createElement("DIV");
+      outputNode = document.createElement("div");
       outputNode.setAttribute("id", objRef.outputNodeId);
       outputNode.style.position = "absolute"; 
       objRef.node.appendChild(outputNode);
@@ -154,7 +154,7 @@ MapPane.prototype.paint = function(objRef, refresh) {
         objRef.imageStack[i].objRef = objRef;
       }
       //var newSrc = tempNode.firstChild.childNodes[i].firstChild.getAttribute("src"); 
-      var newSrc = tempNodeList[i].getAttribute("SRC");
+      var newSrc = tempNodeList[i].getAttribute("src");
       objRef.loadImgDiv(layers[i],newSrc,objRef.imageStack[i]);
     }
     var message = "loading " + objRef.layerCount + " map layers"
@@ -181,7 +181,7 @@ MapPane.prototype.addLayer = function(objRef, layerNode) {
   objRef.stylesheet.setParameter("bbox", objRef.model.getBoundingBox().join(","));
   objRef.stylesheet.setParameter("srs", objRef.model.getSRS());
   var s = objRef.stylesheet.transformNodeToString(layerNode);
-  var tempNode = document.createElement("DIV");
+  var tempNode = document.createElement("div");
   tempNode.innerHTML = s;
   var newSrc = tempNode.firstChild.firstChild.getAttribute("src"); 
 
@@ -253,14 +253,14 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
   var imgDivId = this.getLayerDivId(layerName); 
   var imgDiv = document.getElementById(imgDivId);
   if (!imgDiv) {
-    imgDiv = document.createElement("DIV");
+    imgDiv = document.createElement("div");
     imgDiv.setAttribute("id", imgDivId);
     imgDiv.style.position = "absolute"; 
     imgDiv.style.visibility = (layerHidden)?"hidden":"visible";
     imgDiv.style.top = '0px'; 
     imgDiv.style.left = '0px';
     imgDiv.imgId = Math.random().toString(); 
-    var domImg = document.createElement("IMG");
+    var domImg = document.createElement("img");
     domImg.id = "real"+imgDiv.imgId;
     //domImg.src = this.loadingSrc;
     domImg.src = config.skinDir+"/images/Spacer.gif";
@@ -296,7 +296,7 @@ function MapImgLoadHandler() {
       var sibImg = siblingImageDivs[i].firstChild;
       sibImg.parentNode.style.visibility = "hidden";
       sibImg.style.visibility = "hidden";//Make sure for IE that the child node is hidden as well
-      //if (_SARISSA_IS_IE) sibImg.src = config.skinDir+"/images/Spacer.gif";
+      if (_SARISSA_IS_IE) sibImg.src = config.skinDir+"/images/Spacer.gif";
     }
     if (_SARISSA_IS_IE) siblingImageDivs[0].firstChild.parentNode.parentNode.style.visibility = "hidden";
     outputNode.style.left='0px';

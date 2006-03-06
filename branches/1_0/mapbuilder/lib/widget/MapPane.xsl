@@ -42,9 +42,9 @@ $Name$
   
   <!-- template rule matching source root element -->
   <xsl:template match="/wmc:ViewContext">
-      <DIV STYLE="position:absolute; width:{$width}px; height:{$height}px" ID="{$outputNodeId}">
+      <div STYLE="position:absolute; width:{$width}px; height:{$height}px" ID="{$outputNodeId}">
         <xsl:apply-templates select="wmc:LayerList/wmc:Layer"/>
-      </DIV>
+      </div>
   </xsl:template>
   
   <xsl:template match="wmc:Layer">
@@ -136,16 +136,16 @@ $Name$
       </xsl:choose>
     </xsl:variable>
 
-    <DIV>    
-      <xsl:attribute name="STYLE">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0px; left:0px;</xsl:attribute>
-      <xsl:attribute name="ID">
+    <div>    
+      <xsl:attribute name="style">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0px; left:0px;</xsl:attribute>
+      <xsl:attribute name="id">
         <xsl:value-of select="$modelId"/>_<xsl:value-of select="$widgetId"/>_<xsl:value-of select="$layerName"/><xsl:if test="$timestamp and wmc:DimensionList/wmc:Dimension[@name='time']">_<xsl:value-of select="$timestamp"/></xsl:if>
       </xsl:attribute>
       <xsl:if test="$timestamp and wmc:DimensionList/wmc:Dimension[@name='time']">
-        <xsl:attribute name="TIME"><xsl:value-of select="$timestamp"/></xsl:attribute>
+        <xsl:attribute name="time"><xsl:value-of select="$timestamp"/></xsl:attribute>
       </xsl:if>
     
-    <xsl:element name="IMG">    
+    <xsl:element name="img">    
         <xsl:variable name="src">    
             <xsl:value-of select="$baseUrl"/>
             <xsl:value-of select="$firstJoin"/>
@@ -168,28 +168,28 @@ $Name$
   //if (this.vendorstr) src += '&' + this.vendorstr;
   // -->
         </xsl:variable>
-        <xsl:attribute name="SRC">    
+        <xsl:attribute name="src">    
             <xsl:value-of select="translate(normalize-space($src),' ', '' )" disable-output-escaping="no"/>
         </xsl:attribute>
-        <xsl:attribute name="WIDTH">
+        <xsl:attribute name="width">
             <xsl:value-of select="$width"/>
         </xsl:attribute>
-        <xsl:attribute name="HEIGHT">
+        <xsl:attribute name="height">
             <xsl:value-of select="$height"/>
         </xsl:attribute>
         <xsl:if test="starts-with($extraAttributes,'true')">
-          <xsl:attribute name="ALT">
+          <xsl:attribute name="alt">
               <xsl:value-of select="wmc:Title"/>
           </xsl:attribute>
-          <xsl:attribute name="TITLE">
+          <xsl:attribute name="title">
               <xsl:value-of select="wmc:Title"/>
           </xsl:attribute>
           <xsl:if test="string-length($metadataUrl)>0">
-            <xsl:attribute name="LONGDESC"><xsl:value-of select="$metadataUrl"/></xsl:attribute>
+            <xsl:attribute name="longdesc"><xsl:value-of select="$metadataUrl"/></xsl:attribute>
           </xsl:if>
         </xsl:if>
     </xsl:element>    
-    </DIV>    
+    </div>    
   </xsl:template>
 
   
