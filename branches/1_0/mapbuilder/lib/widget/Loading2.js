@@ -51,7 +51,7 @@ function Loading2(widgetNode, model) {
 
   //paint it on the "newModel" event, clear it on "loadModel" event
   this.model.addListener("newModel",this.paint, this);
-  this.model.addListener("contextLoaded",this.clear, this);
+  this.model.addListener("loadModel",this.clear, this);
   this.model.addListener("bbox", this.paint, this );
   this.model.addListener("refresh",this.paint, this);
   this.model.addListener("modelStatus",this.update, this);
@@ -72,7 +72,9 @@ Loading2.prototype.paint = function(objRef) {
     }
     outputNode.className = "loadingIndicator";
     outputNode.style.zindex = 1000;
-    outputNode.style.position="relative";
+    outputNode.style.position="absolute";
+    outputNode.style.left='0px';
+    outputNode.style.top='0px';
     if (objRef.imageSrc) {
       var imageNode = document.getElementById( objRef.outputNodeId+"_imageNode" );
       if (!imageNode) {
