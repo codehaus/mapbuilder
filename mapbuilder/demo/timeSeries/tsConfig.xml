@@ -19,7 +19,6 @@
 				</TimeSeries>
 				<Timestamp id="timestamp">
         </Timestamp>
-				<Loading id="loading"/>
 				<Legend id="legend">
         </Legend>
 				<Widget id="abstract">
