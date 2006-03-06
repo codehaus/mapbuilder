@@ -107,6 +107,7 @@ function ModelBase(modelNode, parentModel) {
    * @param objRef Reference to this node.
    * @param xpath Xpath of the node to update.
    * @param value Node's new value.
+   * @param refresh determines if the model should be refreshed (optional).
    * @return Returns false if Xpath does not find a node.
    */
   this.setXpathValue=function(objRef,xpath,value){
@@ -140,8 +141,8 @@ function ModelBase(modelNode, parentModel) {
     //alert("loading:"+objRef.url);
 
     if (objRef.url) {
-      objRef.setParam("modelStatus","loading");
       objRef.callListeners( "newModel" );
+      objRef.setParam("modelStatus","loading");
 
       if (objRef.contentType == "image") {
         //image models are set as a DOM image object
@@ -168,11 +169,12 @@ function ModelBase(modelNode, parentModel) {
         }
         
         xmlHttp.onreadystatechange = function() {
-          objRef.setParam("modelStatus",xmlHttp.readyState);
+          objRef.setParam("modelStatus",httpStatusMsg[xmlHttp.readyState]);
           if (xmlHttp.readyState==4) {
             if (xmlHttp.status >= 400) {   //http errors status start at 400
-              alert("error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText );
-              objRef.setParam("modelStatus",-1);
+              var errorMsg = "error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText;
+              alert(errorMsg);
+              objRef.setParam("modelStatus",errorMsg);
               return;
             } else {
               //alert(xmlHttp.getResponseHeader("Content-Type"));
@@ -194,8 +196,9 @@ function ModelBase(modelNode, parentModel) {
 
         if (!objRef.async) {
           if (xmlHttp.status >= 400) {   //http errors status start at 400
-            alert("error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText );
-            this.objRef.setParam("modelStatus",-1);
+            var errorMsg = "error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText;
+            alert(errorMsg);
+            this.objRef.setParam("modelStatus",errorMsg);
             return;
           } else {
             //alert(xmlHttp.getResponseHeader("Content-Type"));
@@ -355,7 +358,7 @@ function ModelBase(modelNode, parentModel) {
    * @param objRef Pointer to this object.
    */
   this.refresh = function(objRef) {
-    objRef.setParam("refresh",true);
+    objRef.setParam("refresh");
   }
   this.addListener("loadModel",this.refresh, this);
 
@@ -388,3 +391,6 @@ function ModelBase(modelNode, parentModel) {
     this.parseConfig(this);
   }
 }
+
+//ModelBase.prototype.httpStatusMsg = ['uninitialized','loading','loaded','interactive','completed'];
+var httpStatusMsg = ['uninitialized','loading','loaded','interactive','completed'];
