@@ -8,18 +8,18 @@ mapbuilder.loadScript(baseDir+"/graphics/MapLayer.js");
 mapbuilder.loadScript(baseDir+"/graphics/StyledLayerDescriptor.js");
 mapbuilder.loadScript(baseDir+"/graphics/VectorGraphics.js");
 mapbuilder.loadScript(baseDir+"/widget/TipObject.js");
+mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
 function RssLayer(model, mapPane, layerName, layerNode, queryable, visible) {
   MapLayer.apply(this, new Array(model, mapPane, layerName, layerNode, queryable, visible));
   this.parse();
- 
-  var div = this.getDiv(); 
-  
+   
   this.width   = layerNode.attributes.getNamedItem("width").nodeValue;
   this.height  = layerNode.attributes.getNamedItem("height").nodeValue;
   
+  var div = this.getDiv();
   this.gr = new VectorGraphics(this.id, div, this.width, this.height );
- 
+  
   this.paint();
   
   // model here is not geoRss but OwsContext sooooo
@@ -27,7 +27,6 @@ function RssLayer(model, mapPane, layerName, layerNode, queryable, visible) {
   config.objects.geoRSS.addListener("dehighlightFeature",this.dehighlight, this);
    
   this.tooltip = config.objects.geoRSS.tipWidgetId;
-  
   
 }
 
@@ -142,22 +141,25 @@ RssLayer.prototype.parse = function() {
   */
 RssLayer.prototype.paintPoint = function( sld, hiliteOnly) {
    
-  if( hiliteOnly ) {
-    sld.hilitePoint( this.gr, this.shape );
-  } else {
+//  if( hiliteOnly ) {
+//    sld.hilitePoint( this.gr, this.shape );
+//  } else {
     if( this.coords != null ) {
       var containerProj = new Proj(this.model.getSRS());
       var point = this.coords.split(/[ ,\n]+/);
+      //alert( this.coords + " 1:" + point[0] + " " + point[1] );
       point = containerProj.Forward(point);
+      //alert( this.coords + " 2:" + point[0] + " " + point[1] );
       point = this.model.extent.getPL(point);
-      //alert( this.coords + " " + point[0] + " " + point[1] );
+      //alert( this.coords + " 3:" + point[0] + " " + point[1] );
+      
       this.shape = sld.paintPoint( this.gr, point );
       this.shape.id = this.id+"_vector";
       this.gr.paint();
      
       this.install( this.shape );
     }
-  }      
+//  }      
 }
 
 /**
@@ -244,39 +246,11 @@ RssLayer.prototype.paintLine = function( sld, hiliteOnly) {
   }   
 }
 
+
 /**
-  * Creates the wrapping div
-  *
-  * @param objRef
-  * @param style SLD
-  * @param hiliteOnly true to avoid full redraw
+  * Make sure we have a div to insert all the elements
   */
-/*
-RssLayer.prototype.createDiv = function() {
-  // Check if it does not exist yet, if so delete old one
-  var outputNode = document.getElementById( this.mapPane.outputNodeId ).parentNode;
-  var div = document.getElementById(this.id);
-  if( div != null) {
-   //outputNode.removeChild( div );
-    div.parentNode.removeChild( div );
-  }
-   
-  div = document.createElement("div");
-  div.setAttribute("id", this.id);
-  div.setAttribute("name", this.title);
-  div.style.position = "absolute";
-  div.style.visibility = "visible";
-  div.style.zIndex = 300;
-  
-  this.div = div;
-  outputNode.appendChild( div );
-
-  return div;
-}
-*/
-
 RssLayer.prototype.getDiv = function() {
-  // Check if it does not exist yet, if so delete old one
   var outputNode = document.getElementById( this.mapPane.outputNodeId ).parentNode;
   
   var div = document.getElementById("vector_elements");
@@ -292,20 +266,10 @@ RssLayer.prototype.getDiv = function() {
   return div;
 }
 
-/*
-RssLayer.prototype.deleteDiv = function() {
- // delete previous div if found
- var outputNode = document.getElementById( this.mapPane.outputNodeId ).parentNode; 
- var div = document.getElementById(this.id);
- if( div != null ) {
-   //alert( "removed "+this.id +' from ' + this.mapPane.outputNodeId );
-   outputNode.removeChild( div );
-   //document.removeChild( div );
- } else {
-   //alert( "div:"+this.id+" not found" );
- }
+RssLayer.prototype.paint = function( ) {
+  // emulate call from LayerManager
+  this.paint( null, null );
 }
-*/
 
 /**
   * Paints the entry on the map based on its location and SLD
@@ -314,13 +278,23 @@ RssLayer.prototype.deleteDiv = function() {
   * @param img can be ignored here (required for WMS layers)
   */
 RssLayer.prototype.paint = function( objRef, img ) {
-  var id = this.id + "_vector";
-  var vector = document.getElementById(id);
-  if( vector != null )
-    vector.parentNode.removeChild( vector );
-    
+
+  this.deleteShape();
   //var style =  this.style.selectSingleNode("//wmc:Style[wmc:Name='Normal']");
   this.paintShape(this.normalSld, false );
+}
+
+/**
+  * If the shape has already been rendered, we want to delete it
+  */
+RssLayer.prototype.deleteShape = function() {
+  if( this.shape != null ) {
+    var id = this.shape.id;
+    var node = document.getElementById( id );
+    if( node != null ) {
+      node.parentNode.removeChild( node );
+    }
+  }
 }
 
 /**
@@ -370,25 +344,36 @@ RssLayer.prototype.mouseOutHandler = function(ev) {
 RssLayer.prototype.highlight = function(objRef, featureId) {
   // we get the id_vector
   if( featureId.indexOf( objRef.id ) >= 0 ) {
-    objRef.paintShape( objRef.hiliteSld, true );
-    //var objRef = window.cursorTrackObject;
-    
-    var evPL =  window.cursorTrackNode.evpl;
-    if( evPL != null ) {
-      var X = evPL[0];
-      var Y = evPL[1];
   
-      // set the popup text with stylesheet output
-      var popupStr = objRef.abstract;
-      if( popupStr == undefined ) {
-        popupStr = "Feature under construction.  Stay tuned!";
-      }
+    var id = objRef.id + "_vector";
+    var vector = document.getElementById(id);
+    if( vector != null )
+      vector.parentNode.removeChild( vector );
+  
+    objRef.paintShape( objRef.hiliteSld, true );
     
-      if( X>0 && X < objRef.width && Y>0 && Y<objRef.height ) {
-        // make sure we are in the map
-        toolTipObjs[objRef.tooltip].paint( new Array(X, Y, 200, objRef.title, popupStr ));
-      }
+	  var posx = 0;
+	  var posy = 0;
+  
+    var cn = window.cursorTrackNode;
+    if( cn ) {    
+	    var evPL =  cn.evpl;
+	    if( evPL != null ) {
+	      posx = evPL[0];
+	      posy = evPL[1];
+	  
+	      // set the popup text with stylesheet output
+	      var popupStr = objRef.abstract;
+	      if( popupStr == undefined ) {
+	        popupStr = "Feature under construction.  Stay tuned!";
+	      }
+	    }
     }
+  
+	  if( posx>0 && posx < objRef.width && posy>0 && posy<objRef.height ) {
+	    // make sure we are in the map
+	    toolTipObjs[objRef.tooltip].paint( new Array(posx, posy, 200, objRef.title, popupStr ));
+	  }
   }
 }
 

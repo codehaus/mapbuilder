@@ -17,6 +17,7 @@ function StyleLayerDescriptor( style ) {
   */
 StyleLayerDescriptor.prototype.hiliteShape = function( gr, shape) {
   
+  //alert( "stroke:"+this.strokeColor+" width:"+this.strokeWidth+" fill:"+this.fillColor);
   if( this.strokeColor != null ) {  
     gr.setShapeStrokeColor( shape, this.strokeColor );
     //shape.stroked = "true";
