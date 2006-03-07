@@ -1,5 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
+<html  xmlns:vml="urn:schemas-microsoft-com:vml" 
+  xmlns:svg="http://www.w3.org/2000/svg" 
+  xmlns:xlink="http://www.w3.org/1999/xlink" >
   <head>
     <title>Mapbuilder GeoRSS Demo</title>
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/docsStyle.css'>
@@ -7,9 +9,14 @@
     <script>
       // URL of Mapbuilder configuration file.
       var mbConfigUrl='config.xml';
+      var OLbubbleImageDir="../../lib/util/overlibmws"; 
 
     </script>
     <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
+    <script type="text/javascript" src="../../lib/util/overlibmws/overlibmws.js"></script>
+    <script type="text/javascript" src="../../lib/util/overlibmws/overlibmws_bubble.js"></script>
+    
+    
   </head>
   <body onload="mbDoLoad()">
     <h1><a href="http://mapbuilder.sourceforge.net">MapBuilder</a> GeoRSS Demo</h1>
@@ -21,8 +28,6 @@
     <p>This version was shown embedded in the City of Cambridge, MA, 
     <a href="http://www.cambridgema.gov/Calendar.cfm">events calendar.</a></p>
     <p>RSS feed with georss extension <a href="http://crcp-blogger.mit.edu/geoblogger/rss.php">here</a> </p>
- 
-    
     
     </p>
     <div id="mainMapPane">
@@ -30,15 +35,24 @@
             this page requires Javascript to be enabled
         </noscript>
     </div>
-    <div id="mainButtonBar">
-    </div>
     <div id="loading">
       <p>Loading Program<br/>
       <img src="../../lib/skin/default/images/Loading.gif"/>
       </p>
     </div>
-    <div id="eventsListing">
-    </div>
+    
+     <table width="500">
+       <tr>
+          <td valign="top" style="padding:6px;width:180" align="left">
+            <div id="mainButtonBar"/>
+          </td>
+          <td align="right" id="cursorTrack" />
+       </tr>
+     </table>
+     
+    <div id="eventsListing"></div>
+    <div id="rssRendererTip"></div>
+ 
   </body>
 </html>
 
