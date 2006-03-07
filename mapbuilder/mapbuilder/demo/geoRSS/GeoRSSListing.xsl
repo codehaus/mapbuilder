@@ -41,7 +41,7 @@ $Name:  $
     <xsl:variable name="time"><xsl:value-of select="dc:date"/></xsl:variable>
  
     <tr onmouseover="config.objects.{$modelId}.setParam('highlightFeature','{$fid}')" onmouseout="config.objects.{$modelId}.setParam('dehighlightFeature','{$fid}')">
-      <td><xsl:value-of select="dc:date"/></td>
+      <td><img src='./images/yellow_bullet3.gif'/>&#38;nbsp;&#38;nbsp;<xsl:value-of select="dc:date"/></td>
       <td>
         <a href="{$link}"><xsl:value-of select="rss:title"/></a>
         - <xsl:value-of select="rss:description"/>
