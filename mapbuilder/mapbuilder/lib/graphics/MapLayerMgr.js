@@ -169,9 +169,9 @@ MapLayerMgr.prototype.paint = function( objRef ) {
     if( layer.isWmsLayer() ) {
       var s = this.mapPane.stylesheet.transformNodeToString(layer.layerNode);
      
-      var tempNode = document.createElement("DIV");
+      var tempNode = document.createElement("div");
       tempNode.innerHTML = s;
-      var newSrc = tempNode.firstChild.firstChild.getAttribute("SRC");
+      var newSrc = tempNode.firstChild.firstChild.getAttribute("src");
       //newSrc = newSrc.replace( /&/g, "&amp;");
       //alert( newSrc);
       layer.setSrc( newSrc );
