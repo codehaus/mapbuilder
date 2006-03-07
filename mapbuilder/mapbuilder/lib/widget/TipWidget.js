@@ -106,7 +106,7 @@ function TipWidget( widgetNode, model) {
     var title = arr[3];
     var contents = this.dehtmlize( arr[4] );
     //alert( contents );
-    var text  = title + "<br/>"+ contents;
+    var text  = title + "<hr/><br/>"+ contents;
     
     //overlib(text, STICKY, BUBBLE, BUBBLETYPE,'square', RELX, x, RELY, y);
     eval( this.overLibCmd );
