@@ -106,8 +106,8 @@ function GeoRSS(modelNode, parent) {
       
     var pos = featureNode.selectSingleNode("georss:where/gml:Point/gml:pos")
     if( pos != null ) {
-	  var coordstr = pos.firstChild.nodeValue
-	  return "POINT " + coordstr;
+	    var coordstr = pos.firstChild.nodeValue
+	    return "POINT " + coordstr;
     } 
     
     var posList = featureNode.selectSingleNode("georss:where/gml:LineString/gml:posList")

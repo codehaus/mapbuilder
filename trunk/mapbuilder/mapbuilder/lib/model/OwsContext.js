@@ -83,12 +83,12 @@ function OwsContext(modelNode, parent) {
     var upperRight=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:UpperCorner");
     upperRight.firstChild.nodeValue = boundingBox[2] + " " + boundingBox[3];
     // Call the listeners
-    //PatC this.callListeners("bbox");
+    //PGC this.callListeners("bbox");
     this.callListeners("bbox", boundingBox); // from Context.js
     
   }
 
-  /*PatC Added from Context.js */
+  /*PGC Added from Context.js */
   /**
    * Set the BoundingBox element and call the refresh listeners
    * @param boundingBox array in the sequence (xmin, ymin, xmax, ymax).
@@ -295,7 +295,7 @@ function OwsContext(modelNode, parent) {
     return layer;
   }
 
-  /* PAtC Added from Context.js */
+  /* PGC Added from Context.js */
   /**
    * Method to add a Layer to the LayerList
    * @param layerNode the Layer node from another context doc or capabiltiies doc
@@ -359,6 +359,6 @@ function OwsContext(modelNode, parent) {
     objRef.modified = true;
   }
   this.addFirstListener( "moveLayerDown", this.moveLayerDown, this );
-  /*PatC End of Addition */
+  /*PGC End of Addition */
 }
 
