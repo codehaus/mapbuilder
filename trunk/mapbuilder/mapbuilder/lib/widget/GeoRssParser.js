@@ -76,5 +76,6 @@ GeoRssParser.prototype.loadEntries = function( objRef ) {
   }
 }
   
-GeoRssParser.prototype.paint = function( objref ) {
+GeoRssParser.prototype.paint = function( objRef ) {
 }
+
