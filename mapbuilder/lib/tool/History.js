@@ -49,23 +49,25 @@ function History(toolNode, model) {
    * @param objRef  pointer to this object.
    */
   this.add = function(objRef) {
-    place = objRef.model.active;
-    list = objRef.model.historyList;
-    newExtent = new Array();
-    newExtent[0] = objRef.model.extent.ul;
-    newExtent[1] = objRef.model.extent.lr;
+    if (objRef.model.active!=null) {
+      var place = objRef.model.active;
+      var list = objRef.model.historyList;
+      newExtent = new Array();
+      newExtent[0] = objRef.model.extent.ul;
+      newExtent[1] = objRef.model.extent.lr;
 
-    if(place==(list.length-1)) { //If we are already at the end of the list add a new item
-      list.push(newExtent); 
-      place = place+1; 
+      if( place==(list.length-1)) { //If we are already at the end of the list add a new item
+        list.push(newExtent); 
+        place = place+1; 
+      }
+      else { //If we are somewhere in the middle of the list clear the rest of the list and add a new item
+        place = place+1;
+        list = list.slice(0,place);
+        list.push(newExtent);
+      }
+      objRef.model.active = place;
+      objRef.model.historyList = list;
     }
-    else { //If we are somewhere in the middle of the list clear the rest of the list and add a new item
-      place = place+1;
-      list = list.slice(0,place);
-      list.push(newExtent);
-    }
-    objRef.model.active = place;
-    objRef.model.historyList = list;
   }
 
   /**
@@ -123,23 +125,15 @@ function History(toolNode, model) {
     * @param objRef pointer to this object.
     */
   this.initReset = function(objRef) {
-
+    objRef.targetModel.addListener("bbox", objRef.add, objRef);
     objRef.targetModel.addListener("loadModel", objRef.init, objRef);
-
-	 }
-
-	
-
-	this.model.addListener("bbox", this.add, this);
+	}
 
 	this.model.addListener("historyBack", this.back, this);
-
 	this.model.addListener("historyForward", this.forward, this);
-
 	this.model.addListener("historyStart", this.start, this);
-
 	this.model.addListener("historyStop", this.stop, this);
-  this.model.addListener("init",this.initReset, this);
+	this.model.addListener("init", this.initReset, this);
 }
 
   
