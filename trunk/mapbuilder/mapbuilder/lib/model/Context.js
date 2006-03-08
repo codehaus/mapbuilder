@@ -57,18 +57,12 @@ function Context(modelNode, parent) {
    * @return BoundingBox array with the sequence (xmin,ymin,xmax,ymax).
    */
   this.getBoundingBox=function() {
+    var boundingBox=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
     bbox = new Array();
-    if( this.doc != null ) {
-      var boundingBox=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
-      if( boundingBox != null ) {
-        bbox[0]=parseFloat(boundingBox.getAttribute("minx"));
-        bbox[1]=parseFloat(boundingBox.getAttribute("miny"));
-        bbox[2]=parseFloat(boundingBox.getAttribute("maxx"));
-        bbox[3]=parseFloat(boundingBox.getAttribute("maxy"));
-      } else {
-        Sarissa.serialize( this.doc );
-      }
-    }
+    bbox[0]=parseFloat(boundingBox.getAttribute("minx"));
+    bbox[1]=parseFloat(boundingBox.getAttribute("miny"));
+    bbox[2]=parseFloat(boundingBox.getAttribute("maxx"));
+    bbox[3]=parseFloat(boundingBox.getAttribute("maxy"));
     return bbox;
   }
 
@@ -95,7 +89,7 @@ function Context(modelNode, parent) {
   this.initBbox=function(objRef) {
     // Set BoundingBox in context from URL CGI params
     if (window.cgiArgs["bbox"]) {     //set as minx,miny,maxx,maxy
-      var boundingBox = window.cgiArgs["bbox"].split(',');
+      var bbox = window.cgiArgs["bbox"].split(',');
       var ul = new Array(parseFloat(bbox[0]),parseFloat(bbox[3]));
       var lr = new Array(parseFloat(bbox[2]),parseFloat(bbox[1]));
       objRef.extent.zoomToBox(ul, lr);
