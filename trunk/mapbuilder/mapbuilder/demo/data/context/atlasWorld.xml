@@ -14,8 +14,11 @@
     <LogoURL width="34" height="35" format="image/jpg">
       <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/site/english/atlas_identifier.jpg"/>
     </LogoURL>
-    <DescriptionURL format="text/html">
-      <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/"/>
+    <DescriptionURL format="text/html" xml:lang="en">
+      <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/site/english/index.html"/>
+    </DescriptionURL>
+    <DescriptionURL format="text/html" xml:lang="fr">
+      <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/site/francais/index.html"/>
     </DescriptionURL>
     <ContactInformation>
       <ContactPersonPrimary>
@@ -39,10 +42,11 @@
   <LayerList>
     <Layer queryable="0" hidden="0">
       <Server service="wms" version="1.1.0" title="wms">
-        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/atlas/web/mapdata/english/pb_world.map"/>
       </Server>
       <Name>ocean</Name>
-      <Title>ocean area</Title>
+      <Title xml:lang="en">ocean area</Title>
+      <Title xml:lang="fr">aires océanique</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
@@ -50,10 +54,11 @@
     </Layer>
     <Layer queryable="0" hidden="0">
       <Server service="wms" version="1.1.0" title="wms">
-        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/atlas/web/mapdata/english/pb_world.map"/>
       </Server>
       <Name>land</Name>
-      <Title>land area</Title>
+      <Title xml:lang="en">land area</Title>
+      <Title xml:lang="fr">aire terrestielle</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
@@ -61,10 +66,11 @@
     </Layer>
     <Layer queryable="0" hidden="0">
       <Server service="wms" version="1.1.0" title="wms">
-        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/atlas/web/mapdata/english/pb_world.map"/>
       </Server>
       <Name>lake_fill</Name>
-      <Title>lakes</Title>
+      <Title xml:lang="en">lakes</Title>
+      <Title xml:lang="fr">lacs</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
@@ -72,10 +78,11 @@
     </Layer>
     <Layer queryable="0" hidden="0">
       <Server service="wms" version="1.1.0" title="wms">
-        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/atlas/web/mapdata/english/pb_world.map"/>
       </Server>
       <Name>lake_outline</Name>
-      <Title>lake outlines</Title>
+      <Title xml:lang="en">lake outlines</Title>
+      <Title xml:lang="fr">lacs (polygones)</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
@@ -83,10 +90,11 @@
     </Layer>
     <Layer queryable="0" hidden="0">
       <Server service="wms" version="1.1.0" title="wms">
-        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/atlas/web/mapdata/english/pb_world.map"/>
       </Server>
       <Name>coast</Name>
-      <Title>coastline</Title>
+      <Title xml:lang="en">coastline</Title>
+      <Title xml:lang="fr">littoral</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
@@ -94,10 +102,11 @@
     </Layer>
     <Layer queryable="0" hidden="0">
       <Server service="wms" version="1.1.0" title="wms">
-        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/atlas/web/mapdata/english/pb_world.map"/>
       </Server>
       <Name>rivers</Name>
-      <Title>rivers</Title>
+      <Title xml:lang="en">rivers</Title>
+      <Title xml:lang="fr">rivières</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
@@ -105,10 +114,11 @@
     </Layer>
     <Layer queryable="0" hidden="0">
       <Server service="wms" version="1.1.0" title="wms">
-        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/atlas/web/mapdata/english/pb_world.map"/>
       </Server>
       <Name>boundaries</Name>
-      <Title>boundaries</Title>
+      <Title xml:lang="en">boundaries</Title>
+      <Title xml:lang="fr">limites internationale</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
@@ -116,10 +126,11 @@
     </Layer>
     <Layer queryable="0" hidden="1">
       <Server service="wms" version="1.1.0" title="wms">
-        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/atlas/web/mapdata/english/pb_world.map"/>
       </Server>
       <Name>capital</Name>
-      <Title>capitals</Title>
+      <Title xml:lang="en">capitals</Title>
+      <Title xml:lang="fr">capitaux (points)</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
@@ -127,10 +138,11 @@
     </Layer>
     <Layer queryable="0" hidden="0">
       <Server service="wms" version="1.1.0" title="wms">
-        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/atlas/web/mapdata/english/pb_world.map"/>
       </Server>
       <Name>country_names</Name>
-      <Title>country names</Title>
+      <Title xml:lang="en">country names</Title>
+      <Title xml:lang="fr">nom des pays</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
@@ -138,10 +150,11 @@
     </Layer>
     <Layer queryable="0" hidden="1">
       <Server service="wms" version="1.1.0" title="wms">
-        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/atlas/web/mapdata/english/pb_world.map"/>
       </Server>
       <Name>capital_names</Name>
-      <Title>capital names</Title>
+      <Title xml:lang="en">capital names</Title>
+      <Title xml:lang="fr">capitaux (nom)</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
