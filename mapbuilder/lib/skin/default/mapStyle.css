@@ -44,7 +44,7 @@
   color: #000000;
   background-color: #FFFFFF;
 	opacity: .75;
-	filter: alpha(opacity=75);
+	/*filter: alpha(opacity=75);*/
 }
 
 .loadingIndicator p
