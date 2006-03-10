@@ -23,7 +23,7 @@ function AoiBoxDHTML(widgetNode, model) {
 
   this.lineWidth = widgetNode.selectSingleNode("mb:lineWidth").firstChild.nodeValue; // Zoombox line width; pass in as param?
   this.lineColor = widgetNode.selectSingleNode("mb:lineColor").firstChild.nodeValue; // color of zoombox lines; pass in as param?
-  this.crossSize = widgetNode.selectSingleNode("mb:crossSize").firstChild.nodeValue;
+  this.crossSize = parseInt(widgetNode.selectSingleNode("mb:crossSize").firstChild.nodeValue);
 
   /** draw out the box.
     * if the box width or height is less than the cross size property, then the
@@ -103,16 +103,16 @@ function AoiBoxDHTML(widgetNode, model) {
     * @param center The center of the cross as an (x,y) array in screen coordinates.
     */
   this.drawCross = function(center) {
-    this.Top.style.left = Math.floor( center[0] - this.crossSize/2 );
-    this.Top.style.top = Math.floor( center[1] - this.lineWidth/2 );
-    this.Top.style.width = this.crossSize;
-    this.Top.style.height = this.lineWidth;
+    this.Top.style.left = Math.floor( center[0] - this.crossSize/2 ) +'px';
+    this.Top.style.top = Math.floor( center[1] - this.lineWidth/2 ) +'px';
+    this.Top.style.width = this.crossSize +'px';
+    this.Top.style.height = this.lineWidth +'px';
     this.Top.style.visibility = "visible";
 
-    this.Left.style.left = Math.floor( center[0] - this.lineWidth/2 );
-    this.Left.style.top = Math.floor( center[1] - this.crossSize/2 );
-    this.Left.style.width = this.lineWidth;
-    this.Left.style.height = this.crossSize;
+    this.Left.style.left = Math.floor( center[0] - this.lineWidth/2 ) +'px';
+    this.Left.style.top = Math.floor( center[1] - this.crossSize/2 ) +'px';
+    this.Left.style.width = this.lineWidth +'px';
+    this.Left.style.height = this.crossSize +'px';
     this.Left.style.visibility = "visible";
 
     this.Right.style.visibility = "hidden";
@@ -123,8 +123,8 @@ function AoiBoxDHTML(widgetNode, model) {
     * @return The new <div> node.
     */
   this.getImageDiv = function( ) {
-    var newDiv = document.createElement("DIV");
-    newDiv.innerHTML = "<IMG SRC='"+config.skinDir+"/images/Spacer.gif' WIDTH='1' HEIGHT='1'/>";
+    var newDiv = document.createElement("div");
+    newDiv.innerHTML = "<img src='"+config.skinDir+"/images/Spacer.gif' width='1px' height='1px'/>";
     newDiv.style.position = "absolute";
     newDiv.style.backgroundColor = this.lineColor;
     newDiv.style.visibility = "hidden";
