@@ -107,9 +107,11 @@ function ModelBase(modelNode, parentModel) {
    * @param objRef Reference to this node.
    * @param xpath Xpath of the node to update.
    * @param value Node's new value.
+   * @param refresh determines if the model should be refreshed (optional).
    * @return Returns false if Xpath does not find a node.
    */
-  this.setXpathValue=function(objRef,xpath,value){
+  this.setXpathValue=function(objRef,xpath,value,refresh){
+    if (refresh==null) refresh=true;
     var node=objRef.doc.selectSingleNode(xpath);
     if(node){
       if(node.firstChild){
@@ -119,7 +121,7 @@ function ModelBase(modelNode, parentModel) {
         v=dom.createTextNode(value);
         node.appendChild(v);
       }
-      objRef.setParam("refresh");
+      if (refresh) objRef.setParam("refresh");
       return true;
     }else{
       return false;
