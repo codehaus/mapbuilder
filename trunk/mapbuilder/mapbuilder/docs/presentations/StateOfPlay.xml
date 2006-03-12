@@ -2,17 +2,127 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
 "http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
 <article>
-  <title>Community Mapbuilder State Of Play - June 2005</title>
+  <title>Community Mapbuilder State Of Play - March 2006</title>
 
   <abstract>
-    <para>I think that we have reached a stage in the Mapbuilder project where
-    we should look at what we have achieved, look at the state of the software
-    world around us, and plan our future.</para>
-
-    <para>We have recently seen a number of new names join the Mapbuilder
-    email list and I invite all our you to contribute to this
-    discussion.</para>
+    <para></para>
   </abstract>
+
+  <section>
+    <title>What is Mapbuilder?</title>
+
+    <para>Mapbuilder is a modern, web based geographic mapping client. It's
+    modular design has made it easy for developers to build an every
+    increasing library of widgets and tools to plug into Mapbuilder. In
+    particular, Mapbuilder stands out from other Webmapping clients because it
+    allows users to draw vector features on a map then load the feature into a
+    Transactional Web Feature Service.</para>
+
+    <para>Mapbuilder is built upon OGC standards and hence is interoperable
+    with many other Geospatial applications.</para>
+
+    <para>Mapbuilder has grown a strong, diverse and active developer
+    community and as Mapbuilder reaches it's 1.0 release it is being
+    recognised as a quality product. Mapbuilder is bundled with Geoserver, an
+    Open Source Web Map Service (WMS) and Transactional Web Feature Service
+    (WFS), and Mapbuilder was selected as one of the founding projects for
+    OSGeo, the Open Source Geospacial Foundation. </para>
+  </section>
+
+  <section>
+    <title>What big ticket items are coming next?</title>
+
+    <para></para>
+
+    <section>
+      <title>Geographic wiki</title>
+
+      <para></para>
+    </section>
+
+    <section>
+      <title>Integrated Suite of Open Source Mapping products</title>
+
+      <para></para>
+    </section>
+
+    <section>
+      <title>Powerful web based mapping client</title>
+
+      <para></para>
+    </section>
+
+    <section>
+      <title>Lots of extra widgets and features</title>
+
+      <para>Google and Yahoo Map layers, fast vector rendering of features (eg
+      using SVG), tiled maps, and much more.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Integrating with projects around us</title>
+
+    <para>Other web based mapping clients.</para>
+
+    <para>Map data providers - Google Maps, Yahoo Maps, etc</para>
+
+    <para>Projects involved with Geographic Wikis. Openstreetmaps</para>
+
+    <para>AJAX Engines</para>
+
+    <para>OSGeo</para>
+
+    <para>UDig</para>
+
+    <para>OGC: OWS4 Testbed.</para>
+  </section>
+
+  <section>
+    <title>Managing growth</title>
+
+    <para>Lots of new developers.</para>
+
+    <para>PSC unable to keep up with email list.</para>
+
+    <para>So far we only have developers using Mapbuilder - which is an
+    indication that our documentation is too hard to understand.</para>
+
+    <para>Developer motivation: Tailor Mapbuilder for their particular
+    project.</para>
+
+    <para>Developers are often funded, working full time to integrate
+    Mapbuilder into a project for a short period, then move on. If
+    supported</para>
+
+    <para>PSC are largely unfunded, are committed to Mapbuilder for the long
+    haul, but do not have the resouces to respond to Developers.</para>
+  </section>
+
+  <section>
+    <title>Weaknesses</title>
+
+    <para>Documentation</para>
+
+    <para>Testing</para>
+
+    <para>Core</para>
+
+    <para>Managing new developers</para>
+
+    <para>Funding. We need a constant income to support Project Management.
+    Most of our users are project based, and hence are not steady incomes.
+    They are focused on short term goals.</para>
+
+    <para>Visibility - Need to present at conferences, get involved with other
+    OS GIS projects</para>
+  </section>
+
+  <section>
+    <title>Funding</title>
+
+    <para></para>
+  </section>
 
   <section>
     <title>Where have we come from?</title>
