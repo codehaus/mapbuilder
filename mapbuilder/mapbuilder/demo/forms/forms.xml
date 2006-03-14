@@ -6,19 +6,15 @@
 			<!--defaultModelUrl>config/simpleConfig.xml</defaultModelUrl-->
 			<defaultModelUrl>../data/context/atlasWorld.xml</defaultModelUrl>
 			<widgets>
-				<Widget id="xmlForm">
-					<stylesheet>../../lib/widget/XmlForm.xsl</stylesheet>
-					<debug/>
-				</Widget>
+				<XmlForm id="xmlForm"/>
 			</widgets>
 		</Model>
 		<Model id="schema">
 			<defaultModelUrl>../../lib/schemas/context.xsd</defaultModelUrl>
 			<widgets>
-				<Widget id="xmlSchemaForm">
+				<XmlForm id="xmlSchemaForm">
 					<stylesheet>../../lib/widget/XmlSchemaForm.xsl</stylesheet>
-					<debug/>
-				</Widget>
+				</XmlForm>
 			</widgets>
 		</Model>
 	</models>
