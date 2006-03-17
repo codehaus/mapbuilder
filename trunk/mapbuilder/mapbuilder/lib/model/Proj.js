@@ -296,8 +296,8 @@ function pixel2ll(coords) {
 
 
 /****************************************************************************
-The following code is a direct port of PROJ4 coordinate transformation code
-from C to Javascript.  For more information go to http://proj.maptools.org/
+The following code is a port the USGS GCTPC coordinate transformation code from
+C to Javascript. For more information visit http://edcftp.cr.usgs.gov/pub/software/gctpc/
 Currently suppported projections include: Lambert Conformal Conic (LCC),
 Lat/Long, Polar Stereographic.
 Porting C to Javascript is fairly straightforward so other support for more
