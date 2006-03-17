@@ -13,8 +13,8 @@
 		<Window width="800" height="400"/>
 		<!-- BoundingBox SRS="EPSG:4326" minx="-130" miny="10" maxx="-50" maxy="50"/ -->
     <ows:BoundingBox crs="EPSG:4326">
-      <ows:LowerCorner>-130 10</ows:LowerCorner>
-      <ows:UpperCorner>-50 50</ows:UpperCorner>
+      <ows:LowerCorner>-180.0 -85.0</ows:LowerCorner>
+      <ows:UpperCorner>180.0 85.0</ows:UpperCorner>
     </ows:BoundingBox>
     
 		<Title xml:lang="en">GeoRSS Using OWSContext</Title>

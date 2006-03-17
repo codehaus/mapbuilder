@@ -4,7 +4,7 @@
   xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
 	<models>
 		<OwsContext id="mainMap">
-			<defaultModelUrl>atlasWorld.xml</defaultModelUrl>
+			<defaultModelUrl>DemisWorldMap.xml</defaultModelUrl>
 			<widgets>
 				<MapPane id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
@@ -40,11 +40,10 @@
     </OwsContext>
     
     <GeoRSS id="geoRSS"> 
-      <defaultModelUrl>http://www.flickr.com/services/feeds/photos_public.gne?id=15435549@N00&amp;format=rss2</defaultModelUrl>
-      <!-- defaultModelUrl>rss2.xml</defaultModelUrl -->
+      <defaultModelUrl>http://www.flickr.com/services/rest?method=flickr.photos.search&amp;api_key=afbacfb4d14cd681c04a06d69b24d847&amp;user_id=15435549%40N00</defaultModelUrl>
       <widgets>
         
-        <TipWidget id="rssRendererTip" > 
+        <TipWidget id="rssRendererTip"> 
           <leftOffset>-40</leftOffset>
           <topOffset>-80</topOffset>
           <command>overlib(text, STICKY, BUBBLE, BUBBLETYPE,'square', RELX, x, RELY, y, WRAP)</command>
@@ -60,7 +59,7 @@
         
       </widgets>
       <namespace>xmlns:media='http://search.yahoo.com/mrss' xmlns:atom='http://www.w3.org/2005/Atom' xmlns:georss='http://www.georss.org/rss' xmlns:gml='http://www.opengis.net/gml/3.1.1' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:rss='http://purl.org/rss/1.0/' xmlns:taxo='http://purl.org/rss/1.0/modules/taxonomy/' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:syn='http://purl.org/rss/1.0/modules/syndication/' xmlns:geo='http://www.w3.org/2003/01/geo/wgs84_pos#' xmlns:sld="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink"</namespace>
-      <nodeSelectXpath>/rss/channel/item</nodeSelectXpath>
+      <nodeSelectXpath>/rsp/photos/photo</nodeSelectXpath>
     </GeoRSS>
 		
 	</models>
