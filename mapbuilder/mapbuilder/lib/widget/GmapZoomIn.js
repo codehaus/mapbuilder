@@ -34,11 +34,9 @@ function GmapZoomIn(widgetNode, model) {
         var ul = bbox[0];
         var lr = bbox[1];
         if ( ( ul[0]==lr[0] ) && ( ul[1]==lr[1] ) ) {
-          //extent.centerAt( ul, extent.res[0]/objRef.zoomBy );
-          alert("GmapZoomIn: TBD");
+          objRef.gmapTools.zoomTo(objRef.targetModel,ul,-1);
         } else {
-          extent.zoomToBox( ul, lr );
-          gmapTools(objRef.model,lr[0],ul[1],ul[0],lr[1]);
+          objRef.gmapTools.setGmapExtent(objRef.targetModel,new Array(lr[0],ul[1],ul[0],lr[1]));
         }
       }
     }
@@ -54,7 +52,7 @@ function GmapZoomIn(widgetNode, model) {
     }
     // Create a gmapTools instance
     if(!objRef.gmapTools){
-      objRef.gmapTools=new GMapTools();
+      objRef.gmapTools=new GmapTools();
     }
   }
   this.model.addListener( "loadModel", this.setMouseListener, this );
