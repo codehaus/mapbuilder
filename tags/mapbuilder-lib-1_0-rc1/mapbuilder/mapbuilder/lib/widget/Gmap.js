@@ -43,14 +43,13 @@ function Gmap(widgetNode, model) {
 
     //TBD This should be moved to an initialisation function
     if(!objRef.gmap){
-      objRef.gmap=new GMap(tempNode);
+      //objRef.gmap=new GMap(tempNode);
+      objRef.model.setParam("gmap",new GMap(tempNode));
+      //objRef.model.gmap=new GMap(tempNode);
       objRef.gmapTools=new GmapTools();
-      objRef.model.setParam("gmap",objRef.gmap);
     }
 
     objRef.gmapTools.centerAndZoom(objRef.model);
-    //objRef.gmap.centerAndZoom(new GPoint(-122.1419, 37.4419),4);
-
   }
   this.model.addListener("refresh",this.paint, this);
 
