@@ -17,24 +17,24 @@ xmlns:media="http://search.yahoo.com/mrss">
 	<!-- xsl:output method="html" omit-xml-declaration="no" encoding="utf-8" indent="yes"/ -->
 	<xsl:output method="xml" omit-xml-declaration="yes" encoding="utf-8" indent="yes"/>
   
-	<xsl:template match="/rss ">
+	<xsl:template match="/">
 		<ResourceList xmlns="http://www.opengis.net/context" >
-			<xsl:apply-templates select="//item"/>
+			<xsl:apply-templates select="."/>
 		</ResourceList>
 	</xsl:template>
 	
-	<xsl:template match="item">
-    <xsl:variable name="fid"><xsl:value-of select="@id"/></xsl:variable>
+	<xsl:template match="photo">
+    <xsl:variable name="pid"><xsl:value-of select="@pid"/></xsl:variable>
+    <xsl:variable name="id"><xsl:value-of select="@id"/></xsl:variable>
     <xsl:variable name="width"><xsl:value-of select="@width"/></xsl:variable>
     <xsl:variable name="height"><xsl:value-of select="@height"/></xsl:variable>
-    <xsl:variable name="title"><xsl:value-of select="title"/></xsl:variable>
-    <xsl:variable name="content"><xsl:value-of select="description"/></xsl:variable>
-    <xsl:variable name="thn"><xsl:value-of select="media:thumbnail/@url"/></xsl:variable>
-    <xsl:variable name="link"><xsl:value-of select="link"/></xsl:variable>
-    <xsl:variable name="guid"><xsl:value-of select="guid"/></xsl:variable>
-    <xsl:variable name="pid"><xsl:value-of select="substring-after($guid, 'photo/')"/> </xsl:variable>
-    
-		<wmc:RssLayer  queryable="0" hidden="0" id="{$fid}" width="{$width}" height="{$height}" pid="{$pid}" >
+    <xsl:variable name="title"><xsl:value-of select="@title"/></xsl:variable>
+    <xsl:variable name="secret"><xsl:value-of select="@secret"/></xsl:variable>
+    <xsl:variable name="server"><xsl:value-of select="@server"/></xsl:variable>
+    <xsl:variable name="link">http://www.flickr.com/photos/15435549@N00/<xsl:value-of select="$pid"/>/</xsl:variable>
+    <xsl:variable name="thn">http://static.flickr.com/<xsl:value-of select="$server"/>/<xsl:value-of select="$pid"/>_<xsl:value-of select="$secret"/>_s.jpg</xsl:variable>
+   
+		<wmc:RssLayer  queryable="0" hidden="0" id="{$id}" width="{$width}" height="{$height}" pid="{$pid}" >
 			<wmc:Server service="GeoRSS" version="1.0" title="{$title}">
 				<wmc:OnlineResource xlink:type="simple" xlink:href="{$link}"/>
 			</wmc:Server>

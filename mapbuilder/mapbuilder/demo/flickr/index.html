@@ -30,10 +30,13 @@
   <body onload="mbDoLoad()">
     <div id="rssRendererTip"></div>
  
-    <h1>Flickr Demo using the <a href="http://www.flickr.com/photos/15435549@N00/" >Community MapBuilder</a> Flickr <a href="http://www.flickr.com/services/feeds/photos_public.gne?id=15435549@N00&format=rss2">Feed</a></h1>
+    <h1>Flickr Demo using the <a href="http://www.flickr.com/photos/15435549@N00/" >Community MapBuilder</a> Flickr 
+    <a href="http://www.flickr.com/services/feeds/photos_public.gne?id=15435549@N00&format=rss2">Feed</a>
+    <!-- a href="http://www.flickr.com/services/rest?method=flickr.photos.search&amp;api_key=afbacfb4d14cd681c04a06d69b24d847&amp;user_id=15435549%40N00">Feed</a -->
+    </h1>
+    
     <br/>
-    Note: Requires Server/proxy support to access Flickr (Assuming it is up).<br/>
-    Or use the local rrs2.xml (which is likely out of date)
+    Note: Requires Server/proxy support to access Flickr (Assuming it is up).  It takes a few minutes to load the pictures from Flickr...<br/>
     <table>
    
     <tr>
@@ -63,9 +66,23 @@
           </td>
           <td align="right" id="cursorTrack" />
        </tr>
+       
+      </table>
+     
+     <table width="500">
+       <tr>
+         <div id="legend"/>
+       </tr>
      </table>
      
-     <div id="legend"/>
+     <hr/>
+     <table class="footer">
+      <tr>
+        <td><a href="http://mapbuilder.sourceforge.net">Built with Community Map Builder</a><br/></td>
+        <td width="60"><img src="../../lib/skin/default/images/Icon.gif"/></td>
+      </tr>
+    </table>
+    <hr/>
    </body>
 </html>
 
