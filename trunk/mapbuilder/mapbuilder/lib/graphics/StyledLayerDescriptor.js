@@ -56,8 +56,12 @@ StyleLayerDescriptor.prototype.paintPoint = function( gr, coords) {
   var shape = null;
   var X = coords[0];
   var Y = coords[1];
-    
-  var size  = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:Size").firstChild.nodeValue;
+  var size = 0;
+  
+  var sizeNode  = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:Size");
+  if( sizeNode != null )
+    size = sizeNode.firstChild.nodeValue;
+  
   //alert( size );
   var externalGraphic = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:ExternalGraphic" );
   if( externalGraphic != null ) {
@@ -66,24 +70,26 @@ StyleLayerDescriptor.prototype.paintPoint = function( gr, coords) {
     shape  = gr.drawImage( href.attributes.getNamedItem("xlink:href").nodeValue, X, Y, size, size )
   } else { 
     // WellKnownGraphicItems
-    var pointType   = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:Mark/sld:WellKnownName").firstChild.nodeValue;
+    var pointTypeNode = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:Mark/sld:WellKnownName")
+    if( pointTypeNode != null ) {
+      pointType = pointTypeNode.firstChild.nodeValue;
 
-    this.getStyleAttributes( "sld:PointSymbolizer/sld:Graphic/sld:Mark");
-    if( this.strokeColor != null ) 
-      gr.setStrokeColor( this.strokeColor );
-    if( this.strokeWidth != null )
-      gr.setStrokeWidth( this.strokeWidth );
-    if( this.fillColor != null )
-      gr.setFillColor( this.fillColor );
-    
-    //circle, square, triangle, cross and star
-    if( pointType == "circle" ) { 
-      shape = gr.fillCircle( X, Y, size );
-      
-    } else if( pointType == "square" ) {
-    } else if( pointType == "triangle" ) {
-    } else if( pointType == "cross" ) {
-    } else if( pointType == "star" ) {
+	    this.getStyleAttributes( "sld:PointSymbolizer/sld:Graphic/sld:Mark");
+	    if( this.strokeColor != null ) 
+	      gr.setStrokeColor( this.strokeColor );
+	    if( this.strokeWidth != null )
+	      gr.setStrokeWidth( this.strokeWidth );
+	    if( this.fillColor != null )
+	      gr.setFillColor( this.fillColor );
+	    
+	    //circle, square, triangle, cross and star
+	    if( pointType == "circle" ) { 
+	      shape = gr.fillCircle( X, Y, size );   
+	    } else if( pointType == "square" ) {
+	    } else if( pointType == "triangle" ) {
+	    } else if( pointType == "cross" ) {
+	    } else if( pointType == "star" ) {
+	    }
     }
   }
    

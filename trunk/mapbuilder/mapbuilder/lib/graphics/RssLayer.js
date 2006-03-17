@@ -144,22 +144,22 @@ RssLayer.prototype.paintPoint = function( sld, hiliteOnly) {
 //  if( hiliteOnly ) {
 //    sld.hilitePoint( this.gr, this.shape );
 //  } else {
-    if( this.coords != null ) {
-      var containerProj = new Proj(this.model.getSRS());
-      var point = this.coords.split(/[ ,\n]+/);
-      //alert( this.coords + " 1:" + point[0] + " " + point[1] );
-      point = containerProj.Forward(point);
-      //alert( this.coords + " 2:" + point[0] + " " + point[1] );
-      point = this.model.extent.getPL(point);
-      //alert( this.coords + " 3:" + point[0] + " " + point[1] );
+  if( this.coords != null ) {
+    var containerProj = new Proj(this.model.getSRS());
+    var point = this.coords.split(/[ ,\n]+/);
+    //alert( this.coords + " 1:" + point[0] + " " + point[1] );
+    point = containerProj.Forward(point);
+    //alert( this.coords + " 2:" + point[0] + " " + point[1] );
+    point = this.model.extent.getPL(point);
+    //alert( this.coords + " 3:" + point[0] + " " + point[1] );
       
-      this.shape = sld.paintPoint( this.gr, point );
+    this.shape = sld.paintPoint( this.gr, point );
+    if( this.shape != null ) {
       this.shape.id = this.id+"_vector";
-      this.gr.paint();
-     
+      this.gr.paint(); 
       this.install( this.shape );
     }
-//  }      
+  }      
 }
 
 /**

@@ -58,9 +58,17 @@ GeoRssParser.prototype.loadEntries = function( objRef ) {
     var width = objRef.containerModel.getWindowWidth();
     var height = objRef.containerModel.getWindowHeight();
    
+    //alert( "features:"+len );
+    if( len == 0 )
+      alert( "No features detected" );
+      
     for (var index=0; index< len; index++) {
       var feature = features[index];
  
+      var id = feature.getAttribute("id" );
+      if( id != null ) // save it as a fid
+        feature.setAttribute( "pid", id );
+        
       feature.setAttribute("id", "RSS_Item_"+mbIds.getId());
       feature.setAttribute("width", width);
       feature.setAttribute("height", height);
