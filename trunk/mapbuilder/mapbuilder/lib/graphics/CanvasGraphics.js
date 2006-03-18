@@ -46,7 +46,7 @@ CanvasGraphics.prototype.setColor=function( value ) {
   * Xpoints and Ypoints are arrays which specify the x and y coordinates of each point 
   */   
 CanvasGraphics.prototype.drawPolyline = function(Xpoints, Ypoints) {
-  
+  CanvasGraphics.prototype.setStroke = function(x) {
   var length = Xpoints.length;
   //alert( length );
   this.context.beginPath();
