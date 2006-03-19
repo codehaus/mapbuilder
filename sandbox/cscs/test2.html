@@ -1,0 +1,242 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<HTML>
+<HEAD>
+<TITLE>Geographic Coordinate Transformations in Javascript</TITLE>
+
+<SCRIPT type="text/javascript" src="cscs_h.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="csLookUp.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="cs_transform.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="geocent.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="tmerc.js"></SCRIPT>
+
+<SCRIPT type="text/javascript">
+
+
+   var csLeft, csRight;
+
+   function left2right(){
+      var xl = document.leftForm.x.value;
+      var yl = document.leftForm.y.value;
+      var zl = document.leftForm.z.value;
+
+      var p = new PT(xl,yl,zl);
+      cs_transform(csLeft, csRight, p);
+
+      document.rightForm.x.value=p.x;
+      document.rightForm.y.value=p.y;
+      document.rightForm.z.value=p.z;
+   }
+
+   function right2left(){
+      var xr = document.rightForm.x.value;
+      var yr = document.rightForm.y.value;
+      var zr = document.rightForm.z.value;
+
+      var p = new PT(xr,yr,zr);
+
+      document.leftForm.x.value=p.x;
+      document.leftForm.y.value=p.y;
+      document.leftForm.z.value=p.z;
+
+   }
+
+
+   // copy srs code from option list into text field
+   function pasteCode() {
+      var srsSel = document.topForm.EPSGsel.value;
+      if (document.topForm.leftRight[0].checked) {
+         document.leftForm.srs.value="EPSG:"+srsSel;
+         initCS("L");
+      } else {
+         document.rightForm.srs.value="EPSG:"+srsSel;
+         initCS("R");
+      }
+   }
+
+   function initCS(side) {
+      var msg="";
+      // alert(side);
+      if (side == "L") {
+         csLeft = new CS(document.leftForm.srs.value);
+         for (var i in csLeft) {
+            msg += i + " = " + csLeft[i] + "\n";
+			}
+			for (var i in csLeft.proj_params)
+				msg += "proj_params." + i + " = " + csLeft.proj_params[i] + "\n";
+      } else {
+         csRight = new CS(document.rightForm.srs.value);
+         for (var i in csRight)
+            msg += i + " = " + csRight[i] + "\n";
+      }
+     //alert(msg);
+      document.bottomForm.infoText.value=msg;
+   }
+
+</SCRIPT>
+
+</HEAD>
+
+<BODY>
+<B>Geographic Coordinate Transformations in Javascript</B>
+<UL>
+  <LI>long / lat are in decimal degrees, west / south is negative
+  <LI>ignore the Z's, these are NOT orthometric heights
+</UL>
+<TABLE cellpadding="0" cellspacing="0">
+  <TBODY>
+    <TR>
+      <TD colspan="3">
+      <FORM action="nothing" name="topForm">
+      <TABLE cellpadding="0" cellspacing="0">
+        <TBODY>
+          <TR>
+            <TD colspan="3">
+            <HR>
+            Select radio button to left or
+            right of list
+            to paste selection into left
+            or right SRS
+            field.</TD>
+          </TR>
+          <TR>
+            <TD bgcolor="#8080ff"><INPUT type="radio" name="leftRight" value="left" checked></TD>
+            <TD align="center">
+            <SELECT size="1" id="EPSGsel" onchange="pasteCode();">
+               <OPTION value selected="selected">Coordinate System List</OPTION>
+               <OPTION value="4326">EPSG:4326 -- Long/Lat WGS84</OPTION>
+               <OPTION value="4269">EPSG:4269 -- Long/Lat NAD83</OPTION>
+               <OPTION value="4965">EPSG:4965 -- Long/Lat RGF93G IGN-F FD 2005</OPTION>
+               <OPTION value="4139">EPSG:4139 -- Puerto Rico</OPTION>
+               <OPTION value="102758">EPSG:102758 - NAD83 StatePlane Wyoming West FIPS 4904 US Survey Feet</OPTION>
+               <!--
+               <OPTION value="26903">EPSG:26903 - NAD83 / UTM zone 3N</OPTION>
+               <OPTION value="26904">EPSG:26904 - NAD83 / UTM zone 4N</OPTION>
+               <OPTION value="26905">EPSG:26905 - NAD83 / UTM zone 5N</OPTION>
+               <OPTION value="26906">EPSG:26906 - NAD83 / UTM zone 6N</OPTION>
+               <OPTION value="26907">EPSG:26907 - NAD83 / UTM zone 7N</OPTION>
+               <OPTION value="26908">EPSG:26908 - NAD83 / UTM zone 8N</OPTION>
+               <OPTION value="26909">EPSG:26909 - NAD83 / UTM zone 9N</OPTION>
+               <OPTION value="26910">EPSG:26910 - NAD83 / UTM zone 10N</OPTION>
+               <OPTION value="26911">EPSG:26911 - NAD83 / UTM zone 11N</OPTION>
+               <OPTION value="26912">EPSG:26912 - NAD83 / UTM zone 12N</OPTION>
+               <OPTION value="26913">EPSG:26913 - NAD83 / UTM zone 13N</OPTION>
+               <OPTION value="26914">EPSG:26914 - NAD83 / UTM zone 14N</OPTION>
+               <OPTION value="26915">EPSG:26915 - NAD83 / UTM zone 15N</OPTION>
+               <OPTION value="26916">EPSG:26916 - NAD83 / UTM zone 16N</OPTION>
+               <OPTION value="26917">EPSG:26917 - NAD83 / UTM zone 17N</OPTION>
+               <OPTION value="26918">EPSG:26918 - NAD83 / UTM zone 18N</OPTION>
+               <OPTION value="26919">EPSG:26919 - NAD83 / UTM zone 19N</OPTION>
+               <OPTION value="26920">EPSG:26920 - NAD83 / UTM zone 20N</OPTION>
+               <OPTION value="26921">EPSG:26921 - NAD83 / UTM zone 21N</OPTION>
+               <OPTION value="26922">EPSG:26922 - NAD83 / UTM zone 22N</OPTION>
+               <OPTION value="26923">EPSG:26923 - NAD83 / UTM zone 23N</OPTION>
+
+               <OPTION value="32158">EPSG:32158 - NAD83 StatePlane Wyoming West Meters</OPTION>
+               <OPTION value="26591">EPSG:26591 - Monte Mario (Rome) / Italy zone 1</OPTION>
+               <OPTION value="28992">EPSG:28992 - Amersfoort / RD New</OPTION>
+               -->
+            </SELECT>
+            </TD>
+            <TD bgcolor="#00ff80"><INPUT type="radio" name="leftRight" value="right"></TD>
+          </TR>
+        </TBODY>
+      </TABLE>
+      </FORM>
+      </TD>
+    </TR>
+    <TR>
+      <TD align="center">
+      <FORM action="nothing" name="leftForm">
+      <TABLE cellspacing="0" cellpadding="0" bgcolor="#8080ff">
+        <TBODY>
+          <TR>
+            <TD>SRS:</TD>
+            <TD align="center"><INPUT size="20" type="text" name="srs" onchange="initCS('L');"></TD>
+          </TR>
+          <TR>
+            <TD align="right">X:</TD>
+            <TD align="center"><INPUT size="20" type="text" name="x"></TD>
+          </TR>
+          <TR>
+            <TD align="right">Y:</TD>
+            <TD align="center"><INPUT size="20" type="text" name="y"></TD>
+          </TR>
+          <TR>
+            <TD align="right">Z:</TD>
+            <TD align="center"><INPUT size="20" type="text" name="z"></TD>
+          </TR>
+          <TR>
+            <TD colspan="2" align="center"><INPUT type="reset" value="reset"></TD>
+          </TR>
+        </TBODY>
+      </TABLE>
+      </FORM>
+      </TD>
+      <TD align="center">
+      <FORM action="nothing">
+      <TABLE>
+        <TBODY>
+          <TR>
+            <TD><INPUT type="button" value="&nbsp;>>&nbsp;" onclick="left2right();"></TD>
+          </TR>
+          <TR>
+            <TD>&nbsp;</TD>
+          </TR>
+          <TR>
+            <TD><INPUT type="button" value="&nbsp;<<&nbsp;" onclick="right2left();" disabled></TD>
+          </TR>
+          <TR>
+            <TD>&nbsp;</TD>
+          </TR>
+        </TBODY>
+      </TABLE>
+      </FORM>
+      </TD>
+      <TD align="center">
+      <FORM action="nothing" name="rightForm">
+      <TABLE cellpadding="0" cellspacing="0" bgcolor="#00ff80">
+        <TBODY>
+          <TR>
+            <TD>SRS:</TD>
+            <TD><INPUT size="20" type="text" name="srs" onchange="initCS('R');"></TD>
+          </TR>
+          <TR>
+            <TD align="right">X:</TD>
+            <TD><INPUT size="20" type="text" name="x"></TD>
+          </TR>
+          <TR>
+            <TD align="right">Y:</TD>
+            <TD><INPUT size="20" type="text" name="y"></TD>
+          </TR>
+          <TR>
+            <TD align="right">Z:</TD>
+            <TD><INPUT size="20" type="text" name="z"></TD>
+          </TR>
+          <TR>
+            <TD colspan="2" align="center"><INPUT type="reset" value="reset"></TD>
+          </TR>
+        </TBODY>
+      </TABLE>
+      </FORM>
+      </TD>
+    </TR>
+    <TR>
+      <TD></TD>
+      <TD align="center"></TD>
+      <TD></TD>
+    </TR>
+    <TR>
+      <TD colspan="3">
+      <FORM action="nothing" name="bottomForm">
+         <TEXTAREA name="infoText" rows="6" cols="60"></TEXTAREA>
+      </FORM>
+      </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<P>checks:<br>
+$ echo -66 18 | cs2cs -f '%2f' +init=epsg:4326 +to +init=epsg:4139<br>
+$ cs2cs +proj=latlong +to +proj=geocent
+</P>
+</BODY>
+</HTML>
