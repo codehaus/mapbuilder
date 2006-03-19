@@ -48,8 +48,8 @@ var ellps_clrk66= new Ellps("clrk66",6378206.4, 6356583.8,        294.9786982,  
 */
 
 
-var usfeet = 1200/3937;  // US Survey foot
-var feet = 0.3048;  // International foot
+var us_ft = 1200/3937;  // US Survey foot
+var ft = 0.3048;  // International foot
 
 
 
@@ -70,9 +70,10 @@ function lookUp(srs) {
     case "EPSG:4965":
       //cs.title = "Long/Lat RGF93G IGN-F FD 2005";
       cs.title = "Long / Lat";
-      cs.init = "";
-      cs.fwd = ll2ll;
-      cs.inv = ll2ll;
+      cs.proj = "longlat";
+      //cs.init = "";
+      //cs.fwd = ll2ll;
+      //cs.inv = ll2ll;
       cs.units = "degrees";
       cs.latlongflag = true;
       //cs.datum_type = PJD_WGS84;
@@ -90,7 +91,6 @@ function lookUp(srs) {
       cs.inv = ll2ll;
       cs.units = "degrees";
       cs.latlongflag = true;
-      //cs.datum_type = PJD_3PARAM;
       cs.a=ellps_clrk66.a;
       cs.b=ellps_clrk66.b;
       cs.es = 1-(cs.b*cs.b)/(cs.a*cs.a);
@@ -105,21 +105,18 @@ function lookUp(srs) {
      // <102758> +proj=tmerc +lat_0=40.5 +lon_0=-110.0833333333333 +k=0.999938 +x_0=799999.9999999999 +y_0=100000 +ellps=GRS80 +datum=NAD83 +to_meter=0.3048006096012192  no_defs <>
 
       cs.title="NAD 1983 StatePlane Wyoming West FIPS 4904 US Survey Feet";
+      cs.proj="tmerc";
       cs.init=tminit;
       cs.fwd=ll2tm
       cs.inv=tm2ll;
       cs.a=ellps_grs80.a;
       cs.b=ellps_grs80.b;
-      //cs.init(new Array(grs80[0], grs80[1], 0.9999375, -110.0833333333333, 40.5, 800000, 100000));
       cs.long0=-110.0833333333333;  /* central longitude */
       cs.lat0=40.5;                 /* central latitude */
       cs.falseEast=800000;          /* easting and northing */
       cs.falseNorth=100000;
       cs.k0=0.9999375;
-      //cs.datum_type=PJD_WGS84;
-      cs.units="usfeet";
-      cs.es = 1-(Math.pow(cs.b,2)/Math.pow(cs.a,2));
-      //cs.pp = new tminit(cs.es, cs.a, cs.lat0);
+      cs.to_meter=us_ft;
       break;
     case "EPSG:32158":cs.title="NAD 1983 StatePlane Wyoming West meters";
       cs.init=tminit;

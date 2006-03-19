@@ -14,39 +14,15 @@ function sign(x) { if (x < 0.0) return(-1); else return(1);}
 /**
   Initialize Transverse Mercator projection
 */
-/* this version called from csLookup
-function tminit(es, a, lat0)  {
-  this.e0 = e0fn(es);
-  this.e1 = e1fn(es);
-  this.e2 = e2fn(es);
-  this.e3 = e3fn(es);
-  this.ml0 = a * mlfn(this.e0, this.e1, this.e2, this.e3, lat0);
-  // this.esp = es / (1.0 - es);  // this duplicates ep2 in base CS definition
-  this.ind = (es < .00001) ? 1 : 0; // spherical?
-}
-*/
 
-function tminit(def)  {
-  /*
-    this.r_maj=param[0];
-    this.r_min=param[1];
-    this.scale_fact=param[2];
-    this.lon_center=param[3]*D2R;
-    this.lat_origin=param[4]*D2R;
-    this.false_easting=param[5];
-    this.false_northing=param[6];
-    var temp = this.r_min / this.r_maj;
-    this.es = 1.0 - Math.pow(temp,2);
-  */
-  //this.e = Math.sqrt(this.es);
 
-  this.e0 = e0fn(def.es);
-  this.e1 = e1fn(def.es);
-  this.e2 = e2fn(def.es);
-  this.e3 = e3fn(def.es);
-  this.ml0 = def.a * mlfn(this.e0, this.e1, this.e2, this.e3, def.lat0);
-  // this.esp = es / (1.0 - es);  // this duplicates ep2 in base CS definition
-  this.ind = (def.es < .00001) ? 1 : 0; // spherical?
+function tmercInit(def)  {
+  def.e0 = e0fn(def.es);
+  def.e1 = e1fn(def.es);
+  def.e2 = e2fn(def.es);
+  def.e3 = e3fn(def.es);
+  def.ml0 = def.a * mlfn(def.e0, def.e1, def.e2, def.e3, def.lat0);
+  def.ind = (def.es < .00001) ? 1 : 0; // spherical?
 }
 
 
@@ -78,7 +54,7 @@ function utminit(param) {
   Transverse Mercator Forward  - long/lat to x/y
   long/lat in radians
 */
-function ll2tm(cs, p) {
+function tmercFwd(cs, p) {
 //cs.k0
   var delta_lon = adjust_lon(p.x - cs.long0); // Delta longitude
   var con;    // cone constant
@@ -86,7 +62,7 @@ function ll2tm(cs, p) {
   var sin_phi=Math.sin(p.y);
   var cos_phi=Math.cos(p.y);
 
-  if (cs.proj_params.ind != 0) {
+  if (cs.ind != 0) {
     var b = cos_phi * Math.sin(delta_lon);
     if ((Math.abs(Math.abs(b) - 1.0)) < .0000000001)  {
       alert("Error in ll2tm(): Point projects into infinity");
@@ -106,30 +82,24 @@ function ll2tm(cs, p) {
     var t   = Math.pow(tq,2);
     con = 1.0 - cs.es * Math.pow(sin_phi,2);
     var n   = cs.a / Math.sqrt(con);
-    var ml  = cs.a * mlfn(cs.proj_params.e0, cs.proj_params.e1, cs.proj_params.e2, cs.proj_params.e3, p.y);
+    var ml  = cs.a * mlfn(cs.e0, cs.e1, cs.e2, cs.e3, p.y);
 
     x = cs.k0 * n * al * (1.0 + als / 6.0 * (1.0 - t + c + als / 20.0 * (5.0 - 18.0 * t + Math.pow(t,2) + 72.0 * c - 58.0 * cs.ep2))) + cs.x0;
-    y = cs.k0 * (ml - cs.proj_params.ml0 + n * tq * (als * (0.5 + als / 24.0 * (5.0 - t + 9.0 * c + 4.0 * Math.pow(c,2) + als / 30.0 * (61.0 - 58.0 * t + Math.pow(t,2) + 600.0 * c - 330.0 * cs.ep2))))) + cs.y0;
+    y = cs.k0 * (ml - cs.ml0 + n * tq * (als * (0.5 + als / 24.0 * (5.0 - t + 9.0 * c + 4.0 * Math.pow(c,2) + als / 30.0 * (61.0 - 58.0 * t + Math.pow(t,2) + 600.0 * c - 330.0 * cs.ep2))))) + cs.y0;
 
-    switch(cs.units){
-      case "usfeet":
-        x /= usfeet;
-        y /= usfeet
-        break;
-      case "feet":
-        x = x / feet;
-        y = y / feet;
-        break;
-    } // switch()
+    if (cs.to_meter) {
+      x /= cs.to_meter;
+      y /= cs.to_meter
+    }
   }
   p.x=x;
   p.y=y;
-} // ll2tm()
+} // tmercFwd()
 
 /**
   Transverse Mercator Inverse  -  x/y to long/lat
 */
-function tm2ll(coords) {
+function tmercInv(coords) {
   var x=coords[0];
   var y=coords[1];
   var con, phi;  /* temporary angles       */
@@ -189,4 +159,4 @@ function tm2ll(coords) {
     }
   }
   return new Array(lon*R2D, lat*R2D);
-} // tm2ll()
+} // tmercInv()

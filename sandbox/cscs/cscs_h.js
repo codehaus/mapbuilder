@@ -23,9 +23,10 @@ var PJD_GRIDSHIFT= 3;
 var PJD_WGS84    = 4;   // WGS84 or equivelent
 
 var pj_errno;
-var PJD_ERR_GEOCENTRIC = -45;
 
-function ll2ll(p) { }   // this doesn't belong in here
+function longlatFwd(p) {}   // these don't belong in here
+function longlatInv(p) {}
+function longlatInit(p){}
 
 
 // point object, nothing fancy, just allows values
@@ -37,25 +38,50 @@ function PT(x,y,z) {
 }
 
 
-// constructor function
-// coordinate system definition (based on PJ typedef struct in PROJ.4)
+var csList = new Object();
+
+
+// coordinate system definition constructor function
 function CS(srs) {
 
-  var def = lookUp(srs);
+  var def = lookUp(srs);  // this could be a call to an external web service or something
 
-  /*****  from MapBuilder Proj.js *****/
-  this.title = def.title;
-  this.Init = def.init;   // initilization function, I have this on the "server-side" now
-  this.Forward = def.fwd;   // name of forward function (long/lat to x/y)
-  this.Inverse = def.inv;   // name of inverse function (x/y to long/lat)
-  this.units = def.units;
+  /*
+    I'm trying to generally follow PRGJ.4 format e.g.
+      +proj="tmerc"   //longlat, etc.
+      +a=majorRadius
+      +b=minorRadius
+      +lat0=somenumber
+      +long=somenumber
+    This would allow us to pass specific parameters or use the lookUp(srs) above.
 
-    /*****  from Proj.4 projects.h *****/
-    // void (*spc)(LP, struct PJconsts *, struct FACTORS *);
-    // void (*pfree)(struct PJconsts *);
-    // paralist *params;    /* parameter list */
-    //this.over;            /* over-range flag */
-    //this.geoc;            /* geocentric latitude flag */
+
+          srs = srs.toUpperCase();
+          if (srs.indexOf("EPSG") == 0)
+            def = lookUp(srs);
+          else
+            def = srs.split("+");
+          for (var i=0; i<def.length; i++) {
+            property=def[1].split("=");
+            if property[0]="proj"
+              this.proj=property[1];
+            if ...
+          }
+
+
+  */
+
+  if (def.title)
+    this.title = def.title;
+    // The Forward, Inverse, and Initilization functions are derived from the
+    // projection name.
+  this.Forward = eval(def.proj+"Fwd"); // name of forward function (long/lat to x/y)
+  this.Inverse = eval(def.proj+"Inv"); // name of inverse function (x/y to long/lat)
+  this.Init = eval(def.proj+"Init");   // initilization function
+
+  if (def.to_meter)
+    this.to_meter = def.to_meter;
+
   this.is_latlong = (def.latlongflag) ? (def.latlongflag) : false ;  /* proj=latlong */
     //this.is_geocent = def.geocentflag;  /* proj=geocent */
   this.a = def.a;           /* major axis or radius if es==0 */
@@ -110,9 +136,9 @@ function CS(srs) {
 
   // this.proj_params = cs.pp;
   // cs.pp = new tminit(cs.es, cs.a, cs.lat0);
+
   if (this.Init)
-    // this.proj_params = new this.Init(def);
-    this.proj_params = new this.Init(this);
+    this.Init(this);
 
   delete def;
 

@@ -8,11 +8,23 @@
 <SCRIPT type="text/javascript" src="cs_transform.js"></SCRIPT>
 <SCRIPT type="text/javascript" src="geocent.js"></SCRIPT>
 <SCRIPT type="text/javascript" src="tmerc.js"></SCRIPT>
-
+<SCRIPT type="text/javascript" src="EPSG102757.js"></SCRIPT>
 <SCRIPT type="text/javascript">
 
-
    var csLeft, csRight;
+
+   function enumerate_csList() {
+      var msg, def, paramArray;
+      for (var cs in csList) {
+         def=eval("csList."+cs);
+         paramArray=def.split("+");
+         for (var i=0; i<paramArray.length; i++) {
+           property=paramArray[i].split("=")
+           msg+=property[0]+" = "+property[1]+"\n";
+         }
+      }
+      document.bottomForm.infoText.value=msg;
+   }
 
    function left2right(){
       var xl = document.leftForm.x.value;
@@ -60,9 +72,9 @@
          csLeft = new CS(document.leftForm.srs.value);
          for (var i in csLeft) {
             msg += i + " = " + csLeft[i] + "\n";
-			}
-			for (var i in csLeft.proj_params)
-				msg += "proj_params." + i + " = " + csLeft.proj_params[i] + "\n";
+         }
+         for (var i in csLeft.proj_params)
+            msg += "proj_params." + i + " = " + csLeft.proj_params[i] + "\n";
       } else {
          csRight = new CS(document.rightForm.srs.value);
          for (var i in csRight)
@@ -76,7 +88,7 @@
 
 </HEAD>
 
-<BODY>
+<BODY onLoad="enumerate_csList()">;
 <B>Geographic Coordinate Transformations in Javascript</B>
 <UL>
   <LI>long / lat are in decimal degrees, west / south is negative
@@ -163,7 +175,7 @@
           </TR>
           <TR>
             <TD align="right">Z:</TD>
-            <TD align="center"><INPUT size="20" type="text" name="z"></TD>
+            <TD align="center"><INPUT size="20" type="text" name="z" disabled></TD>
           </TR>
           <TR>
             <TD colspan="2" align="center"><INPUT type="reset" value="reset"></TD>
@@ -210,7 +222,7 @@
           </TR>
           <TR>
             <TD align="right">Z:</TD>
-            <TD><INPUT size="20" type="text" name="z"></TD>
+            <TD><INPUT size="20" type="text" name="z" disabled></TD>
           </TR>
           <TR>
             <TD colspan="2" align="center"><INPUT type="reset" value="reset"></TD>
