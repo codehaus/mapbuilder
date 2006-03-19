@@ -7,7 +7,7 @@ $Id: $
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/MapContainerBase.js");
-mapbuilder.loadScript(baseDir+"/tool/GmapTools.js");
+mapbuilder.loadScript(baseDir+"/tool/GoogleMapTools.js");
 
 /**
  * Create a map Layer using Google Maps.
@@ -46,10 +46,10 @@ function Gmap(widgetNode, model) {
       //objRef.gmap=new GMap(tempNode);
       objRef.model.setParam("gmap",new GMap(tempNode));
       //objRef.model.gmap=new GMap(tempNode);
-      objRef.gmapTools=new GmapTools();
+      objRef.googleMapTools=new GoogleMapTools();
     }
 
-    objRef.gmapTools.centerAndZoom(objRef.model);
+    objRef.googleMapTools.centerAndZoom(objRef.model);
   }
   this.model.addListener("refresh",this.paint, this);
 

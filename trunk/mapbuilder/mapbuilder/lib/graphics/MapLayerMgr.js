@@ -10,6 +10,7 @@ mapbuilder.loadScript(baseDir+"/graphics/MapLayer.js");
 mapbuilder.loadScript(baseDir+"/graphics/WmsLayer.js");
 mapbuilder.loadScript(baseDir+"/graphics/RssLayer.js");
 mapbuilder.loadScript(baseDir+"/graphics/GmlLayer.js");
+mapbuilder.loadScript(baseDir+"/graphics/GoogleMapLayer.js");
 
 // Layer Manager
 // Keeps an ordered array of layers
@@ -78,11 +79,20 @@ MapLayerMgr.prototype.setLayersFromContext = function(objRef) {
 }
 
 /**
-  *
+  * Add a layer to the internal array of layers.
+  * @param objRef Reference to this object.
+  * @param layerNode Layer node (usually from a <Layer> tag in a
+    context.xml document.
   */
 MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
+  service=layerNode.selectSingleNode("wmc:Server/@service");
+  if(service)service=service.nodeValue;
   var nodeName = layerNode.nodeName;
-  if( nodeName == "Layer" ) {
+  if(service=="GoogleMap"){
+    var layer = new GoogleMapLayer( objRef.model, objRef.mapPane, "RssLayer", layerNode, false, true );
+    objRef.layers.push( layer );
+  }
+  else if( service == "wms" ) {
     objRef.addWmsLayer( objRef, layerNode);
   } else if( nodeName.indexOf("wmc:RssLayer") >= 0 ) {
     //alert( "RssLayer:"+layerNode.id );
@@ -151,7 +161,6 @@ MapLayerMgr.prototype.addWmsLayer = function(objRef, layerNode) {
   * @param objRef Pointer to widget object.
   */
 MapLayerMgr.prototype.paint = function( objRef ) {
-  //loop through all layers 
   if (!this.imageStack) 
     this.imageStack = new Array(this.layers.length);
     
@@ -163,6 +172,7 @@ MapLayerMgr.prototype.paint = function( objRef ) {
   this.mapPane.stylesheet.setParameter("bbox",    this.model.getBoundingBox().join(","));
   this.mapPane.stylesheet.setParameter("srs",     this.model.getSRS());
   
+  //loop through all layers 
   for (var i=0;i<this.layers.length;i++) {
     var layer = this.layers[i];
     

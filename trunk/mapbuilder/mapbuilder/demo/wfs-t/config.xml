@@ -155,7 +155,7 @@
       <disabledSrc>/images/EditLineDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
-      <featureXpath>/gml:featureMember/topp:tasmania_roads/topp:the_geom/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
+      <featureXpath>//gml:coordinates</featureXpath>
       <defaultModelUrl>template_road.xml</defaultModelUrl>
       <targetContext>mainMap</targetContext>
     </EditLine>
