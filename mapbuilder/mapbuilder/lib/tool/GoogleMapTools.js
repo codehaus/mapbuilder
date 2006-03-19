@@ -7,18 +7,18 @@ $Id: History.js 1824 2005-11-28 11:01:10Z graphrisc $
 //mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
 
 /**
- * Functions for converting Extent to GMap Zoom Levels.
+ * Functions for converting Extent to Google Map Zoom Levels.
  * @constructor
  * @base ToolBase
  */
-function GmapTools() {
+function GoogleMapTools() {
 
   /**
    * Derive the Google ZoomLevel from current BBox, then call GoogleMap's
    * CenterAndZoom function.
    * @param model The context which stores the bounding box and screen size.
    * @param point The point to zoom to in geographic coords.
-   * @param deltaZoom Zoom in/out by this amount.
+   * @param deltaZoom Zoom in/out by this delta in ZoomLevels.
    */
   this.zoomTo=function(model,point,deltaZoom){
     gmap=model.getParam("gmap");
@@ -39,7 +39,7 @@ function GmapTools() {
   }
 
   /**
-   * Use Gmap code to adjust the Bounding Box.
+   * Use Google Map code to adjust the Bounding Box.
    * @param model The context which stores the bounding box.
    * @param bbox The original bbox to adjust.
    */
@@ -71,8 +71,8 @@ function GmapTools() {
   }
 
   /**
-   * Calculate GMap ZoomLevel.
-   * GMap uses the Mercator projection.  Details about the projection at
+   * Calculate Google Map ZoomLevel.
+   * Google Map uses the Mercator projection.  Details about the projection at
    * http://mathworld.wolfram.com/MercatorProjection.html
    * Credit to Schuyler Erle for the following algorithm:<br>
    * At zoom level 17, a single pixel covers ~ 1.46025 longitudinal degrees.<br>
