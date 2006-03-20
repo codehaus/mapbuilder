@@ -15,7 +15,7 @@ mapbuilder.loadScript(baseDir+"/tool/GoogleMapTools.js");
  * @param widgetNode The widget node from the Config XML file.
  * @param model  The model for this widget
  */
-function GmapZoomOut(widgetNode, model) {
+function GoogleMapZoomOut(widgetNode, model) {
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
 
