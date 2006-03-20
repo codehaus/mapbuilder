@@ -8,7 +8,7 @@
 <SCRIPT type="text/javascript" src="cs_transform.js"></SCRIPT>
 <SCRIPT type="text/javascript" src="geocent.js"></SCRIPT>
 <SCRIPT type="text/javascript" src="tmerc.js"></SCRIPT>
-<SCRIPT type="text/javascript" src="EPSG102757.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="defs/EPSG102757.js"></SCRIPT>
 <SCRIPT type="text/javascript">
 
    var csLeft, csRight;
@@ -57,10 +57,10 @@
    function pasteCode() {
       var srsSel = document.topForm.EPSGsel.value;
       if (document.topForm.leftRight[0].checked) {
-         document.leftForm.srs.value="EPSG:"+srsSel;
+         document.leftForm.srs.value="EPSG"+srsSel;
          initCS("L");
       } else {
-         document.rightForm.srs.value="EPSG:"+srsSel;
+         document.rightForm.srs.value="EPSG"+srsSel;
          initCS("R");
       }
    }
@@ -69,7 +69,7 @@
       var msg="";
       // alert(side);
       if (side == "L") {
-         csLeft = new CS(document.leftForm.srs.value);
+         csLeft = new CS(csList.EPSG102757);
          for (var i in csLeft) {
             msg += i + " = " + csLeft[i] + "\n";
          }

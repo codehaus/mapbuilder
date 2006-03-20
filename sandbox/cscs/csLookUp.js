@@ -1,57 +1,5 @@
 // ultimately this should be a web service or something
 
-/*
-  In most map projection formulas, some form of the eccentricity e is used,
-  rather than the flattening f. The relationship is as follows:
-
-  e² = 2f - f²
-     or
-  f = 1 - (1 - e²)½
-*/
-
-/*
-    if( es == 0.0 )
-        b = a;
-    else
-        b = a * Math.sqrt(1-es);
-*/
-
-function Ellps(id, a, b, rf, name) {
-  if (!b && !f) {
-    alert("Error: must supply either b (semi-minor axis), or f (flattening)");
-    return;
-  }
-  this.id = id
-  this.a = a;
-  if (!b)
-    this.b = semi_minor(a, rf);
-  else
-    this.b = b;
-  this.rf = rf;
-  this.name = name;
-}
-
-
-function semi_minor(a, f) { return a-(a*(1/f)); }
-
-                      /*     id,     a,         b,                1/f,            verbose description (optional)  */
-var ellps_grs80 = new Ellps("GRS80", 6378137.0, 6356752.31414036, 298.257222101, "GRS 1980(IUGG, 1980)");
-var ellps_wgs84 = new Ellps("WGS84", 6378137.0, 6356752.31424518, 298.257223563, "WGS 84");
-var ellps_wgs72 = new Ellps("WGS 72",6378135.0, 6356750.52001609, 298.26,        "WGS 72");
-var ellps_intl  = new Ellps("intl",  6378388.0, 6356911.94612795, 297.0,         "International 1909 (Hayford)");
-var ellps_clrk66= new Ellps("clrk66",6378206.4, 6356583.8,        294.9786982,   "Clarke 1866");
-
-/*
-"clrk80", "a=6378249.145", "rf=293.4663", "Clarke 1880 mod."
-"bessel", "a=6377397.155", "rf=299.1528128", "Bessel 1841"
-"bess_nam", "a=6377483.865", "rf=299.1528128", "Bessel 1841 (Namibia)"
-*/
-
-
-var us_ft = 1200/3937;  // US Survey foot
-var ft = 0.3048;  // International foot
-
-
 
 function lookUp(srs) {
   srs = srs.toUpperCase();
