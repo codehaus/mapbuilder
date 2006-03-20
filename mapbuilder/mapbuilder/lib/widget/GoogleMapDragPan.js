@@ -16,7 +16,7 @@ mapbuilder.loadScript(baseDir+"/tool/GoogleMapTools.js");
  * @param widgetNode  The widget node from the Config XML file.
  * @param model  The parent model for this widget
  */
-function GmapDragPan(widgetNode, model) {
+function GoogleMapDragPan(widgetNode, model) {
 
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
