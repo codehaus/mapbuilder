@@ -4,11 +4,11 @@
 		<Context id="mainMap">
 			<defaultModelUrl>cambridge.xml</defaultModelUrl>
 			<widgets>
-				<MapPane id="mainMapWidget">
+				<MapPane2 id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
 					<mapContainerId>mainMapContainer</mapContainerId>
 					<!-- fixedWidth>216</fixedWidth-->
-				</MapPane>
+				</MapPane2>
 				<Loading id="loading">
         </Loading>
 				<AoiBoxDHTML id="aoiBox2">
