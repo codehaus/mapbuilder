@@ -8,6 +8,8 @@ $Id: $
 // Ensure this object's dependancies are loaded.
 
 mapbuilder.loadScript(baseDir+"/graphics/WmsLayer.js");
+
+//@TODO move out
 mapbuilder.loadScript(baseDir+"/graphics/GoogleMapLayer.js");
 
 /**
@@ -28,12 +30,8 @@ function MapLayerMgr(mapPane, model) {
   // create imageStack
   this.imageStack = new Array(); //new Array(layers.length);
   
-  //this.model.addListener("refreshWmsLayers",this.refreshWmsLayers,this);
-  //this.model.addListener("refresh",this.paint, this);
   this.model.addListener("addLayer",this.addLayer, this);
   this.model.addListener("deleteLayer",this.deleteLayer, this);
-  //this.model.addListener("moveLayerUp",this.moveLayerUp, this);
-  //this.model.addListener("moveLayerDown",this.moveLayerDown, this);
   this.model.addListener("hidden",this.hiddenListener, this);
   this.model.addListener("contextLoaded",this.setLayersFromContext, this);
 }
@@ -85,20 +83,22 @@ MapLayerMgr.prototype.setLayersFromContext = function(objRef) {
   * @param layerNode  Layer node element from WMC/OWSContext document 
   */
 MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
+    
   service=layerNode.selectSingleNode("wmc:Server/@service");
-  if(service)service=service.nodeValue;
+  if(service) service=service.nodeValue;
+  alert( "Service:"+service );
+  
   var nodeName = layerNode.nodeName;
-  if(service=="GoogleMap"){
-    var layer = new GoogleMapLayer( objRef.model, objRef.mapPane, "RssLayer", layerNode, false, true );
+  if(service == "GoogleMap") {
+    var layer = new GoogleMapLayer( objRef.model, objRef.mapPane, "GoogleMapLayer", layerNode, false, true );
     objRef.layers.push( layer );
-  }
-  else if( service == "wms" ) {
+  } else if( (service == "wms") || (service = "OGC:WMS")) {
     objRef.addWmsLayer( objRef, layerNode);
   } else if( nodeName.indexOf("wmc:RssLayer") >= 0 ) {
     var layer = new RssLayer( objRef.model, objRef.mapPane, "RssLayer", layerNode, false, true );
     objRef.layers.push( layer );
   } else {
-    alert( "Failed adding Layer:"+nodeName );
+    alert( "Failed adding Layer:"+nodeName + " service:"+service );
   }
 }
 
