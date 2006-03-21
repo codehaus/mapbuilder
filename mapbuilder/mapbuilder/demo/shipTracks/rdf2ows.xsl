@@ -30,9 +30,12 @@ xmlns:ogc="http://www.opengis.net/ogc" >
 			<wmc:Server service="GeoRSS" version="1.0" title="title">
 				<wmc:OnlineResource xlink:type="simple" xlink:href="link"/>
 			</wmc:Server>
-			<wmc:Title>
-				<xsl:value-of select="rss:title"/>
-			</wmc:Title>
+      <wmc:Name>
+        <xsl:value-of select="rss:title"/>
+      </wmc:Name>
+      <wmc:Title>
+        <xsl:value-of select="rss:title"/>
+      </wmc:Title>
 			<wmc:StyleList>
         <wmc:Style>
           <wmc:Name>Highlite</wmc:Name>
@@ -63,7 +66,7 @@ xmlns:ogc="http://www.opengis.net/ogc" >
           <sld:PointSymbolizer>
             <sld:Graphic>
               <sld:ExternalGraphic>
-                <sld:OnlineResource xlink:type="simple" xlink:href="http://192.168.15.102:8080/mapbuilder/demo/shipTracks/images/frog.gif" />
+                <sld:OnlineResource xlink:type="simple" xlink:href="http://geoservices.cgdi.ca/mapbuilder/lib/skin/default/images/Icon.gif" />
                 <sld:Format>image/gif</sld:Format>
               </sld:ExternalGraphic> 
               <sld:Size>16</sld:Size>
