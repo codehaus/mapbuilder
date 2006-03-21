@@ -2,22 +2,22 @@
 Author:       Patrice G. Cappelaere patAtcappelaere.com
 License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id$
+$Id: $
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/graphics/MapLayer.js");
+
 mapbuilder.loadScript(baseDir+"/graphics/WmsLayer.js");
-mapbuilder.loadScript(baseDir+"/graphics/RssLayer.js");
-mapbuilder.loadScript(baseDir+"/graphics/GmlLayer.js");
 mapbuilder.loadScript(baseDir+"/graphics/GoogleMapLayer.js");
 
-// Layer Manager
-// Keeps an ordered array of layers
-// A Layer of proper (WMS, GML...) type is instantiated when addLayer is called
-// Layer Manager calls the paint function for all layers in the list
-// paint function is layer specific
-
+/**
+  * Keeps an ordered array of layers
+  * A Layer of proper (WMS, GML...) type is instantiated when addLayer is called
+  * Layer Manager calls the paint function for all layers in the list
+  * paint function is layer specific
+  * @param mapPane mapPane object
+  * @param model current model
+  */
 function MapLayerMgr(mapPane, model) {
   this.layers   = new Array();
   this.mapPane  = mapPane;
@@ -48,7 +48,7 @@ MapLayerMgr.prototype.hiddenListener=function(objRef, layerName){
   if(objRef.model.getHidden(layerName)=="1") {
     vis="hidden";
   }
-  var layerId = objRef.model.id + "_" + objRef.id + "_" + layerName;
+  var layerId = objRef.model.id + "_" + objRef.mapPane.id + "_" + layerName;
   var layer = document.getElementById(layerId);
   if (layer) {
     layer.style.visibility=vis;
@@ -68,6 +68,7 @@ MapLayerMgr.prototype.hiddenListener=function(objRef, layerName){
   
 /**
   * Load all layers from context document when it is loaded
+  * @param objRef Pointer to widget object
   */
 MapLayerMgr.prototype.setLayersFromContext = function(objRef) {
  // add all the layers from the context document
@@ -79,10 +80,9 @@ MapLayerMgr.prototype.setLayersFromContext = function(objRef) {
 }
 
 /**
-  * Add a layer to the internal array of layers.
-  * @param objRef Reference to this object.
-  * @param layerNode Layer node (usually from a <Layer> tag in a
-    context.xml document.
+  * Instantiate a layer of the righ type
+  * @param objRef
+  * @param layerNode  Layer node element from WMC/OWSContext document 
   */
 MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
   service=layerNode.selectSingleNode("wmc:Server/@service");
@@ -95,25 +95,20 @@ MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
   else if( service == "wms" ) {
     objRef.addWmsLayer( objRef, layerNode);
   } else if( nodeName.indexOf("wmc:RssLayer") >= 0 ) {
-    //alert( "RssLayer:"+layerNode.id );
     var layer = new RssLayer( objRef.model, objRef.mapPane, "RssLayer", layerNode, false, true );
     objRef.layers.push( layer );
   } else {
-    alert( "addLayer:"+nodeName );
-    var layer = new WmsLayer( objRef.model, objRef.mapPane, layerName, layerNode, false, true );
-    objRef.layers.push( layer );
+    alert( "Failed adding Layer:"+nodeName );
   }
-  
 }
 
 /**
   * Method to add a WmsLayer to the LayerList
+  * @param objRef object pointer
   * @param layerNode the Layer node from another context doc or capabiltiies doc
-  * @TODO duplicate redraw to remove with paint
   */
 MapLayerMgr.prototype.addWmsLayer = function(objRef, layerNode) {
-  //alert( "addwmsLayer" );
-  
+   
   var layerNameNode = layerNode.selectSingleNode("wmc:Name");
   if( layerNameNode ) {
     layerName = layerNameNode.firstChild.nodeValue;
@@ -121,33 +116,23 @@ MapLayerMgr.prototype.addWmsLayer = function(objRef, layerNode) {
     layerName = "UNKNOWN";
   }
   
-  //firstChild.nodeValue;
   var queryable = layerNode.getAttribute("queryable");
   var visible = layerNode.getAttribute("hidden");
-  
-  //alert("layerNode:"+layerName);
-  //var layer=this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+layerName+"']");
-  
+    
   var layer = new WmsLayer( objRef.model, objRef.mapPane, layerName, layerNode, queryable, visible );
 
- //process the doc with the stylesheet
+ // process the doc with the stylesheet
   objRef.mapPane.stylesheet.setParameter("width", objRef.model.getWindowWidth());
   objRef.mapPane.stylesheet.setParameter("height", objRef.model.getWindowHeight());
   objRef.mapPane.stylesheet.setParameter("bbox", objRef.model.getBoundingBox().join(","));
   objRef.mapPane.stylesheet.setParameter("srs", objRef.model.getSRS());
   
   var s = objRef.mapPane.stylesheet.transformNodeToString(layerNode);
-  //alert( s );
   
-  // Problem is that xhtml requires &amp; instead of &
-  // we had to do some major tweaks to the xslt
-  // by doing this, our &amp; got escaped by to &
   var tempNode = document.createElement("div");
   tempNode.innerHTML = s;
   var newSrc = tempNode.firstChild.firstChild.getAttribute("src"); 
-  //newSrc = newSrc.replace( /&/g, "&amp;");
   layer.setSrc( newSrc );
-  //alert( newSrc );
   
   objRef.imageStack.push(new Image());
   objRef.imageStack[objRef.imageStack.length-1].objRef = objRef;
@@ -176,23 +161,23 @@ MapLayerMgr.prototype.paint = function( objRef ) {
   for (var i=0;i<this.layers.length;i++) {
     var layer = this.layers[i];
     
+    // deal with WMS layer type, we need some pre-processing
     if( layer.isWmsLayer() ) {
       var s = this.mapPane.stylesheet.transformNodeToString(layer.layerNode);
      
       var tempNode = document.createElement("div");
       tempNode.innerHTML = s;
       var newSrc = tempNode.firstChild.firstChild.getAttribute("src");
-      //newSrc = newSrc.replace( /&/g, "&amp;");
-      //alert( newSrc);
+
       layer.setSrc( newSrc );
 
       if (!this.imageStack[i]) {
-	    this.imageStack[i] = new Image();
-	    this.imageStack[i].objRef = objRef;
+	      this.imageStack[i] = new Image();
+	      this.imageStack[i].objRef = objRef;
+	    }
 	  }
-	}
-	      
-	layer.paint(objRef, this.imageStack[i]);
+	  // now paint it WMS or not
+	  layer.paint(objRef, this.imageStack[i]);
   }
 }
   
@@ -218,10 +203,9 @@ MapLayerMgr.prototype.getLayer = function(layerName) {
   return null;
 }
 
-
-
 /**
   * Method to remove a Layer from the LayerList
+  * @param objRef Pointer to widget object.
   * @param layerName the Layer to be deleted
   */
 MapLayerMgr.prototype.deleteLayer = function(objRef, layerName) {
@@ -230,23 +214,3 @@ MapLayerMgr.prototype.deleteLayer = function(objRef, layerName) {
     layers = layers.splice(i, 1);
   }
 }
-  
-
-/**
-  * Method to move a Layer in the LayerList up
-  * @param layerName the layer to be moved
-  */
-MapLayerMgr.prototype.moveLayerUp = function(objRef, layerName) {
-   
-}
- 
-/**
-  * Method to move a Layer in the LayerList down
-  * @param layerName the layer to be moved
-  */
-MapLayerMgr.prototype.moveLayerDown = function(objRef, layerName) {
- 
-}
- 
-  
-  
