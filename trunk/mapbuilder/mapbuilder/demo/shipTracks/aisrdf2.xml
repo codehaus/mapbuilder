@@ -7,18 +7,28 @@
   xmlns:georss="http://www.georss.org/rss" 
   xmlns:gml='http://www.opengis.net/gml/3.1.1' >
   
-  <item id='9' uuid='E643EBE1-DD84-42C4-835B-AA19972B5C3A' score='1.0' rdf:about='http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=E643EBE1-DD84-42C4-835B-AA19972B5C3A'>
-    <title>ATLANTIC BREEZE</title>
-    <link>http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=E643EBE1-DD84-42C4-835B-AA19972B5C3A</link>
-    <thn>http://tacsatdev.pxi.com/tacsat1/data/ais/products/thn/2004/07/08/E643EBE1-DD84-42C4-835B-AA19972B5C3A.jpg</thn>
-    <description type='text/html' mode='escaped'>Vessel: <b>ATLANTIC BREEZE</b>, <img src='images/tina.jpg' width='50' height='50'/>  MMSI:235824000, IMO:9278428, Call-Sign:MDFD8, Destination: BRIDGE PORT USA, Posits:286</description>
+  <item id='1' uuid='F846273D-9059-428E-95A3-085FDB891702' score='1.0' rdf:about='http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=F846273D-9059-428E-95A3-085FDB891702'>
+    <title>AIS Track</title>
+    <link>http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=F846273D-9059-428E-95A3-085FDB891702</link>
+    <thn>http://tacsatdev.pxi.com/tacsat1/data/ais/products/thn/2004/07/08/F846273D-9059-428E-95A3-085FDB891702.jpg</thn>
+    <description type='text/html' mode='escaped'>Vessel: <b>APL CHINA</b>, <img src='images/montventoux.jpg' width='50' height='50'/>  MMSI:369247000, IMO:9074389, Call-Sign:WDB3161, Destination: DUTCH HBR, Posits:66</description>
     <dc:date>130407Z MAY 05</dc:date>
-    <georss:where><gml:LineString><gml:posList>-80.42 25.16,-80.13032 25.77,-80.13032 26.061167</gml:posList></gml:LineString></georss:where>
-  
+    
+    <georss:where><gml:LineString><gml:posList>-122.30265 37.793392,-122.30248 37.793465,-122.302505 37.79344,-122.302505 37.79346,-122.302505 37.793453,-122.30252 37.79346,-122.302505 37.793434,-122.302505 37.79343,
+    -122.30253 37.793392,-122.30245 37.79342,-122.30252 37.7934,-122.302505 37.793465,-122.302574 37.793407,-122.302574 37.79344,-122.30254 37.793392,-122.30253 37.79341,-122.30253 37.79343,
+    -122.30253 37.793392,-122.302414 37.793545,-122.30253 37.79351,-122.30249 37.793472,-122.30257 37.79343,-122.30252 37.79348,-122.302505 37.793472,-122.302505 37.793453,-122.302574 37.793453,
+    -122.302505 37.793434,-122.302505 37.793446,-122.30252 37.79344,-122.30253 37.793385,-122.30245 37.793446,-122.30252 37.793438,-122.302574 37.79351,-122.30248 37.79346,-122.30249 37.79344,
+    -122.302505 37.79343,-122.30248 37.79343,-122.302505 37.793446,-122.302505 37.79343,-122.30248 37.793434,-122.30248 37.793453,-122.302505 37.793434,-122.30248 37.79334,-122.30794 37.7931,
+    -122.32819 37.798153,-122.35794 37.803093,-122.38725 37.81643,-122.418564 37.8373,-122.45935 37.831924,-122.49599 37.81374,-122.54208 37.796547,-122.597305 37.777176,-122.656784 37.765564,
+    -122.67528 37.78008,-122.705574 37.79183,-122.73364 37.801933,-122.775795 37.81583,-122.821976 37.836792,-122.8732 37.86394,-122.92924 37.89506,-122.99397 37.931118,-123.11203 38.0096,
+    -123.21669 38.089,-123.274796 38.1329,-123.33211 38.17643,-123.44316 38.26056</gml:posList></gml:LineString></georss:where>
+    
+    <georss:icon>/pushpins/015.gif</georss:icon>
   </item>
+ 
   
  <item id='4' uuid='85214EF9-9231-4827-9661-6A1DDD7E3E3C' score='1.0' rdf:about='http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=85214EF9-9231-4827-9661-6A1DDD7E3E3C'>
-    <title>STENA VISION</title>
+    <title>STENA VISION (ship track 2)</title>
     <link>http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=85214EF9-9231-4827-9661-6A1DDD7E3E3C</link>
     <thn>http://tacsatdev.pxi.com/tacsat1/data/ais/products/thn/2004/07/08/85214EF9-9231-4827-9661-6A1DDD7E3E3C.jpg</thn>
     <description type='text/html' mode='escaped'>Vessel: <b>STENA VISION</b>, <img src='images/projecteuropa.jpg' width='50' height='50'/>  MMSI:310372000, IMO:9206081, Call-Sign:ZCDF2, Destination: CABINDA, Posits:82</description>
@@ -39,19 +49,18 @@
  
   
   <item id='10' uuid='1DFEA432-82CB-4533-80E5-413F8AE4D345' score='1.0' rdf:about='http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=1DFEA432-82CB-4533-80E5-413F8AE4D345'>
-    <title>NANCY FOSTER</title>
-    <link>http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=1DFEA432-82CB-4533-80E5-413F8AE4D345</link>
-    <thn>http://tacsatdev.pxi.com/tacsat1/data/ais/products/thn/2004/07/08/1DFEA432-82CB-4533-80E5-413F8AE4D345.jpg</thn>
-    <description type='text/html'>Vessel: <b>NANCYFOSTER </b>, <img src='images/lena.jpg' width='50' height='50'/> MMSI:369912000, IMO:0, Call-Sign:WTER, Destination: Unknown, Posits:317</description>
+    <title>Community MapBuilder Frog (Point Example)</title>
+    <link>http://mapbuilder.codehaus.org/</link>
+    <description type='text/html'>Community MapBuilder frog <img src='http://geoservices.cgdi.ca/mapbuilder/lib/skin/default/images/Icon.gif'/></description>
     <dc:date>130407Z MAY 05</dc:date>
     <georss:where><gml:Point><gml:pos>-80.13032 26.061167</gml:pos></gml:Point></georss:where>
   </item>
  
   <item id='11' uuid='11' score='1.0' rdf:about='http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=1DFEA432-82CB-4533-80E5-413F8AE4D345'>
-    <title>AOI 1</title>
+    <title>Area of Interest (Poly Example)</title>
     <link>http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=1DFEA432-82CB-4533-80E5-413F8AE4D345</link>
     <thn>http://tacsatdev.pxi.com/tacsat1/data/ais/products/thn/2004/07/08/1DFEA432-82CB-4533-80E5-413F8AE4D345.jpg</thn>
-    <description type='text/html'>Vessel: <b>AOI1 </b></description>
+    <description type='text/html'>Vessel: <b>AOI 1 </b></description>
     <dc:date>130407Z MAY 05</dc:date>
     <georss:where><gml:Polygon><gml:exterior><gml:LinearRing>-88 36, -87 36, -87 35, -88 35</gml:LinearRing></gml:exterior></gml:Polygon></georss:where>
   </item>
