@@ -6,10 +6,10 @@
 		<OwsContext id="mainMap">
 			<defaultModelUrl>DemisWorldMap.xml</defaultModelUrl>
 			<widgets>
-				<MapPane id="mainMapWidget">
+				<MapPane2 id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
 					<mapContainerId>mainMapContainer</mapContainerId>
-				</MapPane>
+				</MapPane2>
 				<Loading id="loading"/>
 				<AoiBoxDHTML id="aoiBox2">
 					<htmlTagId>mainMapPane</htmlTagId>
