@@ -29,26 +29,16 @@ function tmercInit(def)  {
 /**
   Initialize UTM projection
 */
-function utminit(param) {
-  this.r_maj=param[0];
-  this.r_min=param[1];
-  this.scale_fact=param[2];
-  var zone=param[3];
-  this.lat_origin = 0.0;
-  this.lon_center = ((6 * Math.abs(zone)) - 183) * D2R;
-  this.false_easting = 500000.0;
-  this.false_northing = (zone < 0) ? 10000000.0 : 0.0;
-  var temp = this.r_min / this.r_maj;
-  this.es = 1.0 - Math.pow(temp,2);
-//  this.e = Math.sqrt(this.es);
-  this.e0 = e0fn(this.es);
-  this.e1 = e1fn(this.es);
-  this.e2 = e2fn(this.es);
-  this.e3 = e3fn(this.es);
-  this.ml0 = this.r_maj * mlfn(this.e0, this.e1, this.e2, this.e3, this.lat_origin);
-  // this.esp = this.es / (1.0 - this.es);  // this duplicates ep2 in base CS definition
-  this.ind = (this.es < .00001) ? 1 : 0;
+function utmInit(def) {
+  def.lat0 = 0.0;
+  def.long0 = ((6 * Math.abs(def.zone)) - 183) * D2R;
+  def.x0 = 500000.0;
+  def.y0 = (def.zone < 0) ? 10000000.0 : 0.0;
+  if (!def.k0)
+    def.k0 = 0.9996;
+  tmercInit(def);
 } // utminit()
+
 
 /**
   Transverse Mercator Forward  - long/lat to x/y
@@ -95,6 +85,8 @@ function tmercFwd(cs, p) {
   p.x=x;
   p.y=y;
 } // tmercFwd()
+
+var utmFwd = tmercFwd;
 
 /**
   Transverse Mercator Inverse  -  x/y to long/lat
@@ -160,3 +152,5 @@ function tmercInv(coords) {
   }
   return new Array(lon*R2D, lat*R2D);
 } // tmercInv()
+
+var utmInv = tmercInv;

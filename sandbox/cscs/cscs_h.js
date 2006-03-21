@@ -84,15 +84,16 @@ function CS(def) {
       case "title": this.title =paramVal; break;
       case "proj":  this.proj = paramVal.replace(/\s/gi,""); break;
       case "ellps": this.ellps = paramVal.replace(/\s/gi,""); break;
-      case "a":     this.a = paramVal; break;
-      case "b":     this.b = paramVal; break;
-      case "lon_0": this.long0= paramVal*D2R; break;  /* lam0, central longitude */
-      case "lat_0": this.lat0 = paramVal*D2R; break;  /* phi0, central latitude */
-      case "x_0":   this.x0 = paramVal; break;        /* false easting and northing */
-      case "y_0":   this.y0 = paramVal; break;
-      case "k":     this.k0 = paramVal; break;        /* map scaling factor */
-      case "to_meter": this.to_meter = paramVal; break; /* cartesian scaling */
-      case "to_wgs84":
+      case "a":     this.a =  parseFloat(paramVal);  break; // semi-major radius
+      case "b":     this.b =  parseFloat(paramVal);  break; // semi-minor radius
+      case "lon_0": this.long0= paramVal*D2R; break;        // lam0, central longitude
+      case "lat_0": this.lat0 = paramVal*D2R; break;        // phi0, central latitude
+      case "x_0":   this.x0 = parseFloat(paramVal); break;  // false easting
+      case "y_0":   this.y0 = parseFloat(paramVal); break;  // false northing
+      case "k":     this.k0 = parseFloat(paramVal); break;  // projection scale factor
+      case "to_meter": this.to_meter = parseFloat(paramVal); break; // cartesian scaling
+      case "zone":   this.zone =  parseInt(paramVal); break;  // UTM Zone
+      case "towgs84":
         this.datum_params = paramVal.split(",");
         for (var i=0; i<this.datum_params.length; i++)
           this.datum_params[i]=parseFloat(this.datum_params[i]);
@@ -131,15 +132,13 @@ function CS(def) {
   this.b2 = this.b * this.b;          // used in geocentric
   this.es=(this.a2-this.b2)/this.a2;  // e ^ 2
     //this.es=1-(Math.pow(this.b,2)/Math.pow(this.a,2));
-  this.e = Math.sqrt(this.es);      // eccentricity
+  this.e = Math.sqrt(this.es);        // eccentricity
   this.ep2=(this.a2-this.b2)/this.b2; // used in geocentric
   if (!this.datum_type)
     this.datum_type = PJD_WGS84;
   if (this.Init)
     this.Init(this);
 
-
-    // this.esp = this.es / (1.0 - this.es);
 } // CS
 
 
@@ -148,12 +147,10 @@ function CS(def) {
   In most map projection formulas, some form of the eccentricity e is used,
   rather than the flattening f. The relationship is as follows:
 
-  e² = 2f - f²
+  e² = 2f - f²  or  e² =f(2-f)
      or
   f = 1 - (1 - e²)½
-*/
 
-/*
     if( es == 0.0 )
         b = a;
     else
