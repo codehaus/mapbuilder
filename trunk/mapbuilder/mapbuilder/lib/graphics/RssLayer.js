@@ -345,11 +345,6 @@ RssLayer.prototype.highlight = function(objRef, featureId) {
   // we get the id_vector
   if( featureId.indexOf( objRef.id ) >= 0 ) {
   
-    var id = objRef.id + "_vector";
-    var vector = document.getElementById(id);
-    if( vector != null )
-      vector.parentNode.removeChild( vector );
-  
     objRef.paintShape( objRef.hiliteSld, true );
     
 	  var posx = 0;
