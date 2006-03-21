@@ -2,9 +2,12 @@
 Author:       Patrice G. Cappelaere patAtcappelaere.com
 License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id$
+$Id: $
 */
 
+/**
+  * Abstract class to define a MapLayer
+  */
 function MapLayer(model, mapPane, layerName, layerNode, queryable, visible) {
   this.model     = model;
   this.mapPane   = mapPane;
@@ -21,6 +24,7 @@ MapLayer.prototype.isWmsLayer = function() {
   return false;
 }
 
+/*
 MapLayer.prototype.isHidden = function() {
   return !this.visible;
 }
@@ -44,3 +48,4 @@ MapLayer.prototype.isQueryable = function() {
 MapLayer.prototype.setQueryable = function() {
   this.queryable = true;
 }
+*/
