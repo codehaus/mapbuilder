@@ -84,16 +84,21 @@ MapLayerMgr.prototype.setLayersFromContext = function(objRef) {
   */
 MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
     
-  service=layerNode.selectSingleNode("wmc:Server/@service");
-  if(service) service=service.nodeValue;
+  service=layerNode.selectSingleNode("//wmc:Server/@service");
+  if(service) {
+    service=service.nodeValue;
+    //alert( "found service:"+service );
+  } else {
+    //alert( "service not found" );
+  }
   
   var nodeName = layerNode.nodeName;
   if(service == "GoogleMap") {
     var layer = new GoogleMapLayer( objRef.model, objRef.mapPane, "GoogleMapLayer", layerNode, false, true );
     objRef.layers.push( layer );
-  } else if( (service == "wms") || (service = "OGC:WMS")) {
+  } else if( (service == "wms") || (service == "OGC:WMS")) {
     objRef.addWmsLayer( objRef, layerNode);
-  } else if( nodeName.indexOf("wmc:RssLayer") >= 0 ) {
+  } else if( nodeName.indexOf("RssLayer") >= 0 ) {
     var layer = new RssLayer( objRef.model, objRef.mapPane, "RssLayer", layerNode, false, true );
     objRef.layers.push( layer );
   } else {
