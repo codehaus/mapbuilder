@@ -21,7 +21,12 @@ function GeoRssParser(widgetNode, model) {
   var stylesheet = widgetNode.selectSingleNode("mb:stylesheet");
   if (stylesheet ) {
     var xslt = stylesheet.firstChild.nodeValue;
-    this.stylesheet = new XslProcessor(xslt, model.namespace);
+    //this.stylesheet = new XslProcessor(xslt, model.namespace);
+    this.stylesheet = new XSLTProcessor();
+    var xslDoc = Sarissa.getDomDocument(); 
+    xslDoc.async=false;
+    xslDoc.load( xslt );
+    this.stylesheet.importStylesheet( xslDoc );
   } else {
     alert( "Parsing stylesheet not found");
   }
@@ -41,9 +46,25 @@ function GeoRssParser(widgetNode, model) {
   */
 GeoRssParser.prototype.transformEntry = function( objRef, entry ) {
   if( objRef.stylesheet != undefined ) {
-    var resultNode = objRef.stylesheet.transformNodeToObject( entry );
-    //var result = Sarissa.serialize(resultNode.documentElement);
-    //alert("transforming:"+result);
+ 
+    //var resultNode = objRef.stylesheet.transformNodeToObject( entry );
+    var resultNode = objRef.stylesheet.transformToDocument( entry );
+    Sarissa.setXpathNamespaces(resultNode, "xmlns:wmc='http://www.opengis.net/context'");
+ 
+    /*
+    var result = Sarissa.serialize(resultNode.documentElement);
+    
+    alert("transforming:"+result);
+    service=resultNode.selectSingleNode("//wmc:Server/@service");
+    
+    if(service) {
+      service=service.nodeValue;
+      alert( "found georss service:"+service );
+    } else {
+      alert ("georss service not found");
+    }
+    */
+    
     return resultNode;
   }
 }
@@ -75,10 +96,10 @@ GeoRssParser.prototype.loadEntries = function( objRef ) {
  
       //alert( "rssLayer:"+Sarissa.serialize(feature) );
 
-      var layer   = objRef.transformEntry( objRef, feature );
-   
-      //alert( "rssLayer:"+Sarissa.serialize(layer) );
+      var layer   = objRef.transformEntry( objRef, feature );     
+      
       objRef.targetModel.setParam('addLayer', layer.childNodes[0]);
+  //    objRef.targetModel.setParam('addLayer', layer);
  
     }
   }
