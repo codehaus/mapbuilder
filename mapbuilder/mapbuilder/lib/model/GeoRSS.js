@@ -3,6 +3,8 @@ License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 */
 
+mapbuilder.loadScript(baseDir+"/graphics/RssLayer.js");
+
 /**
  * Stores a GML Feature or FeatureCollection as defined by the
  * Open GIS Conortium http://opengis.org.
