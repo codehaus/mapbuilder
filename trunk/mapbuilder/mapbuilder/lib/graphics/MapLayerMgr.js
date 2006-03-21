@@ -86,7 +86,6 @@ MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
     
   service=layerNode.selectSingleNode("wmc:Server/@service");
   if(service) service=service.nodeValue;
-  alert( "Service:"+service );
   
   var nodeName = layerNode.nodeName;
   if(service == "GoogleMap") {
