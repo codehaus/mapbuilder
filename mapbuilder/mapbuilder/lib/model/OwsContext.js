@@ -226,14 +226,13 @@ function OwsContext(modelNode, parent) {
    */
   this.getFeatureNode = function(featureName) {
     if( this.doc ) {
-	  var feature = this.doc.selectSingleNode(this.nodeSelectXpath+"/*[wmc:Name='"+featureName+"']");
+	    var feature = this.doc.selectSingleNode("//wmc:ResourceList/*[wmc:Name='"+featureName+"']");
 	    
-	  if(feature == null )
-	    feature = this.doc.selectSingleNode("//wmc:RssLayer[wmc:Title='"+featureName+"']");
-	     
-	  //alert("getFeatureNode RssLayer:"+featureName+"="+feature);
-	  //alert( Sarissa.serialize( this.doc ));  
-	  return feature;
+	    if(feature == null ) {
+        alert( "feature not found" );
+	    } 
+      	
+	    return feature;
     }
   }
 
