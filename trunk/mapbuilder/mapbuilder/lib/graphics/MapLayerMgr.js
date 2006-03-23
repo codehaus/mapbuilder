@@ -84,13 +84,8 @@ MapLayerMgr.prototype.setLayersFromContext = function(objRef) {
   */
 MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
     
-  service=layerNode.selectSingleNode("//wmc:Server/@service");
-  if(service) {
-    service=service.nodeValue;
-    //alert( "found service:"+service );
-  } else {
-    //alert( "service not found" );
-  }
+  service=layerNode.selectSingleNode("wmc:Server/@service");
+  if(service)service=service.nodeValue;
   
   var nodeName = layerNode.nodeName;
   if(service == "GoogleMap") {
