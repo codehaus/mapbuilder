@@ -4,14 +4,13 @@
 		<Context id="mainMap">
 			<defaultModelUrl>tsEstPrecip.xml</defaultModelUrl>
 			<widgets>
-				<AoiBoxWZ id="aoiBox2">
+				<AoiBoxDHTML id="aoiBox2">
 					<htmlTagId>mainMapPane</htmlTagId>
-					<stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
 					<mapContainerId>mainMapContainer</mapContainerId>
 					<lineColor>#FF0000</lineColor>
 					<lineWidth>1</lineWidth>
 					<crossSize>15</crossSize>
-				</AoiBoxWZ>
+				</AoiBoxDHTML>
 				<TimeSeries id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
 					<stylesheet>../../lib/widget/MapPane.xsl</stylesheet>
@@ -19,7 +18,6 @@
 				</TimeSeries>
 				<Timestamp id="timestamp">
         </Timestamp>
-				<Loading id="loading"/>
 				<Legend id="legend">
         </Legend>
 				<Widget id="abstract">
@@ -79,7 +77,7 @@
 	<widgets>
 		<ModelUrlInput id="wmsCapsUrlInput">
 			<targetModel>wmsCapTemplate</targetModel>
-      <title>Or, load another WMS Capabilities URL</title>
+      <title>Or load another WMS Capabilities URL: </title>
 		</ModelUrlInput>
 		<Button id="play">
 			<buttonBar>tsButtonBar</buttonBar>
@@ -147,13 +145,6 @@
 			<class>Button</class>
 			<disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
 		</Reset>
-		<Save id="save">
-			<buttonBar>mainButtonBar</buttonBar>
-			<targetModel>mainMap</targetModel>
-			<class>Button</class>
-			<disabledSrc>/images/SaveDisable.png</disabledSrc>
-			<popupWindowName>modelXML</popupWindowName>
-		</Save>
 	</widgets>
 	<skinDir>../../lib/skin/default</skinDir>
 	<widgetTextUrl>/widgetText.xml</widgetTextUrl>

@@ -16,6 +16,10 @@
       <OnlineResource xlink:type="simple" xlink:href="http://iridl.ldeo.columbia.edu/" />
     </DescriptionURL>
     <ContactInformation>
+      <ContactPersonPrimary>
+        <ContactPerson></ContactPerson>
+        <ContactOrganization>IRI, Columbia U.</ContactOrganization>
+      </ContactPersonPrimary>
       <ContactElectronicMailAddress>help@iri.columbia.edu</ContactElectronicMailAddress>
     </ContactInformation>
   </General>
