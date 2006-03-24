@@ -92,9 +92,11 @@ function MovieLoop(toolNode, model) {
    * @param objRef pointer to this object
    */
   this.reset = function(objRef) {
+    objRef.pause();
     objRef.setFrame(objRef.model.getParam("firstFrame"));
   }
-  this.model.addListener("refresh",this.reset,this);
+  this.model.addListener("loadModel",this.reset,this);
+  this.model.addListener("bbox",this.reset,this);
 
   /**
    * Starts the movie loop playing by using a JavaScript timer.
