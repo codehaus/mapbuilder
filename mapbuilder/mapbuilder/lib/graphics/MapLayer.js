@@ -15,6 +15,9 @@ function MapLayer(model, mapPane, layerName, layerNode, queryable, visible) {
   this.layerNode = layerNode;
   this.queryable = queryable;
   this.visible   = visible;
+
+  /** Multiply this number by the Layer Number to get the zIndex for a layer */
+  this.zIndexFactor=500;
 }
 
 MapLayer.prototype.paint = function( objRef, img ) {
