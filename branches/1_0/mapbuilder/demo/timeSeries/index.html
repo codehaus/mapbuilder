@@ -8,7 +8,13 @@
       #workspace {
         height: 300px;
         overflow: auto;
-        border: 1px solid blue;
+        position: relative;
+        /* border: 1px solid blue;*/
+        background-color: rgb(240,240,240);
+        display: none;
+      }
+      #abstract {
+        margin: 0px;
       }
     </style>
     <script>
@@ -64,21 +70,20 @@
   </tr>
   <tr>
     <td valign="top" align="left">
-      <a href="javascript:config.loadModel('wmsCapTemplate','http://aes.gsfc.nasa.gov/cgi-bin/wms?request=GetCapabilities')">NASA SVS Image Server</a> 
+      <a href="javascript:document.getElementById('workspace').style.display='block';config.loadModel('wmsCapTemplate','http://aes.gsfc.nasa.gov/cgi-bin/wms?request=GetCapabilities');">NASA SVS Image Server</a> 
       - a large collection of earth observation data.  
       Images are in fixed size so map zoom/pan functions are not allowed.
     </td>
   </tr>
   <tr>
     <td valign="top" align="left">
-      
-      <div id="wmsCapsUrlInput"/>
+      <p id="wmsCapsUrlInput"/>
     </td>
   </tr>
   <tr>
     <td valign="top" align="left">
-      <div id="workspace" style="position: relative">
-      </div>
+      <p id="workspace">
+      </p>
     </td>
   </tr>
 </table>
