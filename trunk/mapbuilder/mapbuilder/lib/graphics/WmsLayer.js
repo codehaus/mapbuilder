@@ -15,9 +15,15 @@ WmsLayer.prototype.setSrc = function( src ) {
   this.src = src;
 }
 
-WmsLayer.prototype.paint = function(objRef, img ) {
+/**
+  * Paint the layer.
+  * @param objRef Pointer to widget object.
+  * @param img 
+  * @param layerNum The position of this layer in the LayerList.
+  */
+WmsLayer.prototype.paint = function(objRef, img,layerNum ) {
   //alert( "paint:"+this.src);
-  this.loadImgDiv(this.layerNode,this.src,img);
+  this.loadImgDiv(this.layerNode,this.src,img,layerNum);
   
   return img;
 }
@@ -42,9 +48,11 @@ WmsLayer.prototype.getLayerDivId = function() {
  * @param layerNode the context layer to be loaded
  * @param newSrc the new URL to be used for the image
  * @param newImg an HTML IMG object to pre-load the image in
+ * @param layerNum The position of this layer in the LayerList.
  */
-WmsLayer.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
+WmsLayer.prototype.loadImgDiv = function(layerNode,newSrc,newImg,layerNum) {
   var outputNode = document.getElementById( this.mapPane.outputNodeId );
+   //alert("WmsLayer.loadImgDiv: outputNodeId="+this.mapPane.outputNodeId+" outputNode="+document.getElementById(this.mapPane.outputNodeId));
   
   //var layerName = layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue;  
   var layerHidden = (layerNode.getAttribute("hidden")==1)?true:false; 
@@ -65,6 +73,7 @@ WmsLayer.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
     imgDiv.style.top = '0px'; 
     imgDiv.style.left = '0px';
     imgDiv.imgId = Math.random().toString(); 
+    imgDiv.style.zIndex=this.zIndexFactor*layerNum;
     var domImg = document.createElement("img");
     domImg.id = "real"+imgDiv.imgId;
     domImg.setAttribute("src", "../../lib/skin/default/images/Loading.gif");

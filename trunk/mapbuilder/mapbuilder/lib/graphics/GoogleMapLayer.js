@@ -26,7 +26,7 @@ function GoogleMapLayer(model, mapPane, layerName, layerNode, queryable, visible
   
   //var div = this.getDiv();
   
-  this.paint();
+  //this.paint();
 }
 
 /**
@@ -39,58 +39,39 @@ GoogleMapLayer.prototype.isWmsLayer = function() {
 
 /**
   * Make sure we have a div to insert all the elements
+  * @param layerNum The position of this layer in the LayerList.
   */
-/*
-GoogleMapLayer.prototype.getDiv = function() {
+GoogleMapLayer.prototype.getDiv = function(layerNum) {
   var outputNode = document.getElementById( this.mapPane.outputNodeId ).parentNode;
   
-  var div = document.getElementById("vector_elements");
+  var div = document.getElementById("googleMap");
   if( div == null) {
     div = document.createElement("div");
-    div.setAttribute("id", "vector_elements");
+    div.setAttribute("id", "googleMap");
+    //div.setAttribute("id", this.mapPane.outputNodeId);
     //div.setAttribute("name", this.title);
     div.style.position = "absolute";
     div.style.visibility = "visible";
-    div.style.zIndex = 300;
+    div.style.zIndex = layerNum*this.zIndexFactor;
+    div.style.top=0;
+    div.style.left=0;
+    div.style.width=this.mapPane.model.getWindowWidth();
+    div.style.height=this.mapPane.model.getWindowHeight();
     outputNode.appendChild( div );
   }
   return div;
 }
-*/
-
-GoogleMapLayer.prototype.paint = function( ) {
-  // emulate call from LayerManager
-  alert("GoogleMapLayer.paint 1");
-  this.paint( null, null );
-}
 
 /**
-  * Paints the entry on the map based on its location and SLD
-  * 
+  * Paint the layer.
   * @param objRef Pointer to widget object.
   * @param img can be ignored here (required for WMS layers)
+  * @param layerNum The position of this layer in the LayerList.
   */
-GoogleMapLayer.prototype.paint = function( objRef, img ) {
-
-  var outputNode = document.getElementById(this.mapPane.outputNodeId);
-  //look for this widgets output and replace if found, otherwise
-  //append it
-  if (!outputNode) {
-    tempNode = document.createElement("DIV");
-    tempNode.style.position="absolute";
-    tempNode.style.top=0;
-    tempNode.style.left=0;
-    tempNode.style.width=this.mapPane.model.getWindowWidth();
-    tempNode.style.height=this.mapPane.model.getWindowHeight();
-    tempNode.style.zindex=300;
-    tempNode.setAttribute("id", this.mapPane.outputNodeId);
-    this.mapPane.node.appendChild(tempNode);
-  }
+GoogleMapLayer.prototype.paint = function( objRef,img,layerNum) {
   //TBD This should be moved to an initialisation function
   if(!this.mapPane.gmap){
-    //this.mapPane.gmap=new GMap(tempNode);
-    this.mapPane.model.setParam("gmap",new GMap(tempNode));
-    //this.mapPane.model.gmap=new GMap(tempNode);
+    this.mapPane.model.setParam("gmap",new GMap(this.getDiv(layerNum)));
     this.mapPane.googleMapTools=new GoogleMapTools();
   }
 
