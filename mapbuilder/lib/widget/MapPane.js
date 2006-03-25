@@ -157,7 +157,7 @@ MapPane.prototype.paint = function(objRef, refresh) {
       var newSrc = tempNodeList[i].getAttribute("src");
       objRef.loadImgDiv(layers[i],newSrc,objRef.imageStack[i]);
     }
-    var message = "loading " + objRef.layerCount + " map layers"
+    var message = "loading " + objRef.layerCount + " map layer" + ((objRef.layerCount>1)?"s":"");
     objRef.model.setParam("modelStatus", message);
   }
 }
@@ -175,6 +175,11 @@ MapPane.prototype.getLayerDivId = function(layerName) {
  * @param layerName the WMS anme for the layer to be removed
  */
 MapPane.prototype.addLayer = function(objRef, layerNode) {
+
+  ++objRef.layerCount;
+  var message = "loading " + objRef.layerCount + " map layer" + ((objRef.layerCount>1)?"s":"");
+  objRef.model.setParam("modelStatus", message);
+
   //process the doc with the stylesheet
   objRef.stylesheet.setParameter("width", objRef.model.getWindowWidth());
   objRef.stylesheet.setParameter("height", objRef.model.getWindowHeight());

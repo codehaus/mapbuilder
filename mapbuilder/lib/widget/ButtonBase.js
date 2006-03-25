@@ -37,14 +37,14 @@ function ButtonBase(widgetNode, model) {
   //pre-load the button bar images; add them to the config
   var disabledImage = widgetNode.selectSingleNode("mb:disabledSrc");
   if (disabledImage) {
-    this.disabledImage = document.createElement("IMG");
+    this.disabledImage = document.createElement("img");
     this.disabledImage.src = config.skinDir + disabledImage.firstChild.nodeValue;
   }
 
   //optional second image to be displayed in the enabled state
   var enabledImage = widgetNode.selectSingleNode("mb:enabledSrc");
   if (enabledImage) {
-    this.enabledImage = document.createElement("IMG");
+    this.enabledImage = document.createElement("img");
     this.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
   }
   
