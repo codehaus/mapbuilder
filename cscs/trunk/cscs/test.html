@@ -3,14 +3,36 @@
 <HEAD>
 <TITLE>Geographic Coordinate Transformations in Javascript</TITLE>
 
-<SCRIPT type="text/javascript" src="lib/cscs_h.js"></SCRIPT>
-<SCRIPT type="text/javascript" src="lib/cs_transform.js"></SCRIPT>
 
-<SCRIPT type="text/javascript" src="lib/geocent.js"></SCRIPT>
+   <!--
+    cscs.js is the core of the cscs library and is always required
+   -->
+<SCRIPT type="text/javascript" src="lib/cscs.js"></SCRIPT>
+
+   <!--
+    tmerc.js supports Transverse Mercator and UTM Projections
+    do not included this file if you do not need those projections
+   -->
 <SCRIPT type="text/javascript" src="lib/tmerc.js"></SCRIPT>
 
+   <!--
+    geocent.js supports 3 and 7 parameters datum shifts, include it
+    if your coordinates systems have a +towgs84 clause that is other
+    than +towgs84=0,0,0,0,0,0,0
+    otherwise you do not need it.
+   -->
+<SCRIPT type="text/javascript" src="lib/geocent.js"></SCRIPT>
+
+   <!--
+    The *.js files below define individual coordinate systems.
+    File names must be EPSGwxyz.js where wxyz is the epsg code number.
+   -->
 <SCRIPT type="text/javascript" src="lib/defs/EPSG102758.js"></SCRIPT>
 <SCRIPT type="text/javascript" src="lib/defs/EPSG26912.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="lib/defs/EPSG4139.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="lib/defs/EPSG4181.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="lib/defs/EPSG4302.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="lib/defs/EPSG26591.js"></SCRIPT>
 
 <SCRIPT type="text/javascript">
 
@@ -35,7 +57,7 @@
       document.write(list);
    }
 
-
+   /* this function is not used in this page */
    function enumerate_csList() {
       var msg, def, paramArray;
       for (var cs in csList) {
@@ -52,9 +74,8 @@
    function left2right(){
       var xl = document.leftForm.x.value;
       var yl = document.leftForm.y.value;
-      var zl = document.leftForm.z.value;
 
-      var p = new PT(xl,yl,zl);
+      var p = new PT(xl,yl);
       cs_transform(csLeft, csRight, p);
 
       document.rightForm.x.value=p.x;
@@ -65,9 +86,8 @@
    function right2left(){
       var xr = document.rightForm.x.value;
       var yr = document.rightForm.y.value;
-      var zr = document.rightForm.z.value;
 
-      var p = new PT(xr,yr,zr);
+      var p = new PT(xr,yr);
       cs_transform(csRight, csLeft, p);
 
       document.leftForm.x.value=p.x;
@@ -241,8 +261,12 @@
   </TBODY>
 </TABLE>
 <P>checks:<br>
+Puerto Rico, 3 param:<br>
 $ echo -66 18 | cs2cs -f '%2f' +init=epsg:4326 +to +init=epsg:4139<br>
-$ cs2cs +proj=latlong +to +proj=geocent
+Luxembourg, 7 param:<br>
+$ echo 6 49 | cs2cs -f '%2f' +init=EPSG:4181 +to +proj=longlat +datum=WGS84<br>
+Trinidad, 7 param:<br>
+$ echo -61 10 | cs2cs  -f '%2f' +init=EPSG:4302 +to +proj=longlat +datum=WGS84<br>
 </P>
 </BODY>
 </HTML>

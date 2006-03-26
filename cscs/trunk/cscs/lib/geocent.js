@@ -18,12 +18,10 @@ var GEOCENT_LAT_ERROR = 0x0001;
 // var cs.b_ERROR        = 0x0008;
 // var cs.a_LESS_B_ERROR = 0x0010;
 
-
 // following constants from geocent.c
 var COS_67P5  = 0.38268343236508977;  /* cosine of 67.5 degrees */
 var AD_C      = 1.0026000;            /* Toms region 1 constant */
 
-// pj_Convert_Geodetic_To_Geocentric(Longitude, Latitude, Height, Geocentric)
 function cs_geodetic_to_geocentric (cs, p) {
 
 /*
