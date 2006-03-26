@@ -13,8 +13,12 @@
     <Window width="800" height="400"/>
     <!-- BoundingBox SRS="EPSG:4326" minx="-130" miny="10" maxx="-50" maxy="50"/ -->
     <ows:BoundingBox crs="EPSG:4326">
+      <ows:LowerCorner>-160.14 -3.37</ows:LowerCorner>
+      <ows:UpperCorner>-19.69 55.23</ows:UpperCorner>
+      <!--
       <ows:LowerCorner>-130 10</ows:LowerCorner>
       <ows:UpperCorner>-50 50</ows:UpperCorner>
+      -->
     </ows:BoundingBox>
     
     <Title xml:lang="en">GeoRSS Using OWSContext</Title>
@@ -127,6 +131,25 @@
         <Format current="1">image/gif</Format>
       </FormatList>
     </Layer>
+    <!--
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
+      <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+      </Server>
+      <Name>Countries,Builtup+areas,Railroads,Highways,Roads,Trails,Borders,Cities,Settlements,Spot+elevations,Airports</Name>
+      <Title>World Map</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+      </StyleList>
+    </Layer>
+    -->
     <!--
     <Layer queryable="0" hidden="0">
       <Server service="wms" version="1.1.0" title="wms">
