@@ -1,19 +1,19 @@
-// Monday, 06 March, 2006
+// 06 March, 2006
 
 var SRS_WGS84_SEMIMAJOR=6378137.0;  // only used in grid shift transforms
 
-/****************************************************************/
-// cs_transform()
-//  main entry point
-//  source coordinate system definition,
-//  destination coordinate system definition,
-//  point to transform, may be geodetic (long, lat)
-//    or projected Cartesian (x,y)
+/** cs_transform()
+  main entry point
+  source coordinate system definition,
+  destination coordinate system definition,
+  point to transform, may be geodetic (long, lat)
+    or projected Cartesian (x,y)
+*/
 function cs_transform(srcdefn, dstdefn, point) {
   pj_errno = 0;
 
     // Transform source points to long/lat, if they aren't already.
-  if( srcdefn.is_latlong ) {
+  if( srcdefn.proj=="longlat") {
     point.x *=D2R;  // convert degrees to radians
     point.y *=D2R;
   } else {
@@ -27,14 +27,14 @@ function cs_transform(srcdefn, dstdefn, point) {
     // Adjust for the prime meridian if necessary
   if( srcdefn.from_greenwich) { point.x += srcdefn.from_greenwich; }
 
-    // Convert datums if needed, and possible.
+    // Convert datums if needed, and if possible.
   if( cs_datum_transform( srcdefn, dstdefn, point) != 0 )
     return pj_errno;
 
     // Adjust for the prime meridian if necessary
   if( dstdefn.from_greenwich ) { point.x -= dstdefn.from_greenwich; }
 
-  if( dstdefn.is_latlong )
+  if( dstdefn.proj=="longlat" )
   {             // convert radians to decimal degrees
     point.x *=R2D;
     point.y *=R2D;
@@ -48,14 +48,16 @@ function cs_transform(srcdefn, dstdefn, point) {
 } // cs_transform()
 
 
-/****************************************************************/
-// cs_datum_transform()
-//  source coordinate system definition,
-//  destination coordinate system definition,
-//  point to transform in geodetic coordinates (long, lat, height)
+
+
+
+/** cs_datum_transform()
+  source coordinate system definition,
+  destination coordinate system definition,
+  point to transform in geodetic coordinates (long, lat, height)
+*/
 function cs_datum_transform( srcdefn, dstdefn, point )
 {
-  pj_errno = 0;
 
     // Short cut if the datums are identical.
   if( cs_compare_datums( srcdefn, dstdefn ) )
@@ -175,75 +177,5 @@ function cs_compare_datums( srcdefn, dstdefn )
 } // cs_compare_datums()
 
 
-/****************************************************************/
-// pj_geocentic_to_wgs84(defn, p )
-//    defn = coordinate system definition,
-//  p = point to transform in geocentric coordinates (x,y,z)
-function cs_geocentric_to_wgs84( defn, p ) {
-
-  if( defn.datum_type == PJD_3PARAM )
-  {
-    // if( x[io] == HUGE_VAL )
-    //    continue;
-    p.x += defn.datum_params[0];
-    p.y += defn.datum_params[1];
-    p.z += defn.datum_params[2];
-
-  }
-  else  // if( defn.datum_type == PJD_7PARAM )
-  {
-    var Dx_BF =defn.datum_params[0];
-    var Dy_BF =defn.datum_params[1];
-    var Dz_BF =defn.datum_params[2];
-    var Rx_BF =defn.datum_params[3];
-    var Ry_BF =defn.datum_params[4];
-    var Rz_BF =defn.datum_params[5];
-    var M_BF  =defn.datum_params[6];
-    // if( x[io] == HUGE_VAL )
-    //    continue;
-    var x_out = M_BF*(       p.x - Rz_BF*p.y + Ry_BF*p.z) + Dx_BF;
-    var y_out = M_BF*( Rz_BF*p.x +       p.y - Rx_BF*p.z) + Dy_BF;
-    var z_out = M_BF*(-Ry_BF*p.x + Rx_BF*p.y +       p.z) + Dz_BF;
-    p.x = x_out;
-    p.y = y_out;
-    p.z = z_out;
-  }
-} // cs_geocentric_to_wgs84
-
-/****************************************************************/
-// pj_geocentic_from_wgs84()
-//  coordinate system definition,
-//  point to transform in geocentric coordinates (x,y,z)
-function cs_geocentric_from_wgs84( defn, p ) {
-
-  if( defn.datum_type == PJD_3PARAM )
-  {
-    //if( x[io] == HUGE_VAL )
-    //    continue;
-    p.x -= defn.datum_params[0];
-    p.y -= defn.datum_params[1];
-    p.z -= defn.datum_params[2];
-
-  }
-  else // if( defn.datum_type == PJD_7PARAM )
-  {
-    var Dx_BF =defn.datum_params[0];
-    var Dy_BF =defn.datum_params[1];
-    var Dz_BF =defn.datum_params[2];
-    var Rx_BF =defn.datum_params[3];
-    var Ry_BF =defn.datum_params[4];
-    var Rz_BF =defn.datum_params[5];
-    var M_BF  =defn.datum_params[6];
-    var x_tmp = (p.x - Dx_BF) / M_BF;
-    var y_tmp = (p.y - Dy_BF) / M_BF;
-    var z_tmp = (p.z - Dz_BF) / M_BF;
-    //if( x[io] == HUGE_VAL )
-    //    continue;
-
-    p.x =        x_tmp + Rz_BF*y_tmp - Ry_BF*z_tmp;
-    p.y = -Rz_BF*x_tmp +       y_tmp + Rx_BF*z_tmp;
-    p.z =  Ry_BF*x_tmp - Rx_BF*y_tmp +       z_tmp;
-  }
-} //cs_geocentric_from_wgs84()
 
 

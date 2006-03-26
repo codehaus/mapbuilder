@@ -191,3 +191,76 @@ function cs_geocentric_to_geodetic (cs, p) {
   p.z = Height;
   return 0;
 } // cs_geocentric_to_geodetic()
+
+
+
+/****************************************************************/
+// pj_geocentic_to_wgs84(defn, p )
+//    defn = coordinate system definition,
+//  p = point to transform in geocentric coordinates (x,y,z)
+function cs_geocentric_to_wgs84( defn, p ) {
+
+  if( defn.datum_type == PJD_3PARAM )
+  {
+    // if( x[io] == HUGE_VAL )
+    //    continue;
+    p.x += defn.datum_params[0];
+    p.y += defn.datum_params[1];
+    p.z += defn.datum_params[2];
+
+  }
+  else  // if( defn.datum_type == PJD_7PARAM )
+  {
+    var Dx_BF =defn.datum_params[0];
+    var Dy_BF =defn.datum_params[1];
+    var Dz_BF =defn.datum_params[2];
+    var Rx_BF =defn.datum_params[3];
+    var Ry_BF =defn.datum_params[4];
+    var Rz_BF =defn.datum_params[5];
+    var M_BF  =defn.datum_params[6];
+    // if( x[io] == HUGE_VAL )
+    //    continue;
+    var x_out = M_BF*(       p.x - Rz_BF*p.y + Ry_BF*p.z) + Dx_BF;
+    var y_out = M_BF*( Rz_BF*p.x +       p.y - Rx_BF*p.z) + Dy_BF;
+    var z_out = M_BF*(-Ry_BF*p.x + Rx_BF*p.y +       p.z) + Dz_BF;
+    p.x = x_out;
+    p.y = y_out;
+    p.z = z_out;
+  }
+} // cs_geocentric_to_wgs84
+
+/****************************************************************/
+// pj_geocentic_from_wgs84()
+//  coordinate system definition,
+//  point to transform in geocentric coordinates (x,y,z)
+function cs_geocentric_from_wgs84( defn, p ) {
+
+  if( defn.datum_type == PJD_3PARAM )
+  {
+    //if( x[io] == HUGE_VAL )
+    //    continue;
+    p.x -= defn.datum_params[0];
+    p.y -= defn.datum_params[1];
+    p.z -= defn.datum_params[2];
+
+  }
+  else // if( defn.datum_type == PJD_7PARAM )
+  {
+    var Dx_BF =defn.datum_params[0];
+    var Dy_BF =defn.datum_params[1];
+    var Dz_BF =defn.datum_params[2];
+    var Rx_BF =defn.datum_params[3];
+    var Ry_BF =defn.datum_params[4];
+    var Rz_BF =defn.datum_params[5];
+    var M_BF  =defn.datum_params[6];
+    var x_tmp = (p.x - Dx_BF) / M_BF;
+    var y_tmp = (p.y - Dy_BF) / M_BF;
+    var z_tmp = (p.z - Dz_BF) / M_BF;
+    //if( x[io] == HUGE_VAL )
+    //    continue;
+
+    p.x =        x_tmp + Rz_BF*y_tmp - Ry_BF*z_tmp;
+    p.y = -Rz_BF*x_tmp +       y_tmp + Rx_BF*z_tmp;
+    p.z =  Ry_BF*x_tmp - Rx_BF*y_tmp +       z_tmp;
+  }
+} //cs_geocentric_from_wgs84()

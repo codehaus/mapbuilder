@@ -23,15 +23,11 @@ var PJD_7PARAM   = 2;
 var PJD_GRIDSHIFT= 3;
 var PJD_WGS84    = 4;   // WGS84 or equivelent
 
-var pj_errno;
+var csErrorMessage = "";
 
-function longlatFwd(p) {}
-function longlatInv(p) {}
-function longlatInit(p){}
-
-
-// point object, nothing fancy, just allows values to be
-// passed back and forth by reference rather than value
+/** point object, nothing fancy, just allows values to be
+    passed back and forth by reference rather than value
+*/
 function PT(x,y,z) {
   this.x=x;
   this.y=y;
@@ -64,17 +60,10 @@ csList.EPSG4269 = "+title=long / lat NAD83 +proj=longlat";  // +a=6378137.0 +b=6
 function CS(def) {
   if(!def) {  // def is optional, if not provided, default to longlat WGS84
     var def = csList.EPSG4326;
-    this.warning = new Array("No coordinate system definition provided, assuming longlat WGS83");
+    csErrorMessage += "No coordinate system definition provided, assuming longlat WGS83";
   }
   var paramName, paramVal;
   var paramArray=def.split("+");
-
-  function postWarning(warning) {
-    if (!this.warning)
-      this.warning = new Array(warning);
-    else
-      this.warning[this.warning.length] = warning;
-  }
 
   for (var prop=0; prop<paramArray.length; prop++)
   {
@@ -82,7 +71,7 @@ function CS(def) {
     paramName= property[0].toLowerCase();
     paramVal = property[1];
 
-    switch (paramName.replace(/\s/gi,""))
+    switch (paramName.replace(/\s/gi,""))   // trim out spaces
     {
       case "": break;   // throw away nameless parameter
       case "title": this.title =paramVal; break;
@@ -101,11 +90,7 @@ function CS(def) {
       case "zone":     this.zone =  parseInt(paramVal); break;      // UTM Zone
       case "towgs84":  this.datum_params = paramVal.split(","); break;
       case "from_greenwich": this.from_greenwich = paramVal*D2R; break;
-      default:  // unrecognized parameter
-        if (!this.warning)
-          this.warning = new Array("unrecognized parameter: " + paramName);
-        else
-          this.warning[this.warning.length] = "unrecognized parameter: " + paramName;
+      default: csErrorMessage += "\nUnrecognized parameter: " + paramName;
     } // switch()
   } // for paramArray
 
@@ -133,23 +118,23 @@ function CS(def) {
   if (!this.datum_type)
     this.datum_type = PJD_WGS84;
 
-  if (this.proj) {    // The Forward, Inverse, and Initilization functions are derived from the projection name.
-    // var proj =  eval(this.proj+"Fwd");
-    if (!eval(this.proj+"Fwd")) // name of forward function (long/lat to x/y)
-      alert("Unknown projection");
-    this.Inverse = eval(this.proj+"Inv"); // name of inverse function (x/y to long/lat)
-    this.Init = eval(this.proj+"Init");   // initilization function
-    this.is_latlong = (this.proj.toLowerCase() == "longlat") ? true : false ;  /* proj=latlong */
-  }
+  /* ********************
+    should look for errors here,
+      required for longlat:
+        proj, datum_type
+      additional requirements for projected CSs:
+        Forward(), Inverse(), Inint()
+  ********************* */
 
-  if (!this.is_latlong) {
+
+  if (this.proj != "longlat") {    // The Forward, Inverse, and Initilization functions are derived from the projection name.
+    this.Forward = eval(this.proj+"Fwd");
+    this.Inverse = eval(this.proj+"Inv"); // name of inverse function (x/y to long/lat)
+    this.Init  =  eval(this.proj+"Init"); // initilization function
     if (!this.a) {    // do we have an ellipsoid?
       this.a = 6378137.0;
       this.b = 6356752.31424518;
-      if (!this.warning)
-        this.warning = new Array("Ellipsoid parameters not provided, assuming WGS84");
-      else
-        this.warning[this.warning.length] = "Ellipsoid parameters not provided, assuming WGS84";
+      csErrorMessage += "\nEllipsoid parameters not provided, assuming WGS84";
     }
     this.a2 = this.a * this.a;          // used in geocentric
     this.b2 = this.b * this.b;          // used in geocentric
@@ -157,15 +142,7 @@ function CS(def) {
       //this.es=1-(Math.pow(this.b,2)/Math.pow(this.a,2));
     this.e = Math.sqrt(this.es);        // eccentricity
     this.ep2=(this.a2-this.b2)/this.b2; // used in geocentric
-  }
-
-  /* ********************
-    should look for errors here, required:
-      a, b, Forward, Inverse, Init, datum_type
-
-  ********************* */
-
-  if (this.Init)
     this.Init(this);
+  }
 
 } // CS
