@@ -48,6 +48,7 @@ GoogleMapLayer.prototype.getDiv = function(layerNum) {
   if( div == null) {
     div = document.createElement("div");
     div.setAttribute("id", "googleMap");
+    //alert("GoogleMapLayer id="+this.mapPane.outputNodeId+" name="+this.title);
     //div.setAttribute("id", this.mapPane.outputNodeId);
     //div.setAttribute("name", this.title);
     div.style.position = "absolute";
@@ -70,8 +71,11 @@ GoogleMapLayer.prototype.getDiv = function(layerNum) {
   */
 GoogleMapLayer.prototype.paint = function( objRef,img,layerNum) {
   //TBD This should be moved to an initialisation function
+  div=this.getDiv(layerNum);
+  div.style.top=0;
+  div.style.left=0;
   if(!this.mapPane.gmap){
-    this.mapPane.model.setParam("gmap",new GMap(this.getDiv(layerNum)));
+    this.mapPane.model.setParam("gmap",new GMap(div));
     this.mapPane.googleMapTools=new GoogleMapTools();
   }
 
