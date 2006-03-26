@@ -9,6 +9,9 @@ mapbuilder.loadScript(baseDir+"/graphics/MapLayer.js");
 function WmsLayer(model, mapPane, layerName, layerNode, queryable, visible) {
   MapLayer.apply(this, new Array(model, mapPane, layerName, layerNode, queryable, visible));
 
+  /** Date object used to create a unique id. */
+  this.d=new Date();
+
 }
 
 WmsLayer.prototype.setSrc = function( src ) {
@@ -72,7 +75,7 @@ WmsLayer.prototype.loadImgDiv = function(layerNode,newSrc,newImg,layerNum) {
     imgDiv.style.visibility = (layerHidden)?"hidden":"visible";
     imgDiv.style.top = '0px'; 
     imgDiv.style.left = '0px';
-    imgDiv.imgId = Math.random().toString(); 
+    imgDiv.imgId = this.d.getTime(); 
     imgDiv.style.zIndex=this.zIndexFactor*layerNum;
     var domImg = document.createElement("img");
     domImg.id = "real"+imgDiv.imgId;
