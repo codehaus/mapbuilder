@@ -43,6 +43,7 @@ function MapLayerMgr(mapPane, model) {
    */
 MapLayerMgr.prototype.hiddenListener=function(objRef, layerName){
   var vis="visible";
+  alert("MapLayerMgr.hiddenListener layerName="+layerName);
   if(objRef.model.getHidden(layerName)=="1") {
     vis="hidden";
   }
@@ -176,7 +177,7 @@ MapLayerMgr.prototype.paint = function( objRef ) {
 	    }
 	  }
 	  // now paint it WMS or not
-	  layer.paint(objRef, this.imageStack[i]);
+	  layer.paint(objRef, this.imageStack[i],i);
   }
 }
   

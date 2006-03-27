@@ -44,13 +44,11 @@ GoogleMapLayer.prototype.isWmsLayer = function() {
 GoogleMapLayer.prototype.getDiv = function(layerNum) {
   var outputNode = document.getElementById( this.mapPane.outputNodeId ).parentNode;
   
-  var div = document.getElementById("googleMap");
+  div = document.getElementById(this.layerName);
+  //alert("GoogleMapLayer.layerName="+this.layerName);
   if( div == null) {
     div = document.createElement("div");
-    div.setAttribute("id", "googleMap");
-    //alert("GoogleMapLayer id="+this.mapPane.outputNodeId+" name="+this.title);
-    //div.setAttribute("id", this.mapPane.outputNodeId);
-    //div.setAttribute("name", this.title);
+    div.setAttribute("id", this.layerName);
     div.style.position = "absolute";
     div.style.visibility = "visible";
     div.style.zIndex = layerNum*this.zIndexFactor;
