@@ -33,9 +33,10 @@ function GoogleMapDragPan(widgetNode, model) {
   this.doAction = function(objRef,targetNode) {
     if (!objRef.enabled) return;
     var bbox = objRef.targetModel.getParam("aoi");
+    //objRef.googleMapTools.zoomTo(objRef.targetModel,ul,-1);
     objRef.googleMapTools.zoomTo(
       objRef.targetModel,
-      new Array((bbox[0][0]+bbox[1][0])/2,(bbox[1][0]+bbox[1][1])/2),
+      new Array((bbox[0][0]+bbox[1][0])/2,(bbox[0][1]+bbox[1][1])/2),
       0);
   }
 
@@ -52,6 +53,6 @@ function GoogleMapDragPan(widgetNode, model) {
       objRef.googleMapTools=new GoogleMapTools();
     }
   }
-  this.model.addListener( "refresh", this.setMouseListener, this );
+  this.model.addListener( "loadModel", this.setMouseListener, this );
 
 }
