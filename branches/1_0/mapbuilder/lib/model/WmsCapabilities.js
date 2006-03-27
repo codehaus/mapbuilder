@@ -74,7 +74,12 @@ function WmsCapabilities(modelNode, parent) {
     if (version == "1.0.0") {
       var xpath = "/WMT_MS_Capabilities/Capability/Request/Map/Format";  //strip of "Get" part of request name
       var node = this.doc.selectSingleNode(xpath);
-      return "image/"+node.firstChild.localName.toLowerCase();
+      if(_SARISSA_IS_IE) {
+        return "image/"+node.firstChild.baseName.toLowerCase();
+      }
+      else {
+	    return "image/"+node.firstChild.localName.toLowerCase();
+	  }
     } else {
       var xpath = "/WMT_MS_Capabilities/Capability/Request/GetMap/Format";
       var node = this.doc.selectSingleNode(xpath);
