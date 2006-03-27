@@ -67,26 +67,41 @@ RssLayer.prototype.parse = function() {
   node = this.layerNode.selectSingleNode("//wmc:Where" );
   var type = node.firstChild;
   if( type != undefined ) {
-	this.gmlType = type.nodeName;
+	  this.gmlType = type.nodeName;
 	      
-	if( this.gmlType == "gml:Point" ) {
-	  var pos = type.firstChild;
-	  this.coords = pos.firstChild.nodeValue;
-	} else if( this.gmlType == "gml:LineString" ) {
-	  var posList = type.firstChild;
-	  var children = posList.childNodes;       
-	  var count = children.length;
-	  this.coords="";     
-	  for( var j=0; j<count; j++ ) {
-	    this.coords += children[j].nodeValue;
-	  }
-	} else if( this.gmlType == "gml:Polygon" ) {
-	  var ext = type.firstChild;
-	  var linearRing = ext.firstChild;
-	  this.coords = linearRing.firstChild.nodeValue;
-	} else {
-	  alert ("Unsupported GML Geometry:"+ this.gmlType )
-	}
+	  if( this.gmlType == "gml:Point" ) {
+	    var pos = type.firstChild;
+	    this.coords = pos.firstChild.nodeValue;
+	  } else if( this.gmlType == "gml:LineString" ) {
+	    var posList = type.firstChild;
+	    var children = posList.childNodes;       
+	    var count = children.length;
+	    this.coords="";     
+	    for( var j=0; j<count; j++ ) {
+	      this.coords += children[j].nodeValue;
+	    }
+	  } else if( this.gmlType == "gml:Polygon" ) {
+	    var ext = type.firstChild;
+	    var linearRing = ext.firstChild;
+	    this.coords = linearRing.firstChild.nodeValue;
+	  } else if( this.gmlType == "gml:box" || this.gmlType == "gml:envelope" ) {
+      var posList = type.firstChild;
+      var children = posList.childNodes ;       
+      var count = children.length;
+      this.coords="";   
+      var c= new Array();  
+      //alert("about to split "+children[0].nodeValue);
+      c = children[0].nodeValue.split(" "); 
+      this.coords += c[0]+" "+c[1]+",\n"
+                       +c[2]+" "+c[1]+",\n"
+                       +c[2]+" "+c[3]+",\n"
+                       +c[0]+" "+c[3]+",\n" 
+                       +c[0]+" "+c[1];
+      
+      //alert("coords: "+this.coords);
+     } else {
+	     alert ("Unsupported GML Geometry:"+ this.gmlType )
+	   }
   } else {
     this.coords = null;
     // well, it is probably a flick entry.
@@ -309,7 +324,9 @@ RssLayer.prototype.paintShape = function( sld, hiliteOnly ) {
     this.paintPoint( sld, hiliteOnly);
   } else if( this.gmlType == "gml:LineString" ) {
     this.paintLine( sld, hiliteOnly);
-  } else if( this.gmlType == "gml:Polygon" ) {
+  } else if( this.gmlType == "gml:Polygon" || 
+      this.gmlType == "gml:envelope" ||
+      this.gmlType == "gml:box")  {
     this.paintPolygon( sld, hiliteOnly);
   }   
 }

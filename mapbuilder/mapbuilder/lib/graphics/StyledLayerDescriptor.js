@@ -30,7 +30,7 @@ StyleLayerDescriptor.prototype.hiliteShape = function( gr, shape) {
   }
     
   if( this.fillColor != undefined ) {
-    gr.setShapeFillStyle( shape, this.fillColor);
+    gr.setShapeFillColor( shape, this.fillColor);
     //shape.filled = "true";
   } else {
     //shape.filled = "false";
