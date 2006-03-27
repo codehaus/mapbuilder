@@ -27,13 +27,25 @@ function WmsCapabilities(modelNode, parent) {
    * @return URL for the specified request with the specified method
    */
   this.getServerUrl = function(requestName, method, feature) {
-    var xpath = "/WMT_MS_Capabilities/Capability/Request/"+requestName;
-    if (method.toLowerCase() == "post") {
-      xpath += "/DCPType/HTTP/Post/OnlineResource";
+    var version = this.getVersion();
+    if (version == "1.0.0") {
+      requestName = requestName.substring(3);  //strip of "Get" part of request name
+      var xpath = "/WMT_MS_Capabilities/Capability/Request/"+requestName;
+      if (method.toLowerCase() == "post") {
+        xpath += "/DCPType/HTTP/Post";
+      } else {
+        xpath += "/DCPType/HTTP/Get";
+      }
+      return this.doc.selectSingleNode(xpath).getAttribute("onlineResource");
     } else {
-      xpath += "/DCPType/HTTP/Get/OnlineResource";
+      var xpath = "/WMT_MS_Capabilities/Capability/Request/"+requestName;
+      if (method.toLowerCase() == "post") {
+        xpath += "/DCPType/HTTP/Post/OnlineResource";
+      } else {
+        xpath += "/DCPType/HTTP/Get/OnlineResource";
+      }
+      return this.doc.selectSingleNode(xpath).getAttribute("xlink:href");
     }
-    return this.doc.selectSingleNode(xpath).getAttribute("xlink:href");
   }
 
   /**
@@ -58,9 +70,21 @@ function WmsCapabilities(modelNode, parent) {
    * @return the first image format listed
    */
   this.getImageFormat = function() {
-    var xpath = "/WMT_MS_Capabilities/Capability/Request/GetMap/Format";
-    var node = this.doc.selectSingleNode(xpath);
-    return node.firstChild.nodeValue;
+    var version = this.getVersion();
+    if (version == "1.0.0") {
+      var xpath = "/WMT_MS_Capabilities/Capability/Request/Map/Format";  //strip of "Get" part of request name
+      var node = this.doc.selectSingleNode(xpath);
+      if(_SARISSA_IS_IE) {
+        return "image/"+node.firstChild.baseName.toLowerCase();
+      }
+      else {
+	    return "image/"+node.firstChild.localName.toLowerCase();
+	  }
+    } else {
+      var xpath = "/WMT_MS_Capabilities/Capability/Request/GetMap/Format";
+      var node = this.doc.selectSingleNode(xpath);
+      return node.firstChild.nodeValue;
+    }
   }
 
   /**
