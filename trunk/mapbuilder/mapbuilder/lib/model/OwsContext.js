@@ -303,7 +303,6 @@ function OwsContext(modelNode, parent) {
    
     var parentNode = objRef.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList");
    
-    //var node = objRef.doc.importNode(layerNode.childNodes[0],true);
     var node = objRef.doc.importNode(layerNode,true);
     parentNode.appendChild( node );
     objRef.modified = true;
