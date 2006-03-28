@@ -72,13 +72,16 @@ Loading2.prototype.paint = function(objRef) {
     }
     outputNode.className = "loadingIndicator";
     outputNode.style.zindex = 1000;
-    outputNode.style.position="relative";
+    outputNode.style.position="absolute";
+    outputNode.style.left='0px';
+    outputNode.style.top='0px';
     if (objRef.imageSrc) {
       var imageNode = document.getElementById( objRef.outputNodeId+"_imageNode" );
       if (!imageNode) {
         imageNode = document.createElement("img");
         imageNode.setAttribute("id",objRef.outputNodeId+"_imageNode");
         outputNode.appendChild(imageNode);
+        imageNode.style.zindex = 1000;
       }
       imageNode.src = objRef.imageSrc;
     }

@@ -10,6 +10,9 @@
 					<mapContainerId>mainMapContainer</mapContainerId>
 				</MapPane>
 				<Loading id="loading"/>
+        <Loading2 id="loading2">
+					<mapContainerId>mainMapContainer</mapContainerId>
+        </Loading2>
 				<ModelUrlInput id="urlInput"/>
 				<AoiBoxDHTML id="aoiBox2">
 					<htmlTagId>mainMapPane</htmlTagId>
