@@ -43,7 +43,7 @@ function MapLayerMgr(mapPane, model) {
    */
 MapLayerMgr.prototype.hiddenListener=function(objRef, layerName){
   var vis="visible";
-  alert("MapLayerMgr.hiddenListener layerName="+layerName);
+  //alert("MapLayerMgr.hiddenListener layerName="+layerName);
   if(objRef.model.getHidden(layerName)=="1") {
     vis="hidden";
   }
