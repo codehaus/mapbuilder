@@ -8,7 +8,6 @@ $Id$
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 mapbuilder.loadScript(baseDir+"/widget/MapContainerBase.js");
-mapbuilder.loadScript(baseDir+"/graphics/MapLayerMgr.js");
 
 /**
  * Widget to render a map from an OGC context document.  The layers are rendered
@@ -61,15 +60,12 @@ function MapPane(widgetNode, model) {
   this.stylesheet.setParameter("skinDir", config.skinDir );
   this.stylesheet.setParameter("lang", config.lang );
 
-  this.MapLayerMgr = new MapLayerMgr(this, model); //PatC
 
   /**
    * Called when the context's hidden attribute changes.
    * @param objRef This object.
    * @param layerName  The name of the layer that was toggled.
    */
-   
-  /* PGC Moved to LayerMgr
   this.hiddenListener=function(objRef, layerName){
     var vis="visible";
     if(objRef.model.getHidden(layerName)=="1") {
@@ -85,8 +81,7 @@ function MapPane(widgetNode, model) {
     }
   }
   this.model.addListener("hidden",this.hiddenListener,this);
-  */
-  
+
   /**
    * Called after a feature has been added to a WFS.  This function triggers
    * the WMS basemaps to be redrawn.  A timestamp param is added to the URL
@@ -104,6 +99,7 @@ function MapPane(widgetNode, model) {
   this.model.addListener("deleteLayer",this.deleteLayer, this);
   this.model.addListener("moveLayerUp",this.moveLayerUp, this);
   this.model.addListener("moveLayerDown",this.moveLayerDown, this);
+  this.model.addListener("timestamp",this.timestampListener,this);
 }
 
 /**
@@ -125,9 +121,6 @@ MapPane.prototype.paint = function(objRef, refresh) {
     if (objRef.debug) alert("stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
 
     //process the doc with the stylesheet
-    //var s = objRef.stylesheet.transformNodeToString(objRef.model.doc);
-    //var tempNode = document.createElement("DIV");
-    //tempNode.innerHTML = s;
     var tempDom = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
     var tempNodeList = tempDom.selectNodes("//img");
 
@@ -144,28 +137,17 @@ MapPane.prototype.paint = function(objRef, refresh) {
       outputNode.setAttribute("id", objRef.outputNodeId);
       outputNode.style.position = "absolute"; 
       objRef.node.appendChild(outputNode);
+      outputNode.style.left='0px';
+      outputNode.style.top='0px';
     } 
-    outputNode.style.left='0px';
-    outputNode.style.top='0px';
 
     //loop through all layers and create an array of IMG objects for preloading 
     // the WMS getMap calls
-    /* PGC Moved to LayerMgr
     var layers = objRef.model.getAllLayers();
     if (!objRef.imageStack) objRef.imageStack = new Array(layers.length);
     objRef.firstImageLoaded = false;
 
-    var siblingImageDivs = outputNode.childNodes;
-    for (var i=0; i<siblingImageDivs.length ;++i) {
-      var sibImg = siblingImageDivs[i].firstChild;
-      sibImg.parentNode.style.visibility = "hidden";
-      sibImg.style.visibility = "hidden";//Make sure for IE that the child node is hidden as well
-    }
-
-
     objRef.layerCount = layers.length;
-    var message = "loading " + objRef.layerCount + " map layers"
-    objRef.model.setParam("modelStatus", message);
 
     for (var i=0;i<layers.length;i++){
       if (!objRef.imageStack[i]) {
@@ -173,23 +155,12 @@ MapPane.prototype.paint = function(objRef, refresh) {
         objRef.imageStack[i].objRef = objRef;
       }
       //var newSrc = tempNode.firstChild.childNodes[i].firstChild.getAttribute("src"); 
-      var newSrc = tempNodeList[i].getAttribute("SRC");
+      var newSrc = tempNodeList[i].getAttribute("src");
       objRef.loadImgDiv(layers[i],newSrc,objRef.imageStack[i]);
     }
-    if (_SARISSA_IS_IE) siblingImageDivs[0].firstChild.parentNode.parentNode.style.visibility = "hidden";
-    
-    PGC */
-    
-    objRef.MapLayerMgr.paint( objRef );
-     
+    var message = "loading " + objRef.layerCount + " map layers"
+    objRef.model.setParam("modelStatus", message);
   }
-}
-
-/**
-  * returns layer form LayerMgr
-  */
-MapPane.prototype.getLayer = function(layerName) {
-  return this.MapLayerMgr( layerName );
 }
 
 /**
@@ -197,8 +168,33 @@ MapPane.prototype.getLayer = function(layerName) {
  * @param layerName the name of the WMS layer
  */
 MapPane.prototype.getLayerDivId = function(layerName) {
-  return this.model.id +"_"+ this.id +"_"+ layerName; //TBD: add in timestamps
+  return this.model.id +"_"+ this.id +"_"+ layerName; 
+
+  //add timestamp to layerID if layer have a timestampList
+  if (this.model.timestampList && this.model.timestampList.getAttribute("layerName") == layerName) {  
+    var timestampIndex = this.model.getParam("timestamp");
+    var timestamp = this.model.timestampList.childNodes[timestampIndex];
+    layerId += "_" + timestamp.firstChild.nodeValue;
+  }
 }
+
+  /**
+   * Called when the map timestamp is changed so set the layer visiblity.
+   * @param objRef This object.
+   * @param timestampIndex  The array index for the layer to be displayed. 
+   */
+MapPane.prototype.timestampListener = function(objRef, timestampIndex){
+    var layerName = objRef.model.timestampList.getAttribute("layerName");
+    var timestamp = objRef.model.timestampList.childNodes[timestampIndex];
+    var vis = (timestamp.getAttribute("current")=="1") ? "visible":"hidden";
+    var layerId = objRef.model.id + "_" + objRef.id + "_" + layerName + "_" + timestamp.firstChild.nodeValue;
+    var layer = document.getElementById(layerId);
+    if (layer) {
+      layer.style.visibility=vis;
+    } else {
+      alert("error finding layerId:"+layerId);
+    }
+  }
 
 /**
  * Adds a layer into the output
@@ -206,23 +202,19 @@ MapPane.prototype.getLayerDivId = function(layerName) {
  */
 MapPane.prototype.addLayer = function(objRef, layerNode) {
   //process the doc with the stylesheet
-  // Note PGC This is really geared for WMS layers
-    
   objRef.stylesheet.setParameter("width", objRef.model.getWindowWidth());
   objRef.stylesheet.setParameter("height", objRef.model.getWindowHeight());
   objRef.stylesheet.setParameter("bbox", objRef.model.getBoundingBox().join(","));
   objRef.stylesheet.setParameter("srs", objRef.model.getSRS());
   var s = objRef.stylesheet.transformNodeToString(layerNode);
-  if( s.length > 0 ) {
-    var tempNode = document.createElement("div");
-    tempNode.innerHTML = s;
-    var newSrc = tempNode.firstChild.firstChild.getAttribute("src"); 
+  var tempNode = document.createElement("div");
+  tempNode.innerHTML = s;
+  var newSrc = tempNode.firstChild.firstChild.getAttribute("src"); 
 
-    objRef.imageStack.push(new Image());
-    objRef.imageStack[objRef.imageStack.length-1].objRef = objRef;
-    objRef.firstImageLoaded = true;
-    objRef.loadImgDiv(layerNode,newSrc,objRef.imageStack[objRef.imageStack.length-1]);
-  }
+  objRef.imageStack.push(new Image());
+  objRef.imageStack[objRef.imageStack.length-1].objRef = objRef;
+  objRef.firstImageLoaded = true;
+  objRef.loadImgDiv(layerNode,newSrc,objRef.imageStack[objRef.imageStack.length-1]);
 }
 
 /**
@@ -296,7 +288,8 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
     imgDiv.imgId = Math.random().toString(); 
     var domImg = document.createElement("img");
     domImg.id = "real"+imgDiv.imgId;
-    domImg.src = this.loadingSrc;
+    //domImg.src = this.loadingSrc;
+    domImg.src = config.skinDir+"/images/Spacer.gif";
     domImg.layerHidden = layerHidden;
     imgDiv.appendChild(domImg);
     outputNode.appendChild(imgDiv);
@@ -317,10 +310,25 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
 * compensate the container main div displacement to result in in a zero displacement.
 * The first image to be returned will hide all other layers and re-position them
 * and they are made visible when their onload event fires.
-* @author Michael Jenik     
 */
 function MapImgLoadHandler() {
   var oldImg = document.getElementById("real"+this.id );
+
+  if (!this.objRef.firstImageLoaded) {
+    this.objRef.firstImageLoaded = true;
+    var outputNode = document.getElementById( this.objRef.outputNodeId );
+    var siblingImageDivs = outputNode.childNodes;
+    for (var i=0; i<siblingImageDivs.length ;++i) {
+      var sibImg = siblingImageDivs[i].firstChild;
+      sibImg.parentNode.style.visibility = "hidden";
+      sibImg.style.visibility = "hidden";//Make sure for IE that the child node is hidden as well
+      if (_SARISSA_IS_IE) sibImg.src = config.skinDir+"/images/Spacer.gif";
+    }
+    if (_SARISSA_IS_IE) siblingImageDivs[0].firstChild.parentNode.parentNode.style.visibility = "hidden";
+    outputNode.style.left='0px';
+    outputNode.style.top='0px';
+  }
+
   --this.objRef.layerCount;
   if (this.objRef.layerCount > 0) {
     var message = "loading " + this.objRef.layerCount + " map layers"

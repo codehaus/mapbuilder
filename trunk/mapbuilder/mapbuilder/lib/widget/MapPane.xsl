@@ -42,7 +42,7 @@ $Name$
   
   <!-- template rule matching source root element -->
   <xsl:template match="/wmc:ViewContext">
-      <div style="position:absolute; width:{$width}px; height:{$height}px" id="{$outputNodeId}">
+      <div STYLE="position:absolute; width:{$width}px; height:{$height}px" ID="{$outputNodeId}">
         <xsl:apply-templates select="wmc:LayerList/wmc:Layer"/>
       </div>
   </xsl:template>
@@ -101,16 +101,16 @@ $Name$
     <xsl:variable name="styleParam">
       <xsl:choose>
         <xsl:when test="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:OnlineResource">
-          sld=<xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:OnlineResource/@xlink:href"/>
+          SLD=<xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:OnlineResource/@xlink:href"/>
         </xsl:when>
         <xsl:when test="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:StyledLayerDescriptor">
-          sld_body=<xsl:apply-templates select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:StyledLayerDescriptor" />
+          SLD_BODY=<xsl:apply-templates select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:StyledLayerDescriptor" />
         </xsl:when>
         <xsl:when test="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:FeatureTypeStyle">
-          sld=<xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:FeatureTypeStyle"/>
+          SLD=<xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:FeatureTypeStyle"/>
         </xsl:when>
         <xsl:otherwise>
-          styles=<xsl:call-template name="replace-string">
+          STYLES=<xsl:call-template name="replace-string">
             <xsl:with-param name="text"><xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:Name"/></xsl:with-param>
             <xsl:with-param name="replace"><xsl:value-of select="' '"/></xsl:with-param>
             <xsl:with-param name="with"><xsl:value-of select="'+'"/></xsl:with-param>
@@ -128,10 +128,10 @@ $Name$
     <xsl:variable name="mapRequest">
       <xsl:choose>
         <xsl:when test="starts-with($version, '1.0')">
-            wmtver=<xsl:value-of select="$version"/>&amp;request=map
+            WMTVER=<xsl:value-of select="$version"/>&amp;REQUEST=map
         </xsl:when>            
         <xsl:otherwise>
-            version=<xsl:value-of select="$version"/>&amp;request=GetMap&amp;service=wms
+            VERSION=<xsl:value-of select="$version"/>&amp;REQUEST=GetMap&amp;SERVICE=WMS
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -150,18 +150,18 @@ $Name$
             <xsl:value-of select="$baseUrl"/>
             <xsl:value-of select="$firstJoin"/>
             <xsl:value-of select="$mapRequest"/>
-&amp;layers=<xsl:value-of select="$layerName"/>
-   &amp;srs=<xsl:value-of select="$srs"/>
-  &amp;bbox=<xsl:value-of select="$bbox"/>
- &amp;width=<xsl:value-of select="$width"/>
-&amp;height=<xsl:value-of select="$height"/>
-&amp;format=<xsl:value-of select="$format"/>
+&amp;LAYERS=<xsl:value-of select="$layerName"/>
+   &amp;SRS=<xsl:value-of select="$srs"/>
+  &amp;BBOX=<xsl:value-of select="$bbox"/>
+ &amp;WIDTH=<xsl:value-of select="$width"/>
+&amp;HEIGHT=<xsl:value-of select="$height"/>
+&amp;FORMAT=<xsl:value-of select="$format"/>
        &amp;<xsl:value-of select="$styleParam"/>
-&amp;transparent=true
+&amp;TRANSPARENT=TRUE
         <xsl:if test="string-length($timestamp)>0"> 
-       &amp;time=<xsl:value-of select="$timestamp"/>
+       &amp;TIME=<xsl:value-of select="$timestamp"/>
         </xsl:if>
-        &amp;uniqued=<xsl:value-of select="$uniqueId"/>
+        &amp;UNIQUEID=<xsl:value-of select="$uniqueId"/>
 <!--	
   //TBD: these still to be properly handled 
   //if (this.exceptions) src += '&' + 'EXCEPTIONS=' + this.exceptions;
