@@ -95,8 +95,8 @@ function Context(modelNode, parent) {
       objRef.extent.zoomToBox(ul, lr);
     }
   }
-  //PGC this.addListener( "loadModel", this.initBbox, this );
-  this.addListener( "contextLoaded", this.initBbox, this );
+  this.addListener( "loadModel", this.initBbox, this );
+  //this.addListener( "contextLoaded", this.initBbox, this );
 
   /**
    * Set the aoi param and call the refresh listeners
