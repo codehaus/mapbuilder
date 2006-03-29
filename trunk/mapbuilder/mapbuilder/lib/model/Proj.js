@@ -23,6 +23,12 @@ $Id$
 function Proj(srs) {
   this.srs = srs.toUpperCase();
   switch(this.srs) {
+    case "EPSG:GMAPS":
+      this.Forward = gmap_forward; 
+      this.Inverse = identity; //@TODO
+      this.units = "degrees";
+      this.title = "Google Maps";
+      break;
     case "EPSG:4326":       //lat/lon projection WGS_84
     case "EPSG:4269":       //lat/lon projection WGS_84
     case "CRS:84":          //lat/lon projection WGS_84
@@ -213,6 +219,10 @@ function Proj(srs) {
     return false;
   }
 
+}
+
+function gmap_forward (coords) {
+  return config.objects.googleMapTools.getPixelsFromLatLong(coords);
 }
 
 function identity(coords) {
