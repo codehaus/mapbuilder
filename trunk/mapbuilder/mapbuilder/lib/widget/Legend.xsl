@@ -32,25 +32,13 @@ $Name$
   <xsl:param name="hidden"/>
   <xsl:param name="context">config.objects.<xsl:value-of select="$modelId"/></xsl:param>
 
-<!-- Main html -->
-  <xsl:template match="/wmc:ViewContext">
+  <!-- Main html -->
+  <xsl:template match="/">
     <table border="0" cellpadding="1" cellspacing="0">
       <tr>
         <th colspan="3"><xsl:value-of select="$title"/></th>
       </tr>
-      <xsl:apply-templates select="wmc:LayerList/*">
-        <xsl:sort select="position()" order="descending" data-type="number"/>
-      </xsl:apply-templates>
-
-    </table>
-  </xsl:template>
-  
-  <xsl:template match="/wmc:OWSContext">
-    <table border="0" cellpadding="1" cellspacing="0">
-      <tr>
-        <th colspan="3">WMS <xsl:value-of select="$title"/></th>
-      </tr>
-      <xsl:apply-templates select="wmc:ResourceList/wmc:Layer">
+      <xsl:apply-templates select="//wmc:ResourceList/*|//wmc:LayerList/*">
         <xsl:sort select="position()" order="descending" data-type="number"/>
       </xsl:apply-templates>
     </table>
@@ -59,10 +47,7 @@ $Name$
   <xsl:template match="/wfs:FeatureCollection">
     <table border="0" cellpadding="1" cellspacing="0">
       <tr>
-        <th colspan="3">WFS Features</th>
-      </tr>
-      <tr>
-  <!-- Visiblity -->
+        <!-- Visiblity -->
         <td>
           <xsl:if test="$hidden='false'">
             <input type="checkbox" checked="true" id="legend_{$featureName}" onclick="{$context}.setHidden('{$featureName}',!document.getElementById('legend_{$featureName}').checked)"/>
@@ -71,7 +56,7 @@ $Name$
             <input type="checkbox" id="legend_{$featureName}" onclick="{$context}.setHidden('{$featureName}',! document.getElementById('legend_{$featureName}').checked)"/>
           </xsl:if>
         </td>
-  <!-- No query capability yet -->
+        <!-- No query capability yet -->
         <td>
         </td>
         <td>
@@ -81,10 +66,10 @@ $Name$
     </table>
   </xsl:template>
   
-<!-- Layer -->
+  <!-- Layer -->
   <xsl:template match="wmc:Layer">
     <tr>
-  <!-- Visiblity -->
+      <!-- Visiblity -->
       <td>
         <xsl:if test="@hidden='0'">
           <input type="checkbox" checked="true" id="legend_{wmc:Name}" onclick="{$context}.setHidden('{wmc:Name}',!document.getElementById('legend_{wmc:Name}').checked)"/>
@@ -93,7 +78,7 @@ $Name$
           <input type="checkbox" id="legend_{wmc:Name}" onclick="{$context}.setHidden('{wmc:Name}',! document.getElementById('legend_{wmc:Name}').checked)"/>
         </xsl:if>
       </td>
-  <!-- Query Image -->
+      <!-- Query Image -->
       <td>
         <xsl:if test="@queryable='1'">
           <img
@@ -103,7 +88,7 @@ $Name$
             src="{$skinDir}{$selectIcon}" />
         </xsl:if>
       </td>
-  <!-- Title -->
+      <!-- Title -->
       <td>
         <xsl:choose>
           <xsl:when test="wmc:Title/@xml:lang">              
@@ -115,7 +100,7 @@ $Name$
         </xsl:choose>
       </td>
     </tr>
-  <!-- StyleList -->
+    <!-- StyleList -->
     <tr>
       <td></td>
       <td></td>
