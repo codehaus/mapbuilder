@@ -84,7 +84,7 @@ RssLayer.prototype.parse = function() {
 	    var ext = type.firstChild;
 	    var linearRing = ext.firstChild;
 	    this.coords = linearRing.firstChild.nodeValue;
-	  } else if( this.gmlType == "gml:box" || this.gmlType == "gml:envelope" ) {
+	  } else if( this.gmlType == "gml:Box" || this.gmlType == "gml:Envelope" ) {
       var posList = type.firstChild;
       var children = posList.childNodes ;       
       var count = children.length;
@@ -150,7 +150,6 @@ RssLayer.prototype.parse = function() {
 /**
   * Renders the GML point
   *
-  * @param objRef
   * @param sld SLD
   * @param hiliteOnly true to avoid full redraw
   */
@@ -162,11 +161,11 @@ RssLayer.prototype.paintPoint = function( sld, hiliteOnly) {
   if( this.coords != null ) {
     var containerProj = new Proj(this.model.getSRS());
     var point = this.coords.split(/[ ,\n]+/);
-    //alert( this.coords + " 1:" + point[0] + " " + point[1] );
     point = containerProj.Forward(point);
-    //alert( this.coords + " 2:" + point[0] + " " + point[1] );
+    //alert( this.coords + " forward:" + point[0] + " " + point[1] );
+        
     point = this.model.extent.getPL(point);
-    //alert( this.coords + " 3:" + point[0] + " " + point[1] );
+    //alert( " extent:" + point[0] + " " + point[1] );
       
     this.shape = sld.paintPoint( this.gr, point );
     if( this.shape != null ) {
@@ -203,7 +202,9 @@ RssLayer.prototype.paintPolygon = function( sld, hiliteOnly) {
       point[1] = pointPairs[i+1];
               
       screenCoords = containerProj.Forward(point);
+      //alert( " poly forward:" + point[0] + " " + point[1] + " x:"+ screenCoords[0] + " y:"+screenCoords[1] );
       screenCoords = this.model.extent.getPL(screenCoords);
+      //alert( " poly getPL:" + point[0] + " " + point[1] + " x:"+ screenCoords[0] + " y:"+screenCoords[1] );
       newPointArr[jj] = screenCoords;  
                
       jj++     
@@ -281,6 +282,9 @@ RssLayer.prototype.getDiv = function() {
   return div;
 }
 
+/**
+  * Internal paint method
+  */
 RssLayer.prototype.paint = function( ) {
   // emulate call from LayerManager
   this.paint( null, null );
@@ -300,14 +304,17 @@ RssLayer.prototype.paint = function( objRef, img ) {
 }
 
 /**
-  * If the shape has already been rendered, we want to delete it
+  * We want to delete it before rendering it if it already exists
   */
 RssLayer.prototype.deleteShape = function() {
-  if( this.shape != null ) {
-    var id = this.shape.id;
-    var node = document.getElementById( id );
+  var id = this.id +"_vector";
+  var node = document.getElementById( id );
+  if( node != null ) {
+    node.parentNode.removeChild( node );
+    node = document.getElementById( id );
     if( node != null ) {
-      node.parentNode.removeChild( node );
+      // WHY WOULD THIS FAIL???????
+      alert( "failed to remove:"+id );
     }
   }
 }
@@ -325,14 +332,15 @@ RssLayer.prototype.paintShape = function( sld, hiliteOnly ) {
   } else if( this.gmlType == "gml:LineString" ) {
     this.paintLine( sld, hiliteOnly);
   } else if( this.gmlType == "gml:Polygon" || 
-      this.gmlType == "gml:envelope" ||
-      this.gmlType == "gml:box")  {
+      this.gmlType == "gml:Envelope" ||
+      this.gmlType == "gml:Box")  {
     this.paintPolygon( sld, hiliteOnly);
   }   
 }
 
 /**
-  * installs the mouseover/mouseout handlers
+  * Installs the mouseover/mouseout handlers
+  * @param shape
   */
 RssLayer.prototype.install = function( shape ) {
   shape.onmouseover = this.mouseOverHandler; 
@@ -340,8 +348,9 @@ RssLayer.prototype.install = function( shape ) {
 }
 
 /** 
-  * handler is attached to the shape itself
-  * puts event inthe queue to be picked later
+  * Handler is attached to the shape itself
+  * puts event in the queue to be picked later
+  * @param ev
   */
 RssLayer.prototype.mouseOverHandler = function(ev) {
   config.objects.geoRSS.setParam('highlightFeature',this.id);
@@ -349,6 +358,11 @@ RssLayer.prototype.mouseOverHandler = function(ev) {
   return true;
 }
 
+/** 
+  * Handler is attached to the shape itself
+  * puts event in the queue to be picked later
+  * @param ev
+  */
 RssLayer.prototype.mouseOutHandler = function(ev) {  
   config.objects.geoRSS.setParam('dehighlightFeature',this.id);
   return true;
@@ -357,6 +371,7 @@ RssLayer.prototype.mouseOutHandler = function(ev) {
 /** 
   * Highlights the selected feature by switching to the highlight image
   * @param objRef a pointer to this widget object
+  * @param featureId
   */
 RssLayer.prototype.highlight = function(objRef, featureId) {
   // we get the id_vector
@@ -389,8 +404,10 @@ RssLayer.prototype.highlight = function(objRef, featureId) {
   }
 }
 
-/** Dehighlights the selected feature by switching to the highlight image
+/** 
+  * Dehighlights the selected feature by switching back to the normal image
   * @param objRef a pointer to this widget object
+  * @param featureId
   */
 RssLayer.prototype.dehighlight = function(objRef, featureId) {
   if( featureId.indexOf(objRef.id)>= 0 ) {
