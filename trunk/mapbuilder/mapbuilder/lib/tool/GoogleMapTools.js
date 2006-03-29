@@ -88,6 +88,26 @@ function GoogleMapTools() {
   }
 
   /**
+    * Returns absolute pixels coordinates on the map from Lat/Long
+    *
+    */
+  this.getPixelsFromLatLong = function( coords ) {
+    gmap = config.objects.gmap;
+    
+    var west   = gmap.getBounds().getSouthWest().lng();
+    var north  = gmap.getBounds().getNorthEast().lat();
+    var nwpoint= gmap.getCurrentMapType().getProjection().fromLatLngToPixel(new GLatLng(north,west),gmap.getZoom()); 
+    
+    var gLatLng = new GLatLng(coords[1], coords[0]);      
+    var pixel= gmap.getCurrentMapType().getProjection().fromLatLngToPixel( gLatLng, gmap.getZoom());
+ 
+    var x = pixel.x - nwpoint.x;
+    var y = pixel.y - nwpoint.y;
+    
+    return new Array(x, y) ;
+  }
+  
+  /**
    * Find a ZoomLevel and new extent which fits the provided screen coords,
    * then update the model with the new extent and zoomLevel.  Coorinates are
    * provided in screen pixel coordinates.
