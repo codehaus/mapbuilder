@@ -30,6 +30,7 @@
 				</AoiForm>
         <Legend id="contextLegend">
           <htmlTagId>legend</htmlTagId>
+          <stylesheet>./Legend.xsl</stylesheet>
         </Legend>
 			</widgets>
 			<tools>

@@ -11,10 +11,9 @@
   
   <General>
     <Window width="800" height="400"/>
-    <!-- BoundingBox SRS="EPSG:4326" minx="-130" miny="10" maxx="-50" maxy="50"/ -->
-    <ows:BoundingBox crs="EPSG:4326">
-      <ows:LowerCorner>-160.14 -3.37</ows:LowerCorner>
-      <ows:UpperCorner>-19.69 55.23</ows:UpperCorner>
+    <ows:BoundingBox crs="EPSG:GMAPS">
+      <ows:LowerCorner>-100.0 20.0</ows:LowerCorner>
+      <ows:UpperCorner>-50.0 45.0</ows:UpperCorner>
       <!--
       <ows:LowerCorner>-130 10</ows:LowerCorner>
       <ows:UpperCorner>-50 50</ows:UpperCorner>
@@ -71,8 +70,8 @@
       <Server service="GoogleMap" title="Google Map">
       </Server>
       <Name>1</Name>
-      <Title>Google Basemap</Title>
-      <SRS>EPSG:4326</SRS>
+      <Title>Google Map</Title>
+      <SRS>EPSG:GMAPS</SRS>
     </Layer>
     <!--
     <Layer queryable="0" hidden="0">
@@ -120,6 +119,7 @@
       </FormatList>
     </Layer>
     -->
+    <!-- 
     <Layer queryable="0" hidden="0">
       <Server service="wms" version="1.1.0" title="wms">
         <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/atlas/web/mapdata/english/pb_world.map"/>
@@ -131,6 +131,7 @@
         <Format current="1">image/gif</Format>
       </FormatList>
     </Layer>
+    -->
     <!--
     <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
