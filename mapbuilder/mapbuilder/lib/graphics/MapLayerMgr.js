@@ -33,7 +33,8 @@ function MapLayerMgr(mapPane, model) {
   this.model.addListener("addLayer",this.addLayer, this);
   this.model.addListener("deleteLayer",this.deleteLayer, this);
   this.model.addListener("hidden",this.hiddenListener, this);
-  this.model.addListener("contextLoaded",this.setLayersFromContext, this);
+  //this.model.addListener("contextLoaded",this.setLayersFromContext, this);
+  this.model.addListener("loadModel",this.setLayersFromContext, this);
 }
 
  /**
@@ -76,6 +77,7 @@ MapLayerMgr.prototype.setLayersFromContext = function(objRef) {
     var layer = contextLayers[i];
     objRef.addLayer( objRef, layer ); 
   }
+  objRef.paint(objRef);
 }
 
 /**
@@ -172,8 +174,8 @@ MapLayerMgr.prototype.paint = function( objRef ) {
       layer.setSrc( newSrc );
 
       if (!this.imageStack[i]) {
-	      this.imageStack[i] = new Image();
-	      this.imageStack[i].objRef = objRef;
+        this.imageStack[i] = new Image();
+        this.imageStack[i].objRef = objRef;
 	    }
 	  }
 	  // now paint it WMS or not
