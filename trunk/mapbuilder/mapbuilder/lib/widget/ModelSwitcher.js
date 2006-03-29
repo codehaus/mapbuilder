@@ -25,7 +25,8 @@ function ModelSwitcher(widgetNode, model) {
     // get the context and bbox
     this.bbox = config.objects.mainMap.getBoundingBox();
    
-    this.targetModel.addListener( "contextLoaded", this.setExtent, this );
+    //this.targetModel.addListener( "contextLoaded", this.setExtent, this );
+    this.targetModel.addListener( "loadModel", this.setExtent, this );
     window.cgiArgs["bbox"]  = ""+this.bbox[0]+","+ this.bbox[1]+"," +this.bbox[2]+"," +this.bbox[3];
     config.loadModel( targetModel, modelUrl );
   }
