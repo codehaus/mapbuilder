@@ -100,8 +100,8 @@ function OwsContext(modelNode, parent) {
       objRef.setBoundingBox(boundingBox);
     }
   }
-  //PGC this.addListener( "loadModel", this.initBbox, this );
-  this.addListener( "contextLoaded", this.initBbox, this );
+  this.addListener( "loadModel", this.initBbox, this );  // removed the comment
+  //this.addListener( "contextLoaded", this.initBbox, this );
 
   /**
    * Set the aoi param and call the refresh listeners
@@ -248,6 +248,8 @@ function OwsContext(modelNode, parent) {
       var featureName = featureList[i].firstChild.nodeValue;
       objRef.setParam('wfs_GetFeature',featureName);
     }
+    
+    //this.callListeners("contextLoaded");  //PGC
   }
   this.addListener("loadModel", this.loadFeatures, this);
 
@@ -299,13 +301,17 @@ function OwsContext(modelNode, parent) {
    * Method to add a Layer to the LayerList
    * @param layerNode the Layer node from another context doc or capabiltiies doc
    */
-  this.addLayer = function(objRef, layerNode) {
+  this.addLayer = function(objRef, layerNode) { 
+    if( objRef.doc != null ) {
+      var parentNode = objRef.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList");
    
-    var parentNode = objRef.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList");
-   
-    var node = objRef.doc.importNode(layerNode,true);
-    parentNode.appendChild( node );
-    objRef.modified = true;
+      var node = objRef.doc.importNode(layerNode,true);
+      parentNode.appendChild( node );
+      objRef.modified = true;
+      //alert( "Adding layer:"+Sarissa.serialize( layerNode ) );
+    } else {
+      alert( "null OWSContext doc" );
+    }
     //objRef.callListeners("refresh");
   }
   this.addFirstListener( "addLayer", this.addLayer, this );
