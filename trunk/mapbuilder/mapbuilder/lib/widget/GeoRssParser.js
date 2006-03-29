@@ -36,9 +36,16 @@ function GeoRssParser(widgetNode, model) {
     this.model.tipWidgetId = tipWidget.firstChild.nodeValue;
   }
   
-  this.model.addListener("contextLoaded",this.loadEntries, this);
   this.model.addListener("refresh",this.paint, this); 
-  
+  this.model.addListener("init",this.geoRssParserInit, this); 
+}
+
+GeoRssParser.prototype.geoRssParserInit = function( objRef ) {
+  // we have a race condition...
+  // georss has to be loaded
+  // owscontext has to be loaded
+  objRef.targetModel.addListener("loadModel", objRef.loadEntries, objRef);
+  objRef.model.addListener("loadModel", objRef.loadEntries, objRef);
 }
 
 /**
@@ -73,7 +80,8 @@ GeoRssParser.prototype.transformEntry = function( objRef, entry ) {
   * Load RSS entries in the OWS Context and MapPane layers
   */
 GeoRssParser.prototype.loadEntries = function( objRef ) {
-  if (objRef.model.doc ) {
+  // both docs have to be loaded
+  if( (objRef.model.doc != null) && (objRef.targetModel.doc != null)) {
     var features = objRef.model.getFeatureNodes();
     var len = features.length;
     var width = objRef.containerModel.getWindowWidth();
@@ -101,7 +109,7 @@ GeoRssParser.prototype.loadEntries = function( objRef ) {
       objRef.targetModel.setParam('addLayer', layer.childNodes[0]);
   //    objRef.targetModel.setParam('addLayer', layer);
  
-    }
+    }    
   }
 }
   
