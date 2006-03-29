@@ -22,4 +22,9 @@
 			<OnlineResource xlink:type="simple" xlink:href="BlueMarble.xml"/>
 		</ContextURL>
 	</ViewContextReference>
-</ViewContextCollection>
+  <ViewContextReference version="1.0.0" id="GoogleMaps">
+    <Title>Google Map</Title>
+    <ContextURL>
+      <OnlineResource xlink:type="simple" xlink:href="atlasWorldGmap.xml"/>
+    </ContextURL>
+  </ViewContextReference></ViewContextCollection>
