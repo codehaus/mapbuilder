@@ -56,10 +56,10 @@ function Extent( model, initialRes ) {
    * @return     point array of XY coordinates
    */
   this.getXY = function(pl) {
-    switch(this.model.getSRS()) {
-      case "EPSG:GMAPS":       //@TODO Cleanup this hack
-        return pl;
-    }
+    //switch(this.model.getSRS()) {
+    //  case "EPSG:GMAPS":       //@TODO Cleanup this hack
+    //    return pl;
+    //}
  
     var x = this.ul[0]+pl[0]*this.res[0];
     var y = this.ul[1]- pl[1]*this.res[1];
@@ -72,10 +72,10 @@ function Extent( model, initialRes ) {
    * @return     point array of pxiel/line coordinates w.r.t. top left corner
    */
   this.getPL = function(xy) {
-    switch(this.model.getSRS()) {
-      case "EPSG:GMAPS":       //@TODO Cleanup this hack
-        return xy;
-    }
+    //switch(this.model.getSRS()) {
+    //  case "EPSG:GMAPS":       //@TODO Cleanup this hack
+    //    return xy;
+    //}
     
     var p = Math.floor( (xy[0]-this.ul[0])/this.res[0] );
     var l = Math.floor( (this.ul[1]-xy[1])/this.res[1] );
