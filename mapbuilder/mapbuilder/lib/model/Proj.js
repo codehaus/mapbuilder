@@ -24,11 +24,11 @@ function Proj(srs) {
   this.srs = srs.toUpperCase();
   switch(this.srs) {
     case "EPSG:GMAPS":
-      this.Forward = gmap_forward; 
-      this.Inverse = gmap_inverse;
-      this.units = "degrees";
-      this.title = "Google Maps";
-      break;
+//      this.Forward = gmap_forward; 
+//      this.Inverse = gmap_inverse;
+//      this.units = "degrees";
+//      this.title = "Google Maps";
+//      break;
     case "EPSG:4326":       //lat/lon projection WGS_84
     case "EPSG:4269":       //lat/lon projection WGS_84
     case "CRS:84":          //lat/lon projection WGS_84
