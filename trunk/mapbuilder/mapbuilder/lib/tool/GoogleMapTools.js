@@ -68,6 +68,7 @@ function GoogleMapTools() {
         (bbox[2]+bbox[0])/2,
         (bbox[3]+bbox[1])/2),
       zoomLevel);
+      //alert( "zoomLevel:"+zoomLevel );
   }
 
   /**
@@ -105,6 +106,32 @@ function GoogleMapTools() {
     var y = pixel.y - nwpoint.y;
     
     return new Array(x, y) ;
+  }
+  
+   /**
+    * Returns Lat/Long from pixel on map
+    *
+    */
+  this.getLatLongFromPixels = function( coords ) {
+    gmap = config.objects.gmap;
+    
+    var x = coords[0];
+    var y = coords[1];
+    
+    neLat  = gmap.getBounds().getNorthEast().lat();
+    neLng  = gmap.getBounds().getSouthWest().lng();
+    
+    var newPoint= gmap.getCurrentMapType().getProjection().fromPixelToLatLng(new GPoint(0,0),gmap.getZoom()); 
+    
+    var gPoint = new GPoint( x, y );
+    var gLatLng= gmap.getCurrentMapType().getProjection().fromPixelToLatLng( gPoint, gmap.getZoom(), false);
+
+    //alert( neLat + " " + neLng + " " + gLatLng.lng() + " " + gLatLng.lat());
+ 
+    var lat = gLatLng.lat() - newPoint.lat() - neLat;
+    var lng = gLatLng.lng() - newPoint.lng() - neLng;
+    
+    return new Array( lng, lat) ;
   }
   
   /**
