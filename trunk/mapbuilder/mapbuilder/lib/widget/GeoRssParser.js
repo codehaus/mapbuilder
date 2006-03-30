@@ -88,8 +88,8 @@ GeoRssParser.prototype.loadEntries = function( objRef ) {
     var height = objRef.containerModel.getWindowHeight();
    
     //alert( "features:"+len );
-    if( len == 0 )
-      alert( "No features detected" );
+    //if( len == 0 )
+    //  alert( "No features detected" );
       
     for (var index=0; index< len; index++) {
       var feature = features[index];
