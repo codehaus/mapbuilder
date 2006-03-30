@@ -56,6 +56,11 @@ function Extent( model, initialRes ) {
    * @return     point array of XY coordinates
    */
   this.getXY = function(pl) {
+    switch(this.model.getSRS()) {
+      case "EPSG:GMAPS":       //@TODO Cleanup this hack
+        return pl;
+    }
+ 
     var x = this.ul[0]+pl[0]*this.res[0];
     var y = this.ul[1]- pl[1]*this.res[1];
     return new Array(x,y);
@@ -171,6 +176,8 @@ function Extent( model, initialRes ) {
   this.getScale = function() {
     var pixRes = null;
     switch(this.model.getSRS()) {
+      case "EPSG:GMAPS":
+        break;
       case "EPSG:4326":				//all projection codes in degrees
       case "EPSG:4269":				
         pixRes = this.res[0]*degToMeter;
