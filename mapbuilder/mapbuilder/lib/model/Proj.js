@@ -25,7 +25,7 @@ function Proj(srs) {
   switch(this.srs) {
     case "EPSG:GMAPS":
       this.Forward = gmap_forward; 
-      this.Inverse = identity; //@TODO
+      this.Inverse = gmap_inverse;
       this.units = "degrees";
       this.title = "Google Maps";
       break;
@@ -223,6 +223,10 @@ function Proj(srs) {
 
 function gmap_forward (coords) {
   return config.objects.googleMapTools.getPixelsFromLatLong(coords);
+}
+
+function gmap_inverse (coords) {
+  return config.objects.googleMapTools.getLatLongFromPixels(coords);
 }
 
 function identity(coords) {
