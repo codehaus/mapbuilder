@@ -33,6 +33,20 @@ function GoogleMapZoomOut(widgetNode, model) {
       new Array((bbox[0][0]+bbox[1][0])/2,(bbox[1][0]+bbox[1][1])/2),
       1);
   }
+  this.doAction = function(objRef,targetNode) {
+    if (objRef.enabled) {
+      bbox = objRef.targetModel.getParam("aoi");
+      if ( bbox!=null) {
+        extent = objRef.targetModel.extent;
+        ul=bbox[0];
+        lr=bbox[1];
+        mid=new Array((ul[0]+lr[0])/2,(ul[1]+ul[1])/2);
+        alert("GoogleMapZoomOut: mid="+ mid[0]+", "+mid[1]);
+        objRef.googleMapTools.zoomTo(objRef.targetModel,mid,1);
+      }
+    }
+  }
+
 
   /**
    * Register for mouseUp events.
