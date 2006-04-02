@@ -70,6 +70,7 @@ function MapContainerBase(widgetNode,model) {
     containerNode.id=this.containerNodeId;
     containerNode.style.position="relative";
     containerNode.style.overflow="hidden";
+    containerNode.style.zIndex="50000";
 
     containerNode.containerModel = this.model;
     this.containerModel = this.model;
@@ -141,10 +142,20 @@ function MapContainerBase(widgetNode,model) {
         var l = window.event.clientY - this.offsetTop + document.documentElement.scrollTop + document.body.scrollTop;
         this.evpl = new Array(p,l);
         this.eventTarget = window.event.srcElement;
-        this.eventType = window.event.type;
         this.altKey = window.event.altKey;
         this.ctrlKey = window.event.ctrlKey;
         this.shiftKey = window.event.shiftKey;
+        this.eventType = window.event.type;
+        // mousedown event is not received on IE when using gmaps version 1,
+        // so we simulate a mousedown event by noticing a change in mouse
+        // button state during the mousemove event.
+        //if ((this.eventType=="mousemove") && (this.button % 1 == 0) && (window.event.button % 1 == 1)){
+
+        //if ((this.eventType=="mousemove") && (this.button != window.event.button)){
+        //  alert("MapContainerBase.eventHandler this.button="+this.button+" ev.button="+window.event.button);
+        //  this.eventType="mousedown";
+        //}
+        //this.button=window.event.button;
         window.event.returnValue = false;
         window.event.cancelBubble = true;
       } else {
