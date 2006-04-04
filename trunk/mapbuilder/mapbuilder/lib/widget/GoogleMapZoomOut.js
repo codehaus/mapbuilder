@@ -41,7 +41,6 @@ function GoogleMapZoomOut(widgetNode, model) {
         ul=bbox[0];
         lr=bbox[1];
         mid=new Array((ul[0]+lr[0])/2,(ul[1]+ul[1])/2);
-        alert("GoogleMapZoomOut: mid="+ mid[0]+", "+mid[1]);
         objRef.googleMapTools.zoomTo(objRef.targetModel,mid,1);
       }
     }
