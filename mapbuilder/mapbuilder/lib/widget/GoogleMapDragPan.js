@@ -34,10 +34,8 @@ function GoogleMapDragPan(widgetNode, model) {
     if (!objRef.enabled) return;
     var bbox = objRef.targetModel.getParam("aoi");
     //objRef.googleMapTools.zoomTo(objRef.targetModel,ul,-1);
-    objRef.googleMapTools.zoomTo(
-      objRef.targetModel,
-      new Array((bbox[0][0]+bbox[1][0])/2,(bbox[0][1]+bbox[1][1])/2),
-      0);
+    mid= new Array((bbox[0][0]+bbox[1][0])/2,(bbox[0][1]+bbox[1][1])/2);
+    objRef.googleMapTools.zoomTo(objRef.targetModel,mid,0);
   }
 
   /**

@@ -22,11 +22,15 @@ function GoogleMapTools() {
    */
   this.zoomTo=function(model,point,deltaZoom){
     gmap=model.getParam("gmap");
-    gmap.centerAndZoom(
-      new GPoint(point[0],point[1]),
-      gmap.getZoomLevel()+deltaZoom);
-    bbox=gmap.getBoundsLatLng();
-    model.setBoundingBox(new Array(bbox.minX,bbox.minY,bbox.maxX,bbox.maxY));
+    gmap.setCenter(
+      new GLatLng(point[1],point[0]),
+      gmap.getZoom()+deltaZoom);
+    bbox=gmap.getBounds();
+    model.setBoundingBox(new Array(
+      bbox.getSouthWest().lng(),
+      bbox.getSouthWest().lat(),
+      bbox.getNorthEast().lng(),
+      bbox.getNorthEast().lat()));
   }
 
   /**
@@ -46,8 +50,12 @@ function GoogleMapTools() {
   this.setGmapExtent=function(model,bbox){
     this.centerAndZoomToBox(model,bbox);
     gmap=model.getParam("gmap");
-    bbox=gmap.getBoundsLatLng();
-    model.setBoundingBox(new Array(bbox.minX,bbox.minY,bbox.maxX,bbox.maxY));
+    bbox=gmap.getBounds();
+    model.setBoundingBox(new Array(
+      bbox.getSouthWest().lng(),
+      bbox.getSouthWest().lat(),
+      bbox.getNorthEast().lng(),
+      bbox.getNorthEast().lat()));
   }
 
   /**
@@ -63,10 +71,10 @@ function GoogleMapTools() {
     gmap=model.getParam("gmap");
     // Note, this makes the incorrect assumption that the Y axis is linear,
     // but this calculation should be good enough.
-    gmap.centerAndZoom(
-      new GPoint(
-        (bbox[2]+bbox[0])/2,
-        (bbox[3]+bbox[1])/2),
+    gmap.setCenter(
+      new GLatLng(
+        (bbox[3]+bbox[1])/2,
+        (bbox[2]+bbox[0])/2),
       zoomLevel);
       //alert( "zoomLevel:"+zoomLevel );
   }
@@ -84,7 +92,8 @@ function GoogleMapTools() {
    *   zoomLevel = 17 - log2(1.46025 / (degWidth / pxWidth))
    */
   this.getZoomLevel=function(pxWidth,degWidth){
-    zoomLevel=17-Math.floor(Math.log(1.46025 * pxWidth / degWidth)/Math.log(2));
+    zoomLevel=Math.floor(Math.log(1.46025 * pxWidth / degWidth)/Math.log(2));
+    //alert("GoogleMapTools.getZoomLevel zl="+zoomLevel);
     return zoomLevel;
   }
 

@@ -45,7 +45,6 @@ GoogleMapLayer.prototype.getDiv = function(layerNum) {
   var outputNode = document.getElementById( this.mapPane.outputNodeId ).parentNode;
   
   div = document.getElementById(this.layerName);
-  //alert("GoogleMapLayer.layerName="+this.layerName);
   if( div == null) {
     div = document.createElement("div");
     div.setAttribute("id", this.layerName);
@@ -73,7 +72,7 @@ GoogleMapLayer.prototype.paint = function( objRef,img,layerNum) {
   div.style.top=0;
   div.style.left=0;
   if(!this.mapPane.gmap){
-    var gmap = new GMap(div);
+    var gmap = new GMap2(div);
     this.mapPane.model.setParam("gmap", gmap );
     this.mapPane.googleMapTools=new GoogleMapTools();
     // PatC Added to support lat/long to pixel conversion of Proj
