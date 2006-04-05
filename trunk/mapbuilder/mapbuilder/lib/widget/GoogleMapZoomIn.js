@@ -34,7 +34,7 @@ function GoogleMapZoomIn(widgetNode, model) {
         var ul = bbox[0];
         var lr = bbox[1];
         if ( ( ul[0]==lr[0] ) && ( ul[1]==lr[1] ) ) {
-          objRef.googleMapTools.zoomTo(objRef.targetModel,ul,-1);
+          objRef.googleMapTools.zoomTo(objRef.targetModel,ul,1);
         } else {
           objRef.googleMapTools.setGmapExtent(objRef.targetModel,new Array(lr[0],ul[1],ul[0],lr[1]));
         }
