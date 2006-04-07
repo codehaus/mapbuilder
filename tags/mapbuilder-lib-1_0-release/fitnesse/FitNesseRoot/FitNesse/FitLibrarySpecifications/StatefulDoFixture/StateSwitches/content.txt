@@ -1,0 +1,12 @@
+|!-fitlibrary.specify.StateSwitch-!|
+
+|''in set up''|
+
+|reject|''in do''|
+
+|''start action''|
+
+|reject|''in set up''|
+
+|''in do''|
+

@@ -1,0 +1,1 @@
+Fixed bug in which methods were executed 3 times (instead of once) in column fixtures.

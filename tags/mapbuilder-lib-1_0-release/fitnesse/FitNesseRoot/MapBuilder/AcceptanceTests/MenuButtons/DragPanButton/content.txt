@@ -1,0 +1,9 @@
+|Action fixture|
+|start|!-Mb.Widgets.DragPanFixture-!|
+|press|zoomin|
+|check|bbox1||
+|enter|start from|200 300|
+|enter|drag to|250 350|
+|press|drag|
+|check|bbox2||
+|check|reset|true|
