@@ -1,0 +1,13 @@
+!2 If a nullary action doesn't correspond to a method, we try accessing the property instead:
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border><tr><td>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+</table>
+<table border>
+<tr><td>boolean property</td></tr>
+<tr><td>check</td><td>int property</td><td>2</td></tr>
+</table>-!|!-<table border><tr><td>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+</table>
+<table border>
+<tr><td class="pass">boolean property</td></tr>
+<tr><td>check</td><td>int property</td><td class="pass">2</td></tr>
+</table>-!|
