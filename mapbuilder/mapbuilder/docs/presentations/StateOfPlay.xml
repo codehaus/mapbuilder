@@ -79,33 +79,45 @@
       <para>Google and Yahoo Map layers, fast vector rendering of features (eg
       using SVG), tiled maps, and much more.</para>
     </section>
+
+    <section>
+      <title>AJAX drawing tool</title>
+
+      <para>Mapbuilder has developed effective drawing functionality which
+      would be useful for a wide range of applications. This should be
+      factored out into a seperate library so that it can be used by other
+      applications.</para>
+    </section>
   </section>
 
   <section>
     <title>Managing growth</title>
 
+    <figure>
+      <title></title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="emailsFeb06.gif" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
     <para>Over the last year Mapbuilder has had a steady increase in interest
     from developers and users. Traffic on our email lists has increased by a
-    factor of five. Increasingly we are seeing questions from developers
-    installing Mapbuilder portals who want to add little bits of
-    functionality.</para>
+    factor of five over the last year. Increasingly we are seeing questions
+    from sponsored portal developers who use then add extentions to
+    Mapbuilder, then move on. Most core Mapbuilder developers work on
+    Mapbuilder in their spare time. Consequently, core developers are having
+    problems keeping up with user queries and incorporating the extensions
+    being developed.</para>
 
-    <para></para>
-
-    <para>PSC unable to keep up with email list.</para>
-
-    <para>So far we only have developers using Mapbuilder - which is an
-    indication that our documentation is too hard to understand.</para>
+    <para>Almost all Mapbuilder queries are from developers, which is an
+    indication that Mapbuilder documentation and installation procedures are
+    too difficult for average internet users.</para>
 
     <para>Developer motivation: Tailor Mapbuilder for their particular
     project.</para>
-
-    <para>Developers are often funded, working full time to integrate
-    Mapbuilder into a project for a short period, then move on. If
-    supported</para>
-
-    <para>PSC are largely unfunded, are committed to Mapbuilder for the long
-    haul, but do not have the resouces to respond to Developers.</para>
   </section>
 
   <section>
