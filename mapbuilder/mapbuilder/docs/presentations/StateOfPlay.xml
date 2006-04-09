@@ -8,9 +8,15 @@
     <para>This document aims to summarise the Mapbuilder project and it's
     relationship with projects around it, identify upcoming features and
     opportunities, and suggest where to focus future efforts to maximise our
-    contribution to Open Source Geospatial projects. I argue that targetted
-    funding on documentation and developer support will maximise a sponsor's
-    return on investment.</para>
+    contribution to Open Source Geospatial projects.</para>
+
+    <para>Recently, we have seen a significant increase in software developers
+    downloading and extending Mapbuilder code. To maximise the potential of
+    Mapbuilder for developers, users and sponsors, the focus of core
+    developers should move from development to supporting and mentoring new
+    developers. Similarly, sponsors should assign part of their funds to
+    Mapbuilder mentors. Sponsor one mentor and you get five developers for
+    free.</para>
   </abstract>
 
   <section>
@@ -106,42 +112,42 @@
     <para>Over the last year Mapbuilder has had a steady increase in interest
     from developers and users. Traffic on our email lists has increased by a
     factor of five over the last year. Increasingly we are seeing questions
-    from sponsored portal developers who use then add extentions to
-    Mapbuilder, then move on. Most core Mapbuilder developers work on
-    Mapbuilder in their spare time. Consequently, core developers are having
-    problems keeping up with user queries and incorporating the extensions
-    being developed.</para>
+    from paid portal developers who extend Mapbuilder, then move on. Since
+    most core developers work on Mapbuilder in their spare time the core
+    developers are having problems supporting users and incorporating the
+    user's code.</para>
 
     <para>Almost all Mapbuilder queries are from developers, which is an
     indication that Mapbuilder documentation and installation procedures are
     too difficult for average internet users.</para>
 
-    <para>Developer motivation: Tailor Mapbuilder for their particular
-    project.</para>
+    <para>Mapbuilder's user documentation is still poor which is part of the
+    reason for the large number of user queries. Improving documentation will
+    empower users to answer their own queries, and will increase Mapbuilder's
+    user base because more people will be able to use it.</para>
   </section>
 
   <section>
     <title>Funding</title>
 
-    <para>Developers come to Mapbuilder for free. To accept their
-    contributions you need to, provide guidance and answer technical
-    questions, review code, incorporate changes into code base.</para>
+    <para>Mapbuilder has grown to privledged position where we are starting to
+    have access to more developers than the core team can support. To accept
+    developer contributions, we need to provide guidance, answer technical
+    questions, review code and incorporate additions into the code base. Part
+    of the support can be provided by writing good supporting
+    documentation.</para>
 
-    <para>Documentation reduces queries, so makes the cost of support
-    cheaper.</para>
-
-    <para>Maths: 1 mentor can support around 7 developers. Ie, fund one mentor
-    and you get 7 developers for free.</para>
-
-    <para>Suggested funding stragegy for companies investing in Mapbuilder.
-    Hire or provide specific developers to implement required functionality.
-    Sponsor Mapbuilder metors for 1/5 of the time dedicated to your developer
-    resource to ensure your code is reviewed and incorporated into the code
-    base.</para>
-
-    <para>Explain why it is good to have your code incorporated into the
-    codebase (prevents need to continually update mapbuilder releases with
-    your patches).</para>
+    <para>If you are considering using or extending Mapbuilder, sponsoring a
+    Mapbuilder mentor will probably make sense for you. <emphasis
+    role="bold">Sponsor one mentor and get five developers for
+    free.</emphasis> For a company who wants to extend Mapbuilder, I suggest
+    you hire a developer to implement your desired features and a mentor for
+    1/5 of your developer's time. This will ensure your code is reviewed and
+    incorporated into the Mapbuilder codebase and available in future
+    Mapbuilder releases. If your desired functionality is a popular request,
+    you may wish to invest more in the Mapbuilder mentor which in turn will
+    empower other Mapbuilder developers to help implement features on your
+    behalf.</para>
   </section>
 
   <section>
@@ -229,28 +235,32 @@
     <section>
       <title>UDig</title>
 
-      <para></para>
-    </section>
-
-    <section>
-      <title>Geoserver</title>
-
-      <para>Geoserver is... Mapbuilder is bundled with Geoserver.</para>
-
-      <para>Many of the quality developers we have attracted heard about
-      Mapbuilder through Geoserver.</para>
-
-      <para>Ensure Mapbuilder continues to be bundled with Geoserver, and
-      integrates well with Geoserver. Ensure Geoserver ships with latest
-      version of Mapbuilder.</para>
-
-      <para></para>
+      <para><ulink
+      url="http://udig.refractions.net/confluence/display/UDIG/Home">UDig</ulink>
+      is a powerful GIS desktop application. It would be very useful for users
+      to bundle Mapbuilder with UDig to provide a light/heavy client
+      option.</para>
     </section>
 
     <section>
       <title>Open Web Services Testbed (OWS4)</title>
 
-      <para></para>
+      <para>The OWS4 testbed sponsorted by the Open Geospatial Consortium
+      would be an excellent opportunity to show case Mapbuilder and UDig
+      integration.</para>
+    </section>
+
+    <section>
+      <title>Geoserver</title>
+
+      <para>Geoserver is a Java based Transactional Web Feature Service
+      (WFS-T) and Web Map Service. Mapbuilder is currently bundled with
+      Geoserver which probably explains why a number of our quality developers
+      have been attracted to Mapbuilder.</para>
+
+      <para>We need to ensure that Mapbuilder continues to be bundled with
+      Geoserver and ensure that Geoserver ships with the latest version of
+      Mapbuilder.</para>
     </section>
   </section>
 
