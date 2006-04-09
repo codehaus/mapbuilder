@@ -1,9 +1,28 @@
-|'''Date: '''|!-3:24:16 PM (EST) on Tuesday, December 27, 2005-!|
-|'''Command: '''|!-ruby -I fitnesse.jar;fitlibrary.jar ruby/bin/FitServer.rb localhost 8088 36-!|
-|'''Exit code: '''|!-0-!|
-|'''Time elapsed: '''|!-6.5 seconds-!|
+|'''Date: '''|!-6:09:59 PM (EDT) on Tuesday, April 4, 2006-!|
+|'''Command: '''|!-ruby -I fitnesse.jar;fitlibrary.jar ruby/bin/FitServer.rb localhost 8088 2-!|
+|'''Exit code: '''|!-7-!|
+|'''Time elapsed: '''|!-43.593 seconds-!|
 ----'''Standard Output:'''
-{{{Checking img:http://www2.demis.nl/WMS/wms.asp?wms=WorldMap&WMTVER=1.0.0&REQUEST=map&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=600&HEIGHT=300&LAYERS=Bathymetry,Countries,Topography,Hillshading,Builtup+areas,Coastlines,Waterbodies,Inundated,Rivers,Streams,Railroads,Highways,Roads,Trails,Borders,Cities,Settlements,Spot+elevations,Airports,Ocean+features&FORMAT=image/gif&STYLES=default&TRANSPARENT=TRUE&UNIQUEID=
+{{{could not attach to window
 loaded:true
-//div[contains(@id,'mainMap_mainMapWidget_Bathymetry')]/img
+Could not find it://div[@id='mainMap_mainMapWidget_Bathymetry']
+config file:http://localhost:8080/mapbuilder/demo/Demis/config.xml
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+scale:59635432
+loaded:true
+scale:14908858
+loaded:true
+scale:3727214
+loaded:true
+check aoi button
+check aoi html form
+press set aoi
 }}}
