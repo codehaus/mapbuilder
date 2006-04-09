@@ -1,13 +1,16 @@
+|MapBuilder.AcceptanceTests.WidgetsTests.CursorTest||19:09:37 Tue, Apr 04, 2006|
+|MapBuilder.AcceptanceTests.DemosTests.TestShipTracks||18:28:05 Tue, Apr 04, 2006|
+|MapBuilder.AcceptanceTests.WidgetsTests||18:13:22 Tue, Apr 04, 2006|
+|MapBuilder.AcceptanceTests.DemosTests||23:12:09 Sun, Apr 02, 2006|
+|MapBuilder.SetUp||05:18:22 Fri, Mar 31, 2006|
 |MapBuilder.AcceptanceTests.PatTests||12:20:58 Fri, Dec 30, 2005|
 |MapBuilder.AcceptanceTests.BugFixesTests||12:18:53 Fri, Dec 30, 2005|
 |MapBuilder.AcceptanceTests.BugFixesTests.BugReport1386497||12:15:36 Fri, Dec 30, 2005|
 |MapBuilder.AcceptanceTests.DemosTests.TestGeoRssDemo||12:07:18 Fri, Dec 30, 2005|
 |MapBuilder.AcceptanceTests.BugFixesTests.BugReport1387043||11:47:05 Fri, Dec 30, 2005|
 |MapBuilder.AcceptanceTests.DemosTests.TestWpsClient||11:03:28 Fri, Dec 30, 2005|
-|MapBuilder.AcceptanceTests.DemosTests||11:01:02 Fri, Dec 30, 2005|
 |MapBuilder.AcceptanceTests.BugFixesTests.BugReport1364550||10:59:54 Fri, Dec 30, 2005|
 |MapBuilder.AcceptanceTests.WidgetsTests.LanguagesTest||21:08:32 Thu, Dec 29, 2005|
-|MapBuilder.AcceptanceTests.WidgetsTests||17:06:05 Thu, Dec 29, 2005|
 |MapBuilder.AcceptanceTests.WidgetsTests.LayerControlTest||18:48:17 Wed, Dec 28, 2005|
 |MapBuilder||16:50:03 Wed, Dec 28, 2005|
 |MapBuilder.AcceptanceTests.DemosTests.TestCompleteConfigurationPart2||12:59:15 Wed, Dec 28, 2005|
@@ -19,7 +22,6 @@
 |MapBuilder.AcceptanceTests.DemosTests.TestSimpleMapDemo||16:00:53 Tue, Dec 27, 2005|
 |MapBuilder.AcceptanceTests.DemosTests.TestDemisMapDemo||15:24:48 Tue, Dec 27, 2005|
 |MapBuilder.AcceptanceTests.DemosTests.TestFeatureEntryDemo||14:32:56 Tue, Dec 27, 2005|
-|MapBuilder.SetUp||08:54:50 Tue, Dec 27, 2005|
 |MapBuilder.PreRequisites||08:47:34 Tue, Dec 27, 2005|
 |FrontPage.MapBuilder||10:57:06 Mon, Dec 26, 2005|
 |FitNesse.UserGuide||24:04:39 Sun, Dec 25, 2005|

@@ -7,3 +7,4 @@ However, you can manually test these widgets if you have previously loaded a dem
 ^ModelSwitcherTest
 ^LayerControlTest
 ^LanguagesTest
+^CursorTest

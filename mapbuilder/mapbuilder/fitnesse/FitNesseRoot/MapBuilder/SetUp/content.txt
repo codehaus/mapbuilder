@@ -5,7 +5,7 @@
 !fixture Mb.Setup
 
 Make sure that the host name/mapbuilder path is correct and pointing to where Mapbuilder is installed and running under Tomcat or equivalent. 
-If you have installed the Mapbuilder war file in the Tomcat webapps directory of your local machine, the path would be http://localhost:8080/mapbuilder.  If you are debugger Mapbuilder running on a different server, adjust the path accordingly.
+If you have installed the Mapbuilder war file in the Tomcat webapps directory of your local machine, the path would be http://localhost:8080/mapbuilder.  If you are debugging Mapbuilder running on a different server, adjust the url accordingly.
  
 The sub-webapp is actually defaulted from the WEBAPP variable
 It is overriden by every demo.  This is only used for manual tests and debugging of test fixtures

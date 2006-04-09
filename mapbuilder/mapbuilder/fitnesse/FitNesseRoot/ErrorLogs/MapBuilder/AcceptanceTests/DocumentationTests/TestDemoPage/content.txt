@@ -1,20 +1,24 @@
-|'''Date: '''|!-10:11:59 AM (EST) on Sunday, December 18, 2005-!|
-|'''Command: '''|!-ruby -I fitnesse.jar;fitlibrary.jar ruby/bin/FitServer.rb localhost 8088 29-!|
+|'''Date: '''|!-9:12:40 AM (EST) on Friday, March 31, 2006-!|
+|'''Command: '''|!-ruby -I fitnesse.jar;fitlibrary.jar ruby/bin/FitServer.rb localhost 8088 3-!|
 |'''Exit code: '''|!-0-!|
-|'''Time elapsed: '''|!-5.469 seconds-!|
+|'''Time elapsed: '''|!-11.386 seconds-!|
 ----'''Standard Output:'''
-{{{Checking Page:http://192.168.15.100:8080/mapbuilder/demo
-href:http://192.168.15.100:8080/mapbuilder/demo/simple/index.html code: 200
-href:http://192.168.15.100:8080/mapbuilder/demo/Demis/index.html code: 200
-href:http://192.168.15.100:8080/mapbuilder/demo/timeSeries/index.html code: 200
-href:http://192.168.15.100:8080/mapbuilder/demo/complete/index.html code: 200
-href:http://192.168.15.100:8080/mapbuilder/demo/wfs-t/index.html code: 200
+{{{Checking Page:http://localhost:8080/mapbuilder/demo
+href:http://localhost:8080/mapbuilder/demo/simple/index.html code: 200
+href:http://localhost:8080/mapbuilder/demo/basic/index.html code: 200
+href:http://localhost:8080/mapbuilder/demo/Demis/index.html code: 200
+href:http://localhost:8080/mapbuilder/demo/timeSeries/index.html code: 200
+href:http://localhost:8080/mapbuilder/demo/complete/index.html code: 200
+href:http://localhost:8080/mapbuilder/demo/wfs-t/index.html code: 200
 href:http://geoserver.sourceforge.net/ code: 200
-href:http://192.168.15.100:8080/mapbuilder/demo/wfs-t/install.html code: 200
-href:http://192.168.15.100:8080/mapbuilder/demo/contextEditor/index.html code: 200
-href:http://192.168.15.100:8080/mapbuilder/demo/geoRSS/index.html code: 200
+href:http://localhost:8080/mapbuilder/demo/wfs-t/install.html code: 200
+href:http://localhost:8080/mapbuilder/demo/contextEditor/index.html code: 200
+href:http://localhost:8080/mapbuilder/demo/geoRSS/index.html code: 200
 href:http://mapserver.gis.umn.edu/mum/mtg2005.html code: 301
-href:http://192.168.15.100:8080/mapbuilder/demo/geoRSS/index2.html code: 200
-href:http://mapbuilder.sourceforge.net/ code: 200
+href:http://localhost:8080/mapbuilder/demo/geoRSS/index2.html code: 200
+href:http://www.georss.org/ code: 200
+href:http://localhost:8080/mapbuilder/demo/flickr/index.html code: 200
+href:http://localhost:8080/mapbuilder/demo/shipTracks/index.html code: 200
+href:http://mapbuilder.sourceforge.net/ code: 302
 results
 }}}
