@@ -119,7 +119,7 @@ function OWSCatSearchForm(widgetNode, model) {
    * Handles submission of the form (via javascript in an <a> tag)
    */
   this.submitForm = function() {
-    thisWidget = this.parentWidget;
+    var thisWidget = this.parentWidget;
     thisWidget.createFilter(thisWidget);
     thisWidget.targetModel.setParam("wfs_GetFeature","service_resources");
     return false;
@@ -167,8 +167,7 @@ function OWSCatSearchForm(widgetNode, model) {
     }
 
     if (keycode == 13) {    //enter key
-      target.parentWidget.submitForm();
-      return false;
+      return true;
     }
   }
 
