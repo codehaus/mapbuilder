@@ -21,12 +21,10 @@ $Name$
   <xsl:param name="modelTitle"/>
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
-  <xsl:param name="targetModelId"/>
   <xsl:param name="targetModel"/>
   
   <xsl:param name="webServiceUrl">http://geodiscover.cgdi.ca/ceonetWeb/biz</xsl:param>
   <xsl:param name="formName">OGCServiceList</xsl:param>
-  <xsl:param name="capabilitiesModel"/>
   <xsl:param name="keywords"/>
   <xsl:param name="serviceType"/>
   
@@ -75,7 +73,7 @@ $Name$
     <xsl:variable name="rowClass">altRow_<xsl:value-of select="position() mod 2"/></xsl:variable>
     <xsl:variable name="capsUrl"><xsl:value-of select="accessUrl"/></xsl:variable>
     <dt class="{$rowClass}">
-      <a href="javascript:config.loadModel('{$capabilitiesModel}','{$capsUrl}')">
+      <a href="javascript:config.loadModel('{$targetModel}','{$capsUrl}')">
         <xsl:value-of select="name"/>
       </a>
     </dt>

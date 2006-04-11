@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+<!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by Tom Kralidis (NRCAN CCRs) -->
+<MapbuilderConfig version="1.0.0" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
 	<models>
 		<Context id="mainMap">
 			<defaultModelUrl>tsEstPrecip.xml</defaultModelUrl>
@@ -60,11 +61,11 @@
 					<outputNodeId>workspaceCanvas</outputNodeId>
 					<stylesheet>../../lib/widget/SelectMapLayers.xsl</stylesheet>
 				</Widget>
-        <Loading2 id="loading2">
+				<Loading2 id="loading2">
 					<htmlTagId>workspace</htmlTagId>
 					<outputNodeId>workspaceCanvas</outputNodeId>
-          <textMessage>This is a large file, please wait for it to load...</textMessage>
-        </Loading2>
+					<textMessage>This is a large file, please wait for it to load...</textMessage>
+				</Loading2>
 			</widgets>
 			<tools>
 				<Caps2Context id="convertCaps">
@@ -77,7 +78,7 @@
 	<widgets>
 		<ModelUrlInput id="wmsCapsUrlInput">
 			<targetModel>wmsCapTemplate</targetModel>
-      <title>Or load another WMS Capabilities URL: </title>
+			<title>Or load another WMS Capabilities URL: </title>
 		</ModelUrlInput>
 		<Button id="play">
 			<buttonBar>tsButtonBar</buttonBar>
