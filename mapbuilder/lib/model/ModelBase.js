@@ -93,6 +93,7 @@ function ModelBase(modelNode, parentModel) {
    * @return value of the node or null if XPath does not find a node.
    */
   this.getXpathValue=function(objRef,xpath){
+    if (!objRef.doc) return null; 
     node=objRef.doc.selectSingleNode(xpath);
     if(node && node.firstChild){
       return node.firstChild.nodeValue;
@@ -222,6 +223,9 @@ function ModelBase(modelNode, parentModel) {
   this.setModel=function(objRef,newModel){
     objRef.callListeners("newModel");
     objRef.doc=newModel;
+    if ((newModel == null) && objRef.url) {
+      objRef.url = null;
+    }
     objRef.finishLoading();
   }
 
