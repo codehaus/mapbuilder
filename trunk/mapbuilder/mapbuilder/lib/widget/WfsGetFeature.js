@@ -25,7 +25,6 @@ function WfsGetFeature(widgetNode, model) {
   this.httpPayload.method="get";
   this.httpPayload.postData=null;
   this.trm=widgetNode.selectSingleNode("mb:transactionResponseModel").firstChild.nodeValue;
-  this.transactionResponseModel="init";
 
   // override default cursor by user
   // cursor can be changed by spefying a new cursor in config file
@@ -47,7 +46,7 @@ function WfsGetFeature(widgetNode, model) {
       objRef.httpPayload.url=objRef.webServiceUrl+"?request=GetFeature&typeName="+objRef.typeName+"&bbox="+bbox;
 
       // Model that will be populated with the WFS response.
-      if (objRef.transactionResponseModel="init"){
+      if (!objRef.transactionResponseModel){
         objRef.transactionResponseModel=eval("config.objects."+objRef.trm);
         //objRef.transactionResponseModel.addListener("loadModel",objRef.handleResponse, objRef);
       }
