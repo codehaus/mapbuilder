@@ -15,6 +15,7 @@
 					<lineWidth>2</lineWidth>
 					<crossSize>15</crossSize>
 				</AoiBoxDHTML>
+				<Legend id="legend"/>
 				<Loading2 id="loading2">
 					<mapContainerId>mainMapContainer</mapContainerId>
 				</Loading2>
