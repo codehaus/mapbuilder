@@ -12,6 +12,7 @@
   <General>
     <Window width="800" height="400"/>
     <ows:BoundingBox crs="EPSG:GMAPS">
+    <!--ows:BoundingBox crs="EPSG:4326"-->
       <ows:LowerCorner>-100.0 20.0</ows:LowerCorner>
       <ows:UpperCorner>-50.0 45.0</ows:UpperCorner>
       <!--
@@ -72,6 +73,7 @@
       <Name>1</Name>
       <Title>Google Map</Title>
       <SRS>EPSG:GMAPS</SRS>
+      <!--SRS>EPSG:4326</SRS-->
     </Layer>
     <!--
     <Layer queryable="0" hidden="0">
@@ -131,8 +133,6 @@
         <Format current="1">image/gif</Format>
       </FormatList>
     </Layer>
-    -->
-    <!--
     <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
       <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
