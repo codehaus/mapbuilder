@@ -160,6 +160,7 @@ RssLayer.prototype.paintPoint = function( sld, hiliteOnly) {
 //  } else {
   if( this.coords != null ) {
     var containerProj = new Proj(this.model.getSRS());
+    //alert("RssLayer.paintPoint SRS="+this.model.getSRS());
     var point = this.coords.split(/[ ,\n]+/);
     point = containerProj.Forward(point);
     //alert( this.coords + " forward:" + point[0] + " " + point[1] );
@@ -265,8 +266,9 @@ RssLayer.prototype.paintLine = function( sld, hiliteOnly) {
 
 /**
   * Make sure we have a div to insert all the elements
+  * @param layerNum The position of this layer in the LayerList.
   */
-RssLayer.prototype.getDiv = function() {
+RssLayer.prototype.getDiv = function(layerNum) {
   var outputNode = document.getElementById( this.mapPane.outputNodeId ).parentNode;
   
   var div = document.getElementById("vector_elements");
@@ -276,9 +278,12 @@ RssLayer.prototype.getDiv = function() {
     //div.setAttribute("name", this.title);
     div.style.position = "absolute";
     div.style.visibility = "visible";
+    //div.style.zIndex = layerNum*this.zIndexFactor;
     div.style.zIndex = 300;
     outputNode.appendChild( div );
   }
+  div.style.top=0;
+  div.style.left=0;
   return div;
 }
 
@@ -298,6 +303,7 @@ RssLayer.prototype.paint = function( ) {
   */
 RssLayer.prototype.paint = function( objRef, img ) {
 
+  this.getDiv();
   this.deleteShape();
   //var style =  this.style.selectSingleNode("//wmc:Style[wmc:Name='Normal']");
   this.paintShape(this.normalSld, false );
