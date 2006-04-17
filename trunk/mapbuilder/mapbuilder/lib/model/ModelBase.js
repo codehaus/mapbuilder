@@ -214,6 +214,7 @@ function ModelBase(modelNode, parentModel) {
       }
     }
   }
+  this.addListener("reloadModel",this.loadModelDoc, this);
 
   /**
    * Set the model's XML document using an XML object as a parameter.
