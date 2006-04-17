@@ -23,6 +23,9 @@ function MapLayer(model, mapPane, layerName, layerNode, queryable, visible) {
 MapLayer.prototype.paint = function( objRef, img ) {
 }
 
+MapLayer.prototype.unpaint = function( ) {
+}
+
 MapLayer.prototype.isWmsLayer = function() {
   return false;
 }
