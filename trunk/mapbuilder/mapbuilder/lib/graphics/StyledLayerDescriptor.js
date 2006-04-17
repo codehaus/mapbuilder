@@ -17,6 +17,14 @@ function StyleLayerDescriptor( style ) {
   */
 StyleLayerDescriptor.prototype.hiliteShape = function( gr, shape) {
   
+  // check if we need to switch the image
+  var externalGraphic = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:ExternalGraphic" );
+  if( externalGraphic != null ) {
+    var href    = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:ExternalGraphic/sld:OnlineResource");
+    //var format  = externalGraphic.selectSingleNode("sld:Format");
+    gr.swapImage( shape, href.attributes.getNamedItem("xlink:href").nodeValue)
+  }
+  
   //alert( "stroke:"+this.strokeColor+" width:"+this.strokeWidth+" fill:"+this.fillColor);
   if( this.strokeColor != null ) {  
     gr.setShapeStrokeColor( shape, this.strokeColor );
@@ -66,7 +74,7 @@ StyleLayerDescriptor.prototype.paintPoint = function( gr, coords) {
   var externalGraphic = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:ExternalGraphic" );
   if( externalGraphic != null ) {
     var href    = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:ExternalGraphic/sld:OnlineResource");
-    var format  = externalGraphic.selectSingleNode("sld:Format");
+    //var format  = externalGraphic.selectSingleNode("sld:Format");
     shape  = gr.drawImage( href.attributes.getNamedItem("xlink:href").nodeValue, X, Y, size, size )
   } else { 
     // WellKnownGraphicItems

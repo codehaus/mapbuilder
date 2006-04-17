@@ -144,6 +144,11 @@ SVGGraphics.prototype.drawImage = function( src, X, Y, width, height) {
   return element;
 } 
   
+SVGGraphics.prototype.swapImage = function( element, src ) {
+  element.setAttributeNS('http://www.w3.org/1999/xlink', 'href', src)
+}
+  
+  
 /**
   *
   */
