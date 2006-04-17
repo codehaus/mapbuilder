@@ -36,7 +36,6 @@ GoogleMapLayer.prototype.isWmsLayer = function() {
   return false;
 }
 
-
 /**
   * Make sure we have a div to insert all the elements
   * @param layerNum The position of this layer in the LayerList.
@@ -66,22 +65,27 @@ GoogleMapLayer.prototype.getDiv = function(layerNum) {
   * @param img can be ignored here (required for WMS layers)
   * @param layerNum The position of this layer in the LayerList.
   */
-GoogleMapLayer.prototype.paint = function( objRef,img,layerNum) {
+GoogleMapLayer.prototype.paint = function(objRef,img,layerNum) {
   //TBD This should be moved to an initialisation function
   div=this.getDiv(layerNum);
   div.style.top=0;
   div.style.left=0;
-  if(!this.mapPane.gmap){
+  gmap=this.mapPane.model.getParam("gmap");
+  if(!gmap){
     gmap = new GMap2(div);
     gmap.disableDragging();
     //gmap.disableInfoWindow();
     this.mapPane.model.setParam("gmap", gmap );
     this.mapPane.googleMapTools=new GoogleMapTools();
+    this.mapPane.googleMapTools.centerAndZoom(this.mapPane.model);
+    // Set the AOI to that used by Google Maps
+    this.mapPane.googleMapTools.useGoogleMapExtent(this.mapPane.model);
+
     // PatC Added to support lat/long to pixel conversion of Proj
     config.objects.gmap = gmap;
     config.objects.googleMapTools = this.mapPane.googleMapTools;
+  }else{
+    this.mapPane.googleMapTools.centerAndZoom(this.mapPane.model);
   }
-
-  this.mapPane.googleMapTools.centerAndZoom(this.mapPane.model);
 }
 
