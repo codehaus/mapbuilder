@@ -68,7 +68,7 @@ MapLayerMgr.prototype.hiddenListener=function(objRef, layerName){
   
 /**
   * Load all layers from context document when it is loaded
-  * @param objRef Pointer to widget object
+  * @param objRef Pointer to this object
   */
 MapLayerMgr.prototype.setLayersFromContext = function(objRef) {
  // add all the layers from the context document
@@ -82,7 +82,7 @@ MapLayerMgr.prototype.setLayersFromContext = function(objRef) {
 
 /**
   * Instantiate a layer of the righ type
-  * @param objRef
+  * @param objRef Pointer to this object
   * @param layerNode  Layer node element from WMC/OWSContext document 
   */
 MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
