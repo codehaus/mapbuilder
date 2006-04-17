@@ -25,6 +25,15 @@ function GoogleMapTools() {
     gmap.setCenter(
       new GLatLng(point[1],point[0]),
       gmap.getZoom()+deltaZoom);
+    this.useGoogleMapExtent(model);
+  }
+
+  /**
+   * Set the AOI to the Google Map extent.
+   * @param model The context which stores the bounding box and screen size.
+   */
+  this.useGoogleMapExtent=function(model){
+    gmap=model.getParam("gmap");
     bbox=gmap.getBounds();
     model.setBoundingBox(new Array(
       bbox.getSouthWest().lng(),
@@ -32,6 +41,7 @@ function GoogleMapTools() {
       bbox.getNorthEast().lng(),
       bbox.getNorthEast().lat()));
   }
+
 
   /**
    * Derive the Google ZoomLevel from current BBox, then call GoogleMap's
@@ -49,13 +59,7 @@ function GoogleMapTools() {
    */
   this.setGmapExtent=function(model,bbox){
     this.centerAndZoomToBox(model,bbox);
-    gmap=model.getParam("gmap");
-    bbox=gmap.getBounds();
-    model.setBoundingBox(new Array(
-      bbox.getSouthWest().lng(),
-      bbox.getSouthWest().lat(),
-      bbox.getNorthEast().lng(),
-      bbox.getNorthEast().lat()));
+    this.useGoogleMapExtent(model);
   }
 
   /**
