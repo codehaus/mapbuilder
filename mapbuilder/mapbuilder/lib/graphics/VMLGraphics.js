@@ -167,6 +167,11 @@ VMLGraphics.prototype.drawImage = function( src, X, Y, width, height) {
   return element;
 } 
   
+VMLGraphics.prototype.swapImage = function( element, src) {
+	var imagedata = element.firstChild
+	imagedate.src = src
+}
+
 /**
   *
   */
