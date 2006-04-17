@@ -10,7 +10,7 @@ $Id: $
 mapbuilder.loadScript(baseDir+"/graphics/WmsLayer.js");
 
 //@TODO move out
-mapbuilder.loadScript(baseDir+"/graphics/GoogleMapLayer.js");
+//mapbuilder.loadScript(baseDir+"/graphics/GoogleMapLayer.js");
 
 /**
   * Keeps an ordered array of layers
@@ -97,7 +97,8 @@ MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
   } else if( (service == "wms") || (service == "OGC:WMS")) {
     objRef.addWmsLayer( objRef, layerNode);
   } else if( nodeName.indexOf("RssLayer") >= 0 ) {
-    var layer = new RssLayer( objRef.model, objRef.mapPane, "RssLayer", layerNode, false, true );
+    var layerName = layerNode.getAttribute("id" );
+    var layer = new RssLayer( objRef.model, objRef.mapPane, layerName, layerNode, false, true );
     objRef.layers.push( layer );
   } else {
     alert( "Failed adding Layer:"+nodeName + " service:"+service );
@@ -211,8 +212,12 @@ MapLayerMgr.prototype.getLayer = function(layerName) {
   * @param layerName the Layer to be deleted
   */
 MapLayerMgr.prototype.deleteLayer = function(objRef, layerName) {
-  for( var i=0; i<layers.length; i++ ) {
-  if( layer[i].layerName.equalsIgnoreCase(layerName) )
-    layers = layers.splice(i, 1);
+  for( var i=0; i<objRef.layers.length; i++ ) {
+    var layer = objRef.layers[i]; 
+    if( layer.layerName == layerName ) {
+      //alert( "MapLayerMgr deleting:"+layer.layerName );
+      layer.unpaint();
+      layers = objRef.layers.splice(i, 1);
+    }
   }
 }
