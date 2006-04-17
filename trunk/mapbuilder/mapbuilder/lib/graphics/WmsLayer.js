@@ -76,7 +76,8 @@ WmsLayer.prototype.loadImgDiv = function(layerNode,newSrc,newImg,layerNum) {
     imgDiv.style.top = '0px'; 
     imgDiv.style.left = '0px';
     imgDiv.imgId = this.d.getTime(); 
-    imgDiv.style.zIndex=this.zIndexFactor*layerNum;
+    imgDiv.style.zIndex=this.zIndexFactor + layerNum;
+    //alert( "Zindex:"+imgDiv.style.zIndex + " layerNum:"+layerNum);
     var domImg = document.createElement("img");
     domImg.id = "real"+imgDiv.imgId;
     domImg.setAttribute("src", "../../lib/skin/default/images/Loading.gif");
