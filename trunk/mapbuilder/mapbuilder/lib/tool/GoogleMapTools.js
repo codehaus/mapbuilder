@@ -22,9 +22,12 @@ function GoogleMapTools() {
    */
   this.zoomTo=function(model,point,deltaZoom){
     gmap=model.getParam("gmap");
-    gmap.setCenter(
-      new GLatLng(point[1],point[0]),
-      gmap.getZoom()+deltaZoom);
+    //gmap.setCenter(
+    //  new GLatLng(point[1],point[0]),
+    //  gmap.getZoom()+deltaZoom);
+    p=new GLatLng(point[1],point[0]);
+    z=gmap.getZoom();
+    gmap.setCenter(p,z+deltaZoom);
     this.useGoogleMapExtent(model);
   }
 
@@ -35,11 +38,13 @@ function GoogleMapTools() {
   this.useGoogleMapExtent=function(model){
     gmap=model.getParam("gmap");
     bbox=gmap.getBounds();
-    model.setBoundingBox(new Array(
-      bbox.getSouthWest().lng(),
-      bbox.getSouthWest().lat(),
-      bbox.getNorthEast().lng(),
-      bbox.getNorthEast().lat()));
+    swLng=bbox.getSouthWest().lng();
+    swLat=bbox.getSouthWest().lat();
+    neLng=bbox.getNorthEast().lng();
+    neLat=bbox.getNorthEast().lat();
+    if(swLng>neLng)swLng-=360;
+    if(swLat>neLat)swLat-=180;
+    model.setBoundingBox(new Array(swLng,swLat,neLng,neLat));
   }
 
 
