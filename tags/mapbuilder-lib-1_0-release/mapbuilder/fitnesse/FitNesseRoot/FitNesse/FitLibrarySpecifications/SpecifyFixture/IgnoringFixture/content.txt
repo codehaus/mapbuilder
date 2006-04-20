@@ -1,8 +1,0 @@
-|!-fitlibrary.spec.SpecifyFixture-!|
-|!-<table border="1" cellspacing="0">
-<tr><td colspan="4">fit.Fixture</td></tr>
-<tr><td>action</td><td></td><td></td><td></td></tr>
-</table>-!|!-<table border="1" cellspacing="0">
-<tr><td colspan="4">fit.Fixture</td></tr>
-<tr><td class="ignore">action</td><td class="ignore"></td><td class="ignore"></td><td class="ignore"></td></tr>
-</table>-!|
