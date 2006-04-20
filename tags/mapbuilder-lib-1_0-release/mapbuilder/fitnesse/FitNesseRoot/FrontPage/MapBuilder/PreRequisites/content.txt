@@ -1,0 +1,8 @@
+!2 Introduction
+Mapbuilder relies on fitnesse http://www.fitnesse.org for its acceptance tests.
+A !-RubyFitServer-! is included in the repository
+
+ * Required Packages to be independantly installed on the test machine:
+  * Ruby 1.8.4 or higher http://rubyforge.org/projects/ruby
+  * !-RubyGems-! (nice to have) http://rubyforge.org/projects/rubygems/
+  * WATIR http://wtr.rubyforge.org/

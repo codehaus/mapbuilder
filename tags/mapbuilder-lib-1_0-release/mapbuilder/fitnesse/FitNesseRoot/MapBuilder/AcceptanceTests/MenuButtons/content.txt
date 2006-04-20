@@ -1,0 +1,12 @@
+This is a parking lot for Button tests.
+The actual tests are called from the demo examples.
+However, you can manually test these widgets if you have previously loaded a demo in a web page.  Follow the links and run the manual test.
+----
+^BackButton
+^ForwardButton
+^ZoominButton
+^ZoomOutButton
+^DragPanButton
+^SetAoiButton
+^ResetButton
+^GetFeatureInfo
