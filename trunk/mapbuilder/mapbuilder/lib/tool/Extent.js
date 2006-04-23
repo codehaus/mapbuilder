@@ -58,12 +58,20 @@ function Extent( model, initialRes ) {
   this.getXY = function(pl) {
     //switch(this.model.getSRS()) {
     //  case "EPSG:GMAPS":       //@TODO Cleanup this hack
-    //    return pl;
+    //    gmap=this.model.getParam("gmap");
+    //    if(gmap){
+    //      p=new GPoint(pl[0],pl[1]);
+    //      latlng=gmap.fromDivPixelToLatLng(p);
+    //      latlng=new Array(latlng.lng(),latlng.lat());
+    //    }
+    //    else alert("Extent: gmap not defined");
+    //    break;
+    //  default:
+    //    latlng=new Array(this.ul[0]+pl[0]*this.res[0],this.ul[1]- pl[1]*this.res[1]);
+    //    break;
     //}
- 
-    var x = this.ul[0]+pl[0]*this.res[0];
-    var y = this.ul[1]- pl[1]*this.res[1];
-    return new Array(x,y);
+    latlng=new Array(this.ul[0]+pl[0]*this.res[0],this.ul[1]- pl[1]*this.res[1]);
+    return latlng;
   }
 
   /**
