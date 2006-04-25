@@ -91,6 +91,7 @@ function MapPane2(widgetNode, model) {
    * Called after a feature has been added to a WFS.  This function triggers
    * the WMS basemaps to be redrawn.  A timestamp param is added to the URL
    * to ensure the basemap image is not cached.
+   * @param objRef Pointer to this object.
    */
   this.refreshWmsLayers=function(objRef){
     objRef.d=new Date();
@@ -104,6 +105,7 @@ function MapPane2(widgetNode, model) {
   this.model.addListener("deleteLayer",this.deleteLayer, this);
   this.model.addListener("moveLayerUp",this.moveLayerUp, this);
   this.model.addListener("moveLayerDown",this.moveLayerDown, this);
+  this.model.addListener("newModel",this.clearWidget2,this);
 }
 
 /**
@@ -186,7 +188,8 @@ MapPane2.prototype.paint = function(objRef, refresh) {
 }
 
 /**
-  * returns layer form LayerMgr
+  * returns layer node from LayerMgr
+  * @param layerName The layer Id.
   */
 MapPane2.prototype.getLayer = function(layerName) {
   return this.MapLayerMgr( layerName );
@@ -227,6 +230,7 @@ MapPane2.prototype.addLayer = function(objRef, layerNode) {
 
 /**
  * Removes a layer from the output
+ * @param objRef Pointer to this object.
  * @param layerName the WMS anme for the layer to be removed
  */
 MapPane2.prototype.deleteLayer = function(objRef, layerName) {
@@ -238,6 +242,7 @@ MapPane2.prototype.deleteLayer = function(objRef, layerName) {
 
 /**
  * Moves a layer up in the stack of map layers
+ * @param objRef Pointer to this object.
  * @param layerName the WMS anme for the layer to be removed
  */
 MapPane2.prototype.moveLayerUp = function(objRef, layerName) {
@@ -254,6 +259,7 @@ MapPane2.prototype.moveLayerUp = function(objRef, layerName) {
 
 /**
  * Moves a layer up in the stack of map layers
+ * @param objRef Pointer to this object.
  * @param layerName the WMS anme for the layer to be removed
  */
 MapPane2.prototype.moveLayerDown = function(objRef, layerName) {
@@ -266,6 +272,17 @@ MapPane2.prototype.moveLayerDown = function(objRef, layerName) {
     return;
   }
   outputNode.insertBefore(movedNode,sibNode);
+}
+
+/**
+ * This function is called when a new Context is about to be loaded
+ * - it deletes all the old layers so new ones can be loaded.
+ * TBD: This should be renamed to clearWidget, except inheritence
+ * is not working if we do that and it doesn't get called.
+ * @param objRef Pointer to this object.
+ */
+MapPane2.prototype.clearWidget2 = function(objRef) {
+  objRef.MapLayerMgr.deleteAllLayers();
 }
 
 /**

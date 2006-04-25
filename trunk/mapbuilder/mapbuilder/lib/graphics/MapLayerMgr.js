@@ -10,7 +10,7 @@ $Id: $
 mapbuilder.loadScript(baseDir+"/graphics/WmsLayer.js");
 
 //@TODO move out
-//mapbuilder.loadScript(baseDir+"/graphics/GoogleMapLayer.js");
+mapbuilder.loadScript(baseDir+"/graphics/GoogleMapLayer.js");
 
 /**
   * Keeps an ordered array of layers
@@ -207,17 +207,30 @@ MapLayerMgr.prototype.getLayer = function(layerName) {
 }
 
 /**
-  * Method to remove a Layer from the LayerList
-  * @param objRef Pointer to widget object.
+  * Remove all layers (usually triggered by changing the context
+  * that this MapPane depends upon.
+  */
+MapLayerMgr.prototype.deleteAllLayers = function() {
+  if(this.layers){
+    for (var i=0;i<this.layers.length;i++) {
+      var layer = this.layers[i]; 
+      //layer.unpaint();
+    }
+  }
+  this.layers=null;
+  this.layers=new Array();
+}
+
+/**
+  * Method to remove a Layer from the LayerList.
   * @param layerName the Layer to be deleted
   */
-MapLayerMgr.prototype.deleteLayer = function(objRef, layerName) {
-  for( var i=0; i<objRef.layers.length; i++ ) {
-    var layer = objRef.layers[i]; 
+MapLayerMgr.prototype.deleteLayer = function(layerName) {
+  for( var i=0; i<this.layers.length; i++ ) {
+    var layer = this.layers[i]; 
     if( layer.layerName == layerName ) {
-      //alert( "MapLayerMgr deleting:"+layer.layerName );
       layer.unpaint();
-      layers = objRef.layers.splice(i, 1);
+      layers = this.layers.splice(i, 1);
     }
   }
 }
