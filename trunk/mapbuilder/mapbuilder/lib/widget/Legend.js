@@ -30,6 +30,15 @@ function Legend(widgetNode, model) {
   }
 
   /**
+   * Listener method to paint this widget
+   * @param layerName  the name of the layer to highlight
+   */
+  this.refresh = function(objRef, layerName) {
+    objRef.paint(objRef, objRef.id);
+  }
+
+  /**
+   * Controller method to select a layer
    * @param objRef Pointer to this object.
    * @param layer The selected layer.
    */
@@ -37,8 +46,8 @@ function Legend(widgetNode, model) {
     objRef.model.setParam('selectedLayer',layer);
   }
 
-  this.model.addListener("deleteLayer",this.paint, this);
-  this.model.addListener("moveLayerUp",this.paint, this);
-  this.model.addListener("moveLayerDown",this.paint, this);
-  this.model.addListener("addLayer",this.paint, this);
+  this.model.addListener("deleteLayer",this.refresh, this);
+  this.model.addListener("moveLayerUp",this.refresh, this);
+  this.model.addListener("moveLayerDown",this.refresh, this);
+  if (this.autoRefresh) this.model.addListener("addLayer",this.refresh, this);
 }

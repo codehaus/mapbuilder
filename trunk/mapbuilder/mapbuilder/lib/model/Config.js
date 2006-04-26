@@ -146,7 +146,7 @@ function Config(url) {
    */
   this.paintWidget = function( widget ) {
     if (widget) {
-      widget.paint(widget, true);
+      widget.paint(widget, widget.id);
     } else {
       alert("config paintWidget error: widget does not exist");
     }

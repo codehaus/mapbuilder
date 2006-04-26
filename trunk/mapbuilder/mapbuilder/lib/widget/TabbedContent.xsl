@@ -31,6 +31,9 @@ $Name:  $
   <xsl:template match="mb:tab">
     <xsl:variable name="tabWidgetId" select="."/>
     <li>
+      <xsl:if test="@disabled='true'">
+        <xsl:attribute name="class">disabled</xsl:attribute>
+      </xsl:if>
       <a href="javascript:config.objects.{$widgetId}.selectTab(config.objects.{$tabWidgetId})" id="{$widgetId}_{$tabWidgetId}">
         <xsl:value-of select="@label"/>
       </a>
