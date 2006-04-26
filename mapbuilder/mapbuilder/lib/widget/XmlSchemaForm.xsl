@@ -43,10 +43,11 @@ $Id$
           <xsl:value-of select="@name"/>
         </td><td>
           <xsl:variable name="docValue"><xsl:value-of select="$currentDocNode/@name"/></xsl:variable>
-          <xsl:element name="INPUT">
-            <xsl:attribute name="ID">elId</xsl:attribute>
-            <xsl:attribute name="TYPE">text</xsl:attribute>
-            <xsl:attribute name="VALUE"><xsl:value-of select="$docValue"/></xsl:attribute>
+          <xsl:element name="input">
+            <xsl:attribute name="id">elId</xsl:attribute>
+            <xsl:attribute name="type">text</xsl:attribute>
+            <xsl:attribute name="value"><xsl:value-of select="$docValue"/></xsl:attribute>
+            <xsl:attribute name="onchange">config.objects.<xsl:value-of select="$widgetId"/>.setValue(this,'xpath')</xsl:attribute>
           </xsl:element>
           <xsl:apply-templates> 
             <xsl:with-param name="currentDocNode" select="$currentDocNode/@name"/>

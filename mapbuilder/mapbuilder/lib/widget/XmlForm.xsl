@@ -24,22 +24,29 @@ XmlForm.xsl,v 1.1 2004/06/28 03:46:49 madair1 Exp
 	<xsl:template match="/">
     <div>
     <form name="{$formName}" id="{$formName}">
-      <xsl:apply-templates select="wmc:ViewContext/wmc:General/wmc:ContactInformation"/> 
+      <xsl:apply-templates select="wmc:ViewContext/wmc:General/wmc:ContactInformation"> 
+        <xsl:with-param name="xpathRoot" select="'/wmc:ViewContext/wmc:General'"/>
+      </xsl:apply-templates>
     </form>
     </div>
   </xsl:template>
 
 	<xsl:template match="*">
+    <xsl:param name="xpathRoot"/>
+    <xsl:param name="xpathStr"><xsl:value-of select="$xpathRoot"/>/wmc:<xsl:value-of select="local-name()"/></xsl:param>
     <xsl:choose>
       <xsl:when test="string-length(normalize-space(text()))>0">
         <xsl:value-of select="name()"/>
-        <xsl:element name="INPUT">
-          <xsl:attribute name="ID">elId</xsl:attribute>
-          <xsl:attribute name="TYPE">text</xsl:attribute>
-          <xsl:attribute name="VALUE"><xsl:value-of select='text()'/></xsl:attribute>
+        <xsl:element name="input">
+          <xsl:attribute name="id">elId</xsl:attribute>
+          <xsl:attribute name="type">text</xsl:attribute>
+          <xsl:attribute name="value"><xsl:value-of select='text()'/></xsl:attribute>
+          <xsl:attribute name="onchange">config.objects.<xsl:value-of select="$widgetId"/>.setValue(this,'<xsl:value-of select="$xpathStr"/>')</xsl:attribute>
         </xsl:element>
         <br/>
-        <xsl:apply-templates /> 
+        <xsl:apply-templates>
+          <xsl:with-param name="xpathRoot" select="$xpathStr"/>
+        </xsl:apply-templates>
       </xsl:when>
       <xsl:otherwise>
         <dl>
@@ -47,7 +54,9 @@ XmlForm.xsl,v 1.1 2004/06/28 03:46:49 madair1 Exp
             <xsl:value-of select="name()"/>
           </dt>
           <dd>
-            <xsl:apply-templates /> 
+          <xsl:apply-templates>
+            <xsl:with-param name="xpathRoot" select="$xpathStr"/>
+          </xsl:apply-templates>
           </dd>
         </dl>
       </xsl:otherwise>
