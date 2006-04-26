@@ -26,10 +26,13 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 function OWSCatSearchForm(widgetNode, model) {
   WidgetBaseXSL.apply(this, new Array(widgetNode, model));
 
-  this.filter = Sarissa.getDomDocument();
-  this.filter.async = false; 
-  this.filter.load("OWSCatResourceFilter.xml");
-  this.filter.setProperty("SelectionLanguage", "XPath");
+  //get bbox inforamtion from a map model
+  var mapModel = widgetNode.selectSingleNode("mb:mapModel");
+  if ( mapModel ) {
+    this.mapModel = mapModel.firstChild.nodeValue;
+  } else {
+    this.mapModel = model.id;
+  }
 
 
   /**
@@ -37,6 +40,8 @@ function OWSCatSearchForm(widgetNode, model) {
    * @param objRef Pointer to this CurorTrack object.
    */
   this.postPaint = function(objRef) {
+    config.objects[objRef.mapModel].addListener('aoi', this.displayAoiCoords, this);
+
     objRef.searchForm = document.getElementById(objRef.formName);
     objRef.searchForm.parentWidget = objRef;
 
@@ -61,20 +66,19 @@ function OWSCatSearchForm(widgetNode, model) {
    */
   this.displayAoiCoords = function(objRef) {
     //objRef.searchForm = document.getElementById(objRef.formName);
-    var aoi = objRef.model.getParam("aoi");
+    var aoi = config.objects[objRef.mapModel].getParam("aoi");
     objRef.searchForm.westCoord.value = aoi[0][0];
     objRef.searchForm.northCoord.value = aoi[0][1];
     objRef.searchForm.eastCoord.value = aoi[1][0];
     objRef.searchForm.southCoord.value = aoi[1][1];
   }
-  this.model.addListener('aoi', this.displayAoiCoords, this);
 
   /**
    * Handles user input from the form element.  This is an onblur handler for 
    * the input elements.
    */
   this.setAoi = function() {
-    var aoi = this.model.getParam("aoi");
+    var aoi = config.objects[objRef.mapModel].getParam("aoi");
     if (aoi) {
       var ul = aoi[0];
       var lr = aoi[1];
@@ -92,7 +96,7 @@ function OWSCatSearchForm(widgetNode, model) {
           lr[1] = this.value;
           break;
       }
-      this.model.setParam("aoi",new Array(ul,lr) );
+      config.objects[objRef.mapModel].setParam("aoi",new Array(ul,lr) );
     }
   }
 
@@ -105,7 +109,7 @@ function OWSCatSearchForm(widgetNode, model) {
     bboxArray     = bbox.split(",");
     var ul = new Array(parseFloat(bboxArray[0]),parseFloat(bboxArray[2]));
     var lr = new Array(parseFloat(bboxArray[1]),parseFloat(bboxArray[3]));
-    this.model.setParam("aoi",new Array(ul,lr));
+    config.objects[this.mapModel].setParam("aoi",new Array(ul,lr));
 
     //convert this.model XY to latlong
     //convert latlong to targetmodel XY
@@ -130,21 +134,22 @@ function OWSCatSearchForm(widgetNode, model) {
    */
   this.createFilter = function(objRef) {
     objRef.searchForm = document.getElementById(objRef.formName);
-    var filter = config.objects["filterExpression"];    //TBD get this ID from config
 
-    var aoi = this.model.getParam("aoi");
+    var aoi = config.objects[objRef.mapModel].getParam("aoi");
     var bboxStr = "";
     if (aoi) {
       bboxStr = aoi[0][0]+","+aoi[1][1]+" "+aoi[1][0]+","+aoi[0][1];
     } else {
-      var bbox = this.model.getBoundingBox();
+      var bbox = config.objects[objRef.mapModel].getBoundingBox();
       bboxStr = bbox[0]+","+bbox[1]+" "+bbox[2]+","+bbox[3];
     }
-    filter.setXpathValue(filter,"/Filter/And/BBOX/Box/coordinates",bboxStr);
+    objRef.model.setXpathValue(objRef.model,"/Filter/And/BBOX/Box/coordinates",bboxStr,false);
     var keywords = "*"+objRef.searchForm.keywords.value+"*";
-    filter.setXpathValue(filter,"/Filter/And/Or/Or/PropertyIsLike[PropertyName='title']/Literal",keywords);
-    filter.setXpathValue(filter,"/Filter/And/Or/Or/PropertyIsLike[PropertyName='abstract']/Literal",keywords);
-    filter.setXpathValue(filter,"/Filter/And/Or/PropertyIsLike[PropertyName='keywords']/Literal",keywords);
+    objRef.model.setXpathValue(objRef.model,"/Filter/And/Or/Or/PropertyIsLike[PropertyName='title']/Literal",keywords,false);
+    objRef.model.setXpathValue(objRef.model,"/Filter/And/Or/Or/PropertyIsLike[PropertyName='abstract']/Literal",keywords,false);
+    objRef.model.setXpathValue(objRef.model,"/Filter/And/Or/PropertyIsLike[PropertyName='keywords']/Literal",keywords,false);
+
+    objRef.model.setXpathValue(objRef.model,"/Filter/And/PropertyIsEqualTo[PropertyName='service_type']/Literal",objRef.searchForm.serviceType.value,false);
   }
 
 
@@ -171,43 +176,7 @@ function OWSCatSearchForm(widgetNode, model) {
     }
   }
 
-  var RUC_Window=null;
-  this.openRucWindow = function( rucType ) { 
-    if ( RUC_Window == null || RUC_Window.closed ) { 
-      var baseUrl;
-      var params;
-      switch(rucType) {
-        case "placename":
-          baseURL = "/rucs/placeName.html?language=" + config.lang + "&formName=" + this.formName;
-          params = "width=290,height=480,scrollbars=0,toolbar=0,location=0,directories=0,status=0,menubar=0,resizable=0";
-          break;
-        case "postalCode":
-          baseURL = "/rucs/postalCode.html?language=" + config.lang + "&formName=" + this.formName;
-          params = "width=280,height=180,scrollbars=0,toolbar=0,location=0,directories=0,status=0,menubar=0,resizable=0";
-          break;
-        default:
-          alert("unkown RUC type");
-          break;
-      }
-      RUC_Window = open( baseURL, "RUCWindow", params );
-    }
-    RUC_Window.focus();
-    return false;
-  } 
-  function RUC_closeRUCWindow() { 
-    if ( RUC_Window != null && !RUC_Window.closed ) { 
-      RUC_Window.close();
-    } 
-  } 
-
   //set some properties for the form output
   this.formName = "WebServiceForm_" + mbIds.getId();
   this.stylesheet.setParameter("formName", this.formName);
 }
-
-  /**
-   */
-  SetAoiCoords = function(aoiBox) {
-    config.objects.mainMap.setParam("aoi",aoiBox );
-  }
-

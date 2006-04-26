@@ -5,6 +5,7 @@
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/docsStyle.css'>
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'>
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/button.css'>
+    <link rel="stylesheet" type="text/css" href="../../lib/skin/default/tabList.css">
     <link rel='StyleSheet' type='text/css' href='contextEditor.css'>
     <style type="text/css">
       #workspace {
@@ -26,11 +27,14 @@
         var pageBody = document.getElementsByTagName("body")[0];
         var workDiv = document.getElementById("workspace");
         var footerDiv = document.getElementById("mbFooter");
+        var height = 200;
         if (_SARISSA_IS_IE) {
-          workDiv.style.height = pageBody.offsetHeight - workDiv.offsetTop - footerDiv.offsetHeight - 30;  //20 is a fudge factor
+          height = pageBody.offsetHeight - workDiv.offsetTop - footerDiv.offsetHeight - 30;  //20 is a fudge factor
         } else {
-          workDiv.style.height = window.innerHeight - workDiv.offsetTop - footerDiv.offsetHeight - 20;  //20 is a fudge factor
+          height = window.innerHeight - workDiv.offsetTop - footerDiv.offsetHeight - 20;  //20 is a fudge factor
         }
+        if (height < 200) height = 200;
+        workDiv.style.height = height +"px";
       }
     </script>
     <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
@@ -40,6 +44,7 @@
       <tr>
         <td colspan="2">
           <h1><a href="http://mapbuilder.sourceforge.net">MapBuilder</a> Context Editor</h1>
+          <a style="float:right" href="javascript:config.setParam('refresh', 'help')">How to use this page</a>
         </td>
       </tr>
       <tr>
@@ -53,9 +58,9 @@
             Browse WMS servers</a><br/>
             <a href="javascript:config.loadModel('wfsServers','http://geodiscover.cgdi.ca/ceonetWeb/biz?request=searchForService&language=en&levelOfDetail=brief&serviceType=CgdiFeatureServices&numResultsPerPage=10&page=1')">
             Browse WFS servers</a><br/>
-            <a href="javascript:config.paintWidget(config.objects.contextLegend)">
+            <a href="javascript:config.objects.mainMap.setParam('refresh', 'contextLegend')">
             Map layer control</a><br/>
-            <a href="javascript:config.paintWidget(config.objects.owsCatSearchForm)">
+            <a href="javascript:config.objects.filterExpression.setParam('refresh', 'owsCatSearchForm')">
             Search form</a><br/>
             <!--a href="javascript:config.saveModel(config)">
             Save config</a><br/-->

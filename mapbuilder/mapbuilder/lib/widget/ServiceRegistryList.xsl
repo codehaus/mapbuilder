@@ -38,7 +38,7 @@ $Name$
     <xsl:variable name="nextPage"><xsl:value-of select="paging/nextPage"/></xsl:variable>
     <xsl:variable name="prevPage"><xsl:value-of select="paging/prevPage"/></xsl:variable>
     <div>
-    <h4>Browse for web services</h4>
+    <h2>Browse for web services</h2>
     <form name="{$formName}" id="{$formName}" method="get" action="{$webServiceUrl}">
       <input type="hidden" name="language" value="en"/>
       <input type="hidden" name="levelOfDetail" value="brief"/>

@@ -32,6 +32,9 @@ $Name$
   <xsl:template match="/wmc:ViewContextCollection">
 
     <ul>
+      <xsl:if test="$title">              
+        <h3><xsl:value-of select="$title"/></h3>
+      </xsl:if>
       <xsl:apply-templates select="wmc:ViewContextReference"/>
     </ul>
 

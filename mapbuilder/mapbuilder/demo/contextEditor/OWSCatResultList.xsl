@@ -56,6 +56,22 @@ $Name:  $
       </td>
     </tr>
   </xsl:template>
+  
+  <!-- template rule matching Service Exception in the response -->
+  <xsl:template match="/ogc:ServiceExceptionReport">
+    <table>
+      <tr>
+        <th align="left">
+          Error executing your request:
+        </th>
+      </tr>
+      <tr>
+        <td>
+          <xsl:value-of select="ogc:ServiceException"/>
+        </td>
+      </tr>
+    </table>
+  </xsl:template>
 
   <xsl:template match="text()|@*"/>
 

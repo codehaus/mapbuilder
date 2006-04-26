@@ -59,6 +59,13 @@
   margin: 0px;
   float: left;
 }
+
+#workspace h2,h3
+{
+  padding: 2px;
+  margin: 0px;
+}
+
 /*
 #legend {
 	font-size: 70%; 

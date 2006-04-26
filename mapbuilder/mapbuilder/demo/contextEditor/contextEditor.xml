@@ -11,16 +11,20 @@
 
     $Id$
   -->
-	<models>
-		<Context id="mainMap">
-			<defaultModelUrl>../data/context/DM_Canada.xml</defaultModelUrl>
-			<!--defaultModelUrl>../data/context/atlasWorld.xml</defaultModelUrl-->
-			<widgets>
-				<MapPane id="mainMapWidget">
-					<htmlTagId>mainMapPane</htmlTagId>
-					<mapContainerId>mainMapContainer</mapContainerId>
-					<loadHidden>false</loadHidden>
-				</MapPane>
+  <models>
+    <Context id="mainMap">
+      <defaultModelUrl>../data/context/DM_Canada.xml</defaultModelUrl>
+      <!--defaultModelUrl>../data/context/atlasWorld.xml</defaultModelUrl-->
+      <widgets>
+        <MapPane id="mainMapWidget">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <loadHidden>false</loadHidden>
+					<stylesheet>../../lib/widget/MapPane.xsl</stylesheet>
+        </MapPane>
+        <Loading2 id="loading2">
+          <mapContainerId>mainMapContainer</mapContainerId>
+        </Loading2>
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
         </CursorTrack>
@@ -33,14 +37,8 @@
           <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
           <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
           <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
+          <autoRefresh>false</autoRefresh>
         </LayerControl>
-        <OWSCatSearchForm id="owsCatSearchForm">
-          <htmlTagId>workspace</htmlTagId>
-          <outputNodeId>workspaceCanvas</outputNodeId>
-          <stylesheet>owsCatSearchForm.xsl</stylesheet>
-          <scriptFile>OWSCatSearchForm.js</scriptFile>
-          <targetModel>owsCatSearch</targetModel>
-        </OWSCatSearchForm>
         <AoiBoxDHTML id="aoiBox2">
           <htmlTagId>mainMapPane</htmlTagId>
           <lineColor>#FF0000</lineColor>
@@ -62,6 +60,7 @@
         <MapPane id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
           <targetModel>mainMap</targetModel>
+					<stylesheet>../../lib/widget/MapPane.xsl</stylesheet>
           <mapContainerId>locatorContainer</mapContainerId>
           <fixedWidth>180</fixedWidth>
         </MapPane>
@@ -87,6 +86,7 @@
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
           <targetModel>mainMap</targetModel>
+          <title>Select a map as your base map</title>
         </CollectionList>
       </widgets>
     </ContextCollection>
@@ -226,7 +226,7 @@
           <capabilitiesModel>wfsCapTemplate</capabilitiesModel>
           <serviceType>CgdiFeatureServices</serviceType>
         </WebServiceForm>
-        <Loading2 id="loading2">
+        <Loading2 id="loading4">
 					<htmlTagId>workspace</htmlTagId>
 					<outputNodeId>workspaceCanvas</outputNodeId>
         </Loading2>
@@ -262,13 +262,19 @@
         </OwsCatResources>
         <Model id="filterExpression">
           <defaultModelUrl>OWSCatResourceFilter.xml</defaultModelUrl>
+          <widgets>
+            <OWSCatSearchForm id="owsCatSearchForm">
+              <htmlTagId>workspace</htmlTagId>
+              <outputNodeId>workspaceCanvas</outputNodeId>
+              <stylesheet>owsCatSearchForm.xsl</stylesheet>
+              <scriptFile>OWSCatSearchForm.js</scriptFile>
+              <targetModel>owsCatSearch</targetModel>
+              <mapModel>mainMap</mapModel>
+            </OWSCatSearchForm>
+          </widgets>
         </Model>
       </models>
       <widgets>
-				<Loading2 id="loading">
-          <htmlTagId>workspace</htmlTagId>
-          <outputNodeId>workspaceCanvas</outputNodeId>
-        </Loading2>
       </widgets>
       <tools>
         <WebServiceRequest id="owsCatGetFeature">
@@ -276,20 +282,19 @@
           <requestName>wfs:GetFeature</requestName>
           <requestFilter>filterExpression</requestFilter>
           <maxFeatures>20</maxFeatures>
+          <debug/>
         </WebServiceRequest>
       </tools>
     </WfsCapabilities>
   </models>
   <widgets>
-    <!--TabbedContent id="tabBar">
-      <htmlWorkspace>workspace</htmlWorkspace>
+    <TabbedContent id="tabBar">
       <tab>wmsServerList</tab>
       <tab>layerList</tab>
       <tab>wfsServerList</tab>
       <tab>featureTypes</tab>
-      <tab>contextLegend</tab>
-      <tab>owsCatSearchForm</tab>
-    </TabbedContent-->
+      <tab>resultList</tab>
+    </TabbedContent>
     <ModelUrlInput id="urlInput">
       <htmlTagId>workspace</htmlTagId>
       <outputNodeId>workspaceCanvas</outputNodeId>
@@ -341,10 +346,11 @@
       <disabledSrc>/images/SaveDisable.png</disabledSrc>
       <popupWindowName>modelXML</popupWindowName>
     </Save>
-    <Loading2 id="loading">
+    <Widget id="help">
+      <stylesheet>Help.xsl</stylesheet>
       <htmlTagId>workspace</htmlTagId>
       <outputNodeId>workspaceCanvas</outputNodeId>
-    </Loading2>
+    </Widget>
   </widgets>
   <!--
     All static images should be relative to this URL.

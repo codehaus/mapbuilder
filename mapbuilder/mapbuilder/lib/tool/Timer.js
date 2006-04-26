@@ -71,7 +71,6 @@ function Timer(toolNode, model) {
     if (objRef.autoStart) objRef.play();
   }
   this.model.addListener("init",this.startOnLoad, this);
-
   
 }
 

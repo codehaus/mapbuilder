@@ -56,8 +56,8 @@ $Name:  $
       <h3>Service Type</h3>
       <select name="serviceType">
         <option></option>
-        <option selected="true">WMS</option>
-        <option>WFS</option>
+        <option selected="true" value="OGC:WMS">WMS</option>
+        <option value="OGC:WFS">WFS</option>
       </select>
       <input class="button" type="reset"/>
       <input class="button" type="submit"/>
@@ -68,11 +68,11 @@ $Name:  $
 
   <xsl:template name="locations">
     <xsl:param name="locationsDoc"/>
-    <DIV>
+    <div>
       <select name="locations" onchange="config.objects.{$widgetId}.setLocation(this.options[this.selectedIndex].value);" size="{$selectSize}">
         <xsl:apply-templates select="$locationsDoc/searchConfig[@entryType='productCollection']/locations/location"/>
       </select>
-    </DIV>
+    </div>
   </xsl:template>
   
   <xsl:template match="location">
