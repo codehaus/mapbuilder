@@ -41,18 +41,28 @@ function LayerControl(widgetNode, model) {
   }
 
   /**
+   * Listener method to paint this widget
+   * @param layerName  the name of the layer to highlight
+   */
+  this.refresh = function(objRef, layerName) {
+    objRef.paint(objRef, objRef.id);
+  }
+
+  /**
    * not working yet
    * @param layerName  the name of the layer to highlight
    */
   this.showLayerMetadata = function(layerName) {
     var metadataWidget = config.objects.layerMetadata;
-    metadataWidget.stylesheet.setParameter("featureName",layerName);
-    metadataWidget.node = document.getElementById(metadataWidget.htmlTagId);
-    metadataWidget.paint(metadataWidget);
+    if (metadataWidget) {
+      metadataWidget.stylesheet.setParameter("featureName",layerName);
+      metadataWidget.node = document.getElementById(metadataWidget.htmlTagId);
+      metadataWidget.paint(metadataWidget);
+    }
   }
 
-  this.model.addListener("deleteLayer",this.paint, this);
-  this.model.addListener("moveLayerUp",this.paint, this);
-  this.model.addListener("moveLayerDown",this.paint, this);
-  //this.model.addListener("addLayer",this.paint, this);
+  this.model.addListener("deleteLayer",this.refresh, this);
+  this.model.addListener("moveLayerUp",this.refresh, this);
+  this.model.addListener("moveLayerDown",this.refresh, this);
+  if (this.autoRefresh) this.model.addListener("addLayer",this.refresh, this);
 }

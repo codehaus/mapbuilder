@@ -21,16 +21,8 @@ function TabbedContent(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
   this.selectedTab = null;
-  var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:TabbedContent";
-  this.tabLabels = config.widgetText.selectNodes(textNodeXpath);
-
-  //find the workspace node controlled by these tabs
-  var workspace = widgetNode.selectSingleNode("mb:htmlWorkspace");
-  if ( workspace ) {
-    this.htmlWorkspace = workspace.firstChild.nodeValue;
-  } else {
-    alert("htmlWorkspace must be defined for TabbedContent widget");
-  }
+  this.tabList = new Array();
+  this.textNodeXpath = "/mb:WidgetText/mb:widgets/mb:TabbedContent";
 
   /**
    * Initializes the tab list and sets the label for each tab
@@ -47,17 +39,15 @@ function TabbedContent(widgetNode, model) {
         return;
       }
 
-      tabWidget.htmlTagId = objRef.htmlWorkspace;
-      tabWidget.outputNodeId = objRef.id+"_workspace";
-      tabWidget.node = document.getElementById(tabWidget.htmlTagId);
-      tabWidget.tabList = objRef;
+      objRef.tabList.push(tabWidget);
 
       var tabLabel = tab.getAttribute("label"); 
       if (!tabLabel) tabLabel = tabWidgetId;
-      var textNode = config.widgetText.selectSingleNode(textNodeXpath+"/mb:"+tabWidgetId);
+      var textNode = config.widgetText.selectSingleNode(objRef.textNodeXpath+"/mb:"+tabWidgetId);
       if (textNode) tabLabel = textNode.firstChild.nodeValue;
       tab.setAttribute("label",tabLabel);
       
+      tabWidget.model.addListener("refresh",objRef.paint,objRef);
       tabWidget.model.addListener("refresh",objRef.selectTab,tabWidget);
     }
   }
@@ -69,13 +59,10 @@ function TabbedContent(widgetNode, model) {
    * @param order  the order within the tabs
    */
   this.addWidget = function(tabWidget,tabLabel) {
-    tabWidget.htmlTagId = this.htmlWorkspace;
-    tabWidget.outputNodeId = this.id+"_workspace";
-    tabWidget.node = document.getElementById(tabWidget.htmlTagId);
-    tabWidget.tabList = this;
+    this.tabList.push(tabWidget);
 
     if (!tabLabel) tabLabel = tabWidget.id;
-    var textNode = config.widgetText.selectSingleNode(textNodeXpath+"/mb:"+tabWidget.id);
+    var textNode = config.widgetText.selectSingleNode(this.textNodeXpath+"/mb:"+tabWidget.id);
     if (textNode) tabLabel = textNode.firstChild.nodeValue;
 
     var tabNode = this.model.doc.createElementNS(mbNS,"tab");
@@ -97,15 +84,14 @@ function TabbedContent(widgetNode, model) {
       alert("no data to show yet");
       return;
     }
-    var tabList = tabWidget.tabList;
-    if (tabList.selectedTab!=null) tabList.selectedTab.className = '';
-    var newAnchor = document.getElementById(tabList.id+"_"+tabWidget.id);
+    var tabBar = config.objects[tabWidget.tabBarId]
+    if (tabBar.selectedTab!=null) tabBar.selectedTab.className = '';
+    var newAnchor = document.getElementById(tabBar.id+"_"+tabWidget.id);
     if (newAnchor) {
       newAnchor.className = 'current';
-      tabList.selectedTab = newAnchor;
-      tabWidget.paint(tabWidget,true);
+      tabBar.selectedTab = newAnchor;
+      tabWidget.paint(tabWidget,tabWidget.id);
     }
-    //tabWidget.targetModel.callListeners("refresh");
   }
 
   /**
@@ -114,6 +100,16 @@ function TabbedContent(widgetNode, model) {
    */
   this.prePaint = function(objRef){
     objRef.resultDoc = objRef.widgetNode;
+    for (var i=0; i<objRef.tabList.length; ++i) {
+      var tabWidget = objRef.tabList[i];
+      tabWidget.tabBarId = this.id;
+      var tabNode = objRef.resultDoc.selectSingleNode("mb:tab[text()='"+tabWidget.id+"']");
+      if (!tabWidget.model.doc) {
+        tabNode.setAttribute("disabled", "true");
+      } else {
+        tabNode.removeAttribute("disabled");
+      }
+    }
   }
 
 }

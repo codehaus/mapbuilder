@@ -33,11 +33,9 @@ function WidgetBase(widgetNode,model) {
   }
 
   //allow the widget output to be replaced on each paint call
-  this.autoRefresh = true;
   var outputNode = widgetNode.selectSingleNode("mb:outputNodeId");
   if ( outputNode ) {
     this.outputNodeId = outputNode.firstChild.nodeValue;
-    this.autoRefresh = false;
   } else {
     this.outputNodeId = "MbWidget_" + mbIds.getId();
   }
@@ -57,6 +55,11 @@ function WidgetBase(widgetNode,model) {
   if(!this.node) {
     //alert("htmlTagId: "+this.htmlTagId+" for widget "+widgetNode.nodeName+" not found in config");
   }
+
+  //allow widgets to not automatically update themseleves in certain circumstances (see layerControl for example)
+  this.autoRefresh = true;
+  var autoRefresh = widgetNode.selectSingleNode("mb:autoRefresh");
+  if (autoRefresh && autoRefresh.firstChild.nodeValue=="false") this.autoRefresh = false;
 
   //set an empty debug property in config to see inputs and outputs of stylehseet
   if ( widgetNode.selectSingleNode("mb:debug") ) this.debug=true;

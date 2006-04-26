@@ -106,9 +106,9 @@ function MapPane(widgetNode, model) {
  * Render the widget.
  * @param objRef Pointer to widget object.
  */
-MapPane.prototype.paint = function(objRef, refresh) {
+MapPane.prototype.paint = function(objRef) {
 
-  if (objRef.model.doc && objRef.node && (objRef.autoRefresh||refresh) ) {
+  if (objRef.model.doc && objRef.node) {
     //if (objRef.debug) alert("source:"+Sarissa.serialize(objRef.model.doc));
 
     objRef.stylesheet.setParameter("width", objRef.model.getWindowWidth());
@@ -158,7 +158,7 @@ MapPane.prototype.paint = function(objRef, refresh) {
       var newSrc = tempNodeList[i].getAttribute("src");
       objRef.loadImgDiv(layers[i],newSrc,objRef.imageStack[i]);
     }
-    var message = "loading " + objRef.layerCount + " map layers"
+    var message = "loading " + objRef.layerCount + " map layers";
     objRef.model.setParam("modelStatus", message);
   }
 }
@@ -214,7 +214,10 @@ MapPane.prototype.addLayer = function(objRef, layerNode) {
   objRef.imageStack.push(new Image());
   objRef.imageStack[objRef.imageStack.length-1].objRef = objRef;
   objRef.firstImageLoaded = true;
+  ++objRef.layerCount;
   objRef.loadImgDiv(layerNode,newSrc,objRef.imageStack[objRef.imageStack.length-1]);
+  var message = "loading " + objRef.layerCount + " map layers";
+  objRef.model.setParam("modelStatus", message);
 }
 
 /**
