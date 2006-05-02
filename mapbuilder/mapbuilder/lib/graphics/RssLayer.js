@@ -59,13 +59,15 @@ RssLayer.prototype.parse = function() {
   this.title = this.layerNode.selectSingleNode("//wmc:Title" ).firstChild.nodeValue;
   var node = this.layerNode.selectSingleNode("//wmc:Abstract" );
   var children = node.childNodes;
-  this.abstract = "" ;
+  this.myabstract = "" ;
   for( var j=0; j<children.length; j++) { 
-    this.abstract += Sarissa.serialize( children[j] );
+    this.myabstract += Sarissa.serialize( children[j] );
   }
   
   node = this.layerNode.selectSingleNode("//wmc:Where" );
+  //alert( "RSSLayer node:"+Sarissa.serialize( node ));
   var type = node.firstChild;
+  //alert( "RSSLayer type:"+Sarissa.serialize( type ));
   if( type != undefined ) {
 	  this.gmlType = type.nodeName;
 	      
@@ -106,44 +108,47 @@ RssLayer.prototype.parse = function() {
     this.coords = null;
     // well, it is probably a flick entry.
     // we need to go back to flickr and get the tags
-    var pid= this.layerNode.attributes.getNamedItem("pid").nodeValue;
-    var url = "http://www.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=afbacfb4d14cd681c04a06d69b24d847&photo_id="+pid;
-    var sUri = getProxyPlusUrl(url);
-    
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", sUri, false);
-    xmlHttp.send(null);
-    // process the tags
-    var latitude = 0;
-    var longitude = 0;
-    
-    // Get the picture description
-    // Commented out because of text wrapping issue within popup to clean up TBD...
-    // var descr = xmlHttp.responseXML.selectSingleNode("//description").firstChild.nodeValue;
-    // this.abstract += descr;
-    
-    // Check the Tags to get lat/long and role
-    var tags =  xmlHttp.responseXML.selectNodes("//tag");
-    if( tags.length == 0 ) { // what happened
-      alert(Sarissa.serialize(xmlHttp.responseXML));
-    }
-    
-    this.abstract += "<br/>"
-    
-    for (var i=0; i<tags.length; ++i) {
-      var raw= tags[i].attributes.getNamedItem("raw").nodeValue;
-      //alert( raw );
-      if( raw.indexOf( "geo:lat=") >= 0 ) {
-        latitude = raw.substr(8);
-        this.abstract += "lat:"+latitude+"<br/>";
-      } else if( raw.indexOf( "geo:long=") >= 0 ) {
-        longitude = raw.substr(9);
-        this.abstract += "long:"+longitude+"<br/>";
-      }
-    }
-    
-    this.gmlType = "gml:Point";
-    this.coords = longitude + "," + latitude;
+    var pidNode = this.layerNode.attributes.getNamedItem("pid");
+    if( pidNode != null ) {
+      var pid = pidNode.nodeValue;
+	    var url = "http://www.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=afbacfb4d14cd681c04a06d69b24d847&photo_id="+pid;
+	    var sUri = getProxyPlusUrl(url);
+	    
+	    var xmlHttp = new XMLHttpRequest();
+	    xmlHttp.open("GET", sUri, false);
+	    xmlHttp.send(null);
+	    // process the tags
+	    var latitude = 0;
+	    var longitude = 0;
+	    
+	    // Get the picture description
+	    // Commented out because of text wrapping issue within popup to clean up TBD...
+	    // var descr = xmlHttp.responseXML.selectSingleNode("//description").firstChild.nodeValue;
+	    // this.myabstract += descr;
+	    
+	    // Check the Tags to get lat/long and role
+	    var tags =  xmlHttp.responseXML.selectNodes("//tag");
+	    if( tags.length == 0 ) { // what happened
+	      alert(Sarissa.serialize(xmlHttp.responseXML));
+	    }
+	    
+	    this.myabstract += "<br/>"
+	    
+	    for (var i=0; i<tags.length; ++i) {
+	      var raw= tags[i].attributes.getNamedItem("raw").nodeValue;
+	      //alert( raw );
+	      if( raw.indexOf( "geo:lat=") >= 0 ) {
+	        latitude = raw.substr(8);
+	        this.myabstract += "lat:"+latitude+"<br/>";
+	      } else if( raw.indexOf( "geo:long=") >= 0 ) {
+	        longitude = raw.substr(9);
+	        this.myabstract += "long:"+longitude+"<br/>";
+	      }
+	    }
+	    
+	    this.gmlType = "gml:Point";
+	    this.coords = longitude + "," + latitude;
+	  }
   }
 }
 
@@ -155,24 +160,25 @@ RssLayer.prototype.parse = function() {
   */
 RssLayer.prototype.paintPoint = function( sld, hiliteOnly) {
    
-//  if( hiliteOnly ) {
-//    sld.hilitePoint( this.gr, this.shape );
-//  } else {
-  if( this.coords != null ) {
-    var containerProj = new Proj(this.model.getSRS());
-    //alert("RssLayer.paintPoint SRS="+this.model.getSRS());
-    var point = this.coords.split(/[ ,\n]+/);
-    point = containerProj.Forward(point);
-    //alert( this.coords + " forward:" + point[0] + " " + point[1] );
+  if( hiliteOnly ) {
+    sld.hilitePoint( this.gr, this.shape );
+  } else {
+    if( this.coords != null ) {
+      var containerProj = new Proj(this.model.getSRS());
+      //alert("RssLayer.paintPoint SRS="+this.model.getSRS());
+      var point = this.coords.split(/[ ,\n]+/);
+      point = containerProj.Forward(point);
+      //alert( this.coords + " forward:" + point[0] + " " + point[1] );
         
-    point = this.model.extent.getPL(point);
-    //alert( " extent:" + point[0] + " " + point[1] );
+      point = this.model.extent.getPL(point);
+      //alert( " extent:" + point[0] + " " + point[1] );
       
-    this.shape = sld.paintPoint( this.gr, point );
-    if( this.shape != null ) {
-      this.shape.id = this.id+"_vector";
-      this.gr.paint(); 
-      this.install( this.shape );
+      this.shape = sld.paintPoint( this.gr, point );
+      if( this.shape != null ) {
+        this.shape.id = this.id+"_vector";
+        this.gr.paint(); 
+        this.install( this.shape );
+      }
     }
   }      
 }
@@ -278,8 +284,10 @@ RssLayer.prototype.getDiv = function(layerNum) {
     //div.setAttribute("name", this.title);
     div.style.position = "absolute";
     div.style.visibility = "visible";
+
     //div.style.zIndex = layerNum*this.zIndexFactor;
-    div.style.zIndex = 300;
+    div.style.zIndex = 600;
+
     outputNode.appendChild( div );
   }
   div.style.top=0;
@@ -302,15 +310,15 @@ RssLayer.prototype.paint = function( ) {
   * @param img can be ignored here (required for WMS layers)
   */
 RssLayer.prototype.paint = function( objRef, img ) {
-
-  this.getDiv();
-  this.deleteShape();
+ this.deleteShape();
+ 
   //var style =  this.style.selectSingleNode("//wmc:Style[wmc:Name='Normal']");
   this.paintShape(this.normalSld, false );
 }
 
 /**
   * We want to delete it before rendering it if it already exists
+  * or when we want to remove that layer
   */
 RssLayer.prototype.deleteShape = function() {
   var id = this.id +"_vector";
@@ -326,6 +334,13 @@ RssLayer.prototype.deleteShape = function() {
 }
 
 /**
+  * Called by layer manager to clean the mayer
+  */
+RssLayer.prototype.unpaint = function() {
+	this.deleteShape();
+}
+
+/**
   * Paints the right GML shape
   *
   * @param style SLD
@@ -334,7 +349,7 @@ RssLayer.prototype.deleteShape = function() {
 RssLayer.prototype.paintShape = function( sld, hiliteOnly ) {
   
   if( this.gmlType == "gml:Point" ) {
-    this.paintPoint( sld, hiliteOnly);
+     this.paintPoint( sld, hiliteOnly);
   } else if( this.gmlType == "gml:LineString" ) {
     this.paintLine( sld, hiliteOnly);
   } else if( this.gmlType == "gml:Polygon" || 
@@ -351,6 +366,8 @@ RssLayer.prototype.paintShape = function( sld, hiliteOnly ) {
 RssLayer.prototype.install = function( shape ) {
   shape.onmouseover = this.mouseOverHandler; 
   shape.onmouseout  = this.mouseOutHandler;
+  //shape.onmouseclick  = this.mouseOverHandler;
+  //shape.setAttribute("onClick", " config.objects.geoRSS.setParam('highlightFeature',\'"+this.id+"\')" );
 }
 
 /** 
@@ -360,7 +377,6 @@ RssLayer.prototype.install = function( shape ) {
   */
 RssLayer.prototype.mouseOverHandler = function(ev) {
   config.objects.geoRSS.setParam('highlightFeature',this.id);
-  
   return true;
 }
 
@@ -382,7 +398,7 @@ RssLayer.prototype.mouseOutHandler = function(ev) {
 RssLayer.prototype.highlight = function(objRef, featureId) {
   // we get the id_vector
   if( featureId.indexOf( objRef.id ) >= 0 ) {
-  
+     
     objRef.paintShape( objRef.hiliteSld, true );
     
 	  var posx = 0;
@@ -396,7 +412,7 @@ RssLayer.prototype.highlight = function(objRef, featureId) {
 	      posy = evPL[1];
 	  
 	      // set the popup text with stylesheet output
-	      var popupStr = objRef.abstract;
+	      var popupStr = objRef.myabstract;
 	      if( popupStr == undefined ) {
 	        popupStr = "Feature under construction.  Stay tuned!";
 	      }
@@ -409,7 +425,7 @@ RssLayer.prototype.highlight = function(objRef, featureId) {
 	  }
   }
 }
-
+ 
 /** 
   * Dehighlights the selected feature by switching back to the normal image
   * @param objRef a pointer to this widget object
@@ -417,7 +433,9 @@ RssLayer.prototype.highlight = function(objRef, featureId) {
   */
 RssLayer.prototype.dehighlight = function(objRef, featureId) {
   if( featureId.indexOf(objRef.id)>= 0 ) {
+    
     objRef.paintShape( objRef.normalSld, true );
+ 
     // clear popup
     toolTipObjs[objRef.tooltip].clear();
   }
