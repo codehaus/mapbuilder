@@ -183,7 +183,18 @@ function ModelBase(modelNode, parentModel) {
               if ( null==xmlHttp.responseXML ) {
                 alert( "null XML response:" + xmlHttp.responseText );
               } else {
-                objRef.doc = xmlHttp.responseXML;
+                if( xmlHttp.responseXML.root != null ) {
+                  objRef.doc = xmlHttp.responseXML;
+                } else {
+                    // Problem with IE is that sometimes the XML files do not get loaded as XML for some reason
+                    // So we need to deal with it here
+                    objRef.doc = Sarissa.getDomDocument();
+                    objRef.doc = (new DOMParser()).parseFromString( xmlHttp.responseText, "text/xml")
+                    if( objRef.doc == null ) {
+                        alert( "Document parseError:"+Sarissa.getParseErrorText( objRef.doc))
+                        // debugger;
+                    }
+                }
                 //if (objRef.doc.documentElement.nodeName.search(/exception/i)>=0) {
                 //  objRef.setParam("modelStatus",-1);
                 //  alert("Exception:"+Sarissa.serialize(xmlHttp.responseText));
@@ -244,7 +255,6 @@ function ModelBase(modelNode, parentModel) {
       // Show the newly loaded XML document
       if(this.debug) alert("Loading Model:"+this.id+" "+Sarissa.serialize(this.doc));
       
-      //this.callListeners("contextLoaded");  //PGC
       this.callListeners("loadModel");
     }
   }
