@@ -4,7 +4,7 @@
 		<xs:appinfo>$Id$</xs:appinfo>
 		<xs:documentation xml:lang="en">GML schema for Community Mapbuilder quickview zoom presets</xs:documentation>
 	</xs:annotation>
-	<xs:import namespace="http://www.opengis.net/gml" schemaLocation="http://schemas.opengis.net/gml/3.0.0/base/feature.xsd"/>
+	<xs:import namespace="http://www.opengis.net/gml" schemaLocation="http://schemas.opengis.net/gml/3.1.1/base/feature.xsd"/>
 	<xs:element name="QuickviewPresetResultSet" type="loc:QuickviewPresetResultSetType" substitutionGroup="gml:_FeatureCollection"/>
 	<xs:complexType name="QuickviewPresetResultSetType">
 		<xs:complexContent>
