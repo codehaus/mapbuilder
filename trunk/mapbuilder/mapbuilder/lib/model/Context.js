@@ -22,7 +22,7 @@ function Context(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   ModelBase.apply(this, new Array(modelNode, parent));
 
-  this.namespace = "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder' xmlns:wmc='http://www.opengis.net/context' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'";
+  this.namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder'";
 
   /**
    * Change a Layer's visibility.
@@ -168,6 +168,16 @@ function Context(modelNode, parent) {
     var win=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Window");
     win.setAttribute("height", height);
     this.callListeners("resize");
+  }
+
+  /**
+   * Returns the Layer node with the specified name from the list of nodes
+   * selected by the nodeSelectXpath from the capabilities doc.
+   * @param featureName name of the featureType to look up
+   * @return the Layer node with the specified name.
+   */
+  this.getFeatureNode = function(featureName) {
+    return this.doc.selectSingleNode(this.nodeSelectXpath+"[wmc:Name='"+featureName+"']");
   }
 
   /**

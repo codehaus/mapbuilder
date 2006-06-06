@@ -49,112 +49,152 @@ function WebServiceRequest(toolNode, model) {
     }
   }
 
-  /**
-   * Function which create the HTTP payload for a request
-   * @param requestName the name of the web service operation to execute
-   * @param featureNodeId the id of the node in the doc to be processed by the stylesheet
-   */
-  this.createHttpPayload = function(feature) {
-    //confirm inputs
-    if (this.debug) alert("source:"+Sarissa.serialize(feature));
-    //if (this.debug) alert("stylesheet:"+Sarissa.serialize(this.requestStylesheet.xslDom));
-
-
-    //prepare the stylesheet
-    var httpPayload = new Object();
-    httpPayload.method = this.targetModel.method;
-    this.requestStylesheet.setParameter("httpMethod", httpPayload.method );
-    this.requestStylesheet.setParameter("version", this.model.getVersion(feature) );
-    if (this.requestFilter) {
-      var filter = config.objects[this.requestFilter];
-      this.requestStylesheet.setParameter("filter", escape(Sarissa.serialize(filter.doc).replace(/[\n\f\r\t]/g,'') ));
-      if (this.debug) alert(Sarissa.serialize(filter.doc));
-    }
-
-    //process the doc with the stylesheet
-    httpPayload.postData = this.requestStylesheet.transformNodeToObject(feature);
-    if (this.debug) {
-      alert("request data:"+Sarissa.serialize(httpPayload.postData));
-      if (config.serializeUrl) var response = postLoad(config.serializeUrl, httpPayload.postData);
-    }
-
-    //allow the tool to have a serverUrl property which overrides the model server URL
-    //TBD: this still used?
-    if (this.serverUrl) {
-      httpPayload.url = this.serverUrl;
-    } else {
-      httpPayload.url = this.model.getServerUrl(this.requestName, httpPayload.method, feature);
-    }
-
-    //extract the URL from the transformation result for GET method
-    if (httpPayload.method.toLowerCase() == "get") {
-      httpPayload.postData.setProperty("SelectionLanguage", "XPath");
-      Sarissa.setXpathNamespaces(httpPayload.postData, "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder'");
-      var queryString = httpPayload.postData.selectSingleNode("//mb:QueryString");
-      if (httpPayload.url.indexOf("?") < 0) httpPayload.url += "?";
-      httpPayload.url += queryString.firstChild.nodeValue;
-      httpPayload.postData = null;
-    }
-    if (this.debug) alert("URL:"+httpPayload.url);
-    return httpPayload;
-  }
-
-
-  /**
-   * Listener function which will actually issue the request.  This method
-   * will prepare the HTTP payload for a particular featureName.
-   * @param requestName the name of the web service operation to execute
-   * @param featureNodeId the id of the node in the doc to be processed by the stylesheet
-   */
-  this.doRequest = function(objRef, featureName) {
-    objRef.targetModel.featureName = featureName;
-
-    var feature = objRef.model.getFeatureNode(featureName);
-    if (objRef.model.setRequestParameters) objRef.model.setRequestParameters(featureName, objRef.requestStylesheet);
-    var httpPayload = objRef.createHttpPayload(feature);
-    objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
-  }
-  this.model.addListener(this.requestName.replace(/:/,"_"), this.doRequest, this);
-
-  this.setAoiParameters = function(objRef,bbox) {
-    //TBD: this depends on the targetModel having a containerModel to extract the AOI from.
-    //we probably need a config property to point to the AOI model to handle this properly.
-    if (objRef.targetModel.containerModel) {
-      var featureSRS = null;
-      var containerSRS = "EPSG:4326";
-      //var bbox = objRef.targetModel.containerModel.getBoundingBox();
-  /*
-      //convert the BBOX to the feature SRS for the request
-      var containerSRS = objRef.targetModel.containerModel.getSRS();
-      if (featureSRS) {
-        var sourceProj = new Proj(featureSRS.firstChild.nodeValue);
-        if ( !sourceProj.matchSrs( containerSRS )) {  
-          var containerProj = new Proj(objRef.targetModel.containerModel.getSRS());
-          var llTemp = containerProj.Inverse(new Array(bbox[0],bbox[1]));
-          var xy = sourceProj.Forward(llTemp);
-          bbox[0] = xy[0]; bbox[1] = xy[1];
-          llTemp = containerProj.Inverse(new Array(bbox[2],bbox[3]));
-          xy = sourceProj.Forward(llTemp);
-          bbox[2] = xy[0]; bbox[3] = xy[1];
-        }
-      }
-  */
-      objRef.requestStylesheet.setParameter("bBoxMinX", bbox[0][0] );
-      objRef.requestStylesheet.setParameter("bBoxMinY", bbox[1][1] );
-      objRef.requestStylesheet.setParameter("bBoxMaxX", bbox[1][0] );
-      objRef.requestStylesheet.setParameter("bBoxMaxY", bbox[0][1] );
-      objRef.requestStylesheet.setParameter("srs", containerSRS );
-      objRef.requestStylesheet.setParameter("width", objRef.targetModel.containerModel.getWindowWidth() );
-      objRef.requestStylesheet.setParameter("height", objRef.targetModel.containerModel.getWindowHeight() );
-    }
-  }
-
-  this.init = function(objRef) {
-    if (objRef.targetModel.containerModel) {
-      objRef.targetModel.containerModel.addListener("aoi", objRef.setAoiParameters, objRef);
-      //TBD: another one for bbox
-    }
-  }
   this.model.addListener("init", this.init, this);
-
+  this.model.addListener(this.requestName.replace(/:/,"_"), this.doRequest, this);
 }
+
+/**
+ * Function which create the HTTP payload for a request
+ * @param feature the feature object
+ */
+WebServiceRequest.prototype.createHttpPayload = function(feature) {
+  //confirm inputs
+  if (this.debug) alert("source:"+Sarissa.serialize(feature));
+  //if (this.debug) alert("stylesheet:"+Sarissa.serialize(this.requestStylesheet.xslDom));
+
+
+  //prepare the stylesheet
+  var httpPayload = new Object();
+  httpPayload.method = this.targetModel.method;
+  this.requestStylesheet.setParameter("httpMethod", httpPayload.method );
+  this.requestStylesheet.setParameter("version", this.model.getVersion(feature) );
+  if (this.requestFilter) {
+    var filter = config.objects[this.requestFilter];
+    this.requestStylesheet.setParameter("filter", escape(Sarissa.serialize(filter.doc).replace(/[\n\f\r\t]/g,'') ));
+    if (this.debug) alert(Sarissa.serialize(filter.doc));
+  }
+
+  //process the doc with the stylesheet
+  httpPayload.postData = this.requestStylesheet.transformNodeToObject(feature);
+  if (this.debug) {
+    alert("request data:"+Sarissa.serialize(httpPayload.postData));
+    if (config.serializeUrl) var response = postLoad(config.serializeUrl, httpPayload.postData);
+  }
+
+  httpPayload.url = this.model.getServerUrl(this.requestName, httpPayload.method, feature);
+
+  //extract the URL from the transformation result for GET method
+  if (httpPayload.method.toLowerCase() == "get") {
+    httpPayload.postData.setProperty("SelectionLanguage", "XPath");
+    Sarissa.setXpathNamespaces(httpPayload.postData, "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder'");
+    var queryString = httpPayload.postData.selectSingleNode("//mb:QueryString");
+    if (httpPayload.url.indexOf("?") < 0) {
+      httpPayload.url += "?";
+    } else {
+      httpPayload.url += "&";
+    }
+    httpPayload.url += queryString.firstChild.nodeValue;
+    httpPayload.postData = null;
+  }
+  if (this.debug) alert("URL:"+httpPayload.url);
+  return httpPayload;
+}
+
+
+/**
+ * Listener function which will actually issue the request.  This method
+ * will prepare the HTTP payload for a particular featureName.
+ * @param requestName the name of the web service operation to execute
+ * @param featureNodeId the id of the node in the doc to be processed by the stylesheet
+ */
+WebServiceRequest.prototype.doRequest = function(objRef, featureName) {
+  objRef.targetModel.featureName = featureName;
+
+  var feature = objRef.model.getFeatureNode(featureName);
+  if (!feature) {
+    alert("WebServiceRequest: error finding feature node:"+featureName);
+    return;
+  }
+  if (objRef.model.setRequestParameters) objRef.model.setRequestParameters(featureName, objRef.requestStylesheet);
+  var httpPayload = objRef.createHttpPayload(feature);
+  objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
+}
+
+WebServiceRequest.prototype.setAoiParameters = function(objRef) {
+  //TBD: this depends on the targetModel having a containerModel to extract the AOI from.
+  //we probably need a config property to point to the AOI model to handle this properly.
+  if (objRef.containerModel) {
+    var featureSRS = null;
+    var containerSRS = "EPSG:4326";
+    var bbox = objRef.containerModel.getBoundingBox();
+/*
+TBD: figure out when to use AOI or BBOX
+    var aoi = objRef.containerModel.getParam("aoi");
+    if (aoi) {
+      bbox[0] = aoi[0][0];
+      bbox[1] = aoi[1][1];
+      bbox[2] = aoi[1][0];
+      bbox[3] = aoi[0][1];
+    }
+*/
+    var containerSRS = objRef.containerModel.getSRS();
+/*
+    //convert the BBOX to the feature SRS for the request
+    if (featureSRS) {
+      var sourceProj = new Proj(featureSRS.firstChild.nodeValue);
+      if ( !sourceProj.matchSrs( containerSRS )) {  
+        var containerProj = new Proj(objRef.containerModel.getSRS());
+        var llTemp = containerProj.Inverse(new Array(bbox[0],bbox[1]));
+        var xy = sourceProj.Forward(llTemp);
+        bbox[0] = xy[0]; bbox[1] = xy[1];
+        llTemp = containerProj.Inverse(new Array(bbox[2],bbox[3]));
+        xy = sourceProj.Forward(llTemp);
+        bbox[2] = xy[0]; bbox[3] = xy[1];
+      }
+    }
+*/
+    objRef.requestStylesheet.setParameter("bBoxMinX", bbox[0]);
+    objRef.requestStylesheet.setParameter("bBoxMinY", bbox[1]);
+    objRef.requestStylesheet.setParameter("bBoxMaxX", bbox[2]);
+    objRef.requestStylesheet.setParameter("bBoxMaxY", bbox[3]);
+    objRef.requestStylesheet.setParameter("srs", containerSRS );
+    objRef.requestStylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
+    objRef.requestStylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
+  }
+}
+
+WebServiceRequest.prototype.init = function(objRef) {
+  if (objRef.targetModel.containerModel) {
+    objRef.containerModel = objRef.targetModel.containerModel;
+  } else if (objRef.model.containerModel) {
+    objRef.containerModel = objRef.model.containerModel;
+  }
+  if (objRef.containerModel) {
+    objRef.containerModel.addListener("aoi", objRef.setAoiParameters, objRef);
+    objRef.containerModel.addListener("bbox", objRef.setAoiParameters, objRef);
+    objRef.containerModel.addListener("mouseup", objRef.setClickPosition, objRef);
+    objRef.containerModel.addListener("selectedLayer", objRef.selectFeature, objRef);
+  }
+}
+
+/**
+ * Listener function which will actually issue the request.  This method
+ * will prepare the HTTP payload for a particular featureName.
+ * @param requestName the name of the web service operation to execute
+ * @param featureNodeId the id of the node in the doc to be processed by the stylesheet
+ */
+WebServiceRequest.prototype.setClickPosition = function(objRef, targetNode) {
+  objRef.requestStylesheet.setParameter("xCoord", targetNode.evpl[0]);
+  objRef.requestStylesheet.setParameter("yCoord", targetNode.evpl[1]);
+}
+
+/**
+ * Listener function which will actually issue the request.  This method
+ * will prepare the HTTP payload for a particular featureName.
+ * @param requestName the name of the web service operation to execute
+ * @param featureNodeId the id of the node in the doc to be processed by the stylesheet
+ */
+WebServiceRequest.prototype.selectFeature = function(objRef, featureName) {
+  objRef.requestStylesheet.setParameter("queryLayer", featureName);
+}
+

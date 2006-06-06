@@ -50,10 +50,10 @@ $Name$
         <!-- Visiblity -->
         <td>
           <xsl:if test="$hidden='false'">
-            <input type="checkbox" checked="true" id="legend_{$featureName}" onclick="{$context}.setHidden('{$featureName}',!document.getElementById('legend_{$featureName}').checked)"/>
+            <input type="checkbox" checked="true" id="legend_{$featureName}" onclick="{$context}.setHidden('{$featureName}',!this.checked)"/>
           </xsl:if>
           <xsl:if test="$hidden='true'">
-            <input type="checkbox" id="legend_{$featureName}" onclick="{$context}.setHidden('{$featureName}',! document.getElementById('legend_{$featureName}').checked)"/>
+            <input type="checkbox" id="legend_{$featureName}" onclick="{$context}.setHidden('{$featureName}',!this.checked)"/>
           </xsl:if>
         </td>
         <!-- No query capability yet -->
@@ -72,10 +72,10 @@ $Name$
       <!-- Visiblity -->
       <td>
         <xsl:if test="@hidden='0'">
-          <input type="checkbox" checked="true" id="legend_{wmc:Name}" onclick="{$context}.setHidden('{wmc:Name}',!document.getElementById('legend_{wmc:Name}').checked)"/>
+          <input type="checkbox" checked="true" id="legend_{wmc:Name}" onclick="{$context}.setHidden('{wmc:Name}',!this.checked)"/>
         </xsl:if>
         <xsl:if test="@hidden='1'">
-          <input type="checkbox" id="legend_{wmc:Name}" onclick="{$context}.setHidden('{wmc:Name}',! document.getElementById('legend_{wmc:Name}').checked)"/>
+          <input type="checkbox" id="legend_{wmc:Name}" onclick="{$context}.setHidden('{wmc:Name}',!this.checked)"/>
         </xsl:if>
       </td>
       <!-- Query Image -->
@@ -106,8 +106,8 @@ $Name$
       <td></td>
       <td>
       <xsl:if test="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL"> 
-          <xsl:element name="IMG">
-              <xsl:attribute name="SRC">
+          <xsl:element name="img">
+              <xsl:attribute name="src">
                 <xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL/wmc:OnlineResource/@xlink:href"/> 
               </xsl:attribute>
           </xsl:element>
