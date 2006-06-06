@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+      
+<html xmlns="http://www.w3.org/1999/xhtml" >
+  <head>
+    <title>Mapbuilder Map Viewer</title>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/docsStyle.css'>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/scalebar-fat.css'>
+    <link rel="stylesheet" type="text/css" href="../../lib/skin/default/tabList.css">
+    <script>
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='config.xml';
+
+    </script>
+    <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
+  </head>
+  <body onload="mbDoLoad()">
+    <table style="width:800px" cellspacing="0">
+      <tr>
+        <td colspan="3">
+          <h1><a href="http://mapbuilder.sourceforge.net">MapBuilder</a> Map Viewer</h1>
+        </td>
+      </tr>
+      <tr>
+        <td/>
+        <td>
+          <h2 id="mapTitle"></h2>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" style="padding:6px;width:180px">  <!-- left hand column -->
+          <table>
+            <tr>
+              <td id="locatorMap">
+            </tr>
+            <tr>
+              <td><hr/></td>
+            </tr>
+            <tr style="padding-top:10px">
+              <td id="legend">
+            </tr>
+            <tr>
+              <td><hr/></td>
+            </tr>
+          </table>
+          <div
+        </td>
+        <td align="center" valign="top">  <!-- right side of page -->
+          <table>
+            <tr>
+              <td id="mainMapPane" valign="top" align="left">
+              <td id="legendGraphic" valign="top" align="right">
+            </tr>
+            <tr>
+              <td valign="top">
+                <table style="width:100%; margin:0; padding:0">
+                  <tr>
+                    <td id="mainButtonBar" align="left"/>
+                    <td id="cursorTrack" align="right"/>
+                  </tr>
+                  <tr>
+                    <td/>
+                    <td id="scalebar"/>
+                  </tr>
+                </table>
+              </td>
+              <td/>
+            </tr>
+            <tr>
+              <td id="tabBar" valign="top" colspan="2"/>
+            </tr>
+            <tr>
+              <td id="workspace" valign="top" colspan="2"/>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3" class="footer">
+          <p align="right">
+          powered by <a href="http://mapbuilder.sourceforge.net">Community Map Builder</a><br/>
+          member project of <a href="https://www.osgeo.org/">OSGeo</a>
+          </p>
+        </td>
+      </tr>
+    </table>
+
+  </body>
+</html>
+
+
