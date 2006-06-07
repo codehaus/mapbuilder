@@ -2,7 +2,7 @@
 <MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
 	<models>
 		<Context id="mainMap">
-			<defaultModelUrl>../data/context/atlasWorld.xml</defaultModelUrl>
+			<defaultModelUrl>../data/context/DM_Canada.xml</defaultModelUrl>
 			<widgets>
 				<MapPane id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
