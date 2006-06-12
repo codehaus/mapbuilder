@@ -35,6 +35,7 @@
       String serverUrl = request.getHeader("serverUrl");
       org.apache.commons.httpclient.methods.PostMethod httppost = new org.apache.commons.httpclient.methods.PostMethod(serverUrl);
 
+      httppost.addRequestHeader("Content-Type", "text/xml");
       httppost.setRequestBody(in);
       //httppost.setRequestContentLength(PostMethod.CONTENT_LENGTH_CHUNKED);
 
