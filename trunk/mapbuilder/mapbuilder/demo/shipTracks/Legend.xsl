@@ -129,10 +129,10 @@ $Name$
   <!-- Visiblity -->
       <td>
         <xsl:if test="@hidden='0'">
-          <input type="checkbox" checked="true" id="legend_{wmc:Title}" onclick="{$context}.setHidden('{wmc:Title}',!document.getElementById('legend_{wmc:Title}').checked)"/>
+          <input type="checkbox" checked="true" id="legend_{wmc:Title}" onclick="{$context}.setHidden('{@id}',!document.getElementById('legend_{wmc:Title}').checked)"/>
         </xsl:if>
         <xsl:if test="@hidden='1'">
-          <input type="checkbox" id="legend_{wmc:Title}" onclick="{$context}.setHidden('{wmc:Title}',! document.getElementById('legend_{wmc:Title}').checked)"/>
+          <input type="checkbox" id="legend_{wmc:Title}" onclick="{$context}.setHidden('{@id}',! document.getElementById('legend_{wmc:Title}').checked)"/>
         </xsl:if>
       </td>
   <!-- Query Image -->

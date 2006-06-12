@@ -8,9 +8,10 @@ var mac, win;
 var opera, khtml, safari, mozilla, ie, ie50, ie55, ie60;
 var canvasEnabled = false;
 
-mapbuilder.loadScript(baseDir+"/graphics/CanvasGraphics.js");
-mapbuilder.loadScript(baseDir+"/graphics/SVGGraphics.js");
-mapbuilder.loadScript(baseDir+"/graphics/VMLGraphics.js");
+//mapbuilder.loadScript(baseDir+"/graphics/CanvasGraphics.js");
+//mapbuilder.loadScript(baseDir+"/graphics/SVGGraphics.js");
+//mapbuilder.loadScript(baseDir+"/graphics/VMLGraphics.js");
+mapbuilder.loadScript(baseDir+"/tool/util/sarissa/Sarissa.js");
 
 /**
   * Check if we support canvas or VML
@@ -33,6 +34,17 @@ function chkCapabilities() {
   ie50 = ie && AV.indexOf("MSIE 5.0")>=0;
   ie55 = ie && AV.indexOf("MSIE 5.5")>=0;
   ie60 = ie && AV.indexOf("MSIE 6.0")>=0;
+  
+  if( ie ) {
+    mapbuilder.loadScript(baseDir+"/graphics/VMLGraphics.js");
+  } else {
+    if( document.implementation.hasFeature("org.w3c.dom.svg", "1.0") ) {
+      //alert( "loading SVG")
+      mapbuilder.loadScript(baseDir+"/graphics/SVGGraphics.js");  
+    } else {
+      alert( "no support for SVG nor VML")
+    }
+  }
   
 //  if( ie ) {
     //mapbuilder.loadScript(baseDir+"/graphics/Canvas.js");

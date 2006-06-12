@@ -8,8 +8,7 @@ Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 $Id: MapPane.xsl 1918 2006-02-13 22:31:26 -0500 (Mon, 13 Feb 2006) cappelaere $
 $Name$
 -->
-
-<xsl:stylesheet version="1.0" xmlns:wmc="http://www.opengis.net/context" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink">
+<xsl:stylesheet version="1.0" xmlns:wmc="http://www.opengis.net/context" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ows="http://www.opengis.net/ows" >
 
   <xsl:output method="xml" omit-xml-declaration="yes"/>
   <xsl:strip-space elements="*"/>
@@ -26,24 +25,26 @@ $Name$
   <xsl:param name="outputNodeId"/>
 
   <xsl:param name="bbox">
-    <xsl:value-of select="/wmc:ViewContext/wmc:General/wmc:BoundingBox/@minx"/>,<xsl:value-of select="/wmc:ViewContext/wmc:General/wmc:BoundingBox/@miny"/>,
-    <xsl:value-of select="/wmc:ViewContext/wmc:General/wmc:BoundingBox/@maxx"/>,<xsl:value-of select="/wmc:ViewContext/wmc:General/wmc:BoundingBox/@maxy"/>
+    <xsl:value-of select="substring-before(//wmc:General/ows:BoundingBox/ows:LowerCorner,' ')" />,
+    <xsl:value-of select="substring-after(//wmc:General/ows:BoundingBox/ows:LowerCorner,' ')" />,
+    <xsl:value-of select="substring-before(//wmc:General/ows:BoundingBox/ows:UpperCorner,' ')" />,
+    <xsl:value-of select="substring-after(//wmc:General/ows:BoundingBox/ows:UpperCorner,' ')" />
   </xsl:param>
   <xsl:param name="width">
-    <xsl:value-of select="/wmc:ViewContext/wmc:General/wmc:Window/@width"/>
+    <xsl:value-of select="//wmc:General/wmc:Window/@width"/>
   </xsl:param>
   <xsl:param name="height">
-    <xsl:value-of select="/wmc:ViewContext/wmc:General/wmc:Window/@height"/>
+    <xsl:value-of select="//wmc:General/wmc:Window/@height"/>
   </xsl:param>
-  <xsl:param name="srs" select="/wmc:ViewContext/wmc:General/wmc:BoundingBox/@SRS"/>
+  <xsl:param name="srs" select="//wmc:General/wmc:BoundingBox/@SRS"/>
   <xsl:param name="timeList"/>
   <xsl:param name="timeListName"/>
   <xsl:param name="uniqueId"/>
   
   <!-- template rule matching source root element -->
-  <xsl:template match="/wmc:ViewContext">
+  <xsl:template match="/wmc:OWSContext">
       <div style="position:absolute; width:{$width}px; height:{$height}px" id="{$outputNodeId}">
-        <xsl:apply-templates select="wmc:LayerList/wmc:Layer"/>
+        <xsl:apply-templates select="wmc:ResourceList"/>
       </div>
   </xsl:template>
   
@@ -161,7 +162,7 @@ $Name$
         <xsl:if test="string-length($timestamp)>0"> 
        &amp;time=<xsl:value-of select="$timestamp"/>
         </xsl:if>
-        &amp;uniqued=<xsl:value-of select="$uniqueId"/>
+        &amp;uniqueid=<xsl:value-of select="$uniqueId"/>
 <!--	
   //TBD: these still to be properly handled 
   //if (this.exceptions) src += '&' + 'EXCEPTIONS=' + this.exceptions;
@@ -293,3 +294,4 @@ $Name$
 </xsl:template>
 
 </xsl:stylesheet>
+

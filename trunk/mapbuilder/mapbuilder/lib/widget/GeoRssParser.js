@@ -45,7 +45,8 @@ GeoRssParser.prototype.geoRssParserInit = function( objRef ) {
   // georss has to be loaded
   // owscontext has to be loaded
   objRef.targetModel.addListener("loadModel", objRef.loadEntries, objRef);
-  objRef.model.addListener("loadModel", objRef.loadEntries, objRef);
+  objRef.targetModel.addListener("bbox", objRef.loadEntries, objRef);
+  objRef.model.addListener("loadModel", objRef.loadAndPaintEntries, objRef);
 }
 
 /**
@@ -75,6 +76,15 @@ GeoRssParser.prototype.transformEntry = function( objRef, entry ) {
     return resultNode;
   }
 }
+
+/**
+  * Called as a result of a search
+  */
+GeoRssParser.prototype.loadAndPaintEntries = function( objRef ) {
+   objRef.loadEntries( objRef );
+   // we could be call as a result of a search and we need to refresh the map
+   objRef.targetModel.callListeners("refreshOtherLayers");
+}
   
 /**
   * Load RSS entries in the OWS Context and MapPane layers
@@ -87,29 +97,47 @@ GeoRssParser.prototype.loadEntries = function( objRef ) {
     var width = objRef.containerModel.getWindowWidth();
     var height = objRef.containerModel.getWindowHeight();
    
+    // we need to remove the previous layers if they exist
+    var listNodeArray = objRef.targetModel.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:RssLayer");
+    if( listNodeArray.length > 0 ) {
+      //alert( "deleting:"+listNodeArray.length );
+      for( var i=0; i< listNodeArray.length; i++ ) {
+        var layer = listNodeArray[i];
+        var layerId = layer.getAttribute("id");
+        //alert( "deleting:"+ layerId);
+        if( layerId != null ) {
+          //alert( "deleting:"+layerId );
+          objRef.targetModel.setParam('deleteLayer', layerId);
+        } else {
+          alert( "error deleting:"+Sarissa.serialize(layer) );
+        }
+      }   
+    }
+    
     //alert( "features:"+len );
-    //if( len == 0 )
-    //  alert( "No features detected" );
-      
+    if( len == 0 ) {
+      // alert( "No features detected" );
+      return;
+    }
     for (var index=0; index< len; index++) {
       var feature = features[index];
  
-      var id = feature.getAttribute("id" );
-      if( id != null ) // save it as a fid
-        feature.setAttribute( "pid", id );
-        
-      feature.setAttribute("id", "RSS_Item_"+mbIds.getId());
+      var id = feature.getAttribute("uuid" );
+      //if( id != null ) // save it as a fid
+      //  feature.setAttribute( "pid", id );
+      //feature.setAttribute("id", "RSS_Item_"+mbIds.getId());
+      feature.setAttribute("id", id);
       feature.setAttribute("width", width);
       feature.setAttribute("height", height);
+      // alert( "rssLayer:"+Sarissa.serialize(feature) );
  
-      //alert( "rssLayer:"+Sarissa.serialize(feature) );
-
       var layer   = objRef.transformEntry( objRef, feature );     
+      //alert( "rssLayer:"+Sarissa.serialize(layer) );
       
       objRef.targetModel.setParam('addLayer', layer.childNodes[0]);
-  //    objRef.targetModel.setParam('addLayer', layer);
- 
+      // objRef.targetModel.setParam('addLayer', layer);
     }    
+    
   }
 }
   

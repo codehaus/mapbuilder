@@ -27,20 +27,12 @@ function GoogleMapLayer(model, mapPane, layerName, layerNode, queryable, visible
   //var div = this.getDiv();
   
   //this.paint();
-}
-
-/**
-  * Should not be necessary but it does not seem to inherit it for somereason!
-  */
-GoogleMapLayer.prototype.isWmsLayer = function() {
-  return false;
-}
 
 /**
   * Make sure we have a div to insert all the elements
   * @param layerNum The position of this layer in the LayerList.
   */
-GoogleMapLayer.prototype.getDiv = function(layerNum) {
+  this.getDiv = function(layerNum) {
   var outputNode = document.getElementById( this.mapPane.outputNodeId ).parentNode;
   
   div = document.getElementById(this.layerName);
@@ -57,7 +49,7 @@ GoogleMapLayer.prototype.getDiv = function(layerNum) {
     outputNode.appendChild( div );
   }
   return div;
-}
+ }
 
 /**
   * Paint the layer.
@@ -65,7 +57,7 @@ GoogleMapLayer.prototype.getDiv = function(layerNum) {
   * @param img can be ignored here (required for WMS layers)
   * @param layerNum The position of this layer in the LayerList.
   */
-GoogleMapLayer.prototype.paint = function(objRef,img,layerNum) {
+  this.paint = function(objRef,img,layerNum) {
   //TBD This should be moved to an initialisation function
   div=this.getDiv(layerNum);
   div.style.top=0;
@@ -87,5 +79,5 @@ GoogleMapLayer.prototype.paint = function(objRef,img,layerNum) {
   }else{
     this.mapPane.googleMapTools.centerAndZoom(this.mapPane.model);
   }
+  }
 }
-

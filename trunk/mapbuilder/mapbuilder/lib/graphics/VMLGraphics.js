@@ -33,15 +33,15 @@ VMLGraphics.prototype.setFillColor = function(x) {
 }
 
 VMLGraphics.prototype.setShapeStrokeColor = function(shape, x) {
-  shape.setAttribute("strokeStyle", x);
+  shape.setAttribute("strokecolor", x);
 }
 
 VMLGraphics.prototype.setShapeStrokeWidth = function(shape, x) {
-  shape.setAttribute("strokeWeight", x);
+  shape.setAttribute("strokeweight", x);
 }
 
 VMLGraphics.prototype.setShapeFillColor = function(shape, x) {
-  shape.setAttribute("fillStyle", x);
+  shape.setAttribute("fillcolor", x);
 }
 
 
@@ -143,10 +143,10 @@ VMLGraphics.prototype.fillCircle=function( X, Y, radius ) {
 /*
  *
  */ 
-VMLGraphics.prototype.drawImage = function( src, X, Y, width, height) {
+VMLGraphics.prototype.drawImage = function( src, X, Y, width, height, dx, dy) {
 // center the image
-  var posX = X - width/2;
-  var posY = Y - height/2;
+  var posX = X - dx;
+  var posY = Y - dy;
   
   var element = document.createElement("vml:rect");
   element.style.position= "absolute";
@@ -169,7 +169,7 @@ VMLGraphics.prototype.drawImage = function( src, X, Y, width, height) {
   
 VMLGraphics.prototype.swapImage = function( element, src) {
 	var imagedata = element.firstChild
-	imagedate.src = src
+	imagedata.src = src
 }
 
 /**

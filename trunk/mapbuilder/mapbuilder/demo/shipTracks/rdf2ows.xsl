@@ -6,7 +6,7 @@ xmlns:rss="http://purl.org/rss/1.0/"
 xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" 
 xmlns:dc="http://purl.org/dc/elements/1.1/" 
 xmlns:syn="http://purl.org/rss/1.0/modules/syndication/" 
-xmlns:georss="http://www.georss.org/rss"  
+xmlns:georss="http://www.georss.org/georss"  
 xmlns:xlink="http://www.w3.org/1999/xlink"
 xmlns:gml="http://www.opengis.net/gml/3.1.1" 
 xmlns:wmc="http://www.opengis.net/context" 
@@ -24,7 +24,7 @@ xmlns:ogc="http://www.opengis.net/ogc" >
 	</xsl:template>
 	
 	<xsl:template match="rss:item">
-    <xsl:variable name="fid"><xsl:value-of select="@id"/></xsl:variable>
+    <xsl:variable name="fid"><xsl:value-of select="@uuid"/></xsl:variable>
     <xsl:variable name="width"><xsl:value-of select="@width"/></xsl:variable>
     <xsl:variable name="height"><xsl:value-of select="@height"/></xsl:variable>
     
@@ -32,9 +32,7 @@ xmlns:ogc="http://www.opengis.net/ogc" >
 			<Server service="GeoRSS" version="1.0" title="title">
 				<OnlineResource xlink:type="simple" xlink:href="link"/>
 			</Server>
-      <Name>
-        <xsl:value-of select="rss:title"/>
-      </Name>
+      <Name><xsl:value-of select="@uuid"/></Name>
       <Title>
         <xsl:value-of select="rss:title"/>
       </Title>

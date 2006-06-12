@@ -9,8 +9,8 @@ $Id: $
 
 mapbuilder.loadScript(baseDir+"/graphics/WmsLayer.js");
 
-//@TODO move out
-mapbuilder.loadScript(baseDir+"/graphics/GoogleMapLayer.js");
+//should be pulled in by google tool
+//mapbuilder.loadScript(baseDir+"/graphics/GoogleMapLayer.js");
 
 /**
   * Keeps an ordered array of layers
@@ -24,19 +24,55 @@ function MapLayerMgr(mapPane, model) {
   this.layers   = new Array();
   this.mapPane  = mapPane;
   this.model    = model;
+  this.id       = "MapLayerMgr";
   
   this.namespace = "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder' xmlns:wmc='http://www.opengis.net/context' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'";
   
   // create imageStack
-  this.imageStack = new Array(); //new Array(layers.length);
+  //this.imageStack = new Array(); //new Array(layers.length);
   
   this.model.addListener("addLayer",this.addLayer, this);
   this.model.addListener("deleteLayer",this.deleteLayer, this);
   this.model.addListener("hidden",this.hiddenListener, this);
   //this.model.addListener("contextLoaded",this.setLayersFromContext, this);
-  this.model.addListener("loadModel",this.setLayersFromContext, this);
+  //this.model.addListener("loadModel",this.setLayersFromContext, this);
+  this.model.addListener("refreshWmsLayers",this.refreshWmsLayers,this);
+  this.model.addListener("refreshOtherLayers",this.paintOtherLayers,this);
+  this.model.addListener("timestamp",this.timestampListener,this);
+  
 }
 
+/**
+  * Called after a feature has been added to a WFS.  This function triggers
+  * the WMS basemaps to be redrawn.  A timestamp param is added to the URL
+  * to ensure the basemap image is not cached.
+  * @param objRef Pointer to this object.
+  */
+MapLayerMgr.prototype.refreshWmsLayers=function(objRef){
+  objRef.d=new Date();
+  objRef.stylesheet.setParameter("uniqueId",objRef.d.getTime());
+  objRef.paintWmsLayers(objRef);
+}
+   
+   /**
+   * Called when the map timestamp is changed so set the layer visiblity.
+   * @param objRef This object.
+   * @param timestampIndex  The array index for the layer to be displayed. 
+   */
+MapLayerMgr.prototype.timestampListener = function(objRef, timestampIndex){
+    var layerName = objRef.model.timestampList.getAttribute("layerName");
+    var timestamp = objRef.model.timestampList.childNodes[timestampIndex];
+    var vis = (timestamp.getAttribute("current")=="1") ? "visible":"hidden";
+    var layerId = objRef.model.id + "_" + objRef.id + "_" + layerName + "_" + timestamp.firstChild.nodeValue;
+    var layer = document.getElementById(layerId);
+    if (layer) {
+      layer.style.visibility=vis;
+    } else {
+      alert("error finding layerId:"+layerId);
+    }
+  }
+  
+   
  /**
    * Called when the context's hidden attribute changes.
    * @param objRef This object.
@@ -77,7 +113,7 @@ MapLayerMgr.prototype.setLayersFromContext = function(objRef) {
     var layer = contextLayers[i];
     objRef.addLayer( objRef, layer ); 
   }
-  objRef.paint(objRef);
+  //objRef.paint(objRef);
 }
 
 /**
@@ -86,23 +122,35 @@ MapLayerMgr.prototype.setLayersFromContext = function(objRef) {
   * @param layerNode  Layer node element from WMC/OWSContext document 
   */
 MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
-    
+  //alert( "MapLayer addLayer:"+Sarissa.serialize(layerNode))
+  var layer = null;
   service=layerNode.selectSingleNode("wmc:Server/@service");
   if(service)service=service.nodeValue;
-  
+   
   var nodeName = layerNode.nodeName;
   if(service == "GoogleMap") {
-    var layer = new GoogleMapLayer( objRef.model, objRef.mapPane, "GoogleMapLayer", layerNode, false, true );
+    layer = new GoogleMapLayer( objRef.model, objRef.mapPane, "GoogleMapLayer", layerNode, false, true );
     objRef.layers.push( layer );
+    //alert( "Add Google Layer, total Layers:"+objRef.layers.length)
   } else if( (service == "wms") || (service == "OGC:WMS")) {
-    objRef.addWmsLayer( objRef, layerNode);
+    layer = objRef.addWmsLayer( objRef.model, objRef.mapPane, layerNode);
+    //alert( "Added Wms Layer:"+layerNode.nodeName+", total Layers:"+objRef.layers.length)
   } else if( nodeName.indexOf("RssLayer") >= 0 ) {
     var layerName = layerNode.getAttribute("id" );
-    var layer = new RssLayer( objRef.model, objRef.mapPane, layerName, layerNode, false, true );
+    layer = new RssLayer( objRef.model, objRef.mapPane, layerName, layerNode, false, true );
     objRef.layers.push( layer );
+    //alert( "Add Rss Layer, total Layers:"+objRef.layers.length)
+  } else if( nodeName.indexOf("FeatureType") >= 0 ) {
+    var layerName = layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue;
+    if( objRef.getLayer(layerName) == null ) {
+      layer = new WfsQueryLayer( layerNode.model, objRef.mapPane, layerName, layerNode, false, true );
+      objRef.layers.push( layer );
+      //alert( "Add Wfs Layer, total Layers:"+objRef.layers.length)
+    }
   } else {
     alert( "Failed adding Layer:"+nodeName + " service:"+service );
   }
+  return layer
 }
 
 /**
@@ -110,7 +158,7 @@ MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
   * @param objRef object pointer
   * @param layerNode the Layer node from another context doc or capabiltiies doc
   */
-MapLayerMgr.prototype.addWmsLayer = function(objRef, layerNode) {
+MapLayerMgr.prototype.addWmsLayer = function(model, mapPane, layerNode) {
    
   var layerNameNode = layerNode.selectSingleNode("wmc:Name");
   if( layerNameNode ) {
@@ -122,25 +170,10 @@ MapLayerMgr.prototype.addWmsLayer = function(objRef, layerNode) {
   var queryable = layerNode.getAttribute("queryable");
   var visible = layerNode.getAttribute("hidden");
     
-  var layer = new WmsLayer( objRef.model, objRef.mapPane, layerName, layerNode, queryable, visible );
-
- // process the doc with the stylesheet
-  objRef.mapPane.stylesheet.setParameter("width", objRef.model.getWindowWidth());
-  objRef.mapPane.stylesheet.setParameter("height", objRef.model.getWindowHeight());
-  objRef.mapPane.stylesheet.setParameter("bbox", objRef.model.getBoundingBox().join(","));
-  objRef.mapPane.stylesheet.setParameter("srs", objRef.model.getSRS());
+  var layer = new WmsLayer( model, mapPane, layerName, layerNode, queryable, visible );
   
-  var s = objRef.mapPane.stylesheet.transformNodeToString(layerNode);
-  
-  var tempNode = document.createElement("div");
-  tempNode.innerHTML = s;
-  var newSrc = tempNode.firstChild.firstChild.getAttribute("src"); 
-  layer.setSrc( newSrc );
-  
-  objRef.imageStack.push(new Image());
-  objRef.imageStack[objRef.imageStack.length-1].objRef = objRef;
-  
-  objRef.layers.push( layer );
+  mapPane.MapLayerMgr.layers.push( layer );
+  return layer;
 }
 
 /**
@@ -148,42 +181,38 @@ MapLayerMgr.prototype.addWmsLayer = function(objRef, layerNode) {
   * Calls MapLayer.paint for all defined layers
   * @param objRef Pointer to widget object.
   */
-MapLayerMgr.prototype.paint = function( objRef ) {
-  if (!this.imageStack) 
-    this.imageStack = new Array(this.layers.length);
-    
-  this.firstImageLoaded = false;
+MapLayerMgr.prototype.paintWmsLayers = function( objRef ) {
   
-  //process the doc with the stylesheet
-  this.mapPane.stylesheet.setParameter("width",   this.model.getWindowWidth());
-  this.mapPane.stylesheet.setParameter("height",  this.model.getWindowHeight());
-  this.mapPane.stylesheet.setParameter("bbox",    this.model.getBoundingBox().join(","));
-  this.mapPane.stylesheet.setParameter("srs",     this.model.getSRS());
-  
+  //alert( "wmslayers:"+ objRef.layers.length)
   //loop through all layers 
-  for (var i=0;i<this.layers.length;i++) {
-    var layer = this.layers[i];
+  for (var i=0;i< objRef.layers.length;i++) {
+    var layer = objRef.layers[i];
     
-    // deal with WMS layer type, we need some pre-processing
-    if( layer.isWmsLayer() ) {
-      var s = this.mapPane.stylesheet.transformNodeToString(layer.layerNode);
-     
-      var tempNode = document.createElement("div");
-      tempNode.innerHTML = s;
-      var newSrc = tempNode.firstChild.firstChild.getAttribute("src");
-
-      layer.setSrc( newSrc );
-
-      if (!this.imageStack[i]) {
-        this.imageStack[i] = new Image();
-        this.imageStack[i].objRef = objRef;
-	    }
-	  }
-	  // now paint it WMS or not
-	  layer.paint(objRef, this.imageStack[i],i);
+    if( layer.isWmsLayer() )
+	    layer.paint(objRef, null, i);
   }
 }
   
+  /**
+  * Called by MapPane.paint
+  * Calls MapLayer.paint for all defined layers
+  * @param objRef Pointer to widget object.
+  */
+MapLayerMgr.prototype.paintOtherLayers = function( objRef ) {
+  
+  //loop through all layers 
+  //alert( "otherlayers:"+objRef.layers.length)
+  var count=0;
+  for (var i=0;i< objRef.layers.length;i++) {
+    var layer = objRef.layers[i];
+    
+    if( !layer.isWmsLayer() ) {
+	    layer.paint(objRef, null, i);
+      count++;
+    }
+  }
+  //alert("painted:"+count+" others")
+}
 
 /**
  * Method to get a list of all layers 
@@ -199,9 +228,10 @@ MapLayerMgr.prototype.getAllLayers = function() {
    * @return the layer or null
    */
 MapLayerMgr.prototype.getLayer = function(layerName) {
-  for( var i=0; i<layers.length; i++ ) {
-    if( layer[i].layerName.equalsIgnoreCase(layerName) )
-      return layer;
+  for( var i=0; i<this.layers.length; i++ ) {
+    if( this.layers[i].layerName == layerName ) {
+      return this.layers[i];
+    }
   }
   return null;
 }
@@ -214,7 +244,7 @@ MapLayerMgr.prototype.deleteAllLayers = function() {
   if(this.layers){
     for (var i=0;i<this.layers.length;i++) {
       var layer = this.layers[i]; 
-      //layer.unpaint();
+      layer.unpaint();
     }
   }
   this.layers=null;
@@ -225,12 +255,12 @@ MapLayerMgr.prototype.deleteAllLayers = function() {
   * Method to remove a Layer from the LayerList.
   * @param layerName the Layer to be deleted
   */
-MapLayerMgr.prototype.deleteLayer = function(layerName) {
-  for( var i=0; i<this.layers.length; i++ ) {
-    var layer = this.layers[i]; 
+MapLayerMgr.prototype.deleteLayer = function(objRef, layerName) {
+  for( var i=0; i<objRef.layers.length; i++ ) {
+    var layer = objRef.layers[i]; 
     if( layer.layerName == layerName ) {
       layer.unpaint();
-      layers = this.layers.splice(i, 1);
+      layers = objRef.layers.splice(i, 1);
     }
   }
 }

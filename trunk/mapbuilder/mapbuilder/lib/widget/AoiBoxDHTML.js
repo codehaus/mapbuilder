@@ -128,7 +128,7 @@ function AoiBoxDHTML(widgetNode, model) {
     newDiv.style.position = "absolute";
     newDiv.style.backgroundColor = this.lineColor;
     newDiv.style.visibility = "hidden";
-    newDiv.style.zIndex = 300;
+    newDiv.style.zIndex = 900;
     this.node.appendChild( newDiv );
     return newDiv;
   }

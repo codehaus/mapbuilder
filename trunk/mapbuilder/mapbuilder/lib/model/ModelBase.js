@@ -164,13 +164,15 @@ function ModelBase(modelNode, parentModel) {
             sUri = config.proxyUrl;
           }
         }
+        //alert( "ModelBase:"+objRef.method + " to:"+ sUri+ " " + objRef.url)
+        
         xmlHttp.open(objRef.method, sUri, objRef.async);
         if (objRef.method == "post") {
           xmlHttp.setRequestHeader("content-type",objRef.contentType);
           xmlHttp.setRequestHeader("serverUrl",objRef.url);
         }
         
-        xmlHttp.onreadystatechange = function() {
+         xmlHttp.onreadystatechange = function() {
           objRef.setParam("modelStatus",httpStatusMsg[xmlHttp.readyState]);
           if (xmlHttp.readyState==4) {
             if (xmlHttp.status >= 400) {   //http errors status start at 400
@@ -183,28 +185,43 @@ function ModelBase(modelNode, parentModel) {
               if ( null==xmlHttp.responseXML ) {
                 alert( "null XML response:" + xmlHttp.responseText );
               } else {
-                if( xmlHttp.responseXML.root != null ) {
+                // Problem with IE is that sometimes the XML files do not get loaded as XML for some reason (especially from disk)
+                // So we need to deal with it here
+
+                if( xmlHttp.responseXML != null ) {
                   objRef.doc = xmlHttp.responseXML;
+                  if( objRef.doc.parseError == 0 ) {
+                    objRef.finishLoading();      
+                  } else {
+                    alert("Parsing Error:"+objRef.doc.parseError+" " + Sarissa.getParseErrorText( objRef.doc));
+                  }
                 } else {
-                    // Problem with IE is that sometimes the XML files do not get loaded as XML for some reason
-                    // So we need to deal with it here
-                    objRef.doc = Sarissa.getDomDocument();
-                    objRef.doc = (new DOMParser()).parseFromString( xmlHttp.responseText, "text/xml")
-                    if( objRef.doc == null ) {
-                        alert( "Document parseError:"+Sarissa.getParseErrorText( objRef.doc))
-                        // debugger;
+                  // if that's the case, the xml file is in the responseText
+                  // we have to load it manually 
+                  objRef.doc = Sarissa.getDomDocument();
+                  objRef.doc.async = false;
+                  objRef.doc = (new DOMParser()).parseFromString( xmlHttp.responseText, "text/xml")
+                  if( objRef.doc == null ) {
+                    alert( "Document parseError:"+Sarissa.getParseErrorText( objRef.doc))
+                    // debugger;
+                  } else {
+                    if( objRef.doc.parseError == 0 ) {
+                      objRef.finishLoading();      
+                    } else {
+                      alert("Parsing Error:"+objRef.doc.parseError+" " + Sarissa.getParseErrorText( objRef.doc));
                     }
+                  }
                 }
                 //if (objRef.doc.documentElement.nodeName.search(/exception/i)>=0) {
                 //  objRef.setParam("modelStatus",-1);
                 //  alert("Exception:"+Sarissa.serialize(xmlHttp.responseText));
                 //}
               }
-              objRef.finishLoading();
+              //objRef.finishLoading();
             }
           }
         }
-
+        
         xmlHttp.send(objRef.postData);
 
         if (!objRef.async) {
@@ -335,8 +352,10 @@ function ModelBase(modelNode, parentModel) {
    */
   this.createObject = function(configNode) {
     var objectType = configNode.nodeName;
-    var evalStr = "new " + objectType + "(configNode,this);";
-    var newObject = eval( evalStr );
+    //var evalStr = "new " + objectType + "(configNode,this);";
+    //var newObject = eval( evalStr );
+    //hint from Alex Russel alex@dojotoolkit.org so we can compress it
+    var newObject = new window[objectType](configNode, this);
     if ( newObject ) {
       config.objects[newObject.id] = newObject;
       return newObject;

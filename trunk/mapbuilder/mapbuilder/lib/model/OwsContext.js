@@ -22,7 +22,7 @@ function OwsContext(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   ModelBase.apply(this, new Array(modelNode, parent));
 
-  this.namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:ows='http://www.opengis.net/ows' xmlns:ogc='http://www.opengis.net/ogc' xmlns:xsl='http://www.w3.org/1999/XSL/Transform' xmlns:xlink='http://www.w3.org/1999/xlink'";
+  this.namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:ows='http://www.opengis.net/ows' xmlns:ogc='http://www.opengis.net/ogc' xmlns:xsl='http://www.w3.org/1999/XSL/Transform' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs'";
 
   // ===============================
   // Update of Context Parameters
@@ -278,6 +278,7 @@ function OwsContext(modelNode, parent) {
   /**
    * Method to get a list of all layers in the context doc
    * TBD: merge this with above, passing queryable as an optional boolean param?
+   * @TODO Add the other layers
    * @return the list with all layers
    */
   this.getAllLayers = function() {
@@ -289,14 +290,17 @@ function OwsContext(modelNode, parent) {
    * Method to get a layer with the specified name in the context doc
    * @param layerName the layer to be returned
    * @return the list with all layers
+   * @TODO check other layers
    */
   this.getLayer = function(layerName) {
     var layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
+    if( layer == null ) {
+      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:RssLayer[@id='"+layerName+"']");
+    }
     //TBD: add in time stamp
     return layer;
   }
 
-  /* PGC Added from Context.js */
   /**
    * Method to add a Layer to the LayerList
    * @param layerNode the Layer node from another context doc or capabiltiies doc
@@ -305,8 +309,15 @@ function OwsContext(modelNode, parent) {
     if( objRef.doc != null ) {
       var parentNode = objRef.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList");
    
-      var node = objRef.doc.importNode(layerNode,true);
-      parentNode.appendChild( node );
+      // check if that node does not alreayd exist, replace it (query may have changed)
+      var id = layerNode.getAttribute("id");
+      var str = "/wmc:OWSContext/wmc:ResourceList/"+layerNode.nodeName+"[@id='"+id+"']";
+      var node = objRef.doc.selectSingleNode(str);
+      if( node != null ) {
+        parentNode.removeChild(node)
+      }
+ 
+      parentNode.appendChild(layerNode.cloneNode(true));
       objRef.modified = true;
       //alert( "Adding layer:"+Sarissa.serialize( layerNode ) );
     } else {
@@ -363,6 +374,94 @@ function OwsContext(modelNode, parent) {
     objRef.modified = true;
   }
   this.addFirstListener( "moveLayerDown", this.moveLayerDown, this );
-  /*PGC End of Addition */
+  
+  /**
+   * Adds a node to the Context document extension element.  The extension element
+   * will be created if it doesn't already exist.  
+   * @param extensionNode the node to be appended in the extension element.
+   * @return the ndoe added to the extension element
+   */
+  this.setExtension = function(extensionNode) {
+    var extension = this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Extension");
+    if (!extension) {
+      var general = this.doc.selectSingleNode("/wmc:OWSContext/wmc:General");
+      var newChild = createElementWithNS(this.doc,"Extension",'http://www.opengis.net/context');
+      extension = general.appendChild(newChild);
+    }
+    return extension.appendChild(extensionNode);
+  }
+
+  /**
+   * Returns the contents of the extension element
+   * @return the contents of the extension element
+   */
+  this.getExtension = function() {
+    return this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Extension");
+  }
+
+  /**
+   * Parses a Dimension element from the Context document as a loadModel listener.
+   * This results in an XML structure with one element for each GetMap time value 
+   * parameter and added to the Context extrension element.
+   * @param objRef a pointer to this object 
+   */
+  this.initTimeExtent = function( objRef ) {
+    //only the first one selected is used as the timestamp source
+    //var extentNode = objRef.doc.selectSingleNode("//wmc:Layer/wmc:Dimension[@name='time']");
+    //TBD: how to deal with multiple time dimensions in one context doc, or caps doc?
+    var timeNodes = objRef.doc.selectNodes("//wmc:Dimension[@name='time']");
+    for (var i=0; i<timeNodes.length; ++i) {
+      var extentNode = timeNodes[i];
+      objRef.timestampList = createElementWithNS(objRef.doc,"TimestampList",mbNsUrl);
+      var layerName = extentNode.parentNode.parentNode.selectSingleNode("wmc:Name").firstChild.nodeValue;
+      objRef.timestampList.setAttribute("layerName", layerName);
+      //alert("found time dimension, extent:"+extentNode.firstChild.nodeValue);
+      var times = extentNode.firstChild.nodeValue.split(",");   //comma separated list of arguments
+      for (var j=0; j<times.length; ++j) {
+        var params = times[j].split("/");     // parses start/end/period
+        if (params.length==3) {
+          var start = setISODate(params[0]);
+          var stop = setISODate(params[1]);
+          var period = params[2];
+          var parts = period.match(/^P((\d*)Y)?((\d*)M)?((\d*)D)?T?((\d*)H)?((\d*)M)?((.*)S)?/);
+          for (var i=1; i<parts.length; ++i) {
+            if (!parts[i]) parts[i]=0;
+          }
+          //alert("start time:"+start.toString());
+          do {
+            var timestamp = createElementWithNS(objRef.doc,"Timestamp",mbNsUrl);
+            timestamp.appendChild(objRef.doc.createTextNode(getISODate(start)));
+            objRef.timestampList.appendChild(timestamp);
+
+            start.setFullYear(start.getFullYear()+parseInt(parts[2],10));
+            start.setMonth(start.getMonth()+parseInt(parts[4],10));
+            start.setDate(start.getDate()+parseInt(parts[6],10));
+            start.setHours(start.getHours()+parseInt(parts[8],10));
+            start.setMinutes(start.getMinutes()+parseInt(parts[10],10));
+            start.setSeconds(start.getSeconds()+parseFloat(parts[12]));
+            //alert("time:"+start.toString());
+          } while(start.getTime() <= stop.getTime());
+
+        } else {
+          //output single date value
+          var timestamp = createElementWithNS(objRef.doc,"Timestamp",mbNsUrl);
+          timestamp.appendChild(objRef.doc.createTextNode(times[j]));
+          objRef.timestampList.appendChild(timestamp);
+        }
+      }
+     objRef.setExtension(objRef.timestampList);  
+    }
+  }
+  this.addFirstListener( "loadModel", this.initTimeExtent, this );
+
+  /**
+   * Returns the current timestamp value.
+   * @param layerName the name of the Layer from which the timestamp list was generated
+   * @return the current timestamp value.
+   */
+  this.getCurrentTimestamp = function( layerName ) {
+    var index = this.getParam("timestamp");
+    return this.timestampList.childNodes[index].firstChild.nodeValue;
+  }
 }
 

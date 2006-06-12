@@ -62,50 +62,16 @@ function MapPane2(widgetNode, model) {
   this.stylesheet.setParameter("lang", config.lang );
 
   this.MapLayerMgr = new MapLayerMgr(this, model); //PatC
-
-  /**
-   * Called when the context's hidden attribute changes.
-   * @param objRef This object.
-   * @param layerName  The name of the layer that was toggled.
-   */
-   
-  /* PGC Moved to LayerMgr
-  this.hiddenListener=function(objRef, layerName){
-    var vis="visible";
-    if(objRef.model.getHidden(layerName)=="1") {
-      vis="hidden";
-    }
-    var layerId = objRef.model.id + "_" + objRef.id + "_" + layerName;
-    var layer = document.getElementById(layerId);
-    if (layer) {
-      layer.style.visibility=vis;
-      imgId = "real"+layer.imgId;
-      img = document.getElementById(imgId); // Hack to make sure that the child element is toggled in IE
-      if(img) img.style.visibility=vis;
-    }
-  }
-  this.model.addListener("hidden",this.hiddenListener,this);
-  */
   
-  /**
-   * Called after a feature has been added to a WFS.  This function triggers
-   * the WMS basemaps to be redrawn.  A timestamp param is added to the URL
-   * to ensure the basemap image is not cached.
-   * @param objRef Pointer to this object.
-   */
-  this.refreshWmsLayers=function(objRef){
-    objRef.d=new Date();
-    objRef.stylesheet.setParameter("uniqueId",objRef.d.getTime());
-    objRef.paint(objRef);
-  }
-  this.model.addListener("refreshWmsLayers",this.refreshWmsLayers,this);
-
+ 
   this.model.addListener("refresh",this.paint, this);
-  this.model.addListener("addLayer",this.addLayer, this);
+  //this.model.addListener("addLayer",this.addLayer, this);
   this.model.addListener("deleteLayer",this.deleteLayer, this);
   this.model.addListener("moveLayerUp",this.moveLayerUp, this);
   this.model.addListener("moveLayerDown",this.moveLayerDown, this);
-  this.model.addListener("newModel",this.clearWidget2,this);
+  //this.model.addListener("newModel",this.clearWidget2,this);
+  //this.model.addListener("bbox",this.clearWidget2,this);
+ 
 }
 
 /**
@@ -131,6 +97,10 @@ MapPane2.prototype.paint = function(objRef, refresh) {
     //var tempNode = document.createElement("DIV");
     //tempNode.innerHTML = s;
     var tempDom = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
+    if( tempDom.parseError != 0 ) {
+        alert( "parse error:"+Sarissa.getParseErrorText(tempDom));
+    }
+    
     var tempNodeList = tempDom.selectNodes("//img");
 
     //debug output
@@ -139,6 +109,9 @@ MapPane2.prototype.paint = function(objRef, refresh) {
       if (config.serializeUrl) postLoad(config.serializeUrl, s);
     }
 
+    // This is done on newModel only and called by clearWidget2
+    objRef.MapLayerMgr.deleteAllLayers();
+ 
     //create a DIV to hold all the individual image DIVs
     var outputNode = document.getElementById( objRef.outputNodeId );
     if (!outputNode) {
@@ -146,44 +119,27 @@ MapPane2.prototype.paint = function(objRef, refresh) {
       outputNode.setAttribute("id", objRef.outputNodeId);
       outputNode.style.position = "absolute"; 
       objRef.node.appendChild(outputNode);
+      outputNode.style.left='0px';
+      outputNode.style.top='0px';
     } 
-    outputNode.style.left='0px';
-    outputNode.style.top='0px';
-
-    //loop through all layers and create an array of IMG objects for preloading 
+     
+    // loop through all layers and create an array of IMG objects for preloading 
     // the WMS getMap calls
-    /* PGC Moved to LayerMgr
     var layers = objRef.model.getAllLayers();
-    if (!objRef.imageStack) objRef.imageStack = new Array(layers.length);
+    // if (!objRef.imageStack) objRef.imageStack = new Array(layers.length);
     objRef.firstImageLoaded = false;
 
-    var siblingImageDivs = outputNode.childNodes;
-    for (var i=0; i<siblingImageDivs.length ;++i) {
-      var sibImg = siblingImageDivs[i].firstChild;
-      sibImg.parentNode.style.visibility = "hidden";
-      sibImg.style.visibility = "hidden";//Make sure for IE that the child node is hidden as well
-    }
-
-
     objRef.layerCount = layers.length;
-    var message = "loading " + objRef.layerCount + " map layers"
-    objRef.model.setParam("modelStatus", message);
 
-    for (var i=0;i<layers.length;i++){
-      if (!objRef.imageStack[i]) {
-        objRef.imageStack[i] = new Image();
-        objRef.imageStack[i].objRef = objRef;
-      }
-      //var newSrc = tempNode.firstChild.childNodes[i].firstChild.getAttribute("src"); 
-      var newSrc = tempNodeList[i].getAttribute("SRC");
-      objRef.loadImgDiv(layers[i],newSrc,objRef.imageStack[i]);
+    for (var i=0;i<layers.length;i++) {
+      var layer = objRef.MapLayerMgr.addLayer(objRef.MapLayerMgr,layers[i] )
+      var newSrc = tempNodeList[i].getAttribute("src");
+      layer.setSrc(newSrc)
     }
-    if (_SARISSA_IS_IE) siblingImageDivs[0].firstChild.parentNode.parentNode.style.visibility = "hidden";
+    var message = "loading " + objRef.layerCount + " map layers";
+    objRef.model.setParam("modelStatus", message);
     
-    PGC */
-    
-    objRef.MapLayerMgr.paint( objRef );
-     
+    objRef.MapLayerMgr.paintWmsLayers( objRef.MapLayerMgr );
   }
 }
 
@@ -204,40 +160,19 @@ MapPane2.prototype.getLayerDivId = function(layerName) {
 }
 
 /**
- * Adds a layer into the output
- * @param layerName the WMS anme for the layer to be removed
- */
-MapPane2.prototype.addLayer = function(objRef, layerNode) {
-  //process the doc with the stylesheet
-  // Note PGC This is really geared for WMS layers
-    
-  objRef.stylesheet.setParameter("width", objRef.model.getWindowWidth());
-  objRef.stylesheet.setParameter("height", objRef.model.getWindowHeight());
-  objRef.stylesheet.setParameter("bbox", objRef.model.getBoundingBox().join(","));
-  objRef.stylesheet.setParameter("srs", objRef.model.getSRS());
-  var s = objRef.stylesheet.transformNodeToString(layerNode);
-  if( s.length > 0 ) {
-    var tempNode = document.createElement("div");
-    tempNode.innerHTML = s;
-    var newSrc = tempNode.firstChild.firstChild.getAttribute("src"); 
-
-    objRef.imageStack.push(new Image());
-    objRef.imageStack[objRef.imageStack.length-1].objRef = objRef;
-    objRef.firstImageLoaded = true;
-    objRef.loadImgDiv(layerNode,newSrc,objRef.imageStack[objRef.imageStack.length-1]);
-  }
-}
-
-/**
  * Removes a layer from the output
  * @param objRef Pointer to this object.
  * @param layerName the WMS anme for the layer to be removed
  */
 MapPane2.prototype.deleteLayer = function(objRef, layerName) {
   var imgDivId = objRef.getLayerDivId(layerName); 
-  var imgDiv = document.getElementById(imgDivId);
-  var outputNode = document.getElementById( objRef.outputNodeId );
-  outputNode.removeChild(imgDiv);
+  if( imgDivId != null ) {
+    var imgDiv = document.getElementById(imgDivId);
+    if( imgDiv != null ) {
+      var outputNode = document.getElementById( objRef.outputNodeId );
+      outputNode.removeChild(imgDiv);
+    }
+  }
 }
 
 /**
@@ -260,7 +195,7 @@ MapPane2.prototype.moveLayerUp = function(objRef, layerName) {
 /**
  * Moves a layer up in the stack of map layers
  * @param objRef Pointer to this object.
- * @param layerName the WMS anme for the layer to be removed
+ * @param layerName the WMS name for the layer to be removed
  */
 MapPane2.prototype.moveLayerDown = function(objRef, layerName) {
   var outputNode = document.getElementById( objRef.outputNodeId );
@@ -285,82 +220,5 @@ MapPane2.prototype.clearWidget2 = function(objRef) {
   objRef.MapLayerMgr.deleteAllLayers();
 }
 
-/**
- * sets up the image div to be loaded.  Images are preloaded in the imageStack
- * array and replaced in the document DOM in the onload handler
- * @param layerNode the context layer to be loaded
- * @param newSrc the new URL to be used for the image
- * @param newImg an HTML IMG object to pre-load the image in
- */
-MapPane2.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
-  var outputNode = document.getElementById( this.outputNodeId );
-  var layerName = layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue;  
-  var layerHidden = (layerNode.getAttribute("hidden")==1)?true:false;  
-  var imageFormat = "image/gif";
-  var imageFormatNode = layerNode.selectSingleNode("wmc:FormatList/wmc:Format[@current='1']");  
-  if (imageFormatNode) imageFormat = imageFormatNode.firstChild.nodeValue;  
 
-  //make sure there is an image DIV in the output node for this layer
-  var imgDivId = this.getLayerDivId(layerName); 
-  var imgDiv = document.getElementById(imgDivId);
-  if (!imgDiv) {
-    imgDiv = document.createElement("div");
-    imgDiv.setAttribute("id", imgDivId);
-    imgDiv.style.position = "absolute"; 
-    imgDiv.style.visibility = (layerHidden)?"hidden":"visible";
-    imgDiv.style.top = '0px'; 
-    imgDiv.style.left = '0px';
-    imgDiv.imgId = Math.random().toString(); 
-    var domImg = document.createElement("img");
-    domImg.id = "real"+imgDiv.imgId;
-    domImg.src = this.loadingSrc;
-    domImg.layerHidden = layerHidden;
-    imgDiv.appendChild(domImg);
-    outputNode.appendChild(imgDiv);
-  }
 
-  // preload image
-  newImg.id = imgDiv.imgId;
-  newImg.hidden = layerHidden;
-  newImg.fixPng = false;
-  if (_SARISSA_IS_IE && imageFormat=="image/png") newImg.fixPng = true;
-  newImg.onload = MapImgLoadHandler;
-  newImg.src = newSrc;
-}
-
-/**
-* image onload handler function.
-* Replaces the source with the new one and fixes the displacement to 
-* compensate the container main div displacement to result in in a zero displacement.
-* The first image to be returned will hide all other layers and re-position them
-* and they are made visible when their onload event fires.
-* @author Michael Jenik     
-*/
-function MapImgLoadHandler() {
-  var oldImg = document.getElementById("real"+this.id );
-  --this.objRef.layerCount;
-  if (this.objRef.layerCount > 0) {
-    var message = "loading " + this.objRef.layerCount + " map layers"
-    this.objRef.model.setParam("modelStatus", message);
-  } else {
-    this.objRef.model.setParam("modelStatus");
-  }
-
-  if (_SARISSA_IS_IE) oldImg.parentNode.parentNode.style.visibility = "visible";
-  if (this.fixPng) {
-    var vis = oldImg.layerHidden?"hidden":"visible";
-    oldImg.outerHTML = fixPNG(this,"real"+this.id);
-    if (!this.hidden) {
-      fixImg = document.getElementById("real"+this.id); // The result of fixPng is a span, so we need to set that particular element visible
-      fixImg.style.visibility = "visible"
-    }
-  } else {
-    oldImg.src = this.src;
-    oldImg.width = this.objRef.model.getWindowWidth();
-    oldImg.height = this.objRef.model.getWindowHeight();
-    if (!this.hidden) {
-      oldImg.parentNode.style.visibility = "visible";
-      oldImg.style.visibility = "visible"; //Make sure for IE that the child node is visible as well
-    }
-  }
-}

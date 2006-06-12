@@ -9,8 +9,10 @@ var mbTimerStart = new Date();
 /** the global config object */
 var config;
 
+if( typeof baseDir == "undefined") {
 /** URL of Mapbuilder's lib/ directory. */
 var baseDir;
+}
 
 /** mapbuilder environement settings, defaults to a .xml extension but is 
   auto-configured by the ant build script to .jsp for tomcat environment 
@@ -63,6 +65,13 @@ function Mapbuilder() {
    * Mozilla works fine without this function - I think it is single threaded.
    */
   this.checkScriptsLoaded=function() {
+    // check for compressed file
+    if(typeof MapBuilder_Release == "boolean") {
+    //    alert( "compressed")
+        this.setLoadState(MB_LOAD_CONFIG);
+        return;
+    }
+        
     if (document.readyState!=null){
       // IE client
 
@@ -109,6 +118,10 @@ function Mapbuilder() {
           // IE
           config=new Config(mbConfigUrl);
           config.loadConfigScripts();
+          if(typeof MapBuilder_Release == "boolean") {
+            this.setLoadState(MB_LOADED);
+            return;
+          }
         }else{
           // Mozilla
           this.setLoadState(MB_LOADED);
@@ -125,6 +138,8 @@ function Mapbuilder() {
    * @param url The url of the script.
    */
   this.loadScript=function(url){
+    if(typeof MapBuilder_Release == "boolean") return
+  
     if(!document.getElementById(url)){
       var script = document.createElement('script');
       script.defer = false;   //not sure of effect of this?
@@ -158,9 +173,16 @@ function Mapbuilder() {
   for (var i=0; i<nodes.length; ++i ){
     var src = nodes.item(i).src;
     if (src) {
+      //var index = src.indexOf("/Mapbuilder.js");
+      // Modified so it will work with original or compressed file
       var index = src.indexOf("/Mapbuilder.js");
       if (index>=0) {
         baseDir = src.substring(0, index);
+      } else {
+        index = src.indexOf("/MapbuilderCompressed.js");
+        if (index>=0) {
+          baseDir = src.substring(0, index);
+        }
       }
     }
   }

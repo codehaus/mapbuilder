@@ -6,17 +6,20 @@ $Id$
 */
 mapbuilder.loadScript(baseDir+"/graphics/MapLayer.js");
 
-function WmsLayer(model, mapPane, layerName, layerNode, queryable, visible) {
-  MapLayer.apply(this, new Array(model, mapPane, layerName, layerNode, queryable, visible));
+WmsLayer = function(model, mapPane, layerName, layerNode, queryable, visible) {
+    MapLayer.apply(this, new Array(model, mapPane, layerName, layerNode, queryable, visible));
 
-  /** Date object used to create a unique id. */
-  this.d=new Date();
-
-}
-
-WmsLayer.prototype.setSrc = function( src ) {
-  this.src = src;
-}
+    /** Date object used to create a unique id. */
+    this.d=new Date();
+    this.img = new Image();
+    this.img.objRef = mapPane;
+    this.mapPane = mapPane;
+  /**
+    * Sets the source
+    */
+  this.setSrc= function( src ) {
+    this.src = src;
+  }
 
 /**
   * Paint the layer.
@@ -24,27 +27,33 @@ WmsLayer.prototype.setSrc = function( src ) {
   * @param img 
   * @param layerNum The position of this layer in the LayerList.
   */
-WmsLayer.prototype.paint = function(objRef, img,layerNum ) {
-  //alert( "paint:"+this.src);
-  this.loadImgDiv(this.layerNode,this.src,img,layerNum);
+  this.paint= function(objRef, img, layerNum ) {
+    //alert( "paint:"+this.src);
+    this.loadImgDiv(objRef, this.layerNode,this.src,this.img,layerNum);
   
-  return img;
-}
+    return img;
+  }
 
-WmsLayer.prototype.isWmsLayer = function() {
-  return true;
-}
+  this.isWmsLayer= function() {
+    return true;
+  }
 
 /**
  * Returns an ID for the image DIV given a layer name
  * @param layerName the name of the WMS layer
  */
-WmsLayer.prototype.getLayerDivId = function() {
-  var divId = this.model.id +"_"+ this.mapPane.id +"_"+ this.layerName; //TBD: add in timestamps
-  return divId;
-}
-
-
+  this.getLayerDivId= function() {
+    var divId = this.model.id +"_"+ this.mapPane.id +"_"+ this.layerName; //TBD: add in timestamps
+    return divId;
+    
+    //add timestamp to layerID if layer have a timestampList
+    if (this.model.timestampList && this.model.timestampList.getAttribute("layerName") == layerName) {  
+      var timestampIndex = this.model.getParam("timestamp");
+      var timestamp = this.model.timestampList.childNodes[timestampIndex];
+      layerId += "_" + timestamp.firstChild.nodeValue;
+    }
+  }
+  
 /**
  * sets up the image div to be loaded.  Images are preloaded in the imageStack
  * array and replaced in the document DOM in the onload handler
@@ -53,8 +62,8 @@ WmsLayer.prototype.getLayerDivId = function() {
  * @param newImg an HTML IMG object to pre-load the image in
  * @param layerNum The position of this layer in the LayerList.
  */
-WmsLayer.prototype.loadImgDiv = function(layerNode,newSrc,newImg,layerNum) {
-  var outputNode = document.getElementById( this.mapPane.outputNodeId );
+  this.loadImgDiv= function(objRef, layerNode,newSrc,newImg,layerNum) {
+  var outputNode = document.getElementById( objRef.mapPane.outputNodeId );
    //alert("WmsLayer.loadImgDiv: outputNodeId="+this.mapPane.outputNodeId+" outputNode="+document.getElementById(this.mapPane.outputNodeId));
   
   //var layerName = layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue;  
@@ -93,7 +102,9 @@ WmsLayer.prototype.loadImgDiv = function(layerNode,newSrc,newImg,layerNum) {
   newImg.onload = MapImgLoadHandler;
   newImg.setAttribute("src", newSrc);
   
+  }
 }
+
 
 /**
 * image onload handler function.
@@ -106,27 +117,30 @@ WmsLayer.prototype.loadImgDiv = function(layerNode,newSrc,newImg,layerNum) {
 function MapImgLoadHandler() {
  
   var oldImg = document.getElementById("real"+this.id );
+  
+  if (!this.objRef.firstImageLoaded) {
+    this.objRef.firstImageLoaded = true;
+    var outputNode = document.getElementById( this.objRef.outputNodeId );
+    var siblingImageDivs = outputNode.childNodes;
+    for (var i=0; i<siblingImageDivs.length ;++i) {
+      var sibImg = siblingImageDivs[i].firstChild;
+      sibImg.parentNode.style.visibility = "hidden";
+      sibImg.style.visibility = "hidden";//Make sure for IE that the child node is hidden as well
+      if (_SARISSA_IS_IE) sibImg.src = config.skinDir+"/images/Spacer.gif";
+    }
+    if (_SARISSA_IS_IE) siblingImageDivs[0].firstChild.parentNode.parentNode.style.visibility = "hidden";
+    outputNode.style.left='0px';
+    outputNode.style.top='0px';
+  }
+
   --this.objRef.layerCount;
   if (this.objRef.layerCount > 0) {
     var message = "loading " + this.objRef.layerCount + " map layers"
     this.objRef.model.setParam("modelStatus", message);
   } else {
     this.objRef.model.setParam("modelStatus");
+    this.objRef.model.callListeners("refreshOtherLayers");
   }
-  
-  /*  var outputNode = oldImg.parentNode.parentNode;
-  if (!this.objRef.firstImageLoaded) {
-    var siblingImageDivs = outputNode.childNodes;
-    for (var i=0; i<siblingImageDivs.length ;++i) {
-      var sibImg = siblingImageDivs[i].firstChild;
-      sibImg.parentNode.style.visibility = "hidden";
-      sibImg.style.visibility = "hidden";//Make sure for IE that the child node is hidden as well
-    }
-    outputNode.style.left=0;
-    outputNode.style.top=0;   
-    this.objRef.firstImageLoaded = true;
-  }
-  */
   
   if (_SARISSA_IS_IE) oldImg.parentNode.parentNode.style.visibility = "visible";
   if (this.fixPng) {

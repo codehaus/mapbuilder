@@ -63,7 +63,7 @@
         <TipWidget id="rssRendererTip" > 
           <leftOffset>-40</leftOffset>
           <topOffset>-80</topOffset>
-          <command>overlib(text, STICKY, BUBBLE, BUBBLETYPE,'square', RELX, x, RELY, y)</command>
+          <command>overlib(text, CAPTION, "Caption", STICKY, WIDTH,'225', HEIGHT,'250', REFC,'UR', REFP,'LL', RELX, x, RELY, y)</command>
         </TipWidget> 
  
         <GeoRssParser id="geoRssParser">
