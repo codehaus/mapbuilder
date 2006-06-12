@@ -65,12 +65,12 @@ function TipWidget( widgetNode, model) {
         // this does not work with IE
 	    //tipDiv.setAttribute("style", "position: absolute; z-index: 10000; visibility: hidden; left: 0px; top: 0px; width: 10px");
         tipDiv.setAttribute("style", "");
-	    tipDiv.style.position = "absolute";
+	      //tipDiv.style.position = "absolute";
         tipDiv.style.zIndex = "10000";
         tipDiv.style.visibility = "hidden";
-        tipDiv.style.left = "0px";
-        tipDiv.style.top = "0px";
-        tipDiv.style.width = "10px";
+        //tipDiv.style.left = "0px";
+        //tipDiv.style.top = "0px";
+        //tipDiv.style.width = "10px";
         
 	    //userDiv.appendChild( tipDiv );
         var parentNode = userDiv.parentNode;
@@ -94,22 +94,27 @@ function TipWidget( widgetNode, model) {
 
     // For some reason, absolute positionning over the map does not work right
     // So I use an arbitrary negative offset set in config file    
+    var leftOffset = parseInt(this.leftOffset);
+    var topOffset = parseInt(this.topOffset);
+    
     var x = parseInt(arr[0]);
-    if( x > this.leftOffset )
-      x += this.leftOffset;
+    if( x > leftOffset )
+      x += leftOffset;
       
     var y = parseInt(arr[1]);
-    if( y > this.topOffset )
-      y += this.topOffset;
+    if( y > topOffset )
+      y += topOffset;
     
-    var width = arr[2];
+    var id = arr[2];  
+    
     var title = arr[3];
     var contents = this.dehtmlize( arr[4] );
-    //alert( contents );
-    var text  = "<b>"+title+"</b><hr/><br/>"+ contents;
     
-    //overlib(text, STICKY, BUBBLE, BUBBLETYPE,'square', RELX, x, RELY, y);
-    eval( this.overLibCmd );
+    var text  = "<b>"+title+"</b><hr/><br/>"+ contents;
+   
+    // this eval would be nice but this confuses the Kompressor
+    //eval( this.overLibCmd );
+    overlib(text, CAPTION, "Caption", STICKY, WIDTH,'225', HEIGHT,'200', REFC,'UR', REFP,'LL', RELX, x, RELY, y)
   }
   
   this.dehtmlize = function(str) {
@@ -128,7 +133,7 @@ function TipWidget( widgetNode, model) {
   }
   
  
-  this.createDiv();
+  //this.createDiv();
   
   // This is used to eventually support many tooltips with different configuration
   toolTipObjs[ this.tipIdName ] = this;

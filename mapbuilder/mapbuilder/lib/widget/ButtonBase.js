@@ -20,7 +20,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 function ButtonBase(widgetNode, model) {
 
   //stylesheet is fixed to this one
-  this.stylesheet = new XslProcessor(baseDir+"/widget/Button.xsl");
+  this.stylesheet = new XslProcessor(baseDir+"/widget/Button.xsl", model.namespace);
   var buttonBarNode = widgetNode.selectSingleNode("mb:buttonBar");
   if ( buttonBarNode ) {
     this.htmlTagId = buttonBarNode.firstChild.nodeValue;

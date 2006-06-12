@@ -15,17 +15,22 @@ function StyleLayerDescriptor( style ) {
 /**
   * Basic shape hiliting
   */
-StyleLayerDescriptor.prototype.hiliteShape = function( gr, shape) {
+StyleLayerDescriptor.prototype.hiliteShape = function( gr, shape, symbolizer) {
+  this.getStyleAttributes( symbolizer);
   
-  // check if we need to switch the image
-  var externalGraphic = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:ExternalGraphic" );
-  if( externalGraphic != null ) {
-    var href    = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:ExternalGraphic/sld:OnlineResource");
-    //var format  = externalGraphic.selectSingleNode("sld:Format");
-    gr.swapImage( shape, href.attributes.getNamedItem("xlink:href").nodeValue)
-  }
+  if( symbolizer == "sld:PointSymbolizer") {
+    // check if we need to switch the image
+    var externalGraphic = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:ExternalGraphic" );
+    if( externalGraphic != null ) {
+      var href    = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:ExternalGraphic/sld:OnlineResource");
+      //var format  = externalGraphic.selectSingleNode("sld:Format");
+      gr.swapImage( shape, href.attributes.getNamedItem("xlink:href").nodeValue)
+      return;
+    }
+   }
   
-  //alert( "stroke:"+this.strokeColor+" width:"+this.strokeWidth+" fill:"+this.fillColor);
+  // This is for line and polygons
+  // alert( "stroke:"+this.strokeColor+" width:"+this.strokeWidth+" fill:"+this.fillColor);
   if( this.strokeColor != null ) {  
     gr.setShapeStrokeColor( shape, this.strokeColor );
     //shape.stroked = "true";
@@ -50,8 +55,8 @@ StyleLayerDescriptor.prototype.hiliteShape = function( gr, shape) {
   * @param element
   */
 StyleLayerDescriptor.prototype.hilitePoint = function( gr, shape) {
-  this.getStyleAttributes( "sld:PointSymbolizer");
-  this.hiliteShape( gr, shape );
+  //this.getStyleAttributes( "sld:PointSymbolizer");
+  this.hiliteShape( gr, shape, "sld:PointSymbolizer" );
 }
   
 /**
@@ -65,17 +70,40 @@ StyleLayerDescriptor.prototype.paintPoint = function( gr, coords) {
   var X = coords[0];
   var Y = coords[1];
   var size = 0;
-  
+  var dx = 0;
+  var dy = 0;
+  var height = 0;
+  var width = 0;
+ 
+  this.getStyleAttributes( "sld:PointSymbolizer");
+ 
+ 
   var sizeNode  = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:Size");
-  if( sizeNode != null )
+  if( sizeNode != null ) {
     size = sizeNode.firstChild.nodeValue;
+    width = size;
+    height = size;
+  } else {
+    widthNode = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:Width");
+    if( widthNode != null )
+      width = widthNode.firstChild.nodeValue;
+        
+    heightNode = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:Height");
+    if( heightNode != null )
+      height= heightNode.firstChild.nodeValue;
+  }
   
-  //alert( size );
+  var displacementNode = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:Displacement");
+  if( displacementNode != null ) {
+    dx = parseInt(this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:Displacement/sld:DisplacementX").firstChild.nodeValue);
+    dy = parseInt(this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:Displacement/sld:DisplacementY").firstChild.nodeValue);
+  }
+
   var externalGraphic = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:ExternalGraphic" );
   if( externalGraphic != null ) {
     var href    = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:ExternalGraphic/sld:OnlineResource");
     //var format  = externalGraphic.selectSingleNode("sld:Format");
-    shape  = gr.drawImage( href.attributes.getNamedItem("xlink:href").nodeValue, X, Y, size, size )
+    shape  = gr.drawImage( href.attributes.getNamedItem("xlink:href").nodeValue, X, Y, width, height, dx, dy )
   } else { 
     // WellKnownGraphicItems
     var pointTypeNode = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:Mark/sld:WellKnownName")
@@ -109,8 +137,8 @@ StyleLayerDescriptor.prototype.paintPoint = function( gr, coords) {
   * @param element
   */
 StyleLayerDescriptor.prototype.hiliteLine = function( gr, shape) {
-  this.getStyleAttributes( "sld:LineSymbolizer" );
-  this.hiliteShape( gr, shape )
+  //this.getStyleAttributes( "sld:LineSymbolizer" );
+  this.hiliteShape( gr, shape, "sld:LineSymbolizer" )
 }
 
 /**
@@ -147,8 +175,8 @@ StyleLayerDescriptor.prototype.paintLine = function( gr, coords) {
   * @param element
   */
 StyleLayerDescriptor.prototype.hilitePolygon = function( gr, shape) {
-  this.getStyleAttributes( "sld:PolygonSymbolizer" );
-  this.hiliteShape( gr, shape );
+  //this.getStyleAttributes( "sld:PolygonSymbolizer" );
+  this.hiliteShape( gr, shape, "sld:PolygonSymbolizer" );
 }
 
 /**

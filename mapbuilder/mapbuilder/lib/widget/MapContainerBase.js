@@ -70,7 +70,7 @@ function MapContainerBase(widgetNode,model) {
     containerNode.id=this.containerNodeId;
     containerNode.style.position="relative";
     containerNode.style.overflow="hidden";
-    containerNode.style.zIndex="50000";
+    containerNode.style.zIndex="500";
 
     containerNode.containerModel = this.model;
     this.containerModel = this.model;

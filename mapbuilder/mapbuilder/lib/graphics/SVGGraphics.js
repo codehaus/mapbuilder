@@ -76,7 +76,10 @@ SVGGraphics.prototype.drawPolyline = function(Xpoints, Ypoints) {
   var element = document.createElementNS('http://www.w3.org/2000/svg', "polyline");
  
   element.setAttribute("points", pts);
-  element.setAttribute("stroke", this.strokeStyle);
+  
+  if( this.strokeStyle )
+    element.setAttribute("stroke", this.strokeStyle);
+  
   element.setAttribute("fill", 'none' ); //this.fillStyle);
  
   this.svg.appendChild( element );
@@ -114,8 +117,12 @@ SVGGraphics.prototype.fillCircle=function( X, Y, radius ) {
   element.setAttribute("cx", X)
   element.setAttribute("cy", Y)
   element.setAttribute("r", radius)
-  element.setAttribute("stroke", this.strokeStyle);
-  element.setAttribute("fill", this.fillStyle)
+  
+  if( this.strokeStyle )
+    element.setAttribute("stroke", this.strokeStyle);
+  
+  if( this.fillStyle )
+    element.setAttribute("fill", this.fillStyle)
 
   this.svg.appendChild( element );
   return element;
@@ -124,21 +131,26 @@ SVGGraphics.prototype.fillCircle=function( X, Y, radius ) {
 /**
   *
   */
-SVGGraphics.prototype.drawImage = function( src, X, Y, width, height) {
+SVGGraphics.prototype.drawImage = function( src, X, Y, width, height, dx, dy) {
   
   var element = document.createElementNS('http://www.w3.org/2000/svg', "image");
     
   element.setAttributeNS('http://www.w3.org/1999/xlink', 'href', src)
  
   // center the image
-  var posX = X - width/2;
-  var posY = Y - height/2;
+  var posX = X - dx;
+  var posY = Y - dy;
     
+  //alert( "dx:"+dx + " dy:"+dy)
+ 
   element.setAttribute("x", posX);
   element.setAttribute("y", posY);
   
-  element.setAttribute("width", width);
-  element.setAttribute("height", height);
+  if( width != 0 )
+    element.setAttribute("width", width);
+  
+  if( height != 0 )
+    element.setAttribute("height", height);
   
   this.svg.appendChild( element );
   return element;

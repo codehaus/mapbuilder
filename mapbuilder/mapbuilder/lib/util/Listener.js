@@ -40,6 +40,9 @@ function Listener() {
     //  }
     //}
     this.listeners[param].push(new Array(listener,target));
+    if( !listener ) {
+       alert( "undefined listener for:"+target)   
+    }
   }
 
   /**
@@ -56,6 +59,9 @@ function Listener() {
     }
     this.removeListener(param,listener,target);
     this.listeners[param].unshift(new Array(listener,target));
+    if( !listener ) {
+        alert( "undefined listener for:"+target)
+    }
   }
 
   /**

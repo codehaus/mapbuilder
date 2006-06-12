@@ -4,7 +4,7 @@ License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 */
 mapbuilder.loadScript(baseDir+"/graphics/FeaturePoint.js");
-
+ 
 /**
   * Point Feature Factory
   * @param widgetNode  The widget's XML object node from the configuration document.

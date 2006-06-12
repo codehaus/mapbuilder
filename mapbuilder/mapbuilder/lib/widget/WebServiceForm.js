@@ -7,6 +7,7 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
+mapbuilder.loadScript(baseDir+"/util/dojo/src/uuid/TimeBasedGenerator.js");
 
 /**
  * Widget to display a form for input of parameters to generate a web service 
@@ -26,28 +27,82 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 function WebServiceForm(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
   this.formElements = new Object();
+  // We might have a request stylesheet to fill for a moe complex post
+  var requestStylesheet = widgetNode.selectSingleNode("mb:requestStylesheet");
+  if (requestStylesheet) {
+    this.requestStylesheet = new XslProcessor(requestStylesheet.firstChild.nodeValue,model.namespace); 
+  }
+  
+  var webServiceUrl = widgetNode.selectSingleNode("mb:webServiceUrl");
+  if (webServiceUrl) {
+    this.webServiceUrl = webServiceUrl.firstChild.nodeValue; 
+  }
 
+  
   /**
    * Handles submission of the form (via javascript in an <a> tag)
    */
   this.submitForm = function() {
     this.webServiceForm = document.getElementById(this.formName);
-
-    //create the http GET URL
-    //TBD: handle POST submission
-    //TBD: create filter request
-    var webServiceUrl = this.webServiceForm.action + "?";
-    for (var i=0; i<this.webServiceForm.elements.length; ++i) {
-      var element = this.webServiceForm.elements[i];
-      webServiceUrl += element.name + "=" + element.value + "&";
-      this.formElements[element.name] = element.value;
+    if( this.webServiceForm == null ) { 
+      // get it from a user div instead if present
+      this.webServiceForm = document.getElementById("webServiceForm_form");
     }
-    if (this.debug) alert(webServiceUrl);
-
+    
+    if( this.webServiceForm == null ) {
+        
+      return;
+    }
+    
     var httpPayload = new Object();
-    httpPayload.method = "get";
-    httpPayload.url = webServiceUrl;
-    this.targetModel.newRequest(this.targetModel,httpPayload);
+    httpPayload.method = this.targetModel.method;
+    httpPayload.url = this.webServiceUrl;
+    
+    if (httpPayload.method.toLowerCase() == "get") {
+      httpPayload.url = this.webServiceForm.action + "?";
+      for (var i=0; i<this.webServiceForm.elements.length; ++i) {
+        var element = this.webServiceForm.elements[i];
+        webServiceUrl += element.name + "=" + element.value + "&";
+        this.formElements[element.name] = element.value;
+      }  
+      
+      if (this.debug) alert(httpPayload.url);
+    
+      this.targetModel.newRequest(this.targetModel,httpPayload);
+    
+    } else { 
+        // a post
+        // put parameters we got in request stylesheet
+      for (var i=0; i<this.webServiceForm.elements.length; ++i) {
+        var element = this.webServiceForm.elements[i];
+        this.formElements[element.name] = element.value;
+      }  
+      
+      this.requestStylesheet.setParameter("resourceName", this.formElements["feature"])
+      this.requestStylesheet.setParameter("fromDateField", this.formElements["fromDateField"])
+      this.requestStylesheet.setParameter("toDateField", this.formElements["toDateField"])
+  
+      // @TODO
+      // we need a new uuid if we wnat to uniquely identify new layers  
+      // var uuid = dojo_uuid_TimeBasedGenerator.generate();
+       
+      var layer = this.requestStylesheet.transformNodeToObject(this.model.doc); 
+      //layer.childNodes[0].setAttribute("id", uuid)
+         
+      // extract the GetFeature out
+      this.namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:ows='http://www.opengis.net/ows' xmlns:ogc='http://www.opengis.net/ogc' xmlns:xsl='http://www.w3.org/1999/XSL/Transform' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs'";
+      
+      Sarissa.setXpathNamespaces(layer, this.namespace);
+      var getFeature = layer.selectSingleNode("//wfs:GetFeature")
+      
+      httpPayload.postData = Sarissa.serialize( getFeature);
+      
+      if( this.debug ) 
+        alert("httpPayload.postData:"+ httpPayload.postData);
+      
+      this.targetModel.wfsFeature = layer.childNodes[0];
+      this.targetModel.newRequest(this.targetModel,httpPayload);
+    }
   }
 
   /**
@@ -80,6 +135,11 @@ function WebServiceForm(widgetNode, model) {
    */
   this.postPaint = function(objRef) {
     objRef.webServiceForm = document.getElementById(objRef.formName);
+    if( this.webServiceForm == null ) { 
+      // get it from a user div instead if present
+      this.webServiceForm = document.getElementById("webServiceForm_form");
+    }
+    
     objRef.webServiceForm.parentWidget = objRef;
     objRef.webServiceForm.onkeypress = objRef.handleKeyPress;
     //objRef.WebServiceForm.onsubmit = objRef.submitForm;
@@ -100,6 +160,32 @@ function WebServiceForm(widgetNode, model) {
     }
   }
 
+  /**
+    * Setup the listener for AOI changes to be used in filter if necessary
+    */
+  this.setAoiParameters = function(objRef,bbox) {
+    if (objRef.targetModel.containerModel) {
+      var featureSRS = null;
+      var containerSRS = "EPSG:4326";
+     
+      objRef.requestStylesheet.setParameter("bBoxMinX", bbox[0][0] );
+      objRef.requestStylesheet.setParameter("bBoxMinY", bbox[1][1] );
+      objRef.requestStylesheet.setParameter("bBoxMaxX", bbox[1][0] );
+      objRef.requestStylesheet.setParameter("bBoxMaxY", bbox[0][1] );
+      objRef.requestStylesheet.setParameter("srs", containerSRS );
+      objRef.requestStylesheet.setParameter("width", objRef.targetModel.containerModel.getWindowWidth() );
+      objRef.requestStylesheet.setParameter("height", objRef.targetModel.containerModel.getWindowHeight() );
+    }
+  }
+
+  this.init = function(objRef) {
+    if (objRef.targetModel.containerModel) {
+      objRef.targetModel.containerModel.addListener("aoi", objRef.setAoiParameters, objRef);
+      //TBD: another one for bbox
+    }
+  }
+  
+  this.model.addListener("init", this.init, this);
 
 }
 

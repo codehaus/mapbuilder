@@ -32,7 +32,8 @@ function ToolBase(toolNode, model) {
     var targetModel = toolRef.toolNode.selectSingleNode("mb:targetModel");
     if (targetModel) {
       var targetModelName = targetModel.firstChild.nodeValue;
-      toolRef.targetModel = eval("config.objects."+targetModelName);
+      //toolRef.targetModel = eval("config.objects."+targetModelName);
+      toolRef.targetModel = window.config.objects[targetModelName];
       if (!toolRef.targetModel) alert("error finding targetModel:"+targetModelName+" for tool:"+toolRef.id);
     } else {
       toolRef.targetModel = toolRef.model;

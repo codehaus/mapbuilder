@@ -4,7 +4,7 @@
   xmlns:taxo='http://purl.org/rss/1.0/modules/taxonomy/'  
   xmlns:dc='http://purl.org/dc/elements/1.1/'  
   xmlns:syn='http://purl.org/rss/1.0/modules/syndication/'  
-  xmlns:georss="http://www.georss.org/rss" 
+  xmlns:georss="http://www.georss.org/georss" 
   xmlns:gml='http://www.opengis.net/gml/3.1.1' >
   
   <item id='1' uuid='F846273D-9059-428E-95A3-085FDB891702' score='1.0' rdf:about='http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=F846273D-9059-428E-95A3-085FDB891702'>
@@ -62,7 +62,9 @@
     <thn>http://tacsatdev.pxi.com/tacsat1/data/ais/products/thn/2004/07/08/1DFEA432-82CB-4533-80E5-413F8AE4D345.jpg</thn>
     <description type='text/html'>Vessel: <b>AOI 1 </b></description>
     <dc:date>130407Z MAY 05</dc:date>
-    <georss:where><gml:Polygon><gml:exterior><gml:LinearRing>-88 36, -87 36, -87 35, -88 35</gml:LinearRing></gml:exterior></gml:Polygon></georss:where>
+    <georss:where><gml:Polygon><gml:exterior><gml:LinearRing><gml:posList>
+    	-88 36, -87 36, -87 35, -88 35
+    	</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon></georss:where>
   </item>
  
   

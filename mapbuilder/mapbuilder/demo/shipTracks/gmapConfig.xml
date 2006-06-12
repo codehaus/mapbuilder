@@ -75,8 +75,8 @@
          </GeoRssParser>
         
       </widgets>
-      <namespace>xmlns:atom='http://www.w3.org/2005/Atom' xmlns:georss='http://www.georss.org/rss' xmlns:gml='http://www.opengis.net/gml/3.1.1' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:rss='http://purl.org/rss/1.0/' xmlns:taxo='http://purl.org/rss/1.0/modules/taxonomy/' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:syn='http://purl.org/rss/1.0/modules/syndication/' xmlns:geo='http://www.w3.org/2003/01/geo/wgs84_pos#' xmlns:sld="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink"</namespace>
-      <nodeSelectXpath>rdf:RDF/rss:item</nodeSelectXpath>
+      <namespace>xmlns:atom='http://www.w3.org/2005/Atom' xmlns:georss='http://www.georss.org/georss' xmlns:gml='http://www.opengis.net/gml/3.1.1' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:rss='http://purl.org/rss/1.0/' xmlns:taxo='http://purl.org/rss/1.0/modules/taxonomy/' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:syn='http://purl.org/rss/1.0/modules/syndication/' xmlns:geo='http://www.w3.org/2003/01/geo/wgs84_pos#' xmlns:sld="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink"</namespace>
+     <nodeSelectXpath>rdf:RDF/rss:item</nodeSelectXpath>
     </GeoRSS>
 		
 	</models>
