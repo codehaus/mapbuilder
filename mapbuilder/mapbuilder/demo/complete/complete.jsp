@@ -29,11 +29,11 @@ $Name$
     <table>
       <tr>
         <td valign="top" style="padding:6px;width:180">
-        <div id="locatorMap" >
+        <div id="locatorMap" >  </div>
         </td>
         <td>
           <h2 id="mapTitle"></h2>
-          <div id="mainMapPane"/>
+          <div id="mainMapPane"></div>
         </td>
       </tr>
       <tr>
