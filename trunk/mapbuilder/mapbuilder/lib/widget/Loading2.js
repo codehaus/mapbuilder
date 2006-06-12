@@ -122,6 +122,7 @@ Loading2.prototype.clear= function(objRef) {
  */
 Loading2.prototype.update= function(objRef, message) {
   if (message) {
+    objRef.updateMessage = message;
     objRef.paint(objRef);
   }   
   else {
