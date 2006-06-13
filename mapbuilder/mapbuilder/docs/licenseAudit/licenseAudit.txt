@@ -34,7 +34,6 @@ Mike Adair: http://sourceforge.net/mailarchive/forum.php?thread_id=7653920&forum
 Library Licenses:
 =================
 Library                                 License  Ok?     Comment
-mapbuilder/lib/util/MGRS.js             LGPL     no      Contains: "Got library from somewhere but don't know where"
 mapbuilder/lib/util/overlib/*           Artistic yes     As per: http://www.bosrup.com/web/overlib/?License
 mapbuilder/lib/util/overlibmws/*        Artistic yes     As per mapbuilder/lib/util/overlibmws/license.html
 mapbuilder/lib/util/sarissa/*           LGPL     yes     As per mapbuilder/lib/util/sarissa/Sarissa.js
@@ -55,7 +54,13 @@ The Mapbuilder project doesn't have a problem with the Artistic license as we be
 
 Code Copywrite Review:
 ======================
+All files in mapbuilder/lib/* were reviewed.  With the following exception, each file either contained a reference to the LGPL or no reference at all.   When there is no reference, the license of the project was assumed.
+Full details of the audit are stored in mapbuilder/docs/licenseAudit/licenseAudit.xls
 
+The following file had an issue with the license:
+
+Library                                 License  Ok?     Comment
+mapbuilder/lib/util/MGRS.js             LGPL     no      Contains: "Got library from somewhere but don't know where"
 
 List of Contributers:
 =====================
