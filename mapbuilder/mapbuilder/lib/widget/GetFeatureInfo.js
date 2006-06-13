@@ -29,6 +29,11 @@ function GetFeatureInfo(toolNode, model) {
   //this.infoFormat="text/plain";
   //this.infoFormat="text/html";
 
+  // Get the value for featureCount from the configfile
+  this.featureCount = 1;
+  var featureCount = toolNode.selectSingleNode("mb:featureCount");
+  if (featureCount) this.featureCount = featureCount.firstChild.nodeValue;
+
   /**
    * Open window with query info.
    * This function is called when user clicks map with Query tool.
@@ -56,7 +61,7 @@ function GetFeatureInfo(toolNode, model) {
               objRef.xsl.setParameter("xCoord", targetNode.evpl[0]);
               objRef.xsl.setParameter("yCoord", targetNode.evpl[1]);
               objRef.xsl.setParameter("infoFormat", objRef.infoFormat);
-              objRef.xsl.setParameter("featureCount", "1");
+              objRef.xsl.setParameter("featureCount", objRef.featureCount);
 
               urlNode=objRef.xsl.transformNodeToObject(objRef.context.doc);
               url=urlNode.documentElement.firstChild.nodeValue;
