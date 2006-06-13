@@ -9,7 +9,7 @@
 <!--
 Description: provides a list of layers and controls for them (delete/visibility/move up/move down/show metadata
 Author:      Mike Adair
-Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html 
 
 $Id: Legend.xsl,v 1.23 2005/04/09 20:45:30 madair1 Exp $
 $Name:  $
