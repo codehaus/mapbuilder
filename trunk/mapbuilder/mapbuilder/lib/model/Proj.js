@@ -2,6 +2,10 @@
 Author:       Mike Adair mike.adairATccrs.nrcan.gc.ca
               Richard Greenwood rich@greenwoodmap.com
 License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
+              Note: This program uses algorithms derived from GCTPC at
+              http://edcftp.cr.usgs.gov/pub//software/gctpc/ .  As this
+              code belongs to the US Government, we believe it is available
+              to the public domain and hence is compabible with the LGPL.
 $Id$
 */
 
