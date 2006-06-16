@@ -1,6 +1,6 @@
 Community Mapbuilder Code Provenance Review
 ===========================================
-Last Updated: 8 June 2006
+Last Updated: 16 June 2006
 
 Introduction:
 =============
@@ -25,11 +25,20 @@ Community Mapbuilder started out under a GLP licence.  In May 2005 we decided th
 
 All developers who had contributed to the Mapbuilder-devel codebase were contacted and gave their approval to move their code from the GLP to LGPL licence.  The decision was archieved in the Mapbuilder-devel email list.  Mapbuilder-lib 0.4 and subsequent releases have been licenced under the LGPL.  We were unable to contact Amri who had initially been part of design discussions.  However, Amri had not contributed to the mapbuilder-lib codebase and hence it was not essential to gain his approval for the license change.
 
-Cameron Shorter, Raj Singh, Nedjo Rodgers: http://sourceforge.net/mailarchive/forum.php?thread_id=7652435&forum_id=475
-Tom Kralidis: http://sourceforge.net/mailarchive/message.php?msg_id=12349638
-Nedjo Rodgers: http://sourceforge.net/mailarchive/message.php?msg_id=12254583
-Mike Adair: http://sourceforge.net/mailarchive/forum.php?thread_id=7653920&forum_id=475
+Email threads giving approval for converting to LGPL:
+=====================================================
+Cameron Shorter, Raj Singh, Nedjo Rodgers:
+  http://sourceforge.net/mailarchive/forum.php?thread_id=7652435&forum_id=475
+Tom Kralidis:
+  http://sourceforge.net/mailarchive/message.php?msg_id=12349638
+Nedjo Rodgers:
+  http://sourceforge.net/mailarchive/message.php?msg_id=12254583
+Mike Adair:
+  http://sourceforge.net/mailarchive/forum.php?thread_id=7653920&forum_id=475
 
+Packaging:
+==========
+Mapbuilder uses Javascript and XSL which are interpreted languages.  I.e.  They are cannot be distributed as a binary.  However, we do distribute a compressed version of Mapbuilder which removes all white space and comments (including license comments).  We believe this is not an issue since we also distribute the source with license information in the comments.
 
 Library Licenses:
 =================
@@ -62,22 +71,24 @@ The following file had an issue with the license:
 Library                                 License  Ok?     Comment
 mapbuilder/lib/util/MGRS.js             LGPL     no      Contains: "Got library from somewhere but don't know where"
 
-List of Contributers:
-=====================
-Contributers to the mapbuilder-lib codebase are listed at: http://docs.codehaus.org/display/MAP/Credits and at the time of review include:
-Cameron Shorter         cameronATshorter.net
-Ehud Shabtai            eshabtaiATgmail.com
-Linda Derezinski        derezinskiATsourceforge.net
-Matthew D. Diez         mattdiezATsourceforge.net
-Michael Jenik           maiquiATsourceforge.net
-Mike Adair              madair1ATsourceforge.net
-Nedjo Rogers            nedjoATsourceforge.net
-Nicholas Floersch       nickATstone-env.com
-Pat Cappelaere          cappelaereATsourceforge.net
-Radim Blazek            rablaATsourceforge.net
-Raj Singh               rajsinghATsourceforge.net
-Richard Greenwood       richard.greenwoodATgmail.com
-Simon Flannery          simon.flanneryATgmail.com
-Steven M. Ottens        graphriscATsourceforge.net
-Tom Kralidis            tomkralidisATsourceforge.net
-Tom Schuller            tomluxjATsourceforge.net
+mapbuilder/lib/model/Proj.js	        LGLP	 yes	 This program uses algorithms derived from GCTPC at http://edcftp.cr.usgs.gov/pub//software/gctpc/ .  As this code belongs to the US Government, we believe it is available to the public domain and hence is compabible with the LGPL.
+
+
+Copywrite Holders:
+==================
+The copywrite holders is listed in mapbuilder/LICENSE.  Currently this includes:
+  Name                    Login Id
+  ====                    ========
+  Cameron Shorter         camerons
+  Linda Derezinski        derezinski
+  Matthew D. Diez         mattdiez
+  Matthew Perry           
+  Michael Jenik           maiqui
+  Mike Adair              madair madair1
+  Nedjo Rogers            nedjo
+  Pat Cappelaere          cappelaere
+  Radim Blazek            rabla
+  Raj Singh               rajsingh
+  Richard Greenwood       rgreenwood
+  Steven M. Ottens        graphrisc steven
+  Tom Kralidis            tomkralidis
