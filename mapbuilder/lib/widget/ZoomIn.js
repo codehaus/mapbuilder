@@ -19,11 +19,15 @@ function ZoomIn(widgetNode, model) {
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
 
-  this.zoomBy = 4;//TBD: get this from config
-
+  /**
+  Set the zoomfactor and check if it is set in de configuration file.
+  */
+  this.zoomFactor = 4;
+  var zoomFactor = widgetNode.selectSingleNode("mb:zoomFactor");
+  if (zoomFactor) this.zoomFactor = zoomFactor.firstChild.nodeValue;
   /**
    * Calls the model's ceter at method to zoom in.  If the AOI is a single point,
-   * it zooms in by the zoomBy factor.
+   * it zooms in by the zoomFactor factor.
    * @param objRef      Pointer to this object.
    * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
@@ -35,7 +39,7 @@ function ZoomIn(widgetNode, model) {
         var ul = bbox[0];
         var lr = bbox[1];
         if ( ( ul[0]==lr[0] ) && ( ul[1]==lr[1] ) ) {
-          extent.centerAt( ul, extent.res[0]/objRef.zoomBy );
+          extent.centerAt( ul, extent.res[0]/objRef.zoomFactor );
         } else {
           extent.zoomToBox( ul, lr );
         }
