@@ -18,12 +18,17 @@ function ZoomOut(widgetNode, model) {
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
 
-  this.zoomBy = 4;//TBD: get this from config
+  /**
+  Set the zoomfactor and check if it is set in de configuration file.
+  */
+  this.zoomFactor = 4;
+  var zoomFactor = widgetNode.selectSingleNode("mb:zoomFactor");
+  if (zoomFactor) this.zoomFactor = zoomFactor.firstChild.nodeValue;
 
   /**
    * Calls the centerAt method of the context doc to zoom out, recentering at 
    * the mouse event coordinates.
-   * TBD: set the zoomBy property as a button property in conifg
+   * TBD: set the zoomFactor property as a button property in conifg
    * @param objRef      Pointer to this AoiMouseHandler object.
    * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
@@ -31,7 +36,7 @@ function ZoomOut(widgetNode, model) {
     if (!objRef.enabled) return;
     var bbox = objRef.targetModel.getParam("aoi");
     var extent = objRef.targetModel.extent;
-    var newRes = extent.res[0]*objRef.zoomBy;
+    var newRes = extent.res[0]*objRef.zoomFactor;
     extent.centerAt(bbox[0], newRes);
   }
 
