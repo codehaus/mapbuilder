@@ -118,7 +118,7 @@ function MapContainerBase(widgetNode,model) {
       //alert("setting mappane tooltip to:"+tooltip);
     }
     this.containerModel.addListener( "tooltip", this.setTooltip, this);
-
+     
   /** Cross-browser mouse event handling.
     * This function is the event handler for all MapContainer mouse events.
     * Listeners are defined for all the mouse actions.  This includes:
@@ -138,8 +138,8 @@ function MapContainerBase(widgetNode,model) {
     this.eventHandler=function(ev) {
       if (window.event) {
         //IE events
-        var p = window.event.clientX - this.offsetLeft + document.documentElement.scrollLeft + document.body.scrollLeft;
-        var l = window.event.clientY - this.offsetTop + document.documentElement.scrollTop + document.body.scrollTop;
+        var p = window.event.clientX - getOffsetLeft(this) + document.documentElement.scrollLeft + document.body.scrollLeft;
+        var l = window.event.clientY - getOffsetTop(this) + document.documentElement.scrollTop + document.body.scrollTop;
         this.evpl = new Array(p,l);
         this.eventTarget = window.event.srcElement;
         this.altKey = window.event.altKey;
@@ -160,8 +160,8 @@ function MapContainerBase(widgetNode,model) {
         window.event.cancelBubble = true;
       } else {
         //mozilla browsers
-        var p = ev.clientX + window.scrollX - this.offsetLeft;
-        var l = ev.clientY + window.scrollY - this.offsetTop;
+        var p = ev.clientX + window.scrollX - getOffsetLeft(this);
+        var l = ev.clientY + window.scrollY - getOffsetTop(this);
         this.evpl = new Array(p,l);
         this.eventTarget = ev.target;
         this.eventType = ev.type;
@@ -189,3 +189,39 @@ function MapContainerBase(widgetNode,model) {
   this.containerModel.addFirstListener( "loadModel", this.setContainerWidth, this );
   this.containerModel.addListener( "bbox", this.paint, this );
 }
+
+/** Functions to get the offset of the mapPane to its parent div. Important in nested div situations
+  * fix proposed by Henk Haveman on bug MAP-106
+  * @param node the node containing mappane
+  */
+function getOffsetLeft(node) {
+  var offsetLeft = 0;
+  if (node == null) {
+    return offsetLeft;
+  } 
+  else {
+    if (node.offsetLeft) {
+      offsetLeft = node.offsetLeft + getOffsetLeft(node.offsetParent);
+    }
+    else {
+      offsetLeft = getOffsetLeft(node.offsetParent);
+    }
+    return offsetLeft;
+  }
+} 
+    
+function getOffsetTop(node) {
+  var offsetTop = 0;
+  if (node == null) {
+    return offsetTop;
+  }
+  else {
+    if (node.offsetTop) {
+      offsetTop = node.offsetTop + getOffsetTop(node.offsetParent);
+    }
+    else {
+      offsetTop = getOffsetTop(node.offsetParent);
+    }
+    return offsetTop;
+  }
+} 
