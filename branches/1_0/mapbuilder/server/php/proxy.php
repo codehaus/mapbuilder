@@ -20,8 +20,8 @@ $Name$
 
 $onlineresource=$_REQUEST['url'];
 $parsed = parse_url($onlineresource);
-$host = $parsed["host"];
-$path = $parsed["path"] . "?" . $parsed["query"];
+$host = @$parsed["host"];
+$path = @$parsed["path"] . "?" . @$parsed["query"];
 if(empty($host)) {
   $host = "localhost";
 }
@@ -33,7 +33,7 @@ $contenttype = @$_REQUEST['contenttype'];
 if(empty($contenttype)) {
   $contenttype = "text/xml";
 }
-$data = $GLOBALS["HTTP_RAW_POST_DATA"];
+$data = @$GLOBALS["HTTP_RAW_POST_DATA"];
 // define content type
 header("Content-type: " . $contenttype);
 
