@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
@@ -25,11 +25,11 @@ $path = $parsed["path"] . "?" . $parsed["query"];
 if(empty($host)) {
   $host = "localhost";
 }
-$port = $_REQUEST['port'];
+$port=@$_REQUEST['port']; 
 if(empty($port)){
   $port="80";
 }
-$contenttype = $_REQUEST['contenttype'];
+$contenttype = @$_REQUEST['contenttype']; 
 if(empty($contenttype)) {
   $contenttype = "text/xml";
 }
