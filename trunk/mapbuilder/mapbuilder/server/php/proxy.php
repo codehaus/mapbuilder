@@ -25,7 +25,7 @@ $path = @$parsed["path"] . "?" . @$parsed["query"];
 if(empty($host)) {
   $host = "localhost";
 }
-$port = @$_REQUEST['port'];
+$port = @$parsed['port'];
 if(empty($port)){
   $port="80";
 }
