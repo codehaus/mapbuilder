@@ -251,6 +251,22 @@ function Context(modelNode, parent) {
   }
   this.addFirstListener( "addLayer", this.addLayer, this );
 
+
+ /**
+   * Method to add a Sld to the StyleList
+   * @param layerName the Layer name from another context doc or capabiltiies doc
+   */
+  this.addSLD = function(objRef,sldNode) {
+	//  	alert("context addSLD : "+objRef.id);
+  	var layerName=sldNode.selectSingleNode("//Name").firstChild.nodeValue; 
+   	var parentNode = objRef.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']");
+    parentNode.appendChild(sldNode.cloneNode(true));
+ 
+    objRef.modified = true;
+  }
+  this.addFirstListener( "addSLD", this.addSLD, this );
+
+
   /**
    * Method to remove a Layer from the LayerList
    * @param layerName the Layer to be deleted

@@ -149,6 +149,10 @@ $Id$
         <param-name>outputDir</param-name>
 
         <param-value>/temp</param-value>
+<!--        -->
+<!--        <param-name>namefile</param-name>-->
+<!--        <param-value>/MyDataLoc/data/create</param-value>-->
+<!--        -->
 
         <description>
 
@@ -159,7 +163,41 @@ $Id$
       </init-param>
 
     </servlet>
+<servlet>
 
+      <servlet-name>xmlSerializer2</servlet-name>
+
+      <description>
+
+        This servlet writes POSTed sld documents to a file on disk, filename
+
+        is returned 
+
+      </description>
+
+      <servlet-class>
+
+        mapbuilder.XmlSerializer2
+
+      </servlet-class>
+
+      <init-param>
+
+        <param-name>outputDir</param-name>
+
+        <param-value>/temp</param-value>
+        
+
+
+        <description>
+
+          The directory where files are written, relative to the context root
+
+        </description>
+
+      </init-param>
+
+    </servlet>
     <servlet>
 
       <servlet-name>xmlDocEcho</servlet-name>
@@ -217,6 +255,13 @@ $Id$
       <servlet-name>xmlSerializer</servlet-name>
 
       <url-pattern>/writeXml</url-pattern>
+
+    </servlet-mapping>
+    <servlet-mapping>
+
+      <servlet-name>xmlSerializer2</servlet-name>
+
+      <url-pattern>/writeXml2</url-pattern>
 
     </servlet-mapping>
 

@@ -107,6 +107,48 @@ alert("after");
    }
 }
 
+
+/**
+ * A more flexible interface for loading docs that allows POST et GET param for save model 
+ */
+
+function postGetLoad(sUri, docToSend, contentType , dir, fileName) {
+
+   var xmlHttp = new XMLHttpRequest();
+   if ( sUri.indexOf("http://")==0 ) 
+   {
+     	xmlHttp.open("POST", config.proxyUrl, false);
+     	xmlHttp.setRequestHeader("serverUrl",sUri);
+     	
+     	
+   } 
+   else 
+   {
+   
+   		sUri=sUri+"?dir="+dir+"&fileName="+fileName;
+     	xmlHttp.open("POST", sUri, false);
+   }
+   xmlHttp.setRequestHeader("content-type","text/xml");
+   if (contentType) xmlHttp.setRequestHeader("content-type",contentType);
+   xmlHttp.send( docToSend );
+   
+   if (xmlHttp.status >= 400) 
+   {   //http errors status start at 400
+      	alert("error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText );
+      	var outDoc = Sarissa.getDomDocument();
+      	outDoc.parseError = -1;
+      	return outDoc;
+   } 
+   else 
+   {
+     	if ( null==xmlHttp.responseXML ) alert( "null XML response:" + xmlHttp.responseText );
+     	alert(xmlHttp.responseText);
+     	return xmlHttp.responseXML;
+   }
+}
+
+
+
   /**
    * If URL is local, then return URL unchanged,
    * else return URL of http://proxy?url=URL , or null if proxy not defined.
