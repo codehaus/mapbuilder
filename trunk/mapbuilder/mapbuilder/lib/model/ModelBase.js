@@ -323,19 +323,23 @@ function ModelBase(modelNode, parentModel) {
       }
     }
   }
-
- /**
+/**
    * save the model by posting it to the serializeUrl, which is defined as a 
    * property of config.
    * @param objRef Pointer to this object.
    */
   this.saveModel = function(objRef) {
     if (config.serializeUrl) {
-      var response = postLoad(config.serializeUrl, objRef.doc);
+    //alert(Sarissa.serialize(objRef.doc));
+//      var response = postLoad(config.serializeUrl, objRef.doc);
+      
+      var response = postGetLoad(config.serializeUrl, objRef.doc ,"text/xml","/temp","sld.xml");
+   
       response.setProperty("SelectionLanguage", "XPath");
       Sarissa.setXpathNamespaces(response, "xmlns:xlink='http://www.w3.org/1999/xlink'");
       var onlineResource = response.selectSingleNode("//OnlineResource");
       var fileUrl = onlineResource.attributes.getNamedItem("xlink:href").nodeValue;
+//      alert("yo");
       objRef.setParam("modelSaved", fileUrl);
     } else {
       alert("serializeUrl must be specified in config to save a model");
