@@ -5,7 +5,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
+mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 /**
  * Implements WMS GetFeatureInfo functionality, popping up a query result
  * window when user clicks on map.
