@@ -1,0 +1,40 @@
+<!-- The name of this project, starting with a capital letter -->
+<!ENTITY project_name "Community Map Builder">
+
+<!-- The owner of this project - probably the Project Management Committee -->
+<!ENTITY pmc "&project_name; Project Management Committee">
+
+<!-- Owner of the documentation licencse -->
+<!ENTITY doc_license_owner "&pmc;">
+
+<!-- Owner of the source licencse -->
+<!ENTITY src_license_owner "&pmc;">
+
+<!-- Generguide version -->
+<!ENTITY version "0.0.3">
+
+<!-- This project's root directory, usually the name of the project in lower case -->
+<!ENTITY project_home "mapbuilder">
+<!-- Directory in &project_home; where source code is kept -->
+<!ENTITY project_src "">
+<!-- Directory within &project_src; where code is kept.  Used by java projects -->
+<!ENTITY project_package_dir "net/sourceforge/generguide">
+<!ENTITY project_package "net.sourceforge.generguide">
+
+<!-- URL of a webpage describing how to access CVS -->
+<!ENTITY cvs_url "http://sourceforge.net/cvs/?group_id=35246">
+
+<!-- IRC -->
+<!-- Meeting time for IRC meetings -->
+<!ENTITY irc_time "weekly at (time to be specified) UTC">
+<!ENTITY irc_server "irc.eu.freenode.net">
+<!ENTITY irc_channel "#some_channel">
+<!ENTITY irc_port "6667">
+<!-- URL location where IRC logs are stored -->
+<!ENTITY irc_logs "(to be specified)">
+
+<!-- Jump point url for project email lists -->
+<!ENTITY email_url "http://sourceforge.net/mail/?group_id=35246">
+
+<!-- Jump point url for project bug tracker -->
+<!ENTITY bug_track_url "http://sourceforge.net/tracker/?group_id=35246">
