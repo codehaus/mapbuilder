@@ -5,6 +5,80 @@ $Id$
 
 This file contains information about updates to each release:
 
+mapbuilder-lib-1.0.1-release
+==========================
+This is an incremental bugfix release.
+
+Bugs fixed:
+-----------
+MAP-108  	atlas world map URL changes  
+MAP-115 	Layers in MapPane periodically not being rendered in IE
+MAP-106 	problem with positioning of box (zoom or AOI) when using nested div's 	
+MAP-118 	GetFeatureInfo has wrong dependencies 	 
+MAP-113 	proxy php script warnings are not suppressed
+
+Outstanding Issues (highest priority first):
+--------------------------------------------
+MAP-71 	Duplicate GetFeatureInfo responses forced if mouse click occurs before previous query 		finished. 
+MAP-110 IE problem with GmlCooordinates2Coords.xsl 
+MAP-105 Pixel Coord <--> LatLong translation only works for EPSG:4326 projections 
+MAP-95 	Acceptance Tests 
+MAP-94 	New GUI Widgets 
+MAP-93 	User authenticates with the system in order to make modifications to the map features 		(Add/	remove/delete) 
+MAP-92 	Interface with OpenStreetMap project 
+MAP-91 	Interface with Google Maps 
+MAP-90 	Demis Maps 
+MAP-88 	Map Feature Rendering: SLD 
+MAP-87 	Map Feature Rendering: Satelite imagery 
+MAP-84 	Gazetteer/GeoCoder 
+MAP-83 	Map Feature Rendering: XML/GML 
+MAP-82 	Map Annotation 
+MAP-81 	Map Symbology 
+MAP-70 	add WSDL/SOAP support 
+MAP-19 	IE problem: "Error: 'this.doc' is null or not an object Submitted: Cappelaere SF-1390868 
+MAP-6 	Problem with two WMS layers with the same name submitted: kc7bfi SF-1400521 
+MAP-116 Version widget doesn't work since switching to SVN from CVS 
+MAP-112 Projection transformation utility functions do not support EPSG:27700 (OSGB1936 / British 		National Grid) 
+MAP-111 GetFeatureInfo makes incorrect WMS request when another layer name is a substring of the 		query layer name 
+MAP-100 A reload/refresh main map pane widget 
+MAP-89 	Moving Objects 
+MAP-80 	Map Data Repository 
+MAP-79 	Build a Mapuilder Application from a web interface 
+MAP-59 	GetFeatureInfo URL generated for a second WMS in same context as first is repeated in the 		variable string. 
+MAP-56 	Give visual marker to current active layer in legend Submitted By: Nedjo Rogers SF - 		1157443 
+MAP-52 	Add support for WKT data source. Submitted: Nedjo Rogers SF-1203287 
+MAP-50 	Add SVG rendering of GML data Submitted: Nedjo Rogers 
+MAP-49 	set properties by URL parameters Submitted: Mike Adair SF - 1257212 
+MAP-47 	process multiple context documents in one page Submitted John Pulles SF- 1401526 
+MAP-43 	duplicate layers mess up when deleting them Submitted: graphrisc SF-1361616 
+MAP-42 	error initializing mapbuilder when used in drupal module Submitted: openwereld SF-1352137 
+MAP-40 	GeoRSS divs not cleared on loadModel Submitted: nobody SF-1291065 
+MAP-39 	Feature isn't deselected after it was deleted Submitted: camerons SF-1364103 
+MAP-38 	Null gml:coordinate Point is rendered in top left of MapPane Submitted: Camerons
+	SF-1351128 
+MAP-36 	Drag Pan Tool: Mouseup outside the map should be procesed Submitted: maiqui SF-1259486 
+MAP-35 	use scalehints in context docs Submitted: madair1 SF-1174298 
+MAP-25 	Move util.js into JS objects Submitted: camerons SF-1071242 
+MAP-24 	Gazetteer widget auto zoom Submitted: nobody SF-1380974 
+MAP-23 	PHP proxy strips attribute namespaces Submitted: madair1 SF-1386495 
+MAP-22 	wfs-t java.lang.ExceptionInInitializerError Submitted: mneteler SF-1383838 
+MAP-21 	<widget> is not defined" javascript errors Submitted: openwereld SF-1386001 
+MAP-17 	Line 96 Error firstChild is null or not an object Submitted: Cappelaere SF-1392108 
+MAP-16 	Line 278 Object required Submitted: Cappelaere SF-1392112 
+MAP-15 	Line 29 invalid argument Context Editor Submitted: Cappelaere SF-1392122 
+MAP-14 	Update GeoRSS demo to new feed format Submitted: Cappelaere SF-1394556 
+MAP-7 	Graphical Highlight of WFS Polygon is mangled Submitted: sjf_8 SF-1404143 
+MAP-117 Remove reference to MGRS (License issues) 
+MAP-69 	Using a custom stylesheet to group layers 
+MAP-57 	Inconsistency in handling of aspect ratio for map viewer between bounding box and image 	size 
+MAP-55 	Create hover-over popups when mouse hovers over a feature Submitted By: Cameron Shorter SF 		- 1173569 
+MAP-53 	Mapbuilder and Geoserver to use the same demos Submitted by: Cameron Shorter SF - 1196838 
+MAP-51 	set the locator map with an image Submitted Virginie Berre SF - 1220313 
+MAP-34 	GmlRenderer complexity OUT OF CONTROL with zoomin Submitted: maiqui SF-1306834 
+MAP-27 	Change Open GIS to Open Geospacial Submitted: camerons SF-1168180 
+MAP-26 	Layers from geoserver periodically not returned Submitted: camerons SF-1357587 
+ 
+
 mapbuilder-lib-1.0-release
 ==========================
 This marks the first official release of the Community Mapbuilder
