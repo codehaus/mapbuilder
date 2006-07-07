@@ -1,0 +1,37 @@
+!2 When a storytest is abandoned with ''abandon storytest'', the rest of the storytest is not run and it's not coloured as ignored. This allows for test selection to be managed programmatically.
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border>
+<tr><td>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+</table>
+<table border>
+<tr><td>abandon storytest</td></tr>
+</table>
+<table border>
+<tr><td>add</td><td>1</td></tr>
+</table>
+<table border>
+<tr><td>add</td><td>2</td></tr>
+</table>
+<table border>
+<tr><td>check</td><td>sum</td><td>3</td></tr>
+</table>
+<table border>
+<tr><td>check</td><td>sum</td><td>4</td></tr>
+</table>-!|!-<table border>
+<tr><td>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+</table>
+<table border>
+<tr><td>abandon storytest</td></tr>
+</table>
+<table border>
+<tr><td>add</td><td>1</td></tr>
+</table>
+<table border>
+<tr><td>add</td><td>2</td></tr>
+</table>
+<table border>
+<tr><td>check</td><td>sum</td><td>3</td></tr>
+</table>
+<table border>
+<tr><td>check</td><td>sum</td><td>4</td></tr>
+</table>-!|

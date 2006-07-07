@@ -1,0 +1,28 @@
+Zoom in twice 
+go back twice
+go forward twice
+and demonstrate that we can go back to the same bboxes
+
+|Action fixture|
+|start|!-Mb.Widgets.ForwardFixture-!|
+|check|bbox1||
+|press|zoomin|
+|check|bbox2||
+|press|zoomin|
+|check|bbox3||
+|press|back|
+|press|back|
+
+|Action fixture|
+|press|forward|
+|check|back to bbox2|true|
+
+|Action fixture|
+|press|forward|
+|check|back to bbox3|true|
+
+Cleanup for next test
+|Action Fixture|
+|press|reset|
+
+

@@ -1,0 +1,8 @@
+Fix problem with RubyFit not handling comparaison expressions
+
+|eg.Division|
+|numerator|denominator|quotient?|
+|10|2|<4|
+|10|2|<=5|
+|10|2|>=1|
+|10|2|>=5|

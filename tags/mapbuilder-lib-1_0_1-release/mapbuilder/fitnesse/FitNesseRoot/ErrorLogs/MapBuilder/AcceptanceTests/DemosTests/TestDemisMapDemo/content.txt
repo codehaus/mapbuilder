@@ -1,0 +1,9 @@
+|'''Date: '''|!-3:24:16 PM (EST) on Tuesday, December 27, 2005-!|
+|'''Command: '''|!-ruby -I fitnesse.jar;fitlibrary.jar ruby/bin/FitServer.rb localhost 8088 36-!|
+|'''Exit code: '''|!-0-!|
+|'''Time elapsed: '''|!-6.5 seconds-!|
+----'''Standard Output:'''
+{{{Checking img:http://www2.demis.nl/WMS/wms.asp?wms=WorldMap&WMTVER=1.0.0&REQUEST=map&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=600&HEIGHT=300&LAYERS=Bathymetry,Countries,Topography,Hillshading,Builtup+areas,Coastlines,Waterbodies,Inundated,Rivers,Streams,Railroads,Highways,Roads,Trails,Borders,Cities,Settlements,Spot+elevations,Airports,Ocean+features&FORMAT=image/gif&STYLES=default&TRANSPARENT=TRUE&UNIQUEID=
+loaded:true
+//div[contains(@id,'mainMap_mainMapWidget_Bathymetry')]/img
+}}}
