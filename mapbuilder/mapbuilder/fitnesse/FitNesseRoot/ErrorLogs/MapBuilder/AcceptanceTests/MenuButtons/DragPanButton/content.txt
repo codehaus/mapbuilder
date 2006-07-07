@@ -1,9 +1,0 @@
-|'''Date: '''|!-11:08:21 PM (EDT) on Sunday, April 2, 2006-!|
-|'''Command: '''|!-ruby -I fitnesse.jar;fitlibrary.jar ruby/bin/FitServer.rb localhost 8088 1-!|
-|'''Exit code: '''|!-1-!|
-|'''Time elapsed: '''|!-4.737 seconds-!|
-----'''Standard Output:'''
-{{{could not attach to window
-config file:http://localhost:8080/mapbuilder/demo/Demis/config.xml
-could not attach to window
-}}}
