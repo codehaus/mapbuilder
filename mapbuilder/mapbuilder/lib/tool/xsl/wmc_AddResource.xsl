@@ -34,7 +34,7 @@ $Name:  $
   <!-- for selecting nodes from an WMS Capabilities document -->
   <xsl:template match="Layer">
     <wmc:Layer>
-      <xsl:attribute name="queryable">0</xsl:attribute>
+      <xsl:attribute name="queryable"><xsl:value-of select="./@queryable"/></xsl:attribute>
       <xsl:attribute name="hidden">0</xsl:attribute>
 			<wmc:Server>
         <xsl:attribute name="service"><xsl:value-of select="$serviceName"/></xsl:attribute>
@@ -47,6 +47,25 @@ $Name:  $
         <wmc:Format current="1"><xsl:value-of select="$format"/></wmc:Format>
       </wmc:FormatList>
     </wmc:Layer>
+  </xsl:template>
+
+  <xsl:template match="Style">
+    <wmc:StyleList>
+      <wmc:Style current="1">
+        <xsl:apply-templates select="child::node()"/>
+      </wmc:Style>
+    </wmc:StyleList>
+  </xsl:template>
+
+  <xsl:template match="LegendURL">
+    <wmc:LegendURL>
+      <xsl:apply-templates select="child::node()"/>
+    </wmc:LegendURL>
+  </xsl:template>
+
+  <xsl:template match="OnlineResource">
+    <xsl:variable name="legendUrl"><xsl:value-of select="./@href"/> </xsl:variable>
+    <wmc:OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="{$legendUrl}"/>
   </xsl:template>
   
   <xsl:template match="Layer/Title">
@@ -77,7 +96,7 @@ $Name:  $
   <xsl:template match="owscat:service_resources">
     <xsl:variable name="serverUrl"><xsl:value-of select="owscat:endpoint_getresource"/></xsl:variable>
     <wmc:Layer>
-      <xsl:attribute name="queryable">0</xsl:attribute>
+      <xsl:attribute name="queryable"><xsl:value-of select="./@queryable"/></xsl:attribute>
       <xsl:attribute name="hidden">0</xsl:attribute>
 			<wmc:Server>
         <xsl:attribute name="service"><xsl:value-of select="owscat:service_type"/></xsl:attribute>
