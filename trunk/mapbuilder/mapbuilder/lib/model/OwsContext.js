@@ -87,6 +87,17 @@ function OwsContext(modelNode, parent) {
     this.callListeners("bbox", boundingBox); // from Context.js
     
   }
+  /**
+   * Return the service type of the bottom layer in the layer list.
+   * This is used to match navigation tools with the basemap.
+   */
+   this.getBaseLayerService=function(){
+    //x=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[last()]/wmc:Server/@service");
+    x=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[last()]/wmc:Server");
+    s=x.getAttribute("service");
+    //alert("OwsContext.getBaseLayerService: s="+s);
+    return s;
+   }
 
   /*PGC Added from Context.js */
   /**
