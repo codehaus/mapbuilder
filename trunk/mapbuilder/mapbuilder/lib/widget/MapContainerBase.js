@@ -38,7 +38,12 @@ function MapContainerBase(widgetNode,model) {
   } else {
     alert("MapContainerBase: required property mapContainerId missing in config:"+this.id);
   }
-
+  //check if there are fixed zoom levels defined
+  var zoomLevelsNode = widgetNode.selectSingleNode("mb:zoomLevels");
+  this.zoomLevels = null;
+  if (zoomLevelsNode) {
+    this.zoomLevels = zoomLevelsNode.firstChild.nodeValue.split(",");
+  }
 /**
  * Initialize the container.  Only the first widget to attach to this container
  * configures the container, all others carry out a much simpler initialization.
@@ -102,6 +107,9 @@ function MapContainerBase(widgetNode,model) {
 
     //add the extent tool
     this.containerModel.extent = new Extent( this.containerModel );
+    //Enable fixed scales
+    if (this.zoomLevels) this.containerModel.extent.setZoomLevels(true,this.zoomLevels);
+    else this.containerModel.extent.setZoomLevels(false);
     //this.containerModel.addListener( "contextLoaded", this.containerModel.extent.firstInit, this.containerModel.extent );
     this.containerModel.addFirstListener( "loadModel", this.containerModel.extent.firstInit, this.containerModel.extent );
     this.containerModel.addListener( "bbox", this.containerModel.extent.init, this.containerModel.extent );
