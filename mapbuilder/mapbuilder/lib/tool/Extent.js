@@ -37,11 +37,105 @@ var maxScale = 200000;
  */
 function Extent( model, initialRes ) {
   this.model = model;
+  this.id = model.id + "_MbExtent" + mbIds.getId();
   this.size = new Array();
   this.res = new Array();
   this.zoomBy = 4;
-  this.id = model.id + "_MbExtent" + mbIds.getId();
-
+  
+  /**
+   * Returns the bounding box as stored in the model
+   * @return array with the bounding box
+   */
+  this.getBbox = function() {
+    var bbox = this.model.getBoundingBox();
+    return bbox;
+  }
+  
+  /**
+   * Recalculates a given bbox and stores a proper aspect one in the model
+   * @param bbox  an array with a bounding box
+   */
+  this.setBbox = function(bbox){
+    size = this.getSize();
+    res = Math.max((bbox[2] - bbox[0])/size[0], (bbox[3] - bbox[1])/size[1]);
+    scale=this.getFixedScale(res);
+    center = new Array((bbox[1]-bbox[3])/2,(bbox[0]-bbox[2])/2);//center=horizontal,vertical
+    half = new Array(size[0]/2,size[1]/2);
+    bbox = new Array(center[0]-half[0]*scale, center[1]-half[1]*scale, center[0]+half[0]*scale,center[1]+half[1]*scale);
+    this.model.setBoundingBox(bbox);
+  }
+  
+   /**
+   * Returns the window size as stored in the model
+   * @return array with the window size
+   */
+  this.getSize = function() {
+    size= new Array();
+    size[0] = this.model.getWindowWidth();
+    size[1] = this.model.getWindowHeight();
+    return size;
+  }
+  
+   /**
+   * Stores a given window size in the model.
+   * Can be used in the future for dynamic window resizing
+   * @param size  an array with a window size
+   */
+  this.setSize = function(size){
+    this.model.setWindowWidth(size[0]);
+    this.model.setWindowHeight(size[1]);
+  }
+  
+   /**
+   * When given a res, it recalculates it to match the zoomlevels, when present and returns a fixed scale.
+   * When no res is given it returns the maximum resolution
+   * @param res optional resolution to be checked
+   * @return fixedScale the resolution to display the map with
+   */
+  this.getFixedScale = function(res) {
+  if (this.zoomLevels){
+    if (!res) {
+      this.setResolution( new Array(this.model.getWindowWidth(), this.model.getWindowHeight() ) );
+      res = Math.max(this.res[0],this.res[1]);
+     
+    }
+    var zoomLevels = this.zoomLevels.sort(function sort(a,b){return b-a});
+    var i=0;
+    while(zoomLevels[i] >= res){
+      i++;
+    }
+    if(i==0) {
+    i=1;
+    }
+    this.fixedScale = zoomLevels[i-1];
+    }
+    else this.fixedScale = Math.max(this.res[0],this.res[1]);
+    return this.fixedScale;
+    
+  }
+  
+  /* 
+   * Sets the zoomLevels in the extent
+   * @param enabled boolean to enable or disable zoomLevels support
+   * @param zoomLevels an array containing a fixed set of zoomLevels
+   */
+  this.setZoomLevels = function(enabled,zoomLevels){
+    if(enabled) {
+      this.zoomLevels = zoomLevels;
+    }
+    else this.zoomLevels = null;
+  }
+ 
+  /*
+   * Recalculates the lr and ul to a proper aspect. It also takes into account zoomLevels when present.
+   */
+  this.checkBbox = function() {
+    var center = this.getCenter();
+    var half = new Array(this.size[0]/2, this.size[1]/2);
+    var res = this.getFixedScale();
+    this.lr = new Array(center[0]+half[0]*res, center[1]-half[1]*res);
+    this.ul = new Array(center[0]-half[0]*res, center[1]+half[1]*res);
+  }
   /**
    * Returns the XY center of this extent
    * @return  array of XY for th center of the extent
@@ -114,6 +208,9 @@ function Extent( model, initialRes ) {
       newres= nRmax ;
     }
  */
+    if (this.zoomLevels) {
+      newres=this.getFixedScale(newres);
+    }
     this.lr = new Array(center[0]+half[0]*newres, center[1]-half[1]*newres);
     this.ul = new Array(center[0]-half[0]*newres, center[1]+half[1]*newres);
 
@@ -248,6 +345,7 @@ TBD: when called as a listener this gets a bbox array passed in, not initialRes 
     }
 */
     extent.setResolution( new Array(extent.model.getWindowWidth(), extent.model.getWindowHeight() ) );
+    extent.checkBbox();
   }
   if ( initialRes ) this.init(this, initialRes);
 
