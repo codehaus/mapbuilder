@@ -294,7 +294,12 @@ function ModelBase(modelNode, parentModel) {
     // assign it an id
     if (objRef.template) {
       var parentNode = objRef.modelNode.parentNode;
-      var newConfigNode = parentNode.appendChild(objRef.modelNode.ownerDocument.importNode(objRef.modelNode,true));
+      if(_SARISSA_IS_IE) {
+        var newConfigNode = parentNode.appendChild(modelNode.cloneNode(true));
+      }
+      else {
+        var newConfigNode = parentNode.appendChild(objRef.modelNode.ownerDocument.importNode(objRef.modelNode,true));
+      }
       newConfigNode.removeAttribute("id");  //this will get created automatically
       //set defaultModelUrl config properties
       model = objRef.createObject(newConfigNode);
