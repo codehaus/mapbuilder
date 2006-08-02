@@ -43,7 +43,11 @@ function WfsGetFeature(widgetNode, model) {
       xPixel=extent.res[0]*objRef.tolerance;
       yPixel=extent.res[1]*objRef.tolerance;
       bbox=(point[0]-xPixel)+","+(point[1]-yPixel)+","+(point[0]+xPixel)+","+(point[1]+yPixel);
-      objRef.httpPayload.url=objRef.webServiceUrl+"?request=GetFeature&typeName="+objRef.typeName+"&bbox="+bbox;
+      if (objRef.webServiceUrl.indexOf("?") > -1){
+        objRef.httpPayload.url=objRef.webServiceUrl+"&request=GetFeature&typeName="+objRef.typeName+"&bbox="+bbox;
+      }else{
+        objRef.httpPayload.url=objRef.webServiceUrl+"?request=GetFeature&typeName="+objRef.typeName+"&bbox="+bbox;
+      }
 
       // Model that will be populated with the WFS response.
       if (!objRef.transactionResponseModel){
