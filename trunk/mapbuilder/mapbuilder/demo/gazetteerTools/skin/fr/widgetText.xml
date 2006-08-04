@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<WidgetText xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder /mapbuilder/lib/schemas/config.xsd"
+    version="0.2.1" id="mbDefaultText" xml:lang="fr">
+  <!--
+    
+    Description: This file contains all text used in widgets for multilingual 
+                  support.  The text values are set as XSL params before the 
+                  widget is painted.
+    Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+
+    $Id: widgetText.xml 1608 2005-08-03 19:07:09Z mattdiez $
+  -->
+  <widgets>
+    <Widget>
+      <selectPlace> Sélectionnez un endroit:</selectPlace>
+      <placeNameCoords>Coordonnées d'un endroit sélectionné:</placeNameCoords>
+      <transfer>Transfére</transfer>
+      <close>Fermer</close>
+      <postalCodeCoords>Coordonnées du code postal sélectionnés:</postalCodeCoords>
+      <postalCodeRegionTitle>Région de code postal:</postalCodeRegionTitle>
+    </Widget>
+    <PlaceNameForm>
+      <title>Recherche à partir de nom d'endroit</title>
+      <placeName>Nom de l'endroit:</placeName>
+      <find>Trouver</find>
+    </PlaceNameForm>
+    <PostalCodeForm>
+      <title>Code postal canadien</title>
+      <postalCode>Code postal:</postalCode>
+      <find>Trouver</find>
+    </PostalCodeForm>
+    <AoiForm>
+      <title>Coordonées de la région d`intéret (ceci est un widget de MapBuilder)</title>
+      <north>Nord:</north>
+      <south>Sud:</south>
+      <east>Est:</east>
+      <west>Ouest:</west>
+    </AoiForm>
+  </widgets>
+</WidgetText>
