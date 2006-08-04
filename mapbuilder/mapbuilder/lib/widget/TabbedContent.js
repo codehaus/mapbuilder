@@ -92,6 +92,7 @@ function TabbedContent(widgetNode, model) {
       tabBar.selectedTab = newAnchor;
       tabWidget.paint(tabWidget,tabWidget.id);
     }
+    if (tabWidget.tabAction) eval(tabWidget.tabAction);
   }
 
   /**
@@ -109,6 +110,10 @@ function TabbedContent(widgetNode, model) {
       } else {
         tabNode.removeAttribute("disabled");
       }
+
+      //specify an optional action to be performed when the tab is selected
+      var tabAction = tabWidget.widgetNode.selectSingleNode("mb:tabAction");
+      if (tabAction) tabWidget.tabAction = tabAction.firstChild.nodeValue;
     }
   }
 

@@ -62,6 +62,7 @@ function Loading2(widgetNode, model) {
  * @param objRef Pointer to widget object.
  */
 Loading2.prototype.paint = function(objRef) {
+  objRef.node = document.getElementById(objRef.htmlTagId);
   if (objRef.node) {
     //if it is a template model, no loader should be shown in the output div
     if (objRef.model.template) return;
