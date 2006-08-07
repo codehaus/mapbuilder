@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+  <models>
+    <OwsContext id="mainMap">
+      <defaultModelUrl>geoserver.xml</defaultModelUrl>
+      <widgets>
+        <MapPane2 id="mainMapWidget">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <zoomLevels>2048,1024,512,256,128,64,32,16,8,4,2,1,0.5</zoomLevels>
+        </MapPane2>
+       
+      </widgets>
+      <tools>
+        <AoiMouseHandler id="mainAoi"/>
+        <DragPanHandler id="mainDragPan">
+          <enabled>false</enabled>
+        </DragPanHandler>
+      </tools>
+    </OwsContext>
+  </models>
+  <widgets>
+    <ZoomIn id="zoomIn">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainAoi</mouseHandler>
+      <class>RadioButton</class>
+      <selected>true</selected>
+      <enabledSrc>/images/ZoomInEnable.png</enabledSrc>
+      <disabledSrc>/images/ZoomInDisable.png</disabledSrc>
+   <zoomFactor>2</zoomFactor>
+    </ZoomIn>
+    <ZoomOut id="zoomOut">
+    <zoomFactor>2</zoomFactor>
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainAoi</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
+      <disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
+    </ZoomOut>
+    <DragPan id="dragPan">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainDragPan</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/PanEnable.png</enabledSrc>
+      <disabledSrc>/images/PanDisable.png</disabledSrc>
+    </DragPan>
+    <Reset id="reset">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
+    </Reset>
+  </widgets>
+  <skinDir>../../lib/skin/default</skinDir>
+  <widgetTextUrl>widgetText.xml</widgetTextUrl>
+  <!-- relative to the skin dir -->
+</MapbuilderConfig>
