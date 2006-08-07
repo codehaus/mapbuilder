@@ -34,14 +34,12 @@ TiledWmsLayer = function(model, mapPane, layerName, layerNode, queryable, visibl
     this.tileExtent=new TileExtent(this.model.extent);
     this.tileCount = this.tileExtent.getTileCount();
     this.grid = this.getGridSrc(objRef, this.tileExtent,this.tileCount);
-
     this.loadImgDiv(objRef, this.layerNode,this.grid,layerNum,this.tileExtent);   
-    //SMO: ik moet kijken naar de layermgr die doet volgens mij nu overbodig werk, ivm isWmsLayer()
   }
-  
-  this.isWmsLayer= function() {
-    return true;
-  }
+
+/**
+  * Calculate required number of tiles and store them in a grid and create the getmap request for each tile
+  */
   this.getGridSrc = function (objRef, tileExtent,tileCount){
     var tileSize = tileExtent.getTileSize();
     var tileMeters = tileExtent.getTileMeters();
@@ -103,7 +101,6 @@ TiledWmsLayer = function(model, mapPane, layerName, layerNode, queryable, visibl
  */  
   this.loadImgDiv= function(objRef, layerNode,grid,layerNum,tileExtent) {
   
-  //SMO: misschien al geladen tiles niet nog een keer laden?
     var offset = tileExtent.getOffset();
     var tileSize = tileExtent.getTileSize();
     var scaleLevel = tileExtent.extent.getFixedScale();
@@ -119,13 +116,10 @@ TiledWmsLayer = function(model, mapPane, layerName, layerNode, queryable, visibl
     var imgDivId = this.getLayerDivId(); 
     var oldDiv = document.getElementById(imgDivId);
 
-    //SMO: dit moet misschien anders als ik weer de imgloader wil gebruiken.
+
     if(oldDiv){
       outputNode.removeChild(oldDiv);
     }
-//  if (!imgDiv) {
-
-
 
     imgDiv = document.createElement("div");
     imgDiv.setAttribute("id", imgDivId);
@@ -137,13 +131,13 @@ TiledWmsLayer = function(model, mapPane, layerName, layerNode, queryable, visibl
 
     for(var i=0;i<grid.length;i++){
         for(var j=0;j<grid[i].length;j++){
+        //SMO: for each tile we create a new img element
         var domImg = document.createElement("img");
         domImg.id = "real"+imgDiv.imgId+"-"+i+"-"+j;
-       
+        //From the grid we select the right maprequest
         newSrc = grid[i][j][layerNum].getAttribute('src');
-
         domImg.width = tileSize;
-                domImg.height = tileSize;
+        domImg.height = tileSize;
         domImg.style.top = j*tileSize+'px';
         domImg.style.left = i*tileSize+'px';
         domImg.style.position = 'absolute';
@@ -158,7 +152,7 @@ TiledWmsLayer = function(model, mapPane, layerName, layerNode, queryable, visibl
     }
     
     outputNode.appendChild(imgDiv);
-    
+    //SMO: this trick is needed to make sure the IE does it's fixPNG magic
      var siblingImageDivs = outputNode.childNodes;
      var i = siblingImageDivs.length -1;
       for (var j=0; j<siblingImageDivs[i].childNodes.length;++j) {

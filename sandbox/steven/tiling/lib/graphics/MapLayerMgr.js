@@ -7,7 +7,9 @@ $Id: $
 
 // Ensure this object's dependancies are loaded.
 
-mapbuilder.loadScript(baseDir+"/graphics/WmsLayer.js");
+//SMO: since for each layertype in the context file we need to load the
+//script a more sophisticated approach should be thought off, otherwise we need to load too many scripts we don't need
+//mapbuilder.loadScript(baseDir+"/graphics/WmsLayer.js");
 mapbuilder.loadScript(baseDir+"/graphics/TiledWmsLayer.js");
 
 //should be pulled in by google tool
@@ -33,22 +35,21 @@ function MapLayerMgr(mapPane, model) {
 
 MapLayerMgr.prototype.paint=function(objRef,layerNode,layerNum){
 
-
+ //SMO: only TiledWmsLayer is implemented
  var layer = null;
   service=layerNode.selectSingleNode("wmc:Server/@service");
   if(service)service=service.nodeValue;
    
   var nodeName = layerNode.nodeName;
-  //SMO: switch is faster
   if(service == "GoogleMap") {
     layer = new GoogleMapLayer( objRef.model, objRef.mapPane, "GoogleMapLayer", layerNode, false, true );
     objRef.layers.push( layer );
     //alert( "Add Google Layer, total Layers:"+objRef.layers.length)
-  }// else if( (service == "wms") || (service == "OGC:WMS")) {
-   // layer = objRef.addWmsLayer( objRef.model, objRef.mapPane, layerNode);
+  } else if( (service == "wms") || (service == "OGC:WMS")) {
+    layer = objRef.addWmsLayer( objRef.model, objRef.mapPane, layerNode);
     //alert( "Added Wms Layer:"+layerNode.nodeName+", total Layers:"+objRef.layers.length)
  // } 
-  else if( (service == "wms-c") || (service == "OGC:WMS-C") ||(service == "wms") || (service == "OGC:WMS")) {
+  else if( (service == "wms-c") || (service == "OGC:WMS-C")) {
     objRef.addTiledWmsLayer( objRef.model, objRef.mapPane, layerNode,layerNum);
     //alert( "Added Wms Layer:"+layerNode.nodeName+", total Layers:"+objRef.layers.length)
   } else if( nodeName.indexOf("RssLayer") >= 0 ) {
@@ -66,29 +67,6 @@ MapLayerMgr.prototype.paint=function(objRef,layerNode,layerNum){
   } else {
     alert( "Failed adding Layer:"+nodeName + " service:"+service );
   }
-}
-
-/**
-  * Method to add a WmsLayer to the LayerList
-  * @param objRef object pointer
-  * @param layerNode the Layer node from another context doc or capabiltiies doc
-  */
-MapLayerMgr.prototype.addWmsLayer = function(model, mapPane, layerNode) {
-   
-  var layerNameNode = layerNode.selectSingleNode("wmc:Name");
-  if( layerNameNode ) {
-    layerName = layerNameNode.firstChild.nodeValue;
-  } else {
-    layerName = "UNKNOWN";
-  }
-  
-  var queryable = layerNode.getAttribute("queryable");
-  var visible = layerNode.getAttribute("hidden");
-    
-  var layer = new WmsLayer( model, mapPane, layerName, layerNode, queryable, visible );
-  
-  mapPane.MapLayerMgr.layers.push( layer );
-  return layer;
 }
 
 /**

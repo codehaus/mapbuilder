@@ -70,7 +70,7 @@ MapPane2.prototype.paint = function(objRef, refresh) {
       outputNode.style.top='0px';
     } 
     
-    
+    //SMO: this loader node is rather hackish, we need to get the loading2 widget working again in MapPane2
     var loaderNode = document.getElementById("loaderDiv");
     if(!loaderNode) {
       loaderNode = document.createElement("div");
@@ -102,17 +102,10 @@ MapPane2.prototype.paint = function(objRef, refresh) {
     objRef.layerCount = layers.length;
  
     for (var i=0;i<layers.length;i++) {
-      //SMO: dit zou evt flickerbug kunnen oplossen
-   
-   
-//alert('paint');
-      objRef.MapLayerMgr.paint(objRef.MapLayerMgr,layers[i],i )
-   
-  
-  }
-  if(loaderNode){
-     if(!_SARISSA_IS_IE) {outputNode.parentNode.removeChild(loaderNode);}
-    // else outputNode.parentNode=outputNode.parentNode.removeChild(loaderNode);
+      objRef.MapLayerMgr.paint(objRef.MapLayerMgr,layers[i],i )  
+      }
+    if(loaderNode){
+      if(!_SARISSA_IS_IE) {outputNode.parentNode.removeChild(loaderNode);}
     }
   }
 }
@@ -145,12 +138,14 @@ MapPane2.prototype.addLayer = function(objRef, layerNode) {
 /**
  * Removes a layer from the output
  * @param objRef Pointer to this object.
- * @param layerName the WMS anme for the layer to be removed
+ * @param layerName the WMS name for the layer to be removed
  */
 MapPane2.prototype.deleteLayer = function(objRef, layerName) {
   var imgDivId = objRef.getLayerDivId(layerName); 
   if( imgDivId != null ) {
     var imgDiv = document.getElementById(imgDivId);
+    //SMO: this only destroys the DIV, not the layer object, 
+    //      we probably need to call MapLayerMgr to destroy the layer
     if( imgDiv != null ) {
       var outputNode = document.getElementById( objRef.outputNodeId );
       outputNode.removeChild(imgDiv);
@@ -193,34 +188,23 @@ MapPane2.prototype.moveLayerDown = function(objRef, layerName) {
 }
 
 /**
- * This function is called when a new Context is about to be loaded
- * - it deletes all the old layers so new ones can be loaded.
- * TBD: This should be renamed to clearWidget, except inheritence
- * is not working if we do that and it doesn't get called.
- * @param objRef Pointer to this object.
- */
-MapPane2.prototype.clearWidget2 = function(objRef) {
-  objRef.MapLayerMgr.deleteAllLayers();
-}
-
-/**
    * Called when the context's hidden attribute changes.
    * @param objRef This object.
    * @param layerName  The name of the layer that was toggled.
    */
 MapPane2.prototype.hiddenListener=function(objRef, layerName){
-    var vis="visible";
-    if(objRef.model.getHidden(layerName)=="1") {
-      vis="hidden";
-    }
-    var layerId = objRef.model.id + "_" + objRef.id + "_" + layerName;
-    var layer = document.getElementById(layerId);
-    if (layer) {
-      layer.style.visibility=vis;
-      imgId = "real"+layer.imgId;
-      img = document.getElementById(imgId); // Hack to make sure that the child element is toggled in IE
-      if(img) img.style.visibility=vis;
-    }
+  var vis="visible";
+  if(objRef.model.getHidden(layerName)=="1") {
+    vis="hidden";
   }
+  var layerId = objRef.model.id + "_" + objRef.id + "_" + layerName;
+  var layer = document.getElementById(layerId);
+  if (layer) {
+    layer.style.visibility=vis;
+    imgId = "real"+layer.imgId;
+    img = document.getElementById(imgId); // Hack to make sure that the child element is toggled in IE
+    if(img) img.style.visibility=vis;
+  }
+}
 
 
