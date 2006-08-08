@@ -228,12 +228,12 @@ function setISODate(isoDateStr) {
 function getISODate(isoDate) {
   var res = isoDate.res?isoDate.res:6;
   var dateStr = "";
-  dateStr += res>1?isoDate.getFullYear():"";
-  dateStr += res>2?"-"+leadingZeros(isoDate.getMonth()+1,2):"";
-  dateStr += res>3?"-"+leadingZeros(isoDate.getDate(),2):"";
-  dateStr += res>4?"T"+leadingZeros(isoDate.getHours(),2):"";
-  dateStr += res>5?":"+leadingZeros(isoDate.getMinutes(),2):"";
-  dateStr += res>6?":"+leadingZeros(isoDate.getSeconds(),2):"";
+  dateStr += res>=1?isoDate.getFullYear():"";
+  dateStr += res>=2?"-"+leadingZeros(isoDate.getMonth()+1,2):"";
+  dateStr += res>=3?"-"+leadingZeros(isoDate.getDate(),2):"";
+  dateStr += res>=4?"T"+leadingZeros(isoDate.getHours(),2):"";
+  dateStr += res>=5?":"+leadingZeros(isoDate.getMinutes(),2):"";
+  dateStr += res>=6?":"+leadingZeros(isoDate.getSeconds(),2):"";
   return dateStr;
 }
 
