@@ -229,13 +229,13 @@ function Extent( model, initialRes ) {
    * @param res   the resolution to be set
    */
   //TBD update the model doc
-  this.setSize = function(res) {     //pass in a resolution and width, height are recalculated
+/*  this.setSize = function(res) {     //pass in a resolution and width, height are recalculated
     this.res[0] = this.res[1] = res;
     this.size[0] = (this.lr[0] - this.ul[0])/this.res[0];
     this.size[1] = (this.ul[1] - this.lr[1])/this.res[1];
     this.width = Math.ceil(this.size[0]);
     this.height = Math.ceil(this.size[1]);
-  }
+  }*/
 
   /**
    * Adjust the resolution so the bbox fits in the specified width and height
