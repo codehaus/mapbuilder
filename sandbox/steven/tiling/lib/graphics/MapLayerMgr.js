@@ -48,7 +48,7 @@ MapLayerMgr.prototype.paint=function(objRef,layerNode,layerNum){
   } else if( (service == "wms") || (service == "OGC:WMS")) {
     layer = objRef.addWmsLayer( objRef.model, objRef.mapPane, layerNode);
     //alert( "Added Wms Layer:"+layerNode.nodeName+", total Layers:"+objRef.layers.length)
- // } 
+  } 
   else if( (service == "wms-c") || (service == "OGC:WMS-C")) {
     objRef.addTiledWmsLayer( objRef.model, objRef.mapPane, layerNode,layerNum);
     //alert( "Added Wms Layer:"+layerNode.nodeName+", total Layers:"+objRef.layers.length)
