@@ -6,7 +6,7 @@
 			 xmlns:sld="http://www.opengis.net/sld"
 			 xmlns:xlink="http://www.w3.org/1999/xlink"
 			 elementFormDefault="qualified">
-	<xs:import namespace="http://www.opengis.net/sld" schemaLocation="../../sld/1.0.0/StyledLayerDescriptor.xsd"/>
+	<xs:import namespace="http://www.opengis.net/sld" schemaLocation="http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd"/>
 	<xs:element name="ViewContext" type="context:ViewContextType"/>
 	<xs:complexType name="ViewContextType">
 		<xs:sequence>

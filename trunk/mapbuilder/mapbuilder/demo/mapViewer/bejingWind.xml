@@ -1,4 +1,4 @@
-<ViewContext version="1.0.0" id="bejingWindDemo" xmlns="http://www.opengis.net/context" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengeospatial.net/context/1.1.0/context.xsd">
+<ViewContext version="1.0.0" id="bejingWindDemo" xmlns="http://www.opengis.net/context" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengis.net/context/1.1.0/context.xsd">
 	<General>
 		<Window width="400" height="378"/>
 		<BoundingBox SRS="EPSG:4326" minx="106.440" miny="15.638" maxx="113.640" maxy="22.4420"/>
