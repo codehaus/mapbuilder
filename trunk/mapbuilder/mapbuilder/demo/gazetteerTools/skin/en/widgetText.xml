@@ -25,6 +25,7 @@
       <title>Place Name Search</title>
       <placeName>Place name:</placeName>
       <find>Find</find>
+      <country>Country:</country>
       <example>Example: Ottawa</example>
       <exampleWorld>Example: Paris, France</exampleWorld>
     </PlaceNameForm>
@@ -41,5 +42,9 @@
       <east>East:</east>
       <west>West:</west>
     </AoiForm>
+    <TabbedContent>
+      <canadaPlaceNameForm>Canada</canadaPlaceNameForm>
+      <worldPlaceNameForm>World</worldPlaceNameForm>
+    </TabbedContent>
   </widgets>
 </WidgetText>

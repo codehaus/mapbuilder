@@ -15,16 +15,19 @@
   <widgets>
     <Widget>
       <selectPlace> Sélectionnez un endroit:</selectPlace>
-      <placeNameCoords>Coordonnées d'un endroit sélectionné:</placeNameCoords>
-      <transfer>Transfére</transfer>
+      <placeNameCoords>Coordonnées de l'endroit sélectionné:</placeNameCoords>
+      <transfer>Transférer</transfer>
       <close>Fermer</close>
-      <postalCodeCoords>Coordonnées du code postal sélectionnés:</postalCodeCoords>
-      <postalCodeRegionTitle>Région de code postal:</postalCodeRegionTitle>
+      <postalCodeCoords>Coordonnées du code postal sélectionné:</postalCodeCoords>
+      <postalCodeRegionTitle>Région du code postal:</postalCodeRegionTitle>
     </Widget>
     <PlaceNameForm>
       <title>Recherche à partir de nom d'endroit</title>
       <placeName>Nom de l'endroit:</placeName>
       <find>Trouver</find>
+      <country>Country:</country>
+      <example>Example: Ottawa</example>
+      <exampleWorld>Example: Paris, France</exampleWorld>
     </PlaceNameForm>
     <PostalCodeForm>
       <title>Code postal canadien</title>
@@ -38,5 +41,9 @@
       <east>Est:</east>
       <west>Ouest:</west>
     </AoiForm>
+    <TabbedContent>
+      <canadaPlaceNameForm>Canada</canadaPlaceNameForm>
+      <worldPlaceNameForm>Monde</worldPlaceNameForm>
+    </TabbedContent>
   </widgets>
 </WidgetText>
