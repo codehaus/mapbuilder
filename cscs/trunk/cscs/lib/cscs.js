@@ -11,6 +11,7 @@ var HALF_PI=PI*0.5;
 var TWO_PI=PI*2;
 var R2D=57.2957795131;
 var D2R=0.0174532925199;
+var SEC_TO_RAD = 4.84813681109535993589914102357e-6 /* SEC_TO_RAD = Pi/180/3600 */
 var EPSLN = 1.0e-10;
 var SRS_WGS84_SEMIMAJOR=6378137.0;  // only used in grid shift transforms
 
@@ -100,13 +101,17 @@ function CS(def) {
         this.datum_params[1] != 0 ||
         this.datum_params[2] != 0 )
       this.datum_type = PJD_3PARAM;
-    if (this.datum_params.length > 3)
-    {
+    if (this.datum_params.length > 3) {
       if (this.datum_params[3] != 0 ||
           this.datum_params[4] != 0 ||
           this.datum_params[5] != 0 ||
-          this.datum_params[6] != 0 )
+          this.datum_params[6] != 0 ) {
         this.datum_type = PJD_7PARAM;
+        this.datum_params[3] *= SEC_TO_RAD;
+        this.datum_params[4] *= SEC_TO_RAD;
+        this.datum_params[5] *= SEC_TO_RAD;
+        this.datum_params[6] = (this.datum_params[6]/1000000.0) + 1.0;
+      }
     }
   }
 
