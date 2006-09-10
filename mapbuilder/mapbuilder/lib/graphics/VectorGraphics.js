@@ -41,8 +41,8 @@ function chkCapabilities() {
     if( document.implementation.hasFeature("org.w3c.dom.svg", "1.0") ) {
       //alert( "loading SVG")
       mapbuilder.loadScript(baseDir+"/graphics/SVGGraphics.js");  
-    } else {
-      alert( "no support for SVG nor VML")
+    //} else {
+    //  alert( "no support for SVG nor VML")
     }
   }
   
