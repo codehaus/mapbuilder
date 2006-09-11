@@ -43,7 +43,7 @@ $Name$
   
     <wmc:FeatureType hidden="0" id="B58B8C7B-6592-4D67-9CD5-5D43CB46BF83">
 	  	<wmc:Server service="OGC:WFS" version="1.0.0" title="EO1 GeoBliki">
-        <wmc:OnlineResource method="post" xlink:type="simple" xlink:href="https://eo1.geobliki.com/wfs"/>
+        <wmc:OnlineResource method="post" xlink:type="simple" xlink:href="http://test.geobliki.com/wfs"/>
       </wmc:Server>
       <wmc:Name>EO1 Query</wmc:Name>
       <wmc:Title>EO1 Query</wmc:Title>
