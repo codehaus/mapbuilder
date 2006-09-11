@@ -4633,7 +4633,7 @@ this.fillColor=null;
 var mac,win;
 var opera,khtml,safari,mozilla,ie,ie50,ie55,ie60;
 var canvasEnabled=false;
-mapbuilder.loadScript(baseDir+"/tool/util/Sarissa.js");
+mapbuilder.loadScript(baseDir+"/util/Sarissa.js");
 function chkCapabilities(){
 var UA=navigator.userAgent;
 var AV=navigator.appVersion;

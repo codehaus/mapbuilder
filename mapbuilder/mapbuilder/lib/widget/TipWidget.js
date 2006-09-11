@@ -45,6 +45,16 @@ function TipWidget( widgetNode, model) {
     this.overLibCmd = overLibCmd.firstChild.nodeValue;
   }
   
+  var stylesheet =  widgetNode.selectSingleNode("mb:stylesheet");
+  if( stylesheet != undefined ) {
+      var xslt = stylesheet.firstChild.nodeValue;
+      this.stylesheet = new XSLTProcessor();
+      var xslDoc = Sarissa.getDomDocument(); 
+      xslDoc.async=false;
+      xslDoc.load( xslt );
+      this.stylesheet.importStylesheet( xslDoc );
+  }   
+
   /**
     * Create the div for the tip 
     */
@@ -124,6 +134,40 @@ function TipWidget( widgetNode, model) {
     str = str.replace(/&quot;/g, "'");
     return str;
   }
+  
+  this.paintXSL = function( node ) {
+    if( this.stylesheet) {
+      var posx = 0;
+	  var posy = 0;
+  
+      var cn = window.cursorTrackNode;
+      if( cn ) {    
+	    var evPL =  cn.evpl;
+	    if( evPL != null ) {
+	      posx = evPL[0];
+	      posy = evPL[1];
+	    }
+      }
+      
+      //alert( Sarissa.serialize(node))
+      //var textN = this.stylesheet.transformNodeToObject(node);
+      //alert( "textN:"+Sarissa.serialize(textN))
+ 
+      //Sarissa.setXpathNamespaces(node, "xmlns:eo1='http://eo1.gsfc.nasa.gov' xmlns:gml='http://www.opengis.net/gml'");
+      //alert( Sarissa.serialize(node))
+      //var text = this.stylesheet.transformNodeToString(node);
+      var oDoc = document.implementation.createDocument("", "", null);
+      oDoc.appendChild(node.cloneNode(true));
+      var oResult = this.stylesheet.transformToDocument( oDoc );
+      //alert("oResult:"+Sarissa.serialize(oResult))
+      var text = Sarissa.serialize(oResult.firstChild)
+      
+      overlib(text, CAPTION, "Caption", STICKY, WIDTH,'225', HEIGHT,'200', REFC,'UR', REFP,'LL', RELX, posx, RELY, posy)
+    } else {
+      alert("no stylesheet defined")
+    }
+  }
+  
   /**
     * clear popup from the scree
     */

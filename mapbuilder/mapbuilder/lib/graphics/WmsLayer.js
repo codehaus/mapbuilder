@@ -89,7 +89,7 @@ WmsLayer = function(model, mapPane, layerName, layerNode, queryable, visible) {
     //alert( "Zindex:"+imgDiv.style.zIndex + " layerNum:"+layerNum);
     var domImg = document.createElement("img");
     domImg.id = "real"+imgDiv.imgId;
-    domImg.setAttribute("src", "../../lib/skin/default/images/Loading.gif");
+    domImg.setAttribute("src", config.skinDir + "/images/Loading.gif");
     domImg.layerHidden = layerHidden;
     imgDiv.appendChild(domImg);
     outputNode.appendChild(imgDiv);

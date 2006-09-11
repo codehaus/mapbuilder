@@ -40,8 +40,9 @@ function GmlRendererVG(widgetNode, model) {
     if( (objRef.model.doc != null) && (objRef.targetModel.doc != null)) {
       //var features = objRef.model.getFeatureNodes();
       //var len = features.length;
-      
+      objRef.containerModel.model = objRef.model;
       objRef.containerModel.setParam('addLayer', objRef.model.wfsFeature); 
+     
     }
   }
   
