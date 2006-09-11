@@ -46,7 +46,7 @@
       		<targetModel>gml2FeatureTemplate</targetModel>
       		<stylesheet>../../lib/widget/Null.xsl</stylesheet>
       		<requestStylesheet>wfs_GetFeature.xsl</requestStylesheet>
-      		<webServiceUrl>/wfs</webServiceUrl>
+      		<webServiceUrl>http://test.geobliki.com/wfs</webServiceUrl>
     		</WebServiceForm>
     
 			</widgets>
@@ -168,6 +168,6 @@
 	<skinDir>../../lib/skin/default</skinDir>
   <languages>en,fr,fr-CA</languages>
 	<widgetTextUrl>widgetText.xml</widgetTextUrl>
-	<proxyUrl>/wfs/proxy</proxyUrl>
-	<serializeUrl>/wfs/map/serialize</serializeUrl>
-</MapbuilderConfig>
+  <proxyUrl>/mapbuilder/proxy</proxyUrl>
+  <serializeUrl>/mapbuilder/writeXml</serializeUrl>
+  </MapbuilderConfig>
