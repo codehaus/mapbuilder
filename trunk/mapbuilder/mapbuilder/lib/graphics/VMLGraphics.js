@@ -21,15 +21,16 @@ function VMLGraphics(id, div, width, heigth) {
   * Set thickness of drawing pen.  Should be an integer
   */
 VMLGraphics.prototype.setStrokeColor = function(x) {
-  this.strokeStyle = x;
+  this.strokeStyle = x;  
 }
 
 VMLGraphics.prototype.setStrokeWidth = function(x) {
-  this.strokeWeight = x;
+  this.strokeWeight = x; 
 }
 
 VMLGraphics.prototype.setFillColor = function(x) {
   this.fillStyle = x;
+  this.strokeStyle = x; 
 }
 
 VMLGraphics.prototype.setShapeStrokeColor = function(shape, x) {
@@ -131,7 +132,7 @@ VMLGraphics.prototype.fillCircle=function( X, Y, radius ) {
   element.style.height  = diameter;
   
   element.fillcolor   = this.fillStyle;
-  element.strokecolor = this.strokeStyle;
+  element.strokecolor = this.fillStyle; //this.strokeStyle;
   element.strokeweigth= "1pt";
   //element.coordsize   = "1000,1000";
   //element.coordorigin = "0 0"

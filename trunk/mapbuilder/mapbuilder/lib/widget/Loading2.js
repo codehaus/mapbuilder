@@ -76,7 +76,7 @@ Loading2.prototype.paint = function(objRef) {
       objRef.node.appendChild(outputNode);
     }
     outputNode.className = "loadingIndicator";
-    outputNode.style.zindex = 1000;
+    outputNode.style.zIndex = 1000;
     //In a mapcontainer you want the loader in the left top, in other widgets embedded in the output area
     if (objRef.mapContainerNode){
       outputNode.style.position="absolute";
@@ -89,7 +89,7 @@ Loading2.prototype.paint = function(objRef) {
         imageNode = document.createElement("img");
         imageNode.setAttribute("id",objRef.outputNodeId+"_imageNode");
         outputNode.appendChild(imageNode);
-        imageNode.style.zindex = 1000;
+        imageNode.style.zIndex = 1000;
       }
       imageNode.src = objRef.imageSrc;
     }
@@ -125,8 +125,7 @@ Loading2.prototype.update= function(objRef, message) {
   if (message) {
     objRef.updateMessage = message;
     objRef.paint(objRef);
-  }   
-  else {
+  } else {
     objRef.clear(objRef);
   }
 }

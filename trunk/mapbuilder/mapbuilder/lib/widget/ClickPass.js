@@ -70,7 +70,7 @@ function ClickPass(widgetNode, model) {
   }
  
   // unfortunately, exact positioning of an image is hard
-  // depending on icon, you ay have to specify some offsets
+  // depending on icon, you may have to specify some offsets
   var topOffset = widgetNode.selectSingleNode("mb:topOffset");
   if( topOffset != null ) {
     this.topOffset = parseInt(topOffset.firstChild.nodeValue);
@@ -98,7 +98,8 @@ function ClickPass(widgetNode, model) {
         objRef.iconDiv.style.left = targetNode.evpl[0] + objRef.leftOffset + "px";
         objRef.iconDiv.style.visibility = "visible";
 
-        alert( "Action:"+objRef.clickPassId + " " + x + " " + y );
+        //alert( "Action:"+objRef.clickPassId + " " + x + " " + y );
+        clickIt( x, y )
         
         // hide icon in 5 seconds
         if( document.all ) { // ie guy

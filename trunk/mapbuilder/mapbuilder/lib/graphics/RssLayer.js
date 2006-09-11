@@ -351,7 +351,7 @@ function RssLayer(model, mapPane, layerName, layerNode, queryable, visible) {
   this.install= function( shape ) {
     shape.onmouseover = this.mouseOverHandler; 
     shape.onmouseout  = this.mouseOutHandler;
-    shape.onmouseup   = this.mouseClickHandler;
+    shape.onclick  = this.mouseClickHandler;
     //shape.setAttribute("onClick", " config.objects.geoRSS.setParam('highlightFeature',\'"+this.id+"\')" );
    }
 
@@ -394,6 +394,7 @@ function RssLayer(model, mapPane, layerName, layerNode, queryable, visible) {
 	  if (ev.stopPropagation) ev.stopPropagation();
  
     config.objects.geoRSS.setParam('clickFeature',this.id);
+        
     return true;
   }
 

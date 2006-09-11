@@ -22,7 +22,7 @@ function Context(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   ModelBase.apply(this, new Array(modelNode, parent));
 
-  this.namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder'";
+  this.namespace = "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder' xmlns:wmc='http://www.opengis.net/context' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'";
 
   /**
    * Change a Layer's visibility.

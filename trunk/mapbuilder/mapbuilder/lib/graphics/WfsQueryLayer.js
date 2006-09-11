@@ -15,6 +15,7 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
 
   // marker for events
   this.id = "WfsQueryLayer";
+  this.model = model;
   
   // unique layer id
   this.uuid = layerNode.getAttribute("id");
@@ -25,7 +26,7 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   * So we know geometry type and coordinates
   */
   this.parse = function() {
-    var namespace = "xmlns:eo1='eo1.geobliki.com' xmlns:wmc='http://www.opengis.net/context' xmlns:ows='http://www.opengis.net/ows' xmlns:sld='http://www.opengis.net/sld' xmlns:xlink='http://www.w3.org/1999/xlink'";
+    var namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:ows='http://www.opengis.net/ows' xmlns:sld='http://www.opengis.net/sld' xmlns:xlink='http://www.w3.org/1999/xlink'";
     var doc = this.layerNode.ownerDocument;
     Sarissa.setXpathNamespaces(doc, namespace);
     //alert( "wfsparse:"+Sarissa.serialize(this.layerNode))
@@ -126,39 +127,38 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   * @param hiliteOnly true to avoid full redraw
   */
   this.paintLine= function( sld, hiliteOnly) {
-  
-  if( hiliteOnly ) {
-    sld.hiliteLine( this.gr, this.shape );
-  } else {
-    var containerProj = new Proj(this.model.getSRS());
-    var pointPairs    = this.coords.split(/[ ,\n]+/);
-            
-    var newPointArr = new Array( pointPairs.length/2 );
-    var point = new Array(2);
-    var screenCoords;
-            
-    var jj=0;
-            
-    for( var i=0; i<pointPairs.length; i++ ) {          
-      point[0] = pointPairs[i];
-      point[1] = pointPairs[i+1];
-              
-      screenCoords = containerProj.Forward(point);
-      screenCoords = this.model.extent.getPL(screenCoords);
-      newPointArr[jj] = screenCoords;  
-               
-      jj++     
-      i++;
+    if( hiliteOnly ) {
+      sld.hiliteLine( this.gr, this.shape );
+    } else {
+      var containerProj = new Proj(this.model.getSRS());
+      var pointPairs    = this.coords.split(/[ ,\n]+/);
+                
+      var newPointArr = new Array( pointPairs.length/2 );
+      var point = new Array(2);
+      var screenCoords;
+                
+      var jj=0;
+                
+      for( var i=0; i<pointPairs.length; i++ ) {          
+        point[0] = pointPairs[i];
+        point[1] = pointPairs[i+1];
+                  
+        screenCoords = containerProj.Forward(point);
+        screenCoords = this.model.extent.getPL(screenCoords);
+        newPointArr[jj] = screenCoords;  
+                   
+        jj++     
+        i++;
+      }   
+     
+     
+      this.shape = sld.paintLine( this.gr, newPointArr );
+        
+      this.shape.id = this.id +"_vector";
+      this.gr.paint();
+      
+      this.install( this.shape );
     }   
- 
- 
-    this.shape = sld.paintLine( this.gr, newPointArr );
-    
-    this.shape.id = this.id +"_vector";
-    this.gr.paint();
-  
-    this.install( this.shape );
-  }   
   }
 
 
@@ -323,8 +323,8 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   this.install= function( shape ) {
     shape.onmouseover = this.mouseOverHandler; 
     shape.onmouseout  = this.mouseOutHandler;
-    shape.onclick  = this.mouseClickHandler;
-    //shape.setAttribute("onClick", " config.objects.geoRSS.setParam('highlightFeature',\'"+this.id+"\')" );
+    shape.onmouseup   = this.mouseClickHandler;
+    shape.model = this.model.id; 
    }
 
 /** 
@@ -333,8 +333,19 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   * @param ev
   */
   this.mouseOverHandler= function(ev) {
+    var idAttr = this.getAttribute("id").split("_")
+    var id = idAttr[2]
+ 
+    var containerNode  = document.getElementById("mainMapContainer")
+    if( containerNode) {
+      containerNode.oldEventHandler = containerNode.onmouseup;
+      containerNode.onmouseup = null; 
+      containerNode.onmousedown = null; 
+    }
+    
     this.style.cursor = "help";
-    //config.objects.geoRSS.setParam('highlightFeature',this.id);
+    
+    //config.objects[this.model].setParam('highlightFeature',id);
     return true;
   }
 
@@ -345,7 +356,17 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   */
   this.mouseOutHandler= function(ev) {  
     this.style.cursor = "default";
-    //config.objects.geoRSS.setParam('dehighlightFeature',this.id);
+    var idAttr = this.getAttribute("id").split("_")
+    var id = idAttr[2]
+
+    var containerNode = document.getElementById("mainMapContainer")
+    if( containerNode) {
+      containerNode.onmouseup = containerNode.oldEventHandler;
+      containerNode.onmousedown = containerNode.oldEventHandler;
+    }
+ 
+    this.style.cursor = "default";
+    //config.objects[this.model].setParam('dehighlightFeature',id);
     return true;
   }
   
@@ -355,42 +376,20 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   this.mouseClickHandler= function(ev) { 
     var idAttr = this.getAttribute("id").split("_")
     var id = idAttr[2]
-    //alert( "mouseClick:"+id) 
-    //@TODO need to remove hardcoded name
-    config.objects.gml2FeatureTemplate.setParam('clickFeature',id);
+
+    config.objects[this.model].setParam('clickFeature',id);
     return true;
   }
 
+  /**
+   * Actual Click handler
+   */
   this.clickIt= function(objRef, featureId) {
      
-    var popupStr = ""
     var nodeList = objRef.model.getFeatureNodes();
     var node = nodeList[featureId];
-    for( var i=0; i< node.childNodes.length; i++) {
-      var elt = node.childNodes[i]
-      var name = elt.nodeName.split(":")[1]
-      var value = elt.firstChild.nodeValue
-      if( value == null ) {
-        value = elt.firstChild.firstChild.nodeValue
-        if( value == null )
-          value = elt.firstChild.firstChild.firstChild.nodeValue
-      }
-      popupStr += "<b>"+name + ":</b>" + value + "<br/>"
-    }
     
-    var posx = 0;
-	  var posy = 0;
-  
-    var cn = window.cursorTrackNode;
-    if( cn ) {    
-	    var evPL =  cn.evpl;
-	    if( evPL != null ) {
-	      posx = evPL[0];
-	      posy = evPL[1];
-	    }
-    }
-  
-	  toolTipObjs[objRef.tooltip].paint( new Array(posx, posy, featureId, objRef.title, popupStr ));
+	toolTipObjs[objRef.tooltip].paintXSL( node );
   }
   
 
@@ -400,35 +399,13 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   * @param featureId
   */
   this.highlight= function(objRef, featureId) {
-  // we get the id_vector
-  if( featureId.indexOf( objRef.id ) >= 0 ) {
-  
+      
     objRef.paintShape( objRef.hiliteSld, true );
+    var nodeList = objRef.model.getFeatureNodes();
+    var node = nodeList[featureId];
     
-	  var posx = 0;
-	  var posy = 0;
-  
-    var cn = window.cursorTrackNode;
-    if( cn ) {    
-	    var evPL =  cn.evpl;
-	    if( evPL != null ) {
-	      posx = evPL[0];
-	      posy = evPL[1];
-	  
-	      // set the popup text with stylesheet output
-	      var popupStr = objRef.myabstract;
-	      if( popupStr == undefined ) {
-	        popupStr = "Feature under construction.  Stay tuned!";
-	      }
-	    }
-    }
-  
-	  if( posx>0 && posx < objRef.width && posy>0 && posy<objRef.height ) {
-	    // make sure we are in the map
-	    toolTipObjs[objRef.tooltip].paint( new Array(posx, posy, featureId, objRef.title, popupStr ));
-	  }
+    toolTipObjs[objRef.tooltip].paintXSL( node );
   }
-}
  
 /** 
   * Dehighlights the selected feature by switching back to the normal image
@@ -436,13 +413,10 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   * @param featureId
   */
   this.dehighlight= function(objRef, featureId) {
-    if( featureId.indexOf(objRef.id)>= 0 ) {
-    
-      objRef.paintShape( objRef.normalSld, true );
+    objRef.paintShape( objRef.normalSld, true );
  
-      // clear popup
-      toolTipObjs[objRef.tooltip].clear();
-    }
+    // clear popup
+    toolTipObjs[objRef.tooltip].clear();
   }
  
   this.parse();
@@ -456,10 +430,9 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   //this.paint();
   
   // model here is not geoRss but OwsContext sooooo
-  //config.objects[this.model.id].addListener("highlightFeature",this.highlight, this);
-  //config.objects[this.model.id].addListener("dehighlightFeature",this.dehighlight, this);
-  config.objects.gml2FeatureTemplate.addListener("clickFeature",this.clickIt, this);
-   
-  this.tooltip = config.objects.gml2FeatureTemplate.tipWidgetId;
+  config.objects[this.model.id].addListener("highlightFeature",this.highlight, this);
+  config.objects[this.model.id].addListener("dehighlightFeature",this.dehighlight, this);
+  config.objects[this.model.id].addListener("clickFeature",this.clickIt, this);
+  this.tooltip = config.objects[this.model.id].tipWidgetId;
 }
 

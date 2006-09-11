@@ -143,7 +143,8 @@ MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
   } else if( nodeName.indexOf("FeatureType") >= 0 ) {
     var layerName = layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue;
     if( objRef.getLayer(layerName) == null ) {
-      layer = new WfsQueryLayer( layerNode.model, objRef.mapPane, layerName, layerNode, false, true );
+      //layer = new WfsQueryLayer( layerNode.model, objRef.mapPane, layerName, layerNode, false, true );
+      layer = new WfsQueryLayer( objRef.model.model, objRef.mapPane, layerName, layerNode, false, true );
       objRef.layers.push( layer );
       //alert( "Add Wfs Layer, total Layers:"+objRef.layers.length)
     }

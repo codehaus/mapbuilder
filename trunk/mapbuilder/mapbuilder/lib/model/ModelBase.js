@@ -182,25 +182,28 @@ function ModelBase(modelNode, parentModel) {
               return;
             } else {
               //alert(xmlHttp.getResponseHeader("Content-Type"));
-              if ( null==xmlHttp.responseXML ) {
-                alert( "null XML response:" + xmlHttp.responseText );
-              } else {
+              //if ( null==xmlHttp.responseXML ) {
+              //  alert( "null XML response:" + xmlHttp.responseText );
+              //} else {
                 // Problem with IE is that sometimes the XML files do not get loaded as XML for some reason (especially from disk)
                 // So we need to deal with it here
 
-                if( xmlHttp.responseXML != null ) {
+                if( (xmlHttp.responseXML != null) && (xmlHttp.responseXML.root != null) && (xmlHttp.responseXML.root.children.length>0) ) {
                   objRef.doc = xmlHttp.responseXML;
                   if( objRef.doc.parseError == 0 ) {
                     objRef.finishLoading();      
                   } else {
                     alert("Parsing Error:"+objRef.doc.parseError+" " + Sarissa.getParseErrorText( objRef.doc));
                   }
-                } else {
+                  return;
+                } 
+
+                if( xmlHttp.responseText != null ) {
                   // if that's the case, the xml file is in the responseText
                   // we have to load it manually 
                   objRef.doc = Sarissa.getDomDocument();
                   objRef.doc.async = false;
-                  objRef.doc = (new DOMParser()).parseFromString( xmlHttp.responseText, "text/xml")
+                  objRef.doc = (new DOMParser()).parseFromString( xmlHttp.responseText.replace(/>\s+</g, "><"), "text/xml")
                   if( objRef.doc == null ) {
                     alert( "Document parseError:"+Sarissa.getParseErrorText( objRef.doc))
                     // debugger;
@@ -211,12 +214,13 @@ function ModelBase(modelNode, parentModel) {
                       alert("Parsing Error:"+objRef.doc.parseError+" " + Sarissa.getParseErrorText( objRef.doc));
                     }
                   }
+                  return;
                 }
                 //if (objRef.doc.documentElement.nodeName.search(/exception/i)>=0) {
                 //  objRef.setParam("modelStatus",-1);
                 //  alert("Exception:"+Sarissa.serialize(xmlHttp.responseText));
                 //}
-              }
+              //}
               //objRef.finishLoading();
             }
           }

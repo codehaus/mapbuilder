@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html xmlns:vml="urn:schemas-microsoft-com:vml"
+	xmlns:svg="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink">
+	<head>
+		<script>
+    // URL of Mapbuilder configuration file.
+    var mbConfigUrl='config.xml';
+  </script>
+	<!-- 
+  link rel='StyleSheet' type='text/css' href='../../lib/skin/default/docsStyle.css'>
+  -->
+		<link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'>
+		<script type="text/javascript">var OLbubbleImageDir="../../lib/util/overlibmws"; </script>
+    <script type="text/javascript" src="../../lib/util/overlibmws/overlibmws.js"></script>    	
+		<script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
+
+	</head>
+
+	<body onload="mbDoLoad()">
+		<h1>
+			GeoBliki
+		</h1>
+		<table>
+			<tr>
+				<td>
+
+					<div id='webServiceForm'>
+						<form id='webServiceForm_form'>
+							<table>
+								<tr>
+									<td>
+										<h2>
+											GeoSpatio-Temporal Search
+										</h2>
+									</td>
+									<td></td>
+									<td>
+										from:<input id='fromDateField' name="fromDateField" type="text" size="10" value="1/1/2005" />
+									</td>
+									<td>
+										to:<input id='toDateField' name="toDateField" type="text" size="10" value="1/1/2007" />
+									</td>
+								<tr>
+									<td>
+										Features:
+										<select name='feature' id='feature'>
+											<option value="ali">
+												ali
+											</option>
+											<option value="hyperion">
+												hyperion
+											</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Keyword:
+										<input name="keywords" id='keywords' type="text" size="10"
+											value="" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<br />
+										<br />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<a
+											href="javascript:config.objects.webServiceForm.submitForm();">Retrieve
+											Features</a>
+									</td>
+								</tr>
+							</table>
+						</form>
+					</div>
+
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div id="mainMapPane">
+						<noscript>
+							this page requires Javascript to be enabled
+						</noscript>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<td align='left' id="mainButtonBar"></td>
+				<td align="center" id="mapScaleText" />
+				<td align="center" id="mapScaleBar" />
+				<td align="right" id="cursorTrack" />
+				<td id="aoiForm" />
+			</tr>
+		</table>
+    <div id="wfsRendererTip">
+
+		<table>
+			<tbody>
+				<tr align="right">
+					<td>
+						Built with
+						<a href="http://mapbuilder.sourceforge.net"> Community Map
+							Builder </a>
+					</td>
+					<td>
+						<img src="../../lib/skin/default/images/Icon.gif">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>

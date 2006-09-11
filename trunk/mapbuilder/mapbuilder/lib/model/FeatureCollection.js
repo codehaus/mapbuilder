@@ -93,6 +93,7 @@ function FeatureCollection(modelNode, parent) {
     //alert( "FeatureCollection loadModel:"+Sarissa.serialize(objRef.containerModel.doc))
     // we need to retrieve all the features
     if( objRef.containerModel.doc != null) {
+      //alert( "FeatureCollection loadModel:"+Sarissa.serialize(objRef.containerModel.doc))
       var featureTypes = objRef.containerModel.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType");
       if( featureTypes.length > 0 ) {
         for( var i=0; i<featureTypes.length; i++) {
@@ -113,7 +114,8 @@ function FeatureCollection(modelNode, parent) {
           //alert( "query2:"+ Sarissa.serialize( query ))
           httpPayload.postData = Sarissa.serialize( query )
           
-          wfsFeature.model = objRef;
+          // This does not work on IE for some reaso
+          // wfsFeature.model = objRef;
           objRef.wfsFeature = wfsFeature
           objRef.newRequest(objRef,httpPayload);
 
@@ -154,6 +156,7 @@ function FeatureCollection(modelNode, parent) {
    * @return list of nodes selected 
    */
   this.getFeatureNodes = function() {
+    //alert( Sarissa.serialize(this.doc))
     var featureMember =  this.doc.selectSingleNode(this.nodeSelectXpath);
     if( featureMember != null )
       return featureMember.childNodes
