@@ -27,7 +27,7 @@ mapbuilder.loadScript(baseDir+"/util/dojo/src/uuid/TimeBasedGenerator.js");
 function WebServiceForm(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
   this.formElements = new Object();
-  // We might have a request stylesheet to fill for a moe complex post
+  // We might have a request stylesheet to fill for a more complex post
   var requestStylesheet = widgetNode.selectSingleNode("mb:requestStylesheet");
   if (requestStylesheet) {
     this.requestStylesheet = new XslProcessor(requestStylesheet.firstChild.nodeValue,model.namespace); 
@@ -88,7 +88,9 @@ function WebServiceForm(widgetNode, model) {
        
       var layer = this.requestStylesheet.transformNodeToObject(this.model.doc); 
       //layer.childNodes[0].setAttribute("id", uuid)
-         
+      if (this.debug)
+        alert("Transformed: "+ Sarissa.serialize(layer));
+           
       // extract the GetFeature out
       this.namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:ows='http://www.opengis.net/ows' xmlns:ogc='http://www.opengis.net/ogc' xmlns:xsl='http://www.w3.org/1999/XSL/Transform' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs'";
       
@@ -101,6 +103,9 @@ function WebServiceForm(widgetNode, model) {
         alert("httpPayload.postData:"+ httpPayload.postData);
       
       this.targetModel.wfsFeature = layer.childNodes[0];
+      if (this.debug)
+        alert("wfsFeature = "+ Sarissa.serialize(this.targetModel.wfsFeature));
+        
       this.targetModel.newRequest(this.targetModel,httpPayload);
     }
   }
