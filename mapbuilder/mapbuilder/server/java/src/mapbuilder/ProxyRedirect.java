@@ -103,7 +103,19 @@ public class ProxyRedirect extends HttpServlet
       throw new ServletException(e);
     }    
   }// doGet
+public static String inputStreamAsString(InputStream stream)
+throws IOException {
+	BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+	StringBuilder sb = new StringBuilder();
+	String line = null;
 
+	while ((line = br.readLine()) != null) {
+	sb.append(line + "\n");
+	}
+
+	br.close();
+	return sb.toString();
+	}
  /***************************************************************************
   * Process the HTTP Post request
   */
@@ -128,11 +140,23 @@ public class ProxyRedirect extends HttpServlet
         // Transfer bytes from in to out
         log.info("HTTP POST transfering..." + serverUrl);
         PrintWriter out = response.getWriter();
-        ServletInputStream in = request.getInputStream();
+        String body = inputStreamAsString( request.getInputStream());
 
         HttpClient client = new HttpClient();
 
-        httppost.setRequestBody(in);
+        httppost.setRequestBody(body);
+        if (0 == httppost.getParameters().length){
+        	log.debug("No Name/Value pairs found ... pushing as raw_post_data");
+            httppost.setParameter("raw_post_data", body);
+        }
+        if (log.isDebugEnabled()) {
+          	log.debug("Body = "+body);
+        	NameValuePair[] nameValuePairs = httppost.getParameters();
+        	log.debug("NameValuePairs found: "+nameValuePairs.length);
+            for (int i=0; i<nameValuePairs.length; ++i) {
+                log.debug("parameters:" + nameValuePairs[i].toString());
+              }
+        }
         //httppost.setRequestContentLength(PostMethod.CONTENT_LENGTH_CHUNKED);
 
         client.executeMethod(httppost);
