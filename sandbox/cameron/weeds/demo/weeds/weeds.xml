@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<ViewContext version="1.0.0" id="atlas_world" xmlns="http://www.opengis.net/context" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengis.net/context/1.0.0/context.xsd">
+  <General>
+    <Window width="305" height="300"/>
+    <!--Window width="600" height="300"/-->
+    <BoundingBox SRS="EPSG:4326" minx="128.30" miny="-38.72" maxx="141.5" maxy="-25.74"/>
+    <!--BoundingBox SRS="EPSG:4326" minx="122.13" miny="-38.72" maxx="148.1" maxy="-25.74"/-->
+    <Title>Weeds, South Austalia</Title>
+    <KeywordList>
+      <Keyword>Weeds</Keyword>
+      <Keyword>South Australia</Keyword>
+    </KeywordList>
+    <Abstract></Abstract>
+  </General>
+  <LayerList>
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="../../../geoserver1/wms"/>
+      </Server>
+      <Name>topp:grid_cls2</Name>
+      <Title>Weeds</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <StyledLayerDescriptor version="1.0.0">
+              <UserLayer>
+                <Name>topp:grid_cls2</Name>
+                <UserStyle>
+                  <Name>UserSelection</Name>
+                  <FeatureTypeStyle>
+                    <Rule>
+                      <Filter xmlns:gml="http://www.opengis.net/gml">
+                        <PropertyIsEqualTo>
+                          <PropertyName>EQUASI</PropertyName>
+                          <Literal>1/nil/nil</Literal>
+                        </PropertyIsEqualTo>
+                      </Filter>
+                      <PolygonSymbolizer>
+                        <Fill>
+                          <CssParameter name="fill">#00FF00</CssParameter>
+                        </Fill>
+                      </PolygonSymbolizer>
+                    </Rule>
+                    <Rule>
+                      <LineSymbolizer>
+                        <Stroke/>
+                      </LineSymbolizer>
+                      <PolygonSymbolizer>
+                        <Fill>
+                          <CssParameter name="fill">#FF0000</CssParameter>
+                        </Fill>
+                      </PolygonSymbolizer>
+                    </Rule>
+                  </FeatureTypeStyle>
+                </UserStyle>
+              </UserLayer>
+            </StyledLayerDescriptor>
+          </SLD>
+        </Style>
+      </StyleList>
+    </Layer>
+    <Layer queryable="0" hidden="0">
+      <Server service="wms" version="1.1.0" title="wms">
+      <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+      </Server>
+      <Name>Coastlines,Highways,Roads,Cities,Settlements,Rivers,Streams,Waterbodies</Name>
+      <Title>Basemap</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+    </Layer>
+  </LayerList>
+</ViewContext>
