@@ -45,7 +45,7 @@ function InsertFeature(widgetNode, model) {
     if (selected){
       // Model that will be populated with the WFS response.
       if (!objRef.transactionResponseModel){
-        objRef.transactionResponseModel=eval("config.objects."+objRef.trm);
+        objRef.transactionResponseModel=window.config.objects[objRef.trm];
         objRef.transactionResponseModel.addListener("loadModel",objRef.handleResponse, objRef);
       }
       if (!objRef.targetModel){
