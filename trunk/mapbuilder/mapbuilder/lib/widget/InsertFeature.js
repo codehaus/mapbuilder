@@ -49,10 +49,10 @@ function InsertFeature(widgetNode, model) {
         objRef.transactionResponseModel.addListener("loadModel",objRef.handleResponse, objRef);
       }
       if (!objRef.targetModel){
-        objRef.targetModel=eval("config.objects."+objRef.tm);
+        objRef.targetModel=window.config.objects[objRef.tm];
       }
       if (!objRef.targetContext){
-        objRef.targetContext=eval("config.objects."+objRef.tc);
+        objRef.targetContext=window.config.objects[objRef.tc];
       }
       fid=objRef.targetModel.getXpathValue(objRef.targetModel,"//@fid");
       if (objRef.targetModel.doc){
