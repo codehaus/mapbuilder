@@ -50,7 +50,7 @@ function ToolBase(toolNode, model) {
     /** Mouse handler which this tool will register listeners with. */
     var mouseHandler = toolRef.toolNode.selectSingleNode("mb:mouseHandler");
     if (mouseHandler) {
-      toolRef.mouseHandler = eval("config.objects." + mouseHandler.firstChild.nodeValue);
+      toolRef.mouseHandler = window.config.objects[mouseHandler.firstChild.nodeValue];
       if (!toolRef.mouseHandler) {
         alert("error finding mouseHandler:"+mouseHandler.firstChild.nodeValue+" for tool:"+toolRef.id);
       }
