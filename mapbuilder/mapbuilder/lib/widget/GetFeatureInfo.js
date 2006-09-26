@@ -108,7 +108,7 @@ function GetFeatureInfo(toolNode, model) {
     }
     objRef.context=objRef.widgetNode.selectSingleNode("mb:context");
     if (objRef.context){
-      objRef.context=eval("config.objects."+objRef.context.firstChild.nodeValue);
+      objRef.context=window.config.objects[objRef.context.firstChild.nodeValue];
     }
   }
   config.addListener( "loadModel", this.setMouseListener, this );

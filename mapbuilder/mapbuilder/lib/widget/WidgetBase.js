@@ -72,7 +72,7 @@ function WidgetBase(widgetNode,model) {
     //set the target model
     var targetModel = objRef.widgetNode.selectSingleNode("mb:targetModel");
     if (targetModel) {
-      objRef.targetModel = eval("config.objects."+targetModel.firstChild.nodeValue);
+      objRef.targetModel = window.config.objects[targetModel.firstChild.nodeValue];
       if ( !objRef.targetModel ) {
         alert("error finding targetModel:" + targetModel.firstChild.nodeValue + " for:" + objRef.id);
       }

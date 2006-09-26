@@ -41,7 +41,7 @@ function EditButtonBase(widgetNode, model) {
   this.doSelect = function(selected,objRef) {
     // Model that will be populated with the WFS response.
     if (objRef.trm && !objRef.transactionResponseModel){
-      objRef.transactionResponseModel=eval("config.objects."+objRef.trm);
+      objRef.transactionResponseModel=window.config.objects[objRef.trm];
     }
     // Load default feature.
     if (objRef.enabled && selected && objRef.targetModel.url!=objRef.defaultModelUrl){

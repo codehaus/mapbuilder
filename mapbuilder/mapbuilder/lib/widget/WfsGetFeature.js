@@ -51,7 +51,7 @@ function WfsGetFeature(widgetNode, model) {
 
       // Model that will be populated with the WFS response.
       if (!objRef.transactionResponseModel){
-        objRef.transactionResponseModel=eval("config.objects."+objRef.trm);
+        objRef.transactionResponseModel=window.config.objects[objRef.trm];
         //objRef.transactionResponseModel.addListener("loadModel",objRef.handleResponse, objRef);
       }
       objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
