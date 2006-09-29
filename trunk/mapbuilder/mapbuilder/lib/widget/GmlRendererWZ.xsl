@@ -15,6 +15,7 @@ $Name$
   <xsl:output method="xml" encoding="utf-8"/>
   
   <xsl:param name="width" select="400"/>
+  <xsl:param name="objRef" select="objRef"/>
   <xsl:param name="height" select="200"/>
   <xsl:param name="bBoxMinX" select="-180"/>
   <xsl:param name="bBoxMinY" select="-90"/>
@@ -31,14 +32,14 @@ $Name$
   <!-- Root node -->
   <xsl:template match="/">
     <js>
-      //if (!objRef.jg){
-        objRef.jg=new jsGraphics(objRef.outputNodeId);
+      //if (!<xsl:value-of select="$objRef"/>.jg){
+        <xsl:value-of select="$objRef"/>.jg=new jsGraphics(<xsl:value-of select="$objRef"/>.outputNodeId);
       //}
-      objRef.jg.clear();
-      objRef.jg.setColor("<xsl:value-of select="$lineColor"/>");
-      objRef.jg.setStroke(parseInt(<xsl:value-of select="$lineWidth"/>));
+      <xsl:value-of select="$objRef"/>.jg.clear();
+      <xsl:value-of select="$objRef"/>.jg.setColor("<xsl:value-of select="$lineColor"/>");
+      <xsl:value-of select="$objRef"/>.jg.setStroke(parseInt(<xsl:value-of select="$lineWidth"/>));
       <xsl:apply-templates/>
-      objRef.jg.paint();
+      <xsl:value-of select="$objRef"/>.jg.paint();
     </js>
   </xsl:template>
   <!-- Match and render a GML Point -->
@@ -48,7 +49,7 @@ $Name$
         <xsl:variable name="x0" select="floor((number(gml:coord/gml:X)-$bBoxMinX)*$xRatio - number($pointWidth) div 2)"/>
         <xsl:variable name="y0" select="floor($height - (number(gml:coord/gml:Y)-$bBoxMinY)*$yRatio - $pointWidth div 2)"/>
         // Point
-        objRef.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointWidth"/>,<xsl:value-of select="$pointWidth"/>);
+        <xsl:value-of select="$objRef"/>.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointWidth"/>,<xsl:value-of select="$pointWidth"/>);
       </xsl:when>
       <!-- When no coord do nothing -->
       <xsl:otherwise>
@@ -69,12 +70,12 @@ $Name$
         <xsl:variable name="yMid" select="floor(($y0 + $y1) div 2)"/>
         <xsl:variable name="crossHalf" select="floor($crossSize div 2)"/>
         // Envelope - cross
-        objRef.jg.drawLine(
+        <xsl:value-of select="$objRef"/>.jg.drawLine(
           <xsl:value-of select="$xMid"/>,
           <xsl:value-of select="$yMid - $crossHalf"/>,
           <xsl:value-of select="$xMid"/>,
           <xsl:value-of select="$yMid + $crossHalf"/>);
-        objRef.jg.drawLine(
+        <xsl:value-of select="$objRef"/>.jg.drawLine(
           <xsl:value-of select="$xMid - $crossHalf"/>,
           <xsl:value-of select="$yMid"/>,
           <xsl:value-of select="$xMid + $crossHalf"/>,
@@ -87,7 +88,7 @@ $Name$
         y0=<xsl:value-of select="$y0"/>;
         x1=<xsl:value-of select="$x1"/>;
         y1=<xsl:value-of select="$y1"/>;
-        objRef.jg.drawRect(
+        <xsl:value-of select="$objRef"/>.jg.drawRect(
           Math.min(x0,x1),
           Math.min(y0,y1),
           Math.abs(x1-x0),
@@ -103,7 +104,7 @@ $Name$
         <xsl:for-each select="gml:coord">
           <xsl:if test="following-sibling::gml:coord">
             // LineString
-            objRef.jg.drawLine(
+            <xsl:value-of select="$objRef"/>.jg.drawLine(
               <xsl:value-of select="floor((number(gml:X)-$bBoxMinX)*$xRatio)"/>,
               <xsl:value-of select="floor($height - (number(gml:Y) -$bBoxMinY)*$yRatio)"/>,
               <xsl:value-of select="floor((number(following-sibling::gml:coord[position()=1]/gml:X)-$bBoxMinX)*$xRatio)"/>,
@@ -116,7 +117,7 @@ $Name$
         <xsl:variable name="x0" select="floor((number(gml:coord/gml:X)-$bBoxMinX)*$xRatio - number($pointWidth) div 2)"/>
         <xsl:variable name="y0" select="floor($height - (number(gml:coord/gml:Y)-$bBoxMinY)*$yRatio - $pointWidth div 2)"/>
         // LineString - One point
-        objRef.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointWidth"/>,<xsl:value-of select="$pointWidth"/>);
+        <xsl:value-of select="$objRef"/>.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointWidth"/>,<xsl:value-of select="$pointWidth"/>);
       </xsl:when>
       <!-- When no coord do nothing -->
       <xsl:otherwise>
@@ -129,8 +130,8 @@ $Name$
     <xsl:choose>
       <xsl:when test="count(gml:coord)>1">
       	<!-- Fill Polygon -->
-        objRef.jg.setColor("<xsl:value-of select="$fill"/>");
-        objRef.jg.fillPolygon(new Array( 
+        <xsl:value-of select="$objRef"/>.jg.setColor("<xsl:value-of select="$fill"/>");
+        <xsl:value-of select="$objRef"/>.jg.fillPolygon(new Array( 
         <xsl:for-each select="gml:coord">
           <xsl:value-of select="floor((number(gml:X)-$bBoxMinX)*$xRatio)"/>
 	  <xsl:if test="following-sibling::gml:coord">,</xsl:if>
@@ -142,8 +143,8 @@ $Name$
         </xsl:for-each>
 	));
         <!-- Outline Polygon -->
-        objRef.jg.setColor("<xsl:value-of select="$lineColor"/>");
-        objRef.jg.drawPolygon(new Array( 
+        <xsl:value-of select="$objRef"/>.jg.setColor("<xsl:value-of select="$lineColor"/>");
+        <xsl:value-of select="$objRef"/>.jg.drawPolygon(new Array( 
         <xsl:for-each select="gml:coord">
           <xsl:value-of select="floor((number(gml:X)-$bBoxMinX)*$xRatio)"/>
 	  <xsl:if test="following-sibling::gml:coord">,</xsl:if>
@@ -160,7 +161,7 @@ $Name$
         <xsl:variable name="x0" select="floor((number(gml:coord/gml:X)-$bBoxMinX)*$xRatio - number($pointWidth) div 2)"/>
         <xsl:variable name="y0" select="floor($height - (number(gml:coord/gml:Y)-$bBoxMinY)*$yRatio - $pointWidth div 2)"/>
         // LineString - One point
-        objRef.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointWidth"/>,<xsl:value-of select="$pointWidth"/>);
+        <xsl:value-of select="$objRef"/>.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointWidth"/>,<xsl:value-of select="$pointWidth"/>);
       </xsl:when>
       <!-- When no coord do nothing -->
       <xsl:otherwise>

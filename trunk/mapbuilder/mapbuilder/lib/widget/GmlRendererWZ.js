@@ -64,6 +64,7 @@ function GmlRendererWZ(widgetNode, model) {
       } else {
         objRef.node.appendChild(tempNode);
       }
+      objRef.stylesheet.setParameter('objRef','objRef');
       jsNode = objRef.stylesheet.transformNodeToObject(objRef.resultDoc);
       js=jsNode.selectSingleNode("js").firstChild.nodeValue;
       if (objRef.debug) alert("javascript eval:"+js);
