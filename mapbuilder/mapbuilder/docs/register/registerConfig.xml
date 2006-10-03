@@ -16,29 +16,39 @@
       </models>
       <widgets>
         <ObjectList id="toolsListWidget">
+          <htmlTagId>workspace</htmlTagId>
+          <outputNodeId>workspaceCanvas</outputNodeId>
           <scriptFile>ObjectList.js</scriptFile>
           <stylesheet>ObjectList.xsl</stylesheet>
           <listType>toolsType</listType>
         </ObjectList>
         <ObjectList id="widgetsListWidget">
+          <htmlTagId>workspace</htmlTagId>
+          <outputNodeId>workspaceCanvas</outputNodeId>
           <scriptFile>ObjectList.js</scriptFile>
           <stylesheet>ObjectList.xsl</stylesheet>
           <listType>widgetsType</listType>
           <subType>mb:AbstractWidgetType</subType>
         </ObjectList>
         <ObjectList id="mapContainerListWidget">
+          <htmlTagId>workspace</htmlTagId>
+          <outputNodeId>workspaceCanvas</outputNodeId>
           <scriptFile>ObjectList.js</scriptFile>
           <stylesheet>ObjectList.xsl</stylesheet>
           <listType>widgetsType</listType>
           <subType>mb:AbstractMapWidgetType</subType>
         </ObjectList>
         <ObjectList id="buttonListWidget">
+          <htmlTagId>workspace</htmlTagId>
+          <outputNodeId>workspaceCanvas</outputNodeId>
           <scriptFile>ObjectList.js</scriptFile>
           <stylesheet>ObjectList.xsl</stylesheet>
           <listType>widgetsType</listType>
           <subType>mb:AbstractButtonType</subType>
         </ObjectList>
         <ObjectList id="modelsListWidget">
+          <htmlTagId>workspace</htmlTagId>
+          <outputNodeId>workspaceCanvas</outputNodeId>
           <scriptFile>ObjectList.js</scriptFile>
           <stylesheet>ObjectList.xsl</stylesheet>
           <listType>modelsType</listType>
@@ -53,7 +63,6 @@
   </models>
   <widgets>
     <TabbedContent id="tabList">
-      <htmlWorkspace>workspace</htmlWorkspace>
       <tab label="Models">modelsListWidget</tab>
       <tab label="Widgets">widgetsListWidget</tab>
       <tab label="Maps">mapContainerListWidget</tab>
