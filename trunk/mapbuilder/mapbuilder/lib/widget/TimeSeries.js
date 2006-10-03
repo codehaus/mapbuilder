@@ -76,6 +76,17 @@ function TimeSeries(widgetNode, model) {
   this.model.addListener("timestamp",this.timestampListener,this);
 
   /**
+   * Called when bbox is changed.  Need to implement this to call paint with
+   * the timeseries widget ID passed to the paint method.
+   * @param objRef This object.
+   * @param bbox  The new bbox for the map.
+   */
+  this.bboxListener=function(objRef, bbox) {
+    objRef.paint(objRef, objRef.id);
+  }
+  this.model.addListener("bbox",this.bboxListener,this);
+
+  /**
    * override of prePaint to set the selected timestamp values as a comma-
    * separated list stylesheet parameter.  
    * @param objRef This object.
