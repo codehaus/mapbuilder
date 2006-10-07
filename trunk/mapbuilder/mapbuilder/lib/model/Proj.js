@@ -28,13 +28,13 @@ function Proj(srs) {
   this.srs = srs.toUpperCase();
   switch(this.srs) {
     case "EPSG:GMAPS":
-      this.Forward = identity; //gmap_forward; 
+      this.Forward = identity; //gmap_forward;
       this.Inverse = identity; //gmap_inverse;
       this.units = "degrees";
       this.title = "Google Maps";
       break;
-      
-//      this.Forward = gmap_forward; 
+
+//      this.Forward = gmap_forward;
 //      this.Inverse = gmap_inverse;
 //      this.units = "degrees";
 //      this.title = "Google Maps";
@@ -152,6 +152,14 @@ function Proj(srs) {
       this.Init(new Array(grs80[0], grs80[1], 0.9999375, -110.0833333333333, 40.5, 800000, 100000));
       this.units="meters";
       break;
+    case "EPSG:28992":
+      this.title="Amersfoort / RD New";
+      this.Init=stint;
+      this.Forward=ll2st;
+      this.Inverse=st2ll;
+      this.Init(new Array(6377397.155, 5.38763888888889, 52.15616055555555, 155000, 463000));
+      this.units="meters";
+    break;
     // UTM NAD83 Zones 3 thru 23
     case"EPSG:26903":case"EPSG:26904":case"EPSG:26905":case"EPSG:26906":case"EPSG:26907":case"EPSG:26908":case"EPSG:26909":
     case"EPSG:26910":case"EPSG:26911":case"EPSG:26912":case"EPSG:26913":case"EPSG:26914":case"EPSG:26915":case"EPSG:26916":
@@ -780,3 +788,92 @@ function sign(x) { if (x < 0.0) return(-1); else return(1);}
 // Function to adjust longitude to -180 to 180; input in radians
 function adjust_lon(x) {x=(Math.abs(x)<PI)?x:(x-(sign(x)*TWO_PI));return(x);}
 
+
+// Initialize the Stereographic projection
+
+function stint(param) {
+  //array consisting of:
+  //double r_maj;         /* major axis           */
+  //double center_lon;    /* center longitude     */
+  //double center_lat;    /* center latitude      */
+  //double false_east;    /* x offset in meters   */
+  //double false_north;   /* y offset in meters   */
+
+  this.r_major = param[0];
+  this.lon_center = param[1] * D2R;
+  this.lat_center = param[2] * D2R;
+  this.false_easting = param[3];
+  this.false_northing = param[4];
+  // sincos(center_lat,&sin_p10,&cos_p10);
+  this.sin_p10=Math.sin(this.lat_center);
+  this.cos_p10=Math.cos(this.lat_center);
+} // stint()
+
+
+// Stereographic forward equations--mapping lat,long to x,y
+function ll2st(coords) {
+  var lon = coords[0];
+  var lat = coords[1];
+  var ksp;              /* scale factor               */
+
+// convert to radians
+  if ( lat <= 90.0 && lat >= -90.0 && lon <= 180.0 && lon >= -180.0) {
+    lat *= D2R;
+    lon *= D2R;
+  } else {
+    alert("Error. Input out of range: lon: "+lon+" - lat: "+lat);
+    return null;
+  }
+  var dlon = adjust_lon(lon - this.lon_center);
+  // sincos(lat,&sinphi,&cosphi);
+  var sinphi=Math.sin(lat);
+  var cosphi=Math.cos(lat);
+  var coslon = Math.cos(dlon);
+  var g = this.sin_p10 * sinphi + this.cos_p10 * cosphi * coslon;
+  if (Math.abs(g + 1.0) <= EPSLN) {
+    alert("Error. Point projects into infinity - st2ll()");
+    return null;
+  } else {
+    ksp = 2.0 / (1.0 + g);
+    var x = this.false_easting + this.r_major * ksp * cosphi * Math.sin(dlon);
+    var y = this.false_northing + this.r_major * ksp * (this.cos_p10 * sinphi - this.sin_p10 * cosphi * coslon);
+    return new Array(x,y);
+  }
+} // ll2st()
+
+
+//* Stereographic inverse equations--mapping x,y to lat/long
+function st2ll(coords) {
+  var x = (coords[0] - this.false_easting);
+  var y = (coords[1] - this.false_northing);
+  var rh = Math.sqrt(x * x + y * y);                  /* height above ellipsoid */
+  var z = 2.0 * Math.atan(rh / (2.0 * this.r_major)); /* angle                  */
+  //sincos(z,&sinz,&cosz);
+  var sinz=Math.sin(z);
+  var cosz=Math.cos(z);
+  var lat;
+  var lon = this.lon_center;
+  if (Math.abs(rh) <= EPSLN) {
+     lat = this.lat_center;
+  } else {
+     lat = Math.asin(cosz * this.sin_p10 + (y * sinz * this.cos_p10) / rh);
+     var con = Math.abs(this.lat_center) - HALF_PI;
+     if (Math.abs(con) <= EPSLN) {
+       if (this.lat_center >= 0.0) {
+         lon = adjust_lon(lon_center + atan2(x, -y));
+         /// return(OK);
+       } else {
+         lon = adjust_lon(lon_center - atan2(-x, y));
+         // return(OK);
+       }
+     } else {
+       con = cosz - this.sin_p10 * Math.sin(lat);
+       if ((Math.abs(con) < EPSLN) && (Math.abs(x) < EPSLN))  {
+          // return(OK);
+       } else {
+         lon = adjust_lon(this.lon_center + Math.atan2((x * sinz * this.cos_p10), (con * rh)));
+       }
+     }
+   }
+  return new Array(R2D*lon, R2D*lat);
+} // st2ll()
