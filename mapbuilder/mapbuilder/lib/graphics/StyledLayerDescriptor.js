@@ -222,26 +222,31 @@ StyleLayerDescriptor.prototype.paintPolygon = function( gr, coords) {
   * @param path SLD Path
   */
 StyleLayerDescriptor.prototype.getStyleAttributes = function( path ) {
-  var node = this.style.selectSingleNode( path + "/sld:Stroke/sld:CssParameter[@name='stroke']");
-  if( node != undefined ) {
-    this.strokeColor = node.firstChild.nodeValue;
-  } else {
-    this.strokeColor = null;
-  }
-  
-  node = this.style.selectSingleNode(path+"/sld:Stroke/sld:CssParameter[@name='stroke-width']");
-  if( node != undefined ) {
-    this.strokeWidth = node.firstChild.nodeValue;
-  } else {
-    this.strokeWidth = null;
-  }
-  
-  node = this.style.selectSingleNode(path+"/sld:Fill/sld:CssParameter[@name='fill']");
-  if( node != undefined ) {
-    this.fillColor = node.firstChild.nodeValue;
-  } else {
-    this.fillColor = null;
+  // Set default styles to be used if SLD doesn't specify them
+  this.strokeColor="#ff0000";
+  this.strokeWidth = "1";
+  this.fillColor = "#00ff00";
+
+  if (this.style){
+    var node = this.style.selectSingleNode( path + "/sld:Stroke/sld:CssParameter[@name='stroke']");
+    if( node != undefined ) {
+      this.strokeColor = node.firstChild.nodeValue;
+    } else {
+      this.strokeColor = null;
+    }
+    
+    node = this.style.selectSingleNode(path+"/sld:Stroke/sld:CssParameter[@name='stroke-width']");
+    if( node != undefined ) {
+      this.strokeWidth = node.firstChild.nodeValue;
+    } else {
+      this.strokeWidth = null;
+    }
+    
+    node = this.style.selectSingleNode(path+"/sld:Fill/sld:CssParameter[@name='fill']");
+    if( node != undefined ) {
+      this.fillColor = node.firstChild.nodeValue;
+    } else {
+      this.fillColor = null;
+    }
   }
 }
-
-
