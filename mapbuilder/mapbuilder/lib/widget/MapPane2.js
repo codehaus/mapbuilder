@@ -133,8 +133,8 @@ MapPane2.prototype.paint = function(objRef, refresh) {
 
     for (var i=0;i<layers.length;i++) {
       var layer = objRef.MapLayerMgr.addLayer(objRef.MapLayerMgr,layers[i] )
-      var newSrc = tempNodeList[i].getAttribute("src");
-      layer.setSrc(newSrc)
+      if(tempNodeList[i])newSrc = tempNodeList[i].getAttribute("src");
+      if(layer.setSrc)layer.setSrc(newSrc)
     }
     var message = "loading " + objRef.layerCount + " map layers";
     objRef.model.setParam("modelStatus", message);
