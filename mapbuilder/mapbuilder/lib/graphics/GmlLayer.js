@@ -27,13 +27,11 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
   * Parses the entry and extracts the coordinates out of the GML location
   * So we know geometry type and coordinates
   */
-    this.parse = function() {
+  this.parse = function() {
     //namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:sld='http://www.opengis.net/sld' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:gml='http://www.opengis.net/gml/3.1.1'"; 
     namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:sld='http://www.opengis.net/sld' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:gml='http://www.opengis.net/gml'";
-    var doc = this.layerNode;
-    Sarissa.setXpathNamespaces(doc, namespace);
+    Sarissa.setXpathNamespaces(this.layerNode, namespace);
 
-    //alert("GmlLayer layerNode="+Sarissa.serialize(layerNode));
     this.id     = "TBDVectorLayerId";
     this.layerName = this.id;
   
@@ -47,7 +45,28 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
       this.normalSld=new StyleLayerDescriptor(null);
       this.hiliteSld=new StyleLayerDescriptor(null);
     }
+
+    this.containerProj = new Proj(this.model.getSRS());
+    width=this.model.getWindowWidth();
+    height=this.model.getWindowHeight();
+
+    // Extract a list of Features
+    id=0;
+    //TBD we should be able to remove featureNodes and use this.layerNode instead
+    featureNodes = this.layerNode.selectNodes("//gml:featureMember");
+    this.features=new Array();
+    for(k=0;k<featureNodes.length;k++){
+      this.features[k]=new Array();
+      this.features[k].node=featureNodes[k];
+      this.features[k].id="vector"+id++;//TBD Use Gml Id
+      this.features[k].geoCoords=this.getGeoCoords(featureNodes[k],k+1);
+      this.features[k].shapes=new Array(); // A feature can contain multiple members/shapes
+      this.features[k].sld=this.normalSld;
+      div = this.getDiv();
+      this.features[k].gr=new VectorGraphics(id,div,width,height);
+    }
   
+    //alert( "GmlLayer coords:"+features[4].geoCoords.length);
     //alert( "GmlLayer layernode:"+Sarissa.serialize( this.layerNode ));
   
     // TBD: Replace node with this.layerNode
@@ -156,6 +175,33 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     */
   }
 
+  /**
+   * Extract and return an array of coordinate strings for GML.
+   * @param node GML which contains the coordinates.
+   * @param featureIndex GML which contains the coordinates.
+   * @return An array of coordinates.
+   */
+  this.getGeoCoords=function(node,featureIndex) {
+    points=new Array();
+    // TBD handle multiple lines per feature
+    coords=node.selectSingleNode("//gml:featureMember["+featureIndex+"]//gml:coordinates|//gml:postList");
+    if(coords)coords=coords.firstChild.nodeValue;
+    if(coords){
+      //alert("GmlLayer node="+Sarissa.serialize(node)+" coords="+coords);
+      //alert("GmlLayer coords="+coords);
+      // TBD handle 3 dimentional arrays
+      point=coords.split(/[ ,\n]+/);
+      for(i=0,j=0; i<point.length;j++,i=i+2) {
+        points[j] = new Array(point[i],point[i+1]);
+      }
+    }
+    return points;
+  }
+
+  /*
+   * returns false because this is not a WMS layer - this function should be
+   * deleted.
+   */
   this.isWmsLayer= function() {
     return false;
   }
@@ -176,6 +222,7 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     div.style.position = "absolute";
     div.style.visibility = "visible";
 
+    //TBD We need to include zIndex for layers
     //div.style.zIndex = layerNum*this.zIndexFactor;
     div.style.zIndex = 600;
 
@@ -186,25 +233,26 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
   return div;
   }
 
-/**
-  * Internal paint method
-  */
+  /**
+   * Internal paint method
+   */
   this.paint= function( ) {
   // emulate call from LayerManager
   this.paint( null, null );
   }
 
-/**
-  * Paints the entry on the map based on its location and SLD
-  * 
-  * @param objRef Pointer to widget object.
-  * @param img can be ignored here (required for WMS layers)
-  */
+  /**
+   * Paints the entry on the map based on its location and SLD
+   * 
+   * @param objRef Pointer to widget object.
+   * @param img can be ignored here (required for WMS layers)
+   */
   this.paint= function( objRef, img ) {
     this.deleteShape();
  
     //var style =  this.style.selectSingleNode("//wmc:Style[wmc:Name='Normal']");
-    this.paintShape(this.normalSld, false );
+    //this.paintShape(this.normalSld, false );
+    this.paintFeatures();
   }
 
 /**
@@ -225,10 +273,39 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
  }
 
 /**
-  * Called by layer manager to clean the mayer
+  * Called by layer manager to clean the layer
   */
   this.unpaint = function() {
     this.deleteShape();
+  }
+
+  /**
+   * Paints the FeatureCollection.
+   */
+  this.paintFeatures=function() {
+    for(k=0;k<this.features.length;k++){
+      // delete previously rendered shape first.
+      // TBD Opportunity for optimisation here
+      node = document.getElementById(this.features[k].id);
+      if(node){
+        alert("GmlLayer deleting node");
+        node.parentNode.removeChild(node);
+        node = document.getElementById(this.features[k].id);
+        if( node != null ) {
+          // WHY WOULD THIS FAIL???????
+          alert( "failed to remove:"+id );
+        }
+      }else alert("GmlLayer node="+node);
+
+      // Convert to screen coords
+      screenCoords=new Array();
+      for(c=0;c<this.features[k].geoCoords.length;c++){
+        reproj = this.containerProj.Forward(this.features[k].geoCoords[c]);
+        screenCoords[c]=this.model.extent.getPL(reproj);
+      }
+      // TBD only doing the Line case initially, and only one shape/feature
+      this.features[k].shapes[0]=this.features[k].sld.paintLine(this.features[k].gr,screenCoords);
+    }
   }
 
 /**
@@ -326,10 +403,6 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
   }
  
   this.parse();
-  this.width=this.model.getWindowWidth();
-  this.height=this.model.getWindowHeight();
-  div = this.getDiv();
-  this.gr = new VectorGraphics(this.id, div, this.width, this.height );
   this.paint();
 }
 
