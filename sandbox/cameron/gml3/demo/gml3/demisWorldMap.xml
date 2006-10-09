@@ -15,16 +15,13 @@
       <ows:LowerCorner>141.57875 -44.26625</ows:LowerCorner>
       <ows:UpperCorner>151.03125 -39.56375</ows:UpperCorner>
     </ows:BoundingBox>
-    <!--BoundingBox SRS="EPSG:4326" minx="141.57875" miny="-44.26625" maxx="151.03125" maxy="-39.56375"/-->
     
-    <Title xml:lang="en">Demis World Map OWSContext</Title>
+    <Title xml:lang="en">GML3 Demo with OWSContext</Title>
     <KeywordList>
       <Keyword>world</Keyword>
       <Keyword>atlas</Keyword>
+      <Keyword>gml3</Keyword>
     </KeywordList>
-    
-    <Abstract>World Base Map.</Abstract>
-    
     <LogoURL width="140" height="65" format="image/gif">
       <OnlineResource xlink:type="simple" xlink:href="http://www.opengis.org/img/ogc_header_top_left.gif" />
     </LogoURL>
@@ -54,7 +51,117 @@
         </Style>
       </StyleList>
     </Layer>
+    <FeatureType hidden="0">
+      <Server service="OGC:GML" version="2.1.2" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="tasmaniaRoads.xml"/>
+      </Server>
+      <Name>topp:tasmania_roads</Name>
+      <Title>ship track rss2</Title>
+      <Abstract>Tasmania Roads based on the Digital Chart of the World.</Abstract>
+      <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+        <Style>
+          <Name>Highlite</Name>
+          <sld:PointSymbolizer>
+           <sld:Stroke> 
+              <sld:CssParameter name="stroke">#ffff00</sld:CssParameter> 
+              <sld:CssParameter name="stroke-width">1</sld:CssParameter> 
+            </sld:Stroke> 
+          </sld:PointSymbolizer>
+        </Style>
+        <Style>
+          <Name>Normal</Name>
+          <sld:PointSymbolizer>
+            <sld:Graphic>
+              <sld:ExternalGraphic>
+                <sld:OnlineResource xlink:type="simple" xlink:href="." />
+              </sld:ExternalGraphic> 
+              <sld:Size>32</sld:Size>
+            </sld:Graphic> 
+          </sld:PointSymbolizer>
+        </Style>
+      </StyleList>
+    </FeatureType>
     -->
+
+    <FeatureType hidden="0">
+      <Server service="GeoRss2" version="2.1.2" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="tasmaniaRoads.xml"/>
+        <!--OnlineResource xlink:type="simple" xlink:href="shipTrackRss.xml"/-->
+      </Server>
+      <Name>topp:tasmania_roads</Name>
+      <Title>Tasmania Roads</Title>
+      <Abstract>Tasmania Roads based on the Digital Chart of the World.</Abstract>
+      <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+        <Style>
+          <Name>Highlite</Name>
+          <sld:PointSymbolizer>
+           <sld:Stroke> 
+              <sld:CssParameter name="stroke">#ffff00</sld:CssParameter> 
+              <sld:CssParameter name="stroke-width">1</sld:CssParameter> 
+            </sld:Stroke> 
+          </sld:PointSymbolizer>
+        </Style>
+        <Style>
+          <Name>Normal</Name>
+          <sld:PointSymbolizer>
+            <sld:Graphic>
+              <sld:ExternalGraphic>
+                <sld:OnlineResource xlink:type="simple" xlink:href="." />
+              </sld:ExternalGraphic> 
+              <sld:Size>32</sld:Size>
+            </sld:Graphic> 
+          </sld:PointSymbolizer>
+        </Style>
+      </StyleList>
+    </FeatureType>
+
+    <!--FeatureType hidden="0">
+      <Server service="OGC:WFS" version="1.0.0" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wfs"/>
+      </Server>
+      <Name>topp:tasmania_roads</Name>
+      <Title>Tasmania Roads</Title>
+      <Abstract>Tasmania Roads based on the Digital Chart of the World.</Abstract>
+      <SRS>EPSG:4326</SRS>
+      <Geometry>the_geom</Geometry>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+        <Style>
+          <Name>Highlite</Name>
+          <sld:PointSymbolizer>
+           <sld:Stroke> 
+              <sld:CssParameter name="stroke">#ffff00</sld:CssParameter> 
+              <sld:CssParameter name="stroke-width">1</sld:CssParameter> 
+            </sld:Stroke> 
+          </sld:PointSymbolizer>
+        </Style>
+        <Style>
+          <Name>Normal</Name>
+          <sld:PointSymbolizer>
+            <sld:Graphic>
+              <sld:ExternalGraphic>
+                <sld:OnlineResource xlink:type="simple" xlink:href="." />
+              </sld:ExternalGraphic> 
+              <sld:Size>32</sld:Size>
+            </sld:Graphic> 
+          </sld:PointSymbolizer>
+        </Style>
+      </StyleList>
+    </FeatureType-->
+
     <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
       <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
@@ -69,6 +176,26 @@
         <Style current="1">
           <Name>default</Name>
           <Title>default</Title>
+        </Style>
+        <Style>
+          <Name>Highlite</Name>
+          <sld:PointSymbolizer>
+           <sld:Stroke> 
+              <sld:CssParameter name="stroke">#ffff00</sld:CssParameter> 
+              <sld:CssParameter name="stroke-width">1</sld:CssParameter> 
+            </sld:Stroke> 
+          </sld:PointSymbolizer>
+        </Style>
+        <Style>
+          <Name>Normal</Name>
+          <sld:PointSymbolizer>
+            <sld:Graphic>
+              <sld:ExternalGraphic>
+                <sld:OnlineResource xlink:type="simple" xlink:href="{$thn}" />
+              </sld:ExternalGraphic> 
+              <sld:Size>32</sld:Size>
+            </sld:Graphic> 
+          </sld:PointSymbolizer>
         </Style>
       </StyleList>
     </Layer>

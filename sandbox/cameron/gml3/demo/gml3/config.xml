@@ -2,13 +2,13 @@
 <MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
   <models>
     <OwsContext id="mainMap">
-      <defaultModelUrl>DemisWorldMap.xml</defaultModelUrl>
+      <defaultModelUrl>demisWorldMap.xml</defaultModelUrl>
       <widgets>
         <MapPane2 id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
           <mapContainerId>mainMapContainer</mapContainerId>
         </MapPane2>
-        <Loading id="loading"/>
+        <!--Loading id="loading"/-->
         <AoiBoxDHTML id="aoiBox2">
           <htmlTagId>mainMapPane</htmlTagId>
           <stylesheet>../lib/widget/Null.xsl</stylesheet>
