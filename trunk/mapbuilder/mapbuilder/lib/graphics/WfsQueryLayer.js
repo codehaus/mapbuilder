@@ -86,7 +86,7 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
       sld.hilitePolygon(this.gr, this.shape);
     } else {
       if( this.coords != null ) {
-        var containerProj = new Proj(this.model.getSRS());
+        var containerProj = new Proj(this.model.containerModel.getSRS());
         var pointPairs = this.coords.split(/[ ,\n]+/);
                 
         var newPointArr = new Array( pointPairs.length/2 );
@@ -102,7 +102,7 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
                   
           screenCoords = containerProj.Forward(point);
             //alert( " poly forward:" + point[0] + " " + point[1] + " x:"+ screenCoords[0] + " y:"+screenCoords[1] );
-          screenCoords = this.model.extent.getPL(screenCoords);
+          screenCoords = this.model.containerModel.extent.getPL(screenCoords);
             //alert( " poly getPL:" + point[0] + " " + point[1] + " x:"+ screenCoords[0] + " y:"+screenCoords[1] );
           newPointArr[jj] = screenCoords;  
                    
@@ -130,7 +130,7 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
     if( hiliteOnly ) {
       sld.hiliteLine( this.gr, this.shape );
     } else {
-      var containerProj = new Proj(this.model.getSRS());
+      var containerProj = new Proj(this.model.containerModel.getSRS());
       var pointPairs    = this.coords.split(/[ ,\n]+/);
                 
       var newPointArr = new Array( pointPairs.length/2 );
@@ -144,7 +144,7 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
         point[1] = pointPairs[i+1];
                   
         screenCoords = containerProj.Forward(point);
-        screenCoords = this.model.extent.getPL(screenCoords);
+        screenCoords = this.model.extent.containerModel.getPL(screenCoords);
         newPointArr[jj] = screenCoords;  
                    
         jj++     
