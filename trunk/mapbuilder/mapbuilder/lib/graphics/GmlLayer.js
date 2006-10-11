@@ -13,7 +13,7 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
 /**
  * @constructor
  * @base MapLayer
- * @param model The model object that owns the MapPane's widget.
+ * @param model The Context object that owns the MapPane2 for this Layer.
  * @param mapPane The mapPane's object.
  * @param layerName The name of this layer as a string.
  * @param layerNode The node object for this layer as a gml:FeatureCollection
@@ -32,8 +32,11 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:sld='http://www.opengis.net/sld' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:gml='http://www.opengis.net/gml'";
     Sarissa.setXpathNamespaces(this.layerNode, namespace);
 
-    this.id     = "TBDVectorLayerId";
-    this.layerName = this.id;
+    //TBD Get layerName from WMC
+    this.layerName = "vectorLayer";
+
+    //TBD add the layer number to make sure the name is unique
+    this.id=this.layerName+"1";
   
     var styleNode  = this.layerNode.selectSingleNode("//wmc:StyleList" );
     if(styleNode){
@@ -53,17 +56,20 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     // Extract a list of Features
     id=0;
     //TBD we should be able to remove featureNodes and use this.layerNode instead
+    div = this.getDiv(this.id);
+    this.gr=new VectorGraphics(this.id,div,width,height);
     featureNodes = this.layerNode.selectNodes("//gml:featureMember");
     this.features=new Array();
     for(k=0;k<featureNodes.length;k++){
       this.features[k]=new Array();
       this.features[k].node=featureNodes[k];
-      this.features[k].id="vector"+id++;//TBD Use Gml Id
+      this.features[k].id=this.layerName+id++;
       this.features[k].geoCoords=this.getGeoCoords(featureNodes[k],k+1);
       this.features[k].shapes=new Array(); // A feature can contain multiple members/shapes
       this.features[k].sld=this.normalSld;
-      div = this.getDiv();
-      this.features[k].gr=new VectorGraphics(id,div,width,height);
+      div = this.getDiv(this.features[k].id);
+      this.features[k].group=this.gr.getGroupTag(null,this.features[k].id);
+      this.normalSld.setStyle(this.gr,this.features[k].group);
     }
   
     //alert( "GmlLayer coords:"+features[4].geoCoords.length);
@@ -184,11 +190,12 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
   this.getGeoCoords=function(node,featureIndex) {
     points=new Array();
     // TBD handle multiple lines per feature
-    coords=node.selectSingleNode("//gml:featureMember["+featureIndex+"]//gml:coordinates|//gml:postList");
+    coords=node.selectSingleNode("//gml:featureMember["+featureIndex+"]//gml:coordinates|//gml:posList");
     if(coords)coords=coords.firstChild.nodeValue;
+    dim=node.selectSingleNode("//gml:featureMember["+featureIndex+"]//gml:posList/@gml:srsDimension");
+    if(dim)dim=dim.firstChild.nodeValue;
+    //alert("GmlLayer node="+Sarissa.serialize(node)+" coords="+coords+" dim="+dim);
     if(coords){
-      //alert("GmlLayer node="+Sarissa.serialize(node)+" coords="+coords);
-      //alert("GmlLayer coords="+coords);
       // TBD handle 3 dimentional arrays
       point=coords.split(/[ ,\n]+/);
       for(i=0,j=0; i<point.length;j++,i=i+2) {
@@ -209,17 +216,20 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
 
 /**
   * Make sure we have a div to insert all the elements
+  * @fid feature Id.
   * @param layerNum The position of this layer in the LayerList.
   */
-  this.getDiv= function(layerNum) {
+  this.getDiv= function(fid,layerNum) {
   var outputNode = document.getElementById( this.mapPane.outputNodeId ).parentNode;
   
-  var div = document.getElementById("vector_elements");
+  // TBD Use layerId here
+  var div = document.getElementById(fid);
   if( div == null) {
     div = document.createElement("div");
-    div.setAttribute("id", "vector_elements");
+    div.setAttribute("id", fid);
     //div.setAttribute("name", this.title);
     div.style.position = "absolute";
+    // TBD get visibility param from WMC
     div.style.visibility = "visible";
 
     //TBD We need to include zIndex for layers
@@ -248,7 +258,7 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
    * @param img can be ignored here (required for WMS layers)
    */
   this.paint= function( objRef, img ) {
-    this.deleteShape();
+    //this.deleteShape();
  
     //var style =  this.style.selectSingleNode("//wmc:Style[wmc:Name='Normal']");
     //this.paintShape(this.normalSld, false );
@@ -258,7 +268,7 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
 /**
   * We want to delete it before rendering it if it already exists
   * or when we want to remove that layer
-  */
+  *
   this.deleteShape= function() {
   var id = this.id +"_vector";
   var node = document.getElementById( id );
@@ -271,12 +281,14 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     }
   }
  }
+*/
 
 /**
   * Called by layer manager to clean the layer
   */
   this.unpaint = function() {
-    this.deleteShape();
+    //this.deleteShape();
+    //TBD This function gets called. Why?
   }
 
   /**
@@ -284,18 +296,24 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
    */
   this.paintFeatures=function() {
     for(k=0;k<this.features.length;k++){
-      // delete previously rendered shape first.
       // TBD Opportunity for optimisation here
-      node = document.getElementById(this.features[k].id);
+      // TBD Probably should move delete into a seperate function
+
+      // delete previously rendered shape first.
+      //node = document.getElementById(this.features[k].id);
+      //alert("GmlLayer node ="+node);
+      //alert("GmlLayer node id="+this.features[k].id);
+      /*
       if(node){
-        alert("GmlLayer deleting node");
+        //alert("GmlLayer deleting node");
         node.parentNode.removeChild(node);
         node = document.getElementById(this.features[k].id);
         if( node != null ) {
           // WHY WOULD THIS FAIL???????
           alert( "failed to remove:"+id );
         }
-      }else alert("GmlLayer node="+node);
+      }
+      */
 
       // Convert to screen coords
       screenCoords=new Array();
@@ -303,8 +321,10 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
         reproj = this.containerProj.Forward(this.features[k].geoCoords[c]);
         screenCoords[c]=this.model.extent.getPL(reproj);
       }
+      // TBD we should be calling the VectorGraphics directly rather than
+      // call the SLD first.
       // TBD only doing the Line case initially, and only one shape/feature
-      this.features[k].shapes[0]=this.features[k].sld.paintLine(this.features[k].gr,screenCoords);
+      this.features[k].shapes[0]=this.features[k].sld.paintLine(this.gr,screenCoords,this.features[k].group);
     }
   }
 
@@ -313,7 +333,7 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
   *
   * @param style SLD
   * @param hiliteOnly true if hilite (room for future optimization)
-  */
+  *
   this.paintShape= function( sld, hiliteOnly ) {
   
     if( hiliteOnly ) {
@@ -350,12 +370,13 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
       //this.install(this.shape);
     }   
   }
+  */
 
 /** 
   * Highlights the selected feature by switching to the highlight image
   * @param objRef a pointer to this widget object
   * @param featureId
-  */
+  *
   this.highlight= function(objRef, featureId) {
   // we get the id_vector
   if( featureId.indexOf( objRef.id ) >= 0 ) {
@@ -386,12 +407,13 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     }
   }
 }
+*/
  
 /** 
   * Dehighlights the selected feature by switching back to the normal image
   * @param objRef a pointer to this widget object
   * @param featureId
-  */
+  *
   this.dehighlight= function(objRef, featureId) {
     if( featureId.indexOf(objRef.id)>= 0 ) {
     
@@ -401,8 +423,8 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
       toolTipObjs[objRef.tooltip].clear();
     }
   }
+  */
  
   this.parse();
   this.paint();
 }
-
