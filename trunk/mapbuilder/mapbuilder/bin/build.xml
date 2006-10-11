@@ -280,6 +280,7 @@ $Id$
     <!--style in="${basedir}/design/mapbuilder-lib.xml" style="/usr/share/sgml/docbook/xsl-stylesheets/html/docbook.xsl" out="${build.home}/docs/design/index.html"/-->
     
     <echo message="os name=${os.name}"/>
+  	<chmod file="${basedir}/bin//publish.sh" perm="ugo+rx"/>
     <exec executable="${basedir}/bin/publish.sh" os="Linux">
     </exec>
   </target>
