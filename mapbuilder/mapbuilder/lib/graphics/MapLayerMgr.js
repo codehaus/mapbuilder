@@ -8,6 +8,9 @@ $Id: $
 // Ensure this object's dependancies are loaded.
 
 mapbuilder.loadScript(baseDir+"/graphics/WmsLayer.js");
+mapbuilder.loadScript(baseDir+"/graphics/FeatureLayer.js");
+mapbuilder.loadScript(baseDir+"/graphics/RssLayer.js");
+mapbuilder.loadScript(baseDir+"/graphics/GmlLayer.js");
 
 //should be pulled in by google tool
 //mapbuilder.loadScript(baseDir+"/graphics/GoogleMapLayer.js");
@@ -122,32 +125,52 @@ MapLayerMgr.prototype.setLayersFromContext = function(objRef) {
   * @param layerNode  Layer node element from WMC/OWSContext document 
   */
 MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
-  //alert( "MapLayer addLayer:"+Sarissa.serialize(layerNode))
   var layer = null;
   service=layerNode.selectSingleNode("wmc:Server/@service");
   if(service)service=service.nodeValue;
    
   var nodeName = layerNode.nodeName;
+
+  // GoogleMap
   if(service == "GoogleMap") {
     layer = new GoogleMapLayer( objRef.model, objRef.mapPane, "GoogleMapLayer", layerNode, false, true );
     objRef.layers.push( layer );
-    //alert( "Add Google Layer, total Layers:"+objRef.layers.length)
+
+  // WMS
   } else if( (service == "wms") || (service == "OGC:WMS")) {
     layer = objRef.addWmsLayer( objRef.model, objRef.mapPane, layerNode);
-    //alert( "Added Wms Layer:"+layerNode.nodeName+", total Layers:"+objRef.layers.length)
+
+  // GML2
+  } else if( (service == "gml") || (service == "OGC:GML")) {
+    layerName=layerNode.selectSingleNode("Title");
+    if(layerName)layerName=layerName.nodeValue;
+
+    url=layerNode.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");
+    if(url){
+      url=url.nodeValue;
+      layerNode=Sarissa.getDomDocument();
+      layerNode.async=false;
+      layerNode.load(url);
+      layer = new GmlLayer( objRef.model, objRef.mapPane, layerName, layerNode, false, true );
+      objRef.layers.push( layer );
+    }
+
+  // GeoRss
   } else if( nodeName.indexOf("RssLayer") >= 0 ) {
     var layerName = layerNode.getAttribute("id" );
     layer = new RssLayer( objRef.model, objRef.mapPane, layerName, layerNode, false, true );
     objRef.layers.push( layer );
-    //alert( "Add Rss Layer, total Layers:"+objRef.layers.length)
+
+  // WfsQueryLayer
   } else if( nodeName.indexOf("FeatureType") >= 0 ) {
     var layerName = layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue;
     if( objRef.getLayer(layerName) == null ) {
       //layer = new WfsQueryLayer( layerNode.model, objRef.mapPane, layerName, layerNode, false, true );
-      layer = new WfsQueryLayer( objRef.model.model, objRef.mapPane, layerName, layerNode, false, true );
+      layer = new WfsQueryLayer( objRef.model, objRef.mapPane, layerName, layerNode, false, true );
       objRef.layers.push( layer );
-      //alert( "Add Wfs Layer, total Layers:"+objRef.layers.length)
     }
+
+  // Unknown layer
   } else {
     alert( "Failed adding Layer:"+nodeName + " service:"+service );
   }
