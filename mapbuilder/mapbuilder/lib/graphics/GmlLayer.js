@@ -5,7 +5,7 @@ License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 */
 mapbuilder.loadScript(baseDir+"/graphics/MapLayer.js");
-mapbuilder.loadScript(baseDir+"/graphics/StyledLayerDescriptor.js");
+mapbuilder.loadScript(baseDir+"/graphics/SldRenderer.js");
 mapbuilder.loadScript(baseDir+"/graphics/VectorGraphics.js");
 mapbuilder.loadScript(baseDir+"/widget/TipWidget.js");
 mapbuilder.loadScript(baseDir+"/model/Proj.js");
@@ -42,11 +42,11 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     if(styleNode){
       var hiliteStyleNode =  styleNode.selectSingleNode("//wmc:Style[wmc:Name='Highlite']");
       var normalStyleNode =  styleNode.selectSingleNode("//wmc:Style[wmc:Name='Normal']");
-      this.normalSld    = new StyleLayerDescriptor( normalStyleNode );
-      this.hiliteSld    = new StyleLayerDescriptor( hiliteStyleNode );
+      this.normalSld    = new SldRenderer( normalStyleNode );
+      this.hiliteSld    = new SldRenderer( hiliteStyleNode );
     }else{
-      this.normalSld=new StyleLayerDescriptor(null);
-      this.hiliteSld=new StyleLayerDescriptor(null);
+      this.normalSld=new SldRenderer(null);
+      this.hiliteSld=new SldRenderer(null);
     }
 
     this.containerProj = new Proj(this.model.getSRS());

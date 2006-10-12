@@ -8,14 +8,14 @@ $Id$
 /**
   * @param style SLD node (as retrieved from WMC)
   */
-function StyleLayerDescriptor( style ) {
+function SldRenderer( style ) {
   this.style = style;
 }
 
 /**
   * Basic shape hiliting
   */
-StyleLayerDescriptor.prototype.hiliteShape = function( gr, shape, symbolizer) {
+SldRenderer.prototype.hiliteShape = function( gr, shape, symbolizer) {
   this.getStyleAttributes( symbolizer);
   
   if( symbolizer == "sld:PointSymbolizer") {
@@ -54,7 +54,7 @@ StyleLayerDescriptor.prototype.hiliteShape = function( gr, shape, symbolizer) {
   * Hilight / DeHilight Point based on a SLD.  A different SLD is used for either one.
   * @param element
   */
-StyleLayerDescriptor.prototype.hilitePoint = function( gr, shape) {
+SldRenderer.prototype.hilitePoint = function( gr, shape) {
   //this.getStyleAttributes( "sld:PointSymbolizer");
   this.hiliteShape( gr, shape, "sld:PointSymbolizer" );
 }
@@ -65,7 +65,7 @@ StyleLayerDescriptor.prototype.hilitePoint = function( gr, shape) {
   * @param coords point
   * @return shape
   */
-StyleLayerDescriptor.prototype.paintPoint = function( gr, coords) {
+SldRenderer.prototype.paintPoint = function( gr, coords) {
   var shape = null;
   var X = coords[0];
   var Y = coords[1];
@@ -136,18 +136,25 @@ StyleLayerDescriptor.prototype.paintPoint = function( gr, coords) {
   * Hilight / DeHilight Line based on a SLD.  A different SLD is used for either one.
   * @param element
   */
-StyleLayerDescriptor.prototype.hiliteLine = function( gr, shape) {
+SldRenderer.prototype.hiliteLine = function( gr, shape) {
   //this.getStyleAttributes( "sld:LineSymbolizer" );
   this.hiliteShape( gr, shape, "sld:LineSymbolizer" )
 }
 
 /**
-  * Renders a Line based on SLD info
+  * Renders a Line based on SLD info.
   * @param gr VectorGraphic
   * @param coords point
+  * @param node HTML DOM node to insert the shape into.
   * @return shape
   */
-StyleLayerDescriptor.prototype.paintLine = function( gr, coords) {
+SldRenderer.prototype.paintLine = function(gr,coords,node) {
+    //TBD SLD should not be transforming points. SLD should use the same
+    // format used by the Vector Graphics and XxLayer interfaces.
+    // This is an opportunity for rendering optimisation.
+    //
+    // TBD This function should be removed and XxLayer should call
+    // VectorGraphics directly.
     var xPoints = new Array(coords.length);
     var yPoints = new Array(coords.length);
     for( var i=0; i < coords.length; i++ ) {
@@ -158,15 +165,15 @@ StyleLayerDescriptor.prototype.paintLine = function( gr, coords) {
   
   this.getStyleAttributes( "sld:LineSymbolizer" );
  
-  if( this.strokeColor != null ) {
-    gr.setStrokeColor( this.strokeColor );
-  }
+  //if( this.strokeColor != null ) {
+  //  gr.setStrokeColor( this.strokeColor );
+  //}
   
-  if( this.strokeWidth != null ) {
-    gr.setStrokeWidth( this.strokeWidth );
-  }
+  //if( this.strokeWidth != null ) {
+  //  gr.setStrokeWidth( this.strokeWidth );
+  //}
   
-  var shape = gr.drawPolyline(xPoints, yPoints);
+  var shape = gr.drawPolyline(xPoints,yPoints,node);
   return shape;
 }
 
@@ -174,7 +181,7 @@ StyleLayerDescriptor.prototype.paintLine = function( gr, coords) {
   * Hilight / DeHilight Polygon based on a SLD.  A different SLD is used for either one.
   * @param element
   */
-StyleLayerDescriptor.prototype.hilitePolygon = function( gr, shape) {
+SldRenderer.prototype.hilitePolygon = function( gr, shape) {
   //this.getStyleAttributes( "sld:PolygonSymbolizer" );
   this.hiliteShape( gr, shape, "sld:PolygonSymbolizer" );
 }
@@ -185,7 +192,7 @@ StyleLayerDescriptor.prototype.hilitePolygon = function( gr, shape) {
   * @param coords point
   * @return shape
   */
-StyleLayerDescriptor.prototype.paintPolygon = function( gr, coords) {
+SldRenderer.prototype.paintPolygon = function( gr, coords) {
   var xPoints = new Array(coords.length+1);
   var yPoints = new Array(coords.length+1);
   for( var i=0; i<coords.length; i++ ) {
@@ -218,14 +225,31 @@ StyleLayerDescriptor.prototype.paintPolygon = function( gr, coords) {
 }
 
 /**
+  * Set the strokeColor, strokeWidth and fillColor for a HTML element
+  * based on this SLD parameters.
+  * @param gr VectorGraphic
+  * @param element The HTML element to set parameters for.
+  */
+SldRenderer.prototype.setStyle = function(gr,element,shapeType) {
+  //TBD Move getStyleAttributes code into this function.
+  //TBD handle shapeType properly.
+  this.getStyleAttributes("tbd");
+  gr.setShapeStrokeColor(element,this.strokeColor);
+  gr.setShapeStrokeWidth(element,this.strokeWidth);
+  gr.setShapeFillColor(element,this.fillColor);
+  gr.setShapeFill(element,this.fill);
+}
+
+/**
   * Retrieves style attributes from the style descriptor
   * @param path SLD Path
   */
-StyleLayerDescriptor.prototype.getStyleAttributes = function( path ) {
+SldRenderer.prototype.getStyleAttributes = function( path ) {
   // Set default styles to be used if SLD doesn't specify them
   this.strokeColor="#ff0000";
   this.strokeWidth = "1";
   this.fillColor = "#00ff00";
+  this.fill="none";
 
   if (this.style){
     var node = this.style.selectSingleNode( path + "/sld:Stroke/sld:CssParameter[@name='stroke']");

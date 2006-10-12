@@ -10,60 +10,116 @@ mapbuilder.loadScript(baseDir+"/util/Util.js");
 
 /**
   * Safari/FireFox 1.5 SVG Graphics
+  * @param id Id for the layer.
+  * @param div DIV to insert the SVG into.
+  * @param width width.
+  * @param height height.
   */
-function SVGGraphics(id, div, width, height) {
+function SVGGraphics2(id, div, width, height) {
  
-  //this.div = div;
-  // we can only have one svg root element in a page to get the mouseovers to work
-  var svg = document.getElementById('svg_element');
+  var svg = document.getElementById(id+'svg');
   if( svg == null ) {
     svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('id', "svg_element" );
+    svg.setAttribute('id', id+"svg" );
     svg.setAttribute('width', width );
     svg.setAttribute('height', height );
-    //svg.setAttribute('viewBox', '0 0 ' + width + ' ' + height );
     if( div != null )
       div.appendChild( svg );
   }
-  
   this.svg = svg;
-  
   return this;
 }
 
 /**
-  * Set thickness of drawing pen.  Should be an integer
+  * Find the tag with the supplied id, or create a grouping tag if it
+  * doesn't exist. For SVG, the G tag is returned. This tag can be used to
+  * attach style information to for a group of shapes.
+  * @param parentNode The node to insert the new element into.
+  * @param id The id of the tag.
+  * @return The tag for the supplied id or a new tag if one didn't exist before.
   */
-SVGGraphics.prototype.setStrokeColor = function(x) {
-  this.strokeStyle = x;
+SVGGraphics2.prototype.getGroupTag = function(parentNode,id) {
+  tag = document.getElementById(id);
+  if(!tag){
+    tag = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    tag.setAttribute('id', id);
+
+    if(!parentNode)parentNode=this.svg;
+    parentNode.appendChild(tag);
+  }
+  return tag;
 }
 
-SVGGraphics.prototype.setStrokeWidth = function(x) {
-  this.strokeWeight = x;
+/**
+  * Set thickness of drawing pen.  Should be an integer
+  * @deprecated
+  */
+SVGGraphics2.prototype.setStrokeColor = function(x) {
+  //this.strokeStyle = x;
 }
 
-SVGGraphics.prototype.setFillColor = function(x) {
-  this.fillStyle = x;
+/**
+  * @deprecated
+  */
+SVGGraphics2.prototype.setStrokeWidth = function(x) {
+  //this.strokeWeight = x;
 }
 
-SVGGraphics.prototype.setShapeStrokeColor = function(shape, x) {
+/**
+  * @deprecated
+  */
+SVGGraphics2.prototype.setFillColor = function(x) {
+  //this.fillStyle = x;
+}
+
+/**
+  * Set the style for the provided HTML DOM element.
+  * @param shape The node in the HTML DOM to apply style to.
+  * @param x strokeColor.
+  */
+SVGGraphics2.prototype.setShapeStrokeColor = function(shape, x) {
+  //shape.setAttributeNS("http://www.w3.org/2000/svg", "stroke", x);
   shape.setAttribute("stroke", x);
 }
 
-SVGGraphics.prototype.setShapeStrokeWidth = function(shape, x) {
+/**
+  * Set the style for the provided HTML DOM element.
+  * @param shape The node in the HTML DOM to apply style to.
+  * @param x strokeWidth.
+  */
+SVGGraphics2.prototype.setShapeStrokeWidth = function(shape, x) {
+  //shape.setAttributeNS("http://www.w3.org/2000/svg", "stroke-width", x);
   shape.setAttribute("stroke-width", x);
 }
 
-SVGGraphics.prototype.setShapeFillColor = function(shape, x) {
-  shape.fill = x;
+/**
+  * Set the style for the provided HTML DOM element.
+  * @param shape The node in the HTML DOM to apply style to.
+  * @param x fillColor.
+  */
+SVGGraphics2.prototype.setShapeFillColor = function(shape, x) {
+  //shape.setAttributeNS("http://www.w3.org/2000/svg", "fillColor", x);
+  shape.setAttribute("fillColor", x);
+}
+
+/**
+  * Set the style for the provided HTML DOM element.
+  * @param shape The node in the HTML DOM to apply style to.
+  * @param x fill=none, means don't fill the shape.
+  */
+SVGGraphics2.prototype.setShapeFill = function(shape, x) {
+  //shape.setAttributeNS("http://www.w3.org/2000/svg", "fill", x);
+  shape.setAttribute("fill", x);
 }
 
 
 /**
   * A polyline is a series of connected line segments. 
-  * Xpoints and Ypoints are arrays which specify the x and y coordinates of each point 
+  * @param Xpoints array which specify the x coordinates of each point 
+  * @param Ypoints array which specify the y coordinates of each point 
+  * @param node node from the HTML DOM to insert this line into
   */   
-SVGGraphics.prototype.drawPolyline = function(Xpoints, Ypoints) {
+SVGGraphics2.prototype.drawPolyline = function(Xpoints, Ypoints, node) {
   
   var length = Xpoints.length;
   
@@ -77,12 +133,12 @@ SVGGraphics.prototype.drawPolyline = function(Xpoints, Ypoints) {
  
   element.setAttribute("points", pts);
   
-  if( this.strokeStyle )
-    element.setAttribute("stroke", this.strokeStyle);
-  
-  element.setAttribute("fill", 'none' ); //this.fillStyle);
+  //element.setAttribute("fill", 'none' ); //this.fillStyle);
  
-  this.svg.appendChild( element );
+  //if( this.strokeStyle )
+  //  element.setAttribute("stroke", "blue");
+  
+  node.appendChild( element );
   return element;
 }
 
@@ -91,12 +147,12 @@ SVGGraphics.prototype.drawPolyline = function(Xpoints, Ypoints) {
   * Xpoints and Ypoints are arrays which specify the x and y coordinates of each point 
   * The polygon will be automatically closed if the first and last points are not identical. 
   */   
-SVGGraphics.prototype.drawPolygon = function(Xpoints, Ypoints) {
+SVGGraphics2.prototype.drawPolygon = function(Xpoints, Ypoints) {
   var element =  this.drawPolyline( Xpoints, Ypoints );
   return element;
 }
 
-SVGGraphics.prototype.fillPolygon = function(Xpoints, Ypoints) {
+SVGGraphics2.prototype.fillPolygon = function(Xpoints, Ypoints) {
   this.drawPolygon( Xpoints, Ypoints );
   this.fill();
 }
@@ -105,24 +161,24 @@ SVGGraphics.prototype.fillPolygon = function(Xpoints, Ypoints) {
   * Outline of an ellipse. Values refer to the bounding rectangle of the ellipse, 
   * X and Y give the co-ordinates of the left top corner of that rectangle rather than of its center
   */
-SVGGraphics.prototype.drawCircle=function( X, Y, radius) {
+SVGGraphics2.prototype.drawCircle=function( X, Y, radius) {
 }
 
 /**
   *
   */
-SVGGraphics.prototype.fillCircle=function( X, Y, radius ) {
+SVGGraphics2.prototype.fillCircle=function( X, Y, radius ) {
   
   var element = document.createElementNS('http://www.w3.org/2000/svg', "circle" );
   element.setAttribute("cx", X)
   element.setAttribute("cy", Y)
   element.setAttribute("r", radius)
   
-  if( this.strokeStyle )
-    element.setAttribute("stroke", this.strokeStyle);
+  //if( this.strokeStyle )
+  //  element.setAttribute("stroke", this.strokeStyle);
   
-  if( this.fillStyle )
-    element.setAttribute("fill", this.fillStyle)
+  //if( this.fillStyle )
+  //  element.setAttribute("fill", this.fillStyle)
 
   this.svg.appendChild( element );
   return element;
@@ -131,7 +187,7 @@ SVGGraphics.prototype.fillCircle=function( X, Y, radius ) {
 /**
   *
   */
-SVGGraphics.prototype.drawImage = function( src, X, Y, width, height, dx, dy) {
+SVGGraphics2.prototype.drawImage = function( src, X, Y, width, height, dx, dy) {
   
   var element = document.createElementNS('http://www.w3.org/2000/svg', "image");
     
@@ -156,7 +212,7 @@ SVGGraphics.prototype.drawImage = function( src, X, Y, width, height, dx, dy) {
   return element;
 } 
   
-SVGGraphics.prototype.swapImage = function( element, src ) {
+SVGGraphics2.prototype.swapImage = function( element, src ) {
   element.setAttributeNS('http://www.w3.org/1999/xlink', 'href', src)
 }
   
@@ -164,7 +220,7 @@ SVGGraphics.prototype.swapImage = function( element, src ) {
 /**
   *
   */
-SVGGraphics.prototype.paint=function() {
+SVGGraphics2.prototype.paint=function() {
 }
   
 
