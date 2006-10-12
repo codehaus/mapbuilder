@@ -391,6 +391,7 @@ $Id$
     <copy todir="${compress.home}">
       <fileset dir="${build.home}"/>
     </copy>
+   	<chmod file="${basedir}/bin/jsjam.pl" perm="ugo+rx"/>  	
  	<chmod file="${basedir}/bin/compress.sh" perm="ugo+rx"/>
     <exec executable="${basedir}/bin/compress.sh" os="Linux"/>
   </target>
