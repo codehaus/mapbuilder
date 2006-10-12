@@ -370,6 +370,7 @@ $Id$
     <javac srcdir="${src.home}"
           destdir="${build.home}/WEB-INF/classes"
             debug="${compile.debug}"
+	    	source="1.4"
             target="1.4"
       deprecation="${compile.deprecation}"
          optimize="${compile.optimize}">
