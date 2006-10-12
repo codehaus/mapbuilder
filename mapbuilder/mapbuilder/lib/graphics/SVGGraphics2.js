@@ -146,9 +146,12 @@ SVGGraphics2.prototype.drawPolyline = function(Xpoints, Ypoints, node) {
   * A polyline is a series of connected line segments. 
   * Xpoints and Ypoints are arrays which specify the x and y coordinates of each point 
   * The polygon will be automatically closed if the first and last points are not identical. 
+  * @param Xpoints array which specify the x coordinates of each point 
+  * @param Ypoints array which specify the y coordinates of each point 
+  * @param node node from the HTML DOM to insert this line into
   */   
-SVGGraphics2.prototype.drawPolygon = function(Xpoints, Ypoints) {
-  var element =  this.drawPolyline( Xpoints, Ypoints );
+SVGGraphics2.prototype.drawPolygon = function(Xpoints, Ypoints,node) {
+  var element =  this.drawPolyline(Xpoints,Ypoints,node);
   return element;
 }
 

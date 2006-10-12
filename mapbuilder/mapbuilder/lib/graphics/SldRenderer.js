@@ -1,64 +1,42 @@
 /*
 Author:       Patrice G. Cappelaere patAtcappelaere.com
+Author:       Cameron Shorter cameronATshorter.net
 License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
-
-$Id$
 */
 
 /**
-  * @param style SLD node (as retrieved from WMC)
+  * Render features based upon a SLD file.
+  * @param style SLD node (as retrieved from the Context)
   */
 function SldRenderer( style ) {
   this.style = style;
 }
 
 /**
-  * Basic shape hiliting
+  * Renders a Feature based on SLD info.
+  * @param gr VectorGraphic.
+  * @param coords coordinates.
+  * @param node HTML DOM node to insert the shape into.
+  * @param gmlType Type of shape.
+  * @return shape
   */
-SldRenderer.prototype.hiliteShape = function( gr, shape, symbolizer) {
-  this.getStyleAttributes( symbolizer);
-  
-  if( symbolizer == "sld:PointSymbolizer") {
-    // check if we need to switch the image
-    var externalGraphic = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:ExternalGraphic" );
-    if( externalGraphic != null ) {
-      var href    = this.style.selectSingleNode("sld:PointSymbolizer/sld:Graphic/sld:ExternalGraphic/sld:OnlineResource");
-      //var format  = externalGraphic.selectSingleNode("sld:Format");
-      gr.swapImage( shape, href.attributes.getNamedItem("xlink:href").nodeValue)
-      return;
-    }
-   }
-  
-  // This is for line and polygons
-  // alert( "stroke:"+this.strokeColor+" width:"+this.strokeWidth+" fill:"+this.fillColor);
-  if( this.strokeColor != null ) {  
-    gr.setShapeStrokeColor( shape, this.strokeColor );
-    //shape.stroked = "true";
-  } else {
-    //shape.stroked = "false"
-  }
-    
-  if( this.strokeWidth != null ) {
-    gr.setShapeStrokeWidth(shape, this.strokeWidth);
-  }
-    
-  if( this.fillColor != undefined ) {
-    gr.setShapeFillColor( shape, this.fillColor);
-    //shape.filled = "true";
-  } else {
-    //shape.filled = "false";
+SldRenderer.prototype.paint = function(gr, coords,node,gmlType) {
+  switch(gmlType){
+    case "gml:Point":
+      shape=this.paintPoint(gr,coords,node);
+      break;
+    case "gml:LineString":
+      shape=this.paintLine(gr,coords,node);
+      break;
+    case "gml:Polygon":
+    case "gml:LinearRing":
+    case "gml:Box":
+    case "gml:Envelope":
+      shape=this.paintPolygon(gr,coords,node);
+      break;
   }
 }
 
-/**
-  * Hilight / DeHilight Point based on a SLD.  A different SLD is used for either one.
-  * @param element
-  */
-SldRenderer.prototype.hilitePoint = function( gr, shape) {
-  //this.getStyleAttributes( "sld:PointSymbolizer");
-  this.hiliteShape( gr, shape, "sld:PointSymbolizer" );
-}
-  
 /**
   * Renders a Point based on SLD info
   * @param gr VectorGraphic
@@ -133,15 +111,6 @@ SldRenderer.prototype.paintPoint = function( gr, coords) {
 }
 
 /**
-  * Hilight / DeHilight Line based on a SLD.  A different SLD is used for either one.
-  * @param element
-  */
-SldRenderer.prototype.hiliteLine = function( gr, shape) {
-  //this.getStyleAttributes( "sld:LineSymbolizer" );
-  this.hiliteShape( gr, shape, "sld:LineSymbolizer" )
-}
-
-/**
   * Renders a Line based on SLD info.
   * @param gr VectorGraphic
   * @param coords point
@@ -178,21 +147,13 @@ SldRenderer.prototype.paintLine = function(gr,coords,node) {
 }
 
 /**
-  * Hilight / DeHilight Polygon based on a SLD.  A different SLD is used for either one.
-  * @param element
-  */
-SldRenderer.prototype.hilitePolygon = function( gr, shape) {
-  //this.getStyleAttributes( "sld:PolygonSymbolizer" );
-  this.hiliteShape( gr, shape, "sld:PolygonSymbolizer" );
-}
-
-/**
   * Renders a Point based on SLD info
   * @param gr VectorGraphic
   * @param coords point
+  * @param node HTML DOM node to insert the shape into.
   * @return shape
   */
-SldRenderer.prototype.paintPolygon = function( gr, coords) {
+SldRenderer.prototype.paintPolygon = function(gr,coords,node) {
   var xPoints = new Array(coords.length+1);
   var yPoints = new Array(coords.length+1);
   for( var i=0; i<coords.length; i++ ) {
@@ -219,7 +180,7 @@ SldRenderer.prototype.paintPolygon = function( gr, coords) {
     gr.setFillColor( this.fillColor);
   }
   
-  var shape = gr.drawPolygon(xPoints, yPoints);
+  var shape = gr.drawPolygon(xPoints, yPoints,node);
   
   return shape;
 }
@@ -229,10 +190,11 @@ SldRenderer.prototype.paintPolygon = function( gr, coords) {
   * based on this SLD parameters.
   * @param gr VectorGraphic
   * @param element The HTML element to set parameters for.
+  * @param gmlType Type of shape.
   */
-SldRenderer.prototype.setStyle = function(gr,element,shapeType) {
+SldRenderer.prototype.setStyle = function(gr,element,gmlType) {
   //TBD Move getStyleAttributes code into this function.
-  //TBD handle shapeType properly.
+  //TBD handle gmlType properly.
   this.getStyleAttributes("tbd");
   gr.setShapeStrokeColor(element,this.strokeColor);
   gr.setShapeStrokeWidth(element,this.strokeWidth);
