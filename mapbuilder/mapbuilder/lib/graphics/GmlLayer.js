@@ -53,8 +53,6 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     width=this.model.getWindowWidth();
     height=this.model.getWindowHeight();
 
-    // Extract a list of Features
-    id=0;
     //TBD we should be able to remove featureNodes and use this.layerNode instead
     div = this.getDiv(this.id);
     this.gr=new VectorGraphics(this.id,div,width,height);
@@ -63,12 +61,12 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     for(k=0;k<featureNodes.length;k++){
       this.features[k]=new Array();
       this.features[k].node=featureNodes[k];
-      this.features[k].id=this.layerName+id++;
+      this.features[k].id=this.layerName+k;
       this.features[k].geoCoords=this.getGeoCoords(featureNodes[k],k+1);
       this.features[k].shapes=new Array(); // A feature can contain multiple members/shapes
       this.features[k].sld=this.normalSld;
       div = this.getDiv(this.features[k].id);
-      this.features[k].group=this.gr.getGroupTag(null,this.features[k].id);
+      this.features[k].group=this.gr.getGroupTag(null,this.features[k].id+"_g");
       this.normalSld.setStyle(this.gr,this.features[k].group);
     }
   
@@ -82,12 +80,8 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     // Need to use something more robust like xlink
     var type = node.firstChild;
     type=this.layerNode.selectSingleNode("//gml:LineString");
-    //alert( "GmlLayer type:"+Sarissa.serialize( type ));
     if (type){
       this.gmlType = "gml:LineString";
-      this.coords=type.selectSingleNode("//gml:coordinates");
-      //this.coords=type.selectSingleNode("//gml:posList");
-      if(this.coords)this.coords=this.coords.firstChild.nodeValue;
     }
     /*
     if( type != undefined ) {
@@ -190,18 +184,20 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
   this.getGeoCoords=function(node,featureIndex) {
     points=new Array();
     // TBD handle multiple lines per feature
-    coords=node.selectSingleNode("//gml:featureMember["+featureIndex+"]//gml:coordinates|//gml:posList");
-    if(coords)coords=coords.firstChild.nodeValue;
-    dim=node.selectSingleNode("//gml:featureMember["+featureIndex+"]//gml:posList/@gml:srsDimension");
-    if(dim)dim=dim.firstChild.nodeValue;
-    //alert("GmlLayer node="+Sarissa.serialize(node)+" coords="+coords+" dim="+dim);
+    coordsNode=node.selectSingleNode(".//gml:posList|.//gml:coordinates");
+    dim=2;
+    if(coordsNode){
+      d=coordsNode.selectSingleNode("@srsDimension");
+      if(d)dim=parseInt(d.firstChild.nodeValue);
+      coords=coordsNode.firstChild.nodeValue;
+    }
     if(coords){
-      // TBD handle 3 dimentional arrays
       point=coords.split(/[ ,\n]+/);
-      for(i=0,j=0; i<point.length;j++,i=i+2) {
+      for(i=0,j=0; i<point.length;j++,i=i+dim) {
         points[j] = new Array(point[i],point[i+1]);
       }
     }
+    //alert("GmlLayer node"+featureIndex+"="+Sarissa.serialize(node)+" coords="+coords+" dim="+dim);
     return points;
   }
 
@@ -213,7 +209,6 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     return false;
   }
   
-
 /**
   * Make sure we have a div to insert all the elements
   * @fid feature Id.
@@ -297,23 +292,15 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
   this.paintFeatures=function() {
     for(k=0;k<this.features.length;k++){
       // TBD Opportunity for optimisation here
+      // (resize instead of delete/repaint)
       // TBD Probably should move delete into a seperate function
 
       // delete previously rendered shape first.
-      //node = document.getElementById(this.features[k].id);
-      //alert("GmlLayer node ="+node);
-      //alert("GmlLayer node id="+this.features[k].id);
-      /*
-      if(node){
-        //alert("GmlLayer deleting node");
-        node.parentNode.removeChild(node);
-        node = document.getElementById(this.features[k].id);
-        if( node != null ) {
-          // WHY WOULD THIS FAIL???????
-          alert( "failed to remove:"+id );
-        }
+      id1=this.features[k].id+"_g";
+      node = document.getElementById(id1);
+      for(i=0;node.childNodes.length>0;){
+        node.removeChild(node.childNodes[0]);
       }
-      */
 
       // Convert to screen coords
       screenCoords=new Array();
