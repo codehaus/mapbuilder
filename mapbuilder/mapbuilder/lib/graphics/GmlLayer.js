@@ -192,7 +192,11 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
       coords=coordsNode.firstChild.nodeValue;
     }
     if(coords){
-      point=coords.split(/[ ,\n]+/);
+      point=coords.split(/[ ,\n\t]+/);
+      //Remove elements caused by leading and trailing white space
+      while(point[0]=="")point.shift();
+      while(point[point.length-1]=="")point.pop();
+
       for(i=0,j=0; i<point.length;j++,i=i+dim) {
         points[j] = new Array(point[i],point[i+1]);
       }
