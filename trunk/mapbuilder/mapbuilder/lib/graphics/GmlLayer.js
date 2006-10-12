@@ -33,7 +33,7 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     Sarissa.setXpathNamespaces(this.layerNode, namespace);
 
     //TBD add the layer number to make sure the name is unique
-    this.id=this.layerName+"1";
+    this.id=this.layerName+"__1";
   
     var styleNode  = this.layerNode.selectSingleNode("//wmc:StyleList" );
     if(styleNode){
@@ -53,7 +53,7 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     //TBD we should be able to remove featureNodes and use this.layerNode instead
     div = this.getDiv(this.id);
     this.gr=new VectorGraphics(this.id,div,width,height);
-    featureNodes = this.layerNode.selectNodes("//gml:featureMember");
+    featureNodes = this.layerNode.selectNodes(".//gml:featureMember");
     this.features=new Array();
     for(k=0;k<featureNodes.length;k++){
       this.features[k]=new Array();
@@ -66,19 +66,20 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
       this.normalSld.setStyle(this.gr,this.features[k].group);
     }
   
-    //alert( "GmlLayer coords:"+features[4].geoCoords.length);
-    //alert( "GmlLayer layernode:"+Sarissa.serialize( this.layerNode ));
-  
-    // TBD: Replace node with this.layerNode
-    node = this.layerNode;//.selectSingleNode("//wmc:Where" );
-    //alert( "GmlLayer node:"+Sarissa.serialize( node ));
+    // Determine the feature type
+    if(featureNodes.length>0){
+      this.gmlType=featureNodes[0].selectSingleNode(".//gml:Point|.//gml:LineString|.//gml:Polygon|.//gml:LinearRing|.//gml:Box|.//gml:Envelope");
+      if(this.gmlType){
+        this.gmlType=this.gmlType.nodeName;
+      }else{
+        alert ("Unsupported GML Geometry for layer:"+this.layerName);
+      }
+    }
+
+
     //TBD: Using "firstChild" assuming there is no spaces in the XML source
     // Need to use something more robust like xlink
-    var type = node.firstChild;
-    type=this.layerNode.selectSingleNode("//gml:LineString");
-    if (type){
-      this.gmlType = "gml:LineString";
-    }
+
     /*
     if( type != undefined ) {
       this.gmlType = "gml:LineString";
@@ -311,7 +312,7 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
       // TBD we should be calling the VectorGraphics directly rather than
       // call the SLD first.
       // TBD only doing the Line case initially, and only one shape/feature
-      this.features[k].shapes[0]=this.features[k].sld.paintLine(this.gr,screenCoords,this.features[k].group);
+      this.features[k].shapes[0]=this.features[k].sld.paint(this.gr,screenCoords,this.features[k].group,this.gmlType);
     }
   }
 
