@@ -63,6 +63,7 @@ $Id$
 -->
   <property file="build.properties"/>
   <property file="${user.home}/build.properties"/>
+  <property file="default.properties"/>  	
 
 <!-- ==================== File and Directory Names ======================== -->
 <!--
@@ -110,7 +111,6 @@ $Id$
   <property name="app.name" value="mapbuilder"/>
   <property name="pack.name" value="mapbuilder-lib"/>
   <property name="app.path" value="/${app.name}"/>
-  <property name="app.version" value="1.1-rc1"/>
   <property name="catalina.home" value="${env.CATALINA_HOME}"/> <!-- ensure you have this environment var set -->
   <property name="build.home" value="${basedir}/build"/>
   <property name="version.file" value="${basedir}/build/lib/widget/Version.xsl"/>
@@ -165,7 +165,6 @@ $Id$
   <target name="prepare">
     <!-- Create build directories as needed -->
     <mkdir dir="${build.home}"/>
-
     <!-- Copy static content of the mapbuilder project  -->
     <copy todir="${build.home}">
       <fileset dir="${basedir}"
