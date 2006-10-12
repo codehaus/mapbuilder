@@ -143,7 +143,12 @@ MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
   // GML2
   } else if( (service == "gml") || (service == "OGC:GML")) {
     layerName=layerNode.selectSingleNode("Title");
-    if(layerName)layerName=layerName.nodeValue;
+    layerName = layerNode.selectSingleNode("wmc:Name");
+    if(layerName){
+      layerName=layerName.firstChild.nodeValue;
+    }else{
+      layerName="gml";
+    }
 
     url=layerNode.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");
     if(url){

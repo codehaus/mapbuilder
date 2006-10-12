@@ -32,9 +32,6 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:sld='http://www.opengis.net/sld' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:gml='http://www.opengis.net/gml'";
     Sarissa.setXpathNamespaces(this.layerNode, namespace);
 
-    //TBD Get layerName from WMC
-    this.layerName = "vectorLayer";
-
     //TBD add the layer number to make sure the name is unique
     this.id=this.layerName+"1";
   
@@ -65,7 +62,6 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
       this.features[k].geoCoords=this.getGeoCoords(featureNodes[k],k+1);
       this.features[k].shapes=new Array(); // A feature can contain multiple members/shapes
       this.features[k].sld=this.normalSld;
-      div = this.getDiv(this.features[k].id);
       this.features[k].group=this.gr.getGroupTag(null,this.features[k].id+"_g");
       this.normalSld.setStyle(this.gr,this.features[k].group);
     }
