@@ -2,7 +2,8 @@
 <MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
   <models>
     <OwsContext id="mainMap">
-      <defaultModelUrl>demisWorldMap.xml</defaultModelUrl>
+      <defaultModelUrl>MSD3Context.xml</defaultModelUrl>
+      <!--defaultModelUrl>TasmaniaContext.xml</defaultModelUrl-->
       <widgets>
         <MapPane2 id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
@@ -17,7 +18,6 @@
           <crossSize>15</crossSize>
           <mapContainerId>mainMapContainer</mapContainerId>
         </AoiBoxDHTML>
-        <!--
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
            <showPx>true</showPx>
@@ -28,7 +28,6 @@
           <htmlTagId>legend</htmlTagId>
           <stylesheet>./Legend.xsl</stylesheet>
         </Legend>
-        -->
       </widgets>
       <tools>
         <AoiMouseHandler id="mainAoi"/>

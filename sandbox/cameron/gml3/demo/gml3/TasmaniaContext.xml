@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<OWSContext version="0.0.13" id="ows-context-tie" 
+  xmlns="http://www.opengis.net/context" 
+  xmlns:xlink="http://www.w3.org/1999/xlink" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:sld="http://www.opengis.net/sld"
+  xmlns:ogc="http://www.opengis.net/ogc" 
+  xmlns:ows="http://www.opengis.net/ows" 
+  xmlns:param="http;//www.opengis.net/param" 
+  xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
+
+  <General>
+    <!-- Tasmania Bounding Box -->
+    <Window width="600" height="300"/>
+    <ows:BoundingBox crs="EPSG:4326">
+      <ows:LowerCorner>141.57875 -44.26625</ows:LowerCorner>
+      <ows:UpperCorner>151.03125 -39.56375</ows:UpperCorner>
+    </ows:BoundingBox>
+    <!--
+    <Window width="800" height="400"/>
+    <ows:BoundingBox crs="EPSG:4326">
+      <ows:LowerCorner>-130 10</ows:LowerCorner>
+      <ows:UpperCorner>-50 50</ows:UpperCorner>
+    </ows:BoundingBox>
+    -->
+    
+    <Title xml:lang="en">GML3 Demo with OWSContext</Title>
+    <KeywordList>
+      <Keyword>world</Keyword>
+      <Keyword>atlas</Keyword>
+      <Keyword>gml3</Keyword>
+    </KeywordList>
+    <LogoURL width="140" height="65" format="image/gif">
+      <OnlineResource xlink:type="simple" xlink:href="http://www.opengis.org/img/ogc_header_top_left.gif" />
+    </LogoURL>
+
+    <DescriptionURL format="text/html">
+      <OnlineResource xlink:type="simple" xlink:href="http://www.opengis.org/press/?page=pressrelease&amp;view=20040525_ContextIE_PR" />
+    </DescriptionURL>
+    
+  </General>  
+    
+  <ResourceList>
+
+    <FeatureType hidden="0">
+      <Server service="OGC:GML" version="2.1.2" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="tasmaniaRoads.xml"/>
+      </Server>
+      <Name>topp:tasmania_roads</Name>
+      <Title>Tasmania Roads</Title>
+      <Abstract>Tasmania Roads based on the Digital Chart of the World.</Abstract>
+      <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+        <Style>
+          <Name>Highlite</Name>
+          <sld:PointSymbolizer>
+           <sld:Stroke> 
+              <sld:CssParameter name="stroke">#ffff00</sld:CssParameter> 
+              <sld:CssParameter name="stroke-width">1</sld:CssParameter> 
+            </sld:Stroke> 
+          </sld:PointSymbolizer>
+        </Style>
+        <Style>
+          <Name>Normal</Name>
+          <sld:PointSymbolizer>
+            <sld:Graphic>
+              <sld:ExternalGraphic>
+                <sld:OnlineResource xlink:type="simple" xlink:href="." />
+              </sld:ExternalGraphic> 
+              <sld:Size>32</sld:Size>
+            </sld:Graphic> 
+          </sld:PointSymbolizer>
+        </Style>
+      </StyleList>
+    </FeatureType>
+
+    <!--
+    <FeatureType hidden="0">
+      <Server service="OGC:GML" version="2.1.2" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="LAL070.xml"/>
+      </Server>
+      <Name>LAL070</Name>
+      <Title>MSD3 LAL070</Title>
+      <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+        <Style>
+          <Name>Highlite</Name>
+          <sld:PointSymbolizer>
+           <sld:Stroke> 
+              <sld:CssParameter name="stroke">#ffff00</sld:CssParameter> 
+              <sld:CssParameter name="stroke-width">1</sld:CssParameter> 
+            </sld:Stroke> 
+          </sld:PointSymbolizer>
+        </Style>
+        <Style>
+          <Name>Normal</Name>
+          <sld:PointSymbolizer>
+            <sld:Graphic>
+              <sld:ExternalGraphic>
+                <sld:OnlineResource xlink:type="simple" xlink:href="." />
+              </sld:ExternalGraphic> 
+              <sld:Size>32</sld:Size>
+            </sld:Graphic> 
+          </sld:PointSymbolizer>
+        </Style>
+      </StyleList>
+    </FeatureType>
+    -->
+
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
+      <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+      </Server>
+      <Name>Builtup+areas,Coastlines,Waterbodies,Rivers,Streams,Railroads,Highways,Roads,Trails,Borders,Cities,Settlements</Name>
+      <Title>World Features</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+      </StyleList>
+    </Layer>
+    <Layer queryable="0" hidden="0">
+      <Server service="wms" version="1.1.0" title="wms">
+        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/atlas/mapdata/english/pb_world.map"/>
+      </Server>
+      <!--Name>land,coast</Name-->
+      <Name>coast</Name>
+      <Title>coastline</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+    </Layer>
+  </ResourceList>
+</OWSContext>
