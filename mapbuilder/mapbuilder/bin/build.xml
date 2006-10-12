@@ -281,6 +281,7 @@ $Id$
     
     <echo message="os name=${os.name}"/>
   	<chmod file="${basedir}/bin/publish.sh" perm="ugo+rx"/>
+ 	<chmod file="${basedir}/bin/jsdoc/jsdoc.pl" perm="ugo+rx"/>  	
     <exec executable="${basedir}/bin/publish.sh" os="Linux">
     </exec>
   </target>
@@ -392,7 +393,6 @@ $Id$
       <fileset dir="${build.home}"/>
     </copy>
  	<chmod file="${basedir}/bin/compress.sh" perm="ugo+rx"/>
- 	<chmod file="${basedir}/bin/jsdoc/jsdoc.pl" perm="ugo+rx"/>
     <exec executable="${basedir}/bin/compress.sh" os="Linux"/>
   </target>
 
