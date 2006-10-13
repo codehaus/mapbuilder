@@ -75,130 +75,37 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
         alert ("Unsupported GML Geometry for layer:"+this.layerName);
       }
     }
-
-
-    //TBD: Using "firstChild" assuming there is no spaces in the XML source
-    // Need to use something more robust like xlink
-
-    /*
-    if( type != undefined ) {
-      this.gmlType = "gml:LineString";
-      //alert( "GmlLayer gmlType:"+this.gmlType);
-        
-      if( this.gmlType == "gml:Point" ) {
-        var pos = type.firstChild;
-        this.coords = pos.firstChild.nodeValue;
-      } else if( this.gmlType == "gml:LineString" ) {
-        var posList = type.firstChild;
-        var children = posList.childNodes;       
-        var count = children.length;
-        this.coords="";     
-        for( var j=0; j<count; j++ ) {
-          this.coords += children[j].nodeValue;
-        }
-        alert("Rss2Layer coords="+this.coords);
-      } else if( this.gmlType == "gml:Polygon" ) {
-        this.coords = null;
-        var ext = type.firstChild;
-        var linearRing = ext.firstChild;
-        if(linearRing.firstChild) {
-          this.posList = linearRing.firstChild;
-          this.coords = this.posList.firstChild.nodeValue;
-        }
-      } else if( this.gmlType == "gml:Box" || this.gmlType == "gml:Envelope" ) {
-        var posList = type.firstChild;
-        var children = posList.childNodes ;       
-        var count = children.length;
-        this.coords="";   
-        var c= new Array();  
-        //alert("about to split "+children[0].nodeValue);
-        c = children[0].nodeValue.split(" "); 
-        this.coords += c[0]+" "+c[1]+",\n"
-                       +c[2]+" "+c[1]+",\n"
-                       +c[2]+" "+c[3]+",\n"
-                       +c[0]+" "+c[3]+",\n" 
-                       +c[0]+" "+c[1];
-      
-        //alert("coords: "+this.coords);
-       } else {
-         alert ("Unsupported GML Geometry:"+ this.gmlType )
-       }
-    } else {
-      this.coords = null;
-      // well, it is probably a flick entry.
-      // we need to go back to flickr and get the tags
-      var pidNode = this.layerNode.attributes.getNamedItem("pid");
-      if( pidNode != null ) {
-        var pid = pidNode.nodeValue;
-        var url = "http://www.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=afbacfb4d14cd681c04a06d69b24d847&photo_id="+pid;
-        var sUri = getProxyPlusUrl(url);
-      
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", sUri, false);
-        xmlHttp.send(null);
-        // process the tags
-        var latitude = 0;
-        var longitude = 0;
-      
-        // Get the picture description
-        // Commented out because of text wrapping issue within popup to clean up TBD...
-        // var descr = xmlHttp.responseXML.selectSingleNode("//description").firstChild.nodeValue;
-        // this.myabstract += descr;
-      
-        // Check the Tags to get lat/long and role
-        var tags =  xmlHttp.responseXML.selectNodes("//tag");
-        if( tags.length == 0 ) { // what happened
-          alert(Sarissa.serialize(xmlHttp.responseXML));
-        }
-      
-        this.myabstract += "<br/>"
-      
-        for (var i=0; i<tags.length; ++i) {
-          var raw= tags[i].attributes.getNamedItem("raw").nodeValue;
-          //alert( raw );
-          if( raw.indexOf( "geo:lat=") >= 0 ) {
-            latitude = raw.substr(8);
-            this.myabstract += "lat:"+latitude+"<br/>";
-          } else if( raw.indexOf( "geo:long=") >= 0 ) {
-            longitude = raw.substr(9);
-            this.myabstract += "long:"+longitude+"<br/>";
-          }
-        }
-      
-        this.gmlType = "gml:Point";
-        this.coords = longitude + "," + latitude;
-      }
-    }
-    */
   }
 
   /**
-   * Extract and return an array of coordinate strings for GML.
+   * Extract and return an array of shapes, which contains an array of
+   * coordinates. points[numberOfShapes, numberOfCoords, dimentionsOfCoords]
    * @param node GML which contains the coordinates.
    * @param featureIndex GML which contains the coordinates.
    * @return An array of coordinates.
    */
   this.getGeoCoords=function(node,featureIndex) {
+    coordsNodes=node.selectNodes(".//gml:pos|.//gml:posList|.//gml:coordinates");
     points=new Array();
-    // TBD handle multiple lines per feature
-    coordsNode=node.selectSingleNode(".//gml:pos|.//gml:posList|.//gml:coordinates");
-    dim=2;
-    if(coordsNode){
-      d=coordsNode.selectSingleNode("@srsDimension");
-      if(d)dim=parseInt(d.firstChild.nodeValue);
-      coords=coordsNode.firstChild.nodeValue;
-    }
-    if(coords){
-      point=coords.split(/[ ,\n\t]+/);
-      //Remove elements caused by leading and trailing white space
-      while(point[0]=="")point.shift();
-      while(point[point.length-1]=="")point.pop();
+    for(h=0;h<coordsNodes.length;h++){
+      points[h]=new Array();
+      dim=2;
+      if(coordsNodes[h]){
+        d=coordsNodes[h].selectSingleNode("@srsDimension");
+        if(d)dim=parseInt(d.firstChild.nodeValue);
+        coords=coordsNodes[h].firstChild.nodeValue;
+      }
+      if(coords){
+        point=coords.split(/[ ,\n\t]+/);
+        //Remove elements caused by leading and trailing white space
+        while(point[0]=="")point.shift();
+        while(point[point.length-1]=="")point.pop();
 
-      for(i=0,j=0; i<point.length;j++,i=i+dim) {
-        points[j] = new Array(point[i],point[i+1]);
+        for(i=0,j=0; i<point.length;j++,i=i+dim) {
+          points[h][j] = new Array(point[i],point[i+1]);
+        }
       }
     }
-    //alert("GmlLayer node"+featureIndex+"="+Sarissa.serialize(node)+" coords="+coords+" dim="+dim);
     return points;
   }
 
@@ -262,24 +169,6 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
   }
 
 /**
-  * We want to delete it before rendering it if it already exists
-  * or when we want to remove that layer
-  *
-  this.deleteShape= function() {
-  var id = this.id +"_vector";
-  var node = document.getElementById( id );
-  if( node != null ) {
-    node.parentNode.removeChild( node );
-    node = document.getElementById( id );
-    if( node != null ) {
-      // WHY WOULD THIS FAIL???????
-      alert( "failed to remove:"+id );
-    }
-  }
- }
-*/
-
-/**
   * Called by layer manager to clean the layer
   */
   this.unpaint = function() {
@@ -303,16 +192,17 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
         node.removeChild(node.childNodes[0]);
       }
 
-      // Convert to screen coords
-      screenCoords=new Array();
-      for(c=0;c<this.features[k].geoCoords.length;c++){
-        reproj = this.containerProj.Forward(this.features[k].geoCoords[c]);
-        screenCoords[c]=this.model.extent.getPL(reproj);
+      for(h=0;h<this.features[k].geoCoords.length;h++){
+        // Convert to screen coords
+        screenCoords=new Array();
+        for(c=0;c<this.features[k].geoCoords[h].length;c++){
+          reproj = this.containerProj.Forward(this.features[k].geoCoords[h][c]);
+          screenCoords[c]=this.model.extent.getPL(reproj);
+        }
+        // TBD we should be calling the VectorGraphics directly rather than
+        // call the SLD first.
+        this.features[k].shapes[h]=this.features[k].sld.paint(this.gr,screenCoords,this.features[k].group,this.gmlType);
       }
-      // TBD we should be calling the VectorGraphics directly rather than
-      // call the SLD first.
-      // TBD only doing and only one shape/feature (not Multishape)
-      this.features[k].shapes[0]=this.features[k].sld.paint(this.gr,screenCoords,this.features[k].group,this.gmlType);
     }
   }
 
