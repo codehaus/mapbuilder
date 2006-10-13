@@ -168,9 +168,12 @@ SVGGraphics2.prototype.drawCircle=function( X, Y, radius) {
 }
 
 /**
-  *
+  * Render a filled circle.
+  * @param Xpoints array which specify the x coordinates of each point 
+  * @param Ypoints array which specify the y coordinates of each point 
+  * @param node node from the HTML DOM to insert this line into
   */
-SVGGraphics2.prototype.fillCircle=function( X, Y, radius ) {
+SVGGraphics2.prototype.fillCircle=function(X,Y,radius,node) {
   
   var element = document.createElementNS('http://www.w3.org/2000/svg', "circle" );
   element.setAttribute("cx", X)
@@ -183,7 +186,7 @@ SVGGraphics2.prototype.fillCircle=function( X, Y, radius ) {
   //if( this.fillStyle )
   //  element.setAttribute("fill", this.fillStyle)
 
-  this.svg.appendChild( element );
+  node.appendChild( element );
   return element;
 }
   

@@ -23,7 +23,7 @@ function SldRenderer( style ) {
 SldRenderer.prototype.paint = function(gr, coords,node,gmlType) {
   switch(gmlType){
     case "gml:Point":
-      shape=this.paintPoint(gr,coords,node);
+      shape=this.paintPoint(gr,coords[0],node);
       break;
     case "gml:LineString":
       shape=this.paintLine(gr,coords,node);
@@ -41,9 +41,15 @@ SldRenderer.prototype.paint = function(gr, coords,node,gmlType) {
   * Renders a Point based on SLD info
   * @param gr VectorGraphic
   * @param coords point
+  * @param node HTML DOM node to insert the shape into.
   * @return shape
   */
-SldRenderer.prototype.paintPoint = function( gr, coords) {
+SldRenderer.prototype.paintPoint = function(gr,coords,node) {
+  radius=2
+  shape = gr.fillCircle(coords[0],coords[1],radius,node);
+  return shape;
+  
+/*
   var shape = null;
   var X = coords[0];
   var Y = coords[1];
@@ -108,6 +114,7 @@ SldRenderer.prototype.paintPoint = function( gr, coords) {
   }
    
   return shape;
+*/
 }
 
 /**
