@@ -48,7 +48,6 @@
     
   <ResourceList>
 
-    <!--
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1/LAK130.gml"/>
@@ -78,15 +77,6 @@
 
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1/LAP030.gml"/>
-      </Server>
-      <Name>LAP030</Name>
-      <Title>MSD3 LAP030</Title>
-      <SRS>urn:ogc:def:crs:EPSG:6.6:4329</SRS>
-    </FeatureType>
-
-    <FeatureType hidden="0">
-      <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1/AAC000.gml"/>
       </Server>
       <Name>AAC000</Name>
@@ -96,21 +86,43 @@
 
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1/AAL015.gml"/>
-      </Server>
-      <Name>AAL015</Name>
-      <Title>MSD3 AAL015</Title>
-      <SRS>urn:ogc:def:crs:EPSG:6.6:4329</SRS>
-    </FeatureType>
-    -->
-    <FeatureType hidden="0">
-      <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1/PAF010.gml"/>
       </Server>
       <Name>PAF010</Name>
       <Title>MSD3 PAF010</Title>
       <SRS>urn:ogc:def:crs:EPSG:6.6:4329</SRS>
     </FeatureType>
+
+
+    <!--
+    <FeatureType hidden="0">
+      <Server service="OGC:GML" version="2.1.2" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1/PAL015.gml"/>
+      </Server>
+      <Name>PAL015</Name>
+      <Title>MSD3 PAL015 Large</Title>
+      <SRS>urn:ogc:def:crs:EPSG:6.6:4329</SRS>
+    </FeatureType>
+    <FeatureType hidden="0">
+      <Server service="OGC:GML" version="2.1.2" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1/LAP030.gml"/>
+      </Server>
+      <Name>LAP030</Name>
+      <Title>MSD3 LAP030 Large</Title>
+      <SRS>urn:ogc:def:crs:EPSG:6.6:4329</SRS>
+    </FeatureType>
+    <FeatureType hidden="0">
+      <Server service="OGC:GML" version="2.1.2" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1/AAL015.gml"/>
+      </Server>
+      <Name>AAL015</Name>
+      <Title>MSD3 AAL015 Large</Title>
+      <SRS>urn:ogc:def:crs:EPSG:6.6:4329</SRS>
+    </FeatureType>
+    -->
+
+
+
 
     <!--
     <Layer queryable="1" hidden="0">
