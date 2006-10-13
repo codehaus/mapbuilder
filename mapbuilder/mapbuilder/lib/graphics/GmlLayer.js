@@ -181,7 +181,7 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
   this.getGeoCoords=function(node,featureIndex) {
     points=new Array();
     // TBD handle multiple lines per feature
-    coordsNode=node.selectSingleNode(".//gml:posList|.//gml:coordinates");
+    coordsNode=node.selectSingleNode(".//gml:pos|.//gml:posList|.//gml:coordinates");
     dim=2;
     if(coordsNode){
       d=coordsNode.selectSingleNode("@srsDimension");
@@ -311,7 +311,7 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
       }
       // TBD we should be calling the VectorGraphics directly rather than
       // call the SLD first.
-      // TBD only doing the Line case initially, and only one shape/feature
+      // TBD only doing and only one shape/feature (not Multishape)
       this.features[k].shapes[0]=this.features[k].sld.paint(this.gr,screenCoords,this.features[k].group,this.gmlType);
     }
   }
