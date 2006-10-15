@@ -26,51 +26,42 @@
 # $Name$
 ################################################################################
 
-$mapbuilderBaseUrl="../html/mapbuilder";
-%cgiVars=getCgiVars();
+use strict;
+use warnings;
+use CGI;
 
-print "Content-type: text/html\n\n";
-print "<html>\n";
-print "  <head><title>WMC Renderer</title></head>\n";
-print "  <body>\n";
-print '    <h1><a href="http://mapbuilder.sourceforge.net">Mapbuilder</a> Web Map Context Renderer</h1>';
-print "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>\n";
+my $q = new CGI;
+
+my $mapbuilderBaseUrl="../html/mapbuilder";
+
+print $q->header("text/html");
+
+print <<END;
+<html>
+	<head>
+		<title>WMC Renderer</title>
+	</head>
+	<body>
+		<h1><a href="http://mapbuilder.sourceforge.net">Mapbuilder</a> Web Map Context Renderer</h1>
+		<hr/>
+END
 
 system(
     "xsltproc",
     "--novalid",
     "$mapbuilderBaseUrl/widget/mappane/WmcLayer2DhtmlLayer.xml",
-    $cgiVars{'context'});
+    $q->param('context'));
 
 system(
     "xsltproc",
     "--novalid",
     "$mapbuilderBaseUrl/widget/legend/Context2Legend.xml",
-    $cgiVars{'context'});
+    $q->param('context'));
 
-print '  <p><i>A <a href="http://mapbuilder.sourceforge.net">Community Map Builder</a> Project</i></p>';
-print "</html></body>\n";
+print <<END;
+		<hr/>
+		<a title="Community Mapbuilder href="http://www.communitymapbuilder.net/">Community Mapbuilder</a>
+	</body>
+</html>
+END
 
-
-# Read all CGI vars into an associative array.
-# If multiple input fields have the same name, they are concatenated into
-#   one array element and delimited with the \0 character (which fails if
-#   the input has any \0 characters, very unlikely but conceivably possible).
-# This is a simple version, that assumes a request method of GET.
-sub getCgiVars {
-    local(%in) ;
-    local($name, $value) ;
-
-    # Resolve and unencode name/value pairs into %in
-    foreach (split(/[&;]/, $ENV{'QUERY_STRING'})) {
-        s/\+/ /g ;
-        ($name, $value)= split('=', $_, 2) ;
-        $name=~ s/%([0-9A-Fa-f]{2})/chr(hex($1))/ge ;
-        $value=~ s/%([0-9A-Fa-f]{2})/chr(hex($1))/ge ;
-        $in{$name}.= "\0" if defined($in{$name}) ;  # concatenate multiple vars
-        $in{$name}.= $value ;
-    }
-
-    return %in ;
-
-}
