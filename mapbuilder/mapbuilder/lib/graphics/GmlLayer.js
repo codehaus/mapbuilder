@@ -33,7 +33,7 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     Sarissa.setXpathNamespaces(this.layerNode, namespace);
 
     //TBD add the layer number to make sure the name is unique
-    this.id=this.layerName+"__1";
+    this.id=this.model.id + "_" + this.mapPane.id + "_" + this.layerName;
   
     var styleNode  = this.layerNode.selectSingleNode("//wmc:StyleList" );
     if(styleNode){
@@ -58,7 +58,7 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     for(k=0;k<featureNodes.length;k++){
       this.features[k]=new Array();
       this.features[k].node=featureNodes[k];
-      this.features[k].id=this.layerName+k;
+      this.features[k].id=this.id+k;
       this.features[k].geoCoords=this.getGeoCoords(featureNodes[k],k+1);
       this.features[k].shapes=new Array(); // A feature can contain multiple members/shapes
       this.features[k].sld=this.normalSld;
@@ -72,7 +72,7 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
       if(this.gmlType){
         this.gmlType=this.gmlType.nodeName;
       }else{
-        alert ("Unsupported GML Geometry for layer:"+this.layerName);
+        alert ("Unsupported GML Geometry for layer:"+this.id);
       }
     }
   }
