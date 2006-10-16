@@ -115,9 +115,6 @@
     </FeatureType>
     -->
 
-
-
-
     <!--
     <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
