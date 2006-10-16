@@ -41,7 +41,7 @@ function chkCapabilities() {
   } else {
     if( document.implementation.hasFeature("org.w3c.dom.svg", "1.0") ) {
       //alert( "loading SVG")
-      mapbuilder.loadScript(baseDir+"/graphics/SVGGraphics.js");  
+      mapbuilder.loadScript(baseDir+"/graphics/SVGGraphics2.js");  
     //} else {
     //  alert( "no support for SVG nor VML")
     }
@@ -65,7 +65,7 @@ function VectorGraphics(id, div, width, height) {
     return new VMLGraphics(id,div, width, height);
   
   if( safari || mozilla )
-    return new SVGGraphics(id, div, width, height);
+    return new SVGGraphics2(id, div, width, height);
       
   // most cases
   var gr = new jsGraphics(id);
