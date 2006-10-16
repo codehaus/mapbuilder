@@ -20,14 +20,8 @@
     -->
     <Window width="800" height="400"/>
     <ows:BoundingBox crs="urn:ogc:def:crs:EPSG:6.6:4329">
-      <ows:LowerCorner>37.32 126.65</ows:LowerCorner>
-      <ows:UpperCorner>37.77 126.88</ows:UpperCorner>
-      <!--
-      <ows:LowerCorner>37.5168956 126.6845868</ows:LowerCorner>
-      <ows:UpperCorner>37.5726588 126.8054024</ows:UpperCorner>
-      <ows:LowerCorner>-130 10</ows:LowerCorner>
-      <ows:UpperCorner>-50 50</ows:UpperCorner>
-      -->
+      <ows:LowerCorner>37.24 126.57</ows:LowerCorner>
+      <ows:UpperCorner>37.82 126.87</ows:UpperCorner>
     </ows:BoundingBox>
     
     <Title xml:lang="en">GML3 Demo with OWSContext</Title>
@@ -50,7 +44,7 @@
 
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1/LAK130.gml"/>
+        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1x/LAK130.xml"/>
       </Server>
       <Name>LAK130</Name>
       <Title>MSD3 LAK130</Title>
@@ -59,7 +53,7 @@
 
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1/LAL070.gml"/>
+        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1x/LAL070.xml"/>
       </Server>
       <Name>LAL070</Name>
       <Title>MSD3 LAL070</Title>
@@ -68,7 +62,7 @@
 
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1/LAL260.gml"/>
+        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1x/LAL260.xml"/>
       </Server>
       <Name>LAL260</Name>
       <Title>MSD3 LAL260</Title>
@@ -77,7 +71,7 @@
 
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1/AAC000.gml"/>
+        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1x/AAC000.xml"/>
       </Server>
       <Name>AAC000</Name>
       <Title>MSD3 AAC000</Title>
@@ -86,7 +80,7 @@
 
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1/PAF010.gml"/>
+        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1x/PAF010.xml"/>
       </Server>
       <Name>PAF010</Name>
       <Title>MSD3 PAF010</Title>
@@ -97,7 +91,7 @@
     <!--
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1/PAL015.gml"/>
+        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1x/PAL015.xml"/>
       </Server>
       <Name>PAL015</Name>
       <Title>MSD3 PAL015 Large</Title>
@@ -105,7 +99,7 @@
     </FeatureType>
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1/LAP030.gml"/>
+        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1x/LAP030.xml"/>
       </Server>
       <Name>LAP030</Name>
       <Title>MSD3 LAP030 Large</Title>
@@ -113,7 +107,7 @@
     </FeatureType>
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1/AAL015.gml"/>
+        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1x/AAL015.xml"/>
       </Server>
       <Name>AAL015</Name>
       <Title>MSD3 AAL015 Large</Title>
