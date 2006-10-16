@@ -293,7 +293,7 @@ function OwsContext(modelNode, parent) {
    * @return the list with all layers
    */
   this.getAllLayers = function() {
-    var listNodeArray = this.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:Layer");
+    listNodeArray = this.doc.selectNodes("//wmc:Layer|//wmc:FeatureType");
     return listNodeArray;
   }
 
