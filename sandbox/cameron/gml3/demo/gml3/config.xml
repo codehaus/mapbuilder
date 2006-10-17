@@ -2,8 +2,8 @@
 <MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
   <models>
     <OwsContext id="mainMap">
-      <defaultModelUrl>MSD3Context.xml</defaultModelUrl>
-      <!--defaultModelUrl>TasmaniaContext.xml</defaultModelUrl-->
+      <defaultModelUrl>MSD3_OWS3_Rel_GML3_1x/MSD3Context.xml</defaultModelUrl>
+      <!--defaultModelUrl>tasmania/TasmaniaContext.xml</defaultModelUrl-->
       <widgets>
         <MapPane2 id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
