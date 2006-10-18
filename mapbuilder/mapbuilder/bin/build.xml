@@ -463,6 +463,18 @@ $Id$
     </zip>
   </target>
 
+  	<target
+  		name="nightly-build"
+  		depends="dist"
+  	>
+  		<property name="nightlybuild.dir" value="/home/mattdiez/continuum/continuum-1.0.3/apps/continuum/webapp/nightlybuilds"/>
+  		
+  		<tstamp/>
+  		
+  		<copyfile dest="${nightlybuild.dir}/${pack.name}-src-${app.version}-${DSTAMP}.zip" src="${dist.home}/${pack.name}-src-${app.version}.zip"/>
+  		<copyfile dest="${nightlybuild.dir}/${pack.name}-${app.version}-${DSTAMP}.zip" src="${dist.home}/${pack.name}-${app.version}.zip"/>
+  		<copyfile dest="${nightlybuild.dir}/${pack.name}-${app.version}-war-${DSTAMP}.zip" src="${dist.home}/${pack.name}-${app.version}-war.zip"/>
+  	</target>
 <!--
   The "dist-apache" target creates the zip file distribution for the Apache/PHP
   environment.
