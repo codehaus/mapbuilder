@@ -53,7 +53,7 @@ $pos = strpos($result, "<");
 if($pos > 1) {
   $result = substr($result, $pos, $len);
 }
-$result = str_replace("xlink:","",$result);
+//$result = str_replace("xlink:","",$result);
 echo $result;
 
 // define class with functions to open socket and post XML
