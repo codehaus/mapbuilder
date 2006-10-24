@@ -18,7 +18,11 @@ $Name$
 
 // read in the variables
 
-$onlineresource=$_REQUEST['url'];
+if(array_key_exists('HTTP_SERVERURL', $_SERVER)){ 
+  $onlineresource=$_SERVER['HTTP_SERVERURL']; 
+}else{ 
+  $onlineresource=$_REQUEST['url']; 
+}
 $parsed = parse_url($onlineresource);
 $host = @$parsed["host"];
 $path = @$parsed["path"] . "?" . @$parsed["query"];
