@@ -8,8 +8,8 @@ $Id: $
 // Ensure this object's dependancies are loaded.
 
 mapbuilder.loadScript(baseDir+"/graphics/WmsLayer.js");
-mapbuilder.loadScript(baseDir+"/graphics/FeatureLayer.js");
-mapbuilder.loadScript(baseDir+"/graphics/RssLayer.js");
+//mapbuilder.loadScript(baseDir+"/graphics/FeatureLayer.js");
+//mapbuilder.loadScript(baseDir+"/graphics/RssLayer.js");
 mapbuilder.loadScript(baseDir+"/graphics/GmlLayer.js");
 
 //should be pulled in by google tool
@@ -155,13 +155,16 @@ MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
       url=url.nodeValue;
       layerNode=Sarissa.getDomDocument();
       layerNode.async=false;
+      layerNode.validateOnParse=false; //IE6 SP2 parsing bug
       layerNode.load(url);
+      if(layerNode.parseError<0)alert("MapLayerMgr - error loading GML: "+url);
       layer = new GmlLayer( objRef.model, objRef.mapPane, layerName, layerNode, false, true );
-      objRef.layers.push( layer );
+          objRef.layers.push( layer );
     }
 
   // GeoRss
-  } else if( nodeName.indexOf("RssLayer") >= 0 ) {
+  } else if( (service == "GeoRss2")) {
+  //} else if( nodeName.indexOf("RssLayer") >= 0 ) {
     var layerName = layerNode.getAttribute("id" );
     layer = new RssLayer( objRef.model, objRef.mapPane, layerName, layerNode, false, true );
     objRef.layers.push( layer );
@@ -218,7 +221,7 @@ MapLayerMgr.prototype.paintWmsLayers = function( objRef ) {
     var layer = objRef.layers[i];
     
     if( layer.isWmsLayer() )
-	    layer.paint(objRef, null, i);
+            layer.paint(objRef, null, i);
   }
 }
   
@@ -236,7 +239,7 @@ MapLayerMgr.prototype.paintOtherLayers = function( objRef ) {
     var layer = objRef.layers[i];
     
     if( !layer.isWmsLayer() ) {
-	    layer.paint(objRef, null, i);
+            layer.paint(objRef, null, i);
       count++;
     }
   }
