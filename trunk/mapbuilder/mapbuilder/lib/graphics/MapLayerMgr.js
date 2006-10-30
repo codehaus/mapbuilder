@@ -138,8 +138,19 @@ MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
 
   // WMS
   } else if( (service == "wms") || (service == "OGC:WMS")) {
-    layer = objRef.addWmsLayer( objRef.model, objRef.mapPane, layerNode);
-
+	  var layerNameNode = layerNode.selectSingleNode("wmc:Name");
+	  if( layerNameNode ) {
+	    layerName = layerNameNode.firstChild.nodeValue;
+	  } else {
+	    layerName = "UNKNOWN";
+	  }
+	  
+	  var queryable = layerNode.getAttribute("queryable");
+	  var visible = layerNode.getAttribute("hidden");
+	    
+	  var layer = new WmsLayer( objRef.model, objRef.mapPane, layerName, layerNode, queryable, visible );
+	  objRef.mapPane.MapLayerMgr.layers.push( layer );
+ 
   // GML2
   } else if( (service == "gml") || (service == "OGC:GML")) {
     layerName=layerNode.selectSingleNode("Title");
@@ -183,29 +194,6 @@ MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
     alert( "Failed adding Layer:"+nodeName + " service:"+service );
   }
   return layer
-}
-
-/**
-  * Method to add a WmsLayer to the LayerList
-  * @param objRef object pointer
-  * @param layerNode the Layer node from another context doc or capabiltiies doc
-  */
-MapLayerMgr.prototype.addWmsLayer = function(model, mapPane, layerNode) {
-   
-  var layerNameNode = layerNode.selectSingleNode("wmc:Name");
-  if( layerNameNode ) {
-    layerName = layerNameNode.firstChild.nodeValue;
-  } else {
-    layerName = "UNKNOWN";
-  }
-  
-  var queryable = layerNode.getAttribute("queryable");
-  var visible = layerNode.getAttribute("hidden");
-    
-  var layer = new WmsLayer( model, mapPane, layerName, layerNode, queryable, visible );
-  
-  mapPane.MapLayerMgr.layers.push( layer );
-  return layer;
 }
 
 /**
