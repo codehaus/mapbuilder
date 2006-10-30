@@ -119,7 +119,6 @@ VMLGraphics.prototype.drawCircle=function( X, Y, radius) {
   *
   */
 VMLGraphics.prototype.fillCircle=function( X, Y, radius ) {
-  
   var diameter= radius * 2;
   var element = document.createElement("vml:oval");
   var xOffset = X-radius;
@@ -141,8 +140,8 @@ VMLGraphics.prototype.fillCircle=function( X, Y, radius ) {
   return element;
 }
   
-/*
- *
+/**
+ * Draw an image.
  */ 
 VMLGraphics.prototype.drawImage = function( src, X, Y, width, height, dx, dy) {
 // center the image
