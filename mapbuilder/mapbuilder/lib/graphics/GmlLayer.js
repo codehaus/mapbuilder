@@ -52,6 +52,7 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
 
     //TBD we should be able to remove featureNodes and use this.layerNode instead
     div = this.getDiv(this.id);
+	this.div=div; //tbd remove this line.
     this.gr=new VectorGraphics(this.id,div,width,height);
     featureNodes = this.layerNode.selectNodes(".//gml:featureMember");
     this.features=new Array();
@@ -180,11 +181,11 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
    * Paints the FeatureCollection.
    */
   this.paintFeatures=function() {
-    for(k=0;k<this.features.length;k++){
+	for(k=0;k<this.features.length;k++){
       // TBD Opportunity for optimisation here
       // (resize instead of delete/repaint)
       // TBD Probably should move delete into a seperate function
-
+	  
       // delete previously rendered shape first.
       id1=this.features[k].id+"_g";
       node = document.getElementById(id1);
@@ -202,7 +203,7 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
         // TBD we should be calling the VectorGraphics directly rather than
         // call the SLD first.
         this.features[k].shapes[h]=this.features[k].sld.paint(this.gr,screenCoords,this.features[k].group,this.gmlType);
-      }
+	  }
     }
   }
 
