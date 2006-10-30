@@ -11,7 +11,7 @@ mapbuilder.loadScript(baseDir+"/util/Util.js");
 /**
   * Safari/FireFox 1.5 SVG Graphics
   * @param id Id for the layer.
-  * @param div DIV to insert the SVG into.
+  * @param div DIV to insert the vector shapes into.
   * @param width width.
   * @param height height.
   */
