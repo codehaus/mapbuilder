@@ -29,7 +29,7 @@
 <xsl:template name="data">
   <tbody>
     <tr>
-      <td><xsl:element name="img"><xsl:attribute name="src"><xsl:value-of select="eo1:lowres_href"/></xsl:attribute></xsl:element></td>
+      <td><xsl:element name="img"><xsl:attribute name="height">200</xsl:attribute><xsl:attribute name="src"><xsl:value-of select="eo1:lowres_href"/></xsl:attribute></xsl:element></td>
       <td>
 	        <b>Id:</b><xsl:value-of select="eo1:id"/><br/>
 	        <b>Name:</b><xsl:value-of select="eo1:name"/><br/>
