@@ -48,28 +48,20 @@
       <wmc:Name>decock</wmc:Name>
       <wmc:Title>decock</wmc:Title>
       
-      <wfs:GetFeature version="1.0.0" service="WFS" maxFeatures="{$maxFeatures}" outputFormat="GML2" xmlns:topp="http://www.openplans.org/topp" xmlns:wfs="http://www.opengis.net/wfs" xmlns:ogc="http://www.opengis.net/ogc"
-        xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.0.0/WFS-basic.xsd">
+      <wfs:GetFeature version="1.0.0" service="WFS" maxFeatures="{$maxFeatures}">
         <wfs:Query typeName="{$resourceName}">
           <ogc:Filter>
             <xsl:if test="$bBoxMinX">
-              <BBOX>
-                <PropertyName>
-                  <xsl:value-of select="$geometry" />
-                </PropertyName>
-                <gml:Box srsName="{$srs}">
-                  <gml:coordinates>
-                    <xsl:value-of select="$bBoxMinX" />
-                    <xsl:value-of select="$cs" />
-                    <xsl:value-of select="$bBoxMinY" />
-                    <xsl:value-of select="$ts" />
-                    <xsl:value-of select="$bBoxMaxX" />
-                    <xsl:value-of select="$cs" />
-                    <xsl:value-of select="$bBoxMaxY" />
-                  </gml:coordinates>
-                </gml:Box>
-              </BBOX>
-            </xsl:if>
+                <BBOX>
+                  <ogc:PropertyName><xsl:value-of select="$geometry"/></ogc:PropertyName>
+                  <gml:Box srsName="{$srs}"><gml:coordinates>
+                    <xsl:value-of select="$bBoxMinX"/><xsl:value-of select="$cs"/>
+                    <xsl:value-of select="$bBoxMinY"/><xsl:value-of select="$ts"/>
+                    <xsl:value-of select="$bBoxMaxX"/><xsl:value-of select="$cs"/>
+                    <xsl:value-of select="$bBoxMaxY"/>
+                  </gml:coordinates></gml:Box>
+                </BBOX>
+              </xsl:if> 
           </ogc:Filter>
         </wfs:Query>
       </wfs:GetFeature>
@@ -91,6 +83,21 @@
               <sld:CssParameter name="stroke-width">5</sld:CssParameter>
             </sld:Stroke>
           </sld:LineSymbolizer>
+           <sld:PointSymbolizer>
+					  <sld:Graphic>
+						  <sld:Mark>
+							  <sld:WellKnownName>circle</sld:WellKnownName>
+							  <sld:Fill>
+								  <sld:CssParameter name="fill">#ff0000</sld:CssParameter>
+							  </sld:Fill>
+						  </sld:Mark>
+						  <sld:Size>4.0</sld:Size>
+					  </sld:Graphic>
+					  <sld:Stroke>
+						  <sld:CssParameter name="stroke">#ffff00</sld:CssParameter>
+						  <sld:CssParameter name="stroke-width">1</sld:CssParameter>
+					  </sld:Stroke>
+				  </sld:PointSymbolizer>
         </wmc:Style>
         <wmc:Style>
           <wmc:Name>Normal</wmc:Name>
@@ -100,6 +107,17 @@
               <sld:CssParameter name="stroke-width">3</sld:CssParameter>
             </sld:Stroke>
           </sld:LineSymbolizer>
+          <sld:PointSymbolizer>
+					  <sld:Graphic>
+						  <sld:Mark>
+							  <sld:WellKnownName>circle</sld:WellKnownName>
+							  <sld:Fill>
+								  <sld:CssParameter name="fill">#fff</sld:CssParameter>
+							  </sld:Fill>
+						  </sld:Mark>
+						  <sld:Size>3.0</sld:Size>
+					  </sld:Graphic>
+				  </sld:PointSymbolizer>
         </wmc:Style>
       </wmc:StyleList>
     </wmc:FeatureType>
