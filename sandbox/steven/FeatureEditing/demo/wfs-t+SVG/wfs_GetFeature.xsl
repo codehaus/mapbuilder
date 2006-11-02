@@ -67,36 +67,57 @@
       </wfs:GetFeature>
       <wmc:StyleList>
         <wmc:Style>
-          <wmc:Name>Highlite</wmc:Name>
+          <wmc:Name>Drag</wmc:Name>
           <sld:LineSymbolizer>
-            <sld:Graphic>
-              <sld:Mark>
-                <sld:WellKnownName>circle</sld:WellKnownName>
-                <sld:Fill>
-                  <sld:CssParameter name="fill">#ff0000</sld:CssParameter>
-                </sld:Fill>
-              </sld:Mark>
-              <sld:Size>40</sld:Size>
-            </sld:Graphic>
             <sld:Stroke>
               <sld:CssParameter name="stroke">#ff0000</sld:CssParameter>
-              <sld:CssParameter name="stroke-width">5</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">1</sld:CssParameter>
             </sld:Stroke>
           </sld:LineSymbolizer>
-           <sld:PointSymbolizer>
+          <sld:PointSymbolizer>
 					  <sld:Graphic>
 						  <sld:Mark>
 							  <sld:WellKnownName>circle</sld:WellKnownName>
+							   <sld:Stroke>
+              <sld:CssParameter name="stroke">#ff0000</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">1</sld:CssParameter>
+            </sld:Stroke>
 							  <sld:Fill>
-								  <sld:CssParameter name="fill">#ff0000</sld:CssParameter>
+								  <sld:CssParameter name="fill">white</sld:CssParameter>
 							  </sld:Fill>
+							   <sld:Size>20</sld:Size>
+							    <sld:Opacity>
+								  <sld:CssParameter name="opacity">0.5</sld:CssParameter>
+							  </sld:Opacity>
 						  </sld:Mark>
-						  <sld:Size>4.0</sld:Size>
+						 
+						 
 					  </sld:Graphic>
-					  <sld:Stroke>
-						  <sld:CssParameter name="stroke">#ffff00</sld:CssParameter>
-						  <sld:CssParameter name="stroke-width">1</sld:CssParameter>
-					  </sld:Stroke>
+				  </sld:PointSymbolizer>
+        </wmc:Style>
+           <wmc:Style>
+          <wmc:Name>Hover</wmc:Name>
+          <sld:LineSymbolizer>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#ff0000</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">1</sld:CssParameter>
+            </sld:Stroke>
+          </sld:LineSymbolizer>
+          <sld:PointSymbolizer>
+					  <sld:Graphic>
+						  <sld:Mark>
+							  <sld:WellKnownName>circle</sld:WellKnownName>
+							   <sld:Stroke>
+              <sld:CssParameter name="stroke">#ff0000</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">1</sld:CssParameter>
+            </sld:Stroke>
+							  <sld:Fill>
+								  <sld:CssParameter name="fill">white</sld:CssParameter>
+							  </sld:Fill>
+							  <sld:Size>10</sld:Size>
+						  </sld:Mark>
+						  
+					  </sld:Graphic>
 				  </sld:PointSymbolizer>
         </wmc:Style>
         <wmc:Style>
@@ -104,18 +125,23 @@
           <sld:LineSymbolizer>
             <sld:Stroke>
               <sld:CssParameter name="stroke">#ff0000</sld:CssParameter>
-              <sld:CssParameter name="stroke-width">3</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">1</sld:CssParameter>
             </sld:Stroke>
           </sld:LineSymbolizer>
           <sld:PointSymbolizer>
 					  <sld:Graphic>
 						  <sld:Mark>
 							  <sld:WellKnownName>circle</sld:WellKnownName>
+							   <sld:Stroke>
+              <sld:CssParameter name="stroke">#ff0000</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">1</sld:CssParameter>
+            </sld:Stroke>
 							  <sld:Fill>
 								  <sld:CssParameter name="fill">#fff</sld:CssParameter>
 							  </sld:Fill>
-						  </sld:Mark>
 						  <sld:Size>3.0</sld:Size>
+						  </sld:Mark>
+						 
 					  </sld:Graphic>
 				  </sld:PointSymbolizer>
         </wmc:Style>
