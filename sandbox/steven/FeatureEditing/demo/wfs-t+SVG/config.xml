@@ -19,7 +19,7 @@
           <htmlTagId>mainMapPane</htmlTagId>
           <stylesheet>../../lib/widget/Null.xsl</stylesheet>
           <mapContainerId>mainMapContainer</mapContainerId>
-          <lineColor>#FF0001</lineColor>
+          <lineColor>#FF00ff</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
         </AoiBoxDHTML>
@@ -54,7 +54,9 @@
       </widgets>
       
       <tools>
-        <AoiMouseHandler id="mainAoi"/>
+        <AoiMouseHandler id="mainAoi">
+          <enabled>false</enabled>
+          </AoiMouseHandler>
         <DragPanHandler id="mainDragPan">
           <enabled>false</enabled>
         </DragPanHandler>
@@ -139,7 +141,7 @@
            <selected>true</selected>
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
+      <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/SetAoiEnable.png</enabledSrc>
       <disabledSrc>/images/SetAoiDisable.png</disabledSrc>
@@ -157,30 +159,30 @@
 <!--      <defaultModelUrl>wegvlakken.xml</defaultModelUrl>-->
 <!--      <targetContext>mainMap</targetContext>-->
 <!--    </EditLine>-->
-    <SetAoi id="setAoi">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
-      <class>RadioButton</class>
-      <enabledSrc>/images/SetAoiEnable.png</enabledSrc>
-      <disabledSrc>/images/SetAoiDisable.png</disabledSrc>
-    </SetAoi>
+<!--    <SetAoi id="setAoi">-->
+<!--      <buttonBar>mainButtonBar</buttonBar>-->
+<!--      <targetModel>mainMap</targetModel>-->
+<!--      <mouseHandler>mainAoi</mouseHandler>-->
+<!--      <class>RadioButton</class>-->
+<!--      <enabledSrc>/images/SetAoiEnable.png</enabledSrc>-->
+<!--      <disabledSrc>/images/SetAoiDisable.png</disabledSrc>-->
+<!--    </SetAoi>-->
     <Reset id="reset">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
     </Reset>
-    <GetMarkerInfo id="getMarkerInfo">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <context>mainMap</context>
-      <!-- mouseHandler>mainAoi</mouseHandler -->
-      <class>RadioButton</class>
-      <enabledSrc>/images/QueryEnable.png</enabledSrc>
-      <disabledSrc>/images/QueryDisable.png</disabledSrc>
-      <cursor>default</cursor>
-    </GetMarkerInfo> 
+<!--    <GetMarkerInfo id="getMarkerInfo">-->
+<!--      <buttonBar>mainButtonBar</buttonBar>-->
+<!--      <targetModel>mainMap</targetModel>-->
+<!--      <context>mainMap</context>-->
+<!--       <mouseHandler>mainAoi</mouseHandler >-->
+<!--      <class>RadioButton</class>-->
+<!--      <enabledSrc>/images/QueryEnable.png</enabledSrc>-->
+<!--      <disabledSrc>/images/QueryDisable.png</disabledSrc>-->
+<!--      <cursor>default</cursor>-->
+<!--    </GetMarkerInfo> -->
     <Save id="save">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
