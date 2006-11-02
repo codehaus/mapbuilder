@@ -17,7 +17,7 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 function GetFeature(widgetNode, model) {
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
-
+ this.cursor = "select";	
   /**
    * Calls the centerAt method of the context doc to zoom out, recentering at 
    * the mouse event coordinates.
@@ -27,6 +27,7 @@ function GetFeature(widgetNode, model) {
    */
   this.doAction = function(objRef,targetNode) {
     if (objRef.enabled) {
+    	
      var point=objRef.mouseHandler.model.extent.getXY(targetNode.evpl);
       var x = point[0];
       var y = point[1];
