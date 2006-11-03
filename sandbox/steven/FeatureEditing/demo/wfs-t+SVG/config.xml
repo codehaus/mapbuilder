@@ -143,9 +143,25 @@
       <targetModel>mainMap</targetModel>
       <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
-      <enabledSrc>/images/SetAoiEnable.png</enabledSrc>
-      <disabledSrc>/images/SetAoiDisable.png</disabledSrc>
+      <enabledSrc>/images/GetFeatureEnable.png</enabledSrc>
+      <disabledSrc>/images/GetFeatureDisable.png</disabledSrc>
     </GetFeature>
+    <DeletePoint id="delPoint">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>gml2FeatureTemplate</targetModel>
+      <mouseHandler>mainMouseClick</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/DelPointEnable.png</enabledSrc>
+      <disabledSrc>/images/DelPointDisable.png</disabledSrc>
+    </DeletePoint>
+     <AddPoint id="addPoint">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>gml2FeatureTemplate</targetModel>
+      <mouseHandler>mainMouseClick</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/AddPointEnable.png</enabledSrc>
+      <disabledSrc>/images/AddPointDisable.png</disabledSrc>
+    </AddPoint>
 <!--     <EditLine id="editLine">-->
 <!--      <buttonBar>mainButtonBar</buttonBar>-->
 <!--      <targetModel>gml2FeatureTemplate</targetModel>-->
