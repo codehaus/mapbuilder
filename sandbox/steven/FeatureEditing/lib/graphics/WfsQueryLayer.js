@@ -16,7 +16,7 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   // marker for events
   this.id = "WfsQueryLayer";
   this.model = model;
-  
+  this.deletePoint = false;
   // unique layer id
   this.uuid = layerNode.getAttribute("id");
   this.featureCount = 0;
@@ -536,8 +536,15 @@ this.anchorPoint = this.containerNode.evpl;
 	var pointPairs    = this.wfsQueryLayer.coords.split(/[ ,\n]+/);
 	var idAttr = this.getAttribute("id").split("_");
 	var pointNr=idAttr[4];
+	if(this.wfsQueryLayer.deletePoint) {
+	pointPairs.splice(pointNr*2+1,1);
+	pointPairs.splice(pointNr*2,1);
+	}
+	
+	else {
 	pointPairs.splice(pointNr*2,1,newPoint[0]);
 	pointPairs.splice(pointNr*2+1,1,newPoint[1]);
+	}
 	for(var i=0;i<pointPairs.length;i++) {
 		if(!newLine) {
 			var newLine = pointPairs[i] + "," + pointPairs[i+1];
@@ -597,8 +604,12 @@ this.anchorPoint = this.containerNode.evpl;
   this.gr = new VectorGraphics(this.id, div, this.width, this.height );
   
   //this.paint();
-  
+
+	this.delpoint = function (objRef, value) {
+		objRef.deletePoint = value;
+	}  
   // model here is not geoRss but OwsContext sooooo
+  config.objects[this.model.id].addListener("delpoint",this.delpoint, this);
   config.objects[this.model.id].addListener("highlightFeature",this.highlight, this);
   config.objects[this.model.id].addListener("dehighlightFeature",this.dehighlight, this);
   config.objects[this.model.id].addListener("clickFeature",this.clickIt, this);
