@@ -57,7 +57,12 @@ VMLGraphics.prototype.setShapeSize = function(shape, x) {;
   shape.style.left=oldLeft + oldSize/2 -x;
   shape.style.top=oldTop +oldSize/2-x;
 }
+VMLGraphics.prototype.setOpacity = function(shape, x) {
+	this.opacity = x;
+//SMO: this does actually work but it looks ugly
+//	shape.style.filter="alpha(opacity="+this.opacity*100+")";
 
+}
 /**
   * A polyline is a series of connected line segments. 
   * Xpoints and Ypoints are arrays which specify the x and y coordinates of each point 

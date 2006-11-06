@@ -14,7 +14,7 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @param widgetNode The widget node from the Config XML file.
  * @param model  The model for this widget
  */
-function GetFeature(widgetNode, model) {
+function DeleteVertex(widgetNode, model) {
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
  this.cursor = "crosshair";	
@@ -25,28 +25,15 @@ function GetFeature(widgetNode, model) {
    * @param objRef      Pointer to this AoiMouseHandler object.
    * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
-  this.doAction = function(objRef,targetNode) {
-    if (objRef.enabled) {
-    	
-     var point=objRef.mouseHandler.model.extent.getXY(targetNode.evpl);
-      var x = point[0];
-      var y = point[1];
-      objRef.targetModel.setParam("aoi",new Array(new Array(x-10,y-10),new Array(x+10,y+10)));
-      config.objects.webServiceForm.submitForm();
-      
-      
-    }
-  }
+  this.doSelect = function(selected,objRef) {
+    if (selected){
 
-  /**
-   * Register for mouseUp events.
-   * @param objRef  Pointer to this object.
-   */
-  this.setMouseListener = function(objRef) {
-    if (objRef.mouseHandler) {
-      objRef.mouseHandler.model.addListener('mouseup',objRef.doAction,objRef);
+		this.targetModel.setParam("delpoint",true);
     }
+    else {
+    		this.targetModel.setParam("delpoint",false);
+    }
+    
   }
-  this.model.addListener( "loadModel", this.setMouseListener, this );
-
+  
 }

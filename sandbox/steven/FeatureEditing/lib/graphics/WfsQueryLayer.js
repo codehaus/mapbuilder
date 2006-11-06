@@ -17,6 +17,8 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   this.id = "WfsQueryLayer";
   this.model = model;
   this.deletePoint = false;
+    this.addPoint = false;
+    this.movePoint = false;
   // unique layer id
   this.uuid = layerNode.getAttribute("id");
   this.featureCount = 0;
@@ -243,13 +245,13 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   * @param img can be ignored here (required for WMS layers)
   */
   this.paint= function( objRef, img ) {
+var nodeList = this.model.getFeatureNodes();
 
     this.deletePreviousFeatures();
-
-    var nodeList = this.model.getFeatureNodes();
-if(!nodeList) {alert("geen lijn geselecteerd");
+if(!nodeList) {
 return false;
 }
+    
     for( var i=0; i<nodeList.length; i++) {
 
       featureNode = nodeList[i]
@@ -409,9 +411,9 @@ return false;
 		
     
       this.wfsQueryLayer.paintLinePoint(this.wfsQueryLayer.hoverSld, this);
-//  
+  if(this.wfsQueryLayer.movePoint){
     this.style.cursor = "move";
-
+}
     //config.objects[this.model].setParam('highlightFeature',id);
     return true;
   }
@@ -490,7 +492,7 @@ this.anchorPoint = this.containerNode.evpl;
   }
   
    this.mouseMoveHandler = function(ev) {
-  	 if(this.drag) {
+  	 if(this.drag&&this.wfsQueryLayer.movePoint) {
   	 
 	  	 this.deltaP = this.containerNode.evpl[0] - this.anchorPoint[0];
        this.deltaL = this.containerNode.evpl[1] - this.anchorPoint[1];
@@ -532,6 +534,11 @@ this.anchorPoint = this.containerNode.evpl;
 	var L =	this.getAttribute("cy");
 
 }
+//You want to move the new point a bit so it's clear that it's a new point
+	if(this.wfsQueryLayer.addPoint) {
+	P=parseInt(P)+6;
+	
+	}
 	var newPoint =	this.wfsQueryLayer.mapPane.model.extent.getXY(new Array(P,L));
 	var pointPairs    = this.wfsQueryLayer.coords.split(/[ ,\n]+/);
 	var idAttr = this.getAttribute("id").split("_");
@@ -540,11 +547,15 @@ this.anchorPoint = this.containerNode.evpl;
 	pointPairs.splice(pointNr*2+1,1);
 	pointPairs.splice(pointNr*2,1);
 	}
-	
-	else {
+	else if(this.wfsQueryLayer.addPoint) {
+	pointPairs.splice(pointNr*2+2,0,newPoint[0]);
+	pointPairs.splice(pointNr*2+3,0,newPoint[1]);
+	}
+	else if (this.wfsQueryLayer.movePoint){
 	pointPairs.splice(pointNr*2,1,newPoint[0]);
 	pointPairs.splice(pointNr*2+1,1,newPoint[1]);
 	}
+	else return false;
 	for(var i=0;i<pointPairs.length;i++) {
 		if(!newLine) {
 			var newLine = pointPairs[i] + "," + pointPairs[i+1];
@@ -608,8 +619,17 @@ this.anchorPoint = this.containerNode.evpl;
 	this.delpoint = function (objRef, value) {
 		objRef.deletePoint = value;
 	}  
+	this.addpoint = function (objRef, value) {
+		objRef.addPoint = value;
+	}  
+	this.movepoint = function (objRef, value) {
+		objRef.movePoint = value;
+	}  
   // model here is not geoRss but OwsContext sooooo
   config.objects[this.model.id].addListener("delpoint",this.delpoint, this);
+   config.objects[this.model.id].addListener("addpoint",this.addpoint, this);
+     config.objects[this.model.id].addListener("movepoint",this.movepoint, this);
+   
   config.objects[this.model.id].addListener("highlightFeature",this.highlight, this);
   config.objects[this.model.id].addListener("dehighlightFeature",this.dehighlight, this);
   config.objects[this.model.id].addListener("clickFeature",this.clickIt, this);

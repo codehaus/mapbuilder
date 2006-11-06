@@ -46,6 +46,9 @@ StyleLayerDescriptor.prototype.hiliteShape = function( gr, shape, symbolizer) {
    if( this.size != null ) {
     gr.setShapeSize(shape, this.size);
   } 
+  if( this.opacity != null ) {
+    gr.setOpacity(shape, this.opacity);
+  } 
   if( this.strokeWidth != null ) {
     gr.setShapeStrokeWidth(shape, this.strokeWidth);
   }
@@ -263,6 +266,14 @@ StyleLayerDescriptor.prototype.getStyleAttributes = function( path ) {
     this.size = node.firstChild.nodeValue;
   } else {
     this.size = null;
+  }
+   node = this.style.selectSingleNode( path + "/sld:Opacity");
+  
+  
+  if( node != undefined ) {
+    this.opacity = node.firstChild.nodeValue;
+  } else {
+    this.opacity = null;
   }
   
 }

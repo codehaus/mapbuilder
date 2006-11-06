@@ -61,7 +61,10 @@ SVGGraphics.prototype.setShapeSize = function(shape, x) {
 	this.size = x;
   shape.setAttribute("r", x);
 }
-
+SVGGraphics.prototype.setOpacity = function(shape, x) {
+	this.opacity = x;
+  shape.setAttribute("opacity", x);
+}
 /**
   * A polyline is a series of connected line segments. 
   * Xpoints and Ypoints are arrays which specify the x and y coordinates of each point 
