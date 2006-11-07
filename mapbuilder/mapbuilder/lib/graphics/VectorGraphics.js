@@ -8,6 +8,10 @@ var mac, win;
 var opera, khtml, safari, mozilla, ie, ie50, ie55, ie60;
 var canvasEnabled = false;
 
+//mapbuilder.loadScript(baseDir+"/graphics/CanvasGraphics.js");
+//mapbuilder.loadScript(baseDir+"/graphics/SVGGraphics.js");
+//mapbuilder.loadScript(baseDir+"/graphics/VMLGraphics2.js");
+
 mapbuilder.loadScript(baseDir+"/util/sarissa/Sarissa.js");
 
 /**
@@ -33,11 +37,12 @@ function chkCapabilities() {
   ie60 = ie && AV.indexOf("MSIE 6.0")>=0;
   
   if( ie ) {
-    mapbuilder.loadScript(baseDir+"/graphics/VMLGraphics.js");
+    mapbuilder.loadScript(baseDir+"/graphics/VMLGraphics2.js");
+    //mapbuilder.loadScript(baseDir+"/graphics/VMLGraphics.js");
   } else {
     if( document.implementation.hasFeature("org.w3c.dom.svg", "1.0") ) {
       //alert( "loading SVG")
-      mapbuilder.loadScript(baseDir+"/graphics/SVGGraphics.js");  
+      mapbuilder.loadScript(baseDir+"/graphics/SVGGraphics2.js");  
     //} else {
     //  alert( "no support for SVG nor VML")
     }
@@ -59,9 +64,10 @@ function chkCapabilities() {
 function VectorGraphics(id, div, width, height) {
   if( ie )
     return new VMLGraphics2(id,div, width, height);
+    //return new VMLGraphics(id,div, width, height);
   
   if( safari || mozilla )
-    return new SVGGraphics(id, div, width, height);
+    return new SVGGraphics2(id, div, width, height);
       
   // most cases
   var gr = new jsGraphics(id);
