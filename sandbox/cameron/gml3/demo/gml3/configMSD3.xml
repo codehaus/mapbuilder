@@ -12,7 +12,6 @@
         </MapPane2>
         <!--Loading id="loading"/-->
 
-	  <!--
         <AoiBoxDHTML id="aoiBox2">
           <htmlTagId>mainMapPane</htmlTagId>
           <stylesheet>../lib/widget/Null.xsl</stylesheet>
@@ -21,6 +20,7 @@
           <crossSize>15</crossSize>
           <mapContainerId>mainMapContainer</mapContainerId>
         </AoiBoxDHTML>
+        <!--
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
            <showPx>true</showPx>
