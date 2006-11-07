@@ -82,7 +82,8 @@ function MapPaneOL(widgetNode, model) {
 MapPaneOL.prototype.paint = function(objRef, refresh) {
   // Create an OpenLayers map
   if(!objRef.oLMap){
-		objRef.oLMap = new OpenLayers.Map(objRef.node, {controls:[]});
+		//objRef.oLMap = new OpenLayers.Map(objRef.node, {controls:[]});
+		objRef.oLMap = new OpenLayers.Map(objRef.node);
     // loop through all layers and create OLLayers 
     var layers = objRef.model.getAllLayers();
 			
@@ -91,25 +92,20 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 	  	title=layers[i].selectSingleNode("wmc:Title");if(title)title=title.firstChild.nodeValue;
 			name2=layers[i].selectSingleNode("wmc:Name");if(name2)name2=name2.firstChild.nodeValue;
 		  href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");if(href)href=href.firstChild.nodeValue;
-    	//alert("MapPaneOL.service="+service+",title="+title+",name2="+name2+",href="+href+",xml="+Sarissa.serialize(layers[i]));
 			switch(service){
 				case "gml":
 				case "OGC:GML":
 				  break;
 			  case "wms":
 				case "OGC:WMS":
-				  alert("wms");
           oLlayer = new OpenLayers.Layer.WMS(title,href,{layers: name2});
 					objRef.oLMap.addLayers([oLlayer]);
-    
 				  break;
-//			  default:
-//				  alert("MapPaneOL: No support for layer type="+service);
+			  default:
+				  alert("MapPaneOL: No support for layer type="+service);
 			}
-//      var layer = objRef.MapLayerMgr.addLayer(objRef.MapLayerMgr,layers[i] )
-//      if(tempNodeList[i])newSrc = tempNodeList[i].getAttribute("src");
-//      if(layer.setSrc)layer.setSrc(newSrc)
-      null;
+			bbox=objRef.model.getBoundingBox();
+			objRef.oLMap.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
     }
 	}
 	
