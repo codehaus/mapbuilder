@@ -1,12 +1,15 @@
 Mapbuilder, Open Source, GML Viewer
 ===================================
-Last updated: 16 October 2006.
+Last updated: 7 November 2006.
 
 About
 =====
 This draft Mapbuilder release provides rendering of GML3 inside a web browser.
-This demonstrates that a dataset the size of MSD3 can be rendered in a web
-browser using Scalable Vector Graphics (SVG).
+This demonstrates that a dataset the size of MSD3 can be rendered in Mozilla
+based browsers using Scalable Vector Graphics (SVG).
+The MSD3 dataset can be rendered in Internet Explorer using VML, however
+performance is a major issue. The full MSD3 dataset takes ~10mins to render.
+Optimization is being investigated for the next phase.
 
 How to execute
 ==============
@@ -17,7 +20,8 @@ file:///..../demo/gml3/index.html
 The full MSD3 dataset is viewable from:
 file:///..../demo/gml3/indexAll.html
 
-Note, drawing the full dataset takes around 40 seconds.
+Note, drawing the full dataset in Firefox takes around 40 seconds.
+In IE, it takes around 10 minutes.
 
 Limitations
 ===========
@@ -25,10 +29,8 @@ This release is the halfway point for the project and hence is still
 missing functionality.
 
 In particular:
-* Only SVG rendering in firefox/mozilla has been implemented so far.
-VML rendering in Internet Explorer will be implemented in the next phase. It
-is yet to be determined whether Internet Explorer is capable of rendering a
-dataset as large as MSD3.
+* SVG rendering in firefox/mozilla has been implemented so far and has reasonable performance.
+VML rendering in Internet Explorer is still very slow and takes ~ 10 mins to render the entire MSD3 dataset.
 
 * Optimization has not been investigated yet.
 
