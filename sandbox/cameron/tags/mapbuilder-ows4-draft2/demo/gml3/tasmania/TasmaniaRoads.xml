@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs" xmlns:topp="http://www.openplans.org/topp" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openplans.org/topp http://localhost:8080/geoserver/wfs/DescribeFeatureType?typeName=topp:tasmania_roads http://www.opengis.net/wfs http://localhost:8080/geoserver/data/capabilities/wfs/1.0.0/WFS-basic.xsd">
+  <gml:boundedBy>
+    <gml:Box srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+      <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">127.683575,-51.54079583 165.304525,-32.82484583</gml:coordinates>
+    </gml:Box>
+  </gml:boundedBy>
+  <gml:featureMember>
+    <topp:tasmania_roads fid="tasmania_roads.1">
+      <topp:the_geom>
+        <gml:MultiLineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:lineStringMember>
+            <gml:LineString>
+              <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">  146.468582,-41.241478 146.574768,-41.251186 146.640411,-41.255154 146.766129,-41.332348 146.794189,-41.34417 146.822174,-41.362988 146.863434,-41.380234 146.899521,-41.379452 146.929504,-41.378227 147.008041,-41.356079 147.098343,-41.362919  </gml:coordinates>
+            </gml:LineString>
+          </gml:lineStringMember>
+        </gml:MultiLineString>
+      </topp:the_geom>
+      <topp:TYPE>road</topp:TYPE>
+    </topp:tasmania_roads>
+  </gml:featureMember>
+  <gml:featureMember>
+    <topp:tasmania_roads fid="tasmania_roads.2">
+      <topp:the_geom>
+        <gml:MultiLineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:lineStringMember>
+            <gml:LineString>
+              <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">147.098343,-41.362919 147.17305,-41.452778 147.213867,-41.503773 147.234894,-41.546661 147.251129,-41.573826 147.264664,-41.602474 147.284485,-41.617554 147.300583,-41.637878</gml:coordinates>
+            </gml:LineString>
+          </gml:lineStringMember>
+        </gml:MultiLineString>
+      </topp:the_geom>
+      <topp:TYPE>road</topp:TYPE>
+    </topp:tasmania_roads>
+  </gml:featureMember>
+  <gml:featureMember>
+    <topp:tasmania_roads fid="tasmania_roads.3">
+      <topp:the_geom>
+        <gml:MultiLineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:lineStringMember>
+            <gml:LineString>
+              <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">147.300583,-41.637878 147.225815,-41.626938 147.183319,-41.619236 147.082367,-41.577755 147.031326,-41.565205 146.961487,-41.564186 146.924545,-41.568565 146.876328,-41.569614 146.783722,-41.56073 146.684937,-41.536232 146.614258,-41.478153 146.619995,-41.423958 146.582581,-41.365482 146.52478,-41.29541 146.477493,-41.277622 146.468582,-41.241478</gml:coordinates>
+            </gml:LineString>
+          </gml:lineStringMember>
+        </gml:MultiLineString>
+      </topp:the_geom>
+      <topp:TYPE>road</topp:TYPE>
+    </topp:tasmania_roads>
+  </gml:featureMember>
+  <gml:featureMember>
+    <topp:tasmania_roads fid="tasmania_roads.4">
+      <topp:the_geom>
+        <gml:MultiLineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:lineStringMember>
+            <gml:LineString>
+              <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">147.522247,-41.859921 147.551865,-41.927834 147.597321,-42.017418 147.578644,-42.113216 147.541656,-42.217743 147.468674,-42.22662</gml:coordinates>
+            </gml:LineString>
+          </gml:lineStringMember>
+        </gml:MultiLineString>
+      </topp:the_geom>
+      <topp:TYPE>road</topp:TYPE>
+    </topp:tasmania_roads>
+  </gml:featureMember>
+  <gml:featureMember>
+    <topp:tasmania_roads fid="tasmania_roads.5">
+      <topp:the_geom>
+        <gml:MultiLineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:lineStringMember>
+            <gml:LineString>
+              <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">146.103699,-41.171677 146.303619,-41.237202 146.362228,-41.236279 146.39418,-41.245384 146.443726,-41.244308 146.468582,-41.241478</gml:coordinates>
+            </gml:LineString>
+          </gml:lineStringMember>
+        </gml:MultiLineString>
+      </topp:the_geom>
+      <topp:TYPE>road</topp:TYPE>
+    </topp:tasmania_roads>
+  </gml:featureMember>
+  <gml:featureMember>
+    <topp:tasmania_roads fid="tasmania_roads.6">
+      <topp:the_geom>
+        <gml:MultiLineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:lineStringMember>
+            <gml:LineString>
+              <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">145.856018,-41.08007 145.944839,-41.119896 146.037994,-41.150059 146.103699,-41.171677</gml:coordinates>
+            </gml:LineString>
+          </gml:lineStringMember>
+        </gml:MultiLineString>
+      </topp:the_geom>
+      <topp:TYPE>road</topp:TYPE>
+    </topp:tasmania_roads>
+  </gml:featureMember>
+  <gml:featureMember>
+    <topp:tasmania_roads fid="tasmania_roads.7">
+      <topp:the_geom>
+        <gml:MultiLineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:lineStringMember>
+            <gml:LineString>
+              <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">147.468674,-42.22662 147.474945,-42.292259 147.467697,-42.301292 147.451828,-42.341656 147.424545,-42.378723 147.366013,-42.412552 147.345779,-42.432449 147.289322,-42.476475 147.264511,-42.503899 147.259918,-42.547539 147.249405,-42.614006 147.278351,-42.693249 147.284271,-42.757759 147.256744,-42.778393</gml:coordinates>
+            </gml:LineString>
+          </gml:lineStringMember>
+        </gml:MultiLineString>
+      </topp:the_geom>
+      <topp:TYPE>road</topp:TYPE>
+    </topp:tasmania_roads>
+  </gml:featureMember>
+  <gml:featureMember>
+    <topp:tasmania_roads fid="tasmania_roads.8">
+      <topp:the_geom>
+        <gml:MultiLineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:lineStringMember>
+            <gml:LineString>
+              <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">148.249252,-41.860851 148.234436,-41.901783 148.192123,-41.93721 148.155762,-41.953667 148.127731,-41.994537 148.053131,-42.100563</gml:coordinates>
+            </gml:LineString>
+          </gml:lineStringMember>
+        </gml:MultiLineString>
+      </topp:the_geom>
+      <topp:TYPE>road</topp:TYPE>
+    </topp:tasmania_roads>
+  </gml:featureMember>
+  <gml:featureMember>
+    <topp:tasmania_roads fid="tasmania_roads.9">
+      <topp:the_geom>
+        <gml:MultiLineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:lineStringMember>
+            <gml:LineString>
+              <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">145.19754,-40.878323 145.246674,-40.86021 145.293289,-40.852802 145.465225,-40.897865 145.538498,-40.936264 145.554062,-40.939201 145.602112,-40.962936 145.646362,-40.98243 145.683838,-40.989883 145.710587,-40.996201 145.744293,-41.007545 145.801956,-41.041782 145.856018,-41.08007</gml:coordinates>
+            </gml:LineString>
+          </gml:lineStringMember>
+        </gml:MultiLineString>
+      </topp:the_geom>
+      <topp:TYPE>road</topp:TYPE>
+    </topp:tasmania_roads>
+  </gml:featureMember>
+  <gml:featureMember>
+    <topp:tasmania_roads fid="tasmania_roads.10">
+      <topp:the_geom>
+        <gml:MultiLineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:lineStringMember>
+            <gml:LineString>
+              <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">147.360001,-42.91993 147.348816,-42.93726 147.285049,-42.979027 147.220886,-42.995876 147.164429,-43.027004 147.068237,-43.06319 146.96463,-43.116447 146.949554,-43.17004 146.95369,-43.209591 146.964127,-43.224545 146.975723,-43.250484 146.980759,-43.2701 146.982605,-43.287716 146.970871,-43.31691 146.940521,-43.33812 146.943054,-43.362263 146.952194,-43.39278 146.955429,-43.423512</gml:coordinates>
+            </gml:LineString>
+          </gml:lineStringMember>
+        </gml:MultiLineString>
+      </topp:the_geom>
+      <topp:TYPE>road</topp:TYPE>
+    </topp:tasmania_roads>
+  </gml:featureMember>
+  <gml:featureMember>
+    <topp:tasmania_roads fid="tasmania_roads.11">
+      <topp:the_geom>
+        <gml:MultiLineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:lineStringMember>
+            <gml:LineString>
+              <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">147.300583,-41.637878 147.372009,-41.695503 147.402588,-41.725574 147.444061,-41.749676 147.490433,-41.782482 147.506866,-41.795624 147.522919,-41.835609 147.522247,-41.859921</gml:coordinates>
+            </gml:LineString>
+          </gml:lineStringMember>
+        </gml:MultiLineString>
+      </topp:the_geom>
+      <topp:TYPE>road</topp:TYPE>
+    </topp:tasmania_roads>
+  </gml:featureMember>
+  <gml:featureMember>
+    <topp:tasmania_roads fid="tasmania_roads.12">
+      <topp:the_geom>
+        <gml:MultiLineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:lineStringMember>
+            <gml:LineString>
+              <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">148.053131,-42.100563 148.028229,-42.188286 148.002258,-42.2295 147.969955,-42.254417 147.960297,-42.284897 147.942719,-42.398819 147.926407,-42.486034 147.875092,-42.538582 147.832001,-42.587299 147.744217,-42.631607 147.693298,-42.656067 147.618195,-42.691135 147.575317,-42.743092 147.578293,-42.769539 147.547852,-42.814312 147.506699,-42.842907 147.488312,-42.877041 147.449692,-42.901054 147.416809,-42.902828</gml:coordinates>
+            </gml:LineString>
+          </gml:lineStringMember>
+        </gml:MultiLineString>
+      </topp:the_geom>
+      <topp:TYPE>road</topp:TYPE>
+    </topp:tasmania_roads>
+  </gml:featureMember>
+  <gml:featureMember>
+    <topp:tasmania_roads fid="tasmania_roads.13">
+      <topp:the_geom>
+        <gml:MultiLineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:lineStringMember>
+            <gml:LineString>
+              <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">147.098343,-41.362919 147.065445,-41.311977 147.024078,-41.257534 146.981445,-41.211391 146.948227,-41.181595 146.926773,-41.172501 146.905029,-41.147144 146.940765,-41.085857 146.962662,-41.075096 147.021088,-41.080925 147.099228,-41.123959 147.187607,-41.150597 147.282028,-41.104244 147.295715,-41.075798 147.306595,-41.062832 147.325745,-41.053524 147.362991,-41.080441 147.419022,-41.081764 147.465881,-41.06089 147.519302,-41.092793 147.528595,-41.137089 147.552521,-41.193565 147.594223,-41.233875 147.734406,-41.239891 147.829376,-41.196636 147.882614,-41.163197 147.91127,-41.163109 147.985168,-41.226128 148.022156,-41.292599 148.075119,-41.313915 148.200104,-41.323097 148.236191,-41.339245 148.27298,-41.383488 148.25,-41.45713 148.254395,-41.53941 148.262436,-41.585217 148.249252,-41.860851</gml:coordinates>
+            </gml:LineString>
+          </gml:lineStringMember>
+        </gml:MultiLineString>
+      </topp:the_geom>
+      <topp:TYPE>road</topp:TYPE>
+    </topp:tasmania_roads>
+  </gml:featureMember>
+  <gml:featureMember>
+    <topp:tasmania_roads fid="tasmania_roads.14">
+      <topp:the_geom>
+        <gml:MultiLineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:lineStringMember>
+            <gml:LineString>
+              <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">147.256744,-42.778393 147.220184,-42.824776 147.179596,-42.82143 147.111328,-42.795731 147.057098,-42.741581 147.003479,-42.704803 146.919098,-42.622734 146.910538,-42.610928 146.889984,-42.585396 146.83844,-42.572792 146.78569,-42.539352 146.724335,-42.485966 146.695023,-42.469582 146.649872,-42.450371 146.604965,-42.432274 146.578781,-42.408531 146.539307,-42.364208 146.525055,-42.30883 146.558044,-42.275948 146.576248,-42.23777 146.581467,-42.203426 146.490005,-42.180222 146.3797,-42.146332 146.334061,-42.138741 146.270966,-42.165703 146.197296,-42.224072 146.167908,-42.244835 146.164932,-42.245171 146.111023,-42.265202 146.037476,-42.239738 145.981628,-42.187851 145.853912,-42.133492 145.819611,-42.129154 145.72052,-42.104084 145.618576,-42.056023 145.541718,-42.027241 145.486282,-41.983326 145.452744,-41.926544 145.494034,-41.896477 145.591736,-41.860214 145.64212,-41.838398 145.669449,-41.830734 145.680923,-41.795753 145.682968,-41.743221 145.675156,-41.710377 145.680115,-41.688908 145.701065,-41.648228 145.714798,-41.609509 145.629196,-41.462051 145.648895,-41.470337 145.633423,-41.420902 145.631866,-41.36528 145.640854,-41.301533 145.700424,-41.242611 145.77243,-41.193897 145.802338,-41.161488 145.856018,-41.08007</gml:coordinates>
+            </gml:LineString>
+          </gml:lineStringMember>
+        </gml:MultiLineString>
+      </topp:the_geom>
+      <topp:TYPE>road</topp:TYPE>
+    </topp:tasmania_roads>
+  </gml:featureMember>
+  <gml:featureMember>
+    <MSD3:LAL070 xmlns:MSD3="http://www.opengis.net/ows-3/nga/MSD3" gml:id="LAL070.1">
+      <MSD3:position>
+        <gml:LineString srsName="urn:ogc:def:crs:EPSG:6.6:4329">
+          <gml:posList srsDimension="3">37.5664936 126.7478092 20.896 37.57013 126.7481888 15.001 37.5714708 126.7478804 13.731 37.5720968 126.7476952 0 37.5726588 126.7471848 0 37.5721132 126.7464596 0 37.5710216 126.7454576 0 37.5705096 126.7446708 0 37.5700932 126.7443644 0 37.5696756 126.7443204 28.416 37.5694892 126.7443188 32.989 37.5682796 126.744308 62.666 37.568142 126.7438736 74.635 37.5680036 126.7434376 86.651 37.5679352 126.7432288 84.799 37.567618 126.7422568 76.183 37.567628 126.7421776 78.1 37.5678004 126.7408172 111.042 37.5670104 126.740114 90.099 37.566708 126.7398452 82.087 37.5666656 126.7398072 0 37.5664056 126.739356 0 37.5666428 126.7392144 0 37.5672208 126.7388696 0 37.5676536 126.7382764 0 37.567736 126.7381636 0 37.5678048 126.737812 29.807 37.5676412 126.7369204 31.23 37.567714 126.7367644 38.488 37.5679364 126.7362868 60.703 37.5682368 126.73602 68.098 37.5684228 126.7355352 84.982 37.56851 126.735308 92.896 37.5683624 126.7349516 94.522 37.567772 126.7344168 93.201 37.567366 126.7340888 102.652 37.5665676 126.7339028 91.879 37.5655436 126.7332664 84.968 37.5648948 126.7329252 84.155 37.5643568 126.7330356 81.411 37.5634924 126.7331556 85.172 37.56248 126.7330068 91.778 37.5619148 126.7328964 101.737 37.5617572 126.7331172 103.465 37.5619312 126.733724 93.302 37.5619212 126.7341556 83.545 37.5617872 126.7349532 81.968 37.5617828 126.7349784 81.919 37.5615524 126.7354256 84.664 37.5612264 126.7355952 86.188 37.5613972 126.735966 82.733 37.5611488 126.7362888 82.631 37.56198 126.7373296 65.963 37.56244 126.738408 72.874 37.5625016 126.7388992 82.767 37.5625928 126.7396292 97.469 37.5629424 126.7398984 99.197 37.5632832 126.7404424 98.079 37.5632576 126.7412812 93.505 37.5630764 126.7417276 85.284 37.5625996 126.742904 63.626 37.5619908 126.743952 75.009 37.5617792 126.7442024 76.459 37.5614272 126.7446184 78.871 37.5609308 126.744838 89.034 37.5612272 126.7452568 81.393 37.561388 126.7454844 77.244 37.5621572 126.7458464 62.305 37.5628584 126.7466804 54.53 37.5631336 126.747426 64.744 37.563088 126.7479364 63.473 37.5640024 126.7485712 38.846 37.5644728 126.748898 0 37.5654108 126.7483828 0 37.5662284 126.747842 0</gml:posList>
+        </gml:LineString>
+      </MSD3:position>
+      <MSD3:fti>997</MSD3:fti>
+      <MSD3:ohd>997</MSD3:ohd>
+      <MSD3:pfg uom="http://zx10.ingr.com/msd3/schema/dictionaries/UnitDictionary.xml#m">-2147483646</MSD3:pfg>
+      <MSD3:orig_source_date>2000-02-01T00:00:00</MSD3:orig_source_date>
+      <MSD3:orig_source_info>R120770899A</MSD3:orig_source_info>
+      <MSD3:originating_source>Imagery (NTM)</MSD3:originating_source>
+      <MSD3:originator>Pine Design</MSD3:originator>
+      <MSD3:scale>50000</MSD3:scale>
+    </MSD3:LAL070>
+  </gml:featureMember>
+</wfs:FeatureCollection>
