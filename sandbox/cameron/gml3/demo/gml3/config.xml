@@ -2,14 +2,15 @@
 <MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
   <models>
     <OwsContext id="mainMap">
-      <defaultModelUrl>MSD3_OWS3_Rel_GML3_1x/MSD3Context.xml</defaultModelUrl>
-      <!--defaultModelUrl>tasmania/TasmaniaContext.xml</defaultModelUrl-->
+      <!--defaultModelUrl>MSD3_OWS3_Rel_GML3_1x/MSD3Context.xml</defaultModelUrl-->
+      <defaultModelUrl>tasmania/TasmaniaContext.xml</defaultModelUrl>
       <widgets>
         <MapPane2 id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
           <mapContainerId>mainMapContainer</mapContainerId>
         </MapPane2>
         <!--Loading id="loading"/-->
+
         <AoiBoxDHTML id="aoiBox2">
           <htmlTagId>mainMapPane</htmlTagId>
           <stylesheet>../lib/widget/Null.xsl</stylesheet>
@@ -18,12 +19,14 @@
           <crossSize>15</crossSize>
           <mapContainerId>mainMapContainer</mapContainerId>
         </AoiBoxDHTML>
+	<!--
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
            <showPx>true</showPx>
            <showLatLong>true</showLatLong>
            <showMGRS>false</showMGRS>
         </CursorTrack>
+	  -->
         <Legend id="contextLegend">
           <htmlTagId>legend</htmlTagId>
           <stylesheet>./Legend.xsl</stylesheet>
@@ -36,33 +39,6 @@
         </DragPanHandler>
       </tools>
     </OwsContext>
-    <!--
-    <Context id="mainMap">
-      <defaultModelUrl>demisWorldMap.xml</defaultModelUrl>
-      <widgets>
-        <MapPane id="mainMapWidget">
-          <htmlTagId>mainMapPane</htmlTagId>
-          <mapContainerId>mainMapContainer</mapContainerId>
-        </MapPane>
-        <AoiBoxDHTML id="aoiBoxMain">
-          <htmlTagId>mainMapPane</htmlTagId>
-          <mapContainerId>mainMapContainer</mapContainerId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>2</lineWidth>
-          <crossSize>15</crossSize>
-        </AoiBoxDHTML>
-        <Loading2 id="loading2">
-          <mapContainerId>mainMapContainer</mapContainerId>
-        </Loading2>
-      </widgets>
-      <tools>
-        <AoiMouseHandler id="mainAoi"/>
-        <DragPanHandler id="mainDragPan">
-          <enabled>false</enabled>
-        </DragPanHandler>
-      </tools>
-    </Context>
-    -->
   </models>
   <widgets>
     <ZoomIn id="zoomIn">
@@ -90,12 +66,14 @@
       <enabledSrc>/images/PanEnable.png</enabledSrc>
       <disabledSrc>/images/PanDisable.png</disabledSrc>
     </DragPan>
+	<!--
     <Reset id="reset">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
     </Reset>
+	-->
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
 
