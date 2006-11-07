@@ -8,10 +8,6 @@ var mac, win;
 var opera, khtml, safari, mozilla, ie, ie50, ie55, ie60;
 var canvasEnabled = false;
 
-//mapbuilder.loadScript(baseDir+"/graphics/CanvasGraphics.js");
-//mapbuilder.loadScript(baseDir+"/graphics/SVGGraphics.js");
-//mapbuilder.loadScript(baseDir+"/graphics/VMLGraphics.js");
-
 mapbuilder.loadScript(baseDir+"/util/sarissa/Sarissa.js");
 
 /**
@@ -62,7 +58,7 @@ function chkCapabilities() {
 
 function VectorGraphics(id, div, width, height) {
   if( ie )
-    return new VMLGraphics(id,div, width, height);
+    return new VMLGraphics2(id,div, width, height);
   
   if( safari || mozilla )
     return new SVGGraphics(id, div, width, height);
