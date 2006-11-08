@@ -66,6 +66,7 @@ function MapPaneOL(widgetNode, model) {
 //  
  
   this.model.addListener("refresh",this.paint, this);
+  this.model.addListener("hidden",this.hidden, this);
   //this.model.addListener("addLayer",this.addLayer, this);
   this.model.addListener("deleteLayer",this.deleteLayer, this);
   this.model.addListener("moveLayerUp",this.moveLayerUp, this);
@@ -86,7 +87,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 		objRef.oLMap = new OpenLayers.Map(objRef.node);
     // loop through all layers and create OLLayers 
     var layers = objRef.model.getAllLayers();
-			
+		objRef.oLlayers = new Array();
     for (var i=0;i<layers.length;i++) {
 			service=layers[i].selectSingleNode("wmc:Server/@service");if(service)service=service.nodeValue;
 	  	title=layers[i].selectSingleNode("wmc:Title");if(title)title=title.firstChild.nodeValue;
@@ -98,8 +99,9 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 				  break;
 			  case "wms":
 				case "OGC:WMS":
-          oLlayer = new OpenLayers.Layer.WMS(title,href,{layers: name2});
-					objRef.oLMap.addLayers([oLlayer]);
+          objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{layers: name2});
+					objRef.oLMap.addLayers([objRef.oLlayers[name2]]);
+					
 				  break;
 			  default:
 				  alert("MapPaneOL: No support for layer type="+service);
@@ -170,6 +172,16 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 //    
 //    objRef.MapLayerMgr.paintWmsLayers( objRef.MapLayerMgr );
 //  }
+}
+
+/**
+ * Hide/unhide a layer. Called by Context when the hidden attribute changes.
+ * @param objRef Pointer to widget object.
+ * @param layerName Name of the layer to hide/unhide.
+ */
+MapPaneOL.prototype.hidden = function(objRef, layerName) {
+	vis=objRef.model.getHidden(layerName)!="1";
+	objRef.oLlayers[layerName].setVisibility(vis);
 }
 
 /**
