@@ -121,9 +121,10 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 			  default:
 				  alert("MapPaneOL: No support for layer type="+service);
 			}
-			bbox=objRef.model.getBoundingBox();
-			objRef.oLMap.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
     }
+		bbox=objRef.model.getBoundingBox();
+		objRef.oLMap.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
+		objRef.hidden(objRef,name2);
 	}
 	
 //  if (objRef.model.doc && objRef.node && (objRef.autoRefresh||refresh) ) {
