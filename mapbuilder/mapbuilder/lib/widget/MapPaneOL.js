@@ -93,14 +93,29 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 	  	title=layers[i].selectSingleNode("wmc:Title");if(title)title=title.firstChild.nodeValue;
 			name2=layers[i].selectSingleNode("wmc:Name");if(name2)name2=name2.firstChild.nodeValue;
 		  href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");if(href)href=href.firstChild.nodeValue;
+	  	format=layers[i].selectSingleNode("wmc:FormatList/wmc:Format");format=(format)?format.firstChild.nodeValue:"image/gif";
 			switch(service){
 				case "gml":
 				case "OGC:GML":
 				  break;
 			  case "wms":
 				case "OGC:WMS":
-          objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{layers: name2});
-					objRef.oLMap.addLayers([objRef.oLlayers[name2]]);
+         // OpenLayers expects the base layer to be non-transparent (it gets
+				 // projection info from the baselayer).
+				 // See Issue http://trac.openlayers.org/ticket/390
+				 baseLayer=(i==0)?true:false;
+         objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(
+				   title,
+					 href,
+					 {
+					   layers: name2,
+					   transparent: "true",
+						 format: format
+					 },{
+						 isBaseLayer:baseLayer
+					 }
+				 );
+				 objRef.oLMap.addLayers([objRef.oLlayers[name2]]);
 					
 				  break;
 			  default:
