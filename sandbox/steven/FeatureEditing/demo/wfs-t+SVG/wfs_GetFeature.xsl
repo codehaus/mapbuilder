@@ -86,9 +86,7 @@
 								  <sld:CssParameter name="fill">white</sld:CssParameter>
 							  </sld:Fill>
 							   <sld:Size>20</sld:Size>
-							    <sld:Opacity>
-								  <sld:CssParameter name="opacity">0.5</sld:CssParameter>
-							  </sld:Opacity>
+							    <sld:Opacity>0.5</sld:Opacity>
 						  </sld:Mark>
 						 
 						 
@@ -115,6 +113,7 @@
 								  <sld:CssParameter name="fill">white</sld:CssParameter>
 							  </sld:Fill>
 							  <sld:Size>10</sld:Size>
+							    <sld:Opacity>0.75</sld:Opacity>
 						  </sld:Mark>
 						  
 					  </sld:Graphic>
@@ -140,6 +139,7 @@
 								  <sld:CssParameter name="fill">#fff</sld:CssParameter>
 							  </sld:Fill>
 						  <sld:Size>3.0</sld:Size>
+						    <sld:Opacity>1</sld:Opacity>
 						  </sld:Mark>
 						 
 					  </sld:Graphic>
