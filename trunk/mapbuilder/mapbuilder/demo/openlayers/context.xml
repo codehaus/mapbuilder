@@ -39,8 +39,8 @@
       <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
       <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
       </Server>
-      <Name>Coastlines,Waterbodies,Inundated,Rivers,Streams</Name>
-      <Title>Land features</Title>
+      <Name>Bathymetry,Countries,Topography,Hillshading</Name>
+      <Title>Topography</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
@@ -52,12 +52,12 @@
         </Style>
       </StyleList>
     </Layer>
-    <Layer queryable="1" hidden="0">
+    <Layer queryable="1" hidden="1">
       <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
       <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
       </Server>
-      <Name>Bathymetry,Countries,Topography,Hillshading</Name>
-      <Title>Topography</Title>
+      <Name>Coastlines,Waterbodies,Inundated,Rivers,Streams</Name>
+      <Title>Land features</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>

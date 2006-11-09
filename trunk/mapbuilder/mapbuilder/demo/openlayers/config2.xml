@@ -2,11 +2,13 @@
 <MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
   <models>
     <OwsContext id="mainMap">
-      <defaultModelUrl>context.xml</defaultModelUrl>
+      <defaultModelUrl>context2.xml</defaultModelUrl>
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
           <mapContainerId>mainMapContainer</mapContainerId>
+          <maxExtent>-24288 262144 500000 786432</maxExtent>
+          <maxResolution>2048</maxResolution>
         </MapPaneOL>
         <Legend id="contextLegend">
           <htmlTagId>legend</htmlTagId>
