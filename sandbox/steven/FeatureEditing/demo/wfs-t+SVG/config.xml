@@ -66,7 +66,12 @@
         </History>
       </tools>
     </OwsContext>
-    
+     <Transaction id="transaction">
+      <widgets>
+        <TransactionResponse id="transactionResponse">
+        </TransactionResponse>
+      </widgets>
+    </Transaction>
     <FeatureCollection id="gml2FeatureTemplate">
       <method>post</method>
       <featureTagName>topp:WEGVAKID</featureTagName>
@@ -143,25 +148,52 @@
       <targetModel>mainMap</targetModel>
       <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
+      <enabledSrc>/images/GetFeatureInfoEnable.png</enabledSrc>
+      <disabledSrc>/images/GetFeatureInfoDisable.png</disabledSrc>
+    </GetFeature>
+    
+     <MoveVertex id="movePoint">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>gml2FeatureTemplate</targetModel>
+      <mouseHandler>mainMouseClick</mouseHandler>
+      <class>RadioButton</class>
       <enabledSrc>/images/GetFeatureEnable.png</enabledSrc>
       <disabledSrc>/images/GetFeatureDisable.png</disabledSrc>
-    </GetFeature>
-    <DeletePoint id="delPoint">
+     </MoveVertex>
+    <DeleteVertex id="delPoint">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>gml2FeatureTemplate</targetModel>
       <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/DelPointEnable.png</enabledSrc>
       <disabledSrc>/images/DelPointDisable.png</disabledSrc>
-    </DeletePoint>
-     <AddPoint id="addPoint">
+    </DeleteVertex>
+     <AddVertex id="addPoint">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>gml2FeatureTemplate</targetModel>
       <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/AddPointEnable.png</enabledSrc>
       <disabledSrc>/images/AddPointDisable.png</disabledSrc>
-    </AddPoint>
+    </AddVertex>
+        <DeleteFeature id="deleteFeature">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>gml2FeatureTemplate</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/DeleteDisable.png</disabledSrc>
+      <transactionResponseModel>transaction</transactionResponseModel>
+      <webServiceUrl>http://decock:11080/geoserver/wfs</webServiceUrl>
+      <targetContext>mainMap</targetContext>
+    </DeleteFeature>
+     <InsertFeature id="insertFeature">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>gml2FeatureTemplate</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/SaveDisable.png</disabledSrc>
+      <transactionResponseModel>transaction</transactionResponseModel>
+      <webServiceUrl>http://decock:11080/geoserver/wfs</webServiceUrl>
+      <targetContext>mainMap</targetContext>
+    </InsertFeature>
 <!--     <EditLine id="editLine">-->
 <!--      <buttonBar>mainButtonBar</buttonBar>-->
 <!--      <targetModel>gml2FeatureTemplate</targetModel>-->
