@@ -171,7 +171,7 @@ function WebServiceForm(widgetNode, model) {
   this.setAoiParameters = function(objRef,bbox) {
     if (objRef.targetModel.containerModel) {
       var featureSRS = null;
-      var containerSRS = "EPSG:4326";
+      var containerSRS = objRef.model.getSRS();
      
       objRef.requestStylesheet.setParameter("bBoxMinX", bbox[0][0] );
       objRef.requestStylesheet.setParameter("bBoxMinY", bbox[1][1] );
