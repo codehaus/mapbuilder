@@ -8,34 +8,21 @@ $Id: MapPane.js 1918 2006-02-13 22:31:26 -0500 (Mon, 13 Feb 2006) cappelaere $
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 mapbuilder.loadScript(baseDir+"/widget/MapContainerBase.js");
-// TBD Remove: mapbuilder.loadScript(baseDir+"/graphics/MapLayerMgr.js");
 
 /**
- * Widget to render a map from an OGC context document.  The layers are rendered
- * as an array of DHTML layers that contain an <IMG> tag with src attribute set 
- * to the GetMap request.
+ * Widget to render a map from an OGC context document.  The layers are
+ * rendered using http://openlayers.org .
  * @constructor
- * @base WidgetBaseXSL
  * @base MapContainerBase
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */
 function MapPaneOL(widgetNode, model) {
   WidgetBase.apply(this,new Array(widgetNode, model));
+	
+	//TBD Do we need MapContainerBase?
   MapContainerBase.apply(this,new Array(widgetNode, model));
 
-// TBD Remove
-//  // Set this.stylesheet
-//  // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
-//  if ( !this.stylesheet ) {
-//    var styleNode = widgetNode.selectSingleNode("mb:stylesheet");
-//    if (styleNode ) {
-//      this.stylesheet = new XslProcessor(styleNode.firstChild.nodeValue,model.namespace);
-//    } else {
-//      this.stylesheet = new XslProcessor(baseDir+"/widget/"+widgetNode.nodeName+".xsl",model.namespace);
-//    }
-//  }
-//
   //loading img to be displayed while models load
   var loadingSrc = widgetNode.selectSingleNode("mb:loadingSrc");
   if (loadingSrc) {
@@ -44,27 +31,6 @@ function MapPaneOL(widgetNode, model) {
     this.loadingSrc = config.skinDir + "/images/Loading.gif";
   }
 
-//  // Set stylesheet parameters for all the child nodes from the config file
-//  for (var j=0;j<widgetNode.childNodes.length;j++) {
-//    if (widgetNode.childNodes[j].firstChild
-//      && widgetNode.childNodes[j].firstChild.nodeValue)
-//    {
-//      this.stylesheet.setParameter(
-//        widgetNode.childNodes[j].nodeName,
-//        widgetNode.childNodes[j].firstChild.nodeValue);
-//    }
-//  }
-//
-//  //all stylesheets will have these properties available
-//  this.stylesheet.setParameter("modelId", this.model.id );
-//  this.stylesheet.setParameter("modelTitle", this.model.title );
-//  this.stylesheet.setParameter("widgetId", this.id );
-//  this.stylesheet.setParameter("skinDir", config.skinDir );
-//  this.stylesheet.setParameter("lang", config.lang );
-//
-//  this.MapLayerMgr = new MapLayerMgr(this, model); //PatC
-//  
- 
   this.model.addListener("refresh",this.paint, this);
   this.model.addListener("hidden",this.hidden, this);
   //this.model.addListener("addLayer",this.addLayer, this);
@@ -73,7 +39,6 @@ function MapPaneOL(widgetNode, model) {
   this.model.addListener("moveLayerDown",this.moveLayerDown, this);
   //this.model.addListener("newModel",this.clearWidget2,this);
   //this.model.addListener("bbox",this.clearWidget2,this);
- 
 }
 
 /**
@@ -126,68 +91,6 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 		objRef.oLMap.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
 		objRef.hidden(objRef,name2);
 	}
-	
-//  if (objRef.model.doc && objRef.node && (objRef.autoRefresh||refresh) ) {
-//    //if (objRef.debug) alert("source:"+Sarissa.serialize(objRef.model.doc));
-//
-//    objRef.stylesheet.setParameter("width", objRef.model.getWindowWidth());
-//    objRef.stylesheet.setParameter("height", objRef.model.getWindowHeight());
-//    objRef.stylesheet.setParameter("bbox", objRef.model.getBoundingBox().join(","));
-//    objRef.stylesheet.setParameter("srs", objRef.model.getSRS());
-//
-//    //confirm inputs
-//    if (objRef.debug) alert("painting:"+Sarissa.serialize(objRef.model.doc));
-//    if (objRef.debug) alert("stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
-//
-//    //process the doc with the stylesheet
-//    //var s = objRef.stylesheet.transformNodeToString(objRef.model.doc);
-//    //var tempNode = document.createElement("DIV");
-//    //tempNode.innerHTML = s;
-//    var tempDom = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
-//    if( tempDom.parseError != 0 ) {
-//        alert( "parse error:"+Sarissa.getParseErrorText(tempDom));
-//    }
-//    
-//    var tempNodeList = tempDom.selectNodes("//img");
-//
-//    //debug output
-//    if (objRef.debug) {
-//      alert("painting:"+objRef.id+":"+s);
-//      if (config.serializeUrl) postLoad(config.serializeUrl, s);
-//    }
-//
-//    // This is done on newModel only and called by clearWidget2
-//    objRef.MapLayerMgr.deleteAllLayers();
-// 
-//    //create a DIV to hold all the individual image DIVs
-//    var outputNode = document.getElementById( objRef.outputNodeId );
-//    if (!outputNode) {
-//      outputNode = document.createElement("div");
-//      outputNode.setAttribute("id", objRef.outputNodeId);
-//      outputNode.style.position = "absolute"; 
-//      objRef.node.appendChild(outputNode);
-//      outputNode.style.left='0px';
-//      outputNode.style.top='0px';
-//    } 
-//     
-//    // loop through all layers and create an array of IMG objects for preloading 
-//    // the WMS getMap calls
-//    var layers = objRef.model.getAllLayers();
-//    // if (!objRef.imageStack) objRef.imageStack = new Array(layers.length);
-//    objRef.firstImageLoaded = false;
-//
-//    objRef.layerCount = layers.length;
-//
-//    for (var i=0;i<layers.length;i++) {
-//      var layer = objRef.MapLayerMgr.addLayer(objRef.MapLayerMgr,layers[i] )
-//      if(tempNodeList[i])newSrc = tempNodeList[i].getAttribute("src");
-//      if(layer.setSrc)layer.setSrc(newSrc)
-//    }
-//    var message = "loading " + objRef.layerCount + " map layers";
-//    objRef.model.setParam("modelStatus", message);
-//    
-//    objRef.MapLayerMgr.paintWmsLayers( objRef.MapLayerMgr );
-//  }
 }
 
 /**
