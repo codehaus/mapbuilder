@@ -54,10 +54,10 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     var layers = objRef.model.getAllLayers();
 		objRef.oLlayers = new Array();
     for (var i=0;i<layers.length;i++) {
-			service=layers[i].selectSingleNode("wmc:Server/@service");if(service)service=service.nodeValue;
-	  	title=layers[i].selectSingleNode("wmc:Title");if(title)title=title.firstChild.nodeValue;
-			name2=layers[i].selectSingleNode("wmc:Name");if(name2)name2=name2.firstChild.nodeValue;
-		  href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");if(href)href=href.firstChild.nodeValue;
+			service=layers[i].selectSingleNode("wmc:Server/@service");service=(service)?service.nodeValue:"";
+	  	title=layers[i].selectSingleNode("wmc:Title");title=(title)?title.firstChild.nodeValue:"";
+			name2=layers[i].selectSingleNode("wmc:Name");name2=(name2)?name2.firstChild.nodeValue:"";
+		  href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?href.firstChild.nodeValue:"";
 	  	format=layers[i].selectSingleNode("wmc:FormatList/wmc:Format");format=(format)?format.firstChild.nodeValue:"image/gif";
 			switch(service){
 				case "gml":
@@ -77,7 +77,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 					   transparent: "true",
 						 format: format
 					 },{
-						 isBaseLayer:baseLayer
+						 isBaseLayer:baseLayer,
+						 buffer:1
 					 }
 				 );
 				 objRef.oLMap.addLayers([objRef.oLlayers[name2]]);
