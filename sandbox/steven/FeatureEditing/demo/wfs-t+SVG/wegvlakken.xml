@@ -1,0 +1,30 @@
+<wfs:FeatureCollection
+	xsi:schemaLocation="http://www.openplans.org/topp http://decock:11080/geoserver/wfs/DescribeFeatureType?typeName=topp:ISL_WEGVAKKEN http://www.opengis.net/wfs http://decock:11080/geoserver/schemas/wfs/1.0.0/WFS-basic.xsd">
+	<gml:boundedBy>
+		<gml:Box
+			srsName="http://www.opengis.net/gml/srs/epsg.xml#28992">
+			<gml:coordinates decimal="." cs="," ts=" ">
+				13732,371275 13957,371457
+			</gml:coordinates>
+		</gml:Box>
+	</gml:boundedBy>
+	<gml:featureMember>
+		<topp:ISL_WEGVAKKEN fid="ISL_WEGVAKKEN.1">
+			<topp:BEGIN_DATUM></topp:BEGIN_DATUM>
+			<topp:MUTATIE_DATUM></topp:MUTATIE_DATUM>
+			<topp:WEGVAKID></topp:WEGVAKID>
+			<topp:STRAATNAAM></topp:STRAATNAAM>
+			<topp:BAANSUBSOORT></topp:BAANSUBSOORT>
+			<topp:BEHEERDER_SOORT></topp:BEHEERDER_SOORT>
+			<topp:HUISNRSRTLINKS></topp:HUISNRSRTLINKS>
+			<topp:HUISNRSRTRECHTS></topp:HUISNRSRTRECHTS>
+			<topp:GEOMETRIE>
+				<gml:LineString
+					srsName="http://www.opengis.net/gml/srs/epsg.xml#28992">
+					<gml:coordinates decimal="." cs="," ts=" ">
+					</gml:coordinates>
+				</gml:LineString>
+			</topp:GEOMETRIE>
+		</topp:ISL_WEGVAKKEN>
+	</gml:featureMember>
+</wfs:FeatureCollection>
