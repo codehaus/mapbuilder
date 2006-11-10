@@ -48,12 +48,25 @@ function MapPaneOL(widgetNode, model) {
 MapPaneOL.prototype.paint = function(objRef, refresh) {
   // Create an OpenLayers map
   if(!objRef.oLMap){
-		//objRef.oLMap = new OpenLayers.Map(objRef.node, {controls:[]});
+		srs=objRef.model.doc.selectSingleNode("//ows:BoundingBox/@crs");srs=(srs)?srs.nodeValue:"";
+    // OpenLayers doesn't contain information about projection, so if the
+		// baseLayer projection is not standard lat/long, it needs to know
+		// maxExtent and maxResolution to calculate the zoomLevels.
+		// TBD: If the maxExtent/maxResolution is not specified in the config
+		// we should calculate it from the BBox and Width/Height in the Context.
+		maxExtent=null;
+		maxResolution=null;
+		if(srs!="EPSG:4326"&&srs!="epsg:4326"){
+			maxExtent=objRef.widgetNode.selectSingleNode("mb:maxExtent");
+			maxExtent=(maxExtent)?maxExtent.firstChild.nodeValue.split(" "):null;
+			maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
+			maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");maxResolution=(maxResolution)?maxResolution.firstChild.nodeValue:null;
+		}
 		objRef.oLMap = new OpenLayers.Map(objRef.node);
     // loop through all layers and create OLLayers 
     var layers = objRef.model.getAllLayers();
 		objRef.oLlayers = new Array();
-    for (var i=0;i<layers.length;i++) {
+    for (var i=layers.length-1;i>=0;i--) {
 			service=layers[i].selectSingleNode("wmc:Server/@service");service=(service)?service.nodeValue:"";
 	  	title=layers[i].selectSingleNode("wmc:Title");title=(title)?title.firstChild.nodeValue:"";
 			name2=layers[i].selectSingleNode("wmc:Name");name2=(name2)?name2.firstChild.nodeValue:"";
@@ -65,32 +78,55 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 				  break;
 			  case "wms":
 				case "OGC:WMS":
-         // OpenLayers expects the base layer to be non-transparent (it gets
-				 // projection info from the baselayer).
-				 // See Issue http://trac.openlayers.org/ticket/390
-				 baseLayer=(i==0)?true:false;
-         objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(
-				   title,
-					 href,
-					 {
-					   layers: name2,
-					   transparent: "true",
-						 format: format
-					 },{
-						 isBaseLayer:baseLayer,
-						 buffer:1
-					 }
-				 );
-				 objRef.oLMap.addLayers([objRef.oLlayers[name2]]);
-					
+        	// OpenLayers expects the base layer to be non-transparent (it gets
+					// projection info from the baselayer).
+				 	// See Issue http://trac.openlayers.org/ticket/390
+				 	baseLayer=(i==layers.length-1)?"true":"false";
+				 	//transparent=(i==layers.length-1)?"false":"true";
+					if(srs=="EPSG:4326"||srs=="epsg:4326"){
+	         	objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(
+					   	title,
+						 	href,
+						 	{
+						   	layers: name2,
+						   	transparent: "true",
+							 	format: format
+						 	},{
+							 	isBaseLayer:baseLayer,
+							 	buffer:1
+						 	}
+					 	);
+					}else{
+	         	objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(
+					   	title,
+						 	href,
+						 	{
+						   	layers: name2,
+						   	transparent: "true",
+							 	format: format
+						 	},{
+							 	isBaseLayer:baseLayer,
+							 	maxExtent: maxExtent,
+							 	maxResolution: maxResolution,
+								projection: srs,
+							 	buffer:1
+						 	}
+					 	);
+					}
+				 	objRef.oLMap.addLayers([objRef.oLlayers[name2]]);
+					break;
+				case "gml":
+				case "OGC:GML":
+				  alert("MapPaneOL GML");
 				  break;
+					
 			  default:
 				  alert("MapPaneOL: No support for layer type="+service);
 			}
+			objRef.hidden(objRef,name2);
     }
 		bbox=objRef.model.getBoundingBox();
 		objRef.oLMap.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
-		objRef.hidden(objRef,name2);
 	}
 }
 
@@ -101,7 +137,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
  */
 MapPaneOL.prototype.hidden = function(objRef, layerName) {
 	vis=objRef.model.getHidden(layerName)!="1";
-	objRef.oLlayers[layerName].setVisibility(vis);
+	if(objRef.oLlayers[layerName])objRef.oLlayers[layerName].setVisibility(vis);
 }
 
 /**
