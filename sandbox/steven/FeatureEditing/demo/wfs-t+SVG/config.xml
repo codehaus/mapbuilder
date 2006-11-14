@@ -102,6 +102,7 @@
       <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:ows='http://www.opengis.net/ows' xmlns:topp='http://www.openplans.org/topp'</namespace>
     </FeatureCollection>
     
+    
   </models>
   
   <widgets>
@@ -134,6 +135,12 @@
       <enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
       <disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
     </ZoomOut>
+        <Reset id="reset">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
+    </Reset>
     <DragPan id="dragPan">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
@@ -145,7 +152,8 @@
      <GetFeature id="getFeature">
            <selected>true</selected>
       <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
+      <targetContext>mainMap</targetContext>
+       <targetModel>gml2FeatureTemplate</targetModel>
       <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/GetFeatureInfoEnable.png</enabledSrc>
@@ -169,6 +177,7 @@
       <disabledSrc>/images/DelPointDisable.png</disabledSrc>
     </DeleteVertex>
      <AddVertex id="addPoint">
+       <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:ows='http://www.opengis.net/ows' xmlns:topp='http://www.openplans.org/topp'</namespace>
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>gml2FeatureTemplate</targetModel>
       <mouseHandler>mainMouseClick</mouseHandler>
@@ -185,6 +194,22 @@
       <webServiceUrl>http://decock:11080/geoserver/wfs</webServiceUrl>
       <targetContext>mainMap</targetContext>
     </DeleteFeature>
+    <NewFeature id="newFeature">
+     <namespace>xmlns:wmc='http://www.opengis.net/context' xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:ows='http://www.opengis.net/ows' xmlns:topp='http://www.openplans.org/topp'</namespace>
+      <buttonBar>mainButtonBar</buttonBar>
+      <mouseHandler>mainMouseClick</mouseHandler>
+      <targetModel>gml2FeatureTemplate</targetModel>
+      <class>RadioButton</class>
+      <disabledSrc>/images/NewDisable.png</disabledSrc>
+      <enabledSrc>/images/NewEnable.png</enabledSrc>
+      <targetContext>mainMap</targetContext>
+      <defaultModelUrl>wegvlakken.xml</defaultModelUrl>
+       <featureTagName>topp:WEGVAKID</featureTagName>
+      <coordsTagName>topp:GEOMETRIE</coordsTagName>
+      <nodeSelectXpath>//gml:featureMember</nodeSelectXpath>
+      <featureXpath>//topp:GEOMETRIE/gml:LineString/gml:coordinates</featureXpath>
+       <requestStylesheet>wfs_GetFeature.xsl</requestStylesheet>
+    </NewFeature>
      <InsertFeature id="insertFeature">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>gml2FeatureTemplate</targetModel>
@@ -215,12 +240,7 @@
 <!--      <enabledSrc>/images/SetAoiEnable.png</enabledSrc>-->
 <!--      <disabledSrc>/images/SetAoiDisable.png</disabledSrc>-->
 <!--    </SetAoi>-->
-    <Reset id="reset">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <class>Button</class>
-      <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
-    </Reset>
+
 <!--    <GetMarkerInfo id="getMarkerInfo">-->
 <!--      <buttonBar>mainButtonBar</buttonBar>-->
 <!--      <targetModel>mainMap</targetModel>-->
@@ -231,13 +251,7 @@
 <!--      <disabledSrc>/images/QueryDisable.png</disabledSrc>-->
 <!--      <cursor>default</cursor>-->
 <!--    </GetMarkerInfo> -->
-    <Save id="save">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <class>Button</class>
-      <disabledSrc>/images/SaveDisable.png</disabledSrc>
-      <popupWindowName>modelXML</popupWindowName>
-    </Save>
+   
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
   <languages>en,fr,fr-CA</languages>

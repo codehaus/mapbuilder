@@ -17,6 +17,7 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 function GetFeature(widgetNode, model) {
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
+   this.tc=widgetNode.selectSingleNode("mb:targetContext").firstChild.nodeValue;
  this.cursor = "crosshair";	
   /**
    * Calls the centerAt method of the context doc to zoom out, recentering at 
@@ -27,11 +28,14 @@ function GetFeature(widgetNode, model) {
    */
   this.doAction = function(objRef,targetNode) {
     if (objRef.enabled) {
-    	
+    	if (!objRef.targetContext){
+        objRef.targetContext=window.config.objects[objRef.tc];
+      }
      var point=objRef.mouseHandler.model.extent.getXY(targetNode.evpl);
       var x = point[0];
       var y = point[1];
-      objRef.targetModel.setParam("aoi",new Array(new Array(x-10,y-10),new Array(x+10,y+10)));
+      objRef.targetModel.method = "post";
+      objRef.targetContext.setParam("aoi",new Array(new Array(x-10,y-10),new Array(x+10,y+10)));
       config.objects.webServiceForm.submitForm();
       
       

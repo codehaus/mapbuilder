@@ -43,7 +43,7 @@
 
     <wmc:FeatureType hidden="0" id="B58B8C7B-6592-4D67-9CD5-5D43CB46BF83">
       <wmc:Server service="OGC:WFS" version="1.0.0" title="decock">
-        <wmc:OnlineResource method="post" xlink:type="simple" xlink:href="http://deocock:11080/geoserver/wfs" />
+        <wmc:OnlineResource method="post" xlink:type="simple" xlink:href="http://decock:11080/geoserver/wfs" />
       </wmc:Server>
       <wmc:Name>decock</wmc:Name>
       <wmc:Title>decock</wmc:Title>

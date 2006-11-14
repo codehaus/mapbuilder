@@ -349,6 +349,7 @@ return false;
   */
   this.unpaint = function() {
     var nodeList = this.model.getFeatureNodes(); 
+    if(!nodeList) return;
     for( var i=0; i<nodeList.length; i++) {
   	  this.id = "wfs_"+ this.uuid + "_" + i 
   	  this.deleteShape();
@@ -362,7 +363,7 @@ return false;
   * @param hiliteOnly true if hilite (room for future optimization)
   */
   this.paintShape= function( sld, hiliteOnly ) {
-  
+  if(this.coords=="") return;
   if( this.gmlType == "gml:Point" ) {
      this.paintPoint( sld, hiliteOnly);
   } else if( this.gmlType == "gml:LineString" ) {
