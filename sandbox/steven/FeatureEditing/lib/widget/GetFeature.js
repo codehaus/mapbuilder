@@ -1,28 +1,34 @@
 /*
 License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
-$Id: ZoomOut.js 2133 2006-06-22 15:28:52Z steven $
+$Id: GetFeature.js 2133 2006-06-22 15:28:52Z steven $
 */
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 
 /**
- * When this button is selected, click on the map to zoom out centered at the click.
+ * When this button is selected, click on a feature in the (WMS) map to 
+ * send a WFS GetFeature REquest and request it as GML.
  * @constructor
  * @base ButtonBase
- * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
+ * @author Steven Ottens steven.ottensATgeodan.nl
  * @param widgetNode The widget node from the Config XML file.
  * @param model  The model for this widget
  */
 function GetFeature(widgetNode, model) {
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
+  
+  // override default cursor by user
+  // cursor can be changed by spefying a new cursor in config file
+	this.cursor = "crosshair";	
+
+	//Get the different models from the config file
    this.tc=widgetNode.selectSingleNode("mb:targetContext").firstChild.nodeValue;
- this.cursor = "crosshair";	
+
   /**
-   * Calls the centerAt method of the context doc to zoom out, recentering at 
-   * the mouse event coordinates.
-   * TBD: set the zoomFactor property as a button property in conifg
+   * Get the coordinates of the point and transform it to a small bounding box
+   * TBD: 
    * @param objRef      Pointer to this AoiMouseHandler object.
    * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
@@ -31,14 +37,22 @@ function GetFeature(widgetNode, model) {
     	if (!objRef.targetContext){
         objRef.targetContext=window.config.objects[objRef.tc];
       }
-     var point=objRef.mouseHandler.model.extent.getXY(targetNode.evpl);
-      var x = point[0];
-      var y = point[1];
+      //Create a small aoi of 10pixels around the mouseclick
+      var evplul = targetNode.evpl;
+      var evpllr = targetNode.evpl;
+      evplul[0] = parseInt(evplul[0]) - 5;
+      evplul[1] = parseInt(evplul[1]) - 5;
+      var pointUl =objRef.mouseHandler.model.extent.getXY(evplul);
+ 			evpllr[0] = parseInt(evpllr[0]) + 5;
+      evpllr[1] = parseInt(evpllr[1]) + 5;
+      var pointLr =objRef.mouseHandler.model.extent.getXY(evpllr);
+
+			//make sure we are posting a getFeature Request
       objRef.targetModel.method = "post";
-      objRef.targetContext.setParam("aoi",new Array(new Array(x-10,y-10),new Array(x+10,y+10)));
+      objRef.targetContext.setParam("aoi",new Array(pointUl,pointLr));
+      
+      //Use webservice form to do the actual request
       config.objects.webServiceForm.submitForm();
-      
-      
     }
   }
 
@@ -52,5 +66,4 @@ function GetFeature(widgetNode, model) {
     }
   }
   this.model.addListener( "loadModel", this.setMouseListener, this );
-
 }

@@ -8,6 +8,7 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 
 /**
  * When this button is pressed a WFS-T DeleteFeature transaction will be started.
+ * The modifications are based on and tested against the MapPane2 design
  * @constructor
  * @base ButtonBase
  * @author Cameron Shorter
@@ -22,10 +23,12 @@ function DeleteFeature(widgetNode, model) {
   // cursor can be changed by spefying a new cursor in config file
   this.cursor = "default"; 
 
+	//Get the different models from the config file
   this.trm=widgetNode.selectSingleNode("mb:transactionResponseModel").firstChild.nodeValue;
   this.tm=widgetNode.selectSingleNode("mb:targetModel").firstChild.nodeValue;
   this.tc=widgetNode.selectSingleNode("mb:targetContext").firstChild.nodeValue;
 
+	//Make sure a new httpPayload is created and set it to 'post'
   this.httpPayload=new Object();
   this.httpPayload.url=widgetNode.selectSingleNode("mb:webServiceUrl").firstChild.nodeValue;
   this.httpPayload.method="post";
@@ -36,6 +39,7 @@ function DeleteFeature(widgetNode, model) {
   /**
    * Start a WFS-T DeleteFeature transaction.
    * @param objRef Pointer to this object.
+   * @param selected Whether or not this button is selected
    */
   this.doSelect = function(selected,objRef) {
     if (selected){
@@ -56,7 +60,9 @@ function DeleteFeature(widgetNode, model) {
         s=objRef.deleteXsl.transformNodeToObject(objRef.targetModel.doc);
         objRef.httpPayload.postData=s;
         objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
-      }else alert("No feature available to delete");
+      }
+      //TBD: move the alert text to widgetText.xml
+      else alert("No feature available to delete");
     }
   }
 
@@ -69,15 +75,10 @@ function DeleteFeature(widgetNode, model) {
   this.handleResponse=function(objRef){
     sucess=objRef.transactionResponseModel.doc.selectSingleNode("//wfs:TransactionResult/wfs:Status/wfs:SUCCESS");
     if (sucess){
-      // Remove FeatureList if feature entry was successful.
+			//Refresh de map
      	objRef.targetContext.setParam("refresh","yes");
+     	//Easy way to check if the feature is deleted; just request it again
      	config.objects.webServiceForm.submitForm();
-//     	objRef.targetContext.setParam("refreshWmsLayers",objRef);
- 	//		objRef.targetContext.setParam("refreshOtherLayers");
-     	
-      // Repaint the WMS layers
-     // objRef.targetContext.callListeners("deleteLayer");
     }
   }
-
 }
