@@ -2,7 +2,7 @@
 Author:       Cameron Shorter cameronAtshorter.net
 License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: MapPane.js 1918 2006-02-13 22:31:26 -0500 (Mon, 13 Feb 2006) cappelaere $
+$Id: $
 */
 
 // Ensure this object's dependancies are loaded.
@@ -72,46 +72,35 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       name2=layers[i].selectSingleNode("wmc:Name");name2=(name2)?name2.firstChild.nodeValue:"";
       href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?href.firstChild.nodeValue:"";
       format=layers[i].selectSingleNode("wmc:FormatList/wmc:Format");format=(format)?format.firstChild.nodeValue:"image/gif";
+
+      // Options to pass into the OpenLayers Layer initialization
+	  var options = new Array();
+      // OpenLayers expects the base layer to be non-transparent (it gets
+      // projection info from the baselayer).
+      // See Issue http://trac.openlayers.org/ticket/390
+	  options.isBaseLayer=(i==layers.length-1)?true:false;
+      //options.transparent=(i==layers.length-1)?"false":"true";
+	  options.buffer=1;
+      if(srs!="EPSG:4326"&&srs!="epsg:4326"){
+	  	options.maxExtent=maxExtent;
+		options.maxResolution=maxResolution;
+		options.projection=srs;
+	  }
       switch(service){
 
         // WMS Layer
         case "wms":
         case "OGC:WMS":
-          // OpenLayers expects the base layer to be non-transparent (it gets
-          // projection info from the baselayer).
-          // See Issue http://trac.openlayers.org/ticket/390
-          baseLayer=(i==layers.length-1)?"true":"false";
-          //transparent=(i==layers.length-1)?"false":"true";
-          if(srs=="EPSG:4326"||srs=="epsg:4326"){
-            objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(
-              title,
-              href,
-              {
-                layers: name2,
-                transparent: "true",
-                format: format
-              },{
-                isBaseLayer:baseLayer,
-                buffer:1
-              }
-            );
-          }else{
-            objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(
-              title,
-              href,
-              {
-                layers: name2,
-                transparent: "true",
-                format: format
-              },{
-                isBaseLayer:baseLayer,
-                maxExtent: maxExtent,
-                maxResolution: maxResolution,
-                projection: srs,
-                buffer:1
-              }
-            );
-          }
+          objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(
+            title,
+            href,
+            {
+              layers: name2,
+              transparent: "true",
+              format: format
+            },
+		    options
+          );
           objRef.oLMap.addLayers([objRef.oLlayers[name2]]);
           break;
 
@@ -119,8 +108,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         case "gml":
         case "OGC:GML":
           objRef.oLlayers[name2] =
-            new OpenLayers.Layer.GML(
-              title,href);
+            new OpenLayers.Layer.GML(title,href,options);
+            //new OpenLayers.Layer.GML(title,href,options);
           objRef.oLMap.addLayer(objRef.oLlayers[name2]);
           break;
           
