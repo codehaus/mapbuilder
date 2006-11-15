@@ -119,9 +119,9 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         case "gml":
         case "OGC:GML":
           objRef.oLlayers[name2] =
-            new OpenLayers.Layer.Gml(
-              title,{href:href});
-          objRef.oLMap.addLayers([objRef.oLlayers[name2]]);
+            new OpenLayers.Layer.GML(
+              title,href);
+          objRef.oLMap.addLayer(objRef.oLlayers[name2]);
           break;
           
         default:
