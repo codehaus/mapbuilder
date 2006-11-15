@@ -156,8 +156,8 @@
        <targetModel>gml2FeatureTemplate</targetModel>
       <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
-      <enabledSrc>/images/GetFeatureInfoEnable.png</enabledSrc>
-      <disabledSrc>/images/GetFeatureInfoDisable.png</disabledSrc>
+      <enabledSrc>/images/GetFeatureEnable.png</enabledSrc>
+      <disabledSrc>/images/GetFeatureDisable.png</disabledSrc>
     </GetFeature>
     
      <MoveVertex id="movePoint">
@@ -165,8 +165,8 @@
       <targetModel>gml2FeatureTemplate</targetModel>
       <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
-      <enabledSrc>/images/GetFeatureEnable.png</enabledSrc>
-      <disabledSrc>/images/GetFeatureDisable.png</disabledSrc>
+      <enabledSrc>/images/MoveVertexEnable.png</enabledSrc>
+      <disabledSrc>/images/MoveVertexDisable.png</disabledSrc>
      </MoveVertex>
     <DeleteVertex id="delPoint">
       <buttonBar>mainButtonBar</buttonBar>
@@ -189,7 +189,7 @@
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>gml2FeatureTemplate</targetModel>
       <class>Button</class>
-      <disabledSrc>/images/DeleteDisable.png</disabledSrc>
+      <disabledSrc>/images/DeleteFeatureDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>http://decock:11080/geoserver/wfs</webServiceUrl>
       <targetContext>mainMap</targetContext>
@@ -200,8 +200,8 @@
       <mouseHandler>mainMouseClick</mouseHandler>
       <targetModel>gml2FeatureTemplate</targetModel>
       <class>RadioButton</class>
-      <disabledSrc>/images/NewDisable.png</disabledSrc>
-      <enabledSrc>/images/NewEnable.png</enabledSrc>
+      <disabledSrc>/images/NewFeatureDisable.png</disabledSrc>
+      <enabledSrc>/images/NewFeatureEnable.png</enabledSrc>
       <targetContext>mainMap</targetContext>
       <defaultModelUrl>wegvlakken.xml</defaultModelUrl>
        <featureTagName>topp:WEGVAKID</featureTagName>
