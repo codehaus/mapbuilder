@@ -17,8 +17,8 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   this.id = "WfsQueryLayer";
   this.model = model;
   this.deletePoint = false;
-    this.addPoint = false;
-    this.movePoint = false;
+  this.addPoint = false;
+  this.movePoint = false;
   // unique layer id
   this.uuid = layerNode.getAttribute("id");
   this.featureCount = 0;
@@ -88,22 +88,16 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   this.paintLinePoint = function( sld, hiliteOnly, coords,number) {
     if( hiliteOnly ) {
       sld.hilitePoint( this.gr, hiliteOnly );
-    } else {
-   
-        var containerProj = new Proj(this.model.containerModel.getSRS());
-        //alert("RssLayer.paintPoint SRS="+this.model.getSRS());
-       
-        
-    
-        this.shape = sld.paintPoint( this.gr, coords );
-        if( this.shape != null ) {
-          this.shape.id = this.id+"_point_"+number;
-          
-          this.gr.paint(); 
-          this.install( this.shape );
-        
+    } else {   
+      var containerProj = new Proj(this.model.containerModel.getSRS());
+      this.shape = sld.paintPoint( this.gr, coords );
+      //For each point in the line a new shape is created
+      if( this.shape != null ) {
+        this.shape.id = this.id+"_point_"+number;          
+        this.gr.paint(); 
+        this.install( this.shape );
       }
-      }
+    }
   }
 /**
   * Renders the GML Polygon
@@ -191,16 +185,14 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
       this.shape.id = this.id +"_vector";
       this.gr.paint();
       this.install( this.shape );
-       for( var i=0; i<pointPairs.length; i++ ) {  
+      //Once the line is drawn, draw each point seperately on top of it
+      for( var i=0; i<pointPairs.length; i++ ) {  
         point[0] = pointPairs[i];
         point[1] = pointPairs[i+1];
-
-      //  screenCoords = containerProj.Forward(point);
         screenCoords = this.model.containerModel.extent.getPL(point);
-       this.paintLinePoint(sld, false, screenCoords,i/2);
+	      this.paintLinePoint(sld, false, screenCoords,i/2);
         i++;
-      }   
-       
+      }        
     }   
   }
 
@@ -245,18 +237,15 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   * @param img can be ignored here (required for WMS layers)
   */
   this.paint= function( objRef, img ) {
-var nodeList = this.model.getFeatureNodes();
-
+		var nodeList = this.model.getFeatureNodes();
     this.deletePreviousFeatures();
-if(!nodeList) {
-return false;
-}
-    
+		if(!nodeList) {
+			//Apparently there are no nodes to be drawn so bail out
+			return false;
+		}
     for( var i=0; i<nodeList.length; i++) {
-
       featureNode = nodeList[i]
       type = this.model.getFeatureGeometry( featureNode )
-         
 	    if( type != undefined ) {
 		    this.gmlType = type.nodeName;
 	 	      
@@ -316,15 +305,15 @@ return false;
     if(this.points) {
     	for(var i=0; i<this.points; i++) {
     		var pointid = this.id +"_point_"+i;
-    		 var pointnode = document.getElementById( pointid );
-    while( pointnode != null ) {
-      var parentNode = pointnode.parentNode;
-      //alert( "bfore:"+Sarissa.serialize(parentNode))
-      parentNode.removeChild( pointnode );
-      pointnode = document.getElementById( pointid );
-    }
+    		var pointnode = document.getElementById( pointid );
+		    while( pointnode != null ) {
+    		  var parentNode = pointnode.parentNode;
+			    //alert( "bfore:"+Sarissa.serialize(parentNode))
+			    parentNode.removeChild( pointnode );
+			    pointnode = document.getElementById( pointid );
+			  }
     	}
-    }
+   	}
     var node = document.getElementById( id );
     while( node != null ) {
       var parentNode = node.parentNode;
@@ -332,7 +321,7 @@ return false;
       parentNode.removeChild( node );
       node = document.getElementById( id );
     }
- }
+  }
  
  /**
   * When we redo a search, we need to erase old entries
@@ -363,23 +352,24 @@ return false;
   * @param hiliteOnly true if hilite (room for future optimization)
   */
   this.paintShape= function( sld, hiliteOnly ) {
-  if(this.coords=="") return;
-  if( this.gmlType == "gml:Point" ) {
+  	if(this.coords=="") return;
+	  if( this.gmlType == "gml:Point" ) {
      this.paintPoint( sld, hiliteOnly);
-  } else if( this.gmlType == "gml:LineString" ) {
-    this.paintLine( sld, hiliteOnly);
-  } else if( this.gmlType == "gml:Polygon" || 
-      this.gmlType == "gml:Envelope" ||
-      this.gmlType == "gml:Box")  {
-    this.paintPolygon( sld, hiliteOnly);
-  }   
-}
+  	} else if( this.gmlType == "gml:LineString" ) {
+    	this.paintLine( sld, hiliteOnly);
+	  } else if( this.gmlType == "gml:Polygon" || 
+ 	    this.gmlType == "gml:Envelope" ||
+   	  this.gmlType == "gml:Box")  {
+	    this.paintPolygon( sld, hiliteOnly);
+	  }   
+	}
 
 /**
   * Installs the mouseover/mouseout handlers
   * @param shape
   */
   this.install= function( shape ) {
+  	//install the event handlers
     shape.onmouseover = this.mouseOverHandler; 
     shape.onmouseout  = this.mouseOutHandler;
     shape.onmouseup   = this.mouseClickHandler;
@@ -399,23 +389,23 @@ return false;
     var containerNode  = document.getElementById("mainMapContainer")
     if( containerNode) {
     if(!containerNode.oldEventHandler){
+    	//Store the old event handlers to be handed back when needed
       containerNode.oldEventHandler = containerNode.onmouseup;
       containerNode.onmouseup = null; 
       containerNode.onmousedown = null;
       containerNode.onmousemove = null;
       } 
     }
-     var idAttr = this.getAttribute("id").split("_")
+    var idAttr = this.getAttribute("id").split("_")
     var id = idAttr[3]
+    //We don't have events on top of lines (for the time being)
 		if(id=="vector") return false; 
-
 		
-    
-      this.wfsQueryLayer.paintLinePoint(this.wfsQueryLayer.hoverSld, this);
-  if(this.wfsQueryLayer.movePoint){
-    this.style.cursor = "move";
-}
-    //config.objects[this.model].setParam('highlightFeature',id);
+		//When the mouse is hovering over a feature, show the hover style
+    this.wfsQueryLayer.paintLinePoint(this.wfsQueryLayer.hoverSld, this);
+	  if(this.wfsQueryLayer.movePoint){
+  	  this.style.cursor = "move";
+		}
     return true;
   }
 
@@ -425,187 +415,166 @@ return false;
   * @param ev
   */
   this.mouseOutHandler= function(ev) {  
-   this.wfsQueryLayer.paintLinePoint(this.wfsQueryLayer.normalSld, this);
+  	//Draw the feature in normal style
+	  this.wfsQueryLayer.paintLinePoint(this.wfsQueryLayer.normalSld, this);
     this.style.cursor = "default";
     var idAttr = this.getAttribute("id").split("_")
     var id = idAttr[2]
 
     var containerNode = document.getElementById("mainMapContainer")
     if( containerNode) {
+    	//We have left the feature so the old eventhandlers apply
       containerNode.onmouseup = containerNode.oldEventHandler;
       containerNode.onmousedown = containerNode.oldEventHandler;
       containerNode.onmousemove = containerNode.oldEventHandler;
- this.drag=false;
- }
- 
-    this.style.cursor = "default";
-    //config.objects[this.model].setParam('dehighlightFeature',id);
+			this.drag=false;
+		}
     return true;
   }
+  /** 
+  * Handler is attached to the shape itself
+  * puts event in the queue to be picked later
+  * @param ev
+  */
   this.mouseDownHandler = function(ev) {
-      this.wfsQueryLayer.paintLinePoint(this.wfsQueryLayer.dragSld, this);
- var containerNode  = document.getElementById("mainMapContainer")
+  	//Draw the feature in drag style 
+    this.wfsQueryLayer.paintLinePoint(this.wfsQueryLayer.dragSld, this);
+		var containerNode  = document.getElementById("mainMapContainer")
     if( containerNode) {
     if(!containerNode.oldEventHandler){
+    	//Store the old event handlers to be handed back when needed
       containerNode.oldEventHandler = containerNode.onmouseup;
       containerNode.onmouseup = null; 
       containerNode.onmousedown = null;
       containerNode.onmousemove = null;
       } 
     }
-         var idAttr = this.getAttribute("id").split("_")
+    var idAttr = this.getAttribute("id").split("_")
     var id = idAttr[3]
+     //We don't have events on top of lines (for the time being)
 		if(id=="vector") return false; 
-      
-this.containerNode = document.getElementById("mainMapContainer");
+    
+    //TBD: create this dynamically  
+		this.containerNode = document.getElementById("mainMapContainer");
   	this.drag = true;
-this.anchorPoint = this.containerNode.evpl;
-      this.deltaP = 0;
-      this.deltaL = 0;  
-      this.oldPos = new Array(0,0);
+		this.anchorPoint = this.containerNode.evpl;
+    this.deltaP = 0;
+    this.deltaL = 0;  
+    this.oldPos = new Array(0,0);
       
-  if(_SARISSA_IS_IE){
-     var oldSize = parseInt(this.style.width.replace("px",""));
+	  if(_SARISSA_IS_IE){
+	  	//Some black magic to get the center point in vml
+      var oldSize = parseInt(this.style.width.replace("px",""));
 			if(oldSize=="NaN"||!oldSize) return false;
 			var oldLeft = parseInt(this.style.left.replace("px",""));
 			if(oldLeft=="NaN"||!oldLeft) return false;
 			var oldTop = parseInt(this.style.top.replace("px",""));
 			if(oldTop=="NaN"||!oldTop) return false;
-	var P=oldLeft + oldSize/2;
-  var L=oldTop +oldSize/2;
-  
-  }
-  else{    
-      //firefox
+			var P=oldLeft + oldSize/2;
+		  var L=oldTop +oldSize/2;
+	  }
+  	else{    
+      //in svg however this is simple :)
 			var P = this.getAttribute("cx");
       var L = this.getAttribute("cy");
     }  
-   
+    if(P && L)
+      this.oldPos = new Array(parseInt(P),parseInt(L));
+    else
+      this.oldPos = new Array(0,0);     
+	 }
   
-  
-  
-  
-        if(P && L)
-          this.oldPos = new Array(parseInt(P),parseInt(L));
-        else
-          this.oldPos = new Array(0,0);
-      
-  }
-  
-   this.mouseMoveHandler = function(ev) {
-  	 if(this.drag&&this.wfsQueryLayer.movePoint) {
-  	 
-	  	 this.deltaP = this.containerNode.evpl[0] - this.anchorPoint[0];
-       this.deltaL = this.containerNode.evpl[1] - this.anchorPoint[1];
- if(_SARISSA_IS_IE){
- 
-   this.style.left=this.deltaP + this.oldPos[0] -20;
-  this.style.top=this.deltaL + this.oldPos[1] -20;
-  }
-  else{  
-					//firefox
-          this.setAttribute("cx",this.deltaP + this.oldPos[0]);
+ /** 
+  * Handler is attached to the shape itself
+  * puts event in the queue to be picked later
+  * @param ev
+  */
+  this.mouseMoveHandler = function(ev) {
+  	if(this.drag&&this.wfsQueryLayer.movePoint) {
+  		//We are moving nodes
+	  	this.deltaP = this.containerNode.evpl[0] - this.anchorPoint[0];
+      this.deltaL = this.containerNode.evpl[1] - this.anchorPoint[1];
+      //Change the centrepoint of a vertex with the delta
+			if(_SARISSA_IS_IE){
+			  this.style.left=this.deltaP + this.oldPos[0] -20;
+				this.style.top=this.deltaL + this.oldPos[1] -20;
+			}
+			 else {  
+			 	//firefox
+	        this.setAttribute("cx",this.deltaP + this.oldPos[0]);
           this.setAttribute("cy",this.deltaL + this.oldPos[1]);
-}
+				}
   	 }
   }
-  /**
-   * Handle single click
-   */
+ /** 
+  * Handler is attached to the shape itself
+  * puts event in the queue to be picked later
+  * @param ev
+  */
   this.mouseClickHandler= function(ev) { 
-      var idAttr = this.getAttribute("id").split("_")
-	    var id = idAttr[3]
-			if(id=="vector") return false; 
-      this.wfsQueryLayer.paintLinePoint(this.wfsQueryLayer.hoverSld, this);
-		  this.drag=false;
-   if(_SARISSA_IS_IE){
-     var oldSize = parseInt(this.style.width.replace("px",""));
+    var idAttr = this.getAttribute("id").split("_")
+	  var id = idAttr[3]
+	  //We don't have events on top of line (for the time being)
+		if(id=="vector") return false; 
+		//Draw the feature in hover style 
+    this.wfsQueryLayer.paintLinePoint(this.wfsQueryLayer.hoverSld, this);
+		this.drag=false;
+	  if(_SARISSA_IS_IE){
+      var oldSize = parseInt(this.style.width.replace("px",""));
 			if(oldSize=="NaN"||!oldSize) return false;
 			var oldLeft = parseInt(this.style.left.replace("px",""));
 			if(oldLeft=="NaN"||!oldLeft) return false;
 			var oldTop = parseInt(this.style.top.replace("px",""));
 			if(oldTop=="NaN"||!oldTop) return false;
-	var P=oldLeft + oldSize/2;
-  var L=oldTop +oldSize/2;
-  
-  }
-  else{  
-  //firefox
-	var P =	this.getAttribute("cx");
-	var L =	this.getAttribute("cy");
-
-}
-//You want to move the new point a bit so it's clear that it's a new point
-	if(this.wfsQueryLayer.addPoint) {
-	P=parseInt(P)+6;
-	
-	}
-	var newPoint =	this.wfsQueryLayer.mapPane.model.extent.getXY(new Array(P,L));
-	var pointPairs    = this.wfsQueryLayer.coords.split(/[ ,\n]+/);
-	var idAttr = this.getAttribute("id").split("_");
-	var pointNr=idAttr[4];
-	if(this.wfsQueryLayer.deletePoint) {
-	pointPairs.splice(pointNr*2+1,1);
-	pointPairs.splice(pointNr*2,1);
-	}
-	else if(this.wfsQueryLayer.addPoint) {
-	pointPairs.splice(pointNr*2+2,0,newPoint[0]);
-	pointPairs.splice(pointNr*2+3,0,newPoint[1]);
-	}
-	else if (this.wfsQueryLayer.movePoint){
-	pointPairs.splice(pointNr*2,1,newPoint[0]);
-	pointPairs.splice(pointNr*2+1,1,newPoint[1]);
-	}
-	else return false;
-	for(var i=0;i<pointPairs.length;i++) {
-		if(!newLine) {
-			var newLine = pointPairs[i] + "," + pointPairs[i+1];
+    	var P=oldLeft + oldSize/2;
+      var L=oldTop +oldSize/2;
+	  }
+  	else{  
+	 		//firefox
+			var P =	this.getAttribute("cx");
+			var L =	this.getAttribute("cy");
 		}
-		else {
-			newLine = newLine + " " + pointPairs[i] + "," + pointPairs[i+1];
-			}	 	i++;	
+		//You want to move the new point a bit so it's clear that it's a new point
+		if(this.wfsQueryLayer.addPoint) {
+			P=parseInt(P)+6;	
 		}
+		
+		var newPoint =	this.wfsQueryLayer.mapPane.model.extent.getXY(new Array(P,L));
+		newPoint[0] = parseInt(newPoint[0]);
+		newPoint[1] = parseInt(newPoint[1]);
+		var pointPairs    = this.wfsQueryLayer.coords.split(/[ ,\n]+/);
+		var idAttr = this.getAttribute("id").split("_");
+		//This is the point number
+		var pointNr=idAttr[4];
+		//Depending on the selected widget we need to do something with the Point
+		if(this.wfsQueryLayer.deletePoint) {
+			pointPairs.splice(pointNr*2+1,1);
+			pointPairs.splice(pointNr*2,1);
+		}
+		else if(this.wfsQueryLayer.addPoint) {
+			pointPairs.splice(pointNr*2+2,0,newPoint[0]);
+			pointPairs.splice(pointNr*2+3,0,newPoint[1]);
+		}
+		else if (this.wfsQueryLayer.movePoint){
+			pointPairs.splice(pointNr*2,1,newPoint[0]);
+			pointPairs.splice(pointNr*2+1,1,newPoint[1]);
+		}
+		else return false;
+		for(var i=0;i<pointPairs.length;i++) {
+			if(!newLine) {
+				var newLine = pointPairs[i] + "," + pointPairs[i+1];
+			}
+			else {
+				newLine = newLine + " " + pointPairs[i] + "," + pointPairs[i+1];
+				}
+			i++;	
+		}
+		//Update the feature layer
 		this.wfsQueryLayer.model.setXpathValue(this.wfsQueryLayer.model, "//topp:GEOMETRIE/gml:LineString/gml:coordinates", newLine);
 		this.wfsQueryLayer.mapPane.MapLayerMgr.model.setParam("refreshOtherLayers");
   }
 
-  /**
-   * Actual Click handler
-   */
-  this.clickIt= function(objRef, featureId) {
-     
-    var nodeList = objRef.model.getFeatureNodes();
-    var node = nodeList[featureId];
-    
-	//toolTipObjs[objRef.tooltip].paintXSL( node );
-  }
-  
 
-/** 
-  * Highlights the selected feature by switching to the highlight image
-  * @param objRef a pointer to this widget object
-  * @param featureId
-  */
-  this.highlight= function(objRef, featureId) {
-      
-    objRef.paintShape( objRef.hiliteSld, true );
-    var nodeList = objRef.model.getFeatureNodes();
-    var node = nodeList[featureId];
-    
-    toolTipObjs[objRef.tooltip].paintXSL( node );
-  }
- 
-/** 
-  * Dehighlights the selected feature by switching back to the normal image
-  * @param objRef a pointer to this widget object
-  * @param featureId
-  */
-  this.dehighlight= function(objRef, featureId) {
-    objRef.paintShape( objRef.normalSld, true );
- 
-    // clear popup
-    toolTipObjs[objRef.tooltip].clear();
-  }
  
   this.parse();
   
@@ -626,14 +595,9 @@ this.anchorPoint = this.containerNode.evpl;
 	this.movepoint = function (objRef, value) {
 		objRef.movePoint = value;
 	}  
-  // model here is not geoRss but OwsContext sooooo
+
   config.objects[this.model.id].addListener("delpoint",this.delpoint, this);
-   config.objects[this.model.id].addListener("addpoint",this.addpoint, this);
-     config.objects[this.model.id].addListener("movepoint",this.movepoint, this);
-   
-  config.objects[this.model.id].addListener("highlightFeature",this.highlight, this);
-  config.objects[this.model.id].addListener("dehighlightFeature",this.dehighlight, this);
-  config.objects[this.model.id].addListener("clickFeature",this.clickIt, this);
-  this.tooltip = config.objects[this.model.id].tipWidgetId;
+ 	config.objects[this.model.id].addListener("addpoint",this.addpoint, this);
+  config.objects[this.model.id].addListener("movepoint",this.movepoint, this);
 }
 
