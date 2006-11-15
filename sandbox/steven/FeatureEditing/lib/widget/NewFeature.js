@@ -27,7 +27,7 @@ function NewFeature(widgetNode, model) {
     this.requestStylesheet = new XslProcessor(requestStylesheet.firstChild.nodeValue,model.namespace); 
   }
   var featureXpath =  widgetNode.selectSingleNode("mb:featureXpath");
-  if (featureXparh) {
+  if (featureXpath) {
   	this.featureXpath = widgetNode.selectSingleNode("mb:featureXpath").firstChild.nodeValue;
   }
   else this.featureXpath = "//topp:GEOMETRIE/gml:LineString/gml:coordinates";
