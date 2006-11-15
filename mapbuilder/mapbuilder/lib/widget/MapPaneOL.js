@@ -52,15 +52,24 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     // OpenLayers doesn't contain information about projection, so if the
     // baseLayer projection is not standard lat/long, it needs to know
     // maxExtent and maxResolution to calculate the zoomLevels.
-    // TBD: If the maxExtent/maxResolution is not specified in the config
-    // we should calculate it from the BBox and Width/Height in the Context.
     maxExtent=null;
     maxResolution=null;
     if(srs!="EPSG:4326"&&srs!="epsg:4326"){
       maxExtent=objRef.widgetNode.selectSingleNode("mb:maxExtent");
       maxExtent=(maxExtent)?maxExtent.firstChild.nodeValue.split(" "):null;
-      maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
       maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");maxResolution=(maxResolution)?maxResolution.firstChild.nodeValue:null;
+      
+      // If the maxExtent/maxResolution is not specified in the config
+      // calculate it from the BBox and Width/Height in the Context.
+	  if(!maxExtent&&!maxResolution){
+        bbox1=objRef.model.doc.selectSingleNode("//ows:BoundingBox/ows:LowerCorner");bbox1=(bbox1)?bbox1.firstChild.nodeValue:"";
+        bbox2=objRef.model.doc.selectSingleNode("//ows:BoundingBox/ows:UpperCorner");bbox2=(bbox2)?bbox2.firstChild.nodeValue:"";  	
+        bbox=(bbox1&&bbox2)?bbox1+" "+bbox2:null;
+		maxExtent=bbox.split(" ");
+        width=objRef.model.doc.selectSingleNode("//ows:Window/@width");width=(width)?width.nodeValue:"400";
+		maxResolution=(maxExtent[2]-maxExtent[0])/width;
+	  }
+      maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
     }
     objRef.oLMap = new OpenLayers.Map(objRef.node);
     // loop through all layers and create OLLayers 
