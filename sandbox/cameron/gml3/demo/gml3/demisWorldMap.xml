@@ -90,8 +90,8 @@
 
     <FeatureType hidden="0">
       <Server service="GeoRss2" version="2.1.2" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="tasmaniaRoads.xml"/>
-        <!--OnlineResource xlink:type="simple" xlink:href="shipTrackRss.xml"/-->
+        <!--OnlineResource xlink:type="simple" xlink:href="tasmaniaRoads.xml"/-->
+        <OnlineResource xlink:type="simple" xlink:href="shipTrackRss.xml"/>
       </Server>
       <Name>topp:tasmania_roads</Name>
       <Title>Tasmania Roads</Title>

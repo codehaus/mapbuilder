@@ -50,7 +50,6 @@
       <Title>MSD3 LAK130</Title>
       <SRS>urn:ogc:def:crs:EPSG:6.6:4329</SRS>
     </FeatureType>
-
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1x/LAL070.xml"/>
@@ -78,6 +77,25 @@
       <SRS>urn:ogc:def:crs:EPSG:6.6:4329</SRS>
     </FeatureType>
 
+    <!--
+    <FeatureType hidden="0">
+      <Server service="OGC:GML" version="2.1.2" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1x/AAL015.xml"/>
+      </Server>
+      <Name>AAL015</Name>
+      <Title>MSD3 AAL015</Title>
+      <SRS>urn:ogc:def:crs:EPSG:6.6:4329</SRS>
+    </FeatureType>
+
+    <FeatureType hidden="0">
+      <Server service="OGC:GML" version="2.1.2" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1x/LAP030.xml"/>
+      </Server>
+      <Name>LAP030</Name>
+      <Title>MSD3 LAP030</Title>
+      <SRS>urn:ogc:def:crs:EPSG:6.6:4329</SRS>
+    </FeatureType>
+
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="MSD3_OWS3_Rel_GML3_1x/PAF010.xml"/>
@@ -86,7 +104,7 @@
       <Title>MSD3 PAF010</Title>
       <SRS>urn:ogc:def:crs:EPSG:6.6:4329</SRS>
     </FeatureType>
-
+    -->
 
     <!--
     <FeatureType hidden="0">
