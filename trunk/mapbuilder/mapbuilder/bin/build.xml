@@ -520,10 +520,11 @@ lib/util/MGRS.js
   		name="nightly-build"
   		depends="dist"
   	>
-  		<property name="nightlybuild.dir" value="/home/mattdiez/continuum/continuum-1.0.3/apps/continuum/webapp/nightlybuilds"/>
+  		<property name="continuum.webapp.dir" value="/home/mattdiez/continuum/continuum-1.0.3/apps/continuum/webapp/"/>
+  		<property name="nightlybuild.dir" value="${continuum.webapp.dir}/nightlybuilds"/>
   		
   		<tstamp/>
-  		
+  		<copydir dest="${continuum.webapp.dir}/mapbuilder" src="${basedir}/build"></copydir>
   		<copyfile dest="${nightlybuild.dir}/${pack.name}-src-${app.version}-${DSTAMP}.zip" src="${dist.home}/${pack.name}-src-${app.version}.zip"/>
   		<copyfile dest="${nightlybuild.dir}/${pack.name}-${app.version}-${DSTAMP}.zip" src="${dist.home}/${pack.name}-${app.version}.zip"/>
   		<copyfile dest="${nightlybuild.dir}/${pack.name}-${app.version}-war-${DSTAMP}.zip" src="${dist.home}/${pack.name}-${app.version}-war.zip"/>
