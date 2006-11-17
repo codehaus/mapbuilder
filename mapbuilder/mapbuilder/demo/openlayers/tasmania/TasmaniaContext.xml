@@ -35,6 +35,7 @@
     
   <ResourceList>
 
+
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="tasmania/TasmaniaCities.xml"/>
@@ -75,13 +76,43 @@
       <Abstract>Tasmania Roads based on the Digital Chart of the World.</Abstract>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
-
-    <Layer queryable="1" hidden="1">
+<!--
+    <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
       <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
       </Server>
-      <Name>Coastlines,Waterbodies,Inundated,Rivers,Streams</Name>
-      <Title>Land features WMS</Title>
+      <Name>Builtup+areas,Coastlines,Waterbodies,Rivers,Streams,Railroads,Highways,Roads,Trails,Borders,Cities,Settlements</Name>
+      <Title>World Features</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+      </StyleList>
+    </Layer>
+    <Layer queryable="0" hidden="0">
+      <Server service="wms" version="1.1.0" title="wms">
+        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/atlas/mapdata/english/pb_world.map"/>
+      </Server>
+      <Name>coast</Name>
+      <Title>coastline</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+    </Layer>
+    -->
+
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
+      <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+      </Server>
+      <Name>Bathymetry,Countries,Topography,Hillshading</Name>
+      <Title>Topography</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
@@ -97,8 +128,8 @@
       <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
       <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
       </Server>
-      <Name>Bathymetry,Countries,Topography,Hillshading</Name>
-      <Title>Topography WMS</Title>
+      <Name>Coastlines,Waterbodies,Inundated,Rivers,Streams</Name>
+      <Title>Land features</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
