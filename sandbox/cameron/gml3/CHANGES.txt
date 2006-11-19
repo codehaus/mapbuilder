@@ -1,0 +1,21 @@
+Mapbuilder Open Source GML Viewer
+=================================
+This file contains information about updates to each release:
+
+mapbuilder-ows4-draft3
+======================
+In this release, Mapbuilder is now using http://openlayers.org for its
+rendering engine. This provides:
+* Faster vector rendering in Internet Explorer
+* Faster rendering on pan/zoom as the GML is only passed on startup
+* Base WMS maps are available using tiles (still waiting on a WMS which
+  supports the MSD3 dataset projection).
+
+mapbuilder-ows4-draft2
+======================
+This release also includes vector rendering in IE 6.0 using VML. This has significant performance problems for large datasets. Rendering the entire MSD3 dataset takes around 10 minutes.
+
+mapbuilder-ows4-draft1
+======================
+This draft Mapbuilder release provides rendering of GML3 inside a web browser. This demonstrates that a dataset the size of MSD3 can be rendered in a web browser using Scalable Vector Graphics (SVG).
+

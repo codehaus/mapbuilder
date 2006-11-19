@@ -1,38 +1,36 @@
 Mapbuilder, Open Source, GML Viewer
 ===================================
-Last updated: 7 November 2006.
+Last updated: 17 November 2006.
 
 About
 =====
-This draft Mapbuilder release provides rendering of GML3 inside a web browser.
-This demonstrates that a dataset the size of MSD3 can be rendered in Mozilla
-based browsers using Scalable Vector Graphics (SVG).
-The MSD3 dataset can be rendered in Internet Explorer using VML, however
-performance is a major issue. The full MSD3 dataset takes ~10mins to render.
-Optimization is being investigated for the next phase.
+This Mapbuilder release provides rendering of GML3 inside a web browser.
+Vector rendering in is provided using SVG in Firefox and VML in Internet
+Explorer.
+Datasets the size of the MSD3 dataset can be rendered, however performance
+is an issue.
 
 How to execute
 ==============
-Uncompress mapbuilder-ows4-draft1 into a directory.
-In a gecko based web browser (eg Firefox or Mozilla) open
+Download the latest release from: https://portal.opengeospatial.org/wiki/twiki/bin/view/OWS4/GMLViewer
+
+Uncompress into a directory.
+In Firefox or Internet explorer, open the index file at:
 file:///..../demo/gml3/index.html
 
 The full MSD3 dataset is viewable from:
 file:///..../demo/gml3/indexAll.html
 
-Note, drawing the full dataset in Firefox takes around 40 seconds.
-In IE, it takes around 10 minutes.
+Note, drawing the full dataset in Firefox takes around 60 secs, and minutes in
+Internet Explorer.
 
 Limitations
 ===========
-This release is the halfway point for the project and hence is still
-missing functionality.
+Limitations with current client:
+* Rendering in Internet Explorer is still very slow when showing the full
+MSD3 dataset.
 
-In particular:
-* SVG rendering in firefox/mozilla has been implemented so far and has reasonable performance.
-VML rendering in Internet Explorer is still very slow and takes ~ 10 mins to render the entire MSD3 dataset.
-
-* Optimization has not been investigated yet.
+* Further optimization is still to be investigated.
 
 * A WMS layer has not been integrated yet as the standard WMS servers we
 have used in the past don't support the MSD3 SRS.
@@ -41,8 +39,6 @@ have used in the past don't support the MSD3 SRS.
  of the Styled Layer Descriptor (SLD) specification.
 
 * Differentiation of Inner and Outer rings for polygons has not been addressed.
-
-* Only limited testing has been applied so far.
 
 GeoDSS for the the OWS4 Testbed
 ===============================
@@ -60,11 +56,12 @@ mapping services for WMS, WFS and WFS-T interfaces.   The GML Viewer shall
 include in-browser Vector Rendering capabilities. GML will be rendered
 using inbuilt browser vector rendering (available in recent browsers).  
 
-Deliverable
-===========
-16 October 2006: Phase 1: Draft GML OS Client
-
-15 November 2006: Phase 2: Final GML OS Client
+Deliverable Dates
+=================
+16 October  2006: Phase 1: Draft GML OS Client
+15 November 2006: Phase 2: Improved GML OS Client
+04 December 2006: Phase 3: Client for demo
+15 December 2006: Phase 4: Final GML OS Client
 
 GML Viewer shall:
 1.	Build a Map Pane based upon a Context document which includes layers
