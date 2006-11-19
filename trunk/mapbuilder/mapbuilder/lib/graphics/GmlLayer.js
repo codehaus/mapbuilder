@@ -82,10 +82,9 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
    * Extract and return an array of shapes, which contains an array of
    * coordinates. points[numberOfShapes, numberOfCoords, dimentionsOfCoords]
    * @param node GML which contains the coordinates.
-   * @param featureIndex GML which contains the coordinates.
    * @return An array of coordinates.
    */
-  this.getGeoCoords=function(node,featureIndex) {
+  this.getGeoCoords=function(node) {
     coordsNodes=node.selectNodes(".//gml:pos|.//gml:posList|.//gml:coordinates");
     points=new Array();
     for(h=0;h<coordsNodes.length;h++){
