@@ -5,7 +5,7 @@ Description: parses an OGC context document to generate a GetFeatureInfo url
 Author:      Nedjo
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
-$Id$
+$Id: wms_GetFeatureInfo.xsl 2113 2006-06-06 20:48:01Z madair $
 $Name$
 -->
 <xsl:stylesheet version="1.0" 

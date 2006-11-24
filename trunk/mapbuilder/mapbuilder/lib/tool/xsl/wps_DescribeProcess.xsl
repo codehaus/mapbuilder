@@ -5,7 +5,7 @@ Description: transforms a WFS FeatureType node to a DescribeFeatureType request
 Author:      adair
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
-$Id$
+$Id: wps_DescribeProcess.xsl 1608 2005-08-03 19:07:09Z mattdiez $
 $Name$
 -->
 

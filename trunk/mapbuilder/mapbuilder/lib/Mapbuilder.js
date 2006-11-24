@@ -78,6 +78,7 @@ function Mapbuilder() {
       // Scripts are removed from array when they have loaded
       while(this.loadingScripts.length>0
         &&(this.loadingScripts[0].readyState=="loaded"
+          ||this.loadingScripts[0].readyState=="uninitialized"
           ||this.loadingScripts[0].readyState=="complete"
           ||this.loadingScripts[0].readyState==null))
       {
@@ -142,11 +143,12 @@ function Mapbuilder() {
   
     if(!document.getElementById(url)){
       var script = document.createElement('script');
-      script.defer = false;   //not sure of effect of this?
-      script.type = "text/javascript";
-      script.src = url;
-      script.id = url;
-      document.getElementsByTagName('head')[0].appendChild(script);
+      script.readyState="complete";
+      //script.defer = false;   //not sure of effect of this?
+      //script.type = "text/javascript";
+      //script.src = url;
+      //script.id = url;
+      //document.getElementsByTagName('head')[0].appendChild(script);
       this.loadingScripts.push(script);
     }
   }

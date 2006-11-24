@@ -12,7 +12,7 @@ Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
 
 
-$Id$
+$Id: wfs_GetFeature.xsl 1823 2005-11-27 18:00:31Z madair1 $
 
 $Name$
 

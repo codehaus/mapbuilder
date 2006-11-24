@@ -2,7 +2,7 @@
 Author:       Patrice G. Cappelaere patAtcappelaere.com
 License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: $
+$Id$
 */
 
 /**
