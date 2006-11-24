@@ -77,13 +77,16 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     objRef.oLlayers = new Array();
     for (var i=layers.length-1;i>=0;i--) {
       var service=layers[i].selectSingleNode("wmc:Server/@service");service=(service)?service.nodeValue:"";
-      title=layers[i].selectSingleNode("wmc:Title");title=(title)?title.firstChild.nodeValue:"";
-      name2=layers[i].selectSingleNode("wmc:Name");name2=(name2)?name2.firstChild.nodeValue:"";
-      href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?href.firstChild.nodeValue:"";
-      format=layers[i].selectSingleNode("wmc:FormatList/wmc:Format");format=(format)?format.firstChild.nodeValue:"image/gif";
+      var title=layers[i].selectSingleNode("wmc:Title");title=(title)?title.firstChild.nodeValue:"";
+      var name2=layers[i].selectSingleNode("wmc:Name");name2=(name2)?name2.firstChild.nodeValue:"";
+      var href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?href.firstChild.nodeValue:"";
+      var format=layers[i].selectSingleNode("wmc:FormatList/wmc:Format");format=(format)?format.firstChild.nodeValue:"image/gif";
+      var vis=layers[i].selectSingleNode("@hidden");vis=(vis)?(vis.nodeValue!="1"):true;
 
       // Options to pass into the OpenLayers Layer initialization
 	  var options = new Array();
+      options.visibility=vis;
+	  
       // OpenLayers expects the base layer to be non-transparent (it gets
       // projection info from the baselayer).
       // See Issue http://trac.openlayers.org/ticket/390
@@ -116,9 +119,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         // GML Layer
         case "gml":
         case "OGC:GML":
-          objRef.oLlayers[name2] =
-            new OpenLayers.Layer.GML(title,href,options);
-            //new OpenLayers.Layer.GML(title,href,options);
+          objRef.oLlayers[name2] = new OpenLayers.Layer.GML(title,href,options);
           objRef.oLMap.addLayer(objRef.oLlayers[name2]);
           break;
           
