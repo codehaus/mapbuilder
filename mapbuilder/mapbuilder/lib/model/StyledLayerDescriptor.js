@@ -1,6 +1,6 @@
  /*
 License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
-$Id: StyledLayerdescriptor.js 2121 2006-07-3 10:26:13 +0000 (lun., 3 juillet 2006) oterral $
+$Id$
 */
  
  

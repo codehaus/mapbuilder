@@ -1,6 +1,6 @@
 /*
 License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
-$Id: History.js 1824 2005-11-28 11:01:10Z graphrisc $
+$Id$
 */
 
 // Ensure this object's dependancies are loaded.

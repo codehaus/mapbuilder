@@ -193,7 +193,7 @@ VMLGraphics2.prototype.fillCircle=function( X, Y, radius ) {
   //element.fillcolor   = this.fillStyle;
   //element.strokecolor = this.fillStyle; //this.strokeStyle;
   //element.strokeweigth= "1pt";
-  //element.coordsize   = "1000,1000";
+  //element.oordsize   = "1000,1000";
   //element.coordorigin = "0 0"
   
   this.div.appendChild( element );
