@@ -218,8 +218,7 @@ SldRenderer.prototype.getStyleAttributes = function( path ) {
   this.strokeColor="#ff0000";
   this.strokeWidth = "1";
   this.fillColor = "#00ff00";
-  //this.fill="none";
-  this.fill=false;
+  this.fill="none";
 
   if (this.style){
     var node = this.style.selectSingleNode( path + "/sld:Stroke/sld:CssParameter[@name='stroke']");
