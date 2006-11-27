@@ -305,6 +305,7 @@ function ModelBase(modelNode, parentModel) {
         var newConfigNode = parentNode.appendChild(objRef.modelNode.ownerDocument.importNode(objRef.modelNode,true));
       }
       newConfigNode.removeAttribute("id");  //this will get created automatically
+      newConfigNode.setAttribute("createByTemplate","true");
       //set defaultModelUrl config properties
       model = objRef.createObject(newConfigNode);
       model.callListeners("init");
