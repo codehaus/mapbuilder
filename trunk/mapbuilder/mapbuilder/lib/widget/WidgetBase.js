@@ -24,6 +24,12 @@ function WidgetBase(widgetNode,model) {
   this.model = model;
   this.widgetNode = widgetNode;
 //alert(widgetNode.nodeName);
+	var templatedWidget = false;
+	if(model.modelNode.attributes.getNamedItem("createByTemplate") && model.modelNode.attributes.getNamedItem("createByTemplate").nodeValue=='true'){
+		widgetNode.setAttribute("id","MbWidget_" + mbIds.getId());
+	  templatedWidget = true;
+  }
+
 
   /** Widget's Id defined in the Config (required) */
   if (widgetNode.attributes.getNamedItem("id")) {
@@ -34,7 +40,9 @@ function WidgetBase(widgetNode,model) {
 
   //allow the widget output to be replaced on each paint call
   var outputNode = widgetNode.selectSingleNode("mb:outputNodeId");
-  if ( outputNode ) {
+  if(templatedWidget){
+    this.outputNodeId = this.id;
+  }else if ( outputNode ) {
     this.outputNodeId = outputNode.firstChild.nodeValue;
   } else {
     this.outputNodeId = "MbWidget_" + mbIds.getId();
