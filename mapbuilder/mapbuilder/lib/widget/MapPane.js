@@ -162,7 +162,7 @@ MapPane.prototype.paint = function(objRef) {
       var newSrc = tempNodeList[i].getAttribute("src");
       objRef.loadImgDiv(layers[i],newSrc,objRef.imageStack[i]);
     }
-    var message = "loading " + objRef.layerCount + " map layer"+((this.objRef.layerCount>1)?"s":"");
+    var message = "loading " + objRef.layerCount + " map layer"+((objRef.layerCount>1)?"s":"");
     objRef.model.setParam("modelStatus", message);
   }
 }
