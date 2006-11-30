@@ -116,6 +116,14 @@ function Proj(srs) {
       this.units = "meters";
       this.title = "Lambert Conformal Conic";
       break;
+      case "EPSG:9804"://Mercator_1SP 
+      this.Init = minit;
+      this.Forward = ll2m;
+      this.Inverse = m2ll;
+      this.Init(new Array(wgs84[0],wgs84[1],0.0,0.0,0.0,0.0));
+      this.units = "meters";
+      this.title = "Mercator";
+      break;
     case "EPSG:27564"://LAMB4 IGN-F modification FD 2005
       this.Init = lccinit;
       this.Forward = ll2lcc;
@@ -877,3 +885,101 @@ function st2ll(coords) {
    }
   return new Array(R2D*lon, R2D*lat);
 } // st2ll()
+
+/*******************************************************************************
+NAME                            MERCATOR
+
+PURPOSE:	Transforms input longitude and latitude to Easting and
+		Northing for the Mercator projection.  The
+		longitude and latitude must be in radians.  The Easting
+		and Northing values will be returned in meters.
+		
+The following code is a port the USGS GCTPC coordinate transformation code from
+C to Javascript. For more information visit http://edcftp.cr.usgs.gov/pub/software/gctpc/
+Currently suppported projections include: Lambert Conformal Conic (LCC),
+Lat/Long, Polar Stereographic, Mercator and some others.
+Porting C to Javascript is fairly straightforward so other support for more
+projections is easy to add.
+
+*******************************************************************************/
+
+//static double r_major;		/* major axis 				*/
+//static double r_minor;		/* minor axis 				*/
+//static double lon_center;	/* Center longitude (projection center) */
+//static double lat_origin;	/* center latitude			*/
+//static double e,es;		/* eccentricity constants		*/
+//static double m1;		/* small value m			*/
+//static double false_northing;	/* y offset in meters			*/
+//static double false_easting;	/* x offset in meters			*/
+
+/* Initialize the Mercator projection
+  -------------------------------------------------*/
+function minit(param)
+{
+	this.r_major = param[0];
+	this.r_minor = param[1];
+	this.lon_center = param[2];
+	this.lat_origin = param[3];
+	this.false_northing = param[4];
+	this.false_easting = param[5];
+	this.temp = this.r_minor / this.r_major;
+	this.es=1.0 - Math.sqrt(this.temp);
+	this.e = Math.sqrt( this.es );
+	this.m1 = Math.cos(this.lat_origin) / (Math.sqrt( 1.0 - this.es * Math.sin(this.lat_origin) * Math.sin(this.lat_origin)));
+
+}
+
+/* Mercator forward equations--mapping lat,long to x,y
+  --------------------------------------------------*/
+
+function ll2m(coords)
+{	//alert("ll2m coords : "+coords);
+	var lon=coords[0];
+	var lat=coords[1];
+	
+	// convert to radians
+  	if ( lat <= 90.0 && lat >= -90.0 && lon <= 180.0 && lon >= -180.0) 
+  	{
+    	lat *= D2R;
+    	lon *= D2R;
+  	} 
+  	else 
+  	{
+    	alert("*** Input out of range ***: lon: "+lon+" - lat: "+lat);
+    	return null;
+  	}
+  	
+	if(Math.abs( Math.abs(lat) - HALF_PI)  <= EPSLN)
+	{
+		alert("Transformation cannot be computed at the poles");
+		return null;
+	}
+	else
+	{
+		var sinphi = Math.sin(lat);
+		var ts = tsfnz(this.e,lat,sinphi);
+		var x = this.false_easting + this.r_major * this.m1 * adjust_lon(lon - this.lon_center);
+		var y = this.false_northing - this.r_major * this.m1 * Math.log(ts);
+	}
+	return new Array(x,y);
+}
+
+
+/* Mercator inverse equations--mapping x,y to lat/long
+  --------------------------------------------------*/
+function m2ll(coords)
+{	
+	var x = coords[0];
+	var y = coords[1];
+
+	x -= this.false_easting;
+	y -= this.false_northing
+		
+	var ts = Math.exp(-y / (this.r_major * this.m1));
+	
+	var lat = phi2z(this.e,ts);
+	if(lat == -9999){alert("lat = -9999");return null;}
+	var lon = adjust_lon(this.lon_center + x / (this.r_major * this.m1));
+	
+	return new Array(R2D*lon,R2D*lat);
+}

@@ -155,7 +155,16 @@
 			<class>Button</class>
 			<disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
 		</Reset>
+		<Graticule id="graticule">
+		  <buttonBar>mainButtonBar</buttonBar>
+		  <color>black</color>
+		  <targetModel>mainMap</targetModel>
+		  <class>Button</class>
+		  <disabledSrc>/images/Graticule.png</disabledSrc>
+		  <mapContainerId>mainMapContainer</mapContainerId>
+    </Graticule>
 	</widgets>
+	
 	<skinDir>/mapbuilder/lib/skin/default</skinDir>
 	<widgetTextUrl>widgetText.xml</widgetTextUrl>
 	<!-- relative to the skin dir -->
