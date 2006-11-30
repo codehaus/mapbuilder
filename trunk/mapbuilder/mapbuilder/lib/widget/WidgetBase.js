@@ -60,6 +60,13 @@ function WidgetBase(widgetNode,model) {
 
   // Node in main HTML to attach widget to.
   this.node = document.getElementById(this.htmlTagId);
+  //6Rows added DVDE         
+   if(this.buttonBarGroup){
+   	this.groupnode = document.getElementById(this.buttonBarGroup);
+   }
+  if(!this.groupnode){
+   this.groupnode = this.node;
+  }  
   if(!this.node) {
     //alert("htmlTagId: "+this.htmlTagId+" for widget "+widgetNode.nodeName+" not found in config");
   }
