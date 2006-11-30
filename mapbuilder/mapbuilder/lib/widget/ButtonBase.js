@@ -24,9 +24,17 @@ function ButtonBase(widgetNode, model) {
   var buttonBarNode = widgetNode.selectSingleNode("mb:buttonBar");
   if ( buttonBarNode ) {
     this.htmlTagId = buttonBarNode.firstChild.nodeValue;
-  } else {
-    alert("buttonBar property required for object:" + widgetNode.nodeName );
+    //1Row added DVDE  
+    this.buttonBarGroup = this.htmlTagId;    
+  }   
+  //3 rows deleted  -7Rows added DVDE      
+  var htmlTagNode = widgetNode.selectSingleNode("mb:htmlTagId");    
+  if (htmlTagNode) {
+    this.htmlTagId = htmlTagNode.firstChild.nodeValue;
   }
+ if ((!buttonBarNode) && (!htmlTagNode)){
+   alert("buttonBar property required for object:" + widgetNode.nodeName );
+ }
 
   WidgetBaseXSL.apply(this, new Array(widgetNode, model));
 
@@ -89,10 +97,11 @@ function ButtonBase(widgetNode, model) {
       // default or user selected cursor
       a.style.cursor = this.cursor;
     }  
-       
+
+    //changed 3 lines: this.node -> this.groupnode DVDE       
     if (this.buttonType == "RadioButton") {
-      if (this.node.selectedRadioButton) {
-        with (this.node.selectedRadioButton) {
+      if (this.groupnode.selectedRadioButton) {
+        with (this.groupnode.selectedRadioButton) {
           if (disabledImage) image.src = disabledImage.src;
           enabled = false;
           if ( mouseHandler ) mouseHandler.enabled = false;
@@ -100,7 +109,7 @@ function ButtonBase(widgetNode, model) {
           doSelect(false,this);
         }
       }
-      this.node.selectedRadioButton = this;
+      this.groupnode.selectedRadioButton = this;
       if (this.enabledImage) this.image.src = this.enabledImage.src;
       this.link.className = "mbButtonSelected";
     }
