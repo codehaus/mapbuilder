@@ -165,7 +165,7 @@
     </Graticule>
 	</widgets>
 	
-	<skinDir>/mapbuilder/lib/skin/default</skinDir>
+	<skinDir>../../lib/skin/default</skinDir>
 	<widgetTextUrl>widgetText.xml</widgetTextUrl>
 	<!-- relative to the skin dir -->
 </MapbuilderConfig>
