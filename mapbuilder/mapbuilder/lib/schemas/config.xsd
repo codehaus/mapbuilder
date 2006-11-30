@@ -788,9 +788,14 @@
         <xs:sequence>
           <xs:element name="buttonBar" type="xs:string">
             <xs:annotation>
-              <xs:documentation>equivalent to the htmlTagId property for placing buttons in a page.  Buttons get appended to this HTML element in sequence.</xs:documentation>
+              <xs:documentation>equivalent to the htmlTagId property for placing buttons in a page.  Buttons get appended to this HTML element in sequence. Buttons with the same buttonBar property will belong to the same buttonBar group.</xs:documentation>
             </xs:annotation>
           </xs:element>
+          <xs:element name="htmlTagId" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>If set this property will be used for placing the buttons in a page. Buttons get appended to this HTML element in sequence. Use this property if you want to place buttons with the same buttonBar property on a different place in the web page.</xs:documentation>
+            </xs:annotation>
+          </xs:element>          
           <xs:element name="targetModel" type="xs:string">
             <xs:annotation>
               <xs:documentation>Target Model</xs:documentation>
