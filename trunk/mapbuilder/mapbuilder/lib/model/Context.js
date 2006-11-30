@@ -169,6 +169,22 @@ function Context(modelNode, parent) {
     win.setAttribute("height", height);
     this.callListeners("resize");
   }
+  
+  /**
+   * Set the Window width and height in one function call to avoid a resize event in between
+   * setting width and height, because that causes checkBbox to be triggered, which adjusts the
+   * bbox then when it should not yet be adjusted.
+   * Added by VTS for dynamic map window resizing (AutoResize tool)
+   * @param size Size of the map window as (width, height) array
+   */
+  this.setWindowSize=function(size) {
+    var width = size[0];
+    var height = size[1];
+    var win=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Window");
+    win.setAttribute("width", width);
+    win.setAttribute("height", height);
+    this.callListeners("resize");
+  }
 
   /**
    * Returns the Layer node with the specified name from the list of nodes
