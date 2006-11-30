@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<MapbuilderConfig version="0.2.1" id="DemisMapExample" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+  <models>
+  
+    <OwsContext id="mainMap">
+      <defaultModelUrl>geomantys.xml</defaultModelUrl>
+      
+      <widgets>
+        <MapPane2 id="mainMapWidget">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <mapContainerId>mainMapContainer</mapContainerId>
+        </MapPane2>
+        
+        <Loading2 id="loading2">
+          <mapContainerId>mainMapContainer</mapContainerId>
+        </Loading2>
+        <ModelUrlInput id="urlInput"/>
+        <AoiBoxDHTML id="aoiBox2">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <stylesheet>../../lib/widget/Null.xsl</stylesheet>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <lineColor>#FF00ff</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+        </AoiBoxDHTML>
+        
+        <LayerControl id="layerControl">     
+          <MoveUpImage>/images/LayerMoveUpDisable.png</MoveUpImage>
+          <MoveDownImage>/images/LayerMoveDownDisable.png</MoveDownImage>
+          <DeleteImage>/images/LayerRemoveDisable.png</DeleteImage>
+          <moveLayerUpTip>Kaartlaag omhoog verplaatsen</moveLayerUpTip>
+          <moveLayerDownTip>Kaartlaag omlaag verplaatsen</moveLayerDownTip>
+          <deleteLayerTip>Kaartlaag verwijderen</deleteLayerTip>
+        </LayerControl>
+        
+        <CursorTrack id="cursorTrack">
+          <mouseHandler>mainMap</mouseHandler>
+          <showPx>true</showPx>
+          <showDMS>false</showDMS>
+          <showXY>true</showXY>
+          <showLatLong>false</showLatLong>
+          <showMGRS>false</showMGRS>
+          <precision>0</precision>
+        </CursorTrack>
+        
+        <WebServiceForm id="webServiceForm">
+          <htmlTagId>webServiceForm</htmlTagId>
+          <targetModel>gml2FeatureTemplate</targetModel>
+          <stylesheet>../../lib/widget/Null.xsl</stylesheet>
+          <requestStylesheet>wfs_GetFeature2.xsl</requestStylesheet>
+          <webServiceUrl>http://www.geomatys.fr:8080/geoserver/wfs</webServiceUrl>
+        </WebServiceForm>
+    
+      </widgets>
+      
+      <tools>
+        <AoiMouseHandler id="mainAoi">
+          <enabled>false</enabled>
+          </AoiMouseHandler>
+        <DragPanHandler id="mainDragPan">
+          <enabled>false</enabled>
+        </DragPanHandler>
+        <MouseClickHandler id="mainMouseClick"/> 
+        <History id="extentHistory">
+          <targetModel>mainMap</targetModel>
+        </History>
+      </tools>
+    </OwsContext>
+     <Transaction id="transaction">
+      <widgets>
+        <TransactionResponse id="transactionResponse">
+        </TransactionResponse>
+      </widgets>
+    </Transaction>
+    <FeatureCollection id="gml2FeatureTemplate">
+      <method>post</method>
+      <featureTagName>topp:tasmania_roads</featureTagName>
+      <coordsTagName>topp:the_geom</coordsTagName>
+      <nodeSelectXpath>//gml:featureMember</nodeSelectXpath>
+      <coordSelectXpath>//gml:coordinates</coordSelectXpath>
+ 
+        <widgets>
+   
+ 
+          <GmlRendererVG id="vectorGraphicsRenderer">
+              <htmlTagId>mainMapPane</htmlTagId>
+              <targetModel>mainMap</targetModel>
+              <mapContainerId>mainMapContainer</mapContainerId>
+              <tipWidget>wfsRendererTip</tipWidget>
+          </GmlRendererVG>
+          
+          <!--ModelStatus id="gmlModelStatus"/-->
+          <Legend id="wfsLegend">
+            <htmlTagId>legend</htmlTagId>
+          </Legend>
+        </widgets>
+      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:ows='http://www.opengis.net/ows' xmlns:topp='http://www.openplans.org/topp'</namespace>
+    </FeatureCollection>
+    
+  </models>
+  
+  <widgets>
+  <Back id="back">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/UndoDisable.png</disabledSrc>
+    </Back>
+    <Forward id="forward">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/RedoDisable.png</disabledSrc>
+    </Forward>
+    <ZoomIn id="zoomIn">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainAoi</mouseHandler>
+      <class>RadioButton</class>
+
+      <enabledSrc>/images/ZoomInEnable.png</enabledSrc>
+      <disabledSrc>/images/ZoomInDisable.png</disabledSrc>
+    </ZoomIn>
+    <ZoomOut id="zoomOut">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainAoi</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
+      <disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
+    </ZoomOut>
+        <Reset id="reset">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
+    </Reset>
+    <DragPan id="dragPan">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainDragPan</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/PanEnable.png</enabledSrc>
+      <disabledSrc>/images/PanDisable.png</disabledSrc>
+    </DragPan>
+     <GetFeature id="getFeature">
+           <selected>false</selected>
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetContext>mainMap</targetContext>
+       <targetModel>gml2FeatureTemplate</targetModel>
+      <mouseHandler>mainMouseClick</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/GetFeatureEnable.png</enabledSrc>
+      <disabledSrc>/images/GetFeatureDisable.png</disabledSrc>
+    </GetFeature>
+    <MoveVertex id="movePoint">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>gml2FeatureTemplate</targetModel>
+      <mouseHandler>mainMouseClick</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/MoveVertexEnable.png</enabledSrc>
+      <disabledSrc>/images/MoveVertexDisable.png</disabledSrc>
+     </MoveVertex>
+    <DeleteVertex id="delPoint">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>gml2FeatureTemplate</targetModel>
+      <mouseHandler>mainMouseClick</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/DelPointEnable.png</enabledSrc>
+      <disabledSrc>/images/DelPointDisable.png</disabledSrc>
+    </DeleteVertex>
+     <AddVertex id="addPoint">
+       <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:ows='http://www.opengis.net/ows' xmlns:topp='http://www.openplans.org/topp'</namespace>
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>gml2FeatureTemplate</targetModel>
+      <mouseHandler>mainMouseClick</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/AddPointEnable.png</enabledSrc>
+      <disabledSrc>/images/AddPointDisable.png</disabledSrc>
+    </AddVertex>
+        <DeleteFeature id="deleteFeature">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>gml2FeatureTemplate</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/DeleteFeatureDisable.png</disabledSrc>
+      <transactionResponseModel>transaction</transactionResponseModel>
+      <webServiceUrl>http://www.geomatys.fr:8080/geoserver/wfs</webServiceUrl>
+      <targetContext>mainMap</targetContext>
+    </DeleteFeature>
+    <NewFeature id="newFeature">
+     <namespace>xmlns:wmc='http://www.opengis.net/context' xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:ows='http://www.opengis.net/ows' xmlns:topp='http://www.openplans.org/topp'</namespace>
+      <buttonBar>mainButtonBar</buttonBar>
+      <mouseHandler>mainMouseClick</mouseHandler>
+      <targetModel>gml2FeatureTemplate</targetModel>
+      <class>RadioButton</class>
+      <disabledSrc>/images/NewFeatureDisable.png</disabledSrc>
+      <enabledSrc>/images/NewFeatureEnable.png</enabledSrc>
+      <targetContext>mainMap</targetContext>
+      <defaultModelUrl>template_road.xml</defaultModelUrl>
+       <featureTagName>topp:tasmania_roads</featureTagName>
+      <coordsTagName>topp:the_geom</coordsTagName>
+      <nodeSelectXpath>//gml:featureMember</nodeSelectXpath>
+      <featureXpath>//gml:coordinates</featureXpath>
+       <requestStylesheet>wfs_GetFeature2.xsl</requestStylesheet>
+    </NewFeature>
+     <InsertFeature id="insertFeature">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>gml2FeatureTemplate</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/SaveDisable.png</disabledSrc>
+      <transactionResponseModel>transaction</transactionResponseModel>
+      <webServiceUrl>http://www.geomatys.fr:8080/geoserver/wfs</webServiceUrl>
+      <targetContext>mainMap</targetContext>
+    </InsertFeature>
+<!--     <EditLine id="editLine">-->
+<!--      <buttonBar>mainButtonBar</buttonBar>-->
+<!--      <targetModel>gml2FeatureTemplate</targetModel>-->
+<!--      <mouseHandler>mainMouseClick</mouseHandler>-->
+<!--      <class>RadioButton</class>-->
+<!--      <enabledSrc>/images/EditPointEnable.png</enabledSrc>-->
+<!--      <disabledSrc>/images/EditPointDisable.png</disabledSrc>-->
+<!--      <transactionResponseModel>transaction</transactionResponseModel>-->
+<!--      <webServiceUrl>http://www.geomatys.fr:8080/geoserver/wfs</webServiceUrl>-->
+<!--      <featureXpath>//topp:GEOMETRIE/gml:LineString/gml:coordinates</featureXpath>-->
+<!--      <defaultModelUrl>tasmania.xml</defaultModelUrl>-->
+<!--      <targetContext>mainMap</targetContext>-->
+<!--    </EditLine>-->
+<!--    <SetAoi id="setAoi">-->
+<!--      <buttonBar>mainButtonBar</buttonBar>-->
+<!--      <targetModel>mainMap</targetModel>-->
+<!--      <mouseHandler>mainAoi</mouseHandler>-->
+<!--      <class>RadioButton</class>-->
+<!--      <enabledSrc>/images/SetAoiEnable.png</enabledSrc>-->
+<!--      <disabledSrc>/images/SetAoiDisable.png</disabledSrc>-->
+<!--    </SetAoi>-->
+
+<!--    <GetMarkerInfo id="getMarkerInfo">-->
+<!--      <buttonBar>mainButtonBar</buttonBar>-->
+<!--      <targetModel>mainMap</targetModel>-->
+<!--      <context>mainMap</context>-->
+<!--       <mouseHandler>mainAoi</mouseHandler >-->
+<!--      <class>RadioButton</class>-->
+<!--      <enabledSrc>/images/QueryEnable.png</enabledSrc>-->
+<!--      <disabledSrc>/images/QueryDisable.png</disabledSrc>-->
+<!--      <cursor>default</cursor>-->
+<!--    </GetMarkerInfo> -->
+   
+  </widgets>
+  <skinDir>../../lib/skin/default</skinDir>
+  <languages>en,fr,fr-CA</languages>
+  <widgetTextUrl>widgetText.xml</widgetTextUrl>
+  <proxyUrl>../../server/proxy.php</proxyUrl>
+  <serializeUrl>../../server/serializer.php</serializeUrl>
+  </MapbuilderConfig>

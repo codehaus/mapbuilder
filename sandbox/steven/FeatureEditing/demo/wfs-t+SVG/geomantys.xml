@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<OWSContext version="0.0.13" id="ows-context-tie"
+  xmlns="http://www.opengis.net/context"
+  xmlns:wmc="http://www.opengis.net/context"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:sld="http://www.opengis.net/sld"
+  xmlns:ogc="http://www.opengis.net/ogc"
+  xmlns:ows="http://www.opengis.net/ows"
+  xmlns:param="http;//www.opengis.net/param"
+  xmlns:wfs="http://www.opengis.net/wfs"
+  xmlns:gml="http://www.opengis.net/gml"
+  xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
+
+  <General>
+    <Window width="740" height="400" />
+    <!-- BoundingBox SRS="EPSG:4326" minx="-130" miny="10" maxx="-50" maxy="50"/ -->
+    <ows:BoundingBox crs="EPSG:4326">
+<!--    143.47819977297297,-43.48137102,148.23549697297295,-40.909859019999985-->
+      <ows:LowerCorner>143.478 -43.481</ows:LowerCorner>
+      <ows:UpperCorner>148.235 -40.909</ows:UpperCorner>
+    </ows:BoundingBox>
+
+    <Title xml:lang="en">GeoBliki EO1 Feature</Title>
+    <KeywordList>
+      <Keyword>world</Keyword>
+      <Keyword>atlas</Keyword>
+      <Keyword>georss</Keyword>
+    </KeywordList>
+
+    <Abstract>World Base Map.</Abstract>
+
+    <LogoURL width="140" height="65" format="image/gif">
+      <OnlineResource xlink:type="simple"
+        xlink:href="http://www.opengis.org/img/ogc_header_top_left.gif" />
+    </LogoURL>
+
+    <DescriptionURL format="text/html">
+      <OnlineResource xlink:type="simple"
+        xlink:href="http://www.opengis.org/press/?page=pressrelease&amp;view=20040525_ContextIE_PR" />
+    </DescriptionURL>
+
+    
+  </General>
+
+  <ResourceList>
+
+<!--    <Layer queryable="0" hidden="0">-->
+<!--     <Server service="wms" version="1.1.0" title="wms">-->
+<!--       <OnlineResource xlink:type="simple" xlink:href="http://www.edugis.nl/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base.map"/>-->
+<!--     </Server>-->
+<!--     <Name>topografie</Name>-->
+<!--     <Title>topografie</Title>-->
+<!--     <SRS>EPSG:28992</SRS>-->
+<!--     <FormatList>-->
+<!--       <Format current="1">image/png</Format>-->
+<!--     </FormatList>-->
+<!--     <StyleList>-->
+<!--    <Style current="1">-->
+<!--    <LegendURL>-->
+<!--    <OnlineResource xlink:type="simple" xlink:href="http://www.edugis.nl/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base_all_visible.map&amp;mapext=-160000+300000+400000+620000&amp;mapsize=740+400&amp;LAYERS=topografie&amp;mode=legend"/>-->
+<!--    </LegendURL>-->
+<!--    </Style>-->
+<!--    </StyleList>-->
+<!--  </Layer>-->
+ <Layer queryable="0" hidden="0">
+     <Server service="wms" version="1.1.0" title="wms">
+       <OnlineResource xlink:type="simple" xlink:href="http://www.geomatys.fr:8080/geoserver/wms?"/>
+     </Server>
+     <Name>topp:tasmania_roads</Name>
+     <Title>topp:tasmania_roads</Title>
+     <SRS>EPSG:4326</SRS>
+     <FormatList>
+       <Format current="1">image/png</Format>
+     </FormatList>
+       </Layer>
+  </ResourceList>
+</OWSContext>

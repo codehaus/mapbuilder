@@ -260,6 +260,14 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
 		      for( var j=0; j<count; j++ ) {
 		        this.coords += children[j].nodeValue;
 		      }
+		    } else if( this.gmlType == "gml:MultiLineString" ) {
+		     this.coords = null;
+			    var ext = type.firstChild;
+		      var linearRing = ext.firstChild;
+		      if(linearRing.firstChild) {
+	          this.posList = linearRing.firstChild;
+	          this.coords = this.posList.firstChild.nodeValue;
+	        }
 		    } else if( this.gmlType == "gml:Polygon" ) {
 		      this.coords = null;
 		      var ext = type.firstChild;
@@ -355,7 +363,7 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   	if(this.coords=="") return;
 	  if( this.gmlType == "gml:Point" ) {
      this.paintPoint( sld, hiliteOnly);
-  	} else if( this.gmlType == "gml:LineString" ) {
+  	} else if( this.gmlType == "gml:LineString" ||  this.gmlType == "gml:MultiLineString") {
     	this.paintLine( sld, hiliteOnly);
 	  } else if( this.gmlType == "gml:Polygon" || 
  	    this.gmlType == "gml:Envelope" ||
