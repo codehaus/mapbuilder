@@ -389,6 +389,8 @@ if(!window.DOMParser){
     }else if(Sarissa.getDomDocument && Sarissa.getDomDocument() && "loadXML" in Sarissa.getDomDocument()){
         DOMParser.prototype.parseFromString = function(sXml, contentType){
             var doc = Sarissa.getDomDocument();
+            doc.validateOnParse = false;
+            doc.resolveExternals = false;
             doc.loadXML(sXml);
             return doc;
         };
