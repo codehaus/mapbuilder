@@ -188,7 +188,7 @@ function ModelBase(modelNode, parentModel) {
                 // Problem with IE is that sometimes the XML files do not get loaded as XML for some reason (especially from disk)
                 // So we need to deal with it here
 
-                if( (xmlHttp.responseXML != null) && (xmlHttp.responseXML.root != null) && (xmlHttp.responseXML.root.children.length>0) ) {
+                if (xmlHttp.responseXML != null) {
                   objRef.doc = xmlHttp.responseXML;
                   if( objRef.doc.parseError == 0 ) {
                     objRef.finishLoading();      
@@ -196,11 +196,10 @@ function ModelBase(modelNode, parentModel) {
                     alert("Parsing Error:"+objRef.doc.parseError+" " + Sarissa.getParseErrorText( objRef.doc));
                   }
                   return;
-                } 
-
-                if( xmlHttp.responseText != null ) {
+                } else if( xmlHttp.responseText != null ) {
                   // if that's the case, the xml file is in the responseText
                   // we have to load it manually 
+                  // Note: DOMParser can only parse valid XML documents
                   objRef.doc = Sarissa.getDomDocument();
                   objRef.doc.async = false;
                   objRef.doc = (new DOMParser()).parseFromString( xmlHttp.responseText.replace(/>\s+</g, "><"), "text/xml")
