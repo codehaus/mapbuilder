@@ -23,6 +23,13 @@ function MapPane(widgetNode, model) {
   WidgetBase.apply(this,new Array(widgetNode, model));
   MapContainerBase.apply(this,new Array(widgetNode, model));
 
+  var node = widgetNode.selectSingleNode("mb:noPreload");
+  if( node ) {
+    this.doNotPreload = widgetNode.selectSingleNode("mb:noPreload").firstChild.nodeValue;
+  } else {
+    this.doNotPreload = false;
+  }
+  
   // Set this.stylesheet
   // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
   if ( !this.stylesheet ) {
@@ -60,7 +67,6 @@ function MapPane(widgetNode, model) {
   this.stylesheet.setParameter("skinDir", config.skinDir );
   this.stylesheet.setParameter("lang", config.lang );
 
-
   /**
    * Called when the context's hidden attribute changes.
    * @param objRef This object.
@@ -76,8 +82,19 @@ function MapPane(widgetNode, model) {
     if (layer) {
       layer.style.visibility=vis;
       imgId = "real"+layer.imgId;
-      img = document.getElementById(imgId); // Hack to make sure that the child element is toggled in IE
-      if(img) img.style.visibility=vis;
+      domImg = document.getElementById(imgId); // Hack to make sure that the child element is toggled in IE
+      if( domImg ) {
+        if( domImg.isLoading ) {
+          domImg.style.visibility = vis;
+        } else if (vis == 'visible') {
+          // load map image and make it visible
+          MapImgLoad( objRef, layer );
+        }
+        else { 
+          // hide image
+          domImg.style.visibility = vis;
+        }
+      }
     }
   }
   this.model.addListener("hidden",this.hiddenListener,this);
@@ -100,8 +117,6 @@ function MapPane(widgetNode, model) {
   this.model.addListener("moveLayerUp",this.moveLayerUp, this);
   this.model.addListener("moveLayerDown",this.moveLayerDown, this);
   this.model.addListener("timestamp",this.timestampListener,this);
-
-  
 }
 
 /**
@@ -152,18 +167,17 @@ MapPane.prototype.paint = function(objRef) {
     objRef.firstImageLoaded = false;
 
     objRef.layerCount = layers.length;
-
+    objRef.loadingLayerCount = 0;
     for (var i=0;i<layers.length;i++){
       if (!objRef.imageStack[i]) {
         objRef.imageStack[i] = new Image();
         objRef.imageStack[i].objRef = objRef;
       }
+      
       //var newSrc = tempNode.firstChild.childNodes[i].firstChild.getAttribute("src"); 
       var newSrc = tempNodeList[i].getAttribute("src");
       objRef.loadImgDiv(layers[i],newSrc,objRef.imageStack[i]);
     }
-    var message = "loading " + objRef.layerCount + " map layer"+((objRef.layerCount>1)?"s":"");
-    objRef.model.setParam("modelStatus", message);
   }
 }
 
@@ -201,16 +215,12 @@ MapPane.prototype.timestampListener = function(objRef, timestampIndex){
     }
   }
 
-
-
-
 /**
  * Adds a layer into the output
- * @param layerName the WMS anme for the layer to be removed
+ * @param layerName the WMS name for the layer to be added
  */
 MapPane.prototype.addLayer = function(objRef, layerNode) {
-//alert("prototype : "+objRef.id+" "+Sarissa.serialize(this.model.doc));
-
+  
   //process the doc with the stylesheet
   objRef.stylesheet.setParameter("width", objRef.model.getWindowWidth());
   objRef.stylesheet.setParameter("height", objRef.model.getWindowHeight());
@@ -218,41 +228,21 @@ MapPane.prototype.addLayer = function(objRef, layerNode) {
   objRef.stylesheet.setParameter("srs", objRef.model.getSRS());
  
   var s = objRef.stylesheet.transformNodeToString(layerNode);
-//  alert("layer node : "+Sarissa.serialize(layerNode));
-  
   var tempNode = document.createElement("div");
-  
   tempNode.innerHTML = s;
-//  alert(Sarissa.serialize(tempNode));
   var newSrc = tempNode.firstChild.firstChild.getAttribute("src"); 
 
   objRef.imageStack.push(new Image());
   objRef.imageStack[objRef.imageStack.length-1].objRef = objRef;
   objRef.firstImageLoaded = true;
+
   ++objRef.layerCount;
   objRef.loadImgDiv(layerNode,newSrc,objRef.imageStack[objRef.imageStack.length-1]);
-  var message = "loading " + objRef.layerCount + " map layers";
-  objRef.model.setParam("modelStatus", message);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * Modify a layer into the output
- * @param layerName the WMS anme for the layer to be removed
+ * @param layerName the WMS name for the layer to be modified
  */
 MapPane.prototype.modifyLayer = function(objRef, layerNode) {
 
@@ -269,14 +259,14 @@ MapPane.prototype.modifyLayer = function(objRef, layerNode) {
   objRef.imageStack.push(new Image());
   objRef.imageStack[objRef.imageStack.length-1].objRef = objRef;
   objRef.firstImageLoaded = true;
+  
   ++objRef.layerCount;
   objRef.loadImgDiv(layerNode,newSrc,objRef.imageStack[objRef.imageStack.length-1]);
-  var message = "loading " + objRef.layerCount + " map layers";
-  objRef.model.setParam("modelStatus", message);
 }
+
 /**
  * Removes a layer from the output
- * @param layerName the WMS anme for the layer to be removed
+ * @param layerName the WMS name for the layer to be removed
  */
 MapPane.prototype.deleteLayer = function(objRef, layerName) {
   var imgDivId = objRef.getLayerDivId(layerName); 
@@ -288,7 +278,7 @@ MapPane.prototype.deleteLayer = function(objRef, layerName) {
 
 /**
  * Moves a layer up in the stack of map layers
- * @param layerName the WMS anme for the layer to be removed
+ * @param layerName the WMS name for the layer to be moved up
  */
 MapPane.prototype.moveLayerUp = function(objRef, layerName) {
   var outputNode = document.getElementById( objRef.outputNodeId );
@@ -304,7 +294,7 @@ MapPane.prototype.moveLayerUp = function(objRef, layerName) {
 
 /**
  * Moves a layer up in the stack of map layers
- * @param layerName the WMS anme for the layer to be removed
+ * @param layerName the WMS name for the layer to be moved down
  */
 MapPane.prototype.moveLayerDown = function(objRef, layerName) {
   var outputNode = document.getElementById( objRef.outputNodeId );
@@ -351,6 +341,9 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
     domImg.layerHidden = layerHidden;
     imgDiv.appendChild(domImg);
     outputNode.appendChild(imgDiv);
+  } else {
+    // NB this assumes that the img element is the first child!?
+    var domImg = imgDiv.firstChild;
   }
 
   // preload image
@@ -358,8 +351,23 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
   newImg.hidden = layerHidden;
   newImg.fixPng = false;
   if (_SARISSA_IS_IE && imageFormat=="image/png") newImg.fixPng = true;
-  newImg.onload = MapImgLoadHandler;
-  newImg.src = newSrc;
+
+  if( this.doNotPreload && layerHidden ) {
+    // delay loading until visible
+    newImg.srcToLoad = newSrc;
+    domImg.isLoading = false;
+    //alert( 'hiding: ' + newSrc + '\n' + this.loadingLayerCount + '/' + this.layerCount );
+  }
+  else {
+    // increment number of loading layers
+    ++this.loadingLayerCount;
+    var message = "loading " + this.loadingLayerCount + " map layer" + ((this.loadingLayerCount>1)?"s":"");
+    this.model.setParam("modelStatus", message);
+    // load now
+    newImg.onload = MapImgLoadHandler;
+    newImg.src = newSrc;
+    domImg.isLoading = true;
+  }
 }
 
 /**
@@ -387,9 +395,10 @@ function MapImgLoadHandler() {
     outputNode.style.top='0px';
   }
 
-  --this.objRef.layerCount;
-  if (this.objRef.layerCount > 0) {
-    var message = "loading " + this.objRef.layerCount + " map layers"
+  // decrement number of loading layers
+  --this.objRef.loadingLayerCount;
+  if (this.objRef.loadingLayerCount > 0) {
+    var message = "loading " + this.objRef.loadingLayerCount + " map layer" + ((this.objRef.loadingLayerCount>1)?"s":"");
     this.objRef.model.setParam("modelStatus", message);
   } else {
     this.objRef.model.setParam("modelStatus");
@@ -413,3 +422,33 @@ function MapImgLoadHandler() {
     }
   }
 }
+
+/**
+ * Sets up an image to be loaded. Used when images are not preloaded in the
+ * image stack.
+ * @param objRef Pointer to widget object.
+ * @param layer Layer element.
+ */
+function MapImgLoad( objRef, layer ) {
+  var imgId = layer.imgId;
+  for( var i = 0; i < objRef.imageStack.length; i++ )
+  {
+    if( objRef.imageStack[i].id == imgId ) {
+      // increment number of loading layers
+      ++objRef.loadingLayerCount;
+      var message = "loading " + objRef.loadingLayerCount + " map layer" + ((objRef.loadingLayerCount>1)?"s":"");
+      objRef.model.setParam("modelStatus", message);
+      
+      var newImg = objRef.imageStack[i];
+      newImg.onload = MapImgLoadHandler;
+      newImg.src = newImg.srcToLoad;
+      newImg.hidden = false;
+      var domImg = document.getElementById("real"+imgId );
+      domImg.isLoading = true;
+      domImg.layerHidden = false;
+      return;
+    }
+  }
+  alert( 'ERROR: image not found' );
+}
+
