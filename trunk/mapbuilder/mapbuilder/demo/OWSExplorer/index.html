@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>MapBuilder/GeoServer </title>
+    <title>MapBuilder Web Services Explorer</title>
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/docsStyle.css'>
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'>
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/button.css'>
@@ -38,7 +38,15 @@
     <table style="width:800">
       <tr>
         <td colspan="2">
-          <h1><a href="http://mapbuilder.sourceforge.net">MapBuilder</a> and GeoServer</h1>
+          <h1><a href="http://mapbuilder.sourceforge.net">MapBuilder</a> Web Services Explorer</h1>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <p>This demo will show all layers available from a particular WMS and WFS instance (the default is a 
+          localhost GeoServer install) and allows adding layers and feature types to a base map.
+          To change the service instance, enter a GetCapabilities URL in the "Set WMS URL" or "Set WFS URL" input box.
+          </p>
         </td>
       </tr>
       <tr>
@@ -46,14 +54,18 @@
           <div>
             <div id="locatorMap"/>
           </div>
-            Select a base map<br/>
-            <div id="mapList"></div>
-            <a href="javascript:config.objects.wmsCapTemplate.setParam('refresh', 'layerList')">
-            WMS Layers</a><br/>
-            <a href="javascript:config.objects.wfsCapTemplate.setParam('refresh', 'featureTypes')">
-            WFS Feature Types</a><br/>
-            <a href="javascript:config.objects.mainMap.setParam('refresh', 'contextLegend')">
-            Map layer control</a><br/>
+          <div id="mapList"></div>
+          <hr/>
+          <a href="javascript:config.objects.wmsCapTemplate.setParam('refresh', 'layerList')">
+          WMS Layers</a><br/>
+          <a href="javascript:config.objects.wfsCapTemplate.setParam('refresh', 'featureTypes')">
+          WFS Feature Types</a><br/>
+          <a href="javascript:config.objects.mainMap.setParam('refresh', 'contextLegend')">
+          Map layer control</a><br/>
+          <a href="javascript:config.objects.wmsCapTemplate.setParam('refresh', 'wmsUrlInput')">
+          Set WMS URL</a><br/>
+          <a href="javascript:config.objects.wfsCapTemplate.setParam('refresh', 'wfsUrlInput')">
+          Set WFS URL</a><br/>
         </td>
         <td style="width:600">
           <table width="100%">
@@ -84,9 +96,11 @@
       </tr>
 
       <tr>
-        <td colspan="2" class="footer" id="mbFooter">
-          <img src="../../lib/skin/default/images/Icon.gif" style="float:right"/>
-          <a href="http://mapbuilder.sourceforge.net">Community Map Builder</a><br/>$Name$
+        <td colspan="3" class="footer">
+          <p align="right">
+          powered by <a href="http://mapbuilder.sourceforge.net">Community Map Builder</a><br/>
+          member project of <a href="https://www.osgeo.org/">OSGeo</a>
+          </p>
         </td>
       </tr>
 
