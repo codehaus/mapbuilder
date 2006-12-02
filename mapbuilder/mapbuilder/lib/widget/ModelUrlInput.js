@@ -21,6 +21,12 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 function ModelUrlInput(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
+  //a default value to be used in the form
+  var defaultUrl = widgetNode.selectSingleNode("mb:defaultUrl");
+  if (defaultUrl) {
+    this.defaultUrl = defaultUrl.firstChild.nodeValue;
+  }
+
   /**
    * Handles submission of the form (via javascript in an <a> tag)
    */
@@ -75,6 +81,8 @@ function ModelUrlInput(widgetNode, model) {
    */
   this.prePaint = function(objRef) {
     objRef.stylesheet.setParameter("modelTitle", objRef.targetModel.title);
+    if (!objRef.defaultUrl) objRef.defaultUrl = objRef.targetModel.url;
+    objRef.stylesheet.setParameter("defaultUrl", objRef.defaultUrl);
   }
 
   /**
