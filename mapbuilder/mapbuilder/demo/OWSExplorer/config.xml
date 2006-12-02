@@ -126,6 +126,11 @@
           <stylesheet>../../lib/widget/SelectFeatureType.xsl</stylesheet>
           <toolId>wfsController</toolId>
         </Widget>
+        <ModelUrlInput id="wfsUrlInput">
+          <htmlTagId>workspace</htmlTagId>
+          <outputNodeId>workspaceCanvas</outputNodeId>
+          <title>Enter a WFS GetCapabilities URL:</title>
+        </ModelUrlInput>
       </widgets>
       <tools>
         <WebServiceRequest id="wfsGetFeature">
@@ -148,14 +153,15 @@
       <nodeSelectXpath>//Layer</nodeSelectXpath>
       <title>OGC Web Map Server (WMS)</title>
       <models>
-        <!--GetFeatureInfo id="featureTypeTemplate" template="true">
+        <Model id="featureInfoResponse" template="true">
+          <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
           <widgets>
-            <Widget id="attributeFilter">
-              <stylesheet>../../lib/widget/FilterAttributes.xsl</stylesheet>
-              <outputNodeId>filterForm</outputNodeId>
-            </Widget>
+            <FeatureInfo id="features">
+              <htmlTagId>workspace</htmlTagId>
+              <outputNodeId>workspaceCanvas</outputNodeId>
+            </FeatureInfo>
           </widgets>
-        </GetFeatureInfo-->
+        </Model>
       </models>
       <widgets>
         <Widget id="layerList">
@@ -163,16 +169,17 @@
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
         </Widget>
+        <ModelUrlInput id="wmsUrlInput">
+          <htmlTagId>workspace</htmlTagId>
+          <outputNodeId>workspaceCanvas</outputNodeId>
+          <title>Enter a WMS GetCapabilities URL:</title>
+        </ModelUrlInput>
       </widgets>
       <tools>
-        <!--WebServiceRequest id="wmsController">
-          <targetModel>getMapTemplate</targetModel>
-          <requestName>GetMap</requestName>
-        </WebServiceRequest-->
-        <!--WebServiceRequest id="wmsController">
-          <targetModel>getFeatureInfoTemplate</targetModel>
+        <WebServiceRequest id="wmsController">
+          <targetModel>featureInfoResponse</targetModel>
           <requestName>wms:GetFeatureInfo</requestName>
-        </WebServiceRequest-->
+        </WebServiceRequest>
         <EditContext id="editContext">
           <targetModel>mainMap</targetModel>
         </EditContext>
@@ -205,6 +212,15 @@
       <enabledSrc>/images/PanEnable.png</enabledSrc>
       <disabledSrc>/images/PanDisable.png</disabledSrc>
     </DragPan>
+    <GetFeatureInfo id="getFeatureInfo">
+      <scriptFile>../mapViewer/GetFeatureInfo.js</scriptFile>
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainAoi</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/QueryEnable.png</enabledSrc>
+      <disabledSrc>/images/QueryDisable.png</disabledSrc>
+    </GetFeatureInfo>
     <Reset id="reset">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
