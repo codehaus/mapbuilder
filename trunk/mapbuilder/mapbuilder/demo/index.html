@@ -3,146 +3,53 @@
 <HTML>
   <HEAD>
     <TITLE>Mapbuilder demos</TITLE>
-    <link rel='StyleSheet' type='text/css' href='/mapbuilder/lib/skin/default/docsStyle.css'>
+    <link rel='StyleSheet' type='text/css' href='../lib/skin/default/docsStyle.css'>
   </HEAD>
   <BODY>
     <!-- Version tag will be inserted below by build.xml process -->
-    <h1>Mapbuilder Demos <!--Version--><!--VersionEnd--></h1>
-    <DL>
-    
-    <DT>
-        <A href="simple/index.html">Simple Map Viewer</A>
-    </DT>
-    <DD>
-      A minimal map implementation showing a map embedded in a page.
-    </DD>
-    
-    <DT>
-        <A href="basic/index.html">Basic Map Viewer</A>
-    </DT>
-    <DD>
-      A basic map viewer implementation.
-      This is a good demo to copy when building a new application.
-    </DD>
-    
-    <DT>
-        <A href="mapViewer/index.html">Map Viewer</A>
-    </DT>
-    <DD>
-      Provides a little more functionality than the Basic demo including Legends and queries, and without the developer
-      hints.
-      This is also a good demo to copy when building a new application.
-    </DD>
-    
-    <DT>
-        <A href="Demis/index.html">Demis Maps Viewer</A>
-    </DT>
-    <DD>
-      A Demis maps viewer which allows a user to switch maps Google style.
-    </DD>
-    
-    <DT>
-        <A href="timeSeries/index.html">WMS Time Series</A>
-    </DT>
-    <DD>
-      Shows maps as a time series.  Zoom in to a region of interest.
-    </DD>
-    <DT>
-        <A href="complete/index.html">Complete configuration</A>
-    </DT>
-    <DD>
-      Not pretty to look at but shows integration of most components.
-      Intended for testing extensions to the code base.
-    </DD>
-    <DT>
-        <A href="wfs-t/index.html">Feature Entry</A>
-    </DT>
-    <DD>
-      Shows editing and updating of GML features and uploading to a
-      Transactional Web Feature Service (WFS-T).
-      This demo accesses data from a 
-      <a href="http://geoserver.sourceforge.net">Geoserver</a>
-      installation <a href="wfs-t/install.html">installed</a> in the same
-      Java Servlet Webapps directory as Mapbuilder.
-    </DD>
-    <DT>
-        <A href="contextEditor/index.html">Context Editor</A>
-    </DT>
-    <DD>
-      Creation and editing of Web Map Context documents from searching and browsing a registry.
-    </DD>
-    <DT>
-        <A href="geoRSS/index.html">Live RSS/Atom Feeds with georss extension</A>
-    </DT>
-    <DD>
-      A small application initially demonstrated at <a href="http://mapserver.gis.umn.edu/mum/mtg2005.html">OSG'05</a> 
-      that showed how to extend Mapbuilder.<br/> 
-      This one processes a live geoRSS feed.
-      While this is <a href='geoRSS/index2.html'>Atom feed variation of it</a> (using georss pro extension) <a href='http://www.georss.org'>from georss.org</a>
-    </DD>
-    <DT>
-        <A href="flickr/index.html">Live Flickr RSS/Atom Feed of The MapBuilder Community</A>
-    </DT>
-    <DD>
-      This application enhances the previous demonstration of rss feeds.  It adds images on the map, popups, SLD processing... 
-      Rss layers are added dynamically to the legend and can be tuned on/off
-    </DD>
-    <DT>
-        <A href="shipTracks/index.html">Ship Tracks RSS/Atom Feeds and Vector Graphics rendering on the client side</A>
-    </DT>
-    <DD>
-      This application enhances the previous demonstration of rss feeds even more. 
-      It adds tracks, polygons on the map, popups, SLD processing to demonstrate vector graphics on the client side.  
-      It uses VML on IE and SVG on Firefox 1.5.  For other platforms, it will need more work.
-      This is still experimental and a little incomplete but the idea is there. 
-    </DD>
-        <DT>
-        <A href="GeoBliki/index.html">WFS query, Popup Feature information</A>
-    </DT>
-    <DD>
-    
-      This application uses a stylesheet wfs_GetFeature.xsl applied to the form data which generates a wmc:FeatureType document containing a WFS GetFeature Query.
-      Another style sheet datapopup.xsl is used on the returned FeatureCollection to display different information in the popup for each of the feature types.
-      This demo accesses data from the 
-      <a href="http://test.geobliki.com">GeoBliki test server</a>
+    <h1>Mapbuilder Examples <!--Version--><!--VersionEnd--></h1>
+    <h2>Basic map viewers with different functionality</h2>
+			<dl>
+				<dt><a href="simple/index.html" title="simple map demo">Simple Map Viewer</a></dt>
+				<dd>A very simple example showing a non-interactive map on a webpage</dd>
+				
+				<dt><a href="basic/index.html" title="interactive map demo">Interactive Map Viewer</a></dt>
+				<dd>A simple example showing a map an interactive map with pan and zoom buttons. This is a good example to use as a basis for your own application.</dd>
 
-    </DD>
-    <DT>
-        <A href="gazetteerTools/index.html">Gazetteer tools</A>
-    </DT>
-    <DD>
-      A set of configurations to demonstrate how to embed gazetteer widgets and maps in your own web page to get
-      Area of Interest coordinates.
-    </DD>
-    <DT>
-        <A href="OWSExplorer/index.html">Open Web Services Explorer</A>
-    </DT>
-    <DD>
-      Allows exploration of the data served by a single WMS/WFS instance.
-    </DD>
-    <DT>
-        <A href="forms/index.html">Form test page</A>
-    </DT>
-    <DD>
-      A schema driven form application for editing XML documents.
-    </DD>
-    <!--
-    <DT>
-        <A href="owsContext">OWS Context IE</A>
-    </DT>
-    <DD>
-      A page demostrating the results of the OWS Context Interoperability
-      Experiment from the OGC.
-    </DD>
-    <DT>
-        <A href="wpsIE/index.html">OGC WPS IE</A>
-    </DT>
-    <DD>
-      A generic client for the Web Processing Service Interoperability
-      Experiment from the OGC.
-    </DD>
-    -->
-    </DL>
+				<dt><a href="mapViewer/index.html" title="enhanced map demo">Enhanced Map Viewer</a></dt>
+				<dd>A more complex example showing different widgets combined with an interactive map. This is a good example to use as a basis for more complex map viewers.</dd>
+			</dl>
+		<h2>Examples of the more complex functionality of Mapbuilder</h2>
+			<dl>
+				
+				<dt><a href="Demis/index.html" title="Demis map viewer">Different maps connected</a></dt>
+				<dd>An example showing the possibility of connecting different maps in a google maps style.</dd>
+				
+				<dt><a href="timeSeries/index.html" title="Time series viewer">Time series viewer</a></dt>
+				<dd>An example showing maps as time series, with the possibility to zoom, pan, go forward/backward in time and pause.</dd>
+				
+				<dt><a href="wfs-t/index.html" title="Feature entry">Feature entry</a></dt>
+				<dd>Shows editing and updating of GML features and uploading to a Transactional Web Feature Service (WFS-T). This demo accesses data from a Geoserver  installation installed in the same Java Servlet Webapps directory as Mapbuilder.</dd>
+
+				<dt><a href="contextEditor/index.html" title="Context Editor">Webmapping Context Editor</a></dt>
+				<dd>An example showing the creation and editing of OGC standard Web Map Context (WMC) documents by searching and browsing through a registry.</dd>
+			</dl>
+
+		<h2>Examples of the shiny new and slightly experimental features of Mapbuilder</h2>
+			<dl>
+				<dt><a href="OWSExplorer/index.html" title="OWS explorer">Open Web Services explorer</a></dt>
+				<dd></dd>
+				
+				<dt><a href="flickr/index.html" title="GeoRSS feed example">Live flickr feed viewer</a></dt>
+				<dd>An example showing the photos of the communitymapbuilder flickr feed on a map. This example uses GeoRSS rendering, popups, SLD processing </dd>
+				
+				<dt><a href="sldEditor/index.html" title="Sld editor">SLD editor</a></dt>
+				<dd>An initial release of a client side SLD editor. This allows for dynamically changing the appearance of features on the map.</dd>
+
+				<dt><a href="openlayers/index.html" title="Webmap.js integration">OpenLayers integration</a></dt>
+				<dd>An initial release of the integration of OpenLayers with Mapbuilder. This is a direct result of the webmap.js discussion which was held at Foss4G. This example also shows the direction mapbuilder is going; being based on MapPaneOL.</dd>
+		</dl>
+		
     <ul>
       <li>Browsers supported are Internet Explorer 6 or later, Mozilla 1.3 or later, Netscape 6 or later.</li>
       <li>Some functionality requires the server proxy and serialize 
