@@ -48,7 +48,18 @@ function MapPaneOL(widgetNode, model) {
 MapPaneOL.prototype.paint = function(objRef, refresh) {
   // Create an OpenLayers map
   if(!objRef.oLMap){
-    srs=objRef.model.doc.selectSingleNode("//ows:BoundingBox/@crs");srs=(srs)?srs.nodeValue:"";
+  	
+  	if(objRef.model.doc.selectSingleNode("//wmc:OWSContext"))
+  		objRef.context="OWS";
+  	else if(objRef.model.doc.selectSingleNode("//wmc:ViewContext"))
+  		objRef.context="View";
+  	else
+  		alert("No context defines in config");
+  		
+
+    if(objRef.context=="OWS")  {srs=objRef.model.doc.selectSingleNode("//ows:BoundingBox/@crs"); srs=(srs)?srs.nodeValue:"";}
+   	else {srs=objRef.model.doc.selectSingleNode("//wmc:BoundingBox").getAttribute("SRS");}
+   
     // OpenLayers doesn't contain information about projection, so if the
     // baseLayer projection is not standard lat/long, it needs to know
     // maxExtent and maxResolution to calculate the zoomLevels.
@@ -57,17 +68,39 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     if(srs!="EPSG:4326"&&srs!="epsg:4326"){
       maxExtent=objRef.widgetNode.selectSingleNode("mb:maxExtent");
       maxExtent=(maxExtent)?maxExtent.firstChild.nodeValue.split(" "):null;
-      maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");maxResolution=(maxResolution)?maxResolution.firstChild.nodeValue:null;
-      
+      maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");
+      maxResolution=(maxResolution)?maxResolution.firstChild.nodeValue:null;
+   
       // If the maxExtent/maxResolution is not specified in the config
       // calculate it from the BBox and Width/Height in the Context.
 	  if(!maxExtent&&!maxResolution){
-        bbox1=objRef.model.doc.selectSingleNode("//ows:BoundingBox/ows:LowerCorner");bbox1=(bbox1)?bbox1.firstChild.nodeValue:"";
-        bbox2=objRef.model.doc.selectSingleNode("//ows:BoundingBox/ows:UpperCorner");bbox2=(bbox2)?bbox2.firstChild.nodeValue:"";  	
-        bbox=(bbox1&&bbox2)?bbox1+" "+bbox2:null;
+	  	if(objRef.context=="OWS"){
+	        bbox1=objRef.model.doc.selectSingleNode("//ows:BoundingBox/ows:LowerCorner");
+	        bbox1=(bbox1)?bbox1.firstChild.nodeValue:"";
+	        bbox2=objRef.model.doc.selectSingleNode("//ows:BoundingBox/ows:UpperCorner");
+	        bbox2=(bbox2)?bbox2.firstChild.nodeValue:"";
+	        bbox=(bbox1&&bbox2)?bbox1+" "+bbox2:null;
+	    }
+	    else{
+	    	
+	    	 var boundingBox=objRef.model.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
+   			Bbox = new Array();
+   			Bbox[0]=parseFloat(boundingBox.getAttribute("minx"));
+    		Bbox[1]=parseFloat(boundingBox.getAttribute("miny"));
+    		Bbox[2]=parseFloat(boundingBox.getAttribute("maxx"));
+    		Bbox[3]=parseFloat(boundingBox.getAttribute("maxy"));
+    		bbox=Bbox.join(" ");
+	    }
+
 		maxExtent=bbox.split(" ");
-        width=objRef.model.doc.selectSingleNode("//ows:Window/@width");width=(width)?width.nodeValue:"400";
-		maxResolution=(maxExtent[2]-maxExtent[0])/width;
+		if(objRef.context=="OWS"){
+	        width=objRef.model.doc.selectSingleNode("//ows:Window/@width");width=(width)?width.nodeValue:"400";maxResolution=(maxExtent[2]-maxExtent[0])/width;
+		}
+		else{
+			width=objRef.model.doc.selectSingleNode("//wmc:Window/@width");width=(width)?width.nodeValue:"400";
+		}
+			
+			
 	  }
       maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
     }
@@ -75,12 +108,21 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     // loop through all layers and create OLLayers 
     var layers = objRef.model.getAllLayers();
     objRef.oLlayers = new Array();
+      
     for (var i=layers.length-1;i>=0;i--) {
       var service=layers[i].selectSingleNode("wmc:Server/@service");service=(service)?service.nodeValue:"";
-      var title=layers[i].selectSingleNode("wmc:Title");title=(title)?title.firstChild.nodeValue:"";
+       var title=layers[i].selectSingleNode("wmc:Title");title=(title)?title.firstChild.nodeValue:"";
       var name2=layers[i].selectSingleNode("wmc:Name");name2=(name2)?name2.firstChild.nodeValue:"";
-      var href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?href.firstChild.nodeValue:"";
-      var format=layers[i].selectSingleNode("wmc:FormatList/wmc:Format");format=(format)?format.firstChild.nodeValue:"image/gif";
+       
+		if (objRef.context=="OWS"){
+       		var href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?href.firstChild.nodeValue:"";	
+       	}
+       	else
+       	{	var href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
+       	}
+       	
+       	
+       var format=layers[i].selectSingleNode("wmc:FormatList/wmc:Format");format=(format)?format.firstChild.nodeValue:"image/gif";
       var vis=layers[i].selectSingleNode("@hidden");vis=(vis)?(vis.nodeValue!="1"):true;
 
       // Options to pass into the OpenLayers Layer initialization
