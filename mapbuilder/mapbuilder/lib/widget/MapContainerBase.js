@@ -195,9 +195,6 @@ function MapContainerBase(widgetNode,model) {
 
   this.setContainerWidth = this.setContainerWidth;
   this.containerModel.addFirstListener( "loadModel", this.setContainerWidth, this );
-	// the following line added by schut@sarvision.nl according to http://article.gmane.org/gmane.comp.gis.mapbuilder.user/1040
-	this.containerModel.addFirstListener( "resize", this.setContainerWidth, this );
-  
   this.containerModel.addListener( "bbox", this.paint, this );
 }
 
