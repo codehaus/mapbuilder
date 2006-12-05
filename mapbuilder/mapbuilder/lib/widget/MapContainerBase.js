@@ -44,6 +44,34 @@ function MapContainerBase(widgetNode,model) {
   if (zoomLevelsNode) {
     this.zoomLevels = zoomLevelsNode.firstChild.nodeValue.split(",");
   }
+
+  this.setContainerWidth = function(objRef) {
+    objRef.node.style.width=objRef.containerModel.getWindowWidth()+'px';
+    objRef.node.style.height=objRef.containerModel.getWindowHeight()+'px';
+    if (this.stylesheet) {
+      this.stylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
+      this.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
+    }
+  }
+
+
+  /**
+   * method to adjust the width of the container DIV on startup.  If the 
+   * <fixedWidth> property is set in config, width and height of the context
+   * doc will be adjusted.
+   * @param objRef pointer to this object.
+   */
+  this.setFixedWidth = function(objRef) {
+    //adjust the context width and height if required.
+    var fixedWidth = widgetNode.selectSingleNode("mb:fixedWidth");
+    if ( fixedWidth ) {
+      fixedWidth = fixedWidth.firstChild.nodeValue;
+      var aspectRatio = objRef.containerModel.getWindowHeight()/objRef.containerModel.getWindowWidth();
+      var newHeight = Math.round(aspectRatio*fixedWidth);
+      objRef.containerModel.setWindowSize( new Array(fixedWidth, newHeight) );
+    }
+  }
+
 /**
  * Initialize the container.  Only the first widget to attach to this container
  * configures the container, all others carry out a much simpler initialization.
@@ -55,15 +83,6 @@ function MapContainerBase(widgetNode,model) {
     this.containerModel = containerNode.containerModel;
     model.containerModel = containerNode.containerModel;
     //this.containerModel.addListener("bbox",this.paint,this);
-
-    this.setContainerWidth = function(objRef) {
-      objRef.node.style.width=objRef.containerModel.getWindowWidth()+'px';
-      objRef.node.style.height=objRef.containerModel.getWindowHeight()+'px';
-      if (this.stylesheet) {
-        this.stylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
-        this.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
-      }
-    }
 
 /**
  * the containerModel is initialized here
@@ -81,40 +100,17 @@ function MapContainerBase(widgetNode,model) {
     this.containerModel = this.model;
     model.containerModel = containerNode.containerModel;   
 
-    /**
-     * method to adjust the width of the container DIV on startup.  If the 
-     * <fixedWidth> property is set in config, width and height of the context
-     * doc will be adjusted.
-     * @param objRef pointer to this object.
-     */
-    this.setContainerWidth = function(objRef) {
-      //adjust the context width and height if required.
-      var fixedWidth = widgetNode.selectSingleNode("mb:fixedWidth");
-      if ( fixedWidth ) {
-        fixedWidth = fixedWidth.firstChild.nodeValue;
-        var aspectRatio = objRef.containerModel.getWindowHeight()/objRef.containerModel.getWindowWidth();
-        var newHeight = Math.round(aspectRatio*fixedWidth);
-        objRef.containerModel.setWindowWidth( fixedWidth );
-        objRef.containerModel.setWindowHeight( newHeight );
-      }
-      objRef.node.style.width=objRef.containerModel.getWindowWidth() +'px';
-      objRef.node.style.height=objRef.containerModel.getWindowHeight()+'px';
-      if (this.stylesheet) {
-        this.stylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
-        this.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
-      }
-    }
-
     //add the extent tool
     this.containerModel.extent = new Extent( this.containerModel );
     //Enable fixed scales
-    if (this.zoomLevels) this.containerModel.extent.setZoomLevels(true,this.zoomLevels);
-    else this.containerModel.extent.setZoomLevels(false);
-    //this.containerModel.addListener( "contextLoaded", this.containerModel.extent.firstInit, this.containerModel.extent );
+    if (this.zoomLevels) {
+      this.containerModel.extent.setZoomLevels(true,this.zoomLevels);
+    } else {
+      this.containerModel.extent.setZoomLevels(false);
+    }
     this.containerModel.addFirstListener( "loadModel", this.containerModel.extent.firstInit, this.containerModel.extent );
     this.containerModel.addListener( "bbox", this.containerModel.extent.init, this.containerModel.extent );
     this.containerModel.addListener( "resize", this.containerModel.extent.init, this.containerModel.extent );
-    //TBD: do an extent history by storing extents every time the aoi changes
 
     /**
      * Called just before paint to set a help message for when the cursor is 
@@ -162,7 +158,7 @@ function MapContainerBase(widgetNode,model) {
         //if ((this.eventType=="mousemove") && (this.button != window.event.button)){
         //  alert("MapContainerBase.eventHandler this.button="+this.button+" ev.button="+window.event.button);
         //  this.eventType="mousedown";
-        //}
+        //}}
         //this.button=window.event.button;
         window.event.returnValue = false;
         window.event.cancelBubble = true;
@@ -195,6 +191,9 @@ function MapContainerBase(widgetNode,model) {
 
   this.setContainerWidth = this.setContainerWidth;
   this.containerModel.addFirstListener( "loadModel", this.setContainerWidth, this );
+  this.containerModel.addFirstListener( "loadModel", this.setFixedWidth, this );
+	// the following line added by schut@sarvision.nl according to http://article.gmane.org/gmane.comp.gis.mapbuilder.user/1040
+	this.containerModel.addFirstListener( "resize", this.setContainerWidth, this );
   this.containerModel.addListener( "bbox", this.paint, this );
 }
 
