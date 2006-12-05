@@ -65,28 +65,29 @@
 			</tools>
 		</Context>
     <Context id="locator">
-      <defaultModelUrl>../data/context/locatorDemis.xml</defaultModelUrl>
-      <widgets>
-        <MapPane id="locatorWidget">
-          <htmlTagId>locatorMap</htmlTagId>
-          <mapContainerId>locatorContainer</mapContainerId>
-          <fixedWidth>180</fixedWidth>
-          <extraAttributes>false</extraAttributes>
-        </MapPane>
-        <AoiBoxDHTML id="aoiBoxLocator">
-          <htmlTagId>locatorMap</htmlTagId>
-          <mapContainerId>locatorContainer</mapContainerId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>1</lineWidth>
-          <crossSize>15</crossSize>
-        </AoiBoxDHTML>
-      </widgets>
-      <tools>
-        <AoiMouseHandler id="locatorAoi" />
-        <ZoomToAoi id="locatorZoomToAoi">
-          <targetModel>mainMap</targetModel>
-        </ZoomToAoi>
-      </tools>
+    <defaultModelUrl>../data/context/locatorDemis.xml</defaultModelUrl>
+			<widgets>
+				<MapPane id="locatorWidget">
+					<htmlTagId>locatorMap</htmlTagId>
+					<mapContainerId>locatorContainer</mapContainerId>
+					<fixedWidth>180</fixedWidth>
+					<extraAttributes>false</extraAttributes>
+				</MapPane>
+				<AoiBoxDHTML id="aoiBoxLocator">
+					<htmlTagId>locatorMap</htmlTagId>
+					<stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
+					<lineColor>red</lineColor>
+					<lineWidth>2</lineWidth>
+					<crossSize>15</crossSize>
+					<mapContainerId>locatorContainer</mapContainerId>
+				</AoiBoxDHTML>
+			</widgets>
+			<tools>
+				<AoiMouseHandler id="locatorAoi" />
+				<ZoomToAoi id="locatorZoomToAoi">
+					<targetModel>mainMap</targetModel>
+				</ZoomToAoi>
+			</tools>
     </Context>
     <Model id="featureInfoResponse" template="true">
       <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
