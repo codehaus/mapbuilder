@@ -33,6 +33,18 @@ $Name$
   <xsl:param name="context">config.objects.<xsl:value-of select="$modelId"/></xsl:param>
 
 <!-- Main html -->
+  <xsl:template match="/wmc:ViewContext">
+    <table border="0" cellpadding="1" cellspacing="0">
+      <tr>
+        <th colspan="3">Layer List</th>
+      </tr>
+     
+      <xsl:apply-templates select="wmc:LayerList/wmc:Layer">
+        <xsl:sort select="position()" order="descending" data-type="number"/>
+      </xsl:apply-templates>
+      
+    </table>
+  </xsl:template>
   
   <xsl:template match="/wmc:OWSContext">
     <table border="0" cellpadding="1" cellspacing="0">
