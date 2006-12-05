@@ -14,7 +14,7 @@ $Id:
 $Name$
 -->
   <xsl:output method="xml" encoding="utf-8"/>
-  
+    <xsl:param name="objRef" select="objRef"/>
   <!-- Root node -->
   <xsl:template match="/">
     <js>
@@ -27,13 +27,13 @@ $Name$
     <xsl:variable name="x0" select="gml:coord/gml:X"/>
     <xsl:variable name="y0" select="gml:coord/gml:Y"/>
     // Point
-    objRef.setValue('POINT(<xsl:value-of select="$x0"/> <xsl:value-of select="$y0"/>)');
+    <xsl:value-of select="$objRef"/>.setValue('POINT(<xsl:value-of select="$x0"/> <xsl:value-of select="$y0"/>)');
   </xsl:template>
 
 
   <!-- Match and render a LineString -->
   <xsl:template match="gml:LineString">
-    <xsl:text>  objRef.setValue('LINESTRING(</xsl:text>
+    <xsl:text>  <xsl:value-of select="$objRef"/>.setValue('LINESTRING(</xsl:text>
     <xsl:for-each select="gml:coord">
       <xsl:value-of select="gml:X"/>
       <xsl:text> </xsl:text>
