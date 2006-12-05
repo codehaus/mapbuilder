@@ -38,7 +38,6 @@ function Config(url) {
  * Set the serializeUrl and proxyUrl values from a global configuration document
  * Optional, these can also be set in individual config docs.
  */
- /*
   var configDoc = Sarissa.getDomDocument();
   configDoc.async = false;
   configDoc.validateOnParse=false;  //IE6 SP2 parsing bug
@@ -53,7 +52,6 @@ function Config(url) {
     node = configDoc.selectSingleNode("/mb:MapbuilderConfig/mb:serializeUrl");
     if (node) this.serializeUrl = node.firstChild.nodeValue;
   }
- */
   configDoc = null;
 
   /**
