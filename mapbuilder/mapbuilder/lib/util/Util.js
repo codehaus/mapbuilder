@@ -215,7 +215,7 @@ function setISODate(isoDateStr) {
   }
   var isoDate = new Date();
   isoDate.setFullYear(parseInt(parts[1],10));
-  isoDate.setMonth(parseInt(parts[2]-1,10));
+  isoDate.setMonth(parseInt(parts[2],10)-1,parseInt(parts[3],10));
   isoDate.setDate(parseInt(parts[3],10));
   isoDate.setHours(parseInt(parts[4],10));
   isoDate.setMinutes(parseInt(parts[5],10));
