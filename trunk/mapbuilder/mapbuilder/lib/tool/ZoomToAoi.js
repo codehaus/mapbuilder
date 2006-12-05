@@ -52,7 +52,7 @@ function ZoomToAoi(toolNode, model) {
    */
   this.showTargetAoi = function( tool ) {
     if( tool.targetModel.doc ) {
-	    var bbox = tool.targetModel.getBoundingBox();
+	    var bbox = tool.targetModel.getBoundingBox();  
 	    var ul = new Array(bbox[0],bbox[3]);
 	    var lr = new Array(bbox[2],bbox[1]);
 	    if ( tool.model.getSRS() != tool.targetModel.getSRS() ) {

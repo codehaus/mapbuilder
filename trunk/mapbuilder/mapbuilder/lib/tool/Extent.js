@@ -62,8 +62,6 @@ function Extent( model, initialRes ) {
     center = new Array((bbox[1]-bbox[3])/2,(bbox[0]-bbox[2])/2);//center=horizontal,vertical
     half = new Array(size[0]/2,size[1]/2);
     bbox = new Array(center[0]-half[0]*scale, center[1]-half[1]*scale, center[0]+half[0]*scale,center[1]+half[1]*scale);
-    this.ul = new Array(bbox[0], bbox[1]);
-    this.lr = new Array(bbox[2], bbox[3]);
     this.model.setBoundingBox(bbox);
   }
   
@@ -83,10 +81,9 @@ function Extent( model, initialRes ) {
    * Can be used in the future for dynamic window resizing
    * @param size  an array with a window size
    */
-   // VTS: renamed from setSize to setWindowSize because there is already another setSize function
-  this.setWindowSize = function(size){
-    this.model.setWindowSize(size);
-    this.size = size;
+  this.setSize = function(size){
+    this.model.setWindowWidth(size[0]);
+    this.model.setWindowHeight(size[1]);
   }
   
    /**
@@ -138,58 +135,7 @@ function Extent( model, initialRes ) {
     var res = this.getFixedScale();
     this.lr = new Array(center[0]+half[0]*res, center[1]-half[1]*res);
     this.ul = new Array(center[0]-half[0]*res, center[1]+half[1]*res);
-    // this is from context.js:setBoundingBox; added by VTS for correct dynamic resize functionality
-    // otherwise the checked bbox values will not make it into the wms request
-    var bbox=this.model.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
-    bbox.setAttribute("minx", this.ul[0]);
-    bbox.setAttribute("miny", this.lr[1]);
-    bbox.setAttribute("maxx", this.lr[0]);
-    bbox.setAttribute("maxy", this.ul[1]);
-    // end:this is from context.js:setBoundingBox
   }
-  
-  /*
-   * this function is meant as a replacement for checkBbox.
-   * it will adjust the bbox so that
-   * 1) it has the same aspect ratio as the pixel width/heigth
-   * 2) the resulting bbox contains the original bbox (so it will only
-   *    enlarge the original bbox, never shrink it)
-   * maybe we should make the behaviour of 2) configurable? Like 3 options:
-   * 1: enlarge, 2: shrink, 3: average?
-   *
-   * author: schut@sarvision.nl
-  */
-  this.enlargeBboxIfNecessary = function() {
-    var worldWidth = this.lr[0] - this.ul[0];
-    var worldHeight = this.ul[1] - this.lr[1];
-    var xRes = worldWidth / this.size[0];
-    var yRes = worldHeight / this.size[1];
-    if (xRes != yRes) {
-      if (xRes > yRes) {
-        // need to enlarge y extent
-        var newWorldHeight = worldHeight * (xRes / yRes);
-        this.ul[1] = this.ul[1] + 0.5 * (newWorldHeight - worldHeight);
-        this.lr[1] = this.lr[1] - 0.5 * (newWorldHeight - worldHeight);
-      } else if (yRes > xRes) {
-        // need to enlarge x extent
-        var newWorldWidth = worldWidth * (yRes / xRes);
-        this.ul[0] = this.ul[0] - 0.5 * (newWorldWidth - worldWidth);
-        this.lr[0] = this.lr[0] + 0.5 * (newWorldWidth - worldWidth);
-      }
-      this.res[0] = (this.lr[0] - this.ul[0]) / this.size[0];
-      this.res[1] = (this.ul[1] - this.lr[1]) / this.size[1];
-      this.bbox = new Array(this.ul[0], this.lr[1], this.ul[1], this.lr[0]);
-      // the next 5 lines are the same as Context.js:setBoundingBox, but for the bbox event call, because that
-      // would trigger an infinite loop op bbox even calls.
-      var bbox=this.model.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
-      bbox.setAttribute("minx", this.ul[0]);
-      bbox.setAttribute("miny", this.lr[1]);
-      bbox.setAttribute("maxx", this.lr[0]);
-      bbox.setAttribute("maxy", this.ul[1]);
-    }
-  } 
-    
-    
   /**
    * Returns the XY center of this extent
    * @return  array of XY for th center of the extent
@@ -399,8 +345,7 @@ TBD: when called as a listener this gets a bbox array passed in, not initialRes 
     }
 */
     extent.setResolution( new Array(extent.model.getWindowWidth(), extent.model.getWindowHeight() ) );
-    //extent.checkBbox();
-    extent.enlargeBboxIfNecessary();
+    extent.checkBbox();
   }
   if ( initialRes ) this.init(this, initialRes);
 

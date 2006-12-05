@@ -374,19 +374,6 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="AutoResizeType">
-    <xs:annotation>
-      <xs:documentation>Tool which dynamically resizes the map view to the size of a certain reference element.</xs:documentation>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="mb:AbstractToolType">
-        <xs:sequence>
-          <xs:element name="referenceNodeId" type="xs:string" minOccurs="0"/>
-          <xs:element name="mapContainerId" type="xs:string" minOccurs="0"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
   <xs:complexType name="AoiBoxDHTMLType">
     <xs:annotation>
       <xs:documentation>A widget to display a map container model's AOI box</xs:documentation>
@@ -687,7 +674,6 @@
       <xs:element name="Caps2Context" type="mb:Caps2ContextType"/>
       <xs:element name="EditContext" type="mb:EditContextType"/>
       <xs:element name="MovieLoop" type="mb:MovieLoopType"/>
-			<xs:element name="AutoResize" type="mb:AutoResizeType"/>
     </xs:choice>
   </xs:complexType>
   <!--  global base types -->
