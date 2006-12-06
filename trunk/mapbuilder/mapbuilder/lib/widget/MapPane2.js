@@ -136,7 +136,7 @@ MapPane2.prototype.paint = function(objRef, refresh) {
       if(tempNodeList[i])newSrc = tempNodeList[i].getAttribute("src");
       if(layer.setSrc)layer.setSrc(newSrc)
     }
-    var message = "loading " + objRef.layerCount + " map layer"+((this.objRef.layerCount>1)?"s":"");
+    var message = "loading " + objRef.layerCount + " map layer"+((objRef.layerCount>1)?"s":"");
     objRef.model.setParam("modelStatus", message);
     
     objRef.MapLayerMgr.paintWmsLayers( objRef.MapLayerMgr );
