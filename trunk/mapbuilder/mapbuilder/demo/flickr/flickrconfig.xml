@@ -39,28 +39,28 @@
 			</tools>
     </OwsContext>
     
-    <GeoRSS id="geoRSS"> 
-      <defaultModelUrl>http://www.flickr.com/services/rest?method=flickr.photos.search&amp;api_key=afbacfb4d14cd681c04a06d69b24d847&amp;user_id=15435549%40N00</defaultModelUrl>
-      <widgets>
-        
-        <TipWidget id="rssRendererTip"> 
-          <leftOffset>-40</leftOffset>
-          <topOffset>-80</topOffset>
-          <command>overlib(text, STICKY, BUBBLE, BUBBLETYPE,'square', RELX, x, RELY, y, WRAP)</command>
-        </TipWidget> 
- 
-        <GeoRssParser id="geoRssParser">
-          <htmlTagId>mainMapPane</htmlTagId>
-          <targetModel>mainMap</targetModel>
-          <stylesheet>rss2ows.xsl</stylesheet>
-          <mapContainerId>mainMapContainer</mapContainerId>
-          <tipWidget>rssRendererTip</tipWidget>
-         </GeoRssParser>
-        
-      </widgets>
-      <namespace>xmlns:media='http://search.yahoo.com/mrss' xmlns:atom='http://www.w3.org/2005/Atom' xmlns:georss='http://www.georss.org/rss' xmlns:gml='http://www.opengis.net/gml/3.1.1' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:rss='http://purl.org/rss/1.0/' xmlns:taxo='http://purl.org/rss/1.0/modules/taxonomy/' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:syn='http://purl.org/rss/1.0/modules/syndication/' xmlns:geo='http://www.w3.org/2003/01/geo/wgs84_pos#' xmlns:sld="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink"</namespace>
-      <nodeSelectXpath>/rsp/photos/photo</nodeSelectXpath>
-    </GeoRSS>
+<!--    <GeoRSS id="geoRSS"> -->
+<!--      <defaultModelUrl>http://www.flickr.com/services/rest?method=flickr.photos.search&amp;api_key=afbacfb4d14cd681c04a06d69b24d847&amp;user_id=15435549%40N00</defaultModelUrl>-->
+<!--      <widgets>-->
+<!--        -->
+<!--        <TipWidget id="rssRendererTip"> -->
+<!--          <leftOffset>-40</leftOffset>-->
+<!--          <topOffset>-80</topOffset>-->
+<!--          <command>overlib(text, STICKY, BUBBLE, BUBBLETYPE,'square', RELX, x, RELY, y, WRAP)</command>-->
+<!--        </TipWidget> -->
+<!-- -->
+<!--        <GeoRssParser id="geoRssParser">-->
+<!--          <htmlTagId>mainMapPane</htmlTagId>-->
+<!--          <targetModel>mainMap</targetModel>-->
+<!--          <stylesheet>rss2ows.xsl</stylesheet>-->
+<!--          <mapContainerId>mainMapContainer</mapContainerId>-->
+<!--          <tipWidget>rssRendererTip</tipWidget>-->
+<!--         </GeoRssParser>-->
+<!--        -->
+<!--      </widgets>-->
+<!--      <namespace>xmlns:media='http://search.yahoo.com/mrss' xmlns:atom='http://www.w3.org/2005/Atom' xmlns:georss='http://www.georss.org/rss' xmlns:gml='http://www.opengis.net/gml/3.1.1' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:rss='http://purl.org/rss/1.0/' xmlns:taxo='http://purl.org/rss/1.0/modules/taxonomy/' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:syn='http://purl.org/rss/1.0/modules/syndication/' xmlns:geo='http://www.w3.org/2003/01/geo/wgs84_pos#' xmlns:sld="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink"</namespace>-->
+<!--      <nodeSelectXpath>/rsp/photos/photo</nodeSelectXpath>-->
+<!--    </GeoRSS>-->
 		
 	</models>
 	<widgets>
@@ -103,11 +103,10 @@
 			<class>Button</class>
 			<disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
 		</Reset>
-    <ModelSwitcher id="switcher">
-      <targetModel>mainMap</targetModel>
-    </ModelSwitcher>
+    
     
 	</widgets>
+	<proxyUrl>../../server/php/proxy.php</proxyUrl>
 	<skinDir>../../lib/skin/default</skinDir>
 	<widgetTextUrl>widgetText.xml</widgetTextUrl>
 	<!-- relative to the skin dir -->

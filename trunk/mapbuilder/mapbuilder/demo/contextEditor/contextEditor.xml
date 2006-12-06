@@ -356,6 +356,7 @@
     All static images should be relative to this URL.
     This dir is relative the dir of the main html file.
   -->
+  <proxyUrl>../../server/php/proxy.php</proxyUrl>
 	<skinDir>../../lib/skin/default</skinDir>
 	<widgetTextUrl>/widgetText.xml</widgetTextUrl>
 	<!-- in the skin dir -->

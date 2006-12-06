@@ -18,6 +18,7 @@
   <body onload="mbDoLoad()" >
 	  <div id="header">  	<!-- The header of the page -->
 			<h1><a href="http://communitymapbuilder.org">MapBuilder</a> Enhanced Map Viewer</h1>
+			<a href="#help" class="help">Explanation</a>
 	  </div><!-- /header -->
   	<div id="middle"><!-- The center piece of the page with left menubar and right mainbody -->
 	    <div id="menubar"><!-- left side of the middle div-->
@@ -41,13 +42,31 @@
 					<li><a href="../sldEditor/index.html" title="Sld editor">SLD editor</a></li>
 					<li><a href="../openlayers/index.html" title="Webmap.js integration">OpenLayers integration</a></li>
 				</ul>
+				<h2 onclick="javascript: history.go(-1)" style="color:black;cursor:pointer;">Back</h2>
 		  </div><!-- /menubar -->
 			<div id="mainbody"><!-- right side of the middle div, is also divided into two areas -->
 	  		<div class="left">
 	  			<div id="locatorMap"></div><!-- This is the container where the small locator map will be drawn -->
 				  <div id="legend"></div><!-- This is the container where the legend will be drawn -->
 				  <p>
-					  <a name="help"></a><h3>The explanation</h3>
+					  <a name="help"></a><h3>Explanation</h3>
+						This is an enhanced mapviewer that combines stock mapbuilder widgets with customised ones.
+						The map viewer has some extra functions when compared with the basic map viewer.<br/>
+						It adds an <i>extent history</i>, so you can go back to previous viewed extents.<br/>
+						A <i>get feature info</i> widget, with that you can get more information of an area on the map. <b>Note</b> that the result 
+						is shown outside the visible area, scroll down to see it. This is also a customised version.<br/>
+						A <i>graticule</i> widget which toggles a grid on top of the map.<br/>
+						A <i>legend</i> widget which shows the map layers it displays the legend graphic on the other side of the 
+						map in the <i>legendGraphic</i> container. This is a modification on the stock legend widget.<br/>
+						A <i>locator map</i> which shows the current extent on a world map.<br/>
+						A <i>scalebar</i> which style is defined by the scalebar stylesheet loaded with the page.<br/>
+						An <i>abstract</i> this is only a XSL document which filters the abstract out of a WMC.<br/>
+						A <i>maptitle</i> which is also only a XSL document.<p>
+						The customisation of the legend is done by using a different XSL document and point the widget to that
+						XSL in de config file (using the &lt;stylesheet&gt;&lt; parameter).<br/>
+						The customisation of the getFeatureInfo widget is done by using a different javascript file as
+						configured in the config file (using the &lt;scriptfile&gt; parameter).
+						
 			  	</p>
 		    </div><!-- /left -->
 		  	<div class="right">
@@ -75,7 +94,7 @@
        				      </td>
 			            </tr>
 			            <tr>
-       				      <td id="workspace" valign="top" colspan="2"/><!-- This is the container where the abstract will be drawn, note that in the config a htmlTagId property is set, which points to this element -->
+       				      <td id="workspace" valign="top" colspan="2"/><!-- This is the container where the abstract will be drawn, note that in the config a htmlTagId property is set, which points to this element, also getFeatureInfo will plot its results here -->
 			            </tr>
        				  </table>
 			        </td>
