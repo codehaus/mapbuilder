@@ -13,19 +13,19 @@
 	<ViewContextReference version="1.0.0" id="DM_Canada">
     		<Title>DM_Canada</Title>
 		<ContextURL>
-			<OnlineResource xlink:type="simple" xlink:href="../data/context/DM_Canada.xml"/>
+			<OnlineResource xlink:type="simple" xlink:href="data/DM_Canada.xml"/>
 		</ContextURL>
 	</ViewContextReference>
 	<ViewContextReference version="1.0.0" id="local">
     		<Title>local</Title>
 		<ContextURL>
-			<OnlineResource xlink:type="simple" xlink:href="../data/context/local.xml"/>
+			<OnlineResource xlink:type="simple" xlink:href="data/local.xml"/>
 		</ContextURL>
 	</ViewContextReference>
 	<ViewContextReference version="1.0.0" id="lsat7Ortho">
     		<Title>lsat7Ortho</Title>
 		<ContextURL>
-			<OnlineResource xlink:type="simple" xlink:href="../data/context/lsat7Ortho.xml"/>
+			<OnlineResource xlink:type="simple" xlink:href="data/lsat7Ortho.xml"/>
 		</ContextURL>
 	</ViewContextReference>
 </ViewContextCollection>
