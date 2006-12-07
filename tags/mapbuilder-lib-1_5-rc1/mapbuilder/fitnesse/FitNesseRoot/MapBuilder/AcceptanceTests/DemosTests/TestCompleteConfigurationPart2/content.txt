@@ -1,0 +1,12 @@
+!1 Complete Testing Part 2
+
+Override Setup
+!|Action Fixture|
+|start|Mb.Setup|
+|enter|host|${MAPBUILDER}|
+|enter|webapp|demo/complete|
+|enter|config file|${CONFIGFILE}|
+|press|goto it|
+
+Test GetFeatureInfo Menu Button
+!see .MapBuilder.AcceptanceTests.MenuButtons.GetFeatureInfo

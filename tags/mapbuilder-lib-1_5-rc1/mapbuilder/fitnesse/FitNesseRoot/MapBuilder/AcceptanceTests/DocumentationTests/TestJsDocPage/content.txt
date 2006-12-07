@@ -1,0 +1,7 @@
+!1 Check JSDoc Page
+|Action Fixture|
+|start|Mb.CheckPage|
+|enter|url|${MAPBUILDER}/docs/jsdoc/index.html|
+|press|check links|
+|check|all links|good|
+|check|results||

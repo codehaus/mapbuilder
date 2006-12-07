@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<ViewContextCollection version="1.0.0" xmlns="http://www.opengis.net/context" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.opengis.net http://schemas.opengis.net/context/1.0.0/collection.xsd">
+	<!-- List of context XML URLs -->
+  	<ViewContextReference version="1.0.0" id="tasmania">
+    		<Title>tasmania</Title>
+    		<ContextURL>
+      				<OnlineResource xlink:type="simple" xlink:href="data/tasmania.xml"/>
+    		</ContextURL>
+  	</ViewContextReference>
+	<ViewContextReference version="1.0.0" id="DM_Canada">
+    		<Title>DM_Canada</Title>
+		<ContextURL>
+			<OnlineResource xlink:type="simple" xlink:href="data/DM_Canada.xml"/>
+		</ContextURL>
+	</ViewContextReference>
+	<ViewContextReference version="1.0.0" id="local">
+    		<Title>local</Title>
+		<ContextURL>
+			<OnlineResource xlink:type="simple" xlink:href="data/local.xml"/>
+		</ContextURL>
+	</ViewContextReference>
+	<ViewContextReference version="1.0.0" id="lsat7Ortho">
+    		<Title>lsat7Ortho</Title>
+		<ContextURL>
+			<OnlineResource xlink:type="simple" xlink:href="data/lsat7Ortho.xml"/>
+		</ContextURL>
+	</ViewContextReference>
+</ViewContextCollection>
