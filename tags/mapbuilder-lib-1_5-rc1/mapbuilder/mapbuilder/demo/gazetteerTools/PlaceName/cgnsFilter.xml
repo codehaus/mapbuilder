@@ -1,6 +1,0 @@
-<Filter>
-  <PropertyIsLike wildCard="*" singleChar="." escape="\">
-    <PropertyName>NAME_KEY</PropertyName>
-    <Literal></Literal>
-  </PropertyIsLike>
-</Filter>
