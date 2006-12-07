@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html 
+  xmlns:vml="urn:schemas-microsoft-com:vml" 
+  xmlns:svg="http://www.w3.org/2000/svg" 
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  >
+  
+  <head>
+    
+    <style> vml\:* { behavior: url(#default#VML); position:absolute }</style >
+  
+    <title>Ship Tracks Demo</title>
+    <!-- link rel='StyleSheet' type='text/css' href='../../lib/skin/default/docsStyle.css' / -->
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css' />
+
+    <script type="text/javascript">
+      // URL of Mapbuilder configuration file.
+		  var mbConfigUrl='gmapConfig.xml';   
+      function modelSwitcher( targetModel, modelUrl ) {
+        config.objects.switcher.switchMap( targetModel, modelUrl );
+      }
+    </script>
+    
+    <script  type="text/javascript">
+      var OLbubbleImageDir="../../lib/util/overlibmws"; 
+    </script>
+
+    <script type="text/javascript" src="../../lib/util/overlibmws/overlibmws.js"></script>
+    <script type="text/javascript" src="../../lib/util/overlibmws/overlibmws_bubble.js"></script>
+    
+    <!-- http://localhost
+    <script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAr3Du0liZnXghIJ3YgK9mChTwM0brOpm-All5BF6PoaKBxRWWERR31YPtsaqI8lB15F5mhtk4h509dg" type="text/javascript"></script>
+    -->
+    <!-- http://localhost:8080
+    <script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAr3Du0liZnXghIJ3YgK9mChTwM0brOpm-All5BF6PoaKBxRWWERR31YPtsaqI8lB15F5mhtk4h509dg&v=2" type="text/javascript"></script> -->
+
+    <!-- http://192.168.0.1 -->
+    <script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAn32WrFuq_-Cbh-Cj6yZnTxTc1BRwEgPWcJqjD52HZV9HOxsKnRTp_3G8CLoC5BIt8gTgVnYfuNUpoA" type="text/javascript"></script>
+ 
+    <!--  Tacsatdev
+    <script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAr3Du0liZnXghIJ3YgK9mChS6rVCvpKPALOLM1Xve-vcFuEYqKRRpMUbjWQTsR-2S4MERSB8-G9qfww" type="text/javascript"></script>
+    -->
+    <script type="text/javascript" src="../../lib/Mapbuilder.js"></script> 
+  </head>
+  
+  <body onload="mbDoLoad()">
+    <div id="rssRendererTip"></div>
+ 
+    <h1>Ship Track Mapbuilder Demo using geoRss Feeds</h1>
+    <br/>
+  
+    <table>
+    
+    <tr><td>
+    <div id="collectionList"/>
+    </td></tr>
+   
+    <tr>
+    <td>
+    
+    <div id="mainMapPane">
+        <noscript>
+            this page requires Javascript to be enabled
+        </noscript>
+    </div>
+    </td>
+    <td>
+    
+    </td>
+    </tr>
+    </table>
+    <div id="loading">
+      <p>Loading Program<br/>
+      <img src="../../lib/skin/default/images/Loading.gif"/>
+      </p>
+    </div>
+    
+     <table width="500">
+       <tr>
+          <td valign="top" style="padding:6px;width:180" align="left">
+            <div id="mainButtonBar"/>
+          </td>
+          <td align="right" id="cursorTrack" />
+       </tr>
+     </table>
+     
+     <div id="legend"/>
+     <div id="eventsListing"></div>     
+   </body>
+</html>
+
+

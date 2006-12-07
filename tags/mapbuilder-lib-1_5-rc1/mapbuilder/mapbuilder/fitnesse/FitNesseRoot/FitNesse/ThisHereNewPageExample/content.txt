@@ -1,0 +1,7 @@
+[[A Two-Minute Example][TwoMinuteExample]]
+
+this is a test page for jp
+
+The name of this page, EditingFitNessePages, is an example.
+
+cool

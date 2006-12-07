@@ -1,0 +1,10 @@
+^TestDemisMapDemo
+^TestCompleteConfiguration
+^TestCompleteConfigurationPart2
+^TestContextEditorDemo
+^TestFeatureEntryDemo
+^TestGeoRssDemo
+^TestSimpleMapDemo
+^TestWmsTimeSeriesDemo
+^TestWpsClient
+^TestShipTracks

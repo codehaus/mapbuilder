@@ -1,0 +1,9 @@
+|'''Date: '''|!-7:10:41 PM (EDT) on Tuesday, April 4, 2006-!|
+|'''Command: '''|!-ruby -I fitnesse.jar;fitlibrary.jar ruby/bin/FitServer.rb localhost 8088 33-!|
+|'''Exit code: '''|!-2-!|
+|'''Time elapsed: '''|!-3.986 seconds-!|
+----'''Standard Output:'''
+{{{could not attach to window
+could not attach to window
+could not attach to window
+}}}

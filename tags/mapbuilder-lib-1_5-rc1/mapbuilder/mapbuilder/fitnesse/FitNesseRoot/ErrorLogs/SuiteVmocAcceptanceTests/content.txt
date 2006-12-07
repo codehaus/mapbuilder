@@ -1,0 +1,38 @@
+|'''Date: '''|!-10:34:15 AM (EST) on Monday, December 12, 2005-!|
+|'''Command: '''|!-ruby -I fitnesse.jar;fitlibrary.jar ruby/bin/FitServer.rb localhost 8088 12-!|
+|'''Exit code: '''|!-134-!|
+|'''Time elapsed: '''|!-99.578 seconds-!|
+----'''Standard Output:'''
+{{{validating feed:http://tacsatdev.pxi.com:8080/VFEEDS/feeder?topnews=true&url=true
+response: http://tacsatdev.pxi.com/tacsat1/data/news/products/feed/2005/12/12/B1C3424C-4F0F-4EDB-BC4B-021ECA68F9DE.xml
+validator:http://tacsatdev.pxi.com:8080/VValidator/validate
+Code:200
+Body:Feed valid
+validating feed:http://tacsatdev.pxi.com:8080/VFEEDS/feeder?worldnews=true&url=true
+response: http://tacsatdev.pxi.com/tacsat1/data/news/products/feed/2005/12/12/A1893597-32EB-49E8-A5B7-3FE009C83555.xml
+validator:http://tacsatdev.pxi.com:8080/VValidator/validate
+Code:200
+Body:Feed valid
+validating feed:http://tacsatdev.pxi.com:8080/VFEEDS/feeder?weather=true&url=true
+response: http://tacsatdev.pxi.com/tacsat1/data/radar/products/feed/2005/12/12/173F41EF-34E0-4E24-8AFD-6656315194AA.xml
+validator:http://tacsatdev.pxi.com:8080/VValidator/validate
+Code:200
+Body:Feed valid
+url query:http://tacsatdev.pxi.com:8080/VSEARCH/maps?query=visible
+Code: 200
+Domify...http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=subscriptions.redirect&entry_ID=
+http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=subscriptions.redirect&entry_ID=D36BC87E-1079-47D1-A801-B533CC2309DA
+http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=subscriptions.redirect&entry_ID=2CADF713-0E61-4330-9C8A-CC7F16F0CB9B
+http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=subscriptions.redirect&entry_ID=0D6C8B8A-BF66-4F17-8EF0-8CB3C84A59DB
+http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=subscriptions.redirect&entry_ID=1031DF2D-218D-421C-89D4-46222FC77F37
+http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=subscriptions.redirect&entry_ID=36E1FF65-BF71-477C-9B55-17F09B37CAC7
+http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=subscriptions.redirect&entry_ID=6D2F7BA0-A02D-45EB-82EC-BC35DA2D084A
+http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=subscriptions.redirect&entry_ID=4F92DB4C-6144-4E03-953E-53F2C31638A4
+http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=subscriptions.redirect&entry_ID=CE4C525A-6E85-4442-A335-3B7E3538823B
+http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=subscriptions.redirect&entry_ID=2E0888D7-C8FF-491B-AC50-6C183D842B74
+http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=subscriptions.redirect&entry_ID=89FDBB53-4493-46E8-B579-629C9D8B2B04
+connected
+User logged in
+connected
+User logged in
+}}}

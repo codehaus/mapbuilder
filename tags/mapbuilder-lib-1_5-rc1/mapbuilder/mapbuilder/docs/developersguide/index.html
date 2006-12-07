@@ -1,0 +1,364 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Community Map Builder Software Developers' Guide</title><meta name="generator" content="DocBook XSL Stylesheets V1.62.4"><meta name="description" content="A generic software developers' guide which draws upon
+      the best open source convensions, processes and tools. Note, this guide is still in alpha state. This guide was built with generguide version
+      $Name$."></head><body bgcolor="white" text="black" link="#0000ff" vlink="#840084" alink="#0000ff"><div class="article" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="index"></a>Community Map Builder Software Developers' Guide</h2></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p>A generic software developers' guide which draws upon
+      the best open source convensions, processes and tools.</p><p>Note, this guide is still in alpha state.</p><p>This guide was built with <a href="http://generguide.sourceforge.net/" target="_top">generguide</a> version
+      $Name$.</p></div></div></div><div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#introduction">1. Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#identification">1.1. Identification</a></span></dt><dt><span class="section"><a href="#systemoverview">1.2. System overview</a></span></dt></dl></dd><dt><span class="section"><a href="#language">2. Language</a></span></dt><dd><dl><dt><span class="section"><a href="#javascript">2.1. Javascript</a></span></dt></dl></dd><dt><span class="section"><a href="#configurationmanagement">3. Configuration Management</a></span></dt><dd><dl><dt><span class="section"><a href="#cvs">3.1. CVS</a></span></dt><dt><span class="section"><a href="#components">3.2. Release Components</a></span></dt><dt><span class="section"><a href="#versionnumbers">3.3. Version numbers</a></span></dt><dt><span class="section"><a href="#taggingreleases">3.4. Tagging releases</a></span></dt><dt><span class="section"><a href="#release">3.5. Release Process</a></span></dt></dl></dd><dt><span class="section"><a href="#teamorg">4. Team Organisation</a></span></dt><dd><dl><dt><span class="section"><a href="#userrole">4.1. Users</a></span></dt><dt><span class="section"><a href="#contributorrole">4.2. Contributors</a></span></dt><dt><span class="section"><a href="#committerrole">4.3. Committers</a></span></dt><dt><span class="section"><a href="#pmcrole">4.4. Project Management Committee (PMC)</a></span></dt></dl></dd><dt><span class="section"><a href="#communication">5. Communication</a></span></dt><dd><dl><dt><span class="section"><a href="#email">5.1. Email lists</a></span></dt></dl></dd><dt><span class="section"><a href="#bugtracking">6. Bug Tracking</a></span></dt><dt><span class="section"><a href="#build">7. Build</a></span></dt><dd><dl><dt><span class="section"><a href="#jscompression">7.1. Javascript Compression</a></span></dt></dl></dd><dt><span class="section"><a href="#design">8. Design</a></span></dt><dd><dl><dt><span class="section"><a href="#designdocumentation">8.1. Design Document</a></span></dt><dt><span class="section"><a href="#inlinedocumentation">8.2. Inline Documentation</a></span></dt><dd><dl><dt><span class="section"><a href="#jsdoc">8.2.1. Jsdoc</a></span></dt></dl></dd><dt><span class="section"><a href="#uml">8.3. Unified Modeling Language (UML)</a></span></dt><dd><dl><dt><span class="section"><a href="#modellingwebapps">8.3.1. Modelling Web Applications</a></span></dt><dt><span class="section"><a href="#poseidon">8.3.2. Poseidon UML</a></span></dt></dl></dd></dl></dd><dt><span class="section"><a href="#codingconventions">9. Coding Conventions</a></span></dt><dd><dl><dt><span class="section"><a href="#directorynames">9.1. Directory Names</a></span></dt><dt><span class="section"><a href="#classnames">9.2. Class Naming Conventions</a></span></dt></dl></dd><dt><span class="section"><a href="#refactoring">10. Refactoring</a></span></dt><dt><span class="section"><a href="#codeprofiling">11. Code Profiling</a></span></dt><dt><span class="section"><a href="#testing">12. Test</a></span></dt><dt><span class="section"><a href="#documentation">13. Documentation</a></span></dt><dd><dl><dt><span class="section"><a href="#quickstart">13.1. Quick Start</a></span></dt><dt><span class="section"><a href="#whydocbook">13.2. Why Docbook?</a></span></dt><dt><span class="section"><a href="#modulardocumentation">13.3. Modular documentation</a></span></dt><dt><span class="section"><a href="#publishingdocbook">13.4. Publishing docbook files</a></span></dt><dd><dl><dt><span class="section"><a href="#publishmasterdocs">13.4.1. Publishing using xsltproc</a></span></dt><dt><span class="section"><a href="#publishingwithant">13.4.2. Publishing using ant/maven</a></span></dt><dt><span class="section"><a href="#publishusingmaven">13.4.3. Publishing using maven</a></span></dt><dt><span class="section"><a href="#documentationpublishwithjava">13.4.4. Publishing using java tools.</a></span></dt><dd><dl><dt><span class="section"><a href="#documentationpublishwithxsl">13.4.4.1. Joining document parts using XSL template defined in
+          selectivexinclude.xsl.</a></span></dt></dl></dd></dl></dd><dt><span class="section"><a href="#docbookeditors">13.5. Docbook Editors</a></span></dt><dt><span class="section"><a href="#docbookreferences">13.6. Docbook References</a></span></dt></dl></dd></dl></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both;"><a name="introduction"></a>1.&nbsp;Introduction</h2></div></div><div></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="identification"></a>1.1.&nbsp;Identification</h3></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Cameron</span> <span class="surname">Shorter</span></h3></div></div></div></div><div></div></div><p>This document provides comprehensive software development processes
+    tailored for open source projects. It covers processes, conventions, and
+    recommended tools. The guide aims to help developers quickly get up to speed
+    with best practises.</p><p>You are not expected to read this guide cover-to-cover. You probably
+    should be familiar with the contents and reference the appropriate section
+    when you need it. Documentation aims to be concise with references elsewhere
+    on the web for details like installation instructions.</p><p>This guide is written in a modular fashion so that different projects
+    can easily add, delete, or modify sections. It is hoped that this guide will
+    become the de-facto standard software developers guide for java based open
+    source projects.</p><p>For this guide to be useful it needs to be continually added to and
+    improved as tools are developed, processes improved and projects grow.
+    Please consider improving or adding a section if you feel it is
+    required.</p><p>Ideally, all recommended tools would be open source, however we have
+    included some no-cost tools where there are gaps in the open source tool
+    set. Where applicable,
+    widely accepted conventions and open standards are used. It has been
+    satisfying to discover the breadth of quality open source tools
+    which support software development. It is hoped that this document will
+    highlight areas where tools can be improved or developed and encourage
+    developers to focus on these areas.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="systemoverview"></a>1.2.&nbsp;System overview</h3></div></div><div></div></div><p>This section should be replaced and explain your project.</p></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both;"><a name="language"></a>2.&nbsp;Language</h2></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Cameron</span> <span class="surname">Shorter</span></h3></div></div></div></div><div></div></div><p>This section describes the language(s) and compilers used by this
+  project.</p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="javascript"></a>2.1.&nbsp;Javascript</h3></div></div><div></div></div><p>This project contains Javascript code which requires XML functions. In
+  order to run these functions you will require generation 6 browsers. Ie,
+  Internet Explorer 6 or Netscape 6 or greater.</p></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both;"><a name="configurationmanagement"></a>3.&nbsp;Configuration Management</h2></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Cameron</span> <span class="surname">Shorter</span></h3></div></div></div></div><div></div></div><p>Software configuration management involves recording 
+      and retreiving all versions of software in a system.</p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="cvs"></a>3.1.&nbsp;CVS</h3></div></div><div></div></div><p>Concurrent Versions System (CVS) is a version control system that
+  allows multiple developers to work on the same files at the same time.</p><p>Information on how to download and edit this project's source code
+    are provided at: <a href="http://sourceforge.net/cvs/?group_id=35246" target="_top">http://sourceforge.net/cvs/?group_id=35246</a>.</p><p>Note, before you can edit files, you will need to be granted write
+  access from the Community Map Builder Project Management Committee.</p><p>An excellent CVS manual can be found at <a href="http://cvsbook.red-bean.com/" target="_top">http://cvsbook.red-bean.com/</a>.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="components"></a>3.2.&nbsp;Release Components</h3></div></div><div></div></div><p>This section describes the terms used when building a release. This
+  section is explained in more detail at <a href="https://sourceforge.net/docman/display_doc.php?docid=6445&amp;group_id=1#componentoverview" target="_top">https://sourceforge.net/docman/display_doc.php?docid=6445&amp;group_id=1#componentoverview</a>.</p><div class="variablelist"><dl><dt><span class="term">Project</span></dt><dd><p>A project represents a web site, and group of people working on
+        the same functionality. For instance, <a href="http://generguide.sourceforge.net/" target="_top">http://generguide.sourceforge.net</a>
+        is the web site for the Generguide project.</p></dd><dt><span class="term">Package</span></dt><dd><p>A package is a bundle of software being developed within a
+        project. A project may develop multiple packages. For instance, the
+        Generguide project may develop the packages: generguide-lib and
+        developersguide.</p></dd><dt><span class="term">Release</span></dt><dd><p>A release is a snapshot in the development of a package. It is
+        represented by the package name and release number. For instance,
+        generguide-0.1, or generguide-0.2.</p></dd><dt><span class="term">File</span></dt><dd><p>Each release will probably contain multiple files. A file is
+        expected to have multiple versions, however only one version of a file
+        can be in a release.</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="versionnumbers"></a>3.3.&nbsp;Version numbers</h3></div></div><div></div></div><p>Release version numbers are based on 3 main digits and an optional
+  release candidate digit :
+  <span class="emphasis"><em>&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;-rc&lt;release
+  candidate&gt;</em></span>. It looks like <span class="emphasis"><em>2.3.4</em></span> or
+  <span class="emphasis"><em>2.3.4-rc5 </em></span>.</p><div class="variablelist"><dl><dt><span class="term">major version</span></dt><dd><p>Major version number should be incremented to indicate that
+        project has lost full compatibility with earlier versions. So you can
+        safely upgrade to later versions of a module so long as the major
+        version has not changed.</p></dd><dt><span class="term">minor version</span></dt><dd><p>The second digit (minor) is incremented whenever new features
+        are added. The project is forward compatible across minor versions,
+        but usually not backward compatible.</p></dd><dt><span class="term">patch version</span></dt><dd><p>The third digit is for patches (bug fixes). It is used to
+        indicate fixes in bugs only. No new features were made and full
+        compatibility is preserved.</p><p>This digit is optional.</p></dd><dt><span class="term">release candidate</span></dt><dd><p>A project may optionally produce release candidate releases for
+        beta testing before the main release.</p></dd></dl></div><p>For projects that use <tt class="filename">maven</tt>, the version number
+  is stored in the <tt class="literal">&lt;currentVersion&gt;</tt> tag in maven's
+  <tt class="filename">project.xml</tt> file.</p><p>To do: We need to discuss the meaning of:</p><div class="itemizedlist"><ul type="disc"><li><p>alpha</p></li><li><p>beta</p></li></ul></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="taggingreleases"></a>3.4.&nbsp;Tagging releases</h3></div></div><div></div></div><p>Every time the version number is incremented, you need to tag the
+  relevant files in the repository. This ensures that previous releases can be
+  recreated for future debugging.</p><p>Tag names are based on the module version and look like
+  <span class="emphasis"><em>&lt;package_name&gt;-&lt;major&gt;_&lt;minor&gt;_&lt;patch&gt;-rc&lt;release
+  candidate&gt;.</em></span> Eg: generguide-lib-2_3_4-rc5 .</p><p>Note that full stops from the version number are replaced with
+  underscores. This is because CVS doesn't allow full stops in tags.</p><p>Typically, you would create a release tag with the following
+  statements in CVS:</p><pre class="programlisting">cd mapbuilder
+cvs tag generguide-lib-2_3_4</pre></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="release"></a>3.5.&nbsp;Release Process</h3></div></div><div></div></div><p>This section describes the steps to follow when building a
+  release.</p><div class="variablelist"><dl><dt><span class="term">Notify developers that you are about to make a release</span></dt><dd><p>At least 24 hours before building a release, email the
+        developers to notify them you are about to build a release. This
+        should allow them to ensure their fixes are in the code base.</p></dd><dt><span class="term">Check all code back into CVS</span></dt><dd><p>If you have not done so already, check all the code you have
+        been editing into CVS.</p><pre class="programlisting">cvs commit -m"Fixed xxx bugs" &lt;filenames&gt;</pre></dd><dt><span class="term">Get latest updates from CVS</span></dt><dd><p>Ensure you have the latest files from CVS.</p><pre class="programlisting">cd generguide/
+cvs update -d .</pre></dd><dt><span class="term">Update README file</span></dt><dd><p>Ensure the README file is still relevant. This file should be in
+        the base directory.</p></dd><dt><span class="term">Update the CHANGES file</span></dt><dd><p>Update and commit CHANGES file with updates between the last
+        release and this one. This file should be in the base
+        directory.</p><p>The CHANGES file should contain a heading for each release, most
+        recent release at the top. Under each heading should be a description
+        of the changes since the last release.</p><p>All notable outstanding issues should be included. (This might
+        be a list of the high priority bugs of the list is too long). You
+        should be able to copy the bug ID and title from the Bug
+        Tracker.</p><p>All notable issues fixed since last release should be included.
+        Again, copy the bug ID and title from the Bug Tracker.</p><pre class="programlisting">&lt;package&gt; Release Information
+=============================
+$Id<span class="emphasis"><em>:</em></span>$
+This file contains information about updates to each release:
+
+&lt;package&gt;_0.2 (beta quality)
+============================
+* Added extra gismos.
+* Fixed bugs related to the crash of last release.
+
+Outstanding Issues:
+-------------------
+962714 Slow load with no user feedback
+
+Issues addressed since last release:
+------------------------------------
+962718 Crash of system using Mozilla
+
+&lt;package&gt;_0.1 (alpha quality)
+=============================
+* Initial release</pre></dd><dt><span class="term">Tag the release</span></dt><dd><p>Tag the files that should be in the release. (Usually, not all
+        files in CVS are included in a release).</p><pre class="programlisting">cd generguide/
+cvs tag &lt;tag&gt; dir1 dir2 dir/file1 ...</pre></dd><dt><span class="term">Create a temporary directory</span></dt><dd><pre class="programlisting">mkdir ~/tmp</pre></dd><dt><span class="term">Export the release</span></dt><dd><p>Exporting code from CVS is the same as checking it out, except
+        that the CVS/ directories are not checked out as well.</p><pre class="programlisting">cd ~/tmp
+export CVS_RSH=ssh
+export CVSROOT=:ext:camerons@cvs.sourceforge.net:/cvsroot/generguide
+cvs export -r &lt;tag&gt; generguide</pre></dd><dt><span class="term">Build/Import Non-CVS files</span></dt><dd><p>Many projects will include files in their release which are not
+        contained in CVS. For instance:</p><div class="itemizedlist"><ul type="disc"><li><p>Libraries imported from another project.</p></li><li><p>Automatically generated documentation (like javadocs).
+            </p></li><li><p>Documentation that needs to be converted from Docbook to
+            HTML.</p></li></ul></div><p>These files need to be built and copied into the release
+        directory.</p></dd><dt><span class="term">Add tag name to generguide directory</span></dt><dd><pre class="programlisting">cd ~/tmp
+mv generguide/ generguide-0.2</pre></dd><dt><span class="term">Zip up release</span></dt><dd><pre class="programlisting">zip -r generguide-0_2.zip generguide-0.2
+tar -zcvf generguide-0_2.tar.gz generguide-0.2</pre></dd><dt><span class="term">Ftp release file Sourceforge</span></dt><dd><p>Refer to the Sourceforge <a href="http://sourceforge.net/docman/display_doc.php?docid=6445&amp;group_id=1#frsinterface" target="_top">File
+        Release System</a> for more information.</p><div class="itemizedlist"><ul type="disc"><li><p>ftp to upload.sourceforge.net</p></li><li><p>login as "anonymous"</p></li><li><p>use email address as password</p></li><li><p>set ftp client to binary mode</p></li><li><p>cd /incoming (on the server)</p></li><li><p>upload release file(s).</p></li></ul></div></dd><dt><span class="term">Copy to generguide release directory</span></dt><dd><p>From the <a href="http://sourceforge.net/projects/generguide" target="_top">http://sourceforge.net/projects/generguide</a>,
+        select <tt class="literal">Admin</tt>, <tt class="literal">File Releases</tt>,
+        <tt class="literal">Add Release</tt>.</p><p>Walk through the various forms.</p><div class="itemizedlist"><ul type="disc"><li><p>For the release name, use the tag name: eg
+            generguide-0.2</p></li><li><p>For release notes and change log, extract this information
+            from the comments added to the CHANGES file above.</p></li></ul></div></dd><dt><span class="term">Download and test</span></dt><dd><p>Download the release from sourceforge, uncompress it, and check
+        it. (This can be covered by the following step).</p></dd><dt><span class="term">Email release message</span></dt><dd><p>Send an email notification to the project's announce email
+        list.</p></dd><dt><span class="term">Update release information on Freshmeat</span></dt><dd><p></p></dd></dl></div></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both;"><a name="teamorg"></a>4.&nbsp;Team Organisation</h2></div><div><div class="authorgroup"><h3 class="corpauthor"><a href="http://jakarta.apache.org/site/roles.html" target="_top">The Jakarta Project</a>
+    </h3><div class="author"><h3 class="author"><span class="firstname">Cameron</span> <span class="surname">Shorter</span></h3></div><div class="author"><h3 class="author"><span class="firstname">James</span> <span class="surname">Macgill</span></h3></div></div></div></div><div></div></div><p>The roles and responsibilities that people can assume in this project
+  are based on merit. Everybody can help no matter what their role. Those who
+  have been long term or valuable contributors to the project obtain the right
+  to vote and commit directly to the source repository.</p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="userrole"></a>4.1.&nbsp;Users</h3></div></div><div></div></div><p>Users are the people who use the products of the Project. People in this
+    role aren't contributing code, but they are using the products,
+    reporting bugs, making feature requests, and such. This is by far the most
+    important category of people as, without users, there is no reason for the
+    Project.</p><p>When a user starts to contribute code or documentation patches, they
+    become a Contributor.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="contributorrole"></a>4.2.&nbsp;Contributors</h3></div></div><div></div></div><p>Contributors are the people who write code or documentation patches or
+    contribute positively to the project in other ways. A volunteer's
+    contribution is always recognized. In source code, all volunteers who
+    contribute to a source file may add their name to the list of authors for
+    that file.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="committerrole"></a>4.3.&nbsp;Committers</h3></div></div><div></div></div><p>Contributors who give frequent and valuable contributions to a
+    subproject of the Project can have their status promoted to that of a
+    "Committer" for that subproject. A Committer has write access to the
+    source code repository and gains voting rights allowing them to affect the
+    future of the subproject.</p><p>In order for a Contributor to become a Committer, another Committer can
+    nominate that Contributor or the Contributor can ask for it.</p><p>Once a Contributor is nominated, all existing committers will vote. If
+    there are at least 3 positive votes and no negative votes, the Contributor
+    is converted into a Committer and given write access to the source code
+    repository. This is an example offer letter that should be sent to the
+    volunteer after 3 positive votes have been received:</p><div class="blockquote"><blockquote class="blockquote"><p>Dear Contributor,</p><p>Our project would like to offer you commit privileges. We have been
+      impressed with your contributions up till now, and believe that your
+      involvement will improve the quality of the code we produce. If you are
+      interested in having commit privileges, please set up an account with
+      <a href="http://sourceforge.net/" target="_top"> http://sourceforge.net</a> and
+      let us know your account name.</p><p>We all hope that you accept this invitation.</p><p>The Community Map Builder Project Management Committee.</p></blockquote></div><p>Committers are asked to coordinate their efforts with the maintainers of
+    the modules they wish to modify/extend.</p><p>At times, Committers may go inactive for a variety of reasons. A
+    Committer that has been inactive for 6 months or more may lose their status
+    as a Committer. Getting access back is as simple as re-requesting it on the
+    project's Developer mailing list.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="pmcrole"></a>4.4.&nbsp;Project Management Committee (PMC)</h3></div></div><div></div></div><p>Committers who frequently participate with valuable contributions may
+    have their status promoted to that of a <span class="emphasis"><em>Project Management
+      Committee Member</em></span>. This committee is the official managing body
+    of the Project and is responsible for setting overall project direction. In
+    order to become a Member, someone on the PMC must nominate the Committer.
+    The individual may then be approved with a 3/4 majority of the PMC.</p></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both;"><a name="communication"></a>5.&nbsp;Communication</h2></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Cameron</span> <span class="surname">Shorter</span></h3></div></div></div></div><div></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="email"></a>5.1.&nbsp;Email lists</h3></div></div><div></div></div><p>Email lists provide an effective form of communication. Details about
+      this project's email lists can be found at: http://sourceforge.net/mail/?group_id=35246.</p></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both;"><a name="bugtracking"></a>6.&nbsp;Bug Tracking</h2></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Cameron</span> <span class="surname">Shorter</span></h3></div></div></div></div><div></div></div><p>During alpha development, issues are embedded into the code using <a href="#">@task</a> tags which can be read from the
+    maven output files.</p><p>Once code has been released, bugs are tracked using this project's bug tracking
+    system: http://sourceforge.net/tracker/?group_id=35246.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both;"><a name="build"></a>7.&nbsp;Build</h2></div></div><div></div></div><p>Building involves processing source files to produce target files.  For example,
+  compiling and linking source code, or converting docbook to html documentation.</p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="jscompression"></a>7.1.&nbsp;Javascript Compression</h3></div></div><div></div></div><p>Javascript files need to be uploaded across potentially slow internet
+    connections.  Consequently, it is desirable to keep file sizes to a minimum.</p><p>Javascript files can be compressed with
+    <a href="http://www.creativyst.com/Prod/3/" target="_top">The Creativyst CSS and JavaScript
+      Compressor</a>.</p><p>To do: Find an open source compression algorithm.  The above algorithm
+    removes white spaces and comments, but does not compress file names, which could
+    reduce file size even more.
+  </p></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both;"><a name="design"></a>8.&nbsp;Design</h2></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Cameron</span> <span class="surname">Shorter</span></h3></div></div></div></div><div></div></div><p>A design describes how to implement a product. A design is useful
+  during development and maintainance as it provides developers with a quick
+  high level understanding of the product being developed.</p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="designdocumentation"></a>8.1.&nbsp;Design Document</h3></div></div><div></div></div><p>A design document should provide a brief overview of the design to help
+    developers gain a quick understanding of the system. The design
+    documentation is enhanced by using more diagrams and less text.</p><p>Text in the design document should be written in docbook format. Refer
+    to the documentation section for more details about using docbook.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="inlinedocumentation"></a>8.2.&nbsp;Inline Documentation</h3></div></div><div></div></div><p>Documentation about procedures and classes should be embedded in the
+  source code and then extracted into Detailed Design documentation using an
+  external parser.</p><div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="jsdoc"></a>8.2.1.&nbsp;Jsdoc</h4></div></div><div></div></div><p><a href="http://jsdoc.sourceforge.net/" target="_top">Jsdoc</a> is a tool
+  that parses inline documentation in JavaScript source files, and produces a
+  HTML summary. Refer to the Code Convensions section to see how comments
+  should be written.</p></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="uml"></a>8.3.&nbsp;Unified Modeling Language (UML)</h3></div></div><div></div></div><p><a href="http://www.uml.org/" target="_top">UML</a> is a standard notation
+    used to specify, visualise, construct and document the components of an
+    object-oriented software-intensive system. UML diagrams are used as part
+    of design documentation.</p><div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="modellingwebapps"></a>8.3.1.&nbsp;Modelling Web Applications</h4></div></div><div></div></div><p>Web applications are modelled in accordance with <a href="http://www.rational.com/products/whitepapers/100462.jsp?SMSESSION=NO" target="_top">Modeling
+  Web Application Design with UML, by Jim Conallen</a>. This white paper
+  describes class stereo types to model web components. Class stereotypes
+  provided are:</p><div class="itemizedlist"><ul type="disc"><li><p>Server Page</p></li><li><p>Client Page</p></li><li><p>Form</p></li><li><p>Frameset</p></li><li><p>Target</p></li><li><p>Scriplet</p></li><li><p>XML</p></li></ul></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="poseidon"></a>8.3.2.&nbsp;Poseidon UML</h4></div></div><div></div></div><p><a href="http://www.gentleware.com/products/index.php3" target="_top">Poseidon</a>
+  is a UML editor which extends the open source <a href="http://argouml.tigris.org/" target="_top">Argo UML</a>. It provides a no-cost
+  version which is more polished than Argo UML.</p><p>Note that some of ArgoUML's features are disabled in Poseidon. In
+  particular, Poseidon 2.1 disables reverse engineering of java code.</p><p>You can reverse engineer code using <a href="http://argouml.tigris.org/" target="_top">Argo UML</a>, then import the project
+  into Poseidon.</p><p>Poseidon can be installed into <span class="emphasis"><em>Netbeans</em></span> as a
+  module. Refer to Poseidon download instructions for more details.</p></div></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both;"><a name="codingconventions"></a>9.&nbsp;Coding Conventions</h2></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Cameron</span> <span class="surname">Shorter</span></h3></div></div></div></div><div></div></div><p>Coding conventions describe the coding styles developers should use when
+    writing code. For example, whether you use 2, 4, or 8 space indents.
+    Standardizing on a coding style across a project improves legibility of the
+    code, and automatic code formatters make conforming to these standards
+    easy.</p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="directorynames"></a>9.1.&nbsp;Directory Names</h3></div></div><div></div></div><p>Directory names shall be all lower case with no spaces. Some versions of
+    windows do not distinguish between upper and lower case, and in unix,
+    writing spaces in filenames is painful.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="classnames"></a>9.2.&nbsp;Class Naming Conventions</h3></div></div><div></div></div><p>to do: need to fill out this section.</p></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both;"><a name="refactoring"></a>10.&nbsp;Refactoring</h2></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Cameron</span> <span class="surname">Shorter</span></h3></div></div></div></div><div></div></div><p>Refactoring is the process of restructuring/renaming your code to ensure
+    your design remains clean as your requirements and functionality change and
+    grow with time.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both;"><a name="codeprofiling"></a>11.&nbsp;Code Profiling</h2></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Andrea</span> <span class="surname">Aime</span></h3></div></div></div></div><div></div></div><p>Code profilers are tools which analyse performance and memory of
+    applications.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both;"><a name="testing"></a>12.&nbsp;Test</h2></div></div><div></div></div><p>As you code, you should write a unit test for each class to test the
+    functionality and robustness of the class.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both;"><a name="documentation"></a>13.&nbsp;Documentation</h2></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Cameron</span> <span class="surname">Shorter</span></h3></div><div class="author"><h3 class="author"><span class="firstname">Artur</span> <span class="surname">Hefczyc</span></h3></div></div></div></div><div></div></div><p>This section describes how to create modular simple docbook files.</p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="quickstart"></a>13.1.&nbsp;Quick Start</h3></div></div><div></div></div><p>This <tt class="literal">quick start</tt> section will get you editing
+    simple docbook sections quickly and easilly. For more detailed
+    information, refer to the rest of the documentation section.</p><div class="orderedlist"><p class="title"><b>Simple steps for docbook editing</b></p><ol type="1"><li><p>Download and install a Java Virtual Machine if you have not
+        already done so.</p></li><li><p>Download and install <a href="http://www.xmlmind.com/xmleditor/" target="_top">XXE</a>, a What You See is
+        What You Mean (WYSIWYM) docbook editor.</p></li><li><p>If you creating a new section, then copy an existing section and
+        modify it. If you are updating an existing section - well, that is
+        even easier.</p><div class="example"><a name="id2806672"></a><p class="title"><b>Example&nbsp;1.&nbsp;Edit a docbook section file</b></p><pre class="programlisting">cp doclicense.xml yoursection.xml
+xxe yoursection.xml</pre></div></li><li><div class="figure"><a name="id2806683"></a><p class="title"><b>Figure&nbsp;1.&nbsp;Editing with XXE</b></p><div class="mediaobject"><img src="index_files/xxescreenshot.html" alt="Editing with XXE"></div></div><p>XXE is similar to any GUI editor. You type in the main panel and
+        most of the list/table/paragraph/section/figure formatting options are
+        selectable from the toolbar. Remember that simple docbook is
+        structured XML. You will often need to select an XML node so you can
+        specify whether the next paragraph should be part of this section or a
+        new section. Select XML nodes with arrow icons:
+        <span class="inlinemediaobject"><img src="index_files/xxeselecticons.html"></span></p></li><li><p>Commit your changes back into the source repository.</p></li><li><p>To publish your document after editing, either tell the main
+        document author and get them to do it, or read the rest of the
+        documentation section.</p></li></ol></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="whydocbook"></a>13.2.&nbsp;Why Docbook?</h3></div></div><div></div></div><p>Documentation for this project is written using <a href="http://www.oasis-open.org/committees/docbook/xml/simple/" target="_top">Simplified
+    Docbook</a> format. Simplified Docbook is a subset of Docbook XML, a
+    versatile format used by the <a href="http://www.linuxdoc.org/" target="_top">Linux
+    Documentation Project</a> (among others).</p><p>Docbook can be easily converted into numerous output formats, like
+    HTML, PDF, etc.</p><p>Using Docbook ensures documentation content is kept separate from
+    presentation so content can written once and published in numerous formats
+    and styles.</p><p>There are a few GUI editors for docbook now, with more editors
+    promising to support docbook in the future.</p><p>According to <a href="http://www.tldp.org/HOWTO/Software-Release-Practice-HOWTO/documentation.html" target="_top">
+    The Software Release's Howto</a>, docbook is the open source
+    format of the future, and most of the high profile open source projects
+    have moved or are moving to docbook as their coding standards. So we are
+    saving ourselves pain in the future by embracing Docbook now.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="modulardocumentation"></a>13.3.&nbsp;Modular documentation</h3></div></div><div></div></div><p>Modular DocBook means content is broken up into smaller file modules
+    that are recombined for publication. The advantages of modular
+    documentation include:</p><div class="itemizedlist"><ul type="disc"><li><p>Reusable content units.</p></li><li><p>Smaller file units to load into an editing program.</p></li><li><p>Distributed authoring.</p></li><li><p>Finer grain version control.</p></li></ul></div><p>This project uses modular documents for it's documentation.</p><div class="example"><a name="id2806819"></a><p class="title"><b>Example&nbsp;2.&nbsp;Including sections into a master document</b></p><div class="variablelist"><dl><dt><span class="term"><tt class="filename">design.xml</tt></span></dt><dd><pre class="programlisting">&lt;?xml version='1.0' encoding='UTF-8'?&gt;
+&lt;!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd"&gt;
+&lt;article
+id="index"&gt;
+  &lt;articleinfo&gt;
+    &lt;title&gt;Software Design Description&lt;/title&gt;
+  &lt;/articleinfo&gt;
+
+  &lt;section id="scope"&gt;
+    &lt;title&gt;Scope&lt;/title&gt;
+
+    &lt;xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+    href="doclicense.xml"/&gt;
+  &lt;/section&gt;
+&lt;/article&gt;</pre></dd><dt><span class="term"><tt class="filename">doclicense.xml</tt></span></dt><dd><pre class="programlisting">&lt;?xml version='1.0' encoding='UTF-8'?&gt;
+&lt;!DOCTYPE section PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd"&gt;
+&lt;section id="licence"&gt;
+  &lt;title&gt;License.&lt;/title&gt;
+
+  &lt;para&gt;Copyright (c) 2002 Cameron Shorter. Permission is granted to copy,
+  distribute and/or modify this document under the terms of the &lt;ulink
+  url="http://www.fsf.org/copyleft/fdl.html"&gt;GNU Free Documentation License&lt;/ulink&gt;,
+  Version 1.1 or any later version published by the Free Software Foundation;
+  with the Invariant Sections being with no Invariant Sections, with the
+  Front-Cover Texts being no Front-Cover Texts, and with the Back-Cover Texts
+  being no Back-Cover Texts.&lt;/para&gt;
+&lt;/section&gt;</pre></dd></dl></div></div><p>If you want to document a new module, you need to write a new
+    <tt class="filename">module.xml</tt> section file, and then add an
+    <tt class="literal">&lt;xi:include&gt;</tt> tag into <tt class="filename">design.xml</tt>.</p><p>Notice in the above example that <span class="emphasis"><em>&lt;section&gt;</em></span>
+    tags contain an <span class="emphasis"><em>id</em></span> attribute. This means the URL of
+    published sections will be human readable, something like
+    <tt class="filename">http://net.sourceforge.generguide/docs/design.html#licence</tt> instead
+    of <tt class="filename">http://net.sourceforge.generguide/docs/design.html#id2754172</tt>.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="publishingdocbook"></a>13.4.&nbsp;Publishing docbook files</h3></div></div><div></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="publishmasterdocs"></a>13.4.1.&nbsp;Publishing using xsltproc</h4></div></div><div></div></div><p>Publishing modular documents is possible with xsltproc. At the time
+        of writing, other XSLT engines don't process modular documents yet
+        because the &lt;xi:include&gt; tags cause the XML to be invalid. (To
+        do, check to see if Saxon and Xalan support &lt;xi:include&gt;
+        yet.)</p><p>Instructions on installing and using xsltproc can be found at:
+        <a href="http://www.sagehill.net/xml/docbookxsl" target="_top">http://www.sagehill.net/xml/docbookxsl</a>.</p><div class="example"><a name="id2806946"></a><p class="title"><b>Example&nbsp;3.&nbsp;Using xsltproc to publish modular docbook files</b></p><pre class="programlisting">xsltproc --xinclude --novalid -o index.html
+          docbook-xsl/html/docbook.xsl  main.xml</pre></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="publishingwithant"></a>13.4.2.&nbsp;Publishing using ant/maven</h4></div></div><div></div></div><p><tt class="filename">ant</tt> can publish standard simple docbook files
+        but cannot publish modular docbook files because they are not valid XML.
+        Hopefully this will change in future.</p><p>In version 1.5, ant has a bug which prevents it from publishing more
+        than one docbook document at a time. The workaround is to run
+        <tt class="filename">ant</tt> a number of times. Earlier versions of
+        <tt class="filename">ant</tt> have more bugs and less functionality.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="publishusingmaven"></a>13.4.3.&nbsp;Publishing using maven</h4></div></div><div></div></div><p>Maven allows uses to process docbook to (arnika/velocity?) and then
+        to html. Since maven is based on ant, it also cannot process modular
+        docbook files yet and at the time of writing, this functionality was
+        still very bug ridden. Hopefully it will improve soon.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="documentationpublishwithjava"></a>13.4.4.&nbsp;Publishing using java tools.</h4></div></div><div></div></div><p></p><div class="section" lang="en"><div class="titlepage"><div><div><h5 class="title"><a name="documentationpublishwithxsl"></a>13.4.4.1.&nbsp;Joining document parts using XSL template defined in
+          <tt class="filename">selectivexinclude.xsl</tt>.</h5></div></div><div></div></div><p>To process XML files containing xinclude elements you need only 2
+          things:</p><div class="orderedlist"><ol type="1"><li><p>XSL template containing transformation including external
+              documents parts. Good implementation is in
+              <tt class="filename">selectivexinclude.xsl</tt> file available at address on
+              <a href="http://dev.w3.org/cvsweb/%7Echeckout%7E/2002/issues/xsl/selectivexinclude.xsl?rev=1.1&amp;content-type=text/plain" target="_top">dev.w3.org</a> 
+              site.</p></li><li><p>Any XSL processor. Described above
+              <tt class="filename">xsltproc</tt> available from <a href="http://xmlsoft.org/XSLT/index.html.orig" target="_top">xmlsoft</a> or
+              <tt class="systemitem">saxon</tt> available from
+              <a href="http://saxon.sourceforge.net/" target="_top">saxon site</a> or
+              <tt class="systemitem">xalan</tt> which is one of
+              projects on <a href="http://xml.apache.org/xalan-j/index.html" target="_top">xml.apache.org</a>. 
+              All these tools are good for simple cases. However each of them
+              offers different extensions so you choice depends of your unusual
+              needs. However the use of <tt class="filename">xsltproc</tt> to join
+              parts of modular documentation with
+              <tt class="filename">selectivexinclude.xsl</tt> seems to not make great sense
+              because of built-in support for XInclude into xsltproc.</p><p>Java users often ask a question: <tt class="systemitem">saxon</tt> or <tt class="systemitem">xalan</tt>? As I said above, if you need
+              only standard XSLT processing they both are the same, they both
+              (current stable versions: xalan-2.5.1, saxon-6.5.3) implement full
+              XSLT 1.0 version and XPath 1.0 version. Current saxon development
+              version: 7.6.5 implements XSLT-2.0 and XPath-2.0 and it is worth
+              to note that the author of <tt class="systemitem">saxon</tt> library - Michael Kay is
+              editor of the XSLT-2.0 spec. On the other side <tt class="systemitem">xalan</tt> is accepted library by SUN
+              and is included with their JDK-1.4 and above what, on the third
+              side, causes some problems when you want to use more recent
+              <tt class="systemitem">xalan</tt> version than the
+              one included in JDK.</p></li></ol></div><p>Below are presented sample commands for each of 2 java tools for
+          generating target, one XML document from modular documentation. These
+          samples are tested with the most recent versions: <tt class="systemitem">saxon-7.6.5</tt> and <tt class="systemitem">xalan-2.5.1</tt> and some parameters may not
+          work with earlier versions.</p><div class="itemizedlist"><ul type="disc"><li><p><tt class="filename">masterxmlfile.xml</tt> is source file
+              containing XInclude elements.</p></li><li><p><tt class="filename">targetalldoc.xml</tt> is target file
+              containing included content of external files in place of XInclude
+              elements.</p></li><li><p><tt class="filename">selectivexinclude.xsl</tt> is XSL template containing
+              transformation definition for including content from external
+              files.</p></li><li><p><tt class="systemitem">LIB</tt> is an
+            environment variable pointing to directory on your disk where you
+              keep <tt class="filename">JAR</tt> files.</p></li></ul></div><p>Below are 2 kinds of commands. The simpler showing XSL inclusion
+          only and a little bit more complex presenting also how to use
+          <tt class="systemitem">CATALOGS</tt> with these tools.
+          There are some additional elements in these commands: <tt class="filename">resolver.jar</tt> - library resolving URL
+          to DTDs stored on your local file system and <tt class="filename">$PROJECTS_HOME/sgml</tt> - a directory where
+          is placed <tt class="filename">CatalogManager.properties</tt> - file
+          providing the same function as <tt class="systemitem">SGML_CATALOG_FILES</tt> environment
+          variable. More information about using <tt class="systemitem">CATALOGS</tt> you can find in section
+          <i class="citetitle">Tools and methods for XML processing.</i></p><div class="example"><a name="id2807286"></a><p class="title"><b>Example&nbsp;4.&nbsp;Sample <tt class="systemitem">bash</tt> command
+            for <tt class="systemitem">saxon</tt>.</b></p><pre class="programlisting">export SAXON_CLASSPATH=$LIBS/saxon.jar
+java -cp $SAXON_CLASSPATH net.sf.saxon.Transform \
+    -w0 -u \
+    -o targetalldoc.xml \
+    masterxmlfile.xml selectivexinclude.xsl</pre></div><div class="example"><a name="id2807314"></a><p class="title"><b>Example&nbsp;5.&nbsp;Sample <tt class="systemitem">bash</tt> command
+            for <tt class="systemitem">saxon</tt> using <tt class="systemitem">CATALOGS</tt>.</b></p><pre class="programlisting">export SAXON_CLASSPATH=$SAXON_CLASSPATH:$LIBS/resolver.jar:$PROJECTS_HOME/sgml
+java -cp $SAXON_CLASSPATH net.sf.saxon.Transform \
+    -x org.apache.xml.resolver.tools.ResolvingXMLReader \
+    -y org.apache.xml.resolver.tools.ResolvingXMLReader \
+    -r org.apache.xml.resolver.tools.CatalogResolver \
+    -w0 -u \
+    -o targetalldoc.xml \
+     masterxmlfile.xml selectivexinclude.xsl</pre></div><p>Please remark below examples. If you work with <tt class="systemitem">JDK-1.4</tt> or later you can not use
+          <tt class="systemitem">CLASSPATH</tt> to point to your
+          <tt class="systemitem">xalan</tt> jar file. There is some
+          <tt class="systemitem">xalan</tt> version included with
+          <tt class="systemitem">JDK-1.4</tt>, unfortunately
+          outdated, and it is loaded first before classes given in <tt class="systemitem">CLASSPATH</tt>. To enforce the use of your
+          classes you must put them in <tt class="systemitem">BOOTCLASSPATH</tt> as presented
+          below.</p><div class="example"><a name="id2807408"></a><p class="title"><b>Example&nbsp;6.&nbsp;Sample <tt class="systemitem">bash</tt> command
+            for <tt class="systemitem">xalan</tt>.</b></p><pre class="programlisting">export XALAN_CLASSPATH=$LIBS/xalan.jar:$LIBS/xercesImpl.jar:$LIBS/xsml-apis.jar
+java -Xbootclasspath/p:$XALAN_CLASSPATH org.apache.xalan.xslt.Process \
+    -in masterxmlfile.xml -xsl selectivexinclude.xsl \
+    -out targetalldoc.xml</pre></div><div class="example"><a name="id2807436"></a><p class="title"><b>Example&nbsp;7.&nbsp;Sample <tt class="systemitem">bash</tt> command
+            for <tt class="systemitem">xalan</tt> using <tt class="systemitem">CATALOGS</tt>.</b></p><pre class="programlisting">export XALAN_CLASSPATH=$XALAN_CLASSPATH:$LIBS/resolver.jar:$PROJECTS_HOME/sgml
+java -Xbootclasspath/p:$XALAN_CLASSPATH org.apache.xalan.xslt.Process \
+    -ENTITYRESOLVER org.apache.xml.resolver.tools.CatalogResolver \
+    -URIRESOLVER org.apache.xml.resolver.tools.CatalogResolver \
+    -in masterxmlfile.xml -xsl selectivexinclude.xsl \
+    -out targetalldoc.xml</pre></div></div></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="docbookeditors"></a>13.5.&nbsp;Docbook Editors</h3></div></div><div></div></div><p>You can edit docbook with the following free tools:</p><div class="itemizedlist"><ul type="disc"><li><p><a href="http://www.xmlmind.com/xmleditor/" target="_top">XXE</a> is a
+        java based, <span class="emphasis"><em>What You See Is What You Mean (WYSIWYM)</em></span>
+        editor. It provides a slightly clunky but workable GUI interface for
+        editing Docbook documents. It is well worth trying.</p></li><li><p><a href="http://www.netbeans.org/" target="_top">Netbeans</a>: Simple
+        Docbook is XML, so XML editors work well. Netbeans has a nice XML
+        plugin which I use.</p></li><li><p><a href="http://www.vim.org/" target="_top">vim</a> and <a href="http://www.gnu.org/software/emacs/emacs.html" target="_top">emacs</a>, or
+        any text editor can be used.</p></li><li><p>There are a number of WYSIWYM editors developing Docbook
+        export/import functionality at the time of writing. Of note, <a href="http://www.openoffice.org/" target="_top">Open Office</a> and <a href="http://localhost/cgi-bin/www.lyx.org" target="_top">Lyx</a> look promising.</p></li><li><p>Viewing Docbook: Tomas has written a useful web page for viewing
+        Docbook pages at <a href="http://localhost/cgi-bin/processconfig.pl???" target="_top">http://www.cartesia.org/modules.php?op=modload&amp;name=NS-Docbook&amp;file=index</a>.</p></li></ul></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="docbookreferences"></a>13.6.&nbsp;Docbook References</h3></div></div><div></div></div><p>There are a few references worth knowing:</p><div class="itemizedlist"><ul type="disc"><li><p><a href="http://www.tldp.org/LDP/LDP-Author-Guide/" target="_top">The Linux
+        Documentation Project Author Guide</a> provides an introduction to
+        Docbook and some of the key tags.  Note that this project uses
+        Simplified Docbook which is XML based. There are numerous versions of
+        Docbook which makes things confusing.</p></li><li><p><a href="http://www.docbook.org/tdg/simple/en/html/sdocbook.html" target="_top">Simplified
+        Docbook, the Definitive Guide</a> provides comprehensive
+        documentation about all the Simplified Docbook tags.</p></li><li><p><a href="http://www.sagehill.net/xml/docbookxsl/index.html" target="_top">Using
+        the Docbook XSL Stylesheets</a>, in particular, the section on
+        <a href="http://www.sagehill.net/xml/docbookxsl/ModularDoc.html" target="_top">writing
+        modular docbook files</a>.</p></li><li><p><a href="http://xincluder.sourceforge.net/" target="_top">Xincluder</a>
+        is a java open source project for processing <span class="emphasis"><em>xinlcude</em></span>
+        tags, which might be able to be used to by maven to publish modular
+        docbook documents.</p></li></ul></div></div></div></div></body></html>

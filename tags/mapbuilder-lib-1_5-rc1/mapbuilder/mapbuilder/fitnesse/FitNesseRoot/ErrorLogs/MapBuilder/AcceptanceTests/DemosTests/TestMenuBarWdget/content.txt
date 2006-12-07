@@ -1,0 +1,22 @@
+|'''Date: '''|!-8:05:38 AM (EST) on Wednesday, December 21, 2005-!|
+|'''Command: '''|!-ruby -I fitnesse.jar;fitlibrary.jar ruby/bin/FitServer.rb localhost 8088 176-!|
+|'''Exit code: '''|!-0-!|
+|'''Time elapsed: '''|!-5.406 seconds-!|
+----'''Standard Output:'''
+{{{bbox:-180,-90,180,90
+-180 
+-90 
+180 
+90 
+bbox:-121.2,39.9,-31.2,84.9
+bbox:-121.2,39.9,-31.2,84.9
+-121.2 
+39.9 
+-31.2 
+84.9 
+bbox:-256.2,-27.6,103.8,152.4
+pix:200
+pix:300
+pix:250
+pix:350
+}}}
