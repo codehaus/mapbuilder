@@ -5,6 +5,99 @@ $Id$
 
 This file contains information about updates to each release:
 
+mapbuilder-lib-1.5-rc1
+==========================
+This build marks the first attempt at integration with the OpenLayers
+project. It also contains Patrice's more complete SVG renderer.
+It also includes a numbder of major bug fixes.
+
+Bugs fixed:
+-----------
+MAP-135 	loadXML across domains error in MSXML5 : "Access denied" 
+MAP-148 	Error in lib/util/Util.js::setISODate() 
+MAP-128 	WfsGetFeature() appends "?" to URL without checking if URL already has a "?" 
+MAP-126 	List license associated with each library used by Mapbuilder 
+MAP-19 		IE problem: "Error: 'this.doc' is null or not an object Submitted: Cappelaere SF-1390868 
+MAP-9 		Layer Control does not update when a new layer is loaded Submitted: Cappelaere SF-1393270 
+MAP-144 	proxy.php dosen't work in combination with postLoad and postGetLoad functions 
+MAP-137 	Zoom in/out in TimeSeries demo 
+MAP-136 	component register broken 
+MAP-124 	Mapbuilder looks for mapbuilderConfig.xml which doesn't exist 
+MAP-116 	Version widget doesn't work since switching to SVN from CVS 
+MAP-100 	A reload/refresh main map pane widget 
+MAP-86 		Map Widgets: Scale Bar 
+MAP-67 		Editline generates extra leading whitespace 
+MAP-50		Add SVG rendering of GML data Submitted: Nedjo Rogers
+
+Outstanding Issues (highest priority first):
+--------------------------------------------
+MAP-139		Provide the Mapbuilder JS from a single URL, accessable by all applications 
+MAP-138		Compress all files - automate compression process 
+MAP-71		Duplicate GetFeatureInfo responses forced if mouse click occurs before previous query finished. 
+MAP-147		Area Widget 
+MAP-143		Improve mapbuilder's search ranking in Google 
+MAP-142		Provide a Javascript API to Mapbuilder 
+MAP-141		Use OpenLayers for rendering 
+MAP-134		eval statements prevent shrinksafe from working 
+MAP-133		mapbuilder ask each layer twice to the server 
+MAP-121		Create documentation showing mapbuilder in context with other projects 
+MAP-110		IE problem with GmlCooordinates2Coords.xsl 
+MAP-105		Pixel Coord <--> LatLong translation only works for EPSG:4326 projections 
+MAP-93		User authenticates with the system in order to make modifications to the map features (Add/remove/delete) 
+MAP-91		Interface with Google Maps 
+MAP-70		add WSDL/SOAP support 
+MAP-6		Problem with two WMS layers with the same name submitted: kc7bfi SF-1400521 
+MAP-153		Mapbuilder should detect browsers which don't support XSLT 
+MAP-146		Provide OSGeo branding to the website 
+MAP-145		Formalise Incubation process doc 
+MAP-140		Common Header/Footer in demos 
+MAP-132		Add support for https to proxy (java, php, javascript) 
+MAP-127		GetFeatureInfo tool will not work 
+MAP-125		add layer doesn't honor: queryable and style/legend 
+MAP-122		Set up http://demo.communitymapbuilder.org 
+MAP-119		loading2 doesn't work with tabbedcontent 
+MAP-112		Projection transformation utility functions do not support EPSG:27700 (OSGB1936 / British National Grid) 
+MAP-111		GetFeatureInfo makes incorrect WMS request when another layer name is a substring of the query layer name 
+MAP-95		Acceptance Tests 
+MAP-94		New GUI Widgets 
+MAP-92		Interface with OpenStreetMap project 
+MAP-89		Moving Objects 
+MAP-87		Map Feature Rendering: Satelite imagery 
+MAP-84		Gazetteer/GeoCoder 
+MAP-83		Map Feature Rendering: XML/GML 
+MAP-82		Map Annotation 
+MAP-81		Map Symbology 
+MAP-80		Map Data Repository 
+MAP-79		Build a Mapuilder Application from a web interface 
+MAP-59		GetFeatureInfo URL generated for a second WMS in same context as first is repeated in the variable string. 
+MAP-56		Give visual marker to current active layer in legend Submitted By: Nedjo Rogers SF - 1157443 
+MAP-52		Add support for WKT data source. Submitted: Nedjo Rogers SF-1203287 
+MAP-49		set properties by URL parameters Submitted: Mike Adair SF - 1257212 
+MAP-47		process multiple context documents in one page Submitted John Pulles SF- 1401526 
+MAP-43		duplicate layers mess up when deleting them Submitted: graphrisc SF-1361616 
+MAP-42		error initializing mapbuilder when used in drupal module Submitted: openwereld SF-1352137 
+MAP-40		GeoRSS divs not cleared on loadModel Submitted: nobody SF-1291065 
+MAP-39		Feature isn't deselected after it was deleted Submitted: camerons SF-1364103 
+MAP-38		Null gml:coordinate Point is rendered in top left of MapPane Submitted: Camerons SF-1351128 
+MAP-36		Drag Pan Tool: Mouseup outside the map should be procesed Submitted: maiqui SF-1259486 
+MAP-35		use scalehints in context docs Submitted: madair1 SF-1174298 
+MAP-25		Move util.js into JS objects Submitted: camerons SF-1071242 
+MAP-24		Gazetteer widget auto zoom Submitted: nobody SF-1380974 
+MAP-22		wfs-t java.lang.ExceptionInInitializerError Submitted: mneteler SF-1383838 
+MAP-21		<widget> is not defined" javascript errors Submitted: openwereld SF-1386001 
+MAP-17		Line 96 Error firstChild is null or not an object Submitted: Cappelaere SF-1392108 
+MAP-16		Line 278 Object required Submitted: Cappelaere SF-1392112 
+MAP-14		Update GeoRSS demo to new feed format Submitted: Cappelaere SF-1394556 
+MAP-7		Graphical Highlight of WFS Polygon is mangled Submitted: sjf_8 SF-1404143 
+MAP-131		setXpathValue works for tags but not for tags attributes 
+MAP-69		Using a custom stylesheet to group layers 
+MAP-55		Create hover-over popups when mouse hovers over a feature Submitted By: Cameron Shorter SF - 1173569 
+MAP-51		set the locator map with an image Submitted Virginie Berre SF - 1220313 
+MAP-34		GmlRenderer complexity OUT OF CONTROL with zoomin Submitted: maiqui SF-1306834 
+MAP-27		Change Open GIS to Open Geospacial Submitted: camerons SF-1168180 
+MAP-26		Layers from geoserver periodically not returned Submitted: camerons SF-1357587 
+
+
 mapbuilder-lib-1.0-release
 ==========================
 This marks the first official release of the Community Mapbuilder
