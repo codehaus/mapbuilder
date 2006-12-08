@@ -37,7 +37,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Administrative_Boundary_L.xml"/>
       </Server>
       <Name>Administrative_Boundary_L</Name>
-      <Title>Administrative_Boundary_L</Title>
+      <Title>Administrative_Boundary_L (12)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
 
@@ -49,7 +49,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Aerodrome_A.xml"/>
       </Server>
       <Name>Aerodrome_A</Name>
-      <Title>Aerodrome_A</Title>
+      <Title>Aerodrome_A (18)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -57,7 +57,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Aero_Navaid_P.xml"/>
       </Server>
       <Name>Aero_Navaid_P</Name>
-      <Title>Aero_Navaid_P</Title>
+      <Title>Aero_Navaid_P (1)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -65,7 +65,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Aircraft_Hangar_A.xml"/>
       </Server>
       <Name>Aircraft_Hangar_A</Name>
-      <Title>Aircraft_Hangar_A</Title>
+      <Title>Aircraft_Hangar_A (8)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -73,7 +73,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Aircraft_Revetment_L.xml"/>
       </Server>
       <Name>Aircraft_Revetment_L</Name>
-      <Title>Aircraft_Revetment_L</Title>
+      <Title>Aircraft_Revetment_L (1)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -81,7 +81,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Air_Fac_Reference_Point_P.xml"/>
       </Server>
       <Name>Air_Fac_Reference_Point_P</Name>
-      <Title>Air_Fac_Reference_Point_P</Title>
+      <Title>Air_Fac_Reference_Point_P (14)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="0">
@@ -89,7 +89,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Airport_Navigation_Lights_P.xml"/>
       </Server>
       <Name>Airport_Navigation_Lights_P</Name>
-      <Title>Airport_Navigation_Lights_P</Title>
+      <Title>Airport_Navigation_Lights_P (12)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -97,7 +97,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Anchorage_P.xml"/>
       </Server>
       <Name>Anchorage_P</Name>
-      <Title>Anchorage_P</Title>
+      <Title>Anchorage_P (1)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -105,7 +105,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Annotated_Location_A.xml"/>
       </Server>
       <Name>Annotated_Location_A</Name>
-      <Title>Annotated_Location_A</Title>
+      <Title>Annotated_Location_A (6)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -113,7 +113,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Annotated_Location_P.xml"/>
       </Server>
       <Name>Annotated_Location_P</Name>
-      <Title>Annotated_Location_P</Title>
+      <Title>Annotated_Location_P (3)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -121,7 +121,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Apron_A.xml"/>
       </Server>
       <Name>Apron_A</Name>
-      <Title>Apron_A</Title>
+      <Title>Apron_A (4)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -129,7 +129,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Bottom_Character_Region_P.xml"/>
       </Server>
       <Name>Bottom_Character_Region_P</Name>
-      <Title>Bottom_Character_Region_P</Title>
+      <Title>Bottom_Character_Region_P (9)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -137,7 +137,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Bridge_A.xml"/>
       </Server>
       <Name>Bridge_A</Name>
-      <Title>Bridge_A</Title>
+      <Title>Bridge_A (1)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -145,7 +145,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Bridge_L.xml"/>
       </Server>
       <Name>Bridge_L</Name>
-      <Title>Bridge_L</Title>
+      <Title>Bridge_L (152)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -153,7 +153,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Building_A.xml"/>
       </Server>
       <Name>Building_A</Name>
-      <Title>Building_A</Title>
+      <Title>Building_A (3507)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -161,7 +161,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Building_P.xml"/>
       </Server>
       <Name>Building_P</Name>
-      <Title>Building_P</Title>
+      <Title>Building_P (1455)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="0">
@@ -169,7 +169,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Built_Up_Area_A.xml"/>
       </Server>
       <Name>Built_Up_Area_A</Name>
-      <Title>Built_Up_Area_A</Title>
+      <Title>Built_Up_Area_A (72)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="0">
@@ -177,7 +177,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Buoy_P.xml"/>
       </Server>
       <Name>Buoy_P</Name>
-      <Title>Buoy_P</Title>
+      <Title>Buoy_P (20)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -185,7 +185,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Cable_L.xml"/>
       </Server>
       <Name>Cable_L</Name>
-      <Title>Cable_L</Title>
+      <Title>Cable_L (2)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -193,7 +193,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Cart_Track_L.xml"/>
       </Server>
       <Name>Cart_Track_L</Name>
-      <Title>Cart_Track_L</Title>
+      <Title>Cart_Track_L (11)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -201,7 +201,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Cemetery_A.xml"/>
       </Server>
       <Name>Cemetery_A</Name>
-      <Title>Cemetery_A</Title>
+      <Title>Cemetery_A (5)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -209,7 +209,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Cemetery_P.xml"/>
       </Server>
       <Name>Cemetery_P</Name>
-      <Title>Cemetery_P</Title>
+      <Title>Cemetery_P (51)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -217,7 +217,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Cistern_P.xml"/>
       </Server>
       <Name>Cistern_P</Name>
-      <Title>Cistern_P</Title>
+      <Title>Cistern_P (16)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -225,7 +225,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Control_Tower_P.xml"/>
       </Server>
       <Name>Control_Tower_P</Name>
-      <Title>Control_Tower_P</Title>
+      <Title>Control_Tower_P (2)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -233,7 +233,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Cooling_Tower_P.xml"/>
       </Server>
       <Name>Cooling_Tower_P</Name>
-      <Title>Cooling_Tower_P</Title>
+      <Title>Cooling_Tower_P (6)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -241,7 +241,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Crane_P.xml"/>
       </Server>
       <Name>Crane_P</Name>
-      <Title>Crane_P</Title>
+      <Title>Crane_P (3)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -249,7 +249,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Culvert_P.xml"/>
       </Server>
       <Name>Culvert_P</Name>
-      <Title>Culvert_P</Title>
+      <Title>Culvert_P (75)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -257,7 +257,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Cut_L.xml"/>
       </Server>
       <Name>Cut_L</Name>
-      <Title>Cut_L</Title>
+      <Title>Cut_L (18)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -265,7 +265,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Depth_Area_A.xml"/>
       </Server>
       <Name>Depth_Area_A</Name>
-      <Title>Depth_Area_A</Title>
+      <Title>Depth_Area_A (28)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -273,7 +273,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Depth_Curve_L.xml"/>
       </Server>
       <Name>Depth_Curve_L</Name>
-      <Title>Depth_Curve_L</Title>
+      <Title>Depth_Curve_L (58)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -281,7 +281,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Disposal_Site_A.xml"/>
       </Server>
       <Name>Disposal_Site_A</Name>
-      <Title>Disposal_Site_A</Title>
+      <Title>Disposal_Site_A (4)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -289,7 +289,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Ditch_L.xml"/>
       </Server>
       <Name>Ditch_L</Name>
-      <Title>Ditch_L</Title>
+      <Title>Ditch_L (102)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -297,7 +297,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Elevation_Contour_L.xml"/>
       </Server>
       <Name>Elevation_Contour_L</Name>
-      <Title>Elevation_Contour_L</Title>
+      <Title>Elevation_Contour_L (255)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -305,7 +305,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Embankment_A.xml"/>
       </Server>
       <Name>Embankment_A</Name>
-      <Title>Embankment_A</Title>
+      <Title>Embankment_A (38)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -313,7 +313,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Embankment_L.xml"/>
       </Server>
       <Name>Embankment_L</Name>
-      <Title>Embankment_L</Title>
+      <Title>Embankment_L (67)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -321,7 +321,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Extraction_Mine_A.xml"/>
       </Server>
       <Name>Extraction_Mine_A</Name>
-      <Title>Extraction_Mine_A</Title>
+      <Title>Extraction_Mine_A (1)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -329,7 +329,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Fence_L.xml"/>
       </Server>
       <Name>Fence_L</Name>
-      <Title>Fence_L</Title>
+      <Title>Fence_L (5)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -337,7 +337,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Ferry_Crossing_L.xml"/>
       </Server>
       <Name>Ferry_Crossing_L</Name>
-      <Title>Ferry_Crossing_L</Title>
+      <Title>Ferry_Crossing_L (1)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -345,7 +345,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Firing_Range_A.xml"/>
       </Server>
       <Name>Firing_Range_A</Name>
-      <Title>Firing_Range_A</Title>
+      <Title>Firing_Range_A (2)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -353,7 +353,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Foreshore_A.xml"/>
       </Server>
       <Name>Foreshore_A</Name>
-      <Title>Foreshore_A</Title>
+      <Title>Foreshore_A (10)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -361,7 +361,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Geopolitical_Entity_A.xml"/>
       </Server>
       <Name>Geopolitical_Entity_A</Name>
-      <Title>Geopolitical_Entity_A</Title>
+      <Title>Geopolitical_Entity_A (7)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -369,7 +369,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Golf_Course_A.xml"/>
       </Server>
       <Name>Golf_Course_A</Name>
-      <Title>Golf_Course_A</Title>
+      <Title>Golf_Course_A (1)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -377,7 +377,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Helipad_P.xml"/>
       </Server>
       <Name>Helipad_P</Name>
-      <Title>Helipad_P</Title>
+      <Title>Helipad_P (17)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -385,7 +385,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Ils_Component_P.xml"/>
       </Server>
       <Name>Ils_Component_P</Name>
-      <Title>Ils_Component_P</Title>
+      <Title>Ils_Component_P (14)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -393,7 +393,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Island_A.xml"/>
       </Server>
       <Name>Island_A</Name>
-      <Title>Island_A</Title>
+      <Title>Island_A (3)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -401,7 +401,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Island_P.xml"/>
       </Server>
       <Name>Island_P</Name>
-      <Title>Island_P</Title>
+      <Title>Island_P (3)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -409,7 +409,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Land_Water_Boundary_L.xml"/>
       </Server>
       <Name>Land_Water_Boundary_L</Name>
-      <Title>Land_Water_Boundary_L</Title>
+      <Title>Land_Water_Boundary_L (17)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -417,7 +417,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Maritime_Area_A.xml"/>
       </Server>
       <Name>Maritime_Area_A</Name>
-      <Title>Maritime_Area_A</Title>
+      <Title>Maritime_Area_A (5)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -425,7 +425,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Maritime_Navigation_Beacon_P.xml"/>
       </Server>
       <Name>Maritime_Navigation_Beacon_P</Name>
-      <Title>Maritime_Navigation_Beacon_P</Title>
+      <Title>Maritime_Navigation_Beacon_P (5)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -433,7 +433,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Maritime_Navigation_Light_P.xml"/>
       </Server>
       <Name>Maritime_Navigation_Light_P</Name>
-      <Title>Maritime_Navigation_Light_P</Title>
+      <Title>Maritime_Navigation_Light_P (27)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -441,7 +441,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Maritime_Radiobeacon_P.xml"/>
       </Server>
       <Name>Maritime_Radiobeacon_P</Name>
-      <Title>Maritime_Radiobeacon_P</Title>
+      <Title>Maritime_Radiobeacon_P (5)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -449,7 +449,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Maritime_Route_A.xml"/>
       </Server>
       <Name>Maritime_Route_A</Name>
-      <Title>Maritime_Route_A</Title>
+      <Title>Maritime_Route_A (1)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -457,7 +457,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Maritime_Route_L.xml"/>
       </Server>
       <Name>Maritime_Route_L</Name>
-      <Title>Maritime_Route_L</Title>
+      <Title>Maritime_Route_L (1)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -465,7 +465,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Marsh_A.xml"/>
       </Server>
       <Name>Marsh_A</Name>
-      <Title>Marsh_A</Title>
+      <Title>Marsh_A (1)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="0">
@@ -473,7 +473,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Military_Installation_P.xml"/>
       </Server>
       <Name>Military_Installation_P</Name>
-      <Title>Military_Installation_P</Title>
+      <Title>Military_Installation_P (7)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -481,7 +481,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/MSD3_aoi.xml"/>
       </Server>
       <Name>MSD3_aoi</Name>
-      <Title>MSD3_aoi</Title>
+      <Title>MSD3_aoi (1)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -489,7 +489,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Offshore_Construction_P.xml"/>
       </Server>
       <Name>Offshore_Construction_P</Name>
-      <Title>Offshore_Construction_P</Title>
+      <Title>Offshore_Construction_P (6)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -497,7 +497,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Orchard_A.xml"/>
       </Server>
       <Name>Orchard_A</Name>
-      <Title>Orchard_A</Title>
+      <Title>Orchard_A (1)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -505,7 +505,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Park_A.xml"/>
       </Server>
       <Name>Park_A</Name>
-      <Title>Park_A</Title>
+      <Title>Park_A (5)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -513,7 +513,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Pipeline_L.xml"/>
       </Server>
       <Name>Pipeline_L</Name>
-      <Title>Pipeline_L</Title>
+      <Title>Pipeline_L (5)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="0">
@@ -521,7 +521,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Power_line_L.xml"/>
       </Server>
       <Name>Power_line_L</Name>
-      <Title>Power_line_L</Title>
+      <Title>Power_line_L (51)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -529,7 +529,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Power_Station_A.xml"/>
       </Server>
       <Name>Power_Station_A</Name>
-      <Title>Power_Station_A</Title>
+      <Title>Power_Station_A (3)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -537,7 +537,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Power_Substation_A.xml"/>
       </Server>
       <Name>Power_Substation_A</Name>
-      <Title>Power_Substation_A</Title>
+      <Title>Power_Substation_A (7)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -545,7 +545,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Power_Substation_P.xml"/>
       </Server>
       <Name>Power_Substation_P</Name>
-      <Title>Power_Substation_P</Title>
+      <Title>Power_Substation_P (1)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -553,7 +553,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Processing_Facility_A.xml"/>
       </Server>
       <Name>Processing_Facility_A</Name>
-      <Title>Processing_Facility_A</Title>
+      <Title>Processing_Facility_A (13)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -561,7 +561,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Racetrack_L.xml"/>
       </Server>
       <Name>Racetrack_L</Name>
-      <Title>Racetrack_L</Title>
+      <Title>Racetrack_L (1)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -569,7 +569,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Railway_L.xml"/>
       </Server>
       <Name>Railway_L</Name>
-      <Title>Railway_L</Title>
+      <Title>Railway_L (11)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -577,7 +577,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Railway_Sidetrack_L.xml"/>
       </Server>
       <Name>Railway_Sidetrack_L</Name>
-      <Title>Railway_Sidetrack_L</Title>
+      <Title>Railway_Sidetrack_L (4)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -585,7 +585,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Railway_Yard_A.xml"/>
       </Server>
       <Name>Railway_Yard_A</Name>
-      <Title>Railway_Yard_A</Title>
+      <Title>Railway_Yard_A (3)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -593,7 +593,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Reef_A.xml"/>
       </Server>
       <Name>Reef_A</Name>
-      <Title>Reef_A</Title>
+      <Title>Reef_A (10)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -601,7 +601,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Religious_Facility_A.xml"/>
       </Server>
       <Name>Religious_Facility_A</Name>
-      <Title>Religious_Facility_A</Title>
+      <Title>Religious_Facility_A (46)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -609,7 +609,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Religious_Facility_P.xml"/>
       </Server>
       <Name>Religious_Facility_P</Name>
-      <Title>Religious_Facility_P</Title>
+      <Title>Religious_Facility_P (13)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -617,7 +617,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Reservoir_A.xml"/>
       </Server>
       <Name>Reservoir_A</Name>
-      <Title>Reservoir_A</Title>
+      <Title>Reservoir_A (2)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -625,7 +625,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Rice_Field_A.xml"/>
       </Server>
       <Name>Rice_Field_A</Name>
-      <Title>Rice_Field_A</Title>
+      <Title>Rice_Field_A (41)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -633,7 +633,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/River_A.xml"/>
       </Server>
       <Name>River_A</Name>
-      <Title>River_A</Title>
+      <Title>River_A (6)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -641,7 +641,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/River_L.xml"/>
       </Server>
       <Name>River_L</Name>
-      <Title>River_L</Title>
+      <Title>River_L (59)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -649,7 +649,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Road_Interchange_L.xml"/>
       </Server>
       <Name>Road_Interchange_L</Name>
-      <Title>Road_Interchange_L</Title>
+      <Title>Road_Interchange_L (73)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -657,7 +657,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Road_L.xml"/>
       </Server>
       <Name>Road_L</Name>
-      <Title>Road_L</Title>
+      <Title>Road_L (1471)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -665,7 +665,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Runway_A.xml"/>
       </Server>
       <Name>Runway_A</Name>
-      <Title>Runway_A</Title>
+      <Title>Runway_A (3)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -673,7 +673,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Runway_Direction_A.xml"/>
       </Server>
       <Name>Runway_Direction_A</Name>
-      <Title>Runway_Direction_A</Title>
+      <Title>Runway_Direction_A (6)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -681,7 +681,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Runway_Endpoint_P.xml"/>
       </Server>
       <Name>Runway_Endpoint_P</Name>
-      <Title>Runway_Endpoint_P</Title>
+      <Title>Runway_Endpoint_P (6)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -689,7 +689,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Settling_Pond_A.xml"/>
       </Server>
       <Name>Settling_Pond_A</Name>
-      <Title>Settling_Pond_A</Title>
+      <Title>Settling_Pond_A (2)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -697,7 +697,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Shoreline_Construction_A.xml"/>
       </Server>
       <Name>Shoreline_Construction_A</Name>
-      <Title>Shoreline_Construction_A</Title>
+      <Title>Shoreline_Construction_A (16)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -705,7 +705,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Shoreline_Construction_L.xml"/>
       </Server>
       <Name>Shoreline_Construction_L</Name>
-      <Title>Shoreline_Construction_L</Title>
+      <Title>Shoreline_Construction_L (27)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -713,7 +713,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Smokestack_P.xml"/>
       </Server>
       <Name>Smokestack_P</Name>
-      <Title>Smokestack_P</Title>
+      <Title>Smokestack_P (86)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -721,7 +721,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Sounding_P.xml"/>
       </Server>
       <Name>Sounding_P</Name>
-      <Title>Sounding_P</Title>
+      <Title>Sounding_P (177)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -729,7 +729,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Sound_Signal_P.xml"/>
       </Server>
       <Name>Sound_Signal_P</Name>
-      <Title>Sound_Signal_P</Title>
+      <Title>Sound_Signal_P (4)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -737,7 +737,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Sports_Ground_A.xml"/>
       </Server>
       <Name>Sports_Ground_A</Name>
-      <Title>Sports_Ground_A</Title>
+      <Title>Sports_Ground_A (40)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -745,7 +745,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Spot_Elevation_P.xml"/>
       </Server>
       <Name>Spot_Elevation_P</Name>
-      <Title>Spot_Elevation_P</Title>
+      <Title>Spot_Elevation_P (11)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -753,7 +753,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Stadium_A.xml"/>
       </Server>
       <Name>Stadium_A</Name>
-      <Title>Stadium_A</Title>
+      <Title>Stadium_A (1)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -761,7 +761,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Steep_Terrain_Face_L.xml"/>
       </Server>
       <Name>Steep_Terrain_Face_L</Name>
-      <Title>Steep_Terrain_Face_L</Title>
+      <Title>Steep_Terrain_Face_L (1)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -769,7 +769,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Stopway_A.xml"/>
       </Server>
       <Name>Stopway_A</Name>
-      <Title>Stopway_A</Title>
+      <Title>Stopway_A (4)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -777,7 +777,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Storage_Tank_A.xml"/>
       </Server>
       <Name>Storage_Tank_A</Name>
-      <Title>Storage_Tank_A</Title>
+      <Title>Storage_Tank_A (69)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -785,7 +785,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Swamp_A.xml"/>
       </Server>
       <Name>Swamp_A</Name>
-      <Title>Swamp_A</Title>
+      <Title>Swamp_A (4)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -793,7 +793,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Taxiway_A.xml"/>
       </Server>
       <Name>Taxiway_A</Name>
-      <Title>Taxiway_A</Title>
+      <Title>Taxiway_A (29)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -801,7 +801,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Tidal_Water_A.xml"/>
       </Server>
       <Name>Tidal_Water_A</Name>
-      <Title>Tidal_Water_A</Title>
+      <Title>Tidal_Water_A (10)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -809,7 +809,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Tower_P.xml"/>
       </Server>
       <Name>Tower_P</Name>
-      <Title>Tower_P</Title>
+      <Title>Tower_P (139)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -817,7 +817,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Tunnel_L.xml"/>
       </Server>
       <Name>Tunnel_L</Name>
-      <Title>Tunnel_L</Title>
+      <Title>Tunnel_L (47)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -825,7 +825,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Wall_L.xml"/>
       </Server>
       <Name>Wall_L</Name>
-      <Title>Wall_L</Title>
+      <Title>Wall_L (53)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -833,7 +833,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Water_Movement_Data_Location_P.xml"/>
       </Server>
       <Name>Water_Movement_Data_Location_P</Name>
-      <Title>Water_Movement_Data_Location_P</Title>
+      <Title>Water_Movement_Data_Location_P (2)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -841,7 +841,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Water_Tower_P.xml"/>
       </Server>
       <Name>Water_Tower_P</Name>
-      <Title>Water_Tower_P</Title>
+      <Title>Water_Tower_P (6)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -849,7 +849,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Water_Treatment_Bed_A.xml"/>
       </Server>
       <Name>Water_Treatment_Bed_A</Name>
-      <Title>Water_Treatment_Bed_A</Title>
+      <Title>Water_Treatment_Bed_A (13)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="0">
@@ -857,7 +857,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Wood_A.xml"/>
       </Server>
       <Name>Wood_A</Name>
-      <Title>Wood_A</Title>
+      <Title>Wood_A (65)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="0">
@@ -865,7 +865,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Wreck_A.xml"/>
       </Server>
       <Name>Wreck_A</Name>
-      <Title>Wreck_A</Title>
+      <Title>Wreck_A (3)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     <FeatureType hidden="1">
@@ -873,7 +873,7 @@
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Wreck_P.xml"/>
       </Server>
       <Name>Wreck_P</Name>
-      <Title>Wreck_P</Title>
+      <Title>Wreck_P (1)</Title>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
 
