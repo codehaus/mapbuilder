@@ -104,8 +104,26 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 	  }
       maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
     }
-    objRef.oLMap = new OpenLayers.Map(objRef.node);
-    // loop through all layers and create OLLayers 
+    objRef.oLMap = new OpenLayers.Map(objRef.node, {controls:[]});
+
+    // Increase hight of Control layers to allow for lots of layers.
+    objRef.oLMap.Z_INDEX_BASE.Control=10000;
+    
+    // TBD OpenLayer tools should not be added here. This is a hack to get
+    // some tools until we develop a link between Mapbuilder tools and
+	// OpenLayer tools.
+    // To be removed.
+    var toolbar=new OpenLayers.Control.EditingToolbar();
+    var navigation=new OpenLayers.Control.MouseDefaults();
+    var selection=new OpenLayers.Control.EditingAttributes();
+    toolbar.addTools([navigation,selection]);
+    objRef.oLMap.addControl(toolbar);
+    objRef.oLMap.addControl(selection);
+    objRef.oLMap.addControl(new OpenLayers.Control.PanZoom());
+	toolbar.setTool(navigation);
+    // End To be Removed
+    
+	// loop through all layers and create OLLayers 
     var layers = objRef.model.getAllLayers();
     objRef.oLlayers = new Array();
       
@@ -145,28 +163,29 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         // WMS Layer
         case "wms":
         case "OGC:WMS":
-          objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(
-            title,
-            href,
-            {
-              layers: name2,
-              transparent: "true",
-              format: format
-            },
-		    options
-          );
-          objRef.oLMap.addLayers([objRef.oLlayers[name2]]);
-          break;
+            objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(
+	            title,
+	            href,
+	            {
+	                layers: name2,
+	                transparent: "true",
+	                format: format
+	            },
+			    options
+            );
+            objRef.oLMap.addLayers([objRef.oLlayers[name2]]);
+            break;
 
         // GML Layer
         case "gml":
         case "OGC:GML":
-          objRef.oLlayers[name2] = new OpenLayers.Layer.GML(title,href,options);
-          objRef.oLMap.addLayer(objRef.oLlayers[name2]);
-          break;
+		    options.style=new OpenLayers.Style.WebSafe(2*i+1);
+            objRef.oLlayers[name2] = new OpenLayers.Layer.GML(title,href,options);
+            objRef.oLMap.addLayer(objRef.oLlayers[name2]);
+            break;
           
         default:
-          alert("MapPaneOL: No support for layer type="+service);
+            alert("MapPaneOL: No support for layer type="+service);
       }
       objRef.hidden(objRef,name2);
     }
