@@ -8,18 +8,15 @@
      
 <html xmlns="http://www.w3.org/1999/xhtml" >
   <head>
-  	<!-- TBD: I think we can remove the following style as it is set in OL code -->
-  	<style> vml\:* { behavior: url(#default#VML); position:absolute }</style >
-	
     <style type="text/css">
     #legend {
-      height: 600px;
+      height: 520px;
       border: 1px solid black;
-	  overflow:auto;
+    overflow:auto;
     }
     </style>
 
-    <title>GML3 Demo</title>
+    <title>GML3 Viewer</title>
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/docsStyle.css'>
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'>
     <script>
@@ -31,30 +28,24 @@
     <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
   </head>
   <body onload="mbDoLoad()">
-    <table>
-      <tr>
-        <td>
-          <img src="thalesLogo.jpg"/>
-        </td>
-        <td align="right">
-          <font size="+1"></font><a href="http://communitymapbuilder.org">MapBuilder</a> GML3 Demo for <a href="http://www.opengeospatial.org/">OGC's</a> OWS4 testbed</font>
-        </td>
-      </tr>
-    </table>
-	<table>
-		<tr valign="top">
-			<td>
-			    <div id="mainMapPane">
-			      <noscript>
-			        this page requires Javascript to be enabled
-			      </noscript>
-			    </div>	
-			</td>
-			<td>
-			  <div id="legend" valign="top"></div>				
-			</td>
-		</tr>
-	</table>
+  <table>
+    <tr valign="top">
+      <td>
+          <div id="mainMapPane">
+            <noscript>
+              this page requires Javascript to be enabled
+            </noscript>
+          </div>  
+      </td>
+      <td>
+        <div id="legend" valign="top"></div>        
+      </td>
+    </tr>
+  </table>
+  <p align="right">
+  Open Source GML Viewer for the OWS4 Testbed.
+  <a href="credits.html">About ...</a>
+  </p>
   </body>
 </html>
 
