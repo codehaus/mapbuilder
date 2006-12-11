@@ -101,7 +101,35 @@
         </widgets>
       <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:ows='http://www.opengis.net/ows' xmlns:topp='http://www.openplans.org/topp'</namespace>
     </FeatureCollection>
-    
+    <FeatureCollection id="pointCollection">
+      <method>post</method>
+      <featureTagName>topp:WEGVAKID</featureTagName>
+      <coordsTagName>topp:GEOMETRIE</coordsTagName>
+      <nodeSelectXpath>//gml:featureMember</nodeSelectXpath>
+      <coordSelectXpath>//topp:GEOMETRIE/gml:Point/gml:coordinates</coordSelectXpath>
+ 
+        <widgets>
+          <!-- TipWidget id="wfsRendererTip" > 
+            <leftOffset>20</leftOffset>
+            <topOffset>0</topOffset>
+            <command>overlib(text, CAPTION, "Caption", STICKY, WIDTH,'225', HEIGHT,'250', REFC,'UR', REFP,'LL', RELX, x, RELY, y)</command>
+            <stylesheet>datapopup.xsl</stylesheet>
+          </TipWidget--> 
+ 
+          <GmlRendererVG id="vectorGraphicsRenderer">
+              <htmlTagId>mainMapPane</htmlTagId>
+              <targetModel>mainMap</targetModel>
+              <mapContainerId>mainMapContainer</mapContainerId>
+              <tipWidget>wfsRendererTip</tipWidget>
+          </GmlRendererVG>
+          
+          <!--ModelStatus id="gmlModelStatus"/-->
+          <Legend id="wfsLegend">
+            <htmlTagId>legend</htmlTagId>
+          </Legend>
+        </widgets>
+      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:ows='http://www.opengis.net/ows' xmlns:topp='http://www.openplans.org/topp'</namespace>
+    </FeatureCollection>
     
   </models>
   
@@ -159,7 +187,16 @@
       <enabledSrc>/images/GetFeatureEnable.png</enabledSrc>
       <disabledSrc>/images/GetFeatureDisable.png</disabledSrc>
     </GetFeature>
-    
+<!--     <GetFeature id="getPoint">-->
+<!--           <selected>true</selected>-->
+<!--      <buttonBar>mainButtonBar</buttonBar>-->
+<!--      <targetContext>mainMap</targetContext>-->
+<!--       <targetModel>pointCollection</targetModel>-->
+<!--      <mouseHandler>mainMouseClick</mouseHandler>-->
+<!--      <class>RadioButton</class>-->
+<!--      <enabledSrc>/images/GetFeatureEnable.png</enabledSrc>-->
+<!--      <disabledSrc>/images/GetFeatureDisable.png</disabledSrc>-->
+<!--    </GetFeature>-->
      <MoveVertex id="movePoint">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>gml2FeatureTemplate</targetModel>
@@ -194,7 +231,7 @@
       <webServiceUrl>http://decock:11080/geoserver/wfs</webServiceUrl>
       <targetContext>mainMap</targetContext>
     </DeleteFeature>
-    <NewFeature id="newFeature">
+    <NewFeature id="newFeature"><!-- lijn -->
      <namespace>xmlns:wmc='http://www.opengis.net/context' xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:ows='http://www.opengis.net/ows' xmlns:topp='http://www.openplans.org/topp'</namespace>
       <buttonBar>mainButtonBar</buttonBar>
       <mouseHandler>mainMouseClick</mouseHandler>
@@ -210,6 +247,22 @@
       <featureXpath>//topp:GEOMETRIE/gml:LineString/gml:coordinates</featureXpath>
        <requestStylesheet>wfs_GetFeature.xsl</requestStylesheet>
     </NewFeature>
+    <NewPoint id="newPoint"> 
+     <namespace>xmlns:wmc='http://www.opengis.net/context' xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:ows='http://www.opengis.net/ows' xmlns:topp='http://www.openplans.org/topp'</namespace>
+      <buttonBar>mainButtonBar</buttonBar>
+      <mouseHandler>mainMouseClick</mouseHandler>
+      <targetModel>pointCollection</targetModel>
+      <class>RadioButton</class>
+      <disabledSrc>/images/NewFeatureDisable.png</disabledSrc>
+      <enabledSrc>/images/NewFeatureEnable.png</enabledSrc>
+      <targetContext>mainMap</targetContext>
+      <defaultModelUrl>punten.xml</defaultModelUrl>
+       <featureTagName>topp:ISL_ADRESSEN</featureTagName>
+      <coordsTagName>topp:GEOMETRIE</coordsTagName>
+      <nodeSelectXpath>//gml:featureMember</nodeSelectXpath>
+      <featureXpath>//topp:GEOMETRIE/gml:Point/gml:coordinates</featureXpath>
+       <requestStylesheet>wfs_GetFeature.xsl</requestStylesheet>
+    </NewPoint>
      <InsertFeature id="insertFeature">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>gml2FeatureTemplate</targetModel>
@@ -219,38 +272,7 @@
       <webServiceUrl>http://decock:11080/geoserver/wfs</webServiceUrl>
       <targetContext>mainMap</targetContext>
     </InsertFeature>
-<!--     <EditLine id="editLine">-->
-<!--      <buttonBar>mainButtonBar</buttonBar>-->
-<!--      <targetModel>gml2FeatureTemplate</targetModel>-->
-<!--      <mouseHandler>mainMouseClick</mouseHandler>-->
-<!--      <class>RadioButton</class>-->
-<!--      <enabledSrc>/images/EditPointEnable.png</enabledSrc>-->
-<!--      <disabledSrc>/images/EditPointDisable.png</disabledSrc>-->
-<!--      <transactionResponseModel>transaction</transactionResponseModel>-->
-<!--      <webServiceUrl>http://decock:11080/geoserver/wfs</webServiceUrl>-->
-<!--      <featureXpath>//topp:GEOMETRIE/gml:LineString/gml:coordinates</featureXpath>-->
-<!--      <defaultModelUrl>wegvlakken.xml</defaultModelUrl>-->
-<!--      <targetContext>mainMap</targetContext>-->
-<!--    </EditLine>-->
-<!--    <SetAoi id="setAoi">-->
-<!--      <buttonBar>mainButtonBar</buttonBar>-->
-<!--      <targetModel>mainMap</targetModel>-->
-<!--      <mouseHandler>mainAoi</mouseHandler>-->
-<!--      <class>RadioButton</class>-->
-<!--      <enabledSrc>/images/SetAoiEnable.png</enabledSrc>-->
-<!--      <disabledSrc>/images/SetAoiDisable.png</disabledSrc>-->
-<!--    </SetAoi>-->
 
-<!--    <GetMarkerInfo id="getMarkerInfo">-->
-<!--      <buttonBar>mainButtonBar</buttonBar>-->
-<!--      <targetModel>mainMap</targetModel>-->
-<!--      <context>mainMap</context>-->
-<!--       <mouseHandler>mainAoi</mouseHandler >-->
-<!--      <class>RadioButton</class>-->
-<!--      <enabledSrc>/images/QueryEnable.png</enabledSrc>-->
-<!--      <disabledSrc>/images/QueryDisable.png</disabledSrc>-->
-<!--      <cursor>default</cursor>-->
-<!--    </GetMarkerInfo> -->
    
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>

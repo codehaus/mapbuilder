@@ -407,7 +407,7 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
     var idAttr = this.getAttribute("id").split("_")
     var id = idAttr[3]
     //We don't have events on top of lines (for the time being)
-		if(id=="vector") return false; 
+ if( (this.gmlType == "gml:LineString" ||  this.gmlType == "gml:MultiLineString") && id=="vector") return false; 
 		
 		//When the mouse is hovering over a feature, show the hover style
     this.wfsQueryLayer.paintLinePoint(this.wfsQueryLayer.hoverSld, this);
@@ -460,7 +460,7 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
     var idAttr = this.getAttribute("id").split("_")
     var id = idAttr[3]
      //We don't have events on top of lines (for the time being)
-		if(id=="vector") return false; 
+		 if( (this.gmlType == "gml:LineString" ||  this.gmlType == "gml:MultiLineString") && id=="vector") return false; 
     
     //TBD: create this dynamically  
 		this.containerNode = document.getElementById("mainMapContainer");
@@ -518,12 +518,13 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   * Handler is attached to the shape itself
   * puts event in the queue to be picked later
   * @param ev
+  
   */
   this.mouseClickHandler= function(ev) { 
     var idAttr = this.getAttribute("id").split("_")
 	  var id = idAttr[3]
 	  //We don't have events on top of line (for the time being)
-		if(id=="vector") return false; 
+	  if( (this.gmlType == "gml:LineString" ||  this.gmlType == "gml:MultiLineString") && id=="vector") return false; 
 		//Draw the feature in hover style 
     this.wfsQueryLayer.paintLinePoint(this.wfsQueryLayer.hoverSld, this);
 		this.drag=false;
@@ -546,14 +547,14 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
 		if(this.wfsQueryLayer.addPoint) {
 			P=parseInt(P)+6;	
 		}
-		
 		var newPoint =	this.wfsQueryLayer.mapPane.model.extent.getXY(new Array(P,L));
-		newPoint[0] = parseInt(newPoint[0]);
-		newPoint[1] = parseInt(newPoint[1]);
+		newPoint[0] = parseFloat(newPoint[0]);
+		newPoint[1] = parseFloat(newPoint[1]);
 		var pointPairs    = this.wfsQueryLayer.coords.split(/[ ,\n]+/);
 		var idAttr = this.getAttribute("id").split("_");
 		//This is the point number
 		var pointNr=idAttr[4];
+		if(!pointNr) pointNr=0;
 		//Depending on the selected widget we need to do something with the Point
 		if(this.wfsQueryLayer.deletePoint) {
 			pointPairs.splice(pointNr*2+1,1);
@@ -578,7 +579,15 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
 			i++;	
 		}
 		//Update the feature layer
-		this.wfsQueryLayer.model.setXpathValue(this.wfsQueryLayer.model, "//topp:GEOMETRIE/gml:LineString/gml:coordinates", newLine);
+		//TODO: this xpath value should be dynamic!!!
+		 if (this.wfsQueryLayer.gmlType == "gml:LineString" ||  this.wfsQueryLayer.gmlType == "gml:MultiLineString") 
+		 {
+		 this.wfsQueryLayer.model.coordSelectXpath = "//topp:GEOMETRIE/gml:LineString/gml:coordinates";
+		 }
+		 if (this.wfsQueryLayer.gmlType == "gml:Point" ) {
+		 		 this.wfsQueryLayer.model.coordSelectXpath = "//topp:GEOMETRIE/gml:Point/gml:coordinates";
+		 }
+		this.wfsQueryLayer.model.setXpathValue(this.wfsQueryLayer.model, this.wfsQueryLayer.model.coordSelectXpath, newLine);
 		this.wfsQueryLayer.mapPane.MapLayerMgr.model.setParam("refreshOtherLayers");
   }
 
@@ -595,9 +604,17 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
   //this.paint();
 
 	this.delpoint = function (objRef, value) {
+	 if (!(objRef.gmlType == "gml:LineString" ||  objRef.gmlType == "gml:MultiLineString")&& value) {
+	 	alert ("You cannot delete this point");
+	 	value = false;
+	 }
 		objRef.deletePoint = value;
 	}  
 	this.addpoint = function (objRef, value) {
+		 if (!(objRef.gmlType == "gml:LineString" ||  objRef.gmlType == "gml:MultiLineString")&& value) {
+		 	 	alert ("You cannot add a new point");
+	 	value = false;
+	 	}
 		objRef.addPoint = value;
 	}  
 	this.movepoint = function (objRef, value) {

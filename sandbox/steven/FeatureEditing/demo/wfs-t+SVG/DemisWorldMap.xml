@@ -44,12 +44,29 @@
 
   <ResourceList>
 
-    
+<!--    <Layer queryable="0" hidden="0">-->
+<!--     <Server service="wms" version="1.1.0" title="wms">-->
+<!--       <OnlineResource xlink:type="simple" xlink:href="http://www.edugis.nl/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base.map"/>-->
+<!--     </Server>-->
+<!--     <Name>topografie</Name>-->
+<!--     <Title>topografie</Title>-->
+<!--     <SRS>EPSG:28992</SRS>-->
+<!--     <FormatList>-->
+<!--       <Format current="1">image/png</Format>-->
+<!--     </FormatList>-->
+<!--     <StyleList>-->
+<!--    <Style current="1">-->
+<!--    <LegendURL>-->
+<!--    <OnlineResource xlink:type="simple" xlink:href="http://www.edugis.nl/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base_all_visible.map&amp;mapext=-160000+300000+400000+620000&amp;mapsize=740+400&amp;LAYERS=topografie&amp;mode=legend"/>-->
+<!--    </LegendURL>-->
+<!--    </Style>-->
+<!--    </StyleList>-->
+<!--  </Layer>-->
  <Layer queryable="0" hidden="0">
      <Server service="wms" version="1.1.0" title="wms">
        <OnlineResource xlink:type="simple" xlink:href="http://decock:11080/geoserver/wms?"/>
      </Server>
-     <Name>ISL_WEGVAKKEN</Name>
+     <Name>topp:ISL_WEGVAKKEN</Name>
      <Title>topp:ISL_WEGVAKKEN</Title>
      <SRS>EPSG:28992</SRS>
      <FormatList>
@@ -64,6 +81,24 @@
     </Style>
     </StyleList-->
   </Layer>
+<Layer queryable="0" hidden="0">
+     <Server service="wms" version="1.1.1" title="wms">
+       <OnlineResource xlink:type="simple" xlink:href="http://decock:11080/geoserver/wms/wms?"/>
+     </Server>
+     <Name>topp:ISL_ADRESSEN</Name>
+     <Title>topp:ISL_ADRESSEN</Title>
+     <SRS>EPSG:28992</SRS>
+     <FormatList>
+       <Format current="1">image/png</Format>
+     </FormatList>
+     <!-- StyleList>
+    <Style current="1">
+    <LegendURL>
 
+    <OnlineResource xlink:type="simple" xlink:href="http://www.edugis.nl/cgi-bin/edugis/mapserv.exe?map=maps/edugis/base_all_visible.map&amp;mapext=-160000+300000+400000+620000&amp;mapsize=740+400&amp;LAYERS=topografie&amp;mode=legend"/>
+    </LegendURL>
+    </Style>
+    </StyleList-->
+  </Layer>
   </ResourceList>
 </OWSContext>
