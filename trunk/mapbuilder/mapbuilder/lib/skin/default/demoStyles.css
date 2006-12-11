@@ -9,6 +9,11 @@ body {
 	bottom					: 0px;
 	display: inline;
 	}
+	td {
+	font-family: Verdana, arial, sans-serif;
+	font-size: 11px;
+	line-height: 16px;
+	}
 a {
 	text-decoration: none;
 	color: black;
@@ -76,11 +81,8 @@ ul a {
 	margin-top: 20px;
 	}	
 #middle {
-	position: absolute;
 	left: 0px;
 	right: 0px;
-	top: 30px;
-	bottom: 60px;
 	width: 100%;
 	display: inline;
 	}
@@ -88,7 +90,7 @@ ul a {
 	display: block;
 position: absolute;
 left: 0px;
-top: 0px;
+top: 31px;
 bottom: 0px;
 overflow: auto;
 	width: 130px;
@@ -125,16 +127,26 @@ margin: 0px;
 		border-bottom: 1px solid #ccc;
  		border-left: 1px solid #ccc;
 		padding: 5px;
-		margin: 0px;
-		position: absolute;
-		top: 26px;
-		left: 130px;
+
+
+		margin-left: 130px;
 		right: 1px;
 		bottom: 1px;
 		background-color: white;
-		overflow: auto;
 display: block;
 }
+
+#mainbody:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+
+/* Hides from IE-mac \*/
+* html #mainbody {height: 1%;}
+/* End hide from IE-mac */
 #mainbody .left{
 	position: relative;
 		height: 99%;
@@ -145,14 +157,16 @@ width: 30%;
 display: block;
 float: left;
 	margin: 0px;	
+	overflow-x: auto;
 }
 #mainbody .right{
 	position: relative;
 display: block;
 		height: 99%;		
-		width: 70%;
+		width: 69%;
+		margin-left: 30%;
 		right: 0px;
-		float: right;
+float: right;
 		margin: 0px;
 }
 
@@ -164,7 +178,7 @@ display: block;
 	border: none;
 	}
 #footer {
-	position: absolute;
+
 	height: 60px;
 	width: 99%;
 margin:0px;
@@ -173,21 +187,13 @@ margin:0px;
 	font-size: 9pt;
 }
 
-#footer .left {
-left: 100px;
-	padding: 0px 5px 0px 5px;
-		position: absolute;
-		float: left;
-		width: 48%;
-}
 
 #footer .right {
 		padding: 0px 5px 0px 5px;
 		text-align: right;
-		position: absolute;
-		width: 48%;
-		float: right;
-		left: 50%;
+		
+		width: 99%;
+	
 		margin-top: 0px;
 }
 .help {
