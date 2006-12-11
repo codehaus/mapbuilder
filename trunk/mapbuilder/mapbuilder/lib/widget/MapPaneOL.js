@@ -187,7 +187,6 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         default:
             alert("MapPaneOL: No support for layer type="+service);
       }
-      objRef.hidden(objRef,name2);
     }
     bbox=objRef.model.getBoundingBox();
     objRef.oLMap.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
