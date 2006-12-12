@@ -4,14 +4,16 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:gml='http://www.opengis.net/gml' 
     xmlns:wfs='http://www.opengis.net/wfs'
+    xmlns:sld='http://www.opengis.net/sld'
     xmlns:xlink='http://www.w3.org/1999/xlink'
     version="1.0">
 <!--
-Description: Convert a Web Map Context into a HTML Legend
+Description: Convert an OWS Context into a HTML Legend
 Author:      Cameron Shorter cameron ATshorter.net
+Author:      Patrice C.
 Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: Legend.xsl 1801 2005-11-10 23:22:02 -0500 (Thu, 10 Nov 2005) madair1 $
+$Id: Legend2.xsl 1801 2005-11-10 23:22:02 -0500 (Thu, 10 Nov 2005) madair1 $
 $Name$
 -->
   <xsl:output method="xml" encoding="utf-8"/>
@@ -32,6 +34,18 @@ $Name$
   <xsl:param name="context">config.objects.<xsl:value-of select="$modelId"/></xsl:param>
 
 <!-- Main html -->
+  <xsl:template match="/wmc:ViewContext">
+    <table border="0" cellpadding="1" cellspacing="0">
+      <tr>
+        <th colspan="3">Layer List</th>
+      </tr>
+     
+      <xsl:apply-templates select="wmc:LayerList/wmc:Layer">
+        <xsl:sort select="position()" order="descending" data-type="number"/>
+      </xsl:apply-templates>
+      
+    </table>
+  </xsl:template>
   
   <xsl:template match="/wmc:OWSContext">
     <table border="0" cellpadding="1" cellspacing="0">
@@ -55,7 +69,7 @@ $Name$
         <th colspan="3">WFS Features</th>
       </tr>
       <tr>
-  <!-- Visiblity -->
+        <!-- Visiblity -->
         <td>
           <xsl:if test="$hidden='false'">
             <input type="checkbox" checked="true" id="legend_{$featureName}" onclick="{$context}.setHidden('{$featureName}',!document.getElementById('legend_{$featureName}').checked)"/>
@@ -64,7 +78,7 @@ $Name$
             <input type="checkbox" id="legend_{$featureName}" onclick="{$context}.setHidden('{$featureName}',! document.getElementById('legend_{$featureName}').checked)"/>
           </xsl:if>
         </td>
-  <!-- No query capability yet -->
+        <!-- No query capability yet -->
         <td>
         </td>
         <td>
@@ -74,10 +88,10 @@ $Name$
     </table>
   </xsl:template>
   
-<!-- Layer -->
+  <!-- Layer -->
   <xsl:template match="wmc:Layer|wmc:FeatureType">
     <tr>
-  <!-- Visiblity -->
+      <!-- Visiblity -->
       <td>
         <xsl:if test="@hidden='0'">
           <input type="checkbox" checked="true" id="legend_{wmc:Name}" onclick="{$context}.setHidden('{wmc:Name}',!document.getElementById('legend_{wmc:Name}').checked)"/>
@@ -86,7 +100,7 @@ $Name$
           <input type="checkbox" id="legend_{wmc:Name}" onclick="{$context}.setHidden('{wmc:Name}',! document.getElementById('legend_{wmc:Name}').checked)"/>
         </xsl:if>
       </td>
-  <!-- Query Image -->
+      <!-- Query Image -->
       <td>
         <xsl:if test="@queryable='1'">
           <img
@@ -96,7 +110,13 @@ $Name$
             src="{$skinDir}/images/id.gif" />
         </xsl:if>
       </td>
-  <!-- Title -->
+	  
+	  <!-- Color icon -->
+	  <td width="12" height="12">
+	    <div style="width:10;height:10;background-color:{.//sld:CssParameter[@name='fill']};border:1px solid {.//sld:CssParameter[@name='stroke']}"/>
+	  </td>
+	  
+      <!-- Title -->
       <td>
         <xsl:choose>
           <xsl:when test="wmc:Title/@xml:lang">              
@@ -108,7 +128,7 @@ $Name$
         </xsl:choose>
       </td>
     </tr>
-  <!-- StyleList -->
+    <!-- StyleList -->
     <tr>
       <td></td>
       <td></td>
@@ -126,7 +146,7 @@ $Name$
   
    <xsl:template match="wmc:RssLayer">
     <tr>
-  <!-- Visiblity -->
+      <!-- Visiblity -->
       <td>
         <xsl:if test="@hidden='0'">
           <input type="checkbox" checked="true" id="legend_{wmc:Title}" onclick="{$context}.setHidden('{@id}',!document.getElementById('legend_{wmc:Title}').checked)"/>
@@ -135,7 +155,7 @@ $Name$
           <input type="checkbox" id="legend_{wmc:Title}" onclick="{$context}.setHidden('{@id}',! document.getElementById('legend_{wmc:Title}').checked)"/>
         </xsl:if>
       </td>
-  <!-- Query Image -->
+      <!-- Query Image -->
       <td>
         <xsl:if test="@queryable='1'">
           <img
@@ -145,7 +165,7 @@ $Name$
             src="{$skinDir}/images/id.gif" />
         </xsl:if>
       </td>
-  <!-- Title -->
+      <!-- Title -->
       <td>
         <xsl:choose>
           <xsl:when test="wmc:Title/@xml:lang">              
@@ -157,7 +177,7 @@ $Name$
         </xsl:choose>
       </td>
     </tr>
-  <!-- StyleList -->
+    <!-- StyleList -->
     <tr>
       <td></td>
       <td></td>
