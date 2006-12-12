@@ -4,6 +4,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:gml='http://www.opengis.net/gml' 
     xmlns:wfs='http://www.opengis.net/wfs'
+    xmlns:sld='http://www.opengis.net/sld'
     xmlns:xlink='http://www.w3.org/1999/xlink'
     version="1.0">
 <!--
@@ -68,7 +69,7 @@ $Name$
         <th colspan="3">WFS Features</th>
       </tr>
       <tr>
-  <!-- Visiblity -->
+        <!-- Visiblity -->
         <td>
           <xsl:if test="$hidden='false'">
             <input type="checkbox" checked="true" id="legend_{$featureName}" onclick="{$context}.setHidden('{$featureName}',!document.getElementById('legend_{$featureName}').checked)"/>
@@ -77,7 +78,7 @@ $Name$
             <input type="checkbox" id="legend_{$featureName}" onclick="{$context}.setHidden('{$featureName}',! document.getElementById('legend_{$featureName}').checked)"/>
           </xsl:if>
         </td>
-  <!-- No query capability yet -->
+        <!-- No query capability yet -->
         <td>
         </td>
         <td>
@@ -87,10 +88,10 @@ $Name$
     </table>
   </xsl:template>
   
-<!-- Layer -->
+  <!-- Layer -->
   <xsl:template match="wmc:Layer|wmc:FeatureType">
     <tr>
-  <!-- Visiblity -->
+      <!-- Visiblity -->
       <td>
         <xsl:if test="@hidden='0'">
           <input type="checkbox" checked="true" id="legend_{wmc:Name}" onclick="{$context}.setHidden('{wmc:Name}',!document.getElementById('legend_{wmc:Name}').checked)"/>
@@ -99,7 +100,7 @@ $Name$
           <input type="checkbox" id="legend_{wmc:Name}" onclick="{$context}.setHidden('{wmc:Name}',! document.getElementById('legend_{wmc:Name}').checked)"/>
         </xsl:if>
       </td>
-  <!-- Query Image -->
+      <!-- Query Image -->
       <td>
         <xsl:if test="@queryable='1'">
           <img
@@ -109,7 +110,13 @@ $Name$
             src="{$skinDir}/images/id.gif" />
         </xsl:if>
       </td>
-  <!-- Title -->
+	  
+	  <!-- Color icon -->
+	  <td width="12" height="12">
+	    <div style="width:10;height:10;background-color:{.//sld:CssParameter[@name='fill']};border:1px solid {.//sld:CssParameter[@name='stroke']}"/>
+	  </td>
+	  
+      <!-- Title -->
       <td>
         <xsl:choose>
           <xsl:when test="wmc:Title/@xml:lang">              
@@ -121,7 +128,7 @@ $Name$
         </xsl:choose>
       </td>
     </tr>
-  <!-- StyleList -->
+    <!-- StyleList -->
     <tr>
       <td></td>
       <td></td>
@@ -139,7 +146,7 @@ $Name$
   
    <xsl:template match="wmc:RssLayer">
     <tr>
-  <!-- Visiblity -->
+      <!-- Visiblity -->
       <td>
         <xsl:if test="@hidden='0'">
           <input type="checkbox" checked="true" id="legend_{wmc:Title}" onclick="{$context}.setHidden('{@id}',!document.getElementById('legend_{wmc:Title}').checked)"/>
@@ -148,7 +155,7 @@ $Name$
           <input type="checkbox" id="legend_{wmc:Title}" onclick="{$context}.setHidden('{@id}',! document.getElementById('legend_{wmc:Title}').checked)"/>
         </xsl:if>
       </td>
-  <!-- Query Image -->
+      <!-- Query Image -->
       <td>
         <xsl:if test="@queryable='1'">
           <img
@@ -158,7 +165,7 @@ $Name$
             src="{$skinDir}/images/id.gif" />
         </xsl:if>
       </td>
-  <!-- Title -->
+      <!-- Title -->
       <td>
         <xsl:choose>
           <xsl:when test="wmc:Title/@xml:lang">              
@@ -170,7 +177,7 @@ $Name$
         </xsl:choose>
       </td>
     </tr>
-  <!-- StyleList -->
+    <!-- StyleList -->
     <tr>
       <td></td>
       <td></td>
