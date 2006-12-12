@@ -31,7 +31,6 @@
   </General>  
     
   <ResourceList>
-
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Administrative_Boundary_L.xml"/>
@@ -39,11 +38,18 @@
       <Name>Administrative_Boundary_L</Name>
       <Title>Administrative_Boundary_L (12)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#000066</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
-
-
-
-
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="MSD3/gmlcompressed/Aerodrome_A.xml"/>
@@ -51,6 +57,21 @@
       <Name>Aerodrome_A</Name>
       <Title>Aerodrome_A (18)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#0000CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#0000CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -59,6 +80,24 @@
       <Name>Aero_Navaid_P</Name>
       <Title>Aero_Navaid_P (1)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#003300</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#003300</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -67,6 +106,21 @@
       <Name>Aircraft_Hangar_A</Name>
       <Title>Aircraft_Hangar_A (8)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#003366</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#003366</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -75,6 +129,17 @@
       <Name>Aircraft_Revetment_L</Name>
       <Title>Aircraft_Revetment_L (1)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#0033CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -83,6 +148,24 @@
       <Name>Air_Fac_Reference_Point_P</Name>
       <Title>Air_Fac_Reference_Point_P (14)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#006600</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#006600</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -91,6 +174,24 @@
       <Name>Airport_Navigation_Lights_P</Name>
       <Title>Airport_Navigation_Lights_P (12)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#006666</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#006666</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -99,6 +200,24 @@
       <Name>Anchorage_P</Name>
       <Title>Anchorage_P (1)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#0066CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#0066CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -107,6 +226,21 @@
       <Name>Annotated_Location_A</Name>
       <Title>Annotated_Location_A (6)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#009900</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#009900</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -115,6 +249,24 @@
       <Name>Annotated_Location_P</Name>
       <Title>Annotated_Location_P (3)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#009966</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#009966</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -123,6 +275,21 @@
       <Name>Apron_A</Name>
       <Title>Apron_A (4)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#0099CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#0099CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -131,6 +298,24 @@
       <Name>Bottom_Character_Region_P</Name>
       <Title>Bottom_Character_Region_P (9)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#00CC00</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#00CC00</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -139,6 +324,21 @@
       <Name>Bridge_A</Name>
       <Title>Bridge_A (1)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#00CC66</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#00CC66</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -147,6 +347,17 @@
       <Name>Bridge_L</Name>
       <Title>Bridge_L (152)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#00CCCC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -155,6 +366,21 @@
       <Name>Building_A</Name>
       <Title>Building_A (3507)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#00FF00</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#00FF00</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -163,6 +389,24 @@
       <Name>Building_P</Name>
       <Title>Building_P (1455)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#00FF66</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#00FF66</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -171,6 +415,21 @@
       <Name>Built_Up_Area_A</Name>
       <Title>Built_Up_Area_A (72)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#00FFCC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#00FFCC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -179,6 +438,24 @@
       <Name>Buoy_P</Name>
       <Title>Buoy_P (20)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#330000</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#330000</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -187,6 +464,17 @@
       <Name>Cable_L</Name>
       <Title>Cable_L (2)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#330066</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -195,6 +483,17 @@
       <Name>Cart_Track_L</Name>
       <Title>Cart_Track_L (11)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#3300CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -203,6 +502,21 @@
       <Name>Cemetery_A</Name>
       <Title>Cemetery_A (5)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#333300</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#333300</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -211,6 +525,24 @@
       <Name>Cemetery_P</Name>
       <Title>Cemetery_P (51)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#333366</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#333366</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -219,6 +551,24 @@
       <Name>Cistern_P</Name>
       <Title>Cistern_P (16)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#3333CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#3333CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -227,6 +577,24 @@
       <Name>Control_Tower_P</Name>
       <Title>Control_Tower_P (2)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#336600</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#336600</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -235,6 +603,24 @@
       <Name>Cooling_Tower_P</Name>
       <Title>Cooling_Tower_P (6)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#336666</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#336666</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -243,6 +629,24 @@
       <Name>Crane_P</Name>
       <Title>Crane_P (3)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#3366CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#3366CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -251,6 +655,24 @@
       <Name>Culvert_P</Name>
       <Title>Culvert_P (75)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#339900</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#339900</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -259,6 +681,17 @@
       <Name>Cut_L</Name>
       <Title>Cut_L (18)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#339966</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -267,6 +700,21 @@
       <Name>Depth_Area_A</Name>
       <Title>Depth_Area_A (28)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#3399CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#3399CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -275,6 +723,17 @@
       <Name>Depth_Curve_L</Name>
       <Title>Depth_Curve_L (58)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#33CC00</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -283,6 +742,21 @@
       <Name>Disposal_Site_A</Name>
       <Title>Disposal_Site_A (4)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#33CC66</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#33CC66</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -291,6 +765,17 @@
       <Name>Ditch_L</Name>
       <Title>Ditch_L (102)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#33CCCC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -299,6 +784,17 @@
       <Name>Elevation_Contour_L</Name>
       <Title>Elevation_Contour_L (255)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#33FF00</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -307,6 +803,21 @@
       <Name>Embankment_A</Name>
       <Title>Embankment_A (38)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#33FF66</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#33FF66</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -315,6 +826,17 @@
       <Name>Embankment_L</Name>
       <Title>Embankment_L (67)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#33FFCC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -323,6 +845,21 @@
       <Name>Extraction_Mine_A</Name>
       <Title>Extraction_Mine_A (1)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#660000</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#660000</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -331,6 +868,17 @@
       <Name>Fence_L</Name>
       <Title>Fence_L (5)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#660033</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -339,6 +887,17 @@
       <Name>Ferry_Crossing_L</Name>
       <Title>Ferry_Crossing_L (1)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#660066</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -347,6 +906,21 @@
       <Name>Firing_Range_A</Name>
       <Title>Firing_Range_A (2)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#6600CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#6600CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -355,6 +929,21 @@
       <Name>Foreshore_A</Name>
       <Title>Foreshore_A (10)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#663300</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#663300</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -363,6 +952,21 @@
       <Name>Geopolitical_Entity_A</Name>
       <Title>Geopolitical_Entity_A (7)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#663366</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#663366</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -371,6 +975,21 @@
       <Name>Golf_Course_A</Name>
       <Title>Golf_Course_A (1)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#6633CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#6633CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -379,6 +998,24 @@
       <Name>Helipad_P</Name>
       <Title>Helipad_P (17)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#666600</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#666600</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -387,6 +1024,24 @@
       <Name>Ils_Component_P</Name>
       <Title>Ils_Component_P (14)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#666666</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#666666</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -395,6 +1050,21 @@
       <Name>Island_A</Name>
       <Title>Island_A (3)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#6666CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#6666CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -403,6 +1073,24 @@
       <Name>Island_P</Name>
       <Title>Island_P (3)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#669900</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#669900</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -411,6 +1099,17 @@
       <Name>Land_Water_Boundary_L</Name>
       <Title>Land_Water_Boundary_L (17)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#669966</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -419,6 +1118,21 @@
       <Name>Maritime_Area_A</Name>
       <Title>Maritime_Area_A (5)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#669966</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#669966</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -427,6 +1141,24 @@
       <Name>Maritime_Navigation_Beacon_P</Name>
       <Title>Maritime_Navigation_Beacon_P (5)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#6699CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#6699CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -435,6 +1167,24 @@
       <Name>Maritime_Navigation_Light_P</Name>
       <Title>Maritime_Navigation_Light_P (27)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#66CC00</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#66CC00</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -443,6 +1193,24 @@
       <Name>Maritime_Radiobeacon_P</Name>
       <Title>Maritime_Radiobeacon_P (5)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#66CC66</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#66CC66</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -451,6 +1219,21 @@
       <Name>Maritime_Route_A</Name>
       <Title>Maritime_Route_A (1)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#66CCCC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#66CCCC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -459,6 +1242,17 @@
       <Name>Maritime_Route_L</Name>
       <Title>Maritime_Route_L (1)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#66FF00</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -467,6 +1261,21 @@
       <Name>Marsh_A</Name>
       <Title>Marsh_A (1)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#66FF66</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#66FF66</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -475,6 +1284,24 @@
       <Name>Military_Installation_P</Name>
       <Title>Military_Installation_P (7)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#66FFCC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#66FFCC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -491,6 +1318,24 @@
       <Name>Offshore_Construction_P</Name>
       <Title>Offshore_Construction_P (6)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#990000</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#990000</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -499,6 +1344,21 @@
       <Name>Orchard_A</Name>
       <Title>Orchard_A (1)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#990066</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#990066</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -507,6 +1367,21 @@
       <Name>Park_A</Name>
       <Title>Park_A (5)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#9900CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#9900CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -515,6 +1390,17 @@
       <Name>Pipeline_L</Name>
       <Title>Pipeline_L (5)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#993300</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -523,6 +1409,17 @@
       <Name>Power_line_L</Name>
       <Title>Power_line_L (51)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#993366</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -531,6 +1428,21 @@
       <Name>Power_Station_A</Name>
       <Title>Power_Station_A (3)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#9933CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#9933CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -539,6 +1451,21 @@
       <Name>Power_Substation_A</Name>
       <Title>Power_Substation_A (7)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#996600</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#996600</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -547,6 +1474,24 @@
       <Name>Power_Substation_P</Name>
       <Title>Power_Substation_P (1)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#996666</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#996666</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -555,6 +1500,21 @@
       <Name>Processing_Facility_A</Name>
       <Title>Processing_Facility_A (13)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#9966CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#9966CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -563,6 +1523,17 @@
       <Name>Racetrack_L</Name>
       <Title>Racetrack_L (1)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#999900</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -571,6 +1542,17 @@
       <Name>Railway_L</Name>
       <Title>Railway_L (11)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#999966</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -579,6 +1561,17 @@
       <Name>Railway_Sidetrack_L</Name>
       <Title>Railway_Sidetrack_L (4)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#999999</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -587,6 +1580,21 @@
       <Name>Railway_Yard_A</Name>
       <Title>Railway_Yard_A (3)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#9999CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#9999CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -595,6 +1603,21 @@
       <Name>Reef_A</Name>
       <Title>Reef_A (10)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#99CC00</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#99CC00</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -603,6 +1626,21 @@
       <Name>Religious_Facility_A</Name>
       <Title>Religious_Facility_A (46)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#99CC66</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#99CC66</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -611,6 +1649,24 @@
       <Name>Religious_Facility_P</Name>
       <Title>Religious_Facility_P (13)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#99CC99</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#99CC99</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -619,6 +1675,21 @@
       <Name>Reservoir_A</Name>
       <Title>Reservoir_A (2)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#99CCCC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#99CCCC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -627,6 +1698,21 @@
       <Name>Rice_Field_A</Name>
       <Title>Rice_Field_A (41)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#99FF00</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#99FF00</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -635,6 +1721,21 @@
       <Name>River_A</Name>
       <Title>River_A (6)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#99FF66</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#99FF66</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -643,6 +1744,17 @@
       <Name>River_L</Name>
       <Title>River_L (59)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#99FF99</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -651,6 +1763,17 @@
       <Name>Road_Interchange_L</Name>
       <Title>Road_Interchange_L (73)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#99FFCC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -659,6 +1782,17 @@
       <Name>Road_L</Name>
       <Title>Road_L (1471)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CC0000</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -667,6 +1801,21 @@
       <Name>Runway_A</Name>
       <Title>Runway_A (3)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#CC0066</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CC0066</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -675,6 +1824,21 @@
       <Name>Runway_Direction_A</Name>
       <Title>Runway_Direction_A (6)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#CC00CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CC00CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -683,6 +1847,24 @@
       <Name>Runway_Endpoint_P</Name>
       <Title>Runway_Endpoint_P (6)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#CC3300</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CC3300</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -691,6 +1873,21 @@
       <Name>Settling_Pond_A</Name>
       <Title>Settling_Pond_A (2)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#CC3366</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CC3366</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -699,6 +1896,21 @@
       <Name>Shoreline_Construction_A</Name>
       <Title>Shoreline_Construction_A (16)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#CC33CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CC33CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -707,6 +1919,17 @@
       <Name>Shoreline_Construction_L</Name>
       <Title>Shoreline_Construction_L (27)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CC6600</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -715,6 +1938,24 @@
       <Name>Smokestack_P</Name>
       <Title>Smokestack_P (86)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#CC6666</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CC6666</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -723,6 +1964,24 @@
       <Name>Sounding_P</Name>
       <Title>Sounding_P (177)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#CC66CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CC66CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -731,6 +1990,24 @@
       <Name>Sound_Signal_P</Name>
       <Title>Sound_Signal_P (4)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#CC9900</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CC9900</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -739,6 +2016,21 @@
       <Name>Sports_Ground_A</Name>
       <Title>Sports_Ground_A (40)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#CC9966</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CC9966</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -747,6 +2039,24 @@
       <Name>Spot_Elevation_P</Name>
       <Title>Spot_Elevation_P (11)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#CC99CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CC99CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -755,6 +2065,21 @@
       <Name>Stadium_A</Name>
       <Title>Stadium_A (1)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#CCCC00</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CCCC00</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -763,6 +2088,17 @@
       <Name>Steep_Terrain_Face_L</Name>
       <Title>Steep_Terrain_Face_L (1)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CCCC66</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -771,6 +2107,21 @@
       <Name>Stopway_A</Name>
       <Title>Stopway_A (4)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#CCCCCC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CCCCCC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -779,6 +2130,21 @@
       <Name>Storage_Tank_A</Name>
       <Title>Storage_Tank_A (69)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#CCFF00</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CCFF00</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -787,6 +2153,21 @@
       <Name>Swamp_A</Name>
       <Title>Swamp_A (4)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#CCFF66</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CCFF66</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -795,6 +2176,21 @@
       <Name>Taxiway_A</Name>
       <Title>Taxiway_A (29)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#CCFFCC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CCFFCC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -803,6 +2199,21 @@
       <Name>Tidal_Water_A</Name>
       <Title>Tidal_Water_A (10)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#FF0000</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#FF0000</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -811,6 +2222,24 @@
       <Name>Tower_P</Name>
       <Title>Tower_P (139)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#FF0066</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#FF0066</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -819,6 +2248,17 @@
       <Name>Tunnel_L</Name>
       <Title>Tunnel_L (47)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#FF00CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -827,6 +2267,17 @@
       <Name>Wall_L</Name>
       <Title>Wall_L (53)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#FF00CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -835,6 +2286,24 @@
       <Name>Water_Movement_Data_Location_P</Name>
       <Title>Water_Movement_Data_Location_P (2)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#FF3300</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#FF3300</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -843,6 +2312,24 @@
       <Name>Water_Tower_P</Name>
       <Title>Water_Tower_P (6)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#FF3366</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#FF3366</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -851,6 +2338,21 @@
       <Name>Water_Treatment_Bed_A</Name>
       <Title>Water_Treatment_Bed_A (13)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#FF33CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#FF33CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -859,6 +2361,21 @@
       <Name>Wood_A</Name>
       <Title>Wood_A (65)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#FF6600</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#FF6600</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -867,6 +2384,21 @@
       <Name>Wreck_A</Name>
       <Title>Wreck_A (3)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#FF6666</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#FF6666</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -875,6 +2407,24 @@
       <Name>Wreck_P</Name>
       <Title>Wreck_P (1)</Title>
       <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#FF66CC</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#FF66CC</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+            </sld:Stroke>
+            <sld:Graphic>
+              <sld:Size>1</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
     </FeatureType>
 
     <Layer queryable="1" hidden="0">
