@@ -1,93 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-      
-<html xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:vml="urn:schemas-microsoft-com:vml" 
-  xmlns:svg="http://www.w3.org/2000/svg" 
-  xmlns:xlink="http://www.w3.org/1999/xlink">
+<html xmlns="http://www.w3.org/1999/xhtml" >
   <head>
-    <title>Mapbuilder OpenLayers Integration</title>
-    	<style> vml\:* { behavior: url(#default#VML); position:absolute }</style >
-       <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/demoStyles.css'/>
-        <script src="OpenLayers.js"></script>
-     <script>
-      // URL of Mapbuilder configuration file.
-      var mbConfigUrl='config.xml';
-
-    </script>
-    <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
+    <title>GML Viewer</title>
+    <link rel='StyleSheet' type='text/css' href='lib/skin/default/docsStyle.css'>
+    <link rel='StyleSheet' type='text/css' href='lib/skin/default/mapStyle.css'>
   </head>
-  <body onload="mbDoLoad()" >
-  <div id="header">
-<h1><a href="http://communitymapbuilder.org">MapBuilder</a> OpenLayers Integration</h1>
-<!--This is for more complex pages <a href="" class="help">how to use this page</a></div>-->
-  </div>
-  <div id="middle">
-  <div id="menubar">
-  <h2>Basic</h2>
-			<ul>
-				<li><a href="../simple/index.html" title="simple map demo">Simple Map Viewer</a></li>
-				<li><a href="../basic/index.html" title="interactive map demo">Interactive Map Viewer</a></li>
-				<li><a href="../mapViewer/index.html" title="enhanced map demo">Enhanced Map Viewer</a></li>
-			</ul>
-		<h2>Complex</h2>
-			<ul>
-				<li><a href="../Demis/index.html" title="Demis map viewer">Different maps connected</a></li>
-				<li><a href="../timeSeries/index.html" title="Time series viewer">Time series viewer</a></li>
-				<li><a href="../wfs-t/index.html" title="Feature entry">Feature entry</a></li>
-				<li><a href="../contextEditor/index.html" title="Context Editor">Webmapping Context Editor</a></li>
-			</ul>
-
-		<h2>New</h2>
-			<ul>
-				<li><a href="../OWSExplorer/index.html" title="OWS explorer">Open Web Services explorer</a></li>			
-				<li><a href="../flickr/index.html" title="GeoRSS feed example">Live flickr feed viewer</a></li>
-				<li><a href="../sldEditor/index.html" title="Sld editor">SLD editor</a></li>
-				<li><a href="../openlayers/index.html" title="Webmap.js integration">OpenLayers integration</a></li>
-		</ul>
-		<h2 onclick="javascript: history.go(-1)" style="color:black;cursor:pointer;">Back</h2>
-  </div>
-	<div id="mainbody">
-	  <div class="left">
-            <h3>Explanation</h3>
-            <p>
-            This demonstrates rendering of Geographic Markup Language (GML) layers using browser based vector
-            rendering - SVG and VML. The map context uses the OGC OWS Context format (specification pending)
-            and uses Style Layer Descriptor (SLD) format to describe vector colors.
-            </p>
-            <p>
-	    This is a first attempt to combine <a href="http://openlayers.org/">OpenLayers</a> with Mapbuilder. 
-	    In September 2006 during <a href="http://www.foss4g2006.org/">Foss4G</a> several webmapping projects
-	    got together and decided upon a single library to render maps. This library, based
-            upon the OpenLayers code base is what is being used here.</p>
-	    We, the mapbuilder community, plan to replace
-	    MapPane.js and MapPane2.js by MapPaneOL.js. This means that our future efforts will largely 
-	    focus on MapPaneOL and if you plan to develop new features, we strongly urge you to use MapPaneOL where possible.<p/>
-            <p>
-	    As you can see MapPaneOL already supports the new <a href="http://wiki.osgeo.org/index.php/WMS_Tiling_Client_Recommendation">WMS-C</a> 
-            standard aka tiling and GML layers and very soon will include WFS, google, yahoo, microsoft maps and many others.</p>
-            <p>Mapbuilder tools have not been connected with MapPaneOL yet, but that is planned.
-            </p>
-	    
-    </div>
-  	<div class="right">
-  	  <div id="mainMapPane">
-    		<noscript>
-		      this page requires Javascript to be enabled
-    		</noscript>
-		  </div>
-		  <div id="mainButtonBar"></div>
-    <div id="cursorTrack"></div>
-    <div id="legend"></div>
-		</div>
-	</div>
-	</div>
-  <div id="footer">
-	  
-    <div class="right">
-<a href="http://communitymapbuilder.org/" title="powered by community mapbuilder"><img src="../../lib/skin/default/images/Icon.gif"/></a>	  	
-<a href="https://www.osgeo.org/" title="member of OSgeo"><img src="../../lib/skin/default/images/Osgeo.png"/></a>
-         </div>
-  </div>  
-  </body>
+  <body>
+    <table>
+      <tr>
+        <td>
+          <img src="img/thalesLogo.jpg"/>
+        </td>
+        <td align="right">
+          <p>
+          <a href="http://communitymapbuilder.org">MapBuilder</a> Open Source GML Viewer for <a href="http://www.opengeospatial.org/">OGC's</a> OWS4 testbed.
+          </p>
+        </td>
+      </tr>
+    </table>
+    <h1 align="center">About</h1>
+    <p>
+    The Open Source GML Viewer renders GML2, GML3 and WMS layers as
+    described by an OWS Context document within a Web Browser.
+    </p><p>
+    The Viewer can be distributed with a GML dataset and only
+    requires a recent Web Browser to run.
+    </p><p>
+    Testing has been done on both Firefox 1.5 and Internet Explorer 6.
+    </p><p>
+    Vector rendering is achieved using SVG in firefox and VML in Internet
+    Explorer.</p>
+    <h1 align="center">Examples</h1>
+    <ul>
+      <li><a href="MSD3.html">MSD3 dataset</a></li>
+      <li><a href="tasmania.html">Tasmania dataset</a></li>
+    </ul>
+    <h1 align="center">License</h1>
+    The GML Viewer uses the same <a href="./LICENSE">LGPL</a> license as the
+    Community Mapbuilder project.
+    <h1 align="center">Credits</h1>
+    <p>Thales Australia worked closely with many
+    Open Source developers while building the GML3 Viewer. These include ...
+    </p>
+  <h3>Thales Australia</h3>
+<ul>
+  <li>Cameron Shorter <a href="http://cameron.shorter.net">http://cameron.shorter.net</a> (core developer)</li>
+</ul>
+<h3><a href="http://communitymapbuilder.org">http://communitymapbuilder.org</a></h3>
+<ul>
+  <li>Cameron Shorter</li>
+  <li>Steven Ottens, <a href="http://geodan.nl">http://geodan.nl</a> (feature editing)</li>
+  <li>Mike Adair (context editing)</li>
+  <li>Patrice Cappelaere, <a href="http://geobliki.org">http://geobliki.org</a> (initial vector rendering)</li>
+  <li>Matt Diez (release manager)</li>
+  <li>Many others have contributed to the core codebase</li>
+</ul>
+<h3><a href="http://openlayers.org">http://openlayers.org</a></h3>
+<ul>
+  <li>Cameron Shorter</li>
+  <li>Pierre Giraud, CamptoCamp (GML rendering and editing)</li>
+  <li>Bertil Chapuis, CamptoCamp (GML rendering and editing)</li>
+  <li>Many others have contributed to the core codebase</li>
+</ul>
+</body>
 </html>
+
+
