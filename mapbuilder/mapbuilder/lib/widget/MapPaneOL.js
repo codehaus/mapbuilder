@@ -48,17 +48,17 @@ function MapPaneOL(widgetNode, model) {
 MapPaneOL.prototype.paint = function(objRef, refresh) {
   // Create an OpenLayers map
   if(!objRef.oLMap){
-  	
-  	if(objRef.model.doc.selectSingleNode("//wmc:OWSContext"))
-  		objRef.context="OWS";
-  	else if(objRef.model.doc.selectSingleNode("//wmc:ViewContext"))
-  		objRef.context="View";
-  	else
-  		alert("No context defines in config");
-  		
+    
+    if(objRef.model.doc.selectSingleNode("//wmc:OWSContext"))
+        objRef.context="OWS";
+    else if(objRef.model.doc.selectSingleNode("//wmc:ViewContext"))
+        objRef.context="View";
+    else
+        alert("No context defines in config");
+        
 
     if(objRef.context=="OWS")  {srs=objRef.model.doc.selectSingleNode("//ows:BoundingBox/@crs"); srs=(srs)?srs.nodeValue:"";}
-   	else {srs=objRef.model.doc.selectSingleNode("//wmc:BoundingBox").getAttribute("SRS");}
+    else {srs=objRef.model.doc.selectSingleNode("//wmc:BoundingBox").getAttribute("SRS");}
    
     // OpenLayers doesn't contain information about projection, so if the
     // baseLayer projection is not standard lat/long, it needs to know
@@ -73,35 +73,35 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
    
       // If the maxExtent/maxResolution is not specified in the config
       // calculate it from the BBox and Width/Height in the Context.
-	  if(!maxExtent&&!maxResolution){
-	  	if(objRef.context=="OWS"){
-	        bbox1=objRef.model.doc.selectSingleNode("//ows:BoundingBox/ows:LowerCorner");
-	        bbox1=(bbox1)?bbox1.firstChild.nodeValue:"";
-	        bbox2=objRef.model.doc.selectSingleNode("//ows:BoundingBox/ows:UpperCorner");
-	        bbox2=(bbox2)?bbox2.firstChild.nodeValue:"";
-	        bbox=(bbox1&&bbox2)?bbox1+" "+bbox2:null;
-	    }
-	    else{
-	    	
-	    	 var boundingBox=objRef.model.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
-   			Bbox = new Array();
-   			Bbox[0]=parseFloat(boundingBox.getAttribute("minx"));
-    		Bbox[1]=parseFloat(boundingBox.getAttribute("miny"));
-    		Bbox[2]=parseFloat(boundingBox.getAttribute("maxx"));
-    		Bbox[3]=parseFloat(boundingBox.getAttribute("maxy"));
-    		bbox=Bbox.join(" ");
-	    }
+      if(!maxExtent&&!maxResolution){
+        if(objRef.context=="OWS"){
+            bbox1=objRef.model.doc.selectSingleNode("//ows:BoundingBox/ows:LowerCorner");
+            bbox1=(bbox1)?bbox1.firstChild.nodeValue:"";
+            bbox2=objRef.model.doc.selectSingleNode("//ows:BoundingBox/ows:UpperCorner");
+            bbox2=(bbox2)?bbox2.firstChild.nodeValue:"";
+            bbox=(bbox1&&bbox2)?bbox1+" "+bbox2:null;
+        }
+        else{
+            
+             var boundingBox=objRef.model.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
+            Bbox = new Array();
+            Bbox[0]=parseFloat(boundingBox.getAttribute("minx"));
+            Bbox[1]=parseFloat(boundingBox.getAttribute("miny"));
+            Bbox[2]=parseFloat(boundingBox.getAttribute("maxx"));
+            Bbox[3]=parseFloat(boundingBox.getAttribute("maxy"));
+            bbox=Bbox.join(" ");
+        }
 
-		maxExtent=bbox.split(" ");
-		if(objRef.context=="OWS"){
-	        width=objRef.model.doc.selectSingleNode("//ows:Window/@width");width=(width)?width.nodeValue:"400";maxResolution=(maxExtent[2]-maxExtent[0])/width;
-		}
-		else{
-			width=objRef.model.doc.selectSingleNode("//wmc:Window/@width");width=(width)?width.nodeValue:"400";
-		}
-			
-			
-	  }
+        maxExtent=bbox.split(" ");
+        if(objRef.context=="OWS"){
+            width=objRef.model.doc.selectSingleNode("//ows:Window/@width");width=(width)?width.nodeValue:"400";maxResolution=(maxExtent[2]-maxExtent[0])/width;
+        }
+        else{
+            width=objRef.model.doc.selectSingleNode("//wmc:Window/@width");width=(width)?width.nodeValue:"400";
+        }
+            
+            
+      }
       maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
     }
     objRef.oLMap = new OpenLayers.Map(objRef.node, {controls:[]});
@@ -111,7 +111,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     
     // TBD OpenLayer tools should not be added here. This is a hack to get
     // some tools until we develop a link between Mapbuilder tools and
-	// OpenLayer tools.
+    // OpenLayer tools.
     // To be removed.
     var toolbar=new OpenLayers.Control.EditingToolbar();
     var navigation=new OpenLayers.Control.MouseDefaults();
@@ -120,10 +120,10 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     objRef.oLMap.addControl(toolbar);
     objRef.oLMap.addControl(selection);
     objRef.oLMap.addControl(new OpenLayers.Control.PanZoom());
-	toolbar.setTool(navigation);
+    toolbar.setTool(navigation);
     // End To be Removed
     
-	// loop through all layers and create OLLayers 
+    // loop through all layers and create OLLayers 
     var layers = objRef.model.getAllLayers();
     objRef.oLlayers = new Array();
       
@@ -132,46 +132,46 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
        var title=layers[i].selectSingleNode("wmc:Title");title=(title)?title.firstChild.nodeValue:"";
       var name2=layers[i].selectSingleNode("wmc:Name");name2=(name2)?name2.firstChild.nodeValue:"";
        
-		if (objRef.context=="OWS"){
-       		var href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?href.firstChild.nodeValue:"";	
-       	}
-       	else
-       	{	var href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
-       	}
-       	
-       	
+        if (objRef.context=="OWS"){
+            var href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?href.firstChild.nodeValue:"";	
+        }
+        else
+        {	var href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
+        }
+        
+        
        var format=layers[i].selectSingleNode("wmc:FormatList/wmc:Format");format=(format)?format.firstChild.nodeValue:"image/gif";
       var vis=layers[i].selectSingleNode("@hidden");vis=(vis)?(vis.nodeValue!="1"):true;
 
       // Options to pass into the OpenLayers Layer initialization
-	  var options = new Array();
+      var options = new Array();
       options.visibility=vis;
-	  
+      
       // OpenLayers expects the base layer to be non-transparent (it gets
       // projection info from the baselayer).
       // See Issue http://trac.openlayers.org/ticket/390
-	  options.isBaseLayer=(i==layers.length-1)?true:false;
+      options.isBaseLayer=(i==layers.length-1)?true:false;
       //options.transparent=(i==layers.length-1)?"false":"true";
-	  options.buffer=1;
+      options.buffer=1;
       if(srs!="EPSG:4326"&&srs!="epsg:4326"){
-	  	options.maxExtent=maxExtent;
-		options.maxResolution=maxResolution;
-		options.projection=srs;
-	  }
+        options.maxExtent=maxExtent;
+        options.maxResolution=maxResolution;
+        options.projection=srs;
+      }
       switch(service){
 
         // WMS Layer
         case "wms":
         case "OGC:WMS":
             objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(
-	            title,
-	            href,
-	            {
-	                layers: name2,
-	                transparent: "true",
-	                format: format
-	            },
-			    options
+                title,
+                href,
+                {
+                    layers: name2,
+                    transparent: "true",
+                    format: format
+                },
+                options
             );
             objRef.oLMap.addLayers([objRef.oLlayers[name2]]);
             break;
@@ -179,7 +179,12 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         // GML Layer
         case "gml":
         case "OGC:GML":
-		    options.style=new OpenLayers.Style.WebSafe(2*i+1);
+            style=objRef.extractStyle(objRef,layers[i]);
+            if(style){
+                options.style=style;
+            }else{
+                options.style=new OpenLayers.Style.WebSafe(2*i+1);
+            }
             objRef.oLlayers[name2] = new OpenLayers.Layer.GML(title,href,options);
             objRef.oLMap.addLayer(objRef.oLlayers[name2]);
             break;
@@ -191,6 +196,60 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     bbox=objRef.model.getBoundingBox();
     objRef.oLMap.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
   }
+}
+
+/**
+ * Extract a style from a Layer node. Returns null if no style parameters are
+ * found.
+ * @param objRef Pointer to widget object.
+ * @param node Node to extract style from.
+ * @return OpenLayers.Style
+ */
+MapPaneOL.prototype.extractStyle = function(objRef, node) {
+    var style1=new OpenLayers.Style({
+        map:objRef.oLMap
+        });
+    var value;
+    var styleSet=false;
+
+    value=node.selectSingleNode(".//sld:Fill/sld:CssParameter[@name='fill']");
+    if(value){
+        style1.fillColor=value.firstChild.nodeValue;
+        styleSet=true;
+    }
+    value=node.selectSingleNode(".//sld:Fill/sld:CssParameter[@name='fill-opacity']");
+    if(value){
+        style1.fillOpacity=value.firstChild.nodeValue;
+        styleSet=true;
+    }
+
+    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke']");
+    if(value){
+        style1.strokeColor=value.firstChild.nodeValue;
+        styleSet=true;
+    }
+    
+    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke-opacity']");
+    if(value){
+        style1.strokeOpacity=value.firstChild.nodeValue;
+        styleSet=true;
+    }
+
+// OpenLayer.Style is processing style in % coords, not pixels.
+// When this is fixed, the following lines can be uncommented.
+//    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke-width']");
+//    if(value){
+//        style1.strokeWidth=value.firstChild.nodeValue;
+//        styleSet=true;
+//    }
+//  
+//    value=node.selectSingleNode(".//sld:Graphic/sld:Size");
+//    if(value){
+//        style1.pointRadius=value.firstChild.nodeValue;
+//        styleSet=true;
+//    }
+    if(!styleSet)style1=null;
+    return style1;
 }
 
 /**
