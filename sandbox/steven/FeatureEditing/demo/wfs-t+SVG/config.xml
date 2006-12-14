@@ -248,19 +248,19 @@
        <requestStylesheet>wfs_GetFeature.xsl</requestStylesheet>
     </NewFeature>
     <NewPoint id="newPoint"> 
-     <namespace>xmlns:wmc='http://www.opengis.net/context' xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:ows='http://www.opengis.net/ows' xmlns:topp='http://www.openplans.org/topp'</namespace>
+    <namespace>xmlns:wmc='http://www.opengis.net/context' xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:ows='http://www.opengis.net/ows' xmlns:topp='http://www.openplans.org/topp'</namespace>
       <buttonBar>mainButtonBar</buttonBar>
       <mouseHandler>mainMouseClick</mouseHandler>
-      <targetModel>pointCollection</targetModel>
+      <targetModel>gml2FeatureTemplate</targetModel>
       <class>RadioButton</class>
       <disabledSrc>/images/NewFeatureDisable.png</disabledSrc>
       <enabledSrc>/images/NewFeatureEnable.png</enabledSrc>
       <targetContext>mainMap</targetContext>
-      <defaultModelUrl>punten.xml</defaultModelUrl>
-       <featureTagName>topp:ISL_ADRESSEN</featureTagName>
+      <defaultModelUrl>wegvlakken.xml</defaultModelUrl>
+       <featureTagName>topp:WEGVAKID</featureTagName>
       <coordsTagName>topp:GEOMETRIE</coordsTagName>
       <nodeSelectXpath>//gml:featureMember</nodeSelectXpath>
-      <featureXpath>//topp:GEOMETRIE/gml:Point/gml:coordinates</featureXpath>
+      <featureXpath>//topp:GEOMETRIE/gml:LineString/gml:coordinates</featureXpath>
        <requestStylesheet>wfs_GetFeature.xsl</requestStylesheet>
     </NewPoint>
      <InsertFeature id="insertFeature">

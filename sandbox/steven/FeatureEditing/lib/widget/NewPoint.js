@@ -30,7 +30,7 @@ function NewPoint(widgetNode, model) {
   if (featureXpath) {
   	this.featureXpath = widgetNode.selectSingleNode("mb:featureXpath").firstChild.nodeValue;
   }
-  else this.featureXpath = "//topp:GEOMETRIE/gml:Point/gml:coordinates";
+  else this.featureXpath = "//topp:GEOMETRIE/gml:LineString/gml:coordinates";
 
   // override default cursor by user
   // cursor can be changed by spefying a new cursor in config file
@@ -68,13 +68,13 @@ function NewPoint(widgetNode, model) {
 	       old=objRef.targetModel.getXpathValue(
          objRef.targetModel,
          objRef.featureXpath);
-
+  	    
   	    //First point, make sure that it is put as point[0],point[1] without any whitespace
       	sucess=objRef.targetModel.setXpathValue(
 	        objRef.targetModel,
   	      objRef.featureXpath,
     	    point[0]+","+point[1]);
-    	    
+    	  
 	      if(!sucess){
   	      alert("EditLine: invalid featureXpath in config: "+objRef.featureXpath);
     	  }
