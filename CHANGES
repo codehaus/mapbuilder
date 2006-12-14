@@ -1,0 +1,21 @@
+
+gmlviewer Release Information
+=============================
+$Id:$ 
+
+This file contains information about updates to each release:
+
+gmlviewer-1.0
+=============
+This is the first official release of the gmlviewer developed for the
+OGC's OWS4 testbed by Thales Australia.
+
+It is derived from:
+* version 2422 of the trunk version of Mapbuilder, soon to be
+  mapbuilder-lib-1.5-rc1
+  URL: https://svn.codehaus.org/mapbuilder/trunk/mapbuilder/mapbuilder
+* version 2036 of the sandbox/vector branch of OpenLayers,
+  URL: http://svn.openlayers.org/sandbox/vector
+
+The application is very similar to the mapbuilder/demo/openlayers/index.html
+demo and will be maintained in that demo directory in the future.
