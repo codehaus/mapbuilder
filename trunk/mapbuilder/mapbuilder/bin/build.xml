@@ -520,8 +520,9 @@ lib/util/MGRS.js
   		name="nightly-build"
   		depends="dist"
   	>
-  		<property name="nightlybuild.dir" value="${continuum.webapp.dir}/nightlybuilds"/>
 		<property name="mapbuilder.webapp.deploy.dir" value="${geoserver.webapp.dir}/mapbuilder"/>
+		<property name="nightlybuild.dir" value="${mapbuilder.webapp.deploy.dir}/nightlybuilds"/>
+		<mkdir dir="${nightlybuild.dir}"/>
   		<tstamp/>
 		<!-- <delete dir="${mapbuilder.webapp.deploy.dir}"/> -->
   		<copydir dest="${mapbuilder.webapp.deploy.dir}" src="${basedir}/build"></copydir>
