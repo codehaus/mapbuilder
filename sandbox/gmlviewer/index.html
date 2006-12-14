@@ -1,71 +1,187 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html xmlns="http://www.w3.org/1999/xhtml" >
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <title>GML Viewer</title>
-    <link rel='StyleSheet' type='text/css' href='lib/skin/default/docsStyle.css'>
-    <link rel='StyleSheet' type='text/css' href='lib/skin/default/mapStyle.css'>
+
+    <link href="lib/skin/default/docsStyle.css" rel="StyleSheet"
+          type="text/css" />
+
+    <link href="lib/skin/default/mapStyle.css" rel="StyleSheet"
+          type="text/css" />
   </head>
+
   <body>
     <table>
       <tr>
         <td>
-          <img src="img/thalesLogo.jpg"/>
+          <img alt="Thales Australia logo" src="img/thalesLogo.jpg" />
         </td>
+
         <td align="right">
-          <p>
-          <a href="http://communitymapbuilder.org">MapBuilder</a> Open Source GML Viewer for <a href="http://www.opengeospatial.org/">OGC's</a> OWS4 testbed.
-          </p>
+          <p><a href="http://communitymapbuilder.org">MapBuilder</a> Open
+          Source GML Viewer for <a
+          href="http://www.opengeospatial.org/">OGC's</a> OWS4 testbed.</p>
         </td>
       </tr>
     </table>
+
     <h1 align="center">About</h1>
-    <p>
-    The Open Source GML Viewer renders GML2, GML3 and WMS layers as
-    described by an OWS Context document within a Web Browser.
-    </p><p>
-    The Viewer can be distributed with a GML dataset and only
-    requires a recent Web Browser to run.
-    </p><p>
-    Testing has been done on both Firefox 1.5 and Internet Explorer 6.
-    </p><p>
-    Vector rendering is achieved using SVG in firefox and VML in Internet
-    Explorer.</p>
+
+    <p>The Open Source GML Viewer renders GML2, GML3 and WMS layers as
+    described by an OWS Context document within a Web Browser.</p>
+
+    <p>The Viewer is intended to be distributed with recent GML datasets to
+    allow uses to easily view the datasets they have been provided.</p>
+
     <h1 align="center">Examples</h1>
+
     <ul>
-      <li><a href="MSD3.html">MSD3 dataset</a></li>
-      <li><a href="tasmania.html">Tasmania dataset</a></li>
+      <li><a href="MSD3.html">MSD3 dataset</a> (The MSD3 dataset is not stored
+      in the Mapbuilder repository due to license restrictions)</li>
+
+      <li>
+        <a href="tasmania.html">Tasmania dataset</a>
+      </li>
     </ul>
+
     <h1 align="center">Features</h1>
+
+    <ul>
+      <li>Can be executed by opening a web page from your local drive. It runs
+      inside a recent web browser without plugging.</li>
+
+      <li>Browsers supported include Internet Explorer 6 and Firefox 1.5+</li>
+
+      <li>Renders GML2 and GML3 layers are SVG or VML.</li>
+
+      <li>Can render hundreds of GML features easily, and thousands of
+      features sluggishly. (Firefox is much faster than IE).</li>
+
+      <li>Renders WMS layers.</li>
+
+      <li>Layers are described using a OWS Context document.</li>
+
+      <li>Feature colors are specified using SLD in with OWS Context.</li>
+
+      <li>Free to use and modify under an Open Source license.</li>
+    </ul>
+
     <h1 align="center">Download</h1>
+
+    <dt>GML Viewer + MSD3 Dataset</dt>
+
+    <dd>
+      <p>The MSD3 dataset's licence restricts it from being included in the
+      Open Source repository. OGC members can download the Viewer and dataset
+      at: <a
+      href="https://portal.opengeospatial.org/wiki/twiki/bin/view/OWS4/GMLViewer#Latest_Downloads">https://portal.opengeospatial.org/wiki/twiki/bin/view/OWS4/GMLViewer#Latest_Downloads</a></p>
+    </dd>
+
+    <dt>GML Viewer - MSD3 Dataset</dt>
+
+    <dd>
+      <p>Alternatively, you can view the GML Viewer with the smaller Tasmania
+      dataset from: <a
+      href="http://sourceforge.net/project/showfiles.php?group_id=35246&amp;package_id=96549">http://sourceforge.net/project/showfiles.php?group_id=35246&amp;package_id=96549</a></p>
+    </dd>
+
+    <dt>Source Code</dt>
+
+    <dd>
+      <p>The GML Viewer has become the basis for one of the Mapbuilder
+      standard examples which will continue to be distributed with future
+      Mapbuilder releases.</p>
+
+      <p>Mapbuilder source code is available through subversion as explained
+      at <a
+      href="http://communitymapbuilder.org/display/MAP/SVN+Repository">http://communitymapbuilder.org/display/MAP/SVN+Repository</a></p>
+    </dd>
+
+    <h1 align="center">Build your own client</h1>
+
+    <p>This is a very quick guide for building your own GML Viewer. It makes
+    the bold assumption that you are already familiar with HTML, OWS Context,
+    and GML. Let's assume you want to build an African dataset.</p>
+
+    <ol>
+      <li>Copy tasmania.html to africa.html. Edit africa.html and find
+      <blockquote>// URL of Mapbuilder configuration file. var
+      mbConfigUrl='tasmaniaConfig.xml'; </blockquote> Replace
+      'tasmaniaConfig.xml' with 'africaConfig.xml' (which you are about to
+      create).</li>
+
+      <li>Copy tasmaniaConfig.xml to africaConfig.xml. Edit africaConfig.html
+      and find <blockquote>&lt;OwsContext id="mainMap"&gt;
+      &lt;defaultModelUrl&gt;tasmania/TasmaniaContext.xml&lt;/defaultModelUrl&gt;
+      </blockquote> Replace 'tasmania/TasmaniaContext.xml' with
+      'africa/AfricaContext.xml' (which you are about to create).</li>
+
+      <li>Insert all your GML files into your directory somewhere, e.g.:
+      africa/gml/* . <b>Ensure all GML files have a .xml extension, not a .gml
+      extension!</b> When web browsers load local files, they don't recognise
+      they only recognise XML files that have a .xml extension. Without it
+      your layers will not load.</li>
+
+      <li>Create an AfricaContext.xml document, use TasmaniaContext.xml as
+      reference. It should reference your GML files.</li>
+    </ol>
+
+    <p>If you have problems, try emailing the Community Mapbuilder uses <a
+    href="http://communitymapbuilder.org/display/MAP/Contact">email list</a>.
+    We are a helpful lot.</p>
+
     <h1 align="center">License</h1>
-    The GML Viewer uses the same <a href="./LICENSE">LGPL</a> license as the
-    Community Mapbuilder project.
+
+    <p>The GML Viewer is free to use modify. It is available under the same <a
+    href="./LICENSE">LGPL</a> license as the Community Mapbuilder project.</p>
+
     <h1 align="center">Credits</h1>
-    <p>Thales Australia worked closely with many
-    Open Source developers while building the GML3 Viewer. These include ...
-    </p>
-  <h3>Thales Australia</h3>
-<ul>
-  <li>Cameron Shorter <a href="http://cameron.shorter.net">http://cameron.shorter.net</a> (core developer)</li>
-</ul>
-<h3><a href="http://communitymapbuilder.org">http://communitymapbuilder.org</a></h3>
-<ul>
-  <li>Cameron Shorter</li>
-  <li>Steven Ottens, <a href="http://geodan.nl">http://geodan.nl</a> (feature editing)</li>
-  <li>Mike Adair (context editing)</li>
-  <li>Patrice Cappelaere, <a href="http://geobliki.org">http://geobliki.org</a> (initial vector rendering)</li>
-  <li>Matt Diez (release manager)</li>
-  <li>Many others have contributed to the core codebase</li>
-</ul>
-<h3><a href="http://openlayers.org">http://openlayers.org</a></h3>
-<ul>
-  <li>Cameron Shorter</li>
-  <li>Pierre Giraud, CamptoCamp (GML rendering and editing)</li>
-  <li>Bertil Chapuis, CamptoCamp (GML rendering and editing)</li>
-  <li>Many others have contributed to the core codebase</li>
-</ul>
-</body>
+
+    <p>Thales Australia worked closely with many Open Source developers while
+    building the GML3 Viewer. These include ...</p>
+
+    <h3>Thales Australia</h3>
+
+    <ul>
+      <li>Cameron Shorter <a
+      href="http://cameron.shorter.net">http://cameron.shorter.net</a> (core
+      developer)</li>
+    </ul>
+
+    <h3>
+      <a
+      href="http://communitymapbuilder.org">http://communitymapbuilder.org</a>
+    </h3>
+
+    <ul>
+      <li>Cameron Shorter</li>
+
+      <li>Steven Ottens, <a href="http://geodan.nl">http://geodan.nl</a>
+      (feature editing)</li>
+
+      <li>Mike Adair (context editing)</li>
+
+      <li>Patrice Cappelaere, <a
+      href="http://geobliki.org">http://geobliki.org</a> (initial vector
+      rendering)</li>
+
+      <li>Matt Diez (release manager)</li>
+
+      <li>Many others have contributed to the core codebase</li>
+    </ul>
+
+    <h3>
+      <a href="http://openlayers.org">http://openlayers.org</a>
+    </h3>
+
+    <ul>
+      <li>Cameron Shorter</li>
+
+      <li>Pierre Giraud, CamptoCamp (GML rendering and editing)</li>
+
+      <li>Bertil Chapuis, CamptoCamp (GML rendering and editing)</li>
+
+      <li>Many others have contributed to the core codebase</li>
+    </ul>
+  </body>
 </html>
-
-
