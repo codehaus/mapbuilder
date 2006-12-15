@@ -15,6 +15,11 @@
   </head>
   <!-- This onload event starts mapbuilder -->
   <body onload="mbDoLoad()" >
+  <!--
+
+############################# cut here 1 #############################
+
+	-->
 	  <div id="header">  	<!-- The header of the page -->
 			<h1><a href="http://communitymapbuilder.org">MapBuilder</a> Enhanced Map Viewer</h1>
 			<a href="#help" class="help">Explanation</a>
@@ -43,10 +48,22 @@
 				</ul>
 				<h2 onclick="javascript: history.go(-1)" style="color:black;cursor:pointer;">Back</h2>
 		  </div><!-- /menubar -->
+			<!-- 
+			
+############################# end cut 1 #############################
+
+			-->
 			<div id="mainbody"><!-- right side of the middle div, is also divided into two areas -->
-	  		<div class="left">
+
+	  		<div class="left">  
+
 	  			<div id="locatorMap"></div><!-- This is the container where the small locator map will be drawn -->
 				  <div id="legend"></div><!-- This is the container where the legend will be drawn -->
+				  <!-- 
+				  
+############################# cut here 2 #############################
+
+					-->
 				  <p>
 					  <a name="help"></a><h3>Explanation</h3>
 						This is an enhanced mapviewer that combines stock mapbuilder widgets with customised ones.
@@ -65,8 +82,15 @@
 						XSL in de config file (using the &lt;stylesheet&gt;&lt; parameter).<br/>
 						The customisation of the getFeatureInfo widget is done by using a different javascript file as
 						configured in the config file (using the &lt;scriptfile&gt; parameter).
-						
+									      <br />
+			      Have a look at <a href="http://communitymapbuilder.org/display/MAP/Modifying+the+Basic+Examples">this guide</a> if you want to modify this example.
 			  	</p>
+			  	
+			  	  <!-- 
+			  	  
+############################# end cut 2 #############################
+
+						-->
 		    </div><!-- /left -->
 		  	<div class="right">
  	 				<h2 id="mapTitle"><!-- This is the container where the maptitle will be drawn, note that it is not a DIV but a H2 element, which works as well --></h2>
@@ -100,7 +124,13 @@
 			      </tr>
 			    </table>
  	 			</div><!-- /right -->
+
 			</div><!-- /mainbody -->
+			<!--
+			
+################### cut here 3 ############################
+			 
+			 -->
 		</div><!-- /middle -->
 	  <div id="footer">
       <div class="right">
@@ -108,5 +138,10 @@
 				<a href="https://www.osgeo.org/" title="member of OSgeo"><img src="../../lib/skin/default/images/Osgeo.png"/></a>
       </div><!-- /right -->
  		</div><!-- /footer -->
+ 		  <!-- 
+ 		  
+############################# end cut 3 #############################
+ 		  
+ 		  -->
   </body>
 </html>
