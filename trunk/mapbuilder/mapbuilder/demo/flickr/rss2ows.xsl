@@ -38,6 +38,7 @@ xmlns:media="http://search.yahoo.com/mrss">
 			<wmc:Server service="GeoRSS" version="1.0" title="{$title}">
 				<wmc:OnlineResource xlink:type="simple" xlink:href="{$link}"/>
 			</wmc:Server>
+			<wmc:Name><xsl:value-of select="$title"/></wmc:Name>
 			<wmc:Title><xsl:value-of select="$title"/></wmc:Title>
 			<wmc:StyleList>
         <wmc:Style>
