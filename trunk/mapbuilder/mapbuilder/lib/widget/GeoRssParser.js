@@ -122,11 +122,11 @@ GeoRssParser.prototype.loadEntries = function( objRef ) {
     for (var index=0; index< len; index++) {
       var feature = features[index];
  
-      var id = feature.getAttribute("uuid" );
+      var id = feature.getAttribute("id" );
       //if( id != null ) // save it as a fid
       //  feature.setAttribute( "pid", id );
       //feature.setAttribute("id", "RSS_Item_"+mbIds.getId());
-      feature.setAttribute("id", id);
+     //feature.setAttribute("id", id);
       feature.setAttribute("width", width);
       feature.setAttribute("height", height);
       // alert( "rssLayer:"+Sarissa.serialize(feature) );
