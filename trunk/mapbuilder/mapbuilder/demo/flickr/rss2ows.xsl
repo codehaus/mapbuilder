@@ -31,10 +31,10 @@ xmlns:media="http://search.yahoo.com/mrss">
     <xsl:variable name="title"><xsl:value-of select="@title"/></xsl:variable>
     <xsl:variable name="secret"><xsl:value-of select="@secret"/></xsl:variable>
     <xsl:variable name="server"><xsl:value-of select="@server"/></xsl:variable>
-    <xsl:variable name="link">http://www.flickr.com/photos/15435549@N00/<xsl:value-of select="$pid"/>/</xsl:variable>
-    <xsl:variable name="thn">http://static.flickr.com/<xsl:value-of select="$server"/>/<xsl:value-of select="$pid"/>_<xsl:value-of select="$secret"/>_s.jpg</xsl:variable>
+    <xsl:variable name="link">http://www.flickr.com/photos/15435549@N00/<xsl:value-of select="$id"/>/</xsl:variable>
+    <xsl:variable name="thn">http://static.flickr.com/<xsl:value-of select="$server"/>/<xsl:value-of select="$id"/>_<xsl:value-of select="$secret"/>_s.jpg</xsl:variable>
    
-		<wmc:RssLayer  queryable="0" hidden="0" id="{$id}" width="{$width}" height="{$height}" pid="{$pid}" >
+		<wmc:RssLayer  queryable="0" hidden="0" id="{$id}" width="{$width}" height="{$height}" pid="{$id}" >
 			<wmc:Server service="GeoRSS" version="1.0" title="{$title}">
 				<wmc:OnlineResource xlink:type="simple" xlink:href="{$link}"/>
 			</wmc:Server>
