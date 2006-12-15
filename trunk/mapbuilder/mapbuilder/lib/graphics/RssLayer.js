@@ -88,7 +88,7 @@ function RssLayer(model, mapPane, layerName, layerNode, queryable, visible) {
       this.coords = null;
       // well, it is probably a flick entry.
       // we need to go back to flickr and get the tags
-      var pidNode = this.layerNode.attributes.getNamedItem("pid");
+      var pidNode = this.layerNode.attributes.getNamedItem("id");
       if( pidNode != null ) {
         var pid = pidNode.nodeValue;
 	      var url = "http://www.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=afbacfb4d14cd681c04a06d69b24d847&photo_id="+pid;

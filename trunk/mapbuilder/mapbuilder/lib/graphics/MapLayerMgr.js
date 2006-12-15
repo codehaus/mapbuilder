@@ -174,7 +174,7 @@ MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
     }
 
   // GeoRss
-  } else if( (service == "GeoRss2")) {
+  } else if( (service == "GeoRSS")||(service == "GeoRss2")) {
   //} else if( nodeName.indexOf("RssLayer") >= 0 ) {
     var layerName = layerNode.getAttribute("id" );
     layer = new RssLayer( objRef.model, objRef.mapPane, layerName, layerNode, false, true );
