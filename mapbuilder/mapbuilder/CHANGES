@@ -7,9 +7,47 @@ This file contains information about updates to each release:
 
 mapbuilder-lib-1.5-rc1
 ==========================
-This build marks the first attempt at integration with the OpenLayers
-project. It also contains Patrice's more complete SVG renderer.
-It also includes a numbder of major bug fixes.
+This Mapbuilder release adds a string of new features and developments to
+the Mapbuilder core. While the core Mapbuilder functionality remains stable,
+the new features should still be considered alpha; some new interfaces still
+might change, the features have not been extensively tested and there are
+still outstanding bugs.
+
+Some of the new features include:
+
+Compression:
+The released version of Mapbuilder is now bundled up into one file and
+compressed into about 1/10 of its original size.
+
+OWS Context:
+Mapbuilder previously stored its LayerList in a Web Map Context (WMC) document.
+A WMC describes a list of WMS layers. The latest Mapbuilder supports the
+OGC's draft OWS Context specification which extends the WMC to include:
+WFS layers, GeoRSS layers, GML Layers.
+
+The OWS Context is rendered by the new MapPane2 and MapPaneOL widgets.
+In the next release, we plan to deprecate MapPane2 and MapPane and replace them
+by MapPaneOL.
+
+Vector rendering using SVG/VML:
+We now have SVG and VML rendering using MapPane and MapPaneOL. This rendering
+is much faster than the previous WZGraphics library, however older browsers
+will still need to revert the the WZGraphics library.
+
+OpenLayers used for Rendering:
+The MapPaneOL widget now uses OpenLayers for rendering. This means we can
+easilly tap into OpenLayer's support for numerous map providers.
+Eg: Tiled WMS, Google Maps, Yahoo Maps, MSN Maps, WFS, GML, etc.
+We still haven't integrated the Mapbuilder tools with OpenLayer tools yet, but
+that is expected to be completed for the next release.
+
+SLD Editor:
+We now have a Styled Layer Descriptor (SLD) Editor example. A SLD describes
+whether you map features should be rendered as red fat lines or blue thin
+lines and you can apply styles to maps.
+
+GeoRSS:
+We have some GeoRSS examples which include rendering vector layers SVG/VML.
 
 Bugs fixed:
 -----------
