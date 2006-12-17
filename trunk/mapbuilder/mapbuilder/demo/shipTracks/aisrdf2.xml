@@ -7,26 +7,6 @@
   xmlns:georss="http://www.georss.org/georss" 
   xmlns:gml='http://www.opengis.net/gml/3.1.1' >
   
-  <item id='1' uuid='F846273D-9059-428E-95A3-085FDB891702' score='1.0' rdf:about='http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=F846273D-9059-428E-95A3-085FDB891702'>
-    <title>AIS Track</title>
-    <link>http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=F846273D-9059-428E-95A3-085FDB891702</link>
-    <thn>http://tacsatdev.pxi.com/tacsat1/data/ais/products/thn/2004/07/08/F846273D-9059-428E-95A3-085FDB891702.jpg</thn>
-    <description type='text/html' mode='escaped'>Vessel: <b>APL CHINA</b>, <img src='images/montventoux.jpg' width='50' height='50'/>  MMSI:369247000, IMO:9074389, Call-Sign:WDB3161, Destination: DUTCH HBR, Posits:66</description>
-    <dc:date>130407Z MAY 05</dc:date>
-    
-    <georss:where><gml:LineString><gml:posList>-122.30265 37.793392,-122.30248 37.793465,-122.302505 37.79344,-122.302505 37.79346,-122.302505 37.793453,-122.30252 37.79346,-122.302505 37.793434,-122.302505 37.79343,
-    -122.30253 37.793392,-122.30245 37.79342,-122.30252 37.7934,-122.302505 37.793465,-122.302574 37.793407,-122.302574 37.79344,-122.30254 37.793392,-122.30253 37.79341,-122.30253 37.79343,
-    -122.30253 37.793392,-122.302414 37.793545,-122.30253 37.79351,-122.30249 37.793472,-122.30257 37.79343,-122.30252 37.79348,-122.302505 37.793472,-122.302505 37.793453,-122.302574 37.793453,
-    -122.302505 37.793434,-122.302505 37.793446,-122.30252 37.79344,-122.30253 37.793385,-122.30245 37.793446,-122.30252 37.793438,-122.302574 37.79351,-122.30248 37.79346,-122.30249 37.79344,
-    -122.302505 37.79343,-122.30248 37.79343,-122.302505 37.793446,-122.302505 37.79343,-122.30248 37.793434,-122.30248 37.793453,-122.302505 37.793434,-122.30248 37.79334,-122.30794 37.7931,
-    -122.32819 37.798153,-122.35794 37.803093,-122.38725 37.81643,-122.418564 37.8373,-122.45935 37.831924,-122.49599 37.81374,-122.54208 37.796547,-122.597305 37.777176,-122.656784 37.765564,
-    -122.67528 37.78008,-122.705574 37.79183,-122.73364 37.801933,-122.775795 37.81583,-122.821976 37.836792,-122.8732 37.86394,-122.92924 37.89506,-122.99397 37.931118,-123.11203 38.0096,
-    -123.21669 38.089,-123.274796 38.1329,-123.33211 38.17643,-123.44316 38.26056</gml:posList></gml:LineString></georss:where>
-    
-    <georss:icon>/pushpins/015.gif</georss:icon>
-  </item>
- 
-  
  <item id='4' uuid='85214EF9-9231-4827-9661-6A1DDD7E3E3C' score='1.0' rdf:about='http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=85214EF9-9231-4827-9661-6A1DDD7E3E3C'>
     <title>STENA VISION (ship track 2)</title>
     <link>http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=85214EF9-9231-4827-9661-6A1DDD7E3E3C</link>
@@ -45,9 +25,7 @@
     -74.18987 38.220333,-74.12997 38.2048,-74.07608 38.17755</gml:posList></gml:LineString></georss:where>
  
   </item>
-  
  
-  
   <item id='10' uuid='1DFEA432-82CB-4533-80E5-413F8AE4D345' score='1.0' rdf:about='http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=1DFEA432-82CB-4533-80E5-413F8AE4D345'>
     <title>Community MapBuilder Frog (Point Example)</title>
     <link>http://mapbuilder.codehaus.org/</link>
@@ -56,16 +34,6 @@
     <georss:where><gml:Point><gml:pos>-80.13032 26.061167</gml:pos></gml:Point></georss:where>
   </item>
  
-  <item id='11' uuid='11' score='1.0' rdf:about='http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=1DFEA432-82CB-4533-80E5-413F8AE4D345'>
-    <title>Area of Interest (Poly Example)</title>
-    <link>http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=1DFEA432-82CB-4533-80E5-413F8AE4D345</link>
-    <thn>http://tacsatdev.pxi.com/tacsat1/data/ais/products/thn/2004/07/08/1DFEA432-82CB-4533-80E5-413F8AE4D345.jpg</thn>
-    <description type='text/html'>Vessel: <b>AOI 1 </b></description>
-    <dc:date>130407Z MAY 05</dc:date>
-    <georss:where><gml:Polygon><gml:exterior><gml:LinearRing><gml:posList>
-    	-88 36, -87 36, -87 35, -88 35
-    	</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon></georss:where>
-  </item>
  
   
 </rdf:RDF>
