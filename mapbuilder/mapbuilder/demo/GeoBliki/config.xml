@@ -35,8 +35,8 @@
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
           <showPx>false</showPx>
-          <showDMS>true</showDMS>
-          <showLatLong>false</showLatLong>
+          <showDMS>false</showDMS>
+          <showLatLong>true</showLatLong>
           <showMGRS>false</showMGRS>
           <precision>2</precision>
         </CursorTrack>

@@ -13,7 +13,7 @@
 	xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
 
 	<General>
-		<Window width="800" height="400" />
+		<Window width="550" height="275" />
 		<!-- BoundingBox SRS="EPSG:4326" minx="-130" miny="10" maxx="-50" maxy="50"/ -->
 		<ows:BoundingBox crs="EPSG:4326">
 			<ows:LowerCorner>-180 -75</ows:LowerCorner>
