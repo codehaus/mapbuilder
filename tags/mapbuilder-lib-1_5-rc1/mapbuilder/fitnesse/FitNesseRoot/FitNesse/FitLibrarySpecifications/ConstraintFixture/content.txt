@@ -1,6 +1,0 @@
-^ExpectedToSucceed
-^ExpectedToFail
-
-^UnknownMethod
-^NotBoolean
-^RowsWrong
