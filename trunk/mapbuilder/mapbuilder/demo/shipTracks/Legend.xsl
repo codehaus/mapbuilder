@@ -35,10 +35,7 @@ $Name$
   
   <xsl:template match="/wmc:OWSContext">
     <table border="0" cellpadding="1" cellspacing="0">
-      <tr>
-        <th colspan="3">All Map and RSS Layers</th>
-      </tr>
-     
+    
       <xsl:apply-templates select="wmc:ResourceList/wmc:Layer">
         <xsl:sort select="position()" order="descending" data-type="number"/>
       </xsl:apply-templates>
