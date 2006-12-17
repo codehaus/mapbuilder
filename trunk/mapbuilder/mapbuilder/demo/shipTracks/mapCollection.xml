@@ -10,21 +10,11 @@
 			<OnlineResource xlink:type="simple" xlink:href="DemisWorldMap.xml"/>
 		</ContextURL>
 	</ViewContextReference>
-	<ViewContextReference version="1.0.0" id="USAMap">
-    <Title>USA Streets</Title>
-		<ContextURL>
-			<OnlineResource xlink:type="simple" xlink:href="USAMap.xml"/>
-		</ContextURL>
-	</ViewContextReference>
+
 	<ViewContextReference version="1.0.0" id="BlueMarble">
 		<Title>Satellite</Title>
 		<ContextURL>
 			<OnlineResource xlink:type="simple" xlink:href="BlueMarble.xml"/>
 		</ContextURL>
 	</ViewContextReference>
-  <ViewContextReference version="1.0.0" id="GoogleMaps">
-    <Title>Google Map</Title>
-    <ContextURL>
-      <OnlineResource xlink:type="simple" xlink:href="atlasWorldGmap.xml"/>
-    </ContextURL>
-  </ViewContextReference></ViewContextCollection>
+</ViewContextCollection>
