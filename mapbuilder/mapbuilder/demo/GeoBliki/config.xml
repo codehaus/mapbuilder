@@ -46,7 +46,7 @@
       		<targetModel>gml2FeatureTemplate</targetModel>
       		<stylesheet>../../lib/widget/Null.xsl</stylesheet>
       		<requestStylesheet>wfs_GetFeature.xsl</requestStylesheet>
-      		<webServiceUrl>http://test.geobliki.com/wfs</webServiceUrl>
+      		<webServiceUrl>http://eo1.geobliki.com/wfs</webServiceUrl>
     		</WebServiceForm>
     
 			</widgets>
