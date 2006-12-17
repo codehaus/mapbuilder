@@ -28,11 +28,6 @@ $Name:  $
   <!-- template rule matching source root element -->
   <xsl:template match="/rdf:RDF ">
     <table>
-      <tr>
-        <th>
-          GeoRSS feed: <xsl:value-of select="rss:channel/rss:title"/>
-        </th>
-      </tr>
       <xsl:apply-templates select="rss:item"/>
     </table>
   </xsl:template>

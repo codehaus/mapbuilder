@@ -8,10 +8,10 @@
   xmlns:gml='http://www.opengis.net/gml/3.1.1' >
   
  <item id='4' uuid='85214EF9-9231-4827-9661-6A1DDD7E3E3C' score='1.0' rdf:about='http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=85214EF9-9231-4827-9661-6A1DDD7E3E3C'>
-    <title>STENA VISION (ship track 2)</title>
+    <title>A Ship Track (LineString Example)</title>
     <link>http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=85214EF9-9231-4827-9661-6A1DDD7E3E3C</link>
     <thn>http://tacsatdev.pxi.com/tacsat1/data/ais/products/thn/2004/07/08/85214EF9-9231-4827-9661-6A1DDD7E3E3C.jpg</thn>
-    <description type='text/html' mode='escaped'>Vessel: <b>STENA VISION</b>, <img src='images/projecteuropa.jpg' width='50' height='50'/>  MMSI:310372000, IMO:9206081, Call-Sign:ZCDF2, Destination: CABINDA, Posits:82</description>
+    <description type='text/html' mode='escaped'>Vessel: <b>STENA VISION</b>,  MMSI:310372000, IMO:9206081, Call-Sign:ZCDF2, Destination: CABINDA, Posits:82</description>
     <dc:date>130407Z MAY 05</dc:date>
     
     <georss:where><gml:LineString><gml:posList>-75.15544 38.92263,-75.15574 38.922447,-75.15562 38.922684,-75.15555 38.922615,-75.15541 38.92275,-75.15517 38.922836,-75.15533 38.92263,-75.15528 38.922718,-75.155266 38.922703,
@@ -29,7 +29,7 @@
   <item id='10' uuid='1DFEA432-82CB-4533-80E5-413F8AE4D345' score='1.0' rdf:about='http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=1DFEA432-82CB-4533-80E5-413F8AE4D345'>
     <title>Community MapBuilder Frog (Point Example)</title>
     <link>http://mapbuilder.codehaus.org/</link>
-    <description type='text/html'>Community MapBuilder frog <img src='http://geoservices.cgdi.ca/mapbuilder/lib/skin/default/images/Icon.gif'/></description>
+    <description type='text/html'>Community MapBuilder frog </description>
     <dc:date>130407Z MAY 05</dc:date>
     <georss:where><gml:Point><gml:pos>-80.13032 26.061167</gml:pos></gml:Point></georss:where>
   </item>
