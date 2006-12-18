@@ -7,4 +7,9 @@ doc.resolveExternals = false;
 to the DOMParser method after line 391 to prevent IE from validating XML
 documents
 
-
+2. replaced the MSXML version so it only requests 6.0 or 3.0 starting from line 100:
+  // pick best available MSXML progIDs
+    _SARISSA_DOM_PROGID = pickRecentProgID(["Msxml2.DOMDocument.6.0", "Msxml2.DOMDocument.3.0"], [["SELECT_NODES", 2],["TRANSFORM_NODE", 2]]);
+    _SARISSA_XMLHTTP_PROGID = pickRecentProgID(["Msxml2.XMLHTTP.6.0", "MSXML2.XMLHTTP.3.0"], [["XMLHTTP", 4]]);
+    _SARISSA_THREADEDDOM_PROGID = pickRecentProgID(["Msxml2.FreeThreadedDOMDocument.6.0", "MSXML2.FreeThreadedDOMDocument.3.0"]);
+    _SARISSA_XSLTEMPLATE_PROGID = pickRecentProgID(["Msxml2.XSLTemplate.6.0", "MSXML2.XSLTemplate.3.0"], [["XSLTPROC", 2]]);
