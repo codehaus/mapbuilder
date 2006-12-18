@@ -1,5 +1,5 @@
 /*
-Author:       Patrice G. Cappelaere (Got library from somewhere but cant remember where as it got translated several times)
+Author:       Patrice G. Cappelaere (Got library from Geoserver)
 License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 $Id: MGRS.js 1775 2005-10-28 17:03:18 -0400 (Fri, 28 Oct 2005) cappelaere $
