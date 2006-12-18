@@ -10,11 +10,14 @@ mapbuilderDir=`dirname $0`/..;
 targetDir=${mapbuilderDir}/compressBuild
 tmp="jsjam.tmp";
 
-rm lib/MapbuilderCompressed.js
+rm ${targerDir}/MapbuilderCompressed.js
+
+originalFile=${targetDir}/lib/MapbuilderCompressed.js
+outputFile=${targetDir}/lib/MapbuilderCompressedFixed.js
 
 # Compress javascript files
-java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/Mapbuilder.js >> lib/MapbuilderCompressed.js 2>&1
-java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/RELEASE.js >> lib/MapbuilderCompressed.js 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/Mapbuilder.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/RELEASE.js >> ${originalFile} 2>&1
 
 for file in `find ${targetDir}/lib -name "*.js" | \
 	 egrep -v "overlib" \
@@ -25,10 +28,8 @@ for file in `find ${targetDir}/lib -name "*.js" | \
 
 #  ${mapbuilderDir}/bin/jsjam.pl ${file} -i -g -n > ${tmp};
   echo "Compressing ${file}";
-  java -jar lib/util/custom_rhino.jar -c ${file} >> lib/MapbuilderCompressed.js 2>&1
+  java -jar lib/util/custom_rhino.jar -c ${file} >> ${originalFile} 2>&1
 done;
-originalFile=lib/MapbuilderCompressed.js
-outputFile=lib/MapbuilderCompressedFixed.js
 
 # Step 1
 # change "stylesheet.setParameter("objref","objRef") to "stylesheet.setParameter(_var,"objRef")"
