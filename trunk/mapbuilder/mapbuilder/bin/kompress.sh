@@ -10,13 +10,13 @@ mapbuilderDir=`dirname $0`/..;
 targetDir=${mapbuilderDir}/compressBuild
 tmp="jsjam.tmp";
 
-rm ${targerDir}/MapbuilderCompressed.js
+rm ${targetDir}/MapbuilderCompressed.js
 
 originalFile=${targetDir}/lib/MapbuilderCompressed.js
 outputFile=${targetDir}/lib/MapbuilderCompressedFixed.js
 
 # Compress javascript files
-java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/Mapbuilder.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/Mapbuilder.js > ${originalFile} 2>&1
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/RELEASE.js >> ${originalFile} 2>&1
 
 for file in `find ${targetDir}/lib -name "*.js" | \
