@@ -19,10 +19,15 @@ outputFile=${targetDir}/lib/MapbuilderCompressedFixed.js
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/Mapbuilder.js > ${originalFile} 2>&1
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/RELEASE.js >> ${originalFile} 2>&1
 
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/ButtonBase.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/EditLine.js >> ${originalFile} 2>&1
+
 for file in `find ${targetDir}/lib -name "*.js" | \
 	 egrep -v "overlib" \
 	| egrep -v "/lib/Mapbuilder.js" \
 	| egrep -v "/lib/RELEASE.js" \
+	| egrep -v "/lib/widget/ButtonBase.js" \
+	| egrep -v "/lib/widget/EditLine.js" \
 	| egrep -v "/lib/MapbuilderServerLoad.js" \
 	| egrep -v "/lib/MapbuilderCompressed.js"`; do
 
@@ -87,6 +92,8 @@ cat ${outputFile}  | sed 's/\(this.loadingScripts\[0\].readyState==\"loaded\"\)/
 
 # TODO - FIX THIS, THIS IS A HACK
 # temporarily disabling
-cat ${outputFile}  | sed '/function ButtonBase/,/function FeatureInfo/ {s/_5/disabledImage/}' > temp 
+cat ${outputFile}  | sed '/function ButtonBase/,/function EditLine/ {s/_5/disabledImage/}' > temp 
+
+rm ${outputFile}
 
 mv temp ${originalFile}
