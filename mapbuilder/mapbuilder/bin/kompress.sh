@@ -87,6 +87,6 @@ cat ${outputFile}  | sed 's/\(this.loadingScripts\[0\].readyState==\"loaded\"\)/
 
 # TODO - FIX THIS, THIS IS A HACK
 # temporarily disabling
-cat ${outputFile}  | sed '/function ButtonBase/,/function FeatureInfo/ {s/_5/disabledImage/}' > ${outputFile}
+cat ${outputFile}  | sed '/function ButtonBase/,/function FeatureInfo/ {s/_5/disabledImage/}' > temp 
 
-mv ${outputFile} ${originalFile}
+mv temp ${originalFile}
