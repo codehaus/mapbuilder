@@ -1,0 +1,12 @@
+Check on Feature Info button presence
+Click on it
+Click on the map and check the info back 
+
+|Action fixture|
+|start|!-Mb.Widgets.GetFeatureInfo-!|
+|check|info presence|true|
+|press|info button|
+|enter|x|400|
+|enter|y|400|
+|press|click map|
+|check|info|true|
