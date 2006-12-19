@@ -17,7 +17,7 @@ Some of the new features include:
 
 Compression:
 The released version of Mapbuilder is now bundled up into one file and
-compressed into about 1/10 of its original size.
+compressed into half of its original size.
 
 OWS Context:
 Mapbuilder previously stored its LayerList in a Web Map Context (WMC) document.
