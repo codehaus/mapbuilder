@@ -22,6 +22,7 @@ java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/RELEASE.js >> ${original
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/ButtonBase.js >> ${originalFile} 2>&1
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/EditLine.js >> ${originalFile} 2>&1
 
+
 for file in `find ${targetDir}/lib -name "*.js" | \
 	 egrep -v "overlib" \
 	| egrep -v "/lib/Mapbuilder.js" \
@@ -40,7 +41,7 @@ done;
 # change "stylesheet.setParameter("objref","objRef") to "stylesheet.setParameter(_var,"objRef")"
 # in GmlRendererWZ.js
 
-cat lib/MapbuilderCompressed.js  | sed 's/\(_[0-9]\)\(.stylesheet.setParameter(\"objRef\",\)\(\"objRef\"\)/\1\2\1/' > ${outputFile}
+cat ${originalFile}  | sed 's/\(_[0-9]\)\(.stylesheet.setParameter(\"objRef\",\)\(\"objRef\"\)/\1\2\1/' > ${outputFile}
 
 
 # Step 2
@@ -61,8 +62,9 @@ cat lib/MapbuilderCompressed.js  | sed 's/\(_[0-9]\)\(.stylesheet.setParameter(\
 #  this.loadingScripts.push(_3);
 #  }
 
-cat ${outputFile} | tr '\n' '\t' | sed  's/\(_[0-9]\)\(\=document.createElement(\"script");\).*\(this.loadingScripts.push\)/\1\2\t\1.readyState=="complete";\t\3/' | tr '\t' '\n' > ${outputFile}
+cat ${originalFile} | tr '\n' '\t' | sed  's/\(_[0-9]\)\(\=document.createElement(\"script");\).*\(this.loadingScripts.push\)/\1\2\t\1.readyState=="complete";\t\3/' | tr '\t' '\n' > ${outputFile}
 
+mv ${outputFile} ${originalFile}
 
 # Step 3
 # 
@@ -78,7 +80,9 @@ cat ${outputFile} | tr '\n' '\t' | sed  's/\(_[0-9]\)\(\=document.createElement(
 # yState=="uninitialized"||this.loadingScripts[0].readyState=="complete"||this.loadingScripts[0].readyState==null)){
 
 
-cat ${outputFile}  | sed 's/\(this.loadingScripts\[0\].readyState==\"loaded\"\)/\1||this.loadingScripts[0].readyState=="uninitialized"/' > ${outputFile}
+cat ${originalFile}  | sed 's/\(this.loadingScripts\[0\].readyState==\"loaded\"\)/\1||this.loadingScripts[0].readyState=="uninitialized"/' > ${outputFile}
+
+mv ${outputFile} ${originalFile}
 
 # Step 4
 #
@@ -92,8 +96,10 @@ cat ${outputFile}  | sed 's/\(this.loadingScripts\[0\].readyState==\"loaded\"\)/
 
 # TODO - FIX THIS, THIS IS A HACK
 # temporarily disabling
-cat ${outputFile}  | sed '/function ButtonBase/,/function EditLine/ {s/_5/disabledImage/}' > temp 
 
-rm ${outputFile}
 
-mv temp ${originalFile}
+cat ${originalFile}  | sed '/function ButtonBase/,/function EditLine/ {s/_5/disabledImage/}' > ${outputFile} 
+
+mv ${outputFile} ${originalFile}
+
+cp ${originalFile} ${mapbuilderDir}/lib

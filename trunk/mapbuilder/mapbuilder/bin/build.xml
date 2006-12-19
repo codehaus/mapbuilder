@@ -394,7 +394,7 @@ $Id$
     </copy>
    	<chmod file="${basedir}/bin/jsjam.pl" perm="ugo+rx"/>  	
  	<chmod file="${basedir}/bin/compress.sh" perm="ugo+rx"/>
-    <exec executable="${basedir}/bin/compress.sh" os="Linux"/>
+        <exec executable="${basedir}/bin/compress.sh" os="Linux"/>
 
 	<!-- Also run new compression routine, using DOJO -->
  	<chmod file="${basedir}/bin/kompress.sh" perm="ugo+rx"/>
