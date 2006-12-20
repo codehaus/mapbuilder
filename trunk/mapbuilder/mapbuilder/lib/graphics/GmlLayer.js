@@ -96,7 +96,8 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
         coords=coordsNodes[h].firstChild.nodeValue;
       }
       if(coords){
-        point=coords.split(/[ ,\n\t]+/);
+        var re=RegExp('[, \n\t]+','g');
+        point=coords.split(re);
         //Remove elements caused by leading and trailing white space
         while(point[0]=="")point.shift();
         while(point[point.length-1]=="")point.pop();
@@ -218,7 +219,8 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
       sld.hiliteLine( this.gr, this.shape );
     } else {
       containerProj = new Proj(this.model.getSRS());
-      pointPairs    = this.coords.split(/[ ,\n]+/);
+      var re=RegExp('[, \n\t]+','g');
+      pointPairs    = this.coords.split(re);
               
       newPointArr = new Array( pointPairs.length/2 );
       point = new Array(2);

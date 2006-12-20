@@ -141,7 +141,8 @@ GeoRssRenderer.prototype.paint = function(objRef) {
             objRef.featureFactory.createFeature( objRef, 'POINT', point, itemId, title, popupStr, icon );
           } else if( geom.match('LINESTRING') ) {
             var linestr = geom.substring(11, geom.length);
-            var pointPairs = linestr.split(/[ ,\n]+/);
+            var re=RegExp('[, \n\t]+','g');
+            var pointPairs = linestr.split(re);
             
             var newPointArr = new Array( pointPairs.length/2 );
             var point = new Array(2);

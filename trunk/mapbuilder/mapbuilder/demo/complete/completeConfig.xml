@@ -15,7 +15,7 @@
   -->
   <models>
     <!--Logger id="eventLogDoc">
-      <serializeUrl>../../writeXml</serializeUrl>
+      
       <widgets>
       <Widget id="eventLog">
       <stylesheet>../../lib/widget/EventLog.xsl</stylesheet>
