@@ -150,7 +150,8 @@ function RssLayer(model, mapPane, layerName, layerNode, queryable, visible) {
       if( this.coords != null ) {
         var containerProj = new Proj(this.model.getSRS());
         //alert("RssLayer.paintPoint SRS="+this.model.getSRS());
-        var point = this.coords.split(/[ ,\n]+/);
+        var re = RegExp('[, \n\t]+','g');
+        var point = this.coords.split(re);
         point = containerProj.Forward(point);
         //alert( this.coords + " forward:" + point[0] + " " + point[1] );
         
@@ -179,7 +180,8 @@ function RssLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     } else {
       if( this.coords != null ) {
 	      var containerProj = new Proj(this.model.getSRS());
-	      var pointPairs = this.coords.split(/[ ,\n]+/);
+	      var re=RegExp('[, \n\t]+','g');
+	      var pointPairs = this.coords.split(re);
 	            
 	      var newPointArr = new Array( pointPairs.length/2 );
 	      var point = new Array(2);
@@ -224,7 +226,8 @@ function RssLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     sld.hiliteLine( this.gr, this.shape );
   } else {
     var containerProj = new Proj(this.model.getSRS());
-    var pointPairs    = this.coords.split(/[ ,\n]+/);
+    var re=RegExp('[, \n\t]+','g');
+    var pointPairs    = this.coords.split(re);
             
     var newPointArr = new Array( pointPairs.length/2 );
     var point = new Array(2);

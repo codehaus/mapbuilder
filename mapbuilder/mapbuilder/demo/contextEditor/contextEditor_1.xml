@@ -303,6 +303,4 @@
     This dir is relative the dir of the main html file.
   -->
   <skinDir>../../lib/skin/default</skinDir>
-  <proxyUrl>../../proxy</proxyUrl>
-  <serializeUrl>../../writeXml</serializeUrl>
 </MapbuilderConfig>

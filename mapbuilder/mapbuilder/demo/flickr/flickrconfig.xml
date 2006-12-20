@@ -106,7 +106,6 @@
     
     
 	</widgets>
-	<proxyUrl>../../server/php/proxy.php</proxyUrl>
 	<skinDir>../../lib/skin/default</skinDir>
 	<widgetTextUrl>widgetText.xml</widgetTextUrl>
 	<!-- relative to the skin dir -->
