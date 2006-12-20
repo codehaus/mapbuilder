@@ -1,0 +1,33 @@
+!3 Reference: http://sourceforge.net/tracker/index.php?func=detail&aid=1387043&group_id=35246&atid=413775
+
+Check Simple demo
+!|Action Fixture|
+|start|Mb.Setup|
+|enter|host|${MAPBUILDER}|
+|enter|webapp|demo/simple|
+|enter|config file|${CONFIGFILE}|
+|press|goto it|
+
+Go to the Simple demo page and check the model
+|Action Fixture|
+|start|Mb.Model|
+|enter|timeout|10|
+|check|model loaded|true|
+
+
+All layer images should have width and height with px.
+This should be true after a map drag.
+
+Go to simple demo. Layer attributes should all have px for width and height.
+
+|Action Fixture|
+|start|Mb.Bugs.Bug_1387043|
+|check|layer attributes|true|
+|enter|start from|200 300|
+|enter|drag to|250 350|
+|press|drag|
+|check|layer attributes|true|
+
+Clean up
+|Action Fixture|
+|press|refresh|

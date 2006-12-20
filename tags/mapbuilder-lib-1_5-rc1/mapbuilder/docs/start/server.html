@@ -1,0 +1,44 @@
+ 
+<h2>Server requirements</h2>
+
+<p>
+While the design philosphy of mapbuilder is to minimize server requirements,
+there are some cases where you have to modify your server configuration or
+provide server CGI/script processing.
+<ul>
+  <li><span class="title">Proxy script:</span>
+    By default, you can only load XML documents served from a server in
+    the same domain as your web page.
+    If you want to be able to load XML documents from anywhere on the Internet, 
+    you will have to install a proxy loader script on your server to make it 
+    look like these documents come from your domain.  
+    Implementations of this script for the PHP and J2EE server environments 
+    are available in the mapbuilder distribution in /mapbuilder/server subdirectory.
+    The URL to this script must be set as the &lt;proxyUrl&gt; property in the
+    configuration file.
+  </li>
+  <li><span class="title">Serialize script:</span>
+    If the application wants to save data to back to a server, there must be 
+    something on the server preapred to receive that data.  
+    An XML serializer script provides this functionality that takes the 
+    body of an HTTP POST request and writes it to disk.
+    Implementations of this script for the PHP (to be completed) and
+    J2EE server environments are available in the mapbuilder distribution in 
+    /mapbuilder/server subdirectory.
+    In a tomcat environment, the directory in which the XML is written is 
+    configured in the deployment descriptor (web.xml).
+    The URL to this script must be set as the &lt;serializeUrl&gt; property in the
+    configuration file.
+  </li>
+  <li><span class="title">XML mime types:</span>
+    The XML documents you retrieve must have a mime type of "text/xml".
+    File types that typically aren't served with that mime type include 
+    context documents (.cml), collections (.ccml) 
+    and often XSL files as well (.xsl).
+    Check that the mime type mapping file for your server contains a line like:
+    <pre>text/xml      xml xsl cml ccml</pre>
+    If you are using Apache, this file will be specified in the httpd.conf.
+  </li>
+</ul>
+</p>
+

@@ -1,0 +1,16 @@
+!3 An error is given if the value is of the wrong type for the property concerned
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border="1" cellspacing="0">
+<tr><td>fitlibrary.specify.DomainObjectUnderTest</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td colspan="4"><i>checks</i></td></tr>
+<tr><td><i>a</i></td><td>1.5</td><td><i>b</i></td><td>three</td></tr>
+</table>-!|
+|!-<table border="1" cellspacing="0">
+<tr><td>fitlibrary.specify.DomainObjectUnderTest</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td colspan="4"><i>checks</i></td></tr>
+<tr><td><i>a</i></td><td class="error">1.5<hr><pre><div class="fit_stacktrace"></div></pre></td><td><i>b</i></td><td class="error">three<hr><pre><div class="fit_stacktrace"></div></pre></td></tr>
+</table>-!|

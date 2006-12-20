@@ -1,0 +1,17 @@
+|'''Date: '''|!-9:23:41 AM (EST) on Friday, March 31, 2006-!|
+|'''Command: '''|!-ruby -I fitnesse.jar;fitlibrary.jar ruby/bin/FitServer.rb localhost 8088 9-!|
+|'''Exit code: '''|!-10-!|
+|'''Time elapsed: '''|!-12.628 seconds-!|
+----'''Standard Output:'''
+{{{could not attach to window
+map not loaded:
+Could not find it://div[@id='mainMap_mainMapWidget_DOQ:TerraService']
+Could not find it://div[@id='mainMap_mainMapWidget_towns']
+Could not find it://div[@id='mainMap_mainMapWidget_townsoutline']
+Could not find it://div[@id='mainMap_mainMapWidget_hydro']
+Could not find it://div[@id='mainMap_mainMapWidget_ocean']
+Could not find it://div[@id='mainMap_mainMapWidget_roads']
+Could not find it://div[@id='mainMap_mainMapWidget_MHDRoads']
+Could not find it://div[@id='mainMap_mainMapWidget_events']
+map not loaded:
+}}}

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
+<article id="design">
+  <title>Community Map Builder Software Design Description</title>
+
+  <abstract>
+    <para>This document describes the design of Community Map Builder.</para>
+  </abstract>
+
+  <section id="systemoverview">
+    <title>System Overview</title>
+
+    <para>The Community Mapbuilder contains:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>An open source framework for communities to collectively edit
+        geographic data.</para>
+      </listitem>
+
+      <listitem>
+        <para>Javascript and XSL modular libraries (called
+        <citetitle>mapbuilder-lib</citetitle>) which can be integrated to
+        build geographic widgets. The widgets implement clients to Open GIS
+        Consortium (OGC) services.</para>
+      </listitem>
+
+      <listitem>
+        <para>Specific OGC clients which have been built using Mapbuilder
+        widgets.</para>
+      </listitem>
+    </orderedlist>
+  </section>
+
+  <section id="framework">
+    <title>Framework</title>
+
+    <para>The Mapbuilder framework is designed for collaborative, open sharing
+    of place-based information. It builds upon components that conform to Open
+    GIS's international Standards for geospatial software development. It
+    provides business logic components using Open Source, OpenGIS-compliant
+    components for this effort. Map serving uses the OpenGIS<emphasis> Web Map
+    Server</emphasis>-compliant software, <ulink
+    url="http://mapserver.gis.umn.edu">Mapserver.</ulink> Spatial feature
+    updating uses the OpenGIS <emphasis>Web Feature
+    Server</emphasis>-compliant software <ulink
+    url="http://geoserver.sourceforge.net">Geoserver</ulink>, which relies
+    upon Postgres and the PostGIS component as its spatial database.
+    Mapbuilder also uses Postgres as a normal database to store
+    community-contributed text and photographs.</para>
+
+    <para>Community Mapbuilder is more than just a collection of technologies.
+    It is a collection of Web pages, server applications and database schema,
+    along with implementation recommendations.</para>
+
+    <figure>
+      <title>High Level Design</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/context0.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+</article>
