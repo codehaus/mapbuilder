@@ -262,7 +262,6 @@
     This dir is relative the dir of the main html file.
   -->
 	<skinDir>../../lib/skin/default</skinDir>
-	<widgetTextUrl>/widgetText.xml</widgetTextUrl>
-	<serializeUrl>/mapbuilder/writeXml2</serializeUrl>	
+	<widgetTextUrl>/widgetText.xml</widgetTextUrl>	
 <!--	 in the skin dir -->
 </MapbuilderConfig>
