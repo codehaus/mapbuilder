@@ -5,13 +5,13 @@ $Id$
 
 This file contains information about updates to each release:
 
-mapbuilder-lib-1.5-rc1
+mapbuilder-lib-1.5-alpha1
 ==========================
 This Mapbuilder release adds a string of new features and developments to
 the Mapbuilder core. While the core Mapbuilder functionality remains stable,
 the new features should still be considered alpha; some new interfaces still
 might change, the features have not been extensively tested and there are
-still outstanding bugs.
+still some major outstanding bugs.
 
 Some of the new features include:
 
