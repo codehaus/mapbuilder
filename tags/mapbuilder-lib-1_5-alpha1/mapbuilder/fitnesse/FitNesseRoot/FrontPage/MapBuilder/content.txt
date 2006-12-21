@@ -1,0 +1,6 @@
+!1 Acceptance Tests
+
+|!c '''Table of Contents'''|
+|!c [[Required Packages][MapBuilder.PreRequisites]]|''Required Installation Packages''|
+|!c [[Setup][MapBuilder.SetUp]]|''Mapbuilder Setup''|
+|!c [[Acceptance Tests][MapBuilder.AcceptanceTests]]|''!-MapBuilder-! Acceptance Tests Suite''|

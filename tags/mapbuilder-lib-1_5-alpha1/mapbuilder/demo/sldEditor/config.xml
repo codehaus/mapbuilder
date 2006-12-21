@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<MapbuilderConfig version="0.2.1" id="contextEditorDemoConfig" 
+      xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../mapbuilder/lib/schemas/config.xsd">
+  <!--
+    Description: This configuration file determines what components from the
+                 Mapbuilder library are to be included in a Main Mapbuilder web
+                 page.
+    Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+
+    $Id: contextEditor.xml 1828 2005-12-01 20:49:52 +0000 (jeu., 01 déc. 2005) madair1 $
+  -->
+	<models>
+		<Context id="mainMap">
+			<defaultModelUrl>data/tasmania.xml</defaultModelUrl>
+<!--<defaultModelUrl>../data/context/mars.xml</defaultModelUrl>-->
+
+
+			<widgets>
+				<MapPane id="mainMapWidget">
+					<htmlTagId>mainMapPane</htmlTagId>
+					<mapContainerId>mainMapContainer</mapContainerId>
+					<loadHidden>false</loadHidden> 
+<!--					<scriptFile>../../sldEditor2.0/widget/MapPane.js</scriptFile>-->
+<!--					<stylesheet>../../lib/widget/MapPane.xsl</stylesheet>-->
+				</MapPane>
+        		<CursorTrack id="cursorTrack">
+          			<mouseHandler>mainMap</mouseHandler>
+       			</CursorTrack>
+        		<Widget id="mapTitle">
+          			<stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
+        		</Widget>
+        		<LayerControl id="contextLegend">
+        			<stylesheet>../../lib/widget/LayerControlSld.xsl</stylesheet>
+		          	<htmlTagId>workspace</htmlTagId>
+		          	<outputNodeId>workspaceCanvas</outputNodeId>
+		          	<moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
+		          	<moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
+		          	<deleteImage>/images/LayerRemoveDisable.png</deleteImage>
+        		</LayerControl>
+		        <AoiBoxDHTML id="aoiBox2">
+			          <htmlTagId>mainMapPane</htmlTagId>
+			          <lineColor>#FF0000</lineColor>
+			          <lineWidth>1</lineWidth>
+			          <crossSize>15</crossSize>
+			          <mapContainerId>mainMapContainer</mapContainerId>
+		        </AoiBoxDHTML>
+      		</widgets>
+      		<tools>
+        			<AoiMouseHandler id="mainAoi"/>
+        			<DragPanHandler id="mainDragPan">
+          				<enabled>false</enabled>
+        			</DragPanHandler>
+      		</tools>
+<!--      		 <scriptFile>model/Context.js</scriptFile>-->
+    	</Context>
+
+  <StyledLayerDescriptor id="mySLD">  
+  		<defaultModelUrl>data/videSld.sld</defaultModelUrl>
+<!--	    <scriptFile>model/StyledLayerDescriptor.js</scriptFile>-->
+	    <models>
+	    	<FeatureTypeSchema id="layerTypeTemplate" template="true">-->
+				          <widgets>
+					            <Widget id="layerProperty">
+						              <htmlTagId>selectProperty</htmlTagId>
+						              <outputNodeId>selectPropertyCanvas</outputNodeId>
+						            
+						              <stylesheet>../../lib/widget/LayerProperty.xsl</stylesheet>
+						        </Widget>
+				          </widgets>
+	        </FeatureTypeSchema>
+    		
+	    </models>
+	    <widgets>
+	      	<SLDEditor id="editor">
+	      		<htmlTagId>workspace</htmlTagId>
+	          	<outputNodeId>workspaceCanvas</outputNodeId>
+	          	 <targetModel>mainMap</targetModel>
+<!--	          	<scriptFile>widget/SLDEditor.js</scriptFile>-->
+<!--	          	<stylesheet>widget/SLDEditor.xsl</stylesheet>-->
+	      	</SLDEditor>
+	    </widgets>
+	    <tools>
+	    	<EditSLD id="editSLD">
+	    		<targetModel>mainMap</targetModel>
+					<debug/>
+<!--					<scriptFile>tool/EditSLD.js</scriptFile>-->
+	    	</EditSLD>
+	    </tools> 
+  </StyledLayerDescriptor>
+  
+    <ContextCollection id="myMapCollection">
+      <defaultModelUrl>data/mapCollection.xml</defaultModelUrl>
+      <widgets>
+        <CollectionList id="collectionList">
+          <htmlTagId>workspace</htmlTagId>
+          <outputNodeId>workspaceCanvas</outputNodeId>
+          <targetModel>mainMap</targetModel>
+        </CollectionList>
+      </widgets>
+    </ContextCollection>
+    
+    
+    
+    <!-- use this with a WFS capabilities model -->
+    <WfsCapabilities id="wfsCapTemplate">
+      <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
+      <models>
+        <FeatureTypeSchema id="featureTypeTemplate" template="true">
+          <widgets>
+            <Widget id="attributeFilter">
+              <htmlTagId>workspace</htmlTagId>
+              <outputNodeId>workspaceCanvas</outputNodeId>
+              <stylesheet>../../lib/widget/FilterAttributes.xsl</stylesheet>
+            </Widget>
+          </widgets>
+        </FeatureTypeSchema>
+        <FeatureCollection id="getFeatureTemplate" template="true">
+          <method>get</method>
+          <widgets>
+            <GmlRendererWZ id="testGmlRenderer">
+              <htmlTagId>mainMapPane</htmlTagId>
+              <targetModel>mainMap</targetModel>
+              <lineColor>#FF00FF</lineColor>
+              <lineWidth>1</lineWidth>
+              <pointDiameter>10</pointDiameter>
+              <mapContainerId>mainMapContainer</mapContainerId>
+            </GmlRendererWZ>
+            <Legend id="wfsLegend">
+              <htmlTagId>workspace</htmlTagId>
+              <outputNodeId>workspaceCanvas</outputNodeId>
+            </Legend>
+          </widgets>
+        </FeatureCollection>
+      </models>
+      <widgets>
+        <Widget id="featureTypes">
+          <htmlTagId>workspace</htmlTagId>
+          <outputNodeId>workspaceCanvas</outputNodeId>
+          <stylesheet>../../lib/widget/SelectFeatureType.xsl</stylesheet>
+          <toolId>wfsController</toolId>
+        </Widget>
+      </widgets>
+      <tools>
+        <WebServiceRequest id="wfsGetFeature">
+          <targetModel>getFeatureTemplate</targetModel>
+          <requestName>wfs:GetFeature</requestName>
+        </WebServiceRequest>
+        <WebServiceRequest id="wfsDescribeFeature">
+          <targetModel>featureTypeTemplate</targetModel>
+          <requestName>wfs:DescribeFeatureType</requestName>
+        </WebServiceRequest>
+        
+        <EditContext id="addLayer">
+        			<targetModel>mainMap</targetModel>
+        </EditContext>
+        <Caps2Context id="convertCaps">
+					<targetModel>mainMap</targetModel>
+		</Caps2Context>
+      </tools>
+    </WfsCapabilities>
+    
+    
+    
+    <WmsCapabilities id="wmsCapTemplate">
+			<widgets>
+				<Widget id="loadAllLayers">
+					<stylesheet>../../lib/widget/SelectAllMapLayers.xsl</stylesheet>
+				</Widget>
+				<ModelStatus id="wmsLoadStatus">
+					<htmlTagId>workspace</htmlTagId>
+					<outputNodeId>workspaceCanvas</outputNodeId>
+				</ModelStatus>
+				<Widget id="layerList">
+					<htmlTagId>workspace</htmlTagId>
+					<outputNodeId>workspaceCanvas</outputNodeId>
+					<stylesheet>../../lib/widget/SelectMapLayers.xsl</stylesheet>
+				</Widget>
+			</widgets>
+			<tools>
+				<Caps2Context id="convertCaps">
+					<targetModel>mainMap</targetModel>
+				</Caps2Context>
+        		<EditContext id="editContext">
+          			<targetModel>mainMap</targetModel>
+        		</EditContext>
+			</tools>
+			<nodeSelectXpath>//Layer</nodeSelectXpath>
+	</WmsCapabilities>
+ </models>
+ <widgets>
+    <TabbedContent id="tabBar">
+       <tab>layerList</tab>
+      <tab>contextLegend</tab> 
+      <tab>featureTypes</tab>
+      <tab>collectionList</tab>
+      <tab>editor</tab>
+    </TabbedContent>
+    <ModelUrlInput id="urlInputWfs">
+      <targetModel>wfsCapTemplate</targetModel>
+      <defaultUrl>http://localhost:8080/geoserver/wfs/GetCapabilities</defaultUrl>
+    </ModelUrlInput>
+    <ModelUrlInput id="urlInputWms">
+      <targetModel>wmsCapTemplate</targetModel>
+      <defaultUrl>http://localhost:8080/geoserver/wms/GetCapabilities</defaultUrl>
+    </ModelUrlInput>
+    <ZoomIn id="zoomIn">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainAoi</mouseHandler>
+      <class>RadioButton</class>
+      <selected>true</selected>
+      <enabledSrc>/images/ZoomInEnable.png</enabledSrc>
+      <disabledSrc>/images/ZoomInDisable.png</disabledSrc>
+    </ZoomIn>
+    <ZoomOut id="zoomOut">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainAoi</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
+      <disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
+    </ZoomOut>
+    <DragPan id="dragPan">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainDragPan</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/PanEnable.png</enabledSrc>
+      <disabledSrc>/images/PanDisable.png</disabledSrc>
+    </DragPan>
+    <SetAoi id="setAoi">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainAoi</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/SetAoiEnable.png</enabledSrc>
+      <disabledSrc>/images/SetAoiDisable.png</disabledSrc>
+    </SetAoi>
+    <Reset id="reset">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
+    </Reset>
+    <Save id="save">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/SaveDisable.png</disabledSrc>
+       <popupWindowName>modelXML</popupWindowName>
+<!--      <scriptFile>widget/Save.js</scriptFile>-->
+    </Save>
+    <Loading2 id="loading">
+      <htmlTagId>workspace</htmlTagId>
+      <outputNodeId>workspaceCanvas</outputNodeId>
+    </Loading2>
+  </widgets>
+  <!--
+    All static images should be relative to this URL.
+    This dir is relative the dir of the main html file.
+  -->
+	<skinDir>../../lib/skin/default</skinDir>
+	<widgetTextUrl>/widgetText.xml</widgetTextUrl>	
+<!--	 in the skin dir -->
+</MapbuilderConfig>

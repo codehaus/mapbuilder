@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<MapbuilderConfig version="1.0.0" id="referenceTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder /mapbuilder/lib/schemas/config.xsd">
+  <!--
+    Description: This configuration file determines what components from the
+                 Mapbuilder library are to be included in a Main Mapbuilder web
+                 page.
+    Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html 
+
+    $Id: PlaceNameConfig.xml,v 1.2 2005/06/10 18:48:21 adair Exp $
+  -->
+  <models>
+    <WfsCapabilities id="placeNameWorld">
+      <!--defaultModelUrl>http://sigma.openplans.org/geoserver/wfs?request=GetCapabilities&amp;service=WFS&amp;version=1.0.0</defaultModelUrl-->
+      <defaultModelUrl>gnisCaps.xml</defaultModelUrl>
+      <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
+      <tools>
+				<WebServiceRequest id="wfsController2">
+					<targetModel>placeNameResults</targetModel>
+					<requestName>wfs:GetFeature</requestName>
+          <requestFilter>worldPlaceFilter</requestFilter>
+          <maxFeatures>20</maxFeatures>
+				</WebServiceRequest>
+      </tools>
+    </WfsCapabilities>
+    
+    <Model id="worldPlaceFilter">
+      <defaultModelUrl>gnisFilter.xml</defaultModelUrl>
+      <widgets>
+        <PlaceNameForm id="worldPlaceNameForm">
+          <htmlTagId>placeNameForm</htmlTagId>
+          <outputNodeId>workspaceCanvas</outputNodeId>
+          <stylesheet>WorldPlaceNameForm.xsl</stylesheet>
+          <scriptFile>PlaceNameForm.js</scriptFile>
+          <targetModel>placeNameWorld</targetModel>
+          <featureTypeName>topp:gnis</featureTypeName>
+        </PlaceNameForm>
+      </widgets>
+    </Model>
+    
+    <WfsCapabilities id="placeNameCanada">
+      <defaultModelUrl>cgnsCaps.xml</defaultModelUrl>
+      <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
+      <tools>
+				<WebServiceRequest id="wfsController">
+					<targetModel>placeNameResults</targetModel>
+					<requestName>wfs:GetFeature</requestName>
+          <requestFilter>cgnsPlaceFilter</requestFilter>
+          <maxFeatures>20</maxFeatures>
+				</WebServiceRequest>
+      </tools>
+    </WfsCapabilities>
+    
+    <Model id="cgnsPlaceFilter">
+      <defaultModelUrl>cgnsFilter.xml</defaultModelUrl>
+      <widgets>
+        <PlaceNameForm id="canadaPlaceNameForm">
+          <htmlTagId>placeNameForm</htmlTagId>
+          <outputNodeId>workspaceCanvas</outputNodeId>
+          <stylesheet>CanadaPlaceNameForm.xsl</stylesheet>
+          <scriptFile>PlaceNameForm.js</scriptFile>
+          <targetModel>placeNameCanada</targetModel>
+          <featureTypeName>GEONAMES</featureTypeName>
+        </PlaceNameForm>
+      </widgets>
+    </Model>
+            
+    <FeatureCollection id="placeNameResults">
+      <widgets>
+        <Widget id="placeNameResultsSelect">
+          <stylesheet>PlaceNameSelect.xsl</stylesheet>
+					<htmlTagId>placeNameSelect</htmlTagId>
+					<outputNodeId>resultCanvas</outputNodeId>
+        </Widget>
+        <Loading2 id="inProgress">
+					<htmlTagId>placeNameSelect</htmlTagId>
+					<outputNodeId>resultCanvas</outputNodeId>
+        </Loading2>
+      </widgets>
+    </FeatureCollection>
+
+  </models>
+  <widgets>
+    <TabbedContent id="tabBar">
+      <tab label="Canada">canadaPlaceNameForm</tab>
+      <tab label="World">worldPlaceNameForm</tab>
+    </TabbedContent>
+  </widgets>
+  <skinDir>../skin</skinDir>
+  <widgetTextUrl>widgetText.xml</widgetTextUrl>
+</MapbuilderConfig>

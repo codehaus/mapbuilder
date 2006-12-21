@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<WFS_Capabilities version="1.0.0" xmlns="http://www.opengis.net/wfs"
+   xmlns:ogc="http://www.opengis.net/ogc" xmlns:cw="http://www.cubewerx.com/cw"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.cubewerx.com/schemas/wfs/1.0.0-cw/WFS-capabilities.xsd">
+   <Service>
+      <Name>WFS</Name>
+      <Title>OGC Compliant Web Feature Service</Title>
+      <OnlineResource>http://cgns.nrcan.gc.ca/wfs/cubeserv.cgi?SERVICE=WFS&amp;DATASTORE=cgns</OnlineResource>
+   </Service>
+   <Capability>
+      <Request>
+         <GetCapabilities>
+            <DCPType>
+               <HTTP>
+                  <Get
+                     onlineResource="http://cgns.nrcan.gc.ca/wfs/cubeserv.cgi?SERVICE=WFS&amp;DATASTORE=cgns&amp;"/>
+                  <Post
+                     onlineResource="http://cgns.nrcan.gc.ca/wfs/cubeserv.cgi?SERVICE=WFS&amp;DATASTORE=cgns"/>
+               </HTTP>
+            </DCPType>
+         </GetCapabilities>
+         <DescribeFeatureType>
+            <SchemaDescriptionLanguage>
+               <BXFS1/>
+               <BXFS2/>
+               <SXSDL/>
+               <GML3L0/>
+               <XMLSCHEMA/>
+            </SchemaDescriptionLanguage>
+            <DCPType>
+               <HTTP>
+                  <Get
+                     onlineResource="http://cgns.nrcan.gc.ca/wfs/cubeserv.cgi?SERVICE=WFS&amp;DATASTORE=cgns&amp;"/>
+                  <Post
+                     onlineResource="http://cgns.nrcan.gc.ca/wfs/cubeserv.cgi?SERVICE=WFS&amp;DATASTORE=cgns"/>
+               </HTTP>
+            </DCPType>
+         </DescribeFeatureType>
+         <GetFeature>
+            <ResultFormat>
+               <BXFS1/>
+               <BXFS2/>
+               <GML.1/>
+               <GML3L0/>
+               <SHAPE/>
+               <MIF/>
+               <GML2/>
+            </ResultFormat>
+            <DCPType>
+               <HTTP>
+                  <Get
+                     onlineResource="http://cgns.nrcan.gc.ca/wfs/cubeserv.cgi?SERVICE=WFS&amp;DATASTORE=cgns&amp;"/>
+                  <Post
+                     onlineResource="http://cgns.nrcan.gc.ca/wfs/cubeserv.cgi?SERVICE=WFS&amp;DATASTORE=cgns"/>
+               </HTTP>
+            </DCPType>
+         </GetFeature>
+      </Request>
+      <VendorSpecificCapabilities></VendorSpecificCapabilities>
+   </Capability>
+   <FeatureTypeList>
+      <Operations>
+         <Query/>
+      </Operations>
+      <FeatureType>
+         <Name>GEONAMES</Name>
+         <Title>Canadian Geographical Names</Title>
+         <Abstract>The Canadian Geographical Names Data Base (CGNDB) is the authoritative data bank of Canada's 
+         geographical names, maintained by the Geographical Names Section,  Centre for Topographic Information, 
+         Geomatics Canada, Natural Resources Canada. Its purpose is to store  geographical names that have been 
+         approved by the Geographical Names Board of Canada (GNBC) and to make these authoritative records available 
+         for government and public use. The subset of the CGNDB data which will be served up consists of current 
+         officially approved names, and will be referred to as the Canadian Geographical Names Service data set. 
+         The purpose of the CGNS is to provide a national repository for officially approved Canadian geographical 
+         names [i.e.,  geographical names that have been recognized by the Geographical Names Board of Canada (GNBC)].
+         
+          La Base de donnies toponymiques du Canada (BDTC) est la banque de donnies regroupant les toponymes canadiens 
+          girie par la Section de toponymie du Centre d'information topographique de  Ressources naturelles Canada. 
+          On y emmagasine les toponymes et leurs attributs qui ont iti approuvis par la Commission de toponymie 
+          du Canada (CTC) afin que ces fichiers faisant autoriti puissent jtre consultis par le personnel du 
+          gouvernement et le public. Le sous-ensemble des donnies de la BDTC qui sera offert pour la visualisation 
+          est celui des toponymes officiellement approuvis et sera disigni par l'expression jeu de donnies sur les 
+          Toponymes canadiens niveau 1 (TC1). C'est igalement le jeu de donnies qui est offert par le 
+          Service canadien de toponymie (SCT). 
+          </Abstract>
+         <SRS>EPSG:4269</SRS>
+         <LatLongBoundingBox minx="-141" miny="2.61934e-09" maxx="2.61934e-09"
+            maxy="83.12"/>
+      </FeatureType>
+      <FeatureType>
+         <Name>GEONAMES_POINTS</Name>
+         <SRS>EPSG:4269</SRS>
+         <LatLongBoundingBox minx="-180" miny="-90" maxx="180" maxy="90"/>
+      </FeatureType>
+   </FeatureTypeList>
+   <Filter_Capabilities xmlns="http://www.opengis.net/ogc"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.opengis.net/ogc http://schemas.cubewerx.com/schemas/filter/1.0.0/filterCapabilities.xsd">
+      <Spatial_Capabilities>
+         <Spatial_Operators>
+            <BBOX/>
+            <Equals/>
+            <Disjoint/>
+            <Intersect/>
+            <Touches/>
+            <Crosses/>
+            <Contains/>
+            <Overlaps/>
+         </Spatial_Operators>
+      </Spatial_Capabilities>
+      <Scalar_Capabilities>
+         <Logical_Operators/>
+         <Comparison_Operators>
+            <Simple_Comparisons/>
+            <Like/>
+            <Between/>
+            <NullCheck/>
+         </Comparison_Operators>
+         <Arithmetic_Operators>
+            <Simple_Arithmetic/>
+            <Functions>
+               <Function_Names>
+                  <Function_Name nArgs="1">COUNT</Function_Name>
+                  <Function_Name nArgs="1">DISTINCT</Function_Name>
+                  <Function_Name nArgs="1">MIN</Function_Name>
+                  <Function_Name nArgs="1">MAX</Function_Name>
+                  <Function_Name nArgs="1">UPPER</Function_Name>
+               </Function_Names>
+            </Functions>
+         </Arithmetic_Operators>
+      </Scalar_Capabilities>
+   </Filter_Capabilities>
+</WFS_Capabilities>
