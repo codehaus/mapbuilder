@@ -10,6 +10,11 @@ mapbuilderDir=`dirname $0`/..;
 targetDir=${mapbuilderDir}/compressBuild
 tmp="jsjam.tmp";
 
+for file in `find ${targetDir}/lib -name "*.xsl"` ; do
+  xsltproc ${mapbuilderDir}/bin/compressXsl.xsl ${file} > ${tmp};
+  mv ${tmp} ${file};
+done;
+
 rm ${targetDir}/MapbuilderCompressed.js
 
 originalFile=${targetDir}/lib/MapbuilderCompressed.js
