@@ -121,7 +121,6 @@ $Id$
   <property name="dev.home" value="${basedir}/."/>
   <property name="context.home" value="${dev.home}/server/java"/>
   <property name="src.home" value="${context.home}/src"/>
-  <property name="concat.file" value="${build.home}/MapbuilderConcat.js"/>
 
 
 <!-- ==================== External Dependencies =========================== -->
@@ -392,65 +391,9 @@ $Id$
     <copy todir="${compress.home}">
       <fileset dir="${build.home}"/>
     </copy>
-   	<chmod file="${basedir}/bin/jsjam.pl" perm="ugo+rx"/>  	
- 	<chmod file="${basedir}/bin/compress.sh" perm="ugo+rx"/>
-        <exec executable="${basedir}/bin/compress.sh" os="Linux"/>
-
 	<!-- Also run new compression routine, using DOJO -->
  	<chmod file="${basedir}/bin/kompress.sh" perm="ugo+rx"/>
         <exec executable="${basedir}/bin/kompress.sh" os="Linux"/>
-  </target>
-
-
-<!-- =================== Concat Target ================================== -->
-<!-- TBD this only includes a subset of all JS files - and it doesn't seem
-     to work yet.
--->
-  <target description="Concat JS files" name="concat" depends="prepare">
-    <delete file="${concat.file}"/>
-    <concat destfile="${concat.file}" fixlastline="yes" eol="unix">
-      <!--fileset dir="${build.home}" includes="**/*.js" excludes="**/overlib/*.js"/-->
-      <filelist dir="${build.home}" files="
-lib/Mapbuilder.js
-lib/util/sarissa/Sarissa.js
-lib/util/sarissa/sarissa_ieemu_xpath.js
-lib/util/Util.js
-lib/util/Listener.js
-lib/model/ModelBase.js
-lib/model/Config.js
-lib/model/OwsContext.js
-lib/widget/MapPane2.js
-lib/widget/AoiBoxDHTML.js
-lib/widget/CursorTrack.js
-lib/widget/Legend.js
-lib/widget/ZoomIn.js
-lib/widget/ZoomOut.js
-lib/widget/DragPan.js
-lib/widget/Reset.js
-lib/tool/AoiMouseHandler.js
-lib/tool/DragPanHandler.js
-lib/widget/WidgetBase.js
-lib/widget/MapContainerBase.js
-lib/graphics/MapLayerMgr.js
-lib/widget/WidgetBaseXSL.js
-lib/model/Proj.js
-lib/widget/ButtonBase.js
-lib/tool/ToolBase.js
-lib/tool/Extent.js
-lib/graphics/WmsLayer.js
-lib/graphics/FeatureLayer.js
-lib/graphics/RssLayer.js
-lib/graphics/GmlLayer.js
-lib/graphics/MapLayer.js
-lib/graphics/StyledLayerDescriptor.js
-lib/graphics/VectorGraphics.js
-lib/widget/TipWidget.js
-lib/graphics/SldRenderer.js
-lib/graphics/SVGGraphics2.js
-lib/graphics/VMLGraphics2.js
-lib/util/MGRS.js
-"/>
-    </concat>
   </target>
 
 
