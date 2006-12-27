@@ -13,103 +13,128 @@
     $Id$
   -->
   <widgets>
-    <Widget>
-      <abstract>Abstract</abstract>
-      <moreInfo>Read more about this map</moreInfo>
-      <searchFormTitle>Area of interest coordinates</searchFormTitle>
+    <AoiForm>
+      <east>East:</east>
       <north>North:</north>
       <south>South:</south>
-      <east>East:</east>
+      <title>Area of interest coordinates</title>
       <west>West:</west>
-    </Widget>
-    <ZoomIn>
-      <tooltip>click and drag to zoom in</tooltip>
-    </ZoomIn>
-    <ZoomOut>
-      <tooltip>click to zoom out</tooltip>
-    </ZoomOut>
-    <DragPan>
-      <tooltip>click and drag to pan</tooltip>
-    </DragPan>
-    <SetAoi>
-      <tooltip>click and drag to set the area of interest</tooltip>
-    </SetAoi>
-    <Reset>
-      <tooltip>reset the map to full extent</tooltip>
-    </Reset>
+    </AoiForm>
+    
     <Back>
       <tooltip>get the previous extent</tooltip>
     </Back>
-    <Forward>
-      <tooltip>get the next extent</tooltip>
-    </Forward>
-    <GetFeatureInfo>
-      <tooltip>click on feature for more info</tooltip>
-    </GetFeatureInfo>
-    <EditPoint>
-      <tooltip>click on map to create a point feature</tooltip>
-    </EditPoint>
-    <EditLine>
-      <tooltip>click on map to add a point to a line</tooltip>
-    </EditLine>
-    <InsertFeature>
-      <tooltip>Save the current Feature(s) to the server</tooltip>
-    </InsertFeature>
-    <DeleteFeature>
-      <tooltip>Delete the current Feature(s) on the server</tooltip>
-    </DeleteFeature>
-    <WfsGetFeature>
-      <tooltip>Click on feature to query it</tooltip>
-    </WfsGetFeature>
-    <Save>
-      <tooltip>click to save this map</tooltip>
-    </Save>
-    <AoiForm>
-      <title>Area of interest coordinates</title>
-      <north>North:</north>
-      <south>South:</south>
-      <east>East:</east>
-      <west>West:</west>
-    </AoiForm>
+    
     <CollectionList>
       <title>Select a map to load:</title>
     </CollectionList>
-    <Legend>
-      <title>Map Layers</title>
-    </Legend>
-    <ModelStatus>
-      <title>Status for:</title>
-    </ModelStatus>
-    <ModelUrlInput>
-      <title>URL:</title>
-      <load>load</load>
-    </ModelUrlInput>
+    
     <CursorTrack>
-      <longitude>lon:</longitude>
       <latitude>lat:</latitude>
+      <longitude>lon:</longitude>
       <xcoord>x:</xcoord>
       <ycoord>y:</ycoord>
     </CursorTrack>
-    <SelectProcess>
-    </SelectProcess>
+    
+    <DeleteFeature>
+      <tooltip>Delete the current Feature(s) on the server</tooltip>
+    </DeleteFeature>
+    
+    <DragPan>
+      <tooltip>click and drag to pan</tooltip>
+    </DragPan>
+    
+    <EditLine>
+      <tooltip>click on map to add a point to a line</tooltip>
+    </EditLine>
+    
+    <EditPoint>
+      <tooltip>click on map to create a point feature</tooltip>
+    </EditPoint>
+    
+    <Forward>
+      <tooltip>get the next extent</tooltip>
+    </Forward>
+    
+    <GetFeatureInfo>
+      <tooltip>click on feature for more info</tooltip>
+    </GetFeatureInfo>
+    
+    <InsertFeature>
+      <tooltip>Save the current Feature(s) to the server</tooltip>
+    </InsertFeature>
+    
+    <Legend>
+      <title>Map Layers</title>
+    </Legend>
+    
+    <ModelStatus>
+      <title>Status for:</title>
+    </ModelStatus>
+    
+    <ModelUrlInput>
+      <load>load</load>
+      <title>URL:</title>
+    </ModelUrlInput>
+    
     <ProcessArgumentsForm>
     </ProcessArgumentsForm>
+    
+    <Reset>
+      <tooltip>reset the map to full extent</tooltip>
+    </Reset>
+    
+    <Save>
+      <tooltip>click to save this map</tooltip>
+    </Save>
+    
+    <SelectProcess>
+    </SelectProcess>
+    
+    <SetAoi>
+      <tooltip>click and drag to set the area of interest</tooltip>
+    </SetAoi>
+    
     <ShowProcessResult>
       <tabLabel>4. Access results</tabLabel>
     </ShowProcessResult>
-    <WebServiceForm>
-      <ntsTitle>NTS Lookup web service</ntsTitle>
-      <mapsheet>NTS index:</mapsheet>
-    </WebServiceForm>
+    
+    <TabbedContent>
+      <argsInput>3. Set arguments</argsInput>
+      <results>4. Access results</results>
+      <selectProcess>2. Select a process</selectProcess>
+      <urlInput>1. Select a service</urlInput>
+    </TabbedContent>
+    
     <Timestamp>
       <title>Timestamp:</title>
     </Timestamp>
-    <TabbedContent>
-      <urlInput>1. Select a service</urlInput>
-      <selectProcess>2. Select a process</selectProcess>
-      <argsInput>3. Set arguments</argsInput>
-      <results>4. Access results</results>
-    </TabbedContent>
+    
+    <WebServiceForm>
+      <mapsheet>NTS index:</mapsheet>
+      <ntsTitle>NTS Lookup web service</ntsTitle>
+    </WebServiceForm>
+    
+    <WfsGetFeature>
+      <tooltip>Click on feature to query it</tooltip>
+    </WfsGetFeature>
+    
+    <Widget>
+      <abstract>Abstract</abstract>
+      <east>East:</east>
+      <moreInfo>Read more about this map</moreInfo>
+      <north>North:</north>
+      <searchFormTitle>Area of interest coordinates</searchFormTitle>
+      <south>South:</south>
+      <west>West:</west>
+    </Widget>
+    
+    <ZoomIn>
+      <tooltip>click and drag to zoom in</tooltip>
+    </ZoomIn>
+    
+    <ZoomOut>
+      <tooltip>click to zoom out</tooltip>
+    </ZoomOut>
   </widgets>
 </WidgetText>
-

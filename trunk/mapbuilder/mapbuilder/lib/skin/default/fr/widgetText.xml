@@ -13,75 +13,91 @@
     $Id$
   -->
   <widgets>
-    <Widget>
-      <abstract>Résumé</abstract>
-      <moreInfo>Lisez à propos de cette carte</moreInfo>
-      <searchFormTitle>Région d'intérêt</searchFormTitle>
-      <north>Nord:</north>
-      <south>Sud:</south>
-      <east>Est:</east>
-      <west>Ouest:</west>
-    </Widget>
-    <ZoomIn>
-      <tooltip>cliquer et faire glisser la souris pour agrandir</tooltip>
-    </ZoomIn>
-    <ZoomOut>
-      <tooltip>cliquer pour réduire</tooltip>
-    </ZoomOut>
-    <DragPan>
-      <tooltip>cliquer et faire glisser la souris pour voir un autre parti de la carte</tooltip>
-    </DragPan>
-    <SetAoi>
-      <tooltip>cliquer et faire glisser la souris pour positionner une AOI</tooltip>
-    </SetAoi>
-    <Reset>
-      <tooltip>redonner la carte ses dimensions complèts</tooltip>
-    </Reset>
-    <GetFeatureInfo>
-      <tooltip>cliquer pour obtenir plus d'information pour cette couche</tooltip>
-    </GetFeatureInfo>
-    <EditPoint>
-      <tooltip>cliquer pour crée un object géographique de point</tooltip>
-    </EditPoint>
-    <EditLine>
-      <tooltip>cliquer pour crée un object géographique linéare</tooltip>
-    </EditLine>
-    <Save>
-      <tooltip>cliquer pour sauvegarder</tooltip>
-    </Save>
     <AoiForm>
-      <title>Coordonées de la région d`intéret</title>
+      <east>Est:</east>
       <north>Nord:</north>
       <south>Sud:</south>
-      <east>Est:</east>
+      <title>Coordonées de la région d`intéret</title>
       <west>Ouest:</west>
     </AoiForm>
+    
     <CollectionList>
       <title>Choisir une carte pour regardez:</title>
     </CollectionList>
-    <Legend>
-      <title>Couches de la carte</title>
-    </Legend>
-    <ModelStatus>
-      <title>Status for:</title>
-    </ModelStatus>
-    <ModelUrlInput>
-      <title>URL:</title>
-      <load>téléchargez</load>
-    </ModelUrlInput>
+    
     <CursorTrack>
-      <longitude>lon:</longitude>
       <latitude>lat:</latitude>
+      <longitude>lon:</longitude>
       <xcoord>x:</xcoord>
       <ycoord>y:</ycoord>
     </CursorTrack>
-    <WebServiceForm>
-      <ntsTitle>Service de recherche par SNRC</ntsTitle>
-      <mapsheet>code SNRC:</mapsheet>
-    </WebServiceForm>
+    
+    <DragPan>
+      <tooltip>cliquer et faire glisser la souris pour voir un autre parti de la carte</tooltip>
+    </DragPan>
+    
+    <EditLine>
+      <tooltip>cliquer pour crée un object géographique linéare</tooltip>
+    </EditLine>
+    
+    <EditPoint>
+      <tooltip>cliquer pour crée un object géographique de point</tooltip>
+    </EditPoint>
+    
+    <GetFeatureInfo>
+      <tooltip>cliquer pour obtenir plus d'information pour cette couche</tooltip>
+    </GetFeatureInfo>
+    
+    <Legend>
+      <title>Couches de la carte</title>
+    </Legend>
+    
+    <ModelStatus>
+      <title>Status for:</title>
+    </ModelStatus>
+    
+    <ModelUrlInput>
+      <load>téléchargez</load>
+      <title>URL:</title>
+    </ModelUrlInput>
+    
+    <Reset>
+      <tooltip>redonner la carte ses dimensions complèts</tooltip>
+    </Reset>
+    
+    <Save>
+      <tooltip>cliquer pour sauvegarder</tooltip>
+    </Save>
+    
+    <SetAoi>
+      <tooltip>cliquer et faire glisser la souris pour positionner une AOI</tooltip>
+    </SetAoi>
+    
     <Timestamp>
       <title>Date de l`image:</title>
     </Timestamp>
+    
+    <WebServiceForm>
+      <mapsheet>code SNRC:</mapsheet>
+      <ntsTitle>Service de recherche par SNRC</ntsTitle>
+    </WebServiceForm>
+    
+    <Widget>
+      <abstract>Résumé</abstract>
+      <east>Est:</east>
+      <moreInfo>Lisez à propos de cette carte</moreInfo>
+      <north>Nord:</north>
+      <searchFormTitle>Région d'intérêt</searchFormTitle>
+      <south>Sud:</south>
+      <west>Ouest:</west>
+    </Widget>
+    
+    <ZoomIn>
+      <tooltip>cliquer et faire glisser la souris pour agrandir</tooltip>
+    </ZoomIn>
+    
+    <ZoomOut>
+      <tooltip>cliquer pour réduire</tooltip>
+    </ZoomOut>
   </widgets>
 </WidgetText>
-
