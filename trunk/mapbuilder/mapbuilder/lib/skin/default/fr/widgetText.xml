@@ -21,6 +21,10 @@
       <west>Ouest:</west>
     </AoiForm>
     
+    <Back>
+      <tooltip>get the previous extent</tooltip> <!-- TODO: translate -->
+    </Back>
+    
     <CollectionList>
       <title>Choisir une carte pour regardez:</title>
     </CollectionList>
@@ -31,6 +35,10 @@
       <xcoord>x:</xcoord>
       <ycoord>y:</ycoord>
     </CursorTrack>
+    
+    <DeleteFeature>
+      <tooltip>Delete the current Feature(s) on the server</tooltip> <!-- TODO: translate -->
+    </DeleteFeature>
     
     <DragPan>
       <tooltip>cliquer et faire glisser la souris pour voir un autre parti de la carte</tooltip>
@@ -44,13 +52,25 @@
       <tooltip>cliquer pour crée un object géographique de point</tooltip>
     </EditPoint>
     
+    <Forward>
+      <tooltip>get the next extent</tooltip> <!-- TODO: translate -->
+    </Forward>
+    
     <GetFeatureInfo>
       <tooltip>cliquer pour obtenir plus d'information pour cette couche</tooltip>
     </GetFeatureInfo>
     
+    <InsertFeature>
+      <tooltip>Save the current Feature(s) to the server</tooltip> <!-- TODO: translate -->
+    </InsertFeature>
+    
     <Legend>
       <title>Couches de la carte</title>
     </Legend>
+    
+    <Measurement>
+      <tooltip>click on the map to measure the distance</tooltip> <!-- TODO: translate -->
+    </Measurement>
     
     <ModelStatus>
       <title>Status for:</title>
@@ -61,6 +81,9 @@
       <title>URL:</title>
     </ModelUrlInput>
     
+    <ProcessArgumentsForm>
+    </ProcessArgumentsForm>
+    
     <Reset>
       <tooltip>redonner la carte ses dimensions complèts</tooltip>
     </Reset>
@@ -69,9 +92,23 @@
       <tooltip>cliquer pour sauvegarder</tooltip>
     </Save>
     
+    <SelectProcess>
+    </SelectProcess>
+    
     <SetAoi>
       <tooltip>cliquer et faire glisser la souris pour positionner une AOI</tooltip>
     </SetAoi>
+    
+    <ShowProcessResult>
+      <tabLabel>4. Access results</tabLabel> <!-- TODO: translate -->
+    </ShowProcessResult>
+    
+    <TabbedContent>
+      <argsInput>3. Set arguments</argsInput> <!-- TODO: translate -->
+      <results>4. Access results</results> <!-- TODO: translate -->
+      <selectProcess>2. Select a process</selectProcess> <!-- TODO: translate -->
+      <urlInput>1. Select a service</urlInput> <!-- TODO: translate -->
+    </TabbedContent>
     
     <Timestamp>
       <title>Date de l`image:</title>
@@ -81,6 +118,10 @@
       <mapsheet>code SNRC:</mapsheet>
       <ntsTitle>Service de recherche par SNRC</ntsTitle>
     </WebServiceForm>
+    
+    <WfsGetFeature>
+      <tooltip>Click on feature to query it</tooltip> <!-- TODO: translate -->
+    </WfsGetFeature>
     
     <Widget>
       <abstract>Résumé</abstract>

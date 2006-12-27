@@ -68,6 +68,10 @@
       <title>Tematismi</title>
     </Legend>
     
+    <Measurement>
+      <tooltip>click on the map to measure the distance</tooltip> <!-- TODO: translate -->
+    </Measurement>
+    
     <ModelStatus>
       <title>Status for:</title>
     </ModelStatus>
@@ -98,6 +102,13 @@
     <ShowProcessResult>
       <tabLabel>4. Access results</tabLabel>
     </ShowProcessResult>
+    
+    <TabbedContent>
+      <argsInput>3. Set arguments</argsInput> <!-- TODO: translate -->
+      <results>4. Access results</results> <!-- TODO: translate -->
+      <selectProcess>2. Select a process</selectProcess> <!-- TODO: translate -->
+      <urlInput>1. Select a service</urlInput> <!-- TODO: translate -->
+    </TabbedContent>
     
     <Timestamp>
       <title>Data/ora:</title>
