@@ -72,6 +72,10 @@
       <tooltip>klik om hulp te krijgen</tooltip>
     </Help>
     
+    <InsertFeature>
+      <tooltip>Bewaar de huidige marker(s) op de server</tooltip>
+    </InsertFeature>
+    
     <Legend>
       <title>Kaartlagen</title>
     </Legend>
@@ -130,6 +134,10 @@
       <mapsheet>NTS index:</mapsheet>
       <ntsTitle>NTS Lookup web service</ntsTitle>
     </WebServiceForm>
+    
+    <WfsGetFeature>
+      <tooltip>Klik op een marker om deze te bevragen</tooltip>
+    </WfsGetFeature>
     
     <Widget>
       <abstract>Samenvatting</abstract>

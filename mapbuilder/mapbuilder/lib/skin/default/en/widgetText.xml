@@ -68,6 +68,10 @@
       <title>Map Layers</title>
     </Legend>
     
+    <Measurement>
+      <tooltip>click on the map to measure the distance</tooltip>
+    </Measurement>
+    
     <ModelStatus>
       <title>Status for:</title>
     </ModelStatus>
