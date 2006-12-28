@@ -431,6 +431,21 @@ function ModelBase(modelNode, parentModel) {
     //objRef.url=null;
   }
 
+  /**
+   * Get a message for this model from the <code>widgetText</code> file.
+   * @param messageKey the message key within the model node in the <code>widgetText</code> file
+   * @param varArgs    optional extra parameters for formatting the message
+   * @return           <code>"NoMsgsFound"</code> if the <code>widgetText</code> file is not found,<br/>
+   *                   the <code>messageKey</code> if the message key was not found within the model node,<br/>
+   *                   the (formatted) message if it was found
+   */
+  this.getMessage = function(messageKey) {
+    var msgNodeXpath = "/mb:WidgetText/mb:models/mb:" + this.modelNode.nodeName;
+    var varArgs = [].slice.call(arguments);
+    varArgs.unshift(msgNodeXpath);
+    return mbGetMessage.apply(this, varArgs);
+  }
+
   //don't load in models and widgets if this is the config doc, 
   //defer that to an explcit config.init() call in mapbuilder.js
   if (parentModel) {

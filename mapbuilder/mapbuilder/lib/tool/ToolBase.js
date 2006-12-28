@@ -58,6 +58,21 @@ function ToolBase(toolNode, model) {
   }
   this.model.addListener( "init", this.initMouseHandler, this );
 
+  /**
+   * Get a message for this tool from the <code>widgetText</code> file.
+   * @param messageKey the message key within the tool node in the <code>widgetText</code> file
+   * @param varArgs    optional extra parameters for formatting the message
+   * @return           <code>"NoMsgsFound"</code> if the <code>widgetText</code> file is not found,<br/>
+   *                   the <code>messageKey</code> if the message key was not found within the tool node,<br/>
+   *                   the (formatted) message if it was found
+   */
+  this.getMessage = function(messageKey) {
+    var msgNodeXpath = "/mb:WidgetText/mb:tools/mb:" + this.toolNode.nodeName;
+    var varArgs = [].slice.call(arguments);
+    varArgs.unshift(msgNodeXpath);
+    return mbGetMessage.apply(this, varArgs);
+  }
+
   //tools enabled by default; can set to false in config for initial loading
   this.enabled = true;
   var enabled = toolNode.selectSingleNode("mb:enabled");
