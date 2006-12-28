@@ -135,7 +135,7 @@ function Config(url) {
       httpPayload.url = modelUrl;
       model.newRequest(model,httpPayload);
     } else {
-      alert("config loadModel error:"+modelId+":"+modelUrl);
+      alert(mbGetModelMessage("Config", "errorLoadingModel", modelId, modelUrl));
     }
   }
 
@@ -148,7 +148,7 @@ function Config(url) {
     if (widget) {
       widget.paint(widget, widget.id);
     } else {
-      alert("config paintWidget error: widget does not exist");
+      alert(mbGetModelMessage("Config", "errorPaintingWidget"));
     }
   }
 }

@@ -36,7 +36,7 @@ function EditLine(widgetNode, model) {
         objRef.featureXpath,
         old+" "+point[0]+","+point[1]);
       if(!sucess){
-        alert("EditLine: invalid featureXpath in config: "+objRef.featureXpath);
+        alert(objRef.getMessage("invalidFeatureXpath", objRef.featureXpath));
       }
     }
   }

@@ -35,8 +35,8 @@ function GmlRendererWKT(widgetNode, model) {
    * @param objRef Pointer to this object.
    */
   this.prePaint = function(objRef) {
-	  objRef.stylesheet.setParameter('objRef','objRef');
-    objRef.model.setParam("modelStatus","preparing coordinates");
+	objRef.stylesheet.setParameter('objRef','objRef');
+    objRef.model.setParam("modelStatus",objRef.getMessage("preparingCoords"));
     objRef.stylesheet.setParameter("targetElement", objRef.containerModel.getWindowWidth() );
     objRef.resultDoc = objRef.coordXsl.transformNodeToObject(objRef.resultDoc);
 

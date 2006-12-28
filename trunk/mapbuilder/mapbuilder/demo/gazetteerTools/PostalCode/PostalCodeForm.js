@@ -35,7 +35,7 @@ PostalCodeForm.prototype.submitForm = function() {
     var element = this.elements[i];
     webServiceUrl += element.name + "=" + escape(element.value) + "&";
   }
-  if (thisWidget.debug) alert(webServiceUrl);
+  mbDebugMessage(thisWidget, webServiceUrl);
   config.loadModel( thisWidget.targetModel.id, webServiceUrl);
   return false;
 }

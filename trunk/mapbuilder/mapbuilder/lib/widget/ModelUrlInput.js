@@ -40,7 +40,7 @@ function ModelUrlInput(widgetNode, model) {
         httpPayload.method = httpMethod[i].value;
         if (httpPayload.method.toLowerCase() == "post") {
           httpPayload.postData = null; //TBD get this from somewhere? or not allow post?
-          if (this.debug) alert("postData:"+httpPayload.postData.xml);
+          mbDebugMessage(this, "postData:"+httpPayload.postData.xml);
         } else {
           httpPayload.postData = null;
         }

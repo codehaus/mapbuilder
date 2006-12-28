@@ -161,7 +161,7 @@ function OWSCatSearchForm(widgetNode, model) {
           params = "width=280,height=180,scrollbars=0,toolbar=0,location=0,directories=0,status=0,menubar=0,resizable=0";
           break;
         default:
-          alert("unkown RUC type");
+          alert(this.getMessage("unknownRucType"));
           break;
       }
       RUC_Window = open( baseURL, "RUCWindow", params );

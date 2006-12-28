@@ -176,7 +176,7 @@ function ModelBase(modelNode, parentModel) {
           objRef.setParam("modelStatus",httpStatusMsg[xmlHttp.readyState]);
           if (xmlHttp.readyState==4) {
             if (xmlHttp.status >= 400) {   //http errors status start at 400
-              var errorMsg = "error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText;
+              var errorMsg = mbGetModelMessage("ModelBase", "errorLoadingDocument", sUri, xmlHttp.statusText, xmlHttp.responseText);
               alert(errorMsg);
               objRef.setParam("modelStatus",errorMsg);
               return;
@@ -193,7 +193,7 @@ function ModelBase(modelNode, parentModel) {
                   if( objRef.doc.parseError == 0 ) {
                     objRef.finishLoading();      
                   } else {
-                    alert("Parsing Error:"+objRef.doc.parseError+" " + Sarissa.getParseErrorText( objRef.doc));
+                    alert(mbGetModelMessage("ModelBase", "parsingError", objRef.doc.parseError, Sarissa.getParseErrorText(objRef.doc)));
                   }
                   return;
                 } 
@@ -205,13 +205,13 @@ function ModelBase(modelNode, parentModel) {
                   objRef.doc.async = false;
                   objRef.doc = (new DOMParser()).parseFromString( xmlHttp.responseText.replace(/>\s+</g, "><"), "text/xml")
                   if( objRef.doc == null ) {
-                    alert( "Document parseError:"+Sarissa.getParseErrorText( objRef.doc))
+                    alert(mbGetModelMessage("ModelBase", "documentParseError", Sarissa.getParseErrorText(objRef.doc)));
                     // debugger;
                   } else {
                     if( objRef.doc.parseError == 0 ) {
                       objRef.finishLoading();      
                     } else {
-                      alert("Parsing Error:"+objRef.doc.parseError+" " + Sarissa.getParseErrorText( objRef.doc));
+                      alert(mbGetModelMessage("ModelBase", "parsingError", objRef.doc.parseError, Sarissa.getParseErrorText(objRef.doc)));
                     }
                   }
                   return;
@@ -230,13 +230,13 @@ function ModelBase(modelNode, parentModel) {
 
         if (!objRef.async) {
           if (xmlHttp.status >= 400) {   //http errors status start at 400
-            var errorMsg = "error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText;
+            var errorMsg = mbGetModelMessage("ModelBase", "errorLoadingDocument", sUri, xmlHttp.statusText, xmlHttp.responseText);
             alert(errorMsg);
             this.objRef.setParam("modelStatus",errorMsg);
             return;
           } else {
             //alert(xmlHttp.getResponseHeader("Content-Type"));
-            if ( null==xmlHttp.responseXML ) alert( "null XML response:" + xmlHttp.responseText );
+            if ( null==xmlHttp.responseXML ) alert(mbGetModelMessage("ModelBase", "nullXmlResponse", xmlHttp.responseText));
             objRef.doc = xmlHttp.responseXML;
             objRef.finishLoading();
           }
@@ -274,7 +274,7 @@ function ModelBase(modelNode, parentModel) {
       if(this.namespace) Sarissa.setXpathNamespaces(this.doc, this.namespace);
 
       // Show the newly loaded XML document
-      if(this.debug) alert("Loading Model:"+this.id+" "+Sarissa.serialize(this.doc));
+      if(this.debug) mbDebugMessage(this, "Loading Model:"+this.id+" "+Sarissa.serialize(this.doc));
       
       this.callListeners("loadModel");
     }
@@ -352,7 +352,7 @@ function ModelBase(modelNode, parentModel) {
 //      alert("yo");
       objRef.setParam("modelSaved", fileUrl);
     } else {
-      alert("serializeUrl must be specified in config to save a model");
+      alert(mbGetModelMessage("ModelBase", "noSerializeUrl"));
     }
   }
 
@@ -374,7 +374,7 @@ function ModelBase(modelNode, parentModel) {
       config.objects[newObject.id] = newObject;
       return newObject;
     } else { 
-      alert("error creating object:" + objectType);
+      alert(mbGetModelMessage("ModelBase", "errorCreatingObject", objectType));
     }
   }
 

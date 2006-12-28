@@ -240,7 +240,7 @@ function OwsContext(modelNode, parent) {
 	    var feature = this.doc.selectSingleNode("//wmc:ResourceList/*[wmc:Name='"+featureName+"']");
 	    
 	    if(feature == null ) {
-        alert( "feature not found" );
+          alert(this.getMessage("featureNotFound"));
 	    } 
       	
 	    return feature;
@@ -332,7 +332,7 @@ function OwsContext(modelNode, parent) {
       objRef.modified = true;
       //alert( "Adding layer:"+Sarissa.serialize( layerNode ) );
     } else {
-      alert( "null OWSContext doc" );
+      alert(this.getMessage("nullOwsContext"));
     }
     //objRef.callListeners("refresh");
   }
@@ -345,7 +345,7 @@ function OwsContext(modelNode, parent) {
   this.deleteLayer = function(objRef, layerName) {
     var deletedNode = objRef.getLayer(layerName);
     if (!deletedNode) {
-      alert("node note found; unable to delete node:"+layerName);
+      alert(objRef.getMessage("nodeNotFound", layerName));
       return;
     }
     deletedNode.parentNode.removeChild(deletedNode);
@@ -361,7 +361,7 @@ function OwsContext(modelNode, parent) {
     var movedNode = objRef.getLayer(layerName);
     var sibNode = movedNode.selectSingleNode("following-sibling::*");
     if (!sibNode) {
-      alert("can't move node past beginning of list:"+layerName);
+      alert(objRef.getMessage("cantMoveUp", layerName));
       return;
     }
     movedNode.parentNode.insertBefore(sibNode,movedNode);
@@ -378,7 +378,7 @@ function OwsContext(modelNode, parent) {
     var listNodeArray = movedNode.selectNodes("preceding-sibling::*");  //preceding-sibling axis contains all previous siblings
     var sibNode = listNodeArray[listNodeArray.length-1];
     if (!sibNode) {
-      alert("can't move node past beginning of list:"+layerName);
+      alert(objRef.getMessage("cantMoveDown", layerName));
       return;
     }
     movedNode.parentNode.insertBefore(movedNode,sibNode);

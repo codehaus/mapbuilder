@@ -36,7 +36,7 @@ function ClickPass(widgetNode, model) {
   if( clickPassId != null ) {
     this.clickPassId = clickPassId.firstChild.nodeValue;
   } else {
-    alert( "unspecified clickPassId" );
+    alert(objRef.getMessage("unspecClickPassId"));
   }
   
   // get icon from the config file and create the dynamic div
@@ -66,7 +66,7 @@ function ClickPass(widgetNode, model) {
     mainMapPane.appendChild( iconDiv );
     
   } else {
-    alert( "unspecified icon" );
+    alert(objRef.getMessage("unspecIcon"));
   }
  
   // unfortunately, exact positioning of an image is hard
@@ -75,14 +75,14 @@ function ClickPass(widgetNode, model) {
   if( topOffset != null ) {
     this.topOffset = parseInt(topOffset.firstChild.nodeValue);
   } else {
-    alert( "unspecified topOffset" );
+    alert(objRef.getMessage("unspecTopOffset"));
   }
   
   var leftOffset = widgetNode.selectSingleNode("mb:leftOffset");
   if( leftOffset != null ) {
     this.leftOffset = parseInt(leftOffset.firstChild.nodeValue);
   } else {
-    alert( "unspecified topOffset" );
+    alert(objRef.getMessage("unspecLeftOffset"));
   } 
   
   /**
@@ -117,7 +117,7 @@ function ClickPass(widgetNode, model) {
       //alert( "hide icon" );
       div.style.visibility = "hidden";
     } else {
-      alert( "div clickPass"+this.clickPassId+" not found" );
+      alert(this.getMessage("divClickPassNotFound", this.clickPassId));
     }
   }
   
@@ -140,7 +140,7 @@ function hideClickPass( id ) {
       //alert( "hide icon" );
     div.style.visibility = "hidden";
   } else {
-    alert( "div clickPass"+id+" not found" );
+    alert(this.getMessage("divClickPassNotFound", id));
   }
 }
  

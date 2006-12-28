@@ -35,7 +35,7 @@ function TabbedContent(widgetNode, model) {
       var tabWidgetId = tab.firstChild.nodeValue;
       var tabWidget = config.objects[tabWidgetId];
       if (!tabWidget) {
-        alert("tab widget not found:"+tabWidgetId);
+        alert(objRef.getMessage("tabWidgetNotFound", tabWidgetId));
         return;
       }
 
@@ -81,7 +81,7 @@ function TabbedContent(widgetNode, model) {
    */
   this.selectTab = function(tabWidget) {
     if (!tabWidget.model.doc) {
-      alert("no data to show yet");
+      alert(this.getMessage("noDataYet"));
       return;
     }
     var tabBar = config.objects[tabWidget.tabBarId]

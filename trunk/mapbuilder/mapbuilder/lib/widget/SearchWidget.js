@@ -66,7 +66,7 @@ function SearchWidget(widgetNode, model) {
     }
   
     if( this.aoiFormId == undefined ) {
-      alert("Could not find aoiForm for geoSearch" );
+      alert(this.getMessage("aoiFormNotFound"));
     }
     
     var bbox = "";

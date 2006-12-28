@@ -32,7 +32,7 @@ function EditPoint(widgetNode, model) {
         objRef.targetModel,
         objRef.featureXpath,point[0]+","+point[1]);
       if(!sucess){
-        alert("EditPoint: invalid featureXpath in config: "+objRef.featureXpath);
+        alert(objRef.getMessage("invalidFeatureXpath", objRef.featureXpath));
       }
     }
   }

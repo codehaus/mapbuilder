@@ -51,7 +51,7 @@ function TimeSeries(widgetNode, model) {
     if (layer) {
       layer.style.visibility=vis;
     } else {
-      alert("error finding layerId:"+layerId);
+      alert(objRef.getMessage("layerNotFound", layerId));
     }
   }
   this.model.addListener("hidden",this.hiddenListener,this);
@@ -70,7 +70,7 @@ function TimeSeries(widgetNode, model) {
     if (layer) {
       layer.style.visibility=vis;
     } else {
-      alert("error finding layerId:"+layerId);
+      alert(objRef.getMessage("layerNotFound", layerId));
     }
   }
   this.model.addListener("timestamp",this.timestampListener,this);

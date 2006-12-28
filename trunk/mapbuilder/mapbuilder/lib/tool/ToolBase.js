@@ -34,7 +34,7 @@ function ToolBase(toolNode, model) {
       var targetModelName = targetModel.firstChild.nodeValue;
       //toolRef.targetModel = eval("config.objects."+targetModelName);
       toolRef.targetModel = window.config.objects[targetModelName];
-      if (!toolRef.targetModel) alert("error finding targetModel:"+targetModelName+" for tool:"+toolRef.id);
+      if (!toolRef.targetModel) alert(mbGetToolMessage("ToolBase", "noTargetModel", targetModelName, toolRef.id));
     } else {
       toolRef.targetModel = toolRef.model;
     }
@@ -52,7 +52,7 @@ function ToolBase(toolNode, model) {
     if (mouseHandler) {
       toolRef.mouseHandler = window.config.objects[mouseHandler.firstChild.nodeValue];
       if (!toolRef.mouseHandler) {
-        alert("error finding mouseHandler:"+mouseHandler.firstChild.nodeValue+" for tool:"+toolRef.id);
+        alert(mbGetToolMessage("ToolBase", "noMouseHandler", mouseHandler.firstChild.nodeValue, toolRef.id));
       }
     }
   }

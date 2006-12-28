@@ -38,13 +38,13 @@ function GmlRendererWZ(widgetNode, model) {
     if (objRef.model.doc && objRef.node && objRef.containerModel && objRef.containerModel.doc) {
       objRef.stylesheet.setParameter("modelUrl", objRef.model.url);
 
-      //if (objRef.debug) alert("source:"+Sarissa.serialize(objRef.model.doc));
+      //if (objRef.debug) mbDebugMessage(objRef, "source:"+Sarissa.serialize(objRef.model.doc));
       objRef.resultDoc = objRef.model.doc; // resultDoc sometimes modified by prePaint()
       objRef.prePaint(objRef);
 
       //confirm inputs
-      if (objRef.debug) alert("prepaint:"+Sarissa.serialize(objRef.resultDoc));
-      if (objRef.debug) alert("stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
+      if (objRef.debug) mbDebugMessage(objRef, "prepaint:"+Sarissa.serialize(objRef.resultDoc));
+      if (objRef.debug) mbDebugMessage(objRef, "stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
 
       //set to output to a temporary node
       //hack to get by doc parsing problem in IE
@@ -67,8 +67,8 @@ function GmlRendererWZ(widgetNode, model) {
       objRef.stylesheet.setParameter('objRef','objRef');
       jsNode = objRef.stylesheet.transformNodeToObject(objRef.resultDoc);
       js=jsNode.selectSingleNode("js").firstChild.nodeValue;
-      if (objRef.debug) alert("javascript eval:"+js);
-      objRef.model.setParam("modelStatus","rendering");
+      mbDebugMessage(objRef, "javascript eval:"+js);
+      objRef.model.setParam("modelStatus",objRef.getMessage("rendering"));
       eval(js);
 
       objRef.postPaint(objRef);
@@ -114,7 +114,7 @@ function GmlRendererWZ(widgetNode, model) {
    * @param objRef Pointer to this object.
    */
   this.prePaint = function(objRef) {
-    objRef.model.setParam("modelStatus","preparing coordinates");
+    objRef.model.setParam("modelStatus",objRef.getMessage("preparingCoords"));
     objRef.stylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
     objRef.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
     bBox=objRef.containerModel.getBoundingBox();

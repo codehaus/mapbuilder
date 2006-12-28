@@ -38,7 +38,7 @@ function SelectTimeFrame(widgetNode, model) {
     if (index > timestampList.firstFrame) {
       timestampList.lastFrame = index;
     } else {
-      alert("last frame must be after the first frame");
+      alert(this.getMessage("lastFrameAfterFirst"));
     }
     this.model.setParam("stopLoop");
   }

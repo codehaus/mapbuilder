@@ -48,7 +48,7 @@ function GetFeatureInfo(toolNode, model) {
       if (selectedLayer==null) {
         var queryList=objRef.context.getQueryableLayers();
       	if (queryList.length==0) {
-           alert("There are no queryable layers available, please add a queryable layer to the context.");
+           alert(objRef.getMessage("noQueryableLayers"));
            return;
       	}
         else {

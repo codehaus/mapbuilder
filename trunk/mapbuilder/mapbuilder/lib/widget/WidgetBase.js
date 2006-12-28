@@ -30,12 +30,11 @@ function WidgetBase(widgetNode,model) {
 	  templatedWidget = true;
   }
 
-
   /** Widget's Id defined in the Config (required) */
   if (widgetNode.attributes.getNamedItem("id")) {
     this.id = widgetNode.attributes.getNamedItem("id").nodeValue;
   } else {
-    alert("id required for object:" + widgetNode.nodeName );
+    alert(mbGetWidgetMessage("WidgetBase", "idRequired", widgetNode.nodeName));
   }
 
   //allow the widget output to be replaced on each paint call
@@ -89,7 +88,7 @@ function WidgetBase(widgetNode,model) {
     if (targetModel) {
       objRef.targetModel = window.config.objects[targetModel.firstChild.nodeValue];
       if ( !objRef.targetModel ) {
-        alert("error finding targetModel:" + targetModel.firstChild.nodeValue + " for:" + objRef.id);
+        alert(mbGetWidgetMessage("WidgetBase", "noTargetModel", targetModel.firstChild.nodeValue, objRef.id));
       }
     } else {
       objRef.targetModel = objRef.model;

@@ -36,7 +36,7 @@ function MapContainerBase(widgetNode,model) {
   if (mapContainerNode) {
     this.containerNodeId = mapContainerNode.firstChild.nodeValue;
   } else {
-    alert("MapContainerBase: required property mapContainerId missing in config:"+this.id);
+    alert(mbGetWidgetMessage("MapContainerBase", "noMapContainerId", this.id));
   }
   //check if there are fixed zoom levels defined
   var zoomLevelsNode = widgetNode.selectSingleNode("mb:zoomLevels");
