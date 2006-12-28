@@ -6,8 +6,8 @@
     xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ..//mapbuilder/lib/schemas/config.xsd"
     
     Description: This file contains all text used in widgets for multilingual 
-                  support.  The text values are set as XSL params before the 
-                  widget is painted.
+                 support.  The text values are set as XSL params before the 
+                 widget is painted.
     Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
 
     $Id$
@@ -22,7 +22,7 @@
     </AoiForm>
     
     <Back>
-      <tooltip>get the previous extent</tooltip>
+      <tooltip>Get the previous extent</tooltip>
     </Back>
     
     <CollectionList>
@@ -41,23 +41,23 @@
     </DeleteFeature>
     
     <DragPan>
-      <tooltip>click and drag to pan</tooltip>
+      <tooltip>Click and drag to pan</tooltip>
     </DragPan>
     
     <EditLine>
-      <tooltip>click on map to add a point to a line</tooltip>
+      <tooltip>Click on map to add a point to a line</tooltip>
     </EditLine>
     
     <EditPoint>
-      <tooltip>click on map to create a point feature</tooltip>
+      <tooltip>Click on map to create a point feature</tooltip>
     </EditPoint>
     
     <Forward>
-      <tooltip>get the next extent</tooltip>
+      <tooltip>Get the next extent</tooltip>
     </Forward>
     
     <GetFeatureInfo>
-      <tooltip>click on feature for more info</tooltip>
+      <tooltip>Click on feature for more info</tooltip>
     </GetFeatureInfo>
     
     <InsertFeature>
@@ -69,7 +69,7 @@
     </Legend>
     
     <Measurement>
-      <tooltip>click on the map to measure the distance</tooltip>
+      <tooltip>Click on the map to measure the distance</tooltip>
     </Measurement>
     
     <ModelStatus>
@@ -85,18 +85,18 @@
     </ProcessArgumentsForm>
     
     <Reset>
-      <tooltip>reset the map to full extent</tooltip>
+      <tooltip>Reset the map to full extent</tooltip>
     </Reset>
     
     <Save>
-      <tooltip>click to save this map</tooltip>
+      <tooltip>Click to save this map</tooltip>
     </Save>
     
     <SelectProcess>
     </SelectProcess>
     
     <SetAoi>
-      <tooltip>click and drag to set the area of interest</tooltip>
+      <tooltip>Click and drag to set the area of interest</tooltip>
     </SetAoi>
     
     <ShowProcessResult>
@@ -134,11 +134,11 @@
     </Widget>
     
     <ZoomIn>
-      <tooltip>click and drag to zoom in</tooltip>
+      <tooltip>Click and drag to zoom in</tooltip>
     </ZoomIn>
     
     <ZoomOut>
-      <tooltip>click to zoom out</tooltip>
+      <tooltip>Click to zoom out</tooltip>
     </ZoomOut>
   </widgets>
 </WidgetText>

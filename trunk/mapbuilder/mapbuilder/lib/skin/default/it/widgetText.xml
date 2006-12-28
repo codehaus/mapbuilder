@@ -6,8 +6,8 @@
     xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ..//mapbuilder/lib/schemas/config.xsd"
     
     Description: This file contains all text used in widgets for multilingual 
-                  support.  The text values are set as XSL params before the 
-                  widget is painted.
+                 support.  The text values are set as XSL params before the 
+                 widget is painted.
     Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
 
     $Id: widgetText.xml 1735 2006-12-14 18:20:20Z menegon $
@@ -69,7 +69,7 @@
     </Legend>
     
     <Measurement>
-      <tooltip>click on the map to measure the distance</tooltip> <!-- TODO: translate -->
+      <tooltip>Click on the map to measure the distance</tooltip> <!-- TODO: translate -->
     </Measurement>
     
     <ModelStatus>

@@ -6,15 +6,15 @@
     xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ..//mapbuilder/lib/schemas/config.xsd"
     
     Description: This file contains all text used in widgets for multilingual 
-                  support.  The text values are set as XSL params before the 
-                  widget is painted.
+                 support.  The text values are set as XSL params before the 
+                 widget is painted.
     Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
 
     $Id: widgetText.xml,v 1.7 2005/08/03 19:06:58 mattdiez Exp $
   -->
   <widgets>
     <AddLayer>
-      <tooltip>voeg een laag aan de kaart toe</tooltip>
+      <tooltip>Voeg een laag aan de kaart toe</tooltip>
     </AddLayer>
     
     <AoiForm>
@@ -26,7 +26,7 @@
     </AoiForm>
     
     <Back>
-      <tooltip>vorige uitsnede</tooltip>
+      <tooltip>Vorige uitsnede</tooltip>
     </Back>
     
     <CollectionList>
@@ -41,39 +41,39 @@
     </CursorTrack>
     
     <DeleteFeature>
-      <tooltip>klik om de markers te verwijderen</tooltip>
+      <tooltip>Klik om de geselecteerde objecten te verwijderen</tooltip>
     </DeleteFeature>
     
     <DragPan>
-      <tooltip>klik en sleep op de kaart om de kaart te verschuiven</tooltip>
+      <tooltip>Klik en sleep op de kaart om de kaart te verschuiven</tooltip>
     </DragPan>
     
     <EditLine>
-      <tooltip>klik op de kaart om een lijn te tekenen</tooltip>
+      <tooltip>Klik op de kaart om een lijn te tekenen</tooltip>
     </EditLine>
     
     <EditPoint>
-      <tooltip>klik op de kaart om een punt te tekenen</tooltip>
+      <tooltip>Klik op de kaart om een punt te tekenen</tooltip>
     </EditPoint>
     
     <Forward>
-      <tooltip>volgende uitsnede</tooltip>
+      <tooltip>Volgende uitsnede</tooltip>
     </Forward>
     
     <Geocoder>
-      <tooltip>zoek een straat of plaats</tooltip>
+      <tooltip>Zoek een straat of plaats</tooltip>
     </Geocoder>
     
     <GetFeatureInfo>
-      <tooltip>klik op de kaart om objecten te identificeren</tooltip>
+      <tooltip>Klik op de kaart om objecten te identificeren</tooltip>
     </GetFeatureInfo>
     
     <Help>
-      <tooltip>klik om hulp te krijgen</tooltip>
+      <tooltip>Klik om hulp te krijgen</tooltip>
     </Help>
     
     <InsertFeature>
-      <tooltip>Bewaar de huidige marker(s) op de server</tooltip>
+      <tooltip>Bewaar de huidige objecten op de server</tooltip>
     </InsertFeature>
     
     <Legend>
@@ -81,11 +81,11 @@
     </Legend>
     
     <Legenda>
-      <tooltip>klik om de legenda te zien</tooltip>
+      <tooltip>Klik om de legenda te zien</tooltip>
     </Legenda>
     
     <Measurement>
-      <tooltip>klik op de kaart om afstand te meten</tooltip>
+      <tooltip>Klik op de kaart om afstand te meten</tooltip>
     </Measurement>
     
     <ModelStatus>
@@ -101,18 +101,18 @@
     </ProcessArgumentsForm>
     
     <Reset>
-      <tooltip>herstel het volledig kaartbeeld</tooltip>
+      <tooltip>Herstel het volledig kaartbeeld</tooltip>
     </Reset>
     
     <Save>
-      <tooltip>klik om de kaart op te slaan</tooltip>
+      <tooltip>Klik om de kaart op te slaan</tooltip>
     </Save>
     
     <SelectProcess>
     </SelectProcess>
     
     <SetAoi>
-      <tooltip>klik en sleep op de kaart om het interessegebied te definiëren</tooltip>
+      <tooltip>Klik en sleep op de kaart om het interessegebied te definiëren</tooltip>
     </SetAoi>
     
     <ShowProcessResult>
@@ -130,13 +130,17 @@
       <title>Timestamp:</title>
     </Timestamp>
     
+    <VerwijderPunten>
+      <tooltip>Klik om de markers te verwijderen</tooltip>
+    </VerwijderPunten>
+    
     <WebServiceForm>
       <mapsheet>NTS index:</mapsheet>
       <ntsTitle>NTS Lookup web service</ntsTitle>
     </WebServiceForm>
     
     <WfsGetFeature>
-      <tooltip>Klik op een marker om deze te bevragen</tooltip>
+      <tooltip>Klik op een object om dit te bevragen</tooltip>
     </WfsGetFeature>
     
     <Widget>
@@ -150,11 +154,11 @@
     </Widget>
     
     <ZoomIn>
-      <tooltip>klik en sleep op de kaart om in te zoomen</tooltip>
+      <tooltip>Klik en sleep op de kaart om in te zoomen</tooltip>
     </ZoomIn>
     
     <ZoomOut>
-      <tooltip>klik op de kaart om uit te zoomen</tooltip>
+      <tooltip>Klik op de kaart om uit te zoomen</tooltip>
     </ZoomOut>
   </widgets>
 </WidgetText>
