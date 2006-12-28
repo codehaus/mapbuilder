@@ -5,13 +5,91 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ..//mapbuilder/lib/schemas/config.xsd"
     
-    Description: This file contains all text used in widgets for multilingual 
-                 support.  The text values are set as XSL params before the 
-                 widget is painted.
+    Description: This file contains all text used in models, tools and widgets
+                 for multilingual support.  The text values are set as XSL params
+                 before the widget is painted.  From JavaScript these can be
+                 retrieved with this.getMessage(messageKey); see the JSDoc for
+                 details.
     Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
 
     $Id: widgetText.xml,v 1.7 2005/08/03 19:06:58 mattdiez Exp $
   -->
+  <models>
+    <Config>
+      <errorLoadingModel>Config loadModel fout: {0}: {1}</errorLoadingModel>
+      <errorPaintingWidget>Config paintWidget fout: widget bestaat niet</errorPaintingWidget>
+    </Config>
+    
+    <Context>
+      <cantMoveDown>Kan element niet voorbij einde lijst verplaatsen: {0}</cantMoveDown>
+      <cantMoveUp>Kan element niet voorbij begin lijst verplaatsen: {0}</cantMoveUp>
+      <nodeNotFound>Element niet gevonden; kan element niet verwijderen: {0}</nodeNotFound>
+    </Context>
+    
+    <FeatureCollection>
+      <convertingCoords>converteert coördinaten</convertingCoords>
+      <invalidGeom>Ongeldige geometrie voor: {0}</invalidGeom>
+      <noRssTitle>Geen RSS-titel</noRssTitle>
+    </FeatureCollection>
+    
+    <GeoRSS>
+      <invalidGmlGeom>Ongeldige GML-geometrie</invalidGmlGeom>
+      <noRssTitle>Geen RSS-titel</noRssTitle>
+    </GeoRSS>
+    
+    <Logger>
+      <eventLogSaved>Event-log opgeslagen als: {0}</eventLogSaved>
+      <unableToSaveLog>Kan event-log niet opslaan; zet een serializeUrl-eigenschap in configuratie</unableToSaveLog>
+    </Logger>
+    
+    <ModelBase>
+      <documentParseError>Document parseError: {0}</documentParseError>
+      <errorCreatingObject>Fout bij maken van object: {0}</errorCreatingObject>
+      <errorLoadingDocument>Fout bij laden van document: {0} - {1}-{2}</errorLoadingDocument>
+      <noSerializeUrl>serializeUrl moet gezet zijn in configuratie om een model te kunnen opslaan</noSerializeUrl>
+      <nullXmlResponse>Lege XML-respons: {0}</nullXmlResponse>
+      <parsingError>Parse-fout: {0} {1}</parsingError>
+    </ModelBase>
+    
+    <OwsContext>
+      <cantMoveDown>Kan element niet voorbij einde lijst verplaatsen: {0}</cantMoveDown>
+      <cantMoveUp>Kan element niet voorbij begin lijst verplaatsen: {0}</cantMoveUp>
+      <featureNotFound>Object niet gevonden</featureNotFound>
+      <nodeNotFound>Element niet gevonden; kan element niet verwijderen: {0}</nodeNotFound>
+      <nullOwsContext>Leeg OWSContext-document</nullOwsContext>
+    </OwsContext>
+  </models>
+  
+  <tools>
+    <AutoResize>
+      <referenceNodeIdNotFound>
+        AutoResize-gereedschap kan het referentie-element '{0}' niet vinden in het DOM.
+        Zet een geldige referenceNodeId in de configuratie
+        of gebruik een id 'autoResize' voor een van de document-elementen.
+      </referenceNodeIdNotFound>
+    </AutoResize>
+    
+    <EditSLD>
+      <noLayerSelected>Geen laag geselecteerd</noLayerSelected>
+      <noPropertySelected>Geen eigenschap geselecteerd</noPropertySelected>
+      <selectLayer>Selecteer een laag om een SLD in de WMC in te voegen</selectLayer>
+    </EditSLD>
+    
+    <History>
+      <cantGoBack>U kunt niet verder terug!</cantGoBack>
+      <cantGoForward>U kunt niet verder vooruit!</cantGoForward>
+    </History>
+    
+    <ToolBase>
+      <noMouseHandler>Probleem bij vinden van mouseHandler: {0} voor gereedschap: {1}</noMouseHandler>
+      <noTargetModel>Probleem bij vinden van targetModel: {0} voor gereedschap: {1}</noTargetModel>
+    </ToolBase>
+    
+    <WebServiceRequest>
+      <featureNotFound>WebServiceRequest: probleem bij vinden van object: {0}</featureNotFound>
+    </WebServiceRequest>
+  </tools>
+  
   <widgets>
     <AddLayer>
       <tooltip>Voeg een laag aan de kaart toe</tooltip>
@@ -21,13 +99,30 @@
       <east>Oost:</east>
       <north>Noord:</north>
       <south>Zuid:</south>
-      <title>Coordinaten van het interessegebied</title>
+      <title>Coördinaten van het interessegebied</title>
       <west>West:</west>
     </AoiForm>
     
     <Back>
       <tooltip>Vorige uitsnede</tooltip>
     </Back>
+    
+    <ButtonBase>
+      <buttonBarRequired>buttonBar-eigenschap verplicht voor object: {0}</buttonBarRequired>
+      <noMouseHandler>Probleem bij vinden van mouseHandler: {0} voor knop: {1}</noMouseHandler>
+    </ButtonBase>
+    
+    <CatSearchForm>
+      <unknownRucType>Onbekend RUC-type</unknownRucType>
+    </CatSearchForm>
+    
+    <ClickPass>
+      <divClickPassNotFound>Div clickPass {0} niet gevonden</divClickPassNotFound>
+      <unspecClickPassId>Ongespecificeerd clickPassId</unspecClickPassId>
+      <unspecIcon>Ongespecificeerde icoon</unspecIcon>
+      <unspecLeftOffset>Ongespecificeerde leftOffset</unspecLeftOffset>
+      <unspecTopOffset>Ongespecificeerde topOffset</unspecTopOffset>
+    </ClickPass>
     
     <CollectionList>
       <title>Selecteer een kaart om te laden:</title>
@@ -36,11 +131,13 @@
     <CursorTrack>
       <latitude>lat:</latitude>
       <longitude>lon:</longitude>
+      <noMouseHandler>CursorTrack vereist een mouseHandler-eigenschap</noMouseHandler>
       <xcoord>x:</xcoord>
       <ycoord>y:</ycoord>
     </CursorTrack>
     
     <DeleteFeature>
+      <noFeatureToDelete>Geen object beschikbaar om te verwijderen</noFeatureToDelete>
       <tooltip>Klik om de geselecteerde objecten te verwijderen</tooltip>
     </DeleteFeature>
     
@@ -49,12 +146,18 @@
     </DragPan>
     
     <EditLine>
+      <invalidFeatureXpath>EditLine: ongeldig featureXpath in configuratie: {0}</invalidFeatureXpath>
       <tooltip>Klik op de kaart om een lijn te tekenen</tooltip>
     </EditLine>
     
     <EditPoint>
+      <invalidFeatureXpath>EditPoint: ongeldig featureXpath in configuratie: {0}</invalidFeatureXpath>
       <tooltip>Klik op de kaart om een punt te tekenen</tooltip>
     </EditPoint>
+    
+    <EditPolygon>
+      <invalidFeatureXpath>EditPolygon: ongeldig featureXpath in configuratie: {0}</invalidFeatureXpath>
+    </EditPolygon>
     
     <Forward>
       <tooltip>Volgende uitsnede</tooltip>
@@ -64,15 +167,49 @@
       <tooltip>Zoek een straat of plaats</tooltip>
     </Geocoder>
     
+    <GeoRssParser>
+      <errorDeletingLayer>Fout bij verwijderen: {0}</errorDeletingLayer>
+      <stylesheetNotFound>Parsing stylesheet niet gevonden</stylesheetNotFound>
+    </GeoRssParser>
+    
     <GetFeatureInfo>
+      <noQueryableLayers>
+        Er zijn geen bevraagbare lagen beschikbaar,
+        voeg een bevraagbare laag aan de context toe.
+      </noQueryableLayers>
       <tooltip>Klik op de kaart om objecten te identificeren</tooltip>
     </GetFeatureInfo>
+    
+    <GmlRendererSVG>
+      <preparingCoords>prepareert coördinaten</preparingCoords>
+    </GmlRendererSVG>
+    
+    <GmlRendererTest>
+      <pretendPaint>Zou tekenen: {0} objecten {1}</pretendPaint>
+    </GmlRendererTest>
+    
+    <GmlRendererWKT>
+      <preparingCoords>prepareert coördinaten</preparingCoords>
+    </GmlRendererWKT>
+    
+    <GmlRendererWZ>
+      <preparingCoords>prepareert coördinaten</preparingCoords>
+      <rendering>rendering</rendering>
+    </GmlRendererWZ>
+    
+    <Graticule>
+      <eastWgs84>Oost (WGS84)</eastWgs84>
+      <northWgs84>Noord (WGS84)</northWgs84>
+      <southWgs84>Zuid (WGS84)</southWgs84>
+      <westWgs84>West (WGS84)</westWgs84>
+    </Graticule>
     
     <Help>
       <tooltip>Klik om hulp te krijgen</tooltip>
     </Help>
     
     <InsertFeature>
+      <noFeatureToInsert>Geen object beschikbaar om op te slaan</noFeatureToInsert> 
       <tooltip>Bewaar de huidige objecten op de server</tooltip>
     </InsertFeature>
     
@@ -84,7 +221,58 @@
       <tooltip>Klik om de legenda te zien</tooltip>
     </Legenda>
     
+    <Loading2>
+      <docLoading>Document laadt, even geduld a.u.b....</docLoading>
+    </Loading2>
+    
+    <MapContainerBase>
+      <noMapContainerId>MapContainerBase: verplichte eigenschap mapContainerId ontbreekt in configuratie: {0}</noMapContainerId>
+    </MapContainerBase>
+    
+    <MapPane>
+      <cantMoveDown>Kan element niet voorbij einde lijst verplaatsen: {0}</cantMoveDown>
+      <cantMoveUp>Kan element niet voorbij begin lijst verplaatsen: {0}</cantMoveUp>
+      <imageNotFound>FOUT: afbeelding niet gevonden</imageNotFound> 
+      <layerNotFound>Laag met id {0} niet gevonden</layerNotFound>
+      <loadingLayer>Bezig met laden van {0} kaartlaag</loadingLayer>
+      <loadingLayers>Bezig met laden van {0} kaartlagen</loadingLayers>
+    </MapPane>
+    
+    <MapPane2>
+      <cantMoveDown>Kan element niet voorbij einde lijst verplaatsen: {0}</cantMoveDown>
+      <cantMoveUp>Kan element niet voorbij begin lijst verplaatsen: {0}</cantMoveUp>
+      <loadingLayer>Bezig met laden van {0} kaartlaag</loadingLayer>
+      <loadingLayers>Bezig met laden van {0} kaartlagen</loadingLayers>
+      <parseError>Parse-fout: {0}</parseError>
+    </MapPane2>
+    
+    <MapPaneOL>
+      <cantMoveDown>Kan element niet voorbij einde lijst verplaatsen: {0}</cantMoveDown>
+      <cantMoveUp>Kan element niet voorbij begin lijst verplaatsen: {0}</cantMoveUp>
+      <layerTypeNotSupported>MapPaneOL: Geen ondersteuning voor laag-type={0}</layerTypeNotSupported>
+      <noContextDefined>Geen context gedefiniëerd in configuratie</noContextDefined>
+    </MapPaneOL>
+    
+    <MapScaleBar>
+      <scale>schaal 1:{0}</scale>
+      <unitCentimeters>centimeter</unitCentimeters>
+      <unitCentimetersAbbr>cm</unitCentimetersAbbr>
+      <unitFeet>voet</unitFeet>
+      <unitFeetAbbr>ft</unitFeetAbbr>
+      <unitInches>inch</unitInches>
+      <unitInchesAbbr>in</unitInchesAbbr>
+      <unitKilometers>kilometer</unitKilometers>
+      <unitKilometersAbbr>km</unitKilometersAbbr>
+      <unitMeters>meter</unitMeters>
+      <unitMetersAbbr>m</unitMetersAbbr>
+      <unitMiles>mijl</unitMiles>
+      <unitMilesAbbr>mi</unitMilesAbbr>
+    </MapScaleBar>
+    
     <Measurement>
+      <cantCalculateDistance>Measurement kan de afstand niet berekenen</cantCalculateDistance>
+      <invalidFeatureXpath>Measurement: ongeldig featureXpath in configuratie: {0}</invalidFeatureXpath>
+      <projectionNotSupported>Measurement: Projectie niet ondersteund!</projectionNotSupported>
       <tooltip>Klik op de kaart om afstand te meten</tooltip>
     </Measurement>
     
@@ -97,6 +285,11 @@
       <title>URL:</title>
     </ModelUrlInput>
     
+    <OpenLSForm>
+      <atLeastOneValue>Vul tenminste één waarde alvorens door te gaan</atLeastOneValue>
+      <noCountryCode>U dient een landcode op te geven</noCountryCode>
+    </OpenLSForm>
+    
     <ProcessArgumentsForm>
     </ProcessArgumentsForm>
     
@@ -108,35 +301,55 @@
       <tooltip>Klik om de kaart op te slaan</tooltip>
     </Save>
     
+    <SearchWidget>
+      <aoiFormNotFound>Kan aoiForm voor geoSearch niet vinden</aoiFormNotFound>
+    </SearchWidget>
+    
     <SelectProcess>
     </SelectProcess>
+    
+    <SelectTimeFrame>
+      <lastFrameAfterFirst>Laatste beeld moet na het eerste beeld liggen</lastFrameAfterFirst>
+    </SelectTimeFrame>
     
     <SetAoi>
       <tooltip>Klik en sleep op de kaart om het interessegebied te definiëren</tooltip>
     </SetAoi>
     
     <ShowProcessResult>
-      <tabLabel>4. Access results</tabLabel>
+      <tabLabel>4. Toegangsresultaten</tabLabel>
     </ShowProcessResult>
     
     <TabbedContent>
-      <argsInput>3. Set arguments</argsInput>
-      <results>4. Access results</results>
-      <selectProcess>2. Select a process</selectProcess>
-      <urlInput>1. Select a service</urlInput>
+      <argsInput>3. Zet argumenten</argsInput>
+      <noDataYet>Nog geen data om te tonen</noDataYet>
+      <results>4. Toegangsresultaten</results>
+      <selectProcess>2. Selecteer een proces</selectProcess>
+      <tabWidgetNotFound>Tab widget niet gevonden: {0}</tabWidgetNotFound>
+      <urlInput>1. Selecteer een dienst</urlInput>
     </TabbedContent>
     
+    <TimeSeries>
+      <layerNotFound>Fout bij zoeken van layerId: {0}</layerNotFound>
+    </TimeSeries>
+    
     <Timestamp>
-      <title>Timestamp:</title>
+      <title>Tijdstip:</title>
     </Timestamp>
+    
+    <TipWidget>
+      <divAlreadyExists>Div: {0} bestaat al</divAlreadyExists>
+      <divNotFound>Kan div niet vinden: {0}</divNotFound>
+      <noStylesheetDefined>Geen stylesheet gedefiniëerd</noStylesheetDefined>
+    </TipWidget>
     
     <VerwijderPunten>
       <tooltip>Klik om de markers te verwijderen</tooltip>
     </VerwijderPunten>
     
     <WebServiceForm>
-      <mapsheet>NTS index:</mapsheet>
-      <ntsTitle>NTS Lookup web service</ntsTitle>
+      <mapsheet>NTS-index:</mapsheet>
+      <ntsTitle>NTS Opzoek webservice</ntsTitle>
     </WebServiceForm>
     
     <WfsGetFeature>
@@ -148,10 +361,15 @@
       <east>Oost:</east>
       <moreInfo>Lees meer over deze kaart</moreInfo>
       <north>Noord:</north>
-      <searchFormTitle>Coordinaten van het interessegebied</searchFormTitle>
+      <searchFormTitle>Coördinaten van het interessegebied</searchFormTitle>
       <south>Zuid:</south>
       <west>West:</west>
     </Widget>
+    
+    <WidgetBase>
+      <idRequired>id verplicht voor object: {0}</idRequired>
+      <noTargetModel>Fout bij vinden van targetModel: {0} voor: {1}</noTargetModel>
+    </WidgetBase>
     
     <ZoomIn>
       <tooltip>Klik en sleep op de kaart om in te zoomen</tooltip>

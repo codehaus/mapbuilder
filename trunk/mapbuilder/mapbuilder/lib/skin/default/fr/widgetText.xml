@@ -5,13 +5,91 @@
     version="0.2.1" id="mbDefaultText" xml:lang="fr">
   <!--
     
-    Description: This file contains all text used in widgets for multilingual 
-                 support.  The text values are set as XSL params before the 
-                 widget is painted.
+    Description: This file contains all text used in models, tools and widgets
+                 for multilingual support.  The text values are set as XSL params
+                 before the widget is painted.  From JavaScript these can be
+                 retrieved with this.getMessage(messageKey); see the JSDoc for
+                 details.
     Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
 
     $Id$
   -->
+  <models>
+    <Config>
+      <errorLoadingModel>Config loadModel error: {0}: {1}</errorLoadingModel>  <!-- TODO: translate -->
+      <errorPaintingWidget>Config paintWidget error: widget does not exist</errorPaintingWidget>  <!-- TODO: translate -->
+    </Config>
+    
+    <Context>
+      <cantMoveDown>Can't move node past end of list: {0}</cantMoveDown>  <!-- TODO: translate -->
+      <cantMoveUp>Can't move node past beginning of list: {0}</cantMoveUp>  <!-- TODO: translate -->
+      <nodeNotFound>Node not found; unable to delete node: {0}</nodeNotFound>  <!-- TODO: translate -->
+    </Context>
+    
+    <FeatureCollection>
+      <convertingCoords>converting coordinates</convertingCoords>  <!-- TODO: translate -->
+      <invalidGeom>Invalid geom for: {0}</invalidGeom>  <!-- TODO: translate -->
+      <noRssTitle>No RSS title</noRssTitle>  <!-- TODO: translate -->
+    </FeatureCollection>
+    
+    <GeoRSS>
+      <invalidGmlGeom>Invalid GML Geometry</invalidGmlGeom>  <!-- TODO: translate -->
+      <noRssTitle>No RSS title</noRssTitle>  <!-- TODO: translate -->
+    </GeoRSS>
+    
+    <Logger>
+      <eventLogSaved>Event log saved as: {0}</eventLogSaved>  <!-- TODO: translate -->
+      <unableToSaveLog>Unable to save event log; provide a serializeUrl property in config</unableToSaveLog>  <!-- TODO: translate -->
+    </Logger>
+    
+    <ModelBase>
+      <documentParseError>Document parseError: {0}</documentParseError>  <!-- TODO: translate -->
+      <errorCreatingObject>Error creating object: {0}</errorCreatingObject>  <!-- TODO: translate -->
+      <errorLoadingDocument>Error loading document: {0} - {1}-{2}</errorLoadingDocument>  <!-- TODO: translate -->
+      <noSerializeUrl>serializeUrl must be specified in config to save a model</noSerializeUrl>  <!-- TODO: translate -->
+      <nullXmlResponse>Null XML response: {0}</nullXmlResponse>  <!-- TODO: translate -->
+      <parsingError>Parsing Error: {0} {1}</parsingError>  <!-- TODO: translate -->
+    </ModelBase>
+    
+    <OwsContext>
+      <cantMoveDown>Can't move node past end of list: {0}</cantMoveDown>  <!-- TODO: translate -->
+      <cantMoveUp>Can't move node past beginning of list: {0}</cantMoveUp>  <!-- TODO: translate -->
+      <featureNotFound>Feature not found</featureNotFound>  <!-- TODO: translate -->
+      <nodeNotFound>Node not found; unable to delete node: {0}</nodeNotFound>  <!-- TODO: translate -->
+      <nullOwsContext>Null OWSContext doc</nullOwsContext>  <!-- TODO: translate -->
+    </OwsContext>
+  </models>
+  
+  <tools>
+    <AutoResize>
+      <referenceNodeIdNotFound>
+        AutoResize tool cannot find the reference node '{0}' in the DOM.
+        Please specify a valid referenceNodeId in the config file
+        or use an id 'autoResize' for one of your documents nodes.
+      </referenceNodeIdNotFound>  <!-- TODO: translate -->
+    </AutoResize>
+    
+    <EditSLD>
+      <noLayerSelected>Pas de layer selectionnee</noLayerSelected>
+      <noPropertySelected>Pas de propriete selectionnee</noPropertySelected>
+      <selectLayer>Select a layer if you want insert sld in wmc</selectLayer>  <!-- TODO: translate -->
+    </EditSLD>
+    
+    <History>
+      <cantGoBack>You can't go further back</cantGoBack>  <!-- TODO: translate -->
+      <cantGoForward>You can't go further forward</cantGoForward>  <!-- TODO: translate -->
+    </History>
+    
+    <ToolBase>
+      <noMouseHandler>Error finding mouseHandler: {0} for tool: {1}</noMouseHandler>  <!-- TODO: translate -->
+      <noTargetModel>Error finding targetModel: {0} for tool: {1}</noTargetModel>  <!-- TODO: translate -->
+    </ToolBase>
+    
+    <WebServiceRequest>
+      <featureNotFound>WebServiceRequest: error finding feature node: {0}</featureNotFound>  <!-- TODO: translate -->
+    </WebServiceRequest>
+  </tools>
+  
   <widgets>
     <AoiForm>
       <east>Est:</east>
@@ -22,8 +100,25 @@
     </AoiForm>
     
     <Back>
-      <tooltip>Get the previous extent</tooltip> <!-- TODO: translate -->
+      <tooltip>Get the previous extent</tooltip>  <!-- TODO: translate -->
     </Back>
+    
+    <ButtonBase>
+      <buttonBarRequired>buttonBar property required for object: {0}</buttonBarRequired>  <!-- TODO: translate -->
+      <noMouseHandler>Error finding mouseHandler: {0} for button: {1}</noMouseHandler>  <!-- TODO: translate -->
+    </ButtonBase>
+    
+    <CatSearchForm>
+      <unknownRucType>Unknown RUC type</unknownRucType>  <!-- TODO: translate -->
+    </CatSearchForm>
+    
+    <ClickPass>
+      <divClickPassNotFound>Div clickPass {0} not found</divClickPassNotFound>  <!-- TODO: translate -->
+      <unspecClickPassId>Unspecified clickPassId</unspecClickPassId>  <!-- TODO: translate -->
+      <unspecIcon>Unspecified icon</unspecIcon>  <!-- TODO: translate -->
+      <unspecLeftOffset>Unspecified leftOffset</unspecLeftOffset>  <!-- TODO: translate -->
+      <unspecTopOffset>Unspecified topOffset</unspecTopOffset>  <!-- TODO: translate -->
+    </ClickPass>
     
     <CollectionList>
       <title>Choisir une carte pour regardez:</title>
@@ -32,12 +127,14 @@
     <CursorTrack>
       <latitude>lat:</latitude>
       <longitude>lon:</longitude>
+      <noMouseHandler>CursorTrack requires a mouseHandler property</noMouseHandler>  <!-- TODO: translate -->
       <xcoord>x:</xcoord>
       <ycoord>y:</ycoord>
     </CursorTrack>
     
     <DeleteFeature>
-      <tooltip>Delete the current Feature(s) on the server</tooltip> <!-- TODO: translate -->
+      <noFeatureToDelete>No feature available to delete</noFeatureToDelete>  <!-- TODO: translate -->
+      <tooltip>Delete the current Feature(s) on the server</tooltip>  <!-- TODO: translate -->
     </DeleteFeature>
     
     <DragPan>
@@ -45,31 +142,122 @@
     </DragPan>
     
     <EditLine>
+      <invalidFeatureXpath>EditLine: invalid featureXpath in config: {0}</invalidFeatureXpath>  <!-- TODO: translate -->
       <tooltip>Cliquer pour crée un object géographique linéare</tooltip>
     </EditLine>
     
     <EditPoint>
+      <invalidFeatureXpath>EditPoint: invalid featureXpath in config: {0}</invalidFeatureXpath>  <!-- TODO: translate -->
       <tooltip>Cliquer pour crée un object géographique de point</tooltip>
     </EditPoint>
     
+    <EditPolygon>
+      <invalidFeatureXpath>EditPolygon: invalid featureXpath in config: {0}</invalidFeatureXpath>  <!-- TODO: translate -->
+    </EditPolygon>
+    
     <Forward>
-      <tooltip>Get the next extent</tooltip> <!-- TODO: translate -->
+      <tooltip>Get the next extent</tooltip>  <!-- TODO: translate -->
     </Forward>
     
+    <GeoRssParser>
+      <errorDeletingLayer>Error deleting: {0}</errorDeletingLayer>  <!-- TODO: translate -->
+      <stylesheetNotFound>Parsing stylesheet not found</stylesheetNotFound>  <!-- TODO: translate -->
+    </GeoRssParser>
+    
     <GetFeatureInfo>
+      <noQueryableLayers>
+        There are no queryable layers available,
+        please add a queryable layer to the context.
+      </noQueryableLayers>  <!-- TODO: translate -->
       <tooltip>Cliquer pour obtenir plus d'information pour cette couche</tooltip>
     </GetFeatureInfo>
     
+    <GmlRendererSVG>
+      <preparingCoords>preparing coordinates</preparingCoords>  <!-- TODO: translate -->
+    </GmlRendererSVG>
+    
+    <GmlRendererTest>
+      <pretendPaint>Pretending to paint: {0} features {1}</pretendPaint>  <!-- TODO: translate -->
+    </GmlRendererTest>
+    
+    <GmlRendererWKT>
+      <preparingCoords>preparing coordinates</preparingCoords>  <!-- TODO: translate -->
+    </GmlRendererWKT>
+    
+    <GmlRendererWZ>
+      <preparingCoords>preparing coordinates</preparingCoords>  <!-- TODO: translate -->
+      <rendering>rendering</rendering>  <!-- TODO: translate -->
+    </GmlRendererWZ>
+    
+    <Graticule>
+      <eastWgs84>Est (WGS84)</eastWgs84>
+      <northWgs84>Nord (WGS84)</northWgs84>
+      <southWgs84>Sud (WGS84)</southWgs84>
+      <westWgs84>Ouest (WGS84)</westWgs84>
+    </Graticule>
+    
     <InsertFeature>
-      <tooltip>Save the current Feature(s) to the server</tooltip> <!-- TODO: translate -->
+      <noFeatureToInsert>No feature available to insert</noFeatureToInsert>  <!-- TODO: translate -->
+      <tooltip>Save the current Feature(s) to the server</tooltip>  <!-- TODO: translate -->
     </InsertFeature>
     
     <Legend>
       <title>Couches de la carte</title>
     </Legend>
     
+    <Loading2>
+      <docLoading>Document loading, please wait...</docLoading>  <!-- TODO: translate -->
+    </Loading2>
+    
+    <MapContainerBase>
+      <noMapContainerId>MapContainerBase: required property mapContainerId missing in config: {0}</noMapContainerId>  <!-- TODO: translate -->
+    </MapContainerBase>
+    
+    <MapPane>
+      <cantMoveDown>Can't move node past end of list: {0}</cantMoveDown>  <!-- TODO: translate -->
+      <cantMoveUp>Can't move node past beginning of list: {0}</cantMoveUp>  <!-- TODO: translate -->
+      <imageNotFound>ERROR: image not found</imageNotFound>  <!-- TODO: translate -->
+      <layerNotFound>Layer with id {0} not found</layerNotFound>  <!-- TODO: translate -->
+      <loadingLayer>Loading {0} map layer</loadingLayer>  <!-- TODO: translate -->
+      <loadingLayers>Loading {0} map layers</loadingLayers>  <!-- TODO: translate -->
+    </MapPane>
+    
+    <MapPane2>
+      <cantMoveDown>Can't move node past end of list: {0}</cantMoveDown>  <!-- TODO: translate -->
+      <cantMoveUp>Can't move node past beginning of list: {0}</cantMoveUp>  <!-- TODO: translate -->
+      <loadingLayer>Loading {0} map layer</loadingLayer>  <!-- TODO: translate -->
+      <loadingLayers>Loading {0} map layers</loadingLayers>  <!-- TODO: translate -->
+      <parseError>Parse error: {0}</parseError>  <!-- TODO: translate -->
+    </MapPane2>
+    
+    <MapPaneOL>
+      <cantMoveDown>Can't move node past end of list: {0}</cantMoveDown>  <!-- TODO: translate -->
+      <cantMoveUp>Can't move node past beginning of list: {0}</cantMoveUp>  <!-- TODO: translate -->
+      <layerTypeNotSupported>MapPaneOL: No support for layer type={0}</layerTypeNotSupported>  <!-- TODO: translate -->
+      <noContextDefined>No context defined in config</noContextDefined>  <!-- TODO: translate -->
+    </MapPaneOL>
+    
+    <MapScaleBar>
+      <scale>scale 1:{0}</scale>  <!-- TODO: translate -->
+      <unitCentimeters>centimeters</unitCentimeters>  <!-- TODO: translate -->
+      <unitCentimetersAbbr>cm</unitCentimetersAbbr>  <!-- TODO: translate -->
+      <unitFeet>feet</unitFeet>  <!-- TODO: translate -->
+      <unitFeetAbbr>ft</unitFeetAbbr>  <!-- TODO: translate -->
+      <unitInches>inches</unitInches>  <!-- TODO: translate -->
+      <unitInchesAbbr>in</unitInchesAbbr>  <!-- TODO: translate -->
+      <unitKilometers>kilometers</unitKilometers>  <!-- TODO: translate -->
+      <unitKilometersAbbr>km</unitKilometersAbbr>  <!-- TODO: translate -->
+      <unitMeters>meters</unitMeters>  <!-- TODO: translate -->
+      <unitMetersAbbr>m</unitMetersAbbr>  <!-- TODO: translate -->
+      <unitMiles>miles</unitMiles>  <!-- TODO: translate -->
+      <unitMilesAbbr>mi</unitMilesAbbr>  <!-- TODO: translate -->
+    </MapScaleBar>
+    
     <Measurement>
-      <tooltip>Click on the map to measure the distance</tooltip> <!-- TODO: translate -->
+      <cantCalculateDistance>Measurement does not know how to calculate the distanc</cantCalculateDistance>  <!-- TODO: translate -->
+      <invalidFeatureXpath>Measurement: invalid featureXpath in config: {0}</invalidFeatureXpath>  <!-- TODO: translate -->
+      <projectionNotSupported>Measurement: Projection not supported!</projectionNotSupported>  <!-- TODO: translate -->
+      <tooltip>Click on the map to measure the distance</tooltip>  <!-- TODO: translate -->
     </Measurement>
     
     <ModelStatus>
@@ -80,6 +268,11 @@
       <load>téléchargez</load>
       <title>URL:</title>
     </ModelUrlInput>
+    
+    <OpenLSForm>
+      <atLeastOneValue>Please enter at least one value, before proceeding</atLeastOneValue>  <!-- TODO: translate -->
+      <noCountryCode>You need to specify a country code</noCountryCode>  <!-- TODO: translate -->
+    </OpenLSForm>
     
     <ProcessArgumentsForm>
     </ProcessArgumentsForm>
@@ -92,27 +285,47 @@
       <tooltip>Cliquer pour sauvegarder</tooltip>
     </Save>
     
+    <SearchWidget>
+      <aoiFormNotFound>Could not find aoiForm for geoSearch</aoiFormNotFound>  <!-- TODO: translate -->
+    </SearchWidget>
+    
     <SelectProcess>
     </SelectProcess>
+    
+    <SelectTimeFrame>
+      <lastFrameAfterFirst>Last frame must be after the first frame</lastFrameAfterFirst>  <!-- TODO: translate -->
+    </SelectTimeFrame>
     
     <SetAoi>
       <tooltip>Cliquer et faire glisser la souris pour positionner une AOI</tooltip>
     </SetAoi>
     
     <ShowProcessResult>
-      <tabLabel>4. Access results</tabLabel> <!-- TODO: translate -->
+      <tabLabel>4. Access results</tabLabel>  <!-- TODO: translate -->
     </ShowProcessResult>
     
     <TabbedContent>
-      <argsInput>3. Set arguments</argsInput> <!-- TODO: translate -->
-      <results>4. Access results</results> <!-- TODO: translate -->
-      <selectProcess>2. Select a process</selectProcess> <!-- TODO: translate -->
-      <urlInput>1. Select a service</urlInput> <!-- TODO: translate -->
+      <argsInput>3. Set arguments</argsInput>  <!-- TODO: translate -->
+      <noDataYet>No data to show yet</noDataYet>  <!-- TODO: translate -->
+      <results>4. Access results</results>  <!-- TODO: translate -->
+      <selectProcess>2. Select a process</selectProcess>  <!-- TODO: translate -->
+      <tabWidgetNotFound>Tab widget not found: {0}</tabWidgetNotFound>  <!-- TODO: translate -->
+      <urlInput>1. Select a service</urlInput>  <!-- TODO: translate -->
     </TabbedContent>
+    
+    <TimeSeries>
+      <layerNotFound>Error finding layerId: {0}</layerNotFound>  <!-- TODO: translate -->
+    </TimeSeries>
     
     <Timestamp>
       <title>Date de l`image:</title>
     </Timestamp>
+    
+    <TipWidget>
+      <divAlreadyExists>Div: {0} already exists</divAlreadyExists>  <!-- TODO: translate -->
+      <divNotFound>Could not find div: {0}</divNotFound>  <!-- TODO: translate -->
+      <noStylesheetDefined>No stylesheet defined</noStylesheetDefined>  <!-- TODO: translate -->
+    </TipWidget>
     
     <WebServiceForm>
       <mapsheet>Code SNRC:</mapsheet>
@@ -120,7 +333,7 @@
     </WebServiceForm>
     
     <WfsGetFeature>
-      <tooltip>Click on feature to query it</tooltip> <!-- TODO: translate -->
+      <tooltip>Click on feature to query it</tooltip>  <!-- TODO: translate -->
     </WfsGetFeature>
     
     <Widget>
@@ -132,6 +345,11 @@
       <south>Sud:</south>
       <west>Ouest:</west>
     </Widget>
+    
+    <WidgetBase>
+      <idRequired>id required for object: {0}</idRequired>  <!-- TODO: translate -->
+      <noTargetModel>Error finding targetModel: {0} for: {1}</noTargetModel>  <!-- TODO: translate -->
+    </WidgetBase>
     
     <ZoomIn>
       <tooltip>Cliquer et faire glisser la souris pour agrandir</tooltip>
