@@ -37,7 +37,7 @@ function AutoResize(toolNode, model) {
     var referenceNode = document.getElementById('autoResize');
   }
   if (referenceNode == null) {
-    alert("AutoResize tool cannot find the reference node '" + this.referenceNodeId + "' in the DOM.\nPlease specify a valid referenceNodeId in the config file\nor use an id 'autoResize' for one of your documents nodes.");
+    alert(this.getMessage("referenceNodeIdNotFound", this.referenceNodeId));
   }
   
   this.fireResize = function() {

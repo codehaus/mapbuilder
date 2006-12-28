@@ -126,7 +126,7 @@ function MapPane(widgetNode, model) {
 MapPane.prototype.paint = function(objRef) {
 
   if (objRef.model.doc && objRef.node) {
-    //if (objRef.debug) alert("source:"+Sarissa.serialize(objRef.model.doc));
+    //if (objRef.debug) mbDebugMessage(objRef, "source:"+Sarissa.serialize(objRef.model.doc));
 
     objRef.stylesheet.setParameter("width", objRef.model.getWindowWidth());
     objRef.stylesheet.setParameter("height", objRef.model.getWindowHeight());
@@ -134,8 +134,8 @@ MapPane.prototype.paint = function(objRef) {
     objRef.stylesheet.setParameter("srs", objRef.model.getSRS());
 
     //confirm inputs
-    if (objRef.debug) alert("painting:"+Sarissa.serialize(objRef.model.doc));
-    if (objRef.debug) alert("stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
+    if (objRef.debug) mbDebugMessage(objRef, "painting:"+Sarissa.serialize(objRef.model.doc));
+    if (objRef.debug) mbDebugMessage(objRef, "stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
 //alert("PAINT MODEL.DOC  : "+Sarissa.serialize(objRef.model.doc));
 
     //process the doc with the stylesheet
@@ -145,7 +145,7 @@ MapPane.prototype.paint = function(objRef) {
 
     //debug output
     if (objRef.debug) {
-      alert("painting:"+objRef.id+":"+s);
+      mbDebugMessage(objRef, "painting:"+objRef.id+":"+s);
       if (config.serializeUrl) postLoad(config.serializeUrl, s);
     }
 
@@ -211,7 +211,7 @@ MapPane.prototype.timestampListener = function(objRef, timestampIndex){
     if (layer) {
       layer.style.visibility=vis;
     } else {
-      alert("error finding layerId:"+layerId);
+      alert(objRef.getMessage("layerNotFound", layerId));
     }
   }
 
@@ -286,7 +286,7 @@ MapPane.prototype.moveLayerUp = function(objRef, layerName) {
   var movedNode = document.getElementById(imgDivId);
   var sibNode = movedNode.nextSibling;
   if (!sibNode) {
-    alert("can't move node past beginning of list:"+layerName);
+    alert(objRef.getMessage("cantMoveUp", layerName));
     return;
   }
   outputNode.insertBefore(sibNode,movedNode);
@@ -302,7 +302,7 @@ MapPane.prototype.moveLayerDown = function(objRef, layerName) {
   var movedNode = document.getElementById(imgDivId);
   var sibNode = movedNode.previousSibling;
   if (!sibNode) {
-    alert("can't move node past end of list:"+layerName);
+    alert(objRef.getMessage("cantMoveDown", layerName));
     return;
   }
   outputNode.insertBefore(movedNode,sibNode);
@@ -361,7 +361,8 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
   else {
     // increment number of loading layers
     ++this.loadingLayerCount;
-    var message = "loading " + this.loadingLayerCount + " map layer" + ((this.loadingLayerCount>1)?"s":"");
+    var message = this.getMessage((this.loadingLayerCount>1) ? "loadingLayers" : "loadingLayer",
+      this.loadingLayerCount);
     this.model.setParam("modelStatus", message);
     // load now
     newImg.onload = MapImgLoadHandler;
@@ -398,7 +399,8 @@ function MapImgLoadHandler() {
   // decrement number of loading layers
   --this.objRef.loadingLayerCount;
   if (this.objRef.loadingLayerCount > 0) {
-    var message = "loading " + this.objRef.loadingLayerCount + " map layer" + ((this.objRef.loadingLayerCount>1)?"s":"");
+    var message = this.objRef.getMessage((this.objRef.loadingLayerCount>1) ? "loadingLayers" : "loadingLayer",
+      this.objRef.loadingLayerCount);
     this.objRef.model.setParam("modelStatus", message);
   } else {
     this.objRef.model.setParam("modelStatus");
@@ -436,7 +438,8 @@ function MapImgLoad( objRef, layer ) {
     if( objRef.imageStack[i].id == imgId ) {
       // increment number of loading layers
       ++objRef.loadingLayerCount;
-      var message = "loading " + objRef.loadingLayerCount + " map layer" + ((objRef.loadingLayerCount>1)?"s":"");
+      var message = objRef.getMessage((objRef.loadingLayerCount>1) ? "loadingLayers" : "loadingLayer",
+        objRef.loadingLayerCount);
       objRef.model.setParam("modelStatus", message);
       
       var newImg = objRef.imageStack[i];
@@ -449,6 +452,6 @@ function MapImgLoad( objRef, layer ) {
       return;
     }
   }
-  alert( 'ERROR: image not found' );
+  alert(objRef.getMessage("imageNotFound"));
 }
 

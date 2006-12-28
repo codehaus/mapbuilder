@@ -77,13 +77,13 @@ function WidgetBaseXSL(widgetNode,model) {
       objRef.stylesheet.setParameter("modelUrl", objRef.model.url);
       objRef.stylesheet.setParameter("targetModelId", objRef.targetModel.id );
 
-      //if (objRef.debug) alert("source:"+Sarissa.serialize(objRef.model.doc));
+      //if (objRef.debug) mbDebugMessage(objRef, "source:"+Sarissa.serialize(objRef.model.doc));
       objRef.resultDoc = objRef.model.doc; // resultDoc sometimes modified by prePaint()
       objRef.prePaint(objRef);
 
       //confirm inputs
-      if (objRef.debug) alert("prepaint:"+Sarissa.serialize(objRef.resultDoc));
-      if (objRef.debug) alert("stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
+      if (objRef.debug) mbDebugMessage(objRef, "prepaint:"+Sarissa.serialize(objRef.resultDoc));
+      if (objRef.debug) mbDebugMessage(objRef, "stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
 
       //set to output to a temporary node
       //hack to get by doc parsing problem in IE
@@ -94,7 +94,7 @@ function WidgetBaseXSL(widgetNode,model) {
       //process the doc with the stylesheet
       var s = objRef.stylesheet.transformNodeToString(objRef.resultDoc);
       if (config.serializeUrl && objRef.debug) postLoad(config.serializeUrl, s);
-      if (objRef.debug) alert("painting:"+objRef.id+":"+s);
+      if (objRef.debug) mbDebugMessage(objRef, "painting:"+objRef.id+":"+s);
       tempNode.innerHTML = s;
       if( tempNode.firstChild != null ) { //Could be null!
         tempNode.firstChild.setAttribute("id", objRef.outputNodeId);

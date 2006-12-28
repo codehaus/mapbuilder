@@ -141,7 +141,7 @@ function CursorTrack(widgetNode, model) {
       objRef.mouseHandler.addListener('mouseover', objRef.mouseOverHandler, objRef);
       objRef.mouseHandler.addListener('mouseout', objRef.mouseOutHandler, objRef);
     } else {
-      alert('CursorTrack requires a mouseHandler property');
+      alert(objRef.getMessage("noMouseHandler"));
     }
     
     if( objRef.showLatLong || objRef.showDMS || objRef.showMGRS ) {

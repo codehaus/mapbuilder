@@ -46,7 +46,7 @@ function Measurement(widgetNode, model) {
       if(!old) old="";
         sucess=objRef.targetModel.setXpathValue(objRef.targetModel,objRef.featureXpath,old+" "+point[0]+","+point[1]);
       if(!sucess) {
-        alert("Measurement: invalid featureXpath in config: "+objRef.featureXpath);
+        alert(objRef.getMessage("invalidFeatureXpath", objRef.featureXpath));
       }
 			
       var lineCoords = objRef.targetModel.getXpathValue(objRef.targetModel, objRef.featureXpath);
@@ -68,7 +68,7 @@ function Measurement(widgetNode, model) {
           Q = objRef.proj.Forward( Q );
         }
         if (!P || !Q  ){
-          alert("Measurement: Projection not supported!");
+          alert(objRef.getMessage("projectionNotSupported"));
         }
         else {
           //If projection is in meters use simple pythagoras
@@ -102,7 +102,7 @@ function Measurement(widgetNode, model) {
             }
             totalDistance = Math.round(totalDistance + distance);
           }
-          else alert("Measurement does not know how to calculate the distance");
+          else alert(objRef.getMessage("cantCalculateDistance"));
         }
       }    
       objRef.targetModel.setParam("showDistance", totalDistance); // set parameter for the distance output
@@ -115,7 +115,7 @@ function Measurement(widgetNode, model) {
       totalDistance=0;
       sucess=objRef.targetModel.setXpathValue(objRef.targetModel,objRef.featureXpath,"");
       if(!sucess){
-        alert("Measurement: invalid featureXpath in config: "+objRef.featureXpath);
+        alert(objRef.getMessage("invalidFeatureXpath", objRef.featureXpath));
       }
       objRef.targetModel.setParam("refresh");
     }

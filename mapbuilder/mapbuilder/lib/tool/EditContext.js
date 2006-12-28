@@ -41,7 +41,7 @@ function EditContext(toolNode, model) {
     this.stylesheet.setParameter("format", this.model.getImageFormat() );
     var newNode = this.stylesheet.transformNodeToObject(feature);
     Sarissa.setXpathNamespaces(newNode, this.targetModel.namespace);
-    if (this.debug) alert(newNode.xml);
+    mbDebugMessage(this, newNode.xml);
     this.targetModel.setParam('addLayer',newNode.documentElement);
   }
 
@@ -53,7 +53,7 @@ function EditContext(toolNode, model) {
     var feature = this.model.getFeatureNode(featureName);
     var newNode = this.stylesheet.transformNodeToObject(feature);
     Sarissa.setXpathNamespaces(newNode, this.targetModel.namespace);
-    if (this.debug) alert(newNode.xml);
+    mbDebugMessage(this, newNode.xml);
     this.targetModel.setParam('addLayer',newNode.documentElement);
   }
 

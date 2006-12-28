@@ -33,10 +33,10 @@ function ProcessArgumentsForm(widgetNode, model) {
     if (this.targetModel.method == "get") {
       webServiceUrl += queryString;
       this.targetModel.postData = null;
-      if (this.debug) alert(webServiceUrl);
+      mbDebugMessage(this, webServiceUrl);
     } else {
       this.targetModel.postData = queryString;
-      if (this.debug) alert(webServiceUrl+" posting:"+queryString);
+      mbDebugMessage(this, webServiceUrl+" posting:"+queryString);
     }
     config.loadModel( this.targetModel.id, webServiceUrl);
   }

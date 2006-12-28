@@ -298,7 +298,7 @@ function Context(modelNode, parent) {
   this.deleteLayer = function(objRef, layerName) {
     var deletedNode = objRef.getLayer(layerName);
     if (!deletedNode) {
-      alert("node note found; unable to delete node:"+layerName);
+      alert(objRef.getMessage("nodeNotFound", layerName));
       return;
     }
     deletedNode.parentNode.removeChild(deletedNode);
@@ -314,7 +314,7 @@ function Context(modelNode, parent) {
     var movedNode = objRef.getLayer(layerName);
     var sibNode = movedNode.selectSingleNode("following-sibling::*");
     if (!sibNode) {
-      alert("can't move node past beginning of list:"+layerName);
+      alert(objRef.getMessage("cantMoveUp", layerName));
       return;
     }
     movedNode.parentNode.insertBefore(sibNode,movedNode);
@@ -331,7 +331,7 @@ function Context(modelNode, parent) {
     var listNodeArray = movedNode.selectNodes("preceding-sibling::*");  //preceding-sibling axis contains all previous siblings
     var sibNode = listNodeArray[listNodeArray.length-1];
     if (!sibNode) {
-      alert("can't move node past beginning of list:"+layerName);
+      alert(objRef.getMessage("cantMoveDown", layerName));
       return;
     }
     movedNode.parentNode.insertBefore(movedNode,sibNode);

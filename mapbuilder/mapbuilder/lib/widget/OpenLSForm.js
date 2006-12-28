@@ -45,12 +45,12 @@ function OpenLSForm(widgetNode, model) {
     if(municipality) objRef.xsl.setParameter("municipality", municipality);
     if(country) objRef.xsl.setParameter("countryCode", country);
     if(!country) {
-      alert('You need to specify a country code');
+      alert(objRef.getMessage("noCountryCode"));
       return;
     }
 		//no values entered, bail out
 		if(!municipality && !city && !number && !street && !pc) {
-			alert("Please enter at least one value, before proceeding");
+			alert(objRef.getMessage("atLeastOneValue"));
 			return;
 		}
 		

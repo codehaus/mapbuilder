@@ -84,8 +84,8 @@ function EditSLD(toolNode, model) {
 		    Sarissa.setXpathNamespaces(newNode, this.targetModel.namespace);
 
 			
-		    if (this.debug) alert(newNode.xml);
-		     legendURLNode=this.targetModel.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']/wmc:StyleList/wmc:Style/wmc:LegendURL");
+		    mbDebugMessage(this, newNode.xml);
+		    legendURLNode=this.targetModel.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']/wmc:StyleList/wmc:Style/wmc:LegendURL");
 		  
 		    layerNode=this.targetModel.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']");
 			styleNode=this.targetModel.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']/wmc:StyleList");
@@ -106,7 +106,7 @@ function EditSLD(toolNode, model) {
 		     config.objects.mainMap.setParam("refresh");
 		    //alert("fin"); 
     	}
-	 	else alert("Select a layer if you want insert sld in wmc");
+	 	else alert(this.getMessage("selectLayer"));
 	 	
 	}
     
@@ -155,10 +155,10 @@ function EditSLD(toolNode, model) {
 					layerNode.appendChild(sl);
 					config.objects.mainMap.setParam("refresh");
 				}
-				alert("Apres : "+Sarissa.serialize(this.targetModel.doc));
+				mbDebugMessage(this, "Apres : "+Sarissa.serialize(this.targetModel.doc));
 				
 	 }
-	 else alert("Select a layer if you want insert sld in wmc");
+	 else alert(this.getMessage("selectLayer"));
 	}
 	 
 	 
@@ -175,7 +175,7 @@ this.validSld=function(layerName)
 		
 	      if(!layerName)
 	      {
-	      	alert("pas de layer selectionnee");
+	      	alert(this.getMessage("noLayerSelected"));
 		  }
 	      else if(((document.getElementById("textStyle").checked == true) && (document.getElementById("selectPropertyCanvas")))||(document.getElementById("textStyle").checked == false))
 	      {			
@@ -190,7 +190,7 @@ this.validSld=function(layerName)
 		  }
 	      else if (!document.getElementById("selectPropertyCanvas"))
 	      {
-	      alert("pas de propriete selectionnee");
+	      alert(this.getMessage("noPropertySelected"));
 	     
 	      }
 	    //config.objects.mainMap.setModel('mainMap',config.objects.mainMap.doc);

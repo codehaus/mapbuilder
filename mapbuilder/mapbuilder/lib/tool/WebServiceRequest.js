@@ -59,8 +59,8 @@ function WebServiceRequest(toolNode, model) {
  */
 WebServiceRequest.prototype.createHttpPayload = function(feature) {
   //confirm inputs
-  if (this.debug) alert("source:"+Sarissa.serialize(feature));
-  //if (this.debug) alert("stylesheet:"+Sarissa.serialize(this.requestStylesheet.xslDom));
+  if (this.debug) mbDebugMessage(this, "source:"+Sarissa.serialize(feature));
+  //if (this.debug) mbDebugMessage(this, "stylesheet:"+Sarissa.serialize(this.requestStylesheet.xslDom));
 
 
   //prepare the stylesheet
@@ -71,13 +71,13 @@ WebServiceRequest.prototype.createHttpPayload = function(feature) {
   if (this.requestFilter) {
     var filter = config.objects[this.requestFilter];
     this.requestStylesheet.setParameter("filter", escape(Sarissa.serialize(filter.doc).replace(/[\n\f\r\t]/g,'') ));
-    if (this.debug) alert(Sarissa.serialize(filter.doc));
+    if (this.debug) mbDebugMessage(this, Sarissa.serialize(filter.doc));
   }
 
   //process the doc with the stylesheet
   httpPayload.postData = this.requestStylesheet.transformNodeToObject(feature);
   if (this.debug) {
-    alert("request data:"+Sarissa.serialize(httpPayload.postData));
+    mbDebugMessage(this, "request data:"+Sarissa.serialize(httpPayload.postData));
     if (config.serializeUrl) var response = postLoad(config.serializeUrl, httpPayload.postData);
   }
 
@@ -96,7 +96,7 @@ WebServiceRequest.prototype.createHttpPayload = function(feature) {
     httpPayload.url += queryString.firstChild.nodeValue;
     httpPayload.postData = null;
   }
-  if (this.debug) alert("URL:"+httpPayload.url);
+  mbDebugMessage(this, "URL:"+httpPayload.url);
   return httpPayload;
 }
 
@@ -112,7 +112,7 @@ WebServiceRequest.prototype.doRequest = function(objRef, featureName) {
 
   var feature = objRef.model.getFeatureNode(featureName);
   if (!feature) {
-    alert("WebServiceRequest: error finding feature node:"+featureName);
+    alert(objRef.getMessage("featureNotFound", featureName));
     return;
   }
   if (objRef.model.setRequestParameters) objRef.model.setRequestParameters(featureName, objRef.requestStylesheet);

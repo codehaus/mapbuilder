@@ -81,7 +81,7 @@ function MapPane2(widgetNode, model) {
 MapPane2.prototype.paint = function(objRef, refresh) {
 
   if (objRef.model.doc && objRef.node && (objRef.autoRefresh||refresh) ) {
-    //if (objRef.debug) alert("source:"+Sarissa.serialize(objRef.model.doc));
+    //if (objRef.debug) mbDebugMessage(objRef, "source:"+Sarissa.serialize(objRef.model.doc));
 
     objRef.stylesheet.setParameter("width", objRef.model.getWindowWidth());
     objRef.stylesheet.setParameter("height", objRef.model.getWindowHeight());
@@ -89,8 +89,8 @@ MapPane2.prototype.paint = function(objRef, refresh) {
     objRef.stylesheet.setParameter("srs", objRef.model.getSRS());
 
     //confirm inputs
-    if (objRef.debug) alert("painting:"+Sarissa.serialize(objRef.model.doc));
-    if (objRef.debug) alert("stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
+    if (objRef.debug) mbDebugMessage(objRef, "painting:"+Sarissa.serialize(objRef.model.doc));
+    if (objRef.debug) mbDebugMessage(objRef, "stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
 
     //process the doc with the stylesheet
     //var s = objRef.stylesheet.transformNodeToString(objRef.model.doc);
@@ -98,14 +98,14 @@ MapPane2.prototype.paint = function(objRef, refresh) {
     //tempNode.innerHTML = s;
     var tempDom = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
     if( tempDom.parseError != 0 ) {
-        alert( "parse error:"+Sarissa.getParseErrorText(tempDom));
+        alert(objRef.getMessage("parseError", Sarissa.getParseErrorText(tempDom)));
     }
     
     var tempNodeList = tempDom.selectNodes("//img");
 
     //debug output
     if (objRef.debug) {
-      alert("painting:"+objRef.id+":"+s);
+      mbDebugMessage(objRef, "painting:"+objRef.id+":"+s);
       if (config.serializeUrl) postLoad(config.serializeUrl, s);
     }
 
@@ -136,7 +136,8 @@ MapPane2.prototype.paint = function(objRef, refresh) {
       if(tempNodeList[i])newSrc = tempNodeList[i].getAttribute("src");
       if(layer.setSrc)layer.setSrc(newSrc)
     }
-    var message = "loading " + objRef.layerCount + " map layer"+((objRef.layerCount>1)?"s":"");
+    var message = objRef.getMessage((objRef.layerCount>1) ? "loadingLayers" : "loadingLayer",
+      objRef.layerCount);
     objRef.model.setParam("modelStatus", message);
     
     objRef.MapLayerMgr.paintWmsLayers( objRef.MapLayerMgr );
@@ -186,7 +187,7 @@ MapPane2.prototype.moveLayerUp = function(objRef, layerName) {
   var movedNode = document.getElementById(imgDivId);
   var sibNode = movedNode.nextSibling;
   if (!sibNode) {
-    alert("can't move node past beginning of list:"+layerName);
+    alert(objRef.getMessage("cantMoveUp", layerName));
     return;
   }
   outputNode.insertBefore(sibNode,movedNode);
@@ -203,7 +204,7 @@ MapPane2.prototype.moveLayerDown = function(objRef, layerName) {
   var movedNode = document.getElementById(imgDivId);
   var sibNode = movedNode.previousSibling;
   if (!sibNode) {
-    alert("can't move node past end of list:"+layerName);
+    alert(objRef.getMessage("cantMoveDown", layerName));
     return;
   }
   outputNode.insertBefore(movedNode,sibNode);

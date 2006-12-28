@@ -59,9 +59,9 @@ function Logger(modelNode, parent) {
       Sarissa.setXpathNamespaces(tempDoc, "xmlns:xlink='http://www.w3.org/1999/xlink'");
       var onlineResource = tempDoc.selectSingleNode("//OnlineResource");
       var fileUrl = onlineResource.attributes.getNamedItem("xlink:href").nodeValue;
-      alert("event log saved as:" + fileUrl);
+      alert(this.getMessage("eventLogSaved", fileUrl));
     } else {
-      alert("unable to save event log; provide a serializeUrl property in config");
+      alert(this.getMessage("unableToSaveLog"));
     }
   }
 

@@ -38,7 +38,7 @@ function Loading2(widgetNode, model) {
   if (textMessage) {
     this.textMessage = textMessage.firstChild.nodeValue;
   } else {
-    this.textMessage = "Document loading, please wait...";
+    this.textMessage = this.getMessage("docLoading");
   }
   this.updateMessage = this.textMessage;
 

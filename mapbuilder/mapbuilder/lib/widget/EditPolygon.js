@@ -58,7 +58,7 @@ function EditPolygon(widgetNode, model) {
       sucess = objRef.targetModel.setXpathValue(objRef.targetModel, objRef.featureXpath, thePolygon);
 
       if (!sucess) {
-        alert("EditPolygon: invalid featureXpath in config: " + objRef.featureXpath);
+        alert(objRef.getMessage("invalidFeatureXpath", objRef.featureXpath));
       }
     }
   }

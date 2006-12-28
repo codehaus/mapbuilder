@@ -53,7 +53,7 @@ function GeoRSS(modelNode, parent) {
     var labelNode = featureNode.selectSingleNode("rss:title");
     if( labelNode == null )
       labelNode = featureNode.selectSingleNode("atom:title");
-    return labelNode?labelNode.firstChild.nodeValue:"No RSS title";
+    return labelNode?labelNode.firstChild.nodeValue:this.getMessage("noRssTitle");
   }
 
   /**
@@ -131,7 +131,7 @@ function GeoRSS(modelNode, parent) {
       return "POLYGON " + coordstr;
     } 
     
-    alert ("Invalid GML Geometry" )
+    alert(this.getMessage("invalidGmlGeom"));
     return null
   }
   

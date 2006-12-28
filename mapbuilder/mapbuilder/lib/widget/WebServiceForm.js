@@ -66,7 +66,7 @@ function WebServiceForm(widgetNode, model) {
         this.formElements[element.name] = element.value;
       }  
       
-      if (this.debug) alert(httpPayload.url);
+      mbDebugMessage(this, httpPayload.url);
     
       this.targetModel.newRequest(this.targetModel,httpPayload);
     
@@ -88,8 +88,7 @@ function WebServiceForm(widgetNode, model) {
        
       var layer = this.requestStylesheet.transformNodeToObject(this.model.doc); 
       //layer.childNodes[0].setAttribute("id", uuid)
-      if (this.debug)
-        alert("Transformed: "+ Sarissa.serialize(layer));
+      if (this.debug) mbDebugMessage(this, "Transformed: "+ Sarissa.serialize(layer));
            
       // extract the GetFeature out
       this.namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:ows='http://www.opengis.net/ows' xmlns:ogc='http://www.opengis.net/ogc' xmlns:xsl='http://www.w3.org/1999/XSL/Transform' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs'";
@@ -99,12 +98,10 @@ function WebServiceForm(widgetNode, model) {
       
       httpPayload.postData = Sarissa.serialize( getFeature);
       
-      if( this.debug ) 
-        alert("httpPayload.postData:"+ httpPayload.postData);
+      mbDebugMessage(this, "httpPayload.postData:"+ httpPayload.postData);
       
       this.targetModel.wfsFeature = layer.childNodes[0];
-      if (this.debug)
-        alert("wfsFeature = "+ Sarissa.serialize(this.targetModel.wfsFeature));
+      if (this.debug) mbDebugMessage(this, "wfsFeature = "+ Sarissa.serialize(this.targetModel.wfsFeature));
         
       this.targetModel.newRequest(this.targetModel,httpPayload);
     }
