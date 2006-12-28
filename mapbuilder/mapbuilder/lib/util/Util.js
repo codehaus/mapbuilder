@@ -528,3 +528,67 @@ function handleEventWithObject(evt){
   if (obj!=null) obj.handleEvent(evt);
 }
 
+/**
+ * Show a message if the debug property of the object has been set.
+ * @param object  the object that possibly has the debug property set
+ * @param message the message to show
+ */
+function mbDebugMessage(object, message)
+{
+  if (object && object.debug) {
+    alert(message);
+  }
+}
+
+/**
+ * Get a message from the <code>widgetText</code> file and format it if extra
+ * arguments are passed.
+ * @param messageNodeXpath the XPath expression to select the message node
+ * @param messageKey       the message key within the message node
+ * @param varArgs          optional extra parameters for formatting the message
+ * @return                 <code>"NoMsgsFound"</code> if the <code>widgetText</code> file is not found,<br/>
+ *                         the <code>messageKey</code> if the message key was not found within the message node,<br/>
+ *                         the (formatted) message if it was found
+ */
+function mbGetMessage(messageNodeXpath, messageKey)
+{
+  var message = "NoMsgsFound";
+  if (config.widgetText) {
+    var msgKeyXpath = messageNodeXpath + "/mb:" + messageKey;
+    var msgKeyNode = config.widgetText.selectSingleNode(msgKeyXpath);
+    if (!msgKeyNode) {
+      // Message not found, fall back to message key
+      message = messageKey;
+    }
+    else {
+      // Message found
+      message = msgKeyNode.firstChild.nodeValue;
+      if (arguments[mbGetMessage.length]) {
+        // Extra arguments, format message
+        var varArgs = [].slice.call(arguments, mbGetMessage.length);
+        varArgs.unshift(message);
+        message = mbFormatMessage.apply(this, varArgs);
+      }
+    }
+  }
+  return message;
+}
+
+/**
+ * Format a message with the extra arguments. <br/>
+ * E.g. if called as: <code>mbFormatMessage("{1} is {0} {2}, {1}", "a good", "this", "test")</code><br/>
+ * the formatted message returned is: <code>"this is a good test, this"</code>
+ * @param messageFormat the message format string
+ * @param varArgs       optional extra parameters for formatting the message
+ * @return              the formatted message
+ */
+function mbFormatMessage(messageFormat)
+{
+  var message = messageFormat;
+  var varArgs = [].slice.call(arguments, mbFormatMessage.length);
+  for (var i in varArgs) {
+    var parm = new RegExp("\\{" + i + "\\}", "g");
+    message = message.replace(parm, varArgs[i]);
+  }
+  return message;
+}
