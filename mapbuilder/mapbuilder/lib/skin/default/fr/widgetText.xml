@@ -6,8 +6,8 @@
   <!--
     
     Description: This file contains all text used in widgets for multilingual 
-                  support.  The text values are set as XSL params before the 
-                  widget is painted.
+                 support.  The text values are set as XSL params before the 
+                 widget is painted.
     Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
 
     $Id$
@@ -22,7 +22,7 @@
     </AoiForm>
     
     <Back>
-      <tooltip>get the previous extent</tooltip> <!-- TODO: translate -->
+      <tooltip>Get the previous extent</tooltip> <!-- TODO: translate -->
     </Back>
     
     <CollectionList>
@@ -41,23 +41,23 @@
     </DeleteFeature>
     
     <DragPan>
-      <tooltip>cliquer et faire glisser la souris pour voir un autre parti de la carte</tooltip>
+      <tooltip>Cliquer et faire glisser la souris pour voir un autre parti de la carte</tooltip>
     </DragPan>
     
     <EditLine>
-      <tooltip>cliquer pour crée un object géographique linéare</tooltip>
+      <tooltip>Cliquer pour crée un object géographique linéare</tooltip>
     </EditLine>
     
     <EditPoint>
-      <tooltip>cliquer pour crée un object géographique de point</tooltip>
+      <tooltip>Cliquer pour crée un object géographique de point</tooltip>
     </EditPoint>
     
     <Forward>
-      <tooltip>get the next extent</tooltip> <!-- TODO: translate -->
+      <tooltip>Get the next extent</tooltip> <!-- TODO: translate -->
     </Forward>
     
     <GetFeatureInfo>
-      <tooltip>cliquer pour obtenir plus d'information pour cette couche</tooltip>
+      <tooltip>Cliquer pour obtenir plus d'information pour cette couche</tooltip>
     </GetFeatureInfo>
     
     <InsertFeature>
@@ -69,7 +69,7 @@
     </Legend>
     
     <Measurement>
-      <tooltip>click on the map to measure the distance</tooltip> <!-- TODO: translate -->
+      <tooltip>Click on the map to measure the distance</tooltip> <!-- TODO: translate -->
     </Measurement>
     
     <ModelStatus>
@@ -85,18 +85,18 @@
     </ProcessArgumentsForm>
     
     <Reset>
-      <tooltip>redonner la carte ses dimensions complèts</tooltip>
+      <tooltip>Redonner la carte ses dimensions complèts</tooltip>
     </Reset>
     
     <Save>
-      <tooltip>cliquer pour sauvegarder</tooltip>
+      <tooltip>Cliquer pour sauvegarder</tooltip>
     </Save>
     
     <SelectProcess>
     </SelectProcess>
     
     <SetAoi>
-      <tooltip>cliquer et faire glisser la souris pour positionner une AOI</tooltip>
+      <tooltip>Cliquer et faire glisser la souris pour positionner une AOI</tooltip>
     </SetAoi>
     
     <ShowProcessResult>
@@ -115,7 +115,7 @@
     </Timestamp>
     
     <WebServiceForm>
-      <mapsheet>code SNRC:</mapsheet>
+      <mapsheet>Code SNRC:</mapsheet>
       <ntsTitle>Service de recherche par SNRC</ntsTitle>
     </WebServiceForm>
     
@@ -134,11 +134,11 @@
     </Widget>
     
     <ZoomIn>
-      <tooltip>cliquer et faire glisser la souris pour agrandir</tooltip>
+      <tooltip>Cliquer et faire glisser la souris pour agrandir</tooltip>
     </ZoomIn>
     
     <ZoomOut>
-      <tooltip>cliquer pour réduire</tooltip>
+      <tooltip>Cliquer pour réduire</tooltip>
     </ZoomOut>
   </widgets>
 </WidgetText>
