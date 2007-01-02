@@ -97,10 +97,6 @@
   </tools>
   
   <widgets>
-    <AddLayer>
-      <tooltip>Voeg een laag aan de kaart toe</tooltip>
-    </AddLayer>
-    
     <AoiForm>
       <east>Oost:</east>
       <north>Noord:</north>
@@ -169,10 +165,6 @@
       <tooltip>Volgende uitsnede</tooltip>
     </Forward>
     
-    <Geocoder>
-      <tooltip>Zoek een straat of plaats</tooltip>
-    </Geocoder>
-    
     <GeoRssParser>
       <errorDeletingLayer>Fout bij verwijderen: {0}</errorDeletingLayer>
       <stylesheetNotFound>Parsing stylesheet niet gevonden</stylesheetNotFound>
@@ -210,10 +202,6 @@
       <westWgs84>West (WGS84)</westWgs84>
     </Graticule>
     
-    <Help>
-      <tooltip>Klik om hulp te krijgen</tooltip>
-    </Help>
-    
     <InsertFeature>
       <noFeatureToInsert>Geen object beschikbaar om op te slaan</noFeatureToInsert> 
       <tooltip>Bewaar de huidige objecten op de server</tooltip>
@@ -222,10 +210,6 @@
     <Legend>
       <title>Kaartlagen</title>
     </Legend>
-    
-    <Legenda>
-      <tooltip>Klik om de legenda te zien</tooltip>
-    </Legenda>
     
     <Loading2>
       <docLoading>Document laadt, even geduld a.u.b....</docLoading>
@@ -348,10 +332,6 @@
       <divNotFound>Kan div niet vinden: {0}</divNotFound>
       <noStylesheetDefined>Geen stylesheet gedefiniëerd</noStylesheetDefined>
     </TipWidget>
-    
-    <VerwijderPunten>
-      <tooltip>Klik om de markers te verwijderen</tooltip>
-    </VerwijderPunten>
     
     <WebServiceForm>
       <mapsheet>NTS-index:</mapsheet>
