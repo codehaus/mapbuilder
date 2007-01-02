@@ -51,6 +51,12 @@
       <parsingError>Parsing Error: {0} {1}</parsingError>
     </ModelBase>
     
+    <OwsCatResources>
+      <convertingCoords>converting coordinates</convertingCoords>
+      <invalidGeom>Invalid geom for: {0}</invalidGeom>
+      <noRssTitle>No RSS title</noRssTitle>
+    </OwsCatResources>
+    
     <OwsContext>
       <cantMoveDown>Can't move node past end of list: {0}</cantMoveDown>
       <cantMoveUp>Can't move node past beginning of list: {0}</cantMoveUp>
