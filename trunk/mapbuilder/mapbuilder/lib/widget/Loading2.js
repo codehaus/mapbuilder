@@ -43,9 +43,10 @@ function Loading2(widgetNode, model) {
   this.updateMessage = this.textMessage;
 
   //check to see if this is to be put over a map if there isa mapContainerID supplied
-  var mapContainerNode = widgetNode.selectSingleNode("mb:mapContainerId");
-  if (mapContainerNode) {
-    this.containerNodeId = mapContainerNode.firstChild.nodeValue;
+  this.mapContainerNode = widgetNode.selectSingleNode("mb:mapContainerId");
+  if (this.mapContainerNode) {
+    this.containerNodeId = this.mapContainerNode.firstChild.nodeValue;
+    this.htmlTagId = this.containerNodeId;
     this.node = document.getElementById(this.containerNodeId);
   }
 
