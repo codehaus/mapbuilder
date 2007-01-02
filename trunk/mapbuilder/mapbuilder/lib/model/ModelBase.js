@@ -158,7 +158,7 @@ function ModelBase(modelNode, parentModel) {
         
         var sUri = objRef.url;
         if ( sUri.indexOf("http://")==0 ) {
-          if (objRef.method == "get") {
+          if (objRef.method.toLowerCase() == "get") {
             sUri = getProxyPlusUrl(sUri);
           } else {
             sUri = config.proxyUrl;
@@ -167,7 +167,7 @@ function ModelBase(modelNode, parentModel) {
         //alert( "ModelBase:"+objRef.method + " to:"+ sUri+ " " + objRef.url)
         
         xmlHttp.open(objRef.method, sUri, objRef.async);
-        if (objRef.method == "post") {
+        if (objRef.method.toLowerCase() == "post") {
           xmlHttp.setRequestHeader("content-type",objRef.contentType);
           xmlHttp.setRequestHeader("serverUrl",objRef.url);
         }
