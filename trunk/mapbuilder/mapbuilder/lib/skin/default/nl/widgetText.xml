@@ -51,6 +51,12 @@
       <parsingError>Parse-fout: {0} {1}</parsingError>
     </ModelBase>
     
+    <OwsCatResources>
+      <convertingCoords>converteert coördinaten</convertingCoords>
+      <invalidGeom>Ongeldige geometrie voor: {0}</invalidGeom>
+      <noRssTitle>Geen RSS-titel</noRssTitle>
+    </OwsCatResources>
+    
     <OwsContext>
       <cantMoveDown>Kan element niet voorbij einde lijst verplaatsen: {0}</cantMoveDown>
       <cantMoveUp>Kan element niet voorbij begin lijst verplaatsen: {0}</cantMoveUp>
