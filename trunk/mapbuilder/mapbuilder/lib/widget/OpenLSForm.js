@@ -45,12 +45,12 @@ function OpenLSForm(widgetNode, model) {
     if(municipality) objRef.xsl.setParameter("municipality", municipality);
     if(country) objRef.xsl.setParameter("countryCode", country);
     if(!country) {
-      alert(objRef.getMessage("noCountryCode"));
+      alert(mbGetMessage("noCountryCode"));
       return;
     }
 		//no values entered, bail out
 		if(!municipality && !city && !number && !street && !pc) {
-			alert(objRef.getMessage("atLeastOneValue"));
+			alert(mbGetMessage("atLeastOneValue"));
 			return;
 		}
 		

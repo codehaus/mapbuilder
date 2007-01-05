@@ -79,7 +79,7 @@ function History(toolNode, model) {
     place = objRef.model.active;
     if(place<1) {
       objRef.model.previousExtent = null;
-      alert(objRef.getMessage("cantGoBack"));
+      alert(mbGetMessage("cantGoBack"));
     }
     else {
       place = place -1;
@@ -101,7 +101,7 @@ function History(toolNode, model) {
     }
     else {
       objRef.model.nextExtent = null;
-      alert(objRef.getMessage("cantGoForward"));
+      alert(mbGetMessage("cantGoForward"));
     }
   }
 

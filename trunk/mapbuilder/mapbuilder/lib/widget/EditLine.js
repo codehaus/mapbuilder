@@ -36,7 +36,7 @@ function EditLine(widgetNode, model) {
         objRef.featureXpath,
         old+" "+point[0]+","+point[1]);
       if(!sucess){
-        alert(objRef.getMessage("invalidFeatureXpath", objRef.featureXpath));
+        alert(mbGetMessage("invalidFeatureXpathEditLine", objRef.featureXpath));
       }
     }
   }

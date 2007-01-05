@@ -66,7 +66,7 @@ function SearchWidget(widgetNode, model) {
     }
   
     if( this.aoiFormId == undefined ) {
-      alert(this.getMessage("aoiFormNotFound"));
+      alert(mbGetMessage("aoiFormNotFound"));
     }
     
     var bbox = "";

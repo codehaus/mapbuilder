@@ -68,7 +68,7 @@ function GmlRendererWZ(widgetNode, model) {
       jsNode = objRef.stylesheet.transformNodeToObject(objRef.resultDoc);
       js=jsNode.selectSingleNode("js").firstChild.nodeValue;
       mbDebugMessage(objRef, "javascript eval:"+js);
-      objRef.model.setParam("modelStatus",objRef.getMessage("rendering"));
+      objRef.model.setParam("modelStatus",mbGetMessage("rendering"));
       eval(js);
 
       objRef.postPaint(objRef);
@@ -114,7 +114,7 @@ function GmlRendererWZ(widgetNode, model) {
    * @param objRef Pointer to this object.
    */
   this.prePaint = function(objRef) {
-    objRef.model.setParam("modelStatus",objRef.getMessage("preparingCoords"));
+    objRef.model.setParam("modelStatus",mbGetMessage("preparingCoords"));
     objRef.stylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
     objRef.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
     bBox=objRef.containerModel.getBoundingBox();

@@ -95,7 +95,7 @@ MapPane2.prototype.paint = function(objRef, refresh) {
     //process the doc with the stylesheet
     var tempDom = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
     if( tempDom.parseError != 0 ) {
-        alert(objRef.getMessage("parseError", Sarissa.getParseErrorText(tempDom)));
+        alert(mbGetMessage("parseError", Sarissa.getParseErrorText(tempDom)));
     }
     
     var tempNodeList = tempDom.selectNodes("//img");
@@ -134,7 +134,7 @@ MapPane2.prototype.paint = function(objRef, refresh) {
       if(tempNodeList[i])newSrc = tempNodeList[i].getAttribute("src");
       if(layer.setSrc)layer.setSrc(newSrc)
     }
-    var message = objRef.getMessage((objRef.layerCount>1) ? "loadingLayers" : "loadingLayer",
+    var message = mbGetMessage((objRef.layerCount>1) ? "loadingLayers" : "loadingLayer",
       objRef.layerCount);
     objRef.model.setParam("modelStatus", message);
     
@@ -185,7 +185,7 @@ MapPane2.prototype.moveLayerUp = function(objRef, layerName) {
   var movedNode = document.getElementById(imgDivId);
   var sibNode = movedNode.nextSibling;
   if (!sibNode) {
-    alert(objRef.getMessage("cantMoveUp", layerName));
+    alert(mbGetMessage("cantMoveUp", layerName));
     return;
   }
   outputNode.insertBefore(sibNode,movedNode);
@@ -202,7 +202,7 @@ MapPane2.prototype.moveLayerDown = function(objRef, layerName) {
   var movedNode = document.getElementById(imgDivId);
   var sibNode = movedNode.previousSibling;
   if (!sibNode) {
-    alert(objRef.getMessage("cantMoveDown", layerName));
+    alert(mbGetMessage("cantMoveDown", layerName));
     return;
   }
   outputNode.insertBefore(movedNode,sibNode);

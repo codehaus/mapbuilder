@@ -48,7 +48,7 @@ function GetFeatureInfo(toolNode, model) {
       if (selectedLayer==null) {
         var queryList=objRef.context.getQueryableLayers();
       	if (queryList.length==0) {
-           alert(objRef.getMessage("noQueryableLayers"));
+           alert(mbGetMessage("noQueryableLayers"));
            return;
       	}
         else {

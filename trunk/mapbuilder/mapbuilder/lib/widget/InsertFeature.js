@@ -65,7 +65,7 @@ function InsertFeature(widgetNode, model) {
         }
         objRef.httpPayload.postData=s;
         objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
-      }else alert(objRef.getMessage("noFeatureToInsert"));
+      }else alert(mbGetMessage("noFeatureToInsert"));
     }
   }
 

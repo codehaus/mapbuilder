@@ -36,7 +36,7 @@ function ClickPass(widgetNode, model) {
   if( clickPassId != null ) {
     this.clickPassId = clickPassId.firstChild.nodeValue;
   } else {
-    alert(objRef.getMessage("unspecClickPassId"));
+    alert(mbGetMessage("unspecClickPassId"));
   }
   
   // get icon from the config file and create the dynamic div
@@ -66,7 +66,7 @@ function ClickPass(widgetNode, model) {
     mainMapPane.appendChild( iconDiv );
     
   } else {
-    alert(objRef.getMessage("unspecIcon"));
+    alert(mbGetMessage("unspecIcon"));
   }
  
   // unfortunately, exact positioning of an image is hard
@@ -75,14 +75,14 @@ function ClickPass(widgetNode, model) {
   if( topOffset != null ) {
     this.topOffset = parseInt(topOffset.firstChild.nodeValue);
   } else {
-    alert(objRef.getMessage("unspecTopOffset"));
+    alert(mbGetMessage("unspecTopOffset"));
   }
   
   var leftOffset = widgetNode.selectSingleNode("mb:leftOffset");
   if( leftOffset != null ) {
     this.leftOffset = parseInt(leftOffset.firstChild.nodeValue);
   } else {
-    alert(objRef.getMessage("unspecLeftOffset"));
+    alert(mbGetMessage("unspecLeftOffset"));
   } 
   
   /**
@@ -117,7 +117,7 @@ function ClickPass(widgetNode, model) {
       //alert( "hide icon" );
       div.style.visibility = "hidden";
     } else {
-      alert(this.getMessage("divClickPassNotFound", this.clickPassId));
+      alert(mbGetMessage("divClickPassNotFound", this.clickPassId));
     }
   }
   
@@ -140,7 +140,7 @@ function hideClickPass( id ) {
       //alert( "hide icon" );
     div.style.visibility = "hidden";
   } else {
-    alert(this.getMessage("divClickPassNotFound", id));
+    alert(mbGetMessage("divClickPassNotFound", id));
   }
 }
  

@@ -32,7 +32,7 @@ function EditPoint(widgetNode, model) {
         objRef.targetModel,
         objRef.featureXpath,point[0]+","+point[1]);
       if(!sucess){
-        alert(objRef.getMessage("invalidFeatureXpath", objRef.featureXpath));
+        alert(mbGetMessage("invalidFeatureXpathEditPoint", objRef.featureXpath));
       }
     }
   }

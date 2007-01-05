@@ -5,97 +5,16 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ..//mapbuilder/lib/schemas/config.xsd"
     
-    Description: This file contains all text used in models, tools and widgets
-                 for multilingual support.  The text values are set as XSL params
-                 before the widget is painted.  From JavaScript these can be
-                 retrieved with this.getMessage(messageKey); see the JSDoc for
-                 details.
+    Description: This file contains all text used in widgets and JavaScript
+                 for multilingual support.  The widget text values are set as
+                 XSL params before the widget is painted.
+                 From JavaScript the messages can be retrieved with
+                 mbGetMessage(messageKey); see the JSDoc for details.
     Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
 
     $Id$
   -->
-  <models>
-    <Config>
-      <errorLoadingModel>Config loadModel error: {0}: {1}</errorLoadingModel>
-      <errorPaintingWidget>Config paintWidget error: widget does not exist</errorPaintingWidget>
-    </Config>
-    
-    <Context>
-      <cantMoveDown>Can't move node past end of list: {0}</cantMoveDown>
-      <cantMoveUp>Can't move node past beginning of list: {0}</cantMoveUp>
-      <nodeNotFound>Node not found; unable to delete node: {0}</nodeNotFound>
-    </Context>
-    
-    <FeatureCollection>
-      <convertingCoords>converting coordinates</convertingCoords>
-      <invalidGeom>Invalid geom for: {0}</invalidGeom>
-      <noRssTitle>No RSS title</noRssTitle>
-    </FeatureCollection>
-    
-    <GeoRSS>
-      <invalidGmlGeom>Invalid GML Geometry</invalidGmlGeom>
-      <noRssTitle>No RSS title</noRssTitle>
-    </GeoRSS>
-    
-    <Logger>
-      <eventLogSaved>Event log saved as: {0}</eventLogSaved>
-      <unableToSaveLog>Unable to save event log; provide a serializeUrl property in config</unableToSaveLog>
-    </Logger>
-    
-    <ModelBase>
-      <documentParseError>Document parseError: {0}</documentParseError>
-      <errorCreatingObject>Error creating object: {0}</errorCreatingObject>
-      <errorLoadingDocument>Error loading document: {0} - {1}-{2}</errorLoadingDocument>
-      <noSerializeUrl>serializeUrl must be specified in config to save a model</noSerializeUrl>
-      <nullXmlResponse>Null XML response: {0}</nullXmlResponse>
-      <parsingError>Parsing Error: {0} {1}</parsingError>
-    </ModelBase>
-    
-    <OwsCatResources>
-      <convertingCoords>converting coordinates</convertingCoords>
-      <invalidGeom>Invalid geom for: {0}</invalidGeom>
-      <noRssTitle>No RSS title</noRssTitle>
-    </OwsCatResources>
-    
-    <OwsContext>
-      <cantMoveDown>Can't move node past end of list: {0}</cantMoveDown>
-      <cantMoveUp>Can't move node past beginning of list: {0}</cantMoveUp>
-      <featureNotFound>Feature not found</featureNotFound>
-      <nodeNotFound>Node not found; unable to delete node: {0}</nodeNotFound>
-      <nullOwsContext>Null OWSContext doc</nullOwsContext>
-    </OwsContext>
-  </models>
-  
-  <tools>
-    <AutoResize>
-      <referenceNodeIdNotFound>
-        AutoResize tool cannot find the reference node '{0}' in the DOM.
-        Please specify a valid referenceNodeId in the config file
-        or use an id 'autoResize' for one of your documents nodes.
-      </referenceNodeIdNotFound>
-    </AutoResize>
-    
-    <EditSLD>
-      <noLayerSelected>No layer selected</noLayerSelected>
-      <noPropertySelected>No property selected</noPropertySelected>
-      <selectLayer>Select a layer if you want insert sld in wmc</selectLayer>
-    </EditSLD>
-    
-    <History>
-      <cantGoBack>You can't go further back</cantGoBack>
-      <cantGoForward>You can't go further forward</cantGoForward>
-    </History>
-    
-    <ToolBase>
-      <noMouseHandler>Error finding mouseHandler: {0} for tool: {1}</noMouseHandler>
-      <noTargetModel>Error finding targetModel: {0} for tool: {1}</noTargetModel>
-    </ToolBase>
-    
-    <WebServiceRequest>
-      <featureNotFound>WebServiceRequest: error finding feature node: {0}</featureNotFound>
-    </WebServiceRequest>
-  </tools>
-  
+  <!-- Widget (XSL) messages -->
   <widgets>
     <AoiForm>
       <east>East:</east>
@@ -109,23 +28,6 @@
       <tooltip>Get the previous extent</tooltip>
     </Back>
     
-    <ButtonBase>
-      <buttonBarRequired>buttonBar property required for object: {0}</buttonBarRequired>
-      <noMouseHandler>Error finding mouseHandler: {0} for button: {1}</noMouseHandler>
-    </ButtonBase>
-    
-    <CatSearchForm>
-      <unknownRucType>Unknown RUC type</unknownRucType>
-    </CatSearchForm>
-    
-    <ClickPass>
-      <divClickPassNotFound>Div clickPass {0} not found</divClickPassNotFound>
-      <unspecClickPassId>Unspecified clickPassId</unspecClickPassId>
-      <unspecIcon>Unspecified icon</unspecIcon>
-      <unspecLeftOffset>Unspecified leftOffset</unspecLeftOffset>
-      <unspecTopOffset>Unspecified topOffset</unspecTopOffset>
-    </ClickPass>
-    
     <CollectionList>
       <title>Select a map to load:</title>
     </CollectionList>
@@ -133,13 +35,11 @@
     <CursorTrack>
       <latitude>lat:</latitude>
       <longitude>lon:</longitude>
-      <noMouseHandler>CursorTrack requires a mouseHandler property</noMouseHandler>
       <xcoord>x:</xcoord>
       <ycoord>y:</ycoord>
     </CursorTrack>
     
     <DeleteFeature>
-      <noFeatureToDelete>No feature available to delete</noFeatureToDelete>
       <tooltip>Delete the current Feature(s) on the server</tooltip>
     </DeleteFeature>
     
@@ -148,62 +48,22 @@
     </DragPan>
     
     <EditLine>
-      <invalidFeatureXpath>EditLine: invalid featureXpath in config: {0}</invalidFeatureXpath>
       <tooltip>Click on map to add a point to a line</tooltip>
     </EditLine>
     
     <EditPoint>
-      <invalidFeatureXpath>EditPoint: invalid featureXpath in config: {0}</invalidFeatureXpath>
       <tooltip>Click on map to create a point feature</tooltip>
     </EditPoint>
-    
-    <EditPolygon>
-      <invalidFeatureXpath>EditPolygon: invalid featureXpath in config: {0}</invalidFeatureXpath>
-    </EditPolygon>
     
     <Forward>
       <tooltip>Get the next extent</tooltip>
     </Forward>
     
-    <GeoRssParser>
-      <errorDeletingLayer>Error deleting: {0}</errorDeletingLayer>
-      <stylesheetNotFound>Parsing stylesheet not found</stylesheetNotFound>
-    </GeoRssParser>
-    
     <GetFeatureInfo>
-      <noQueryableLayers>
-        There are no queryable layers available,
-        please add a queryable layer to the context.
-      </noQueryableLayers>
       <tooltip>Click on feature for more info</tooltip>
     </GetFeatureInfo>
     
-    <GmlRendererSVG>
-      <preparingCoords>preparing coordinates</preparingCoords>
-    </GmlRendererSVG>
-    
-    <GmlRendererTest>
-      <pretendPaint>Pretending to paint: {0} features {1}</pretendPaint>
-    </GmlRendererTest>
-    
-    <GmlRendererWKT>
-      <preparingCoords>preparing coordinates</preparingCoords>
-    </GmlRendererWKT>
-    
-    <GmlRendererWZ>
-      <preparingCoords>preparing coordinates</preparingCoords>
-      <rendering>rendering</rendering>
-    </GmlRendererWZ>
-    
-    <Graticule>
-      <eastWgs84>East (WGS84)</eastWgs84>
-      <northWgs84>North (WGS84)</northWgs84>
-      <southWgs84>South (WGS84)</southWgs84>
-      <westWgs84>West (WGS84)</westWgs84>
-    </Graticule>
-    
     <InsertFeature>
-      <noFeatureToInsert>No feature available to insert</noFeatureToInsert>
       <tooltip>Save the current Feature(s) to the server</tooltip>
     </InsertFeature>
     
@@ -211,58 +71,7 @@
       <title>Map Layers</title>
     </Legend>
     
-    <Loading2>
-      <docLoading>Document loading, please wait...</docLoading>
-    </Loading2>
-    
-    <MapContainerBase>
-      <noMapContainerId>MapContainerBase: required property mapContainerId missing in config: {0}</noMapContainerId>
-    </MapContainerBase>
-    
-    <MapPane>
-      <cantMoveDown>Can't move node past end of list: {0}</cantMoveDown>
-      <cantMoveUp>Can't move node past beginning of list: {0}</cantMoveUp>
-      <imageNotFound>ERROR: image not found</imageNotFound>
-      <layerNotFound>Layer with id {0} not found</layerNotFound>
-      <loadingLayer>Loading {0} map layer</loadingLayer>
-      <loadingLayers>Loading {0} map layers</loadingLayers>
-    </MapPane>
-    
-    <MapPane2>
-      <cantMoveDown>Can't move node past end of list: {0}</cantMoveDown>
-      <cantMoveUp>Can't move node past beginning of list: {0}</cantMoveUp>
-      <loadingLayer>Loading {0} map layer</loadingLayer>
-      <loadingLayers>Loading {0} map layers</loadingLayers>
-      <parseError>Parse error: {0}</parseError>
-    </MapPane2>
-    
-    <MapPaneOL>
-      <cantMoveDown>Can't move node past end of list: {0}</cantMoveDown>
-      <cantMoveUp>Can't move node past beginning of list: {0}</cantMoveUp>
-      <layerTypeNotSupported>MapPaneOL: No support for layer type={0}</layerTypeNotSupported>
-      <noContextDefined>No context defined in config</noContextDefined>
-    </MapPaneOL>
-    
-    <MapScaleBar>
-      <scale>scale 1:{0}</scale>
-      <unitCentimeters>centimeters</unitCentimeters>
-      <unitCentimetersAbbr>cm</unitCentimetersAbbr>
-      <unitFeet>feet</unitFeet>
-      <unitFeetAbbr>ft</unitFeetAbbr>
-      <unitInches>inches</unitInches>
-      <unitInchesAbbr>in</unitInchesAbbr>
-      <unitKilometers>kilometers</unitKilometers>
-      <unitKilometersAbbr>km</unitKilometersAbbr>
-      <unitMeters>meters</unitMeters>
-      <unitMetersAbbr>m</unitMetersAbbr>
-      <unitMiles>miles</unitMiles>
-      <unitMilesAbbr>mi</unitMilesAbbr>
-    </MapScaleBar>
-    
     <Measurement>
-      <cantCalculateDistance>Measurement does not know how to calculate the distanc</cantCalculateDistance>
-      <invalidFeatureXpath>Measurement: invalid featureXpath in config: {0}</invalidFeatureXpath>
-      <projectionNotSupported>Measurement: Projection not supported!</projectionNotSupported>
       <tooltip>Click on the map to measure the distance</tooltip>
     </Measurement>
     
@@ -275,11 +84,6 @@
       <title>URL:</title>
     </ModelUrlInput>
     
-    <OpenLSForm>
-      <atLeastOneValue>Please enter at least one value, before proceeding</atLeastOneValue>
-      <noCountryCode>You need to specify a country code</noCountryCode>
-    </OpenLSForm>
-    
     <ProcessArgumentsForm>
     </ProcessArgumentsForm>
     
@@ -291,16 +95,8 @@
       <tooltip>Click to save this map</tooltip>
     </Save>
     
-    <SearchWidget>
-      <aoiFormNotFound>Could not find aoiForm for geoSearch</aoiFormNotFound>
-    </SearchWidget>
-    
     <SelectProcess>
     </SelectProcess>
-    
-    <SelectTimeFrame>
-      <lastFrameAfterFirst>Last frame must be after the first frame</lastFrameAfterFirst>
-    </SelectTimeFrame>
     
     <SetAoi>
       <tooltip>Click and drag to set the area of interest</tooltip>
@@ -312,26 +108,14 @@
     
     <TabbedContent>
       <argsInput>3. Set arguments</argsInput>
-      <noDataYet>No data to show yet</noDataYet>
       <results>4. Access results</results>
       <selectProcess>2. Select a process</selectProcess>
-      <tabWidgetNotFound>Tab widget not found: {0}</tabWidgetNotFound>
       <urlInput>1. Select a service</urlInput>
     </TabbedContent>
-    
-    <TimeSeries>
-      <layerNotFound>Error finding layerId: {0}</layerNotFound>
-    </TimeSeries>
     
     <Timestamp>
       <title>Timestamp:</title>
     </Timestamp>
-    
-    <TipWidget>
-      <divAlreadyExists>Div: {0} already exists</divAlreadyExists>
-      <divNotFound>Could not find div: {0}</divNotFound>
-      <noStylesheetDefined>No stylesheet defined</noStylesheetDefined>
-    </TipWidget>
     
     <WebServiceForm>
       <mapsheet>NTS index:</mapsheet>
@@ -352,11 +136,6 @@
       <west>West:</west>
     </Widget>
     
-    <WidgetBase>
-      <idRequired>id required for object: {0}</idRequired>
-      <noTargetModel>Error finding targetModel: {0} for: {1}</noTargetModel>
-    </WidgetBase>
-    
     <ZoomIn>
       <tooltip>Click and drag to zoom in</tooltip>
     </ZoomIn>
@@ -365,4 +144,103 @@
       <tooltip>Click to zoom out</tooltip>
     </ZoomOut>
   </widgets>
+  
+  <!-- JavaScript messages -->
+  <messages>
+    <aoiFormNotFound>Could not find aoiForm for geoSearch</aoiFormNotFound>
+    <atLeastOneValue>Please enter at least one value, before proceeding</atLeastOneValue>
+    <buttonBarRequired>buttonBar property required for object: {0}</buttonBarRequired>
+    <cantCalculateDistance>Measurement does not know how to calculate the distanc</cantCalculateDistance>
+    <cantGoBack>You can't go further back</cantGoBack>
+    <cantGoForward>You can't go further forward</cantGoForward>
+    <cantMoveDown>Can't move node past end of list: {0}</cantMoveDown>
+    <cantMoveUp>Can't move node past beginning of list: {0}</cantMoveUp>
+    <convertingCoords>converting coordinates</convertingCoords>
+    <divAlreadyExists>Div: {0} already exists</divAlreadyExists>
+    <divClickPassNotFound>Div clickPass {0} not found</divClickPassNotFound>
+    <divNotFound>Could not find div: {0}</divNotFound>
+    <docLoading>Document loading, please wait...</docLoading>
+    <documentParseError>Document parseError: {0}</documentParseError>
+    <eastWgs84>East (WGS84)</eastWgs84>
+    <errorCreatingObject>Error creating object: {0}</errorCreatingObject>
+    <errorDeletingLayer>Error deleting: {0}</errorDeletingLayer>
+    <errorLoadingDocument>Error loading document: {0} - {1}-{2}</errorLoadingDocument>
+    <errorLoadingModel>Config loadModel error: {0}: {1}</errorLoadingModel>
+    <errorPaintingWidget>Config paintWidget error: widget does not exist</errorPaintingWidget>
+    <eventLogSaved>Event log saved as: {0}</eventLogSaved>
+    <featureNotFoundOwsContext>Feature not found</featureNotFoundOwsContext>
+    <featureNotFoundWebServiceRequest>WebServiceRequest: error finding feature node: {0}</featureNotFoundWebServiceRequest>
+    <idRequired>id required for object: {0}</idRequired>
+    <imageNotFound>ERROR: image not found</imageNotFound>
+    <invalidFeatureXpathEditLine>EditLine: invalid featureXpath in config: {0}</invalidFeatureXpathEditLine>
+    <invalidFeatureXpathEditPoint>EditPoint: invalid featureXpath in config: {0}</invalidFeatureXpathEditPoint>
+    <invalidFeatureXpathEditPolygon>EditPolygon: invalid featureXpath in config: {0}</invalidFeatureXpathEditPolygon>
+    <invalidFeatureXpathMeasurement>Measurement: invalid featureXpath in config: {0}</invalidFeatureXpathMeasurement>
+    <invalidGeom>Invalid geom for: {0}</invalidGeom>
+    <invalidGmlGeom>Invalid GML Geometry</invalidGmlGeom>
+    <lastFrameAfterFirst>Last frame must be after the first frame</lastFrameAfterFirst>
+    <layerNotFound>Layer with id {0} not found</layerNotFound>
+    <layerTypeNotSupported>MapPaneOL: No support for layer type={0}</layerTypeNotSupported>
+    <loadingLayer>Loading {0} map layer</loadingLayer>
+    <loadingLayers>Loading {0} map layers</loadingLayers>
+    <noContextDefined>No context defined in config</noContextDefined>
+    <noCountryCode>You need to specify a country code</noCountryCode>
+    <noDataYet>No data to show yet</noDataYet>
+    <nodeNotFound>Node not found; unable to delete node: {0}</nodeNotFound>
+    <noFeatureToDelete>No feature available to delete</noFeatureToDelete>
+    <noFeatureToInsert>No feature available to insert</noFeatureToInsert>
+    <noLayerSelected>No layer selected</noLayerSelected>
+    <noMapContainerId>MapContainerBase: required property mapContainerId missing in config: {0}</noMapContainerId>
+    <noMouseHandlerButton>Error finding mouseHandler: {0} for button: {1}</noMouseHandlerButton>
+    <noMouseHandlerCursorTrack>CursorTrack requires a mouseHandler property</noMouseHandlerCursorTrack>
+    <noMouseHandlerTool>Error finding mouseHandler: {0} for tool: {1}</noMouseHandlerTool>
+    <noPropertySelected>No property selected</noPropertySelected>
+    <noQueryableLayers>
+      There are no queryable layers available,
+      please add a queryable layer to the context.
+    </noQueryableLayers>
+    <noRssTitle>No RSS title</noRssTitle>
+    <northWgs84>North (WGS84)</northWgs84>
+    <noSerializeUrl>serializeUrl must be specified in config to save a model</noSerializeUrl>
+    <noStylesheetDefined>No stylesheet defined</noStylesheetDefined>
+    <noTargetModelTool>Error finding targetModel: {0} for tool: {1}</noTargetModelTool>
+    <noTargetModelWidget>Error finding targetModel: {0} for: {1}</noTargetModelWidget>
+    <nullOwsContext>Null OWSContext doc</nullOwsContext>
+    <nullXmlResponse>Null XML response: {0}</nullXmlResponse>
+    <parseError>Parse error: {0}</parseError>
+    <parsingError>Parsing Error: {0} {1}</parsingError>
+    <preparingCoords>preparing coordinates</preparingCoords>
+    <pretendPaint>Pretending to paint: {0} features {1}</pretendPaint>
+    <projectionNotSupported>Measurement: Projection not supported!</projectionNotSupported>
+    <referenceNodeIdNotFound>
+      AutoResize tool cannot find the reference node '{0}' in the DOM.
+      Please specify a valid referenceNodeId in the config file
+      or use an id 'autoResize' for one of your documents nodes.
+    </referenceNodeIdNotFound>
+    <rendering>rendering</rendering>
+    <scale>scale 1:{0}</scale>
+    <selectLayer>Select a layer if you want insert sld in wmc</selectLayer>
+    <southWgs84>South (WGS84)</southWgs84>
+    <stylesheetNotFound>Parsing stylesheet not found</stylesheetNotFound>
+    <tabWidgetNotFound>Tab widget not found: {0}</tabWidgetNotFound>
+    <unableToSaveLog>Unable to save event log; provide a serializeUrl property in config</unableToSaveLog>
+    <unitCentimeters>centimeters</unitCentimeters>
+    <unitCentimetersAbbr>cm</unitCentimetersAbbr>
+    <unitFeet>feet</unitFeet>
+    <unitFeetAbbr>ft</unitFeetAbbr>
+    <unitInches>inches</unitInches>
+    <unitInchesAbbr>in</unitInchesAbbr>
+    <unitKilometers>kilometers</unitKilometers>
+    <unitKilometersAbbr>km</unitKilometersAbbr>
+    <unitMeters>meters</unitMeters>
+    <unitMetersAbbr>m</unitMetersAbbr>
+    <unitMiles>miles</unitMiles>
+    <unitMilesAbbr>mi</unitMilesAbbr>
+    <unknownRucType>Unknown RUC type</unknownRucType>
+    <unspecClickPassId>Unspecified clickPassId</unspecClickPassId>
+    <unspecIcon>Unspecified icon</unspecIcon>
+    <unspecLeftOffset>Unspecified leftOffset</unspecLeftOffset>
+    <unspecTopOffset>Unspecified topOffset</unspecTopOffset>
+    <westWgs84>West (WGS84)</westWgs84>
+  </messages>
 </WidgetText>

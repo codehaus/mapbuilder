@@ -56,7 +56,7 @@ function DeleteFeature(widgetNode, model) {
         s=objRef.deleteXsl.transformNodeToObject(objRef.targetModel.doc);
         objRef.httpPayload.postData=s;
         objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
-      }else alert(objRef.getMessage("noFeatureToDelete"));
+      }else alert(mbGetMessage("noFeatureToDelete"));
     }
   }
 

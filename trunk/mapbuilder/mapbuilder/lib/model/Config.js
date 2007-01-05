@@ -135,7 +135,7 @@ function Config(url) {
       httpPayload.url = modelUrl;
       model.newRequest(model,httpPayload);
     } else {
-      alert(mbGetModelMessage("Config", "errorLoadingModel", modelId, modelUrl));
+      alert(mbGetMessage("errorLoadingModel", modelId, modelUrl));
     }
   }
 
@@ -148,7 +148,7 @@ function Config(url) {
     if (widget) {
       widget.paint(widget, widget.id);
     } else {
-      alert(mbGetModelMessage("Config", "errorPaintingWidget"));
+      alert(mbGetMessage("errorPaintingWidget"));
     }
   }
 }

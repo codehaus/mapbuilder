@@ -65,7 +65,7 @@ function FeatureCollection(modelNode, parent) {
 		    var srsNode = coordNodes[0].selectSingleNode("ancestor-or-self::*/@srsName");
 		    if( srsNode && (srsNode.nodeValue.toUpperCase() != objRef.containerModel.getSRS().toUpperCase()) ) {
 		      var sourceProj = new Proj(srsNode.nodeValue);
-		      objRef.setParam("modelStatus",objRef.getMessage("convertingCoords"));
+		      objRef.setParam("modelStatus",mbGetMessage("convertingCoords"));
 		      var containerProj = new Proj(objRef.containerModel.getSRS());
 		      for (var i=0; i<coordNodes.length; ++i) {
 		        var coords = coordNodes[i].firstChild.nodeValue;
@@ -171,7 +171,7 @@ function FeatureCollection(modelNode, parent) {
    */
   this.getFeatureName = function(featureNode) {
     var labelNode = featureNode.selectSingleNode(this.featureTagName);   //TBD: set this dynamically
-    return labelNode?labelNode.firstChild.nodeValue:this.getMessage("noRssTitle");
+    return labelNode?labelNode.firstChild.nodeValue:mbGetMessage("noRssTitle");
   }
 
   /**
@@ -209,7 +209,7 @@ function FeatureCollection(modelNode, parent) {
     if( geometryTag != null )
       return geometryTag.firstChild;
     else {
-      alert(this.getMessage("invalidGeom", Sarissa.serialize(featureNode)));
+      alert(mbGetMessage("invalidGeom", Sarissa.serialize(featureNode)));
     }
   }
 
