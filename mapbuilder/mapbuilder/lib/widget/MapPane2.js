@@ -93,9 +93,6 @@ MapPane2.prototype.paint = function(objRef, refresh) {
     if (objRef.debug) mbDebugMessage(objRef, "stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
 
     //process the doc with the stylesheet
-    //var s = objRef.stylesheet.transformNodeToString(objRef.model.doc);
-    //var tempNode = document.createElement("DIV");
-    //tempNode.innerHTML = s;
     var tempDom = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
     if( tempDom.parseError != 0 ) {
         alert(objRef.getMessage("parseError", Sarissa.getParseErrorText(tempDom)));
@@ -105,6 +102,7 @@ MapPane2.prototype.paint = function(objRef, refresh) {
 
     //debug output
     if (objRef.debug) {
+      var s = objRef.stylesheet.transformNodeToString(objRef.model.doc);
       mbDebugMessage(objRef, "painting:"+objRef.id+":"+s);
       if (config.serializeUrl) postLoad(config.serializeUrl, s);
     }

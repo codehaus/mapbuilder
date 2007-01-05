@@ -145,6 +145,7 @@ MapPane.prototype.paint = function(objRef) {
 
     //debug output
     if (objRef.debug) {
+      var s = objRef.stylesheet.transformNodeToString(objRef.model.doc);
       mbDebugMessage(objRef, "painting:"+objRef.id+":"+s);
       if (config.serializeUrl) postLoad(config.serializeUrl, s);
     }
