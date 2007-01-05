@@ -112,7 +112,7 @@ WebServiceRequest.prototype.doRequest = function(objRef, featureName) {
 
   var feature = objRef.model.getFeatureNode(featureName);
   if (!feature) {
-    alert(objRef.getMessage("featureNotFound", featureName));
+    alert(mbGetMessage("featureNotFoundWebServiceRequest", featureName));
     return;
   }
   if (objRef.model.setRequestParameters) objRef.model.setRequestParameters(featureName, objRef.requestStylesheet);

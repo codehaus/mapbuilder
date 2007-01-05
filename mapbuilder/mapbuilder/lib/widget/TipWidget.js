@@ -89,10 +89,10 @@ function TipWidget( widgetNode, model) {
         this.tipDiv = tipDiv;
         //alert( "Created div:"+divName );
       } else {
-        alert(this.getMessage("divNotFound", this.tipIdName));
+        alert(mbGetMessage("divNotFound", this.tipIdName));
       }
     } else {
-      alert(this.getMessage("divAlreadyExists", divName));
+      alert(mbGetMessage("divAlreadyExists", divName));
     }
   }
   
@@ -164,7 +164,7 @@ function TipWidget( widgetNode, model) {
       
       overlib(text, CAPTION, "Caption", STICKY, WIDTH,'225', HEIGHT,'200', REFC,'UR', REFP,'LL', RELX, posx, RELY, posy)
     } else {
-      alert(this.getMessage("noStylesheetDefined"))
+      alert(mbGetMessage("noStylesheetDefined"))
     }
   }
   

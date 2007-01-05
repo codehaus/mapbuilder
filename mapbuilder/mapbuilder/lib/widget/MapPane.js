@@ -212,7 +212,7 @@ MapPane.prototype.timestampListener = function(objRef, timestampIndex){
     if (layer) {
       layer.style.visibility=vis;
     } else {
-      alert(objRef.getMessage("layerNotFound", layerId));
+      alert(mbGetMessage("layerNotFound", layerId));
     }
   }
 
@@ -287,7 +287,7 @@ MapPane.prototype.moveLayerUp = function(objRef, layerName) {
   var movedNode = document.getElementById(imgDivId);
   var sibNode = movedNode.nextSibling;
   if (!sibNode) {
-    alert(objRef.getMessage("cantMoveUp", layerName));
+    alert(mbGetMessage("cantMoveUp", layerName));
     return;
   }
   outputNode.insertBefore(sibNode,movedNode);
@@ -303,7 +303,7 @@ MapPane.prototype.moveLayerDown = function(objRef, layerName) {
   var movedNode = document.getElementById(imgDivId);
   var sibNode = movedNode.previousSibling;
   if (!sibNode) {
-    alert(objRef.getMessage("cantMoveDown", layerName));
+    alert(mbGetMessage("cantMoveDown", layerName));
     return;
   }
   outputNode.insertBefore(movedNode,sibNode);
@@ -362,7 +362,7 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
   else {
     // increment number of loading layers
     ++this.loadingLayerCount;
-    var message = this.getMessage((this.loadingLayerCount>1) ? "loadingLayers" : "loadingLayer",
+    var message = mbGetMessage((this.loadingLayerCount>1) ? "loadingLayers" : "loadingLayer",
       this.loadingLayerCount);
     this.model.setParam("modelStatus", message);
     // load now
@@ -400,7 +400,7 @@ function MapImgLoadHandler() {
   // decrement number of loading layers
   --this.objRef.loadingLayerCount;
   if (this.objRef.loadingLayerCount > 0) {
-    var message = this.objRef.getMessage((this.objRef.loadingLayerCount>1) ? "loadingLayers" : "loadingLayer",
+    var message = mbGetMessage((this.objRef.loadingLayerCount>1) ? "loadingLayers" : "loadingLayer",
       this.objRef.loadingLayerCount);
     this.objRef.model.setParam("modelStatus", message);
   } else {
@@ -439,7 +439,7 @@ function MapImgLoad( objRef, layer ) {
     if( objRef.imageStack[i].id == imgId ) {
       // increment number of loading layers
       ++objRef.loadingLayerCount;
-      var message = objRef.getMessage((objRef.loadingLayerCount>1) ? "loadingLayers" : "loadingLayer",
+      var message = mbGetMessage((objRef.loadingLayerCount>1) ? "loadingLayers" : "loadingLayer",
         objRef.loadingLayerCount);
       objRef.model.setParam("modelStatus", message);
       
@@ -453,6 +453,6 @@ function MapImgLoad( objRef, layer ) {
       return;
     }
   }
-  alert(objRef.getMessage("imageNotFound"));
+  alert(mbGetMessage("imageNotFound"));
 }
 

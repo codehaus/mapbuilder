@@ -253,11 +253,11 @@ function Graticule(widgetNode, model) {
 		         	d.innerHTML = (Math.abs(lo)).toFixed(lonDecs);
 		         }
 			     else if(lo<0)
-				{	d.title = objRef.getMessage("westWgs84");
+				{	d.title = mbGetMessage("westWgs84");
 					d.innerHTML = (Math.abs(lo)).toFixed(lonDecs)+" E";
 				 }
 				 else 
-				{	d.title = objRef.getMessage("eastWgs84");
+				{	d.title = mbGetMessage("eastWgs84");
 					d.innerHTML = (Math.abs(lo)).toFixed(lonDecs)+" W";
 				 }
 				 mapDiv.insertBefore(d,null);
@@ -320,11 +320,11 @@ function Graticule(widgetNode, model) {
 	         	d.innerHTML = (Math.abs(b)).toFixed(lonDecs);
 	         }
 			 else if(b<0)
-			{	d.title = objRef.getMessage("southWgs84");
+			{	d.title = mbGetMessage("southWgs84");
 				d.innerHTML = (Math.abs(b)).toFixed(latDecs)+" S";
 			}
 			 else 
-			{	d.title = objRef.getMessage("northWgs84");
+			{	d.title = mbGetMessage("northWgs84");
 				d.innerHTML = (Math.abs(b)).toFixed(latDecs)+" N";
 			}
 			 if(j != 2)//dont put two labels in the same place

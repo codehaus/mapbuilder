@@ -5,93 +5,16 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ..//mapbuilder/lib/schemas/config.xsd"
     
-    Description: This file contains all text used in models, tools and widgets
-                 for multilingual support.  The text values are set as XSL params
-                 before the widget is painted.  From JavaScript these can be
-                 retrieved with this.getMessage(messageKey); see the JSDoc for
-                 details.
+    Description: This file contains all text used in widgets and JavaScript
+                 for multilingual support.  The widget text values are set as
+                 XSL params before the widget is painted.
+                 From JavaScript the messages can be retrieved with
+                 mbGetMessage(messageKey); see the JSDoc for details.
     Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
 
     $Id: widgetText.xml 1735 2006-12-14 18:20:20Z menegon $
   -->
-  <models>
-    <Config>
-      <errorLoadingModel>Config loadModel error: {0}: {1}</errorLoadingModel>  <!-- TODO: translate -->
-      <errorPaintingWidget>Config paintWidget error: widget does not exist</errorPaintingWidget>  <!-- TODO: translate -->
-    </Config>
-    
-    <Context>
-      <cantMoveDown>Il nodo è già alla fine della lista: {0}</cantMoveDown>
-      <cantMoveUp>Il nodo è già all'inizio della lista: {0}</cantMoveUp>
-      <nodeNotFound>Nessun nodo trovato; non è possibile procedere con l'eliminazione: {0}</nodeNotFound>
-    </Context>
-    
-    <FeatureCollection>
-      <convertingCoords>conversione delle coordinate</convertingCoords>
-      <invalidGeom>Geometria non valida: {0}</invalidGeom>
-      <noRssTitle>Titolo RSS assente</noRssTitle>
-    </FeatureCollection>
-    
-    <GeoRSS>
-      <invalidGmlGeom>Geometria GML non valida</invalidGmlGeom>
-      <noRssTitle>Titolo RSS assente</noRssTitle>
-    </GeoRSS>
-    
-    <Logger>
-      <eventLogSaved>Il file di log è stato salvato: {0}</eventLogSaved>
-      <unableToSaveLog>Non è possibile salvare il file di log; definire correttamente la proprietà serializeUrl in config</unableToSaveLog>
-    </Logger>
-    
-    <ModelBase>
-      <documentParseError>Il documento contiene degli errori: {0}</documentParseError>
-      <errorCreatingObject>Errore nella creazione dell'oggetto: {0}</errorCreatingObject>
-      <errorLoadingDocument>Errore nel caricamento del documento: {0} - {1}-{2}</errorLoadingDocument>
-      <noSerializeUrl>definire la proprietà serializeUrl in config</noSerializeUrl>
-      <nullXmlResponse>Risposta XML vuota: {0}</nullXmlResponse>
-      <parsingError>Parsing Error: {0} {1}</parsingError>  <!-- TODO: translate -->
-    </ModelBase>
-    
-    <OwsContext>
-      <cantMoveDown>Il nodo è già alla fine della lista: {0}</cantMoveDown>
-      <cantMoveUp>Il nodo è già all'inizio della lista: {0}</cantMoveUp>
-      <featureNotFound>Oggetto non trovato</featureNotFound>
-      <nodeNotFound>Nessun nodo trovato; non è possibile procedere con l'eliminazione: {0}</nodeNotFound>
-      <nullOwsContext>Documento OWSContext vuoto</nullOwsContext>
-    </OwsContext>
-  </models>
-  
-  <tools>
-    <AutoResize>
-      <referenceNodeIdNotFound>
-        Il tool AutoResize non riesce a trovare il referenceNode '{0}'
-        all'interno del DOM. Definire correttamente la proprietà
-        referenceNodeId nel file di configurazione (config) oppure
-        utilizzare id 'autoResize' per uno dei vostri nodi del
-        documento.
-      </referenceNodeIdNotFound>
-    </AutoResize>
-    
-    <EditSLD>
-      <noLayerSelected>Nessun tematismo selezionato</noLayerSelected>
-      <noPropertySelected>Nessuna proprietà selezionata</noPropertySelected>
-      <selectLayer>Selezionare un tematismo per poter inserire l'sld nel wmc</selectLayer>
-    </EditSLD>
-    
-    <History>
-      <cantGoBack>Non è possibile tornare indietro ulteriormente</cantGoBack>
-      <cantGoForward>Non è possibile andare avanti ulteriormente</cantGoForward>
-    </History>
-    
-    <ToolBase>
-      <noMouseHandler>Errore nel trovare il mouseHandler: {0} per l'applicazione: {1}</noMouseHandler>
-      <noTargetModel>Errore nel trovare il targetModel: {0} per l'applicazione: {1}</noTargetModel>
-    </ToolBase>
-    
-    <WebServiceRequest>
-      <featureNotFound>WebServiceRequest: errore nel trovare le caratteristiche del nodo: {0}</featureNotFound>
-    </WebServiceRequest>
-  </tools>
-  
+  <!-- Widget (XSL) messages -->
   <widgets>
     <AoiForm>
       <east>Est:</east>
@@ -105,23 +28,6 @@
       <tooltip>Zoom precedente</tooltip>
     </Back>
     
-    <ButtonBase>
-      <buttonBarRequired>La proprietà buttonBar è necessaria per l'oggetto: {0}</buttonBarRequired>
-      <noMouseHandler>Errore nel trovare il mouseHandler: {0} per il bottone: {1}</noMouseHandler>
-    </ButtonBase>
-    
-    <CatSearchForm>
-      <unknownRucType>Tipo RUC incognito</unknownRucType>
-    </CatSearchForm>
-    
-    <ClickPass>
-      <divClickPassNotFound>Div clickPass {0} non trovato</divClickPassNotFound>
-      <unspecClickPassId>clickPassId non specificato</unspecClickPassId>
-      <unspecIcon>icon non specificato</unspecIcon>
-      <unspecLeftOffset>leftOffset non specificato</unspecLeftOffset>
-      <unspecTopOffset>topOffset non specificato</unspecTopOffset>
-    </ClickPass>
-    
     <CollectionList>
       <title>Seleziona la mappa da caricare:</title>
     </CollectionList>
@@ -129,13 +35,11 @@
     <CursorTrack>
       <latitude>lat:</latitude>
       <longitude>lon:</longitude>
-      <noMouseHandler>CursorTrack necessita una proprietà mouseHandler</noMouseHandler>
       <xcoord>x:</xcoord>
       <ycoord>y:</ycoord>
     </CursorTrack>
     
     <DeleteFeature>
-      <noFeatureToDelete>Nessun oggetto disponibile per l'eliminazione</noFeatureToDelete>
       <tooltip>Elimina l'oggetto o gli oggetti correnti</tooltip>
     </DeleteFeature>
     
@@ -144,62 +48,22 @@
     </DragPan>
     
     <EditLine>
-      <invalidFeatureXpath>EditLine: la definizione di featureXpath in config non è valida: {0}</invalidFeatureXpath>
       <tooltip>Clicca sulla mappa per aggiungere un punto alla linea</tooltip>
     </EditLine>
     
     <EditPoint>
-      <invalidFeatureXpath>EditPoint: la definizione di featureXpath in config non è valida: {0}</invalidFeatureXpath>
       <tooltip>Clicca sulla mappa per creare un nuovo punto</tooltip>
     </EditPoint>
-    
-    <EditPolygon>
-      <invalidFeatureXpath>EditPolygon: la definizione di featureXpath in config non è valida: {0}</invalidFeatureXpath>
-    </EditPolygon>
     
     <Forward>
       <tooltip>Zoom successivo</tooltip>
     </Forward>
     
-    <GeoRssParser>
-      <errorDeletingLayer>Errore nell'eliminazione: {0}</errorDeletingLayer>
-      <stylesheetNotFound>Nessun foglio di stile (stylesheet) trovato</stylesheetNotFound>
-    </GeoRssParser>
-    
     <GetFeatureInfo>
-      <noQueryableLayers>
-        Nessun tematismo interrogabile disponibile,
-        aggiungere al context un tematismo interrogabile.
-      </noQueryableLayers>
       <tooltip>Clicca sull'oggetto per ulteriori informazioni</tooltip>
     </GetFeatureInfo>
     
-    <GmlRendererSVG>
-      <preparingCoords>preparazione delle coordinate</preparingCoords>
-    </GmlRendererSVG>
-    
-    <GmlRendererTest>
-      <pretendPaint>Rendering simulato: {0} oggetti {1}</pretendPaint>
-    </GmlRendererTest>
-    
-    <GmlRendererWKT>
-      <preparingCoords>preparazione delle coordinate</preparingCoords>
-    </GmlRendererWKT>
-    
-    <GmlRendererWZ>
-      <preparingCoords>preparazione delle coordinate</preparingCoords>
-      <rendering>rendering</rendering>
-    </GmlRendererWZ>
-    
-    <Graticule>
-      <eastWgs84>Est (WGS84)</eastWgs84>
-      <northWgs84>Nord (WGS84)</northWgs84>
-      <southWgs84>Sud (WGS84)</southWgs84>
-      <westWgs84>Ovest (WGS84)</westWgs84>
-    </Graticule>
-    
     <InsertFeature>
-      <noFeatureToInsert>Nessun oggetto disponibile per l'inserimento</noFeatureToInsert>
       <tooltip>Salva l'oggetto o gli oggetti correnti</tooltip>
     </InsertFeature>
     
@@ -207,58 +71,7 @@
       <title>Tematismi</title>
     </Legend>
     
-    <Loading2>
-      <docLoading>Caricamento del documento, attendere prego...</docLoading>
-    </Loading2>
-    
-    <MapContainerBase>
-      <noMapContainerId>MapContainerBase: specificare in config la proprietà mapContainerId: {0}</noMapContainerId>
-    </MapContainerBase>
-    
-    <MapPane>
-      <cantMoveDown>Il nodo è già alla fine della lista: {0}</cantMoveDown>
-      <cantMoveUp>Il nodo è già all'inizio della lista: {0}</cantMoveUp>
-      <imageNotFound>ERRORE: immagine non trovata</imageNotFound>
-      <layerNotFound>Nessun tematismo trovato con id {0}</layerNotFound>
-      <loadingLayer>{0} tematismo in caricamento</loadingLayer>
-      <loadingLayers>{0} tematismi in caricamento</loadingLayers>
-    </MapPane>
-    
-    <MapPane2>
-      <cantMoveDown>Il nodo è già alla fine della lista: {0}</cantMoveDown>
-      <cantMoveUp>Il nodo è già all'inizio della lista: {0}</cantMoveUp>
-      <loadingLayer>{0} tematismo in caricamento</loadingLayer>
-      <loadingLayers>{0} tematismi in caricamento</loadingLayers>
-      <parseError>Parse error: {0}</parseError>  <!-- TODO: translate -->
-    </MapPane2>
-    
-    <MapPaneOL>
-      <cantMoveDown>Il nodo è già alla fine della lista: {0}</cantMoveDown>
-      <cantMoveUp>Il nodo è già all'inizio della lista: {0}</cantMoveUp>
-      <layerTypeNotSupported>MapPaneOL: Nessun supporto per il tematismo di tipo={0}</layerTypeNotSupported>
-      <noContextDefined>Nessun context definito nella configurazione (config)</noContextDefined>
-    </MapPaneOL>
-    
-    <MapScaleBar>
-      <scale>scala 1:{0}</scale>
-      <unitCentimeters>centimetri</unitCentimeters>
-      <unitCentimetersAbbr>cm</unitCentimetersAbbr>
-      <unitFeet>piedi</unitFeet>
-      <unitFeetAbbr>ft</unitFeetAbbr>
-      <unitInches>pollici</unitInches>
-      <unitInchesAbbr>in</unitInchesAbbr>
-      <unitKilometers>chilometri</unitKilometers>
-      <unitKilometersAbbr>km</unitKilometersAbbr>
-      <unitMeters>metri</unitMeters>
-      <unitMetersAbbr>m</unitMetersAbbr>
-      <unitMiles>miglia</unitMiles>
-      <unitMilesAbbr>mi</unitMilesAbbr>
-    </MapScaleBar>
-    
     <Measurement>
-      <cantCalculateDistance>Measurement non è in grado di calcolare la distanza</cantCalculateDistance>
-      <invalidFeatureXpath>Measurement: la proprietà featureXpath specificata in config non è valida: {0}</invalidFeatureXpath>
-      <projectionNotSupported>Measurement: Proiezione non supportata!</projectionNotSupported>
       <tooltip>Clicca sulla mappa per misurare la distanza</tooltip>
     </Measurement>
     
@@ -271,11 +84,6 @@
       <title>URL:</title>
     </ModelUrlInput>
     
-    <OpenLSForm>
-      <atLeastOneValue>Inserire almeno un valore prima di procedere</atLeastOneValue>
-      <noCountryCode>Specificare un country code</noCountryCode>
-    </OpenLSForm>
-    
     <ProcessArgumentsForm>
     </ProcessArgumentsForm>
     
@@ -287,16 +95,8 @@
       <tooltip>Salva</tooltip>
     </Save>
     
-    <SearchWidget>
-      <aoiFormNotFound>Could not find aoiForm for geoSearch</aoiFormNotFound>  <!-- TODO: translate -->
-    </SearchWidget>
-    
     <SelectProcess>
     </SelectProcess>
-    
-    <SelectTimeFrame>
-      <lastFrameAfterFirst>L'ultimo frame deve essere successivo al primo</lastFrameAfterFirst>
-    </SelectTimeFrame>
     
     <SetAoi>
       <tooltip>Clicca e trascina per selezionare l'area di interesse</tooltip>
@@ -308,26 +108,14 @@
     
     <TabbedContent>
       <argsInput>3. Set arguments</argsInput>  <!-- TODO: translate -->
-      <noDataYet>Nessun contenuto da visualizzare</noDataYet>
       <results>4. Access results</results>  <!-- TODO: translate -->
       <selectProcess>2. Select a process</selectProcess>  <!-- TODO: translate -->
-      <tabWidgetNotFound>Tab widget non trovato: {0}</tabWidgetNotFound>
       <urlInput>1. Select a service</urlInput>  <!-- TODO: translate -->
     </TabbedContent>
-    
-    <TimeSeries>
-      <layerNotFound>Errore nella ricerca del layerId: {0}</layerNotFound>
-    </TimeSeries>
     
     <Timestamp>
       <title>Data/ora:</title>
     </Timestamp>
-    
-    <TipWidget>
-      <divAlreadyExists>Div: {0} esiste già</divAlreadyExists>
-      <divNotFound>Non è possibile trovare il div: {0}</divNotFound> 
-      <noStylesheetDefined>Nessun foglio di stile (stylesheet) definito</noStylesheetDefined>
-    </TipWidget>
     
     <WebServiceForm>
       <mapsheet>NTS index:</mapsheet>
@@ -348,11 +136,6 @@
       <west>Ovest:</west>
     </Widget>
     
-    <WidgetBase>
-      <idRequired>È richiesto un id per l'oggetto: {0}</idRequired>
-      <noTargetModel>Errore nella ricerca del targetModel: {0} per: {1}</noTargetModel>
-    </WidgetBase>
-    
     <ZoomIn>
       <tooltip>Clicca e trascina il mouse per ingrandire</tooltip>
     </ZoomIn>
@@ -361,4 +144,105 @@
       <tooltip>Clicca per ridurre</tooltip>
     </ZoomOut>
   </widgets>
+  
+  <!-- JavaScript messages -->
+  <messages>
+    <aoiFormNotFound>Could not find aoiForm for geoSearch</aoiFormNotFound>  <!-- TODO: translate -->
+    <atLeastOneValue>Inserire almeno un valore prima di procedere</atLeastOneValue>
+    <buttonBarRequired>La proprietà buttonBar è necessaria per l'oggetto: {0}</buttonBarRequired>
+    <cantCalculateDistance>Measurement non è in grado di calcolare la distanza</cantCalculateDistance>
+    <cantGoBack>Non è possibile tornare indietro ulteriormente</cantGoBack>
+    <cantGoForward>Non è possibile andare avanti ulteriormente</cantGoForward>
+    <cantMoveDown>Il nodo è già alla fine della lista: {0}</cantMoveDown>
+    <cantMoveUp>Il nodo è già all'inizio della lista: {0}</cantMoveUp>
+    <convertingCoords>conversione delle coordinate</convertingCoords>
+    <divAlreadyExists>Div: {0} esiste già</divAlreadyExists>
+    <divClickPassNotFound>Div clickPass {0} non trovato</divClickPassNotFound>
+    <divNotFound>Non è possibile trovare il div: {0}</divNotFound> 
+    <docLoading>Caricamento del documento, attendere prego...</docLoading>
+    <documentParseError>Il documento contiene degli errori: {0}</documentParseError>
+    <eastWgs84>Est (WGS84)</eastWgs84>
+    <errorCreatingObject>Errore nella creazione dell'oggetto: {0}</errorCreatingObject>
+    <errorDeletingLayer>Errore nell'eliminazione: {0}</errorDeletingLayer>
+    <errorLoadingDocument>Errore nel caricamento del documento: {0} - {1}-{2}</errorLoadingDocument>
+    <errorLoadingModel>Config loadModel error: {0}: {1}</errorLoadingModel>  <!-- TODO: translate -->
+    <errorPaintingWidget>Config paintWidget error: widget does not exist</errorPaintingWidget>  <!-- TODO: translate -->
+    <eventLogSaved>Il file di log è stato salvato: {0}</eventLogSaved>
+    <featureNotFoundOwsContext>Oggetto non trovato</featureNotFoundOwsContext>
+    <featureNotFoundWebServiceRequest>WebServiceRequest: errore nel trovare le caratteristiche del nodo: {0}</featureNotFoundWebServiceRequest>
+    <idRequired>È richiesto un id per l'oggetto: {0}</idRequired>
+    <imageNotFound>ERRORE: immagine non trovata</imageNotFound>
+    <invalidFeatureXpathEditLine>EditLine: la definizione di featureXpath in config non è valida: {0}</invalidFeatureXpathEditLine>
+    <invalidFeatureXpathEditPoint>EditPoint: la definizione di featureXpath in config non è valida: {0}</invalidFeatureXpathEditPoint>
+    <invalidFeatureXpathEditPolygon>EditPolygon: la definizione di featureXpath in config non è valida: {0}</invalidFeatureXpathEditPolygon>
+    <invalidFeatureXpathMeasurement>Measurement: la proprietà featureXpath specificata in config non è valida: {0}</invalidFeatureXpathMeasurement>
+    <invalidGeom>Geometria non valida: {0}</invalidGeom>
+    <invalidGmlGeom>Geometria GML non valida</invalidGmlGeom>
+    <lastFrameAfterFirst>L'ultimo frame deve essere successivo al primo</lastFrameAfterFirst>
+    <layerNotFound>Nessun tematismo trovato con id {0}</layerNotFound>
+    <layerTypeNotSupported>MapPaneOL: Nessun supporto per il tematismo di tipo={0}</layerTypeNotSupported>
+    <loadingLayer>{0} tematismo in caricamento</loadingLayer>
+    <loadingLayers>{0} tematismi in caricamento</loadingLayers>
+    <noContextDefined>Nessun context definito nella configurazione (config)</noContextDefined>
+    <noCountryCode>Specificare un country code</noCountryCode>
+    <noDataYet>Nessun contenuto da visualizzare</noDataYet>
+    <nodeNotFound>Nessun nodo trovato; non è possibile procedere con l'eliminazione: {0}</nodeNotFound>
+    <noFeatureToDelete>Nessun oggetto disponibile per l'eliminazione</noFeatureToDelete>
+    <noFeatureToInsert>Nessun oggetto disponibile per l'inserimento</noFeatureToInsert>
+    <noLayerSelected>Nessun tematismo selezionato</noLayerSelected>
+    <noMapContainerId>MapContainerBase: specificare in config la proprietà mapContainerId: {0}</noMapContainerId>
+    <noMouseHandlerButton>Errore nel trovare il mouseHandler: {0} per il bottone: {1}</noMouseHandlerButton>
+    <noMouseHandlerCursorTrack>CursorTrack necessita una proprietà mouseHandler</noMouseHandlerCursorTrack>
+    <noMouseHandlerTool>Errore nel trovare il mouseHandler: {0} per l'applicazione: {1}</noMouseHandlerTool>
+    <noPropertySelected>Nessuna proprietà selezionata</noPropertySelected>
+    <noQueryableLayers>
+      Nessun tematismo interrogabile disponibile,
+      aggiungere al context un tematismo interrogabile.
+    </noQueryableLayers>
+    <noRssTitle>Titolo RSS assente</noRssTitle>
+    <northWgs84>Nord (WGS84)</northWgs84>
+    <noSerializeUrl>definire la proprietà serializeUrl in config</noSerializeUrl>
+    <noStylesheetDefined>Nessun foglio di stile (stylesheet) definito</noStylesheetDefined>
+    <noTargetModelTool>Errore nel trovare il targetModel: {0} per l'applicazione: {1}</noTargetModelTool>
+    <noTargetModelWidget>Errore nella ricerca del targetModel: {0} per: {1}</noTargetModelWidget>
+    <nullOwsContext>Documento OWSContext vuoto</nullOwsContext>
+    <nullXmlResponse>Risposta XML vuota: {0}</nullXmlResponse>
+    <parseError>Parse error: {0}</parseError>  <!-- TODO: translate -->
+    <parsingError>Parsing Error: {0} {1}</parsingError>  <!-- TODO: translate -->
+    <preparingCoords>preparazione delle coordinate</preparingCoords>
+    <pretendPaint>Rendering simulato: {0} oggetti {1}</pretendPaint>
+    <projectionNotSupported>Measurement: Proiezione non supportata!</projectionNotSupported>
+    <referenceNodeIdNotFound>
+      Il tool AutoResize non riesce a trovare il referenceNode '{0}'
+      all'interno del DOM. Definire correttamente la proprietà
+      referenceNodeId nel file di configurazione (config) oppure
+      utilizzare id 'autoResize' per uno dei vostri nodi del
+      documento.
+    </referenceNodeIdNotFound>
+    <rendering>rendering</rendering>
+    <scale>scala 1:{0}</scale>
+    <selectLayer>Selezionare un tematismo per poter inserire l'sld nel wmc</selectLayer>
+    <southWgs84>Sud (WGS84)</southWgs84>
+    <stylesheetNotFound>Nessun foglio di stile (stylesheet) trovato</stylesheetNotFound>
+    <tabWidgetNotFound>Tab widget non trovato: {0}</tabWidgetNotFound>
+    <unableToSaveLog>Non è possibile salvare il file di log; definire correttamente la proprietà serializeUrl in config</unableToSaveLog>
+    <unitCentimeters>centimetri</unitCentimeters>
+    <unitCentimetersAbbr>cm</unitCentimetersAbbr>
+    <unitFeet>piedi</unitFeet>
+    <unitFeetAbbr>ft</unitFeetAbbr>
+    <unitInches>pollici</unitInches>
+    <unitInchesAbbr>in</unitInchesAbbr>
+    <unitKilometers>chilometri</unitKilometers>
+    <unitKilometersAbbr>km</unitKilometersAbbr>
+    <unitMeters>metri</unitMeters>
+    <unitMetersAbbr>m</unitMetersAbbr>
+    <unitMiles>miglia</unitMiles>
+    <unitMilesAbbr>mi</unitMilesAbbr>
+    <unknownRucType>Tipo RUC incognito</unknownRucType>
+    <unspecClickPassId>clickPassId non specificato</unspecClickPassId>
+    <unspecIcon>icon non specificato</unspecIcon>
+    <unspecLeftOffset>leftOffset non specificato</unspecLeftOffset>
+    <unspecTopOffset>topOffset non specificato</unspecTopOffset>
+    <westWgs84>Ovest (WGS84)</westWgs84>
+  </messages>
 </WidgetText>

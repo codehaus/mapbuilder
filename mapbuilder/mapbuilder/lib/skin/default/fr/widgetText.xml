@@ -5,91 +5,16 @@
     version="0.2.1" id="mbDefaultText" xml:lang="fr">
   <!--
     
-    Description: This file contains all text used in models, tools and widgets
-                 for multilingual support.  The text values are set as XSL params
-                 before the widget is painted.  From JavaScript these can be
-                 retrieved with this.getMessage(messageKey); see the JSDoc for
-                 details.
+    Description: This file contains all text used in widgets and JavaScript
+                 for multilingual support.  The widget text values are set as
+                 XSL params before the widget is painted.
+                 From JavaScript the messages can be retrieved with
+                 mbGetMessage(messageKey); see the JSDoc for details.
     Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
 
     $Id$
   -->
-  <models>
-    <Config>
-      <errorLoadingModel>Erreur de configuration loadModel: {0}: {1}</errorLoadingModel>
-      <errorPaintingWidget>Erreur de configuration paintWidget: gadget n'existe pas</errorPaintingWidget>
-    </Config>
-    
-    <Context>
-      <cantMoveDown>Impossible de déplacer noeud après la fin de la liste: {0}</cantMoveDown>
-      <cantMoveUp>Impossible de déplacer noeud avant le début de la liste: {0}</cantMoveUp>
-      <nodeNotFound>Noeud pas trouvé; impossible d'éffacer noeud: {0}</nodeNotFound>
-    </Context>
-    
-    <FeatureCollection>
-      <convertingCoords>Convertir coordonnées</convertingCoords>
-      <invalidGeom>Géométrie invalide pour: {0}</invalidGeom>
-      <noRssTitle>Pas de titre RSS</noRssTitle>
-    </FeatureCollection>
-    
-    <GeoRSS>
-      <invalidGmlGeom>Géométrie GML invalide</invalidGmlGeom>
-      <noRssTitle>Pas de titre RSS</noRssTitle>
-    </GeoRSS>
-    
-    <Logger>
-      <eventLogSaved>Historique d'événements sauvegardé comme: {0}</eventLogSaved>
-      <unableToSaveLog>Impossible de sauvegarder historique d'événements; fournissez une propriété serializeUrl dans configuration</unableToSaveLog>
-    </Logger>
-    
-    <ModelBase>
-      <documentParseError>parseError de document: {0}</documentParseError>
-      <errorCreatingObject>Erreur dans la creation de l'objet: {0}</errorCreatingObject>
-      <errorLoadingDocument>Erreur dans le téléchargement du document: {0} - {1}-{2}</errorLoadingDocument>
-      <noSerializeUrl>serializeUrl doit être indiqué dans configuration afin de sauvegarder un modèle</noSerializeUrl>
-      <nullXmlResponse>Null XML response: {0}</nullXmlResponse>
-      <parsingError>Erreur de Parsing: {0} {1}</parsingError>
-    </ModelBase>
-    
-    <OwsContext>
-      <cantMoveDown>Impossible de déplacer noeud après la fin de la liste: {0}</cantMoveDown>
-      <cantMoveUp>Impossible de déplacer noeud avant le début de la liste: {0}</cantMoveUp>
-      <featureNotFound>Caractéristique non trouvé</featureNotFound>
-      <nodeNotFound>Noeud pas trouvé; impossible d'éffacer noeud: {0}</nodeNotFound>
-      <nullOwsContext>Document OWSContext vide</nullOwsContext>
-    </OwsContext>
-  </models>
-  
-  <tools>
-    <AutoResize>
-      <referenceNodeIdNotFound>
-        Outil AutoResize ne arrive pas a trouver le noeud référence '{0}' dans DOM.
-        Specifiez un referenceNodeId valide dans le fichier de configuration
-        ou utilisez un id 'autoResize' pour un de vos documents noeuds.
-      </referenceNodeIdNotFound>
-    </AutoResize>
-    
-    <EditSLD>
-      <noLayerSelected>Pas de couche selectionnée</noLayerSelected>
-      <noPropertySelected>Pas de propriété selectionnée</noPropertySelected>
-      <selectLayer>Choisissez une couche si vous voulez inserée le sld dans wmc</selectLayer>
-    </EditSLD>
-    
-    <History>
-      <cantGoBack>Vous ne pouvez plus aller en arriére</cantGoBack>
-      <cantGoForward>Vous ne pouvez plus aller en avant</cantGoForward>
-    </History>
-    
-    <ToolBase>
-      <noMouseHandler>Erreur trouvant mouseHandler: {0} pour outil: {1}</noMouseHandler>
-      <noTargetModel>Erreur trouvant targetModel: {0} pour outil: {1}</noTargetModel>
-    </ToolBase>
-    
-    <WebServiceRequest>
-      <featureNotFound>WebServiceRequest: Erreur trouvant noeud caractéristique: {0}</featureNotFound>
-    </WebServiceRequest>
-  </tools>
-  
+  <!-- Widget (XSL) messages -->
   <widgets>
     <AoiForm>
       <east>Est:</east>
@@ -103,23 +28,6 @@
       <tooltip>Changez pour l'extension précédent</tooltip>
     </Back>
     
-    <ButtonBase>
-      <buttonBarRequired>Propriété buttonBar nécéssaire: {0}</buttonBarRequired>
-      <noMouseHandler>Erreur trouvant mouseHandler: {0} pour bouton: {1}</noMouseHandler>
-    </ButtonBase>
-    
-    <CatSearchForm>
-      <unknownRucType>Type RUC inconnu</unknownRucType>
-    </CatSearchForm>
-    
-    <ClickPass>
-      <divClickPassNotFound>Div clickPass {0} non trouvé</divClickPassNotFound>
-      <unspecClickPassId>clickPassId non spécifié</unspecClickPassId>
-      <unspecIcon>Icon non spécifié</unspecIcon>
-      <unspecLeftOffset>leftOffset non spécifié</unspecLeftOffset>
-      <unspecTopOffset>topOffset non spécifié</unspecTopOffset>
-    </ClickPass>
-    
     <CollectionList>
       <title>Choisir une carte pour regardez:</title>
     </CollectionList>
@@ -127,13 +35,11 @@
     <CursorTrack>
       <latitude>lat:</latitude>
       <longitude>lon:</longitude>
-      <noMouseHandler>CursorTrack nécéssite une propriété mouseHandler</noMouseHandler>
       <xcoord>x:</xcoord>
       <ycoord>y:</ycoord>
     </CursorTrack>
     
     <DeleteFeature>
-      <noFeatureToDelete>Aucune caractéristique disponible pour éffacer</noFeatureToDelete>
       <tooltip>Éffacer la(es) caractéristique(s) courantes sur le serveur</tooltip>
     </DeleteFeature>
     
@@ -142,62 +48,22 @@
     </DragPan>
     
     <EditLine>
-      <invalidFeatureXpath>EditLine: featureXpath invalide dans configuration: {0}</invalidFeatureXpath>
       <tooltip>Cliquer pour créer un object géographique linéaire</tooltip>
     </EditLine>
     
     <EditPoint>
-      <invalidFeatureXpath>EditPoint: featureXpath invalide dans configuration: {0}</invalidFeatureXpath>
       <tooltip>Cliquer pour créer un object géographique de point</tooltip>
     </EditPoint>
-    
-    <EditPolygon>
-      <invalidFeatureXpath>EditPolygon: featureXpath invalide dans configuration: {0}</invalidFeatureXpath>
-    </EditPolygon>
     
     <Forward>
       <tooltip>Changez pour l'extension suivante</tooltip>
     </Forward>
     
-    <GeoRssParser>
-      <errorDeletingLayer>Erreur d'éffacement: {0}</errorDeletingLayer>
-      <stylesheetNotFound>La feuille de styles Parsing n'a pas était trouver</stylesheetNotFound>
-    </GeoRssParser>
-    
     <GetFeatureInfo>
-      <noQueryableLayers>
-        Il n'a pas de couches interactifs (queryable) disponibles,
-        ajoutez une couche au contexte, svp.
-      </noQueryableLayers>
       <tooltip>Cliquer pour obtenir plus d'information pour cette couche</tooltip>
     </GetFeatureInfo>
     
-    <GmlRendererSVG>
-      <preparingCoords>préparation des coordonnées</preparingCoords>
-    </GmlRendererSVG>
-    
-    <GmlRendererTest>
-      <pretendPaint>Simulation de peinture: {0} caractéristiques {1}</pretendPaint>
-    </GmlRendererTest>
-    
-    <GmlRendererWKT>
-      <preparingCoords>préparation des coordonnées</preparingCoords>
-    </GmlRendererWKT>
-    
-    <GmlRendererWZ>
-      <preparingCoords>préparation des coordonnées</preparingCoords>
-      <rendering>reddition</rendering>
-    </GmlRendererWZ>
-    
-    <Graticule>
-      <eastWgs84>Est (WGS84)</eastWgs84>
-      <northWgs84>Nord (WGS84)</northWgs84>
-      <southWgs84>Sud (WGS84)</southWgs84>
-      <westWgs84>Ouest (WGS84)</westWgs84>
-    </Graticule>
-    
     <InsertFeature>
-      <noFeatureToInsert>Pas de caractéristique disponible pour insérer</noFeatureToInsert>
       <tooltip>Sauvegarder la(es) caractéristique(s) courants sur le serveur</tooltip>
     </InsertFeature>
     
@@ -205,58 +71,7 @@
       <title>Couches de la carte</title>
     </Legend>
     
-    <Loading2>
-      <docLoading>Téléchargement du document, attendez svp...</docLoading>
-    </Loading2>
-    
-    <MapContainerBase>
-      <noMapContainerId>MapContainerBase: la propriété requis mapContainerId manquant sur la configuration: {0}</noMapContainerId>
-    </MapContainerBase>
-    
-    <MapPane>
-      <cantMoveDown>Impossible de déplacer noeud aprés la fin de la liste: {0}</cantMoveDown>
-      <cantMoveUp>Impossible de déplacer noeud avant le début de la liste: {0}</cantMoveUp>
-      <imageNotFound>Erreur: image non trouvé</imageNotFound>
-      <layerNotFound>Couche avec id {0} non trouvé</layerNotFound>
-      <loadingLayer>Téléchargement de {0} couche du plan</loadingLayer>
-      <loadingLayers>Téléchargement de {0} couches du plan</loadingLayers>
-    </MapPane>
-    
-    <MapPane2>
-      <cantMoveDown>Impossible de déplacer noeud aprés la fin de la liste: {0}</cantMoveDown>
-      <cantMoveUp>Impossible de déplacer noeud avant le début de la liste: {0}</cantMoveUp>
-      <loadingLayer>Téléchargement de {0} couche du plan</loadingLayer>
-      <loadingLayers>Téléchargement de {0} couches du plan</loadingLayers>
-      <parseError>Erreur d'analyze: {0}</parseError>
-    </MapPane2>
-    
-    <MapPaneOL>
-      <cantMoveDown>Impossible de déplacer noeud aprés la fin de la liste: {0}</cantMoveDown>
-      <cantMoveUp>Impossible de déplacer noeud avant le début de la liste: {0}</cantMoveUp>
-      <layerTypeNotSupported>MapPaneOL: Aucun support pour couche du type={0}</layerTypeNotSupported>
-      <noContextDefined>Aucun contexte defini dans la configuration</noContextDefined>
-    </MapPaneOL>
-    
-    <MapScaleBar>
-      <scale>échelle 1:{0}</scale>
-      <unitCentimeters>centimètres</unitCentimeters>
-      <unitCentimetersAbbr>cm</unitCentimetersAbbr>
-      <unitFeet>pieds</unitFeet>
-      <unitFeetAbbr>pi</unitFeetAbbr>
-      <unitInches>pouces</unitInches>
-      <unitInchesAbbr>p</unitInchesAbbr>
-      <unitKilometers>kilomètres</unitKilometers>
-      <unitKilometersAbbr>km</unitKilometersAbbr>
-      <unitMeters>mètres</unitMeters>
-      <unitMetersAbbr>m</unitMetersAbbr>
-      <unitMiles>milles</unitMiles>
-      <unitMilesAbbr>mi</unitMilesAbbr>
-    </MapScaleBar>
-    
     <Measurement>
-      <cantCalculateDistance>Mesure: incapable de calculer la distance</cantCalculateDistance>
-      <invalidFeatureXpath>Mesure: featureXpath invalide dans configuration: {0}</invalidFeatureXpath>
-      <projectionNotSupported>Mesure: Projetion non supporté!</projectionNotSupported>
       <tooltip>Cliquer sur le plan pour mésurer la distance</tooltip>
     </Measurement>
     
@@ -269,11 +84,6 @@
       <title>URL:</title>
     </ModelUrlInput>
     
-    <OpenLSForm>
-      <atLeastOneValue>Entrez au moins une valeur avant d'avancer</atLeastOneValue>
-      <noCountryCode>Vous devez spécifiez le code du pays</noCountryCode>
-    </OpenLSForm>
-    
     <ProcessArgumentsForm>
     </ProcessArgumentsForm>
     
@@ -285,16 +95,8 @@
       <tooltip>Cliquer pour sauvegarder</tooltip>
     </Save>
     
-    <SearchWidget>
-      <aoiFormNotFound>N'a pas pu trouver aoiForm pour geoSearch</aoiFormNotFound>
-    </SearchWidget>
-    
     <SelectProcess>
     </SelectProcess>
-    
-    <SelectTimeFrame>
-      <lastFrameAfterFirst>Le dernier cadre doit être après le premier cadre</lastFrameAfterFirst>
-    </SelectTimeFrame>
     
     <SetAoi>
       <tooltip>Cliquer et faire glisser la souris pour positionner une AOI</tooltip>
@@ -306,26 +108,14 @@
     
     <TabbedContent>
       <argsInput>3. Placer arguments</argsInput>
-      <noDataYet>Aucunes données à visualiser</noDataYet>
       <results>4. Accéder aux résultats</results>
       <selectProcess>2. Choisir un procés</selectProcess>
-      <tabWidgetNotFound>Onglets de gadgets non trouvez: {0}</tabWidgetNotFound>
       <urlInput>1. Choisir un service</urlInput>
     </TabbedContent>
-    
-    <TimeSeries>
-      <layerNotFound>Erreur dans la recherche du layerId: {0}</layerNotFound>
-    </TimeSeries>
     
     <Timestamp>
       <title>Date de l'image:</title>
     </Timestamp>
-    
-    <TipWidget>
-      <divAlreadyExists>Div: {0} existe déjà</divAlreadyExists>
-      <divNotFound>Impossible a trouver div: {0}</divNotFound>
-      <noStylesheetDefined>Aucun stylesheet defini</noStylesheetDefined>
-    </TipWidget>
     
     <WebServiceForm>
       <mapsheet>Code SNRC:</mapsheet>
@@ -346,11 +136,6 @@
       <west>Ouest:</west>
     </Widget>
     
-    <WidgetBase>
-      <idRequired>id requis pour l'objet: {0}</idRequired>
-      <noTargetModel>Erreur dans la recherche du targetModel: {0} pour: {1}</noTargetModel>
-    </WidgetBase>
-    
     <ZoomIn>
       <tooltip>Cliquer et faire glisser la souris pour agrandir</tooltip>
     </ZoomIn>
@@ -359,4 +144,103 @@
       <tooltip>Cliquer pour réduire</tooltip>
     </ZoomOut>
   </widgets>
+  
+  <!-- JavaScript messages -->
+  <messages>
+    <aoiFormNotFound>N'a pas pu trouver aoiForm pour geoSearch</aoiFormNotFound>
+    <atLeastOneValue>Entrez au moins une valeur avant d'avancer</atLeastOneValue>
+    <buttonBarRequired>Propriété buttonBar nécéssaire: {0}</buttonBarRequired>
+    <cantCalculateDistance>Mesure: incapable de calculer la distance</cantCalculateDistance>
+    <cantGoBack>Vous ne pouvez plus aller en arriére</cantGoBack>
+    <cantGoForward>Vous ne pouvez plus aller en avant</cantGoForward>
+    <cantMoveDown>Impossible de déplacer noeud aprés la fin de la liste: {0}</cantMoveDown>
+    <cantMoveUp>Impossible de déplacer noeud avant le début de la liste: {0}</cantMoveUp>
+    <convertingCoords>Convertir coordonnées</convertingCoords>
+    <divAlreadyExists>Div: {0} existe déjà</divAlreadyExists>
+    <divClickPassNotFound>Div clickPass {0} non trouvé</divClickPassNotFound>
+    <divNotFound>Impossible a trouver div: {0}</divNotFound>
+    <docLoading>Téléchargement du document, attendez svp...</docLoading>
+    <documentParseError>parseError de document: {0}</documentParseError>
+    <eastWgs84>Est (WGS84)</eastWgs84>
+    <errorCreatingObject>Erreur dans la creation de l'objet: {0}</errorCreatingObject>
+    <errorDeletingLayer>Erreur d'éffacement: {0}</errorDeletingLayer>
+    <errorLoadingDocument>Erreur dans le téléchargement du document: {0} - {1}-{2}</errorLoadingDocument>
+    <errorLoadingModel>Erreur de configuration loadModel: {0}: {1}</errorLoadingModel>
+    <errorPaintingWidget>Erreur de configuration paintWidget: gadget n'existe pas</errorPaintingWidget>
+    <eventLogSaved>Historique d'événements sauvegardé comme: {0}</eventLogSaved>
+    <featureNotFoundOwsContext>Caractéristique non trouvé</featureNotFoundOwsContext>
+    <featureNotFoundWebServiceRequest>WebServiceRequest: Erreur trouvant noeud caractéristique: {0}</featureNotFoundWebServiceRequest>
+    <idRequired>id requis pour l'objet: {0}</idRequired>
+    <imageNotFound>Erreur: image non trouvé</imageNotFound>
+    <invalidFeatureXpathEditLine>EditLine: featureXpath invalide dans configuration: {0}</invalidFeatureXpathEditLine>
+    <invalidFeatureXpathEditPoint>EditPoint: featureXpath invalide dans configuration: {0}</invalidFeatureXpathEditPoint>
+    <invalidFeatureXpathEditPolygon>EditPolygon: featureXpath invalide dans configuration: {0}</invalidFeatureXpathEditPolygon>
+    <invalidFeatureXpathMeasurement>Measurement: featureXpath invalide dans configuration: {0}</invalidFeatureXpathMeasurement>
+    <invalidGeom>Géométrie invalide pour: {0}</invalidGeom>
+    <invalidGmlGeom>Géométrie GML invalide</invalidGmlGeom>
+    <lastFrameAfterFirst>Le dernier cadre doit être après le premier cadre</lastFrameAfterFirst>
+    <layerNotFound>Couche avec id {0} non trouvé</layerNotFound>
+    <layerTypeNotSupported>MapPaneOL: Aucun support pour couche du type={0}</layerTypeNotSupported>
+    <loadingLayer>Téléchargement de {0} couche du plan</loadingLayer>
+    <loadingLayers>Téléchargement de {0} couches du plan</loadingLayers>
+    <noContextDefined>Aucun contexte defini dans la configuration</noContextDefined>
+    <noCountryCode>Vous devez spécifiez le code du pays</noCountryCode>
+    <noDataYet>Aucunes données à visualiser</noDataYet>
+    <nodeNotFound>Noeud pas trouvé; impossible d'éffacer noeud: {0}</nodeNotFound>
+    <noFeatureToDelete>Aucune caractéristique disponible pour éffacer</noFeatureToDelete>
+    <noFeatureToInsert>Pas de caractéristique disponible pour insérer</noFeatureToInsert>
+    <noLayerSelected>Pas de couche selectionnée</noLayerSelected>
+    <noMapContainerId>MapContainerBase: la propriété requis mapContainerId manquant sur la configuration: {0}</noMapContainerId>
+    <noMouseHandlerButton>Erreur trouvant mouseHandler: {0} pour bouton: {1}</noMouseHandlerButton>
+    <noMouseHandlerCursorTrack>CursorTrack nécéssite une propriété mouseHandler</noMouseHandlerCursorTrack>
+    <noMouseHandlerTool>Erreur trouvant mouseHandler: {0} pour outil: {1}</noMouseHandlerTool>
+    <noPropertySelected>Pas de propriété selectionnée</noPropertySelected>
+    <noQueryableLayers>
+      Il n'a pas de couches interactifs (queryable) disponibles,
+      ajoutez une couche au contexte, svp.
+    </noQueryableLayers>
+    <noRssTitle>Pas de titre RSS</noRssTitle>
+    <northWgs84>Nord (WGS84)</northWgs84>
+    <noSerializeUrl>serializeUrl doit être indiqué dans configuration afin de sauvegarder un modèle</noSerializeUrl>
+    <noStylesheetDefined>Aucun stylesheet defini</noStylesheetDefined>
+    <noTargetModelTool>Erreur trouvant targetModel: {0} pour outil: {1}</noTargetModelTool>
+    <noTargetModelWidget>Erreur dans la recherche du targetModel: {0} pour: {1}</noTargetModelWidget>
+    <nullOwsContext>Document OWSContext vide</nullOwsContext>
+    <nullXmlResponse>Null XML response: {0}</nullXmlResponse>
+    <parseError>Erreur d'analyze: {0}</parseError>
+    <parsingError>Erreur de Parsing: {0} {1}</parsingError>
+    <preparingCoords>préparation des coordonnées</preparingCoords>
+    <pretendPaint>Simulation de peinture: {0} caractéristiques {1}</pretendPaint>
+    <projectionNotSupported>Mesure: Projetion non supporté!</projectionNotSupported>
+    <referenceNodeIdNotFound>
+      Outil AutoResize ne arrive pas a trouver le noeud référence '{0}' dans DOM.
+      Specifiez un referenceNodeId valide dans le fichier de configuration
+      ou utilisez un id 'autoResize' pour un de vos documents noeuds.
+    </referenceNodeIdNotFound>
+    <rendering>reddition</rendering>
+    <scale>échelle 1:{0}</scale>
+    <selectLayer>Choisissez une couche si vous voulez inserée le sld dans wmc</selectLayer>
+    <southWgs84>Sud (WGS84)</southWgs84>
+    <stylesheetNotFound>La feuille de styles Parsing n'a pas était trouver</stylesheetNotFound>
+    <tabWidgetNotFound>Onglets de gadgets non trouvez: {0}</tabWidgetNotFound>
+    <unableToSaveLog>Impossible de sauvegarder historique d'événements; fournissez une propriété serializeUrl dans configuration</unableToSaveLog>
+    <unitCentimeters>centimètres</unitCentimeters>
+    <unitCentimetersAbbr>cm</unitCentimetersAbbr>
+    <unitFeet>pieds</unitFeet>
+    <unitFeetAbbr>pi</unitFeetAbbr>
+    <unitInches>pouces</unitInches>
+    <unitInchesAbbr>p</unitInchesAbbr>
+    <unitKilometers>kilomètres</unitKilometers>
+    <unitKilometersAbbr>km</unitKilometersAbbr>
+    <unitMeters>mètres</unitMeters>
+    <unitMetersAbbr>m</unitMetersAbbr>
+    <unitMiles>milles</unitMiles>
+    <unitMilesAbbr>mi</unitMilesAbbr>
+    <unknownRucType>Type RUC inconnu</unknownRucType>
+    <unspecClickPassId>clickPassId non spécifié</unspecClickPassId>
+    <unspecIcon>Icon non spécifié</unspecIcon>
+    <unspecLeftOffset>leftOffset non spécifié</unspecLeftOffset>
+    <unspecTopOffset>topOffset non spécifié</unspecTopOffset>
+    <westWgs84>Ouest (WGS84)</westWgs84>
+  </messages>
 </WidgetText>

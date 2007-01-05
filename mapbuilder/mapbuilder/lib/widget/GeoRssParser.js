@@ -28,7 +28,7 @@ function GeoRssParser(widgetNode, model) {
     xslDoc.load( xslt );
     this.stylesheet.importStylesheet( xslDoc );
   } else {
-    alert(this.getMessage("stylesheetNotFound"));
+    alert(mbGetMessage("stylesheetNotFound"));
   }
   
   var tipWidget =  widgetNode.selectSingleNode("mb:tipWidget");
@@ -109,7 +109,7 @@ GeoRssParser.prototype.loadEntries = function( objRef ) {
           //alert( "deleting:"+layerId );
           objRef.targetModel.setParam('deleteLayer', layerId);
         } else {
-          alert(objRef.getMessage("errorDeletingLayer"));
+          alert(mbGetMessage("errorDeletingLayer"));
         }
       }   
     }

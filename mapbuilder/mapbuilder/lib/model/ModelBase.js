@@ -176,7 +176,7 @@ function ModelBase(modelNode, parentModel) {
           objRef.setParam("modelStatus",httpStatusMsg[xmlHttp.readyState]);
           if (xmlHttp.readyState==4) {
             if (xmlHttp.status >= 400) {   //http errors status start at 400
-              var errorMsg = mbGetModelMessage("ModelBase", "errorLoadingDocument", sUri, xmlHttp.statusText, xmlHttp.responseText);
+              var errorMsg = mbGetMessage("errorLoadingDocument", sUri, xmlHttp.statusText, xmlHttp.responseText);
               alert(errorMsg);
               objRef.setParam("modelStatus",errorMsg);
               return;
@@ -193,7 +193,7 @@ function ModelBase(modelNode, parentModel) {
                   if( objRef.doc.parseError == 0 ) {
                     objRef.finishLoading();      
                   } else {
-                    alert(mbGetModelMessage("ModelBase", "parsingError", objRef.doc.parseError, Sarissa.getParseErrorText(objRef.doc)));
+                    alert(mbGetMessage("parsingError", objRef.doc.parseError, Sarissa.getParseErrorText(objRef.doc)));
                   }
                   return;
                 } 
@@ -205,13 +205,13 @@ function ModelBase(modelNode, parentModel) {
                   objRef.doc.async = false;
                   objRef.doc = (new DOMParser()).parseFromString( xmlHttp.responseText.replace(/>\s+</g, "><"), "text/xml")
                   if( objRef.doc == null ) {
-                    alert(mbGetModelMessage("ModelBase", "documentParseError", Sarissa.getParseErrorText(objRef.doc)));
+                    alert(mbGetMessage("documentParseError", Sarissa.getParseErrorText(objRef.doc)));
                     // debugger;
                   } else {
                     if( objRef.doc.parseError == 0 ) {
                       objRef.finishLoading();      
                     } else {
-                      alert(mbGetModelMessage("ModelBase", "parsingError", objRef.doc.parseError, Sarissa.getParseErrorText(objRef.doc)));
+                      alert(mbGetMessage("parsingError", objRef.doc.parseError, Sarissa.getParseErrorText(objRef.doc)));
                     }
                   }
                   return;
@@ -230,13 +230,13 @@ function ModelBase(modelNode, parentModel) {
 
         if (!objRef.async) {
           if (xmlHttp.status >= 400) {   //http errors status start at 400
-            var errorMsg = mbGetModelMessage("ModelBase", "errorLoadingDocument", sUri, xmlHttp.statusText, xmlHttp.responseText);
+            var errorMsg = mbGetMessage("errorLoadingDocument", sUri, xmlHttp.statusText, xmlHttp.responseText);
             alert(errorMsg);
             this.objRef.setParam("modelStatus",errorMsg);
             return;
           } else {
             //alert(xmlHttp.getResponseHeader("Content-Type"));
-            if ( null==xmlHttp.responseXML ) alert(mbGetModelMessage("ModelBase", "nullXmlResponse", xmlHttp.responseText));
+            if ( null==xmlHttp.responseXML ) alert(mbGetMessage("nullXmlResponse", xmlHttp.responseText));
             objRef.doc = xmlHttp.responseXML;
             objRef.finishLoading();
           }
@@ -352,7 +352,7 @@ function ModelBase(modelNode, parentModel) {
 //      alert("yo");
       objRef.setParam("modelSaved", fileUrl);
     } else {
-      alert(mbGetModelMessage("ModelBase", "noSerializeUrl"));
+      alert(mbGetMessage("noSerializeUrl"));
     }
   }
 
@@ -374,7 +374,7 @@ function ModelBase(modelNode, parentModel) {
       config.objects[newObject.id] = newObject;
       return newObject;
     } else { 
-      alert(mbGetModelMessage("ModelBase", "errorCreatingObject", objectType));
+      alert(mbGetMessage("errorCreatingObject", objectType));
     }
   }
 
@@ -429,21 +429,6 @@ function ModelBase(modelNode, parentModel) {
   this.clearModel = function(objRef) {
     objRef.doc=null;
     //objRef.url=null;
-  }
-
-  /**
-   * Get a message for this model from the <code>widgetText</code> file.
-   * @param messageKey the message key within the model node in the <code>widgetText</code> file
-   * @param varArgs    optional extra parameters for formatting the message
-   * @return           <code>"NoMsgsFound"</code> if the <code>widgetText</code> file is not found,<br/>
-   *                   the <code>messageKey</code> if the message key was not found within the model node,<br/>
-   *                   the (formatted) message if it was found
-   */
-  this.getMessage = function(messageKey) {
-    var msgNodeXpath = "/mb:WidgetText/mb:models/mb:" + this.modelNode.nodeName;
-    var varArgs = [].slice.call(arguments);
-    varArgs.unshift(msgNodeXpath);
-    return mbGetMessage.apply(this, varArgs);
   }
 
   //don't load in models and widgets if this is the config doc, 

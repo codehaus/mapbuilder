@@ -245,18 +245,18 @@ MapScaleBar.prototype.update = function(objRef) {
 		}
 	}
 	// update the container title (for displaying scale as a tooltip)
-	objRef.container.title = objRef.getMessage("scale", formatNumber(objRef.scaleDenominator));
+	objRef.container.title = mbGetMessage("scale", formatNumber(objRef.scaleDenominator));
 	// measurementProperties holds display units, abbreviations,
 	// and conversion to inches (since we're using dpi) - per measurement sytem
 	var measurementProperties = new Object();
 	measurementProperties.english = {
-		units: [objRef.getMessage("unitMiles"), objRef.getMessage("unitFeet"), objRef.getMessage("unitInches")],
-		abbr: [objRef.getMessage("unitMilesAbbr"), objRef.getMessage("unitFeetAbbr"), objRef.getMessage("unitInchesAbbr")],
+		units: [mbGetMessage("unitMiles"), mbGetMessage("unitFeet"), mbGetMessage("unitInches")],
+		abbr: [mbGetMessage("unitMilesAbbr"), mbGetMessage("unitFeetAbbr"), mbGetMessage("unitInchesAbbr")],
 		inches: [63360, 12, 1]
 	}
 	measurementProperties.metric = {
-		units: [objRef.getMessage("unitKilometers"), objRef.getMessage("unitMeters"), objRef.getMessage("unitCentimeters")],
-		abbr: [objRef.getMessage("unitKilometersAbbr"), objRef.getMessage("unitMetersAbbr"), objRef.getMessage("unitCentimetersAbbr")],
+		units: [mbGetMessage("unitKilometers"), mbGetMessage("unitMeters"), mbGetMessage("unitCentimeters")],
+		abbr: [mbGetMessage("unitKilometersAbbr"), mbGetMessage("unitMetersAbbr"), mbGetMessage("unitCentimetersAbbr")],
 		inches: [39370.07874, 39.370079, 0.393701]
 	}
 	// check each measurement unit in the display system

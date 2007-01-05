@@ -34,7 +34,7 @@ function ToolBase(toolNode, model) {
       var targetModelName = targetModel.firstChild.nodeValue;
       //toolRef.targetModel = eval("config.objects."+targetModelName);
       toolRef.targetModel = window.config.objects[targetModelName];
-      if (!toolRef.targetModel) alert(mbGetToolMessage("ToolBase", "noTargetModel", targetModelName, toolRef.id));
+      if (!toolRef.targetModel) alert(mbGetMessage("noTargetModelTool", targetModelName, toolRef.id));
     } else {
       toolRef.targetModel = toolRef.model;
     }
@@ -52,26 +52,11 @@ function ToolBase(toolNode, model) {
     if (mouseHandler) {
       toolRef.mouseHandler = window.config.objects[mouseHandler.firstChild.nodeValue];
       if (!toolRef.mouseHandler) {
-        alert(mbGetToolMessage("ToolBase", "noMouseHandler", mouseHandler.firstChild.nodeValue, toolRef.id));
+        alert(mbGetMessage("noMouseHandlerTool", mouseHandler.firstChild.nodeValue, toolRef.id));
       }
     }
   }
   this.model.addListener( "init", this.initMouseHandler, this );
-
-  /**
-   * Get a message for this tool from the <code>widgetText</code> file.
-   * @param messageKey the message key within the tool node in the <code>widgetText</code> file
-   * @param varArgs    optional extra parameters for formatting the message
-   * @return           <code>"NoMsgsFound"</code> if the <code>widgetText</code> file is not found,<br/>
-   *                   the <code>messageKey</code> if the message key was not found within the tool node,<br/>
-   *                   the (formatted) message if it was found
-   */
-  this.getMessage = function(messageKey) {
-    var msgNodeXpath = "/mb:WidgetText/mb:tools/mb:" + this.toolNode.nodeName;
-    var varArgs = [].slice.call(arguments);
-    varArgs.unshift(msgNodeXpath);
-    return mbGetMessage.apply(this, varArgs);
-  }
 
   //tools enabled by default; can set to false in config for initial loading
   this.enabled = true;

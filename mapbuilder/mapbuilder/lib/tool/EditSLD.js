@@ -106,7 +106,7 @@ function EditSLD(toolNode, model) {
 		     config.objects.mainMap.setParam("refresh");
 		    //alert("fin"); 
     	}
-	 	else alert(this.getMessage("selectLayer"));
+	 	else alert(mbGetMessage("selectLayer"));
 	 	
 	}
     
@@ -158,7 +158,7 @@ function EditSLD(toolNode, model) {
 				mbDebugMessage(this, "Apres : "+Sarissa.serialize(this.targetModel.doc));
 				
 	 }
-	 else alert(this.getMessage("selectLayer"));
+	 else alert(mbGetMessage("selectLayer"));
 	}
 	 
 	 
@@ -175,7 +175,7 @@ this.validSld=function(layerName)
 		
 	      if(!layerName)
 	      {
-	      	alert(this.getMessage("noLayerSelected"));
+	      	alert(mbGetMessage("noLayerSelected"));
 		  }
 	      else if(((document.getElementById("textStyle").checked == true) && (document.getElementById("selectPropertyCanvas")))||(document.getElementById("textStyle").checked == false))
 	      {			
@@ -190,7 +190,7 @@ this.validSld=function(layerName)
 		  }
 	      else if (!document.getElementById("selectPropertyCanvas"))
 	      {
-	      alert(this.getMessage("noPropertySelected"));
+	      alert(mbGetMessage("noPropertySelected"));
 	     
 	      }
 	    //config.objects.mainMap.setModel('mainMap',config.objects.mainMap.doc);

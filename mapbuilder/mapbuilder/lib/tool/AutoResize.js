@@ -37,7 +37,7 @@ function AutoResize(toolNode, model) {
     var referenceNode = document.getElementById('autoResize');
   }
   if (referenceNode == null) {
-    alert(this.getMessage("referenceNodeIdNotFound", this.referenceNodeId));
+    alert(mbGetMessage("referenceNodeIdNotFound", this.referenceNodeId));
   }
   
   this.fireResize = function() {

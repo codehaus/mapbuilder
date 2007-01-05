@@ -33,7 +33,7 @@ function ButtonBase(widgetNode, model) {
     this.htmlTagId = htmlTagNode.firstChild.nodeValue;
   }
   if ((!buttonBarNode) && (!htmlTagNode)){
-    alert(mbGetWidgetMessage("ButtonBase", "buttonBarRequired", widgetNode.nodeName));
+    alert(mbGetMessage("buttonBarRequired", widgetNode.nodeName));
   }
 
   WidgetBaseXSL.apply(this, new Array(widgetNode, model));
@@ -144,7 +144,7 @@ function ButtonBase(widgetNode, model) {
     if (mouseHandler) {
       objRef.mouseHandler = window.config.objects[mouseHandler.firstChild.nodeValue];
       if (!objRef.mouseHandler) {
-        alert(mbGetWidgetMessage("ButtonBase", "noMouseHandler", mouseHandler.firstChild.nodeValue, objRef.id));
+        alert(mbGetMessage("noMouseHandlerButton", mouseHandler.firstChild.nodeValue, objRef.id));
       }
     } else {
       objRef.mouseHandler = null;

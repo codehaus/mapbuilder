@@ -38,7 +38,7 @@ function SelectTimeFrame(widgetNode, model) {
     if (index > timestampList.firstFrame) {
       timestampList.lastFrame = index;
     } else {
-      alert(this.getMessage("lastFrameAfterFirst"));
+      alert(mbGetMessage("lastFrameAfterFirst"));
     }
     this.model.setParam("stopLoop");
   }

@@ -34,7 +34,7 @@ function WidgetBase(widgetNode,model) {
   if (widgetNode.attributes.getNamedItem("id")) {
     this.id = widgetNode.attributes.getNamedItem("id").nodeValue;
   } else {
-    alert(mbGetWidgetMessage("WidgetBase", "idRequired", widgetNode.nodeName));
+    alert(mbGetMessage("idRequired", widgetNode.nodeName));
   }
 
   //allow the widget output to be replaced on each paint call
@@ -88,7 +88,7 @@ function WidgetBase(widgetNode,model) {
     if (targetModel) {
       objRef.targetModel = window.config.objects[targetModel.firstChild.nodeValue];
       if ( !objRef.targetModel ) {
-        alert(mbGetWidgetMessage("WidgetBase", "noTargetModel", targetModel.firstChild.nodeValue, objRef.id));
+        alert(mbGetMessage("noTargetModelWidget", targetModel.firstChild.nodeValue, objRef.id));
       }
     } else {
       objRef.targetModel = objRef.model;
@@ -124,19 +124,4 @@ function WidgetBase(widgetNode,model) {
     if (outputNode) objRef.node.removeChild(outputNode);
   }
   this.model.addListener("newModel",this.clearWidget, this);
-
-  /**
-   * Get a message for this widget from the <code>widgetText</code> file.
-   * @param messageKey the message key within the widget node in the <code>widgetText</code> file
-   * @param varArgs    optional extra parameters for formatting the message
-   * @return           <code>"NoMsgsFound"</code> if the <code>widgetText</code> file is not found,<br/>
-   *                   the <code>messageKey</code> if the message key was not found within the widget node,<br/>
-   *                   the (formatted) message if it was found
-   */
-  this.getMessage = function(messageKey) {
-    var msgNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + this.widgetNode.nodeName;
-    var varArgs = [].slice.call(arguments);
-    varArgs.unshift(msgNodeXpath);
-    return mbGetMessage.apply(this, varArgs);
-  }
 }

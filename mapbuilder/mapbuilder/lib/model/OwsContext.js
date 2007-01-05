@@ -237,13 +237,13 @@ function OwsContext(modelNode, parent) {
    */
   this.getFeatureNode = function(featureName) {
     if( this.doc ) {
-	    var feature = this.doc.selectSingleNode("//wmc:ResourceList/*[wmc:Name='"+featureName+"']");
-	    
-	    if(feature == null ) {
-          alert(this.getMessage("featureNotFound"));
-	    } 
-      	
-	    return feature;
+      var feature = this.doc.selectSingleNode("//wmc:ResourceList/*[wmc:Name='"+featureName+"']");
+      
+      if(feature == null ) {
+        alert(mbGetMessage("featureNotFoundOwsContext"));
+      } 
+      
+      return feature;
     }
   }
 
@@ -332,7 +332,7 @@ function OwsContext(modelNode, parent) {
       objRef.modified = true;
       //alert( "Adding layer:"+Sarissa.serialize( layerNode ) );
     } else {
-      alert(this.getMessage("nullOwsContext"));
+      alert(mbGetMessage("nullOwsContext"));
     }
     //objRef.callListeners("refresh");
   }
@@ -345,7 +345,7 @@ function OwsContext(modelNode, parent) {
   this.deleteLayer = function(objRef, layerName) {
     var deletedNode = objRef.getLayer(layerName);
     if (!deletedNode) {
-      alert(objRef.getMessage("nodeNotFound", layerName));
+      alert(mbGetMessage("nodeNotFound", layerName));
       return;
     }
     deletedNode.parentNode.removeChild(deletedNode);
@@ -361,7 +361,7 @@ function OwsContext(modelNode, parent) {
     var movedNode = objRef.getLayer(layerName);
     var sibNode = movedNode.selectSingleNode("following-sibling::*");
     if (!sibNode) {
-      alert(objRef.getMessage("cantMoveUp", layerName));
+      alert(mbGetMessage("cantMoveUp", layerName));
       return;
     }
     movedNode.parentNode.insertBefore(sibNode,movedNode);
@@ -378,7 +378,7 @@ function OwsContext(modelNode, parent) {
     var listNodeArray = movedNode.selectNodes("preceding-sibling::*");  //preceding-sibling axis contains all previous siblings
     var sibNode = listNodeArray[listNodeArray.length-1];
     if (!sibNode) {
-      alert(objRef.getMessage("cantMoveDown", layerName));
+      alert(mbGetMessage("cantMoveDown", layerName));
       return;
     }
     movedNode.parentNode.insertBefore(movedNode,sibNode);

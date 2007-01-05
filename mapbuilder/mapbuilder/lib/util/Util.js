@@ -543,18 +543,17 @@ function mbDebugMessage(object, message)
 /**
  * Get a message from the <code>widgetText</code> file and format it if extra
  * arguments are passed.
- * @param messageNodeXpath the XPath expression to select the message node
  * @param messageKey       the message key within the message node
  * @param varArgs          optional extra parameters for formatting the message
  * @return                 <code>"NoMsgsFound"</code> if the <code>widgetText</code> file is not found,<br/>
  *                         the <code>messageKey</code> if the message key was not found within the message node,<br/>
  *                         the (formatted) message if it was found
  */
-function mbGetMessage(messageNodeXpath, messageKey)
+function mbGetMessage(messageKey)
 {
   var message = "NoMsgsFound";
   if (config.widgetText) {
-    var msgKeyXpath = messageNodeXpath + "/mb:" + messageKey;
+    var msgKeyXpath = "/mb:WidgetText/mb:messages/mb:" + messageKey;
     var msgKeyNode = config.widgetText.selectSingleNode(msgKeyXpath);
     if (!msgKeyNode) {
       // Message not found, fall back to message key
@@ -572,57 +571,6 @@ function mbGetMessage(messageNodeXpath, messageKey)
     }
   }
   return message;
-}
-
-/**
- * Get a message for a specific model from the <code>widgetText</code> file.
- * @param modelName  the name of the model node in the <code>widgetText</code> file
- * @param messageKey the message key within the model node in the <code>widgetText</code> file
- * @param varArgs    optional extra parameters for formatting the message
- * @return           <code>"NoMsgsFound"</code> if the <code>widgetText</code> file is not found,<br/>
- *                   the <code>messageKey</code> if the message key was not found within the model node,<br/>
- *                   the (formatted) message if it was found
- */
-function mbGetModelMessage(modelName, messageKey)
-{
-  var msgNodeXpath = "/mb:WidgetText/mb:models/mb:" + modelName;
-  var varArgs = [].slice.call(arguments, 1);
-  varArgs.unshift(msgNodeXpath);
-  return mbGetMessage.apply(this, varArgs);
-}
-
-/**
- * Get a message for a specific tool from the <code>widgetText</code> file.
- * @param toolName   the name of the tool node in the <code>widgetText</code> file
- * @param messageKey the message key within the tool node in the <code>widgetText</code> file
- * @param varArgs    optional extra parameters for formatting the message
- * @return           <code>"NoMsgsFound"</code> if the <code>widgetText</code> file is not found,<br/>
- *                   the <code>messageKey</code> if the message key was not found within the tool node,<br/>
- *                   the (formatted) message if it was found
- */
-function mbGetToolMessage(toolName, messageKey)
-{
-  var msgNodeXpath = "/mb:WidgetText/mb:tools/mb:" + toolName;
-  var varArgs = [].slice.call(arguments, 1);
-  varArgs.unshift(msgNodeXpath);
-  return mbGetMessage.apply(this, varArgs);
-}
-
-/**
- * Get a message for a specific widget from the <code>widgetText</code> file.
- * @param widgetName the name of the widget node in the <code>widgetText</code> file
- * @param messageKey the message key within the widget node in the <code>widgetText</code> file
- * @param varArgs    optional extra parameters for formatting the message
- * @return           <code>"NoMsgsFound"</code> if the <code>widgetText</code> file is not found,<br/>
- *                   the <code>messageKey</code> if the message key was not found within the widget node,<br/>
- *                   the (formatted) message if it was found
- */
-function mbGetWidgetMessage(widgetName, messageKey)
-{
-  var msgNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetName;
-  var varArgs = [].slice.call(arguments, 1);
-  varArgs.unshift(msgNodeXpath);
-  return mbGetMessage.apply(this, varArgs);
 }
 
 /**

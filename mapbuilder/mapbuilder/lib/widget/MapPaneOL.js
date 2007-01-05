@@ -54,7 +54,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     else if(objRef.model.doc.selectSingleNode("//wmc:ViewContext"))
         objRef.context="View";
     else
-        alert(objRef.getMessage("noContextDefined"));
+        alert(mbGetMessage("noContextDefined"));
         
 
     if(objRef.context=="OWS")  {srs=objRef.model.doc.selectSingleNode("//ows:BoundingBox/@crs"); srs=(srs)?srs.nodeValue:"";}
@@ -190,7 +190,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
             break;
           
         default:
-            alert(objRef.getMessage("layerTypeNotSupported", service));
+            alert(mbGetMessage("layerTypeNotSupported", service));
       }
     }
     bbox=objRef.model.getBoundingBox();
@@ -305,7 +305,7 @@ MapPaneOL.prototype.moveLayerUp = function(objRef, layerName) {
   var movedNode = document.getElementById(imgDivId);
   var sibNode = movedNode.nextSibling;
   if (!sibNode) {
-    alert(objRef.getMessage("cantMoveUp", layerName));
+    alert(mbGetMessage("cantMoveUp", layerName));
     return;
   }
   outputNode.insertBefore(sibNode,movedNode);
@@ -322,7 +322,7 @@ MapPaneOL.prototype.moveLayerDown = function(objRef, layerName) {
   var movedNode = document.getElementById(imgDivId);
   var sibNode = movedNode.previousSibling;
   if (!sibNode) {
-    alert(objRef.getMessage("cantMoveDown", layerName));
+    alert(mbGetMessage("cantMoveDown", layerName));
     return;
   }
   outputNode.insertBefore(movedNode,sibNode);

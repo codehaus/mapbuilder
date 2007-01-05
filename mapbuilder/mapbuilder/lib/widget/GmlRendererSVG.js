@@ -35,7 +35,7 @@ function GmlRendererSVG(widgetNode, model) {
    * @param objRef Pointer to this object.
    */
   this.prePaint = function(objRef) {
-    objRef.model.setParam("modelStatus",objRef.getMessage("preparingCoords"));
+    objRef.model.setParam("modelStatus",mbGetMessage("preparingCoords"));
     objRef.stylesheet.setParameter("width", objRef.containerModel.getWindowWidth() );
     objRef.stylesheet.setParameter("height", objRef.containerModel.getWindowHeight() );
     bBox=objRef.containerModel.getBoundingBox();
