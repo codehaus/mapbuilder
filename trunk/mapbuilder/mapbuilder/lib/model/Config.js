@@ -81,7 +81,8 @@ function Config(url) {
   * or by setting a global "language" Javascript variable in the page <HEAD>.
   * Retrieve the language value from the global conifg object as "config.lang"
   */
-  this.lang = "en";
+  var defaultLang = "en";
+  this.lang = defaultLang;
   if (window.cgiArgs["language"]) {
     this.lang = window.cgiArgs["language"];
   } else if (window.language) {
@@ -104,7 +105,20 @@ function Config(url) {
     this.widgetText.validateOnParse=false;  //IE6 SP2 parsing bug
     this.widgetText.load(widgetTextUrl);
     if (this.widgetText.parseError < 0){
-      alert("error loading widgetText document: " + widgetTextUrl );//+ " - " + Sarissa.getParseErrorText(this.doc) );
+      var errMsg = "Error loading widgetText document: " + widgetTextUrl;
+      if (this.lang == defaultLang) {
+        alert(errMsg);
+      }
+      else {
+        // Try to fall back to default language
+        alert(errMsg + "\nFalling back to language=\"" + defaultLang + "\"");
+        this.lang = defaultLang;
+        var widgetTextUrl = this.skinDir + "/" + this.lang + "/" + widgetText.firstChild.nodeValue;
+        this.widgetText.load(widgetTextUrl);
+        if (this.widgetText.parseError < 0){
+          alert("Language fallback failed!");
+        }
+      }
     }
     this.widgetText.setProperty("SelectionLanguage", "XPath");
     Sarissa.setXpathNamespaces(this.widgetText, this.namespace);
