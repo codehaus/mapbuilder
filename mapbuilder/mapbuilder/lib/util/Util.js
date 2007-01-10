@@ -23,7 +23,7 @@ function XslProcessor(xslUrl,docNSUri) {
   this.xslDom.validateOnParse=false;  //IE6 SP2 parsing bug
   this.xslDom.load(xslUrl);
   if ( this.xslDom.parseError < 0 )
-    alert("error loading XSL stylesheet: " + xslUrl);
+    alert(mbGetMessage("errorLoadingStylesheet", xslUrl));
 
   this.processor = new XSLTProcessor();
   this.processor.importStylesheet(this.xslDom);
@@ -42,7 +42,7 @@ function XslProcessor(xslUrl,docNSUri) {
       var s = Sarissa.serialize(newDoc);
       return Sarissa.unescape(s);
     } catch(e){
-      alert("Exception transforming doc with XSL: " + this.xslUrl);
+      alert(mbGetMessage("exceptionTransformingDoc", this.xslUrl));
       alert("XSL="+Sarissa.serialize(this.xslDom));
       alert("XML="+Sarissa.serialize(xmlNode));
     }
@@ -96,13 +96,13 @@ alert("after");
    }
 */
    if (xmlHttp.status >= 400) {   //http errors status start at 400
-      alert("error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText );
+      alert(mbGetMessage("errorLoadingDocument", sUri, xmlHttp.statusText, xmlHttp.responseText));
       var outDoc = Sarissa.getDomDocument();
       outDoc.parseError = -1;
       return outDoc;
    } else {
      //alert(xmlHttp.getResponseHeader("Content-Type"));
-     if ( null==xmlHttp.responseXML ) alert( "null XML response:" + xmlHttp.responseText );
+     if ( null==xmlHttp.responseXML ) alert(mbGetMessage("nullXmlResponse", xmlHttp.responseText));
      return xmlHttp.responseXML;
    }
 }
@@ -134,15 +134,14 @@ function postGetLoad(sUri, docToSend, contentType , dir, fileName) {
    
    if (xmlHttp.status >= 400) 
    {   //http errors status start at 400
-      	alert("error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText );
+      	alert(mbGetMessage("errorLoadingDocument", sUri, xmlHttp.statusText, xmlHttp.responseText));
       	var outDoc = Sarissa.getDomDocument();
       	outDoc.parseError = -1;
       	return outDoc;
    } 
    else 
    {
-     	if ( null==xmlHttp.responseXML ) alert( "null XML response:" + xmlHttp.responseText );
-     	alert(xmlHttp.responseText);
+     	if ( null==xmlHttp.responseXML ) alert(mbGetMessage("nullXmlResponse", xmlHttp.responseText));
      	return xmlHttp.responseXML;
    }
 }
@@ -160,7 +159,7 @@ function getProxyPlusUrl(url) {
     if ( config.proxyUrl ) {
       url=config.proxyUrl+"?url="+escape(url).replace(/\+/g, '%2C').replace(/\"/g,'%22').replace(/\'/g, '%27');
     } else {
-      alert("unable to load external document:"+url+"  Set the proxyUrl property in config.");
+      alert(mbGetMessage("unableToLoadDoc", url));
       url=null;
     }
   }

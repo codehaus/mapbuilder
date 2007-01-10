@@ -47,9 +47,9 @@ FeatureFactory.prototype.createFeature = function( objRef, type, geometry, itemI
   } else if( type == 'TRACK' ) {
     //this.featureTrackFactory.createFeature( objRef, geometry, itemId, title, popupStr, icon );
   } else if( type == 'CURVE' ) {
-    alert("NOT IMPLEMENTED YET"); 
+    alert(mbGetMessage("notImplementedYet")); 
   } else if( type == 'POLY' ) {
-    alert( "NOT IMPLEMENTED YET");
+    alert(mbGetMessage("notImplementedYet")); 
   } else if( type == 'TEST' ) {
 	  var testDiv = document.createElement("div");
 	  testDiv.setAttribute("id", "test");
@@ -109,7 +109,7 @@ function testingCanvas( div ) {
 	ctx.lineTo(150,70);
 	ctx.lineTo(150,50);
   } else {
-    alert( "no canvas context");
+    alert(mbGetMessage("noCanvasContext"));
   }
 }
       

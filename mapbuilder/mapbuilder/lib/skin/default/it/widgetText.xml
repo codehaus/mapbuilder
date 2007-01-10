@@ -103,7 +103,7 @@
     </SetAoi>
     
     <ShowProcessResult>
-      <tabLabel>4. Access results</tabLabel>
+      <tabLabel>4. Access results</tabLabel>  <!-- TODO: translate -->
     </ShowProcessResult>
     
     <TabbedContent>
@@ -156,20 +156,25 @@
     <cantMoveDown>Il nodo è già alla fine della lista: {0}</cantMoveDown>
     <cantMoveUp>Il nodo è già all'inizio della lista: {0}</cantMoveUp>
     <convertingCoords>conversione delle coordinate</convertingCoords>
+    <deleteShapeFailed>Failed to remove: {0}</deleteShapeFailed>  <!-- TODO: translate -->
     <divAlreadyExists>Div: {0} esiste già</divAlreadyExists>
     <divClickPassNotFound>Div clickPass {0} non trovato</divClickPassNotFound>
     <divNotFound>Non è possibile trovare il div: {0}</divNotFound> 
     <docLoading>Caricamento del documento, attendere prego...</docLoading>
     <documentParseError>Il documento contiene degli errori: {0}</documentParseError>
     <eastWgs84>Est (WGS84)</eastWgs84>
+    <errorAddingLayer>Failed adding Layer: {0} service: {1}</errorAddingLayer>  <!-- TODO: translate -->
     <errorCreatingObject>Errore nella creazione dell'oggetto: {0}</errorCreatingObject>
     <errorDeletingLayer>Errore nell'eliminazione: {0}</errorDeletingLayer>
     <errorLoadingDocument>Errore nel caricamento del documento: {0} - {1}-{2}</errorLoadingDocument>
     <errorLoadingModel>Config loadModel error: {0}: {1}</errorLoadingModel>  <!-- TODO: translate -->
+    <errorLoadingStylesheet>Error loading XSL stylesheet: {0}</errorLoadingStylesheet>  <!-- TODO: translate -->
     <errorPaintingWidget>Config paintWidget error: widget does not exist</errorPaintingWidget>  <!-- TODO: translate -->
     <eventLogSaved>Il file di log è stato salvato: {0}</eventLogSaved>
+    <exceptionTransformingDoc>Exception transforming doc with XSL: {0}</exceptionTransformingDoc>  <!-- TODO: translate -->
     <featureNotFoundOwsContext>Oggetto non trovato</featureNotFoundOwsContext>
     <featureNotFoundWebServiceRequest>WebServiceRequest: errore nel trovare le caratteristiche del nodo: {0}</featureNotFoundWebServiceRequest>
+    <featureUnderConstruction>Feature under construction.  Stay tuned!</featureUnderConstruction>  <!-- TODO: translate -->
     <idRequired>È richiesto un id per l'oggetto: {0}</idRequired>
     <imageNotFound>ERRORE: immagine non trovata</imageNotFound>
     <invalidFeatureXpathEditLine>EditLine: la definizione di featureXpath in config non è valida: {0}</invalidFeatureXpathEditLine>
@@ -181,8 +186,19 @@
     <lastFrameAfterFirst>L'ultimo frame deve essere successivo al primo</lastFrameAfterFirst>
     <layerNotFound>Nessun tematismo trovato con id {0}</layerNotFound>
     <layerTypeNotSupported>MapPaneOL: Nessun supporto per il tematismo di tipo={0}</layerTypeNotSupported>
+    <lccinitEqualLatitudes>lccinit: Equal Latitudes for Standard Parallels on opposite sides of equator</lccinitEqualLatitudes>  <!-- TODO: translate -->
+    <listenerError>Listener error: param={0}, target={1}, callBackFunction={2}</listenerError>  <!-- TODO: translate -->
+    <ll2lccNoProjection>ll2lcc: Point can not be projected</ll2lccNoProjection>  <!-- TODO: translate -->
+    <ll2mAtPoles>ll2m: Transformation cannot be computed at the poles</ll2mAtPoles>  <!-- TODO: translate -->
+    <ll2pixelNotDefined>ll2pixel not defined</ll2pixelNotDefined>  <!-- TODO: translate -->
+    <ll2sceneNotDefined>ll2scene not defined</ll2sceneNotDefined>  <!-- TODO: translate -->
+    <ll2stInfiniteProjection>ll2st: Point projects into infinity</ll2stInfiniteProjection>  <!-- TODO: translate -->
+    <ll2tmInfiniteProjection>ll2tm: Point projects into infinity</ll2tmInfiniteProjection>  <!-- TODO: translate -->
+    <llInputOutOfRange>Input out of range: lon: {0} - lat: {1}</llInputOutOfRange>  <!-- TODO: translate -->
     <loadingLayer>{0} tematismo in caricamento</loadingLayer>
     <loadingLayers>{0} tematismi in caricamento</loadingLayers>
+    <m2llLat9999>lat = -9999</m2llLat9999>  <!-- TODO: translate -->
+    <noCanvasContext>No canvas context</noCanvasContext>  <!-- TODO: translate -->
     <noContextDefined>Nessun context definito nella configurazione (config)</noContextDefined>
     <noCountryCode>Specificare un country code</noCountryCode>
     <noDataYet>Nessun contenuto da visualizzare</noDataYet>
@@ -205,10 +221,13 @@
     <noStylesheetDefined>Nessun foglio di stile (stylesheet) definito</noStylesheetDefined>
     <noTargetModelTool>Errore nel trovare il targetModel: {0} per l'applicazione: {1}</noTargetModelTool>
     <noTargetModelWidget>Errore nella ricerca del targetModel: {0} per: {1}</noTargetModelWidget>
+    <notImplementedYet>NOT IMPLEMENTED YET</notImplementedYet>  <!-- TODO: translate -->
     <nullOwsContext>Documento OWSContext vuoto</nullOwsContext>
     <nullXmlResponse>Risposta XML vuota: {0}</nullXmlResponse>
     <parseError>Parse error: {0}</parseError>  <!-- TODO: translate -->
     <parsingError>Parsing Error: {0} {1}</parsingError>  <!-- TODO: translate -->
+    <phi2zNoConvergence>phi2z: Convergence error</phi2zNoConvergence>  <!-- TODO: translate -->
+    <pixel2llNotDefined>pixel2ll not defined</pixel2llNotDefined>  <!-- TODO: translate -->
     <preparingCoords>preparazione delle coordinate</preparingCoords>
     <pretendPaint>Rendering simulato: {0} oggetti {1}</pretendPaint>
     <projectionNotSupported>Measurement: Proiezione non supportata!</projectionNotSupported>
@@ -223,9 +242,16 @@
     <scale>scala 1:{0}</scale>
     <selectLayer>Selezionare un tematismo per poter inserire l'sld nel wmc</selectLayer>
     <southWgs84>Sud (WGS84)</southWgs84>
+    <styleNodeNotFound>Style node not found</styleNodeNotFound>  <!-- TODO: translate -->
     <stylesheetNotFound>Nessun foglio di stile (stylesheet) trovato</stylesheetNotFound>
     <tabWidgetNotFound>Tab widget non trovato: {0}</tabWidgetNotFound>
+    <tm2llNoConvergence>tm2ll: Latitude failed to converge</tm2llNoConvergence>  <!-- TODO: translate -->
+    <unableToLoadDoc>
+      Unable to load external document: {0}.
+      Set the proxyUrl property in config.
+    </unableToLoadDoc>  <!-- TODO: translate -->
     <unableToSaveLog>Non è possibile salvare il file di log; definire correttamente la proprietà serializeUrl in config</unableToSaveLog>
+    <undefinedListener>Undefined listener for: {0}</undefinedListener>  <!-- TODO: translate -->
     <unitCentimeters>centimetri</unitCentimeters>
     <unitCentimetersAbbr>cm</unitCentimetersAbbr>
     <unitFeet>piedi</unitFeet>
@@ -243,6 +269,9 @@
     <unspecIcon>icon non specificato</unspecIcon>
     <unspecLeftOffset>leftOffset non specificato</unspecLeftOffset>
     <unspecTopOffset>topOffset non specificato</unspecTopOffset>
+    <unsupportedGmlGeom>Unsupported GML Geometry: {0}</unsupportedGmlGeom>  <!-- TODO: translate -->
+    <unsupportedGmlGeomForLayer>Unsupported GML Geometry for layer: {0}</unsupportedGmlGeomForLayer>  <!-- TODO: translate -->
+    <unsupportedMapProjection>Unsupported map projection: {0}</unsupportedMapProjection>  <!-- TODO: translate -->
     <westWgs84>Ovest (WGS84)</westWgs84>
   </messages>
 </WidgetText>

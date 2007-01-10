@@ -156,20 +156,25 @@
     <cantMoveDown>Impossible de déplacer noeud aprés la fin de la liste: {0}</cantMoveDown>
     <cantMoveUp>Impossible de déplacer noeud avant le début de la liste: {0}</cantMoveUp>
     <convertingCoords>Convertir coordonnées</convertingCoords>
+    <deleteShapeFailed>Effacement a echoué: {0}</deleteShapeFailed>
     <divAlreadyExists>Div: {0} existe déjà</divAlreadyExists>
     <divClickPassNotFound>Div clickPass {0} non trouvé</divClickPassNotFound>
     <divNotFound>Impossible a trouver div: {0}</divNotFound>
     <docLoading>Téléchargement du document, attendez svp...</docLoading>
     <documentParseError>parseError de document: {0}</documentParseError>
     <eastWgs84>Est (WGS84)</eastWgs84>
+    <errorAddingLayer>Ajout de couche a echoué : {0} service: {1}</errorAddingLayer>
     <errorCreatingObject>Erreur dans la creation de l'objet: {0}</errorCreatingObject>
     <errorDeletingLayer>Erreur d'éffacement: {0}</errorDeletingLayer>
     <errorLoadingDocument>Erreur dans le téléchargement du document: {0} - {1}-{2}</errorLoadingDocument>
     <errorLoadingModel>Erreur de configuration loadModel: {0}: {1}</errorLoadingModel>
+    <errorLoadingStylesheet>Erreur de téléchargement de feuille de style XSL: {0}</errorLoadingStylesheet>
     <errorPaintingWidget>Erreur de configuration paintWidget: gadget n'existe pas</errorPaintingWidget>
     <eventLogSaved>Historique d'événements sauvegardé comme: {0}</eventLogSaved>
+    <exceptionTransformingDoc>Erreur de conversion du document XSL: {0}</exceptionTransformingDoc>
     <featureNotFoundOwsContext>Caractéristique non trouvé</featureNotFoundOwsContext>
     <featureNotFoundWebServiceRequest>WebServiceRequest: Erreur trouvant noeud caractéristique: {0}</featureNotFoundWebServiceRequest>
+    <featureUnderConstruction>Composant en construction.  Stay tuned!</featureUnderConstruction>
     <idRequired>id requis pour l'objet: {0}</idRequired>
     <imageNotFound>Erreur: image non trouvé</imageNotFound>
     <invalidFeatureXpathEditLine>EditLine: featureXpath invalide dans configuration: {0}</invalidFeatureXpathEditLine>
@@ -181,8 +186,19 @@
     <lastFrameAfterFirst>Le dernier cadre doit être après le premier cadre</lastFrameAfterFirst>
     <layerNotFound>Couche avec id {0} non trouvé</layerNotFound>
     <layerTypeNotSupported>MapPaneOL: Aucun support pour couche du type={0}</layerTypeNotSupported>
+    <lccinitEqualLatitudes>lccinit: Latitudes égales de parallèles standard sur des côtés opposés de l'Équateur</lccinitEqualLatitudes>
+    <listenerError>Erreur de Listener: param={0}, target={1}, callBackFunction={2}</listenerError>
+    <ll2lccNoProjection>ll2lcc: Point ne peut pas être projeté</ll2lccNoProjection>
+    <ll2mAtPoles>ll2m: Transformation ne peut pas être calculé dans les pôles</ll2mAtPoles>
+    <ll2pixelNotDefined>ll2pixel non défini</ll2pixelNotDefined>
+    <ll2sceneNotDefined>ll2scene non défini</ll2sceneNotDefined>
+    <ll2stInfiniteProjection>ll2st: Point projeté sur l'infini</ll2stInfiniteProjection>
+    <ll2tmInfiniteProjection>ll2tm: Point projeté sur l'infini</ll2tmInfiniteProjection>
+    <llInputOutOfRange>Entrée hors limites : lon: {0} - lat: {1}</llInputOutOfRange>
     <loadingLayer>Téléchargement de {0} couche du plan</loadingLayer>
     <loadingLayers>Téléchargement de {0} couches du plan</loadingLayers>
+    <m2llLat9999>lat = -9999</m2llLat9999>
+    <noCanvasContext>Aucun contéxte de toile</noCanvasContext>
     <noContextDefined>Aucun contexte defini dans la configuration</noContextDefined>
     <noCountryCode>Vous devez spécifiez le code du pays</noCountryCode>
     <noDataYet>Aucunes données à visualiser</noDataYet>
@@ -205,13 +221,16 @@
     <noStylesheetDefined>Aucun stylesheet defini</noStylesheetDefined>
     <noTargetModelTool>Erreur trouvant targetModel: {0} pour outil: {1}</noTargetModelTool>
     <noTargetModelWidget>Erreur dans la recherche du targetModel: {0} pour: {1}</noTargetModelWidget>
+    <notImplementedYet>PAS ENCORE DÉVELOPPÉ</notImplementedYet>
     <nullOwsContext>Document OWSContext vide</nullOwsContext>
     <nullXmlResponse>Null XML response: {0}</nullXmlResponse>
     <parseError>Erreur d'analyze: {0}</parseError>
     <parsingError>Erreur de Parsing: {0} {1}</parsingError>
+    <phi2zNoConvergence>phi2z: Erreur de convergence</phi2zNoConvergence>
+    <pixel2llNotDefined>pixel2ll non defini</pixel2llNotDefined>
     <preparingCoords>préparation des coordonnées</preparingCoords>
     <pretendPaint>Simulation de peinture: {0} caractéristiques {1}</pretendPaint>
-    <projectionNotSupported>Mesure: Projetion non supporté!</projectionNotSupported>
+    <projectionNotSupported>Mesure: Projection non supporté!</projectionNotSupported>
     <referenceNodeIdNotFound>
       Outil AutoResize ne arrive pas a trouver le noeud référence '{0}' dans DOM.
       Specifiez un referenceNodeId valide dans le fichier de configuration
@@ -221,9 +240,16 @@
     <scale>échelle 1:{0}</scale>
     <selectLayer>Choisissez une couche si vous voulez inserée le sld dans wmc</selectLayer>
     <southWgs84>Sud (WGS84)</southWgs84>
+    <styleNodeNotFound>Style de noeud non trouvé</styleNodeNotFound>
     <stylesheetNotFound>La feuille de styles Parsing n'a pas était trouver</stylesheetNotFound>
     <tabWidgetNotFound>Onglets de gadgets non trouvez: {0}</tabWidgetNotFound>
+    <tm2llNoConvergence>tm2ll: Pas de convergence de la latitude</tm2llNoConvergence>
+    <unableToLoadDoc>
+      Impossible de télécharger document externe: {0}.
+      La propriété proxyUrl doit être défini dans la configuration.
+    </unableToLoadDoc>
     <unableToSaveLog>Impossible de sauvegarder historique d'événements; fournissez une propriété serializeUrl dans configuration</unableToSaveLog>
+    <undefinedListener>Listener indéfini pour: {0}</undefinedListener>
     <unitCentimeters>centimètres</unitCentimeters>
     <unitCentimetersAbbr>cm</unitCentimetersAbbr>
     <unitFeet>pieds</unitFeet>
@@ -241,6 +267,9 @@
     <unspecIcon>Icon non spécifié</unspecIcon>
     <unspecLeftOffset>leftOffset non spécifié</unspecLeftOffset>
     <unspecTopOffset>topOffset non spécifié</unspecTopOffset>
+    <unsupportedGmlGeom>Géométrie GML non disponible: {0}</unsupportedGmlGeom>
+    <unsupportedGmlGeomForLayer>Géométrie GML non disponible dans couche: {0}</unsupportedGmlGeomForLayer>
+    <unsupportedMapProjection>Projection du plan non disponible: {0}</unsupportedMapProjection>
     <westWgs84>Ouest (WGS84)</westWgs84>
   </messages>
 </WidgetText>

@@ -135,7 +135,8 @@ function MapImgLoadHandler() {
 
   --this.objRef.layerCount;
   if (this.objRef.layerCount > 0) {
-    var message = "loading " + this.objRef.layerCount + " map layers"
+    var message = mbGetMessage((this.objRef.layerCount>1) ? "loadingLayers" : "loadingLayer",
+      this.objRef.layerCount);
     this.objRef.model.setParam("modelStatus", message);
   } else {
     this.objRef.model.setParam("modelStatus");

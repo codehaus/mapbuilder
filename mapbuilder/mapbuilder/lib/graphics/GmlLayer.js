@@ -73,7 +73,7 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
       if(this.gmlType){
         this.gmlType=this.gmlType.nodeName;
       }else{
-        alert ("Unsupported GML Geometry for layer:"+this.id);
+        alert(mbGetMessage("unsupportedGmlGeomForLayer", this.id));
       }
     }
   }
@@ -276,7 +276,7 @@ function GmlLayer(model, mapPane, layerName, layerNode, queryable, visible) {
         // set the popup text with stylesheet output
         var popupStr = objRef.myabstract;
         if( popupStr == undefined ) {
-          popupStr = "Feature under construction.  Stay tuned!";
+          popupStr = mbGetMessage("featureUnderConstruction");
         }
       }
     }

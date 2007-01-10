@@ -82,7 +82,7 @@ FeatureLine.prototype.mouseOverHandler = function(ev) {
   // set the popup text with stylesheet output
   var popupStr = this.popupStr;
   if( popupStr == undefined ) {
-    popupStr = "Feature under construction.  Stay tuned!";
+    popupStr = mbGetMessage("featureUnderConstruction");
   }
  
   toolTipObjs[lineNormalDiv.tipObjectName].paint( new Array(""+X, ""+Y, 200, this.title, popupStr ));

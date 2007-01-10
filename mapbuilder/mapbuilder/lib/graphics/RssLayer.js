@@ -82,7 +82,7 @@ function RssLayer(model, mapPane, layerName, layerNode, queryable, visible) {
       
         //alert("coords: "+this.coords);
        } else {
-	       alert ("Unsupported GML Geometry:"+ this.gmlType )
+	       alert(mbGetMessage("unsupportedGmlGeom", this.gmlType));
 	     }
     } else {
       this.coords = null;
@@ -316,7 +316,7 @@ function RssLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     node = document.getElementById( id );
     if( node != null ) {
       // WHY WOULD THIS FAIL???????
-      alert( "failed to remove:"+id );
+      alert(mbGetMessage("deleteShapeFailed", id));
     }
   }
  }
@@ -417,7 +417,7 @@ function RssLayer(model, mapPane, layerName, layerNode, queryable, visible) {
 	      // set the popup text with stylesheet output
 	      var popupStr = objRef.myabstract;
 	      if( popupStr == undefined ) {
-	        popupStr = "Feature under construction.  Stay tuned!";
+	        popupStr = mbGetMessage("featureUnderConstruction");
 	      }
 	    }
     }
@@ -453,7 +453,7 @@ function RssLayer(model, mapPane, layerName, layerNode, queryable, visible) {
 	      // set the popup text with stylesheet output
 	      var popupStr = objRef.myabstract;
 	      if( popupStr == undefined ) {
-	        popupStr = "Feature under construction.  Stay tuned!";
+	        popupStr = mbGetMessage("featureUnderConstruction");
 	      }
 	    }
     }
