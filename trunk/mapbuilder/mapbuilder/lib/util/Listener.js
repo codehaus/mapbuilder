@@ -41,7 +41,7 @@ function Listener() {
     //}
     this.listeners[param].push(new Array(listener,target));
     if( !listener ) {
-       alert( "undefined listener for:"+target)   
+       alert(mbGetMessage("undefinedListener", target));
     }
   }
 
@@ -60,7 +60,7 @@ function Listener() {
     this.removeListener(param,listener,target);
     this.listeners[param].unshift(new Array(listener,target));
     if( !listener ) {
-        alert( "undefined listener for:"+target)
+       alert(mbGetMessage("undefinedListener", target));
     }
   }
 
@@ -100,7 +100,7 @@ function Listener() {
         if (this.listeners[param][i][0]) {
           this.listeners[param][i][0](this.listeners[param][i][1],value);
         } else {
-          alert("Listener error: param="+param+", target="+this.listeners[param][i][1].id+", callBackFunction="+this.listeners[param][i][0]);
+          alert(mbGetMessage("listenerError", param, this.listeners[param][i][1].id, this.listeners[param][i][0]));
         }
       }
     }

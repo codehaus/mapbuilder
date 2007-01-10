@@ -156,20 +156,25 @@
     <cantMoveDown>Kan element niet voorbij einde lijst verplaatsen: {0}</cantMoveDown>
     <cantMoveUp>Kan element niet voorbij begin lijst verplaatsen: {0}</cantMoveUp>
     <convertingCoords>converteert coördinaten</convertingCoords>
+    <deleteShapeFailed>Fout bij verwijderen: {0}</deleteShapeFailed>
     <divAlreadyExists>Div: {0} bestaat al</divAlreadyExists>
     <divClickPassNotFound>Div clickPass {0} niet gevonden</divClickPassNotFound>
     <divNotFound>Kan div niet vinden: {0}</divNotFound>
     <docLoading>Document laadt, even geduld a.u.b....</docLoading>
     <documentParseError>Document parseError: {0}</documentParseError>
     <eastWgs84>Oost (WGS84)</eastWgs84>
+    <errorAddingLayer>Fout bij toevoegen van kaartlaag: {0} dienst: {1}</errorAddingLayer>
     <errorCreatingObject>Fout bij maken van object: {0}</errorCreatingObject>
     <errorDeletingLayer>Fout bij verwijderen: {0}</errorDeletingLayer>
     <errorLoadingDocument>Fout bij laden van document: {0} - {1}-{2}</errorLoadingDocument>
     <errorLoadingModel>Config loadModel fout: {0}: {1}</errorLoadingModel>
+    <errorLoadingStylesheet>Fout bij het laden van de XSL-stylesheet: {0}</errorLoadingStylesheet>
     <errorPaintingWidget>Config paintWidget fout: widget bestaat niet</errorPaintingWidget>
     <eventLogSaved>Event-log opgeslagen als: {0}</eventLogSaved>
+    <exceptionTransformingDoc>Fout bij het transformeren van een document met XSL: {0}</exceptionTransformingDoc>
     <featureNotFoundOwsContext>Object niet gevonden</featureNotFoundOwsContext>
     <featureNotFoundWebServiceRequest>WebServiceRequest: probleem bij vinden van object: {0}</featureNotFoundWebServiceRequest>
+    <featureUnderConstruction>Object onder constructie.  Let op!</featureUnderConstruction>
     <idRequired>id verplicht voor object: {0}</idRequired>
     <imageNotFound>FOUT: afbeelding niet gevonden</imageNotFound> 
     <invalidFeatureXpathEditLine>EditLine: ongeldig featureXpath in configuratie: {0}</invalidFeatureXpathEditLine>
@@ -181,8 +186,19 @@
     <lastFrameAfterFirst>Laatste beeld moet na het eerste beeld liggen</lastFrameAfterFirst>
     <layerNotFound>Laag met id {0} niet gevonden</layerNotFound>
     <layerTypeNotSupported>MapPaneOL: Geen ondersteuning voor laag-type={0}</layerTypeNotSupported>
+    <lccinitEqualLatitudes>lccinit: Gelijk breedtegraden voor Standaard Parallellen aan tegengestelde zijden van de evenaar</lccinitEqualLatitudes>
+    <listenerError>Listener-fout: param={0}, target={1}, callBackFunction={2}</listenerError>
+    <ll2lccNoProjection>ll2lcc: Punt kan niet geprojecteerd worden</ll2lccNoProjection>
+    <ll2mAtPoles>ll2m: Transformatie kan niet worden berekend aan de polen</ll2mAtPoles>
+    <ll2pixelNotDefined>ll2pixel niet gedefiniëerd</ll2pixelNotDefined>
+    <ll2sceneNotDefined>ll2scene niet gedefiniëerd</ll2sceneNotDefined>
+    <ll2stInfiniteProjection>ll2st: Punt projecteert in het oneindige</ll2stInfiniteProjection>
+    <ll2tmInfiniteProjection>ll2tm: Punt projecteert in het oneindige</ll2tmInfiniteProjection>
+    <llInputOutOfRange>Invoer buiten bereik: lon: {0} - lat: {1}</llInputOutOfRange>
     <loadingLayer>Bezig met laden van {0} kaartlaag</loadingLayer>
     <loadingLayers>Bezig met laden van {0} kaartlagen</loadingLayers>
+    <m2llLat9999>lat = -9999</m2llLat9999>
+    <noCanvasContext>Geen canvas-context</noCanvasContext>
     <noContextDefined>Geen context gedefiniëerd in configuratie</noContextDefined>
     <noCountryCode>U dient een landcode op te geven</noCountryCode>
     <noDataYet>Nog geen data om te tonen</noDataYet>
@@ -205,10 +221,13 @@
     <noStylesheetDefined>Geen stylesheet gedefiniëerd</noStylesheetDefined>
     <noTargetModelTool>Probleem bij vinden van targetModel: {0} voor gereedschap: {1}</noTargetModelTool>
     <noTargetModelWidget>Fout bij vinden van targetModel: {0} voor: {1}</noTargetModelWidget>
+    <notImplementedYet>NOG NIET GEÏMPLEMENTEERD</notImplementedYet>
     <nullOwsContext>Leeg OWSContext-document</nullOwsContext>
     <nullXmlResponse>Lege XML-respons: {0}</nullXmlResponse>
     <parseError>Parse-fout: {0}</parseError>
     <parsingError>Parse-fout: {0} {1}</parsingError>
+    <phi2zNoConvergence>phi2z: Convergentiefout</phi2zNoConvergence>
+    <pixel2llNotDefined>pixel2ll niet gedefiniëerd</pixel2llNotDefined>
     <preparingCoords>prepareert coördinaten</preparingCoords>
     <pretendPaint>Zou tekenen: {0} objecten {1}</pretendPaint>
     <projectionNotSupported>Measurement: Projectie niet ondersteund!</projectionNotSupported>
@@ -221,9 +240,16 @@
     <scale>schaal 1:{0}</scale>
     <selectLayer>Selecteer een laag om een SLD in de WMC in te voegen</selectLayer>
     <southWgs84>Zuid (WGS84)</southWgs84>
+    <styleNodeNotFound>Stijl niet gevonden</styleNodeNotFound>
     <stylesheetNotFound>Parsing stylesheet niet gevonden</stylesheetNotFound>
     <tabWidgetNotFound>Tab widget niet gevonden: {0}</tabWidgetNotFound>
+    <tm2llNoConvergence>tm2ll: Breedtegraad convergeert niet</tm2llNoConvergence>
+    <unableToLoadDoc>
+      Kan extern document niet laden: {0}.
+      Zet de proxyUrl-eigenschap in de configuratie.
+    </unableToLoadDoc>
     <unableToSaveLog>Kan event-log niet opslaan; zet een serializeUrl-eigenschap in configuratie</unableToSaveLog>
+    <undefinedListener>Ongedefiniëerde listener voor: {0}</undefinedListener>
     <unitCentimeters>centimeter</unitCentimeters>
     <unitCentimetersAbbr>cm</unitCentimetersAbbr>
     <unitFeet>voet</unitFeet>
@@ -241,6 +267,9 @@
     <unspecIcon>Ongespecificeerde icoon</unspecIcon>
     <unspecLeftOffset>Ongespecificeerde leftOffset</unspecLeftOffset>
     <unspecTopOffset>Ongespecificeerde topOffset</unspecTopOffset>
+    <unsupportedGmlGeom>Niet-ondersteunde GML-geometrie: {0}</unsupportedGmlGeom>
+    <unsupportedGmlGeomForLayer>Niet-ondersteunde GML-geometrie voor laag: {0}</unsupportedGmlGeomForLayer>
+    <unsupportedMapProjection>Niet-ondersteunde kaartprojectie: {0}</unsupportedMapProjection>
     <westWgs84>West (WGS84)</westWgs84>
   </messages>
 </WidgetText>

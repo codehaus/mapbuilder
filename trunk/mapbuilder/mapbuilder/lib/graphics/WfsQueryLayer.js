@@ -31,7 +31,7 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
     Sarissa.setXpathNamespaces(doc, namespace);
     //alert( "wfsparse:"+Sarissa.serialize(this.layerNode))
     var styleNode  = this.layerNode.selectSingleNode("wmc:StyleList" );
-    if( styleNode == null ) alert( "cannot find style node")
+    if( styleNode == null ) alert(mbGetMessage("styleNodeNotFound"));
     
     var hiliteStyleNode =  styleNode.selectSingleNode("wmc:Style[wmc:Name='Highlite']");
     var normalStyleNode =  styleNode.selectSingleNode("wmc:Style[wmc:Name='Normal']");
@@ -252,7 +252,7 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
 	      
 	        //alert("coords: "+this.coords);
 	      } else {
-		       alert ("Unsupported GML Geometry:"+ this.gmlType )
+		       alert(mbGetMessage("unsupportedGmlGeom", this.gmlType));
 		    }
 	    }
 	    

@@ -156,20 +156,25 @@
     <cantMoveDown>Can't move node past end of list: {0}</cantMoveDown>
     <cantMoveUp>Can't move node past beginning of list: {0}</cantMoveUp>
     <convertingCoords>converting coordinates</convertingCoords>
+    <deleteShapeFailed>Failed to remove: {0}</deleteShapeFailed>
     <divAlreadyExists>Div: {0} already exists</divAlreadyExists>
     <divClickPassNotFound>Div clickPass {0} not found</divClickPassNotFound>
     <divNotFound>Could not find div: {0}</divNotFound>
     <docLoading>Document loading, please wait...</docLoading>
     <documentParseError>Document parseError: {0}</documentParseError>
     <eastWgs84>East (WGS84)</eastWgs84>
+    <errorAddingLayer>Failed adding Layer: {0} service: {1}</errorAddingLayer>
     <errorCreatingObject>Error creating object: {0}</errorCreatingObject>
     <errorDeletingLayer>Error deleting: {0}</errorDeletingLayer>
     <errorLoadingDocument>Error loading document: {0} - {1}-{2}</errorLoadingDocument>
     <errorLoadingModel>Config loadModel error: {0}: {1}</errorLoadingModel>
+    <errorLoadingStylesheet>Error loading XSL stylesheet: {0}</errorLoadingStylesheet>
     <errorPaintingWidget>Config paintWidget error: widget does not exist</errorPaintingWidget>
     <eventLogSaved>Event log saved as: {0}</eventLogSaved>
+    <exceptionTransformingDoc>Exception transforming doc with XSL: {0}</exceptionTransformingDoc>
     <featureNotFoundOwsContext>Feature not found</featureNotFoundOwsContext>
     <featureNotFoundWebServiceRequest>WebServiceRequest: error finding feature node: {0}</featureNotFoundWebServiceRequest>
+    <featureUnderConstruction>Feature under construction.  Stay tuned!</featureUnderConstruction>
     <idRequired>id required for object: {0}</idRequired>
     <imageNotFound>ERROR: image not found</imageNotFound>
     <invalidFeatureXpathEditLine>EditLine: invalid featureXpath in config: {0}</invalidFeatureXpathEditLine>
@@ -181,8 +186,19 @@
     <lastFrameAfterFirst>Last frame must be after the first frame</lastFrameAfterFirst>
     <layerNotFound>Layer with id {0} not found</layerNotFound>
     <layerTypeNotSupported>MapPaneOL: No support for layer type={0}</layerTypeNotSupported>
+    <lccinitEqualLatitudes>lccinit: Equal Latitudes for Standard Parallels on opposite sides of equator</lccinitEqualLatitudes>
+    <listenerError>Listener error: param={0}, target={1}, callBackFunction={2}</listenerError>
+    <ll2lccNoProjection>ll2lcc: Point can not be projected</ll2lccNoProjection>
+    <ll2mAtPoles>ll2m: Transformation cannot be computed at the poles</ll2mAtPoles>
+    <ll2pixelNotDefined>ll2pixel not defined</ll2pixelNotDefined>
+    <ll2sceneNotDefined>ll2scene not defined</ll2sceneNotDefined>
+    <ll2stInfiniteProjection>ll2st: Point projects into infinity</ll2stInfiniteProjection>
+    <ll2tmInfiniteProjection>ll2tm: Point projects into infinity</ll2tmInfiniteProjection>
+    <llInputOutOfRange>Input out of range: lon: {0} - lat: {1}</llInputOutOfRange>
     <loadingLayer>Loading {0} map layer</loadingLayer>
     <loadingLayers>Loading {0} map layers</loadingLayers>
+    <m2llLat9999>lat = -9999</m2llLat9999>
+    <noCanvasContext>No canvas context</noCanvasContext>
     <noContextDefined>No context defined in config</noContextDefined>
     <noCountryCode>You need to specify a country code</noCountryCode>
     <noDataYet>No data to show yet</noDataYet>
@@ -205,10 +221,13 @@
     <noStylesheetDefined>No stylesheet defined</noStylesheetDefined>
     <noTargetModelTool>Error finding targetModel: {0} for tool: {1}</noTargetModelTool>
     <noTargetModelWidget>Error finding targetModel: {0} for: {1}</noTargetModelWidget>
+    <notImplementedYet>NOT IMPLEMENTED YET</notImplementedYet>
     <nullOwsContext>Null OWSContext doc</nullOwsContext>
     <nullXmlResponse>Null XML response: {0}</nullXmlResponse>
     <parseError>Parse error: {0}</parseError>
     <parsingError>Parsing Error: {0} {1}</parsingError>
+    <phi2zNoConvergence>phi2z: Convergence error</phi2zNoConvergence>
+    <pixel2llNotDefined>pixel2ll not defined</pixel2llNotDefined>
     <preparingCoords>preparing coordinates</preparingCoords>
     <pretendPaint>Pretending to paint: {0} features {1}</pretendPaint>
     <projectionNotSupported>Measurement: Projection not supported!</projectionNotSupported>
@@ -221,9 +240,16 @@
     <scale>scale 1:{0}</scale>
     <selectLayer>Select a layer if you want insert sld in wmc</selectLayer>
     <southWgs84>South (WGS84)</southWgs84>
+    <styleNodeNotFound>Style node not found</styleNodeNotFound>
     <stylesheetNotFound>Parsing stylesheet not found</stylesheetNotFound>
     <tabWidgetNotFound>Tab widget not found: {0}</tabWidgetNotFound>
+    <tm2llNoConvergence>tm2ll: Latitude failed to converge</tm2llNoConvergence>
+    <unableToLoadDoc>
+      Unable to load external document: {0}.
+      Set the proxyUrl property in config.
+    </unableToLoadDoc>
     <unableToSaveLog>Unable to save event log; provide a serializeUrl property in config</unableToSaveLog>
+    <undefinedListener>Undefined listener for: {0}</undefinedListener>
     <unitCentimeters>centimeters</unitCentimeters>
     <unitCentimetersAbbr>cm</unitCentimetersAbbr>
     <unitFeet>feet</unitFeet>
@@ -241,6 +267,9 @@
     <unspecIcon>Unspecified icon</unspecIcon>
     <unspecLeftOffset>Unspecified leftOffset</unspecLeftOffset>
     <unspecTopOffset>Unspecified topOffset</unspecTopOffset>
+    <unsupportedGmlGeom>Unsupported GML Geometry: {0}</unsupportedGmlGeom>
+    <unsupportedGmlGeomForLayer>Unsupported GML Geometry for layer: {0}</unsupportedGmlGeomForLayer>
+    <unsupportedMapProjection>Unsupported map projection: {0}</unsupportedMapProjection>
     <westWgs84>West (WGS84)</westWgs84>
   </messages>
 </WidgetText>

@@ -2,7 +2,7 @@
 Author:       Patrice G. Cappelaere patAtcappelaere.com
 License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: $
+$Id$
 */
 
 // Ensure this object's dependancies are loaded.
@@ -68,7 +68,7 @@ MapLayerMgr.prototype.timestampListener = function(objRef, timestampIndex){
     if (layer) {
       layer.style.visibility=vis;
     } else {
-      alert("error finding layerId:"+layerId);
+      alert(mbGetMessage("layerNotFound", layerId));
     }
   }
   
@@ -149,7 +149,7 @@ MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
       //alert( "Add Wfs Layer, total Layers:"+objRef.layers.length)
     }
   } else {
-    alert( "Failed adding Layer:"+nodeName + " service:"+service );
+    alert(mbGetMessage("errorAddingLayer", nodeName, service));
   }
   return layer
 }

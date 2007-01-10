@@ -238,7 +238,7 @@ function Proj(srs) {
       break;
     default:
       //or retrieve parameters from web service based on SRS lookup
-      alert("unsupported map projection: "+this.srs);
+      alert(mbGetMessage("unsupportedMapProjection", this.srs));
   }
 
   this.matchSrs = function(otherSrs) {
@@ -268,7 +268,7 @@ function identity(coords) {
  * @return map coordinates
  */
 function ll2scene(coords) {
-  alert("ll2scene not defined");
+  alert(mbGetMessage("ll2sceneNotDefined"));
   //return new Array(124, 15+256);  //for testing only,
   return null;
 }
@@ -324,13 +324,13 @@ function bilinterp(x, y, a, b, c, d) {
 // a pixel representation
 // forward transformation
 function ll2pixel(coords) {
-  alert("ll2pixel not defined");
+  alert(mbGetMessage("ll2pixelNotDefined"));
   return null;
 }
 
 // inverse transformation
 function pixel2ll(coords) {
-  alert("pixel2ll not defined");
+  alert(mbGetMessage("pixel2llNotDefined"));
 //  return new Array(lon, lat);
   return null;
 }
@@ -378,7 +378,7 @@ function lccinit(param) {
 
 // Standard Parallels cannot be equal and on opposite sides of the equator
   if (Math.abs(lat1+lat2) < EPSLN) {
-    alert("Equal Latitiudes for St. Parallels on opposite sides of equator - lccinit");
+    alert(mbGetMessage("lccinitEqualLatitudes"));
     return;
   }
 
@@ -419,7 +419,7 @@ function ll2lcc(coords) {
     lat *= D2R;
     lon *= D2R;
   } else {
-    alert("*** Input out of range ***: lon: "+lon+" - lat: "+lat);
+    alert(mbGetMessage("llInputOutOfRange", lon, lat));
     return null;
   }
 
@@ -431,7 +431,7 @@ function ll2lcc(coords) {
   } else {
     con = lat * this.ns;
     if (con <= 0) {
-      alert("Point can not be projected - ll2lcc");
+      alert(mbGetMessage("ll2lccNoProjection"));
       return null;
     }
     rh1 = 0;
@@ -651,7 +651,7 @@ function ll2tm(coords) {
   if (this.ind != 0) {
     var b = cos_phi * Math.sin(delta_lon);
     if ((Math.abs(Math.abs(b) - 1.0)) < .0000000001)  {
-      alert("Error in ll2tm(): Point projects into infinity");
+      alert(mbGetMessage("ll2tmInfiniteProjection"));
       return(93);
     } else {
       x = .5 * this.r_maj * this.scale_fact * Math.log((1.0 + b)/(1.0 - b));
@@ -724,7 +724,7 @@ function tm2ll(coords) {
       phi += delta_phi;
       if (Math.abs(delta_phi) <= EPSLN) break;
       if (i >= max_iter) {
-        alert ("Error in tm2ll(): Latitude failed to converge");
+        alert(mbGetMessage("tm2llNoConvergence"));
         return(95);
       }
     } // for()
@@ -786,7 +786,7 @@ function phi2z(eccent, ts) {
     phi += dphi;
     if (Math.abs(dphi) <= .0000000001) return phi;
   }
-  alert("Convergence error - phi2z");
+  alert(mbGetMessage("phi2zNoConvergence"));
   return -9999;
 }
 
@@ -829,7 +829,7 @@ function ll2st(coords) {
     lat *= D2R;
     lon *= D2R;
   } else {
-    alert("Error. Input out of range: lon: "+lon+" - lat: "+lat);
+    alert(mbGetMessage("llInputOutOfRange", lon, lat));
     return null;
   }
   var dlon = adjust_lon(lon - this.lon_center);
@@ -839,7 +839,7 @@ function ll2st(coords) {
   var coslon = Math.cos(dlon);
   var g = this.sin_p10 * sinphi + this.cos_p10 * cosphi * coslon;
   if (Math.abs(g + 1.0) <= EPSLN) {
-    alert("Error. Point projects into infinity - st2ll()");
+    alert(mbGetMessage("ll2stInfiniteProjection"));
     return null;
   } else {
     ksp = 2.0 / (1.0 + g);
@@ -945,13 +945,13 @@ function ll2m(coords)
   	} 
   	else 
   	{
-    	alert("*** Input out of range ***: lon: "+lon+" - lat: "+lat);
+    	alert(mbGetMessage("llInputOutOfRange", lon, lat));
     	return null;
   	}
   	
 	if(Math.abs( Math.abs(lat) - HALF_PI)  <= EPSLN)
 	{
-		alert("Transformation cannot be computed at the poles");
+		alert(mbGetMessage("ll2mAtPoles"));
 		return null;
 	}
 	else
