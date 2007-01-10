@@ -82,13 +82,15 @@ $Name$
 
       </tr>
 
-      <tr>
+      <xsl:if test="wfs:InsertResult/ogc:FeatureId/@fid">
+        <tr>
 
-        <td>New Feature Id:</td>
+          <td>New Feature Id:</td>
 
-        <td><xsl:value-of select="wfs:InsertResult/ogc:FeatureId/@fid"/></td>
+          <td><xsl:value-of select="wfs:InsertResult/ogc:FeatureId/@fid"/></td>
 
-      </tr>
+        </tr>
+      </xsl:if>
 
     </table>
 
