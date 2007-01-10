@@ -70,9 +70,8 @@ function DeleteFeature(widgetNode, model) {
     sucess=objRef.transactionResponseModel.doc.selectSingleNode("//wfs:TransactionResult/wfs:Status/wfs:SUCCESS");
     if (sucess){
       // Remove FeatureList if feature entry was successful.
-      httpPayload=new Object();
-      httpPayload.url=null;
-      objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
+      objRef.targetModel.setModel(objRef.targetModel,null);
+
       // Repaint the WMS layers
       objRef.targetContext.callListeners("refreshWmsLayers");
     }
