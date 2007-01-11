@@ -110,13 +110,13 @@ function Config(url) {
         alert(errMsg);
       }
       else {
-        // Try to fall back to default language
-        alert(errMsg + "\nFalling back to language=\"" + defaultLang + "\"");
+        // Try to fall back on default language
+        alert(errMsg + "\nFalling back on default language=\"" + defaultLang + "\"");
         this.lang = defaultLang;
         var widgetTextUrl = this.skinDir + "/" + this.lang + "/" + widgetText.firstChild.nodeValue;
         this.widgetText.load(widgetTextUrl);
         if (this.widgetText.parseError < 0){
-          alert("Language fallback failed!");
+          alert("Falling back on default language failed!");
         }
       }
     }
