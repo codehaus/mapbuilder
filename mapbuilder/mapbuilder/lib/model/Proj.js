@@ -222,6 +222,42 @@ function Proj(srs) {
       this.Init(new Array(6378388.0, 6356911.94612795,0.9996, 9, 0.0, 1500000.0, 0.0));
       this.units="meters";
       break;
+	case "EPSG:31294": // MGI / M28
+	case "EPSG:31284":
+		this.Init = tminit;
+		this.Forward = ll2tm;
+		this.Inverse = tm2ll;
+		this.Init(new Array(6377397.155,6356078.963,1,10.3333333333,0,150000,0));
+		this.units = "meters";
+		this.title = "MGI / M31";
+		break;
+	case "EPSG:31295": // MGI / M31
+	case "EPSG:31285":
+		this.Init = tminit;
+		this.Forward = ll2tm;
+		this.Inverse = tm2ll;
+		this.Init(new Array(6377397.155,6356078.963,1,13.3333333333,0,450000,0));
+		this.units = "meters";
+		this.title = "MGI / M31";
+		break;
+	case "EPSG:31296": // MGI / M34
+	case "EPSG:31286":
+		this.Init = tminit;
+		this.Forward = ll2tm;
+		this.Inverse = tm2ll;
+		this.Init(new Array(6377397.155,6356078.963,1,16.3333333333,0,750000,0));
+		this.units = "meters";
+		this.title = "MGI / M31";
+		break;
+	case "EPSG:31297": // MGI / Austria Lambert
+	case "EPSG:31287":
+		this.Init = lccinit;
+		this.Forward = ll2lcc;
+		this.Inverse = lcc2ll;
+		this.Init(new Array(6377397.155,6356078.963,49.0,46.0,13.3333333333,47.5,400000,400000));
+		this.units = "meters"
+		this.title = "MGI / Austria Lambert";
+		break;
     case "SCENE":             //this is really a pixel projection with bilinear interpolation of the corners to get ll
       this.Init = sceneInit;
       this.Forward = ll2scene;
