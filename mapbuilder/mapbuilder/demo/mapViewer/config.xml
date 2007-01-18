@@ -38,9 +38,9 @@
         </Legend>
         <LegendGraphic id="legendGraphic"/>
         <Widget id="mapAbstract">
-          <stylesheet>../../lib/widget/Abstract.xsl</stylesheet>
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
+          <stylesheet>../../lib/widget/Abstract.xsl</stylesheet>
         </Widget>
         <Widget id="mapTitle">
           <stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
@@ -76,10 +76,10 @@
 				<AoiBoxDHTML id="aoiBoxLocator">
 					<htmlTagId>locatorMap</htmlTagId>
 					<stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
+					<mapContainerId>locatorContainer</mapContainerId>
 					<lineColor>red</lineColor>
 					<lineWidth>2</lineWidth>
 					<crossSize>15</crossSize>
-					<mapContainerId>locatorContainer</mapContainerId>
 				</AoiBoxDHTML>
 			</widgets>
 			<tools>

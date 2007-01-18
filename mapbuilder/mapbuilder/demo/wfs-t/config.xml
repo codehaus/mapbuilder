@@ -142,9 +142,9 @@
       <disabledSrc>/images/EditPointDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
+      <targetContext>mainMap</targetContext>
       <featureXpath>/gml:featureMember/topp:tasmania_cities/topp:the_geom/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
       <defaultModelUrl>template_cities.xml</defaultModelUrl>
-      <targetContext>mainMap</targetContext>
     </EditPoint>
     <EditLine id="editLine">
       <buttonBar>mainButtonBar</buttonBar>
@@ -155,9 +155,9 @@
       <disabledSrc>/images/EditLineDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
+      <targetContext>mainMap</targetContext>
       <featureXpath>//gml:coordinates</featureXpath>
       <defaultModelUrl>template_road.xml</defaultModelUrl>
-      <targetContext>mainMap</targetContext>
     </EditLine>
     <InsertFeature id="insertFeature">
       <buttonBar>mainButtonBar</buttonBar>
@@ -173,12 +173,12 @@
       <targetModel>mainMap</targetModel>
       <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
-      <disabledSrc>/images/QueryDisable.png</disabledSrc>
       <enabledSrc>/images/QueryEnable.png</enabledSrc>
-      <typeName>topp:tasmania_cities,topp:tasmania_roads</typeName>
-      <tolerance>5</tolerance>
+      <disabledSrc>/images/QueryDisable.png</disabledSrc>
       <transactionResponseModel>featureCollection</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
+      <typeName>topp:tasmania_cities,topp:tasmania_roads</typeName>
+      <tolerance>5</tolerance>
     </WfsGetFeature>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
