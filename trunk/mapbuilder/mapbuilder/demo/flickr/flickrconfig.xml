@@ -14,10 +14,10 @@
 				<AoiBoxDHTML id="aoiBox2">
 					<htmlTagId>mainMapPane</htmlTagId>
 					<stylesheet>../lib/widget/Null.xsl</stylesheet>
+					<mapContainerId>mainMapContainer</mapContainerId>
 					<lineColor>#FF0000</lineColor>
 					<lineWidth>1</lineWidth>
 					<crossSize>15</crossSize>
-					<mapContainerId>mainMapContainer</mapContainerId>
 				</AoiBoxDHTML>
 				<CursorTrack id="cursorTrack">
 					<mouseHandler>mainMap</mouseHandler>
@@ -26,8 +26,8 @@
 					 <showMGRS>false</showMGRS>
 				</CursorTrack>
         <Legend id="contextLegend">
-          <stylesheet>./Legend.xsl</stylesheet>
           <htmlTagId>legend</htmlTagId>
+          <stylesheet>./Legend.xsl</stylesheet>
         </Legend>
 			</widgets>
 			<tools>
@@ -66,12 +66,12 @@
 	<widgets>
 		<ZoomIn id="zoomIn">
 			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
 			<mouseHandler>mainAoi</mouseHandler>
 			<class>RadioButton</class>
 			<selected>true</selected>
 			<enabledSrc>/images/ZoomInEnable.png</enabledSrc>
 			<disabledSrc>/images/ZoomInDisable.png</disabledSrc>
-			<targetModel>mainMap</targetModel>
 		</ZoomIn>
 		<ZoomOut id="zoomOut">
 			<buttonBar>mainButtonBar</buttonBar>

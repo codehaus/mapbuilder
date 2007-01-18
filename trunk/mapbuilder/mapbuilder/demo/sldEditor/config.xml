@@ -2,7 +2,7 @@
 <MapbuilderConfig version="0.2.1" id="contextEditorDemoConfig" 
       xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-      xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../mapbuilder/lib/schemas/config.xsd">
+      xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
   <!--
     Description: This configuration file determines what components from the
                  Mapbuilder library are to be included in a Main Mapbuilder web
@@ -32,19 +32,19 @@
           			<stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
         		</Widget>
         		<LayerControl id="contextLegend">
-        			<stylesheet>../../lib/widget/LayerControlSld.xsl</stylesheet>
 		          	<htmlTagId>workspace</htmlTagId>
 		          	<outputNodeId>workspaceCanvas</outputNodeId>
+          			<stylesheet>../../lib/widget/LayerControlSld.xsl</stylesheet>
 		          	<moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
 		          	<moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
 		          	<deleteImage>/images/LayerRemoveDisable.png</deleteImage>
         		</LayerControl>
 		        <AoiBoxDHTML id="aoiBox2">
 			          <htmlTagId>mainMapPane</htmlTagId>
+			          <mapContainerId>mainMapContainer</mapContainerId>
 			          <lineColor>#FF0000</lineColor>
 			          <lineWidth>1</lineWidth>
 			          <crossSize>15</crossSize>
-			          <mapContainerId>mainMapContainer</mapContainerId>
 		        </AoiBoxDHTML>
       		</widgets>
       		<tools>
@@ -60,7 +60,7 @@
   		<defaultModelUrl>data/videSld.sld</defaultModelUrl>
 <!--	    <scriptFile>model/StyledLayerDescriptor.js</scriptFile>-->
 	    <models>
-	    	<FeatureTypeSchema id="layerTypeTemplate" template="true">-->
+	    	<FeatureTypeSchema id="layerTypeTemplate" template="true">
 				          <widgets>
 					            <Widget id="layerProperty">
 						              <htmlTagId>selectProperty</htmlTagId>
@@ -109,11 +109,10 @@
       <models>
         <FeatureTypeSchema id="featureTypeTemplate" template="true">
           <widgets>
-            <Widget id="attributeFilter">
+            <FilterAttributes id="attributeFilter">
               <htmlTagId>workspace</htmlTagId>
               <outputNodeId>workspaceCanvas</outputNodeId>
-              <stylesheet>../../lib/widget/FilterAttributes.xsl</stylesheet>
-            </Widget>
+            </FilterAttributes>
           </widgets>
         </FeatureTypeSchema>
         <FeatureCollection id="getFeatureTemplate" template="true">
@@ -122,10 +121,10 @@
             <GmlRendererWZ id="testGmlRenderer">
               <htmlTagId>mainMapPane</htmlTagId>
               <targetModel>mainMap</targetModel>
+              <mapContainerId>mainMapContainer</mapContainerId>
               <lineColor>#FF00FF</lineColor>
               <lineWidth>1</lineWidth>
               <pointDiameter>10</pointDiameter>
-              <mapContainerId>mainMapContainer</mapContainerId>
             </GmlRendererWZ>
             <Legend id="wfsLegend">
               <htmlTagId>workspace</htmlTagId>
