@@ -27,7 +27,9 @@ $Name:  $
   
   <xsl:param name="webServiceUrl">http://devgeo.cciw.ca/cgi-bin/mapserv/owscat</xsl:param>
   <xsl:param name="formName">owsCatSearch</xsl:param>
-  <xsl:param name="searchConfigDoc" select="document('searchConfig.xml')"/>  
+  <!-- NOTE: it's really bad form to put a hard-coded URL here, but it's the only way to use the document() function in IE -->
+  <!--xsl:param name="searchConfigDoc" select="document('http://demo.communitymapbuilder.org/mapbuilder-lib-1.0-release/demo/contextEditor/searchConfig.xml')"/-->  
+  <xsl:param name="searchConfigDoc" select="document('http://geodiscover.cgdi.ca/mapbuilder/demo/contextEditor/searchConfig.xml')"/>  
   <xsl:param name="selectSize" select="1"/>
   
   <!-- Text params for this widget -->
@@ -39,12 +41,7 @@ $Name:  $
   <!-- template rule matching source root element -->
   <xsl:template match="/">
     <div>
-    <form name="{$formName}" id="{$formName}" method="get">
-      <input type="hidden" name="version" value="1.0.0"/>
-      <input type="hidden" name="service" value="WFS"/>
-      <input type="hidden" name="request" value="GetFeature"/>
-      <input type="hidden" name="typename" value="service_resources"/>
-      <input type="hidden" name="outputFormat" value="GML3"/>
+    <form name="{$formName}" id="{$formName}">
       
       <h3>Keywords</h3>
       <input type="text" name="keywords"/>

@@ -11,42 +11,50 @@
 
     $Id: contextEditor.xml 1828 2005-12-01 20:49:52Z madair1 $
   -->
-    <models>
-        <Context id="mainMap">
-            <defaultModelUrl>../data/context/demisWorldMap.xml</defaultModelUrl>
-            <widgets>
-                <MapPane id="mainMapWidget">
-                    <htmlTagId>mainMapPane</htmlTagId>
-                    <mapContainerId>mainMapContainer</mapContainerId>
-                </MapPane>
-                <CursorTrack id="cursorTrack">
-                  <mouseHandler>mainMap</mouseHandler>
-                </CursorTrack>
-                <LayerControl id="contextLegend">
-                  <htmlTagId>workspace</htmlTagId>
-                  <outputNodeId>workspaceCanvas</outputNodeId>
-                  <autoRefresh>false</autoRefresh>
-                  <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
-                  <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
-                  <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
-                </LayerControl>
-                <AoiBoxDHTML id="aoiBox">
-                  <htmlTagId>mainMapPane</htmlTagId>
-                  <mapContainerId>mainMapContainer</mapContainerId>
-                  <lineColor>#FF0000</lineColor>
-                  <lineWidth>1</lineWidth>
-                  <crossSize>15</crossSize>
-                </AoiBoxDHTML>
-                <Loading2 id="loading2">
-                  <mapContainerId>mainMapContainer</mapContainerId>
-                </Loading2>
-            </widgets>
-        <tools>
-            <AoiMouseHandler id="mainAoi"/>
-            <DragPanHandler id="mainDragPan">
-                <enabled>false</enabled>
-            </DragPanHandler>
-        </tools>
+  <models>
+    <Context id="mainMap">
+      <defaultModelUrl>../data/context/demisWorldMap.xml</defaultModelUrl>
+      <nodeSelectXpath>/wmc:ViewContext/wmc:LayerList/wmc:Layer</nodeSelectXpath>
+      <widgets>
+        <MapPane id="mainMapWidget">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <mapContainerId>mainMapContainer</mapContainerId>
+        </MapPane>
+        <CursorTrack id="cursorTrack">
+          <mouseHandler>mainMap</mouseHandler>
+        </CursorTrack>
+        <LayerControl id="contextLegend">
+          <htmlTagId>workspace</htmlTagId>
+          <outputNodeId>workspaceCanvas</outputNodeId>
+          <autoRefresh>false</autoRefresh>
+          <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
+          <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
+          <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
+        </LayerControl>
+        <AoiBoxDHTML id="aoiBox">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+        </AoiBoxDHTML>
+        <Loading2 id="loading2">
+          <mapContainerId>mainMapContainer</mapContainerId>
+        </Loading2>
+      </widgets>
+      <tools>
+        <AoiMouseHandler id="mainAoi"/>
+        <DragPanHandler id="mainDragPan">
+          <enabled>false</enabled>
+        </DragPanHandler>
+				<WebServiceRequest id="featureInfoController">
+					<targetModel>featureInfoResponse</targetModel>
+					<requestName>wms:GetFeatureInfo</requestName>
+          <!--infoFormat>text/html</infoFormat-->
+          <infoFormat>application/vnd.ogc.gml</infoFormat>
+          <featureCount>1</featureCount>
+				</WebServiceRequest>
+      </tools>
     </Context>
     <Context id="locator">
       <defaultModelUrl>../data/context/locatorMap.xml</defaultModelUrl>

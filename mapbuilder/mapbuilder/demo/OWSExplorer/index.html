@@ -6,14 +6,29 @@
     <title>Mapbuilder OWS Explorer</title>
        <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/demoStyles.css'/>
        <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/button.css'>
-     <script>
+    <script>
       // URL of Mapbuilder configuration file.
       var mbConfigUrl='config.xml';
-
+      
+      function mbOnload() {
+        config.objects.mainMap.addListener("loadModel",initWorkspace,null);
+        window.onresize = initWorkspace;
+      }
+      
+      function initWorkspace() {
+        var pageBody = document.getElementsByTagName("body")[0];
+        var workDiv = document.getElementById("workspace");
+        var footerDiv = document.getElementById("footer");
+        if (_SARISSA_IS_IE) {
+          workDiv.style.height = pageBody.offsetHeight - workDiv.offsetTop - footerDiv.offsetHeight - 30;  //20 is a fudge factor
+        } else {
+          workDiv.style.height = window.innerHeight - workDiv.offsetTop - footerDiv.offsetHeight - 20;  //20 is a fudge factor
+        }
+      }
     </script>
     <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
   </head>
-  <body onload="mbDoLoad()" >
+  <body onload="mbDoLoad(mbOnload)" >
   <div id="header">
 <h1><a href="http://communitymapbuilder.org">MapBuilder</a> Open Web Services Explorer</h1>
 <!--This is for more complex pages <a href="" class="help">how to use this page</a></div>-->

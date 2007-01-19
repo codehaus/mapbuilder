@@ -42,7 +42,14 @@ PlaceNameForm.prototype.submitForm = function() {
       thisWidget.setValue('/Filter/And/PropertyIsLike[PropertyName=\'topp:country_name\']/Literal',uppercaseFirstChars(form.country.value)+'*');
       break;
     case "GEONAMES":
-      thisWidget.setValue('/Filter/PropertyIsLike[PropertyName=\'NAME_KEY\']/Literal',form.place.value.toUpperCase()+'*');
+      var literal = form.place.value.toUpperCase();
+      literal = literal.replace(/[\~\!\@\#\$\%\^\&\*\(\)\_\-\{\}\[\]\=\\\|\;\:\'\"\,\.\<\>\?]/g,"*");
+      literal = literal.replace(/[\xc0\xc1\xc2\xc3\xc4\xc5]/g,"A");
+      literal = literal.replace(/[\xc8\xc9\xca\xcb]/g,"E");
+      literal = literal.replace(/[\xcc\xcd\xce\xcf]/g,"I");
+      literal = literal.replace(/[\xd2\xd3\xd4\xd5\xd6\xd7\xd8]/g,"O");
+      literal = literal.replace(/[\xc7]/g,"C");
+      thisWidget.setValue('/Filter/PropertyIsLike[PropertyName=\'NAME_KEY\']/Literal',literal+'*');
       break;
   }
 
