@@ -48,7 +48,7 @@ function GetFeatureInfo(widgetNode, model) {
       var layerName = layerNameList[i];
       var hidden = objRef.targetModel.getHidden(layerName);
       if (hidden == 0) { //query only visible layers
-        config.objects.featureInfoController.requestStylesheet.setParameter("queryLayer", layerName);
+        config.objects.featureInfoController.requestStylesheet.setParameter("queryLayer", layerName);//TBD remove the hardcoded object ID here
         objRef.targetModel.setParam("wms_GetFeatureInfo", layerName);
       }
     }

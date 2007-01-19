@@ -25,7 +25,7 @@
       <title>Recherche à partir de nom d'endroit</title>
       <placeName>Nom de l'endroit:</placeName>
       <find>Trouver</find>
-      <country>Country:</country>
+      <country>Pays:</country>
       <example>Example: Ottawa</example>
       <exampleWorld>Example: Paris, France</exampleWorld>
     </PlaceNameForm>

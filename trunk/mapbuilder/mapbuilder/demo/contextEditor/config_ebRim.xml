@@ -259,7 +259,7 @@
               <htmlTagId>workspace</htmlTagId>
               <outputNodeId>workspaceCanvas</outputNodeId>
               <stylesheet>owsCatSearchForm.xsl</stylesheet>
-              <scriptFile>OWSCatSearchForm.js</scriptFile>
+              <scriptFile>CatSearchForm_ebRim.js</scriptFile>
               <targetModel>ebRimSearch</targetModel>
               <mapModel>mainMap</mapModel>
             </OWSCatSearchForm>

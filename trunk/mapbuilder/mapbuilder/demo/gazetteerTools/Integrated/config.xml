@@ -132,7 +132,7 @@
       <scriptFile>../PostalCode/PostalCodeForm.js</scriptFile>
       <stylesheet>../PostalCode/PostalCodeForm.xsl</stylesheet>
       <webServiceUrl>http://geoservices.cgdi.ca/cgi-bin/postalcode/postalcode.cgi</webServiceUrl>
-      <tabAction>config.loadModel('mainMap','../../data/context/cded.xml')</tabAction>
+      <tabAction>config.loadModel('mainMap','../../data/context/DM_Canada.xml')</tabAction>
     </PostalCodeForm>
     <TabbedContent id="tabBar">
       <tab label="Canadian Postal Code">postalCodeForm</tab>
