@@ -3,11 +3,9 @@
     xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd"
-    version="0.2.0" id="tutorial2" >
-  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+    version="0.2.1" id="tutorial2" >
 
   <models>
-
     <Context id="firstMap">
       <defaultModelUrl>/mapbuilder/demo/data/context/locatorMap.xml</defaultModelUrl>
       <widgets>
@@ -17,10 +15,10 @@
         </MapPane>
         <AoiBoxDHTML id="firstAoiBox">
           <htmlTagId>firstMapPane</htmlTagId>
+          <mapContainerId>firstMapContainer</mapContainerId>
           <lineColor>#FF0077</lineColor>
           <lineWidth>3</lineWidth>
           <crossSize>15</crossSize>
-          <mapContainerId>firstMapContainer</mapContainerId>
         </AoiBoxDHTML>
       </widgets>
     </Context>
@@ -34,10 +32,10 @@
         </MapPane>
         <AoiBoxDHTML id="secondAoiBox">
           <htmlTagId>secondMapPane</htmlTagId>
+          <mapContainerId>secondMapContainer</mapContainerId>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
-          <mapContainerId>secondMapContainer</mapContainerId>
         </AoiBoxDHTML>
       </widgets>
       <tools>
@@ -51,5 +49,4 @@
   </models>
   <skinDir>/mapbuilder/lib/skin/default</skinDir>
   <widgetTextUrl>widgetText.xml</widgetTextUrl> <!-- relative to the skinDir + language subdir -->
-
 </MapbuilderConfig>
