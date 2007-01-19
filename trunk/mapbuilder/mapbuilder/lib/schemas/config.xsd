@@ -50,6 +50,16 @@
           <xs:documentation>the HTTP method to use to retrieve the model.  Optional, defaults to GET.</xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="scriptFile" type="mb:urlPathType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>this property specifies a relative or absolute URL to a JavaScript file that can replace the default JavaScript object.  The file must be served from the same domain as the mapbuilder application.  Optional, if missing a default JavaScript file will be used (in the lib/widget directory with the same name as the widget)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="debug" nillable="true" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>an empty property element to show debugging output during model processing.  Optional.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="models" type="mb:modelsType" minOccurs="0">
         <xs:annotation>
           <xs:documentation>A list of child models objects where a parent/child relationship can be established between models (e.g. a DescribeFeatureType model can be a child of a WfsCapabilities model.  Optional.</xs:documentation>
@@ -99,12 +109,17 @@
       </xs:element>
       <xs:element name="stylesheet" type="mb:urlPathType" minOccurs="0">
         <xs:annotation>
-          <xs:documentation>this property specifies a relative or absolute URL to a stylesheet that can replace the default stylesheet.  The stylesheet must be served from the same domain as the mapbuilder applicaiton.  Optional, if missing a default stylesheet will be used (in the lib/widgets directory with the same name as the widget)</xs:documentation>
+          <xs:documentation>this property specifies a relative or absolute URL to a stylesheet that can replace the default stylesheet.  The stylesheet must be served from the same domain as the mapbuilder application.  Optional, if missing a default stylesheet will be used (in the lib/widget directory with the same name as the widget)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="scriptFile" type="mb:urlPathType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>this property specifies a relative or absolute URL to a JavaScript file that can replace the default JavaScript object.  The file must be served from the same domain as the mapbuilder application.  Optional, if missing a default JavaScript file will be used (in the lib/widget directory with the same name as the widget)</xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="debug" nillable="true" minOccurs="0">
         <xs:annotation>
-          <xs:documentation>an empty property element to show debuggin output during stylesheet processing.  Optional.</xs:documentation>
+          <xs:documentation>an empty property element to show debugging output during stylesheet processing.  Optional.</xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="autoRefresh" type="xs:string" minOccurs="0">
@@ -206,6 +221,16 @@
           <xs:documentation>the id of a model object which this tool acts on.  Optional, if absent the action happens on the parent model of this tool.</xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="mouseHandler" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>the id of a tool object on which to register mouse events.  Optional, if absent, not mouse events are handled and the action is the doSelect function</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="scriptFile" type="mb:urlPathType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>this property specifies a relative or absolute URL to a JavaScript file that can replace the default JavaScript object.  The file must be served from the same domain as the mapbuilder application.  Optional, if missing a default JavaScript file will be used (in the lib/tool directory with the same name as the widget)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="enabled" type="xs:boolean" minOccurs="0">
         <xs:annotation>
           <xs:documentation>a flag to indicate if this tool should initially be enabled.  Optional, accepts values of true and false.  Tools are enabled by default.</xs:documentation>
@@ -272,13 +297,10 @@
       <xs:element name="MapScaleText" type="mb:MapScaleTextType"/>
       <xs:element name="ModelStatus" type="mb:WidgetType"/>
       <xs:element name="ModelUrlInput" type="mb:ModelUrlInputType"/>
-      <xs:element name="ProcessArgumentsForm" type="mb:ProcessArgumentsFormType"/>
       <xs:element name="Reset" type="mb:ButtonType"/>
-      <xs:element name="ResourceDropDown" type="mb:ResourceDropDownType"/>
       <xs:element name="Save" type="mb:SaveType"/>
       <xs:element name="SaveModel" type="mb:SaveModelType"/>
       <xs:element name="SetAoi" type="mb:ButtonType"/>
-      <xs:element name="ShowProcessResult" type="mb:ShowProcessResultType"/>
       <xs:element name="ShowResponse" type="mb:WidgetType"/>
       <xs:element name="TabbedContent" type="mb:TabbedContentType"/>
       <xs:element name="TimeSeries" type="mb:TimeSeriesType"/>
@@ -335,7 +357,13 @@
       <xs:documentation>A representation of a geographic Feature or Feature Collection in GML as specified by the Open Geospatial Consortium (http://www.opengis.org/docs/02-069.pdf) </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
-      <xs:extension base="mb:AbstractModelType"/>
+      <xs:extension base="mb:AbstractModelType">
+        <xs:sequence>
+          <xs:element name="featureTagName" type="xs:string" minOccurs="0"/>
+          <xs:element name="coordsTagName" type="xs:string" minOccurs="0"/>
+          <xs:element name="coordSelectXpath" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
@@ -447,7 +475,11 @@
       <xs:documentation>Displays a form with North, South, East, West coordinates to read and set the model AOI</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
-      <xs:extension base="mb:AbstractWidgetType"/>
+      <xs:extension base="mb:AbstractMapWidgetType">
+        <xs:sequence>
+          <xs:element name="formName" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
@@ -524,6 +556,7 @@
       <xs:extension base="mb:AbstractButtonType">
         <xs:sequence>
           <xs:element name="context" type="xs:string"/>
+          <xs:element name="featureCount" type="xs:integer" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -559,9 +592,16 @@
     <xs:complexContent>
       <xs:extension base="mb:AbstractMapWidgetType">
         <xs:sequence>
+          <xs:element name="width" type="xs:integer" minOccurs="0"/>
+          <xs:element name="height" type="xs:integer" minOccurs="0"/>
+          <xs:element name="bBoxMinX" type="xs:integer" minOccurs="0"/>
+          <xs:element name="bBoxMinY" type="xs:integer" minOccurs="0"/>
+          <xs:element name="bBoxMaxX" type="xs:integer" minOccurs="0"/>
+          <xs:element name="bBoxMaxY" type="xs:integer" minOccurs="0"/>
           <xs:element name="lineColor"/>
           <xs:element name="lineWidth"/>
           <xs:element name="fill" minOccurs="0"/>
+          <xs:element name="crossSize" type="xs:integer" minOccurs="0"/>
           <xs:element name="pointDiameter" type="xs:integer"/>
         </xs:sequence>
       </xs:extension>
@@ -670,6 +710,7 @@
         <xs:sequence>
           <xs:element name="fixedWidth" type="xs:integer" minOccurs="0"/>
           <xs:element name="extraAttributes" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="loadingSrc" type="mb:urlPathType" minOccurs="0"/>
           <xs:element name="noPreload" type="xs:boolean" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
@@ -719,30 +760,6 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="ProcessArgumentsFormType">
-    <xs:complexContent>
-      <xs:extension base="mb:AbstractWidgetType">
-        <xs:sequence>
-          <xs:element name="scriptFile" type="xs:string" minOccurs="0"/>
-          <xs:element name="mapModel" type="xs:string" minOccurs="0"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="ResourceDropDownType">
-    <xs:annotation>
-      <xs:documentation/>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="mb:AbstractWidgetType">
-        <xs:sequence>
-          <xs:element name="scriptFile" type="xs:string" minOccurs="0"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
   <xs:complexType name="SaveType">
       <xs:annotation>
         <xs:documentation>After this button is selected, the Web Map Context is saved on the users local computer.</xs:documentation>
@@ -769,21 +786,10 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="ShowProcessResultType">
-    <xs:complexContent>
-      <xs:extension base="mb:AbstractWidgetType">
-        <xs:sequence>
-          <xs:element name="scriptFile" type="xs:string" minOccurs="0"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
   <xs:complexType name="TabbedContentType">
     <xs:complexContent>
       <xs:extension base="mb:AbstractWidgetType">
         <xs:sequence>
-          <xs:element name="htmlWorkspace" type="xs:string" minOccurs="0"/>
           <xs:element name="tab" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
@@ -806,6 +812,7 @@
     <xs:complexContent>
       <xs:extension base="mb:AbstractWidgetType">
         <xs:sequence>
+          <xs:element name="requestStylesheet" type="mb:urlPathType" minOccurs="0"/>
           <xs:element name="webServiceUrl" type="xs:anyURI" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
@@ -944,6 +951,7 @@
       <xs:extension base="mb:AbstractToolType">
         <xs:sequence>
           <xs:element name="requestName" type="xs:string"/>
+          <xs:element name="requestFilter" type="xs:string" minOccurs="0"/>
           <xs:element name="maxFeatures" type="xs:integer" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
