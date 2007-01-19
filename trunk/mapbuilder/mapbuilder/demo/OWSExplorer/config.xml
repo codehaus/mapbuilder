@@ -18,7 +18,6 @@
                 <MapPane id="mainMapWidget">
                     <htmlTagId>mainMapPane</htmlTagId>
                     <mapContainerId>mainMapContainer</mapContainerId>
-                    <loadHidden>false</loadHidden>
                 </MapPane>
                 <CursorTrack id="cursorTrack">
                   <mouseHandler>mainMap</mouseHandler>
