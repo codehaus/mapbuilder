@@ -229,7 +229,7 @@ function Proj(srs) {
 		this.Inverse = tm2ll;
 		this.Init(new Array(6377397.155,6356078.963,1,10.3333333333,0,150000,0));
 		this.units = "meters";
-		this.title = "MGI / M31";
+		this.title = "MGI / M28";
 		break;
 	case "EPSG:31295": // MGI / M31
 	case "EPSG:31285":
@@ -247,7 +247,7 @@ function Proj(srs) {
 		this.Inverse = tm2ll;
 		this.Init(new Array(6377397.155,6356078.963,1,16.3333333333,0,750000,0));
 		this.units = "meters";
-		this.title = "MGI / M31";
+		this.title = "MGI / M34";
 		break;
 	case "EPSG:31297": // MGI / Austria Lambert
 	case "EPSG:31287":
