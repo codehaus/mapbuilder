@@ -76,7 +76,6 @@
     </Reset>
   </widgets>
   <skinDir>/mapbuilder/lib/skin/default</skinDir>
-  <languages>en,fr</languages>
   <widgetTextUrl>widgetText.xml</widgetTextUrl> <!-- relative to the skinDir + language subdir -->
       
 </MapbuilderConfig>
