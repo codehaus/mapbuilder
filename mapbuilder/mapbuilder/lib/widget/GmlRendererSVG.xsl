@@ -26,7 +26,7 @@ $Name$
   <xsl:param name="lineWidth" select="1"/>
   <xsl:param name="crossSize" select="0"/>
   <xsl:param name="skinDir"/>
-  <xsl:param name="pointWidth" select="5"/>
+  <xsl:param name="pointDiameter" select="5"/>
 
   <xsl:variable name="xRatio" select="$width div ( $bBoxMaxX - $bBoxMinX )"/>
   <xsl:variable name="yRatio" select="$height div ( $bBoxMaxY - $bBoxMinY )"/>
@@ -62,7 +62,7 @@ $Name$
       <xsl:element name="circle">
         <xsl:attribute name="cx"><xsl:value-of select="$x0"/></xsl:attribute>
         <xsl:attribute name="cy"><xsl:value-of select="$y0"/></xsl:attribute>
-        <xsl:attribute name="r"><xsl:value-of select="$pointWidth"/></xsl:attribute>
+        <xsl:attribute name="r"><xsl:value-of select="$pointDiameter"/></xsl:attribute>
       </xsl:element>
   </xsl:template>
 
@@ -91,7 +91,7 @@ $Name$
         <xsl:element name="circle">
           <xsl:attribute name="cx"><xsl:value-of select="$x0"/></xsl:attribute>
           <xsl:attribute name="cy"><xsl:value-of select="$y0"/></xsl:attribute>
-          <xsl:attribute name="r"><xsl:value-of select="$pointWidth"/></xsl:attribute>
+          <xsl:attribute name="r"><xsl:value-of select="$pointDiameter"/></xsl:attribute>
         </xsl:element>
       </xsl:otherwise>
     </xsl:choose>
