@@ -48,16 +48,16 @@
 					<lineWidth>1</lineWidth>
 					<crossSize>15</crossSize>
 				</AoiBoxDHTML>
-				<ResourceDropDown id="dataSelector0">
+				<Widget id="dataSelector0">
 					<targetModel>describeProcessTemplate</targetModel>
 					<stylesheet>ResourceDropDown.xsl</stylesheet>
 					<scriptFile>ResourceDropDown.js</scriptFile>
-				</ResourceDropDown>
-				<ResourceDropDown id="dataSelector1">
+				</Widget>
+				<Widget id="dataSelector1">
 					<targetModel>describeProcessTemplate</targetModel>
 					<stylesheet>ResourceDropDown.xsl</stylesheet>
 					<scriptFile>ResourceDropDown.js</scriptFile>
-				</ResourceDropDown>
+				</Widget>
 			</widgets>
 			<tools>
 				<AoiMouseHandler id="mainAoi"/>
@@ -106,12 +106,12 @@
 				<WpsDescribeProcess id="describeProcessTemplate">
 					<!--defaultModelUrl>DescribeProcess_MinValue.xml</defaultModelUrl-->
 					<widgets>
-						<ProcessArgumentsForm id="argsInput">
+						<Widget id="argsInput">
 							<targetModel>executeProcessTemplate</targetModel>
 							<stylesheet>ProcessArgumentsForm.xsl</stylesheet>
 							<scriptFile>ProcessArgumentsForm.js</scriptFile>
 							<mapModel>mainMap</mapModel>
-						</ProcessArgumentsForm>
+						</Widget>
 					</widgets>
 					<tools>
 						<WebServiceRequest id="wpsExecuteProcess">
@@ -124,10 +124,10 @@
 				</WpsDescribeProcess>
 				<Model id="executeProcessTemplate">
 					<widgets>
-						<ShowProcessResult id="results">
+						<Widget id="results">
 							<stylesheet>ShowProcessResult.xsl</stylesheet>
 							<scriptFile>ShowProcessResult.js</scriptFile>
-						</ShowProcessResult>
+						</Widget>
 					</widgets>
 					<namespace>xmlns:wps='http://www.opengis.net/wps'</namespace>
 				</Model>
@@ -149,7 +149,6 @@
 	</models>
 	<widgets>
 		<TabbedContent id="mainTabs">
-			<htmlWorkspace>workspace</htmlWorkspace>
 			<tab>urlInput</tab>
 			<tab>selectProcess</tab>
 			<tab>argsInput</tab>
