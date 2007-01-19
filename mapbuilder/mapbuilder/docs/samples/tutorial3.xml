@@ -2,9 +2,8 @@
 <MapbuilderConfig
     xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder /mapbuilder/lib/schemas/config.xsd"
-     version="0.2.0" id="tutorial3" >
-  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd"
+     version="0.2.1" id="tutorial3" >
 
   <models>
 
@@ -19,10 +18,10 @@
         <AoiBoxWZ id="aoiBoxMain">
           <htmlTagId>mainMapPane</htmlTagId>
           <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
+          <mapContainerId>mainMapContainer</mapContainerId>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
-          <mapContainerId>mainMapContainer</mapContainerId>
         </AoiBoxWZ>
         
         <Legend id="defaultLegend"/>
