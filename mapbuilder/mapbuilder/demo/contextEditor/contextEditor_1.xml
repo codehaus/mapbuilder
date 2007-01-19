@@ -31,7 +31,6 @@
         <MapPane id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
           <mapContainerId>mainMapContainer</mapContainerId>
-          <loadHidden>false</loadHidden>
         </MapPane>
         <Loading id="loading">
         </Loading>

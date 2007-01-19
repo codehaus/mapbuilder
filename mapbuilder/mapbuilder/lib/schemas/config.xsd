@@ -22,7 +22,6 @@
         <xs:extension base="mb:AbstractModelType">
           <xs:sequence>
             <xs:element name="skinDir" type="mb:urlPathType" minOccurs="0"/>
-            <xs:element name="languages" type="xs:string" minOccurs="0"/>
             <xs:element name="widgetTextUrl" type="mb:urlPathType" minOccurs="0"/>
             <xs:element name="proxyUrl" type="mb:urlPathType" minOccurs="0"/>
             <xs:element name="serializeUrl" type="mb:urlPathType" minOccurs="0"/>
@@ -44,11 +43,6 @@
       <xs:element name="defaultModelUrl" type="mb:urlPathType" minOccurs="0">
         <xs:annotation>
           <xs:documentation>The URL where the model gets loaded from.  If the method is HTTP GET, then include the full query string in the URL.  Optional, if present, the model will be loaded when the application loads.</xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="postData" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation>contains a fragment of XML data which will be posted to the server URL when using HTTP POST.  Optional.</xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="method" type="xs:string" minOccurs="0">
@@ -224,9 +218,8 @@
   <!--  document structure -->
   <xs:complexType name="modelsType">
     <xs:choice maxOccurs="unbounded">
-      <xs:element name="ContextCollection" type="mb:ContextCollectionType"/>
       <xs:element name="Context" type="mb:ContextType"/>
-      <xs:element name="DescribeFeatureType" type="mb:DescribeFeatureTypeType"/>
+      <xs:element name="ContextCollection" type="mb:ContextCollectionType"/>
       <xs:element name="FeatureCollection" type="mb:FeatureCollectionType"/>
       <xs:element name="GeoRSS" type="mb:GeoRSSType"/>
       <xs:element name="GetMap" type="mb:GetMapType"/>
@@ -235,7 +228,6 @@
           <xs:documentation>A generic model to represent an XML document where no specialized get or set methods are required</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="ModelBase" type="mb:ModelType"/>
       <xs:element name="OwsContext" type="mb:ContextType"/>
       <xs:element name="Transaction" type="mb:TransactionType"/>
       <xs:element name="WfsCapabilities" type="mb:WfsCapabilitiesType"/>
@@ -265,7 +257,6 @@
       <xs:element name="FeatureList" type="mb:FeatureListType"/>
       <xs:element name="Forward" type="mb:ButtonType"/>
       <xs:element name="GetFeatureInfo" type="mb:GetFeatureInfoType"/>
-      <xs:element name="Gml2Render" type="mb:Gml2RenderType"/>
       <xs:element name="GmlPointRenderer" type="mb:GmlPointRendererType"/>
       <xs:element name="GmlRendererTest" type="mb:GmlRendererTestType"/>
       <xs:element name="GmlRendererWZ" type="mb:GmlRendererWZType"/>
@@ -300,7 +291,6 @@
           <xs:documentation>A generic widget</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="WidgetBase" type="mb:WidgetType"/>
       <xs:element name="WmsCapabilitiesImport" type="mb:WmsCapabilitiesImportType"/>
       <xs:element name="ZoomIn" type="mb:ButtonType"/>
       <xs:element name="ZoomOut" type="mb:ButtonType"/>
@@ -309,7 +299,6 @@
 
   <xs:complexType name="toolsType">
     <xs:choice maxOccurs="unbounded">
-      <xs:element name="AoiBox" type="mb:AoiBoxType"/>
       <xs:element name="AoiMouseHandler" type="mb:AoiMouseHandlerType"/>
       <xs:element name="Caps2Context" type="mb:Caps2ContextType"/>
       <xs:element name="DragPanHandler" type="mb:DragPanHandlerType"/>
@@ -323,15 +312,6 @@
   </xs:complexType>
 
   <!-- global model extension types; Models type represent different types of XML documents. Use Model for a generic XML document where no customization or specialized methods are required-->
-  <xs:complexType name="ContextCollectionType">
-    <xs:annotation>
-      <xs:documentation>A collection of Web Map Context document URLs as specified by the Open GeoSpatial Consortium (http://www.opengeospatial.org/docs/03-036r2.pdf)</xs:documentation>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="mb:AbstractModelType"/>
-    </xs:complexContent>
-  </xs:complexType>
-
   <xs:complexType name="ContextType">
     <xs:annotation>
       <xs:documentation>A Web Map Context document as specified by the Open GeoSpatial Consortium (http://www.opengeospatial.org/docs/03-036r2.pdf)</xs:documentation>
@@ -341,9 +321,9 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="DescribeFeatureTypeType">
+  <xs:complexType name="ContextCollectionType">
     <xs:annotation>
-      <xs:documentation>A response from a WFS for a DescribeFeatureType operation</xs:documentation>
+      <xs:documentation>A collection of Web Map Context document URLs as specified by the Open GeoSpatial Consortium (http://www.opengeospatial.org/docs/03-036r2.pdf)</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="mb:AbstractModelType"/>
@@ -549,12 +529,6 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="Gml2RenderType">
-    <xs:complexContent>
-      <xs:extension base="mb:AbstractWidgetType"/>
-    </xs:complexContent>
-  </xs:complexType>
-
   <xs:complexType name="GmlPointRendererType">
     <xs:annotation>
       <xs:documentation>A widget to render GML. </xs:documentation>
@@ -695,8 +669,6 @@
       <xs:extension base="mb:AbstractMapWidgetType">
         <xs:sequence>
           <xs:element name="fixedWidth" type="xs:integer" minOccurs="0"/>
-          <xs:element name="fixedHeight" type="xs:integer" minOccurs="0"/>
-          <xs:element name="loadHidden" type="xs:boolean" minOccurs="0"/>
           <xs:element name="extraAttributes" type="xs:boolean" minOccurs="0"/>
           <xs:element name="noPreload" type="xs:boolean" minOccurs="0"/>
         </xs:sequence>
@@ -896,22 +868,6 @@
   </xs:complexType>
 
   <!-- global tools extension types -->
-
-  <xs:complexType name="AoiBoxType">
-    <xs:annotation>
-      <xs:documentation>A tool to draw the AOI box on a map container (to be dprecated for widget version)</xs:documentation>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="mb:AbstractToolType">
-        <xs:sequence>
-          <xs:element name="lineColor" type="xs:string" minOccurs="0"/>
-          <xs:element name="lineWidth" type="xs:integer" minOccurs="0"/>
-          <xs:element name="crossSize" type="xs:integer" minOccurs="0"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
   <xs:complexType name="AoiMouseHandlerType">
     <xs:annotation>
       <xs:documentation>A tool for models of a map container to set the AOI by click and drag of the mouse</xs:documentation>

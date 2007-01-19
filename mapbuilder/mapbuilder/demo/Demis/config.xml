@@ -117,7 +117,6 @@
     </ModelSwitcher>
  	</widgets>
 	<skinDir>../../lib/skin/default</skinDir>
-  <languages>en,fr,fr-CA</languages>
 	<widgetTextUrl>widgetText.xml</widgetTextUrl>
 
 </MapbuilderConfig>

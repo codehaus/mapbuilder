@@ -35,7 +35,6 @@
 					<htmlTagId>mainMapPane</htmlTagId>
 					<stylesheet>../../lib/widget/owsMapPane.xsl</stylesheet>
 					<mapContainerId>mainMapContainer</mapContainerId>
-					<loadHidden>false</loadHidden>
 				</MapPane>
 				<Loading id="loading"/>
 				<CursorTrack id="cursorTrack">

@@ -21,7 +21,6 @@
 				<MapPane id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
 					<mapContainerId>mainMapContainer</mapContainerId>
-					<loadHidden>false</loadHidden> 
 <!--					<scriptFile>../../sldEditor2.0/widget/MapPane.js</scriptFile>-->
 <!--					<stylesheet>../../lib/widget/MapPane.xsl</stylesheet>-->
 				</MapPane>

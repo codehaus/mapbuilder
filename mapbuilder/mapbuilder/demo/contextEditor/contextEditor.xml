@@ -20,7 +20,6 @@
           <htmlTagId>mainMapPane</htmlTagId>
 					<stylesheet>../../lib/widget/MapPane.xsl</stylesheet>
           <mapContainerId>mainMapContainer</mapContainerId>
-          <loadHidden>false</loadHidden>
         </MapPane>
         <Loading2 id="loading2">
           <mapContainerId>mainMapContainer</mapContainerId>
