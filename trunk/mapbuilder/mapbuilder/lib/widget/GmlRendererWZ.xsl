@@ -26,7 +26,7 @@ $Name$
   <xsl:param name="fill" select="'grey'"/>
   <xsl:param name="crossSize" select="0"/>
   <xsl:param name="skinDir"/>
-  <xsl:param name="pointWidth" select="5"/>
+  <xsl:param name="pointDiameter" select="5"/>
   <xsl:variable name="xRatio" select="$width div ( $bBoxMaxX - $bBoxMinX )"/>
   <xsl:variable name="yRatio" select="$height div ( $bBoxMaxY - $bBoxMinY )"/>
   <!-- Root node -->
@@ -46,10 +46,10 @@ $Name$
   <xsl:template match="gml:Point">
     <xsl:choose>
       <xsl:when test="count(gml:coord)=1">
-        <xsl:variable name="x0" select="floor((number(gml:coord/gml:X)-$bBoxMinX)*$xRatio - number($pointWidth) div 2)"/>
-        <xsl:variable name="y0" select="floor($height - (number(gml:coord/gml:Y)-$bBoxMinY)*$yRatio - $pointWidth div 2)"/>
+        <xsl:variable name="x0" select="floor((number(gml:coord/gml:X)-$bBoxMinX)*$xRatio - number($pointDiameter) div 2)"/>
+        <xsl:variable name="y0" select="floor($height - (number(gml:coord/gml:Y)-$bBoxMinY)*$yRatio - $pointDiameter div 2)"/>
         // Point
-        <xsl:value-of select="$objRef"/>.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointWidth"/>,<xsl:value-of select="$pointWidth"/>);
+        <xsl:value-of select="$objRef"/>.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointDiameter"/>,<xsl:value-of select="$pointDiameter"/>);
       </xsl:when>
       <!-- When no coord do nothing -->
       <xsl:otherwise>
@@ -114,10 +114,10 @@ $Name$
       </xsl:when>
       <!-- When one coord, draw point -->
       <xsl:when test="count(gml:coord)=1">
-        <xsl:variable name="x0" select="floor((number(gml:coord/gml:X)-$bBoxMinX)*$xRatio - number($pointWidth) div 2)"/>
-        <xsl:variable name="y0" select="floor($height - (number(gml:coord/gml:Y)-$bBoxMinY)*$yRatio - $pointWidth div 2)"/>
+        <xsl:variable name="x0" select="floor((number(gml:coord/gml:X)-$bBoxMinX)*$xRatio - number($pointDiameter) div 2)"/>
+        <xsl:variable name="y0" select="floor($height - (number(gml:coord/gml:Y)-$bBoxMinY)*$yRatio - $pointDiameter div 2)"/>
         // LineString - One point
-        <xsl:value-of select="$objRef"/>.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointWidth"/>,<xsl:value-of select="$pointWidth"/>);
+        <xsl:value-of select="$objRef"/>.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointDiameter"/>,<xsl:value-of select="$pointDiameter"/>);
       </xsl:when>
       <!-- When no coord do nothing -->
       <xsl:otherwise>
@@ -158,10 +158,10 @@ $Name$
       </xsl:when>
       <!-- When one coord, draw point -->
       <xsl:when test="count(gml:coord)=1">
-        <xsl:variable name="x0" select="floor((number(gml:coord/gml:X)-$bBoxMinX)*$xRatio - number($pointWidth) div 2)"/>
-        <xsl:variable name="y0" select="floor($height - (number(gml:coord/gml:Y)-$bBoxMinY)*$yRatio - $pointWidth div 2)"/>
+        <xsl:variable name="x0" select="floor((number(gml:coord/gml:X)-$bBoxMinX)*$xRatio - number($pointDiameter) div 2)"/>
+        <xsl:variable name="y0" select="floor($height - (number(gml:coord/gml:Y)-$bBoxMinY)*$yRatio - $pointDiameter div 2)"/>
         // LineString - One point
-        <xsl:value-of select="$objRef"/>.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointWidth"/>,<xsl:value-of select="$pointWidth"/>);
+        <xsl:value-of select="$objRef"/>.jg.fillRect(<xsl:value-of select="$x0"/>,<xsl:value-of select="$y0"/>,<xsl:value-of select="$pointDiameter"/>,<xsl:value-of select="$pointDiameter"/>);
       </xsl:when>
       <!-- When no coord do nothing -->
       <xsl:otherwise>
