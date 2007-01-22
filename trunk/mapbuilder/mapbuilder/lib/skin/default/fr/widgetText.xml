@@ -84,9 +84,6 @@
       <title>URL:</title>
     </ModelUrlInput>
     
-    <ProcessArgumentsForm>
-    </ProcessArgumentsForm>
-    
     <Reset>
       <tooltip>Redonner la carte ses dimensions complètes</tooltip>
     </Reset>
@@ -95,23 +92,9 @@
       <tooltip>Cliquer pour sauvegarder</tooltip>
     </Save>
     
-    <SelectProcess>
-    </SelectProcess>
-    
     <SetAoi>
       <tooltip>Cliquer et faire glisser la souris pour positionner une AOI</tooltip>
     </SetAoi>
-    
-    <ShowProcessResult>
-      <tabLabel>4. Accéder aux résultats</tabLabel>
-    </ShowProcessResult>
-    
-    <TabbedContent>
-      <argsInput>3. Placer arguments</argsInput>
-      <results>4. Accéder aux résultats</results>
-      <selectProcess>2. Choisir un procés</selectProcess>
-      <urlInput>1. Choisir un service</urlInput>
-    </TabbedContent>
     
     <Timestamp>
       <title>Date de l'image:</title>

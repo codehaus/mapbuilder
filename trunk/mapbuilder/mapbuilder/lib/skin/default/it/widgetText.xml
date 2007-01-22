@@ -84,9 +84,6 @@
       <title>URL:</title>
     </ModelUrlInput>
     
-    <ProcessArgumentsForm>
-    </ProcessArgumentsForm>
-    
     <Reset>
       <tooltip>Ritorna alla mappa iniziale</tooltip>
     </Reset>
@@ -95,23 +92,9 @@
       <tooltip>Salva</tooltip>
     </Save>
     
-    <SelectProcess>
-    </SelectProcess>
-    
     <SetAoi>
       <tooltip>Clicca e trascina per selezionare l'area di interesse</tooltip>
     </SetAoi>
-    
-    <ShowProcessResult>
-      <tabLabel>4. Accedi ai risultati</tabLabel>
-    </ShowProcessResult>
-    
-    <TabbedContent>
-      <argsInput>3. Argomenti</argsInput>
-      <results>4. Accedi ai risultati</results>
-      <selectProcess>2. Seleziona un process</selectProcess>
-      <urlInput>1. Seleziona un servizio</urlInput>
-    </TabbedContent>
     
     <Timestamp>
       <title>Data/ora:</title>
