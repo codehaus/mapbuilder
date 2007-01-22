@@ -553,14 +553,14 @@ function mbGetMessage(messageKey)
   var message = "NoMsgsFound";
   if (config.widgetText) {
     var msgKeyXpath = "/mb:WidgetText/mb:messages/mb:" + messageKey;
-    var msgKeyNode = config.widgetText.selectSingleNode(msgKeyXpath);
-    if (!msgKeyNode) {
+    var msgKeyNodes = config.widgetText.selectNodes(msgKeyXpath);
+    if (!msgKeyNodes || msgKeyNodes.length == 0) {
       // Message not found, fall back to message key
       message = messageKey;
     }
     else {
-      // Message found
-      message = msgKeyNode.firstChild.nodeValue;
+      // Message found; pick last one so user can override messages
+      message = msgKeyNodes.item(msgKeyNodes.length-1).firstChild.nodeValue;
       if (arguments[mbGetMessage.length]) {
         // Extra arguments, format message
         var varArgs = [].slice.call(arguments, mbGetMessage.length);
