@@ -164,20 +164,32 @@ MapPane.prototype.paint = function(objRef) {
     //loop through all layers and create an array of IMG objects for preloading 
     // the WMS getMap calls
     var layers = objRef.model.getAllLayers();
+    // create a index with the visible layer indices and the invisible layer indices last
+    var visibleLayerIndices = new Array();
+    var invisibleLayerIndices = new Array();
+    for (var i=0;i<layers.length;i++){
+      if (layers[i].getAttribute("hidden")==1) {
+        invisibleLayerIndices.push(i);
+      } else {
+        visibleLayerIndices.push(i);
+      }
+    }
+    var sortedLayerIndices = visibleLayerIndices.concat(invisibleLayerIndices);
     if (!objRef.imageStack) objRef.imageStack = new Array(layers.length);
     objRef.firstImageLoaded = false;
 
     objRef.layerCount = layers.length;
     objRef.loadingLayerCount = 0;
     for (var i=0;i<layers.length;i++){
-      if (!objRef.imageStack[i]) {
-        objRef.imageStack[i] = new Image();
-        objRef.imageStack[i].objRef = objRef;
+      var j = sortedLayerIndices[i];
+      if (!objRef.imageStack[j]) {
+        objRef.imageStack[j] = new Image();
+        objRef.imageStack[j].objRef = objRef;
       }
       
       //var newSrc = tempNode.firstChild.childNodes[i].firstChild.getAttribute("src"); 
-      var newSrc = tempNodeList[i].getAttribute("src");
-      objRef.loadImgDiv(layers[i],newSrc,objRef.imageStack[i]);
+      var newSrc = tempNodeList[j].getAttribute("src");
+      objRef.loadImgDiv(layers[j],newSrc,objRef.imageStack[j], i);
     }
   }
 }
@@ -341,7 +353,39 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
     domImg.src = config.skinDir+"/images/Spacer.gif";
     domImg.layerHidden = layerHidden;
     imgDiv.appendChild(domImg);
-    outputNode.appendChild(imgDiv);
+    // code to put imgDiv at the right place in the dom image stack
+    // necessary because smart loading (visible layers first) messes
+    // up the image stack order
+    //
+    // get the names of the layers that come after this one
+    var layers = this.model.getAllLayers();
+    for (var i=0; i<layers.length; i++) {
+      if (layers[i] == layerNode) {
+        var thisLayersPosition = i;
+        break;
+      }
+    }
+    // we could use this slice method, but IE6 chokes on it...
+    //var layersAfter = layers.slice(thisLayersPosition);
+    var layersAfter = new Array();
+    for (var i=thisLayersPosition; i<layers.length; i++) {
+      layersAfter.push(layers[i]);
+    }
+    //
+    // find the first layer that comes after this one in the layer order and that already
+    // has a node in the dom, and insert before that one
+    for (var i=layersAfter.length-1; i>=0; i--) {
+      var layerAfterName = layersAfter[i].selectSingleNode("wmc:Name").firstChild.nodeValue;
+      var findSiblingNode = document.getElementById(this.getLayerDivId(layerAfterName));
+      if (findSiblingNode) {
+        var insertBeforeNode = findSiblingNode;
+      }
+    }
+    if (insertBeforeNode) {
+      outputNode.insertBefore(imgDiv, insertBeforeNode);
+    } else {
+      outputNode.appendChild(imgDiv);
+    }
   } else {
     // NB this assumes that the img element is the first child!?
     var domImg = imgDiv.firstChild;
@@ -453,4 +497,3 @@ function MapImgLoad( objRef, layer ) {
   }
   alert(mbGetMessage("imageNotFound"));
 }
-
