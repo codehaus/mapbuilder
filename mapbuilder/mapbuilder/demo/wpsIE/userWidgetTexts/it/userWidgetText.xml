@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<WidgetText xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
+    version="0.2.1" id="mbDefaultText" xml:lang="it">
+  <!--
+    $Id$
+  -->
+  <!-- User specific widget (XSL) messages -->
+  <widgets>
+    <TabbedContent>
+      <argsInput>3. Argomenti</argsInput>
+      <results>4. Accedi ai risultati</results>
+      <selectProcess>2. Seleziona un process</selectProcess>
+      <urlInput>1. Seleziona un servizio</urlInput>
+    </TabbedContent>
+  </widgets>
+</WidgetText>

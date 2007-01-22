@@ -84,9 +84,6 @@
       <title>URL:</title>
     </ModelUrlInput>
     
-    <ProcessArgumentsForm>
-    </ProcessArgumentsForm>
-    
     <Reset>
       <tooltip>Herstel het volledig kaartbeeld</tooltip>
     </Reset>
@@ -95,23 +92,9 @@
       <tooltip>Klik om de kaart op te slaan</tooltip>
     </Save>
     
-    <SelectProcess>
-    </SelectProcess>
-    
     <SetAoi>
       <tooltip>Klik en sleep op de kaart om het interessegebied te definiëren</tooltip>
     </SetAoi>
-    
-    <ShowProcessResult>
-      <tabLabel>4. Toegangsresultaten</tabLabel>
-    </ShowProcessResult>
-    
-    <TabbedContent>
-      <argsInput>3. Zet argumenten</argsInput>
-      <results>4. Toegangsresultaten</results>
-      <selectProcess>2. Selecteer een proces</selectProcess>
-      <urlInput>1. Selecteer een dienst</urlInput>
-    </TabbedContent>
     
     <Timestamp>
       <title>Tijdstip:</title>

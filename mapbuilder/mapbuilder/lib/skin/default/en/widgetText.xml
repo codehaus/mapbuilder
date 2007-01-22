@@ -84,9 +84,6 @@
       <title>URL:</title>
     </ModelUrlInput>
     
-    <ProcessArgumentsForm>
-    </ProcessArgumentsForm>
-    
     <Reset>
       <tooltip>Reset the map to full extent</tooltip>
     </Reset>
@@ -95,23 +92,9 @@
       <tooltip>Click to save this map</tooltip>
     </Save>
     
-    <SelectProcess>
-    </SelectProcess>
-    
     <SetAoi>
       <tooltip>Click and drag to set the area of interest</tooltip>
     </SetAoi>
-    
-    <ShowProcessResult>
-      <tabLabel>4. Access results</tabLabel>
-    </ShowProcessResult>
-    
-    <TabbedContent>
-      <argsInput>3. Set arguments</argsInput>
-      <results>4. Access results</results>
-      <selectProcess>2. Select a process</selectProcess>
-      <urlInput>1. Select a service</urlInput>
-    </TabbedContent>
     
     <Timestamp>
       <title>Timestamp:</title>

@@ -215,6 +215,7 @@
     This dir is relative the dir of the main html file.
   -->
 	<skinDir>/mapbuilder/lib/skin/default</skinDir>
-	<widgetTextUrl>/widgetText.xml</widgetTextUrl>
-	<!-- relative to the skin dir -->
+	<widgetTextUrl>widgetText.xml</widgetTextUrl> <!-- relative to the skin dir -->
+	<userWidgetTextDir>userWidgetTexts</userWidgetTextDir>
+	<userWidgetTextUrl>userWidgetText.xml</userWidgetTextUrl> <!-- relative to the userWidgetTextDir -->
 </MapbuilderConfig>
