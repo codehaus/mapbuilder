@@ -23,6 +23,8 @@
           <xs:sequence>
             <xs:element name="skinDir" type="mb:urlPathType" minOccurs="0"/>
             <xs:element name="widgetTextUrl" type="mb:urlPathType" minOccurs="0"/>
+            <xs:element name="userWidgetTextDir" type="mb:urlPathType" minOccurs="0"/>
+            <xs:element name="userWidgetTextUrl" type="mb:urlPathType" minOccurs="0"/>
             <xs:element name="proxyUrl" type="mb:urlPathType" minOccurs="0"/>
             <xs:element name="serializeUrl" type="mb:urlPathType" minOccurs="0"/>
           </xs:sequence>

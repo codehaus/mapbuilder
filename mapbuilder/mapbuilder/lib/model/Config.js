@@ -81,8 +81,8 @@ function Config(url) {
   * or by setting a global "language" Javascript variable in the page <HEAD>.
   * Retrieve the language value from the global conifg object as "config.lang"
   */
-  var defaultLang = "en";
-  this.lang = defaultLang;
+  this.defaultLang = "en";
+  this.lang = this.defaultLang;
   if (window.cgiArgs["language"]) {
     this.lang = window.cgiArgs["language"];
   } else if (window.language) {
@@ -97,31 +97,68 @@ function Config(url) {
   var serializeUrl = modelNode.selectSingleNode("mb:serializeUrl");
   if (serializeUrl) this.serializeUrl = serializeUrl.firstChild.nodeValue;
 
-  var widgetText = modelNode.selectSingleNode("mb:widgetTextUrl");
-  if (widgetText) {
-    var widgetTextUrl = this.skinDir + "/" + this.lang + "/" + widgetText.firstChild.nodeValue;
-    this.widgetText = Sarissa.getDomDocument();
-    this.widgetText.async = false;
-    this.widgetText.validateOnParse=false;  //IE6 SP2 parsing bug
-    this.widgetText.load(widgetTextUrl);
-    if (this.widgetText.parseError < 0){
-      var errMsg = "Error loading widgetText document: " + widgetTextUrl;
-      if (this.lang == defaultLang) {
-        alert(errMsg);
-      }
-      else {
-        // Try to fall back on default language
-        alert(errMsg + "\nFalling back on default language=\"" + defaultLang + "\"");
-        this.lang = defaultLang;
-        var widgetTextUrl = this.skinDir + "/" + this.lang + "/" + widgetText.firstChild.nodeValue;
-        this.widgetText.load(widgetTextUrl);
-        if (this.widgetText.parseError < 0){
-          alert("Falling back on default language failed!");
+  /**
+   * Convenience method to load widgetText from a URL.
+   * Has the possible side-effect of changing config.lang to config.defaultLang
+   * if the widgetText for the selected language is not found.
+   * @param config the config object
+   * @param dir    the base dir for the widget text
+   * @param url    the (relative) url under dir/config.lang for the widget text
+   * @private
+   */
+  function loadWidgetText(config, dir, url) {
+    var widgetText;
+    if (url) {
+      var widgetTextUrl = dir + "/" + config.lang + "/" + url.firstChild.nodeValue;
+      widgetText = Sarissa.getDomDocument();
+      widgetText.async = false;
+      widgetText.validateOnParse=false;  //IE6 SP2 parsing bug
+      widgetText.load(widgetTextUrl);
+      if (widgetText.parseError < 0){
+        var errMsg = "Error loading widgetText document: " + widgetTextUrl;
+        if (config.lang == config.defaultLang) {
+          alert(errMsg);
+        }
+        else {
+          // Try to fall back on default language
+          alert(errMsg + "\nFalling back on default language=\"" + config.defaultLang + "\"");
+          config.lang = config.defaultLang;
+          widgetTextUrl = dir + "/" + config.lang + "/" + url.firstChild.nodeValue;
+          widgetText.load(widgetTextUrl);
+          if (widgetText.parseError < 0){
+            alert("Falling back on default language failed!");
+          }
         }
       }
+      widgetText.setProperty("SelectionLanguage", "XPath");
+      Sarissa.setXpathNamespaces(widgetText, config.namespace);
     }
-    this.widgetText.setProperty("SelectionLanguage", "XPath");
-    Sarissa.setXpathNamespaces(this.widgetText, this.namespace);
+    return widgetText;
+  }
+  
+  // Load widgetText
+  this.widgetText = loadWidgetText(this, this.skinDir,
+    modelNode.selectSingleNode("mb:widgetTextUrl"));
+  // Try to load userWidgetText
+  userWidgetTextDir = modelNode.selectSingleNode("mb:userWidgetTextDir");
+  if (userWidgetTextDir) {
+    var userWidgetText = loadWidgetText(this, userWidgetTextDir.firstChild.nodeValue,
+      modelNode.selectSingleNode("mb:userWidgetTextUrl"));
+    if (userWidgetText) {
+      // User has specified userWidgetText, merge with widgetText
+      var userWidgets = userWidgetText.selectSingleNode("/mb:WidgetText/mb:widgets");
+      var configWidgets = this.widgetText.selectSingleNode("/mb:WidgetText/mb:widgets");
+      if (userWidgets && configWidgets) {
+        // Merge <widgets/> texts
+        Sarissa.copyChildNodes(userWidgets, configWidgets, true);
+      }
+      var userMessages = userWidgetText.selectSingleNode("/mb:WidgetText/mb:messages");
+      var configMessages = this.widgetText.selectSingleNode("/mb:WidgetText/mb:messages");
+      if (userMessages && configMessages) {
+        // Merge <messages/> texts
+        Sarissa.copyChildNodes(userMessages, configMessages, true);
+      }
+    }
   }
 
   /**
