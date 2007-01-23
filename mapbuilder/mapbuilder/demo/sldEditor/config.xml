@@ -27,9 +27,7 @@
         		<CursorTrack id="cursorTrack">
           			<mouseHandler>mainMap</mouseHandler>
        			</CursorTrack>
-        		<Widget id="mapTitle">
-          			<stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
-        		</Widget>
+        		<MapTitle id="mapTitle"/>
         		<LayerControl id="contextLegend">
 		          	<htmlTagId>workspace</htmlTagId>
 		          	<outputNodeId>workspaceCanvas</outputNodeId>
@@ -61,12 +59,11 @@
 	    <models>
 	    	<FeatureTypeSchema id="layerTypeTemplate" template="true">
 				          <widgets>
-					            <Widget id="layerProperty">
+					            <LayerProperty id="layerProperty">
 						              <htmlTagId>selectProperty</htmlTagId>
 						              <outputNodeId>selectPropertyCanvas</outputNodeId>
 						            
-						              <stylesheet>../../lib/widget/LayerProperty.xsl</stylesheet>
-						        </Widget>
+						        </LayerProperty>
 				          </widgets>
 	        </FeatureTypeSchema>
     		
@@ -133,12 +130,11 @@
         </FeatureCollection>
       </models>
       <widgets>
-        <Widget id="featureTypes">
+        <SelectFeatureType id="featureTypes">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
-          <stylesheet>../../lib/widget/SelectFeatureType.xsl</stylesheet>
           <toolId>wfsController</toolId>
-        </Widget>
+        </SelectFeatureType>
       </widgets>
       <tools>
         <WebServiceRequest id="wfsGetFeature">
@@ -163,18 +159,15 @@
     
     <WmsCapabilities id="wmsCapTemplate">
 			<widgets>
-				<Widget id="loadAllLayers">
-					<stylesheet>../../lib/widget/SelectAllMapLayers.xsl</stylesheet>
-				</Widget>
+				<SelectAllMapLayers id="loadAllLayers"/>
 				<ModelStatus id="wmsLoadStatus">
 					<htmlTagId>workspace</htmlTagId>
 					<outputNodeId>workspaceCanvas</outputNodeId>
 				</ModelStatus>
-				<Widget id="layerList">
+				<SelectMapLayers id="layerList">
 					<htmlTagId>workspace</htmlTagId>
 					<outputNodeId>workspaceCanvas</outputNodeId>
-					<stylesheet>../../lib/widget/SelectMapLayers.xsl</stylesheet>
-				</Widget>
+				</SelectMapLayers>
 			</widgets>
 			<tools>
 				<Caps2Context id="convertCaps">

@@ -16,9 +16,7 @@
 	<models>
 		<!--Logger id="eventLogDoc">
 			  <widgets>
-				<Widget id="eventLog">
-				  <stylesheet>../../lib/widget/EventLog.xsl</stylesheet>
-				</Widget>
+				<EventLog id="eventLog"/>
 			  </widgets>
 		</Logger-->
 		<OwsContext id="mainMap">
@@ -64,12 +62,8 @@
 				<Legend id="contextLegend">
 					<htmlTagId>legend</htmlTagId>
 				</Legend>
-				<Widget id="abstract">
-					<stylesheet>../../lib/widget/Abstract.xsl</stylesheet>
-				</Widget>
-				<Widget id="mapTitle">
-					<stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
-				</Widget>
+				<Abstract id="abstract"/>
+				<MapTitle id="mapTitle"/>
 			</widgets>
 			<tools>
 				<AoiMouseHandler id="mainAoi"/>

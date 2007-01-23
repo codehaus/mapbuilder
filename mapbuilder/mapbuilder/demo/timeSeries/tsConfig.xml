@@ -20,12 +20,8 @@
         </Timestamp>
 				<Legend id="legend">
         </Legend>
-				<Widget id="abstract">
-					<stylesheet>Abstract.xsl</stylesheet>
-				</Widget>
-				<Widget id="mapTitle">
-					<stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
-				</Widget>
+				<Abstract id="abstract"/>
+				<MapTitle id="mapTitle"/>
 				<!--SelectTimeFrame id="timeRangeSelect">
         </SelectTimeFrame-->
 				<CursorTrack id="cursorTrack">
@@ -55,11 +51,10 @@
 			<!--defaultModelUrl>../data/test/tsNasaCaps.xml</defaultModelUrl-->
 			<title>OGC Web Map Server (WMS)</title>
 			<widgets>
-				<Widget id="layerList">
+				<SelectMapLayers id="layerList">
 					<htmlTagId>workspace</htmlTagId>
 					<outputNodeId>workspaceCanvas</outputNodeId>
-					<stylesheet>../../lib/widget/SelectMapLayers.xsl</stylesheet>
-				</Widget>
+				</SelectMapLayers>
         <Loading2 id="loading2">
 					<htmlTagId>workspace</htmlTagId>
 					<outputNodeId>workspaceCanvas</outputNodeId>

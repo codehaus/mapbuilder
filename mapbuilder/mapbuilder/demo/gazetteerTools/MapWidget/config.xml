@@ -31,9 +31,7 @@
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
         </CursorTrack>
-        <Widget id="mapTitle">
-          <stylesheet>/mapbuilder/lib/widget/MapTitle.xsl</stylesheet>
-        </Widget>
+        <MapTitle id="mapTitle"/>
         <AoiForm id="aoiForm">
         </AoiForm>
       </widgets>
@@ -88,5 +86,7 @@
   </widgets>
   <skinDir>../skin</skinDir>
   <widgetTextUrl>widgetText.xml</widgetTextUrl>
+  <userWidgetTextDir>../skin</userWidgetTextDir>
+  <userWidgetTextUrl>userWidgetText.xml</userWidgetTextUrl>
 </MapbuilderConfig>
 

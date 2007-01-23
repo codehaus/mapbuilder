@@ -126,12 +126,11 @@
         </Transaction-->
       </models>
       <widgets>
-        <Widget id="featureTypes">
+        <SelectFeatureType id="featureTypes">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
-          <stylesheet>../../lib/widget/SelectFeatureType.xsl</stylesheet>
           <toolId>wfsController</toolId>
-        </Widget>
+        </SelectFeatureType>
         <ModelUrlInput id="wfsUrlInput">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
@@ -170,11 +169,10 @@
         </Model>
       </models>
       <widgets>
-        <Widget id="layerList">
+        <SelectMapLayers id="layerList">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
-          <stylesheet>../../lib/widget/SelectMapLayers.xsl</stylesheet>
-        </Widget>
+        </SelectMapLayers>
         <ModelUrlInput id="wmsUrlInput">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>

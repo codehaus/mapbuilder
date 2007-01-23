@@ -33,9 +33,7 @@
           <mouseHandler>mainMap</mouseHandler>
         </CursorTrack>
         <Legend id="legend"/>
-        <Widget id="version">
-          <stylesheet>../../lib/widget/Version.xsl</stylesheet>
-        </Widget>
+        <Version id="version"/>
       </widgets>
       <tools>
         <AoiMouseHandler id="mainAoi"/>

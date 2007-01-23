@@ -17,9 +17,7 @@
     <!--Logger id="eventLogDoc">
       
       <widgets>
-      <Widget id="eventLog">
-      <stylesheet>../../lib/widget/EventLog.xsl</stylesheet>
-      </Widget>
+      <EventLog id="eventLog"/>
       </widgets>
       </Logger-->
     <Context id="mainMap">
@@ -56,12 +54,8 @@
           <showXY>false</showXY>
         </CursorTrack>
         <Legend id="legend" />
-        <Widget id="abstract">
-          <stylesheet>../../lib/widget/Abstract.xsl</stylesheet>
-        </Widget>
-        <Widget id="mapTitle">
-          <stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
-        </Widget>
+        <Abstract id="abstract"/>
+        <MapTitle id="mapTitle"/>
         <!--AoiForm id="aoiForm"/-->
         <MapScaleText id="mapScaleText" />
         <SaveModel id="saveModelWidget">
@@ -223,18 +217,15 @@
     -->
     <WmsCapabilities id="wmsCapTemplate">
       <widgets>
-        <Widget id="loadAllLayers">
-          <stylesheet>../../lib/widget/SelectAllMapLayers.xsl</stylesheet>
-        </Widget>
+        <SelectAllMapLayers id="loadAllLayers"/>
         <ModelStatus id="wmsLoadStatus">
           <htmlTagId>layerList</htmlTagId>
           <outputNodeId>layerListCanvas</outputNodeId>
         </ModelStatus>
-        <Widget id="layerListWidget">
+        <SelectMapLayers id="layerListWidget">
           <htmlTagId>layerList</htmlTagId>
           <outputNodeId>layerListCanvas</outputNodeId>
-          <stylesheet>../../lib/widget/SelectMapLayers.xsl</stylesheet>
-        </Widget>
+        </SelectMapLayers>
       </widgets>
       <tools>
         <Caps2Context id="convertCaps">

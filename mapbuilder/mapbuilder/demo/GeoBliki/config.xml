@@ -30,6 +30,7 @@
         -->        
         <AoiForm id="aoiForm">
 					<stylesheet>AoiForm.xsl</stylesheet>
+          <mapContainerId>mainMapContainer</mapContainerId>
 				</AoiForm>
 				
         <CursorTrack id="cursorTrack">
@@ -65,10 +66,6 @@
 		
 		<FeatureCollection id="gml2FeatureTemplate">
 			<method>post</method>
-			<featureTagName>eo1:name</featureTagName>
-			<coordsTagName>eo1:location</coordsTagName>
-	    <nodeSelectXpath>//gml:featureMember</nodeSelectXpath>
- 	    <coordSelectXpath>//eo1:location/gml:Point/gml:pos</coordSelectXpath>
  
 				<widgets>
 	        <TipWidget id="wfsRendererTip" > 
@@ -91,6 +88,10 @@
 					</Legend>
 				</widgets>
 	    <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:eo1='http://eo1.gsfc.nasa.gov/' xmlns:wfs='http://www.opengis.net/wfs' xmlns:ows='http://www.opengis.net/ows'</namespace>
+	    <nodeSelectXpath>//gml:featureMember</nodeSelectXpath>
+			<featureTagName>eo1:name</featureTagName>
+			<coordsTagName>eo1:location</coordsTagName>
+ 	    <coordSelectXpath>//eo1:location/gml:Point/gml:pos</coordSelectXpath>
 		</FeatureCollection>
 		
 	</models>
