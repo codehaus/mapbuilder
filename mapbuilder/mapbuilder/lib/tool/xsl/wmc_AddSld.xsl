@@ -5,7 +5,7 @@ Description: create a StyleList node with a sld file
 Author:      Terral
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
-$Id: CopyNode.xsl,v 1.2 2005/03/30 20:27:00 camerons Exp $
+$Id$
 $Name:  $
 -->
 

@@ -13,7 +13,7 @@ Author:      Cameron Shorter cameron ATshorter.net
 Author:      Patrice C.
 Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: Legend2.xsl 1801 2005-11-10 23:22:02 -0500 (Thu, 10 Nov 2005) madair1 $
+$Id$
 $Name$
 -->
   <xsl:output method="xml" encoding="utf-8"/>

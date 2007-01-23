@@ -14,7 +14,7 @@ Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
 
 
-$Id: wfs_Insert.xsl 1749 2005-10-24 20:22:31Z camerons $
+$Id$
 
 $Name$
 

@@ -2,7 +2,7 @@
 Author:       Mike Adair mike.adairATccrs.nrcan.gc.ca
 License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: ModelUrlInput.js,v 1.11 2005/08/03 19:07:01 mattdiez Exp $
+$Id$
 */
 
 // Ensure this object's dependancies are loaded.

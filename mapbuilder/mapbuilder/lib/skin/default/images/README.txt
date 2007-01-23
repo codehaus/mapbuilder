@@ -1,6 +1,6 @@
 Iconset information
 ==================================
-$Id: README.txt,v 1.00 2005/08/03 19:18:53 mattdiez Exp $
+$Id$
 
 Many of these icons are modified versions of the chameleon iconset (http://chameleon.maptools.org/). Some are modified GIMP icons and gnome-cd-player icons.
 

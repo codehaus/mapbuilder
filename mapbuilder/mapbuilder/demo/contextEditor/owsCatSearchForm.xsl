@@ -5,7 +5,7 @@ Description: parses an listing of OGC services from the Discovery Portal registr
 Author:      adair
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
-$Id: ServiceRegistryList.xsl,v 1.6 2005/08/03 19:07:01 mattdiez Exp $
+$Id$
 $Name:  $
 -->
 

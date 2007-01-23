@@ -4,7 +4,7 @@
   Author:      imke doerge AT Geodan.nl
   Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
   
-  $Id: ShowDistance.xsl,v 1.00 2005/08/03 19:07:00 steven Exp $
+  $Id$
   $Name:  $
 -->
 

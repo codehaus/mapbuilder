@@ -5,7 +5,7 @@ Description: parses an OGC context document to generate an array of DHTML layers
 Author:      adair
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
-$Id: MapPane.xsl 1918 2006-02-13 22:31:26 -0500 (Mon, 13 Feb 2006) cappelaere $
+$Id$
 $Name$
 -->
 <xsl:stylesheet version="1.0" xmlns:wmc="http://www.opengis.net/context" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ows="http://www.opengis.net/ows" >

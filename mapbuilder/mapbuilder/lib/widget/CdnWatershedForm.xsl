@@ -8,7 +8,7 @@ Description: Output a form for display of the context doc AOI
 Author:      Mike Adair
 Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: NtsForm.xsl,v 1.9 2005/04/09 20:45:30 madair1 Exp $
+$Id$
 -->
 
   <xsl:output method="xml" encoding="utf-8"/>

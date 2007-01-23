@@ -5,7 +5,7 @@ Description: parse DescribeFeatureType response
 Author:      adair
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
-$Id: LayerProperty.xsl  2152 2006-07-03 12:13:09 +0000  oterral $
+$Id$
 $Name$
 -->
 

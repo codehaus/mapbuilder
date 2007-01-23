@@ -9,7 +9,7 @@ Description: Generate the component register from the config XML schema.
 Author:      Mike Adair
 Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: XmlSchemaForm.xsl,v 1.6 2005/05/01 02:03:50 madair1 Exp $
+$Id$
 -->
 
   <xsl:output method="xml" encoding="utf-8" indent="yes"/>

@@ -5,7 +5,7 @@ Description: presents the list of events in a GeoRSS
 Author:      adair
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
-$Id: popup.xsl,v 1.1 2005/09/19 14:55:53 cappelaere Exp $
+$Id$
 $Name:  $
 -->
 

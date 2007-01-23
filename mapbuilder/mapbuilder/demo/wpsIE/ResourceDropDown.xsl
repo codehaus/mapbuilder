@@ -5,7 +5,7 @@ Description: parses an OGC context document to generate an array of DHTML layers
 Author:      adair
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
-$Id: owsMapPane.xsl,v 1.9 2005/03/30 20:27:03 camerons Exp $
+$Id$
 $Name:  $
 -->
 

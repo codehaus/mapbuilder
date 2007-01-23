@@ -2,7 +2,7 @@
 Author:       Mike Adair mike.adairATccrs.nrcan.gc.ca
 License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: OWSCatSearchForm.js 2097 2006-04-26 17:33:19Z madair $
+$Id$
 */
 
 // Ensure this object's dependancies are loaded.

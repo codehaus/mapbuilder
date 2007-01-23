@@ -9,7 +9,7 @@ Description: Displays the Title value from a Web Map Context document
 Author:      Mike Adair
 Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: MapTitle.xsl,v 1.8 2005/04/30 18:35:29 madair1 Exp $
+$Id$
 $Name:  $
 -->
 

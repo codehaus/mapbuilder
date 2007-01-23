@@ -6,7 +6,7 @@ Description: a TabbedContent node from config to output some tabs,
 Author:      adair/stella
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
-$Id: TabbedContent.xsl,v 1.1 2005/05/02 18:11:38 fstella Exp $
+$Id$
 $Name:  $
 -->
 

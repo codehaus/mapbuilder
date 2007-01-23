@@ -1,6 +1,6 @@
 /*
 License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
-$Id: Legend.js 2096 2006-04-26 17:31:22Z madair $
+$Id$
 */
 
 // Ensure this object's dependancies are loaded.

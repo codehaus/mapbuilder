@@ -12,7 +12,7 @@
                  mbGetMessage(messageKey); see the JSDoc for details.
     Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
 
-    $Id: widgetText.xml,v 1.7 2005/08/03 19:06:58 mattdiez Exp $
+    $Id$
   -->
   <!-- Widget (XSL) messages -->
   <widgets>

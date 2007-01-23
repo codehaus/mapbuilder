@@ -2,7 +2,7 @@
 Author:       Mike Adair mike.adairATccrs.nrcan.gc.ca
 License:      GPL as per: http://www.gnu.org/copyleft/gpl.html
 
-$Id: PlaceNameForm.js,v 1.5 2005/01/04 05:17:22 madair1 Exp $
+$Id$
 */
 
 // Ensure this object's dependancies are loaded.

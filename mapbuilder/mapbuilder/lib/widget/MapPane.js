@@ -2,7 +2,7 @@
 Author:       Cameron Shorter cameronAtshorter.net
 License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: MapPane.js 2096 2006-04-26 17:31:22 +0000 (mer., 26 avr. 2006) madair $
+$Id$
 */
 
 // Ensure this object's dependancies are loaded.

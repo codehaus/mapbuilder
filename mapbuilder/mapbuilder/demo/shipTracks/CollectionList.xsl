@@ -5,7 +5,7 @@ Description: parses an OGC context collection document to generate a context pic
 Author:      adair
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
-$Id: CollectionList.xsl,v 1.1 2005/10/27 12:41:54 cappelaere Exp $
+$Id$
 $Name:  $
 -->
 

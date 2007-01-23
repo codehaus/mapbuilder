@@ -1,7 +1,7 @@
 /*
 Author: imke doerge AT geodan.nl
 License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
-$Id: ShowDistance.js,v 1.00 2005/08/03 19:07:00 steven Exp $
+$Id$
 */
 
 // Ensure this object's dependancies are loaded.
