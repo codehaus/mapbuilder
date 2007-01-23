@@ -37,14 +37,11 @@
           <stylesheet>LegendOpaque.xsl</stylesheet>
         </Legend>
         <LegendGraphic id="legendGraphic"/>
-        <Widget id="mapAbstract">
+        <Abstract id="mapAbstract">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
-          <stylesheet>../../lib/widget/Abstract.xsl</stylesheet>
-        </Widget>
-        <Widget id="mapTitle">
-          <stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
-        </Widget>
+        </Abstract>
+        <MapTitle id="mapTitle"/>
         <Loading2 id="loading2">
 					<mapContainerId>mainMapContainer</mapContainerId>
         </Loading2>

@@ -10,7 +10,6 @@ href:javascript:config.objects.tabList.selectTab(config.objects.mapContainerList
 href:javascript:config.objects.tabList.selectTab(config.objects.buttonListWidget) empty
 href:javascript:config.objects.tabList.selectTab(config.objects.toolsListWidget) empty
 href:javascript:config.objects.toolsListWidget.showDetails('AoiMouseHandlerType') empty
-href:javascript:config.objects.toolsListWidget.showDetails('AoiBoxType') empty
 href:javascript:config.objects.toolsListWidget.showDetails('DragPanHandlerType') empty
 href:javascript:config.objects.toolsListWidget.showDetails('MouseClickHandlerType') empty
 href:javascript:config.objects.toolsListWidget.showDetails('ZoomToAoiType') empty

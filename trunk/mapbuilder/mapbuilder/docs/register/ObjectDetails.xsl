@@ -13,7 +13,7 @@ $Id: XmlSchemaForm.xsl,v 1.6 2005/05/01 02:03:50 madair1 Exp $
 -->
 
   <xsl:output method="xml" encoding="utf-8" indent="yes"/>
-  <xsl:param name="objectType">AoiBoxType</xsl:param>
+  <xsl:param name="objectType">AoiMouseHandlerType</xsl:param>
   <xsl:variable name="docRoot" select="/xs:schema"/>
 
 	<xsl:template match="/xs:schema">

@@ -27,9 +27,7 @@
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
         </CursorTrack>
-        <Widget id="mapTitle">
-          <stylesheet>../../lib/widget/MapTitle.xsl</stylesheet>
-        </Widget>
+        <MapTitle id="mapTitle"/>
         <LayerControl id="contextLegend">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
@@ -96,11 +94,10 @@
       <models>
         <FeatureTypeSchema id="featureTypeTemplate" template="true">
           <widgets>
-            <Widget id="attributeFilter">
+            <FilterAttributes id="attributeFilter">
               <htmlTagId>workspace</htmlTagId>
               <outputNodeId>workspaceCanvas</outputNodeId>
-              <stylesheet>../../lib/widget/FilterAttributes.xsl</stylesheet>
-            </Widget>
+            </FilterAttributes>
           </widgets>
         </FeatureTypeSchema>
         <FeatureCollection id="getFeatureTemplate" template="true">
@@ -128,12 +125,11 @@
         </Transaction-->
       </models>
       <widgets>
-        <Widget id="featureTypes">
+        <SelectFeatureType id="featureTypes">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
-          <stylesheet>../../lib/widget/SelectFeatureType.xsl</stylesheet>
           <toolId>wfsController</toolId>
-        </Widget>
+        </SelectFeatureType>
       </widgets>
       <tools>
         <WebServiceRequest id="wfsGetFeature">
@@ -158,10 +154,9 @@
       <models>
         <!--GetFeatureInfo id="featureTypeTemplate" template="true">
           <widgets>
-            <Widget id="attributeFilter">
-              <stylesheet>../../lib/widget/FilterAttributes.xsl</stylesheet>
+            <FilterAttributes id="attributeFilter">
               <outputNodeId>filterForm</outputNodeId>
-            </Widget>
+            </FilterAttributes>
           </widgets>
         </GetFeatureInfo-->
         <!--GetMap id="getMapTemplate" template="true">
@@ -175,11 +170,10 @@
         </GetMap-->
       </models>
       <widgets>
-        <Widget id="layerList">
+        <SelectMapLayers id="layerList">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
-          <stylesheet>../../lib/widget/SelectMapLayers.xsl</stylesheet>
-        </Widget>
+        </SelectMapLayers>
         <Loading2 id="loading3">
 					<htmlTagId>workspace</htmlTagId>
 					<outputNodeId>workspaceCanvas</outputNodeId>

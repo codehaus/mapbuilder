@@ -266,6 +266,7 @@
 
   <xs:complexType name="widgetsType">
     <xs:choice maxOccurs="unbounded">
+      <xs:element name="Abstract" type="mb:WidgetType"/>
       <xs:element name="AoiBoxDHTML" type="mb:AoiBoxDHTMLType"/>
       <xs:element name="AoiBoxWZ" type="mb:AoiBoxWZType"/>
       <xs:element name="AoiForm" type="mb:AoiFormType"/>
@@ -281,7 +282,9 @@
       <xs:element name="DragPan" type="mb:ButtonType"/>
       <xs:element name="EditLine" type="mb:EditButtonType"/>
       <xs:element name="EditPoint" type="mb:EditButtonType"/>
+      <xs:element name="Eventlog" type="mb:WidgetType"/>
       <xs:element name="FeatureList" type="mb:FeatureListType"/>
+      <xs:element name="FilterAttributes" type="mb:WidgetType"/>
       <xs:element name="Forward" type="mb:ButtonType"/>
       <xs:element name="GetFeatureInfo" type="mb:GetFeatureInfoType"/>
       <xs:element name="GmlPointRenderer" type="mb:GmlPointRendererType"/>
@@ -289,6 +292,7 @@
       <xs:element name="GmlRendererWZ" type="mb:GmlRendererWZType"/>
       <xs:element name="InsertFeature" type="mb:InsertFeatureType"/>
       <xs:element name="LayerControl" type="mb:LayerControlType"/>
+      <xs:element name="LayerProperty" type="mb:WidgetType"/>
       <xs:element name="Legend" type="mb:LegendType"/>
       <xs:element name="Loading" type="mb:WidgetType"/>
       <xs:element name="Loading2" type="mb:Loading2Type"/>
@@ -297,17 +301,22 @@
       <xs:element name="MapPane" type="mb:MapPaneType"/>
       <xs:element name="MapScaleBar" type="mb:MapScaleBarType"/>
       <xs:element name="MapScaleText" type="mb:MapScaleTextType"/>
+      <xs:element name="MapTitle" type="mb:WidgetType"/>
       <xs:element name="ModelStatus" type="mb:WidgetType"/>
       <xs:element name="ModelUrlInput" type="mb:ModelUrlInputType"/>
       <xs:element name="Reset" type="mb:ButtonType"/>
       <xs:element name="Save" type="mb:SaveType"/>
       <xs:element name="SaveModel" type="mb:SaveModelType"/>
+      <xs:element name="SelectAllMapLayers" type="mb:WidgetType"/>
+      <xs:element name="SelectFeatureType" type="mb:WidgetType"/>
+      <xs:element name="SelectMapLayers" type="mb:WidgetType"/>
       <xs:element name="SetAoi" type="mb:ButtonType"/>
       <xs:element name="ShowResponse" type="mb:WidgetType"/>
       <xs:element name="TabbedContent" type="mb:TabbedContentType"/>
       <xs:element name="TimeSeries" type="mb:TimeSeriesType"/>
       <xs:element name="Timestamp" type="mb:WidgetType"/>
       <xs:element name="TransactionResponse" type="mb:WidgetType"/>
+      <xs:element name="Version" type="mb:WidgetType"/>
       <xs:element name="WebServiceForm" type="mb:WebServiceFormType"/>
       <xs:element name="WfsGetFeature" type="mb:WfsGetFeatureType"/>
       <xs:element name="Widget" type="mb:WidgetType">
