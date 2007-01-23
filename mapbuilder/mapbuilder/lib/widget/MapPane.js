@@ -444,7 +444,8 @@ function MapImgLoadHandler() {
   // decrement number of loading layers
   --this.objRef.loadingLayerCount;
   if (this.objRef.loadingLayerCount > 0) {
-    var message = mbFormatMessage((this.objRef.loadingLayerCount>1) ? "loading {0} layers" : "loading {0} layer", this.objRef.loadingLayerCount);
+    var message = mbGetMessage((this.objRef.loadingLayerCount>1) ? "loadingLayers" : "loadingLayer",
+      this.objRef.loadingLayerCount);
     this.objRef.model.setParam("modelStatus", message);
   } else {
     this.objRef.model.setParam("modelStatus");
@@ -482,7 +483,8 @@ function MapImgLoad( objRef, layer ) {
     if( objRef.imageStack[i].id == imgId ) {
       // increment number of loading layers
       ++objRef.loadingLayerCount;
-      var message = mbFormatMessage((objRef.loadingLayerCount>1) ? "loading {0} layers" : "loading {0} layer", objRef.loadingLayerCount);
+      var message = mbGetMessage((objRef.loadingLayerCount>1) ? "loadingLayers" : "loadingLayer",
+        objRef.loadingLayerCount);
       objRef.model.setParam("modelStatus", message);
       
       var newImg = objRef.imageStack[i];
