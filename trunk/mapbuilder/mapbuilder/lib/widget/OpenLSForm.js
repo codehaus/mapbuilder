@@ -2,7 +2,7 @@
 Description: Display a form for OpenLS geocoding request
 Author:      Steven Ottens AT geodan.nl
 Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
-$Id: GeocoderRequest.js,v 1.0 2004/06/25 17:59:38 steven Exp $
+$Id$
 */
 
 // Ensure this object's dependancies are loaded.

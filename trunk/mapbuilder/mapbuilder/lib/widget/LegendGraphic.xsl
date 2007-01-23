@@ -11,7 +11,7 @@ Description: Convert a Web Map Context into a HTML Legend
 Author:      Cameron Shorter cameron ATshorter.net
 Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: Legend.xsl 2036 2006-03-29 12:32:32Z camerons $
+$Id$
 $Name$
 -->
   <xsl:output method="xml" encoding="utf-8"/>

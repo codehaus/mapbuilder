@@ -3,7 +3,7 @@
 # Use xsltproc to compress XSL files
 # This script expects files to be located in ../build/lib/*
 # 
-# $Id: compress.sh 1373 2005-03-23 21:13:35Z camerons $
+# $Id$
 
 # Set variables
 mapbuilderDir=`dirname $0`/..;

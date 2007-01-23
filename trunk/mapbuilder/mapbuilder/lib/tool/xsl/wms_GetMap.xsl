@@ -16,7 +16,7 @@ Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
 
 
-$Id: wms_GetMap.xsl 1608 2005-08-03 19:07:09Z mattdiez $
+$Id$
 
 $Name$
 

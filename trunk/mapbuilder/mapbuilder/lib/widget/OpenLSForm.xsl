@@ -5,7 +5,7 @@
 Description: Output a form for creating an OpenLS geocoder request
 Author:      Steven Ottens AT geodan.nl
 Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
-$Id: OpenLSForm.xsl,v 1.0 2004/06/25 17:59:38 steven Exp $
+$Id$
 -->
 
   <xsl:output method="xml" encoding="utf-8"/>

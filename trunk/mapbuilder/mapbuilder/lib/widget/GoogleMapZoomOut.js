@@ -1,6 +1,6 @@
 /*
 License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
-$Id: ZoomOut.js 1671 2005-09-20 02:37:54Z madair1 $
+$Id$
 */
 
 // Ensure this object's dependancies are loaded.

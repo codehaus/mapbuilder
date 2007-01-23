@@ -9,7 +9,7 @@
                  page.
     Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
 
-    $Id: contextEditor.xml 1828 2005-12-01 20:49:52Z madair1 $
+    $Id$
   -->
   <models>
     <Context id="mainMap">

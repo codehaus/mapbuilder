@@ -5,7 +5,7 @@ Description: geberates an HTTP payload to execute a WPS request
 Author:      adair
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
-$Id: wps_DescribeProcess.xsl,v 1.4 2005/03/30 20:26:54 camerons Exp $
+$Id$
 $Name:  $
 -->
 

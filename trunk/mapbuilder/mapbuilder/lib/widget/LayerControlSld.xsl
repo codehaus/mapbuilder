@@ -11,7 +11,7 @@ Description: provides a list of layers and controls for them (sldEditor/legend/d
 Author:      Olivier Terral
 Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 
-$Id: LayerControlSld.xsl, 2005/03/07 10:34:30 oterral Exp $
+$Id$
 $Name:  $
 -->
   <xsl:output method="xml" encoding="utf-8"/>

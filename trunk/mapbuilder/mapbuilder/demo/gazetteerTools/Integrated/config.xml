@@ -6,7 +6,7 @@
                  page.
     Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html 
 
-    $Id: PlaceNameConfig.xml,v 1.2 2005/06/10 18:48:21 adair Exp $
+    $Id$
   -->
   <models>
     <Context id="mainMap">

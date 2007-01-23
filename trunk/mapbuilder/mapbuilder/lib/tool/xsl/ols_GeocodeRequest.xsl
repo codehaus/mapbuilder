@@ -4,7 +4,7 @@ Description:Creates a OpenLS geocodeing request
 Author:      Steven Ottens steven.ottensATgeodan.nl
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
-$Id: ols_GeocodeRequest.xsl,v 1.0 2005/08/03 19:06:59 steven Exp $
+$Id$
 $Name:  $
 -->
 <xsl:stylesheet version="1.0" xmlns:cml="http://www.opengis.net/context" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink">

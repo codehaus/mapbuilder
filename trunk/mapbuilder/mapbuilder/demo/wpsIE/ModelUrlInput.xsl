@@ -8,7 +8,7 @@ Description: Output a form for setting any model's url and method values
 Author:      Mike Adair
 Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: ModelUrlInput.xsl,v 1.6 2005/04/09 20:45:30 madair1 Exp $
+$Id$
 -->
 
   <xsl:output method="xml" encoding="utf-8"/>

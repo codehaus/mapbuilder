@@ -9,7 +9,7 @@ Description: Convert a WMS Capabilities document to a Web Map Context
 Author:      Nedjo Rogers nedjo AT gworks.ca
 Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: WMSCapabilities2Context.xsl,v 1.7 2005/05/19 20:50:32 madair1 Exp $
+$Id$
 $Name:  $
 
 -->

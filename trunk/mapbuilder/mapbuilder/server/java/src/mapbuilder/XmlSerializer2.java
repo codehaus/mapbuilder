@@ -14,7 +14,7 @@ Purpose: This servlet will write the body content of a request to a file.
 
 License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: XmlSerializer.java 1608 2005-08-03 19:07:09 +0000 (mer., 03 août 2005) mattdiez $
+$Id$
 
 **************************************************************************/
 

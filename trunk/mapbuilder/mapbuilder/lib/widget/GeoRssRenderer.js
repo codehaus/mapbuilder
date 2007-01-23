@@ -2,7 +2,7 @@
 Author:       Cameron Shorter cameronATshorter.net
 License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: GeoRssRenderer.js,v 1.3 2005/08/05 18:47:11 madair1 Exp $
+$Id$
 */
 
 // Ensure this object's dependancies are loaded.

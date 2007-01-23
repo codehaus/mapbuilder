@@ -2,7 +2,7 @@
 Description: Display the OpenLS Geocoder response as html
 Author:      Steven Ottens AT geodan.nl
 Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
-$Id: OpenLSResponse.js,v 1.0 2004/06/25 17:59:38 steven Exp $
+$Id$
 */
 
 // Ensure this object's dependancies are loaded.

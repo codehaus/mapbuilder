@@ -5,7 +5,7 @@ Description: transforms an OWS Context document Coverage resource element into
 Author:      adair
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
-$Id: wms_GetMap.xsl,v 1.6 2005/04/25 21:13:18 madair1 Exp $
+$Id$
 $Name:  $
 -->
 

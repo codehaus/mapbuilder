@@ -2,7 +2,7 @@
 Author:       Olivier Terral olivier.terralATgeomatys.fr
 License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: graticule.js 2200 2006-11-28 13:28:58Z oterral $
+$Id$
 */
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");

@@ -5,7 +5,7 @@ Description: presents the list of events in a GeoRSS
 Author:      adair
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
-$Id: SelectFeatureType.xsl,v 1.10 2005/05/01 02:03:49 madair1 Exp $
+$Id$
 $Name:  $
 -->
 

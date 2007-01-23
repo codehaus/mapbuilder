@@ -4,7 +4,7 @@ Description: transforms a WFS FeatureType node to a GetFeatureType request
 Author:      adair
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
-$Id: wfs_GetFeature.xsl 1823 2005-11-27 18:00:31Z madair1 $
+$Id$
 $Name$
 -->
 

@@ -6,7 +6,7 @@
                  page.
     Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html 
 
-    $Id: CompleteConfig.xml,v 1.91 2005/01/24 11:34:31 camerons Exp $
+    $Id$
   -->
    <models>
     <Model id="postalCode">

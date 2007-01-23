@@ -2,7 +2,7 @@
 Author:       Cameron Shorter cameronAtshorter.net
 License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: $
+$Id$
 */
 
 // Ensure this object's dependancies are loaded.

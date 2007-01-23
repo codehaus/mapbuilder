@@ -8,7 +8,7 @@ Description: Output a form for display of the context doc AOI
 Author:      Mike Adair
 Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
 
-$Id: PostalCodeForm.xsl,v 1.7 2005/01/12 21:36:59 madair1 Exp $
+$Id$
 -->
 
   <xsl:output method="xml" encoding="utf-8"/>
