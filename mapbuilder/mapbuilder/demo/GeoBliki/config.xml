@@ -69,10 +69,10 @@
  
 				<widgets>
 	        <TipWidget id="wfsRendererTip" > 
+ 						<stylesheet>datapopup.xsl</stylesheet>
             <leftOffset>20</leftOffset>
             <topOffset>0</topOffset>
             <command>overlib(text, CAPTION, "Caption", STICKY, WIDTH,'225', HEIGHT,'250', REFC,'UR', REFP,'LL', RELX, x, RELY, y)</command>
- 						<stylesheet>datapopup.xsl</stylesheet>
           </TipWidget> 
  
 				  <GmlRendererVG id="vectorGraphicsRenderer">

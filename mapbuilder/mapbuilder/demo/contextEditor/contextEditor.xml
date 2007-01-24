@@ -90,7 +90,6 @@
     <!-- use this with a WFS capabilities model -->
     <WfsCapabilities id="wfsCapTemplate">
       <!--defaultModelUrl>http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA?version=1.0.0&amp;service=WFS&amp;request=GetCapabilities</defaultModelUrl-->
-      <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
       <models>
         <FeatureTypeSchema id="featureTypeTemplate" template="true">
           <widgets>
@@ -120,7 +119,7 @@
         <!--Transaction id="transactionTemplate" template="true">
           <method>post</method>
           <widgets>
-            <ShowResponse id="transResponse"/>
+            <TransactionResponse id="transResponse"/>
           </widgets>
         </Transaction-->
       </models>
@@ -146,10 +145,10 @@
           <requestName>wfs:Transaction</requestName>
         </WebServiceRequest-->
       </tools>
+      <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
     </WfsCapabilities>
     <WmsCapabilities id="wmsCapTemplate">
       <!--defaultModelUrl>http://www.bsc-eoc.org/cgi-bin/bsc_ows.asp?version=1.1.1&amp;service=WMS&amp;request=GetCapabilities</defaultModelUrl-->
-      <nodeSelectXpath>//Layer</nodeSelectXpath>
       <title>OGC Web Map Server (WMS)</title>
       <models>
         <!--GetFeatureInfo id="featureTypeTemplate" template="true">
@@ -192,6 +191,7 @@
           <targetModel>mainMap</targetModel>
         </EditContext>
       </tools>
+      <nodeSelectXpath>//Layer</nodeSelectXpath>
     </WmsCapabilities>
     <Model id="wmsServers">
       <title>Web Map Servers</title>
@@ -230,7 +230,6 @@
       <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
       <models>
         <OwsCatResources id="owsCatResults">
-          <nodeSelectXpath>/wfs:FeatureCollection/gml:featureMember/owscat:service_resources</nodeSelectXpath>
           <method>get</method>
           <widgets>
             <!--GmlRendererWZ id="resultBbox">
@@ -242,8 +241,8 @@
               <mapContainerId>mainMapContainer</mapContainerId>
             </GmlRendererWZ-->
             <Widget id="resultList">
-              <stylesheet>OWSCatResultList.xsl</stylesheet>
               <htmlTagId>workspace</htmlTagId>
+              <stylesheet>OWSCatResultList.xsl</stylesheet>
               <outputNodeId>workspaceCanvas</outputNodeId>
             </Widget>
           </widgets>
@@ -252,18 +251,19 @@
               <targetModel>mainMap</targetModel>
             </EditContext>
           </tools>
+          <nodeSelectXpath>/wfs:FeatureCollection/gml:featureMember/owscat:service_resources</nodeSelectXpath>
         </OwsCatResources>
         <Model id="filterExpression">
           <defaultModelUrl>OWSCatResourceFilter.xml</defaultModelUrl>
           <widgets>
-            <OWSCatSearchForm id="owsCatSearchForm">
+            <Widget id="owsCatSearchForm">
               <htmlTagId>workspace</htmlTagId>
               <outputNodeId>workspaceCanvas</outputNodeId>
+              <targetModel>owsCatSearch</targetModel>
               <stylesheet>owsCatSearchForm.xsl</stylesheet>
               <scriptFile>OWSCatSearchForm.js</scriptFile>
-              <targetModel>owsCatSearch</targetModel>
               <mapModel>mainMap</mapModel>
-            </OWSCatSearchForm>
+            </Widget>
           </widgets>
         </Model>
       </models>
