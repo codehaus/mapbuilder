@@ -113,6 +113,7 @@ function MovieLoop(toolNode, model) {
    * Stops the JavaScript movie loop timer.
    */
   this.pause = function() {
+    this.isRunning = false;
     clearInterval(this.movieTimer);
   }
   
@@ -120,7 +121,7 @@ function MovieLoop(toolNode, model) {
    * Stops the JavaScript movie loop timer and sets the index back to the first 
    * frame.
    */
-  this.stop = function() {
+  this.stop = function() { 
     this.pause();
     this.reset(this);
   }
