@@ -24,6 +24,7 @@ function MovieLoop(toolNode, model) {
   this.model.setParam("firstFrame", 0);
   this.timestampIndex = 0;
   window.movieLoop = this;
+  this.isRunning = false;
 
   //
   var framesPerSecond = toolNode.selectSingleNode("mb:framesPerSecond");
@@ -102,7 +103,10 @@ function MovieLoop(toolNode, model) {
    * Starts the movie loop playing by using a JavaScript timer.
    */
   this.play = function() {
-    this.movieTimer = setInterval('window.movieLoop.nextFrame()',this.delay);
+  	if (!this.isRunning) {
+	    this.movieTimer = setInterval('window.movieLoop.nextFrame()',this.delay);
+	    this.isRunning = true;
+	}
   }
   
   /**
