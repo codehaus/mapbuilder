@@ -101,7 +101,6 @@
     
     <!-- use this with a WFS capabilities model -->
     <WfsCapabilities id="wfsCapTemplate">
-      <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
       <models>
         <FeatureTypeSchema id="featureTypeTemplate" template="true">
           <widgets>
@@ -153,6 +152,7 @@
 					<targetModel>mainMap</targetModel>
 		</Caps2Context>
       </tools>
+      <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
     </WfsCapabilities>
     
     

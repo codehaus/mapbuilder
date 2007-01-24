@@ -137,12 +137,12 @@
       </widgets>
     </Transaction>
     <Model id="featureInfoResponse" template="true">
-      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
       <widgets>
         <FeatureInfo id="features">
           <htmlTagId>featureInfo</htmlTagId>
         </FeatureInfo>
       </widgets>
+      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
     </Model>
     <FeatureCollection id="featureCollection">
       <widgets>
@@ -185,7 +185,6 @@
       </widgets>
     </FeatureCollection>
     <FeatureCollection id="featureCollection">
-      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
       <widgets>
         <ShowDistance id='showDistance'>
           
@@ -199,6 +198,7 @@
           <pointDiameter>10</pointDiameter>
         </GmlRendererWZ>
       </widgets>
+      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
     </FeatureCollection>
     <!-- example of the point feature renderer
       <FeatureCollection id="pointFeatures">
@@ -342,14 +342,13 @@
       </EditLine-->
     <Measurement id="measurement">
       <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>featureCollection</targetModel>
       <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/MeasureEnable.png</enabledSrc>
       <disabledSrc>/images/MeasureDisable.png</disabledSrc>
-      <targetModel>featureCollection</targetModel>
       <featureXpath>/gml:featureMember/topp:bc_roads/topp:the_geom/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
       <defaultModelUrl>../data/gml/measurement.xml</defaultModelUrl>
-      <targetContext>mainMap</targetContext>
     </Measurement>
     <Save id="save">
       <buttonBar>mainButtonBar</buttonBar>

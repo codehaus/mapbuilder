@@ -3,7 +3,6 @@
 	<models>
 		<Context id="mainMap">
 			<defaultModelUrl>bejingWind.xml</defaultModelUrl>
-      <nodeSelectXpath>/wmc:ViewContext/wmc:LayerList/wmc:Layer</nodeSelectXpath>
 			<widgets>
 				<MapPane id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
@@ -60,6 +59,7 @@
           <featureCount>1</featureCount>
 				</WebServiceRequest>
 			</tools>
+      <nodeSelectXpath>/wmc:ViewContext/wmc:LayerList/wmc:Layer</nodeSelectXpath>
 		</Context>
     <Context id="locator">
     <defaultModelUrl>../data/context/locatorDemis.xml</defaultModelUrl>
@@ -87,13 +87,13 @@
 			</tools>
     </Context>
     <Model id="featureInfoResponse" template="true">
-      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
       <widgets>
         <FeatureInfo id="features">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
         </FeatureInfo>
       </widgets>
+      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
     </Model>
 	</models>
 	<widgets>
@@ -155,10 +155,10 @@
 		</Reset>
 		<Graticule id="graticule">
 		  <buttonBar>mainButtonBar</buttonBar>
-		  <color>black</color>
 		  <targetModel>mainMap</targetModel>
 		  <class>Button</class>
 		  <disabledSrc>/images/Graticule.png</disabledSrc>
+		  <color>black</color>
 		  <mapContainerId>mainMapContainer</mapContainerId>
     </Graticule>
 	</widgets>
