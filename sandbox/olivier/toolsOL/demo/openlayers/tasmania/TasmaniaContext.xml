@@ -213,7 +213,7 @@
 			<Server service="OGC:WMS" version="1.1.1" title="continent">
 				<OnlineResource xlink:type="simple" xlink:href="http://testbed.geomatys.fr/geoserver/wms?"/>
 			</Server>
-			<Name>geom:OA_20050518</Name>
+			<Name>camgis:Continental_Area</Name>
 			<Title>continent</Title>
 			<SRS>EPSG:41001</SRS>
 			<FormatList>
@@ -235,13 +235,13 @@
         </Style>
       </StyleList>
 	</Layer>
-	<Layer queryable="1" hidden="0">
+	<!--  Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.1.1" title="OGC:WMS">
         <OnlineResource xlink:type="simple" xlink:href=" http://testbed.geomatys.fr/geoserver/wms"/>
       </Server>
       <Name>geom:OA_20050518</Name>
-      <Title xml:lang="en">geom:OA_20050518</Title>
-      <Title xml:lang="fr">capitaux (nom)</Title>
+      <Title xml:lang="en">NetCDF</Title>
+      <Title xml:lang="fr">NetCDF</Title>
       <SRS>EPSG:41001</SRS>
       <FormatList>
         <Format current="1">image/png</Format>
@@ -261,7 +261,7 @@
           </SLD>
         </Style>
 	</StyleList>
-    </Layer>
+    </Layer-->
 	<!-- FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="tasmania/test.xml"/>

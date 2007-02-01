@@ -31,15 +31,13 @@ function DragPan(widgetNode, model) {
   this.doAction = function(objRef,targetNode) {
     if (objRef.enabled) {
       var bbox = objRef.targetModel.getParam("aoi");
-      if ( objRef.targetModel.getParam("aoi")!=null) {
-        var extent = objRef.targetModel.extent;
+      if ( bbox!=null) {
+      
+
         var ul = bbox[0];
         var lr = bbox[1];
-        if ( ( ul[0]==lr[0] ) && ( ul[1]==lr[1] ) ) {
-          extent.centerAt( ul, extent.res[0]/objRef.zoomBy );
-        } else {
-          extent.zoomToBox( ul, lr );
-        }
+        
+        objRef.targetModel.setParam("zoomToBbox",new Array(ul[0],lr[1],lr[0],ul[1]));
       }
     }
   }

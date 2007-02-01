@@ -21,7 +21,7 @@
 				</AoiBoxDHTML>
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
-          <showXY>false</showXY>
+          <showXY>true</showXY>
         </CursorTrack>
       </widgets>
       <tools>

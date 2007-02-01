@@ -40,6 +40,8 @@ function MapPaneOL(widgetNode, model) {
   this.model.addListener( "zoomToBbox", this.zoomToBbox, this );
   this.model.addListener( "zoomOut", this.zoomOut, this );
   this.model.addListener( "zoomIn", this.zoomIn, this );
+   this.model.addListener( "centerAt", this.centerAt, this );
+   this.model.addListener( "pxToCoord", this.pxToCoord, this );
   //this.model.addListener("newModel",this.clearWidget2,this);
   //this.model.addListener("bbox",this.clearWidget2,this);
 }
@@ -51,7 +53,7 @@ function MapPaneOL(widgetNode, model) {
 MapPaneOL.prototype.paint = function(objRef, refresh) {
   // Create an OpenLayers map
   if(!objRef.oLMap){
-    
+  
     if(objRef.model.doc.selectSingleNode("//wmc:OWSContext"))
         objRef.context="OWS";
     else if(objRef.model.doc.selectSingleNode("//wmc:ViewContext"))
@@ -59,10 +61,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     else
         alert(mbGetMessage("noContextDefined"));
         
+    srs=objRef.model.getSRS();
 
-    if(objRef.context=="OWS")  {srs=objRef.model.doc.selectSingleNode("//ows:BoundingBox/@crs"); srs=(srs)?srs.nodeValue:"";}
-    else {srs=objRef.model.doc.selectSingleNode("//wmc:BoundingBox").getAttribute("SRS");}
-   
     // OpenLayers doesn't contain information about projection, so if the
     // baseLayer projection is not standard lat/long, it needs to know
     // maxExtent and maxResolution to calculate the zoomLevels.
@@ -77,33 +77,9 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       // If the maxExtent/maxResolution is not specified in the config
       // calculate it from the BBox and Width/Height in the Context.
       if(!maxExtent&&!maxResolution){
-        if(objRef.context=="OWS"){
-            bbox1=objRef.model.doc.selectSingleNode("//ows:BoundingBox/ows:LowerCorner");
-            bbox1=(bbox1)?bbox1.firstChild.nodeValue:"";
-            bbox2=objRef.model.doc.selectSingleNode("//ows:BoundingBox/ows:UpperCorner");
-            bbox2=(bbox2)?bbox2.firstChild.nodeValue:"";
-            bbox=(bbox1&&bbox2)?bbox1+" "+bbox2:null;
-        }
-        else{
-            
-             var boundingBox=objRef.model.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
-            Bbox = new Array();
-            Bbox[0]=parseFloat(boundingBox.getAttribute("minx"));
-            Bbox[1]=parseFloat(boundingBox.getAttribute("miny"));
-            Bbox[2]=parseFloat(boundingBox.getAttribute("maxx"));
-            Bbox[3]=parseFloat(boundingBox.getAttribute("maxy"));
-            bbox=Bbox.join(" ");
-        }
-
-        maxExtent=bbox.split(" ");
-        if(objRef.context=="OWS"){
-            width=objRef.model.doc.selectSingleNode("//ows:Window/@width");width=(width)?width.nodeValue:"400";maxResolution=(maxExtent[2]-maxExtent[0])/width;
-        }
-        else {
-            width=objRef.model.doc.selectSingleNode("//wmc:Window/@width");width=(width)?width.nodeValue:"400";
-        }
-            
-            
+      	maxExtent=objRef.model.getBoundingBox();
+        width=objRef.model.getWindowWidth();
+        maxResolution=(maxExtent[2]-maxExtent[0])/width;     
       }
       maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
    }
@@ -112,33 +88,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     // Increase hight of Control layers to allow for lots of layers.
     objRef.oLMap.Z_INDEX_BASE.Control=10000;
     
-    // TBD OpenLayer tools should not be added here. This is a hack to get
-    // some tools until we develop a link between Mapbuilder tools and
-    // OpenLayer tools.
-    // To be removed.
-    
-//new OpenLayers.Control.EditingToolbar() a voir pour creer une tool bar dans OL
-    //var toolbar=new OpenLayers.Control.EditingToolbar();
-    
-//new OpenLayers.Control.MouseDefaults() a voir pour drag pan
-    //var navigation=new OpenLayers.Control.MouseDefaults();
-    
-//new OpenLayers.Control.EditingAttributes() a voir pour WfsGetFeature
-    //var selection=new OpenLayers.Control.EditingAttributes();
-//ajout dans la tool bar de OL d'une fonctionnalité    
-    //toolbar.addTools([navigation,selection]);
-
-//addControl() ajoute le tool a la map
-    //objRef.oLMap.addControl(toolbar);
-    //objRef.oLMap.addControl(selection);
-    
-//new OpenLayers.Control.PanZoom() a voir pour zoom in, zoom out
-    //objRef.oLMap.addControl(new OpenLayers.Control.PanZoom());
-    
-//a voir   
-    //toolbar.setTool(navigation);
-    // End To be Removed
- objRef.oLMap.addControl(new OpenLayers.Control.MousePosition());   
+  
+    objRef.oLMap.addControl(new OpenLayers.Control.MousePosition());   
     // loop through all layers and create OLLayers 
     var layers = objRef.model.getAllLayers();
     objRef.oLlayers = new Array();
@@ -157,7 +108,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         
         
        var format=layers[i].selectSingleNode("wmc:FormatList/wmc:Format");format=(format)?format.firstChild.nodeValue:"image/gif";
-      var vis=layers[i].selectSingleNode("@hidden");vis=(vis)?(vis.nodeValue!="1"):true;
+       var vis=layers[i].selectSingleNode("@hidden");vis=(vis)?(vis.nodeValue!="1"):true;
 
       // Options to pass into the OpenLayers Layer initialization
       var options = new Array();
@@ -169,16 +120,18 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       options.isBaseLayer=(i==layers.length-1)?true:false;
       //options.transparent=(i==layers.length-1)?"false":"true";
       options.buffer=1;
-      if(srs!="EPSG:4326"&&srs!="epsg:4326"){
-        options.maxExtent=maxExtent;
-        options.maxResolution=maxResolution;
-        options.projection=srs;
+      
+      if( srs!="EPSG:4326" && srs!="epsg:4326" ){
+        	options.maxExtent=maxExtent;
+        	options.maxResolution=maxResolution;
+        	options.projection=srs;
       }
       switch(service){
 
         // WMS Layer
         case "wms":
         case "OGC:WMS":
+        
             objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(
                 title,
                 href,
@@ -195,6 +148,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         // WFS Layer
         case "wfs":
         case "OGC:WFS":
+        
         style=objRef.extractStyle(objRef,layers[i]);
             if(style){
                 options.style=style;
@@ -215,6 +169,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         // GML Layer
         case "gml":
         case "OGC:GML":
+        
             style=objRef.extractStyle(objRef,layers[i]);
             if(style){
                 options.style=style;
@@ -236,8 +191,6 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
    
     bbox=objRef.model.getBoundingBox();
     objRef.oLMap.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
-    //objRef.zoomToBbox(objRef,bbox);
-
   }
 }
 
@@ -249,13 +202,14 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
  * 
  */
 MapPaneOL.prototype.zoomToBbox = function(objRef,bbox){
+
 	objRef.oLMap.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
 	objRef.model.setBoundingBox(objRef.oLMap.getExtent().toBBOX().split(','));
    
 }
 /**
- * Zoom out and . 
- * found.
+ * Zoom out . 
+ * 
  * @param objRef Pointer to widget object.
  * @param center  center Lon/Lat coordinates: array [x,y] .
  * 
@@ -265,15 +219,56 @@ MapPaneOL.prototype.zoomOut = function(objRef,center){
 	objRef.model.setBoundingBox(objRef.oLMap.getExtent().toBBOX().split(','));  
 }
 /**
- * Zoom in and . 
- * found.
+ * Zoom in . 
+ * 
  * @param objRef Pointer to widget object.
  * @param center  center Lon/Lat coordinates: array [x,y] .
  * 
  */
 MapPaneOL.prototype.zoomIn = function(objRef,center){
+
     objRef.oLMap.setCenter(new OpenLayers.LonLat(center[0],center[1]),objRef.oLMap.getZoom()+1);
-	objRef.model.setBoundingBox(objRef.oLMap.getExtent().toBBOX().split(','));  
+	objRef.model.setBoundingBox(bbox);
+}
+/**
+ * Drag pan . 
+ * 
+ * @param objRef Pointer to widget object.
+ * @param center  center Lon/Lat coordinates: array [x,y] .
+ * 
+ */
+MapPaneOL.prototype.centerAt = function(objRef,center){
+
+    objRef.oLMap.setCenter(new OpenLayers.LonLat(center[0],center[1]),objRef.oLMap.getZoom());
+	objRef.model.setBoundingBox(bbox);
+}
+/**
+ * pxToCoord 
+ * 
+ * @param objRef Pointer to widget object.
+ * @param .
+ * 
+ */
+MapPaneOL.prototype.pxToCoord  = function(objRef,pixel){
+
+	pixel = new OpenLayers.Pixel(pixel[0],pixel[1]);
+	coord = objRef.oLMap.getLonLatFromPixel(pixel);
+	xy = coord.toShortString().split(',');
+	return xy;
+}
+/**
+ * coordToPx 
+ * 
+ * @param objRef Pointer to widget object.
+ * @param .
+ * 
+ */
+MapPaneOL.prototype.coordToPx  = function(objRef,xy){
+
+	xy = new OpenLayers.LonLat(xy[0],xy[1]);
+	coord = objRef.oLMap.getPixelFromLonLat(xy);
+	pixel = coord.toString().split(',');
+	return pixel;
 }
 /**
  * Extract a style from a Layer node. Returns null if no style parameters are

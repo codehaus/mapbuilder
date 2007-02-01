@@ -7,8 +7,7 @@
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
           <mapContainerId>mainMapContainer</mapContainerId>
-          <maxExtent>0 400000 189440 502400</maxExtent>
-          <maxResolution>473.6</maxResolution>
+          
           <!--maxExtent>-24288 262144 500000 786432</maxExtent>
           <maxResolution>2048</maxResolution-->
         </MapPaneOL>

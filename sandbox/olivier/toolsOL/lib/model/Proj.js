@@ -974,6 +974,12 @@ function ll2m(coords)
 	var lat=coords[1];
 	
 	// convert to radians
+	if(lat ==90.0)
+	{lat=89.99;
+	}
+	if(lat ==-90.0)
+	{lat=-89.99;
+	}
   	if ( lat <= 90.0 && lat >= -90.0 && lon <= 180.0 && lon >= -180.0) 
   	{
     	lat *= D2R;
@@ -981,13 +987,13 @@ function ll2m(coords)
   	} 
   	else 
   	{
-    	alert(mbGetMessage("llInputOutOfRange", lon, lat));
+    	alert("*** Input out of range ***: lon: "+lon+" - lat: "+lat);
     	return null;
   	}
   	
-	if(Math.abs( Math.abs(lat) - HALF_PI)  <= EPSLN)
+	if(Math.abs(lat)>= 90 && Math.abs( Math.abs(lat) - HALF_PI)  <= EPSLN)
 	{
-		alert(mbGetMessage("ll2mAtPoles"));
+		alert("Transformation cannot be computed at the poles");
 		return null;
 	}
 	else
