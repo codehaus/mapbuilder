@@ -40,8 +40,7 @@ function MapPaneOL(widgetNode, model) {
   this.model.addListener( "zoomToBbox", this.zoomToBbox, this );
   this.model.addListener( "zoomOut", this.zoomOut, this );
   this.model.addListener( "zoomIn", this.zoomIn, this );
-   this.model.addListener( "centerAt", this.centerAt, this );
-   this.model.addListener( "pxToCoord", this.pxToCoord, this );
+   this.model.addListener( "zoomToMaxExtent", this.zoomToMaxExtent, this );
   //this.model.addListener("newModel",this.clearWidget2,this);
   //this.model.addListener("bbox",this.clearWidget2,this);
 }
@@ -228,19 +227,19 @@ MapPaneOL.prototype.zoomOut = function(objRef,center){
 MapPaneOL.prototype.zoomIn = function(objRef,center){
 
     objRef.oLMap.setCenter(new OpenLayers.LonLat(center[0],center[1]),objRef.oLMap.getZoom()+1);
-	objRef.model.setBoundingBox(bbox);
+	objRef.model.setBoundingBox(objRef.oLMap.getExtent().toBBOX().split(','));
 }
+
 /**
- * Drag pan . 
+ * zoomToMaxExtent . 
  * 
  * @param objRef Pointer to widget object.
- * @param center  center Lon/Lat coordinates: array [x,y] .
+ * 
  * 
  */
-MapPaneOL.prototype.centerAt = function(objRef,center){
-
-    objRef.oLMap.setCenter(new OpenLayers.LonLat(center[0],center[1]),objRef.oLMap.getZoom());
-	objRef.model.setBoundingBox(bbox);
+MapPaneOL.prototype.zoomToMaxExtent = function(objRef){
+	objRef.oLMap.zoomToMaxExtent();
+	objRef.model.setBoundingBox(objRef.oLMap.getExtent().toBBOX().split(','));
 }
 /**
  * pxToCoord 
@@ -249,12 +248,12 @@ MapPaneOL.prototype.centerAt = function(objRef,center){
  * @param .
  * 
  */
-MapPaneOL.prototype.pxToCoord  = function(objRef,pixel){
+MapPaneOL.plToCoord  = function(objRef,pl){
 
-	pixel = new OpenLayers.Pixel(pixel[0],pixel[1]);
-	coord = objRef.oLMap.getLonLatFromPixel(pixel);
+	 pixel = new OpenLayers.Pixel(pl[0],pl[1]);
+	xyOL = config.objects.mainMapWidget.oLMap.getLonLatFromPixel(pixel);
 	xy = coord.toShortString().split(',');
-	return xy;
+	return new Array(parseFloat(xy[0]),parseFloat(xy[1]));
 }
 /**
  * coordToPx 
@@ -263,12 +262,13 @@ MapPaneOL.prototype.pxToCoord  = function(objRef,pixel){
  * @param .
  * 
  */
-MapPaneOL.prototype.coordToPx  = function(objRef,xy){
+MapPaneOL.coordToPl  = function(objRef,xy){
 
-	xy = new OpenLayers.LonLat(xy[0],xy[1]);
-	coord = objRef.oLMap.getPixelFromLonLat(xy);
-	pixel = coord.toString().split(',');
-	return pixel;
+	plOL = objRef.oLMap.getPixelFromLonLat(new OpenLayers.LonLat(xy[0],xy[1]));
+	pl = plOL.toString().split(',');
+	plx = pl[0].split('=');
+	ply = pl[1].split('=');
+    return new Array(Math.floor(parseFloat(plx[1])),Math.floor(parseFloat(ply[1])));
 }
 /**
  * Extract a style from a Layer node. Returns null if no style parameters are

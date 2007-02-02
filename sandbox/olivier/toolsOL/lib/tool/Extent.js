@@ -164,8 +164,17 @@ function Extent( model, initialRes ) {
     //    latlng=new Array(this.ul[0]+pl[0]*this.res[0],this.ul[1]- pl[1]*this.res[1]);
     //    break;
     //}
-    latlng=new Array(this.ul[0]+pl[0]*this.res[0],this.ul[1]- pl[1]*this.res[1]);
-    return latlng;
+    
+    //latlng=new Array(this.ul[0]+pl[0]*this.res[0],this.ul[1]- pl[1]*this.res[1]);
+    
+    pixel = new OpenLayers.Pixel(pl[0],pl[1]);
+	coord = config.objects.mainMapWidget.oLMap.getLonLatFromPixel(pixel);
+	xy = coord.toShortString().split(',');
+	//alert("XY latlng="+latlng+" xy="+xy);
+	//alert("xy="+typeof(xy)+" "+typeof(latlng));;
+	return new Array(parseFloat(xy[0]),parseFloat(xy[1]));
+	
+    //return latlng;
   }
 
   /**
@@ -178,10 +187,15 @@ function Extent( model, initialRes ) {
     //  case "EPSG:GMAPS":       //@TODO Cleanup this hack
     //    return xy;
     //}
-    
+    ////////////////////ancienne version
     var p = Math.floor( (xy[0]-this.ul[0])/this.res[0] );
     var l = Math.floor( (this.ul[1]-xy[1])/this.res[1] );
-    return new Array(p,l);
+    ////////////////////ancienne version
+	plOL = config.objects.mainMapWidget.oLMap.getPixelFromLonLat(new OpenLayers.LonLat(xy[0],xy[1]));
+	pl = plOL.toString().split(',');
+	plx = pl[0].split('=');
+	ply = pl[1].split('=');
+    return new Array(Math.floor(parseFloat(plx[1])),Math.floor(parseFloat(ply[1])));
   }
 
   /**

@@ -56,17 +56,17 @@ function DragPanHandler(toolNode, model) {
       objRef.deltaL = 0;
 //Michael Jenik added this
       //objRef.oldPos stores the old positions of targetNode.childNodes divs
-      var images=targetNode.childNodes;
-      objRef.oldPos = new Array(images.length);
-      for(var i=0; i<images.length; i++) {
-        var img=images.item(i);
+      var img=targetNode.lastChild.firstChild;
+      objRef.oldPos = new Array(1);
+      /*for(var i=0; i<images.length; i++) {*/
+        //var img=images.item(i);
         var P = img.style.left;
         var L = img.style.top;
         if(P && L)
-          objRef.oldPos[i] = new Array(parseInt(P),parseInt(L));
+          objRef.oldPos[0] = new Array(parseInt(P),parseInt(L));
         else
-          objRef.oldPos[i] = new Array(0,0);
-      }
+          objRef.oldPos[0] = new Array(0,0);
+      //}
 
     }
   }
@@ -85,13 +85,13 @@ function DragPanHandler(toolNode, model) {
 
         //use this form if dragging the container node children
         //var images=targetNode.getElementsByTagName("div");
-        var images=targetNode.childNodes;
-        for(var i=0; i<images.length; i++) {
-          var img=images.item(i);
+        var img=targetNode.lastChild.firstChild;
+        //for(var i=0; i<images.length; i++) {
+          //var img=images.item(i);
 //Michael Jenik added the plus ...
-          img.style.left=objRef.deltaP + objRef.oldPos[i][0]+'px';
-          img.style.top=objRef.deltaL + objRef.oldPos[i][1]+'px';
-        }
+          img.style.left=objRef.deltaP + objRef.oldPos[0][0]+'px';
+          img.style.top=objRef.deltaL + objRef.oldPos[0][1]+'px';
+        //}
       
         //use this form if dragging the container node
         //var containerNode = document.getElementById(objRef.parentWidget.containerNodeId);

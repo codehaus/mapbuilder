@@ -25,20 +25,20 @@ function Reset(widgetNode, model) {
    * Store a copy of the original extent locally as a loadModel event listener.
    * @param objRef Pointer to this object.
    */
-  this.initExtent = function(objRef) {
+  /*this.initExtent = function(objRef) {
     objRef.originalExtent = new Extent( objRef.targetModel );   
     objRef.originalExtent.init( objRef.originalExtent );
     objRef.originalExtent.setResolution( new Array(objRef.targetModel.getWindowWidth(), objRef.targetModel.getWindowHeight()) );
-  }
+  }*/
 
   /**
    * Set the loadModel listener in response to init event
    * @param objRef Pointer to this object.
    */
-  this.initReset = function(objRef) {
+  /*this.initReset = function(objRef) {
     objRef.targetModel.addListener("loadModel",objRef.initExtent, objRef);
   }
-  this.model.addListener("init",this.initReset, this);
+  this.model.addListener("init",this.initReset, this);*/
 
 
   /**
@@ -47,8 +47,9 @@ function Reset(widgetNode, model) {
    */
   this.doSelect = function(selected,objRef) {
     if (selected){
-      var originalExtent = objRef.originalExtent;
-      objRef.targetModel.extent.centerAt( originalExtent.getCenter(), originalExtent.res[0] );
+      //var originalExtent = objRef.originalExtent;
+      //objRef.targetModel.extent.centerAt( originalExtent.getCenter(), originalExtent.res[0] );
+    	objRef.targetModel.setParam("zoomToMaxExtent");
     }
   }
 }

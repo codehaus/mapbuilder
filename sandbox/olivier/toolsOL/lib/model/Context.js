@@ -92,9 +92,9 @@ function Context(modelNode, parent) {
     // Set BoundingBox in context from URL CGI params
     if (window.cgiArgs["bbox"]) {     //set as minx,miny,maxx,maxy
       var bbox = window.cgiArgs["bbox"].split(',');
-      var ul = new Array(parseFloat(bbox[0]),parseFloat(bbox[3]));
-      var lr = new Array(parseFloat(bbox[2]),parseFloat(bbox[1]));
-      objRef.extent.zoomToBox(ul, lr);
+    
+      objRef.setParam("zoomToBbox",bbox);
+      
     }
   }
   this.addListener( "loadModel", this.initBbox, this );

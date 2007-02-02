@@ -86,6 +86,7 @@ function OwsContext(modelNode, parent) {
     //PGC this.callListeners("bbox");
     this.callListeners("bbox", boundingBox); // from Context.js
     
+    
   }
   /**
    * Return the service type of the bottom layer in the layer list.
@@ -107,8 +108,10 @@ function OwsContext(modelNode, parent) {
   this.initBbox=function(objRef) {
     // Set BoundingBox in context from URL CGI params
     if (window.cgiArgs["bbox"]) {     //set as minx,miny,maxx,maxy
-      var boundingBox = window.cgiArgs["bbox"].split(',');
-      objRef.setBoundingBox(boundingBox);
+      var bbox = window.cgiArgs["bbox"].split(',');
+      objRef.setBoundingBox(bbox);
+      objRef.setParam("zoomToBbox",bbox);
+      
     }
   }
   this.addListener( "loadModel", this.initBbox, this );  // removed the comment
