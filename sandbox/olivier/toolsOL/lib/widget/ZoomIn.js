@@ -46,11 +46,12 @@ function ZoomIn(widgetNode, model) {
 
         if ( ( ul[0]==lr[0] ) && ( ul[1]==lr[1] ) ) {
         
-    		objRef.targetModel.setParam("zoomIn",ul);
+        	objRef.targetModel.extent.centerAt(ul,1);
+    		//objRef.targetModel.setParam("zoomIn",ul);
            
         } else {
-        
-           	objRef.targetModel.setParam("zoomToBbox",new Array(ul[0],lr[1],lr[0],ul[1]));
+        	objRef.targetModel.extent.zoomToBox(ul,lr);
+           	//objRef.targetModel.setParam("zoomToBbox",new Array(ul[0],lr[1],lr[0],ul[1]));
         }
       }
     }

@@ -17,7 +17,7 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 function ZoomOut(widgetNode, model) {
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
-
+  this.cursor = "cross";
   /**
   Set the zoomfactor and check if it is set in de configuration file.
   */
@@ -41,7 +41,8 @@ function ZoomOut(widgetNode, model) {
     	var lr = bbox[1];
 
 	    center=new Array((lr[0]+ul[0])/2,(ul[1]+lr[1])/2);
-	    objRef.targetModel.setParam("zoomOut",center);
+	      objRef.targetModel.extent.centerAt(center,-1);
+	    //objRef.targetModel.setParam("zoomOut",center);
     }  
   }
 

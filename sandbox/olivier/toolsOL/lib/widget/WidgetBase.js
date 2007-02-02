@@ -23,7 +23,8 @@ $Id: WidgetBase.js 2511 2007-01-05 11:55:23Z gjvoosten $
 function WidgetBase(widgetNode,model) {
   this.model = model;
   this.widgetNode = widgetNode;
-//alert(widgetNode.nodeName);
+  
+
 	var templatedWidget = false;
 	if(model.modelNode.attributes.getNamedItem("createByTemplate") && model.modelNode.attributes.getNamedItem("createByTemplate").nodeValue=='true'){
 		widgetNode.setAttribute("id","MbWidget_" + mbIds.getId());
@@ -39,12 +40,16 @@ function WidgetBase(widgetNode,model) {
 
   //allow the widget output to be replaced on each paint call
   var outputNode = widgetNode.selectSingleNode("mb:outputNodeId");
+
   if(templatedWidget){
     this.outputNodeId = this.id;
+     
   }else if ( outputNode ) {
     this.outputNodeId = outputNode.firstChild.nodeValue;
+      
   } else {
     this.outputNodeId = "MbWidget_" + mbIds.getId();
+     
   }
 
   //until htmlTagNode becomes required allow setting of it by widget id
@@ -52,6 +57,7 @@ function WidgetBase(widgetNode,model) {
     var htmlTagNode = widgetNode.selectSingleNode("mb:htmlTagId");
     if (htmlTagNode) {
       this.htmlTagId = htmlTagNode.firstChild.nodeValue;
+   
     } else {
       this.htmlTagId = this.id;
     }
@@ -121,6 +127,9 @@ function WidgetBase(widgetNode,model) {
   this.clearWidget = function(objRef) {
     //with objRef.node remove child
     var outputNode = document.getElementById( objRef.outputNodeId );
+     alert(objRef.outputNodeId +" "+objRef.id);
+     if(objRef.id=="mainMapWidget")
+     	outputNode = document.getElementById( "mainMapContainer_OpenLayers_ViewPort" );
     if (outputNode) objRef.node.removeChild(outputNode);
   }
   this.model.addListener("newModel",this.clearWidget, this);

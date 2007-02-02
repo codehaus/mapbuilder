@@ -150,31 +150,12 @@ function Extent( model, initialRes ) {
    * @return     point array of XY coordinates
    */
   this.getXY = function(pl) {
-    //switch(this.model.getSRS()) {
-    //  case "EPSG:GMAPS":       //@TODO Cleanup this hack
-    //    gmap=this.model.getParam("gmap");
-    //    if(gmap){
-    //      p=new GPoint(pl[0],pl[1]);
-    //      latlng=gmap.fromDivPixelToLatLng(p);
-    //      latlng=new Array(latlng.lng(),latlng.lat());
-    //    }
-    //    else alert("Extent: gmap not defined");
-    //    break;
-    //  default:
-    //    latlng=new Array(this.ul[0]+pl[0]*this.res[0],this.ul[1]- pl[1]*this.res[1]);
-    //    break;
-    //}
-    
-    //latlng=new Array(this.ul[0]+pl[0]*this.res[0],this.ul[1]- pl[1]*this.res[1]);
-    
+
     pixel = new OpenLayers.Pixel(pl[0],pl[1]);
 	coord = config.objects.mainMapWidget.oLMap.getLonLatFromPixel(pixel);
 	xy = coord.toShortString().split(',');
-	//alert("XY latlng="+latlng+" xy="+xy);
-	//alert("xy="+typeof(xy)+" "+typeof(latlng));;
 	return new Array(parseFloat(xy[0]),parseFloat(xy[1]));
-	
-    //return latlng;
+
   }
 
   /**
@@ -183,19 +164,13 @@ function Extent( model, initialRes ) {
    * @return     point array of pxiel/line coordinates w.r.t. top left corner
    */
   this.getPL = function(xy) {
-    //switch(this.model.getSRS()) {
-    //  case "EPSG:GMAPS":       //@TODO Cleanup this hack
-    //    return xy;
-    //}
-    ////////////////////ancienne version
-    var p = Math.floor( (xy[0]-this.ul[0])/this.res[0] );
-    var l = Math.floor( (this.ul[1]-xy[1])/this.res[1] );
-    ////////////////////ancienne version
+
 	plOL = config.objects.mainMapWidget.oLMap.getPixelFromLonLat(new OpenLayers.LonLat(xy[0],xy[1]));
 	pl = plOL.toString().split(',');
 	plx = pl[0].split('=');
 	ply = pl[1].split('=');
     return new Array(Math.floor(parseFloat(plx[1])),Math.floor(parseFloat(ply[1])));
+    
   }
 
   /**
@@ -208,45 +183,16 @@ function Extent( model, initialRes ) {
    * @param limitExtent ensure that the extent doesn't go beyond available bbox (TBD: not complete/tested)
    * @return            none
    */
-  this.centerAt = function(center, newres, limitExtent) {
-    var half = new Array(this.size[0]/2, this.size[1]/2);
-/*
- * FD 2005/03/04 : respect de minScale et maxScale
- * DGR : scale constraints
-    var nRmin= minScale/mbScaleFactor;
-    var nRmax= maxScale/mbScaleFactor;
-    if (newres < nRmin) {
-      newres= nRmin ;
-    }
-    if (newres > nRmax) {
-      newres= nRmax ;
-    }
- */
-    if (this.zoomLevels) {
-      newres=this.getFixedScale(newres);
-    }
-    this.lr = new Array(center[0]+half[0]*newres, center[1]-half[1]*newres);
-    this.ul = new Array(center[0]-half[0]*newres, center[1]+half[1]*newres);
-
-    //make sure the request doesn't extend beyond the available model
-    //TBD this block not tested
-    if ( limitExtent ) {
-      var xShift = 0;
-      if ( this.lr[0] > ContextExtent.lr[0] ) xShift = ContextExtent.lr[0] - this.lr[0];
-      if ( this.ul[0] < ContextExtent.ul[0] ) xShift = ContextExtent.ul[0] - this.ul[0];
-      this.lr[0] += xShift;
-      this.ul[0] += xShift;
-
-      var yShift = 0;
-      if ( this.lr[1] < ContextExtent.lr[1] ) yShift = ContextExtent.lr[1] - this.lr[1];
-      if ( this.ul[1] > ContextExtent.ul[1] ) yShift = ContextExtent.ul[1] - this.ul[1];
-      this.lr[1] += yShift;
-      this.ul[1] += yShift;
-    }
-   //this.model.callListeners("bboxOL", new Array(this.ul[0], this.lr[1], this.lr[0], this.ul[1]));
+  this.centerAt = function(center, zoom) {
+    
+    config.objects.mainMapWidget.oLMap.setCenter(new OpenLayers.LonLat(center[0],center[1]),config.objects.mainMapWidget.oLMap.getZoom()+zoom);
+    
+    var bboxOL=config.objects.mainMapWidget.oLMap.getExtent().toBBOX().split(',');
+    this.ul = new Array(bboxOL[0],bboxOL[3]);
+    this.lr = new Array(bboxOL[2],bboxOL[1]);
     this.model.setBoundingBox( new Array(this.ul[0], this.lr[1], this.lr[0], this.ul[1]) );
-     //this.setResolution(size);
-    this.setSize(newres);
+
+    this.setSize(config.objects.mainMapWidget.oLMap.getResolution());
   }
 
   /**
@@ -257,8 +203,15 @@ function Extent( model, initialRes ) {
    */
   this.zoomToBox = function(ul, lr) {    //pass in xy
     var center = new Array((ul[0]+lr[0])/2, (ul[1]+lr[1])/2);
-    newres = Math.max((lr[0] - ul[0])/this.size[0], (ul[1] - lr[1])/this.size[1]);
-    this.centerAt( center, newres );
+   
+    config.objects.mainMapWidget.oLMap.zoomToExtent(new OpenLayers.Bounds(ul[0], lr[1], lr[0], ul[1]));
+    
+    var bboxOL=config.objects.mainMapWidget.oLMap.getExtent().toBBOX().split(',');
+    this.ul = new Array(bboxOL[0],bboxOL[3]);
+    this.lr = new Array(bboxOL[2],bboxOL[1]);
+    this.model.setBoundingBox( new Array(this.ul[0], this.lr[1], this.lr[0], this.ul[1]) );
+
+    this.setSize(config.objects.mainMapWidget.oLMap.getResolution());
   } 
 
 /**
