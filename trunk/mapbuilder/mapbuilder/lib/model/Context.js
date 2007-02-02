@@ -173,7 +173,7 @@ function Context(modelNode, parent) {
   /**
    * Returns the width/height of the map window as an array
    */
-  this.getWindowSize=function(size) {
+  this.getWindowSize=function() {
     var win=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Window");
     return new Array(win.getAttribute("width"), win.getAttribute("height"));
   }
