@@ -256,14 +256,14 @@
         <Model id="filterExpression">
           <defaultModelUrl>OWSCatResourceFilter.xml</defaultModelUrl>
           <widgets>
-            <Widget id="owsCatSearchForm">
+            <OWSCatSearchForm id="owsCatSearchForm">
               <htmlTagId>workspace</htmlTagId>
               <outputNodeId>workspaceCanvas</outputNodeId>
               <targetModel>owsCatSearch</targetModel>
               <stylesheet>owsCatSearchForm.xsl</stylesheet>
               <scriptFile>OWSCatSearchForm.js</scriptFile>
               <mapModel>mainMap</mapModel>
-            </Widget>
+            </OWSCatSearchForm>
           </widgets>
         </Model>
       </models>

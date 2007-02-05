@@ -14,14 +14,33 @@
         border: 0;
       }
     </style>
-     <script>
+    <script>
       // URL of Mapbuilder configuration file.
       var mbConfigUrl='contextEditor.xml';
+
+      function initWorkspace() {
+        var pageBody = document.getElementsByTagName("body")[0];
+        var workDiv = document.getElementById("workspace");
+        var footerDiv = document.getElementById("footer");
+        var height = 200;
+        if (_SARISSA_IS_IE) {
+          height = pageBody.offsetHeight - workDiv.offsetTop - footerDiv.offsetHeight - 80;  //20 is a fudge factor
+        } else {
+          height = window.innerHeight - workDiv.offsetTop - footerDiv.offsetHeight - 70;  //20 is a fudge factor
+        }
+        if (height < 200) height = 200;
+        workDiv.style.height = height +"px";
+      }
+
+      function loadFunc() {
+        config.objects.mainMap.addListener("loadModel",initWorkspace,null);
+        window.onresize = initWorkspace;
+      }
 
     </script>
     <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
   </head>
-  <body onload="mbDoLoad()" >
+  <body onload="mbDoLoad(loadFunc)" >
   <div id="header">
 <h1><a href="http://communitymapbuilder.org">MapBuilder</a> Webmapping Context Editor</h1>
 

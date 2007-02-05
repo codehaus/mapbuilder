@@ -41,7 +41,13 @@ $Name:  $
   <!-- template rule matching source root element -->
   <xsl:template match="/">
     <div>
-    <form name="{$formName}" id="{$formName}">
+    <h2>Search for layers</h2>
+    <form name="{$formName}" id="{$formName}" method="get">
+      <input type="hidden" name="version" value="1.0.0"/>
+      <input type="hidden" name="service" value="WFS"/>
+      <input type="hidden" name="request" value="GetFeature"/>
+      <input type="hidden" name="typename" value="service_resources"/>
+      <input type="hidden" name="outputFormat" value="GML3"/>
       
       <h3>Keywords</h3>
       <input type="text" name="keywords"/>
