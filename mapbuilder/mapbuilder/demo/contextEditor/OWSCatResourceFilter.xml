@@ -2,7 +2,7 @@
 	<And>
 		<BBOX>
 			<PropertyName>NAME</PropertyName>
-			<Box srsName="EPSG:4326">
+			<Box>
 				<coordinates/>
 			</Box>
 		</BBOX>
@@ -28,4 +28,3 @@
 		</Or>
 	</And>
 </Filter>
-
