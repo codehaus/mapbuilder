@@ -277,6 +277,7 @@ function ModelBase(modelNode, parentModel) {
       if(this.debug) mbDebugMessage(this, "Loading Model:"+this.id+" "+Sarissa.serialize(this.doc));
       
       this.callListeners("loadModel");
+
     }
   }
 

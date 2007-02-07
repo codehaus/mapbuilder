@@ -29,17 +29,16 @@
     </ContactInformation>
   </General>
   <LayerList>
-  <Layer queryable="0" hidden="0"><Server service="wms" version="1.1.0" title="GMap WMS Demo Server">
+ <Layer queryable="0" hidden="0"><Server service="wms" version="1.1.0" title="GMap WMS Demo Server">
   <OnlineResource xlink:type="simple" xlink:href="http://dev1.dmsolutions.ca/cgi-bin/mswms_gmap?"/></Server>
-  <Name>prov_bound</Name><Title>Province</Title><SRS>EPSG:4326</SRS></Layer>
+  <Name>bathymetry</Name><Title>Elevation/Bathymetry</Title><SRS>EPSG:4326</SRS></Layer>
   
   <Layer queryable="0" hidden="0"><Server service="wms" version="1.1.0" title="GMap WMS Demo Server">
   <OnlineResource xlink:type="simple" xlink:href="http://dev1.dmsolutions.ca/cgi-bin/mswms_gmap?"/></Server>
   <Name>land_fn</Name><Title>Foreign Lands</Title><SRS>EPSG:4326</SRS></Layer>
   
-  <Layer queryable="0" hidden="0"><Server service="wms" version="1.1.0" title="GMap WMS Demo Server">
+   <Layer queryable="0" hidden="0"><Server service="wms" version="1.1.0" title="GMap WMS Demo Server">
   <OnlineResource xlink:type="simple" xlink:href="http://dev1.dmsolutions.ca/cgi-bin/mswms_gmap?"/></Server>
-  <Name>bathymetry</Name><Title>Elevation/Bathymetry</Title><SRS>EPSG:4326</SRS></Layer>
-  
+  <Name>prov_bound</Name><Title>Province</Title><SRS>EPSG:4326</SRS></Layer>
   </LayerList>
 </ViewContext>

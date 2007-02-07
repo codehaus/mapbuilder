@@ -14,71 +14,8 @@
       <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
         <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
       </Server>
-      <Name>cite:Forests</Name>
-      <Title>Forests</Title>
-      <SRS>EPSG:4326</SRS>
-      <FormatList><Format current="1">image/png</Format></FormatList>
-    </Layer>
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
-        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
-      </Server>
-      <Name>cite:Ponds</Name>
-      <Title>Ponds</Title>
-      <SRS>EPSG:4326</SRS>
-      <FormatList><Format current="1">image/png</Format></FormatList>
-    </Layer>
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
-        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
-      </Server>
-      <Name>cite:Lakes</Name>
-      <Title>Lakes</Title>
-      <SRS>EPSG:4326</SRS>
-      <FormatList><Format current="1">image/png</Format></FormatList>
-    </Layer>
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
-        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
-      </Server>
-      <Name>cite:Streams</Name>
-      <Title>Streams</Title>
-      <SRS>EPSG:4326</SRS>
-      <FormatList><Format current="1">image/png</Format></FormatList>
-    </Layer>
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
-        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
-      </Server>
-      <Name>cite:NamedPlaces</Name>
-      <Title>Named Places</Title>
-      <SRS>EPSG:4326</SRS>
-      <FormatList><Format current="1">image/png</Format></FormatList>
-    </Layer>
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
-        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
-      </Server>
-      <Name>cite:Buildings</Name>
-      <Title>Buildings</Title>
-      <SRS>EPSG:4326</SRS>
-      <FormatList><Format current="1">image/png</Format></FormatList>
-    </Layer>
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
-        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
-      </Server>
-      <Name>cite:DividedRoutes</Name>
-      <Title>Divided Routes</Title>
-      <SRS>EPSG:4326</SRS>
-      <FormatList><Format current="1">image/png</Format></FormatList>
-    </Layer>
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
-        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
-      </Server>
-      <Name>cite:RoadSegments</Name>
-      <Title>Road Segments</Title>
+      <Name>cite:MapNeatline</Name>
+      <Title>Map Neatline</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList><Format current="1">image/png</Format></FormatList>
     </Layer>
@@ -95,8 +32,75 @@
       <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
         <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
       </Server>
-      <Name>cite:MapNeatline</Name>
-      <Title>Map Neatline</Title>
+      <Name>cite:RoadSegments</Name>
+      <Title>Road Segments</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList><Format current="1">image/png</Format></FormatList>
+    </Layer>
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
+        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
+      </Server>
+      <Name>cite:DividedRoutes</Name>
+      <Title>Divided Routes</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList><Format current="1">image/png</Format></FormatList>
+    </Layer>
+    
+    
+    
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
+        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
+      </Server>
+      <Name>cite:Buildings</Name>
+      <Title>Buildings</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList><Format current="1">image/png</Format></FormatList>
+    </Layer>
+    
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
+        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
+      </Server>
+      <Name>cite:NamedPlaces</Name>
+      <Title>Named Places</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList><Format current="1">image/png</Format></FormatList>
+    </Layer>
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
+        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
+      </Server>
+      <Name>cite:Streams</Name>
+      <Title>Streams</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList><Format current="1">image/png</Format></FormatList>
+    </Layer>
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
+        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
+      </Server>
+      <Name>cite:Lakes</Name>
+      <Title>Lakes</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList><Format current="1">image/png</Format></FormatList>
+    </Layer>
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
+        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
+      </Server>
+      <Name>cite:Ponds</Name>
+      <Title>Ponds</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList><Format current="1">image/png</Format></FormatList>
+    </Layer>
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="Cite Forests">
+        <OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
+      </Server>
+      <Name>cite:Forests</Name>
+      <Title>Forests</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList><Format current="1">image/png</Format></FormatList>
     </Layer>

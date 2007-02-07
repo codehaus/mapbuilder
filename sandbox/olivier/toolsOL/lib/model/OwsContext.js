@@ -106,12 +106,12 @@ function OwsContext(modelNode, parent) {
    */
   this.initBbox=function(objRef) {
     // Set BoundingBox in context from URL CGI params
-    if (window.cgiArgs["bbox"]) {     //set as minx,miny,maxx,maxy
+    if (window.cgiArgs["bbox"]) {   alert("owscontext l109");  //set as minx,miny,maxx,maxy
       var boundingBox = window.cgiArgs["bbox"].split(',');
       objRef.setBoundingBox(boundingBox);
     }
   }
-  this.addListener( "loadModel", this.initBbox, this );  // removed the comment
+  this.addFirstListener( "loadModel", this.initBbox, this );  // removed the comment
   //this.addListener( "contextLoaded", this.initBbox, this );
 
   /**
@@ -120,7 +120,7 @@ function OwsContext(modelNode, parent) {
    */
   this.initAoi=function(objRef) {
     // Set AOI of context from URL CGI params
-    if (window.cgiArgs["aoi"]) {      //set as ul,lr point arrays
+    if (window.cgiArgs["aoi"]) {     alert("owscontext l123");  //set as ul,lr point arrays
       var aoi = window.cgiArgs["aoi"].split(',');
       objRef.setParam("aoi",new Array(new Array(aoi[0],aoi[3]),new Array(aoi[2],aoi[1])));
     }

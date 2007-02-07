@@ -32,6 +32,7 @@ function History(toolNode, model) {
     list = new Array();
 
 		var bbox = objRef.targetModel.getBoundingBox();
+		alert("history.js"+bbox);
     newExtent = new Array();
     newExtent[0] = new Array(bbox[0],bbox[3]);
     newExtent[1] = new Array(bbox[2],bbox[1]);

@@ -152,7 +152,7 @@ function Extent( model, initialRes ) {
   this.getXY = function(pl) {
 
     pixel = new OpenLayers.Pixel(pl[0],pl[1]);
-	coord = config.objects.mainMapWidget.oLMap.getLonLatFromPixel(pixel);
+	coord = this.model.map.getLonLatFromPixel(pixel);
 	xy = coord.toShortString().split(',');
 	return new Array(parseFloat(xy[0]),parseFloat(xy[1]));
 
@@ -165,7 +165,7 @@ function Extent( model, initialRes ) {
    */
   this.getPL = function(xy) {
 
-	plOL = config.objects.mainMapWidget.oLMap.getPixelFromLonLat(new OpenLayers.LonLat(xy[0],xy[1]));
+	plOL = this.model.map.getPixelFromLonLat(new OpenLayers.LonLat(xy[0],xy[1]));
 	pl = plOL.toString().split(',');
 	plx = pl[0].split('=');
 	ply = pl[1].split('=');
@@ -185,14 +185,14 @@ function Extent( model, initialRes ) {
    */
   this.centerAt = function(center, zoom) {
     
-    config.objects.mainMapWidget.oLMap.setCenter(new OpenLayers.LonLat(center[0],center[1]),config.objects.mainMapWidget.oLMap.getZoom()+zoom);
-    
-    var bboxOL=config.objects.mainMapWidget.oLMap.getExtent().toBBOX().split(',');
+    this.model.map.setCenter(new OpenLayers.LonLat(center[0],center[1]),this.model.map.getZoom()+zoom);
+    //alert("l 189 extent.js "+this.model.map);
+    var bboxOL=this.model.map.getExtent().toBBOX().split(',');
     this.ul = new Array(bboxOL[0],bboxOL[3]);
     this.lr = new Array(bboxOL[2],bboxOL[1]);
     this.model.setBoundingBox( new Array(this.ul[0], this.lr[1], this.lr[0], this.ul[1]) );
 
-    this.setSize(config.objects.mainMapWidget.oLMap.getResolution());
+    this.setSize(this.model.map.getResolution());
   }
 
   /**
@@ -203,15 +203,13 @@ function Extent( model, initialRes ) {
    */
   this.zoomToBox = function(ul, lr) {    //pass in xy
     var center = new Array((ul[0]+lr[0])/2, (ul[1]+lr[1])/2);
-   
-    config.objects.mainMapWidget.oLMap.zoomToExtent(new OpenLayers.Bounds(ul[0], lr[1], lr[0], ul[1]));
+    this.model.map.zoomToExtent(new OpenLayers.Bounds(ul[0], lr[1], lr[0], ul[1]));
     
-    var bboxOL=config.objects.mainMapWidget.oLMap.getExtent().toBBOX().split(',');
+    var bboxOL=this.model.map.getExtent().toBBOX().split(',');
     this.ul = new Array(bboxOL[0],bboxOL[3]);
     this.lr = new Array(bboxOL[2],bboxOL[1]);
     this.model.setBoundingBox( new Array(this.ul[0], this.lr[1], this.lr[0], this.ul[1]) );
-
-    this.setSize(config.objects.mainMapWidget.oLMap.getResolution());
+    this.setSize(new Array(this.model.map.getResolution(),this.model.map.getResolution()));
   } 
 
 /**
@@ -220,7 +218,8 @@ function Extent( model, initialRes ) {
    */
   //TBD update the model doc
   this.setSize = function(res) {     //pass in a resolution and width, height are recalculated
-    this.res[0] = this.res[1] = res;
+    this.res[0] = res[0];
+    this.res[1] = res[1];
     this.size[0] = (this.lr[0] - this.ul[0])/this.res[0];
     this.size[1] = (this.ul[1] - this.lr[1])/this.res[1];
     this.width = Math.ceil(this.size[0]);
@@ -280,7 +279,7 @@ function Extent( model, initialRes ) {
       scale= maxScale ;
     }
  */
-    switch(this.model.getSRS()) {
+   /* switch(this.model.getSRS()) {
       case "EPSG:4326":				//all projection codes in degrees
       case "EPSG:4269":				
         //convert to resolution in degrees
@@ -290,7 +289,15 @@ function Extent( model, initialRes ) {
         newRes = scale/mbScaleFactor;
         break;
     }
-    this.centerAt(this.getCenter(), newRes );
+    this.centerAt(this.getCenter(), newRes );*/
+    this.model.map.zoomToScale(scale);
+    
+    var bboxOL=this.model.map.getExtent().toBBOX().split(',');
+    this.ul = new Array(bboxOL[0],bboxOL[3]);
+    this.lr = new Array(bboxOL[2],bboxOL[1]);
+    this.model.setBoundingBox( new Array(this.ul[0], this.lr[1], this.lr[0], this.ul[1]) );
+    this.setSize(new Array(this.model.map.getResolution(),this.model.map.getResolution()));
+    
   }
 
 
@@ -320,8 +327,6 @@ TBD: when called as a listener this gets a bbox array passed in, not initialRes 
 
   this.firstInit = function(extent, initialRes) {
   	extent.init(extent, initialRes);
-    //TBD: this causes 2 paint() calls on initial load, not sure why it's here - MA
-	  //extent.zoomToBox(extent.ul,extent.lr);
   }
 
 }

@@ -168,15 +168,15 @@ function WebServiceForm(widgetNode, model) {
   this.setAoiParameters = function(objRef,bbox) {
     if (objRef.targetModel.containerModel) {
       var featureSRS = null;
-      var containerSRS = objRef.model.getSRS();
+      var containerSRS = objRef.targetModel.containerModel.getSRS();
      
-      objRef.requestStylesheet.setParameter("bBoxMinX", bbox[0][0] );
-      objRef.requestStylesheet.setParameter("bBoxMinY", bbox[1][1] );
-      objRef.requestStylesheet.setParameter("bBoxMaxX", bbox[1][0] );
-      objRef.requestStylesheet.setParameter("bBoxMaxY", bbox[0][1] );
-      objRef.requestStylesheet.setParameter("srs", containerSRS );
-      objRef.requestStylesheet.setParameter("width", objRef.targetModel.containerModel.getWindowWidth() );
-      objRef.requestStylesheet.setParameter("height", objRef.targetModel.containerModel.getWindowHeight() );
+      objRef.stylesheet.setParameter("bBoxMinX", bbox[0][0] );
+      objRef.stylesheet.setParameter("bBoxMinY", bbox[1][1] );
+      objRef.stylesheet.setParameter("bBoxMaxX", bbox[1][0] );
+      objRef.stylesheet.setParameter("bBoxMaxY", bbox[0][1] );
+      objRef.stylesheet.setParameter("srs", containerSRS );
+      objRef.stylesheet.setParameter("width", objRef.targetModel.containerModel.getWindowWidth() );
+      objRef.stylesheet.setParameter("height", objRef.targetModel.containerModel.getWindowHeight() );
     }
   }
 

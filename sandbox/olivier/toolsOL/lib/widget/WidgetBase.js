@@ -127,10 +127,9 @@ function WidgetBase(widgetNode,model) {
   this.clearWidget = function(objRef) {
     //with objRef.node remove child
     var outputNode = document.getElementById( objRef.outputNodeId );
-     alert(objRef.outputNodeId +" "+objRef.id);
-     if(objRef.id=="mainMapWidget")
-     	outputNode = document.getElementById( "mainMapContainer_OpenLayers_ViewPort" );
-    if (outputNode) objRef.node.removeChild(outputNode);
+    if (outputNode) { 
+    	objRef.node.removeChild(outputNode);  	
+   	}
   }
   this.model.addListener("newModel",this.clearWidget, this);
 }

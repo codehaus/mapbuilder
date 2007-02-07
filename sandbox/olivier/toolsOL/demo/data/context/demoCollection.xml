@@ -82,5 +82,10 @@
 			<OnlineResource xlink:type="simple" xlink:href="http://geodiscover.cgdi.ca/gdp/contexts/radarsatMosaic.xml"/>
 		</ContextURL>
 	</ViewContextReference>
-  
+   <ViewContextReference version="1.0.0" id="dm_canada">
+		<Title>DM Canada</Title>
+		<ContextURL>
+			<OnlineResource xlink:type="simple" xlink:href="../data/context/DM_Canada.xml"/>
+		</ContextURL>
+	</ViewContextReference>
 </ViewContextCollection>

@@ -16,18 +16,18 @@
 			<Server service="OGC:WMS" version="1.1.1" title="OGC:WMS">
 				<OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?CONFIG=mars"/>
 			</Server>
-			<Name>MOLA128:MARS_DATA</Name>
-			<Title>Mars Topography</Title>
+			<Name>MARS_LANDINGS:MARS_DATA</Name>
+			<Title>Mars Landings</Title>
 			<SRS>EPSG:4326</SRS>
 			<FormatList>
-				<Format current="1">image/png</Format>
+				<Format current="1">image/gif</Format>
 			</FormatList>
 			<StyleList>
 				<Style current="1">
-					<Name>Land%20Shade</Name>
-					<Title>Land Shade</Title>
+					<Name>default</Name>
+					<Title>default</Title>
 					<LegendURL width="16" height="16" format="image/gif">
-						<OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?CONFIG=mars&amp;VERSION=1.1.1&amp;REQUEST=GetLegendGraphic&amp;LAYER=MOLA128%3AMARS_DATA&amp;STYLE=Land Shade&amp;FORMAT=image%2Fgif"/>
+						<OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?CONFIG=mars&amp;VERSION=1.1.1&amp;REQUEST=GetLegendGraphic&amp;LAYER=MARS_LANDINGS%3AMARS_DATA&amp;STYLE=icons&amp;FORMAT=image%2Fgif"/>
 					</LegendURL>
 				</Style>
 			</StyleList>
@@ -36,9 +36,9 @@
 			<Server service="OGC:WMS" version="1.1.1" title="OGC:WMS">
 				<OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?CONFIG=mars"/>
 			</Server>
-						<Name>SHADEDRED:MARS_DATA</Name>
-						<Title>Shaded Red</Title>
-						<Abstract>The Red Mars map is a 24bit colour image in Plate Carée Equirectangular projection, representing the surface of Mars, as viewable from space.  The new Mars colour was built using a mass of procedural textures for a seamless and distortion free pleasing look, and the remaining details were derived from  Nasa/Jpl* imagery.</Abstract>
+						<Name>OCEANIC:MARS_DATA</Name>
+						<Title>Oceanic</Title>
+						<Abstract>The Blue Mars map is a 24bit colour image in Plate Carée Equirectangular projection, representing the surface of Mars in one possible aspect from billions of years ago, when parts of the surface where probably filled with water. A situation similar to the Earth with oceans.  BLUE MARS was completely done using Terragen and the Waterworks plugin. Topography and surface details matched with the "ieg0031t" MOLA dataset.</Abstract>
 			<SRS>EPSG:4326</SRS>
 			<FormatList>
 				<Format current="1">image/png</Format>
@@ -48,7 +48,7 @@
 							<Name>default</Name>
 							<Title>default</Title>
 							<LegendURL width="16" height="16">
-								<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?CONFIG=mars&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetLegendGraphic&amp;LAYER=SHADEDRED%3AMARS_DATA&amp;FORMAT=image%2Fpng&amp;SIMPLE=TRUE"/>
+								<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?CONFIG=mars&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetLegendGraphic&amp;LAYER=OCEANIC%3AMARS_DATA&amp;FORMAT=image%2Fpng&amp;SIMPLE=TRUE"/>
 							</LegendURL>
 						</Style>
 			</StyleList>
@@ -74,13 +74,15 @@
 						</Style>
 			</StyleList>
 		</Layer>
+		
+		
 		<Layer queryable="1" hidden="1">
 			<Server service="OGC:WMS" version="1.1.1" title="OGC:WMS">
 				<OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?CONFIG=mars"/>
 			</Server>
-						<Name>OCEANIC:MARS_DATA</Name>
-						<Title>Oceanic</Title>
-						<Abstract>The Blue Mars map is a 24bit colour image in Plate Carée Equirectangular projection, representing the surface of Mars in one possible aspect from billions of years ago, when parts of the surface where probably filled with water. A situation similar to the Earth with oceans.  BLUE MARS was completely done using Terragen and the Waterworks plugin. Topography and surface details matched with the "ieg0031t" MOLA dataset.</Abstract>
+						<Name>SHADEDRED:MARS_DATA</Name>
+						<Title>Shaded Red</Title>
+						<Abstract>The Red Mars map is a 24bit colour image in Plate Carée Equirectangular projection, representing the surface of Mars, as viewable from space.  The new Mars colour was built using a mass of procedural textures for a seamless and distortion free pleasing look, and the remaining details were derived from  Nasa/Jpl* imagery.</Abstract>
 			<SRS>EPSG:4326</SRS>
 			<FormatList>
 				<Format current="1">image/png</Format>
@@ -90,7 +92,7 @@
 							<Name>default</Name>
 							<Title>default</Title>
 							<LegendURL width="16" height="16">
-								<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?CONFIG=mars&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetLegendGraphic&amp;LAYER=OCEANIC%3AMARS_DATA&amp;FORMAT=image%2Fpng&amp;SIMPLE=TRUE"/>
+								<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?CONFIG=mars&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetLegendGraphic&amp;LAYER=SHADEDRED%3AMARS_DATA&amp;FORMAT=image%2Fpng&amp;SIMPLE=TRUE"/>
 							</LegendURL>
 						</Style>
 			</StyleList>
@@ -99,18 +101,18 @@
 			<Server service="OGC:WMS" version="1.1.1" title="OGC:WMS">
 				<OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?CONFIG=mars"/>
 			</Server>
-			<Name>MARS_LANDINGS:MARS_DATA</Name>
-			<Title>Mars Landings</Title>
+			<Name>MOLA128:MARS_DATA</Name>
+			<Title>Mars Topography</Title>
 			<SRS>EPSG:4326</SRS>
 			<FormatList>
-				<Format current="1">image/gif</Format>
+				<Format current="1">image/png</Format>
 			</FormatList>
 			<StyleList>
 				<Style current="1">
-					<Name>default</Name>
-					<Title>default</Title>
+					<Name>Land%20Shade</Name>
+					<Title>Land Shade</Title>
 					<LegendURL width="16" height="16" format="image/gif">
-						<OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?CONFIG=mars&amp;VERSION=1.1.1&amp;REQUEST=GetLegendGraphic&amp;LAYER=MARS_LANDINGS%3AMARS_DATA&amp;STYLE=icons&amp;FORMAT=image%2Fgif"/>
+						<OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/demo/cubeserv/cubeserv.cgi?CONFIG=mars&amp;VERSION=1.1.1&amp;REQUEST=GetLegendGraphic&amp;LAYER=MOLA128%3AMARS_DATA&amp;STYLE=Land Shade&amp;FORMAT=image%2Fgif"/>
 					</LegendURL>
 				</Style>
 			</StyleList>

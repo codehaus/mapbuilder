@@ -37,7 +37,9 @@ function DragPan(widgetNode, model) {
         var ul = bbox[0];
         var lr = bbox[1];
          center=new Array((lr[0]+ul[0])/2,(ul[1]+lr[1])/2);
-        objRef.targetModel.extent.centerAt(center,0);
+    
+        objRef.targetModel.extent.centerAt(center,null);
+        
        // objRef.targetModel.setParam("zoomToBbox",new Array(ul[0],lr[1],lr[0],ul[1]));
       }
     }

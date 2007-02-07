@@ -92,7 +92,8 @@ function DragPanHandler(toolNode, model) {
           img.style.left=objRef.deltaP + objRef.oldPos[0][0]+'px';
           img.style.top=objRef.deltaL + objRef.oldPos[0][1]+'px';
         //}
-      
+        //center=new Array(600/2-objRef.deltaP,150-objRef.deltaL);
+        //objRef.targetModel.extent.centerAt(center,null);
         //use this form if dragging the container node
         //var containerNode = document.getElementById(objRef.parentWidget.containerNodeId);
         //containerNode.style.left = objRef.deltaP;

@@ -37,12 +37,12 @@ function MapPaneOL(widgetNode, model) {
   this.model.addListener("deleteLayer",this.deleteLayer, this);
   this.model.addListener("moveLayerUp",this.moveLayerUp, this);
   this.model.addListener("moveLayerDown",this.moveLayerDown, this);
-  this.model.addListener( "zoomToBbox", this.zoomToBbox, this );
-  this.model.addListener( "zoomOut", this.zoomOut, this );
-  this.model.addListener( "zoomIn", this.zoomIn, this );
-   this.model.addListener( "zoomToMaxExtent", this.zoomToMaxExtent, this );
-  //this.model.addListener("newModel",this.clearWidget2,this);
-  //this.model.addListener("bbox",this.clearWidget2,this);
+  //this.model.addListener( "zoomToBbox", this.zoomToBbox, this );
+  //this.model.addListener( "zoomOut", this.zoomOut, this );
+  //this.model.addListener( "zoomIn", this.zoomIn, this );
+  // this.model.addListener( "zoomToMaxExtent", this.zoomToMaxExtent, this );
+ // this.model.addFirstListener("loadModel",this.paint,this);
+  this.model.addListener("newModel",this.clearWidget2,this);
 }
 
 /**
@@ -51,8 +51,13 @@ function MapPaneOL(widgetNode, model) {
  */
 MapPaneOL.prototype.paint = function(objRef, refresh) {
   // Create an OpenLayers map
-  if(!objRef.oLMap){
   
+ /*if (objRef.oLMap){alert("newModel");
+  objRef.clearWidget2(objRef);
+ }*/
+ //alert("paint mapaneOL "+objRef.model.map);
+  if(!objRef.model.map){
+
     if(objRef.model.doc.selectSingleNode("//wmc:OWSContext"))
         objRef.context="OWS";
     else if(objRef.model.doc.selectSingleNode("//wmc:ViewContext"))
@@ -82,13 +87,12 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       }
       maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
    }
-    objRef.oLMap = new OpenLayers.Map(objRef.node, {controls:[]});
+    objRef.model.map = new OpenLayers.Map(objRef.node, {controls:[]});
 
     // Increase hight of Control layers to allow for lots of layers.
-    objRef.oLMap.Z_INDEX_BASE.Control=10000;
-    
-  
-    objRef.oLMap.addControl(new OpenLayers.Control.MousePosition());   
+    objRef.model.map.Z_INDEX_BASE.Control=10000;
+    objRef.model.map.addControl(new OpenLayers.Control.MousePosition()); 
+      
     // loop through all layers and create OLLayers 
     var layers = objRef.model.getAllLayers();
     objRef.oLlayers = new Array();
@@ -117,8 +121,10 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       // projection info from the baselayer).
       // See Issue http://trac.openlayers.org/ticket/390
       options.isBaseLayer=(i==layers.length-1)?true:false;
-      //options.transparent=(i==layers.length-1)?"false":"true";
+      //alert(options.isBaseLayer);
+      options.transparent=(i==layers.length-1)?"false":"true";
       options.buffer=1;
+       //options.minScale=286250073;
       
       if( srs!="EPSG:4326" && srs!="epsg:4326" ){
         	options.maxExtent=maxExtent;
@@ -128,6 +134,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       switch(service){
 
         // WMS Layer
+        case "OGC":
         case "wms":
         case "OGC:WMS":
         
@@ -141,7 +148,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
                 },
                 options
             );
-            objRef.oLMap.addLayers([objRef.oLlayers[name2]]);
+            objRef.model.map.addLayers([objRef.oLlayers[name2]]);
             break;
             
         // WFS Layer
@@ -163,8 +170,9 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
                  maxfeatures: 1000},
                  options
              );
-            objRef.oLMap.addLayer(objRef.oLlayers[name2]);
+            objRef.model.map.addLayer(objRef.oLlayers[name2]);
              break;
+             
         // GML Layer
         case "gml":
         case "OGC:GML":
@@ -176,11 +184,11 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
                 options.style=new OpenLayers.Style.WebSafe(2*i+1);
             }
             objRef.oLlayers[name2] = new OpenLayers.Layer.GML(title,href,options);
-            objRef.oLMap.addLayer(objRef.oLlayers[name2]);
+            objRef.model.map.addLayer(objRef.oLlayers[name2]);
             break;
           case "Google":
            	objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, 'maxZoomLevel':18},options );
-            objRef.oLMap.addLayers([objRef.oLlayers[name2]]);
+            objRef.model.map.addLayers([objRef.oLlayers[name2]]);
             
             break;
         default:
@@ -189,12 +197,21 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     }
    
     bbox=objRef.model.getBoundingBox();
-    objRef.oLMap.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
+    objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
+    
+	var bboxOL=objRef.model.map.getExtent().toBBOX().split(',');
+	
+    ul = new Array(bboxOL[0],bboxOL[3]);
+    lr = new Array(bboxOL[2],bboxOL[1]);
+    objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
+    objRef.model.extent.setSize(new Array(objRef.model.map.getResolution(),objRef.model.map.getResolution()));
+ 
+     //objRef.clearWidget2(objRef);
   }
 }
-
+///############################################################################################TBD
 /**
- * Give to OL the bbox from context doc then update bbox value recalculated by OL in context doc. 
+ * Give to OL the bbox from context doc then update bbox value recalculated by OL . 
  * found.
  * @param objRef Pointer to widget object.
  * @param bbox  bounding box array [minx,miny,maxx,maxy] .
@@ -202,8 +219,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
  */
 MapPaneOL.prototype.zoomToBbox = function(objRef,bbox){
 
-	objRef.oLMap.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
-	objRef.model.setBoundingBox(objRef.oLMap.getExtent().toBBOX().split(','));
+	objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
+	objRef.model.setBoundingBox(objRef.model.map.getExtent().toBBOX().split(','));
    
 }
 /**
@@ -214,8 +231,8 @@ MapPaneOL.prototype.zoomToBbox = function(objRef,bbox){
  * 
  */
 MapPaneOL.prototype.zoomOut = function(objRef,center){
-    objRef.oLMap.setCenter(new OpenLayers.LonLat(center[0],center[1]),objRef.oLMap.getZoom()-1);
-	objRef.model.setBoundingBox(objRef.oLMap.getExtent().toBBOX().split(','));  
+    objRef.model.map.setCenter(new OpenLayers.LonLat(center[0],center[1]),objRef.model.map.getZoom()-1);
+	objRef.model.setBoundingBox(objRef.model.map.getExtent().toBBOX().split(','));  
 }
 /**
  * Zoom in . 
@@ -226,8 +243,8 @@ MapPaneOL.prototype.zoomOut = function(objRef,center){
  */
 MapPaneOL.prototype.zoomIn = function(objRef,center){
 
-    objRef.oLMap.setCenter(new OpenLayers.LonLat(center[0],center[1]),objRef.oLMap.getZoom()+1);
-	objRef.model.setBoundingBox(objRef.oLMap.getExtent().toBBOX().split(','));
+    objRef.model.map.setCenter(new OpenLayers.LonLat(center[0],center[1]),objRef.model.map.getZoom()+1);
+	objRef.model.setBoundingBox(objRef.model.map.getExtent().toBBOX().split(','));
 }
 
 /**
@@ -238,8 +255,8 @@ MapPaneOL.prototype.zoomIn = function(objRef,center){
  * 
  */
 MapPaneOL.prototype.zoomToMaxExtent = function(objRef){
-	objRef.oLMap.zoomToMaxExtent();
-	objRef.model.setBoundingBox(objRef.oLMap.getExtent().toBBOX().split(','));
+	objRef.model.map.zoomToMaxExtent();
+	objRef.model.setBoundingBox(objRef.model.map.getExtent().toBBOX().split(','));
 }
 /**
  * pxToCoord 
@@ -264,12 +281,14 @@ MapPaneOL.plToCoord  = function(objRef,pl){
  */
 MapPaneOL.coordToPl  = function(objRef,xy){
 
-	plOL = objRef.oLMap.getPixelFromLonLat(new OpenLayers.LonLat(xy[0],xy[1]));
+	plOL = objRef.model.map.getPixelFromLonLat(new OpenLayers.LonLat(xy[0],xy[1]));
 	pl = plOL.toString().split(',');
 	plx = pl[0].split('=');
 	ply = pl[1].split('=');
     return new Array(Math.floor(parseFloat(plx[1])),Math.floor(parseFloat(ply[1])));
 }
+
+///############################################################################################END TBD
 /**
  * Extract a style from a Layer node. Returns null if no style parameters are
  * found.
@@ -279,7 +298,7 @@ MapPaneOL.coordToPl  = function(objRef,xy){
  */
 MapPaneOL.prototype.extractStyle = function(objRef, node) {
     var style1=new OpenLayers.Style({
-        map:objRef.oLMap
+        map:objRef.model.map
         });
     var value;
     var styleSet=false;
@@ -339,6 +358,7 @@ MapPaneOL.prototype.hidden = function(objRef, layerName) {
   * @param layerName The layer Id.
   */
 MapPaneOL.prototype.getLayer = function(layerName) {
+
   return this.MapLayerMgr( layerName );
 }
 
@@ -356,16 +376,21 @@ MapPaneOL.prototype.getLayerDivId = function(layerName) {
  * @param layerName the WMS anme for the layer to be removed
  */
 MapPaneOL.prototype.deleteLayer = function(objRef, layerName) {
-  var imgDivId = objRef.getLayerDivId(layerName); 
-  if( imgDivId != null ) {
-    var imgDiv = document.getElementById(imgDivId);
-    if( imgDiv != null ) {
-      var outputNode = document.getElementById( objRef.outputNodeId );
-      outputNode.removeChild(imgDiv);
-    }
-  }
+   if(objRef.oLlayers[layerName])objRef.model.map.removeLayer(objRef.oLlayers[layerName]);
 }
-
+/**
+ * Removes all layers from the output
+ * @param objRef Pointer to this object.
+ * @param layerName the WMS anme for the layer to be removed
+ */
+MapPaneOL.prototype.deleteAllLayers = function(objRef) {
+	var layers = objRef.model.getAllLayers();
+    for (var i=layers.length-1;i>=0;i--) {
+       var name2=layers[i].selectSingleNode("wmc:Name");
+       name2=(name2)?name2.firstChild.nodeValue:"";
+       if(objRef.oLlayers[name2])objRef.model.map.removeLayer(objRef.oLlayers[name2])    
+	}
+}
 /**
  * Moves a layer up in the stack of map layers
  * @param objRef Pointer to this object.
@@ -408,7 +433,20 @@ MapPaneOL.prototype.moveLayerDown = function(objRef, layerName) {
  * @param objRef Pointer to this object.
  */
 MapPaneOL.prototype.clearWidget2 = function(objRef) {
-  objRef.MapLayerMgr.deleteAllLayers();
+
+
+	
+    if(objRef.model.map)
+    {
+    	objRef.deleteAllLayers(objRef);
+		outputNode =  document.getElementById( "mainMapContainer_OpenLayers_ViewPort" );
+		if(outputNode)
+		{
+	    	objRef.node.removeChild(outputNode);  	
+	   	}
+   		objRef.model.map=null;
+   	}
+    
 }
 
 

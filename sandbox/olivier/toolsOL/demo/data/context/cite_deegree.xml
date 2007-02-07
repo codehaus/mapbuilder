@@ -6,12 +6,12 @@
     <Title>deegree wms</Title>
   </General>
   <LayerList>
-    <Layer queryable="1" hidden="0">
+    <Layer queryable="0" hidden="0">
       <Server service="OGC:WMS" version="1.1.1" title="deegree wms">
         <OnlineResource type="simple" xlink:href="http://ogc-ri.deegree.org/deegree/wms?"/>
       </Server>
-      <Name>cite:BasicPolygons</Name>
-      <Title>cite:BasicPolygons</Title>
+      <Name>cite:Streams</Name>
+      <Title>cite:Streams</Title>
       <Abstract/>
       <SRS/>
       <FormatList>
@@ -22,10 +22,10 @@
       <Server service="OGC:WMS" version="1.1.1" title="deegree wms">
         <OnlineResource type="simple" xlink:href="http://ogc-ri.deegree.org/deegree/wms?"/>
       </Server>
-      <Name>cite:Bridges</Name>
-      <Title>cite:Bridges</Title>
+      <Name>cite:RoadSegments</Name>
+      <Title>cite:RoadSegments</Title>
       <Abstract/>
-      <SRS>EPSG:4326</SRS>
+      <SRS/>
       <FormatList>
         <Format current="1">image/png</Format>
       </FormatList>
@@ -34,8 +34,72 @@
       <Server service="OGC:WMS" version="1.1.1" title="deegree wms">
         <OnlineResource type="simple" xlink:href="http://ogc-ri.deegree.org/deegree/wms?"/>
       </Server>
-      <Name>cite:BuildingCenters</Name>
-      <Title>cite:BuildingCenters</Title>
+      <Name>cite:Ponds</Name>
+      <Title>cite:Ponds</Title>
+      <Abstract/>
+      <SRS/>
+      <FormatList>
+        <Format current="1">image/png</Format>
+      </FormatList>
+    </Layer>
+   <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="deegree wms">
+        <OnlineResource type="simple" xlink:href="http://ogc-ri.deegree.org/deegree/wms?"/>
+      </Server>
+      <Name>cite:NamedPlaces</Name>
+      <Title>cite:NamedPlaces</Title>
+      <Abstract/>
+      <SRS/>
+      <FormatList>
+        <Format current="1">image/png</Format>
+      </FormatList>
+    </Layer>
+     <Layer queryable="0" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="deegree wms">
+        <OnlineResource type="simple" xlink:href="http://ogc-ri.deegree.org/deegree/wms?"/>
+      </Server>
+      <Name>cite:MapNeatline</Name>
+      <Title>cite:MapNeatline</Title>
+      <Abstract/>
+      <SRS/>
+      <FormatList>
+        <Format current="1">image/png</Format>
+      </FormatList>
+    </Layer>
+    
+   
+   
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="deegree wms">
+        <OnlineResource type="simple" xlink:href="http://ogc-ri.deegree.org/deegree/wms?"/>
+      </Server>
+      <Name>cite:Lakes</Name>
+      <Title>cite:Lakes</Title>
+      <Abstract/>
+      <SRS/>
+      <FormatList>
+        <Format current="1">image/png</Format>
+      </FormatList>
+    </Layer>
+   
+     <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="deegree wms">
+        <OnlineResource type="simple" xlink:href="http://ogc-ri.deegree.org/deegree/wms?"/>
+      </Server>
+      <Name>cite:Forests</Name>
+      <Title>cite:Forests</Title>
+      <Abstract/>
+      <SRS/>
+      <FormatList>
+        <Format current="1">image/png</Format>
+      </FormatList>
+    </Layer>
+     <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="deegree wms">
+        <OnlineResource type="simple" xlink:href="http://ogc-ri.deegree.org/deegree/wms?"/>
+      </Server>
+      <Name>cite:DividedRoutes</Name>
+      <Title>cite:DividedRoutes</Title>
       <Abstract/>
       <SRS/>
       <FormatList>
@@ -58,10 +122,22 @@
       <Server service="OGC:WMS" version="1.1.1" title="deegree wms">
         <OnlineResource type="simple" xlink:href="http://ogc-ri.deegree.org/deegree/wms?"/>
       </Server>
-      <Name>cite:DividedRoutes</Name>
-      <Title>cite:DividedRoutes</Title>
+      <Name>cite:BuildingCenters</Name>
+      <Title>cite:BuildingCenters</Title>
       <Abstract/>
       <SRS/>
+      <FormatList>
+        <Format current="1">image/png</Format>
+      </FormatList>
+    </Layer>
+     <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="deegree wms">
+        <OnlineResource type="simple" xlink:href="http://ogc-ri.deegree.org/deegree/wms?"/>
+      </Server>
+      <Name>cite:Bridges</Name>
+      <Title>cite:Bridges</Title>
+      <Abstract/>
+      <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/png</Format>
       </FormatList>
@@ -70,80 +146,8 @@
       <Server service="OGC:WMS" version="1.1.1" title="deegree wms">
         <OnlineResource type="simple" xlink:href="http://ogc-ri.deegree.org/deegree/wms?"/>
       </Server>
-      <Name>cite:Forests</Name>
-      <Title>cite:Forests</Title>
-      <Abstract/>
-      <SRS/>
-      <FormatList>
-        <Format current="1">image/png</Format>
-      </FormatList>
-    </Layer>
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.1" title="deegree wms">
-        <OnlineResource type="simple" xlink:href="http://ogc-ri.deegree.org/deegree/wms?"/>
-      </Server>
-      <Name>cite:Lakes</Name>
-      <Title>cite:Lakes</Title>
-      <Abstract/>
-      <SRS/>
-      <FormatList>
-        <Format current="1">image/png</Format>
-      </FormatList>
-    </Layer>
-    <Layer queryable="0" hidden="0">
-      <Server service="OGC:WMS" version="1.1.1" title="deegree wms">
-        <OnlineResource type="simple" xlink:href="http://ogc-ri.deegree.org/deegree/wms?"/>
-      </Server>
-      <Name>cite:MapNeatline</Name>
-      <Title>cite:MapNeatline</Title>
-      <Abstract/>
-      <SRS/>
-      <FormatList>
-        <Format current="1">image/png</Format>
-      </FormatList>
-    </Layer>
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.1" title="deegree wms">
-        <OnlineResource type="simple" xlink:href="http://ogc-ri.deegree.org/deegree/wms?"/>
-      </Server>
-      <Name>cite:NamedPlaces</Name>
-      <Title>cite:NamedPlaces</Title>
-      <Abstract/>
-      <SRS/>
-      <FormatList>
-        <Format current="1">image/png</Format>
-      </FormatList>
-    </Layer>
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.1" title="deegree wms">
-        <OnlineResource type="simple" xlink:href="http://ogc-ri.deegree.org/deegree/wms?"/>
-      </Server>
-      <Name>cite:Ponds</Name>
-      <Title>cite:Ponds</Title>
-      <Abstract/>
-      <SRS/>
-      <FormatList>
-        <Format current="1">image/png</Format>
-      </FormatList>
-    </Layer>
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.1" title="deegree wms">
-        <OnlineResource type="simple" xlink:href="http://ogc-ri.deegree.org/deegree/wms?"/>
-      </Server>
-      <Name>cite:RoadSegments</Name>
-      <Title>cite:RoadSegments</Title>
-      <Abstract/>
-      <SRS/>
-      <FormatList>
-        <Format current="1">image/png</Format>
-      </FormatList>
-    </Layer>
-    <Layer queryable="0" hidden="0">
-      <Server service="OGC:WMS" version="1.1.1" title="deegree wms">
-        <OnlineResource type="simple" xlink:href="http://ogc-ri.deegree.org/deegree/wms?"/>
-      </Server>
-      <Name>cite:Streams</Name>
-      <Title>cite:Streams</Title>
+      <Name>cite:BasicPolygons</Name>
+      <Title>cite:BasicPolygons</Title>
       <Abstract/>
       <SRS/>
       <FormatList>

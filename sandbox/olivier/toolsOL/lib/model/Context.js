@@ -79,8 +79,9 @@ function Context(modelNode, parent) {
     bbox.setAttribute("maxx", boundingBox[2]);
     bbox.setAttribute("maxy", boundingBox[3]);
     // Call the listeners
+  
     this.callListeners("bbox", boundingBox);
-   
+
     
   }
 
