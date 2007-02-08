@@ -48,7 +48,9 @@ function Reset(widgetNode, model) {
   this.doSelect = function(selected,objRef) {
     if (selected){
       var originalExtent = objRef.originalExtent;
-      objRef.targetModel.extent.centerAt( originalExtent.getCenter(), originalExtent.res[0] );
+      //objRef.targetModel.extent.centerAt( originalExtent.getCenter(), originalExtent.res[0] );
+      objRef.targetModel.map.zoomToMaxExtent();
+      objRef.targetModel.extent.updateMB();
     	//objRef.targetModel.setParam("zoomToMaxExtent");
     }
   }

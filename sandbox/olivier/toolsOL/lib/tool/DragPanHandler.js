@@ -4,7 +4,7 @@ License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
 $Id: DragPanHandler.js 2546M 2007-01-26 15:57:27Z (local) $
 */
-
+mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
 /**
  * Tool to click and drag a map pane to achieve a recentering of the map.
  * This tool processes screen coordinates and stores AOI in the current map

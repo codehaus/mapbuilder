@@ -2,7 +2,7 @@
 <MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
 	<models>
 		<Context id="mainMap">
-			<defaultModelUrl>../data/context/modisWorld.xml</defaultModelUrl>
+			<defaultModelUrl>../data/context/demisWorldMap.xml</defaultModelUrl>
 			<widgets>
 				<MapPaneOL id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
@@ -15,12 +15,10 @@
 					<lineWidth>2</lineWidth>
 					<crossSize>15</crossSize>
 				</AoiBoxDHTML>
-        <!--Loading2 id="loading2">
-					<mapContainerId>mainMapContainer</mapContainerId>
-        </Loading2-->
+				
 			</widgets>
 			<tools>
-				<!-- AoiMouseHandler id="mainAoi"/-->
+				<AoiMouseHandler id="mainAoi"/>
 				<DragPanHandler id="mainDragPan">
 					<enabled>false</enabled>
 				</DragPanHandler>
@@ -28,23 +26,23 @@
 		</Context>
 	</models>
 	<widgets>
-		<!--  ZoomIn id="zoomIn">
+		<ZoomIn id="zoomIn">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
 			<mouseHandler>mainAoi</mouseHandler>
 			<class>RadioButton</class>
-			
+			<selected>true</selected>
 			<enabledSrc>/images/ZoomInEnable.png</enabledSrc>
 			<disabledSrc>/images/ZoomInDisable.png</disabledSrc>
-		</ZoomIn-->
-		<!-- ZoomOut id="zoomOut">
+		</ZoomIn>
+		<ZoomOut id="zoomOut">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
 			<mouseHandler>mainAoi</mouseHandler>
 			<class>RadioButton</class>
 			<enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
 			<disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
-		</ZoomOut-->
+		</ZoomOut>
 		<DragPan id="dragPan">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
@@ -52,14 +50,14 @@
 			<class>RadioButton</class>
 			<enabledSrc>/images/PanEnable.png</enabledSrc>
 			<disabledSrc>/images/PanDisable.png</disabledSrc>
-			<selected>true</selected>
+			
 		</DragPan>
-		<!-- Reset id="reset">
+		<Reset id="reset">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
 			<class>Button</class>
 			<disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
-		</Reset-->
+		</Reset>
 	</widgets>
 	<skinDir>../../lib/skin/default</skinDir>
 	<widgetTextUrl>widgetText.xml</widgetTextUrl>

@@ -2,7 +2,7 @@
 License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id: Context.js 2546M 2007-01-26 11:29:59Z (local) $
 */
-
+mapbuilder.loadScript(baseDir+"/model/Proj.js");
 /**
  * Stores a Web Map Context (WMC) document as defined by the Open GIS Consortium
  * http://opengis.org and extensions the the WMC.  
@@ -91,10 +91,11 @@ function Context(modelNode, parent) {
    */
   this.initBbox=function(objRef) {
     // Set BoundingBox in context from URL CGI params
-    if (window.cgiArgs["bbox"]) {     //set as minx,miny,maxx,maxy
+    if (window.cgiArgs["bbox"]) {   alert("bbox");  //set as minx,miny,maxx,maxy
       var bbox = window.cgiArgs["bbox"].split(',');
-    
-      objRef.setParam("zoomToBbox",bbox);
+    objRef.setBoundingBox(bbox);
+      objRef.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
+	  objRef.setBoundingBox(objRef.map.getExtent().toBBOX().split(','));
       
     }
   }

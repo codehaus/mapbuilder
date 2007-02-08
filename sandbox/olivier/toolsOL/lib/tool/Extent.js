@@ -7,12 +7,15 @@ $Id: Extent.js 2546M 2007-01-26 16:22:11Z (local) $
 
 var Rearth = 6378137.0;                 // Radius of the earth (sphere); different from Proj value?
 var degToMeter = Rearth*2*Math.PI/360;
-var mbScaleFactor = 72 * 39.3701;   //PixelsPerInch*InchesPerMapUnit; magic numbers 
-                                    //need to determine magic number for lat/lon
+//var mbScaleFactor = 72 * 39.3701;   //PixelsPerInch*InchesPerMapUnit; magic numbers 
+                               //need to determine magic number for lat/lon
+//OpenLayers.DOTS_PER_INCH = 72;  //option in openlayer 
+
+var mbScaleFactor = 90.714 * 39.3701;
 //var mbScaleFactor = 3571.428;   //magic number, for Geoserver SLD compatibility
                                // 1/0.00028 (0.28 mm "is a common actual size for
                                // contemporary display" as written in the SLD specification ...
-
+OpenLayers.DOTS_PER_INCH = 90.714;  
 /*
  * FD 2005/03/04 : minScale et maxScale
  * DGR : should be in config ?
@@ -132,7 +135,7 @@ function Extent( model, initialRes ) {
   this.checkBbox = function() {
     var center = this.getCenter();
     var half = new Array(this.size[0]/2, this.size[1]/2);
-    var res = this.getFixedScale();
+    var res = this.res[0];
     this.lr = new Array(center[0]+half[0]*res, center[1]-half[1]*res);
     this.ul = new Array(center[0]-half[0]*res, center[1]+half[1]*res);
   }

@@ -91,7 +91,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 
     // Increase hight of Control layers to allow for lots of layers.
     objRef.model.map.Z_INDEX_BASE.Control=10000;
-   objRef.model.map.addControl(new OpenLayers.Control.MousePosition()); 
+   //objRef.model.map.addControl(new OpenLayers.Control.MousePosition()); 
    //objRef.model.toolBar=new OpenLayers.Control.MouseToolbar();
    // objRef.model.map.addControl(new OpenLayers.Control.MouseToolbar(objRef.model.toolBar));  
     // loop through all layers and create OLLayers 
