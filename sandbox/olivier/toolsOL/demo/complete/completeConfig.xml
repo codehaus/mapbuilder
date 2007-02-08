@@ -239,7 +239,7 @@
   <widgets>
     <ModelUrlInput id="wmsCapsUrlInput">
       <targetModel>wmsCapTemplate</targetModel>
-      <defaultUrl>http://localhost:8080/geoserver/wms/GetCapabilities</defaultUrl>
+      <defaultUrl>http://testbed.geomatys.fr/geoserver/wms/GetCapabilities</defaultUrl>
     </ModelUrlInput>
     <!-- WebServiceForm id="ntsLookupForm">
       <targetModel>ntsGml</targetModel>

@@ -95,9 +95,9 @@ function DragPanHandler(toolNode, model) {
         //center=new Array(600/2-objRef.deltaP,150-objRef.deltaL);
         //objRef.targetModel.extent.centerAt(center,null);
         //use this form if dragging the container node
-        //var containerNode = document.getElementById(objRef.parentWidget.containerNodeId);
-        //containerNode.style.left = objRef.deltaP;
-        //containerNode.style.top = objRef.deltaL;
+        /*var containerNode = document.getElementById('mainMapContainer');
+        containerNode.style.left = objRef.deltaP;
+        containerNode.style.top = objRef.deltaL;*/
 
       }
     }

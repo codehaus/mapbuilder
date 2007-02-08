@@ -104,11 +104,17 @@ function OwsContext(modelNode, parent) {
    * Set the BoundingBox element and call the refresh listeners
    * @param boundingBox array in the sequence (xmin, ymin, xmax, ymax).
    */
-  this.initBbox=function(objRef) {
+  tthis.initBbox=function(objRef) {
     // Set BoundingBox in context from URL CGI params
-    if (window.cgiArgs["bbox"]) {   alert("owscontext l109");  //set as minx,miny,maxx,maxy
-      var boundingBox = window.cgiArgs["bbox"].split(',');
-      objRef.setBoundingBox(boundingBox);
+    if (window.cgiArgs["bbox"]) {   alert("bbox");  //set as minx,miny,maxx,maxy
+      var bbox = window.cgiArgs["bbox"].split(',');
+    /////TBD i'm not sure it was necessary 
+    objRef.setBoundingBox(bbox);
+    ///end TBD
+    //OL
+      objRef.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
+	  objRef.setBoundingBox(objRef.map.getExtent().toBBOX().split(','));
+    //OL  
     }
   }
   this.addFirstListener( "loadModel", this.initBbox, this );  // removed the comment
