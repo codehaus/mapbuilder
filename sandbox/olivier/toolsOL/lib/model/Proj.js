@@ -55,7 +55,7 @@ function Proj(srs) {
       this.Forward = ll2lcc;
       this.Inverse = lcc2ll;
       this.Init(new Array(6378137.0,6356752.314245,49.0,77.0,-95.0, 0.0, 0.0, -8000000));
-      this.units = "meters";
+      this.units = "m";
       this.title = "Lambert Conformal Conic";
       break;
     case "EPSG:42304":        //North American LCC NAD_83
@@ -63,7 +63,7 @@ function Proj(srs) {
       this.Forward = ll2lcc;
       this.Inverse = lcc2ll;
       this.Init(new Array(6378137.0,6356752.314,49.0,77.0,-95.0, 49.0, 0.0, 0));
-      this.units = "meters";
+      this.units = "m";
       this.title = "Lambert Conformal Conic";
       break;
     case "EPSG:26986":        //NAD83 / Massachusetts Mainland
@@ -71,7 +71,7 @@ function Proj(srs) {
       this.Forward = ll2lcc;
       this.Inverse = lcc2ll;
       this.Init(new Array(6378137.0,6356752.314,42.68333333333333,41.71666666666667,-71.5, 41.0, 200000, 750000));
-      this.units = "meters";
+      this.units = "m";
       this.title = "Massachusetts Mainland (LCC)";
       break;
     case "EPSG:32761":        //Polar Stereographic
@@ -80,7 +80,7 @@ function Proj(srs) {
       this.Forward = ll2ps;
       this.Inverse = ps2ll;
       this.Init(new Array(6378137.0, 6356752.314245, 0.0, -90.0, 2000000, 2000000));
-      this.units = "meters";
+      this.units = "m";
       this.title = "Polar Stereographic";
       break;
     case "EPSG:27561"://LAMB1 IGN-F modification FD 2005
@@ -88,7 +88,7 @@ function Proj(srs) {
       this.Forward = ll2lcc;
       this.Inverse = lcc2ll;
       this.Init(new Array(6378249.2, 6356515.0, 49.50, 49.50, 2.33722916655, 49.50, 600000.0, 200000.0));
-      this.units = "meters";
+      this.units = "m";
       this.title = "Lambert Conformal Conic";
       break;
     case "EPSG:27562"://LAMB2 IGN-F modification FD 2005
@@ -96,7 +96,7 @@ function Proj(srs) {
       this.Forward = ll2lcc;
       this.Inverse = lcc2ll;
       this.Init(new Array(6378249.2, 6356515.0, 46.80, 46.80, 2.33722916655, 46.8, 600000.0, 200000.0));
-      this.units = "meters";
+      this.units = "m";
       this.title = "Lambert Conformal Conic";
       break;
     case "EPSG:27572"://LAMBE IGN-F modification FD 2005
@@ -105,7 +105,7 @@ function Proj(srs) {
       this.Forward = ll2lcc;
       this.Inverse = lcc2ll;
       this.Init(new Array(6378249.2, 6356515.0, 46.80, 46.80, 2.33722916655, 46.8, 600000.0, 2200000.0));
-      this.units = "meters";
+      this.units = "m";
       this.title = "Lambert Conformal Conic";
       break;
     case "EPSG:27563"://LAMB3 IGN-F modification FD 2005
@@ -113,7 +113,7 @@ function Proj(srs) {
       this.Forward = ll2lcc;
       this.Inverse = lcc2ll;
       this.Init(new Array(6378249.2, 6356515.0, 44.10, 44.10, 2.33722916655, 44.10, 600000.0, 200000.0));
-      this.units = "meters";
+      this.units = "m";
       this.title = "Lambert Conformal Conic";
       break;
       case "EPSG:41001"://Mercator_1SP 
@@ -121,7 +121,7 @@ function Proj(srs) {
       this.Forward = ll2m;
       this.Inverse = m2ll;
       this.Init(new Array(wgs84[0],wgs84[1],0.0,0.0,0.0,0.0));
-      this.units = "meters";
+      this.units = "m";
       this.title = "Mercator";
       break;
     case "EPSG:27564"://LAMB4 IGN-F modification FD 2005
@@ -129,7 +129,7 @@ function Proj(srs) {
       this.Forward = ll2lcc;
       this.Inverse = lcc2ll;
       this.Init(new Array(6378249.2, 6356515.0, 42.17, 42.17, 2.33722916655, 42.17, 234.358, 185861.369));
-      this.units = "meters";
+      this.units = "m";
       this.title = "Lambert Conformal Conic";
       break;
     case "EPSG:2154" ://LAMB93 IGN-F modification FD 2005
@@ -137,7 +137,7 @@ function Proj(srs) {
       this.Forward = ll2lcc;
       this.Inverse = lcc2ll;
       this.Init(new Array(6378137.0, 6356752.3141, 44.00, 49.00, 3.00000000001, 46.50, 700000.0, 6600000.0));
-      this.units = "meters";
+      this.units = "m";
       this.title = "Lambert Conformal Conic";
       break;
     case "EPSG:4326":case "EPSG:4269":case "CRS:84":case "EPSG:4965":case new String("http://www.opengis.net/gml/srs/epsg.xml#4326").toUpperCase():
@@ -153,12 +153,12 @@ function Proj(srs) {
       this.Init(new Array(grs80[0], grs80[1], 0.9999375, -110.0833333333333, 40.5, 800000, 100000));
       this.units="usfeet";
       break;
-    case "EPSG:32158":this.title="NAD 1983 StatePlane Wyoming West meters";
+    case "EPSG:32158":this.title="NAD 1983 StatePlane Wyoming West m";
       this.Init=tminit;
       this.Forward=ll2tm
       this.Inverse=tm2ll;
       this.Init(new Array(grs80[0], grs80[1], 0.9999375, -110.0833333333333, 40.5, 800000, 100000));
-      this.units="meters";
+      this.units="m";
       break;
     case "EPSG:28992":
       this.title="Amersfoort / RD New";
@@ -166,7 +166,7 @@ function Proj(srs) {
       this.Forward=ll2st;
       this.Inverse=st2ll;
       this.Init(new Array(6377397.155, 5.38763888888889, 52.15616055555555, 155000, 463000));
-      this.units="meters";
+      this.units="m";
     break;
     // UTM NAD83 Zones 3 thru 23
     case"EPSG:26903":case"EPSG:26904":case"EPSG:26905":case"EPSG:26906":case"EPSG:26907":case"EPSG:26908":case"EPSG:26909":
@@ -177,7 +177,7 @@ function Proj(srs) {
       this.Forward=ll2tm;
       this.Inverse=tm2ll;
       this.Init(new Array(grs80[0], grs80[1], 0.9996, srs.substr(8,2)));
-      this.units="meters";
+      this.units="m";
     break;
     // UTM WGS84 Zones 1 thru 60 North
     case"EPSG:32601":case"EPSG:32602":
@@ -195,7 +195,7 @@ function Proj(srs) {
       this.Forward=ll2tm;
       this.Inverse=tm2ll;
       this.Init(new Array(wgs84[0], wgs84[1], 0.9996, srs.substr(8,2)));
-      this.units="meters";
+      this.units="m";
     break;
     // UTM WGS84 Zones 1 thru 60 South
     case"EPSG:32701":case"EPSG:32702":
@@ -213,14 +213,14 @@ function Proj(srs) {
       this.Forward=ll2tm;
       this.Inverse=tm2ll;
       this.Init(new Array(wgs84[0], wgs84[1], 0.9996, "-"+srs.substr(8,2)));
-      this.units="meters";
+      this.units="m";
     break;
     case "EPSG:26591":this.title="Monte Mario (Rome) / Italy zone 1";
       this.Init=tminit;
       this.Forward=ll2tm
       this.Inverse=tm2ll;
       this.Init(new Array(6378388.0, 6356911.94612795,0.9996, 9, 0.0, 1500000.0, 0.0));
-      this.units="meters";
+      this.units="m";
       break;
 	case "EPSG:31294": // MGI / M28
 	case "EPSG:31284":
@@ -228,7 +228,7 @@ function Proj(srs) {
 		this.Forward = ll2tm;
 		this.Inverse = tm2ll;
 		this.Init(new Array(6377397.155,6356078.963,1,10.3333333333,0,150000,0));
-		this.units = "meters";
+		this.units = "m";
 		this.title = "MGI / M28";
 		break;
 	case "EPSG:31295": // MGI / M31
@@ -237,7 +237,7 @@ function Proj(srs) {
 		this.Forward = ll2tm;
 		this.Inverse = tm2ll;
 		this.Init(new Array(6377397.155,6356078.963,1,13.3333333333,0,450000,0));
-		this.units = "meters";
+		this.units = "m";
 		this.title = "MGI / M31";
 		break;
 	case "EPSG:31296": // MGI / M34
@@ -246,7 +246,7 @@ function Proj(srs) {
 		this.Forward = ll2tm;
 		this.Inverse = tm2ll;
 		this.Init(new Array(6377397.155,6356078.963,1,16.3333333333,0,750000,0));
-		this.units = "meters";
+		this.units = "m";
 		this.title = "MGI / M34";
 		break;
 	case "EPSG:31297": // MGI / Austria Lambert
@@ -255,7 +255,7 @@ function Proj(srs) {
 		this.Forward = ll2lcc;
 		this.Inverse = lcc2ll;
 		this.Init(new Array(6377397.155,6356078.963,49.0,46.0,13.3333333333,47.5,400000,400000));
-		this.units = "meters"
+		this.units = "m"
 		this.title = "MGI / Austria Lambert";
 		break;
     case "SCENE":             //this is really a pixel projection with bilinear interpolation of the corners to get ll
@@ -273,7 +273,7 @@ function Proj(srs) {
       this.GetPLCoords = identity; //
       break;
     default:
-      //or retrieve parameters from web service based on SRS lookup
+      //or retrieve param from web service based on SRS lookup
       alert(mbGetMessage("unsupportedMapProjection", this.srs));
   }
 

@@ -126,6 +126,16 @@ function Context(modelNode, parent) {
   }
 
   /**
+   * Get the Projection object from the context document.
+   * @return Proj Object of  The Spatial Reference System.
+   */
+  this.getProj=function() {
+    proj=new Proj(this.getSRS());
+    return proj;
+  }
+  
+
+  /**
    * Get the Spacial Reference System from the context document.
    * @return srs The Spatial Reference System.
    */
@@ -134,7 +144,6 @@ function Context(modelNode, parent) {
     srs=bbox.getAttribute("SRS");
     return srs;
   }
-
   /**
    * Get the Window width.
    * @return width The width of map window from the context document

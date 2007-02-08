@@ -7,9 +7,9 @@ $Id: Extent.js 2546M 2007-01-26 16:22:11Z (local) $
 
 var Rearth = 6378137.0;                 // Radius of the earth (sphere); different from Proj value?
 var degToMeter = Rearth*2*Math.PI/360;
-//var mbScaleFactor = 72 * 39.3701;   //PixelsPerInch*InchesPerMapUnit; magic numbers 
+var mbScaleFactor = 72 * 39.3701;   //PixelsPerInch*InchesPerMapUnit; magic numbers 
                                     //need to determine magic number for lat/lon
-var mbScaleFactor = 3571.428;   //magic number, for Geoserver SLD compatibility
+//var mbScaleFactor = 3571.428;   //magic number, for Geoserver SLD compatibility
                                // 1/0.00028 (0.28 mm "is a common actual size for
                                // contemporary display" as written in the SLD specification ...
 
@@ -186,13 +186,7 @@ function Extent( model, initialRes ) {
   this.centerAt = function(center, zoom) {
     
     this.model.map.setCenter(new OpenLayers.LonLat(center[0],center[1]),this.model.map.getZoom()+zoom);
-    //alert("l 189 extent.js "+this.model.map);
-    var bboxOL=this.model.map.getExtent().toBBOX().split(',');
-    this.ul = new Array(bboxOL[0],bboxOL[3]);
-    this.lr = new Array(bboxOL[2],bboxOL[1]);
-    this.model.setBoundingBox( new Array(this.ul[0], this.lr[1], this.lr[0], this.ul[1]) );
-
-    this.setSize(this.model.map.getResolution());
+    this.updateMB();
   }
 
   /**
@@ -204,12 +198,8 @@ function Extent( model, initialRes ) {
   this.zoomToBox = function(ul, lr) {    //pass in xy
     var center = new Array((ul[0]+lr[0])/2, (ul[1]+lr[1])/2);
     this.model.map.zoomToExtent(new OpenLayers.Bounds(ul[0], lr[1], lr[0], ul[1]));
+    this.updateMB();
     
-    var bboxOL=this.model.map.getExtent().toBBOX().split(',');
-    this.ul = new Array(bboxOL[0],bboxOL[3]);
-    this.lr = new Array(bboxOL[2],bboxOL[1]);
-    this.model.setBoundingBox( new Array(this.ul[0], this.lr[1], this.lr[0], this.ul[1]) );
-    this.setSize(new Array(this.model.map.getResolution(),this.model.map.getResolution()));
   } 
 
 /**
@@ -267,19 +257,8 @@ function Extent( model, initialRes ) {
    */
   this.setScale = function(scale) {
     var newRes = null;
-/*
- * FD 2005/03/04
- * On contraint l'echelle min et max de l'application.
- * A externaliser dans le fichier de config de l'application ;-)
- * DGR : should be in the config
-    if (scale < minScale) {
-      scale= minScale ;
-    }
-    if (scale > maxScale) {
-      scale= maxScale ;
-    }
- */
-   /* switch(this.model.getSRS()) {
+
+   switch(this.model.getSRS()) {
       case "EPSG:4326":				//all projection codes in degrees
       case "EPSG:4269":				
         //convert to resolution in degrees
@@ -289,18 +268,29 @@ function Extent( model, initialRes ) {
         newRes = scale/mbScaleFactor;
         break;
     }
-    this.centerAt(this.getCenter(), newRes );*/
     this.model.map.zoomToScale(scale);
+    //OpenLayers.Util.getResolutionFromScale(this.extent.getScale(),"m"));
+//alert(objRef.model.extent.getScale()+" "+360/600+" "+OpenLayers.Util.getResolutionFromScale(objRef.model.extent.getScale(),"m"));
+            //objRef.oLlayers[name2].resolutions = [];
+			//objRef.model.map.zoomTo(1);
+			//objRef.model.map.zoomTo(0);
+			// var resolution = scale /( OpenLayers.INCHES_PER_UNIT[units]* OpenLayers.DOTS_PER_INCH *6378137.0*2*Math.PI/360);
+  
+   this.updateMB();
     
-    var bboxOL=this.model.map.getExtent().toBBOX().split(',');
+  }
+
+/**
+   * Update resolution and bbox of MB after OL transformation
+   * @param 
+   */
+  this.updateMB = function() {
+  	var bboxOL=this.model.map.getExtent().toBBOX().split(',');
     this.ul = new Array(bboxOL[0],bboxOL[3]);
     this.lr = new Array(bboxOL[2],bboxOL[1]);
     this.model.setBoundingBox( new Array(this.ul[0], this.lr[1], this.lr[0], this.ul[1]) );
     this.setSize(new Array(this.model.map.getResolution(),this.model.map.getResolution()));
-    
   }
-
-
   /**
    * Initialization of the Extent tool, called as a loadModel event listener.
    * @param extent      the object being initialized
@@ -310,6 +300,7 @@ function Extent( model, initialRes ) {
     var bbox = extent.model.getBoundingBox();
     extent.ul = new Array(bbox[0],bbox[3]);
     extent.lr = new Array(bbox[2],bbox[1]);
+    
 
 /*
 TBD: when called as a listener this gets a bbox array passed in, not initialRes value

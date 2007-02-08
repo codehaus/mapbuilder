@@ -168,7 +168,7 @@ $Id: build.xml 2493 2006-12-22 01:55:40Z mattdiez $
     <!-- Copy static content of the mapbuilder project  -->
     <copy todir="${build.home}">
       <fileset dir="${basedir}"
-        includes="demo/** lib/** docs/** server/php/** CHANGES LICENSE LGPL README index.html config.xml"/>
+        includes="demo/** lib/** img/** docs/** server/php/** CHANGES LICENSE LGPL README index.html config.xml"/>
     </copy>
     <copy file="${basedir}/server/php/mapbuilderConfig.xml" todir="${build.home}/lib" overwrite="true"/>
   </target>

@@ -241,17 +241,17 @@
       <targetModel>wmsCapTemplate</targetModel>
       <defaultUrl>http://localhost:8080/geoserver/wms/GetCapabilities</defaultUrl>
     </ModelUrlInput>
-    <WebServiceForm id="ntsLookupForm">
+    <!-- WebServiceForm id="ntsLookupForm">
       <targetModel>ntsGml</targetModel>
       <stylesheet>../../lib/widget/NtsForm.xsl</stylesheet>
       <webServiceUrl>http://geoservices.cgdi.ca/NTS/NTSLookup</webServiceUrl>
-    </WebServiceForm>
-    <WebServiceForm id="watershedLookupForm">
+    </WebServiceForm-->
+    <!--  WebServiceForm id="watershedLookupForm">
       <htmlTagId>ntsLookupForm</htmlTagId>
       <targetModel>watershedGml</targetModel>
       <stylesheet>../../lib/widget/CdnWatershedForm.xsl</stylesheet>
       <webServiceUrl>http://devgeo.cciw.ca:8080/WatershedLookupServlet/WatershedLookupServlet</webServiceUrl>
-    </WebServiceForm>
+    </WebServiceForm-->
     <Back id="back">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>

@@ -65,14 +65,14 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     else
         alert(mbGetMessage("noContextDefined"));
         
-    srs=objRef.model.getSRS();
+    proj=objRef.model.getProj();
 
     // OpenLayers doesn't contain information about projection, so if the
     // baseLayer projection is not standard lat/long, it needs to know
     // maxExtent and maxResolution to calculate the zoomLevels.
     maxExtent=null;
     maxResolution=null;
-    if(srs!="EPSG:4326"&&srs!="epsg:4326" ){
+    //if(proj.srs!="EPSG:4326"&&proj.srs!="epsg:4326" ){
       maxExtent=objRef.widgetNode.selectSingleNode("mb:maxExtent");
       maxExtent=(maxExtent)?maxExtent.firstChild.nodeValue.split(" "):null;
       maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");
@@ -86,13 +86,14 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         maxResolution=(maxExtent[2]-maxExtent[0])/width;     
       }
       maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
-   }
+  // }
     objRef.model.map = new OpenLayers.Map(objRef.node, {controls:[]});
 
     // Increase hight of Control layers to allow for lots of layers.
     objRef.model.map.Z_INDEX_BASE.Control=10000;
-    objRef.model.map.addControl(new OpenLayers.Control.MousePosition()); 
-      
+   objRef.model.map.addControl(new OpenLayers.Control.MousePosition()); 
+   //objRef.model.toolBar=new OpenLayers.Control.MouseToolbar();
+   // objRef.model.map.addControl(new OpenLayers.Control.MouseToolbar(objRef.model.toolBar));  
     // loop through all layers and create OLLayers 
     var layers = objRef.model.getAllLayers();
     objRef.oLlayers = new Array();
@@ -126,11 +127,11 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       options.buffer=1;
        //options.minScale=286250073;
       
-      if( srs!="EPSG:4326" && srs!="epsg:4326" ){
+      //if( proj.srs!="EPSG:4326" && proj.srs!="epsg:4326" ){
         	options.maxExtent=maxExtent;
         	options.maxResolution=maxResolution;
-        	options.projection=srs;
-      }
+        	options.projection=proj.srs;
+      //}
       switch(service){
 
         // WMS Layer
@@ -150,6 +151,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
             );
             objRef.model.map.addLayers([objRef.oLlayers[name2]]);
             break;
+           
             
         // WFS Layer
         case "wfs":
@@ -195,7 +197,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
             alert(mbGetMessage("layerTypeNotSupported", service));
       }
     }
-   
+    //objRef.model.map.zoomTo(1);
+	//objRef.model.map.zoomTo(0);
     bbox=objRef.model.getBoundingBox();
     objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
     

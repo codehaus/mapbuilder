@@ -33,7 +33,7 @@
     </OwsContext>
   </models>
   <widgets>
-  		<ZoomIn id="zoomIn">
+  		<!--ZoomIn id="zoomIn">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
 			<mouseHandler>mainAoi</mouseHandler>
@@ -41,7 +41,7 @@
 			<selected>true</selected>
 			<enabledSrc>/images/ZoomInEnable.png</enabledSrc>
 			<disabledSrc>/images/ZoomInDisable.png</disabledSrc>
-		</ZoomIn>
+		</ZoomIn-->
 		<ZoomOut id="zoomOut">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
