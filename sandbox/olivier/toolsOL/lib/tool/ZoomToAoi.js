@@ -30,11 +30,12 @@ function ZoomToAoi(toolNode, model) {
    * if the target model changes.
    * @param tool        Pointer to this ZoomToAoi object.
    */
-  this.initProj = function( toolRef ) {
+  /*this.initProj = function( toolRef ) {
     if( toolRef.model.doc && toolRef.targetModel.doc ) {
       if ( toolRef.model.getSRS() != toolRef.targetModel.getSRS() ) {
-          toolRef.model.proj = new Proj( toolRef.model.getSRS() );
-          toolRef.targetModel.proj = new Proj( toolRef.targetModel.getSRS() );
+      toolRef.targetModel.proj =toolRef.targetModel.getProj() ;
+          toolRef.model.proj = toolRef.model.getProj();
+          
       }
     }
   }
@@ -43,7 +44,7 @@ function ZoomToAoi(toolNode, model) {
     toolRef.targetModel.addListener( "loadModel", toolRef.initProj, toolRef );
     toolRef.initProj( toolRef );
   }
-  this.model.addListener( "loadModel", this.setListeners, this);
+  this.model.addListener( "loadModel", this.setListeners, this);*/
 
   /**
    * Target model bbox change listener.  This sets this model's AOI to be the
@@ -55,12 +56,17 @@ function ZoomToAoi(toolNode, model) {
 	    var bbox = tool.targetModel.getBoundingBox();  
 	    var ul = new Array(bbox[0],bbox[3]);
 	    var lr = new Array(bbox[2],bbox[1]);
-	    if ( tool.model.getSRS() != tool.targetModel.getSRS() ) {
-	      ul = tool.targetModel.proj.Inverse( ul ); //to lat-long
-	      lr = tool.targetModel.proj.Inverse( lr );
-	      if (ul[0]>lr[0]) ul[0] = ul[0]-360.0;     //make sure ul is left of lr
-	      ul = tool.model.proj.Forward( ul );       //back to XY
-	      lr = tool.model.proj.Forward( lr );
+	  
+	    if ( tool.model.getSRS() != tool.targetModel.getSRS() ) 
+	    {
+
+	     	 	ul = tool.targetModel.proj.Inverse( ul ); //to lat-long
+	      	 	lr = tool.targetModel.proj.Inverse( lr );
+	         	if (ul[0]>lr[0]) ul[0] = ul[0]-360.0;     //make sure ul is left of lr
+	         	ul = tool.model.proj.Forward( ul );       //back to XY
+	      	 	lr = tool.model.proj.Forward( lr );
+
+	    
 	    }
 	    tool.model.setParam("aoi", new Array(ul, lr) );
     }

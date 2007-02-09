@@ -12,7 +12,6 @@ $Id: Proj.js 2546M 2007-01-26 10:28:10Z (local) $
 /**
  * Provides latitude/longitude to map projection (and vice versa) transformation methods.
  * Initialized with EPSG codes.  Has properties for units and title strings.
- * All coordinates are handled as points which is a 2 element array where x is
  * the first element and y is the second.
  * For the Forward() method pass in lat/lon and it returns map XY.
  * For the Inverse() method pass in map XY and it returns lat/long.

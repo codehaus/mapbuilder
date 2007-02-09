@@ -41,7 +41,7 @@ function MapPaneOL(widgetNode, model) {
   //this.model.addListener( "zoomOut", this.zoomOut, this );
   //this.model.addListener( "zoomIn", this.zoomIn, this );
   // this.model.addListener( "zoomToMaxExtent", this.zoomToMaxExtent, this );
- // this.model.addFirstListener("loadModel",this.paint,this);
+ //this.model.addFirstListener("loadModel",this.paint,this);
   this.model.addListener("newModel",this.clearWidget2,this);
 }
 
@@ -56,6 +56,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   objRef.clearWidget2(objRef);
  }*/
  //alert("paint mapaneOL "+objRef.model.map);
+
   if(!objRef.model.map){
 
     if(objRef.model.doc.selectSingleNode("//wmc:OWSContext"))
@@ -65,7 +66,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     else
         alert(mbGetMessage("noContextDefined"));
         
-    proj=objRef.model.getProj();
+    proj=objRef.model.proj;
 
     // OpenLayers doesn't contain information about projection, so if the
     // baseLayer projection is not standard lat/long, it needs to know
@@ -99,53 +100,60 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     objRef.oLlayers = new Array();
       
     for (var i=layers.length-1;i>=0;i--) {
+    	   // Options to pass into the OpenLayers Layer initialization
+      
       var service=layers[i].selectSingleNode("wmc:Server/@service");service=(service)?service.nodeValue:"";
        var title=layers[i].selectSingleNode("wmc:Title");title=(title)?title.firstChild.nodeValue:"";
       var name2=layers[i].selectSingleNode("wmc:Name");name2=(name2)?name2.firstChild.nodeValue:"";
        
         if (objRef.context=="OWS"){
-            var href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?href.firstChild.nodeValue:"";	
+            var href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?href.firstChild.nodeValue:"";	  
         }
         else
-        {	var href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
+        {	
+        	var href=layers[i].selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
         }
         
         
        var format=layers[i].selectSingleNode("wmc:FormatList/wmc:Format");format=(format)?format.firstChild.nodeValue:"image/gif";
        var vis=layers[i].selectSingleNode("@hidden");vis=(vis)?(vis.nodeValue!="1"):true;
+	   
 
-      // Options to pass into the OpenLayers Layer initialization
-      var options = new Array();
+      
+	  var options = new Array();
+      
       options.visibility=vis;
       
       // OpenLayers expects the base layer to be non-transparent (it gets
       // projection info from the baselayer).
       // See Issue http://trac.openlayers.org/ticket/390
       options.isBaseLayer=(i==layers.length-1)?true:false;
-      //alert(options.isBaseLayer);
       options.transparent=(i==layers.length-1)?"false":"true";
       options.buffer=1;
-       //options.minScale=286250073;
-      
-      //if( proj.srs!="EPSG:4326" && proj.srs!="epsg:4326" ){
         	options.maxExtent=maxExtent;
         	options.maxResolution=maxResolution;
         	options.projection=proj.srs;
-      //}
+        	options.units=proj.units;
+        	
       switch(service){
 
         // WMS Layer
         case "OGC":
         case "wms":
         case "OGC:WMS":
-        
+        	var params = new Array();
+        	params=objRef.extractStyle(objRef,layers[i],"wms");
             objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(
                 title,
                 href,
                 {
                     layers: name2,
-                    transparent: "true",
-                    format: format
+                    //true in upper case else the context doc boston.xml doesn't work
+                    transparent: "TRUE",
+                    format: format,
+                    sld:params.sld,
+                    sld_body:params.sld_body,
+                    styles:params.styles
                 },
                 options
             );
@@ -157,7 +165,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         case "wfs":
         case "OGC:WFS":
         
-        style=objRef.extractStyle(objRef,layers[i]);
+        style=objRef.extractStyle(objRef,layers[i],"wfs");
             if(style){
                 options.style=style;
             }else{
@@ -179,7 +187,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         case "gml":
         case "OGC:GML":
         
-            style=objRef.extractStyle(objRef,layers[i]);
+            style=objRef.extractStyle(objRef,layers[i],"gml");
             if(style){
                 options.style=style;
             }else{
@@ -299,7 +307,10 @@ MapPaneOL.coordToPl  = function(objRef,xy){
  * @param node Node to extract style from.
  * @return OpenLayers.Style
  */
-MapPaneOL.prototype.extractStyle = function(objRef, node) {
+MapPaneOL.prototype.extractStyle = function(objRef, node, service) {
+
+if(service=="gml" || service=="wfs")
+{
     var style1=new OpenLayers.Style({
         map:objRef.model.map
         });
@@ -328,7 +339,40 @@ MapPaneOL.prototype.extractStyle = function(objRef, node) {
         style1.strokeOpacity=value.firstChild.nodeValue;
         styleSet=true;
     }
+    
+    if(!styleSet)style1=null;
+    return style1;
+}
+else if (service=="wms")
+{
+			params=new Array();
+        	var href=node.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
+        	var sld=node.selectSingleNode("wmc:StyleList/wmc:Style[@current='1']/wmc:SLD");
+			if(sld)
+			{
+			   if(sld.selectSingleNode("wmc:OnlineResource"))
+			   {	
+			   		params.sld=sld.selectSingleNode("wmc:OnlineResource").getAttribute("xlink:href");
+			  
+			   }
+			   else if(sld.selectSingleNode("wmc:FeatureTypeStyle"))
+			   {
+			   		params.sld=sld.selectSingleNode("wmc:FeatureTypeStyle");
+			   }
+		    } 
+		    else if(node.selectSingleNode("wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:StyledLayerDescriptor"))
+		    {
+		    	params.sld_body=node.selectSingleNode("wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:StyledLayerDescriptor");
+		    	
+		    }
+		    else if(node.selectSingleNode("wmc:StyleList/wmc:Style[@current='1']/wmc:Name"))
+		    {
+		    	params.styles=node.selectSingleNode("wmc:StyleList/wmc:Style[@current='1']/wmc:Name").firstChild.nodeValue;
+		    }        
+		    
+		    return params;
 
+}
 // OpenLayer.Style is processing style in % coords, not pixels.
 // When this is fixed, the following lines can be uncommented.
 //    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke-width']");
@@ -342,10 +386,8 @@ MapPaneOL.prototype.extractStyle = function(objRef, node) {
 //        style1.pointRadius=value.firstChild.nodeValue;
 //        styleSet=true;
 //    }
-    if(!styleSet)style1=null;
-    return style1;
+   
 }
-
 /**
  * Hide/unhide a layer. Called by Context when the hidden attribute changes.
  * @param objRef Pointer to widget object.
@@ -387,12 +429,14 @@ MapPaneOL.prototype.deleteLayer = function(objRef, layerName) {
  * @param layerName the WMS anme for the layer to be removed
  */
 MapPaneOL.prototype.deleteAllLayers = function(objRef) {
-	var layers = objRef.model.getAllLayers();
+	/*var layers = objRef.model.getAllLayers();
     for (var i=layers.length-1;i>=0;i--) {
        var name2=layers[i].selectSingleNode("wmc:Name");
        name2=(name2)?name2.firstChild.nodeValue:"";
+       alert(name2);
        if(objRef.oLlayers[name2])objRef.model.map.removeLayer(objRef.oLlayers[name2])    
-	}
+	}*/
+	objRef.model.map.destroy();
 }
 //#############################################TDO
 /**
@@ -573,12 +617,13 @@ MapPaneOL.prototype.clearWidget2 = function(objRef) {
 	
     if(objRef.model.map)
     {
-    	objRef.deleteAllLayers(objRef);
-		outputNode =  document.getElementById( "mainMapContainer_OpenLayers_ViewPort" );
+    	objRef.model.map.destroy();
+		outputNode =  document.getElementById( objRef.model.id+"Container_OpenLayers_ViewPort" );
 		if(outputNode)
 		{
 	    	objRef.node.removeChild(outputNode);  	
 	   	}
+   		
    		objRef.model.map=null;
    	}
     

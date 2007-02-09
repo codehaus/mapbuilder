@@ -56,7 +56,8 @@ function DragPanHandler(toolNode, model) {
       objRef.deltaL = 0;
 //Michael Jenik added this
       //objRef.oldPos stores the old positions of targetNode.childNodes divs
-      var img=targetNode.lastChild.firstChild;
+      //var img=targetNode.lastChild.firstChild;
+      img=targetNode.lastChild;
       objRef.oldPos = new Array(1);
       /*for(var i=0; i<images.length; i++) {*/
         //var img=images.item(i);
@@ -85,7 +86,7 @@ function DragPanHandler(toolNode, model) {
 
         //use this form if dragging the container node children
         //var images=targetNode.getElementsByTagName("div");
-        var img=targetNode.lastChild.firstChild;
+        var img=targetNode.lastChild;
         //for(var i=0; i<images.length; i++) {
           //var img=images.item(i);
 //Michael Jenik added the plus ...

@@ -76,6 +76,12 @@
       <OnlineResource xlink:type="simple" xlink:href="../data/context/local.xml"/>
 		</ContextURL>
 	</ViewContextReference>
+	<ViewContextReference version="1.0.0" id="local">
+    <Title>continental_area</Title>
+		<ContextURL>
+      <OnlineResource xlink:type="simple" xlink:href="../data/context/TasmaniaContext.xml"/>
+		</ContextURL>
+	</ViewContextReference>
 	<ViewContextReference version="1.0.0" id="aafc">
 		<Title>External server example (requires proxy script)</Title>
 		<ContextURL>

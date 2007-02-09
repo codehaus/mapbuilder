@@ -22,6 +22,8 @@
       </Logger-->
     <Context id="mainMap">
       <defaultModelUrl>../data/context/demisWorldMap.xml</defaultModelUrl>
+      <!-- defaultModelUrl>../data/context/TasmaniaContext.xml</defaultModelUrl-->
+     
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>

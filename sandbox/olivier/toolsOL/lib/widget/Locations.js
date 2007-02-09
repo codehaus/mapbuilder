@@ -24,17 +24,22 @@ function Locations(widgetNode, model) {
 
   //TBD: implement this in a Locations model
   this.model.getSRS = function(){return "EPSG:4326";}
-
+  this.model.proj = new Proj("EPSG:4326");
 /**
  * Change the AOI coordinates from select box choice of prefined locations
  * @param bbox the bbox value of the location keyword chosen
  * @param targetModel the model on which to set the AOI
  */
   this.setAoi = function(bbox, targetModel) {
+  
     var bboxArray = new Array();
     bboxArray     = bbox.split(",");
     var ul = new Array(parseFloat(bboxArray[0]),parseFloat(bboxArray[3]));
     var lr = new Array(parseFloat(bboxArray[2]),parseFloat(bboxArray[1]));
+    ul = this.model.proj.Inverse( ul ); //to lat-long
+	lr = this.model.proj.Inverse( lr );
+	ul = this.targetModel.proj.Forward( ul ); //to xy
+	lr = this.targetModel.proj.Forward( lr );
     this.model.setParam("aoi",new Array(ul,lr));
 
     //convert this.model XY to latlong

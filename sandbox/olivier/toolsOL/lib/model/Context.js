@@ -130,11 +130,11 @@ function Context(modelNode, parent) {
    * Get the Projection object from the context document.
    * @return Proj Object of  The Spatial Reference System.
    */
-  this.getProj=function() {
-    proj=new Proj(this.getSRS());
-    return proj;
+  this.initProj=function(objRef) {
+    objRef.proj=new Proj(objRef.getSRS());
+    
   }
-  
+   this.addFirstListener( "loadModel", this.initProj, this );
 
   /**
    * Get the Spacial Reference System from the context document.

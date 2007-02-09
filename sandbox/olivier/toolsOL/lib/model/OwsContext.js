@@ -104,7 +104,7 @@ function OwsContext(modelNode, parent) {
    * Set the BoundingBox element and call the refresh listeners
    * @param boundingBox array in the sequence (xmin, ymin, xmax, ymax).
    */
-  tthis.initBbox=function(objRef) {
+  this.initBbox=function(objRef) {
     // Set BoundingBox in context from URL CGI params
     if (window.cgiArgs["bbox"]) {   alert("bbox");  //set as minx,miny,maxx,maxy
       var bbox = window.cgiArgs["bbox"].split(',');
@@ -162,10 +162,11 @@ function OwsContext(modelNode, parent) {
    * Get the Projection object from the context document.
    * @return Proj Object of  The Spatial Reference System.
    */
-  this.getProj=function() {
-    proj=new Proj(this.getSRS());
-    return proj;
+  this.initProj=function(objRef) {
+    objRef.proj=new Proj(objRef.getSRS());
+    
   }
+   this.addFirstListener( "loadModel", this.initProj, this );
   /**
    * Get the Window width.
    * @return width The width of map window from the context document

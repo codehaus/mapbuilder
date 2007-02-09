@@ -49,6 +49,7 @@ function ModelUrlInput(widgetNode, model) {
     }
 */    
     this.targetModel.newRequest(this.targetModel,httpPayload);
+    
   }
 
   /**

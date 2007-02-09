@@ -154,9 +154,9 @@ function Extent( model, initialRes ) {
    */
   this.getXY = function(pl) {
 
-    pixel = new OpenLayers.Pixel(pl[0],pl[1]);
-	coord = this.model.map.getLonLatFromPixel(pixel);
-	xy = coord.toShortString().split(',');
+    var pixel = new OpenLayers.Pixel(pl[0],pl[1]);
+	var coord = this.model.map.getLonLatFromPixel(pixel);
+	var xy = coord.toShortString().split(',');
 	return new Array(parseFloat(xy[0]),parseFloat(xy[1]));
 
   }
@@ -168,10 +168,10 @@ function Extent( model, initialRes ) {
    */
   this.getPL = function(xy) {
 
-	plOL = this.model.map.getPixelFromLonLat(new OpenLayers.LonLat(xy[0],xy[1]));
-	pl = plOL.toString().split(',');
-	plx = pl[0].split('=');
-	ply = pl[1].split('=');
+	var plOL = this.model.map.getPixelFromLonLat(new OpenLayers.LonLat(xy[0],xy[1]));
+	var pl = plOL.toString().split(',');
+	var plx = pl[0].split('=');
+	var ply = pl[1].split('=');
     return new Array(Math.floor(parseFloat(plx[1])),Math.floor(parseFloat(ply[1])));
     
   }

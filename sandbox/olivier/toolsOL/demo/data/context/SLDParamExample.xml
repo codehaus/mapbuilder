@@ -61,7 +61,7 @@
    </StyleList>
   </Layer>
     <Layer queryable="1" hidden="0">
-   <Server service="OGC:WMS" version="1.1.0" title="OGC:WMS">
+   <Server service="OGC:WMS" version="1.1.0" title="OGC:WMS" >
     <OnlineResource xlink:type="simple" xlink:href="http://geo.compusult.net/scripts/mapman.dll?Name=weather"/>
    </Server>
    <Name>WEATHER</Name>
@@ -71,7 +71,7 @@
     <Format current="1">image/gif</Format>
    </FormatList>
    <StyleList>
-   <Style current="1">
+   <Style current="1" >
     <Name>DEFAULT</Name>
     <Title>DEFAULT</Title>
     <LegendURL>
@@ -92,8 +92,8 @@
     <Format current="1">image/gif</Format>
    </FormatList>
    <StyleList>
-   <Style current="1">
-    <SLD>
+   <Style current="1" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <SLD xmlns:xlink="http://www.w3.org/1999/xlink">
      <OnlineResource xlink:type="simple" xlink:href="http://cgdi-dev.geoconnections.org/prototypes/owsview/cache/110009719722986sld_1_0_0.xml" />
     </SLD>
     <LegendURL>
@@ -124,7 +124,7 @@
    </Style>
    </StyleList>
   </Layer>
-  <Layer queryable="0" hidden="0">
+  <!-- Layer queryable="0" hidden="0">
    <Server service="OGC:WMS" version="1.1.1" title="OGC:WMS">
     <OnlineResource xlink:type="simple" xlink:href="http://mapserv2.esrin.esa.it/ionicweb/map/GAEL_WORLD_MARCH"/>
    </Server>
@@ -140,6 +140,6 @@
     <Title>default</Title>
    </Style>
    </StyleList>
-  </Layer>
+  </Layer-->
  </LayerList>
 </ViewContext>
