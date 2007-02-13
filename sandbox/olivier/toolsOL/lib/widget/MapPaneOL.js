@@ -96,10 +96,11 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
    //objRef.model.toolBar=new OpenLayers.Control.MouseToolbar();
    // objRef.model.map.addControl(new OpenLayers.Control.MouseToolbar(objRef.model.toolBar));  
     // loop through all layers and create OLLayers 
+    objRef.model.map.addControl(new OpenLayers.Control.LayerSwitcher());
     var layers = objRef.model.getAllLayers();
     objRef.oLlayers = new Array();
       
-    for (var i=layers.length-1;i>=0;i--) {
+    for (var i=0;i<layers.length;i++) {
     	   // Options to pass into the OpenLayers Layer initialization
       
       var service=layers[i].selectSingleNode("wmc:Server/@service");service=(service)?service.nodeValue:"";
@@ -141,6 +142,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         case "OGC":
         case "wms":
         case "OGC:WMS":
+        options.isBaseLayer=false;
         	var params = new Array();
         	params=objRef.extractStyle(objRef,layers[i],"wms");
             objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(
@@ -197,9 +199,23 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
             objRef.model.map.addLayer(objRef.oLlayers[name2]);
             break;
           case "Google":
+            //<script src='http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA8qdfnOIRy3a9gh214V5jKRTwM0brOpm-All5BF6PoaKBxRWWERQ7UHfSE2CGKw9qNg0C1vUmYLatLQ'></script>
+            
+            options.isBaseLayer=true;
            	objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, 'maxZoomLevel':18},options );
             objRef.model.map.addLayers([objRef.oLlayers[name2]]);
-            
+            break;
+            case "Yahoo":
+             // <script src="http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=euzuro-openlayers"></script>
+            options.isBaseLayer=true;
+           	objRef.oLlayers[name2] = new OpenLayers.Layer.Yahoo( "Yahoo");
+            objRef.model.map.addLayers([objRef.oLlayers[name2]]);
+            break;
+            case "VE":
+            //<script src='http://dev.virtualearth.net/mapcontrol/v3/mapcontrol.js'></script>
+            options.isBaseLayer=true;
+           	objRef.oLlayers[name2] = new OpenLayers.Layer.VirtualEarth( "VE",{minZoomLevel: 0, maxZoomLevel: 18,'type': VEMapStyle.Hybrid}); 
+            objRef.model.map.addLayers([objRef.oLlayers[name2]]);
             break;
         default:
             alert(mbGetMessage("layerTypeNotSupported", service));
@@ -207,6 +223,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     }
     //objRef.model.map.zoomTo(1);
 	//objRef.model.map.zoomTo(0);
+	
     bbox=objRef.model.getBoundingBox();
     objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
     
@@ -219,84 +236,6 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
  
      //objRef.clearWidget2(objRef);
   }
-}
-///############################################################################################TBD
-/**
- * Give to OL the bbox from context doc then update bbox value recalculated by OL . 
- * found.
- * @param objRef Pointer to widget object.
- * @param bbox  bounding box array [minx,miny,maxx,maxy] .
- * 
- */
-MapPaneOL.prototype.zoomToBbox = function(objRef,bbox){
-
-	objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
-	objRef.model.setBoundingBox(objRef.model.map.getExtent().toBBOX().split(','));
-   
-}
-/**
- * Zoom out . 
- * 
- * @param objRef Pointer to widget object.
- * @param center  center Lon/Lat coordinates: array [x,y] .
- * 
- */
-MapPaneOL.prototype.zoomOut = function(objRef,center){
-    objRef.model.map.setCenter(new OpenLayers.LonLat(center[0],center[1]),objRef.model.map.getZoom()-1);
-	objRef.model.setBoundingBox(objRef.model.map.getExtent().toBBOX().split(','));  
-}
-/**
- * Zoom in . 
- * 
- * @param objRef Pointer to widget object.
- * @param center  center Lon/Lat coordinates: array [x,y] .
- * 
- */
-MapPaneOL.prototype.zoomIn = function(objRef,center){
-
-    objRef.model.map.setCenter(new OpenLayers.LonLat(center[0],center[1]),objRef.model.map.getZoom()+1);
-	objRef.model.setBoundingBox(objRef.model.map.getExtent().toBBOX().split(','));
-}
-
-/**
- * zoomToMaxExtent . 
- * 
- * @param objRef Pointer to widget object.
- * 
- * 
- */
-MapPaneOL.prototype.zoomToMaxExtent = function(objRef){
-	objRef.model.map.zoomToMaxExtent();
-	objRef.model.setBoundingBox(objRef.model.map.getExtent().toBBOX().split(','));
-}
-/**
- * pxToCoord 
- * 
- * @param objRef Pointer to widget object.
- * @param .
- * 
- */
-MapPaneOL.plToCoord  = function(objRef,pl){
-
-	 pixel = new OpenLayers.Pixel(pl[0],pl[1]);
-	xyOL = config.objects.mainMapWidget.oLMap.getLonLatFromPixel(pixel);
-	xy = coord.toShortString().split(',');
-	return new Array(parseFloat(xy[0]),parseFloat(xy[1]));
-}
-/**
- * coordToPx 
- * 
- * @param objRef Pointer to widget object.
- * @param .
- * 
- */
-MapPaneOL.coordToPl  = function(objRef,xy){
-
-	plOL = objRef.model.map.getPixelFromLonLat(new OpenLayers.LonLat(xy[0],xy[1]));
-	pl = plOL.toString().split(',');
-	plx = pl[0].split('=');
-	ply = pl[1].split('=');
-    return new Array(Math.floor(parseFloat(plx[1])),Math.floor(parseFloat(ply[1])));
 }
 
 ///############################################################################################END TBD
@@ -429,13 +368,6 @@ MapPaneOL.prototype.deleteLayer = function(objRef, layerName) {
  * @param layerName the WMS anme for the layer to be removed
  */
 MapPaneOL.prototype.deleteAllLayers = function(objRef) {
-	/*var layers = objRef.model.getAllLayers();
-    for (var i=layers.length-1;i>=0;i--) {
-       var name2=layers[i].selectSingleNode("wmc:Name");
-       name2=(name2)?name2.firstChild.nodeValue:"";
-       alert(name2);
-       if(objRef.oLlayers[name2])objRef.model.map.removeLayer(objRef.oLlayers[name2])    
-	}*/
 	objRef.model.map.destroy();
 }
 //#############################################TDO
@@ -445,15 +377,8 @@ MapPaneOL.prototype.deleteAllLayers = function(objRef) {
  * @param layerName the WMS anme for the layer to be removed
  */
 MapPaneOL.prototype.moveLayerUp = function(objRef, layerName) {
-  var outputNode = document.getElementById( objRef.outputNodeId );
-  var imgDivId = objRef.getLayerDivId(layerName); 
-  var movedNode = document.getElementById(imgDivId);
-  var sibNode = movedNode.nextSibling;
-  if (!sibNode) {
-    alert(mbGetMessage("cantMoveUp", layerName));
-    return;
-  }
-  outputNode.insertBefore(sibNode,movedNode);
+
+   objRef.model.map.raiseLayer(objRef.model.map.getLayer(objRef.oLlayers[layerName].id), 1); 
 }
 
 /**
@@ -462,15 +387,7 @@ MapPaneOL.prototype.moveLayerUp = function(objRef, layerName) {
  * @param layerName the WMS name for the layer to be removed
  */
 MapPaneOL.prototype.moveLayerDown = function(objRef, layerName) {
-  var outputNode = document.getElementById( objRef.outputNodeId );
-  var imgDivId = objRef.getLayerDivId(layerName); 
-  var movedNode = document.getElementById(imgDivId);
-  var sibNode = movedNode.previousSibling;
-  if (!sibNode) {
-    alert(mbGetMessage("cantMoveDown", layerName));
-    return;
-  }
-  outputNode.insertBefore(movedNode,sibNode);
+     objRef.model.map.raiseLayer(objRef.model.map.getLayer(objRef.oLlayers[layerName].id), -1);
 }
 //###############################################
 /**
@@ -532,7 +449,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {alert("addLayer");
       //options.isBaseLayer=(i==layers.length-1)?true:false;
       options.isBaseLayer=false;
       //alert(options.isBaseLayer);
-      options.transparent="true";
+      options.transparent="TRUE";
       options.buffer=1;
       options.maxExtent=maxExtent;
       options.maxResolution=maxResolution;
@@ -544,7 +461,6 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {alert("addLayer");
         case "OGC":
         case "wms":
         case "OGC:WMS":
-        alert("WMS");
         
             objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(
                 title,
@@ -595,10 +511,19 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {alert("addLayer");
             objRef.oLlayers[name2] = new OpenLayers.Layer.GML(title,href,options);
             objRef.model.map.addLayer(objRef.oLlayers[name2]);
             break;
-          case "Google":
+          case "GMAP":
            	objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, 'maxZoomLevel':18},options );
             objRef.model.map.addLayers([objRef.oLlayers[name2]]);
-            
+            break;
+          case "YMAP":
+           	/*objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, 'maxZoomLevel':18},options );
+            objRef.model.map.addLayers([objRef.oLlayers[name2]]);
+            */
+            break;
+          case "VE":
+           	/*objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, 'maxZoomLevel':18},options );
+            objRef.model.map.addLayers([objRef.oLlayers[name2]]);
+            */
             break;
         default:
             alert(mbGetMessage("layerTypeNotSupported", service));

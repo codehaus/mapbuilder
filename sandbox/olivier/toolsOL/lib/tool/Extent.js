@@ -4,18 +4,22 @@ License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id: Extent.js 2546M 2007-01-26 16:22:11Z (local) $
 */
 
+OpenLayers.DOTS_PER_INCH = 90.714; 		//option in mapbuilder
+//OpenLayers.DOTS_PER_INCH = 72;       //option in openlayer 
+
+
 
 var Rearth = 6378137.0;                 // Radius of the earth (sphere); different from Proj value?
 var degToMeter = Rearth*2*Math.PI/360;
 //var mbScaleFactor = 72 * 39.3701;   //PixelsPerInch*InchesPerMapUnit; magic numbers 
                                //need to determine magic number for lat/lon
-//OpenLayers.DOTS_PER_INCH = 72;  //option in openlayer 
 
-var mbScaleFactor = 90.714 * 39.3701;
-//var mbScaleFactor = 3571.428;   //magic number, for Geoserver SLD compatibility
+var mbScaleFactorDegrees = OpenLayers.DOTS_PER_INCH * 4374754; 
+var mbScaleFactorMeters = OpenLayers.DOTS_PER_INCH * 39.3701;
+//var mbScaleFactorMeters = 3571.428;   //magic number, for Geoserver SLD compatibility
                                // 1/0.00028 (0.28 mm "is a common actual size for
                                // contemporary display" as written in the SLD specification ...
-OpenLayers.DOTS_PER_INCH = 90.714;  
+ 
 /*
  * FD 2005/03/04 : minScale et maxScale
  * DGR : should be in config ?
@@ -239,18 +243,19 @@ function Extent( model, initialRes ) {
    */
   this.getScale = function() {
     var pixRes = null;
-    switch(this.model.getSRS()) {
-      case "EPSG:GMAPS":
+    switch(this.model.proj.units) {
+      case "GMAPS":
         break;
-      case "EPSG:4326":				//all projection codes in degrees
-      case "EPSG:4269":				
-        pixRes = this.res[0]*degToMeter;
+      case "degrees":				//all projection codes in degrees		
+        
+        scale=this.res[0]*mbScaleFactorDegrees;
         break;
-      default:                //all projection codes in meters
-        pixRes = this.res[0];
+      case "m":                //all projection codes in meters
+        scale=this.res[0]*mbScaleFactorMeters;
         break;
     }
-    return mbScaleFactor*pixRes;
+    
+    return scale ;
   }
 
   /**
@@ -260,26 +265,36 @@ function Extent( model, initialRes ) {
    */
   this.setScale = function(scale) {
     var newRes = null;
-
-   switch(this.model.getSRS()) {
-      case "EPSG:4326":				//all projection codes in degrees
-      case "EPSG:4269":				
+	var currentZoom=this.model.map.getZoom();
+	
+    switch(this.model.proj.units) {
+      case "degrees":				//all projection codes in degrees		
         //convert to resolution in degrees
-        newRes = scale/(mbScaleFactor*degToMeter);
+        newRes = scale/mbScaleFactorDegrees;
         break;
-      default:                //all projection codes in meters
-        newRes = scale/mbScaleFactor;
+      case "m":                     //all projection codes in meters
+        newRes = scale/mbScaleFactorMeters;
         break;
     }
+    //alert("extent.js l274 "+mbScaleFactor+" * "+degToMeter);
     this.model.map.zoomToScale(scale);
+    if(this.model.map.getZoom()==currentZoom)
+    {	
+    	this.model.map.zoomTo(currentZoom+1);
+		this.model.map.zoomTo(currentZoom);
+	}
+    //this.model.map.zoomToResolution(newRes);
+    
     //OpenLayers.Util.getResolutionFromScale(this.extent.getScale(),"m"));
 //alert(objRef.model.extent.getScale()+" "+360/600+" "+OpenLayers.Util.getResolutionFromScale(objRef.model.extent.getScale(),"m"));
             //objRef.oLlayers[name2].resolutions = [];
 			//objRef.model.map.zoomTo(1);
 			//objRef.model.map.zoomTo(0);
 			// var resolution = scale /( OpenLayers.INCHES_PER_UNIT[units]* OpenLayers.DOTS_PER_INCH *6378137.0*2*Math.PI/360);
-  
+  //objRef.model.map.zoomTo(1);
+//objRef.model.map.zoomTo(0);
    this.updateMB();
+   
     
   }
 

@@ -29,18 +29,7 @@
           <htmlTagId>mainMapPane</htmlTagId>
           <mapContainerId>mainMapContainer</mapContainerId>
         </MapPaneOL>
-        <!-- MapScaleBar id="scalebar">
-         
-          <displaySystem>metric</displaySystem>
-          <minWidth>100</minWidth>
-          <maxWidth>300</maxWidth>
-          <divisions>4</divisions>
-          <subdivisions>2</subdivisions>
-          <showMinorMeasures>false</showMinorMeasures>
-          <abbreviateLabel>true</abbreviateLabel>
-          <singleLine>false</singleLine>
-          <align>left</align>
-        </MapScaleBar-->
+       
         <!-- Loading id="loading" /-->
         <AoiBoxDHTML id="aoiBoxMain">
 					<htmlTagId>mainMapPane</htmlTagId>
@@ -66,6 +55,17 @@
           <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
           <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
         </LayerControl>
+         <MapScaleBar id="scalebar">
+          <displaySystem>metric</displaySystem>
+          <minWidth>100</minWidth>
+          <maxWidth>300</maxWidth>
+          <divisions>4</divisions>
+          <subdivisions>2</subdivisions>
+          <showMinorMeasures>false</showMinorMeasures>
+          <abbreviateLabel>true</abbreviateLabel>
+          <singleLine>false</singleLine>
+          <align>left</align>
+        </MapScaleBar>
         <!--
           <SearchForm id="searchForm">
           </SearchForm>

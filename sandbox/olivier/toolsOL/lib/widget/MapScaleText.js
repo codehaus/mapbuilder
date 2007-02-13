@@ -28,6 +28,7 @@ function MapScaleText(widgetNode, model) {
   this.submitForm = function() {
     var newScale = this.mapScaleTextForm.mapScale.value;
     this.model.extent.setScale(newScale.split(",").join(""));
+    
     return false;   //prevent the form from actually being submitted
   }
 

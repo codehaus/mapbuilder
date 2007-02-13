@@ -11,16 +11,16 @@
 
   <General>
     <!-- Tasmania Bounding Box -->
-    <!--  Window width="600" height="500"/>
+    <Window width="600" height="500"/>
     <ows:BoundingBox crs="EPSG:4326">
       <ows:LowerCorner>-179 -89</ows:LowerCorner>
       <ows:UpperCorner>179 89</ows:UpperCorner>
-    </ows:BoundingBox-->
-    <Window width="720" height="499"/>
+    </ows:BoundingBox>
+    <!-- Window width="720" height="499"/>
     <ows:BoundingBox crs="EPSG:41001">
       <ows:LowerCorner>-19981848.60 -13817347.59</ows:LowerCorner>
       <ows:UpperCorner>19981848.60 13817347.59</ows:UpperCorner>
-    </ows:BoundingBox>
+    </ows:BoundingBox-->
     <Title xml:lang="en">GML3 Demo with OWSContext</Title>
     <KeywordList>
       <Keyword>world</Keyword>
@@ -191,13 +191,29 @@
 			</Style>
 			</StyleList>
 	</Layer-->
-	
-    <!--  Layer queryable="1" hidden="0">
-      <Server service="Google" version="1.0.0" title="Google Map">
-      <OnlineResource xlink:type="simple" xlink:href="Google"/>
+	<Layer queryable="1" hidden="0">
+      <Server service="VE" version="1.0.0" title="Virtual Earth Map">
+      <OnlineResource xlink:type="simple" xlink:href="Virtual Earth"/>
       </Server>
-      <Name>Google</Name>
-      <Title>Google</Title>
+      <Name>Virtual Earth</Name>
+      <Title>Virtual Earth</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <Name>Hybrid</Name>
+          <Title>default</Title>
+        </Style>
+      </StyleList>
+    </Layer>
+	<!-- Layer queryable="1" hidden="0">
+      <Server service="Yahoo" version="1.0.0" title="Yahoo Map">
+      <OnlineResource xlink:type="simple" xlink:href="Yahoo"/>
+      </Server>
+      <Name>Yahoo</Name>
+      <Title>Yahoo</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
@@ -209,6 +225,7 @@
         </Style>
       </StyleList>
     </Layer-->
+    
     <Layer queryable="1" hidden="0">
 			<Server service="OGC:WMS" version="1.1.1" title="continent">
 				<OnlineResource xlink:type="simple" xlink:href="http://testbed.geomatys.fr/geoserver/wms?"/>
@@ -235,6 +252,24 @@
         </Style>
       </StyleList>
 	</Layer>
+	
+	<!-- Layer queryable="1" hidden="0">
+      <Server service="Google" version="1.0.0" title="Google Map">
+      <OnlineResource xlink:type="simple" xlink:href="Google"/>
+      </Server>
+      <Name>Google</Name>
+      <Title>Google</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+      </StyleList>
+    </Layer-->
 	<!--  Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.1.1" title="OGC:WMS">
         <OnlineResource xlink:type="simple" xlink:href=" http://testbed.geomatys.fr/geoserver/wms"/>

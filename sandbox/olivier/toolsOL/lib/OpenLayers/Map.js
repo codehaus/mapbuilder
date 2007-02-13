@@ -263,10 +263,12 @@ OpenLayers.Map.prototype = {
         var foundLayer = null;
         for (var i = 0; i < this.layers.length; i++) {
             var layer = this.layers[i];
+            
             if (layer.id == id) {
                 foundLayer = layer;
             }
         }
+       
         return foundLayer;
     },
 
@@ -687,7 +689,7 @@ OpenLayers.Map.prototype = {
 
         // adjust
         var newCenterPx = centerPx.add(dx, dy);
-        
+        //alert(newCenterPx.toString());
         // only call setCenter if there has been a change
         if (!newCenterPx.equals(centerPx)) {
             var newCenterLonLat = this.getLonLatFromViewPortPx(newCenterPx);
@@ -1039,9 +1041,26 @@ OpenLayers.Map.prototype = {
                                            center.lat - h_deg / 2,
                                            center.lon + w_deg / 2,
                                            center.lat + h_deg / 2);
+       alert("zoomtoScale res= "+res);
         this.zoomToExtent(extent);
     },
-    
+    zoomToResolution: function(res) {
+        //var res = OpenLayers.Util.getResolutionFromScale(scale, 
+                                                        // this.baseLayer.units);
+        var size = this.getSize();
+        var w_deg = size.w * res;
+        var h_deg = size.h * res;
+        var center = this.getCenter();
+
+        var extent = new OpenLayers.Bounds(center.lon - w_deg / 2,
+                                           center.lat - h_deg / 2,
+                                           center.lon + w_deg / 2,
+                                           center.lat + h_deg / 2);
+        
+        this.setCenter(extent.getCenterLonLat(), 
+                       this.getZoomForResolution(res));
+                       alert(this.getZoomForResolution(res));
+    },
   /********************************************************/
   /*                                                      */
   /*             Translation Functions                    */

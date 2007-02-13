@@ -615,7 +615,7 @@ OpenLayers.INCHES_PER_UNIT["degrees"] = OpenLayers.INCHES_PER_UNIT.dd;
 
 /** A sensible default 
  * @type int */
-OpenLayers.DOTS_PER_INCH = 72;
+//OpenLayers.DOTS_PER_INCH = 72;
 
 /**
  * @param {float} scale
@@ -651,6 +651,7 @@ OpenLayers.Util.getResolutionFromScale = function (scale, units) {
 //alert("ici"+OpenLayers.INCHES_PER_UNIT[units]*OpenLayers.DOTS_PER_INCH+" "+6378137.0*2*Math.PI/360);
     var resolution = 1 / (normScale * OpenLayers.INCHES_PER_UNIT[units]
                                     * OpenLayers.DOTS_PER_INCH);
+    alert(OpenLayers.INCHES_PER_UNIT[units]+" * "+OpenLayers.DOTS_PER_INCH);
     return resolution;
 };
 

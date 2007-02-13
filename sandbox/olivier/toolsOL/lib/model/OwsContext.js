@@ -106,7 +106,7 @@ function OwsContext(modelNode, parent) {
    */
   this.initBbox=function(objRef) {
     // Set BoundingBox in context from URL CGI params
-    if (window.cgiArgs["bbox"]) {   alert("bbox");  //set as minx,miny,maxx,maxy
+    if (window.cgiArgs["bbox"]) {   //set as minx,miny,maxx,maxy
       var bbox = window.cgiArgs["bbox"].split(',');
     /////TBD i'm not sure it was necessary 
     objRef.setBoundingBox(bbox);
@@ -126,7 +126,7 @@ function OwsContext(modelNode, parent) {
    */
   this.initAoi=function(objRef) {
     // Set AOI of context from URL CGI params
-    if (window.cgiArgs["aoi"]) {     alert("owscontext l123");  //set as ul,lr point arrays
+    if (window.cgiArgs["aoi"]) {      //set as ul,lr point arrays
       var aoi = window.cgiArgs["aoi"].split(',');
       objRef.setParam("aoi",new Array(new Array(aoi[0],aoi[3]),new Array(aoi[2],aoi[1])));
     }

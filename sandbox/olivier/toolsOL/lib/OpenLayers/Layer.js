@@ -484,7 +484,6 @@ OpenLayers.Layer.prototype = {
         var viewSize = this.map.getSize();
         var idealResolution = Math.max( extent.getWidth()  / viewSize.w,
                                         extent.getHeight() / viewSize.h );
-
         return this.getZoomForResolution(idealResolution);
     },
     
@@ -500,10 +499,14 @@ OpenLayers.Layer.prototype = {
         
         for(var i=1; i < this.resolutions.length; i++) {
             if ( this.resolutions[i] < resolution) {
+            	this.resolutions[i-1]=resolution;
+            	//if ((i-1)==0){this.resolutions[i-1]=resolution;};
+            	//alert("getZoomForResolution ["+(i)+"]="+resolution);
                 break;
             }
         }
-        return (i - 1);
+//alert("resolution : "+resolution+" i-1 : "+ (i-1));
+        return (i-1);
     },
     
     /**
