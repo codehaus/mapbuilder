@@ -241,6 +241,8 @@
     <unitInchesAbbr>p</unitInchesAbbr>
     <unitKilometers>kilomètres</unitKilometers>
     <unitKilometersAbbr>km</unitKilometersAbbr>
+    <unitNauticalMiles>milles marin</unitNauticalMiles>
+    <unitNauticalMilesAbbr>nmi</unitNauticalMilesAbbr>
     <unitMeters>mètres</unitMeters>
     <unitMetersAbbr>m</unitMetersAbbr>
     <unitMiles>milles</unitMiles>
