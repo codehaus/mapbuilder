@@ -241,6 +241,8 @@
     <unitInchesAbbr>in</unitInchesAbbr>
     <unitKilometers>kilometer</unitKilometers>
     <unitKilometersAbbr>km</unitKilometersAbbr>
+    <unitNauticalMiles>zeemijl</unitNauticalMiles>
+    <unitNauticalMilesAbbr>nmi</unitNauticalMilesAbbr>
     <unitMeters>meter</unitMeters>
     <unitMetersAbbr>m</unitMetersAbbr>
     <unitMiles>mijl</unitMiles>

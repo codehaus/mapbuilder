@@ -50,7 +50,7 @@ function MapScaleBar(widgetNode, model) {
 	// if modified after ScaleBar.place(), use ScaleBar.update()
 	this.scaleDenominator = 1;    //this will get updated on the first paint
 
-	this.displaySystem = 'metric'; // metric or english supported
+	this.displaySystem = 'metric'; // metric, english or nautical supported
   var displaySystem = widgetNode.selectSingleNode("mb:displaySystem");
   if (displaySystem) this.displaySystem = displaySystem.firstChild.nodeValue;
 
@@ -253,6 +253,11 @@ MapScaleBar.prototype.update = function(objRef) {
 		units: [mbGetMessage("unitMiles"), mbGetMessage("unitFeet"), mbGetMessage("unitInches")],
 		abbr: [mbGetMessage("unitMilesAbbr"), mbGetMessage("unitFeetAbbr"), mbGetMessage("unitInchesAbbr")],
 		inches: [63360, 12, 1]
+	}
+	measurementProperties.nautical = {
+		units: [mbGetMessage("unitNauticalMiles"), mbGetMessage("unitFeet"), mbGetMessage("unitInches")],
+		abbr: [mbGetMessage("unitNauticalMilesAbbr"), mbGetMessage("unitFeetAbbr"), mbGetMessage("unitInchesAbbr")],
+		inches: [72913.3860, 12, 1]
 	}
 	measurementProperties.metric = {
 		units: [mbGetMessage("unitKilometers"), mbGetMessage("unitMeters"), mbGetMessage("unitCentimeters")],
