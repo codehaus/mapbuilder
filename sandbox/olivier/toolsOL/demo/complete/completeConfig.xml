@@ -55,7 +55,7 @@
           <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
           <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
         </LayerControl>
-         <MapScaleBar id="scalebar">
+         <!--MapScaleBar id="scalebar">
           <displaySystem>metric</displaySystem>
           <minWidth>100</minWidth>
           <maxWidth>300</maxWidth>
@@ -65,7 +65,7 @@
           <abbreviateLabel>true</abbreviateLabel>
           <singleLine>false</singleLine>
           <align>left</align>
-        </MapScaleBar>
+        </MapScaleBar-->
         <!--
           <SearchForm id="searchForm">
           </SearchForm>

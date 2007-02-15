@@ -34,12 +34,27 @@ function LayerControl(widgetNode, model) {
    * @param layerName  the name of the layer to highlight
    */
   this.highlightLayer = function(layerName) {
-    var layerId = this.model.id + "_" + "mainMapWidget" + "_" + layerName;
+  
+    /*var layerId = config.objects.mainMapWidget.oLlayers[layerName].id;
     var previewImage = document.getElementById("previewImage");
-    var layer = document.getElementById(layerId);
-    if (previewImage) previewImage.src = layer.firstChild.src;
-  }
-
+    
+    var child=previewImage.lastChild;
+	while (child)
+  	{
+  		previewImage.removeChild(child);
+  		child=child.previousSibling;
+  	}
+  	this.map=this.targetModel.map;
+    var layer = document.getElementById("mainMapContainer_OpenLayers_ViewPort").cloneNode(true);
+ 
+    layer.style.width=150;
+    layer.style.height=150;
+    layer.style.zindex=0;
+    layer.style.id=layer.style.id+"_pi";
+    //   alert(layer.style.width);
+    if (previewImage){ previewImage.firstChild.firstChild.appendChild(layer);
+  }*/
+}
   /**
    * Listener method to paint this widget
    * @param layerName  the name of the layer to highlight

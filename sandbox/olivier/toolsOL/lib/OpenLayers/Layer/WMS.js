@@ -42,7 +42,7 @@ OpenLayers.Layer.WMS.prototype =
                        this.params, 
                        OpenLayers.Util.upperCaseObject(this.DEFAULT_PARAMS)
                        );
-
+        
         // unless explicitly set in options, if the layer is transparent, 
         // it will be an overlay
         if (options == null || options.isBaseLayer == null) {

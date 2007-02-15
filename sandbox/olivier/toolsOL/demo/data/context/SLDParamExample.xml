@@ -43,15 +43,15 @@
   </ContactInformation>
  </General> 
  <LayerList>
-    <Layer queryable="1" hidden="0">
-   <Server service="OGC:WMS" version="1.1.0" title="OGC:WMS">
-    <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/mapserver/request.asp"/>
+  <Layer queryable="0" hidden="0">
+   <Server service="OGC:WMS" version="1.1.1" title="OGC:WMS">
+    <OnlineResource xlink:type="simple" xlink:href="http://mapserv2.esrin.esa.it/ionicweb/map/GAEL_WORLD_MARCH"/>
    </Server>
-   <Name>Cities</Name>
-   <Title>Cities</Title>
+   <Name>GAEL_WORLD_MARCH</Name>
+   <Title>Mosaic of MERIS_RR products</Title>
    <SRS>EPSG:4326</SRS>
    <FormatList>
-    <Format current="1">image/gif</Format>
+    <Format current="1">image/png</Format>
    </FormatList>
    <StyleList>
    <Style current="1">
@@ -60,50 +60,6 @@
    </Style>
    </StyleList>
   </Layer>
-    <Layer queryable="1" hidden="0">
-   <Server service="OGC:WMS" version="1.1.0" title="OGC:WMS" >
-    <OnlineResource xlink:type="simple" xlink:href="http://geo.compusult.net/scripts/mapman.dll?Name=weather"/>
-   </Server>
-   <Name>WEATHER</Name>
-   <Title>North American Hourly METAR Weather Reports</Title>
-   <SRS>EPSG:4326</SRS>
-   <FormatList>
-    <Format current="1">image/gif</Format>
-   </FormatList>
-   <StyleList>
-   <Style current="1" >
-    <Name>DEFAULT</Name>
-    <Title>DEFAULT</Title>
-    <LegendURL>
-     <OnlineResource xlink:type="simple" xlink:href="http://geo.compusult.net/legends/weather.gif"/>
-    </LegendURL>    
-   </Style>
-   </StyleList>
-  </Layer>
-  
-  <Layer queryable="1" hidden="0">
-   <Server service="OGC:WMS" version="1.1.1" title="OGC:WMS">
-    <OnlineResource xlink:type="simple" xlink:href="http://ceoware2.ccrs.nrcan.gc.ca/cubewerx/cubeserv/cubeserv.cgi"/>
-   </Server>
-   <Name>POLBNDL_BND_1M:Foundation</Name>
-   <Title>Political Boundaries</Title>
-   <SRS>EPSG:4326</SRS>
-   <FormatList>
-    <Format current="1">image/gif</Format>
-   </FormatList>
-   <StyleList>
-   <Style current="1" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <SLD xmlns:xlink="http://www.w3.org/1999/xlink">
-     <OnlineResource xlink:type="simple" xlink:href="http://cgdi-dev.geoconnections.org/prototypes/owsview/cache/110009719722986sld_1_0_0.xml" />
-    </SLD>
-    <LegendURL>
-     <OnlineResource xlink:type="simple" xlink:href="http://ceoware2.ccrs.nrcan.gc.ca/cubewerx/cubeserv/cubeserv.cgi?VERSION=1.1.1&amp;REQUEST=GetLegendGraphic&amp;LAYER=POLBNDL_BND_1M:Foundation&amp;FORMAT=image/gif"/>
-    </LegendURL>    
-   </Style>
-   </StyleList>
-  </Layer>
-
-
   <Layer queryable="1" hidden="0">
    <Server service="OGC:WMS" version="1.1.1" title="OGC:WMS">
     <OnlineResource xlink:type="simple" xlink:href="http://ceoware2.ccrs.nrcan.gc.ca/cubewerx/cubeserv/cubeserv.cgi"/>
@@ -124,15 +80,56 @@
    </Style>
    </StyleList>
   </Layer>
-  <!-- Layer queryable="0" hidden="0">
+  <Layer queryable="1" hidden="0">
    <Server service="OGC:WMS" version="1.1.1" title="OGC:WMS">
-    <OnlineResource xlink:type="simple" xlink:href="http://mapserv2.esrin.esa.it/ionicweb/map/GAEL_WORLD_MARCH"/>
+    <OnlineResource xlink:type="simple" xlink:href="http://ceoware2.ccrs.nrcan.gc.ca/cubewerx/cubeserv/cubeserv.cgi"/>
    </Server>
-   <Name>GAEL_WORLD_MARCH</Name>
-   <Title>Mosaic of MERIS_RR products</Title>
+   <Name>POLBNDL_BND_1M:Foundation</Name>
+   <Title>Political Boundaries</Title>
    <SRS>EPSG:4326</SRS>
    <FormatList>
-    <Format current="1">image/png</Format>
+    <Format current="1">image/gif</Format>
+   </FormatList>
+   <StyleList>
+   <Style current="1">
+    <SLD>
+     <OnlineResource xlink:type="simple" xlink:href="http://cgdi-dev.geoconnections.org/prototypes/owsview/cache/110009719722986sld_1_0_0.xml" />
+    </SLD>
+    <LegendURL>
+     <OnlineResource xlink:type="simple" xlink:href="http://ceoware2.ccrs.nrcan.gc.ca/cubewerx/cubeserv/cubeserv.cgi?VERSION=1.1.1&amp;REQUEST=GetLegendGraphic&amp;LAYER=POLBNDL_BND_1M:Foundation&amp;FORMAT=image/gif"/>
+    </LegendURL>    
+   </Style>
+   </StyleList>
+  </Layer>
+  <Layer queryable="1" hidden="0">
+   <Server service="OGC:WMS" version="1.1.0" title="OGC:WMS">
+    <OnlineResource xlink:type="simple" xlink:href="http://geo.compusult.net/scripts/mapman.dll?Name=weather"/>
+   </Server>
+   <Name>WEATHER</Name>
+   <Title>North American Hourly METAR Weather Reports</Title>
+   <SRS>EPSG:4326</SRS>
+   <FormatList>
+    <Format current="1">image/gif</Format>
+   </FormatList>
+   <StyleList>
+   <Style current="1">
+    <Name>DEFAULT</Name>
+    <Title>DEFAULT</Title>
+    <LegendURL>
+     <OnlineResource xlink:type="simple" xlink:href="http://geo.compusult.net/legends/weather.gif"/>
+    </LegendURL>    
+   </Style>
+   </StyleList>
+  </Layer>
+  <Layer queryable="1" hidden="0">
+   <Server service="OGC:WMS" version="1.1.0" title="OGC:WMS">
+    <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/mapserver/request.asp"/>
+   </Server>
+   <Name>Cities</Name>
+   <Title>Cities</Title>
+   <SRS>EPSG:4326</SRS>
+   <FormatList>
+    <Format current="1">image/gif</Format>
    </FormatList>
    <StyleList>
    <Style current="1">
@@ -140,6 +137,6 @@
     <Title>default</Title>
    </Style>
    </StyleList>
-  </Layer-->
+  </Layer>
  </LayerList>
 </ViewContext>

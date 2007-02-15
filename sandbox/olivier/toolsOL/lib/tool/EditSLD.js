@@ -103,7 +103,7 @@ function EditSLD(toolNode, model) {
 		    	styleNode.appendChild(legendURLNode);
 		    	
 		    }
-		     config.objects.mainMap.setParam("refresh");
+		     this.targetModel.setParam("refresh","sld");
 		    //alert("fin"); 
     	}
 	 	else alert(mbGetMessage("selectLayer"));

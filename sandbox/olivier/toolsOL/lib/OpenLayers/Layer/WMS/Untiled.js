@@ -30,10 +30,7 @@ OpenLayers.Layer.WMS.Untiled.prototype =
 
     /** @type OpenLayers.Tile.Image */
     tile: null,
-
-    /** did the image finish loading before a new draw was initiated?
-     * @type Boolean */
-    doneLoading: false,
+    
 
     /**
     * @constructor
@@ -111,10 +108,6 @@ OpenLayers.Layer.WMS.Untiled.prototype =
      * @param {Boolean} dragging
      */
     moveTo:function(bounds, zoomChanged, dragging) {
-        if (!this.doneLoading) {
-            this.events.triggerEvent("loadcancel"); 
-            this.doneLoading = true; 
-        }
         OpenLayers.Layer.HTTPRequest.prototype.moveTo.apply(this,arguments);
         
         if (bounds == null) {
@@ -162,18 +155,10 @@ OpenLayers.Layer.WMS.Untiled.prototype =
                 this.tile = null;
             }
 
-            this.events.triggerEvent("loadstart");
-            this.doneLoading = false;
             if (!this.tile) {
                 this.tile = new OpenLayers.Tile.Image(this, pos, tileBounds, 
                                                      url, tileSize);
                 this.tile.draw();
-                var onload = function() { 
-                    this.doneLoading = true; 
-                    this.events.triggerEvent("loadend"); 
-                }
-                OpenLayers.Event.observe(this.tile.imgDiv, 'load',
-                                         onload.bindAsEventListener(this));
             } else {
                 this.tile.moveTo(tileBounds, pos);
             } 

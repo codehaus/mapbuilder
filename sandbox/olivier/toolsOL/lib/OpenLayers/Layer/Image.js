@@ -74,7 +74,7 @@ OpenLayers.Layer.Image.prototype =
      */
     clone: function(obj) {
         
-        if(obj == null) {
+        if (obj == null) {
             obj = new OpenLayers.Layer.Image(this.name,
                                                this.url,
                                                this.extent,
@@ -96,8 +96,8 @@ OpenLayers.Layer.Image.prototype =
     setMap: function(map) {
         // If nothing to do with resolutions has been set, assume a single
         //  resolution determined by extent/size
-        if( this.options.maxResolution == null ) {
-        	this.options.maxResolution = this.extent.getWidth() / this.size.w;
+        if ( this.options.maxResolution == null ) {
+            this.options.maxResolution = this.extent.getWidth() / this.size.w;
         }
         OpenLayers.Layer.prototype.setMap.apply(this, arguments);
     },
@@ -113,7 +113,7 @@ OpenLayers.Layer.Image.prototype =
 
         var firstRendering = (this.tile == null);
 
-        if(zoomChanged || firstRendering) {
+        if (zoomChanged || firstRendering) {
 
             //determine new tile size
             var tileWidth = this.extent.getWidth() / this.map.getResolution();
@@ -125,7 +125,7 @@ OpenLayers.Layer.Image.prototype =
             var ul = new OpenLayers.LonLat(this.extent.left, this.extent.top);
             var ulPx = this.map.getLayerPxFromLonLat(ul);
 
-            if(firstRendering) {
+            if (firstRendering) {
                 //create the new tile
                 this.tile = new OpenLayers.Tile.Image(this, ulPx, this.extent, 
                                                       this.url, tileSize);
@@ -159,3 +159,4 @@ OpenLayers.Layer.Image.prototype =
     /** @final @type String */
     CLASS_NAME: "OpenLayers.Layer.Image"
 });
+

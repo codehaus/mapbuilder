@@ -11,16 +11,16 @@
 
   <General>
     <!-- Tasmania Bounding Box -->
-    <Window width="600" height="500"/>
-    <ows:BoundingBox crs="EPSG:4326">
-      <ows:LowerCorner>-179 -89</ows:LowerCorner>
-      <ows:UpperCorner>179 89</ows:UpperCorner>
-    </ows:BoundingBox>
-    <!-- Window width="720" height="499"/>
+    <!-- Window width="510" height="499"/-->
+    <!-- ows:BoundingBox crs="EPSG:4326">
+      <ows:LowerCorner>-175 -85</ows:LowerCorner>
+      <ows:UpperCorner>175 85</ows:UpperCorner>
+    </ows:BoundingBox-->
+    <Window width="720" height="499"/>
     <ows:BoundingBox crs="EPSG:41001">
       <ows:LowerCorner>-19981848.60 -13817347.59</ows:LowerCorner>
       <ows:UpperCorner>19981848.60 13817347.59</ows:UpperCorner>
-    </ows:BoundingBox-->
+    </ows:BoundingBox>
     <Title xml:lang="en">GML3 Demo with OWSContext</Title>
     <KeywordList>
       <Keyword>world</Keyword>
@@ -114,7 +114,7 @@
       </StyleList>
     </FeatureType-->
 
-    <!--FeatureType hidden="1">
+    <!-- FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="tasmania/TasmaniaStateBoundaries.xml"/>
       </Server>
@@ -137,9 +137,9 @@
           </SLD>
         </Style>
       </StyleList>
-    </FeatureType>
+    </FeatureType-->
 
-    <Layer queryable="1" hidden="1">
+    <!-- Layer queryable="1" hidden="1">
       <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
       <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
       </Server>
@@ -173,7 +173,6 @@
         </Style>
       </StyleList>
     </Layer-->
-    
     <!--  Layer queryable="1" hidden="0">
 			<Server service="OGC:WMS" version="1.1.1" title="continent">
 				<OnlineResource xlink:type="simple" xlink:href="http://testbed.geomatys.fr/geoserver/wms"/>
@@ -191,13 +190,15 @@
 			</Style>
 			</StyleList>
 	</Layer-->
-	<Layer queryable="1" hidden="0">
+   
+    
+	<!-- Layer queryable="1" hidden="0">
       <Server service="VE" version="1.0.0" title="Virtual Earth Map">
       <OnlineResource xlink:type="simple" xlink:href="Virtual Earth"/>
       </Server>
       <Name>Virtual Earth</Name>
       <Title>Virtual Earth</Title>
-      <SRS>EPSG:4326</SRS>
+      <SRS>EPSG:41001</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
       </FormatList>
@@ -207,14 +208,14 @@
           <Title>default</Title>
         </Style>
       </StyleList>
-    </Layer>
+    </Layer-->
 	<!-- Layer queryable="1" hidden="0">
       <Server service="Yahoo" version="1.0.0" title="Yahoo Map">
       <OnlineResource xlink:type="simple" xlink:href="Yahoo"/>
       </Server>
       <Name>Yahoo</Name>
       <Title>Yahoo</Title>
-      <SRS>EPSG:4326</SRS>
+      <SRS>EPSG:41001</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
       </FormatList>
@@ -226,7 +227,59 @@
       </StyleList>
     </Layer-->
     
-    <Layer queryable="1" hidden="0">
+	<Layer queryable="1" hidden="0">
+      <Server service="Google" version="1.0.0" title="Google Map">
+      <OnlineResource xlink:type="simple" xlink:href="Google"/>
+      </Server>
+      <Name>Google</Name>
+      <Title>Google</Title>
+      <SRS>EPSG:41001</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+      </StyleList>
+    </Layer>
+    <!-- Layer queryable="1" hidden="0">
+      <Server service="MultiMap" version="1.0.0" title="MultiMap">
+      <OnlineResource xlink:type="simple" xlink:href="MultiMap"/>
+      </Server>
+      <Name>MultiMap</Name>
+      <Title>Multimap</Title>
+      <SRS>EPSG:41001</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+      </StyleList>
+    </Layer-->
+	<Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="OGC:WMS">
+        <OnlineResource xlink:type="simple" xlink:href=" http://testbed.geomatys.fr/geoserver/wms"/>
+      </Server>
+      <Name>geom:OA_20050518</Name>
+      <Title xml:lang="en">NetCDF</Title>
+      <Title xml:lang="fr">NetCDF</Title>
+      <SRS>EPSG:41001</SRS>
+      <FormatList>
+        <Format current="1">image/png</Format>
+      </FormatList>
+      <StyleList>
+				<Style current="1">
+  <Name>raster</Name>
+          <Title>raster</Title>
+        </Style>
+	</StyleList>
+    </Layer>
+	 <Layer queryable="1" hidden="0">
 			<Server service="OGC:WMS" version="1.1.1" title="continent">
 				<OnlineResource xlink:type="simple" xlink:href="http://testbed.geomatys.fr/geoserver/wms?"/>
 			</Server>
@@ -252,96 +305,5 @@
         </Style>
       </StyleList>
 	</Layer>
-	
-	<!-- Layer queryable="1" hidden="0">
-      <Server service="Google" version="1.0.0" title="Google Map">
-      <OnlineResource xlink:type="simple" xlink:href="Google"/>
-      </Server>
-      <Name>Google</Name>
-      <Title>Google</Title>
-      <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/gif</Format>
-      </FormatList>
-      <StyleList>
-        <Style current="1">
-          <Name>default</Name>
-          <Title>default</Title>
-        </Style>
-      </StyleList>
-    </Layer-->
-	<!--  Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.1" title="OGC:WMS">
-        <OnlineResource xlink:type="simple" xlink:href=" http://testbed.geomatys.fr/geoserver/wms"/>
-      </Server>
-      <Name>geom:OA_20050518</Name>
-      <Title xml:lang="en">NetCDF</Title>
-      <Title xml:lang="fr">NetCDF</Title>
-      <SRS>EPSG:41001</SRS>
-      <FormatList>
-        <Format current="1">image/png</Format>
-      </FormatList>
-      <StyleList>
-				<Style current="1">
-          <SLD>
-            <sld:Fill>
-              <sld:CssParameter name="fill">#6633FF</sld:CssParameter>
-              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
-            </sld:Fill>
-            <sld:Stroke>
-              <sld:CssParameter name="stroke">#6633FF</sld:CssParameter>
-              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
-              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
-            </sld:Stroke>
-          </SLD>
-        </Style>
-	</StyleList>
-    </Layer-->
-	<!-- FeatureType hidden="0">
-      <Server service="OGC:GML" version="2.1.2" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="tasmania/test.xml"/>
-      </Server>
-      <Name>camgis:Continental_Area</Name>
-      <Title>camgis:Continental_Area</Title>
-      <Abstract>Tasmania Roads based on the Digital Chart of the World.</Abstract>
-      <SRS>EPSG:41001</SRS>
-      <StyleList>
-        <Style current="1">
-          <SLD>
-            <sld:Stroke>
-              <sld:CssParameter name="stroke">#6633FF</sld:CssParameter>
-              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
-              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
-            </sld:Stroke>
-          </SLD>
-        </Style>
-      </StyleList>
-    </FeatureType-->
-    <!--Layer queryable="1" hidden="0">
-			<Server service="OGC:WFS" version="1.1.1" title="continent">
-				<OnlineResource xlink:type="simple" xlink:href="http://testbed.geomatys.fr/geoserver/wfs"/>
-			</Server>
-			<Name>camgis:Continental_Area</Name>
-			<Title>continent</Title>
-			<SRS>EPSG:4326</SRS>
-			<FormatList>
-				<Format current="1">image/png</Format>
-			</FormatList>
-			 <StyleList>
-        <Style current="1">
-          <SLD>
-            <sld:Fill>
-              <sld:CssParameter name="fill">#6633FF</sld:CssParameter>
-              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
-            </sld:Fill>
-            <sld:Stroke>
-              <sld:CssParameter name="stroke">#6633FF</sld:CssParameter>
-              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
-              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
-            </sld:Stroke>
-          </SLD>
-        </Style>
-      </StyleList>
-	</Layer-->
   </ResourceList>
 </OWSContext>

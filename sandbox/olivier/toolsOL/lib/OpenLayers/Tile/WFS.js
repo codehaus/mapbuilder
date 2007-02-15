@@ -27,11 +27,11 @@ OpenLayers.Tile.WFS.prototype =
     * @param {Array} urls
     * @param {OpenLayers.Size} size
     */
-    initialize: function(layer, position, bounds, urls, size) {
+    initialize: function(layer, position, bounds, url, size) {
         var newArguments = arguments;
         newArguments = [layer, position, bounds, null, size];
         OpenLayers.Tile.prototype.initialize.apply(this, newArguments);
-        this.urls = urls;        
+        this.url = url;        
         this.features = new Array();
     },
 
@@ -42,7 +42,7 @@ OpenLayers.Tile.WFS.prototype =
         OpenLayers.Tile.prototype.destroy.apply(this, arguments);
         this.destroyAllFeatures();
         this.features = null;
-        this.urls = null;
+        this.url = null;
     },
 
     /** Clear the tile of any bounds/position-related data so that it can 
@@ -57,12 +57,16 @@ OpenLayers.Tile.WFS.prototype =
      * 
      */
     draw:function() {
-        if (!OpenLayers.Tile.prototype.draw.apply(this, arguments)) {
-            return false;    
+/*
+        if (this.drawn) {
+            this.clear();
         }
-        this.loadFeaturesForRegion(this.requestSuccess);
-        this.drawn = true;
-        return true;
+        */
+//        OpenLayers.Tile.prototype.draw.apply(this, arguments);
+        if (this.layer.displayOutsideMaxExtent || (this.layer.maxExtent && 
+            this.layer.maxExtent.intersectsBounds(this.bounds, false))) { 
+            this.loadFeaturesForRegion(this.requestSuccess);
+        }
     },
 
     /** get the full request string from the ds and the tile params 
@@ -74,21 +78,12 @@ OpenLayers.Tile.WFS.prototype =
     * @param {function} failure
     */
     loadFeaturesForRegion:function(success, failure) {
-
-        if (this.urls != null) {
-        
-            for(var i=0; i < this.urls.length; i++) {
-                var params = { BBOX:this.bounds.toBBOX() };
-                var url = this.urls[i] + "&" + 
-                          OpenLayers.Util.getParameterString(params);
-                OpenLayers.loadURL(url, null, this, success, failure);
-            }
-        }
+        OpenLayers.loadURL(this.url, null, this, success);
     },
     
     /** Return from AJAX request
     *
-    * @param {XMLHttpRequest} request
+    * @param {} request
     */
     requestSuccess:function(request) {
         var doc = request.responseXML;
@@ -97,8 +92,11 @@ OpenLayers.Tile.WFS.prototype =
             doc = OpenLayers.parseXMLString(request.responseText);
         }
         
-        var resultFeatures = OpenLayers.Ajax.getElementsByTagNameNS(doc, "http://www.opengis.net/gml","gml", "featureMember");
-        this.addResults(resultFeatures);
+        var gml = new OpenLayers.Parser.GML();
+        gml.load(doc);
+        var featureCollection = gml.featureCollection;
+        
+        this.layer.addFeatures(featureCollection);
     },
 
     /**

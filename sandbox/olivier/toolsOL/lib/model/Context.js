@@ -46,9 +46,8 @@ function Context(modelNode, parent) {
    * @return hidden  String with the value; 1=hidden, 0=visible.
    */
   this.getHidden=function(layerName){
-    var hidden=1;
     var layer=this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+layerName+"']");
-    if (layer) hidden = layer.getAttribute("hidden");
+    if (layer) var hidden = layer.getAttribute("hidden");
     return hidden;
   }
 
@@ -110,6 +109,7 @@ function Context(modelNode, parent) {
     if (window.cgiArgs["aoi"]) {      //set as ul,lr point arrays
       var aoi = window.cgiArgs["aoi"].split(',');
       objRef.setParam("aoi",new Array(new Array(aoi[0],aoi[3]),new Array(aoi[2],aoi[1])));
+      
     }
   }
   this.addListener( "loadModel", this.initAoi, this );

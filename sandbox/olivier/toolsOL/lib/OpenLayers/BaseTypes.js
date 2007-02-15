@@ -388,7 +388,7 @@ OpenLayers.Bounds.prototype = {
     *         (ex.<i>"left-bottom=(5,42) right-top=(10,45)"</i>)
     * @type String
     */
-    toString:function(){
+    toString:function() {
         return ( "left-bottom=(" + this.left + "," + this.bottom + ")"
                  + " right-top=(" + this.right + "," + this.top + ")" );
     },
@@ -464,9 +464,33 @@ OpenLayers.Bounds.prototype = {
     *          but shifted by the passed-in x and y values
     * @type OpenLayers.Bounds
     */
-    add:function(x, y){
+    add:function(x, y) {
         return new OpenLayers.Bounds(this.left + x, this.bottom + y,
                                      this.right + x, this.top + y);
+    },
+    
+    /**
+     * Extend the bounds to include the box specificated.
+     * Can be used to extend the bounds to a point as well
+     * using extendBounds(x,y).
+     * This function assumes that left<right and bottom<top.
+     * @param {Object} left
+     * @param {Object} bottom
+     * @param {Object} right
+     * @param {Object} top
+     */
+    extendBounds:function(left,bottom,right,top){
+        if(left&&bottom){
+            this.left=(left<this.left)?left:this.left;
+            this.bottom=(bottom<this.bottom)?bottom:this.bottom;
+            if(right&&top){
+                this.right=(right>this.right)?right:this.right;
+                this.top=(top>this.top)?top:this.top;
+            }else{
+              this.right=(left>this.right)?left:this.right;
+              this.top=(bottom>this.top)?bottom:this.top;
+            }
+        }
     },
 
     /**
@@ -781,7 +805,7 @@ OpenLayers.Element = {
 * @returns Whether or not this string starts with the string passed in.
 * @type Boolean
 */
-String.prototype.startsWith = function(sStart){
+String.prototype.startsWith = function(sStart) {
     return (this.substr(0,sStart.length) == sStart);
 };
 
@@ -791,7 +815,7 @@ String.prototype.startsWith = function(sStart){
 * @returns Whether or not this string contains with the string passed in.
 * @type Boolean
 */
-String.prototype.contains = function(str){
+String.prototype.contains = function(str) {
     return (this.indexOf(str) != -1);
 };
 

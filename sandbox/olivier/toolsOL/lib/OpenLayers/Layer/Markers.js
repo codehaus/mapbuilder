@@ -93,7 +93,7 @@ OpenLayers.Layer.Markers.prototype =
     *    Use the map to recalculate new placement of markers.
     */
     redraw: function() {
-        for(i=0; i < this.markers.length; i++) {
+        for (i=0; i < this.markers.length; i++) {
             this.drawMarker(this.markers[i]);
         }
     },

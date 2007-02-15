@@ -11,37 +11,27 @@
  */
 OpenLayers.Layer.WFS = OpenLayers.Class.create();
 OpenLayers.Layer.WFS.prototype = 
-  OpenLayers.Class.inherit( OpenLayers.Layer.Grid,
-                            OpenLayers.Layer.Markers, {
+  OpenLayers.Class.inherit( OpenLayers.Layer.Vector, {
 
     /** WFS layer is never a base layer. 
      * 
      * @type Boolean
      */
     isBaseLayer: false,
-
-    buffer: 1,
     
-    /** Allow the user to specify special classes for features and tiles.
-     * 
-     *   This allows for easy-definition of behaviour. The defaults are 
-     *    set here, but to override it, the property should be set via 
-     *    the "options" parameter.
-     */
-     
-    /** @type Object */
-    featureClass: OpenLayers.Feature.WFS,
-
-    /** @type Object */
-    tileClass: OpenLayers.Tile.WFS,
+    /** the ratio of image/tile size to map size (this is the untiled buffer)
+     * @type int */
+    ratio: 2,
 
     /** Hashtable of default key/value parameters
      * @final @type Object */
     DEFAULT_PARAMS: { service: "WFS",
                       version: "1.0.0",
-                      request: "GetFeature",
-                      typename: "docpoint"
+                      request: "GetFeature"
                     },
+    
+    /** @type Object */
+    tileClass: OpenLayers.Tile.WFS,
 
     /**
     * @constructor
@@ -52,21 +42,18 @@ OpenLayers.Layer.WFS.prototype =
     * @param {Object} options Hashtable of extra options to tag onto the layer
     */
     initialize: function(name, url, params, options) {
-        var newArguments = new Array();
-        //uppercase params
-        params = OpenLayers.Util.upperCaseObject(params);
-        newArguments.push(name, url, params, options);
-        OpenLayers.Layer.Grid.prototype.initialize.apply(this, newArguments);
-
-        var newArguments = new Array();
-        //uppercase params
-        newArguments.push(name, options);
-        OpenLayers.Layer.Markers.prototype.initialize.apply(this, newArguments);
     
+        var newArguments=new Array()
+        newArguments.push(name, options);
+        OpenLayers.Layer.Vector.prototype.initialize.apply(this, newArguments);
+        
+        this.params = params;
         OpenLayers.Util.applyDefaults(
                        this.params, 
                        OpenLayers.Util.upperCaseObject(this.DEFAULT_PARAMS)
                        );
+        this.url = url;
+    
     },    
     
 
@@ -74,16 +61,14 @@ OpenLayers.Layer.WFS.prototype =
      * 
      */
     destroy: function() {
-        OpenLayers.Layer.Grid.prototype.destroy.apply(this, arguments);
-        OpenLayers.Layer.Markers.prototype.destroy.apply(this, arguments);
+        OpenLayers.Layer.Vector.prototype.destroy.apply(this, arguments);
     },
     
     /**
      * @param {OpenLayers.Map} map
      */
     setMap: function(map) {
-        OpenLayers.Layer.Grid.prototype.setMap.apply(this, arguments);
-        OpenLayers.Layer.Markers.prototype.setMap.apply(this, arguments);
+        OpenLayers.Layer.Vector.prototype.setMap.apply(this, arguments);
     },
     
     /** 
@@ -92,8 +77,77 @@ OpenLayers.Layer.WFS.prototype =
      * @param {Boolean} dragging
      */
     moveTo:function(bounds, zoomChanged, dragging) {
-        OpenLayers.Layer.Grid.prototype.moveTo.apply(this, arguments);
-        OpenLayers.Layer.Markers.prototype.moveTo.apply(this, arguments);
+        OpenLayers.Layer.Vector.prototype.moveTo.apply(this, arguments);
+
+        // don't load wfs features while dragging, wait for drag end
+        if (dragging) {
+            // TBD try to hide the vector layer while dragging
+            // this.setVisibility(false);
+            // this will probably help for panning performances
+            return false;
+        }
+        
+        if ( zoomChanged ) {
+            this.renderer.clearRoot();
+        }
+        
+        // don't load data if current zoom level doesn't match
+        if (this.map.getZoom() < this.params.maxZoomLevel) {
+            return null;
+        };
+        
+        if (bounds == null) {
+            bounds = this.map.getExtent();
+        }
+
+        var firstRendering = (this.tile == null);
+
+        //does the new bounds to which we need to move fall outside of the 
+        // current tile's bounds?
+        var outOfBounds = (!firstRendering &&
+                           !this.tile.bounds.containsBounds(bounds));
+
+        if ( zoomChanged || firstRendering || (!dragging && outOfBounds) ) {
+            //determine new tile bounds
+            var center = bounds.getCenterLonLat();
+            var tileWidth = bounds.getWidth() * this.ratio;
+            var tileHeight = bounds.getHeight() * this.ratio;
+            var tileBounds = 
+                new OpenLayers.Bounds(center.lon - (tileWidth / 2),
+                                      center.lat - (tileHeight / 2),
+                                      center.lon + (tileWidth / 2),
+                                      center.lat + (tileHeight / 2));
+
+            //determine new tile size
+            var tileSize = this.map.getSize();
+            tileSize.w = tileSize.w * this.ratio;
+            tileSize.h = tileSize.h * this.ratio;
+
+            //determine new position (upper left corner of new bounds)
+            var ul = new OpenLayers.LonLat(tileBounds.left, tileBounds.top);
+            var pos = this.map.getLayerPxFromLonLat(ul);
+
+            //formulate request url string
+            var url = this.getFullRequestString();
+        
+            var params = { BBOX:tileBounds.toBBOX() };
+            url += "&" + OpenLayers.Util.getParameterString(params);
+
+            if (!this.tile) {
+                this.tile = new this.tileClass(this, pos, tileBounds, 
+                                                     url, tileSize);
+                this.tile.draw();
+            } else {
+//                OpenLayers.Util.clearArray(this.features);
+                
+                this.renderer.clearRoot();
+                
+                this.tile = null;
+                this.tile = new this.tileClass(this, pos, tileBounds, 
+                                                     url, tileSize);
+                this.tile.draw();
+            } 
+        }
     },
         
     /**
@@ -112,58 +166,11 @@ OpenLayers.Layer.WFS.prototype =
         }
 
         //get all additions from superclasses
-        obj = OpenLayers.Layer.Grid.prototype.clone.apply(this, [obj]);
+        obj = OpenLayers.Layer.Vector.prototype.clone.apply(this, [obj]);
 
         // copy/set any non-init, non-simple values here
 
         return obj;
-    },    
-
-
-    /**
-    * addTile creates a tile, initializes it (via 'draw' in this case), and 
-    * adds it to the layer div. 
-    *
-    * @param {OpenLayers.Bounds} bounds
-    *
-    * @returns The added OpenLayers.Tile.WFS
-    * @type OpenLayers.Tile.WFS
-    */
-    addTile:function(bounds, position) {
-        var urls = new Array();
-
-        //add standard URL
-        urls.push( this.getFullRequestString() );
-
-        if (this.urls != null) {
-            // if there are more urls, add them.
-            for(var i=0; i < this.urls.length; i++) {
-                urls.push( this.getFullRequestString(null, this.urls[i]) );
-            }
-        }
-
-        return new this.tileClass(this, position, bounds, 
-                                           urls, this.tileSize);
-    },
-
-
-
-    /**
-     * Catch changeParams and uppercase the new params to be merged in
-     *  before calling changeParams on the super class.
-     * 
-     * Once params have been changed, we will need to re-init our tiles
-     * 
-     * @param {Object} newParams Hashtable of new params to use
-     */
-    mergeNewParams:function(newParams) {
-        var upperParams = OpenLayers.Util.upperCaseObject(newParams);
-        var newArguments = [upperParams];
-        OpenLayers.Layer.Grid.prototype.mergeNewParams.apply(this, newArguments);
-
-        if (this.grid != null) {
-            this._initTiles();
-        }
     },
 
     /** combine the layer's url with its params and these newParams. 
@@ -183,42 +190,42 @@ OpenLayers.Layer.WFS.prototype =
         return OpenLayers.Layer.Grid.prototype.getFullRequestString.apply(
                                                     this, arguments);
     },
-
-
-    /** 
-     * @param {String} featureID
-     * 
-     * @returns The Feature, found within one of the layer's tiles' features 
-     *          array, with a matching id.
-     *          If none found or if null passed-in, returns null
-     * @type OpenLayers.Feature
+        
+    /**
+     * Called when the Ajax request returns a response
+     *
+     * @param {XmlNode} response from server
      */
-    getFeature: function(featureID) {
-        var foundFeature = null;
-        if (featureID != null) {
-
-            if (this.grid) {
-    
-                for(var iRow = 0; iRow < this.grid.length; iRow++) {
-                    var row = this.grid[iRow];
-                    for(var iCol = 0; iCol < row.length; iCol++) {
-                        var tile = row[iCol];
-    
-                        for(var i=0; i < tile.features.length; i++) {
-                            var feature = tile.features[i];
-                            if (feature.id == featureID) {
-                                foundFeature = feature;
-                            }
-                        }
-                    }
-                }
-            }
-
+    commitSuccess: function(request) {
+        var response = request.responseText;
+        if (response.indexOf('SUCCESS') != -1) {
+            alert ('WFS Transaction : SUCCESS');
+            this.refresh();
+            // TBD redraw the layer or reset the state of features
+            // foreach features: set state to null
+        } else if (response.indexOf('FAILED') != -1 ||
+            response.indexOf('Exception') != -1) {
+            alert ('WFS Transaction : FAILED');
         }
-        return foundFeature; 
     },
-
-
+    
+    /**
+     * Called when the Ajax request fails
+     *
+     * @param {XmlNode} response from server
+     */
+    commitFailure: function(request) {},
+    
+    /**
+     * Refreshes all the features of the layer
+     */
+    refresh: function() {
+        if (this.tile) {
+            this.renderer.clearRoot();
+            OpenLayers.Util.clearArray(this.features);
+            this.tile.draw();
+        }
+    },
 
     /** @final @type String */
     CLASS_NAME: "OpenLayers.Layer.WFS"

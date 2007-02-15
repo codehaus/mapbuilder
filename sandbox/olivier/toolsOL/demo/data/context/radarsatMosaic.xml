@@ -51,33 +51,8 @@ Lambert Conformal Conic (LCC) projection.
     </ContactInformation>
   </General>
   <LayerList>
-    
     <Layer hidden="0" queryable="0">
-      <Server version="1.1.0" service="OGC:WMS">
-        <OnlineResource xlink:href="http://cgns.nrcan.gc.ca/wms/cubeserv.cgi?" xlink:type="simple"/>
-      </Server>
-      <Name>GEONAMES:cgns</Name>
-      <Title>Canadian Geographical Names</Title>
-      <Abstract>info</Abstract>
-      <DataURL>
-        <OnlineResource xlink:href="http://cgns.nrcan.gc.ca" xlink:type="simple"/>
-      </DataURL>
-      <SRS>EPSG:42101</SRS>
-      <FormatList>
-        <Format current="1">image/gif</Format>
-      </FormatList>
-      <StyleList>
-        <Style current="1">
-          <Name>default</Name>
-          <Title>default</Title>
-        </Style>
-      </StyleList>
-      <Extension>
-        <LatLongBoundingBox xmlns="gdp" SRS="EPSG:4326" minx="-141.000000001" maxx=".000000003" miny="83.119999999" maxy=".000000003"/>
-      </Extension>
-    </Layer>
-    <Layer hidden="0" queryable="0">
-      <Server version="1.1.0" service="OGC:WMS">
+      <Server version="1.1.0" service="OGC">
         <OnlineResource xlink:href="http://ceoware2.ccrs.nrcan.gc.ca/cubewerx/cubeserv/cubeserv.cgi?" xlink:type="simple"/>
       </Server>
       <Name>RSAT_MOSAIC:CEOWARE2</Name>
@@ -98,6 +73,30 @@ Lambert Conformal Conic (LCC) projection.
       </StyleList>
       <Extension>
         <LatLongBoundingBox xmlns="gdp" SRS="EPSG:4326" minx="-180" maxx="180" miny="90" maxy="-90"/>
+      </Extension>
+    </Layer>
+    <Layer hidden="0" queryable="0">
+      <Server version="1.1.0" service="OGC">
+        <OnlineResource xlink:href="http://cgns.nrcan.gc.ca/wms/cubeserv.cgi?" xlink:type="simple"/>
+      </Server>
+      <Name>GEONAMES:cgns</Name>
+      <Title>Canadian Geographical Names</Title>
+      <Abstract>info</Abstract>
+      <DataURL>
+        <OnlineResource xlink:href="http://cgns.nrcan.gc.ca" xlink:type="simple"/>
+      </DataURL>
+      <SRS>EPSG:42101</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+      </StyleList>
+      <Extension>
+        <LatLongBoundingBox xmlns="gdp" SRS="EPSG:4326" minx="-141.000000001" maxx=".000000003" miny="83.119999999" maxy=".000000003"/>
       </Extension>
     </Layer>
   </LayerList>

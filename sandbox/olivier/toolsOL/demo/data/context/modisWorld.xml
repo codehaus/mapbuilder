@@ -14,15 +14,39 @@
       <Keyword>MODIS</Keyword>
     </KeywordList>
     <Abstract>background map for use in search map widget</Abstract>
+    <LogoURL width="34" height="35" format="image/gif">
+      <OnlineResource xlink:type="simple" xlink:href="http://geodiscover.cgdi.ca/gdp/hmi/common/images/ml/ES.gif"/>
+    </LogoURL>
+    <DescriptionURL format="text/html">
+      <OnlineResource xlink:type="simple" xlink:href="http://geodiscover.cgdi.ca/gdp/about/en/9.1.4.html"/>
+    </DescriptionURL>
+    <ContactInformation>
+      <ContactPersonPrimary>
+      <ContactPerson>Michael Adair</ContactPerson>
+      <ContactOrganization>Canada Centre for Remote Sensing</ContactOrganization>
+      </ContactPersonPrimary>
+      <ContactPosition>Systems Scientist</ContactPosition>
+      <ContactAddress>
+        <AddressType>postal</AddressType>
+        <Address>615 Booth Street, room 650</Address>
+        <City>Ottawa</City>
+        <StateOrProvince>Ontario</StateOrProvince>
+        <PostCode>K1A 0E9</PostCode>
+        <Country>Canada</Country>
+      </ContactAddress>
+      <ContactVoiceTelephone>+1 613 947 1342</ContactVoiceTelephone>
+      <ContactFacsimileTelephone>+1 613 947 2410</ContactFacsimileTelephone>
+      <ContactElectronicMailAddress>mike.adair@ccrs.nrcan.gc.ca</ContactElectronicMailAddress>
+    </ContactInformation>
   </General>
 
   <LayerList>
       <Layer hidden="0" queryable="0">
-      <Server version="1.1.0" service="OGC:WMS">
+      <Server version="1.1.0" service="OGC">
         <OnlineResource xlink:href="http://ceoware2.ccrs.nrcan.gc.ca/cubewerx/cubeserv/cubeserv.cgi" xlink:type="simple"/>
       </Server>
-      <Name>POLBNDL_BND_1M:Foundation</Name>
-      <Title>Political Boundaries</Title>
+      <Name>COASTL_BND_1M:Foundation</Name> 
+      <Title>Coastlines</Title> 
       <Abstract>info</Abstract>
       <DataURL>
         <OnlineResource xlink:href="http://www.cits.rncan.gc.ca/" xlink:type="simple"/>
@@ -43,7 +67,7 @@
     </Layer>
 
     <Layer hidden="0" queryable="0">
-      <Server version="1.1.0" service="OGC:WMS">
+      <Server version="1.1.0" service="OGC">
         <OnlineResource xlink:href="http://mapserv2.esrin.esa.it/cubestor/cubeserv/cubeserv.cgi" xlink:type="simple"/>
       </Server>
       <Name>WORLD_MODIS_1KM:MapAdmin</Name>
@@ -67,13 +91,12 @@
       </Extension>
     </Layer>
 
-    
     <Layer hidden="0" queryable="0">
-      <Server version="1.1.0" service="OGC:WMS">
+      <Server version="1.1.0" service="OGC">
         <OnlineResource xlink:href="http://ceoware2.ccrs.nrcan.gc.ca/cubewerx/cubeserv/cubeserv.cgi" xlink:type="simple"/>
       </Server>
-      <Name>COASTL_BND_1M:Foundation</Name> 
-      <Title>Coastlines</Title> 
+      <Name>POLBNDL_BND_1M:Foundation</Name>
+      <Title>Political Boundaries</Title>
       <Abstract>info</Abstract>
       <DataURL>
         <OnlineResource xlink:href="http://www.cits.rncan.gc.ca/" xlink:type="simple"/>

@@ -32,7 +32,6 @@ OpenLayers.Control.prototype = {
      */
     initialize: function (options) {
         OpenLayers.Util.extend(this, options);
-        
         this.id = OpenLayers.Util.createUniqueID(this.CLASS_NAME + "_");
     },
 
@@ -79,7 +78,7 @@ OpenLayers.Control.prototype = {
     moveTo: function (px) {
         if ((px != null) && (this.div != null)) {
             this.div.style.left = px.x + "px";
-            this.div.style.top = px.x + "px";
+            this.div.style.top = px.y + "px";
         }
     },
 

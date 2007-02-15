@@ -23,6 +23,8 @@ function ZoomIn(widgetNode, model) {
   Set the zoomfactor and check if it is set in de configuration file.
   */
   this.zoomFactor = 3;
+  alert(this.targetModel);
+ 
   var zoomFactor = widgetNode.selectSingleNode("mb:zoomFactor");
   if (zoomFactor) this.zoomFactor = zoomFactor.firstChild.nodeValue;
   /**
@@ -31,42 +33,42 @@ function ZoomIn(widgetNode, model) {
    * @param objRef      Pointer to this object.
    * @param targetNode  The node for the enclosing HTML tag for this widget.
    */
-  this.doAction = function(objRef,targetNode) {
-    if (objRef.enabled) {
+  this.doAction = function(e) {
   
-      var bbox = objRef.targetModel.getParam("aoi");
+  if (this.enabled) {
+  
+    	ul=this.model.extent.getXY(e.xy);
+ 		lr=ul;
+ 		this.model.setParam("aoi",new Array(ul,lr));
+ 	
+        var bbox = this.model.getParam("aoi");
       
-      if ( bbox!=null) {
+        if ( bbox!=null) {
      
-   
         ////coordinates must be in Lon/Lat for OL
         
-        var ul = bbox[0];
-        var lr = bbox[1];
+        ul = bbox[0];
+        lr = bbox[1];
 
-        if ( ( ul[0]==lr[0] ) && ( ul[1]==lr[1] ) ) {
-        
-        	objRef.targetModel.extent.centerAt(ul,1);
-    		//objRef.targetModel.setParam("zoomIn",ul);
-           
-        } else {
-        	objRef.targetModel.extent.zoomToBox(ul,lr);
-           	//objRef.targetModel.setParam("zoomToBbox",new Array(ul[0],lr[1],lr[0],ul[1]));
+        if (( ul[0]==lr[0] ) && ( ul[1]==lr[1] )) 
+        {
+        	this.model.extent.centerAt(ul,1);    
+        } 
+        else 
+        {
+        	this.model.extent.zoomToBox(ul,lr);
         }
       }
-    }
   }
-
+}
   /**
    * Register for mouseUp events.
    * @param objRef  Pointer to this object.
    */
   this.setMouseListener = function(objRef) {
-    if (objRef.mouseHandler) {
-      objRef.mouseHandler.model.addListener('mouseup',objRef.doAction,objRef);
-    }
+  			objRef.model.map.events.register("dblclick", objRef, objRef.doAction);
   }
-  this.model.addListener( "loadModel", this.setMouseListener, this );
+  this.model.addListener( "mapLoaded", this.setMouseListener, this );
 
 }
 

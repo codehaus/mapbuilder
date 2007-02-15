@@ -10,10 +10,10 @@
       <Server service="OGC:WMS" version="1.1.0" title="Shape files on Boston">
         <OnlineResource type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
       </Server>
-      <Name>roads</Name>
-      <Title>roads</Title>
+      <Name>highways</Name>
+      <Title>highways</Title>
       <Abstract/>
-       <SRS>EPSG:4326</SRS>
+      <SRS/>
       <FormatList>
         <Format current="1">image/png</Format>
       </FormatList>
@@ -22,10 +22,34 @@
       <Server service="OGC:WMS" version="1.1.0" title="Shape files on Boston">
         <OnlineResource type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
       </Server>
-      <Name>protectedareas</Name>
-      <Title>protectedareas</Title>
+      <Name>hydro</Name>
+      <Title>hydro</Title>
       <Abstract/>
-       <SRS>EPSG:4326</SRS>
+      <SRS/>
+      <FormatList>
+        <Format current="1">image/png</Format>
+      </FormatList>
+    </Layer>
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.0" title="Shape files on Boston">
+        <OnlineResource type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
+      </Server>
+      <Name>land_use</Name>
+      <Title>land_use</Title>
+      <Abstract/>
+      <SRS/>
+      <FormatList>
+        <Format current="1">image/png</Format>
+      </FormatList>
+    </Layer>
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.0" title="Shape files on Boston">
+        <OnlineResource type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
+      </Server>
+      <Name>pests_treebugs</Name>
+      <Title>pests_treebugs</Title>
+      <Abstract/>
+      <SRS/>
       <FormatList>
         <Format current="1">image/png</Format>
       </FormatList>
@@ -37,65 +61,31 @@
       <Name>place_names</Name>
       <Title>place_names</Title>
       <Abstract/>
-       <SRS>EPSG:4326</SRS>
+      <SRS/>
       <FormatList>
         <Format current="1">image/png</Format>
       </FormatList>
-    </Layer>
-   
-    
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.0" title="Shape files on Boston">
-        <OnlineResource type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
-      </Server>
-      <Name>pests_treebugs</Name>
-      <Title>pests_treebugs</Title>
-      <Abstract/>
-       <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/png</Format>
-      </FormatList>
-    </Layer>
-    
-    
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.0" title="Shape files on Boston">
-        <OnlineResource type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE"/>
-      </Server>
-      <Name>land_use</Name>
-      <Title>land_use</Title>
-      <Abstract/>
-       <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/png</Format>
-      </FormatList>
-    </Layer>
-     <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.0" title="Shape files on Boston">
-        <OnlineResource type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE"/>
-      </Server>
-      <Name>hydro</Name>
-      <Title>hydro</Title>
-      <Abstract/>
-       <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/png</Format>
-      </FormatList>
-      <StyleList>
-        <Style current="1">
-          <Name>default</Name>
-          <Title>default</Title>
-        </Style>
-      </StyleList>
     </Layer>
     <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.1.0" title="Shape files on Boston">
         <OnlineResource type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
       </Server>
-      <Name>highways</Name>
-      <Title>highways</Title>
+      <Name>protectedareas</Name>
+      <Title>protectedareas</Title>
       <Abstract/>
-      <SRS>EPSG:4326</SRS>
+      <SRS/>
+      <FormatList>
+        <Format current="1">image/png</Format>
+      </FormatList>
+    </Layer>
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.0" title="Shape files on Boston">
+        <OnlineResource type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
+      </Server>
+      <Name>roads</Name>
+      <Title>roads</Title>
+      <Abstract/>
+      <SRS/>
       <FormatList>
         <Format current="1">image/png</Format>
       </FormatList>

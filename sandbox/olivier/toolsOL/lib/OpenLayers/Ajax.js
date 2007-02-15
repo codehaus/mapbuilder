@@ -53,6 +53,8 @@ OpenLayers.loadURL = function(uri, params, caller,
     if (OpenLayers.ProxyHost && uri.startsWith("http")) {
         uri = OpenLayers.ProxyHost + escape(uri);
     }
+    
+
 
     var success = (onComplete) ? onComplete.bind(caller)
                                 : OpenLayers.nullHandler;
@@ -69,6 +71,12 @@ OpenLayers.loadURL = function(uri, params, caller,
                       }
                      );
 };
+
+OpenLayers.serializeXMLNode = function(node) {
+    var serializer = new XMLSerializer();
+    return serializer.serializeToString(node);
+};
+
 
 /** Parse XML into a doc structure
 * @param {String} text
@@ -188,8 +196,9 @@ OpenLayers.Ajax.Request.prototype = OpenLayers.Class.inherit( OpenLayers.Ajax.Ba
   },
 
   request: function(url) {
+
     var parameters = this.options.parameters || '';
-    if (parameters.length > 0) parameters += '&_=';
+//    if (parameters.length > 0) parameters += '&_=';
 
     try {
       this.url = url;
@@ -210,6 +219,7 @@ OpenLayers.Ajax.Request.prototype = OpenLayers.Class.inherit( OpenLayers.Ajax.Ba
 
       var body = this.options.postBody ? this.options.postBody : parameters;
       this.transport.send(this.options.method == 'post' ? body : null);
+
 
     } catch (e) {
       this.dispatchException(e);

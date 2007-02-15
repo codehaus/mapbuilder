@@ -157,8 +157,10 @@ function Extent( model, initialRes ) {
    * @return     point array of XY coordinates
    */
   this.getXY = function(pl) {
-
-    var pixel = new OpenLayers.Pixel(pl[0],pl[1]);
+	if(typeof(pl)!="object")
+    	var pixel = new OpenLayers.Pixel(pl[0],pl[1]);
+    else
+    	pixel=pl;
 	var coord = this.model.map.getLonLatFromPixel(pixel);
 	var xy = coord.toShortString().split(',');
 	return new Array(parseFloat(xy[0]),parseFloat(xy[1]));

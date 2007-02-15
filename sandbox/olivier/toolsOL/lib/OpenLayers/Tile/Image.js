@@ -72,7 +72,7 @@ OpenLayers.Tile.Image.prototype =
      */
     clear: function() {
         OpenLayers.Tile.prototype.clear.apply(this, arguments);
-        if(this.imgDiv) {
+        if (this.imgDiv) {
             this.imgDiv.style.display = "none";
         }
     },
@@ -117,16 +117,14 @@ OpenLayers.Tile.Image.prototype =
         
         this.imgDiv.className = 'olTileImage';
 
-        /* checkImgURL used to be used to called as a work around, but it
-           ended up hiding problems instead of solving them and broke things
-           like relative URLs. See discussion on the dev list:
-           http://openlayers.org/pipermail/dev/2007-January/000205.html
+        /* checkImgURL *should* pretty predictably get called after the
+             createImage / createAlphaImageDiv onLoad handler */
 
         OpenLayers.Event.observe( this.imgDiv, "load",
                         this.checkImgURL.bindAsEventListener(this) );
-        */
+
         this.layer.div.appendChild(this.imgDiv);
-        if(this.layer.opacity != null) {
+        if (this.layer.opacity != null) {
             
             OpenLayers.Util.modifyDOMElement(this.imgDiv, null, null, null,
                                              null, null, null, 
@@ -141,14 +139,6 @@ OpenLayers.Tile.Image.prototype =
      * the imgDiv display to 'none', as either (a) it will be reset to visible
      * when the new URL loads in the image, or (b) we don't want to display
      * this tile after all because its new bounds are outside our maxExtent.
-     * 
-     * This function should no longer  be neccesary with the improvements to
-     * Grid.js in OpenLayers 2.3. The lack of a good isEquivilantURL function
-     * caused problems in 2.2, but it's possible that with the improved 
-     * isEquivilant URL function, this might be neccesary at some point.
-     * 
-     * See discussion in the thread at 
-     * http://openlayers.org/pipermail/dev/2007-January/000205.html
      *
      * @private
      */
