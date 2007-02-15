@@ -36,7 +36,7 @@ function DragPan(widgetNode, model) {
         var ul = bbox[0];
         var lr = bbox[1];
         if ( ( ul[0]==lr[0] ) && ( ul[1]==lr[1] ) ) {
-          extent.centerAt( ul, extent.res[0]/objRef.zoomBy );
+          extent.centerAt( ul, extent.res[0] );
         } else {
           extent.zoomToBox( ul, lr );
         }
