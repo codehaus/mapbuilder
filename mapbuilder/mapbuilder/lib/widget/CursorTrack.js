@@ -165,9 +165,6 @@ function CursorTrack(widgetNode, model) {
   */
 function convertDMS(coordinate, type) {
 
-    coordinate = Math.floor(coordinate*100);
-    coordinate = coordinate/100;
-
     abscoordinate = Math.abs(coordinate)
     coordinatedegrees = Math.floor(abscoordinate);
 
@@ -175,7 +172,8 @@ function convertDMS(coordinate, type) {
     tempcoordinateminutes = coordinateminutes;
     coordinateminutes = Math.floor(coordinateminutes);
     coordinateseconds = (tempcoordinateminutes - coordinateminutes)/(1/60);
-    coordinateseconds =  Math.floor(coordinateseconds);
+    coordinateseconds =  Math.round(coordinateseconds*10);
+    coordinateseconds /= 10;
 
   if (type == 'LAT') {
     if (coordinate >= 0) {
