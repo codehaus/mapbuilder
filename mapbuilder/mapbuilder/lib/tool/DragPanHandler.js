@@ -21,7 +21,7 @@ function DragPanHandler(toolNode, model) {
 
   /**
    * Process the mouseup action.  This will reset the AOI on the model by 
-   * shifting the AOI by the maount that the mouse was dragged.
+   * shifting the AOI by the amount that the mouse was dragged.
    * @param objRef Pointer to this DragPanHandler object.
    * @param targetNode  The HTML node that the event occured on
    */
@@ -31,7 +31,13 @@ function DragPanHandler(toolNode, model) {
         objRef.dragging = false;
 
         //set new AOI in context, only if it's been moved
-        if ((objRef.deltaP==0) && (objRef.deltaL==0)) return;
+        if ((objRef.deltaP==0) && (objRef.deltaL==0)) {
+          var ul = objRef.model.extent.getXY(objRef.anchorPoint);
+          var lr = objRef.model.extent.getXY(objRef.anchorPoint);
+          objRef.model.setParam("aoi",new Array(ul,lr));
+          return;
+        }
+
         var width = objRef.model.getWindowWidth();
         var height = objRef.model.getWindowHeight();
         var ul = objRef.model.extent.getXY( new Array( -objRef.deltaP, -objRef.deltaL) );  //(0,0) was the original ul AOI 
