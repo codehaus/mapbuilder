@@ -25,7 +25,8 @@ function CursorTrack(widgetNode, model) {
   this.showPx 	  = false;		// pixel coordinates
   this.showXY 	  = false;		// XY Coordinates
   this.showLatLong = true;		// Standard lat long
-  this.showDMS	  = false;		// Lat/long in DD MM SS format
+  this.showDMS	  = false;		// Lat/long in DD MM SS.S format
+  this.showDM	    = false;    // Lat/long in DD MM.MMMM format
   this.showMGRS 	  = false;		// Military Grid Reference System
   this.precision   = 2;
 	
@@ -44,6 +45,10 @@ function CursorTrack(widgetNode, model) {
   var showDMS = widgetNode.selectSingleNode("mb:showDMS");
   if( showDMS )
   	this.showDMS = (showDMS.firstChild.nodeValue=="false")?false:true;
+
+  var showDM = widgetNode.selectSingleNode("mb:showDM");
+  if( showDM )
+  	this.showDM = (showDM.firstChild.nodeValue=="false")?false:true;
 
   var showMGRS = widgetNode.selectSingleNode("mb:showMGRS");
   if( showMGRS ) {
@@ -99,6 +104,8 @@ function CursorTrack(widgetNode, model) {
         objRef.coordForm.longmin.value = "";
       if( objRef.coordForm.longsec )
         objRef.coordForm.longsec.value = "";
+      if( objRef.coordForm.longH )
+        objRef.coordForm.longH.value = "";
 
       if( objRef.coordForm.latdeg )
         objRef.coordForm.latdeg.value = "";
@@ -106,6 +113,24 @@ function CursorTrack(widgetNode, model) {
         objRef.coordForm.latmin.value = "";
       if( objRef.coordForm.latsec )
         objRef.coordForm.latsec.value = "";
+      if( objRef.coordForm.latH )
+        objRef.coordForm.latH.value = "";
+    } 
+
+    if( objRef.showDM ) {
+      if( objRef.coordForm.longDMdeg )
+        objRef.coordForm.longDMdeg.value = "";
+      if( objRef.coordForm.longDMmin )
+        objRef.coordForm.longDMmin.value = "";
+      if( objRef.coordForm.longDMH )
+        objRef.coordForm.longDMH.value = "";
+
+      if( objRef.coordForm.latDMdeg )
+        objRef.coordForm.latDMdeg.value = "";
+      if( objRef.coordForm.latDMmin )
+        objRef.coordForm.latDMmin.value = "";
+      if( objRef.coordForm.latDMH )
+        objRef.coordForm.latDMH.value = "";
     } 
     
     if( objRef.showXY ) {
@@ -144,7 +169,7 @@ function CursorTrack(widgetNode, model) {
       alert(mbGetMessage("noMouseHandlerCursorTrack"));
     }
     
-    if( objRef.showLatLong || objRef.showDMS || objRef.showMGRS ) {
+    if( objRef.showLatLong || objRef.showDMS || objRef.showDM || objRef.showMGRS ) {
       objRef.proj = new Proj( objRef.model.getSRS() );
     }
 
@@ -164,17 +189,66 @@ function CursorTrack(widgetNode, model) {
   * Decimal to DMS conversion
   */
 function convertDMS(coordinate, type) {
+  var coords = new Array();
 
-    abscoordinate = Math.abs(coordinate)
-    coordinatedegrees = Math.floor(abscoordinate);
+  abscoordinate = Math.abs(coordinate)
+  coordinatedegrees = Math.floor(abscoordinate);
 
-    coordinateminutes = (abscoordinate - coordinatedegrees)/(1/60);
-    tempcoordinateminutes = coordinateminutes;
-    coordinateminutes = Math.floor(coordinateminutes);
-    coordinateseconds = (tempcoordinateminutes - coordinateminutes)/(1/60);
-    coordinateseconds =  Math.round(coordinateseconds*10);
-    coordinateseconds /= 10;
+  coordinateminutes = (abscoordinate - coordinatedegrees)/(1/60);
+  tempcoordinateminutes = coordinateminutes;
+  coordinateminutes = Math.floor(coordinateminutes);
+  coordinateseconds = (tempcoordinateminutes - coordinateminutes)/(1/60);
+  coordinateseconds =  Math.round(coordinateseconds*10);
+  coordinateseconds /= 10;
 
+  if( coordinatedegrees < 10 )
+    coordinatedegrees = "0" + coordinatedegrees;
+    
+  if( coordinateminutes < 10 )
+    coordinateminutes = "0" + coordinateminutes;
+    
+  if( coordinateseconds < 10 )
+    coordinateseconds = "0" + coordinateseconds;
+    
+  coords[0] = coordinatedegrees;
+  coords[1] = coordinateminutes;
+  coords[2] = coordinateseconds;
+  coords[3] = getHemi(coordinate, type);
+
+  return coords;       
+}
+
+/**
+  * Decimal to DM (degrees plus decimal minutes) conversion
+  */
+function convertDM(coordinate, type) {
+  var coords = new Array();
+
+  abscoordinate = Math.abs(coordinate)
+  coordinatedegrees = Math.floor(abscoordinate);
+
+  coordinateminutes = (abscoordinate - coordinatedegrees)*60;
+  coordinateminutes = Math.round(coordinateminutes*1000);
+  coordinateminutes /= 1000;
+
+  if( coordinatedegrees < 10 )
+    coordinatedegrees = "0" + coordinatedegrees;
+    
+  if( coordinateminutes < 10 )
+    coordinateminutes = "0" + coordinateminutes;
+    
+  coords[0] = coordinatedegrees;
+  coords[1] = coordinateminutes;
+  coords[2] = getHemi(coordinate, type);
+
+  return coords;       
+}
+
+/**
+ * Return the hemisphere abbreviation for this coordinate.
+ */
+function getHemi(coordinate, type) {
+  var coordinatehemi = "";
   if (type == 'LAT') {
     if (coordinate >= 0) {
       coordinatehemi = "N";
@@ -188,18 +262,8 @@ function convertDMS(coordinate, type) {
       coordinatehemi = "W";
     }
   }
-  if( coordinatedegrees < 10 )
-    coordinatedegrees = "0" + coordinatedegrees;
-    
-  if( coordinateminutes < 10 )
-    coordinateminutes = "0" + coordinateminutes;
-    
-  if( coordinateseconds < 10 )
-    coordinateseconds = "0" + coordinateseconds;
-    
-  coordinate = coordinatedegrees + " " + coordinateminutes + " " + coordinateseconds + " " + coordinatehemi;
-
-  return coordinate;       
+  
+  return coordinatehemi;
 }
 
 /**
@@ -232,7 +296,7 @@ function ReportCoords() {
         objRef.coordForm.y.value = evXY[1].toFixed(objRef.precision);;
     }
     
-    if( objRef.showLatLong || objRef.showDMS || objRef.showMGRS ) {
+    if( objRef.showLatLong || objRef.showDMS || objRef.showDM || objRef.showMGRS ) {
 	    var evLatLon = objRef.proj.Inverse( evXY );   //convert to lat/long
 	    
         if( objRef.showLatLong ) {
@@ -244,7 +308,7 @@ function ReportCoords() {
 	    }
         
         if( objRef.showDMS ) {
-          var longitude = convertDMS(evLatLon[0], 'LON').split(" ");
+          var longitude = convertDMS(evLatLon[0], 'LON');
           if( objRef.coordForm.longdeg )
             objRef.coordForm.longdeg.value = longitude[0];          
           if( objRef.coordForm.longmin )
@@ -254,7 +318,7 @@ function ReportCoords() {
          if( objRef.coordForm.longH )
             objRef.coordForm.longH.value = longitude[3];
 
-          var latitude = convertDMS(evLatLon[1], 'LAT').split(" ");
+          var latitude = convertDMS(evLatLon[1], 'LAT');
           if( objRef.coordForm.latdeg )
             objRef.coordForm.latdeg.value = latitude[0];          
           if( objRef.coordForm.latmin )
@@ -263,6 +327,24 @@ function ReportCoords() {
             objRef.coordForm.latsec.value = latitude[2];
           if( objRef.coordForm.latH )
             objRef.coordForm.latH.value = latitude[3];
+        }
+        
+        if( objRef.showDM ) {
+          var longitude = convertDM(evLatLon[0], 'LON');
+          if( objRef.coordForm.longDMdeg )
+            objRef.coordForm.longDMdeg.value = longitude[0];          
+          if( objRef.coordForm.longDMmin )
+            objRef.coordForm.longDMmin.value = longitude[1];
+         if( objRef.coordForm.longDMH )
+            objRef.coordForm.longDMH.value = longitude[2];
+
+          var latitude = convertDM(evLatLon[1], 'LAT');
+          if( objRef.coordForm.latDMdeg )
+            objRef.coordForm.latDMdeg.value = latitude[0];          
+          if( objRef.coordForm.latDMmin )
+            objRef.coordForm.latDMmin.value = latitude[1];
+          if( objRef.coordForm.latDMH )
+            objRef.coordForm.latDMH.value = latitude[2];
         }
         
 	    if( objRef.showMGRS ) {

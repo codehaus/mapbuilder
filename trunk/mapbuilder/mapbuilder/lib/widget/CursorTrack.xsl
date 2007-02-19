@@ -21,6 +21,7 @@ $Id$
   <xsl:param name="ycoord">y:</xsl:param>
   <xsl:param name="showXY">false</xsl:param>
   <xsl:param name="showDMS">false</xsl:param>
+  <xsl:param name="showDM">false</xsl:param>
   <xsl:param name="showMGRS">false</xsl:param>
   <xsl:param name="showPx">false</xsl:param>
   <xsl:param name="showLatLong">true</xsl:param>
@@ -51,11 +52,23 @@ $Id$
           <input name="longH" type="text" size="1" readonly="readonly"/>&#8195;
 
           <xsl:value-of select="$latitude"/> 
-           <input name="latdeg" type="text" size="2" readonly="readonly"/>&#176;
-           <input name="latmin" type="text" size="2" readonly="readonly"/>&apos;
-           <input name="latsec" type="text" size="2" readonly="readonly"/>&quot;
-           <input name="latH" type="text" size="1" readonly="readonly"/>
-         </xsl:if>
+          <input name="latdeg" type="text" size="2" readonly="readonly"/>&#176;
+          <input name="latmin" type="text" size="2" readonly="readonly"/>&apos;
+          <input name="latsec" type="text" size="2" readonly="readonly"/>&quot;
+          <input name="latH" type="text" size="1" readonly="readonly"/>
+        </xsl:if>
+        
+        <xsl:if test="$showDM='true'">
+          <xsl:value-of select="$longitude"/> 
+          <input name="longDMdeg" type="text" size="3" readonly="readonly"/>&#176;
+          <input name="longDMmin" type="text" size="6" readonly="readonly"/>&apos;
+          <input name="longDMH" type="text" size="1" readonly="readonly"/>&#8195;
+
+          <xsl:value-of select="$latitude"/> 
+          <input name="latDMdeg" type="text" size="2" readonly="readonly"/>&#176;
+          <input name="latDMmin" type="text" size="6" readonly="readonly"/>&apos;
+          <input name="latDMH" type="text" size="1" readonly="readonly"/>
+        </xsl:if>
 
         <xsl:if test="$showLatLong='true'">
           <xsl:value-of select="$longitude"/> <input name="longitude" type="text" size="8" readonly="readonly"/>
