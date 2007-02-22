@@ -2,7 +2,7 @@
 License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id: OwsContext.js 2546 2007-01-23 12:07:39Z gjvoosten $
 */
-
+mapbuilder.loadScript(baseDir+"/model/Proj.js");
 /**
  * Stores an OWS Context document as defined by the OGC interoperability
  * experiment. This model should be eventually merged with the standard OGC 

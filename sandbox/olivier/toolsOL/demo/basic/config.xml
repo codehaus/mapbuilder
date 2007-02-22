@@ -2,7 +2,7 @@
 <MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
 	<models>
 		<Context id="mainMap">
-			<defaultModelUrl>../data/context/demisWorldMap.xml</defaultModelUrl>
+			<defaultModelUrl>TasmaniaContext.xml</defaultModelUrl>
 			<widgets>
 				<MapPaneOL id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
@@ -14,6 +14,12 @@
 			<enabledSrc>/images/ZoomInEnable.png</enabledSrc>
 			<disabledSrc>/images/ZoomInDisable.png</disabledSrc>
 		</ZoomIn>
+		<ZoomOut id="zoomOut">
+			<buttonBar>mainButtonBar</buttonBar>
+			<class>RadioButton</class>
+			<enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
+			<disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
+		</ZoomOut>
 				<!-- AoiBoxDHTML id="aoiBoxMain">
 					<htmlTagId>mainMapPane</htmlTagId>
 					<mapContainerId>mainMapContainer</mapContainerId>
@@ -33,22 +39,13 @@
 	</models>
 	<widgets>
 		
-		<ZoomOut id="zoomOut">
-			<buttonBar>mainButtonBar</buttonBar>
-			<targetModel>mainMap</targetModel>
-
-			<class>RadioButton</class>
-			<enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
-			<disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
-		</ZoomOut>
+		
 		<DragPan id="dragPan">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
-			
 			<class>RadioButton</class>
 			<enabledSrc>/images/PanEnable.png</enabledSrc>
 			<disabledSrc>/images/PanDisable.png</disabledSrc>
-			
 		</DragPan>
 		<Reset id="reset">
 			<buttonBar>mainButtonBar</buttonBar>

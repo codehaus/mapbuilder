@@ -32,6 +32,8 @@ if ($ == null) {
 OpenLayers.Util.extend = function(destination, source) {
     for (property in source) {
       destination[property] = source[property];
+     // if (property=="projection")
+           // alert(property+" = "+destination[property]+" "+source[property]);
     }
     return destination;
 };
@@ -985,4 +987,115 @@ OpenLayers.Util.createUrlObject = function(url, options) {
     urlObject.args = OpenLayers.Util.getArgs(a.search);
 
     return urlObject; 
+};
+
+
+/* Initialize the Mercator projection
+  -------------------------------------------------*/
+function minit(param)
+{
+	this.r_major = 6378137.0;
+	this.r_minor = 6356752.31424518;
+	this.lon_center = 0.0;
+	this.lat_origin = 0.0;
+	this.false_northing = 0.0;
+	this.false_easting = 0.0;
+	this.temp = this.r_minor / this.r_major;
+	this.es=1.0 - Math.sqrt(this.temp);
+	this.e = Math.sqrt( this.es );
+	this.m1 = Math.cos(this.lat_origin) / (Math.sqrt( 1.0 - this.es * Math.sin(this.lat_origin) * Math.sin(this.lat_origin)));
+
+}
+/* Mercator forward equations--mapping lat,long to x,y
+  --------------------------------------------------*/
+
+OpenLayers.Util.ll2m = function (coords)
+{	//alert("ll2m coords : "+coords);
+	
+
+	r_major = 6378137.0;
+	r_minor = 6356752.31424518;
+	lon_center = 0.0;
+	lat_origin = 0.0;
+	false_northing = 0.0;
+	false_easting = 0.0;
+	temp = r_minor / r_major;
+	es=1.0 - Math.sqrt(temp);
+	e = Math.sqrt( es );
+	m1 = Math.cos(lat_origin) / (Math.sqrt( 1.0 - es * Math.sin(lat_origin) * Math.sin(lat_origin)));
+
+
+	var lon=coords[0];
+	var lat=coords[1];
+	
+	// convert to radians
+	if(lat >=90.0)
+	{lat=89.99;
+	}
+	if(lat <=-90.0)
+	{lat=-89.99;
+	}
+	if(lon >=180.0)
+	{lon=179;
+	}
+	if(lon <=-180.0)
+	{lon=-179;
+	}
+  	if ( lat <= 90.0 && lat >= -90.0 && lon <= 180.0 && lon >= -180.0) 
+  	{
+    	lat *= D2R;
+    	lon *= D2R;
+  	} 
+  	else 
+  	{
+    	alert("*** Input out of range ***: lon: "+lon+" - lat: "+lat);
+    	return null;
+  	}
+  	
+	if(Math.abs(lat)>= 90 && Math.abs( Math.abs(lat) - HALF_PI)  <= EPSLN)
+	{
+		alert("Transformation cannot be computed at the poles");
+		return null;
+	}
+	else
+	{
+		var sinphi = Math.sin(lat);
+		var ts = tsfnz(e,lat,sinphi);
+		var x = false_easting + r_major * m1 * adjust_lon(lon - lon_center);
+		var y = false_northing - r_major * m1 * Math.log(ts);
+	}
+	
+	return new Array(x,y);
+};
+
+
+/* Mercator inverse equations--mapping x,y to lat/long
+  --------------------------------------------------*/
+OpenLayers.Util.m2ll = function (coords)
+{	
+    r_major = 6378137.0;
+	r_minor = 6356752.31424518;
+	lon_center = 0.0;
+	lat_origin = 0.0;
+	false_northing = 0.0;
+	false_easting = 0.0;
+	temp = r_minor / r_major;
+	es=1.0 - Math.sqrt(temp);
+	e = Math.sqrt( es );
+	m1 = Math.cos(lat_origin) / (Math.sqrt( 1.0 - es * Math.sin(lat_origin) * Math.sin(lat_origin)));
+
+
+	var x = coords[0];
+	var y = coords[1];
+
+	x -= false_easting;
+	y -= false_northing
+		
+	var ts = Math.exp(-y / (r_major * m1));
+	
+	var lat = phi2z(e,ts);
+	if(lat == -9999){alert("lat = -9999");return null;}
+	var lon = adjust_lon(lon_center + x / (r_major * m1));
+	
+	return new Array(R2D*lon,R2D*lat);
 };

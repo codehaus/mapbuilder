@@ -103,14 +103,16 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
             };
   
     objRef.model.map = new OpenLayers.Map(objRef.node, {controls:[]},mapOptions);
-
+    
+alert(objRef.model.map.projection+" = "+ mapOptions.projection);
     // Increase hight of Control layers to allow for lots of layers.
     objRef.model.map.Z_INDEX_BASE.Control=10000;
    //objRef.model.map.addControl(new OpenLayers.Control.MousePosition()); 
    //objRef.model.toolBar=new OpenLayers.Control.MouseToolbar();
    // objRef.model.map.addControl(objRef.model.toolBar);  
     // loop through all layers and create OLLayers 
-    objRef.model.map.addControl(new OpenLayers.Control.LayerSwitcher());
+    objRef.model.map.addMouseListener(new OpenLayers.MouseListener.MouseDefaults());
+    objRef.model.map.addControl(new OpenLayers.Control.MousePosition()); 
     var layers = objRef.model.getAllLayers();
     objRef.oLlayers = new Array();
       
@@ -143,6 +145,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 	  var options = new Array();
       options.visibility=vis;
       options.transparent=(i==0)?"FALSE":"TRUE";
+         options.projection=proj.srs;
       
       // OpenLayers expects the base layer to be non-transparent (it gets
       // projection info from the baselayer).
@@ -221,6 +224,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
             objRef.model.map.addLayer(objRef.oLlayers[name2]);
             break;
             
+        case "GMAP":  
         case "Google":
             //<script src='http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA8qdfnOIRy3a9gh214V5jKRTwM0brOpm-All5BF6PoaKBxRWWERQ7UHfSE2CGKw9qNg0C1vUmYLatLQ'></script>
             
@@ -228,7 +232,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
            	objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, maxZoomLevel:18},options );
             objRef.model.map.addLayers([objRef.oLlayers[name2]]);
             break;
-            
+        case "YMAP":   
         case "Yahoo":
              // <script src="http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=euzuro-openlayers"></script>
             options.isBaseLayer=true;
@@ -237,6 +241,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
             break;
             
         case "VE":
+        case "Microsoft":
             //<script src='http://dev.virtualearth.net/mapcontrol/v3/mapcontrol.js'></script>
             options.isBaseLayer=true;
            	objRef.oLlayers[name2] = new OpenLayers.Layer.VirtualEarth( "VE",{minZoomLevel: 0, maxZoomLevel: 18,type: VEMapStyle.Hybrid}); 
@@ -258,7 +263,9 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 	//objRef.model.map.zoomTo(0);
 	
     bbox=objRef.model.getBoundingBox();
-    objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
+    objRef.model.map.zoomToMaxExtent();
+    
+    //objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
     
 	var bboxOL=objRef.model.map.getExtent().toBBOX().split(',');
 	
@@ -554,15 +561,20 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {alert(objRef.id);
             objRef.model.map.addLayer(objRef.oLlayers[name2]);
             break;
           case "GMAP":
+          case "Google":
+            //options.maxExtent
+            //options.maxResolution=0.703125;
            	objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, 'maxZoomLevel':18},options );
             objRef.model.map.addLayers([objRef.oLlayers[name2]]);
             break;
           case "YMAP":
+          case "Yahoo":
            	/*objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, 'maxZoomLevel':18},options );
             objRef.model.map.addLayers([objRef.oLlayers[name2]]);
             */
             break;
           case "VE":
+          case "Microsoft":
            	/*objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, 'maxZoomLevel':18},options );
             objRef.model.map.addLayers([objRef.oLlayers[name2]]);
             */

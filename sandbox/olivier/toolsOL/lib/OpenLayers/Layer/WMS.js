@@ -92,10 +92,18 @@ OpenLayers.Layer.WMS.prototype =
      * @type String
      */
     getURL: function (bounds) {
+//alert(this.map.baseLayer.projection+" "+this.projection+" "+this.map.projection+" "+this.map.baseLayer.type); 
+    	if (this.map.baseLayer.projection=="EPSG:41001" && this.map.baseLayer.projection==this.projection && this.map.baseLayer.type){
+    		bounds.left = OpenLayers.Util.ll2m(new Array(bounds.left,bounds.top))[0];
+    		bounds.top = OpenLayers.Util.ll2m(new Array(bounds.left,bounds.top))[1];
+    		bounds.right = OpenLayers.Util.ll2m(new Array(bounds.right,bounds.bottom))[0];
+    		bounds.bottom = OpenLayers.Util.ll2m(new Array(bounds.right,bounds.bottom))[1];
+       }
         return this.getFullRequestString(
                      {BBOX:bounds.toBBOX(),
                       WIDTH:this.tileSize.w,
                       HEIGHT:this.tileSize.h});
+                      
     },
 
     /**
@@ -144,6 +152,7 @@ OpenLayers.Layer.WMS.prototype =
     */
     getFullRequestString:function(newParams) {
         var projection = this.map.getProjection();
+        
         this.params.SRS = (projection == "none") ? null : projection;
 
         return OpenLayers.Layer.Grid.prototype.getFullRequestString.apply(

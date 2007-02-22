@@ -28,7 +28,8 @@ OpenLayers.Layer.Google.prototype =
 
     /** @type GMapType */
     type: null,
-
+	
+	projection: "EPSG:41001",
     /** 
      * @constructor
      * 
