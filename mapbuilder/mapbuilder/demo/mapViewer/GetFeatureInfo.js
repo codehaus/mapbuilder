@@ -5,7 +5,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
+mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 /**
  * Implements WMS GetFeatureInfo functionality, popping up a query result
  * window when user clicks on map.
@@ -13,8 +13,8 @@ mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
  * @base ButtonBase
  * @author adair
  * @constructor
- * @param toolNode The XML node in the Config file referencing this object.
- * @param model The widget object which this tool is associated with.
+ * @param widgetNode The XML node in the Config file referencing this object.
+ * @param model The widget object which this widget is associated with.
  */
 function GetFeatureInfo(widgetNode, model) {
   // Extend ButtonBase

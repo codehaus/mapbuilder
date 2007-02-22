@@ -69,7 +69,7 @@
 	<LayerList>
 		<Layer queryable="1" hidden="0" opaque="1">
 			<Server service="OGC:WMS" version="1.1.1" title="Environment Canada Wind Energy Atlas">
-				<OnlineResource type="simple" xlink:href="http://devgeo.cciw.ca/cgi-bin/mapserv/windatlas?" />
+				<OnlineResource xlink:type="simple" xlink:href="http://devgeo.cciw.ca/cgi-bin/mapserv/windatlas?" />
 			</Server>
 			<Name>roughnesslength</Name>
 			<Title>Roughness Length</Title>
@@ -89,7 +89,7 @@
 		</Layer>
 		<Layer queryable="1" hidden="1" opaque="1">
 			<Server service="OGC:WMS" version="1.1.1" title="Environment Canada Wind Energy Atlas">
-				<OnlineResource type="simple" xlink:href="http://devgeo.cciw.ca/cgi-bin/mapserv/windatlas?" />
+				<OnlineResource xlink:type="simple" xlink:href="http://devgeo.cciw.ca/cgi-bin/mapserv/windatlas?" />
 			</Server>
 			<Name>meanwindenergy</Name>
 			<Title>Mean Wind Energy at 50 m AGL</Title>
@@ -109,7 +109,7 @@
 		</Layer>
 		<Layer queryable="1" hidden="1" opaque="1">
 			<Server service="OGC:WMS" version="1.1.1" title="Environment Canada Wind Energy Atlas">
-				<OnlineResource type="simple" xlink:href="http://devgeo.cciw.ca/cgi-bin/mapserv/windatlas?" />
+				<OnlineResource xlink:type="simple" xlink:href="http://devgeo.cciw.ca/cgi-bin/mapserv/windatlas?" />
 			</Server>
 			<Name>meanwindspeed</Name>
 			<Title>Mean Wind Speed at 50 m AGL</Title>
@@ -129,7 +129,7 @@
 		</Layer>
 		<Layer queryable="1" hidden="1" opaque="1">
 			<Server service="OGC:WMS" version="1.1.1" title="Environment Canada Wind Energy Atlas">
-				<OnlineResource type="simple" xlink:href="http://devgeo.cciw.ca/cgi-bin/mapserv/windatlas?" />
+				<OnlineResource xlink:type="simple" xlink:href="http://devgeo.cciw.ca/cgi-bin/mapserv/windatlas?" />
 			</Server>
 			<Name>orography_01</Name>
 			<Title>Orography</Title>
@@ -149,7 +149,7 @@
 		</Layer>
 		<Layer queryable="1" hidden="1" opaque="1">
 			<Server service="OGC:WMS" version="1.1.1" title="Environment Canada Wind Energy Atlas">
-				<OnlineResource type="simple" xlink:href="http://devgeo.cciw.ca/cgi-bin/mapserv/windatlas?" />
+				<OnlineResource xlink:type="simple" xlink:href="http://devgeo.cciw.ca/cgi-bin/mapserv/windatlas?" />
 			</Server>
 			<Name>meanwindenergyfine</Name>
 			<Title>Mean Wind Energy at 50 m AGL (fine)</Title>
@@ -169,7 +169,7 @@
 		</Layer>
 		<Layer queryable="1" hidden="1" opaque="1">
 			<Server service="OGC:WMS" version="1.1.1" title="Environment Canada Wind Energy Atlas">
-				<OnlineResource type="simple" xlink:href="http://devgeo.cciw.ca/cgi-bin/mapserv/windatlas?" />
+				<OnlineResource xlink:type="simple" xlink:href="http://devgeo.cciw.ca/cgi-bin/mapserv/windatlas?" />
 			</Server>
 			<Name>meanwindspeedfine</Name>
 			<Title>Mean Wind Speed at 50 m AGL (fine)</Title>
@@ -189,7 +189,7 @@
 		</Layer>
 		<Layer queryable="1" hidden="1" opaque="1">
 			<Server service="OGC:WMS" version="1.1.1" title="Environment Canada Wind Energy Atlas">
-				<OnlineResource type="simple" xlink:href="http://devgeo.cciw.ca/cgi-bin/mapserv/windatlas?" />
+				<OnlineResource xlink:type="simple" xlink:href="http://devgeo.cciw.ca/cgi-bin/mapserv/windatlas?" />
 			</Server>
 			<Name>orography_02</Name>
 			<Title>Orography (fine)</Title>
@@ -209,7 +209,7 @@
 		</Layer>
 		<Layer queryable="1" hidden="1" opaque="1">
 			<Server service="OGC:WMS" version="1.1.1" title="Environment Canada Wind Energy Atlas">
-				<OnlineResource type="simple" xlink:href="http://devgeo.cciw.ca/cgi-bin/mapserv/windatlas?" />
+				<OnlineResource xlink:type="simple" xlink:href="http://devgeo.cciw.ca/cgi-bin/mapserv/windatlas?" />
 			</Server>
 			<Name>roughnesslengthfine</Name>
 			<Title>Roughness Length (fine)</Title>
