@@ -83,6 +83,7 @@ function WidgetBase(widgetNode,model) {
 
   //set an empty debug property in config to see inputs and outputs of stylehseet
   if ( widgetNode.selectSingleNode("mb:debug") ) this.debug=true;
+  
 
   /**
    * Initialize dynamic properties.set the target model
@@ -100,7 +101,7 @@ function WidgetBase(widgetNode,model) {
       objRef.targetModel = objRef.model;
     }
   }
-  this.model.addListener("init", this.initTargetModel, this);
+ this.model.addListener("init", this.initTargetModel, this);
 
   /**
    * Called before paint(), can be used to set up a widget's paint parameters,

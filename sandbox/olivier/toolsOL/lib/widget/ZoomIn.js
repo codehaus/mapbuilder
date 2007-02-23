@@ -16,67 +16,33 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @param model  The model for this widget
  */
 function ZoomIn(widgetNode, model) {
+
+  /*Default options*/
+  
+  this.options=new Object();
+
+  
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
-  this.cursor = "cross";	
   
- // this.objectOL = new OpenLayers.MouseListener.ZoomIn();
-   
-  /**
-   * Calls the model's ceter at method to zoom in.  If the AOI is a single point,
-   * it zooms in by the zoomFactor factor.
-   * @param objRef      Pointer to this object.
-   * @param targetNode  The node for the enclosing HTML tag for this widget.
-   */
-  this.doAction = function(e) {
+  this.options.id=this.id;
+  this.options.cursor = "cross";  
+  this.options.size=new OpenLayers.Size(24,24);
+ 
+  this.objectOL=new OpenLayers.MouseListener.ZoomIn(this.options);
   
-  if (this.enabled) {
   
-  //alert(this.model.map.getExtent());
- // this.model.map.removeMouseListener(this.model.ZoomIn);
-    	/*ul=this.model.extent.getXY(e.xy);
- 		lr=ul;
- 		this.model.setParam("aoi",new Array(ul,lr));
- 	
-        var bbox = this.model.getParam("aoi");
-      
-        if ( bbox!=null) {
-     
-        ////coordinates must be in Lon/Lat for OL
-        
-        ul = bbox[0];
-        lr = bbox[1];
-
-        if (( ul[0]==lr[0] ) && ( ul[1]==lr[1] )) 
-        {
-        	this.model.extent.centerAt(ul,1);    
-        } 
-        else 
-        {
-        	this.model.extent.zoomToBox(ul,lr);
-        }
-      }*/
-  }
-    else{
-  	this.model.map.removeMouseListener(this.objectOL); 
-  }
-}
-
-this.addListener = function(e) 
-{
-		this.model.map.addMouseListener(this.objectOL);  
-} 
-  /**
-   * Register for mouseUp events.
-   * @param objRef  Pointer to this object.
-   */
-  this.setMouseListener = function(objRef) {
-  			objRef.model.map.addMouseListener(objRef.model.ZoomIn);  
-  			objRef.model.map.events.register("mousedown", objRef, objRef.addListener);
-  			objRef.model.map.events.register("mouseup", objRef, objRef.doAction);
-  			
-  }
-  this.model.addListener( "mapLoaded", this.setMouseListener, this );
-
+  
+  this.addButton = function(objRef){
+  
+		  objRef.targetModel.toolbar.div=document.getElementById(objRef.htmlTagId);
+		  objRef.targetModel.toolbar.addTools(objRef.objectOL);
+		  if(objRef.selected)
+		  {	
+		  		objRef.targetModel.toolbar.setTool(objRef.objectOL);
+		  }
+   }
+ 
+   this.model.addListener( "mapLoaded", this.addButton, this );
 }
 

@@ -16,44 +16,26 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  */
 function DragPan(widgetNode, model) {
 
-  // Extend ButtonBase
+   this.options=new Object();
+
   ButtonBase.apply(this, new Array(widgetNode, model));
+  
+  this.options.id=this.id;
+  this.options.cursor = "cross";
+  this.options.size=new OpenLayers.Size(24,24);
+  this.objectOL=new OpenLayers.MouseListener.DragPan(this.options);
+  
+  
+  
+  this.addButton = function(objRef){
 
-  // override default cursor by user
-  // cursor can be changed by spefying a new cursor in config file
-  this.cursor = "move";	
-
-  /**
-   * Calls the centerAt method of the context doc extent to recenter to its AOI
-   * @param objRef      Pointer to this DragPan object.
-   * @param targetNode  The node for the enclosing HTML tag for this widget.
-   */
-  this.doAction = function(objRef,targetNode) {
-    if (objRef.enabled) {
-      var bbox = objRef.targetModel.getParam("aoi");
-      if ( bbox!=null) {
-      
-
-        var ul = bbox[0];
-        var lr = bbox[1];
-         center=new Array((lr[0]+ul[0])/2,(ul[1]+lr[1])/2);
-    
-        objRef.targetModel.extent.centerAt(center,null);
-        
-       // objRef.targetModel.setParam("zoomToBbox",new Array(ul[0],lr[1],lr[0],ul[1]));
-      }
-    }
-  }
-
-  /**
-   * Register for mouseUp events.
-   * @param objRef      Pointer to this DragPan object.
-   */
-  this.setMouseListener = function(objRef) {
-    if (objRef.mouseHandler) {
-      objRef.mouseHandler.model.addListener('mouseup',objRef.doAction,objRef);
-    }
-  }
-  this.model.addListener( "refresh", this.setMouseListener, this );
+		  objRef.targetModel.toolbar.div=document.getElementById(objRef.htmlTagId);
+		  objRef.targetModel.toolbar.addTools(objRef.objectOL);
+		  if(objRef.selected)
+		  {	
+		  		objRef.targetModel.toolbar.setTool(objRef.objectOL);
+		  }
+   }
+  this.model.addListener( "mapLoaded", this.addButton, this );
 
 }

@@ -24,12 +24,12 @@ function MapPaneOL(widgetNode, model) {
   MapContainerBase.apply(this,new Array(widgetNode, model));
 
   //loading img to be displayed while models load
-  var loadingSrc = widgetNode.selectSingleNode("mb:loadingSrc");
+  /*var loadingSrc = widgetNode.selectSingleNode("mb:loadingSrc");
   if (loadingSrc) {
     this.loadingSrc = config.skinDir + loadingSrc.firstChild.nodeValue;
   } else {
     this.loadingSrc = config.skinDir + "/images/Loading.gif";
-  }
+  }*/
 
   this.model.addListener("refresh",this.paint, this);
   this.model.addListener("hidden",this.hidden, this);
@@ -80,8 +80,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     maxExtent=null;
     maxResolution=null;
 
-      maxExtent=objRef.widgetNode.selectSingleNode("mb:maxExtent");
-      maxExtent=(maxExtent)?maxExtent.firstChild.nodeValue.split(" "):null;
+    maxExtent=objRef.widgetNode.selectSingleNode("mb:maxExtent");
+    maxExtent=(maxExtent)?maxExtent.firstChild.nodeValue.split(" "):null;
 
    
       // If the maxExtent/maxResolution is not specified in the config
@@ -104,15 +104,18 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   
     objRef.model.map = new OpenLayers.Map(objRef.node, {controls:[]},mapOptions);
     
-alert(objRef.model.map.projection+" = "+ mapOptions.projection);
+
     // Increase hight of Control layers to allow for lots of layers.
     objRef.model.map.Z_INDEX_BASE.Control=10000;
    //objRef.model.map.addControl(new OpenLayers.Control.MousePosition()); 
    //objRef.model.toolBar=new OpenLayers.Control.MouseToolbar();
    // objRef.model.map.addControl(objRef.model.toolBar);  
     // loop through all layers and create OLLayers 
-    objRef.model.map.addMouseListener(new OpenLayers.MouseListener.MouseDefaults());
-    objRef.model.map.addControl(new OpenLayers.Control.MousePosition()); 
+   // objRef.model.map.addMouseListener(new OpenLayers.MouseListener.MouseDefaults());
+   // objRef.model.map.addControl(new OpenLayers.Control.MousePosition()); 
+    objRef.model.toolbar=new OpenLayers.Control.Buttonbar(null,"horizontal");
+    objRef.model.map.addControl(objRef.model.toolbar);
+  //toolbar.div=document.getElementById("ButtonBar");
     var layers = objRef.model.getAllLayers();
     objRef.oLlayers = new Array();
       
@@ -249,8 +252,7 @@ alert(objRef.model.map.projection+" = "+ mapOptions.projection);
             break;
             
         case "MultiMap":   
-        //<script type="text/javascript" src="http://clients.multimap.com/API/maps/1.1/metacarta_04"></script>
-        
+        	//<script type="text/javascript" src="http://clients.multimap.com/API/maps/1.1/metacarta_04"></script>
          	options.isBaseLayer=true;
            	objRef.oLlayers[name2] = new OpenLayers.Layer.MultiMap( "MultiMap"); 
             objRef.model.map.addLayers([objRef.oLlayers[name2]]);
@@ -273,8 +275,8 @@ alert(objRef.model.map.projection+" = "+ mapOptions.projection);
     lr = new Array(bboxOL[2],bboxOL[1]);
     objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
     objRef.model.extent.setSize(new Array(objRef.model.map.getResolution(),objRef.model.map.getResolution()));
-objRef.model.setParam("aoi", new Array(ul, lr) );
- objRef.model.callListeners("mapLoaded");
+	objRef.model.setParam("aoi", new Array(ul, lr) );
+ 	config.callListeners("mapLoaded");
      //objRef.clearWidget2(objRef);
   }
 }
@@ -575,7 +577,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {alert(objRef.id);
             break;
           case "VE":
           case "Microsoft":
-           	/*objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, 'maxZoomLevel':18},options );
+           /*	objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, 'maxZoomLevel':18},options );
             objRef.model.map.addLayers([objRef.oLlayers[name2]]);
             */
             break;

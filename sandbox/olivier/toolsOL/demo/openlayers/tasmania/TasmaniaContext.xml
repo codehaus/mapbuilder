@@ -11,7 +11,7 @@
 
   <General>
     <!-- Tasmania Bounding Box -->
-    <Window width="512" height="499"/>
+    <Window width="512" height="499"/> <!--  perfect window size for google map-->
     <!--  ows:BoundingBox crs="EPSG:4326">
       <ows:LowerCorner>-177 -85</ows:LowerCorner>
       <ows:UpperCorner>177 85</ows:UpperCorner>
@@ -227,7 +227,7 @@
       </StyleList>
     </Layer-->
     
-	<Layer queryable="1" hidden="1">
+	<Layer queryable="1" hidden="0">
       <Server service="Google" version="1.0.0" title="Google Map">
       <OnlineResource xlink:type="simple" xlink:href="Google"/>
       </Server>
@@ -282,7 +282,7 @@
         </Style>
 	</StyleList>
     </Layer>
-	 <Layer queryable="1" hidden="0">
+	 <Layer queryable="1" hidden="1">
 			<Server service="OGC:WMS" version="1.1.1" title="continent">
 				<OnlineResource xlink:type="simple" xlink:href="http://testbed.geomatys.fr/geoserver/wms?"/>
 				
@@ -309,5 +309,59 @@
         </Style>
       </StyleList>
 	</Layer>
+	 <!-- Layer queryable="1" hidden="0">
+			<Server service="OGC:WMS" version="1.1.1" title="continent">
+				<OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wms?"/>
+				
+			</Server>
+			<Name>topp:Continental_Area</Name>
+			<Title>continent define in 41001</Title>
+			<SRS>EPSG:41001</SRS>
+			<FormatList>
+				<Format current="1">image/png</Format>
+			</FormatList>
+			 <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#6633FF</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#6633FF</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
+	</Layer-->
+	 <!-- Layer queryable="1" hidden="1">
+			<Server service="OGC:WMS" version="1.1.1" title="continent">
+				<OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wms?"/>
+				
+			</Server>
+			<Name>topp:continent</Name>
+			<Title>continent define in 41002</Title>
+			<SRS>EPSG:41001</SRS>
+			<FormatList>
+				<Format current="1">image/png</Format>
+			</FormatList>
+			 <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#6633FF</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#6633FF</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
+	</Layer-->
   </ResourceList>
 </OWSContext>

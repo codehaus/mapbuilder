@@ -18,16 +18,13 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
  * @param model The parent model object (optional).
  */
 function ButtonBase(widgetNode, model) {
-
-  //stylesheet is fixed to this one
-  this.stylesheet = new XslProcessor(baseDir+"/widget/Button.xsl", model.namespace);
+	
   var buttonBarNode = widgetNode.selectSingleNode("mb:buttonBar");
   if ( buttonBarNode ) {
     this.htmlTagId = buttonBarNode.firstChild.nodeValue;
-    //1Row added DVDE  
-    this.buttonBarGroup = this.htmlTagId;    
+    this.buttonBarGroup = this.htmlTagId;
   }   
-  //3 rows deleted  -7Rows added DVDE      
+ 
   var htmlTagNode = widgetNode.selectSingleNode("mb:htmlTagId");    
   if (htmlTagNode) {
     this.htmlTagId = htmlTagNode.firstChild.nodeValue;
@@ -36,31 +33,40 @@ function ButtonBase(widgetNode, model) {
     alert(mbGetMessage("buttonBarRequired", widgetNode.nodeName));
   }
 
-  WidgetBaseXSL.apply(this, new Array(widgetNode, model));
+  WidgetBase.apply(this, new Array(widgetNode, model));
 
   //set the button type
   this.buttonType = widgetNode.selectSingleNode("mb:class").firstChild.nodeValue;
+  this.options.type=this.buttonType;   
   if (this.buttonType == "RadioButton") this.enabled = false;
 
   //pre-load the button bar images; add them to the config
   var disabledImage = widgetNode.selectSingleNode("mb:disabledSrc");
-  if (disabledImage) {
-    this.disabledImage = document.createElement("IMG");
-    this.disabledImage.src = config.skinDir + disabledImage.firstChild.nodeValue;
+  if (disabledImage) {//alert(disabledImage.firstChild.nodeValue);
+  this.options.imgDir = config.skinDir;
+  this.disabledImage = disabledImage.firstChild.nodeValue;
+  this.options.imageOff = this.disabledImage;
+    //this.disabledImage = document.createElement("IMG");
+    //this.disabledImage.src = disabledImage.firstChild.nodeValue;
+    
   }
 
   //optional second image to be displayed in the enabled state
   var enabledImage = widgetNode.selectSingleNode("mb:enabledSrc");
   if (enabledImage) {
-    this.enabledImage = document.createElement("IMG");
-    this.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
+  this.enabledImage = enabledImage.firstChild.nodeValue;
+  this.options.imageOn = this.enabledImage;
+  this.options.imgDir = config.skinDir;
+    //this.enabledImage = document.createElement("IMG");
+    //this.enabledImage.src = enabledImage.firstChild.nodeValue;
   }
   
   // Check for cursor override
-  var cursorNode = this.widgetNode.selectSingleNode("mb:cursor");
+  var cursorNode = widgetNode.selectSingleNode("mb:cursor");
   if( cursorNode != null ) {
     var cursor = cursorNode.firstChild.nodeValue;
     this.cursor = cursor;
+    this.options.cursor = this.cursor;
   } else {
     this.cursor = "default"; // Adding support for customized cursors
   }
@@ -99,7 +105,7 @@ function ButtonBase(widgetNode, model) {
     }  
 
     //changed 3 lines: this.node -> this.groupnode DVDE       
-    if (this.buttonType == "RadioButton") {
+    /*if (this.buttonType == "RadioButton") {
       if (this.groupnode.selectedRadioButton) {
         with (this.groupnode.selectedRadioButton) {
           if (disabledImage) image.src = disabledImage.src;
@@ -112,7 +118,7 @@ function ButtonBase(widgetNode, model) {
       this.groupnode.selectedRadioButton = this;
       if (this.enabledImage) this.image.src = this.enabledImage.src;
       this.link.className = "mbButtonSelected";
-    }
+    }*/
     
     //enable this tool and any dependancies
     this.enabled = true;
@@ -162,5 +168,5 @@ function ButtonBase(widgetNode, model) {
   }
 
   this.model.addListener("refresh",this.buttonInit,this);
-  this.model.addListener("init", this.initMouseHandler, this);
+ // this.model.addListener("init", this.initMouseHandler, this);
 }

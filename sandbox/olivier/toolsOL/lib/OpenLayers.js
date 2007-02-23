@@ -49,7 +49,7 @@ if (typeof(_OPENLAYERS_SFL_) == "undefined") {
      */
     (function() {
     var jsfiles=new Array(
-        "OpenLayers/BaseTypes.js",
+      "OpenLayers/BaseTypes.js",
         "OpenLayers/Util.js",
         "Rico/Corner.js",
         "Rico/Color.js",
@@ -78,12 +78,15 @@ if (typeof(_OPENLAYERS_SFL_) == "undefined") {
         "OpenLayers/Layer/Vector.js",
         "OpenLayers/Layer/WFS.js",
         "OpenLayers/Layer/GML.js",
-         "OpenLayers/Layer/Google.js",
         "OpenLayers/Layer/WMS/Untiled.js",
         "OpenLayers/Layer/GeoRSS.js",
         "OpenLayers/Layer/Boxes.js",
         "OpenLayers/Layer/Canvas.js",
         "OpenLayers/Layer/TMS.js",
+        "OpenLayers/Layer/Yahoo.js",
+        "OpenLayers/Layer/VirtualEarth.js",
+        "OpenLayers/Layer/MultiMap.js",
+        "OpenLayers/Layer/Google.js",
         "OpenLayers/Popup.js",
         "OpenLayers/Popup/Anchored.js",
         "OpenLayers/Popup/AnchoredBubble.js",
@@ -101,16 +104,18 @@ if (typeof(_OPENLAYERS_SFL_) == "undefined") {
         "OpenLayers/MouseListener/EditingListener/MovePathPoint.js",
         "OpenLayers/MouseListener/EditingListener/AddPathPoint.js",
         "OpenLayers/MouseListener/EditingListener/RemovePathPoint.js",
+        "OpenLayers/MouseListener/DragPan.js",
+        "OpenLayers/MouseListener/MeasureArea.js",
         "OpenLayers/MouseListener/MeasureDistance.js",
         "OpenLayers/MouseListener/Reset.js",
-        "OpenLayers/MouseListener/MeasureArea.js",
+        "OpenLayers/MouseListener/ZoomIn.js",
+    	"OpenLayers/MouseListener/ZoomOut.js",
         "OpenLayers/Control.js",
         "OpenLayers/Control/Container.js",
         "OpenLayers/MouseListener/ZoomIn.js",
     	"OpenLayers/MouseListener/ZoomOut.js",
     	"OpenLayers/MouseListener/DragPan.js",
-        "OpenLayers/Control/Button.js",
-        "OpenLayers/Control/RadioButton.js",
+        "OpenLayers/Control/Buttonbar.js",
         "OpenLayers/Control/ButtonBar.js",
         "OpenLayers/Control/MousePosition.js",
         "OpenLayers/Control/EditingToolBar.js",
@@ -150,6 +155,7 @@ if (typeof(_OPENLAYERS_SFL_) == "undefined") {
         "OpenLayers/Writer.js",
         "OpenLayers/Writer/WFS.js",
         "OpenLayers/Writer/GML.js"
+        
         
     ); // ec.
 

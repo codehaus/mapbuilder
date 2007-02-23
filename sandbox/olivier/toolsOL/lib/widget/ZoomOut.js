@@ -15,58 +15,27 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @param model  The model for this widget
  */
 function ZoomOut(widgetNode, model) {
-  // Extend ButtonBase
+
+  this.options=new Object();
+
   ButtonBase.apply(this, new Array(widgetNode, model));
-  this.cursor = "cross";
-  /**
-  Set the zoomfactor and check if it is set in de configuration file.
-  */
-
-  this.model.ZoomOut = new OpenLayers.MouseListener.ZoomOut();
-  /**
-   * Calls the centerAt method of the context doc to zoom out, recentering at 
-   * the mouse event coordinates.
-   * TBD: set the zoomFactor property as a button property in conifg
-   * @param objRef      Pointer to this AoiMouseHandler object.
-   * @param targetNode  The node for the enclosing HTML tag for this widget.
-   */
-  this.doAction = function(e) {
-  if (this.enabled) {
-  alert(this.model.map.getExtent());
   
-    /*var bbox = objRef.targetModel.getParam("aoi");
-    if ( bbox!=null) 
-    {
-    	////coordinates must be in Lon/Lat for OL
-    	var ul = bbox[0];
-    	var lr = bbox[1];
+  this.options.id=this.id;
+  this.options.cursor = "cross";
+  this.options.size=new OpenLayers.Size(24,24);
+  this.objectOL=new OpenLayers.MouseListener.ZoomOut(this.options);
+  
+  
+  
+  this.addButton = function(objRef){
 
-	    center=new Array((lr[0]+ul[0])/2,(ul[1]+lr[1])/2);
-	      objRef.targetModel.extent.centerAt(center,-1);
-	    //objRef.targetModel.setParam("zoomOut",center);
-    }  */
-  }
-  else{
-  	this.model.map.removeMouseListener(this.model.ZoomOut); 
-  }
-  }
-
-this.addListener = function(e) 
-{
-	if (this.enabled) {
-		this.model.map.addMouseListener(this.model.ZoomOut);  
-	}
-}  
-  /**
-   * Register for mouseUp events.
-   * @param objRef  Pointer to this object.
-   */
-  this.setMouseListener = function(objRef) {
-  			//objRef.model.map.addMouseListener(objRef.model.ZoomOut);  
-  			objRef.model.map.events.register("mousedown", objRef, objRef.addListener);
-  			objRef.model.map.events.register("mouseup", objRef, objRef.doAction);
-  			
-  }
-  this.model.addListener( "mapLoaded", this.setMouseListener, this );
+		  objRef.targetModel.toolbar.div=document.getElementById(objRef.htmlTagId);
+		  objRef.targetModel.toolbar.addTools(objRef.objectOL);
+		  if(objRef.selected)
+		  {	
+		  		objRef.targetModel.toolbar.setTool(objRef.objectOL);
+		  }
+   }
+  this.model.addListener( "mapLoaded", this.addButton, this );
 
 }

@@ -12,22 +12,43 @@
           <htmlTagId>legend</htmlTagId>
           <stylesheet>./Legend2.xsl</stylesheet>
         </Legend>
-    	
       </widgets>
       <tools>
-        <AoiMouseHandler id="mainAoi"/>
-        <DragPanHandler id="mainDragPan">
-          <enabled>false</enabled>
-        </DragPanHandler>
       </tools>
     </OwsContext>
   </models>
   <widgets>
-  		
-		
+  		<ZoomIn id="zoomIn">
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<class>RadioButton</class>
+			<selected>true</selected>
+			<enabledSrc>/images/ZoomInEnable.png</enabledSrc>
+			<disabledSrc>/images/ZoomInDisable.png</disabledSrc>
+		</ZoomIn>
+		<ZoomOut id="zoomOut">
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<class>RadioButton</class>
+			<enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
+			<disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
+		</ZoomOut>
+		<DragPan id="dragPan">
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<class>RadioButton</class>
+			<enabledSrc>/images/PanEnable.png</enabledSrc>
+			<disabledSrc>/images/PanDisable.png</disabledSrc>
+		</DragPan>
+		<Reset id="reset">
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<class>Button</class>
+			<disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
+		</Reset>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
-
+  <imageDir></imageDir>
   <!-- relative to the skin dir -->
   <widgetTextUrl>widgetText.xml</widgetTextUrl>
 </MapbuilderConfig>
