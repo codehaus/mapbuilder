@@ -169,13 +169,11 @@ OpenLayers.Control.Buttonbar.prototype =
     },
     
     _swapButtonImg: function(tool, active){
-btn.imgLocation = imgLocation;
-        btn.activeImgLocation = activeImgLocation;
             if (this.buttons[tool.id]) {
             	if (active=="off")
             		this.buttons[tool.id].firstChild.src=this.buttons[tool.id].imgLocation;
             	if (active=="on")
-            		this.buttons[tool.id].firstChild.src=;this.buttons[tool.id].activeImgLocation
+            		this.buttons[tool.id].firstChild.src=this.buttons[tool.id].activeImgLocation
             }
            
 
