@@ -22,7 +22,7 @@ function Reset(widgetNode, model) {
   
   this.options.id=this.id;
   this.options.size=new OpenLayers.Size(24,24);
-  this.objectOL=new OpenLayers.MouseListener.Reset(this.options);
+  this.objectOL=new OpenLayers.Button.Reset(this.options);
   
   
   this.addButton = function(objRef){

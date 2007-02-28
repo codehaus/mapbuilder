@@ -26,10 +26,10 @@ function ZoomIn(widgetNode, model) {
   ButtonBase.apply(this, new Array(widgetNode, model));
   
   this.options.id=this.id;
-  this.options.cursor = "cross";  
+  this.options.cursor = "crosshair";  
   this.options.size=new OpenLayers.Size(24,24);
  
-  this.objectOL=new OpenLayers.MouseListener.ZoomIn(this.options);
+  this.objectOL=new OpenLayers.Button.ZoomIn(this.options);
   
   
   

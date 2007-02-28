@@ -23,7 +23,7 @@ function DragPan(widgetNode, model) {
   this.options.id=this.id;
   this.options.cursor = "cross";
   this.options.size=new OpenLayers.Size(24,24);
-  this.objectOL=new OpenLayers.MouseListener.DragPan(this.options);
+  this.objectOL=new OpenLayers.Button.DragPan(this.options);
   
   
   

@@ -111,7 +111,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
    //objRef.model.toolBar=new OpenLayers.Control.MouseToolbar();
    // objRef.model.map.addControl(objRef.model.toolBar);  
     // loop through all layers and create OLLayers 
-   // objRef.model.map.addMouseListener(new OpenLayers.MouseListener.MouseDefaults());
+   // objRef.model.map.addMouseListener(new OpenLayers.Button.MouseDefaults());
    // objRef.model.map.addControl(new OpenLayers.Control.MousePosition()); 
     objRef.model.toolbar=new OpenLayers.Control.Buttonbar(null,"horizontal");
     objRef.model.map.addControl(objRef.model.toolbar);

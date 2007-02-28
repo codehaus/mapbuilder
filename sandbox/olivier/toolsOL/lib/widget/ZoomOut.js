@@ -21,9 +21,9 @@ function ZoomOut(widgetNode, model) {
   ButtonBase.apply(this, new Array(widgetNode, model));
   
   this.options.id=this.id;
-  this.options.cursor = "cross";
+  this.options.cursor = "crosshair";
   this.options.size=new OpenLayers.Size(24,24);
-  this.objectOL=new OpenLayers.MouseListener.ZoomOut(this.options);
+  this.objectOL=new OpenLayers.Button.ZoomOut(this.options);
   
   
   
