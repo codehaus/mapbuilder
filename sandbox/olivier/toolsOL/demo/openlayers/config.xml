@@ -48,7 +48,6 @@
 		</Reset>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
-  <imageDir></imageDir>
   <!-- relative to the skin dir -->
   <widgetTextUrl>widgetText.xml</widgetTextUrl>
 </MapbuilderConfig>

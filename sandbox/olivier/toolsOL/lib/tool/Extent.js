@@ -193,8 +193,6 @@ function Extent( model, initialRes ) {
    * @return            none
    */
   this.centerAt = function(center, zoom) {
-    
-    this.model.map.setCenter(new OpenLayers.LonLat(center[0],center[1]),this.model.map.getZoom()+zoom);
     this.updateMB();
   }
 
@@ -205,8 +203,7 @@ function Extent( model, initialRes ) {
    * @param lr      lower right coordinate of bbox in XY projection coords
    */
   this.zoomToBox = function(ul, lr) {    //pass in xy
-    var center = new Array((ul[0]+lr[0])/2, (ul[1]+lr[1])/2);
-    this.model.map.zoomToExtent(new OpenLayers.Bounds(ul[0], lr[1], lr[0], ul[1]));
+
     this.updateMB();
     
   } 

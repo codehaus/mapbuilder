@@ -8,14 +8,7 @@
 					<htmlTagId>mainMapPane</htmlTagId>
 					<mapContainerId>mainMapContainer</mapContainerId>
 				</MapPaneOL>
-				<AoiBoxDHTML id="aoiBoxMain">
-					<htmlTagId>mainMapPane</htmlTagId>
-					<mapContainerId>mainMapContainer</mapContainerId>
-					<lineColor>#FF0000</lineColor>
-					<lineWidth>2</lineWidth>
-					<crossSize>15</crossSize>
-				</AoiBoxDHTML>
-        <!--  MapScaleBar id="scalebar">
+        <MapScaleBar id="scalebar">
 
           <displaySystem>metric</displaySystem>
           <minWidth>100</minWidth>
@@ -26,7 +19,7 @@
           <abbreviateLabel>true</abbreviateLabel>
           <singleLine>true</singleLine>
           <align>left</align>
-        </MapScaleBar-->
+        </MapScaleBar>
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
           <showXY>false</showXY>
@@ -45,10 +38,6 @@
         </Loading2-->
 			</widgets>
 			<tools>
-				<AoiMouseHandler id="mainAoi"/>
-				<DragPanHandler id="mainDragPan">
-					<enabled>false</enabled>
-				</DragPanHandler>
         <History id="extentHistory"/>
 				<WebServiceRequest id="featureInfoController">
 					<targetModel>featureInfoResponse</targetModel>
@@ -69,14 +58,6 @@
 					<fixedWidth>180</fixedWidth>
 					<extraAttributes>false</extraAttributes>
 				</MapPaneOL>
-				<AoiBoxDHTML id="aoiBoxLocator">
-					<htmlTagId>locatorMap</htmlTagId>
-					<stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
-					<mapContainerId>locatorContainer</mapContainerId>
-					<lineColor>red</lineColor>
-					<lineWidth>2</lineWidth>
-					<crossSize>15</crossSize>
-				</AoiBoxDHTML>
 			</widgets>
 			<tools>
 				<AoiMouseHandler id="locatorAoi" />
@@ -100,7 +81,7 @@
       <tab>mapAbstract</tab>
       <tab>features</tab>
     </TabbedContent-->
-    <Back id="back">
+    <!-- Back id="back">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <class>Button</class>
@@ -111,7 +92,7 @@
       <targetModel>mainMap</targetModel>
       <class>Button</class>
       <disabledSrc>/images/RedoDisable.png</disabledSrc>
-    </Forward>
+    </Forward!-->
 		<ZoomIn id="zoomIn">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
