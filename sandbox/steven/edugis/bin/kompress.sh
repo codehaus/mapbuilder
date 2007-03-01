@@ -170,8 +170,8 @@ mv ${outputFile} ${originalFile}
 
 
 echo "step 4";
-#cat ${originalFile}  | sed '/function ButtonBase/,/function EditLine/ {s/_5/disabledImage/}' > ${outputFile} 
+cat ${originalFile}  | sed '/function ButtonBase/,/function Geocoder/ 's/_4/disabledImage/'' > ${outputFile} 
 
-#mv ${outputFile} ${originalFile}
+mv ${outputFile} ${originalFile}
 
 cp ${originalFile} ${mapbuilderDir}/lib

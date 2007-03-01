@@ -44,7 +44,7 @@ function WmsCapabilities(modelNode, parent) {
       } else {
         xpath += "/DCPType/HTTP/Get/OnlineResource";
       }
-      return this.doc.selectSingleNode(xpath).getAttribute("href");
+      return this.doc.selectSingleNode(xpath).getAttribute("xlink:href");
     }
   }
 

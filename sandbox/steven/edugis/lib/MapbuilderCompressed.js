@@ -4614,7 +4614,7 @@ _7+="/DCPType/HTTP/Post/OnlineResource";
 }else{
 _7+="/DCPType/HTTP/Get/OnlineResource";
 }
-return this.doc.selectSingleNode(_7).getAttribute("href");
+return this.doc.selectSingleNode(_7).getAttribute("xlink:href");
 }
 };
 this.getVersion=function(){
@@ -10866,10 +10866,10 @@ this.enabled=false;
 if(this.buttonType=="State3Button"){
 this.state="0";
 }
-var _4=_1.selectSingleNode("mb:disabledSrc");
-if(_4){
+var disabledImage=_1.selectSingleNode("mb:disabledSrc");
+if(disabledImage){
 this.disabledImage=document.createElement("IMG");
-this.disabledImage.src=config.skinDir+_4.firstChild.nodeValue;
+this.disabledImage.src=config.skinDir+disabledImage.firstChild.nodeValue;
 }
 var _5=_1.selectSingleNode("mb:enabledSrc");
 if(_5){
@@ -10899,8 +10899,8 @@ if(this.node.selectedRadioButton){
 if(this.node.selectedRadioButton.buttonType=="State3Button"){
 with(this.node.selectedRadioButton){
 state="1";
-if(_4){
-image.src=_4.src;
+if(disabledImage){
+image.src=disabledImage.src;
 }
 enabled=false;
 if(mouseHandler){
@@ -10983,8 +10983,8 @@ _b.doSelect(true,_b);
 };
 this.disableButton=function(_c){
 with(_c){
-if(_4){
-image.src=_4.src;
+if(disabledImage){
+image.src=disabledImage.src;
 }
 enabled=false;
 if(mouseHandler){
