@@ -1,0 +1,743 @@
+body {
+  margin: 0px;
+  background-color: #fff;
+  font-family: Verdana;
+  font-size: 12px;
+  color: #006;
+  z-index:1;
+  height: 100%;
+  line-height: 13pt;
+}
+
+html {
+  height: 100%
+}
+
+hr {
+  background: #CCC;
+  height: 1px;
+  width: 100%;
+}
+
+a {
+  color            : #e72;
+  text-decoration  : none;
+}
+
+a:visited {
+  text-decoration  : none;
+  color            : #f90;
+}
+
+a:hover {
+  text-decoration  : underline;
+}
+
+
+td.contentdescription {
+  padding: 10px 10px 30px 10px;
+}
+
+#topbar {
+  position: absolute;
+  height: 75px;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  z-index: 10;
+}
+
+#topbar a{
+  color: #f90;
+}
+#topbar a:visited{
+  color: #fb1;
+}
+
+#upper_topbar {
+  background: #006599 url(/edugis/templates/edugis/images/logoklein.png) no-repeat;
+  height: 50px;
+  z-index: 10;
+}
+
+#upper_topbar .tekstlogo {
+  text-align: left;
+}
+
+#upper_topbar .login {
+  position: absolute;
+  float: right;
+  width: 420px;
+  top: 4px;
+  right: 10px;
+  z-index: 10;
+  text-align: right;
+  display: inline;
+}
+
+#lower_topbar .search {
+  position: relative;
+  float: right;
+  top: 1px;
+  right: 5px;
+  z-index:10;
+}
+
+
+#lower_topbar .search .inputbox{
+  height: 16px;
+}
+
+#lower_topbar .menubar {
+  position: absolute;
+  top: 52px;
+  z-index: 10;
+}
+
+#lower_topbar {
+  z-index: 9;
+  background: #09d url(/edugis/templates/edugis/images/orange_barbig.jpg);
+  height: 28px;
+}
+
+#main {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 80px;
+  bottom: 0px;
+  z-index: 0;
+  width: 100%;
+}
+
+#left {
+  position: absolute;
+  left: 2px;
+  width: 246px;
+  height: 474px;
+  background: url(/edugis/templates/edugis/images/background_left.jpg) no-repeat;
+  float: left;
+  z-index: 4;
+}
+
+#left .content {
+  margin: 10px 5px 5px 5px;
+  color: white;
+  z-index: 5;
+}
+
+#left .pagenavbar {
+  position: absolute;
+  width: 200px;
+  bottom: 30px;
+  left: 20px;
+}
+
+#middle {
+  position: relative;
+  top: 10px;
+  left: 0px;
+  right: 10px;
+  z-index: 1;
+}
+
+#middle .left_column {
+  margin-left: 250px;
+  margin-right: 15px;
+  z-index: 1;
+}
+
+#middle .two_columns {
+  position: absolute;
+  background: #fff url(/edugis/templates/edugis/images/kompas.jpg) no-repeat;
+  background-position: top center;
+  left: 250px;
+  right: 255px;
+  z-index: 1;
+}
+
+#middle .no_columns {
+  position: absolute;
+  margin-left: 0px;
+  right: 0px;
+  width: 99%;
+}
+
+#middle .left_column table.moduletable{
+  position: relative;
+  width: 99%;
+}
+
+#middle .no_columns table.moduletable{
+  position: relative;
+  width: 99%;
+}
+
+#right {
+  position: absolute;
+  width: 246px;
+  height: 480px;
+  background: url(/edugis/templates/edugis/images/background_right.jpg) no-repeat;
+  right: 2px;
+  float: right;
+  display: inline;
+}
+
+#right .upper_panel {
+  margin: 8px 0px 5px 5px;
+  position: absolute;
+  top: 2px;
+  right: 8px;
+  width: 232px;
+}
+
+#right .lower_panel_1 {
+  margin: 8px 0px 5px 5px;
+  position: absolute;
+  top: 280px;
+  right: 8px;
+  width: 232px;
+}
+
+#right .lower_panel_2 {
+  margin: 8px 0px 5px 5px;
+  position: absolute;
+  top: 400px;
+  right: 8px;
+  width: 232px;
+}
+
+#right .sectiontableentry1, .sectiontableentry1 {
+  background-color: transparent;
+}
+
+.contentpane li{
+  padding: 10px 0px 0px 0px;
+}
+
+.sectiontableheader {
+  font-size : 14px;
+  background-color : #069;
+  color : #fff;
+  font-weight : bold;
+  padding: 2px;
+}
+
+.sectiontableentry1 {
+  background-color : #fc6;
+}
+
+.sectiontableentry2 {
+  background-color : #fe9;
+}
+
+.sectiontableentry1 a, .sectiontableentry2 a{
+  color: #069;
+}
+
+.sectiontableentry1 a:visited, .sectiontableentry2 a:visited{
+  color: #4b97bf;
+}
+
+.componentheading, .contentheading, th {
+  font-size: 12pt;
+  font-weight:bold;
+  color: #f90;
+  text-align: left;
+}
+
+h1 {
+  font-size: 12pt;
+  font-weight:bold;
+  color: #f90;
+}
+
+h2 {
+  font-size: 11pt;
+  font-weight:bold;
+  color: #f90;
+}
+
+h3 {
+  font-size: 10pt;
+  font-weight:italic;
+  color: #f90;
+}
+
+#left h1 {
+  font-size: 12pt;
+  font-weight:bold;
+  color: white;
+}
+
+#left h2 {
+   font-size: 11pt;
+  font-weight:bold;
+  color: white;
+}
+
+#left h3 {
+   font-size: 10pt;
+  font-weight:italic;
+  color: white;
+}
+
+.latestnews li {
+  margin-left: -20px;
+}
+
+.button{
+  font-style: normal;
+  font-size: 10px;
+  background-color: #f90;
+  color: #fff;
+  padding: 1px;
+  border-top: 1px solid #fa2;
+  border-left: 1px solid #fa2;
+  border-bottom: 1px solid #d70;
+  border-right: 1px solid #d70;
+}
+
+.inputbox {
+  padding: 1px;
+  font-size: 12px;
+  color: #000
+  background-color: #fff;
+  border-top: 1px solid #fa2;
+  border-left: 1px solid #fa2;
+  border-bottom: 1px solid #d70;
+  border-right: 1px solid #d70;
+  margin-left: 2px;
+}
+
+#left, #right {
+  color: white;
+}
+#right a {
+  color: white;
+  text-decoration  : none;
+}
+
+#left a:hover,#right a:hover {
+  text-decoration : underline;
+}
+
+#left .contentheading{
+  font-size: 9pt;
+  font-weight:bold;
+  color: white;
+
+}
+
+#right th, #left th {
+  color: white;
+}
+
+#mod_loginform, #mod_login_logoutform {
+  font-size: 10px;
+  color: #FFF;
+}
+
+#userEditTable {
+  position: relative;
+}
+
+
+ #alles a {
+	 color            : #f90;
+	 
+ }
+
+  
+  #cursorTrack, #cursorTrack INPUT, #showDistance, #showDistance INPUT, #mapScaleText, #mapScaleText INPUT
+{
+  border: 0px blue none;
+  font: 8pt Verdana, geneva, arial, sans-serif;
+  color: #000000;
+  background-color: transparent;
+}
+.floater { 
+	position: absolute;
+  float: left;
+  z-index: 999; 
+
+  top:0px;
+  height: 0px;
+
+}
+.locatorClose {
+	position: absolute;
+	background: #016799;
+  margin-top: 1px;
+	float: left;
+	z-index: 1000;  
+left: 0px;
+  top:418px;
+	height: 15px;
+  width:75px;
+  text-align: center;
+border: solid 1px #016799;
+	-moz-opacity: 0.9;
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=90);
+}
+#locatorContainer{
+  top:330px;
+
+	border: solid 1px #016799;
+	background: white;
+	position: absolute;
+	float: left;
+	z-index: 1000;  
+	-moz-opacity: 0.9;
+}
+.preview {
+	position: absolute;
+	background: #016799;
+  text-align: center;
+	float: left;
+  z-index: 14; 
+
+  top:17px;
+  left:0px;
+  width: 182px;
+  height: 17px;
+
+	-moz-opacity: 0.8;
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80);
+}
+.previewClose {
+	position: absolute;
+	background: #016799;
+  margin-top: 1px;
+	float: left;
+	z-index: 10;  
+
+  top:0px;
+  left:0px;
+	height: 17px;
+  width:182px;
+}
+ 
+#previewImage {
+  display: none;
+  border: solid 1px #016799;
+  height: 125px;
+  background: white;
+}
+
+#mainbody {
+	float: left;
+	height: 490px;
+	
+}
+
+#mainbody .maintop {
+	float: right;
+	padding-top: 5px;
+  padding-bottom: 5px;
+}
+#mainbody .mainbottom {
+position: relative;
+	top: -1px;
+	height: 40px;
+padding-top: 10px;
+	left: 0px;
+	right: 0px;
+border: solid 1px #016799;
+
+
+	
+}
+
+.mainmap {
+  z-index: 9;
+	width: 100%;
+	clear: both;
+}
+
+#mainMapContainer {
+  z-index:8;
+  font-size: 0px; 
+  border: 1px solid #016799;
+}
+
+#loader {
+	border: solid black 1px;
+	float: left;
+  z-index:1000;
+ position: absolute;
+top: 34px;
+
+height: 400px;
+
+display: none;
+font-weight: bold;
+  background: #ccc;
+  -moz-opacity: 0.8;
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80);
+}
+
+#sidebar {
+	position: absolute;
+	left: 745px;
+	top: 5px;
+	
+	float: right;
+	display: inline;
+	width: 238px;
+	height: 490px;
+	overflow: auto;
+}
+#sidebarklein {
+	position: absolute;
+	left: 500px;
+	top: 5px;
+	
+	float: right;
+	display: inline;
+	width: 230px;
+	height: 490px;
+	overflow: auto;
+}
+
+
+#legend, #layerControl, #featureInfo, #geocoder, #geoForm, #olsResponsView, #toevoegen, #layerLijst {
+		position: absolute;
+float: right;
+background: white;
+top: 0px;
+height: 485px;
+border: solid, #016799, 1px;
+width: 228px;
+
+}
+#featureInfo, #geocoder, #geoForm, #olsResponsView, #toevoegen,#layerLijst  {
+	display: none;
+}
+.header {
+	text-align: center;
+  background: #016799;
+  color: white;
+  font-weight: bold;
+  width: 228px;
+  height: 20px;
+  padding-top: 4px;
+  margin-bottom: 5px;
+}
+.layerbody {
+position: absolute;
+top: 30px;
+width: 228px;
+height: 455px;
+overflow: auto;
+}
+
+.title {
+  color: #016799;
+  font-weight: bold;
+}
+
+.singleLayer {
+}
+#geoForm .record {
+	
+  height: 20px;
+  float: none;
+}
+.value {
+}
+
+#features .value {
+clear: both;
+}
+
+.name {
+  margin-left: 5px;
+  color: #016799;
+  width: 80px;
+  float: left;
+}
+
+.value {
+
+}
+ .checkbox INPUT {
+	 font: 8pt Verdana, geneva, arial, sans-serif;
+  border: 0px;
+  width: 30px;
+  	float: left;
+}
+.value INPUT{
+  font: 8pt Verdana, geneva, arial, sans-serif;
+  border: 0px;
+  width: 120px;
+}
+
+#features .value INPUT {
+	margin-left: 10px;
+	width: 200px;
+}
+
+#geoForm .value INPUT {
+	font: 8pt Verdana, geneva, arial, sans-serif;
+	border-top: 1px solid #fa2;
+	border-left: 1px solid #fa2;
+	border-bottom: 1px solid #d70;
+	border-right: 1px solid #d70;
+	width: 124px;
+	float: right;
+}
+.layertop {
+	border-top: #016799 1px solid;
+	height: 26px;
+	width: 210px;
+}
+
+.layerTitle {	
+	float: left;
+	color: #016799;
+	font-size: 10pt;
+	width: 100px;
+  height: 25px;
+}
+
+.buttons {
+  float:right;
+}
+
+#transptitle {
+  padding-left:10px;
+  padding-right:20px;
+display: block;
+  float: left;
+height: 30px;
+  }
+ #transpbox {
+float: left;
+
+}
+.layerImg {
+clear: both;
+}
+
+.responses {
+position: absolute;
+border:#016799 1px solid;
+overflow: auto;
+top: 155px;
+height: 325px;
+width: 228px;
+}
+
+
+#featureInfo .featureLayer {
+  border-top: #016799 1px solid;
+}
+
+#features, #layerOverview{
+	
+width: 228px;
+	overflow: auto;
+	height: 456px;
+}
+#geoForm .zoek a{
+float: right;
+margin-right: 20px;
+font-style: normal;
+  font-size: 10px;
+  background-color: #f90;
+  color: #fff;
+  padding: 2px;
+  border-top: 1px solid #fa2;
+  border-left: 1px solid #fa2;
+  border-bottom: 1px solid #d70;
+  border-right: 1px solid #d70;
+}
+
+
+
+#olsResponsView .olsrespons {
+  height: 360px;
+}
+.close {
+cursor:pointer;
+position: absolute;
+right: 4px;
+top: 0px;
+}
+
+.mbButton
+img{ 
+filter:progid:DXImageTransform.Microsoft.Alpha(opacity=60);
+-moz-opacity: 0.6;
+margin: 0px;
+border:0px;
+ 
+}
+
+.mbButton:hover 
+img{
+filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);
+-moz-opacity: 1;
+margin: 0px;
+border:0px;
+}
+
+.mbButton:active, .mbButtonSelected
+img{ 
+filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);
+-moz-opacity: 1;
+margin: 0px;
+border:0px;
+}
+
+.mbButtonSelected:hover
+img{ 
+filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80);
+-moz-opacity: 0.8;
+margin: 0px;
+border:0px;
+}
+.sbWrapper {
+	font-family: Verdana, sans-serif;
+	padding: 10px 0 10px 20px;
+}
+
+.sbBar {
+	border: 1px solid #999999;
+	background-color: #cccccc;
+	height: 7px;
+}
+
+.sbBarAlt {
+	border: 1px solid #999999;
+	background-color: #ffffff;
+	height: 7px;
+}
+
+.sbMarkerMajor {
+	width: 0px;
+}
+
+.sbMarkerMinor {
+	width: 0px;
+}
+
+.sbNumbersBox {
+	top: -19px;
+	font-size: 0.65em;
+	color: #333333;
+}
+
+.sbLabelBox {
+	top: 6px;
+	font-size: 0.8em;
+	color: #333333;
+	font-variant: small-caps;
+}
+
+.sbLabelBoxSingleLine {
+	top: -0.7em;
+	font-size: 0.7em;
+	color: #333333;
+}

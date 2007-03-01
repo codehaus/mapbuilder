@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../lib/schemas/config.xsd">
+
+	<models>
+		  <OwsContext id="mainMap">
+			<maxLayers>5</maxLayers>
+			<defaultModelUrl>data/context/hoofdKaart.xml</defaultModelUrl>
+			<widgets>
+				 <MapPane2 id="mainMapWidget">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <zoomLevels>2048,1024,512,256,128,64,32,16,8,4,2,1</zoomLevels>
+        </MapPane2>
+				<MapScaleBar id="mapScaleBar">
+					<!--all of these properties are optional-->
+					<!--displaySystem>english</displaySystem-->
+					<displaySystem>metric</displaySystem>
+					<minWidth>100</minWidth>
+					<maxWidth>300</maxWidth>
+					<divisions>4</divisions>
+					<subdivisions>2</subdivisions>
+					<showMinorMeasures>false</showMinorMeasures>
+					<abbreviateLabel>true</abbreviateLabel>
+					<singleLine>false</singleLine>
+					<align>left</align><!-- left, center, or right -->
+				</MapScaleBar>
+				<AoiBoxWZ id="aoiBoxMain">
+					<htmlTagId>mainMapPane</htmlTagId>
+					<stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
+					<lineColor>#000000</lineColor>
+					<lineWidth>2</lineWidth>
+					<crossSize>15</crossSize>
+					<mapContainerId>mainMapContainer</mapContainerId>
+				</AoiBoxWZ>
+				<CursorTrack id="cursorTrack">
+					<mouseHandler>mainMap</mouseHandler>
+					<showXY>true</showXY>
+					<showLatLong>false</showLatLong>
+					<precision>0</precision>
+				</CursorTrack>
+				<LayerControl id="layerControl">
+					<stylesheet>../customlib/widget/LayerControl.xsl</stylesheet>
+					<moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
+					<moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
+					<deleteImage>/images/LayerRemoveDisable.png</deleteImage>
+					<moveLayerUpTip>Kaartlaag omhoog verplaatsen</moveLayerUpTip>
+					<moveLayerDownTip>Kaartlaag omlaag verplaatsen</moveLayerDownTip>
+					<deleteLayerTip>Kaartlaag verwijderen</deleteLayerTip>
+				</LayerControl>
+			</widgets>
+			<tools>
+				<AoiMouseHandler id="mainAoi" />
+				<DragPanHandler id="mainDragPan">
+					<enabled>false</enabled>
+				</DragPanHandler>
+				<MouseClickHandler id="mainMouseClick" />
+				<History id="extentHistory">
+					<targetModel>mainMap</targetModel>
+				</History>
+			</tools>
+		</OwsContext>
+		<OwsContext id="locator">
+			<defaultModelUrl>data/context/overviewKaart.xml</defaultModelUrl>
+			<widgets>
+				<MapPane2 id="locatorWidget">
+					<htmlTagId>locatorMap</htmlTagId>
+					<mapContainerId>locatorContainer</mapContainerId>
+					<fixedWidth>75</fixedWidth>
+					<extraAttributes>false</extraAttributes>
+				</MapPane2>
+				<AoiBoxDHTML id="aoiBoxLocator">
+					<htmlTagId>locatorMap</htmlTagId>
+					<stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
+					<lineColor>red</lineColor>
+					<lineWidth>2</lineWidth>
+					<crossSize>15</crossSize>
+					<mapContainerId>locatorContainer</mapContainerId>
+				</AoiBoxDHTML>
+			</widgets>
+			<tools>
+				<AoiMouseHandler id="locatorAoi" />
+				<ZoomToAoi id="locatorZoomToAoi">
+					<targetModel>mainMap</targetModel>
+				</ZoomToAoi>
+			</tools>
+		</OwsContext>
+		<Model id="featureInfoRespons" template="true">
+			<namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
+			<widgets>
+      <Loading2 id="features">
+<textMessage>Informatie aan het ophalen...</textMessage>
+</Loading2>
+				<FeatureInfo id="features">
+					<stylesheet>../customlib/widget/FeatureInfo.xsl</stylesheet>
+					<htmlTagId>features</htmlTagId>
+				</FeatureInfo>
+			</widgets>
+		</Model>
+		<FeatureCollection id="olsPunten">
+			<namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
+			<widgets>
+				<GmlRendererWZ id="puntRenderer">
+					<stylesheet>../customlib/widget/GmlRendererWZ.xsl</stylesheet>
+					<htmlTagId>mainMapPane</htmlTagId>
+					<targetModel>mainMap</targetModel>
+					<mapContainerId>mainMapContainer</mapContainerId>
+					<lineColor>purple</lineColor>
+					<pointWidth>31</pointWidth>
+					<pointDiameter>33</pointDiameter>
+				</GmlRendererWZ>
+			</widgets>
+		</FeatureCollection>
+		<FeatureCollection id="featureCollection">
+			<namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
+			<widgets>
+				<ShowDistance id='showDistance'>
+					<scriptFile>../customlib/widget/ShowDistance.js</scriptFile>
+					<stylesheet>../customlib/widget/ShowDistance.xsl</stylesheet>
+				</ShowDistance>
+				<MeasurementTrack id="measurementTrack">
+					<scriptFile>../customlib/widget/MeasurementTrack.js</scriptFile>
+					<stylesheet>../customlib/widget/MeasurementTrack.xsl</stylesheet>
+					<mouseHandler>mainMap</mouseHandler>
+					<targetModel>mainMap</targetModel>
+					<featureXpath>/gml:featureMember/MouseCoordinates</featureXpath>
+					<measurementWidgetID>measurement</measurementWidgetID>
+					<defaultModelUrl>data/gml/roads.xml</defaultModelUrl>
+				</MeasurementTrack>
+				<MouseRenderer id="mouseRenderer">
+					<scriptFile>../customlib/widget/MouseRenderer.js</scriptFile>
+					<stylesheet>../customlib/widget/MouseRenderer.xsl</stylesheet>
+					<htmlTagId>mainMapPane</htmlTagId>
+					<targetModel>mainMap</targetModel>
+					<mapContainerId>mainMapContainer</mapContainerId>
+					<lineColor>#0000FF</lineColor>
+					<lineWidth>0</lineWidth>
+					<pointDiameter>10</pointDiameter>
+					<featureXpath>/gml:featureMember/MouseCoordinates</featureXpath>
+					<defaultModelUrl>data/gml/roads.xml</defaultModelUrl>
+				</MouseRenderer>
+				<GmlRendererWZ id="testGmlRenderer">
+					<htmlTagId>mainMapPane</htmlTagId>
+					<targetModel>mainMap</targetModel>
+					<mapContainerId>mainMapContainer</mapContainerId>
+					<lineColor>#000000</lineColor>
+					<lineWidth>0</lineWidth>
+					<pointDiameter>10</pointDiameter>
+				</GmlRendererWZ>
+				<FeatureList id="featureList" />
+			</widgets>
+		</FeatureCollection>
+		<OlsRespons id="olsRespons">
+			<scriptFile>../customlib/model/OlsRespons.js</scriptFile>
+			<namespace>xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xls='http://www.opengis.net/xls' xmlns:gml='http://www.opengis.net/gml'</namespace>
+			<widgets>
+      <Loading2 id="olsResponsView">
+      <textMessage>Adres(sen) aan het zoeken...</textMessage>
+      </Loading2>
+				<OlsResponsView id="olsResponsView">
+					<scriptFile>../customlib/widget/OlsResponsView.js</scriptFile>
+					<stylesheet>../customlib/widget/OlsResponsView.xsl</stylesheet>
+					<htmlTagId>olsResponsView</htmlTagId>
+					<targetModel>mainMap</targetModel>
+					<puntModel>olsPunten</puntModel>
+					<featureXpath>/gml:featureMember/points/_SHAPE_/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
+					<defaultModelUrl>data/gml/punten.xml</defaultModelUrl>
+				</OlsResponsView>
+			</widgets>
+		</OlsRespons>
+		<WmsCapabilities id="wmsCapTemplate">
+			<nodeSelectXpath>//Layer</nodeSelectXpath>
+			<title>OGC Web Map Server (WMS)</title>
+			<models>
+				<GetMap id="getMapTemplate" template="true">
+					<widgets>
+						<MapImage id="renderMap">
+							<targetModel>mainMap</targetModel>
+							<htmlTagId>mainMapPane</htmlTagId>
+							<mapContainerId>mainMapContainer</mapContainerId>
+						</MapImage>
+					</widgets>
+				</GetMap>
+			</models>
+			<widgets>
+      <Loading2 id="workspace">
+      <textMessage>Lagen aan het ophalen...</textMessage>
+      </Loading2>
+				<Widget id="layerList">
+					<stylesheet>../customlib/widget/SelectMapLayers.xsl</stylesheet>
+					<htmlTagId>workspace</htmlTagId>
+				</Widget>
+			</widgets>
+			<tools>
+				<WebServiceRequest id="wmsController">
+					<targetModel>getMapTemplate</targetModel>
+					<requestName>GetMap</requestName>
+				</WebServiceRequest>
+				<EditContext id="editContext">
+					<!-- scriptFile>../customlib/tool/EditContext.js</scriptFile-->
+					<targetModel>mainMap</targetModel>
+				</EditContext>
+			</tools>
+		</WmsCapabilities>
+	</models>
+	<widgets>
+		<Back id="back">
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<class>Button</class>
+			<disabledSrc>/images/UndoDisable.png</disabledSrc>
+		</Back>
+		<Forward id="forward">
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<class>Button</class>
+			<disabledSrc>/images/RedoDisable.png</disabledSrc>
+		</Forward>
+		<ZoomIn id="zoomIn">
+			<zoomFactor>2</zoomFactor>
+			<!-- scriptFile>../customlib/widget/ZoomIn.js</scriptFile-->
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<mouseHandler>mainAoi</mouseHandler>
+			<class>RadioButton</class>
+			<selected>true</selected>
+			<enabledSrc>/images/ZoomInEnable.png</enabledSrc>
+			<disabledSrc>/images/ZoomInDisable.png</disabledSrc>
+		</ZoomIn>
+		<ZoomOut id="zoomOut">
+			<zoomFactor>2</zoomFactor>
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<mouseHandler>mainAoi</mouseHandler>
+			<class>RadioButton</class>
+			<enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
+			<disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
+		</ZoomOut>
+		<Reset id="reset">
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<class>Button</class>
+			<enabledSrc>/images/ResetExtentEnable.png</enabledSrc>
+			<disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
+		</Reset>
+		<DragPan id="dragPan">
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<mouseHandler>mainDragPan</mouseHandler>
+			<class>RadioButton</class>
+			<enabledSrc>/images/PanEnable.png</enabledSrc>
+			<disabledSrc>/images/PanDisable.png</disabledSrc>
+		</DragPan>
+		<Measurement id="measurement">
+			<scriptFile>../customlib/widget/Measurement.js</scriptFile>
+			<buttonBar>mainButtonBar</buttonBar>
+			<mouseHandler>mainMouseClick</mouseHandler>
+			<class>State3Button</class>
+			<enabledSrc>/images/MeasureEnable.png</enabledSrc>
+			<disabledSrc>/images/MeasureDisable.png</disabledSrc>
+			<pausedSrc>/images/MeasurePause.png</pausedSrc>
+			<targetModel>featureCollection</targetModel>
+			<featureXpath>/gml:featureMember/topp:bc_roads/topp:the_geom/gml:MultiLineString/gml:lineStringMember/gml:LineString/gml:coordinates</featureXpath>
+			<defaultModelUrl>data/gml/roads.xml</defaultModelUrl>
+			<targetContext>mainMap</targetContext>
+		</Measurement>
+		<Print id="print">
+    <scriptFile>../customlib/widget/Print.js</scriptFile>
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<printServerUrl>/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base_combined.map</printServerUrl>
+			<class>Button</class>
+			<disabledSrc>/images/PrintDisable.png</disabledSrc>
+			</Print>
+		<Help id="help">
+			<scriptFile>../customlib/widget/Help.js</scriptFile>
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<class>Button</class>
+			<disabledSrc>/images/HelpDisable.png</disabledSrc>
+		</Help>
+		<Legenda id="legenda">
+			<scriptFile>../customlib/widget/Legenda.js</scriptFile>
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<class>Button</class>
+			<disabledSrc>/images/LegendDisable.png</disabledSrc>
+		</Legenda>
+
+		<GetFeatureInfo id="getFeatureInfo">
+		<scriptFile>../customlib/widget/GetFeatureInfo.js</scriptFile>
+                  <featureCount>1</featureCount>
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>featureInfoRespons</targetModel>
+			<context>mainMap</context>
+			<mouseHandler>mainAoi</mouseHandler>
+			<class>RadioButton</class>
+			<enabledSrc>/images/QueryEnable.png</enabledSrc>
+			<disabledSrc>/images/QueryDisable.png</disabledSrc>
+		</GetFeatureInfo>
+
+		<Geocoder id="geocoder">
+			<scriptFile>../customlib/widget/Geocoder.js</scriptFile>
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<class>Button</class>
+			<enabledSrc>/images/GeocoderEnable.png</enabledSrc>
+			<disabledSrc>/images/GeocoderDisable.png</disabledSrc>
+		</Geocoder>
+		<VerwijderPunten id="verwijderPunten">
+			<scriptFile>../customlib/widget/VerwijderPunten.js</scriptFile>
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<puntModel>olsPunten</puntModel>
+			<featureXpath>/gml:featureMember/points/_SHAPE_/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
+			<class>Button</class>
+			<enabledSrc>/images/DeleteEnable.png</enabledSrc>
+			<disabledSrc>/images/DeleteDisable.png</disabledSrc>
+		</VerwijderPunten>
+		<AddLayer id="addlayer">
+			<scriptFile>../customlib/widget/AddLayer.js</scriptFile>
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<class>Button</class>
+			<enabledSrc>/images/LayerAddEnable.png</enabledSrc>
+			<disabledSrc>/images/LayerAddDisable.png</disabledSrc>
+		</AddLayer>
+		<GeocoderForm id="geoForm">
+			<scriptFile>../customlib/widget/GeocoderForm.js</scriptFile>
+			<stylesheet>../customlib/widget/GeocoderForm.xsl</stylesheet>
+			<defaultModelUrl>data/gml/punten.xml</defaultModelUrl>
+			<targetModel>olsRespons</targetModel>
+			<puntModel>olsPunten</puntModel>
+		</GeocoderForm>
+	</widgets>
+	<skinDir>../customlib/skin/default</skinDir>
+	<widgetTextUrl>widgetText.xml</widgetTextUrl><!-- relative to the skin dir -->
+	<proxyUrl>../server/php/proxy.php</proxyUrl>
+</MapbuilderConfig>

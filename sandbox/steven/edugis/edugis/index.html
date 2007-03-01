@@ -1,0 +1,136 @@
+<HTML lang=nl xml:lang="nl" xmlns="http://www.w3.org/1999/xhtml">
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+<head>
+<link rel='StyleSheet' type='text/css' href='../customlib/skin/default/main.css'>
+<script>
+var mbConfigUrl='edugis.xml';
+var language='nl';
+</script>
+<script type="text/javascript" src="../lib/MapbuilderCompressed.js">
+</script>
+<script type="text/javascript">
+<!--
+function toggleBox(szDivID, iState) // 1 visible, 0 hidden
+{
+   var obj = document.layers ? document.layers[szDivID] :
+   document.getElementById ?  document.getElementById(szDivID).style :
+   document.all[szDivID].style;
+   obj.display = document.layers ? (iState ? "show" : "hide") :
+   (iState ? "inline" : "none");
+}
+// -->
+function setTransparency(mapId,transparency) {
+  var map = document.getElementById(mapId);
+  var fftr = transparency / 100;
+  map.style.opacity = fftr;
+  var ietr = "alpha(opacity=" + transparency + ")";
+  for(var i=0;i<map.childNodes.length;i++){
+    map.childNodes[i].style.filter=ietr;
+  }
+}
+</script>
+<script type="text/javascript">
+function go()
+{
+window.location=document.getElementById("menu").value
+}
+</script>
+<title>EduGIS Mapbuilder</title>
+</head>
+<body onload="mbDoLoad()">
+<div id="alles">
+<div id="mainbody" style="width:740px">
+<div class="floater">
+<div id="locatorMap"/>
+</div>
+<div class="locatorClose">
+<a id="sluit" href="#" onClick="toggleBox('locatorContainer',0);toggleBox('sluit',0);toggleBox('open',1);" value="HideDiv">sluit</a>
+<a id="open" style="display:none" href="#" onClick="toggleBox('locatorContainer',1);toggleBox('sluit',1);toggleBox('open',0);" value="ShowDiv">open</a>
+</div>
+</div>
+<div class="maintop">
+<div id="mainButtonBar"/>
+</div>
+</div>
+<div class="mainmap">
+<div id="mainMapPane"/>
+</div>
+<div id="loader" style="width:740px">De kaart is aan het laden, moment geduld aub...</div>
+<noscript>this page requires Javascript to be enabled</noscript>
+<div id="loading">
+</div>
+</div>
+<div class="mainbottom" style="width:740px">
+<div style="float:left" id="mapScaleBar">
+</div>
+<div id="showDistance" style="float:right">
+</div>
+<div style="float:right"  id="cursorTrack">
+</div>
+</div>
+</div>
+<div id="sidebar">
+<div class="sidemain">
+<div id="legend">
+<div id="layerControl"/>
+<div class="header">Legenda | <a href="#" onClick="toggleBox('layerControl',0);toggleBox('featureInfo',1);">Informatie</a>
+</div>
+</div>
+<div id="featureInfo">
+<div class="header">
+<a href="#" onClick="toggleBox('layerControl',1);toggleBox('featureInfo',0);">Legenda</a> | Informatie</div>
+<div id="features">Hier staan de resultaten van de identificatie functie.</div>
+</div>
+</div>
+<div id="geocoder">
+<div id="olsResponsView">
+<div class="header">
+<a href="#" onClick="toggleBox('legend',0);toggleBox('geoForm',1);toggleBox('olsResponsView',0);">Zoekopdracht</a> | Resultaat<div class="close">
+<a class="mbButton" href="javascript:toggleBox('geocoder',0);toggleBox('toevoegen',0);toggleBox('legend',1)">
+<img title="klik om te sluiten"  src="../customlib/skin/default/images/Close.png"/>
+</a>
+</div>
+</div>
+</div>
+<div id="geoForm">
+<div class="header">Zoekopdracht | <a href="#" onClick="toggleBox('legend',0);toggleBox('geoForm',0);toggleBox('olsResponsView',1);">Resultaat</a>
+<div class="close">
+<a class="mbButton" href="javascript:toggleBox('geocoder',0);toggleBox('toevoegen',0);toggleBox('legend',1)">
+<img title="klik om te sluiten"  src="../customlib/skin/default/images/Close.png"/>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div id="toevoegen">
+<div id="layerLijst">
+<div class="header">Toevoegen kaartlagen<div class="close">
+<a class="mbButton" href="javascript:toggleBox('geocoder',0);toggleBox('toevoegen',0);toggleBox('legend',1)">
+<img title="klik om te sluiten"  src="../customlib/skin/default/images/Close.png"/>
+</a>
+</div>
+</div>
+<div class="layerbody">Klik op een of meer kaartlagen die je wilt toevoegen aan de kaart. Tussen haakjes staat het gebied waarover de gegevens beschikbaar zijn.<p>
+<form>
+<select id="menu" onchange="go()">
+<option value="#">Kies een categorie</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/cbs.map&&version=1.1.0&request=GetCapabilities&service=WMS')">Bevolking (Nederland)</option>
+<<option value="javascript:config.loadModel('wmsCapTemplate','../ahn.xml')">Hoogte t.o.v. N.A.P.(Nederland)</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','../ehs.xml')">Ruimte (Nederland)</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','../kadaster.xml')">Kadastrale gegevens (Nederland)</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/water.map&&version=1.1.0&request=GetCapabilities&service=WMS')">Water (Nederland)</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','/cgi-bin-noncache/edugis/mapserv.cgi?map=maps/edugis/data.map&&version=1.1.0&request=GetCapabilities&service=WMS')">Toegevoegde gegevens</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','../topografie.xml')">Topografie (Nederland)</option>
+</select>
+</form>
+</p>
+<div id="workspace"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gml:featureMember xmlns:topp="http://www.openplans.org/topp" xmlns:gml="http://www.opengis.net/gml">
+  <points>
+    <FID>0</FID>
+    <AREA>0.0</AREA>
+    <PERIMETER>0.0</PERIMETER>
+    <DTM_>202240</DTM_>
+    <DTM_ID>202273</DTM_ID>
+    <DTM_CODE>1</DTM_CODE>
+    <DTM_ELEV>8.3000001907299996</DTM_ELEV>
+    <POLYGONID>0</POLYGONID>
+    <SCALE>1.0</SCALE>
+    <ANGLE>0</ANGLE>
+    <_SHAPE_>
+      <gml:MultiPoint srsName="epsg:28992">
+        <gml:pointMember>
+          <gml:Point>
+            <gml:coordinates></gml:coordinates>
+          </gml:Point>
+        </gml:pointMember>
+      </gml:MultiPoint>
+    </_SHAPE_>
+  </points>
+</gml:featureMember>

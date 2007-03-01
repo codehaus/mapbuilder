@@ -1,0 +1,257 @@
+<html>
+<head>
+<link rel='StyleSheet' type='text/css' href='../customlib/skin/default/mapStyle.css'>
+<link rel='StyleSheet' type='text/css' href='../../templates/edugis/css/template_css.css'>
+<style type="text/css">
+#row1 {background-color: #7fb2cc}
+#row2 {border: 1px solid #7fb2cc;}
+#cell1 {border-top: 1px solid #7fb2cc;
+margin-top:1px;}
+#sluit a{
+float: right;
+margin: 5px;
+  background-color: #f90;
+  color: #fff;
+  padding: 2px;
+  border-top: 1px solid #fa2;
+  border-left: 1px solid #fa2;
+  border-bottom: 1px solid #d70;
+  border-right: 1px solid #d70;
+	text-decoration: none;
+	 font: 8pt Verdana, geneva, arial, sans-serif;
+}
+td { font-size: 10pt;}
+</style>
+</head>
+<body style="margin:5px">
+<h1>Overzicht van de EduGIS kaart functies</h1>
+<table cellpadding="5" style="border: 1px solid #7fb2cc;">
+<th  align="left" colspan="2">
+Overzicht van de functies van de knoppen boven de kaart.
+</th>
+	<tr id="row1">
+		<td>
+			<img src="../customlib/skin/default/images/UndoDisable.png" title="vorige uitsnede"/>
+		</td>
+		<td>
+			Hiermee keer je terug naar de vorige kaartuitsnede. Klik op de knop om naar de vorige kaartuitsnede te gaan.
+		</td>
+	</tr>
+	<tr id="row2">
+		<td>
+			<img src="../customlib/skin/default/images/RedoDisable.png" title="vorige uitsnede"/>
+		</td>
+		<td>
+			Als je naar een eerdere kaartsnede bent terug gegaan, kan je hiermee weer naar de latere uitsnede terugkeren. Klik op de knop om naar de volgende kaartuitsnede terug te keren.
+		</td>
+	</tr>
+	<tr id="row1">
+		<td>
+			<img src="../customlib/skin/default/images/ZoomInDisable.png" title="vorige uitsnede"/>
+		</td>
+		<td>
+			Hiermee kan je op de kaart inzoomen. Klik op de knop om de functie te selecteren en klik dan op de kaart om in te zoomen. Het is ook mogelijk om een rechthoek te slepen op de kaart om op een specifiek gebied in te zoomen.
+		</td>
+	</tr>
+	<tr id="row2">
+		<td>
+			<img src="../customlib/skin/default/images/ZoomOutDisable.png" title="vorige uitsnede"/>
+		</td>
+		<td>
+			Hiermee kan je uitzoomen. Klik op de knop om de functie te selecteren en klik dan op de kaart om uit te zoomen.
+		</td>
+	</tr>
+	<tr id="row1">
+		<td>
+			<img src="../customlib/skin/default/images/ResetExtentDisable.png" title="vorige uitsnede"/>
+		</td>
+		<td>
+			Hiermee kan je naar de originele kaartuitsnede terug keren. Klik op de knop om de originele kaartuitsnede te krijgen.
+		</td>
+	</tr>
+		<tr id="row2">
+		<td>
+			<img src="../customlib/skin/default/images/PanDisable.png" title="vorige uitsnede"/>
+		</td>
+		<td>
+			Hiermee kan je de kaart verschuiven. Klik op de knop om de functie te selecteren en dan klik en sleep de kaart om hem te verschuiven.
+		</td>
+	</tr>
+	<tr id="row1">
+		<td>
+			<img src="../customlib/skin/default/images/MeasureDisable.png" title="vorige uitsnede"/>
+		</td>
+		<td>
+			Hiermee kan je een afstand op de kaart meten. Klik op de knop om de functie te selecteren en klik op de kaart om te beginnen. De cumulatieve afstand tussen alle volgende kliks op de kaart wordt weergegeven onder aan de kaart. Klik twee keer op de zelfde plek om de meting stop te zetten.
+		</td>
+	</tr>
+  <tr id="row2">
+    <td>
+      <img src="../customlib/skin/default/images/PrintDisable.png" title="vorige uitsnede"/>
+    </td>
+    <td>
+      Hiermee kan je van het huidige kaartbeeld &euml;&euml;n enkel plaatje maken. Dit kan je vervolgens printen of opslaan via de normale methoden van de browser.
+    </td>
+  </tr>
+		<tr id="row1">
+		<td>
+			<img src="../customlib/skin/default/images/HelpDisable.png" title="vorige uitsnede"/>
+		</td>
+		<td>
+			Hiermee kan je deze help bekijken. Klik op de knop om deze help te krijgen. Sluit het help window om weer terug te keren naar de EduGIS site.
+		</td>
+	</tr>
+		<tr id="row2">
+		<td>
+			<img src="../customlib/skin/default/images/LegendDisable.png" title="vorige uitsnede"/>
+		</td>
+		<td>
+			Hiermee kan je de lagenbeheer van de kaartlagen zichtbaar maken. Klik op de knop om de lagenbeheer zichtbaar te maken. Voor meer informatie zie ook <a href="#legenda">legenda</a>.
+		</td>
+	</tr>
+	<tr id="row1">
+		<td><a name="query">
+			<img src="../customlib/skin/default/images/QueryDisable.png" title="vorige uitsnede"/>
+		</td>
+		<td>
+			Hiermee kan je informatie over objecten in de kaart verkrijgen. Klik op de knop om de functie te selecteren en klik dan op een object op de kaart om informatie daar over te krijgen. Voor meer informatie zie ook <a href="#informatie">informatie</a>.
+		</td>
+	</tr>
+	<tr id="row2">
+		<td>
+			<img src="../customlib/skin/default/images/GeoCoderDisable.png" title="vorige uitsnede"/>
+		</td>
+		<td>
+			Hiermee kan je zoeken op adres of postcode. Klik op de knop om het zoekscherm zichtbaar te maken. Voor meer informatie zie ook <a href="#zoekopdracht">zoekopdracht</a>.
+		</td>
+	</tr>
+	<tr id="row1">
+		<td>
+			<img src="../customlib/skin/default/images/DeleteDisable.png" title="verwijder markeeringspunt"/>
+		</td>
+		<td>
+			Hiermee kan je de markeringspunten verwijderen. Klik op de knop om alle markeringspunten te verwijderen, ook diegene die niet direct zichtbaar zijn.
+		</td>
+	</tr>
+	<tr id="row2">
+		<td>
+			<img src="../customlib/skin/default/images/LayerAddDisable.png" title="vorige uitsnede"/>
+		</td>
+		<td>
+			Hiermee kan je een laag toevoegen aan de kaart. Klik op de knop om het kaartlaag toevoegen scherm zichtbaar te maken. Voor meer informatie zie ook <a href="#toevoegen">toevoegen kaartlaag</a>.
+		</td>
+	</tr>
+</table>
+<p>Naast de functies van de knoppen zijn er een aantal uitgebreidere functies in schermen aan de rechterkant van de kaart. Standaard staat daar de <a href="#legenda">legenda</a>, deze kan worden vervangen door <a href="#informatie">informatie</a>, <a href="#zoekopdracht">zoekopdracht</a>, <a href="#resultaat">resultaat</a> of <a href="#toevoegen">toevoegen kaartlaag</a>. Hieronder staat een uitgebreidere beschrijving van deze verschillende schermen.</p>
+<table cellpadding="5" style="border: 1px solid #7fb2cc;">
+<th  align="left" colspan="2">
+Overzicht van de functies rechts van de kaart.
+</th>
+<tr><a name="legenda">
+<td id="cell1"><div class="header">
+Legenda</div>
+</td>
+</tr>
+<tr>
+<td>
+<table>
+	<tr>
+		<td style="float: left;
+	color: #016799;
+	font-size: 10pt;">
+			+
+		</td>
+		<td>
+			Hiermee kan je de legenda van een kaartlaag zichtbaar maken, als die zichtbaar is kan met een klik op - de legenda weer worden verborgen.
+		</td>
+	</tr>
+	<tr>
+	<td style="float: left;
+	color: #016799;
+	font-size: 10pt;">
+	topografie
+	</td>
+	<td>
+		Dit is de naam van de kaartlaag.
+	</td>
+	</tr>
+	<tr>
+	<td>
+	<img src="../customlib/skin/default/images/LayerMoveUpDisable.png">
+	</td>
+	<td>
+		Hiermee kan je de laag naar boven verplaatsen. Klik op de knop om de laag een niveau hoger te plaatsen.
+	</td>
+	</tr>
+	<tr>
+	<td>
+	<img src="../customlib/skin/default/images/LayerMoveDownDisable.png">
+	</td>
+	<td>
+		Hiermee kan je de laag naar beneden verplaatsen. Klik op de knop om de laag een niveau lager te plaatsen.
+	</td>
+	</tr>
+	<tr>
+	<td>
+	<img src="../customlib/skin/default/images/LayerRemoveDisable.png">
+	</td>
+	<td>
+		Hiermee kan je de laag verwijderen. Klik op de knop om de laag te verwijderen. Dit kan niet meer ongedaan worden, om een laag tijdelijk niet zichtbaar te maken gebruik de <a href="#hide">verstop</a> functie.
+	</td>
+	</tr>
+	<td><a name="hide">
+	<input type="checkbox" checked>
+	</td>
+	<td>
+		Hiermee kunt een een laag onzichtbaar maken. Klik op de 'checkbox' om hem onzichtbaar te maken. Als de 'checkbox' niet aangevinkt is is de laag onzichtbaar, klik nogmaals op de 'checkbox' om de laag weer zichtbaar te maken.
+	</td>
+	</tr>
+</table>
+</td>
+</tr>
+<tr><a name="informatie">
+<td id="cell1" ><div class="header">
+Informatie
+</div>
+</td>
+</tr>
+<tr>
+<td>
+Bij gebruik van de <a href="#query">informatie</a> functie verschijnt hier per laag de beschikbare informatie. Echter niet alle lagen hebben informatie over elk punt op de kaart. Mocht er na gebruik van de informatie functie hier geen informatie verschijnen kan het zijn dat 1) er geen informatie beschikbaar is op dat punt of; probeer een ander punt, of 2) dat de zichtbare lagen helemaal geen informatie bevatten; voeg een laag toe die wel informatie bevat.
+</td>
+</tr>
+<tr><a name="zoekopdracht">
+<td id="cell1"><div class="header">
+Zoekopdracht
+</div>
+</td>
+</tr>
+<tr>
+<td>
+Hiermee kan worden gezocht op straat, plaats, gemeente of postcode. Typ de zoekopdracht in de daarvoor bestemde velden en klik op 'zoek'. De gevonden resultaten zijn dan vervolgens zichtbaar in het resultaat scherm. Je kan kiezen om het resultaat te laten zien met een markeerpunt en eventueel om er op in te zoomen. Dit kan door de hokjes voor "Markeringspunt" en "Zoom in" aan te vinken.
+</td>
+</tr>
+<tr><a name="resultaat">
+<td id="cell1"><div class="header">
+Resultaat</div>
+</td>
+</tr>
+<tr>
+<td>
+Het resultaat van de zoekopdracht wordt hier weer gegeven. Het aantal resultaten op een zoekopdracht is maximaal 20. Bij 1 resultaat zal, mits dat is gekozen, op het resultaat worden ingezoomed en een markeringspunt worden getekend. Bij meerdere resultaten moet op een resultaat worden geklikt om het eventuele gewenste markeringspunt te tekenen en op het resultaat in te zoomen.
+</td>
+</tr>
+<tr><a name="toevoegen">
+<td id="cell1"><div class="header">
+Toevoegen kaartlagen</div>
+</td>
+</tr>
+<tr>
+<td>
+Hiermee kan je een laag aan de kaart toevoegen. Selecteer eerst uit het lijstje een categorie. Vervolgens zal een lijst met beschikbare lagen verschijnen onder de lijst. Klik op een laag om hem toe te voegen. Het kan zijn dat een laag niet direct zichtbaar is, bijvoorbeeld omdat hij buiten de huidige kaartsnede valt of dat het alleen zichtbaar is bij een bepaald zoom niveau. Sluit het 'toevoegen kaartlagen' venster en controleer in het kaartlagen beheer of de laag is toegevoegd.
+</td>
+</tr>
+</table>
+<div id="sluit"><a href="javascript:window.close()">sluit venster</a></div>
+</body>
+</html>

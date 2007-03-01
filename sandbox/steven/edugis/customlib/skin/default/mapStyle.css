@@ -1,0 +1,339 @@
+ #alles a {
+	 color            : #f90;
+	 
+ }
+
+  
+  #cursorTrack, #cursorTrack INPUT, #showDistance, #showDistance INPUT, #mapScaleText, #mapScaleText INPUT
+{
+  border: 0px blue none;
+  font: 8pt Verdana, geneva, arial, sans-serif;
+  color: #000000;
+  background-color: transparent;
+}
+
+/* .floater-#locatorContainer are the styles to place the overview window
+   do leave the .floater at 0,0 otherwise mapbuilders mousehandler will get confused  */
+.floater { /*This is a hack to make sure that the mouseHandler gets the right coordinates, while not interfering with normal usage*/
+	position: absolute;
+  float: left;
+  z-index: 999; 
+
+  top:0px;
+  height: 0px;
+
+}
+
+/*only needed when a close item is desired*/
+.locatorClose {
+	position: absolute;
+	background: #016799;
+  margin-top: 1px;
+	float: left;
+	z-index: 1000;  
+left: 0px;
+  top:418px;
+	height: 15px;
+  width:75px;
+  text-align: center;
+border: solid 1px #016799;
+	-moz-opacity: 0.9;
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=90);
+}
+#locatorContainer{
+  top:330px;
+
+	border: solid 1px #016799;
+	background: white;
+	position: absolute;
+	float: left;
+	z-index: 1000;  
+	-moz-opacity: 0.9;
+}
+
+/* .preview-#previewImage are the styles to place the preview window.
+*/
+.preview {
+	position: absolute;
+	background: #016799;
+  text-align: center;
+	float: left;
+  z-index: 14; 
+
+  top:17px;
+  left:0px;
+  width: 182px;
+  height: 17px;
+
+	-moz-opacity: 0.8;
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80);
+}
+
+/*only needed when a close item is desired*/
+.previewClose {
+	position: absolute;
+	background: #016799;
+  margin-top: 1px;
+	float: left;
+	z-index: 10;  
+
+  top:0px;
+  left:0px;
+	height: 17px;
+  width:182px;
+}
+ 
+#previewImage {
+  display: none;
+  border: solid 1px #016799;
+  height: 125px;
+  background: white;
+}
+
+/* elements for position the main bit */
+
+#mainbody {
+	float: left;
+	height: 490px;
+	
+}
+
+#mainbody .maintop {
+	float: right;
+	padding-top: 5px;
+  padding-bottom: 5px;
+}
+#mainbody .mainbottom {
+position: relative;
+	top: -1px;
+	height: 40px;
+padding-top: 10px;
+	left: 0px;
+	right: 0px;
+border: solid 1px #016799;
+
+
+	
+}
+
+.mainmap {
+  z-index: 9;
+	width: 100%;
+	clear: both;
+}
+
+#mainMapContainer {
+  z-index:8;
+  font-size: 0px; 
+  border: 1px solid #016799;
+}
+
+#loader {
+	border: solid black 1px;
+	float: left;
+  z-index:1000;
+ position: absolute;
+top: 34px;
+
+height: 400px;
+
+display: none;
+font-weight: bold;
+  background: #ccc;
+  -moz-opacity: 0.8;
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80);
+}
+
+/* elements for positioning the sidebar */
+#sidebar {
+	position: absolute;
+	left: 745px;
+	top: 5px;
+	
+	float: right;
+	display: inline;
+	width: 238px;
+	height: 490px;
+	overflow: auto;
+}
+#sidebarklein {
+	position: absolute;
+	left: 500px;
+	top: 5px;
+	
+	float: right;
+	display: inline;
+	width: 230px;
+	height: 490px;
+	overflow: auto;
+}
+
+
+/* elements for the layerControl widget, only needed in combination with the CSS layerControl (not yet commited) */
+
+#legend, #layerControl, #featureInfo, #geocoder, #geoForm, #olsResponsView, #toevoegen, #layerLijst {
+		position: absolute;
+float: right;
+background: white;
+top: 0px;
+height: 485px;
+border: solid, #016799, 1px;
+width: 228px;
+
+}
+#featureInfo, #geocoder, #geoForm, #olsResponsView, #toevoegen,#layerLijst  {
+	display: none;
+}
+.header {
+	text-align: center;
+  background: #016799;
+  color: white;
+  font-weight: bold;
+  width: 228px;
+  height: 20px;
+  padding-top: 4px;
+  margin-bottom: 5px;
+}
+.layerbody {
+position: absolute;
+top: 30px;
+width: 228px;
+height: 455px;
+overflow: auto;
+}
+
+.title {
+  color: #016799;
+  font-weight: bold;
+}
+
+.singleLayer {
+}
+#geoForm .record {
+	
+  height: 20px;
+  float: none;
+}
+.value {
+}
+
+#features .value {
+clear: both;
+}
+
+.name {
+  margin-left: 5px;
+  color: #016799;
+  width: 80px;
+  float: left;
+}
+
+.value {
+
+}
+ .checkbox INPUT {
+	 font: 8pt Verdana, geneva, arial, sans-serif;
+  border: 0px;
+  width: 30px;
+  	float: left;
+}
+.value INPUT{
+  font: 8pt Verdana, geneva, arial, sans-serif;
+  border: 0px;
+  width: 120px;
+}
+
+#features .value INPUT {
+	margin-left: 10px;
+	width: 200px;
+}
+
+#geoForm .value INPUT {
+	font: 8pt Verdana, geneva, arial, sans-serif;
+	border-top: 1px solid #fa2;
+	border-left: 1px solid #fa2;
+	border-bottom: 1px solid #d70;
+	border-right: 1px solid #d70;
+	width: 124px;
+	float: right;
+}
+.layertop {
+	border-top: #016799 1px solid;
+	height: 26px;
+	width: 210px;
+}
+
+.layerTitle {	
+	float: left;
+	color: #016799;
+	font-size: 10pt;
+	width: 100px;
+  height: 25px;
+}
+
+.buttons {
+  float:right;
+}
+
+#transptitle {
+  padding-left:10px;
+  padding-right:20px;
+display: block;
+  float: left;
+height: 30px;
+  }
+ #transpbox {
+float: left;
+
+}
+.layerImg {
+clear: both;
+}
+
+.responses {
+position: absolute;
+border:#016799 1px solid;
+overflow: auto;
+top: 155px;
+height: 325px;
+width: 228px;
+}
+
+
+#featureInfo .featureLayer {
+  border-top: #016799 1px solid;
+}
+
+#features, #layerOverview{
+	
+width: 228px;
+	overflow: auto;
+	height: 456px;
+}
+#geoForm .zoek a{
+float: right;
+margin-right: 20px;
+font-style: normal;
+  font-size: 10px;
+  background-color: #f90;
+  color: #fff;
+  padding: 2px;
+  border-top: 1px solid #fa2;
+  border-left: 1px solid #fa2;
+  border-bottom: 1px solid #d70;
+  border-right: 1px solid #d70;
+}
+
+
+
+#olsResponsView .olsrespons {
+  height: 360px;
+}
+/*Close button rechts boven*/
+.close {
+cursor:pointer;
+position: absolute;
+right: 4px;
+top: 0px;
+}
+

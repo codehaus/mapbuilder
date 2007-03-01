@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<WidgetText xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
+    version="0.2.1" id="mbDefaultText" xml:lang="nl">
+  <!--
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ..//mapbuilder/lib/schemas/config.xsd"
+    
+    Description: This file contains all text used in widgets for multilingual 
+                  support.  The text values are set as XSL params before the 
+                  widget is painted.
+    Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+
+    $Id: widgetText.xml,v 1.7 2005/08/03 19:06:58 mattdiez Exp $
+  -->
+  <widgets>
+    <Widget>
+      <abstract>Abstract</abstract>
+      <moreInfo>More info on this map</moreInfo>
+      <searchFormTitle>Coordinaten of the area of interest</searchFormTitle>
+      <north>North:</north>
+      <south>South:</south>
+      <east>East:</east>
+      <west>West:</west>
+    </Widget>
+    <ZoomIn>
+      <tooltip>Click or drag a rectangle on the map to zoom in</tooltip>
+    </ZoomIn>
+     <Print>
+      <tooltip>Click to print or save the current map composition</tooltip>
+    </Print>
+    <ZoomOut>
+      <tooltip>Click on the map to zoom out</tooltip>
+    </ZoomOut>
+    <DragPan>
+      <tooltip>Click to grab the map and move it</tooltip>
+    </DragPan>
+    <SetAoi>
+      <tooltip>Click and drag a rectangle onb the map to define the area of interest</tooltip>
+    </SetAoi>
+    <Reset>
+      <tooltip>Restore the original map extent</tooltip>
+    </Reset>
+    <Geocoder>
+      <tooltip>Search for an addresss</tooltip>
+    </Geocoder>
+    <AddLayer>
+      <tooltip>Add a map layer to the map</tooltip>
+    </AddLayer>
+    <Help>
+      <tooltip>Click here for help on the buttons</tooltip>
+    </Help>
+    <Legenda>
+      <tooltip>Click to view the legend</tooltip>
+    </Legenda>
+    <VerwijderPunten>
+      <tooltip>Click to remove the marker(s) from the map</tooltip>
+    </VerwijderPunten>
+    <Measurement>
+      <tooltip>Click on the map to measure distance</tooltip>
+    </Measurement>
+    <Back>
+      <tooltip>Restore the previous map extent</tooltip>
+    </Back>
+    <Forward>
+      <tooltip>Restore the next map extent</tooltip>
+    </Forward>
+    <GetFeatureInfo>
+      <tooltip>Click on the map to identify map objects</tooltip>
+    </GetFeatureInfo>
+    <EditPoint>
+      <tooltip>Click on the map to draw a point</tooltip>
+    </EditPoint>
+    <EditLine>
+      <tooltip>Click on the map to draw a line</tooltip>
+    </EditLine>
+    <Save>
+      <tooltip>Click to save the current map</tooltip>
+    </Save>
+    <AoiForm>
+      <title>Coordinates of the area of interest</title>
+      <north>North:</north>
+      <south>South:</south>
+      <east>East:</east>
+      <west>West:</west>
+    </AoiForm>
+    <CollectionList>
+      <title>Select the map to load:</title>
+    </CollectionList>
+    <Legend>
+      <title>Map layers</title>
+    </Legend>
+    <ModelStatus>
+      <title>Status of:</title>
+    </ModelStatus>
+		    <ModelUrlInput>
+      <title>URL:</title>
+      <load>load</load>
+    </ModelUrlInput>
+    <CursorTrack>
+      <longitude>lon:</longitude>
+      <latitude>lat:</latitude>
+      <xcoord>x:</xcoord>
+      <ycoord>y:</ycoord>
+    </CursorTrack>
+    <SelectProcess>
+    </SelectProcess>
+    <ProcessArgumentsForm>
+    </ProcessArgumentsForm>
+    <ShowProcessResult>
+      <tabLabel>4. Access results</tabLabel>
+    </ShowProcessResult>
+    <WebServiceForm>
+      <ntsTitle>NTS Lookup web service</ntsTitle>
+      <mapsheet>NTS index:</mapsheet>
+    </WebServiceForm>
+    <Timestamp>
+      <title>Timestamp:</title>
+    </Timestamp>
+    <TabbedContent>
+      <urlInput>1. Select a service</urlInput>
+      <selectProcess>2. Select a process</selectProcess>
+      <argsInput>3. Set arguments</argsInput>
+      <results>4. Access results</results>
+    </TabbedContent>
+  </widgets>
+</WidgetText>
+

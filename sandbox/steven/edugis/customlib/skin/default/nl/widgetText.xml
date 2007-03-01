@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<WidgetText xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
+    version="0.2.1" id="mbDefaultText" xml:lang="nl">
+  <!--
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ..//mapbuilder/lib/schemas/config.xsd"
+    
+    Description: This file contains all text used in widgets for multilingual 
+                  support.  The text values are set as XSL params before the 
+                  widget is painted.
+    Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+
+    $Id: widgetText.xml,v 1.7 2005/08/03 19:06:58 mattdiez Exp $
+  -->
+  <widgets>
+    <Widget>
+      <abstract>Samenvatting</abstract>
+      <moreInfo>Lees meer over deze kaart</moreInfo>
+      <searchFormTitle>Coordinaten van het interessegebied</searchFormTitle>
+      <north>Noord:</north>
+      <south>Zuid:</south>
+      <east>Oost:</east>
+      <west>West:</west>
+    </Widget>
+    <ZoomIn>
+      <tooltip>klik en sleep op de kaart om in te zoomen</tooltip>
+    </ZoomIn>
+     <Print>
+      <tooltip>klik om het huidige kaartbeeld te kunnen printen of op te slaan</tooltip>
+    </Print>
+    <ZoomOut>
+      <tooltip>klik op de kaart om uit te zoomen</tooltip>
+    </ZoomOut>
+    <DragPan>
+      <tooltip>klik en sleep op de kaart om de kaart te verschuiven</tooltip>
+    </DragPan>
+    <SetAoi>
+      <tooltip>klik en sleep op de kaart om het interessegebied te definiëren</tooltip>
+    </SetAoi>
+    <Reset>
+      <tooltip>herstel het volledig kaartbeeld</tooltip>
+    </Reset>
+		    <Geocoder>
+      <tooltip>zoek een straat of plaats</tooltip>
+    </Geocoder>
+<AddLayer>
+      <tooltip>voeg een laag aan de kaart toe</tooltip>
+    </AddLayer>
+		<Help>
+      <tooltip>klik om hulp te krijgen</tooltip>
+    </Help>
+		<Legenda>
+      <tooltip>klik om de legenda te zien</tooltip>
+    </Legenda>
+				<VerwijderPunten>
+      <tooltip>klik om de markers te verwijderen</tooltip>
+    </VerwijderPunten>
+		<Measurement>
+      <tooltip>klik op de kaart om afstand te meten</tooltip>
+    </Measurement>
+		<Back>
+      <tooltip>vorige uitsnede</tooltip>
+    </Back>
+		<Forward>
+      <tooltip>volgende uitsnede</tooltip>
+    </Forward>
+    <GetFeatureInfo>
+      <tooltip>klik op de kaart om objecten te identificeren</tooltip>
+    </GetFeatureInfo>
+    <EditPoint>
+      <tooltip>klik op de kaart om een punt te tekenen</tooltip>
+    </EditPoint>
+    <EditLine>
+      <tooltip>klik op de kaart om een lijn te tekenen</tooltip>
+    </EditLine>
+    <Save>
+      <tooltip>klik om de kaart op te slaan</tooltip>
+    </Save>
+    <AoiForm>
+      <title>Coordinaten van het interessegebied</title>
+      <north>Noord:</north>
+      <south>Zuid:</south>
+      <east>Oost:</east>
+      <west>West:</west>
+    </AoiForm>
+    <CollectionList>
+      <title>Selecteer een kaart om te laden:</title>
+    </CollectionList>
+    <Legend>
+      <title>Kaartlagen</title>
+    </Legend>
+    <ModelStatus>
+      <title>Status voor:</title>
+    </ModelStatus>
+		    <ModelUrlInput>
+      <title>URL:</title>
+      <load>laad</load>
+    </ModelUrlInput>
+    <CursorTrack>
+      <longitude>lon:</longitude>
+      <latitude>lat:</latitude>
+      <xcoord>x:</xcoord>
+      <ycoord>y:</ycoord>
+    </CursorTrack>
+    <SelectProcess>
+    </SelectProcess>
+    <ProcessArgumentsForm>
+    </ProcessArgumentsForm>
+    <ShowProcessResult>
+      <tabLabel>4. Access results</tabLabel>
+    </ShowProcessResult>
+    <WebServiceForm>
+      <ntsTitle>NTS Lookup web service</ntsTitle>
+      <mapsheet>NTS index:</mapsheet>
+    </WebServiceForm>
+    <Timestamp>
+      <title>Timestamp:</title>
+    </Timestamp>
+    <TabbedContent>
+      <urlInput>1. Select a service</urlInput>
+      <selectProcess>2. Select a process</selectProcess>
+      <argsInput>3. Set arguments</argsInput>
+      <results>4. Access results</results>
+    </TabbedContent>
+  </widgets>
+</WidgetText>
+

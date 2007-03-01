@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<xsl:stylesheet xmlns:xls="http://www.opengis.net/xls" xmlns:gml="http://www.opengis.net/gml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"><xsl:output method="xml" encoding="utf-8"/><xsl:param name="modelId"/><xsl:param name="targetModelId"/><xsl:param name="puntModelId"/><xsl:param name="mark">niks</xsl:param><xsl:param name="zoom">niks</xsl:param><xsl:param name="widgetId"/><xsl:param name="title">Klik om hier op in te zoomen</xsl:param><xsl:template match="/"><div class="olsRespons"><form><xsl:apply-templates/></form></div></xsl:template><xsl:template match="xls:GeocodeResponse/xls:GeocodeResponseList"><xsl:choose><xsl:when test="@numberOfGeocodedAddresses=0"><div class="respons"><p>Er is geen resultaat gevonden.</p><p>Probeer opnieuw.</p></div></xsl:when><xsl:when test="@numberOfGeocodedAddresses=1"><div class="respons"><p>Er is <xsl:value-of select="@numberOfGeocodedAddresses"/> resultaat gevonden.</p><p><xsl:if test="$zoom='goed'">
+Er wordt automatisch op ingezoomd.
+</xsl:if><xsl:if test="$mark='goed'">
+Er wordt automatisch een marker neer gezet.
+</xsl:if></p><div class="responses"><xsl:for-each select="*"><xsl:variable name="position" select="gml:Point/gml:pos"/><xsl:variable name="space" select="' '"/><xsl:variable name="x" select="substring-before($position, ' ')"/><xsl:variable name="y" select="substring-after($position, ' ')"/><xsl:variable name="res"><xsl:choose><xsl:when test="xls:Address/xls:StreetAddress/xls:Street">   
+             0.9
+								</xsl:when><xsl:when test="xls:Address/xls:Place[@type='MunicipalitySubdivision']">
+                10
+								</xsl:when><xsl:otherwise>
+                  40
+									</xsl:otherwise></xsl:choose></xsl:variable><xsl:variable name="javascriptje"><xsl:if test="$zoom='goed'"><xsl:choose><xsl:when test="$mark='goed'">
+										config.objects.<xsl:value-of select="$targetModelId"/>.extent.centerAt(new Array(<xsl:value-of select="$x"/>,<xsl:value-of select="$y"/>),<xsl:value-of select="$res"/>);config.objects.<xsl:value-of select="$widgetId"/>.addPoint(config.objects.<xsl:value-of select="$widgetId"/>, <xsl:value-of select="$x"/>,<xsl:value-of select="$y"/>)
+									</xsl:when><xsl:otherwise>
+									config.objects.<xsl:value-of select="$targetModelId"/>.extent.centerAt(new Array(<xsl:value-of select="$x"/>,<xsl:value-of select="$y"/>),<xsl:value-of select="$res"/>)
+									</xsl:otherwise></xsl:choose></xsl:if><xsl:if test="$zoom='fout'"><xsl:choose><xsl:when test="$mark='goed'">
+										config.objects.<xsl:value-of select="$widgetId"/>.addPoint(config.objects.<xsl:value-of select="$widgetId"/>, <xsl:value-of select="$x"/>,<xsl:value-of select="$y"/>)
+									</xsl:when><xsl:otherwise/></xsl:choose></xsl:if></xsl:variable><xsl:choose><xsl:when test="xls:Address/xls:StreetAddress/xls:Street"><div class="title"><b style="cursor:pointer" title="{$title}" onClick="javascript:{$javascriptje}"><xsl:value-of select="xls:Address/xls:StreetAddress/xls:Street"/><xsl:if test="xls:Address/xls:StreetAddress/xls:Building/@number">
+                    nr: <xsl:value-of select="xls:Address/xls:StreetAddress/xls:Building/@number"/></xsl:if></b></div><script type="text/javascript" defer="true"><xsl:value-of select="$javascriptje"/></script><xsl:if test="xls:Address/xls:PostalCode"><div class="postcode"><xsl:value-of select="xls:Address/xls:PostalCode"/></div></xsl:if><xsl:if test="xls:Address/xls:Place[@type='MunicipalitySubdivision']"><div class="plaats"><xsl:value-of select="xls:Address/xls:Place[@type='MunicipalitySubdivision']"/></div></xsl:if></xsl:when><xsl:when test="xls:Address/xls:Place[@type='MunicipalitySubdivision']"><div class="title"><b style="cursor:pointer" title="{$title}" onclick="javascript:{$javascriptje}"><xsl:value-of select="xls:Address/xls:Place[@type='MunicipalitySubdivision']"/></b><script type="text/javascript" defer="true"><xsl:value-of select="$javascriptje"/></script></div></xsl:when><xsl:otherwise><div class="title"><b style="cursor:pointer" title="{$title}" onclick="javascript:{$javascriptje}"><xsl:value-of select="xls:Address/xls:Place[@type='Municipality']"/></b><xsl:if test="$zoom='goed'"><script type="text/javascript" defer="true"><xsl:value-of select="$javascriptje"/></script></xsl:if></div></xsl:otherwise></xsl:choose></xsl:for-each></div></div></xsl:when><xsl:otherwise><div class="respons"><p>Er zijn <xsl:value-of select="@numberOfGeocodedAddresses"/> resultaten gevonden.</p><p><xsl:if test="$zoom='goed'">
+Klik op een lokatie om er op in te zoomen <xsl:if test="$mark='goed'">
+er wordt ook een marker neer gezet.
+</xsl:if></xsl:if><xsl:if test="$zoom='fout'"><xsl:if test="$mark='goed'">
+Klik op een lokatie om een marker neer te zetten.
+</xsl:if></xsl:if></p><div class="responses"><xsl:for-each select="*"><xsl:variable name="position" select="gml:Point/gml:pos"/><xsl:variable name="space" select="' '"/><xsl:variable name="x" select="substring-before($position, ' ')"/><xsl:variable name="y" select="substring-after($position, ' ')"/><xsl:variable name="res"><xsl:choose><xsl:when test="xls:Address/xls:StreetAddress/xls:Street">   
+             0.9
+								</xsl:when><xsl:when test="xls:Address/xls:Place[@type='MunicipalitySubdivision']">
+                10
+								</xsl:when><xsl:otherwise>
+                  40
+									</xsl:otherwise></xsl:choose></xsl:variable><xsl:variable name="javascriptje"><xsl:if test="$zoom='goed'"><xsl:choose><xsl:when test="$mark='goed'">
+										config.objects.<xsl:value-of select="$targetModelId"/>.extent.centerAt(new Array(<xsl:value-of select="$x"/>,<xsl:value-of select="$y"/>),<xsl:value-of select="$res"/>);config.objects.<xsl:value-of select="$widgetId"/>.addPoint(config.objects.<xsl:value-of select="$widgetId"/>, <xsl:value-of select="$x"/>,<xsl:value-of select="$y"/>)
+									</xsl:when><xsl:otherwise>
+									config.objects.<xsl:value-of select="$targetModelId"/>.extent.centerAt(new Array(<xsl:value-of select="$x"/>,<xsl:value-of select="$y"/>),<xsl:value-of select="$res"/>)
+									</xsl:otherwise></xsl:choose></xsl:if><xsl:if test="$zoom='fout'"><xsl:choose><xsl:when test="$mark='goed'">
+										config.objects.<xsl:value-of select="$widgetId"/>.addPoint(config.objects.<xsl:value-of select="$widgetId"/>, <xsl:value-of select="$x"/>,<xsl:value-of select="$y"/>)
+									</xsl:when><xsl:otherwise/></xsl:choose></xsl:if></xsl:variable><xsl:choose><xsl:when test="xls:Address/xls:StreetAddress/xls:Street"><div class="title"><b style="cursor:pointer" title="{$title}" onClick="javascript:{$javascriptje}"><xsl:value-of select="xls:Address/xls:StreetAddress/xls:Street"/></b><xsl:if test="xls:Address/xls:StreetAddress/xls:Building/@number">
+                    nr: <xsl:value-of select="xls:Address/xls:StreetAddress/xls:Building/@number"/></xsl:if></div><xsl:if test="xls:Address/xls:PostalCode"><div class="postcode"><xsl:value-of select="xls:Address/xls:PostalCode"/></div></xsl:if><xsl:if test="xls:Address/xls:Place[@type='MunicipalitySubdivision']"><div class="plaats"><xsl:value-of select="xls:Address/xls:Place[@type='MunicipalitySubdivision']"/></div></xsl:if></xsl:when><xsl:otherwise><div class="title"><b style="cursor:pointer" title="{$title}" onClick="javascript:{$javascriptje}"><xsl:value-of select="xls:Address/xls:Place[@type='MunicipalitySubdivision']"/></b></div></xsl:otherwise></xsl:choose></xsl:for-each></div></div></xsl:otherwise></xsl:choose></xsl:template><xsl:template match="comment()|text()|processing-instruction()"/></xsl:stylesheet>

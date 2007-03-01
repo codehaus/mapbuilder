@@ -1,0 +1,584 @@
+body {
+  margin: 0px;
+  background-color: #fff;
+  font-family: Verdana;
+  font-size: 12px;
+  color: #006;
+  z-index:1;
+  height: 100%;
+  line-height: 13pt;
+}
+
+html {
+  height: 100%
+}
+
+hr {
+  background: #CCC;
+  height: 1px;
+  width: 100%;
+}
+
+a {
+  color            : #e72;
+  text-decoration  : none;
+}
+
+a:visited {
+  text-decoration  : none;
+  color            : #f90;
+}
+
+a:hover {
+  text-decoration  : underline;
+}
+
+
+td.contentdescription {
+  padding: 10px 10px 30px 10px;
+}
+
+#topbar {
+  position: absolute;
+  height: 75px;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  z-index: 10;
+}
+
+#topbar a{
+  color: #f90;
+}
+#topbar a:visited{
+  color: #fb1;
+}
+
+#upper_topbar {
+  background: #006599 url(/edugis/templates/edugis/images/logoklein.png) no-repeat;
+  height: 50px;
+  z-index: 10;
+}
+
+#upper_topbar .tekstlogo {
+  text-align: left;
+}
+
+#upper_topbar .login {
+  position: absolute;
+  float: right;
+  width: 420px;
+  top: 4px;
+  right: 10px;
+  z-index: 10;
+  text-align: right;
+  display: inline;
+}
+
+#lower_topbar .search {
+  position: relative;
+  float: right;
+  top: 1px;
+  right: 5px;
+  z-index:10;
+}
+
+
+#lower_topbar .search .inputbox{
+  height: 16px;
+}
+
+#lower_topbar .menubar {
+  position: absolute;
+  top: 52px;
+  z-index: 10;
+}
+
+#lower_topbar {
+  z-index: 9;
+  background: #09d url(/edugis/templates/edugis/images/orange_barbig.jpg);
+  height: 28px;
+}
+
+#main {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 80px;
+  bottom: 0px;
+  z-index: 0;
+  width: 100%;
+}
+
+#left {
+  position: absolute;
+  left: 2px;
+  width: 246px;
+  height: 474px;
+  background: url(/edugis/templates/edugis/images/background_left.jpg) no-repeat;
+  float: left;
+  z-index: 4;
+}
+
+#left .content {
+  /*width:234px;
+  height: 424px;
+  margin-top: 10px;
+  margin-left: 4px;
+  color: #fff;
+  z-index:1;
+  font-size: 12px;
+  line-height: 11pt;*/
+  margin: 10px 5px 5px 5px;
+  color: white;
+  z-index: 5;
+}
+
+#left .pagenavbar {
+  position: absolute;
+  width: 200px;
+  bottom: 30px;
+  left: 20px;
+}
+
+#middle {
+  position: relative;
+  top: 10px;
+  left: 0px;
+  right: 10px;
+  z-index: 1;
+}
+
+#middle .left_column {
+  margin-left: 250px;
+  margin-right: 15px;
+  z-index: 1;
+}
+
+#middle .two_columns {
+  position: absolute;
+  background: #fff url(/edugis/templates/edugis/images/kompas.jpg) no-repeat;
+  background-position: top center;
+  left: 250px;
+  right: 255px;
+  z-index: 1;
+}
+
+#middle .no_columns {
+  position: absolute;
+  margin-left: 0px;
+  right: 0px;
+  width: 99%;
+}
+
+/*Dit zorgt dat de kaart alle breedte pakt*/
+#middle .left_column table.moduletable{
+  position: relative;
+  width: 99%;
+}
+
+#middle .no_columns table.moduletable{
+  position: relative;
+  width: 99%;
+}
+
+/*#middle table {
+  color            : #f90;
+  text-decoration  : none;
+}
+
+#main a:link {
+  color: #00b;
+}
+
+#main a:visited {
+  color: #84d;
+}
+*/
+
+#right {
+  position: absolute;
+  width: 246px;
+  height: 480px;
+  background: url(/edugis/templates/edugis/images/background_right.jpg) no-repeat;
+  right: 2px;
+  float: right;
+  display: inline;
+}
+
+#right .upper_panel {
+  margin: 8px 0px 5px 5px;
+  position: absolute;
+  top: 2px;
+  right: 8px;
+  width: 232px;
+  /*z-index: 11;*/
+}
+
+#right .lower_panel_1 {
+  margin: 8px 0px 5px 5px;
+  position: absolute;
+  top: 280px;
+  right: 8px;
+  width: 232px;
+  /*height: 120px;*/
+}
+
+#right .lower_panel_2 {
+  margin: 8px 0px 5px 5px;
+  position: absolute;
+  top: 400px;
+  right: 8px;
+  width: 232px;
+  /*height: 54px;*/
+}
+
+/* the following prevents the background of the polls being coloured */
+#right .sectiontableentry1, .sectiontableentry1 {
+  background-color: transparent;
+}
+
+
+
+.contentpane li{
+  padding: 10px 0px 0px 0px;
+}
+
+/*
+table.moduletable {
+  text-decoration  : none;
+  z-index: 1;
+}
+
+table.moduletable th {
+  font-size : 14px;
+  font-weight : bold;
+  text-align : left;
+  width : 100%;
+  padding: 10px 0px 10px 0px;
+}
+
+table.moduletable td {
+  font-size:11px;
+  font-weight: normal;
+  border: 0px solid #333;
+  padding: 0px 0px 0px 0px;
+  margin: 20px 5px 20px 5px;
+}
+*/
+
+/*
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #7B8DA1;
+}
+
+.pathway {
+}
+
+a.pathway:link, a.pathway:visited {
+}
+
+a.pathway:hover {
+  text-decoration  : underline;
+}
+*/
+
+/* --Default Class Settings-- */
+
+/* Menu font*/
+/*
+a.mainlevel:link, a.mainlevel:visited {
+  color: #fff;
+  font-size: 12px;
+  background-position: left;
+  text-align: left;
+  text-decoration: none;
+}
+
+a.mainlevel:hover {
+  color: #f90;
+  background-position: left;
+  text-align: left;
+}
+
+a.mainmenu:link, a.mainmenu:visited {
+  color: #333;
+}
+
+a.mainmenu:hover, {
+}
+
+a.sublevel:hover {
+}
+
+a.sublevel:link, a.sublevel:visited {
+}
+*/
+
+
+
+/*
+.poll {
+  font-size        : 10px;
+  color            : #666;
+  line-height      : 14px;
+}
+*/
+
+.sectiontableheader {
+  font-size : 14px;
+  background-color : #069;
+  color : #fff;
+  font-weight : bold;
+  padding: 2px;
+}
+
+.sectiontableentry1 {
+  background-color : #fc6;
+}
+
+.sectiontableentry2 {
+  background-color : #fe9;
+}
+
+.sectiontableentry1 a, .sectiontableentry2 a{
+  color: #069;
+}
+
+.sectiontableentry1 a:visited, .sectiontableentry2 a:visited{
+  color: #4b97bf;
+}
+
+.componentheading, .contentheading, th {
+  font-size: 12pt;
+  font-weight:bold;
+  color: #f90;
+  text-align: left;
+}
+
+h1 {
+  font-size: 12pt;
+  font-weight:bold;
+  color: #f90;
+}
+
+h2 {
+  font-size: 11pt;
+  font-weight:bold;
+  color: #f90;
+}
+
+h3 {
+  font-size: 10pt;
+  font-weight:italic;
+  color: #f90;
+}
+
+#left h1 {
+  font-size: 12pt;
+  font-weight:bold;
+  color: white;
+}
+
+#left h2 {
+   font-size: 11pt;
+  font-weight:bold;
+  color: white;
+}
+
+#left h3 {
+   font-size: 10pt;
+  font-weight:italic;
+  color: white;
+}
+
+.latestnews li {
+  margin-left: -20px;
+}
+
+/*
+.small {
+  font-size        : 10px;
+  color            : #3366C0;
+  text-decoration  : none;
+  font-weight      : medium;
+}
+
+.smalldark {
+  font-size        : 10px;
+  color            : #000;
+  text-decoration  : none;
+  font-weight      : normal;
+}
+
+.contentpaneopen
+{
+  width: 99%;
+}
+
+.contentheading, .componentheading {
+  font-size: 26px;
+  font-weight: bold;
+  color: #069;
+  text-align: left;
+}
+
+.createdate {
+  font-size: 10px;
+  color: #999;
+  text-align: left;
+}
+*/
+
+.button{
+  font-style: normal;
+  font-size: 10px;
+  background-color: #f90;
+  color: #fff;
+  padding: 1px;
+  border-top: 1px solid #fa2;
+  border-left: 1px solid #fa2;
+  border-bottom: 1px solid #d70;
+  border-right: 1px solid #d70;
+}
+
+.inputbox {
+  padding: 1px;
+  font-size: 12px;
+  color: #000
+  background-color: #fff;
+  border-top: 1px solid #fa2;
+  border-left: 1px solid #fa2;
+  border-bottom: 1px solid #d70;
+  border-right: 1px solid #d70;
+  margin-left: 2px;
+}
+
+#left, #right {
+  color: white;
+}
+#right a {
+  color: white;
+  text-decoration  : none;
+}
+
+#left a:hover,#right a:hover {
+  text-decoration : underline;
+}
+
+#left .contentheading{
+  font-size: 9pt;
+  font-weight:bold;
+  color: white;
+
+}
+
+#right th, #left th {
+  color: white;
+}
+
+#mod_loginform, #mod_login_logoutform {
+  font-size: 10px;
+  color: #FFF;
+}
+
+#userEditTable {
+  position: relative;
+}
+
+/*
+a.contentpagetitle:link, a.contentpagetitle:visited {
+  font-size: 13px;
+  font-weight: bold;
+  text-align:left;
+}
+
+a.contentpagetitle:hover {
+  font-size: 13px;
+  text-align:left;
+  color: #7B8DA1;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+a.category:link, a.category:visited {
+  color            : #000;
+}
+
+a.category:hover {
+  color            : #7B8DA1;
+}
+*/
+
+
+/* Styles for dhtml tabbed-pages */
+/*.ontab {
+  background-color: #ffae00;
+  border-left: outset 2px #ff9900;
+  border-right: outset 2px #808080;
+  border-top: outset 2px #ff9900;
+  border-bottom: solid 1px #d5d5d5;
+  text-align: center;
+  font-weight: bold;
+  color: #FFF;
+}
+
+.offtab {
+  background-color : #e5e5e5;
+  border-left: outset 2px #E0E0E0;
+  border-right: outset 2px #E0E0E0;
+  border-top: outset 2px #E0E0E0;
+  border-bottom: solid 1px #d5d5d5;
+  text-align: center;
+  font-weight: normal;
+}
+
+.tabpadding {
+}
+
+.tabheading {
+  background-color: #ffae00;
+  text-align: left;
+}
+
+*/
+/*
+.pagetext {
+  visibility: hidden;
+  display: none;
+  position: relative;
+  top: 0;
+}
+*/
+/* for modifying {moscode} output.  Dont set the colour! */
+/*
+.moscode {
+  background-color: #f0f0f0;
+}
+*/
+/* Text passed with mosmsg url parameter */
+/*.message {
+  font-weight: bold;
+  font-size : 10pt;
+  color : #f60;
+  text-align: center;
+}
+*/
+
+/* custom stuff */
+/*.container
+{
+  border: solid;
+  border-width: 1px;
+  border-color: #efefef;
+  background-color: White;
+}
+
+.boxes {
+  border: solid;
+  border-color: #efefef;
+  border-width: 1px;
+}
+*/
