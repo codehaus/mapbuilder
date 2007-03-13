@@ -67,7 +67,9 @@ function GetFeatureInfo(toolNode, model) {
               objRef.xsl.setParameter("width", objRef.context.getWindowWidth());
               objRef.xsl.setParameter("height",objRef.context.getWindowHeight());
               objRef.xsl.setParameter("srs",objRef.context.getSRS());
-              objRef.xsl.setParameter("queryLayer", layerName);
+              objRef.xsl.setParameter("layer",layerName);
+							if(layerName == "hoogtes") objRef.xsl.setParameter("queryLayer","Hoogte");
+							else objRef.xsl.setParameter("queryLayer",layerName);
               objRef.xsl.setParameter("xCoord", targetNode.evpl[0]);
               objRef.xsl.setParameter("yCoord", targetNode.evpl[1]);
               objRef.xsl.setParameter("infoFormat", objRef.infoFormat);
