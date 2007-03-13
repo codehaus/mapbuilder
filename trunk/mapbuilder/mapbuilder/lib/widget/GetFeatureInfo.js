@@ -58,7 +58,8 @@ function GetFeatureInfo(toolNode, model) {
             var hidden = objRef.context.getHidden(layerName);
             if (hidden == 0) { //query only visible layers
               objRef.xsl.setParameter("queryLayer", layerName);
-              objRef.xsl.setParameter("xCoord", targetNode.evpl[0]);
+              objRef.xsl.setParameter("layer",layerName);
+				      objRef.xsl.setParameter("xCoord", targetNode.evpl[0]);
               objRef.xsl.setParameter("yCoord", targetNode.evpl[1]);
               objRef.xsl.setParameter("infoFormat", objRef.infoFormat);
               objRef.xsl.setParameter("featureCount", objRef.featureCount);
@@ -76,6 +77,7 @@ function GetFeatureInfo(toolNode, model) {
         }
         else {
           objRef.xsl.setParameter("queryLayer", selectedLayer);
+          objRef.xsl.setParameter("layer",layerName);
           objRef.xsl.setParameter("xCoord", targetNode.evpl[0]);
           objRef.xsl.setParameter("yCoord", targetNode.evpl[1]);
           objRef.xsl.setParameter("infoFormat", objRef.infoFormat);

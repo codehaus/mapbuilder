@@ -15,6 +15,7 @@ $Name$
   <!-- parameters to be passed into the XSL -->
   <!-- The name of the WMS GetFeatureInfo layer -->
   <xsl:param name="queryLayer">highways</xsl:param>
+  <xsl:param name="layer">highways</xsl:param>
   <xsl:param name="xCoord">1</xsl:param>
   <xsl:param name="yCoord">1</xsl:param>
   <xsl:param name="infoFormat">text/html</xsl:param>
@@ -59,7 +60,7 @@ $Name$
       </xsl:variable>
 
       <!-- Print the URL -->
-      <xsl:value-of select="$baseUrl"/><xsl:value-of select="$firstJoin"/>VERSION=<xsl:value-of select="$version"/>&amp;REQUEST=GetFeatureInfo&amp;LAYERS=<xsl:value-of select="$queryLayer"/>&amp;SRS=<xsl:value-of select="$srs"/>&amp;BBOX=<xsl:value-of select="$bbox"/>&amp;WIDTH=<xsl:value-of select="$width"/>&amp;HEIGHT=<xsl:value-of select="$height"/>&amp;INFO_FORMAT=<xsl:value-of select="$infoFormat"/>&amp;FEATURE_COUNT=<xsl:value-of select="$featureCount"/>&amp;QUERY_LAYERS=<xsl:value-of select="$queryLayer"/>&amp;X=<xsl:value-of select="$xCoord"/>&amp;Y=<xsl:value-of select="$yCoord"/>
+      <xsl:value-of select="$baseUrl"/><xsl:value-of select="$firstJoin"/>VERSION=<xsl:value-of select="$version"/>&amp;REQUEST=GetFeatureInfo&amp;LAYERS=<xsl:value-of select="$layer"/>&amp;SRS=<xsl:value-of select="$srs"/>&amp;BBOX=<xsl:value-of select="$bbox"/>&amp;WIDTH=<xsl:value-of select="$width"/>&amp;HEIGHT=<xsl:value-of select="$height"/>&amp;INFO_FORMAT=<xsl:value-of select="$infoFormat"/>&amp;FEATURE_COUNT=<xsl:value-of select="$featureCount"/>&amp;QUERY_LAYERS=<xsl:value-of select="$queryLayer"/>&amp;X=<xsl:value-of select="$xCoord"/>&amp;Y=<xsl:value-of select="$yCoord"/>
     </xsl:if>
   </xsl:template>
 </xsl:stylesheet>
