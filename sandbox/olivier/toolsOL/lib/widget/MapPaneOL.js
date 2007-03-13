@@ -103,7 +103,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
             };
   
     objRef.model.map = new OpenLayers.Map(objRef.node, {controls:[]},mapOptions);
-    
+
 
     // Increase hight of Control layers to allow for lots of layers.
     objRef.model.map.Z_INDEX_BASE.Control=10000;
@@ -112,7 +112,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
    // objRef.model.map.addControl(objRef.model.toolBar);  
     // loop through all layers and create OLLayers 
    // objRef.model.map.addMouseListener(new OpenLayers.Button.MouseDefaults());
-   objRef.model.map.addControl(new OpenLayers.Control.MousePosition()); 
+   objRef.model.map.addControl(new OpenLayers.Control.MousePosition());
+   
     objRef.model.toolbar=new OpenLayers.Control.Buttonbar(null,"horizontal");
     objRef.model.map.addControl(objRef.model.toolbar);
   //toolbar.div=document.getElementById("ButtonBar");
@@ -279,6 +280,20 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
  	config.callListeners("mapLoaded");
      //objRef.clearWidget2(objRef);
   }
+
+    // event to keep MB context updated
+    objRef.model.map.events.register('moveend', objRef.model.map, function (e) {
+        var bboxOL = objRef.model.map.getExtent().toBBOX().split(',');
+        var ul = new Array(bboxOL[0],bboxOL[3]);
+        var lr = new Array(bboxOL[2],bboxOL[1]);
+        if (objRef.model.getParam('aoi').toString() != new Array(ul, lr).toString()) {
+            objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
+            objRef.model.extent.setSize(new Array(objRef.model.map.getResolution(),objRef.model.map.getResolution()));
+            objRef.model.setParam("aoi", new Array(ul, lr));
+        }
+    });
+
+
 }
 
 ///############################################################################################END TBD
