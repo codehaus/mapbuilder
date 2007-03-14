@@ -22,7 +22,9 @@ function OwsContext(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   ModelBase.apply(this, new Array(modelNode, parent));
 
-  this.namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:ows='http://www.opengis.net/ows' xmlns:ogc='http://www.opengis.net/ogc' xmlns:xsl='http://www.w3.org/1999/XSL/Transform' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:sld='http://www.opengis.net/sld'";
+  // MAP-186 
+  this.namespace = this.namespace ? this.namespace.replace(/\"/g, "'")+" " : '';
+  this.namespace = this.namespace + "xmlns:wmc='http://www.opengis.net/context' xmlns:ows='http://www.opengis.net/ows' xmlns:ogc='http://www.opengis.net/ogc' xmlns:xsl='http://www.w3.org/1999/XSL/Transform' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:sld='http://www.opengis.net/sld'";
 
   // ===============================
   // Update of Context Parameters
@@ -211,6 +213,32 @@ function OwsContext(modelNode, parent) {
   this.setWindowHeight=function(height) {
     //win=this.doc.documentElement.getElementsByTagName("Window").item(0);
     var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
+    win.setAttribute("height", height);
+    this.callListeners("resize");
+  }
+
+  /**
+   * Returns the width/height of the map window as an array
+   * Added by Andreas Hocevar for compatibility with Context.js
+   */
+  this.getWindowSize=function() {
+    var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
+    return new Array(win.getAttribute("width"), win.getAttribute("height"));
+  }
+
+  /**
+   * Set the Window width and height in one function call to avoid a resize event in between
+   * setting width and height, because that causes checkBbox to be triggered, which adjusts the
+   * bbox then when it should not yet be adjusted.
+   * Based on setWindowSize by VTS in Context.js
+   * Added by Andreas Hocevar for compatibility with Context.js
+   * @param size Size of the map window as (width, height) array
+   */
+  this.setWindowSize=function(size) {
+    var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
+    var width = size[0];
+    var height = size[1];
+    win.setAttribute("width", width);
     win.setAttribute("height", height);
     this.callListeners("resize");
   }
