@@ -99,6 +99,35 @@ function MapPane(widgetNode, model) {
   }
   this.model.addListener("hidden",this.hiddenListener,this);
 
+//PL - BRGM
+/**
+   * Called when the context's opacity attribute changes.
+   * @param objRef This object.
+   * @param layerName  The name of the layer that was toggled.
+   */
+  this.opacityListener=function(objRef, layerName){
+    var _opacity="1";
+    _opacity=objRef.model.getOpacity(layerName);
+
+    var layerId = objRef.model.id + "_" + objRef.id + "_" + layerName;
+    var layer = document.getElementById(layerId);
+    if (layer) {
+      if(_SARISSA_IS_IE) {
+      	var ieOpacity = "alpha(opacity=" + _opacity + ")";
+	      for(var i=0;i<layer.childNodes.length;i++){
+  	      layer.childNodes[i].style.filter=ieOpacity ;
+        }
+      }
+      else {
+       layer.style.opacity=_opacity;
+      }
+    }
+  }
+  this.model.addListener("opacity",this.opacityListener,this);
+// END PL - BRGM
+
+
+
   /**
    * Called after a feature has been added to a WFS.  This function triggers
    * the WMS basemaps to be redrawn.  A timestamp param is added to the URL
@@ -454,11 +483,14 @@ function MapImgLoadHandler() {
   if (_SARISSA_IS_IE) oldImg.parentNode.parentNode.style.visibility = "visible";
   if (this.fixPng) {
     var vis = oldImg.layerHidden?"hidden":"visible";
-    oldImg.outerHTML = fixPNG(this,"real"+this.id);
+    //change fixPNG for manage opacity - PL - BRGM    
+    var _loadImg = oldImg.isLoading ; //remember the isLoading information
+    oldImg.outerHTML = fixPNG(this,"real"+this.id, oldImg);  
+    fixImg = document.getElementById("real"+this.id); // The result of fixPng is a span, so we need to set that particular element visible
+    fixImg.isLoading = _loadImg // save isLoading in the span tag ! 
     if (!this.hidden) {
-      fixImg = document.getElementById("real"+this.id); // The result of fixPng is a span, so we need to set that particular element visible
       fixImg.style.visibility = "visible"
-    }
+    }    
   } else {
     oldImg.src = this.src;
     oldImg.width = this.objRef.model.getWindowWidth();
