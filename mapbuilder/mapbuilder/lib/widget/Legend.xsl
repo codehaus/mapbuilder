@@ -56,6 +56,8 @@ $Name$
             <input type="checkbox" id="legend_{$featureName}" onclick="{$context}.setHidden('{$featureName}',!this.checked)"/>
           </xsl:if>
         </td>
+         <td>
+        </td>
         <!-- No query capability yet -->
         <td>
         </td>
@@ -78,6 +80,16 @@ $Name$
           <input type="checkbox" id="legend_{wmc:Name}" onclick="{$context}.setHidden('{wmc:Name}',!this.checked)"/>
         </xsl:if>
       </td>
+      <!-- opacity -->
+        <td>
+        <xsl:if test="@opacity">
+        <input type="button" value=" - " onClick="javascript:vze=document.getElementById('opacity_{wmc:Name}');nvv=parseFloat(vze.value)-0.1;vze.value=(nvv&#60;0)?0:nvv;{$context}.setOpacity('{wmc:Name}',vze.value)"/>
+		  <input type="hidden" id="opacity_{wmc:Name}" onkeypress="{$context}.setOpacity('{wmc:Name}',this.value)">
+					 <xsl:attribute name="value"><xsl:value-of select="@opacity"/></xsl:attribute>
+			  </input>
+<input type="button" value=" + " onClick="javascript:vze=document.getElementById('opacity_{wmc:Name}');nvv=parseFloat(vze.value)+0.1;vze.value=(nvv&#62;1)?1:nvv;{$context}.setOpacity('{wmc:Name}',vze.value)"/>    
+		</xsl:if>
+        </td>
       <!-- Query Image -->
       <td>
         <xsl:if test="@queryable='1'">
@@ -104,6 +116,8 @@ $Name$
     <tr>
       <td></td>
       <td></td>
+       <td>
+        </td>
       <td>
       <xsl:if test="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL"> 
           <xsl:element name="img">

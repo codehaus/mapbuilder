@@ -427,5 +427,33 @@ function Context(modelNode, parent) {
     var index = this.getParam("timestamp");
     return this.timestampList.childNodes[index].firstChild.nodeValue;
   }
+
+  // PL -BRGM	  
+  /**
+   * Change a Layer's opacity
+   * @param layerName  The name of the layer that is to be changed
+   * @param Opacity     Value of the opacity
+   */
+  this.setOpacity=function(layerName, Opacity){
+    // Set the hidden attribute in the Context
+          
+    var layer=this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+layerName+"']");
+    if (layer) layer.setAttribute("opacity", Opacity);
+    // Call the listeners
+    this.callListeners("opacity", layerName);
+  }
+  
+  /**
+   * Get the layer's opacity attribute value.
+   * @param layerName  The name of the layer that is to be changed
+   * @return hidden  String with the value; 1=hidden, 0=visible.
+   */
+  this.getOpacity=function(layerName){
+    var opacity=1;
+    var layer=this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+layerName+"']");
+    if (layer) opacity = layer.getAttribute("opacity");
+    return opacity;
+  }
+  // PL -END
 }
 
