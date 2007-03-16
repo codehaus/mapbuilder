@@ -249,14 +249,25 @@ function leadingZeros(num,digits) {
 // thanks to Caroklyn Cole for this fix.  For an explanation see:
 // http://homepage.ntlworld.com/bobosola. Updated 02-March-2004
 // modified to the images as visible after this has been called.
-function fixPNG(myImage,myId) {
+// PL-BRGM
+// Add oldImage in parameter
+function fixPNG(myImage,myId,oldImage) {
   if (_SARISSA_IS_IE) {
+  	// PL - BRGM
+  	//opacity of the image
+  	if(oldImage) {
+  		var _opacity= (oldImage.style.opacity)?oldImage.style.opacity:-1;    
+  	}
+	// END PL - BRGM			
     var imgID = "id='" + myId + "' ";
     var imgClass = (myImage.className) ? "class='" + myImage.className + "' " : ""
     var imgTitle = (myImage.title) ? "title='" + myImage.title + "' " : "title='" + myImage.alt + "' "
-    var imgStyle = "display:inline-block;" + myImage.style.cssText 
-    var strNewHTML = "<span " + imgID + imgClass + imgTitle
+    var imgStyle = "display:inline-block;" + myImage.style.cssText     
+    var strNewHTML = "<span " + imgID + imgClass + imgTitle 
+    
     strNewHTML += " style=\"" + "width:" + myImage.width + "px; height:" + myImage.height + "px;" + imgStyle + ";"
+    // store the opacity in the style even not used by IE
+    if (_opacity!=-1) strNewHTML += "opacity=" + _opacity + ";" ;
     // Escape some chars (don't use encode() that would escape %xx previously used in XSL)
     var src = myImage.src;
     src = src.replace(/\(/g,'%28');
@@ -265,7 +276,13 @@ function fixPNG(myImage,myId) {
     // AlphaImageLoader converts '%23' in src to '#' and cuts URL on '#'
     src = src.replace(/%23/g,'%2523');
     strNewHTML += "filter:progid:DXImageTransform.Microsoft.AlphaImageLoader";
-    strNewHTML += "(src=\'" + src + "\', sizingMethod='scale'); \"></span>" ;
+    strNewHTML += "(src=\'" + src + "\', sizingMethod='scale')"; 
+   
+    // PL - BRGM
+    // add the opacity
+		if (oldImage && _opacity!=-1) strNewHTML +=  " alpha(opacity=" + (_opacity * 100) + ")";
+		strNewHTML +="; \"></span>" ;
+	// END PL - BRGM			
     //myImage.outerHTML = strNewHTML;
     //alert(strNewHTML);
     return strNewHTML;

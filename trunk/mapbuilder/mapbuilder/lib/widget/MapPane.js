@@ -113,10 +113,13 @@ function MapPane(widgetNode, model) {
     var layer = document.getElementById(layerId);
     if (layer) {
       if(_SARISSA_IS_IE) {
-      	var ieOpacity = "alpha(opacity=" + _opacity + ")";
+      	var ieOpacity = "alpha(opacity=" + 100*_opacity + ")";
 	      for(var i=0;i<layer.childNodes.length;i++){
-  	      layer.childNodes[i].style.filter=ieOpacity ;
-        }
+	      	var filterPNG=layer.childNodes[i].style.filter ;     
+		      if (filterPNG.indexOf('alpha',0) !=-1) {
+		      	layer.childNodes[i].style.filter = filterPNG.substring(0,filterPNG.indexOf('alpha',0))+  ieOpacity;
+		      }
+	      }
       }
       else {
        layer.style.opacity=_opacity;
@@ -380,6 +383,17 @@ MapPane.prototype.loadImgDiv = function(layerNode,newSrc,newImg) {
     domImg.id = "real"+imgDiv.imgId;
     //domImg.src = this.loadingSrc;
     domImg.src = config.skinDir+"/images/Spacer.gif";
+    // opacity BRGM - PL
+    if (layerNode.getAttribute("opacity")) {
+	    var layerOpacity = layerNode.getAttribute("opacity"); 	     
+	    if(_SARISSA_IS_IE){
+		    domImg.style.filter += ' alpha(opacity=' + (layerOpacity * 100) + ')';
+	    }
+	    else {
+		    imgDiv.style.opacity=layerOpacity;
+		  }    
+    }  
+    // /PL
     domImg.layerHidden = layerHidden;
     imgDiv.appendChild(domImg);
     // code to put imgDiv at the right place in the dom image stack
