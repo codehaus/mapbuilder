@@ -256,9 +256,10 @@ function fixPNG(myImage,myId,oldImage) {
   	// PL - BRGM
   	//opacity of the image
   	if(oldImage) {
-  		var _opacity= (oldImage.style.opacity)?oldImage.style.opacity:-1;    
+  		var valIEOpacity= oldImage.style.filter.substring(oldImage.style.filter.indexOf('opacity=',0)+8,oldImage.style.filter.indexOf(')',0));
+  		var _opacity= (valIEOpacity)?valIEOpacity/100:-1;    
   	}
-	// END PL - BRGM			
+	// END		
     var imgID = "id='" + myId + "' ";
     var imgClass = (myImage.className) ? "class='" + myImage.className + "' " : ""
     var imgTitle = (myImage.title) ? "title='" + myImage.title + "' " : "title='" + myImage.alt + "' "
