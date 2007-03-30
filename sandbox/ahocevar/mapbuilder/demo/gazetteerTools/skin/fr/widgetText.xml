@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<WidgetText xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder /mapbuilder/lib/schemas/config.xsd"
+    version="0.2.1" id="mbDefaultText" xml:lang="fr">
+  <!--
+    
+    Description: This file contains all text used in widgets and JavaScript
+                 for multilingual support.  The widget text values are set as
+                 XSL params before the widget is painted.
+                 From JavaScript the messages can be retrieved with
+                 mbGetMessage(messageKey); see the JSDoc for details.
+    Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+
+    $Id$
+  -->
+  <!-- Widget (XSL) messages -->
+  <widgets>
+    <AoiForm>
+      <east>Est:</east>
+      <north>Nord:</north>
+      <south>Sud:</south>
+      <title>Coordonées de la région d'intéret</title>
+      <west>Ouest:</west>
+    </AoiForm>
+    
+    <Back>
+      <tooltip>Changez pour l'extension précédent</tooltip>
+    </Back>
+    
+    <CollectionList>
+      <title>Choisir une carte pour regardez:</title>
+    </CollectionList>
+    
+    <CursorTrack>
+      <latitude>lat:</latitude>
+      <longitude>lon:</longitude>
+      <xcoord>x:</xcoord>
+      <ycoord>y:</ycoord>
+    </CursorTrack>
+    
+    <DeleteFeature>
+      <tooltip>Éffacer la(es) caractéristique(s) courantes sur le serveur</tooltip>
+    </DeleteFeature>
+    
+    <DragPan>
+      <tooltip>Cliquer et faire glisser la souris pour voir une autre partie de la carte</tooltip>
+    </DragPan>
+    
+    <EditLine>
+      <tooltip>Cliquer pour créer un object géographique linéaire</tooltip>
+    </EditLine>
+    
+    <EditPoint>
+      <tooltip>Cliquer pour créer un object géographique de point</tooltip>
+    </EditPoint>
+    
+    <Forward>
+      <tooltip>Changez pour l'extension suivante</tooltip>
+    </Forward>
+    
+    <GetFeatureInfo>
+      <tooltip>Cliquer pour obtenir plus d'information pour cette couche</tooltip>
+    </GetFeatureInfo>
+    
+    <InsertFeature>
+      <tooltip>Sauvegarder la(es) caractéristique(s) courants sur le serveur</tooltip>
+    </InsertFeature>
+    
+    <Legend>
+      <title>Couches de la carte</title>
+    </Legend>
+    
+    <Measurement>
+      <tooltip>Cliquer sur le plan pour mésurer la distance</tooltip>
+    </Measurement>
+    
+    <ModelStatus>
+      <title>Statut de:</title>
+    </ModelStatus>
+    
+    <ModelUrlInput>
+      <load>téléchargez</load>
+      <title>URL:</title>
+    </ModelUrlInput>
+    
+    <ProcessArgumentsForm>
+    </ProcessArgumentsForm>
+    
+    <Reset>
+      <tooltip>Redonner la carte ses dimensions complètes</tooltip>
+    </Reset>
+    
+    <Save>
+      <tooltip>Cliquer pour sauvegarder</tooltip>
+    </Save>
+    
+    <SelectProcess>
+    </SelectProcess>
+    
+    <SetAoi>
+      <tooltip>Cliquer et faire glisser la souris pour positionner une AOI</tooltip>
+    </SetAoi>
+    
+    <ShowProcessResult>
+      <tabLabel>4. Accéder aux résultats</tabLabel>
+    </ShowProcessResult>
+    
+    <TabbedContent>
+      <argsInput>3. Placer arguments</argsInput>
+      <results>4. Accéder aux résultats</results>
+      <selectProcess>2. Choisir un procés</selectProcess>
+      <urlInput>1. Choisir un service</urlInput>
+    </TabbedContent>
+    
+    <Timestamp>
+      <title>Date de l'image:</title>
+    </Timestamp>
+    
+    <WebServiceForm>
+      <mapsheet>Code SNRC:</mapsheet>
+      <ntsTitle>Service de recherche par SNRC</ntsTitle>
+    </WebServiceForm>
+    
+    <WfsGetFeature>
+      <tooltip>Cliquer sur la caractéristique pour la questionner</tooltip>
+    </WfsGetFeature>
+    
+    <Widget>
+      <abstract>Résumé</abstract>
+      <east>Est:</east>
+      <moreInfo>Lisez à propos de cette carte</moreInfo>
+      <north>Nord:</north>
+      <searchFormTitle>Région d'intérêt</searchFormTitle>
+      <south>Sud:</south>
+      <west>Ouest:</west>
+    </Widget>
+    
+    <ZoomIn>
+      <tooltip>Cliquer et faire glisser la souris pour agrandir</tooltip>
+    </ZoomIn>
+    
+    <ZoomOut>
+      <tooltip>Cliquer pour réduire</tooltip>
+    </ZoomOut>
+  </widgets>
+  
+  <!-- JavaScript messages -->
+  <messages>
+    <aoiFormNotFound>N'a pas pu trouver aoiForm pour geoSearch</aoiFormNotFound>
+    <atLeastOneValue>Entrez au moins une valeur avant d'avancer</atLeastOneValue>
+    <buttonBarRequired>Propriété buttonBar nécéssaire: {0}</buttonBarRequired>
+    <cantCalculateDistance>Mesure: incapable de calculer la distance</cantCalculateDistance>
+    <cantGoBack>Vous ne pouvez plus aller en arriére</cantGoBack>
+    <cantGoForward>Vous ne pouvez plus aller en avant</cantGoForward>
+    <cantMoveDown>Impossible de déplacer noeud aprés la fin de la liste: {0}</cantMoveDown>
+    <cantMoveUp>Impossible de déplacer noeud avant le début de la liste: {0}</cantMoveUp>
+    <convertingCoords>Convertir coordonnées</convertingCoords>
+    <deleteShapeFailed>Effacement a echoué: {0}</deleteShapeFailed>
+    <divAlreadyExists>Div: {0} existe déjà</divAlreadyExists>
+    <divClickPassNotFound>Div clickPass {0} non trouvé</divClickPassNotFound>
+    <divNotFound>Impossible a trouver div: {0}</divNotFound>
+    <docLoading>Téléchargement du document, attendez svp...</docLoading>
+    <documentParseError>parseError de document: {0}</documentParseError>
+    <eastWgs84>Est (WGS84)</eastWgs84>
+    <errorAddingLayer>Ajout de couche a echoué : {0} service: {1}</errorAddingLayer>
+    <errorCreatingObject>Erreur dans la creation de l'objet: {0}</errorCreatingObject>
+    <errorDeletingLayer>Erreur d'éffacement: {0}</errorDeletingLayer>
+    <errorLoadingDocument>Erreur dans le téléchargement du document: {0} - {1}-{2}</errorLoadingDocument>
+    <errorLoadingModel>Erreur de configuration loadModel: {0}: {1}</errorLoadingModel>
+    <errorLoadingStylesheet>Erreur de téléchargement de feuille de style XSL: {0}</errorLoadingStylesheet>
+    <errorPaintingWidget>Erreur de configuration paintWidget: gadget n'existe pas</errorPaintingWidget>
+    <eventLogSaved>Historique d'événements sauvegardé comme: {0}</eventLogSaved>
+    <exceptionTransformingDoc>Erreur de conversion du document XSL: {0}</exceptionTransformingDoc>
+    <featureNotFoundOwsContext>Caractéristique non trouvé</featureNotFoundOwsContext>
+    <featureNotFoundWebServiceRequest>WebServiceRequest: Erreur trouvant noeud caractéristique: {0}</featureNotFoundWebServiceRequest>
+    <featureUnderConstruction>Composant en construction.  Stay tuned!</featureUnderConstruction>
+    <idRequired>id requis pour l'objet: {0}</idRequired>
+    <imageNotFound>Erreur: image non trouvé</imageNotFound>
+    <invalidFeatureXpathEditLine>EditLine: featureXpath invalide dans configuration: {0}</invalidFeatureXpathEditLine>
+    <invalidFeatureXpathEditPoint>EditPoint: featureXpath invalide dans configuration: {0}</invalidFeatureXpathEditPoint>
+    <invalidFeatureXpathEditPolygon>EditPolygon: featureXpath invalide dans configuration: {0}</invalidFeatureXpathEditPolygon>
+    <invalidFeatureXpathMeasurement>Measurement: featureXpath invalide dans configuration: {0}</invalidFeatureXpathMeasurement>
+    <invalidGeom>Géométrie invalide pour: {0}</invalidGeom>
+    <invalidGmlGeom>Géométrie GML invalide</invalidGmlGeom>
+    <lastFrameAfterFirst>Le dernier cadre doit être après le premier cadre</lastFrameAfterFirst>
+    <layerNotFound>Couche avec id {0} non trouvé</layerNotFound>
+    <layerTypeNotSupported>MapPaneOL: Aucun support pour couche du type={0}</layerTypeNotSupported>
+    <lccinitEqualLatitudes>lccinit: Latitudes égales de parallèles standard sur des côtés opposés de l'Équateur</lccinitEqualLatitudes>
+    <listenerError>Erreur de Listener: param={0}, target={1}, callBackFunction={2}</listenerError>
+    <ll2lccNoProjection>ll2lcc: Point ne peut pas être projeté</ll2lccNoProjection>
+    <ll2mAtPoles>ll2m: Transformation ne peut pas être calculé dans les pôles</ll2mAtPoles>
+    <ll2pixelNotDefined>ll2pixel non défini</ll2pixelNotDefined>
+    <ll2sceneNotDefined>ll2scene non défini</ll2sceneNotDefined>
+    <ll2stInfiniteProjection>ll2st: Point projeté sur l'infini</ll2stInfiniteProjection>
+    <ll2tmInfiniteProjection>ll2tm: Point projeté sur l'infini</ll2tmInfiniteProjection>
+    <llInputOutOfRange>Entrée hors limites : lon: {0} - lat: {1}</llInputOutOfRange>
+    <loadingLayer>Téléchargement de {0} couche du plan</loadingLayer>
+    <loadingLayers>Téléchargement de {0} couches du plan</loadingLayers>
+    <m2llLat9999>lat = -9999</m2llLat9999>
+    <noCanvasContext>Aucun contéxte de toile</noCanvasContext>
+    <noContextDefined>Aucun contexte defini dans la configuration</noContextDefined>
+    <noCountryCode>Vous devez spécifiez le code du pays</noCountryCode>
+    <noDataYet>Aucunes données à visualiser</noDataYet>
+    <nodeNotFound>Noeud pas trouvé; impossible d'éffacer noeud: {0}</nodeNotFound>
+    <noFeatureToDelete>Aucune caractéristique disponible pour éffacer</noFeatureToDelete>
+    <noFeatureToInsert>Pas de caractéristique disponible pour insérer</noFeatureToInsert>
+    <noLayerSelected>Pas de couche selectionnée</noLayerSelected>
+    <noMapContainerId>MapContainerBase: la propriété requis mapContainerId manquant sur la configuration: {0}</noMapContainerId>
+    <noMouseHandlerButton>Erreur trouvant mouseHandler: {0} pour bouton: {1}</noMouseHandlerButton>
+    <noMouseHandlerCursorTrack>CursorTrack nécéssite une propriété mouseHandler</noMouseHandlerCursorTrack>
+    <noMouseHandlerTool>Erreur trouvant mouseHandler: {0} pour outil: {1}</noMouseHandlerTool>
+    <noPropertySelected>Pas de propriété selectionnée</noPropertySelected>
+    <noQueryableLayers>
+      Il n'a pas de couches interactifs (queryable) disponibles,
+      ajoutez une couche au contexte, svp.
+    </noQueryableLayers>
+    <noRssTitle>Pas de titre RSS</noRssTitle>
+    <northWgs84>Nord (WGS84)</northWgs84>
+    <noSerializeUrl>serializeUrl doit être indiqué dans configuration afin de sauvegarder un modèle</noSerializeUrl>
+    <noStylesheetDefined>Aucun stylesheet defini</noStylesheetDefined>
+    <noTargetModelTool>Erreur trouvant targetModel: {0} pour outil: {1}</noTargetModelTool>
+    <noTargetModelWidget>Erreur dans la recherche du targetModel: {0} pour: {1}</noTargetModelWidget>
+    <notImplementedYet>PAS ENCORE DÉVELOPPÉ</notImplementedYet>
+    <nullOwsContext>Document OWSContext vide</nullOwsContext>
+    <nullXmlResponse>Null XML response: {0}</nullXmlResponse>
+    <parseError>Erreur d'analyze: {0}</parseError>
+    <parsingError>Erreur de Parsing: {0} {1}</parsingError>
+    <phi2zNoConvergence>phi2z: Erreur de convergence</phi2zNoConvergence>
+    <pixel2llNotDefined>pixel2ll non defini</pixel2llNotDefined>
+    <preparingCoords>préparation des coordonnées</preparingCoords>
+    <pretendPaint>Simulation de peinture: {0} caractéristiques {1}</pretendPaint>
+    <projectionNotSupported>Mesure: Projection non supporté!</projectionNotSupported>
+    <referenceNodeIdNotFound>
+      Outil AutoResize ne arrive pas a trouver le noeud référence '{0}' dans DOM.
+      Specifiez un referenceNodeId valide dans le fichier de configuration
+      ou utilisez un id 'autoResize' pour un de vos documents noeuds.
+    </referenceNodeIdNotFound>
+    <rendering>reddition</rendering>
+    <scale>échelle 1:{0}</scale>
+    <selectLayer>Choisissez une couche si vous voulez inserée le sld dans wmc</selectLayer>
+    <southWgs84>Sud (WGS84)</southWgs84>
+    <styleNodeNotFound>Style de noeud non trouvé</styleNodeNotFound>
+    <stylesheetNotFound>La feuille de styles Parsing n'a pas était trouver</stylesheetNotFound>
+    <tabWidgetNotFound>Onglets de gadgets non trouvez: {0}</tabWidgetNotFound>
+    <tm2llNoConvergence>tm2ll: Pas de convergence de la latitude</tm2llNoConvergence>
+    <unableToLoadDoc>
+      Impossible de télécharger document externe: {0}.
+      La propriété proxyUrl doit être défini dans la configuration.
+    </unableToLoadDoc>
+    <unableToSaveLog>Impossible de sauvegarder historique d'événements; fournissez une propriété serializeUrl dans configuration</unableToSaveLog>
+    <undefinedListener>Listener indéfini pour: {0}</undefinedListener>
+    <unitCentimeters>centimètres</unitCentimeters>
+    <unitCentimetersAbbr>cm</unitCentimetersAbbr>
+    <unitFeet>pieds</unitFeet>
+    <unitFeetAbbr>pi</unitFeetAbbr>
+    <unitInches>pouces</unitInches>
+    <unitInchesAbbr>p</unitInchesAbbr>
+    <unitKilometers>kilomètres</unitKilometers>
+    <unitKilometersAbbr>km</unitKilometersAbbr>
+    <unitMeters>mètres</unitMeters>
+    <unitMetersAbbr>m</unitMetersAbbr>
+    <unitMiles>milles</unitMiles>
+    <unitMilesAbbr>mi</unitMilesAbbr>
+    <unknownRucType>Type RUC inconnu</unknownRucType>
+    <unspecClickPassId>clickPassId non spécifié</unspecClickPassId>
+    <unspecIcon>Icon non spécifié</unspecIcon>
+    <unspecLeftOffset>leftOffset non spécifié</unspecLeftOffset>
+    <unspecTopOffset>topOffset non spécifié</unspecTopOffset>
+    <unsupportedGmlGeom>Géométrie GML non disponible: {0}</unsupportedGmlGeom>
+    <unsupportedGmlGeomForLayer>Géométrie GML non disponible dans couche: {0}</unsupportedGmlGeomForLayer>
+    <unsupportedMapProjection>Projection du plan non disponible: {0}</unsupportedMapProjection>
+    <westWgs84>Ouest (WGS84)</westWgs84>
+  </messages>
+</WidgetText>

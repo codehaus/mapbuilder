@@ -1,0 +1,66 @@
+<h2>Coding your web page</h2>
+
+<p>
+There are several common steps for coding a mapbuilder application: 
+your HTML page includes a Javascript library, 
+which opens and reads a configuration file in the BODY onload event.
+In the following code examples, paths starting with "/" are relative
+to your server root, otherwise they are relative to the web page's base URL.
+</p>
+
+<ol>
+  <li><span class="title">Create your configuration file:</span>
+  Reference the configuration file in the web page's &lt;HEAD&gt; element.
+  This variable must be named "mbConfigUrl".
+  <pre>
+    &lt;script&gt;
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='config/contextEditor.xml';
+    &lt;/script&gt;
+  </pre>
+  </li>
+  <li><span class="title">Include the mapbuilder Javascript library:</span>
+  the web page's &lt;HEAD&gt; element must include a reference to the mapbuilder
+  library JavaScript code.  
+  The library must be <a href="?page=start/install">installed</a> on the same server as 
+  the page using it:
+  <pre>
+  &lt;script type="text/javascript" src="/mapbuilder/lib/Mapbuilder.js"&gt;&lt;/script&gt;
+  </pre>
+  </li>
+  <li><span class="title">Initialize the application:</span>
+  the page's BODY onload event handler must call mapbuilder's body onload event 
+  handler. 
+  <pre>
+  &lt;body onload='mbDoLoad()'&gt;
+    ..rest of page body...
+  &lt;/body&gt;
+  </pre>
+  </li>
+  <li><span class="title">Create the HTML for the web page:</span>
+  Assign an ID attribute to the HTML elements in the
+  page where mapbuilder widget output will be inserted.
+  For example:
+  <pre>&lt;div&nbsp;id="mbId"&gt;&lt;/div&gt;</pre>
+  where "mbId" corresponds to a widget ID in your configuration file.
+  </li>
+
+</ol>
+
+<p>
+You can see the whole thing put together in the Mapbuilder 
+<a href="/mapbuilder/demo/simple">Simple Demo</a> which is also a good 
+example to copy as a starting point for your own applications.
+Be sure to inspect the source code for the demo and it's 
+<a href="/mapbuilder/demo/simple/simpleConfig.xml">configuration file.</a>
+</p>
+
+<p>
+When developing an application, it's best to keep it separate from the 
+mapbuilder codebase so that you can update your mapbuilder installation
+without affecting your application.  
+Custom widgets can be included using the stylesheet property, when required.
+The only requirement is that Mapbuilder and your application must share the
+same domain name.
+</p>
+

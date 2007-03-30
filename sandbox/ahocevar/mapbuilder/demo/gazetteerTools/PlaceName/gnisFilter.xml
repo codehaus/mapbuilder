@@ -1,0 +1,12 @@
+<Filter>
+  <And>
+    <PropertyIsLike wildCard="*" singleChar="." escape="\">
+      <PropertyName>topp:full_name_lc</PropertyName>
+      <Literal></Literal>
+    </PropertyIsLike>
+    <PropertyIsLike wildCard="*" singleChar="." escape="\">
+      <PropertyName>topp:country_name</PropertyName>
+      <Literal></Literal>
+    </PropertyIsLike>
+  </And>
+</Filter>

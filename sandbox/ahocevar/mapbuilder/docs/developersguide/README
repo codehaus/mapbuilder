@@ -1,0 +1,10 @@
+$Id$
+
+This Developer's Guide is derived from a Master Developers Guide at
+http://generguide.sourceforge.net using the Generguide scripts and
+local configuration files:
+  entities.ent
+  generconfig.xml
+
+Refer to http://generguide.sourceforge.net for details on how to build
+a guide.
