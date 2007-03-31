@@ -23,6 +23,8 @@ function MapPaneOL(widgetNode, model) {
   
   //TBD Do we need MapContainerBase?
   MapContainerBase.apply(this,new Array(widgetNode, model));
+  
+  OpenLayers.ImgPath = config.skinDir + '/images/openlayers/';
 
   //loading img to be displayed while models load
   /*var loadingSrc = widgetNode.selectSingleNode("mb:loadingSrc");
@@ -106,7 +108,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
                 maxResolution: maxResolution
             };
   
-    objRef.model.map = new OpenLayers.Map(objRef.node, {controls:[]},mapOptions);
+//    objRef.model.map = new OpenLayers.Map(objRef.node, {controls:[]},mapOptions);
+    objRef.model.map = new OpenLayers.Map(objRef.node, mapOptions);
 
 
     // Increase hight of Control layers to allow for lots of layers.
@@ -388,7 +391,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       options.maxExtent=maxExtent;
       options.maxResolution=maxResolution;
       
-      // TODO get this from FeatureType or Layer, not globally
+      //TBD get this from FeatureType or Layer, not globally
       options.projection=proj.srs;
 
       switch(service){
@@ -431,7 +434,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
                  maxfeatures: 1000},
                  options
             );
-            // TODO the following event handler is a workaround
+            //TBD the following event handler is a workaround
             // for getting styles to OL vector layers. There should
             // be a cleaner way to do this, because this way every
             // feature is drawn twice.
@@ -453,7 +456,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
                 options.style=objRef.getWebSafeStyle(objRef, 2*i+1);
             }
             objRef.oLlayers[name2] = new OpenLayers.Layer.GML(title,href,options);
-            // TODO the following event handler is a workaround
+            //TBD the following event handler is a workaround
             // for getting styles to OL vector layers. There should
             // be a cleaner way to do this, because this way every
             // feature is drawn twice.
