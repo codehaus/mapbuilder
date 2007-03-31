@@ -170,85 +170,84 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
  * @return OpenLayers.Style
  */
 MapPaneOL.prototype.extractStyle = function(objRef, node, service) {
-
-if(service=="gml" || service=="wfs")
-{
-    var style1=new Object({
-        map:objRef.model.map
-        });
-    var value;
-    var styleSet=false;
-
-    value=node.selectSingleNode(".//sld:Fill/sld:CssParameter[@name='fill']");
-    if(value){
-        style1.fillColor=value.firstChild.nodeValue;
-        styleSet=true;
-    }
-    value=node.selectSingleNode(".//sld:Fill/sld:CssParameter[@name='fill-opacity']");
-    if(value){
-        style1.fillOpacity=value.firstChild.nodeValue;
-        styleSet=true;
-    }
-
-    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke']");
-    if(value){
-        style1.strokeColor=value.firstChild.nodeValue;
-        styleSet=true;
-    }
-    
-    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke-opacity']");
-    if(value){
-        style1.strokeOpacity=value.firstChild.nodeValue;
-        styleSet=true;
-    }
-    
-    if(!styleSet)style1=null;
-    return style1;
-}
-else if (service=="wms")
-{
-			params=new Array();
-        	var sld=node.selectSingleNode("wmc:StyleList/wmc:Style[@current='1']/wmc:SLD");
-			if(sld)
-			{
-			   if(sld.selectSingleNode("wmc:OnlineResource"))
-			   {	
-			   		params.sld=sld.selectSingleNode("wmc:OnlineResource").getAttribute("xlink:href");
-			  
-			   }
-			   else if(sld.selectSingleNode("wmc:FeatureTypeStyle"))
-			   {
-			   		params.sld=Sarissa.serialize(sld.selectSingleNode("wmc:FeatureTypeStyle"));
-			   }
-			   else if(sld.selectSingleNode("wmc:StyledLayerDescriptor"))
-		    	{ 
-		    		params.sld_body=Sarissa.serialize(sld.selectSingleNode("wmc:StyledLayerDescriptor"));
-		    		
-		    	}
-		    }
-		    else if(node.selectSingleNode("wmc:StyleList/wmc:Style[@current='1']/wmc:Name"))
-		    {
-		    	if(node.selectSingleNode("wmc:StyleList/wmc:Style[@current='1']/wmc:Name").firstChild)
-		    		params.styles=node.selectSingleNode("wmc:StyleList/wmc:Style[@current='1']/wmc:Name").firstChild.nodeValue;
-		    		
-		    }        
-		    
-		    return params;
-
-}
-// OpenLayer.Style is processing style in % coords, not pixels.
-// When this is fixed, the following lines can be uncommented.
-//    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke-width']");
-//    if(value){
-//        style1.strokeWidth=value.firstChild.nodeValue;
-//        styleSet=true;
-//    }
-//  
-//    value=node.selectSingleNode(".//sld:Graphic/sld:Size");
-//    if(value){
-//        style1.pointRadius=value.firstChild.nodeValue;
-//        styleSet=true;
-//    }
+	service = service.toLowerCase().replace(/ogc:/, '');
+	if(service=="gml" || service=="wfs")
+	{
+	    var style1=MapPaneOL.getDefaultStyle();
+	    style1.map = objRef.model.map;
+	    var value;
+	    var styleSet=false;
+	
+	    value=node.selectSingleNode(".//sld:Fill/sld:CssParameter[@name='fill']");
+	    if(value){
+	        style1.fillColor=value.firstChild.nodeValue;
+	        styleSet=true;
+	    }
+	    value=node.selectSingleNode(".//sld:Fill/sld:CssParameter[@name='fill-opacity']");
+	    if(value){
+	        style1.fillOpacity=value.firstChild.nodeValue;
+	        styleSet=true;
+	    }
+	
+	    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke']");
+	    if(value){
+	        style1.strokeColor=value.firstChild.nodeValue;
+	        styleSet=true;
+	    }
+	    
+	    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke-opacity']");
+	    if(value){
+	        style1.strokeOpacity=value.firstChild.nodeValue;
+	        styleSet=true;
+	    }
+	    
+	    if(!styleSet)style1=null;
+	    return style1;
+	}
+	else if (service=="wms")
+	{
+		var params=new Array();
+		var sld=node.selectSingleNode("wmc:StyleList/wmc:Style[@current='1']/wmc:SLD");
+		if(sld)
+		{
+		   if(sld.selectSingleNode("wmc:OnlineResource"))
+		   {	
+		   		params.sld=sld.selectSingleNode("wmc:OnlineResource").getAttribute("xlink:href");
+		  
+		   }
+		   else if(sld.selectSingleNode("wmc:FeatureTypeStyle"))
+		   {
+		   		params.sld=Sarissa.serialize(sld.selectSingleNode("wmc:FeatureTypeStyle"));
+		   }
+		   else if(sld.selectSingleNode("wmc:StyledLayerDescriptor"))
+	    	{ 
+	    		params.sld_body=Sarissa.serialize(sld.selectSingleNode("wmc:StyledLayerDescriptor"));
+	    		
+	    	}
+	    }
+	    else if(node.selectSingleNode("wmc:StyleList/wmc:Style[@current='1']/wmc:Name"))
+	    {
+	    	if(node.selectSingleNode("wmc:StyleList/wmc:Style[@current='1']/wmc:Name").firstChild)
+	    		params.styles=node.selectSingleNode("wmc:StyleList/wmc:Style[@current='1']/wmc:Name").firstChild.nodeValue;
+	    		
+	    }        
+	    
+	    return params;
+	
+	}
+	// OpenLayer.Style is processing style in % coords, not pixels.
+	// When this is fixed, the following lines can be uncommented.
+	//    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke-width']");
+	//    if(value){
+	//        style1.strokeWidth=value.firstChild.nodeValue;
+	//        styleSet=true;
+	//    }
+	//  
+	//    value=node.selectSingleNode(".//sld:Graphic/sld:Size");
+	//    if(value){
+	//        style1.pointRadius=value.firstChild.nodeValue;
+	//        styleSet=true;
+	//    }
    
 }
 /**
@@ -383,11 +382,13 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       // projection info from the baselayer).
       // See Issue http://trac.openlayers.org/ticket/390
       options.isBaseLayer=isBaseLayer;
-      alert(options.isBaseLayer+" "+name2);
+      //alert(options.isBaseLayer+" "+name2);
       options.transparent="TRUE";
       options.buffer=1;
       options.maxExtent=maxExtent;
       options.maxResolution=maxResolution;
+      
+      // TODO get this from FeatureType or Layer, not globally
       options.projection=proj.srs;
 
       switch(service){
@@ -415,11 +416,11 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         case "wfs":
         case "OGC:WFS":
         
-        style=objRef.extractStyle(objRef,layer,service);
+        	var style=objRef.extractStyle(objRef,layer,service);
             if(style){
                 options.style=style;
             }else{
-                options.style=new OpenLayers.Style.WebSafe(2*i+1);
+                options.style=objRef.getWebSafeStyle(objRef, 2*i+1);
             }
             options.featureClass=OpenLayers.Feature.WFS;
             
@@ -429,21 +430,37 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
                 {typename: name2, 
                  maxfeatures: 1000},
                  options
-             );
+            );
+            // TODO the following event handler is a workaround
+            // for getting styles to OL vector layers. There should
+            // be a cleaner way to do this, because this way every
+            // feature is drawn twice.
+			objRef.oLlayers[name2].onFeatureInsert=function(feature) {
+				feature.style = feature.layer.options.style;
+				feature.layer.renderer.drawGeometry(feature.geometry, feature.style);
+			}
             objRef.model.map.addLayer(objRef.oLlayers[name2]);
-             break;
+            break;
              
         // GML Layer
         case "gml":
         case "OGC:GML":
         
-            style=objRef.extractStyle(objRef,layer,service);
+            var style=objRef.extractStyle(objRef,layer,service);
             if(style){
                 options.style=style;
             }else{
-                //options.style=new OpenLayers.Style.WebSafe(2*i+1);
+                options.style=objRef.getWebSafeStyle(objRef, 2*i+1);
             }
             objRef.oLlayers[name2] = new OpenLayers.Layer.GML(title,href,options);
+            // TODO the following event handler is a workaround
+            // for getting styles to OL vector layers. There should
+            // be a cleaner way to do this, because this way every
+            // feature is drawn twice.
+			objRef.oLlayers[name2].onFeatureInsert=function(feature) {
+				feature.style = feature.layer.options.style;
+				feature.layer.renderer.drawGeometry(feature.geometry, feature.style);
+			}
             objRef.model.map.addLayer(objRef.oLlayers[name2]);
             break;
           case "GMAP":
@@ -494,7 +511,7 @@ MapPaneOL.prototype.clearWidget2 = function(objRef) {
     
 }
 
-MapPaneOL.prototype.getWebSafeColor = function(colorNumber) {
+MapPaneOL.prototype.getWebSafeStyle = function(objRef, colorNumber) {
     colors=new Array("00","33","66","99","CC","FF");
     colorNumber=(colorNumber)?colorNumber:0;
     colorNumber=(colorNumber<0)?0:colorNumber;
@@ -503,5 +520,29 @@ MapPaneOL.prototype.getWebSafeColor = function(colorNumber) {
     j=parseInt((colorNumber-i*36)/6);
     k=parseInt((colorNumber-i*36-j*6));
     var color="#"+colors[i]+colors[j]+colors[k];
-    return color;
+    var style = MapPaneOL.getDefaultStyle();
+    style.fillColor = color;
+    style.strokeColor = color;
+    style.map = objRef.model.map;
+
+	return style;
 } 	
+
+MapPaneOL.getDefaultStyle = function(){
+	return new Object({
+	    fillColor: "#ee9900",
+	    fillOpacity: 0.4, 
+	    hoverFillColor: "white",
+	    hoverFillOpacity: 0.8,
+	    strokeColor: "#ee9900",
+	    strokeOpacity: 1,
+	    strokeWidth: 1,
+	    hoverStrokeColor: "red",
+	    hoverStrokeOpacity: 1,
+	    hoverStrokeWidth: 0.2,
+	    pointRadius: 6,
+	    hoverPointRadius: 1,
+	    hoverPointUnit: "%",
+	    pointerEvents: "visiblePainted"
+	});
+}
