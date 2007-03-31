@@ -2,7 +2,7 @@
 License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 */
-
+mapbuilder.loadScript(baseDir+"/model/Proj.js");
 /**
  * Stores an OWS Context document as defined by the OGC interoperability
  * experiment. This model should be eventually merged with the standard OGC 
@@ -108,12 +108,18 @@ function OwsContext(modelNode, parent) {
    */
   this.initBbox=function(objRef) {
     // Set BoundingBox in context from URL CGI params
-    if (window.cgiArgs["bbox"]) {     //set as minx,miny,maxx,maxy
-      var boundingBox = window.cgiArgs["bbox"].split(',');
-      objRef.setBoundingBox(boundingBox);
+    if (window.cgiArgs["bbox"]) {   //set as minx,miny,maxx,maxy
+      var bbox = window.cgiArgs["bbox"].split(',');
+    /////TBD i'm not sure it was necessary 
+    objRef.setBoundingBox(bbox);
+    ///end TBD
+    //OL
+      objRef.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
+	  objRef.setBoundingBox(objRef.map.getExtent().toBBOX().split(','));
+    //OL  
     }
   }
-  this.addListener( "loadModel", this.initBbox, this );  // removed the comment
+  this.addFirstListener( "loadModel", this.initBbox, this );  // removed the comment
   //this.addListener( "contextLoaded", this.initBbox, this );
 
   /**
@@ -154,7 +160,15 @@ function OwsContext(modelNode, parent) {
       return srs;
     } 
   }
-
+/**
+   * Get the Projection object from the context document.
+   * @return Proj Object of  The Spatial Reference System.
+   */
+  this.initProj=function(objRef) {
+    objRef.proj=new Proj(objRef.getSRS());
+    
+  }
+   this.addFirstListener( "loadModel", this.initProj, this );
   /**
    * Get the Window width.
    * @return width The width of map window from the context document
@@ -503,4 +517,3 @@ function OwsContext(modelNode, parent) {
     return this.timestampList.childNodes[index].firstChild.nodeValue;
   }
 }
-
