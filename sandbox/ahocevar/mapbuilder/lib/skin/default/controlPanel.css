@@ -10,6 +10,7 @@ Styles for buttonBar
 .olControlPanel div { 
 	display: block;
 	float: left;
+	cursor: pointer;
 	width:  24px;
 	height: 24px;
 	background-color:red;
