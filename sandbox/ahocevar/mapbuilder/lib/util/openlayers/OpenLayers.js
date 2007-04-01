@@ -225,7 +225,7 @@ if (typeof(_OPENLAYERS_SFL_) == "undefined") {
     if (allScriptTags) document.write(allScriptTags);
     })();
 }
-OpenLayers.VERSION_NUMBER="$Revision$";
+OpenLayers.VERSION_NUMBER="Revision: 2891";
 /* ======================================================================    OpenLayers/BaseTypes.js
    ====================================================================== */
 
@@ -5489,7 +5489,7 @@ OpenLayers.Control.Panel.prototype =
         this.controls = this.controls.concat(controls);
         if (this.map) { // map.addControl() has already been called on the panel
             for (var i = 0; i < controls.length; i++) {
-                map.addControl(controls[i]);
+                this.map.addControl(controls[i]);
                 controls[i].deactivate();
             }
             this.redraw();

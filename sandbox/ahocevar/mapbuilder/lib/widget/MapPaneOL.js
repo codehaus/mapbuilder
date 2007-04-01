@@ -108,8 +108,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
                 maxResolution: maxResolution
             };
   
-//    objRef.model.map = new OpenLayers.Map(objRef.node, {controls:[]},mapOptions);
-    objRef.model.map = new OpenLayers.Map(objRef.node, mapOptions);
+    objRef.model.map = new OpenLayers.Map(objRef.node, {controls:[]},mapOptions);
+//    objRef.model.map = new OpenLayers.Map(objRef.node, mapOptions);
 
 
     // Increase hight of Control layers to allow for lots of layers.

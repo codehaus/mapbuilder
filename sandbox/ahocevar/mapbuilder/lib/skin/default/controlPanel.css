@@ -1,0 +1,16 @@
+/*
+$Id$
+Styles for buttonBar
+*/
+
+.olControlPanel {
+	height: 24px;
+}
+
+.olControlPanel div { 
+	display: block;
+	float: left;
+	width:  24px;
+	height: 24px;
+	background-color:red;
+}

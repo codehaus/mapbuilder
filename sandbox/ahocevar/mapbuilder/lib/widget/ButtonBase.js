@@ -4,7 +4,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
  * Abstract base Button object that all Buttons extend.  
@@ -18,9 +18,6 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
  * @param model The parent model object (optional).
  */
 function ButtonBase(widgetNode, model) {
-
-  //stylesheet is fixed to this one
-  this.stylesheet = new XslProcessor(baseDir+"/widget/Button.xsl", model.namespace);
   var buttonBarNode = widgetNode.selectSingleNode("mb:buttonBar");
   if ( buttonBarNode ) {
     this.htmlTagId = buttonBarNode.firstChild.nodeValue;
@@ -36,7 +33,32 @@ function ButtonBase(widgetNode, model) {
     alert(mbGetMessage("buttonBarRequired", widgetNode.nodeName));
   }
 
-  WidgetBaseXSL.apply(this, new Array(widgetNode, model));
+  // html tag id of the div where OL places its panel code
+  this.panelHtmlTagId = this.htmlTagId+'_panel';
+  // create a dom node for OL to use as panel
+  if (!document.getElementById(this.panelHtmlTagId)) {
+	  var parentNode = document.getElementById(this.htmlTagId);
+	  var olPanelNode = document.createElement('div');
+	  olPanelNode.setAttribute('id', this.panelHtmlTagId);
+	  olPanelNode.setAttribute('class', 'olControlPanel');
+	  parentNode.appendChild(olPanelNode);
+	  // workaround for IE - otherwise nothing is displayed
+	  parentNode.innerHTML += ' ';
+  }
+
+  //TBD maybe move this to Mapbuilder.js
+  //TBD take care of this when compressing Mapbuilder
+  // load controlPanel.css for button base styles
+  if (!document.getElementById('controlPanelCss')) {
+	var cssNode = document.createElement('link');
+	cssNode.setAttribute('id', 'controlPanelCss');
+	cssNode.setAttribute('rel', 'stylesheet');
+	cssNode.setAttribute('type', 'text/css');
+	cssNode.setAttribute('href', config.skinDir+'/controlPanel.css');
+	document.getElementsByTagName('head')[0].appendChild(cssNode);
+  }
+
+  WidgetBase.apply(this, new Array(widgetNode, model));
 
   //set the button type
   this.buttonType = widgetNode.selectSingleNode("mb:class").firstChild.nodeValue;
@@ -55,8 +77,9 @@ function ButtonBase(widgetNode, model) {
     this.enabledImage = document.createElement("IMG");
     this.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
   }
-  
+
   // Check for cursor override
+  //TBD does nothing in MapPaneOL so far
   var cursorNode = this.widgetNode.selectSingleNode("mb:cursor");
   if( cursorNode != null ) {
     var cursor = cursorNode.firstChild.nodeValue;
@@ -64,14 +87,27 @@ function ButtonBase(widgetNode, model) {
   } else {
     this.cursor = "default"; // Adding support for customized cursors
   }
+  
+  //a button may be set as selected in the config file
+  var selected = widgetNode.selectSingleNode("mb:selected");
+  if (selected && selected.firstChild.nodeValue) this.selected = true;
 
   /**
-   * Override of widgetBase prePaint to set the doc to be styled as the widget
-   * node in config for this button.
-   * @param objRef Pointer to this object.
+   * Gets the css classname for this widget. We use this
+   * in Button.xsl to define the button styles.
+   * @param objRef Reference to this object.
+   * @param state 'Active' or 'Inactive' (case sensitive!)
    */
-  this.prePaint = function(objRef) {
-    objRef.resultDoc = objRef.widgetNode;
+  this.getCssName = function(objRef, state) {
+  	var cssName;
+  	if (objRef.control.CLASS_NAME) {
+  		cssName = objRef.control.CLASS_NAME;
+  	} else {
+  		cssName = objRef.control.displayClass;
+  	}
+  	cssName += 'Item';
+  	cssName = cssName.replace(/OpenLayers/, 'ol').replace(/\./g, '');
+  	return '.' + cssName + state;
   }
 
   /**
@@ -98,26 +134,6 @@ function ButtonBase(widgetNode, model) {
       a.style.cursor = this.cursor;
     }  
 
-    //changed 3 lines: this.node -> this.groupnode DVDE       
-    if (this.buttonType == "RadioButton") {
-      if (this.groupnode.selectedRadioButton) {
-        with (this.groupnode.selectedRadioButton) {
-          if (disabledImage) image.src = disabledImage.src;
-          enabled = false;
-          if ( mouseHandler ) mouseHandler.enabled = false;
-          link.className = "mbButton";
-          doSelect(false,this);
-        }
-      }
-      this.groupnode.selectedRadioButton = this;
-      if (this.enabledImage) this.image.src = this.enabledImage.src;
-      this.link.className = "mbButtonSelected";
-    }
-    
-    //enable this tool and any dependancies
-    this.enabled = true;
-    if ( this.mouseHandler ) this.mouseHandler.enabled = true;
-    this.doSelect(true,this);
   }
 
   /**
@@ -127,40 +143,70 @@ function ButtonBase(widgetNode, model) {
    */
   this.doSelect = function(selected, objRef) {
   }
-
-  //a button may be set as selected in the config file
-  var selected = widgetNode.selectSingleNode("mb:selected");
-  if (selected && selected.firstChild.nodeValue) this.selected = true;
-
+  
   /**
-   * A listener method to initialize the mouse handler, if configured.  This is
-   * called as an init event so that the object pointed to is guaranteed to 
-   * be instantiated.
+   * Add the OL control for this button to the map when
+   * it is loaded. Method overridden by subclasses. Usually
+   * just calls the setControl method.
    * @param objRef Reference to this object.
    */
-  this.initMouseHandler = function(objRef) {
-    /** Mouse handler which this tool will register listeners with. */
-    var mouseHandler = objRef.widgetNode.selectSingleNode("mb:mouseHandler");
-    if (mouseHandler) {
-      objRef.mouseHandler = window.config.objects[mouseHandler.firstChild.nodeValue];
-      if (!objRef.mouseHandler) {
-        alert(mbGetMessage("noMouseHandlerButton", mouseHandler.firstChild.nodeValue, objRef.id));
-      }
-    } else {
-      objRef.mouseHandler = null;
-    }
+  this.addToMap = function(objRef) {
+  	objRef.setControl(objRef.control, objRef);
   }
 
   /**
-   * Initialise image for the button and select it if required.
+   * Sets the OL control for this button and add it
+   * to the buttonBar.
+   * @param {OpenLayers.Control} control to add.
    * @param objRef Reference to this object.
    */
+  this.setControl = function(control, objRef) {
+  	var map = objRef.targetModel.map;
+  	var panel = objRef.targetModel.buttonBars[objRef.htmlTagId];
+  	// create a panel, if we do not have one yet for this buttonBar
+    if (!panel) {
+    	panel = new OpenLayers.Control.Panel({div: $(objRef.panelHtmlTagId), defaultControl: null});
+    	objRef.targetModel.buttonBars[objRef.htmlTagId] = panel;
+	    map.addControl(panel);
+    }
+
+    panel.addControls(control);
+    if (objRef.selected == true) {
+		//TBD maybe raise an issue in OL - seems strange that
+		// we have to deactivate/activate the panel to have
+		// the previously activated tool deactivated. Or
+		// maybe I (ahocevar) am getting something wrong here.
+    	panel.deactivate();
+		control.activate();
+		panel.activate();
+  	}
+
+	// create css
+	if (this.buttonType == 'RadioButton') {
+		var activeRule = addCSSRule(this.getCssName(this, 'Active'));
+		activeRule.style.backgroundImage = "url(\""+this.enabledImage.src+"\")";
+	}
+	var inactiveRule = addCSSRule(this.getCssName(this, 'Inactive'));
+	inactiveRule.style.backgroundImage = "url(\""+this.disabledImage.src+"\")";
+  }
+
+  /**
+   * Initialise the buttonBars array in the context document
+   * and add a listener to the target model for adding controls
+   * to the OL map as soon as it is initialized.
+   * @param objRef Reference to this object.
+   */  
   this.buttonInit = function(objRef) {
-    objRef.image = document.getElementById( objRef.id+"_image" );
-    objRef.link = document.getElementById( objRef.outputNodeId );
-    if (objRef.selected) objRef.select();
+    if (!objRef.targetModel.buttonBars) {
+    	// this array in the context will hold all
+    	// buttonBars used by button widgets
+    	objRef.targetModel.buttonBars = new Array();
+    }
+	// add another event listener for the loaded context,
+	// because we need the map to add panel and buttons,
+	// and we do not have tha map yet
+  	objRef.targetModel.addListener("refresh", objRef.addToMap, objRef);
   }
 
   this.model.addListener("refresh",this.buttonInit,this);
-  this.model.addListener("init", this.initMouseHandler, this);
 }
