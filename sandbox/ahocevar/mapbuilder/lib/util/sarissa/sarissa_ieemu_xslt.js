@@ -3,7 +3,7 @@
  * About
  * ====================================================================
  * Sarissa cross browser XML library - IE XSLT Emulation (deprecated)
- * @version 0.9.6.1
+ * @version 0.9.7.6
  * @author: Manos Batsis, mailto: mbatsis at users full stop sourceforge full stop net
  *
  * This script emulates Internet Explorer's transformNode and transformNodeToObject
@@ -12,25 +12,25 @@
  *
  * All functionality in this file is DEPRECATED, the XSLTProcessor
  * should be used instead.
- * 
+ *
  * ====================================================================
  * Licence
  * ====================================================================
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 or
- * the GNU Lesser General Public License version 2.1 as published by
- * the Free Software Foundation (your choice between the two).
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License or GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * or GNU Lesser General Public License along with this program; if not,
- * write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- * or visit http://www.gnu.org
- *
+ * Sarissa is free software distributed under the GNU GPL version 2 (see <a href="gpl.txt">gpl.txt</a>) or higher, 
+ * GNU LGPL version 2.1 (see <a href="lgpl.txt">lgpl.txt</a>) or higher and Apache Software License 2.0 or higher 
+ * (see <a href="asl.txt">asl.txt</a>). This means you can choose one of the three and use that if you like. If 
+ * you make modifications under the ASL, i would appreciate it if you submitted those.
+ * In case your copy of Sarissa does not include the license texts, you may find
+ * them online in various formats at <a href="http://www.gnu.org">http://www.gnu.org</a> and 
+ * <a href="http://www.apache.org">http://www.apache.org</a>.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY 
+ * KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+ * WARRANTIES OF MERCHANTABILITY,FITNESS FOR A PARTICULAR PURPOSE 
+ * AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 if(!Sarissa.IS_ENABLED_TRANSFORM_NODE && window.XSLTProcessor){
     /** 
@@ -42,7 +42,7 @@ if(!Sarissa.IS_ENABLED_TRANSFORM_NODE && window.XSLTProcessor){
      * @argument xslDoc The stylesheet to use (a DOM Document instance)
      * @argument oResult The Document to store the transformation result
      */
-    Element.prototype.transformNodeToObject = function(xslDoc, oResult){
+    XMLElement.prototype.transformNodeToObject = function(xslDoc, oResult){
         var oDoc = document.implementation.createDocument("", "", null);
         Sarissa.copyChildNodes(this, oDoc);
         oDoc.transformNodeToObject(xslDoc, oResult);
@@ -90,7 +90,7 @@ if(!Sarissa.IS_ENABLED_TRANSFORM_NODE && window.XSLTProcessor){
      * @argument xslDoc The stylesheet to use (a DOM Document instance)
      * @returns the result of the transformation serialized to an XML String
      */
-    Element.prototype.transformNode = function(xslDoc){
+    XMLElement.prototype.transformNode = function(xslDoc){
         var oDoc = document.implementation.createDocument("", "", null);
         Sarissa.copyChildNodes(this, oDoc);
         return oDoc.transformNode(xslDoc);
@@ -119,7 +119,7 @@ if(!Sarissa.IS_ENABLED_TRANSFORM_NODE && window.XSLTProcessor){
     Sarissa.IS_ENABLED_TRANSFORM_NODE = true;
 };
 /**
- * <p><b>Deprecated, will be removed in 0.9.6 (use XSLTProcessor instead): </b>Set xslt parameters.</p>
+ * <p>Deprecated (use XSLTProcessor instead): Set xslt parameters.</p>
  * <p><b>Note </b> that this method can only work for the main stylesheet and not any included/imported files.</p>
  * @deprecated use the XSLTProcessor instead
  * @argument oXslDoc the target XSLT DOM Document

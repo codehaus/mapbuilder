@@ -3,7 +3,7 @@
  * About
  * ====================================================================
  * Sarissa cross browser XML library - IE XPath Emulation 
- * @version 0.9.6.1
+ * @version 0.9.7.6
  * @author: Manos Batsis, mailto: mbatsis at users full stop sourceforge full stop net
  *
  * This script emulates Internet Explorer's selectNodes and selectSingleNode
@@ -11,30 +11,28 @@
  * is easy with IE's setProperty. 
  * USers may also map a namespace prefix to a default (unprefixed) namespace in the
  * source document with Sarissa.setXpathNamespaces
- * 
+ *
  *
  * ====================================================================
  * Licence
  * ====================================================================
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 or
- * the GNU Lesser General Public License version 2.1 as published by
- * the Free Software Foundation (your choice between the two).
+ * Sarissa is free software distributed under the GNU GPL version 2 (see <a href="gpl.txt">gpl.txt</a>) or higher, 
+ * GNU LGPL version 2.1 (see <a href="lgpl.txt">lgpl.txt</a>) or higher and Apache Software License 2.0 or higher 
+ * (see <a href="asl.txt">asl.txt</a>). This means you can choose one of the three and use that if you like. If 
+ * you make modifications under the ASL, i would appreciate it if you submitted those.
+ * In case your copy of Sarissa does not include the license texts, you may find
+ * them online in various formats at <a href="http://www.gnu.org">http://www.gnu.org</a> and 
+ * <a href="http://www.apache.org">http://www.apache.org</a>.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License or GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * or GNU Lesser General Public License along with this program; if not,
- * write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- * or visit http://www.gnu.org
- *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY 
+ * KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+ * WARRANTIES OF MERCHANTABILITY,FITNESS FOR A PARTICULAR PURPOSE 
+ * AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
- var _SARISSA_HAS_DOM_IMPLEMENTATION = document.implementation && true;
- var _SARISSA_HAS_DOM_FEATURE = _SARISSA_HAS_DOM_IMPLEMENTATION && document.implementation.hasFeature;
- 
 if(_SARISSA_HAS_DOM_FEATURE && document.implementation.hasFeature("XPath", "3.0")){
     /**
     * <p>SarissaNodeList behaves as a NodeList but is only used as a result to <code>selectNodes</code>,
@@ -69,7 +67,9 @@ if(_SARISSA_HAS_DOM_FEATURE && document.implementation.hasFeature("XPath", "3.0"
     */
     SarissaNodeList.prototype.expr = "";
     /** dummy, used to accept IE's stuff without throwing errors */
-    XMLDocument.prototype.setProperty  = function(x,y){};
+    if(window.XMLDocument && (!XMLDocument.prototype.setProperty)){
+        XMLDocument.prototype.setProperty  = function(x,y){};
+    };
     /**
     * <p>Programmatically control namespace URI/prefix mappings for XPath
     * queries.</p>
@@ -103,7 +103,7 @@ if(_SARISSA_HAS_DOM_FEATURE && document.implementation.hasFeature("XPath", "3.0"
             var ns = namespaces[i];
             var colonPos = ns.indexOf(":");
             var assignPos = ns.indexOf("=");
-            if(colonPos == 5 && assignPos > colonPos+2){
+            if(colonPos > 0 && assignPos > colonPos+1){
                 var prefix = ns.substring(colonPos+1, assignPos);
                 var uri = ns.substring(assignPos+2, ns.length-1);
                 oDoc._sarissa_xpathNamespaces[prefix] = uri;
@@ -127,7 +127,7 @@ if(_SARISSA_HAS_DOM_FEATURE && document.implementation.hasFeature("XPath", "3.0"
     * @returns the result of the XPath search as a SarissaNodeList
     * @throws An error if no namespace URI is found for the given prefix.
     */
-    XMLDocument.prototype.selectNodes = function(sExpr, contextNode){
+    XMLDocument.prototype.selectNodes = function(sExpr, contextNode, returnSingle){
         var nsDoc = this;
         var nsresolver = this._sarissa_useCustomResolver
         ? function(prefix){
@@ -136,15 +136,25 @@ if(_SARISSA_HAS_DOM_FEATURE && document.implementation.hasFeature("XPath", "3.0"
             else throw "No namespace URI found for prefix: '" + prefix+"'";
             }
         : this.createNSResolver(this.documentElement);
+        var result = null;
+        if(!returnSingle){
             var oResult = this.evaluate(sExpr,
-                    (contextNode?contextNode:this),
-                    nsresolver,
-                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-        var nodeList = new SarissaNodeList(oResult.snapshotLength);
-        nodeList.expr = sExpr;
-        for(var i=0;i<nodeList.length;i++)
-            nodeList[i] = oResult.snapshotItem(i);
-        return nodeList;
+                (contextNode?contextNode:this),
+                nsresolver,
+                XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+            var nodeList = new SarissaNodeList(oResult.snapshotLength);
+            nodeList.expr = sExpr;
+            for(var i=0;i<nodeList.length;i++)
+                nodeList[i] = oResult.snapshotItem(i);
+            result = nodeList;
+        }
+        else {
+            result = oResult = this.evaluate(sExpr,
+                (contextNode?contextNode:this),
+                nsresolver,
+                XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        };
+        return result;      
     };
     /**
     * <p>Extends the Element to emulate IE's selectNodes</p>
@@ -162,7 +172,7 @@ if(_SARISSA_HAS_DOM_FEATURE && document.implementation.hasFeature("XPath", "3.0"
             throw "Method selectNodes is only supported by XML Elements";
     };
     /**
-    * <p>Extends the XMLDocument to emulate IE's selectSingleNodes.</p>
+    * <p>Extends the XMLDocument to emulate IE's selectSingleNode.</p>
     * @argument sExpr the XPath expression to use
     * @argument contextNode this is for internal use only by the same
     *           method when called on Elements
@@ -170,15 +180,10 @@ if(_SARISSA_HAS_DOM_FEATURE && document.implementation.hasFeature("XPath", "3.0"
     */
     XMLDocument.prototype.selectSingleNode = function(sExpr, contextNode){
         var ctx = contextNode?contextNode:null;
-        sExpr = "("+sExpr+")[1]";
-        var nodeList = this.selectNodes(sExpr, ctx);
-        if(nodeList.length > 0)
-            return nodeList.item(0);
-        else
-            return null;
+        return this.selectNodes(sExpr, ctx, true);
     };
     /**
-    * <p>Extends the Element to emulate IE's selectNodes.</p>
+    * <p>Extends the Element to emulate IE's selectSingleNode.</p>
     * @argument sExpr the XPath expression to use
     * @returns the result of the XPath search as an (Sarissa)NodeList
     * @throws An error if invoked on an HTML Element as this is only be

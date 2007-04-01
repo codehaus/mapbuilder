@@ -39,12 +39,12 @@ function XslProcessor(xslUrl,docNSUri) {
     try {
       // transform and build a web page with result
       var newDoc = this.transformNodeToObject(xmlNode);
-      var s = Sarissa.serialize(newDoc);
+      var s = (new XMLSerializer()).serializeToString(newDoc);
       return Sarissa.unescape(s);
     } catch(e){
       alert(mbGetMessage("exceptionTransformingDoc", this.xslUrl));
-      alert("XSL="+Sarissa.serialize(this.xslDom));
-      alert("XML="+Sarissa.serialize(xmlNode));
+      alert("XSL="+(new XMLSerializer()).serializeToString(this.xslDom));
+      alert("XML="+(new XMLSerializer()).serializeToString(xmlNode));
     }
   }
 
@@ -608,3 +608,79 @@ function mbFormatMessage(messageFormat)
   }
   return message;
 }
+
+/**
+ * Gets a CSS rule. Thanks to Patrick Hunlock for inspiring this at
+ * http://www.hunlock.com/blogs/Totally_Pwn_CSS_with_Javascript.
+ * @param ruleName exact name (full selector) of the css rule to get
+ * @param actionFlag 'delete' or 'add' for additional operations
+ */
+function getCSSRule(ruleName, actionFlag) {
+	var styleSheet = document.getElementById('mbGeneratedStyles');
+	if (!styleSheet) {
+		styleSheet = document.createElement('style');
+		styleSheet.type = 'text/css';
+		styleSheet.title = 'mbGeneratedStyles';
+		styleSheet.id = 'mbGeneratedStyles';
+		document.getElementsByTagName('head')[0].appendChild(styleSheet);
+	}
+	if (document.styleSheets) {
+	   	for (var i in document.styleSheets) {
+	   		styleSheet = document.styleSheets[i];
+	   		if (styleSheet.title == 'mbGeneratedStyles') {
+	   			break;
+	   		}
+	   	}
+		var moz = styleSheet.cssRules ? true : false;
+		var cssRule=false;
+		var cssRules = moz ? styleSheet.cssRules : styleSheet.rules;  
+		for (var ii in cssRules) {
+			cssRule = cssRules[ii];
+			if (cssRule)  {
+		    	if (cssRule.selectorText==ruleName) {
+		    		if (actionFlag=='delete') {
+		    			if (moz) {
+		    				styleSheet.deleteRule(ii);
+						} else {
+		    				styleSheet.removeRule(ii);
+		            	}
+		            	return true;
+		         	} else {
+		            	return cssRule;
+		         	}
+				}
+			}  
+		}
+		if (actionFlag == 'add') {
+			var idx = cssRules.length;
+			if (moz) {
+				styleSheet.insertRule(ruleName+' { }', idx);
+				cssRule = cssRules[idx];
+			} else {
+	            styleSheet.addRule(ruleName, null, idx);
+	            cssRule = cssRules[idx];
+			}
+			return cssRule;
+		}     
+	}
+	return false;
+}
+
+/**
+ * Removes a CSS rule. Thanks to Patrick Hunlock for providing this at
+ * http://www.hunlock.com/blogs/Totally_Pwn_CSS_with_Javascript
+ * @param ruleName exact name (full selector) of the css rule to remove
+ */
+function killCSSRule(ruleName) {
+   return getCSSRule(ruleName, 'delete');
+}
+
+/**
+ * Adds a CSS rule. Thanks to Patrick Hunlock for providing this at
+ * http://www.hunlock.com/blogs/Totally_Pwn_CSS_with_Javascript
+ * @param ruleName exact name (full selector) of the css rule to add
+ * @param deleteFlag do not use - internally used by killCSSRule
+ */
+function addCSSRule(ruleName) {
+   return getCSSRule(ruleName, 'add');
+} 

@@ -190,7 +190,7 @@ function ModelBase(modelNode, parentModel) {
 
                 if( (xmlHttp.responseXML != null) && (xmlHttp.responseXML.root != null) && (xmlHttp.responseXML.root.children.length>0) ) {
                   objRef.doc = xmlHttp.responseXML;
-                  if( objRef.doc.parseError == 0 ) {
+                  if( Sarissa.getParseErrorText(objRef.doc) == Sarissa.PARSED_OK ) {
                     objRef.finishLoading();      
                   } else {
                     alert(mbGetMessage("parsingError", objRef.doc.parseError, Sarissa.getParseErrorText(objRef.doc)));
@@ -208,7 +208,7 @@ function ModelBase(modelNode, parentModel) {
                     alert(mbGetMessage("documentParseError", Sarissa.getParseErrorText(objRef.doc)));
                     // debugger;
                   } else {
-                    if( objRef.doc.parseError == 0 ) {
+                    if( Sarissa.getParseErrorText(objRef.doc) == Sarissa.PARSED_OK ) {
                       objRef.finishLoading();      
                     } else {
                       alert(mbGetMessage("parsingError", objRef.doc.parseError, Sarissa.getParseErrorText(objRef.doc)));
