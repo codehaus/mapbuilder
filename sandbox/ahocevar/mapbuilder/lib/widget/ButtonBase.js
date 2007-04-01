@@ -100,13 +100,13 @@ function ButtonBase(widgetNode, model) {
    */
   this.getCssName = function(objRef, state) {
   	var cssName;
-  	if (objRef.control.CLASS_NAME) {
-  		cssName = objRef.control.CLASS_NAME;
-  	} else {
+  	if (objRef.control.displayClass) {
   		cssName = objRef.control.displayClass;
+  	} else {
+  		cssName = objRef.control.CLASS_NAME;
+	  	cssName = cssName.replace(/OpenLayers/, 'ol').replace(/\./g, '');
   	}
   	cssName += 'Item';
-  	cssName = cssName.replace(/OpenLayers/, 'ol').replace(/\./g, '');
   	return '.' + cssName + state;
   }
 
