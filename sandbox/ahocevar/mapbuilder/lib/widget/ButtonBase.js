@@ -172,13 +172,7 @@ function ButtonBase(widgetNode, model) {
 
     panel.addControls(control);
     if (objRef.selected == true) {
-		//TBD maybe raise an issue in OL - seems strange that
-		// we have to deactivate/activate the panel to have
-		// the previously activated tool deactivated. Or
-		// maybe I (ahocevar) am getting something wrong here.
-    	panel.deactivate();
 		control.activate();
-		panel.activate();
   	}
 
 	// create css
