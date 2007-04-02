@@ -5,6 +5,7 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
+mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 
 /**
  * When this button is selected, clicks on the MapPane trigger a zoomIn to the 
@@ -16,8 +17,10 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @param model The model for this widget
  */
 function Reset(widgetNode, model) {
-  // The OpenLayers control we want to use for this widget
-  this.control = new OpenLayers.Control.ZoomToMaxExtent();
+
+  this.createControl = function() {
+  	return new OpenLayers.Control.ZoomToMaxExtent();
+  }
   
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));

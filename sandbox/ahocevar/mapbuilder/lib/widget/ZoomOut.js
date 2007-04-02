@@ -5,6 +5,7 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
+mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 
 /**
  * When this button is selected, clicks on the MapPane trigger a zoomIn to the 
@@ -16,25 +17,26 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @param model The model for this widget
  */
 function ZoomOut(widgetNode, model) {
-  // The OpenLayers control we want to use for this widget
-  this.control = new this.ZoomOut();
-  
+
+  this.createControl = function(objRef) {
+    Control = OpenLayers.Class.create();
+    Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
+      displayClass: 'mbControlZoomOut',
+      type: OpenLayers.Control.TYPE_BUTTON, // constant from OpenLayers.Control
+      setMap: function(map) {
+        this.map = map;
+      },
+      draw: function() {
+      },
+      deactivate: function () {
+      },
+      trigger: function() {
+        this.map.zoomOut();
+      }
+    });
+    return new Control();
+  }
+
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
-}
-
-ZoomOut.prototype.ZoomOut = function() {};
-ZoomOut.prototype.ZoomOut.prototype = {
-    displayClass: 'mbControlZoomOut',
-    type: 1, // constant from OpenLayers.Control
-    setMap: function(map) {
-        this.map = map;
-    },
-    draw: function() {
-    },
-    deactivate: function () {
-    },
-    trigger: function() {
-        this.map.zoomOut();
-    }
 }

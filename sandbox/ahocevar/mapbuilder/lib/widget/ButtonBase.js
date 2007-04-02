@@ -5,9 +5,10 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 
 /**
- * Abstract base Button object that all Buttons extend.  
+ * Abstract base utton object that all Buttons extend.  
  * A Button is a widget which renders an image and an optional second image 
  * for the enabled state.
  * @constructor
@@ -23,7 +24,7 @@ function ButtonBase(widgetNode, model) {
     this.htmlTagId = buttonBarNode.firstChild.nodeValue;
     //1Row added DVDE  
     this.buttonBarGroup = this.htmlTagId;    
-  }   
+  }
   //3 rows deleted  -7Rows added DVDE      
   var htmlTagNode = widgetNode.selectSingleNode("mb:htmlTagId");    
   if (htmlTagNode) {
@@ -109,6 +110,13 @@ function ButtonBase(widgetNode, model) {
   	cssName += 'Item';
   	return '.' + cssName + state;
   }
+  
+  /**
+   * OpenLayers control for this button.
+   * This will be filled with the instance of the control
+   * by the attachToOL method.
+   */
+  this.control = null;
 
   /**
    * Override this in buttons which inherit from this object to carry out the action.
@@ -145,22 +153,14 @@ function ButtonBase(widgetNode, model) {
   }
   
   /**
-   * Add the OL control for this button to the map when
-   * it is loaded. Method overridden by subclasses. Usually
-   * just calls the setControl method.
-   * @param objRef Reference to this object.
-   */
-  this.addToMap = function(objRef) {
-  	objRef.setControl(objRef.control, objRef);
-  }
-
-  /**
-   * Sets the OL control for this button and add it
-   * to the buttonBar.
+   * Attaches the control for this button to OpenLayers
+   * and add it to the buttonBar.
    * @param {OpenLayers.Control} control to add.
    * @param objRef Reference to this object.
    */
-  this.setControl = function(control, objRef) {
+  this.attachToOL = function(objRef) {
+	// get the control from the createControl method of the subclass
+  	objRef.control = objRef.createControl(objRef);
   	var map = objRef.targetModel.map;
   	var panel = objRef.targetModel.buttonBars[objRef.htmlTagId];
   	// create a panel, if we do not have one yet for this buttonBar
@@ -170,18 +170,18 @@ function ButtonBase(widgetNode, model) {
 	    map.addControl(panel);
     }
 
-    panel.addControls(control);
+    panel.addControls(objRef.control);
     if (objRef.selected == true) {
-		control.activate();
+		objRef.control.activate();
   	}
 
 	// create css
-	if (this.buttonType == 'RadioButton') {
-		var activeRule = addCSSRule(this.getCssName(this, 'Active'));
-		activeRule.style.backgroundImage = "url(\""+this.enabledImage.src+"\")";
+	if (objRef.buttonType == 'RadioButton') {
+		var activeRule = addCSSRule(objRef.getCssName(objRef, 'Active'));
+		activeRule.style.backgroundImage = "url(\""+objRef.enabledImage.src+"\")";
 	}
-	var inactiveRule = addCSSRule(this.getCssName(this, 'Inactive'));
-	inactiveRule.style.backgroundImage = "url(\""+this.disabledImage.src+"\")";
+	var inactiveRule = addCSSRule(objRef.getCssName(objRef, 'Inactive'));
+	inactiveRule.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
   }
 
   /**
@@ -199,7 +199,7 @@ function ButtonBase(widgetNode, model) {
 	// add another event listener for the loaded context,
 	// because we need the map to add panel and buttons,
 	// and we do not have tha map yet
-  	objRef.targetModel.addListener("refresh", objRef.addToMap, objRef);
+  	objRef.targetModel.addListener("refresh", objRef.attachToOL, objRef);
   }
 
   this.model.addListener("refresh",this.buttonInit,this);
