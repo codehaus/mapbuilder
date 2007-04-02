@@ -159,6 +159,10 @@ function ButtonBase(widgetNode, model) {
    * @param objRef Reference to this object.
    */
   this.attachToOL = function(objRef) {
+  	// nothing to do here if subclass does not have a
+  	// createControl method
+  	if (!objRef.createControl) return;
+  	
 	// get the control from the createControl method of the subclass
   	objRef.control = objRef.createControl(objRef);
   	var map = objRef.targetModel.map;
