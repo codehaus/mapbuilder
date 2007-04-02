@@ -126,7 +126,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   //toolbar.div=document.getElementById("ButtonBar");
     var layers = objRef.model.getAllLayers();
       
-    for (var i=layers.length-1;i>=0;i--) {
+    for (var i=0;i<=layers.length-1;i++) {
     	objRef.addLayer(objRef,layers[i]);
     }
     //objRef.model.map.zoomTo(1);
