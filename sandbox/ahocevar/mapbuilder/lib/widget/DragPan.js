@@ -8,11 +8,10 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 
 /**
- * When this button is selected, clicks on the MapPane trigger a zoomIn to the 
- * currently set AOI.
+ * When this button is selected, dragging in the map moves the map extent.
  * @constructor
  * @base ButtonBase
- * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
+ * @author Andreas HocevarATgmail.com
  * @param widgetNode The widget node from the Config XML file.
  * @param model The model for this widget
  */
