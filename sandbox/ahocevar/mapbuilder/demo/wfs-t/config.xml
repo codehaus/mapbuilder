@@ -16,31 +16,18 @@
     <Context id="mainMap">
       <defaultModelUrl>tasmania.xml</defaultModelUrl>
       <widgets>
-        <MapPane id="mainMapWidget">
+        <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
           <mapContainerId>mainMapContainer</mapContainerId>
-        </MapPane>
+        </MapPaneOL>
         <Loading id="loading"/>
-        <AoiBoxWZ id="aoiBox2">
-          <htmlTagId>mainMapPane</htmlTagId>
-          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
-          <mapContainerId>mainMapContainer</mapContainerId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>1</lineWidth>
-          <crossSize>15</crossSize>
-        </AoiBoxWZ>
-        <CursorTrack id="cursorTrack">
+        <!-- CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
-        </CursorTrack>
+        </CursorTrack -->
         <Legend id="legend"/>
         <Version id="version"/>
       </widgets>
       <tools>
-        <AoiMouseHandler id="mainAoi"/>
-        <DragPanHandler id="mainDragPan">
-          <enabled>false</enabled>
-        </DragPanHandler>
-        <MouseClickHandler id="mainMouseClick"/>
       </tools>
     </Context>
     <Context id="locator">
@@ -177,6 +164,7 @@
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
       <typeName>topp:tasmania_cities,topp:tasmania_roads</typeName>
       <tolerance>5</tolerance>
+      <maxFeatures>10</maxFeatures>
     </WfsGetFeature>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
