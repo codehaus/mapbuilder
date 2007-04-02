@@ -20,7 +20,7 @@ function ZoomOut(widgetNode, model) {
   this.createControl = function(objRef) {
     var Control = OpenLayers.Class.create();
     Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
-      displayClass: 'mbControlZoomOut',
+      CLASS_NAME: 'mbControl.ZoomOut',
       type: OpenLayers.Control.TYPE_BUTTON, // constant from OpenLayers.Control
       trigger: function() {
         this.map.zoomOut();
