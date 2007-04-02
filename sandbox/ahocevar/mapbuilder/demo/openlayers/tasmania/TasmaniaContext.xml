@@ -35,6 +35,42 @@
     
   <ResourceList>
 
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
+      <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+      </Server>
+      <Name>Bathymetry,Countries,Topography,Hillshading</Name>
+      <Title>Topography WMS</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+      </StyleList>
+    </Layer>
+    
+    <Layer queryable="1" hidden="1">
+      <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
+      <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
+      </Server>
+      <Name>Coastlines,Waterbodies,Inundated,Rivers,Streams</Name>
+      <Title>Land features WMS</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+      </StyleList>
+    </Layer>
+
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="tasmania/TasmaniaCities.xml"/>
@@ -63,7 +99,6 @@
       </StyleList>
     </FeatureType>
 
-
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="tasmania/TasmaniaRoads.xml"/>
@@ -85,7 +120,7 @@
       </StyleList>
     </FeatureType>
 
-    <FeatureType hidden="0">
+     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="tasmania/TasmaniaWaterBodies.xml"/>
       </Server>
@@ -109,7 +144,7 @@
         </Style>
       </StyleList>
     </FeatureType>
-
+ 
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="tasmania/TasmaniaStateBoundaries.xml"/>
@@ -134,40 +169,6 @@
         </Style>
       </StyleList>
     </FeatureType>
-
-    <Layer queryable="1" hidden="1">
-      <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
-      <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
-      </Server>
-      <Name>Coastlines,Waterbodies,Inundated,Rivers,Streams</Name>
-      <Title>Land features WMS</Title>
-      <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/gif</Format>
-      </FormatList>
-      <StyleList>
-        <Style current="1">
-          <Name>default</Name>
-          <Title>default</Title>
-        </Style>
-      </StyleList>
-    </Layer>
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
-      <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
-      </Server>
-      <Name>Bathymetry,Countries,Topography,Hillshading</Name>
-      <Title>Topography WMS</Title>
-      <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/gif</Format>
-      </FormatList>
-      <StyleList>
-        <Style current="1">
-          <Name>default</Name>
-          <Title>default</Title>
-        </Style>
-      </StyleList>
-    </Layer>
+    
   </ResourceList>
 </OWSContext>
