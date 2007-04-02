@@ -88,14 +88,18 @@ function Context(modelNode, parent) {
    */
   this.initBbox=function(objRef) {
     // Set BoundingBox in context from URL CGI params
-    if (window.cgiArgs["bbox"]) {     //set as minx,miny,maxx,maxy
+    if (window.cgiArgs["bbox"]) {   //set as minx,miny,maxx,maxy
       var bbox = window.cgiArgs["bbox"].split(',');
-      var ul = new Array(parseFloat(bbox[0]),parseFloat(bbox[3]));
-      var lr = new Array(parseFloat(bbox[2]),parseFloat(bbox[1]));
-      objRef.extent.zoomToBox(ul, lr);
+    /////TBD i'm not sure it was necessary 
+    objRef.setBoundingBox(bbox);
+    ///end TBD
+    //OL
+      objRef.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
+	  objRef.setBoundingBox(objRef.map.getExtent().toBBOX().split(','));
+    //OL  
     }
   }
-  this.addListener( "loadModel", this.initBbox, this );
+  this.addFirstListener( "loadModel", this.initBbox, this );
   //this.addListener( "contextLoaded", this.initBbox, this );
 
   /**
@@ -131,6 +135,15 @@ function Context(modelNode, parent) {
     srs=bbox.getAttribute("SRS");
     return srs;
   }
+
+  /**
+   * Get the Projection object from the context document.
+   * @return Proj Object of  The Spatial Reference System.
+   */
+  this.initProj=function(objRef) {
+    objRef.proj=new Proj(objRef.getSRS());    
+  }
+  this.addFirstListener( "loadModel", this.initProj, this );
 
   /**
    * Get the Window width.
