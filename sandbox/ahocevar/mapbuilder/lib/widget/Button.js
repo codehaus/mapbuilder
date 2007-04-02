@@ -8,10 +8,9 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 
 /**
- * Generic Button object.  Set the <action> property in config for the controller
- * method to be called when selected
+ * Generic Button object.
  * @base ButtonBase
- * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
+ * @author Andreas Hocevar andreas.hocevarATgmail.com
  * @param widgetNode      The tool node from the Config XML file.
  * @param model  The ButtonBar widget.
  */
@@ -21,7 +20,7 @@ function Button(widgetNode, model) {
    * Creates the OpenLayers control for this button.
    * This method will be called by ButtonBase when
    * MapPaneOL is ready to have buttons added.
-   * the control should be defined in this method.
+   * The control should be defined in this method.
    * @param objRef reference to this object.
    * @return {OpenLayers.Control} instance of the OL control.
    */
