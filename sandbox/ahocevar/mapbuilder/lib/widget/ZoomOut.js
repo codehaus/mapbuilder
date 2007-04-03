@@ -8,27 +8,51 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 
 /**
- * ZoomOut button - zooms out on click.
- * @constructor
+ * Zoom Out button.
  * @base ButtonBase
  * @author Andreas Hocevar andreas.hocevarATgmail.com
- * @param widgetNode The widget node from the Config XML file.
- * @param model The model for this widget
+ * @param widgetNode      The tool node from the Config XML file.
+ * @param model  The ButtonBar widget.
  */
 function ZoomOut(widgetNode, model) {
 
+  /**
+   * Interactive ZoomOut control.
+   * @param objRef reference to this object.
+   * @return {OpenLayers.Control} instance of the OL control.
+   */
   this.createControl = function(objRef) {
     var Control = OpenLayers.Class.create();
     Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
       CLASS_NAME: 'mbControl.ZoomOut',
-      type: OpenLayers.Control.TYPE_BUTTON, // constant from OpenLayers.Control
-      trigger: function() {
-        this.map.zoomOut();
-      }
-    });
-    return new Control();
-  }
+      type: OpenLayers.Control.TYPE_TOOL,
 
-  // Extend ButtonBase
+      draw: function() {
+        this.handler = new OpenLayers.Handler.Box( this,
+          {done: this.zoomBox}, {keyMask: this.keyMask} );
+      },
+
+      zoomBox: function (position) {
+        if (position instanceof OpenLayers.Bounds) {
+          var minXY = new OpenLayers.Pixel(position.left, position.bottom);
+          var maxXY = new OpenLayers.Pixel(position.right, position.top);
+          var bounds = new OpenLayers.Bounds(minXY.x, minXY.y,
+            maxXY.x, maxXY.y);
+          var mapSize = (this.map.getSize().w+this.map.getSize().h)/2;
+          var boxSize = (Math.abs(bounds.getWidth())+Math.abs(bounds.getHeight()))/2;
+          var newScale = this.map.getScale()*(mapSize/boxSize);
+          this.map.setCenter(bounds.getCenterLonLat());
+          this.map.zoomToScale(newScale);
+        } else { // it's a pixel
+          this.map.setCenter(this.map.getLonLatFromPixel(position),
+            this.map.getZoom() - 1);
+        }
+    }
+  });
+  return new Control();
+  }
+  
   ButtonBase.apply(this, new Array(widgetNode, model));
 }
+
+
