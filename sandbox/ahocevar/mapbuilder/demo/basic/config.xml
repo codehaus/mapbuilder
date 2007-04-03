@@ -4,26 +4,15 @@
 		<Context id="mainMap">
 			<defaultModelUrl>../data/context/demisWorldMap.xml</defaultModelUrl>
 			<widgets>
-				<MapPane id="mainMapWidget">
+				<MapPaneOL id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
 					<mapContainerId>mainMapContainer</mapContainerId>
-				</MapPane>
-				<AoiBoxDHTML id="aoiBoxMain">
-					<htmlTagId>mainMapPane</htmlTagId>
+				</MapPaneOL>
+        <!--Loading2 id="loading2">
 					<mapContainerId>mainMapContainer</mapContainerId>
-					<lineColor>#FF0000</lineColor>
-					<lineWidth>2</lineWidth>
-					<crossSize>15</crossSize>
-				</AoiBoxDHTML>
-        <Loading2 id="loading2">
-					<mapContainerId>mainMapContainer</mapContainerId>
-        </Loading2>
+        </Loading2-->
 			</widgets>
 			<tools>
-				<AoiMouseHandler id="mainAoi"/>
-				<DragPanHandler id="mainDragPan">
-					<enabled>false</enabled>
-				</DragPanHandler>
 			</tools>
 		</Context>
 	</models>
@@ -31,7 +20,6 @@
 		<ZoomIn id="zoomIn">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
-			<mouseHandler>mainAoi</mouseHandler>
 			<class>RadioButton</class>
 			<selected>true</selected>
 			<enabledSrc>/images/ZoomInEnable.png</enabledSrc>
@@ -40,7 +28,6 @@
 		<ZoomOut id="zoomOut">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
-			<mouseHandler>mainAoi</mouseHandler>
 			<class>RadioButton</class>
 			<enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
 			<disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
@@ -48,7 +35,6 @@
 		<DragPan id="dragPan">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
-			<mouseHandler>mainDragPan</mouseHandler>
 			<class>RadioButton</class>
 			<enabledSrc>/images/PanEnable.png</enabledSrc>
 			<disabledSrc>/images/PanDisable.png</disabledSrc>
