@@ -438,6 +438,8 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
             // for getting styles to OL vector layers. There should
             // be a cleaner way to do this, because this way every
             // feature is drawn twice.
+            //TBD will be fixed in OL (http://trac.openlayers.org/ticket/543),
+            // then we have to change this
 			objRef.oLlayers[name2].onFeatureInsert=function(feature) {
 				feature.style = feature.layer.options.style;
 				feature.layer.renderer.drawGeometry(feature.geometry, feature.style);
