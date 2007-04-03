@@ -34,12 +34,12 @@ function WfsGetFeature(widgetNode, model) {
   webServiceUrl += webServiceUrl.indexOf("?") > -1 ? '&' : '?';
   
   // properties for the custom OL control
-  this.controlProperties = {
+  this.controlProperties = new Object({
   	tolerance: widgetNode.selectSingleNode('mb:tolerance').firstChild.nodeValue,
   	typeName: widgetNode.selectSingleNode('mb:typeName').firstChild.nodeValue,
 	httpPayload: httpPayload,
 	maxFeatures: maxFeatures,
-	webServiceUrl: webServiceUrl };
+	webServiceUrl: webServiceUrl });
 	
   // override default cursor by user
   // cursor can be changed by spefying a new cursor in config file
@@ -47,7 +47,6 @@ function WfsGetFeature(widgetNode, model) {
   this.cursor = "pointer"; 
 
   this.createControl = function(objRef) {
-  	objRef.controlProperties.trm = window.config.objects[objRef.controlProperties.trm];
     var Control = OpenLayers.Class.create();
     Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
       CLASS_NAME: 'mbControl.WfsGetFeature',
