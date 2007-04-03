@@ -2,7 +2,7 @@
 License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 */
-mapbuilder.loadScript(baseDir+"/model/Proj.js");
+
 /**
  * Stores an OWS Context document as defined by the OGC interoperability
  * experiment. This model should be eventually merged with the standard OGC 
@@ -21,6 +21,9 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
 function OwsContext(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   ModelBase.apply(this, new Array(modelNode, parent));
+
+  // load dependent scripts
+  mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
   // MAP-186 
   this.namespace = this.namespace ? this.namespace.replace(/\"/g, "'")+" " : '';
