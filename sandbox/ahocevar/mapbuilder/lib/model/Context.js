@@ -3,6 +3,9 @@ License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 */
 
+// load dependent scripts
+mapbuilder.loadScript(baseDir+"/model/Proj.js");
+
 /**
  * Stores a Web Map Context (WMC) document as defined by the Open GIS Consortium
  * http://opengis.org and extensions the the WMC.  
@@ -21,9 +24,6 @@ $Id$
 function Context(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   ModelBase.apply(this, new Array(modelNode, parent));
-
-  // load dependent scripts
-  mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
   this.namespace = "xmlns:mb='http://mapbuilder.sourceforge.net/mapbuilder' xmlns:wmc='http://www.opengis.net/context' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'";
 
