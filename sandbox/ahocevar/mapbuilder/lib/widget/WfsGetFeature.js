@@ -17,47 +17,42 @@ mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
  * @param model The Context object which this tool is associated with.
  */
 function WfsGetFeature(widgetNode, model) {
-  // Extend ButtonBase
-  ButtonBase.apply(this, new Array(widgetNode, model));
-  
+  this.widgetNode = widgetNode;
   // id of the transactionResponseModel
   this.trm = widgetNode.selectSingleNode("mb:transactionResponseModel").firstChild.nodeValue
-
-  var httpPayload = new Object({
+  this.httpPayload = new Object({
     method: "get",
     postData: null
   });
+  this.maxFeatures = widgetNode.selectSingleNode('mb:maxFeatures');
+  this.maxFeatures = this.maxFeatures ? this.maxFeatures.firstChild.nodeValue : 1;
+  this.webServiceUrl= widgetNode.selectSingleNode('mb:webServiceUrl').firstChild.nodeValue;
+  this.webServiceUrl += this.webServiceUrl.indexOf("?") > -1 ? '&' : '?';
   
-  var maxFeatures = widgetNode.selectSingleNode('mb:maxFeatures');
-  maxFeatures = maxFeatures ? maxFeatures.firstChild.nodeValue : 1;
-  var webServiceUrl= widgetNode.selectSingleNode('mb:webServiceUrl').firstChild.nodeValue;
-  webServiceUrl += webServiceUrl.indexOf("?") > -1 ? '&' : '?';
-  
-  // properties for the custom OL control
-  this.controlProperties = new Object({
-  	tolerance: widgetNode.selectSingleNode('mb:tolerance').firstChild.nodeValue,
-  	typeName: widgetNode.selectSingleNode('mb:typeName').firstChild.nodeValue,
-	httpPayload: httpPayload,
-	maxFeatures: maxFeatures,
-	webServiceUrl: webServiceUrl });
-	
   // override default cursor by user
   // cursor can be changed by spefying a new cursor in config file
   //TBD this does nothing with MapPaneOL yet
   this.cursor = "pointer"; 
 
   this.createControl = function(objRef) {
+  	var transactionResponseModel = config.objects[objRef.trm];
+  	
     var Control = OpenLayers.Class.create();
     Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
       CLASS_NAME: 'mbControl.WfsGetFeature',
       type: OpenLayers.Control.TYPE_TOOL, // constant from OpenLayers.Control
-      transactionResponseModel: window.config.objects[this.trm],
-      
+  	  tolerance: objRef.widgetNode.selectSingleNode('mb:tolerance').firstChild.nodeValue,
+  	  typeName: objRef.widgetNode.selectSingleNode('mb:typeName').firstChild.nodeValue,
+  	  httpPayload: objRef.httpPayload,
+  	  maxFeatures: objRef.maxFeatures,
+  	  webServiceUrl: objRef.webServiceUrl,
+  	  transactionResponseModel: transactionResponseModel,
+  	  
       draw: function() {
         this.handler = new OpenLayers.Handler.Box( this,
           {done: this.selectBox}, {keyMask: this.keyMask} );
       },
-
+      
       selectBox: function (position) {
         var bounds, minXY, maxXY;
         if (position instanceof OpenLayers.Bounds) {
@@ -84,8 +79,11 @@ function WfsGetFeature(widgetNode, model) {
           BBOX: bounds.toBBOX()
         });
         this.transactionResponseModel.newRequest(this.transactionResponseModel, this.httpPayload);
-      },
+      }
     });
-    return new Control(this.controlProperties);
+    return new Control();
   }
+  
+  // Extend ButtonBase
+  ButtonBase.apply(this, new Array(widgetNode, model));
 }
