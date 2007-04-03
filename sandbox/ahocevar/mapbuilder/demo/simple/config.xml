@@ -4,10 +4,10 @@
 		<Context id="mainMap">
 			<defaultModelUrl>../data/context/DM_Canada.xml</defaultModelUrl>
 			<widgets>
-				<MapPane id="mainMapWidget">
+				<MapPaneOL id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
 					<mapContainerId>mainMapContainer</mapContainerId>
-				</MapPane>
+				</MapPaneOL>
         <Loading2 id="loading2">
 					<mapContainerId>mainMapContainer</mapContainerId>
         </Loading2>
