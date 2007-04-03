@@ -157,6 +157,7 @@ function OwsContext(modelNode, parent) {
     if( this.doc ) {
       var bbox=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox");
       srs=bbox.getAttribute("crs");
+      srs = srs ? srs : 'EPSG:4326';
       return srs;
     } 
   }

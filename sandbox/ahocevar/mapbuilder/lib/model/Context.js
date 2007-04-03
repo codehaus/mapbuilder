@@ -133,6 +133,7 @@ function Context(modelNode, parent) {
   this.getSRS=function() {
     var bbox=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
     srs=bbox.getAttribute("SRS");
+    srs = srs ? srs : 'EPSG:4326';
     return srs;
   }
 
