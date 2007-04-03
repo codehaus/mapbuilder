@@ -118,7 +118,7 @@
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
     </Reset>
-    <EditPoint id="editPoint">
+    <!--EditPoint id="editPoint">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureCollection</targetModel>
       <mouseHandler>mainMouseClick</mouseHandler>
@@ -152,11 +152,10 @@
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
       <targetContext>mainMap</targetContext>
-    </InsertFeature>
+    </InsertFeature-->
     <WfsGetFeature id="wfsGetFeature">
-      <buttonBar>mainButtonBar</buttonBar>
+       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/QueryEnable.png</enabledSrc>
       <disabledSrc>/images/QueryDisable.png</disabledSrc>
