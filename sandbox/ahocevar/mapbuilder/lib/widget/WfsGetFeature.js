@@ -69,9 +69,9 @@ function WfsGetFeature(widgetNode, model) {
         } else {
         // it's a pixel
           minXY = this.map.getLonLatFromPixel(
-            new OpenLayers.Pixel(position.x-this.tolerance, position.y-this.tolerance));
+            new OpenLayers.Pixel(position.x-this.tolerance, position.y+this.tolerance));
           maxXY = this.map.getLonLatFromPixel(
-            new OpenLayers.Pixel(position.x+this.tolerance, position.y+this.tolerance));
+            new OpenLayers.Pixel(position.x+this.tolerance, position.y-this.tolerance));
         }
         bounds = new OpenLayers.Bounds(minXY.lon, minXY.lat, maxXY.lon, maxXY.lat);
         // now create request url
