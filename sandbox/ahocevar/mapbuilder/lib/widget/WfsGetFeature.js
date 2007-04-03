@@ -41,7 +41,7 @@ function WfsGetFeature(widgetNode, model) {
     Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
       CLASS_NAME: 'mbControl.WfsGetFeature',
       type: OpenLayers.Control.TYPE_TOOL, // constant from OpenLayers.Control
-  	  tolerance: objRef.widgetNode.selectSingleNode('mb:tolerance').firstChild.nodeValue,
+  	  tolerance: new Number(objRef.widgetNode.selectSingleNode('mb:tolerance').firstChild.nodeValue),
   	  typeName: objRef.widgetNode.selectSingleNode('mb:typeName').firstChild.nodeValue,
   	  httpPayload: objRef.httpPayload,
   	  maxFeatures: objRef.maxFeatures,
