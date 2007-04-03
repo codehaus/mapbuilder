@@ -19,35 +19,40 @@ mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 function WfsGetFeature(widgetNode, model) {
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
-  this.tolerance= widgetNode.selectSingleNode('mb:tolerance').firstChild.nodeValue;
-  this.typeName= widgetNode.selectSingleNode('mb:typeName').firstChild.nodeValue;
-  this.webServiceUrl= widgetNode.selectSingleNode('mb:webServiceUrl').firstChild.nodeValue;
-  this.webServiceUrl += this.webServiceUrl.indexOf("?") > -1 ? '&' : '?';
-  this.httpPayload=new Object();
-  this.httpPayload.method="get";
-  this.httpPayload.postData=null;
-  this.trm=widgetNode.selectSingleNode("mb:transactionResponseModel").firstChild.nodeValue;
-  this.maxFeatures = widgetNode.selectSingleNode('mb:maxFeatures');
-  this.maxFeatures = this.maxFeatures ? this.maxFeatures.firstChild.nodeValue : 1;
+  
+  // id of the transactionResponseModel
+  this.trm = widgetNode.selectSingleNode("mb:transactionResponseModel").firstChild.nodeValue
 
+  var httpPayload = new Object({
+    method: "get",
+    postData: null
+  });
+  
+  var maxFeatures = widgetNode.selectSingleNode('mb:maxFeatures');
+  maxFeatures = maxFeatures ? maxFeatures.firstChild.nodeValue : 1;
+  var webServiceUrl= widgetNode.selectSingleNode('mb:webServiceUrl').firstChild.nodeValue;
+  webServiceUrl += webServiceUrl.indexOf("?") > -1 ? '&' : '?';
+  
+  // properties for the custom OL control
+  this.controlProperties = {
+  	tolerance: widgetNode.selectSingleNode('mb:tolerance').firstChild.nodeValue,
+  	typeName: widgetNode.selectSingleNode('mb:typeName').firstChild.nodeValue,
+	httpPayload: httpPayload,
+	maxFeatures: maxFeatures,
+	webServiceUrl: webServiceUrl };
+	
   // override default cursor by user
   // cursor can be changed by spefying a new cursor in config file
   //TBD this does nothing with MapPaneOL yet
   this.cursor = "pointer"; 
 
   this.createControl = function(objRef) {
+  	objRef.controlProperties.trm = window.config.objects[objRef.controlProperties.trm];
     var Control = OpenLayers.Class.create();
     Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
       CLASS_NAME: 'mbControl.WfsGetFeature',
       type: OpenLayers.Control.TYPE_TOOL, // constant from OpenLayers.Control
-      
-      // properties from this widget
-      tolerance: this.tolerance/2,
-      typeName: this.typeName,
-      maxFeatures: this.maxFeatures,
-      webServiceUrl: this.webServiceUrl,
-      httpPayload: this.httpPayload,
-      trm: window.config.objects[objRef.trm],
+      transactionResponseModel: window.config.objects[this.trm],
       
       draw: function() {
         this.handler = new OpenLayers.Handler.Box( this,
@@ -79,9 +84,9 @@ function WfsGetFeature(widgetNode, model) {
           MAXFEATURES: this.maxFeatures,
           BBOX: bounds.toBBOX()
         });
-        this.trm.newRequest(this.trm, this.httpPayload);
+        this.transactionResponseModel.newRequest(this.transactionResponseModel, this.httpPayload);
       },
     });
-    return new Control();
+    return new Control(this.controlProperties);
   }
 }
