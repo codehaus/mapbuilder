@@ -101,12 +101,13 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
                 projection: proj.srs,
                 units: proj.units,
                 maxExtent: maxExtent,
-                maxResolution:maxResolution
+                maxResolution: maxResolution,
+                theme: config.skinDir+'/openlayers/style.css'
             };
       
-      
-      objRef.model.map = new OpenLayers.Map(objRef.node, {controls:[]},mapOptions);
-
+alert (mapOptions.theme);
+      objRef.model.map = new OpenLayers.Map(objRef.node, mapOptions);
+alert(objRef.model.map.theme);
 
 
       // Increase hight of Control layers to allow for lots of layers.
