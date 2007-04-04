@@ -46,6 +46,7 @@ function MapPaneOL(widgetNode, model) {
   // this.model.addListener( "zoomToMaxExtent", this.zoomToMaxExtent, this );
  //this.model.addFirstListener("loadModel",this.paint,this);
   this.model.addListener("newModel",this.clearWidget2,this);
+  
 }
 
 
@@ -85,7 +86,6 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       	maxExtent=objRef.model.getBoundingBox();
         width=objRef.model.getWindowWidth();   
       }
-     
       maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
       if(maxExtent==null)alert('bbox is not defined in context');
       
@@ -121,10 +121,10 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       for (var i=0;i<=layers.length-1;i++) {
     	 objRef.addLayer(objRef,layers[i]);
       }
-      //var bbox=objRef.model.getBoundingBox();
+      var bbox=objRef.model.getBoundingBox();
       
-      //objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
-      objRef.model.map.zoomToMaxExtent();
+      objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
+      //objRef.model.map.zoomToMaxExtent();
 	  var bboxOL=objRef.model.map.getExtent().toBBOX().split(',');
 	
       var ul = new Array(bboxOL[0],bboxOL[3]);
@@ -132,11 +132,12 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
       objRef.model.extent.setSize(new Array(objRef.model.map.getResolution(),objRef.model.map.getResolution()));
 	  objRef.model.setParam("aoi", new Array(ul, lr) );
- 	  config.callListeners("mapLoaded");
+ 	  objRef.model.callListeners("mapLoaded");
+ 	    // event to keep MB context updated
+    
   }
 
-    // event to keep MB context updated
-    objRef.model.map.events.register('moveend', objRef.model.map, function (e) {
+  objRef.model.map.events.register('moveend', objRef.model.map, function (e) {
         var bboxOL = objRef.model.map.getExtent().toBBOX().split(',');
         var ul = new Array(bboxOL[0],bboxOL[3]);
         var lr = new Array(bboxOL[2],bboxOL[1]);

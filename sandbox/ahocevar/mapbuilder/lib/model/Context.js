@@ -61,7 +61,7 @@ function Context(modelNode, parent) {
    */
   this.getBoundingBox=function() {
     var boundingBox=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
-    bbox = new Array();
+    var bbox = new Array();
     bbox[0]=parseFloat(boundingBox.getAttribute("minx"));
     bbox[1]=parseFloat(boundingBox.getAttribute("miny"));
     bbox[2]=parseFloat(boundingBox.getAttribute("maxx"));
@@ -94,15 +94,13 @@ function Context(modelNode, parent) {
     if (window.cgiArgs["bbox"]) {   //set as minx,miny,maxx,maxy
       var bbox = window.cgiArgs["bbox"].split(',');
     /////TBD i'm not sure it was necessary 
-    objRef.setBoundingBox(bbox);
-    ///end TBD
-    //OL
-      objRef.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
-	  objRef.setBoundingBox(objRef.map.getExtent().toBBOX().split(','));
-    //OL  
+   objRef.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
+	//objRef.setBoundingBox(objRef.map.getExtent().toBBOX().split(','));
+   
+
     }
   }
-  this.addFirstListener( "loadModel", this.initBbox, this );
+  this.addFirstListener( "mapLoaded", this.initBbox, this );
   //this.addListener( "contextLoaded", this.initBbox, this );
 
   /**
