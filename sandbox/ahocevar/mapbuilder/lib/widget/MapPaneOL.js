@@ -512,6 +512,7 @@ MapPaneOL.prototype.clearWidget2 = function(objRef) {
 	   	}
    		
    		objRef.model.map=null;
+   		objRef.oLlayers = null;
    	}
     
 }
