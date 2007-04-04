@@ -15,6 +15,12 @@ mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
  * @param model  The ButtonBar widget.
  */
 function Button(widgetNode, model) {
+  ButtonBase.apply(this, new Array(widgetNode, model));
+
+  /**
+   * default css cursor to use when the button is selected
+   */
+  this.cursor = 'default';
 
   /**
    * Creates the OpenLayers control for this button.
@@ -27,8 +33,6 @@ function Button(widgetNode, model) {
   this.createControl = function(objRef) {
   	//return new OpenLayers.Control();
   }
-  
-  ButtonBase.apply(this, new Array(widgetNode, model));
 }
 
 

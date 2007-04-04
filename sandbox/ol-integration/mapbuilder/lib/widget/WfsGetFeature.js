@@ -17,6 +17,9 @@ mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
  * @param model The Context object which this tool is associated with.
  */
 function WfsGetFeature(widgetNode, model) {
+  // Extend ButtonBase
+  ButtonBase.apply(this, new Array(widgetNode, model));
+
   this.widgetNode = widgetNode;
   // id of the transactionResponseModel
   this.trm = widgetNode.selectSingleNode("mb:transactionResponseModel").firstChild.nodeValue
@@ -31,7 +34,6 @@ function WfsGetFeature(widgetNode, model) {
   
   // override default cursor by user
   // cursor can be changed by spefying a new cursor in config file
-  //TBD this does nothing with MapPaneOL yet
   this.cursor = "pointer"; 
 
   this.createControl = function(objRef) {
@@ -83,7 +85,4 @@ function WfsGetFeature(widgetNode, model) {
     });
     return new Control();
   }
-  
-  // Extend ButtonBase
-  ButtonBase.apply(this, new Array(widgetNode, model));
 }

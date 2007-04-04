@@ -15,6 +15,9 @@ mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
  * @param model  The ButtonBar widget.
  */
 function ZoomOut(widgetNode, model) {
+   ButtonBase.apply(this, new Array(widgetNode, model));
+
+  this.cursor = 'crosshair';
 
   /**
    * Interactive ZoomOut control.
@@ -51,8 +54,6 @@ function ZoomOut(widgetNode, model) {
   });
   return new Control();
   }
-  
-  ButtonBase.apply(this, new Array(widgetNode, model));
 }
 
 

@@ -16,12 +16,13 @@ mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
  * @param model The model for this widget
  */
 function ZoomIn(widgetNode, model) {
+  // Extend ButtonBase
+  ButtonBase.apply(this, new Array(widgetNode, model));
+
+  this.cursor = 'crosshair';
 
   this.createControl = function() {
     return new OpenLayers.Control.ZoomBox();
   }
-  
-  // Extend ButtonBase
-  ButtonBase.apply(this, new Array(widgetNode, model));
 }
 

@@ -88,16 +88,15 @@ function ButtonBase(widgetNode, model) {
     this.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
   }
 
+  this.cursor = 'default';
+
   // Check for cursor override
-  //TBD does nothing in MapPaneOL so far
   var cursorNode = this.widgetNode.selectSingleNode("mb:cursor");
   if( cursorNode != null ) {
     var cursor = cursorNode.firstChild.nodeValue;
     this.cursor = cursor;
-  } else {
-    this.cursor = "default"; // Adding support for customized cursors
   }
-  
+
   //a button may be set as selected in the config file
   var selected = widgetNode.selectSingleNode("mb:selected");
   if (selected && selected.firstChild.nodeValue) this.selected = true;
@@ -183,23 +182,41 @@ function ButtonBase(widgetNode, model) {
     	objRef.targetModel.buttonBars[objRef.htmlTagId] = panel;
 	    map.addControl(panel);
     }
+    
+	// add the control to the panel
     panel.addControls(objRef.control);
      
- 
+    // set tooltip for the button
     objRef.control.panel_div.title=objRef.tooltip;
+    
+    // DOM div element of the map pane
+	objRef.mapPaneDiv = document.getElementById(objRef.targetModel.map.div.id); 
+
+    // register onclick event for all non-onestate buttons
+    // to change the map cursor
+    if (objRef.control.type != OpenLayers.Control.TYPE_BUTTON) {
+	  objRef.control.panel_div.onclick = function() {
+	    objRef.mapPaneDiv.className = objRef.mapPaneDiv.className.replace(/mbCursor_[a-zA-Z]*/, 'mbCursor_'+objRef.cursor);
+	  };
+    }
     
     
     if (objRef.selected == true) {
 		objRef.control.activate();
+		objRef.mapPaneDiv.className += ' mbCursor_'+objRef.cursor;
   	}
 
-	// create css
+	// create css for buttons
 	if (objRef.buttonType == 'RadioButton') {
 		var activeRule = addCSSRule(objRef.getCssName(objRef, 'Active'));
 		activeRule.style.backgroundImage = "url(\""+objRef.enabledImage.src+"\")";
 	}
 	var inactiveRule = addCSSRule(objRef.getCssName(objRef, 'Inactive'));
 	inactiveRule.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
+	
+	// create css for map cursor
+	var cursorRule = addCSSRule('.mbCursor_'+objRef.cursor);
+	cursorRule.style.cursor = objRef.cursor;
   }
 
   /**
