@@ -105,9 +105,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
                 theme: config.skinDir+'/openlayers/style.css'
             };
       
-alert (mapOptions.theme);
       objRef.model.map = new OpenLayers.Map(objRef.node, mapOptions);
-alert(objRef.model.map.theme);
 
 
       // Increase hight of Control layers to allow for lots of layers.
