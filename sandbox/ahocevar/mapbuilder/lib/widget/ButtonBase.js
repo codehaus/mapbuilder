@@ -33,7 +33,15 @@ function ButtonBase(widgetNode, model) {
   if ((!buttonBarNode) && (!htmlTagNode)){
     alert(mbGetMessage("buttonBarRequired", widgetNode.nodeName));
   }
-
+     //Add a tooltip to the panel_div
+   // Set button text values as parameters
+  if (config.widgetText) {
+    var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName;
+    var textParams = config.widgetText.selectNodes(textNodeXpath+"/*");
+    for (var j=0;j<textParams.length;j++) {
+      this[textParams[j].nodeName]=textParams[j].firstChild.nodeValue;
+    }
+  }
   // html tag id of the div where OL places its panel code
   this.panelHtmlTagId = this.htmlTagId+'_panel';
   // create a dom node for OL to use as panel
@@ -60,7 +68,8 @@ function ButtonBase(widgetNode, model) {
   }
 
   WidgetBase.apply(this, new Array(widgetNode, model));
-
+  
+  
   //set the button type
   this.buttonType = widgetNode.selectSingleNode("mb:class").firstChild.nodeValue;
   if (this.buttonType == "RadioButton") this.enabled = false;
@@ -174,9 +183,12 @@ function ButtonBase(widgetNode, model) {
     	objRef.targetModel.buttonBars[objRef.htmlTagId] = panel;
 	    map.addControl(panel);
     }
-
     panel.addControls(objRef.control);
-
+     
+ 
+    objRef.control.panel_div.title=objRef.tooltip;
+    
+    
     if (objRef.selected == true) {
 		objRef.control.activate();
   	}
