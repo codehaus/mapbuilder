@@ -168,13 +168,15 @@ function ButtonBase(widgetNode, model) {
   	var map = objRef.targetModel.map;
   	var panel = objRef.targetModel.buttonBars[objRef.htmlTagId];
   	// create a panel, if we do not have one yet for this buttonBar
-    if (!panel) {
+  	// or if the old map.panel was destroyed
+    if (!panel || panel.map == null) {
     	panel = new OpenLayers.Control.Panel({div: $(objRef.panelHtmlTagId), defaultControl: null});
     	objRef.targetModel.buttonBars[objRef.htmlTagId] = panel;
 	    map.addControl(panel);
     }
 
     panel.addControls(objRef.control);
+
     if (objRef.selected == true) {
 		objRef.control.activate();
   	}
@@ -200,11 +202,12 @@ function ButtonBase(widgetNode, model) {
     	// buttonBars used by button widgets
     	objRef.targetModel.buttonBars = new Array();
     }
+    
 	// add another event listener for the loaded context,
 	// because we need the map to add panel and buttons,
 	// and we do not have tha map yet
   	objRef.targetModel.addListener("refresh", objRef.attachToOL, objRef);
   }
 
-  this.model.addListener("refresh",this.buttonInit,this);
+  this.model.addListener("init",this.buttonInit,this);
 }
