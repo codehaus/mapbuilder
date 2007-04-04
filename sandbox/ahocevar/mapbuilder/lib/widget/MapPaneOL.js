@@ -56,18 +56,15 @@ function MapPaneOL(widgetNode, model) {
 MapPaneOL.prototype.paint = function(objRef, refresh) {
   // Create an OpenLayers map
   
- /*if (objRef.oLMap){alert("newModel");
-  objRef.clearWidget2(objRef);
- }*/
- //alert("paint mapaneOL "+objRef.model.map);
-
   if(!objRef.model.map || refresh=="sld"){
   
 	if(refresh=="sld")
 	{
 		objRef.clearWidget2(objRef);
 	}
-
+	
+	
+	//Test if context exist
     if(objRef.model.doc.selectSingleNode("//wmc:OWSContext"))
         objRef.context="OWS";
     else if(objRef.model.doc.selectSingleNode("//wmc:ViewContext"))
@@ -75,78 +72,67 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     else
         alert(mbGetMessage("noContextDefined"));
         
-    var proj=objRef.model.proj;
+        
+      var proj=objRef.model.proj;
 
-    // OpenLayers doesn't contain information about projection, so if the
-    // baseLayer projection is not standard lat/long, it needs to know
-    // maxExtent and maxResolution to calculate the zoomLevels.
-    var maxExtent=null;
-    var maxResolution=null;
-
-    maxExtent=objRef.widgetNode.selectSingleNode("mb:maxExtent");
-    maxExtent=(maxExtent)?maxExtent.firstChild.nodeValue.split(" "):null;
-	maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");
-	maxResolution=(maxResolution)?maxResolution.firstChild.nodeValue:null;
-
-   
-      // If the maxExtent/maxResolution is not specified in the config
-      // calculate it from the BBox and Width/Height in the Context.
+      //maxExtent
+      var maxExtent=null; 
+      maxExtent=objRef.widgetNode.selectSingleNode("mb:maxExtent");
+      maxExtent=(maxExtent)?maxExtent.firstChild.nodeValue.split(" "):null;
+       // If the maxExtentis not specified in the config
+      // calculate it from the BBox  in the Context.
       if(!maxExtent){
-
       	maxExtent=objRef.model.getBoundingBox();
-        width=objRef.model.getWindowWidth();
-		maxResolution=(maxExtent[2]-maxExtent[0])/width;						
-  
+        width=objRef.model.getWindowWidth();   
       }
+     
       maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
-  // }
-
-  	var mapOptions = {
+      if(maxExtent==null)alert('bbox is not defined in context');
+      
+      //maxResolution
+      var maxResolution=null;
+      maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");
+      maxResolution=(maxResolution)?maxResolution.firstChild.nodeValue:"auto";
+      
+      
+      //default map options
+      var mapOptions = {
+  				controls:[],
                 projection: proj.srs,
                 units: proj.units,
                 maxExtent: maxExtent,
-                maxResolution: maxResolution
+                maxResolution:maxResolution
             };
-  
-    objRef.model.map = new OpenLayers.Map(objRef.node, {controls:[]},mapOptions);
-//    objRef.model.map = new OpenLayers.Map(objRef.node, mapOptions);
-
-
-    // Increase hight of Control layers to allow for lots of layers.
-    objRef.model.map.Z_INDEX_BASE.Control=10000;
-   //objRef.model.map.addControl(new OpenLayers.Control.MousePosition()); 
-   //objRef.model.toolBar=new OpenLayers.Control.MouseToolbar();
-   // objRef.model.map.addControl(objRef.model.toolBar);  
-    // loop through all layers and create OLLayers 
-   // objRef.model.map.addMouseListener(new OpenLayers.Button.MouseDefaults());
-   //objRef.model.map.addControl(new OpenLayers.Control.MousePosition());
-   
-    //objRef.model.toolbar=new OpenLayers.Control.Buttonbar(null,"horizontal");
-    //objRef.model.map.addControl(objRef.model.toolbar);
-  //toolbar.div=document.getElementById("ButtonBar");
-    var layers = objRef.model.getAllLayers();
       
-    for (var i=0;i<=layers.length-1;i++) {
-    	objRef.addLayer(objRef,layers[i]);
-    }
-    //objRef.model.map.zoomTo(1);
-	//objRef.model.map.zoomTo(0);
+      
+      objRef.model.map = new OpenLayers.Map(objRef.node, {controls:[]},mapOptions);
+
+
+
+      // Increase hight of Control layers to allow for lots of layers.
+      objRef.model.map.Z_INDEX_BASE.Control=10000;
+      objRef.model.map.addControl(new OpenLayers.Control.MousePosition());
+
+   
+      var layers = objRef.model.getAllLayers();
+      if (!objRef.oLlayers){ 
+    	objRef.oLlayers = new Array();
+      }
+      for (var i=0;i<=layers.length-1;i++) {
+    	 objRef.addLayer(objRef,layers[i]);
+      }
+      //var bbox=objRef.model.getBoundingBox();
+      
+      //objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
+      objRef.model.map.zoomToMaxExtent();
+	  var bboxOL=objRef.model.map.getExtent().toBBOX().split(',');
 	
-    var bbox=objRef.model.getBoundingBox();
-    
-    //objRef.model.map.zoomToMaxExtent();
-    
-    objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
-    
-	var bboxOL=objRef.model.map.getExtent().toBBOX().split(',');
-	
-    ul = new Array(bboxOL[0],bboxOL[3]);
-    lr = new Array(bboxOL[2],bboxOL[1]);
-    objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
-    objRef.model.extent.setSize(new Array(objRef.model.map.getResolution(),objRef.model.map.getResolution()));
-	objRef.model.setParam("aoi", new Array(ul, lr) );
- 	config.callListeners("mapLoaded");
-     //objRef.clearWidget2(objRef);
+      var ul = new Array(bboxOL[0],bboxOL[3]);
+      var lr = new Array(bboxOL[2],bboxOL[1]);
+      objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
+      objRef.model.extent.setSize(new Array(objRef.model.map.getResolution(),objRef.model.map.getResolution()));
+	  objRef.model.setParam("aoi", new Array(ul, lr) );
+ 	  config.callListeners("mapLoaded");
   }
 
     // event to keep MB context updated
@@ -237,21 +223,7 @@ MapPaneOL.prototype.extractStyle = function(objRef, node, service) {
 	    
 	    return params;
 	
-	}
-	// OpenLayer.Style is processing style in % coords, not pixels.
-	// When this is fixed, the following lines can be uncommented.
-	//    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke-width']");
-	//    if(value){
-	//        style1.strokeWidth=value.firstChild.nodeValue;
-	//        styleSet=true;
-	//    }
-	//  
-	//    value=node.selectSingleNode(".//sld:Graphic/sld:Size");
-	//    if(value){
-	//        style1.pointRadius=value.firstChild.nodeValue;
-	//        styleSet=true;
-	//    }
-   
+	}  
 }
 /**
  * Hide/unhide a layer. Called by Context when the hidden attribute changes.
@@ -308,9 +280,6 @@ MapPaneOL.prototype.deleteAllLayers = function(objRef) {
  */
 MapPaneOL.prototype.moveLayerUp = function(objRef, layerName) {
 	var map=objRef.model.map;
-	/*if(map.getLayer(objRef.oLlayers[layerName].id).isBaseLayer)
-	
-	else*/
    		map.raiseLayer(map.getLayer(objRef.oLlayers[layerName].id), 1); 
 }
 
@@ -328,44 +297,43 @@ MapPaneOL.prototype.moveLayerDown = function(objRef, layerName) {
  * @param layerName the WMS name for the layer to be added
  */
 MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
-    if (!objRef.oLlayers) {
-    	objRef.oLlayers = new Array();
-    	var isBaseLayer = true;
-    } else {
-    	isBaseLayer = false;
-    }
-	var proj=objRef.model.proj;
-	// OpenLayers doesn't contain information about projection, so if the
-    // baseLayer projection is not standard lat/long, it needs to know
-    // maxExtent and maxResolution to calculate the zoomLevels.
-    var maxExtent=null;
-    var maxResolution=null;
 
+	   var proj=objRef.model.proj;
+	   // OpenLayers doesn't contain information about projection, so if the
+       // baseLayer projection is not standard lat/long, it needs to know
+       // maxExtent and maxResolution to calculate the zoomLevels.
+   
+    
+	  
+      //maxExtent
+      var maxExtent=null; 
       maxExtent=objRef.widgetNode.selectSingleNode("mb:maxExtent");
       maxExtent=(maxExtent)?maxExtent.firstChild.nodeValue.split(" "):null;
-      maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");
-      maxResolution=(maxResolution)?maxResolution.firstChild.nodeValue:null;
-   
-      // If the maxExtent/maxResolution is not specified in the config
-      // calculate it from the BBox and Width/Height in the Context.
-      if(!maxExtent&&!maxResolution){
+       // If the maxExtentis not specified in the config
+      // calculate it from the BBox  in the Context.
+      if(!maxExtent){
       	maxExtent=objRef.model.getBoundingBox();
-        width=objRef.model.getWindowWidth();
-        maxResolution=(maxExtent[2]-maxExtent[0])/width;     
+         
       }
       maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
-
-    // Increase hight of Control layers to allow for lots of layers.
-    objRef.model.map.Z_INDEX_BASE.Control=10000;
-   //objRef.model.map.addControl(new OpenLayers.Control.MousePosition()); 
-   //objRef.model.toolBar=new OpenLayers.Control.MouseToolbar();
-   // objRef.model.map.addControl(new OpenLayers.Control.MouseToolbar(objRef.model.toolBar));  
-    // loop through all layers and create OLLayers 
-    var layer = layerNode;
-
-     var service=layer.selectSingleNode("wmc:Server/@service");service=(service)?service.nodeValue:"";
-      var title=layer.selectSingleNode("wmc:Title");title=(title)?title.firstChild.nodeValue:"";
-      var name2=layer.selectSingleNode("wmc:Name");name2=(name2)?name2.firstChild.nodeValue:"";
+      if(maxExtent==null)alert('bbox is not defined in context');
+      
+      //maxResolution
+      var maxResolution=null;
+      maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");
+      maxResolution=(maxResolution)?maxResolution.firstChild.nodeValue:"auto";
+     
+      var layer = layerNode;
+		
+	   // Test service of the layer	
+       var service=layer.selectSingleNode("wmc:Server/@service");service=(service)?service.nodeValue:"";
+      
+      
+       // Test title of the layer
+       var title=layer.selectSingleNode("wmc:Title");title=(title)?title.firstChild.nodeValue:"";
+      
+       // Test name of the layer
+       var name2=layer.selectSingleNode("wmc:Name");name2=(name2)?name2.firstChild.nodeValue:"";
        
         if (objRef.context=="OWS"){
             var href=layer.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?href.firstChild.nodeValue:"";	
@@ -373,45 +341,67 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         else
         {	var href=layer.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
         }
-             
-       var format=layer.selectSingleNode("wmc:FormatList/wmc:Format");format=(format)?"image/gif":"image/gif";
-       var vis=layer.selectSingleNode("@hidden");vis=(vis)?(vis.nodeValue!="1"):true;
+        
+       // Test format of the layer     
+       var format=layer.selectSingleNode("wmc:FormatList/wmc:Format");format=(format)?format.firstChild.nodeValue:"image/gif";
+       
+       // Test visibility of the layer
+       var vis=layer.selectSingleNode("@hidden");
+       if (vis)
+         if(vis.nodeValue=="1")
+         	vis=false;
+         else
+         	vis=true;
+         	
+       // Test if layer is queryable  	
+	   var query=layer.selectSingleNode("@queryable");
+       if (query)
+         if(query.nodeValue=="1")
+         	query=true;
+         else
+         	query=false;
 
-      // Options to pass into the OpenLayers Layer initialization
-      var options = new Array();
-      options.visibility=vis;
-      
-      // OpenLayers expects the base layer to be non-transparent (it gets
-      // projection info from the baselayer).
-      // See Issue http://trac.openlayers.org/ticket/390
-      options.isBaseLayer=isBaseLayer;
-      //alert(options.isBaseLayer+" "+name2);
-      options.transparent="TRUE";
-      options.buffer=1;
-      options.maxExtent=maxExtent;
-      options.maxResolution=maxResolution;
-      
-      //TBD get this from FeatureType or Layer, not globally
-      options.projection=proj.srs;
+	  //default option value for a layer
+	  var layerOptions = {
+			      visibility:vis,
+			      transparent:"TRUE",
+			      projection:proj.srs,
+			      queryable:query,
+			      maxExtent: maxExtent,
+			      maxResolution: maxResolution,  //"auto" if not defined in the context
+			      alpha:false,            //option for png transparency with ie6
+			      isBaseLayer:false,
+			      displayOutsideMaxExtent:true
+       };
 
       switch(service){
 
-        // WMS Layer
+         // WMS Layer
         case "OGC":
+        case "WMS":
         case "wms":
         case "OGC:WMS":
-        
-            objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(
-                title,
-                href,
+        	if(!objRef.model.map.baseLayer)
+       		{	layerOptions.isBaseLayer=true;
+       		}	
+       		else
+       		{   layerOptions.reproject=false;
+       			layerOptions.isBaseLayer=false;
+       		}	
+        	var params = new Array();
+        	params=objRef.extractStyle(objRef,layer,"wms");
+            objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,
                 {
                     layers: name2,
-                    transparent: "true",
-                    format: format
+                    //true in upper case else the context doc boston.xml doesn't work
+                    transparent:"TRUE",
+                    format: format,
+                    sld:params.sld,
+                    sld_body:params.sld_body,
+                    styles:params.styles
                 },
-                options
+                layerOptions
             );
-            objRef.model.map.addLayers([objRef.oLlayers[name2]]);
             break;
            
             
@@ -419,22 +409,22 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         case "wfs":
         case "OGC:WFS":
         
-        	var style=objRef.extractStyle(objRef,layer,service);
+            style=objRef.extractStyle(objRef,layer,"wfs");
             if(style){
-                options.style=style;
+                layerOptions.style=style;
             }else{
-                options.style=objRef.getWebSafeStyle(objRef, 2*i+1);
+                layerOptions.style=new OpenLayers.Style.WebSafe(2*i+1);
             }
-            options.featureClass=OpenLayers.Feature.WFS;
+            layerOptions.featureClass=OpenLayers.Feature.WFS;
             
 			objRef.oLlayers[name2]= new OpenLayers.Layer.WFS( 
 				title,
                 href,
                 {typename: name2, 
                  maxfeatures: 1000},
-                 options
-            );
-            //TBD the following event handler is a workaround
+                 layerOptions
+             );
+              //TBD the following event handler is a workaround
             // for getting styles to OL vector layers. There should
             // be a cleaner way to do this, because this way every
             // feature is drawn twice.
@@ -444,52 +434,55 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
 				feature.style = feature.layer.options.style;
 				feature.layer.renderer.drawGeometry(feature.geometry, feature.style);
 			}
-            objRef.model.map.addLayer(objRef.oLlayers[name2]);
-            break;
+             break;
              
         // GML Layer
         case "gml":
         case "OGC:GML":
         
-            var style=objRef.extractStyle(objRef,layer,service);
+            style=objRef.extractStyle(objRef,layer,"gml");
             if(style){
-                options.style=style;
+                layerOptions.style=style;
             }else{
-                options.style=objRef.getWebSafeStyle(objRef, 2*i+1);
+                layerOptions.style=new OpenLayers.Style.WebSafe(2*i+1);
             }
-            objRef.oLlayers[name2] = new OpenLayers.Layer.GML(title,href,options);
-            //TBD the following event handler is a workaround
-            // for getting styles to OL vector layers. There should
-            // be a cleaner way to do this, because this way every
-            // feature is drawn twice.
-			objRef.oLlayers[name2].onFeatureInsert=function(feature) {
-				feature.style = feature.layer.options.style;
-				feature.layer.renderer.drawGeometry(feature.geometry, feature.style);
-			}
-            objRef.model.map.addLayer(objRef.oLlayers[name2]);
+            objRef.oLlayers[name2] = new OpenLayers.Layer.GML(title,href,layerOptions);
+           
             break;
-          case "GMAP":
-          case "Google":
-            //options.maxExtent
-            //options.maxResolution=0.703125;
-           	objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, 'maxZoomLevel':18},options );
-            objRef.model.map.addLayers([objRef.oLlayers[name2]]);
+            
+        case "GMAP":  
+        case "Google":
+            //<script src='http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA8qdfnOIRy3a9gh214V5jKRTwM0brOpm-All5BF6PoaKBxRWWERQ7UHfSE2CGKw9qNg0C1vUmYLatLQ'></script>
+            layerOptions.projection="EPSG:41001";
+            layerOptions.units="degrees";
+            objRef.model.map.units="degrees";
+            layerOptions.maxExtent=new OpenLayers.Bounds("-180","-90","180","90");
+            layerOptions.isBaseLayer=true;
+           	objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, maxZoomLevel:18},layerOptions );
             break;
-          case "YMAP":
-          case "Yahoo":
-           	/*objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, 'maxZoomLevel':18},options );
-            objRef.model.map.addLayers([objRef.oLlayers[name2]]);
-            */
+        case "YMAP":   
+        case "Yahoo":
+             // <script src="http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=euzuro-openlayers"></script>
+            layerOptions.isBaseLayer=true;
+           	objRef.oLlayers[name2] = new OpenLayers.Layer.Yahoo( "Yahoo");
             break;
-          case "VE":
-          case "Microsoft":
-           /*	objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, 'maxZoomLevel':18},options );
-            objRef.model.map.addLayers([objRef.oLlayers[name2]]);
-            */
+            
+        case "VE":
+        case "Microsoft":
+            //<script src='http://dev.virtualearth.net/mapcontrol/v3/mapcontrol.js'></script>
+            layerOptions.isBaseLayer=true;
+           	objRef.oLlayers[name2] = new OpenLayers.Layer.VirtualEarth( "VE",{minZoomLevel: 0, maxZoomLevel: 18,type: VEMapStyle.Hybrid}); 
+            break;
+            
+        case "MultiMap":   
+        	//<script type="text/javascript" src="http://clients.multimap.com/API/maps/1.1/metacarta_04"></script>
+         	layerOptions.isBaseLayer=true;
+           	objRef.oLlayers[name2] = new OpenLayers.Layer.MultiMap( "MultiMap"); 
             break;
         default:
             alert(mbGetMessage("layerTypeNotSupported", service));
       }
+       objRef.model.map.addLayer(objRef.oLlayers[name2]);
  }
 /**
  * This function is called when a new Context is about to be loaded
@@ -512,6 +505,7 @@ MapPaneOL.prototype.clearWidget2 = function(objRef) {
 	   	}
    		
    		objRef.model.map=null;
+   		
    		objRef.oLlayers = null;
    	}
     
