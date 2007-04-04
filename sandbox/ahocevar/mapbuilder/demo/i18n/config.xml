@@ -4,51 +4,14 @@
     <Context id="mainMap">
       <defaultModelUrl>../data/context/demisWorldMap.xml</defaultModelUrl>
       <widgets>
-        <MapPane id="mainMapWidget">
+        <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
           <mapContainerId>mainMapContainer</mapContainerId>
-        </MapPane>
-        <AoiBoxDHTML id="aoiBoxMain">
-          <htmlTagId>mainMapPane</htmlTagId>
-          <mapContainerId>mainMapContainer</mapContainerId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>2</lineWidth>
-          <crossSize>15</crossSize>
-        </AoiBoxDHTML>
-        <Loading2 id="loading2">
-          <mapContainerId>mainMapContainer</mapContainerId>
-        </Loading2>
-        <MapScaleBar id="scalebar">
-          <!--all of these properties are optional-->
-          <!--displaySystem>english</displaySystem-->
-          <displaySystem>metric</displaySystem>
-          <minWidth>100</minWidth>
-          <maxWidth>200</maxWidth>
-          <divisions>4</divisions>
-          <subdivisions>2</subdivisions>
-          <showMinorMeasures>false</showMinorMeasures>
-          <abbreviateLabel>true</abbreviateLabel>
-          <singleLine>false</singleLine>
-          <align>right</align>
-        </MapScaleBar>
-        <CursorTrack id="cursorTrack">
-          <mouseHandler>mainMap</mouseHandler>
-          <precision>5</precision>
-        </CursorTrack>
+        </MapPaneOL>
       </widgets>
-      <tools>
-        <AoiMouseHandler id="mainAoi"/>
-        <DragPanHandler id="mainDragPan">
-          <enabled>false</enabled>
-        </DragPanHandler>
-        <History id="extentHistory">
-          <targetModel>mainMap</targetModel>
-        </History>
-        <MouseClickHandler id="mainMouseClick"/>
-      </tools>
     </Context>
     
-    <Context id="locator">
+    <!-- Context id="locator">
       <defaultModelUrl>../data/context/locatorDemis.xml</defaultModelUrl>
       <widgets>
         <MapPane id="locatorWidget">
@@ -59,7 +22,6 @@
         </MapPane>
         <AoiBoxDHTML id="aoiBox3">
           <htmlTagId>locatorMap</htmlTagId>
-          <!--<stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>-->
           <mapContainerId>locatorContainer</mapContainerId>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
@@ -72,11 +34,11 @@
           <targetModel>mainMap</targetModel>
         </ZoomToAoi>
       </tools>
-    </Context>
+    </Context-->
   </models>
   
   <widgets>
-    <Back id="back">
+    <!-- Back id="back">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <class>Button</class>
@@ -87,7 +49,7 @@
       <targetModel>mainMap</targetModel>
       <class>Button</class>
       <disabledSrc>/images/RedoDisable.png</disabledSrc>
-    </Forward>
+    </Forward-->
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
