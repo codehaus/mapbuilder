@@ -172,7 +172,7 @@ float: right;
 
 #mainMapContainer {
   border: 1px solid olive;
-  cursor: crosshair;
+/*  cursor: crosshair; */
 }
 #cursorTrack INPUT {
 	border: none;
