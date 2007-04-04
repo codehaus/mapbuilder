@@ -26,10 +26,15 @@
         </CursorTrack -->
         <Legend id="legend"/>
         <Version id="version"/>
+        <OverviewMap id="locatorWidget">
+          <htmlTagId>locatorMap</htmlTagId>
+          <fixedWidth>180</fixedWidth>
+        </OverviewMap>
       </widgets>
       <tools>
       </tools>
     </Context>
+    <!--
     <Context id="locator">
       <defaultModelUrl>../data/context/locatorMap.xml</defaultModelUrl>
       <widgets>
@@ -55,6 +60,7 @@
         </ZoomToAoi>
       </tools>
     </Context>
+    -->
     <Transaction id="transaction">
       <widgets>
         <TransactionResponse id="transactionResponse">
@@ -154,7 +160,7 @@
       <targetContext>mainMap</targetContext>
     </InsertFeature-->
     <WfsGetFeature id="wfsGetFeature">
-       <buttonBar>mainButtonBar</buttonBar>
+      <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <class>RadioButton</class>
       <enabledSrc>/images/QueryEnable.png</enabledSrc>
