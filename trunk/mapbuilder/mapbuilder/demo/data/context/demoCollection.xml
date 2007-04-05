@@ -10,6 +10,12 @@
 			<OnlineResource xlink:type="simple" xlink:href="../data/context/atlasWorld.xml"/>
 		</ContextURL>
 	</ViewContextReference>
+	<ViewContextReference version="1.0.0" id="atlas">
+		<Title>Atlas World base map with group layers</Title>
+		<ContextURL>
+			<OnlineResource xlink:type="simple" xlink:href="../data/context/atlasWorldgroup.xml"/>
+		</ContextURL>
+	</ViewContextReference>
 	<ViewContextReference version="1.0.0" id="demis">
 		<Title>Demis World map</Title>
 		<ContextURL>
@@ -82,5 +88,4 @@
 			<OnlineResource xlink:type="simple" xlink:href="http://geodiscover.cgdi.ca/gdp/contexts/radarsatMosaic.xml"/>
 		</ContextURL>
 	</ViewContextReference>
-  
 </ViewContextCollection>

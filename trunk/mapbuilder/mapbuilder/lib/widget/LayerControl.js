@@ -112,8 +112,23 @@ function LayerControl(widgetNode, model) {
         }
      }
      return;
-   }
+}
 
+/**
+   * Display or fold  the layer's legend
+   * @param id  id of legend div
+   */
+	this.switchVisibilityById = function (id) {
+	e =document.getElementById(id);
+	
+		if (e.style.display=="none") {
+			e.style.display = "block";
+		} else {
+			e.style.display = "none";
+		}
+		
+	
+     }
   this.model.addListener("deleteLayer",this.refresh, this);
   this.model.addListener("moveLayerUp",this.refresh, this);
   this.model.addListener("moveLayerDown",this.refresh, this);

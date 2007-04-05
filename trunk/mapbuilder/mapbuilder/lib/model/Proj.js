@@ -116,7 +116,7 @@ function Proj(srs) {
       this.units = "meters";
       this.title = "Lambert Conformal Conic";
       break;
-      case "EPSG:9804"://Mercator_1SP 
+      case "EPSG:41001"://Mercator_1SP 
       this.Init = minit;
       this.Forward = ll2m;
       this.Inverse = m2ll;
