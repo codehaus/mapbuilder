@@ -11,29 +11,6 @@
     <Abstract>Low resolution map of Tasmania, Australia derived from the Digital Chart of the World.</Abstract>
   </General>
   <LayerList>
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.1" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="../../../geoserver/wms"/>
-      </Server>
-      <Name>topp:tasmania_state_boundaries</Name>
-      <Title>Tasmania State Boundaries</Title>
-      <Abstract>Tasmania State Boundaries based on the Digital Chart of the World.</Abstract>
-      <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/gif</Format>
-      </FormatList>
-      <StyleList>
-        <Style current="1">
-          <Name>green</Name>
-          <Title>Default Styler</Title>
-          <Abstract/>
-          <!--LegendURL width="20" height="20">
-            <Format>image/gif</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="../../../geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/gif&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=topp:tasmania_state_boundaries"/>
-          </LegendURL-->
-        </Style>
-      </StyleList>
-    </Layer>
     <Layer queryable="0" hidden="0">
       <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
         <OnlineResource xlink:type="simple" xlink:href="http://labs.metacarta.com/wms/vmap0"/>
@@ -54,6 +31,29 @@
         <Style current="1">
           <Name>default</Name>
           <Title>default</Title>
+        </Style>
+      </StyleList>
+    </Layer>
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="../../../geoserver/wms"/>
+      </Server>
+      <Name>topp:tasmania_state_boundaries</Name>
+      <Title>Tasmania State Boundaries</Title>
+      <Abstract>Tasmania State Boundaries based on the Digital Chart of the World.</Abstract>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <Name>green</Name>
+          <Title>Default Styler</Title>
+          <Abstract/>
+          <!--LegendURL width="20" height="20">
+            <Format>image/gif</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="../../../geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/gif&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=topp:tasmania_state_boundaries"/>
+          </LegendURL-->
         </Style>
       </StyleList>
     </Layer>
