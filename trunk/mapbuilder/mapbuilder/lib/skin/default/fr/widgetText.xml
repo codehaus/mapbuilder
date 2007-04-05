@@ -14,6 +14,19 @@
 
     $Id$
   -->
+  
+  
+  <LayerControl>
+     <layerIndexTip>Possiton courante de la Couche dans la pile d'image</layerIndexTip>
+     <toggleVisTip>Afficher la couche</toggleVisTip>
+      <moveLayerUpTip>faire monter la couche</moveLayerUpTip>
+     <moveLayerDownTip>faire descendre la couche</moveLayerDownTip>
+     <deleteLayerTip>effacer la couche</deleteLayerTip>
+     <legendTip>Afficher la Légende</legendTip>
+     <nameLayerTip>Nom de la Couche</nameLayerTip>
+     <opacityTip>taux d'opacité</opacityTip>
+    </LayerControl>
+ 
   <!-- Widget (XSL) messages -->
   <widgets>
     <AoiForm>
@@ -127,6 +140,7 @@
       <tooltip>Cliquer pour réduire</tooltip>
     </ZoomOut>
   </widgets>
+  
   
   <!-- JavaScript messages -->
   <messages>

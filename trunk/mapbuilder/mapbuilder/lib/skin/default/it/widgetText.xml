@@ -16,6 +16,19 @@
   -->
   <!-- Widget (XSL) messages -->
   <widgets>
+  
+  
+   <LayerControl>
+     <layerIndexTip>Attuale posizione dello strato nella pila di immagine</layerIndexTip>
+     <toggleVisTip>scattar se desiderate l'esposizione o non questo strato</toggleVisTip>
+     <moveLayerUpTip> alzare questo strato</moveLayerUpTip>
+     <moveLayerDownTip>abbassare questo strato</moveLayerDownTip>
+     <deleteLayerTip> cancellare questo strato</deleteLayerTip>
+     <legendTip>Visualizzare o non la leggenda</legendTip>
+     <nameLayerTip> Strato nome</nameLayerTip>
+     <opacityTip> tasso di opacità</opacityTip>
+    </LayerControl>
+
     <AoiForm>
       <east>Est:</east>
       <north>Nord:</north>
