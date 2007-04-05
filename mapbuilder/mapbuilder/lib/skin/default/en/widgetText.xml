@@ -14,8 +14,22 @@
 
     $Id$
   -->
+  
   <!-- Widget (XSL) messages -->
   <widgets>
+  
+  
+    <LayerControl>
+     <layerIndexTip>Current position of layer in image stack</layerIndexTip>
+     <toggleVisTip>click if you want display or not this layer</toggleVisTip>
+     <moveLayerUpTip>move up this layer</moveLayerUpTip>
+     <moveLayerDownTip>move down this layer</moveLayerDownTip>
+     <deleteLayerTip>delete this layer</deleteLayerTip>
+     <legendTip>Display/or not the legend</legendTip>
+     <nameLayerTip>Name Layer</nameLayerTip>
+     <opacityTip>opacity rate</opacityTip>
+    </LayerControl>
+  
     <AoiForm>
       <east>East:</east>
       <north>North:</north>

@@ -16,7 +16,17 @@
   -->
   <!-- Widget (XSL) messages -->
   <widgets>
-    <AoiForm>
+ <LayerControl>
+     <layerIndexTip> Huidige positie van laag in beeldstapel</layerIndexTip>
+     <toggleVisTip> klik als u of niet vertoning deze laag wilt</toggleVisTip>
+     <moveLayerUpTip>beweeg me op deze laag</moveLayerUpTip>
+     <moveLayerDownTip>beweeg me onderaan deze laag </moveLayerDownTip>
+     <deleteLayerTip>schrap deze laag</deleteLayerTip>
+     <legendTip> Toon of niet de legende</legendTip>
+     <nameLayerTip>Noem Laag</nameLayerTip>
+     <opacityTip> opaciteit tarief</opacityTip>
+    </LayerControl>
+<AoiForm>
       <east>Oost:</east>
       <north>Noord:</north>
       <south>Zuid:</south>
