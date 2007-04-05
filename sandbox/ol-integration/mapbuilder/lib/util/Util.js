@@ -22,7 +22,7 @@ function XslProcessor(xslUrl,docNSUri) {
   this.xslDom.async = false;
   this.xslDom.validateOnParse=false;  //IE6 SP2 parsing bug
   this.xslDom.load(xslUrl);
-  if ( this.xslDom.parseError < 0 )
+  if ( Sarissa.getParseErrorText(this.xslDom) != Sarissa.PARSED_OK )
     alert(mbGetMessage("errorLoadingStylesheet", xslUrl));
 
   this.processor = new XSLTProcessor();

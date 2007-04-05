@@ -208,7 +208,6 @@
     <nullOwsContext>Leeg OWSContext-document</nullOwsContext>
     <nullXmlResponse>Lege XML-respons: {0}</nullXmlResponse>
     <parseError>Parse-fout: {0}</parseError>
-    <parsingError>Parse-fout: {0} {1}</parsingError>
     <phi2zNoConvergence>phi2z: Convergentiefout</phi2zNoConvergence>
     <pixel2llNotDefined>pixel2ll niet gedefiniëerd</pixel2llNotDefined>
     <preparingCoords>prepareert coördinaten</preparingCoords>

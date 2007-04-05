@@ -94,7 +94,7 @@ MapPane2.prototype.paint = function(objRef, refresh) {
 
     //process the doc with the stylesheet
     var tempDom = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
-    if( tempDom.parseError != 0 ) {
+    if( Sarissa.getParseErrorText(tempDom) != Sarissa.PARSED_OK) {
         alert(mbGetMessage("parseError", Sarissa.getParseErrorText(tempDom)));
     }
     

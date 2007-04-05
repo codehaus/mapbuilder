@@ -208,7 +208,6 @@
     <nullOwsContext>Documento OWSContext vuoto</nullOwsContext>
     <nullXmlResponse>Risposta XML vuota: {0}</nullXmlResponse>
     <parseError>Errore nell'analisi del documento: {0}</parseError>
-    <parsingError>Errore nell'analisi del documento: {0} {1}</parsingError>
     <phi2zNoConvergence>phi2z: errore di convergenza</phi2zNoConvergence>
     <pixel2llNotDefined>pixel2ll non definito</pixel2llNotDefined>
     <preparingCoords>preparazione delle coordinate</preparingCoords>
