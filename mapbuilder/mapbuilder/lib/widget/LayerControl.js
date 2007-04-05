@@ -47,6 +47,40 @@ function LayerControl(widgetNode, model) {
   this.refresh = function(objRef, layerName) {
     objRef.paint(objRef, objRef.id);
   }
+  
+  this.foldUnfoldGroup = function(groupName,id) {
+    // context config stuff to maintain group folding over refresh
+    var xpathExpression = "//wmc:General/wmc:Extension/wmc:GroupList/wmc:Group[@name='" + groupName + "']";
+    //var thisGroupsLayerNodes = model.doc.selectNodes(xpathExpression);
+    var thisGroupsNode = model.doc.selectSingleNode(xpathExpression);
+    var thisGroupsFoldedState = thisGroupsNode.getAttribute('folded');
+     e =document.getElementById(id);
+    if(thisGroupsFoldedState == "1") {
+		thisGroupsNode.setAttribute("folded", "0");
+		 e.value="-";
+		
+	} else {
+		thisGroupsNode.setAttribute("folded", "1");
+		e.value="+";
+	}
+	
+  }
+  
+  /**
+   * set the opacity style property to a layer 
+   * @param mapId  id of the mapPane where is the layer
+   * @param transparency   opacity style property value 
+   */
+   this.setTransparency = function (mapId,transparency){
+   			
+				  var map = document.getElementById(mapId);
+				  var opacitypercent = transparency / 100;
+				  map.style.opacity = opacitypercent;
+				  var ietr = "alpha(opacity=" + transparency + ")";
+				  for(var i=0;i<map.childNodes.length;i++){
+							map.childNodes[i].style.filter=ietr;
+				  }
+  }
 
   /**
    * not working yet
@@ -60,9 +94,29 @@ function LayerControl(widgetNode, model) {
       metadataWidget.paint(metadataWidget);
     }
   }
+  
+  /**
+   * Change image source from imageA to imageB
+   * @param id  id of image tag where we want to change the source
+   * @param imageA   url of imageA
+   * @param imageB   url of imageB
+   */
+  this.ChangeImage= function (id, imageA, imageB) {
+     var indexA=document.getElementById(id).src.indexOf(imageA);
+     var indexB=document.getElementById(id).src.indexOf(imageB);
+     if (document.getElementById(id) != null) {
+        if (indexA != -1) { /* HACK for IE. */
+            document.getElementById(id).src=document.getElementById(id).src.substring(0,indexA)+imageB;
+        } else {
+           document.getElementById(id).src=document.getElementById(id).src.substring(0,indexB)+imageA;
+        }
+     }
+     return;
+   }
 
   this.model.addListener("deleteLayer",this.refresh, this);
   this.model.addListener("moveLayerUp",this.refresh, this);
   this.model.addListener("moveLayerDown",this.refresh, this);
   if (this.autoRefresh) this.model.addListener("addLayer",this.refresh, this);
 }
+
