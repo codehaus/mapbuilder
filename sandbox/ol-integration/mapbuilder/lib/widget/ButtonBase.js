@@ -33,8 +33,8 @@ function ButtonBase(widgetNode, model) {
   if ((!buttonBarNode) && (!htmlTagNode)){
     alert(mbGetMessage("buttonBarRequired", widgetNode.nodeName));
   }
-     //Add a tooltip to the panel_div
-   // Set button text values as parameters
+  //Add a tooltip to the panel_div
+  // Set button text values as parameters
   if (config.widgetText) {
     var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName;
     var textParams = config.widgetText.selectNodes(textNodeXpath+"/*");
@@ -102,12 +102,12 @@ function ButtonBase(widgetNode, model) {
   if (selected && selected.firstChild.nodeValue) this.selected = true;
 
   /**
-   * Gets the css classname for this widget. We use this
-   * in Button.xsl to define the button styles.
+   * Gets the css classname for this button. We use this
+   * to define the button styles.
    * @param objRef Reference to this object.
    * @param state 'Active' or 'Inactive' (case sensitive!)
    */
-  this.getCssName = function(objRef, state) {
+  this.getButtonClass = function(objRef, state) {
   	var cssName;
   	if (objRef.control.displayClass) {
   		cssName = objRef.control.displayClass;
@@ -117,6 +117,15 @@ function ButtonBase(widgetNode, model) {
   	}
   	cssName += 'Item';
   	return '.' + cssName + state;
+  }
+
+  /**
+   * Gets the css classname for the map pane that
+   * sets the cursor according to the clicked button
+   * @param objRef Reference to this object.
+   */  
+  this.getCursorClass = function(objRef) {
+  	return 'mbCursor_'+objRef.cursor.replace(/[^A-Z^a-z]*/g, '');
   }
   
   /**
@@ -189,6 +198,11 @@ function ButtonBase(widgetNode, model) {
     // set tooltip for the button
     objRef.control.panel_div.title=objRef.tooltip;
     
+	// activate the control if it is defined as selected in config
+    if(objRef.selected == true) {
+		objRef.control.activate();    	
+    }
+    
     // DOM div element of the map pane
 	objRef.mapPaneDiv = document.getElementById(objRef.targetModel.map.div.id); 
 
@@ -196,26 +210,26 @@ function ButtonBase(widgetNode, model) {
     // to change the map cursor
     if (objRef.control.type != OpenLayers.Control.TYPE_BUTTON) {
 	  objRef.control.panel_div.onclick = function() {
-	    objRef.mapPaneDiv.className = objRef.mapPaneDiv.className.replace(/mbCursor_[a-zA-Z]*/, 'mbCursor_'+objRef.cursor);
+	    objRef.mapPaneDiv.className = objRef.mapPaneDiv.className.replace(/mbCursor_[a-zA-Z0-9]*/, objRef.getCursorClass(objRef));
 	  };
     }
     
-    
-    if (objRef.selected == true) {
-		objRef.control.activate();
-		objRef.mapPaneDiv.className += ' mbCursor_'+objRef.cursor;
+    // add cursor css classname to map pane div if this button
+    // is selected or if the classname is not set yet
+    if (objRef.selected == true || objRef.mapPaneDiv.className.indexOf('mbCursor') == -1) {
+		objRef.mapPaneDiv.className += ' '+objRef.getCursorClass(objRef);
   	}
 
 	// create css for buttons
 	if (objRef.buttonType == 'RadioButton') {
-		var activeRule = addCSSRule(objRef.getCssName(objRef, 'Active'));
+		var activeRule = addCSSRule(objRef.getButtonClass(objRef, 'Active'));
 		activeRule.style.backgroundImage = "url(\""+objRef.enabledImage.src+"\")";
 	}
-	var inactiveRule = addCSSRule(objRef.getCssName(objRef, 'Inactive'));
+	var inactiveRule = addCSSRule(objRef.getButtonClass(objRef, 'Inactive'));
 	inactiveRule.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
 	
 	// create css for map cursor
-	var cursorRule = addCSSRule('.mbCursor_'+objRef.cursor);
+	var cursorRule = addCSSRule('.'+objRef.getCursorClass(objRef));
 	cursorRule.style.cursor = objRef.cursor;
   }
 
