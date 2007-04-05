@@ -8,6 +8,10 @@
           <htmlTagId>mainMapPane</htmlTagId>
           <mapContainerId>mainMapContainer</mapContainerId>
         </MapPaneOL>
+        <OverviewMap id="locatorWidget">
+          <htmlTagId>locatorMap</htmlTagId>
+          <fixedWidth>180</fixedWidth>
+        </OverviewMap>
       </widgets>
     </Context>
     
