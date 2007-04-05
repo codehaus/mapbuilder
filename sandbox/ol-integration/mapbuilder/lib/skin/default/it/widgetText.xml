@@ -181,6 +181,7 @@
     <loadingLayer>{0} tematismo in caricamento</loadingLayer>
     <loadingLayers>{0} tematismi in caricamento</loadingLayers>
     <m2llLat9999>lat = -9999</m2llLat9999>
+    <noBboxInContext>Nessun BBOX definito nella context</noBboxInContext>
     <noCanvasContext>Canvas context non esiste</noCanvasContext>
     <noContextDefined>Nessun context definito nella configurazione (config)</noContextDefined>
     <noCountryCode>Specificare un country code</noCountryCode>

@@ -181,6 +181,7 @@
     <loadingLayer>Bezig met laden van {0} kaartlaag</loadingLayer>
     <loadingLayers>Bezig met laden van {0} kaartlagen</loadingLayers>
     <m2llLat9999>lat = -9999</m2llLat9999>
+    <noBboxInContext>Geen BBOX gedefiniëerd in context</noBboxInContext>
     <noCanvasContext>Geen canvas-context</noCanvasContext>
     <noContextDefined>Geen context gedefiniëerd in configuratie</noContextDefined>
     <noCountryCode>U dient een landcode op te geven</noCountryCode>

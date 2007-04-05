@@ -181,6 +181,7 @@
     <loadingLayer>Loading {0} map layer</loadingLayer>
     <loadingLayers>Loading {0} map layers</loadingLayers>
     <m2llLat9999>lat = -9999</m2llLat9999>
+    <noBboxInContext>No BBOX defined in context</noBboxInContext>
     <noCanvasContext>No canvas context</noCanvasContext>
     <noContextDefined>No context defined in config</noContextDefined>
     <noCountryCode>You need to specify a country code</noCountryCode>

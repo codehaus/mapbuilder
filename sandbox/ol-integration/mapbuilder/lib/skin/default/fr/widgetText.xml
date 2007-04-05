@@ -181,7 +181,8 @@
     <loadingLayer>Téléchargement de {0} couche du plan</loadingLayer>
     <loadingLayers>Téléchargement de {0} couches du plan</loadingLayers>
     <m2llLat9999>lat = -9999</m2llLat9999>
-    <noCanvasContext>Aucun contéxte de toile</noCanvasContext>
+    <noBboxInContext>Aucun BBOX defini dans contexte</noBboxInContext>
+    <noCanvasContext>Aucun contexte de toile</noCanvasContext>
     <noContextDefined>Aucun contexte defini dans la configuration</noContextDefined>
     <noCountryCode>Vous devez spécifiez le code du pays</noCountryCode>
     <noDataYet>Aucunes données à visualiser</noDataYet>

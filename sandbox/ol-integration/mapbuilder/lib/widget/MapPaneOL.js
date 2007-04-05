@@ -87,7 +87,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         width=objRef.model.getWindowWidth();   
       }
       maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
-      if(maxExtent==null)alert('bbox is not defined in context');
+      if(maxExtent==null)alert(mbGetMessage("noBboxInContext"));
       
       //maxResolution
       var maxResolution=null;
@@ -316,7 +316,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
          
       }
       maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
-      if(maxExtent==null)alert('bbox is not defined in context');
+      if(maxExtent==null)alert(mbGetMessage("noBboxInContext"));
       
       //maxResolution
       var maxResolution=null;
