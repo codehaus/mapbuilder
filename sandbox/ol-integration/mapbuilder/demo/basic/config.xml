@@ -17,6 +17,18 @@
 		</Context>
 	</models>
 	<widgets>
+	    <Back id="back">
+            <buttonBar>mainButtonBar</buttonBar>
+           <targetModel>mainMap</targetModel>
+           <class>Button</class>
+           <disabledSrc>/images/UndoDisable.png</disabledSrc>
+        </Back>
+        <Forward id="forward">
+           <buttonBar>mainButtonBar</buttonBar>
+           <targetModel>mainMap</targetModel>
+           <class>Button</class>
+           <disabledSrc>/images/RedoDisable.png</disabledSrc>
+        </Forward>
 		<ZoomIn id="zoomIn">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>

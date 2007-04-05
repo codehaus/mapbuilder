@@ -16,23 +16,34 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @param model  The model for this widget
  */
 function Forward(widgetNode, model) {
-  ButtonBase.apply(this, new Array(widgetNode, model));
   
-  /**
-   * Replaces the current extent with the next one in history
-   * @param objRef      Pointer to this object.
-   */
-  this.doSelect = function(selected,objRef) {
-    if (selected){
+   ButtonBase.apply(this, new Array(widgetNode, model));
 
-		this.targetModel.setParam("historyForward");
-      var nextExtent = objRef.targetModel.nextExtent;
-      if(nextExtent){
-        this.targetModel.setParam("historyStop");
-        objRef.targetModel.extent.zoomToBox( nextExtent[0], nextExtent[1] );
-        this.targetModel.setParam("historyStart");
-      }
-    }
+  /**
+   * Interactive ZoomOut control.
+   * @param objRef reference to this object.
+   * @return {OpenLayers.Control} instance of the OL control.
+   */
+  this.createControl = function(objRef) {
+    var Control = OpenLayers.Class.create();
+    Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
+    
+      type: OpenLayers.Control.TYPE_BUTTON,
+
+      trigger: function () { 
+      
+                if (this.map.nbExtent>this.map.historyExtent.length-1)
+			        alert("No more extent");
+		        else{
+			
+		            this.map.zoomToExtent(this.map.historyExtent[this.map.nbExtent]); 
+		            
+                 }
+         
+       },
+       CLASS_NAME: 'mbControl.Forward'
+  });
+  return new Control();
   }
 }
 

@@ -125,7 +125,14 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
       //objRef.model.map.zoomToMaxExtent();
 	  var bboxOL=objRef.model.map.getExtent().toBBOX().split(',');
-	
+	  
+	  ////////////////Initialize the History Extent Tab///////////////////
+	  objRef.model.map.historyExtent=new Array();
+	  objRef.model.map.historyExtent[0]=objRef.model.map.getExtent();
+	  objRef.model.map.nbExtent=0;
+	  objRef.model.map.nbExtent++;
+	  ////////////////Initialize the HistoryTab///////////////////
+	  
       var ul = new Array(bboxOL[0],bboxOL[3]);
       var lr = new Array(bboxOL[2],bboxOL[1]);
       objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
@@ -133,7 +140,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 	  objRef.model.setParam("aoi", new Array(ul, lr) );
  	  objRef.model.callListeners("mapLoaded");
  	    // event to keep MB context updated
-    
+      
   }
 
   objRef.model.map.events.register('moveend', objRef.model.map, function (e) {
@@ -144,6 +151,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
             objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
             objRef.model.extent.setSize(new Array(objRef.model.map.getResolution(),objRef.model.map.getResolution()));
             objRef.model.setParam("aoi", new Array(ul, lr));
+            objRef.model.map.historyExtent[objRef.model.map.nbExtent]=objRef.model.map.getExtent(); 
+		    objRef.model.map.nbExtent++;
         }
     });
 
