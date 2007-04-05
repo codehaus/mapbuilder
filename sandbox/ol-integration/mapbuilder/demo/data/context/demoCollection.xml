@@ -34,6 +34,12 @@
 			<OnlineResource xlink:type="simple" xlink:href="../data/context/mars.xml"/>
 		</ContextURL>
 	</ViewContextReference>
+  <ViewContextReference version="1.0.0" id="metacarta">
+    <Title>Metacarta World map</Title>
+    <ContextURL>
+      <OnlineResource xlink:type="simple" xlink:href="../data/context/metacartaWorldMap.xml"/>
+    </ContextURL>
+  </ViewContextReference>
 	<ViewContextReference version="1.0.0" id="modisWorldMosaic">
     <Title>MODIS world mosaic</Title>
 		<ContextURL>
