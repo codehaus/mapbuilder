@@ -28,8 +28,9 @@ function OverviewMap(widgetNode, model) {
 }
 
 /**
- * Add an overview map (with just the base layer from the main map)
- * to the map in this widget's model.
+ * Add an overview map to the map in this widget's model.
+ * This uses just the base layer from the main map;
+ * if the base layer is a WMS layer it uses an untiled version of this.
  * @param objRef Pointer to widget object.
  */
 OverviewMap.prototype.addOverviewMap = function(objRef) {
@@ -40,6 +41,15 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
     var options = {
       div: document.getElementById(objRef.htmlTagId)
     };
+
+    // Check for WMS baseLayer
+    var baseLayer = map.baseLayer;
+    if (baseLayer != null && baseLayer instanceof OpenLayers.Layer.WMS) {
+      // Use WMS.Untiled
+      var newBase = new OpenLayers.Layer.WMS.Untiled(baseLayer.name,
+                    baseLayer.url, {layers: baseLayer.params.LAYERS});
+      options.layers = [newBase];
+    }
 
     // Determine size taking aspect ratio of main map into account.
     // Note that without fixedWidth in config.xml, OL defaults to (180,90).
