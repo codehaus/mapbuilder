@@ -8,6 +8,10 @@
           <htmlTagId>mainMapPane</htmlTagId>
           <mapContainerId>mainMapContainer</mapContainerId>
         </MapPaneOL>
+        <CursorTrack id="cursorTrack">
+          <mouseHandler>mainMap</mouseHandler>
+          <precision>5</precision>
+        </CursorTrack>
         <OverviewMap id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
           <fixedWidth>180</fixedWidth>

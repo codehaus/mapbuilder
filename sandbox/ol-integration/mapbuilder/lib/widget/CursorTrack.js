@@ -6,6 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
@@ -165,6 +166,7 @@ function CursorTrack(widgetNode, model) {
       objRef.mouseHandler = window.config.objects[mouseHandler.firstChild.nodeValue];
       objRef.mouseHandler.addListener('mouseover', objRef.mouseOverHandler, objRef);
       objRef.mouseHandler.addListener('mouseout', objRef.mouseOutHandler, objRef);
+      objRef.model.map.events.register('mousemove', objRef, objRef.redraw);
     } else {
       alert(mbGetMessage("noMouseHandlerCursorTrack"));
     }
@@ -183,6 +185,18 @@ function CursorTrack(widgetNode, model) {
   this.formName = "CursorTrackForm_" + mbIds.getId();
   this.stylesheet.setParameter("formName", this.formName);
 
+  /**
+   * OpenLayers mouse event listener.
+   * @param evt OpenLayers mouse event
+   */
+  this.redraw = function(evt) {
+    if (evt == null) {
+      this.lastXy = new OpenLayers.Pixel(0, 0);
+    }
+    else {
+      this.lastXy = evt.xy;
+    }
+  }
 }
 
 /**
@@ -274,19 +288,18 @@ function ReportCoords() {
   var objRef = window.cursorTrackObject;
   
   if (objRef.mouseOver) {
-    var evPL =  window.cursorTrackNode.evpl;
-
 	// capture the pixel coordinates
 	if( objRef.showPx ) {    
       if( objRef.coordForm.px )
-        objRef.coordForm.px.value = evPL[0];
+        objRef.coordForm.px.value = objRef.lastXy.x;
 
       if( objRef.coordForm.py )
-        objRef.coordForm.py.value = evPL[1];
+        objRef.coordForm.py.value = objRef.lastXy.y;
     }
     
     // capture XY coordinates
-    var evXY = objRef.model.extent.getXY( evPL );
+    var evLonLat = objRef.model.map.getLonLatFromPixel(objRef.lastXy);
+    var evXY = objRef.proj.Forward([evLonLat.lon, evLonLat.lat]);
     
     // store them
     if( objRef.showXY ) {
@@ -297,18 +310,16 @@ function ReportCoords() {
     }
     
     if( objRef.showLatLong || objRef.showDMS || objRef.showDM || objRef.showMGRS ) {
-	    var evLatLon = objRef.proj.Inverse( evXY );   //convert to lat/long
-	    
         if( objRef.showLatLong ) {
 	      if( objRef.coordForm.longitude )
-	        objRef.coordForm.longitude.value = evLatLon[0].toFixed(objRef.precision);
+	        objRef.coordForm.longitude.value = evLonLat.lon.toFixed(objRef.precision);
 	    
 	      if( objRef.coordForm.latitude )
-	        objRef.coordForm.latitude.value = evLatLon[1].toFixed(objRef.precision);
+	        objRef.coordForm.latitude.value = evLonLat.lat.toFixed(objRef.precision);
 	    }
         
         if( objRef.showDMS ) {
-          var longitude = convertDMS(evLatLon[0], 'LON');
+          var longitude = convertDMS(evLonLat.lon, 'LON');
           if( objRef.coordForm.longdeg )
             objRef.coordForm.longdeg.value = longitude[0];          
           if( objRef.coordForm.longmin )
@@ -318,7 +329,7 @@ function ReportCoords() {
          if( objRef.coordForm.longH )
             objRef.coordForm.longH.value = longitude[3];
 
-          var latitude = convertDMS(evLatLon[1], 'LAT');
+          var latitude = convertDMS(evLonLat.lat, 'LAT');
           if( objRef.coordForm.latdeg )
             objRef.coordForm.latdeg.value = latitude[0];          
           if( objRef.coordForm.latmin )
@@ -330,7 +341,7 @@ function ReportCoords() {
         }
         
         if( objRef.showDM ) {
-          var longitude = convertDM(evLatLon[0], 'LON');
+          var longitude = convertDM(evLonLat.lon, 'LON');
           if( objRef.coordForm.longDMdeg )
             objRef.coordForm.longDMdeg.value = longitude[0];          
           if( objRef.coordForm.longDMmin )
@@ -338,7 +349,7 @@ function ReportCoords() {
          if( objRef.coordForm.longDMH )
             objRef.coordForm.longDMH.value = longitude[2];
 
-          var latitude = convertDM(evLatLon[1], 'LAT');
+          var latitude = convertDM(evLonLat.lat, 'LAT');
           if( objRef.coordForm.latDMdeg )
             objRef.coordForm.latDMdeg.value = latitude[0];          
           if( objRef.coordForm.latDMmin )
@@ -350,7 +361,7 @@ function ReportCoords() {
 	    if( objRef.showMGRS ) {
 	      if( !objRef.MGRS )
 	        objRef.MGRS = new MGRS();
-          objRef.coordForm.mgrs.value = objRef.MGRS.convert(evLatLon[1],evLatLon[0]) ;
+          objRef.coordForm.mgrs.value = objRef.MGRS.convert(evLonLat.lat,evLonLat.lon) ;
         }
       }
   }

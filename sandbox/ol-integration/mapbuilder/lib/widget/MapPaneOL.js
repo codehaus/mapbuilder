@@ -110,7 +110,6 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 
       // Increase hight of Control layers to allow for lots of layers.
       objRef.model.map.Z_INDEX_BASE.Control=10000;
-      objRef.model.map.addControl(new OpenLayers.Control.MousePosition());
 
    
       var layers = objRef.model.getAllLayers();
