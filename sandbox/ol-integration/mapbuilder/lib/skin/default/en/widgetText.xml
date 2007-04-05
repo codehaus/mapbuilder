@@ -14,8 +14,13 @@
 
     $Id$
   -->
+  
   <!-- Widget (XSL) messages -->
   <widgets>
+  
+  
+    
+  
     <AoiForm>
       <east>East:</east>
       <north>North:</north>
@@ -66,6 +71,17 @@
     <InsertFeature>
       <tooltip>Save the current Feature(s) to the server</tooltip>
     </InsertFeature>
+    
+    <LayerControl>
+     <deleteLayerTip>delete this layer</deleteLayerTip>
+     <layerIndexTip>Current position of layer in image stack</layerIndexTip>
+     <legendTip>Display/or not the legend</legendTip>
+     <moveLayerDownTip>move down this layer</moveLayerDownTip>
+     <moveLayerUpTip>move up this layer</moveLayerUpTip>
+     <nameLayerTip>Name Layer</nameLayerTip>
+     <opacityTip>opacity rate</opacityTip>
+     <toggleVisTip>click if you want display or not this layer</toggleVisTip>
+    </LayerControl>
     
     <Legend>
       <title>Map Layers</title>

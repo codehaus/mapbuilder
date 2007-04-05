@@ -16,7 +16,8 @@
   -->
   <!-- Widget (XSL) messages -->
   <widgets>
-    <AoiForm>
+ 
+<AoiForm>
       <east>Oost:</east>
       <north>Noord:</north>
       <south>Zuid:</south>
@@ -66,6 +67,17 @@
     <InsertFeature>
       <tooltip>Bewaar de huidige objecten op de server</tooltip>
     </InsertFeature>
+    
+    <LayerControl>
+     <deleteLayerTip>schrap deze laag</deleteLayerTip>
+     <layerIndexTip> Huidige positie van laag in beeldstapel</layerIndexTip>
+     <legendTip> Toon of niet de legende</legendTip>
+     <moveLayerDownTip>beweeg me onderaan deze laag </moveLayerDownTip>
+     <moveLayerUpTip>beweeg me op deze laag</moveLayerUpTip>
+     <nameLayerTip>Noem Laag</nameLayerTip>
+     <opacityTip> opaciteit tarief</opacityTip>
+     <toggleVisTip> klik als u of niet vertoning deze laag wilt</toggleVisTip>
+    </LayerControl>
     
     <Legend>
       <title>Kaartlagen</title>

@@ -39,7 +39,7 @@
     </ContactInformation>
   </General>
   <LayerList>
-    <Layer queryable="1" hidden="0">
+    <Layer queryable="1" hidden="0" opacity="0.5">
       <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
       <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
       </Server>

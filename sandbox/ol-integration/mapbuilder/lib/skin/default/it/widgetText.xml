@@ -16,6 +16,7 @@
   -->
   <!-- Widget (XSL) messages -->
   <widgets>
+
     <AoiForm>
       <east>Est:</east>
       <north>Nord:</north>
@@ -66,6 +67,17 @@
     <InsertFeature>
       <tooltip>Salva l'oggetto o gli oggetti correnti</tooltip>
     </InsertFeature>
+    
+    <LayerControl>
+     <deleteLayerTip> cancellare questo strato</deleteLayerTip>
+     <layerIndexTip>Attuale posizione dello strato nella pila di immagine</layerIndexTip>
+     <legendTip>Visualizzare o non la leggenda</legendTip>
+     <moveLayerDownTip>abbassare questo strato</moveLayerDownTip>
+     <moveLayerUpTip> alzare questo strato</moveLayerUpTip>
+     <nameLayerTip> Strato nome</nameLayerTip>
+     <opacityTip> tasso di opacità</opacityTip>
+     <toggleVisTip>scattar se desiderate l'esposizione o non questo strato</toggleVisTip>
+    </LayerControl>
     
     <Legend>
       <title>Tematismi</title>

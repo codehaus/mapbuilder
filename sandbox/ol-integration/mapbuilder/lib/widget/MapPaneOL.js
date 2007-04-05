@@ -40,6 +40,7 @@ function MapPaneOL(widgetNode, model) {
   this.model.addListener("deleteLayer",this.deleteLayer, this);
   this.model.addListener("moveLayerUp",this.moveLayerUp, this);
   this.model.addListener("moveLayerDown",this.moveLayerDown, this);
+  this.model.addListener("opacity",this.setOpacity,this);
   //this.model.addListener( "zoomToBbox", this.zoomToBbox, this );
   //this.model.addListener( "zoomOut", this.zoomOut, this );
   //this.model.addListener( "zoomIn", this.zoomIn, this );
@@ -292,6 +293,16 @@ MapPaneOL.prototype.moveLayerDown = function(objRef, layerName) {
 }
 //###############################################
 /**
+   * Called when the context's opacity attribute changes.
+   * @param objRef This object.
+   * @param layerName  The name of the layer that was toggled.
+   */
+MapPaneOL.prototype.setOpacity=function(objRef, layerName){
+     var _opacity="1";
+    _opacity=objRef.model.getOpacity(layerName);
+     objRef.getLayer(objRef,layerName).setOpacity(_opacity);
+  }
+/**
  * Adds a layer into the output
  * @param layerName the WMS name for the layer to be added
  */
@@ -359,7 +370,14 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
          	query=true;
          else
          	query=false;
-
+         	
+     // Test if opacity is specified 	
+	   var opacity=layer.selectSingleNode("@opacity");
+       if (opacity)
+         	opacity=opacity.nodeValue;
+       else
+         	opacity=false;
+         	
 	  //default option value for a layer
 	  var layerOptions = {
 			      visibility:vis,
@@ -401,6 +419,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
                 },
                 layerOptions
             );
+           
             break;
            
             
@@ -471,7 +490,10 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         default:
             alert(mbGetMessage("layerTypeNotSupported", service));
       }
-       objRef.model.map.addLayer(objRef.oLlayers[name2]);
+      if(opacity && objRef.oLlayers[name2]){
+            	objRef.oLlayers[name2].setOpacity(opacity);
+      }
+      objRef.model.map.addLayer(objRef.oLlayers[name2]);
  }
 /**
  * This function is called when a new Context is about to be loaded
