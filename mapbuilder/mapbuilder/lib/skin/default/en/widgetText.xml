@@ -19,16 +19,7 @@
   <widgets>
   
   
-    <LayerControl>
-     <layerIndexTip>Current position of layer in image stack</layerIndexTip>
-     <toggleVisTip>click if you want display or not this layer</toggleVisTip>
-     <moveLayerUpTip>move up this layer</moveLayerUpTip>
-     <moveLayerDownTip>move down this layer</moveLayerDownTip>
-     <deleteLayerTip>delete this layer</deleteLayerTip>
-     <legendTip>Display/or not the legend</legendTip>
-     <nameLayerTip>Name Layer</nameLayerTip>
-     <opacityTip>opacity rate</opacityTip>
-    </LayerControl>
+    
   
     <AoiForm>
       <east>East:</east>
@@ -80,6 +71,17 @@
     <InsertFeature>
       <tooltip>Save the current Feature(s) to the server</tooltip>
     </InsertFeature>
+    
+    <LayerControl>
+     <deleteLayerTip>delete this layer</deleteLayerTip>
+     <layerIndexTip>Current position of layer in image stack</layerIndexTip>
+     <legendTip>Display/or not the legend</legendTip>
+     <moveLayerDownTip>move down this layer</moveLayerDownTip>
+     <moveLayerUpTip>move up this layer</moveLayerUpTip>
+     <nameLayerTip>Name Layer</nameLayerTip>
+     <opacityTip>opacity rate</opacityTip>
+     <toggleVisTip>click if you want display or not this layer</toggleVisTip>
+    </LayerControl>
     
     <Legend>
       <title>Map Layers</title>

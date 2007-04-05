@@ -26,6 +26,8 @@
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
           <autoRefresh>false</autoRefresh>
+          <legendImageEnable>/images/LegendEnable.png</legendImageEnable>
+		  <legendImageDisable>/images/LegendDisable.png</legendImageDisable> 
           <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
           <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
           <deleteImage>/images/LayerRemoveDisable.png</deleteImage>

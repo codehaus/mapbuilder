@@ -16,16 +16,7 @@
   -->
   
   
-  <LayerControl>
-     <layerIndexTip>Possiton courante de la Couche dans la pile d'image</layerIndexTip>
-     <toggleVisTip>Afficher la couche</toggleVisTip>
-      <moveLayerUpTip>faire monter la couche</moveLayerUpTip>
-     <moveLayerDownTip>faire descendre la couche</moveLayerDownTip>
-     <deleteLayerTip>effacer la couche</deleteLayerTip>
-     <legendTip>Afficher la Légende</legendTip>
-     <nameLayerTip>Nom de la Couche</nameLayerTip>
-     <opacityTip>taux d'opacité</opacityTip>
-    </LayerControl>
+  
  
   <!-- Widget (XSL) messages -->
   <widgets>
@@ -79,6 +70,17 @@
     <InsertFeature>
       <tooltip>Sauvegarder la(es) caractéristique(s) courants sur le serveur</tooltip>
     </InsertFeature>
+    
+    <LayerControl>
+     <deleteLayerTip>effacer la couche</deleteLayerTip>
+     <layerIndexTip>Possiton courante de la Couche dans la pile d'image</layerIndexTip>
+     <legendTip>Afficher la Légende</legendTip>
+     <moveLayerDownTip>faire descendre la couche</moveLayerDownTip>
+     <moveLayerUpTip>faire monter la couche</moveLayerUpTip>
+     <nameLayerTip>Nom de la Couche</nameLayerTip>
+     <opacityTip>taux d'opacité</opacityTip>
+     <toggleVisTip>Afficher la couche</toggleVisTip>
+    </LayerControl>
     
     <Legend>
       <title>Couches de la carte</title>

@@ -62,6 +62,9 @@
           <htmlTagId>saveModel</htmlTagId>
         </SaveModel>
         <LayerControl id="layerControl">
+        <opacity>true</opacity>
+         <legendImageEnable>/images/LegendEnable.png</legendImageEnable>
+		<legendImageDisable>/images/LegendDisable.png</legendImageDisable> 
           <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
           <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
           <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
