@@ -69,14 +69,14 @@
     </InsertFeature>
     
     <LayerControl>
-     <deleteLayerTip>schrap deze laag</deleteLayerTip>
-     <layerIndexTip> Huidige positie van laag in beeldstapel</layerIndexTip>
-     <legendTip> Toon of niet de legende</legendTip>
-     <moveLayerDownTip>beweeg me onderaan deze laag </moveLayerDownTip>
-     <moveLayerUpTip>beweeg me op deze laag</moveLayerUpTip>
-     <nameLayerTip>Noem Laag</nameLayerTip>
-     <opacityTip> opaciteit tarief</opacityTip>
-     <toggleVisTip> klik als u of niet vertoning deze laag wilt</toggleVisTip>
+      <deleteLayerTip>Verwijder deze laag</deleteLayerTip>
+      <layerIndexTip>Huidige positie van deze laag in de beeldstapel</layerIndexTip>
+      <legendTip>Wijzig de zichtbaarheid van de legenda</legendTip>
+      <moveLayerDownTip>Verplaats deze laag omlaag in de lijst</moveLayerDownTip>
+      <moveLayerUpTip>Verplaats deze laag omhoog in de lijst</moveLayerUpTip>
+      <nameLayerTip>Laagnaam</nameLayerTip>
+      <opacityTip>Waarde opaciteit</opacityTip>
+      <toggleVisTip>Wijzig de zichtbaarheid van deze laag</toggleVisTip>
     </LayerControl>
     
     <Legend>
