@@ -38,7 +38,7 @@
       <ContactFacsimileTelephone>+1 613 947 2410</ContactFacsimileTelephone>
       <ContactElectronicMailAddress>mike.adair@ccrs.nrcan.gc.ca</ContactElectronicMailAddress>
     </ContactInformation>
-			<Extension>
+	<Extension>
 		<GroupList>
 			<Group name="Groupe 1" folded="1"/>
 			<Group name="Groupe 2" folded="0"/>
