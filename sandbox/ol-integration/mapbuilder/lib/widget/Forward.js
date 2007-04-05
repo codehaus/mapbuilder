@@ -33,7 +33,7 @@ function Forward(widgetNode, model) {
       trigger: function () { 
       
                 if (this.map.nbExtent>this.map.historyExtent.length-1)
-			        alert("No more extent");
+			        alert(mbGetMessage("cantGoForward"));
 		        else{
 			
 		            this.map.zoomToExtent(this.map.historyExtent[this.map.nbExtent]); 

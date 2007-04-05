@@ -32,7 +32,7 @@ function Back(widgetNode, model) {
 
       trigger: function () {
           if (this.map.nbExtent<=1)
-			       alert("Last extent");
+			       alert(mbGetMessage("cantGoBack"));
 		        else{
 		        //alert(this.map.historyExtent[0].toString());
 			       this.map.nbExtent--;
