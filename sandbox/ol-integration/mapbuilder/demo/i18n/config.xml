@@ -55,7 +55,7 @@
   </models>
   
   <widgets>
-    <!-- Back id="back">
+    <Back id="back">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <class>Button</class>
@@ -66,7 +66,7 @@
       <targetModel>mainMap</targetModel>
       <class>Button</class>
       <disabledSrc>/images/RedoDisable.png</disabledSrc>
-    </Forward-->
+    </Forward>
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
