@@ -437,7 +437,34 @@ function OwsContext(modelNode, parent) {
   this.getExtension = function() {
     return this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Extension");
   }
-
+  
+// PL -BRGM	  
+  /**
+   * Change a Layer's opacity
+   * @param layerName  The name of the layer that is to be changed
+   * @param Opacity     Value of the opacity
+   */
+  this.setOpacity=function(layerName, Opacity){
+    // Set the hidden attribute in the Context
+          
+    var layer=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
+    if (layer) layer.setAttribute("opacity", Opacity);
+    // Call the listeners
+    this.callListeners("opacity", layerName);
+  }
+  
+  /**
+   * Get the layer's opacity attribute value.
+   * @param layerName  The name of the layer that is to be changed
+   * @return hidden  String with the value; 1=hidden, 0=visible.
+   */
+  this.getOpacity=function(layerName){
+    var opacity=1;
+    var layer=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
+    if (layer) opacity = layer.getAttribute("opacity");
+    return opacity;
+  }
+  // PL -END
   /**
    * Parses a Dimension element from the Context document as a loadModel listener.
    * This results in an XML structure with one element for each GetMap time value 

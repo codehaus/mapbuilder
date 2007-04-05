@@ -24,6 +24,7 @@ function LayerControl(widgetNode, model) {
    */
   this.prePaint = function(objRef) {
     if (objRef.model.featureName) {
+    
       objRef.stylesheet.setParameter("featureName", objRef.model.featureName );
       objRef.stylesheet.setParameter("hidden", objRef.model.getHidden(objRef.model.featureName).toString() );
     }
@@ -64,22 +65,6 @@ function LayerControl(widgetNode, model) {
 		e.value="+";
 	}
 	
-  }
-  
-  /**
-   * set the opacity style property to a layer 
-   * @param mapId  id of the mapPane where is the layer
-   * @param transparency   opacity style property value 
-   */
-   this.setTransparency = function (mapId,transparency){
-   			
-				  var map = document.getElementById(mapId);
-				  var opacitypercent = transparency / 100;
-				  map.style.opacity = opacitypercent;
-				  var ietr = "alpha(opacity=" + transparency + ")";
-				  for(var i=0;i<map.childNodes.length;i++){
-							map.childNodes[i].style.filter=ietr;
-				  }
   }
 
   /**

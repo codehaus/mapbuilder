@@ -32,7 +32,6 @@ $Name:  $
   <xsl:param name="legendImageEnable"/>
   <xsl:param name="legendImageDisable"/>
    <xsl:param name="opacity"/>
-   
   
   <!-- Text params for this widget -->
   <xsl:param name="zoomImage"/>
@@ -185,7 +184,7 @@ $Name:  $
      <!-- end of variable -->
      
      
-     <div id="{$layerName}_Row" class="{$rowClass}" onmouseover="config.objects.{$widgetId}.highlightLayer('{$layerName}_Row')">
+     <div id="{$layerName}_Row" class="{$rowClass}" onmouseover="config.objects.{$widgetId}.highlightLayer('{$layerName}')">
 					<!-- div necessary with IE 6 because if not, float makes bugs when display or fold legend -->
 				<div style="position:relative;">
 					<div id="{$layerName}_Header " class="LayerHeader">
@@ -246,17 +245,17 @@ $Name:  $
 					        <xsl:if test="$opacity='true'"> 
 								<div id="transptitle" class="transpLayerHeader" >
 										<form title="{$opacityTip}" >
-											<select name="transparancy" onchange="config.objects.{$widgetId}.setTransparency('mainMap_mainMapWidget_{$layerName}',value)">
-													<xsl:if test="@transparancy">
-														<option value="{@transparancy}">
-														<xsl:value-of select="@transparancy"/>%</option>
+											<select name="opacity" onchange="config.objects.{$modelId}.setOpacity('{$layerName}',value)">
+													<xsl:if test="@opacity">
+														<option value="@opacity">
+														<xsl:value-of select="@opacity"/></option>
 													</xsl:if>
-													<option value="100">100%</option>
-													<option value="80">80%</option>
-													<option value="60">60%</option>
-													<option value="40">40%</option>
-													<option value="20">20%</option>
-													<option value="0">0%</option>
+													<option value="1">1</option>
+													<option value="0.8">0.8</option>
+													<option value="0.6">0.6</option>
+													<option value="0.4">0.4</option>
+													<option value="0.2">0.2</option>
+													<option value="0">0</option>
 											</select>
 										</form>
 								 </div>
