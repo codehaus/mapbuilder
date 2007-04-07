@@ -193,12 +193,14 @@ function ButtonBase(widgetNode, model) {
       activate: function() {
         if (this.superclass.activate.call(this)) {
 	      objRef.mapPaneDiv.className = objRef.mapPaneDiv.className.replace(/mbCursor_[a-zA-Z0-9]*/, objRef.getCursorClass(objRef));
-          objRef.doSelect(true, objRef)
+          objRef.enabled = true;
+          objRef.doSelect(true, objRef);
         }
       },
       // call objRef.doSelect after OL deactivate from this control
       deactivate: function() {
         if (this.superclass.deactivate.call(this)) {
+          objRef.enabled = false;
           objRef.doSelect(false, objRef)
         }
       }
