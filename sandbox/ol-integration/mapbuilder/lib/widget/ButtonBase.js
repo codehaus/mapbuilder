@@ -171,7 +171,8 @@ function ButtonBase(widgetNode, model) {
   
   /**
    * Attaches the control for this button to OpenLayers
-   * and add it to the buttonBar.
+   * and add it to the buttonBar. When this method is called,
+   * everything of the OL map is available.
    * @param {OpenLayers.Control} control to add.
    * @param objRef Reference to this object.
    */
@@ -179,9 +180,34 @@ function ButtonBase(widgetNode, model) {
   	// nothing to do here if subclass does not have a
   	// createControl method
   	if (!objRef.createControl) return;
+
+    // DOM div element of the map pane
+	  objRef.mapPaneDiv = document.getElementById(objRef.targetModel.map.div.id); 
+
+    // override the control from the subclass to add
+    // MB-stuff to the activate and deactivate methods    
+    var Control = OpenLayers.Class.create();
+    Control.prototype = OpenLayers.Class.inherit( objRef.createControl(objRef), {
+      superclass: OpenLayers.Control.prototype,
+      // call objRef.doSelect after OL activate from this control
+      activate: function() {
+        if (this.superclass.activate.call(this)) {
+	      objRef.mapPaneDiv.className = objRef.mapPaneDiv.className.replace(/mbCursor_[a-zA-Z0-9]*/, objRef.getCursorClass(objRef));
+          objRef.doSelect(true, objRef)
+        }
+      },
+      // call objRef.doSelect after OL deactivate from this control
+      deactivate: function() {
+        if (this.superclass.deactivate.call(this)) {
+          objRef.doSelect(false, objRef)
+        }
+      }
+    });
+
+    objRef.control = new Control();
   	
-	// get the control from the createControl method of the subclass
-  	objRef.control = objRef.createControl(objRef);
+	  // get the control from the createControl method of the subclass
+  	//objRef.control = objRef.createControl(objRef);
   	var map = objRef.targetModel.map;
   	var panel = objRef.targetModel.buttonBars[objRef.htmlTagId];
   	// create a panel, if we do not have one yet for this buttonBar
@@ -192,51 +218,39 @@ function ButtonBase(widgetNode, model) {
 	    map.addControl(panel);
     }
     
-	// add the control to the panel
+	  // add the control to the panel
     panel.addControls(objRef.control);
      
     // set tooltip for the button
     objRef.control.panel_div.title=objRef.tooltip;
     
-	// activate the control if it is defined as selected in config
-    if(objRef.selected == true) {
-		objRef.control.activate();    	
-    }
-    
-    // DOM div element of the map pane
-	objRef.mapPaneDiv = document.getElementById(objRef.targetModel.map.div.id); 
-
-    // register onclick event for all non-onestate buttons
-    // to change the map cursor
-    if (objRef.control.type != OpenLayers.Control.TYPE_BUTTON) {
-	  objRef.control.panel_div.onclick = function() {
-	    objRef.mapPaneDiv.className = objRef.mapPaneDiv.className.replace(/mbCursor_[a-zA-Z0-9]*/, objRef.getCursorClass(objRef));
-	  };
-    }
-    
-    // add cursor css classname to map pane div if this button
-    // is selected or if the classname is not set yet
-    if (objRef.selected == true || objRef.mapPaneDiv.className.indexOf('mbCursor') == -1) {
-		objRef.mapPaneDiv.className += ' '+objRef.getCursorClass(objRef);
+    // add cursor css classname to map pane div if not set yet
+    if (objRef.mapPaneDiv.className.indexOf('mbCursor') == -1) {
+		  objRef.mapPaneDiv.className += ' mbCursor_default';
   	}
 
-	// create css for buttons
-	if (objRef.buttonType == 'RadioButton') {
-		var activeRule = addCSSRule(objRef.getButtonClass(objRef, 'Active'));
-		activeRule.style.backgroundImage = "url(\""+objRef.enabledImage.src+"\")";
-	}
-	var inactiveRule = addCSSRule(objRef.getButtonClass(objRef, 'Inactive'));
-	inactiveRule.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
-	
-	// create css for map cursor
-	var cursorRule = addCSSRule('.'+objRef.getCursorClass(objRef));
-	cursorRule.style.cursor = objRef.cursor;
+  	// create css for buttons
+  	if (objRef.buttonType == 'RadioButton') {
+  		var activeRule = addCSSRule(objRef.getButtonClass(objRef, 'Active'));
+  		activeRule.style.backgroundImage = "url(\""+objRef.enabledImage.src+"\")";
+  	}
+  	var inactiveRule = addCSSRule(objRef.getButtonClass(objRef, 'Inactive'));
+  	inactiveRule.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
+  	
+  	// create css for map cursor
+  	var cursorRule = addCSSRule('.'+objRef.getCursorClass(objRef));
+  	cursorRule.style.cursor = objRef.cursor;
+
+	  // activate the control if it is defined as selected in config
+    if(objRef.selected == true) {
+		  objRef.control.activate();    	
+    }    
   }
 
   /**
    * Initialise the buttonBars array in the context document
    * and add a listener to the target model for adding controls
-   * to the OL map as soon as it is initialized.
+   * to the OL map as soon as the map is initialized.
    * @param objRef Reference to this object.
    */  
   this.buttonInit = function(objRef) {
@@ -246,9 +260,9 @@ function ButtonBase(widgetNode, model) {
     	objRef.targetModel.buttonBars = new Array();
     }
     
-	// add another event listener for the loaded context,
-	// because we need the map to add panel and buttons,
-	// and we do not have tha map yet
+  	// add another event listener for the loaded context,
+  	// because we need the map to add panel and buttons,
+  	// and we do not have tha map yet
   	objRef.targetModel.addListener("refresh", objRef.attachToOL, objRef);
   }
 
