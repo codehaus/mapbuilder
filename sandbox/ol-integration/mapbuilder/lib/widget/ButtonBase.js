@@ -135,6 +135,8 @@ function ButtonBase(widgetNode, model) {
    */
   this.control = null;
 
+  //TBD This is never called, but I think we can drop it
+  // if we get rid of MB mouse handlers
   /**
    * Override this in buttons which inherit from this object to carry out the action.
    * This is the function that will be called either when the button is selected
@@ -144,21 +146,16 @@ function ButtonBase(widgetNode, model) {
   this.doAction = function() {}
 
   /**
-   * Called when a user clicks on a this.  Switches the image to the enabled 
-   * button source, enables and disables associated tools, then calls the 
-   * doSelect method defined in derived classes.
+   * Select this button. Enables and disables associated tools,
+   * then the control.trigger()/activate() methods make OL call
+   * the doSelect method defined in derived classes.
    */
   this.select = function() {
-  
-    // Add support to change cursors in the map area based on:
-    // either user selected cursor in config file using <cursor> tag
-    // or default tool cursor as defined in constructor   
-    var a = document.getElementById("mainMapContainer");
-    if( a != null ) {
-      // default or user selected cursor
-      a.style.cursor = this.cursor;
-    }  
-
+    if (this.control.type == OpenLayers.Control.TYPE_BUTTON) {
+      this.control.trigger();
+    } else {
+      this.panel.activateControl(this.control);
+    }
   }
 
   /**
@@ -192,7 +189,7 @@ function ButtonBase(widgetNode, model) {
       // call objRef.doSelect after OL activate from this control
       activate: function() {
         if (this.superclass.activate.call(this)) {
-	      objRef.mapPaneDiv.className = objRef.mapPaneDiv.className.replace(/mbCursor_[a-zA-Z0-9]*/, objRef.getCursorClass(objRef));
+	        objRef.mapPaneDiv.className = objRef.mapPaneDiv.className.replace(/mbCursor_[a-zA-Z0-9]*/, objRef.getCursorClass(objRef));
           objRef.enabled = true;
           objRef.doSelect(true, objRef);
         }
@@ -211,17 +208,17 @@ function ButtonBase(widgetNode, model) {
 	  // get the control from the createControl method of the subclass
   	//objRef.control = objRef.createControl(objRef);
   	var map = objRef.targetModel.map;
-  	var panel = objRef.targetModel.buttonBars[objRef.htmlTagId];
+  	objRef.panel = objRef.targetModel.buttonBars[objRef.htmlTagId];
   	// create a panel, if we do not have one yet for this buttonBar
   	// or if the old map.panel was destroyed
-    if (!panel || panel.map == null) {
-    	panel = new OpenLayers.Control.Panel({div: $(objRef.panelHtmlTagId), defaultControl: null});
-    	objRef.targetModel.buttonBars[objRef.htmlTagId] = panel;
-	    map.addControl(panel);
+    if (!objRef.panel || objRef.panel.map == null) {
+    	objRef.panel = new OpenLayers.Control.Panel({div: $(objRef.panelHtmlTagId), defaultControl: null});
+    	objRef.targetModel.buttonBars[objRef.htmlTagId] = objRef.panel;
+	    map.addControl(objRef.panel);
     }
     
 	  // add the control to the panel
-    panel.addControls(objRef.control);
+    objRef.panel.addControls(objRef.control);
      
     // set tooltip for the button
     objRef.control.panel_div.title=objRef.tooltip;
