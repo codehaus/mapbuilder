@@ -43,7 +43,7 @@ function Forward(widgetNode, model) {
        },
        CLASS_NAME: 'mbControl.Forward'
   });
-  return new Control();
+  return Control;
   }
 }
 

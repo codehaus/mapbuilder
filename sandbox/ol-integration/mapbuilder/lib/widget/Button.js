@@ -28,10 +28,11 @@ function Button(widgetNode, model) {
    * MapPaneOL is ready to have buttons added.
    * The control should be defined in this method.
    * @param objRef reference to this object.
-   * @return {OpenLayers.Control} instance of the OL control.
+   * @return {OpenLayers.Control} class (not instance!)
+   * of the OL control.
    */
   this.createControl = function(objRef) {
-  	//return new OpenLayers.Control();
+  	//return OpenLayers.Control;
   }
 }
 

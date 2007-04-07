@@ -43,7 +43,7 @@ function Back(widgetNode, model) {
        },
        CLASS_NAME: 'mbControl.Back'
   });
-  return new Control();
+  return Control;
   }
 }
 

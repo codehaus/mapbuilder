@@ -50,9 +50,9 @@ function ZoomOut(widgetNode, model) {
           this.map.setCenter(this.map.getLonLatFromPixel(position),
             this.map.getZoom() - 1);
         }
-    }
-  });
-  return new Control();
+      }
+    });
+    return Control;
   }
 }
 

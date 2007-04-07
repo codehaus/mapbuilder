@@ -18,7 +18,7 @@ mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 function Reset(widgetNode, model) {
 
   this.createControl = function() {
-  	return new OpenLayers.Control.ZoomToMaxExtent();
+  	return OpenLayers.Control.ZoomToMaxExtent;
   }
   
   // Extend ButtonBase

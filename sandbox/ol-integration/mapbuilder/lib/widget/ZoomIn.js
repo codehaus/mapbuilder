@@ -22,7 +22,7 @@ function ZoomIn(widgetNode, model) {
   this.cursor = 'crosshair';
 
   this.createControl = function() {
-    return new OpenLayers.Control.ZoomBox();
+    return OpenLayers.Control.ZoomBox;
   }
 }
 

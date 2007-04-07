@@ -19,8 +19,8 @@ function DragPan(widgetNode, model) {
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
   
-  this.createControl = function() {
-  	return new OpenLayers.Control.DragPan();
+  this.createControl = function(objRef) {
+  	return OpenLayers.Control.DragPan;
   }
   
   this.cursor = 'move'; 

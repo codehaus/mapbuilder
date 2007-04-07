@@ -83,6 +83,6 @@ function WfsGetFeature(widgetNode, model) {
         this.transactionResponseModel.newRequest(this.transactionResponseModel, this.httpPayload);
       }
     });
-    return new Control();
+    return Control;
   }
 }
