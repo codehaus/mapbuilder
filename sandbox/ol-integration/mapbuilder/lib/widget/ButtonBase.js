@@ -8,13 +8,12 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 
 /**
- * Abstract base utton object that all Buttons extend.  
+ * Abstract base button object that all Buttons extend.  
  * A Button is a widget which renders an image and an optional second image 
  * for the enabled state.
  * @constructor
  * @base WidgetBase
  * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
- * @param button Pointer to the button instance being created.
  * @param widgetNode The tool node from the Config XML file.
  * @param model The parent model object (optional).
  */
