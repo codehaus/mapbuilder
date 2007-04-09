@@ -124,10 +124,10 @@
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
     </Reset>
-    <!--EditPoint id="editPoint">
+    <EditPoint id="editPoint">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureCollection</targetModel>
-      <mouseHandler>mainMouseClick</mouseHandler>
+      <targetContext>mainMap</targetContext>
       <class>RadioButton</class>
       <enabledSrc>/images/EditPointEnable.png</enabledSrc>
       <disabledSrc>/images/EditPointDisable.png</disabledSrc>
@@ -140,7 +140,7 @@
     <EditLine id="editLine">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureCollection</targetModel>
-      <mouseHandler>mainMouseClick</mouseHandler>
+      <targetContext>mainMap</targetContext>
       <class>RadioButton</class>
       <enabledSrc>/images/EditLineEnable.png</enabledSrc>
       <disabledSrc>/images/EditLineDisable.png</disabledSrc>
@@ -158,7 +158,7 @@
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
       <targetContext>mainMap</targetContext>
-    </InsertFeature-->
+    </InsertFeature>
     <WfsGetFeature id="wfsGetFeature">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>

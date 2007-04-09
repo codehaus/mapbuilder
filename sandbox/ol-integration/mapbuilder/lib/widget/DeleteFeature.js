@@ -33,6 +33,16 @@ function DeleteFeature(widgetNode, model) {
   /** Xsl to convert Feature into a WFS Transaction Delete. */
   this.deleteXsl=new XslProcessor(baseDir+"/tool/xsl/wfs_Delete.xsl");
 
+  /** creates the OL control for this button */
+  this.createControl = function(objRef) {
+    var Control = OpenLayers.Class.create();
+    Control.prototype = OpenLayers.Class.inherit(OpenLayers.Control, {
+      CLASS_NAME: 'mbDeleteFeature',
+      type: OpenLayers.Control.TYPE_BUTTON,
+    });
+    return Control;
+  }
+
   /**
    * Start a WFS-T DeleteFeature transaction.
    * @param objRef Pointer to this object.
