@@ -221,6 +221,7 @@
     <noStylesheetDefined>Aucun stylesheet defini</noStylesheetDefined>
     <noTargetModelTool>Erreur trouvant targetModel: {0} pour outil: {1}</noTargetModelTool>
     <noTargetModelWidget>Erreur dans la recherche du targetModel: {0} pour: {1}</noTargetModelWidget>
+    <noTargetContext>Erreur dans la recherche du targetContext: {0} pour: {1}</noTargetContext>
     <notImplementedYet>PAS ENCORE DÉVELOPPÉ</notImplementedYet>
     <nullOwsContext>Document OWSContext vide</nullOwsContext>
     <nullXmlResponse>Null XML response: {0}</nullXmlResponse>

@@ -178,7 +178,7 @@ function ButtonBase(widgetNode, model) {
   	if (!objRef.createControl) return;
 
     // DOM div element of the map pane
-	  objRef.mapPaneDiv = document.getElementById(objRef.targetModel.map.div.id); 
+	  objRef.mapPaneDiv = document.getElementById(objRef.targetContext.map.div.id); 
 
     // override the control from the subclass to add
     // MB-stuff to the activate and deactivate methods    
@@ -202,17 +202,19 @@ function ButtonBase(widgetNode, model) {
       }
     });
 
-    objRef.control = new Control();
+    // if the subclass provides an instantiateControl() method,
+    // use it for instantiation. If not, instantiate directly
+    objRef.control = objRef.instantiateControl ? objRef.instantiateControl(objRef, Control) : new Control();
   	
 	  // get the control from the createControl method of the subclass
   	//objRef.control = objRef.createControl(objRef);
-  	var map = objRef.targetModel.map;
-  	objRef.panel = objRef.targetModel.buttonBars[objRef.htmlTagId];
+  	var map = objRef.targetContext.map;
+  	objRef.panel = objRef.targetContext.buttonBars[objRef.htmlTagId];
   	// create a panel, if we do not have one yet for this buttonBar
   	// or if the old map.panel was destroyed
     if (!objRef.panel || objRef.panel.map == null) {
     	objRef.panel = new OpenLayers.Control.Panel({div: $(objRef.panelHtmlTagId), defaultControl: null});
-    	objRef.targetModel.buttonBars[objRef.htmlTagId] = objRef.panel;
+    	objRef.targetContext.buttonBars[objRef.htmlTagId] = objRef.panel;
 	    map.addControl(objRef.panel);
     }
     
@@ -246,22 +248,35 @@ function ButtonBase(widgetNode, model) {
   }
 
   /**
-   * Initialise the buttonBars array in the context document
-   * and add a listener to the target model for adding controls
+   * Set the target context for the button, initialise the
+   * buttonBars array in the context document and add a
+   * listener to the target model for adding controls
    * to the OL map as soon as the map is initialized.
    * @param objRef Reference to this object.
    */  
   this.buttonInit = function(objRef) {
-    if (!objRef.targetModel.buttonBars) {
+     //set the target context
+    var targetContext = objRef.widgetNode.selectSingleNode("mb:targetContext");
+    if (targetContext) {
+      objRef.targetContext = window.config.objects[targetContext.firstChild.nodeValue];
+      if ( !objRef.targetModel ) {
+        alert(mbGetMessage("noTargetContext", targetContext.firstChild.nodeValue, objRef.id));
+      }
+    } else {
+      objRef.targetContext = objRef.targetModel;
+    }
+    
+    // initialize button bars for the context
+    if (!objRef.targetContext.buttonBars) {
     	// this array in the context will hold all
     	// buttonBars used by button widgets
-    	objRef.targetModel.buttonBars = new Array();
+    	objRef.targetContext.buttonBars = new Array();
     }
     
   	// add another event listener for the loaded context,
   	// because we need the map to add panel and buttons,
   	// and we do not have tha map yet
-  	objRef.targetModel.addListener("refresh", objRef.attachToOL, objRef);
+  	objRef.targetContext.addListener("refresh", objRef.attachToOL, objRef);
   }
 
   this.model.addListener("init",this.buttonInit,this);

@@ -217,6 +217,7 @@
     <noStylesheetDefined>Geen stylesheet gedefiniëerd</noStylesheetDefined>
     <noTargetModelTool>Probleem bij vinden van targetModel: {0} voor gereedschap: {1}</noTargetModelTool>
     <noTargetModelWidget>Fout bij vinden van targetModel: {0} voor: {1}</noTargetModelWidget>
+    <noTargetContext>Fout bij vinden van targetContext: {0} voor: {1}</noTargetContext>
     <notImplementedYet>NOG NIET GEÏMPLEMENTEERD</notImplementedYet>
     <nullOwsContext>Leeg OWSContext-document</nullOwsContext>
     <nullXmlResponse>Lege XML-respons: {0}</nullXmlResponse>

@@ -217,6 +217,7 @@
     <noStylesheetDefined>Nessun foglio di stile (stylesheet) definito</noStylesheetDefined>
     <noTargetModelTool>Errore nel trovare il targetModel: {0} per l'applicazione: {1}</noTargetModelTool>
     <noTargetModelWidget>Errore nella ricerca del targetModel: {0} per: {1}</noTargetModelWidget>
+    <noTargetContext>Errore nella ricerca del targetContext: {0} per: {1}</noTargetContext>
     <notImplementedYet>NON ANCORA IMPLEMENTATO</notImplementedYet>
     <nullOwsContext>Documento OWSContext vuoto</nullOwsContext>
     <nullXmlResponse>Risposta XML vuota: {0}</nullXmlResponse>
