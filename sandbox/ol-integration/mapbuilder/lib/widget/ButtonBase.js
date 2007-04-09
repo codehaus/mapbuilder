@@ -186,6 +186,11 @@ function ButtonBase(widgetNode, model) {
     Control.prototype = OpenLayers.Class.inherit( objRef.createControl(objRef), {
       superclass: OpenLayers.Control.prototype,
       // call objRef.doSelect after OL activate from this control
+      trigger: function() {
+        if(this.superclass.trigger.call(this)) {
+          objRef.doSelect(true, objRef);
+        }
+      },
       activate: function() {
         if (this.superclass.activate.call(this)) {
 	        objRef.mapPaneDiv.className = objRef.mapPaneDiv.className.replace(/mbCursor_[a-zA-Z0-9]*/, objRef.getCursorClass(objRef));
