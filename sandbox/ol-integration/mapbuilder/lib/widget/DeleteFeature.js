@@ -38,7 +38,7 @@ function DeleteFeature(widgetNode, model) {
     var Control = OpenLayers.Class.create();
     Control.prototype = OpenLayers.Class.inherit(OpenLayers.Control, {
       CLASS_NAME: 'mbDeleteFeature',
-      type: OpenLayers.Control.TYPE_BUTTON,
+      type: OpenLayers.Control.TYPE_BUTTON
     });
     return Control;
   }
