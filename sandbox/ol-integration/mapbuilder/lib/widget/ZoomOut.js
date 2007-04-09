@@ -22,7 +22,7 @@ function ZoomOut(widgetNode, model) {
   /**
    * Interactive ZoomOut control.
    * @param objRef reference to this object.
-   * @return {OpenLayers.Control} instance of the OL control.
+   * @return {OpenLayers.Control} class of the OL control.
    */
   this.createControl = function(objRef) {
     var Control = OpenLayers.Class.create();
