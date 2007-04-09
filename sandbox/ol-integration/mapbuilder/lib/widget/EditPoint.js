@@ -30,7 +30,7 @@ function EditPoint(widgetNode, model) {
     Control.prototype = OpenLayers.Class.inherit(OpenLayers.Control.DrawFeature, {
       // this is needed because all editing tools are of type
       // OpenLayers.Control.DrawFeature
-      CLASS_NAME: 'mbDrawPoint'
+      CLASS_NAME: 'mbEditPoint'
     });
     return Control;
   }
