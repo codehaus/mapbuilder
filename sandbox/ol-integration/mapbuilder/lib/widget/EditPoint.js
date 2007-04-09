@@ -26,7 +26,12 @@ function EditPoint(widgetNode, model) {
    * @return {OpenLayers.Control} class of the OL control.
    */
   this.createControl = function(objRef) {
-    var Control = OpenLayers.Control.DrawFeature;
+    var Control = OpenLayers.Class.create();
+    Control.prototype = OpenLayers.Class.inherit(OpenLayers.Control.DrawFeature, {
+      // this is needed because all editing tools are of type
+      // OpenLayers.Control.DrawFeature
+      CLASS_NAME: 'mbDrawPoint'
+    });
     return Control;
   }
   
