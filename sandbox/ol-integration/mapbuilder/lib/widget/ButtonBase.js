@@ -181,15 +181,17 @@ function ButtonBase(widgetNode, model) {
 	  objRef.mapPaneDiv = document.getElementById(objRef.targetContext.map.div.id); 
 
     // override the control from the subclass to add
-    // MB-stuff to the activate and deactivate methods    
+    // MB-stuff to the activate and deactivate methods
+    var SubclassControl = objRef.createControl(objRef)  
     var Control = OpenLayers.Class.create();
-    Control.prototype = OpenLayers.Class.inherit( objRef.createControl(objRef), {
-      superclass: OpenLayers.Control.prototype,
+    Control.prototype = OpenLayers.Class.inherit( SubclassControl, {
+      superclass: SubclassControl.prototype,
       // call objRef.doSelect after OL activate from this control
       trigger: function() {
-        if(this.superclass.trigger.call(this)) {
-          objRef.doSelect(true, objRef);
+        if(this.superclass.trigger) {
+          this.superclass.trigger.call(this);
         }
+        objRef.doSelect(true, objRef);
       },
       activate: function() {
         if (this.superclass.activate.call(this)) {
