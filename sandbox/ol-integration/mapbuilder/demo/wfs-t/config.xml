@@ -84,19 +84,9 @@
     </FeatureCollection>
   </models>
   <widgets>
-    <DeleteFeature id="deleteFeature">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>featureCollection</targetModel>
-      <class>Button</class>
-      <disabledSrc>/images/DeleteDisable.png</disabledSrc>
-      <transactionResponseModel>transaction</transactionResponseModel>
-      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
-      <targetContext>mainMap</targetContext>
-    </DeleteFeature>
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <selected>true</selected>
       <enabledSrc>/images/ZoomInEnable.png</enabledSrc>
@@ -105,7 +95,6 @@
     <ZoomOut id="zoomOut">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
       <disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
@@ -113,7 +102,6 @@
     <DragPan id="dragPan">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainDragPan</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/PanEnable.png</enabledSrc>
       <disabledSrc>/images/PanDisable.png</disabledSrc>
@@ -150,6 +138,19 @@
       <featureXpath>//gml:coordinates</featureXpath>
       <defaultModelUrl>template_road.xml</defaultModelUrl>
     </EditLine>
+    <EditPolygon id="editPolygon">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>featureCollection</targetModel>
+      <targetContext>mainMap</targetContext>
+      <class>RadioButton</class>
+      <enabledSrc>/images/EditPolygonEnable.png</enabledSrc>
+      <disabledSrc>/images/EditPolygonDisable.png</disabledSrc>
+      <transactionResponseModel>transaction</transactionResponseModel>
+      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
+      <targetContext>mainMap</targetContext>
+      <featureXpath>//gml:coordinates</featureXpath>
+      <defaultModelUrl>template_waterbodies.xml</defaultModelUrl>
+    </EditPolygon>
     <InsertFeature id="insertFeature">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureCollection</targetModel>
@@ -159,6 +160,15 @@
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
       <targetContext>mainMap</targetContext>
     </InsertFeature>
+    <DeleteFeature id="deleteFeature">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>featureCollection</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/DeleteDisable.png</disabledSrc>
+      <transactionResponseModel>transaction</transactionResponseModel>
+      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
+      <targetContext>mainMap</targetContext>
+    </DeleteFeature>
     <WfsGetFeature id="wfsGetFeature">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
@@ -167,7 +177,7 @@
       <disabledSrc>/images/QueryDisable.png</disabledSrc>
       <transactionResponseModel>featureCollection</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
-      <typeName>topp:tasmania_cities,topp:tasmania_roads</typeName>
+      <typeName>topp:tasmania_cities,topp:tasmania_roads,topp:tasmania_water_bodies</typeName>
       <tolerance>5</tolerance>
       <maxFeatures>10</maxFeatures>
     </WfsGetFeature>

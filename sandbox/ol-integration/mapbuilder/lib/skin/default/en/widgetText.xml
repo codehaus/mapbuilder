@@ -52,6 +52,10 @@
       <tooltip>Click and drag to pan</tooltip>
     </DragPan>
     
+		<EditPolygon>
+			<tooltip>Click on map to add a point to a polygon</tooltip>
+		</EditPolygon>
+		
     <EditLine>
       <tooltip>Click on map to add a point to a line</tooltip>
     </EditLine>
