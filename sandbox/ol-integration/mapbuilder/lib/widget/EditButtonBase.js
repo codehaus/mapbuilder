@@ -66,22 +66,57 @@ function EditButtonBase(widgetNode, model) {
     httpPayload.postData=null;
     objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
    }
+
   /**
-   * Register for mouseup events, called after model loads.
+   * This is called by the OL onFeatureInsert handler. It will
+   * call the superclass's setFeature() method to handle the
+   * created feature.
+   * @param feature OpenLayers feature
+   */
+  this.handleFeatureInsert = function(feature) {
+    var objRef = feature.layer.editingButton;
+    objRef.setFeature(objRef, feature);
+    // destroy the feature in OL, because we do not use
+    // the OL vector layer for displaying the feature
+    feature.destroy();
+  }
+
+  /**
+   * Set editing layer and register for editing events in OL,
+   * called after model loads.
    * @param objRef Pointer to this object.
    */
-  this.setMouseListener = function(objRef) {
-    if (objRef.mouseHandler) {
-      objRef.mouseHandler.model.addListener('mouseup',objRef.doAction,objRef);
+  this.setEditingLayer = function(objRef) {
+    if (!objRef.targetContext.featureLayers[objRef.id]) {
+      objRef.featureLayer = new OpenLayers.Layer.Vector(objRef.id);
+      objRef.featureLayer.onFeatureInsert = objRef.handleFeatureInsert;
+      // set objRef as editingButton attribute of the OL featureLayer,
+      // because we otherwise don't have it available in setGeometry()
+      objRef.featureLayer.editingButton = objRef;
+      objRef.targetContext.featureLayers[objRef.id] = objRef.featureLayer;
     }
   }
 
   /**
-   * Set the loadModel listener in response to init event
+   * Create the array that will hold all OL feature layers
+   * for editing buttons. Also register event handler to
+   * create feature layers when the OL map is available.
    * @param objRef Pointer to this object.
    */
   this.initButton = function(objRef) {
-    objRef.targetModel.addListener("loadModel",objRef.setMouseListener, objRef);
+    // initialize feature layers for the context.
+    // each editing button gets its own feature layer,
+    // which is not used for displaying the features,
+    // because the transaction response model has its
+    // own feature renderer.
+    if (!objRef.targetContext.featureLayers) {
+    	// this array in the context will hold all
+    	// featureLayers used by editButton widgets
+    	objRef.targetContext.featureLayers = new Array();
+    }
+    
+    // feature layers will be created when the OL map is available
+    objRef.targetContext.addFirstListener("refresh",objRef.setEditingLayer, objRef);
   }
 
   this.model.addListener("init",this.initButton, this);

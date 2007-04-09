@@ -21,19 +21,33 @@ function EditPoint(widgetNode, model) {
   EditButtonBase.apply(this, new Array(widgetNode, model));
 
   /**
+   * Interactive EditPoint control.
+   * @param objRef reference to this object.
+   * @return {OpenLayers.Control} class of the OL control.
+   */
+  this.createControl = function(objRef) {
+    var Control = OpenLayers.Control.DrawFeature;
+    return Control;
+  }
+  
+  this.instantiateControl = function(objRef, Control) {
+    return new Control(objRef.featureLayer, OpenLayers.Handler.Point);
+  }
+
+  /**
    * Add a point to the enclosing GML model.
    * @param objRef      Pointer to this object.
-   * @param targetNode  The node for the enclosing HTML tag for this widget.
+   * @param {OpenLayers.Feature} feature the feature
+   * created by OL.
    */
-  this.doAction = function(objRef,targetNode) {
+  this.setFeature = function(objRef, feature) {
     if (objRef.enabled) {
-      point=objRef.mouseHandler.model.extent.getXY(targetNode.evpl);
       sucess=objRef.targetModel.setXpathValue(
         objRef.targetModel,
-        objRef.featureXpath,point[0]+","+point[1]);
+        objRef.featureXpath,feature.geometry.x+","+feature.geometry.y);
       if(!sucess){
         alert(mbGetMessage("invalidFeatureXpathEditPoint", objRef.featureXpath));
       }
     }
-  }
+  }  
 }
