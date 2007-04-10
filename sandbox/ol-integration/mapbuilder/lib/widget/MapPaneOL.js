@@ -164,23 +164,38 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       
   }
 
-  objRef.model.map.events.register('moveend', objRef.model.map, function (e) {
-        var bboxOL = objRef.model.map.getExtent().toBBOX().split(',');
-        var ul = new Array(bboxOL[0],bboxOL[3]);
-        var lr = new Array(bboxOL[2],bboxOL[1]);
-        if (objRef.model.getParam('aoi').toString() != new Array(ul, lr).toString()) {
-            objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
-            objRef.model.extent.setSize(new Array(objRef.model.map.getResolution(),objRef.model.map.getResolution()));
-            objRef.model.setParam("aoi", new Array(ul, lr));
-            objRef.model.map.historyExtent[objRef.model.map.nbExtent]=objRef.model.map.getExtent(); 
-		    objRef.model.map.nbExtent++;
-        }
-    });
-
+  // set objRef as attribute of the OL map, so we have a reference
+  // to MapPaneOL available when handling OpenLayers events.
+  objRef.model.map.mbPane = objRef;
+  
+  // register OpenLayers event to keep the context updated
+  objRef.model.map.events.register('moveend', objRef.model.map, objRef.updateContext);
 
 }
 
 ///############################################################################################END TBD
+
+/**
+ * Event handler to keep the Mapbuilder context updated.
+ * This is called by OpenLayers.
+ * @param e OpenLayers event
+ */
+MapPaneOL.prototype.updateContext = function(e) {
+  // get objRef from the event originater object (e.object),
+  // where it was stored as mbPane property by paint().
+  var objRef = e.object.mbPane;
+  var bboxOL = objRef.model.map.getExtent().toBBOX().split(',');
+  var ul = new Array(bboxOL[0],bboxOL[3]);
+  var lr = new Array(bboxOL[2],bboxOL[1]);
+  if (objRef.model.getParam('aoi').toString() != new Array(ul, lr).toString()) {
+    objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
+    objRef.model.extent.setSize(new Array(objRef.model.map.getResolution(),objRef.model.map.getResolution()));
+    objRef.model.setParam("aoi", new Array(ul, lr));
+    objRef.model.map.historyExtent[objRef.model.map.nbExtent]=objRef.model.map.getExtent(); 
+    objRef.model.map.nbExtent++;
+  }    
+}
+
 /**
  * Extract a style from a Layer node. Returns null if no style parameters are
  * found.
