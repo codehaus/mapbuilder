@@ -647,11 +647,6 @@
               <xs:documentation>The base URL of the Web Service that will be queried.</xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element name="targetContext" type="xs:string" minOccurs="0">
-            <xs:annotation>
-              <xs:documentation>After a DeleteFeature has been successfully sent to the Web Service, the targetContext will send a "refresh" event which will cause the map layers to re-render themselves.  This will ensure a deleted WFS feature will be re-redered correctly by the querying WMS.</xs:documentation>
-            </xs:annotation>
-          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -849,11 +844,6 @@
           <xs:element name="webServiceUrl" type="mb:urlPathType" minOccurs="0">
             <xs:annotation>
               <xs:documentation>The base URL of the Web Service that will be queried.</xs:documentation>
-            </xs:annotation>
-          </xs:element>
-          <xs:element name="targetContext" type="xs:string" minOccurs="0">
-            <xs:annotation>
-              <xs:documentation>After a feature has been successfully sent to the Web Service, the targetContext will send a "refresh" event which will cause the map layers to re-render themselves.  This will ensure a modified WFS feature will be re-redered correctly by the querying WMS.</xs:documentation>
             </xs:annotation>
           </xs:element>
         </xs:sequence>
