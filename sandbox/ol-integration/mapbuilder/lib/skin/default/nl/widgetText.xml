@@ -16,8 +16,7 @@
   -->
   <!-- Widget (XSL) messages -->
   <widgets>
- 
-<AoiForm>
+    <AoiForm>
       <east>Oost:</east>
       <north>Noord:</north>
       <south>Zuid:</south>
@@ -55,6 +54,10 @@
     <EditPoint>
       <tooltip>Klik op de kaart om een punt te tekenen</tooltip>
     </EditPoint>
+    
+    <EditPolygon>
+      <tooltip>Klik op de kaart om een polygoon te tekenen</tooltip>
+    </EditPolygon>
     
     <Forward>
       <tooltip>Volgende uitsnede</tooltip>
@@ -215,9 +218,9 @@
     <northWgs84>Noord (WGS84)</northWgs84>
     <noSerializeUrl>serializeUrl moet gezet zijn in configuratie om een model te kunnen opslaan</noSerializeUrl>
     <noStylesheetDefined>Geen stylesheet gedefiniëerd</noStylesheetDefined>
+    <noTargetContext>Fout bij vinden van targetContext: {0} voor: {1}</noTargetContext>
     <noTargetModelTool>Probleem bij vinden van targetModel: {0} voor gereedschap: {1}</noTargetModelTool>
     <noTargetModelWidget>Fout bij vinden van targetModel: {0} voor: {1}</noTargetModelWidget>
-    <noTargetContext>Fout bij vinden van targetContext: {0} voor: {1}</noTargetContext>
     <notImplementedYet>NOG NIET GEÏMPLEMENTEERD</notImplementedYet>
     <nullOwsContext>Leeg OWSContext-document</nullOwsContext>
     <nullXmlResponse>Lege XML-respons: {0}</nullXmlResponse>

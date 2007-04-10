@@ -14,13 +14,8 @@
 
     $Id$
   -->
-  
   <!-- Widget (XSL) messages -->
   <widgets>
-  
-  
-    
-  
     <AoiForm>
       <east>East:</east>
       <north>North:</north>
@@ -51,10 +46,6 @@
     <DragPan>
       <tooltip>Click and drag to pan</tooltip>
     </DragPan>
-    
-		<EditPolygon>
-			<tooltip>Click on map to add a point to a polygon</tooltip>
-		</EditPolygon>
 		
     <EditLine>
       <tooltip>Click on map to add a point to a line</tooltip>
@@ -63,6 +54,10 @@
     <EditPoint>
       <tooltip>Click on map to create a point feature</tooltip>
     </EditPoint>
+    
+    <EditPolygon>
+      <tooltip>Click on map to add a point to a polygon</tooltip>
+    </EditPolygon>
     
     <Forward>
       <tooltip>Get the next extent</tooltip>
@@ -223,9 +218,9 @@
     <northWgs84>North (WGS84)</northWgs84>
     <noSerializeUrl>serializeUrl must be specified in config to save a model</noSerializeUrl>
     <noStylesheetDefined>No stylesheet defined</noStylesheetDefined>
+    <noTargetContext>Error finding targetContext: {0} for: {1}</noTargetContext>
     <noTargetModelTool>Error finding targetModel: {0} for tool: {1}</noTargetModelTool>
     <noTargetModelWidget>Error finding targetModel: {0} for: {1}</noTargetModelWidget>
-    <noTargetContext>Error finding targetContext: {0} for: {1}</noTargetContext>
     <notImplementedYet>NOT IMPLEMENTED YET</notImplementedYet>
     <nullOwsContext>Null OWSContext doc</nullOwsContext>
     <nullXmlResponse>Null XML response: {0}</nullXmlResponse>

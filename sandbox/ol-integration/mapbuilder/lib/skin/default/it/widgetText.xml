@@ -16,7 +16,6 @@
   -->
   <!-- Widget (XSL) messages -->
   <widgets>
-
     <AoiForm>
       <east>Est:</east>
       <north>Nord:</north>
@@ -55,6 +54,10 @@
     <EditPoint>
       <tooltip>Clicca sulla mappa per creare un nuovo punto</tooltip>
     </EditPoint>
+    
+    <EditPolygon>
+      <tooltip>Clicca sulla mappa per creare un nuovo poligono</tooltip>
+    </EditPolygon>
     
     <Forward>
       <tooltip>Zoom successivo</tooltip>
@@ -215,9 +218,9 @@
     <northWgs84>Nord (WGS84)</northWgs84>
     <noSerializeUrl>definire la proprietà serializeUrl in config</noSerializeUrl>
     <noStylesheetDefined>Nessun foglio di stile (stylesheet) definito</noStylesheetDefined>
+    <noTargetContext>Errore nella ricerca del targetContext: {0} per: {1}</noTargetContext>
     <noTargetModelTool>Errore nel trovare il targetModel: {0} per l'applicazione: {1}</noTargetModelTool>
     <noTargetModelWidget>Errore nella ricerca del targetModel: {0} per: {1}</noTargetModelWidget>
-    <noTargetContext>Errore nella ricerca del targetContext: {0} per: {1}</noTargetContext>
     <notImplementedYet>NON ANCORA IMPLEMENTATO</notImplementedYet>
     <nullOwsContext>Documento OWSContext vuoto</nullOwsContext>
     <nullXmlResponse>Risposta XML vuota: {0}</nullXmlResponse>
