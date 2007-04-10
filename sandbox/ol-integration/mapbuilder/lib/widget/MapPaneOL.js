@@ -166,7 +166,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 
   // set objRef as attribute of the OL map, so we have a reference
   // to MapPaneOL available when handling OpenLayers events.
-  objRef.model.map.mbPane = objRef;
+  objRef.model.map.mbMapPane = objRef;
   
   // register OpenLayers event to keep the context updated
   objRef.model.map.events.register('moveend', objRef.model.map, objRef.updateContext);
@@ -183,7 +183,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 MapPaneOL.prototype.updateContext = function(e) {
   // get objRef from the event originater object (e.object),
   // where it was stored as mbPane property by paint().
-  var objRef = e.object.mbPane;
+  var objRef = e.object.mbMapPane;
   var bboxOL = objRef.model.map.getExtent().toBBOX().split(',');
   var ul = new Array(bboxOL[0],bboxOL[3]);
   var lr = new Array(bboxOL[2],bboxOL[1]);
