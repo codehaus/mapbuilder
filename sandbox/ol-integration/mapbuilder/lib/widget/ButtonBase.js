@@ -21,10 +21,8 @@ function ButtonBase(widgetNode, model) {
   var buttonBarNode = widgetNode.selectSingleNode("mb:buttonBar");
   if ( buttonBarNode ) {
     this.htmlTagId = buttonBarNode.firstChild.nodeValue;
-    //1Row added DVDE  
     this.buttonBarGroup = this.htmlTagId;    
   }
-  //3 rows deleted  -7Rows added DVDE      
   var htmlTagNode = widgetNode.selectSingleNode("mb:htmlTagId");    
   if (htmlTagNode) {
     this.htmlTagId = htmlTagNode.firstChild.nodeValue;
@@ -32,7 +30,6 @@ function ButtonBase(widgetNode, model) {
   if ((!buttonBarNode) && (!htmlTagNode)){
     alert(mbGetMessage("buttonBarRequired", widgetNode.nodeName));
   }
-  //Add a tooltip to the panel_div
   // Set button text values as parameters
   if (config.widgetText) {
     var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName;
@@ -45,25 +42,25 @@ function ButtonBase(widgetNode, model) {
   this.panelHtmlTagId = this.htmlTagId+'_panel';
   // create a dom node for OL to use as panel
   if (!document.getElementById(this.panelHtmlTagId)) {
-	  var parentNode = document.getElementById(this.htmlTagId);
-	  var olPanelNode = document.createElement('div');
-	  olPanelNode.setAttribute('id', this.panelHtmlTagId);
-	  olPanelNode.setAttribute('class', 'olControlPanel');
-	  parentNode.appendChild(olPanelNode);
-	  // workaround for IE - otherwise nothing is displayed
-	  parentNode.innerHTML += ' ';
+    var parentNode = document.getElementById(this.htmlTagId);
+    var olPanelNode = document.createElement('div');
+    olPanelNode.setAttribute('id', this.panelHtmlTagId);
+    olPanelNode.setAttribute('class', 'olControlPanel');
+    parentNode.appendChild(olPanelNode);
+    // workaround for IE - otherwise nothing is displayed
+    parentNode.innerHTML += ' ';
   }
 
   //TBD maybe move this to Mapbuilder.js
   //TBD take care of this when compressing Mapbuilder
   // load controlPanel.css for button base styles
   if (!document.getElementById('controlPanelCss')) {
-	var cssNode = document.createElement('link');
-	cssNode.setAttribute('id', 'controlPanelCss');
-	cssNode.setAttribute('rel', 'stylesheet');
-	cssNode.setAttribute('type', 'text/css');
-	cssNode.setAttribute('href', config.skinDir+'/controlPanel.css');
-	document.getElementsByTagName('head')[0].appendChild(cssNode);
+    var cssNode = document.createElement('link');
+    cssNode.setAttribute('id', 'controlPanelCss');
+    cssNode.setAttribute('rel', 'stylesheet');
+    cssNode.setAttribute('type', 'text/css');
+    cssNode.setAttribute('href', config.skinDir+'/controlPanel.css');
+    document.getElementsByTagName('head')[0].appendChild(cssNode);
   }
 
   WidgetBase.apply(this, new Array(widgetNode, model));
@@ -107,15 +104,15 @@ function ButtonBase(widgetNode, model) {
    * @param state 'Active' or 'Inactive' (case sensitive!)
    */
   this.getButtonClass = function(objRef, state) {
-  	var cssName;
-  	if (objRef.control.displayClass) {
-  		cssName = objRef.control.displayClass;
-  	} else {
-  		cssName = objRef.control.CLASS_NAME;
-	  	cssName = cssName.replace(/OpenLayers/, 'ol').replace(/\./g, '');
-  	}
-  	cssName += 'Item';
-  	return '.' + cssName + state;
+    var cssName;
+    if (objRef.control.displayClass) {
+      cssName = objRef.control.displayClass;
+    } else {
+      cssName = objRef.control.CLASS_NAME;
+      cssName = cssName.replace(/OpenLayers/, 'ol').replace(/\./g, '');
+    }
+    cssName += 'Item';
+    return '.' + cssName + state;
   }
 
   /**
@@ -124,7 +121,7 @@ function ButtonBase(widgetNode, model) {
    * @param objRef Reference to this object.
    */  
   this.getCursorClass = function(objRef) {
-  	return 'mbCursor_'+objRef.cursor.replace(/[^A-Z^a-z]*/g, '');
+    return 'mbCursor_'+objRef.cursor.replace(/[^A-Z^a-z]*/g, '');
   }
   
   /**
@@ -173,12 +170,12 @@ function ButtonBase(widgetNode, model) {
    * @param objRef Reference to this object.
    */
   this.attachToOL = function(objRef) {
-  	// nothing to do here if subclass does not have a
-  	// createControl method
-  	if (!objRef.createControl) return;
+    // nothing to do here if subclass does not have a
+    // createControl method
+    if (!objRef.createControl) return;
 
     // DOM div element of the map pane
-	  objRef.mapPaneDiv = document.getElementById(objRef.targetContext.map.div.id); 
+    objRef.mapPaneDiv = document.getElementById(objRef.targetContext.map.div.id); 
 
     // override the control from the subclass to add
     // MB-stuff to the activate and deactivate methods
@@ -195,7 +192,7 @@ function ButtonBase(widgetNode, model) {
       },
       activate: function() {
         if (this.superclass.activate.call(this)) {
-	        objRef.mapPaneDiv.className = objRef.mapPaneDiv.className.replace(/mbCursor_[a-zA-Z0-9]*/, objRef.getCursorClass(objRef));
+          objRef.mapPaneDiv.className = objRef.mapPaneDiv.className.replace(/mbCursor_[a-zA-Z0-9]*/, objRef.getCursorClass(objRef));
           objRef.enabled = true;
           objRef.doSelect(true, objRef);
         }
@@ -212,20 +209,20 @@ function ButtonBase(widgetNode, model) {
     // if the subclass provides an instantiateControl() method,
     // use it for instantiation. If not, instantiate directly
     objRef.control = objRef.instantiateControl ? objRef.instantiateControl(objRef, Control) : new Control();
-  	
-	  // get the control from the createControl method of the subclass
-  	//objRef.control = objRef.createControl(objRef);
-  	var map = objRef.targetContext.map;
-  	objRef.panel = objRef.targetContext.buttonBars[objRef.htmlTagId];
-  	// create a panel, if we do not have one yet for this buttonBar
-  	// or if the old map.panel was destroyed
+    
+    // get the control from the createControl method of the subclass
+    //objRef.control = objRef.createControl(objRef);
+    var map = objRef.targetContext.map;
+    objRef.panel = objRef.targetContext.buttonBars[objRef.htmlTagId];
+    // create a panel, if we do not have one yet for this buttonBar
+    // or if the old map.panel was destroyed
     if (!objRef.panel || objRef.panel.map == null) {
-    	objRef.panel = new OpenLayers.Control.Panel({div: $(objRef.panelHtmlTagId), defaultControl: null});
-    	objRef.targetContext.buttonBars[objRef.htmlTagId] = objRef.panel;
-	    map.addControl(objRef.panel);
+      objRef.panel = new OpenLayers.Control.Panel({div: $(objRef.panelHtmlTagId), defaultControl: null});
+      objRef.targetContext.buttonBars[objRef.htmlTagId] = objRef.panel;
+      map.addControl(objRef.panel);
     }
     
-	  // add the control to the panel
+    // add the control to the panel
     objRef.panel.addControls(objRef.control);
      
     // set tooltip for the button
@@ -233,24 +230,24 @@ function ButtonBase(widgetNode, model) {
     
     // add cursor css classname to map pane div if not set yet
     if (objRef.mapPaneDiv.className.indexOf('mbCursor') == -1) {
-		  objRef.mapPaneDiv.className += ' mbCursor_default';
-  	}
+      objRef.mapPaneDiv.className += ' mbCursor_default';
+    }
 
-  	// create css for buttons
-  	if (objRef.buttonType == 'RadioButton') {
-  		var activeRule = addCSSRule(objRef.getButtonClass(objRef, 'Active'));
-  		activeRule.style.backgroundImage = "url(\""+objRef.enabledImage.src+"\")";
-  	}
-  	var inactiveRule = addCSSRule(objRef.getButtonClass(objRef, 'Inactive'));
-  	inactiveRule.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
-  	
-  	// create css for map cursor
-  	var cursorRule = addCSSRule('.'+objRef.getCursorClass(objRef));
-  	cursorRule.style.cursor = objRef.cursor;
+    // create css for buttons
+    if (objRef.buttonType == 'RadioButton') {
+      var activeRule = addCSSRule(objRef.getButtonClass(objRef, 'Active'));
+      activeRule.style.backgroundImage = "url(\""+objRef.enabledImage.src+"\")";
+    }
+    var inactiveRule = addCSSRule(objRef.getButtonClass(objRef, 'Inactive'));
+    inactiveRule.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
+    
+    // create css for map cursor
+    var cursorRule = addCSSRule('.'+objRef.getCursorClass(objRef));
+    cursorRule.style.cursor = objRef.cursor;
 
-	  // activate the control if it is defined as selected in config
+    // activate the control if it is defined as selected in config
     if(objRef.selected == true) {
-		  objRef.control.activate();    	
+      objRef.control.activate();      
     }    
   }
 
@@ -275,15 +272,15 @@ function ButtonBase(widgetNode, model) {
     
     // initialize button bars for the context
     if (!objRef.targetContext.buttonBars) {
-    	// this array in the context will hold all
-    	// buttonBars used by button widgets
-    	objRef.targetContext.buttonBars = new Array();
+      // this array in the context will hold all
+      // buttonBars used by button widgets
+      objRef.targetContext.buttonBars = new Array();
     }
     
-  	// add another event listener for the loaded context,
-  	// because we need the map to add panel and buttons,
-  	// and we do not have tha map yet
-  	objRef.targetContext.addListener("refresh", objRef.attachToOL, objRef);
+    // add another event listener for the loaded context,
+    // because we need the map to add panel and buttons,
+    // and we do not have tha map yet
+    objRef.targetContext.addListener("refresh", objRef.attachToOL, objRef);
   }
 
   this.model.addListener("init",this.buttonInit,this);
