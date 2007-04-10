@@ -120,8 +120,6 @@
       <enabledSrc>/images/EditPointEnable.png</enabledSrc>
       <disabledSrc>/images/EditPointDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
-      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
-      <targetContext>mainMap</targetContext>
       <featureXpath>/gml:featureMember/topp:tasmania_cities/topp:the_geom/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
       <defaultModelUrl>template_cities.xml</defaultModelUrl>
     </EditPoint>
@@ -133,8 +131,6 @@
       <enabledSrc>/images/EditLineEnable.png</enabledSrc>
       <disabledSrc>/images/EditLineDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
-      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
-      <targetContext>mainMap</targetContext>
       <featureXpath>//gml:coordinates</featureXpath>
       <defaultModelUrl>template_road.xml</defaultModelUrl>
     </EditLine>
@@ -146,28 +142,26 @@
       <enabledSrc>/images/EditPolygonEnable.png</enabledSrc>
       <disabledSrc>/images/EditPolygonDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
-      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
-      <targetContext>mainMap</targetContext>
       <featureXpath>//gml:coordinates</featureXpath>
       <defaultModelUrl>template_waterbodies.xml</defaultModelUrl>
     </EditPolygon>
     <InsertFeature id="insertFeature">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureCollection</targetModel>
+      <targetContext>mainMap</targetContext>
       <class>Button</class>
       <disabledSrc>/images/SaveDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
-      <targetContext>mainMap</targetContext>
     </InsertFeature>
     <DeleteFeature id="deleteFeature">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureCollection</targetModel>
+      <targetContext>mainMap</targetContext>
       <class>Button</class>
       <disabledSrc>/images/DeleteDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
       <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
-      <targetContext>mainMap</targetContext>
     </DeleteFeature>
     <WfsGetFeature id="wfsGetFeature">
       <buttonBar>mainButtonBar</buttonBar>
