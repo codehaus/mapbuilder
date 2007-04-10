@@ -74,7 +74,8 @@ function EditButtonBase(widgetNode, model) {
    * @param feature OpenLayers feature
    */
   this.handleFeatureInsert = function(feature) {
-    var objRef = feature.layer.editingButton;
+    // use the objRef reference stored by setEditingLayer()
+    var objRef = feature.layer.mbButton;
     objRef.setFeature(objRef, feature);
     // destroy the feature in OL, because we do not use
     // the OL vector layer for displaying the feature
@@ -90,9 +91,10 @@ function EditButtonBase(widgetNode, model) {
     if (!objRef.targetContext.featureLayers[objRef.id]) {
       objRef.featureLayer = new OpenLayers.Layer.Vector(objRef.id);
       objRef.featureLayer.onFeatureInsert = objRef.handleFeatureInsert;
-      // set objRef as editingButton attribute of the OL featureLayer,
-      // because we otherwise don't have it available in setGeometry()
-      objRef.featureLayer.editingButton = objRef;
+      // set objRef as mbButton attribute of the OL featureLayer,
+      // because we otherwise don't have it available in
+      // handleFeatureInsert()
+      objRef.featureLayer.mbButton = objRef;
       objRef.targetContext.featureLayers[objRef.id] = objRef.featureLayer;
     }
   }
