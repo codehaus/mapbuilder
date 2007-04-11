@@ -148,10 +148,9 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 	  var bboxOL=objRef.model.map.getExtent().toBBOX().split(',');
 	  
 	  ////////////////Initialize the History Extent Tab///////////////////
-	  objRef.model.map.historyExtent=new Array();
-	  objRef.model.map.historyExtent[0]=objRef.model.map.getExtent();
-	  objRef.model.map.nbExtent=0;
-	  objRef.model.map.nbExtent++;
+	  objRef.model.historyExtent=new Array();
+	  objRef.model.historyExtent[0]=objRef.model.map.getExtent();
+	  objRef.model.nbExtent=1;
 	  ////////////////Initialize the HistoryTab///////////////////
 	  
       var ul = new Array(bboxOL[0],bboxOL[3]);
@@ -164,12 +163,14 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       
   }
 
+
   // set objRef as attribute of the OL map, so we have a reference
   // to MapPaneOL available when handling OpenLayers events.
   objRef.model.map.mbMapPane = objRef;
   
   // register OpenLayers event to keep the context updated
   objRef.model.map.events.register('moveend', objRef.model.map, objRef.updateContext);
+
 
 }
 
@@ -191,8 +192,8 @@ MapPaneOL.prototype.updateContext = function(e) {
     objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
     objRef.model.extent.setSize(new Array(objRef.model.map.getResolution(),objRef.model.map.getResolution()));
     objRef.model.setParam("aoi", new Array(ul, lr));
-    objRef.model.map.historyExtent[objRef.model.map.nbExtent]=objRef.model.map.getExtent(); 
-    objRef.model.map.nbExtent++;
+    objRef.model.historyExtent[objRef.model.nbExtent]=objRef.model.map.getExtent(); 
+    objRef.model.nbExtent++;
   }    
 }
 
@@ -280,8 +281,8 @@ MapPaneOL.prototype.hidden = function(objRef, layerName) {
 //alert(vis);
   if(vis=="1"){ var hidden=false; }
   else {var hidden=true; }
-   
-  if(objRef.getLayer(objRef,layerName))objRef.getLayer(objRef,layerName).setVisibility(hidden);
+  var  tmpLayer=objRef.getLayer(objRef,layerName)
+  if(tmpLayer)tmpLayer.setVisibility(hidden);
 }
 //###################################################TDO
 /**
@@ -293,13 +294,7 @@ MapPaneOL.prototype.getLayer = function(objRef,layerName) {
   return objRef.model.map.getLayer(objRef.oLlayers[layerName].id);
 }
 
-/**
- * Returns an ID for the image DIV given a layer name
- * @param layerName the name of the WMS layer
- */
-MapPaneOL.prototype.getLayerDivId = function(objRef,layerName) {
-  return objRef.getLayer(layerName).div; //TBD: add in timestamps
-}
+
 //####################################################
 /**
  * Removes a layer from the output
@@ -353,31 +348,12 @@ MapPaneOL.prototype.setOpacity=function(objRef, layerName){
  */
 MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
 
-	   var proj=objRef.model.proj;
 	   // OpenLayers doesn't contain information about projection, so if the
        // baseLayer projection is not standard lat/long, it needs to know
        // maxExtent and maxResolution to calculate the zoomLevels.
    
-    
-	  
-      //maxExtent
-      var maxExtent=null; 
-      maxExtent=objRef.widgetNode.selectSingleNode("mb:maxExtent");
-      maxExtent=(maxExtent)?maxExtent.firstChild.nodeValue.split(" "):null;
-       // If the maxExtentis not specified in the config
-      // calculate it from the BBox  in the Context.
-      if(!maxExtent){
-      	maxExtent=objRef.model.getBoundingBox();
-         
-      }
-      maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
-      if(maxExtent==null)alert(mbGetMessage("noBboxInContext"));
+   
       
-      //maxResolution
-      var maxResolution=null;
-      maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");
-      maxResolution=(maxResolution)?maxResolution.firstChild.nodeValue:"auto";
-     
       var layer = layerNode;
 		
 	   // Test service of the layer	
@@ -425,17 +401,17 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
          	
 	  //default option value for a layer
 	  var layerOptions = {
-			      visibility:vis,
-			      transparent:"TRUE",
-			      projection:proj.srs,
-			      queryable:query,
-			      maxExtent: maxExtent,
-			      maxResolution: maxResolution,  //"auto" if not defined in the context
-			      alpha:false,            //option for png transparency with ie6
-			      isBaseLayer:false,
-			      displayOutsideMaxExtent:true
+			      visibility: vis,
+			      transparent: "TRUE",
+			      projection: objRef.model.map.projection,
+			      queryable: query,
+			      maxExtent: objRef.model.map.maxExtent,
+			      maxResolution: objRef.model.map.maxResolution,  //"auto" if not defined in the context
+			      alpha: false,            //option for png transparency with ie6
+			      isBaseLayer: false,
+			      displayOutsideMaxExtent: true
        };
-
+       
       switch(service){
 
          // WMS Layer

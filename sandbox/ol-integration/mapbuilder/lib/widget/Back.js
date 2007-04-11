@@ -29,15 +29,15 @@ function Back(widgetNode, model) {
     Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
     
       type: OpenLayers.Control.TYPE_BUTTON,
-
+      
       trigger: function () {
-          if (this.map.nbExtent<=1)
+          if (this.map.mbMapPane.model.nbExtent<=1)
 			       alert(mbGetMessage("cantGoBack"));
 		        else{
 		        //alert(this.map.historyExtent[0].toString());
-			       this.map.nbExtent--;
-			       this.map.nbExtent--;
-		           this.map.zoomToExtent(this.map.historyExtent[this.map.nbExtent]);  
+			       this.map.mbMapPane.model.nbExtent--;
+			       this.map.mbMapPane.model.nbExtent--;
+		           this.map.zoomToExtent(this.map.mbMapPane.model.historyExtent[this.map.mbMapPane.model.nbExtent]);  
                  }
             
        },

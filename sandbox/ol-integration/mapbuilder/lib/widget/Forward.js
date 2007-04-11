@@ -29,14 +29,14 @@ function Forward(widgetNode, model) {
     Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
     
       type: OpenLayers.Control.TYPE_BUTTON,
-
+      
       trigger: function () { 
       
-                if (this.map.nbExtent>this.map.historyExtent.length-1)
+                if (this.map.mbMapPane.model.nbExtent>this.map.mbMapPane.model.historyExtent.length-1)
 			        alert(mbGetMessage("cantGoForward"));
 		        else{
 			
-		            this.map.zoomToExtent(this.map.historyExtent[this.map.nbExtent]); 
+		            this.map.zoomToExtent(this.map.mbMapPane.model.historyExtent[this.map.mbMapPane.model.nbExtent]); 
 		            
                  }
          
