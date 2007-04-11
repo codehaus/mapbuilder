@@ -12,7 +12,7 @@ var canvasEnabled = false;
 //mapbuilder.loadScript(baseDir+"/graphics/SVGGraphics.js");
 //mapbuilder.loadScript(baseDir+"/graphics/VMLGraphics2.js");
 
-mapbuilder.loadScript(baseDir+"/util/sarissa/Sarissa.js");
+//mapbuilder.loadScript(baseDir+"/util/sarissa/Sarissa.js");
 
 /**
   * Check if we support canvas or VML

@@ -297,16 +297,16 @@ function ReportCoords() {
         objRef.coordForm.py.value = objRef.lastXy.y;
     }
     
-    // capture XY coordinates
-    var evLonLat = objRef.model.map.getLonLatFromPixel(objRef.lastXy);
-    var evXY = objRef.proj.Forward([evLonLat.lon, evLonLat.lat]);
-    
+    // capture XY coordinates 
+    var evXY = objRef.model.map.getLonLatFromPixel(objRef.lastXy);
+    var evInverse = objRef.proj.Inverse([evXY.lon, evXY.lat]);
+    var evLonLat=new OpenLayers.LonLat(evInverse[0],evInverse[1]);
     // store them
     if( objRef.showXY ) {
       if( objRef.coordForm.x )
-        objRef.coordForm.x.value = evXY[0].toFixed(objRef.precision);;
+        objRef.coordForm.x.value = evXY.lon.toFixed(objRef.precision);;
       if( objRef.coordForm.y )
-        objRef.coordForm.y.value = evXY[1].toFixed(objRef.precision);;
+        objRef.coordForm.y.value = evXY.lat.toFixed(objRef.precision);;
     }
     
     if( objRef.showLatLong || objRef.showDMS || objRef.showDM || objRef.showMGRS ) {
