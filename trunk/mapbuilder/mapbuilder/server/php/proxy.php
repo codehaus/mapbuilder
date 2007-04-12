@@ -142,7 +142,16 @@ class HTTP_Client {
 
 function send_request() {
   global $onlineresource;
-  if(!($response = file($onlineresource))) {
+  $ch = curl_init();
+$timeout = 5; // set to zero for no timeout
+curl_setopt ($ch, CURLOPT_URL,$onlineresource);
+curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+$file_contents = curl_exec($ch);
+curl_close($ch);
+$lines = array();
+$lines = explode("\n", $file_contents);
+  if(!($response = $lines)) {
     echo "Unable to retrieve file '$service_request'";
   }
   $response = implode("",$response);
