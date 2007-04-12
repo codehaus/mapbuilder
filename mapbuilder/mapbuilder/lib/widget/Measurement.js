@@ -95,7 +95,6 @@ function Measurement(widgetNode, model) {
             LonqRad=parseFloat(Q[0]) * deg2rad;
             LatqRad=parseFloat(Q[1]) * deg2rad;
             radDistance=Math.acos(Math.sin(LatpRad)*Math.sin(LatqRad)+Math.cos(LatpRad)*Math.cos(LatqRad)*Math.cos(LonpRad-LonqRad));
-            radDistance=Math.acos(Math.sin(Latp)*Math.sin(Latq)+Math.cos(Latp)*Math.cos(Latq)*Math.cos(Lonp-Lonq));
             distance =radDistance * 6378137;
             if(distance==0) {
               objRef.restart = true;
