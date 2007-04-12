@@ -270,13 +270,6 @@ MapPaneOL.prototype.getLayer = function(layerName) {
   return this.MapLayerMgr( layerName );
 }
 
-/**
- * Returns an ID for the image DIV given a layer name
- * @param layerName the name of the WMS layer
- */
-MapPaneOL.prototype.getLayerDivId = function(layerName) {
-  return this.model.id +"_"+ this.id +"_"+ layerName; //TBD: add in timestamps
-}
 
 /**
  * Removes a layer from the output
