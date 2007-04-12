@@ -201,18 +201,22 @@ $Name:  $
 									      <xsl:if test="@hidden='0'"><xsl:attribute name="checked"/></xsl:if>
 									  </input>
 								  </div>
-								<!-- movelayerup-->  
-								  <div class="buttonLayerHeader">
-								      <a href="javascript:{$context}.setParam('moveLayerUp','{$layerName}')" class="mbButton">
-									      <img title="{$moveLayerUpTip}" src="{$skinDir}{$moveUpImage}" />
-								      </a>
-								  </div>
-								<!-- movelayerdonw -->
-								  <div class="buttonLayerHeader">
-								      <a href="javascript:{$context}.setParam('moveLayerDown','{$layerName}')" class="mbButton">
-									      <img title="{$moveLayerDownTip}" src="{$skinDir}{$moveDownImage}" />
-								      </a>
-								  </div>
+								  <!-- movelayerup--> 
+								  <xsl:if test="position()!=1">  
+										  <div class="buttonLayerHeader">
+										      <a href="javascript:{$context}.setParam('moveLayerUp','{$layerName}')" class="mbButton">
+											      <img title="{$moveLayerUpTip}" src="{$skinDir}{$moveUpImage}" />
+										      </a>
+										  </div>
+								   </xsl:if>
+								   <!-- movelayerdonw -->
+								   <xsl:if test="position()!=last()">
+										  <div class="buttonLayerHeader">
+										      <a href="javascript:{$context}.setParam('moveLayerDown','{$layerName}')" class="mbButton">
+											      <img title="{$moveLayerDownTip}" src="{$skinDir}{$moveDownImage}" />
+										      </a>
+										  </div>
+								    </xsl:if>
 								   <!-- deletelayer -->
 								  <div class="buttonLayerHeader">
 								      <a href="javascript:{$context}.setParam('deleteLayer','{$layerName}')" class="mbButton">
@@ -225,7 +229,21 @@ $Name:  $
 											<a href="#" 
 											onclick="config.objects.{$widgetId}.switchVisibilityById('{$name_layer}_legend');config.objects.{$widgetId}.ChangeImage('image_{$name_layer}','{$legendImageEnable}','{$legendImageDisable}');"
 											 class="mbButton">
-												  <img id="image_{$name_layer}" title="{$legendTip}" src="{$skinDir}{$legendImageEnable}" />
+											 	
+												    <img id="image_{$name_layer}" title="{$legendTip}" >
+														<xsl:attribute name="SRC">
+															<xsl:choose>
+																<xsl:when test="@hidden='1'">
+																	<xsl:value-of select="$skinDir"/>
+																	<xsl:value-of select="$legendImageDisable"/>
+																</xsl:when>
+																<xsl:otherwise>
+																	<xsl:value-of select="$skinDir"/>
+																	<xsl:value-of select="$legendImageEnable"/>
+																</xsl:otherwise>
+															</xsl:choose> 
+														</xsl:attribute>
+													</img>
 										   </a>
 									   </div> 
 									 </xsl:if>
@@ -264,12 +282,20 @@ $Name:  $
 				</div>	<!--end of hack ie 5.5 -->	
 				<!-- legend -->
 			    <xsl:if test="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL"> 
-							<div class="legend" id="{$name_layer}_legend" style="display:block;" >
-							 <xsl:element name="IMG"  >
-									 <xsl:attribute name="SRC">
+			    			
+			    				
+							<div class="legend" id="{$name_layer}_legend" >
+								<xsl:attribute name="style">
+									<xsl:choose>
+										<xsl:when test="@hidden='1'">display:none </xsl:when>
+										<xsl:otherwise>display:block</xsl:otherwise>
+									</xsl:choose> 
+								</xsl:attribute>
+							    <xsl:element name="IMG"  >
+									<xsl:attribute name="SRC">
 										<xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL/wmc:OnlineResource/@xlink:href"/> 
-									  </xsl:attribute>
-								  </xsl:element>
+									</xsl:attribute>
+								</xsl:element>
 							</div>
 				</xsl:if>		 
     </div> <!--end of "{$layerName}" --> 

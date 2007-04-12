@@ -109,6 +109,7 @@ function Proj(srs) {
       this.title = "Lambert Conformal Conic";
       break;
     case "EPSG:27563"://LAMB3 IGN-F modification FD 2005
+    new String("http://www.opengis.net/gml/srs/epsg.xml#27563").toUpperCase()
       this.Init = lccinit;
       this.Forward = ll2lcc;
       this.Inverse = lcc2ll;
