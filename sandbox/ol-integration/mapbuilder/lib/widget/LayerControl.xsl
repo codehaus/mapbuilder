@@ -125,13 +125,11 @@ $Name:  $
 				</xsl:attribute>
 				<xsl:if test="//wmc:ResourceList"> 
 					<xsl:apply-templates select="//wmc:ResourceList/wmc:Layer[wmc:Extension/wmc:Group/@name=$GroupName]" >
-					
 						<xsl:sort select="position()" order="descending" data-type="number"/>
 					</xsl:apply-templates>
 				</xsl:if>	
 				<xsl:if test="//wmc:LayerList"> 
 					<xsl:apply-templates select="//wmc:LayerList/wmc:Layer[wmc:Extension/wmc:Group/@name=$GroupName]">
-				
 						<xsl:sort select="position()" order="descending" data-type="number"/>
 					</xsl:apply-templates>
 				</xsl:if>
@@ -202,7 +200,7 @@ $Name:  $
 									  </input>
 								  </div>
 								  <!-- movelayerup--> 
-								  <xsl:if test="position()!=1">  
+								  <xsl:if test="($numLayers - count(preceding::wmc:Layer))!=1">  
 										  <div class="buttonLayerHeader">
 										      <a href="javascript:{$context}.setParam('moveLayerUp','{$layerName}')" class="mbButton">
 											      <img title="{$moveLayerUpTip}" src="{$skinDir}{$moveUpImage}" />
@@ -210,7 +208,7 @@ $Name:  $
 										  </div>
 								   </xsl:if>
 								   <!-- movelayerdonw -->
-								   <xsl:if test="position()!=last()">
+								   <xsl:if test="($numLayers - count(preceding::wmc:Layer)) != $numLayers">
 										  <div class="buttonLayerHeader">
 										      <a href="javascript:{$context}.setParam('moveLayerDown','{$layerName}')" class="mbButton">
 											      <img title="{$moveLayerDownTip}" src="{$skinDir}{$moveDownImage}" />

@@ -99,6 +99,23 @@ function Proj(srs) {
       this.units = "meters";
       this.title = "Lambert Conformal Conic";
       break;
+     case "EPSG:27563"://LAMB3 IGN-F modification FD 2005
+     case new String("http://www.opengis.net/gml/srs/epsg.xml#27563").toUpperCase():
+      this.Init = lccinit;
+      this.Forward = ll2lcc;
+      this.Inverse = lcc2ll;
+      this.Init(new Array(6378249.2, 6356515.0, 44.10, 44.10, 2.33722916655, 44.10, 600000.0, 200000.0));
+      this.units = "meters";
+      this.title = "Lambert Conformal Conic";
+      break; 
+      case "EPSG:27564"://LAMB4 IGN-F modification FD 2005
+      this.Init = lccinit;
+      this.Forward = ll2lcc;
+      this.Inverse = lcc2ll;
+      this.Init(new Array(6378249.2, 6356515.0, 42.17, 42.17, 2.33722916655, 42.17, 234.358, 185861.369));
+      this.units = "meters";
+      this.title = "Lambert Conformal Conic";
+      break; 
     case "EPSG:27572"://LAMBE IGN-F modification FD 2005
     case "EPSG:27582"://LAMB2 IGN-F modification (deprecated) FD 2005
       this.Init = lccinit;
@@ -108,15 +125,10 @@ function Proj(srs) {
       this.units = "meters";
       this.title = "Lambert Conformal Conic";
       break;
-    case "EPSG:27563"://LAMB3 IGN-F modification FD 2005
-      this.Init = lccinit;
-      this.Forward = ll2lcc;
-      this.Inverse = lcc2ll;
-      this.Init(new Array(6378249.2, 6356515.0, 44.10, 44.10, 2.33722916655, 44.10, 600000.0, 200000.0));
-      this.units = "meters";
-      this.title = "Lambert Conformal Conic";
-      break;
-      case "EPSG:9804"://Mercator_1SP 
+   
+      case "EPSG:9804":
+      case "EPSG:41001":
+      case "EPSG:54004"://Mercator 
       this.Init = minit;
       this.Forward = ll2m;
       this.Inverse = m2ll;
@@ -124,14 +136,7 @@ function Proj(srs) {
       this.units = "meters";
       this.title = "Mercator";
       break;
-    case "EPSG:27564"://LAMB4 IGN-F modification FD 2005
-      this.Init = lccinit;
-      this.Forward = ll2lcc;
-      this.Inverse = lcc2ll;
-      this.Init(new Array(6378249.2, 6356515.0, 42.17, 42.17, 2.33722916655, 42.17, 234.358, 185861.369));
-      this.units = "meters";
-      this.title = "Lambert Conformal Conic";
-      break;
+    
     case "EPSG:2154" ://LAMB93 IGN-F modification FD 2005
       this.Init = lccinit;
       this.Forward = ll2lcc;
