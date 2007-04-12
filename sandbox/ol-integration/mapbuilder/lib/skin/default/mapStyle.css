@@ -20,10 +20,8 @@
   border: 0px blue none;
 }
 
-#mainMapPane {
+#mainMapContainer {
   border: 1px solid olive;
-  height: 80%;
-    width: 80%;
 /*  cursor: crosshair; */
 }
 
