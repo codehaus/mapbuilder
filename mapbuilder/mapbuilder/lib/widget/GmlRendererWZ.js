@@ -55,7 +55,7 @@ function GmlRendererWZ(widgetNode, model) {
       tempNode.style.position="absolute";
       tempNode.style.top=0;
       tempNode.style.left=0;
-      tempNode.style.zindex=300;
+      tempNode.style.zIndex=300;
       tempNode.setAttribute("id", objRef.outputNodeId);
       //look for this widgets output and replace if found,
       //otherwise append it
