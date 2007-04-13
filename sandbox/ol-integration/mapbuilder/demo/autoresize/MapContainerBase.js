@@ -42,7 +42,7 @@ function MapContainerBase(widgetNode,model) {
   if (contextSizeNode) {
     this.contextSize = contextSizeNode.firstChild.nodeValue;
   } else {
-    this.contextSize = false;
+    this.contextSize = true;
   }
   //check if there are fixed zoom levels defined
   var zoomLevelsNode = widgetNode.selectSingleNode("mb:zoomLevels");

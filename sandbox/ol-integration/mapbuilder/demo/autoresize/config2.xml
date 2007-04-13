@@ -16,7 +16,7 @@
 			</widgets>
 			<tools>
 				<AutoResize id="autoResizeTool">
-					<referenceNodeId>autoResize</referenceNodeId>
+					<referenceNodeId>mainMapPane</referenceNodeId>
 				</AutoResize>
 			</tools>
 		</Context>

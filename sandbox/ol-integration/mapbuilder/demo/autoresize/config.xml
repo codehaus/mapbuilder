@@ -2,12 +2,15 @@
 <MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
   <models>
     <Context id="mainMap">
-      <defaultModelUrl>../data/context/metacartaWorldMap.xml</defaultModelUrl>
+      <defaultModelUrl>../data/context/dutchCbs.xml</defaultModelUrl>
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <mapContainerId>mainMapPane</mapContainerId>
           <scriptFile>MapPaneOL.js</scriptFile>
-          <!-- <contextSize>true</contextSize> -->
+          <maxExtent>0 300000 300000 620000</maxExtent>
+          <maxResolution>650</maxResolution>
+          <resolutions>650,364.5,121.5,40.5,13.5,4.5,1.5</resolutions>
+          <contextSize>false</contextSize>
         </MapPaneOL>
       </widgets>
     </Context>
