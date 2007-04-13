@@ -116,6 +116,10 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");
       maxResolution=(maxResolution)?maxResolution.firstChild.nodeValue:"auto";
       
+     //resolutions
+      var resolutions=null;
+      resolutions=objRef.widgetNode.selectSingleNode("mb:resolutions");
+      resolutions=(resolutions)?resolutions.firstChild.nodeValue.split(","):"auto";
       
       //default map options
       var mapOptions = {
@@ -124,9 +128,10 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
                 units: proj.units,
                 maxExtent: maxExtent,
                 maxResolution: maxResolution,
+                resolutions: resolutions,
                 theme: config.skinDir+'/openlayers/style.css'
             };
-      
+            
       objRef.model.map = new OpenLayers.Map(objRef.node, mapOptions);
 
 
