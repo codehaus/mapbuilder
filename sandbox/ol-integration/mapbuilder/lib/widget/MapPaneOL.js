@@ -119,7 +119,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
      //resolutions
       var resolutions=null;
       resolutions=objRef.widgetNode.selectSingleNode("mb:resolutions");
-      resolutions=(resolutions)?resolutions.firstChild.nodeValue.split(","):"auto";
+      resolutions=(resolutions)?resolutions.firstChild.nodeValue.split(","):null;
       
       //default map options
       var mapOptions = {
