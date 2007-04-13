@@ -41,13 +41,21 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
     var options = {
       div: document.getElementById(objRef.htmlTagId)
     };
-
-    // Check for WMS baseLayer
+   // Check for WMS baseLayer
     var baseLayer = map.baseLayer;
     if (baseLayer != null && baseLayer instanceof OpenLayers.Layer.WMS) {
       // Use WMS.Untiled
+      
+      var baseLayerOptions = {
+      				units:map.units,
+                    projection:map.projection,
+                	maxExtent:map.maxExtent,
+                	maxResolution:"auto"
+              };
+              
       var newBase = new OpenLayers.Layer.WMS.Untiled(baseLayer.name,
-                    baseLayer.url, {layers: baseLayer.params.LAYERS});
+                    baseLayer.url, {layers: baseLayer.params.LAYERS},baseLayerOptions);
+                    
       options.layers = [newBase];
     }
 
