@@ -142,9 +142,9 @@
     <xs:complexContent>
       <xs:extension base="mb:AbstractWidgetType">
         <xs:sequence>
-          <xs:element name="mapContainerId" type="xs:string">
+          <xs:element name="targetModel" type="xs:string">
             <xs:annotation>
-              <xs:documentation>Used to assign an ID to a container DIV element for 2 dimensional map widgets.  Multiple widgets may share this container for rendering their output. The first model encountered in the config file using this ID becomes the "source" model for this widget so that extent, AOI and orther map related data can be shared by multiple models.   Required.  </xs:documentation>
+              <xs:documentation>Target Model containing the map where this widget should put its output</xs:documentation>
             </xs:annotation>
           </xs:element>
         </xs:sequence>
