@@ -90,12 +90,13 @@ function EditButtonBase(widgetNode, model) {
   this.setEditingLayer = function(objRef) {
     if (!objRef.targetContext.featureLayers[objRef.id]) {
       objRef.featureLayer = new OpenLayers.Layer.Vector(objRef.id);
-      objRef.featureLayer.onFeatureInsert = objRef.handleFeatureInsert;
       // set objRef as mbButton attribute of the OL featureLayer,
       // because we otherwise don't have it available in
       // handleFeatureInsert()
       objRef.featureLayer.mbButton = objRef;
       objRef.targetContext.featureLayers[objRef.id] = objRef.featureLayer;
+      // register OL event handler
+      objRef.featureLayer.onFeatureInsert = objRef.handleFeatureInsert;
     }
   }
 
