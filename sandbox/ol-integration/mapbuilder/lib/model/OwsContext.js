@@ -318,7 +318,7 @@ function OwsContext(modelNode, parent) {
   this.setRequestParameters = function(featureName, requestStylesheet) {
     var feature = this.getFeatureNode(featureName);
     if (feature.selectSingleNode("ogc:Filter")) {
-      requestStylesheet.setParameter("filter", escape(Sarissa.serialize(feature.selectSingleNode("ogc:Filter"))) );
+      requestStylesheet.setParameter("filter", escape((new XMLSerializer()).serializeToString(feature.selectSingleNode("ogc:Filter"))) );
     }
   }
   //this.addFirstListener("wfs_GetFeature", this.setRequestParameters, this);
@@ -376,7 +376,7 @@ function OwsContext(modelNode, parent) {
  
       parentNode.appendChild(layerNode.cloneNode(true));
       objRef.modified = true;
-      //alert( "Adding layer:"+Sarissa.serialize( layerNode ) );
+      //alert( "Adding layer:"+(new XMLSerializer()).serializeToString( layerNode ) );
     } else {
       alert(mbGetMessage("nullOwsContext"));
     }

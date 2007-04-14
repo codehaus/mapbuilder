@@ -90,29 +90,29 @@ function FeatureCollection(modelNode, parent) {
     * Called when the OWSContext gets loaded
     */
   this.loadWfsRequests = function(objRef) {
-    //alert( "FeatureCollection loadModel:"+Sarissa.serialize(objRef.containerModel.doc))
+    //alert( "FeatureCollection loadModel:"+(new XMLSerializer()).serializeToString(objRef.containerModel.doc))
     // we need to retrieve all the features
     if( objRef.containerModel.doc != null) {
-      //alert( "FeatureCollection loadModel:"+Sarissa.serialize(objRef.containerModel.doc))
+      //alert( "FeatureCollection loadModel:"+(new XMLSerializer()).serializeToString(objRef.containerModel.doc))
       var featureTypes = objRef.containerModel.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType");
       if( featureTypes.length > 0 ) {
         for( var i=0; i<featureTypes.length; i++) {
           var httpPayload = new Object();        
         
           var wfsFeature = featureTypes[i]
-          //alert( "feature:"+ Sarissa.serialize(wfsFeature) )
+          //alert( "feature:"+ (new XMLSerializer()).serializeToString(wfsFeature) )
           
           var server = wfsFeature.selectSingleNode("wmc:Server")
-          //alert( "server:"+ Sarissa.serialize(server) )
+          //alert( "server:"+ (new XMLSerializer()).serializeToString(server) )
           var onlineResource = server.selectSingleNode("wmc:OnlineResource")
-          //alert( "onlineResource:"+ Sarissa.serialize(onlineResource) )
+          //alert( "onlineResource:"+ (new XMLSerializer()).serializeToString(onlineResource) )
           httpPayload.method = onlineResource.getAttribute("method")
           httpPayload.url = onlineResource.getAttribute("xlink:href")
           //alert( "server:"+ httpPayload.method + " " + httpPayload.url )
           
           var query = wfsFeature.selectSingleNode("wfs:GetFeature")
-          //alert( "query2:"+ Sarissa.serialize( query ))
-          httpPayload.postData = Sarissa.serialize( query )
+          //alert( "query2:"+ (new XMLSerializer()).serializeToString( query ))
+          httpPayload.postData = (new XMLSerializer()).serializeToString( query )
           
           // This does not work on IE for some reaso
           // wfsFeature.model = objRef;
@@ -156,7 +156,7 @@ function FeatureCollection(modelNode, parent) {
    * @return list of nodes selected 
    */
   this.getFeatureNodes = function() {
-    //alert( Sarissa.serialize(this.doc))
+    //alert( (new XMLSerializer()).serializeToString(this.doc))
     var featureMember =  this.doc.selectSingleNode(this.nodeSelectXpath);
     if( featureMember != null )
       return featureMember.childNodes
@@ -209,7 +209,7 @@ function FeatureCollection(modelNode, parent) {
     if( geometryTag != null )
       return geometryTag.firstChild;
     else {
-      alert(mbGetMessage("invalidGeom", Sarissa.serialize(featureNode)));
+      alert(mbGetMessage("invalidGeom", (new XMLSerializer()).serializeToString(featureNode)));
     }
   }
 

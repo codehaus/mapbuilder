@@ -18,7 +18,7 @@ function EditSLD(toolNode, model) {
     this.stylesheet = new XslProcessor(styleUrl);
 	
   	this.checkThis= function(){
-  	//alert("checkthis");alert(Sarissa.serialize(this.model.doc));
+  	//alert("checkthis");alert((new XMLSerializer()).serializeToString(this.model.doc));
   		if (document.getElementById("textStyle").checked == true)
     	{	
     		//this.addNodeToSLD("PolygonSymbolizer");
@@ -27,7 +27,7 @@ function EditSLD(toolNode, model) {
         	 document.getElementById("textStyle").checked=true;
         	 manageDiv('propertyText',1);
         	 alert("checked");
-        	 alert(Sarissa.serialize(this.model.doc));
+        	 alert((new XMLSerializer()).serializeToString(this.model.doc));
     	}
   		else 
   		{
@@ -37,7 +37,7 @@ function EditSLD(toolNode, model) {
 	 			node.removeChild(this.model.doc.selectSingleNode("//TextSymbolizer").parentNode);
 	 			this.addNodeToSLD(document.getElementById("choixFeatureType").value+"Symbolizer");
 	 			manageDiv('propertyText',0);
-	 			alert(Sarissa.serialize(this.model.doc));
+	 			alert((new XMLSerializer()).serializeToString(this.model.doc));
 	 		}
   		}
   	}
@@ -155,7 +155,7 @@ function EditSLD(toolNode, model) {
 					layerNode.appendChild(sl);
 					config.objects.mainMap.setParam("refresh");
 				}
-				mbDebugMessage(this, "Apres : "+Sarissa.serialize(this.targetModel.doc));
+				mbDebugMessage(this, "Apres : "+(new XMLSerializer()).serializeToString(this.targetModel.doc));
 				
 	 }
 	 else alert(mbGetMessage("selectLayer"));

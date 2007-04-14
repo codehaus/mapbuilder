@@ -257,11 +257,11 @@ MapPaneOL.prototype.extractStyle = function(objRef, node, service) {
 		   }
 		   else if(sld.selectSingleNode("wmc:FeatureTypeStyle"))
 		   {
-		   		params.sld=Sarissa.serialize(sld.selectSingleNode("wmc:FeatureTypeStyle"));
+		   		params.sld=(new XMLSerializer()).serializeToString(sld.selectSingleNode("wmc:FeatureTypeStyle"));
 		   }
 		   else if(sld.selectSingleNode("wmc:StyledLayerDescriptor"))
 	    	{ 
-	    		params.sld_body=Sarissa.serialize(sld.selectSingleNode("wmc:StyledLayerDescriptor"));
+	    		params.sld_body=(new XMLSerializer()).serializeToString(sld.selectSingleNode("wmc:StyledLayerDescriptor"));
 	    		
 	    	}
 	    }

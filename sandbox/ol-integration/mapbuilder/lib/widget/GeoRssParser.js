@@ -60,7 +60,7 @@ GeoRssParser.prototype.transformEntry = function( objRef, entry ) {
     Sarissa.setXpathNamespaces(resultNode, "xmlns:wmc='http://www.opengis.net/context'");
  
     /*
-    var result = Sarissa.serialize(resultNode.documentElement);
+    var result = (new XMLSerializer()).serializeToString(resultNode.documentElement);
     
     alert("transforming:"+result);
     service=resultNode.selectSingleNode("//wmc:Server/@service");
@@ -129,10 +129,10 @@ GeoRssParser.prototype.loadEntries = function( objRef ) {
      //feature.setAttribute("id", id);
       feature.setAttribute("width", width);
       feature.setAttribute("height", height);
-      // alert( "rssLayer:"+Sarissa.serialize(feature) );
+      // alert( "rssLayer:"+(new XMLSerializer()).serializeToString(feature) );
  
       var layer   = objRef.transformEntry( objRef, feature );     
-      //alert( "rssLayer:"+Sarissa.serialize(layer) );
+      //alert( "rssLayer:"+(new XMLSerializer()).serializeToString(layer) );
       
       objRef.targetModel.setParam('addLayer', layer.childNodes[0]);
       // objRef.targetModel.setParam('addLayer', layer);

@@ -25,7 +25,7 @@ function GmlRendererTest(widgetNode, model) {
   this.paint = function(objRef) {
     //var response = postLoad("/mapbuilder/writeXml", objRef.model.doc);
     var features = objRef.model.doc.selectNodes("//gml:featureMember");
-    alert(mbGetMessage("pretendPaint", features.length, Sarissa.serialize(objRef.model.doc)));
+    alert(mbGetMessage("pretendPaint", features.length, (new XMLSerializer()).serializeToString(objRef.model.doc)));
   }
 
   var base = new MapContainerBase(this,widgetNode,model)

@@ -77,13 +77,13 @@ function WidgetBaseXSL(widgetNode,model) {
       objRef.stylesheet.setParameter("modelUrl", objRef.model.url);
       objRef.stylesheet.setParameter("targetModelId", objRef.targetModel.id );
 
-      //if (objRef.debug) mbDebugMessage(objRef, "source:"+Sarissa.serialize(objRef.model.doc));
+      //if (objRef.debug) mbDebugMessage(objRef, "source:"+(new XMLSerializer()).serializeToString(objRef.model.doc));
       objRef.resultDoc = objRef.model.doc; // resultDoc sometimes modified by prePaint()
       objRef.prePaint(objRef);
 
       //confirm inputs
-      if (objRef.debug) mbDebugMessage(objRef, "prepaint:"+Sarissa.serialize(objRef.resultDoc));
-      if (objRef.debug) mbDebugMessage(objRef, "stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
+      if (objRef.debug) mbDebugMessage(objRef, "prepaint:"+(new XMLSerializer()).serializeToString(objRef.resultDoc));
+      if (objRef.debug) mbDebugMessage(objRef, "stylesheet:"+(new XMLSerializer()).serializeToString(objRef.stylesheet.xslDom));
 
       //set to output to a temporary node
       //hack to get by doc parsing problem in IE

@@ -29,7 +29,7 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
     var namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:ows='http://www.opengis.net/ows' xmlns:sld='http://www.opengis.net/sld' xmlns:xlink='http://www.w3.org/1999/xlink'";
     var doc = this.layerNode.ownerDocument;
     Sarissa.setXpathNamespaces(doc, namespace);
-    //alert( "wfsparse:"+Sarissa.serialize(this.layerNode))
+    //alert( "wfsparse:"+(new XMLSerializer()).serializeToString(this.layerNode))
     var styleNode  = this.layerNode.selectSingleNode("wmc:StyleList" );
     if( styleNode == null ) alert(mbGetMessage("styleNodeNotFound"));
     
@@ -273,7 +273,7 @@ function WfsQueryLayer(model, mapPane, layerName, layerNode, queryable, visible)
     var node = document.getElementById( id );
     while( node != null ) {
       var parentNode = node.parentNode;
-      //alert( "bfore:"+Sarissa.serialize(parentNode))
+      //alert( "bfore:"+(new XMLSerializer()).serializeToString(parentNode))
       parentNode.removeChild( node );
       node = document.getElementById( id );
     }
