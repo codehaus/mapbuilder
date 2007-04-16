@@ -329,6 +329,7 @@
       <xs:element name="ModelUrlInput" type="mb:ModelUrlInputType"/>
       <xs:element name="OpenLSForm" type="mb:OpenLSFormType"/>
       <xs:element name="OpenLSResponse" type="mb:OpenLSResponseType"/>
+      <xs:element name="OverviewMap" type="mb:OverviewMapType"/>
       <xs:element name="Reset" type="mb:ButtonType"/>
       <xs:element name="Save" type="mb:SaveType"/>
       <xs:element name="SaveModel" type="mb:SaveModelType"/>
@@ -1061,6 +1062,19 @@
       <xs:extension base="mb:AbstractWidgetType">
         <xs:sequence>
           <xs:element name="title" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OverviewMapType">
+    <xs:annotation>
+      <xs:documentation>Render an overview map from the main map.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="mb:AbstractWidgetType">
+        <xs:sequence>
+          <xs:element name="fixedWidth" type="xs:integer" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
