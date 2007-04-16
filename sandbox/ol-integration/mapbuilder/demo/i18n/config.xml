@@ -18,7 +18,7 @@
         <LayerControl id="contextLegend">
           <autoRefresh>false</autoRefresh>
           <legendImageEnable>/images/LegendEnable.png</legendImageEnable>
-		  <legendImageDisable>/images/LegendDisable.png</legendImageDisable> 
+          <legendImageDisable>/images/LegendDisable.png</legendImageDisable> 
           <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
           <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
           <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
@@ -26,31 +26,6 @@
         </LayerControl>
       </widgets>
     </Context>
-    
-    <!-- Context id="locator">
-      <defaultModelUrl>../data/context/locatorDemis.xml</defaultModelUrl>
-      <widgets>
-        <MapPane id="locatorWidget">
-          <htmlTagId>locatorMap</htmlTagId>
-          <targetModel>mainMap</targetModel>
-          <mapContainerId>locatorContainer</mapContainerId>
-          <fixedWidth>180</fixedWidth>
-        </MapPane>
-        <AoiBoxDHTML id="aoiBox3">
-          <htmlTagId>locatorMap</htmlTagId>
-          <mapContainerId>locatorContainer</mapContainerId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>1</lineWidth>
-          <crossSize>15</crossSize>
-        </AoiBoxDHTML>
-      </widgets>
-      <tools>
-        <AoiMouseHandler id="locatorAoi"/>
-        <ZoomToAoi id="locatorZoomToAoi">
-          <targetModel>mainMap</targetModel>
-        </ZoomToAoi>
-      </tools>
-    </Context-->
   </models>
   
   <widgets>
@@ -69,7 +44,6 @@
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <selected>true</selected>
       <enabledSrc>/images/ZoomInEnable.png</enabledSrc>
@@ -78,7 +52,6 @@
     <ZoomOut id="zoomOut">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
       <disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
@@ -86,7 +59,6 @@
     <DragPan id="dragPan">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainDragPan</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/PanEnable.png</enabledSrc>
       <disabledSrc>/images/PanDisable.png</disabledSrc>
