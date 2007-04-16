@@ -8,9 +8,7 @@
           <htmlTagId>mainMapPane</htmlTagId>
           <mapContainerId>mainMapContainer</mapContainerId>
         </MapPaneOL>
-        <CursorTrack id="cursorTrack">
-          <mouseHandler>mainMap</mouseHandler>
-        </CursorTrack>
+        <CursorTrack id="cursorTrack"/>
         <Legend id="contextLegend">
           <htmlTagId>legend</htmlTagId>
           <stylesheet>./Legend2.xsl</stylesheet>

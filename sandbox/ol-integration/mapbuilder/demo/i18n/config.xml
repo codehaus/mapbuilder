@@ -9,7 +9,6 @@
           <mapContainerId>mainMapContainer</mapContainerId>
         </MapPaneOL>
         <CursorTrack id="cursorTrack">
-          <mouseHandler>mainMap</mouseHandler>
           <precision>5</precision>
         </CursorTrack>
         <OverviewMap id="locatorWidget">

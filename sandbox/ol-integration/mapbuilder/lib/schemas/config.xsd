@@ -618,11 +618,11 @@
     <xs:complexContent>
       <xs:extension base="mb:AbstractWidgetType">
         <xs:sequence>
-          <xs:element name="mouseHandler" type="xs:string"/>
-          <xs:element name="showXY" type="xs:boolean" minOccurs="0"/>
           <xs:element name="showPx" type="xs:boolean" minOccurs="0"/>
-          <xs:element name="showDMS" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="showXY" type="xs:boolean" minOccurs="0"/>
           <xs:element name="showLatLong" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="showDMS" type="xs:boolean" minOccurs="0"/>
+          <xs:element name="showDM" type="xs:boolean" minOccurs="0"/>
           <xs:element name="showMGRS" type="xs:boolean" minOccurs="0"/>
           <xs:element name="precision" type="xs:integer" minOccurs="0"/>
         </xs:sequence>

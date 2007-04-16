@@ -21,9 +21,7 @@
           <mapContainerId>mainMapContainer</mapContainerId>
         </MapPaneOL>
         <Loading id="loading"/>
-        <CursorTrack id="cursorTrack">
-          <mouseHandler>mainMap</mouseHandler>
-        </CursorTrack>
+        <CursorTrack id="cursorTrack"/>
         <Legend id="legend"/>
         <Version id="version"/>
         <OverviewMap id="locatorWidget">
