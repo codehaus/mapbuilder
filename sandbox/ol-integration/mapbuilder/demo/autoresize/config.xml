@@ -7,10 +7,9 @@
         <MapPaneOL id="mainMapWidget">
           <mapContainerId>mainMapPane</mapContainerId>
           <scriptFile>MapPaneOL.js</scriptFile>
-          <maxExtent>0 300000 300000 620000</maxExtent>
           <maxResolution>650</maxResolution>
           <resolutions>650,364.5,121.5,40.5,13.5,4.5,1.5</resolutions>
-          <contextSize>false</contextSize>
+          <fixedSize>true</fixedSize>
         </MapPaneOL>
       </widgets>
     </Context>

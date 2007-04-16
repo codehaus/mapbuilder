@@ -8,8 +8,7 @@ $Id: MapPaneOL.js 2703 2007-04-11 10:32:14Z oterral $
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
-mapbuilder.loadScript(baseDir+"/../demo/autoresize/MapContainerBase.js");
-
+mapbuilder.loadScript(baseDir+"/tool/Extent.js");
 /**
  * Widget to render a map from an OGC context document.  The layers are
  * rendered using http://openlayers.org .
@@ -21,18 +20,25 @@ mapbuilder.loadScript(baseDir+"/../demo/autoresize/MapContainerBase.js");
 function MapPaneOL(widgetNode, model) {
   WidgetBase.apply(this,new Array(widgetNode, model));
   
-  //TBD Do we need MapContainerBase?
-  MapContainerBase.apply(this,new Array(widgetNode, model));
-  
   OpenLayers.ImgPath = config.skinDir + '/images/openlayers/';
 
-  //loading img to be displayed while models load
-  /*var loadingSrc = widgetNode.selectSingleNode("mb:loadingSrc");
-  if (loadingSrc) {
-    this.loadingSrc = config.skinDir + loadingSrc.firstChild.nodeValue;
+	//Make sure the containerNodeId is set
+	//TBD: rename this to....??
+  var mapContainerNode = widgetNode.selectSingleNode("mb:mapContainerId");
+  if (mapContainerNode) {
+    this.containerNodeId = mapContainerNode.firstChild.nodeValue;
   } else {
-    this.loadingSrc = config.skinDir + "/images/Loading.gif";
-  }*/
+    alert(mbGetMessage("noMapContainerId", this.id));
+  }
+
+  //set the output DIV
+	this.node = document.getElementById(this.containerNodeId);
+
+	//Make sure the Extent is attached to the context and initialized  
+  if(!this.model.extent){
+  	this.model.extent = new Extent (this.model);
+		this.model.addFirstListener( "loadModel", this.model.extent.firstInit, this.model.extent );
+  }
 
   /**
    * Called after a feature has been added to a WFS.  This function triggers
@@ -119,7 +125,21 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       //resolutions
       var resolutions=null;
       resolutions=objRef.widgetNode.selectSingleNode("mb:resolutions");
-      resolutions=(resolutions)?resolutions.firstChild.nodeValue.split(","):null;
+      if(resolutions){
+      	resolutions = resolutions.firstChild.nodeValue.split(",");
+      	objRef.model.extent.setZoomLevels(true,resolutions);
+      }
+      else objRef.model.extent.setZoomLevels(false);
+      
+      //get the output DIV and set it to context-size
+      var fixedSize=null;
+      fixedSize=objRef.widgetNode.selectSingleNode("mb:fixedSize");
+      fixedSize=(fixedSize)?fixedSize.firstChild.nodeValue:null;
+      if(fixedSize=="true"){
+      	objRef.node.style.width = objRef.model.getWindowWidth()+"px";
+      	objRef.node.style.height = objRef.model.getWindowHeight()+"px";
+      }
+     
       
       //default map options
       var mapOptions = {
@@ -257,11 +277,11 @@ MapPaneOL.prototype.extractStyle = function(objRef, node, service) {
 		   }
 		   else if(sld.selectSingleNode("wmc:FeatureTypeStyle"))
 		   {
-		   		params.sld=Sarissa.serialize(sld.selectSingleNode("wmc:FeatureTypeStyle"));
+		   		params.sld=(new XMLSerializer()).serializeToString(sld.selectSingleNode("wmc:FeatureTypeStyle"));
 		   }
 		   else if(sld.selectSingleNode("wmc:StyledLayerDescriptor"))
 	    	{ 
-	    		params.sld_body=Sarissa.serialize(sld.selectSingleNode("wmc:StyledLayerDescriptor"));
+	    		params.sld_body=(new XMLSerializer()).serializeToString(sld.selectSingleNode("wmc:StyledLayerDescriptor"));
 	    		
 	    	}
 	    }
@@ -414,7 +434,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
 			      maxResolution: objRef.model.map.maxResolution,  //"auto" if not defined in the context
 			      alpha: false,            //option for png transparency with ie6
 			      isBaseLayer: false,
-			      displayOutsideMaxExtent: true
+			      displayOutsideMaxExtent: false
        };
        
       switch(service){
