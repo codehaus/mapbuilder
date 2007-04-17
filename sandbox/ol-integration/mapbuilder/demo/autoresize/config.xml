@@ -9,7 +9,7 @@
           <scriptFile>MapPaneOL.js</scriptFile>
           <maxResolution>650</maxResolution>
           <resolutions>650,364.5,121.5,40.5,13.5,4.5,1.5</resolutions>
-          <fixedSize>true</fixedSize>
+          <fixedSize>false</fixedSize>
         </MapPaneOL>
       </widgets>
     </Context>

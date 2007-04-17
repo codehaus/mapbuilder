@@ -6,7 +6,7 @@
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-          <mapContainerId>mainMapContainer</mapContainerId>
+          <mapContainerId>mainMapPane</mapContainerId>
         </MapPaneOL>
         <CursorTrack id="cursorTrack">
           <precision>5</precision>
@@ -18,7 +18,7 @@
         <LayerControl id="contextLegend">
           <autoRefresh>false</autoRefresh>
           <legendImageEnable>/images/LegendEnable.png</legendImageEnable>
-          <legendImageDisable>/images/LegendDisable.png</legendImageDisable> 
+          <legendImageDisable>/images/LegendDisable.png</legendImageDisable>
           <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
           <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
           <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
@@ -27,7 +27,7 @@
       </widgets>
     </Context>
   </models>
-  
+
   <widgets>
     <Back id="back">
       <buttonBar>mainButtonBar</buttonBar>
