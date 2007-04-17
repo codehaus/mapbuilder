@@ -86,8 +86,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 
   if(!objRef.model.map || refresh=="sld"){
 
-    if(refresh=="sld")
-    {
+    if(refresh=="sld") {
       objRef.clearWidget2(objRef);
     }
 
@@ -191,8 +190,6 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   objRef.model.map.events.register('moveend', objRef.model.map, objRef.updateContext);
 }
 
-///############################################################################################END TBD
-
 /**
  * Event handler to keep the Mapbuilder context updated.
  * This is called by OpenLayers.
@@ -215,64 +212,82 @@ MapPaneOL.prototype.updateContext = function(e) {
 }
 
 /**
- * Extract a style from a Layer node. Returns null if no style parameters are
- * found.
- * @param objRef Pointer to widget object.
- * @param node Node to extract style from.
- * @return OpenLayers.Style
+ * extract a style from a SLD node of an XML doc and return
+ * it as url parameter for a WMS request
+ * @param objRef reference to this object
+ * @param node XML node containing the styled layer descriptor
+ * @return WMS-compliant SLD URL parameters as array
  */
-MapPaneOL.prototype.extractStyle = function(objRef, node, service) {
-  service = service.toLowerCase().replace(/ogc:/, '');
-  if(service=="gml" || service=="wfs"){
-    var style1=MapPaneOL.getDefaultStyle();
-    style1.map = objRef.model.map;
-    var value;
-    var styleSet=false;
-
-    value=node.selectSingleNode(".//sld:Fill/sld:CssParameter[@name='fill']");
-    if(value){
-      style1.fillColor=value.firstChild.nodeValue;
-      styleSet=true;
+MapPaneOL.prototype.sld2UrlParam = function(objRef, node) {
+  var params=new Array();
+  var sld = node.selectSingleNode("wmc:SLD");
+  var name = node.selectSingleNode("wmc:Name");
+  if(sld) {
+    if(sld.selectSingleNode("wmc:OnlineResource")) {	
+      params.sld=sld.selectSingleNode("wmc:OnlineResource").getAttribute("xlink:href");
+    } else if(sld.selectSingleNode("wmc:FeatureTypeStyle")) {
+      params.sld=(new XMLSerializer()).serializeToString(sld.selectSingleNode("wmc:FeatureTypeStyle"));
+    } else if(sld.selectSingleNode("wmc:StyledLayerDescriptor")) { 
+      params.sld_body=(new XMLSerializer()).serializeToString(sld.selectSingleNode("wmc:StyledLayerDescriptor"));    		
     }
-    value=node.selectSingleNode(".//sld:Fill/sld:CssParameter[@name='fill-opacity']");
-    if(value){
-      style1.fillOpacity=value.firstChild.nodeValue;
-      styleSet=true;
-    }
-    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke']");
-    if(value){
-      style1.strokeColor=value.firstChild.nodeValue;
-      styleSet=true;
-    }
-    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke-opacity']");
-    if(value){
-      style1.strokeOpacity=value.firstChild.nodeValue;
-      styleSet=true;
-    }
-    if(!styleSet)style1=null;
-      return style1;
-  }
-  else if (service=="wms"){
-    var params=new Array();
-    var sld=node.selectSingleNode("wmc:StyleList/wmc:Style[@current='1']/wmc:SLD");
-    if(sld){
-      if(sld.selectSingleNode("wmc:OnlineResource")){
-        params.sld=sld.selectSingleNode("wmc:OnlineResource").getAttribute("xlink:href");
-      }
-      else if(sld.selectSingleNode("wmc:FeatureTypeStyle")){
-        params.sld=(new XMLSerializer()).serializeToString(sld.selectSingleNode("wmc:FeatureTypeStyle"));
-      }
-      else if(sld.selectSingleNode("wmc:StyledLayerDescriptor")){
-         params.sld_body=(new XMLSerializer()).serializeToString(sld.selectSingleNode("wmc:StyledLayerDescriptor"));
-      }
-    }
-    else if(node.selectSingleNode("wmc:StyleList/wmc:Style[@current='1']/wmc:Name")){
-      if(node.selectSingleNode("wmc:StyleList/wmc:Style[@current='1']/wmc:Name").firstChild)
-        params.styles=node.selectSingleNode("wmc:StyleList/wmc:Style[@current='1']/wmc:Name").firstChild.nodeValue;
-    }
-    return params;
-  }
+  } else if(name) {
+    params.styles=name.firstChild.nodeValue;	
+  }            
+  return params;
 }
+
+/**
+ * extract a style from a SLD node of an XML doc and return
+ * it as OpenLayers style
+ * @param objRef reference to this object
+ * @param node XML node containing the styled layer descriptor
+ * @return OpenLayers style object
+ */
+MapPaneOL.prototype.sld2OlStyle = function(objRef, node) {
+  var style1=new Object();
+  style1.map = objRef.model.map;
+  var value;
+  var styleSet=false;
+
+  value=node.selectSingleNode(".//sld:Fill/sld:CssParameter[@name='fill']");
+  if(value){
+    style1.fillColor=value.firstChild.nodeValue;
+    styleSet=true;
+  }
+  value=node.selectSingleNode(".//sld:Fill/sld:CssParameter[@name='fill-opacity']");
+  if(value){
+    style1.fillOpacity=value.firstChild.nodeValue;
+    styleSet=true;
+  }
+
+  value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke']");
+  if(value){
+    style1.strokeColor=value.firstChild.nodeValue;
+    styleSet=true;
+  }
+  
+  value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke-opacity']");
+  if(value){
+    style1.strokeOpacity=value.firstChild.nodeValue;
+    styleSet=true;
+  }
+  
+  value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke-width']");
+  if(value){
+    style1.strokeWidth=value.firstChild.nodeValue;
+    styleSet=true;
+  }
+  
+  value=node.selectSingleNode(".//sld:Size");
+  if(value){
+    style1.pointRadius=value.firstChild.nodeValue;
+    styleSet=true;
+  }
+  
+  if(!styleSet)style1=null;
+  return style1;
+}
+
 /**
  * Hide/unhide a layer. Called by Context when the hidden attribute changes.
  * @param objRef Pointer to widget object.
@@ -393,6 +408,9 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
     opacity=opacity.nodeValue;
   else
     opacity=false;
+  
+  // Get current style node of the layer
+  var currentStyle = layer.selectSingleNode('wmc:StyleList/wmc:Style[@current=1]');
 
   //default option value for a layer
   var layerOptions = {
@@ -417,11 +435,12 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         layerOptions.isBaseLayer=true;
       }
       else {
+        //TBD what if we have layers with different projections in the context?
         layerOptions.reproject=false;
         layerOptions.isBaseLayer=false;
       }
       var params = new Array();
-      params=objRef.extractStyle(objRef,layer,"wms");
+      params=objRef.sld2UrlParam(objRef, currentStyle);
       objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
           layers: name2,
           //true in upper case else the context doc boston.xml doesn't work
@@ -439,12 +458,12 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
     // WFS Layer
     case "wfs":
     case "OGC:WFS":
-      style=objRef.extractStyle(objRef,layer,"wfs");
+      style=objRef.sld2OlStyle(objRef, currentStyle);
       if(style){
         layerOptions.style=style;
       }
       else{
-        layerOptions.style=new OpenLayers.Style.WebSafe(2*i+1);
+        layerOptions.style=objRef.getWebSafeStyle(objRef, 2*i+1);
       }
       layerOptions.featureClass=OpenLayers.Feature.WFS;
 
@@ -460,12 +479,12 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
     // GML Layer
     case "gml":
     case "OGC:GML":
-      style=objRef.extractStyle(objRef,layer,"gml");
+      style=objRef.sld2OlStyle(objRef, currentStyle);
       if(style){
         layerOptions.style=style;
       }
       else{
-        layerOptions.style=new OpenLayers.Style.WebSafe(2*i+1);
+        layerOptions.style=objRef.getWebSafeStyle(objRef, 2*i+1);
       }
       objRef.oLlayers[name2] = new OpenLayers.Layer.GML(title,href,layerOptions);
 
@@ -509,6 +528,29 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   }
   objRef.model.map.addLayer(objRef.oLlayers[name2]);
 }
+
+/**
+ * gets an OpenLayers vector style with web safe colors.
+ * @param objRef reference to this object
+ * @param colorNumber number of a color from which to generate websafe color
+ * @return {OpenLayers.Style} style for OpenLayers vector rendering
+ */
+MapPaneOL.prototype.getWebSafeStyle = function(objRef, colorNumber) {
+  colors=new Array("00","33","66","99","CC","FF");
+  colorNumber=(colorNumber)?colorNumber:0;
+  colorNumber=(colorNumber<0)?0:colorNumber;
+  colorNumber=(colorNumber>215)?215:colorNumber;
+  i=parseInt(colorNumber/36);
+  j=parseInt((colorNumber-i*36)/6);
+  k=parseInt((colorNumber-i*36-j*6));
+  var color="#"+colors[i]+colors[j]+colors[k];
+  var style = new Object();
+  style.fillColor = color;
+  style.strokeColor = color;
+  style.map = objRef.model.map;
+  return style;
+}
+
 /**
  * This function is called when a new Context is about to be loaded
  * - it deletes all the old layers so new ones can be loaded.
@@ -526,41 +568,4 @@ MapPaneOL.prototype.clearWidget2 = function(objRef) {
     objRef.model.map=null;
     objRef.oLlayers = null;
   }
-}
-
-//TBD: add JSDoc info
-MapPaneOL.prototype.getWebSafeStyle = function(objRef, colorNumber) {
-  colors=new Array("00","33","66","99","CC","FF");
-  colorNumber=(colorNumber)?colorNumber:0;
-  colorNumber=(colorNumber<0)?0:colorNumber;
-  colorNumber=(colorNumber>215)?215:colorNumber;
-  i=parseInt(colorNumber/36);
-  j=parseInt((colorNumber-i*36)/6);
-  k=parseInt((colorNumber-i*36-j*6));
-  var color="#"+colors[i]+colors[j]+colors[k];
-  var style = MapPaneOL.getDefaultStyle();
-  style.fillColor = color;
-  style.strokeColor = color;
-  style.map = objRef.model.map;
-  return style;
-}
-
-//TBD: add JSDoc info
-MapPaneOL.getDefaultStyle = function(){
-  return new Object({
-    fillColor: "#ee9900",
-    fillOpacity: 0.4,
-    hoverFillColor: "white",
-    hoverFillOpacity: 0.8,
-    strokeColor: "#ee9900",
-    strokeOpacity: 1,
-    strokeWidth: 1,
-    hoverStrokeColor: "red",
-    hoverStrokeOpacity: 1,
-    hoverStrokeWidth: 0.2,
-    pointRadius: 6,
-    hoverPointRadius: 1,
-    hoverPointUnit: "%",
-    pointerEvents: "visiblePainted"
-  });
 }
