@@ -34,7 +34,6 @@ function GmlRendererOL(widgetNode, model) {
   this.paint = function(objRef) {
     // remove and destroy layer
     if (objRef.olLayer) {
-      objRef.targetModel.map.removeLayer(objRef.olLayer);
       objRef.olLayer.destroy();
     }
     var doc = objRef.model.doc;
@@ -86,6 +85,7 @@ function GmlRendererOL(widgetNode, model) {
     objRef.targetModel.map.addLayer(objRef.olLayer);
   }
   this.model.addListener("refresh",this.paint, this);
+  this.model.addListener("newModel",this.paint, this);
 
   /**
    * Called when the context's hidden attribute changes.
