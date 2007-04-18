@@ -67,13 +67,13 @@
     </Transaction>
     <FeatureCollection id="featureCollection">
       <widgets>
-        <TipWidget id="featurePopup">
+        <!-- TipWidget id="featurePopup">
           <stylesheet>popup.xsl</stylesheet>
           <width>250</width>
           <height>180</height>
           <opacity>0.7</opacity>
           <backgroundColor>yellow</backgroundColor>
-        </TipWidget>
+        </TipWidget -->
         <GmlRendererOL id="testGmlRenderer">
           <htmlTagId>mainMapPane</htmlTagId>
           <targetModel>mainMap</targetModel>
