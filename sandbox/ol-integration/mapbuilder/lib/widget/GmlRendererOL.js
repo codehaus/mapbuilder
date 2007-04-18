@@ -38,7 +38,10 @@ function GmlRendererOL(widgetNode, model) {
     }
     var doc = objRef.model.doc;
     // nothing to do here if there is no model doc
-    if (!doc) return;
+    // or if the model doc contains an editing template
+    if (!doc || objRef.model.getParam('isTemplate') == true) {
+      return;
+    }
     
     // get style for features
     var style = new Object();
@@ -53,7 +56,6 @@ function GmlRendererOL(widgetNode, model) {
         style.polygon = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode('//sld:PolygonSymbolizer'));
       }
     }
-
     // create modified OpenLayers GML layer class, which
     // uses a gml doc directly instead of loading it from
     // an URL

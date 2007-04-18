@@ -64,6 +64,8 @@ function EditButtonBase(widgetNode, model) {
     httpPayload.url=objRef.defaultModelUrl;
     httpPayload.method="get";
     httpPayload.postData=null;
+    // indicates that the model contains a template for editing
+    objRef.targetModel.setParam('isTemplate', true);
     objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
    }
 
@@ -76,6 +78,8 @@ function EditButtonBase(widgetNode, model) {
   this.handleFeatureInsert = function(feature) {
     // use the objRef reference stored by setEditingLayer()
     var objRef = feature.layer.mbButton;
+    // indicates that now the model contains valid geometry
+    objRef.targetModel.setParam('isTemplate', false);
     objRef.setFeature(objRef, feature);
     // destroy the feature in OL, because we do not use
     // the OL vector layer for displaying the feature
