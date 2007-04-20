@@ -27,6 +27,10 @@ function WfsGetFeature(widgetNode, model) {
     method: "get",
     postData: null
   });
+  var typeNameNode = widgetNode.selectSingleNode('mb:typeName');
+  if (typeNameNode != null) {
+    this.typeName = typeNameNode.firstChild.nodeValue;
+  }
   this.maxFeatures = widgetNode.selectSingleNode('mb:maxFeatures');
   this.maxFeatures = this.maxFeatures ? this.maxFeatures.firstChild.nodeValue : 1;
   this.webServiceUrl= widgetNode.selectSingleNode('mb:webServiceUrl').firstChild.nodeValue;
@@ -44,7 +48,6 @@ function WfsGetFeature(widgetNode, model) {
       CLASS_NAME: 'mbControl.WfsGetFeature',
       type: OpenLayers.Control.TYPE_TOOL, // constant from OpenLayers.Control
   	  tolerance: new Number(objRef.widgetNode.selectSingleNode('mb:tolerance').firstChild.nodeValue),
-  	  typeName: objRef.widgetNode.selectSingleNode('mb:typeName').firstChild.nodeValue,
   	  httpPayload: objRef.httpPayload,
   	  maxFeatures: objRef.maxFeatures,
   	  webServiceUrl: objRef.webServiceUrl,
@@ -71,12 +74,42 @@ function WfsGetFeature(widgetNode, model) {
             new OpenLayers.Pixel(position.x+this.tolerance, position.y-this.tolerance));
         }
         bounds = new OpenLayers.Bounds(minXY.lon, minXY.lat, maxXY.lon, maxXY.lat);
+
+      var typeName = objRef.typeName;
+
+      if (!typeName) {
+        var queryList=objRef.targetModel.getQueryableLayers();
+        if (queryList.length==0) {
+          alert(mbGetMessage("noQueryableLayers"));
+          return;
+        }
+        else {
+          typeName = "";
+          for (var i=0; i<queryList.length; ++i) {
+            var layerNode=queryList[i];
+            var layerName=layerNode.firstChild.data;
+            var hidden = objRef.targetModel.getHidden(layerName);
+            if (hidden == 0) { //query only visible layers
+              if (typeName != "") {
+                typeName += ",";
+              }
+              typeName += layerName;
+            }
+          }
+        }
+      }
+
+      if (typeName=="") {
+        alert(mbGetMessage("noQueryableLayersVisible"));
+        return;
+      }
+
         // now create request url
         this.httpPayload.url = this.webServiceUrl+OpenLayers.Util.getParameterString({
           SERVICE: "WFS",
           VERSION: "1.0.0",
           REQUEST: "GetFeature",
-          TYPENAME: this.typeName,
+          TYPENAME: typeName,
           MAXFEATURES: this.maxFeatures,
           BBOX: bounds.toBBOX()
         });

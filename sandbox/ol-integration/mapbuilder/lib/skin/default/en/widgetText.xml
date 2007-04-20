@@ -214,6 +214,10 @@
       There are no queryable layers available,
       please add a queryable layer to the context.
     </noQueryableLayers>
+    <noQueryableLayersVisible>
+      There are no queryable layers visible,
+      please mark a queryable layer in the legend.
+    </noQueryableLayersVisible>
     <noRssTitle>No RSS title</noRssTitle>
     <northWgs84>North (WGS84)</northWgs84>
     <noSerializeUrl>serializeUrl must be specified in config to save a model</noSerializeUrl>
