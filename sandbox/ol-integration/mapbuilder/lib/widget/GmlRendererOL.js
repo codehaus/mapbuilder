@@ -34,7 +34,9 @@ function GmlRendererOL(widgetNode, model) {
   this.paint = function(objRef) {
     // remove and destroy layer
     if (objRef.olLayer) {
+      objRef.model.setParam('gmlRendererLayer', null);
       objRef.olLayer.destroy();
+      objRef.olLayer = null;
     }
     var doc = objRef.model.doc;
     // nothing to do here if there is no model doc
@@ -85,9 +87,17 @@ function GmlRendererOL(widgetNode, model) {
     });
     objRef.olLayer = new OlLayer(objRef.model.id);
     objRef.targetModel.map.addLayer(objRef.olLayer);
+    objRef.model.setParam('gmlRendererLayer', objRef.olLayer);
   }
   this.model.addListener("refresh",this.paint, this);
-  this.model.addListener("newModel",this.paint, this);
+  //TBD I (ahocevar) am not exactly sure why using the newModel
+  // event breaks InsertFeature and DeleteFeature, but only
+  // when used for the first time when no vector rendering was
+  // done before on the GmlRendererLayer. I added a call for the
+  // refreshGmlRenderes listeners in DeleteFeature.js and
+  // InsertFeature.js, and if we listen to that event here
+  // it works.
+  this.model.addListener("refreshGmlRenderers",this.paint, this);
 
   /**
    * Called when the context's hidden attribute changes.
@@ -99,10 +109,4 @@ function GmlRendererOL(widgetNode, model) {
     alert('hide/unhide '+layerName);
   }
   this.model.addListener("hidden",this.hiddenListener,this);
-  
-  this.extractStyles = function(objRef, sldDoc) {
-    var sldDoc = objRef.doc;
-    alert(arguments.length);    
-  }
-
 }

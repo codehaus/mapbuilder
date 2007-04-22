@@ -90,6 +90,9 @@ function InsertFeature(widgetNode, model) {
     if (sucess){
       // Remove FeatureList
       objRef.targetModel.setModel(objRef.targetModel,null);
+      
+      // Repaint GmlRenderers
+      objRef.targetModel.callListeners("refreshGmlRenderers");
  
       // Repaint the WMS layers
       objRef.targetContext.callListeners("refreshWmsLayers");

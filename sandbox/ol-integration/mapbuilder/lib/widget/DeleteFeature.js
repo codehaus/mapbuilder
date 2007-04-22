@@ -82,6 +82,9 @@ function DeleteFeature(widgetNode, model) {
       // Remove FeatureList if feature entry was successful.
       objRef.targetModel.setModel(objRef.targetModel,null);
 
+      // Repaint GmlRenderers
+      objRef.targetModel.callListeners("refreshGmlRenderers");
+
       // Repaint the WMS layers
       objRef.targetContext.callListeners("refreshWmsLayers");
     }
