@@ -40,9 +40,8 @@ function EditPolygon(widgetNode, model) {
   }
 
   /**
-   * If the number of exsisting points is less than 2, append the new point to the polygon.
-   * If the number of exsisting points is equal to 2, append the new point AND the first point again.
-   * If the number of exsisting points is greater than 2, remove the last point (the first point), and append the new point AND the first point again.
+   * Write geometry to the GML feature.
+   * Called when a feature is finished
    * @param objRef      Pointer to this object.
    * @param {OpenLayers.Feature} feature The polygon created
    */
