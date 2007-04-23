@@ -109,37 +109,37 @@ alert("after");
 
 
 /**
- * A more flexible interface for loading docs that allows POST et GET param for save model 
+ * A more flexible interface for loading docs that allows POST et GET param for save model
  */
 
 function postGetLoad(sUri, docToSend, contentType , dir, fileName) {
 
    var xmlHttp = new XMLHttpRequest();
-   if ( sUri.indexOf("http://")==0 ) 
+   if ( sUri.indexOf("http://")==0 )
    {
      	xmlHttp.open("POST", config.proxyUrl, false);
      	xmlHttp.setRequestHeader("serverUrl",sUri);
-     	
-     	
-   } 
-   else 
+
+
+   }
+   else
    {
-   
+
    		sUri=sUri+"?dir="+dir+"&fileName="+fileName;
      	xmlHttp.open("POST", sUri, false);
    }
    xmlHttp.setRequestHeader("content-type","text/xml");
    if (contentType) xmlHttp.setRequestHeader("content-type",contentType);
    xmlHttp.send( docToSend );
-   
-   if (xmlHttp.status >= 400) 
+
+   if (xmlHttp.status >= 400)
    {   //http errors status start at 400
       	alert(mbGetMessage("errorLoadingDocument", sUri, xmlHttp.statusText, xmlHttp.responseText));
       	var outDoc = Sarissa.getDomDocument();
       	outDoc.parseError = -1;
       	return outDoc;
-   } 
-   else 
+   }
+   else
    {
      	if ( null==xmlHttp.responseXML ) alert(mbGetMessage("nullXmlResponse", xmlHttp.responseText));
      	return xmlHttp.responseXML;
@@ -169,7 +169,7 @@ function getProxyPlusUrl(url) {
   /**
    * Browser independant version of createElementNS() because creating elements
    * with namespaces other than the defalut namespace isn't dupported in IE,
-   * or at least I can't figure out how to do it.  
+   * or at least I can't figure out how to do it.
    * Caution: In IE the new element doesn't appear to a namespace!!
    * @param doc the owner document for the new element
    * @param name the name for the new element
@@ -256,16 +256,20 @@ function fixPNG(myImage,myId,oldImage) {
   	// PL - BRGM
   	//opacity of the image
   	if(oldImage) {
-  		var valIEOpacity= oldImage.style.filter.substring(oldImage.style.filter.indexOf('opacity=',0)+8,oldImage.style.filter.indexOf(')',0));
-  		var _opacity= (valIEOpacity)?valIEOpacity/100:-1;    
+
+  		var valIEOpacity= oldImage.style.filter.substring(oldImage.style.filter.indexOf('opacity=',0)+8,oldImage.style.filter.lastIndexOf(')',0));
+  		if(oldImage.style.filter.indexOf('opacity=',0) ==-1){
+  			valIEOpacity = null;
+  		}
+	 		var _opacity= (valIEOpacity)?valIEOpacity/100:-1;
   	}
-	// END		
+	// END
     var imgID = "id='" + myId + "' ";
     var imgClass = (myImage.className) ? "class='" + myImage.className + "' " : ""
     var imgTitle = (myImage.title) ? "title='" + myImage.title + "' " : "title='" + myImage.alt + "' "
-    var imgStyle = "display:inline-block;" + myImage.style.cssText     
-    var strNewHTML = "<span " + imgID + imgClass + imgTitle 
-    
+    var imgStyle = "display:inline-block;" + myImage.style.cssText
+    var strNewHTML = "<span " + imgID + imgClass + imgTitle
+
     strNewHTML += " style=\"" + "width:" + myImage.width + "px; height:" + myImage.height + "px;" + imgStyle + ";"
     // store the opacity in the style even not used by IE
     if (_opacity!=-1) strNewHTML += "opacity=" + _opacity + ";" ;
@@ -277,13 +281,13 @@ function fixPNG(myImage,myId,oldImage) {
     // AlphaImageLoader converts '%23' in src to '#' and cuts URL on '#'
     src = src.replace(/%23/g,'%2523');
     strNewHTML += "filter:progid:DXImageTransform.Microsoft.AlphaImageLoader";
-    strNewHTML += "(src=\'" + src + "\', sizingMethod='scale')"; 
-   
+    strNewHTML += "(src=\'" + src + "\', sizingMethod='scale')";
+
     // PL - BRGM
     // add the opacity
 		if (oldImage && _opacity!=-1) strNewHTML +=  " alpha(opacity=" + (_opacity * 100) + ")";
 		strNewHTML +="; \"></span>" ;
-	// END PL - BRGM			
+	// END PL - BRGM
     //myImage.outerHTML = strNewHTML;
     //alert(strNewHTML);
     return strNewHTML;
@@ -371,7 +375,7 @@ function getPageY(e){
 }
 
 /**
- * parse comma-separated name=value argument pairs from the query string of the URL; the function stores name=value pairs in properties of an object and returns that object. 
+ * parse comma-separated name=value argument pairs from the query string of the URL; the function stores name=value pairs in properties of an object and returns that object.
  * @return args Array of arguments passed to page, in form args[argname] = value.
  */
 function getArgs(){
