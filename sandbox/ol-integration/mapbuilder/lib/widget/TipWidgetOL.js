@@ -68,23 +68,14 @@ function TipWidgetOL(widgetNode, model) {
     var feature = this;
     var objRef = feature.mbTipWidget;
     objRef.stylesheet.setParameter('fid', feature.fid);
-    var g = new OpenLayers.Format.GML();
-    var gml = g.write([feature]);
     var lonlat = feature.layer.map.getLonLatFromPixel(evt.xy);
-    // offset the popup a little bit from the click position
-    // to make sure to be outside the bubble when the feature
-    // is clicked, so it stays on screen when moving the mouse
-    // into it.
-    var anchor = {size: {w:3, h:3}, offset: {x:0, y:0}};
     var popup = new OpenLayers.Popup.AnchoredBubble(
         null, lonlat, new OpenLayers.Size(objRef.width, objRef.height),
-        new XMLSerializer().serializeToString(objRef.stylesheet.transformNodeToObject(objRef.model.doc)),
-        anchor);
-    // destroy the bubble onmouseout
-    OpenLayers.Event.observe(popup.div, "click", 
-        popup.destroy.bindAsEventListener(popup));
+        new XMLSerializer().serializeToString(objRef.stylesheet.transformNodeToObject(objRef.model.doc)));
     popup.setOpacity(objRef.opacity);
     popup.setBackgroundColor(objRef.backgroundColor);
+    // destroy the bubble onmouseout
+    popup.events.register('mouseout', popup, popup.destroy);
     feature.layer.map.addPopup(popup, true);
     // stop the event so other tools will not be triggered
     // when the user clicked on a feature.
