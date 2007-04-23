@@ -27,16 +27,16 @@ $Id$
   <!-- featureInfo -->
   <xsl:template match="wfs:FeatureCollection/gml:featureMember">
   	<xsl:if test="*[@fid=$fid]">
-    	<table border="1">
-    	<xsl:for-each select="*/topp:*">
-    	<xsl:if test="name() != 'topp:the_geom'">
-     	<tr>
-    	<td valign="top"><xsl:value-of select='name()'/></td><td><xsl:value-of select="."/></td>
-    	</tr>
-    	</xsl:if>
-    	</xsl:for-each>
-    	</table>
-  	</xsl:if>
+  	  <table border="1">
+  	  <xsl:for-each select="*/topp:*">
+  	    <xsl:if test="name() != 'topp:the_geom'">
+   	    <tr>
+  	      <td valign="top"><xsl:value-of select='name()'/></td><td><xsl:value-of select="."/></td>
+  	    </tr>
+  	    </xsl:if>
+  	  </xsl:for-each>
+  	  </table>
+  	  </xsl:if>
   </xsl:template>
 
   <!-- Remove documentation, text, comments -->
