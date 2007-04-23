@@ -26,9 +26,9 @@ $Id$
 
 
   <!-- featureInfo -->
-  <xsl:template match="wfs:FeatureCollection/gml:featureMember/*[@fid=$fid]">
+  <xsl:template match="wfs:FeatureCollection/gml:featureMember">
   	<table border="1">
-  	<xsl:for-each select="topp:*">
+  	<xsl:for-each select="*[@fid=$fid]/topp:*">
   	<xsl:if test="name() != 'topp:the_geom'">
    	<tr>
   	<td valign="top"><xsl:value-of select='name()'/></td><td><xsl:value-of select="."/></td>
