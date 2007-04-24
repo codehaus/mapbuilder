@@ -212,9 +212,13 @@
     <noMouseHandlerTool>Erreur trouvant mouseHandler: {0} pour outil: {1}</noMouseHandlerTool>
     <noPropertySelected>Pas de propriété selectionnée</noPropertySelected>
     <noQueryableLayers>
-      Il n'a pas de couches interactifs (queryable) disponibles,
+      Il n'a pas de couches interactifs disponibles,
       ajoutez une couche au contexte, svp.
     </noQueryableLayers>
+    <noQueryableLayersVisible>
+      Il n'y a aucune couche interactive évidente,
+      marquent une couche interactive dans la légende, svp.
+    </noQueryableLayersVisible>
     <noRssTitle>Pas de titre RSS</noRssTitle>
     <northWgs84>Nord (WGS84)</northWgs84>
     <noSerializeUrl>serializeUrl doit être indiqué dans configuration afin de sauvegarder un modèle</noSerializeUrl>

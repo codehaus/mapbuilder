@@ -214,6 +214,10 @@
       Nessun tematismo interrogabile disponibile,
       aggiungere al context un tematismo interrogabile.
     </noQueryableLayers>
+    <noQueryableLayersVisible>
+      Non ci sono strati interrogabile visibili,
+      prego contrassegnano uno strato interrogabile nella leggenda.
+    </noQueryableLayersVisible>
     <noRssTitle>Titolo RSS assente</noRssTitle>
     <northWgs84>Nord (WGS84)</northWgs84>
     <noSerializeUrl>definire la proprietà serializeUrl in config</noSerializeUrl>

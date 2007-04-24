@@ -214,6 +214,10 @@
       Er zijn geen bevraagbare lagen beschikbaar,
       voeg een bevraagbare laag aan de context toe.
     </noQueryableLayers>
+    <noQueryableLayersVisible>
+      Er zijn geen bevraagbare lagen zichtbaar,
+      markeer een bevraagbare laag in de legenda.
+    </noQueryableLayersVisible>
     <noRssTitle>Geen RSS-titel</noRssTitle>
     <northWgs84>Noord (WGS84)</northWgs84>
     <noSerializeUrl>serializeUrl moet gezet zijn in configuratie om een model te kunnen opslaan</noSerializeUrl>
