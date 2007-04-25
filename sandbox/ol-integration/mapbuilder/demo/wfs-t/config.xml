@@ -69,11 +69,11 @@
       <widgets>
         <TipWidgetOL id="featurePopup">
           <targetContext>mainMap</targetContext>
-          <stylesheet>popup.xsl</stylesheet>
           <width>200</width>
           <height>150</height>
-          <opacity>0.7</opacity>
-          <backgroundColor>yellow</backgroundColor>
+          <opacity>0.8</opacity>
+          <backgroundColor>#D0D0D0</backgroundColor>
+          <border>1px solid black</border>
         </TipWidgetOL>
         <GmlRendererOL id="testGmlRenderer">
           <htmlTagId>mainMapPane</htmlTagId>

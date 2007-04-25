@@ -167,3 +167,31 @@ background-color:Transparent;
     cursor:pointer;
 }
 /*****************************************LAYERCONTROL************************************/
+
+/**************** MAPTIP POPUPS ************************/
+
+#mainMapPane .olPopupContent {
+		padding: 0px;
+}
+
+.PopupContainer {
+		cursor:default;
+		position:relative;
+		overflow:auto;
+		height:100%;
+		width:100%;
+}
+
+.PopupHeader {
+		padding:2px;
+		height:14px;
+		width=100%;
+		background-color:#00008B;
+		color:white;
+}
+
+.PopupContent {
+		padding:2px;
+}
+
+/**************** END MAPTIP POPUPS ********************/

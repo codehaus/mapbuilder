@@ -19,8 +19,11 @@ $Id$
 
   <!-- Main html - It matches only non-empty results -->
   <xsl:template match="/">
-  	<div style='text-align: cursor: default; center; position:relative; overflow:auto; height:100%; width:100%'>
-      <xsl:apply-templates/>
+  	<div class="PopupContainer">
+      <div class="PopupHeader">Info</div>
+      <div class="PopupContent">
+        <xsl:apply-templates/>
+      </div>
     </div>
   </xsl:template>
 

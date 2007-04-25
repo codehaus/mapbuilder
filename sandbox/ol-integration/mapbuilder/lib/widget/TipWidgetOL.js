@@ -25,11 +25,13 @@ function TipWidgetOL(widgetNode, model) {
   var width = widgetNode.selectSingleNode('mb:width');
   this.width = width ? width.firstChild.nodeValue : 200;
   var height = widgetNode.selectSingleNode('mb:height');
-  this.height = height ? height.firstChild.nodeValue : 200;
+  this.height = height ? height.firstChild.nodeValue : 150;
   var opacity = widgetNode.selectSingleNode('mb:opacity');
-  this.opacity = opacity ? opacity.firstChild.nodeValue : 0.8;
+  this.opacity = opacity ? opacity.firstChild.nodeValue : 1;
   var backgroundColor = widgetNode.selectSingleNode('mb:backgroundColor');
-  this.backgroundColor = backgroundColor ? backgroundColor.firstChild.nodeValue : 'yellow';
+  this.backgroundColor = backgroundColor ? backgroundColor.firstChild.nodeValue : 'D0D0D0';
+  var border = widgetNode.selectSingleNode('mb:border');
+  this.border = border ? border.firstChild.nodeValue : '0px';
 
   this.control = null;
   
@@ -69,13 +71,14 @@ function TipWidgetOL(widgetNode, model) {
     var objRef = feature.mbTipWidget;
     objRef.stylesheet.setParameter('fid', feature.fid);
     var lonlat = feature.layer.map.getLonLatFromPixel(evt.xy);
-    var popup = new OpenLayers.Popup.AnchoredBubble(
-        null, lonlat, new OpenLayers.Size(objRef.width, objRef.height),
-        new XMLSerializer().serializeToString(objRef.stylesheet.transformNodeToObject(objRef.model.doc)));
+    var popup = new OpenLayers.Popup.Anchored();
+    popup.padding = 0;
+    popup.initialize(null, lonlat, new OpenLayers.Size(objRef.width, objRef.height),
+        new XMLSerializer().serializeToString(objRef.stylesheet.transformNodeToObject(objRef.model.doc)),
+        null, true);
     popup.setOpacity(objRef.opacity);
     popup.setBackgroundColor(objRef.backgroundColor);
-    // destroy the bubble onmouseout
-    popup.events.register('mouseout', popup, popup.destroy);
+    popup.setBorder(objRef.border);
     feature.layer.map.addPopup(popup, true);
     // stop the event so other tools will not be triggered
     // when the user clicked on a feature.
