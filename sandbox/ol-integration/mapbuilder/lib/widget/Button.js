@@ -8,7 +8,8 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 
 /**
- * Generic Button object.
+ * Generic Button object. Set the <action> property in config for
+ * the controller method to be called when selected
  * @base ButtonBase
  * @author Andreas Hocevar andreas.hocevarATgmail.com
  * @param widgetNode      The tool node from the Config XML file.
@@ -32,7 +33,22 @@ function Button(widgetNode, model) {
    * @return class (not instance!) of the OL control.
    */
   this.createControl = function(objRef) {
-  	//return OpenLayers.Control class
+    var Control = OpenLayers.Class.create();
+    Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
+      CLASS_NAME: 'mbControl.'+objRef.id,
+      type: (objRef.buttonType == 'RadioButton') ? OpenLayers.Control.TYPE_TOOL : OpenLayers.Control.TYPE_BUTTON,
+      // for button type      
+      trigger: function() {
+        eval('config.objects.'+objRef.action);
+      },
+      // for tool type (RadioButton)
+      activate: function() {
+        eval('config.objects.'+objRef.action);
+        this.active = true;
+        return true;
+      }
+    });
+    return Control;
   }
   
   /**
@@ -48,6 +64,8 @@ function Button(widgetNode, model) {
    */
   this.instantiateControl = function(objRef, Control) {
     // return OpenLayers.Control instance
+    return new Control();
+    
   }
 }
 

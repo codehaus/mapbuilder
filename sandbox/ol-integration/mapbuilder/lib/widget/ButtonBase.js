@@ -70,6 +70,18 @@ function ButtonBase(widgetNode, model) {
   this.buttonType = widgetNode.selectSingleNode("mb:class").firstChild.nodeValue;
   if (this.buttonType == "RadioButton") this.enabled = false;
 
+  //set the button action
+  var action = widgetNode.selectSingleNode("mb:action");
+  if (action) {
+    this.action = action.firstChild.nodeValue;
+  }
+  
+  // set the button tooltip
+  var tooltip = widgetNode.selectSingleNode("mb:tooltip");
+  if (tooltip) {
+    this.tooltip = tooltip.firstChild.nodeValue;
+  }
+
   //pre-load the button bar images; add them to the config
   var disabledImage = widgetNode.selectSingleNode("mb:disabledSrc");
   if (disabledImage) {
@@ -226,7 +238,9 @@ function ButtonBase(widgetNode, model) {
     objRef.panel.addControls(objRef.control);
      
     // set tooltip for the button
-    objRef.control.panel_div.title=objRef.tooltip;
+    if (objRef.tooltip) {
+      objRef.control.panel_div.title=objRef.tooltip;
+    }
     
     // add cursor css classname to map pane div if not set yet
     if (objRef.mapPaneDiv.className.indexOf('mbCursor') == -1) {
