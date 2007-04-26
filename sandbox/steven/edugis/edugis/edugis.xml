@@ -57,6 +57,10 @@
 				<History id="extentHistory">
 					<targetModel>mainMap</targetModel>
 				</History>
+				<GenerateSld id="generateSld">
+					<scriptFile>../customlib/tool/GenerateSld.js</scriptFile>
+					<targetModel>sld</targetModel>
+				</GenerateSld>
 			</tools>
 		</OwsContext>
 		<OwsContext id="locator">
@@ -201,6 +205,8 @@
 				</EditContext>
 			</tools>
 		</WmsCapabilities>
+		<StyledLayerDescriptor id="sld">
+		</StyledLayerDescriptor>
 	</models>
 	<widgets>
 		<Back id="back">

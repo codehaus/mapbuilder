@@ -1,6 +1,6 @@
 /*
 License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
-$Id: Mapbuilder.js 2121 2006-06-12 21:35:13Z lderezinski $
+$Id: Mapbuilder.js 2353 2006-11-25 05:25:16Z camerons $
 */
 
 /** get a time stamp at start of the page load */
@@ -77,7 +77,7 @@ function Mapbuilder() {
 
       // Scripts are removed from array when they have loaded
       while(this.loadingScripts.length>0
-        &&(this.loadingScripts[0].readyState=="uninitialized"||this.loadingScripts[0].readyState=="loaded"
+        &&(this.loadingScripts[0].readyState=="loaded"
           ||this.loadingScripts[0].readyState=="complete"
           ||this.loadingScripts[0].readyState==null))
       {
@@ -142,7 +142,11 @@ function Mapbuilder() {
   
     if(!document.getElementById(url)){
       var script = document.createElement('script');
-      script.readyState=='complete';
+      script.defer = false;   //not sure of effect of this?
+      script.type = "text/javascript";
+      script.src = url;
+      script.id = url;
+      document.getElementsByTagName('head')[0].appendChild(script);
       this.loadingScripts.push(script);
     }
   }

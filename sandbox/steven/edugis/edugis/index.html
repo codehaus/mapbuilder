@@ -6,7 +6,7 @@
 var mbConfigUrl='edugis.xml';
 var language='nl';
 </script>
-<script type="text/javascript" src="../lib/MapbuilderCompressed.js">
+<script type="text/javascript" src="../lib/Mapbuilder.js">
 </script>
 <script type="text/javascript">
 <!--
@@ -114,12 +114,12 @@ window.location=document.getElementById("menu").value
 <form>
 <select id="menu" onchange="go()">
 <option value="#">Kies een categorie</option>
-<option value="javascript:config.loadModel('wmsCapTemplate','/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/cbs.map&&version=1.1.0&request=GetCapabilities&service=WMS')">Bevolking (Nederland)</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','http://edugis-ont/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/cbs.map&&version=1.1.0&request=GetCapabilities&service=WMS')">Bevolking (Nederland)</option>
 <<option value="javascript:config.loadModel('wmsCapTemplate','../ahn.xml')">Hoogte t.o.v. N.A.P.(Nederland)</option>
 <option value="javascript:config.loadModel('wmsCapTemplate','../ehs.xml')">Ruimte (Nederland)</option>
 <option value="javascript:config.loadModel('wmsCapTemplate','../kadaster.xml')">Kadastrale gegevens (Nederland)</option>
-<option value="javascript:config.loadModel('wmsCapTemplate','/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/water.map&&version=1.1.0&request=GetCapabilities&service=WMS')">Water (Nederland)</option>
-<option value="javascript:config.loadModel('wmsCapTemplate','/cgi-bin-noncache/edugis/mapserv.cgi?map=maps/edugis/data.map&&version=1.1.0&request=GetCapabilities&service=WMS')">Toegevoegde gegevens</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','http://edugis-ont/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/water.map&&version=1.1.0&request=GetCapabilities&service=WMS')">Water (Nederland)</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','http://edugis-ont/cgi-bin-noncache/edugis/mapserv.cgi?map=maps/edugis/data.map&&version=1.1.0&request=GetCapabilities&service=WMS')">Toegevoegde gegevens</option>
 <option value="javascript:config.loadModel('wmsCapTemplate','../topografie.xml')">Topografie (Nederland)</option>
 </select>
 </form>

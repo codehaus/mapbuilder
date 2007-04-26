@@ -38,12 +38,12 @@
   </General>  
     
   <ResourceList>
-    <Layer queryable="0" hidden="0">
+    <Layer queryable="1" hidden="0">
      <Server service="wms-c" version="1.1.0" title="wms">
-       <OnlineResource xlink:type="simple" xlink:href="/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base.map"/>
+       <OnlineResource xlink:type="simple" xlink:href="http://edugis-ont/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/hoogte.map"/>
      </Server>
-     <Name>topografie</Name>
-     <Title>topografie</Title>
+     <Name>hoogtes</Name>
+     <Title>hoogtes</Title>
      <SRS>EPSG:28992</SRS>
      <FormatList>
        <Format current="1">image/gif</Format>

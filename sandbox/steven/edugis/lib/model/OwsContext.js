@@ -54,6 +54,35 @@ function OwsContext(modelNode, parent) {
     var layer=this.getFeatureNode(layerName)
     return layer.getAttribute("hidden");
   }
+/**
+   * Method to add a Sld to the StyleList
+   * @param layerName the Layer name from another context doc or capabiltiies doc
+   */
+  this.addSLD = function(objRef,sldNode) {
+	//  	alert("context addSLD : "+objRef.id);
+  	var layerName=sldNode.selectSingleNode("//Name").firstChild.nodeValue; 
+   	var parentNode = objRef.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']");
+    parentNode.appendChild(sldNode.cloneNode(true));
+ //SMO: TODO de SLD moet natuurlijk aan de bestaande stylelist worden toegevoegd!
+    objRef.modified = true;
+  }
+  this.addFirstListener( "addSLD", this.addSLD, this );
+/**
+   * Method to add a Sld to the StyleList
+   * @param layerName the Layer name from another context doc or capabiltiies doc
+   */
+  this.removeSLD = function(objRef,layerName) {
+   	var baseNode = objRef.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']");
+		var sldNode=baseNode.selectSingleNode("//SLD");
+		if(!sldNode) {
+		alert('geen jager, geen neger');
+		return;
+		}
+ 	  sldNode.parentNode.removeChild(sldNode);
+ 
+    objRef.modified = true;
+  }
+  this.addFirstListener( "removeSLD", this.removeSLD, this );
 
  /**
    * Change a Layer's transparancy.
@@ -338,6 +367,7 @@ function OwsContext(modelNode, parent) {
     }
     return null;
   }
+  
   /**
    * Method to add a Layer to the LayerList
    * @param layerNode the Layer node from another context doc or capabiltiies doc
