@@ -30,7 +30,7 @@ $Id$
   <!-- featureInfo -->
   <xsl:template match="wfs:FeatureCollection/gml:featureMember">
   	<xsl:if test="*[@fid=$fid]">
-  	  <table border="1">
+  	  <table cellspacing="0" border="0">
   	  <xsl:for-each select="*/topp:*">
   	    <xsl:if test="name() != 'topp:the_geom'">
    	    <tr>
