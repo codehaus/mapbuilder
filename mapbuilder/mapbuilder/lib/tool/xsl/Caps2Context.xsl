@@ -15,7 +15,7 @@ $Name:  $
 -->
   <xsl:output method="xml" indent="yes"/>
 
-  <xsl:param name="width">400</xsl:param>
+  <xsl:param name="width">600</xsl:param>
   <xsl:param name="selectedLayer"/>
   <xsl:param name="styleName">composite</xsl:param>
   
@@ -116,6 +116,7 @@ $Name:  $
   
     <xsl:param name="defLayers" select="wms:Capability//wms:Layer[wms:Name=$selectedLayer]"/>    
     <xsl:param name="defLayer" select="$defLayers[1]"/>
+    <xsl:param name="bbox" select="//wms:BoundingBox"/> <!-- use first bbox encountered, override as a param -->
     <xsl:variable name="abstract" select="$defLayer/wms:Abstract"/>
     <xsl:variable name="title" select="$defLayer/wms:Title"/>
     <xsl:variable name="infoLink" select="$defLayer/wms:MetadataURL/wms:OnlineResource/@xlink:href"/>
@@ -127,7 +128,6 @@ $Name:  $
       <General>
         <Title><xsl:value-of select="$title"/></Title>
         <Abstract><xsl:value-of select="$abstract"/></Abstract>
-        <xsl:variable name="bbox" select="$defLayer/wms:BoundingBox"/>
         <xsl:variable name="minx" select="number($bbox/@minx)"/>
         <xsl:variable name="maxx" select="number($bbox/@maxx)"/>
         <xsl:variable name="miny" select="number($bbox/@miny)"/>
@@ -142,6 +142,7 @@ $Name:  $
           <xsl:variable name="dx" select=" $maxx - $minx "/>
           <xsl:variable name="height" select="round(($dy div $dx)*$width)"/>
           <Window width="{$width}" height="{$height}"/>
+          <!--Window width="600" height="300"/-->
         </xsl:otherwise></xsl:choose>
         <BoundingBox SRS="{$srs}" minx="{$minx}" miny="{$miny}" maxx="{$maxx}" maxy="{$maxy}"/>
         <DescriptionURL format="text/html">

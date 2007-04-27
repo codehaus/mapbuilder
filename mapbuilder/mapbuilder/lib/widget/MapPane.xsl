@@ -142,6 +142,12 @@ xmlns:xlink="http://www.w3.org/1999/xlink"
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
+    <xsl:variable name="srsParamName">
+      <xsl:choose>
+        <xsl:when test="starts-with($version, '1.3')">CRS</xsl:when>            
+        <xsl:otherwise>SRS</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
 
     <div>    
       <xsl:attribute name="style">position:absolute; visibility:<xsl:value-of select="$visibility"/>; top:0px; left:0px;</xsl:attribute>
@@ -158,7 +164,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink"
             <xsl:value-of select="$firstJoin"/>
             <xsl:value-of select="$mapRequest"/>
 &amp;LAYERS=<xsl:value-of select="$layerName"/>
-   &amp;SRS=<xsl:value-of select="$srs"/>
+   &amp;<xsl:value-of select="$srsParamName"/>=<xsl:value-of select="$srs"/>
   &amp;BBOX=<xsl:value-of select="$bbox"/>
  &amp;WIDTH=<xsl:value-of select="$width"/>
 &amp;HEIGHT=<xsl:value-of select="$height"/>

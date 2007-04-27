@@ -34,35 +34,4 @@
       <OnlineResource xlink:type="simple" xlink:href="tsEstPrecip10Day.xml"/>
     </ContextURL>
   </ViewContextReference>
-  <ViewContextReference version="1.0.0" id="tsWorldTemp">
-    <Title>World Temperature (NASA)</Title>
-    <ContextURL>
-      <OnlineResource xlink:type="simple" xlink:href="tsWorldTemp.xml"/>
-    </ContextURL>
-  </ViewContextReference>
-  <!--ViewContextReference version="1.0.0" id="tsOzoneMLS">
-    <Title>Ozone from new Microwave Limb Sounder on Aura (72x89 - no zoom) (NASA)</Title>
-    <ContextURL>
-      <OnlineResource xlink:type="simple" xlink:href="tsOzoneMLS.xml"/>
-    </ContextURL>
-  </ViewContextReference>
-  <ViewContextReference version="1.0.0" id="tsAfricaFires">
-    <Title>African Fires during 2002 (1024x1024 Animation)</Title>
-    <ContextURL>
-      <OnlineResource xlink:type="simple" xlink:href="tsAfricaFires.xml"/>
-    </ContextURL>
-  </ViewContextReference>
-  <ViewContextReference version="1.0.0" id="tsChinaDustStorm">
-    <Title>China Dust Storm during April 2001 (1024x512 - no zoom) (NASA)</Title>
-    <ContextURL>
-      <OnlineResource xlink:type="simple" xlink:href="tsChinaDustStorm.xml"/>
-    </ContextURL>
-  </ViewContextReference>
-  <ViewContextReference version="1.0.0" id="tsYellowstoneFires">
-    <Title>Wildfire Growth around Yellowstone National Park in 1988 (1024x1024 - no zoom) (NASA)</Title>
-    <ContextURL>
-      <OnlineResource xlink:type="simple" xlink:href="tsYellowstoneFires.xml"/>
-    </ContextURL>
-  </ViewContextReference-->
-  
 </ViewContextCollection>
