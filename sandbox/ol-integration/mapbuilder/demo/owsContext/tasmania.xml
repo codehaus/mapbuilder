@@ -4,7 +4,7 @@
 
     id="ows-context-tie"
 
-    xmlns="http://www.opengis.net/oc"
+    xmlns="http://www.opengis.net/context"
 
     xmlns:xlink="http://www.w3.org/1999/xlink"
 
@@ -16,11 +16,9 @@
 
     xmlns:ows="http://www.opengis.net/ows"
 
-    xsi:schemaLocation="http://www.opengis.net/oc ../../lib/schemas/oc_0_0_13.xsd
-        http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd
-        http://www.opengis.net/ogc http://schemas.opengis.net/filter/1.0.0/filter.xsd
-        http://www.opengis.net/ows http://schemas.opengis.net/ows/1.0.0/owsAll.xsd
-        http://www.w3.org/1999/xlink http://schemas.opengis.net/xlink/1.0.0/xlinks.xsd">
+    xmlns:param="http;//www.opengis.net/param"
+
+    xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
 
   <General>
 
@@ -57,12 +55,8 @@
     </DescriptionURL>
 
     <ows:ServiceProvider>
-      <ows:ProviderName></ows:ProviderName>
-      <ows:ProviderSite xlink:type="simple" xlink:href="" />
-      <ows:ServiceContact>
-        <ows:IndividualName></ows:IndividualName>
-      </ows:ServiceContact>
-    </ows:ServiceProvider>
+
+  </ows:ServiceProvider>
 
   </General>
 
