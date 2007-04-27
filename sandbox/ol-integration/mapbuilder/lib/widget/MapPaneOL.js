@@ -232,7 +232,7 @@ MapPaneOL.prototype.sld2UrlParam = function(objRef, node) {
         params.sld_body=(new XMLSerializer()).serializeToString(sld.selectSingleNode("wmc:StyledLayerDescriptor"));    		
       }
     } else if(name) {
-      params.styles=name.firstChild.nodeValue;	
+      params.styles=(name.firstChild)?name.firstChild.nodeValue:"";	
     }
   }  
   return params;
