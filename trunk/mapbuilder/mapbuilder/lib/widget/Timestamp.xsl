@@ -30,7 +30,7 @@ Abstract.xsl,v 1.5 2004/06/25 17:59:38 madair1 Exp
   
   <!-- readonly input element to display the time value -->
   <xsl:template match="mb:TimestampList">
-    <input id="timestampValue" type="text" size="10" class="bareInput" readonly="true">
+    <input id="timestampValue" type="text" size="20" class="bareInput" readonly="true">
       <xsl:attribute name="value">
         <xsl:value-of select="mb:Timestamp[@current='1']"/>
       </xsl:attribute>
@@ -42,7 +42,7 @@ Abstract.xsl,v 1.5 2004/06/25 17:59:38 madair1 Exp
   and this part of the extension is output without any apparent namespace
   -->
   <xsl:template match="TimestampList">
-    <input id="timestampValue" type="text" size="10" class="bareInput" readonly="true">
+    <input id="timestampValue" type="text" size="20" class="bareInput" readonly="true">
       <xsl:attribute name="value">
         <xsl:value-of select="Timestamp[@current='1']"/>
       </xsl:attribute>
