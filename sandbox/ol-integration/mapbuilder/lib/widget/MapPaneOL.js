@@ -447,7 +447,12 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       params=objRef.sld2UrlParam(objRef, currentStyle);
       objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
           layers: name2,
-          //true in upper case else the context doc boston.xml doesn't work
+          // "TRUE" in upper case else the context doc boston.xml
+          // (i.c. the IONIC WMS/WFS) doesn't work.
+          // Note that this is in line with the WMS standard (OGC 01-068r2),
+          // section 6.4.1 Parameter Ordering and Case:
+          // "Parameter names shall not be case sensitive,
+          //  but parameter values shall be case sensitive."
           transparent:"TRUE",
           format: format,
           sld:params.sld,
