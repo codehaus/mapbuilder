@@ -109,7 +109,6 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     // calculate it from the BBox  in the Context.
     if(!maxExtent){
       maxExtent=objRef.model.getBoundingBox();
-      width=objRef.model.getWindowWidth();
     }
     maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
     if(maxExtent==null)alert(mbGetMessage("noBboxInContext"));
@@ -430,7 +429,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
      };
 
   switch(service){
-    // WMS Layer
+    // WMS Layer (Untiled)
     case "OGC":
     case "WMS":
     case "wms":
@@ -445,7 +444,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       }
       var params = new Array();
       params=objRef.sld2UrlParam(objRef, currentStyle);
-      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
+      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS.Untiled(title,href,{
           layers: name2,
           // "TRUE" in upper case else the context doc boston.xml
           // (i.c. the IONIC WMS/WFS) doesn't work.
@@ -461,7 +460,31 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         },
         layerOptions
       );
+    break;
 
+    // WMS-C Layer (Tiled)
+    case "WMS-C":
+    case "OGC:WMS-C":
+      if(!objRef.model.map.baseLayer){
+        layerOptions.isBaseLayer=true;
+      }
+      else {
+        //TBD what if we have layers with different projections in the context?
+        layerOptions.reproject=false;
+        layerOptions.isBaseLayer=false;
+      }
+      var params = new Array();
+      params=objRef.sld2UrlParam(objRef, currentStyle);
+      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
+          layers: name2,
+          transparent:"TRUE",
+          format: format,
+          sld:params.sld,
+          sld_body:params.sld_body,
+          styles:params.styles
+        },
+        layerOptions
+      );
     break;
 
     // WFS Layer
