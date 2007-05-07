@@ -8,7 +8,7 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
 /**
  * Stores an OWS Context document as defined by the OGC interoperability
- * experiment. This model should be eventually merged with the standard OGC 
+ * experiment. This model should be eventually merged with the standard OGC
  * context doc.
  * Listeners supported by this model:
  * "refresh" called when window parameters (width/height, bbox) are changed
@@ -19,19 +19,15 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
  * @base ModelBase
  * @author Mike Adair
  * @requires Sarissa
- * 
+ *
  */
 function OwsContext(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   ModelBase.apply(this, new Array(modelNode, parent));
 
-  // MAP-186 
+  // MAP-186
   this.namespace = this.namespace ? this.namespace.replace(/\"/g, "'")+" " : '';
   this.namespace = this.namespace + "xmlns:wmc='http://www.opengis.net/context' xmlns:ows='http://www.opengis.net/ows' xmlns:ogc='http://www.opengis.net/ogc' xmlns:xsl='http://www.w3.org/1999/XSL/Transform' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:sld='http://www.opengis.net/sld'";
-
-  // ===============================
-  // Update of Context Parameters
-  // ===============================
 
   /**
    * Change a Layer's visibility.
@@ -42,9 +38,9 @@ function OwsContext(modelNode, parent) {
     // Set the hidden attribute in the Context
     var hiddenValue = "0";
     if (hidden) hiddenValue = "1";
-      
+
     var layer=this.getFeatureNode(layerName);
-    layer.setAttribute("hidden", hiddenValue);
+    if (layer) layer.setAttribute("hidden", hiddenValue);
     // Call the listeners
     this.callListeners("hidden", layerName);
   }
@@ -57,20 +53,20 @@ function OwsContext(modelNode, parent) {
   this.getHidden=function(layerName){
     var hidden=1;
     var layer=this.getFeatureNode(layerName)
-    return layer.getAttribute("hidden");
+    if (layer) hidden = layer.getAttribute("hidden");
+    return hidden;
   }
 
   /**
-   * Get the BoundingBox.
-   * @return BoundingBox array in form (xmin,ymin,xmax,ymax).
+   * Get the BoundingBox value from the Context document.
+   * @return BoundingBox array with the sequence (xmin,ymin,xmax,ymax).
    */
   this.getBoundingBox=function() {
+    var bbox = new Array();
     // Extract BoundingBox from the context
-    //boundingBox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
     var lowerLeft=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:LowerCorner");
     var upperRight=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:UpperCorner");
     var strBbox = new String(lowerLeft.firstChild.nodeValue + " " + upperRight.firstChild.nodeValue).split(" ");
-    var bbox = new Array();
     for (i=0; i<strBbox.length; ++i) {
       bbox[i] = parseFloat(strBbox[i]);
     }
@@ -88,23 +84,9 @@ function OwsContext(modelNode, parent) {
     var upperRight=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:UpperCorner");
     upperRight.firstChild.nodeValue = boundingBox[2] + " " + boundingBox[3];
     // Call the listeners
-    //PGC this.callListeners("bbox");
-    this.callListeners("bbox", boundingBox); // from Context.js
-    
+    this.callListeners("bbox", boundingBox);
   }
-  /**
-   * Return the service type of the bottom layer in the layer list.
-   * This is used to match navigation tools with the basemap.
-   */
-   this.getBaseLayerService=function(){
-    //x=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[last()]/wmc:Server/@service");
-    x=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[last()]/wmc:Server");
-    s=x.getAttribute("service");
-    //alert("OwsContext.getBaseLayerService: s="+s);
-    return s;
-   }
 
-  /*PGC Added from Context.js */
   /**
    * Set the BoundingBox element and call the refresh listeners
    * @param boundingBox array in the sequence (xmin, ymin, xmax, ymax).
@@ -113,16 +95,12 @@ function OwsContext(modelNode, parent) {
     // Set BoundingBox in context from URL CGI params
     if (window.cgiArgs["bbox"]) {   //set as minx,miny,maxx,maxy
       var bbox = window.cgiArgs["bbox"].split(',');
-    /////TBD i'm not sure it was necessary 
-    objRef.setBoundingBox(bbox);
-    ///end TBD
-    //OL
+      /////TBD i'm not sure it was necessary
       objRef.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
-	  objRef.setBoundingBox(objRef.map.getExtent().toBBOX().split(','));
-    //OL  
+      //objRef.setBoundingBox(objRef.map.getExtent().toBBOX().split(','));
     }
   }
-  this.addFirstListener( "loadModel", this.initBbox, this );  // removed the comment
+  this.addFirstListener( "mapLoaded", this.initBbox, this );
   //this.addListener( "contextLoaded", this.initBbox, this );
 
   /**
@@ -138,60 +116,51 @@ function OwsContext(modelNode, parent) {
   }
   this.addListener( "loadModel", this.initAoi, this );
   //MA this.addListener( "contextLoaded", this.initAoi, this );
-  /*End of addition */
-  
+
   /**
-   * Set the Spacial Reference System for layer display and layer requests.
+   * Set the Spatial Reference System for the context document.
    * @param srs The Spatial Reference System.
    */
   this.setSRS=function(srs) {
-    //bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
     var bbox=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox");
     bbox.setAttribute("crs",srs);
     this.callListeners("srs");
   }
 
   /**
-   * Set the Spacial Reference System for layer display and layer requests.
+   * Get the Spatial Reference System from the context document.
    * @return srs The Spatial Reference System.
    */
   this.getSRS=function() {
-    //bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
-    if( this.doc ) {
-      var bbox=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox");
-      srs=bbox.getAttribute("crs");
-      srs = srs ? srs : 'EPSG:4326';
-      return srs;
-    } 
+    var bbox=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox");
+    srs=bbox.getAttribute("crs");
+    srs = srs ? srs : 'EPSG:4326';
+    return srs;
   }
-/**
+
+  /**
    * Get the Projection object from the context document.
    * @return Proj Object of  The Spatial Reference System.
    */
   this.initProj=function(objRef) {
     objRef.proj=new Proj(objRef.getSRS());
-    
   }
-   this.addFirstListener( "loadModel", this.initProj, this );
+  this.addFirstListener( "loadModel", this.initProj, this );
+
   /**
    * Get the Window width.
    * @return width The width of map window from the context document
    */
   this.getWindowWidth=function() {
-    if( this.doc ) {
-      //var win=this.doc.documentElement.getElementsByTagName("Window").item(0);
-      var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
-      width=win.getAttribute("width");
-      return width;
-    }
+    var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
+    return win.getAttribute("width");
   }
 
   /**
    * Set the Window width.
-   * @param width The width of map window (therefore of map layer images).
+   * @param width The width of map window to set in the context document
    */
   this.setWindowWidth=function(width) {
-    //win=this.doc.documentElement.getElementsByTagName("Window").item(0);
     var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
     win.setAttribute("width", width);
     this.callListeners("resize");
@@ -202,20 +171,15 @@ function OwsContext(modelNode, parent) {
    * @return height The height of map window from the context document.
    */
   this.getWindowHeight=function() {
-    //var win=this.doc.documentElement.getElementsByTagName("Window").item(0);
-    if( this.doc ) {
-      var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
-      height=win.getAttribute("height");
-      return height;
-    }
+    var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
+    return win.getAttribute("height");
   }
 
   /**
    * Set the Window height.
-   * @param height The height of map window (therefore of map layer images).
+   * @param height The height of map window to set in the context document
    */
   this.setWindowHeight=function(height) {
-    //win=this.doc.documentElement.getElementsByTagName("Window").item(0);
     var win=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Window");
     win.setAttribute("height", height);
     this.callListeners("resize");
@@ -248,6 +212,23 @@ function OwsContext(modelNode, parent) {
   }
 
   /**
+   * returns a node that has the specified feature name in the context doc
+   * @param featureName Name element value to return
+   * @return the node from the context doc with the specified feature name
+   */
+  this.getFeatureNode = function(featureName) {
+    if( this.doc ) {
+      var feature = this.doc.selectSingleNode("//wmc:ResourceList/*[wmc:Name='"+featureName+"']");
+
+      if(feature == null ) {
+        alert(mbGetMessage("featureNotFoundOwsContext"));
+      }
+
+      return feature;
+    }
+  }
+
+  /**
    * Returns the serverUrl for the layer passed in as the feature argument.
    * @param requestName ignored for context docs (only GetMap supported)
    * @param method ignored for context docs (only GET supported)
@@ -263,7 +244,7 @@ function OwsContext(modelNode, parent) {
    * @param feature the node for the feature from the context doc
    * @return the WMS GetMap version for the Layer.
    */
-  this.getVersion = function(feature) {  
+  this.getVersion = function(feature) {
     return feature.selectSingleNode("wmc:Server").getAttribute("version");
   }
 
@@ -277,24 +258,19 @@ function OwsContext(modelNode, parent) {
   }
 
   /**
-   * returns a node that has the specified feature name in the context doc
-   * @param featureName Name element value to return
-   * @return the node from the context doc with the specified feature name
+   * Return the service type of the bottom layer in the layer list.
+   * This is used to match navigation tools with the basemap.
    */
-  this.getFeatureNode = function(featureName) {
-    if( this.doc ) {
-      var feature = this.doc.selectSingleNode("//wmc:ResourceList/*[wmc:Name='"+featureName+"']");
-      
-      if(feature == null ) {
-        alert(mbGetMessage("featureNotFoundOwsContext"));
-      } 
-      
-      return feature;
-    }
+  this.getBaseLayerService=function(){
+    //x=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[last()]/wmc:Server/@service");
+    x=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[last()]/wmc:Server");
+    s=x.getAttribute("service");
+    //alert("OwsContext.getBaseLayerService: s="+s);
+    return s;
   }
 
   /**
-   * listener method which loads WFS features from the context doc, after WMS 
+   * listener method which loads WFS features from the context doc, after WMS
    * layers are loaded.
    * @param objRef Pointer to this object.
    */
@@ -305,7 +281,7 @@ function OwsContext(modelNode, parent) {
       var featureName = featureList[i].firstChild.nodeValue;
       objRef.setParam('wfs_GetFeature',featureName);
     }
-    
+
     //this.callListeners("contextLoaded");  //PGC
   }
   this.addListener("loadModel", this.loadFeatures, this);
@@ -339,7 +315,7 @@ function OwsContext(modelNode, parent) {
    * @return the list with all layers
    */
   this.getAllLayers = function() {
-    listNodeArray = this.doc.selectNodes("//wmc:Layer|//wmc:FeatureType");
+    var listNodeArray = this.doc.selectNodes("//wmc:Layer|//wmc:FeatureType");
     return listNodeArray;
   }
 
@@ -362,10 +338,10 @@ function OwsContext(modelNode, parent) {
    * Method to add a Layer to the LayerList
    * @param layerNode the Layer node from another context doc or capabiltiies doc
    */
-  this.addLayer = function(objRef, layerNode) { 
+  this.addLayer = function(objRef, layerNode) {
     if( objRef.doc != null ) {
       var parentNode = objRef.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList");
-   
+
       // check if that node does not alreayd exist, replace it (query may have changed)
       var id = layerNode.getAttribute("id");
       var str = "/wmc:OWSContext/wmc:ResourceList/"+layerNode.nodeName+"[@id='"+id+"']";
@@ -373,7 +349,7 @@ function OwsContext(modelNode, parent) {
       if( node != null ) {
         parentNode.removeChild(node)
       }
- 
+
       parentNode.appendChild(layerNode.cloneNode(true));
       objRef.modified = true;
       //alert( "Adding layer:"+(new XMLSerializer()).serializeToString( layerNode ) );
@@ -383,6 +359,20 @@ function OwsContext(modelNode, parent) {
     //objRef.callListeners("refresh");
   }
   this.addFirstListener( "addLayer", this.addLayer, this );
+
+ /**
+   * Method to add a Sld to the StyleList
+   * @param layerName the Layer name from another context doc or capabiltiies doc
+   */
+  this.addSLD = function(objRef,sldNode) {
+    // alert("context addSLD : "+objRef.id);
+    var layerName=sldNode.selectSingleNode("//Name").firstChild.nodeValue;
+    var parentNode = objRef.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']");
+    parentNode.appendChild(sldNode.cloneNode(true));
+
+    objRef.modified = true;
+  }
+  this.addFirstListener( "addSLD", this.addSLD, this );
 
   /**
    * Method to remove a Layer from the LayerList
@@ -431,10 +421,10 @@ function OwsContext(modelNode, parent) {
     objRef.modified = true;
   }
   this.addFirstListener( "moveLayerDown", this.moveLayerDown, this );
-  
+
   /**
    * Adds a node to the Context document extension element.  The extension element
-   * will be created if it doesn't already exist.  
+   * will be created if it doesn't already exist.
    * @param extensionNode the node to be appended in the extension element.
    * @return the ndoe added to the extension element
    */
@@ -458,9 +448,9 @@ function OwsContext(modelNode, parent) {
 
   /**
    * Parses a Dimension element from the Context document as a loadModel listener.
-   * This results in an XML structure with one element for each GetMap time value 
+   * This results in an XML structure with one element for each GetMap time value
    * parameter and added to the Context extrension element.
-   * @param objRef a pointer to this object 
+   * @param objRef a pointer to this object
    */
   this.initTimeExtent = function( objRef ) {
     //only the first one selected is used as the timestamp source
@@ -506,7 +496,7 @@ function OwsContext(modelNode, parent) {
           objRef.timestampList.appendChild(timestamp);
         }
       }
-     objRef.setExtension(objRef.timestampList);  
+     objRef.setExtension(objRef.timestampList);
     }
   }
   this.addFirstListener( "loadModel", this.initTimeExtent, this );
@@ -520,4 +510,32 @@ function OwsContext(modelNode, parent) {
     var index = this.getParam("timestamp");
     return this.timestampList.childNodes[index].firstChild.nodeValue;
   }
+
+  // PL -BRGM
+  /**
+   * Change a Layer's opacity
+   * @param layerName  The name of the layer that is to be changed
+   * @param Opacity     Value of the opacity
+   */
+  this.setOpacity=function(layerName, Opacity){
+    // Set the hidden attribute in the Context
+
+    var layer=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
+    if (layer) layer.setAttribute("opacity", Opacity);
+    // Call the listeners
+    this.callListeners("opacity", layerName);
+  }
+
+  /**
+   * Get the layer's opacity attribute value.
+   * @param layerName  The name of the layer that is to be changed
+   * @return hidden  String with the value; 1=hidden, 0=visible.
+   */
+  this.getOpacity=function(layerName){
+    var opacity=1;
+    var layer=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
+    if (layer) opacity = layer.getAttribute("opacity");
+    return opacity;
+  }
+  // PL -END
 }

@@ -8,7 +8,7 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
 /**
  * Stores a Web Map Context (WMC) document as defined by the Open GIS Consortium
- * http://opengis.org and extensions the the WMC.  
+ * http://opengis.org and extensions the the WMC.
  *
  * Listeners supported by this model:
  * "refresh" called when window parameters (width/height, bbox) are changed
@@ -19,7 +19,7 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
  * @author Cameron Shorter
  * @param modelNode Pointer to the xml node for this model from the config file.
  * @param parent    The parent model for the object.
-  * 
+  *
  */
 function Context(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
@@ -36,7 +36,7 @@ function Context(modelNode, parent) {
     // Set the hidden attribute in the Context
     var hiddenValue = "0";
     if (hidden) hiddenValue = "1";
-      
+
     var layer=this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+layerName+"']");
     if (layer) layer.setAttribute("hidden", hiddenValue);
     // Call the listeners
@@ -60,8 +60,9 @@ function Context(modelNode, parent) {
    * @return BoundingBox array with the sequence (xmin,ymin,xmax,ymax).
    */
   this.getBoundingBox=function() {
-    var boundingBox=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
     var bbox = new Array();
+    // Extract BoundingBox from the context
+    var boundingBox=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
     bbox[0]=parseFloat(boundingBox.getAttribute("minx"));
     bbox[1]=parseFloat(boundingBox.getAttribute("miny"));
     bbox[2]=parseFloat(boundingBox.getAttribute("maxx"));
@@ -75,7 +76,6 @@ function Context(modelNode, parent) {
    */
   this.setBoundingBox=function(boundingBox) {
     // Set BoundingBox in context
-    //bbox=this.doc.documentElement.getElementsByTagName("BoundingBox").item(0);
     var bbox=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:BoundingBox");
     bbox.setAttribute("minx", boundingBox[0]);
     bbox.setAttribute("miny", boundingBox[1]);
@@ -93,11 +93,9 @@ function Context(modelNode, parent) {
     // Set BoundingBox in context from URL CGI params
     if (window.cgiArgs["bbox"]) {   //set as minx,miny,maxx,maxy
       var bbox = window.cgiArgs["bbox"].split(',');
-    /////TBD i'm not sure it was necessary 
-   objRef.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
-	//objRef.setBoundingBox(objRef.map.getExtent().toBBOX().split(','));
-   
-
+      /////TBD i'm not sure it was necessary
+      objRef.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
+      //objRef.setBoundingBox(objRef.map.getExtent().toBBOX().split(','));
     }
   }
   this.addFirstListener( "mapLoaded", this.initBbox, this );
@@ -118,7 +116,7 @@ function Context(modelNode, parent) {
   //MA this.addListener( "contextLoaded", this.initAoi, this );
 
   /**
-   * Set the Spacial Reference System for the context document.
+   * Set the Spatial Reference System for the context document.
    * @param srs The Spatial Reference System.
    */
   this.setSRS=function(srs) {
@@ -128,7 +126,7 @@ function Context(modelNode, parent) {
   }
 
   /**
-   * Get the Spacial Reference System from the context document.
+   * Get the Spatial Reference System from the context document.
    * @return srs The Spatial Reference System.
    */
   this.getSRS=function() {
@@ -143,7 +141,7 @@ function Context(modelNode, parent) {
    * @return Proj Object of  The Spatial Reference System.
    */
   this.initProj=function(objRef) {
-    objRef.proj=new Proj(objRef.getSRS());    
+    objRef.proj=new Proj(objRef.getSRS());
   }
   this.addFirstListener( "loadModel", this.initProj, this );
 
@@ -158,7 +156,7 @@ function Context(modelNode, parent) {
 
   /**
    * Set the Window width.
-   * @param width The width of map window (therefore of map layer images).
+   * @param width The width of map window to set in the context document
    */
   this.setWindowWidth=function(width) {
     var win=this.doc.selectSingleNode("/wmc:ViewContext/wmc:General/wmc:Window");
@@ -224,7 +222,7 @@ function Context(modelNode, parent) {
    * @param requestName ignored for context docs (only GetMap supported)
    * @param method ignored for context docs (only GET supported)
    * @param feature the Layer node from the context doc
-   * @return URL for the GetMap request 
+   * @return URL for the GetMap request
    */
   this.getServerUrl = function(requestName, method, feature) {
     return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
@@ -235,7 +233,7 @@ function Context(modelNode, parent) {
    * @param feature the Layer node from the context doc
    * @return the WMS GetMap version for the Layer.
    */
-  this.getVersion = function(feature) {  
+  this.getVersion = function(feature) {
     return feature.selectSingleNode("wmc:Server").getAttribute("version");
   }
 
@@ -290,21 +288,19 @@ function Context(modelNode, parent) {
   }
   this.addFirstListener( "addLayer", this.addLayer, this );
 
-
  /**
    * Method to add a Sld to the StyleList
    * @param layerName the Layer name from another context doc or capabiltiies doc
    */
   this.addSLD = function(objRef,sldNode) {
-	//  	alert("context addSLD : "+objRef.id);
-  	var layerName=sldNode.selectSingleNode("//Name").firstChild.nodeValue; 
-   	var parentNode = objRef.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']");
+    // alert("context addSLD : "+objRef.id);
+    var layerName=sldNode.selectSingleNode("//Name").firstChild.nodeValue;
+    var parentNode = objRef.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']");
     parentNode.appendChild(sldNode.cloneNode(true));
- 
+
     objRef.modified = true;
   }
   this.addFirstListener( "addSLD", this.addSLD, this );
-
 
   /**
    * Method to remove a Layer from the LayerList
@@ -356,7 +352,7 @@ function Context(modelNode, parent) {
 
   /**
    * Adds a node to the Context document extension element.  The extension element
-   * will be created if it doesn't already exist.  
+   * will be created if it doesn't already exist.
    * @param extensionNode the node to be appended in the extension element.
    * @return the ndoe added to the extension element
    */
@@ -380,9 +376,9 @@ function Context(modelNode, parent) {
 
   /**
    * Parses a Dimension element from the Context document as a loadModel listener.
-   * This results in an XML structure with one element for each GetMap time value 
+   * This results in an XML structure with one element for each GetMap time value
    * parameter and added to the Context extrension element.
-   * @param objRef a pointer to this object 
+   * @param objRef a pointer to this object
    */
   this.initTimeExtent = function( objRef ) {
     //only the first one selected is used as the timestamp source
@@ -428,7 +424,7 @@ function Context(modelNode, parent) {
           objRef.timestampList.appendChild(timestamp);
         }
       }
-     objRef.setExtension(objRef.timestampList);  
+     objRef.setExtension(objRef.timestampList);
     }
   }
   this.addFirstListener( "loadModel", this.initTimeExtent, this );
@@ -443,7 +439,7 @@ function Context(modelNode, parent) {
     return this.timestampList.childNodes[index].firstChild.nodeValue;
   }
 
-  // PL -BRGM	  
+  // PL -BRGM
   /**
    * Change a Layer's opacity
    * @param layerName  The name of the layer that is to be changed
@@ -451,13 +447,13 @@ function Context(modelNode, parent) {
    */
   this.setOpacity=function(layerName, Opacity){
     // Set the hidden attribute in the Context
-          
+
     var layer=this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+layerName+"']");
     if (layer) layer.setAttribute("opacity", Opacity);
     // Call the listeners
     this.callListeners("opacity", layerName);
   }
-  
+
   /**
    * Get the layer's opacity attribute value.
    * @param layerName  The name of the layer that is to be changed
@@ -471,4 +467,3 @@ function Context(modelNode, parent) {
   }
   // PL -END
 }
-
