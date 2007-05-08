@@ -22,14 +22,7 @@ function MapPaneOL(widgetNode, model) {
 
   OpenLayers.ImgPath = config.skinDir + '/images/openlayers/';
 
-  //Make sure the containerNodeId is set
-  //TBD: rename this to....??
-  var mapContainerNode = widgetNode.selectSingleNode("mb:mapContainerId");
-  if (mapContainerNode) {
-    this.containerNodeId = mapContainerNode.firstChild.nodeValue;
-  } else {
-    alert(mbGetMessage("noMapContainerId", this.id));
-  }
+  this.containerNodeId = this.htmlTagId;
 
   //set the output DIV
   this.node = document.getElementById(this.containerNodeId);
