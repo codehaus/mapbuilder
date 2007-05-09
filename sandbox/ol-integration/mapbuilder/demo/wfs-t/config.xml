@@ -19,7 +19,6 @@
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-          <mapContainerId>mainMapPane</mapContainerId>
           <fixedSize>true</fixedSize>
         </MapPaneOL>
         <Loading id="loading" />

@@ -6,7 +6,6 @@
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-          <mapContainerId>mainMapPane</mapContainerId>
         </MapPaneOL>
         <CursorTrack id="cursorTrack"/>
         <Legend id="contextLegend">

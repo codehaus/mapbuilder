@@ -6,8 +6,7 @@
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-          <mapContainerId>mainMapPane</mapContainerId>
-        </MapPaneOL>
+         </MapPaneOL>
         <CursorTrack id="cursorTrack">
           <precision>5</precision>
         </CursorTrack>

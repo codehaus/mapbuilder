@@ -6,8 +6,7 @@
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-          <mapContainerId>mainMapPane</mapContainerId>
-        </MapPaneOL>
+         </MapPaneOL>
         <Loading2 id="loading2">
           <mapContainerId>mainMapPane</mapContainerId>
         </Loading2>
