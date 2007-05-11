@@ -34,7 +34,12 @@ function SLDEditor(modelNode, parent) {
   		objRef.stylesheet.setParameter("layerName", layerName );
     	objRef.paint(objRef, objRef.id);
   	}
- 
+  	
+	this.postPaint = function(objRef) {
+	    /*var objRef2 = config.objects.choixchamp;
+	    config.objects.choixchamp.paint(objRef2,objRef2.id);*/
+    }
+
 	this.model.addListener("SLDChange",this.refresh, this);
 	
 	
@@ -46,16 +51,19 @@ function SLDEditor(modelNode, parent) {
    */
    
   this.setAttr=function(objRef,xpath,value,attr){
-
-
- 	if(attr)
- 	{
+ 	if(attr){
  		xpath=xpath+"[@name='"+attr+"']";
-
     }
-   
     objRef.model.setXpathValue(objRef.model,xpath,value);
-
   }
-	
+  /**
+   * Open a popup for choose color value
+   * @param inputId id of input where color is define 
+   */
+	 this.openColorWindow = function (inputId){
+		var URL=new String("color.html?inputId="+inputId);
+		day = new Date();
+		id = day.getTime();
+		eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=260,height=285,left=800,top=600');");
+	}
 }

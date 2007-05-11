@@ -11,7 +11,7 @@
 
     $Id$
   -->
-  <proxyUrl>/mapbuilder/server/php/proxy.php</proxyUrl>
-  <serializeUrl>/mapbuilder/server/php/serializer.php</serializeUrl>
+  <proxyUrl>/mapbuilder/sandbox/olivier/sldeditor/mapbuilder/server/php/proxy.php</proxyUrl>
+  <serializeUrl>/mapbuilder/sandbox/olivier/sldeditor/mapbuilder/server/php/serializer.php</serializeUrl>
 </MapbuilderConfig>
 
