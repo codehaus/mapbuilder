@@ -94,7 +94,7 @@ $Name$
 						            id="couleurchoix"
 						            size="40"																		
 						            
-						            onfocus="javascript:{$tool}.upadteNode2(document.getElementById('idNameOfRule').value,document.getElementById('choixFeatureSlect').value+'/Stroke/CssParameter[@name=\'stroke\']',document.getElementById('couleurchoix').value);"
+						            onfocus="javascript:{$tool}.upadteNode2(document.getElementById('idNameOfRule').value,'/Stroke/CssParameter[@name=\'stroke\']',document.getElementById('couleurchoix').value);"
 						             />
               
             <div class="color">width stroke :</div>

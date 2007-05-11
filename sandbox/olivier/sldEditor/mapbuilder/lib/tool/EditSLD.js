@@ -48,11 +48,36 @@ function EditSLD(toolNode, model)
 
 this.upadteNode2 =function(Rule,nameofpath,value)
 {
+
+
   var xpath ="/StyledLayerDescriptor/NamedLayer/UserStyle/FeatureTypeStyle/Rule[Title=\'"+Rule+"\']";
+
   
-  var node = this.model.doc.selectSingleNode(xpath);
+
+ var node = this.model.doc.selectSingleNode(xpath);
+ var node=node.firstChild;
+ var temp2="";
+ while (node!=null) 
+ {
+   var temp = node.nodeName;
+  node = node.nextSibling;
+  
+  switch(temp)
+  {
+  case 'LineSymbolizer':temp2=temp;break;
+  case 'PolygonSymbolizer':temp2=temp;break;
+  case 'PointSymbolizer':temp2=temp;break;
+  case 'TextSymbolizer':temp2=temp;break;
+  default:break;
+  }
+ }
+
+ 
+  this.model.setXpathValue(this.model,xpath+"/"+temp2+nameofpath,value,false);
+
   xpath = xpath+'/'+nameofpath;
   this.model.setXpathValue(this.model,xpath,value,false);
+
 }
      
 
