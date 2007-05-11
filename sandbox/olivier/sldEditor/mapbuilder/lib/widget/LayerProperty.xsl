@@ -35,16 +35,16 @@ xmlns:citef="http://www.opengis.net/cite/functions" >
   <xsl:template match="/xs:schema">
   <xsl:variable name="id">'choixFeatureProperty'</xsl:variable>
    <div id="choixchamp3" >
-  <div class="choixchamp2">Champ de classification:</div>
+  <div class="choixchamp2">field of classification</div>
   <div class="choixchamp2pics">
    	 <select name="featureProperty" id="choixfeatureProperty"  size="1" onchange="">
    		<option selected="the_geom">Choose feature property</option> 
       	<xsl:apply-templates select="//xs:element"/>
     </select>
     </div>
-    <div class="choixchamp2">RuleName : <input id="namerule" class="choixchamp2pics" value="rulename{generate-id()}"/> </div>
+    <div class="choixchamp2">Rule's Name : <input id="namerule" class="choixchamp2pics" value="rulename"/> </div>
     
-    <div class="choixchamp2">nombdre de class:</div>
+    <div class="choixchamp2">number of class:</div>
     <div class="choixchamp2pics">
     <select id="nbclass" class="choixchamp" style="width: 10px; font-size: 10px; line-height: 10px;" name="selecttype">
     <option value="1">1</option>
@@ -57,26 +57,27 @@ xmlns:citef="http://www.opengis.net/cite/functions" >
     <div class="choixchamp2pics">
     
     <select  id="nbmode2" class="choixchamp"  style="width: 10px; font-size: 10px; line-height: 10px;" name="selecttype2">
-    <option value="1">valeur automatique</option>
+    <option value="1">equal interval</option>
     <option value="2">normal</option>
-    <option value="3">couleur continue</option>
+    <option value="3">color continous</option>
     </select>
     </div>
     
-    <div id="value" class="choixchamp2" >valeurt comprise entre:  <input type="text"
+    <div id="value" class="choixchamp2" >value from :  <input type="text"
 						            id="valuedown"
 						            size="10"
-						            value=""/> et <input type="text"
+						            value=""/> to <input type="text"
 						            id="valueup"
 						            size="10"
 						            value=""/>
 						            </div>
-	<div class="choixchamp2">coleur de depart : <input id="firtColor" class="choixchamp2pics" value="" onclick="javascript:openColorWindow('firtColor');"/> </div>
-	<div class="choixchamp2">couleur de fin : <input id="lastColor" class="choixchamp2pics" value="" onclick="javascript:openColorWindow('lastColor');"/> </div>					          
+					<div> color </div>	            
+	<div class="choixchamp2">lower value : <input id="firtColor" class="choixchamp2pics" value="" onclick="javascript:openColorWindow('firtColor');"/> </div>
+	<div class="choixchamp2">upper value : <input id="lastColor" class="choixchamp2pics" value="" onclick="javascript:openColorWindow('lastColor');"/> </div>					          
 						          
 	
     <div id="buttonsnew" class="choixchamp2">
-	      		<input type="button" name="validation" value="valid"  onclick="javascript:config.objects.editSLD.mode(document.getElementById('choixfeatureProperty').value,document.getElementById('valueup').value,document.getElementById('valuedown').value,document.getElementById('namerule').value,document.getElementById('nbclass').value,document.getElementById('nbmode2').value,'#CCFF00','#CCFF00');javascript:config.paintWidget(config.objects.editor);"/> 
+	      		<input type="button" name="validation" value="valid"  onclick="javascript:config.objects.editSLD.mode(document.getElementById('choixfeatureProperty').value,document.getElementById('valueup').value,document.getElementById('valuedown').value,document.getElementById('namerule').value,document.getElementById('nbclass').value,document.getElementById('nbmode2').value,'#CCFF00','#CCFF00');javascript:config.paintWidget(config.objects.editor);javascript:config.paintWidget(config.objects.addRule);javascript:config.paintWidget(config.objects.editor);"/> 
 	 </div>
 	 <div id="buttonsnew2" class="choixchamp2">
 	      		<input type="button" name="validation" value="valid interpolation"  onclick="javascript:config.objects.editSLD.mode(document.getElementById('choixfeatureProperty').value,document.getElementById('valueup').value,document.getElementById('valuedown').value,document.getElementById('namerule').value,document.getElementById('nbclass').value,document.getElementById('nbmode2').value,document.getElementById('firtColor').value,document.getElementById('lastColor').value);javascript:config.paintWidget(config.objects.editor);"/> 
