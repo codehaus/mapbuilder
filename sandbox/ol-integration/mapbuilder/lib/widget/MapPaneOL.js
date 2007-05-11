@@ -575,7 +575,15 @@ MapPaneOL.prototype.getWebSafeStyle = function(objRef, colorNumber) {
   style.map = objRef.model.map;
   return style;
 }
-
+ /**
+   * Called for refreshing one layer.
+   * @param objRef This object.
+   * @param layerName  The name of the layer that was toggled.
+   */
+MapPaneOL.prototype.refreshLayer=function(objRef, layerName , newParams){
+    newParams['version'] = Math.random(); //necessary for see change in certain case
+    objRef.getLayer(objRef,layerName).mergeNewParams(newParams);
+  }
 /**
  * This function is called when a new Context is about to be loaded
  * - it deletes all the old layers so new ones can be loaded.
