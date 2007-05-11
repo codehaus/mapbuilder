@@ -29,7 +29,7 @@ $Name$
 	<xsl:param name="layerName"/>
   	<xsl:param name="context">config.objects.<xsl:value-of select="$modelId"/></xsl:param>
 	<xsl:param name="widget">config.objects.<xsl:value-of select="$widgetId"/></xsl:param>
-	<xsl:param name="tool">{$tool}</xsl:param>
+	<xsl:param name="tool">config.objects.editSLD</xsl:param>
   	<xsl:variable name="cssId1" >fill</xsl:variable>
   	<xsl:variable name="cssid2" >stroke</xsl:variable>
 	<xsl:variable name="id2" >'fill-opacity'</xsl:variable>
