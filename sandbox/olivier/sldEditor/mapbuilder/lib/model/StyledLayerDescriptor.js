@@ -27,7 +27,7 @@ this.namespace = "xmlns:sld='http://www.opengis.net/sld' xmlns:mb='http://mapbui
 		
 		this.getSldNode=function()
 		{
-			return this.doc.selectSingleNode("/sld:StyledLayerDescriptor");
+			return this.doc.selectSingleNode("/StyledLayerDescriptor");
 		
 		}
 
