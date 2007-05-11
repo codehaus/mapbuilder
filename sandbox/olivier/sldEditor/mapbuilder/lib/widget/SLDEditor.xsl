@@ -52,7 +52,7 @@ $Name$
   
     	<div>
       		<h1>SldEditor for <xsl:value-of select="$layerName"/></h1><br/>   	
-      		<script>javascript:{$tool}.updateNode("/StyledLayerDescriptor/NamedLayer/Name",'<xsl:value-of select="$layerName"/>');</script>
+      		<script>javascript:<xsl:value-of select="$tool"/>.updateNode("/StyledLayerDescriptor/NamedLayer/Name",'<xsl:value-of select="$layerName"/>');</script>
     
       <div id="bodyeditor">
         
