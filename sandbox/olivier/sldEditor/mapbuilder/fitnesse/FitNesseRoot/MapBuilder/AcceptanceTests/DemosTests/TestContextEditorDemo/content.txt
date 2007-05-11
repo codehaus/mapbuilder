@@ -1,0 +1,36 @@
+!1 Context Editor Demo
+
+Override Setup
+!|Action Fixture|
+|start|Mb.Setup|
+|enter|host|${MAPBUILDER}|
+|enter|webapp|demo/contextEditor|
+|enter|config file|${CONFIGFILE}|
+|press|goto it|
+
+Go to the Simple demo page and check the model
+|Action Fixture|
+|start|Mb.Model|
+|enter|timeout|10|
+|check|model loaded|true|
+
+
+Check the various layers (specify starting name if too long)
+|Mb.DisplayLayers|
+|map|layer name|loaded?|src?|
+|locator|ocean|true||
+|locator|land|true||
+|locator|coast|true||
+|mainMap|bathymetry|true||
+|mainMap|land_fn|true||
+|mainMap|prov_bound|true||
+
+Check the various button options
+|Action Fixture|
+|start|!-Mb.Demos.ContextEditor-!|
+|press|Map Collection|
+|press|Atlas World base map|
+|check|map loaded|true|
+|press|Map Collection|
+|press|Demis World map|
+|check|map loaded|true|

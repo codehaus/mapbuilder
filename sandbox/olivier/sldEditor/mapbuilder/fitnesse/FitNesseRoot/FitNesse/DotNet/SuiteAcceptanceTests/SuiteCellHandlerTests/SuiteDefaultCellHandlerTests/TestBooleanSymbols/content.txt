@@ -1,0 +1,6 @@
+!3 !-FitNesse-! treats "y" or "yes" (case insensitive) as true and "n" or "no" as false for bools.
+
+|bool fixture|
+|field|field?|field?|field?|field?|
+|true|Y|y|Yes|yes|
+|false|N|n|No|no|

@@ -1,0 +1,95 @@
+!1 Complete Configuration Demo
+
+Override Setup
+!|Action Fixture|
+|start|Mb.Setup|
+|enter|host|${MAPBUILDER}|
+|enter|webapp|demo/complete|
+|enter|config file|${CONFIGFILE}|
+|press|goto it|
+
+Check the model
+|Action Fixture|
+|start|Mb.Model|
+|enter|timeout|10|
+|check|model loaded|true|
+
+
+Check the various layers (specify starting name if too long)
+|Mb.DisplayLayers|
+|map|layer name|loaded?|src?|
+|locator|ocean|true||
+|locator|land|true||
+|locator|coast|true||
+|mainMap|Bathymetry|true||
+|mainMap|Countries|true||
+|mainMap|Topography|true||
+|mainMap|Hillshading|true||
+|mainMap|Builtup areas|true||
+|mainMap|Coastlines|true||
+|mainMap|Waterbodies|true||
+|mainMap|Inundated|true||
+|mainMap|Rivers|true||
+|mainMap|Streams|true||
+|mainMap|Railroads|true||
+|mainMap|Highways|true||
+|mainMap|Roads|true||
+|mainMap|Trails|true||
+|mainMap|Borders|true||
+|mainMap|Cities|true||
+|mainMap|Settlements|true||
+|mainMap|Spot|true||
+|mainMap|Airports|true||
+|mainMap|Ocean|true||
+
+|Action Fixture|
+|start|Mb.demos.Complete|
+|press|Atlas World base map|
+|check|map loaded|true|
+
+|Action Fixture|
+|press|Demis World map|
+|check|map loaded|true|
+
+|Action Fixture|
+|press|Canadian Digital Elevation Data |
+|check|map loaded|true|
+
+|Action Fixture|
+|press|Landsat Orthorectified Imagery over Canada|
+|check|map loaded|true|
+
+|Action Fixture|
+|press|Mars landings|
+|check|map loaded|true|
+
+|Action Fixture|
+|press|MODIS world mosaic|
+|check|map loaded|true|
+
+|Action Fixture|
+|press|Radarsat Mosaic of Canada|
+|check|map loaded|true|
+
+|Action Fixture|
+|press|Cite Reference local geoserver|
+|check|map loaded|true|
+
+|Action Fixture|
+|press|Cite Reference deegree server|
+|check|map loaded|true|
+
+|Action Fixture|
+|press|SLD param example|
+|check|map loaded|true|
+
+|Action Fixture|
+|press|Boston|
+|check|map loaded|true|
+
+|Action Fixture|
+|press|External server example|
+|check|map loaded|true|
+
+
+

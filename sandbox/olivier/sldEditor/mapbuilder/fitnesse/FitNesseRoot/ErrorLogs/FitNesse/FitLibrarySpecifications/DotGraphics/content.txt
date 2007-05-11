@@ -1,0 +1,13 @@
+|'''Date: '''|!-12:10:30 AM (EST) on Sunday, December 25, 2005-!|
+|'''Command: '''|!-java -cp fitLibrary.jar;fitnesse.jar;fitlibrary.jar fit.FitServer localhost 8088 12-!|
+|'''Exit code: '''|!-1-!|
+|'''Time elapsed: '''|!-0.828 seconds-!|
+----'''Standard Output:'''
+{{{---------Parse tables for actual:----------
+<table border="1" cellspacing="0">
+<tr><td>fitlibrary.specify.DoGraphics</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td>check</td><td>graph</td><td class="error"><img src="/files/dots/ChatGraph.gif"><hr/> <span class="fit_label">Problem with accessing parseGraphic(interface fitlibrary.differences.LocalFile) of class fitlibrary.graphic.DotGraphic: java.lang.RuntimeException: Problem reading H:\eclipse\workspace\MapbuilderFit\FitNesseRoot\files\dots\ChatGraph.dot: java.io.FileNotFoundException: FitNesseRoot\files\dots\ChatGraph.dot (The system cannot find the file specified)</span></td></tr>
+</table>-------------------
+}}}

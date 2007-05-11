@@ -1,0 +1,209 @@
+|'''Date: '''|!-7:19:40 PM (EDT) on Tuesday, April 4, 2006-!|
+|'''Command: '''|!-ruby -I fitnesse.jar;fitlibrary.jar ruby/bin/FitServer.rb localhost 8088 34-!|
+|'''Exit code: '''|!-125-!|
+|'''Time elapsed: '''|!-356.613 seconds-!|
+----'''Standard Output:'''
+{{{could not attach to window
+config file:http://localhost:8080/mapbuilder/demo/timeSeries/config.xml
+map not loaded:
+loaded:true
+config file:http://localhost:8080/mapbuilder/demo/simple/config.xml
+http://atlas.gc.ca/cgi-bin/mapserv?map=/home/atlas/web/mapdata/english/pb_world.map&VERSION=1.1.0&REQUEST=GetMap&SERVICE=WMS&LAYERS=ocean&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=400&HEIGHT=200&FORMAT=image/gif&STYLES=&TRANSPARENT=TRUE&UNIQUEID=
+map=/home/atlas/web/mapdata/english/pb_world.map&VERSION=1.1.0&REQUEST=GetMap&SERVICE=WMS&LAYERS=ocean&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=400&HEIGHT=200&FORMAT=image/gif&STYLES=&TRANSPARENT=TRUE&UNIQUEID=
+map-/home/atlas/web/mapdata/english/pb_world.map
+VERSION-1.1.0
+REQUEST-GetMap
+SERVICE-WMS
+LAYERS-ocean
+SRS-EPSG:4326
+BBOX--180,-90,180,90
+WIDTH-400
+HEIGHT-200
+FORMAT-image/gif
+STYLES-
+TRANSPARENT-TRUE
+UNIQUEID-
+400 200
+no width px
+http://atlas.gc.ca/cgi-bin/mapserv?map=/home/atlas/web/mapdata/english/pb_world.map&VERSION=1.1.0&REQUEST=GetMap&SERVICE=WMS&LAYERS=ocean&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=400&HEIGHT=200&FORMAT=image/gif&STYLES=&TRANSPARENT=TRUE&UNIQUEID=
+map=/home/atlas/web/mapdata/english/pb_world.map&VERSION=1.1.0&REQUEST=GetMap&SERVICE=WMS&LAYERS=ocean&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=400&HEIGHT=200&FORMAT=image/gif&STYLES=&TRANSPARENT=TRUE&UNIQUEID=
+map-/home/atlas/web/mapdata/english/pb_world.map
+VERSION-1.1.0
+REQUEST-GetMap
+SERVICE-WMS
+LAYERS-ocean
+SRS-EPSG:4326
+BBOX--180,-90,180,90
+WIDTH-400
+HEIGHT-200
+FORMAT-image/gif
+STYLES-
+TRANSPARENT-TRUE
+UNIQUEID-
+400 200
+no width px
+loaded:true
+Could not find it://div[@id='mainMap_mainMapWidget_Bathymetry']
+Could not find it://div[@id='mainMap_mainMapWidget_Countries']
+Could not find it://div[@id='mainMap_mainMapWidget_Topography']
+Could not find it://div[@id='mainMap_mainMapWidget_Hillshading']
+Could not find it://div[@id='mainMap_mainMapWidget_Builtup areas']
+Could not find it://div[@id='mainMap_mainMapWidget_Coastlines']
+Could not find it://div[@id='mainMap_mainMapWidget_Waterbodies']
+Could not find it://div[@id='mainMap_mainMapWidget_Inundated']
+Could not find it://div[@id='mainMap_mainMapWidget_Rivers']
+Could not find it://div[@id='mainMap_mainMapWidget_Streams']
+Could not find it://div[@id='mainMap_mainMapWidget_Railroads']
+Could not find it://div[@id='mainMap_mainMapWidget_Highways']
+Could not find it://div[@id='mainMap_mainMapWidget_Roads']
+Could not find it://div[@id='mainMap_mainMapWidget_Trails']
+Could not find it://div[@id='mainMap_mainMapWidget_Borders']
+Could not find it://div[@id='mainMap_mainMapWidget_Cities']
+Could not find it://div[@id='mainMap_mainMapWidget_Settlements']
+Could not find it://div[@id='mainMap_mainMapWidget_Spot']
+Could not find it://div[@id='mainMap_mainMapWidget_Airports']
+Could not find it://div[@id='mainMap_mainMapWidget_Ocean']
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+loaded:true
+Could not find it://div[@id='mainMap_mainMapWidget_Bathymetry']
+div[1] is null
+img is null
+div[1] is null
+img is null
+div[1] is null
+img is null
+div[1] is null
+img is null
+div is null
+img is null
+loaded:true
+Could not find it://div[@id='mainMap_mainMapWidget_coast']
+div[1] is null
+div[2] is null
+div[2] is null
+div[2] is null
+map not loaded:
+Could not find it://div[@id='mainMap_mainMapWidget_DOQ:TerraService']
+Could not find it://div[@id='mainMap_mainMapWidget_towns']
+Could not find it://div[@id='mainMap_mainMapWidget_townsoutline']
+Could not find it://div[@id='mainMap_mainMapWidget_hydro']
+Could not find it://div[@id='mainMap_mainMapWidget_ocean']
+Could not find it://div[@id='mainMap_mainMapWidget_roads']
+Could not find it://div[@id='mainMap_mainMapWidget_MHDRoads']
+Could not find it://div[@id='mainMap_mainMapWidget_events']
+map not loaded:
+could not attach to window
+could not attach to window
+could not attach to window
+loaded:true
+map not loaded:
+map not loaded:
+map not loaded:
+map not loaded:
+map not loaded:
+loaded:true
+Checking Page:http://localhost:8080/mapbuilder/docs/register
+href:javascript:config.objects.tabList.selectTab(config.objects.modelsListWidget) empty
+href:javascript:config.objects.tabList.selectTab(config.objects.widgetsListWidget) empty
+href:javascript:config.objects.tabList.selectTab(config.objects.mapContainerListWidget) empty
+href:javascript:config.objects.tabList.selectTab(config.objects.buttonListWidget) empty
+href:javascript:config.objects.tabList.selectTab(config.objects.toolsListWidget) empty
+href:http://mapbuilder.sourceforge.net/ code: 302
+results
+Checking Page:http://localhost:8080/mapbuilder/demo
+href:http://localhost:8080/mapbuilder/demo/simple/index.html code: 200
+href:http://localhost:8080/mapbuilder/demo/basic/index.html code: 200
+href:http://localhost:8080/mapbuilder/demo/Demis/index.html code: 200
+href:http://localhost:8080/mapbuilder/demo/timeSeries/index.html code: 200
+href:http://localhost:8080/mapbuilder/demo/complete/index.html code: 200
+href:http://localhost:8080/mapbuilder/demo/wfs-t/index.html code: 200
+href:http://geoserver.sourceforge.net/ code: 200
+href:http://localhost:8080/mapbuilder/demo/wfs-t/install.html code: 200
+href:http://localhost:8080/mapbuilder/demo/contextEditor/index.html code: 200
+href:http://localhost:8080/mapbuilder/demo/geoRSS/index.html code: 200
+href:http://mapserver.gis.umn.edu/mum/mtg2005.html code: 301
+href:http://localhost:8080/mapbuilder/demo/geoRSS/index2.html code: 200
+href:http://www.georss.org/ code: 200
+href:http://localhost:8080/mapbuilder/demo/flickr/index.html code: 200
+href:http://localhost:8080/mapbuilder/demo/shipTracks/index.html code: 200
+href:http://mapbuilder.sourceforge.net/ code: 302
+results
+Checking Page:http://localhost:8080/mapbuilder/docs/jsdoc/index.html
+results
+Checking Page:http://localhost:8080/mapbuilder
+href:http://localhost:8080/mapbuilder/demo code: 302
+href:http://docs.codehaus.org/display/MAP/Home/ code: 200
+href:http://localhost:8080/mapbuilder/userGuide code: 200
+href:http://docs.codehaus.org/display/MAP/User+Guide code: 200
+href:http://localhost:8080/mapbuilder/docs/design/index.html code: 404
+**FAILED LINK: http://localhost:8080/mapbuilder/docs/design/index.html
+href:http://localhost:8080/mapbuilder/docs/jsdoc/index.html code: 404
+**FAILED LINK: http://localhost:8080/mapbuilder/docs/jsdoc/index.html
+href:http://localhost:8080/mapbuilder/docs/register/ code: 200
+href:http://mapbuilder.sourceforge.net/ code: 302
+href:http://sarissa.sourceforge.net/ code: 302
+href:http://www.walterzorn.com/jsgraphics/jsgraphics_e.htm code: 200
+href:http://www.anvilon.com/software/jsjam code: 301
+href:http://mapserver.commenspace.org/tools/scalebar/ code: 200
+href:http://www.commenspace.org/ code: 200
+href:http://mapbuilder.sourceforge.net/ code: 302
+results
+Checking Page:http://localhost:8080/mapbuilder/docs/design/index.html
+results
+Checking Page:http://localhost:8080/mapbuilder/userGuide
+href:http://localhost:8080/mapbuilder/userGuide?page=intro code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=start/start code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=samples/intro code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=samples/tutorial1 code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=samples/tutorial2 code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=samples/tutorial3 code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=samples/tutorial4 code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=config/config code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=config/mvc code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=config/opvRule code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=config/patterns code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=config/skins code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=config/listeners code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=config/extend code: 200
+href:http://localhost:8080/mapbuilder/docs/register code: 302
+href:http://localhost:8080/mapbuilder/userGuide?page=start/install code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=start/tomcat code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=start/apache code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=start/geoserver code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=start/browsers code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=start/troubleshoot code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=mapSources code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=reference code: 200
+href: empty
+href:http://www.adaptivepath.com/publications/essays/archives/000385.php code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=config/config code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=reference#mapbuilder code: 200
+href:http://localhost:8080/mapbuilder/userGuide?page=reference#ogc code: 200
+href:http://mapbuilder.sourceforge.net/ code: 302
+results
+map not loaded:
+map not loaded:
+button not present
+map not loaded:
+map not loaded:
+check aoi button
+check aoi html form
+en
+scale text not found
+scale text not found
+scale text not found
+}}}

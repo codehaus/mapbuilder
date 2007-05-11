@@ -1,0 +1,73 @@
+!2 Interim Release
+This is an interim release, with some extensions incomplete (and now under change), as noted below.
+
+Notice that the ''!-FitLibrary-!'' jar for FitNesse is now called ''Fitlibrary.jar''.
+!3 Changes in latest version
+ * ^LatestChanges
+!3 How to achieve various tasks with ''!-FitLibrary-!''
+This is just a beginning...
+ * ^HowTo
+!3 Introduction to ''!-FitLibrary-!''
+The ''!-FitLibrary-!'' consists of several fixtures that work together.  There are several interesting features of the ''!-FitLibrary-!'' fixtures:
+ * ^DoFixture tables are compact and flexible for writing workflow tests
+ * The fixtures can operate directly on application objects, in a ''Domain Driven Design'' way, without the need to write fixtures. 
+ * The fixtures support various "graphical" values, including HTML lists and images. For example:
+!|fitlibrary.specify.DoTree|
+
+|check|tree|!-<ul><li>a</li><li>BB</li></ul>-!|
+ * The fixtures avoid magic values in cells, such as "error"
+For each of the ''!-FitLibrary-!'' fixtures, we show some example tables and the corresponding fixture code. See the ^FitBook for further examples of ''!-FitLibrary-!''.
+!3 Fixture for business processes (workflow):
+ * ^DoFixture (some extensions)
+!3 Fixtures for lists:
+ * ^ArrayFixture for ordered lists
+ * ^SetFixture for unordered lists
+ * ^SubsetFixture for parts of unordered lists
+ * ^ParamRowFixture to simplify the use of ''!-RowFixture-!'' with other ''!-FitLibrary-!'' fixtures
+ * ^ToStringArrayFixture for ordered lists of Strings (new)
+!3 Fixture for calculations and constraints:
+ * ^CalculateFixture
+ * ^ConstraintFixture
+ * ^CombinationFixture
+!3 Fixture for set up:
+ * ^SetUpFixture
+!3 Fixtures for Domain Objects
+See FitLibrarySpecifications for examples of these for now...
+ * ^DomainObjectSetUpFixture (new)
+ * ^DomainObjectCheckFixture (new)
+!3 Fixture for comments
+ * ^CommentFixture (new)
+!3 Fixture for testing grids
+ * ^GridFixture
+ * ^ImageFixture is a subclass of ^GridFixture
+!3 Fixture for comparing files and directories
+ * ^FileCompareFixture
+!3 Support for "Graphics"
+Core Fit handles textual values in the cells of a table. These values are converted automatically into primitive values, such as 12, and into objects, such as a ''Date''.
+
+The ''!-FitLibrary-!'' fixtures also support "graphical" values:
+ * ^TreeList uses HTML lists
+ * ^ImageNameGraphic uses HTML image names
+ * ^DotGraphics uses HTML images and associated Dot files
+ * ^TaggedStrings retains the tags from within a table cell (the tags are usually discarded)
+ * ^NestedTables provide support for embedded tables as values.
+ * ^TaggedStrings ensure that HTML tags aren't removed from table cell contents (new in v2.0)
+!3 ''!-FolderRunner-!''
+ * ''^FolderRunner'' runs Fit tests. It handles test suites, organised in directories (folders). It can handle both HTML and XLS spreadsheet files.
+ * It now uses css in the reports
+!3 Support in Java, Python, C# and other languages
+ * The Java ''!-FitLibrary-!'' now only works with the !-FitNesse-! version (ie, not the core Fit version). Java ''!-FitLibrary-!'' will be ported to Fit 2.0 as soon as that's available.
+ * John Roth has added ''!-FitLibrary-!'' to the Python version of Fit (for both core Fit and FitNesse).
+ * Mike Stockdale has released a C# port for much of ''!-FitLibrary-!'' at http://www.syterra.com/fitlibrary.net.20051122.zip
+ * Randy Coulman has almost finished a port for Smalltalk
+ * Work is underway on ports for Ruby and C++.
+!3 Further Information
+ * Further information will be made available at a new site over the next few months.
+ * Many examples of the development of Fit tables using the core and the ''!-FitLibrary-!'' fixtures (v1.0), etc are covered in ''Fit for Developing Software'', Rick Mugridge and Ward Cunningham, Prentice-Hall, 2005.
+ * Join the fitlibrary-user email group
+!3 ^FaQ4Programmers
+!path fitLibrary.jar
+!path Examples/ExampleTables/build
+!path Examples/ChatServer/build
+---- * ''Copyright (c) 2004, 2005 Rick Mugridge, Rimu Research.''
+ * ''Released under the terms of the GNU General Public License version 2 or later.''

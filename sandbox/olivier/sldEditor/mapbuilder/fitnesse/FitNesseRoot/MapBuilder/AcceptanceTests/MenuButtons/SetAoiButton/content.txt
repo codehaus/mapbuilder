@@ -1,0 +1,12 @@
+Check AOI button Presence in Menubar
+Check AOI form in the html document
+Define an aoi
+Check it against the aoi form
+
+|Action Fixture|
+|start|!-Mb.Widgets.SetaoiFixture-!|
+|check|aoi button|true|
+|check|aoi html form|true|
+|enter|coords|250 300 350 400|
+|press|set aoi|
+|check|values||

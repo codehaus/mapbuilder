@@ -1,0 +1,25 @@
+!2 Returned domain objects themselves may be named and referred to again.
+
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border><tr><td>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+</table>
+<table border>
+<tr><td>name</td><td>it 12</td><td>a point</td></tr>
+</table>
+<table border>
+<tr><td>use</td><td>it 12</td></tr>
+<tr><td>check</td><td>x</td><td>2</td></tr>
+<tr><td>check</td><td>y</td><td>3</td></tr>
+<tr><td>check</td><td>get x</td><td>2</td></tr>
+</table>-!|!-<table border><tr><td>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+</table>
+<table border>
+<tr><td>name</td><td class="pass">it 12</td><td>a point</td></tr>
+</table>
+<table border>
+<tr><td>use</td><td>it 12</td></tr>
+<tr><td>check</td><td>x</td><td class="pass">2</td></tr>
+<tr><td>check</td><td>y</td><td class="pass">3</td></tr>
+<tr><td>check</td><td>get x</td><td class="pass">2</td></tr>
+</table>-!|
+

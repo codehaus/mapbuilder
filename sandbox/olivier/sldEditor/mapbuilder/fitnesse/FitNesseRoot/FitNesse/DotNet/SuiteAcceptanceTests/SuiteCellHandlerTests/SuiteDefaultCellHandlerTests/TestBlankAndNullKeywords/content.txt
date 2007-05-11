@@ -1,0 +1,73 @@
+!3 Empty cells should display the value of a field or property. If a cell contains ''"blank"'' or ''"null"'' then treat it as blank ("") or truly null.
+
+Empty cells are automatically filled with the value of the field or property, and no check is performed. To explicitly set a value to empty string ("") or null, or to check for empty string or null, use the "blank" and "null" keywords.
+
+!|blank and null keyword column fixture|
+|field|field|field?|field?|is field null?|is field blank?|
+|     |     |      |null  |true          |false          |
+|blank|     |      |blank |false         |true           |
+|joe  |     |      |joe   |false         |false          |
+|null |     |      |null  |true          |false          |
+
+{{{
+public class BlankAndNullKeywordFixture : ColumnFixture
+{
+	public string Field;
+	public bool IsFieldNull() {return Field == null;}
+	public bool IsFieldBlank() {return Field != null && Field.Length == 0;}
+}
+}}}
+
+!|blank and null keyword row fixture|
+|field|
+|null|
+|blank|
+|joe|
+{{{
+public class BlankAndNullKeywordRowFixture : RowFixture
+{
+	public override object[] Query()
+	{
+		BlankAndNullKeywordColumnFixture domainObject1 = new BlankAndNullKeywordColumnFixture();
+		domainObject1.Field = null;
+		BlankAndNullKeywordColumnFixture domainObject2 = new BlankAndNullKeywordColumnFixture();
+		domainObject2.Field = "";
+		BlankAndNullKeywordColumnFixture domainObject3 = new BlankAndNullKeywordColumnFixture();
+		domainObject3.Field = "joe";
+		return new object[]{domainObject1, domainObject2, domainObject3};
+	}
+
+	public override Type GetTargetClass()
+	{
+		return typeof(BlankAndNullKeywordColumnFixture);
+	}
+}
+}}}
+
+|action fixture|
+|start|string fixture|
+|enter|field|null|''enter value''|
+|check|field||''check with empty cell''|
+|check|field|null|''check expected value''|
+|enter|field||''enter with empty cell (should do nothing)''|
+|check|field||''check with empty cell''|
+|check|field|null|''check expected value''|
+
+!|action fixture|
+|start|string fixture|
+|enter|field|blank|
+|check|field||
+|check|field|blank|
+|enter|field||
+|check|field||
+|check|field|blank|
+
+!|action fixture|
+|start|string fixture|
+|enter|field|joe|
+|check|field||
+|check|field|joe|
+|enter|field||
+|check|field||
+|check|field|joe|
+

@@ -1,0 +1,33 @@
+!1 Simple Demo
+
+Override Setup
+!|Action Fixture|
+|start|Mb.Setup|
+|enter|host|${MAPBUILDER}|
+|enter|webapp|demo/simple|
+|enter|config file|${CONFIGFILE}|
+|press|goto it|
+
+Go to the Simple demo page and check the model
+|Action Fixture|
+|start|Mb.Model|
+|enter|timeout|10|
+|check|model loaded|true|
+
+Check the various layers
+|Mb.DisplayLayers|
+|map|layer name|loaded?|src?|
+|mainMap|ocean|true||
+|mainMap|land|true||
+|mainMap|lake_fill|true||
+|mainMap|coast|true||
+|mainMap|boundaries|true||
+|mainMap|country_names|true||
+
+Check Menu Widgets
+
+!see .MapBuilder.AcceptanceTests.MenuButtons.ZoominButton
+!see .MapBuilder.AcceptanceTests.MenuButtons.ZoomoutButton
+!see .MapBuilder.AcceptanceTests.MenuButtons.DragPanButton
+!see .MapBuilder.AcceptanceTests.MenuButtons.ResetButton
+!see .MapBuilder.AcceptanceTests.WidgetsTests.ModelUrlInputTest

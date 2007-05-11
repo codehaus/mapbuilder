@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.0//EN"
+"http://www.oasis-open.org/docbook/xml/simple/1.0/sdocbook.dtd">
+<article>
+  <title>Community Mapbuilder State Of Play - April 2006</title>
+
+  <abstract>
+    <para>This document summarises the state of the Mapbuilder project and
+    it's relationship with projects around it, identify upcoming features and
+    opportunities, and suggest where to focus future effort and funding to
+    maximise Mapbuilder's potential.</para>
+
+    <para>There has been a significant increase in developers downloading and
+    extending Mapbuilder code. To maximise Mapbuilder's potential for
+    developers, users and sponsors, the focus of core developers should move
+    from development toward supporting and mentoring new developers.
+    Similarly, sponsors should dedicate part of their funds to Mapbuilder
+    mentors. <emphasis role="bold">Sponsor one mentor and you get five
+    developers for free</emphasis>.</para>
+  </abstract>
+
+  <section>
+    <title>What is Mapbuilder?</title>
+
+    <para>Mapbuilder is a modern, web based geographic mapping client. It's
+    modular design has made it easy for developers to build an every
+    increasing library of widgets and tools to plug into Mapbuilder. In
+    particular, Mapbuilder stands out from other Webmapping clients because it
+    allows users to draw vector features on a map then load the feature into a
+    Transactional Web Feature Service.</para>
+
+    <para>Mapbuilder is built upon OGC standards and hence is interoperable
+    with many other Geospatial applications.</para>
+
+    <para>Mapbuilder has grown a strong, diverse and active developer
+    community and as Mapbuilder reaches it's 1.0 release it is being
+    recognised as a quality product. Mapbuilder is bundled with Geoserver, an
+    Open Source Web Map Service (WMS) and Transactional Web Feature Service
+    (WFS), and Mapbuilder was selected as one of the founding projects for
+    OSGeo, the Open Source Geospatial Foundation.</para>
+  </section>
+
+  <section>
+    <title>What big ticket items are in the pipeline?</title>
+
+    <section>
+      <title>Geographic wiki</title>
+
+      <para>Web Mapping to date has focused on Publishing mapping data.
+      Feature entry functionality is being added to Mapbuilder which will
+      allow users to create, edit, then upload geographic features.</para>
+    </section>
+
+    <section>
+      <title>Integrated Suite of Open Source Mapping products</title>
+
+      <para>There is a full range of high quality open source geospatial
+      software which interacts which each other using Open Standards - however
+      the installation and configuration of these products is still
+      disjointed. Over the next few years, these projects are likely to
+      integrate more closely providing easy to install and configure
+      solutions.</para>
+
+      <para>In particular, Mapbuilder is currently bundled with Geoserver, an
+      open source WFS/WMS, and there is an opportunity for Mapbuilder to be
+      bundled with Udig to provide a heavy/light client solution.</para>
+    </section>
+
+    <section>
+      <title>Roll your own Webmapping Client</title>
+
+      <para>Imagine a web page which looked like a drawing program like Visio.
+      On the left is a list of widgets which can be dragged onto a Pane on the
+      right. After the user has selected and placed their widgets, the use can
+      assign attributes like Map Layers.</para>
+
+      <para><ulink
+      url="http://www.netvibes.com/">http://www.netvibes.com/</ulink> uses a
+      similar concept which made it very popular.</para>
+    </section>
+
+    <section>
+      <title>AJAX drawing tool</title>
+
+      <para>Mapbuilder has developed effective drawing functionality which
+      would be useful for a wide range of applications. This should be
+      factored out into a separate library so that it can be used by other
+      applications.</para>
+    </section>
+
+    <section>
+      <title>Lots of extra widgets and features</title>
+
+      <para>Google and Yahoo Map layers, fast vector rendering of features (eg
+      using SVG), tiled maps, and much more.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Managing growth</title>
+
+    <figure>
+      <title></title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="emailsFeb06.gif" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Over the last year Mapbuilder has had a steady increase in interest
+    from developers and users. Traffic on our email lists has increased by a
+    factor of five over the last year. Increasingly we are seeing questions
+    from paid portal developers who extend Mapbuilder, then move on. Since
+    most core developers work on Mapbuilder in their spare time the core
+    developers are having problems supporting users and incorporating the
+    user's code.</para>
+
+    <para>Almost all Mapbuilder queries are from developers, which is an
+    indication that Mapbuilder documentation and installation procedures are
+    too difficult for average internet users.</para>
+
+    <para>Mapbuilder's user documentation is still poor which is part of the
+    reason for the large number of user queries. Improving documentation will
+    empower users to answer their own queries, and will increase Mapbuilder's
+    user base because more people will be able to use it.</para>
+  </section>
+
+  <section>
+    <title>Funding</title>
+
+    <para>Mapbuilder has grown to privileged position where we are starting to
+    have access to more developers than the core team can support. To accept
+    developer contributions, we need to provide guidance, answer technical
+    questions, review code and incorporate additions into the code base. Part
+    of the support can be provided by writing good supporting
+    documentation.</para>
+
+    <para>If you are considering using or extending Mapbuilder, sponsoring a
+    Mapbuilder mentor will probably make sense for you. <emphasis
+    role="bold">Sponsor one mentor and get five developers for
+    free.</emphasis> For a company who wants to extend Mapbuilder, I suggest
+    you hire a developer to implement your desired features and a mentor for
+    1/5 of your developer's time. This will ensure your code is reviewed and
+    incorporated into the Mapbuilder codebase and available in future
+    Mapbuilder releases. If your desired functionality is popular, it may be
+    more economical to just support a Mapbuilder mentor which in turn will
+    empower other Mapbuilder developers to implement features on your
+    behalf.</para>
+  </section>
+
+  <section>
+    <title>Integrating with projects around us</title>
+
+    <para>The commercial world regularly tries to out do and compete against
+    similar projects, but in Open Source we can do much better by embracing
+    and working together.</para>
+
+    <section>
+      <title>Web mapping clients</title>
+
+      <para>There are a number of web mapping clients doing similar things to
+      Mapbuilder or with features that Mapbuilder would like to copy. The
+      projects all contain talented software developers and we would all do
+      better if we could share our workload and focus on one great product
+      instead of lots of good products.</para>
+
+      <para>Unfortunately it is difficult to merge two code bases together and
+      no one wants to give up a project they have spent lots of time on to go
+      and work on someone else's code.</para>
+
+      <para>So what I propose is that we work toward a long term goal of
+      merging projects. We start by gradually factoring out common libraries
+      that we work on together, and whenever we make future design decisions,
+      we run the idea past other projects and see if we reuse code or
+      interfaces which will ease merging some time in the future. <ulink
+      url="webmap-discuss-subscribe@mail.osgeo.org">webmap-discuss@lists.osgeo.org</ulink>
+      has been set up to facilitate this.</para>
+    </section>
+
+    <section>
+      <title>OpenStreetMap and other Geowikis</title>
+
+      <para><ulink
+      url="http://www.openstreetmap.org/ ">http://www.openstreetmap.org/</ulink>
+      is a project which allows users to upload tracks from GPS devices (like
+      handheld computers or phones) into a geographic database, then provides
+      a java applet to edit those same features. They have addresses some of
+      the hard issues, like version control on features at the expense of
+      breaking away from Open Standards. And they are already collecting data
+      from users.</para>
+
+      <para>This is a project that would be great to work with. They have a
+      great vision, and some good ideas. We could add value to them by
+      providing our AJAX based web mapping client - they have a Java applet.
+      Java applets are a stumbling block for many non-technical users because
+      it requires them to download and install extra software into their
+      browser. We could help them migrate toward a standards based solution,
+      which would enable them to tap into other powerful mapping applications
+      (like UDig).</para>
+
+      <para>There has been talk on Wikipedia about setting up a geographic
+      wiki. Mapbuilder could be the tool used for a Wikipedia for geographic
+      maps.</para>
+    </section>
+
+    <section>
+      <title>Basemap providers</title>
+
+      <para>There has been an explosion of quality free basemaps on the
+      internet from companies like Google, Yahoo, and MSN. These companies
+      also provide viewers which could be seen as competitors to Mapbuilder.
+      These companies could be seen as potential sponsors for the Mapbuilder
+      project as their code value is in their maps, not the mapping
+      client.</para>
+    </section>
+
+    <section>
+      <title>AJAX Engines</title>
+
+      <para>Mapbuilder has built it's own AJAX software - (software which
+      handles asynchronous loading, events, javascript inheritance etc). It is
+      powerful, and it works, however some of the code is not very elegant,
+      and because we were experimenting as we wrote it, we have instances
+      where concepts like inheritance are implemented in two different ways.
+      This makes the code harder to understand and more prone to bugs.</para>
+
+      <para>Since we wrote Mapbuilder, there have been a number of quality
+      AJAX Engines written. It would be wise of Mapbuilder to replace our
+      engine with one of the dedicated engines. The advantages would be: more
+      reliable code, maintenance would be spread across a larger user base and
+      we can tap into the expertise of the developers on these
+      projects.</para>
+    </section>
+
+    <section>
+      <title>Geoserver</title>
+
+      <para>Geoserver is a Java based Transactional Web Feature Service
+      (WFS-T) and Web Map Service. Mapbuilder is currently bundled with
+      Geoserver which probably explains why a number of our quality developers
+      have been attracted to Mapbuilder.</para>
+
+      <para>We need to ensure that Mapbuilder continues to be bundled with
+      Geoserver and ensure that Geoserver ships with the latest version of
+      Mapbuilder.</para>
+    </section>
+
+    <section>
+      <title>UDig</title>
+
+      <para><ulink
+      url="http://udig.refractions.net/confluence/display/UDIG/Home">UDig</ulink>
+      is a powerful GIS desktop application. It would be very useful for users
+      to bundle Mapbuilder with UDig to provide a light/heavy client
+      option.</para>
+    </section>
+
+    <section>
+      <title>Open Web Services Testbed (OWS4)</title>
+
+      <para>The OWS4 testbed sponsored by the Open Geospatial Consortium would
+      be an excellent opportunity to show case Mapbuilder and UDig
+      integration.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Areas for improvement</title>
+
+    <section>
+      <title>Documentation</title>
+
+      <para>Mapbuilder's documentation needs to catch up to the quality of the
+      code. By improving our documentation, we won't need to keep answering
+      the same questions on email lists and will increase our user base.
+      Increased users, means increased developers and sponsorship and a
+      healthier project.</para>
+
+      <para>The catch is that the people who know the most about the code (the
+      developers) don't need the documentation and sponsors often want to pay
+      for a feature and move on. Good documentation is a long term investment
+      in a project.</para>
+    </section>
+
+    <section>
+      <title>Testing</title>
+
+      <para>It is a credit to the Mapbuilder team that Mapbuilder is so stable
+      considering that it targets the flaky browser platforms.</para>
+
+      <para>To date Mapbuilder has only just started looking at automated
+      testing, however it has not been rolled out across the project.
+      Automated testing will help ensure Mapbuilder remains stable and give us
+      confidence to take on more developers.</para>
+    </section>
+
+    <section>
+      <title>Core code</title>
+
+      <para>Mapbuilder's code has gone through many improvements as we have
+      pioneered and experimented with AJAX techniques. As such there are areas
+      of code which still contain old hacks and plenty of areas where we could
+      simplify code. This would reduce download size, reduce complexity and
+      improve maintainability.</para>
+
+      <para>We should do a systematic code review and clean up and improve our
+      existing core code, and replace some of our code with standard AJAX
+      libraries.</para>
+    </section>
+
+    <section>
+      <title>Managing new developers and funding</title>
+
+      <para>We have become overwhelmed with new developers and their
+      questions. This is a good thing, but we do need to change the way we do
+      things. In particular, the core team needs to focus more on Mentoring
+      new developers. Ideally, sponsors should consider sponsoring a
+      Mapbuilder mentor. Sponsor one mentor, get five developers for
+      free.</para>
+    </section>
+
+    <section>
+      <title>Visibility</title>
+
+      <para>To build the project's profile, we should present Mapbuilder at
+      various conferences.</para>
+    </section>
+  </section>
+</article>

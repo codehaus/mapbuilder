@@ -1,0 +1,66 @@
+!2 If a flow-based ''!-DoFixture-!'' action returns an array or a Collection or an Iterator, ''!-DoFixture-!'' returns a new ''!-SetFixture-!'' or ''!-ArrayFixture-!'', so that list can be tested against the rest of the table:
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border><tr><td>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+</table>
+<table border>
+<tr><td>an array of Point</td></tr>
+<tr><td>x</td><td>y</td></tr>
+<tr><td>0</td><td>0</td></tr>
+<tr><td>5</td><td>5</td></tr>
+</table>
+<table border>
+<tr><td>a list of Point</td></tr>
+<tr><td>x</td><td>y</td></tr>
+<tr><td>0</td><td>0</td></tr>
+<tr><td>5</td><td>5</td></tr>
+</table>
+<table border>
+<tr><td>an iterator of point</td></tr>
+<tr><td>x</td><td>y</td></tr>
+<tr><td>0</td><td>0</td></tr>
+<tr><td>5</td><td>5</td></tr>
+</table>
+<table border>
+<tr><td>a set of Point</td></tr>
+<tr><td>x</td><td>y</td></tr>
+<tr><td>5</td><td>5</td></tr>
+<tr><td>0</td><td>0</td></tr>
+</table>
+<table border>
+<tr><td>a map of Point</td></tr>
+<tr><td>x</td><td>y</td></tr>
+<tr><td>5</td><td>5</td></tr>
+<tr><td>0</td><td>0</td></tr>
+</table>-!|!-<table border><tr><td>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+</table>
+<table border>
+<tr><td>an array of Point</td></tr>
+<tr><td>x</td><td>y</td></tr>
+<tr><td class="pass">0</td><td class="pass">0</td></tr>
+<tr><td class="pass">5</td><td class="pass">5</td></tr>
+</table>
+<table border>
+<tr><td>a list of Point</td></tr>
+<tr><td>x</td><td>y</td></tr>
+<tr><td class="pass">0</td><td class="pass">0</td></tr>
+<tr><td class="pass">5</td><td class="pass">5</td></tr>
+</table>
+<table border>
+<tr><td>an iterator of point</td></tr>
+<tr><td>x</td><td>y</td></tr>
+<tr><td class="pass">0</td><td class="pass">0</td></tr>
+<tr><td class="pass">5</td><td class="pass">5</td></tr>
+</table>
+<table border>
+<tr><td>a set of Point</td></tr>
+<tr><td>x</td><td>y</td></tr>
+<tr><td class="pass">5</td><td class="pass">5</td></tr>
+<tr><td class="pass">0</td><td class="pass">0</td></tr>
+</table>
+<table border>
+<tr><td>a map of Point</td></tr>
+<tr><td>x</td><td>y</td></tr>
+<tr><td class="pass">5</td><td class="pass">5</td></tr>
+<tr><td class="pass">0</td><td class="pass">0</td></tr>
+</table>-!|
+

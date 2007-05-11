@@ -1,0 +1,106 @@
+<project name="project" default="compile" basedir=".">
+  <property file="build.properties"/>
+
+  <property name="app.version"   value="0.1-dev"/>
+  <property name="build.home"    value="${basedir}/build"/>
+  <property name="docs.home"     value="${basedir}/docs"/>
+  <property name="javaDocs.home" value="${docs.home}/api"/>
+  <property name="src.home"      value="${basedir}/src"/>
+  <property name="lib.home"      value="C:/rickLib"/>
+  <property name="j2sdk.home"    value="C:/j2sdk1.4.1_01"/>
+  <property name="ant.home"      value="C:/apache-ant-1.5.3-1"/>
+
+<!--  ==================== Compilation Control Options ==================== -->
+  <property name="compile.debug"       value="true"/>
+  <property name="compile.deprecation" value="false"/>
+  <property name="compile.optimize"    value="true"/>
+
+<!-- ==================== Compilation Classpath =========================== -->
+  <path id="compile.classpath">
+    <pathelement location="${lib.home}/junit.jar"/>
+    <pathelement location="${lib.home}/fitnesse.jar"/>
+    <pathelement location="${lib.home}/nakedobjects.jar"/>
+    <pathelement location="${lib.home}/log4j-1.2.6.jar"/>
+    <pathelement location="${lib.home}/xerces.jar"/>
+    <pathelement location="${j2sdk.home}/lib/tools.jar"/>
+    <pathelement location="${ant.home}/lib/ant.jar"/>
+    <pathelement location="${lib.home}/fitLibrary.jar"/>
+  </path>
+
+<!-- ==================== All Target ====================================== -->
+
+  <target name="all" depends="clean,compile"
+   description="Clean build and dist directories, then compile"/>
+
+<!-- ==================== Clean Target ==================================== -->
+
+  <target name="clean"
+   description="Delete old build directory">
+    <delete dir="${build.home}"/>
+  </target>
+
+<!-- ==================== Compile Target ================================== -->
+
+  <target name="compile" depends="prepare"
+          description="Compile Java sources">
+    <javac srcdir="${src.home}"
+          destdir="${build.home}"
+            debug="${compile.debug}"
+      deprecation="${compile.deprecation}"
+         optimize="${compile.optimize}">
+        <classpath refid="compile.classpath"/>
+    </javac>
+  </target>
+
+<!-- ==================== Prepare Target ================================== -->
+
+  <target name="prepare">
+    <mkdir  dir="${build.home}"/>
+  </target>
+
+<!-- ==================== Javadoc Target ================================== -->
+
+  <target name="javadoc" depends="compile"
+          description="Create Javadoc API documentation">
+    <mkdir   dir="${javaDocs.home}"/>
+    <javadoc sourcepath="${src.home}"
+             destdir="${javaDocs.home}"
+             packagenames="${package.name}">
+       <classpath refid="compile.classpath"/>
+    </javadoc>
+  </target>
+
+<!-- ==================== Jar Target ================================== -->
+
+  <target name="jar" depends="compile"
+          description="Create Jar">
+    <jar jarfile="${lib.home}/${package.name}.jar" 
+         basedir="${build.home}"/>
+  </target>
+
+<!-- ==================== Run Target ==================================== -->
+
+  <target name="run" depends="compile"
+          description="Run Fit">
+    <java classname="fit.FileRunner" fork="yes">
+          <arg value="input.html"/>
+          <arg value="results.html"/>
+          <classpath refid="compile.classpath"/>
+          <classpath>
+              <pathelement path="${build.home}"/>
+          </classpath>
+    </java>
+  </target>
+
+<!-- ==================== Test Target ==================================== -->
+
+  <target name="test" depends="compile"
+          description="Run Tests">
+    <java classname="${package.name}.Test" fork="yes">
+          <classpath refid="compile.classpath"/>
+          <classpath>
+              <pathelement path="${build.home}"/>
+          </classpath>
+    </java>
+  </target>
+</project>

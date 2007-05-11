@@ -1,0 +1,47 @@
+!2 Testing of Layer Control in the context of "complete" demo
+
+For all layers:
+click off layer
+check that the layer is invisible
+turn it back on
+check that the image thumbnail is there
+
+|Action Fixture|
+|start|Mb.Widgets.LayerControl|
+|press|Bathymetry off|
+|check|Bathymetry visible|false|
+|press|Bathymetry on|
+|check|Bathymetry visible|true|
+|press|Bathymetry delete|
+|check|Bathymetry deleted|true|
+|check|thumbnail visible|true|
+
+|Action Fixture|
+|press|Countries off|
+|check|Countries visible|false|
+|press|Countries on|
+|check|Countries visible|true|
+|press|Countries delete|
+|check|Countries deleted|true|
+
+|Action Fixture|
+|press|Topography off|
+|check|Topography visible|false|
+|press|Topography on|
+|check|Topography visible|true|
+|press|Topography delete|
+|check|Topography deleted|true|
+
+|Action Fixture|
+|press|Hillshading off|
+|check|Hillshading visible|false|
+|press|Hillshading on|
+|check|Hillshading visible|true|
+|press|Hillshading delete|
+|check|Hillshading deleted|true|
+
+Cleanup
+
+|Action Fixture|
+|press|refresh|
+

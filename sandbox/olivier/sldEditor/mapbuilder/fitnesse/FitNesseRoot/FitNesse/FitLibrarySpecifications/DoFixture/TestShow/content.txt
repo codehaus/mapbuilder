@@ -1,0 +1,13 @@
+!2 'show' adds a new cell to the row to show the returned value of an action
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table><tr><td>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr></table>
+<table>
+<tr><td>show</td><td>+</td></tr>
+<tr><td>show</td><td>shown</td></tr>
+</table>-!|!-<table><tr><td>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr></table>
+<table>
+<tr><td>show</td><td>+</td>
+<td>0</td></tr>
+<tr><td>show</td><td>shown</td>
+<td><ul><li>ita<li>lics</ul></td></tr>
+</table>-!|

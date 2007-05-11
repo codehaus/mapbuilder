@@ -1,0 +1,20 @@
+This is used in the Demis example to switch maps but stay at the same position and zoom level
+
+!|Action Fixture|
+|start|Mb.Widgets.ModelSwitcherFixture|
+|check|bbox1||
+|press|usa streets|
+|check|map loaded|true|
+|check|bbox2||
+|check|same bbox|true|
+|press|satellite|
+|check|map loaded|true|
+|check|bbox2||
+|check|same bbox|true|
+|press|world|
+|check|map loaded|true|
+
+
+One problem is that reset does not work.  You need to reload the page
+!|Action Fixture|
+|press|refresh|

@@ -1,0 +1,11 @@
+!2 An exception is thrown on a setUp row if the setUp() method of the fixture is not called. The tearDown() method throws an exception so that we can see that it's been called. We also check extended camel.
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border="1" cellspacing="0">
+<tr><td colspan="2">fitlibrary.specify.SetUpFixtureUnderTest2</td></tr>
+<tr><td>a</td><td>%</td></tr>
+<tr><td>1</td><td>2</td></tr>
+</table>-!|!-<table border="1" cellspacing="0">
+<tr><td colspan="2" class="error">fitlibrary.specify.SetUpFixtureUnderTest2<hr><pre><div class="fit_stacktrace"></div></pre></td></tr>
+<tr><td>a</td><td>%</td></tr>
+<tr><td>1</td><td>2</td></tr>
+</table>-!|

@@ -1,0 +1,26 @@
+!1 Acceptance Tests
+
+|!c '''Table of Contents'''|
+|!c [[STEP 1][MapBuilder.PreRequisites]]|''Check Required Installation Packages''|
+|!c [[STEP 2][MapBuilder.SetUp]]|''Check Mapbuilder Setup''|
+|!c [[STEP 3][MapBuilder.AcceptanceTests]]|''Run !-MapBuilder-! Acceptance Tests Suite''|
+
+!2 Notes
+The !-MapBuilder-! installation to be tested should be running on a server.
+You should have downloaded the !-Mapbuilder-! war file and installed it as a webapp
+Specify host and webapp in above MAPBUILDER variable
+Adjust your settings in MapBuilder.SetUp if necessary
+Make sure to add your localhost in trusted sites
+You might need to enable ActiveX control in the Browser
+----
+!2 ''Mapbuilder Under Test''
+!define MAPBUILDER {http://localhost:8080/mapbuilder}
+!define WEBAPP {demo/Demis}
+!define CONFIGFILE {config.xml}
+----
+!2 Collapse Set Up and Tear Down
+!define COLLAPSE_SETUP {true}
+!define COLLAPSE_TEARDOWN {true}
+----
+!2 Use !-RubyFit-! Server
+!define COMMAND_PATTERN {ruby -I %p ruby/bin/FitServer.rb}

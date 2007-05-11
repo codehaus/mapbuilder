@@ -1,0 +1,15 @@
+|Action Fixture|
+|start|!-Mb.Widgets.CursorTrack-!|
+|enter|window title|Ship Tracks Demo|
+|enter|pixelxy|504 439|
+|enter|long lat|-91.40 41.30|
+|check|degree test|true|
+|enter|pixelxy|563 691|
+|enter|long lat|-86.7 21.20|
+|check|degree test|true|
+|enter|pixelxy|613 691|
+|enter|long lat|-82.7 21.20|
+|check|degree test|true|
+|enter|pixelxy|820 414|
+|enter|long lat|-66.00 43.40|
+|check|degree test|true|

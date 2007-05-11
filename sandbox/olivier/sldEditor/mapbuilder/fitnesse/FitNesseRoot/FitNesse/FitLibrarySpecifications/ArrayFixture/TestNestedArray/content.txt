@@ -1,0 +1,79 @@
+!2 An ''!-ArrayFixture-!'' table may have nested tables (for arrays, lists, etc)
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border="1" cellspacing="0">
+<tr><td>fitlibrary.specify.NestedLists</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td colspan="2"><i>nested</i></td></tr>
+<tr><td><i>name</i></td><td><i>elements</i></td></tr>
+<tr><td>apple</td><td><table border="1" cellspacing="0">
+<tr><td><i>id</i></td><td><i>count</i></td></tr>
+<tr><td>a</td><td>1</td></tr>
+<tr><td>b</td><td>2</td></tr>
+</table></td></tr>
+<tr><td>orange</td><td><table border="1" cellspacing="0">
+<tr><td><i>id</i></td></tr>
+<tr><td>c</td></tr>
+</table></td></tr>
+<tr><td>pear</td><td><table border="1" cellspacing="0">
+<tr><td><i>id</i></td><td><i>count</i></td></tr>
+</table></td></tr>
+</table>-!|!-<table border="1" cellspacing="0">
+<tr><td>fitlibrary.specify.NestedLists</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td colspan="2"><i>nested</i></td></tr>
+<tr><td><i>name</i></td><td><i>elements</i></td></tr>
+<tr><td class="pass">apple</td><td><table border="1" cellspacing="0">
+<tr><td><i>id</i></td><td><i>count</i></td></tr>
+<tr><td class="pass">a</td><td class="pass">1</td></tr>
+<tr><td class="pass">b</td><td class="pass">2</td></tr>
+</table></td></tr>
+<tr><td class="pass">orange</td><td><table border="1" cellspacing="0">
+<tr><td><i>id</i></td></tr>
+<tr><td class="pass">c</td></tr>
+</table></td></tr>
+<tr><td class="pass">pear</td><td><table border="1" cellspacing="0">
+<tr><td class="pass"><i>id</i></td><td><i>count</i></td></tr>
+</table></td></tr>
+</table>-!|
+
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border="1" cellspacing="0">
+<tr><td>fitlibrary.specify.NestedLists</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td colspan="2"><i>nested</i></td></tr>
+<tr><td><i>name</i></td><td><i>elements</i></td></tr>
+<tr><td>apple</td><td><table border="1" cellspacing="0">
+<tr><td><i>identity</i></td><td><i>count</i></td></tr>
+<tr><td>a</td><td>1</td></tr>
+</table></td></tr>
+<tr><td>orange</td><td><table border="1" cellspacing="0">
+<tr><td><i>id</i></td></tr>
+<tr><td>d</td></tr>
+</table></td></tr>
+<tr><td>pear</td><td><table border="1" cellspacing="0">
+<tr><td><i>id</i></td><td><i>count</i></td></tr>
+<tr><td>a</td><td>1</td></tr>
+</table></td></tr>
+</table>-!|!-<table border="1" cellspacing="0">
+<tr><td>fitlibrary.specify.NestedLists</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td colspan="2"><i>nested</i></td></tr>
+<tr><td><i>name</i></td><td><i>elements</i></td></tr>
+<tr><td class="pass">apple</td><td><table border="1" cellspacing="0">
+<tr><td class="error"><i>identity</i><hr/> <span class="fit_label">Could not find field: identity.</span></td><td><i>count</i></td></tr>
+<tr><td>a</td><td>1</td></tr>
+</table></td></tr>
+<tr><td class="pass">orange</td><td><table border="1" cellspacing="0">
+<tr><td><i>id</i></td></tr>
+<tr><td class="fail">d <span class="fit_label">missing</span></td></tr>
+<tr>
+<td class="fail"> <span class="fit_grey">c</span> <span class="fit_label">surplus</span></td></tr></table></td></tr>
+<tr><td class="pass">pear</td><td><table border="1" cellspacing="0">
+<tr><td><i>id</i></td><td><i>count</i></td></tr>
+<tr><td class="fail">a <span class="fit_label">missing</span></td><td>1</td></tr>
+</table></td></tr>
+</table>-!|

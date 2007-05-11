@@ -1,0 +1,29 @@
+!1 WFS-T Demo
+
+Override Setup
+!|Action Fixture|
+|start|Mb.Setup|
+|enter|host|${MAPBUILDER}|
+|enter|webapp|demo/wfs-t|
+|enter|config file|${CONFIGFILE}|
+|press|goto it|
+
+Go to the Simple demo page and check the model
+|Action Fixture|
+|start|Mb.Model|
+|enter|timeout|10|
+|check|model loaded|true|
+
+
+Check the various layers
+
+|Mb.DisplayLayers|
+|map|layer name|loaded?|src?|
+|locator|ocean|true||
+|locator|land|true||
+|locator|coast|true||
+|mainMap|coast|true||
+|mainMap|topp:tasmania_state_boundaries|true||
+|mainMap|topp:tasmania_water_bodies|true||
+|mainMap|topp:tasmania_roads|true||
+|mainMap|topp:tasmania_cities|true||

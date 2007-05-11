@@ -1,0 +1,47 @@
+!2 Returned fixture objects, corresponding to domain objects, may be named and referred to again.
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border><tr><td>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+</table>
+<table border>
+<tr><td>name</td><td>it 12</td><td>fixture object</td><td>12</td></tr>
+</table>
+<table border>
+<tr><td>use</td><td>it 12</td></tr>
+<tr><td>getX()</td><td>x</td><td>getX()</td></tr>
+<tr><td>12</td><td>120</td><td>120</td></tr>
+</table>
+<table border>
+<tr><td>name</td><td>it 9</td><td>fixture object</td><td>9</td></tr>
+</table>
+<table border>
+<tr><td>use</td><td>it 9</td></tr>
+<tr><td>getX()</td></tr>
+<tr><td>9</td></tr>
+</table>
+<table border>
+<tr><td>use</td><td>it 12</td></tr>
+<tr><td>getX()</td></tr>
+<tr><td>120</td></tr>
+</table>-!|!-<table border><tr><td>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+</table>
+<table border>
+<tr><td>name</td><td class="pass">it 12</td><td>fixture object</td><td>12</td></tr>
+</table>
+<table border>
+<tr><td>use</td><td>it 12</td></tr>
+<tr><td>getX()</td><td>x</td><td>getX()</td></tr>
+<tr><td class="pass">12</td><td>120</td><td class="pass">120</td></tr>
+</table>
+<table border>
+<tr><td>name</td><td class="pass">it 9</td><td>fixture object</td><td>9</td></tr>
+</table>
+<table border>
+<tr><td>use</td><td>it 9</td></tr>
+<tr><td>getX()</td></tr>
+<tr><td class="pass">9</td></tr>
+</table>
+<table border>
+<tr><td>use</td><td>it 12</td></tr>
+<tr><td>getX()</td></tr>
+<tr><td class="pass">120</td></tr>
+</table>-!|

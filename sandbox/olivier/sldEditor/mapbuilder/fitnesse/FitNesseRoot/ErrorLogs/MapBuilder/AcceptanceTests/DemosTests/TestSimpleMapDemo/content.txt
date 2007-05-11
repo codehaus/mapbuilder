@@ -1,0 +1,19 @@
+|'''Date: '''|!-4:01:47 PM (EST) on Tuesday, December 27, 2005-!|
+|'''Command: '''|!-ruby -I fitnesse.jar;fitlibrary.jar ruby/bin/FitServer.rb localhost 8088 45-!|
+|'''Exit code: '''|!-0-!|
+|'''Time elapsed: '''|!-5.344 seconds-!|
+----'''Standard Output:'''
+{{{Checking img:http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map&VERSION=1.1.0&REQUEST=GetMap&SERVICE=WMS&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=400&HEIGHT=200&LAYERS=ocean&FORMAT=image/gif&STYLES=&TRANSPARENT=TRUE&UNIQUEID=
+Checking img:http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map&VERSION=1.1.0&REQUEST=GetMap&SERVICE=WMS&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=400&HEIGHT=200&LAYERS=country_names&FORMAT=image/gif&STYLES=&TRANSPARENT=TRUE&UNIQUEID=
+Checking img:http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map&VERSION=1.1.0&REQUEST=GetMap&SERVICE=WMS&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=400&HEIGHT=200&LAYERS=land&FORMAT=image/gif&STYLES=&TRANSPARENT=TRUE&UNIQUEID=
+Checking img:http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map&VERSION=1.1.0&REQUEST=GetMap&SERVICE=WMS&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=400&HEIGHT=200&LAYERS=lake_fill&FORMAT=image/gif&STYLES=&TRANSPARENT=TRUE&UNIQUEID=
+Checking img:http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map&VERSION=1.1.0&REQUEST=GetMap&SERVICE=WMS&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=400&HEIGHT=200&LAYERS=coast&FORMAT=image/gif&STYLES=&TRANSPARENT=TRUE&UNIQUEID=
+Checking img:http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map&VERSION=1.1.0&REQUEST=GetMap&SERVICE=WMS&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=400&HEIGHT=200&LAYERS=boundaries&FORMAT=image/gif&STYLES=&TRANSPARENT=TRUE&UNIQUEID=
+loaded:true
+//div[@id='mainMap_mainMapWidget_ocean']/img http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map&VERSION=1.1.0&REQUEST=GetMap&SERVICE=WMS&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=400&HEIGHT=200&LAYERS=ocean&FORMAT=image/gif&STYLES=&TRANSPARENT=TRUE&UNIQUEID=
+//div[@id='mainMap_mainMapWidget_land']/img http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map&VERSION=1.1.0&REQUEST=GetMap&SERVICE=WMS&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=400&HEIGHT=200&LAYERS=land&FORMAT=image/gif&STYLES=&TRANSPARENT=TRUE&UNIQUEID=
+//div[@id='mainMap_mainMapWidget_lake_fill']/img http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map&VERSION=1.1.0&REQUEST=GetMap&SERVICE=WMS&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=400&HEIGHT=200&LAYERS=lake_fill&FORMAT=image/gif&STYLES=&TRANSPARENT=TRUE&UNIQUEID=
+//div[@id='mainMap_mainMapWidget_coast']/img http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map&VERSION=1.1.0&REQUEST=GetMap&SERVICE=WMS&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=400&HEIGHT=200&LAYERS=coast&FORMAT=image/gif&STYLES=&TRANSPARENT=TRUE&UNIQUEID=
+//div[@id='mainMap_mainMapWidget_boundaries']/img http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map&VERSION=1.1.0&REQUEST=GetMap&SERVICE=WMS&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=400&HEIGHT=200&LAYERS=boundaries&FORMAT=image/gif&STYLES=&TRANSPARENT=TRUE&UNIQUEID=
+//div[@id='mainMap_mainMapWidget_country_names']/img http://atlas.gc.ca/cgi-bin/mapserv?map=/home/mapdata/aoc_v3/english/pb_world.map&VERSION=1.1.0&REQUEST=GetMap&SERVICE=WMS&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=400&HEIGHT=200&LAYERS=country_names&FORMAT=image/gif&STYLES=&TRANSPARENT=TRUE&UNIQUEID=
+}}}

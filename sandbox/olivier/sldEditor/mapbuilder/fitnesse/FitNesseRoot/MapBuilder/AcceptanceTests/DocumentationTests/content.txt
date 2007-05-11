@@ -1,0 +1,6 @@
+^TestMainPage
+^TestDemoPage
+^TestTutorialPage
+^TestSoftwareDesignDescription
+^TestJsDocPage
+^TestComponentRegister

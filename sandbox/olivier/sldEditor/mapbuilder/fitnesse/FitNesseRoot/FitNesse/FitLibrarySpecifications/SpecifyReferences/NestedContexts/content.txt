@@ -1,0 +1,50 @@
+!2 A reference may be to a domain object in an outer context
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border="1" cellspacing="0">
+<tr><td><i>fitlibrary.specify.References</i></td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td><i>set up accounts</i></td></tr>
+<tr><td><i>owing</i></td></tr>
+<tr><td>10</td></tr>
+<tr><td>100</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td><i>set up transactions for</i></td><td>the first account</td></tr>
+<tr><td colspan="2">details</td></tr>
+<tr><td colspan="2">add 100</td></tr>
+<tr><td colspan="2">subtract 110</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td><i>with account</i></td><td colspan="2">the first</td></tr>
+<tr><td><i>with transaction</i></td><td colspan="2">the second</td></tr>
+<tr><td>check</td><td><i>details</i></td><td>subtract 110</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td><i>with account</i></td><td colspan="2">the first</td></tr>
+<tr><td>check</td><td><i>this</i></td><td>the first account</td></tr>
+</table>-!|!-<table border="1" cellspacing="0">
+<tr><td><i>fitlibrary.specify.References</i></td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td><i>set up accounts</i></td></tr>
+<tr><td><i>owing</i></td></tr>
+<tr><td>10</td></tr>
+<tr><td>100</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td><i>set up transactions for</i></td><td>the first account</td></tr>
+<tr><td colspan="2">details</td></tr>
+<tr><td colspan="2">add 100</td></tr>
+<tr><td colspan="2">subtract 110</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td><i>with account</i></td><td colspan="2">the first</td></tr>
+<tr><td><i>with transaction</i></td><td colspan="2">the second</td></tr>
+<tr><td>check</td><td><i>details</i></td><td class="pass">subtract 110</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td><i>with account</i></td><td colspan="2">the first</td></tr>
+<tr><td>check</td><td><i>this</i></td><td class="pass">the first account</td></tr>
+</table>-!|
+

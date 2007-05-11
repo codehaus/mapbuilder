@@ -1,0 +1,14 @@
+!2 With a 'not' and 'reject', the boolean action can call a method to determine if it's expected to fail. This is needed for generating UI tests (such as in Selenium) from Fit tests.
+
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border="1" cellspacing="0">
+<tr><td colspan=2>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+<tr><td colspan="2">a reject-aware action</td></tr>
+<tr><td>not</td><td>a reject-aware action</td></tr>
+<tr><td>reject</td><td>a reject-aware action</td></tr>
+</table>-!|!-<table border="1" cellspacing="0">
+<tr><td colspan=2>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+<tr><td colspan="2" class="pass">a reject-aware action</td></tr>
+<tr><td class="pass">not</td><td>a reject-aware action</td></tr>
+<tr><td class="pass">reject</td><td>a reject-aware action</td></tr>
+</table>-!|

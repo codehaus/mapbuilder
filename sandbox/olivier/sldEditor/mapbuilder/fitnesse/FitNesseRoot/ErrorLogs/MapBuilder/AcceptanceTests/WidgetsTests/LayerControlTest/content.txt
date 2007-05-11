@@ -1,0 +1,8 @@
+|'''Date: '''|!-9:25:59 PM (EST) on Wednesday, December 28, 2005-!|
+|'''Command: '''|!-ruby -I fitnesse.jar;fitlibrary.jar ruby/bin/FitServer.rb localhost 8088 131-!|
+|'''Exit code: '''|!-5-!|
+|'''Time elapsed: '''|!-74.109 seconds-!|
+----'''Standard Output:'''
+{{{config file:http://192.168.15.102:8080/mapbuilder/demo/Demis/config.xml
+img not loaded
+}}}

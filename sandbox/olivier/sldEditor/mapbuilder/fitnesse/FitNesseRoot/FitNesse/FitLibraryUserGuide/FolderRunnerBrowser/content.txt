@@ -1,0 +1,21 @@
+The ''Browser'' is useful when you have lots of test suites, and you want to run Fit on them and see the results while it is processing them.
+
+Run the ''Browser'' as follows:
+----{{{
+java -cp javaFit1.1b.jar;fitLibrayForFit.jar fit.runner.folder.Browser
+}}}----This assumes that the tests are in the directory "tests" and the reports are to be written to the directory "reports".
+
+You will need to add to the classpath (''cp'') for:
+ * Any application code that you're testing.
+ * The ''Poi'' jar, if your test suites include XLS files
+The ''Browser'' is suitable for doing development, because it loads the latest application classes each time it runs the tests.
+
+However, it is clearly a "''work in progress''".
+!3 Planned changes:
+ * Ability to run any test or test suite in the ''testDir''.
+ * Immediate access to the report from its test and vice versa.
+ * Grab ''System.out'' and ''System.err'' and display them in the Browser.
+I am not planning to add an editor to this (I want to put my effort into a refactoring tool instead). ''Fitster'' is a combined runner and editor.
+!3 Known Bugs
+ * The screen flickers while the tests are running. Due to the regular reloading of the HTML. Maybe some form of double-buffering could be used.
+ * The Swing HTML viewer used in the ''Browser'' doesn't show some HTML properly. Eg, the "pre" tag.

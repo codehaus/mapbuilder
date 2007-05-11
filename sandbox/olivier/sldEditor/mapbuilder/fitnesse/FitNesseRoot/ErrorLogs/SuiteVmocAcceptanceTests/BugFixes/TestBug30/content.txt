@@ -1,0 +1,21 @@
+|'''Date: '''|!-10:29:49 AM (EST) on Monday, December 12, 2005-!|
+|'''Command: '''|!-ruby -I fitnesse.jar;fitlibrary.jar ruby/bin/FitServer.rb localhost 8088 10-!|
+|'''Exit code: '''|!-1-!|
+|'''Time elapsed: '''|!-6.61 seconds-!|
+----'''Standard Output:'''
+{{{validating feed:http://tacsatdev.pxi.com:8080/VFEEDS/feeder?topnews=true&url=true
+response: http://tacsatdev.pxi.com/tacsat1/data/news/products/feed/2005/12/12/D000CCEA-DE27-42DB-9B1E-C5355E3D4384.xml
+validator:http://tacsatdev.pxi.com:8080/VValidator/validate
+Code:200
+Body:Feed valid
+validating feed:http://tacsatdev.pxi.com:8080/VFEEDS/feeder?worldnews=true&url=true
+response: http://tacsatdev.pxi.com/tacsat1/data/news/products/feed/2005/12/12/D606B84B-2A5A-449F-B7F0-3AFD7D8176AF.xml
+validator:http://tacsatdev.pxi.com:8080/VValidator/validate
+Code:200
+Body:Feed valid
+validating feed:http://tacsatdev.pxi.com:8080/VFEEDS/feeder?weather=true&url=true
+response: http://tacsatdev.pxi.com/tacsat1/data/radar/products/feed/2005/12/12/9476DA5B-B3AC-43BD-B9E3-478434FB2A00.xml
+validator:http://tacsatdev.pxi.com:8080/VValidator/validate
+Code:200
+Body:Feed valid
+}}}

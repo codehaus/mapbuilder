@@ -1,0 +1,9 @@
+^DocumentationTests
+^DemosTests
+^ToolsTests
+^WidgetsTests
+^MenuButtons
+^BugFixesTests
+^EnhancementsTests
+
+^PatTests

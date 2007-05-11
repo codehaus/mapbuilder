@@ -1,0 +1,16 @@
+!3 ''Classpath''
+!path fitnesse.jar
+!path fitlibrary.jar
+
+!3 ''Variables''
+!define PORT {80}
+
+!3 ''Fixtures''
+!fixture fit.ColumnFixture
+!fixture eg.Division
+!fixture eg.Sqrt
+!fixture eg.Calculator
+!fixture eg.ArithmeticFixture
+!fixture eg.ArithmeticColumnFixture
+----
+!contents

@@ -1,0 +1,23 @@
+!2 With a 'check', the called action can determine what value is expected. This is needed for generating UI tests (such as in Selenium) from Fit tests.
+|!-fitlibrary.spec.SpecifyFixture-!|
+|!-<table border="1" cellspacing="0">
+<tr><td colspan=4>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+</table>
+<table>
+<tr><td colspan=4><i>enable generation</i></td></tr>
+<tr><td>check</td><td>a check-aware action</td><td>1</td><td>1</td></tr>
+<tr><td>check</td><td>a check-aware action</td><td>22</td><td>22</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td>check</td><td>another check-aware action</td><td>1, ss</td><td>1, ss</td></tr>
+</table>-!|!-<table border="1" cellspacing="0">
+<tr><td colspan=4>fitlibrary.specify.DoFixtureFlowUnderTest</td></tr>
+</table>
+<table>
+<tr><td colspan=4><i>enable generation</i></td></tr>
+<tr><td>check</td><td>a check-aware action</td><td>1</td><td class="pass">1</td></tr>
+<tr><td>check</td><td>a check-aware action</td><td>22</td><td class="pass">22</td></tr>
+</table>
+<table border="1" cellspacing="0">
+<tr><td>check</td><td>another check-aware action</td><td>1, ss</td><td class="pass">1, ss</td></tr>
+</table>-!|
