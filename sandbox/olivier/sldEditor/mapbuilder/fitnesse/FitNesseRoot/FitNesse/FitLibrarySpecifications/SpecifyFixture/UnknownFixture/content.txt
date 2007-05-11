@@ -1,6 +1,0 @@
-|!-fitlibrary.spec.SpecifyFixture-!|
-|!-<table border>
-<tr><td>UnknownFixture</td></tr>
-</table>-!|!-<table border>
-<tr><td class="error">UnknownFixture<hr/> <span class="fit_label">Could not find fixture: UnknownFixture.</span></td></tr>
-</table>-!|
