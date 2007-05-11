@@ -136,7 +136,7 @@ MapScaleBar.prototype.update = function(objRef) {
   var outputNode = document.getElementById( objRef.outputNodeId );
   if (!outputNode) objRef.node.appendChild(objRef.container);
 
-  var scaleDenominator = objRef.model.extent.getScale()
+  var scaleDenominator = objRef.model.map.getScale();
 	if(scaleDenominator != null) {
 		objRef.scaleDenominator = scaleDenominator;
 	}
@@ -198,7 +198,7 @@ MapScaleBar.prototype.update = function(objRef) {
 				var aSheet = document.styleSheets[sheetIndex];
 				if(!aSheet.disabled) {
 					var allRules;
-					if(typeof(aSheet.cssRules) == 'undefined') {
+					if(typeof(aSheet.rules) == 'undefined') {
 						if(typeof(aSheet.rules) == 'undefined') {
 							// can't get rules, assume zero
 							return 0;
@@ -208,7 +208,7 @@ MapScaleBar.prototype.update = function(objRef) {
 						}
 					}
 					else {
-						allRules = aSheet.cssRules;
+						allRules = aSheet.rules;
 					}
 					for(var ruleIndex = 0; ruleIndex < allRules.length; ++ruleIndex) {
 						var aRule = allRules[ruleIndex];
