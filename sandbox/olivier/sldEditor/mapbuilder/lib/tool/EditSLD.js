@@ -110,7 +110,7 @@ this.LegendTypepics2 = function(legenType)
  {
    case '80' :document.getElementById("uniqueSymbole").style.display="block";
                   return;
-   case '60' : javascript:config.paintWidget(config.objects.addSLD);
+   case '60' : javascript:config.paintWidget(config.objects.addRule);
                   return;
    default:document.getElementById("uniqueSymbole").style.display="none";
                   return;

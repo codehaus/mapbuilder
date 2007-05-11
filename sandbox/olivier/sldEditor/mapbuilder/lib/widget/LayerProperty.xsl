@@ -47,7 +47,7 @@ xmlns:citef="http://www.opengis.net/cite/functions" >
     
     <div class="choixchamp2">number of class:</div>
     <div class="choixchamp2pics">
-    <select id="nbclass" class="choixchamp" style="width: 40px; font-size: 10px; line-height: 10px;" name="selecttype">
+    <select id="nbclass" class="choixchamp" style="width: 80px; font-size: 10px; line-height: 10px;" name="selecttype">
     <option value="1">1</option>
     <option value="2">2</option>
     <option value="3">3</option>
@@ -57,7 +57,7 @@ xmlns:citef="http://www.opengis.net/cite/functions" >
     <div class="choixchamp2">mode : </div>
     <div class="choixchamp2pics">
     
-    <select  id="nbmode2" class="choixchamp"  style="width: 40px; font-size: 10px; line-height: 10px;" name="selecttype2">
+    <select  id="nbmode2" class="choixchamp"  style="width: 80px; font-size: 10px; line-height: 10px;" name="selecttype2">
     <option value="1">equal interval</option>
     <option value="2">normal</option>
     <option value="3">color continous</option>
@@ -72,15 +72,14 @@ xmlns:citef="http://www.opengis.net/cite/functions" >
 						            size="10"
 						            value=""/>
 						            </div>
-					<div class="choixchamp2"> color </div>	            
-	<div class="choixchamp2">lower value : <input id="firtColor" class="choixchamp3pics" value="" onclick="javascript:config.objects.editor.openColorWindow('firtColor');"/> </div>
-	<div class="choixchamp2">upper value : <input id="lastColor" class="choixchamp3pics" value="" onclick="javascript:config.objects.editor.openColorWindow('lastColor');"/> </div>					          
-						          
+				<div class="colorbox">		            
+					<div class="colorBoxName"> color </div>	            
+	<div class="colorNameInput">lower value : <input id="firtColor" class="colorinput" value="" onclick="javascript:config.objects.editor.openColorWindow('firtColor');"/> </div>
+	<div class="colorNameInput">upper value : <input id="lastColor" class="colorInput" value="" onclick="javascript:config.objects.editor.openColorWindow('lastColor');"/> </div>					          
+						 </div>         
 	
-    <div id="buttonsnew" class="choixchamp2">
-	      		<input type="button" name="validation" value="valid"  onclick="javascript:config.objects.editSLD.mode(document.getElementById('choixfeatureProperty').value,document.getElementById('valueup').value,document.getElementById('valuedown').value,document.getElementById('namerule').value,document.getElementById('nbclass').value,document.getElementById('nbmode2').value,'#CCFF00','#CCFF00');javascript:config.paintWidget(config.objects.editor);javascript:config.paintWidget(config.objects.addRule);javascript:config.paintWidget(config.objects.editor);"/> 
-	 </div>
-	 <div id="buttonsnew2" class="choixchamp2">
+   
+	 <div id="buttonsnew2" class="buttonValid">
 	      		<input type="button" name="validation" value="valid interpolation"  onclick="javascript:config.objects.editSLD.mode(document.getElementById('choixfeatureProperty').value,document.getElementById('valueup').value,document.getElementById('valuedown').value,document.getElementById('namerule').value,document.getElementById('nbclass').value,document.getElementById('nbmode2').value,document.getElementById('firtColor').value,document.getElementById('lastColor').value);javascript:config.paintWidget(config.objects.editor);"/> 
 	 </div>
     </div>

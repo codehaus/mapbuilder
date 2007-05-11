@@ -18,7 +18,7 @@ left:1050px;
 
 
 #choixchamp{
-top:10px;
+top:0px;
 position:absolute;
 border:1px solid #335533;
 width:600px;
@@ -35,14 +35,14 @@ left:10px;
 }
 .choixchamp2{
 position:relative;
-top:20px;
+top:30px;
 left:20px;
 }
 
 .choixchamp2pics{
 position:relative;
-top:0px;
-left:200px;
+top:20px;
+left:150px;
 }
 .choixchamp3pics{
 position:relative;
@@ -120,4 +120,27 @@ left:300px;
 top:70px;
 width:3000px;
 height:200px;
+}
+.colorbox
+{
+position:relative;
+border:1px solid #335533;
+top:40px;
+}
+.colorBoxName
+{
+position:relative;
+}
+.colorinput
+{
+position:relative;
+}
+.colorNameInput
+{
+position:relative;
+}
+.buttonValid
+{
+position:relative;
+top:50px;
 }
