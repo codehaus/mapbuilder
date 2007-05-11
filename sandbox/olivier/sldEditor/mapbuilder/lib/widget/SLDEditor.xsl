@@ -84,7 +84,7 @@ $Name$
        </div><!-- end of div bordurestyle -->
        
        <div id="color">
-            <div class="color" onclick="javascript:openColorWindow('couleurchoix');">color stoke:</div>
+            <div class="color" onclick="javascript:{$widget}.openColorWindow('couleurchoix');">color stoke:</div>
             
              
               
@@ -109,7 +109,7 @@ $Name$
                         <option value="9">9</option>
                   </select>
               </form>
-            <div class="color" onclick="javascript:openColorWindow('couleurchoix2');">Fill color:</div><input class="colorpics"
+            <div class="color" onclick="javascript:{$widget}.openColorWindow('couleurchoix2');">Fill color:</div><input class="colorpics"
 						            type="text"
 						            id="couleurchoix2"
 						            size="40"

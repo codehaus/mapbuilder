@@ -73,8 +73,8 @@ xmlns:citef="http://www.opengis.net/cite/functions" >
 						            value=""/>
 						            </div>
 					<div> color </div>	            
-	<div class="choixchamp2">lower value : <input id="firtColor" class="choixchamp2pics" value="" onclick="javascript:{$widget}.openColorWindow('firtColor');"/> </div>
-	<div class="choixchamp2">upper value : <input id="lastColor" class="choixchamp2pics" value="" onclick="javascript:{$widget}.openColorWindow('lastColor');"/> </div>					          
+	<div class="choixchamp2">lower value : <input id="firtColor" class="choixchamp2pics" value="" onclick="javascript:config.objects.editor.openColorWindow('firtColor');"/> </div>
+	<div class="choixchamp2">upper value : <input id="lastColor" class="choixchamp2pics" value="" onclick="javascript:config.objects.editor.openColorWindow('lastColor');"/> </div>					          
 						          
 	
     <div id="buttonsnew" class="choixchamp2">
