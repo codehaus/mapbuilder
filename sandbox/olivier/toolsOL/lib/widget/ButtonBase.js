@@ -37,6 +37,7 @@ function ButtonBase(widgetNode, model) {
 
   //set the button type
   this.buttonType = widgetNode.selectSingleNode("mb:class").firstChild.nodeValue;
+
   this.options.type=this.buttonType;   
   if (this.buttonType == "RadioButton") this.enabled = false;
 
@@ -137,6 +138,7 @@ function ButtonBase(widgetNode, model) {
   //a button may be set as selected in the config file
   var selected = widgetNode.selectSingleNode("mb:selected");
   if (selected && selected.firstChild.nodeValue) this.selected = true;
+  else this.selected = false;
 
   /**
    * A listener method to initialize the mouse handler, if configured.  This is

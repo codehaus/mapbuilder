@@ -12,8 +12,8 @@
     $Id: config.xml 2548 2007-01-24 09:00:03Z gjvoosten $
   -->
 	<models>
-		<Context id="mainMap">
-			<defaultModelUrl>data/tasmania.xml</defaultModelUrl>
+		<OwsContext id="mainMap">
+			<defaultModelUrl>data/context.xml</defaultModelUrl>
 <!--<defaultModelUrl>../data/context/mars.xml</defaultModelUrl>-->
 
 
@@ -24,10 +24,8 @@
 <!--					<scriptFile>../../sldEditor2.0/widget/MapPane.js</scriptFile>-->
 <!--					<stylesheet>../../lib/widget/MapPane.xsl</stylesheet>-->
 				</MapPaneOL>
-        		<CursorTrack id="cursorTrack">
-          			<mouseHandler>mainMap</mouseHandler>
-       			</CursorTrack>
-        		<MapTitle id="mapTitle"/>
+        		
+        		
         		<LayerControl id="contextLegend">
 		          	<htmlTagId>workspace</htmlTagId>
 		          	<outputNodeId>workspaceCanvas</outputNodeId>
@@ -36,22 +34,10 @@
 		          	<moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
 		          	<deleteImage>/images/LayerRemoveDisable.png</deleteImage>
         		</LayerControl>
-		        <AoiBoxDHTML id="aoiBox2">
-			          <htmlTagId>mainMapPane</htmlTagId>
-			          <mapContainerId>mainMapContainer</mapContainerId>
-			          <lineColor>#FF0000</lineColor>
-			          <lineWidth>1</lineWidth>
-			          <crossSize>15</crossSize>
-		        </AoiBoxDHTML>
+		       
       		</widgets>
-      		<tools>
-        			<AoiMouseHandler id="mainAoi"/>
-        			<DragPanHandler id="mainDragPan">
-          				<enabled>false</enabled>
-        			</DragPanHandler>
-      		</tools>
 <!--      		 <scriptFile>model/Context.js</scriptFile>-->
-    	</Context>
+    	</OwsContext>
 
   <StyledLayerDescriptor id="mySLD">  
   		<defaultModelUrl>data/videSld.sld</defaultModelUrl>
@@ -193,57 +179,9 @@
       <targetModel>wmsCapTemplate</targetModel>
       <defaultUrl>http://localhost:8080/geoserver/wms/GetCapabilities</defaultUrl>
     </ModelUrlInput>
-    <ZoomIn id="zoomIn">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
-      <class>RadioButton</class>
-      <selected>true</selected>
-      <enabledSrc>/images/ZoomInEnable.png</enabledSrc>
-      <disabledSrc>/images/ZoomInDisable.png</disabledSrc>
-    </ZoomIn>
-    <ZoomOut id="zoomOut">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
-      <class>RadioButton</class>
-      <enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
-      <disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
-    </ZoomOut>
-    <DragPan id="dragPan">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <mouseHandler>mainDragPan</mouseHandler>
-      <class>RadioButton</class>
-      <enabledSrc>/images/PanEnable.png</enabledSrc>
-      <disabledSrc>/images/PanDisable.png</disabledSrc>
-    </DragPan>
-    <SetAoi id="setAoi">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
-      <class>RadioButton</class>
-      <enabledSrc>/images/SetAoiEnable.png</enabledSrc>
-      <disabledSrc>/images/SetAoiDisable.png</disabledSrc>
-    </SetAoi>
-    <Reset id="reset">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <class>Button</class>
-      <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
-    </Reset>
-    <Save id="save">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <class>Button</class>
-      <disabledSrc>/images/SaveDisable.png</disabledSrc>
-       <popupWindowName>modelXML</popupWindowName>
-<!--      <scriptFile>widget/Save.js</scriptFile>-->
-    </Save>
-    <Loading2 id="loading">
-      <htmlTagId>workspace</htmlTagId>
-      <outputNodeId>workspaceCanvas</outputNodeId>
-    </Loading2>
+   
+ 
+  
   </widgets>
   <!--
     All static images should be relative to this URL.
@@ -251,5 +189,6 @@
   -->
 	<skinDir>../../lib/skin/default</skinDir>
 	<widgetTextUrl>/widgetText.xml</widgetTextUrl>	
+	<proxyUrl>http://localhost/proxy</proxyUrl>
 <!--	 in the skin dir -->
 </MapbuilderConfig>

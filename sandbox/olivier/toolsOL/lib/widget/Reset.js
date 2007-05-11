@@ -29,10 +29,7 @@ function Reset(widgetNode, model) {
 
 		  objRef.targetModel.toolbar.div=document.getElementById(objRef.htmlTagId);
 		  objRef.targetModel.toolbar.addTools(objRef.objectOL);
-		  if(objRef.selected)
-		  {	
-		  		objRef.targetModel.toolbar.setTool(objRef.objectOL);
-		  }
+		 
    }
   this.model.addListener( "mapLoaded", this.addButton, this );
 }

@@ -32,5 +32,6 @@ function ZoomPanOL(widgetNode, model) {
 	objRef.model.map.addMouseListener(new OpenLayers.MouseListener.MouseDefaults()); //control for shift/drag and dbl clicke
 	objRef.model.map.addControl(new OpenLayers.Control.PanZoom()); //up/down/left/right on click
   }
+  //http://syscolag.teledetection.fr/syscolagIC/wms_server/metadata_display.php?consult=libre&la=fra&name=HERAULT&bgcolor=#66CCCC
   this.model.addListener("refresh", this.paint, this);
 }

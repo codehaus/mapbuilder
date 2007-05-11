@@ -18,8 +18,8 @@
     </ows:BoundingBox-->
     <!-- Window width="720" height="499"/-->>
     <ows:BoundingBox crs="EPSG:41001">
-      <ows:LowerCorner>-19981848 -13817347</ows:LowerCorner>
-      <ows:UpperCorner>19981848 13817347</ows:UpperCorner>
+     <ows:LowerCorner>-180 -90</ows:LowerCorner>
+      <ows:UpperCorner>180 90</ows:UpperCorner>
     </ows:BoundingBox>
     <Title xml:lang="en">GML3 Demo with OWSContext</Title>
     <KeywordList>
@@ -284,10 +284,10 @@
     </Layer>
 	 <Layer queryable="1" hidden="1">
 			<Server service="OGC:WMS" version="1.1.1" title="continent">
-				<OnlineResource xlink:type="simple" xlink:href="http://testbed.geomatys.fr/geoserver/wms?"/>
+				<OnlineResource xlink:type="simple" xlink:href="http://pulsar.geomatys.fr:8080/geoserver/wms?"/>
 				
 			</Server>
-			<Name>camgis:Continental_Area</Name>
+			<Name>topp:states</Name>
 			<Title>continent</Title>
 			<SRS>EPSG:41001</SRS>
 			<FormatList>

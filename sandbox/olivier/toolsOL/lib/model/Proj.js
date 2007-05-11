@@ -20,6 +20,8 @@ $Id: Proj.js 2546M 2007-01-26 10:28:10Z (local) $
  *
  * @constructor
  *
+
+ 
  * @param srs         The SRS (EPSG code) of the projection
  */
 
@@ -100,13 +102,14 @@ function Proj(srs) {
       break;
     case "EPSG:27572"://LAMBE IGN-F modification FD 2005
     case "EPSG:27582"://LAMB2 IGN-F modification (deprecated) FD 2005
+    case "EPSG:102582":
       this.Init = lccinit;
       this.Forward = ll2lcc;
       this.Inverse = lcc2ll;
       this.Init(new Array(6378249.2, 6356515.0, 46.80, 46.80, 2.33722916655, 46.8, 600000.0, 2200000.0));
       this.units = "m";
       this.title = "Lambert Conformal Conic";
-      break;
+      break;   
     case "EPSG:27563"://LAMB3 IGN-F modification FD 2005
       this.Init = lccinit;
       this.Forward = ll2lcc;
@@ -115,6 +118,15 @@ function Proj(srs) {
       this.units = "m";
       this.title = "Lambert Conformal Conic";
       break;
+     /*case "EPSG:102582"://NTF France II degrees
+      this.Init = lccinit;
+      this.Forward = ll2lcc;
+      this.Inverse = lcc2ll;
+      this.Init(new Array(6378249.2, 6356514.999904194, 46.8, 46.8, 2.33722916655, 46.8, 600000.0, 2200000.0));
+      this.units = "m";
+      this.title = "Lambert Conformal Conic";
+      break; */
+      case "EPSG:54004"://World Mercator      
       case "EPSG:41001"://Mercator_1SP 
       this.Init = minit;
       this.Forward = ll2m;
@@ -138,12 +150,6 @@ function Proj(srs) {
       this.Init(new Array(6378137.0, 6356752.3141, 44.00, 49.00, 3.00000000001, 46.50, 700000.0, 6600000.0));
       this.units = "m";
       this.title = "Lambert Conformal Conic";
-      break;
-    case "EPSG:4326":case "EPSG:4269":case "CRS:84":case "EPSG:4965":case new String("http://www.opengis.net/gml/srs/epsg.xml#4326").toUpperCase():
-      this.Forward=identity;
-      this.Inverse=identity;
-      this.units="degrees";
-      this.title="Lat/Long";
       break;
     case "EPSG:102758":this.title="NAD 1983 StatePlane Wyoming West FIPS 4904 US Survey Feet";
       this.Init=tminit;

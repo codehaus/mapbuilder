@@ -293,52 +293,7 @@
       <outputNodeId>workspaceCanvas</outputNodeId>
       <targetModel>wmsCapTemplate</targetModel>
     </ModelUrlInput>
-    <ZoomIn id="zoomIn">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
-      <class>RadioButton</class>
-      <selected>true</selected>
-      <enabledSrc>/images/ZoomInEnable.png</enabledSrc>
-      <disabledSrc>/images/ZoomInDisable.png</disabledSrc>
-    </ZoomIn>
-    <ZoomOut id="zoomOut">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
-      <class>RadioButton</class>
-      <enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
-      <disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
-    </ZoomOut>
-    <DragPan id="dragPan">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <mouseHandler>mainDragPan</mouseHandler>
-      <class>RadioButton</class>
-      <enabledSrc>/images/PanEnable.png</enabledSrc>
-      <disabledSrc>/images/PanDisable.png</disabledSrc>
-    </DragPan>
-    <SetAoi id="setAoi">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
-      <class>RadioButton</class>
-      <enabledSrc>/images/SetAoiEnable.png</enabledSrc>
-      <disabledSrc>/images/SetAoiDisable.png</disabledSrc>
-    </SetAoi>
-    <Reset id="reset">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <class>Button</class>
-      <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
-    </Reset>
-    <Save id="save">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <class>Button</class>
-      <disabledSrc>/images/SaveDisable.png</disabledSrc>
-      <popupWindowName>modelXML</popupWindowName>
-    </Save>
+
     <Widget id="help">
       <htmlTagId>workspace</htmlTagId>
       <outputNodeId>workspaceCanvas</outputNodeId>
@@ -351,5 +306,7 @@
   -->
 	<skinDir>../../lib/skin/default</skinDir>
 	<widgetTextUrl>/widgetText.xml</widgetTextUrl>
+	
+	<proxyUrl>http://localhost/proxy</proxyUrl>
 	<!-- in the skin dir -->
 </MapbuilderConfig>

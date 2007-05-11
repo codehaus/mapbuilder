@@ -16,24 +16,22 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @param model  The model for this widget
  */
 function Forward(widgetNode, model) {
+   this.options=new Object();
+
   ButtonBase.apply(this, new Array(widgetNode, model));
   
-  /**
-   * Replaces the current extent with the next one in history
-   * @param objRef      Pointer to this object.
-   */
-  this.doSelect = function(selected,objRef) {
-    if (selected){
+  this.options.id=this.id;
+  this.options.size=new OpenLayers.Size(24,24);
+  this.objectOL=new OpenLayers.Button.Forward(this.options);
+  
+  
+  this.addButton = function(objRef){
 
-		this.targetModel.setParam("historyForward");
-      var nextExtent = objRef.targetModel.nextExtent;
-      if(nextExtent){
-        this.targetModel.setParam("historyStop");
-        objRef.targetModel.extent.zoomToBox( nextExtent[0], nextExtent[1] );
-        this.targetModel.setParam("historyStart");
-      }
-    }
-  }
+		  objRef.targetModel.toolbar.div=document.getElementById(objRef.htmlTagId);
+		  objRef.targetModel.toolbar.addTools(objRef.objectOL);
+		 
+   }
+  this.model.addListener( "mapLoaded", this.addButton, this );
 }
 
 

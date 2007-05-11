@@ -18,6 +18,18 @@
     </OwsContext>
   </models>
   <widgets>
+  <Back id="back">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/UndoDisable.png</disabledSrc>
+    </Back>
+    <Forward id="forward">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/RedoDisable.png</disabledSrc>
+    </Forward>
   		<ZoomIn id="zoomIn">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
@@ -46,6 +58,14 @@
 			<class>Button</class>
 			<disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
 		</Reset>
+		<GetFeatureInfo id="getFeatureInfo">
+		      <buttonBar>mainButtonBar</buttonBar>
+		      <targetModel>mainMap</targetModel>
+		      <class>RadioButton</class>
+		      <enabledSrc>/images/QueryEnable.png</enabledSrc>
+		      <disabledSrc>/images/QueryDisable.png</disabledSrc>
+    	</GetFeatureInfo>
+    	
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
   <!-- relative to the skin dir -->
