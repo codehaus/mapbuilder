@@ -20,6 +20,7 @@ xmlns:citef="http://www.opengis.net/cite/functions" >
   <!-- The coordinates of the DHTML Layer on the HTML page -->
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
+  <xsl:param name="widget">config.objects.<xsl:value-of select="$widgetId"/></xsl:param>
   
   <xsl:param name="elementName">
     <xsl:value-of select="/xs:schema/xs:element/@name"/>
