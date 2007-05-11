@@ -48,11 +48,11 @@ function EditSLD(toolNode, model)
 
 this.upadteNode2 =function(Rule,nameofpath,value)
 {
-  var xpath ="/StyledLayerDescriptor/NamedLayer/UserStyle/FeatureTypeStyle/Rule[Title=\'"+Rule+"\']/";
+  var xpath ="/StyledLayerDescriptor/NamedLayer/UserStyle/FeatureTypeStyle/Rule[Title=\'"+Rule+"\']";
   
   var node = this.model.doc.selectSingleNode(xpath);
- 
-  this.model.setXpathValue(this.model,xpath+ node.firstChild.nodeName+nameofpath,value,false);
+  xpath = xpath+'/'+nameofpath;
+  this.model.setXpathValue(this.model,xpath,value,false);
 }
      
 

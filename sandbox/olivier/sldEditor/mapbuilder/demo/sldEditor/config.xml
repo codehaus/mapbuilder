@@ -133,6 +133,5 @@
 
 	<skinDir>../../lib/skin/default</skinDir>
 	<widgetTextUrl>/widgetText.xml</widgetTextUrl>
-	<proxyUrl>/mapbuilder/proxy.jsp</proxyUrl>
 	<!--	 in the skin dir -->
 </MapbuilderConfig>

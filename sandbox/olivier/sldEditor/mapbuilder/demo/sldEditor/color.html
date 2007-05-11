@@ -36,8 +36,11 @@
     // you must have a function called setHexColour in 
     // the opener page, which takes the hex value as the
     // input argument.
-    function callbackTransferHexColour(hexColour) {
-      window.opener.setColor(hexColour,inputId);
+    function callbackTransferHexColour(hexColor) {
+     window.opener.document.getElementById(inputId).value="#"+hexColor;
+      
+	  window.opener.document.getElementById(inputId).focus();
+	  
       window.close();
     }
   </SCRIPT>
