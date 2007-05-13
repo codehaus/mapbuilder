@@ -37,7 +37,6 @@ function WebServiceForm(widgetNode, model) {
   if (webServiceUrl) {
     this.webServiceUrl = webServiceUrl.firstChild.nodeValue; 
   }
-
   
   /**
    * Handles submission of the form (via javascript in an <a> tag)
@@ -166,7 +165,7 @@ function WebServiceForm(widgetNode, model) {
     * Setup the listener for AOI changes to be used in filter if necessary
     */
   this.setAoiParameters = function(objRef,bbox) {
-    if (objRef.targetModel.containerModel) {
+    if (objRef.model) {
       var featureSRS = null;
       var containerSRS = objRef.model.getSRS();
      
@@ -175,14 +174,14 @@ function WebServiceForm(widgetNode, model) {
       objRef.requestStylesheet.setParameter("bBoxMaxX", bbox[1][0] );
       objRef.requestStylesheet.setParameter("bBoxMaxY", bbox[0][1] );
       objRef.requestStylesheet.setParameter("srs", containerSRS );
-      objRef.requestStylesheet.setParameter("width", objRef.targetModel.containerModel.getWindowWidth() );
-      objRef.requestStylesheet.setParameter("height", objRef.targetModel.containerModel.getWindowHeight() );
+      objRef.requestStylesheet.setParameter("width", objRef.model.getWindowWidth() );
+      objRef.requestStylesheet.setParameter("height", objRef.model.getWindowHeight() );
     }
   }
 
   this.init = function(objRef) {
-    if (objRef.targetModel.containerModel) {
-      objRef.targetModel.containerModel.addListener("aoi", objRef.setAoiParameters, objRef);
+    if (objRef.model) {
+      objRef.model.addListener("aoi", objRef.setAoiParameters, objRef);
       //TBD: another one for bbox
     }
   }
