@@ -26,7 +26,7 @@
 				<OnlineResource xlink:type="simple" xlink:href="http://pulsar.geomatys.fr:8080/geoserver/wms"/>
 			</Server>
 			<Name>camgis:mer_polygon,camgis:sol_polygon,camgis:marais-lagunes_polygon,camgis:villes_polygon,camgis:routes_principales_line,camgis:routes_secondaires_line,camgis:voies_ferrees_line</Name>
-			<Title>mer,sol,maraies,routes,voie ferrées</Title>
+			<Title>mer,sol,maraies,routes,voie ferrees</Title>
 			<SRS>EPSG:27563</SRS>
 			<FormatList>
 				<Format current="1">image/png</Format>
