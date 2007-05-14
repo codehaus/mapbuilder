@@ -6,41 +6,22 @@
 			<defaultModelUrl>DemisWorldMap.xml</defaultModelUrl>
 			
       <widgets>
-				<MapPane2 id="mainMapWidget">
+				<MapPaneOL id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
-					<mapContainerId>mainMapContainer</mapContainerId>
-				</MapPane2>
-				
-        <Loading2 id="loading2">
-					<mapContainerId>mainMapContainer</mapContainerId>
-        </Loading2>
-				<ModelUrlInput id="urlInput"/>
-				<AoiBoxDHTML id="aoiBox2">
-					<htmlTagId>mainMapPane</htmlTagId>
-					<stylesheet>../../lib/widget/Null.xsl</stylesheet>
-					<mapContainerId>mainMapContainer</mapContainerId>
-					<lineColor>#FF0000</lineColor>
-					<lineWidth>1</lineWidth>
-					<crossSize>15</crossSize>
-				</AoiBoxDHTML>
-        
+          <fixedSize>true</fixedSize>
+				</MapPaneOL>
+
         <MapScaleText id="mapScaleText"/>
-        <!-- 
-        <MapScaleBar id="mapScaleBar"/> 
-        -->        
+        <!--
+        <MapScaleBar id="mapScaleBar"/>
+        -->
         <AoiForm id="aoiForm">
-					<stylesheet>AoiForm.xsl</stylesheet>
-          <mapContainerId>mainMapContainer</mapContainerId>
-				</AoiForm>
+          <stylesheet>AoiForm.xsl</stylesheet>
+        </AoiForm>
+ 
+        <CursorTrack id="cursorTrack"/>
 				
-        <CursorTrack id="cursorTrack">
-          <mouseHandler>mainMap</mouseHandler>
-          <showPx>false</showPx>
-          <showDMS>false</showDMS>
-          <showLatLong>true</showLatLong>
-          <showMGRS>false</showMGRS>
-          <precision>2</precision>
-        </CursorTrack>
+				<ModelUrlInput id="urlInput"/>
         
         <WebServiceForm id="webServiceForm">
       		<htmlTagId>webServiceForm</htmlTagId>
@@ -53,11 +34,6 @@
 			</widgets>
       
 			<tools>
-				<AoiMouseHandler id="mainAoi"/>
-				<DragPanHandler id="mainDragPan">
-					<enabled>false</enabled>
-				</DragPanHandler>
-        <MouseClickHandler id="mainMouseClick"/> 
         <History id="extentHistory">
           <targetModel>mainMap</targetModel>
         </History>
@@ -68,26 +44,26 @@
 			<method>post</method>
  
 				<widgets>
-	        <TipWidget id="wfsRendererTip" > 
- 						<stylesheet>datapopup.xsl</stylesheet>
-            <leftOffset>20</leftOffset>
-            <topOffset>0</topOffset>
-            <command>overlib(text, CAPTION, "Caption", STICKY, WIDTH,'225', HEIGHT,'250', REFC,'UR', REFP,'LL', RELX, x, RELY, y)</command>
-          </TipWidget> 
- 
-				  <GmlRendererVG id="vectorGraphicsRenderer">
-              <htmlTagId>mainMapPane</htmlTagId>
+				  <GmlRendererOL id="vectorGraphicsRenderer">
               <targetModel>mainMap</targetModel>
-              <mapContainerId>mainMapContainer</mapContainerId>
+              <stylesheet>geobliki2wfs.xsl</stylesheet>
               <tipWidget>wfsRendererTip</tipWidget>
-          </GmlRendererVG>
-          
+          </GmlRendererOL>
+          <TipWidgetOL id="featurePopup">
+            <targetContext>mainMap</targetContext>
+            <stylesheet>datapopup.xsl</stylesheet>
+            <width>200</width>
+            <height>150</height>
+            <opacity>0.8</opacity>
+            <backgroundColor>#D0D0D0</backgroundColor>
+            <border>1px solid black</border>
+          </TipWidgetOL>
 					<!--ModelStatus id="gmlModelStatus"/-->
 					<Legend id="wfsLegend">
 						<htmlTagId>legend</htmlTagId>
 					</Legend>
 				</widgets>
-	    <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:eo1='http://eo1.gsfc.nasa.gov/' xmlns:wfs='http://www.opengis.net/wfs' xmlns:ows='http://www.opengis.net/ows'</namespace>
+	    <namespace>xmlns:gml="http://www.opengis.net/gml" xmlns:eo1="http://eo1.gsfc.nasa.gov/" xmlns:wfs="http://www.opengis.net/wfs"</namespace>
 	    <nodeSelectXpath>//gml:featureMember</nodeSelectXpath>
 			<featureTagName>eo1:name</featureTagName>
 			<coordsTagName>eo1:location</coordsTagName>
@@ -112,7 +88,6 @@
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <selected>true</selected>
       <enabledSrc>/images/ZoomInEnable.png</enabledSrc>
@@ -121,7 +96,6 @@
     <ZoomOut id="zoomOut">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
       <disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
@@ -129,7 +103,6 @@
     <DragPan id="dragPan">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainDragPan</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/PanEnable.png</enabledSrc>
       <disabledSrc>/images/PanDisable.png</disabledSrc>
@@ -137,7 +110,6 @@
     <SetAoi id="setAoi">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/SetAoiEnable.png</enabledSrc>
       <disabledSrc>/images/SetAoiDisable.png</disabledSrc>
@@ -148,16 +120,6 @@
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
     </Reset>
-    <GetMarkerInfo id="getMarkerInfo">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <context>mainMap</context>
-      <!-- mouseHandler>mainAoi</mouseHandler -->
-      <class>RadioButton</class>
-      <enabledSrc>/images/QueryEnable.png</enabledSrc>
-      <disabledSrc>/images/QueryDisable.png</disabledSrc>
-      <cursor>default</cursor>
-    </GetMarkerInfo> 
     <Save id="save">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
