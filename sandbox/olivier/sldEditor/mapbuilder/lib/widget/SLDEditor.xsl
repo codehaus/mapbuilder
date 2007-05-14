@@ -99,7 +99,7 @@ $Name$
               
             <div class="color">width stroke :</div>
             <form class="colorpics" title="can define size">
-                  <select  onchange="javascript:{$tool}.upadteNode2(document.getElementById('idNameOfRule').value,'/Stroke/CssParameter[@name=\'stroke-width\']',document.getElementById('couleurchoix2').value)" style="width: 40px; font-size: 10px; line-height: 10px;" name="selecttype">
+                  <select  onchange="javascript:{$tool}.upadteNode2(document.getElementById('idNameOfRule').value,'/Stroke/CssParameter[@name=\'stroke-width\']',document.getElementById('selecttype').value)" style="width: 40px; font-size: 10px; line-height: 10px;" id="selecttype">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>

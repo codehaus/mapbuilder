@@ -72,11 +72,11 @@ this.upadteNode2 =function(Rule,nameofpath,value)
   }
  }
 
- 
-  this.model.setXpathValue(this.model,xpath+"/"+temp2+nameofpath,value,false);
-
-  xpath = xpath+'/'+nameofpath;
+  xpath = xpath+"/"+temp2+"/"+nameofpath;
   this.model.setXpathValue(this.model,xpath,value,false);
+
+  
+  
 
 }
      
