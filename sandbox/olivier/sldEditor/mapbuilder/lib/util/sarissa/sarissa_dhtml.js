@@ -3,10 +3,10 @@
  * About
  * ====================================================================
  * Sarissa cross browser XML library - AJAX module
- * @version 0.9.7.6
+ * @version ${project.version}
  * @author: Copyright Manos Batsis, mailto: mbatsis at users full stop sourceforge full stop net
  *
- * This module contains some convinient AJAX tricks based on Sarissa 
+ * This module contains some convenient AJAX tricks based on Sarissa 
  *
  * ====================================================================
  * Licence
@@ -36,7 +36,7 @@ Sarissa.updateCursor = function(oTargetElement, sValue) {
 };
 
 /**
- * Update an element with response of a GET request on the given URL.  Passing a configured XSLT 
+ * Asynchronously update an element with response of a GET request on the given URL.  Passing a configured XSLT 
  * processor will result in transforming and updating oNode before using it to update oTargetElement.
  * You can also pass a callback function to be executed when the update is finished. The function will be called as 
  * <code>functionName(oNode, oTargetElement);</code>
@@ -52,7 +52,7 @@ Sarissa.updateContentFromURI = function(sFromUrl, oTargetElement, xsltproc, call
     try{
         Sarissa.updateCursor(oTargetElement, "wait");
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", sFromUrl);
+        xmlhttp.open("GET", sFromUrl, true);
         function sarissa_dhtml_loadHandler() {
             if (xmlhttp.readyState == 4) {
                 Sarissa.updateContentFromNode(xmlhttp.responseXML, oTargetElement, xsltproc, callback);
