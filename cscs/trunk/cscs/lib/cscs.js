@@ -81,6 +81,8 @@ function CS(def) {
       case "b":     this.b =  parseFloat(paramVal);  break; // semi-minor radius
       case "lon_0": this.long0= paramVal*D2R; break;        // lam0, central longitude
       case "lat_0": this.lat0 = paramVal*D2R; break;        // phi0, central latitude
+      case "lat_1":this.lat1=paramVal*D2R;break;//standard parallel 1
+      case "lat_2":this.lat2=paramVal*D2R;break;//standard parallel 2 
       case "x_0":   this.x0 = parseFloat(paramVal); break;  // false easting
       case "y_0":   this.y0 = parseFloat(paramVal); break;  // false northing
       case "k":     this.k0 = parseFloat(paramVal); break;  // projection scale factor
