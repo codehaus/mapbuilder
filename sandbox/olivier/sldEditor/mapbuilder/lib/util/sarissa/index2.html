@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:j="http://www.javeline.net/j" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" id='override' >
+	<head>
+		<title>Sarissa - Javeline XML Test</title>
+		<script src="sarissa.js"></script>
+		<script src="sarissa_ieemu_load.js"></script>
+		<script src="javeline_xpath.js"></script>
+		<script src="javeline_xslt.js"></script>
+		<script src="sarissa_ieemu_xslt.js"></script>
+		<script src="sarissa_ieemu_xpath.js"></script>
+
+		<style>
+			blockquote{padding:0;margin:0 0 0 20px}
+			#output h1{font-size:14pt;margin:0;}
+			#output h2{font-size:11pt;margin:0;}
+			#output h3{font-size:8pt;margin:0;}
+		</style>
+
+		<script>
+			function testXPath(){
+				var xmlStr = document.getElementById("txtTextXPath").value.replace(/^\s+/, "").replace(/\s+$/, "");
+				var x = new DOMParser().parseFromString(xmlStr, "text/xml");
+				var result = x.selectNodes(document.getElementById("tbXPath").value);
+				document.getElementById("display").innerHTML = "Found " + result.length + " nodes.";
+				
+				var y = new XMLSerializer()
+				alert("First Found:\n\n" + y.serializeToString(result[0]));
+			}
+			
+			function testXSLT(){
+				var xmlStrXPath = document.getElementById("txtTextXPath").value.replace(/^\s+/, "").replace(/\s+$/, "");
+				var xmlStrXSLT = document.getElementById("txtTextXSLT").value.replace(/^\s+/, "").replace(/\s+$/, "");
+				
+				var d = new DOMParser();
+				var xP = d.parseFromString(xmlStrXPath, "text/xml");
+				if(Sarissa.getParseErrorText(xP) != Sarissa.PARSED_OK) return alert(Sarissa.getParseErrorText(xP));
+				var xS = d.parseFromString(xmlStrXSLT, "text/xml");
+				if(Sarissa.getParseErrorText(xS) != Sarissa.PARSED_OK) return alert(Sarissa.getParseErrorText(xS));
+
+				xsltProcessor = new XSLTProcessor();
+				xsltProcessor.importStylesheet(xS);
+				var oResult = new DOMParser().parseFromString("<xsltresult></xsltresult>", "text/xml");//Because of Safari bug, There is a need for a documentElement
+				var newFragment = xsltProcessor.transformToFragment(xP, oResult);
+				Sarissa.copyChildNodes(newFragment, oResult.documentElement);
+
+				var serializer = new XMLSerializer();
+				str = serializer.serializeToString(newFragment);
+				
+				document.getElementById("output").innerHTML = str;
+			}
+		</script>
+	</head>
+	<body>
+		<strong>XPath</strong</br >
+		<textarea id="txtTextXPath" style="width:100%;height:200px">
+	<Drive caption="Boot Disk (C:)" date="">
+		<Folder caption="My Documents" fid="1" date="21-06-1980">
+			<Folder caption="Website Assets" fid="2" date="21-06-1980">
+				<File filename="bach.swf" fileid="2" date="21-06-1980" />
+				<File filename="escher.zip" fileid="2" date="21-06-1980" />
+				<File filename="godel.doc" fileid="2" date="21-06-1980" />
+				<File filename="Todo.txt" fileid="2" date="21-06-1980" />
+			</Folder>
+			<Folder caption="Presentation" icon="icoXPFolderPictures.gif" fid="3" date="21-06-1980" >
+				<File filename="SmartBindings.ppt" fileid="2" date="21-06-1980" />
+			</Folder>
+			<Folder caption="Website" fid="4" date="21-06-1980" >
+				<Folder caption="HTML files" fid="5" date="21-06-1980" >
+					<File filename="Getting Started.html" fileid="2" date="21-06-1980" />
+				</Folder>
+				<File filename="Check this out.ppt" fileid="1" date="21-06-1980" />
+				<File filename="Todo.txt" fileid="2" date="21-06-1980" />
+				<File filename="Testje.zip" fileid="3" date="21-06-1980" />
+			</Folder>
+			<Folder caption="My Images" fid="6" date="21-06-1980">
+				<File filename="myself.jpg" fileid="2" date="21-06-1980" />
+				<File filename="me.xls" fileid="2" date="21-06-1980" />
+				<File filename="i.gif" fileid="2" date="21-06-1980" />
+			</Folder>
+			<Folder caption="My Documents" icon="icoXPFolderPictures.gif" fid="7" date="21-06-1980">
+				<File filename="aboutus.doc" fileid="2" date="21-06-1980" />
+			</Folder>
+			<Folder caption="Development" icon="icoXPFolderMusic.gif" fid="8" date="21-06-1980" >
+				<Folder caption="Javeline" icon="icoXPFolderPictures.gif" fid="9" >
+					<File filename="Javeline.xls" fileid="4" date="21-06-1980" />
+					<File filename="Business Plan.doc" fileid="5" date="21-06-1980" />
+					<File filename="Testje.zip" fileid="6" date="21-06-1980" />
+				</Folder>
+				<File filename="Kosten en Baten.pdf" fileid="7" date="21-06-1980" />
+				<File filename="Test.html" fileid="8" date="21-06-1980" />
+				<File filename="Testje.zip" fileid="9" date="21-06-1980" />
+			</Folder>
+			<File filename="Kosten en Baten.xls" fileid="10" date="21-06-1980" />
+			<File filename="Test.doc" fileid="11" date="21-06-1980" />
+			<File filename="Testje.swf" fileid="12" date="21-06-1980" />
+			<File filename="Blah.jpg" fileid="13" date="21-06-1980" />
+			<File filename="Javeline.psd" fileid="14" date="21-06-1980" />
+		</Folder>
+		<Folder caption="Javeline Test Folder" fid="10" date="21-06-1980" />
+	</Drive>
+		</textarea>
+		<input type="text" id="tbXPath" value="//Folder[@icon]" style="width:400px"/><button onclick="testXPath()">Test XPath</button><span id="display"></span><br /><br />
+		
+		<strong>XSLT</strong</br >
+		<textarea id="txtTextXSLT" style="width:100%;height:200px">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns="http://www.w3.org/1999/xhtml">
+	<xsl:template match="/">
+		<html xmlns="http://www.w3.org/1999/xhtml">
+			<body>
+				<xsl:apply-templates select="Drive"/>
+			</body>
+		</html>
+	</xsl:template>
+	
+	<xsl:template match="Drive">
+		<h1><xsl:value-of select="@caption"/></h1>
+		<blockquote>
+			<xsl:apply-templates select="Folder"/>
+			<xsl:apply-templates select="File"/>
+		</blockquote>
+	</xsl:template>
+	
+	<xsl:template match="Folder">
+		<h2><xsl:value-of select="@caption"/></h2>
+		<blockquote>
+			<xsl:apply-templates select="Folder"/>
+			<xsl:apply-templates select="File"/>
+		</blockquote>
+	</xsl:template> 
+	
+	<xsl:template match="File">
+		<h3><xsl:value-of select="@filename"/></h3>
+	</xsl:template> 
+</xsl:stylesheet>
+
+		</textarea>
+		<button onclick="testXSLT()">Test XSLT</button><br />
+		
+		<strong>output</strong><br />
+		<div id="output" style="overflow:auto;border:1px solid black;width:100%;height:150px;">
+		
+		</div>
+	</body>
+</html>

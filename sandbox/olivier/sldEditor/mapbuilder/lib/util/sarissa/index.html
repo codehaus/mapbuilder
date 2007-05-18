@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:j="http://www.javeline.net/j" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" id='override' >
+	<head>
+		<title>Sarissa - Javeline XML Test</title>
+		<script src="sarissa.js"></script>
+		<script src="sarissa_ieemu_load.js"></script>
+		<script src="javeline_xpath.js"></script>
+		<script src="javeline_xslt.js"></script>
+		<script src="sarissa_ieemu_xslt.js"></script>
+		<script src="sarissa_ieemu_xpath.js"></script>
+		<script>
+		// Execute XPATH on the HTML body
+		var nodes = [];
+		function runXPath(xpath){
+			xpath = xpath.replace(/[\r\n \t]*$/, "").replace(/^[\r\n \t]*/, "");
+			
+			for(var i=0;i<nodes.length;i++){
+				if(nodes[i].style) nodes[i].style.border = "0";
+			}
+		
+			nodes = XPath.selectNodes(xpath, document.body);
+			for(var i=0;i<nodes.length;i++){
+				if(typeof nodes[i] == "string") alert(nodes[i]);
+				else nodes[i].style.border = "1px dotted red";
+				//setTimeout("nodes[" + i + "].style.border = '0'", 3000);
+			}
+		}
+		
+		</script>
+	</head>
+	<body>
+		<input value='div[count(blockquote)=3]' style="width:300px"/><button onclick="runXPath(this.previousSibling.value)"> Run</button><br />
+		<input value="concat(div/@id, ' ', div/blockquote/text(), 'asd')" style="width:300px"/><button onclick="runXPath(this.previousSibling.value)"> Run</button><br />
+		<input value='//blockquote[@class="BBB"]' style="width:300px"/><button onclick="runXPath(this.previousSibling.value)"> Run</button><br />
+		<input value='//blockquote[contains(text(), "te>CCC")]' style="width:300px"/><button onclick="runXPath(this.previousSibling.value)"> Run</button><br />
+		
+		<div id="test">
+			&lt;div id="test"&gt;
+			<blockquote class="AAA">
+				&lt;blockquote&gt;AAA&lt;/blockquote&gt;
+			</blockquote>
+			<blockquote class="BBB">
+				&lt;blockquote&gt;BBB&lt;/blockquote&gt;
+			</blockquote>
+			<blockquote class="CCC">
+				&lt;blockquote&gt;CCC&lt;/blockquote&gt;
+			</blockquote>
+			&lt;/div&gt;
+		</div>
+	</body>
+</html>
