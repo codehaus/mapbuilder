@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet 
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-	xmlns:xlink="http://www.w3.org/1999/xlink"
+<?xml version="1.0" encoding="UTF-8"?><!-- DWXMLSource="../../../../../../../Documents and Settings/arsene/Mes documents/Noculture/camgis.xml" -->
+<xsl:stylesheet
+    version="1.0" 
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:sld="http://www.opengis.net/sld" 
 	xmlns:wmc="http://www.opengis.net/context" 
     xmlns:wms="http://www.opengis.net/wms" 
     xmlns:wfs="http://www.opengis.net/wfs" 	
     xmlns:owscat="http://www.ec.gc.ca/owscat"
-    xmlns:ogc="http://www.opengis.net/ogc"
-    version="1.0"
+    xmlns:ogc="http://www.opengis.net/ogc" 
+	xmlns:xlink="http://www.w3.org/1999/xlink"
 >
 
 <!--
@@ -84,40 +84,7 @@ $Name$
               
        </div><!-- end of div bordurestyle -->
        
-       <div id="color">
-            <div class="color" onclick="javascript:{$widget}.openColorWindow('couleurchoix');">color stoke:</div>
-            
-             
-              
-              <input class="colorpics"
-						            type="text"
-						            id="couleurchoix"
-						            size="40"																		
-						            
-						            onfocus="javascript:{$tool}.upadteNode2(document.getElementById('idNameOfRule').value,'/Stroke/CssParameter[@name=\'stroke\']',document.getElementById('couleurchoix').value);"
-						             />
-              
-            <div class="color">width stroke :</div>
-            <form class="colorpics" title="can define size">
-                  <select  onchange="javascript:{$tool}.upadteNode2(document.getElementById('idNameOfRule').value,'/Stroke/CssParameter[@name=\'stroke-width\']',document.getElementById('selecttype').value)" style="width: 40px; font-size: 10px; line-height: 10px;" id="selecttype">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                  </select>
-              </form>
-            <div class="color" onclick="javascript:{$widget}.openColorWindow('couleurchoix2');">Fill color:</div><input class="colorpics"
-						            type="text"
-						            id="couleurchoix2"
-						            size="40"
-						            onfocus="javascript:{$tool}.upadteNode2(document.getElementById('idNameOfRule').value,'/Fill/CssParameter',document.getElementById('couleurchoix2').value);"
-						             />
-       
-       </div>
+      
       
        
 	</div>
@@ -136,6 +103,50 @@ $Name$
         			<input type="button" name="deleteALL" value="deleteAllRule"  onclick="javascript:{$tool}.deleteAllRules();javascript:config.paintWidget(config.objects.editor);"/> 
        
 			</div>
+			
+			
+			
+			 <div id="color">
+            <div class="color" onclick="javascript:{$widget}.openColorWindow('couleurchoix');">color stoke:</div>
+            
+             
+              
+              <input class="colorpics"
+						            type="text"
+						            id="couleurchoix"
+						            size="40"																		
+						            
+						            onfocus="javascript:{$tool}.upadteNode2(document.getElementById('idNameOfRule').value,'/Stroke/CssParameter[@name=\'stroke\']',document.getElementById('couleurchoix').value);"
+						             />
+              
+            <div class="color">width stroke :</div>
+            <form class="colorpics" title="can define size">
+               <select  onchange="javascript:{$tool}.upadteNode2(document.getElementById('idNameOfRule').value,'/Stroke/CssParameter[@name=\'stroke-width\']',document.getElementById('selecttype').value)" style="width: 40px; font-size: 10px; line-height: 10px;" id="selecttype">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                  </select>
+              </form>
+            <div class="color" onclick="javascript:{$widget}.openColorWindow('couleurchoix2');">Fill color:</div><input class="colorpics"
+						            type="text"
+						            id="couleurchoix2"
+						            size="40"
+						            onfocus="javascript:{$tool}.upadteNode2(document.getElementById('idNameOfRule').value,'/Fill/CssParameter',document.getElementById('couleurchoix2').value);"
+						             />
+       
+       </div>
+			
+			
+			
+			
+			
+			
+			
 			<div id="insertSLD" >
      		<div id="buttons">
 	      		<input type="button" name="vivaSld" value="Insert SLD in WMC"  onclick="javascript:{$tool}.insertSldToWmc('{$layerName}');javascript:config.paintWidget(config.objects.contextLegend);alert('Don t forget to save WMC with save button in ButtonBar')"/> 
@@ -149,9 +160,9 @@ $Name$
       		 <div id="uniqueSymbole" style="display:none">
 	   <div id="editFile" >
             <div class="editFile" >enter file's name</div>
-				<input class="editFileInput" type="text" id="newEditInput" size="40" />
+				<input class="editFileInput" type="file" id="newEditInput" size="40" />
 			<div id="buttonsEdit">
-	      		<input type="button" name="buttonsEdit" value="load a file"  onclick="javascript:config.loadModel('mySLD','data/'+document.getElementById('newEditInput').value);javascript:config.paintWidget({$widget});"/> 
+	      		<input type="button" name="buttonsEdit" value="load a file"  onclick="javascript:config.loadModel('mySLD',document.getElementById('newEditInput').value);javascript:config.paintWidget({$widget});"/> 
 	  		</div>
        </div>
        <div id="choixFeature" >
