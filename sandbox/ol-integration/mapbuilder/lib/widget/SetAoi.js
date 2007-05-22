@@ -43,12 +43,12 @@ function SetAoi(widgetNode, model) {
                new OpenLayers.Pixel(position.right, position.top));
           var bounds = new OpenLayers.Bounds(minXY.lon, minXY.lat,
                maxXY.lon, maxXY.lat);
+          var bboxOL = bounds.toBBOX().split(',');
+          var ul = new Array(bboxOL[0],bboxOL[3]);
+          var lr = new Array(bboxOL[2],bboxOL[1]);
+          objRef.targetContext.setParam("aoi", new Array(ul, lr));
+          objRef.drawAoiBox(objRef);
         }
-        var bboxOL = bounds.toBBOX().split(',');
-        var ul = new Array(bboxOL[0],bboxOL[3]);
-        var lr = new Array(bboxOL[2],bboxOL[1]);
-        objRef.targetContext.setParam("aoi", new Array(ul, lr));
-        objRef.drawAoiBox(objRef);
       }
     });
  
