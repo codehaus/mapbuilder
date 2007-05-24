@@ -22,7 +22,9 @@ function MapPaneOL(widgetNode, model) {
 
   OpenLayers.ImgPath = config.skinDir + '/images/openlayers/';
 
+  // replacement for deprecated MapContainerBase
   this.containerNodeId = this.htmlTagId;
+  model.containerModel = this.model;
 
   //set the output DIV
   this.node = document.getElementById(this.containerNodeId);
