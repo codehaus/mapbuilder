@@ -30,8 +30,8 @@ function phi2z(eccent, ts) {
     phi += dphi;
     if (Math.abs(dphi) <= .0000000001) return phi;
   }
-  alert(mbGetMessage("phi2zNoConvergence"));
-  return -9999;
+  alert("phi2z has NoConvergence");
+  return (-9999);
 }
 
 // Function to return the sign of an argument
@@ -83,10 +83,11 @@ function lccInit(def) {
 //double false_east;              /* x offset in meters                   */
 //double false_north;             /* y offset in meters                   */
 
+if (!def.lat2){def.lat2=def.lat0;}//if lat2 is not defined
 
 // Standard Parallels cannot be equal and on opposite sides of the equator
-  if (Math.abs(def.lat1+def.lat0) < EPSLN) {
-    alert(mbGetMessage("lccinitEqualLatitudes"));
+  if (Math.abs(def.lat1+def.lat2) < EPSLN) {
+    alert("lccinit Equal Latitudes");
     return;
   }
 
@@ -97,15 +98,20 @@ function lccInit(def) {
   var cos1 = Math.cos(def.lat1);
   var ms1 = msfnz(def.e, sin1, cos1);
   var ts1 = tsfnz(def.e, def.lat1, sin1);
+  
+  
 
-  var sin2 = Math.sin(def.lat0);
-  var cos2 = Math.cos(def.lat0);
+  var sin2 = Math.sin(def.lat2);
+  var cos2 = Math.cos(def.lat2);
   var ms2 = msfnz(def.e, sin2, cos2);
-  var ts2 = tsfnz(def.e, def.lat0, sin2);
+  var ts2 = tsfnz(def.e, def.lat2, sin2);
+    
 
+  
+  
   var ts0 = tsfnz(def.e, def.lat0, Math.sin(def.lat0));
 
-  if (Math.abs(def.lat1 - def.lat0) > EPSLN) {
+  if (Math.abs(def.lat1 - def.lat2) > EPSLN) {
     def.ns = Math.log(ms1/ms2)/Math.log(ts1/ts2);
   } else {
     def.ns = sin1;
@@ -123,9 +129,11 @@ function lccFwd(p) {
   var lat = p.y;
 
 // convert to radians
- if ( lat*R2D > 90.0 && lat*R2D < -90.0 && lon*R2D > 180.0 && lon*R2D < -180.0) 
-  	{
-    alert(mbGetMessage("llInputOutOfRange", lon, lat));
+  if ( lat <= 90.0 && lat >= -90.0 && lon <= 180.0 && lon >= -180.0) {
+   
+  
+  } else {
+    alert("llInput Out Of Range", lon, lat);
     return null;
   }
 
@@ -137,7 +145,7 @@ function lccFwd(p) {
   } else {
     con = lat * this.ns;
     if (con <= 0) {
-      alert(mbGetMessage("ll2lccNoProjection"));
+      alert("ll2lcc No Projection");
       return null;
     }
     rh1 = 0;
@@ -146,7 +154,7 @@ function lccFwd(p) {
   var x = rh1 * Math.sin(theta) + this.x0;
   var y = this.rh - rh1 * Math.cos(theta) + this.y0;
 
- p.x=x;
+  p.x=x;
   p.y=y;
 }
 
@@ -178,9 +186,9 @@ function lccInv(p) {
     lat = -HALF_PI;
   }
   lon = adjust_lon(theta/this.ns + this.long0);
+  
   p.x=lon;
   p.y=lat;
-  
 }
 
 
