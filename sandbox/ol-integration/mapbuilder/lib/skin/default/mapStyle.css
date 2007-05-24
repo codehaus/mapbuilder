@@ -220,4 +220,5 @@ div .olControlOverviewMapElement {
 	-moz-border-radius-topleft: 0pt;
 	padding: 0px;
 	background-color: inherit;
+	background-color: expression(this.parentElement.currentStyle.backgroundColor);
 }
