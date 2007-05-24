@@ -6,13 +6,13 @@
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-         </MapPaneOL>
+        </MapPaneOL>
         <CursorTrack id="cursorTrack">
           <precision>5</precision>
         </CursorTrack>
         <OverviewMap id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
-          <fixedWidth>180</fixedWidth>
+          <width>180</width>
         </OverviewMap>
         <LayerControl id="contextLegend">
           <autoRefresh>false</autoRefresh>

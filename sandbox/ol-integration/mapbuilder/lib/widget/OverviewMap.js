@@ -19,9 +19,25 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 function OverviewMap(widgetNode, model) {
   WidgetBase.apply(this,new Array(widgetNode, model));
 
-  var fixedWidthNode = widgetNode.selectSingleNode("mb:fixedWidth");
-  if (fixedWidthNode) {
-    this.fixedWidth = new Number(fixedWidthNode.firstChild.nodeValue);
+  var widthNode = widgetNode.selectSingleNode("mb:width");
+  if (widthNode) {
+    this.width = new Number(widthNode.firstChild.nodeValue);
+  }
+
+  var heightNode = widgetNode.selectSingleNode("mb:height");
+  if (heightNode) {
+    this.height = new Number(heightNode.firstChild.nodeValue);
+  }
+
+  var layersNode = widgetNode.selectSingleNode("mb:layers");
+  if (layersNode) {
+    this.layerNames = new Array();
+    var layers = layersNode.childNodes;
+    for (var i = 0; i < layers.length; i++) {
+      if (layers[i].firstChild) {
+        this.layerNames.push(layers[i].firstChild.nodeValue);
+      }
+    }
   }
 
   this.model.addListener("refresh", this.addOverviewMap, this);
@@ -29,8 +45,9 @@ function OverviewMap(widgetNode, model) {
 
 /**
  * Add an overview map to the map in this widget's model.
- * This uses just the base layer from the main map;
- * if the base layer is a WMS layer it uses an untiled version of this.
+ * If layers have been specified in the config, clone these layers for the
+ * overview map, otherwise just use the base layer from the main map.
+ * If any of the layers to use are WMS layers it uses an untiled version of them.
  * @param objRef Pointer to widget object.
  */
 OverviewMap.prototype.addOverviewMap = function(objRef) {
@@ -41,35 +58,72 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
     var options = {
       div: document.getElementById(objRef.htmlTagId)
     };
-   // Check for WMS baseLayer
-    var baseLayer = map.baseLayer;
-    if (baseLayer != null && baseLayer instanceof OpenLayers.Layer.WMS) {
-      // Use WMS.Untiled
-      
-      var baseLayerOptions = {
-      				units:map.units,
-                    projection:map.projection,
-                	maxExtent:map.maxExtent,
-                	maxResolution:"auto"
-              };
-              
-      var newBase = new OpenLayers.Layer.WMS.Untiled(baseLayer.name,
-                    baseLayer.url, {layers: baseLayer.params.LAYERS},baseLayerOptions);
-                    
-      options.layers = [newBase];
+
+    // Check for specifically requested layers
+    if (objRef.layerNames) {
+      options.layers = new Array();
+      for (var i = 0; i < objRef.layerNames.length; i++) {
+        for (var j = 0; j < map.layers.length; j++) {
+          if (objRef.layerNames[i] == map.layers[j].params.LAYERS) {
+            // Found it, add a clone to the layer stack
+            options.layers.push(objRef.getClonedLayer(map.layers[j]));
+          }
+        }
+      }
     }
 
-    // Determine size taking aspect ratio of main map into account.
-    // Note that without fixedWidth in config.xml, OL defaults to (180,90).
-    if (objRef.fixedWidth) {
-      var extent = map.getExtent();
-      var size = new OpenLayers.Size(objRef.fixedWidth,
-        objRef.fixedWidth * extent.getHeight() / extent.getWidth());
-      options.size = size;
+    // If no layers yet, clone base layer
+    if ((!options.layers || options.layers.length == 0) && map.baseLayer != null) {
+      options.layers = [objRef.getClonedLayer(map.baseLayer)];
+    }
+
+    // Determine size:
+    // - if width and height are both set, use these as the size;
+    // - if only width or height is set, take aspect ratio of main map into account;
+    // - otherwise, OL defaults to (180,90).
+    var extent = map.getExtent();
+    if (objRef.width && objRef.height) {
+      options.size = new OpenLayers.Size(objRef.width, objRef.height);
+    }
+    else if (objRef.width) {
+      options.size = new OpenLayers.Size(
+        objRef.width,
+        objRef.width * extent.getHeight() / extent.getWidth());
+    }
+    else if (objRef.height) {
+      options.size = new OpenLayers.Size(
+        objRef.height * extent.getWidth() / extent.getHeight(),
+        objRef.height);
     }
 
     // Add the overview to the main map
-    var overview = new OpenLayers.Control.OverviewMap(options);
-    map.addControl(overview);
+    map.addControl(new OpenLayers.Control.OverviewMap(options));
+  }
+}
+
+/**
+ * Clone a map layer (OpenLayers.Layer subclass).
+ * If the layer is an WMS layer it returns an untiled version of it.
+ * @param layer Pointer to layer object.
+ */
+OverviewMap.prototype.getClonedLayer = function(layer) {
+  if (layer == null) {
+    return null;
+  }
+
+  if (layer instanceof OpenLayers.Layer.WMS) {
+    // WMS layer, use WMS.Untiled
+    var layerOptions = {
+      units: layer.units,
+      projection: layer.projection,
+      maxExtent: layer.maxExtent,
+      maxResolution: "auto"
+    };
+
+    return new OpenLayers.Layer.WMS.Untiled(layer.name,
+      layer.url, {layers: layer.params.LAYERS}, layerOptions);
+  }
+  else {
+    return layer.clone();
   }
 }

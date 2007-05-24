@@ -27,7 +27,13 @@
         <Version id="version" />
         <OverviewMap id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
-          <fixedWidth>180</fixedWidth>
+          <width>180</width>
+          <layers>
+            <layerName>basic</layerName>
+            <layerName>topp:tasmania_water_bodies</layerName>
+            <layerName>topp:tasmania_roads</layerName>
+            <layerName>topp:tasmania_cities</layerName>
+          </layers>
         </OverviewMap>
       </widgets>
       <tools></tools>
