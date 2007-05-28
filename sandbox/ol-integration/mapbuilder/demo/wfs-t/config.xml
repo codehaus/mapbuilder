@@ -36,7 +36,6 @@
           </layers>
         </OverviewMap>
       </widgets>
-      <tools></tools>
     </Context>
     <!--
       <Context id="locator">
@@ -87,6 +86,11 @@
          </GmlRendererOL>
         <FeatureList id="featureList"></FeatureList>
       </widgets>
+      <tools>
+        <FeatureSelectHandler id="featureHighlighter">
+          <targetContext>mainMap</targetContext>
+        </FeatureSelectHandler>
+      </tools>
       <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
     </FeatureCollection>
     <StyledLayerDescriptor id="sld">
