@@ -19,29 +19,15 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
 function History(toolNode, model) {
   ToolBase.apply(this, new Array(toolNode, model));
 
-	
-  var doAdd = new Boolean();
-
   /**
-    * Inititialising the history and setting start parameters
-    * @param objRef  pointer to this object.
-    */
+   * Inititialising the history and setting start parameters
+   * @param objRef  pointer to this object.
+   */
 
 	this.init = function(objRef) {
-    place = -1;
-    list = new Array();
-
-		var bbox = objRef.targetModel.getBoundingBox();
-    newExtent = new Array();
-    newExtent[0] = new Array(bbox[0],bbox[3]);
-    newExtent[1] = new Array(bbox[2],bbox[1]);
-		list.push(newExtent); 
-
-		place = place+1; 
-
-		objRef.model.active = place;
-    objRef.model.historyList = list;
-
+		objRef.model.active = -1;
+    objRef.model.historyList = new Array();
+    objRef.add(objRef);
   }
 
   /**
@@ -52,9 +38,16 @@ function History(toolNode, model) {
     if (objRef.model.active!=null) {
       var place = objRef.model.active;
       var list = objRef.model.historyList;
-      newExtent = new Array();
-      newExtent[0] = objRef.model.extent.ul;
-      newExtent[1] = objRef.model.extent.lr;
+      if (place > -1) {
+        // check if current and previous history entry would result
+        // in same center point and zoom level. If this is the case,
+        // we do not want a new entry in the list
+        if(objRef.model.map.getExtent().getCenterLonLat().toString() == list[place].getCenterLonLat().toString() &&
+           objRef.model.map.getZoomForExtent(objRef.model.map.getExtent()) == objRef.model.map.getZoomForExtent(list[place])) {
+          return;
+        }
+      }
+      var newExtent = objRef.model.map.getExtent();
 
       if( place==(list.length-1)) { //If we are already at the end of the list add a new item
         list.push(newExtent); 
@@ -76,7 +69,7 @@ function History(toolNode, model) {
    */
 
   this.back = function(objRef){
-    place = objRef.model.active;
+    var place = objRef.model.active;
     if(place<1) {
       objRef.model.previousExtent = null;
       alert(mbGetMessage("cantGoBack"));
@@ -93,7 +86,7 @@ function History(toolNode, model) {
    * @param objRef  pointer to this object.
    */
   this.forward = function(objRef) {
-    place = objRef.model.active;
+    var place = objRef.model.active;
     if(place<(objRef.model.historyList.length-1)) {
       place = place +1;
       objRef.model.active = place;

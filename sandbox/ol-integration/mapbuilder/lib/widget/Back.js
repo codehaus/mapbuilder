@@ -30,20 +30,19 @@ function Back(widgetNode, model) {
     
       type: OpenLayers.Control.TYPE_BUTTON,
       
-      trigger: function () {
-          if (this.map.mbMapPane.model.nbExtent<=1)
-			       alert(mbGetMessage("cantGoBack"));
-		        else{
-		        //alert(this.map.historyExtent[0].toString());
-			       this.map.mbMapPane.model.nbExtent--;
-			       this.map.mbMapPane.model.nbExtent--;
-		           this.map.zoomToExtent(this.map.mbMapPane.model.historyExtent[this.map.mbMapPane.model.nbExtent]);  
-                 }
-            
-       },
-       CLASS_NAME: 'mbControl.Back'
-  });
-  return Control;
+      trigger: function() {
+              var objRef = this.map.mbMapPane;
+              objRef.model.setParam("historyBack");
+              var previousExtent = objRef.model.previousExtent;
+              if(previousExtent){
+                objRef.model.setParam("historyStop");
+                this.map.zoomToExtent(previousExtent);
+                objRef.model.setParam("historyStart");
+              }
+      },
+      CLASS_NAME: 'mbControl.Back'
+    });
+    return Control;
   }
 }
 

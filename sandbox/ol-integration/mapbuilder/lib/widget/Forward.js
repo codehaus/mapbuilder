@@ -30,20 +30,19 @@ function Forward(widgetNode, model) {
     
       type: OpenLayers.Control.TYPE_BUTTON,
       
-      trigger: function () { 
-      
-                if (this.map.mbMapPane.model.nbExtent>this.map.mbMapPane.model.historyExtent.length-1)
-			        alert(mbGetMessage("cantGoForward"));
-		        else{
-			
-		            this.map.zoomToExtent(this.map.mbMapPane.model.historyExtent[this.map.mbMapPane.model.nbExtent]); 
-		            
-                 }
-         
-       },
-       CLASS_NAME: 'mbControl.Forward'
-  });
-  return Control;
+      trigger: function() {
+              var objRef = this.map.mbMapPane;
+              objRef.model.setParam("historyForward");
+              var nextExtent = objRef.model.nextExtent;
+              if(nextExtent){
+                objRef.model.setParam("historyStop");
+                this.map.zoomToExtent(nextExtent);
+                objRef.model.setParam("historyStart");
+              }
+      },
+      CLASS_NAME: 'mbControl.Forward'
+    });
+    return Control;
   }
 }
 
