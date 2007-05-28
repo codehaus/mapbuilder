@@ -206,6 +206,7 @@ function ButtonBase(widgetNode, model) {
         if (this.superclass.activate.call(this)) {
           objRef.mapPaneDiv.className = objRef.mapPaneDiv.className.replace(/mbCursor_[a-zA-Z0-9]*/, objRef.getCursorClass(objRef));
           objRef.enabled = true;
+          this.active = true;
           objRef.doSelect(true, objRef);
         }
       },
@@ -213,6 +214,7 @@ function ButtonBase(widgetNode, model) {
       deactivate: function() {
         if (this.superclass.deactivate.call(this)) {
           objRef.enabled = false;
+          this.active = false;
           objRef.doSelect(false, objRef)
         }
       }
@@ -248,7 +250,8 @@ function ButtonBase(widgetNode, model) {
     }
 
     // create css for buttons
-    if (objRef.buttonType == 'RadioButton') {
+    if (objRef.buttonType == 'RadioButton' ||
+        objRef.buttonType == 'Toggle') {
       var activeRule = addCSSRule(objRef.getButtonClass(objRef, 'Active'));
       activeRule.style.backgroundImage = "url(\""+objRef.enabledImage.src+"\")";
     }
