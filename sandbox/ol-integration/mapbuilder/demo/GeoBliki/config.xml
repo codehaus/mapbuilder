@@ -43,26 +43,30 @@
 		<FeatureCollection id="gml2FeatureTemplate">
 			<method>post</method>
  
-				<widgets>
-				  <GmlRendererOL id="vectorGraphicsRenderer">
-              <targetModel>mainMap</targetModel>
-              <stylesheet>geobliki2wfs.xsl</stylesheet>
-              <tipWidget>wfsRendererTip</tipWidget>
-          </GmlRendererOL>
-          <TipWidgetOL id="featurePopup">
-            <targetContext>mainMap</targetContext>
-            <stylesheet>datapopup.xsl</stylesheet>
-            <width>200</width>
-            <height>150</height>
-            <opacity>0.8</opacity>
-            <backgroundColor>#D0D0D0</backgroundColor>
-            <border>1px solid black</border>
-          </TipWidgetOL>
-					<!--ModelStatus id="gmlModelStatus"/-->
-					<Legend id="wfsLegend">
-						<htmlTagId>legend</htmlTagId>
-					</Legend>
-				</widgets>
+  		<widgets>
+  		  <GmlRendererOL id="vectorGraphicsRenderer">
+          <targetModel>mainMap</targetModel>
+          <stylesheet>geobliki2wfs.xsl</stylesheet>
+          <tipWidget>wfsRendererTip</tipWidget>
+        </GmlRendererOL>
+        <TipWidgetOL id="featurePopup">
+          <targetContext>mainMap</targetContext>
+          <stylesheet>datapopup.xsl</stylesheet>
+          <width>275</width>
+          <height>137</height>
+          <opacity>0.8</opacity>
+          <backgroundColor>#D0D0D0</backgroundColor>
+          <border>1px solid black</border>
+        </TipWidgetOL>
+  			<Legend id="wfsLegend">
+  				<htmlTagId>legend</htmlTagId>
+  			</Legend>
+			</widgets>
+      <tools>
+        <FeatureSelectHandler id="featureHighlighter">
+          <targetContext>mainMap</targetContext>
+        </FeatureSelectHandler>
+      </tools>
 	    <namespace>xmlns:gml="http://www.opengis.net/gml" xmlns:eo1="http://eo1.gsfc.nasa.gov/" xmlns:wfs="http://www.opengis.net/wfs"</namespace>
 	    <nodeSelectXpath>//gml:featureMember</nodeSelectXpath>
 			<featureTagName>eo1:name</featureTagName>
