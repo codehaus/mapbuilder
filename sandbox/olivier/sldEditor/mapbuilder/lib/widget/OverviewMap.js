@@ -6,6 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
+
 mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
@@ -41,9 +42,11 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
     var options = {
       div: document.getElementById(objRef.htmlTagId)
     };
+    
    // Check for WMS baseLayer
-    var baseLayer = map.baseLayer;
-    if (baseLayer != null && baseLayer instanceof OpenLayers.Layer.WMS) {
+    var baseLayer = map.baseLayer.clone();
+    if (baseLayer != null && (baseLayer instanceof OpenLayers.Layer.WMS ||
+       baseLayer instanceof OpenLayers.Layer.WMS.Untiled)) {
       // Use WMS.Untiled
       
       var baseLayerOptions = {

@@ -1,0 +1,164 @@
+html,body {
+	width:100%;
+	height:100%;
+	}
+
+body {
+	margin:0;
+	padding:0;
+	background:#F9F9F9;
+}
+
+/* page layout */
+
+#entirePage {
+}
+
+#page{
+	position:absolute;
+	
+	padding-left:3px;
+    padding-right:3px;
+    padding-bottom:3px;
+    border:1px solid #335533;
+    width:1200px;
+    height:800px;
+
+}
+#mainMapPane{
+position:absolute;
+top:150px;
+left:50px;
+}
+#mainButtonBar{
+position:absolute;
+top:50px; 
+left:50px;
+padding-left:3px;
+padding-right:3px;
+padding-bottom:3px;
+width:220px;
+z-index:500;
+
+}
+#layerControl{
+position:absolute;
+top:150px; 
+left:652px;
+padding-left:3px;
+padding-right:3px;
+padding-bottom:3px;
+border:1px solid #335533;
+cellspacing:1;
+}
+
+#changebbox
+{
+padding:25px;
+
+}
+
+#propriete
+{
+margin-left:10px;
+margin-right:10px;
+}
+
+#changeBox{
+position:absolute;
+top:650px;
+left:50px;
+width:585px;
+height:50px;
+border:1px solid #335533;
+}
+
+#toolswidget
+{
+position:absolute;
+top:50px; 
+left:50px;
+width:584px;
+height:100px;
+background-color:#f2fff3;
+}
+
+#scalebar
+{
+position:relative;
+/*top:50px;
+left:434px;*/
+float:left;
+left:110px;
+top:70px;
+}
+
+#cursorTrack
+{
+position:relative;
+left:200px;
+top:-35px;
+}
+
+#boussole
+{
+position:relative;
+left:450px;
+/*top:50px;
+left:534px;
+background:transparent*/
+/*filter:alpha(opacity=0);
+-moz-opacity:0;
+opacity: 0;*/
+}
+
+
+
+
+#version{
+position:absolute;
+top:400px;
+left:50px;
+width:600px;
+}
+#featureList
+{
+position:absolute;
+top:750px;
+left:50px;
+border:1px solid #335533;
+}
+#transactionResponse
+{
+position:absolute;
+top:500px;
+left:50px;
+#featureList{
+position:absolute;
+top:400px;
+left:50px;
+}
+}
+.altRow_0 {
+	background:#075EEE;
+}
+
+.altRow_1 {
+	background:#EEFAEE;
+}
+
+
+
+.paneLabel {
+width:100%;
+height:250px;
+margin:0px;
+padding:0px;
+font-size:small;
+font-weight:bold;
+text-align:center;
+font-variant:small-caps;
+color:#556655;
+background:#CCCCCC;
+}
+

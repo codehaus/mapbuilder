@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+      
+<html xmlns="http://www.w3.org/1999/xhtml" >
+
+<!--
+Description: A Browser based Web Map Server Client based on javascript and XSL
+             libraries from http://mapbuilder.sourceforge.net .
+Usage:       Call http://hostname/dir/wms.html?context=UrlOfContext
+             or http://hostname/dir/wms.html (and a default context is used)
+Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+
+$Id: index.html 2546 2007-01-23 12:07:39Z gjvoosten $
+$Name:  $
+-->
+
+<html>
+  <head>
+    <title>Integrated Gazetteer Demo</title>
+
+    <link rel="stylesheet" href="../skin/rucs.css" type="text/css">
+    <link rel="stylesheet" href="../skin/tabList.css" type="text/css">
+    
+    <style type="text/css">
+      #resultsCanvas {
+        overflow: auto;
+        height: 300px;
+        position: relative;
+        border: 0;
+      }
+    </style>
+
+    <script>
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='config.xml';
+      //var language="fr";
+      
+    </script>
+    <script type="text/javascript" src="/mapbuilder/lib/Mapbuilder.js"></script>
+
+<script>
+/**
+* Transfers coordinate value back to the opener page
+* @param myForm the form widget containing the lat/lon values
+*/
+setAoiCoords = function(coords, srs) {
+  document.AoiForm_.northCoord.value = coords[1]; 
+  document.AoiForm_.southCoord.value = coords[1]; 
+  document.AoiForm_.eastCoord.value = coords[0]; 
+  document.AoiForm_.westCoord.value = coords[0]; 
+}
+
+highlightChoice = function(coords, srs) {
+  var point = coords;
+  //if (srs) alert(srs);
+  config.objects.mainMap.setParam('aoi',new Array(point,point));
+}
+
+selectChoice = function(coords, srs) {
+  var point = coords;
+  if (srs) alert(srs);
+  var bboxExtra = 1.0;
+  var bbox = new Array(point[0]-bboxExtra,point[1]-bboxExtra,point[0]+bboxExtra,point[1]+bboxExtra);
+  config.objects.mainMap.setBoundingBox(bbox);
+}
+
+</script>
+  </head>
+
+  <body onload="mbDoLoad();">
+    <!-- Layout mapbuilder widgets and HTML -->
+  <form name="AoiForm_" action="">
+    <h1>Integrated Gazetteer demo</h1>
+    <table>
+      <tr>
+         <td rowspan="3" valign="top">
+          <p id="tabBar"/>
+          <p id="formInput"/>
+          <p id="resultsCanvas"/>
+         </td>
+         <td align="center" valign="top">
+            <table>
+              <tr>
+                <td colspan="2">
+                  <div id="mainMapPane"/>
+                </td>
+              </tr>
+              <tr>
+                <td align="left">
+                  <div id="mainButtonBar"/>
+                </td>
+                <td align="right" id="cursorTrack" />
+              </tr>
+            </table>
+         </td>
+      </tr>
+      <tr>
+         <td id="aoiForm"/>
+      </tr>
+      <tr>
+        <td>
+          <form name="AoiForm_">
+          <table>
+            <tr>
+             <th colspan="4">this is a bounding box form in your HTML page</th>
+            </tr>
+            <tr>
+             <td>north:<input type="text" size="4" maxlength="7" name="northCoord" value=""/></td>
+             <td>south:<input type="text" size="4" maxlength="7" name="southCoord" value=""/></td>
+             <td>east:<input type="text" size="4" maxlength="7" name="eastCoord" value=""/></td>
+             <td>west:<input type="text" size="4" maxlength="7" name="westCoord" value=""/></td>
+            </tr>
+          </table>
+          </form>
+        </td>
+      </tr>
+    </table>
+  </form>
+  </body>
+</html>

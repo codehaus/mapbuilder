@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!-- $Id: template_habitations.xml 103 2006-08-24 13:11:50Z olivier $ -->
+<gml:featureMember xmlns:camgis="http://www.geomatys.fr/camgis" xmlns:gml="http://www.opengis.net/gml">
+	<camgis:parcelles_polygon> 
+<camgis:the_geom>
+			<gml:MultiPolygon srsName="EPSG:27563">
+				<gml:polygonMember>
+					<gml:Polygon>
+						<gml:outerBoundaryIs>
+							<gml:LinearRing>
+								<gml:coordinates decimal="." cs="," ts=" "></gml:coordinates>
+							</gml:LinearRing>
+						</gml:outerBoundaryIs>
+					</gml:Polygon>
+				</gml:polygonMember>
+     			</gml:MultiPolygon>
+	</camgis:the_geom>
+  </camgis:parcelles_polygon>
+</gml:featureMember>

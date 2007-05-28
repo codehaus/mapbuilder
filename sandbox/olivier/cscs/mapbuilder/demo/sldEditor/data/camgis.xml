@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<ViewContext version="0.0.13" id="ows-context-tie" xmlns="http://www.opengis.net/context" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sld="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows" xmlns:param="http;//www.opengis.net/param" xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
+	<General>
+		<Window width="584" height="434"/>
+		<!--http://192.168.10.3:8080/geoserver/wms?bbox=759811,117241,815932,165585&styles=section&request=GetMap&layers=cadastre:section&width=600&height=517&srs=EPSG:27563&Format=image/svg+xml-->
+		<BoundingBox minx="751323" miny="116669" maxx="809748" maxy="160043" SRS="EPSG:27563"/>
+		<Title>The map camgis</Title>
+		<KeywordList>
+			<Keyword>camgis</Keyword>
+		</KeywordList>
+		<Abstract/>
+		 <Extension>
+		<GroupList>
+			
+			<Group name="modifiable" folded="0"/>
+            <Group name="Repere" folded="1"/>
+		</GroupList>
+    </Extension>
+	</General>
+	<LayerList>
+		<Layer queryable="1" hidden="0">
+			<Server service="OGC:WMS" version="1.1.1" title="camgis:mer_polygon">
+				<OnlineResource xlink:type="simple" xlink:href="http://pulsar.geomatys.fr:8080/geoserver/wms"/>
+			</Server>
+			<Name>camgis:mer_polygon,camgis:sol_polygon,camgis:marais-lagunes_polygon,camgis:villes_polygon,camgis:routes_principales_line,camgis:routes_secondaires_line,camgis:voies_ferrees_line</Name>
+			<Title>mer,sol,maraies,routes,voie ferrées</Title>
+			<SRS>EPSG:27563</SRS>
+			<FormatList>
+				<Format current="1">image/png</Format>
+			</FormatList>
+			<Extension>
+				<Group name="repere"/>
+            </Extension>
+		</Layer>
+		
+		
+		<Layer queryable="1" hidden="0">
+			<Server service="OGC:WMS" version="1.1.1" title="camgis:parcelles_polygon">
+				<OnlineResource xlink:type="simple" xlink:href="http://pulsar.geomatys.fr:8080/geoserver/wms"/>
+			</Server>
+			<Name>camgis:parcelles_polygon</Name>
+			<Title>parcelles</Title>
+			<SRS>EPSG:27563</SRS>
+			<FormatList>
+				<Format current="1">image/png</Format>
+			</FormatList>
+			<StyleList>
+				<Style current="1">
+				<Name>parcelle_dist_habit</Name>
+					<LegendURL format="image/png">
+              <OnlineResource xlink:type="simple" xlink:href="http://pulsar.geomatys.fr:8080/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;LAYER=topp:states&amp;FORMAT=image/png&amp;SLD=http://pulsar.geomatys.fr/geodata/styles/green2.sld"/>
+                     </LegendURL>
+				</Style>
+			</StyleList>
+			<Extension>
+				<Group name="modifiable"/>
+            </Extension>
+		</Layer>
+		
+		<Layer queryable="1" hidden="0">
+			<Server service="OGC:WMS" version="1.1.1" title="camgis:haies_line">
+				<OnlineResource xlink:type="simple" xlink:href="http://pulsar.geomatys.fr:8080/geoserver/wms"/>
+			</Server>
+			<Name>camgis:haies_line</Name>
+			<Title>haies_line</Title>
+			<SRS>EPSG:27563</SRS>
+			<FormatList>
+				<Format current="1">image/png</Format>
+			</FormatList>
+			<StyleList>
+				<Style current="1">
+				</Style>
+			</StyleList>
+			<Extension>
+				<Group name="modifiable"/>
+            </Extension>
+		</Layer>
+
+
+	</LayerList>
+</ViewContext>

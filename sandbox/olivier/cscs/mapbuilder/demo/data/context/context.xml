@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ViewContext version="1.0.0" id="MS"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns="http://www.opengis.net/context"
+	xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengeospatial.net/context/1.0.0/context.xsd">
+	<General>
+		<Window width="842" height="605" /><!-- Bounding box corners and spatial reference system -->
+		<BoundingBox SRS="EPSG:102582" minx="547293"
+			miny="1703210" maxx="801423" maxy="1997767" /><!-- Title of Context -->
+		<Title>IRD WMS SERVER</Title>
+		<Abstract>Demo for map context document.</Abstract>
+		<Extension>
+			<GroupList>
+				<Group name="Expansion" folded="0" />
+				<Group name="Others" folded="0" />
+				<Group name="Données administratives 1" folded="1" />
+				<Group name="Données administratives 2" folded="1" />
+				<Group name="Trait du shom" folded="1" />
+			</GroupList>
+		</Extension>
+	</General>
+	<LayerList>
+		<Layer queryable="1" hidden="0">
+			<Server service="wms" version="1.1.1"
+				title="IRD WMS SERVER">
+				<OnlineResource xlink:type="simple"
+					xlink:href="http://mdweb-demo15.teledetection.fr/wms?" />
+			</Server>
+			<Name>departement</Name>
+			<Title>departement</Title>
+			<SRS>EPSG:102582</SRS>
+			<StyleList>
+				<Style current="1">
+					<SLD>
+						<OnlineResource
+							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
+							xlink:href="http://mdweb-demo15.teledetection.fr/mapserver_carto/config/sld/departement.xml" />
+					</SLD>
+					<LegendURL>
+						<OnlineResource
+							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
+							xlink:href="http://mdweb-demo15.teledetection.fr/wms?version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=departement&amp;format=image/gif&amp;sld=http://mdweb-demo15.teledetection.fr/mapserver_carto/config/sld/departement.xml" />
+					</LegendURL>
+				</Style>
+			</StyleList>
+			<FormatList>
+				<Format current="1">image/gif</Format>
+			</FormatList>
+			<Extension>
+				<Group name="Données administratives 2" />
+			</Extension>
+		</Layer>
+		<Layer queryable="1" hidden="1">
+			<Server service="wms" version="1.1.1"
+				title="IRD WMS SERVER">
+				<OnlineResource xlink:type="simple"
+					xlink:href="http://mdweb-demo15.teledetection.fr/wms?" />
+			</Server>
+			<Name>bassin_versant</Name>
+			<Title>bassin_versant</Title>
+			<SRS>EPSG:102582</SRS>
+			<StyleList>
+				<Style current="1">
+					<SLD>
+						<OnlineResource
+							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
+							xlink:href="http://mdweb-demo15.teledetection.fr/mapserver_carto/config/sld/bassin_versant.xml" />
+					</SLD>
+					<LegendURL>
+						<OnlineResource
+							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
+							xlink:href="http://mdweb-demo15.teledetection.fr/wms?version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=bassin_versant&amp;format=image/gif&amp;sld=http://mdweb-demo15.teledetection.fr/mapserver_carto/config/sld/bassin_versant.xml" />
+					</LegendURL>
+				</Style>
+			</StyleList>
+			<FormatList>
+				<Format current="1">image/gif</Format>
+			</FormatList>
+			<Extension>
+				<Group name="Données administratives 2" />
+			</Extension>
+		</Layer>
+		<Layer queryable="1" hidden="0">
+			<Server service="wms" version="1.1.1"
+				title="IRD WMS SERVER">
+				<OnlineResource xlink:type="simple"
+					xlink:href="http://mdweb-demo15.teledetection.fr/wms?" />
+			</Server>
+			<Name>riviere</Name>
+			<Title>riviere</Title>
+			<SRS>EPSG:102582</SRS>
+			<StyleList>
+				<Style current="1">
+					<SLD>
+						<OnlineResource
+							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
+							xlink:href="http://mdweb-demo15.teledetection.fr/mapserver_carto/config/sld/riviere.xml" />
+					</SLD>
+					<LegendURL>
+						<OnlineResource
+							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
+							xlink:href="http://mdweb-demo15.teledetection.fr/wms?version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=riviere&amp;format=image/gif&amp;sld=http://mdweb-demo15.teledetection.fr/mapserver_carto/config/sld/riviere.xml" />
+					</LegendURL>
+				</Style>
+			</StyleList>
+			<FormatList>
+				<Format current="1">image/gif</Format>
+			</FormatList>
+			<Extension>
+				<Group name="Données administratives 1" />
+			</Extension>
+		</Layer>
+		<Layer queryable="1" hidden="1">
+			<Server service="wms" version="1.1.1"
+				title="IRD WMS SERVER">
+				<OnlineResource xlink:type="simple"
+					xlink:href="http://mdweb-demo15.teledetection.fr/wms?" />
+			</Server>
+			<Name>shom_limite_1mille</Name>
+			<Title>shom_limite_1mille</Title>
+			<SRS>EPSG:102582</SRS>
+			<StyleList>
+				<Style current="1">
+					<SLD>
+						<OnlineResource
+							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
+							xlink:href="http://mdweb-demo15.teledetection.fr/mapserver_carto/config/sld/shom_limite_1mille.xml" />
+					</SLD>
+					<LegendURL>
+						<OnlineResource
+							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
+							xlink:href="http://mdweb-demo15.teledetection.fr/wms?version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=shom_limite_1mille&amp;format=image/gif&amp;sld=http://mdweb-demo15.teledetection.fr/mapserver_carto/config/sld/shom_limite_1mille.xml" />
+					</LegendURL>
+				</Style>
+			</StyleList>
+			<FormatList>
+				<Format current="1">image/gif</Format>
+			</FormatList>
+			<Extension>
+				<Group name="Trait du shom" />
+			</Extension>
+		</Layer>
+		<Layer queryable="1" hidden="1">
+			<Server service="wms" version="1.1.1"
+				title="IRD WMS SERVER">
+				<OnlineResource xlink:type="simple"
+					xlink:href="http://mdweb-demo15.teledetection.fr/wms?" />
+			</Server>
+			<Name>sncf</Name>
+			<Title>sncf</Title>
+			<SRS>EPSG:102582</SRS>
+			<StyleList>
+				<Style current="1">
+					<SLD>
+						<OnlineResource
+							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
+							xlink:href="http://mdweb-demo15.teledetection.fr/mapserver_carto/config/sld/sncf.xml" />
+					</SLD>
+					<LegendURL>
+						<OnlineResource
+							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
+							xlink:href="http://mdweb-demo15.teledetection.fr/wms?version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=sncf&amp;format=image/gif&amp;sld=http://mdweb-demo15.teledetection.fr/mapserver_carto/config/sld/sncf.xml" />
+					</LegendURL>
+				</Style>
+			</StyleList>
+			<FormatList>
+				<Format current="1">image/gif</Format>
+			</FormatList>
+			<Extension>
+				<Group name="Données administratives 1" />
+			</Extension>
+		</Layer>
+		<Layer queryable="1" hidden="0">
+			<Server service="wms" version="1.1.1"
+				title="IRD WMS SERVER">
+				<OnlineResource xlink:type="simple"
+					xlink:href="http://mdweb-demo15.teledetection.fr/wms?" />
+			</Server>
+			<Name>grande_ville</Name>
+			<Title>grande_ville</Title>
+			<SRS>EPSG:102582</SRS>
+			<StyleList>
+				<Style current="1">
+					<SLD>
+						<OnlineResource
+							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
+							xlink:href="http://mdweb-demo15.teledetection.fr/mapserver_carto/config/sld/grande_ville.xml" />
+					</SLD>
+					<LegendURL>
+						<OnlineResource
+							xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
+							xlink:href="http://mdweb-demo15.teledetection.fr/wms?version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=grande_ville&amp;format=image/gif&amp;sld=http://mdweb-demo15.teledetection.fr/mapserver_carto/config/sld/grande_ville.xml" />
+					</LegendURL>
+				</Style>
+			</StyleList>
+			<FormatList>
+				<Format current="1">image/gif</Format>
+			</FormatList>
+			<Extension>
+				<Group name="Données administratives 1" />
+			</Extension>
+		</Layer>
+	</LayerList>
+</ViewContext>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<feed version="0.3" xmlns="http://purl.org/atom/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+
+  <title>communitymapbuilder's Photos</title>
+  <link rel="alternate" type="text/html" href="http://www.flickr.com/photos/15435549@N00/"/>
+  <link rel="icon" type="image/jpeg" href="http://www.flickr.com/images/buddyicon.jpg?15435549@N00"/>
+  <info type="text/html" mode="escaped">A feed of communitymapbuilder's Photos</info>
+  <modified>2006-02-12T17:52:53Z</modified>
+  <generator url="http://www.flickr.com/">Flickr</generator>
+
+  <entry>
+    <title>Linda Derezinski</title>
+    <link rel="alternate" type="text/html" href="http://www.flickr.com/photos/15435549@N00/98792008/"/>
+    <id>tag:flickr.com,2004:/photo/98792008</id>
+    <issued>2006-02-12T17:52:53Z</issued>
+    <modified>2006-02-12T17:52:53Z</modified>
+
+    <content type="text/html" mode="escaped">&lt;p&gt;&lt;a href=&quot;http://www.flickr.com/people/15435549@N00/&quot;&gt;communitymapbuilder&lt;/a&gt; posted a photo:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.flickr.com/photos/15435549@N00/98792008/&quot; title=&quot;Linda Derezinski&quot;&gt;&lt;img src=&quot;http://static.flickr.com/41/98792008_052b50b3f9_m.jpg&quot; width=&quot;159&quot; height=&quot;240&quot; alt=&quot;Linda Derezinski&quot; style=&quot;border: 1px solid #ddd;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Developer&lt;/p&gt;</content>
+    <author>
+      <name>communitymapbuilder</name>
+      <url>http://www.flickr.com/people/15435549@N00/</url>
+    </author>
+        <dc:subject>geotagged geolat3928076 geolong7643795 communitymapbuilder roledeveloper</dc:subject>
+
+  </entry>
+  <entry>
+    <title>NRL VMOC</title>
+    <link rel="alternate" type="text/html" href="http://www.flickr.com/photos/15435549@N00/98685473/"/>
+    <id>tag:flickr.com,2004:/photo/98685473</id>
+    <issued>2006-02-12T13:44:43Z</issued>
+    <modified>2006-02-12T13:44:43Z</modified>
+
+    <content type="text/html" mode="escaped">&lt;p&gt;&lt;a href=&quot;http://www.flickr.com/people/15435549@N00/&quot;&gt;communitymapbuilder&lt;/a&gt; posted a photo:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.flickr.com/photos/15435549@N00/98685473/&quot; title=&quot;NRL VMOC&quot;&gt;&lt;img src=&quot;http://static.flickr.com/37/98685473_5ba4a3a2ed_m.jpg&quot; width=&quot;240&quot; height=&quot;176&quot; alt=&quot;NRL VMOC&quot; style=&quot;border: 1px solid #ddd;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Mapbuilder is used to display data collected from users/sensors and to enable collaboration&lt;br /&gt;
+&lt;a href=&quot;http://www.nrl.navy.mil/content.php?P=04REVIEW207-2&quot;&gt;www.nrl.navy.mil/content.php?P=04REVIEW207-2&lt;/a&gt;&lt;/p&gt;</content>
+    <author>
+      <name>communitymapbuilder</name>
+      <url>http://www.flickr.com/people/15435549@N00/</url>
+
+    </author>
+        <dc:subject>geotagged communitymapbuilder geolat38821789 geolong77024117 roleapplication</dc:subject>
+  </entry>
+  <entry>
+    <title>Patrice Cappelaere</title>
+    <link rel="alternate" type="text/html" href="http://www.flickr.com/photos/15435549@N00/98679143/"/>
+    <id>tag:flickr.com,2004:/photo/98679143</id>
+
+    <issued>2006-02-12T13:28:01Z</issued>
+    <modified>2006-02-12T13:28:01Z</modified>
+    <content type="text/html" mode="escaped">&lt;p&gt;&lt;a href=&quot;http://www.flickr.com/people/15435549@N00/&quot;&gt;communitymapbuilder&lt;/a&gt; posted a photo:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.flickr.com/photos/15435549@N00/98679143/&quot; title=&quot;Patrice Cappelaere&quot;&gt;&lt;img src=&quot;http://static.flickr.com/33/98679143_ccdf7e055a_m.jpg&quot; width=&quot;128&quot; height=&quot;128&quot; alt=&quot;Patrice Cappelaere&quot; style=&quot;border: 1px solid #ddd;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;PMC&lt;/p&gt;</content>
+    <author>
+      <name>communitymapbuilder</name>
+      <url>http://www.flickr.com/people/15435549@N00/</url>
+    </author>
+        <dc:subject>geotagged communitymapbuilder geolat39254887 geolong7680572 rolepmc</dc:subject>
+
+  </entry>
+
+</feed>

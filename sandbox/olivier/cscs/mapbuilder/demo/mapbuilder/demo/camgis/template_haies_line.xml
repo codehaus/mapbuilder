@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gml:featureMember xmlns:camgis="http://www.geomatys.fr/camgis" xmlns:gml="http://www.opengis.net/gml">
+  <camgis:haies_line>
+	
+	<camgis:the_geom srsName="epsg:27563">
+      		<gml:MultiLineString >
+        		<gml:lineStringMember>
+          			<gml:LineString>
+            				<gml:coordinates decimal="." cs="," ts=" "></gml:coordinates>
+          			</gml:LineString>
+        		</gml:lineStringMember>
+      		</gml:MultiLineString>
+    	</camgis:the_geom>
+<camgis:id></camgis:id>
+
+  </camgis:haies_line>
+</gml:featureMember>

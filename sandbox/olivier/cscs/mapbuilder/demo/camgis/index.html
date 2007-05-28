@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+     
+<html xmlns="http://www.w3.org/1999/xhtml" >
+  <head>
+  
+    <title>Mapbuilder Interactive Map Viewer: demo Flamand/riziere</title>
+    
+        <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/demoStyles.css'/>
+        <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/button.css'/>
+        <link rel="stylesheet" type="text/css" href="../../lib/skin/default/tabList.css"/>
+        <link rel="StyleSheet" type="text/css" href="test2.css"/>
+        <link rel='StyleSheet' type='text/css'  href='../../lib/skin/default/mapStyle.css'/>
+        <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/scalebar-fat.css'>
+     
+        <script type="text/javascript" src="../../lib/dojo/dojo.js"></script>
+        <script type='text/javascript' src='/dwr/engine.js'> </script>
+        <script type='text/javascript' src='Test.js'></script>
+        <script type='text/javascript' src='/dwr/util.js'> </script>
+    
+     <script type="text/javascript">
+                   
+    function sendMessage()
+    {
+                      JavaChat.addMessage(dwr.util.getValue("text"));
+    }
+  
+     var propriobbox="";
+      function addHaie()
+    {
+		Test.addHaie(addHaieCB);
+	}
+    
+    function addHaieCB(message){
+    	var chatlog = "<div>"+ message+ "</div>";
+		DWRUtil.setValue("chatAdd", chatlog);
+    }
+    
+    function updateDb2()
+    {
+    	Test.updateDb(callbacktest);
+    }
+    
+    function callbacktest(message)
+    {
+    
+    config.objects.mainMap.callListeners("refreshWmsLayers");
+    }
+
+    
+    function updateAllDb(){
+    	Test.updateAllDb();
+    }
+    
+    function deleteHaie(id)
+	{
+	    var id = DWRUtil.getValue("text");
+        DWRUtil.setValue("text", "");
+		Test.deleteHaie(id,CBdeleteHaie);
+	}
+	
+	
+	<!-- Fonction de callBack  -->
+	
+	function CBupdateDb(message)
+    {
+       	var chat = "<div>"+ message+ "</div>";
+		DWRUtil.setValue("chatCalcul", chat);
+    }
+    
+    function CBdeleteHaie(message)
+	{
+       	var chat = "<div>"+ message+ "</div>";
+		DWRUtil.setValue("chatDelete", chat);
+	}
+	
+	
+	function getBbox(){
+  		var proprio = DWRUtil.getValue("propriete");
+        DWRUtil.setValue("propriete", "");
+		Test.bbox(proprio,CBgetBbox);
+  	}
+  	function getBboxtab(){
+  		var proprio = DWRUtil.getValue("propriete");
+        DWRUtil.setValue("propriete", "");
+		Test.bboxTab(proprio,CBgetBbox);
+  	}
+  	function CBgetBbox(bbox){
+       
+  	   /* var chat = " <div> <li><a href=\"?bbox="+bbox+"\">Load the map with a different Bounding Box</a></li></div>";*/
+  	   // config.objects.mainMap.setBoundingBox(bbox);
+  	    var ul = new Array();
+        var lr = new Array();
+  	    ul[0]=bbox[0];
+  	    ul[1]=bbox[3];
+  	    lr[0]=bbox[2];
+  	    lr[1]=bbox[1];
+  	    
+  	   
+                  config.objects.mainMap.setParam("aoi", new Array(ul,lr) );
+                  config.objects.mainMap.extent.zoomToBox(ul,lr);
+                  // config.objects.mainMap.callListeners("refreshWmsLayers");
+                        
+               //   DWRUtil.setValue("chatPropriete", chat);
+  	}
+    
+
+	// URL of Mapbuilder configuration file.
+    var mbConfigUrl='config.xml';
+    
+            function test()
+              {
+              alert('renard');
+              var h=document.getElementById("mainMapPane");
+               }
+        //Display in layercontrol if layer is visible    
+         function eyeOfTiger(layerId,nb)
+        {
+          
+            var h=document.getElementById("previewImage"+nb);
+            var layer=document.getElementById(layerId);
+            //alert(layer);
+            if(layer&& (layer.firstChild.src.indexOf("GetMap")!=-1))
+            {
+                        document.getElementById("previewImage"+nb).src=layer.firstChild.src;
+            }
+            
+        }
+	//Open Popup    
+      function popUp(URL) {
+				day = new Date();
+				id = day.getTime();
+				eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=1260,height=140,left = 0,top=800');");
+			}
+			
+//Show map legend when click on layerControl		
+		function show(id){
+	
+		var temp=new Image();
+	
+		
+	
+		if(document.images["lButton"+id].src.indexOf("Disable")!=-1)
+		{     
+			document.images["lButton"+id].src="../../lib/skin/default/images/LegendEnable.png";
+			document.getElementById("div"+id).style.width="40px";
+			document.getElementById("div"+id).style.height="40px";
+			document.getElementById("div"+id).style.visibility = "visible";
+			/*document.images["legend"+id].src="http://www.geomatys.fr:8080/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=40&LAYER="+id;*/
+			
+		}
+		else
+		{
+			document.images["lButton"+id].src="../../lib/skin/default/images/LegendDisable.png";
+			document.getElementById("div"+id).style.visibility = "hidden";
+			document.getElementById("div"+id).style.width="0px";
+			document.getElementById("div"+id).style.height="0px";
+		}
+		
+		
+	}
+	var cptOthers;
+
+
+//Open popup for choose color
+	function openColorWindow(inputId)
+	{
+		var URL=new String("color.html?inputId="+inputId);
+		day = new Date();
+		id = day.getTime();
+		eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=340,height=340,left =200,top=200');");
+			
+	}
+	
+//Update input of color		
+	function setColor(hexColor,inputId)
+	{
+		document.getElementById(inputId).value="#"+hexColor;
+		document.getElementById(inputId).focus();
+	}
+	
+	
+	
+	
+	// <div id="workspace">
+        //<div> 
+    </script>
+    <!-- This points to the core mapbuilder library, replaces this with MapbuilderCompressed.js when you want to use the compressed version -->
+    <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
+  </head>
+  <!-- This onload event starts mapbuilder -->
+  <body onload="mbDoLoad()" >
+   
+   
+   <div id="page">
+
+   
+		  	  <div id="mainMapPane">
+                        <!-- This is the container where the map will be drawn -->
+                        <noscript>this page requires Javascript to be enabled</noscript>
+			  </div><!-- /mainMapPane -->
+			   
+			   
+			  <div id="mainButtonBar"><!-- This is the container where the buttons will be drawn --></div>
+			  
+			  <div id="toolswidget">
+                      <div id="scalebar"></div>
+                      <div id="boussole" > <img src="images.gif" height=100 width=100 style="background:transparent" /> </div>
+                      <div id="cursorTrack"> </div>  
+              </div>
+			    
+               
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+				   
+			    
+				   
+        <div id="version"/></div>
+        
+        <div id="layerControl">
+                <div class="name">layers</div>
+        </div>
+        
+        <!--
+        <div id="buttons3">
+	      		<input type="button" name="vivaSld3" value="bbox"  onclick="getBboxtab(); alert('bbox');" />
+	    </div>
+	    -->
+	     
+			  
+			  
+        <div id="changeBox">	
+                
+          <div id="chatCalcul" ></div>
+            <!-- affiche une bbox pour un proprio -->
+          <div id="changebbox">Entrer le nom du proprietaire
+            <input id="propriete"/>
+            <input type="button" value="Send" onclick="getBboxtab()"/>
+            <div id="chatPropriete"></div>
+          </div>
+          <!-- fin affiche une bbox pour un proprio -->
+          
+           <!-- affiche les features de la carte -->
+          
+		   <!-- fin d'affiche les features de la carte -->
+	  </div>	
+	  <div id="featureList">
+                <div class="name">Renseignements</div>
+		  </div>	    
+				
+		</div><!-- /page -->
+	</body>
+</html>

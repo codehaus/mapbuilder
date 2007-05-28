@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding="ISO-8859-1" standalone="no" ?>
+<ViewContext version="1.0.0" id="MS" xmlns:ows="http://www.opengis.net/ows" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.opengis.net/context" xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengeospatial.net/context/1.0.0/context.xsd">
+  <General>
+    <Window width="842" height="605"/>
+    <!-- Bounding box corners and spatial reference system -->
+     <BoundingBox SRS="EPSG:102582" minx="547293" miny="1703210" maxx="801423" maxy="1997767"/> 
+   
+    <!-- Title of Context -->
+    <Title>Map Context demo</Title>
+    <Abstract>Demo for map context document.</Abstract>
+    <Extension>
+		<GroupList>
+			<Group name="Donnees administratives" folded="1"/>
+			<Group name="Trait du shom" folded="1"/>
+			<Group name="Expansion" folded="0"/>
+			<Group name="Others" folded="0"/>
+		</GroupList>
+    </Extension>
+  </General>
+  <LayerList>
+   <Layer queryable="1" hidden="0">
+      <Server service="WMS" version="1.1.1" title="rsl_col">
+        <OnlineResource xlink:type="simple" xlink:href="http://mdweb-demo15.teledetection.fr/wms"/>
+      </Server>
+      <Name>departement</Name>
+      <Title>departement</Title>
+      <SRS>EPSG:102582</SRS>
+      <StyleList>
+        <Style current="1">
+          	<Name>default</Name>
+          	<Title>default</Title>
+          	<LegendURL width="20" height="20" format="image/gif">            
+          	<OnlineResource xlink:type="simple" xlink:href="http://mdweb-demo15.teledetection.fr/wms?service=wms&amp;amp;version=1.1.1&amp;amp;request=getlegendgraphic&amp;amp;layer=departement&amp;amp;format=image/gif"/>
+          	</LegendURL>
+        </Style>
+      </StyleList>
+     
+    </Layer>
+     <Layer queryable="1" hidden="1">
+      <Server service="WMS" version="1.1.1" title="rsl_col">
+        <OnlineResource xlink:type="simple" xlink:href="http://mdweb-demo15.teledetection.fr/wms"/>
+      </Server>
+      <Name>bassin_versant</Name>
+      <Title>bassin_versant</Title>
+      <SRS>EPSG:102582</SRS>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+          <LegendURL width="20" height="20" format="image/gif">            <OnlineResource xlink:type="simple" xlink:href="http://mdweb-demo15.teledetection.fr/wms?service=wms&amp;amp;version=1.1.1&amp;amp;request=getlegendgraphic&amp;amp;layer=bassin_versant&amp;amp;format=image/gif"/>
+          </LegendURL>
+        </Style>
+      </StyleList>
+      <Extension>
+				<Group name="Donnees administratives"/>
+	  </Extension>
+    </Layer>
+    <Layer queryable="1" hidden="1">
+      <Server service="WMS" version="1.1.1" title="rsl_col">
+        <OnlineResource xlink:type="simple" xlink:href="http://mdweb-demo15.teledetection.fr/wms"/>
+      </Server>
+      <Name>route</Name>
+      <Title>route</Title>
+      <SRS>EPSG:102582</SRS>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+          <LegendURL width="20" height="20" format="image/gif">            <OnlineResource xlink:type="simple" xlink:href="http://mdweb-demo15.teledetection.fr/wms?service=wms&amp;amp;version=1.1.1&amp;amp;request=getlegendgraphic&amp;amp;layer=route&amp;amp;format=image/gif"/>
+          </LegendURL>
+        </Style>
+      </StyleList>
+      <Extension>
+				<Group name="Donnees administratives"/>
+	  </Extension>
+    </Layer>
+    <Layer queryable="0" hidden="1">
+      <Server service="WMS" version="1.1.1" title="rsl_col">
+        <OnlineResource xlink:type="simple" xlink:href="http://mdweb-demo15.teledetection.fr/wms"/>
+      </Server>
+      <Name>shom_limite_300metres</Name>
+      <Title>shom_limite_300metres</Title>
+      <SRS>EPSG:102582</SRS>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+          <LegendURL width="20" height="20" format="image/gif">            
+          <OnlineResource xlink:type="simple" xlink:href="http://mdweb-demo15.teledetection.fr/wms?service=wms&amp;amp;version=1.1.1&amp;amp;request=getlegendgraphic&amp;amp;layer=shom_limite_300metres&amp;amp;format=image/gif"/>
+          </LegendURL>
+        </Style>
+      </StyleList>
+      <Extension>
+				<Group name="Trait du shom"/>
+	  </Extension>
+    </Layer>
+    <Layer queryable="0" hidden="1">
+      <Server service="WMS" version="1.1.1" title="rsl_col">
+        <OnlineResource xlink:type="simple" xlink:href="http://mdweb-demo15.teledetection.fr/wms"/>
+      </Server>
+      <Name>shom_limite_12milles</Name>
+      <Title>shom_limite_12milles</Title>
+      <SRS>EPSG:102582</SRS>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+          <LegendURL width="20" height="20" format="image/gif">            <OnlineResource xlink:type="simple" xlink:href="http://mdweb-demo15.teledetection.fr/wms?service=wms&amp;amp;version=1.1.1&amp;amp;request=getlegendgraphic&amp;amp;layer=shom_limite_12milles&amp;amp;format=image/gif"/>
+          </LegendURL>
+        </Style>
+      </StyleList>
+      <Extension>
+				<Group name="Trait du shom"/>
+	  </Extension>
+    </Layer>
+    <Layer queryable="1" hidden="0">
+      <Server service="WMS" version="1.1.1" title="rsl_col">
+        <OnlineResource xlink:type="simple" xlink:href="http://mdweb-demo15.teledetection.fr/wms"/>
+      </Server>
+      <Name>grande_ville</Name>
+      <Title>grande_ville</Title>
+      <SRS>EPSG:102582</SRS>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+          <LegendURL width="20" height="20" format="image/gif">            <OnlineResource xlink:type="simple" xlink:href="http://mdweb-demo15.teledetection.fr/wms?service=wms&amp;amp;version=1.1.1&amp;amp;request=getlegendgraphic&amp;amp;layer=grande_ville&amp;amp;format=image/gif"/>
+          </LegendURL>
+        </Style>
+      </StyleList>
+      <Extension>
+				<Group name="Donnees administratives"/>
+	  </Extension>
+    </Layer>
+  </LayerList>
+</ViewContext>
+

@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//Dtd HTML 3.2 Final//EN">
+
+<!--
+Description: A Browser based Web Map Server Client based on javascript and XSL
+             libraries from http://mapbuilder.sourceforge.net .
+Usage:       Call http://hostname/dir/wms.html?context=UrlOfContext
+             or http://hostname/dir/wms.html (and a default context is used)
+Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+
+$Id: index.html 2546 2007-01-23 12:07:39Z gjvoosten $
+$Name:  $
+-->
+
+<html>
+  <head>
+    <title>Gazetteer tools demo</title>
+
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/docsStyle.css'>
+
+<script>
+
+function openPopup(url, size) {
+  window.open(url, 'gazTool', size);
+}
+
+/**
+* Transfers coordinate value back to the opener page
+* @param myForm the form widget containing the lat/lon values
+*/
+function setAoiCoords(myForm) {
+  document.AoiForm_.northCoord.value = myForm.coordLat.value; 
+  document.AoiForm_.southCoord.value = myForm.coordLat.value; 
+  document.AoiForm_.eastCoord.value = myForm.coordLong.value; 
+  document.AoiForm_.westCoord.value = myForm.coordLong.value;
+}
+
+</script>
+  </head>
+
+  <body style="width:800px">
+    <!-- Layout mapbuilder widgets and HTML -->
+    <h1>Gazetteer tools demo</h1>
+    <p>This page shows some examples of how to integrate gazetteer tools in your site.
+    The information used by these tools comes from distributed web services.
+    All of these examples are configurable in the usual 
+    <a href="http://docs.codehaus.org/display/MAP/User+Guide">MapBuilder way</a> 
+    by adding or removing components or pointing to other web services.</p>
+    <h2>Using pop-ups</h2>
+    <p>In this case the interaction with the services occurs in a popup window and transfers
+    the results back into a bounding box form in this page.
+    This is done via the "Transfer" button in the popup which calls the setAoiForm(form) Javascript
+    method defined in this page.
+    You can copy this code and/or modify it to populate your own bbox form values.</p>
+    <p>
+      <form name="AoiForm_" action="">
+      <table style="float:right">
+        <tr>
+           <td>north:<input type="text" size="4" maxlength="7" name="northCoord" value=""/></td>
+           <td>south:<input type="text" size="4" maxlength="7" name="southCoord" value=""/></td>
+           <td>east:<input type="text" size="4" maxlength="7" name="eastCoord" value=""/></td>
+           <td>west:<input type="text" size="4" maxlength="7" name="westCoord" value=""/></td>
+        </tr>
+        <tr>
+           <td colspan="2"><input type="button" value="Clear Coordinates" onclick="northCoord.value=''; southCoord.value=''; eastCoord.value=''; westCoord.value='';"/></td>
+           <td colspan="2">Language:&nbsp;
+            <select name="lang">
+              <option selected="true">en</option>
+              <option>fr</option>
+            </select>
+           </td>
+           <td>&nbsp;</td>
+        </tr>
+      </table>
+      </form>
+      <ul>
+        <li><a href="javascript:openPopup('/mapbuilder/demo/gazetteerTools/PostalCode?language='+document.forms[0].lang.value,'width=450,height=250')">Canadian postal code lookup</a></li>
+        <li><a href="javascript:openPopup('/mapbuilder/demo/gazetteerTools/PlaceName?language='+document.forms[0].lang.value,'width=600,height=400')">Place name lookup</a></li>
+        <li><a href="javascript:openPopup('/mapbuilder/demo/gazetteerTools/MapWidget?language='+document.forms[0].lang.value,'width=600,height=500')">Draw a bounding box on a map</a></li>
+      </ul>
+    </p>
+    <h2>Integrated in the same page</h2>
+    <p>You can also integrate these tools directly in in your page as shown in this
+      <a href="Integrated">example.</a>
+      (under development)
+    </p>
+    <p  class="footer">
+    powered by <a href="http://mapbuilder.sourceforge.net">Community MapBuilder</a><br/>
+    member project of <a href="https://www.osgeo.org/">OSGeo</a>
+    </p>
+  </body>
+</html>

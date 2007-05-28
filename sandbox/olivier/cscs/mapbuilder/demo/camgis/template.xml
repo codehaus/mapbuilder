@@ -1,0 +1,14 @@
+<gml:featureMember xmlns:hostgis="http://www.hostgis.com" xmlns:gml="http://www.opengis.net/gml">
+  <hostgis:public_point>
+    <hostgis:gid></hostgis:gid>
+    <hostgis:the_geom>
+          <gml:Point srsName="EPSG:4326">
+            <gml:coordinates decimal="." cs="," ts=" "></gml:coordinates>
+          </gml:Point>
+    </hostgis:the_geom>
+    <hostgis:label></hostgis:label>
+    <hostgis:description></hostgis:description>
+  </hostgis:public_point>
+</gml:featureMember>
+
+

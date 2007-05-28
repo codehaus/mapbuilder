@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+	<models>
+		<Context id="mainMap">
+			<defaultModelUrl>camgis.xml</defaultModelUrl>
+			<widgets>
+			<MapPaneOL id="mainMapWidget">
+			
+					<htmlTagId>mainMapPane</htmlTagId>
+					<mapContainerId>mainMapContainer</mapContainerId>
+				</MapPaneOL>
+				
+				
+				<Legend id="legend"/>
+        <Version id="version"/>
+        <LayerControl id="layerControl">
+          	<moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
+          	<moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
+         	<deleteImage>/images/LayerRemoveDisable.png</deleteImage>
+         	<legendImageEnable>/images/LegendEnable.png</legendImageEnable>
+			<legendImageDisable>/images/LegendDisable.png</legendImageDisable> 
+			<opacity>true</opacity>
+        </LayerControl>
+        
+        <!--  test sld editor -->
+        
+				
+				
+       
+       
+			</widgets>
+			<tools>
+				
+			</tools>
+		</Context>
+
+
+
+	<Transaction id="transaction">
+      <widgets>
+        <TransactionResponse id="transactionResponse">
+        </TransactionResponse>
+      </widgets>
+    </Transaction>
+    
+		
+		<FeatureCollection id="featureCollection">
+      <widgets>
+        <GmlRendererWZ id="testGmlRenderer">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <targetModel>mainMap</targetModel>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>3</lineWidth>
+          <pointDiameter>10</pointDiameter>
+        </GmlRendererWZ>
+        <FeatureList id="featureList">
+        </FeatureList>
+      </widgets>
+      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp' xmlns:hostgis='http://www.hostgis.com' xmlns:camgis='http://www.geomatys.fr/camgis'</namespace>
+    </FeatureCollection>
+    
+    
+    
+    
+	</models>
+	<widgets>
+	
+	
+    
+    
+    
+	    <EditPoint id="editPoint">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>featureCollection</targetModel>
+
+      <class>RadioButton</class>
+      <enabledSrc>/images/EditPointEnable.png</enabledSrc>
+      <disabledSrc>/images/EditPointDisable.png</disabledSrc>
+      <transactionResponseModel>transaction</transactionResponseModel>
+      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
+      <targetContext>mainMap</targetContext>
+      <featureXpath>/gml:featureMember/topp:tasmania_cities/topp:the_geom/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
+		<defaultModelUrl>template_cities.xml</defaultModelUrl>
+    </EditPoint>
+    <EditLine id="editLine">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>featureCollection</targetModel>
+
+      <class>RadioButton</class>
+      <enabledSrc>/images/EditLineEnable.png</enabledSrc>
+      <disabledSrc>/images/EditLineDisable.png</disabledSrc>
+      <transactionResponseModel>transaction</transactionResponseModel>
+      <webServiceUrl>http://www.geomatys.fr:8080/geoserver/wfs</webServiceUrl>
+      <targetContext>mainMap</targetContext>
+      <featureXpath>//gml:coordinates</featureXpath>
+      <defaultModelUrl>template_haies_line.xml</defaultModelUrl>
+    </EditLine>
+    <DeleteFeature id="deleteFeature">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>featureCollection</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/DeleteDisable.png</disabledSrc>
+      <transactionResponseModel>transaction</transactionResponseModel>
+      <webServiceUrl>http://www.geomatys.fr:8080/geoserver/wfs</webServiceUrl>
+      <targetContext>mainMap</targetContext>
+    </DeleteFeature>
+    
+     <InsertFeature id="insertFeature">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>featureCollection</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/SaveDisable.png</disabledSrc>
+      <transactionResponseModel>transaction</transactionResponseModel>
+      <webServiceUrl>http://www.geomatys.fr:8080/geoserver/wfs</webServiceUrl>
+      <targetContext>mainMap</targetContext>
+    </InsertFeature>
+     <WfsGetFeature id="wfsGetFeature">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+
+      <class>RadioButton</class>
+      <enabledSrc>/images/QueryEnable.png</enabledSrc>
+      <disabledSrc>/images/QueryDisable.png</disabledSrc>
+      <transactionResponseModel>featureCollection</transactionResponseModel>
+      <webServiceUrl>http://www.geomatys.fr:8080/geoserver/wfs</webServiceUrl>
+      <typeName>camgis:parcelles_polygon,camgis:haies_line</typeName>
+      <tolerance>5</tolerance>
+    </WfsGetFeature>
+		
+		
+		<ZoomIn id="zoomIn">
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+
+			<class>RadioButton</class>
+			<selected>true</selected>
+			<enabledSrc>/images/ZoomInEnable.png</enabledSrc>
+			<disabledSrc>/images/ZoomInDisable.png</disabledSrc>
+		</ZoomIn>
+		<ZoomOut id="zoomOut">
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+
+			<class>RadioButton</class>
+			<enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
+			<disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
+		</ZoomOut>
+		<DragPan id="dragPan">
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+
+			<class>RadioButton</class>
+			<enabledSrc>/images/PanEnable.png</enabledSrc>
+			<disabledSrc>/images/PanDisable.png</disabledSrc>
+		</DragPan>
+		<Reset id="reset">
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<class>Button</class>
+			<disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
+		</Reset>
+		
+		
+    
+	</widgets>
+	<skinDir>../../lib/skin/default</skinDir>
+	<widgetTextUrl>widgetText.xml</widgetTextUrl>
+	<!-- relative to the skin dir -->
+	 <proxyUrl>/mapbuilder/proxy.jsp</proxyUrl>
+</MapbuilderConfig>

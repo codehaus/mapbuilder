@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gml:featureMember xmlns:camgis="http://www.geomatys.fr/camgis" xmlns:gml="http://www.opengis.net/gml">
+  <camgis:routes_principales_line>
+	
+	<camgis:the_geom srsName="epsg:27563">
+      		<gml:MultiLineString >
+        		<gml:lineStringMember>
+          			<gml:LineString>
+            				<gml:coordinates decimal="." cs="," ts=" "></gml:coordinates>
+          			</gml:LineString>
+        		</gml:lineStringMember>
+      		</gml:MultiLineString>
+    	</camgis:the_geom>
+<camgis:rprincipal></camgis:rprincipal>
+  </camgis:routes_principales_line>
+</gml:featureMember>

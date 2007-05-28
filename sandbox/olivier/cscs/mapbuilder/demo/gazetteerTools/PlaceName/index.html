@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--
+Description: A Browser based Web Map Server Client based on javascript and XSL
+             libraries from http://mapbuilder.sourceforge.net .
+Usage:       Call http://hostname/dir/wms.html?context=UrlOfContext
+             or http://hostname/dir/wms.html (and a default context is used)
+Licence:     GPL as per: http://www.gnu.org/copyleft/gpl.html
+
+$Id: index.html 2546 2007-01-23 12:07:39Z gjvoosten $
+$Name:  $
+-->
+
+<html>
+  <head>
+    <title>Place Name Lookup</title>
+
+    <link rel="stylesheet" href="../skin/rucs.css" type="text/css">
+
+    <script>
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='config.xml';
+      //var language="fr";
+
+    </script>
+    <script type="text/javascript" src="/mapbuilder/lib/Mapbuilder.js"></script>
+  </head>
+
+  <body onload="mbDoLoad()">
+    <!-- Layout mapbuilder widgets and HTML -->
+    <table>
+      <tr>
+        <td id="placeNameForm"/>
+        <td id="tabBar" align="left" valign="top"/>
+      </tr>
+      <tr>
+        <td id="placeNameSelect" colspan="2"/>
+      </tr>
+    </table>
+
+  </body>
+</html>

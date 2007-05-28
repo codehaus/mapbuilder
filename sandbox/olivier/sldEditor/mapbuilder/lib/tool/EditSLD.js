@@ -631,7 +631,8 @@ this.addFilter = function(element,up,low,titlerule)
            
         }
          config.objects.mainMap.setParam("refresh","sld");
-         
+         attribs 
+		 objRef.targetModel.map.mbMapPane.refreshLayer(objRef.targetModel.map.mbMapPane,layerName,attribs);
         //alert("fin"); 
      }
        else alert(mbGetMessage("selectLayer"));
