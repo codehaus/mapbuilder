@@ -46,7 +46,7 @@ var csList = new Object();
 // without requiring a separate .js file
 csList.EPSG4326 = "+title=long / lat WGS84 +proj=longlat";  // +a=6378137.0 +b=6356752.31424518"; //  +ellps=WGS84 +datum=WGS84";
 csList.EPSG4269 = "+title=long / lat NAD83 +proj=longlat";  // +a=6378137.0 +b=6356752.31414036"; //  +ellps=GRS80 +datum=NAD83";
-
+//csList.EPSG41001="+title=Mercator/WGS84+proj=mercator2";//+proj=merc +lat_ts=0 +lon_0=0 +k=1.000000 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m
 /**
   Coordinate System constructor
   def is a CS definition in PROJ.4 format, for example:
@@ -75,21 +75,23 @@ function CS(def) {
       case "": break;   // throw away nameless parameter
       case "title": this.title =paramVal; break;
       case "proj":  this.proj =  paramVal.replace(/\s/gi,""); break;
-      // case "ellps": this.ellps = paramVal.replace(/\s/gi,""); break;
-      // case "datum": this.datum = paramVal.replace(/\s/gi,""); break;
+      case "ellps": this.ellps = paramVal.replace(/\s/gi,""); break;
+      case "datum": this.datum = paramVal.replace(/\s/gi,""); break;
       case "a":     this.a =  parseFloat(paramVal);  break; // semi-major radius
       case "b":     this.b =  parseFloat(paramVal);  break; // semi-minor radius
+      case "lat_1":this.lat1=paramVal*D2R;break;//standard parallel 1
+      case "lat_2":this.lat2=paramVal*D2R;break;//standard parallel 2
       case "lon_0": this.long0= paramVal*D2R; break;        // lam0, central longitude
       case "lat_0": this.lat0 = paramVal*D2R; break;        // phi0, central latitude
-      case "lat_1":this.lat1=paramVal*D2R;break;			//standard parallel 1
-      case "lat_2":this.lat2=paramVal*D2R;break;			//standard parallel 2 
       case "x_0":   this.x0 = parseFloat(paramVal); break;  // false easting
       case "y_0":   this.y0 = parseFloat(paramVal); break;  // false northing
       case "k":     this.k0 = parseFloat(paramVal); break;  // projection scale factor
-      //case "to_meter": this.to_meter = parseFloat(paramVal); break; // cartesian scaling
+     case"R_A":this.R=parseFloat(paramVal); break;//Spheroid radius 
+      case "to_meter": this.to_meter = parseFloat(paramVal); break; // cartesian scaling
       case "to_meter": this.to_meter = eval(paramVal); break; // cartesian scaling
       case "zone":     this.zone =  parseInt(paramVal); break;      // UTM Zone
       case "towgs84":  this.datum_params = paramVal.split(","); break;
+      case "units": this.units = paramVal.replace(/\s/gi,""); break;
       case "from_greenwich": this.from_greenwich = paramVal*D2R; break;
       default: csErrorMessage += "\nUnrecognized parameter: " + paramName;
     } // switch()
@@ -127,6 +129,17 @@ function CS(def) {
       additional requirements for projected CSs:
         Forward(), Inverse(), Inint()
   ********************* */
+//var grs80  = new Array(6378137.0, 6356752.31414036); // r_maj, r_min
+//var wgs84  = new Array(6378137.0, 6356752.31424518);
+//var wgs72  = new Array(6378135.0, 6356750.52001609);
+//var intl  = new Array(6378388.0, 6356911.94612795); // (f=297) from ESRI
+
+
+
+if (this.ellps=="GRS80") {this.a=6378137.0 ;this.b=6356752.31414036;}
+if (this.ellps=="WGS84") {this.a=6378137.0 ;this.b=6356752.31424518;}
+if (this.ellps=="WGS72") {this.a=6378135.0 ;this.b=6356750.52001609;}
+if (this.ellps=="intl") {this.a=6378388.0 ;this.b= 6356911.94612795 ;}
 
   if (!this.a) {    // do we have an ellipsoid?
     this.a = 6378137.0;
