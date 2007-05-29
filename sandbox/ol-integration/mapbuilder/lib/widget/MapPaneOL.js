@@ -130,7 +130,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       objRef.node.style.width = objRef.model.getWindowWidth()+"px";
       objRef.node.style.height = objRef.model.getWindowHeight()+"px";
     }
-
+    objRef.node.style.borderStyle="ridge";
     //default map options
     var mapOptions = {
           controls:[],
@@ -164,7 +164,11 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     objRef.model.map.events.register('moveend', objRef.model.map, objRef.updateContext);
     
     objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
+
+   
+
   }
+  
 }
 
 /**
@@ -179,9 +183,16 @@ MapPaneOL.prototype.updateContext = function(e) {
   var bboxOL = objRef.model.map.getExtent().toBBOX().split(',');
   var ul = new Array(bboxOL[0],bboxOL[3]);
   var lr = new Array(bboxOL[2],bboxOL[1]);
+
+  if(objRef.model.getWindowWidth()!=e.element.offsetWidth)
+  	objRef.model.setWindowWidth(e.element.offsetWidth);
+  if(objRef.model.getWindowHeight()!=e.element.offsetHeight)
+  	objRef.model.setWindowHeight(e.element.offsetHeight);	
+
   var currentAoi = objRef.model.getParam('aoi');
   var newAoi = new Array(ul, lr);
   if (!currentAoi || currentAoi.toString != newAoi.toString()) {
+
     objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
     objRef.model.extent.setSize(objRef.model.map.getResolution());
     objRef.model.setParam("aoi", newAoi);
