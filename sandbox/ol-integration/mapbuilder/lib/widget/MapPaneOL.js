@@ -113,11 +113,22 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");
     maxResolution=(maxResolution)?maxResolution.firstChild.nodeValue:"auto";
 
+    //units
+    var units = proj.units == 'meters' ? 'm' : proj.units;
+    
     //resolutions
-    var resolutions=null;
-    resolutions=objRef.widgetNode.selectSingleNode("mb:resolutions");
+    var resolutions=objRef.widgetNode.selectSingleNode("mb:resolutions");
+    resolutions = resolutions ? resolutions.firstChild.nodeValue.split(",") : null;
+    //fixed scales - overrides resolutions
+    var scales = objRef.widgetNode.selectSingleNode("mb:scales");
+    if(scales){
+      scales = scales.firstChild.nodeValue.split(",");
+      resolutions = new Array();
+      for (var s in scales) {
+        resolutions.push(OpenLayers.Util.getResolutionFromScale(scales[s], units));
+      }
+    }
     if(resolutions){
-      resolutions = resolutions.firstChild.nodeValue.split(",");
       objRef.model.extent.setZoomLevels(true,resolutions);
     }
     else objRef.model.extent.setZoomLevels(false);
@@ -135,7 +146,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     var mapOptions = {
           controls:[],
           projection: proj.srs,
-          units: proj.units,
+          units: units,
           maxExtent: maxExtent,
           maxResolution: maxResolution,
           resolutions: resolutions,
