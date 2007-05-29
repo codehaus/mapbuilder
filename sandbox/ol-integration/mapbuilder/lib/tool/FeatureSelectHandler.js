@@ -13,6 +13,9 @@ mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
  * using eg. the GmlRendererOL widget. Models have to fire the
  * 'gmlRendererLayer' event, which will activate the tool for the
  * layer.
+ * This tool also fires "highlightFeature" and "dehighlightFeature"
+ * events, setting the fid of the (de)highlighted feature as param
+ * of the model.
  * @author Andreas Hocevar andreas.hocevarATgmail.com
  * @param toolNode The tool node from the config XML file.
  * @param model The model containing this tool.
@@ -66,6 +69,7 @@ function FeatureSelectHandler(toolNode, model) {
    */
   this.onSelect = function(feature) {
     var objRef = this.mbFeatureSelect;
+    objRef.model.setParam("highlightFeature", feature.fid);
     feature.mbFeatureSelect = objRef;
     feature.layer.events.registerPriority('mousedown', feature, objRef.onClick);
   }
@@ -78,6 +82,7 @@ function FeatureSelectHandler(toolNode, model) {
    */
   this.onUnselect = function(feature) {
     var objRef = this.mbFeatureSelect;
+    objRef.model.setParam("dehighlightFeature", feature.fid);
     feature.layer.events.unregister('mousedown', feature, objRef.onClick);
   }
   
