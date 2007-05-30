@@ -27,11 +27,11 @@ function Forward(widgetNode, model) {
   this.createControl = function(objRef) {
     var Control = OpenLayers.Class.create();
     Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
-    
+      objRef: objRef,
       type: OpenLayers.Control.TYPE_BUTTON,
       
       trigger: function() {
-              var objRef = this.map.mbMapPane;
+              var objRef = this.objRef;
               objRef.model.setParam("historyForward");
               var nextExtent = objRef.model.nextExtent;
               if(nextExtent){

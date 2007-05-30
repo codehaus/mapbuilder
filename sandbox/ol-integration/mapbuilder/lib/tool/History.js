@@ -42,12 +42,12 @@ function History(toolNode, model) {
         // check if current and previous history entry would result
         // in same center point and zoom level. If this is the case,
         // we do not want a new entry in the list
-        if(objRef.model.map.getExtent().getCenterLonLat().toString() == list[place].getCenterLonLat().toString() &&
-           objRef.model.map.getZoomForExtent(objRef.model.map.getExtent()) == objRef.model.map.getZoomForExtent(list[place])) {
+        if(objRef.targetModel.map.getExtent().getCenterLonLat().toString() == list[place].getCenterLonLat().toString() &&
+           objRef.targetModel.map.getZoomForExtent(objRef.targetModel.map.getExtent()) == objRef.targetModel.map.getZoomForExtent(list[place])) {
           return;
         }
       }
-      var newExtent = objRef.model.map.getExtent();
+      var newExtent = objRef.targetModel.map.getExtent();
 
       if( place==(list.length-1)) { //If we are already at the end of the list add a new item
         list.push(newExtent); 
