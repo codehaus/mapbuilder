@@ -99,7 +99,7 @@ function CursorTrack(widgetNode, model) {
 
     // capture XY coordinates
     var evXY = this.model.map.getLonLatFromPixel(this.lastXy);
-    var evInverse = this.proj.Inverse([evXY.lon, evXY.lat]);
+    var evInverse = this.model.map.mbMapPane.model.proj.Inverse([evXY.lon, evXY.lat]);
     var evLonLat = new OpenLayers.LonLat(evInverse[0],evInverse[1]);
 
     if( this.showPx ) {
