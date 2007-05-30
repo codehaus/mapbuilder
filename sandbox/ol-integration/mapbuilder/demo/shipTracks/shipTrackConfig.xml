@@ -6,19 +6,11 @@
 		<OwsContext id="mainMap">
 			<defaultModelUrl>DemisWorldMap.xml</defaultModelUrl>
 			<widgets>
-				<MapPane2 id="mainMapWidget">
+				<MapPaneOL id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
-					<mapContainerId>mainMapContainer</mapContainerId>
-				</MapPane2>
+			<fixedSize>true</fixedSize>
+				</MapPaneOL>
 				<Loading id="loading"/>
-				<AoiBoxDHTML id="aoiBox2">
-					<htmlTagId>mainMapPane</htmlTagId>
-					<stylesheet>../lib/widget/Null.xsl</stylesheet>
-					<mapContainerId>mainMapContainer</mapContainerId>
-					<lineColor>#FF0000</lineColor>
-					<lineWidth>1</lineWidth>
-					<crossSize>15</crossSize>
-				</AoiBoxDHTML>
 				<CursorTrack id="cursorTrack">
 					<mouseHandler>mainMap</mouseHandler>
 					 <showPx>true</showPx>
@@ -34,10 +26,6 @@
         </Legend>
 			</widgets>
 			<tools>
-				<AoiMouseHandler id="mainAoi"/>
-				<DragPanHandler id="mainDragPan">
-					<enabled>false</enabled>
-				</DragPanHandler>
 				<!--MouseClickHandler id="mainMouseClick"/ -->
 			</tools>
     </OwsContext>
@@ -52,39 +40,38 @@
       </widgets>
     </ContextCollection>
     
-    <GeoRSS id="geoRSS"> 
-      <defaultModelUrl>aisrdf2.xml</defaultModelUrl>
-      <widgets>
-        <Widget id="eventsListing">
-          <targetModel>mainMap</targetModel>
-          <stylesheet>GeoRSSListing.xsl</stylesheet>
-        </Widget>
-        
-        <TipWidget id="rssRendererTip" > 
-          <leftOffset>-40</leftOffset>
-          <topOffset>-80</topOffset>
-          <command>overlib(text, CAPTION, "Caption", STICKY, WIDTH,'225', HEIGHT,'250', REFC,'UR', REFP,'LL', RELX, x, RELY, y)</command>
-        </TipWidget> 
- 
-        <GeoRssParser id="geoRssParser">
-          <htmlTagId>mainMapPane</htmlTagId>
-          <targetModel>mainMap</targetModel>
-          <stylesheet>rdf2ows.xsl</stylesheet>
-          <mapContainerId>mainMapContainer</mapContainerId>
-          <tipWidget>rssRendererTip</tipWidget>
-         </GeoRssParser>
-        
-      </widgets>
-      <namespace>xmlns:atom='http://www.w3.org/2005/Atom' xmlns:georss='http://www.georss.org/rss' xmlns:gml='http://www.opengis.net/gml/3.1.1' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:rss='http://purl.org/rss/1.0/' xmlns:taxo='http://purl.org/rss/1.0/modules/taxonomy/' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:syn='http://purl.org/rss/1.0/modules/syndication/' xmlns:geo='http://www.w3.org/2003/01/geo/wgs84_pos#' xmlns:sld="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink"</namespace>
-      <nodeSelectXpath>rdf:RDF/rss:item</nodeSelectXpath>
-    </GeoRSS>
+<!--    <GeoRSS id="geoRSS"> -->
+<!--      <defaultModelUrl>aisrdf2.xml</defaultModelUrl>-->
+<!--      <widgets>-->
+<!--        <Widget id="eventsListing">-->
+<!--          <targetModel>mainMap</targetModel>-->
+<!--          <stylesheet>GeoRSSListing.xsl</stylesheet>-->
+<!--        </Widget>-->
+<!--        -->
+<!--        <TipWidget id="rssRendererTip" > -->
+<!--          <leftOffset>-40</leftOffset>-->
+<!--          <topOffset>-80</topOffset>-->
+<!--          <command>overlib(text, CAPTION, "Caption", STICKY, WIDTH,'225', HEIGHT,'250', REFC,'UR', REFP,'LL', RELX, x, RELY, y)</command>-->
+<!--        </TipWidget> -->
+<!-- -->
+<!--        <GeoRssParser id="geoRssParser">-->
+<!--          <htmlTagId>mainMapPane</htmlTagId>-->
+<!--          <targetModel>mainMap</targetModel>-->
+<!--          <stylesheet>rdf2ows.xsl</stylesheet>-->
+<!--          <mapContainerId>mainMapContainer</mapContainerId>-->
+<!--          <tipWidget>rssRendererTip</tipWidget>-->
+<!--         </GeoRssParser>-->
+<!--        -->
+<!--      </widgets>-->
+<!--      <namespace>xmlns:atom='http://www.w3.org/2005/Atom' xmlns:georss='http://www.georss.org/rss' xmlns:gml='http://www.opengis.net/gml/3.1.1' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:rss='http://purl.org/rss/1.0/' xmlns:taxo='http://purl.org/rss/1.0/modules/taxonomy/' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:syn='http://purl.org/rss/1.0/modules/syndication/' xmlns:geo='http://www.w3.org/2003/01/geo/wgs84_pos#' xmlns:sld="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink"</namespace>-->
+<!--      <nodeSelectXpath>rdf:RDF/rss:item</nodeSelectXpath>-->
+<!--    </GeoRSS>-->
 		
 	</models>
 	<widgets>
 		<ZoomIn id="zoomIn">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
-			<mouseHandler>mainAoi</mouseHandler>
 			<class>RadioButton</class>
 			<selected>true</selected>
 			<enabledSrc>/images/ZoomInEnable.png</enabledSrc>
@@ -93,7 +80,6 @@
 		<ZoomOut id="zoomOut">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
-			<mouseHandler>mainAoi</mouseHandler>
 			<class>RadioButton</class>
 			<enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
 			<disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
@@ -101,7 +87,6 @@
 		<DragPan id="dragPan">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
-			<mouseHandler>mainDragPan</mouseHandler>
 			<class>RadioButton</class>
 			<enabledSrc>/images/PanEnable.png</enabledSrc>
 			<disabledSrc>/images/PanDisable.png</disabledSrc>
@@ -109,7 +94,6 @@
 		<SetAoi id="setAoi">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
-			<mouseHandler>mainAoi</mouseHandler>
 			<class>RadioButton</class>
 			<enabledSrc>/images/SetAoiEnable.png</enabledSrc>
 			<disabledSrc>/images/SetAoiDisable.png</disabledSrc>

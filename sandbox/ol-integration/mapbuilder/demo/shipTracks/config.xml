@@ -4,26 +4,15 @@
 		<OwsContext id="mainMap">
 			<defaultModelUrl>atlasWorld.xml</defaultModelUrl>
 			<widgets>
-				<MapPane id="mainMapWidget">
+				<MapPaneOL id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
-					<mapContainerId>mainMapContainer</mapContainerId>
-				</MapPane>
+			<fixedSize>true</fixedSize>
+				</MapPaneOL>
 				<Loading id="loading"/>
 				<ModelUrlInput id="urlInput"/>
-				<AoiBoxDHTML id="aoiBox2">
-					<htmlTagId>mainMapPane</htmlTagId>
-					<stylesheet>../../lib/widget/Null.xsl</stylesheet>
-					<mapContainerId>mainMapContainer</mapContainerId>
-					<lineColor>#FF0000</lineColor>
-					<lineWidth>1</lineWidth>
-					<crossSize>15</crossSize>
-				</AoiBoxDHTML>
+				
 			</widgets>
 			<tools>
-				<AoiMouseHandler id="mainAoi"/>
-				<DragPanHandler id="mainDragPan">
-					<enabled>false</enabled>
-				</DragPanHandler>
 			</tools>
 		</OwsContext>
 	</models>
@@ -31,7 +20,6 @@
 		<ZoomIn id="zoomIn">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
-			<mouseHandler>mainAoi</mouseHandler>
 			<class>RadioButton</class>
 			<selected>true</selected>
 			<enabledSrc>/images/ZoomInEnable.png</enabledSrc>
@@ -40,7 +28,6 @@
 		<ZoomOut id="zoomOut">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
-			<mouseHandler>mainAoi</mouseHandler>
 			<class>RadioButton</class>
 			<enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
 			<disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
@@ -48,7 +35,6 @@
 		<DragPan id="dragPan">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
-			<mouseHandler>mainDragPan</mouseHandler>
 			<class>RadioButton</class>
 			<enabledSrc>/images/PanEnable.png</enabledSrc>
 			<disabledSrc>/images/PanDisable.png</disabledSrc>
