@@ -6,10 +6,9 @@
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
+          
+          			<fixedSize>true</fixedSize>
          </MapPaneOL>
-        <Loading2 id="loading2">
-          <mapContainerId>mainMapPane</mapContainerId>
-        </Loading2>
       </widgets>
     </Context>
   </models>

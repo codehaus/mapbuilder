@@ -2,10 +2,11 @@
 <MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
   <models>
     <Context id="mainMap">
-      <defaultModelUrl>../data/context/metacartaWorldMap.xml</defaultModelUrl>
+      <defaultModelUrl>../data/context/demisWorldMap.xml</defaultModelUrl>
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
+          <fixedSize>true</fixedSize>
         </MapPaneOL>
         <!--Loading2 id="loading2">
           <mapContainerId>mainMapContainer</mapContainerId>

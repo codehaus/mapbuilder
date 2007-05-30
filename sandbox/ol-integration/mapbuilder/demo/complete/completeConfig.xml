@@ -23,10 +23,10 @@
     <Context id="mainMap">
       <defaultModelUrl>../data/context/demisWorldMap.xml</defaultModelUrl>
       <widgets>
-        <MapPane id="mainMapWidget">
+        <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-          <mapContainerId>mainMapContainer</mapContainerId>
-        </MapPane>
+			<fixedSize>true</fixedSize>
+        </MapPaneOL>
         <MapScaleBar id="scalebar">
           <!--all of these properties are optional-->
           <!--displaySystem>english</displaySystem-->
@@ -41,14 +41,6 @@
           <align>left</align><!-- left, center, or right -->
         </MapScaleBar>
         <Loading id="loading" />
-        <AoiBoxWZ id="aoiBoxMain">
-          <htmlTagId>mainMapPane</htmlTagId>
-          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
-          <mapContainerId>mainMapContainer</mapContainerId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>1</lineWidth>
-          <crossSize>15</crossSize>
-        </AoiBoxWZ>
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
           <showXY>false</showXY>
@@ -72,11 +64,6 @@
         -->
       </widgets>
       <tools>
-        <AoiMouseHandler id="mainAoi" />
-        <DragPanHandler id="mainDragPan">
-          <enabled>false</enabled>
-        </DragPanHandler>
-        <MouseClickHandler id="mainMouseClick" />
         <History id="extentHistory">
           <targetModel>mainMap</targetModel>
         </History>
@@ -85,20 +72,19 @@
     <Context id="locator">
       <defaultModelUrl>../data/context/locatorMap.xml</defaultModelUrl>
       <widgets>
-        <MapPane id="locatorWidget">
+        <MapPaneOL id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
-          <mapContainerId>locatorContainer</mapContainerId>
           <fixedWidth>180</fixedWidth>
           <extraAttributes>false</extraAttributes>
-        </MapPane>
-        <AoiBoxDHTML id="aoiBoxLocator">
-          <htmlTagId>locatorMap</htmlTagId>
-          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
-          <mapContainerId>locatorContainer</mapContainerId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>1</lineWidth>
-          <crossSize>15</crossSize>
-        </AoiBoxDHTML>
+			<fixedSize>true</fixedSize>
+        </MapPaneOL>
+<!--        <AoiBoxDHTML id="aoiBoxLocator">-->
+<!--          <htmlTagId>locatorMap</htmlTagId>-->
+<!--          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>-->
+<!--          <lineColor>#FF0000</lineColor>-->
+<!--          <lineWidth>1</lineWidth>-->
+<!--          <crossSize>15</crossSize>-->
+<!--        </AoiBoxDHTML>-->
         <ModelUrlInput id="urlInput">
           <defaultUrl>../data/context/modisWorld.xml</defaultUrl>
         </ModelUrlInput>
@@ -146,14 +132,9 @@
     </Model>
     <FeatureCollection id="featureCollection">
       <widgets>
-        <GmlRendererWZ id="testGmlRenderer">
-          <htmlTagId>mainMapPane</htmlTagId>
+            <GmlRendererOL id="testGmlRenderer">
           <targetModel>mainMap</targetModel>
-          <mapContainerId>mainMapContainer</mapContainerId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>2</lineWidth>
-          <pointDiameter>10</pointDiameter>
-        </GmlRendererWZ>
+         </GmlRendererOL>
 
       </widgets>
       <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
@@ -161,27 +142,17 @@
     <FeatureCollection id="ntsGml" template="true">
       <!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
       <widgets>
-        <GmlRendererWZ id="testNTSRenderer">
-          <htmlTagId>mainMapPane</htmlTagId>
+            <GmlRendererOL id="testNTSRenderer">
           <targetModel>mainMap</targetModel>
-          <mapContainerId>mainMapContainer</mapContainerId>
-          <lineColor>#FF00FF</lineColor>
-          <lineWidth>2</lineWidth>
-          <pointDiameter>10</pointDiameter>
-        </GmlRendererWZ>
+         </GmlRendererOL>
       </widgets>
     </FeatureCollection>
     <FeatureCollection id="watershedGml">
       <!--defaultModelUrl>gml/NTSLookup.xml</defaultModelUrl-->
       <widgets>
-        <GmlRendererWZ id="watershedRenderer">
-          <htmlTagId>mainMapPane</htmlTagId>
+        <GmlRendererOL id="watershedRenderer">
           <targetModel>mainMap</targetModel>
-          <mapContainerId>mainMapContainer</mapContainerId>
-          <lineColor>#0000FF</lineColor>
-          <lineWidth>1</lineWidth>
-          <pointDiameter>10</pointDiameter>
-        </GmlRendererWZ>
+         </GmlRendererOL>
       </widgets>
     </FeatureCollection>
     <FeatureCollection id="featureCollection">
@@ -189,14 +160,9 @@
         <ShowDistance id='showDistance'>
           
         </ShowDistance>
-        <GmlRendererWZ id="measurementGmlRenderer">
-          <htmlTagId>mainMapPane</htmlTagId>
+         <GmlRendererOL id="measurementGmlRenderer">
           <targetModel>mainMap</targetModel>
-          <mapContainerId>mainMapContainer</mapContainerId>
-          <lineColor>#000000</lineColor>
-          <lineWidth>0</lineWidth>
-          <pointDiameter>10</pointDiameter>
-        </GmlRendererWZ>
+         </GmlRendererOL>
       </widgets>
       <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
     </FeatureCollection>
@@ -269,7 +235,6 @@
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <selected>true</selected>
       <enabledSrc>/images/ZoomInEnable.png</enabledSrc>
@@ -278,7 +243,6 @@
     <ZoomOut id="zoomOut">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
       <disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
@@ -286,7 +250,6 @@
     <DragPan id="dragPan">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainDragPan</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/PanEnable.png</enabledSrc>
       <disabledSrc>/images/PanDisable.png</disabledSrc>
@@ -294,7 +257,6 @@
     <SetAoi id="setAoi">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/SetAoiEnable.png</enabledSrc>
       <disabledSrc>/images/SetAoiDisable.png</disabledSrc>
@@ -308,7 +270,6 @@
     <GetFeatureInfo id="getFeatureInfo">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureInfoResponse</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/QueryEnable.png</enabledSrc>
       <disabledSrc>/images/QueryDisable.png</disabledSrc>
@@ -343,7 +304,6 @@
     <Measurement id="measurement">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureCollection</targetModel>
-      <mouseHandler>mainMouseClick</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/MeasureEnable.png</enabledSrc>
       <disabledSrc>/images/MeasureDisable.png</disabledSrc>
