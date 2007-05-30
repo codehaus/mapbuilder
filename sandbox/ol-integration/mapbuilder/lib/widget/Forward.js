@@ -32,12 +32,12 @@ function Forward(widgetNode, model) {
       
       trigger: function() {
               var objRef = this.objRef;
-              objRef.model.setParam("historyForward");
-              var nextExtent = objRef.model.nextExtent;
+              objRef.targetModel.setParam("historyForward");
+              var nextExtent = objRef.targetModel.nextExtent;
               if(nextExtent){
-                objRef.model.setParam("historyStop");
+                objRef.targetModel.setParam("historyStop");
                 this.map.zoomToExtent(nextExtent);
-                objRef.model.setParam("historyStart");
+                objRef.targetModel.setParam("historyStart");
               }
       },
       CLASS_NAME: 'mbControl.Forward'

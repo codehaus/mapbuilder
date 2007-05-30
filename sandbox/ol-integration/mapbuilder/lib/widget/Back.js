@@ -32,12 +32,12 @@ function Back(widgetNode, model) {
       
       trigger: function() {
               var objRef = this.objRef;
-              objRef.model.setParam("historyBack");
-              var previousExtent = objRef.model.previousExtent;
+              objRef.targetModel.setParam("historyBack");
+              var previousExtent = objRef.targetModel.previousExtent;
               if(previousExtent){
-                objRef.model.setParam("historyStop");
+                objRef.targetModel.setParam("historyStop");
                 this.map.zoomToExtent(previousExtent);
-                objRef.model.setParam("historyStart");
+                objRef.targetModel.setParam("historyStart");
               }
       },
       CLASS_NAME: 'mbControl.Back'
