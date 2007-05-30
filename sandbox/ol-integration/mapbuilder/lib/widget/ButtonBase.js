@@ -180,7 +180,11 @@ function ButtonBase(widgetNode, model) {
    * @param {OpenLayers.Control} control to add.
    * @param objRef Reference to this object.
    */
-  this.attachToOL = function(objRef) {
+  this.attachToOL = function(objRef,refreshId) {
+  
+    //pass in a widget ID to refresh only that widget
+    if (refreshId && (refreshId!=objRef.id)) return;
+    
     // nothing to do here if subclass does not have a
     // createControl method
     if (!objRef.createControl) return;
