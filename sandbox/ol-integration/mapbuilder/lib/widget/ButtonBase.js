@@ -5,7 +5,6 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
-mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 
 /**
  * Abstract base button object that all Buttons extend.  
@@ -205,6 +204,8 @@ function ButtonBase(widgetNode, model) {
       activate: function() {
         if (this.superclass.activate.call(this)) {
           objRef.mapPaneDiv.className = objRef.mapPaneDiv.className.replace(/mbCursor_[a-zA-Z0-9]*/, objRef.getCursorClass(objRef));
+          this.panel_div.style.backgroundImage = "url(\""+objRef.enabledImage.src+"\")";
+      	  this.map.div.style.cursor = objRef.cursor;
           objRef.enabled = true;
           this.active = true;
           objRef.doSelect(true, objRef);
@@ -213,6 +214,7 @@ function ButtonBase(widgetNode, model) {
       // call objRef.doSelect after OL deactivate from this control
       deactivate: function() {
         if (this.superclass.deactivate.call(this)) {
+          this.panel_div.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
           objRef.enabled = false;
           this.active = false;
           objRef.doSelect(false, objRef)
@@ -244,23 +246,14 @@ function ButtonBase(widgetNode, model) {
       objRef.control.panel_div.title=objRef.tooltip;
     }
     
+    //set default css style properties
+    objRef.control.panel_div.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
+    objRef.control.map.div.style.cursor = objRef.cursor;;
+          
     // add cursor css classname to map pane div if not set yet
     if (objRef.mapPaneDiv.className.indexOf('mbCursor') == -1) {
       objRef.mapPaneDiv.className += ' mbCursor_default';
     }
-
-    // create css for buttons
-    if (objRef.buttonType == 'RadioButton' ||
-        objRef.buttonType == 'Toggle') {
-      var activeRule = addCSSRule(objRef.getButtonClass(objRef, 'Active'));
-      activeRule.style.backgroundImage = "url(\""+objRef.enabledImage.src+"\")";
-    }
-    var inactiveRule = addCSSRule(objRef.getButtonClass(objRef, 'Inactive'));
-    inactiveRule.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
-    
-    // create css for map cursor
-    var cursorRule = addCSSRule('.'+objRef.getCursorClass(objRef));
-    cursorRule.style.cursor = objRef.cursor;
 
     // activate the control if it is defined as selected in config
     if(objRef.selected == true) {
