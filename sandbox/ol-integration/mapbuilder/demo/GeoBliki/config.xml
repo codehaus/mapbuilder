@@ -34,9 +34,7 @@
 			</widgets>
       
 			<tools>
-        <History id="extentHistory">
-          <targetModel>mainMap</targetModel>
-        </History>
+        <History id="extentHistory"/>
 			</tools>
 		</OwsContext>
 		

@@ -13,6 +13,7 @@
         </Loading2-->
       </widgets>
       <tools>
+        <History id="extentHistory"/>
       </tools>
     </Context>
   </models>
