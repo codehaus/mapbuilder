@@ -120,7 +120,7 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
 
 /**
  * Clone a map layer (OpenLayers.Layer subclass).
- * returns a new, untiled layer with the same options as the old one.
+ * If the layer is a WMS layer it returns an untiled version of it.
  * @param layer Pointer to layer object.
  */
 OverviewMap.prototype.getClonedLayer = function(layer) {
@@ -128,13 +128,19 @@ OverviewMap.prototype.getClonedLayer = function(layer) {
     return null;
   }
 
-  var layerOptions = {
-    units: layer.units,
-    projection: layer.projection,
-    maxExtent: layer.maxExtent,
-    maxResolution: "auto"
-  };
+  if (layer instanceof OpenLayers.Layer.WMS) {
+    // WMS layer, use WMS.Untiled
+    var layerOptions = {
+      units: layer.units,
+      projection: layer.projection,
+      maxExtent: layer.maxExtent,
+      maxResolution: "auto"
+    };
 
-  return new OpenLayers.Layer.WMS.Untiled(layer.name,
-    layer.url, {layers: layer.params.LAYERS}, layerOptions);
+    return new OpenLayers.Layer.WMS.Untiled(layer.name,
+      layer.url, {layers: layer.params.LAYERS}, layerOptions);
+  }
+  else {
+    return layer.clone();
+  }
 }
