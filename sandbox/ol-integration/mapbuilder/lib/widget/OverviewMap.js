@@ -54,29 +54,39 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
   if (objRef.model && objRef.model.map) {
     var map = objRef.model.map;
 
-    // Specify div for overview map.
+    // Specify div and layers for overview map.
     var options = {
-      div: document.getElementById(objRef.htmlTagId)
+      div: document.getElementById(objRef.htmlTagId),
+      layers: new Array()
     };
+
+    
+    var showBaseLayer = true;
+    var baseLayer = null;
+    // Clone the base layer. This always has to be in the
+    // overview map, otherwise OpenLayers fails to draw the
+    // overview.
+    if (map.baseLayer) {
+      baseLayer = objRef.getClonedLayer(map.baseLayer)
+      options.layers.push(baseLayer);
+    }
 
     // Check for specifically requested layers
     if (objRef.layerNames) {
-      options.layers = new Array();
+      showBaseLayer = false;
       for (var i = 0; i < objRef.layerNames.length; i++) {
         for (var j = 0; j < map.layers.length; j++) {
           if (objRef.layerNames[i] == map.layers[j].params.LAYERS) {
             // Found it, add a clone to the layer stack
+            if (map.layers[j] == map.baseLayer) {
+              showBaseLayer = true;
+            }
             options.layers.push(objRef.getClonedLayer(map.layers[j]));
           }
         }
       }
     }
-
-    // If no layers yet, clone base layer
-    if ((!options.layers || options.layers.length == 0) && map.baseLayer != null) {
-      options.layers = [objRef.getClonedLayer(map.baseLayer)];
-    }
-
+    
     // Determine size:
     // - if width and height are both set, use these as the size;
     // - if only width or height is set, take aspect ratio of main map into account;
@@ -98,6 +108,13 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
 
     // Add the overview to the main map
     map.addControl(new OpenLayers.Control.OverviewMap(options));
+
+    // Set visibility of base layer. If the user configured
+    // no layerNames or referenced it by layerName, it is
+    // shown, otherwise hidden.
+    if (baseLayer) {
+      baseLayer.setVisibility(showBaseLayer);
+    }
   }
 }
 
