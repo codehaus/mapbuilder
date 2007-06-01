@@ -8,6 +8,10 @@
           <htmlTagId>mainMapPane</htmlTagId>
           <fixedSize>true</fixedSize>
         </MapPaneOL>
+        <CursorTrack id="cursorTrack">
+          <precision>5</precision>
+        </CursorTrack>
+        <MapScaleText id="scaleText"/>
         <!--Loading2 id="loading2">
           <mapContainerId>mainMapContainer</mapContainerId>
         </Loading2-->
