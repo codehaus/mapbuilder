@@ -40,69 +40,72 @@ function GmlRendererOL(widgetNode, model) {
   }
 
   this.paint = function(objRef) {
-    // remove and destroy layer
-    if (objRef.olLayer) {
-      objRef.model.setParam('gmlRendererLayer', null);
-      objRef.olLayer.destroy();
-      objRef.olLayer = null;
-    }
-    // transform the model using the xsl stylesheet if there is one,
-    // otherwise just take the model doc.
-    var doc = objRef.stylesheet ? objRef.stylesheet.transformNodeToObject(objRef.model.doc) : objRef.model.doc;
-    // nothing to do here if there is no model doc
-    // or if the model doc contains an editing template
-    if (!doc || objRef.model.getParam('isTemplate') == true) {
-      return;
-    }
-    
-    // get style for features
-    var style = new Object();
-    var sldModelNode = widgetNode.selectSingleNode('mb:sldModel');
-    if (sldModelNode) {
-      var sldModel = config.objects[sldModelNode.firstChild.nodeValue];
-      if (sldModel) {
-        var targetMap = objRef.targetModel.map.mbMapPane;
-        var sldNode = sldModel.getSldNode();
-        style.point = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode('//sld:PointSymbolizer'));
-        style.line = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode('//sld:LineSymbolizer'));
-        style.polygon = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode('//sld:PolygonSymbolizer'));
+    if (objRef.targetModel.map) {
+      // remove and destroy layer
+      if (objRef.olLayer) {
+        objRef.model.setParam('gmlRendererLayer', null);
+        objRef.olLayer.destroy();
+        objRef.olLayer = null;
       }
-    }
-    // create modified OpenLayers GML layer class, which
-    // uses a gml doc directly instead of loading it from
-    // an URL
-    var OlLayer = OpenLayers.Class.create();
-    OlLayer.prototype = OpenLayers.Class.inherit(OpenLayers.Layer.GML, {
-      loadGML: function() {
-        if (!this.loaded) {
-          var gml = this.format ? new this.format() : new OpenLayers.Format.GML();
-          this.addFeatures(gml.read(doc));
-          this.loaded = true
-        }
-      },
-      preFeatureInsert: function(feature) {
-        // set style before rendering the feature
-        if (style) {
-          if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
-            feature.style = style.point;
-          }
-          if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
-            feature.style = style.line;
-          }
-          if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
-            feature.style = style.polygon;
-          }
+      // transform the model using the xsl stylesheet if there is one,
+      // otherwise just take the model doc.
+      var doc = objRef.stylesheet ? objRef.stylesheet.transformNodeToObject(objRef.model.doc) : objRef.model.doc;
+      // nothing to do here if there is no model doc
+      // or if the model doc contains an editing template
+      if (!doc || objRef.model.getParam('isTemplate') == true) {
+        return;
+      }
+      
+      // get style for features
+      var style = new Object();
+      var sldModelNode = widgetNode.selectSingleNode('mb:sldModel');
+      if (sldModelNode) {
+        var sldModel = config.objects[sldModelNode.firstChild.nodeValue];
+        if (sldModel) {
+          var targetMap = objRef.targetModel.map.mbMapPane;
+          var sldNode = sldModel.getSldNode();
+          style.point = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode('//sld:PointSymbolizer'));
+          style.line = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode('//sld:LineSymbolizer'));
+          style.polygon = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode('//sld:PolygonSymbolizer'));
         }
       }
-    });
-    objRef.olLayer = new OlLayer(objRef.model.id);
-
-    // Add the layer to the map using addToMap(). This will do nothing
-    // if the targetModel has no map yet. So we add a refresh listener
-    // to the targetModel, then the layer will always be added to the
-    // map when it refreshes.
-    objRef.addToMap(objRef);
-    objRef.targetModel.addListener('refresh', objRef.addToMap, objRef);
+      // create modified OpenLayers GML layer class, which
+      // uses a gml doc directly instead of loading it from
+      // an URL
+      var OlLayer = OpenLayers.Class.create();
+      OlLayer.prototype = OpenLayers.Class.inherit(OpenLayers.Layer.GML, {
+        loadGML: function() {
+          if (!this.loaded) {
+            var gml = this.format ? new this.format() : new OpenLayers.Format.GML();
+            this.addFeatures(gml.read(doc));
+            this.loaded = true
+          }
+        },
+        preFeatureInsert: function(feature) {
+          // set style before rendering the feature
+          if (style) {
+            if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
+              feature.style = style.point;
+            }
+            if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
+              feature.style = style.line;
+            }
+            if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
+              feature.style = style.polygon;
+            }
+          }
+        }
+      });
+      objRef.olLayer = new OlLayer(objRef.model.id);
+  
+      // Add the layer to the map using addToMap(). This will do nothing
+      // if the targetModel has no map yet. So we add a refresh listener
+      // to the targetModel, then the layer will always be added to the
+      // map when it refreshes.
+      objRef.targetModel.map.addLayer(objRef.olLayer);
+      objRef.model.setParam('gmlRendererLayer', objRef.olLayer);
+    }
+    objRef.targetModel.addListener('refresh', objRef.paint, objRef);
   }
   this.model.addListener("refresh",this.paint, this);
   //TBD I (ahocevar) am not exactly sure why using the newModel
@@ -114,19 +117,6 @@ function GmlRendererOL(widgetNode, model) {
   // it works.
   this.model.addListener("refreshGmlRenderers",this.paint, this);
   
-  /**
-   * Add a renderer layer to the map. This is done by an event
-   * handler, because otherwise we can not be sure that the map
-   * is already there.
-   * @param objRef reference to this widget
-   */
-  this.addToMap = function(objRef) {
-    if (objRef.targetModel.map) {
-      objRef.targetModel.map.addLayer(objRef.olLayer);
-      objRef.model.setParam('gmlRendererLayer', objRef.olLayer);
-    }
-  }
-
   /**
    * Called when the context's hidden attribute changes.
    * @param objRef This object.
