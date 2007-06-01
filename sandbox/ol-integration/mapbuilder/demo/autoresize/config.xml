@@ -11,6 +11,9 @@
           <fixedSize>false</fixedSize>
         </MapPaneOL>
       </widgets>
+      <tools>
+        <History id="extentHistory"/>
+      </tools>
     </Context>
   </models>
   

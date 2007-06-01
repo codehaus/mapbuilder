@@ -24,6 +24,9 @@
           <opacity>true</opacity>
         </LayerControl>
       </widgets>
+      <tools>
+        <History id="extentHistory"/>
+      </tools>
     </Context>
   </models>
 
