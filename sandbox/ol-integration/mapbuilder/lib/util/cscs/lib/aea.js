@@ -148,7 +148,7 @@ ALGORITHM REFERENCES
 
 
  
-function aeaInit(def){
+ aeaInit=function(def){
 
 if (Math.abs(def.lat1 + def.lat2) < EPSLN)
    {
@@ -199,7 +199,7 @@ def.rh = def.a * Math.sqrt(def.c - def.ns0 * def.qs0)/def.ns0;
 
 /* Albers Conical Equal Area forward equations--mapping lat,long to x,y
   -------------------------------------------------------------------*/
-function aeaFwd(p){
+aeaFwd=function(p){
 
 
 var lon=p.x;
@@ -223,7 +223,7 @@ p.y=y;
 
 
 
-function aeaInv(p){
+aeaInv=function(p){
 
 var rh1,qs,con,theta,lon,lat;
 

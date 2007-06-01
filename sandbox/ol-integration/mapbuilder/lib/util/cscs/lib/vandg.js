@@ -37,7 +37,7 @@ ALGORITHM REFERENCES
 
 /* Initialize the Van Der Grinten projection
   ----------------------------------------*/
-function vandgInit(def) 
+ vandgInit=function(def) 
 
 	
 {
@@ -50,7 +50,7 @@ def.R = 6370997.0; //Radius of earth
 
 
 
-function vandgFwd(p){
+ vandgFwd=function(p){
 
 var lon=p.x;
 var lat=p.y;	
@@ -105,7 +105,7 @@ p.y=y;
 
 /* Van Der Grinten inverse equations--mapping x,y to lat/long
   ---------------------------------------------------------*/
-function vandgInv(p){
+vandgInv=function(p){
 var dlon;
 var xx,yy,xys,c1,c2,c3;
 var al,asq;

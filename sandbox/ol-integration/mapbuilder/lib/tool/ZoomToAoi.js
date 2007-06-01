@@ -56,11 +56,13 @@ function ZoomToAoi(toolNode, model) {
 	    var ul = new Array(bbox[0],bbox[3]);
 	    var lr = new Array(bbox[2],bbox[1]);
 	    if ( tool.model.getSRS() != tool.targetModel.getSRS() ) {
-	      ul = tool.targetModel.proj.Inverse( ul ); //to lat-long
-	      lr = tool.targetModel.proj.Inverse( lr );
-	      if (ul[0]>lr[0]) ul[0] = ul[0]-360.0;     //make sure ul is left of lr
-	      ul = tool.model.proj.Forward( ul );       //back to XY
-	      lr = tool.model.proj.Forward( lr );
+	    	var ptUL=new PT(ul[0],ul[1]);
+	    	var ptLR=new PT(lr[0],lr[1]);
+    		cs_transform(tool.targetModel.proj,tool.model.proj,ptUL);
+		    cs_transform(tool.targetModel.proj,tool.model.proj,ptLR);
+		    ul = new Array(ptUL.x,ptUL.y);
+		    lr = new Array(ptLR.x,ptLR.y);      
+	      
 	    }
 	    tool.model.setParam("aoi", new Array(ul, lr) );
     }
@@ -85,8 +87,12 @@ function ZoomToAoi(toolNode, model) {
     var lr = bbox[1];
     if ( tool.model.getSRS() != tool.targetModel.getSRS() ) {
       //TBD: convert XY to lat/long first
-      ul = tool.targetModel.proj.Forward( ul ); //to target XY
-      lr = tool.targetModel.proj.Forward( lr );
+    		var ptUL=new PT(ul[0],ul[1]);
+	    	var ptLR=new PT(lr[0],lr[1]);
+    		cs_transform(tool.model.proj,tool.targetModel.proj,ptUL);
+		    cs_transform(tool.model.proj,tool.targetModel.proj,ptLR);
+		    ul = new Array(ptUL.x,ptUL.y);
+		    lr = new Array(ptLR.x,ptLR.y);    
     }
     if ( ( ul[0]==lr[0] ) && ( ul[1]==lr[1] ) ) {
       tool.targetModel.extent.centerAt( ul, tool.targetModel.extent.res[0] );

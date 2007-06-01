@@ -1,21 +1,3 @@
-/*******************************************************************************
-NAME                            TRANSVERSE MERCATOR
-
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Transverse Mercator projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
-
-ALGORITHM REFERENCES
-
-1.  Snyder, John P., "Map Projections--A Working Manual", U.S. Geological
-    Survey Professional Paper 1395 (Supersedes USGS Bulletin 1532), United
-    State Government Printing Office, Washington D.C., 1987.
-
-2.  Snyder, John P. and Voxland, Philip M., "An Album of Map Projections",
-    U.S. Geological Survey Professional Paper 1453 , United State Government
-    Printing Office, Washington D.C., 1989.
-*******************************************************************************/
 
 // following functions from gctpc cproj.c for transverse mercator projections
 function e0fn(x){return(1.0-0.25*x*(1.0+x/16.0*(3.0+1.25*x)));}
@@ -34,7 +16,7 @@ function sign(x) { if (x < 0.0) return(-1); else return(1);}
 */
 
 
-function tmercInit(def)  {
+ tmercInit=function(def)  {
   def.e0 = e0fn(def.es);
   def.e1 = e1fn(def.es);
   def.e2 = e2fn(def.es);
@@ -47,7 +29,7 @@ function tmercInit(def)  {
 /**
   Initialize UTM projection
 */
-function utmInit(def) {
+ utmInit=function(def) {
   def.lat0 = 0.0;
   def.long0 = ((6 * Math.abs(def.zone)) - 183) * D2R;
   def.x0 = 500000.0;
@@ -62,7 +44,7 @@ function utmInit(def) {
   Transverse Mercator Forward  - long/lat to x/y
   long/lat in radians
 */
-function tmercFwd(p) {
+ tmercFwd=function(p) {
 //this.k0
   var delta_lon = adjust_lon(p.x - this.long0); // Delta longitude
   var con;    // cone constant
@@ -105,7 +87,7 @@ var utmFwd = tmercFwd;
 /**
   Transverse Mercator Inverse  -  x/y to long/lat
 */
-function tmercInv(p) {
+tmercInv=function(p) {
   var con, phi;  /* temporary angles       */
   var delta_phi; /* difference between longitudes    */
   var i;

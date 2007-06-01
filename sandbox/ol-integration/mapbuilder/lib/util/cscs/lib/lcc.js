@@ -1,21 +1,3 @@
-/*******************************************************************************
-NAME                            LAMBERT CONFORMAL CONIC
-
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Lambert Conformal Conic projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
-
-
-ALGORITHM REFERENCES
-
-1.  Snyder, John P., "Map Projections--A Working Manual", U.S. Geological
-    Survey Professional Paper 1395 (Supersedes USGS Bulletin 1532), United
-    State Government Printing Office, Washington D.C., 1987.
-
-2.  Snyder, John P. and Voxland, Philip M., "An Album of Map Projections",
-    U.S. Geological Survey Professional Paper 1453 , United State Government
-*******************************************************************************/
 // Function to compute the constant small m which is the radius of
 //   a parallel of latitude, phi, divided by the semimajor axis.
 // -----------------------------------------------------------------
@@ -90,7 +72,7 @@ case "": break;   // throw away nameless parameter
 
 // Initialize the Lambert Conformal conic projection
 // -----------------------------------------------------------------
- lccInit = function (def) {
+ lccInit=function(def) {
 // array of:  r_maj,r_min,lat1,lat2,c_lon,c_lat,false_east,false_north
 //double c_lat;                   /* center latitude                      */
 //double c_lon;                   /* center longitude                     */
@@ -141,7 +123,7 @@ if (!def.lat2){def.lat2=def.lat0;}//if lat2 is not defined
 
 // Lambert Conformal conic forward equations--mapping lat,long to x,y
 // -----------------------------------------------------------------
- lccFwd = function (p) {
+ lccFwd=function(p) {
 
   var lon = p.x;
   var lat = p.y;
@@ -178,7 +160,7 @@ if (!def.lat2){def.lat2=def.lat0;}//if lat2 is not defined
 
 // Lambert Conformal Conic inverse equations--mapping x,y to lat/long
 // -----------------------------------------------------------------
-lccInv = function (p) {
+ lccInv=function(p) {
 
   var rh1, con, ts;
   var lat, lon;

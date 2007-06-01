@@ -45,7 +45,7 @@ function adjust_lon(x) {x=(Math.abs(x)<PI)?x:(x-(sign(x)*TWO_PI));return(x);}
 
 
 
-function equiInit(def){
+ equiInit=function(def){
 if(!def.x0) def.x0=0;
 if(!def.y0) def.y0=0;
 if(!def.lat0) def.lat0=0;
@@ -57,7 +57,7 @@ if(!def.long0) def.long0=0;
 
 /* Equirectangular forward equations--mapping lat,long to x,y
   ---------------------------------------------------------*/
-function equiFwd(p){
+ equiFwd=function(p){
 
 var lon=p.x;				
 var lat=p.y;			
@@ -78,7 +78,7 @@ p.y=y;
 
 /* Equirectangular inverse equations--mapping x,y to lat/long
   ---------------------------------------------------------*/
-function equiInv(p)
+ equiInv=function(p)
 {
 
 p.x -= this.x0;

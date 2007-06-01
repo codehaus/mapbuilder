@@ -64,8 +64,12 @@ function Measurement(widgetNode, model) {
         objRef.proj = new Proj (objRef.srs);
                 
         if (objRef.proj.Forward) {
-          P = objRef.proj.Forward( P );
-          Q = objRef.proj.Forward( Q );
+       		var ptP=new PT( P[0], P[1]);
+	    	var ptQ=new PT(Q[0],Q[1]);
+    		cs_transform(new CS(csList.EPSG4326),objRef.proj,ptP);
+		    cs_transform(new CS(csList.EPSG4326),objRef.proj,ptQ);
+		    P = new Array(ptP.x,ptP.y);
+		    Q = new Array(ptQ.x,ptQ.y);   
         }
         if (!P || !Q  ){
           alert(mbGetMessage("projectionNotSupported"));

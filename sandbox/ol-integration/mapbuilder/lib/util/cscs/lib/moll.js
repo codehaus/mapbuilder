@@ -28,7 +28,7 @@ function adjust_lon(x) {x=(Math.abs(x)<PI)?x:(x-(sign(x)*TWO_PI));return(x);}
 
 /* Initialize the Mollweide projection
   ------------------------------------*/
-function  mollInit(def){
+ mollInit=function(def){
 def.R = 6370997.0; //Radius of earth
 }	
 
@@ -36,7 +36,7 @@ def.R = 6370997.0; //Radius of earth
 
 /* Mollweide forward equations--mapping lat,long to x,y
   ----------------------------------------------------*/
-function mollFwd(p){
+mollFwd=function(p){
 
 
 /* Forward equations
@@ -78,7 +78,7 @@ p.y=y;
 
 
 
-function mollInv(p){
+mollInv=function(p){
 var theta;
 var arg;
 

@@ -7,7 +7,7 @@ function adjust_lon(x) {x=(Math.abs(x)<PI)?x:(x-(sign(x)*TWO_PI));return(x);}
 
 // Initialize the Stereographic projection
 
-stereInit = function (def) {
+ stereInit=function(def) {
   //array consisting of:
   //double r_maj;         /* major axis           */
   //double center_lon;    /* center longitude     */
@@ -23,7 +23,7 @@ stereInit = function (def) {
 
 
 // Stereographic forward equations--mapping lat,long to x,y
-stereFwd = function(p) {
+stereFwd=function(p) {
   var lon = p.x;
   var lat = p.y;
   var ksp;              /* scale factor               */
@@ -56,7 +56,7 @@ stereFwd = function(p) {
 
 
 //* Stereographic inverse equations--mapping x,y to lat/long
-stereInv = function (p) {
+ stereInv=function(p) {
   var x = (p.x - this.x0);
   var y = (p.y - this.y0);
   var rh = Math.sqrt(x * x + y * y);                  /* height above ellipsoid */

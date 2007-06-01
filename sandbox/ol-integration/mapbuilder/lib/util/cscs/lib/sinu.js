@@ -30,7 +30,7 @@ ALGORITHM REFERENCES
 
 /* Initialize the Sinusoidal projection
   ------------------------------------*/
-function sinuInit(def){
+sinuInit=function(def){
 /* Place parameters in static storage for common use
   -------------------------------------------------*/
 def.R = 6370997.0; //Radius of earth
@@ -43,7 +43,7 @@ def.R = 6370997.0; //Radius of earth
 
 /* Sinusoidal forward equations--mapping lat,long to x,y
   -----------------------------------------------------*/
-function sinuFwd(p){
+ sinuFwd=function(p){
 var x,y,delta_lon;	
 var lon=p.x;
 var lat=p.y;	
@@ -59,7 +59,7 @@ p.y=y;
 }
 
 
-function sinuInv(p){
+ sinuInv=function(p){
 var lat,temp,lon;	
 
 /* Inverse equations

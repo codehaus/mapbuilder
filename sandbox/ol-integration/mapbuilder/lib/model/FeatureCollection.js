@@ -74,9 +74,9 @@ function FeatureCollection(modelNode, parent) {
 		        for (var j=0; j<coordsArray.length; ++j) {
 		          var xy = coordsArray[j].split(',');
 		          if (xy.length==2) {
-		            var llTemp = sourceProj.Inverse(xy);
-		            xy = containerProj.Forward(llTemp);
-		            newCoords += xy.join(',') + ' ';
+		            var pt=new PT(xy[0],xy[1]);
+    				cs_transform(sourceProj,containerProj,pt);
+		            newCoords += pt.join(',') + ' ';
 		          }
 		        }
 		        coordNodes[i].firstChild.nodeValue=newCoords;

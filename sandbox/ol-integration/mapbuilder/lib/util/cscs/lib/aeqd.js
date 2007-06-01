@@ -1,28 +1,12 @@
-/*******************************************************************************
-NAME                             AZIMUTHAL EQUIDISTANT 
-  
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Azimuthal Equidistant projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
-
-ALGORITHM REFERENCES
-
-1.  Snyder, John P., "Map Projections--A Working Manual", U.S. Geological
-    Survey Professional Paper 1395 (Supersedes USGS Bulletin 1532), United
-    State Government Printing Office, Washington D.C., 1987.
-
-2.  Snyder, John P. and Voxland, Philip M., "An Album of Map Projections",
-    U.S. Geological Survey Professional Paper 1453 , United State Government
-    Printing Office, Washington D.C., 1989.
-*******************************************************************************/
 
 function adjust_lon(x) {x=(Math.abs(x)<PI)?x:(x-(sign(x)*TWO_PI));return(x);}
 
+/* Function to eliminate roundoff errors in asin
+----------------------------------------------*/
 function asinz(x){x=(Math.abs(x)>1.0)?1.0:-1.0;return(x);}
 
 
-function aeqdInit(def){ 
+aeqdInit=function(def){ 
 def.sin_p12=Math.sin(def.lat0)
 def.cos_p12=Math.cos(def.lat0)
 var temp;
@@ -30,7 +14,7 @@ var temp;
 
 
 
-function aeqdFwd(p){
+ aeqdFwd=function(p){
 
 var lon=p.x;
 var lat=p.y;
@@ -74,7 +58,7 @@ p.y=y;
 
 
 
-function aeqdInv(p){
+ aeqdInv=function(p){
 
 
 

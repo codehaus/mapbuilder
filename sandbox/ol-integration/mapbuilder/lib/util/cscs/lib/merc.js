@@ -1,26 +1,4 @@
-/*******************************************************************************
-NAME                            MERCATOR
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Mercator projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
-
-PROGRAMMER              DATE
-----------              ----
-D. Steinwand, EROS      Nov, 1991
-T. Mittan		Mar, 1993
-
-ALGORITHM REFERENCES
-
-1.  Snyder, John P., "Map Projections--A Working Manual", U.S. Geological
-    Survey Professional Paper 1395 (Supersedes USGS Bulletin 1532), United
-    State Government Printing Office, Washington D.C., 1987.
-
-2.  Snyder, John P. and Voxland, Philip M., "An Album of Map Projections",
-    U.S. Geological Survey Professional Paper 1453 , United State Government
-    Printing Office, Washington D.C., 1989.
-*******************************************************************************/
 
 //static double r_major = a;		   /* major axis 				*/
 //static double r_minor = b;		   /* minor axis 				*/
@@ -32,7 +10,7 @@ ALGORITHM REFERENCES
 //static double false_easting = x0;	   /* x offset in meters			*/
 //scale_fact = k0 
 
-function mercInit(def)
+mercInit=function(def)
 {
 	/*this.temp = this.r_minor / this.r_major;
 	this.es=1.0 - Math.sqrt(this.temp);
@@ -52,20 +30,20 @@ function mercInit(def)
 /* Mercator forward equations--mapping lat,long to x,y
   --------------------------------------------------*/
 
-function mercFwd(p)
+ mercFwd=function(p)
 {	//alert("ll2m coords : "+coords);
 	lon = p.x;
 	lat = p.y;
 	// convert to radians
   	if ( lat*R2D > 90.0 && lat*R2D < -90.0 && lon*R2D > 180.0 && lon*R2D < -180.0) 
   	{
-    	alert(mbGetMessage("llInputOutOfRange", lon, lat));
+    	alert("llInput Out OfRange", lon, lat);
     	return null;
   	} 
   	
 	if(Math.abs( Math.abs(lat) - HALF_PI)  <= EPSLN)
 	{
-		alert(mbGetMessage("ll2mAtPoles"));
+		alert("ll2m At Poles");
 		return null;
 	}
 	else
@@ -82,7 +60,7 @@ function mercFwd(p)
 
 /* Mercator inverse equations--mapping x,y to lat/long
   --------------------------------------------------*/
-function mercInv(p)
+ mercInv=function(p)
 {	
 	
 	p.x -= this.x0;

@@ -1,3 +1,13 @@
+// Function to adjust longitude to -180 to 180; input in radians
+function adjust_lon(x) {x=(Math.abs(x)<PI)?x:(x-(sign(x)*TWO_PI));return(x);}
+
+
+
+
+
+
+
+
 /*******************************************************************************
 NAME                    MILLER CYLINDRICAL 
 
@@ -5,6 +15,10 @@ PURPOSE:	Transforms input longitude and latitude to Easting and
 		Northing for the Miller Cylindrical projection.  The
 		longitude and latitude must be in radians.  The Easting
 		and Northing values will be returned in meters.
+
+PROGRAMMER              DATE            
+----------              ----           
+T. Mittan		March, 1993
 
 This function was adapted from the Lambert Azimuthal Equal Area projection
 code (FORTRAN) in the General Cartographic Transformation Package software
@@ -34,7 +48,7 @@ ALGORITHM REFERENCES
 
 /* Initialize the Miller Cylindrical projection
   -------------------------------------------*/
-function millInit(def){
+ millInit=function(def){
 def.R = 6370997.0; //Radius of earth
 }
 
@@ -42,7 +56,7 @@ def.R = 6370997.0; //Radius of earth
 
 /* Miller Cylindrical forward equations--mapping lat,long to x,y
   ------------------------------------------------------------*/
-function millFwd(p)
+ millFwd=function(p)
 {
 var lon=p.x;
 var lat=p.y;
@@ -57,8 +71,7 @@ p.y=y;
 
 }//millFwd()
 
-
-function millInv(p)
+ millInv=function(p)
 /* Miller Cylindrical inverse equations--mapping x,y to lat/long
   ------------------------------------------------------------*/
 {

@@ -309,7 +309,7 @@ this.div.appendChild(element);}}},activateControl:function(control){if(!this.act
 if(control.type==OpenLayers.Control.TYPE_BUTTON){control.trigger();return;}
 if(control.type==OpenLayers.Control.TYPE_TOGGLE){if(control.active){control.deactivate();}else{control.activate();}
 return;}
-for(var i=0;i<this.controls.length;i++){if(this.controls[i]==control){control.activate();}else{this.controls[i].deactivate();}}
+for(var i=0;i<this.controls.length;i++){if(this.controls[i]==control){control.activate();}else if(this.controls[i].type==OpenLayers.Control.TYPE_TOOL){this.controls[i].deactivate();}}
 this.redraw();},addControls:function(controls){if(!(controls instanceof Array)){controls=[controls];}
 this.controls=this.controls.concat(controls);for(var i=0;i<controls.length;i++){var element=document.createElement("div");var textNode=document.createTextNode(" ");controls[i].panel_div=element;OpenLayers.Event.observe(controls[i].panel_div,"click",this.onClick.bind(this,controls[i]));OpenLayers.Event.observe(controls[i].panel_div,"mousedown",OpenLayers.Event.stop.bindAsEventListener());}
 if(this.map){for(var i=0;i<controls.length;i++){this.map.addControl(controls[i]);controls[i].deactivate();}

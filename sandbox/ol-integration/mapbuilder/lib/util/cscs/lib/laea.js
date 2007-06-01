@@ -1,3 +1,13 @@
+
+
+
+
+//function sincos(x,y,z){y=Math.sin(y);z=Math.cos(z);}
+
+
+
+
+
 /*******************************************************************************
 NAME                  LAMBERT AZIMUTHAL EQUAL-AREA
  
@@ -5,6 +15,10 @@ PURPOSE:	Transforms input longitude and latitude to Easting and
 		Northing for the Lambert Azimuthal Equal-Area projection.  The
 		longitude and latitude must be in radians.  The Easting
 		and Northing values will be returned in meters.
+
+PROGRAMMER              DATE            
+----------              ----           
+D. Steinwand, EROS      March, 1991   
 
 This function was adapted from the Lambert Azimuthal Equal Area projection
 code (FORTRAN) in the General Cartographic Transformation Package software
@@ -27,7 +41,7 @@ ALGORITHM REFERENCES
 
 /* Initialize the Lambert Azimuthal Equal Area projection
   ------------------------------------------------------*/
-function laeaInit(def) 
+ laeaInit=function(def) 
 {
 
 def.R = 6370997.0; //Radius of earth
@@ -38,7 +52,7 @@ def.cos_lat_o=Math.cos(def.lat0);
 
 /* Lambert Azimuthal Equal Area forward equations--mapping lat,long to x,y
   -----------------------------------------------------------------------*/
-function laeaFwd(p)
+laeaFwd=function(p)
 {
 
 
@@ -74,7 +88,7 @@ var y = ksp * (this.cos_lat_o * sin_lat - this.sin_lat_o * cos_lat * cos_delta_l
 
 
 
- function laeaInv(p)
+ laeaInv= function(p)
 
 {
 

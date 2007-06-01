@@ -6,7 +6,6 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
@@ -99,8 +98,12 @@ function CursorTrack(widgetNode, model) {
 
     // capture XY coordinates
     var evXY = this.model.map.getLonLatFromPixel(this.lastXy);
-    var evInverse = this.model.map.mbMapPane.model.proj.Inverse([evXY.lon, evXY.lat]);
-    var evLonLat = new OpenLayers.LonLat(evInverse[0],evInverse[1]);
+
+    ///CSCS
+    var pt=new PT(evXY.lon, evXY.lat)
+    cs_transform(this.model.proj,new CS(csList.EPSG4326),pt);
+    var evLonLat = new OpenLayers.LonLat(pt.x,pt.y);
+
 
     if( this.showPx ) {
       if( this.coordForm.px )

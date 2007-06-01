@@ -5,7 +5,6 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
-mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 
 /**
  * Generic Button object. Set the <action> property in config for
