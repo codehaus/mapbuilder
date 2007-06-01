@@ -96,8 +96,13 @@ function GmlRendererOL(widgetNode, model) {
       }
     });
     objRef.olLayer = new OlLayer(objRef.model.id);
-    objRef.targetModel.map.addLayer(objRef.olLayer);
-    objRef.model.setParam('gmlRendererLayer', objRef.olLayer);
+
+    // Add the layer to the map using addToMap(). This will do nothing
+    // if the targetModel has no map yet. So we add a refresh listener
+    // to the targetModel, then the layer will always be added to the
+    // map when it refreshes.
+    objRef.addToMap(objRef);
+    objRef.targetModel.addListener('refresh', objRef.addToMap, objRef);
   }
   this.model.addListener("refresh",this.paint, this);
   //TBD I (ahocevar) am not exactly sure why using the newModel
@@ -108,6 +113,19 @@ function GmlRendererOL(widgetNode, model) {
   // InsertFeature.js, and if we listen to that event here
   // it works.
   this.model.addListener("refreshGmlRenderers",this.paint, this);
+  
+  /**
+   * Add a renderer layer to the map. This is done by an event
+   * handler, because otherwise we can not be sure that the map
+   * is already there.
+   * @param objRef reference to this widget
+   */
+  this.addToMap = function(objRef) {
+    if (objRef.targetModel.map) {
+      objRef.targetModel.map.addLayer(objRef.olLayer);
+      objRef.model.setParam('gmlRendererLayer', objRef.olLayer);
+    }
+  }
 
   /**
    * Called when the context's hidden attribute changes.
