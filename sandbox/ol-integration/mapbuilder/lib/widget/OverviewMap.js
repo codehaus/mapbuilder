@@ -141,6 +141,8 @@ OverviewMap.prototype.getClonedLayer = function(layer) {
       layer.url, {layers: layer.params.LAYERS}, layerOptions);
   }
   else {
-    return layer.clone();
+    var clonedLayer = layer.clone();
+    clonedLayer.setVisibility(true);
+    return clonedLayer;
   }
 }
