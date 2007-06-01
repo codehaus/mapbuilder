@@ -141,7 +141,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       objRef.node.style.width = objRef.model.getWindowWidth()+"px";
       objRef.node.style.height = objRef.model.getWindowHeight()+"px";
     }
-    objRef.node.style.borderStyle="ridge";
+    
     //default map options
     var mapOptions = {
           controls:[],

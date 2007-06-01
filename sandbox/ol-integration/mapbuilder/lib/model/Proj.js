@@ -32,7 +32,6 @@ function Proj(srs) {
 	cscsRequestCSDefinition(cs);
 	var epsg = new CS(eval("csList."+cs));
 	epsg.srs=srs;
-	epsg.units="m";
  	return epsg;
  }
 
