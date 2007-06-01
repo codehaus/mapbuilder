@@ -145,6 +145,7 @@
   
   <!-- JavaScript messages -->
   <messages>
+    <aeaInitEqualLatitudes>aeaInit: Equal Latitudes for Standard Parallels on opposite sides of equator</aeaInitEqualLatitudes>
     <aoiFormNotFound>Could not find aoiForm for geoSearch</aoiFormNotFound>
     <atLeastOneValue>Please enter at least one value, before proceeding</atLeastOneValue>
     <buttonBarRequired>buttonBar property required for object: {0}</buttonBarRequired>
@@ -184,7 +185,7 @@
     <lastFrameAfterFirst>Last frame must be after the first frame</lastFrameAfterFirst>
     <layerNotFound>Layer with id {0} not found</layerNotFound>
     <layerTypeNotSupported>MapPaneOL: No support for layer type={0}</layerTypeNotSupported>
-    <lccinitEqualLatitudes>lccinit: Equal Latitudes for Standard Parallels on opposite sides of equator</lccinitEqualLatitudes>
+    <lccInitEqualLatitudes>lccInit: Equal Latitudes for Standard Parallels on opposite sides of equator</lccInitEqualLatitudes>
     <listenerError>Listener error: param={0}, target={1}, callBackFunction={2}</listenerError>
     <ll2lccNoProjection>ll2lcc: Point can not be projected</ll2lccNoProjection>
     <ll2mAtPoles>ll2m: Transformation cannot be computed at the poles</ll2mAtPoles>
@@ -229,6 +230,7 @@
     <nullOwsContext>Null OWSContext doc</nullOwsContext>
     <nullXmlResponse>Null XML response: {0}</nullXmlResponse>
     <parseError>Parse error: {0}</parseError>
+    <phi1zNoConvergence>phi1z: Convergence error</phi1zNoConvergence>
     <phi2zNoConvergence>phi2z: Convergence error</phi2zNoConvergence>
     <pixel2llNotDefined>pixel2ll not defined</pixel2llNotDefined>
     <preparingCoords>preparing coordinates</preparingCoords>

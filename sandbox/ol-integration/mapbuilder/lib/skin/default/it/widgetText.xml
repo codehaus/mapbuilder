@@ -145,6 +145,7 @@
   
   <!-- JavaScript messages -->
   <messages>
+    <aeaInitEqualLatitudes>aeaInit: Latitudine uguale dei Paralleli Standard sui lati opposti rispetto all'equatore</aeaInitEqualLatitudes>
     <aoiFormNotFound>Non posso trovare aoiForm per geoSearch</aoiFormNotFound>
     <atLeastOneValue>Inserire almeno un valore prima di procedere</atLeastOneValue>
     <buttonBarRequired>La proprietà buttonBar è necessaria per l'oggetto: {0}</buttonBarRequired>
@@ -184,7 +185,7 @@
     <lastFrameAfterFirst>L'ultimo frame deve essere successivo al primo</lastFrameAfterFirst>
     <layerNotFound>Nessun tematismo trovato con id {0}</layerNotFound>
     <layerTypeNotSupported>MapPaneOL: Nessun supporto per il tematismo di tipo={0}</layerTypeNotSupported>
-    <lccinitEqualLatitudes>lccinit: Latitudine uguale dei Paralleli Standard sui lati opposti rispetto all'equatore</lccinitEqualLatitudes>
+    <lccInitEqualLatitudes>lccInit: Latitudine uguale dei Paralleli Standard sui lati opposti rispetto all'equatore</lccInitEqualLatitudes>
     <listenerError>Errore in Listener: param={0}, target={1}, callBackFunction={2}</listenerError>
     <ll2lccNoProjection>ll2lcc: Il Punto non può essere proiettato</ll2lccNoProjection>
     <ll2mAtPoles>ll2m: La trasformazione non può essere calcolata ai poli</ll2mAtPoles>
@@ -229,6 +230,7 @@
     <nullOwsContext>Documento OWSContext vuoto</nullOwsContext>
     <nullXmlResponse>Risposta XML vuota: {0}</nullXmlResponse>
     <parseError>Errore nell'analisi del documento: {0}</parseError>
+    <phi1zNoConvergence>phi1z: errore di convergenza</phi1zNoConvergence>
     <phi2zNoConvergence>phi2z: errore di convergenza</phi2zNoConvergence>
     <pixel2llNotDefined>pixel2ll non definito</pixel2llNotDefined>
     <preparingCoords>preparazione delle coordinate</preparingCoords>

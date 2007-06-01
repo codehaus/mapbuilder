@@ -145,6 +145,7 @@
   
   <!-- JavaScript messages -->
   <messages>
+    <aeaInitEqualLatitudes>aeaInit: Gelijk breedtegraden voor Standaard Parallellen aan tegengestelde zijden van de evenaar</aeaInitEqualLatitudes>
     <aoiFormNotFound>Kan aoiForm voor geoSearch niet vinden</aoiFormNotFound>
     <atLeastOneValue>Vul tenminste één waarde alvorens door te gaan</atLeastOneValue>
     <buttonBarRequired>buttonBar-eigenschap verplicht voor object: {0}</buttonBarRequired>
@@ -184,7 +185,7 @@
     <lastFrameAfterFirst>Laatste beeld moet na het eerste beeld liggen</lastFrameAfterFirst>
     <layerNotFound>Laag met id {0} niet gevonden</layerNotFound>
     <layerTypeNotSupported>MapPaneOL: Geen ondersteuning voor laag-type={0}</layerTypeNotSupported>
-    <lccinitEqualLatitudes>lccinit: Gelijk breedtegraden voor Standaard Parallellen aan tegengestelde zijden van de evenaar</lccinitEqualLatitudes>
+    <lccInitEqualLatitudes>lccInit: Gelijk breedtegraden voor Standaard Parallellen aan tegengestelde zijden van de evenaar</lccInitEqualLatitudes>
     <listenerError>Listener-fout: param={0}, target={1}, callBackFunction={2}</listenerError>
     <ll2lccNoProjection>ll2lcc: Punt kan niet geprojecteerd worden</ll2lccNoProjection>
     <ll2mAtPoles>ll2m: Transformatie kan niet worden berekend aan de polen</ll2mAtPoles>
@@ -229,6 +230,7 @@
     <nullOwsContext>Leeg OWSContext-document</nullOwsContext>
     <nullXmlResponse>Lege XML-respons: {0}</nullXmlResponse>
     <parseError>Parse-fout: {0}</parseError>
+    <phi1zNoConvergence>phi1z: Convergentiefout</phi1zNoConvergence>
     <phi2zNoConvergence>phi2z: Convergentiefout</phi2zNoConvergence>
     <pixel2llNotDefined>pixel2ll niet gedefiniëerd</pixel2llNotDefined>
     <preparingCoords>prepareert coördinaten</preparingCoords>

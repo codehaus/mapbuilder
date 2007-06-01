@@ -30,7 +30,7 @@ function phi2z(eccent, ts) {
     phi += dphi;
     if (Math.abs(dphi) <= .0000000001) return phi;
   }
-  alert("phi2z has NoConvergence");
+  alert(mbGetMessage("phi2zNoConvergence"));
   return (-9999);
 }
 
@@ -87,7 +87,7 @@ if (!def.lat2){def.lat2=def.lat0;}//if lat2 is not defined
 
 // Standard Parallels cannot be equal and on opposite sides of the equator
   if (Math.abs(def.lat1+def.lat2) < EPSLN) {
-    alert("lccinit Equal Latitudes");
+    alert(mbGetMessage("lccInitEqualLatitudes"));
     return;
   }
 
@@ -133,7 +133,7 @@ if (!def.lat2){def.lat2=def.lat0;}//if lat2 is not defined
    
   
   } else {
-    alert("llInput Out Of Range", lon, lat);
+    alert(mbGetMessage("llInputOutOfRange", lon, lat));
     return null;
   }
 
@@ -145,7 +145,7 @@ if (!def.lat2){def.lat2=def.lat0;}//if lat2 is not defined
   } else {
     con = lat * this.ns;
     if (con <= 0) {
-      alert("ll2lcc No Projection");
+      alert(mbGetMessage("ll2lccNoProjection"));
       return null;
     }
     rh1 = 0;

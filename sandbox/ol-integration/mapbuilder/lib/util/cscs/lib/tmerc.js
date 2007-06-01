@@ -55,7 +55,7 @@ function sign(x) { if (x < 0.0) return(-1); else return(1);}
   if (this.ind != 0) {  /* spherical form */
     var b = cos_phi * Math.sin(delta_lon);
     if ((Math.abs(Math.abs(b) - 1.0)) < .0000000001)  {
-      alert("Error in ll2tm(): Point projects into infinity");
+      alert(mbGetMessage("ll2tmInfiniteProjection"));
       return(93);
     } else {
       x = .5 * this.a * this.k0 * Math.log((1.0 + b)/(1.0 - b));
@@ -119,7 +119,7 @@ tmercInv=function(p) {
       phi += delta_phi;
       if (Math.abs(delta_phi) <= EPSLN) break;
       if (i >= max_iter) {
-        alert ("Error in tm2ll(): Latitude failed to converge");
+        alert(mbGetMessage("tm2llNoConvergence"));
         return(95);
       }
     } // for()

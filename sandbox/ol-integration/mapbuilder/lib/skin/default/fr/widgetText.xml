@@ -146,6 +146,7 @@
   
   <!-- JavaScript messages -->
   <messages>
+    <aeaInitEqualLatitudes>aeaInit: Latitudes égales de parallèles standard sur des côtés opposés de l'Équateur</aeaInitEqualLatitudes>
     <aoiFormNotFound>N'a pas pu trouver aoiForm pour geoSearch</aoiFormNotFound>
     <atLeastOneValue>Entrez au moins une valeur avant d'avancer</atLeastOneValue>
     <buttonBarRequired>Propriété buttonBar nécéssaire: {0}</buttonBarRequired>
@@ -185,7 +186,7 @@
     <lastFrameAfterFirst>Le dernier cadre doit être après le premier cadre</lastFrameAfterFirst>
     <layerNotFound>Couche avec id {0} non trouvé</layerNotFound>
     <layerTypeNotSupported>MapPaneOL: Aucun support pour couche du type={0}</layerTypeNotSupported>
-    <lccinitEqualLatitudes>lccinit: Latitudes égales de parallèles standard sur des côtés opposés de l'Équateur</lccinitEqualLatitudes>
+    <lccInitEqualLatitudes>lccInit: Latitudes égales de parallèles standard sur des côtés opposés de l'Équateur</lccInitEqualLatitudes>
     <listenerError>Erreur de Listener: param={0}, target={1}, callBackFunction={2}</listenerError>
     <ll2lccNoProjection>ll2lcc: Point ne peut pas être projeté</ll2lccNoProjection>
     <ll2mAtPoles>ll2m: Transformation ne peut pas être calculé dans les pôles</ll2mAtPoles>
@@ -230,6 +231,7 @@
     <nullOwsContext>Document OWSContext vide</nullOwsContext>
     <nullXmlResponse>Null XML response: {0}</nullXmlResponse>
     <parseError>Erreur d'analyze: {0}</parseError>
+    <phi1zNoConvergence>phi1z: Erreur de convergence</phi1zNoConvergence>
     <phi2zNoConvergence>phi2z: Erreur de convergence</phi2zNoConvergence>
     <pixel2llNotDefined>pixel2ll non defini</pixel2llNotDefined>
     <preparingCoords>préparation des coordonnées</preparingCoords>

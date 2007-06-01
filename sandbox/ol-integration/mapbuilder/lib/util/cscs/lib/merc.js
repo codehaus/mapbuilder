@@ -37,13 +37,13 @@ mercInit=function(def)
 	// convert to radians
   	if ( lat*R2D > 90.0 && lat*R2D < -90.0 && lon*R2D > 180.0 && lon*R2D < -180.0) 
   	{
-    	alert("llInput Out OfRange", lon, lat);
+    	alert(mbGetMessage("llInputOutOfRange", lon, lat));
     	return null;
   	} 
   	
 	if(Math.abs( Math.abs(lat) - HALF_PI)  <= EPSLN)
 	{
-		alert("ll2m At Poles");
+		alert(mbGetMessage("ll2mAtPoles"));
 		return null;
 	}
 	else

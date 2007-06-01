@@ -55,7 +55,7 @@ var i;
        if (Math.abs(dphi) <= 1e-7)
           return(phi);
         }
- alert ("Convergence error","phi1z-conv");
+  alert(mbGetMessage("phi1zNoConvergence"));
  
   return(-9999);//random error code
 }
@@ -152,8 +152,7 @@ ALGORITHM REFERENCES
 
 if (Math.abs(def.lat1 + def.lat2) < EPSLN)
    {
-   alert("Equal latitudes for St. Parallels on opposite sides of equator",
-	  "alber-forinit");
+   alert(mbGetMessage("aeaInitEqualLatitudes"));
    return(31);
    }
 def.temp = def.b / def.a;

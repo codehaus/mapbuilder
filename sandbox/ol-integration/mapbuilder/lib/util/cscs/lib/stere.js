@@ -32,7 +32,7 @@ stereFwd=function(p) {
   if ( lat <= 90.0 && lat >= -90.0 && lon <= 180.0 && lon >= -180.0) {
     
   } else {
-    alert("llInput Out Of Range", lon, lat);
+    alert(mbGetMessage("llInputOutOfRange", lon, lat));
     return null;
   }
   var dlon = adjust_lon(lon - this.long0);
@@ -42,7 +42,7 @@ stereFwd=function(p) {
   var coslon = Math.cos(dlon);
   var g = this.sin_p10 * sinphi + this.cos_p10 * cosphi * coslon;
   if (Math.abs(g + 1.0) <= EPSLN) {
-    alert("ll2st Infinite Projection");
+    alert(mbGetMessage("ll2stInfiniteProjection"));
     return null;
   } else {
     ksp = 2.0 / (1.0 + g);
