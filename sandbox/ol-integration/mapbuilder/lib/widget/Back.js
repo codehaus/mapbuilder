@@ -36,7 +36,8 @@ function Back(widgetNode, model) {
               var previousExtent = objRef.targetModel.previousExtent;
               if(previousExtent){
                 objRef.targetModel.setParam("historyStop");
-                this.map.zoomToExtent(previousExtent);
+                this.map.setCenter(previousExtent.center);
+                this.map.zoomToScale(previousExtent.scale);
                 objRef.targetModel.setParam("historyStart");
               }
       },

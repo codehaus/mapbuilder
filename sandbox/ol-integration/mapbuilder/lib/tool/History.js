@@ -38,16 +38,20 @@ function History(toolNode, model) {
     if (objRef.model.active!=null) {
       var place = objRef.model.active;
       var list = objRef.model.historyList;
+      var center = objRef.targetModel.map.getExtent().getCenterLonLat();
+      // take the current scale -1, otherwise we get troubles when
+      // fixed scales are defined
+      var scale = objRef.targetModel.map.getScale()-1;
       if (place > -1) {
         // check if current and previous history entry would result
         // in same center point and zoom level. If this is the case,
         // we do not want a new entry in the list
-        if(objRef.targetModel.map.getExtent().getCenterLonLat().toString() == list[place].getCenterLonLat().toString() &&
-           objRef.targetModel.map.getZoomForExtent(objRef.targetModel.map.getExtent()) == objRef.targetModel.map.getZoomForExtent(list[place])) {
+        if (center.toString() == list[place].center.toString() &&
+            scale == list[place].scale) {
           return;
         }
       }
-      var newExtent = objRef.targetModel.map.getExtent();
+      var newExtent = new Object({center:center, scale:scale});
 
       if( place==(list.length-1)) { //If we are already at the end of the list add a new item
         list.push(newExtent); 
@@ -128,6 +132,3 @@ function History(toolNode, model) {
 	this.model.addListener("historyStop", this.stop, this);
 	this.model.addListener("init", this.initReset, this);
 }
-
-  
-  
