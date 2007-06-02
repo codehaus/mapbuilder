@@ -98,13 +98,13 @@ function GmlRendererOL(widgetNode, model) {
       });
       objRef.olLayer = new OlLayer(objRef.model.id);
   
-      // Add the layer to the map using addToMap(). This will do nothing
-      // if the targetModel has no map yet. So we add a refresh listener
-      // to the targetModel, then the layer will always be added to the
-      // map when it refreshes.
       objRef.targetModel.map.addLayer(objRef.olLayer);
       objRef.model.setParam('gmlRendererLayer', objRef.olLayer);
     }
+    // We add a refresh listener to the targetModel. This way we
+    // can be sure that the gml renderer is reloaded when the
+    // map is refreshed, and also if the map did not exist yet
+    // when paint was called for the first time.
     objRef.targetModel.addListener('refresh', objRef.paint, objRef);
   }
   this.model.addListener("refresh",this.paint, this);
