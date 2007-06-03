@@ -167,20 +167,15 @@ function getProxyPlusUrl(url) {
 }
 
   /**
-   * Browser independant version of createElementNS() because creating elements
-   * with namespaces other than the defalut namespace isn't dupported in IE,
-   * or at least I can't figure out how to do it.
-   * Caution: In IE the new element doesn't appear to a namespace!!
+   * Browser independant version of createElementNS()
    * @param doc the owner document for the new element
-   * @param name the name for the new element
+   * @param name for the new element
    * @param ns the URL for the namespace (without a prefix)
    * @return element in the document with the specified namespace
    */
 function createElementWithNS(doc,name,nsUri) {
   if (_SARISSA_IS_IE) {
-    var newElement = doc.createElement(name);
-    //newElement.namespaceURI = nsUri;  //can't do this for some reason?
-    return newElement;
+    return doc.createNode(1, name, nsUri);
   } else {
     return doc.createElementNS(nsUri,name);
   }
