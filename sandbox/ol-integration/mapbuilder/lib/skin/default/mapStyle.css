@@ -201,7 +201,7 @@ background-color:Transparent;
 		padding:2px;
 		overflow:auto;
 		width:expression((parseInt(this.parentElement.parentElement.parentElement.parentElement.currentStyle.width)-2*parseInt(this.parentElement.parentElement.parentElement.parentElement.currentStyle.borderWidth))+'px');
-		height:expression((parseInt(this.parentElement.parentElement.parentElement.parentElement.currentStyle.height)-2*parseInt(this.parentElement.parentElement.parentElement.parentElement.currentStyle.borderWidth)-19)+'px');
+		height:expression((parseInt(this.parentElement.parentElement.parentElement.parentElement.currentStyle.height)-2*parseInt(this.parentElement.parentElement.parentElement.parentElement.currentStyle.borderWidth)-18)+'px');
 }
 
 .PopupContent table {
