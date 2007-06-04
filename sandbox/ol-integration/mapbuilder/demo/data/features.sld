@@ -55,23 +55,23 @@
 						<Graphic>
 							<Mark>
 								<Fill>
-									<CssParameter name="fill">#FF00FF</CssParameter>
+									<CssParameter name="fill">yellow</CssParameter>
 									<CssParameter name="fill-opacity">0.9</CssParameter>
 								</Fill>
 								<Stroke>
-									<CssParameter name="stroke">#FF00FF</CssParameter>
+									<CssParameter name="stroke">red</CssParameter>
 									<CssParameter name="stroke-opacity">1</CssParameter>
-									<CssParameter name="stroke-width">0.3</CssParameter>
+									<CssParameter name="stroke-width">2</CssParameter>
 								</Stroke>
 							</Mark>
-							<Size>3</Size>
+							<Size>4</Size>
 						</Graphic>
 					</PointSymbolizer>
 					<LineSymbolizer>
 						<Stroke>
-							<CssParameter name="stroke">#FF00FF</CssParameter>
+							<CssParameter name="stroke">yellow</CssParameter>
 							<CssParameter name="stroke-opacity">1</CssParameter>
-							<CssParameter name="stroke-width">0.3</CssParameter>
+							<CssParameter name="stroke-width">3</CssParameter>
 						</Stroke>
 					</LineSymbolizer>
 					<PolygonSymbolizer>
