@@ -200,8 +200,8 @@ background-color:Transparent;
 		left:0px;
 		padding:2px;
 		overflow:auto;
-		width:expression((parseInt(this.parentElement.parentElement.parentElement.currentStyle.width)-2*parseInt(this.parentElement.parentElement.parentElement.currentStyle.borderWidth)-1)+'px');
-		height:expression((parseInt(this.parentElement.parentElement.parentElement.currentStyle.height)-2*parseInt(this.parentElement.parentElement.parentElement.currentStyle.borderWidth)-19)+'px');
+		width:expression((parseInt(this.parentElement.parentElement.parentElement.parentElement.currentStyle.width)-2*parseInt(this.parentElement.parentElement.parentElement.parentElement.currentStyle.borderWidth))+'px');
+		height:expression((parseInt(this.parentElement.parentElement.parentElement.parentElement.currentStyle.height)-2*parseInt(this.parentElement.parentElement.parentElement.parentElement.currentStyle.borderWidth)-19)+'px');
 }
 
 .PopupContent table {
