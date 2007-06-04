@@ -13,9 +13,9 @@ mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
  * using eg. the GmlRendererOL widget. Models have to fire the
  * 'gmlRendererLayer' event, which will activate the tool for the
  * layer.
- * This tool also fires "highlightFeature" and "dehighlightFeature"
- * events, setting the fid of the (de)highlighted feature as param
- * of the model.
+ * This tool also fires "mouseoverFeature" and "mouseoutFeature"
+ * events, setting the fid of the feature below the mouse cursor
+ * as param of the model.
  * @author Andreas Hocevar andreas.hocevarATgmail.com
  * @param toolNode The tool node from the config XML file.
  * @param model The model containing this tool.
@@ -42,7 +42,7 @@ function FeatureSelectHandler(toolNode, model) {
         hover: true,
         onSelect: objRef.onSelect,
         onUnselect: objRef.onUnselect,
-        mbFeatureSelect: objRef
+        mbFeatureSelectHandler: objRef
       });
       objRef.targetContext.map.addControl(objRef.control);
       objRef.control.activate();
@@ -68,9 +68,16 @@ function FeatureSelectHandler(toolNode, model) {
    * @param feature OpenLayers feature
    */
   this.onSelect = function(feature) {
-    var objRef = this.mbFeatureSelect;
-    objRef.model.setParam("highlightFeature", feature.fid);
-    feature.mbFeatureSelect = objRef;
+    var objRef = this.mbFeatureSelectHandler;
+    objRef.model.setParam("mouseoverFeature", feature.fid);
+    
+    // redraw feature with custom select style
+    //TBD submit a patch to OpenLayer for a selectStyle feature property
+    if (feature.mbSelectStyle) {
+      feature.layer.drawFeature(feature, feature.mbSelectStyle);
+    }
+
+    feature.mbFeatureSelectHandler = objRef;
     feature.layer.events.registerPriority('mousedown', feature, objRef.onClick);
   }
   
@@ -81,8 +88,8 @@ function FeatureSelectHandler(toolNode, model) {
    * @param feature OpenLayers feature
    */
   this.onUnselect = function(feature) {
-    var objRef = this.mbFeatureSelect;
-    objRef.model.setParam("dehighlightFeature", feature.fid);
+    var objRef = this.mbFeatureSelectHandler;
+    objRef.model.setParam("mouseoutFeature", feature.fid);
     feature.layer.events.unregister('mousedown', feature, objRef.onClick);
   }
   
@@ -98,30 +105,46 @@ function FeatureSelectHandler(toolNode, model) {
   this.onClick = function(evt) {
     // pass the feature to the event object
     evt.feature = this;
-    var objRef = this.mbFeatureSelect;
+    var objRef = this.mbFeatureSelectHandler;
     objRef.model.setParam("olFeatureSelect", evt);
     OpenLayers.Event.stop(evt);
   }
 
   /**
-   * Highlights the specified feature.
+   * Highlights the specified feature. This method is usually
+   * triggered by setting the 'highlightFeature' param to the
+   * fid of a feature to be highlighted.
    * @param objRef reference to this tool object
-   * @param fid GML feature id of the feature to highlight
+   * @param fid GML feature id of the feature to highlight. If
+   * not specified, this is taken from the highlightFeature
+   * model param.
    */
   this.highlight = function(objRef, fid) {
+    if (!fid) {
+      fid = objRef.model.getParam('highlightFeature');
+    }
     var feature = objRef.getFeatureByFid(objRef, fid);
     objRef.control.select(feature);
   }
+  this.model.addListener('highlightFeature', this.highlight, this);
   
   /**
-   * Dehighlights the specified feature.
+   * Dehighlights the specified feature. This method is usually
+   * triggered by setting the 'dehighlightFeature' param to the
+   * fid of a feature to be highlighted.
    * @param objRef reference to this tool object
-   * @param fid GML feature id of the feature to highlight
+   * @param fid GML feature id of the feature to highlight. If
+   * not specified, this is taken from the dehighlightFeature
+   * model param.
    */
   this.dehighlight = function(objRef, fid) {
+    if (!fid) {
+      fid = objRef.model.getParam('dehighlightFeature');
+    }
     var feature = objRef.getFeatureByFid(objRef, fid);
     objRef.control.unselect(feature);
   }
+  this.model.addListener('dehighlightFeature', this.dehighlight, this);
   
   /**
    * gets a feature from the gmlRendererLayer by GML feature id.
@@ -136,7 +159,7 @@ function FeatureSelectHandler(toolNode, model) {
     }
     var features = layer.features;
     for (var i = 0; i < features.length; ++i) {
-      if (features[i].fid = fid) {
+      if (features[i].fid == fid) {
         return features[i];
       }
     }

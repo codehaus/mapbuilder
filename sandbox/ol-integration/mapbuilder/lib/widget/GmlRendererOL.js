@@ -26,6 +26,18 @@ function GmlRendererOL(widgetNode, model) {
   /** OpenLayers GML layer which renders the model doc */
   this.olLayer = null;
   
+  /**
+   * Style object for default renderer styling of features.
+   * This holds one style for each OpenLayers feature class
+   */
+  this.defaultStyle = null;
+
+  /**
+   * Style object for default renderer styling of features.
+   * This holds one style for each OpenLayers feature class
+   */
+  this.selectStyle = null;
+  
   var tipWidget =  widgetNode.selectSingleNode("mb:tipWidget");
   if( tipWidget ) {
     this.model.tipWidgetId = tipWidget.firstChild.nodeValue;
@@ -57,16 +69,27 @@ function GmlRendererOL(widgetNode, model) {
       }
       
       // get style for features
-      var style = new Object();
       var sldModelNode = widgetNode.selectSingleNode('mb:sldModel');
       if (sldModelNode) {
         var sldModel = config.objects[sldModelNode.firstChild.nodeValue];
+        var defaultStyleName = widgetNode.selectSingleNode('mb:defaultStyleName');
+        objRef.defaultStyleName = defaultStyleName ? defaultStyle.firstChild.nodeValue : 'default';
+        var selectStyleName = widgetNode.selectSingleNode('mb:selectStyleName');
+        objRef.selectStyleName = selectStyleName ? selectStyle.firstChild.nodeValue : 'selected';
         if (sldModel) {
-          var targetMap = objRef.targetModel.map.mbMapPane;
-          var sldNode = sldModel.getSldNode();
-          style.point = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode('//sld:PointSymbolizer'));
-          style.line = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode('//sld:LineSymbolizer'));
-          style.polygon = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode('//sld:PolygonSymbolizer'));
+          sldModel.addListener("loadModel", objRef.paint, objRef);
+          if (sldModel.doc) {
+            objRef.defaultStyle = new Object();
+            objRef.selectStyle = new Object();
+            var targetMap = objRef.targetModel.map.mbMapPane;
+            var sldNode = sldModel.getSldNode();
+            objRef.defaultStyle.point = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:PointSymbolizer"));
+            objRef.defaultStyle.line = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:LineSymbolizer"));
+            objRef.defaultStyle.polygon = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:PolygonSymbolizer"));
+            objRef.selectStyle.point = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:PointSymbolizer"));
+            objRef.selectStyle.line = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:LineSymbolizer"));
+            objRef.selectStyle.polygon = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:PolygonSymbolizer"));
+          }
         }
       }
       // create modified OpenLayers GML layer class, which
@@ -82,16 +105,28 @@ function GmlRendererOL(widgetNode, model) {
           }
         },
         preFeatureInsert: function(feature) {
-          // set style before rendering the feature
-          if (style) {
+          // set styles before rendering the feature
+          if (objRef.defaultStyle) {
             if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
-              feature.style = style.point;
+              feature.style = objRef.defaultStyle.point;
             }
             if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
-              feature.style = style.line;
+              feature.style = objRef.defaultStyle.line;
             }
             if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
-              feature.style = style.polygon;
+              feature.style = objRef.defaultStyle.polygon;
+            }
+          }
+          // set select styles
+          if (objRef.selectStyle) {
+            if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
+              feature.mbSelectStyle = objRef.selectStyle.point;
+            }
+            if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
+              feature.mbSelectStyle = objRef.selectStyle.line;
+            }
+            if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
+              feature.mbSelectStyle = objRef.selectStyle.polygon;
             }
           }
         }
