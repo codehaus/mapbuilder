@@ -33,12 +33,16 @@ function Locations(widgetNode, model) {
   this.setAoi = function(bbox, targetModel) {
     var bboxArray = new Array();
     bboxArray     = bbox.split(",");
-    var ul = new Array(parseFloat(bboxArray[0]),parseFloat(bboxArray[3]));
-    var lr = new Array(parseFloat(bboxArray[2]),parseFloat(bboxArray[1]));
-    this.model.setParam("aoi",new Array(ul,lr));
+    		var ptUL=new PT(parseFloat(bboxArray[0]),parseFloat(bboxArray[3]));
+	    	var ptLR=new PT(parseFloat(bboxArray[2]),parseFloat(bboxArray[1]));
+    		cs_transform(new Proj("EPSG:4326"),this.targetModel.proj,ptUL);
+		    cs_transform(new Proj("EPSG:4326"),this.targetModel.proj,ptLR);
+		    var ul = new Array(ptUL.x,ptUL.y);
+		    var lr = new Array(ptLR.x,ptLR.y);   
+    this.targetModel.setParam("aoi",new Array(ul,lr));
 
     //convert this.model XY to latlong
     //convert latlong to targetmodel XY
-    this.targetModel.extent.zoomToBox( ul, lr );
+    this.targetModel.map.zoomToExtent(new OpenLayers.Bounds(ul[0],lr[1],lr[0],ul[1]));
   }
 }
