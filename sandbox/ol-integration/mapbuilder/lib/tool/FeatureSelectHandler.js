@@ -21,7 +21,15 @@ mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
  * @param model The model containing this tool.
  */
 function FeatureSelectHandler(toolNode, model) {
-   ToolBase.apply(this, new Array(toolNode, model));
+  ToolBase.apply(this, new Array(toolNode, model));
+   
+  /**
+   * Map for this FeatureSelectHandler. We keep a reference
+   * to the map we created the control for, to prevent ourselves
+   * from removing the control from a map that does not exist
+   * anymore.
+   */
+  this.map = null;
 
   //TBD error checking, or move this to ToolBase
   this.targetContext = config.objects[toolNode.selectSingleNode("mb:targetContext").firstChild.nodeValue];
@@ -33,7 +41,8 @@ function FeatureSelectHandler(toolNode, model) {
    */
   this.init = function(objRef) {
     var layer = objRef.model.getParam('gmlRendererLayer');
-    if (objRef.control && !layer) {
+    if (objRef.map == objRef.targetContext.map &&
+        objRef.control && !layer) {
       objRef.control.deactivate();
       objRef.control.destroy();
       objRef.control = null;
@@ -44,7 +53,8 @@ function FeatureSelectHandler(toolNode, model) {
         onUnselect: objRef.onUnselect,
         mbFeatureSelectHandler: objRef
       });
-      objRef.targetContext.map.addControl(objRef.control);
+      objRef.map = objRef.targetContext.map;
+      objRef.map.addControl(objRef.control);
       objRef.control.activate();
     }
   }
