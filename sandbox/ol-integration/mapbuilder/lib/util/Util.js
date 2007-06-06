@@ -20,7 +20,19 @@ function XslProcessor(xslUrl,docNSUri) {
   this.xslUrl=xslUrl;
   this.xslDom = Sarissa.getDomDocument();
   this.xslDom.async = false;
-  this.xslDom.validateOnParse=false;  //IE6 SP2 parsing bug
+  // fix some issues in IE
+  if (!MB_IS_MOZ) {
+    try {
+      // IE6 SP2 parsing bug
+      this.xslDom.validateOnParse=false;
+      // Prevent "Access denied" with external documents
+      this.xslDom.setProperty("AllowDocumentFunction", true);
+      this.xslDom.resolveExternals = false;
+    }
+    catch (e) {
+      // do nothing here, we won't get far anyway.
+    }
+  }
   this.xslDom.load(xslUrl);
   if ( Sarissa.getParseErrorText(this.xslDom) != Sarissa.PARSED_OK )
     alert(mbGetMessage("errorLoadingStylesheet", xslUrl));
