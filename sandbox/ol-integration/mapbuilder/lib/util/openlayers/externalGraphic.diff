@@ -1,0 +1,134 @@
+Index: /mnt/d/eclipse/workspace/openlayers/examples/vector-features.html
+===================================================================
+--- /mnt/d/eclipse/workspace/openlayers/examples/vector-features.html	(revision 3271)
++++ /mnt/d/eclipse/workspace/openlayers/examples/vector-features.html	(working copy)
+@@ -21,6 +21,8 @@
+             var style_blue = OpenLayers.Util.extend({}, OpenLayers.Feature.Vector.style['default']);
+             style_blue.strokeColor = "blue"; 
+             style_blue.fillColor = "blue"; 
++            style_blue.externalGraphic = "../img/marker.png";
++            style_blue.pointRadius = 12;
+             var style_green = {
+                 strokeColor: "#00FF00",
+                 strokeOpacity: 1,
+@@ -34,6 +36,10 @@
+             // create a point feature
+             var point = new OpenLayers.Geometry.Point(-111.04, 45.68);
+             var pointFeature = new OpenLayers.Feature.Vector(point,null,style_blue);
++            var point2 = new OpenLayers.Geometry.Point(-105.04, 49.68);
++            var pointFeature2 = new OpenLayers.Feature.Vector(point2,null,style_green);
++            var point3 = new OpenLayers.Geometry.Point(-105.04, 49.68);
++            var pointFeature3 = new OpenLayers.Feature.Vector(point3,null,style_blue);
+             
+             // create a line feature from a list of points
+             var pointList = [];
+@@ -64,7 +70,7 @@
+             
+             map.addLayer(vectorLayer);
+             map.setCenter(new OpenLayers.LonLat(point.x, point.y), 5);
+-            vectorLayer.addFeatures([pointFeature, lineFeature, polygonFeature]);
++            vectorLayer.addFeatures([pointFeature, pointFeature3, pointFeature2, lineFeature, polygonFeature]);
+         }
+         // -->
+     </script>
+Index: /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/SVG.js
+===================================================================
+--- /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/SVG.js	(revision 3271)
++++ /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/SVG.js	(working copy)
+@@ -165,7 +165,35 @@
+         options = options || node._options;
+ 
+         if (node._geometryClass == "OpenLayers.Geometry.Point") {
+-            node.setAttributeNS(null, "r", style.pointRadius);
++            if (style.externalGraphic) {
++                // remove old node
++                var id = node.getAttributeNS(null, "id");
++                var x = node.getAttributeNS(null, "cx");
++                var y = node.getAttributeNS(null, "cy");
++                var _featureId = node._featureId;
++                var _geometryClass = node._geometryClass;
++                var _style = node._style;
++                this.root.removeChild(node);
++                
++                // create new image node
++                var node = this.createNode("image", id);
++                node._featureId = _featureId;
++                node._geometryClass = _geometryClass;
++                node._style = _style;
++                this.root.appendChild(node);
++
++                // now style the new node
++                var radius = style.pointRadius;
++                node.setAttributeNS(null, "x", x-radius);
++                node.setAttributeNS(null, "y", -y-radius);
++                node.setAttributeNS(null, "width", 2*radius);
++                node.setAttributeNS(null, "height", 2*radius);
++                node.setAttributeNS("http://www.w3.org/1999/xlink", "href", style.externalGraphic);
++                node.setAttributeNS(null, "transform", "scale(1,-1)");
++                node.setAttributeNS(null, "style", "opacity: "+style.fillOpacity);
++            } else {
++                node.setAttributeNS(null, "r", style.pointRadius);
++            }
+         }
+         
+         if (options.isFilled) {
+Index: /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/VML.js
+===================================================================
+--- /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/VML.js	(revision 3271)
++++ /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/VML.js	(working copy)
+@@ -129,7 +129,43 @@
+         options = options || node._options;
+         
+         if (node._geometryClass == "OpenLayers.Geometry.Point") {
+-            this.drawCircle(node, geometry, style.pointRadius);
++            if (style.externalGraphic) {
++                // remove old node
++                var id = node.id;
++                var _featureId = node._featureId;
++                var _geometryClass = node._geometryClass;
++                var _style = node._style;
++                this.root.removeChild(node);
++                
++                // create new image node
++                var node = this.createNode("v:rect", id);
++                var fill = this.createNode("v:fill", id+"_image");
++                node.appendChild(fill);
++                node._featureId = _featureId;
++                node._geometryClass = _geometryClass;
++                node._style = _style;
++                this.root.appendChild(node);
++                
++                fill.src = style.externalGraphic;
++                fill.type = "frame";
++                fill.aspect = "atmost";
++                node.style.flip = "y"; 
++                
++                // now style the new node
++                var radius = style.pointRadius;
++                var resolution = this.getResolution();
++                node.style.left = (geometry.x/resolution-radius).toFixed();
++                node.style.top = (geometry.y/resolution-radius).toFixed();
++                node.style.width = 2*radius;
++                node.style.height = 2*radius;     
++                
++                // modify fill style for rect styling below
++                style.fillColor = "none";
++                style.strokeColor = "none";
++                         
++            } else {
++                this.drawCircle(node, geometry, style.pointRadius);
++            }
+         }
+ 
+       //fill
+@@ -146,7 +182,9 @@
+                 fill = this.createNode('v:fill', node.id + "_fill");
+                 node.appendChild(fill);
+             }
+-            fill.setAttribute("opacity", style.fillOpacity);
++            if (style.fillOpacity) {
++                fill.setAttribute("opacity", style.fillOpacity);
++            }
+         }
+ 
+ 
