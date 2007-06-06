@@ -40,7 +40,8 @@
     </ContextCollection>
     
     <StyledLayerDescriptor id="sld">
-      <defaultModelUrl>../data/features.sld</defaultModelUrl>
+      <defaultModelUrl>features.sld</defaultModelUrl>
+      <namespace>xmlns:sld="http://www.opengis.net/sld" xmlns:xlink="http://www.w3.org/1999/xlink"</namespace>
     </StyledLayerDescriptor>
 
     <FeatureCollection id="geoRSS">
