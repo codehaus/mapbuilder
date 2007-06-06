@@ -251,6 +251,11 @@ MapPaneOL.prototype.sld2OlStyle = function(objRef, node) {
   var styleSet=false;
 
   if (node) {
+    value=node.selectSingleNode(".//sld:ExternalGraphic/sld:OnlineResource/@xlink:href");
+    if(value){
+      style1.externalGraphic=value.firstChild.nodeValue;
+      styleSet=true;
+    }
     value=node.selectSingleNode(".//sld:Fill/sld:CssParameter[@name='fill']");
     if(value){
       style1.fillColor=value.firstChild.nodeValue;
