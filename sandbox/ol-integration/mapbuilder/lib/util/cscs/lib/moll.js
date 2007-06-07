@@ -57,7 +57,8 @@ for (i=0;;i++)
    if (Math.abs(delta_theta) < EPSLN) break;
    if (i >= 50) 
      {
-     alert("Iteration failed to converge","Mollweide-forward");
+      alert(mbGetMessage("mollFwdIterationError"));
+    
      //return(241);
      }
    }

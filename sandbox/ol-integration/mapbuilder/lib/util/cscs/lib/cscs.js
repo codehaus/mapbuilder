@@ -82,7 +82,7 @@ function CS(def) {
       case "lat_1":this.lat1=paramVal*D2R;break;//standard parallel 1
       case "lat_2":this.lat2=paramVal*D2R;break;//standard parallel 2
       case "alpha":this.alpha=paramVal*D2R;break;
-      //case "lonc": this.long0= paramVal*D2R; break; //lam0, central longitude for omerc.js
+      case "lonc": this.longc= paramVal*D2R; break; //lam0, central longitude for omerc.js
       case "lon_0": this.long0= paramVal*D2R; break;        // lam0, central longitude
       case "lat_0": this.lat0 = paramVal*D2R; break;        // phi0, central latitude
       case "x_0":   this.x0 = parseFloat(paramVal); break;  // false easting
@@ -191,7 +191,38 @@ if(this.ellps=="new_intl"){this.a=6378157.5;this.b=6356772.2;}
 if(this.ellps=="plessis"){this.a=6376523.0; this.b=6355863.0;}
 if(this.ellps=="SEasia"){this.a=6378155.0; this.b=6356773.3205;}
 if(this.ellps=="walbeck"){this.a=6376896.0; this.b=6355834.8467;}
-if(this.ellps=="sphere"){this.a=6370997.0;  this.b=6370997.0;}
+if(this.ellps=="sphere"){this.a=6370997.0;this.b=6370997.0;}
+if(this.ellps=="MERIT"){this.a=6378137.0 ;this.b=6356752.298215968;}
+if(this.ellps=="SGS85"){this.a=6378136.0 ;this.b=6356751.30156878;}
+if(this.ellps=="IAU76"){this.a=6378137.0 ;this.b=6356752.31414035585;}
+if(this.ellps=="APL4.9"){this.a=6378137.0 ;this.b=6356751.7963118;}
+if(this.ellps=="NW9LD"){this.a=6378145.0 ;this.b=6356759.76948868;}
+if(this.ellps=="andrae"){this.a=6377104.43 ;this.b=6355847.415233333333;}
+if(this.ellps=="aust_SA"){this.a=6378160.0 ;this.b=356774.7191953;}
+if(this.ellps=="GRS67"){this.a=6378160.0 ;this.b=6356774.5160907;}
+if(this.ellps=="bessel"){this.a=6377397.155 ;this.b=6356078.96281818;}
+if(this.ellps=="bess_nam"){this.a=6377483.865 ;this.b=6356165.3829663;}
+if(this.ellps=="CPM"){this.a=6375738.7 ;this.b=6356666.22191211;}
+if(this.ellps=="clrk80"){this.a=6378249.145 ;this.b=6356514.965828;}
+if(this.ellps=="delmbr"){this.a=6376428.0 ;this.b=6355957.9261637239;}
+if(this.ellps=="engelis"){this.a= 6378136.05 ;this.b=6356751.32272;}
+if(this.ellps=="evrst30"){this.a=6377276.345 ;this.b=6356075.4131402398989;}
+if(this.ellps=="evrst48"){this.a=6377304.063 ;this.b=6356103.038993;}
+if(this.ellps=="evrst56"){this.a=6377301.243 ;this.b=6356100.2283681013;}
+if(this.ellps=="evrst69"){this.a=6377295.664 ;this.b=6356094.6679152;}
+if(this.ellps=="evrstSS"){this.a=6377298.556  ;this.b= 6356097.55030089657;}
+if(this.ellps=="fschr60"){this.a=6378166.0 ;this.b=  6356784.283607;}
+if(this.ellps=="fschr60m"){this.a=6378155.0 ;this.b=  6356773.3204827;}
+if(this.ellps=="fschr68"){this.a=6378150.0 ;this.b=  6356768.337244;}
+if(this.ellps=="helmert "){this.a=6378200.0;this.b=6356818.16962789;}
+if(this.ellps=="hough"){this.a=6378270.0;this.b=6356794.343434343;}
+if(this.ellps=="krass"){this.a=6378245.0  ;this.b=63568630.187730;}
+if(this.ellps=="kaula"){this.a=6378163.0  ;this.b=6356776.9920869;}
+if(this.ellps=="lerch"){this.a=6378139.0  ;this.b=6356754.29151034;}
+if(this.ellps=="mprts"){this.a=6397300.0  ;this.b=6363806.282722513;}
+if(this.ellps=="WGS60"){this.a=6378165.0  ;this.b=6356783.2869594;}
+if(this.ellps=="WGS66"){this.a=6378145.0  ;this.b=6356759.76948868;}
+
 
 
   if (!this.a) {    // do we have an ellipsoid?
@@ -285,7 +316,8 @@ function cs_datum_transform( srcdefn, dstdefn, point )
     // If this datum requires grid shifts, then apply it to geodetic coordinates.
     if( srcdefn.datum_type == PJD_GRIDSHIFT )
     {
-      alert("ERROR: Grid shift transformations are not implemented yet.");
+     alert(mbGetMessage("gridShiftError"));
+   
       /*
         pj_apply_gridshift( pj_param(srcdefn.params,"snadgrids").s, 0,
                             point_count, point_offset, x, y, z );
@@ -298,7 +330,7 @@ function cs_datum_transform( srcdefn, dstdefn, point )
 
     if( dstdefn.datum_type == PJD_GRIDSHIFT )
     {
-      alert("ERROR: Grid shift transformations are not implemented yet.");
+       alert(mbGetMessage("gridShiftError"));
       /*
         dst_a = ;
         dst_es = 0.006694379990;
@@ -339,7 +371,7 @@ function cs_datum_transform( srcdefn, dstdefn, point )
   // Apply grid shift to destination if required
   if( dstdefn.datum_type == PJD_GRIDSHIFT )
   {
-    alert("ERROR: Grid shift transformations are not implemented yet.");
+     alert(mbGetMessage("gridShiftError"));
     // pj_apply_gridshift( pj_param(dstdefn.params,"snadgrids").s, 1, point);
     // CHECK_RETURN;
   }

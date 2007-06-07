@@ -8,7 +8,7 @@
     Description: This file contains all text used in widgets and JavaScript
                  for multilingual support.  The widget text values are set as
                  XSL params before the widget is painted.
-                 From JavaScript the messages can be retrieved with
+                 From JavaScript the messages can be retrieved wit
                  mbGetMessage(messageKey); see the JSDoc for details.
     Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
 
@@ -147,6 +147,8 @@
   <!-- JavaScript messages -->
   <messages>
     <aeaInitEqualLatitudes>aeaInit: Latitudes égales de parallèles standard sur des côtés opposés de l'Équateur</aeaInitEqualLatitudes>
+    <aeqdFwdPointError>Erreur de projection de points dans aeqdFwd()</aeqdFwdPointError>
+    <aeqdInvDataError> Erreur de saisie dans aeqdInv()</aeqdInvDataError> 
     <aoiFormNotFound>N'a pas pu trouver aoiForm pour geoSearch</aoiFormNotFound>
     <atLeastOneValue>Entrez au moins une valeur avant d'avancer</atLeastOneValue>
     <buttonBarRequired>Propriété buttonBar nécéssaire: {0}</buttonBarRequired>
@@ -163,6 +165,7 @@
     <docLoading>Téléchargement du document, attendez svp...</docLoading>
     <documentParseError>parseError de document: {0}</documentParseError>
     <eastWgs84>Est (WGS84)</eastWgs84>
+    <equiInvDataError>Erreur de saisie dans equiInv()</equiInvDataError>
     <errorAddingLayer>Ajout de couche a echoué : {0} service: {1}</errorAddingLayer>
     <errorCreatingObject>Erreur dans la creation de l'objet: {0}</errorCreatingObject>
     <errorDeletingLayer>Erreur d'éffacement: {0}</errorDeletingLayer>
@@ -175,6 +178,7 @@
     <featureNotFoundOwsContext>Caractéristique non trouvé</featureNotFoundOwsContext>
     <featureNotFoundWebServiceRequest>WebServiceRequest: Erreur trouvant noeud caractéristique: {0}</featureNotFoundWebServiceRequest>
     <featureUnderConstruction>Composant en construction.  Stay tuned!</featureUnderConstruction>
+    <gridShiftError>ERREUR: Les changements de repères (Grid Shift transformations) ne sont pas encore implémentés (cscs.js)</gridShiftError>
     <idRequired>id requis pour l'objet: {0}</idRequired>
     <imageNotFound>Erreur: image non trouvé</imageNotFound>
     <invalidFeatureXpathEditLine>EditLine: featureXpath invalide dans configuration: {0}</invalidFeatureXpathEditLine>
@@ -183,9 +187,11 @@
     <invalidFeatureXpathMeasurement>Measurement: featureXpath invalide dans configuration: {0}</invalidFeatureXpathMeasurement>
     <invalidGeom>Géométrie invalide pour: {0}</invalidGeom>
     <invalidGmlGeom>Géométrie GML invalide</invalidGmlGeom>
+    <laeaInvDataError>Erreur de saisie dans laeaInv() </laeaInvDataError>
     <lastFrameAfterFirst>Le dernier cadre doit être après le premier cadre</lastFrameAfterFirst>
     <layerNotFound>Couche avec id {0} non trouvé</layerNotFound>
     <layerTypeNotSupported>MapPaneOL: Aucun support pour couche du type={0}</layerTypeNotSupported>
+    <lccFwdNoProjection>Pas de projection dans lccFwd() </lccFwdNoProjection>
     <lccInitEqualLatitudes>lccInit: Latitudes égales de parallèles standard sur des côtés opposés de l'Équateur</lccInitEqualLatitudes>
     <listenerError>Erreur de Listener: param={0}, target={1}, callBackFunction={2}</listenerError>
     <ll2lccNoProjection>ll2lcc: Point ne peut pas être projeté</ll2lccNoProjection>
@@ -198,6 +204,8 @@
     <loadingLayer>Téléchargement de {0} couche du plan</loadingLayer>
     <loadingLayers>Téléchargement de {0} couches du plan</loadingLayers>
     <m2llLat9999>lat = -9999</m2llLat9999>
+    <mercFwdAtPoles>La transformation ne peut être calculée au niveau des pôles dansMercFwd</mercFwdAtPoles>
+    <mollFwdIterationError>Iteration non convergenete dans mollFwd</mollFwdIterationError>
     <noBboxInContext>Aucun BBOX defini dans contexte</noBboxInContext>
     <noCanvasContext>Aucun contexte de toile</noCanvasContext>
     <noContextDefined>Aucun contexte defini dans la configuration</noContextDefined>
@@ -230,6 +238,10 @@
     <notImplementedYet>PAS ENCORE DÉVELOPPÉ</notImplementedYet>
     <nullOwsContext>Document OWSContext vide</nullOwsContext>
     <nullXmlResponse>Null XML response: {0}</nullXmlResponse>
+    <omercFwdInfinity>Points projetés sur l'infini dans omercFwd()</omercFwdInfinity>    
+    <omercInitDataError>Erreur de saisie dans  omercInit() </omercInitDataError>
+    <orthoFwdPointError>Points ne peuvent être projetés dans orthoFwd()</orthoFwdPointError>
+    <orthoInvDataError>Erreur de saisie dans orthoInv() </orthoInvDataError>
     <parseError>Erreur d'analyze: {0}</parseError>
     <phi1zNoConvergence>phi1z: Erreur de convergence</phi1zNoConvergence>
     <phi2zNoConvergence>phi2z: Erreur de convergence</phi2zNoConvergence>
@@ -245,11 +257,15 @@
     <rendering>reddition</rendering>
     <scale>échelle 1:{0}</scale>
     <selectLayer>Choisissez une couche si vous voulez inserée le sld dans wmc</selectLayer>
+    <sinuInvDataError>Erreur de saisie dans sinuInv()</sinuInvDataError>
     <southWgs84>Sud (WGS84)</southWgs84>
+    <stereFwdInfinity>Points projetés sur l'infini dans stereFwd()</stereFwdInfinity>
     <styleNodeNotFound>Style de noeud non trouvé</styleNodeNotFound>
     <stylesheetNotFound>La feuille de styles Parsing n'a pas était trouver</stylesheetNotFound>
     <tabWidgetNotFound>Onglets de gadgets non trouvez: {0}</tabWidgetNotFound>
     <tm2llNoConvergence>tm2ll: Pas de convergence de la latitude</tm2llNoConvergence>
+    <tmercFwdInfinity>Points projetés sur l'infini dans tmercFwd()</tmercFwdInfinity>
+    <tmercInvLatError>La latitude ne converge pas dans tmercInv</tmercInvLatError>
     <unableToLoadDoc>
       Impossible de télécharger document externe: {0}.
       La propriété proxyUrl doit être défini dans la configuration.

@@ -103,7 +103,7 @@ var temp = Rh / (2.0 * this.R);
 
 if (temp > 1) 
    {
-  Alert("Input data error", "lamaz-inverse");
+   alert(mbGetMessage("laeaInvDataError"));
    //return(115);
    }
    

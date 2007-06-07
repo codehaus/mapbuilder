@@ -34,7 +34,7 @@ if (Math.abs(Math.abs(g) - 1.0) < EPSLN)
    if (g < 0.0)
      {
    var  con = 2.0 * HALF_PI * this.a;
-      alert("Points projects into a circle of radius");
+        alert(mbGetMessage("aeqdFwdPointError"));
         }
    }
 else
@@ -68,7 +68,8 @@ p.y -= this.y0;
 var rh = Math.sqrt(p.x * p.x + p.y *p. y);
 if (rh > (2.0 * HALF_PI * this.a))
    {
-   alert("Input data error","azim-inv");
+   alert(mbGetMessage("aeqdInvDataError"));
+
    
    }
 var z = rh / this.a;

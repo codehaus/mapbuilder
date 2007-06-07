@@ -69,8 +69,8 @@ p.y -= this.y0;
  lat = p.y / this.R;
 if (Math.abs(lat) > HALF_PI) 
    {
-   alert("Input data error","sinusoidal-inverse");
-   //return(164);
+    alert(mbGetMessage("sinuInvDataError"));
+     //return(164);
    }
  temp = Math.abs(lat) - HALF_PI;
 if (Math.abs(temp) > EPSLN)
