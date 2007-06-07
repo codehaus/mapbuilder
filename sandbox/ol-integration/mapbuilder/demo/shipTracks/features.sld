@@ -51,11 +51,9 @@
                 <OnlineResource xlink:href="images/frog.gif"/>
                 <Format>image/gif</Format>
               </ExternalGraphic>
-							<Mark>
-								<Fill>
-									<CssParameter name="fill-opacity">0.9</CssParameter>
-								</Fill>
-							</Mark>
+              <Opacity>
+                <Literal>0.6</Literal>
+              </Opacity>
 							<Size>12</Size>
 						</Graphic>
 					</PointSymbolizer>

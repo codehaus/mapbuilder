@@ -265,6 +265,13 @@ MapPaneOL.prototype.sld2OlStyle = function(objRef, node) {
     if(value){
       style1.fillOpacity=value.firstChild.nodeValue;
       styleSet=true;
+    } else {
+      // opacity eg. for externalGraphic
+      value=node.selectSingleNode(".//sld:Opacity/sld:Literal");
+      if (value){
+        style1.fillOpacity=value.firstChild.nodeValue;
+        styleSet=true;
+      }
     }
   
     value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke']");
