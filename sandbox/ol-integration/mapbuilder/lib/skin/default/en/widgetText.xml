@@ -146,6 +146,8 @@
   <!-- JavaScript messages -->
   <messages>
     <aeaInitEqualLatitudes>aeaInit: Equal Latitudes for Standard Parallels on opposite sides of equator</aeaInitEqualLatitudes>
+    <aeqdFwdPointError>Points Projections error in aeqdFwd()</aeqdFwdPointError>
+    <aeqdInvDataError> Input data Error in aeqdInv()</aeqdInvDataError> 
     <aoiFormNotFound>Could not find aoiForm for geoSearch</aoiFormNotFound>
     <atLeastOneValue>Please enter at least one value, before proceeding</atLeastOneValue>
     <buttonBarRequired>buttonBar property required for object: {0}</buttonBarRequired>
@@ -162,6 +164,7 @@
     <docLoading>Document loading, please wait...</docLoading>
     <documentParseError>Document parseError: {0}</documentParseError>
     <eastWgs84>East (WGS84)</eastWgs84>
+    <equiInvDataError>Input data error in equiInv()</equiInvDataError>
     <errorAddingLayer>Failed adding Layer: {0} service: {1}</errorAddingLayer>
     <errorCreatingObject>Error creating object: {0}</errorCreatingObject>
     <errorDeletingLayer>Error deleting: {0}</errorDeletingLayer>
@@ -174,6 +177,7 @@
     <featureNotFoundOwsContext>Feature not found</featureNotFoundOwsContext>
     <featureNotFoundWebServiceRequest>WebServiceRequest: error finding feature node: {0}</featureNotFoundWebServiceRequest>
     <featureUnderConstruction>Feature under construction.  Stay tuned!</featureUnderConstruction>
+    <gridShiftError>ERROR: Grid shift transformations are not implemented yet (cscs.js)</gridShiftError>
     <idRequired>id required for object: {0}</idRequired>
     <imageNotFound>ERROR: image not found</imageNotFound>
     <invalidFeatureXpathEditLine>EditLine: invalid featureXpath in config: {0}</invalidFeatureXpathEditLine>
@@ -182,9 +186,11 @@
     <invalidFeatureXpathMeasurement>Measurement: invalid featureXpath in config: {0}</invalidFeatureXpathMeasurement>
     <invalidGeom>Invalid geom for: {0}</invalidGeom>
     <invalidGmlGeom>Invalid GML Geometry</invalidGmlGeom>
+    <laeaInvDataError>Input data error in laeaInv() </laeaInvDataError>
     <lastFrameAfterFirst>Last frame must be after the first frame</lastFrameAfterFirst>
     <layerNotFound>Layer with id {0} not found</layerNotFound>
     <layerTypeNotSupported>MapPaneOL: No support for layer type={0}</layerTypeNotSupported>
+    <lccFwdNoProjection>No projection in lccFwd() </lccFwdNoProjection>
     <lccInitEqualLatitudes>lccInit: Equal Latitudes for Standard Parallels on opposite sides of equator</lccInitEqualLatitudes>
     <listenerError>Listener error: param={0}, target={1}, callBackFunction={2}</listenerError>
     <ll2lccNoProjection>ll2lcc: Point can not be projected</ll2lccNoProjection>
@@ -194,9 +200,11 @@
     <ll2stInfiniteProjection>ll2st: Point projects into infinity</ll2stInfiniteProjection>
     <ll2tmInfiniteProjection>ll2tm: Point projects into infinity</ll2tmInfiniteProjection>
     <llInputOutOfRange>Input out of range: lon: {0} - lat: {1}</llInputOutOfRange>
-    <loadingLayer>Loading {0} map layer</loadingLayer>
-    <loadingLayers>Loading {0} map layers</loadingLayers>
-    <m2llLat9999>lat = -9999</m2llLat9999>
+     <loadingLayer>Loading {0} map layer</loadingLayer>
+     <loadingLayers>Loading {0} map layers</loadingLayers>
+     <m2llLat9999>lat = -9999</m2llLat9999>
+     <mercFwdAtPoles>Transformation cannot be computed at the poles,MercFwd</mercFwdAtPoles>
+    <mollFwdIterationError>Iteration failed to converge in mollFwd</mollFwdIterationError>
     <noBboxInContext>No BBOX defined in context</noBboxInContext>
     <noCanvasContext>No canvas context</noCanvasContext>
     <noContextDefined>No context defined in config</noContextDefined>
@@ -229,6 +237,10 @@
     <notImplementedYet>NOT IMPLEMENTED YET</notImplementedYet>
     <nullOwsContext>Null OWSContext doc</nullOwsContext>
     <nullXmlResponse>Null XML response: {0}</nullXmlResponse>
+    <omercFwdInfinity>Point projects into infinity in omercFwd()</omercFwdInfinity>    
+<omercInitDataError>Input data error in omercInit() </omercInitDataError>
+<orthoFwdPointError>Points cannot be projected in orthoFwd()</orthoFwdPointError>
+<orthoInvDataError>Input data error in orthoInv() </orthoInvDataError>
     <parseError>Parse error: {0}</parseError>
     <phi1zNoConvergence>phi1z: Convergence error</phi1zNoConvergence>
     <phi2zNoConvergence>phi2z: Convergence error</phi2zNoConvergence>
@@ -244,11 +256,15 @@
     <rendering>rendering</rendering>
     <scale>scale 1:{0}</scale>
     <selectLayer>Select a layer if you want insert sld in wmc</selectLayer>
+    <sinuInvDataError>Input data error in sinuInv()</sinuInvDataError>
     <southWgs84>South (WGS84)</southWgs84>
+    <stereFwdInfinity>Point projects into infinity in stereFwd()</stereFwdInfinity>
     <styleNodeNotFound>Style node not found</styleNodeNotFound>
     <stylesheetNotFound>Parsing stylesheet not found</stylesheetNotFound>
     <tabWidgetNotFound>Tab widget not found: {0}</tabWidgetNotFound>
     <tm2llNoConvergence>tm2ll: Latitude failed to converge</tm2llNoConvergence>
+    <tmercFwdInfinity>Point projects into infinity in tmercFwd()</tmercFwdInfinity>
+   <tmercInvLatError>Latitude failed to converge in tmercInv</tmercInvLatError> 
     <unableToLoadDoc>
       Unable to load external document: {0}.
       Set the proxyUrl property in config.
