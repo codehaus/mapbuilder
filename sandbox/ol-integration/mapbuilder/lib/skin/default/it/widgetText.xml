@@ -72,14 +72,14 @@
     </InsertFeature>
     
     <LayerControl>
-     <deleteLayerTip> cancellare questo strato</deleteLayerTip>
+     <deleteLayerTip>Cancellare questo strato</deleteLayerTip>
      <layerIndexTip>Attuale posizione dello strato nella pila di immagine</layerIndexTip>
      <legendTip>Visualizzare o non la leggenda</legendTip>
-     <moveLayerDownTip>abbassare questo strato</moveLayerDownTip>
-     <moveLayerUpTip> alzare questo strato</moveLayerUpTip>
-     <nameLayerTip> Strato nome</nameLayerTip>
-     <opacityTip> tasso di opacità</opacityTip>
-     <toggleVisTip>scattar se desiderate l'esposizione o non questo strato</toggleVisTip>
+     <moveLayerDownTip>Abbassare questo strato</moveLayerDownTip>
+     <moveLayerUpTip>Alzare questo strato</moveLayerUpTip>
+     <nameLayerTip>Strato nome</nameLayerTip>
+     <opacityTip>Tasso di opacità</opacityTip>
+     <toggleVisTip>Scattar se desiderate l'esposizione o non questo strato</toggleVisTip>
     </LayerControl>
     
     <Legend>
@@ -146,8 +146,8 @@
   <!-- JavaScript messages -->
   <messages>
     <aeaInitEqualLatitudes>aeaInit: Latitudine uguale dei Paralleli Standard sui lati opposti rispetto all'equatore</aeaInitEqualLatitudes>
-    <aeqdFwdPointError> Il Punto non può essere proiettato nel aeqdFwd()</aeqdFwdPointError>
-    <aeqdInvDataError>C'è un errore di contenuto nel aeqdInv()</aeqdInvDataError> 
+    <aeqdFwdPointError>Il Punto non può essere proiettato nel aeqdFwd()</aeqdFwdPointError>
+    <aeqdInvDataError>C'è un errore di contenuto nel aeqdInv()</aeqdInvDataError>
     <aoiFormNotFound>Non posso trovare aoiForm per geoSearch</aoiFormNotFound>
     <atLeastOneValue>Inserire almeno un valore prima di procedere</atLeastOneValue>
     <buttonBarRequired>La proprietà buttonBar è necessaria per l'oggetto: {0}</buttonBarRequired>
@@ -160,7 +160,7 @@
     <deleteShapeFailed>Non è possibile la rimozione: {0}</deleteShapeFailed>
     <divAlreadyExists>Div: {0} esiste già</divAlreadyExists>
     <divClickPassNotFound>Div clickPass {0} non trovato</divClickPassNotFound>
-    <divNotFound>Non è possibile trovare il div: {0}</divNotFound> 
+    <divNotFound>Non è possibile trovare il div: {0}</divNotFound>
     <docLoading>Caricamento del documento, attendere prego...</docLoading>
     <documentParseError>Il documento contiene degli errori: {0}</documentParseError>
     <eastWgs84>Est (WGS84)</eastWgs84>
@@ -177,7 +177,7 @@
     <featureNotFoundOwsContext>Oggetto non trovato</featureNotFoundOwsContext>
     <featureNotFoundWebServiceRequest>WebServiceRequest: errore nel trovare le caratteristiche del nodo: {0}</featureNotFoundWebServiceRequest>
     <featureUnderConstruction>Componente in costruzione.  Stay tuned!</featureUnderConstruction>
-    <gridShiftError>ERRORE: Le trasformazioni dello spostamento di griglia non sono effettuate ancora  (cscs.js)</gridShiftError>
+    <gridShiftError>ERRORE: Le trasformazioni dello spostamento di griglia non sono effettuate ancora (cscs.js)</gridShiftError>
     <idRequired>È richiesto un id per l'oggetto: {0}</idRequired>
     <imageNotFound>ERRORE: immagine non trovata</imageNotFound>
     <invalidFeatureXpathEditLine>EditLine: la definizione di featureXpath in config non è valida: {0}</invalidFeatureXpathEditLine>
@@ -186,12 +186,12 @@
     <invalidFeatureXpathMeasurement>Measurement: la proprietà featureXpath specificata in config non è valida: {0}</invalidFeatureXpathMeasurement>
     <invalidGeom>Geometria non valida: {0}</invalidGeom>
     <invalidGmlGeom>Geometria GML non valida</invalidGmlGeom>
-    <laeaInvDataError>C'è un errore di contenuto nel'  laeaInv() </laeaInvDataError>
+    <laeaInvDataError>C'è un errore di contenuto nel' laeaInv()</laeaInvDataError>
     <lastFrameAfterFirst>L'ultimo frame deve essere successivo al primo</lastFrameAfterFirst>
     <layerNotFound>Nessun tematismo trovato con id {0}</layerNotFound>
     <layerTypeNotSupported>MapPaneOL: Nessun supporto per il tematismo di tipo={0}</layerTypeNotSupported>
     <lccInitEqualLatitudes>lccInit: Latitudine uguale dei Paralleli Standard sui lati opposti rispetto all'equatore</lccInitEqualLatitudes>
-    <lccFwdNoProjection> lccFwd() :Il Punto non può essere proiettato</lccFwdNoProjection>
+    <lccFwdNoProjection>Il Punto non può essere proiettato nel lccFwd()</lccFwdNoProjection>
     <listenerError>Errore in Listener: param={0}, target={1}, callBackFunction={2}</listenerError>
     <ll2lccNoProjection>ll2lcc: Il Punto non può essere proiettato</ll2lccNoProjection>
     <ll2mAtPoles>ll2m: La trasformazione non può essere calcolata ai poli</ll2mAtPoles>
@@ -203,8 +203,8 @@
     <loadingLayer>{0} tematismo in caricamento</loadingLayer>
     <loadingLayers>{0} tematismi in caricamento</loadingLayers>
     <m2llLat9999>lat = -9999</m2llLat9999>
-    <mercFwdAtPoles>La trasformazione non può essere computata ai pali, ,MercFwd</mercFwdAtPoles>
-    <mollFwdIterationError>La ripetizione non è riuscito a convergere nel mollFwd </mollFwdIterationError>
+    <mercFwdAtPoles>La trasformazione non può essere computata ai pali nel mercFwd()</mercFwdAtPoles>
+    <mollFwdIterationError>La ripetizione non è riuscito a convergere nel mollFwd()</mollFwdIterationError>
     <noBboxInContext>Nessun BBOX definito nella context</noBboxInContext>
     <noCanvasContext>Canvas context non esiste</noCanvasContext>
     <noContextDefined>Nessun context definito nella configurazione (config)</noContextDefined>
@@ -237,10 +237,10 @@
     <notImplementedYet>NON ANCORA IMPLEMENTATO</notImplementedYet>
     <nullOwsContext>Documento OWSContext vuoto</nullOwsContext>
     <nullXmlResponse>Risposta XML vuota: {0}</nullXmlResponse>
-    <omercFwdInfinity>Il Punto è  proiettato nell'infinità nel omercFwd</omercFwdInfinity>    
-    <omercInitDataError>C'è un errore di contenuto nel omercInit() </omercInitDataError>
-    <orthoFwdPointError>Punti non possono essere proiettati nel orthoFwd() </orthoFwdPointError>
-    <orthoInvDataError>C'è un errore di contenuto nel orthoInv() </orthoInvDataError>
+    <omercFwdInfinity>Il Punto è proiettato nell'infinità nel omercFwd()</omercFwdInfinity>
+    <omercInitDataError>C'è un errore di contenuto nel omercInit()</omercInitDataError>
+    <orthoFwdPointError>Punti non possono essere proiettati nel orthoFwd()</orthoFwdPointError>
+    <orthoInvDataError>C'è un errore di contenuto nel orthoInv()</orthoInvDataError>
     <parseError>Errore nell'analisi del documento: {0}</parseError>
     <phi1zNoConvergence>phi1z: errore di convergenza</phi1zNoConvergence>
     <phi2zNoConvergence>phi2z: errore di convergenza</phi2zNoConvergence>
@@ -260,13 +260,13 @@
     <selectLayer>Selezionare un tematismo per poter inserire l'sld nel wmc</selectLayer>
     <sinuInvDataError>C'è un errore di contenuto nel sinuInv()</sinuInvDataError>
     <southWgs84>Sud (WGS84)</southWgs84>
-    <stereFwdInfinity>Il Punto è  proiettato nell'infinità nel stereFwd()</stereFwdInfinity>
+    <stereFwdInfinity>Il Punto è proiettato nell'infinità nel stereFwd()</stereFwdInfinity>
     <styleNodeNotFound>Style node not found</styleNodeNotFound>
     <stylesheetNotFound>Nessun foglio di stile (stylesheet) trovato</stylesheetNotFound>
     <tabWidgetNotFound>Tab widget non trovato: {0}</tabWidgetNotFound>
     <tm2llNoConvergence>tm2ll: errore di convergenza nel calcolo della Latitudine</tm2llNoConvergence>
-    <tmercFwdInfinity>Il Punto è  proiettato nell'infinità nel stereFwd()</tmercFwdInfinity>
-    <tmercInvLatError>La latitudine non è riuscito a convergere nel tmercInv </tmercInvLatError> 
+    <tmercFwdInfinity>Il Punto è proiettato nell'infinità nel stereFwd()</tmercFwdInfinity>
+    <tmercInvLatError>La latitudine non è riuscito a convergere nel tmercInv()</tmercInvLatError>
     <unableToLoadDoc>
       Impossibile caricare il documento: {0}.
       Specificare in config la proprietà proxyUrl.
