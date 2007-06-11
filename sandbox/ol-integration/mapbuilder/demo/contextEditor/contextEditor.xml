@@ -318,5 +318,5 @@
 	<widgetTextUrl>/widgetText.xml</widgetTextUrl>
 	<!-- in the skin dir -->
 	
-    <proxyUrl>/proxy/proxy.php</proxyUrl>
+    <proxyUrl>../../MapbuilderProxy.jsp</proxyUrl>
 </MapbuilderConfig>
