@@ -2,13 +2,15 @@
 <MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
   <models>
     <Context id="mainMap">
-      <defaultModelUrl>../data/context/DM_Canada.xml</defaultModelUrl>
+      <defaultModelUrl>../data/context/metacartaWorldMap.xml</defaultModelUrl>
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
           
           			<fixedSize>true</fixedSize>
          </MapPaneOL>
+         <PanZoomBar id="panZoomBar">
+        </PanZoomBar>
       </widgets>
     </Context>
   </models>
