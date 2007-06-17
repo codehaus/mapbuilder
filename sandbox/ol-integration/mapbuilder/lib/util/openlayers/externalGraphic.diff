@@ -1,28 +1,51 @@
 Index: /mnt/d/eclipse/workspace/openlayers/examples/vector-features.html
 ===================================================================
---- /mnt/d/eclipse/workspace/openlayers/examples/vector-features.html	(revision 3271)
+--- /mnt/d/eclipse/workspace/openlayers/examples/vector-features.html	(revision 3354)
 +++ /mnt/d/eclipse/workspace/openlayers/examples/vector-features.html	(working copy)
-@@ -21,6 +21,8 @@
+@@ -21,6 +21,16 @@
              var style_blue = OpenLayers.Util.extend({}, OpenLayers.Feature.Vector.style['default']);
              style_blue.strokeColor = "blue"; 
              style_blue.fillColor = "blue"; 
 +            style_blue.externalGraphic = "../img/marker.png";
++            
++            // each of the three lines below means the same, if only one ot
++            // them is active: the image will have a size of 24px, and the
++            // aspect ratio will be kept
 +            style_blue.pointRadius = 12;
++            //style_blue.graphicWidth = 24;
++            //style_blue.graphicHeight = 24;
++            
++            style_blue.fillOpacity = 1;
              var style_green = {
                  strokeColor: "#00FF00",
                  strokeOpacity: 1,
-@@ -34,6 +36,10 @@
+@@ -28,6 +38,14 @@
+                 pointRadius: 6,
+                 pointerEvents: "visiblePainted"
+             };
++            var style_mark = OpenLayers.Util.extend({}, OpenLayers.Feature.Vector.style['default']);
++            
++            // if graphicWidth and graphicHeight are both set, the aspect ratio
++            // of the image will be ignored
++						style_mark.graphicWidth = 24;
++						style_mark.graphicHeight = 20;
++						
++						style_mark.externalGraphic = "../img/marker.png";          	
+             
+             var vectorLayer = new OpenLayers.Layer.Vector("Simple Geometry");
+             
+@@ -34,6 +52,10 @@
              // create a point feature
              var point = new OpenLayers.Geometry.Point(-111.04, 45.68);
              var pointFeature = new OpenLayers.Feature.Vector(point,null,style_blue);
 +            var point2 = new OpenLayers.Geometry.Point(-105.04, 49.68);
 +            var pointFeature2 = new OpenLayers.Feature.Vector(point2,null,style_green);
 +            var point3 = new OpenLayers.Geometry.Point(-105.04, 49.68);
-+            var pointFeature3 = new OpenLayers.Feature.Vector(point3,null,style_blue);
++            var pointFeature3 = new OpenLayers.Feature.Vector(point3,null,style_mark);
              
              // create a line feature from a list of points
              var pointList = [];
-@@ -64,7 +70,7 @@
+@@ -64,7 +86,7 @@
              
              map.addLayer(vectorLayer);
              map.setCenter(new OpenLayers.LonLat(point.x, point.y), 5);
@@ -33,9 +56,9 @@ Index: /mnt/d/eclipse/workspace/openlayers/examples/vector-features.html
      </script>
 Index: /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/SVG.js
 ===================================================================
---- /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/SVG.js	(revision 3271)
+--- /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/SVG.js	(revision 3354)
 +++ /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/SVG.js	(working copy)
-@@ -165,7 +165,35 @@
+@@ -165,7 +165,42 @@
          options = options || node._options;
  
          if (node._geometryClass == "OpenLayers.Geometry.Point") {
@@ -58,11 +81,18 @@ Index: /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/SVG.js
 +                this.root.appendChild(node);
 +
 +                // now style the new node
-+                var radius = style.pointRadius;
-+                node.setAttributeNS(null, "x", x-radius);
-+                node.setAttributeNS(null, "y", -y-radius);
-+                node.setAttributeNS(null, "width", 2*radius);
-+                node.setAttributeNS(null, "height", 2*radius);
++                if (style.graphicWidth && style.graphicHeight) {
++                  node.setAttributeNS(null, "preserveAspectRatio", "none");
++                }
++                var width = style.graphicWidth || style.graphicHeight;
++                var height = style.graphicHeight || style.graphicWidth;
++                width = width ? width : style.pointRadius*2;
++                height = height ? height : style.pointRadius*2;
++                
++                node.setAttributeNS(null, "x", x-(.5*width).toFixed());
++                node.setAttributeNS(null, "y", -y-(.5*height).toFixed());
++                node.setAttributeNS(null, "width", width);
++                node.setAttributeNS(null, "height", height);
 +                node.setAttributeNS("http://www.w3.org/1999/xlink", "href", style.externalGraphic);
 +                node.setAttributeNS(null, "transform", "scale(1,-1)");
 +                node.setAttributeNS(null, "style", "opacity: "+style.fillOpacity);
@@ -74,9 +104,9 @@ Index: /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/SVG.js
          if (options.isFilled) {
 Index: /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/VML.js
 ===================================================================
---- /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/VML.js	(revision 3271)
+--- /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/VML.js	(revision 3354)
 +++ /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/VML.js	(working copy)
-@@ -129,7 +129,43 @@
+@@ -129,7 +129,49 @@
          options = options || node._options;
          
          if (node._geometryClass == "OpenLayers.Geometry.Point") {
@@ -100,16 +130,22 @@ Index: /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/VML.js
 +                
 +                fill.src = style.externalGraphic;
 +                fill.type = "frame";
-+                fill.aspect = "atmost";
-+                node.style.flip = "y"; 
++                node.style.flip = "y";
++                
++                if (!(style.graphicWidth && style.graphicHeight)) {
++                  fill.aspect = "atmost";
++                }
 +                
 +                // now style the new node
-+                var radius = style.pointRadius;
++                var width = style.graphicWidth || style.graphicHeight;
++                var height = style.graphicHeight || style.graphicWidth;
++                width = width ? width : style.pointRadius*2;
++                height = height ? height : style.pointRadius*2;
 +                var resolution = this.getResolution();
-+                node.style.left = (geometry.x/resolution-radius).toFixed();
-+                node.style.top = (geometry.y/resolution-radius).toFixed();
-+                node.style.width = 2*radius;
-+                node.style.height = 2*radius;     
++                node.style.left = (geometry.x/resolution-.5*width).toFixed();
++                node.style.top = (geometry.y/resolution-.5*height).toFixed();
++                node.style.width = width;
++                node.style.height = height;    
 +                
 +                // modify fill style for rect styling below
 +                style.fillColor = "none";
@@ -121,7 +157,7 @@ Index: /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Renderer/VML.js
          }
  
        //fill
-@@ -146,7 +182,9 @@
+@@ -146,7 +188,9 @@
                  fill = this.createNode('v:fill', node.id + "_fill");
                  node.appendChild(fill);
              }
