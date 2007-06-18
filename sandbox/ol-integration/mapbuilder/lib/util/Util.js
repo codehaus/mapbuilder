@@ -56,17 +56,16 @@ function XslProcessor(xslUrl,docNSUri) {
    * @return The transformed String.
    */
   this.transformNodeToString = function(xmlNode) {
-    //try {
+    try {
       // transform and build a web page with result
-      alert(this.xslDom.getProperty("AllowDocumentFunction"));
       var newDoc = this.transformNodeToObject(xmlNode);
       var s = (new XMLSerializer()).serializeToString(newDoc);
       return Sarissa.unescape(s);
-    //} catch(e){
-    //  alert(mbGetMessage("exceptionTransformingDoc", this.xslUrl));
-    //  alert("XSL="+(new XMLSerializer()).serializeToString(this.xslDom));
-    //  alert("XML="+(new XMLSerializer()).serializeToString(xmlNode));
-    //}
+    } catch(e){
+      alert(mbGetMessage("exceptionTransformingDoc", this.xslUrl));
+      alert("XSL="+(new XMLSerializer()).serializeToString(this.xslDom));
+      alert("XML="+(new XMLSerializer()).serializeToString(xmlNode));
+    }
   }
 
   /**
