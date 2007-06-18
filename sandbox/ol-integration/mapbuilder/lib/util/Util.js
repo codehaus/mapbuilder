@@ -16,6 +16,14 @@ a web page.
 @author Cameron Shorter - Cameron AT Shorter.net
 */
 function XslProcessor(xslUrl,docNSUri) {
+  // override Sarissa configurations to prefer MSXML3, because
+  // MSXML6 does not work well with IE6SP2
+  if (!MB_IS_MOZ) {
+    _SARISSA_DOM_PROGID = Sarissa.pickRecentProgID(["Msxml2.DOMDocument.3.0", "Msxml2.DOMDocument.6.0"], [["SELECT_NODES", 2],["TRANSFORM_NODE", 2]]);
+    _SARISSA_XMLHTTP_PROGID = Sarissa.pickRecentProgID(["Msxml2.XMLHTTP.3.0", "MSXML2.XMLHTTP.6.0"], [["XMLHTTP", 4]]);
+    _SARISSA_THREADEDDOM_PROGID = Sarissa.pickRecentProgID(["Msxml2.FreeThreadedDOMDocument.3.0", "MSXML2.FreeThreadedDOMDocument.6.0"]);
+    _SARISSA_XSLTEMPLATE_PROGID = Sarissa.pickRecentProgID(["Msxml2.XSLTemplate.3.0", "MSXML2.XSLTemplate.6.0"], [["XSLTPROC", 2]]);
+  }
   // get the stylesheet document
   this.xslUrl=xslUrl;
   this.xslDom = Sarissa.getDomDocument();
@@ -48,16 +56,17 @@ function XslProcessor(xslUrl,docNSUri) {
    * @return The transformed String.
    */
   this.transformNodeToString = function(xmlNode) {
-    try {
+    //try {
       // transform and build a web page with result
+      alert(this.xslDom.getProperty("AllowDocumentFunction"));
       var newDoc = this.transformNodeToObject(xmlNode);
       var s = (new XMLSerializer()).serializeToString(newDoc);
       return Sarissa.unescape(s);
-    } catch(e){
-      alert(mbGetMessage("exceptionTransformingDoc", this.xslUrl));
-      alert("XSL="+(new XMLSerializer()).serializeToString(this.xslDom));
-      alert("XML="+(new XMLSerializer()).serializeToString(xmlNode));
-    }
+    //} catch(e){
+    //  alert(mbGetMessage("exceptionTransformingDoc", this.xslUrl));
+    //  alert("XSL="+(new XMLSerializer()).serializeToString(this.xslDom));
+    //  alert("XML="+(new XMLSerializer()).serializeToString(xmlNode));
+    //}
   }
 
   /**
