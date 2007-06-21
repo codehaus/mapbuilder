@@ -721,6 +721,8 @@
         <xs:sequence>
           <xs:element name="normalImage" type="mb:urlPathType"/>
           <xs:element name="highlightImage" type="mb:urlPathType"/>
+          <xs:element name="xOffset" type="xs:integer"/>
+          <xs:element name="yOffset" type="xs:integer"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
