@@ -22,23 +22,26 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 function Locations(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
-  //TBD: implement this in a Locations model
-  this.model.getSRS = function(){return "EPSG:4326";}
-
-/**
- * Change the AOI coordinates from select box choice of prefined locations
- * @param bbox the bbox value of the location keyword chosen
- * @param targetModel the model on which to set the AOI
- */
-  this.setAoi = function(bbox, targetModel) {
+  /**
+   * Change the AOI coordinates from select box choice of prefined locations
+   * @param bbox the bbox value of the location keyword chosen
+   * @param targetModel the model on which to set the AOI
+   * @param srsName srs of the bbox
+   */
+  this.setAoi = function(bbox, targetModel, srsName) {
+    var srsTokens = srsName.split(/[:#]/);
+    srsName = 'EPSG:'+srsTokens[srsTokens.length-1];
+    if (!srsName) {
+      srsName = 'EPSG:4326';
+    }
     var bboxArray = new Array();
     bboxArray     = bbox.split(",");
-    		var ptUL=new PT(parseFloat(bboxArray[0]),parseFloat(bboxArray[3]));
-	    	var ptLR=new PT(parseFloat(bboxArray[2]),parseFloat(bboxArray[1]));
-    		cs_transform(new Proj("EPSG:4326"),this.targetModel.proj,ptUL);
-		    cs_transform(new Proj("EPSG:4326"),this.targetModel.proj,ptLR);
-		    var ul = new Array(ptUL.x,ptUL.y);
-		    var lr = new Array(ptLR.x,ptLR.y);   
+    var ptUL=new PT(parseFloat(bboxArray[0]),parseFloat(bboxArray[3]));
+    var ptLR=new PT(parseFloat(bboxArray[2]),parseFloat(bboxArray[1]));
+    cs_transform(new Proj(srsName),this.targetModel.proj,ptUL);
+    cs_transform(new Proj(srsName),this.targetModel.proj,ptLR);
+    var ul = new Array(ptUL.x,ptUL.y);
+    var lr = new Array(ptLR.x,ptLR.y);   
     this.targetModel.setParam("aoi",new Array(ul,lr));
 
     //convert this.model XY to latlong

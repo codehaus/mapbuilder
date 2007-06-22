@@ -111,11 +111,6 @@
           <targetModel>mainMap</targetModel>
         </Locations>
       </widgets>
-      <tools>
-        <ZoomToAoi id="locationsZoomToAoi">
-          <targetModel>mainMap</targetModel>
-        </ZoomToAoi>
-      </tools>
     </Model>
     <Transaction id="transaction">
       <widgets>
