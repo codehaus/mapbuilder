@@ -64,8 +64,7 @@ function GmlRendererOL(widgetNode, model) {
       var doc = objRef.stylesheet ? objRef.stylesheet.transformNodeToObject(objRef.model.doc) : objRef.model.doc;
       // nothing to do here if there is no model doc
       // or if the model doc contains an editing template
-      if (!doc || objRef.model.getParam('isTemplate') == true ||
-            doc.selectSingleNode('//gml:coordinates') == null) {
+      if (!doc || objRef.model.getParam('isTemplate') == true) {
         return;
       }
       
