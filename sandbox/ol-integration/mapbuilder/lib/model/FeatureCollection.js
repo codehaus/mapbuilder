@@ -152,16 +152,11 @@ function FeatureCollection(modelNode, parent) {
 
   /**
    * Returns the list of nodes selected by the nodeSelectpath.  These nodes
-   * will be the individual feature memebers from the collection.
+   * will be the individual feature members from the collection.
    * @return list of nodes selected 
    */
   this.getFeatureNodes = function() {
-    //alert( (new XMLSerializer()).serializeToString(this.doc))
-    var featureMember =  this.doc.selectSingleNode(this.nodeSelectXpath);
-    if( featureMember != null )
-      return featureMember.childNodes
-    else
-      return null;
+    return this.doc.selectNodes(this.nodeSelectXpath);
   }
 
   /**
@@ -190,7 +185,6 @@ function FeatureCollection(modelNode, parent) {
    */
   this.getFeaturePoint = function(featureNode) {
     var coords = featureNode.selectSingleNode(this.coordSelectXpath);
-    var coords = featureNode.selectSingleNode(coordSelectXpath);
     if (coords) {
       var point = coords.firstChild.nodeValue.split(',');
       return point
@@ -212,7 +206,4 @@ function FeatureCollection(modelNode, parent) {
       alert(mbGetMessage("invalidGeom", (new XMLSerializer()).serializeToString(featureNode)));
     }
   }
-
-
 }
-
