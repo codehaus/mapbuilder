@@ -134,7 +134,9 @@ function FeatureSelectHandler(toolNode, model) {
       fid = objRef.model.getParam('highlightFeature');
     }
     var feature = objRef.getFeatureByFid(objRef, fid);
-    objRef.control.select(feature);
+    if (feature) {
+      objRef.control.select(feature);
+    }
   }
   this.model.addListener('highlightFeature', this.highlight, this);
   
@@ -152,7 +154,9 @@ function FeatureSelectHandler(toolNode, model) {
       fid = objRef.model.getParam('dehighlightFeature');
     }
     var feature = objRef.getFeatureByFid(objRef, fid);
-    objRef.control.unselect(feature);
+    if (feature) {
+      objRef.control.unselect(feature);
+    }
   }
   this.model.addListener('dehighlightFeature', this.dehighlight, this);
   

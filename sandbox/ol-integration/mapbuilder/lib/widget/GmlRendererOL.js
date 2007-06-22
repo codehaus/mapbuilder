@@ -64,7 +64,8 @@ function GmlRendererOL(widgetNode, model) {
       var doc = objRef.stylesheet ? objRef.stylesheet.transformNodeToObject(objRef.model.doc) : objRef.model.doc;
       // nothing to do here if there is no model doc
       // or if the model doc contains an editing template
-      if (!doc || objRef.model.getParam('isTemplate') == true) {
+      if (!doc || objRef.model.getParam('isTemplate') == true ||
+            doc.selectSingleNode('//gml:coordinates') == null) {
         return;
       }
       
@@ -105,28 +106,30 @@ function GmlRendererOL(widgetNode, model) {
           }
         },
         preFeatureInsert: function(feature) {
-          // set styles before rendering the feature
-          if (objRef.defaultStyle) {
-            if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
-              feature.style = objRef.defaultStyle.point;
+          if (feature.geometry) {
+            // set styles before rendering the feature
+            if (objRef.defaultStyle) {
+              if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
+                feature.style = objRef.defaultStyle.point;
+              }
+              if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
+                feature.style = objRef.defaultStyle.line;
+              }
+              if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
+                feature.style = objRef.defaultStyle.polygon;
+              }
             }
-            if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
-              feature.style = objRef.defaultStyle.line;
-            }
-            if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
-              feature.style = objRef.defaultStyle.polygon;
-            }
-          }
-          // set select styles
-          if (objRef.selectStyle) {
-            if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
-              feature.mbSelectStyle = objRef.selectStyle.point;
-            }
-            if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
-              feature.mbSelectStyle = objRef.selectStyle.line;
-            }
-            if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
-              feature.mbSelectStyle = objRef.selectStyle.polygon;
+            // set select styles
+            if (objRef.selectStyle) {
+              if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
+                feature.mbSelectStyle = objRef.selectStyle.point;
+              }
+              if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
+                feature.mbSelectStyle = objRef.selectStyle.line;
+              }
+              if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
+                feature.mbSelectStyle = objRef.selectStyle.polygon;
+              }
             }
           }
         }
