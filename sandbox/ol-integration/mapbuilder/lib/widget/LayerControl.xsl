@@ -51,7 +51,7 @@ $Name:  $
   <xsl:param name="featureName"/>
   <xsl:param name="hidden"/>
   <xsl:param name="context">config.objects.<xsl:value-of select="$modelId"/></xsl:param>
-  <xsl:variable name="numLayers" select="count(//wmc:Layer)"/>
+  <xsl:variable name="numLayers" select="count(//wmc:Layer | //wmc:FeatureType)"/>
   
 <!-- Main html -->
   <xsl:template match="/wmc:ViewContext">
@@ -80,7 +80,7 @@ $Name:  $
 			  </xsl:apply-templates>
 		   </xsl:if>
 		   <xsl:if test="not(wmc:General/wmc:Extension)"> 
-			  <xsl:apply-templates select="wmc:ResourceList/wmc:Layer">
+			  <xsl:apply-templates select="wmc:ResourceList/wmc:Layer | wmc:ResourceList/wmc:FeatureType">
 				<xsl:sort select="position()" order="descending" data-type="number"/>
 			  </xsl:apply-templates>
 		    </xsl:if> 	
@@ -94,7 +94,7 @@ $Name:  $
  <xsl:template match="wmc:General/wmc:Extension/wmc:GroupList/wmc:Group">
 		<xsl:variable name="GroupName" select="./@name"/>
 		<xsl:variable name="GroupFold" select="./@folded"/>
-		<xsl:variable name="numberOfLayerByGroup" select="count(//wmc:Layer[wmc:Extension/wmc:Group/@name=$GroupName])"/>
+		<xsl:variable name="numberOfLayerByGroup" select="count(//wmc:Layer[wmc:Extension/wmc:Group/@name=$GroupName] | //wmc:FeatureType[wmc:Extension/wmc:Group/@name=$GroupName])"/>
 		<xsl:variable name="numberOfLayerByGroupOther" >
             <xsl:value-of select="  $numLayers - $numberOfLayerByGroup "/>
         </xsl:variable>
@@ -124,7 +124,7 @@ $Name:  $
 					</xsl:choose> 
 				</xsl:attribute>
 				<xsl:if test="//wmc:ResourceList"> 
-					<xsl:apply-templates select="//wmc:ResourceList/wmc:Layer[wmc:Extension/wmc:Group/@name=$GroupName]" >
+					<xsl:apply-templates select="//wmc:ResourceList/wmc:Layer[wmc:Extension/wmc:Group/@name=$GroupName] | //wmc:ResourceList/wmc:FeatureType[wmc:Extension/wmc:Group/@name=$GroupName]" >
 						<xsl:sort select="position()" order="descending" data-type="number"/>
 					</xsl:apply-templates>
 				</xsl:if>	
@@ -135,7 +135,7 @@ $Name:  $
 				</xsl:if>
                 <xsl:if test="$GroupName='Other' ">
 					<xsl:if test="//wmc:ResourceList"> 
-					    <xsl:apply-templates select="//wmc:ResourceList/wmc:Layer[not(wmc:Extension/wmc:Group)]" >
+					    <xsl:apply-templates select="//wmc:ResourceList/wmc:Layer[not(wmc:Extension/wmc:Group)] | //wmc:ResourceList/wmc:FeatureType[not(wmc:Extension/wmc:Group)]" >
                             <xsl:sort select="position()" order="descending" data-type="number"/>
 					    </xsl:apply-templates>
                     </xsl:if>	
@@ -153,7 +153,7 @@ $Name:  $
 	
 	
 	
-<xsl:template match="wmc:Layer">
+<xsl:template match="wmc:Layer|wmc:FeatureType">
 	<xsl:variable name="GroupName" select="wmc:Extension/wmc:Group/@name"/>
 	<xsl:variable name="layerName" select="wmc:Name"/>
 	<xsl:variable name="LayerTitle" select="wmc:Title"/>
@@ -189,18 +189,18 @@ $Name:  $
 			
 						  <!-- layer's index --> 
 						  <div class="indexLayerHeader" title="{$layerIndexTip}">
-								<xsl:value-of select="$numLayers - count(preceding::wmc:Layer)"/>
+								<xsl:value-of select="$numLayers - count(preceding::wmc:Layer) - count(preceding::wmc:FeatureType)"/>
 						  </div>
 						  
 						  <div class="inputLayerHeader">
 								<!-- checkbox -->
 								  <div class="checkboxLayerHeader">
 									  <input type="checkbox" id="vis_{$layerName}" title="{$toggleVisTip}" onclick="{$context}.setHidden('{$layerName}',!document.getElementById('vis_{$layerName}').checked)">
-									      <xsl:if test="@hidden='0'"><xsl:attribute name="checked"/></xsl:if>
+									      <xsl:if test="@hidden='0' or @hidden='false'"><xsl:attribute name="checked"/></xsl:if>
 									  </input>
 								  </div>
 								  <!-- movelayerup--> 
-								  <xsl:if test="($numLayers - count(preceding::wmc:Layer))!=1">  
+								  <xsl:if test="($numLayers - count(preceding::wmc:Layer) - count(preceding::wmc:FeatureType))!=1">  
 										  <div class="buttonLayerHeader">
 										      <a href="javascript:{$context}.setParam('moveLayerUp','{$layerName}')" class="mbButton">
 											      <img title="{$moveLayerUpTip}" src="{$skinDir}{$moveUpImage}" />
@@ -208,7 +208,7 @@ $Name:  $
 										  </div>
 								   </xsl:if>
 								   <!-- movelayerdonw -->
-								   <xsl:if test="($numLayers - count(preceding::wmc:Layer)) != $numLayers">
+								   <xsl:if test="($numLayers - count(preceding::wmc:Layer) - count(preceding::wmc:FeatureType)) != $numLayers">
 										  <div class="buttonLayerHeader">
 										      <a href="javascript:{$context}.setParam('moveLayerDown','{$layerName}')" class="mbButton">
 											      <img title="{$moveLayerDownTip}" src="{$skinDir}{$moveDownImage}" />
@@ -231,7 +231,7 @@ $Name:  $
 												    <img id="image_{$name_layer}" title="{$legendTip}" >
 														<xsl:attribute name="SRC">
 															<xsl:choose>
-																<xsl:when test="@hidden='1'">
+																<xsl:when test="@hidden='1' or @hidden='true'">
 																	<xsl:value-of select="$skinDir"/>
 																	<xsl:value-of select="$legendImageDisable"/>
 																</xsl:when>
@@ -285,7 +285,7 @@ $Name:  $
 							<div class="legend" id="{$name_layer}_legend" >
 								<xsl:attribute name="style">
 									<xsl:choose>
-										<xsl:when test="@hidden='1'">display:none </xsl:when>
+										<xsl:when test="@hidden='1' or @hidden='true'">display:none </xsl:when>
 										<xsl:otherwise>display:block</xsl:otherwise>
 									</xsl:choose> 
 								</xsl:attribute>
