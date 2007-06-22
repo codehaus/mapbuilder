@@ -20,7 +20,7 @@ $Name:  $
 
   <!-- Match root -->
   <xsl:template match="/">
-    <wfs:Transaction>
+    <wfs:Transaction service="WFS" version="1.0.0">
       <wfs:Insert>
         <xsl:apply-templates/>
       </wfs:Insert>
