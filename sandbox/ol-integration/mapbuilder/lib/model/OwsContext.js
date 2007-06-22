@@ -327,6 +327,9 @@ function OwsContext(modelNode, parent) {
    */
   this.getLayer = function(layerName) {
     var layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
+    if (layer == null) {
+      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[wmc:Name='"+layerName+"']");
+    }
     if( layer == null ) {
       layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:RssLayer[@id='"+layerName+"']");
     }
