@@ -134,9 +134,6 @@
 			<class>Button</class>
 			<disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
 		</Reset>
-    <ModelSwitcher id="switcher">
-      <targetModel>mainMap</targetModel>
-    </ModelSwitcher>
     
 	</widgets>
 	<skinDir>../../lib/skin/default</skinDir>
