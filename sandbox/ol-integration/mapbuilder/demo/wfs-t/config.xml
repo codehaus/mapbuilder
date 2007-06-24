@@ -72,7 +72,6 @@
     <FeatureCollection id="featureCollection">
       <widgets>
         <TipWidgetOL id="featurePopup">
-          <targetContext>mainMap</targetContext>
           <width>200</width>
           <height>150</height>
           <opacity>0.8</opacity>
@@ -81,14 +80,14 @@
         </TipWidgetOL>
         <GmlRendererOL id="testGmlRenderer">
           <targetModel>mainMap</targetModel>
+          <featureOnClick>featurePopup</featureOnClick>
           <sldModel>sld</sldModel>
-          <clickTipWidget>featurePopup</clickTipWidget>
-         </GmlRendererOL>
+        </GmlRendererOL>
         <FeatureList id="featureList"></FeatureList>
       </widgets>
       <tools>
         <FeatureSelectHandler id="featureHighlighter">
-          <targetContext>mainMap</targetContext>
+          <targetModel>mainMap</targetModel>
         </FeatureSelectHandler>
       </tools>
       <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
