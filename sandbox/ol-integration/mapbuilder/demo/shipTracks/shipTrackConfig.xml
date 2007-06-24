@@ -24,9 +24,6 @@
           <stylesheet>./Legend.xsl</stylesheet>
         </Legend>
 			</widgets>
-			<tools>
-				<!--MouseClickHandler id="mainMouseClick"/ -->
-			</tools>
     </OwsContext>
     
     <ContextCollection id="collectionGroup">
@@ -41,14 +38,12 @@
     
     <StyledLayerDescriptor id="sld">
       <defaultModelUrl>features.sld</defaultModelUrl>
-      <namespace>xmlns:sld="http://www.opengis.net/sld" xmlns:xlink="http://www.w3.org/1999/xlink"</namespace>
     </StyledLayerDescriptor>
 
     <FeatureCollection id="geoRSS">
       <defaultModelUrl>aisrdf2.xml</defaultModelUrl>
       <widgets>
         <TipWidgetOL id="featurePopup">
-          <targetContext>mainMap</targetContext>
           <stylesheet>popup.xsl</stylesheet>
           <width>275</width>
           <height>137</height>
@@ -59,9 +54,10 @@
         <GmlRendererOL id="testGmlRenderer">
           <targetModel>mainMap</targetModel>
           <stylesheet>georss2wfs.xsl</stylesheet>
+          <featureOnClick>featurePopup</featureOnClick>
           <sldModel>sld</sldModel>
-          <clickTipWidget>featurePopup</clickTipWidget>
-         </GmlRendererOL>
+          <hoverCursor>pointer</hoverCursor>
+        </GmlRendererOL>
         <Widget id="eventsListing">
           <targetModel>mainMap</targetModel>
           <stylesheet>GeoRSSListing.xsl</stylesheet>
@@ -69,7 +65,7 @@
       </widgets>
       <tools>
         <FeatureSelectHandler id="featureHighlighter">
-          <targetContext>mainMap</targetContext>
+          <targetModel>mainMap</targetModel>
         </FeatureSelectHandler>
       </tools>
       <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
