@@ -105,7 +105,9 @@ function FeatureSelectHandler(toolNode, model) {
     var objRef = this.mbFeatureSelectHandler;
     objRef.model.setParam("mouseoverFeature", feature.fid);
     feature.mbFeatureSelectHandler = objRef;
-    feature.layer.events.registerPriority('mousedown', feature, objRef.onClick);
+    if (feature.layer.events) {
+      feature.layer.events.registerPriority('mousedown', feature, objRef.onClick);
+    }
   }
   
   /**
@@ -117,7 +119,9 @@ function FeatureSelectHandler(toolNode, model) {
   this.onUnselect = function(feature) {
     var objRef = this.mbFeatureSelectHandler;
     objRef.model.setParam("mouseoutFeature", feature.fid);
-    feature.layer.events.unregister('mousedown', feature, objRef.onClick);
+    if (feature.layer.events) {
+      feature.layer.events.unregister('mousedown', feature, objRef.onClick);
+    }
   }
   
   /**
