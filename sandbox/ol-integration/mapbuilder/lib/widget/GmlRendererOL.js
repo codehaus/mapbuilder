@@ -161,6 +161,9 @@ function GmlRendererOL(widgetNode, model) {
             return null;
           }
           var features = layer.features;
+          if (!features) {
+            return null;
+          }
           for (var i = 0; i < features.length; ++i) {
             if (features[i].fid == fid) {
               return features[i];
@@ -171,13 +174,6 @@ function GmlRendererOL(widgetNode, model) {
       
       objRef.olLayer = new OlLayer(objRef.id);
       objRef.targetModel.map.addLayer(objRef.olLayer);
-
-      // remove hidden features
-      var hiddenFeatures = objRef.hiddenFeatures.toString().split(/,/);
-      objRef.hiddenFeatures = new Array();
-      for (var i in hiddenFeatures) {
-        objRef.hideFeature(objRef, hiddenFeatures[i]);
-      }
       
       objRef.model.setParam('gmlRendererLayer', objRef.olLayer);
     }
@@ -248,6 +244,18 @@ function GmlRendererOL(widgetNode, model) {
   }
   this.model.addListener("showFeature", this.showFeature, this);
   
+  this.removeHiddenFeatures = function(objRef) {
+    if (objRef.olLayer) {
+      // remove hidden features
+      var hiddenFeatures = objRef.hiddenFeatures.toString().split(/,/);
+      objRef.hiddenFeatures = new Array();
+      for (var i in hiddenFeatures) {
+        objRef.hideFeature(objRef, hiddenFeatures[i]);
+      }
+    }
+  }
+  
+  
   /**
    * Initializes the tip widget for this widget
    * @param objRef This object
@@ -258,6 +266,7 @@ function GmlRendererOL(widgetNode, model) {
       var clickWidget = config.objects[clickWidgetNode.firstChild.nodeValue];
       objRef.model.addListener("olFeatureSelect", clickWidget.onClick, clickWidget);
     }
+    objRef.targetModel.addListener("aoi", objRef.removeHiddenFeatures, objRef);
   }
   this.model.addListener("init", this.init, this);
 }
