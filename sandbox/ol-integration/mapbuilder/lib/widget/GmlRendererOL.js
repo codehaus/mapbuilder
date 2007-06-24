@@ -38,18 +38,22 @@ function GmlRendererOL(widgetNode, model) {
    */
   this.selectStyle = null;
   
-  var tipWidget =  widgetNode.selectSingleNode("mb:tipWidget");
-  if( tipWidget ) {
-    this.model.tipWidgetId = tipWidget.firstChild.nodeValue;
-  }
-
+  /**
+   * Cursor for features when hovering over them.
+   */
+  this.selectCursor = null;
+  
   // Set this.stylesheet. This is taken from WidgetBaseXSL.js
   if ( !this.stylesheet ) {
     var styleNode = widgetNode.selectSingleNode("mb:stylesheet");
-    if (styleNode ) {
+    if (styleNode) {
       this.stylesheet = new XslProcessor(styleNode.firstChild.nodeValue,model.namespace);
     }
   }
+
+  // set the hover cursor.
+  var hoverCursorNode = widgetNode.selectSingleNode('mb:hoverCursor');
+  this.hoverCursor = hoverCursorNode ? hoverCursorNode.firstChild.nodeValue : 'pointer';
 
   this.paint = function(objRef) {
     if (objRef.targetModel.map) {
@@ -63,8 +67,7 @@ function GmlRendererOL(widgetNode, model) {
       // otherwise just take the model doc.
       var doc = objRef.stylesheet ? objRef.stylesheet.transformNodeToObject(objRef.model.doc) : objRef.model.doc;
       // nothing to do here if there is no model doc
-      // or if the model doc contains an editing template
-      if (!doc || objRef.model.getParam('isTemplate') == true) {
+      if (!doc) {
         return;
       }
       
@@ -83,12 +86,15 @@ function GmlRendererOL(widgetNode, model) {
             objRef.selectStyle = new Object();
             var targetMap = objRef.targetModel.map.mbMapPane;
             var sldNode = sldModel.getSldNode();
-            objRef.defaultStyle.point = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:PointSymbolizer"));
-            objRef.defaultStyle.line = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:LineSymbolizer"));
-            objRef.defaultStyle.polygon = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:PolygonSymbolizer"));
-            objRef.selectStyle.point = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:PointSymbolizer"));
-            objRef.selectStyle.line = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:LineSymbolizer"));
-            objRef.selectStyle.polygon = targetMap.sld2OlStyle(targetMap, sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:PolygonSymbolizer"));
+            objRef.defaultStyle.point = sld2OlStyle(sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:PointSymbolizer"));
+            objRef.defaultStyle.line = sld2OlStyle(sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:LineSymbolizer"));
+            objRef.defaultStyle.polygon = sld2OlStyle(sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:PolygonSymbolizer"));
+            objRef.selectStyle.point = sld2OlStyle(sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:PointSymbolizer"));
+            objRef.selectStyle.line = sld2OlStyle(sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:LineSymbolizer"));
+            objRef.selectStyle.polygon = sld2OlStyle(sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:PolygonSymbolizer"));
+            objRef.selectStyle.point.cursor = objRef.hoverCursor;
+            objRef.selectStyle.line.cursor = objRef.hoverCursor;
+            objRef.selectStyle.polygon.cursor = objRef.hoverCursor;
           }
         }
       }
@@ -97,6 +103,7 @@ function GmlRendererOL(widgetNode, model) {
       // an URL
       var OlLayer = OpenLayers.Class.create();
       OlLayer.prototype = OpenLayers.Class.inherit(OpenLayers.Layer.GML, {
+
         loadGML: function() {
           if (!this.loaded) {
             var gml = this.format ? new this.format() : new OpenLayers.Format.GML();
@@ -104,16 +111,17 @@ function GmlRendererOL(widgetNode, model) {
             this.loaded = true
           }
         },
+
         preFeatureInsert: function(feature) {
           if (feature.geometry) {
             // set styles before rendering the feature
             if (objRef.defaultStyle) {
               if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
                 feature.style = objRef.defaultStyle.point;
-              }
+              } else
               if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
                 feature.style = objRef.defaultStyle.line;
-              }
+              } else
               if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
                 feature.style = objRef.defaultStyle.polygon;
               }
@@ -122,18 +130,37 @@ function GmlRendererOL(widgetNode, model) {
             if (objRef.selectStyle) {
               if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
                 feature.mbSelectStyle = objRef.selectStyle.point;
-              }
+              } else
               if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
                 feature.mbSelectStyle = objRef.selectStyle.line;
-              }
+              } else
               if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
                 feature.mbSelectStyle = objRef.selectStyle.polygon;
               }
             }
           }
+        },
+        
+        /**
+         * gets a feature from the gmlRendererLayer by GML feature id.
+         * @param fid GML feature id of the feature
+         * @return feature OpenLayers feature matching fid
+         */
+        getFeatureByFid: function(fid) {
+          var layer = objRef.olLayer;
+          if (!layer) {
+            return null;
+          }
+          var features = layer.features;
+          for (var i = 0; i < features.length; ++i) {
+            if (features[i].fid == fid) {
+              return features[i];
+            }
+          }
         }
       });
-      objRef.olLayer = new OlLayer(objRef.model.id);
+      
+      objRef.olLayer = new OlLayer(objRef.id);
   
       objRef.targetModel.map.addLayer(objRef.olLayer);
       objRef.model.setParam('gmlRendererLayer', objRef.olLayer);
@@ -164,4 +191,55 @@ function GmlRendererOL(widgetNode, model) {
     alert('hide/unhide '+layerName);
   }
   this.model.addListener("hidden",this.hiddenListener,this);
+  
+  /**
+   * Hides the feature specified by its fid from the map
+   * @param objRef this widget
+   * @param fid feature id of the feature to hide. If it is null,
+   * the hideFeature param of the model will be used.
+   */
+  this.hideFeature = function(objRef, fid) {
+    if (!fid) {
+      fid = objRef.model.getParam('hideFeature');
+    }
+    var feature = objRef.olLayer.getFeatureByFid(fid);
+    if (feature) {
+      // mark the feature as hidden - this will be checked by other widgets
+      feature.mbHidden = true;
+      objRef.olLayer.eraseFeatures([feature]);      
+    }
+  }
+  this.model.addListener("hideFeature", this.hideFeature, this);
+  
+  /**
+   * Shows the feature specified by its fid in the map
+   * @param objRef this widget
+   * @param fid feature id of the feature to show. If it is null,
+   * the showFeature param of the model will be used.
+   */
+  this.showFeature = function(objRef, fid) {
+    if (!fid) {
+      fid = objRef.model.getParam('showFeature');
+    }
+    var feature = objRef.olLayer.getFeatureByFid(fid);
+    if (feature) {
+      // mark the feature as visible - this will be checked by other widgets
+      feature.mbHidden = false;
+      objRef.olLayer.addFeatures([feature]);
+    }
+  }
+  this.model.addListener("showFeature", this.showFeature, this);
+  
+  /**
+   * Initializes the tip widget for this widget
+   * @param objRef This object
+   */
+  this.init = function(objRef) {
+    var clickWidgetNode =  widgetNode.selectSingleNode("mb:featureOnClick");
+    if (clickWidgetNode) {
+      var clickWidget = config.objects[clickWidgetNode.firstChild.nodeValue];
+      objRef.model.addListener("olFeatureSelect", clickWidget.onClick, clickWidget);
+    }
+  }
+  this.model.addListener("init", this.init, this);
 }
