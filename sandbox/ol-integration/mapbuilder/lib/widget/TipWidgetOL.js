@@ -18,9 +18,6 @@ mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 function TipWidgetOL(widgetNode, model) {
    WidgetBaseXSL.apply(this, new Array(widgetNode, model));
 
-  //TBD error checking, or move this to WidgetBase
-  this.targetContext = config.objects[widgetNode.selectSingleNode("mb:targetContext").firstChild.nodeValue];
-  
   var width = widgetNode.selectSingleNode('mb:width');
   this.width = width ? width.firstChild.nodeValue : 200;
   var height = widgetNode.selectSingleNode('mb:height');
@@ -57,6 +54,5 @@ function TipWidgetOL(widgetNode, model) {
     // when the user clicked on a feature.
     OpenLayers.Event.stop(evt);
   }
-  this.model.addListener("olFeatureSelect", this.onClick, this);
   
 }
