@@ -43,6 +43,11 @@ function GmlRendererOL(widgetNode, model) {
    */
   this.selectCursor = null;
   
+  /**
+   * Features that shall not be drawn
+   */
+  this.hiddenFeatures = new Array();
+  
   // Set this.stylesheet. This is taken from WidgetBaseXSL.js
   if ( !this.stylesheet ) {
     var styleNode = widgetNode.selectSingleNode("mb:stylesheet");
@@ -60,8 +65,10 @@ function GmlRendererOL(widgetNode, model) {
       // remove and destroy layer
       if (objRef.olLayer) {
         objRef.model.setParam('gmlRendererLayer', null);
-        objRef.olLayer.destroy();
-        objRef.olLayer = null;
+        if (objRef.targetModel.map == objRef.map) {
+          objRef.olLayer.destroy();
+          objRef.olLayer = null;
+        }
       }
       // transform the model using the xsl stylesheet if there is one,
       // otherwise just take the model doc.
@@ -70,6 +77,9 @@ function GmlRendererOL(widgetNode, model) {
       if (!doc) {
         return;
       }
+      
+      // keep a reference to the map we created the layer for
+      objRef.map = objRef.targetModel.map;
       
       // get style for features
       var sldModelNode = widgetNode.selectSingleNode('mb:sldModel');
@@ -84,7 +94,6 @@ function GmlRendererOL(widgetNode, model) {
           if (sldModel.doc) {
             objRef.defaultStyle = new Object();
             objRef.selectStyle = new Object();
-            var targetMap = objRef.targetModel.map.mbMapPane;
             var sldNode = sldModel.getSldNode();
             objRef.defaultStyle.point = sld2OlStyle(sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:PointSymbolizer"));
             objRef.defaultStyle.line = sld2OlStyle(sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:LineSymbolizer"));
@@ -161,8 +170,15 @@ function GmlRendererOL(widgetNode, model) {
       });
       
       objRef.olLayer = new OlLayer(objRef.id);
-  
       objRef.targetModel.map.addLayer(objRef.olLayer);
+
+      // remove hidden features
+      var hiddenFeatures = objRef.hiddenFeatures.toString().split(/,/);
+      objRef.hiddenFeatures = new Array();
+      for (var i in hiddenFeatures) {
+        objRef.hideFeature(objRef, hiddenFeatures[i]);
+      }
+      
       objRef.model.setParam('gmlRendererLayer', objRef.olLayer);
     }
     // We add a refresh listener to the targetModel. This way we
@@ -204,9 +220,10 @@ function GmlRendererOL(widgetNode, model) {
     }
     var feature = objRef.olLayer.getFeatureByFid(fid);
     if (feature) {
+      objRef.hiddenFeatures.push(fid);
       // mark the feature as hidden - this will be checked by other widgets
       feature.mbHidden = true;
-      objRef.olLayer.eraseFeatures([feature]);      
+      objRef.olLayer.renderer.eraseGeometry(feature.geometry);      
     }
   }
   this.model.addListener("hideFeature", this.hideFeature, this);
@@ -223,9 +240,10 @@ function GmlRendererOL(widgetNode, model) {
     }
     var feature = objRef.olLayer.getFeatureByFid(fid);
     if (feature) {
+      OpenLayers.Util.removeItem(objRef.hiddenFeatures, fid);
       // mark the feature as visible - this will be checked by other widgets
       feature.mbHidden = false;
-      objRef.olLayer.addFeatures([feature]);
+      objRef.olLayer.drawFeature(feature);
     }
   }
   this.model.addListener("showFeature", this.showFeature, this);
