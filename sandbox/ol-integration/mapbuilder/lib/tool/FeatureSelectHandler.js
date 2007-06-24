@@ -30,35 +30,59 @@ function FeatureSelectHandler(toolNode, model) {
    * anymore.
    */
   this.map = null;
-
-  //TBD error checking, or move this to ToolBase
-  this.targetContext = config.objects[toolNode.selectSingleNode("mb:targetContext").firstChild.nodeValue];
-
+  
   /**
-   * Turns on the maptips when the gmlRendererLayer is fired.
+   * Turns on feature select when the gmlRendererLayer is fired.
    * @param objRef reference to this object.
    * @return {OpenLayers.Control} class of the OL control.
    */
   this.init = function(objRef) {
-    var layer = objRef.model.getParam('gmlRendererLayer');
-    if (objRef.map == objRef.targetContext.map &&
-        objRef.control && !layer) {
-      objRef.control.deactivate();
-      objRef.control.destroy();
-      objRef.control = null;
-    } else if (layer) {
-      objRef.control = new OpenLayers.Control.SelectFeature(layer, {
-        hover: true,
-        onSelect: objRef.onSelect,
-        onUnselect: objRef.onUnselect,
-        mbFeatureSelectHandler: objRef
-      });
-      objRef.map = objRef.targetContext.map;
-      objRef.map.addControl(objRef.control);
-      objRef.control.activate();
+    if (objRef.targetModel.map) {
+      var layer = objRef.model.getParam('gmlRendererLayer');
+      if (objRef.map == objRef.targetModel.map &&
+          objRef.control && !layer) {
+        objRef.control.deactivate();
+        objRef.control.destroy();
+        objRef.control = null;
+      } else if (layer) {
+        objRef.control = new OpenLayers.Control.SelectFeature(layer, {
+          hover: true,
+          onSelect: objRef.onSelect,
+          onUnselect: objRef.onUnselect,
+          mbFeatureSelectHandler: objRef,
+          select: function(feature) {
+            if (feature.mbSelectStyle) {
+              this.selectStyle = feature.mbSelectStyle;
+            }
+            OpenLayers.Control.SelectFeature.prototype.select.apply(this, arguments);
+          }
+        });
+        objRef.map = objRef.targetModel.map;
+        objRef.map.addControl(objRef.control);
+        objRef.control.activate();
+      }
     }
   }
-  this.model.addListener('gmlRendererLayer', this.init, this);
+  
+  /**
+   * This is called when the config finished loading, so we know
+   * our context (targetModel).
+   * @param objRef This object
+   */
+  this.configInit = function(objRef) {
+    objRef.targetModel.addListener('loadModel', objRef.contextInit, objRef);
+  }
+  this.model.addListener('init', this.configInit, this)
+  
+  /**
+   * This is called when the context model finished loading, so we
+   * know that we have a map available.
+   * @param objRef This object
+   */
+  this.contextInit = function(objRef) {
+    objRef.targetModel.removeListener('loadModel', objRef.contextInit, objRef);
+    objRef.model.addListener('gmlRendererLayer', objRef.init, objRef);
+  }
   
   /**
    * This method is triggered when the mouse is over a vector
@@ -80,13 +104,6 @@ function FeatureSelectHandler(toolNode, model) {
   this.onSelect = function(feature) {
     var objRef = this.mbFeatureSelectHandler;
     objRef.model.setParam("mouseoverFeature", feature.fid);
-    
-    // redraw feature with custom select style
-    //TBD submit a patch to OpenLayer for a selectStyle feature property
-    if (feature.mbSelectStyle) {
-      feature.layer.drawFeature(feature, feature.mbSelectStyle);
-    }
-
     feature.mbFeatureSelectHandler = objRef;
     feature.layer.events.registerPriority('mousedown', feature, objRef.onClick);
   }
@@ -133,8 +150,8 @@ function FeatureSelectHandler(toolNode, model) {
     if (!fid) {
       fid = objRef.model.getParam('highlightFeature');
     }
-    var feature = objRef.getFeatureByFid(objRef, fid);
-    if (feature) {
+    var feature = objRef.model.getParam('gmlRendererLayer').getFeatureByFid(fid);
+    if (feature && !feature.mbHidden) {
       objRef.control.select(feature);
     }
   }
@@ -153,29 +170,11 @@ function FeatureSelectHandler(toolNode, model) {
     if (!fid) {
       fid = objRef.model.getParam('dehighlightFeature');
     }
-    var feature = objRef.getFeatureByFid(objRef, fid);
-    if (feature) {
+    var feature = objRef.model.getParam('gmlRendererLayer').getFeatureByFid(fid);
+    if (feature && !feature.mbHidden) {
       objRef.control.unselect(feature);
     }
   }
   this.model.addListener('dehighlightFeature', this.dehighlight, this);
   
-  /**
-   * gets a feature from the gmlRendererLayer by GML feature id.
-   * @param objRef reference to this tool object
-   * @param fid GML feature id of the feature
-   * @return feature OpenLayers feature matching fid
-   */
-  this.getFeatureByFid = function(objRef, fid) {
-    var layer = objRef.model.getParam('gmlRendererLayer');
-    if (!layer) {
-      return null;
-    }
-    var features = layer.features;
-    for (var i = 0; i < features.length; ++i) {
-      if (features[i].fid == fid) {
-        return features[i];
-      }
-    }
-  }
 }
