@@ -127,15 +127,6 @@ function ButtonBase(widgetNode, model) {
   }
 
   /**
-   * Gets the css classname for the map pane that
-   * sets the cursor according to the clicked button
-   * @param objRef Reference to this object.
-   */  
-  this.getCursorClass = function(objRef) {
-    return 'mbCursor_'+objRef.cursor.replace(/[^A-Z^a-z]*/g, '');
-  }
-  
-  /**
    * OpenLayers control for this button.
    * This will be filled with the instance of the control
    * by the attachToOL method.
@@ -207,7 +198,6 @@ function ButtonBase(widgetNode, model) {
       },
       activate: function() {
         if (this.superclass.activate.call(this)) {
-          objRef.mapPaneDiv.className = objRef.mapPaneDiv.className.replace(/mbCursor_[a-zA-Z0-9]*/, objRef.getCursorClass(objRef));
           this.panel_div.style.backgroundImage = "url(\""+objRef.enabledImage.src+"\")";
       	  this.map.div.style.cursor = objRef.cursor;
           objRef.enabled = true;
@@ -252,13 +242,7 @@ function ButtonBase(widgetNode, model) {
     
     //set default css style properties
     objRef.control.panel_div.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
-    objRef.control.map.div.style.cursor = objRef.cursor;;
           
-    // add cursor css classname to map pane div if not set yet
-    if (objRef.mapPaneDiv.className.indexOf('mbCursor') == -1) {
-      objRef.mapPaneDiv.className += ' mbCursor_default';
-    }
-
     // activate the control if it is defined as selected in config
     if(objRef.selected == true) {
       objRef.control.activate();      
