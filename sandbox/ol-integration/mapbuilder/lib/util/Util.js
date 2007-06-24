@@ -626,3 +626,94 @@ function mbFormatMessage(messageFormat)
   }
   return message;
 }
+
+/**
+ * extract a style from a SLD node of an XML doc and return
+ * it as url parameter for a WMS request
+ * @param node XML node containing the styled layer descriptor
+ * @return WMS-compliant SLD URL parameters as array
+ */
+function sld2UrlParam(node) {
+  var params=new Array();
+  if (node) {
+    var sld = node.selectSingleNode("wmc:SLD");
+    var name = node.selectSingleNode("wmc:Name");
+    if(sld) {
+      if(sld.selectSingleNode("wmc:OnlineResource")) {	
+        params.sld=sld.selectSingleNode("wmc:OnlineResource").getAttribute("xlink:href");
+      } else if(sld.selectSingleNode("wmc:FeatureTypeStyle")) {
+        params.sld=(new XMLSerializer()).serializeToString(sld.selectSingleNode("wmc:FeatureTypeStyle"));
+      } else if(sld.selectSingleNode("wmc:StyledLayerDescriptor")) { 
+        params.sld_body=(new XMLSerializer()).serializeToString(sld.selectSingleNode("wmc:StyledLayerDescriptor"));    		
+      }
+    } else if(name) {
+      params.styles=(name.firstChild)?name.firstChild.nodeValue:"";	
+    }
+  }  
+  return params;
+}
+
+/**
+ * extract a style from a SLD node of an XML doc and return
+ * it as OpenLayers style
+ * @param objRef reference to the map widget that will use the style
+ * @param node XML node containing the styled layer descriptor
+ * @return OpenLayers style object
+ */
+function sld2OlStyle(node) {
+  var style1=new Object();
+  var value;
+  var styleSet=false;
+
+  if (node) {
+    value=node.selectSingleNode(".//sld:ExternalGraphic/sld:OnlineResource/@xlink:href");
+    if(value){
+      style1.externalGraphic=value.firstChild.nodeValue;
+      styleSet=true;
+    }
+    value=node.selectSingleNode(".//sld:Fill/sld:CssParameter[@name='fill']");
+    if(value){
+      style1.fillColor=value.firstChild.nodeValue;
+      styleSet=true;
+    }
+    value=node.selectSingleNode(".//sld:Fill/sld:CssParameter[@name='fill-opacity']");
+    if(value){
+      style1.fillOpacity=value.firstChild.nodeValue;
+      styleSet=true;
+    } else {
+      // opacity eg. for externalGraphic
+      value=node.selectSingleNode(".//sld:Opacity/sld:Literal");
+      if (value){
+        style1.fillOpacity=value.firstChild.nodeValue;
+        styleSet=true;
+      }
+    }
+  
+    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke']");
+    if(value){
+      style1.strokeColor=value.firstChild.nodeValue;
+      styleSet=true;
+    }
+    
+    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke-opacity']");
+    if(value){
+      style1.strokeOpacity=value.firstChild.nodeValue;
+      styleSet=true;
+    }
+    
+    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke-width']");
+    if(value){
+      style1.strokeWidth=value.firstChild.nodeValue;
+      styleSet=true;
+    }
+    
+    value=node.selectSingleNode(".//sld:Size");
+    if(value){
+      style1.pointRadius=value.firstChild.nodeValue;
+      styleSet=true;
+    }
+  }
+  
+  if(!styleSet)style1=null;
+  return style1;
+}
