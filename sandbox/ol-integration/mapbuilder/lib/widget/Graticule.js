@@ -503,7 +503,7 @@ function Graticule(widgetNode, model) {
 			this.objRef.display=false;
 			this.removeGraticules(); 
 			objRef.enabled = false;
-      objRef.doSelect(false, objRef)      
+      objRef.doSelect(objRef, false)      
 	}
 /////////////////////////////////////////////////////////////
 

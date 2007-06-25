@@ -158,10 +158,10 @@ function ButtonBase(widgetNode, model) {
 
   /**
    * Method overriden by subclasses
-   * @param selected True when selected, false when deselected.
    * @param objRef Reference to this object.
+   * @param selected True when selected, false when deselected.
    */
-  this.doSelect = function(selected, objRef) {
+  this.doSelect = function(objRef, selected) {
   }
   
   /**
@@ -194,7 +194,7 @@ function ButtonBase(widgetNode, model) {
         if(this.superclass.trigger) {
           this.superclass.trigger.call(this);
         }
-        objRef.doSelect(true, objRef);
+        objRef.doSelect(objRef, true);
       },
       activate: function() {
         if (this.superclass.activate.call(this)) {
@@ -206,7 +206,7 @@ function ButtonBase(widgetNode, model) {
       	  this.map.mbCursor = objRef.cursor;
           objRef.enabled = true;
           this.active = true;
-          objRef.doSelect(true, objRef);
+          objRef.doSelect(objRef, true);
         }
       },
       // call objRef.doSelect after OL deactivate from this control
@@ -215,7 +215,7 @@ function ButtonBase(widgetNode, model) {
           this.panel_div.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
           objRef.enabled = false;
           this.active = false;
-          objRef.doSelect(false, objRef)
+          objRef.doSelect(objRef, false)
         }
       }
     });

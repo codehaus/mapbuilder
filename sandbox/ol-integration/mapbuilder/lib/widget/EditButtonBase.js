@@ -38,7 +38,7 @@ function EditButtonBase(widgetNode, model) {
    * @param objRef Pointer to this object.
    * @param selected True when selected.
    */
-  this.doSelect = function(selected,objRef) {
+  this.doSelect = function(objRef, selected) {
     // Model that will be populated with the WFS response.
     if (objRef.trm && !objRef.transactionResponseModel){
       objRef.transactionResponseModel=window.config.objects[objRef.trm];

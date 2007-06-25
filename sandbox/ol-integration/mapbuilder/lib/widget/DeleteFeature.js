@@ -47,7 +47,7 @@ function DeleteFeature(widgetNode, model) {
    * Start a WFS-T DeleteFeature transaction.
    * @param objRef Pointer to this object.
    */
-  this.doSelect = function(selected,objRef) {
+  this.doSelect = function(objRef, selected) {
     if (selected){
       // Model that will be populated with the WFS response.
       if (!objRef.transactionResponseModel){
