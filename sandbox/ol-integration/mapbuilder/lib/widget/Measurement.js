@@ -31,18 +31,26 @@ function Measurement(widgetNode, model) {
     Control.prototype = OpenLayers.Class.inherit(OpenLayers.Control.DrawFeature, {
       // this is needed because all editing tools are of type
       // OpenLayers.Control.DrawFeature
-      CLASS_NAME: 'mbMeasurement'
+      CLASS_NAME: 'mbMeasurement',
     });
     return Control;
   }
   
   this.instantiateControl = function(objRef, Control) {
-    var control = new Control(objRef.featureLayer, OpenLayers.Handler.Path,
+     var control = new Control(objRef.featureLayer, OpenLayers.Handler.Path,
           {callbacks: {point: objRef.doAction}});
     control.objRef = objRef;
+    control.activate = function() {
+      Control.prototype.activate.apply(this, arguments);
+      objRef.targetModel.setParam('showDistance', 0);
+    }
+    control.deactivate = function() {
+      Control.prototype.deactivate.apply(this, arguments);
+      objRef.targetModel.setParam('showDistance', null);
+    }
     return control;
   }
-
+  
   // override default cursor by user
   // cursor can be changed by specifying a new cursor in config file
   this.cursor = "crosshair";	
