@@ -183,7 +183,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 }
 
 /**
- * Event handler to keep the Mapbuilder context updated.
+ * Event handler to keep the Mapbuilder context updated. It also
+ * sets the map cursor to the previously stored value.
  * This is called by OpenLayers.
  * @param e OpenLayers event
  */
@@ -203,10 +204,13 @@ MapPaneOL.prototype.updateContext = function(e) {
   var currentAoi = objRef.model.getParam('aoi');
   var newAoi = new Array(ul, lr);
   if (!currentAoi || currentAoi.toString != newAoi.toString()) {
-
     objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
     objRef.model.extent.setSize(objRef.model.map.getResolution());
     objRef.model.setParam("aoi", newAoi);
+
+    if (objRef.model.map.mbCursor) {
+      objRef.model.map.div.style.cursor = objRef.model.map.mbCursor;
+    }
   }
 }
 

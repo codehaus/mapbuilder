@@ -200,6 +200,10 @@ function ButtonBase(widgetNode, model) {
         if (this.superclass.activate.call(this)) {
           this.panel_div.style.backgroundImage = "url(\""+objRef.enabledImage.src+"\")";
       	  this.map.div.style.cursor = objRef.cursor;
+      	  // store the cursor with the map object; this will be applied
+      	  // to the map div again when setting the aoi on the
+      	  // OpenLayers moveend event
+      	  this.map.mbCursor = objRef.cursor;
           objRef.enabled = true;
           this.active = true;
           objRef.doSelect(true, objRef);
