@@ -173,6 +173,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   
     // register OpenLayers event to keep the context updated
     objRef.model.map.events.register('moveend', objRef.model.map, objRef.updateContext);
+    objRef.model.map.events.register('mouseup', objRef.model.map, objRef.updateCursor);
     
     objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
 
@@ -192,6 +193,7 @@ MapPaneOL.prototype.updateContext = function(e) {
   // get objRef from the event originator object (e.object),
   // where it was stored as mbPane property by paint().
   var objRef = e.object.mbMapPane;
+
   var bboxOL = objRef.model.map.getExtent().toBBOX().split(',');
   var ul = new Array(bboxOL[0],bboxOL[3]);
   var lr = new Array(bboxOL[2],bboxOL[1]);
@@ -207,10 +209,23 @@ MapPaneOL.prototype.updateContext = function(e) {
     objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
     objRef.model.extent.setSize(objRef.model.map.getResolution());
     objRef.model.setParam("aoi", newAoi);
+  }
+}
 
-    if (objRef.model.map.mbCursor) {
-      objRef.model.map.div.style.cursor = objRef.model.map.mbCursor;
-    }
+/**
+ * Restore the map cursor stored by buttons. This has to be done
+ * in an OpenLayers mouseup event, because the mouseup event
+ * in OpenLayers resets the cursor to default.
+ * @param e OpenLayers event
+ */
+MapPaneOL.prototype.updateCursor = function(e) {
+  // get objRef from the event originator object (e.object),
+  // where it was stored as mbPane property by paint().
+  var objRef = e.object.mbMapPane;
+
+  // update map pane cursor
+  if (objRef.model.map.mbCursor) {
+    objRef.model.map.div.style.cursor = objRef.model.map.mbCursor;
   }
 }
 
