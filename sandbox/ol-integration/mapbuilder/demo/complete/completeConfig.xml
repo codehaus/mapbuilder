@@ -155,9 +155,6 @@
         <ShowDistance id='showDistance'>
           
         </ShowDistance>
-         <GmlRendererOL id="measurementGmlRenderer">
-          <targetModel>mainMap</targetModel>
-         </GmlRendererOL>
       </widgets>
       <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
     </FeatureCollection>
@@ -262,14 +259,14 @@
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
     </Reset>
-    <GetFeatureInfo id="getFeatureInfo">
+    <!-- GetFeatureInfo id="getFeatureInfo">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureInfoResponse</targetModel>
       <class>RadioButton</class>
       <enabledSrc>/images/QueryEnable.png</enabledSrc>
       <disabledSrc>/images/QueryDisable.png</disabledSrc>
       <context>mainMap</context>
-    </GetFeatureInfo>
+    </GetFeatureInfo-->
     <!--EditPoint id="editPoint">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureCollection</targetModel>
@@ -299,6 +296,7 @@
     <Measurement id="measurement">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureCollection</targetModel>
+      <targetContext>mainMap</targetContext>
       <class>RadioButton</class>
       <enabledSrc>/images/MeasureEnable.png</enabledSrc>
       <disabledSrc>/images/MeasureDisable.png</disabledSrc>
