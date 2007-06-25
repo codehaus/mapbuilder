@@ -20,7 +20,29 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
  */
 function Measurement(widgetNode, model) {
   EditButtonBase.apply(this, new Array(widgetNode, model));
-    
+
+  /**
+   * Interactive EditLine control.
+   * @param objRef reference to this object.
+   * @return {OpenLayers.Control} class of the OL control.
+   */
+  this.createControl = function(objRef) {
+    var Control = OpenLayers.Class.create();
+    Control.prototype = OpenLayers.Class.inherit(OpenLayers.Control.DrawFeature, {
+      // this is needed because all editing tools are of type
+      // OpenLayers.Control.DrawFeature
+      CLASS_NAME: 'mbMeasurement'
+    });
+    return Control;
+  }
+  
+  this.instantiateControl = function(objRef, Control) {
+    var control = new Control(objRef.featureLayer, OpenLayers.Handler.Path,
+          {callbacks: {point: objRef.doAction}});
+    control.objRef = objRef;
+    return control;
+  }
+
   // override default cursor by user
   // cursor can be changed by specifying a new cursor in config file
   this.cursor = "crosshair";	
@@ -29,19 +51,21 @@ function Measurement(widgetNode, model) {
   var distance = 0;
   var state = false;
   var restart = false;
+  
   /**
-  * Append a point to a line and calculate the distance between all points on the line
-  * @param objRef      Pointer to this object.
-  * @param targetNode  The node for the enclosing HTML tag for this widget.
-  */
-  this.doAction = function(objRef,targetNode) {
+   * Append a point to a line and calculate the distance between all
+   * points on the line. This will be called by the OpenLayers control
+   * for this widget in the context of the control.
+   * @param pointGeometry OpenLayers Geometry of the point to add
+   */
+  this.doAction = function(pointGeometry) {
+    var objRef = this.objRef;
     if (objRef.enabled) {
 		  if(objRef.restart) {
         objRef.model.setParam("clearMeasurementLine");
 			  objRef.restart= false;
 			}
-				
-      var point=objRef.mouseHandler.model.extent.getXY(targetNode.evpl);
+      var point=[pointGeometry.x, pointGeometry.y];
       var old=objRef.targetModel.getXpathValue(objRef.targetModel,objRef.featureXpath);
       if(!old) old="";
         sucess=objRef.targetModel.setXpathValue(objRef.targetModel,objRef.featureXpath,old+" "+point[0]+","+point[1]);
@@ -62,6 +86,9 @@ function Measurement(widgetNode, model) {
         //transform coordinates from lat/lon to x/y in meter 
         objRef.srs = srs.toUpperCase();
         objRef.proj = new Proj (objRef.srs);
+        if (objRef.proj.units == null) {
+          objRef.proj.units = "degrees";
+        }
                 
         if (objRef.proj.Forward) {
        		var ptP=new PT( P[0], P[1]);
@@ -99,7 +126,7 @@ function Measurement(widgetNode, model) {
             LonqRad=parseFloat(Q[0]) * deg2rad;
             LatqRad=parseFloat(Q[1]) * deg2rad;
             radDistance=Math.acos(Math.sin(LatpRad)*Math.sin(LatqRad)+Math.cos(LatpRad)*Math.cos(LatqRad)*Math.cos(LonpRad-LonqRad));
-            radDistance=Math.acos(Math.sin(Latp)*Math.sin(Latq)+Math.cos(Latp)*Math.cos(Latq)*Math.cos(Lonp-Lonq));
+            //radDistance=Math.acos(Math.sin(Latp)*Math.sin(Latq)+Math.cos(Latp)*Math.cos(Latq)*Math.cos(Lonp-Lonq));
             distance =radDistance * 6378137;
             if(distance==0) {
               objRef.restart = true;
@@ -115,7 +142,16 @@ function Measurement(widgetNode, model) {
     }
   }
   
-  
+  /**
+   * This will be called as defined in ButtonBase.js. It is called
+   * when measurement is finished (ie. when user double-clicks on the map)
+   * @param objRef reference to this widget
+   * @param feature complete measurement path - currently unused.
+   */
+  this.setFeature = function(objRef, feature) {
+    objRef.restart = true;
+  }
+    
   this.clearMeasurementLine = function(objRef){
     if (totalDistance !=0) {
       totalDistance=0;
@@ -128,4 +164,5 @@ function Measurement(widgetNode, model) {
   }
   //add a Listener to the model
 	this.model.addListener("clearMeasurementLine", this.clearMeasurementLine, this);
+
 }
