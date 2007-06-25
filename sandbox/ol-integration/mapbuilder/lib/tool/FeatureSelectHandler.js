@@ -32,39 +32,7 @@ function FeatureSelectHandler(toolNode, model) {
   this.map = null;
   
   /**
-   * Turns on feature select when the gmlRendererLayer is fired.
-   * @param objRef reference to this object.
-   * @return {OpenLayers.Control} class of the OL control.
-   */
-  this.init = function(objRef) {
-    if (objRef.targetModel.map) {
-      var layer = objRef.model.getParam('gmlRendererLayer');
-      if (objRef.map == objRef.targetModel.map &&
-          objRef.control && !layer) {
-        objRef.control.deactivate();
-        objRef.control.destroy();
-        objRef.control = null;
-      } else if (layer) {
-        objRef.control = new OpenLayers.Control.SelectFeature(layer, {
-          hover: true,
-          onSelect: objRef.onSelect,
-          onUnselect: objRef.onUnselect,
-          mbFeatureSelectHandler: objRef,
-          select: function(feature) {
-            if (feature.mbSelectStyle) {
-              this.selectStyle = feature.mbSelectStyle;
-            }
-            OpenLayers.Control.SelectFeature.prototype.select.apply(this, arguments);
-          }
-        });
-        objRef.map = objRef.targetModel.map;
-        objRef.map.addControl(objRef.control);
-        objRef.control.activate();
-      }
-    }
-  }
-  
-  /**
+   * Tool Initialisation - Step 1 of 3.
    * This is called when the config finished loading, so we know
    * our context (targetModel).
    * @param objRef This object
@@ -75,13 +43,51 @@ function FeatureSelectHandler(toolNode, model) {
   this.model.addListener('init', this.configInit, this)
   
   /**
+   * Tool Initialisation - Step 2 of 3.
    * This is called when the context model finished loading, so we
    * know that we have a map available.
    * @param objRef This object
    */
   this.contextInit = function(objRef) {
-    objRef.targetModel.removeListener('loadModel', objRef.contextInit, objRef);
     objRef.model.addListener('gmlRendererLayer', objRef.init, objRef);
+    // Check carefully if we have to init manually. This is the case when
+    // the gmlRendererLayer is rendered, but does not know about the
+    // FeatureSelectHandler yet.
+    if (objRef.targetModel.map && objRef.model.getParam('gmlRendererLayer') && !objRef.control) {
+      objRef.init(objRef);
+    }
+  }
+  
+  /**
+   * Tool Initialisation - Step 3 of 3.
+   * Turns on feature select when the gmlRendererLayer event is fired.
+   * @param objRef reference to this object.
+   * @return {OpenLayers.Control} class of the OL control.
+   */
+  this.init = function(objRef) {
+    var layer = objRef.model.getParam('gmlRendererLayer');
+    if (objRef.map == objRef.targetModel.map &&
+        objRef.control && !layer) {
+      objRef.control.deactivate();
+      objRef.control.destroy();
+      objRef.control = null;
+    } else if (layer) {
+      objRef.control = new OpenLayers.Control.SelectFeature(layer, {
+        hover: true,
+        onSelect: objRef.onSelect,
+        onUnselect: objRef.onUnselect,
+        mbFeatureSelectHandler: objRef,
+        select: function(feature) {
+          if (feature.mbSelectStyle) {
+            this.selectStyle = feature.mbSelectStyle;
+          }
+          OpenLayers.Control.SelectFeature.prototype.select.apply(this, arguments);
+        }
+      });
+      objRef.map = objRef.targetModel.map;
+      objRef.map.addControl(objRef.control);
+      objRef.control.activate();
+    }
   }
   
   /**
