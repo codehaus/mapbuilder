@@ -30,6 +30,8 @@ function CollectionList(widgetNode, model) {
   this.switchMap = function(objRef, modelUrl) {
     // save the current extent
     objRef.extent = objRef.targetModel.map.getExtent();
+    objRef.srs = objRef.targetModel.getSRS();
+    objRef.scale = objRef.targetModel.map.getScale();
    
     objRef.targetModel.addListener( "loadModel", objRef.setExtent, objRef );
     config.loadModel( objRef.targetModel.id, modelUrl );
@@ -42,6 +44,22 @@ function CollectionList(widgetNode, model) {
    */
   this.setExtent = function (objRef) {
     objRef.targetModel.removeListener( "loadModel", objRef.setExtent, objRef );
-    objRef.targetModel.map.zoomToExtent(objRef.extent);
+
+    var bbox = objRef.extent.toBBOX().split(/,/);  
+    if (objRef.targetModel.getSRS().toUpperCase() != objRef.srs.toUpperCase()) {
+      var targetProj = new Proj(objRef.targetModel.getSRS());
+      var srcProj = new Proj(objRef.srs);
+    	var ptLL=new PT(bbox[0],bbox[1]);
+    	var ptUR=new PT(bbox[2],bbox[3]);
+  		cs_transform(srcProj, targetProj, ptLL);
+	    cs_transform(srcProj, targetProj, ptUR);
+      objRef.extent = new OpenLayers.Bounds(ptLL.x, ptLL.y, ptUR.x, ptUR.y);
+    }
+    if (objRef.targetModel.map.getExtent().containsBounds(objRef.extent, false, false)) {
+      objRef.targetModel.map.zoomToExtent(objRef.extent);
+      if (objRef.targetModel.map.getScale() > objRef.scale) {
+        objRef.targetModel.map.zoomIn();
+      }
+    }
   }
 }
