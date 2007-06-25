@@ -86,24 +86,13 @@ function Measurement(widgetNode, model) {
         //transform coordinates from lat/lon to x/y in meter 
         objRef.srs = srs.toUpperCase();
         objRef.proj = new Proj (objRef.srs);
-        if (objRef.proj.units == null) {
-          objRef.proj.units = "degrees";
-        }
-                
-        if (objRef.proj.Forward) {
-       		var ptP=new PT( P[0], P[1]);
-	    	var ptQ=new PT(Q[0],Q[1]);
-    		cs_transform(new CS(csList.EPSG4326),objRef.proj,ptP);
-		    cs_transform(new CS(csList.EPSG4326),objRef.proj,ptQ);
-		    P = new Array(ptP.x,ptP.y);
-		    Q = new Array(ptQ.x,ptQ.y);   
-        }
+        
         if (!P || !Q  ){
           alert(mbGetMessage("projectionNotSupported"));
         }
         else {
           //If projection is in meters use simple pythagoras
-          if(objRef.proj.units == "meters") {
+          if(objRef.proj.units == "meters" || objRef.proj.units == "m") {
             Xp=parseFloat(P[0]);
             Yp=parseFloat(P[1]);
             Xq=parseFloat(Q[0]);
@@ -119,7 +108,7 @@ function Measurement(widgetNode, model) {
           }
           //If projection is in degrees use great circle formulae 
           //http://williams.best.vwh.net/avform.htm#GCF
-          else if(objRef.proj.units == "degrees") {
+          else if(objRef.proj.units == "degrees" || objRef.proj.units == null) {
             deg2rad = Math.PI / 180.0
             LonpRad=parseFloat(P[0]) * deg2rad;
             LatpRad=parseFloat(P[1]) * deg2rad;
