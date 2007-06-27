@@ -42,7 +42,6 @@
         </MapScaleBar>
         <Loading id="loading" />
         <CursorTrack id="cursorTrack">
-          <mouseHandler>mainMap</mouseHandler>
           <showXY>false</showXY>
         </CursorTrack>
         <Legend id="legend" />
@@ -74,9 +73,7 @@
       <widgets>
         <MapPaneOL id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
-          <fixedWidth>180</fixedWidth>
-          <extraAttributes>false</extraAttributes>
-			<fixedSize>true</fixedSize>
+			    <fixedSize>true</fixedSize>
         </MapPaneOL>
 <!--        <AoiBoxDHTML id="aoiBoxLocator">-->
 <!--          <htmlTagId>locatorMap</htmlTagId>-->
@@ -259,14 +256,14 @@
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
     </Reset>
-    <!-- GetFeatureInfo id="getFeatureInfo">
+    <GetFeatureInfo id="getFeatureInfo">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureInfoResponse</targetModel>
       <class>RadioButton</class>
       <enabledSrc>/images/QueryEnable.png</enabledSrc>
       <disabledSrc>/images/QueryDisable.png</disabledSrc>
-      <context>mainMap</context>
-    </GetFeatureInfo-->
+      <targetContext>mainMap</targetContext>
+    </GetFeatureInfo>
     <!--EditPoint id="editPoint">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureCollection</targetModel>
