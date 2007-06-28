@@ -173,7 +173,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   
     // register OpenLayers event to keep the context updated
     objRef.model.map.events.register('moveend', objRef.model.map, objRef.updateContext);
-    objRef.model.map.events.register('mouseup', objRef.model.map, objRef.updateCursor);
+    // register OpenLayers event to do updates onmouseup
+    objRef.model.map.events.register('mouseup', objRef.model.map, objRef.updateMouse);
     
     objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
 
@@ -218,7 +219,7 @@ MapPaneOL.prototype.updateContext = function(e) {
  * in OpenLayers resets the cursor to default.
  * @param e OpenLayers event
  */
-MapPaneOL.prototype.updateCursor = function(e) {
+MapPaneOL.prototype.updateMouse = function(e) {
   // get objRef from the event originator object (e.object),
   // where it was stored as mbPane property by paint().
   var objRef = e.object.mbMapPane;
@@ -227,6 +228,9 @@ MapPaneOL.prototype.updateCursor = function(e) {
   if (objRef.model.map.mbCursor) {
     objRef.model.map.div.style.cursor = objRef.model.map.mbCursor;
   }
+  
+  // fire Mapbuilder mouseup event
+  objRef.model.callListeners('mouseup', {evpl: [e.xy.x, e.xy.y]});
 }
 
 /**
