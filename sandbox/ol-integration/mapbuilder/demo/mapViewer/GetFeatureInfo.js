@@ -30,39 +30,42 @@ function GetFeatureInfo(widgetNode, model) {
     Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
       CLASS_NAME: 'mbControl.GetFeatureInfo',
       type: OpenLayers.Control.TYPE_TOOL,
-      objRef: objRef,
-      draw: function() {
-        this.handler = new OpenLayers.Handler.Box( this,
-          {done: this.zoomBox}, {keyMask: this.keyMask} );
-      },
-      zoomBox: function() {
-        var objRef = this.objRef
-        if (!objRef.enabled) return;
-        var layerNameList = new Array();
-        var selectedLayer=objRef.targetModel.getParam("selectedLayer");
-        if (selectedLayer==null) {
-          var queryList = objRef.targetModel.getQueryableLayers();
-          if (queryList.length==0) {
-             alert("There are no queryable layers available, please add a queryable layer to the map.");
-             return;
-          } else {
-            for (var i=0; i<queryList.length; ++i) {
-              layerNameList[i] = queryList[i].firstChild.nodeValue;   //convert to the layer names
-            }
-          }
-        } else {
-          layerNameList[0]= selectedLayer;
-        }
-        for (var i=0; i<layerNameList.length; ++i) {
-          var layerName = layerNameList[i];
-          var hidden = objRef.targetModel.getHidden(layerName);
-          if (hidden == 0) { //query only visible layers
-            config.objects.featureInfoController.requestStylesheet.setParameter("queryLayer", layerName);//TBD remove the hardcoded object ID here
-            objRef.targetModel.setParam("wms_GetFeatureInfo", layerName);
-          }
-        }
-      }
     });
     return Control;
+  }
+  
+  this.doSelect = function(objRef, selected) {
+    if (selected) {
+      objRef.targetModel.addListener('mouseup', objRef.doOnMouseup, objRef);
+    } else {
+      objRef.targetModel.removeListener('mouseup', objRef.doOnMouseup, objRef);
+    }
+  }
+  
+  this.doOnMouseup = function(objRef) {
+    if (!objRef.enabled) return;
+    var layerNameList = new Array();
+    var selectedLayer=objRef.targetModel.getParam("selectedLayer");
+    if (selectedLayer==null) {
+      var queryList = objRef.targetModel.getQueryableLayers();
+      if (queryList.length==0) {
+         alert("There are no queryable layers available, please add a queryable layer to the map.");
+         return;
+      } else {
+        for (var i=0; i<queryList.length; ++i) {
+          layerNameList[i] = queryList[i].firstChild.nodeValue;   //convert to the layer names
+        }
+      }
+    } else {
+      layerNameList[0]= selectedLayer;
+    }
+    for (var i=0; i<layerNameList.length; ++i) {
+      var layerName = layerNameList[i];
+      var hidden = objRef.targetModel.getHidden(layerName);
+      if (hidden == 0) { //query only visible layers
+        config.objects.featureInfoController.requestStylesheet.setParameter("queryLayer", layerName);//TBD remove the hardcoded object ID here
+        objRef.targetModel.setParam("wms_GetFeatureInfo", layerName);
+      }
+    }
   }
 }
