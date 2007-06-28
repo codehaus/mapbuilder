@@ -250,7 +250,9 @@ function GmlRendererOL(widgetNode, model) {
       var hiddenFeatures = objRef.hiddenFeatures.toString().split(/,/);
       objRef.hiddenFeatures = new Array();
       for (var i in hiddenFeatures) {
-        objRef.hideFeature(objRef, hiddenFeatures[i]);
+        if (hiddenFeatures[i]) {
+          objRef.hideFeature(objRef, hiddenFeatures[i]);
+        }
       }
     }
   }
