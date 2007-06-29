@@ -964,6 +964,31 @@
               <xs:documentation>if this is set to true, the size will be taken from the context doc. Otherwise, it is dynamically taken from the parent element.</xs:documentation>
             </xs:annotation>
           </xs:element>
+          <xs:element name="tileGutter" type="xs:int" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>For tiled wms layers: Overlap of map tiles in pixels. Useful for preventing rendering artefacts at tile edges. Recommended values: 0-15, default is 0 (no gutter at all).</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="tileBuffer" type="xs:int" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>For tiled wms layers: how many rows of tiles should be preloaded outside the visible map? Large values mean slow loading, small ones mean longer delays when panning. Recommended values: 1-3, default is 2.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="tileSize" type="xs:int" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>For tiled wms layers: how many pixels should the size of one tile be? Default is 256.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="imageBuffer" type="xs:int" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>for untiled wms layers: how many times should the map image be larger than the visible map. Large values mean slow loading, small ones mean many reloads when panning. Recommended values: 1-3, default is 2.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="displayOutsideMapExtent" type="xs:boolean" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Should layers also be rendered outside the map extent? Default is false.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

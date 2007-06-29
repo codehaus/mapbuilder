@@ -35,6 +35,48 @@ function MapPaneOL(widgetNode, model) {
     this.model.addFirstListener( "loadModel", this.model.extent.firstInit, this.model.extent );
   }
 
+  var tileGutter = widgetNode.selectSingleNode("mb:tileGutter");
+  /**
+   * For tiled wms layers: Overlap of map tiles in pixels. Useful for
+   * preventing rendering artefacts at tile edges. Recommended values:
+   * 0-15, default is 0 (no gutter at all).
+   */
+  this.tileGutter = tileGutter ? tileGutter.firstChild.nodeValue : 0;
+  
+  var tileBuffer = widgetNode.selectSingleNode("mb:tileBuffer");
+  /**
+   * For tiled wms layers: how many rows of tiles should be preloaded
+   * outside the visible map? Large values mean slow loading, small
+   * ones mean longer delays when panning. Recommended values: 1-3,
+   * default is 2.
+   */
+  this.tileBuffer = tileBuffer ? tileBuffer.firstChild.nodeValue : 2;
+  
+  var tileSize = widgetNode.selectSingleNode("mb:tileSize");
+  /**
+   * For tiled wms layers: how many pixels should the size of one tile
+   * be? Default is 256.
+   */
+  this.tileSize = tileSize ? tileSize.firstChild.nodeValue : 256;
+  
+  var imageBuffer = widgetNode.selectSingleNode("mb:imageBuffer");
+  /**
+   * for untiled wms layers: how many times should the map image be
+   * larger than the visible map. Large values mean slow loading, small
+   * ones mean many reloads when panning. Recommended values: 1-3,
+   * default is 2.
+   */
+  this.imageBuffer = imageBuffer ? imageBuffer.firstChild.nodeValue : 2;
+  
+  var displayOutsideMaxExtent = widgetNode.selectSingleNode("mb:displayOutsideMaxExtent");
+  /**
+   * Should layers also be rendered outside the map extent? Default is false.
+   */
+  this.displayOutsideMaxExtent = displayOutsideMaxExtent ? displayOutsideMaxExtent.firstChild.nodeValue : 'false';
+  if (this.displayOutsideMaxExtent.toUpperCase == 'FALSE') {
+    this.displayOutsideMaxExtent = false;
+  }
+
   /**
    * Called after a feature has been added to a WFS.  This function triggers
    * the WMS basemaps to be redrawn.  A timestamp param is added to the URL
@@ -367,7 +409,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
           maxResolution: objRef.model.map.maxResolution,  //"auto" if not defined in the context
           alpha: false,            //option for png transparency with ie6
           isBaseLayer: false,
-          displayOutsideMaxExtent: false
+          displayOutsideMaxExtent: objRef.displayOutsideMaxExtent
      };
 
   switch(service){
@@ -384,6 +426,9 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         layerOptions.reproject=false;
         layerOptions.isBaseLayer=false;
       }
+      
+      layerOptions.ratio = objRef.imageBuffer;
+
       var params = new Array();
       params = sld2UrlParam(currentStyle);
       objRef.oLlayers[name2]= new OpenLayers.Layer.WMS.Untiled(title,href,{
@@ -415,6 +460,11 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         layerOptions.reproject=false;
         layerOptions.isBaseLayer=false;
       }
+
+      layerOptions.gutter = objRef.tileGutter;
+      layerOptions.buffer = objRef.tileBuffer;
+      layerOptions.tileSize = new OpenLayers.Size(objRef.tileSize, objRef.tileSize);
+      
       var params = new Array();
       params = sld2UrlParam(currentStyle);
       objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
