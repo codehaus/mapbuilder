@@ -108,6 +108,7 @@ function FeatureSelectHandler(toolNode, model) {
    * @param feature OpenLayers feature
    */
   this.onSelect = function(feature) {
+    if (!feature) return;
     var objRef = this.mbFeatureSelectHandler;
     objRef.model.setParam("mouseoverFeature", feature.fid);
     feature.mbFeatureSelectHandler = objRef;
@@ -123,6 +124,7 @@ function FeatureSelectHandler(toolNode, model) {
    * @param feature OpenLayers feature
    */
   this.onUnselect = function(feature) {
+    if (!feature) return;
     var objRef = this.mbFeatureSelectHandler;
     objRef.model.setParam("mouseoutFeature", feature.fid);
     if (feature.layer.events) {
@@ -157,10 +159,12 @@ function FeatureSelectHandler(toolNode, model) {
    * model param.
    */
   this.highlight = function(objRef, fid) {
+    var layer = objRef.model.getParam('gmlRendererLayer');
+    if (!layer) return;
     if (!fid) {
       fid = objRef.model.getParam('highlightFeature');
     }
-    var feature = objRef.model.getParam('gmlRendererLayer').getFeatureByFid(fid);
+    var feature = layer.getFeatureByFid(fid);
     if (feature && !feature.mbHidden) {
       objRef.control.select(feature);
     }
@@ -177,10 +181,12 @@ function FeatureSelectHandler(toolNode, model) {
    * model param.
    */
   this.dehighlight = function(objRef, fid) {
+    var layer = objRef.model.getParam('gmlRendererLayer');
+    if (!layer) return;
     if (!fid) {
       fid = objRef.model.getParam('dehighlightFeature');
     }
-    var feature = objRef.model.getParam('gmlRendererLayer').getFeatureByFid(fid);
+    var feature = layer.getFeatureByFid(fid);
     if (feature && !feature.mbHidden) {
       objRef.control.unselect(feature);
     }
