@@ -38,42 +38,27 @@ function MergeModel(modelNode, parent) {
     if (model.doc) {
       objRef.mergeModel(objRef, model.doc);
     }
-    model.addListener('loadModel', objRef.buildModel, objRef);
+    model.addListener('refresh', objRef.buildModel, objRef);
   }
   
-  this.mergeModel = function(objRef, docToMerge) {
+  this.mergeModel = function(objRef, modelToMerge) {
+    var docToMerge = modelToMerge.doc;
     if (!docToMerge) return;
-    objRef.callListeners('newModel');
     if (!objRef.doc) {
-      objRef.doc = docToMerge.cloneNode(docToMerge.documentElement);
+      objRef.doc = docToMerge.cloneNode(true);
     } else {
-      var nodes = docToMerge.documentElement.childNodes;
-      for (var i = 0; i < nodes.length; i++) {
-        objRef.doc.documentElement.appendChild(docToMerge.cloneNode(nodes[i]));
-      }
+      Sarissa.copyChildNodes(docToMerge.documentElement, objRef.doc.documentElement, true);
     }
   }
   
   this.buildModel = function(objRef) {
+    objRef.callListeners('newModel');
+    objRef.doc = null;
     for (var i in objRef.models) {
-      objRef.mergeModel(objRef, objRef.models[i].doc);
+      objRef.mergeModel(objRef, objRef.models[i]);
     }
     objRef.callListeners('loadModel');
-    objRef.callListeners('refresh');
   }
   
-  this.updateEvents = function(objRef) {
-    objRef.listeners = new Array();
-    var listeners;
-    for (var i in objRef.models) {
-      listeners = objRef.models[i].listeners;
-      for (var param in listeners) {
-        for (var j in listeners[param]) {
-          objRef.addListener(param, listeners[param][j][0], listeners[param][j][1]);
-        }
-      }
-    }
-  }
-
   this.CLASS_NAME = 'MergeModel';
 }
