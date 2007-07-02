@@ -39,11 +39,11 @@ $Name:  $
     <xsl:variable name="y"><xsl:value-of select="geo:lat"/></xsl:variable>
     <xsl:variable name="link"><xsl:value-of select="rss:link"/></xsl:variable>
     <xsl:variable name="icon">../../lib/skin/default<xsl:value-of select="geo:icon"/></xsl:variable>
-    <tr onmouseover="config.objects.{$modelId}.setParam('highlightFeature','{$fid}')" onmouseout="config.objects.{$modelId}.setParam('dehighlightFeature','{$fid}')">
+    <tr>
       <td>
         <input type="checkbox" checked="true" onclick="this.checked?config.objects.{$modelId}.setParam('showFeature','{$fid}'):config.objects.{$modelId}.setParam('hideFeature','{$fid}')" />
       </td>
-      <td>
+      <td onmouseover="config.objects.{$modelId}.setParam('highlightFeature','{$fid}')" onmouseout="config.objects.{$modelId}.setParam('dehighlightFeature','{$fid}')">
         <!-- img src="{$icon}" / -->
         <a href="{$link}"><xsl:value-of select="rss:title"/></a>
         <xsl:copy-of select="rss:description"/>
