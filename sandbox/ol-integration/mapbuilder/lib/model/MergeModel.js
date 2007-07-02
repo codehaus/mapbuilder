@@ -49,7 +49,7 @@ function MergeModel(modelNode, parent) {
     } else {
       var nodes = docToMerge.documentElement.childNodes;
       for (var i = 0; i < nodes.length; i++) {
-        objRef.doc.documentElement.appendChild(nodes[i]);
+        objRef.doc.documentElement.appendChild(docToMerge.cloneNode(nodes[i]));
       }
     }
   }
