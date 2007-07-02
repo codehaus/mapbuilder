@@ -239,6 +239,7 @@
       <xs:element name="GeoRSS" type="mb:GeoRSSType"/>
       <xs:element name="GetMap" type="mb:GetMapType"/>
       <xs:element name="Logger" type="mb:LoggerType"/>
+      <xs:element name="MergeModel" type="mb:MergeModelType">
       <xs:element name="Model" type="mb:ModelType">
         <xs:annotation>
           <xs:documentation>A generic model to represent an XML document where no specialized get or set methods are required</xs:documentation>
@@ -356,7 +357,7 @@
       <xs:element name="DragPanHandler" type="mb:DragPanHandlerType"/>
       <xs:element name="EditContext" type="mb:EditContextType"/>
       <xs:element name="EditSLD" type="mb:EditSLDType"/>
-      <xs:element name="FeatureSelectHandler" type="mb:AbstractToolType"/>
+      <xs:element name="FeatureSelectHandler" type="mb:FeatureSelectHandlerType"/>
       <xs:element name="History" type="mb:HistoryType"/>
       <xs:element name="MouseClickHandler" type="mb:MouseClickHandlerType"/>
       <xs:element name="MovieLoop" type="mb:MovieLoopType"/>
@@ -424,6 +425,14 @@
   <xs:complexType name="LoggerType">
     <xs:annotation>
       <xs:documentation>Records a log of events that occur over the course of mapbuilder execution</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="mb:AbstractModelType"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MergeModelType">
+    <xs:annotation>
+      <xs:documentation>A model that can combine other models from the config that have the same namespace and root node. This is useful eg. for packing all GML rendering into a single layer.</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="mb:AbstractModelType"/>
