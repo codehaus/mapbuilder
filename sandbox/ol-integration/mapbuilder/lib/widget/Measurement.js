@@ -31,7 +31,7 @@ function Measurement(widgetNode, model) {
     Control.prototype = OpenLayers.Class.inherit(OpenLayers.Control.DrawFeature, {
       // this is needed because all editing tools are of type
       // OpenLayers.Control.DrawFeature
-      CLASS_NAME: 'mbMeasurement',
+      CLASS_NAME: 'mbMeasurement'
     });
     return Control;
   }
