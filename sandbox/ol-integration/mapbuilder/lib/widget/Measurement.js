@@ -117,12 +117,28 @@ function Measurement(widgetNode, model) {
           //If projection is in degrees use great circle formulae 
           //http://williams.best.vwh.net/avform.htm#GCF
           else if(objRef.proj.units == "degrees" || objRef.proj.units == null) {
-            deg2rad = Math.PI / 180.0
+            var deg2rad = Math.PI / 180.0
+            var centerOfEarth=new Array(0,0);
             LonpRad=parseFloat(P[0]) * deg2rad;
             LatpRad=parseFloat(P[1]) * deg2rad;
             LonqRad=parseFloat(Q[0]) * deg2rad;
             LatqRad=parseFloat(Q[1]) * deg2rad;
-            radDistance=Math.acos(Math.sin(LatpRad)*Math.sin(LatqRad)+Math.cos(LatpRad)*Math.cos(LatqRad)*Math.cos(LonpRad-LonqRad));
+            
+            if((LonpRad>0 && LonqRad<0) || (LonpRad<0 && LonqRad>0)){
+	            if(LonpRad<0){
+	           	 	radDistance=Math.acos(Math.sin(LatpRad)*Math.sin(LatqRad)+Math.cos(LatpRad)*Math.cos(LatqRad)*Math.cos(LonpRad));
+	            	radDistance+=Math.acos(Math.sin(LatpRad)*Math.sin(LatqRad)+Math.cos(LatpRad)*Math.cos(LatqRad)*Math.cos(LonqRad));
+	            }
+	            if(LonqRad<0){
+	            	radDistance=Math.acos(Math.sin(LatpRad)*Math.sin(LatqRad)+Math.cos(LatpRad)*Math.cos(LatqRad)*Math.cos(LonqRad));
+	            	radDistance+=Math.acos(Math.sin(LatpRad)*Math.sin(LatqRad)+Math.cos(LatpRad)*Math.cos(LatqRad)*Math.cos(LonpRad));
+	            }
+             }
+             else{
+             
+            	radDistance=Math.acos(Math.sin(LatpRad)*Math.sin(LatqRad)+Math.cos(LatpRad)*Math.cos(LatqRad)*Math.cos(LonpRad-LonqRad));
+            
+            }
             //radDistance=Math.acos(Math.sin(Latp)*Math.sin(Latq)+Math.cos(Latp)*Math.cos(Latq)*Math.cos(Lonp-Lonq));
             distance =radDistance * 6378137;
             if(distance==0) {
