@@ -12,7 +12,7 @@ var TWO_PI=PI*2;
 var R2D=57.2957795131;
 var D2R=0.0174532925199;
 var SEC_TO_RAD = 4.84813681109535993589914102357e-6 /* SEC_TO_RAD = Pi/180/3600 */
-var EPSLN = 1.0e-10;
+var EPSLN = 1.0e-100;
 var SRS_WGS84_SEMIMAJOR=6378137.0;  // only used in grid shift transforms
 
 /* datum_type values */
