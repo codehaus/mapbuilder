@@ -5,6 +5,7 @@ Styles for buttonBar
 
 .olControlPanel {
 	height: 24px;
+	width:300px;
 }
 
 .olControlPanel div { 
