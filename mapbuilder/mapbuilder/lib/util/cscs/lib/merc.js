@@ -18,7 +18,7 @@ mercInit=function(def)
 	this.m1 = Math.cos(this.lat_origin) / (Math.sqrt( 1.0 - this.es * Math.sin(this.lat_origin) * Math.sin(this.lat_origin)));
 	*/
 	def.temp = def.b / def.a;
-	def.es=1.0 - Math.sqrt(def.temp);
+	def.es = 1.0 - (def.temp * def.temp);
 	def.e = Math.sqrt( def.es );
 	def.m1 = Math.cos(0.0) / (Math.sqrt( 1.0 - def.es * Math.sin(0.0) * Math.sin(0.0)));
 
