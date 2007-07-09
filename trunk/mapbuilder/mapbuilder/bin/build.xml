@@ -168,7 +168,7 @@ $Id$
     <!-- Copy static content of the mapbuilder project  -->
     <copy todir="${build.home}">
       <fileset dir="${basedir}"
-        includes="demo/** lib/** docs/** server/php/** CHANGES LICENSE LGPL README index.html config.xml"/>
+        includes="demo/** lib/** docs/** server/php/** selenium/** CHANGES LICENSE LGPL README index.html config.xml"/>
     </copy>
     <copy file="${basedir}/server/php/mapbuilderConfig.xml" todir="${build.home}/lib" overwrite="true"/>
   </target>
@@ -393,7 +393,7 @@ $Id$
     </copy>
 	<!-- Also run new compression routine, using DOJO -->
  	<chmod file="${basedir}/bin/kompress.sh" perm="ugo+rx"/>
-        <exec executable="${basedir}/bin/kompress.sh" os="Linux"/>
+    <exec executable="${basedir}/bin/kompress.sh" os="Linux"/>
   </target>
 
 
@@ -473,9 +473,9 @@ $Id$
   		<tstamp/>
 		<!-- <delete dir="${mapbuilder.webapp.deploy.dir}"/> -->
   		<copydir dest="${mapbuilder.webapp.deploy.dir}" src="${basedir}/build"></copydir>
-  		<copyfile dest="${nightlybuild.dir}/${pack.name}-src-${app.version}-${DSTAMP}.zip" src="${dist.home}/${pack.name}-src-${app.version}.zip"/>
-  		<copyfile dest="${nightlybuild.dir}/${pack.name}-${app.version}-${DSTAMP}.zip" src="${dist.home}/${pack.name}-${app.version}.zip"/>
-  		<copyfile dest="${nightlybuild.dir}/${pack.name}-${app.version}-war-${DSTAMP}.zip" src="${dist.home}/${pack.name}-${app.version}-war.zip"/>
+  		<copy verbose="true" tofile="${nightlybuild.dir}/${pack.name}-src-${app.version}-${DSTAMP}.zip" file="${dist.home}/${pack.name}-src-${app.version}.zip"/>
+  		<copy verbose="true" tofile="${nightlybuild.dir}/${pack.name}-${app.version}-${DSTAMP}.zip" file="${dist.home}/${pack.name}-${app.version}.zip"/>
+  		<copy verbose="true" tofile="${nightlybuild.dir}/${pack.name}-${app.version}-war-${DSTAMP}.zip" file="${dist.home}/${pack.name}-${app.version}-war.zip"/>
   	</target>
 <!--
   The "dist-apache" target creates the zip file distribution for the Apache/PHP
