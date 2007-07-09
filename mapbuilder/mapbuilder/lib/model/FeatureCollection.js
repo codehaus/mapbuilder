@@ -74,9 +74,9 @@ function FeatureCollection(modelNode, parent) {
 		        for (var j=0; j<coordsArray.length; ++j) {
 		          var xy = coordsArray[j].split(',');
 		          if (xy.length==2) {
-		            var llTemp = sourceProj.Inverse(xy);
-		            xy = containerProj.Forward(llTemp);
-		            newCoords += xy.join(',') + ' ';
+		            var pt=new PT(xy[0],xy[1]);
+    				cs_transform(sourceProj,containerProj,pt);
+		            newCoords += pt.join(',') + ' ';
 		          }
 		        }
 		        coordNodes[i].firstChild.nodeValue=newCoords;
@@ -90,29 +90,29 @@ function FeatureCollection(modelNode, parent) {
     * Called when the OWSContext gets loaded
     */
   this.loadWfsRequests = function(objRef) {
-    //alert( "FeatureCollection loadModel:"+Sarissa.serialize(objRef.containerModel.doc))
+    //alert( "FeatureCollection loadModel:"+(new XMLSerializer()).serializeToString(objRef.containerModel.doc))
     // we need to retrieve all the features
     if( objRef.containerModel.doc != null) {
-      //alert( "FeatureCollection loadModel:"+Sarissa.serialize(objRef.containerModel.doc))
+      //alert( "FeatureCollection loadModel:"+(new XMLSerializer()).serializeToString(objRef.containerModel.doc))
       var featureTypes = objRef.containerModel.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType");
       if( featureTypes.length > 0 ) {
         for( var i=0; i<featureTypes.length; i++) {
           var httpPayload = new Object();        
         
           var wfsFeature = featureTypes[i]
-          //alert( "feature:"+ Sarissa.serialize(wfsFeature) )
+          //alert( "feature:"+ (new XMLSerializer()).serializeToString(wfsFeature) )
           
           var server = wfsFeature.selectSingleNode("wmc:Server")
-          //alert( "server:"+ Sarissa.serialize(server) )
+          //alert( "server:"+ (new XMLSerializer()).serializeToString(server) )
           var onlineResource = server.selectSingleNode("wmc:OnlineResource")
-          //alert( "onlineResource:"+ Sarissa.serialize(onlineResource) )
+          //alert( "onlineResource:"+ (new XMLSerializer()).serializeToString(onlineResource) )
           httpPayload.method = onlineResource.getAttribute("method")
           httpPayload.url = onlineResource.getAttribute("xlink:href")
           //alert( "server:"+ httpPayload.method + " " + httpPayload.url )
           
           var query = wfsFeature.selectSingleNode("wfs:GetFeature")
-          //alert( "query2:"+ Sarissa.serialize( query ))
-          httpPayload.postData = Sarissa.serialize( query )
+          //alert( "query2:"+ (new XMLSerializer()).serializeToString( query ))
+          httpPayload.postData = (new XMLSerializer()).serializeToString( query )
           
           // This does not work on IE for some reaso
           // wfsFeature.model = objRef;
@@ -152,16 +152,11 @@ function FeatureCollection(modelNode, parent) {
 
   /**
    * Returns the list of nodes selected by the nodeSelectpath.  These nodes
-   * will be the individual feature memebers from the collection.
+   * will be the individual feature members from the collection.
    * @return list of nodes selected 
    */
   this.getFeatureNodes = function() {
-    //alert( Sarissa.serialize(this.doc))
-    var featureMember =  this.doc.selectSingleNode(this.nodeSelectXpath);
-    if( featureMember != null )
-      return featureMember.childNodes
-    else
-      return null;
+    return this.doc.selectNodes(this.nodeSelectXpath);
   }
 
   /**
@@ -190,7 +185,6 @@ function FeatureCollection(modelNode, parent) {
    */
   this.getFeaturePoint = function(featureNode) {
     var coords = featureNode.selectSingleNode(this.coordSelectXpath);
-    var coords = featureNode.selectSingleNode(coordSelectXpath);
     if (coords) {
       var point = coords.firstChild.nodeValue.split(',');
       return point
@@ -209,10 +203,7 @@ function FeatureCollection(modelNode, parent) {
     if( geometryTag != null )
       return geometryTag.firstChild;
     else {
-      alert(mbGetMessage("invalidGeom", Sarissa.serialize(featureNode)));
+      alert(mbGetMessage("invalidGeom", (new XMLSerializer()).serializeToString(featureNode)));
     }
   }
-
-
 }
-

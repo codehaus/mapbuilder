@@ -81,7 +81,7 @@ function MapPane2(widgetNode, model) {
 MapPane2.prototype.paint = function(objRef, refresh) {
 
   if (objRef.model.doc && objRef.node && (objRef.autoRefresh||refresh) ) {
-    //if (objRef.debug) mbDebugMessage(objRef, "source:"+Sarissa.serialize(objRef.model.doc));
+    //if (objRef.debug) mbDebugMessage(objRef, "source:"+(new XMLSerializer()).serializeToString(objRef.model.doc));
 
     objRef.stylesheet.setParameter("width", objRef.model.getWindowWidth());
     objRef.stylesheet.setParameter("height", objRef.model.getWindowHeight());
@@ -89,12 +89,12 @@ MapPane2.prototype.paint = function(objRef, refresh) {
     objRef.stylesheet.setParameter("srs", objRef.model.getSRS());
 
     //confirm inputs
-    if (objRef.debug) mbDebugMessage(objRef, "painting:"+Sarissa.serialize(objRef.model.doc));
-    if (objRef.debug) mbDebugMessage(objRef, "stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
+    if (objRef.debug) mbDebugMessage(objRef, "painting:"+(new XMLSerializer()).serializeToString(objRef.model.doc));
+    if (objRef.debug) mbDebugMessage(objRef, "stylesheet:"+(new XMLSerializer()).serializeToString(objRef.stylesheet.xslDom));
 
     //process the doc with the stylesheet
     var tempDom = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
-    if( tempDom.parseError != 0 ) {
+    if( Sarissa.getParseErrorText(tempDom) != Sarissa.PARSED_OK) {
         alert(mbGetMessage("parseError", Sarissa.getParseErrorText(tempDom)));
     }
     

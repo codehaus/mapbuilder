@@ -26,15 +26,21 @@ ButtonBar.xsl,v 1.5 2004/03/25 21:25:43 madair1 Exp
   <!-- Text params for this widget -->
   <xsl:param name="tooltip">set the tooltip property in WidgetText file</xsl:param>
   <xsl:param name="buttonText"/>
+  <xsl:param name="cssName"/>
     
   <xsl:template match="*">
     <xsl:param name="linkUrl">javascript:config.objects.<xsl:value-of select="$widgetId"/>.select()<xsl:if test="$action">;config.objects.<xsl:value-of select="$action"/></xsl:if></xsl:param>
     <xsl:param name="imageID"><xsl:value-of select="@id"/>_image</xsl:param>
-    <xsl:param name="imageSrc"><xsl:value-of select="mb:disabledSrc"/></xsl:param>
-    <a href="{$linkUrl}" class="mbButton">
-      <xsl:if test="string-length($imageSrc)>0"><img src="{$skinDir}{$imageSrc}" id="{$imageID}" title="{$tooltip}" border="0"/></xsl:if>
-      <xsl:if test="string-length($buttonText)>0"><xsl:value-of select="$buttonText"/></xsl:if>
-    </a>
+    <xsl:param name="disabledSrc"><xsl:value-of select="mb:disabledSrc"/></xsl:param>
+    <xsl:param name="enabledSrc"><xsl:value-of select="mb:enabledSrc"/></xsl:param>
+    <style>
+      .olControlPanel .<xsl:value-of select="$cssName"/>Active {
+		background-image: url('<xsl:value-of select="concat($skinDir,$enabledSrc)"/>');
+      }
+      .olControlPanel .<xsl:value-of select="$cssName"/>Inactive {
+		background-image: url('<xsl:value-of select="concat($skinDir,$disabledSrc)"/>');
+      }
+    </style>
   </xsl:template>
 
 </xsl:stylesheet>

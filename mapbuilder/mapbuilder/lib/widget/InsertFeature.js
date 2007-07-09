@@ -37,11 +37,21 @@ function InsertFeature(widgetNode, model) {
   /** Xsl to convert Feature into a WFS Transaction Update. */
   this.updateXsl=new XslProcessor(baseDir+"/tool/xsl/wfs_Update.xsl");
 
+  /** creates the OL control for this button */
+  this.createControl = function(objRef) {
+    var Control = OpenLayers.Class.create();
+    Control.prototype = OpenLayers.Class.inherit(OpenLayers.Control, {
+      CLASS_NAME: 'mbInsertFeature',
+      type: OpenLayers.Control.TYPE_BUTTON
+    });
+    return Control;
+  }
+
   /**
    * Start a WFS-T InsertFeature transaction.
    * @param objRef Pointer to this object.
    */
-  this.doSelect = function(selected,objRef) {
+  this.doSelect = function(objRef, selected) {
     if (selected){
       // Model that will be populated with the WFS response.
       if (!objRef.transactionResponseModel){
@@ -80,7 +90,10 @@ function InsertFeature(widgetNode, model) {
     if (sucess){
       // Remove FeatureList
       objRef.targetModel.setModel(objRef.targetModel,null);
-
+      
+      // Repaint GmlRenderers
+      objRef.targetModel.callListeners("refreshGmlRenderers");
+ 
       // Repaint the WMS layers
       objRef.targetContext.callListeners("refreshWmsLayers");
     }

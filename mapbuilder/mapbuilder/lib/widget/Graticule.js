@@ -12,53 +12,67 @@ function Graticule(widgetNode, model) {
 
 	ButtonBase.apply(this, new Array(widgetNode, model));
 
-	this.mapContainerId=widgetNode.selectSingleNode("mb:mapContainerId").firstChild.nodeValue;
 	this.display=false;
 	this.color=widgetNode.selectSingleNode("mb:color").firstChild.nodeValue;
 	
-	
 	/**
+   * Interactive ZoomOut control.
+   * @param objRef reference to this object.
+   * @return {OpenLayers.Control} class of the OL control.
+   */
+  this.createControl = function(objRef) {
+    var Control = OpenLayers.Class.create();
+    Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
+      CLASS_NAME: 'mbControl.Graticule',
+      type: OpenLayers.Control.TYPE_TOGGLE,
+	  objRef:objRef,
+////////////////////////////ancien/////////////////////	
+/**
    * Remove divs
    * @param objRef Pointer to this object.
    */
-	this.remove = function(objRef) {
+	removeGraticules : function() {
 	
 	  try{
 			  var i = 0;
-			  var div = objRef.map;
+			  var div = this.mapContainer;
 		
-		  	for(i=0; i< objRef.divs.length; i++)
+		  	for(i=0; i< this.divs.length; i++)
 		  	{
-				div.removeChild(objRef.divs[i]);
+				div.removeChild(this.divs[i]);
 			}
 	  }
 	  catch(e){
 	  }
 	
-	}
+	},
 
 	/**
    * Get bbox of MapPane with the right projection
    * Return an object
-   * @param objRef Pointer to this object.
+   * @param this Pointer to this object.
    */
-	this.getBbox= function(objRef) {
+	getBbox : function() {
 	
 			var bbox=new Object();
 			bbox.ll=new Object();
 			bbox.ur=new Object();
-			ll=objRef.proj.Inverse(new Array(objRef.bbox[0],objRef.bbox[1]));
-			ur=objRef.proj.Inverse(new Array(objRef.bbox[2],objRef.bbox[3]));
+			///CSCS
+    		var ll=new PT(this.bbox[0], this.bbox[1]);
+    		var ur=new PT(this.bbox[2], this.bbox[3]);
+    		
+    		cs_transform(this.proj,new CS(csList.EPSG4326),ll);
+    		cs_transform(this.proj,new CS(csList.EPSG4326),ur);
 		
 			
-			bbox.ll.lon=ll[0];		//minx
-			bbox.ll.lat=ll[1];		//miny
-			bbox.ur.lon=ur[0];		//maxx
-			bbox.ur.lat=ur[1];		//maxy
+			bbox.ll.lon=ll.x;		//minx
+			bbox.ll.lat=ll.y;		//miny
+			bbox.ur.lon=ur.x;		//maxx
+			bbox.ur.lat=ur.y;		//maxy
 		
 			return bbox;
 		
-	}
+	},
 
 	/**
    * Calculate rounded graticule interval for supplied lat/lon span
@@ -67,7 +81,7 @@ function Graticule(widgetNode, model) {
    */
 	//
 	//return is in minutes
-	this.gridIntervalMins = function(dDeg) {  
+	gridIntervalMins : function(dDeg) {  
 	
 	  var dDeg = dDeg/10;				//want around 10 lines in the graticule
 	  dDeg *= 6000;						//to minutes*100
@@ -109,7 +123,7 @@ function Graticule(widgetNode, model) {
 		
 	  return dDeg;
 	
-}
+},
 
 
 	
@@ -117,7 +131,7 @@ function Graticule(widgetNode, model) {
 	*
 	*@param dDeg difference in degrees.
 	*/
-	this.gridPrecision = function(dDeg) {
+	gridPrecision : function(dDeg) {
 		if(dDeg < 0.01)
 			return 3;
 		else if(dDeg < 0.1)
@@ -125,18 +139,18 @@ function Graticule(widgetNode, model) {
 		else if(dDeg < 1)
 			return 1;
 		else return 0;
-	}
+	},
 
 	/* Draw graticules
 	*
-	*@param objRef pointer to this object.
+	*@param this pointer to this object.
 	*/
-	this.draw= function(objRef){
+	addGraticules : function(){
 
 		//Delete old graticule
-		objRef.remove(objRef);
+		this.removeGraticules();
 		
-		var bbox=objRef.getBbox(objRef);
+		var bbox=this.getBbox();
 		
 		var l=bbox.ll.lon; //////ll:lower left coordinates 
 		var b=bbox.ll.lat;		//ll:lower left ,ll.long : latitude(y) de coin en bas a gauche
@@ -166,12 +180,12 @@ function Graticule(widgetNode, model) {
 		  
 		  
 		  //grid interval in minutes    
-		  var dLat = objRef.gridIntervalMins(t-b);
+		  var dLat = this.gridIntervalMins(t-b);
 		  var dLng; 
 		  if(r>l)
-			dLng = objRef.gridIntervalMins(r-l);
+			dLng = this.gridIntervalMins(r-l);
 		  else
-		    dLng = objRef.gridIntervalMins((180-l)+(r+180));
+		    dLng = this.gridIntervalMins((180-l)+(r+180));
 		
 		  //round iteration limits to the computed grid interval
 		  l = Math.floor(l*60/dLng)*dLng/60;
@@ -195,33 +209,33 @@ function Graticule(widgetNode, model) {
 		  dLat /= 60;
 		  dLng /= 60;
 
-		  objRef.dLat=dLat;
-		  objRef.dLon=dLng;
+		  this.dLat=dLat;
+		  this.dLon=dLng;
 		  
 		  //# digits after DP for labels
-		  var latDecs = objRef.gridPrecision(dLat);
-		  var lonDecs = objRef.gridPrecision(dLng);
+		  var latDecs = this.gridPrecision(dLat);
+		  var lonDecs = this.gridPrecision(dLng);
 		 
 		  //array for divs used for lines and labels
-		  objRef.divs = new Array();
+		  this.divs = new Array();
 		  var i=0;//count inserted divs
 		
 		  //min and max x and y pixel values for graticule lines
-		  var pbl = objRef.fromLatLngToDivPixel(objRef,b,l);
-		  var ptr = objRef.fromLatLngToDivPixel(objRef,t,r);
+		  var pbl = this.fromLatLngToDivPixel(b,l);
+		  var ptr = this.fromLatLngToDivPixel(t,r);
 		
 		  
-		  objRef.maxX = ptr.x;
-		  objRef.maxY = pbl.y;
-		  objRef.minX = pbl.x;
-		  objRef.minY = ptr.y;
+		  this.maxX = ptr.x;
+		  this.maxY = pbl.y;
+		  this.minX = pbl.x;
+		  this.minY = ptr.y;
 		  var x;//coord for label
 		  
 		  //labels on second column to avoid peripheral controls
-		  var y = objRef.fromLatLngToDivPixel(objRef,b+dLat+dLat,l).y + 2;//coord for label
+		  var y = this.fromLatLngToDivPixel(b+dLat+dLat,l).y + 2;//coord for label
 		  
 		  //pane/layer to write on
-		  var mapDiv = objRef.map;//objRef.map_.getPane(G_MAP_MARKER_SHADOW_PANE);
+		  var mapDiv = this.mapContainer;//this.map_.getPane(G_MAP_MARKER_SHADOW_PANE);
 		  
 		  var lo = l;
 		  
@@ -231,10 +245,11 @@ function Graticule(widgetNode, model) {
 		  //vertical lines
 		  while(lo<=r){
 				
-				 var p = objRef.fromLatLngToDivPixel(objRef,b,lo);
+				 var p = this.fromLatLngToDivPixel(b,lo);
 				 //line
-				 objRef.divs[i] = objRef.createVLine(objRef,p.x);
-				 mapDiv.insertBefore(objRef.divs[i],null);
+				 this.divs[i] = this.createVLine(p.x);
+				 this.divs[i].style.zIndex = this.div.style.zIndex;
+				 mapDiv.insertBefore(this.divs[i],null);
 				 i++;
 				  	
 				 //label	 
@@ -244,7 +259,7 @@ function Graticule(widgetNode, model) {
 				 d.style.position = "absolute";
 		         d.style.left = x.toString() + "px";
 		         d.style.top = y.toString() + "px";
-				 d.style.color = objRef.color;
+				 d.style.color = this.color;
 				 d.style.fontFamily='Arial';
 				 d.style.fontSize='x-small';
 		         
@@ -260,8 +275,10 @@ function Graticule(widgetNode, model) {
 				{	d.title = mbGetMessage("eastWgs84");
 					d.innerHTML = (Math.abs(lo)).toFixed(lonDecs)+" W";
 				 }
+				 
+				d.style.zIndex = this.div.style.zIndex;
 				 mapDiv.insertBefore(d,null);
-				 objRef.divs[i] = d;
+				 this.divs[i] = d;
 			
 				 i++;
 				 lo += dLng;	
@@ -276,29 +293,32 @@ function Graticule(widgetNode, model) {
 	var j = 0;
 	      
 	  //labels on second row to avoid controls
-	  x = objRef.fromLatLngToDivPixel(objRef,b,l+dLng+dLng).x + 3;
+	  x = this.fromLatLngToDivPixel(b,l+dLng+dLng).x + 3;
 	  
 	  //horizontal lines
 	  while(b<=t){
 
-			 var p = objRef.fromLatLngToDivPixel(objRef,b,l);
+			 var p = this.fromLatLngToDivPixel(b,l);
 			 
 			 //line
 			 if(r < l){ //draw lines across the dateline
-				objRef.divs[i] = objRef.createHLine3(objRef,b);
-				mapDiv.insertBefore(objRef.divs[i],null);
+				this.divs[i] = this.createHLine3(b);
+				this.divs[i].style.zIndex = this.div.style.zIndex;
+				mapDiv.insertBefore(this.divs[i],null);
 				i++;
 			 }
 			 else if (r == l){ //draw lines for world scale zooms
 			
-				objRef.divs[i] = objRef.createHLine3(objRef,b);
-				mapDiv.insertBefore(objRef.divs[i],null);
+				this.divs[i] = this.createHLine3(b);
+				this.divs[i].style.zIndex = this.div.style.zIndex;
+				mapDiv.insertBefore(this.divs[i],null);
 				i++;
 			 }
 			 else{
 			 	
-				objRef.divs[i] = objRef.createHLine(objRef,p.y);
-				mapDiv.insertBefore(objRef.divs[i],null);
+				this.divs[i] = this.createHLine(p.y);
+				this.divs[i].style.zIndex = this.div.style.zIndex;
+				mapDiv.insertBefore(this.divs[i],null);
 				i++;
 			 }
 			 
@@ -311,7 +331,7 @@ function Graticule(widgetNode, model) {
 			 d.style.position = "absolute";
 			 d.style.left =x.toString() + "px";
 			 d.style.top = y.toString()+ "px";
-			 d.style.color = objRef.color;
+			 d.style.color = this.color;
 			 d.style.fontFamily='Arial';
 			 d.style.fontSize='x-small';
 			 
@@ -329,8 +349,10 @@ function Graticule(widgetNode, model) {
 			}
 			 if(j != 2)//dont put two labels in the same place
 			 {
+			 	 
+				 d.style.zIndex = this.div.style.zIndex;
 				 mapDiv.insertBefore(d,null);
-				 objRef.divs[i] = d;
+				 this.divs[i] = d;
 				 i++;
 			 }
 			 j++;
@@ -338,77 +360,75 @@ function Graticule(widgetNode, model) {
 	  }
 	 
 
-	}
+	},
 	
 	/*Transform lat/lon coordinates in pixels coordinates
 	* Returns an object container pixel coordinates
-	*@param objRef pointer to this object.
+	*@param this pointer to this object.
 	*@param lat lon  coordiantes in degrees 
 	*/
-	this.fromLatLngToDivPixel = function(objRef,lat,lon){
-	
-		var xy=objRef.proj.Forward(new Array(lon,lat));
-		var platlon=new Object();
-		
-		platlon.x=objRef.targetModel.extent.getPL(xy)[0];
-		platlon.y=objRef.targetModel.extent.getPL(xy)[1];
+	fromLatLngToDivPixel : function(lat,lon){
+		///CSCS
+    	var pt=new PT(lon, lat);
+    	cs_transform(new CS(csList.EPSG4326),this.proj,pt);
+		var platlon=this.map.getPixelFromLonLat(new OpenLayers.LonLat(pt.x,pt.y));
 		return platlon;
-	}
+	},
 	
 	/*Create a vertical line
 	* Returns a div that is a vertical single pixel line
-	*@param objRef pointer to this object.
+	*@param this pointer to this object.
 	*@param x left style property for div element 
 	*/
 	
-	this.createVLine = function (objRef,x) {
+	createVLine : function (x) {
 
 		var div = document.createElement("DIV");
 		div.style.position = "absolute";
 		div.style.overflow = "hidden";
-		div.style.backgroundColor = objRef.color;
+		div.style.backgroundColor = this.color;
 		div.style.left = x + "px";
-		div.style.top = objRef.minY + "px";
+		div.style.top = this.minY + "px";
 		div.style.width = "1px";
-		div.style.height = (objRef.maxY-objRef.minY) +"px";				
+		div.style.height = (this.maxY-this.minY) +"px";				
 	    return div;
 	
-	}
+	},
  
 	/*Create a horizontal line
 	* Returns a div that is a horizontal single pixel line
-	*@param objRef pointer to this object.
+	*@param this pointer to this object.
 	*@param y top style property for div element 
 	*/  	  
-	this.createHLine = function(objRef,y) {
+	createHLine : function(y) {
 
 		var div = document.createElement("DIV");
 		div.style.position = "absolute";
 		div.style.overflow = "hidden";
-		div.style.backgroundColor = objRef.color;
-		div.style.left = objRef.minX + "px";
+		div.style.backgroundColor = this.color;
+		div.style.left = this.minX + "px";
 		div.style.top = y + "px";
-		div.style.width = (objRef.maxX-objRef.minX) + "px";
+		div.style.width = (this.maxX-this.minX) + "px";
 		div.style.height = "1px";
 	    return div;
 	
-	}
+	},
 	/*Create a horizontal line
 	* Returns a div that is a horizontal single pixel line, across the dateline  
 	* we find the start and width of a 180 degree line and draw the same amount
 	* to its left and right	
-	*@param objRef pointer to this object.
+	*@param this pointer to this object.
 	*@param lat latitude of  div element.
 	*/  
-		this.createHLine3 = function(objRef,lat) {
+		createHLine3 : function(lat) {
 		
-			var f = objRef.fromLatLngToDivPixel(objRef,lat,0);
-			var t = objRef.fromLatLngToDivPixel(objRef,lat,180);		
+			var f = this.fromLatLngToDivPixel(this,lat,0);
+			var t = this.fromLatLngToDivPixel(this,lat,180);		
 		
 			var div = document.createElement("DIV");
 			div.style.position = "absolute";
 			div.style.overflow = "hidden";
-			div.style.backgroundColor = objRef.color;
+			div.style.backgroundColor = this.color;
 			
 			var x1 = f.x;
 			var x2 = t.x;
@@ -422,62 +442,74 @@ function Graticule(widgetNode, model) {
 			div.style.top = f.y + "px";
 			div.style.width = ((x2-x1)*2) + "px";
 			div.style.height = "1px";
-		    return div;
 			
-}  
+			
+}  ,
 
 		/*Initialize Graticule's property 
 		* 
-		*@param objRef pointer to this object.
+		*@param this pointer to this object.
 		*/ 
-		this.init= function (objRef){
-			objRef.width=parseInt(objRef.targetModel.getWindowWidth());
-			objRef.height=parseInt(objRef.targetModel.getWindowHeight());
-			
-			objRef.bbox=objRef.targetModel.getBoundingBox();
-			objRef.proj=new Proj( objRef.targetModel.getSRS());
+		update : function (){
 		
-			if (objRef.bbox[1]<0)
-				if(objRef.bbox[3]<0)
-					objRef.diffLat=objRef.bbox[1]-objRef.bbox[3];
+		
+			this.width=parseInt(this.objRef.targetModel.getWindowWidth());
+			this.height=parseInt(this.objRef.targetModel.getWindowHeight());
+			
+			this.bbox=this.objRef.targetModel.getBoundingBox();
+			this.proj=new Proj( this.objRef.targetModel.getSRS());
+		
+			if (this.bbox[1]<0)
+				if(this.bbox[3]<0)
+					this.diffLat=this.bbox[1]-this.bbox[3];
 				else
-					objRef.diffLat=objRef.bbox[3]-objRef.bbox[1];
+					this.diffLat=this.bbox[3]-this.bbox[1];
 			else
-				objRef.diffLat=objRef.bbox[3]+objRef.bbox[1];
+				this.diffLat=this.bbox[3]+this.bbox[1];
 				
-			if (objRef.bbox[0]<0)
-				if(objRef.bbox[2]<0)		
-					objRef.diffLon=objRef.bbox[0]-objRef.bbox[2];
+			if (this.bbox[0]<0)
+				if(this.bbox[2]<0)		
+					this.diffLon=this.bbox[0]-this.bbox[2];
 				else
-					objRef.diffLon=objRef.bbox[2]-objRef.bbox[0];
+					this.diffLon=this.bbox[2]-this.bbox[0];
 			else
-				objRef.diffLon=objRef.bbox[2]+objRef.bbox[0];
+				this.diffLon=this.bbox[2]+this.bbox[0];
 		
 			
-		  	objRef.draw(objRef);
+		  	this.addGraticules();
 
-}
+},
 
 		/*Display graticule when click on button
 		* 
-		*@param objRef pointer to this object.
+		*@param this pointer to this object.
 		*@param selected boolean true if button has been clicked , false if no
 		*/ 
-		this.doSelect = function(selected,objRef) {
+		activate: function() {
 		
-		 
-		  
-		if(selected && objRef.display==false)
-		 { 	
-		 	this.targetModel.addListener("bbox", this.init, this );
-		 	objRef.display=true;
-		 	objRef.map = document.getElementById(objRef.mapContainerId);
-			objRef.init(objRef);
-		}
-		else if (objRef.display==true)
-		{	this.targetModel.removeListener("bbox", this.init, this );
-			objRef.display=false;
-			objRef.remove(objRef);
-		}      
+		OpenLayers.Control.prototype.activate.apply(this, arguments);
+                this.panel_div.style.backgroundImage = "url(\""+objRef.enabledImage.src+"\")";
+    	//this.map.div.style.cursor = objRef.cursor;
+			this.map.events.register('moveend', this, this.update);
+		 	this.objRef.display=true;
+		 	this.mapContainer = this.div;
+		 	this.color="black";
+			this.update();
+		},
+		deactivate: function() {
+		OpenLayers.Control.prototype.deactivate.apply(this, arguments);
+		        this.panel_div.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
+			this.map.events.unregister('moveend');
+			this.objRef.display=false;
+			this.removeGraticules(); 
+			objRef.enabled = false;
+      objRef.doSelect(objRef, false)      
 	}
+/////////////////////////////////////////////////////////////
+
+   });
+
+    return Control;
+  }
 }
+

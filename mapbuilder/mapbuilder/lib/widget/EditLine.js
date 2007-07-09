@@ -20,21 +20,41 @@ function EditLine(widgetNode, model) {
   EditButtonBase.apply(this, new Array(widgetNode, model));
 
   /**
-   * Append a point to a line.
-   * @param objRef      Pointer to this object.
-   * @param targetNode  The node for the enclosing HTML tag for this widget.
+   * Interactive EditLine control.
+   * @param objRef reference to this object.
+   * @return {OpenLayers.Control} class of the OL control.
    */
-  this.doAction = function(objRef,targetNode) {
+  this.createControl = function(objRef) {
+    var Control = OpenLayers.Class.create();
+    Control.prototype = OpenLayers.Class.inherit(OpenLayers.Control.DrawFeature, {
+      // this is needed because all editing tools are of type
+      // OpenLayers.Control.DrawFeature
+      CLASS_NAME: 'mbEditLine'
+    });
+    return Control;
+  }
+  
+  this.instantiateControl = function(objRef, Control) {
+    return new Control(objRef.featureLayer, OpenLayers.Handler.Path);
+  }
+
+  /**
+   * Append a line to the enclosing GML model.
+   * @param objRef      Pointer to this object.
+   * @param {OpenLayers.Feature} feature The line created
+   * by OL.
+   */
+  this.setFeature = function(objRef, feature) {
     if (objRef.enabled) {
-      point=objRef.mouseHandler.model.extent.getXY(targetNode.evpl);
-      old=objRef.targetModel.getXpathValue(
-        objRef.targetModel,
-        objRef.featureXpath);
-      if(!old){old=""};
+      var points = feature.geometry.components;
+      var geom = '';
+      for (var i in points) {
+        geom += ' '+points[i].x+","+points[i].y;
+      }
       sucess=objRef.targetModel.setXpathValue(
         objRef.targetModel,
         objRef.featureXpath,
-        old+" "+point[0]+","+point[1]);
+        geom);
       if(!sucess){
         alert(mbGetMessage("invalidFeatureXpathEditLine", objRef.featureXpath));
       }
