@@ -19,15 +19,30 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 function GetFeatureInfo(widgetNode, model) {
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
-
+  
   /**
-   * Calls the centerAt method of the context doc to zoom out, recentering at 
-   * the mouse event coordinates.
-   * TBD: set the zoomBy property as a button property in conifg
-   * @param objRef      Pointer to this AoiMouseHandler object.
-   * @param targetNode  The node for the enclosing HTML tag for this widget.
+   * GetFeatureInfo control
+   * @param objRef reference to this object.
+   * @return {OpenLayers.Control} class of the OL control.
    */
-  this.doAction = function(objRef,targetNode) {
+  this.createControl = function(objRef) {
+    var Control = OpenLayers.Class.create();
+    Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
+      CLASS_NAME: 'mbControl.GetFeatureInfo',
+      type: OpenLayers.Control.TYPE_TOOL,
+    });
+    return Control;
+  }
+  
+  this.doSelect = function(objRef, selected) {
+    if (selected) {
+      objRef.targetModel.addListener('mouseup', objRef.doOnMouseup, objRef);
+    } else {
+      objRef.targetModel.removeListener('mouseup', objRef.doOnMouseup, objRef);
+    }
+  }
+  
+  this.doOnMouseup = function(objRef) {
     if (!objRef.enabled) return;
     var layerNameList = new Array();
     var selectedLayer=objRef.targetModel.getParam("selectedLayer");
@@ -53,16 +68,4 @@ function GetFeatureInfo(widgetNode, model) {
       }
     }
   }
-
-  /**
-   * Register for mouseUp events.
-   * @param objRef  Pointer to this object.
-   */
-  this.setMouseListener = function(objRef) {
-    if (objRef.mouseHandler) {
-      objRef.mouseHandler.model.addListener('mouseup',objRef.doAction,objRef);
-    }
-  }
-  this.model.addListener( "loadModel", this.setMouseListener, this );
-
 }

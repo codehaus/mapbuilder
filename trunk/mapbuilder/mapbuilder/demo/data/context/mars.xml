@@ -44,7 +44,7 @@
 				<Format current="1">image/png</Format>
 			</FormatList>
 			<StyleList>
-						<Style>
+						<Style current="1">
 							<Name>default</Name>
 							<Title>default</Title>
 							<LegendURL width="16" height="16">
@@ -65,7 +65,7 @@
 				<Format current="1">image/png</Format>
 			</FormatList>
 			<StyleList>
-						<Style>
+						<Style current="1">
 							<Name>default</Name>
 							<Title>default</Title>
 							<LegendURL width="16" height="16">
@@ -86,7 +86,7 @@
 				<Format current="1">image/png</Format>
 			</FormatList>
 			<StyleList>
-						<Style>
+						<Style current="1">
 							<Name>default</Name>
 							<Title>default</Title>
 							<LegendURL width="16" height="16">

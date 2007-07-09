@@ -62,7 +62,6 @@
 	  			<br/>
 	  			<p>This application uses a stylesheet wfs_GetFeature.xsl applied to the form data which generates a wmc:FeatureType document containing a WFS GetFeature Query.  Another style sheet datapopup.xsl is used on the returned FeatureCollection to display different information in the popup for each of the feature types. </p>
 	  			<br/> This demo accesses data from the <a href="http://eo1.geobliki.com">GeoBliki EO-1 SWE data node</a>
-		        <br/>Please note: this demo only works in FireFox, we are working on fixing the issues in IE6 & IE7 (Want to help?)  
 		    </div><!-- /left -->
 		    <!-- DIY end cut 1-->
 		      			<div class="right">	
@@ -99,14 +98,14 @@
 </div>
 
 
-        <div id="mainMapPane">
+        <div id="mainMapPane" style="border:1px solid olive">
         <noscript>
             this page requires Javascript to be enabled
         </noscript>
         </div>
    <table>     
       <tr>
-        <td align='left' id="mainButtonBar"></td>
+        <td align='left' width="192" id="mainButtonBar"></td>
         <td align="center" id="mapScaleText"/>
         <td align="center" id="mapScaleBar"/>
         <td align="right" id="cursorTrack" />

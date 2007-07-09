@@ -5,12 +5,22 @@
   <head>
     <title>Mapbuilder Interactive Map Viewer</title>
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/demoStyles.css'/>
+    <style>
+      /* remove border from mainMapPane (work-around for Selenium tests under MSIE) */
+      #mainMapPane {
+        border: none;
+      }
+    </style>
     <script>
     // URL of Mapbuilder configuration file.
     var mbConfigUrl='config.xml';
     </script>
     <!-- This points to the core mapbuilder library, replaces this with MapbuilderCompressed.js when you want to use the compressed version -->
     <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
+<!-- CSCS-->
+    <script type="text/javascript" src="../../lib/util/cscs/lib/lcc.js"></script>
+    <script type="text/javascript" src="../../lib/util/cscs/lib/defs/42304.js"></script>
+    
   </head>
   <!-- This onload event starts mapbuilder -->
   <body onload="mbDoLoad()" >
@@ -63,11 +73,15 @@
         	    this page requires Javascript to be enabled
         		</noscript>
 				  </div><!-- /mainMapPane -->
-			    <div id="mainButtonBar"><!-- This is the container where the buttons will be drawn --></div>
+          <div>
+            <div style="float: left; width: 30%;" id="mainButtonBar"><!-- This is the container where the buttons will be drawn --></div>
+            <div style="float: right; width: 30%" id="cursorTrack"><!-- This is where the cursor tracker will be drawn --></div>
+            <div id="scaleText"><!-- This is where the scale text will be drawn --></div>
+          </div>
 			    <div>
 				    <h2>Examples of working with MapBuilder:</h2>
 				    <ul><!-- These are a couple of examples how to access mapbuilder from a site -->
-     					<li><a href="?mainMap=../data/context/cded.xml">Load a different map by a URL parameter</a></li>
+     				  <li><a href="?mainMap=../data/context/cded.xml">Load a different map by a URL parameter</a></li>
 				      <li><a href="javascript:config.loadModel('mainMap','../data/context/modisWorld.xml')">Load a different map by JavaScript function call</a></li>
 				      <li><a href="?bbox=0,0,50,50">Load the map with a different Bounding Box</a></li>
 				    </ul>

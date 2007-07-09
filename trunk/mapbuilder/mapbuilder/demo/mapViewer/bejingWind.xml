@@ -301,7 +301,7 @@
 			</FormatList>
 			<StyleList>
 				<Style current="1">
-					<Name>gnis_pop</Name>
+					<Name></Name>
 					<Title>Default Styler</Title>
 					<!--LegendURL format="image/png">
 						<OnlineResource xlink:type="simple" xlink:href="http://sigma.openplans.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=topp:gnis_pop"/>

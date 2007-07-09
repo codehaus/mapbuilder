@@ -16,21 +16,35 @@ $Name:  $
   xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" 
   xmlns:dc="http://purl.org/dc/elements/1.1/" 
   xmlns:syn="http://purl.org/rss/1.0/modules/syndication/" 
-  xmlns:georss="http://www.georss.org/rss" 
+  xmlns:georss="http://www.georss.org/georss" 
   xmlns:gml='http://www.opengis.net/gml/3.1.1' >
   
   <!-- xsl:output method="html" omit-xml-declaration="no" encoding="utf-8" indent="yes"/ -->
   <xsl:output method="xml" indent="yes" />
+  <xsl:param name="fid"/>
+  
+  <xsl:template match="rdf:RDF">
+    <div class="PopupContainer">
+      <div class="PopupHeader">Info</div>
+      <div class="PopupContent">
+        <xsl:apply-templates/>
+      </div>
+    </div>
+  </xsl:template>
+  
   <xsl:template match="rss:item">
-    <results> 
-  	<b>title:</b><xsl:value-of select="rss:title"/><br/>
-  	<b>description:</b><xsl:copy-of select="rss:description"/><br/>
-  	<b>date:</b><xsl:value-of select="dc:date"/><br/>
-    <b>pos:</b><xsl:value-of select="georss:where/gml:Point/gml:pos"/><br/>
-    <b>link:</b><xsl:element name="a">
-     <xsl:attribute name="href"><xsl:value-of select="rss:link"/></xsl:attribute>click here for more information!
-    </xsl:element><br/>
-    </results>
+    <xsl:if test="@id=$fid">
+      <table cellspacing="0" border="0">
+    	<tr><td><b>title:</b><xsl:value-of select="rss:title"/></td></tr>
+    	<tr><td><b>description:</b><xsl:copy-of select="rss:description"/></td></tr>
+    	<tr><td><b>date:</b><xsl:value-of select="dc:date"/></td></tr>
+      <tr><td><b>pos:</b><xsl:value-of select="georss:where/gml:Point/gml:pos"/></td></tr>
+      <tr><td><b>link:</b><xsl:element name="a">
+       <xsl:attribute name="target">_blank</xsl:attribute>
+       <xsl:attribute name="href"><xsl:value-of select="rss:link"/></xsl:attribute>click here for more information!
+      </xsl:element></td></tr>
+      </table>
+    </xsl:if>
   </xsl:template>
 
 </xsl:stylesheet>

@@ -2,79 +2,34 @@
 <MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
   <models>
     <Context id="mainMap">
-      <defaultModelUrl>../data/context/demisWorldMap.xml</defaultModelUrl>
+      <defaultModelUrl>../data/context/metacartaWorldMap.xml</defaultModelUrl>
       <widgets>
-        <MapPane id="mainMapWidget">
+        <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-          <mapContainerId>mainMapContainer</mapContainerId>
-        </MapPane>
-        <AoiBoxDHTML id="aoiBoxMain">
-          <htmlTagId>mainMapPane</htmlTagId>
-          <mapContainerId>mainMapContainer</mapContainerId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>2</lineWidth>
-          <crossSize>15</crossSize>
-        </AoiBoxDHTML>
-        <Loading2 id="loading2">
-          <mapContainerId>mainMapContainer</mapContainerId>
-        </Loading2>
-        <MapScaleBar id="scalebar">
-          <!--all of these properties are optional-->
-          <!--displaySystem>english</displaySystem-->
-          <displaySystem>metric</displaySystem>
-          <minWidth>100</minWidth>
-          <maxWidth>200</maxWidth>
-          <divisions>4</divisions>
-          <subdivisions>2</subdivisions>
-          <showMinorMeasures>false</showMinorMeasures>
-          <abbreviateLabel>true</abbreviateLabel>
-          <singleLine>false</singleLine>
-          <align>right</align>
-        </MapScaleBar>
+        </MapPaneOL>
         <CursorTrack id="cursorTrack">
-          <mouseHandler>mainMap</mouseHandler>
           <precision>5</precision>
         </CursorTrack>
+        <OverviewMap id="locatorWidget">
+          <htmlTagId>locatorMap</htmlTagId>
+          <width>180</width>
+        </OverviewMap>
+        <LayerControl id="contextLegend">
+          <autoRefresh>false</autoRefresh>
+          <legendImageEnable>/images/LegendEnable.png</legendImageEnable>
+          <legendImageDisable>/images/LegendDisable.png</legendImageDisable>
+          <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
+          <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
+          <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
+          <opacity>true</opacity>
+        </LayerControl>
       </widgets>
       <tools>
-        <AoiMouseHandler id="mainAoi"/>
-        <DragPanHandler id="mainDragPan">
-          <enabled>false</enabled>
-        </DragPanHandler>
-        <History id="extentHistory">
-          <targetModel>mainMap</targetModel>
-        </History>
-        <MouseClickHandler id="mainMouseClick"/>
-      </tools>
-    </Context>
-    
-    <Context id="locator">
-      <defaultModelUrl>../data/context/locatorDemis.xml</defaultModelUrl>
-      <widgets>
-        <MapPane id="locatorWidget">
-          <htmlTagId>locatorMap</htmlTagId>
-          <targetModel>mainMap</targetModel>
-          <mapContainerId>locatorContainer</mapContainerId>
-          <fixedWidth>180</fixedWidth>
-        </MapPane>
-        <AoiBoxDHTML id="aoiBox3">
-          <htmlTagId>locatorMap</htmlTagId>
-          <!--<stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>-->
-          <mapContainerId>locatorContainer</mapContainerId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>1</lineWidth>
-          <crossSize>15</crossSize>
-        </AoiBoxDHTML>
-      </widgets>
-      <tools>
-        <AoiMouseHandler id="locatorAoi"/>
-        <ZoomToAoi id="locatorZoomToAoi">
-          <targetModel>mainMap</targetModel>
-        </ZoomToAoi>
+        <History id="extentHistory"/>
       </tools>
     </Context>
   </models>
-  
+
   <widgets>
     <Back id="back">
       <buttonBar>mainButtonBar</buttonBar>
@@ -91,7 +46,6 @@
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <selected>true</selected>
       <enabledSrc>/images/ZoomInEnable.png</enabledSrc>
@@ -100,7 +54,6 @@
     <ZoomOut id="zoomOut">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
       <disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
@@ -108,7 +61,6 @@
     <DragPan id="dragPan">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainDragPan</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/PanEnable.png</enabledSrc>
       <disabledSrc>/images/PanDisable.png</disabledSrc>

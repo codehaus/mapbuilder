@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!--
 Description: presents the list of events in a GeoRSS
@@ -18,12 +18,13 @@ $Name:  $
   xmlns:syn="http://purl.org/rss/1.0/modules/syndication/" 
   xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">
 
-  <xsl:output method="html" omit-xml-declaration="no" encoding="utf-8" indent="yes"/>
+  <xsl:output method="xml" omit-xml-declaration="no" encoding="utf-8" indent="yes"/>
 
   <!-- The coordinates of the DHTML Layer on the HTML page -->
   <xsl:param name="modelId"/>
   <xsl:param name="targetModelId"/>
   <xsl:param name="widgetId"/>
+  <xsl:param name="hiddenItems"/>
   
   <!-- template rule matching source root element -->
   <xsl:template match="/rdf:RDF ">
@@ -38,8 +39,11 @@ $Name:  $
     <xsl:variable name="y"><xsl:value-of select="geo:lat"/></xsl:variable>
     <xsl:variable name="link"><xsl:value-of select="rss:link"/></xsl:variable>
     <xsl:variable name="icon">../../lib/skin/default<xsl:value-of select="geo:icon"/></xsl:variable>
-    <tr onmouseover="config.objects.{$modelId}.setParam('highlightFeature','{$fid}')" onmouseout="config.objects.{$modelId}.setParam('dehighlightFeature','{$fid}')">
+    <tr>
       <td>
+        <input type="checkbox" checked="true" onclick="this.checked?config.objects.{$modelId}.setParam('showFeature','{$fid}'):config.objects.{$modelId}.setParam('hideFeature','{$fid}')" />
+      </td>
+      <td onmouseover="config.objects.{$modelId}.setParam('highlightFeature','{$fid}')" onmouseout="config.objects.{$modelId}.setParam('dehighlightFeature','{$fid}')">
         <!-- img src="{$icon}" / -->
         <a href="{$link}"><xsl:value-of select="rss:title"/></a>
         <xsl:copy-of select="rss:description"/>
