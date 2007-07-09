@@ -4,17 +4,10 @@
 		<Context id="mainMap">
 			<defaultModelUrl>bejingWind.xml</defaultModelUrl>
 			<widgets>
-				<MapPane id="mainMapWidget">
+				<MapPaneOL id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
-					<mapContainerId>mainMapContainer</mapContainerId>
-				</MapPane>
-				<AoiBoxDHTML id="aoiBoxMain">
-					<htmlTagId>mainMapPane</htmlTagId>
-					<mapContainerId>mainMapContainer</mapContainerId>
-					<lineColor>#FF0000</lineColor>
-					<lineWidth>2</lineWidth>
-					<crossSize>15</crossSize>
-				</AoiBoxDHTML>
+          			<fixedSize>true</fixedSize>
+				</MapPaneOL>
         <MapScaleBar id="scalebar">
           <!--all of these properties are optional-->
           <!--displaySystem>english</displaySystem-->
@@ -29,7 +22,6 @@
           <align>left</align><!-- left, center, or right -->
         </MapScaleBar>
         <CursorTrack id="cursorTrack">
-          <mouseHandler>mainMap</mouseHandler>
           <showXY>false</showXY>
         </CursorTrack>
         <Legend id="legend">
@@ -41,15 +33,12 @@
           <outputNodeId>workspaceCanvas</outputNodeId>
         </Abstract>
         <MapTitle id="mapTitle"/>
-        <Loading2 id="loading2">
-					<mapContainerId>mainMapContainer</mapContainerId>
-        </Loading2>
+        <OverviewMap id="locatorWidget">
+          <htmlTagId>locatorMap</htmlTagId>
+          <fixedWidth>180</fixedWidth>
+        </OverviewMap>
 			</widgets>
 			<tools>
-				<AoiMouseHandler id="mainAoi"/>
-				<DragPanHandler id="mainDragPan">
-					<enabled>false</enabled>
-				</DragPanHandler>
         <History id="extentHistory"/>
 				<WebServiceRequest id="featureInfoController">
 					<targetModel>featureInfoResponse</targetModel>
@@ -61,31 +50,6 @@
 			</tools>
       <nodeSelectXpath>/wmc:ViewContext/wmc:LayerList/wmc:Layer</nodeSelectXpath>
 		</Context>
-    <Context id="locator">
-    <defaultModelUrl>../data/context/locatorDemis.xml</defaultModelUrl>
-			<widgets>
-				<MapPane id="locatorWidget">
-					<htmlTagId>locatorMap</htmlTagId>
-					<mapContainerId>locatorContainer</mapContainerId>
-					<fixedWidth>180</fixedWidth>
-					<extraAttributes>false</extraAttributes>
-				</MapPane>
-				<AoiBoxDHTML id="aoiBoxLocator">
-					<htmlTagId>locatorMap</htmlTagId>
-					<stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
-					<mapContainerId>locatorContainer</mapContainerId>
-					<lineColor>red</lineColor>
-					<lineWidth>2</lineWidth>
-					<crossSize>15</crossSize>
-				</AoiBoxDHTML>
-			</widgets>
-			<tools>
-				<AoiMouseHandler id="locatorAoi" />
-				<ZoomToAoi id="locatorZoomToAoi">
-					<targetModel>mainMap</targetModel>
-				</ZoomToAoi>
-			</tools>
-    </Context>
     <Model id="featureInfoResponse" template="true">
       <widgets>
         <FeatureInfo id="features">
@@ -116,7 +80,6 @@
 		<ZoomIn id="zoomIn">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
-			<mouseHandler>mainAoi</mouseHandler>
 			<class>RadioButton</class>
 			<selected>true</selected>
 			<enabledSrc>/images/ZoomInEnable.png</enabledSrc>
@@ -125,7 +88,6 @@
 		<ZoomOut id="zoomOut">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
-			<mouseHandler>mainAoi</mouseHandler>
 			<class>RadioButton</class>
 			<enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
 			<disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
@@ -133,7 +95,6 @@
 		<DragPan id="dragPan">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
-			<mouseHandler>mainDragPan</mouseHandler>
 			<class>RadioButton</class>
 			<enabledSrc>/images/PanEnable.png</enabledSrc>
 			<disabledSrc>/images/PanDisable.png</disabledSrc>
@@ -142,7 +103,6 @@
       <scriptFile>GetFeatureInfo.js</scriptFile>
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/QueryEnable.png</enabledSrc>
       <disabledSrc>/images/QueryDisable.png</disabledSrc>
@@ -156,8 +116,10 @@
 		<Graticule id="graticule">
 		  <buttonBar>mainButtonBar</buttonBar>
 		  <targetModel>mainMap</targetModel>
-		  <class>Button</class>
+		  <class>Toggle</class>
+      <selected>true</selected>
 		  <disabledSrc>/images/Graticule.png</disabledSrc>
+      <enabledSrc>/images/Graticule.png</enabledSrc>
 		  <color>black</color>
 		  <mapContainerId>mainMapContainer</mapContainerId>
     </Graticule>

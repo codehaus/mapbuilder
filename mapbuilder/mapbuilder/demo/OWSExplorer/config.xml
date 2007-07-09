@@ -15,39 +15,26 @@
     <Context id="mainMap">
       <defaultModelUrl>../data/context/demisWorldMap.xml</defaultModelUrl>
       <widgets>
-        <MapPane id="mainMapWidget">
+        <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-          <mapContainerId>mainMapContainer</mapContainerId>
-        </MapPane>
+			<fixedSize>true</fixedSize>
+        </MapPaneOL>
         <CursorTrack id="cursorTrack">
           <mouseHandler>mainMap</mouseHandler>
         </CursorTrack>
         <LayerControl id="contextLegend">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
-          <autoRefresh>false</autoRefresh>
           <legendImageEnable>/images/LegendEnable.png</legendImageEnable>
 		  <legendImageDisable>/images/LegendDisable.png</legendImageDisable> 
           <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
           <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
           <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
         </LayerControl>
-        <AoiBoxDHTML id="aoiBox">
-          <htmlTagId>mainMapPane</htmlTagId>
-          <mapContainerId>mainMapContainer</mapContainerId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>1</lineWidth>
-          <crossSize>15</crossSize>
-        </AoiBoxDHTML>
         <Loading2 id="loading2">
-          <mapContainerId>mainMapContainer</mapContainerId>
         </Loading2>
       </widgets>
       <tools>
-        <AoiMouseHandler id="mainAoi"/>
-        <DragPanHandler id="mainDragPan">
-          <enabled>false</enabled>
-        </DragPanHandler>
 				<WebServiceRequest id="featureInfoController">
 					<targetModel>featureInfoResponse</targetModel>
 					<requestName>wms:GetFeatureInfo</requestName>
@@ -61,22 +48,13 @@
     <Context id="locator">
       <defaultModelUrl>../data/context/locatorMap.xml</defaultModelUrl>
       <widgets>
-        <MapPane id="locatorWidget">
+        <MapPaneOL id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
           <targetModel>mainMap</targetModel>
-          <mapContainerId>locatorContainer</mapContainerId>
-          <fixedWidth>180</fixedWidth>
-        </MapPane>
-        <AoiBoxDHTML id="aoiBox2">
-          <htmlTagId>locatorMap</htmlTagId>
-          <mapContainerId>locatorContainer</mapContainerId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>1</lineWidth>
-          <crossSize>15</crossSize>
-        </AoiBoxDHTML>
+			<fixedSize>true</fixedSize>
+        </MapPaneOL>
       </widgets>
       <tools>
-        <AoiMouseHandler id="locatorAoi"/>
         <ZoomToAoi id="locatorZoomToAoi">
           <targetModel>mainMap</targetModel>
         </ZoomToAoi>
@@ -105,14 +83,10 @@
         <FeatureCollection id="getFeatureTemplate" template="true">
           <method>get</method>
           <widgets>
-            <GmlRendererWZ id="testGmlRenderer">
-              <htmlTagId>mainMapPane</htmlTagId>
-              <targetModel>mainMap</targetModel>
-              <mapContainerId>mainMapContainer</mapContainerId>
-              <lineColor>#FF00FF</lineColor>
-              <lineWidth>1</lineWidth>
-              <pointDiameter>10</pointDiameter>
-            </GmlRendererWZ>
+           
+            <GmlRendererOL id="testGmlRenderer">
+          <targetModel>mainMap</targetModel>
+         </GmlRendererOL>
             <Legend id="wfsLegend">
               <htmlTagId>workspace</htmlTagId>
               <outputNodeId>workspaceCanvas</outputNodeId>
@@ -196,7 +170,6 @@
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <selected>true</selected>
       <enabledSrc>/images/ZoomInEnable.png</enabledSrc>
@@ -205,7 +178,6 @@
     <ZoomOut id="zoomOut">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
       <disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
@@ -213,7 +185,6 @@
     <DragPan id="dragPan">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainDragPan</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/PanEnable.png</enabledSrc>
       <disabledSrc>/images/PanDisable.png</disabledSrc>
@@ -222,7 +193,6 @@
       <scriptFile>../mapViewer/GetFeatureInfo.js</scriptFile>
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
       <class>RadioButton</class>
       <enabledSrc>/images/QueryEnable.png</enabledSrc>
       <disabledSrc>/images/QueryDisable.png</disabledSrc>

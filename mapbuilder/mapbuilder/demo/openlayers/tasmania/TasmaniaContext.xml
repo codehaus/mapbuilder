@@ -35,6 +35,29 @@
     
   <ResourceList>
 
+    <Layer queryable="0" hidden="0">
+      <Server service="OGC:WMS-C" version="1.0.0" title="OGC:WMS-C">
+        <OnlineResource xlink:type="simple" xlink:href="http://labs.metacarta.com/wms/vmap0"/>
+      </Server>
+      <Name>basic</Name>
+      <Title>basic</Title>
+      <SRS>EPSG:4326 EPSG:4269</SRS>
+      <FormatList>
+        <Format>image/jpeg</Format>
+        <Format>image/png</Format>
+        <Format>image/gif</Format>
+        <Format current="1">image/png; mode=24bit</Format>
+        <Format>image/wbmp</Format>
+        <Format>image/tiff</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+      </StyleList>
+    </Layer>
+
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="tasmania/TasmaniaCities.xml"/>
@@ -46,23 +69,24 @@
       <StyleList>
         <Style current="1">
           <SLD>
-            <sld:Fill>
-              <sld:CssParameter name="fill">#FF00FF</sld:CssParameter>
-              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
-            </sld:Fill>
-            <sld:Stroke>
-              <sld:CssParameter name="stroke">#FF00FF</sld:CssParameter>
-              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
-              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
-            </sld:Stroke>
             <sld:Graphic>
-              <sld:Size>1</sld:Size>
+              <sld:Mark>
+                <sld:Fill>
+                  <sld:CssParameter name="fill">#FF00FF</sld:CssParameter>
+                  <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+                </sld:Fill>
+                <sld:Stroke>
+                  <sld:CssParameter name="stroke">#FF00FF</sld:CssParameter>
+                  <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+                  <sld:CssParameter name="stroke-width">2</sld:CssParameter>
+                </sld:Stroke>
+              </sld:Mark>
+              <sld:Size>3</sld:Size>
             </sld:Graphic>
           </SLD>
         </Style>
       </StyleList>
     </FeatureType>
-
 
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
@@ -78,14 +102,14 @@
             <sld:Stroke>
               <sld:CssParameter name="stroke">#FF0000</sld:CssParameter>
               <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
-              <sld:CssParameter name="stroke-width">0.3</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">3</sld:CssParameter>
             </sld:Stroke>
           </SLD>
         </Style>
       </StyleList>
     </FeatureType>
 
-    <FeatureType hidden="0">
+     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="tasmania/TasmaniaWaterBodies.xml"/>
       </Server>
@@ -98,18 +122,18 @@
           <SLD>
             <sld:Fill>
               <sld:CssParameter name="fill">#6633FF</sld:CssParameter>
-              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
             </sld:Fill>
             <sld:Stroke>
               <sld:CssParameter name="stroke">#6633FF</sld:CssParameter>
               <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
-              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">1</sld:CssParameter>
             </sld:Stroke>
           </SLD>
         </Style>
       </StyleList>
     </FeatureType>
-
+ 
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="tasmania/TasmaniaStateBoundaries.xml"/>
@@ -134,40 +158,6 @@
         </Style>
       </StyleList>
     </FeatureType>
-
-    <Layer queryable="1" hidden="1">
-      <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
-      <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
-      </Server>
-      <Name>Coastlines,Waterbodies,Inundated,Rivers,Streams</Name>
-      <Title>Land features WMS</Title>
-      <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/gif</Format>
-      </FormatList>
-      <StyleList>
-        <Style current="1">
-          <Name>default</Name>
-          <Title>default</Title>
-        </Style>
-      </StyleList>
-    </Layer>
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
-      <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
-      </Server>
-      <Name>Bathymetry,Countries,Topography,Hillshading</Name>
-      <Title>Topography WMS</Title>
-      <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/gif</Format>
-      </FormatList>
-      <StyleList>
-        <Style current="1">
-          <Name>default</Name>
-          <Title>default</Title>
-        </Style>
-      </StyleList>
-    </Layer>
+    
   </ResourceList>
 </OWSContext>

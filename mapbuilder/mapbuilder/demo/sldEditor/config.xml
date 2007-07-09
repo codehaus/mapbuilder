@@ -13,12 +13,12 @@
   -->
 	<models>
 		<Context id="mainMap">
-			<defaultModelUrl>data/tasmania.xml</defaultModelUrl>
+			<defaultModelUrl>data/camgis.xml</defaultModelUrl>
 <!--<defaultModelUrl>../data/context/mars.xml</defaultModelUrl>-->
 
 
 			<widgets>
-				<MapPane id="mainMapWidget">
+				<MapPane id="mainMap">
 					<htmlTagId>mainMapPane</htmlTagId>
 					<mapContainerId>mainMapContainer</mapContainerId>
 <!--					<scriptFile>../../sldEditor2.0/widget/MapPane.js</scriptFile>-->
@@ -36,13 +36,7 @@
 		          	<moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
 		          	<deleteImage>/images/LayerRemoveDisable.png</deleteImage>
         		</LayerControl>
-		        <AoiBoxDHTML id="aoiBox2">
-			          <htmlTagId>mainMapPane</htmlTagId>
-			          <mapContainerId>mainMapContainer</mapContainerId>
-			          <lineColor>#FF0000</lineColor>
-			          <lineWidth>1</lineWidth>
-			          <crossSize>15</crossSize>
-		        </AoiBoxDHTML>
+		       
       		</widgets>
       		<tools>
         			<AoiMouseHandler id="mainAoi"/>
@@ -57,15 +51,15 @@
   		<defaultModelUrl>data/videSld.sld</defaultModelUrl>
 <!--	    <scriptFile>model/StyledLayerDescriptor.js</scriptFile>-->
 	    <models>
-	    	<FeatureTypeSchema id="layerTypeTemplate" template="true">
-				          <widgets>
-					            <LayerProperty id="layerProperty">
-						              <htmlTagId>selectProperty</htmlTagId>
-						              <outputNodeId>selectPropertyCanvas</outputNodeId>
-						            
-						        </LayerProperty>
-				          </widgets>
-	        </FeatureTypeSchema>
+			<FeatureTypeSchema id="featTemplate">
+                    <defaultModelUrl>http://pulsar.geomatys.fr:8080/geoserver/wfs/WfsDispatcher?REQUEST=DescribeFeatureType&amp;typeName=camgis:parcelles_polygon</defaultModelUrl>
+                    <widgets>
+                              <LayerProperty id="choixchamp">
+
+                              </LayerProperty>
+                    </widgets>
+ </FeatureTypeSchema> 
+	    
     		
 	    </models>
 	    <widgets>
@@ -100,102 +94,24 @@
     
     
     <!-- use this with a WFS capabilities model -->
-    <WfsCapabilities id="wfsCapTemplate">
-      <models>
-        <FeatureTypeSchema id="featureTypeTemplate" template="true">
-          <widgets>
-            <FilterAttributes id="attributeFilter">
-              <htmlTagId>workspace</htmlTagId>
-              <outputNodeId>workspaceCanvas</outputNodeId>
-            </FilterAttributes>
-          </widgets>
-        </FeatureTypeSchema>
-        <FeatureCollection id="getFeatureTemplate" template="true">
-          <method>get</method>
-          <widgets>
-            <GmlRendererWZ id="testGmlRenderer">
-              <htmlTagId>mainMapPane</htmlTagId>
-              <targetModel>mainMap</targetModel>
-              <mapContainerId>mainMapContainer</mapContainerId>
-              <lineColor>#FF00FF</lineColor>
-              <lineWidth>1</lineWidth>
-              <pointDiameter>10</pointDiameter>
-            </GmlRendererWZ>
-            <Legend id="wfsLegend">
-              <htmlTagId>workspace</htmlTagId>
-              <outputNodeId>workspaceCanvas</outputNodeId>
-            </Legend>
-          </widgets>
-        </FeatureCollection>
-      </models>
-      <widgets>
-        <SelectFeatureType id="featureTypes">
-          <htmlTagId>workspace</htmlTagId>
-          <outputNodeId>workspaceCanvas</outputNodeId>
-          <toolId>wfsController</toolId>
-        </SelectFeatureType>
-      </widgets>
-      <tools>
-        <WebServiceRequest id="wfsGetFeature">
-          <targetModel>getFeatureTemplate</targetModel>
-          <requestName>wfs:GetFeature</requestName>
-        </WebServiceRequest>
-        <WebServiceRequest id="wfsDescribeFeature">
-          <targetModel>featureTypeTemplate</targetModel>
-          <requestName>wfs:DescribeFeatureType</requestName>
-        </WebServiceRequest>
-        
-        <EditContext id="addLayer">
-        			<targetModel>mainMap</targetModel>
-        </EditContext>
-        <Caps2Context id="convertCaps">
-					<targetModel>mainMap</targetModel>
-		</Caps2Context>
-      </tools>
-      <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
-    </WfsCapabilities>
     
     
     
-    <WmsCapabilities id="wmsCapTemplate">
-			<widgets>
-				<SelectAllMapLayers id="loadAllLayers"/>
-				<ModelStatus id="wmsLoadStatus">
-					<htmlTagId>workspace</htmlTagId>
-					<outputNodeId>workspaceCanvas</outputNodeId>
-				</ModelStatus>
-				<SelectMapLayers id="layerList">
-					<htmlTagId>workspace</htmlTagId>
-					<outputNodeId>workspaceCanvas</outputNodeId>
-				</SelectMapLayers>
-			</widgets>
-			<tools>
-				<Caps2Context id="convertCaps">
-					<targetModel>mainMap</targetModel>
-				</Caps2Context>
-        		<EditContext id="editContext">
-          			<targetModel>mainMap</targetModel>
-        		</EditContext>
-			</tools>
-			<nodeSelectXpath>//Layer</nodeSelectXpath>
-	</WmsCapabilities>
+    
+  
+	
+	
+	
+	
  </models>
  <widgets>
     <TabbedContent id="tabBar">
-       <tab>layerList</tab>
+       
       <tab>contextLegend</tab> 
-      <tab>featureTypes</tab>
-      <tab>collectionList</tab>
+      
       <tab>editor</tab>
     </TabbedContent>
-    <ModelUrlInput id="urlInputWfs">
-      <targetModel>wfsCapTemplate</targetModel>
-      <defaultUrl>http://localhost:8080/geoserver/wfs/GetCapabilities</defaultUrl>
-    </ModelUrlInput>
-    <ModelUrlInput id="urlInputWms">
-      <targetModel>wmsCapTemplate</targetModel>
-      <defaultUrl>http://localhost:8080/geoserver/wms/GetCapabilities</defaultUrl>
-    </ModelUrlInput>
+   
     <ZoomIn id="zoomIn">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
@@ -221,28 +137,9 @@
       <enabledSrc>/images/PanEnable.png</enabledSrc>
       <disabledSrc>/images/PanDisable.png</disabledSrc>
     </DragPan>
-    <SetAoi id="setAoi">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <mouseHandler>mainAoi</mouseHandler>
-      <class>RadioButton</class>
-      <enabledSrc>/images/SetAoiEnable.png</enabledSrc>
-      <disabledSrc>/images/SetAoiDisable.png</disabledSrc>
-    </SetAoi>
-    <Reset id="reset">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <class>Button</class>
-      <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
-    </Reset>
-    <Save id="save">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <class>Button</class>
-      <disabledSrc>/images/SaveDisable.png</disabledSrc>
-       <popupWindowName>modelXML</popupWindowName>
-<!--      <scriptFile>widget/Save.js</scriptFile>-->
-    </Save>
+    
+    
+    
     <Loading2 id="loading">
       <htmlTagId>workspace</htmlTagId>
       <outputNodeId>workspaceCanvas</outputNodeId>
@@ -254,5 +151,8 @@
   -->
 	<skinDir>../../lib/skin/default</skinDir>
 	<widgetTextUrl>/widgetText.xml</widgetTextUrl>	
+<!--	-->
+	<proxyUrl>/proxy/proxy.php</proxyUrl>
+    <serializeUrl>/proxy/serializer.php</serializeUrl>
 <!--	 in the skin dir -->
 </MapbuilderConfig>

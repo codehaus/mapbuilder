@@ -26,7 +26,7 @@ $Name:  $
 
   <!-- The coordinates of the DHTML Layer on the HTML page -->
   <!-- xsl:param name="jsfunction">config.loadModel('</xsl:param -->
-  <xsl:param name="jsfunction">modelSwitcher('</xsl:param>
+  <xsl:param name="widgetId"/>
   <xsl:param name="targetModel"/>
 
   <!-- template rule matching source root element -->
@@ -39,7 +39,7 @@ $Name:  $
   </xsl:template>
 
   <xsl:template match="wmc:ViewContextReference">
-    <xsl:param name="linkUrl">javascript:<xsl:value-of select="$jsfunction"/><xsl:value-of select="$targetModel"/>','<xsl:value-of select="wmc:ContextURL/wmc:OnlineResource/@xlink:href"/>')</xsl:param>
+    <xsl:param name="linkUrl">config.objects.<xsl:value-of select="$widgetId"/>.switchMap(config.objects.<xsl:value-of select="$widgetId"/>,'<xsl:value-of select="wmc:ContextURL/wmc:OnlineResource/@xlink:href"/>')</xsl:param>
     <xsl:param name="name"><xsl:value-of select='wmc:Title'/></xsl:param>
     <input type='button' value="{$name}"  onClick="{$linkUrl}" />
   </xsl:template>

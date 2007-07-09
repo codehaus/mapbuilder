@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
       
 <html xmlns="http://www.w3.org/1999/xhtml" >
   <head>
     <title>Mapbuilder Feature Entry</title>
        <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/demoStyles.css'/>
+       <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'/>
      <script>
       // URL of Mapbuilder configuration file.
       var mbConfigUrl='config.xml';
@@ -58,8 +59,8 @@
     
     <h2>Installation instructions</h2>
     <ol>
-      <li>Download and install <a href="http://java.sun.com/j2se/corejava/index.jsp"/>Java</a>.</li>
-      <li>Download and install <a href="http://java.sun.com/products/java-media/jai/current.html"/>Java Advanced Imaging (JAI)</a>.</li>
+      <li>Download and install <a href="http://java.sun.com/j2se/corejava/index.jsp">Java</a>.</li>
+      <li>Download and install <a href="http://java.sun.com/products/java-media/jai/current.html">Java Advanced Imaging (JAI)</a>.</li>
       <li>Download, install and start <a href="http://jakarta.apache.org/tomcat/">Tomcat</a>, (or another a Java Servlet Container).</li>
       <li>Download and install <a href="http://geoserver.sourceforge.net">Geoserver</a> version 1.3.0-beta or later.  Installation is as simple as copying the geoserver.war file into the tomcat/webapps/ directory.</li>
       <li>Copy the mapbuilder.war file into the tomcat/webapps/ directory.</li>
@@ -70,21 +71,20 @@
   	  <table>
       <tr>
         <td valign="top" id="locatorMap"/>
-        <td rowspan="2" colspan="2">
-          <div id="mainMapPane"/>
+        <td valign="top" rowspan="2" colspan="2">
           <div id="loading">
             <p>Loading Program<br/>
             <img src="../../lib/skin/default/images/Loading.gif"/>
             </p>
           </div>
+          <div>
+	          <div id="mainMapPane"></div>
+	          <div id="mainButtonBar" style="margin-top:5px;height:24px;width:240px"></div>
+	          <div id="cursorTrack" style="height:12pt"></div>
+          </div>
       </tr>
       <tr>
         <td id="legend"/>
-      </tr>
-      <tr>
-        <td/>
-        <td align="left" id="mainButtonBar"/>
-        <td align="right" id="cursorTrack" />
       </tr>
       <tr>
         <td colspan="3" id="featureList"/>
