@@ -222,3 +222,8 @@ div .olControlOverviewMapElement {
 	background-color: inherit;
 	background-color: expression(this.parentElement.currentStyle.backgroundColor);
 }
+
+/* Panel */
+.olControlPanel {
+	width:300px;
+}
