@@ -16,13 +16,33 @@ a web page.
 @author Cameron Shorter - Cameron AT Shorter.net
 */
 function XslProcessor(xslUrl,docNSUri) {
+  // override Sarissa configurations to prefer MSXML3, because
+  // MSXML6 does not work well with IE6SP2
+  if (!MB_IS_MOZ) {
+    _SARISSA_DOM_PROGID = Sarissa.pickRecentProgID(["Msxml2.DOMDocument.3.0", "Msxml2.DOMDocument.6.0"], [["SELECT_NODES", 2],["TRANSFORM_NODE", 2]]);
+    _SARISSA_XMLHTTP_PROGID = Sarissa.pickRecentProgID(["Msxml2.XMLHTTP.3.0", "MSXML2.XMLHTTP.6.0"], [["XMLHTTP", 4]]);
+    _SARISSA_THREADEDDOM_PROGID = Sarissa.pickRecentProgID(["Msxml2.FreeThreadedDOMDocument.3.0", "MSXML2.FreeThreadedDOMDocument.6.0"]);
+    _SARISSA_XSLTEMPLATE_PROGID = Sarissa.pickRecentProgID(["Msxml2.XSLTemplate.3.0", "MSXML2.XSLTemplate.6.0"], [["XSLTPROC", 2]]);
+  }
   // get the stylesheet document
   this.xslUrl=xslUrl;
   this.xslDom = Sarissa.getDomDocument();
   this.xslDom.async = false;
-  this.xslDom.validateOnParse=false;  //IE6 SP2 parsing bug
+  // fix some issues in IE
+  if (!MB_IS_MOZ) {
+    try {
+      // IE6 SP2 parsing bug
+      this.xslDom.validateOnParse=false;
+      // Prevent "Access denied" with external documents
+      this.xslDom.setProperty("AllowDocumentFunction", true);
+      this.xslDom.resolveExternals = false;
+    }
+    catch (e) {
+      // do nothing here, we won't get far anyway.
+    }
+  }
   this.xslDom.load(xslUrl);
-  if ( this.xslDom.parseError < 0 )
+  if ( Sarissa.getParseErrorText(this.xslDom) != Sarissa.PARSED_OK )
     alert(mbGetMessage("errorLoadingStylesheet", xslUrl));
 
   this.processor = new XSLTProcessor();
@@ -39,12 +59,12 @@ function XslProcessor(xslUrl,docNSUri) {
     try {
       // transform and build a web page with result
       var newDoc = this.transformNodeToObject(xmlNode);
-      var s = Sarissa.serialize(newDoc);
+      var s = (new XMLSerializer()).serializeToString(newDoc);
       return Sarissa.unescape(s);
     } catch(e){
       alert(mbGetMessage("exceptionTransformingDoc", this.xslUrl));
-      alert("XSL="+Sarissa.serialize(this.xslDom));
-      alert("XML="+Sarissa.serialize(xmlNode));
+      alert("XSL="+(new XMLSerializer()).serializeToString(this.xslDom));
+      alert("XML="+(new XMLSerializer()).serializeToString(xmlNode));
     }
   }
 
@@ -117,16 +137,15 @@ function postGetLoad(sUri, docToSend, contentType , dir, fileName) {
    var xmlHttp = new XMLHttpRequest();
    if ( sUri.indexOf("http://")==0 )
    {
-     	xmlHttp.open("POST", config.proxyUrl, false);
-     	xmlHttp.setRequestHeader("serverUrl",sUri);
+       xmlHttp.open("POST", config.proxyUrl, false);
+       xmlHttp.setRequestHeader("serverUrl",sUri);
 
 
    }
    else
    {
-
-   		sUri=sUri+"?dir="+dir+"&fileName="+fileName;
-     	xmlHttp.open("POST", sUri, false);
+       sUri=sUri+"?dir="+dir+"&fileName="+fileName;
+       xmlHttp.open("POST", sUri, false);
    }
    xmlHttp.setRequestHeader("content-type","text/xml");
    if (contentType) xmlHttp.setRequestHeader("content-type",contentType);
@@ -134,15 +153,15 @@ function postGetLoad(sUri, docToSend, contentType , dir, fileName) {
 
    if (xmlHttp.status >= 400)
    {   //http errors status start at 400
-      	alert(mbGetMessage("errorLoadingDocument", sUri, xmlHttp.statusText, xmlHttp.responseText));
-      	var outDoc = Sarissa.getDomDocument();
-      	outDoc.parseError = -1;
-      	return outDoc;
+        alert(mbGetMessage("errorLoadingDocument", sUri, xmlHttp.statusText, xmlHttp.responseText));
+        var outDoc = Sarissa.getDomDocument();
+        outDoc.parseError = -1;
+        return outDoc;
    }
    else
    {
-     	if ( null==xmlHttp.responseXML ) alert(mbGetMessage("nullXmlResponse", xmlHttp.responseText));
-     	return xmlHttp.responseXML;
+       if ( null==xmlHttp.responseXML ) alert(mbGetMessage("nullXmlResponse", xmlHttp.responseText));
+       return xmlHttp.responseXML;
    }
 }
 
@@ -167,20 +186,15 @@ function getProxyPlusUrl(url) {
 }
 
   /**
-   * Browser independant version of createElementNS() because creating elements
-   * with namespaces other than the defalut namespace isn't dupported in IE,
-   * or at least I can't figure out how to do it.
-   * Caution: In IE the new element doesn't appear to a namespace!!
+   * Browser independant version of createElementNS()
    * @param doc the owner document for the new element
-   * @param name the name for the new element
+   * @param name for the new element
    * @param ns the URL for the namespace (without a prefix)
    * @return element in the document with the specified namespace
    */
 function createElementWithNS(doc,name,nsUri) {
   if (_SARISSA_IS_IE) {
-    var newElement = doc.createElement(name);
-    //newElement.namespaceURI = nsUri;  //can't do this for some reason?
-    return newElement;
+    return doc.createNode(1, name, nsUri);
   } else {
     return doc.createElementNS(nsUri,name);
   }
@@ -253,17 +267,16 @@ function leadingZeros(num,digits) {
 // Add oldImage in parameter
 function fixPNG(myImage,myId,oldImage) {
   if (_SARISSA_IS_IE) {
-  	// PL - BRGM
-  	//opacity of the image
-  	if(oldImage) {
-
-  		var valIEOpacity= oldImage.style.filter.substring(oldImage.style.filter.indexOf('opacity=',0)+8,oldImage.style.filter.lastIndexOf(')',0));
-  		if(oldImage.style.filter.indexOf('opacity=',0) ==-1){
-  			valIEOpacity = null;
-  		}
-	 		var _opacity= (valIEOpacity)?valIEOpacity/100:-1;
-  	}
-	// END
+    // PL - BRGM
+    //opacity of the image
+    if(oldImage) {
+      var valIEOpacity= oldImage.style.filter.substring(oldImage.style.filter.indexOf('opacity=',0)+8,oldImage.style.filter.lastIndexOf(')',0));
+      if(oldImage.style.filter.indexOf('opacity=',0) ==-1){
+        valIEOpacity = null;
+      }
+       var _opacity= (valIEOpacity)?valIEOpacity/100:-1;
+     }
+  // END
     var imgID = "id='" + myId + "' ";
     var imgClass = (myImage.className) ? "class='" + myImage.className + "' " : ""
     var imgTitle = (myImage.title) ? "title='" + myImage.title + "' " : "title='" + myImage.alt + "' "
@@ -285,9 +298,9 @@ function fixPNG(myImage,myId,oldImage) {
 
     // PL - BRGM
     // add the opacity
-		if (oldImage && _opacity!=-1) strNewHTML +=  " alpha(opacity=" + (_opacity * 100) + ")";
-		strNewHTML +="; \"></span>" ;
-	// END PL - BRGM
+    if (oldImage && _opacity!=-1) strNewHTML +=  " alpha(opacity=" + (_opacity * 100) + ")";
+    strNewHTML +="; \"></span>" ;
+  // END PL - BRGM
     //myImage.outerHTML = strNewHTML;
     //alert(strNewHTML);
     return strNewHTML;
@@ -611,4 +624,95 @@ function mbFormatMessage(messageFormat)
     message = message.replace(parm, varArgs[i]);
   }
   return message;
+}
+
+/**
+ * extract a style from a SLD node of an XML doc and return
+ * it as url parameter for a WMS request
+ * @param node XML node containing the styled layer descriptor
+ * @return WMS-compliant SLD URL parameters as array
+ */
+function sld2UrlParam(node) {
+  var params=new Array();
+  if (node) {
+    var sld = node.selectSingleNode("wmc:SLD");
+    var name = node.selectSingleNode("wmc:Name");
+    if(sld) {
+      if(sld.selectSingleNode("wmc:OnlineResource")) {	
+        params.sld=sld.selectSingleNode("wmc:OnlineResource").getAttribute("xlink:href");
+      } else if(sld.selectSingleNode("wmc:FeatureTypeStyle")) {
+        params.sld=(new XMLSerializer()).serializeToString(sld.selectSingleNode("wmc:FeatureTypeStyle"));
+      } else if(sld.selectSingleNode("wmc:StyledLayerDescriptor")) { 
+        params.sld_body=(new XMLSerializer()).serializeToString(sld.selectSingleNode("wmc:StyledLayerDescriptor"));    		
+      }
+    } else if(name) {
+      params.styles=(name.firstChild)?name.firstChild.nodeValue:"";	
+    }
+  }  
+  return params;
+}
+
+/**
+ * extract a style from a SLD node of an XML doc and return
+ * it as OpenLayers style
+ * @param objRef reference to the map widget that will use the style
+ * @param node XML node containing the styled layer descriptor
+ * @return OpenLayers style object
+ */
+function sld2OlStyle(node) {
+  var style1=new Object();
+  var value;
+  var styleSet=false;
+
+  if (node) {
+    value=node.selectSingleNode(".//sld:ExternalGraphic/sld:OnlineResource/@xlink:href");
+    if(value){
+      style1.externalGraphic=value.firstChild.nodeValue;
+      styleSet=true;
+    }
+    value=node.selectSingleNode(".//sld:Fill/sld:CssParameter[@name='fill']");
+    if(value){
+      style1.fillColor=value.firstChild.nodeValue;
+      styleSet=true;
+    }
+    value=node.selectSingleNode(".//sld:Fill/sld:CssParameter[@name='fill-opacity']");
+    if(value){
+      style1.fillOpacity=value.firstChild.nodeValue;
+      styleSet=true;
+    } else {
+      // opacity eg. for externalGraphic
+      value=node.selectSingleNode(".//sld:Opacity/sld:Literal");
+      if (value){
+        style1.fillOpacity=value.firstChild.nodeValue;
+        styleSet=true;
+      }
+    }
+  
+    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke']");
+    if(value){
+      style1.strokeColor=value.firstChild.nodeValue;
+      styleSet=true;
+    }
+    
+    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke-opacity']");
+    if(value){
+      style1.strokeOpacity=value.firstChild.nodeValue;
+      styleSet=true;
+    }
+    
+    value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke-width']");
+    if(value){
+      style1.strokeWidth=value.firstChild.nodeValue;
+      styleSet=true;
+    }
+    
+    value=node.selectSingleNode(".//sld:Size");
+    if(value){
+      style1.pointRadius=value.firstChild.nodeValue;
+      styleSet=true;
+    }
+  }
+  
+  if(!styleSet)style1=null;
+  return style1;
 }

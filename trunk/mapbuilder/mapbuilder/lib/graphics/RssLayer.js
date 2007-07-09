@@ -37,13 +37,13 @@ function RssLayer(model, mapPane, layerName, layerNode, queryable, visible) {
     var children = node.childNodes;
     this.myabstract = "" ;
     for( var j=0; j<children.length; j++) { 
-      this.myabstract += Sarissa.serialize( children[j] );
+      this.myabstract += (new XMLSerializer()).serializeToString( children[j] );
     }
   
     node = this.layerNode.selectSingleNode("//wmc:Where" );
-    //alert( "RSSLayer node:"+Sarissa.serialize( node ));
+    //alert( "RSSLayer node:"+(new XMLSerializer()).serializeToString( node ));
     var type = node.firstChild;
-    //alert( "RSSLayer type:"+Sarissa.serialize( type ));
+    //alert( "RSSLayer type:"+(new XMLSerializer()).serializeToString( type ));
     if( type != undefined ) {
 	    this.gmlType = type.nodeName;
  	      
@@ -109,7 +109,7 @@ function RssLayer(model, mapPane, layerName, layerNode, queryable, visible) {
 	      // Check the Tags to get lat/long and role
 	      var tags =  xmlHttp.responseXML.selectNodes("//tag");
 	      if( tags.length == 0 ) { // what happened
-	        alert(Sarissa.serialize(xmlHttp.responseXML));
+	        alert((new XMLSerializer()).serializeToString(xmlHttp.responseXML));
 	      }
 	    
 	      this.myabstract += "<br/>"

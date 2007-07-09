@@ -27,7 +27,7 @@ function MapScaleText(widgetNode, model) {
    */
   this.submitForm = function() {
     var newScale = this.mapScaleTextForm.mapScale.value;
-    this.model.extent.setScale(newScale.split(",").join(""));
+    this.model.map.zoomToScale(newScale.split(",").join(""));
     return false;   //prevent the form from actually being submitted
   }
 
@@ -61,7 +61,7 @@ function MapScaleText(widgetNode, model) {
    */
   this.showScale = function(objRef) {
     if (objRef.mapScaleTextForm) {
-      var newScale = Math.round(objRef.model.extent.getScale());
+      var newScale = Math.round(objRef.model.map.getScale());
       var parts = new Array();
       while (newScale>=1000.0) {
         var newPart = newScale/1000.0;

@@ -37,7 +37,6 @@ function WebServiceForm(widgetNode, model) {
   if (webServiceUrl) {
     this.webServiceUrl = webServiceUrl.firstChild.nodeValue; 
   }
-
   
   /**
    * Handles submission of the form (via javascript in an <a> tag)
@@ -88,7 +87,7 @@ function WebServiceForm(widgetNode, model) {
        
       var layer = this.requestStylesheet.transformNodeToObject(this.model.doc); 
       //layer.childNodes[0].setAttribute("id", uuid)
-      if (this.debug) mbDebugMessage(this, "Transformed: "+ Sarissa.serialize(layer));
+      if (this.debug) mbDebugMessage(this, "Transformed: "+ (new XMLSerializer()).serializeToString(layer));
            
       // extract the GetFeature out
       this.namespace = "xmlns:wmc='http://www.opengis.net/context' xmlns:ows='http://www.opengis.net/ows' xmlns:ogc='http://www.opengis.net/ogc' xmlns:xsl='http://www.w3.org/1999/XSL/Transform' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs'";
@@ -96,12 +95,12 @@ function WebServiceForm(widgetNode, model) {
       Sarissa.setXpathNamespaces(layer, this.namespace);
       var getFeature = layer.selectSingleNode("//wfs:GetFeature")
       
-      httpPayload.postData = Sarissa.serialize( getFeature);
+      httpPayload.postData = (new XMLSerializer()).serializeToString( getFeature);
       
       mbDebugMessage(this, "httpPayload.postData:"+ httpPayload.postData);
       
       this.targetModel.wfsFeature = layer.childNodes[0];
-      if (this.debug) mbDebugMessage(this, "wfsFeature = "+ Sarissa.serialize(this.targetModel.wfsFeature));
+      if (this.debug) mbDebugMessage(this, "wfsFeature = "+ (new XMLSerializer()).serializeToString(this.targetModel.wfsFeature));
         
       this.targetModel.newRequest(this.targetModel,httpPayload);
     }
@@ -166,7 +165,7 @@ function WebServiceForm(widgetNode, model) {
     * Setup the listener for AOI changes to be used in filter if necessary
     */
   this.setAoiParameters = function(objRef,bbox) {
-    if (objRef.targetModel.containerModel) {
+    if (objRef.model) {
       var featureSRS = null;
       var containerSRS = objRef.model.getSRS();
      
@@ -175,14 +174,14 @@ function WebServiceForm(widgetNode, model) {
       objRef.requestStylesheet.setParameter("bBoxMaxX", bbox[1][0] );
       objRef.requestStylesheet.setParameter("bBoxMaxY", bbox[0][1] );
       objRef.requestStylesheet.setParameter("srs", containerSRS );
-      objRef.requestStylesheet.setParameter("width", objRef.targetModel.containerModel.getWindowWidth() );
-      objRef.requestStylesheet.setParameter("height", objRef.targetModel.containerModel.getWindowHeight() );
+      objRef.requestStylesheet.setParameter("width", objRef.model.getWindowWidth() );
+      objRef.requestStylesheet.setParameter("height", objRef.model.getWindowHeight() );
     }
   }
 
   this.init = function(objRef) {
-    if (objRef.targetModel.containerModel) {
-      objRef.targetModel.containerModel.addListener("aoi", objRef.setAoiParameters, objRef);
+    if (objRef.model) {
+      objRef.model.addListener("aoi", objRef.setAoiParameters, objRef);
       //TBD: another one for bbox
     }
   }

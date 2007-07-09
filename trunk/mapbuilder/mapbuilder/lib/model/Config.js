@@ -26,7 +26,7 @@ function Config(url) {
   this.doc.async = false;
   this.doc.validateOnParse=false;  //IE6 SP2 parsing bug
   this.doc.load(url);
-  if (this.doc.parseError < 0){
+  if (Sarissa.getParseErrorText(this.doc) != Sarissa.PARSED_OK){
     alert("error loading config document: " + url );//+ " - " + Sarissa.getParseErrorText(this.doc) );
   }
   this.url = url;
@@ -42,7 +42,7 @@ function Config(url) {
   configDoc.async = false;
   configDoc.validateOnParse=false;  //IE6 SP2 parsing bug
   configDoc.load(baseDir+"/"+mbServerConfig);
-  if (configDoc.parseError < 0) {
+  if (Sarissa.getParseErrorText(configDoc) != Sarissa.PARSED_OK) {
     //alert("error loading server config document: " + baseDir+"/"+mbServerConfig );
   } else {
     configDoc.setProperty("SelectionLanguage", "XPath");
@@ -114,7 +114,7 @@ function Config(url) {
       widgetText.async = false;
       widgetText.validateOnParse=false;  //IE6 SP2 parsing bug
       widgetText.load(widgetTextUrl);
-      if (widgetText.parseError < 0){
+      if (Sarissa.getParseErrorText(widgetText) != Sarissa.PARSED_OK){
         var errMsg = "Error loading widgetText document: " + widgetTextUrl;
         if (config.lang == config.defaultLang) {
           alert(errMsg);
@@ -125,7 +125,7 @@ function Config(url) {
           config.lang = config.defaultLang;
           widgetTextUrl = dir + "/" + config.lang + "/" + url.firstChild.nodeValue;
           widgetText.load(widgetTextUrl);
-          if (widgetText.parseError < 0){
+          if (Sarissa.getParseErrorText(widgetText) != Sarissa.PARSED_OK){
             alert("Falling back on default language failed!");
           }
         }

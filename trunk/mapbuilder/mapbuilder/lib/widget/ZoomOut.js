@@ -5,49 +5,55 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
+mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 
 /**
- * When this button is selected, click on the map to zoom out centered at the click.
- * @constructor
+ * Zoom Out button.
  * @base ButtonBase
- * @author Mike Adair mike.adairATccrs.nrcan.gc.ca
- * @param widgetNode The widget node from the Config XML file.
- * @param model  The model for this widget
+ * @author Andreas Hocevar andreas.hocevarATgmail.com
+ * @param widgetNode      The tool node from the Config XML file.
+ * @param model  The ButtonBar widget.
  */
 function ZoomOut(widgetNode, model) {
-  // Extend ButtonBase
-  ButtonBase.apply(this, new Array(widgetNode, model));
+   ButtonBase.apply(this, new Array(widgetNode, model));
+
+  this.cursor = 'crosshair';
 
   /**
-  Set the zoomfactor and check if it is set in de configuration file.
-  */
-  this.zoomFactor = 4;
-  var zoomFactor = widgetNode.selectSingleNode("mb:zoomFactor");
-  if (zoomFactor) this.zoomFactor = zoomFactor.firstChild.nodeValue;
-  /**
-   * Calls the centerAt method of the context doc to zoom out, recentering at 
-   * the mouse event coordinates.
-   * TBD: set the zoomFactor property as a button property in conifg
-   * @param objRef      Pointer to this AoiMouseHandler object.
-   * @param targetNode  The node for the enclosing HTML tag for this widget.
+   * Interactive ZoomOut control.
+   * @param objRef reference to this object.
+   * @return {OpenLayers.Control} class of the OL control.
    */
-  this.doAction = function(objRef,targetNode) {
-    if (!objRef.enabled) return;
-    var bbox = objRef.targetModel.getParam("aoi");
-    var extent = objRef.targetModel.extent;
-    var newRes = extent.res[0]*objRef.zoomFactor;
-    extent.centerAt(bbox[0], newRes);
-  }
+  this.createControl = function(objRef) {
+    var Control = OpenLayers.Class.create();
+    Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
+      CLASS_NAME: 'mbControl.ZoomOut',
+      type: OpenLayers.Control.TYPE_TOOL,
 
-  /**
-   * Register for mouseUp events.
-   * @param objRef  Pointer to this object.
-   */
-  this.setMouseListener = function(objRef) {
-    if (objRef.mouseHandler) {
-      objRef.mouseHandler.model.addListener('mouseup',objRef.doAction,objRef);
-    }
-  }
-  this.model.addListener( "loadModel", this.setMouseListener, this );
+      draw: function() {
+        this.handler = new OpenLayers.Handler.Box( this,
+          {done: this.zoomBox}, {keyMask: this.keyMask} );
+      },
 
+      zoomBox: function (position) {
+        if (position instanceof OpenLayers.Bounds) {
+          var minXY = new OpenLayers.Pixel(position.left, position.bottom);
+          var maxXY = new OpenLayers.Pixel(position.right, position.top);
+          var bounds = new OpenLayers.Bounds(minXY.x, minXY.y,
+            maxXY.x, maxXY.y);
+          var mapSize = (this.map.getSize().w+this.map.getSize().h)/2;
+          var boxSize = (Math.abs(bounds.getWidth())+Math.abs(bounds.getHeight()))/2;
+          var newScale = this.map.getScale()*(mapSize/boxSize);
+          this.map.setCenter(bounds.getCenterLonLat());
+          this.map.zoomToScale(newScale);
+        } else { // it's a pixel
+          this.map.setCenter(this.map.getLonLatFromPixel(position),
+            this.map.getZoom() - 1);
+        }
+      }
+    });
+    return Control;
+  }
 }
+
+

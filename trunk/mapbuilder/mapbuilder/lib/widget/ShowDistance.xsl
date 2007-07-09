@@ -19,7 +19,7 @@
   <xsl:param name="skinDir" select="/mb:MapbuilderConfig/mb:skinDir" />
 
   <!-- The title for the output -->
-  <xsl:param name="distance">Afstand:</xsl:param>
+  <xsl:param name="distance">Distance:</xsl:param>
 
   <!-- The name of the form for distance output -->
   <xsl:param name="formName" />

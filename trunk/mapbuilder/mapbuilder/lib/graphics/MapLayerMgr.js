@@ -122,7 +122,7 @@ MapLayerMgr.prototype.setLayersFromContext = function(objRef) {
   * @param layerNode  Layer node element from WMC/OWSContext document 
   */
 MapLayerMgr.prototype.addLayer = function(objRef, layerNode) {
-  //alert( "MapLayer addLayer:"+Sarissa.serialize(layerNode))
+  //alert( "MapLayer addLayer:"+(new XMLSerializer()).serializeToString(layerNode))
   var layer = null;
   service=layerNode.selectSingleNode("wmc:Server/@service");
   if(service)service=service.nodeValue;

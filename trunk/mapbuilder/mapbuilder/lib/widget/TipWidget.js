@@ -149,18 +149,18 @@ function TipWidget( widgetNode, model) {
 	    }
       }
       
-      //alert( Sarissa.serialize(node))
+      //alert( (new XMLSerializer()).serializeToString(node))
       //var textN = this.stylesheet.transformNodeToObject(node);
-      //alert( "textN:"+Sarissa.serialize(textN))
+      //alert( "textN:"+(new XMLSerializer()).serializeToString(textN))
  
       //Sarissa.setXpathNamespaces(node, "xmlns:eo1='http://eo1.gsfc.nasa.gov' xmlns:gml='http://www.opengis.net/gml'");
-      //alert( Sarissa.serialize(node))
+      //alert( (new XMLSerializer()).serializeToString(node))
       //var text = this.stylesheet.transformNodeToString(node);
       var oDoc = document.implementation.createDocument("", "", null);
       oDoc.appendChild(node.cloneNode(true));
       var oResult = this.stylesheet.transformToDocument( oDoc );
-      //alert("oResult:"+Sarissa.serialize(oResult))
-      var text = Sarissa.serialize(oResult.firstChild)
+      //alert("oResult:"+(new XMLSerializer()).serializeToString(oResult))
+      var text = (new XMLSerializer()).serializeToString(oResult.firstChild)
       
       overlib(text, CAPTION, "Caption", STICKY, WIDTH,'225', HEIGHT,'200', REFC,'UR', REFP,'LL', RELX, posx, RELY, posy)
     } else {

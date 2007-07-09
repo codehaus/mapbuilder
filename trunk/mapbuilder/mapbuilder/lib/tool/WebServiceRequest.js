@@ -59,8 +59,8 @@ function WebServiceRequest(toolNode, model) {
  */
 WebServiceRequest.prototype.createHttpPayload = function(feature) {
   //confirm inputs
-  if (this.debug) mbDebugMessage(this, "source:"+Sarissa.serialize(feature));
-  //if (this.debug) mbDebugMessage(this, "stylesheet:"+Sarissa.serialize(this.requestStylesheet.xslDom));
+  if (this.debug) mbDebugMessage(this, "source:"+(new XMLSerializer()).serializeToString(feature));
+  //if (this.debug) mbDebugMessage(this, "stylesheet:"+(new XMLSerializer()).serializeToString(this.requestStylesheet.xslDom));
 
 
   //prepare the stylesheet
@@ -70,14 +70,14 @@ WebServiceRequest.prototype.createHttpPayload = function(feature) {
   this.requestStylesheet.setParameter("version", this.model.getVersion(feature) );
   if (this.requestFilter) {
     var filter = config.objects[this.requestFilter];
-    this.requestStylesheet.setParameter("filter", escape(Sarissa.serialize(filter.doc).replace(/[\n\f\r\t]/g,'') ));
-    if (this.debug) mbDebugMessage(this, Sarissa.serialize(filter.doc));
+    this.requestStylesheet.setParameter("filter", escape((new XMLSerializer()).serializeToString(filter.doc).replace(/[\n\f\r\t]/g,'') ));
+    if (this.debug) mbDebugMessage(this, (new XMLSerializer()).serializeToString(filter.doc));
   }
 
   //process the doc with the stylesheet
   httpPayload.postData = this.requestStylesheet.transformNodeToObject(feature);
   if (this.debug) {
-    mbDebugMessage(this, "request data:"+Sarissa.serialize(httpPayload.postData));
+    mbDebugMessage(this, "request data:"+(new XMLSerializer()).serializeToString(httpPayload.postData));
     if (config.serializeUrl) var response = postLoad(config.serializeUrl, httpPayload.postData);
   }
 

@@ -16,23 +16,34 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @param model  The model for this widget
  */
 function Forward(widgetNode, model) {
-  ButtonBase.apply(this, new Array(widgetNode, model));
   
-  /**
-   * Replaces the current extent with the next one in history
-   * @param objRef      Pointer to this object.
-   */
-  this.doSelect = function(selected,objRef) {
-    if (selected){
+   ButtonBase.apply(this, new Array(widgetNode, model));
 
-		this.targetModel.setParam("historyForward");
-      var nextExtent = objRef.targetModel.nextExtent;
-      if(nextExtent){
-        this.targetModel.setParam("historyStop");
-        objRef.targetModel.extent.zoomToBox( nextExtent[0], nextExtent[1] );
-        this.targetModel.setParam("historyStart");
-      }
-    }
+  /**
+   * Interactive ZoomOut control.
+   * @param objRef reference to this object.
+   * @return {OpenLayers.Control} instance of the OL control.
+   */
+  this.createControl = function(objRef) {
+    var Control = OpenLayers.Class.create();
+    Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
+      objRef: objRef,
+      type: OpenLayers.Control.TYPE_BUTTON,
+      
+      trigger: function() {
+              var objRef = this.objRef;
+              objRef.targetModel.setParam("historyForward");
+              var nextExtent = objRef.targetModel.nextExtent;
+              if(nextExtent){
+                objRef.targetModel.setParam("historyStop");
+                this.map.setCenter(nextExtent.center);
+                this.map.zoomToScale(nextExtent.scale);
+                objRef.targetModel.setParam("historyStart");
+              }
+      },
+      CLASS_NAME: 'mbControl.Forward'
+    });
+    return Control;
   }
 }
 

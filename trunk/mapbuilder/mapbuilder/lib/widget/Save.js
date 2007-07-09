@@ -21,37 +21,25 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 function Save(widgetNode, model) {
   ButtonBase.apply(this, new Array(widgetNode, model));
 
-  /**
-   * Calls the targetModel's saveModel() method to serialize the model document.
-   * @param objRef      Pointer to this AoiMouseHandler object.
+ /**
+   * Save model control.
+   * @param objRef reference to this object.
+   * @return {OpenLayers.Control} instance of the OL control.
    */
-  this.doSelect = function(selected,objRef) {
-    if (selected) {
-      objRef.targetModel.saveModel(objRef.targetModel);
-    }
-  }
-
-  /**
-   * opens a saved model in a popup window
-   * @param objRef Pointer to this SaveModel object.
-   */
-  this.savedModelPopup = function(objRef, fileUrl) {
-    window.open(fileUrl, this.popupWindowName);
-  }
-
-  /**
-   * set a "modelSaved" listener to call the opoup window opener
-   * @param objRef Pointer to this SaveModel object.
-   */
-  this.initReset = function(objRef) {
-    objRef.targetModel.addListener("modelSaved",objRef.savedModelPopup, objRef);
-  }
-
-  //if popupWindowName is specified in config, then add a modelSaved listener 
-  var popupWindowName = widgetNode.selectSingleNode("mb:popupWindowName");
-  if (popupWindowName) {
-    this.popupWindowName = popupWindowName.firstChild.nodeValue;
-    this.model.addListener("init",this.initReset, this);
+  this.createControl = function(objRef) {
+    var Control = OpenLayers.Class.create();
+    Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
+    
+      type: OpenLayers.Control.TYPE_BUTTON,
+      
+      trigger: function () {
+       		this.map.mbMapPane.targetModel.saveModel(this.map.mbMapPane.targetModel);  
+                 
+            
+       },
+       CLASS_NAME: 'mbControl.Save'
+  });
+  return Control;
   }
 
 }

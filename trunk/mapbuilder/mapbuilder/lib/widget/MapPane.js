@@ -158,7 +158,7 @@ function MapPane(widgetNode, model) {
 MapPane.prototype.paint = function(objRef) {
 
   if (objRef.model.doc && objRef.node) {
-    //if (objRef.debug) mbDebugMessage(objRef, "source:"+Sarissa.serialize(objRef.model.doc));
+    //if (objRef.debug) mbDebugMessage(objRef, "source:"+(new XMLSerializer()).serializeToString(objRef.model.doc));
 
     objRef.stylesheet.setParameter("width", objRef.model.getWindowWidth());
     objRef.stylesheet.setParameter("height", objRef.model.getWindowHeight());
@@ -166,13 +166,13 @@ MapPane.prototype.paint = function(objRef) {
     objRef.stylesheet.setParameter("srs", objRef.model.getSRS());
 
     //confirm inputs
-    if (objRef.debug) mbDebugMessage(objRef, "painting:"+Sarissa.serialize(objRef.model.doc));
-    if (objRef.debug) mbDebugMessage(objRef, "stylesheet:"+Sarissa.serialize(objRef.stylesheet.xslDom));
-//alert("PAINT MODEL.DOC  : "+Sarissa.serialize(objRef.model.doc));
+    if (objRef.debug) mbDebugMessage(objRef, "painting:"+(new XMLSerializer()).serializeToString(objRef.model.doc));
+    if (objRef.debug) mbDebugMessage(objRef, "stylesheet:"+(new XMLSerializer()).serializeToString(objRef.stylesheet.xslDom));
+//alert("PAINT MODEL.DOC  : "+(new XMLSerializer()).serializeToString(objRef.model.doc));
 
     //process the doc with the stylesheet
     var tempDom = objRef.stylesheet.transformNodeToObject(objRef.model.doc);
-//alert(Sarissa.serialize(tempDom));
+//alert((new XMLSerializer()).serializeToString(tempDom));
     var tempNodeList = tempDom.selectNodes("//img");
 
     //debug output

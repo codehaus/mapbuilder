@@ -101,7 +101,7 @@ function GeoRssRenderer(widgetNode, model) {
   this.transformEntry = function( objRef, entry ) {
     if( objRef.popupStyleSheet != undefined ) {
       var resultNode = objRef.popupStyleSheet.transformNodeToObject( entry );
-      var result = Sarissa.serialize(resultNode.documentElement);
+      var result = (new XMLSerializer()).serializeToString(resultNode.documentElement);
       //alert("transforming:"+result);
       return result;
     }

@@ -190,10 +190,10 @@ function ModelBase(modelNode, parentModel) {
 
                 if( (xmlHttp.responseXML != null) && (xmlHttp.responseXML.root != null) && (xmlHttp.responseXML.root.children.length>0) ) {
                   objRef.doc = xmlHttp.responseXML;
-                  if( objRef.doc.parseError == 0 ) {
+                  if( Sarissa.getParseErrorText(objRef.doc) == Sarissa.PARSED_OK ) {
                     objRef.finishLoading();      
                   } else {
-                    alert(mbGetMessage("parsingError", objRef.doc.parseError, Sarissa.getParseErrorText(objRef.doc)));
+                    alert(mbGetMessage("parseError", Sarissa.getParseErrorText(objRef.doc)));
                   }
                   return;
                 } 
@@ -208,17 +208,17 @@ function ModelBase(modelNode, parentModel) {
                     alert(mbGetMessage("documentParseError", Sarissa.getParseErrorText(objRef.doc)));
                     // debugger;
                   } else {
-                    if( objRef.doc.parseError == 0 ) {
+                    if( Sarissa.getParseErrorText(objRef.doc) == Sarissa.PARSED_OK ) {
                       objRef.finishLoading();      
                     } else {
-                      alert(mbGetMessage("parsingError", objRef.doc.parseError, Sarissa.getParseErrorText(objRef.doc)));
+                      alert(mbGetMessage("parseError", Sarissa.getParseErrorText(objRef.doc)));
                     }
                   }
                   return;
                 }
                 //if (objRef.doc.documentElement.nodeName.search(/exception/i)>=0) {
                 //  objRef.setParam("modelStatus",-1);
-                //  alert("Exception:"+Sarissa.serialize(xmlHttp.responseText));
+                //  alert("Exception:"+(new XMLSerializer()).serializeToString(xmlHttp.responseText));
                 //}
               //}
               //objRef.finishLoading();
@@ -274,7 +274,7 @@ function ModelBase(modelNode, parentModel) {
       if(this.namespace) Sarissa.setXpathNamespaces(this.doc, this.namespace);
 
       // Show the newly loaded XML document
-      if(this.debug) mbDebugMessage(this, "Loading Model:"+this.id+" "+Sarissa.serialize(this.doc));
+      if(this.debug) mbDebugMessage(this, "Loading Model:"+this.id+" "+(new XMLSerializer()).serializeToString(this.doc));
       
       this.callListeners("loadModel");
     }
@@ -340,7 +340,7 @@ function ModelBase(modelNode, parentModel) {
    */
   this.saveModel = function(objRef) {
     if (config.serializeUrl) {
-    //alert(Sarissa.serialize(objRef.doc));
+    //alert((new XMLSerializer()).serializeToString(objRef.doc));
 //      var response = postLoad(config.serializeUrl, objRef.doc);
       
       var response = postGetLoad(config.serializeUrl, objRef.doc ,"text/xml","/temp","sld.xml");

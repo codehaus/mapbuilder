@@ -34,7 +34,16 @@ function SLDEditor(modelNode, parent) {
   		objRef.stylesheet.setParameter("layerName", layerName );
     	objRef.paint(objRef, objRef.id);
   	}
- 
+  	
+	this.postPaint = function(objRef) {
+	
+	var objRef2 = config.objects.choixchamp;
+	config.objects.choixchamp.paint(objRef2,objRef2.id);
+	
+	
+	
+    
+    }
 	this.model.addListener("SLDChange",this.refresh, this);
 	
 	

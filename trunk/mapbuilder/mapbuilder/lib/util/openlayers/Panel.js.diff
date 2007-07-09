@@ -1,0 +1,14 @@
+Index: /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Control/Panel.js
+===================================================================
+--- /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Control/Panel.js	(revision 3354)
++++ /mnt/d/eclipse/workspace/openlayers/lib/OpenLayers/Control/Panel.js	(working copy)
+@@ -115,7 +115,8 @@
+         for (var i = 0; i < this.controls.length; i++) {
+             if (this.controls[i] == control) {
+                 control.activate();
+-            } else {
++            } else
++            if (this.controls[i].type != OpenLayers.Control.TYPE_TOGGLE) {
+                 this.controls[i].deactivate();
+             }
+         }

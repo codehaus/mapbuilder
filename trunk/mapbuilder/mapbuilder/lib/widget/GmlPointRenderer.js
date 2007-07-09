@@ -7,10 +7,9 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/model/Proj.js");
-mapbuilder.loadScript(baseDir+"/widget/MapContainerBase.js");
 
 /**
- * Render GML point geometery into HTML.  This is a MapContainer widget.
+ * Render GML point geometry into HTML.
  * Other Geometries could be handled if there was some way to get a point 
  * out of it (e.g. polygon centroid).
  * This widget places an image at the specified point on the map.
@@ -24,10 +23,13 @@ mapbuilder.loadScript(baseDir+"/widget/MapContainerBase.js");
  */
 function GmlPointRenderer(widgetNode, model) {
   WidgetBase.apply(this,new Array(widgetNode, model));
-  MapContainerBase.apply(this,new Array(widgetNode, model));
 
   this.normalImage = widgetNode.selectSingleNode("mb:normalImage").firstChild.nodeValue; 
   this.highlightImage = widgetNode.selectSingleNode("mb:highlightImage").firstChild.nodeValue; 
+  var xOffsetNode = widgetNode.selectSingleNode("mb:xOffset");
+  this.xOffset = xOffsetNode ? parseInt(xOffsetNode.firstChild.nodeValue) : 0;
+  var yOffsetNode = widgetNode.selectSingleNode("mb:yOffset");
+  this.yOffset = yOffsetNode ? parseInt(yOffsetNode.firstChild.nodeValue) : 0;
 
   this.model.addListener("refresh",this.paint, this); 
 
@@ -65,10 +67,10 @@ function GmlPointRenderer(widgetNode, model) {
         var highlightImageDiv = document.getElementById(itemId+"_highlight");
         
         if( normalImageDiv )
-          this.node.removeChild( normalImageDiv );
+          this.node.firstChild.removeChild( normalImageDiv );
           
         if( highlightImageDiv)
-          this.node.removeChild( highlightImageDiv );
+          this.node.firstChild.removeChild( highlightImageDiv );
     }
     
   }
@@ -84,10 +86,9 @@ function GmlPointRenderer(widgetNode, model) {
     */
   GmlPointRenderer.prototype.paint = function(objRef) {
    
-    if (objRef.model.doc && objRef.node && objRef.containerModel.doc ) {
-      var containerProj = new Proj(objRef.containerModel.getSRS());
+    if (objRef.targetModel.doc && objRef.node && objRef.node.firstChild) {
+      var proj = new Proj(objRef.targetModel.getSRS());
       
-      // Does not work for some reason
       objRef.clearFeatures();
       
       var features = objRef.model.getFeatureNodes();
@@ -96,8 +97,9 @@ function GmlPointRenderer(widgetNode, model) {
         var title = objRef.model.getFeatureName(feature);
         var itemId = objRef.model.getFeatureId(feature);   //or feature id's for feature collections?
         var point = objRef.model.getFeaturePoint(feature);
-        point = containerProj.Forward(point);
-        point = objRef.containerModel.extent.getPL(point);
+        var pt = new PT(point[0], point[1]);
+        cs_transform(new CS(csList.EPSG4326), proj, pt);
+        var pixel = objRef.targetModel.map.getPixelFromLonLat(new OpenLayers.LonLat(pt.x, pt.y));
 
         var normalImageDiv = document.getElementById(itemId+"_normal");
         var highlightImageDiv = document.getElementById(itemId+"_highlight");
@@ -107,32 +109,32 @@ function GmlPointRenderer(widgetNode, model) {
           normalImageDiv.setAttribute("id",itemId+"_normal");
           normalImageDiv.style.position = "absolute";
           normalImageDiv.style.visibility = "visible";
-          normalImageDiv.style.zIndex = 300;
+          normalImageDiv.style.zIndex = 30000;
           var newImage = document.createElement("IMG");
           newImage.src = config.skinDir+objRef.normalImage;
           newImage.title = title;
           normalImageDiv.appendChild(newImage);
-          objRef.node.appendChild( normalImageDiv );
+          objRef.node.firstChild.appendChild( normalImageDiv );
 
           //add in the highlightImage
           highlightImageDiv = document.createElement("DIV");
           highlightImageDiv.setAttribute("id",itemId+"_highlight");
           highlightImageDiv.style.position = "absolute";
           highlightImageDiv.style.visibility = "hidden";
-          highlightImageDiv.style.zIndex = 301;   //all highlight images are on top of others
+          highlightImageDiv.style.zIndex = 30001;   //all highlight images are on top of others
           var newImage = document.createElement("IMG");
           newImage.src = config.skinDir+objRef.highlightImage;
           newImage.title = title;
           highlightImageDiv.appendChild(newImage);
-          objRef.node.appendChild( highlightImageDiv );
+          objRef.node.firstChild.appendChild( highlightImageDiv );
         }
 
-        normalImageDiv.style.left = point[0];
-        normalImageDiv.style.top = point[1];
-        highlightImageDiv.style.left = point[0];
-        highlightImageDiv.style.top = point[1];
+        pixel.x += objRef.xOffset;
+        pixel.y += objRef.yOffset;
+        normalImageDiv.style.left = pixel.x.toString() + "px";
+        normalImageDiv.style.top = pixel.y.toString() + "px";
+        highlightImageDiv.style.left = pixel.x.toString() + "px";
+        highlightImageDiv.style.top = pixel.y.toString() + "px";
       }
     }
   }
-
- 
