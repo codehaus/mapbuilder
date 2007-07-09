@@ -84,20 +84,6 @@
 					<xs:documentation/>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="merges">
-				<xs:annotation>
-					<xs:documentation>a list of models that are to be merged into this model</xs:documentation>
-				</xs:annotation>
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element name="merge" maxOccurs="unbounded">
-							<xs:annotation>
-								<xs:documentation>id of a model to merge with this model</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
 		</xs:sequence>
 		<xs:attribute name="id" type="mb:idType" use="required"/>
 		<xs:attribute name="template" type="xs:boolean" use="optional"/>
@@ -445,7 +431,24 @@
 			<xs:documentation>A model that can combine other models from the config that have the same namespace and root node. This is useful eg. for packing all GML rendering into a single layer.</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="mb:AbstractModelType"/>
+			<xs:extension base="mb:AbstractModelType">
+        <xs:sequence>
+          <xs:element name="merges">
+            <xs:annotation>
+              <xs:documentation>a list of models that are to be merged into this model</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="merge" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>id of a model to merge with this model</xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="ModelType">
