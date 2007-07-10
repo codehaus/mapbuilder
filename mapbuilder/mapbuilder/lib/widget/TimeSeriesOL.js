@@ -363,7 +363,7 @@ TimeSeriesOL.prototype.addLayer = function(objRef, layerNode) {
         layerOptions.isBaseLayer=false;
       }
       var params = new Array();
-      params=objRef.sld2UrlParam(objRef, currentStyle);
+      params=sld2UrlParam(currentStyle);
       
       if (objRef.model.timestampList && objRef.model.timestampList.getAttribute("layerName") == name2) { 
 	
