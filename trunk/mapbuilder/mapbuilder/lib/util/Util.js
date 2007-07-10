@@ -35,7 +35,7 @@ function XslProcessor(xslUrl,docNSUri) {
       this.xslDom.validateOnParse=false;
       // Prevent "Access denied" with external documents
       this.xslDom.setProperty("AllowDocumentFunction", true);
-      this.xslDom.resolveExternals = false;
+      this.xslDom.resolveExternals = true;
     }
     catch (e) {
       // do nothing here, we won't get far anyway.
@@ -47,7 +47,7 @@ function XslProcessor(xslUrl,docNSUri) {
 
   this.processor = new XSLTProcessor();
   this.processor.importStylesheet(this.xslDom);
-
+  
   this.docNSUri = docNSUri;
 
   /**
