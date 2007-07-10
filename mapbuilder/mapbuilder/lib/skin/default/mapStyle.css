@@ -223,7 +223,7 @@ div .olControlOverviewMapElement {
 	background-color: expression(this.parentElement.currentStyle.backgroundColor);
 }
 
-/* Panel */
+/* Panel
 .olControlPanel {
 	width:300px;
-}
+} */
