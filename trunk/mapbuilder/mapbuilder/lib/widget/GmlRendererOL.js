@@ -53,6 +53,7 @@ function GmlRendererOL(widgetNode, model) {
     var styleNode = widgetNode.selectSingleNode("mb:stylesheet");
     if (styleNode) {
       this.stylesheet = new XslProcessor(styleNode.firstChild.nodeValue,model.namespace);
+      this.stylesheet.setParameter("proxyUrl", config.proxyUrl);
     }
   }
 
@@ -77,7 +78,7 @@ function GmlRendererOL(widgetNode, model) {
       if (!doc) {
         return;
       }
-      
+
       // keep a reference to the map we created the layer for
       objRef.map = objRef.targetModel.map;
       
