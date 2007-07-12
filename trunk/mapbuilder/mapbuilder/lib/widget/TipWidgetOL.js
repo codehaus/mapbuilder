@@ -16,7 +16,7 @@ mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
  * @param model  The ButtonBar widget.
  */
 function TipWidgetOL(widgetNode, model) {
-   WidgetBaseXSL.apply(this, new Array(widgetNode, model));
+  WidgetBaseXSL.apply(this, new Array(widgetNode, model));
 
   var width = widgetNode.selectSingleNode('mb:width');
   this.width = width ? width.firstChild.nodeValue : 200;
@@ -31,28 +31,71 @@ function TipWidgetOL(widgetNode, model) {
 
   /**
    * This method is triggered when a user clicks on a feature.
-   * It called by OpenLayers event handling in the context
-   * of a feature. This means that 'this' in this method refers
-   * to an {OpenLayers.Feature}
-   * @param evt OpenLayers event
+   * @param objRef reference to this widget
    */
   this.onClick = function(objRef) {
     var evt = objRef.model.getParam("olFeatureSelect");
+    var popup = objRef.displayPopup(objRef, evt, false);
+    evt.feature.layer.mbClickPopup = popup;
+  }
+  
+  /**
+   * This method is triggered when the mouse is over a feature.
+   * @param objRef reference to this widget
+   */
+  this.onMouseover = function(objRef) {
+    var evt = objRef.model.getParam("olFeatureHover");
+    // only create popup if there is no visible click popup
+    if (!evt.feature.layer.mbClickPopup || !evt.feature.layer.mbClickPopup.visible()) {
+      var popup = objRef.displayPopup(objRef, evt, true);
+      evt.feature.layer.mbHoverPopup = popup;
+      // if the olFeatureOut event gets lost (eg during drag operation),
+      // registering this additional event will help to get rid of the
+      // popup quickly
+      popup.events.register('mouseover', popup, popup.hide);
+    }
+  }
+  
+  /**
+   * This method is triggered when the mouse moves out of a feature.
+   * @param objRef reference to this widget
+   */
+  this.onMouseout = function(objRef) {
+    var feature = objRef.model.getParam("olFeatureOut");
+    if (feature.layer.mbHoverPopup) {
+      feature.layer.mbHoverPopup.destroy();
+      feature.layer.mbHoverPopup = null;
+    }
+  }
+  
+  /**
+   * Displays a popup.
+   * @param objRef reference to this widget
+   * @param evt OpenLayers.Event that triggered the popup action
+   * @param hover true if the popup should be styled as a hover popup,
+   * false if it is a click popup.
+   * @return reference to the created popup
+   */
+  this.displayPopup = function(objRef, evt, hover) {
     var feature = evt.feature;
     objRef.stylesheet.setParameter('fid', feature.fid);
     var lonlat = feature.layer.map.getLonLatFromPixel(evt.xy);
     var popup = new OpenLayers.Popup.Anchored();
+    
     popup.padding = 0;
     popup.initialize(null, lonlat, new OpenLayers.Size(objRef.width, objRef.height),
         new XMLSerializer().serializeToString(objRef.stylesheet.transformNodeToObject(objRef.model.doc)),
-        null, true);
+        null, hover == false);
     popup.setOpacity(objRef.opacity);
     popup.setBackgroundColor(objRef.backgroundColor);
     popup.setBorder(objRef.border);
+    var quadrant = feature.layer.map.getExtent().determineQuadrant(lonlat);
+    var lonOffset = quadrant.charAt(1) == 'r' ? -5 : 5;
+    var latOffset = quadrant.charAt(0) == 't' ? 5 : -5;
+    popup.anchor = { size: new OpenLayers.Size(0,0), offset: new OpenLayers.Pixel(lonOffset, latOffset)};    
+ 
     feature.layer.map.addPopup(popup, true);
-    // stop the event so other tools will not be triggered
-    // when the user clicked on a feature.
-    OpenLayers.Event.stop(evt);
+    return popup;
   }
   
 }

@@ -269,6 +269,12 @@ function GmlRendererOL(widgetNode, model) {
       var clickWidget = config.objects[clickWidgetNode.firstChild.nodeValue];
       objRef.model.addListener("olFeatureSelect", clickWidget.onClick, clickWidget);
     }
+    var hoverWidgetNode =  widgetNode.selectSingleNode("mb:featureOnHover");
+    if (hoverWidgetNode) {
+      var hoverWidget = config.objects[hoverWidgetNode.firstChild.nodeValue];
+      objRef.model.addListener("olFeatureHover", hoverWidget.onMouseover, hoverWidget);
+      objRef.model.addListener("olFeatureOut", hoverWidget.onMouseout, hoverWidget);
+    }
     objRef.targetModel.addListener("aoi", objRef.removeHiddenFeatures, objRef);
   }
   this.model.addListener("init", this.init, this);
