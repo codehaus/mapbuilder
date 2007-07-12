@@ -58,6 +58,13 @@ function MapPaneOL(widgetNode, model) {
    * be? Default is 256.
    */
   this.tileSize = tileSize ? tileSize.firstChild.nodeValue : 256;
+
+  var imageReproject = widgetNode.selectSingleNode("mb:imageReproject");
+  /**
+   * For WMS on top of Google Maps you need to reproject the WMS image. This will stretch
+   * the WMS images to fit the odd sized google tiles. Default is false
+   */
+  this.imageReproject = imageReproject ? imageReproject.firstChild.nodeValue : false;
   
   var imageBuffer = widgetNode.selectSingleNode("mb:imageBuffer");
   /**
@@ -423,7 +430,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       }
       else {
         //TBD what if we have layers with different projections in the context?
-        layerOptions.reproject=false;
+        layerOptions.reproject=objRef.imageReproject;
         layerOptions.isBaseLayer=false;
       }
       
@@ -457,7 +464,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       }
       else {
         //TBD what if we have layers with different projections in the context?
-        layerOptions.reproject=false;
+        layerOptions.reproject=objRef.imageReproject;
         layerOptions.isBaseLayer=false;
       }
 
