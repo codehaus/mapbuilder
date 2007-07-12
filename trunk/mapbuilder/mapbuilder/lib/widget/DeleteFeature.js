@@ -65,6 +65,7 @@ function DeleteFeature(widgetNode, model) {
       if (objRef.targetModel.doc && fid){
         s=objRef.deleteXsl.transformNodeToObject(objRef.targetModel.doc);
         objRef.httpPayload.postData=s;
+        objRef.transactionResponseModel.transactionType="delete";
         objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
       }else alert(mbGetMessage("noFeatureToDelete"));
     }
@@ -77,16 +78,18 @@ function DeleteFeature(widgetNode, model) {
    * @param objRef Pointer to this object.
    */
   this.handleResponse=function(objRef){
-    sucess=objRef.transactionResponseModel.doc.selectSingleNode("//wfs:TransactionResult/wfs:Status/wfs:SUCCESS");
-    if (sucess){
-      // Remove FeatureList if feature entry was successful.
-      objRef.targetModel.setModel(objRef.targetModel,null);
+  	if (objRef.transactionResponseModel.transactionType=="delete") {
+      success=objRef.transactionResponseModel.doc.selectSingleNode("//wfs:TransactionResult/wfs:Status/wfs:SUCCESS");
+      if (success){
+        // Remove FeatureList if feature entry was successful.
+        objRef.targetModel.setModel(objRef.targetModel,null);
 
-      // Repaint GmlRenderers
-      objRef.targetModel.callListeners("refreshGmlRenderers");
+        // Repaint GmlRenderers
+        objRef.targetModel.callListeners("refreshGmlRenderers");
 
-      // Repaint the WMS layers
-      objRef.targetContext.callListeners("refreshWmsLayers");
+        // Repaint the WMS layers
+        objRef.targetContext.callListeners("refreshWmsLayers");
+      }
     }
   }
 
