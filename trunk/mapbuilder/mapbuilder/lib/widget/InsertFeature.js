@@ -87,7 +87,7 @@ function InsertFeature(widgetNode, model) {
    * @param objRef Pointer to this object.
    */
   this.handleResponse=function(objRef){
-  	if (objRef.transactionResponseModel.transactionType=="insert") {
+    if (objRef.transactionResponseModel.transactionType=="insert") {
       success=objRef.transactionResponseModel.doc.selectSingleNode("//wfs:TransactionResult/wfs:Status/wfs:SUCCESS");
       if (success){
         // Remove FeatureList
@@ -101,5 +101,4 @@ function InsertFeature(widgetNode, model) {
       }
     }
   }
-
 }
