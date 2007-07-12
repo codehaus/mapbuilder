@@ -166,9 +166,7 @@ function FeatureSelectHandler(toolNode, model) {
     // pass the feature to the event object
     evt.feature = this;
     var objRef = this.mbFeatureSelectHandler;
-    for (var i in objRef.sourceModels) {
-      objRef.sourceModels[i].setParam("olFeatureSelect", evt);
-    }
+    objRef.model.setParam("olFeatureSelect", evt);
     OpenLayers.Event.stop(evt);
   }
 
