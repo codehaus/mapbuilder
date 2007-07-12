@@ -78,7 +78,7 @@ function DeleteFeature(widgetNode, model) {
    * @param objRef Pointer to this object.
    */
   this.handleResponse=function(objRef){
-  	if (objRef.transactionResponseModel.transactionType=="delete") {
+    if (objRef.transactionResponseModel.transactionType=="delete") {
       success=objRef.transactionResponseModel.doc.selectSingleNode("//wfs:TransactionResult/wfs:Status/wfs:SUCCESS");
       if (success){
         // Remove FeatureList if feature entry was successful.
@@ -92,5 +92,4 @@ function DeleteFeature(widgetNode, model) {
       }
     }
   }
-
 }
