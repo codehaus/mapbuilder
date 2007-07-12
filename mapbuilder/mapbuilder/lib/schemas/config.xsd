@@ -801,6 +801,11 @@
 							<xs:documentation>id of a widget that performs onClick action when a feature is clicked.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="featureOnHover" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>id of a widget that performs onHover action when a feature is hovered.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="sldModel" type="xs:string" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>id of a StyledLayerDescriptor model that holds sld styles for the features to render.</xs:documentation>
