@@ -74,6 +74,7 @@ function InsertFeature(widgetNode, model) {
           s=objRef.insertXsl.transformNodeToObject(objRef.targetModel.doc);
         }
         objRef.httpPayload.postData=s;
+        objRef.transactionResponseModel.transactionType="insert";
         objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
       }else alert(mbGetMessage("noFeatureToInsert"));
     }
@@ -86,16 +87,18 @@ function InsertFeature(widgetNode, model) {
    * @param objRef Pointer to this object.
    */
   this.handleResponse=function(objRef){
-    sucess=objRef.transactionResponseModel.doc.selectSingleNode("//wfs:TransactionResult/wfs:Status/wfs:SUCCESS");
-    if (sucess){
-      // Remove FeatureList
-      objRef.targetModel.setModel(objRef.targetModel,null);
-      
-      // Repaint GmlRenderers
-      objRef.targetModel.callListeners("refreshGmlRenderers");
- 
-      // Repaint the WMS layers
-      objRef.targetContext.callListeners("refreshWmsLayers");
+  	if (objRef.transactionResponseModel.transactionType=="insert") {
+      success=objRef.transactionResponseModel.doc.selectSingleNode("//wfs:TransactionResult/wfs:Status/wfs:SUCCESS");
+      if (success){
+        // Remove FeatureList
+        objRef.targetModel.setModel(objRef.targetModel,null);
+
+        // Repaint GmlRenderers
+        objRef.targetModel.callListeners("refreshGmlRenderers");
+
+        // Repaint the WMS layers
+        objRef.targetContext.callListeners("refreshWmsLayers");
+      }
     }
   }
 
