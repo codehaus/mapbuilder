@@ -1010,6 +1010,11 @@
 							<xs:documentation>Should layers also be rendered outside the map extent? Default is false.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="imageReproject" type="xs:boolean" maxOccurs="1" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Should layers be reprojected? Mainly used in combination with google map layers. Default is false.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
