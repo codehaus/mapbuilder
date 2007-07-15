@@ -48,6 +48,10 @@ function GmlRendererOL(widgetNode, model) {
    */
   this.hiddenFeatures = new Array();
   
+  // replacement for deprecated MapContainerBase
+  this.containerNodeId = this.htmlTagId;
+  model.containerModel = this.model;
+  
   // Set this.stylesheet. This is taken from WidgetBaseXSL.js
   if ( !this.stylesheet ) {
     var styleNode = widgetNode.selectSingleNode("mb:stylesheet");
