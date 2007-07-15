@@ -12,9 +12,10 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * Widget to draw an Area Of Interest box of a model.  The box can be drawn with
  * the paint() method and is registered as a listener of the context AOI property.
  * This object works entirely in pixel/line coordinate space and knows nothing
- * about geography.  This widget uses DHTML methods to draw the box.
+ * about geography.  This widget uses DHTML methods to draw the box.  Since it
+ * does not support a targetModel property, it has to be defined as a child widget
+ * of the context of the map that the box should be drawn into.
  * @constructor
- * @base MapContainerBase
  * @param widgetNode The node for this object from the Config file.
  * @param model The model that contains this object.
  */
@@ -46,8 +47,6 @@ function AoiBoxDHTML(widgetNode, model) {
   }
   model.addListener("aoi",this.paint, this);
 
-  MapContainerBase.apply(this,new Array(widgetNode, model));
-
   /** Hide or show the box.
     * @param vis    boolean true for visible; false for hidden
     * @return       none
@@ -68,7 +67,7 @@ function AoiBoxDHTML(widgetNode, model) {
   this.clear = function(objRef) {
     objRef.setVis(false);
   }
-  this.containerModel.addListener("bbox",this.clear, this);
+  this.model.addListener("bbox",this.clear, this);
 
 
   /** Draw a box.
@@ -129,6 +128,10 @@ function AoiBoxDHTML(widgetNode, model) {
     newDiv.style.backgroundColor = this.lineColor;
     newDiv.style.visibility = "hidden";
     newDiv.style.zIndex = 900;
+    if (this.node.style.position != 'absolute' &&
+          this.node.style.position != 'relative') {
+      this.node.style.position = "absolute";
+    }
     this.node.appendChild( newDiv );
     return newDiv;
   }
