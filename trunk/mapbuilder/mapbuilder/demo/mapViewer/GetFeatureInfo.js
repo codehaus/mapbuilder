@@ -36,13 +36,14 @@ function GetFeatureInfo(widgetNode, model) {
   
   this.doSelect = function(objRef, selected) {
     if (selected) {
-      objRef.targetModel.addListener('mouseup', objRef.doOnMouseup, objRef);
+      objRef.targetModel.map.events.register('mouseup', objRef, objRef.doOnMouseup);  
     } else {
-      objRef.targetModel.removeListener('mouseup', objRef.doOnMouseup, objRef);
+      objRef.targetModel.map.events.unregister('mouseup', objRef, objRef.doOnMouseup);  
     }
   }
   
-  this.doOnMouseup = function(objRef) {
+  this.doOnMouseup = function(e) {
+    objRef = this;
     if (!objRef.enabled) return;
     var layerNameList = new Array();
     var selectedLayer=objRef.targetModel.getParam("selectedLayer");

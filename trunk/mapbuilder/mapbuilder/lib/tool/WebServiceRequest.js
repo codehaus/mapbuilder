@@ -172,20 +172,24 @@ WebServiceRequest.prototype.init = function(objRef) {
   if (objRef.containerModel) {
     objRef.containerModel.addListener("aoi", objRef.setAoiParameters, objRef);
     objRef.containerModel.addListener("bbox", objRef.setAoiParameters, objRef);
-    objRef.containerModel.addListener("mouseup", objRef.setClickPosition, objRef);
     objRef.containerModel.addListener("selectedLayer", objRef.selectFeature, objRef);
+    objRef.containerModel.addListener("loadModel", objRef.mapInit, objRef);
   }
+}
+
+WebServiceRequest.prototype.mapInit = function(objRef) {
+  // register OpenLayers event to do updates onmouseup
+  objRef.containerModel.map.events.registerPriority('mouseup', objRef, objRef.setClickPosition);  
 }
 
 /**
  * Listener function which will actually issue the request.  This method
  * will prepare the HTTP payload for a particular featureName.
- * @param requestName the name of the web service operation to execute
- * @param featureNodeId the id of the node in the doc to be processed by the stylesheet
+ * @param e OpenLayers event
  */
-WebServiceRequest.prototype.setClickPosition = function(objRef, targetNode) {
-  objRef.requestStylesheet.setParameter("xCoord", targetNode.evpl[0]);
-  objRef.requestStylesheet.setParameter("yCoord", targetNode.evpl[1]);
+WebServiceRequest.prototype.setClickPosition = function(e) {
+  this.requestStylesheet.setParameter("xCoord", e.xy.x);
+  this.requestStylesheet.setParameter("yCoord", e.xy.y);
 }
 
 /**
