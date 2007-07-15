@@ -50,7 +50,7 @@ function GmlRendererOL(widgetNode, model) {
   
   // replacement for deprecated MapContainerBase
   this.containerNodeId = this.htmlTagId;
-  model.containerModel = this.model;
+  model.containerModel = this.targetModel;
   
   // Set this.stylesheet. This is taken from WidgetBaseXSL.js
   if ( !this.stylesheet ) {
