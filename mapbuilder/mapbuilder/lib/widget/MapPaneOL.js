@@ -277,9 +277,6 @@ MapPaneOL.prototype.updateMouse = function(e) {
   if (objRef.model.map.mbCursor) {
     objRef.model.map.div.style.cursor = objRef.model.map.mbCursor;
   }
-  
-  // fire Mapbuilder mouseup event
-  objRef.model.callListeners('mouseup', {evpl: [e.xy.x, e.xy.y]});
 }
 
 /**
