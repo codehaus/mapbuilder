@@ -68,37 +68,35 @@ function ZoomToAoi(toolNode, model) {
     }
   }
   this.firstInit = function(tool) {
+    tool.model.map.events.register('mouseup',tool, tool.mouseUpHandler);
     tool.targetModel.addListener( "loadModel", tool.showTargetAoi, tool );
     tool.targetModel.addListener( "bbox", tool.showTargetAoi, tool );
     tool.showTargetAoi(tool);
   }
   this.model.addListener( "loadModel", this.firstInit, this );
+}
 
-
-  /**
-   * Process a mouse up action.  This will recenter the target model's bbox
-   * to be equal to this model's AOI.
-   * @param tool        Pointer to this ZoomToAoi object.
-   * @param targetNode  The node for the enclosing HTML tag for this widget, not used.
-   */
-  this.mouseUpHandler = function(tool,targetNode) {
-    var bbox = tool.model.getParam("aoi");
-    var ul = bbox[0];
-    var lr = bbox[1];
-    if ( tool.model.getSRS() != tool.targetModel.getSRS() ) {
-      //TBD: convert XY to lat/long first
-    		var ptUL=new PT(ul[0],ul[1]);
-	    	var ptLR=new PT(lr[0],lr[1]);
-    		cs_transform(tool.model.proj,tool.targetModel.proj,ptUL);
-		    cs_transform(tool.model.proj,tool.targetModel.proj,ptLR);
-		    ul = new Array(ptUL.x,ptUL.y);
-		    lr = new Array(ptLR.x,ptLR.y);    
-    }
-    if ( ( ul[0]==lr[0] ) && ( ul[1]==lr[1] ) ) {
-      tool.targetModel.extent.centerAt( ul, tool.targetModel.extent.res[0] );
-    } else {
-      tool.targetModel.extent.zoomToBox( ul, lr );
-    }
+/**
+ * Process a mouse up action.  This will recenter the target model's bbox
+ * to be equal to this model's AOI.
+ * @param e OpenLayers event
+ */
+ZoomToAoi.prototype.mouseUpHandler = function(e) {
+  var bbox = this.model.getParam("aoi");
+  var ul = bbox[0];
+  var lr = bbox[1];
+  if ( this.model.getSRS() != this.targetModel.getSRS() ) {
+    //TBD: convert XY to lat/long first
+  		var ptUL=new PT(ul[0],ul[1]);
+    	var ptLR=new PT(lr[0],lr[1]);
+  		cs_transform(this.model.proj,this.targetModel.proj,ptUL);
+	    cs_transform(this.model.proj,this.targetModel.proj,ptLR);
+	    ul = new Array(ptUL.x,ptUL.y);
+	    lr = new Array(ptLR.x,ptLR.y);    
   }
-  this.model.addListener('mouseup',this.mouseUpHandler,this);
+  if ( ( ul[0]==lr[0] ) && ( ul[1]==lr[1] ) ) {
+    this.targetModel.map.setCenter(new OpenLayers.LonLat(ul[0],ul[1]));
+  } else {
+    this.targetModel.map.zoomToExtent(new OpenLayers.Bounds(ul[0], lr[1], lr[0], ul[1]));
+  }
 }

@@ -25,41 +25,6 @@ function AoiMouseHandler(toolNode, model) {
   ToolBase.apply(this, new Array(toolNode, model));
 
   /**
-   * Process the mouseup action by stopping the drag.
-   * @param objRef      Pointer to this object.
-   * @param targetNode  The HTML node that the event occured on
-   */
-  this.mouseUpHandler = function(objRef,targetNode) {
-    if (objRef.enabled) {
-      if (objRef.started) objRef.started = false;
-    }
-  }
-
-  /**
-   * Process the mousedown action by setting the anchor point.
-   * @param objRef      Pointer to this object.
-   * @param targetNode  The HTML node that the event occured on
-   */
-  this.mouseDownHandler = function(objRef,targetNode) {
-    if (objRef.enabled) {
-      objRef.started = true;
-      objRef.anchorPoint = targetNode.evpl;
-      objRef.dragBox( targetNode.evpl );
-    }
-  }
-
-  /**
-   * Process a the mousemove action as dragging out a box.
-   * @param objRef      Pointer to this object.
-   * @param targetNode  The HTML node that the event occured on
-   */
-  this.mouseMoveHandler = function(objRef,targetNode) {
-    if (objRef.enabled) {
-      if (objRef.started) objRef.dragBox(targetNode.evpl);
-    }
-  }
-
-  /**
    * Process a the mouseout action when the mouse moves out of the mappane
    * @param objRef      Pointer to this object.
    * @param targetNode  The HTML node that the event occured on
@@ -108,10 +73,48 @@ function AoiMouseHandler(toolNode, model) {
     this.model.setParam("aoi", new Array(ul,lr) );
   }
 
-  //register the listeners on the model
-  this.model.addListener('mousedown',this.mouseDownHandler,this);
-  this.model.addListener('mousemove',this.mouseMoveHandler,this);
-  this.model.addListener('mouseup',this.mouseUpHandler,this);
-  //this.model.addListener('mouseout',this.mouseOutHandler,this);
-  //this.model.addListener('mouseover',this.mouseOutHandler,this);
+  this.mapInit = function(objRef) {
+    //register the listeners on the model
+    objRef.model.map.events.register('mousedown', objRef, objRef.mouseDownHandler);
+    objRef.model.map.events.register('mousemove', objRef, objRef.mouseMoveHandler);
+    objRef.model.map.events.register('mouseup', objRef, objRef.mouseUpHandler);
+    //this.model.addListener('mouseout',this.mouseOutHandler,this);
+    //this.model.addListener('mouseover',this.mouseOutHandler,this);
+  }
+  this.model.addListener("loadModel", this.mapInit, this);
+}
+
+/**
+ * Process the mouseup action by stopping the drag.
+ * @param e OpenLayers event
+ */
+AoiMouseHandler.prototype.mouseUpHandler = function(e) {
+  if (this.enabled) {
+    if (this.started) this.started = false;
+  }
+	OpenLayers.Event.stop(e);  
+}
+
+/**
+ * Process the mousedown action by setting the anchor point.
+ * @param e OpenLayers.event
+ */
+AoiMouseHandler.prototype.mouseDownHandler = function(e) {
+  if (this.enabled && !this.started) {
+    this.started = true;
+    this.anchorPoint = [e.xy.x, e.xy.y];
+    this.dragBox( [e.xy.x, e.xy.y] );
+  }
+	OpenLayers.Event.stop(e);  
+}
+
+/**
+ * Process a the mousemove action as dragging out a box.
+ * @param e OpenLayers event
+ */
+AoiMouseHandler.prototype.mouseMoveHandler = function(e) {
+  if (this.enabled) {
+    if (this.started) this.dragBox([e.xy.x, e.xy.y]);
+  }
+	OpenLayers.Event.stop(e);  
 }
