@@ -78,13 +78,13 @@
           <htmlTagId>locatorMap</htmlTagId>
 			    <fixedSize>true</fixedSize>
         </MapPaneOL>
-<!--        <AoiBoxDHTML id="aoiBoxLocator">-->
-<!--          <htmlTagId>locatorMap</htmlTagId>-->
-<!--          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>-->
-<!--          <lineColor>#FF0000</lineColor>-->
-<!--          <lineWidth>1</lineWidth>-->
-<!--          <crossSize>15</crossSize>-->
-<!--        </AoiBoxDHTML>-->
+        <AoiBoxDHTML id="aoiBoxLocator">
+          <htmlTagId>locatorMap</htmlTagId>
+          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+        </AoiBoxDHTML>
         <ModelUrlInput id="urlInput">
           <defaultUrl>../data/context/modisWorld.xml</defaultUrl>
         </ModelUrlInput>
