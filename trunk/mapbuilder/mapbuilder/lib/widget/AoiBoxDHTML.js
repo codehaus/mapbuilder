@@ -15,6 +15,8 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * about geography.  This widget uses DHTML methods to draw the box.  Since it
  * does not support a targetModel property, it has to be defined as a child widget
  * of the context of the map that the box should be drawn into.
+ * WARNING: This widget cannot be used in maps that use button controls.
+ * It is designed for use in locator map setups only.
  * @constructor
  * @param widgetNode The node for this object from the Config file.
  * @param model The model that contains this object.
