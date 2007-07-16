@@ -15,6 +15,10 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * This tool registers mouse event listeners on the parent model.
  * This tool processes screen coordinates and stores AOI in the current map
  * projection coordinates.
+ * WARNING: This tool cannot be used in maps that use button controls.
+ * Button controls take care of aoi handling themselves.
+ * It is designed for use in locator map setups only.
+ * @deprecated
  * @constructor
  * @base ToolBase
  * @param toolNode The node for this tool from the configuration document.
@@ -91,8 +95,8 @@ function AoiMouseHandler(toolNode, model) {
 AoiMouseHandler.prototype.mouseUpHandler = function(e) {
   if (this.enabled) {
     if (this.started) this.started = false;
+  	OpenLayers.Event.stop(e);  
   }
-	OpenLayers.Event.stop(e);  
 }
 
 /**
@@ -104,8 +108,8 @@ AoiMouseHandler.prototype.mouseDownHandler = function(e) {
     this.started = true;
     this.anchorPoint = [e.xy.x, e.xy.y];
     this.dragBox( [e.xy.x, e.xy.y] );
+  	OpenLayers.Event.stop(e);  
   }
-	OpenLayers.Event.stop(e);  
 }
 
 /**
@@ -115,6 +119,6 @@ AoiMouseHandler.prototype.mouseDownHandler = function(e) {
 AoiMouseHandler.prototype.mouseMoveHandler = function(e) {
   if (this.enabled) {
     if (this.started) this.dragBox([e.xy.x, e.xy.y]);
+  	OpenLayers.Event.stop(e);  
   }
-	OpenLayers.Event.stop(e);  
 }
