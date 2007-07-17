@@ -387,13 +387,14 @@ $Id$
 
 <!-- =================== Compress Target ================================== -->
 
-  <target description="Compress JS and XSL files" name="compress" depends="prepare">
+  <target description="Compress JS and XSL files" name="compress" depends="prepare" unless="compression.complete">
     <copy todir="${compress.home}">
       <fileset dir="${build.home}"/>
     </copy>
 	<!-- Also run new compression routine, using DOJO -->
  	<chmod file="${basedir}/bin/kompress.sh" perm="ugo+rx"/>
     <exec executable="${basedir}/bin/kompress.sh" os="Linux"/>
+  	<property name="compression.complete" value="true"/>
   </target>
 
 
@@ -432,9 +433,6 @@ $Id$
     
     <!-- first do the apache distribution -->
     <antcall target="dist-apache"/>
-    
-    <!-- remove the compress directory, recreated in tomcat distribution -->
-    <delete dir="${compress.home}"/>
     
     <!-- do the tomcat distribution -->
     <antcall target="dist-tomcat"/>
