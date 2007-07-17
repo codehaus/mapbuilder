@@ -14,11 +14,15 @@ $Id$
  * @param parent Parent of this model, set to null if there is no parent.
  */
 function MergeModel(modelNode, parent) {
-  var listener = Listener.prototype;
   // Inherit the ModelBase functions and parameters
   ModelBase.apply(this, new Array(modelNode, parent));
-  
+
   this.models = new Array();
+
+  var idXPath = modelNode.selectSingleNode('mb:idXPath');
+  this.idXPath = idXPath ? idXPath.firstChild.nodeValue : '/*/*';
+  var idAttribute = modelNode.selectSingleNode('mb:idAttribute');
+  this.idAttribute = idAttribute ? idAttribute.firstChild.nodeValue : 'id';
 
   this.init = function(objRef) {
     var models = modelNode.selectSingleNode('mb:merges');
@@ -49,6 +53,14 @@ function MergeModel(modelNode, parent) {
     } else {
       Sarissa.copyChildNodes(docToMerge.documentElement, objRef.doc.documentElement, true);
     }
+    var nodes = objRef.doc.selectNodes(objRef.idXPath+'[not(./@sourceModel)]');
+    var node;
+    for (var i in nodes) {
+      node = nodes[i];
+      if (node.nodeName) {
+        node.setAttribute('sourceModel', modelToMerge.id);
+      }
+    }    
   }
   
   this.buildModel = function(objRef) {
