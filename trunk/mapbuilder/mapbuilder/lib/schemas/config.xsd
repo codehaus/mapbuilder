@@ -448,6 +448,16 @@
             </xs:complexType>
           </xs:element>
         </xs:sequence>
+        </xs:element name="idXPath">
+          <xs:annotation>
+            <xs:documentation>XPath statement that points to the nodes that hold an id (eg. feature id) for unique nodes. Default is "/*/*". This is needed to link back to the source models.</xs:documentation>
+          </xs:annotation>
+        <xs:element>
+        </xs:element name="idAttribute">
+          <xs:annotation>
+            <xs:documentation>Name of the attribute that holds the unique id (eg. fid). Default is "id". This is needed to link back to the source models.</xs:documentation>
+          </xs:annotation>
+        <xs:element>
       </xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
