@@ -429,14 +429,7 @@ $Id$
   <target
     name="dist"
     description="Create binary distribution"
-    depends="clean,docs,version">
-    
-    <!-- first do the apache distribution -->
-    <antcall target="dist-apache"/>
-    
-    <!-- do the tomcat distribution -->
-    <antcall target="dist-tomcat"/>
-
+    depends="clean,docs,version,dist-apache,dist-tomcat">
   </target>
 
 <!--
