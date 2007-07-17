@@ -472,7 +472,15 @@
 			<xs:documentation>Stores an SLD file as defined by the Open Geospatial Consortium (http://www.opengeospatial.org/)</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="mb:AbstractModelType"/>
+			<xs:extension base="mb:AbstractModelType">
+        <xs:sequence>
+          <xs:element name="sldXPath" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>XPath pointing to the sld root node within the model. This is useful for extracting sld information from eg. wmc context documents</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="TransactionType">
