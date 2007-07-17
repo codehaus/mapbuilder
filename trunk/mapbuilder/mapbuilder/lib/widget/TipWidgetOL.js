@@ -74,7 +74,12 @@ function TipWidgetOL(widgetNode, model) {
       sourceModel = sourceNode.getAttribute('sourceModel');
     }
     // if so, use the config from the source model
-    var widgetConfig = sourceModel ? config.objects[sourceModel].config[objRef.id] : objRef.config;
+    var widgetConfig = null;
+    if (sourceModel && config.objects[sourceModel].config && config.objects[sourceModel].config[objRef.id]) {
+      widgetConfig = config.objects[sourceModel].config[objRef.id];
+    } else {
+      widgetConfig = objRef.config;
+    }
     widgetConfig.stylesheet.setParameter('fid', feature.fid);
     var lonlat = feature.layer.map.getLonLatFromPixel(evt.xy);
     var popup = new OpenLayers.Popup.Anchored();
