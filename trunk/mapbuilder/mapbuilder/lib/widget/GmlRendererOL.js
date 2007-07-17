@@ -90,25 +90,57 @@ function GmlRendererOL(widgetNode, model) {
       var sldModelNode = widgetNode.selectSingleNode('mb:sldModel');
       if (sldModelNode) {
         var sldModel = config.objects[sldModelNode.firstChild.nodeValue];
-        var defaultStyleName = widgetNode.selectSingleNode('mb:defaultStyleName');
-        objRef.defaultStyleName = defaultStyleName ? defaultStyle.firstChild.nodeValue : 'default';
-        var selectStyleName = widgetNode.selectSingleNode('mb:selectStyleName');
-        objRef.selectStyleName = selectStyleName ? selectStyle.firstChild.nodeValue : 'selected';
+        var defaultStyle = widgetNode.selectSingleNode('mb:defaultStyleName');
+        objRef.defaultStyleName = defaultStyle ? defaultStyle.firstChild.nodeValue : 'default';
+        var selectStyle = widgetNode.selectSingleNode('mb:selectStyleName');
+        objRef.selectStyleName = selectStyle ? selectStyle.firstChild.nodeValue : 'selected';
         if (sldModel) {
           sldModel.addListener("loadModel", objRef.paint, objRef);
           if (sldModel.doc) {
             objRef.defaultStyle = new Object();
             objRef.selectStyle = new Object();
             var sldNode = sldModel.getSldNode();
-            objRef.defaultStyle.point = sld2OlStyle(sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:PointSymbolizer"));
-            objRef.defaultStyle.line = sld2OlStyle(sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:LineSymbolizer"));
-            objRef.defaultStyle.polygon = sld2OlStyle(sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:PolygonSymbolizer"));
-            objRef.selectStyle.point = sld2OlStyle(sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:PointSymbolizer"));
-            objRef.selectStyle.line = sld2OlStyle(sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:LineSymbolizer"));
-            objRef.selectStyle.polygon = sld2OlStyle(sldNode.selectSingleNode("//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:PolygonSymbolizer"));
-            objRef.selectStyle.point.cursor = objRef.hoverCursor;
-            objRef.selectStyle.line.cursor = objRef.hoverCursor;
-            objRef.selectStyle.polygon.cursor = objRef.hoverCursor;
+            var sldXPath = "sld:UserStyle[sld:Name=";
+            var wmcXPath = "wmc:Style[wmc:Name=";
+            var defaultPointNode = "//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:PointSymbolizer";
+            var defaultLineNode = "//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:LineSymbolizer";
+            var defaultPolygonNode = "//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:PolygonSymbolizer";
+            var selectPointNode = "//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:PointSymbolizer";
+            var selectLineNode = "//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:LineSymbolizer";
+            var selectPolygonNode = "//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:PolygonSymbolizer";
+            objRef.defaultStyle.point = sld2OlStyle(sldNode.selectSingleNode(defaultPointNode));
+            if (!objRef.defaultStyle.point) {
+              objRef.defaultStyle.point = sld2OlStyle(sldNode.selectSingleNode(defaultPointNode.replace(sldXPath, wmcXPath)));
+            }
+            objRef.defaultStyle.line = sld2OlStyle(sldNode.selectSingleNode(defaultLineNode));
+            if (!objRef.defaultStyle.line) {
+              objRef.defaultStyle.line = sld2OlStyle(sldNode.selectSingleNode(defaultLineNode.replace(sldXPath, wmcXPath)));
+            }
+            objRef.defaultStyle.polygon = sld2OlStyle(sldNode.selectSingleNode(defaultPolygonNode));
+            if (!objRef.defaultStyle.polygon) {
+              objRef.defaultStyle.polygon = sld2OlStyle(sldNode.selectSingleNode(defaultPolygonNode.replace(sldXPath, wmcXPath)));
+            }
+            objRef.selectStyle.point = sld2OlStyle(sldNode.selectSingleNode(selectPointNode));
+            if (!objRef.selectStyle.point) {
+              objRef.selectStyle.point = sld2OlStyle(sldNode.selectSingleNode(selectPointNode.replace(sldXPath, wmcXPath)));
+            }
+            objRef.selectStyle.line = sld2OlStyle(sldNode.selectSingleNode(selectLineNode));
+            if (!objRef.selectStyle.line) {
+              objRef.selectStyle.line = sld2OlStyle(sldNode.selectSingleNode(selectLineNode.replace(sldXPath, wmcXPath)));
+            }
+            objRef.selectStyle.polygon = sld2OlStyle(sldNode.selectSingleNode(selectPolygonNode));
+            if (!objRef.selectStyle.polygon) {
+              objRef.selectStyle.polygon = sld2OlStyle(sldNode.selectSingleNode(selectPolygonNode.replace(sldXPath, wmcXPath)));
+            }
+            if (objRef.selectStyle.point) {
+              objRef.selectStyle.point.cursor = objRef.hoverCursor;
+            }
+            if (objRef.selectStyle.line) {
+              objRef.selectStyle.line.cursor = objRef.hoverCursor;
+            }
+            if (objRef.selectStyle.polygon) {
+              objRef.selectStyle.polygon.cursor = objRef.hoverCursor;
+            }
           }
         }
       }
