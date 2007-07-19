@@ -9,6 +9,36 @@
 //static double false_northing = y0;   /* y offset in meters			*/
 //static double false_easting = x0;	   /* x offset in meters			*/
 //scale_fact = k0 
+// Function to compute the constant small t for use in the forward
+//   computations in the Lambert Conformal Conic and the Polar
+//   Stereographic projections.
+// -----------------------------------------------------------------
+function tsfnz(eccent, phi, sinphi) {
+  var con = eccent * sinphi;
+  var com = .5 * eccent;
+  con = Math.pow(((1.0 - con) / (1.0 + con)), com);
+  return (Math.tan(.5 * (HALF_PI - phi))/con);
+}
+
+// Function to adjust longitude to -180 to 180; input in radians
+function adjust_lon(x) {x=(Math.abs(x)<PI)?x:(x-(sign(x)*TWO_PI));return(x);}
+
+// Function to compute the latitude angle, phi2, for the inverse of the
+//   Lambert Conformal Conic and Polar Stereographic projections.
+// ----------------------------------------------------------------
+function phi2z(eccent, ts) {
+  var eccnth = .5 * eccent;
+  var con, dphi;
+  var phi = HALF_PI - 2 * Math.atan(ts);
+  for (i = 0; i <= 15; i++) {
+    con = eccent * Math.sin(phi);
+    dphi = HALF_PI - 2 * Math.atan(ts *(Math.pow(((1.0 - con)/(1.0 + con)),eccnth))) - phi;
+    phi += dphi;
+    if (Math.abs(dphi) <= .0000000001) return phi;
+  }
+  alert(mbGetMessage("phi2zNoConvergence"));
+  return -9999;
+}
 
 mercInit=function(def)
 {
