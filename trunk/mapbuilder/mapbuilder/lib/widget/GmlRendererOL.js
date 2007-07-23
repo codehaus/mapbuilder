@@ -6,7 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/GmlRendererBase.js");
 
 /**
  * Render GML into HTML.
@@ -21,7 +21,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * @param model       The model object that this widget belongs to.
  */
 function GmlRendererOL(widgetNode, model) {
-  WidgetBase.apply(this,new Array(widgetNode, model));
+  GmlRendererBase.apply(this,new Array(widgetNode, model));
   
   /** OpenLayers GML layer which renders the model doc */
   this.olLayer = null;
@@ -37,12 +37,7 @@ function GmlRendererOL(widgetNode, model) {
    * This holds one style for each OpenLayers feature class
    */
   this.selectStyle = null;
-  
-  /**
-   * Cursor for features when hovering over them.
-   */
-  this.selectCursor = null;
-  
+    
   /**
    * Features that shall not be drawn
    */
@@ -86,60 +81,69 @@ function GmlRendererOL(widgetNode, model) {
       // keep a reference to the map we created the layer for
       objRef.map = objRef.targetModel.map;
       
-      // get style for features
-      var sldModelNode = widgetNode.selectSingleNode('mb:sldModel');
-      if (sldModelNode) {
-        var sldModel = config.objects[sldModelNode.firstChild.nodeValue];
-        var defaultStyle = widgetNode.selectSingleNode('mb:defaultStyleName');
-        objRef.defaultStyleName = defaultStyle ? defaultStyle.firstChild.nodeValue : 'default';
-        var selectStyle = widgetNode.selectSingleNode('mb:selectStyleName');
-        objRef.selectStyleName = selectStyle ? selectStyle.firstChild.nodeValue : 'selected';
-        if (sldModel) {
-          sldModel.addListener("loadModel", objRef.paint, objRef);
-          if (sldModel.doc) {
-            objRef.defaultStyle = new Object();
-            objRef.selectStyle = new Object();
-            var sldNode = sldModel.getSldNode();
-            var sldXPath = "sld:UserStyle[sld:Name=";
-            var wmcXPath = "wmc:Style[wmc:Name=";
-            var defaultPointNode = "//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:PointSymbolizer";
-            var defaultLineNode = "//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:LineSymbolizer";
-            var defaultPolygonNode = "//sld:UserStyle[sld:Name='"+objRef.defaultStyleName+"']//sld:PolygonSymbolizer";
-            var selectPointNode = "//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:PointSymbolizer";
-            var selectLineNode = "//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:LineSymbolizer";
-            var selectPolygonNode = "//sld:UserStyle[sld:Name='"+objRef.selectStyleName+"']//sld:PolygonSymbolizer";
-            objRef.defaultStyle.point = sld2OlStyle(sldNode.selectSingleNode(defaultPointNode));
-            if (!objRef.defaultStyle.point) {
-              objRef.defaultStyle.point = sld2OlStyle(sldNode.selectSingleNode(defaultPointNode.replace(sldXPath, wmcXPath)));
-            }
-            objRef.defaultStyle.line = sld2OlStyle(sldNode.selectSingleNode(defaultLineNode));
-            if (!objRef.defaultStyle.line) {
-              objRef.defaultStyle.line = sld2OlStyle(sldNode.selectSingleNode(defaultLineNode.replace(sldXPath, wmcXPath)));
-            }
-            objRef.defaultStyle.polygon = sld2OlStyle(sldNode.selectSingleNode(defaultPolygonNode));
-            if (!objRef.defaultStyle.polygon) {
-              objRef.defaultStyle.polygon = sld2OlStyle(sldNode.selectSingleNode(defaultPolygonNode.replace(sldXPath, wmcXPath)));
-            }
-            objRef.selectStyle.point = sld2OlStyle(sldNode.selectSingleNode(selectPointNode));
-            if (!objRef.selectStyle.point) {
-              objRef.selectStyle.point = sld2OlStyle(sldNode.selectSingleNode(selectPointNode.replace(sldXPath, wmcXPath)));
-            }
-            objRef.selectStyle.line = sld2OlStyle(sldNode.selectSingleNode(selectLineNode));
-            if (!objRef.selectStyle.line) {
-              objRef.selectStyle.line = sld2OlStyle(sldNode.selectSingleNode(selectLineNode.replace(sldXPath, wmcXPath)));
-            }
-            objRef.selectStyle.polygon = sld2OlStyle(sldNode.selectSingleNode(selectPolygonNode));
-            if (!objRef.selectStyle.polygon) {
-              objRef.selectStyle.polygon = sld2OlStyle(sldNode.selectSingleNode(selectPolygonNode.replace(sldXPath, wmcXPath)));
-            }
-            if (objRef.selectStyle.point) {
-              objRef.selectStyle.point.cursor = objRef.hoverCursor;
-            }
-            if (objRef.selectStyle.line) {
-              objRef.selectStyle.line.cursor = objRef.hoverCursor;
-            }
-            if (objRef.selectStyle.polygon) {
-              objRef.selectStyle.polygon.cursor = objRef.hoverCursor;
+      // add own model to array of configurations
+      var models = [objRef.model];
+      // get configurations from source models, if any
+      if (objRef.model.CLASS_NAME == 'MergeModel') {
+        for (var i in objRef.model.models) {
+          models.push(objRef.model.models[i]);
+        }
+      }
+      // store configurations for each source model
+      for (var i = 0; i < models.length; i++) {
+        var widgetConfig = config.objects[models[i].id].config ? config.objects[models[i].id].config[objRef.id] : null;
+        if (!widgetConfig) {
+          widgetConfig = objRef.config;
+        }
+        if (widgetConfig.sldModelNode) {
+          var sldModel = config.objects[widgetConfig.sldModelNode.firstChild.nodeValue];
+          if (sldModel) {
+            sldModel.addListener("loadModel", objRef.paint, objRef);
+            if (sldModel.doc) {
+              widgetConfig.defaultStyle = new Object();
+              widgetConfig.selectStyle = new Object();
+              var sldNode = sldModel.getSldNode();
+              var sldXPath = "sld:UserStyle[sld:Name=";
+              var wmcXPath = "wmc:Style[wmc:Name=";
+              var defaultPointNode = "//sld:UserStyle[sld:Name='"+widgetConfig.defaultStyleName+"']//sld:PointSymbolizer";
+              var defaultLineNode = "//sld:UserStyle[sld:Name='"+widgetConfig.defaultStyleName+"']//sld:LineSymbolizer";
+              var defaultPolygonNode = "//sld:UserStyle[sld:Name='"+widgetConfig.defaultStyleName+"']//sld:PolygonSymbolizer";
+              var selectPointNode = "//sld:UserStyle[sld:Name='"+widgetConfig.selectStyleName+"']//sld:PointSymbolizer";
+              var selectLineNode = "//sld:UserStyle[sld:Name='"+widgetConfig.selectStyleName+"']//sld:LineSymbolizer";
+              var selectPolygonNode = "//sld:UserStyle[sld:Name='"+widgetConfig.selectStyleName+"']//sld:PolygonSymbolizer";
+              widgetConfig.defaultStyle.point = sld2OlStyle(sldNode.selectSingleNode(defaultPointNode));
+              if (!widgetConfig.defaultStyle.point) {
+                widgetConfig.defaultStyle.point = sld2OlStyle(sldNode.selectSingleNode(defaultPointNode.replace(sldXPath, wmcXPath)));
+              }
+              widgetConfig.defaultStyle.line = sld2OlStyle(sldNode.selectSingleNode(defaultLineNode));
+              if (!widgetConfig.defaultStyle.line) {
+                widgetConfig.defaultStyle.line = sld2OlStyle(sldNode.selectSingleNode(defaultLineNode.replace(sldXPath, wmcXPath)));
+              }
+              widgetConfig.defaultStyle.polygon = sld2OlStyle(sldNode.selectSingleNode(defaultPolygonNode));
+              if (!widgetConfig.defaultStyle.polygon) {
+                widgetConfig.defaultStyle.polygon = sld2OlStyle(sldNode.selectSingleNode(defaultPolygonNode.replace(sldXPath, wmcXPath)));
+              }
+              widgetConfig.selectStyle.point = sld2OlStyle(sldNode.selectSingleNode(selectPointNode));
+              if (!widgetConfig.selectStyle.point) {
+                widgetConfig.selectStyle.point = sld2OlStyle(sldNode.selectSingleNode(selectPointNode.replace(sldXPath, wmcXPath)));
+              }
+              widgetConfig.selectStyle.line = sld2OlStyle(sldNode.selectSingleNode(selectLineNode));
+              if (!widgetConfig.selectStyle.line) {
+                widgetConfig.selectStyle.line = sld2OlStyle(sldNode.selectSingleNode(selectLineNode.replace(sldXPath, wmcXPath)));
+              }
+              widgetConfig.selectStyle.polygon = sld2OlStyle(sldNode.selectSingleNode(selectPolygonNode));
+              if (!widgetConfig.selectStyle.polygon) {
+                widgetConfig.selectStyle.polygon = sld2OlStyle(sldNode.selectSingleNode(selectPolygonNode.replace(sldXPath, wmcXPath)));
+              }
+              if (widgetConfig.selectStyle.point) {
+                widgetConfig.selectStyle.point.cursor = widgetConfig.hoverCursor;
+              }
+              if (widgetConfig.selectStyle.line) {
+                widgetConfig.selectStyle.line.cursor = widgetConfig.hoverCursor;
+              }
+              if (widgetConfig.selectStyle.polygon) {
+                widgetConfig.selectStyle.polygon.cursor = widgetConfig.hoverCursor;
+              }
             }
           }
         }
@@ -154,34 +158,47 @@ function GmlRendererOL(widgetNode, model) {
           if (!this.loaded) {
             var gml = this.format ? new this.format() : new OpenLayers.Format.GML();
             this.addFeatures(gml.read(doc));
-            this.loaded = true
+            this.loaded = true;
           }
         },
 
         preFeatureInsert: function(feature) {
           if (feature.geometry) {
+            // check if there is a source model linked with this feature
+            var sourceNode = objRef.model.doc.selectSingleNode(objRef.model.idXPath+"[@"+objRef.model.idAttribute+"='"+feature.fid+"']");
+            var sourceModel = null;
+            if (sourceNode) {
+              sourceModel = sourceNode.getAttribute('sourceModel');
+            }
+            // if so, use the config from the source model
+            var widgetConfig = null;
+            if (sourceModel && config.objects[sourceModel].config && config.objects[sourceModel].config[objRef.id]) {
+              widgetConfig = config.objects[sourceModel].config[objRef.id];
+            } else {
+              widgetConfig = objRef.config;
+            }
             // set styles before rendering the feature
-            if (objRef.defaultStyle) {
+            if (widgetConfig.defaultStyle) {
               if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
-                feature.style = objRef.defaultStyle.point;
+                feature.style = widgetConfig.defaultStyle.point;
               } else
               if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
-                feature.style = objRef.defaultStyle.line;
+                feature.style = widgetConfig.defaultStyle.line;
               } else
               if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
-                feature.style = objRef.defaultStyle.polygon;
+                feature.style = widgetConfig.defaultStyle.polygon;
               }
             }
             // set select styles
-            if (objRef.selectStyle) {
+            if (widgetConfig.selectStyle) {
               if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
-                feature.mbSelectStyle = objRef.selectStyle.point;
+                feature.mbSelectStyle = widgetConfig.selectStyle.point;
               } else
               if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
-                feature.mbSelectStyle = objRef.selectStyle.line;
+                feature.mbSelectStyle = widgetConfig.selectStyle.line;
               } else
               if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
-                feature.mbSelectStyle = objRef.selectStyle.polygon;
+                feature.mbSelectStyle = widgetConfig.selectStyle.polygon;
               }
             }
           }
