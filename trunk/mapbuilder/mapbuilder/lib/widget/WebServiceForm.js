@@ -7,7 +7,7 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
-mapbuilder.loadScript(baseDir+"/util/dojo/src/uuid/TimeBasedGenerator.js");
+//mapbuilder.loadScript(baseDir+"/util/dojo/src/uuid/TimeBasedGenerator.js");
 
 /**
  * Widget to display a form for input of parameters to generate a web service 
