@@ -38,6 +38,11 @@
       </tools>
     </OwsContext>
     
+    <StyledLayerDescriptor id="sld">
+      <defaultModelUrl>wfs_GetFeature.xsl</defaultModelUrl>
+      <sldXPath>//wmc:StyleList</sldXPath>
+    </StyledLayerDescriptor>
+    
     <FeatureCollection id="gml2FeatureTemplate">
       <method>post</method>
  
@@ -45,6 +50,9 @@
          <GmlRendererOL id="vectorGraphicsRenderer">
           <targetModel>mainMap</targetModel>
           <stylesheet>geobliki2wfs.xsl</stylesheet>
+          <sldModel>sld</sldModel>
+          <defaultStyleName>Normal</defaultStyleName>
+          <selectStyleName>Highlite</selectStyleName>
           <featureOnClick>featurePopup</featureOnClick>
         </GmlRendererOL>
         <TipWidgetOL id="featurePopup">
