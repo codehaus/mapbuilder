@@ -27,7 +27,6 @@
     </OwsContext>
     
     <FeatureCollection id="geoRSS">
-      <defaultModelUrl>http://www.flickr.com/services/rest?method=flickr.photos.search&amp;api_key=afbacfb4d14cd681c04a06d69b24d847&amp;user_id=15435549%40N00</defaultModelUrl>
       <widgets>
         <TipWidgetOL id="featurePopup">
           <stylesheet>popup.xsl</stylesheet>
@@ -39,7 +38,6 @@
         </TipWidgetOL>
         <GmlRendererOL id="testGmlRenderer">
           <targetModel>mainMap</targetModel>
-          <stylesheet>flickrrest2wfs.xsl</stylesheet>
           <featureOnClick>featurePopup</featureOnClick>
           <sldModel>sld</sldModel>
           <hoverCursor>pointer</hoverCursor>
@@ -50,6 +48,11 @@
         </Widget>
       </widgets>
       <tools>
+        <FlickrRest2Wfs id="flickrrest2wfs">
+          <scriptFile>FlickrRest2Wfs.js</scriptFile>
+          <url>http://www.flickr.com/services/rest?method=flickr.photos.search&amp;api_key=afbacfb4d14cd681c04a06d69b24d847&amp;user_id=15435549%40N00</url>
+          <stylesheet>FlickrRest2Wfs.xsl</stylesheet>
+        </FlickrRest2Wfs>
         <FeatureSelectHandler id="featureHighlighter">
           <targetModel>mainMap</targetModel>
         </FeatureSelectHandler>
