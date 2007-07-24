@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:wfs="http://www.opengis.net/wfs" xmlns:gml="http://www.opengis.net/gml" xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder"> 
 <!--
-Description: A stylesheet to convert strange geobliki wfs to standards-compliant wfs.
+Description: A stylesheet to convert flickr rest service to standards-compliant wfs.
 Author:      Andreas Hocevar andreas.hocevarATgmail.com
 Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
