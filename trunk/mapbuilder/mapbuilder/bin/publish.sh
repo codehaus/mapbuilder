@@ -25,14 +25,10 @@ jsdocSource=" \
   ${mapbuilderDir}/lib/util \
   ${mapbuilderDir}/lib/util/sarissa/Sarissa.js"
 
-docbookXsl=${mapbuilderDir}/bin/docbook-xsl-1.72.0/html/docbook.xsl
-
 docDirectories=" \
   ${targetDir} \
   ${targetDir}/docs \
-  ${targetDir}/docs/jsdoc \
-  ${targetDir}/docs/design \
-  ${targetDir}/docs/design/images"
+  ${targetDir}/docs/jsdoc"
 
 
 # Create docs directories
@@ -48,9 +44,3 @@ ${jsdoc} -d ${jsdocTarget} --project-name "<a href='http://mapbuilder.sourceforg
 
 # Execute jsdoc with XMI output
 ${jsdoc} --format xmi -d ${jsdocTarget} --project-name "<a href='http://mapbuilder.sourceforge.net'>Community Map Builder</a> `date +'%d %b %G'`" ${jsdocSource}
-
-# publish design
-xsltproc --novalid --param section.autolabel 1 --param toc.section.depth 5 -o ${targetDir}/docs/design/index.html ${docbookXsl} ${mapbuilderDir}/design/mapbuilder-lib.xml
-
-# copy the design images
-cp -pr ${mapbuilderDir}/design/images/* ${targetDir}/docs/design/images/
