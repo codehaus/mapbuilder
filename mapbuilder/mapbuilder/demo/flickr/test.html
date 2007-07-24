@@ -2,15 +2,23 @@
 <head>
 <script type="text/javascript" src="/mapbuilder/lib/util/sarissa/Sarissa.js"></script>
 <script type="text/javascript">
-var xml = new ActiveXObject('Msxml2.DOMDocument.6.0');
-var xsl = new ActiveXObject('Msxml2.FreeThreadedDOMDocument.6.0');
-var docCache = new ActiveXObject("MSXML2.XSLTemplate.6.0");
-var xmlHttp = new ActiveXObject("Msxml2.XMLHTTP.6.0");
-xmlHttp.open('GET', '/mapbuilder/demo/flickr/flickrrest2wfs.xsl', false);
+var progids = {domdoc: ['Msxml2.DOMDocument.6.0', 'Msxml2.DOMDocument.3.0'],
+      freethreaded: ['Msxml2.FreeThreadedDOMDocument.6.0', 'Msxml2.FreeThreadedDOMDocument.3.0'],
+      xsltpl: ['MSXML2.XSLTemplate.6.0', 'MSXML2.XSLTemplate.3.0'],
+      xmlhttp: ['Msxml2.XMLHTTP.6.0', 'Msxml2.XMLHTTP.3.0']};
+var xml;
+for (var i in progids.domdoc) {
+  try {
+    xml = new ActiveXObject(progids.domdoc[i]);
+    break;
+  } catch (e) {}
+}
+var xsl = new ActiveXObject(progids.freethreaded[i]);
+var docCache = new ActiveXObject(progids.xsltpl[i]);
+var xmlHttp = new ActiveXObject(progids.xmlhttp[i]);
+xmlHttp.open('GET', 'flickrrest2wfs.xsl', false);
 xmlHttp.send(null);
-//xsl.load('flickrrest2wfs.xsl');
 var xslText = xmlHttp.responseText;
-//var xslText2 = xslText.replace(/\?url=(.[^']*)'/g, "?url="+RegExp.$1.replace(/%/g,'x')+"'");
 var regex = new RegExp("/\?url=(.[^']*)'/g");
 var toReplace = xslText.match(/\?url=(.[^']*)'/g);
 for (var i=0; i<toReplace.length; i++) {
@@ -23,9 +31,7 @@ xsl.resolveExternals = true;
 xsl.setProperty("AllowDocumentFunction",true); 
 xsl.async = false;
 xml.async = false;
-//xsl = (new DOMParser()).parseFromString(xslText, "text/xml");
 xsl.loadXML(xslText);
-//xsl.load('flickrrest2wfs.xsl');
 xml.load('/mapbuilder/proxy?url=http%3A//www.flickr.com/services/rest%3Fmethod%3Dflickr.photos.search%26api_key%3Dafbacfb4d14cd681c04a06d69b24d847%26user_id%3D15435549%2540N00');
 docCache.stylesheet = xsl;
 var docProcessor = docCache.createProcessor();
@@ -33,7 +39,6 @@ docProcessor.input = xml;
 docProcessor.addParameter('proxyUrl', '/mapbuilder/proxy', '');
 docProcessor.transform();
 var result = docProcessor.output;
-//var result = xml.transformNode(xsl);
 alert(result);
 </script>
 </head>
