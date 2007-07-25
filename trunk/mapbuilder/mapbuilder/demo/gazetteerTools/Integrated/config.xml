@@ -178,7 +178,5 @@
     </Reset>
   </widgets>
   <skinDir>../skin</skinDir>
-  <widgetTextUrl>widgetText.xml</widgetTextUrl>
-  <userWidgetTextDir>../skin</userWidgetTextDir>
-  <userWidgetTextUrl>userWidgetText.xml</userWidgetTextUrl>
+  <userWidgetTextDir>../text</userWidgetTextDir>
 </MapbuilderConfig>

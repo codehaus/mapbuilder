@@ -42,11 +42,13 @@ however this will only support one language.
 </p>
 
 <p>
-To support multiple languages, you can set a &lt;widgetTextUrl&gt; property
-on the config model.
-This property is a partial path to a file containing language dependant text.
-The full path to the file is created from the skinDir value plus language code
-value plus the partial path to the text file.
+Multiple languages are supported. The standard widget texts are available in English,
+French, Dutch and Italian; those reside under the lib/text/ directory.
+You can also set a &lt;userWidgetTextDir&gt; property on the config model to add
+or override widget texts.
+This property is a partial path to a directory containing language dependant texts.
+The full path to the file is created from the userWidgetTextDir value plus language code
+value plus the file name widgetText.xml.
 </p>
 
 <p>

@@ -91,6 +91,4 @@
     </Reset>
  	</widgets>
 	<skinDir>../../lib/skin/default</skinDir>
-	<widgetTextUrl>widgetText.xml</widgetTextUrl>
-
 </MapbuilderConfig>
