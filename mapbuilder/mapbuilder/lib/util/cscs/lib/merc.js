@@ -9,6 +9,7 @@
 //static double false_northing = y0;   /* y offset in meters			*/
 //static double false_easting = x0;	   /* x offset in meters			*/
 //scale_fact = k0 
+
 // Function to compute the constant small t for use in the forward
 //   computations in the Lambert Conformal Conic and the Polar
 //   Stereographic projections.
@@ -19,7 +20,8 @@ function tsfnz(eccent, phi, sinphi) {
   con = Math.pow(((1.0 - con) / (1.0 + con)), com);
   return (Math.tan(.5 * (HALF_PI - phi))/con);
 }
-
+// Function to return the sign of an argument
+function sign(x) { if (x < 0.0) return(-1); else return(1);}
 // Function to adjust longitude to -180 to 180; input in radians
 function adjust_lon(x) {x=(Math.abs(x)<PI)?x:(x-(sign(x)*TWO_PI));return(x);}
 
@@ -48,7 +50,7 @@ mercInit=function(def)
 	this.m1 = Math.cos(this.lat_origin) / (Math.sqrt( 1.0 - this.es * Math.sin(this.lat_origin) * Math.sin(this.lat_origin)));
 	*/
 	def.temp = def.b / def.a;
-	def.es = 1.0 - (def.temp * def.temp);
+	def.es=1.0 - (def.temp * def.temp);
 	def.e = Math.sqrt( def.es );
 	def.m1 = Math.cos(0.0) / (Math.sqrt( 1.0 - def.es * Math.sin(0.0) * Math.sin(0.0)));
 
