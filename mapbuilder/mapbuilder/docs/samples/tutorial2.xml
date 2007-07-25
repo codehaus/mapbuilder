@@ -48,5 +48,4 @@
     
   </models>
   <skinDir>/mapbuilder/lib/skin/default</skinDir>
-  <widgetTextUrl>widgetText.xml</widgetTextUrl> <!-- relative to the skinDir + language subdir -->
 </MapbuilderConfig>

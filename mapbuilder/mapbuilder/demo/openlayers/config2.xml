@@ -28,7 +28,4 @@
   <widgets>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
-
-  <!-- relative to the skin dir -->
-  <widgetTextUrl>widgetText.xml</widgetTextUrl>
 </MapbuilderConfig>

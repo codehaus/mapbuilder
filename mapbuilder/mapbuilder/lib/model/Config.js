@@ -106,10 +106,10 @@ function Config(url) {
    * @param url    the (relative) url under dir/config.lang for the widget text
    * @private
    */
-  function loadWidgetText(config, dir, url) {
+  function loadWidgetText(config, dir) {
     var widgetText;
     if (url) {
-      var widgetTextUrl = dir + "/" + config.lang + "/" + url.firstChild.nodeValue;
+      var widgetTextUrl = dir + "/" + config.lang + "/widgetText.xml";
       widgetText = Sarissa.getDomDocument();
       widgetText.async = false;
       widgetText.validateOnParse=false;  //IE6 SP2 parsing bug
@@ -137,13 +137,11 @@ function Config(url) {
   }
   
   // Load widgetText
-  this.widgetText = loadWidgetText(this, this.skinDir,
-    modelNode.selectSingleNode("mb:widgetTextUrl"));
+  this.widgetText = loadWidgetText(this, baseDir + "/text");
   // Try to load userWidgetText
   userWidgetTextDir = modelNode.selectSingleNode("mb:userWidgetTextDir");
   if (userWidgetTextDir) {
-    var userWidgetText = loadWidgetText(this, userWidgetTextDir.firstChild.nodeValue,
-      modelNode.selectSingleNode("mb:userWidgetTextUrl"));
+    var userWidgetText = loadWidgetText(this, userWidgetTextDir.firstChild.nodeValue);
     if (userWidgetText) {
       // User has specified userWidgetText, merge with widgetText
       var userWidgets = userWidgetText.selectSingleNode("/mb:WidgetText/mb:widgets");

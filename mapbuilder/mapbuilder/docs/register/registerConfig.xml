@@ -75,7 +75,6 @@
     This dir is relative the dir of the main html file.
   -->
   <skinDir>../../lib/skin/default</skinDir>
-  <widgetTextUrl>/widgetText.xml</widgetTextUrl> <!-- relative to the skin dir -->
   <!--proxyUrl>/mapbuilder/proxy</proxyUrl-->
   <!--serializeUrl>/mapbuilder/writeXml</serializeUrl-->
 </MapbuilderConfig>

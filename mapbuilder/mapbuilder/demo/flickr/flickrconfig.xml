@@ -124,6 +124,4 @@
     
 	</widgets>
 	<skinDir>../../lib/skin/default</skinDir>
-	<widgetTextUrl>widgetText.xml</widgetTextUrl>
-	<!-- relative to the skin dir -->
 </MapbuilderConfig>

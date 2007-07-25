@@ -150,9 +150,6 @@
     This dir is relative the dir of the main html file.
   -->
 	<skinDir>../../lib/skin/default</skinDir>
-	<widgetTextUrl>/widgetText.xml</widgetTextUrl>	
-<!--	-->
 	<proxyUrl>/proxy/proxy.php</proxyUrl>
     <serializeUrl>/proxy/serializer.php</serializeUrl>
-<!--	 in the skin dir -->
 </MapbuilderConfig>

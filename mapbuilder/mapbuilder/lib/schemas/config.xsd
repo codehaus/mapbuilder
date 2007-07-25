@@ -20,9 +20,7 @@
 				<xs:extension base="mb:AbstractModelType">
 					<xs:sequence>
 						<xs:element name="skinDir" type="mb:urlPathType" minOccurs="0"/>
-						<xs:element name="widgetTextUrl" type="mb:urlPathType" minOccurs="0"/>
 						<xs:element name="userWidgetTextDir" type="mb:urlPathType" minOccurs="0"/>
-						<xs:element name="userWidgetTextUrl" type="mb:urlPathType" minOccurs="0"/>
 						<xs:element name="proxyUrl" type="mb:urlPathType" minOccurs="0"/>
 						<xs:element name="serializeUrl" type="mb:urlPathType" minOccurs="0"/>
 					</xs:sequence>
@@ -447,17 +445,17 @@
               </xs:sequence>
             </xs:complexType>
           </xs:element>
-        </xs:sequence>
-        </xs:element name="idXPath">
+        <xs:element name="idXPath">
           <xs:annotation>
             <xs:documentation>XPath statement that points to the nodes that hold an id (eg. feature id) for unique nodes. Default is "/*/*". This is needed to link back to the source models.</xs:documentation>
           </xs:annotation>
-        <xs:element>
-        </xs:element name="idAttribute">
+        </xs:element>
+        <xs:element name="idAttribute">
           <xs:annotation>
             <xs:documentation>Name of the attribute that holds the unique id (eg. fid). Default is "id". This is needed to link back to the source models.</xs:documentation>
           </xs:annotation>
-        <xs:element>
+        </xs:element>
+        </xs:sequence>
       </xs:extension>
 		</xs:complexContent>
 	</xs:complexType>

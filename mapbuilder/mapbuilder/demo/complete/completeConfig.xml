@@ -312,7 +312,4 @@
     </Save>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
-  <widgetTextUrl>widgetText.xml</widgetTextUrl>
-  <!-- relative to the skinDir + language subdir -->
-  <!-- example of overriding the server config values -->
 </MapbuilderConfig>
