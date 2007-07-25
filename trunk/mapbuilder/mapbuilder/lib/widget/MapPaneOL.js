@@ -128,13 +128,22 @@ function MapPaneOL(widgetNode, model) {
 MapPaneOL.prototype.paint = function(objRef, refresh) {
   // Create an OpenLayers map
 
+  // On refresh, the buttons would be duplicated. So remove them
+  // from the button bar and clear the buttonBars array if
+  // there are already buttons and buttonBars
+  if (objRef.model.buttonBars && objRef.model.map) {
+    for (var i in objRef.model.buttonBars) {
+      objRef.model.map.removeControl(objRef.model.buttonBars[i]);
+    }
+    objRef.model.buttonBars = new Array();
+  }
+
   if(!objRef.model.map || refresh=="sld"){
 
     if(refresh=="sld") {
       objRef.clearWidget2(objRef);
     }
-
-
+    
     //Test if context exist
     if(objRef.model.doc.selectSingleNode("//wmc:OWSContext"))
       objRef.context="OWS";
