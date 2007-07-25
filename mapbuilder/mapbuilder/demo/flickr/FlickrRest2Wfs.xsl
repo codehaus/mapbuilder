@@ -48,6 +48,9 @@ $Id$
             <gml:coordinates><xsl:value-of select="$lon"/>,<xsl:value-of select="$lat"/></gml:coordinates>
           </gml:Point>
         </mb:geom>
+        <mb:title><xsl:value-of select="$photodoc/photo/title"/></mb:title>
+        <mb:description><xsl:value-of select="$photodoc/photo/description"/></mb:description>
+        <mb:url>http://static.flickr.com/<xsl:value-of select="./@server"/>/<xsl:value-of select="./@id"/>_<xsl:value-of select="./@secret"/>_s.jpg</mb:url>
       </mb:geoRssFeature>      
     </gml:featureMember>
   </xsl:if>
