@@ -16,6 +16,11 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
  * This will also process mouse events (click and dragbox) to recenter the 
  * target model and includes coordinate projection transformations if required.
  * Checking for extent limits is not yet implemented.
+ * 
+ * WARNING: it is recommended to use the OverviewMap widget. However since the behavior
+ * is slightly different from this widget, this one is still available.
+ * See also MAP-300
+ * @deprecated
  * @constructor
  * @base ToolBase
  * @author Adair
@@ -52,19 +57,19 @@ function ZoomToAoi(toolNode, model) {
    */
   this.showTargetAoi = function( tool ) {
     if( tool.targetModel.doc ) {
-	    var bbox = tool.targetModel.getBoundingBox();  
-	    var ul = new Array(bbox[0],bbox[3]);
-	    var lr = new Array(bbox[2],bbox[1]);
-	    if ( tool.model.getSRS() != tool.targetModel.getSRS() ) {
-	    	var ptUL=new PT(ul[0],ul[1]);
-	    	var ptLR=new PT(lr[0],lr[1]);
-    		cs_transform(tool.targetModel.proj,tool.model.proj,ptUL);
-		    cs_transform(tool.targetModel.proj,tool.model.proj,ptLR);
-		    ul = new Array(ptUL.x,ptUL.y);
-		    lr = new Array(ptLR.x,ptLR.y);      
-	      
-	    }
-	    tool.model.setParam("aoi", new Array(ul, lr) );
+      var bbox = tool.targetModel.getBoundingBox();  
+      var ul = new Array(bbox[0],bbox[3]);
+      var lr = new Array(bbox[2],bbox[1]);
+      if ( tool.model.getSRS() != tool.targetModel.getSRS() ) {
+        var ptUL=new PT(ul[0],ul[1]);
+        var ptLR=new PT(lr[0],lr[1]);
+        cs_transform(tool.targetModel.proj,tool.model.proj,ptUL);
+        cs_transform(tool.targetModel.proj,tool.model.proj,ptLR);
+        ul = new Array(ptUL.x,ptUL.y);
+        lr = new Array(ptLR.x,ptLR.y);      
+        
+      }
+      tool.model.setParam("aoi", new Array(ul, lr) );
     }
   }
   this.firstInit = function(tool) {
@@ -87,12 +92,12 @@ ZoomToAoi.prototype.mouseUpHandler = function(e) {
   var lr = bbox[1];
   if ( this.model.getSRS() != this.targetModel.getSRS() ) {
     //TBD: convert XY to lat/long first
-  		var ptUL=new PT(ul[0],ul[1]);
-    	var ptLR=new PT(lr[0],lr[1]);
-  		cs_transform(this.model.proj,this.targetModel.proj,ptUL);
-	    cs_transform(this.model.proj,this.targetModel.proj,ptLR);
-	    ul = new Array(ptUL.x,ptUL.y);
-	    lr = new Array(ptLR.x,ptLR.y);    
+      var ptUL=new PT(ul[0],ul[1]);
+      var ptLR=new PT(lr[0],lr[1]);
+      cs_transform(this.model.proj,this.targetModel.proj,ptUL);
+      cs_transform(this.model.proj,this.targetModel.proj,ptLR);
+      ul = new Array(ptUL.x,ptUL.y);
+      lr = new Array(ptLR.x,ptLR.y);    
   }
   if ( ( ul[0]==lr[0] ) && ( ul[1]==lr[1] ) ) {
     this.targetModel.map.setCenter(new OpenLayers.LonLat(ul[0],ul[1]));

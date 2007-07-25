@@ -8,6 +8,10 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
  * Functions to render and update a Legend from a Web Map Context.
+ * 
+ * WARNING: In most cases you probably want either Legend.js or LayerControl.js they
+ * both display the legend graphic per layer.
+ * @deprecated
  * @constructor
  * @base WidgetBaseXSL
  * @author Cameron Shorter cameronATshorter.net

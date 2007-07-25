@@ -18,6 +18,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * WARNING: This widget cannot be used in maps that use button controls.
  * Button controls take care of aoi handling themselves.
  * It is designed for use in locator map setups only.
+ * See also MAP-312
  * @deprecated
  * @constructor
  * @param widgetNode The node for this object from the Config file.

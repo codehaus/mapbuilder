@@ -9,6 +9,9 @@ mapbuilder.loadScript(baseDir+"/graphics/RssLayer.js");
  * Stores a GML Feature or FeatureCollection as defined by the
  * Open GIS Conortium http://opengis.org.
  *
+ * WARNING: This model is only to be used if you do not want to embed the GeoRSS feed
+ * in the context doc. See also MAP-271
+ * @deprecated
  * @constructor
  * @base ModelBase
  * @author Cameron Shorter
@@ -82,12 +85,12 @@ function GeoRSS(modelNode, parent) {
     } else {
        var pos = featureNode.selectSingleNode("georss:where/gml:Point/gml:pos")
        if( pos != null ) {
-	     var coordstr = pos.firstChild.nodeValue
-	     //alert("coords:"+coordstr );
-	     var coords = coordstr.split(" ")
-	     var pointX = coords[0]
-	     var pointY = coords[1]
-	     return new Array(pointX, pointY);
+       var coordstr = pos.firstChild.nodeValue
+       //alert("coords:"+coordstr );
+       var coords = coordstr.split(" ")
+       var pointX = coords[0]
+       var pointY = coords[1]
+       return new Array(pointX, pointY);
        } else {
          return new Array(0,0);  //or some other error to return?
        }
@@ -108,8 +111,8 @@ function GeoRSS(modelNode, parent) {
       
     var pos = featureNode.selectSingleNode("georss:where/gml:Point/gml:pos")
     if( pos != null ) {
-	    var coordstr = pos.firstChild.nodeValue
-	    return "POINT " + coordstr;
+      var coordstr = pos.firstChild.nodeValue
+      return "POINT " + coordstr;
     } 
     
     var posList = featureNode.selectSingleNode("georss:where/gml:LineString/gml:posList")
