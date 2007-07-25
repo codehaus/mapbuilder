@@ -12,6 +12,9 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 /**
  * Widget to create a SLD file or inserts it into Web Map Context  v.
  * 
+ * WARNING: the SLD editor is work in progress, this one isn't finished yet, 
+ * but as long as the new editor isn't finished yet this is the only option.
+ * @deprecated
  * @constructor
  * @base WidgetBaseXSL
  * @param parent This widget's object node from the configuration document.
@@ -22,32 +25,32 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 function SLDEditor(modelNode, parent) {
 // Inherit the ModelBase functions and parameters
- 	WidgetBaseXSL.apply(this, new Array(modelNode, parent));
- 	
+   WidgetBaseXSL.apply(this, new Array(modelNode, parent));
+   
 
-	/**
+  /**
    * Listener method to paint this widget
    * @param layerName  the name of the layer to highlight
    */
    
-  	this.refresh = function(objRef, layerName) {
-  		objRef.stylesheet.setParameter("layerName", layerName );
-    	objRef.paint(objRef, objRef.id);
-  	}
-  	
-	this.postPaint = function(objRef) {
-	
-	var objRef2 = config.objects.choixchamp;
-	config.objects.choixchamp.paint(objRef2,objRef2.id);
-	
-	
-	
+    this.refresh = function(objRef, layerName) {
+      objRef.stylesheet.setParameter("layerName", layerName );
+      objRef.paint(objRef, objRef.id);
+    }
+    
+  this.postPaint = function(objRef) {
+  
+  var objRef2 = config.objects.choixchamp;
+  config.objects.choixchamp.paint(objRef2,objRef2.id);
+  
+  
+  
     
     }
-	this.model.addListener("SLDChange",this.refresh, this);
-	
-	
-	/**
+  this.model.addListener("SLDChange",this.refresh, this);
+  
+  
+  /**
    * Set the value of an attribute from the FeatureList.
    * @param objRef Reference to this object.
    * @param xpath Xpath reference to the attribute in the GML.
@@ -57,14 +60,14 @@ function SLDEditor(modelNode, parent) {
   this.setAttr=function(objRef,xpath,value,attr){
 
 
- 	if(attr)
- 	{
- 		xpath=xpath+"[@name='"+attr+"']";
+   if(attr)
+   {
+     xpath=xpath+"[@name='"+attr+"']";
 
     }
    
     objRef.model.setXpathValue(objRef.model,xpath,value);
 
   }
-	
+  
 }
