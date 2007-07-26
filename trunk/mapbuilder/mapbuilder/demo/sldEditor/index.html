@@ -5,7 +5,9 @@
   <head>
     <title>Mapbuilder SLD Editor</title>
        <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/demoStyles.css'/>
-    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/button.css'>
+       
+     <link rel='StyleSheet' type='text/css' href='layerControl.css'/>
+     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/button.css'>
      <link rel="stylesheet" type="text/css" href="../../lib/skin/default/tabList.css">
      <link rel='StyleSheet' type='text/css' href='Sldeditor.css'>
    
@@ -19,87 +21,7 @@
     <script>
       // URL of Mapbuilder configuration file.
       var mbConfigUrl='config.xml';
- //function to calcul the intervall 
-		function testvalue()
-		{
-		
-		
-		document.getElementById('couleurchoix2').value  = config.objects.editSLD.getvalue(document.getElementById('idNameOfRule').value,'/Fill/CssParameter[@name=\'fill\']');
-		//document.getElementById('couleurchoix').value=config.objects.editSLD.getvalue(document.getElementById('idNameOfRule').value,'/Fill/CssParameter[@name=\'fill\']');
-		
-		}
-		function symbole(nbclass,maxi,mini)
-		{
-		var interval=(maxi-mini)/nbclass;
-		//premier intervall mini + interval
-		for(var i = mini; i < nbclass;i++)
-		{
-		//ici mettre les pop-up pour le nom et la couleur et la couleur
-		mini+=intervall
-		}
-		
-		
-		
-		}
-		
-		//Display in layercontrol if layer is visible   
-     function eyeOfTiger(layerId,nb)
-	{
-	
-		var h=document.getElementById("previewImage"+nb);
-		var layer=document.getElementById(layerId);
-		//alert(layer);
-		if(layer&& (layer.firstChild.src.indexOf("GetMap")!=-1))
-		{
-					document.getElementById("previewImage"+nb).src=layer.firstChild.src;
-		}
-		
-	}
-	//Open Popup    
-      function popUp(URL) {
-				day = new Date();
-				id = day.getTime();
-				eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=1260,height=140,left = 0,top=800');");
-			}
-			
-//Show map legend when click on layerControl		
-		function show(id){
-	
-		var temp=new Image();
-	
-		
-	
-		if(document.images["lButton"+id].src.indexOf("Disable")!=-1)
-		{     
-			document.images["lButton"+id].src="../../lib/skin/default/images/LegendEnable.png";
-			document.getElementById("div"+id).style.width="40px";
-			document.getElementById("div"+id).style.height="40px";
-			document.getElementById("div"+id).style.visibility = "visible";
-			/*document.images["legend"+id].src="http://www.geomatys.fr:8080/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=40&LAYER="+id;*/
-			
-		}
-		else
-		{
-			document.images["lButton"+id].src="../../lib/skin/default/images/LegendDisable.png";
-			document.getElementById("div"+id).style.visibility = "hidden";
-			document.getElementById("div"+id).style.width="0px";
-			document.getElementById("div"+id).style.height="0px";
-		}
-		
-		
-	}
-	var cptOthers;
-
-
-//Open popup for choose color
-	function openColorWindow(inputId)
-	{
-		var URL=new String("color.html?inputId="+inputId);
-		day = new Date();
-		id = day.getTime();
-		eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=340,height=340,left =200,top=200');");
-			
-	}
+ 
 	
 //Update input of color		
 	function setColor(hexColor,inputId)
@@ -107,18 +29,8 @@
 		document.getElementById(inputId).value="#"+hexColor;
 		document.getElementById(inputId).focus();
 	}
-	 function LegendTypepics2(choixlegend)
-       {
-       
-       switch(choixlegend)
-       {
-      
-       case '60' : document.getElementById("choixchamp").style.display="block";
-				return;
-       default:return;
-       }
-       
-       }
+	
+
     </script>
     <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
   </head>
@@ -141,8 +53,6 @@
              <div align="right" id="cursorTrack" ></div>
            </td>
          </tr>
-         <tr><td id="urlInputWfs"></td></tr>
-         <tr><td id="urlInputWms"></td></tr>
       </table>     
       <h3>Explanation</h3>
       <p>
@@ -161,7 +71,6 @@
          </td>
        </tr>
 			 <tr><td><div id="workspace"></div></td></tr>
-			 <tr><td><div id="loadAllLayers"/></td></tr>
 			 <tr><td><div id="feat"/></td></tr>
      </table>
 		</div>
@@ -169,10 +78,7 @@
 	</div>
   <div id="footer">
   <!-- debut du sld editor --> 
-  <div id="layerTest">
-    <div id="choixchamp" style="display:none">
-       
-       </div>
+  
 	  
     <div class="right">
 <a href="http://communitymapbuilder.org/" title="powered by community mapbuilder"><img src="../../lib/skin/default/images/Icon.gif"/></a>	  	

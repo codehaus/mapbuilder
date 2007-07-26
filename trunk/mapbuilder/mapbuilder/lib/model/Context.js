@@ -289,7 +289,7 @@ function Context(modelNode, parent) {
   this.addFirstListener( "addLayer", this.addLayer, this );
 
  /**
-   * Method to add a Sld to the StyleList
+   * Method to add a Sld tag to the StyleList
    * @param layerName the Layer name from another context doc or capabiltiies doc
    */
   this.addSLD = function(objRef,sldNode) {
@@ -297,8 +297,11 @@ function Context(modelNode, parent) {
     var layerName=sldNode.selectSingleNode("//Name").firstChild.nodeValue;
     var parentNode = objRef.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']");
     parentNode.appendChild(sldNode.cloneNode(true));
-
     objRef.modified = true;
+    var attribs=[];
+    attribs["sld_body"]=(new XMLSerializer()).serializeToString(objRef.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']/wmc:StyleList/wmc:Style/wmc:SLD/wmc:StyledLayerDescriptor"));
+	objRef.map.mbMapPane.refreshLayer(objRef.map.mbMapPane,layerName,attribs);
+	
   }
   this.addFirstListener( "addSLD", this.addSLD, this );
 
