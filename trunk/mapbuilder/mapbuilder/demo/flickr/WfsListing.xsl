@@ -5,7 +5,7 @@ Description: presents the list of events in a GeoRSS
 Author:      adair
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
-$Id$
+$Id: GeoRSSListing.xsl 3017 2007-07-26 23:01:32Z ahocevar $
 $Name:  $
 -->
 

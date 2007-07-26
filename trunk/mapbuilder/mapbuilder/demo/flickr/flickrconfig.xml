@@ -39,7 +39,7 @@
           <hoverCursor>pointer</hoverCursor>
         </GmlRendererOL>
         <Widget id="eventsListing">
-           <stylesheet>GeoRSSListing.xsl</stylesheet>
+           <stylesheet>WfsListing.xsl</stylesheet>
         </Widget>
       </widgets>
       <tools>
