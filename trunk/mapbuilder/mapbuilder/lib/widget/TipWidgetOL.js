@@ -86,7 +86,7 @@ function TipWidgetOL(widgetNode, model) {
     
     popup.padding = 0;
     popup.initialize(null, lonlat, new OpenLayers.Size(widgetConfig.width, widgetConfig.height),
-        new XMLSerializer().serializeToString(widgetConfig.stylesheet.transformNodeToObject(widgetConfig.model.doc)),
+        new XMLSerializer().serializeToString(widgetConfig.stylesheet.transformNodeToObject(widgetConfig.model.doc)).replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&amp;/g,"&"),
         null, hover == false);
     popup.setOpacity(widgetConfig.opacity);
     popup.setBackgroundColor(widgetConfig.backgroundColor);
