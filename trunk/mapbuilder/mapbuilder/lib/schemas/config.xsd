@@ -329,7 +329,8 @@
 			<xs:element name="TimeSeries" type="mb:TimeSeriesType"/>
 			<xs:element name="Timestamp" type="mb:TimestampType"/>
 			<xs:element name="TipWidget" type="mb:TipWidgetType"/>
-			<xs:element name="TipWidgetOL" type="mb:TipWidgetOLType"/>
+			<xs:element name="TipWidgetOL" type="mb:TipWidgetBaseType"/>
+      <xs:element name="TipWidgetConfig" type="mb:TipWidgetConfigType"/>
 			<xs:element name="TransactionResponse" type="mb:WidgetType"/>
 			<xs:element name="Version" type="mb:WidgetType"/>
 			<xs:element name="WebServiceForm" type="mb:WebServiceFormType"/>
@@ -805,23 +806,10 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="GmlRendererOLType">
-		<xs:annotation>
-			<xs:documentation>A widget to render GML document using OpenLayers vector rendering</xs:documentation>
-		</xs:annotation>
+	<xs:complexType name="GmlRendererBaseType">
 		<xs:complexContent>
 			<xs:extension base="mb:AbstractMapWidgetType">
 				<xs:sequence>
-					<xs:element name="featureOnClick" type="xs:string" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>id of a widget that performs onClick action when a feature is clicked.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="featureOnHover" type="xs:string" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>id of a widget that performs onHover action when a feature is hovered.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
 					<xs:element name="sldModel" type="xs:string" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>id of a StyledLayerDescriptor model that holds sld styles for the features to render.</xs:documentation>
@@ -840,6 +828,39 @@
 					<xs:element name="hoverCursor" type="xs:string" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>CSS cursor type of the cursor that should be used when hovering over features. This will have no effect if there is no FeatureSelectHandler tool attached to the target model.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+  <xs:complexType name="GmlRendererConfigType">
+    <xs:annotation>
+      <xs:documentation>Configuration widget for a GmlRendererOL in a MergeModel. Because only one GmlRendererLayer can handle events, multiple vector layers that require user interaction (like hover/click) effects are merged into a MergeModel. GmlRendererConfig makes it possible to use different configurations (eg. sld styling) for sourceModels.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="mb:GmlRendererBaseType">
+        <xs:sequence>
+          <xs:element name="targetWidget" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+	<xs:complexType name="GmlRendererOLType">
+		<xs:annotation>
+			<xs:documentation>A widget to render GML document using OpenLayers vector rendering</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="mb:GmlRendererBaseType">
+				<xs:sequence>
+					<xs:element name="featureOnClick" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>id of a widget that performs onClick action when a feature is clicked.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="featureOnHover" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>id of a widget that performs onHover action when a feature is hovered.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -1234,10 +1255,24 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="TipWidgetOLType">
-		<xs:annotation>
-			<xs:documentation>Popup using OpenLayers popups.</xs:documentation>
-		</xs:annotation>
+  <xs:complexType name="TipWidgetConfigType">
+    <xs:annotation>
+      <xs:documentation>Configuration widget for a TipWidgetOL in a MergeModel. Because only one GmlRendererLayer can handle events, multiple vector layers that require user interaction (like hover/click) effects are merged into a MergeModel. TipWidgetConfig makes it possible to use different configurations (eg width, height, content) for sourceModels.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="mb:TipWidgetBaseType">
+        <xs:sequence>
+          <xs:element name="targetWidget" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TipWidgetOLType">
+    <xs:annotation>
+      <xs:documentation>Popup using OpenLayers popups.</xs:documentation>
+    </xs:annotation>
+  </xs:complexType>
+	<xs:complexType name="TipWidgetBaseType">
 		<xs:complexContent>
 			<xs:extension base="mb:AbstractMapWidgetType">
 				<xs:sequence>
