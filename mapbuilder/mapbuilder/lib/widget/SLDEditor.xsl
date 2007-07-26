@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet 
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-	xmlns:xlink="http://www.w3.org/1999/xlink"
+<?xml version="1.0" encoding="UTF-8"?><!-- DWXMLSource="../../../../../../../Documents and Settings/arsene/Mes documents/Noculture/camgis.xml" -->
+<xsl:stylesheet
+    version="1.0" 
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:sld="http://www.opengis.net/sld" 
 	xmlns:wmc="http://www.opengis.net/context" 
     xmlns:wms="http://www.opengis.net/wms" 
     xmlns:wfs="http://www.opengis.net/wfs" 	
     xmlns:owscat="http://www.ec.gc.ca/owscat"
-    xmlns:ogc="http://www.opengis.net/ogc"
-    version="1.0"
+    xmlns:ogc="http://www.opengis.net/ogc" 
+	xmlns:xlink="http://www.w3.org/1999/xlink"
 >
 
 <!--
@@ -29,7 +29,9 @@ $Name$
 	<xsl:param name="layerName"/>
   	<xsl:param name="context">config.objects.<xsl:value-of select="$modelId"/></xsl:param>
 	<xsl:param name="widget">config.objects.<xsl:value-of select="$widgetId"/></xsl:param>
-	<xsl:param name="tool">config.objects.<xsl:value-of select="$toolId"/></xsl:param>
+
+	<xsl:param name="tool">config.objects.editSLD</xsl:param>
+
   	<xsl:variable name="cssId1" >fill</xsl:variable>
   	<xsl:variable name="cssid2" >stroke</xsl:variable>
 	<xsl:variable name="id2" >'fill-opacity'</xsl:variable>
@@ -49,104 +51,40 @@ $Name$
 
   	<!-- featureMember -->
   	<xsl:template match="/StyledLayerDescriptor">
-  
     	<div>
-      		 <div class="titre2_bleu titleWidget titreBlanc" >
-      	<xsl:value-of select="$title"/><br/>
-      	<xsl:value-of select="$layerName"/>
-      </div>
-      <br/>   	
-      		<script>javascript:config.objects.editSLD.updateNode("/StyledLayerDescriptor/NamedLayer/Name",'<xsl:value-of select="$layerName"/>');</script>
+      		<h1>SldEditor for <xsl:value-of select="$layerName"/></h1><br/>   	
+      		<script>javascript:<xsl:value-of select="$tool"/>.updateNode("/StyledLayerDescriptor/NamedLayer/Name",'<xsl:value-of select="$layerName"/>');</script>
+    
       <div id="bodyeditor">
         
 	    <div id="general">
-			
+	    
+	   
    
       <div id="LegendType">
           <div class="LegendType">Type of legende:</div>
           <form class="LegendType" title="can define legende type">
-              <select id="choilegend" onchange="javascript:config.objects.editSLD.LegendTypepics2(document.getElementById('choilegend').value);javascript:config.paintWidget({$widget});" style="width: 100px; font-size: 10px; line-height: 10px;" name="selecttype">
-                    <option value="80">Symbole Unique</option>
-                    <option value="100">Couleur Continue</option>
-                    <option value="60">Symbole Gradu�</option>
-                    <option value="40">valeur unique</option>
+              <select id="choilegend" onchange="javascript:{$tool}.LegendTypepics2(document.getElementById('choilegend').value);" style="width: 100px; font-size: 10px; line-height: 10px;" name="selecttype">
+                    <option selected="60">Choose type of legende</option> 
+                    <option value="80">Single symbol</option>
+                    <option value="100">Continuous Color</option>
+                    <option value="60">Graduated Symbol</option>
+                    
               </select>
           </form>
        </div><!-- end of div type of legend -->
        
-       <div id="choixFeature">
-          <div class="choixFeature">Type of feature:</div>
-          <form class="choixFeature" title="can define legende type">
-              <select id="choixFeatureSlect" onchange="" style="width: 100px; font-size: 10px; line-height: 10px;" name="selecttype">
-                    <option value="LineSymbolizer">Line</option>
-                    <option value="PolygonSymbolizer">polygon</option>
-                    <option value="PointSymbolizer">point</option>
-                    <option value="TextSymbolizer">text</option>
-              </select>
-          </form>
-       </div><!-- end of div type of choixFeature -->
+       
        
        <div id="bordurestyle">
             <div class="bordurestyle">stroke-linejoin :</div>
-               <button onclick="javascript:config.objects.editSLD.changeFill('0');javascript:config.paintWidget({$widget});">continue</button>
-               <button onclick="javascript:config.objects.editSLD.changeFill('1');javascript:config.paintWidget({$widget});" >mitre</button>
-               <button onclick="javascript:config.objects.editSLD.changeFill('2');javascript:config.paintWidget({$widget});" >Stroke</button>
-               <button onclick="javascript:config.objects.editSLD.changeFill('3');javascript:config.paintWidget({$widget});" >bevel</button>
+               <button onclick="javascript:{$tool}.styleOfStroke(document.getElementById('idNameOfRule').value,'mitre');" >mitre</button>
+               <button onclick="javascript:{$tool}.styleOfStroke(document.getElementById('idNameOfRule').value,'Stroke');" >Stroke</button>
+               <button onclick="javascript:{$tool}.styleOfStroke(document.getElementById('idNameOfRule').value,'bevel');" >bevel</button>
               
        </div><!-- end of div bordurestyle -->
-       <div id="newrule">
-       <div class="newruleclass" >name of rule </div>
-            
-             
-              
-              <input class="colorpics"
-						            type="text"
-						            id="newruleclassinput"
-						            size="40" />
-				<div id="buttonsRule">
-	      		<input type="button" name="buttonrule" value="add rule"  onclick="javascript:config.objects.editSLD.couleurcontinu(document.getElementById('newruleclassinput').value,document.getElementById('choixFeatureSlect').value);javascript:config.paintWidget({$widget});"/> 
-	  			</div>
        
-       </div>
-       <div id="color">
-            <div class="color" onclick="javascript:openColorWindow('couleurchoix');">couleur de bordure externe:</div>
-            
-             
-              
-              <input class="colorpics"
-						            type="text"
-						            id="couleurchoix"
-						            size="40"																		
-						            
-						            onfocus="javascript:config.objects.editSLD.upadteNode2(document.getElementById('idNameOfRule').value,document.getElementById('choixFeatureSlect').value+'/Stroke/CssParameter[@name=\'stroke\']',document.getElementById('couleurchoix').value);"
-						             />
-              
-            <div class="color">largeur de bordure externe:</div>
-            <form class="colorpics" title="can define size">
-                  <select  onchange="javascript:config.objects.editSLD.upadteNode2(document.getElementById('idNameOfRule').value,'/Stroke/CssParameter[@name=\'stroke-width\']',document.getElementById('couleurchoix2').value)" style="width: 10px; font-size: 10px; line-height: 10px;" name="selecttype">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                  </select>
-              </form>
-            <div class="color" onclick="javascript:openColorWindow('couleurchoix2');">colleur de remplissage:</div><input class="colorpics"
-						            type="text"
-						            id="couleurchoix2"
-						            size="40"
-						            onfocus="javascript:config.objects.editSLD.upadteNode2(document.getElementById('idNameOfRule').value,'/Fill/CssParameter',document.getElementById('couleurchoix2').value);"
-						             />
-       
-       </div><!-- end of div color -->
-     <!--  <div id="modelderemplissage">
-            <div class="modelderemplissage">modele de remplissage : </div>
-               <button >continue</button>
-               <button >pointille serre</button>
-               <button >pontille changeant</button>
-               <button >large pontille</button>
-               <button >pointille ultra</button>
-          
-       </div> --><!-- end of div modelderemplissage -->
+      
       
        
 	</div>
@@ -157,19 +95,95 @@ $Name$
 	<!-- fin du sld editor --> 
       		
       		<div id="table">
-					<select id="idNameOfRule" name="nameOfRule" size="5" >
+					<div id="managementRule">Rule</div>
+					<select id="idNameOfRule" name="nameOfRule" size="5" OnKeypress="if( event.keyCode == 46 )javascript:{$tool}.deleteAllRules();javascript:config.paintWidget(config.objects.editor);" >
+					<option value="default"  >default</option>
         			<xsl:apply-templates select="NamedLayer/UserStyle/FeatureTypeStyle/Rule" />
         			</select>
+        			<input type="button" name="deleteALL" value="deleteAllRule"  onclick="javascript:{$tool}.deleteAllRules();javascript:config.paintWidget(config.objects.editor);"/> 
+       
 			</div>
-
+			
+			
+			
+			 <div id="color">
+            <div class="color" onclick="javascript:{$widget}.openColorWindow('couleurchoix');">color stoke:</div>
+            
+             
+              
+              <input class="colorpics"
+						            type="text"
+						            id="couleurchoix"
+						            size="40"																		
+						            
+						            onfocus="javascript:{$tool}.upadteNode2(document.getElementById('idNameOfRule').value,'/Stroke/CssParameter[@name=\'stroke\']',document.getElementById('couleurchoix').value);"
+						             />
+              
+            <div class="color">width stroke :</div>
+            <form class="colorpics" title="can define size">
+               <select  onchange="javascript:{$tool}.upadteNode2(document.getElementById('idNameOfRule').value,'/Stroke/CssParameter[@name=\'stroke-width\']',document.getElementById('selecttype').value)" style="width: 40px; font-size: 10px; line-height: 10px;" id="selecttype">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                  </select>
+              </form>
+            <div class="color" onclick="javascript:{$widget}.openColorWindow('couleurchoix2');">Fill color:</div><input class="colorpics"
+						            type="text"
+						            id="couleurchoix2"
+						            size="40"
+						            onfocus="javascript:{$tool}.upadteNode2(document.getElementById('idNameOfRule').value,'/Fill/CssParameter',document.getElementById('couleurchoix2').value);"
+						             />
+       
+       </div>
+			
+			
+			
+			
+			
+			
+			
+			<div id="insertSLD" >
      		<div id="buttons">
-	      		<input type="button" name="vivaSld" value="Insert SLD in WMC"  onclick="javascript:config.objects.editSLD.insertSldToWmc('{$layerName}');javascript:config.paintWidget(config.objects.contextLegend);alert('Don t forget to save WMC with save button in ButtonBar')"/> 
+	      		<input type="button" name="vivaSld" value="Insert SLD in WMC"  onclick="javascript:{$tool}.insertSldToWmc('{$layerName}');javascript:config.paintWidget(config.objects.contextLegend);alert('Don t forget to save WMC with save button in ButtonBar')"/> 
 	  			<input type="button" name="vivaSld2" value="Create SLD file"  onclick="javascript:config.objects.{$modelId}.saveModel(config.objects.{$modelId});"/> 
 	  			
-	  			
+	  			</div>
 	  			
  	  		</div>
+ 	  		
       		<br/>
+      		 <div id="uniqueSymbole" style="display:none">
+	   <div id="editFile" >
+            <div class="editFile" >enter file's name</div>
+				<input class="editFileInput" type="file" id="newEditInput" size="40" />
+			<div id="buttonsEdit">
+	      		<input type="button" name="buttonsEdit" value="load a file"  onclick="javascript:config.loadModel('mySLD',document.getElementById('newEditInput').value);javascript:config.paintWidget({$widget});"/> 
+	  		</div>
+       </div>
+       <div id="choixFeature" >
+          <div class="choixFeature">Type of feature:</div>
+          <form class="choixFeature" title="can define legende type">
+              <select id="choixFeatureSlect" onchange="" style="width: 100px; font-size: 10px; line-height: 10px;" name="selecttype">
+                    <option value="LineSymbolizer">Line</option>
+                    <option value="PolygonSymbolizer">polygon</option>
+                    <option value="PointSymbolizer">point</option>
+                    <option value="TextSymbolizer">text</option>
+              </select>
+          </form>
+       </div><!-- end of div type of choixFeature -->
+       <div id="newrule" >
+						<div class="newruleclass" >name of rule </div>
+								<input class="newruleclassInput" type="text"	id="newruleclassinput"  size="20" />
+						<div id="buttonsRule" class="newruleclass">
+							<input type="button" name="buttonrule" value="add rule"  onclick="javascript:{$tool}.createRule(document.getElementById('newruleclassinput').value,document.getElementById('choixFeatureSlect').value,'#CCFF66');javascript:config.paintWidget({$widget});"/> 
+					</div>
+					</div>
+			</div>
       		
     	</div>
     	
@@ -198,13 +212,7 @@ $Name$
 		  </xsl:if>
 		   
 		</xsl:variable>
-    	
-    	<option value="{$nameRule}" onclick="javascript:config.objects.editSLD.fillchamp('{$xlink}/{$feature}');" ><xsl:value-of select="Title"/> (<xsl:value-of select="$feature"/>)</option>
-    	
-    	
-    	 
-       
-       
+    	<option value="{$nameRule}" onclick="javascript:{$tool}.updateField('{$xlink}/{$feature}');" ><xsl:value-of select="Title"/> (<xsl:value-of select="$feature"/>)</option>
  	</xsl:template>
   
   	<!-- Return xpath reference to a node. Calls itself recursively -->

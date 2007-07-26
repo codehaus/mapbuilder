@@ -374,6 +374,9 @@ function OwsContext(modelNode, parent) {
     parentNode.appendChild(sldNode.cloneNode(true));
 
     objRef.modified = true;
+      var attribs=[];
+    attribs["sld_body"]=(new XMLSerializer()).serializeToString(objRef.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']/wmc:StyleList/wmc:Style/wmc:SLD/wmc:StyledLayerDescriptor"));
+	objRef.map.mbMapPane.refreshLayer(objRef.map.mbMapPane,layerName,attribs);
   }
   this.addFirstListener( "addSLD", this.addSLD, this );
 
