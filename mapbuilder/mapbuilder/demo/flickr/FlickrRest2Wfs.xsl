@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:wfs="http://www.opengis.net/wfs" xmlns:gml="http://www.opengis.net/gml" xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder"> 
+<xsl:stylesheet version="1.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:wfs="http://www.opengis.net/wfs"
+  xmlns:gml="http://www.opengis.net/gml"
+  xmlns:dc="http://purl.org/dc/elements/1.1/" 
+  xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder"> 
 <!--
 Description: A stylesheet to convert flickr rest service to standards-compliant wfs.
 Author:      Andreas Hocevar andreas.hocevarATgmail.com
@@ -49,8 +54,10 @@ $Id$
           </gml:Point>
         </mb:geom>
         <mb:title><xsl:value-of select="$photodoc/photo/title"/></mb:title>
-        <mb:description><xsl:value-of select="$photodoc/photo/description"/></mb:description>
+        <mb:description><xsl:copy-of select="$photodoc/photo/description"/></mb:description>
+        <dc:date><xsl:value-of select="$photodoc/photo/dates/@taken"/></dc:date>
         <mb:url>http://static.flickr.com/<xsl:value-of select="./@server"/>/<xsl:value-of select="./@id"/>_<xsl:value-of select="./@secret"/>_s.jpg</mb:url>
+        <mb:photopage><xsl:value-of select="$photodoc/photo/urls/url[@type='photopage']"/></mb:photopage>
       </mb:geoRssFeature>      
     </gml:featureMember>
   </xsl:if>

@@ -11,19 +11,16 @@ $Name:  $
 
 <xsl:stylesheet version="1.0" 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
-  xmlns:rss="http://purl.org/rss/1.0/" 
-  xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" 
+  xmlns:gml="http://www.opengis.net/gml"
+  xmlns:wfs="http://www.opengis.net/wfs"
   xmlns:dc="http://purl.org/dc/elements/1.1/" 
-  xmlns:syn="http://purl.org/rss/1.0/modules/syndication/" 
-  xmlns:georss="http://www.georss.org/georss" 
-  xmlns:gml='http://www.opengis.net/gml/3.1.1' >
+  xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder" >
   
   <!-- xsl:output method="html" omit-xml-declaration="no" encoding="utf-8" indent="yes"/ -->
   <xsl:output method="xml" indent="yes" />
   <xsl:param name="fid"/>
   
-  <xsl:template match="rdf:RDF">
+  <xsl:template match="/">
     <div class="PopupContainer">
       <div class="PopupHeader">Info</div>
       <div class="PopupContent">
@@ -32,16 +29,15 @@ $Name:  $
     </div>
   </xsl:template>
   
-  <xsl:template match="rss:item">
-    <xsl:if test="@id=$fid">
+  <xsl:template match="wfs:FeatureCollection/gml:featureMember/*">
+    <xsl:if test="@fid=$fid">
       <table cellspacing="0" border="0">
-    	<tr><td><b>title:</b><xsl:value-of select="rss:title"/></td></tr>
-    	<tr><td><b>description:</b><xsl:copy-of select="rss:description"/></td></tr>
-    	<tr><td><b>date:</b><xsl:value-of select="dc:date"/></td></tr>
-      <tr><td><b>pos:</b><xsl:value-of select="georss:where/gml:Point/gml:pos"/></td></tr>
-      <tr><td><b>link:</b><xsl:element name="a">
-       <xsl:attribute name="target">_blank</xsl:attribute>
-       <xsl:attribute name="href"><xsl:value-of select="rss:link"/></xsl:attribute>click here for more information!
+    	<tr><td><b>title:</b> <xsl:value-of select="mb:title"/></td></tr>
+    	<tr><td><b>description:</b> <xsl:copy-of select="mb:description"/></td></tr>
+    	<tr><td><b>date:</b> <xsl:value-of select="dc:date"/></td></tr>
+      <tr><td><b>pos:</b> <xsl:value-of select="mb:geom/gml:Point/gml:coordinates"/></td></tr>
+      <tr><td align="center"><xsl:element name="img">
+        <xsl:attribute name="src"><xsl:value-of select="mb:url"/></xsl:attribute>
       </xsl:element></td></tr>
       </table>
     </xsl:if>
