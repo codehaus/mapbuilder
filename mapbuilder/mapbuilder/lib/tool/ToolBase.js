@@ -17,7 +17,7 @@ function ToolBase(toolNode, model) {
   //set the ID for this tool
   var id = toolNode.selectSingleNode("@id");
   if (id) {
-    this.id = getNodeValue(nodeValue);
+    this.id = id.firstChild.nodeValue;
   } else {
     this.id = "MbTool_" + mbIds.getId();
   }
