@@ -22,9 +22,6 @@
 			</widgets>
 			<tools>
 				<AoiMouseHandler id="mainAoi"/>
-				<DragPanHandler id="mainDragPan">
-					<enabled>false</enabled>
-				</DragPanHandler>
 				<MovieLoop id="movieLoop">
 					<framesPerSecond>4</framesPerSecond>
 					<maxFrames>15</maxFrames>
