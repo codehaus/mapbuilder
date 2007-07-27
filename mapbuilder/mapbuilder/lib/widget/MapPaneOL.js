@@ -379,6 +379,9 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
     var href=layer.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?href.firstChild.nodeValue:"";
   }
   else {
+     if(_SARISSA_IS_OPERA)
+    var href=layer.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttributeNS ("http://www.w3.org/1999/xlink","href");// for opera
+    else
     var href=layer.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
   }
 
