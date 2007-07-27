@@ -717,3 +717,14 @@ function sld2OlStyle(node) {
   if(!styleSet)style1=null;
   return style1;
 }
+/**
+ * getNodevalue return value of node
+ * it as OpenLayers style
+ * @param node 
+ * @return return node's value
+ */
+function getNodeValue(sResult){
+	if(sResult.nodeType == 1) return sResult.firstChild ? sResult.firstChild.nodeValue : "";
+	if(sResult.nodeType > 1 || sResult.nodeType < 5) return sResult.nodeValue;
+	return sResult;
+}
