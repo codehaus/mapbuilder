@@ -60,6 +60,7 @@ function XslProcessor(xslUrl,docNSUri) {
       // transform and build a web page with result
       var newDoc = this.transformNodeToObject(xmlNode);
       var s = (new XMLSerializer()).serializeToString(newDoc);
+      s =  s.replace(/.*\?\>/,"");//hack for opera to delete <?xml ... ?>
       return Sarissa.unescape(s);
     } catch(e){
       alert(mbGetMessage("exceptionTransformingDoc", this.xslUrl));
