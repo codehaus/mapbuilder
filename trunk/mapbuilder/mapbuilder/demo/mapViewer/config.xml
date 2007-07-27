@@ -99,14 +99,7 @@
 			<enabledSrc>/images/PanEnable.png</enabledSrc>
 			<disabledSrc>/images/PanDisable.png</disabledSrc>
 		</DragPan>
-    <GetFeatureInfo id="getFeatureInfo">
-      <scriptFile>GetFeatureInfo.js</scriptFile>
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
-      <class>RadioButton</class>
-      <enabledSrc>/images/QueryEnable.png</enabledSrc>
-      <disabledSrc>/images/QueryDisable.png</disabledSrc>
-    </GetFeatureInfo>
+   
 		<Reset id="reset">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
