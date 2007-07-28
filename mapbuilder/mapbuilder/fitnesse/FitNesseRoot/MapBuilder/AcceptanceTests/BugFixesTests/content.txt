@@ -1,3 +1,0 @@
-^BugReport1364550
-^BugReport1387043 and 1386852 map doesn't move while panning errors because of missing 'px' in Mappane.xsl 
-^BugReport1386497 Handle space in layer names

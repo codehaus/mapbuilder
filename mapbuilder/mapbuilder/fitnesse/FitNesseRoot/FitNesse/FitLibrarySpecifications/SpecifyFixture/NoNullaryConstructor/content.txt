@@ -1,6 +1,0 @@
-|!-fitlibrary.spec.SpecifyFixture-!|
-|!-<table border>
-<tr><td>fitlibrary.specify.FixtureWithNoNullaryConstructor</td></tr>
-</table>-!|!-<table border>
-<tr><td class="error">fitlibrary.specify.FixtureWithNoNullaryConstructor<hr/> <span class="fit_label">Class fitlibrary.specify.FixtureWithNoNullaryConstructor has no default constructor.</span></td></tr>
-</table>-!|

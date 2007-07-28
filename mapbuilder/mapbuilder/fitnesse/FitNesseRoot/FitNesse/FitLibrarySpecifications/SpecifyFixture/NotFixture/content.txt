@@ -1,6 +1,0 @@
-|!-fitlibrary.spec.SpecifyFixture-!|
-|!-<table border>
-<tr><td>NotFixture</td></tr>
-</table>-!|!-<table border>
-<tr><td class="error">NotFixture<hr/> <span class="fit_label">Could not find fixture: NotFixture.</span></td></tr>
-</table>-!|
