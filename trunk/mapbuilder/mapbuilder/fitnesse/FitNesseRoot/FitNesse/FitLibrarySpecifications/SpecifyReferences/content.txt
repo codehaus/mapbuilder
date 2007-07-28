@@ -1,4 +1,0 @@
-!3 Entity References like ''the first client'' are used in Fit table cells to refer to particular entities
-If a class doesn't have a parse mechanism (other than classes Object and String), it's treated as an Entity class (in the ''!-DomainDrivenDesign-!'' sense) and the cell text is treated as a reference to an Entity of that class.
-
-|!contents|
