@@ -7,17 +7,17 @@
 			<defaultModelUrl>DemisWorldMap.xml</defaultModelUrl>
 			<widgets>
 				<MapPaneOL id="mainMapWidget">
-					<htmlTagId>mainMapPane</htmlTagId>
-			<fixedSize>true</fixedSize>
+				  <htmlTagId>mainMapPane</htmlTagId>
+			      <fixedSize>true</fixedSize>
 				</MapPaneOL>
-				<Loading id="loading"/>
+				<!--Loading id="loading"/-->
 				<CursorTrack id="cursorTrack">
-					 <showPx>true</showPx>
-           <showLatLong>true</showLatLong>
-					 <showMGRS>false</showMGRS>
+				  <showPx>true</showPx>
+                  <showLatLong>true</showLatLong>
+				  <showMGRS>false</showMGRS>
 				</CursorTrack>
 				<AoiForm id="aoiForm">
-					<stylesheet>AoiForm.xsl</stylesheet>
+				  <stylesheet>AoiForm.xsl</stylesheet>
 				</AoiForm>
         <Legend id="contextLegend">
           <htmlTagId>legend</htmlTagId>
