@@ -279,7 +279,7 @@
 			<xs:element name="LayerControl" type="mb:LayerControlType"/>
 			<xs:element name="Legend" type="mb:LegendType"/>
 			<xs:element name="LegendGraphic" type="mb:LegendGraphicType"/>
-			<xs:element name="Loading" type="mb:WidgetType"/>
+			<xs:element name="Loading2" type="mb:Loading2Type"/>
 			<xs:element name="Locations" type="mb:LocationsType"/>
 			<xs:element name="MapPaneOL" type="mb:MapPaneOLType"/>
 			<xs:element name="MapScaleBar" type="mb:MapScaleBarType"/>
