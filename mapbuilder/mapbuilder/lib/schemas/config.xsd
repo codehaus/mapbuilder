@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Stefan Kollarits (PRISMA solutions) -->
-<xs:schema targetNamespace="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder" elementFormDefault="qualified" version="0.2.1">
+<xs:schema targetNamespace="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="0.2.1">
 	<xs:annotation>
 		<xs:appinfo>$Id$</xs:appinfo>
 		<xs:documentation xml:lang="en">
@@ -232,7 +232,6 @@
 			<xs:element name="FeatureCollection" type="mb:FeatureCollectionType"/>
 			<xs:element name="FeatureTypeSchema" type="mb:FeatureTypeSchemaType"/>
 			<xs:element name="GeoRSS" type="mb:GeoRSSType"/>
-			<xs:element name="GetMap" type="mb:GetMapType"/>
 			<xs:element name="Logger" type="mb:LoggerType"/>
 			<xs:element name="MergeModel" type="mb:MergeModelType"/>
 			<xs:element name="Model" type="mb:ModelType">
@@ -253,9 +252,7 @@
 	<xs:complexType name="widgetsType">
 		<xs:choice maxOccurs="unbounded">
 			<xs:element name="Abstract" type="mb:WidgetType"/>
-			<xs:element name="AoiBox2" type="mb:AoiBox2Type"/>
 			<xs:element name="AoiBoxDHTML" type="mb:AoiBoxDHTMLType"/>
-			<xs:element name="AoiBoxWZ" type="mb:AoiBoxWZType"/>
 			<xs:element name="AoiForm" type="mb:AoiFormType"/>
 			<xs:element name="Back" type="mb:ButtonType"/>
 			<xs:element name="Button" type="mb:ButtonType">
@@ -264,7 +261,6 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="CatSearchForm" type="mb:WidgetType"/>
-			<xs:element name="ClickPass" type="mb:ClickPassType"/>
 			<xs:element name="CollectionList" type="mb:CollectionListType"/>
 			<xs:element name="CursorTrack" type="mb:CursorTrackType"/>
 			<xs:element name="DeleteFeature" type="mb:DeleteFeatureType"/>
@@ -275,40 +271,23 @@
 			<xs:element name="EventLog" type="mb:WidgetType"/>
 			<xs:element name="FeatureInfo" type="mb:WidgetType"/>
 			<xs:element name="FeatureList" type="mb:WidgetType"/>
-			<xs:element name="FeatureListSF" type="mb:WidgetType"/>
 			<xs:element name="FilterAttributes" type="mb:WidgetType"/>
 			<xs:element name="Forward" type="mb:ButtonType"/>
-			<xs:element name="GeoRssParser" type="mb:GeoRssParserType"/>
-			<xs:element name="GeoRssRenderer" type="mb:GeoRssRendererType"/>
 			<xs:element name="GetFeatureInfo" type="mb:GetFeatureInfoType"/>
-			<xs:element name="GetMarkerInfo" type="mb:ButtonType"/>
-			<xs:element name="GmlPointRenderer" type="mb:GmlPointRendererType"/>
-			<xs:element name="GmlRenderer" type="mb:GmlRendererType"/>
-			<xs:element name="GmlRendererSVG" type="mb:GmlRendererSVGType"/>
-			<xs:element name="GmlRendererTest" type="mb:GmlRendererTestType"/>
-			<xs:element name="GmlRendererVG" type="mb:GmlRendererVGType"/>
-			<xs:element name="GmlRendererWKT" type="mb:GmlRendererWKTType"/>
-			<xs:element name="GmlRendererWZ" type="mb:GmlRendererWZType"/>
 			<xs:element name="GmlRendererOL" type="mb:GmlRendererOLType"/>
 			<xs:element name="Graticule" type="mb:GraticuleType"/>
 			<xs:element name="InsertFeature" type="mb:InsertFeatureType"/>
 			<xs:element name="LayerControl" type="mb:LayerControlType"/>
-			<xs:element name="LayerProperty" type="mb:WidgetType"/>
 			<xs:element name="Legend" type="mb:LegendType"/>
 			<xs:element name="LegendGraphic" type="mb:LegendGraphicType"/>
 			<xs:element name="Loading" type="mb:WidgetType"/>
-			<xs:element name="Loading2" type="mb:Loading2Type"/>
 			<xs:element name="Locations" type="mb:LocationsType"/>
-			<xs:element name="MapImage" type="mb:MapImageType"/>
-			<xs:element name="MapPane" type="mb:MapPaneType"/>
-			<xs:element name="MapPane2" type="mb:MapPane2Type"/>
 			<xs:element name="MapPaneOL" type="mb:MapPaneOLType"/>
 			<xs:element name="MapScaleBar" type="mb:MapScaleBarType"/>
 			<xs:element name="MapScaleText" type="mb:MapScaleTextType"/>
 			<xs:element name="MapTitle" type="mb:WidgetType"/>
 			<xs:element name="Measurement" type="mb:EditButtonType"/>
 			<xs:element name="ModelStatus" type="mb:ModelStatusType"/>
-			<xs:element name="ModelSwitcher" type="mb:WidgetType"/>
 			<xs:element name="ModelUrlInput" type="mb:ModelUrlInputType"/>
 			<xs:element name="OpenLSForm" type="mb:OpenLSFormType"/>
 			<xs:element name="OpenLSResponse" type="mb:OpenLSResponseType"/>
@@ -326,11 +305,9 @@
 			<xs:element name="SLDEditor" type="mb:WidgetType"/>
 			<xs:element name="ShowDistance" type="mb:WidgetType"/>
 			<xs:element name="TabbedContent" type="mb:TabbedContentType"/>
-			<xs:element name="TimeSeries" type="mb:TimeSeriesType"/>
 			<xs:element name="Timestamp" type="mb:TimestampType"/>
-			<xs:element name="TipWidget" type="mb:TipWidgetType"/>
 			<xs:element name="TipWidgetOL" type="mb:TipWidgetBaseType"/>
-      <xs:element name="TipWidgetConfig" type="mb:TipWidgetConfigType"/>
+			<xs:element name="TipWidgetConfig" type="mb:TipWidgetConfigType"/>
 			<xs:element name="TransactionResponse" type="mb:WidgetType"/>
 			<xs:element name="Version" type="mb:WidgetType"/>
 			<xs:element name="WebServiceForm" type="mb:WebServiceFormType"/>
@@ -340,7 +317,6 @@
 					<xs:documentation>A generic widget</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="WmsCapabilitiesImport" type="mb:WmsCapabilitiesImportType"/>
 			<xs:element name="ZoomIn" type="mb:ButtonType"/>
 			<xs:element name="ZoomOut" type="mb:ButtonType"/>
 		</xs:choice>
@@ -348,14 +324,11 @@
 	<xs:complexType name="toolsType">
 		<xs:choice maxOccurs="unbounded">
 			<xs:element name="AoiMouseHandler" type="mb:AoiMouseHandlerType"/>
-			<xs:element name="AutoResize" type="mb:AutoResizeType"/>
 			<xs:element name="Caps2Context" type="mb:Caps2ContextType"/>
-			<xs:element name="DragPanHandler" type="mb:DragPanHandlerType"/>
 			<xs:element name="EditContext" type="mb:EditContextType"/>
 			<xs:element name="EditSLD" type="mb:EditSLDType"/>
 			<xs:element name="FeatureSelectHandler" type="mb:FeatureSelectHandlerType"/>
 			<xs:element name="History" type="mb:HistoryType"/>
-			<xs:element name="MouseClickHandler" type="mb:MouseClickHandlerType"/>
 			<xs:element name="MovieLoop" type="mb:MovieLoopType"/>
 			<xs:element name="Timer" type="mb:TimerType"/>
 			<xs:element name="WebServiceRequest" type="mb:WebServiceRequestType"/>
@@ -431,33 +404,33 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="mb:AbstractModelType">
-        <xs:sequence>
-          <xs:element name="merges">
-            <xs:annotation>
-              <xs:documentation>a list of models that are to be merged into this model</xs:documentation>
-            </xs:annotation>
-            <xs:complexType>
-              <xs:sequence>
-                <xs:element name="merge" maxOccurs="unbounded">
-                  <xs:annotation>
-                    <xs:documentation>id of a model to merge with this model</xs:documentation>
-                  </xs:annotation>
-                </xs:element>
-              </xs:sequence>
-            </xs:complexType>
-          </xs:element>
-        <xs:element name="idXPath">
-          <xs:annotation>
-            <xs:documentation>XPath statement that points to the nodes that hold an id (eg. feature id) for unique nodes. Default is "/*/*". This is needed to link back to the source models.</xs:documentation>
-          </xs:annotation>
-        </xs:element>
-        <xs:element name="idAttribute">
-          <xs:annotation>
-            <xs:documentation>Name of the attribute that holds the unique id (eg. fid). Default is "id". This is needed to link back to the source models.</xs:documentation>
-          </xs:annotation>
-        </xs:element>
-        </xs:sequence>
-      </xs:extension>
+				<xs:sequence>
+					<xs:element name="merges">
+						<xs:annotation>
+							<xs:documentation>a list of models that are to be merged into this model</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="merge" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>id of a model to merge with this model</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="idXPath">
+						<xs:annotation>
+							<xs:documentation>XPath statement that points to the nodes that hold an id (eg. feature id) for unique nodes. Default is "/*/*". This is needed to link back to the source models.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="idAttribute">
+						<xs:annotation>
+							<xs:documentation>Name of the attribute that holds the unique id (eg. fid). Default is "id". This is needed to link back to the source models.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="ModelType">
@@ -482,14 +455,14 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="mb:AbstractModelType">
-        <xs:sequence>
-          <xs:element name="sldXPath" type="xs:string" minOccurs="0">
-            <xs:annotation>
-              <xs:documentation>XPath pointing to the sld root node within the model. This is useful for extracting sld information from eg. wmc context documents</xs:documentation>
-            </xs:annotation>
-          </xs:element>
-        </xs:sequence>
-      </xs:extension>
+				<xs:sequence>
+					<xs:element name="sldXPath" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>XPath pointing to the sld root node within the model. This is useful for extracting sld information from eg. wmc context documents</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="TransactionType">
@@ -834,18 +807,18 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-  <xs:complexType name="GmlRendererConfigType">
-    <xs:annotation>
-      <xs:documentation>Configuration widget for a GmlRendererOL in a MergeModel. Because only one GmlRendererLayer can handle events, multiple vector layers that require user interaction (like hover/click) effects are merged into a MergeModel. GmlRendererConfig makes it possible to use different configurations (eg. sld styling) for sourceModels.</xs:documentation>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="mb:GmlRendererBaseType">
-        <xs:sequence>
-          <xs:element name="targetWidget" type="xs:string"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
+	<xs:complexType name="GmlRendererConfigType">
+		<xs:annotation>
+			<xs:documentation>Configuration widget for a GmlRendererOL in a MergeModel. Because only one GmlRendererLayer can handle events, multiple vector layers that require user interaction (like hover/click) effects are merged into a MergeModel. GmlRendererConfig makes it possible to use different configurations (eg. sld styling) for sourceModels.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="mb:GmlRendererBaseType">
+				<xs:sequence>
+					<xs:element name="targetWidget" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	<xs:complexType name="GmlRendererOLType">
 		<xs:annotation>
 			<xs:documentation>A widget to render GML document using OpenLayers vector rendering</xs:documentation>
@@ -1052,7 +1025,7 @@
 							<xs:documentation>Should layers also be rendered outside the map extent? Default is false.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="imageReproject" type="xs:boolean" maxOccurs="1" minOccurs="0">
+					<xs:element name="imageReproject" type="xs:boolean" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Should layers be reprojected? Mainly used in combination with google map layers. Default is false.</xs:documentation>
 						</xs:annotation>
@@ -1255,23 +1228,23 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-  <xs:complexType name="TipWidgetConfigType">
-    <xs:annotation>
-      <xs:documentation>Configuration widget for a TipWidgetOL in a MergeModel. Because only one GmlRendererLayer can handle events, multiple vector layers that require user interaction (like hover/click) effects are merged into a MergeModel. TipWidgetConfig makes it possible to use different configurations (eg width, height, content) for sourceModels.</xs:documentation>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="mb:TipWidgetBaseType">
-        <xs:sequence>
-          <xs:element name="targetWidget" type="xs:string"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="TipWidgetOLType">
-    <xs:annotation>
-      <xs:documentation>Popup using OpenLayers popups.</xs:documentation>
-    </xs:annotation>
-  </xs:complexType>
+	<xs:complexType name="TipWidgetConfigType">
+		<xs:annotation>
+			<xs:documentation>Configuration widget for a TipWidgetOL in a MergeModel. Because only one GmlRendererLayer can handle events, multiple vector layers that require user interaction (like hover/click) effects are merged into a MergeModel. TipWidgetConfig makes it possible to use different configurations (eg width, height, content) for sourceModels.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="mb:TipWidgetBaseType">
+				<xs:sequence>
+					<xs:element name="targetWidget" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TipWidgetOLType">
+		<xs:annotation>
+			<xs:documentation>Popup using OpenLayers popups.</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
 	<xs:complexType name="TipWidgetBaseType">
 		<xs:complexContent>
 			<xs:extension base="mb:AbstractMapWidgetType">
