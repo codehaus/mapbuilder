@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Stefan Kollarits (PRISMA solutions) -->
 <xs:schema targetNamespace="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="0.2.1">
 	<xs:annotation>
 		<xs:appinfo>$Id$</xs:appinfo>
