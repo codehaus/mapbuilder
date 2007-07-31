@@ -1,16 +1,16 @@
 /*
-Author:       Matthew D. Diez
+Author:       Cameron Shorter cameronAtshorter.net
 License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: TimeSeriesOL.js 2766 2007-04-27 14:12:18Z gjvoosten $
+$Id: TimeSeriesOL.js 2971 2007-07-12 09:19:39Z steven $
 */
 
-// Ensure this object's dependencies are loaded.
+// Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 mapbuilder.loadScript(baseDir+"/tool/Extent.js");
 /**
- * Widget to render a map w/ TimeSeries from an OGC context document.  The layers are
+ * Widget to render a map from an OGC context document.  The layers are
  * rendered using http://openlayers.org .
  * @constructor
  * @base MapContainerBase
@@ -22,14 +22,9 @@ function TimeSeriesOL(widgetNode, model) {
 
   OpenLayers.ImgPath = config.skinDir + '/images/openlayers/';
 
-  //Make sure the containerNodeId is set
-  //TBD: rename this to....??
-  var mapContainerNode = widgetNode.selectSingleNode("mb:mapContainerId");
-  if (mapContainerNode) {
-    this.containerNodeId = mapContainerNode.firstChild.nodeValue;
-  } else {
-    alert(mbGetMessage("noMapContainerId", this.id));
-  }
+  // replacement for deprecated MapContainerBase
+  this.containerNodeId = this.htmlTagId;
+  model.containerModel = this.model;
 
   //set the output DIV
   this.node = document.getElementById(this.containerNodeId);
@@ -38,6 +33,55 @@ function TimeSeriesOL(widgetNode, model) {
   if(!this.model.extent){
     this.model.extent = new Extent (this.model);
     this.model.addFirstListener( "loadModel", this.model.extent.firstInit, this.model.extent );
+  }
+
+  var tileGutter = widgetNode.selectSingleNode("mb:tileGutter");
+  /**
+   * For tiled wms layers: Overlap of map tiles in pixels. Useful for
+   * preventing rendering artefacts at tile edges. Recommended values:
+   * 0-15, default is 0 (no gutter at all).
+   */
+  this.tileGutter = tileGutter ? tileGutter.firstChild.nodeValue : 0;
+  
+  var tileBuffer = widgetNode.selectSingleNode("mb:tileBuffer");
+  /**
+   * For tiled wms layers: how many rows of tiles should be preloaded
+   * outside the visible map? Large values mean slow loading, small
+   * ones mean longer delays when panning. Recommended values: 1-3,
+   * default is 2.
+   */
+  this.tileBuffer = tileBuffer ? tileBuffer.firstChild.nodeValue : 2;
+  
+  var tileSize = widgetNode.selectSingleNode("mb:tileSize");
+  /**
+   * For tiled wms layers: how many pixels should the size of one tile
+   * be? Default is 256.
+   */
+  this.tileSize = tileSize ? tileSize.firstChild.nodeValue : 256;
+
+  var imageReproject = widgetNode.selectSingleNode("mb:imageReproject");
+  /**
+   * For WMS on top of Google Maps you need to reproject the WMS image. This will stretch
+   * the WMS images to fit the odd sized google tiles. Default is false
+   */
+  this.imageReproject = imageReproject ? imageReproject.firstChild.nodeValue : false;
+  
+  var imageBuffer = widgetNode.selectSingleNode("mb:imageBuffer");
+  /**
+   * for untiled wms layers: how many times should the map image be
+   * larger than the visible map. Large values mean slow loading, small
+   * ones mean many reloads when panning. Recommended values: 1-3,
+   * default is 2.
+   */
+  this.imageBuffer = imageBuffer ? imageBuffer.firstChild.nodeValue : 2;
+  
+  var displayOutsideMaxExtent = widgetNode.selectSingleNode("mb:displayOutsideMaxExtent");
+  /**
+   * Should layers also be rendered outside the map extent? Default is false.
+   */
+  this.displayOutsideMaxExtent = displayOutsideMaxExtent ? displayOutsideMaxExtent.firstChild.nodeValue : 'false';
+  if (this.displayOutsideMaxExtent.toUpperCase == 'FALSE') {
+    this.displayOutsideMaxExtent = false;
   }
 
   /**
@@ -109,7 +153,6 @@ TimeSeriesOL.prototype.paint = function(objRef, refresh) {
     // calculate it from the BBox  in the Context.
     if(!maxExtent){
       maxExtent=objRef.model.getBoundingBox();
-      width=objRef.model.getWindowWidth();
     }
     maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
     if(maxExtent==null)alert(mbGetMessage("noBboxInContext"));
@@ -119,11 +162,22 @@ TimeSeriesOL.prototype.paint = function(objRef, refresh) {
     maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");
     maxResolution=(maxResolution)?maxResolution.firstChild.nodeValue:"auto";
 
+    //units
+    var units = proj.units == 'meters' ? 'm' : proj.units;
+    
     //resolutions
-    var resolutions=null;
-    resolutions=objRef.widgetNode.selectSingleNode("mb:resolutions");
+    var resolutions=objRef.widgetNode.selectSingleNode("mb:resolutions");
+    resolutions = resolutions ? resolutions.firstChild.nodeValue.split(",") : null;
+    //fixed scales - overrides resolutions
+    var scales = objRef.widgetNode.selectSingleNode("mb:scales");
+    if(scales){
+      scales = scales.firstChild.nodeValue.split(",");
+      resolutions = new Array();
+      for (var s in scales) {
+        resolutions.push(OpenLayers.Util.getResolutionFromScale(scales[s], units));
+      }
+    }
     if(resolutions){
-      resolutions = resolutions.firstChild.nodeValue.split(",");
       objRef.model.extent.setZoomLevels(true,resolutions);
     }
     else objRef.model.extent.setZoomLevels(false);
@@ -136,12 +190,12 @@ TimeSeriesOL.prototype.paint = function(objRef, refresh) {
       objRef.node.style.width = objRef.model.getWindowWidth()+"px";
       objRef.node.style.height = objRef.model.getWindowHeight()+"px";
     }
-
+    
     //default map options
     var mapOptions = {
           controls:[],
           projection: proj.srs,
-          units: proj.units,
+          units: units,
           maxExtent: maxExtent,
           maxResolution: maxResolution,
           resolutions: resolutions,
@@ -162,53 +216,70 @@ TimeSeriesOL.prototype.paint = function(objRef, refresh) {
     }
     var bbox=objRef.model.getBoundingBox();
 
+    // set objRef as attribute of the OL map, so we have a reference
+    // to TimeSeriesOL available when handling OpenLayers events.
+    objRef.model.map.mbMapPane = objRef;
+  
+    // register OpenLayers event to keep the context updated
+    objRef.model.map.events.register('moveend', objRef.model.map, objRef.updateContext);
+    // register OpenLayers event to do updates onmouseup
+    objRef.model.map.events.register('mouseup', objRef.model.map, objRef.updateMouse);
+    
     objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
-    //objRef.model.map.zoomToMaxExtent();
-    var bboxOL=objRef.model.map.getExtent().toBBOX().split(',');
 
-    ////////////////Initialize the History Extent Tab///////////////////
-    objRef.model.historyExtent=new Array();
-    objRef.model.historyExtent[0]=objRef.model.map.getExtent();
-    objRef.model.nbExtent=1;
-    ////////////////Initialize the HistoryTab///////////////////
+   
 
-    var ul = new Array(bboxOL[0],bboxOL[3]);
-    var lr = new Array(bboxOL[2],bboxOL[1]);
-    objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
-    objRef.model.extent.setSize(new Array(objRef.model.map.getResolution(),objRef.model.map.getResolution()));
-    objRef.model.setParam("aoi", new Array(ul, lr) );
-    objRef.model.callListeners("mapLoaded");
-    // event to keep MB context updated
   }
-
-
-  // set objRef as attribute of the OL map, so we have a reference
-  // to TimeSeriesOL available when handling OpenLayers events.
-  objRef.model.map.mbMapPane = objRef;
-
-  // register OpenLayers event to keep the context updated
-  objRef.model.map.events.register('moveend', objRef.model.map, objRef.updateContext);
+  
 }
 
 /**
- * Event handler to keep the Mapbuilder context updated.
+ * Event handler to keep the Mapbuilder context updated. It also
+ * sets the map cursor to the previously stored value.
  * This is called by OpenLayers.
  * @param e OpenLayers event
  */
 TimeSeriesOL.prototype.updateContext = function(e) {
-  // get objRef from the event originater object (e.object),
+  // get objRef from the event originator object (e.object),
   // where it was stored as mbPane property by paint().
   var objRef = e.object.mbMapPane;
+
   var bboxOL = objRef.model.map.getExtent().toBBOX().split(',');
   var ul = new Array(bboxOL[0],bboxOL[3]);
   var lr = new Array(bboxOL[2],bboxOL[1]);
-  if (objRef.model.getParam('aoi').toString() != new Array(ul, lr).toString()) {
+
+  if(objRef.model.getWindowWidth()!=e.element.offsetWidth)
+  	objRef.model.setWindowWidth(e.element.offsetWidth);
+  if(objRef.model.getWindowHeight()!=e.element.offsetHeight)
+  	objRef.model.setWindowHeight(e.element.offsetHeight);	
+
+  var currentAoi = objRef.model.getParam('aoi');
+  var newAoi = new Array(ul, lr);
+  if (!currentAoi || currentAoi.toString != newAoi.toString()) {
     objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
-    objRef.model.extent.setSize(new Array(objRef.model.map.getResolution(),objRef.model.map.getResolution()));
-    objRef.model.setParam("aoi", new Array(ul, lr));
-    objRef.model.historyExtent[objRef.model.nbExtent]=objRef.model.map.getExtent();
-    objRef.model.nbExtent++;
+    objRef.model.extent.setSize(objRef.model.map.getResolution());
+    objRef.model.setParam("aoi", newAoi);
   }
+}
+
+/**
+ * Restore the map cursor stored by buttons. This has to be done
+ * in an OpenLayers mouseup event, because the mouseup event
+ * in OpenLayers resets the cursor to default.
+ * @param e OpenLayers event
+ */
+TimeSeriesOL.prototype.updateMouse = function(e) {
+  // get objRef from the event originator object (e.object),
+  // where it was stored as mbPane property by paint().
+  var objRef = e.object.mbMapPane;
+
+  // update map pane cursor
+  if (objRef.model.map.mbCursor) {
+    objRef.model.map.div.style.cursor = objRef.model.map.mbCursor;
+  }
+  
+  // fire Mapbuilder mouseup event
+  objRef.model.callListeners('mouseup', {evpl: [e.xy.x, e.xy.y]});
 }
 
 /**
@@ -290,6 +361,7 @@ TimeSeriesOL.prototype.addLayer = function(objRef, layerNode) {
   // maxExtent and maxResolution to calculate the zoomLevels.
   var layer = layerNode;
 
+  
   // Test service of the layer
   var service=layer.selectSingleNode("wmc:Server/@service");service=(service)?service.nodeValue:"";
 
@@ -335,6 +407,9 @@ TimeSeriesOL.prototype.addLayer = function(objRef, layerNode) {
   // Get current style node of the layer
   var currentStyle = layer.selectSingleNode('wmc:StyleList/wmc:Style[@current=1]');
 
+  // To cache image divs for animation  
+  var animatedImageDivs;
+  
   //default option value for a layer
   var layerOptions = {
           visibility: vis,
@@ -345,11 +420,11 @@ TimeSeriesOL.prototype.addLayer = function(objRef, layerNode) {
           maxResolution: objRef.model.map.maxResolution,  //"auto" if not defined in the context
           alpha: false,            //option for png transparency with ie6
           isBaseLayer: false,
-          displayOutsideMaxExtent: false
+          displayOutsideMaxExtent: objRef.displayOutsideMaxExtent
      };
 
   switch(service){
-    // WMS Layer
+    // WMS Layer (Untiled)
     case "OGC":
     case "WMS":
     case "wms":
@@ -359,13 +434,16 @@ TimeSeriesOL.prototype.addLayer = function(objRef, layerNode) {
       }
       else {
         //TBD what if we have layers with different projections in the context?
-        layerOptions.reproject=false;
+        layerOptions.reproject=objRef.imageReproject;
         layerOptions.isBaseLayer=false;
       }
-      var params = new Array();
-      params=sld2UrlParam(currentStyle);
       
-      if (objRef.model.timestampList && objRef.model.timestampList.getAttribute("layerName") == name2) { 
+      layerOptions.ratio = objRef.imageBuffer;
+
+      var params = new Array();
+      params = sld2UrlParam(currentStyle);
+      
+            if (objRef.model.timestampList && objRef.model.timestampList.getAttribute("layerName") == name2) { 
 	
 			var layerId;
 
@@ -391,31 +469,64 @@ TimeSeriesOL.prototype.addLayer = function(objRef, layerNode) {
 		        },
 		        layerOptions
 		      );
+		      
+		  var numNodes = objRef.model.timestampList.childNodes.length;
+		  this.animatedImageDivs  = new Array(numNodes);
 	}
 	else {
-	      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
-	          layers: name2,
-	          // "TRUE" in upper case else the context doc boston.xml
-	          // (i.c. the IONIC WMS/WFS) doesn't work.
-	          // Note that this is in line with the WMS standard (OGC 01-068r2),
-	          // section 6.4.1 Parameter Ordering and Case:
-	          // "Parameter names shall not be case sensitive,
-	          //  but parameter values shall be case sensitive."
-	          transparent:"TRUE",
-	          format: format,
-	          sld:params.sld,
-	          sld_body:params.sld_body,
-	          styles:params.styles
-	        },
-	        layerOptions
+	      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS.Untiled(title,href,{
+		  layers: name2,
+		  // "TRUE" in upper case else the context doc boston.xml
+		  // (i.c. the IONIC WMS/WFS) doesn't work.
+		  // Note that this is in line with the WMS standard (OGC 01-068r2),
+		  // section 6.4.1 Parameter Ordering and Case:
+		  // "Parameter names shall not be case sensitive,
+		  //  but parameter values shall be case sensitive."
+		  transparent:"TRUE",
+		  format: format,
+		  sld:params.sld,
+		  sld_body:params.sld_body,
+		  styles:params.styles
+		},
+		layerOptions
 	      );
 	}
+    break;
+
+    // WMS-C Layer (Tiled)
+    case "WMS-C":
+    case "OGC:WMS-C":
+      if(!objRef.model.map.baseLayer){
+        layerOptions.isBaseLayer=true;
+      }
+      else {
+        //TBD what if we have layers with different projections in the context?
+        layerOptions.reproject=objRef.imageReproject;
+        layerOptions.isBaseLayer=false;
+      }
+
+      layerOptions.gutter = objRef.tileGutter;
+      layerOptions.buffer = objRef.tileBuffer;
+      layerOptions.tileSize = new OpenLayers.Size(objRef.tileSize, objRef.tileSize);
+      
+      var params = new Array();
+      params = sld2UrlParam(currentStyle);
+      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
+          layers: name2,
+          transparent:"TRUE",
+          format: format,
+          sld:params.sld,
+          sld_body:params.sld_body,
+          styles:params.styles
+        },
+        layerOptions
+      );
     break;
 
     // WFS Layer
     case "wfs":
     case "OGC:WFS":
-      style=objRef.sld2OlStyle(objRef, currentStyle);
+      style = sld2OlStyle(currentStyle);
       if(style){
         layerOptions.style=style;
       }
@@ -436,7 +547,7 @@ TimeSeriesOL.prototype.addLayer = function(objRef, layerNode) {
     // GML Layer
     case "gml":
     case "OGC:GML":
-      style=objRef.sld2OlStyle(objRef, currentStyle);
+      style = sld2OlStyle(currentStyle);
       if(style){
         layerOptions.style=style;
       }
@@ -509,6 +620,16 @@ TimeSeriesOL.prototype.getWebSafeStyle = function(objRef, colorNumber) {
 }
 
 /**
+   * Called for refreshing one layer.
+   * @param objRef This object.
+   * @param layerName  The name of the layer that was toggled.
+   */
+TimeSeriesOL.prototype.refreshLayer = function(objRef, layerName , newParams){
+  newParams['version'] = Math.random(); //necessary for see change in certain case
+  objRef.getLayer(objRef,layerName).mergeNewParams(newParams);
+}
+  
+/**
  * This function is called when a new Context is about to be loaded
  * - it deletes all the old layers so new ones can be loaded.
  * TBD: This should be renamed to clearWidget, except inheritence
@@ -526,26 +647,26 @@ TimeSeriesOL.prototype.clearWidget2 = function(objRef) {
     objRef.oLlayers = null;
   }
 }
-
+		
+		
   /**
    * Called when the map timestamp is changed so set the layer visiblity.
    * @param objRef This object.
    * @param timestampIndex  The array index for the layer to be displayed. 
    */
   TimeSeriesOL.prototype.timestampListener=function(objRef, timestampIndex){
-    var layerName = objRef.model.timestampList.getAttribute("layerName");
+	var layerName = objRef.model.timestampList.getAttribute("layerName");
     var timestamp = objRef.model.timestampList.childNodes[timestampIndex];
 
 
-	if ((layerName) && (timestamp)) {
-		/*
-		 * Here we have to null out the existing tile (in the case of Untiled WMS layers)
-		 * so that it is not first cleared out before rendering the new request.
-		 * 
-		 * By doing this, we eliminate the p"draw frame 1-> erase frame 1-> draw frame->2" problem
-		 * This cause a lot of flicker, and by omitting the second step, it yields more fluid animation
-		 */
-		objRef.oLlayers[layerName].tile = null;
-		objRef.oLlayers[layerName].mergeNewParams({"TIME":timestamp.firstChild.nodeValue});
+	if ((layerName) && (timestamp)) {		
+		// Perform URL substitution via regexps
+		var oldImageUrl = curLayer.tile.imgDiv.src;
+		var newImageUrl = oldImageUrl;		
+		newImageUrl = newImageUrl.replace(/TIME\=.*?\&/,'TIME=' + timestamp.firstChild.nodeValue + '&');
+		curLayer.tile.imgDiv.src = newImageUrl;
 	}
+			
   }
+  
+  
