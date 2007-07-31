@@ -23,11 +23,12 @@ function GetFeatureInfo(widgetNode, model) {
   /** Xsl to build a GetFeatureInfo URL */
   this.xsl=new XslProcessor(baseDir+"/tool/GetFeatureInfo.xsl");
   
-  /** Determine whether Query result is returned as HTML or GML */
-  // TBD This should be stored in the Config file.
-  this.infoFormat="application/vnd.ogc.gml";
-  //this.infoFormat="text/plain";
-  //this.infoFormat="text/html";
+  /**
+   * Determine whether Query result is returned as text, HTML or GML
+   * This is usually text/plain, text/html or application/vnd.ogc.gml
+   */
+  var infoFormat = widgetNode.selectSingleNode("mb:infoFormat");
+  this.infoFormat = infoFormat ? infoFormat.firstChild.nodeValue : "application/vnd.ogc.gml";
 
   // Get the value for featureCount from the configfile
   this.featureCount = 1;
