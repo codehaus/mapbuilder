@@ -17,14 +17,14 @@
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-			<fixedSize>true</fixedSize>
+      <fixedSize>true</fixedSize>
         </MapPaneOL>
         <CursorTrack id="cursorTrack"/>
         <LayerControl id="contextLegend">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
           <legendImageEnable>/images/LegendEnable.png</legendImageEnable>
-		  <legendImageDisable>/images/LegendDisable.png</legendImageDisable> 
+          <legendImageDisable>/images/LegendDisable.png</legendImageDisable> 
           <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
           <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
           <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
@@ -33,13 +33,11 @@
         </Loading2>
       </widgets>
       <tools>
-				<WebServiceRequest id="featureInfoController">
-					<targetModel>featureInfoResponse</targetModel>
-					<requestName>wms:GetFeatureInfo</requestName>
-          <!--infoFormat>text/html</infoFormat-->
-          <infoFormat>application/vnd.ogc.gml</infoFormat>
+        <WebServiceRequest id="featureInfoController">
+          <targetModel>featureInfoResponse</targetModel>
+          <requestName>wms:GetFeatureInfo</requestName>
           <featureCount>1</featureCount>
-				</WebServiceRequest>
+        </WebServiceRequest>
       </tools>
       <nodeSelectXpath>/wmc:ViewContext/wmc:LayerList/wmc:Layer</nodeSelectXpath>
     </Context>
@@ -49,10 +47,19 @@
         <MapPaneOL id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
           <targetModel>mainMap</targetModel>
-			<fixedSize>true</fixedSize>
+          <fixedSize>true</fixedSize>
+          <imageBuffer>1</imageBuffer>
         </MapPaneOL>
+        <AoiBoxDHTML id="aoiBoxLocator">
+          <htmlTagId>locatorMap</htmlTagId>
+          <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+        </AoiBoxDHTML>
       </widgets>
       <tools>
+        <AoiMouseHandler id="locatorAoi" />
         <ZoomToAoi id="locatorZoomToAoi">
           <targetModel>mainMap</targetModel>
         </ZoomToAoi>
@@ -83,8 +90,8 @@
           <widgets>
            
             <GmlRendererOL id="testGmlRenderer">
-          <targetModel>mainMap</targetModel>
-         </GmlRendererOL>
+              <targetModel>mainMap</targetModel>
+            </GmlRendererOL>
             <Legend id="wfsLegend">
               <htmlTagId>workspace</htmlTagId>
               <outputNodeId>workspaceCanvas</outputNodeId>
@@ -188,9 +195,9 @@
       <disabledSrc>/images/PanDisable.png</disabledSrc>
     </DragPan>
     <GetFeatureInfo id="getFeatureInfo">
-      <scriptFile>../mapViewer/GetFeatureInfo.js</scriptFile>
       <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>mainMap</targetModel>
+      <targetModel>featureInfoResponse</targetModel>
+      <targetContext>mainMap</targetContext>
       <class>RadioButton</class>
       <enabledSrc>/images/QueryEnable.png</enabledSrc>
       <disabledSrc>/images/QueryDisable.png</disabledSrc>
@@ -213,5 +220,5 @@
     All static images should be relative to this URL.
     This dir is relative the dir of the main html file.
   -->
-	<skinDir>../../lib/skin/default</skinDir>
+  <skinDir>../../lib/skin/default</skinDir>
 </MapbuilderConfig>
