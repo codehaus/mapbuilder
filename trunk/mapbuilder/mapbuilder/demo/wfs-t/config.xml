@@ -37,33 +37,6 @@
         </OverviewMap>
       </widgets>
     </Context>
-    <!--
-      <Context id="locator">
-      <defaultModelUrl>../data/context/locatorMap.xml</defaultModelUrl>
-      <widgets>
-      <MapPane id="locatorWidget">
-      <htmlTagId>locatorMap</htmlTagId>
-      <targetModel>mainMap</targetModel>
-      <mapContainerId>locatorContainer</mapContainerId>
-      <fixedWidth>180</fixedWidth>
-      </MapPane>
-      <AoiBoxWZ id="aoiBox3">
-      <htmlTagId>locatorMap</htmlTagId>
-      <stylesheet>../../lib/widget/GmlRenderer.xsl</stylesheet>
-      <mapContainerId>locatorContainer</mapContainerId>
-      <lineColor>#FF0000</lineColor>
-      <lineWidth>1</lineWidth>
-      <crossSize>15</crossSize>
-      </AoiBoxWZ>
-      </widgets>
-      <tools>
-      <AoiMouseHandler id="locatorAoi"/>
-      <ZoomToAoi id="locatorZoomToAoi">
-      <targetModel>mainMap</targetModel>
-      </ZoomToAoi>
-      </tools>
-      </Context>
-    -->
     <Transaction id="transaction">
       <widgets>
         <TransactionResponse id="transactionResponse"></TransactionResponse>
@@ -80,8 +53,8 @@
         </TipWidgetOL>
         <GmlRendererOL id="testGmlRenderer">
           <targetModel>mainMap</targetModel>
-          <featureOnClick>featurePopup</featureOnClick>
           <sldModel>sld</sldModel>
+          <featureOnClick>featurePopup</featureOnClick>
         </GmlRendererOL>
         <FeatureList id="featureList"></FeatureList>
       </widgets>
