@@ -54,10 +54,10 @@
         <GmlRendererOL id="testGmlRenderer">
           <targetModel>mainMap</targetModel>
           <stylesheet>georss2wfs.xsl</stylesheet>
-          <featureOnHover>featurePopup</featureOnHover>
-          <featureOnClick>featurePopup</featureOnClick>
           <sldModel>sld</sldModel>
           <hoverCursor>pointer</hoverCursor>
+          <featureOnClick>featurePopup</featureOnClick>
+          <featureOnHover>featurePopup</featureOnHover>
         </GmlRendererOL>
         <Widget id="eventsListing">
           <targetModel>mainMap</targetModel>

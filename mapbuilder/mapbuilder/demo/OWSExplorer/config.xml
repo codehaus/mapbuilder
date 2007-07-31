@@ -19,9 +19,7 @@
           <htmlTagId>mainMapPane</htmlTagId>
 			<fixedSize>true</fixedSize>
         </MapPaneOL>
-        <CursorTrack id="cursorTrack">
-          <mouseHandler>mainMap</mouseHandler>
-        </CursorTrack>
+        <CursorTrack id="cursorTrack"/>
         <LayerControl id="contextLegend">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>

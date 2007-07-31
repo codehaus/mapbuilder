@@ -291,6 +291,7 @@
 			<xs:element name="OpenLSForm" type="mb:OpenLSFormType"/>
 			<xs:element name="OpenLSResponse" type="mb:OpenLSResponseType"/>
 			<xs:element name="OverviewMap" type="mb:OverviewMapType"/>
+			<xs:element name="PanZoomBar" type="mb:WidgetType"/>
 			<xs:element name="Reset" type="mb:ButtonType"/>
 			<xs:element name="Save" type="mb:SaveType"/>
 			<xs:element name="SaveModel" type="mb:SaveModelType"/>
@@ -884,6 +885,9 @@
 		<xs:complexContent>
 			<xs:extension base="mb:WidgetType">
 				<xs:sequence>
+					<xs:element name="opacity" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="legendImageEnable" type="mb:urlPathType" minOccurs="0"/>
+					<xs:element name="legendImageDisable" type="mb:urlPathType" minOccurs="0"/>
 					<xs:element name="moveUpImage" type="mb:urlPathType"/>
 					<xs:element name="moveDownImage" type="mb:urlPathType"/>
 					<xs:element name="deleteImage" type="mb:urlPathType"/>
@@ -994,6 +998,11 @@
 					<xs:element name="loadingSrc" type="mb:urlPathType" minOccurs="0"/>
 					<xs:element name="maxExtent" type="xs:string" minOccurs="0"/>
 					<xs:element name="maxResolution" type="xs:double" minOccurs="0"/>
+					<xs:element name="resolutions" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Set a list of fixed resolutions for OL manually.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="fixedSize" type="xs:boolean" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>if this is set to true, the size will be taken from the context doc. Otherwise, it is dynamically taken from the parent element.</xs:documentation>

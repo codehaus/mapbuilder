@@ -17,9 +17,6 @@
 					 <showMGRS>false</showMGRS>
 				</CursorTrack>
 			</widgets>
-			<tools>
-				<!--MouseClickHandler id="mainMouseClick"/ -->
-			</tools>
     </OwsContext>
     
     <FeatureCollection id="geoRSS">
@@ -34,9 +31,9 @@
         </TipWidgetOL>
         <GmlRendererOL id="testGmlRenderer">
           <targetModel>mainMap</targetModel>
-          <featureOnClick>featurePopup</featureOnClick>
           <sldModel>sld</sldModel>
           <hoverCursor>pointer</hoverCursor>
+          <featureOnClick>featurePopup</featureOnClick>
         </GmlRendererOL>
         <Widget id="eventsListing">
            <stylesheet>WfsListing.xsl</stylesheet>

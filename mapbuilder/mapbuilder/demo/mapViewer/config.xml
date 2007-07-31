@@ -35,7 +35,7 @@
         <MapTitle id="mapTitle"/>
         <OverviewMap id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
-          <fixedWidth>180</fixedWidth>
+          <width>180</width>
         </OverviewMap>
 			</widgets>
 			<tools>

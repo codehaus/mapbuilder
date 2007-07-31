@@ -53,9 +53,9 @@
           <htmlTagId>saveModel</htmlTagId>
         </SaveModel>
         <LayerControl id="layerControl">
-        <opacity>true</opacity>
-         <legendImageEnable>/images/LegendEnable.png</legendImageEnable>
-		<legendImageDisable>/images/LegendDisable.png</legendImageDisable> 
+          <opacity>true</opacity>
+          <legendImageEnable>/images/LegendEnable.png</legendImageEnable>
+	        <legendImageDisable>/images/LegendDisable.png</legendImageDisable> 
           <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
           <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
           <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
@@ -150,7 +150,7 @@
          </GmlRendererOL>
       </widgets>
     </FeatureCollection>
-    <FeatureCollection id="featureCollection">
+    <FeatureCollection id="featureCollection2">
       <widgets>
         <ShowDistance id='showDistance'>
           
@@ -262,10 +262,10 @@
     <GetFeatureInfo id="getFeatureInfo">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>featureInfoResponse</targetModel>
+      <targetContext>mainMap</targetContext>
       <class>RadioButton</class>
       <enabledSrc>/images/QueryEnable.png</enabledSrc>
       <disabledSrc>/images/QueryDisable.png</disabledSrc>
-      <targetContext>mainMap</targetContext>
     </GetFeatureInfo>
     <!--EditPoint id="editPoint">
       <buttonBar>mainButtonBar</buttonBar>
@@ -295,7 +295,7 @@
       </EditLine-->
     <Measurement id="measurement">
       <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>featureCollection</targetModel>
+      <targetModel>featureCollection2</targetModel>
       <targetContext>mainMap</targetContext>
       <class>RadioButton</class>
       <enabledSrc>/images/MeasureEnable.png</enabledSrc>

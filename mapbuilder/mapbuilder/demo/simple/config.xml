@@ -6,11 +6,9 @@
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-          
-          			<fixedSize>true</fixedSize>
-         </MapPaneOL>
-         <PanZoomBar id="panZoomBar">
-        </PanZoomBar>
+     			<fixedSize>true</fixedSize>
+        </MapPaneOL>
+        <PanZoomBar id="panZoomBar"/>
       </widgets>
     </Context>
   </models>
