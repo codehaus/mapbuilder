@@ -99,7 +99,14 @@
 			<enabledSrc>/images/PanEnable.png</enabledSrc>
 			<disabledSrc>/images/PanDisable.png</disabledSrc>
 		</DragPan>
-   
+    <GetFeatureInfo id="getFeatureInfo">
+      <scriptFile>GetFeatureInfo.js</scriptFile>
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>RadioButton</class>
+      <enabledSrc>/images/QueryEnable.png</enabledSrc>
+      <disabledSrc>/images/QueryDisable.png</disabledSrc>
+    </GetFeatureInfo>
 		<Reset id="reset">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
@@ -111,8 +118,8 @@
 		  <targetModel>mainMap</targetModel>
 		  <class>Toggle</class>
       <selected>true</selected>
-		  <disabledSrc>/images/Graticule.png</disabledSrc>
       <enabledSrc>/images/Graticule.png</enabledSrc>
+		  <disabledSrc>/images/Graticule.png</disabledSrc>
 		  <color>black</color>
 		  <mapContainerId>mainMapContainer</mapContainerId>
     </Graticule>
