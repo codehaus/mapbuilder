@@ -77,6 +77,7 @@
         <MapPaneOL id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
 			    <fixedSize>true</fixedSize>
+          <imageBuffer>1</imageBuffer>
         </MapPaneOL>
         <AoiBoxDHTML id="aoiBoxLocator">
           <htmlTagId>locatorMap</htmlTagId>
