@@ -16,8 +16,8 @@
         -->        
         <CursorTrack id="cursorTrack">
           <showPx>false</showPx>
-          <showDMS>true</showDMS>
           <showLatLong>false</showLatLong>
+          <showDMS>true</showDMS>
           <showMGRS>false</showMGRS>
           <precision>2</precision>
         </CursorTrack>
