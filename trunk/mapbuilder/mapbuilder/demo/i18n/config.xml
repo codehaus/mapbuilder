@@ -16,12 +16,12 @@
         </OverviewMap>
         <LayerControl id="contextLegend">
           <autoRefresh>false</autoRefresh>
+          <opacity>true</opacity>
           <legendImageEnable>/images/LegendEnable.png</legendImageEnable>
           <legendImageDisable>/images/LegendDisable.png</legendImageDisable>
           <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
           <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
           <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
-          <opacity>true</opacity>
         </LayerControl>
       </widgets>
       <tools>

@@ -19,9 +19,7 @@
 					<htmlTagId>mainMapPane</htmlTagId>
           			<fixedSize>true</fixedSize>
 				</MapPaneOL>
-				<CursorTrack id="cursorTrack">
-					<mouseHandler>mainMap</mouseHandler>
-				</CursorTrack>
+				<CursorTrack id="cursorTrack"/>
 				<MapTitle id="mapTitle" />
 				<LayerControl id="contextLegend">
 					<htmlTagId>workspace</htmlTagId>
@@ -70,9 +68,9 @@
 			<defaultModelUrl>http://dien.teledetection.fr/geoserver-1.5.1/wfs?REQUEST=DescribeFeatureType&amp;typeName=topp:tasmania_roads</defaultModelUrl>
 			<widgets>
 				<Widget id="addRule">
-					<stylesheet>../../lib/widget/LayerProperty.xsl</stylesheet>
 					<htmlTagId>workspace</htmlTagId>
 					<outputNodeId>workspaceCanvas</outputNodeId>
+					<stylesheet>../../lib/widget/LayerProperty.xsl</stylesheet>
 				</Widget>
 			</widgets>
 		</FeatureTypeSchema>
@@ -127,14 +125,11 @@
 			<class>RadioButton</class>
 			<enabledSrc>/images/SaveEnable.png</enabledSrc>
 			<disabledSrc>/images/SaveDisable.png</disabledSrc>
-
+			<popupWindowName>modelXML</popupWindowName>
 		</Save>
 	</widgets>
 <!---->
 <!--	All static images should be relative to this URL. This dir is-->
 <!--	relative the dir of the main html file.-->
-
 	<skinDir>../../lib/skin/default</skinDir>
-	<widgetTextUrl>/widgetText.xml</widgetTextUrl>
-	<!--	 in the skin dir -->
 </MapbuilderConfig>
