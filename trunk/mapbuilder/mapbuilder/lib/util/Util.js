@@ -41,7 +41,14 @@ function XslProcessor(xslUrl,docNSUri) {
       // do nothing here, we won't get far anyway.
     }
   }
-  this.xslDom.load(xslUrl);
+  if(inlineXSL) {
+    xmlString = inlineXSL[_1];
+    xmlString = xmlString.replace(/DOUBLE_QUOTE/g,"\"");
+    this.xslDom = (new DOMParser()).parseFromString(xmlString, "text/xml");
+  }
+  else {
+    this.xslDom.load(xslUrl);
+  }
   if ( Sarissa.getParseErrorText(this.xslDom) != Sarissa.PARSED_OK )
     alert(mbGetMessage("errorLoadingStylesheet", xslUrl));
 
