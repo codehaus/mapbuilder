@@ -444,10 +444,11 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       }
       
       layerOptions.ratio = objRef.imageBuffer;
+      layerOptions.singleTile = true;
 
       var params = new Array();
       params = sld2UrlParam(currentStyle);
-      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS.Untiled(title,href,{
+      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
           layers: name2,
           // "TRUE" in upper case else the context doc boston.xml
           // (i.c. the IONIC WMS/WFS) doesn't work.

@@ -53,6 +53,9 @@ function OverviewMap(widgetNode, model) {
 OverviewMap.prototype.addOverviewMap = function(objRef) {
   if (objRef.model && objRef.model.map) {
     var map = objRef.model.map;
+    
+    /** reference to the OpenLayers OverviewMap control */
+    this.control = null
 
     // Specify div and layers for overview map.
     var options = {
@@ -80,8 +83,9 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
             // Found it, add a clone to the layer stack
             if (map.layers[j] == map.baseLayer) {
               showBaseLayer = true;
+            } else {
+              options.layers.push(objRef.getClonedLayer(map.layers[j]));
             }
-            options.layers.push(objRef.getClonedLayer(map.layers[j]));
           }
         }
       }
@@ -107,7 +111,13 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
     }
 
     // Add the overview to the main map
-    map.addControl(new OpenLayers.Control.OverviewMap(options));
+    objRef.control = new OpenLayers.Control.OverviewMap(options);
+    map.addControl(objRef.control);
+
+    // make all layers visible
+    for (var i in options.layers) {
+      options.layers[i].setVisibility(true);
+    }
 
     // Set visibility of base layer. If the user configured
     // no layerNames or referenced it by layerName, it is
@@ -128,19 +138,23 @@ OverviewMap.prototype.getClonedLayer = function(layer) {
     return null;
   }
 
-  if (layer instanceof OpenLayers.Layer.WMS) {
-    // WMS layer, use WMS.Untiled
+  if (!layer.singleTile) {
+    // make an untiled version of the layer
     var layerOptions = {
       units: layer.units,
       projection: layer.projection,
       maxExtent: layer.maxExtent,
-      maxResolution: "auto"
+      maxResolution: "auto",
+      ratio: 1,
+      singleTile: true,
+      isBaseLayer: layer.isBaseLayer
     };
 
-    return new OpenLayers.Layer.WMS.Untiled(layer.name,
-      layer.url, {layers: layer.params.LAYERS}, layerOptions);
+    return new OpenLayers.Layer.WMS(layer.name,
+      layer.url, {layers: layer.params.LAYERS, format: layer.params.FORMAT, transparent: "TRUE"}, layerOptions);
   }
   else {
+    // take the layer as-is and clone it
     var clonedLayer = layer.clone();
     clonedLayer.setVisibility(true);
     return clonedLayer;
