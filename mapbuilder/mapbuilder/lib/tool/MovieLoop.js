@@ -25,6 +25,7 @@ function MovieLoop(toolNode, model) {
   this.timestampIndex = 0;
   window.movieLoop = this;
   this.isRunning = false;
+  this.frameIsLoading = false;
 
   //
   var framesPerSecond = toolNode.selectSingleNode("mb:framesPerSecond");
@@ -61,14 +62,21 @@ function MovieLoop(toolNode, model) {
   }
 
   /**
-   * Advances the frame array by the frame increment
+   * Advances the frame array by the frame increment. 
+   * 
    * @param step optional parameter to override default frame increment
    */
   this.nextFrame = function(step) {
     var objRef = window.movieLoop;
     var increment = objRef.frameIncrement;
     if (step) increment = step;   //arg passed in overrides default
-    objRef.setFrame(objRef.timestampIndex + increment);
+    if (!this.frameIsLoading) {
+        // play() will continue calling nextFrame, so that 
+        // nextFrame() will continually be called at a regular interval, until the current frame is loaded        
+        // The 'bug' is that if the user clicks the next button rapidly, subsequent requests will be ignored
+        // while the initial frame is loading. This needs to be resolved.
+	    objRef.setFrame(objRef.timestampIndex + increment);
+	}
   }
 
   /**
