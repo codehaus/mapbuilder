@@ -43,8 +43,7 @@ function WfsGetFeature(widgetNode, model) {
   this.createControl = function(objRef) {
   	var transactionResponseModel = config.objects[objRef.trm];
   	
-    var Control = OpenLayers.Class.create();
-    Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
+    var Control = OpenLayers.Class( OpenLayers.Control, {
       CLASS_NAME: 'mbControl.WfsGetFeature',
       type: OpenLayers.Control.TYPE_TOOL, // constant from OpenLayers.Control
   	  tolerance: new Number(objRef.widgetNode.selectSingleNode('mb:tolerance').firstChild.nodeValue),

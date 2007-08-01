@@ -186,8 +186,7 @@ function ButtonBase(widgetNode, model) {
     // override the control from the subclass to add
     // MB-stuff to the activate and deactivate methods
     var SubclassControl = objRef.createControl(objRef)  
-    var Control = OpenLayers.Class.create();
-    Control.prototype = OpenLayers.Class.inherit( SubclassControl, {
+    var Control = OpenLayers.Class( SubclassControl, {
       superclass: SubclassControl.prototype,
       // call objRef.doSelect after OL activate from this control
       trigger: function() {
@@ -231,7 +230,7 @@ function ButtonBase(widgetNode, model) {
     // create a panel, if we do not have one yet for this buttonBar
     // or if the old map.panel was destroyed
     if (!objRef.panel || objRef.panel.map == null) {
-      objRef.panel = new OpenLayers.Control.Panel({div: $(objRef.panelHtmlTagId), defaultControl: null});
+      objRef.panel = new OpenLayers.Control.Panel({div: document.getElementById(objRef.panelHtmlTagId), defaultControl: null});
       objRef.targetContext.buttonBars[objRef.htmlTagId] = objRef.panel;
       map.addControl(objRef.panel);
     }

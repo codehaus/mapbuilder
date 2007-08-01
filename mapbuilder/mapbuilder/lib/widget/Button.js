@@ -32,8 +32,7 @@ function Button(widgetNode, model) {
    * @return class (not instance!) of the OL control.
    */
   this.createControl = function(objRef) {
-    var Control = OpenLayers.Class.create();
-    Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
+    var Control = OpenLayers.Class( OpenLayers.Control, {
       CLASS_NAME: 'mbControl.'+objRef.id,
       type: (objRef.buttonType == 'RadioButton') ? OpenLayers.Control.TYPE_TOOL : OpenLayers.Control.TYPE_BUTTON,
       // for button type      

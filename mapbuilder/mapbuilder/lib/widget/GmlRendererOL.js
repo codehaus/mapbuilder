@@ -151,8 +151,7 @@ function GmlRendererOL(widgetNode, model) {
       // create modified OpenLayers GML layer class, which
       // uses a gml doc directly instead of loading it from
       // an URL
-      var OlLayer = OpenLayers.Class.create();
-      OlLayer.prototype = OpenLayers.Class.inherit(OpenLayers.Layer.GML, {
+      var OlLayer = OpenLayers.Class(OpenLayers.Layer.GML, {
 
         loadGML: function() {
           if (!this.loaded) {

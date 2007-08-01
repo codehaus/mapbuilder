@@ -25,8 +25,7 @@ function SetAoi(widgetNode, model) {
    * @return {OpenLayers.Control} class of the OL control.
    */
   this.createControl = function(objRef) {
-    var Control = OpenLayers.Class.create();
-    Control.prototype = OpenLayers.Class.inherit( OpenLayers.Control, {
+    var Control = OpenLayers.Class( OpenLayers.Control, {
       CLASS_NAME: 'mbControl.SetAoi',
       type: OpenLayers.Control.TYPE_TOOL,
 
