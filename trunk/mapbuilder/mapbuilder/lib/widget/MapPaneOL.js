@@ -661,7 +661,14 @@ MapPaneOL.prototype.timestampListener=function(objRef, timestampIndex){
 		var oldImageUrl = curLayer.grid[0][0].imgDiv.src;
 		var newImageUrl = oldImageUrl;		
 		newImageUrl = newImageUrl.replace(/TIME\=.*?\&/,'TIME=' + timestamp.firstChild.nodeValue + '&');
-		curLayer.grid[0][0].imgDiv.src = newImageUrl;
+
+		function imageLoaded() {
+			window.movieLoop.frameIsLoading = false;
+		}
+
+		window.movieLoop.frameIsLoading = true;
+		curLayer.grid[0][0].imgDiv.addEventListener("load", imageLoaded, false);
+		curLayer.grid[0][0].imgDiv.src = newImageUrl;		
 	}
 			
 }
