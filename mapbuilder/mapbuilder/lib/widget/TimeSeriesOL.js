@@ -660,6 +660,7 @@ TimeSeriesOL.prototype.clearWidget2 = function(objRef) {
 
 
 	if ((layerName) && (timestamp)) {		
+		var curLayer = objRef.oLlayers[layerName];
 		// Perform URL substitution via regexps
 		var oldImageUrl = curLayer.tile.imgDiv.src;
 		var newImageUrl = oldImageUrl;		
