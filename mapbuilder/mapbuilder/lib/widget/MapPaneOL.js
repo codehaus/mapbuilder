@@ -448,22 +448,46 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
 
       var params = new Array();
       params = sld2UrlParam(currentStyle);
-      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
-          layers: name2,
-          // "TRUE" in upper case else the context doc boston.xml
-          // (i.c. the IONIC WMS/WFS) doesn't work.
-          // Note that this is in line with the WMS standard (OGC 01-068r2),
-          // section 6.4.1 Parameter Ordering and Case:
-          // "Parameter names shall not be case sensitive,
-          //  but parameter values shall be case sensitive."
-          transparent:"TRUE",
-          format: format,
-          sld:params.sld,
-          sld_body:params.sld_body,
-          styles:params.styles
-        },
-        layerOptions
-      );
+      if (objRef.model.timestampList && objRef.model.timestampList.getAttribute("layerName") == name2) { 
+          var timestamp = objRef.model.timestampList.childNodes[0];	
+	      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
+	          layers: name2,
+	          // "TRUE" in upper case else the context doc boston.xml
+	          // (i.c. the IONIC WMS/WFS) doesn't work.
+	          // Note that this is in line with the WMS standard (OGC 01-068r2),
+	          // section 6.4.1 Parameter Ordering and Case:
+	          // "Parameter names shall not be case sensitive,
+	          //  but parameter values shall be case sensitive."
+	          transparent:"TRUE",
+              "TIME":timestamp.firstChild.nodeValue,	          
+	          format: format,
+	          sld:params.sld,
+	          sld_body:params.sld_body,
+	          styles:params.styles
+	        },
+	        layerOptions
+	      );      
+	      // Turn on timestamp listenet
+          this.model.addListener("timestamp",this.timestampListener,this);	      
+      }
+      else {
+	      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
+	          layers: name2,
+	          // "TRUE" in upper case else the context doc boston.xml
+	          // (i.c. the IONIC WMS/WFS) doesn't work.
+	          // Note that this is in line with the WMS standard (OGC 01-068r2),
+	          // section 6.4.1 Parameter Ordering and Case:
+	          // "Parameter names shall not be case sensitive,
+	          //  but parameter values shall be case sensitive."
+	          transparent:"TRUE",
+	          format: format,
+	          sld:params.sld,
+	          sld_body:params.sld_body,
+	          styles:params.styles
+	        },
+	        layerOptions
+	      );
+      }
     break;
 
     // WMS-C Layer (Tiled)
@@ -619,4 +643,25 @@ MapPaneOL.prototype.clearWidget2 = function(objRef) {
     objRef.model.map=null;
     objRef.oLlayers = null;
   }
+}
+
+  /**
+   * Called when the map timestamp is changed so set the layer visiblity.
+   * @param objRef This object.
+   * @param timestampIndex  The array index for the layer to be displayed. 
+   */
+MapPaneOL.prototype.timestampListener=function(objRef, timestampIndex){
+	var layerName = objRef.model.timestampList.getAttribute("layerName");
+    var timestamp = objRef.model.timestampList.childNodes[timestampIndex];
+
+
+	if ((layerName) && (timestamp)) {				
+		var curLayer = objRef.oLlayers[layerName];
+		// Perform URL substitution via regexps
+		var oldImageUrl = curLayer.grid[0][0].imgDiv.src;
+		var newImageUrl = oldImageUrl;		
+		newImageUrl = newImageUrl.replace(/TIME\=.*?\&/,'TIME=' + timestamp.firstChild.nodeValue + '&');
+		curLayer.grid[0][0].imgDiv.src = newImageUrl;
+	}
+			
 }
