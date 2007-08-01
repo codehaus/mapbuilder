@@ -6,7 +6,8 @@
 			<widgets>
 				<MapPaneOL id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
-					<fixedSize>true</fixedSize>
+					<fixedSize>true</fixedSize>					
+					<imageBuffer>1</imageBuffer>					
 				</MapPaneOL>
 				<Timestamp id="timestamp">
 			      </Timestamp>
@@ -22,7 +23,7 @@
 			<tools>
 				<AoiMouseHandler id="mainAoi"/>
 				<MovieLoop id="movieLoop">
-					<framesPerSecond>2</framesPerSecond>
+					<framesPerSecond>4</framesPerSecond>
 					<maxFrames>15</maxFrames>
 				</MovieLoop>
 			</tools>
