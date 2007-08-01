@@ -109,11 +109,22 @@ function Config(url) {
   function loadWidgetText(config, dir) {
     var widgetText;
     if (url) {
+
+
       var widgetTextUrl = dir + "/" + config.lang + "/widgetText.xml";
       widgetText = Sarissa.getDomDocument();
       widgetText.async = false;
       widgetText.validateOnParse=false;  //IE6 SP2 parsing bug
-      widgetText.load(widgetTextUrl);
+      //widgetText.load(widgetTextUrl);
+      
+      if(typeof(inlineXSL)!="undefined") {
+	    var xmlString = inlineXSL[widgetTextUrl];
+	    xmlString = xmlString.replace(/DOUBLE_QUOTE/g,"\"");
+	    widgetText = (new DOMParser()).parseFromString(xmlString, "text/xml");
+	  }
+	  else {
+	    widgetText.load(widgetTextUrl);
+	  }      
       if (Sarissa.getParseErrorText(widgetText) != Sarissa.PARSED_OK){
         var errMsg = "Error loading widgetText document: " + widgetTextUrl;
         if (config.lang == config.defaultLang) {
