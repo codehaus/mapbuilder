@@ -41,7 +41,7 @@ function XslProcessor(xslUrl,docNSUri) {
       // do nothing here, we won't get far anyway.
     }
   }
-  if(inlineXSL) {
+  if(typeof(inlineXSL)!="undefined") {
     xmlString = inlineXSL[_1];
     xmlString = xmlString.replace(/DOUBLE_QUOTE/g,"\"");
     this.xslDom = (new DOMParser()).parseFromString(xmlString, "text/xml");
