@@ -4,11 +4,10 @@
 		<Context id="mainMap">
 			<defaultModelUrl>tsEstPrecip.xml</defaultModelUrl>
 			<widgets>
-				<TimeSeriesOL id="mainMapWidget">
+				<MapPaneOL id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
-					<mapContainerId>mainMapPane</mapContainerId>
 					<fixedSize>true</fixedSize>
-				</TimeSeriesOL>
+				</MapPaneOL>
 				<Timestamp id="timestamp">
 			      </Timestamp>
 				<Legend id="legend">
@@ -23,7 +22,7 @@
 			<tools>
 				<AoiMouseHandler id="mainAoi"/>
 				<MovieLoop id="movieLoop">
-					<framesPerSecond>4</framesPerSecond>
+					<framesPerSecond>2</framesPerSecond>
 					<maxFrames>15</maxFrames>
 				</MovieLoop>
 			</tools>
