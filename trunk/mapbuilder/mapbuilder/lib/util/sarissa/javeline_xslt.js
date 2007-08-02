@@ -65,7 +65,27 @@ function _Javeline_XSLTProcessor(){
 					return this.parseChildren(context, nodes[i], childStack[i][2], result);
 			}
 		},
-		
+		"text" : function(context, xslNode, childStack, result)
+		{
+		   if(xmlNode == null ) value = "";
+		   else if(xmlNode.nodeType == 1) value = xmlNode.firstChild ? xmlNode.firstChild.nodeValue : "";
+		   else value = typeof xmlNode == "object" ? xmlNode.nodeValue : xmlNode;
+		   value = expression;
+		   result.appendChild(this.xmlDoc.createTextNode(value));
+		   
+		},
+		"call-template" : function(context, xslNode, childStack, result)
+		{
+		 var t = this.templates[xslNode.getAttribute("name")];
+		 this.currentTemplate=t;
+		 if(t){
+		  
+		  this.parseChildren(context, t[0], t[1], result);
+		  this.withparams(xslNode); 
+		  this.currentTemplate=t;
+		  this.paramsSet[this.currentTemplate]= new Array();
+		  }
+		},
 		"apply-templates" : function(context, xslNode, childStack, result)
 		{
 		//try if context is a node document else take is child
@@ -94,6 +114,7 @@ function _Javeline_XSLTProcessor(){
 		  //if(aux == "/") return alert("Something went wrong. The / template was executed as a normal template");
 		  var nodes = context.selectNodes(aux);
 		  var tabIndex;
+		  this.withparams(xslNode); 
 		  if(xslNode.firstChild[TAGNAME] == "sort")
 		  this.xslSort( xslNode.firstChild, nodes, tabIndex);
 		  if(!nodes[0]) return;
@@ -113,7 +134,7 @@ function _Javeline_XSLTProcessor(){
 		 var t = this.templates[xslNode.getAttribute("name")];
 		 this.currentTemplate=t;
 		 if(t){
-		  
+		  this.withparams(xslNode); 
 		  this.parseChildren(context, t[0], t[1], result);
 		  this.currentTemplate=t;
 		  this.paramsSet[this.currentTemplate]= new Array();
@@ -208,7 +229,9 @@ function _Javeline_XSLTProcessor(){
 		  this.paramsSet["params"][namePram] = aux;
 		  }
 		},
-		
+		"with-param" : function(context, xslNode, childStack, result){
+			
+		},
 		"variable" : function(context, xslNode, childStack, result){
 		 var namePram = xslNode.getAttribute("name");
 		 var tempValue="";
@@ -385,6 +408,48 @@ function _Javeline_XSLTProcessor(){
 	  }
 	}
 	return string;
+  }
+  }
+   /**
+     * withparam function's xsl
+     * 
+     * @argument node xsl
+     */
+  this.withparams = function(nodexsl)
+  {
+  var nodes = nodexsl.chidsNodes.
+  for(var i = 0 <i< nodes.length;i++)
+  {
+  if(nodes[i][TAGNAME] == "with-param" )
+  {       var name=xslNode.getAttribute("name");
+          var nodeschild = nodes[i].childNodes;//refactorize it
+		  var select=xslNode.getAttribute("select");
+		  if(select)
+		  {
+		  select = this.lookforVariable(select);
+		  try{
+		  var nodeSelect = context.selectNodes(select)[0];
+	      if(!nodeSelect) tempValue = "";
+		  else if(nodeSelect.nodeType == 1) tempValue = nodeSelect.firstChild ? nodeSelect.firstChild.nodeValue : "";
+		  else tempValue = typeof nodeSelect == "object" ? nodeSelect.nodeValue : nodeSelect;
+		  if(typeof nodeSelect == "number") tempValue=""+nodeSelect;
+		  
+		  }
+		  catch(e){
+		  
+		  }
+		  }
+		  else
+		  for(var i = 0; i < nodes.length;i++)
+		  {
+		  var temp2 = getNodeValue(nodes[i]);
+		   if(temp2 != "undefined")
+		   tempValue+=temp2;
+		  }
+		  tempValue = tempValue.replace(/\s/g,"");//maybe need to fix it
+		  this.paramsSet[this.currentTemplate][name] =tempValue;
+  }
+  }
   }
    /**
      * look for a variable in xsl node
