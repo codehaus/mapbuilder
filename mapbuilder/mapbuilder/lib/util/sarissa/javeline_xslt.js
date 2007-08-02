@@ -417,39 +417,40 @@ function _Javeline_XSLTProcessor(){
      */
   this.withparams = function(nodexsl)
   {
-  var nodes = nodexsl.chidsNodes.
-  for(var i = 0 <i< nodes.length;i++)
+  var nodes = nodexsl.chidsNodes;
+  for(var i = 0;i< nodes.length;i++)
   {
-  if(nodes[i][TAGNAME] == "with-param" )
-  {       var name=xslNode.getAttribute("name");
+   if(nodes[i][TAGNAME] == "with-param" )
+   {       var name=xslNode.getAttribute("name");
           var nodeschild = nodes[i].childNodes;//refactorize it
 		  var select=xslNode.getAttribute("select");
 		  if(select)
 		  {
-		  select = this.lookforVariable(select);
-		  try{
-		  var nodeSelect = context.selectNodes(select)[0];
-	      if(!nodeSelect) tempValue = "";
-		  else if(nodeSelect.nodeType == 1) tempValue = nodeSelect.firstChild ? nodeSelect.firstChild.nodeValue : "";
-		  else tempValue = typeof nodeSelect == "object" ? nodeSelect.nodeValue : nodeSelect;
-		  if(typeof nodeSelect == "number") tempValue=""+nodeSelect;
+		    select = this.lookforVariable(select);
+		    try{
+		    var nodeSelect = context.selectNodes(select)[0];
+	        if(!nodeSelect) tempValue = "";
+		    else if(nodeSelect.nodeType == 1) tempValue = nodeSelect.firstChild ? nodeSelect.firstChild.nodeValue : "";
+		    else tempValue = typeof nodeSelect == "object" ? nodeSelect.nodeValue : nodeSelect;
+		    if(typeof nodeSelect == "number") tempValue=""+nodeSelect;
 		  
 		  }
 		  catch(e){
 		  
 		  }
 		  }
-		  else
+		  else{
 		  for(var i = 0; i < nodes.length;i++)
 		  {
-		  var temp2 = getNodeValue(nodes[i]);
-		   if(temp2 != "undefined")
-		   tempValue+=temp2;
+		    var temp2 = getNodeValue(nodes[i]);
+		     if(temp2 != "undefined")
+		     tempValue+=temp2;
 		  }
 		  tempValue = tempValue.replace(/\s/g,"");//maybe need to fix it
 		  this.paramsSet[this.currentTemplate][name] =tempValue;
-  }
-  }
+		  
+   }
+   }
   }
    /**
      * look for a variable in xsl node
