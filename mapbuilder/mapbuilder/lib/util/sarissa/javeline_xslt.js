@@ -409,7 +409,7 @@ function _Javeline_XSLTProcessor(){
 	}
 	return string;
   }
-  }
+  
    /**
      * withparam function's xsl
      * 
@@ -451,6 +451,7 @@ function _Javeline_XSLTProcessor(){
 		  
    }
    }
+  }
   }
    /**
      * look for a variable in xsl node
