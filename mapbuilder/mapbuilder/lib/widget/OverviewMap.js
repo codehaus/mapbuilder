@@ -138,8 +138,8 @@ OverviewMap.prototype.getClonedLayer = function(layer) {
     return null;
   }
 
-  if (!layer.singleTile) {
-    // make an untiled version of the layer
+  if (layer instanceof OpenLayers.Layer.WMS) {
+    // make an untiled wms layer, with ratio 1
     var layerOptions = {
       units: layer.units,
       projection: layer.projection,
