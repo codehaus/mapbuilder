@@ -25,14 +25,24 @@ function Config(url) {
   this.doc = Sarissa.getDomDocument();
   this.doc.async = false;
   this.doc.validateOnParse=false;  //IE6 SP2 parsing bug
+  if(_SARISSA_IS_SAFARI)
+  {
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("GET", url, false);
+  xmlhttp.send(null);
+  this.doc = xmlhttp.responseXML;
+  }else
+   {
   this.doc.load(url);
+  }
   if (Sarissa.getParseErrorText(this.doc) != Sarissa.PARSED_OK){
     alert("error loading config document: " + url );//+ " - " + Sarissa.getParseErrorText(this.doc) );
   }
   this.url = url;
   this.namespace = "xmlns:mb='"+mbNsUrl+"'";
+  if(! _SARISSA_IS_SAFARI ){ 
   this.doc.setProperty("SelectionLanguage", "XPath");
-  Sarissa.setXpathNamespaces(this.doc, this.namespace);
+  Sarissa.setXpathNamespaces(this.doc, this.namespace);}
 
 /**
  * Set the serializeUrl and proxyUrl values from a global configuration document
@@ -41,16 +51,26 @@ function Config(url) {
   var configDoc = Sarissa.getDomDocument();
   configDoc.async = false;
   configDoc.validateOnParse=false;  //IE6 SP2 parsing bug
-  configDoc.load(baseDir+"/"+mbServerConfig);
+  if(_SARISSA_IS_SAFARI){
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", baseDir+"/"+mbServerConfig, false);
+    xmlhttp.send(null);
+    configDoc = xmlhttp.responseXML;
+  }else
+   {
+    configDoc.load(baseDir+"/"+mbServerConfig);
+   }
   if (Sarissa.getParseErrorText(configDoc) != Sarissa.PARSED_OK) {
     //alert("error loading server config document: " + baseDir+"/"+mbServerConfig );
   } else {
+  if(! _SARISSA_IS_SAFARI ){
     configDoc.setProperty("SelectionLanguage", "XPath");
     Sarissa.setXpathNamespaces(configDoc, this.namespace);
+    }
     var node = configDoc.selectSingleNode("/mb:MapbuilderConfig/mb:proxyUrl");
-    if (node) this.proxyUrl = node.firstChild.nodeValue;
+    if (node) this.proxyUrl = getNodeValue(node);
     node = configDoc.selectSingleNode("/mb:MapbuilderConfig/mb:serializeUrl");
-    if (node) this.serializeUrl = node.firstChild.nodeValue;
+    if (node) this.serializeUrl = getNodeValue(node);
   }
   configDoc = null;
 
@@ -70,7 +90,7 @@ function Config(url) {
     //problem if this is done anywhere except in the page <HEAD> element.
     var scriptFileNodes = this.doc.selectNodes("//mb:scriptFile");
     for (var i=0; i<scriptFileNodes.length; i++ ) {
-      scriptFile = scriptFileNodes[i].firstChild.nodeValue;
+      scriptFile = getNodeValue(scriptFileNodes[i]);
       mapbuilder.loadScript(scriptFile);
     }
   }
@@ -93,9 +113,9 @@ function Config(url) {
   var modelNode = this.doc.documentElement;
   this.skinDir = modelNode.selectSingleNode("mb:skinDir").firstChild.nodeValue;
   var proxyUrl = modelNode.selectSingleNode("mb:proxyUrl");
-  if (proxyUrl) this.proxyUrl = proxyUrl.firstChild.nodeValue;
+  if (proxyUrl) this.proxyUrl = getNodeValue(proxyUrl);
   var serializeUrl = modelNode.selectSingleNode("mb:serializeUrl");
-  if (serializeUrl) this.serializeUrl = serializeUrl.firstChild.nodeValue;
+  if (serializeUrl) this.serializeUrl = getNodeValue(serializeUrl);
 
   /**
    * Convenience method to load widgetText from a URL.
@@ -124,7 +144,15 @@ function Config(url) {
 	  }
 	  else {
 	    widgetText.load(widgetTextUrl);
-	  }      
+	    if(_SARISSA_IS_SAFARI)
+       {  var xmlhttp = new XMLHttpRequest();
+          xmlhttp.open("GET", widgetTextUrl, false);
+          xmlhttp.send(null);
+          widgetText = xmlhttp.responseXML;
+       }else{
+       widgetText.load(widgetTextUrl);
+       }
+      }      
       if (Sarissa.getParseErrorText(widgetText) != Sarissa.PARSED_OK){
         var errMsg = "Error loading widgetText document: " + widgetTextUrl;
         if (config.lang == config.defaultLang) {
@@ -134,15 +162,24 @@ function Config(url) {
           // Try to fall back on default language
           alert(errMsg + "\nFalling back on default language=\"" + config.defaultLang + "\"");
           config.lang = config.defaultLang;
-          widgetTextUrl = dir + "/" + config.lang + "/" + url.firstChild.nodeValue;
-          widgetText.load(widgetTextUrl);
+          widgetTextUrl = dir + "/" + config.lang + "/" +getNodeValue(url);
+         if(_SARISSA_IS_SAFARI)
+         {  var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", widgetTextUrl, false);
+            xmlhttp.send(null);
+            widgetText = xmlhttp.responseXML;
+         }else{
+            widgetText.load(widgetTextUrl);
+         }
           if (Sarissa.getParseErrorText(widgetText) != Sarissa.PARSED_OK){
             alert("Falling back on default language failed!");
           }
         }
       }
-      widgetText.setProperty("SelectionLanguage", "XPath");
-      Sarissa.setXpathNamespaces(widgetText, config.namespace);
+      if(! _SARISSA_IS_SAFARI ){
+        widgetText.setProperty("SelectionLanguage", "XPath");
+        Sarissa.setXpathNamespaces(widgetText, config.namespace);
+        }
     }
     return widgetText;
   }
@@ -152,7 +189,7 @@ function Config(url) {
   // Try to load userWidgetText
   userWidgetTextDir = modelNode.selectSingleNode("mb:userWidgetTextDir");
   if (userWidgetTextDir) {
-    var userWidgetText = loadWidgetText(this, userWidgetTextDir.firstChild.nodeValue);
+    var userWidgetText = loadWidgetText(this, getNodeValue(userWidgetTextDir));
     if (userWidgetText) {
       // User has specified userWidgetText, merge with widgetText
       var userWidgets = userWidgetText.selectSingleNode("/mb:WidgetText/mb:widgets");
