@@ -99,7 +99,9 @@ function Extent( model, initialRes ) {
       res = Math.max(this.res[0],this.res[1]);
      
     }
-    var zoomLevels = this.zoomLevels.sort(function sort(a,b){return b-a});
+    var sortstring = "function sort(a,b){return b-a}";
+    var evalsort= eval(sortstring);
+    var zoomLevels = this.zoomLevels.sort(evalsort);
     var i=0;
     while(zoomLevels[i] >= res){
       i++;
