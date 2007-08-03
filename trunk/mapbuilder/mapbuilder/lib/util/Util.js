@@ -47,7 +47,15 @@ function XslProcessor(xslUrl,docNSUri) {
     this.xslDom = (new DOMParser()).parseFromString(xmlString, "text/xml");
   }
   else {
-    this.xslDom.load(xslUrl);
+    if(_SARISSA_IS_SAFARI){
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", xslUrl, false);
+        xmlhttp.send(null);
+        this.xslDom = xmlhttp.responseXML;
+    }else
+    {
+      this.xslDom.load(xslUrl);
+    }
   }
   if ( Sarissa.getParseErrorText(this.xslDom) != Sarissa.PARSED_OK )
     alert(mbGetMessage("errorLoadingStylesheet", xslUrl));
@@ -83,7 +91,14 @@ function XslProcessor(xslUrl,docNSUri) {
    * @return a DOM document object
    */
   this.transformNodeToObject=function(xmlNode) {
-    var newFragment = this.processor.transformToDocument(xmlNode);
+    if(_SARISSA_IS_SAFARI){
+      var oResult = new DOMParser().parseFromString("<xsltresult></xsltresult>", "text/xml");
+      var newFragment = this.processor.transformToFragment(xmlNode, oResult);
+      var str = (new XMLSerializer()).serializeToString(newFragment);
+      str.replace(/\s/g,"");
+    }else{
+       var newFragment = this.processor.transformToDocument(xmlNode);
+    }
     return newFragment;
   }
 
@@ -732,7 +747,7 @@ function sld2OlStyle(node) {
  * @return return node's value
  */
 function getNodeValue(sResult){
-	if(sResult.nodeType == 1) return sResult.firstChild ? sResult.firstChild.nodeValue : "";
-	if(sResult.nodeType > 1 || sResult.nodeType < 5) return sResult.nodeValue;
-	return sResult;
+  if(sResult.nodeType == 1) return sResult.firstChild ? sResult.firstChild.nodeValue : "";
+  if(sResult.nodeType > 1 || sResult.nodeType < 5) return sResult.nodeValue;
+  return sResult;
 }
