@@ -141,10 +141,8 @@ function Config(url) {
 	    var xmlString = inlineXSL[widgetTextUrl];
 	    xmlString = xmlString.replace(/DOUBLE_QUOTE/g,"\"");
 	    widgetText = (new DOMParser()).parseFromString(xmlString, "text/xml");
-	  }
-	  else {
-	    widgetText.load(widgetTextUrl);
-	    if(_SARISSA_IS_SAFARI)
+	  }else{
+      if(_SARISSA_IS_SAFARI)
        {  var xmlhttp = new XMLHttpRequest();
           xmlhttp.open("GET", widgetTextUrl, false);
           xmlhttp.send(null);
