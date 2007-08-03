@@ -376,13 +376,20 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   // Test name of the layer
   var name2=layer.selectSingleNode("wmc:Name");name2=(name2)?name2.firstChild.nodeValue:"";
   if (objRef.context=="OWS"){
-    var href=layer.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?href.firstChild.nodeValue:"";
+    var href=layer.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?getNodeValue(href):"";
   }
   else {
-     if(_SARISSA_IS_OPERA)
-    var href=layer.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttributeNS ("http://www.w3.org/1999/xlink","href");// for opera
-    else
-    var href=layer.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
+     if(_SARISSA_IS_SAFARI){
+     var nodehref=layer.selectSingleNode("wmc:Server/wmc:OnlineResource");
+     var href=nodehref.attributes[1].nodeValue;
+     }
+   else{
+     if(_SARISSA_IS_OPERA){
+       var href=layer.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttributeNS ("http://www.w3.org/1999/xlink","href");// for opera
+     }else{
+       var href=layer.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
+     }
+    }
   }
 
   // Test format of the layer
