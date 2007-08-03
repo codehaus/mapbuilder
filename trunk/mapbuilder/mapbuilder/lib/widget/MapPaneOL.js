@@ -674,8 +674,13 @@ MapPaneOL.prototype.timestampListener=function(objRef, timestampIndex){
 		}
 
 		window.movieLoop.frameIsLoading = true;
-		curLayer.grid[0][0].imgDiv.addEventListener("load", imageLoaded, false);
-		curLayer.grid[0][0].imgDiv.src = newImageUrl;		
+		var element = curLayer.grid[0][0].imgDiv;
+		if(element.addEventListener) { // Standard
+			element.addEventListener("load", imageLoaded, false);
+		} else if(element.attachEvent) { // IE
+			element.attachEvent('onload', imageLoaded);
+		} 
+		element.src = newImageUrl;		
 	}
 			
 }
