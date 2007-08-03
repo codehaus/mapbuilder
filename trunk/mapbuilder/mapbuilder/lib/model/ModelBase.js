@@ -270,8 +270,10 @@ function ModelBase(modelNode, parentModel) {
   this.finishLoading = function() {
     // the following two lines are needed for IE; set the namespace for selection
     if(this.doc){
+     if(! _SARISSA_IS_SAFARI){
       this.doc.setProperty("SelectionLanguage", "XPath");
       if(this.namespace) Sarissa.setXpathNamespaces(this.doc, this.namespace);
+		}
 
       // Show the newly loaded XML document
       if(this.debug) mbDebugMessage(this, "Loading Model:"+this.id+" "+(new XMLSerializer()).serializeToString(this.doc));
@@ -344,9 +346,10 @@ function ModelBase(modelNode, parentModel) {
 //      var response = postLoad(config.serializeUrl, objRef.doc);
       
       var response = postGetLoad(config.serializeUrl, objRef.doc ,"text/xml","/temp","sld.xml");
-   
+       if(! _SARISSA_IS_SAFARI){
       response.setProperty("SelectionLanguage", "XPath");
       Sarissa.setXpathNamespaces(response, "xmlns:xlink='http://www.w3.org/1999/xlink'");
+      }
       var onlineResource = response.selectSingleNode("//OnlineResource");
       var fileUrl = onlineResource.attributes.getNamedItem("xlink:href").nodeValue;
 //      alert("yo");
@@ -387,7 +390,10 @@ function ModelBase(modelNode, parentModel) {
     //loop through all nodes selected from config
     var configObjects = this.modelNode.selectNodes( objectXpath );
     for (var i=0; i<configObjects.length; i++ ) {
+    if(configObjects[i].nodeName != "#text" && configObjects[i].nodeName != "#comment" )
+        {
       this.createObject( configObjects[i]);
+      }
     }
   }
 
