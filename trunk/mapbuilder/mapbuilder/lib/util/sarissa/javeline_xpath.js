@@ -85,7 +85,6 @@ XPath = {
 	
 	getAnyNode : function(htmlNode, empty, info, count, num, sResult){
 		var result = null, data = info[count];
-  //  alert("getAnyNode");
 		var sel = [], nodes = htmlNode.childNodes;
 		for(var i=0;i<nodes.length;i++){
 			if(data) data[0](nodes[i], data[1], info, count+1, i, sResult);
@@ -95,7 +94,6 @@ XPath = {
 	
 	getAttributeNode : function(htmlNode, attrName, info, count, num, sResult){
 		if(!htmlNode || htmlNode.nodeType != 1) return;
-		// alert("getAttributeNode");
 		var result = null, data = info[count];
 		var value = htmlNode.getAttributeNode(attrName);//htmlNode.attributes[attrName];//
 
@@ -129,7 +127,6 @@ XPath = {
 	getParentNode : function(htmlNode, empty, info, count, num, sResult){
 		var result = null, data = info[count];
 		var node = htmlNode.parentNode;
-		// alert("getParentNode");
 		if(data) data[0](node, data[1], info, count+1, 0, sResult);
 		else if(node) sResult.push(node);
 	},
@@ -137,7 +134,6 @@ XPath = {
 	getPrecedingSibling : function(htmlNode, tagName, info, count, num, sResult){
 	if(tagName =="*") tagName = htmlNode.tagName;
 		var result = null, data = info[count];
-		//alert("getPrecedingSibling: "+tagName);
 		var node = htmlNode.previousSibling;
 		while(node){
 			if(tagName != "node()" && node.tagName != tagName){
@@ -153,7 +149,6 @@ XPath = {
 	//flwsiblg[3] might not be conform spec
 	getFollowingSibling : function(htmlNode, tagName, info, count, num, sResult){
 		var result = null, data = info[count];
-		//alert("getFollowingSibling : "+tagName);
 		if(tagName =="*") tagName = htmlNode.tagName;
 		var node = htmlNode.nextSibling;
 		while(node){
@@ -236,7 +231,6 @@ XPath = {
 	},
 	
 	processXpath : function(sExpr){
-	   // alert("test du xpath : "+sExpr);
 		var results = new Array();
 		sExpr = sExpr.replace(/('[^']*)\|([^']*')/g, "$1_@_$2");
 		sExpr = sExpr.split("|");
@@ -285,14 +279,11 @@ XPath = {
 					   
 					     
 					    if(!sections[i]) break;
-						alert(query);
 						if(sections[i-1].match(/.*\#$/) ) 
 					    {
-					    alert("test de merde 287 xpath"+sections[i-1]);
 					    break;
 					    }
 						query +="/"+sections[i];
-						alert(query);
 						i++;
 						 
 					}

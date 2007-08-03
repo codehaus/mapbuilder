@@ -417,7 +417,7 @@ function _Javeline_XSLTProcessor(){
      */
   this.withparams = function(nodexsl)
   {
-  var nodes = nodexsl.chidsNodes;
+  var nodes = nodexsl.childNodes;
   for(var i = 0;i< nodes.length;i++)
   {
    if(nodes[i][TAGNAME] == "with-param" )
