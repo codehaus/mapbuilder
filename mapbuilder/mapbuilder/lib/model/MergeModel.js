@@ -16,6 +16,11 @@ $Id$
 function MergeModel(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   ModelBase.apply(this, new Array(modelNode, parent));
+  
+  // always wait until the defaultModel is loaded
+  this.async = false;
+  
+  this.template = null;
 
   this.models = new Array();
 
@@ -34,6 +39,10 @@ function MergeModel(modelNode, parent) {
         }
       }
     }
+    if (!objRef.doc) {
+      objRef.loadModelDoc(objRef);
+    }
+    objRef.template = objRef.doc.cloneNode(true);
   }
   this.addListener('init', this.init, this);
 
@@ -48,11 +57,7 @@ function MergeModel(modelNode, parent) {
   this.mergeModel = function(objRef, modelToMerge) {
     var docToMerge = modelToMerge.doc;
     if (!docToMerge) return;
-    if (!objRef.doc) {
-      objRef.doc = docToMerge.cloneNode(true);
-    } else {
-      Sarissa.copyChildNodes(docToMerge.documentElement, objRef.doc.documentElement, true);
-    }
+    Sarissa.copyChildNodes(docToMerge.documentElement, objRef.doc.documentElement, true);
     var nodes = objRef.doc.selectNodes(objRef.idXPath+'[not(./@sourceModel)]');
     var node;
     for (var i in nodes) {
@@ -65,7 +70,7 @@ function MergeModel(modelNode, parent) {
   
   this.buildModel = function(objRef) {
     objRef.callListeners('newModel');
-    objRef.doc = null;
+    objRef.doc = objRef.template.cloneNode(true);
     for (var i in objRef.models) {
       objRef.mergeModel(objRef, objRef.models[i]);
     }
