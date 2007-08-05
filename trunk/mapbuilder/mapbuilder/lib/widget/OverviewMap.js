@@ -29,6 +29,16 @@ function OverviewMap(widgetNode, model) {
     this.height = new Number(heightNode.firstChild.nodeValue);
   }
 
+  var minRatio = widgetNode.selectSingleNode("mb:minRatio");
+  if (minRatio) {
+    this.minRatio = new Number(minRatio.firstChild.nodeValue);
+  }
+
+  var maxRatio = widgetNode.selectSingleNode("mb:maxRatio");
+  if (maxRatio) {
+    this.maxRatio = new Number(maxRatio.firstChild.nodeValue);
+  }
+
   var layersNode = widgetNode.selectSingleNode("mb:layers");
   if (layersNode) {
     this.layerNames = new Array();
@@ -62,6 +72,9 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
       div: document.getElementById(objRef.htmlTagId),
       layers: new Array()
     };
+    
+    if (objRef.minRatio) options.minRatio = objRef.minRatio;
+    if (objRef.maxRatio) options.maxRatio = objRef.maxRatio;
 
     
     var showBaseLayer = true;
