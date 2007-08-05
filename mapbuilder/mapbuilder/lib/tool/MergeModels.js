@@ -23,7 +23,7 @@ function MergeModels(toolNode, model) {
   this.template = null;
 
   this.init = function(objRef) {
-    objRef.model.models = new Array();
+    objRef.model.mergeModels = new Array();
     var models = toolNode.selectSingleNode('mb:merges');
     if (models) {
       var model = models.childNodes;
@@ -35,7 +35,7 @@ function MergeModels(toolNode, model) {
     }
   }
   // it is important to be registered before other tools that
-  // check for model.models
+  // check for model.mergeModels
   model.addListener('init', this.init, this);
   
   this.getTemplate = function(objRef) {
@@ -48,7 +48,7 @@ function MergeModels(toolNode, model) {
   model.addListener('loadModel', this.getTemplate, this);
 
   this.addModel = function(objRef, model) {
-    objRef.model.models.push(model);
+    objRef.model.mergeModels.push(model);
     if (model.doc) {
       objRef.mergeModel(objRef, model.doc);
     }
@@ -73,11 +73,9 @@ function MergeModels(toolNode, model) {
     if (!objRef.template) return;
     objRef.model.callListeners('newModel');
     objRef.model.doc = objRef.template.cloneNode(true);
-    for (var i in objRef.model.models) {
-      objRef.mergeModel(objRef, objRef.model.models[i]);
+    for (var i in objRef.model.mergeModels) {
+      objRef.mergeModel(objRef, objRef.model.mergeModels[i]);
     }
     objRef.model.callListeners('loadModel');
   }
-  
-  this.CLASS_NAME = 'MergeModel';
 }
