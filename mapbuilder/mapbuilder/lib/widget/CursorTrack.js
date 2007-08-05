@@ -71,6 +71,7 @@ function CursorTrack(widgetNode, model) {
    */
   this.init = function(objRef) {
     objRef.proj = new Proj( objRef.model.getSRS() );
+    objRef.epsg4326 = new Proj('EPSG:4326');
 
     objRef.model.map.events.register('mousemove', objRef, objRef.mousemoveHandler);
     objRef.model.map.events.register('mouseout',  objRef, objRef.mouseoutHandler);
@@ -99,7 +100,7 @@ function CursorTrack(widgetNode, model) {
 
     ///CSCS
     var pt=new PT(evXY.lon, evXY.lat)
-    cs_transform(this.proj,new CS(csList.EPSG4326),pt);
+    cs_transform(this.proj, this.epsg4326, pt);
     var evLonLat = new OpenLayers.LonLat(pt.x,pt.y);
 
 
