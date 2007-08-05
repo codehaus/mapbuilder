@@ -43,7 +43,7 @@ function MapPaneOL(widgetNode, model) {
    * preventing rendering artefacts at tile edges. Recommended values:
    * 0-15, default is 0 (no gutter at all).
    */
-  this.tileGutter = tileGutter ? tileGutter.firstChild.nodeValue : 0;
+  this.tileGutter = tileGutter ? parseInt(tileGutter.firstChild.nodeValue) : 0;
   
   var tileBuffer = widgetNode.selectSingleNode("mb:tileBuffer");
   /**
@@ -52,21 +52,26 @@ function MapPaneOL(widgetNode, model) {
    * ones mean longer delays when panning. Recommended values: 1-3,
    * default is 2.
    */
-  this.tileBuffer = tileBuffer ? tileBuffer.firstChild.nodeValue : 2;
+  this.tileBuffer = tileBuffer ? parseInt(tileBuffer.firstChild.nodeValue) : 2;
   
   var tileSize = widgetNode.selectSingleNode("mb:tileSize");
   /**
    * For tiled wms layers: how many pixels should the size of one tile
    * be? Default is 256.
    */
-  this.tileSize = tileSize ? tileSize.firstChild.nodeValue : 256;
+  this.tileSize = tileSize ? parseInt(tileSize.firstChild.nodeValue) : 256;
 
   var imageReproject = widgetNode.selectSingleNode("mb:imageReproject");
   /**
    * For WMS on top of Google Maps you need to reproject the WMS image. This will stretch
    * the WMS images to fit the odd sized google tiles. Default is false
    */
-  this.imageReproject = imageReproject ? imageReproject.firstChild.nodeValue : false;
+  this.imageReproject = imageReproject ? imageReproject.firstChild.nodeValue : 'false';
+  if (this.imageReproject.match(/true/i)) {
+    this.imageReproject = true;
+  } else {
+    this.imageReproject = false;
+  }
   
   var imageBuffer = widgetNode.selectSingleNode("mb:imageBuffer");
   /**
@@ -75,14 +80,16 @@ function MapPaneOL(widgetNode, model) {
    * ones mean many reloads when panning. Recommended values: 1-3,
    * default is 2.
    */
-  this.imageBuffer = imageBuffer ? imageBuffer.firstChild.nodeValue : 2;
+  this.imageBuffer = imageBuffer ? parseInt(imageBuffer.firstChild.nodeValue) : 2;
   
   var displayOutsideMaxExtent = widgetNode.selectSingleNode("mb:displayOutsideMaxExtent");
   /**
    * Should layers also be rendered outside the map extent? Default is false.
    */
   this.displayOutsideMaxExtent = displayOutsideMaxExtent ? displayOutsideMaxExtent.firstChild.nodeValue : 'false';
-  if (this.displayOutsideMaxExtent.toUpperCase == 'FALSE') {
+  if (this.displayOutsideMaxExtent.match(/true/i)) {
+    this.displayOutsideMaxExtent = true;
+  } else {
     this.displayOutsideMaxExtent = false;
   }
 
@@ -451,7 +458,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         layerOptions.reproject=objRef.imageReproject;
         layerOptions.isBaseLayer=false;
       }
-      
+
       layerOptions.ratio = objRef.imageBuffer;
       layerOptions.singleTile = true;
 
