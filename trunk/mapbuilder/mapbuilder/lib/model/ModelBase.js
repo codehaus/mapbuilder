@@ -85,7 +85,14 @@ function ModelBase(modelNode, parentModel) {
   if (nodeSelectXpath) {
     this.nodeSelectXpath = nodeSelectXpath.firstChild.nodeValue;
   }
-
+  
+  /**
+   * Widgets can place configurations in a model. This is an associative
+   * array with the widgetId of the widget that places its configuration
+   * here as key.
+   */
+  this.config = new Array();
+  
   /**
    * Get the value of a node as selected by an XPath expression.1
    * @param objRef Reference to this node.
