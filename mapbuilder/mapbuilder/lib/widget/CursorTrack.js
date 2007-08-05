@@ -70,12 +70,10 @@ function CursorTrack(widgetNode, model) {
    * @param objRef Pointer to this CursorTrack object.
    */
   this.init = function(objRef) {
+    objRef.proj = new Proj( objRef.model.getSRS() );
+
     objRef.model.map.events.register('mousemove', objRef, objRef.mousemoveHandler);
     objRef.model.map.events.register('mouseout',  objRef, objRef.mouseoutHandler);
-
-    if( objRef.showLatLong || objRef.showDMS || objRef.showDM || objRef.showMGRS ) {
-      objRef.proj = new Proj( objRef.model.getSRS() );
-    }
 
     if( this.showMGRS )
       this.MGRS = new MGRS();
@@ -101,7 +99,7 @@ function CursorTrack(widgetNode, model) {
 
     ///CSCS
     var pt=new PT(evXY.lon, evXY.lat)
-    cs_transform(this.model.proj,new CS(csList.EPSG4326),pt);
+    cs_transform(this.proj,new CS(csList.EPSG4326),pt);
     var evLonLat = new OpenLayers.LonLat(pt.x,pt.y);
 
 
