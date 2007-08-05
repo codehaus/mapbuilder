@@ -70,7 +70,7 @@ function FeatureSelectHandler(toolNode, model) {
     // get the source models
     var sourceModel;
     // if we have a mergeModel, take sourceModels from there
-    if (objRef.model.CLASS_NAME == 'MergeModel') {
+    if (objRef.model.models) {
       objRef.sourceModels = objRef.model.models;
     } else {
       // if we hava a plain model, just use it

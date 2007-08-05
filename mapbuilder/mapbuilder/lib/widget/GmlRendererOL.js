@@ -84,7 +84,7 @@ function GmlRendererOL(widgetNode, model) {
       // add own model to array of configurations
       var models = [objRef.model];
       // get configurations from source models, if any
-      if (objRef.model.CLASS_NAME == 'MergeModel') {
+      if (objRef.model.models) {
         for (var i in objRef.model.models) {
           models.push(objRef.model.models[i]);
         }
@@ -164,7 +164,7 @@ function GmlRendererOL(widgetNode, model) {
         preFeatureInsert: function(feature) {
           if (feature.geometry) {
             // check if there is a source model linked with this feature
-            var sourceNode = objRef.model.doc.selectSingleNode(objRef.model.idXPath+"[@"+objRef.model.idAttribute+"='"+feature.fid+"']");
+            var sourceNode = objRef.model.doc.selectSingleNode("//*[@fid='"+feature.fid+"']");
             var sourceModel = null;
             if (sourceNode) {
               sourceModel = sourceNode.getAttribute('sourceModel');

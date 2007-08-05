@@ -68,7 +68,7 @@ function TipWidgetOL(widgetNode, model) {
   this.createPopup = function(objRef, evt, hover) {
     var feature = evt.feature;
     // check if there is a source model linked with this feature
-    var sourceNode = objRef.model.doc.selectSingleNode(objRef.model.idXPath+"[@"+objRef.model.idAttribute+"='"+feature.fid+"']");
+    var sourceNode = objRef.model.doc.selectSingleNode("//*[@fid='"+feature.fid+"']");
     var sourceModel = null;
     if (sourceNode) {
       sourceModel = sourceNode.getAttribute('sourceModel');
