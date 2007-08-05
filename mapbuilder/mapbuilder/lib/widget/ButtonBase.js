@@ -4,6 +4,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/util/Util.js");
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
@@ -50,17 +51,8 @@ function ButtonBase(widgetNode, model) {
     parentNode.innerHTML += ' ';
   }
 
-  //TBD maybe move this to Mapbuilder.js
-  //TBD take care of this when compressing Mapbuilder
   // load controlPanel.css for button base styles
-  if (!document.getElementById('controlPanelCss')) {
-    var cssNode = document.createElement('link');
-    cssNode.setAttribute('id', 'controlPanelCss');
-    cssNode.setAttribute('rel', 'stylesheet');
-    cssNode.setAttribute('type', 'text/css');
-    cssNode.setAttribute('href', config.skinDir+'/controlPanel.css');
-    document.getElementsByTagName('head')[0].appendChild(cssNode);
-  }
+  loadCss('controlPanel.css');
 
   WidgetBase.apply(this, new Array(widgetNode, model));
   
