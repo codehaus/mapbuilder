@@ -798,7 +798,7 @@
 							<xs:documentation>For tiled wms layers: how many pixels should the size of one tile be? Default is 256.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="imageBuffer" type="xs:int" minOccurs="0">
+					<xs:element name="imageBuffer" type="xs:float" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>for untiled wms layers: how many times should the map image be larger than the visible map. Large values mean slow loading, small ones mean many reloads when panning. Recommended values: 1-3, default is 2.</xs:documentation>
 						</xs:annotation>
@@ -913,6 +913,16 @@
 							<xs:documentation>The height of the overview map; optional. If only height is given and not width, determines the width from the aspect ratio of the main map.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+          <xs:element name="minRatio" type="xs:integer" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Resolution ratio to main map where zooming out will occur.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="maxRatio" type="xs:integer" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Resolution ratio to main map where zooming in will occur.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
 					<xs:element name="layers" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The list of layer names from the main map context to show in the overview map. If not given, the overview map defaults to just the base layer of the main map.</xs:documentation>
