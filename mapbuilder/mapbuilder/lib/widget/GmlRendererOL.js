@@ -84,9 +84,9 @@ function GmlRendererOL(widgetNode, model) {
       // add own model to array of configurations
       var models = [objRef.model];
       // get configurations from source models, if any
-      if (objRef.model.models) {
-        for (var i in objRef.model.models) {
-          models.push(objRef.model.models[i]);
+      if (objRef.model.mergeModels) {
+        for (var i in objRef.model.mergeModels) {
+          models.push(objRef.model.mergeModels[i]);
         }
       }
       // store configurations for each source model
