@@ -740,6 +740,24 @@ function sld2OlStyle(node) {
   if(!styleSet)style1=null;
   return style1;
 }
+
+/**
+ * Dynamically loads a stylesheet into the html page.
+ * @param cssFileName name of the file to load, relative to config.skinDir
+ */
+function loadCss(cssFileName) {
+  //TBD take care of this when compressing Mapbuilder?
+  var id = cssFileName.match(/[^\/]*$/).toString().replace(/./, '_');
+  if (!document.getElementById(id)) {
+    var cssNode = document.createElement('link');
+    cssNode.setAttribute('id', id);
+    cssNode.setAttribute('rel', 'stylesheet');
+    cssNode.setAttribute('type', 'text/css');
+    cssNode.setAttribute('href', config.skinDir+'/'+cssFileName);
+    document.getElementsByTagName('head')[0].appendChild(cssNode);
+  }
+}
+
 /**
  * getNodevalue return value of node
  * it as OpenLayers style
