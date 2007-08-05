@@ -69,9 +69,9 @@ function FeatureSelectHandler(toolNode, model) {
   this.init = function(objRef) {
     // get the source models
     var sourceModel;
-    // if we have a mergeModel, take sourceModels from there
-    if (objRef.model.models) {
-      objRef.sourceModels = objRef.model.models;
+    // if we have mergeModels, take sourceModels from there
+    if (objRef.model.mergeModels) {
+      objRef.sourceModels = objRef.model.mergeModels;
     } else {
       // if we hava a plain model, just use it
       objRef.sourceModels.push(objRef.model);
