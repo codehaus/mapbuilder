@@ -232,7 +232,6 @@
 			<xs:element name="FeatureTypeSchema" type="mb:FeatureTypeSchemaType"/>
 			<xs:element name="GeoRSS" type="mb:GeoRSSType"/>
 			<xs:element name="Logger" type="mb:LoggerType"/>
-			<xs:element name="MergeModel" type="mb:MergeModelType"/>
 			<xs:element name="Model" type="mb:ModelType">
 				<xs:annotation>
 					<xs:documentation>A generic model to represent an XML document where no specialized get or set methods are required</xs:documentation>
@@ -330,6 +329,7 @@
 			<xs:element name="EditSLD" type="mb:EditSLDType"/>
 			<xs:element name="FeatureSelectHandler" type="mb:FeatureSelectHandlerType"/>
 			<xs:element name="History" type="mb:HistoryType"/>
+      <xs:element name="MergeModels" type="mb:MergeModelsType"/>
 			<xs:element name="MovieLoop" type="mb:MovieLoopType"/>
 			<xs:element name="Timer" type="mb:TimerType"/>
 			<xs:element name="WebServiceRequest" type="mb:WebServiceRequestType"/>
@@ -389,41 +389,6 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="mb:AbstractModelType"/>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="MergeModelType">
-		<xs:annotation>
-			<xs:documentation>A model that can combine other models from the config that have the same namespace and root node. This is useful eg. for packing all GML rendering into a single layer.</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="mb:AbstractModelType">
-				<xs:sequence>
-					<xs:element name="merges">
-						<xs:annotation>
-							<xs:documentation>a list of models that are to be merged into this model</xs:documentation>
-						</xs:annotation>
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element name="merge" maxOccurs="unbounded">
-									<xs:annotation>
-										<xs:documentation>id of a model to merge with this model</xs:documentation>
-									</xs:annotation>
-								</xs:element>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
-					<xs:element name="idXPath">
-						<xs:annotation>
-							<xs:documentation>XPath statement that points to the nodes that hold an id (eg. feature id) for unique nodes. Default is "/*/*". This is needed to link back to the source models.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="idAttribute">
-						<xs:annotation>
-							<xs:documentation>Name of the attribute that holds the unique id (eg. fid). Default is "id". This is needed to link back to the source models.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="ModelType">
@@ -1164,6 +1129,31 @@
 			<xs:extension base="mb:AbstractToolType"/>
 		</xs:complexContent>
 	</xs:complexType>
+  <xs:complexType name="MergeModelType">
+    <xs:annotation>
+      <xs:documentation>A tool that can combine other models from the config that have the same structure. It is designed for models that hold features with a unique feature id in a parameter called "fid". This is useful eg. for packing all GML rendering into a single GmlRendererOL.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="mb:AbstractToolType">
+        <xs:sequence>
+          <xs:element name="merges">
+            <xs:annotation>
+              <xs:documentation>a list of models that are to be merged into the model that this tool belongs to.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="merge" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>id of a model to merge with the model that this tool belongs to.</xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 	<xs:complexType name="FeatureSelectHandlerType">
 		<xs:annotation>
 			<xs:documentation>Adds a handler to the map that allows selection of features (eg. for highlighting them on mouseover)</xs:documentation>
