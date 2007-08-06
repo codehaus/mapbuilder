@@ -71,7 +71,7 @@ function CursorTrack(widgetNode, model) {
    */
   this.init = function(objRef) {
     objRef.proj = new Proj( objRef.model.getSRS() );
-    objRef.epsg4326 = new Proj('EPSG:4326');
+    objRef.epsg4326 = new CS(csList.EPSG4326);
 
     objRef.model.map.events.register('mousemove', objRef, objRef.mousemoveHandler);
     objRef.model.map.events.register('mouseout',  objRef, objRef.mouseoutHandler);
@@ -88,15 +88,10 @@ function CursorTrack(widgetNode, model) {
    */
   this.mousemoveHandler = function(evt) {
     this.coordForm = document.getElementById(this.formName);
-    if (evt == null) {
-      this.lastXy = new OpenLayers.Pixel(0, 0);
-    }
-    else {
-      this.lastXy = evt.xy;
-    }
+    if (!evt) return;
 
     // capture XY coordinates
-    var evXY = this.model.map.getLonLatFromPixel(this.lastXy);
+    var evXY = this.model.map.getLonLatFromPixel(evt.xy);
 
     ///CSCS
     var pt=new PT(evXY.lon, evXY.lat)
@@ -106,9 +101,9 @@ function CursorTrack(widgetNode, model) {
 
     if( this.showPx ) {
       if( this.coordForm.px )
-        this.coordForm.px.value = this.lastXy.x;
+        this.coordForm.px.value = evt.xy.x;
       if( this.coordForm.py )
-        this.coordForm.py.value = this.lastXy.y;
+        this.coordForm.py.value = evt.xy.y;
     }
 
     if( this.showXY ) {
