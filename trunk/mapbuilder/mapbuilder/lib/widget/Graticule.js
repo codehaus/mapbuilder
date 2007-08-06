@@ -421,8 +421,8 @@ function Graticule(widgetNode, model) {
 	*/  
 		createHLine3 : function(lat) {
 		
-			var f = this.fromLatLngToDivPixel(this,lat,0);
-			var t = this.fromLatLngToDivPixel(this,lat,180);		
+			var f = this.fromLatLngToDivPixel(lat,0);
+			var t = this.fromLatLngToDivPixel(lat,180);		
 		
 			var div = document.createElement("DIV");
 			div.style.position = "absolute";
@@ -441,6 +441,7 @@ function Graticule(widgetNode, model) {
 			div.style.top = f.y + "px";
 			div.style.width = ((x2-x1)*2) + "px";
 			div.style.height = "1px";
+			return div;
 			
 			
 }  ,
