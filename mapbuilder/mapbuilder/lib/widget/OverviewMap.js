@@ -125,6 +125,7 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
 
     // Add the overview to the main map
     objRef.control = new OpenLayers.Control.OverviewMap(options);
+    objRef.control.mapOptions = {theme: null};
     map.addControl(objRef.control);
 
     // make all layers visible
