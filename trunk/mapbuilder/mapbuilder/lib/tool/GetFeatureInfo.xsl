@@ -43,7 +43,7 @@ $Name$
 
   <!-- Layer template -->
   <xsl:template match="wmc:Layer">
-    <xsl:if test="contains($queryLayer,wmc:Name)">
+    <xsl:if test="wmc:Name=$queryLayer">
       <!-- Layer variables -->
       <xsl:variable name="version">
         <xsl:value-of select="wmc:Server/@version"/>    
