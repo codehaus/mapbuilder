@@ -487,7 +487,7 @@ function Graticule(widgetNode, model) {
 		*/ 
 		activate: function() {
 		
-		OpenLayers.Control.prototype.activate.apply(this, arguments);
+		if(OpenLayers.Control.prototype.activate.apply(this, arguments)){
                 this.panel_div.style.backgroundImage = "url(\""+objRef.enabledImage.src+"\")";
     	//this.map.div.style.cursor = objRef.cursor;
 			this.map.events.register('moveend', this, this.update);
@@ -495,15 +495,24 @@ function Graticule(widgetNode, model) {
 		 	this.mapContainer = this.div;
 		 	this.color="black";
 			this.update();
-		},
+		return true;
+        } else {
+            return false;
+        }
+        },
 		deactivate: function() {
-		OpenLayers.Control.prototype.deactivate.apply(this, arguments);
-		        this.panel_div.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
-			this.map.events.unregister('moveend');
+		if(OpenLayers.Control.prototype.deactivate.apply(this, arguments)){
+		    this.panel_div.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
+			this.map.events.unregister('moveend', this, this.update);
 			this.objRef.display=false;
 			this.removeGraticules(); 
 			objRef.enabled = false;
-      objRef.doSelect(objRef, false)      
+      		objRef.doSelect(objRef, false); 
+       		this.active=false;
+       		return true;
+        } else {
+            return false;
+        }
 	}
 /////////////////////////////////////////////////////////////
 
