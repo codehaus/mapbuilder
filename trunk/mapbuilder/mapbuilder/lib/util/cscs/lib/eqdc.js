@@ -20,9 +20,8 @@ for (i = 0; i < 15; i++) {
    }
      
  }
- 
-//alert(mbGetMessage ("Latitude failed to converge after 15 iterations"));//problem with definition of mbGetMessage
-return(-9999);
+ alert(mbGetMessage("phi3zNoConvergence"));
+ return(-9999);
 }
 
 // Function to compute the constant small t for use in the forward
@@ -118,7 +117,7 @@ if (def.mode != 0)
    {
    if (Math.abs(def.lat1 + def.lat2) < EPSLN)
       {
-      alert(mbGetMessage ("eqdcInitEqualLatitudes"));
+      alert(mbGetMessage("eqdcInitEqualLatitudes"));
   
       //return(81);
       }
