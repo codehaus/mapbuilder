@@ -16,6 +16,11 @@
   -->
   <!-- Widget (XSL) messages -->
   <widgets>
+    <Abstract>
+      <abstract>Abstract</abstract>
+      <moreInfo>Read more about this map</moreInfo>
+    </Abstract>
+    
     <AoiForm>
       <east>East:</east>
       <north>North:</north>
@@ -27,6 +32,13 @@
     <Back>
       <tooltip>Get the previous extent</tooltip>
     </Back>
+    
+    <CatSearchForm>
+      <east>East:</east>
+      <north>North:</north>
+      <south>South:</south>
+      <west>West:</west>
+    </CatSearchForm>
     
     <CollectionList>
       <title>Select a map to load:</title>
@@ -124,16 +136,6 @@
       <tooltip>Click on feature to query it</tooltip>
     </WfsGetFeature>
     
-    <Widget>
-      <abstract>Abstract</abstract>
-      <east>East:</east>
-      <moreInfo>Read more about this map</moreInfo>
-      <north>North:</north>
-      <searchFormTitle>Area of interest coordinates</searchFormTitle>
-      <south>South:</south>
-      <west>West:</west>
-    </Widget>
-    
     <ZoomIn>
       <tooltip>Click and drag to zoom in</tooltip>
     </ZoomIn>
@@ -157,17 +159,11 @@
     <cantMoveDown>Can't move node past end of list: {0}</cantMoveDown>
     <cantMoveUp>Can't move node past beginning of list: {0}</cantMoveUp>
     <convertingCoords>converting coordinates</convertingCoords>
-    <deleteShapeFailed>Failed to remove: {0}</deleteShapeFailed>
-    <divAlreadyExists>Div: {0} already exists</divAlreadyExists>
-    <divClickPassNotFound>Div clickPass {0} not found</divClickPassNotFound>
-    <divNotFound>Could not find div: {0}</divNotFound>
     <docLoading>Document loading, please wait...</docLoading>
     <documentParseError>Document parseError: {0}</documentParseError>
     <eastWgs84>East (WGS84)</eastWgs84>
     <equiInvDataError>Input data error in equiInv()</equiInvDataError>
-    <errorAddingLayer>Failed adding Layer: {0} service: {1}</errorAddingLayer>
     <errorCreatingObject>Error creating object: {0}</errorCreatingObject>
-    <errorDeletingLayer>Error deleting: {0}</errorDeletingLayer>
     <errorLoadingDocument>Error loading document: {0} - {1}-{2}</errorLoadingDocument>
     <errorLoadingModel>Config loadModel error: {0}: {1}</errorLoadingModel>
     <errorLoadingStylesheet>Error loading XSL stylesheet: {0}</errorLoadingStylesheet>
@@ -176,10 +172,8 @@
     <exceptionTransformingDoc>Exception transforming doc with XSL: {0}</exceptionTransformingDoc>
     <featureNotFoundOwsContext>Feature not found</featureNotFoundOwsContext>
     <featureNotFoundWebServiceRequest>WebServiceRequest: error finding feature node: {0}</featureNotFoundWebServiceRequest>
-    <featureUnderConstruction>Feature under construction.  Stay tuned!</featureUnderConstruction>
     <gridShiftError>ERROR: Grid shift transformations are not implemented yet (cscs.js)</gridShiftError>
     <idRequired>id required for object: {0}</idRequired>
-    <imageNotFound>ERROR: image not found</imageNotFound>
     <invalidFeatureXpathEditLine>EditLine: invalid featureXpath in config: {0}</invalidFeatureXpathEditLine>
     <invalidFeatureXpathEditPoint>EditPoint: invalid featureXpath in config: {0}</invalidFeatureXpathEditPoint>
     <invalidFeatureXpathEditPolygon>EditPolygon: invalid featureXpath in config: {0}</invalidFeatureXpathEditPolygon>
@@ -188,37 +182,23 @@
     <invalidGmlGeom>Invalid GML Geometry</invalidGmlGeom>
     <laeaInvDataError>Input data error in laeaInv()</laeaInvDataError>
     <lastFrameAfterFirst>Last frame must be after the first frame</lastFrameAfterFirst>
-    <layerNotFound>Layer with id {0} not found</layerNotFound>
     <layerTypeNotSupported>MapPaneOL: No support for layer type={0}</layerTypeNotSupported>
-    <lccFwdNoProjection>No projection in lccFwd()</lccFwdNoProjection>
     <lccInitEqualLatitudes>lccInit: Equal Latitudes for Standard Parallels on opposite sides of equator</lccInitEqualLatitudes>
     <listenerError>Listener error: param={0}, target={1}, callBackFunction={2}</listenerError>
     <ll2lccNoProjection>ll2lcc: Point can not be projected</ll2lccNoProjection>
     <ll2mAtPoles>ll2m: Transformation cannot be computed at the poles</ll2mAtPoles>
-    <ll2pixelNotDefined>ll2pixel not defined</ll2pixelNotDefined>
-    <ll2sceneNotDefined>ll2scene not defined</ll2sceneNotDefined>
     <ll2stInfiniteProjection>ll2st: Point projects into infinity</ll2stInfiniteProjection>
     <ll2tmInfiniteProjection>ll2tm: Point projects into infinity</ll2tmInfiniteProjection>
     <llInputOutOfRange>Input out of range: lon: {0} - lat: {1}</llInputOutOfRange>
-    <loadingLayer>Loading {0} map layer</loadingLayer>
-    <loadingLayers>Loading {0} map layers</loadingLayers>
-    <m2llLat9999>lat = -9999</m2llLat9999>
-    <mercFwdAtPoles>Transformation cannot be computed at the poles in mercFwd()</mercFwdAtPoles>
     <mollFwdIterationError>Iteration failed to converge in mollFwd()</mollFwdIterationError>
     <noBboxInContext>No BBOX defined in context</noBboxInContext>
-    <noCanvasContext>No canvas context</noCanvasContext>
     <noContextDefined>No context defined in config</noContextDefined>
     <noCountryCode>You need to specify a country code</noCountryCode>
     <noDataYet>No data to show yet</noDataYet>
     <nodeNotFound>Node not found; unable to delete node: {0}</nodeNotFound>
     <noFeatureToDelete>No feature available to delete</noFeatureToDelete>
     <noFeatureToInsert>No feature available to insert</noFeatureToInsert>
-    <noLayerSelected>No layer selected</noLayerSelected>
-    <noMapContainerId>MapContainerBase: required property mapContainerId missing in config: {0}</noMapContainerId>
-    <noMouseHandlerButton>Error finding mouseHandler: {0} for button: {1}</noMouseHandlerButton>
-    <noMouseHandlerCursorTrack>CursorTrack requires a mouseHandler property</noMouseHandlerCursorTrack>
     <noMouseHandlerTool>Error finding mouseHandler: {0} for tool: {1}</noMouseHandlerTool>
-    <noPropertySelected>No property selected</noPropertySelected>
     <noQueryableLayers>
       There are no queryable layers available,
       please add a queryable layer to the context.
@@ -230,11 +210,9 @@
     <noRssTitle>No RSS title</noRssTitle>
     <northWgs84>North (WGS84)</northWgs84>
     <noSerializeUrl>serializeUrl must be specified in config to save a model</noSerializeUrl>
-    <noStylesheetDefined>No stylesheet defined</noStylesheetDefined>
     <noTargetContext>Error finding targetContext: {0} for: {1}</noTargetContext>
     <noTargetModelTool>Error finding targetModel: {0} for tool: {1}</noTargetModelTool>
     <noTargetModelWidget>Error finding targetModel: {0} for: {1}</noTargetModelWidget>
-    <notImplementedYet>NOT IMPLEMENTED YET</notImplementedYet>
     <nullOwsContext>Null OWSContext doc</nullOwsContext>
     <nullXmlResponse>Null XML response: {0}</nullXmlResponse>
     <omercFwdInfinity>Point projects into infinity in omercFwd()</omercFwdInfinity>
@@ -244,27 +222,15 @@
     <parseError>Parse error: {0}</parseError>
     <phi1zNoConvergence>phi1z: Convergence error</phi1zNoConvergence>
     <phi2zNoConvergence>phi2z: Convergence error</phi2zNoConvergence>
-    <pixel2llNotDefined>pixel2ll not defined</pixel2llNotDefined>
-    <preparingCoords>preparing coordinates</preparingCoords>
-    <pretendPaint>Pretending to paint: {0} features {1}</pretendPaint>
+    <phi3zNoConvergence>phi3z: Convergence error</phi3zNoConvergence>
+    <phi4zNoConvergence>phi4z: Convergence error</phi4zNoConvergence>
     <projectionNotSupported>Measurement: Projection not supported!</projectionNotSupported>
-    <referenceNodeIdNotFound>
-      AutoResize tool cannot find the reference node '{0}' in the DOM.
-      Please specify a valid referenceNodeId in the config file
-      or use an id 'autoResize' for one of your documents nodes.
-    </referenceNodeIdNotFound>
-    <rendering>rendering</rendering>
     <scale>scale 1:{0}</scale>
     <selectLayer>Select a layer if you want insert sld in wmc</selectLayer>
     <sinuInvDataError>Input data error in sinuInv()</sinuInvDataError>
     <southWgs84>South (WGS84)</southWgs84>
-    <stereFwdInfinity>Point projects into infinity in stereFwd()</stereFwdInfinity>
-    <styleNodeNotFound>Style node not found</styleNodeNotFound>
-    <stylesheetNotFound>Parsing stylesheet not found</stylesheetNotFound>
     <tabWidgetNotFound>Tab widget not found: {0}</tabWidgetNotFound>
     <tm2llNoConvergence>tm2ll: Latitude failed to converge</tm2llNoConvergence>
-    <tmercFwdInfinity>Point projects into infinity in tmercFwd()</tmercFwdInfinity>
-    <tmercInvLatError>Latitude failed to converge in tmercInv()</tmercInvLatError>
     <unableToLoadDoc>
       Unable to load external document: {0}.
       Set the proxyUrl property in config.
@@ -286,13 +252,6 @@
     <unitMiles>miles</unitMiles>
     <unitMilesAbbr>mi</unitMilesAbbr>
     <unknownRucType>Unknown RUC type</unknownRucType>
-    <unspecClickPassId>Unspecified clickPassId</unspecClickPassId>
-    <unspecIcon>Unspecified icon</unspecIcon>
-    <unspecLeftOffset>Unspecified leftOffset</unspecLeftOffset>
-    <unspecTopOffset>Unspecified topOffset</unspecTopOffset>
-    <unsupportedGmlGeom>Unsupported GML Geometry: {0}</unsupportedGmlGeom>
-    <unsupportedGmlGeomForLayer>Unsupported GML Geometry for layer: {0}</unsupportedGmlGeomForLayer>
-    <unsupportedMapProjection>Unsupported map projection: {0}</unsupportedMapProjection>
     <westWgs84>West (WGS84)</westWgs84>
   </messages>
 </WidgetText>

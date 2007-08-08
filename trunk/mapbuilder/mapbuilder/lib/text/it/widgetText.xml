@@ -16,7 +16,11 @@
   -->
   <!-- Widget (XSL) messages -->
   <widgets>
-
+    <Abstract>
+      <abstract>Sommario</abstract>
+      <moreInfo>Informazioni aggiuntive</moreInfo>
+    </Abstract>
+    
     <AoiForm>
       <east>Est:</east>
       <north>Nord:</north>
@@ -28,6 +32,13 @@
     <Back>
       <tooltip>Zoom precedente</tooltip>
     </Back>
+    
+    <CatSearchForm>
+      <east>Est:</east>
+      <north>Nord:</north>
+      <south>Sud:</south>
+      <west>Ovest:</west>
+    </CatSearchForm>
     
     <CollectionList>
       <title>Seleziona la mappa da caricare:</title>
@@ -73,25 +84,14 @@
     </InsertFeature>
     
     <LayerControl>
-     <deleteLayerTip> cancellare questo strato</deleteLayerTip>
-     <layerIndexTip>Attuale posizione dello strato nella pila di immagine</layerIndexTip>
-     <legendTip>Visualizzare o non la leggenda</legendTip>
-     <moveLayerDownTip>abbassare questo strato</moveLayerDownTip>
-     <moveLayerUpTip> alzare questo strato</moveLayerUpTip>
-     <nameLayerTip> Strato nome</nameLayerTip>
-     <opacityTip> tasso di opacità</opacityTip>
-     <toggleVisTip>scattar se desiderate l'esposizione o non questo strato</toggleVisTip>
-    </LayerControl>
-    
-    <LayerControl>
-     <deleteLayerTip>Cancellare questo strato</deleteLayerTip>
-     <layerIndexTip>Attuale posizione dello strato nella pila di immagine</layerIndexTip>
-     <legendTip>Visualizzare o non la leggenda</legendTip>
-     <moveLayerDownTip>Abbassare questo strato</moveLayerDownTip>
-     <moveLayerUpTip>Alzare questo strato</moveLayerUpTip>
-     <nameLayerTip>Strato nome</nameLayerTip>
-     <opacityTip>Tasso di opacità</opacityTip>
-     <toggleVisTip>Scattar se desiderate l'esposizione o non questo strato</toggleVisTip>
+      <deleteLayerTip>Cancellare questo strato</deleteLayerTip>
+      <layerIndexTip>Attuale posizione dello strato nella pila di immagine</layerIndexTip>
+      <legendTip>Visualizzare o non la leggenda</legendTip>
+      <moveLayerDownTip>Abbassare questo strato</moveLayerDownTip>
+      <moveLayerUpTip>Alzare questo strato</moveLayerUpTip>
+      <nameLayerTip>Strato nome</nameLayerTip>
+      <opacityTip>Tasso di opacità</opacityTip>
+      <toggleVisTip>Scattar se desiderate l'esposizione o non questo strato</toggleVisTip>
     </LayerControl>
     
     <Legend>
@@ -136,16 +136,6 @@
       <tooltip>Clicca sull'oggetto per interrogarlo</tooltip>
     </WfsGetFeature>
     
-    <Widget>
-      <abstract>Sommario</abstract>
-      <east>Est:</east>
-      <moreInfo>Informazioni aggiuntive</moreInfo>
-      <north>Nord:</north>
-      <searchFormTitle>Coordinate area di interesse</searchFormTitle>
-      <south>Sud:</south>
-      <west>Ovest:</west>
-    </Widget>
-    
     <ZoomIn>
       <tooltip>Clicca e trascina il mouse per ingrandire</tooltip>
     </ZoomIn>
@@ -169,17 +159,11 @@
     <cantMoveDown>Il nodo è già alla fine della lista: {0}</cantMoveDown>
     <cantMoveUp>Il nodo è già all'inizio della lista: {0}</cantMoveUp>
     <convertingCoords>conversione delle coordinate</convertingCoords>
-    <deleteShapeFailed>Non è possibile la rimozione: {0}</deleteShapeFailed>
-    <divAlreadyExists>Div: {0} esiste già</divAlreadyExists>
-    <divClickPassNotFound>Div clickPass {0} non trovato</divClickPassNotFound>
-    <divNotFound>Non è possibile trovare il div: {0}</divNotFound>
     <docLoading>Caricamento del documento, attendere prego...</docLoading>
     <documentParseError>Il documento contiene degli errori: {0}</documentParseError>
     <eastWgs84>Est (WGS84)</eastWgs84>
     <equiInvDataError>C'è un errore di contenuto nel equiInv()</equiInvDataError>
-    <errorAddingLayer>Non è possibile aggiungere il layer: {0} servizio: {1}</errorAddingLayer>
     <errorCreatingObject>Errore nella creazione dell'oggetto: {0}</errorCreatingObject>
-    <errorDeletingLayer>Errore nell'eliminazione: {0}</errorDeletingLayer>
     <errorLoadingDocument>Errore nel caricamento del documento: {0} - {1}-{2}</errorLoadingDocument>
     <errorLoadingModel>Errore in Config loadModel: {0}: {1}</errorLoadingModel>
     <errorLoadingStylesheet>Errore nel caricamento del foglio di stile XSL: {0}</errorLoadingStylesheet>
@@ -188,10 +172,8 @@
     <exceptionTransformingDoc>Errore nella trasformazione XSL del documento: {0}</exceptionTransformingDoc>
     <featureNotFoundOwsContext>Oggetto non trovato</featureNotFoundOwsContext>
     <featureNotFoundWebServiceRequest>WebServiceRequest: errore nel trovare le caratteristiche del nodo: {0}</featureNotFoundWebServiceRequest>
-    <featureUnderConstruction>Componente in costruzione.  Stay tuned!</featureUnderConstruction>
     <gridShiftError>ERRORE: Le trasformazioni dello spostamento di griglia non sono effettuate ancora (cscs.js)</gridShiftError>
     <idRequired>È richiesto un id per l'oggetto: {0}</idRequired>
-    <imageNotFound>ERRORE: immagine non trovata</imageNotFound>
     <invalidFeatureXpathEditLine>EditLine: la definizione di featureXpath in config non è valida: {0}</invalidFeatureXpathEditLine>
     <invalidFeatureXpathEditPoint>EditPoint: la definizione di featureXpath in config non è valida: {0}</invalidFeatureXpathEditPoint>
     <invalidFeatureXpathEditPolygon>EditPolygon: la definizione di featureXpath in config non è valida: {0}</invalidFeatureXpathEditPolygon>
@@ -200,37 +182,23 @@
     <invalidGmlGeom>Geometria GML non valida</invalidGmlGeom>
     <laeaInvDataError>C'è un errore di contenuto nel' laeaInv()</laeaInvDataError>
     <lastFrameAfterFirst>L'ultimo frame deve essere successivo al primo</lastFrameAfterFirst>
-    <layerNotFound>Nessun tematismo trovato con id {0}</layerNotFound>
     <layerTypeNotSupported>MapPaneOL: Nessun supporto per il tematismo di tipo={0}</layerTypeNotSupported>
     <lccInitEqualLatitudes>lccInit: Latitudine uguale dei Paralleli Standard sui lati opposti rispetto all'equatore</lccInitEqualLatitudes>
-    <lccFwdNoProjection>Il Punto non può essere proiettato nel lccFwd()</lccFwdNoProjection>
     <listenerError>Errore in Listener: param={0}, target={1}, callBackFunction={2}</listenerError>
     <ll2lccNoProjection>ll2lcc: Il Punto non può essere proiettato</ll2lccNoProjection>
     <ll2mAtPoles>ll2m: La trasformazione non può essere calcolata ai poli</ll2mAtPoles>
-    <ll2pixelNotDefined>ll2pixel non è definito</ll2pixelNotDefined>
-    <ll2sceneNotDefined>ll2scene non è definito</ll2sceneNotDefined>
     <ll2stInfiniteProjection>ll2st: Punto proiettato all'infinito</ll2stInfiniteProjection>
     <ll2tmInfiniteProjection>ll2tm: Punto proiettato all'infinito</ll2tmInfiniteProjection>
     <llInputOutOfRange>Inserire i limiti: lon: {0} - lat: {1}</llInputOutOfRange>
-    <loadingLayer>{0} tematismo in caricamento</loadingLayer>
-    <loadingLayers>{0} tematismi in caricamento</loadingLayers>
-    <m2llLat9999>lat = -9999</m2llLat9999>
-    <mercFwdAtPoles>La trasformazione non può essere computata ai pali nel mercFwd()</mercFwdAtPoles>
     <mollFwdIterationError>La ripetizione non è riuscito a convergere nel mollFwd()</mollFwdIterationError>
     <noBboxInContext>Nessun BBOX definito nella context</noBboxInContext>
-    <noCanvasContext>Canvas context non esiste</noCanvasContext>
     <noContextDefined>Nessun context definito nella configurazione (config)</noContextDefined>
     <noCountryCode>Specificare un country code</noCountryCode>
     <noDataYet>Nessun contenuto da visualizzare</noDataYet>
     <nodeNotFound>Nessun nodo trovato; non è possibile procedere con l'eliminazione: {0}</nodeNotFound>
     <noFeatureToDelete>Nessun oggetto disponibile per l'eliminazione</noFeatureToDelete>
     <noFeatureToInsert>Nessun oggetto disponibile per l'inserimento</noFeatureToInsert>
-    <noLayerSelected>Nessun tematismo selezionato</noLayerSelected>
-    <noMapContainerId>MapContainerBase: specificare in config la proprietà mapContainerId: {0}</noMapContainerId>
-    <noMouseHandlerButton>Errore nel trovare il mouseHandler: {0} per il bottone: {1}</noMouseHandlerButton>
-    <noMouseHandlerCursorTrack>CursorTrack necessita una proprietà mouseHandler</noMouseHandlerCursorTrack>
     <noMouseHandlerTool>Errore nel trovare il mouseHandler: {0} per l'applicazione: {1}</noMouseHandlerTool>
-    <noPropertySelected>Nessuna proprietà selezionata</noPropertySelected>
     <noQueryableLayers>
       Nessun tematismo interrogabile disponibile,
       aggiungere al context un tematismo interrogabile.
@@ -242,11 +210,9 @@
     <noRssTitle>Titolo RSS assente</noRssTitle>
     <northWgs84>Nord (WGS84)</northWgs84>
     <noSerializeUrl>definire la proprietà serializeUrl in config</noSerializeUrl>
-    <noStylesheetDefined>Nessun foglio di stile (stylesheet) definito</noStylesheetDefined>
     <noTargetContext>Errore nella ricerca del targetContext: {0} per: {1}</noTargetContext>
     <noTargetModelTool>Errore nel trovare il targetModel: {0} per l'applicazione: {1}</noTargetModelTool>
     <noTargetModelWidget>Errore nella ricerca del targetModel: {0} per: {1}</noTargetModelWidget>
-    <notImplementedYet>NON ANCORA IMPLEMENTATO</notImplementedYet>
     <nullOwsContext>Documento OWSContext vuoto</nullOwsContext>
     <nullXmlResponse>Risposta XML vuota: {0}</nullXmlResponse>
     <omercFwdInfinity>Il Punto è proiettato nell'infinità nel omercFwd()</omercFwdInfinity>
@@ -256,29 +222,15 @@
     <parseError>Errore nell'analisi del documento: {0}</parseError>
     <phi1zNoConvergence>phi1z: errore di convergenza</phi1zNoConvergence>
     <phi2zNoConvergence>phi2z: errore di convergenza</phi2zNoConvergence>
-    <pixel2llNotDefined>pixel2ll non definito</pixel2llNotDefined>
-    <preparingCoords>preparazione delle coordinate</preparingCoords>
-    <pretendPaint>Rendering simulato: {0} oggetti {1}</pretendPaint>
+    <phi3zNoConvergence>phi3z: errore di convergenza</phi3zNoConvergence>
+    <phi4zNoConvergence>phi4z: errore di convergenza</phi4zNoConvergence>
     <projectionNotSupported>Measurement: Proiezione non supportata!</projectionNotSupported>
-    <referenceNodeIdNotFound>
-      Il tool AutoResize non riesce a trovare il referenceNode '{0}'
-      all'interno del DOM. Definire correttamente la proprietà
-      referenceNodeId nel file di configurazione (config) oppure
-      utilizzare id 'autoResize' per uno dei vostri nodi del
-      documento.
-    </referenceNodeIdNotFound>
-    <rendering>rendering</rendering>
     <scale>scala 1:{0}</scale>
     <selectLayer>Selezionare un tematismo per poter inserire l'sld nel wmc</selectLayer>
     <sinuInvDataError>C'è un errore di contenuto nel sinuInv()</sinuInvDataError>
     <southWgs84>Sud (WGS84)</southWgs84>
-    <stereFwdInfinity>Il Punto è proiettato nell'infinità nel stereFwd()</stereFwdInfinity>
-    <styleNodeNotFound>Style node not found</styleNodeNotFound>
-    <stylesheetNotFound>Nessun foglio di stile (stylesheet) trovato</stylesheetNotFound>
     <tabWidgetNotFound>Tab widget non trovato: {0}</tabWidgetNotFound>
     <tm2llNoConvergence>tm2ll: errore di convergenza nel calcolo della Latitudine</tm2llNoConvergence>
-    <tmercFwdInfinity>Il Punto è proiettato nell'infinità nel stereFwd()</tmercFwdInfinity>
-    <tmercInvLatError>La latitudine non è riuscito a convergere nel tmercInv()</tmercInvLatError>
     <unableToLoadDoc>
       Impossibile caricare il documento: {0}.
       Specificare in config la proprietà proxyUrl.
@@ -300,13 +252,6 @@
     <unitMiles>miglia</unitMiles>
     <unitMilesAbbr>mi</unitMilesAbbr>
     <unknownRucType>Tipo RUC incognito</unknownRucType>
-    <unspecClickPassId>clickPassId non specificato</unspecClickPassId>
-    <unspecIcon>icon non specificato</unspecIcon>
-    <unspecLeftOffset>leftOffset non specificato</unspecLeftOffset>
-    <unspecTopOffset>topOffset non specificato</unspecTopOffset>
-    <unsupportedGmlGeomForLayer>Geometria GML non supportata per il tematismo: {0}</unsupportedGmlGeomForLayer>
-    <unsupportedGmlGeom>Geometria GML non supportata: {0}</unsupportedGmlGeom>
-    <unsupportedMapProjection>Proiezione cartografica non supportata: {0}</unsupportedMapProjection>
     <westWgs84>Ovest (WGS84)</westWgs84>
   </messages>
 </WidgetText>
