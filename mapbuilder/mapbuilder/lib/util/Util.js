@@ -77,7 +77,7 @@ function XslProcessor(xslUrl,docNSUri) {
       var s = (new XMLSerializer()).serializeToString(newDoc);
       if(_SARISSA_IS_OPERA)
       s =  s.replace(/.*\?\>/,"");//hack for opera to delete <?xml ... ?>
-      return Sarissa.unescape(s);
+      return s;
     } catch(e){
       alert(mbGetMessage("exceptionTransformingDoc", this.xslUrl));
       alert("XSL="+(new XMLSerializer()).serializeToString(this.xslDom));
