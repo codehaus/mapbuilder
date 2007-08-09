@@ -14,7 +14,7 @@ mapbuilder.loadScript(baseDir+"/tool/Extent.js");
  * Widget to render a map from an OGC context document.  The layers are
  * rendered using http://openlayers.org .
  * @constructor
- * @base MapContainerBase
+ * @base WidgetBase
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */

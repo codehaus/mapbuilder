@@ -3,7 +3,8 @@ License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 */
 
-// load dependent scripts
+// Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
 mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
 /**

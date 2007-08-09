@@ -1,3 +1,13 @@
+/*
+Author:   
+License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
+
+$Id$
+*/
+
+// Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
+
 /**
 
  * Build a Web Map Context (WMC) from a Web Map Server getCapabilities response.

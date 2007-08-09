@@ -8,6 +8,13 @@ $Id$
 mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 
 
+/**
+ * Render a Graticule.
+ * @constructor
+ * @base ButtonBase
+ * @param widgetNode  The widget's XML object node from the configuration document.
+ * @param model       The model object that this widget belongs to.
+ */
 function Graticule(widgetNode, model) {
 
 	ButtonBase.apply(this, new Array(widgetNode, model));

@@ -3,6 +3,9 @@ License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 */
 
+// Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
+
 /**
  * Stores a Web Map Context (WMC) Collection document as defined by the Open 
  * GIS Consortium http://opengis.org and extensions the the WMC.  

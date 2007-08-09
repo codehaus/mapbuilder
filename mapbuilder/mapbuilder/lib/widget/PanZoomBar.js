@@ -4,6 +4,8 @@ $Id: ZoomIn.js 2680 2007-04-07 21:04:16Z ahocevar $
 */
 
 // Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+
 /**
  * PanZoomBar  - drag, zoom, zoomBar wheelMouse and keyboard events 
  * @constructor

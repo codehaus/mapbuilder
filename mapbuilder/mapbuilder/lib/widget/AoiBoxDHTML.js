@@ -21,6 +21,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * See also MAP-312
  * @deprecated
  * @constructor
+ * @base WidgetBase
  * @param widgetNode The node for this object from the Config file.
  * @param model The model that contains this object.
  */

@@ -3,6 +3,9 @@ License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 */
 
+// Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
+
 /**
  * Records a log of events that occur over the course of mapbuilder execution
  * @constructor

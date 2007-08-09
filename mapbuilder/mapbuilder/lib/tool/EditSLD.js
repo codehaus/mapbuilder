@@ -8,6 +8,13 @@ $Id:  1
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
 
+/**
+ * Tool to edit an SLD.
+ * @constructor
+ * @base ToolBase
+ * @param toolNode  The widget's XML object node from the configuration document.
+ * @param model       The model object that this widget belongs to.
+ */
 function EditSLD(toolNode, model)
 {
 

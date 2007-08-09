@@ -9,7 +9,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 /**
  * Functions to render and update a FeatureInfoResponse from GML.
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @author Steven Ottens AT geodan nl
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.

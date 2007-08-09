@@ -16,6 +16,8 @@ mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
  * This tool also fires "mouseoverFeature" and "mouseoutFeature"
  * events, setting the fid of the feature below the mouse cursor
  * as param of the model.
+ * @constructor
+ * @base ToolBase
  * @author Andreas Hocevar andreas.hocevarATgmail.com
  * @param toolNode The tool node from the config XML file.
  * @param model The model containing this tool.

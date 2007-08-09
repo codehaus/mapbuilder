@@ -3,6 +3,9 @@ License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 */
 
+// Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
+
 /**
  * Generic Model object for models where no specialization is required.  This is
  * just an instance of a abstract ModelBase.

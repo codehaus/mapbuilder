@@ -7,7 +7,7 @@ $Id$
 
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
  * Widget to create a SLD file or inserts it into Web Map Context  v.

@@ -14,7 +14,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
  * The default xsl stylesheet for this widget also uses the switchMap
  * function, which allows to switch to a different map context.
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */

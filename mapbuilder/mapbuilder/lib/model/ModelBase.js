@@ -3,6 +3,9 @@ License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 */
 
+// Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/util/Listener.js");
+
 /**
  * Base Model class to be inherited by all Model objects and provdes methods
  * and properties common to all models.
