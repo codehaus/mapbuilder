@@ -256,7 +256,7 @@
   </xs:complexType>
   <xs:complexType name="widgetsType">
     <xs:choice maxOccurs="unbounded">
-      <xs:element name="Abstract" type="mb:WidgetXSLType"/>
+      <xs:element name="Abstract" type="mb:WidgetType"/>
       <xs:element name="AoiBoxDHTML" type="mb:AoiBoxDHTMLType"/>
       <xs:element name="AoiForm" type="mb:AoiFormType"/>
       <xs:element name="Back" type="mb:ButtonType"/>
@@ -265,7 +265,7 @@
           <xs:documentation>A generic button</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="CatSearchForm" type="mb:WidgetXSLType"/>
+      <xs:element name="CatSearchForm" type="mb:WidgetType"/>
       <xs:element name="CollectionList" type="mb:CollectionListType"/>
       <xs:element name="CursorTrack" type="mb:CursorTrackType"/>
       <xs:element name="DeleteFeature" type="mb:DeleteFeatureType"/>
@@ -273,10 +273,10 @@
       <xs:element name="EditLine" type="mb:EditButtonBaseType"/>
       <xs:element name="EditPoint" type="mb:EditButtonBaseType"/>
       <xs:element name="EditPolygon" type="mb:EditButtonBaseType"/>
-      <xs:element name="EventLog" type="mb:WidgetXSLType"/>
-      <xs:element name="FeatureInfo" type="mb:WidgetXSLType"/>
-      <xs:element name="FeatureList" type="mb:WidgetXSLType"/>
-      <xs:element name="FilterAttributes" type="mb:WidgetXSLType"/>
+      <xs:element name="EventLog" type="mb:WidgetType"/>
+      <xs:element name="FeatureInfo" type="mb:WidgetType"/>
+      <xs:element name="FeatureList" type="mb:WidgetType"/>
+      <xs:element name="FilterAttributes" type="mb:WidgetType"/>
       <xs:element name="Forward" type="mb:ButtonType"/>
       <xs:element name="GetFeatureInfo" type="mb:GetFeatureInfoType"/>
       <xs:element name="GmlRendererOL" type="mb:GmlRendererOLType"/>
@@ -290,35 +290,35 @@
       <xs:element name="MapPaneOL" type="mb:MapPaneOLType"/>
       <xs:element name="MapScaleBar" type="mb:MapScaleBarType"/>
       <xs:element name="MapScaleText" type="mb:MapScaleTextType"/>
-      <xs:element name="MapTitle" type="mb:WidgetXSLType"/>
+      <xs:element name="MapTitle" type="mb:WidgetType"/>
       <xs:element name="Measurement" type="mb:EditButtonBaseType"/>
       <xs:element name="ModelStatus" type="mb:ModelStatusType"/>
       <xs:element name="ModelUrlInput" type="mb:ModelUrlInputType"/>
       <xs:element name="OpenLSForm" type="mb:OpenLSFormType"/>
       <xs:element name="OpenLSResponse" type="mb:OpenLSResponseType"/>
       <xs:element name="OverviewMap" type="mb:OverviewMapType"/>
-      <xs:element name="PanZoomBar" type="mb:WidgetType"/>
+      <xs:element name="PanZoomBar" type="mb:PanZoomBarType"/>
       <xs:element name="Reset" type="mb:ButtonType"/>
       <xs:element name="Save" type="mb:SaveType"/>
       <xs:element name="SaveModel" type="mb:SaveModelType"/>
       <xs:element name="SearchWidget" type="mb:SearchWidgetType"/>
-      <xs:element name="SelectAllMapLayers" type="mb:WidgetXSLType"/>
-      <xs:element name="SelectFeatureType" type="mb:WidgetXSLType"/>
-      <xs:element name="SelectMapLayers" type="mb:WidgetXSLType"/>
-      <xs:element name="SelectTimeFrame" type="mb:WidgetXSLType"/>
-      <xs:element name="ServiceRegistryList" type="mb:WidgetXSLType"/>
+      <xs:element name="SelectAllMapLayers" type="mb:WidgetType"/>
+      <xs:element name="SelectFeatureType" type="mb:WidgetType"/>
+      <xs:element name="SelectMapLayers" type="mb:WidgetType"/>
+      <xs:element name="SelectTimeFrame" type="mb:WidgetType"/>
+      <xs:element name="ServiceRegistryList" type="mb:WidgetType"/>
       <xs:element name="SetAoi" type="mb:ButtonType"/>
-      <xs:element name="SLDEditor" type="mb:WidgetXSLType"/>
-      <xs:element name="ShowDistance" type="mb:WidgetXSLType"/>
+      <xs:element name="SLDEditor" type="mb:WidgetType"/>
+      <xs:element name="ShowDistance" type="mb:WidgetType"/>
       <xs:element name="TabbedContent" type="mb:TabbedContentType"/>
       <xs:element name="Timestamp" type="mb:TimestampType"/>
       <xs:element name="TipWidgetOL" type="mb:TipWidgetOLType"/>
       <xs:element name="TipWidgetConfig" type="mb:TipWidgetConfigType"/>
-      <xs:element name="TransactionResponse" type="mb:WidgetXSLType"/>
-      <xs:element name="Version" type="mb:WidgetXSLType"/>
+      <xs:element name="TransactionResponse" type="mb:WidgetType"/>
+      <xs:element name="Version" type="mb:WidgetType"/>
       <xs:element name="WebServiceForm" type="mb:WebServiceFormType"/>
       <xs:element name="WfsGetFeature" type="mb:WfsGetFeatureType"/>
-      <xs:element name="Widget" type="mb:WidgetXSLType">
+      <xs:element name="Widget" type="mb:WidgetType">
         <xs:annotation>
           <xs:documentation>A generic widget</xs:documentation>
         </xs:annotation>
@@ -710,7 +710,7 @@
       <xs:documentation>A widget for layer control.</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
-      <xs:extension base="mb:WidgetXSLType">
+      <xs:extension base="mb:WidgetType">
         <xs:sequence>
           <xs:element name="opacity" type="xs:boolean" minOccurs="0"/>
           <xs:element name="legendImageEnable" type="mb:urlPathType" minOccurs="0"/>
@@ -959,6 +959,14 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  <xs:complexType name="PanZoomBarType">
+    <xs:annotation>
+      <xs:documentation>An OpenLayers-style PanZoomBar widget that is drawn on the main map.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="mb:AbstractWidgetBaseType"/>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="SaveType">
     <xs:annotation>
       <xs:documentation>After this button is selected, the Web Map Context is saved on the users local computer.</xs:documentation>
@@ -1088,7 +1096,7 @@
           </xs:element>
           <xs:element name="tolerance" type="xs:string" minOccurs="0">
             <xs:annotation>
-              <xs:documentation>The number of pixels around the click point that are included in the query.  tollerance=0 means a Bbox of 1x1 pixel is queried, tollerance=1 means a Bbox of 3x3 is queried, tolerance=2 means a Bbo of 5x5 is queried.</xs:documentation>
+              <xs:documentation>The number of pixels around the click point that are included in the query; tolerance=0 means a Bbox of 1x1 pixel is queried, tolerance=1 means a Bbox of 3x3 is queried, tolerance=2 means a Bbox of 5x5 is queried.</xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element name="maxFeatures" type="xs:string" minOccurs="0">
@@ -1101,14 +1109,6 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="WidgetType">
-    <xs:annotation>
-      <xs:documentation>A generic widget which will simply process a model without a stylesheet - no specialized listeners provided</xs:documentation>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="mb:AbstractWidgetBaseType"/>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="WidgetXSLType">
     <xs:annotation>
       <xs:documentation>A generic widget which will simply process a model with a stylesheet - no specialized listeners provided</xs:documentation>
     </xs:annotation>
