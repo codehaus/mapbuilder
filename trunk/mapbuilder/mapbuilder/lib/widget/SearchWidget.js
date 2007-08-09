@@ -6,14 +6,14 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
  * Widget to display the a form to input any model's URL and load the new URL 
  * as the model's document
  *
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @param widgetNode  This widget's object node from the configuration document.
  * @param model       The model that this widget is a view of.
  */

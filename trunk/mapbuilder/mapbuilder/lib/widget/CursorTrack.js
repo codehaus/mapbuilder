@@ -13,7 +13,7 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
  * Widget to display the mouse coordinates when it is over a MapContainer widget.
  *
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @param widgetNode This widget's object node from the configuration document.
  * @param model The model that this widget is a view of.
  */

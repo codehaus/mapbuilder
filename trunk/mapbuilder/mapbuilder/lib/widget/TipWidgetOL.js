@@ -10,7 +10,7 @@ mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 /**
  * Manages MapTips on the map. This widget works with models that
  * have a FeatureSelectHandler tool.
- * @base ButtonBase
+ * @base TipWidgetBase
  * @author Andreas Hocevar andreas.hocevarATgmail.com
  * @param widgetNode      The tool node from the Config XML file.
  * @param model  The ButtonBar widget.

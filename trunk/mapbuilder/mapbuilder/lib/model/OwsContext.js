@@ -4,6 +4,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
 mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
 /**

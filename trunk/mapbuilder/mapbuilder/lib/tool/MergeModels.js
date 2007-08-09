@@ -11,7 +11,7 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
  * determines the root node, other models are appended within the same
  * root node.
  * @constructor
- * @base ModelBase
+ * @base ToolBase
  * @author Andreas Hocevar andreas.hocevarATgmail.com
  * @param modelNode The model's XML object node from the configuration document
  * @param model model this tool belongs to.

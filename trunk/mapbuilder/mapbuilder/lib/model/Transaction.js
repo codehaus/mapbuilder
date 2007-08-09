@@ -14,6 +14,7 @@ mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
  * Listeners implemented:
  *
  * @constructor
+ * @base ModelBase
  * @author Mike Adair
  * @param modelNode Pointer to the xml node for this model from the config file.
  * @param parent    The parent model for the object.

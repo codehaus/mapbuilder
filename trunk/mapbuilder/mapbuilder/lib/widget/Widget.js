@@ -8,10 +8,10 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
  * Generic Widget object for widgets where no specialization is required.  
- * This is just an instance of a abstract WidgetBase object.
+ * This is just an instance of a abstract WidgetBaseXSL object.
  * This widget requires a <stylesheet> property in the config file.
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @author Cameron Shorter cameronATshorter.net
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.

@@ -3,11 +3,15 @@ License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 */
 
+// Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
+
 /**
  * Stores a Web Feature (WFS) Capabilities document as defined by the 
  * Open Geospatial Consortium (http://opengis.org).
  *
  * @constructor
+ * @base ModelBase
  * @author Mike Adair
  * @param modelNode   The model's XML object node from the configuration document.
  * @param parent The model object that this widget belongs to.

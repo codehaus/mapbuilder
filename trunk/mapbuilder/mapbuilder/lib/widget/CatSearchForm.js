@@ -18,7 +18,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
  * See widget/NtsForm.xsl for an example. 
  *
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @param widgetNode This widget's object node from the configuration document.
  * @param model The model that this widget is a view of.
  */

@@ -15,6 +15,7 @@ mapbuilder.loadScript(baseDir+"/widget/GmlRendererBase.js");
  * the MergeModel will check for configurations in source models and use
  * them.
  * @constructor
+ * @base GmlRendererBase
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.
  */

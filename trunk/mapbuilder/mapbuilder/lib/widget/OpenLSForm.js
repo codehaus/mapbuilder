@@ -12,7 +12,7 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
  * Widget to display the OpenLS request form
  *
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @param widgetNode This widget's object node from the configuration document.
  * @param model The model that this widget is a view of.
  */

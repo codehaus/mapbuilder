@@ -2,6 +2,9 @@
 License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 */
+
+// Ensure this object's dependancies are loaded.
+mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
 mapbuilder.loadScript(baseDir+"/graphics/WfsQueryLayer.js");
 
 /**

@@ -4,15 +4,8 @@ $Id$
 */
 
 /**
- * Base Class for widgets.  Associates a node on the page with a stylesheet and
- * model.  All widgets must extend this base class.
- * Defines the default paint() method for all widgets which is where the 
- * stylesheet is applied to the model XML document.
- * To override widget.paint(), define it before calling this constructor.
- * The stylesheet URL defaults to "widget/<widgetName>.xsl" if it is not defined
- * in config file.  Set a stylesheet property containing an XSL URL in config
- * to customize the stylesheet used.
- * All stylesheets will have "modelId" and "widgetId" parameters set when called.
+ * Base Class for widgets. All widgets must extend this base class.
+ * Defines the default prePaint() and postPaint() methods for all widgets.
  *
  * @constructor
  * @author Mike Adair 

@@ -4,12 +4,12 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
+mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
  * Functions to render and update a FeatureList from GML.
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @author Cameron Shorter
  * @param widgetNode  The widget's XML object node from the configuration document.
  * @param model       The model object that this widget belongs to.

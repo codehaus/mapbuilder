@@ -13,7 +13,7 @@ mapbuilder.loadScript(baseDir+"/model/Proj.js");
  * Widget to display the AOI box coordinates in a form.
  *
  * @constructor
- * @base WidgetBase
+ * @base WidgetBaseXSL
  * @param widgetNode This widget's object node from the configuration document.
  * @param model The model that this widget is a view of.
  */
