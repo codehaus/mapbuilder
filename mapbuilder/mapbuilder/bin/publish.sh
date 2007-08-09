@@ -40,7 +40,7 @@ for dir in ${docDirectories} ; do
 done
 
 # Execute jsdoc with HTML output
-${jsdoc} -d ${jsdocTarget} --project-name "<a href='http://mapbuilder.sourceforge.net'>Community Map Builder</a> `date +'%d %b %G'`" ${jsdocSource}
+${jsdoc} -d ${jsdocTarget} --project-name "<a href='http://mapbuilder.sourceforge.net'>Community Map Builder</a> `date +'%d %b %G'`" --logo lib/skin/default/images/Icon.gif ${jsdocSource}
 
 # Execute jsdoc with XMI output
-${jsdoc} --format xmi -d ${jsdocTarget} --project-name "<a href='http://mapbuilder.sourceforge.net'>Community Map Builder</a> `date +'%d %b %G'`" ${jsdocSource}
+${jsdoc} --format xmi -d ${jsdocTarget} --project-name "<a href='http://mapbuilder.sourceforge.net'>Community Map Builder</a> `date +'%d %b %G'`" --logo lib/skin/default/images/Icon.gif ${jsdocSource}
