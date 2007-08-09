@@ -28,7 +28,8 @@
           <scriptFile>ObjectList.js</scriptFile>
           <stylesheet>ObjectList.xsl</stylesheet>
           <listType>widgetsType</listType>
-          <subType>mb:AbstractWidgetType</subType>
+          <subType>mb:AbstractWidgetBaseType</subType>
+          <excludeType>mb:AbstractButtonBaseType</excludeType>
         </ObjectList>
         <ObjectList id="mapContainerListWidget">
           <htmlTagId>workspace</htmlTagId>
@@ -36,7 +37,7 @@
           <scriptFile>ObjectList.js</scriptFile>
           <stylesheet>ObjectList.xsl</stylesheet>
           <listType>widgetsType</listType>
-          <subType>mb:AbstractMapWidgetType</subType>
+          <subType>mb:MapPaneOLType</subType>
         </ObjectList>
         <ObjectList id="buttonListWidget">
           <htmlTagId>workspace</htmlTagId>
@@ -44,7 +45,7 @@
           <scriptFile>ObjectList.js</scriptFile>
           <stylesheet>ObjectList.xsl</stylesheet>
           <listType>widgetsType</listType>
-          <subType>mb:AbstractButtonType</subType>
+          <subType>mb:AbstractButtonBaseType</subType>
         </ObjectList>
         <ObjectList id="modelsListWidget">
           <htmlTagId>workspace</htmlTagId>
