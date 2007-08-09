@@ -106,6 +106,9 @@
       <class>RadioButton</class>
       <enabledSrc>/images/QueryEnable.png</enabledSrc>
       <disabledSrc>/images/QueryDisable.png</disabledSrc>
+      <!--infoFormat>text/html</infoFormat-->
+      <infoFormat>application/vnd.ogc.gml</infoFormat>
+      <featureCount>1</featureCount>
     </GetFeatureInfo>
 		<Reset id="reset">
 			<buttonBar>mainButtonBar</buttonBar>

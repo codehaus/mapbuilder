@@ -49,10 +49,10 @@
       <widgets>
          <GmlRendererOL id="vectorGraphicsRenderer">
           <targetModel>mainMap</targetModel>
-          <stylesheet>geobliki2wfs.xsl</stylesheet>
           <sldModel>sld</sldModel>
           <defaultStyleName>Normal</defaultStyleName>
           <selectStyleName>Highlite</selectStyleName>
+          <stylesheet>geobliki2wfs.xsl</stylesheet>
           <featureOnClick>featurePopup</featureOnClick>
         </GmlRendererOL>
         <TipWidgetOL id="featurePopup">

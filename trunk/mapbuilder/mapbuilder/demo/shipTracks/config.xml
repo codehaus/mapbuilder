@@ -6,14 +6,11 @@
 			<widgets>
 				<MapPaneOL id="mainMapWidget">
 					<htmlTagId>mainMapPane</htmlTagId>
-			<fixedSize>true</fixedSize>
+					<fixedSize>true</fixedSize>
 				</MapPaneOL>
-				<Loading id="loading"/>
+				<!--<Loading2 id="loading"/>-->
 				<ModelUrlInput id="urlInput"/>
-				
 			</widgets>
-			<tools>
-			</tools>
 		</OwsContext>
 	</models>
 	<widgets>
