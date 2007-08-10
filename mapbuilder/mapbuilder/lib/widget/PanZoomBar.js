@@ -1,6 +1,6 @@
 /*
 License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
-$Id: ZoomIn.js 2680 2007-04-07 21:04:16Z ahocevar $
+$Id$
 */
 
 // Ensure this object's dependancies are loaded.
@@ -22,7 +22,7 @@ function PanZoomBar(widgetNode, model) {
 
   this.init = function(objRef) {
    objRef.model.map.addControl(new OpenLayers.Control.PanZoomBar());
-   objRef.model.map.addControl(new OpenLayers.Control.MouseDefaults());
+   objRef.model.map.addControl(new OpenLayers.Control.Navigation());
    objRef.model.map.addControl(new OpenLayers.Control.KeyboardDefaults());
   }
   
