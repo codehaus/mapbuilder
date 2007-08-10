@@ -434,7 +434,6 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   //default option value for a layer
   var layerOptions = {
           visibility: vis,
-          transparent: "TRUE",
           projection: objRef.model.map.projection,
           queryable: query,
           maxExtent: objRef.model.map.maxExtent,
@@ -474,7 +473,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
 	          // section 6.4.1 Parameter Ordering and Case:
 	          // "Parameter names shall not be case sensitive,
 	          //  but parameter values shall be case sensitive."
-	          transparent:"TRUE",
+	          transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
               "TIME":timestamp.firstChild.nodeValue,	          
 	          format: format,
 	          sld:params.sld,
@@ -495,7 +494,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
 	          // section 6.4.1 Parameter Ordering and Case:
 	          // "Parameter names shall not be case sensitive,
 	          //  but parameter values shall be case sensitive."
-	          transparent:"TRUE",
+	          transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
 	          format: format,
 	          sld:params.sld,
 	          sld_body:params.sld_body,
@@ -526,7 +525,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       params = sld2UrlParam(currentStyle);
       objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
           layers: name2,
-          transparent:"TRUE",
+          transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
           format: format,
           sld:params.sld,
           sld_body:params.sld_body,
