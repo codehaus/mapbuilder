@@ -14,7 +14,7 @@ csList.EPSG26591 = "+title= Monte Mario (Rome) / Italy zone 1 EPSG:26591\
 +a=6378388.0, +b=6356911.94612795";
 */
 
-csList.EPSG26591 = "+title= Monte Mario (Rome) / Italy zone 1 EPSG:26591\ +proj=tmerc +lat_0=0 +lon_0=21.45233333333333 +k=0.999600 +x_0=1500000 +y_0=0 +ellps=intl +pm=rome +units=m";
+csList.EPSG26591 = "+title= Monte Mario (Rome) / Italy zone 1 EPSG:26591\ +proj=tmerc +lat_0=0 +lon_0=12.452333333333332 +k=0.999600 +x_0=1500000 +y_0=0 +ellps=intl +pm=rome +units=m";
 
 /*
 Radim Blazek  Feb 1, 2006  I used:
