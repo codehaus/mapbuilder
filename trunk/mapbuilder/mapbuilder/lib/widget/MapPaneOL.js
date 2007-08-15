@@ -178,7 +178,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     //maxResolution
     var maxResolution=null;
     maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");
-    maxResolution=(maxResolution)?maxResolution.firstChild.nodeValue:"auto";
+    maxResolution=(maxResolution) ? parseFloat(maxResolution.firstChild.nodeValue) : "auto";
 
     //units
     var units = proj.units == 'meters' ? 'm' : proj.units;
@@ -186,6 +186,10 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     //resolutions
     var resolutions=objRef.widgetNode.selectSingleNode("mb:resolutions");
     resolutions = resolutions ? resolutions.firstChild.nodeValue.split(",") : null;
+    for (var r in resolutions) {
+      resolutions[r] = parseFloat(resolutions[r]);
+    }
+
     //fixed scales - overrides resolutions
     var scales = objRef.widgetNode.selectSingleNode("mb:scales");
     if(scales){
