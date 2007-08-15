@@ -55,7 +55,7 @@ var i;
        if (Math.abs(dphi) <= 1e-7)
           return(phi);
         }
-  alert(mbGetMessage("phi1zNoConvergence"));
+  if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("phi1zNoConvergence"));
  
   return(-9999);//random error code
 }
@@ -101,7 +101,7 @@ function phi2z(eccent, ts) {
     phi += dphi;
     if (Math.abs(dphi) <= .0000000001) return phi;
   }
-  alert(mbGetMessage("phi2zNoConvergence"));
+  if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("phi2zNoConvergence"));
   return -9999;
 }
 
@@ -152,7 +152,7 @@ ALGORITHM REFERENCES
 
 if (Math.abs(def.lat1 + def.lat2) < EPSLN)
    {
-   alert(mbGetMessage("aeaInitEqualLatitudes"));
+   if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("aeaInitEqualLatitudes"));
    return(31);
    }
 def.temp = def.b / def.a;

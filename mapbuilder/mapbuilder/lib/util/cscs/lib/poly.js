@@ -64,7 +64,7 @@ var sinphi, sin2ph, tanph, ml, mlp, con1, con2, con3, dphi, i;
         phi += dphi;
         if (Math.abs(dphi) <= .0000000001 ) return(phi);   
         }
-	alert(mbGetMessage("phi4zNoConvergence"));
+	if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("phi4zNoConvergence"));
 return(004);
 }
 

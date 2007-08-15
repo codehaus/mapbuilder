@@ -34,7 +34,7 @@ if (Math.abs(Math.abs(g) - 1.0) < EPSLN)
    if (g < 0.0)
      {
    var  con = 2.0 * HALF_PI * this.a;
-        alert(mbGetMessage("aeqdFwdPointError"));
+        if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("aeqdFwdPointError"));
         }
    }
 else
@@ -68,7 +68,7 @@ p.y -= this.y0;
 var rh = Math.sqrt(p.x * p.x + p.y *p. y);
 if (rh > (2.0 * HALF_PI * this.a))
    {
-   alert(mbGetMessage("aeqdInvDataError"));
+   if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("aeqdInvDataError"));
 
    
    }

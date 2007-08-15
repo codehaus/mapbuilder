@@ -22,7 +22,7 @@ function phi2z(eccent, ts) {
     phi += dphi;
     if (Math.abs(dphi) <= .0000000001) return phi;
   }
-  alert(mbGetMessage("phi2zNoConvergence"));
+  if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("phi2zNoConvergence"));
   return -9999;
 }
 
@@ -140,7 +140,7 @@ if (def.mode != 0)
       }
    else
       {
-       alert(mbGetMessage("omercInitDataError"));
+       if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("omercInitDataError"));
       
       }
    }
@@ -179,13 +179,13 @@ else
       def.con = Math.abs(def.lat1);
    if ((def.con <= EPSLN) || (Math.abs(def.con - HALF_PI) <= EPSLN))
       {
-       alert(mbGetMessage("omercInitDataError"));
+       if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("omercInitDataError"));
             //return(202);
       }
    else 
    if (Math.abs(Math.abs(def.lat0) - HALF_PI) <= EPSLN)
       {
-      alert(mbGetMessage("omercInitDataError"));
+      if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("omercInitDataError"));
       //return(202);
       }
       
@@ -258,7 +258,7 @@ else
 if (Math.abs(Math.abs(ul) - 1.0) <= EPSLN)
    {
    //alert("Point projects into infinity","omer-for");
-    alert(mbGetMessage("omercFwdInfinity"));
+    if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("omercFwdInfinity"));
    //return(205);
    }
 vs = .5 * this.al * Math.log((1.0 - ul)/(1.0 + ul)) / this.bl;

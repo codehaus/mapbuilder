@@ -103,7 +103,7 @@ var temp = Rh / (2.0 * this.R);
 
 if (temp > 1) 
    {
-   alert(mbGetMessage("laeaInvDataError"));
+   if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("laeaInvDataError"));
    //return(115);
    }
    

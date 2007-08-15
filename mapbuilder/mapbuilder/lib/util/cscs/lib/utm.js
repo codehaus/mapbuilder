@@ -55,7 +55,7 @@ utmFwd=function(p) {
   if (this.ind != 0) {  /* spherical form */
     var b = cos_phi * Math.sin(delta_lon);
     if ((Math.abs(Math.abs(b) - 1.0)) < .0000000001)  {
-      alert(mbGetMessage("ll2tmInfiniteProjection"));
+      if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("ll2tmInfiniteProjection"));
       return(93);
     } else {
       x = .5 * this.a * this.k0 * Math.log((1.0 + b)/(1.0 - b));
@@ -119,7 +119,7 @@ utmInv=function(p) {
       phi += delta_phi;
       if (Math.abs(delta_phi) <= EPSLN) break;
       if (i >= max_iter) {
-        alert(mbGetMessage("tm2llNoConvergence"));
+        if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("tm2llNoConvergence"));
         return(95);
       }
     } // for()

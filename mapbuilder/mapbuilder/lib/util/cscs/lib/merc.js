@@ -38,7 +38,7 @@ function phi2z(eccent, ts) {
     phi += dphi;
     if (Math.abs(dphi) <= .0000000001) return phi;
   }
-  alert(mbGetMessage("phi2zNoConvergence"));
+  if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("phi2zNoConvergence"));
   return -9999;
 }
 
@@ -69,13 +69,13 @@ mercInit=function(def)
 	// convert to radians
   	if ( lat*R2D > 90.0 && lat*R2D < -90.0 && lon*R2D > 180.0 && lon*R2D < -180.0) 
   	{
-    	alert(mbGetMessage("llInputOutOfRange", lon, lat));
+    	if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("llInputOutOfRange", lon, lat));
     	return null;
   	} 
   	
 	if(Math.abs( Math.abs(lat) - HALF_PI)  <= EPSLN)
 	{
-		alert(mbGetMessage("ll2mAtPoles"));
+		if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("ll2mAtPoles"));
 		return null;
 	}
 	else
