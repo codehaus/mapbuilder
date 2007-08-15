@@ -69,7 +69,7 @@ p.y -= this.y0;
  lat = p.y / this.R;
 if (Math.abs(lat) > HALF_PI) 
    {
-    alert(mbGetMessage("sinuInvDataError"));
+    if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("sinuInvDataError"));
      //return(164);
    }
  temp = Math.abs(lat) - HALF_PI;

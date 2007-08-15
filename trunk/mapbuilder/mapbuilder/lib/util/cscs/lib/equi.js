@@ -87,7 +87,7 @@ var lat = p.y /this. a;
 
 if ( Math.abs(lat) > HALF_PI)
    {
-    alert(mbGetMessage("equiInvDataError"));
+    if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("equiInvDataError"));
    
    }
 var lon = adjust_lon(this.long0 + p.x / (this.a * Math.cos(this.lat0)));

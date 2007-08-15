@@ -19,9 +19,9 @@ for (i = 0; i < 15; i++) {
     return phi;
    }
      
- }
- alert(mbGetMessage("phi3zNoConvergence"));
- return(-9999);
+  }
+  if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("phi3zNoConvergence"));
+  return(-9999);
 }
 
 // Function to compute the constant small t for use in the forward
@@ -48,7 +48,7 @@ function phi2z(eccent, ts) {
     phi += dphi;
     if (Math.abs(dphi) <= .0000000001) return phi;
   }
-  alert(mbGetMessage("phi2zNoConvergence"));
+  if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("phi2zNoConvergence"));
   return (-9999);
 }
 
@@ -117,7 +117,7 @@ if (def.mode != 0)
    {
    if (Math.abs(def.lat1 + def.lat2) < EPSLN)
       {
-      alert(mbGetMessage("eqdcInitEqualLatitudes"));
+      if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage ("eqdcInitEqualLatitudes"));
   
       //return(81);
       }

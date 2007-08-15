@@ -57,7 +57,7 @@ for (i=0;;i++)
    if (Math.abs(delta_theta) < EPSLN) break;
    if (i >= 50) 
      {
-      alert(mbGetMessage("mollFwdIterationError"));
+      if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("mollFwdIterationError"));
     
      //return(241);
      }

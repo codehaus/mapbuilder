@@ -316,7 +316,7 @@ function cs_datum_transform( srcdefn, dstdefn, point )
     // If this datum requires grid shifts, then apply it to geodetic coordinates.
     if( srcdefn.datum_type == PJD_GRIDSHIFT )
     {
-     alert(mbGetMessage("gridShiftError"));
+     if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("gridShiftError"));
    
       /*
         pj_apply_gridshift( pj_param(srcdefn.params,"snadgrids").s, 0,
@@ -330,7 +330,7 @@ function cs_datum_transform( srcdefn, dstdefn, point )
 
     if( dstdefn.datum_type == PJD_GRIDSHIFT )
     {
-       alert(mbGetMessage("gridShiftError"));
+       if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("gridShiftError"));
       /*
         dst_a = ;
         dst_es = 0.006694379990;
@@ -371,7 +371,7 @@ function cs_datum_transform( srcdefn, dstdefn, point )
   // Apply grid shift to destination if required
   if( dstdefn.datum_type == PJD_GRIDSHIFT )
   {
-     alert(mbGetMessage("gridShiftError"));
+     if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("gridShiftError"));
     // pj_apply_gridshift( pj_param(dstdefn.params,"snadgrids").s, 1, point);
     // CHECK_RETURN;
   }

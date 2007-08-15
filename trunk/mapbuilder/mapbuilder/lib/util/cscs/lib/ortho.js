@@ -85,7 +85,7 @@ if ((g > 0) || (Math.abs(g) <= EPSLN))
   }
 else
   {
-   alert(mbGetMessage("orthoFwdPointError"));
+   if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("orthoFwdPointError"));
   
   }
 p.x=x;
@@ -107,7 +107,7 @@ p.y -= this.y0;
 rh = Math.sqrt(p.x * p.x + p.y * p.y);
 if (rh > this.a + .0000001)
    {
-   alert(mbGetMessage("orthoInvDataError"));
+   if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("orthoInvDataError"));
      
    }
 z = asinz(rh / this.a);
