@@ -1,0 +1,128 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>drag_map</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">drag_map</td></tr>
+</thead><tbody>
+<!-- Reset the world before we start -->
+<tr>
+	<td>click</td>
+	<td>//div[@class='olControlZoomToMaxExtentItemInactive']</td>
+	<td></td>
+</tr>
+<!-- Store the values to assert the scale and position in each step -->
+<tr>
+	<td>storeValue</td>
+	<td>//input[@name='mapScale']</td>
+	<td>startScale</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>300,150</td>
+	<td>mouseDownPos</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>400,50</td>
+	<td>mouseUpPos</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>0.00000</td>
+	<td>startLongitude</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>0.00000</td>
+	<td>startLatitude</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>-60.00000</td>
+	<td>stopLongitude</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>-60.00000</td>
+	<td>stopLatitude</td>
+</tr>
+<!-- Activate mousemove so we can get the value's after the mouse(down/up) actions -->
+<tr>
+	<td>mouseMoveAt</td>
+	<td>//div[@id='mainMapPane']</td>
+	<td>${mouseDownPos}</td>
+</tr>
+<tr>
+	<td>waitForValue</td>
+	<td>//input[@name='longitude']</td>
+	<td>regexp:^.+$</td>
+</tr>
+<tr>
+	<td>assertValue</td>
+	<td>//input[@name='longitude']</td>
+	<td>${startLongitude}</td>
+</tr>
+<tr>
+	<td>assertValue</td>
+	<td>//input[@name='latitude']</td>
+	<td>${startLatitude}</td>
+</tr>
+<!-- Select drag and pan and drag the map -->
+<tr>
+	<td>waitForElementPresent</td>
+	<td>//div[@id='mainMapPane_OpenLayers_Container']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[@class='olControlDragPanItemInactive']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mouseDownAt</td>
+	<td>//div[@id='mainMapPane']</td>
+	<td>${mouseDownPos}</td>
+</tr>
+<tr>
+	<td>mouseUpAt</td>
+	<td>//div[@id='mainMapPane']</td>
+	<td>${mouseUpPos}</td>
+</tr>
+<tr>
+	<td>mouseMoveAt</td>
+	<td>//div[@id='mainMapPane']</td>
+	<td>${mouseDownPos}</td>
+</tr>
+<tr>
+	<td>waitForValue</td>
+	<td>//input[@name='longitude']</td>
+	<td>regexp:^.+$</td>
+</tr>
+<tr>
+	<td>assertValue</td>
+	<td>//input[@name='longitude']</td>
+	<td>${stopLongitude}</td>
+</tr>
+<tr>
+	<td>assertValue</td>
+	<td>//input[@name='latitude']</td>
+	<td>${stopLatitude}</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>//div[@id='mainMapPane_OpenLayers_Container']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertValue</td>
+	<td>//input[@name='mapScale']</td>
+	<td>${startScale}</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
