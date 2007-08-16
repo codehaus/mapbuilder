@@ -5,6 +5,184 @@ $Id$
 
 This file contains information about updates to each release:
 
+
+mapbuilder-lib-1.5-alpha2
+==========================
+This Mapbuilder release is largely a bugfix and cleanup release on the
+road to rc1
+
+Bugs fixed:
+----------
+MAP-394		"MAP-264 /lib/widget/WebServiceForm.js"
+MAP-367		"MAP-264 /lib/widget/Measurement.js"
+MAP-338		"MAP-264 /lib/widget/GetFeatureInfo.js"
+MAP-387		"MAP-264 /lib/widget/TimeSeries.js"
+MAP-362		"MAP-264 /lib/widget/MapPane2.js"
+MAP-361		"MAP-264 /lib/widget/MapPane.js"
+MAP-350		"MAP-264 /lib/widget/GoogleMapZoomOut.js"
+MAP-349		"MAP-264 /lib/widget/GoogleMapZoomIn.js"
+MAP-348		"MAP-264 /lib/widget/GoogleMapDragPan.js"
+MAP-347		"MAP-264 /lib/widget/GmlRendererWZ.js"
+MAP-346		"MAP-264 /lib/widget/GmlRendererWKT.js"
+MAP-345		"MAP-264 /lib/widget/GmlRendererVG.js"
+MAP-343		"MAP-264 /lib/widget/GmlRendererSVG.js"
+MAP-341		"MAP-264 /lib/widget/GmlRenderer.js"
+MAP-340		"MAP-264 /lib/widget/GmlPointRenderer.js"
+MAP-339		"MAP-264 /lib/widget/GetMarkerInfo.js"
+MAP-337		"MAP-264 /lib/widget/GeoRssRenderer.js"
+MAP-336		"MAP-264 /lib/widget/GeoRssParser.js"
+MAP-314		"MAP-264 /lib/widget/AoiBoxWZ.js"
+MAP-312		"MAP-264 /lib/widget/AoiBoxDHTML.js"
+MAP-311		"MAP-264 /lib/widget/AoiBox2.js"
+MAP-295		"MAP-262 /lib/tool/MouseClickHandler.js"
+MAP-293		"MAP-262 /lib/tool/GoogleMapTools.js"
+MAP-288		"MAP-262 /lib/tool/DragPanHandler.js"
+MAP-286		"MAP-262 /lib/tool/AutoResize.js"
+MAP-285		"MAP-262 /lib/tool/AoiMouseHandler.js"
+MAP-272		"MAP-261 /lib/model/GetMap.js"
+MAP-260		"MAP-265 /lib/graphics"
+MAP-422		lib/util/Utils.js::transformNodeToString() can create invalid XML
+MAP-416		"MAP-412 create a list of files to be deprecated"
+MAP-414		"MAP-412 ceate a list of files to be archived"
+MAP-413		"MAP-412 create /archive structure"
+MAP-412		Archiving and deprecating files
+MAP-409		"MAP-264 /lib/Widget/GmlRendererBase.js"
+MAP-407		"MAP-264 /lib/widget/TipWidgetBase.js"
+MAP-400		"MAP-264 /lib/widget/WmsCapabilitiesImport.js"
+MAP-399		"MAP-264 /lib/widget/WktParser.js"
+MAP-378		"MAP-264 /lib/widget/SelectAllMapLayers.js"
+MAP-360		"MAP-264 /lib/widget/MapImage.js"
+MAP-359		"MAP-264 /lib/widget/Locations.js"
+MAP-357		"MAP-264 /lib/widget/Loading.js"
+MAP-356		"MAP-264 /lib/widget/LegendGraphic.js"
+MAP-344		"MAP-264 /lib/widget/GmlRendererTest.js"
+MAP-332		"MAP-264 /lib/widget/FeatureListSF.js"
+MAP-331		"MAP-264 /lib/widget/FeatureList.js"
+MAP-320		"MAP-264 /lib/widget/ClickPass.js"
+MAP-258		"MAP-204 AoiForm.js"
+MAP-252		"MAP-196 Button.js"
+MAP-245		"MAP-220 InsertFeature.js"
+MAP-244		"MAP-201 MapScaleBar.js"
+MAP-243		"MAP-220 DeleteFeature.js"
+MAP-227		"MAP-220 EditPolygon.js"
+MAP-226		"MAP-220 EditLine.js"
+MAP-225		"MAP-220 EditPoint.js"
+MAP-224		"MAP-222 GeoRSSRenderer.js"
+MAP-223		"MAP-222 GMLRendererOL.js"
+MAP-219		"MAP-204 Widget(s) for management of maptips with onmouseover and onclick for vector layers"
+MAP-218		"MAP-201 Graticule.js"
+MAP-216		"MAP-196 SetAoi.js"
+MAP-205		"MAP-204 WfsGetFeature.js"
+MAP-203		"MAP-201 CursorTrack.js"
+MAP-202		"MAP-201 OverviewMap.js"
+MAP-200		"MAP-196 ZoomOut.js"
+MAP-199		"MAP-196 ZoomIn.js"
+MAP-195		double define of var coords in function
+MAP-193		README should be updated to reflect released version
+MAP-173		Austrian projections for Proj.js
+MAP-169		ButtonBase.js, RssLayer.js, FeatureFactory.js, WfsQueryLayer.js use fixed "mainMapContainer" instead of mapContainerId config setting
+MAP-162		JS error in Enhanced Viewer demo on IE
+MAP-91		Interface with Google Maps
+MAP-418		Dynamically loaded OpenLayers map theme finishes too late - rendering issue in OverviewMap.js
+MAP-411		Remove docbook-xsl
+MAP-278		"MAP-261 /lib/model/Proj.js"
+MAP-271		"MAP-261 /lib/model/GeoRSS.js"
+MAP-183		Use CSCS projection library
+MAP-168		WidgetBase.js.txt (old) contains changes against WidgetBase.js
+MAP-125		add layer doesn't honor: queryable and style/legend
+MAP-112		Projection transformation utility functions do not support EPSG:27700 (OSGB1936 / British National Grid)
+MAP-111		GetFeatureInfo makes incorrect WMS request when another layer name is a substring of the query layer name
+MAP-39		Feature isn't deselected after it was deleted Submitted: camerons SF-1364103
+MAP-38		Null gml:coordinate Point is rendered in top left of MapPane Submitted: Camerons SF-1351128
+MAP-36		Drag Pan Tool: Mouseup outside the map should be procesed Submitted: maiqui SF-1259486
+MAP-21		<widget> is not defined" javascript errors Submitted: openwereld SF-1386001
+MAP-14		Update GeoRSS demo to new feed format Submitted: Cappelaere SF-1394556
+MAP-423		Wrong value in EPSG26591.js
+MAP-405		"MAP-261 MergeModel.js"
+MAP-402		"MAP-264 /lib/widget/ZoomOut.js"
+MAP-401		"MAP-264 /lib/widget/ZoomIn.js"
+MAP-397		"MAP-264 /lib/widget/WidgetBase.js"
+MAP-396		"MAP-264 /lib/widget/Widget.js"
+MAP-392		"MAP-264 /lib/widget/TransactionResponse.js"
+MAP-391		"MAP-264 /lib/widget/TipWidgetOL.js"
+MAP-386		"MAP-264 /lib/widget/TabbedContent.js"
+MAP-384		"MAP-264 /lib/widget/ShowDistance.js"
+MAP-383		"MAP-264 /lib/widget/SetAoi.js"
+MAP-380		"MAP-264 /lib/widget/SelectMapLayers.js"
+MAP-374		"MAP-264 /lib/widget/Reset.js"
+MAP-373		"MAP-264 /lib/widget/OverviewMap.js"
+MAP-366		"MAP-264 /lib/widget/MapTitle.js"
+MAP-364 	"MAP-264 /lib/widget/MapScaleBar.js"
+MAP-363 	"MAP-264 /lib/widget/MapPaneOL.js"
+MAP-355 	"MAP-264 /lib/widget/Legend.js"
+MAP-354 	"MAP-264 /lib/widget/LayerProperty.js"
+MAP-353 	"MAP-264 /lib/widget/LayerControl.js"
+MAP-352 	"MAP-264 /lib/widget/InsertFeature.js"
+MAP-351 	"MAP-264 /lib/widget/Graticule.js"
+MAP-335 	"MAP-264 /lib/widget/Forward.js"
+MAP-333 	"MAP-264 /lib/widget/FilterAttributes.js"
+MAP-330 	"MAP-264 /lib/widget/FeatureInfo.js"
+MAP-327 	"MAP-264 /lib/widget/EditPoint.js"
+MAP-326 	"MAP-264 /lib/widget/EditLine.js"
+MAP-325 	"MAP-264 /lib/widget/EditButtonBase.js"
+MAP-324 	"MAP-264 /lib/widget/DragPan.js"
+MAP-323 	"MAP-264 /lib/widget/DeleteFeature.js"
+MAP-322 	"MAP-264 /lib/widget/CursorTrack.js"
+MAP-321 	"MAP-264 /lib/widget/CollectionList.js"
+MAP-318 	"MAP-264 /lib/widget/ButtonBase.js"
+MAP-317 	"MAP-264 /lib/widget/Button.js"
+MAP-316 	"MAP-264 /lib/widget/Back.js"
+MAP-310 	"MAP-264 /lib/widget/Abstract.js"
+
+Outstanding Issues (highest priority first):
+--------------------------------------------
+MAP-404		Memory Leak
+MAP-420		tm2llNoConvergence errors with cscs
+MAP-265		/lib/graphics
+MAP-259		Checking all .js files for their purpose and compatability
+MAP-257		"MAP-201 MapScaleText.js"
+MAP-248		"MAP-201 update config.xsd"
+MAP-247		"MAP-201 Deprecate MapContainerBase"
+MAP-229		"MAP-228 basic"
+MAP-228		OpenLayers-Integration: Examples
+MAP-222		OpenLayers-Integration: Renderer widgets
+MAP-221		"MAP-220 EditButtonBase.js"
+MAP-220		OpenLayers-Integration: Feature editing widgets
+MAP-217		OpenLayers-Integration: TimeSeries widgets
+MAP-212		"MAP-201 Loading.js"
+MAP-210		"MAP-201 LayerControl.js"
+MAP-204		OpenLayers-Integration: Information retrieval widgets
+MAP-201		OpenLayers-Integration: Map display widgets
+MAP-198		"MAP-196 ButtonBase.js"
+MAP-197		"MAP-201 MapPaneOL.js"
+MAP-196		OpenLayers-Integration: Map navigation widgets
+MAP-172		'error loading XSL stylesheet' when using IE & HTTPS
+MAP-164		JS error loading shipTracks demo in IE
+MAP-141		Use OpenLayers for rendering & integrate OL tools
+MAP-139		Provide the Mapbuilder JS from a single URL, accessable by all applications
+MAP-6		Problem with two WMS layers with the same name submitted: kc7bfi SF-1400521
+MAP-255		use the new NASA EO WMS in the time series demo
+MAP-246		"MAP-201 OWSContext"
+MAP-192		Opacity management
+MAP-163		Issues with query in Enhanced demo
+MAP-161		In IE map <div> moves to bottom if window width is too small
+MAP-153		Mapbuilder should detect browsers which don't support XSLT
+MAP-149		autoresize tool
+MAP-132		Add support for https to proxy (java, php, javascript)
+MAP-119		loading2 doesn't work with tabbedcontent
+MAP-71		Duplicate GetFeatureInfo responses forced if mouse click occurs before previous query finished.
+MAP-59		GetFeatureInfo URL generated for a second WMS in same context as first is repeated in the variable string.
+MAP-49		set properties by URL parameters Submitted: Mike Adair SF - 1257212
+MAP-43		duplicate layers mess up when deleting them Submitted: graphrisc SF-1361616
+MAP-35		use scalehints in context docs Submitted: madair1 SF-1174298
+MAP-25		Move util.js into JS objects Submitted: camerons SF-1071242
+MAP-24		Gazetteer widget auto zoom Submitted: nobody SF-1380974
+MAP-17		Line 96 Error firstChild is null or not an object Submitted: Cappelaere SF-1392108
+MAP-16		Line 278 Object required Submitted: Cappelaere SF-1392112
+MAP-408		"MAP-264 /lib/widget/TipWidgetConfig.js"
+MAP-365		"MAP-264 /lib/widget/MapScaleText.js"
+MAP-51		set the locator map with an image Submitted Virginie Berre SF - 1220313
+
 mapbuilder-lib-1.5-alpha1
 ==========================
 This Mapbuilder release adds a string of new features and developments to
