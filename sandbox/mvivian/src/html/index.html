@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+      
+<html xmlns="http://www.w3.org/1999/xhtml" >
+  <head>
+    <title>Mapbuilder Feature Entry</title>
+       <link rel='StyleSheet' type='text/css' href='lib/skin/default/demoStyles.css'/>
+       <link rel='StyleSheet' type='text/css' href='lib/skin/default/mapStyle.css'/>
+     <script>
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='config.xml';
+
+    </script>
+    <script type="text/javascript" src="lib/Mapbuilder.js"></script>
+  </head>
+  <body onload="mbDoLoad()" >
+  <div id="header">
+<h1><a href="http://communitymapbuilder.org">MapBuilder</a> Feature Entry</h1>
+<!--<a href="install.html" class="help">how to use this page</a></div>-->
+  </div>
+  <div id="middle">
+
+	<div id="mainbody">
+  	  <table>
+      <tr>
+        <td valign="top" id="locatorMap"/>
+        <td valign="top" rowspan="2" colspan="2">
+          <!--div id="loading">
+            <p>Loading Program<br/>
+            <img src="lib/skin/default/images/Loading.gif"/>
+            </p>
+          </div-->
+          <div>
+	          <div id="mainMapPane"></div>
+	          <div id="mainButtonBar" style="margin-top:5px;height:24px;width:240px"></div>
+	          <div id="cursorTrack" style="height:12pt"></div>
+          </div>
+      </tr>
+      <tr>
+        <td id="legend"/>
+      </tr>
+      <tr>
+        <td colspan="3" id="featureList"/>
+      </tr>
+      <tr>
+        <td colspan="3" id="transactionResponse"/>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <div id="eventLog"/>
+        </td>
+      </tr>
+      
+    </table>
+	</div>
+	</div>
+  <div id="footer">
+	  
+    <div class="right">
+<a href="http://communitymapbuilder.org/" title="powered by community mapbuilder"><img src="lib/skin/default/images/Icon.gif"/></a>	  	
+<a href="https://www.osgeo.org/" title="member of OSgeo"><img src="lib/skin/default/images/Osgeo.png"/></a>
+         </div>
+  </div>  
+  </body>
+</html>
