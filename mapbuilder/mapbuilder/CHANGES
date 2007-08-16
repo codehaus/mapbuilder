@@ -9,7 +9,10 @@ This file contains information about updates to each release:
 mapbuilder-lib-1.5-alpha2
 ==========================
 This Mapbuilder release is largely a bugfix and cleanup release on the
-road to rc1
+road to rc1.
+
+Note: A number of the current and fixed bugs are tied to the progress of the
+larger tasks in the OpenLayers integration. See MAP-259 for an overview.
 
 Bugs fixed:
 ----------
@@ -40,6 +43,7 @@ MAP-288		"MAP-262 /lib/tool/DragPanHandler.js"
 MAP-286		"MAP-262 /lib/tool/AutoResize.js"
 MAP-285		"MAP-262 /lib/tool/AoiMouseHandler.js"
 MAP-272		"MAP-261 /lib/model/GetMap.js"
+MAP-265		/lib/graphics
 MAP-260		"MAP-265 /lib/graphics"
 MAP-422		lib/util/Utils.js::transformNodeToString() can create invalid XML
 MAP-416		"MAP-412 create a list of files to be deprecated"
@@ -138,7 +142,6 @@ Outstanding Issues (highest priority first):
 --------------------------------------------
 MAP-404		Memory Leak
 MAP-420		tm2llNoConvergence errors with cscs
-MAP-265		/lib/graphics
 MAP-259		Checking all .js files for their purpose and compatability
 MAP-257		"MAP-201 MapScaleText.js"
 MAP-248		"MAP-201 update config.xsd"
