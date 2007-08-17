@@ -31,6 +31,10 @@ function EditButtonBase(widgetNode, model) {
   /** Reference to GML node to update when a feature is added. */
   this.featureXpath=widgetNode.selectSingleNode("mb:featureXpath").firstChild.nodeValue;
 
+  /** @author Mvivian 
+   *  Xsl Document that will transform the features collection into another type  */
+  this.gmlTransform = new XslProcessor(widgetNode.selectSingleNode("mb:gmlTransform").firstChild.nodeValue)
+  
   /**
    * If tool is selected and the Edit Tool has changed (eg, changed from
    * LineEdit to PointEdit) then load new default feature.
@@ -52,6 +56,9 @@ function EditButtonBase(widgetNode, model) {
     if(!selected && objRef.transactionResponseModel){
       objRef.transactionResponseModel.setModel(objRef.transactionResponseModel,null);
     }
+    
+    //MVIVIAN: This is what we really want
+	 objRef.gmlTransform.transformNodeToObject(objRef.targetModel.doc);
   }
 
   /**
