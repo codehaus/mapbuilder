@@ -66,7 +66,7 @@
       <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
     </FeatureCollection>
     <StyledLayerDescriptor id="sld">
-      <defaultModelUrl>demo/data/features.sld</defaultModelUrl>
+      <defaultModelUrl>features.sld</defaultModelUrl>
     </StyledLayerDescriptor>
   </models>
   <widgets>
