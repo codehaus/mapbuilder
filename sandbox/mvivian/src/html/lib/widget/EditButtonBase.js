@@ -33,7 +33,7 @@ function EditButtonBase(widgetNode, model) {
 
   /** @author Mvivian 
    *  Xsl Document that will transform the features collection into another type  */
-  this.gmlTransform = new XslProcessor(widgetNode.selectSingleNode("mb:gmlTransform").firstChild.nodeValue)
+  this.gmlTransformUrl=widgetNode.selectSingleNode("mb:gmlTransform").firstChild.nodeValue;
   
   /**
    * If tool is selected and the Edit Tool has changed (eg, changed from
@@ -58,7 +58,12 @@ function EditButtonBase(widgetNode, model) {
     }
     
     //MVIVIAN: This is what we really want
-	 objRef.gmlTransform.transformNodeToObject(objRef.targetModel.doc);
+
+    objRef.gmlTransform = new XslProcessor(objRef.gmlTransformUrl);
+    //this.debug=1;
+    //if (this.debug) alert("EditButtonBase.gmlTransform="
+    //  + (new XMLSerializer()).serializeToString(objRef.gmlTransform));
+	objRef.gmlTransform.transformNodeToObject(objRef.targetModel.doc);
   }
 
   /**
