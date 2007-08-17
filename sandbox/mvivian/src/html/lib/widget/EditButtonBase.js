@@ -59,11 +59,12 @@ function EditButtonBase(widgetNode, model) {
     
     //MVIVIAN: This is what we really want
 
-    objRef.gmlTransform = new XslProcessor(objRef.gmlTransformUrl);
+    if (!objRef.gmlTransform) objRef.gmlTransform = new XslProcessor(objRef.gmlTransformUrl);
     //this.debug=1;
     //if (this.debug) alert("EditButtonBase.gmlTransform="
     //  + (new XMLSerializer()).serializeToString(objRef.gmlTransform));
-	objRef.gmlTransform.transformNodeToObject(objRef.targetModel.doc);
+	objRef.targetModel.doc = objRef.gmlTransform.transformNodeToObject(objRef.targetModel.doc);
+	objRef.targetModel.callListeners("loadModel");
   }
 
   /**
