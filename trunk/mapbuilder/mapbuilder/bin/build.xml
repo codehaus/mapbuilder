@@ -432,7 +432,7 @@ $Id$
     description="Create binary distribution"
     depends="clean,docs,version">
       <antcall target="dist-apache"/>
-      <property name="compression.complete" value="false"/>
+      <delete dir="${compress.home}"/>
       <antcall target="dist-tomcat"/>
   </target>
 
