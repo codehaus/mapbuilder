@@ -192,6 +192,7 @@ $Id$
     <mkdir  dir="${build.home}/WEB-INF/classes"/>
 
     <!-- Copy static content of this web application -->
+    <echo message="context home ${context.home}"/>
     <copy todir="${build.home}">
       <fileset dir="${context.home}/web"/>
     </copy>
@@ -429,7 +430,10 @@ $Id$
   <target
     name="dist"
     description="Create binary distribution"
-    depends="clean,docs,version,dist-apache,dist-tomcat">
+    depends="clean,docs,version">
+      <antcall target="dist-apache"/>
+      <property name="compression.complete" value="false"/>
+      <antcall target="dist-tomcat"/>
   </target>
 
 <!--
