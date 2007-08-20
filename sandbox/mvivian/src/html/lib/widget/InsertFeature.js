@@ -36,6 +36,9 @@ function InsertFeature(widgetNode, model) {
 
   /** Xsl to convert Feature into a WFS Transaction Update. */
   this.updateXsl=new XslProcessor(baseDir+"/tool/xsl/wfs_Update.xsl");
+  
+    /** Xsl to convert Feature into a WFS Transaction Update. */
+  this.cdataElementXsl=new XslProcessor(baseDir+"/tool/xsl/cdata_element.xsl");
 
   /** creates the OL control for this button */
   this.createControl = function(objRef) {
@@ -65,12 +68,19 @@ function InsertFeature(widgetNode, model) {
       }
       fid=objRef.targetModel.getXpathValue(objRef.targetModel,"//@fid");
       if (objRef.targetModel.doc){
+
+		//MVIVIAN: I did this to cdata the gml into another feature attribute
+        s=objRef.cdataElementXsl.transformNodeToObject(objRef.targetModel.doc);
+        //mvivian: Will always be inserting proposed changes
+        s=objRef.insertXsl.transformNodeToObject(s);
+        
         //if fid exists, then we are modifying an existing feature,
         // otherwise we are adding a new feature
         if(fid){
-          s=objRef.updateXsl.transformNodeToObject(objRef.targetModel.doc);
+         
+          s=objRef.targetModel.setXpathValue(objRef.targetModel,"//psma:proposed_change","Update");
         }else{
-          s=objRef.insertXsl.transformNodeToObject(objRef.targetModel.doc);
+          s=objRef.targetModel.setXpathValue(objRef.targetModel,"//psma:proposed_change","Insert");
         }
         objRef.httpPayload.postData=s;
         objRef.transactionResponseModel.transactionType="insert";

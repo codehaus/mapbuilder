@@ -12,7 +12,7 @@
 				<psma:feed_type>feedback</psma:feed_type>
 				<psma:author></psma:author>
 				<psma:status>pending</psma:status>
-				<psma:proposed_change>Insert</psma:proposed_change>
+				<psma:proposed_change></psma:proposed_change>
 				<psma:feature_collection>
 					<xsl:copy-of select="/"/>
 				</psma:feature_collection>

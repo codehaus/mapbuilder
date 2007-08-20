@@ -163,6 +163,7 @@
       <typeName>topp:tasmania_cities,topp:tasmania_roads,topp:tasmania_water_bodies</typeName>
       <tolerance>5</tolerance>
       <maxFeatures>100</maxFeatures>
+      <gmlTransform>template_feedback.xsl</gmlTransform>
     </WfsGetFeature>
   </widgets>
   <skinDir>lib/skin/default</skinDir>
