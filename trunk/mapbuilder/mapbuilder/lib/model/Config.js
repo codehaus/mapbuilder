@@ -121,66 +121,64 @@ function Config(url) {
   if (serializeUrl) this.serializeUrl = getNodeValue(serializeUrl);
 
   /**
-   * Convenience method to load widgetText from a URL.
+   * Convenience method to load widgetText from a dir.
    * Has the possible side-effect of changing config.lang to config.defaultLang
    * if the widgetText for the selected language is not found.
    * @param config the config object
    * @param dir    the base dir for the widget text
-   * @param url    the (relative) url under dir/config.lang for the widget text
    * @private
    */
   function loadWidgetText(config, dir) {
+    var widgetFile = "/widgetText.xml";
     var widgetText;
-    if (url) {
-
-
-      var widgetTextUrl = dir + "/" + config.lang + "/widgetText.xml";
-      widgetText = Sarissa.getDomDocument();
-      widgetText.async = false;
-      widgetText.validateOnParse=false;  //IE6 SP2 parsing bug
-      //widgetText.load(widgetTextUrl);
-      
-      if(typeof(inlineXSL)!="undefined") {
-	    var xmlString = inlineXSL[widgetTextUrl];
-	    xmlString = xmlString.replace(/DOUBLE_QUOTE/g,"\"");
-	    widgetText = (new DOMParser()).parseFromString(xmlString, "text/xml");
-	  }else{
-      if(_SARISSA_IS_SAFARI)
-       {  var xmlhttp = new XMLHttpRequest();
+    var widgetTextUrl = dir + "/" + config.lang + widgetFile;
+    widgetText = Sarissa.getDomDocument();
+    widgetText.async = false;
+    widgetText.validateOnParse=false;  //IE6 SP2 parsing bug
+    
+    if (typeof(inlineXSL)!="undefined") {
+      var xmlString = inlineXSL[widgetTextUrl];
+      xmlString = xmlString.replace(/DOUBLE_QUOTE/g,"\"");
+      widgetText = (new DOMParser()).parseFromString(xmlString, "text/xml");
+    }
+    else {
+      if (_SARISSA_IS_SAFARI) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", widgetTextUrl, false);
+        xmlhttp.send(null);
+        widgetText = xmlhttp.responseXML;
+      }
+      else {
+        widgetText.load(widgetTextUrl);
+      }
+    }      
+    if (Sarissa.getParseErrorText(widgetText) != Sarissa.PARSED_OK) {
+      var errMsg = "Error loading widgetText document: " + widgetTextUrl;
+      if (config.lang == config.defaultLang) {
+        alert(errMsg);
+      }
+      else {
+        // Try to fall back on default language
+        alert(errMsg + "\nFalling back on default language=\"" + config.defaultLang + "\"");
+        config.lang = config.defaultLang;
+        widgetTextUrl = dir + "/" + config.lang + widgetFile;
+        if(_SARISSA_IS_SAFARI) {
+          var xmlhttp = new XMLHttpRequest();
           xmlhttp.open("GET", widgetTextUrl, false);
           xmlhttp.send(null);
           widgetText = xmlhttp.responseXML;
-       }else{
-       widgetText.load(widgetTextUrl);
-       }
-      }      
-      if (Sarissa.getParseErrorText(widgetText) != Sarissa.PARSED_OK){
-        var errMsg = "Error loading widgetText document: " + widgetTextUrl;
-        if (config.lang == config.defaultLang) {
-          alert(errMsg);
         }
         else {
-          // Try to fall back on default language
-          alert(errMsg + "\nFalling back on default language=\"" + config.defaultLang + "\"");
-          config.lang = config.defaultLang;
-          widgetTextUrl = dir + "/" + config.lang + "/" +getNodeValue(url);
-         if(_SARISSA_IS_SAFARI)
-         {  var xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("GET", widgetTextUrl, false);
-            xmlhttp.send(null);
-            widgetText = xmlhttp.responseXML;
-         }else{
-            widgetText.load(widgetTextUrl);
-         }
-          if (Sarissa.getParseErrorText(widgetText) != Sarissa.PARSED_OK){
-            alert("Falling back on default language failed!");
-          }
+          widgetText.load(widgetTextUrl);
+        }
+        if (Sarissa.getParseErrorText(widgetText) != Sarissa.PARSED_OK) {
+          alert("Falling back on default language failed!");
         }
       }
-      if(! _SARISSA_IS_SAFARI ){
-        widgetText.setProperty("SelectionLanguage", "XPath");
-        Sarissa.setXpathNamespaces(widgetText, config.namespace);
-        }
+    }
+    if(! _SARISSA_IS_SAFARI) {
+      widgetText.setProperty("SelectionLanguage", "XPath");
+      Sarissa.setXpathNamespaces(widgetText, config.namespace);
     }
     return widgetText;
   }
