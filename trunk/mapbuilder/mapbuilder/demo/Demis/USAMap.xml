@@ -28,7 +28,7 @@
 
 			<Server service="OGC:WMS" version="1.1.0" title="OGC:WMS">
 
-      <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/wms/wms.asp?WMS=USAMap"/> 
+      <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/wms/wms.asp?WMS=USATiger"/> 
 
 			</Server>
 
