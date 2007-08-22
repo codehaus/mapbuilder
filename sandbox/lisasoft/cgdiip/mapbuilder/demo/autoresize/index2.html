@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+      
+<html xmlns="http://www.w3.org/1999/xhtml" >
+  <head>
+    <title>Mapbuilder autoresizing Map Viewer</title>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/scalebar-fat.css'>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/demoStyles.css'/>
+    <style>
+      /* styles for abbr (abbr is unsupported in MSIE, so use span) */
+      abbr, acronym, span.abbr {
+        cursor: help;
+        border-bottom: 1px dotted gray;
+      }
+    </style>
+    <script>
+    // URL of Mapbuilder configuration file.
+    var mbConfigUrl='config2.xml';
+    </script>
+    <!-- This points to the core mapbuilder library, replaces this with MapbuilderCompressed.js when you want to use the compressed version -->
+    <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
+  </head>
+  <!-- This onload event starts mapbuilder -->
+  <body onload="mbDoLoad()" >
+
+          <div id="mainMapPane" style="width:80%; height:80%"><!-- This is the container where the map will be drawn -->
+            <noscript>
+              This page requires JavaScript to be enabled.
+            </noscript>
+          </div><!-- /mainMapPane -->
+        </div>
+        <div style="position:absolute;top:0px;left:0px;z-index:1000;float:left">
+        <table>
+          <tr>
+            <td align="left"  width="600" id="mainButtonBar"><!-- This is where the buttons will be drawn --></td>
+            <td align="right" width="200" id="scalebar"><!-- This is where the scale bar will be drawn --></td>
+          
+          </tr>
+          <tr>
+          	<td align="right" width="400" id="contextLegend"><!-- This is where the scale bar will be drawn --></td>
+          </tr>
+        </table>
+
+
+  </body>
+</html>

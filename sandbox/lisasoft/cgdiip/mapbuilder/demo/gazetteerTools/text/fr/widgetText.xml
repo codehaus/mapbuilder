@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<WidgetText xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <!--
+    $Id$
+  -->
+  <!-- User specific widget (XSL) messages -->
+  <widgets>
+    <Widget>
+      <selectPlace> Sélectionnez un endroit:</selectPlace>
+      <placeNameCoords>Coordonnées de l'endroit sélectionné:</placeNameCoords>
+      <transfer>Transférer</transfer>
+      <close>Fermer</close>
+      <postalCodeCoords>Coordonnées du code postal sélectionné:</postalCodeCoords>
+      <postalCodeRegionTitle>Région du code postal:</postalCodeRegionTitle>
+    </Widget>
+    <PlaceNameForm>
+      <title>Recherche à partir de nom d'endroit</title>
+      <placeName>Nom de l'endroit:</placeName>
+      <find>Trouver</find>
+      <country>Pays:</country>
+      <example>Example: Ottawa</example>
+      <exampleWorld>Example: Paris, France</exampleWorld>
+    </PlaceNameForm>
+    <PostalCodeForm>
+      <title>Code postal canadien</title>
+      <postalCode>Code postal:</postalCode>
+      <find>Trouver</find>
+    </PostalCodeForm>
+    <AoiForm>
+      <title>Coordonées de la région d`intéret (ceci est un widget de MapBuilder)</title>
+      <north>Nord:</north>
+      <south>Sud:</south>
+      <east>Est:</east>
+      <west>Ouest:</west>
+    </AoiForm>
+    <TabbedContent>
+      <canadaPlaceNameForm>Canada</canadaPlaceNameForm>
+      <worldPlaceNameForm>Monde</worldPlaceNameForm>
+    </TabbedContent>
+  </widgets>
+</WidgetText>
