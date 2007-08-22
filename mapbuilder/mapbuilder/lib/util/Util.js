@@ -73,10 +73,16 @@ function XslProcessor(xslUrl,docNSUri) {
   this.transformNodeToString = function(xmlNode) {
     try {
       // transform and build a web page with result
+      //MAP-427 Quick hack to transform an XMLElement to XMLDocument in IE
+     
+      if (_SARISSA_IS_IE){
+	      var str = (new XMLSerializer()).serializeToString(xmlNode);
+	      var xmlNode = (new DOMParser()).parseFromString(str, "text/xml");
+	  }
       var newDoc = this.transformNodeToObject(xmlNode);
       var s = (new XMLSerializer()).serializeToString(newDoc);
       if(_SARISSA_IS_OPERA)
-      s =  s.replace(/.*\?\>/,"");//hack for opera to delete <?xml ... ?>
+      	s =  s.replace(/.*\?\>/,"");//hack for opera to delete <?xml ... ?>
       return s;
     } catch(e){
       alert(mbGetMessage("exceptionTransformingDoc", this.xslUrl));
