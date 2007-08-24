@@ -1,4 +1,3 @@
-<?xml version="1.0"?>
 <xsl:stylesheet xmlns:wfs="http://www.opengis.net/wfs"
 	xmlns:gml="http://www.opengis.net/gml"
 	xmlns:psma="http://www.psma.com.au/" 

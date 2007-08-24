@@ -30,10 +30,6 @@ function EditButtonBase(widgetNode, model) {
 
   /** Reference to GML node to update when a feature is added. */
   this.featureXpath=widgetNode.selectSingleNode("mb:featureXpath").firstChild.nodeValue;
-
-  /** @author Mvivian 
-   *  Xsl Document that will transform the features collection into another type  */
-  this.gmlTransformUrl=widgetNode.selectSingleNode("mb:gmlTransform").firstChild.nodeValue;
   
   /**
    * If tool is selected and the Edit Tool has changed (eg, changed from
@@ -56,11 +52,6 @@ function EditButtonBase(widgetNode, model) {
     if(!selected && objRef.transactionResponseModel){
       objRef.transactionResponseModel.setModel(objRef.transactionResponseModel,null);
     }
-    
-    //MVIVIAN: This is what we really want
-    if (!objRef.gmlTransform) objRef.gmlTransform = new XslProcessor(objRef.gmlTransformUrl);
-	objRef.targetModel.doc = objRef.gmlTransform.transformNodeToObject(objRef.targetModel.doc);
-	objRef.targetModel.callListeners("loadModel");
   }
 
   /**

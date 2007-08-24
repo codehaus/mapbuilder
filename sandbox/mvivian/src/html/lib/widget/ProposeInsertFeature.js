@@ -14,7 +14,7 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @param widgetNode The widget node from the Config XML file.
  * @param model The model for this widget
  */
-function InsertFeature(widgetNode, model) {
+function ProposeInsertFeature(widgetNode, model) {
 
   // override default cursor by user
   // cursor can be changed by spefying a new cursor in config file
@@ -33,11 +33,7 @@ function InsertFeature(widgetNode, model) {
 
   /** Xsl to convert Feature into a WFS Transaction Insert. */
   this.insertXsl=new XslProcessor(baseDir+"/tool/xsl/wfs_Insert.xsl");
-
-  /** Xsl to convert Feature into a WFS Transaction Update. */
-  this.updateXsl=new XslProcessor(baseDir+"/tool/xsl/wfs_Update.xsl");
   
-    /** Xsl to convert Feature into a WFS Transaction Update. */
   this.cdataElementXsl=new XslProcessor(baseDir+"/tool/xsl/cdata_element.xsl");
 
   /** creates the OL control for this button */
@@ -69,19 +65,19 @@ function InsertFeature(widgetNode, model) {
       fid=objRef.targetModel.getXpathValue(objRef.targetModel,"//@fid");
       if (objRef.targetModel.doc){
 
-		//MVIVIAN: I did this to cdata the gml into another feature attribute
+        //if fid exists, then we are modifying an existing feature,
+        // otherwise we are adding a new feature
+        if(fid){
+          objRef.targetModel.setXpathValue(objRef.targetModel,"//psma:proposed_change","Update");
+        }else{
+          objRef.targetModel.setXpathValue(objRef.targetModel,"//psma:proposed_change","Insert");
+        }
+
         s=objRef.cdataElementXsl.transformNodeToObject(objRef.targetModel.doc);
         //mvivian: Will always be inserting proposed changes
         s=objRef.insertXsl.transformNodeToObject(s);
         
-        //if fid exists, then we are modifying an existing feature,
-        // otherwise we are adding a new feature
-        if(fid){
-         
-          s=objRef.targetModel.setXpathValue(objRef.targetModel,"//psma:proposed_change","Update");
-        }else{
-          s=objRef.targetModel.setXpathValue(objRef.targetModel,"//psma:proposed_change","Insert");
-        }
+        
         objRef.httpPayload.postData=s;
         objRef.transactionResponseModel.transactionType="insert";
         objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);

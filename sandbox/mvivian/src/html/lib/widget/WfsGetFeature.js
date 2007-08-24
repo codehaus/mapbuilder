@@ -39,14 +39,10 @@ function WfsGetFeature(widgetNode, model) {
   // override default cursor by user
   // cursor can be changed by spefying a new cursor in config file
   this.cursor = "pointer"; 
-  
-    /** @author Mvivian 
-   *  Xsl Document that will transform the features collection into another type  */
-  this.gmlTransformUrl=widgetNode.selectSingleNode("mb:gmlTransform").firstChild.nodeValue;
 
   this.createControl = function(objRef) {
+  	 	
   	var transactionResponseModel = config.objects[objRef.trm];
-  	
     var Control = OpenLayers.Class( OpenLayers.Control, {
       CLASS_NAME: 'mbControl.WfsGetFeature',
       type: OpenLayers.Control.TYPE_TOOL, // constant from OpenLayers.Control
@@ -116,12 +112,9 @@ function WfsGetFeature(widgetNode, model) {
           MAXFEATURES: this.maxFeatures,
           BBOX: bounds.toBBOX()
         });
+        
         this.transactionResponseModel.newRequest(this.transactionResponseModel, this.httpPayload);
-
-        //Mviian: I want to wrap it in a feedback feature
-        if (!objRef.gmlTransform) objRef.gmlTransform = new XslProcessor(objRef.gmlTransformUrl);
-		this.transactionResponseModel.doc = objRef.gmlTransform.transformNodeToObject(this.transactionResponseModel.doc);
-		this.transactionResponseModel.callListeners("loadModel");
+		
       }
     });
     return Control;
