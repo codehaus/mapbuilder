@@ -20,7 +20,6 @@
       </widgets>
     </ContextCollection>
     <WmsCapabilities id="wmsCapabilities">
-      <debug/>
       <title>OGC Web Map Server (WMS)</title>
       <defaultModelUrl>wmsCapabilities.xml</defaultModelUrl>
       <!--defaultModelUrl>/geoserver/wms?request=GetCapabilities&amp;service=WMS</defaultModelUrl-->
