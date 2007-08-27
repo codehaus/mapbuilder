@@ -107,7 +107,19 @@ function WmsCapabilities(modelNode, parent) {
    * @return the Layer node with the specified name.
    */
   this.getFeatureNode = function(featureName) {
-    return this.doc.selectSingleNode(this.nodeSelectXpath+"[Name='"+featureName+"']");
+    /*
+    xpath= "Layer//[Name='"+featureName+"']";
+    alert("WmsCapabilities.getFeatureNode this.xpath="+xpath);
+
+    alert("WmsCapabilities.getFeatureNode this.doc="+(new XMLSerializer()).serializeToString(this.doc));
+
+    node=this.doc.selectSingleNode("Layer//[Name='"+featureName+"']");
+    alert("WmsCapabilities.getFeatureNode node="+node);
+
+    //alert("WmsCapabilities.getFeatureNode this.doc="+(new XMLSerializer()).serializeToString(this.doc));
+    */
+
+    return this.doc.selectSingleNode("Layer//[Name='"+featureName+"']");
   }
 
 }

@@ -8,6 +8,14 @@
           <htmlTagId>mainMapPane</htmlTagId>
           <fixedSize>true</fixedSize>
         </MapPaneOL>
+        <LayerControl id="contextLegend">
+          <htmlTagId>layerControl</htmlTagId>
+          <legendImageEnable>/images/LegendEnable.png</legendImageEnable>
+          <legendImageDisable>/images/LegendDisable.png</legendImageDisable>
+          <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
+          <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
+          <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
+        </LayerControl>
         <PanZoomBar id="panZoomBar"/>
       </widgets>
     </Context>
@@ -24,15 +32,27 @@
       <defaultModelUrl>wmsCapabilities.xml</defaultModelUrl>
       <!--defaultModelUrl>/geoserver/wms?request=GetCapabilities&amp;service=WMS</defaultModelUrl-->
       <widgets>
-        <SelectMapLayers id="layerList">
-          <htmlTagId>workspace</htmlTagId>
+        <SelectMapLayers id="selectMapLayers">
+          <htmlTagId>selectMapLayers</htmlTagId>
           <!--outputNodeId>workspaceCanvas</outputNodeId-->
         </SelectMapLayers>
         <ModelUrlInput id="wmsUrlInput">
-          <htmlTagId>workspace</htmlTagId>
+          <htmlTagId>modelUrlInput</htmlTagId>
           <title>Enter a WMS GetCapabilities URL:</title>
         </ModelUrlInput>
       </widgets>
+      <tools>
+        <!--
+        <WebServiceRequest id="wmsController">
+          <targetModel>featureInfoResponse</targetModel>
+          <requestName>wms:GetFeatureInfo</requestName>
+        </WebServiceRequest>
+        -->
+        <EditContext id="editContext">
+          <targetModel>mainMap</targetModel>
+        </EditContext>
+      </tools>
+ 
       <!--nodeSelectXpath>//Layer</nodeSelectXpath-->
     </WmsCapabilities>
   </models>
