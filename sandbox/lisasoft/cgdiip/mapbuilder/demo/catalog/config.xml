@@ -22,19 +22,19 @@
     <WmsCapabilities id="wmsCapabilities">
       <debug/>
       <title>OGC Web Map Server (WMS)</title>
-      <defaultModelUrl>/geoserver/wms?request=GetCapabilities&amp;service=WMS</defaultModelUrl>
+      <defaultModelUrl>wmsCapabilities.xml</defaultModelUrl>
+      <!--defaultModelUrl>/geoserver/wms?request=GetCapabilities&amp;service=WMS</defaultModelUrl-->
       <widgets>
         <SelectMapLayers id="layerList">
           <htmlTagId>workspace</htmlTagId>
-          <outputNodeId>workspaceCanvas</outputNodeId>
+          <!--outputNodeId>workspaceCanvas</outputNodeId-->
         </SelectMapLayers>
         <ModelUrlInput id="wmsUrlInput">
           <htmlTagId>workspace</htmlTagId>
-          <outputNodeId>workspaceCanvas</outputNodeId>
           <title>Enter a WMS GetCapabilities URL:</title>
         </ModelUrlInput>
       </widgets>
-      <nodeSelectXpath>//Layer</nodeSelectXpath>
+      <!--nodeSelectXpath>//Layer</nodeSelectXpath-->
     </WmsCapabilities>
   </models>
   <skinDir>../../lib/skin/default</skinDir>
