@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!-- $Id: template_waterbodies.xml 2957 2007-07-09 12:21:10Z steven $ -->
+<gml:featureMember xmlns:topp="http://www.openplans.org/topp" xmlns:gml="http://www.opengis.net/gml">
+  <topp:tasmania_water_bodies>
+    <topp:the_geom>
+      <gml:MultiPolygon srsName="epsg:4326">
+        <gml:polygonMember>
+          <gml:Polygon>
+            <gml:outerBoundaryIs>
+              <gml:LinearRing>
+                <gml:coordinates decimal="." cs="," ts=" "></gml:coordinates>
+              </gml:LinearRing>
+            </gml:outerBoundaryIs>
+          </gml:Polygon>
+        </gml:polygonMember>
+      </gml:MultiPolygon>
+    </topp:the_geom>
+    <topp:AREA></topp:AREA>
+    <topp:PERIMETER></topp:PERIMETER>
+    <topp:WATER_TYPE>Lake</topp:WATER_TYPE>
+    <topp:CNTRY_NAME>Australia</topp:CNTRY_NAME>
+    <topp:CONTINENT>Australia</topp:CONTINENT>
+  </topp:tasmania_water_bodies>
+</gml:featureMember>
