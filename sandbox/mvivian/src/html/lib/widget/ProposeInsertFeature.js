@@ -72,8 +72,14 @@ function ProposeInsertFeature(widgetNode, model) {
         }else{
           objRef.targetModel.setXpathValue(objRef.targetModel,"//psma:proposed_change","Insert");
         }
-
+        
+       
+        bounds = objRef.getBounds(objRef.targetModel);
+        objRef.targetModel.setXpathValue(objRef.targetModel,"//psma:the_geom/gml:Box/gml:coordinates",bounds);
+	    
+	    
         s=objRef.cdataElementXsl.transformNodeToObject(objRef.targetModel.doc);
+        
         //mvivian: Will always be inserting proposed changes
         s=objRef.insertXsl.transformNodeToObject(s);
         
@@ -83,6 +89,44 @@ function ProposeInsertFeature(widgetNode, model) {
         objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
       }else alert(mbGetMessage("noFeatureToInsert"));
     }
+  }
+  
+  this.getBounds = function(targetModel)
+  {
+    var nodes = targetModel.doc.selectNodes("//psma:feature_collection//gml:coordinates");
+    var maxX;
+    var maxY;
+    var minX;
+    var minY;
+    
+    invalidCoord=false;
+    for(var n=0;n<nodes.length;n++)
+    {
+      coords = nodes[n].firstChild.nodeValue.trim().split(" ");
+      for (var c=0;c<coords.length;c++)
+      {
+        if(coords[c]!= "") 
+          coord = coords[c].split(",");
+        if(coord.length == 2)
+        {
+          maxX = maxX ? Math.max(maxX, parseFloat(coord[0])) : parseFloat(coord[0]);
+          maxY = maxY ? Math.max(maxY, parseFloat(coord[1])) : parseFloat(coord[1]);
+          minX = minX ? Math.min(minX, parseFloat(coord[0])) : parseFloat(coord[0]);
+          minY = minY ? Math.min(minY, parseFloat(coord[1])) : parseFloat(coord[1]);
+        }
+        else
+        {
+          invalidCoord = true;
+        }
+      }
+    }
+    
+    if(invalidCoord)
+    {
+      alert("invalid coordinate found, but transaction will procceed")
+    }
+        
+    return (minX + "," + minY + " " + minX + "," + maxY + " " + maxX + "," + maxY + " " + maxX + "," + minY);
   }
 
   /**
