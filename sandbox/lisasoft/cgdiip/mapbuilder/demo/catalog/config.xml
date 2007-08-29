@@ -17,6 +17,10 @@
           <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
         </LayerControl>
         <PanZoomBar id="panZoomBar"/>
+        <ModelPopup id="modelPopup">
+          <htmlTagId>contextPopup</htmlTagId>
+          <title2>View Context</title2>
+        </ModelPopup>
       </widgets>
     </OwsContext>
     <ContextCollection id="myMapCollection">
