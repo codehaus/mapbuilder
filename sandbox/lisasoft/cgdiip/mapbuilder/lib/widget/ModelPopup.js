@@ -58,18 +58,16 @@ function ModelPopup(widgetNode, model) {
    */
   ModelPopup.prototype.popupWindow = function(objRef){
     var s=(new XMLSerializer()).serializeToString(objRef.model.doc);
-    alert("ModelPopup.popupWindow: "+s);
     s=
       "<html><title>"
       +"Context"
       +"</title><body>"
       +Sarissa.escape(s)
       +"</body></html>"
-    alert(s);
-    //TBD: How do we write to the window?
+    // Insert break after each tag
+    s=s.replace(/&gt;/g, "&gt;<br/>")
     var popup=window.open();
-    popup.write('Put this into window');
-    //objRef.popup=window.open(null,objRef.title);
-    //objRef.popup.write('Put this into window');
+    popup.document.write(s);
   }
 } 
+

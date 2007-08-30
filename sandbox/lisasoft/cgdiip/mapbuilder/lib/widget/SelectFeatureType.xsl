@@ -46,7 +46,8 @@ $Name$
         <xsl:value-of select="$title"/> (<xsl:value-of select="$name"/>) <xsl:value-of select="wfs:SRS"/>
       </td>
       <td>
-        <a href="javascript:config.objects.{$modelId}.setParam('wfs_GetFeature','{$name}')">load</a>
+        <!--a href="javascript:config.objects.{$modelId}.setParam('wfs_GetFeature','{$name}')">load</a-->
+        <a href="javascript:config.objects.editContext.addNodeToModel('{$name}')">add</a>
       </td>
       <td>
         <a href="javascript:config.objects.{$modelId}.setParam('wfs_DescribeFeatureType','{$name}')">filter</a>
@@ -60,3 +61,4 @@ $Name$
   <xsl:template match="text()|@*"/>
 
 </xsl:stylesheet>
+

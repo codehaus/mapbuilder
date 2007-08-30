@@ -72,6 +72,9 @@
         </ModelUrlInput>
       </widgets>
       <tools>
+        <EditContext id="editContext2">
+          <targetModel>mainMap</targetModel>
+        </EditContext>
         <!--
         <WebServiceRequest id="wfsGetFeature">
           <targetModel>getFeatureTemplate</targetModel>
@@ -90,6 +93,17 @@
       </tools>
       <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
     </WfsCapabilities>
+    <FeatureTypeSchema id="featureTypeSchema">
+      <defaultModelUrl>wfsDescribeFeatureType.xml</defaultModelUrl>
+      <debug/>
+      <widgets>
+        <debug/>
+        <FilterAttributes id="attributeFilter">
+          <htmlTagId>filterAttributes</htmlTagId>
+        </FilterAttributes>
+      </widgets>
+    </FeatureTypeSchema>
   </models>
   <skinDir>../../lib/skin/default</skinDir>
 </MapbuilderConfig>
+
