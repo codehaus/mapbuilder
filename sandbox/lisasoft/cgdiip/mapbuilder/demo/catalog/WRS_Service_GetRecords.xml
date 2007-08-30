@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GetRecords 
+xmlns:csw="http://www.opengis.net/csw" 
+xmlns:ogc="http://www.opengis.net/ogc" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance http://schemas.cubewerx.com/ogc/1.0.0/filter.xsd" 
+xmlns:gml="http://www.opengis.net/gml" 
+csw:schemaLocation="http://www.opengis.net/csw http://schemas.cubewerx.com/csw/2.0.0/CSW-discovery.xsd" 
+ogc:schemaLocation="http://www.opengis.net/ogc" 
+service="WRS" 
+version="2.0.0" 
+outputFormat="text/xml" 
+startPosition="1" 
+maxRecords="1000" 
+resultType="RESULTS">
+	<Query typeNames="Service">
+		<ElementName>/Service</ElementName>
+	</Query>
+</GetRecords>
