@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!--
 Description: parses a EBRIM response from a Catalog Query and returns
-             an OWS Context document Layer element.
+             an OWS Context document.
+             This stylesheet assumes the Service node follows the
+             IntrinsicObject (Layer) node.
 Author:      camerons
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
@@ -13,6 +15,7 @@ $Name:  $
     xmlns:wmc="http://www.opengis.net/context" 
     xmlns:wms="http://www.opengis.net/wms"
     xmlns:ogc="http://www.opengis.net/ogc"
+    xmlns:ows="http://www.opengis.net/ows"
     xmlns:csw="http://www.opengis.net/cat/csw"
     xmlns:gml="http://www.opengis.net/gml"
     xmlns:rim="urn:oasis:names:tc:ebxml-regrep:rim:xsd:2.5"
@@ -34,7 +37,17 @@ $Name:  $
   <!-- Match Root -->
   <xsl:template match="/">
     <wmc:OWSContext>
-      <xsl:apply-templates/>
+		  <wmc:General>
+		    <wmc:Window width="600" height="300"/>
+		    <ows:BoundingBox crs="EPSG:4326">
+		      <ows:LowerCorner>-180 -90</ows:LowerCorner>
+		      <ows:UpperCorner>180 90</ows:UpperCorner>
+		    </ows:BoundingBox>
+		    <wmc:Title xml:lang="en">Mapbuilder Generated Context</wmc:Title>
+		  </wmc:General>
+      <wmc:ResourceList>
+        <xsl:apply-templates/>
+      </wmc:ResourceList>
     </wmc:OWSContext>
   </xsl:template>
 
