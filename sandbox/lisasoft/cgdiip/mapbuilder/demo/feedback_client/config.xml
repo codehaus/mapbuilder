@@ -140,7 +140,8 @@
       <disabledSrc>/images/SaveDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
       <!-- <webServiceUrl>../../../geoserver/wfs</webServiceUrl> -->
-     <webServiceUrl>http://dev.terrapages.net/wfs</webServiceUrl>
+      <webServiceUrl>http://dev.terrapages.net/wfs</webServiceUrl>
+      <!-- <webServiceUrl>http://qwerty:5580/geoserver/wfs</webServiceUrl> -->
     </ProposeInsertFeature>
     <ProposeDeleteFeature id="deleteFeature">
       <buttonBar>mainButtonBar</buttonBar>
@@ -170,4 +171,5 @@
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
   <!-- Url of LOCAL redirection script, required to access external URLs -->
+  <proxyUrl>../../MapbuilderProxy.jsp</proxyUrl>
 </MapbuilderConfig>
