@@ -1,3162 +1,1055 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecordsResponse xmlns:csw="http://www.opengis.net/cat/csw" xmlns:gml="http://www.opengis.net/gml" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:rim:xsd:2.5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/cat/csw http://schemas.cubewerx.com/schemas/csw/2.0.1/CSW-discovery.xsd urn:oasis:names:tc:ebxml-regrep:rim:xsd:2.5 http://schemas.cubewerx.com/schemas/ebrim/2.5/schema/rim.xsd http://www.opengis.net/gml http://schemas.cubewerx.com/schemas/gml/3.1.1/base/geometryAggregates.xsd">
-    
-  
-    <csw:SearchStatus status="complete" timestamp="2007-08-31T06:37:33" />
-    
-  
-    <csw:SearchResults recordSchema="urn:oasis:names:tc:ebxml-regrep:rim:xsd:2.5" numberOfRecordsMatched="42" numberOfRecordsReturned="5">
-        
-    
-        <rim:ExtrinsicObject id="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" objectType="WMS_Layer" status="Approved" majorVersion="1" minorVersion="0" stability="Static" isOpaque="false">
-            
-      
-            <rim:Name>
-                
-        
-                <rim:LocalizedString rim:lang="en-US" value="SST" />
-                
-      
-            </rim:Name>
-            
-      
-            <rim:Description>
-                
-        
-                <rim:LocalizedString rim:lang="en-US" value="Daily averaged SST Images of the Great Barrier Reef, North Queensland using the NOAA AVHRR Satellite data" />
-                
-      
-            </rim:Description>
-            
-      
-            <rim:Slot name="CurrencyEndDate" slotType="date">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>9999-12-31T23:59:59</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="CurrencyStartDate" slotType="date">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>2003-01-08</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Envelope" slotType="geometry">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>
-                        
-            
-                        <gml:Envelope>
-                            
-              
-                            <gml:lowerCorner>142 -28</gml:lowerCorner>
-                            
-              
-                            <gml:upperCorner>158 -7</gml:upperCorner>
-                            
-            
-                        </gml:Envelope>
-                        
-          
-                    </rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Footprint" slotType="geometry">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>
-                        
-            
-                        <gml:Envelope>
-                            
-              
-                            <gml:lowerCorner>142 -28</gml:lowerCorner>
-                            
-              
-                            <gml:upperCorner>158 -7</gml:upperCorner>
-                            
-            
-                        </gml:Envelope>
-                        
-          
-                    </rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Keyword" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>$Id$</rim:Value>
-                    
-          
-                    <rim:Value>BrowseGraphic=http://noop.socialchange.net.au/wmc/custom/widgets/searchResult/images/AIMS.gif</rim:Value>
-                    
-          
-                    <rim:Value>Testplan Testdata</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Queryable" slotType="integer">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>1</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Title" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>SST</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Classification id="urn:uuid:3c85ca08-5637-11dc-9eca-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:noo:object:type" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:noo:object:type:WMS_Time" />
-            
-      
-            <rim:Classification id="urn:uuid:3c88997c-5637-11dc-8e2c-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:noo:feature:type" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:noo:feature:type:AIMS" />
-            
-      
-            <rim:Classification id="urn:uuid:3c8b11fc-5637-11dc-8439-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:members-taxonomy" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:members-taxonomy:AIMS" />
-            
-      
-            <rim:Classification id="urn:uuid:3ca03078-5637-11dc-b971-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:gcmd-taxonomy:v2.0" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:gcmd-taxonomy:v2.0:GCMD-1-9-15-3" />
-            
-      
-            <rim:Classification id="urn:uuid:3ca32166-5637-11dc-a231-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:temporal:aggregation:unit" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:temporal:aggregation:unit:day" />
-            
-      
-            <rim:Classification id="urn:uuid:3ca5df46-5637-11dc-8147-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:mappable:product:type" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:mappable:product:type:observed" />
-            
-      
-            <rim:Classification id="urn:uuid:3ca8a5f0-5637-11dc-abe4-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:sst:product:type" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:sst:product:type:historical:data" />
-            
-      
-            <rim:Classification id="urn:uuid:3cab020a-5637-11dc-add1-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:sst:product:type" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:sst:product:type:most:recent:sst:image" />
-            
-      
-            <rim:Classification id="urn:uuid:3cadb9dc-5637-11dc-a5a9-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:data:currency" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:data:currency:current" />
-            
-      
-            <rim:Classification id="urn:uuid:3cb0ded2-5637-11dc-a0fc-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:data:currency" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:data:currency:historical" />
-            
-      
-            <rim:Classification id="urn:uuid:3cb96d04-5637-11dc-8523-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:content:type" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:content:type:mappable" />
-            
-    
-        </rim:ExtrinsicObject>
-        
-    
-        <rim:Service id="urn:uuid:442b0292-441b-11dc-9d3d-0003ba0acdcf" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" majorVersion="1" minorVersion="0" stability="Static" userVersion="1.1.1">
-            
-      
-            <rim:Name>
-                
-        
-                <rim:LocalizedString rim:lang="en-US" value="OGC:WMS" />
-                
-      
-            </rim:Name>
-            
-      
-            <rim:Description>
-                
-        
-                <rim:LocalizedString rim:lang="en-US" value="This is an OGC compliant MapService served By AIMS. The engine used to serve this MapService is Marks Code" />
-                
-      
-            </rim:Description>
-            
-      
-            <rim:Slot name="Fees" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>none</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Keyword" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>$Id$</rim:Value>
-                    
-          
-                    <rim:Value>SST</rim:Value>
-                    
-          
-                    <rim:Value>Testplan Testdata</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="LayerLimit" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>-1</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="MaxHeight" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>-1</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="MaxWidth" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>-1</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="OnlineResource" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>http://adc.aims.gov.au:9555/atlas/SstWmsServer?</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Service Type" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>WMS</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Title" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>AIMS SST Web Map Service</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Classification id="urn:uuid:3b7c94ac-5637-11dc-8794-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:uuid:db5357c5-3d0d-4dfa-8735-770320727558" classifiedObject="urn:uuid:442b0292-441b-11dc-9d3d-0003ba0acdcf" classificationNode="urn:uuid:3c7cb124-5dae-4b8c-87b5-fc77fc8a3f4a" />
-            
-      
-            <rim:Classification id="urn:uuid:3b7f4544-5637-11dc-bcc8-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2" classifiedObject="urn:uuid:442b0292-441b-11dc-9d3d-0003ba0acdcf" classificationNode="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2:WMS" />
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3b985304-5637-11dc-844a-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:442b0292-441b-11dc-9d3d-0003ba0acdcf" accessURI="http://adc.aims.gov.au:9555/atlas/SstWmsServer?">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetCapabilities" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3babb084-5637-11dc-9f68-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:442b0292-441b-11dc-9d3d-0003ba0acdcf" accessURI="http://adc.aims.gov.au:9555/atlas/SstWmsServer?">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetCapabilities" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3bafb72e-5637-11dc-8ab7-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:442b0292-441b-11dc-9d3d-0003ba0acdcf" accessURI="http://adc.aims.gov.au:9555/atlas/SstWmsServer?">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetMap" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>image/jpeg</rim:Value>
-                        
-            
-                        <rim:Value>image/png</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3bb560c0-5637-11dc-b4b1-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:442b0292-441b-11dc-9d3d-0003ba0acdcf" accessURI="http://adc.aims.gov.au:9555/atlas/SstWmsServer?">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.esri.gml</rim:Value>
-                        
-            
-                        <rim:Value>application/vnd.ogc.gml</rim:Value>
-                        
-            
-                        <rim:Value>text/html</rim:Value>
-                        
-            
-                        <rim:Value>text/plain</rim:Value>
-                        
-            
-                        <rim:Value>text/xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-    
-        </rim:Service>
-        
-    
-        <rim:ExtrinsicObject id="urn:uuid:3cdbd736-5637-11dc-b92e-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" objectType="WMS_Layer" status="Approved" majorVersion="1" minorVersion="0" stability="Static" isOpaque="false">
-            
-      
-            <rim:Name>
-                
-        
-                <rim:LocalizedString rim:lang="en-US" value="fish" />
-                
-      
-            </rim:Name>
-            
-      
-            <rim:Slot name="CRS" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>EPSG:4326</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Envelope" slotType="geometry">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>
-                        
-            
-                        <gml:Envelope>
-                            
-              
-                            <gml:lowerCorner>93 -69</gml:lowerCorner>
-                            
-              
-                            <gml:upperCorner>178 0</gml:upperCorner>
-                            
-            
-                        </gml:Envelope>
-                        
-          
-                    </rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Footprint" slotType="geometry">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>
-                        
-            
-                        <gml:Envelope>
-                            
-              
-                            <gml:lowerCorner>93 -69</gml:lowerCorner>
-                            
-              
-                            <gml:upperCorner>178 0</gml:upperCorner>
-                            
-            
-                        </gml:Envelope>
-                        
-          
-                    </rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Keyword" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>$Id$</rim:Value>
-                    
-          
-                    <rim:Value>Testplan Testdata</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Queryable" slotType="integer">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>0</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Title" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>Fisheries Atlas</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-    
-        </rim:ExtrinsicObject>
-        
-    
-        <rim:Service id="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" majorVersion="1" minorVersion="0" stability="Static" userVersion="1.1.1">
-            
-      
-            <rim:Name>
-                
-        
-                <rim:LocalizedString rim:lang="en-US" value="OGC:WMS" />
-                
-      
-            </rim:Name>
-            
-      
-            <rim:Description>
-                
-        
-                <rim:LocalizedString rim:lang="en-US" value="Fisheries Atlas" />
-                
-      
-            </rim:Description>
-            
-      
-            <rim:Slot name="Keyword" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>$Id$</rim:Value>
-                    
-          
-                    <rim:Value>Testplan Testdata</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="LayerLimit" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>-1</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="MaxHeight" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>-1</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="MaxWidth" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>-1</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="OnlineResource" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Service Type" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>WMS</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Title" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>Fisheries Atlas</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Classification id="urn:uuid:3c7fb92e-5637-11dc-859c-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:uuid:db5357c5-3d0d-4dfa-8735-770320727558" classifiedObject="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" classificationNode="urn:uuid:3c7cb124-5dae-4b8c-87b5-fc77fc8a3f4a" />
-            
-      
-            <rim:Classification id="urn:uuid:3c80e6f0-5637-11dc-9d1a-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2" classifiedObject="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" classificationNode="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2:WMS" />
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3c929454-5637-11dc-b5fe-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetCapabilities" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3caa2bd2-5637-11dc-8435-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetCapabilities" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3cb07794-5637-11dc-a501-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetMap" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>image/jpeg</rim:Value>
-                        
-            
-                        <rim:Value>image/png</rim:Value>
-                        
-            
-                        <rim:Value>image/png; mode=24bit</rim:Value>
-                        
-            
-                        <rim:Value>image/tiff</rim:Value>
-                        
-            
-                        <rim:Value>image/wbmp</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3cb6b604-5637-11dc-8edf-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetMap" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>image/jpeg</rim:Value>
-                        
-            
-                        <rim:Value>image/png</rim:Value>
-                        
-            
-                        <rim:Value>image/png; mode=24bit</rim:Value>
-                        
-            
-                        <rim:Value>image/tiff</rim:Value>
-                        
-            
-                        <rim:Value>image/wbmp</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3cbcd2e6-5637-11dc-b777-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.gml</rim:Value>
-                        
-            
-                        <rim:Value>text/plain</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3cc1eaf6-5637-11dc-ab0e-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.gml</rim:Value>
-                        
-            
-                        <rim:Value>text/plain</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3cc683cc-5637-11dc-bd42-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="DescribeLayer" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>text/xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3cca702c-5637-11dc-aeee-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="DescribeLayer" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>text/xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3ccfc414-5637-11dc-b1d6-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetLegendGraphic" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>image/jpeg</rim:Value>
-                        
-            
-                        <rim:Value>image/png</rim:Value>
-                        
-            
-                        <rim:Value>image/png; mode=24bit</rim:Value>
-                        
-            
-                        <rim:Value>image/wbmp</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3cd58a5c-5637-11dc-a02f-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetLegendGraphic" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>image/jpeg</rim:Value>
-                        
-            
-                        <rim:Value>image/png</rim:Value>
-                        
-            
-                        <rim:Value>image/png; mode=24bit</rim:Value>
-                        
-            
-                        <rim:Value>image/wbmp</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-    
-        </rim:Service>
-        
-    
-        <rim:ExtrinsicObject id="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" objectType="WMS_Layer" status="Approved" majorVersion="1" minorVersion="0" stability="Static" isOpaque="false">
-            
-      
-            <rim:Name>
-                
-        
-                <rim:LocalizedString rim:lang="en-US" value="30 Minute Polygons" />
-                
-      
-            </rim:Name>
-            
-      
-            <rim:Description>
-                
-        
-                <rim:LocalizedString rim:lang="en-US" value="Fishing Activity" />
-                
-      
-            </rim:Description>
-            
-      
-            <rim:Slot name="CRS" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>EPSG:4326</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="CurrencyEndDate" slotType="date">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>2003-12-31</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="CurrencyStartDate" slotType="date">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>2000-01-01</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Envelope" slotType="geometry">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>
-                        
-            
-                        <gml:Envelope>
-                            
-              
-                            <gml:lowerCorner>93 -69</gml:lowerCorner>
-                            
-              
-                            <gml:upperCorner>178 0</gml:upperCorner>
-                            
-            
-                        </gml:Envelope>
-                        
-          
-                    </rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Footprint" slotType="geometry">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>
-                        
-            
-                        <gml:Envelope>
-                            
-              
-                            <gml:lowerCorner>93 -69</gml:lowerCorner>
-                            
-              
-                            <gml:upperCorner>178 0</gml:upperCorner>
-                            
-            
-                        </gml:Envelope>
-                        
-          
-                    </rim:Value>
-                    
-          
-                    <rim:Value>
-                        
-            
-                        <gml:Envelope>
-                            
-              
-                            <gml:lowerCorner>93 -69</gml:lowerCorner>
-                            
-              
-                            <gml:upperCorner>178 0</gml:upperCorner>
-                            
-            
-                        </gml:Envelope>
-                        
-          
-                    </rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Keyword" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>$Id$</rim:Value>
-                    
-          
-                    <rim:Value>BrowseGraphic=http://noop.socialchange.net.au/wmc/custom/widgets/searchResult/images/BRS.gif</rim:Value>
-                    
-          
-                    <rim:Value>Testplan Testdata</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="LegendURL" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=30 Minute Polygons&amp;format=image/png</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Queryable" slotType="integer">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>0</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Title" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>30 Minute Polygons</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Classification id="urn:uuid:3d4a9d60-5637-11dc-80c7-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:noo:object:type" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:noo:object:type:WMS_Time" />
-            
-      
-            <rim:Classification id="urn:uuid:3d4d0384-5637-11dc-bdb4-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:noo:feature:type" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:noo:feature:type:BRS" />
-            
-      
-            <rim:Classification id="urn:uuid:3d4fb99e-5637-11dc-9e2a-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:members-taxonomy" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:members-taxonomy:BRS" />
-            
-      
-            <rim:Classification id="urn:uuid:3d521572-5637-11dc-be96-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:data:currency" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:data:currency:historical" />
-            
-      
-            <rim:Classification id="urn:uuid:3d54996e-5637-11dc-9021-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:mappable:product:type" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:mappable:product:type:derived" />
-            
-      
-            <rim:Classification id="urn:uuid:3d56d72e-5637-11dc-8f47-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:gcmd-taxonomy:v2.0" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:gcmd-taxonomy:v2.0:GCMD-1-9-4-1" />
-            
-      
-            <rim:Classification id="urn:uuid:3d5984c4-5637-11dc-aa97-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:gcmd-taxonomy:v2.0" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:gcmd-taxonomy:v2.0:GCMD-1-1-1-2" />
-            
-      
-            <rim:Classification id="urn:uuid:3d5c14aa-5637-11dc-8b58-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:caab:caab_tns:v1.0" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:caab:caab_tns:v1.0:2004" />
-            
-      
-            <rim:Classification id="urn:uuid:3d5e4036-5637-11dc-8e7c-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:cmar:species_types" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:cmar:species_types:2" />
-            
-      
-            <rim:Classification id="urn:uuid:3d60b8d4-5637-11dc-9aea-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:temporal:aggregation:unit:species" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:temporal:aggregation:unit:species:year" />
-            
-      
-            <rim:Classification id="urn:uuid:3d62dde4-5637-11dc-9880-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:content:type" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:content:type:mappable" />
-            
-    
-        </rim:ExtrinsicObject>
-        
-    
-        <rim:Service id="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" majorVersion="1" minorVersion="0" stability="Static" userVersion="1.1.1">
-            
-      
-            <rim:Name>
-                
-        
-                <rim:LocalizedString rim:lang="en-US" value="OGC:WMS" />
-                
-      
-            </rim:Name>
-            
-      
-            <rim:Description>
-                
-        
-                <rim:LocalizedString rim:lang="en-US" value="Fisheries Atlas" />
-                
-      
-            </rim:Description>
-            
-      
-            <rim:Slot name="Keyword" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>$Id$</rim:Value>
-                    
-          
-                    <rim:Value>Testplan Testdata</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="LayerLimit" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>-1</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="MaxHeight" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>-1</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="MaxWidth" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>-1</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="OnlineResource" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Service Type" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>WMS</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Title" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>Fisheries Atlas</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Classification id="urn:uuid:3c7fb92e-5637-11dc-859c-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:uuid:db5357c5-3d0d-4dfa-8735-770320727558" classifiedObject="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" classificationNode="urn:uuid:3c7cb124-5dae-4b8c-87b5-fc77fc8a3f4a" />
-            
-      
-            <rim:Classification id="urn:uuid:3c80e6f0-5637-11dc-9d1a-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2" classifiedObject="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" classificationNode="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2:WMS" />
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3c929454-5637-11dc-b5fe-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetCapabilities" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3caa2bd2-5637-11dc-8435-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetCapabilities" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3cb07794-5637-11dc-a501-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetMap" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>image/jpeg</rim:Value>
-                        
-            
-                        <rim:Value>image/png</rim:Value>
-                        
-            
-                        <rim:Value>image/png; mode=24bit</rim:Value>
-                        
-            
-                        <rim:Value>image/tiff</rim:Value>
-                        
-            
-                        <rim:Value>image/wbmp</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3cb6b604-5637-11dc-8edf-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetMap" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>image/jpeg</rim:Value>
-                        
-            
-                        <rim:Value>image/png</rim:Value>
-                        
-            
-                        <rim:Value>image/png; mode=24bit</rim:Value>
-                        
-            
-                        <rim:Value>image/tiff</rim:Value>
-                        
-            
-                        <rim:Value>image/wbmp</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3cbcd2e6-5637-11dc-b777-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.gml</rim:Value>
-                        
-            
-                        <rim:Value>text/plain</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3cc1eaf6-5637-11dc-ab0e-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.gml</rim:Value>
-                        
-            
-                        <rim:Value>text/plain</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3cc683cc-5637-11dc-bd42-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="DescribeLayer" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>text/xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3cca702c-5637-11dc-aeee-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="DescribeLayer" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>text/xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3ccfc414-5637-11dc-b1d6-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetLegendGraphic" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>image/jpeg</rim:Value>
-                        
-            
-                        <rim:Value>image/png</rim:Value>
-                        
-            
-                        <rim:Value>image/png; mode=24bit</rim:Value>
-                        
-            
-                        <rim:Value>image/wbmp</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3cd58a5c-5637-11dc-a02f-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetLegendGraphic" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>image/jpeg</rim:Value>
-                        
-            
-                        <rim:Value>image/png</rim:Value>
-                        
-            
-                        <rim:Value>image/png; mode=24bit</rim:Value>
-                        
-            
-                        <rim:Value>image/wbmp</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-    
-        </rim:Service>
-        
-    
-        <rim:ExtrinsicObject id="urn:uuid:3e64abbe-5637-11dc-a588-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" objectType="WMS_Layer" status="Approved" majorVersion="1" minorVersion="0" stability="Static" isOpaque="false">
-            
-      
-            <rim:Name>
-                
-        
-                <rim:LocalizedString rim:lang="en-US" value="MARINE" />
-                
-      
-            </rim:Name>
-            
-      
-            <rim:Slot name="CRS" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>EPSG:28348</rim:Value>
-                    
-          
-                    <rim:Value>EPSG:28349</rim:Value>
-                    
-          
-                    <rim:Value>EPSG:28350</rim:Value>
-                    
-          
-                    <rim:Value>EPSG:28351</rim:Value>
-                    
-          
-                    <rim:Value>EPSG:28352</rim:Value>
-                    
-          
-                    <rim:Value>EPSG:28353</rim:Value>
-                    
-          
-                    <rim:Value>EPSG:28354</rim:Value>
-                    
-          
-                    <rim:Value>EPSG:28355</rim:Value>
-                    
-          
-                    <rim:Value>EPSG:28356</rim:Value>
-                    
-          
-                    <rim:Value>EPSG:28357</rim:Value>
-                    
-          
-                    <rim:Value>EPSG:28358</rim:Value>
-                    
-          
-                    <rim:Value>EPSG:4202</rim:Value>
-                    
-          
-                    <rim:Value>EPSG:4283</rim:Value>
-                    
-          
-                    <rim:Value>EPSG:4326</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Envelope" slotType="geometry">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>
-                        
-            
-                        <gml:Envelope>
-                            
-              
-                            <gml:lowerCorner>-180 -90</gml:lowerCorner>
-                            
-              
-                            <gml:upperCorner>180 90</gml:upperCorner>
-                            
-            
-                        </gml:Envelope>
-                        
-          
-                    </rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Footprint" slotType="geometry">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>
-                        
-            
-                        <gml:Envelope>
-                            
-              
-                            <gml:lowerCorner>-180 -90</gml:lowerCorner>
-                            
-              
-                            <gml:upperCorner>180 90</gml:upperCorner>
-                            
-            
-                        </gml:Envelope>
-                        
-          
-                    </rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Keyword" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>$Id$</rim:Value>
-                    
-          
-                    <rim:Value>Testplan Testdata</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Queryable" slotType="integer">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>0</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Title" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>Australian Bureau of Meteorology Marine Map Server</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-    
-        </rim:ExtrinsicObject>
-        
-    
-        <rim:Service id="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" majorVersion="1" minorVersion="0" stability="Static" userVersion="1.1.1">
-            
-      
-            <rim:Name>
-                
-        
-                <rim:LocalizedString rim:lang="en-US" value="OGC:WMS" />
-                
-      
-            </rim:Name>
-            
-      
-            <rim:Description>
-                
-        
-                <rim:LocalizedString rim:lang="en-US" value="Australian Bureau of Meteorology UMN MapServer demonstration system for Marine Data" />
-                
-      
-            </rim:Description>
-            
-      
-            <rim:Slot name="Keyword" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>$Id$</rim:Value>
-                    
-          
-                    <rim:Value>METEOROLOGY MARINE SEA SURFACE TEMPERATURE</rim:Value>
-                    
-          
-                    <rim:Value>Testplan Testdata</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="LayerLimit" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>-1</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="MaxHeight" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>-1</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="MaxWidth" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>-1</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="OnlineResource" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Service Type" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>WMS</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Title" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>Australian Bureau of Meteorology Marine Map Server</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Classification id="urn:uuid:3e1efd26-5637-11dc-a25d-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:uuid:db5357c5-3d0d-4dfa-8735-770320727558" classifiedObject="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" classificationNode="urn:uuid:3c7cb124-5dae-4b8c-87b5-fc77fc8a3f4a" />
-            
-      
-            <rim:Classification id="urn:uuid:3e200504-5637-11dc-8ac1-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2" classifiedObject="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" classificationNode="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2:WMS" />
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e2af4d2-5637-11dc-8e2f-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetCapabilities" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e2f2fb6-5637-11dc-9c12-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetCapabilities" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e332832-5637-11dc-8018-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetMap" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>image/gif</rim:Value>
-                        
-            
-                        <rim:Value>image/jpeg</rim:Value>
-                        
-            
-                        <rim:Value>image/png</rim:Value>
-                        
-            
-                        <rim:Value>image/tiff</rim:Value>
-                        
-            
-                        <rim:Value>image/wbmp</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e386b94-5637-11dc-a23e-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetMap" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>image/gif</rim:Value>
-                        
-            
-                        <rim:Value>image/jpeg</rim:Value>
-                        
-            
-                        <rim:Value>image/png</rim:Value>
-                        
-            
-                        <rim:Value>image/tiff</rim:Value>
-                        
-            
-                        <rim:Value>image/wbmp</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e3e5d74-5637-11dc-8280-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.gml</rim:Value>
-                        
-            
-                        <rim:Value>text/plain</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e42b70c-5637-11dc-848e-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.gml</rim:Value>
-                        
-            
-                        <rim:Value>text/plain</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e46cc16-5637-11dc-8c1e-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="DescribeLayer" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>text/xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e4b1a0a-5637-11dc-84d5-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="DescribeLayer" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>text/xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e4e99a0-5637-11dc-96b7-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetLegendGraphic" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>image/gif</rim:Value>
-                        
-            
-                        <rim:Value>image/jpeg</rim:Value>
-                        
-            
-                        <rim:Value>image/png</rim:Value>
-                        
-            
-                        <rim:Value>image/wbmp</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e537ce0-5637-11dc-a81d-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetLegendGraphic" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>image/gif</rim:Value>
-                        
-            
-                        <rim:Value>image/jpeg</rim:Value>
-                        
-            
-                        <rim:Value>image/png</rim:Value>
-                        
-            
-                        <rim:Value>image/wbmp</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-    
-        </rim:Service>
-        
-    
-        <rim:ExtrinsicObject id="urn:uuid:3ea27840-5637-11dc-90b6-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" objectType="WMS_Layer" status="Approved" majorVersion="1" minorVersion="0" stability="Static" isOpaque="false">
-            
-      
-            <rim:Name>
-                
-        
-                <rim:LocalizedString rim:lang="en-US" value="SST_DEMO" />
-                
-      
-            </rim:Name>
-            
-      
-            <rim:Slot name="CRS" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>EPSG:4326</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Envelope" slotType="geometry">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>
-                        
-            
-                        <gml:Envelope>
-                            
-              
-                            <gml:lowerCorner>79.987 -64.9979</gml:lowerCorner>
-                            
-              
-                            <gml:upperCorner>190.027 10.0261</gml:upperCorner>
-                            
-            
-                        </gml:Envelope>
-                        
-          
-                    </rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Footprint" slotType="geometry">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>
-                        
-            
-                        <gml:Envelope>
-                            
-              
-                            <gml:lowerCorner>79.987 -64.9979</gml:lowerCorner>
-                            
-              
-                            <gml:upperCorner>190.027 10.0261</gml:upperCorner>
-                            
-            
-                        </gml:Envelope>
-                        
-          
-                    </rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Keyword" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>$Id$</rim:Value>
-                    
-          
-                    <rim:Value>Testplan Testdata</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Queryable" slotType="integer">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>0</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Title" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>CSIRO Marine and Atmospheric Research SST demonstration</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-    
-        </rim:ExtrinsicObject>
-        
-    
-        <rim:Service id="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" majorVersion="1" minorVersion="0" stability="Static" userVersion="1.1.1">
-            
-      
-            <rim:Name>
-                
-        
-                <rim:LocalizedString rim:lang="en-US" value="OGC:WMS" />
-                
-      
-            </rim:Name>
-            
-      
-            <rim:Description>
-                
-        
-                <rim:LocalizedString rim:lang="en-US" value="This is a UNM MapServer demonstration application using sea-surface temperature in the Australian region." />
-                
-      
-            </rim:Description>
-            
-      
-            <rim:Slot name="Keyword" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>$Id$</rim:Value>
-                    
-          
-                    <rim:Value>Testplan Testdata</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="LayerLimit" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>-1</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="MaxHeight" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>-1</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="MaxWidth" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>-1</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="OnlineResource" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Service Type" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>WMS</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Slot name="Title" slotType="string">
-                
-        
-                <rim:ValueList>
-                    
-          
-                    <rim:Value>CSIRO Marine and Atmospheric Research SST demonstration</rim:Value>
-                    
-        
-                </rim:ValueList>
-                
-      
-            </rim:Slot>
-            
-      
-            <rim:Classification id="urn:uuid:3e42d390-5637-11dc-979f-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:uuid:db5357c5-3d0d-4dfa-8735-770320727558" classifiedObject="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" classificationNode="urn:uuid:3c7cb124-5dae-4b8c-87b5-fc77fc8a3f4a" />
-            
-      
-            <rim:Classification id="urn:uuid:3e44259c-5637-11dc-81ea-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2" classifiedObject="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" classificationNode="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2:WMS" />
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e5cc44e-5637-11dc-9e6d-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetCapabilities" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e628a78-5637-11dc-8acb-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetMap" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>image/gif</rim:Value>
-                        
-            
-                        <rim:Value>image/jpeg</rim:Value>
-                        
-            
-                        <rim:Value>image/png</rim:Value>
-                        
-            
-                        <rim:Value>image/png; mode=24bit</rim:Value>
-                        
-            
-                        <rim:Value>image/tiff</rim:Value>
-                        
-            
-                        <rim:Value>image/wbmp</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e6b61c0-5637-11dc-81f5-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetMap" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>image/gif</rim:Value>
-                        
-            
-                        <rim:Value>image/jpeg</rim:Value>
-                        
-            
-                        <rim:Value>image/png</rim:Value>
-                        
-            
-                        <rim:Value>image/png; mode=24bit</rim:Value>
-                        
-            
-                        <rim:Value>image/tiff</rim:Value>
-                        
-            
-                        <rim:Value>image/wbmp</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e711ac0-5637-11dc-beed-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.gml</rim:Value>
-                        
-            
-                        <rim:Value>text/plain</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e77b3c6-5637-11dc-9544-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.gml</rim:Value>
-                        
-            
-                        <rim:Value>text/plain</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e7df1a0-5637-11dc-a33c-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="DescribeLayer" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>text/xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e848718-5637-11dc-bff7-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="DescribeLayer" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>text/xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e8ac5a6-5637-11dc-ae08-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetLegendGraphic" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>image/gif</rim:Value>
-                        
-            
-                        <rim:Value>image/jpeg</rim:Value>
-                        
-            
-                        <rim:Value>image/png</rim:Value>
-                        
-            
-                        <rim:Value>image/png; mode=24bit</rim:Value>
-                        
-            
-                        <rim:Value>image/wbmp</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e9adc66-5637-11dc-980e-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetLegendGraphic" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>image/gif</rim:Value>
-                        
-            
-                        <rim:Value>image/jpeg</rim:Value>
-                        
-            
-                        <rim:Value>image/png</rim:Value>
-                        
-            
-                        <rim:Value>image/png; mode=24bit</rim:Value>
-                        
-            
-                        <rim:Value>image/wbmp</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-      
-            <rim:ServiceBinding id="urn:uuid:3e57801a-5637-11dc-9a7c-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
-                
-        
-                <rim:Name>
-                    
-          
-                    <rim:LocalizedString rim:lang="en-US" value="GetCapabilities" />
-                    
-        
-                </rim:Name>
-                
-        
-                <rim:Slot name="outputFormat" slotType="string">
-                    
-          
-                    <rim:ValueList>
-                        
-            
-                        <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
-                        
-          
-                    </rim:ValueList>
-                    
-        
-                </rim:Slot>
-                
-      
-            </rim:ServiceBinding>
-            
-    
-        </rim:Service>
-        
-  
-    </csw:SearchResults>
-    
-
+  <csw:SearchStatus status="complete" timestamp="2007-08-31T06:37:33"/>
+  <csw:SearchResults recordSchema="urn:oasis:names:tc:ebxml-regrep:rim:xsd:2.5" numberOfRecordsMatched="42" numberOfRecordsReturned="5">
+    <rim:ExtrinsicObject id="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" objectType="WMS_Layer" status="Approved" majorVersion="1" minorVersion="0" stability="Static" isOpaque="false">
+      <rim:Name>
+        <rim:LocalizedString rim:lang="en-US" value="SST"/>
+      </rim:Name>
+      <rim:Description>
+        <rim:LocalizedString rim:lang="en-US" value="Daily averaged SST Images of the Great Barrier Reef, North Queensland using the NOAA AVHRR Satellite data"/>
+      </rim:Description>
+      <rim:Slot name="CurrencyEndDate" slotType="date">
+        <rim:ValueList>
+          <rim:Value>9999-12-31T23:59:59</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="CurrencyStartDate" slotType="date">
+        <rim:ValueList>
+          <rim:Value>2003-01-08</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Envelope" slotType="geometry">
+        <rim:ValueList>
+          <rim:Value>
+            <gml:Envelope>
+              <gml:lowerCorner>142 -28</gml:lowerCorner>
+              <gml:upperCorner>158 -7</gml:upperCorner>
+            </gml:Envelope>
+          </rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Footprint" slotType="geometry">
+        <rim:ValueList>
+          <rim:Value>
+            <gml:Envelope>
+              <gml:lowerCorner>142 -28</gml:lowerCorner>
+              <gml:upperCorner>158 -7</gml:upperCorner>
+            </gml:Envelope>
+          </rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Keyword" slotType="string">
+        <rim:ValueList>
+          <rim:Value>$Id$</rim:Value>
+          <rim:Value>BrowseGraphic=http://noop.socialchange.net.au/wmc/custom/widgets/searchResult/images/AIMS.gif</rim:Value>
+          <rim:Value>Testplan Testdata</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Queryable" slotType="integer">
+        <rim:ValueList>
+          <rim:Value>1</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Title" slotType="string">
+        <rim:ValueList>
+          <rim:Value>SST</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Classification id="urn:uuid:3c85ca08-5637-11dc-9eca-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:noo:object:type" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:noo:object:type:WMS_Time"/>
+      <rim:Classification id="urn:uuid:3c88997c-5637-11dc-8e2c-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:noo:feature:type" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:noo:feature:type:AIMS"/>
+      <rim:Classification id="urn:uuid:3c8b11fc-5637-11dc-8439-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:members-taxonomy" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:members-taxonomy:AIMS"/>
+      <rim:Classification id="urn:uuid:3ca03078-5637-11dc-b971-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:gcmd-taxonomy:v2.0" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:gcmd-taxonomy:v2.0:GCMD-1-9-15-3"/>
+      <rim:Classification id="urn:uuid:3ca32166-5637-11dc-a231-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:temporal:aggregation:unit" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:temporal:aggregation:unit:day"/>
+      <rim:Classification id="urn:uuid:3ca5df46-5637-11dc-8147-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:mappable:product:type" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:mappable:product:type:observed"/>
+      <rim:Classification id="urn:uuid:3ca8a5f0-5637-11dc-abe4-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:sst:product:type" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:sst:product:type:historical:data"/>
+      <rim:Classification id="urn:uuid:3cab020a-5637-11dc-add1-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:sst:product:type" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:sst:product:type:most:recent:sst:image"/>
+      <rim:Classification id="urn:uuid:3cadb9dc-5637-11dc-a5a9-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:data:currency" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:data:currency:current"/>
+      <rim:Classification id="urn:uuid:3cb0ded2-5637-11dc-a0fc-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:data:currency" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:data:currency:historical"/>
+      <rim:Classification id="urn:uuid:3cb96d04-5637-11dc-8523-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:content:type" classifiedObject="urn:uuid:3c6a5cb4-5637-11dc-ba3f-0003ba0acdd0" classificationNode="urn:asdi:marine:content:type:mappable"/>
+    </rim:ExtrinsicObject>
+    <rim:Service id="urn:uuid:442b0292-441b-11dc-9d3d-0003ba0acdcf" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" majorVersion="1" minorVersion="0" stability="Static" userVersion="1.1.1">
+      <rim:Name>
+        <rim:LocalizedString rim:lang="en-US" value="OGC:WMS"/>
+      </rim:Name>
+      <rim:Description>
+        <rim:LocalizedString rim:lang="en-US" value="This is an OGC compliant MapService served By AIMS. The engine used to serve this MapService is Marks Code"/>
+      </rim:Description>
+      <rim:Slot name="Fees" slotType="string">
+        <rim:ValueList>
+          <rim:Value>none</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Keyword" slotType="string">
+        <rim:ValueList>
+          <rim:Value>$Id$</rim:Value>
+          <rim:Value>SST</rim:Value>
+          <rim:Value>Testplan Testdata</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="LayerLimit" slotType="string">
+        <rim:ValueList>
+          <rim:Value>-1</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="MaxHeight" slotType="string">
+        <rim:ValueList>
+          <rim:Value>-1</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="MaxWidth" slotType="string">
+        <rim:ValueList>
+          <rim:Value>-1</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="OnlineResource" slotType="string">
+        <rim:ValueList>
+          <rim:Value>http://adc.aims.gov.au:9555/atlas/SstWmsServer?</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Service Type" slotType="string">
+        <rim:ValueList>
+          <rim:Value>WMS</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Title" slotType="string">
+        <rim:ValueList>
+          <rim:Value>AIMS SST Web Map Service</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Classification id="urn:uuid:3b7c94ac-5637-11dc-8794-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:uuid:db5357c5-3d0d-4dfa-8735-770320727558" classifiedObject="urn:uuid:442b0292-441b-11dc-9d3d-0003ba0acdcf" classificationNode="urn:uuid:3c7cb124-5dae-4b8c-87b5-fc77fc8a3f4a"/>
+      <rim:Classification id="urn:uuid:3b7f4544-5637-11dc-bcc8-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2" classifiedObject="urn:uuid:442b0292-441b-11dc-9d3d-0003ba0acdcf" classificationNode="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2:WMS"/>
+      <rim:ServiceBinding id="urn:uuid:3b985304-5637-11dc-844a-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:442b0292-441b-11dc-9d3d-0003ba0acdcf" accessURI="http://adc.aims.gov.au:9555/atlas/SstWmsServer?">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetCapabilities"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3babb084-5637-11dc-9f68-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:442b0292-441b-11dc-9d3d-0003ba0acdcf" accessURI="http://adc.aims.gov.au:9555/atlas/SstWmsServer?">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetCapabilities"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3bafb72e-5637-11dc-8ab7-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:442b0292-441b-11dc-9d3d-0003ba0acdcf" accessURI="http://adc.aims.gov.au:9555/atlas/SstWmsServer?">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetMap"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>image/jpeg</rim:Value>
+            <rim:Value>image/png</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3bb560c0-5637-11dc-b4b1-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:442b0292-441b-11dc-9d3d-0003ba0acdcf" accessURI="http://adc.aims.gov.au:9555/atlas/SstWmsServer?">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.esri.gml</rim:Value>
+            <rim:Value>application/vnd.ogc.gml</rim:Value>
+            <rim:Value>text/html</rim:Value>
+            <rim:Value>text/plain</rim:Value>
+            <rim:Value>text/xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+    </rim:Service>
+    <rim:ExtrinsicObject id="urn:uuid:3cdbd736-5637-11dc-b92e-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" objectType="WMS_Layer" status="Approved" majorVersion="1" minorVersion="0" stability="Static" isOpaque="false">
+      <rim:Name>
+        <rim:LocalizedString rim:lang="en-US" value="fish"/>
+      </rim:Name>
+      <rim:Slot name="CRS" slotType="string">
+        <rim:ValueList>
+          <rim:Value>EPSG:4326</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Envelope" slotType="geometry">
+        <rim:ValueList>
+          <rim:Value>
+            <gml:Envelope>
+              <gml:lowerCorner>93 -69</gml:lowerCorner>
+              <gml:upperCorner>178 0</gml:upperCorner>
+            </gml:Envelope>
+          </rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Footprint" slotType="geometry">
+        <rim:ValueList>
+          <rim:Value>
+            <gml:Envelope>
+              <gml:lowerCorner>93 -69</gml:lowerCorner>
+              <gml:upperCorner>178 0</gml:upperCorner>
+            </gml:Envelope>
+          </rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Keyword" slotType="string">
+        <rim:ValueList>
+          <rim:Value>$Id$</rim:Value>
+          <rim:Value>Testplan Testdata</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Queryable" slotType="integer">
+        <rim:ValueList>
+          <rim:Value>0</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Title" slotType="string">
+        <rim:ValueList>
+          <rim:Value>Fisheries Atlas</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+    </rim:ExtrinsicObject>
+    <rim:Service id="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" majorVersion="1" minorVersion="0" stability="Static" userVersion="1.1.1">
+      <rim:Name>
+        <rim:LocalizedString rim:lang="en-US" value="OGC:WMS"/>
+      </rim:Name>
+      <rim:Description>
+        <rim:LocalizedString rim:lang="en-US" value="Fisheries Atlas"/>
+      </rim:Description>
+      <rim:Slot name="Keyword" slotType="string">
+        <rim:ValueList>
+          <rim:Value>$Id$</rim:Value>
+          <rim:Value>Testplan Testdata</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="LayerLimit" slotType="string">
+        <rim:ValueList>
+          <rim:Value>-1</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="MaxHeight" slotType="string">
+        <rim:ValueList>
+          <rim:Value>-1</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="MaxWidth" slotType="string">
+        <rim:ValueList>
+          <rim:Value>-1</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="OnlineResource" slotType="string">
+        <rim:ValueList>
+          <rim:Value>http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Service Type" slotType="string">
+        <rim:ValueList>
+          <rim:Value>WMS</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Title" slotType="string">
+        <rim:ValueList>
+          <rim:Value>Fisheries Atlas</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Classification id="urn:uuid:3c7fb92e-5637-11dc-859c-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:uuid:db5357c5-3d0d-4dfa-8735-770320727558" classifiedObject="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" classificationNode="urn:uuid:3c7cb124-5dae-4b8c-87b5-fc77fc8a3f4a"/>
+      <rim:Classification id="urn:uuid:3c80e6f0-5637-11dc-9d1a-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2" classifiedObject="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" classificationNode="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2:WMS"/>
+      <rim:ServiceBinding id="urn:uuid:3c929454-5637-11dc-b5fe-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetCapabilities"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3caa2bd2-5637-11dc-8435-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetCapabilities"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3cb07794-5637-11dc-a501-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetMap"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>image/jpeg</rim:Value>
+            <rim:Value>image/png</rim:Value>
+            <rim:Value>image/png; mode=24bit</rim:Value>
+            <rim:Value>image/tiff</rim:Value>
+            <rim:Value>image/wbmp</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3cb6b604-5637-11dc-8edf-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetMap"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>image/jpeg</rim:Value>
+            <rim:Value>image/png</rim:Value>
+            <rim:Value>image/png; mode=24bit</rim:Value>
+            <rim:Value>image/tiff</rim:Value>
+            <rim:Value>image/wbmp</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3cbcd2e6-5637-11dc-b777-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.gml</rim:Value>
+            <rim:Value>text/plain</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3cc1eaf6-5637-11dc-ab0e-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.gml</rim:Value>
+            <rim:Value>text/plain</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3cc683cc-5637-11dc-bd42-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="DescribeLayer"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>text/xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3cca702c-5637-11dc-aeee-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="DescribeLayer"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>text/xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3ccfc414-5637-11dc-b1d6-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetLegendGraphic"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>image/jpeg</rim:Value>
+            <rim:Value>image/png</rim:Value>
+            <rim:Value>image/png; mode=24bit</rim:Value>
+            <rim:Value>image/wbmp</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3cd58a5c-5637-11dc-a02f-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetLegendGraphic"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>image/jpeg</rim:Value>
+            <rim:Value>image/png</rim:Value>
+            <rim:Value>image/png; mode=24bit</rim:Value>
+            <rim:Value>image/wbmp</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+    </rim:Service>
+    <rim:ExtrinsicObject id="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" objectType="WMS_Layer" status="Approved" majorVersion="1" minorVersion="0" stability="Static" isOpaque="false">
+      <rim:Name>
+        <rim:LocalizedString rim:lang="en-US" value="30 Minute Polygons"/>
+      </rim:Name>
+      <rim:Description>
+        <rim:LocalizedString rim:lang="en-US" value="Fishing Activity"/>
+      </rim:Description>
+      <rim:Slot name="CRS" slotType="string">
+        <rim:ValueList>
+          <rim:Value>EPSG:4326</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="CurrencyEndDate" slotType="date">
+        <rim:ValueList>
+          <rim:Value>2003-12-31</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="CurrencyStartDate" slotType="date">
+        <rim:ValueList>
+          <rim:Value>2000-01-01</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Envelope" slotType="geometry">
+        <rim:ValueList>
+          <rim:Value>
+            <gml:Envelope>
+              <gml:lowerCorner>93 -69</gml:lowerCorner>
+              <gml:upperCorner>178 0</gml:upperCorner>
+            </gml:Envelope>
+          </rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Footprint" slotType="geometry">
+        <rim:ValueList>
+          <rim:Value>
+            <gml:Envelope>
+              <gml:lowerCorner>93 -69</gml:lowerCorner>
+              <gml:upperCorner>178 0</gml:upperCorner>
+            </gml:Envelope>
+          </rim:Value>
+          <rim:Value>
+            <gml:Envelope>
+              <gml:lowerCorner>93 -69</gml:lowerCorner>
+              <gml:upperCorner>178 0</gml:upperCorner>
+            </gml:Envelope>
+          </rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Keyword" slotType="string">
+        <rim:ValueList>
+          <rim:Value>$Id$</rim:Value>
+          <rim:Value>BrowseGraphic=http://noop.socialchange.net.au/wmc/custom/widgets/searchResult/images/BRS.gif</rim:Value>
+          <rim:Value>Testplan Testdata</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="LegendURL" slotType="string">
+        <rim:ValueList>
+          <rim:Value>http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=30 Minute Polygons&amp;format=image/png</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Queryable" slotType="integer">
+        <rim:ValueList>
+          <rim:Value>0</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Title" slotType="string">
+        <rim:ValueList>
+          <rim:Value>30 Minute Polygons</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Classification id="urn:uuid:3d4a9d60-5637-11dc-80c7-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:noo:object:type" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:noo:object:type:WMS_Time"/>
+      <rim:Classification id="urn:uuid:3d4d0384-5637-11dc-bdb4-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:noo:feature:type" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:noo:feature:type:BRS"/>
+      <rim:Classification id="urn:uuid:3d4fb99e-5637-11dc-9e2a-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:members-taxonomy" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:members-taxonomy:BRS"/>
+      <rim:Classification id="urn:uuid:3d521572-5637-11dc-be96-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:data:currency" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:data:currency:historical"/>
+      <rim:Classification id="urn:uuid:3d54996e-5637-11dc-9021-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:mappable:product:type" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:mappable:product:type:derived"/>
+      <rim:Classification id="urn:uuid:3d56d72e-5637-11dc-8f47-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:gcmd-taxonomy:v2.0" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:gcmd-taxonomy:v2.0:GCMD-1-9-4-1"/>
+      <rim:Classification id="urn:uuid:3d5984c4-5637-11dc-aa97-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:gcmd-taxonomy:v2.0" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:gcmd-taxonomy:v2.0:GCMD-1-1-1-2"/>
+      <rim:Classification id="urn:uuid:3d5c14aa-5637-11dc-8b58-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:caab:caab_tns:v1.0" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:caab:caab_tns:v1.0:2004"/>
+      <rim:Classification id="urn:uuid:3d5e4036-5637-11dc-8e7c-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:cmar:species_types" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:cmar:species_types:2"/>
+      <rim:Classification id="urn:uuid:3d60b8d4-5637-11dc-9aea-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:temporal:aggregation:unit:species" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:temporal:aggregation:unit:species:year"/>
+      <rim:Classification id="urn:uuid:3d62dde4-5637-11dc-9880-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:content:type" classifiedObject="urn:uuid:3d253296-5637-11dc-be29-0003ba0acdd0" classificationNode="urn:asdi:marine:content:type:mappable"/>
+    </rim:ExtrinsicObject>
+    <rim:Service id="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" majorVersion="1" minorVersion="0" stability="Static" userVersion="1.1.1">
+      <rim:Name>
+        <rim:LocalizedString rim:lang="en-US" value="OGC:WMS"/>
+      </rim:Name>
+      <rim:Description>
+        <rim:LocalizedString rim:lang="en-US" value="Fisheries Atlas"/>
+      </rim:Description>
+      <rim:Slot name="Keyword" slotType="string">
+        <rim:ValueList>
+          <rim:Value>$Id$</rim:Value>
+          <rim:Value>Testplan Testdata</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="LayerLimit" slotType="string">
+        <rim:ValueList>
+          <rim:Value>-1</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="MaxHeight" slotType="string">
+        <rim:ValueList>
+          <rim:Value>-1</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="MaxWidth" slotType="string">
+        <rim:ValueList>
+          <rim:Value>-1</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="OnlineResource" slotType="string">
+        <rim:ValueList>
+          <rim:Value>http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Service Type" slotType="string">
+        <rim:ValueList>
+          <rim:Value>WMS</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Title" slotType="string">
+        <rim:ValueList>
+          <rim:Value>Fisheries Atlas</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Classification id="urn:uuid:3c7fb92e-5637-11dc-859c-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:uuid:db5357c5-3d0d-4dfa-8735-770320727558" classifiedObject="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" classificationNode="urn:uuid:3c7cb124-5dae-4b8c-87b5-fc77fc8a3f4a"/>
+      <rim:Classification id="urn:uuid:3c80e6f0-5637-11dc-9d1a-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2" classifiedObject="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" classificationNode="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2:WMS"/>
+      <rim:ServiceBinding id="urn:uuid:3c929454-5637-11dc-b5fe-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetCapabilities"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3caa2bd2-5637-11dc-8435-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetCapabilities"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3cb07794-5637-11dc-a501-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetMap"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>image/jpeg</rim:Value>
+            <rim:Value>image/png</rim:Value>
+            <rim:Value>image/png; mode=24bit</rim:Value>
+            <rim:Value>image/tiff</rim:Value>
+            <rim:Value>image/wbmp</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3cb6b604-5637-11dc-8edf-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetMap"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>image/jpeg</rim:Value>
+            <rim:Value>image/png</rim:Value>
+            <rim:Value>image/png; mode=24bit</rim:Value>
+            <rim:Value>image/tiff</rim:Value>
+            <rim:Value>image/wbmp</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3cbcd2e6-5637-11dc-b777-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.gml</rim:Value>
+            <rim:Value>text/plain</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3cc1eaf6-5637-11dc-ab0e-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.gml</rim:Value>
+            <rim:Value>text/plain</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3cc683cc-5637-11dc-bd42-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="DescribeLayer"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>text/xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3cca702c-5637-11dc-aeee-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="DescribeLayer"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>text/xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3ccfc414-5637-11dc-b1d6-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetLegendGraphic"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>image/jpeg</rim:Value>
+            <rim:Value>image/png</rim:Value>
+            <rim:Value>image/png; mode=24bit</rim:Value>
+            <rim:Value>image/wbmp</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3cd58a5c-5637-11dc-a02f-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:53b40e98-441b-11dc-91ef-0003ba0acdcf" accessURI="http://adl.brs.gov.au/cgi-bin/mapserv?map=/data/wwwroot/htdocs/mapserv/fishatlas/fishatlas.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetLegendGraphic"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>image/jpeg</rim:Value>
+            <rim:Value>image/png</rim:Value>
+            <rim:Value>image/png; mode=24bit</rim:Value>
+            <rim:Value>image/wbmp</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+    </rim:Service>
+    <rim:ExtrinsicObject id="urn:uuid:3e64abbe-5637-11dc-a588-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" objectType="WMS_Layer" status="Approved" majorVersion="1" minorVersion="0" stability="Static" isOpaque="false">
+      <rim:Name>
+        <rim:LocalizedString rim:lang="en-US" value="MARINE"/>
+      </rim:Name>
+      <rim:Slot name="CRS" slotType="string">
+        <rim:ValueList>
+          <rim:Value>EPSG:28348</rim:Value>
+          <rim:Value>EPSG:28349</rim:Value>
+          <rim:Value>EPSG:28350</rim:Value>
+          <rim:Value>EPSG:28351</rim:Value>
+          <rim:Value>EPSG:28352</rim:Value>
+          <rim:Value>EPSG:28353</rim:Value>
+          <rim:Value>EPSG:28354</rim:Value>
+          <rim:Value>EPSG:28355</rim:Value>
+          <rim:Value>EPSG:28356</rim:Value>
+          <rim:Value>EPSG:28357</rim:Value>
+          <rim:Value>EPSG:28358</rim:Value>
+          <rim:Value>EPSG:4202</rim:Value>
+          <rim:Value>EPSG:4283</rim:Value>
+          <rim:Value>EPSG:4326</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Envelope" slotType="geometry">
+        <rim:ValueList>
+          <rim:Value>
+            <gml:Envelope>
+              <gml:lowerCorner>-180 -90</gml:lowerCorner>
+              <gml:upperCorner>180 90</gml:upperCorner>
+            </gml:Envelope>
+          </rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Footprint" slotType="geometry">
+        <rim:ValueList>
+          <rim:Value>
+            <gml:Envelope>
+              <gml:lowerCorner>-180 -90</gml:lowerCorner>
+              <gml:upperCorner>180 90</gml:upperCorner>
+            </gml:Envelope>
+          </rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Keyword" slotType="string">
+        <rim:ValueList>
+          <rim:Value>$Id$</rim:Value>
+          <rim:Value>Testplan Testdata</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Queryable" slotType="integer">
+        <rim:ValueList>
+          <rim:Value>0</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Title" slotType="string">
+        <rim:ValueList>
+          <rim:Value>Australian Bureau of Meteorology Marine Map Server</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+    </rim:ExtrinsicObject>
+    <rim:Service id="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" majorVersion="1" minorVersion="0" stability="Static" userVersion="1.1.1">
+      <rim:Name>
+        <rim:LocalizedString rim:lang="en-US" value="OGC:WMS"/>
+      </rim:Name>
+      <rim:Description>
+        <rim:LocalizedString rim:lang="en-US" value="Australian Bureau of Meteorology UMN MapServer demonstration system for Marine Data"/>
+      </rim:Description>
+      <rim:Slot name="Keyword" slotType="string">
+        <rim:ValueList>
+          <rim:Value>$Id$</rim:Value>
+          <rim:Value>METEOROLOGY MARINE SEA SURFACE TEMPERATURE</rim:Value>
+          <rim:Value>Testplan Testdata</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="LayerLimit" slotType="string">
+        <rim:ValueList>
+          <rim:Value>-1</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="MaxHeight" slotType="string">
+        <rim:ValueList>
+          <rim:Value>-1</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="MaxWidth" slotType="string">
+        <rim:ValueList>
+          <rim:Value>-1</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="OnlineResource" slotType="string">
+        <rim:ValueList>
+          <rim:Value>http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Service Type" slotType="string">
+        <rim:ValueList>
+          <rim:Value>WMS</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Title" slotType="string">
+        <rim:ValueList>
+          <rim:Value>Australian Bureau of Meteorology Marine Map Server</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Classification id="urn:uuid:3e1efd26-5637-11dc-a25d-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:uuid:db5357c5-3d0d-4dfa-8735-770320727558" classifiedObject="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" classificationNode="urn:uuid:3c7cb124-5dae-4b8c-87b5-fc77fc8a3f4a"/>
+      <rim:Classification id="urn:uuid:3e200504-5637-11dc-8ac1-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2" classifiedObject="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" classificationNode="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2:WMS"/>
+      <rim:ServiceBinding id="urn:uuid:3e2af4d2-5637-11dc-8e2f-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetCapabilities"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e2f2fb6-5637-11dc-9c12-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetCapabilities"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e332832-5637-11dc-8018-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetMap"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>image/gif</rim:Value>
+            <rim:Value>image/jpeg</rim:Value>
+            <rim:Value>image/png</rim:Value>
+            <rim:Value>image/tiff</rim:Value>
+            <rim:Value>image/wbmp</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e386b94-5637-11dc-a23e-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetMap"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>image/gif</rim:Value>
+            <rim:Value>image/jpeg</rim:Value>
+            <rim:Value>image/png</rim:Value>
+            <rim:Value>image/tiff</rim:Value>
+            <rim:Value>image/wbmp</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e3e5d74-5637-11dc-8280-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.gml</rim:Value>
+            <rim:Value>text/plain</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e42b70c-5637-11dc-848e-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.gml</rim:Value>
+            <rim:Value>text/plain</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e46cc16-5637-11dc-8c1e-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="DescribeLayer"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>text/xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e4b1a0a-5637-11dc-84d5-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="DescribeLayer"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>text/xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e4e99a0-5637-11dc-96b7-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetLegendGraphic"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>image/gif</rim:Value>
+            <rim:Value>image/jpeg</rim:Value>
+            <rim:Value>image/png</rim:Value>
+            <rim:Value>image/wbmp</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e537ce0-5637-11dc-a81d-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:520c43bc-441b-11dc-98d8-0003ba0acdcf" accessURI="http://ows.bom.gov.au/cgi-bin/mapserver/mapserv?map=/web/htdocs/mapserver/marine.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetLegendGraphic"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>image/gif</rim:Value>
+            <rim:Value>image/jpeg</rim:Value>
+            <rim:Value>image/png</rim:Value>
+            <rim:Value>image/wbmp</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+    </rim:Service>
+    <rim:ExtrinsicObject id="urn:uuid:3ea27840-5637-11dc-90b6-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" objectType="WMS_Layer" status="Approved" majorVersion="1" minorVersion="0" stability="Static" isOpaque="false">
+      <rim:Name>
+        <rim:LocalizedString rim:lang="en-US" value="SST_DEMO"/>
+      </rim:Name>
+      <rim:Slot name="CRS" slotType="string">
+        <rim:ValueList>
+          <rim:Value>EPSG:4326</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Envelope" slotType="geometry">
+        <rim:ValueList>
+          <rim:Value>
+            <gml:Envelope>
+              <gml:lowerCorner>79.987 -64.9979</gml:lowerCorner>
+              <gml:upperCorner>190.027 10.0261</gml:upperCorner>
+            </gml:Envelope>
+          </rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Footprint" slotType="geometry">
+        <rim:ValueList>
+          <rim:Value>
+            <gml:Envelope>
+              <gml:lowerCorner>79.987 -64.9979</gml:lowerCorner>
+              <gml:upperCorner>190.027 10.0261</gml:upperCorner>
+            </gml:Envelope>
+          </rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Keyword" slotType="string">
+        <rim:ValueList>
+          <rim:Value>$Id$</rim:Value>
+          <rim:Value>Testplan Testdata</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Queryable" slotType="integer">
+        <rim:ValueList>
+          <rim:Value>0</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Title" slotType="string">
+        <rim:ValueList>
+          <rim:Value>CSIRO Marine and Atmospheric Research SST demonstration</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+    </rim:ExtrinsicObject>
+    <rim:Service id="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" majorVersion="1" minorVersion="0" stability="Static" userVersion="1.1.1">
+      <rim:Name>
+        <rim:LocalizedString rim:lang="en-US" value="OGC:WMS"/>
+      </rim:Name>
+      <rim:Description>
+        <rim:LocalizedString rim:lang="en-US" value="This is a UNM MapServer demonstration application using sea-surface temperature in the Australian region."/>
+      </rim:Description>
+      <rim:Slot name="Keyword" slotType="string">
+        <rim:ValueList>
+          <rim:Value>$Id$</rim:Value>
+          <rim:Value>Testplan Testdata</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="LayerLimit" slotType="string">
+        <rim:ValueList>
+          <rim:Value>-1</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="MaxHeight" slotType="string">
+        <rim:ValueList>
+          <rim:Value>-1</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="MaxWidth" slotType="string">
+        <rim:ValueList>
+          <rim:Value>-1</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="OnlineResource" slotType="string">
+        <rim:ValueList>
+          <rim:Value>http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Service Type" slotType="string">
+        <rim:ValueList>
+          <rim:Value>WMS</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Slot name="Title" slotType="string">
+        <rim:ValueList>
+          <rim:Value>CSIRO Marine and Atmospheric Research SST demonstration</rim:Value>
+        </rim:ValueList>
+      </rim:Slot>
+      <rim:Classification id="urn:uuid:3e42d390-5637-11dc-979f-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:uuid:db5357c5-3d0d-4dfa-8735-770320727558" classifiedObject="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" classificationNode="urn:uuid:3c7cb124-5dae-4b8c-87b5-fc77fc8a3f4a"/>
+      <rim:Classification id="urn:uuid:3e44259c-5637-11dc-81ea-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2" classifiedObject="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" classificationNode="urn:opengis:interop:ows:taxonomy-ebrim:services:v0.7.2:WMS"/>
+      <rim:ServiceBinding id="urn:uuid:3e5cc44e-5637-11dc-9e6d-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetCapabilities"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e628a78-5637-11dc-8acb-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetMap"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>image/gif</rim:Value>
+            <rim:Value>image/jpeg</rim:Value>
+            <rim:Value>image/png</rim:Value>
+            <rim:Value>image/png; mode=24bit</rim:Value>
+            <rim:Value>image/tiff</rim:Value>
+            <rim:Value>image/wbmp</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e6b61c0-5637-11dc-81f5-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetMap"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>image/gif</rim:Value>
+            <rim:Value>image/jpeg</rim:Value>
+            <rim:Value>image/png</rim:Value>
+            <rim:Value>image/png; mode=24bit</rim:Value>
+            <rim:Value>image/tiff</rim:Value>
+            <rim:Value>image/wbmp</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e711ac0-5637-11dc-beed-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.gml</rim:Value>
+            <rim:Value>text/plain</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e77b3c6-5637-11dc-9544-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetFeatureInfo"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.gml</rim:Value>
+            <rim:Value>text/plain</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e7df1a0-5637-11dc-a33c-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="DescribeLayer"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>text/xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e848718-5637-11dc-bff7-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="DescribeLayer"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>text/xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e8ac5a6-5637-11dc-ae08-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetLegendGraphic"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>image/gif</rim:Value>
+            <rim:Value>image/jpeg</rim:Value>
+            <rim:Value>image/png</rim:Value>
+            <rim:Value>image/png; mode=24bit</rim:Value>
+            <rim:Value>image/wbmp</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e9adc66-5637-11dc-980e-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetLegendGraphic"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>image/gif</rim:Value>
+            <rim:Value>image/jpeg</rim:Value>
+            <rim:Value>image/png</rim:Value>
+            <rim:Value>image/png; mode=24bit</rim:Value>
+            <rim:Value>image/wbmp</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+      <rim:ServiceBinding id="urn:uuid:3e57801a-5637-11dc-9a7c-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" service="urn:uuid:550a88da-441b-11dc-bc58-0003ba0acdcf" accessURI="http://www.marine.csiro.au/mapserver/cgi-bin/mapserv?map=/srv/www/htdocs/sst/sst_multi.map&amp;">
+        <rim:Name>
+          <rim:LocalizedString rim:lang="en-US" value="GetCapabilities"/>
+        </rim:Name>
+        <rim:Slot name="outputFormat" slotType="string">
+          <rim:ValueList>
+            <rim:Value>application/vnd.ogc.wms_xml</rim:Value>
+          </rim:ValueList>
+        </rim:Slot>
+      </rim:ServiceBinding>
+    </rim:Service>
+  </csw:SearchResults>
 </csw:GetRecordsResponse>
-
