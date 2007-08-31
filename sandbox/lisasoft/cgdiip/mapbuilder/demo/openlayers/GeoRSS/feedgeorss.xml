@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding="ISO-8859-1" ?>
+<feed
+   xmlns:wfs="http://www.opengis.net/wfs"
+   xmlns:gml="http://www.opengis.net/gml"
+   xmlns="http://purl.org/atom/ns#" 
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xml:lang="en"
+   xmlns:georss="http://www.georss.org/georss"
+   xmlns:topp="http://www.openplans.org/topp">
+
+    <title>Example Feed Containing LISAsoft company</title>
+	<subtitle>A2end</subtitle>
+	<link href="www.a2end.com"/>
+	<updated>2003-12-13T18:30:02Z</updated>
+	<author>
+		<name>elam</name>
+		<email>elam@lisasoft.com</email>
+	</author>
+	<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
+  
+  	<entry fid="00999900">
+		<title>Melbourne Office</title>
+		<link>http://www.a2end.com</link>
+		<id>00999900</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>Melbourne Office Level 9 601 Bourke St Melbourne VIC 3000 Australia</summary>
+		<georss:where>
+			<gml:Point>
+				<gml:pos>144.9562 -37.8165</gml:pos>
+			</gml:Point>
+		</georss:where>
+	</entry>
+	
+	<entry fid="00999901">
+		<title>Sydney Office</title>
+		<link>http://www.a2end.com</link>
+		<id>00999901</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>Sydney Office Suite 112 The Lower Deck Jones Bay Wharf 19-21 Pirrama Rd Pyrmont NSW 2009 Australia</summary>
+		<georss:where>
+			<gml:Point>
+				<gml:pos>151.1942 -33.8640</gml:pos>
+			</gml:Point>
+		</georss:where>
+	</entry>
+
+	<entry fid="00999902">
+		<title>Adelaide Office</title>
+		<link>http://www.a2end.com</link>
+		<id>00999902</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>Adelaide Office Level 1 30 Currie St Adelaide SA 5000 Australia</summary>
+		<georss:where>
+			<gml:Point>
+				<gml:pos>138.5984 -34.9242</gml:pos>
+			</gml:Point>
+		</georss:where>
+	</entry>
+
+	<entry fid="00999903">
+		<title>Test1</title>
+		<link>http://www.lisasoft.com.au</link>
+		<id>00999903</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>Testing a polygon with 1 linear outer ring</summary>
+		<georss:where>
+			<gml:Polygon>
+				<gml:outerBoundaryIs>
+					<gml:LinearRing>
+						<gml:coordinates>110,-50 110,-10 155,-10 155,-50 110,-50</gml:coordinates>
+					</gml:LinearRing>
+				</gml:outerBoundaryIs>
+			</gml:Polygon>
+		</georss:where>
+	</entry>
+
+
+
+	<entry fid="00999904">
+	
+		<title>Test2</title>
+		<link>http://www.terrapages.com.au</link>
+		<id>00999904</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>Testing a linestring</summary>
+		<georss:where>			
+			<gml:LineString>
+				<gml:coordinates>-0.631235,46.307557 -0.262215,46.577225 0.106805,46.477874 0.220349,46.293364 0.475824,46.406909 0.887424,46.350136 1.029354,46.563032 1.213864,46.648191 1.526112,46.421102 1.795780,46.066275 2.108028,46.037889 2.178993,46.250785 2.193186,46.492067 2.193186,46.492067 2.051255,46.704963 2.051255,46.704963 </gml:coordinates>
+			</gml:LineString>			
+		</georss:where>
+	</entry>
+
+
+	<entry fid="00999905">
+		<title>test3</title>
+		<link>http://www.ardec.com.au</link>
+		<id>00999905</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>testing a envelope / bounding box</summary>
+
+		<georss:where>
+			<gml:Envelope>
+				<gml:lowerCorner>0 0</gml:lowerCorner>
+				<gml:upperCorner>20 20</gml:upperCorner>
+			</gml:Envelope>	
+		</georss:where>
+	</entry>
+
+
+
+	<entry fid="00999906">
+		<title>test4</title>
+		<link>http://www.a2end.com</link>
+		<id>00999906</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>Testing a multipolygon</summary>	
+		<georss:where>
+			<gml:MultiPolygon srsName="EPSG:4326">
+				<gml:polygonMember>
+					<gml:Polygon>
+						<gml:outerBoundaryIs>
+							<gml:LinearRing>
+								<gml:coordinates>1.313216,46.690770 1.000968,46.861087 0.887424,47.059790 1.142899,47.244300 1.355795,47.244300 1.554498,47.017211 1.710622,47.059790 1.767394,46.747542 1.313216,46.690770 1.313216,46.690770 </gml:coordinates>
+							</gml:LinearRing>
+						</gml:outerBoundaryIs>
+					</gml:Polygon>
+				</gml:polygonMember>
+				<gml:polygonMember>
+					<gml:Polygon>
+						<gml:outerBoundaryIs>
+							<gml:LinearRing>
+								<gml:coordinates>0.731300,46.605612 -0.191250,46.704963 -0.191250,46.846894 0.177770,46.988824 0.447438,46.960438 0.589369,46.804315 0.688721,46.832701 0.731300,46.605612 0.731300,46.605612 </gml:coordinates>
+							</gml:LinearRing>
+						</gml:outerBoundaryIs>
+					</gml:Polygon>
+				</gml:polygonMember>
+				<gml:polygonMember>
+					<gml:Polygon>
+						<gml:outerBoundaryIs>
+							<gml:LinearRing>
+								<gml:coordinates>-1.610557,46.733349 -1.184765,46.704963 -1.198958,46.704963 -0.943483,46.619805 -0.915096,46.818508 -0.659621,46.775928 -0.688007,47.017211 -0.943483,47.003018 -1.127992,47.088176 -1.397661,47.102369 -1.624750,47.073983 -1.738295,46.917859 -1.610557,46.733349 </gml:coordinates>
+							</gml:LinearRing>
+						</gml:outerBoundaryIs>
+					</gml:Polygon>
+				</gml:polygonMember>
+			</gml:MultiPolygon>
+		</georss:where> 
+	</entry>
+	
+	
+	<entry fid="00999907">
+		<title>Test5</title>
+		<link>http://www.lisasoft.com.au</link>
+		<id>00999907</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>Testing a polygon with with inner and outer rings</summary>
+		<georss:where>
+			<gml:Polygon>
+				<gml:outerBoundaryIs>
+					<gml:LinearRing>
+						<gml:coordinates>10,-50 10,-10 55,-10 55,-50 10,-50</gml:coordinates>
+					</gml:LinearRing>
+				</gml:outerBoundaryIs>
+				<gml:innerBoundaryIs>
+					<gml:LinearRing>
+						<gml:coordinates>20,-40 20,-20 45,-20 45,-40 20,-40</gml:coordinates>
+					</gml:LinearRing>
+				</gml:innerBoundaryIs>
+			</gml:Polygon>
+		</georss:where>
+	</entry>
+
+
+
+	<entry fid="00999908">
+		<title>Point 1</title>
+		<link>http://www.lisasoft.com.au</link>
+		<id>00999908</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>Adding a few extra points in</summary>
+		<georss:where>
+			<gml:Point>
+				<gml:pos>0 0</gml:pos>
+			</gml:Point>
+		</georss:where>
+	</entry>
+
+
+
+	<entry fid="00999909">
+		<title>Point 2</title>
+		<link>http://www.lisasoft.com.au</link>
+		<id>00999909</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>Adding a few extra points in</summary>
+		<georss:where>
+			<gml:Point>
+				<gml:pos>0 5</gml:pos>
+			</gml:Point>
+		</georss:where>
+	</entry>
+
+
+
+	<entry fid="00999910">
+		<title>Point 3</title>
+		<link>http://www.lisasoft.com.au</link>
+		<id>00999910</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>Adding a few extra points in</summary>
+		<georss:where>
+			<gml:Point>
+				<gml:pos>0 10</gml:pos>
+			</gml:Point>
+		</georss:where>
+	</entry>
+
+	<entry fid="00999911">
+		<title>Point 4</title>
+		<link>http://www.lisasoft.com.au</link>
+		<id>00999911</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>Adding a few extra points in</summary>
+		<georss:where>
+			<gml:Point>
+				<gml:pos>0 15</gml:pos>
+			</gml:Point>
+		</georss:where>
+	</entry>
+
+	<entry fid="00999912">
+		<title>Point 5</title>
+		<link>http://www.lisasoft.com.au</link>
+		<id>00999912</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>Adding a few extra points in</summary>
+		<georss:where>
+			<gml:Point>
+				<gml:pos>0 20</gml:pos>
+			</gml:Point>
+		</georss:where>
+	</entry>
+
+	<entry fid="00999913">
+		<title>Point 6</title>
+		<link>http://www.lisasoft.com.au</link>
+		<id>00999913</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>Adding a few extra points in</summary>
+		<georss:where>
+			<gml:Point>
+				<gml:pos>0 25</gml:pos>
+			</gml:Point>
+		</georss:where>
+	</entry>
+	
+	<entry fid="00999914">
+		<title>Point 7</title>
+		<link>http://www.lisasoft.com.au</link>
+		<id>00999914</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>Adding a few extra points in</summary>
+		<georss:where>
+			<gml:Point>
+				<gml:pos>0 30</gml:pos>
+			</gml:Point>
+		</georss:where>
+	</entry>
+	
+	<entry fid="00999915">
+		<title>Point 8</title>
+		<link>http://www.lisasoft.com.au</link>
+		<id>00999915</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>Adding a few extra points in</summary>
+		<georss:where>
+			<gml:Point>
+				<gml:pos>0 35</gml:pos>
+			</gml:Point>
+		</georss:where>
+	</entry>
+	
+	
+</feed>
