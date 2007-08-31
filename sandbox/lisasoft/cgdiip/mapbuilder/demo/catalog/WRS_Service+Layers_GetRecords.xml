@@ -10,7 +10,7 @@ service="WRS"
 version="2.0.0" 
 outputFormat="text/xml" 
 startPosition="1" 
-maxRecords="5" 
+maxRecords="1000" 
 resultType="RESULTS">
 	<Query typeNames="ExtrinsicObject Association=ServiceAssociation Service">
 		<ElementName>/ExtrinsicObject</ElementName>
