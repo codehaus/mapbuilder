@@ -38,30 +38,14 @@ $Name:  $
     </wmc:OWSContext>
   </xsl:template>
 
-  <!-- Match Service -->
-  <xsl:template match="rim:Service">
-    <xsl:if test="not($id) or ($id=@id)">
-      <xsl:variable name="id"><xsl:value-of select="@id"/></xsl:variable>
+  <!-- Match Layer (ExtrinsicObject -->
+  <xsl:template match="rim:ExtrinsicObject">
+    <!--xsl:if test="not($id) or ($id=@id)"-->
       <wmc:Layer queryable="0" hidden="0">
-        <wmc:Server>
-          <xsl:attribute name="service">
-            <xsl:value-of select="rim:Name/rim:LocalizedString/@value"/>
-          </xsl:attribute>
-          <xsl:attribute name="version">
-            <xsl:value-of select="@userVersion"/>
-          </xsl:attribute>
-          <xsl:attribute name="title">
-            <xsl:value-of select="rim:Slot[@name='Title']//rim:Value"/>
-          </xsl:attribute>
-        </wmc:Server>
-        <wmc:OnlineResource method="POST" xlink:type="simple">
-          <xsl:attribute name="xlink:href">
-            <xsl:value-of select="rim:Slot[@name='OnlineResource']//rim:Value"/>
-          </xsl:attribute>
-        </wmc:OnlineResource>
-        <!-- TBD: Where is the Name Value -->
+        <!-- insert service -->
+        <xsl:apply-templates select="../rim:Service"/>
         <wmc:Name>
-          <xsl:value-of select="rim:Slot[@name='Title']//rim:Value"/>
+          <xsl:value-of select="rim:Name/rim:LocalizedString/@value"/>
         </wmc:Name>
         <wmc:Title>
           <xsl:value-of select="rim:Slot[@name='Title']//rim:Value"/>
@@ -70,7 +54,30 @@ $Name:  $
           <xsl:value-of select="rim:Description/rim:LocalizedString/@value"/>
         </wmc:Abstract>
       </wmc:Layer>
-    </xsl:if>
+    <!--/xsl:if-->
+  </xsl:template>
+
+  <!-- Match Service -->
+  <xsl:template match="rim:Service">
+    <!--xsl:if test="not($id) or ($id=@id)"-->
+      <xsl:variable name="id"><xsl:value-of select="@id"/></xsl:variable>
+      <wmc:Server>
+        <xsl:attribute name="service">
+          <xsl:value-of select="rim:Name/rim:LocalizedString/@value"/>
+        </xsl:attribute>
+        <xsl:attribute name="version">
+          <xsl:value-of select="@userVersion"/>
+        </xsl:attribute>
+        <xsl:attribute name="title">
+          <xsl:value-of select="rim:Slot[@name='Title']//rim:Value"/>
+        </xsl:attribute>
+        <wmc:OnlineResource method="POST" xlink:type="simple">
+          <xsl:attribute name="xlink:href">
+            <xsl:value-of select="rim:Slot[@name='OnlineResource']//rim:Value"/>
+          </xsl:attribute>
+        </wmc:OnlineResource>
+      </wmc:Server>
+    <!--/xsl:if-->
   </xsl:template>
   
   <xsl:template match="text()|@*"/>
