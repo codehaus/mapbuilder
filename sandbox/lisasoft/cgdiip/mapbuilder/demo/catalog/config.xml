@@ -23,6 +23,8 @@
         </ModelPopup>
       </widgets>
     </OwsContext>
+
+    <!--
     <ContextCollection id="myMapCollection">
       <defaultModelUrl>../data/context/worldMapsCollection.xml</defaultModelUrl>
       <widgets>
@@ -34,7 +36,6 @@
     <WmsCapabilities id="wmsCapabilities">
       <title>OGC Web Map Server (WMS)</title>
       <defaultModelUrl>wmsCapabilities.xml</defaultModelUrl>
-      <!--defaultModelUrl>/geoserver/wms?request=GetCapabilities&amp;service=WMS</defaultModelUrl-->
       <widgets>
         <SelectMapLayers id="selectMapLayers">
           <htmlTagId>selectMapLayers</htmlTagId>
@@ -45,22 +46,13 @@
         </ModelUrlInput>
       </widgets>
       <tools>
-        <!--
-        <WebServiceRequest id="wmsController">
-          <targetModel>featureInfoResponse</targetModel>
-          <requestName>wms:GetFeatureInfo</requestName>
-        </WebServiceRequest>
-        -->
         <EditContext id="editContext">
           <targetModel>mainMap</targetModel>
         </EditContext>
       </tools>
- 
-      <!--nodeSelectXpath>//Layer</nodeSelectXpath-->
     </WmsCapabilities>
     <WfsCapabilities id="wfsCapabilities">
       <defaultModelUrl>wfsCapabilities.xml</defaultModelUrl>
-      <!--defaultModelUrl>/geoserver/wfs?version=1.0.0&service=WFS&request=GetCapabilities</defaultModelUrl-->
       <widgets>
         <SelectFeatureType id="featureTypes">
           <htmlTagId>selectFeatureType</htmlTagId>
@@ -75,34 +67,18 @@
         <EditContext id="editContext2">
           <targetModel>mainMap</targetModel>
         </EditContext>
-        <!--
-        <WebServiceRequest id="wfsGetFeature">
-          <targetModel>getFeatureTemplate</targetModel>
-          <requestName>wfs:GetFeature</requestName>
-          <maxFeatures>20</maxFeatures>
-        </WebServiceRequest>
-        <WebServiceRequest id="wfsDescribeFeature">
-          <targetModel>featureTypeTemplate</targetModel>
-          <requestName>wfs:DescribeFeatureType</requestName>
-        </WebServiceRequest>
-        <WebServiceRequest id="wfsTransaction">
-          <targetModel>transactionTemplate</targetModel>
-          <requestName>wfs:Transaction</requestName>
-        </WebServiceRequest>
-        -->
       </tools>
       <nodeSelectXpath>/wfs:WFS_Capabilities/wfs:FeatureTypeList/wfs:FeatureType</nodeSelectXpath>
     </WfsCapabilities>
     <FeatureTypeSchema id="featureTypeSchema">
       <defaultModelUrl>wfsDescribeFeatureType.xml</defaultModelUrl>
-      <debug/>
       <widgets>
-        <debug/>
         <FilterAttributes id="attributeFilter">
           <htmlTagId>filterAttributes</htmlTagId>
         </FilterAttributes>
       </widgets>
     </FeatureTypeSchema>
+    -->
   </models>
   <skinDir>../../lib/skin/default</skinDir>
 </MapbuilderConfig>

@@ -18,7 +18,7 @@
       </Server>
       <Name>basic</Name>
       <Title>World Basemap</Title>
-      <SRS>EPSG:4326 EPSG:4269</SRS>
+      <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format>image/jpeg</Format>
         <Format>image/png</Format>
@@ -36,7 +36,7 @@
     </Layer>
     <FeatureType hidden="0">
       <Server service="OGC:WFS" version="1.0" title="My Geoserver WFS">
-        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wfs?"/>
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wfs"/>
       </Server>
       <Name>topp:states</Name>
       <Title>USA Population</Title>
