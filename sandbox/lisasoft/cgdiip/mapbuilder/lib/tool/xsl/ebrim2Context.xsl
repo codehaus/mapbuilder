@@ -42,8 +42,11 @@ $Name:  $
   <xsl:template match="rim:ExtrinsicObject">
     <!--xsl:if test="not($id) or ($id=@id)"-->
       <wmc:Layer queryable="0" hidden="0">
+        <xsl:attribute name="id">
+          <xsl:value-of select="@id"/>
+        </xsl:attribute>
         <!-- insert service -->
-        <xsl:apply-templates select="../rim:Service"/>
+        <xsl:apply-templates select="//rim:Service[position()=(position()+1)]"/>
         <wmc:Name>
           <xsl:value-of select="rim:Name/rim:LocalizedString/@value"/>
         </wmc:Name>
@@ -59,25 +62,26 @@ $Name:  $
 
   <!-- Match Service -->
   <xsl:template match="rim:Service">
-    <!--xsl:if test="not($id) or ($id=@id)"-->
-      <xsl:variable name="id"><xsl:value-of select="@id"/></xsl:variable>
-      <wmc:Server>
-        <xsl:attribute name="service">
-          <xsl:value-of select="rim:Name/rim:LocalizedString/@value"/>
+    <wmc:Server>
+      <xsl:attribute name="id">
+        <xsl:value-of select="@id"/>
+      </xsl:attribute>
+      <xsl:attribute name="service">
+        <xsl:value-of select="rim:Name/rim:LocalizedString/@value"/>
+      </xsl:attribute>
+      <xsl:attribute name="version">
+        <xsl:value-of select="@userVersion"/>
+      </xsl:attribute>
+      <xsl:attribute name="title">
+        <xsl:value-of select="rim:Slot[@name='Title']//rim:Value"/>
+      </xsl:attribute>
+      <!-- TBD: How do we extract method=POST/GET? -->
+      <wmc:OnlineResource method="POST" xlink:type="simple">
+        <xsl:attribute name="xlink:href">
+          <xsl:value-of select="rim:Slot[@name='OnlineResource']//rim:Value"/>
         </xsl:attribute>
-        <xsl:attribute name="version">
-          <xsl:value-of select="@userVersion"/>
-        </xsl:attribute>
-        <xsl:attribute name="title">
-          <xsl:value-of select="rim:Slot[@name='Title']//rim:Value"/>
-        </xsl:attribute>
-        <wmc:OnlineResource method="POST" xlink:type="simple">
-          <xsl:attribute name="xlink:href">
-            <xsl:value-of select="rim:Slot[@name='OnlineResource']//rim:Value"/>
-          </xsl:attribute>
-        </wmc:OnlineResource>
-      </wmc:Server>
-    <!--/xsl:if-->
+      </wmc:OnlineResource>
+    </wmc:Server>
   </xsl:template>
   
   <xsl:template match="text()|@*"/>
