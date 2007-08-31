@@ -1,6 +1,6 @@
 /*
 License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
-$Id$
+$Id: ProposeInsertFeature.js 3172 2007-08-28 06:33:50Z mvivian $
 */
 
 // Ensure this object's dependancies are loaded.
@@ -75,7 +75,7 @@ function ProposeInsertFeature(widgetNode, model) {
         
        
         bounds = objRef.getBounds(objRef.targetModel);
-        objRef.targetModel.setXpathValue(objRef.targetModel,"//psma:the_geom/gml:Box/gml:coordinates",bounds);
+        objRef.targetModel.setXpathValue(objRef.targetModel,"//gml:LinearRing/gml:coordinates",bounds);
 	    
 	    
         s=objRef.cdataElementXsl.transformNodeToObject(objRef.targetModel.doc);
@@ -126,7 +126,7 @@ function ProposeInsertFeature(widgetNode, model) {
       alert("invalid coordinate found, but transaction will procceed")
     }
         
-    return (minX + "," + minY + " " + minX + "," + maxY + " " + maxX + "," + maxY + " " + maxX + "," + minY);
+    return (minX + "," + minY + " " + minX + "," + maxY + " " + maxX + "," + maxY + " " + maxX + "," + minY + " " + minX + "," + minY);
   }
 
   /**

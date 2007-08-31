@@ -128,7 +128,8 @@
       <enabledSrc>/images/EditPolygonEnable.png</enabledSrc>
       <disabledSrc>/images/EditPolygonDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
-      <featureXpath>//gml:LinearRing/gml:coordinates</featureXpath>
+<!-- <featureXpath>/gml:featureMember/psma:feedback_feed/psma:feature_collection/gml:featureMember/topp:tasmania_water_bodies/topp:the_geom/gml:MultiPolygon/gml:polygonMember/gml:Polygon/gml:outerBoundaryIs/gml:LinearRing/gml:coordinates</featureXpath> -->
+      <featureXpath>//topp:the_geom/gml:MultiPolygon/gml:polygonMember/gml:Polygon/gml:outerBoundaryIs/gml:LinearRing/gml:coordinates</featureXpath>
       <defaultModelUrl>template_waterbodies.xml</defaultModelUrl>
     </EditPolygon>
     <ProposeInsertFeature id="insertFeature">
@@ -138,7 +139,8 @@
       <class>Button</class>
       <disabledSrc>/images/SaveDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
-      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
+      <!-- <webServiceUrl>../../../geoserver/wfs</webServiceUrl> -->
+     <webServiceUrl>http://dev.terrapages.net/wfs</webServiceUrl>
     </ProposeInsertFeature>
     <ProposeDeleteFeature id="deleteFeature">
       <buttonBar>mainButtonBar</buttonBar>
@@ -147,7 +149,7 @@
       <class>Button</class>
       <disabledSrc>/images/DeleteDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
-      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
+      <webServiceUrl>http://dev.terrapages.net/wfs</webServiceUrl>
     </ProposeDeleteFeature>
     <WfsGetFeature id="wfsGetFeature">
       <buttonBar>mainButtonBar</buttonBar>
