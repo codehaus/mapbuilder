@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
-<OWSContext xmlns="http://www.opengis.net/context" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sld="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows" xmlns:param="http;//www.opengis.net/param" version="0.0.13" id="ows-context-tie" xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
+<OWSContext
+  xmlns="http://www.opengis.net/context"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:sld="http://www.opengis.net/sld"
+  xmlns:ogc="http://www.opengis.net/ogc"
+  xmlns:ows="http://www.opengis.net/ows"
+  xmlns:param="http;//www.opengis.net/param"
+  version="0.0.13"
+  id="ows-context-tie"
+  xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
+  
   <General>
     <Window width="600" height="300"/>
     <ows:BoundingBox crs="EPSG:4326">
