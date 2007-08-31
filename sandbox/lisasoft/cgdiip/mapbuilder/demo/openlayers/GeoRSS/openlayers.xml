@@ -38,15 +38,37 @@
 			
 		<!-- WMSC layer ... the tile cache --> 
 		<Layer queryable="0" hidden="0">
+          <Server service="OGC:WMS-C" version="1.0.0" title="OGC:WMS-C">
+            <OnlineResource xlink:type="simple" xlink:href="http://labs.metacarta.com/wms/vmap0"/>
+          </Server>
+          <Name>basic</Name>
+          <Title>basic</Title>
+          <SRS>EPSG:4326 EPSG:4269</SRS>
+          <FormatList>
+            <Format>image/jpeg</Format>
+            <Format>image/png</Format>
+            <Format>image/gif</Format>
+            <Format current="1">image/png; mode=24bit</Format>
+            <Format>image/wbmp</Format>
+            <Format>image/tiff</Format>
+          </FormatList>
+          <StyleList>
+            <Style current="1">
+              <Name>default</Name>
+              <Title>default</Title>
+            </Style>
+          </StyleList>
+<!-- 
 			<Server service="OGC:WMS-C" version="1.1.1" title="TileCache">
 				<OnlineResource xlink:type="simple" xlink:href="http://wmsc1.terrapages.net/getmap"/>
 			</Server>
-			<Name>UnprojectedStreet</Name>
+ 			<Name>UnprojectedStreet</Name>
 			<Title>UnprojectedStreet</Title>
 			<SRS>EPSG:4326</SRS>
 			<FormatList>
 				<Format>image/jpeg</Format>
 			</FormatList>
+ -->
 		</Layer>
 		
 		<!--  The openlayers georss layer
