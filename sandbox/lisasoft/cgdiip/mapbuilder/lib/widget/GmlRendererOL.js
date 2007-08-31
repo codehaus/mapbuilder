@@ -226,10 +226,37 @@ function GmlRendererOL(widgetNode, model) {
         }
       });
       
-      objRef.olLayer = new OlLayer(objRef.id);
+      //objRef.olLayer = new OlLayer(objRef.id);
+      //objRef.targetModel.map.addLayer(objRef.olLayer);
+      
+      
+      
+      // check to see if it is a georss
+      // if it is we use the OpenLayers GeoRSS layer
+      var geoRSSnode = widgetNode.selectSingleNode('mb:GeoRSS');
+      var geoRSSvalue = false;
+
+      if(geoRSSnode && geoRSSnode.firstChild) {
+      	if (geoRSSnode.firstChild.nodeValue == 'true') {
+      	  geoRSSvalue = true;
+      	}
+      }
+      
+	  if (geoRSSvalue) {
+	  	if (config.proxyUrl) {
+	  		url = config.proxyUrl + '?url=' + objRef.model.url;
+	  	} else {
+	  		url = objRef.model.url;
+	  	}
+	  	objRef.olLayer =  new OpenLayers.Layer.GeoRSSvector(objRef.id,url);
+	  } else {
+	  	objRef.olLayer = new OlLayer(objRef.id);
+	  }
+      
       objRef.targetModel.map.addLayer(objRef.olLayer);
       
       objRef.model.setParam('gmlRendererLayer', objRef.olLayer);
+      
     }
     // We add a refresh listener to the targetModel. This way we
     // can be sure that the gml renderer is reloaded when the
