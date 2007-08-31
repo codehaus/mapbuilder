@@ -16,8 +16,6 @@ mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
  * This tool also fires "mouseoverFeature" and "mouseoutFeature"
  * events, setting the fid of the feature below the mouse cursor
  * as param of the model.
- * @constructor
- * @base ToolBase
  * @author Andreas Hocevar andreas.hocevarATgmail.com
  * @param toolNode The tool node from the config XML file.
  * @param model The model containing this tool.
@@ -127,6 +125,7 @@ function FeatureSelectHandler(toolNode, model) {
    * @param feature OpenLayers feature
    */
   this.onSelect = function(feature) {
+  	
     if (!feature) return;
     var objRef = this.mbFeatureSelectHandler;
     for (var i in objRef.sourceModels) {
@@ -151,6 +150,7 @@ function FeatureSelectHandler(toolNode, model) {
    * @param feature OpenLayers feature
    */
   this.onUnselect = function(feature) {
+ 
     if (!feature) return;
     var objRef = this.mbFeatureSelectHandler;
     for (var i in objRef.sourceModels) {
@@ -160,6 +160,10 @@ function FeatureSelectHandler(toolNode, model) {
     if (feature.layer.events) {
       feature.layer.events.unregister('mousedown', feature, objRef.onClick);
     }
+    
+    mydiv = document.getElementById(feature.fid);
+    mydiv.style.backgroundColor='';
+    
   }
   
   /**
@@ -172,11 +176,14 @@ function FeatureSelectHandler(toolNode, model) {
    * @param evt OpenLayers event
    */
   this.onClick = function(evt) {
+
     // pass the feature to the event object
     evt.feature = this;
+     
     var objRef = this.mbFeatureSelectHandler;
     objRef.model.setParam("olFeatureSelect", evt);
     OpenLayers.Event.stop(evt);
+    
   }
   
   /**
@@ -196,7 +203,11 @@ function FeatureSelectHandler(toolNode, model) {
       // the mouse moved and we can then proceed to our hover popup.
       evt.feature.layer.events.unregister('mousemove', evt.feature, objRef.onHover);
     }
-     objRef.model.setParam("olFeatureHover", evt);
+    objRef.model.setParam("olFeatureHover", evt);
+    
+    mydiv = document.getElementById(evt.feature.fid);
+    mydiv.style.backgroundColor='orange';
+     
   }
 
   /**
