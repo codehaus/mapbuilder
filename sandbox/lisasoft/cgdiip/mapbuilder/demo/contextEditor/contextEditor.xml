@@ -226,6 +226,7 @@
           <nodeSelectXpath>/wfs:FeatureCollection/gml:featureMember/owscat:service_resources</nodeSelectXpath>
         </OwsCatResources>
         <Model id="filterExpression">
+          <debug/>
           <defaultModelUrl>OWSCatResourceFilter.xml</defaultModelUrl>
           <widgets>
             <OWSCatSearchForm id="owsCatSearchForm">

@@ -16,13 +16,41 @@
           <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
           <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
         </LayerControl>
-        <PanZoomBar id="panZoomBar"/>
         <ModelPopup id="modelPopup">
           <htmlTagId>contextPopup</htmlTagId>
           <title2>View Context</title2>
         </ModelPopup>
       </widgets>
     </OwsContext>
+    <!-- Contains the results of a catalog search -->
+    <Model id="catalogSearchResults">
+      <defaultModelUrl>WRS_Service+Layers_GetRecordsResponse.xml</defaultModelUrl>
+    </Model>
+    <!-- Contains the results of a search, converted into OWSContext format -->
+    <OwsContext id="normalizedSearchResults">
+      <defaultModelUrl>context.xml</defaultModelUrl>
+      <widgets>
+        <LayerControl id="contextLegend">
+          <htmlTagId>layerControl</htmlTagId>
+          <legendImageEnable>/images/LegendEnable.png</legendImageEnable>
+          <legendImageDisable>/images/LegendDisable.png</legendImageDisable>
+          <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
+          <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
+          <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
+        </LayerControl>
+      </widgets>
+    </OwsContext>
+    <Model id="filterExpression">
+      <defaultModelUrl>Filter.xml</defaultModelUrl>
+      <widgets>
+        <CatalogSearchForm id="catalogSearchForm">
+          <htmlTagId>catalogSearchForm</htmlTagId>
+          <targetModel>catalogSearchResults</targetModel>
+          <targetContext>normalizedSearchResults</targetContext>
+          <mapModel>mainMap</mapModel>
+        </CatalogSearchForm>
+      </widgets>
+    </Model>
 
     <!--
     <ContextCollection id="myMapCollection">
@@ -80,6 +108,50 @@
     </FeatureTypeSchema>
     -->
   </models>
+  <widgets>
+    <ZoomIn id="zoomIn">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>RadioButton</class>
+      <selected>true</selected>
+      <enabledSrc>/images/ZoomInEnable.png</enabledSrc>
+      <disabledSrc>/images/ZoomInDisable.png</disabledSrc>
+    </ZoomIn>
+    <ZoomOut id="zoomOut">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>RadioButton</class>
+      <enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
+      <disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
+    </ZoomOut>
+    <DragPan id="dragPan">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>RadioButton</class>
+      <enabledSrc>/images/PanEnable.png</enabledSrc>
+      <disabledSrc>/images/PanDisable.png</disabledSrc>
+    </DragPan>
+    <SetAoi id="setAoi">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>RadioButton</class>
+      <enabledSrc>/images/SetAoiEnable.png</enabledSrc>
+      <disabledSrc>/images/SetAoiDisable.png</disabledSrc>
+    </SetAoi>
+    <Reset id="reset">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
+    </Reset>
+    <Save id="save">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/SaveDisable.png</disabledSrc>
+      <popupWindowName>modelXML</popupWindowName>
+    </Save>
+  </widgets>
   <skinDir>../../lib/skin/default</skinDir>
 </MapbuilderConfig>
 

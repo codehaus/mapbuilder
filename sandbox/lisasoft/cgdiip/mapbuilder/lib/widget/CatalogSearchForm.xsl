@@ -62,8 +62,7 @@ $Name:  $
         <option selected="true" value="OGC:WMS">WMS</option>
         <option value="OGC:WFS">WFS</option>
       </select>
-      <input class="button" type="reset"/>
-      <input class="button" type="submit"/>
+      <input type="button" value="Search" onclick="javascript:config.objects.{$widgetId}.doSelect(config.objects.{$widgetId});"/>
       
     </form>
     </div>

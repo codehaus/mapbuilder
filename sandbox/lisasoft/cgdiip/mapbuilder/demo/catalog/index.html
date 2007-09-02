@@ -1,18 +1,24 @@
-<script type="text/javascript">
-//<![CDATA[
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+  <head>
+    <title>Mapbuilder Catalog Editor</title>
+    <link rel="stylesheet" href="../../lib/skin/default/mapStyle.css" type="text/css">
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/demoStyles.css'/>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'/>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/button.css'>
+    <link rel="stylesheet" type="text/css" href="../../lib/skin/default/tabList.css">
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'>
+    <script type="text/javascript">
     // URL of Mapbuilder configuration file.
     var mbConfigUrl='config.xml';
-//]]>
 </script>
 <script type="text/javascript" src="../../lib/Mapbuilder.js">
 </script>
 </head>
 <body onload="mbDoLoad()">
-  <div id="mainMapPane">
-    <!-- This is the container where the map will be drawn -->
-    <noscript>this page requires Javascript to be
-    enabled</noscript>
-  </div><!-- /mainMapPane -->
+  <noscript>this page requires Javascript to be enabled</noscript>
+  <div id="mainMapPane"></div><!-- /mainMapPane -->
+  <div id="mainButtonBar"/>
   <div id="contextPopup"></div>
   <div id="mapList"></div>
   <div id="modelUrlInput"></div>
@@ -22,6 +28,7 @@
   <div id="selectFeatureType"></div>
   <div id="wfsUrlInput"></div>
   <div id="attributeFilter"></div>
+  <div id="catalogSearchForm"></div>
 </body>
 </html>
 

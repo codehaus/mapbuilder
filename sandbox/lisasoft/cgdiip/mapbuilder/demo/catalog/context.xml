@@ -45,6 +45,7 @@
         </Style>
       </StyleList>
     </Layer>
+    <!--
     <FeatureType hidden="0">
       <Server service="OGC:WFS" version="1.0" title="My Geoserver WFS">
         <OnlineResource method="POST" xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wfs"/>
@@ -52,17 +53,8 @@
       <Name>topp:states</Name>
       <Title>USA Population</Title>
       <Abstract>This is some census data on the states.</Abstract>
-      <!--
-      <ogc:Filter>
-        <ogc:PropertyIsEqualTo>
-          <ogc:PropertyName>CLASS</ogc:PropertyName>
-          <ogc:Literal>3</ogc:Literal>
-        </ogc:PropertyIsEqualTo>
-      </ogc:Filter>
-      <sld:MinScaleDenominator>50000</sld:MinScaleDenominator>
-      <sld:MaxScaleDenominator>5000</sld:MaxScaleDenominator>
-      -->
       <SRS>EPSG:4326</SRS>
     </FeatureType>
+    -->
   </ResourceList>
 </OWSContext>
