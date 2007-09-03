@@ -96,9 +96,7 @@ function OwsContext(modelNode, parent) {
     // Set BoundingBox in context from URL CGI params
     if (window.cgiArgs["bbox"]) {   //set as minx,miny,maxx,maxy
       var bbox = window.cgiArgs["bbox"].split(',');
-      /////TBD i'm not sure it was necessary
-      objRef.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
-      objRef.setBoundingBox(objRef.map.getExtent().toBBOX().split(','));
+      objRef.setBoundingBox(bbox);
     }
   }
   this.addListener( "loadModel", this.initBbox, this );

@@ -121,7 +121,7 @@ function MapPaneOL(widgetNode, model) {
   this.model.addListener("moveLayerUp",this.moveLayerUp, this);
   this.model.addListener("moveLayerDown",this.moveLayerDown, this);
   this.model.addListener("opacity",this.setOpacity,this);
-  //this.model.addListener( "zoomToBbox", this.zoomToBbox, this );
+  this.model.addListener("bbox", this.zoomToBbox, this);
   //this.model.addListener( "zoomOut", this.zoomOut, this );
   //this.model.addListener( "zoomIn", this.zoomIn, this );
   // this.model.addListener( "zoomToMaxExtent", this.zoomToMaxExtent, this );
@@ -247,10 +247,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     // register OpenLayers event to do updates onmouseup
     objRef.model.map.events.register('mouseup', objRef.model.map, objRef.updateMouse);
     
-    objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
-
-   
-
+    objRef.model.callListeners("bbox");
   }
   
 }
@@ -277,7 +274,7 @@ MapPaneOL.prototype.updateContext = function(e) {
 
   var currentAoi = objRef.model.getParam('aoi');
   var newAoi = new Array(ul, lr);
-  if (!currentAoi || currentAoi.toString != newAoi.toString()) {
+  if (!currentAoi || currentAoi.toString() != newAoi.toString()) {
     objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
     objRef.model.extent.setSize(objRef.model.map.getResolution());
     objRef.model.setParam("aoi", newAoi);
@@ -298,6 +295,25 @@ MapPaneOL.prototype.updateMouse = function(e) {
   // update map pane cursor
   if (objRef.model.map.mbCursor) {
     objRef.model.map.div.style.cursor = objRef.model.map.mbCursor;
+  }
+}
+
+/**
+ * Zoom to the current Bounding Box.
+ * @param objRef reference to this widget
+ */
+MapPaneOL.prototype.zoomToBbox = function(objRef) {
+  if (objRef.model.map) {
+    var bbox = objRef.model.getBoundingBox();
+    var displayBbox = [];
+    var extent = objRef.model.map.getExtent();
+    if (extent) {
+      displayBbox = extent.toBBOX();
+    }
+    // only perform zoom operation if not already at bbox
+    if (bbox.toString() != displayBbox.toString()) {
+      objRef.model.map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));
+    }
   }
 }
 
