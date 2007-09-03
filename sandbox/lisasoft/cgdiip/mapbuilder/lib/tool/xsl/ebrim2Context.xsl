@@ -59,7 +59,10 @@ $Name:  $
           <xsl:value-of select="@id"/>
         </xsl:attribute>
         <!-- insert service -->
-        <xsl:apply-templates select="//rim:Service[position()=(position()+1)]"/>
+        <!--xsl:apply-templates select="//rim:Service[position()=(position()+1)]"/-->
+        <xsl:call-template name="Service">
+          <xsl:with-param name="pos" select="position()"/>
+        </xsl:call-template>
         <wmc:Name>
           <xsl:value-of select="rim:Name/rim:LocalizedString/@value"/>
         </wmc:Name>
@@ -74,27 +77,33 @@ $Name:  $
   </xsl:template>
 
   <!-- Match Service -->
-  <xsl:template match="rim:Service">
-    <wmc:Server>
-      <xsl:attribute name="id">
-        <xsl:value-of select="@id"/>
-      </xsl:attribute>
-      <xsl:attribute name="service">
-        <xsl:value-of select="rim:Name/rim:LocalizedString/@value"/>
-      </xsl:attribute>
-      <xsl:attribute name="version">
-        <xsl:value-of select="@userVersion"/>
-      </xsl:attribute>
-      <xsl:attribute name="title">
-        <xsl:value-of select="rim:Slot[@name='Title']//rim:Value"/>
-      </xsl:attribute>
-      <!-- TBD: How do we extract method=POST/GET? -->
-      <wmc:OnlineResource method="POST" xlink:type="simple">
-        <xsl:attribute name="xlink:href">
-          <xsl:value-of select="rim:Slot[@name='OnlineResource']//rim:Value"/>
-        </xsl:attribute>
-      </wmc:OnlineResource>
-    </wmc:Server>
+  <!-- xsl:template match="rim:Service[position()={$pos}]"-->
+  <xsl:template name="Service">
+    <xsl:param name="pos"/>
+  
+    <xsl:for-each select="../rim:Service[(($pos+1) div 2)]">
+	    <wmc:Server>
+	      <xsl:attribute name="id">
+	        <xsl:value-of select="@id"/>
+	      </xsl:attribute>
+	      <xsl:attribute name="service">
+	        <xsl:value-of select="rim:Name/rim:LocalizedString/@value"/>
+	      </xsl:attribute>
+	      <xsl:attribute name="version">
+	        <xsl:value-of select="@userVersion"/>
+	      </xsl:attribute>
+	      <xsl:attribute name="title">
+	        <xsl:value-of select="rim:Slot[@name='Title']//rim:Value"/>
+	      </xsl:attribute>
+	      <!-- TBD: How do we extract method=POST/GET? -->
+	      <wmc:OnlineResource method="POST" xlink:type="simple">
+	        <xsl:attribute name="xlink:href">
+	          <xsl:value-of select="rim:Slot[@name='OnlineResource']//rim:Value"/>
+	        </xsl:attribute>
+	      </wmc:OnlineResource>
+	    </wmc:Server>
+    </xsl:for-each>
+
   </xsl:template>
   
   <xsl:template match="text()|@*"/>
