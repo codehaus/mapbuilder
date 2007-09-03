@@ -28,7 +28,6 @@
     </Model>
     <!-- Contains the results of a search, converted into OWSContext format -->
     <OwsContext id="normalizedSearchResults">
-      <defaultModelUrl>context.xml</defaultModelUrl>
       <widgets>
         <LayerControl id="contextLegend">
           <htmlTagId>layerControl</htmlTagId>

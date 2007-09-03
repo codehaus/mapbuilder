@@ -28,8 +28,6 @@ function CatalogSearchForm(widgetNode, model) {
       this.targetModel.addListener("loadModel",this.handleResponse,this);
       this.ebrim2Context=new XslProcessor(
         baseDir+"/tool/xsl/ebrim2Context.xsl");
-      //this.targetContext2=window.config.objects[this.targetConext];
-      this.targetContext2=window.config.objects["normalizedSearchResults"];
       this.initialized=1;
     }
     // TBD: trigger a Catalog Search here. Look at InsertFeature for an
@@ -46,13 +44,9 @@ function CatalogSearchForm(widgetNode, model) {
    */
   CatalogSearchForm.prototype.handleResponse = function(objRef) {
     var newContext=objRef.ebrim2Context.transformNodeToObject(objRef.targetModel.doc);
-    objRef.targetContext2.doc=newContext;
-    objRef.targetContext2.callListeners("loadModel");
-//    window.config.objects[objRef.targetConext].doc=newContext;
-//    window.config.objects[objRef.targetConext].callListeners("loadModel");
 
-//    window.config.objects[objRef.targetConext].setModel(
-//      window.config.objects[objRef.targetConext],
-//      newContext);
+    window.config.objects[objRef.targetContext].setModel(
+      window.config.objects[objRef.targetContext],
+      newContext);
   }
 }
