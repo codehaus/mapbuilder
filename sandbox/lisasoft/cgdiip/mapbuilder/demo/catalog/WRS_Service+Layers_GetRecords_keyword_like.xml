@@ -18,6 +18,7 @@ resultType="RESULTS">
 		<Constraint>
 			<ogc:Filter>
 				<ogc:And>
+					<!-- The object type has to be either a feature type (WFS layer) or WMS_Layer -->
 					<ogc:Or>
 						<ogc:PropertyIsLike>
 							<ogc:PropertyName>/ExtrinsicObject/@objectType</ogc:PropertyName>
@@ -28,26 +29,8 @@ resultType="RESULTS">
 							<ogc:Literal>WMS_Layer</ogc:Literal>
 						</ogc:PropertyIsLike>
 					</ogc:Or>
-					<ogc:Or>
-						<ogc:PropertyIsLike>
-							<ogc:PropertyName>/ExtrinsicObject/Name/LocalizedString/@value</ogc:PropertyName>
-							<ogc:Literal>%KEYWORD_SEARCH%</ogc:Literal>
-						</ogc:PropertyIsLike>
-						<ogc:PropertyIsLike>
-							<ogc:PropertyName>/ExtrinsicObject/Description/LocalizedString/@value</ogc:PropertyName>
-							<ogc:Literal>%KEYWORD_SEARCH%</ogc:Literal>
-						</ogc:PropertyIsLike>
-						<ogc:And>
-							<ogc:PropertyIsEqualTo>
-								<ogc:PropertyName>/ExtrinsicObject/Slot/@name</ogc:PropertyName>
-								<ogc:Literal>Keyword</ogc:Literal>
-							</ogc:PropertyIsEqualTo>
-							<ogc:PropertyIsLike>
-								<ogc:PropertyName>/ExtrinsicObject/Slot/ValueList/Value</ogc:PropertyName>
-								<ogc:Literal>%KEYWORD_SEARCH%</ogc:Literal>
-							</ogc:PropertyIsLike>
-						</ogc:And>
-					</ogc:Or>
+					
+					<!-- Link the layer (coming from the extrinsic object), to the service object via the "Serves" association -->
 					<ogc:And>
 						<ogc:PropertyIsEqualTo>
 							<ogc:PropertyName>/ExtrinsicObject/@ID</ogc:PropertyName>
@@ -61,6 +44,53 @@ resultType="RESULTS">
 							<ogc:PropertyName>/Service/@ID</ogc:PropertyName>
 							<ogc:PropertyName>/ServiceAssociation/@sourceObject</ogc:PropertyName>
 						</ogc:PropertyIsEqualTo>
+					</ogc:And>
+
+					<!-- Keyword searches -->
+					<ogc:And>
+						<!-- Search for the first keyword -->
+						<ogc:Or>
+							<ogc:PropertyIsLike>
+								<ogc:PropertyName>/ExtrinsicObject/Name/LocalizedString/@value</ogc:PropertyName>
+								<ogc:Literal>%KEYWORD_SEARCH1%</ogc:Literal>
+							</ogc:PropertyIsLike>
+							<ogc:PropertyIsLike>
+								<ogc:PropertyName>/ExtrinsicObject/Description/LocalizedString/@value</ogc:PropertyName>
+								<ogc:Literal>%KEYWORD_SEARCH1%</ogc:Literal>
+							</ogc:PropertyIsLike>
+							<ogc:And>
+								<ogc:PropertyIsEqualTo>
+									<ogc:PropertyName>/ExtrinsicObject/Slot/@name</ogc:PropertyName>
+									<ogc:Literal>Keyword</ogc:Literal>
+								</ogc:PropertyIsEqualTo>
+								<ogc:PropertyIsLike>
+									<ogc:PropertyName>/ExtrinsicObject/Slot/ValueList/Value</ogc:PropertyName>
+									<ogc:Literal>%KEYWORD_SEARCH1%</ogc:Literal>
+								</ogc:PropertyIsLike>
+							</ogc:And>
+						</ogc:Or>
+
+						<!-- Search for the second keyword -->
+						<ogc:Or>
+							<ogc:PropertyIsLike>
+								<ogc:PropertyName>/ExtrinsicObject/Name/LocalizedString/@value</ogc:PropertyName>
+								<ogc:Literal>%KEYWORD_SEARCH2%</ogc:Literal>
+							</ogc:PropertyIsLike>
+							<ogc:PropertyIsLike>
+								<ogc:PropertyName>/ExtrinsicObject/Description/LocalizedString/@value</ogc:PropertyName>
+								<ogc:Literal>%KEYWORD_SEARCH2%</ogc:Literal>
+							</ogc:PropertyIsLike>
+							<ogc:And>
+								<ogc:PropertyIsEqualTo>
+									<ogc:PropertyName>/ExtrinsicObject/Slot/@name</ogc:PropertyName>
+									<ogc:Literal>Keyword</ogc:Literal>
+								</ogc:PropertyIsEqualTo>
+								<ogc:PropertyIsLike>
+									<ogc:PropertyName>/ExtrinsicObject/Slot/ValueList/Value</ogc:PropertyName>
+									<ogc:Literal>%KEYWORD_SEARCH2%</ogc:Literal>
+								</ogc:PropertyIsLike>
+							</ogc:And>
+						</ogc:Or>
 					</ogc:And>
 				</ogc:And>
 			</ogc:Filter>
