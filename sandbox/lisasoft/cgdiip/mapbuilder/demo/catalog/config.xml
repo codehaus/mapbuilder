@@ -29,14 +29,10 @@
     <!-- Contains the results of a search, converted into OWSContext format -->
     <OwsContext id="normalizedSearchResults">
       <widgets>
-        <LayerControl id="contextLegend">
-          <htmlTagId>layerControl</htmlTagId>
-          <legendImageEnable>/images/LegendEnable.png</legendImageEnable>
-          <legendImageDisable>/images/LegendDisable.png</legendImageDisable>
-          <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
-          <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
-          <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
-        </LayerControl>
+        <SelectLayerFromContext id="selectLayer">
+          <htmlTagId>selectLayer</htmlTagId>
+          <targetModel>mainMap</targetModel>
+        </SelectLayerFromContext>
       </widgets>
     </OwsContext>
     <Model id="filterExpression">

@@ -1051,6 +1051,7 @@
 				</rim:Slot>
 			</rim:ServiceBinding>
 		</rim:Service>
+    <!--
 		<rim:ExtrinsicObject id="urn:uuid:3ec0e014-5637-11dc-8eb1-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" objectType="FeatureType" status="Approved" majorVersion="1" minorVersion="0" stability="Static" isOpaque="false">
 			<rim:Name>
 				<rim:LocalizedString rim:lang="en-US" value="obis:obis_locations"/>
@@ -1129,6 +1130,7 @@
 			<rim:Classification id="urn:uuid:3eeb1e92-5637-11dc-819c-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:gcmd-taxonomy:v2.0" classifiedObject="urn:uuid:3ec0e014-5637-11dc-8eb1-0003ba0acdd0" classificationNode="urn:asdi:marine:gcmd-taxonomy:v2.0:GCMD-1-3-8"/>
 			<rim:Classification id="urn:uuid:3eedfa9a-5637-11dc-a237-0003ba0acdd0" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" classificationScheme="urn:asdi:marine:gcmd-taxonomy:v2.0" classifiedObject="urn:uuid:3ec0e014-5637-11dc-8eb1-0003ba0acdd0" classificationNode="urn:asdi:marine:gcmd-taxonomy:v2.0:GCMD-1-3-12"/>
 		</rim:ExtrinsicObject>
+    -->
 		<rim:Service id="urn:uuid:53a45a3e-441b-11dc-9252-0003ba0acdcf" home="http://motiive.edina.ac.uk:50080/cwwrs/cwwrs.cgi" status="Approved" majorVersion="1" minorVersion="0" stability="Static" userVersion="1.0.0">
 			<rim:Name>
 				<rim:LocalizedString rim:lang="en-US" value="My GeoServer WFS"/>
