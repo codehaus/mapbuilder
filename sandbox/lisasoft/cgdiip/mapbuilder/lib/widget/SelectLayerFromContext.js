@@ -26,6 +26,7 @@ function SelectLayerFromContext(widgetNode, model) {
     var layerNode=this.model.doc.selectNodes("//wmc:Layer|wmc:FeatureType[wmc:Name='"+layerName+"']");
     alert("length "+layerNode.length);
     alert((new XMLSerializer()).serializeToString(layerNode[0]));
+    this.targetModel.addLayer(this.targetModel,layerNode[0]);
   }
 
   /**
