@@ -24,7 +24,7 @@
     </OwsContext>
     <!-- Contains the results of a catalog search -->
     <Model id="catalogSearchResults">
-      <defaultModelUrl>WRS_Service+Layers_GetRecordsResponse.xml</defaultModelUrl>
+      <defaultModelUrl>WRS_Service+Layers_GetRecords.xml</defaultModelUrl>
     </Model>
     <!-- Contains the results of a search, converted into OWSContext format -->
     <OwsContext id="normalizedSearchResults">
@@ -42,6 +42,7 @@
           <htmlTagId>catalogSearchForm</htmlTagId>
           <targetModel>catalogSearchResults</targetModel>
           <targetContext>normalizedSearchResults</targetContext>
+          <wrsUrl>http://demo.cubewerx.com/cgdi/cwwrs.cgi</wrsUrl>
           <mapModel>mainMap</mapModel>
         </CatalogSearchForm>
       </widgets>
