@@ -57,14 +57,17 @@ $Name:  $
       </xsl:call-template>
       <xsl:call-template name="aoiBox"/>
       <h3>Service Type</h3>
-      <select name="serviceType">
+      <select name="serviceType" id="serviceType">
         <option></option>
-        <option selected="true" value="OGC:WMS">WMS</option>
-        <option value="OGC:WFS">WFS</option>
+        <option value="WMS">WMS</option>
+        <option selected="true" value="WFS">WFS</option>
       </select>
-      <input type="button" value="Search" onclick="javascript:config.objects.{$widgetId}.doSelect(config.objects.{$widgetId});"/>
-      
+      <input type="button" value="Search" onclick="config.objects.{$widgetId}.doSelect(config.objects.{$widgetId}, '{$formName}');"/>
+      <input type="button" value="Show Query" onclick="config.objects.{$widgetId}.debugQuery('{$formName}');"/>
     </form>
+
+    <div id="debugwindow" style="position:absolute; top:350px;left:350px;width:400px; height:300px; z-index:2;background-color:yellow;overflow:scroll"></div>
+
     </div>
   </xsl:template>
 
