@@ -10,7 +10,7 @@
   -->
   <models>
     <Context id="mainMap">
-      <defaultModelUrl>/mapbuilder/demo/data/context/demisWorldMap.xml</defaultModelUrl>
+      <defaultModelUrl>/mapbuilder/examples/data/context/demisWorldMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
