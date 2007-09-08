@@ -83,7 +83,7 @@ $Id$
 
   build.home           The directory into which the "prepare" and
                        "compile" targets will generate their output.
-                       Defaults to "build".
+                       Defaults to "staging".
 
   catalina.home        The directory in which you have installed
                        a binary distribution of Tomcat 5.  This will
@@ -112,7 +112,7 @@ $Id$
   <property name="pack.name" value="mapbuilder-lib"/>
   <property name="app.path" value="/${app.name}"/>
   <property name="catalina.home" value="${env.CATALINA_HOME}"/> <!-- ensure you have this environment var set -->
-  <property name="build.home" value="${basedir}/build"/>
+  <property name="build.home" value="${basedir}/staging"/>
   <property name="version.file" value="${basedir}/build/lib/widget/Version.xsl"/>
   <property name="compress.home" value="${basedir}/compressBuild"/>
   <property name="deploy.home" value="${catalina.home}/webapps/${app.name}"/>
@@ -168,7 +168,7 @@ $Id$
     <!-- Copy static content of the mapbuilder project  -->
     <copy todir="${build.home}">
       <fileset dir="${basedir}"
-        includes="demo/** lib/** docs/** server/php/** selenium/** CHANGES LICENSE LGPL README index.html config.xml"/>
+        includes="examples/** lib/** docs/** server/php/** selenium/** CHANGES LICENSE LGPL README index.html config.xml"/>
     </copy>
     <copy file="${basedir}/server/php/mapbuilderConfig.xml" todir="${build.home}/lib" overwrite="true"/>
   </target>
@@ -280,9 +280,9 @@ $Id$
     <!--style in="${basedir}/design/mapbuilder-lib.xml" style="/usr/share/sgml/docbook/xsl-stylesheets/html/docbook.xsl" out="${build.home}/docs/design/index.html"/-->
     
     <echo message="os name=${os.name}"/>
-  	<chmod file="${basedir}/bin/publish.sh" perm="ugo+rx"/>
- 	<chmod file="${basedir}/bin/jsdoc/jsdoc.pl" perm="ugo+rx"/>  	
-    <exec executable="${basedir}/bin/publish.sh" os="Linux">
+  	<chmod file="${basedir}/build/publish.sh" perm="ugo+rx"/>
+ 	<chmod file="${basedir}/build/jsdoc/jsdoc.pl" perm="ugo+rx"/>  	
+    <exec executable="${basedir}/build/publish.sh" os="Linux">
     </exec>
   </target>
 
@@ -393,8 +393,8 @@ $Id$
       <fileset dir="${build.home}"/>
     </copy>
 	<!-- Also run new compression routine, using DOJO -->
- 	<chmod file="${basedir}/bin/kompress.sh" perm="ugo+rx"/>
-    <exec executable="${basedir}/bin/kompress.sh" os="Linux"/>
+ 	<chmod file="${basedir}/build/kompress.sh" perm="ugo+rx"/>
+    <exec executable="${basedir}/build/kompress.sh" os="Linux"/>
   	<property name="compression.complete" value="true"/>
   </target>
 

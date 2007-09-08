@@ -7,7 +7,7 @@
 
   <models>
     <Context id="firstMap">
-      <defaultModelUrl>/mapbuilder/demo/data/context/locatorMap.xml</defaultModelUrl>
+      <defaultModelUrl>/mapbuilder/examples/data/context/locatorMap.xml</defaultModelUrl>
       <widgets>
         <MapPane id="mainMapWidget">
           <htmlTagId>firstMapPane</htmlTagId>
