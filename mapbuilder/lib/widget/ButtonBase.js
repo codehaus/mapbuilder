@@ -21,7 +21,6 @@ function ButtonBase(widgetNode, model) {
   var buttonBarNode = widgetNode.selectSingleNode("mb:buttonBar");
   if ( buttonBarNode ) {
     this.htmlTagId = buttonBarNode.firstChild.nodeValue;
-    this.buttonBarGroup = this.htmlTagId;    
   }
   var htmlTagNode = widgetNode.selectSingleNode("mb:htmlTagId");    
   if (htmlTagNode) {
@@ -76,15 +75,13 @@ function ButtonBase(widgetNode, model) {
   //pre-load the button bar images; add them to the config
   var disabledImage = widgetNode.selectSingleNode("mb:disabledSrc");
   if (disabledImage) {
-    this.disabledImage = document.createElement("IMG");
-    this.disabledImage.src = config.skinDir + disabledImage.firstChild.nodeValue;
+    this.disabledImage = config.skinDir + disabledImage.firstChild.nodeValue;
   }
 
   //optional second image to be displayed in the enabled state
   var enabledImage = widgetNode.selectSingleNode("mb:enabledSrc");
   if (enabledImage) {
-    this.enabledImage = document.createElement("IMG");
-    this.enabledImage.src = config.skinDir + enabledImage.firstChild.nodeValue;
+    this.enabledImage = config.skinDir + enabledImage.firstChild.nodeValue;
   }
 
   this.cursor = 'default';
@@ -172,12 +169,9 @@ function ButtonBase(widgetNode, model) {
     // createControl method
     if (!objRef.createControl) return;
 
-    // DOM div element of the map pane
-    objRef.mapPaneDiv = document.getElementById(objRef.targetContext.map.div.id); 
-
     // override the control from the subclass to add
     // MB-stuff to the activate and deactivate methods
-    var SubclassControl = objRef.createControl(objRef)  
+    var SubclassControl = objRef.createControl(objRef);
     var Control = OpenLayers.Class( SubclassControl, {
       superclass: SubclassControl.prototype,
       // call objRef.doSelect after OL activate from this control
@@ -189,7 +183,7 @@ function ButtonBase(widgetNode, model) {
       },
       activate: function() {
         if (this.superclass.activate.call(this)) {
-          this.panel_div.style.backgroundImage = "url(\""+objRef.enabledImage.src+"\")";
+          this.panel_div.style.backgroundImage = "url(\""+objRef.enabledImage+"\")";
       	  this.map.div.style.cursor = objRef.cursor;
       	  // store the cursor with the map object; this will be applied
       	  // to the map div again when setting the aoi on the
@@ -203,11 +197,15 @@ function ButtonBase(widgetNode, model) {
       // call objRef.doSelect after OL deactivate from this control
       deactivate: function() {
         if (this.superclass.deactivate.call(this)) {
-          this.panel_div.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
+          this.panel_div.style.backgroundImage = "url(\""+objRef.disabledImage+"\")";
           objRef.enabled = false;
           this.active = false;
           objRef.doSelect(objRef, false)
         }
+      },
+      destroy: function() {
+        this.superclass.destroy.apply(this, arguments);
+        this.div = null;
       }
     });
 
@@ -222,7 +220,15 @@ function ButtonBase(widgetNode, model) {
     // create a panel, if we do not have one yet for this buttonBar
     // or if the old map.panel was destroyed
     if (!objRef.panel || objRef.panel.map == null) {
-      objRef.panel = new OpenLayers.Control.Panel({div: document.getElementById(objRef.panelHtmlTagId), defaultControl: null});
+      var Panel = OpenLayers.Class( OpenLayers.Control.Panel, {
+        div: document.getElementById(objRef.panelHtmlTagId),
+        defaultControl: null,
+        destroy: function() {
+          OpenLayers.Control.Panel.prototype.destroy.apply(this, arguments);
+          this.div = null;
+        }
+      });
+      objRef.panel = new Panel();
       objRef.targetContext.buttonBars[objRef.htmlTagId] = objRef.panel;
       map.addControl(objRef.panel);
     }
@@ -236,7 +242,7 @@ function ButtonBase(widgetNode, model) {
     }
     
     //set default css style properties
-    objRef.control.panel_div.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
+    objRef.control.panel_div.style.backgroundImage = "url(\""+objRef.disabledImage+"\")";
           
     // activate the control if it is defined as selected in config
     if(objRef.selected == true) {

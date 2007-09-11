@@ -37,10 +37,10 @@ function FormBase(widgetNode, model) {
    * @param objRef Pointer to this CurorTrack object.
    */
   this.postPaint = function(objRef) {
-    objRef.searchForm = document.getElementById(objRef.formName);
-    objRef.searchForm.parentWidget = objRef;
-    objRef.searchForm.onkeypress = objRef.handleKeyPress;
-    objRef.searchForm.onsubmit = objRef.submitForm;
+    var searchForm = document.getElementById(objRef.formName);
+    searchForm.parentWidget = objRef;
+    searchForm.onkeypress = objRef.handleKeyPress;
+    searchForm.onsubmit = objRef.submitForm;
   }
 
   //set some properties for the form output

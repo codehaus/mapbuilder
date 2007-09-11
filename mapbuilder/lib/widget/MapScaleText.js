@@ -26,7 +26,8 @@ function MapScaleText(widgetNode, model) {
    * Handles submission of the form (via javascript in an <a> tag or onsubmit handler)
    */
   this.submitForm = function() {
-    var newScale = this.mapScaleTextForm.mapScale.value;
+    var mapScaleTextForm = document.getElementById(this.formName);
+    var newScale = mapScaleTextForm.mapScale.value;
     this.model.map.zoomToScale(newScale.split(",").join(""));
     return false;   //prevent the form from actually being submitted
   }
@@ -60,7 +61,8 @@ function MapScaleText(widgetNode, model) {
    * @param objRef Pointer to this widget object.
    */
   this.showScale = function(objRef) {
-    if (objRef.mapScaleTextForm) {
+    var mapScaleTextForm = document.getElementById(objRef.formName);
+    if (mapScaleTextForm) {
       var newScale = Math.round(objRef.model.map.getScale());
       var parts = new Array();
       while (newScale>=1000.0) {
@@ -70,7 +72,7 @@ function MapScaleText(widgetNode, model) {
         parts.unshift(strPart);
       }
       parts.unshift(newScale);
-      objRef.mapScaleTextForm.mapScale.value = parts.join(",");
+      mapScaleTextForm.mapScale.value = parts.join(",");
     }
   }
 
@@ -94,9 +96,9 @@ function MapScaleText(widgetNode, model) {
    * @param objRef Pointer to this CurorTrack object.
    */
   this.postPaint = function(objRef) {
-    objRef.mapScaleTextForm = document.getElementById(objRef.formName);
-    objRef.mapScaleTextForm.parentWidget = objRef;
-    objRef.mapScaleTextForm.onkeypress = objRef.handleKeyPress;
+    var mapScaleTextForm = document.getElementById(objRef.formName);
+    mapScaleTextForm.parentWidget = objRef;
+    mapScaleTextForm.onkeypress = objRef.handleKeyPress;
     objRef.showScale(objRef);
   }
 

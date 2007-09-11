@@ -32,6 +32,15 @@ function Graticule(widgetNode, model) {
       CLASS_NAME: 'mbControl.Graticule',
       type: OpenLayers.Control.TYPE_TOGGLE,
 	  objRef:objRef,
+	  destroy : function() {
+	    OpenLayers.Control.prototype.destroy.apply(this, arguments);
+	    for(i = this.divs.length; i > 0; --i) {
+	      this.divs[i] = null;
+	    }
+	    this.div = null;
+	    this.mapContainer = null;
+	  },
+	    
 ////////////////////////////ancien/////////////////////	
 /**
    * Remove divs
@@ -495,7 +504,7 @@ function Graticule(widgetNode, model) {
 		activate: function() {
 		
 		if(OpenLayers.Control.prototype.activate.apply(this, arguments)){
-                this.panel_div.style.backgroundImage = "url(\""+objRef.enabledImage.src+"\")";
+                this.panel_div.style.backgroundImage = "url(\""+objRef.enabledImage+"\")";
     	//this.map.div.style.cursor = objRef.cursor;
 			this.map.events.register('moveend', this, this.update);
 		 	this.objRef.display=true;
@@ -509,7 +518,7 @@ function Graticule(widgetNode, model) {
         },
 		deactivate: function() {
 		if(OpenLayers.Control.prototype.deactivate.apply(this, arguments)){
-		    this.panel_div.style.backgroundImage = "url(\""+objRef.disabledImage.src+"\")";
+		    this.panel_div.style.backgroundImage = "url(\""+objRef.disabledImage+"\")";
 			this.map.events.unregister('moveend', this, this.update);
 			this.objRef.display=false;
 			this.removeGraticules(); 

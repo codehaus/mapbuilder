@@ -74,7 +74,7 @@ function WidgetBaseXSL(widgetNode,model) {
     //pass in a widget ID to refresh only that widget
     if (refreshId && (refreshId!=objRef.id)) return;
 
-    if (objRef.model.doc && objRef.node) {
+    if (objRef.model.doc && objRef.getNode()) {
       objRef.stylesheet.setParameter("modelUrl", objRef.model.url);
       objRef.stylesheet.setParameter("targetModelId", objRef.targetModel.id );
 
@@ -103,9 +103,9 @@ function WidgetBaseXSL(widgetNode,model) {
 	    //look for this widgets output and replace if found,
 	    //otherwise append it
 	    if (outputNode) {
-	      objRef.node.replaceChild(tempNode.firstChild,outputNode);
+	      objRef.getNode().replaceChild(tempNode.firstChild,outputNode);
 	    } else {
-	      objRef.node.appendChild(tempNode.firstChild);
+	      objRef.getNode().appendChild(tempNode.firstChild);
 	    }
       }
       objRef.postPaint(objRef);
@@ -119,9 +119,10 @@ function WidgetBaseXSL(widgetNode,model) {
    * @param objRef Pointer to this object.
    */ 
   this.clearWidget = function(objRef) {
-    //with objRef.node remove child
+    //with node remove child
     var outputNode = document.getElementById( objRef.outputNodeId );
-    if (outputNode) objRef.node.removeChild(outputNode);
+    var node = objRef.getNode();
+    if (node && outputNode) node.removeChild(outputNode);
   }
   this.model.addListener("newModel",this.clearWidget, this);
 }

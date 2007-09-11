@@ -28,13 +28,13 @@ function AoiForm(widgetNode, model) {
    * @param targetNode The node for the enclosing HTML tag for this widget.
    */
   this.displayAoiCoords = function(objRef, targetNode) {
-    objRef.aoiForm = document.getElementById(objRef.formName);
+    var aoiForm = document.getElementById(objRef.formName);
     var aoi = objRef.model.getParam("aoi");
-    if (aoi && objRef.aoiForm) {
-      objRef.aoiForm.westCoord.value = aoi[0][0];
-      objRef.aoiForm.northCoord.value = aoi[0][1];
-      objRef.aoiForm.eastCoord.value = aoi[1][0];
-      objRef.aoiForm.southCoord.value = aoi[1][1];
+    if (aoi && aoiForm) {
+      aoiForm.westCoord.value = aoi[0][0];
+      aoiForm.northCoord.value = aoi[0][1];
+      aoiForm.eastCoord.value = aoi[1][0];
+      aoiForm.southCoord.value = aoi[1][1];
     }
   }
   this.model.addListener('aoi', this.displayAoiCoords, this);
@@ -71,15 +71,15 @@ function AoiForm(widgetNode, model) {
    * @param objRef Pointer to this AoiForm object.
    */
   this.postPaint = function(objRef) {
-    objRef.aoiForm = document.getElementById(objRef.formName);
-    objRef.aoiForm.westCoord.onblur = objRef.setAoi;
-    objRef.aoiForm.northCoord.onblur = objRef.setAoi;
-    objRef.aoiForm.eastCoord.onblur = objRef.setAoi;
-    objRef.aoiForm.southCoord.onblur = objRef.setAoi;
-    objRef.aoiForm.westCoord.model = objRef.model;
-    objRef.aoiForm.northCoord.model = objRef.model;
-    objRef.aoiForm.eastCoord.model = objRef.model;
-    objRef.aoiForm.southCoord.model = objRef.model;
+    var aoiForm = document.getElementById(objRef.formName);
+    aoiForm.westCoord.onblur = objRef.setAoi;
+    aoiForm.northCoord.onblur = objRef.setAoi;
+    aoiForm.eastCoord.onblur = objRef.setAoi;
+    aoiForm.southCoord.onblur = objRef.setAoi;
+    aoiForm.westCoord.model = objRef.model;
+    aoiForm.northCoord.model = objRef.model;
+    aoiForm.eastCoord.model = objRef.model;
+    aoiForm.southCoord.model = objRef.model;
   }
 
   //set some properties for the form output

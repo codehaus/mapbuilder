@@ -29,13 +29,13 @@ function OpenLSForm(widgetNode, model) {
 	*/
 	this.submitForm = function(objRef) {
 		//Parse the form
-		objRef.geoForm = document.getElementById(this.formName);
-    pc = objRef.geoForm.pcValue.value;
-    street = objRef.geoForm.streetValue.value;
-    number = objRef.geoForm.numberValue.value;
-    city = objRef.geoForm.cityValue.value;
-    municipality = objRef.geoForm.municipalityValue.value;
-    country = objRef.geoForm.countryValue.value;
+		var geoForm = document.getElementById(this.formName);
+    pc = geoForm.pcValue.value;
+    street = geoForm.streetValue.value;
+    number = geoForm.numberValue.value;
+    city = geoForm.cityValue.value;
+    municipality = geoForm.municipalityValue.value;
+    country =geoForm.countryValue.value;
 		
 		//fill the form output into the xsl
 		if(pc) objRef.xsl.setParameter("postalCode", pc);
