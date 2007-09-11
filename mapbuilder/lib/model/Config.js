@@ -149,7 +149,10 @@ function Config(url) {
         widgetText = xmlhttp.responseXML;
       }
       else {
-        widgetText.load(widgetTextUrl);
+        try {
+          widgetText.load(widgetTextUrl);
+        }
+        catch (ignoredErr) {}
       }
     }      
     if (Sarissa.getParseErrorText(widgetText) != Sarissa.PARSED_OK) {
