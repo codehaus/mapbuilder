@@ -2,13 +2,12 @@
 <ViewContext version="1.0.0" id="atlas_world" xmlns="http://www.opengis.net/context" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengis.net/context/1.0.0/context.xsd">
   <General>
     <Window width="500" height="400"/>
-    <BoundingBox SRS="EPSG:4326" minx="143.08" miny="-44.28" maxx="150.1" maxy="-39.02"/>
-    <Title>Tasmania, Austalia</Title>
+    <BoundingBox SRS="EPSG:4326" minx="-80" miny="45" maxx="-30" maxy="70"/>
+    <Title>Canada</Title>
     <KeywordList>
-      <Keyword>Tasmania</Keyword>
-      <Keyword>Australia</Keyword>
+      <Keyword>Canada</Keyword>
     </KeywordList>
-    <Abstract>Low resolution map of Tasmania, Australia derived from the Digital Chart of the World.</Abstract>
+    <Abstract></Abstract>
   </General>
   <LayerList>
     <Layer queryable="0" hidden="0">
@@ -35,34 +34,11 @@
     </Layer>
     <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.1.1" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="../../../geoserver/wms"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://geocon.sunertek.com:8080/geoserver/wms"/>
       </Server>
-      <Name>topp:tasmania_state_boundaries</Name>
-      <Title>Tasmania State Boundaries</Title>
-      <Abstract>Tasmania State Boundaries based on the Digital Chart of the World.</Abstract>
-      <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/gif</Format>
-      </FormatList>
-      <StyleList>
-        <Style current="1">
-          <Name>green</Name>
-          <Title>Default Styler</Title>
-          <Abstract/>
-          <!--LegendURL width="20" height="20">
-            <Format>image/gif</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="../../../geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/gif&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=topp:tasmania_state_boundaries"/>
-          </LegendURL-->
-        </Style>
-      </StyleList>
-    </Layer>
-    <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.1.1" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="../../../geoserver/wms"/>
-      </Server>
-      <Name>topp:tasmania_water_bodies</Name>
-      <Title>Tasmania Water Bodies</Title>
-      <Abstract>Tasmania Water Bodies based on the Digital Chart of the World.</Abstract>
+      <Name>gb:AdministrativeArea</Name>
+      <Title>Administrative Area</Title>
+      <Abstract>Administrative Area</Abstract>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
@@ -74,18 +50,18 @@
           <Abstract/>
           <!--LegendURL width="20" height="20">
             <Format>image/gif</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="../../../geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/gif&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=topp:tasmania_water_bodies"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://geocon.sunertek.com:8080/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/gif&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=gb:AdministrativeArea"/>
           </LegendURL-->
         </Style>
       </StyleList>
     </Layer>
     <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.1.1" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="../../../geoserver/wms"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://geocon.sunertek.com:8080/geoserver/wms"/>
       </Server>
-      <Name>topp:tasmania_roads</Name>
-      <Title>Tasmania Roads</Title>
-      <Abstract>Tasmania Roads based on the Digital Chart of the World.</Abstract>
+      <Name>gb:RoadSegment</Name>
+      <Title>Roads</Title>
+      <Abstract>Roads</Abstract>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
@@ -97,18 +73,18 @@
           <Abstract/>
           <!--LegendURL width="20" height="20">
             <Format>image/gif</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="../../../geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/gif&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=topp:tasmania_roads"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://geocon.sunertek.com:8080/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/gif&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=gb:RoadSegment"/>
           </LegendURL-->
         </Style>
       </StyleList>
     </Layer>
     <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.1.1" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="../../../geoserver/wms"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://geocon.sunertek.com:8080/geoserver/wms"/>
       </Server>
-      <Name>topp:tasmania_cities</Name>
-      <Title>Tasmania Major Cities</Title>
-      <Abstract>Tasmania Major based on the Digital Chart of the World.</Abstract>
+      <Name>gb:PlaceName</Name>
+      <Title>Places</Title>
+      <Abstract>Places</Abstract>
       <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format current="1">image/gif</Format>
@@ -120,7 +96,7 @@
           <Abstract/>
           <!--LegendURL width="20" height="20">
             <Format>image/gif</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="../../../geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/gif&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=topp:tasmania_cities"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://geocon.sunertek.com:8080/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/gif&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=gb:PlaceName"/>
           </LegendURL-->
         </Style>
       </StyleList>

@@ -8,7 +8,7 @@
 	<xsl:template match="/">
 		<gml:featureMember xmlns:psma="http://www.psma.com.au/" xmlns:gml="http://www.opengis.net/gml">
 	    	<psma:feedback_feed>
-				<psma:community>tasmania</psma:community>
+				<psma:community>BC</psma:community>
 				<psma:feed_type>feedback</psma:feed_type>
 				<psma:author></psma:author>
 				<psma:status>pending</psma:status>

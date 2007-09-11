@@ -30,9 +30,9 @@
           <width>180</width>
           <layers>
             <layerName>basic</layerName>
-            <layerName>topp:tasmania_water_bodies</layerName>
-            <layerName>topp:tasmania_roads</layerName>
-            <layerName>topp:tasmania_cities</layerName>
+            <layerName>gb:AdministrativeArea</layerName>
+            <layerName>gb:RoadSegment</layerName>
+            <layerName>gb:PlaceName</layerName>
           </layers>
         </OverviewMap>
       </widgets>
@@ -130,7 +130,7 @@
       <transactionResponseModel>transaction</transactionResponseModel>
 <!-- <featureXpath>/gml:featureMember/psma:feedback_feed/psma:feature_collection/gml:featureMember/topp:tasmania_water_bodies/topp:the_geom/gml:MultiPolygon/gml:polygonMember/gml:Polygon/gml:outerBoundaryIs/gml:LinearRing/gml:coordinates</featureXpath> -->
       <featureXpath>//topp:the_geom/gml:MultiPolygon/gml:polygonMember/gml:Polygon/gml:outerBoundaryIs/gml:LinearRing/gml:coordinates</featureXpath>
-      <defaultModelUrl>template_waterbodies.xml</defaultModelUrl>
+      <defaultModelUrl>template_areas.xml</defaultModelUrl>
     </EditPolygon>
     <ProposeInsertFeature id="insertFeature">
       <buttonBar>mainButtonBar</buttonBar>
@@ -159,8 +159,8 @@
       <enabledSrc>/images/QueryEnable.png</enabledSrc>
       <disabledSrc>/images/QueryDisable.png</disabledSrc>
       <transactionResponseModel>featureCollection</transactionResponseModel>
-      <webServiceUrl>../../../geoserver/wfs</webServiceUrl>
-      <typeName>topp:tasmania_cities,topp:tasmania_roads,topp:tasmania_water_bodies</typeName>
+      <webServiceUrl>http://geocon.sunertek.com:8080/geoserver/wfs?</webServiceUrl>
+      <typeName>gb:PlaceName,gb:RoadSegment,gb:AdministrativeArea</typeName>
       <tolerance>5</tolerance>
       <maxFeatures>100</maxFeatures>
     </WfsGetFeature>
