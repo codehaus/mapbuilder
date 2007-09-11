@@ -168,7 +168,7 @@ $Id$
     <!-- Copy static content of the mapbuilder project  -->
     <copy todir="${build.home}">
       <fileset dir="${basedir}"
-        includes="examples/** lib/** docs/** server/php/** selenium/** CHANGES LICENSE LGPL README index.html config.xml"/>
+        includes="examples/** lib/** docs/** server/php/** tests/** CHANGES LICENSE LGPL README index.html config.xml"/>
     </copy>
     <copy file="${basedir}/server/php/mapbuilderConfig.xml" todir="${build.home}/lib" overwrite="true"/>
   </target>
