@@ -50,17 +50,13 @@ function WidgetBase(widgetNode,model) {
     }
   }
 
-  // Node in main HTML to attach widget to.
-  this.node = document.getElementById(this.htmlTagId);
-  //6Rows added DVDE         
-   if(this.buttonBarGroup){
-   	this.groupnode = document.getElementById(this.buttonBarGroup);
-   }
-  if(!this.groupnode){
-   this.groupnode = this.node;
-  }  
-  if(!this.node) {
-    //alert("htmlTagId: "+this.htmlTagId+" for widget "+widgetNode.nodeName+" not found in config");
+  this.getNode = function() {
+    // Node in main HTML to attach widget to.
+    var node = document.getElementById(this.htmlTagId);
+    if(!node) {
+      //alert("htmlTagId: "+this.htmlTagId+" for widget "+widgetNode.nodeName+" not found in config");
+    }
+    return node;
   }
 
   //allow widgets to not automatically update themseleves in certain circumstances (see layerControl for example)
@@ -112,9 +108,10 @@ function WidgetBase(widgetNode,model) {
    * @param objRef Pointer to this object.
    */ 
   this.clearWidget = function(objRef) {
-    //with objRef.node remove child
+    //with node remove child
     var outputNode = document.getElementById( objRef.outputNodeId );
-    if (outputNode) objRef.node.removeChild(outputNode);
+    var node = objRef.getNode();
+    if (node && outputNode) node.removeChild(outputNode);
   }
   this.model.addListener("newModel",this.clearWidget, this);
 }

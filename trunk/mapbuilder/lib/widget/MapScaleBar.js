@@ -89,41 +89,72 @@ function MapScaleBar(widgetNode, model) {
 	this.resolution = 72; // dpi
 
 	// create scalebar elements
-	this.container = document.createElement('div');
-	this.container.className = 'sbWrapper';
-	this.container.style.position = 'relative';
-	this.container.setAttribute("id",this.outputNodeId);
-	this.labelContainer = document.createElement('div');
-	this.labelContainer.className = 'sbUnitsContainer';
-	this.labelContainer.style.position = 'absolute';
-	this.graphicsContainer = document.createElement('div');
-	this.graphicsContainer.style.position = 'absolute';
-	this.graphicsContainer.className = 'sbGraphicsContainer';
-	this.numbersContainer = document.createElement('div');
-	this.numbersContainer.style.position = 'absolute';
-	this.numbersContainer.className = 'sbNumbersContainer';
-
-	// private functions
-	// put in some markers and bar pieces so style attributes can be grabbed
-	// this is a solution for Safari support
-	var markerMajor = document.createElement('div');
-	markerMajor.className = 'sbMarkerMajor';
-	this.graphicsContainer.appendChild(markerMajor);
-	var markerMinor = document.createElement('div');
-	markerMinor.className = 'sbMarkerMinor';
-	this.graphicsContainer.appendChild(markerMinor);
-	var barPiece = document.createElement('div');
-	barPiece.className = 'sbBar';
-	this.graphicsContainer.appendChild(barPiece);
-	var barPieceAlt = document.createElement('div');
-	barPieceAlt.className = 'sbBarAlt';
-	this.graphicsContainer.appendChild(barPieceAlt);
+	this.containerId = this.outputNodeId;
+	this.labelContainerId = this.containerId + "Label";
+	this.graphicsContainerId = this.containerId + "Graphics";
+	this.numbersContainerId = this.containerId + "Numbers";
 
   /**
    * adds a bbox listener on the model 
    */
   this.model.addListener("bbox", this.update, this);
   this.model.addListener("refresh", this.update, this);
+}
+
+MapScaleBar.prototype.getContainerNode = function() {
+  var node = document.getElementById(this.containerId);
+  if (!node) {
+    var node = document.createElement('div');
+    node.className = 'sbWrapper';
+    node.style.position = 'relative';
+    node.setAttribute("id",this.containerId);
+  }
+  return node;
+}
+MapScaleBar.prototype.getGraphicsContainerNode = function() {
+  var node = document.getElementById(this.graphicsContainerId);
+  if (!node) {
+    var node = document.createElement('div');
+    node.style.position = 'absolute';
+    node.className = 'sbGraphicsContainer';
+    node.setAttribute("id",this.graphicsContainerId);
+
+    // put in some markers and bar pieces so style attributes can be grabbed
+    // this is a solution for Safari support
+    var markerMajor = document.createElement('div');
+    markerMajor.className = 'sbMarkerMajor';
+    node.appendChild(markerMajor);
+    var markerMinor = document.createElement('div');
+    markerMinor.className = 'sbMarkerMinor';
+    node.appendChild(markerMinor);
+    var barPiece = document.createElement('div');
+    barPiece.className = 'sbBar';
+    node.appendChild(barPiece);
+    var barPieceAlt = document.createElement('div');
+    barPieceAlt.className = 'sbBarAlt';
+    node.appendChild(barPieceAlt);
+  }
+  return node;
+}
+MapScaleBar.prototype.getLabelContainerNode = function() {
+  var node = document.getElementById(this.labelContainerId);
+  if (!node) {
+    var node = document.createElement('div');
+    node.className = 'sbUnitsContainer';
+    node.style.position = 'absolute';
+    node.setAttribute("id",this.labelContainerId);
+  }
+  return node;
+}
+MapScaleBar.prototype.getNumbersContainerNode = function() {
+  var node = document.getElementById(this.numbersContainerId);
+  if (!node) {
+    var node = document.createElement('div');
+    node.style.position = 'absolute';
+    node.className = 'sbNumbersContainer';
+    node.setAttribute("id",this.numbersContainerId);
+  }
+  return node;
 }
 
 /**
@@ -134,7 +165,7 @@ MapScaleBar.prototype.update = function(objRef) {
 
   //create the output node the first time this is called
   var outputNode = document.getElementById( objRef.outputNodeId );
-  if (!outputNode) objRef.node.appendChild(objRef.container);
+  if (!outputNode) objRef.getNode().appendChild(objRef.getContainerNode());
 
   var scaleDenominator = objRef.model.map.getScale();
 	if(scaleDenominator != null) {
@@ -245,7 +276,11 @@ MapScaleBar.prototype.update = function(objRef) {
 		}
 	}
 	// update the container title (for displaying scale as a tooltip)
-	objRef.container.title = mbGetMessage("scale", formatNumber(objRef.scaleDenominator));
+	var container = objRef.getContainerNode();
+	var graphicsContainer = objRef.getGraphicsContainerNode();
+	var labelContainer = objRef.getLabelContainerNode();
+	var numbersContainer = objRef.getNumbersContainerNode();
+	container.title = mbGetMessage("scale", formatNumber(objRef.scaleDenominator));
 	// measurementProperties holds display units, abbreviations,
 	// and conversion to inches (since we're using dpi) - per measurement sytem
 	var measurementProperties = new Object();
@@ -335,14 +370,14 @@ MapScaleBar.prototype.update = function(objRef) {
 		xOffsetMarkerMinor = 0.5;
 	}
 	// clean out any old content from containers
-	while(objRef.labelContainer.hasChildNodes()) {
-		objRef.labelContainer.removeChild(objRef.labelContainer.firstChild);
+	while(labelContainer.hasChildNodes()) {
+		labelContainer.removeChild(labelContainer.firstChild);
 	}
-	while(objRef.graphicsContainer.hasChildNodes()) {
-		objRef.graphicsContainer.removeChild(objRef.graphicsContainer.firstChild);
+	while(graphicsContainer.hasChildNodes()) {
+		graphicsContainer.removeChild(graphicsContainer.firstChild);
 	}
-	while(objRef.numbersContainer.hasChildNodes()) {
-		objRef.numbersContainer.removeChild(objRef.numbersContainer.firstChild);
+	while(numbersContainer.hasChildNodes()) {
+		numbersContainer.removeChild(numbersContainer.firstChild);
 	}
 	// create all divisions
 	var aMarker, aBarPiece, numbersBox, xOffset;
@@ -365,7 +400,7 @@ MapScaleBar.prototype.update = function(objRef) {
 		aMarker.style.overflow = 'hidden';
 		aMarker.style.left = Math.round(xPosition - xOffsetMarkerMajor) + 'px';
 		aMarker.appendChild(document.createTextNode(' '));
-		objRef.graphicsContainer.appendChild(aMarker);
+		graphicsContainer.appendChild(aMarker);
 		// add initial measure
 		if(!objRef.singleLine) {
 			numbersBox = document.createElement('div');
@@ -382,7 +417,7 @@ MapScaleBar.prototype.update = function(objRef) {
 				numbersBox.style.left = Math.round(xPosition - (objRef.subdivisions * subdivisionPixelLength)) + 'px';
 			}
 			numbersBox.appendChild(document.createTextNode(markerMeasure));
-			objRef.numbersContainer.appendChild(numbersBox);
+			numbersContainer.appendChild(numbersBox);
 		}
 		// create all subdivisions
 		for(var subdivisionIndex = 0; subdivisionIndex < objRef.subdivisions; ++subdivisionIndex) {
@@ -399,7 +434,7 @@ MapScaleBar.prototype.update = function(objRef) {
 				aBarPiece.style.left = Math.round(xPosition - xOffsetBarAlt) + 'px';
 			}
 			aBarPiece.appendChild(document.createTextNode(' '));
-			objRef.graphicsContainer.appendChild(aBarPiece);
+			graphicsContainer.appendChild(aBarPiece);
 			// add minor marker if not the last subdivision
 			if(subdivisionIndex < (objRef.subdivisions - 1)) {
 				// set xPosition and markerMeasure to end of subdivision
@@ -412,7 +447,7 @@ MapScaleBar.prototype.update = function(objRef) {
 				aMarker.style.overflow = 'hidden';
 				aMarker.style.left = Math.round(xPosition - xOffsetMarkerMinor) + 'px';
 				aMarker.appendChild(document.createTextNode(' '));
-				objRef.graphicsContainer.appendChild(aMarker);
+				graphicsContainer.appendChild(aMarker);
 				if(objRef.showMinorMeasures && !objRef.singleLine) {
 					// add corresponding measure
 					numbersBox = document.createElement('div');
@@ -423,7 +458,7 @@ MapScaleBar.prototype.update = function(objRef) {
 					numbersBox.style.width = Math.round(subdivisionPixelLength * 2) + 'px';
 					numbersBox.style.left = Math.round(xPosition - subdivisionPixelLength) + 'px';
 					numbersBox.appendChild(document.createTextNode(markerMeasure));
-					objRef.numbersContainer.appendChild(numbersBox);
+					numbersContainer.appendChild(numbersBox);
 				}
 			}
 		}
@@ -439,7 +474,7 @@ MapScaleBar.prototype.update = function(objRef) {
 	aMarker.style.overflow = 'hidden';
 	aMarker.style.left = Math.round(xPosition - xOffsetMarkerMajor) + 'px';
 	aMarker.appendChild(document.createTextNode(' '));
-	objRef.graphicsContainer.appendChild(aMarker);
+	graphicsContainer.appendChild(aMarker);
 	// add final measure
 	if(!objRef.singleLine) {
 		numbersBox = document.createElement('div');
@@ -456,7 +491,7 @@ MapScaleBar.prototype.update = function(objRef) {
 			numbersBox.style.left = Math.round(xPosition - (objRef.subdivisions * subdivisionPixelLength)) + 'px';
 		}
 		numbersBox.appendChild(document.createTextNode(markerMeasure));
-		objRef.numbersContainer.appendChild(numbersBox);
+		numbersContainer.appendChild(numbersBox);
 	}
 	// add content to the label container
 	var labelBox = document.createElement('div');
@@ -483,7 +518,7 @@ MapScaleBar.prototype.update = function(objRef) {
 		labelText += ' ' + displayUnits;
 	}
 	labelBox.appendChild(document.createTextNode(labelText));
-	objRef.labelContainer.appendChild(labelBox);
+	labelContainer.appendChild(labelBox);
 	// support for browsers without the Document.styleSheets property (Opera)
 	if(!document.styleSheets) {
 		// override custom css with default
@@ -499,7 +534,7 @@ MapScaleBar.prototype.update = function(objRef) {
 		document.getElementsByTagName('head').item(0).appendChild(defaultStyle);
 	}
 	// append the child containers to the parent container
-	objRef.container.appendChild(objRef.graphicsContainer);
-	objRef.container.appendChild(objRef.labelContainer);
-	objRef.container.appendChild(objRef.numbersContainer);
+	container.appendChild(graphicsContainer);
+	container.appendChild(labelContainer);
+	container.appendChild(numbersContainer);
 }

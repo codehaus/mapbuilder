@@ -47,7 +47,6 @@ function Loading2(widgetNode, model) {
   if (this.mapContainerNode) {
     this.containerNodeId = this.mapContainerNode.firstChild.nodeValue;
     this.htmlTagId = this.containerNodeId;
-    this.node = document.getElementById(this.containerNodeId);
   }
 
   //paint it on the "newModel" event, clear it on "loadModel" event
@@ -63,8 +62,8 @@ function Loading2(widgetNode, model) {
  * @param objRef Pointer to widget object.
  */
 Loading2.prototype.paint = function(objRef) {
-  objRef.node = document.getElementById(objRef.htmlTagId);
-  if (objRef.node) {
+  var node = objRef.getNode();
+  if (node) {
     //if it is a template model, no loader should be shown in the output div
     if (objRef.model.template) return;
     //if there's no url, there will never be an update on the ModelStatus, so the image stays while nothing is happening.
@@ -74,7 +73,7 @@ Loading2.prototype.paint = function(objRef) {
     if (!outputNode) {
       outputNode = document.createElement("div");
       outputNode.setAttribute("id",objRef.outputNodeId+"_loading");
-      objRef.node.appendChild(outputNode);
+      node.appendChild(outputNode);
     }
     outputNode.className = "loadingIndicator";
     outputNode.style.zIndex = 1000;
@@ -113,8 +112,8 @@ Loading2.prototype.paint = function(objRef) {
 Loading2.prototype.clear= function(objRef) {
   objRef.updateMessage = null;
   var outputNode = document.getElementById( objRef.outputNodeId+"_loading" );
-  if (outputNode) objRef.node.removeChild(outputNode);
-  objRef.node =null;
+  var node = objRef.getNode();
+  if (node && outputNode) node.removeChild(outputNode);
 }
 
 /**

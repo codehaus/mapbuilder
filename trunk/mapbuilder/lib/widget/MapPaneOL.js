@@ -28,9 +28,6 @@ function MapPaneOL(widgetNode, model) {
   this.containerNodeId = this.htmlTagId;
   model.containerModel = this.model;
 
-  //set the output DIV
-  this.node = document.getElementById(this.containerNodeId);
-
   //Make sure the Extent is attached to the context and initialized
   if(!this.model.extent){
     this.model.extent = new Extent (this.model);
@@ -205,12 +202,13 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     else objRef.model.extent.setZoomLevels(false);
 
     //get the output DIV and set it to context-size
+    var node = document.getElementById(objRef.containerNodeId);
     var fixedSize=null;
     fixedSize=objRef.widgetNode.selectSingleNode("mb:fixedSize");
     fixedSize=(fixedSize)?fixedSize.firstChild.nodeValue:null;
     if(fixedSize=="true"){
-      objRef.node.style.width = objRef.model.getWindowWidth()+"px";
-      objRef.node.style.height = objRef.model.getWindowHeight()+"px";
+      node.style.width = objRef.model.getWindowWidth()+"px";
+      node.style.height = objRef.model.getWindowHeight()+"px";
     }
     
     //default map options
@@ -224,7 +222,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
           theme: null // we have the theme loaded by Mapbuilder
         };
 
-    objRef.model.map = new OpenLayers.Map(objRef.node, mapOptions);
+    objRef.model.map = new OpenLayers.Map(node, mapOptions);
 
     // Increase hight of Control layers to allow for lots of layers.
     objRef.model.map.Z_INDEX_BASE.Control=10000;
@@ -671,9 +669,10 @@ MapPaneOL.prototype.refreshLayer = function(objRef, layerName , newParams){
 MapPaneOL.prototype.clearWidget2 = function(objRef) {
   if(objRef.model.map){
     objRef.model.map.destroy();
-    outputNode =  document.getElementById( objRef.model.id+"Container_OpenLayers_ViewPort" );
-    if(outputNode){
-      objRef.node.removeChild(outputNode);
+    var node = document.getElementById(objRef.containerNodeId);
+    var outputNode =  document.getElementById( objRef.model.id+"Container_OpenLayers_ViewPort" );
+    if(node && outputNode){
+      node.removeChild(outputNode);
     }
     objRef.model.map=null;
     objRef.oLlayers = null;

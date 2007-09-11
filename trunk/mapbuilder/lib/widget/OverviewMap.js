@@ -69,7 +69,11 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
 
     // Specify div and layers for overview map.
     var options = {
-      div: document.getElementById(objRef.htmlTagId),
+      div: objRef.getNode(),
+      destroy: function() {
+        OpenLayers.Control.OverviewMap.prototype.destroy.apply(this, arguments);
+        this.div = null;
+      },
       layers: new Array()
     };
     

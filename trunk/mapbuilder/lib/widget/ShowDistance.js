@@ -21,13 +21,13 @@ function ShowDistance(widgetNode, model) {
    
 	// outputs the totalDistance value to the form element
 	this.showDistance = function(objRef) {
-		objRef.distForm = document.getElementById(objRef.formName);   
+		var distForm = document.getElementById(objRef.formName);   
 		var totalDistance = objRef.model.values.showDistance;
 		if (totalDistance == null) {
 		  // hide result form
-		  document.getElementById(objRef.htmlTagId).style.display = 'none';
+		  objRef.getNode().style.display = 'none';
 		} else {
-		  document.getElementById(objRef.htmlTagId).style.display = '';
+		  objRef.getNode().style.display = '';
 		  // fill new distance value into form
   		if (totalDistance > 1000.000) { // >1000m = 1.000km
         if (totalDistance > 1000000.000) outputDistance = Math.round(totalDistance/1000)+"  km"; // >1000km
@@ -35,8 +35,8 @@ function ShowDistance(widgetNode, model) {
       }
       else if (totalDistance > 0) { outputDistance = Math.round(totalDistance)+"  m"; }
       else outputDistance = '';
-      if (objRef.distForm) {
-        objRef.distForm.distance.value = outputDistance;
+      if (distForm) {
+        distForm.distance.value = outputDistance;
       }
 		}
 	}

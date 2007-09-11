@@ -87,7 +87,7 @@ function CursorTrack(widgetNode, model) {
    * @param evt OpenLayers mouse event
    */
   this.mousemoveHandler = function(evt) {
-    this.coordForm = document.getElementById(this.formName);
+    var coordForm = document.getElementById(this.formName);
     if (!evt) return;
 
     // capture XY coordinates
@@ -100,70 +100,70 @@ function CursorTrack(widgetNode, model) {
 
 
     if( this.showPx ) {
-      if( this.coordForm.px )
-        this.coordForm.px.value = evt.xy.x;
-      if( this.coordForm.py )
-        this.coordForm.py.value = evt.xy.y;
+      if( coordForm.px )
+        coordForm.px.value = evt.xy.x;
+      if( coordForm.py )
+        coordForm.py.value = evt.xy.y;
     }
 
     if( this.showXY ) {
-      if( this.coordForm.x )
-        this.coordForm.x.value = evXY.lon.toFixed(this.precision);;
-      if( this.coordForm.y )
-        this.coordForm.y.value = evXY.lat.toFixed(this.precision);;
+      if( coordForm.x )
+        coordForm.x.value = evXY.lon.toFixed(this.precision);;
+      if( coordForm.y )
+        coordForm.y.value = evXY.lat.toFixed(this.precision);;
     }
 
     if( this.showLatLong ) {
-      if( this.coordForm.longitude )
-        this.coordForm.longitude.value = evLonLat.lon.toFixed(this.precision);
-      if( this.coordForm.latitude )
-        this.coordForm.latitude.value = evLonLat.lat.toFixed(this.precision);
+      if( coordForm.longitude )
+        coordForm.longitude.value = evLonLat.lon.toFixed(this.precision);
+      if( coordForm.latitude )
+        coordForm.latitude.value = evLonLat.lat.toFixed(this.precision);
     }
 
     if( this.showDMS ) {
       var longitude = this.convertDMS(evLonLat.lon, 'LON');
-      if( this.coordForm.longdeg )
-        this.coordForm.longdeg.value = longitude[0];
-      if( this.coordForm.longmin )
-        this.coordForm.longmin.value = longitude[1];
-      if( this.coordForm.longsec )
-        this.coordForm.longsec.value = longitude[2];
-     if( this.coordForm.longH )
-        this.coordForm.longH.value = longitude[3];
+      if( coordForm.longdeg )
+        coordForm.longdeg.value = longitude[0];
+      if( coordForm.longmin )
+        coordForm.longmin.value = longitude[1];
+      if( coordForm.longsec )
+        coordForm.longsec.value = longitude[2];
+     if( coordForm.longH )
+        coordForm.longH.value = longitude[3];
 
       var latitude = this.convertDMS(evLonLat.lat, 'LAT');
-      if( this.coordForm.latdeg )
-        this.coordForm.latdeg.value = latitude[0];
-      if( this.coordForm.latmin )
-        this.coordForm.latmin.value = latitude[1];
-      if( this.coordForm.latsec )
-        this.coordForm.latsec.value = latitude[2];
-      if( this.coordForm.latH )
-        this.coordForm.latH.value = latitude[3];
+      if( coordForm.latdeg )
+        coordForm.latdeg.value = latitude[0];
+      if( coordForm.latmin )
+        coordForm.latmin.value = latitude[1];
+      if( coordForm.latsec )
+        coordForm.latsec.value = latitude[2];
+      if( coordForm.latH )
+        coordForm.latH.value = latitude[3];
     }
 
     if( this.showDM ) {
       var longitude = this.convertDM(evLonLat.lon, 'LON');
-      if( this.coordForm.longDMdeg )
-        this.coordForm.longDMdeg.value = longitude[0];
-      if( this.coordForm.longDMmin )
-        this.coordForm.longDMmin.value = longitude[1];
-      if( this.coordForm.longDMH )
-        this.coordForm.longDMH.value = longitude[2];
+      if( coordForm.longDMdeg )
+        coordForm.longDMdeg.value = longitude[0];
+      if( coordForm.longDMmin )
+        coordForm.longDMmin.value = longitude[1];
+      if( coordForm.longDMH )
+        coordForm.longDMH.value = longitude[2];
 
       var latitude = this.convertDM(evLonLat.lat, 'LAT');
-      if( this.coordForm.latDMdeg )
-        this.coordForm.latDMdeg.value = latitude[0];
-      if( this.coordForm.latDMmin )
-        this.coordForm.latDMmin.value = latitude[1];
-      if( this.coordForm.latDMH )
-        this.coordForm.latDMH.value = latitude[2];
+      if( coordForm.latDMdeg )
+        coordForm.latDMdeg.value = latitude[0];
+      if( coordForm.latDMmin )
+        coordForm.latDMmin.value = latitude[1];
+      if( coordForm.latDMH )
+        coordForm.latDMH.value = latitude[2];
     }
 
     if( this.showMGRS ) {
       if( !this.MGRS )
         this.MGRS = new MGRS();
-      this.coordForm.mgrs.value = this.MGRS.convert(evLonLat.lat,evLonLat.lon) ;
+      coordForm.mgrs.value = this.MGRS.convert(evLonLat.lat,evLonLat.lon) ;
     }
   }
 
@@ -172,68 +172,68 @@ function CursorTrack(widgetNode, model) {
    * @param evt OpenLayers mouse event
    */
   this.mouseoutHandler = function(evt) {
-    this.coordForm = document.getElementById(this.formName);
+    var coordForm = document.getElementById(this.formName);
 
     if( this.showPx ) {
-      if( this.coordForm.px)
-        this.coordForm.px.value = "";
-      if( this.coordForm.py)
-        this.coordForm.py.value = "";
+      if( coordForm.px)
+        coordForm.px.value = "";
+      if( coordForm.py)
+        coordForm.py.value = "";
     }
 
     if( this.showXY ) {
-      if( this.coordForm.x)
-        this.coordForm.x.value = "";
-      if( this.coordForm.y)
-        this.coordForm.y.value = "";
+      if( coordForm.x)
+        coordForm.x.value = "";
+      if( coordForm.y)
+        coordForm.y.value = "";
     }
 
     if( this.showLatLong ) {
-      if( this.coordForm.longitude )
-        this.coordForm.longitude.value = "";
-      if( this.coordForm.latitude )
-        this.coordForm.latitude.value = "";
+      if( coordForm.longitude )
+        coordForm.longitude.value = "";
+      if( coordForm.latitude )
+        coordForm.latitude.value = "";
     }
 
     if( this.showDMS ) {
-      if( this.coordForm.longdeg )
-        this.coordForm.longdeg.value = "";
-      if( this.coordForm.longmin )
-        this.coordForm.longmin.value = "";
-      if( this.coordForm.longsec )
-        this.coordForm.longsec.value = "";
-      if( this.coordForm.longH )
-        this.coordForm.longH.value = "";
+      if( coordForm.longdeg )
+        coordForm.longdeg.value = "";
+      if( coordForm.longmin )
+        coordForm.longmin.value = "";
+      if( coordForm.longsec )
+        coordForm.longsec.value = "";
+      if( coordForm.longH )
+        coordForm.longH.value = "";
 
-      if( this.coordForm.latdeg )
-        this.coordForm.latdeg.value = "";
-      if( this.coordForm.latmin )
-        this.coordForm.latmin.value = "";
-      if( this.coordForm.latsec )
-        this.coordForm.latsec.value = "";
-      if( this.coordForm.latH )
-        this.coordForm.latH.value = "";
+      if( coordForm.latdeg )
+        coordForm.latdeg.value = "";
+      if( coordForm.latmin )
+        coordForm.latmin.value = "";
+      if( coordForm.latsec )
+        coordForm.latsec.value = "";
+      if( coordForm.latH )
+        coordForm.latH.value = "";
     }
 
     if( this.showDM ) {
-      if( this.coordForm.longDMdeg )
-        this.coordForm.longDMdeg.value = "";
-      if( this.coordForm.longDMmin )
-        this.coordForm.longDMmin.value = "";
-      if( this.coordForm.longDMH )
-        this.coordForm.longDMH.value = "";
+      if( coordForm.longDMdeg )
+        coordForm.longDMdeg.value = "";
+      if( coordForm.longDMmin )
+        coordForm.longDMmin.value = "";
+      if( coordForm.longDMH )
+        coordForm.longDMH.value = "";
 
-      if( this.coordForm.latDMdeg )
-        this.coordForm.latDMdeg.value = "";
-      if( this.coordForm.latDMmin )
-        this.coordForm.latDMmin.value = "";
-      if( this.coordForm.latDMH )
-        this.coordForm.latDMH.value = "";
+      if( coordForm.latDMdeg )
+        coordForm.latDMdeg.value = "";
+      if( coordForm.latDMmin )
+        coordForm.latDMmin.value = "";
+      if( coordForm.latDMH )
+        coordForm.latDMH.value = "";
     }
 
     if( this.showMGRS ) {
-      if( this.coordForm.mgrs )
-        this.coordForm.mgrs.value = "";
+      if( coordForm.mgrs )
+        coordForm.mgrs.value = "";
     }
   }
 
