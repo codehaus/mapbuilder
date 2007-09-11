@@ -10,10 +10,10 @@
 # $Name$
 
 mapbuilderDir=`dirname $0`/..;
-targetDir="${mapbuilderDir}/build";
+targetDir="${mapbuilderDir}/staging";
 
 # Set variables
-jsdoc="${mapbuilderDir}/bin/jsdoc/jsdoc.pl";
+jsdoc="${mapbuilderDir}/build/jsdoc/jsdoc.pl";
 jsdocTarget="${targetDir}/docs/jsdoc";
 
 # Directories and files that need to have jsdocs built from them
