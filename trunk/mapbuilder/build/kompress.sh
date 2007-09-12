@@ -11,7 +11,7 @@ targetDir=${mapbuilderDir}/compressBuild
 tmp="jsjam.tmp";
 
 for file in `find ${targetDir}/lib -name "*.xsl"` ; do
-  xsltproc ${mapbuilderDir}/bin/compressXsl.xsl ${file} > ${tmp};
+  xsltproc ${mapbuilderDir}/build/compressXsl.xsl ${file} > ${tmp};
   mv ${tmp} ${file};
 done;
 
@@ -37,7 +37,7 @@ for file in `find ${targetDir}/lib -name "*.js" | \
 	| egrep -v "/lib/MapbuilderServerLoad.js" \
 	| egrep -v "/lib/MapbuilderCompressed.js"`; do
 
-#  ${mapbuilderDir}/bin/jsjam.pl ${file} -i -g -n > ${tmp};
+#  ${mapbuilderDir}/build/jsjam.pl ${file} -i -g -n > ${tmp};
   echo "Compressing ${file}";
   java -jar lib/util/custom_rhino.jar -c ${file} >> ${originalFile} 2>&1
 done;
