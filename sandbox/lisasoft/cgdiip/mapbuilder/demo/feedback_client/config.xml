@@ -108,7 +108,7 @@
       <disabledSrc>/images/EditPointDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
       <featureXpath>//gml:Point/gml:coordinates</featureXpath>
-      <defaultModelUrl>template_cities.xml</defaultModelUrl>
+      <defaultModelUrl>template_places.xml</defaultModelUrl>
     </EditPoint>
     <EditLine id="editLine">
       <buttonBar>mainButtonBar</buttonBar>
