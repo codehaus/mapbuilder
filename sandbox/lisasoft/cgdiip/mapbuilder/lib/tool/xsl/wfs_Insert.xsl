@@ -40,9 +40,9 @@ $Name$
 
   <xsl:template match="/">
 
-    <wfs:Transaction service="WFS" version="1.0.0">
+    <wfs:Transaction service="WFS" version="1.1.0" outputFormat="ATOM">
 
-      <wfs:Insert>
+      <wfs:Insert inputFormat="ATOM">
 
         <xsl:apply-templates/>
 

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml" version="1.0">
+<xsl:stylesheet 
+xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+xmlns:gml="http://www.opengis.net/gml" 
+version="1.0">
 
 <!--
 Description: Convert a GML Feature or FeatureCollection into a HTML form.
@@ -46,19 +50,48 @@ $Name$
       </xsl:call-template>
     </xsl:variable>
     <xsl:if test="not(./*)">
-      <tr>
-        <td>
-          <xsl:value-of select="name(.)"/>
-        </td>
-        <td>
-          <input
-            type="text"
-            id="{$widgetId}{generate-id()}"
-            size="40"
-            value="{text()}"
-            onchange="config.objects.{$widgetId}.setAttr(config.objects.{$widgetId},'{$xlink}',document.getElementById('{$widgetId}{generate-id()}').value);"/>
-        </td>
-      </tr>
+	  <xsl:choose>
+    	<xsl:when test="name(.)='category'">
+          <tr>
+            <td>
+              <xsl:value-of select="@scheme"/>
+            </td>
+            <td>
+              <xsl:value-of select="@term"/>
+            </td>
+          </tr>
+    	</xsl:when>
+    	<xsl:when test="name(.)='category'">
+          <tr>
+            <td>
+              <xsl:value-of select="@scheme"/>
+            </td>
+            <td>
+              <input
+                type="text"
+                id="{$widgetId}{generate-id()}"
+                size="40"
+                value="{@term}"
+                onchange="config.objects.{$widgetId}.setAttr(config.objects.{$widgetId},'{$xlink}[@scheme=\'{@scheme}\']@term',document.getElementById('{$widgetId}{generate-id()}').value);"/>
+            </td>
+          </tr>
+        </xsl:when>
+        <xsl:otherwise>
+          <tr>
+            <td>
+              <xsl:value-of select="name(.)"/>
+            </td>
+            <td>
+              <input
+                type="text"
+                id="{$widgetId}{generate-id()}"
+                size="40"
+                value="{text()}"
+                onchange="config.objects.{$widgetId}.setAttr(config.objects.{$widgetId},'{$xlink}',document.getElementById('{$widgetId}{generate-id()}').value);"/>
+            </td>
+          </tr>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:if>
     <xsl:if test="./*">
       <xsl:apply-templates>

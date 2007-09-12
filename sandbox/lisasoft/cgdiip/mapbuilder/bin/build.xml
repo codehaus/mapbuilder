@@ -111,7 +111,8 @@ $Id$
   <property name="app.name" value="mapbuilder"/>
   <property name="pack.name" value="mapbuilder-lib"/>
   <property name="app.path" value="/${app.name}"/>
-  <property name="catalina.home" value="${env.CATALINA_HOME}"/> <!-- ensure you have this environment var set -->
+<!--    <property name="catalina.home" value="${env.CATALINA_HOME}"/> --><!-- ensure you have this environment var set -->
+    <property name="catalina.home" value="/opt/jakarta-tomcat-5.5.9/"/> <!-- ensure you have this environment var set -->
   <property name="build.home" value="${basedir}/build"/>
   <property name="version.file" value="${basedir}/build/lib/widget/Version.xsl"/>
   <property name="compress.home" value="${basedir}/compressBuild"/>

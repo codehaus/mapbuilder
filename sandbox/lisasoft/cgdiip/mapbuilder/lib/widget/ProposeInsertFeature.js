@@ -68,17 +68,17 @@ function ProposeInsertFeature(widgetNode, model) {
         //if fid exists, then we are modifying an existing feature,
         // otherwise we are adding a new feature
         if(fid){
-          objRef.targetModel.setXpathValue(objRef.targetModel,"//psma:proposed_change","Update");
+          //objRef.targetModel.setXpathValue(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/action']@term","Update");
         }else{
-          objRef.targetModel.setXpathValue(objRef.targetModel,"//psma:proposed_change","Insert");
+          //objRef.targetModel.setXpathValue(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/action']@term","Insert");
         }
         
        
-        bounds = objRef.getBounds(objRef.targetModel);
-        objRef.targetModel.setXpathValue(objRef.targetModel,"//gml:LinearRing/gml:coordinates",bounds);
+        point = objRef.getFirstPoint(objRef.targetModel);
+        objRef.targetModel.setXpathValue(objRef.targetModel,"//georss:where/gml:Point/gml:pos",point);
 	    
-	    
-        s=objRef.cdataElementXsl.transformNodeToObject(objRef.targetModel.doc);
+	    s = objRef.targetModel.doc;
+        //s=objRef.cdataElementXsl.transformNodeToObject(s);
         
         //mvivian: Will always be inserting proposed changes
         s=objRef.insertXsl.transformNodeToObject(s);
@@ -93,7 +93,7 @@ function ProposeInsertFeature(widgetNode, model) {
   
   this.getBounds = function(targetModel)
   {
-    var nodes = targetModel.doc.selectNodes("//psma:feature_collection//gml:coordinates");
+    var nodes = targetModel.doc.selectNodes("//georss:featureOfInterest//gml:coordinates");
     var maxX;
     var maxY;
     var minX;
@@ -127,6 +127,32 @@ function ProposeInsertFeature(widgetNode, model) {
     }
         
     return (minX + "," + minY + " " + minX + "," + maxY + " " + maxX + "," + maxY + " " + maxX + "," + minY + " " + minX + "," + minY);
+  }
+  
+  this.getFirstPoint = function(targetModel)
+  {
+    var nodes = targetModel.doc.selectNodes("//georss:featureOfInterest//gml:coordinates");
+    
+    invalidCoord=false;
+    for(var n=0;n<nodes.length;n++)
+    {
+      coords = nodes[n].firstChild.nodeValue.trim().split(" ");
+      if(coords.length >= 0 && coords[0]!= "")
+      {
+        result = coords[0];
+      }
+      else
+      {
+        invalidCoord = true;
+      }
+    }
+    
+    if(invalidCoord)
+    {
+      alert("invalid coordinate found, but transaction will procceed")
+    }
+        
+    return (result);
   }
 
   /**
