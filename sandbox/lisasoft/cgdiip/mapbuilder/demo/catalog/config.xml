@@ -44,6 +44,7 @@
           <targetContext>normalizedSearchResults</targetContext>
           <wrsUrl>http://demo.cubewerx.com/cgdi/cwwrs.cgi</wrsUrl>
           <mapModel>mainMap</mapModel>
+          <sourceContext>mainMap</sourceContext>
         </CatalogSearchForm>
       </widgets>
     </Model>

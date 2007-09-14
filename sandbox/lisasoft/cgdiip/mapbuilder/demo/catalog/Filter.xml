@@ -1,3 +1,10 @@
+<filter>
+  <keywords/>
+  <serviceassociation/>
+  <servicetype/>
+</filter>
+
+<!--
 <Filter>
 	<And>
 		<BBOX>
@@ -28,3 +35,4 @@
 		</Or>
 	</And>
 </Filter>
+-->
