@@ -22,11 +22,8 @@ function SelectLayerFromContext(widgetNode, model) {
    * @param layerName The name of the layer selected.
    */
   SelectLayerFromContext.prototype.addLayer = function(layerName) {
-    //alert("SelectLayerFromContext.prototype.addLayer("+layerName+")");
-    var layerNode=this.model.doc.selectNodes("//wmc:Layer|wmc:FeatureType[wmc:Name='"+layerName+"']");
-    alert("length "+layerNode.length);
-    alert((new XMLSerializer()).serializeToString(layerNode[0]));
-    this.targetModel.addLayer(this.targetModel,layerNode[0]);
+    var layerNode=this.model.doc.selectSingleNode("(//wmc:Layer|//wmc:FeatureType)[wmc:Name ='"+layerName+"']");
+    this.targetModel.addLayer(this.targetModel,layerNode);
   }
 
   /**
