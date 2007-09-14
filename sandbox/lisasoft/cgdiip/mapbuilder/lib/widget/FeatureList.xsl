@@ -51,6 +51,7 @@ $Name$
     </xsl:variable>
     <xsl:if test="not(./*)">
 	  <xsl:choose>
+<!-- 
     	<xsl:when test="name(.)='category'">
           <tr>
             <td>
@@ -61,6 +62,7 @@ $Name$
             </td>
           </tr>
     	</xsl:when>
+-->
     	<xsl:when test="name(.)='category'">
           <tr>
             <td>
@@ -72,7 +74,7 @@ $Name$
                 id="{$widgetId}{generate-id()}"
                 size="40"
                 value="{@term}"
-                onchange="config.objects.{$widgetId}.setAttr(config.objects.{$widgetId},'{$xlink}[@scheme=\'{@scheme}\']@term',document.getElementById('{$widgetId}{generate-id()}').value);"/>
+                onchange="config.objects.{$widgetId}.setAttribValue(config.objects.{$widgetId},'{$xlink}[@scheme=\'{@scheme}\']','term',document.getElementById('{$widgetId}{generate-id()}').value);"/>
             </td>
           </tr>
         </xsl:when>
@@ -87,7 +89,7 @@ $Name$
                 id="{$widgetId}{generate-id()}"
                 size="40"
                 value="{text()}"
-                onchange="config.objects.{$widgetId}.setAttr(config.objects.{$widgetId},'{$xlink}',document.getElementById('{$widgetId}{generate-id()}').value);"/>
+                onchange="config.objects.{$widgetId}.setNodeValue(config.objects.{$widgetId},'{$xlink}',document.getElementById('{$widgetId}{generate-id()}').value);"/>
             </td>
           </tr>
         </xsl:otherwise>

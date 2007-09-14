@@ -23,7 +23,17 @@ function FeatureList(widgetNode, model) {
    * @param xpath Xpath reference to the attribute in the GML.
    * @param value New attribute value.
    */
-  this.setAttr=function(objRef,xpath,value){
+  this.setNodeValue=function(objRef,xpath,value){
     objRef.model.setXpathValue(objRef.model,xpath,value);
+  }
+  /**
+   * Set the value of an attribute from the FeatureList.
+   * @param objRef Reference to this object.
+   * @param xpath Xpath reference to the attribute in the GML.
+   * @param attrib Name of the attribute to update
+   * @param value New attribute value.
+   */
+  this.setAttribValue=function(objRef,xpath,attrib,value){
+    objRef.model.setXpathAttribute(objRef.model,xpath,attrib,value);
   }
 }
