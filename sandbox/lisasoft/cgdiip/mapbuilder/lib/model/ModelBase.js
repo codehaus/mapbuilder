@@ -113,6 +113,29 @@ function ModelBase(modelNode, parentModel) {
   }
 
   /**
+   * Update the value of an attribute of a node within this model's XML document.
+   * Triggers a refresh event from the model.
+   * @param objRef Reference to this node.
+   * @param xpath Xpath of the node with the attribute to update.
+   * @param the attribute of the selected element to update.
+   * @param value Node's new value.
+   * @param refresh determines if the model should be refreshed (optional).
+   * @return Returns false if Xpath does not find a node.
+   */
+  this.setXpathAttribute=function(objRef,xpath,attribute,value,refresh){
+    if (refresh==null) refresh=true;
+    var node=objRef.doc.selectSingleNode(xpath);
+    if(node){
+      node.setAttribute(attribute, value);
+
+      if (refresh) objRef.setParam("refresh");
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  /**
    * Update the value of a node within this model's XML document.
    * Triggers a refresh event from the model.
    * @param objRef Reference to this node.
