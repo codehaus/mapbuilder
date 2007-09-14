@@ -68,12 +68,11 @@ function ProposeInsertFeature(widgetNode, model) {
         //if fid exists, then we are modifying an existing feature,
         // otherwise we are adding a new feature
         if(fid){
-          //objRef.targetModel.setXpathValue(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/action']@term","Update");
+          objRef.targetModel.setXpathAttribute(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/action']","term","Update");
         }else{
-          //objRef.targetModel.setXpathValue(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/action']@term","Insert");
+          objRef.targetModel.setXpathAttribute(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/action']","term","Insert");
         }
         
-       
         point = objRef.getFirstPoint(objRef.targetModel);
         objRef.targetModel.setXpathValue(objRef.targetModel,"//georss:where/gml:Point/gml:pos",point);
 	    
