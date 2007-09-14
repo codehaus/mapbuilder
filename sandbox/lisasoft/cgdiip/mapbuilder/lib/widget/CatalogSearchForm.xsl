@@ -50,7 +50,7 @@ $Name:  $
       <input type="hidden" name="outputFormat" value="GML3"/>
       
       <h3>Keywords</h3>
-      <input type="text" name="keywords"/>
+      <input type="text" name="keywords" value=""/>
       <h3>Location</h3>
       <xsl:call-template name="locations">
         <xsl:with-param name="locationsDoc" select="$searchConfigDoc"/>
@@ -62,11 +62,11 @@ $Name:  $
         <option value="WMS">WMS</option>
         <option selected="true" value="WFS">WFS</option>
       </select>
-      <input type="button" value="Search" onclick="config.objects.{$widgetId}.doSelect(config.objects.{$widgetId}, '{$formName}');"/>
+      <input type="button" value="Search" onclick="config.objects.{$widgetId}.doSelect('{$formName}');"/>
       <input type="button" value="Show Query" onclick="config.objects.{$widgetId}.debugQuery('{$formName}');"/>
     </form>
 
-    <div id="debugwindow" style="position:absolute; top:350px;left:350px;width:400px; height:300px; z-index:2;background-color:yellow;overflow:scroll"></div>
+    <div id="debugwindow" style="position:absolute; top:310px;left:370px;width:400px; height:300px; z-index:2;background-color:lightgray;overflow:auto"></div>
 
     </div>
   </xsl:template>

@@ -24,22 +24,24 @@ function CatalogSearchForm(widgetNode, model) {
   this.httpPayload.url = this.wrsUrl;
   this.httpPayload.method = "post";
 
-
   /**
    * Build and send a catalog query. The results will be inserted into the
    * targetModel which will trigger an event to handleResponse().
+   * 
+   * @param formId       Id of Form 
+   * @return none 
    */
-  CatalogSearchForm.prototype.doSelect = function(widgetId, formId) {
+
+  CatalogSearchForm.prototype.doSelect = function(formId) {
     // Register for an event sent after the catalog query has finished
     if(!this.initialized){
       this.targetModel.addListener("loadModel",this.handleResponse,this);
-      this.ebrim2Context=new XslProcessor(
-        baseDir+"/tool/xsl/ebrim2Context.xsl");
+      this.ebrim2Context=new XslProcessor(baseDir+"/tool/xsl/ebrim2Context.xsl");
       this.initialized=1;
     }
-    // TBD: trigger a Catalog Search here. Look at InsertFeature for an
-    // example of what is required.
     
+    // call buildQuery method to read form values, put them into the model
+    // and perform an XSL translation to get the WRS Query
     wrsQueryXML = this.buildQuery(formId);
 
     // POST the query to the WRS Service configured in config.xml (wrsUrl)
@@ -52,94 +54,45 @@ function CatalogSearchForm(widgetNode, model) {
   }
 
   /**
-   * Build Query
-   *  returns: WRS Query XML (string)
+   * Builds WRS Catalog query 
+   * returns: WRS Query XML (string)
    * 
+   * @param formId       Id of Form 
+   * @return wrsQueryXML A textual representation of the WRS Query XML
    */
   CatalogSearchForm.prototype.buildQuery = function(formId) {
-    // Create main filter node and add search filter nodes as children
-    // Currently implemented: 
-    // * Keywords
-    //
-    // To do:
-    // * Service Type
-    // * Location
-    //
-    var filterNode = document.createElement("filter");
-
-
-   /* Create keywordsNode that looks like this, based upon keywords field in form:
-    *
-    * <keywords>
-    *   <keyword>alpha</keyword>
-    *   <keyword>beta</keyword>
-    *   <keyword>gamma</keyword>
-    * </keywords>
-    *
-    */
-
-    var keywordsArray;
-    var keywordNode;
-    var keywordValue;
-
-
-    // Create keywords node
-    var keywordsNode = document.createElement("keywords");
-
+    
     // Get the reference to the form
     this.searchForm = document.getElementById(formId);
-
-    // Extract the field 'keywords' from the form
-    this.keywords = this.searchForm.keywords.value;
-
-    // Cleanup: trim and remove duplicate spaces
-    this.keywords = this.keywords.replace(/^\s+|\s+$/g, ''); //trim
-    this.keywords = this.keywords.replace(/ +/g, ' '); //remove duplicate spaces
-
-    // Only add keywords node if there are any keywords
-    // TBD: make this smarter
-    if (this.keywords.length > 0) {
-
-      // Create an array by splitting the string (separator is a space)
-      keywordsArray = this.keywords.split(' ');
-
-      // Loop through array and create and attach child nodes to keywordsNode
-      for(i=0; i< keywordsArray.length; i++) {
-        //alert(keywordsArray[i]);
-        keywordNode = document.createElement("keyword");
-        keywordValue = document.createTextNode(keywordsArray[i]);
-        keywordNode.appendChild(keywordValue);
-        keywordsNode.appendChild(keywordNode);
-      }
-
-
-      // Attach keywords to the filter
-      filterNode.appendChild(keywordsNode);
-
-    }
-
-    // Service Associtation
-    filterNode.appendChild(createSimpleNode("serviceassociation", this.wrsServiceAssociation));
-
-    // Service Type
-    serviceType = this.searchForm.serviceType.value;
-    if (!serviceType == "") {
-      filterNode.appendChild(createSimpleNode("serviceType", serviceType));
-    }
+         
+    // Fill the model with the values needed for building the query
+    // TBD: This is not a correct way to address the model, since the form values will disappear when
+    //      the model changes. View needs to correspond to the model.
+    this.model.setXpathValue(this.model, "/filter/keywords", this.searchForm.keywords.value, false);
+    this.model.setXpathValue(this.model, "/filter/servicetype", this.searchForm.serviceType.value, false);
+    this.model.setXpathValue(this.model, "/filter/serviceassociation", this.wrsServiceAssociation, false);
 
     // Load the XSL to generate the WRS Query
     this.wrsQuery=new XslProcessor(baseDir+"/tool/xsl/wrs_Query.xsl");
     
     // Add filter to XSL as a parameter
-    this.wrsQuery.setParameter("filter", filterNode);
+    this.wrsQuery.setParameter("filter", this.model.doc);
 
     // Do the actual XSL translation to generate the WRS Query
-    var xmlRef = document.implementation.createDocument("", "", null);
-    var wrsQueryXML = this.wrsQuery.transformNodeToString(xmlRef);
+    var wrsQueryXML = this.wrsQuery.transformNodeToString(this.model.doc);
 
     return wrsQueryXML;
+
   }
 
+  /**
+   * For Debugging purposes only
+   * Responds to 'Show Query' button and will generate WRS Query and show it on
+   * the screen, without submitting it
+   * 
+   * @param formId       Id of Form 
+   * @return none
+   */
   CatalogSearchForm.prototype.debugQuery = function(formId){
     s = this.buildQuery(formId);
     s=
@@ -171,14 +124,6 @@ function CatalogSearchForm(widgetNode, model) {
       window.config.objects[objRef.targetContext],
       newContext);
   }
-}
-
-/* Creates a simple node with a text value
- */
-function createSimpleNode(nodeName, nodeText) {
-  var simpleNode = document.createElement(nodeName);
-  simpleNode.appendChild(document.createTextNode(nodeText));
-  return simpleNode;
 }
 
 

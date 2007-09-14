@@ -26,11 +26,6 @@ $Name:  $
   <xsl:output method="xml"/>
   <xsl:strip-space elements="*"/>
 
-  <!-- Service Type (WMS/WFS/etc) -->
-
-  <xsl:param name="filter"/>
-
-
 
   <!-- Match Root -->
   <xsl:template match="/">
@@ -55,12 +50,14 @@ $Name:  $
 
       <!-- Check if there is a (non-empty) filter node -->
       <!-- If so, loop through children and look for templates that match them -->
-      <xsl:if test="$filter/*">
+      <xsl:if test="filter/*">
       <Constraint>
         <ogc:Filter>
           <ogc:And>
-          <xsl:for-each select="$filter/*">
+          <xsl:for-each select="filter/*">
+            <xsl:if test="node()">
             <xsl:apply-templates select="."/>
+            </xsl:if>
           </xsl:for-each>
           </ogc:And>
         </ogc:Filter>
@@ -121,16 +118,22 @@ $Name:  $
   </xsl:template>
 
   <xsl:template match="keywords">
-    <!-- Loop through keywords and build up search query -->
-    <xsl:for-each select="keyword">
+    <xsl:call-template name="tokenize">
+      <xsl:with-param name="inputString" select="concat(normalize-space(.),' ')"/>
+      <xsl:with-param name="resultElement" select="'keyword'"/>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template name="keyword">
+    <xsl:param name="keyword"/>
       <ogc:Or>
         <ogc:PropertyIsLike>
           <ogc:PropertyName>/ExtrinsicObject/Name/LocalizedString/@value</ogc:PropertyName>
-          <ogc:Literal>%<xsl:value-of select="."/>%</ogc:Literal>
+          <ogc:Literal>%<xsl:value-of select="$keyword"/>%</ogc:Literal>
         </ogc:PropertyIsLike>
         <ogc:PropertyIsLike>
           <ogc:PropertyName>/ExtrinsicObject/Description/LocalizedString/@value</ogc:PropertyName>
-          <ogc:Literal>%<xsl:value-of select="."/>%</ogc:Literal>
+          <ogc:Literal>%<xsl:value-of select="$keyword"/>%</ogc:Literal>
         </ogc:PropertyIsLike>
         <ogc:And>
           <ogc:PropertyIsEqualTo>
@@ -139,11 +142,10 @@ $Name:  $
           </ogc:PropertyIsEqualTo>
           <ogc:PropertyIsLike>
             <ogc:PropertyName>/ExtrinsicObject/Slot/ValueList/Value</ogc:PropertyName>
-            <ogc:Literal>%<xsl:value-of select="."/>%</ogc:Literal>
+            <ogc:Literal>%<xsl:value-of select="$keyword"/>%</ogc:Literal>
           </ogc:PropertyIsLike>
         </ogc:And>
       </ogc:Or>
-    </xsl:for-each>
   </xsl:template>
 
   <!-- TODO: make this generic -->
@@ -174,11 +176,13 @@ $Name:  $
       name="nextToken"
       select="substring-after($inputString, $separator)"
     />
+
     <xsl:if test="$token">
-      <xsl:element name="{$resultElement}">
-        <xsl:value-of select="$token"/>
-      </xsl:element>
+      <xsl:call-template name="keyword">
+        <xsl:with-param name="keyword" select="$token"/>
+      </xsl:call-template>
     </xsl:if>
+
     <xsl:if test="$nextToken">
       <xsl:call-template name="tokenize">
         <xsl:with-param
@@ -194,20 +198,6 @@ $Name:  $
     </xsl:if>
   </xsl:template>
 
-  <xsl:template match="keywordstring">
-    <keywords>
-    <xsl:call-template name="tokenize">
-      <xsl:with-param
-        name="inputString"
-        select="."/>
-      <xsl:with-param
-        name="separator"
-        select="' '"/>
-      <xsl:with-param
-        name="resultElement"
-        select="'keyword'"/>
-    </xsl:call-template>
-    </keywords>
-  </xsl:template>
+  <xsl:template match="text()|@*"/>
 
 </xsl:stylesheet>
