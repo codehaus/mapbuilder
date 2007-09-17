@@ -10,14 +10,8 @@ $Name:  $
 -->
 
 <xsl:stylesheet version="1.0" 
-  xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
-  xmlns:atom="http://purl.org/atom/ns#" 
-  xmlns:rss="http://purl.org/rss/1.0/" 
-  xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" 
-  xmlns:dc="http://purl.org/dc/elements/1.1/" 
-  xmlns:syn="http://purl.org/rss/1.0/modules/syndication/" 
-  xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"  
+  xmlns:atom="http://www.w3.org/2005/Atom">
 
   <xsl:output method="xml" omit-xml-declaration="no" encoding="utf-8" indent="yes"/>
 
@@ -36,15 +30,12 @@ $Name:  $
 
   <xsl:template match="atom:entry">
     <xsl:variable name="fid"><xsl:value-of select="atom:id"/></xsl:variable>
-    <xsl:variable name="x"><xsl:value-of select="geo:long"/></xsl:variable>
-    <xsl:variable name="y"><xsl:value-of select="geo:lat"/></xsl:variable>
     <xsl:variable name="link"><xsl:value-of select="atom:link"/></xsl:variable>
-    <!-- xsl:variable name="icon">../../lib/skin/default<xsl:value-of select="geo:icon"/></xsl:variable -->
     <tr>
       <td onmouseover="config.objects.{$modelId}.setParam('highlightFeature','{$fid}')"
       	  onmouseout="config.objects.{$modelId}.setParam('dehighlightFeature','{$fid}')">
         <div id = "item">
-          <div id="{$fid}">
+          <div id="{$fid}" style="width:340px">
       	    <input type="checkbox" checked="true"
       		  onclick="this.checked?config.objects.{$modelId}.setParam('showFeature','{$fid}'):config.objects.{$modelId}.setParam('hideFeature','{$fid}')" />
 	        <a href="{$link}"><xsl:value-of select="atom:title"/></a><br/>
