@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <link href="base.css" type="text/css" rel="stylesheet"/>
+  <title>Proj4js Test Page</title>
+  <script src="../lib/prototype.js"></script>
+  <script src="../lib/proj4js.js"></script>
+  <script src="../lib/defs/EPSG27563.js"></script>
+  <script src="../lib/projCode/lcc.js"></script>
+  <script src="../lib/projCode/merc.js"></script>
+  <script src="../lib/projCode/tmerc.js"></script>
+  <script src="../lib/projCode/utm.js"></script>
+  <script src="testdata.js"></script>
+</head>
+
+<body onload="runTests()">
+  <div id="header">
+    <h1>Proj4js test page</h1>
+  </div>
+  <div id="navbar">
+    <a href="http://svn.codehaus.org/mapbuilder/cscs">Proj4js</a> | 
+    <a href="http://communitymapbuilder.org/">MapBuilder</a> | 
+    <a href="http://openlayers.org/">OpenLayers</a> | 
+    <a href="http://spatialreference.org/">spatialreference.org</a> 
+  </div>
+  <table id="testResult" border="1">
+      <tr>
+        <th>projection</th>
+        <th colspan="2">forward</th>
+        <th colspan="2">inverse</th>
+      </tr>
+    </tr>
+  </table>
+</body>
+</html>
