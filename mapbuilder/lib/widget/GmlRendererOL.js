@@ -157,8 +157,12 @@ function GmlRendererOL(widgetNode, model) {
         loadGML: function() {
           if (!this.loaded) {
             var gml = this.format ? new this.format() : new OpenLayers.Format.GML();
-            this.addFeatures(gml.read(doc));
-            this.loaded = true;
+            try {
+              this.addFeatures(gml.read(doc));
+              this.loaded = true;
+            } catch (e) {
+              // nothing to worry, just features without geometries in the doc
+            }
           }
         },
 

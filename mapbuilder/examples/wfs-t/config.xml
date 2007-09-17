@@ -106,7 +106,7 @@
       <enabledSrc>/images/EditPointEnable.png</enabledSrc>
       <disabledSrc>/images/EditPointDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
-      <featureXpath>/gml:featureMember/topp:tasmania_cities/topp:the_geom/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
+      <featureXpath>/gml:FeatureCollection/gml:featureMember/topp:tasmania_cities/topp:the_geom/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
       <defaultModelUrl>template_cities.xml</defaultModelUrl>
     </EditPoint>
     <EditLine id="editLine">
