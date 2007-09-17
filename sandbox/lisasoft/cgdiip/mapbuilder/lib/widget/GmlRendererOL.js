@@ -244,11 +244,12 @@ function GmlRendererOL(widgetNode, model) {
       
 	  if (geoRSSvalue) {
 	  	if (config.proxyUrl) {
-	  		url = config.proxyUrl + '?url=' + objRef.model.url;
+	  		url = config.proxyUrl + '?url=' + escape(objRef.model.url);
 	  	} else {
 	  		url = objRef.model.url;
 	  	}
 	  	objRef.olLayer =  new OpenLayers.Layer.GeoRSSvector(objRef.id,url);
+	  	
 	  } else {
 	  	objRef.olLayer = new OlLayer(objRef.id);
 	  }
