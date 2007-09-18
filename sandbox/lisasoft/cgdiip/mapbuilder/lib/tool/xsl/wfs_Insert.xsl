@@ -6,7 +6,7 @@
 
 Description: Extract FeatureMembers from a FeatureCollection and build
 
-  into a WFS Insert transaction.
+into a WFS Insert transaction.
 
 Author:      Cameron Shorter
 
@@ -40,9 +40,9 @@ $Name$
 
   <xsl:template match="/">
 
-    <wfs:Transaction service="WFS" version="1.1.0" outputFormat="ATOM">
+    <wfs:Transaction service="WFS" version="1.0.0">
 
-      <wfs:Insert inputFormat="ATOM">
+      <wfs:Insert>
 
         <xsl:apply-templates/>
 
