@@ -104,7 +104,7 @@ function ModelBase(modelNode, parentModel) {
    */
   this.getXpathValue=function(objRef,xpath){
     if (!objRef.doc) return null; 
-    node=objRef.doc.selectSingleNode(xpath);
+    node=objRef.doc.selectSingleNode(objRef.hackSarissaDefaultNSXPathIssue(xpath));
     if(node && node.firstChild){
       return node.firstChild.nodeValue;
     }else{
@@ -124,7 +124,7 @@ function ModelBase(modelNode, parentModel) {
    */
   this.setXpathAttribute=function(objRef,xpath,attribute,value,refresh){
     if (refresh==null) refresh=true;
-    var node=objRef.doc.selectSingleNode(xpath);
+    var node=objRef.doc.selectSingleNode(objRef.hackSarissaDefaultNSXPathIssue(xpath));
     if(node){
       node.setAttribute(attribute, value);
 
@@ -146,7 +146,7 @@ function ModelBase(modelNode, parentModel) {
    */
   this.setXpathValue=function(objRef,xpath,value,refresh){
     if (refresh==null) refresh=true;
-    var node=objRef.doc.selectSingleNode(xpath);
+    var node=objRef.doc.selectSingleNode(objRef.hackSarissaDefaultNSXPathIssue(xpath));
     if(node){
       if(node.firstChild){
         node.firstChild.nodeValue=value;
@@ -161,7 +161,99 @@ function ModelBase(modelNode, parentModel) {
       return false;
     }
   }
+  
+  /**
+   * Corrects an XPath to work with the way Sarissa deals with default namespace.
+   * Go through every elemnt in the XPath and where there is no namespace specified, 
+   * put in "def:". This is how Sarissa deals with default namespaces.
+   * This fix should really be done inside Sarissa. If Sarissa handled the 
+   * inclusion of 'def:' to overcome whatever internal problems they have with 
+   * string parsing it would be transparent to the developer using the API. 
+   * @param xpath The xpath to hack.
+   */
+  this.hackSarissaDefaultNSXPathIssue=function(xpath){
+    var result = "";
+    
+    // deal with content inside []
+    var braceList = "";
+    var thisBraceListItem = "";
+    var inBrace = false;
+    var delimiter = "__ILIKEMYOLDDELIMITERBETTERTHANMYNEWDELIMITER__";
+    var newxpath = "";
+    
+    for(var n=0; n < xpath.length; n++) {
+    	if(xpath.charAt(n) == '[') {
+    		inBrace = true;
+    		newxpath += xpath.charAt(n);
+    	} else if(xpath.charAt(n) == ']') {
+    		inBrace = false;
+    		newxpath += xpath.charAt(n);
 
+    		if(!braceList == "") {
+    			braceList += delimiter;
+    		}
+    		braceList += thisBraceListItem;
+    		thisBraceListItem = "";
+    	} else {
+    		if(inBrace) {
+    			thisBraceListItem += xpath.charAt(n);
+    		} else {
+	    		newxpath += xpath.charAt(n);
+    		}
+    	}
+    }
+    
+    // now go looking for the elements with no namespace
+    var nodes = newxpath.split("/");
+    
+    for (var n=0;n<nodes.length;n++)
+    {
+      var node = nodes[n];
+      if (node.length>0 && !node.startsWith("@"))
+      {
+      	hasNamespaceReg = new RegExp("^\\w*\\:");
+      	var hasNamespace = hasNamespaceReg.exec(node);
+      	
+	    if(hasNamespace==null)
+	    {
+	      node = "def:" + node;
+	    }
+      }
+      if(n!=0)
+      {
+      	result += "/" ;
+      }
+      result += node;
+      
+    }
+    
+    // now put the removed bracketed parts back in
+    var bracedItems = braceList.split(delimiter);
+    var bitsBetweenBraces = result.split("[]");
+    result = "";
+    
+    if(bracedItems.length == 1 && bracedItems[0] == "") {
+    	// special case, no braces in the first place.
+    	result = bitsBetweenBraces[0];
+    } else {
+	    // there must be one more bit between braces than braced items
+	    if(bracedItems.length == bitsBetweenBraces.length - 1) {
+		    for(var n=0; n < bracedItems.length; n++) {
+		    	result += bitsBetweenBraces[n] + "[" + bracedItems[n] + "]";
+		    }
+		    // pick up the remaining bit
+		    result += bitsBetweenBraces[bitsBetweenBraces.length - 1];
+		    
+	    } else {
+	    	// must have had some funky bracketing in that xpath, i couldn't handle it!
+	    	// eh lets give up and return the original
+	    	result = xpath;
+	    	alert("Couldn't handle this XPath: " + xpath);
+	    }
+    }
+    
+  	return result;
+  }
   /**
    * Load a Model's document.  
    * This will only occur if the model.url property is set. 

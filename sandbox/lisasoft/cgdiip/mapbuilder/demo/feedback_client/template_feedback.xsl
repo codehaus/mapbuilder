@@ -1,7 +1,6 @@
 <xsl:stylesheet
 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 xmlns:georss="http://www.opengis.net/georss"
-xmlns:topp="http://www.openplans.org/topp"
 xmlns:gml="http://www.opengis.net/gml"
 xmlns:wfs="http://www.opengis.net/wfs"
 xmlns:ogc="http://www.opengis.net/ogc"
@@ -12,7 +11,7 @@ version="1.0">
 	<xsl:output method="xml" omit-xml-declaration="no" encoding="utf-8" indent="yes" />
 
 	<xsl:template match="/">
-		<gml:featureMember xmlns:gml="http://www.opengis.net/gml" xmlns:gb="http://geocon.sunertek.com" xmlns:cw="http://www.cubewerx.com/cw" xmlns:georss="http://www.opengis.net/georss">
+		<gml:featureMember xmlns:def="http://www.w3.org/2005/Atom" xmlns:gml="http://www.opengis.net/gml" xmlns:gb="http://geocon.sunertek.com" xmlns:cw="http://www.cubewerx.com/cw" xmlns:georss="http://www.opengis.net/georss">
 			<cw:FeedbackFeed>
 				<entry>
 					<title>Test connection to cubewerx feedback feed, from lisasoft feedback client</title>
@@ -21,11 +20,11 @@ version="1.0">
 						<uri>www.lisasoft.com</uri>
 						<email>mvivian@lisasoft.com</email>
 					</author>
-					<category scheme="http://www.geobase.ca/scheme/feedtype" term="feedback" />
-					<category scheme="http://www.geobase.ca/scheme/domain" term="Newfoundland and Labrador" />
-					<category scheme="http://www.geobase.ca/scheme/featuretype" term="placename" />
-					<category scheme="http://www.geobase.ca/scheme/action" term="update" />
-					<category scheme="http://www.geobase.ca/scheme/status" term="published" />
+					<category scheme="http://www.geobase.ca/scheme/feedtype" term="feedback" ></category>
+					<category scheme="http://www.geobase.ca/scheme/domain" term="Newfoundland and Labrador" ></category>
+					<category scheme="http://www.geobase.ca/scheme/featuretype" term="placename" ></category>
+					<category scheme="http://www.geobase.ca/scheme/action" term="update" ></category>
+					<category scheme="http://www.geobase.ca/scheme/status" term="published" ></category>
 <!-- 
 					<link rel="http://www.geobase.ca/linktype/sourcefeature" href="http://wfs.geobase.ca?request=GetFeature..."/>
 					<link rel="http://www.geobase.ca/linktype/feedback" href="http://www.geonames.org/somelink"/>

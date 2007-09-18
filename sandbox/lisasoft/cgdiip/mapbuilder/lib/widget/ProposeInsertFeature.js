@@ -67,11 +67,17 @@ function ProposeInsertFeature(widgetNode, model) {
 
         //if fid exists, then we are modifying an existing feature,
         // otherwise we are adding a new feature
+        
         if(fid){
           objRef.targetModel.setXpathAttribute(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/action']","term","Update");
         }else{
           objRef.targetModel.setXpathAttribute(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/action']","term","Insert");
         }
+        
+        var date = new Date();
+        var id = window.location.hostname + date.getTime();
+        objRef.targetModel.setXpathValue(objRef.targetModel,"//def:entry/def:id",id);
+        
         
         point = objRef.getFirstPoint(objRef.targetModel);
         objRef.targetModel.setXpathValue(objRef.targetModel,"//georss:where/gml:Point/gml:pos",point);
@@ -81,6 +87,7 @@ function ProposeInsertFeature(widgetNode, model) {
         
         //mvivian: Will always be inserting proposed changes
         s=objRef.insertXsl.transformNodeToObject(s);
+        
         
         
         objRef.httpPayload.postData=s;

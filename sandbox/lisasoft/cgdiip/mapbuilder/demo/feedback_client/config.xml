@@ -63,7 +63,7 @@
           <targetModel>mainMap</targetModel>
         </FeatureSelectHandler>
       </tools>
-	<namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp' xmlns:georss='http://www.opengis.net/georss' xmlns:ogc='http://www.opengis.net/ogc' xmlns:cw='http://www.cubewerx.com/cw' xmlns:gb='http://geocon.sunertek.com'</namespace>
+	<namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:georss='http://www.opengis.net/georss' xmlns:ogc='http://www.opengis.net/ogc' xmlns:cw='http://www.cubewerx.com/cw' xmlns:gb='http://geocon.sunertek.com' xmlns:def='http://www.w3.org/2005/Atom'</namespace>
 <!-- Default namespace won't work in XSL <namespace>xmlns='http://www.w3.org/2005/Atom'</namespace> -->
     </FeatureCollection>
     <StyledLayerDescriptor id="sld">
@@ -129,7 +129,6 @@
       <enabledSrc>/images/EditPolygonEnable.png</enabledSrc>
       <disabledSrc>/images/EditPolygonDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
-<!-- <featureXpath>/gml:featureMember/psma:feedback_feed/psma:feature_collection/gml:featureMember/topp:tasmania_water_bodies/topp:the_geom/gml:MultiPolygon/gml:polygonMember/gml:Polygon/gml:outerBoundaryIs/gml:LinearRing/gml:coordinates</featureXpath> -->
       <featureXpath>//gml:LinearRing/gml:coordinates</featureXpath>
       <defaultModelUrl>template_areas.xml</defaultModelUrl>
     </EditPolygon>

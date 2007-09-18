@@ -62,10 +62,11 @@ function ProposeDeleteFeature(widgetNode, model) {
       fid=objRef.targetModel.getXpathValue(objRef.targetModel,"//@fid");
       //if fid exists, then we are deleting an existing feature.
       if (objRef.targetModel.doc && fid){
-      	bounds = objRef.getBounds(objRef.targetModel);
-        objRef.targetModel.setXpathValue(objRef.targetModel,"//gml:LinearRing/gml:coordinates",bounds);
-      	objRef.targetModel.setXpathValue(objRef.targetModel,"//psma:proposed_change","Delete");
-      	s=objRef.cdataElementXsl.transformNodeToObject(objRef.targetModel.doc);
+      	point = objRef.getFirstPoint(objRef.targetModel);
+        objRef.targetModel.setXpathValue(objRef.targetModel,"//georss:where/gml:Point/gml:pos",point);
+      	objRef.targetModel.setXpathAttribute(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/action']","term","Delete");
+      	s = objRef.targetModel.doc;
+      	//s=objRef.cdataElementXsl.transformNodeToObject(s);
         s=objRef.insertXsl.transformNodeToObject(s);
         objRef.httpPayload.postData=s;
         objRef.transactionResponseModel.transactionType="delete";
@@ -111,6 +112,32 @@ function ProposeDeleteFeature(widgetNode, model) {
     }
         
     return (minX + "," + minY + " " + minX + "," + maxY + " " + maxX + "," + maxY + " " + maxX + "," + minY + " " + minX + "," + minY);
+  }
+  
+  this.getFirstPoint = function(targetModel)
+  {
+    var nodes = targetModel.doc.selectNodes("//georss:featureOfInterest//gml:coordinates");
+    
+    invalidCoord=false;
+    for(var n=0;n<nodes.length;n++)
+    {
+      coords = nodes[n].firstChild.nodeValue.trim().split(" ");
+      if(coords.length >= 0 && coords[0]!= "")
+      {
+        result = coords[0];
+      }
+      else
+      {
+        invalidCoord = true;
+      }
+    }
+    
+    if(invalidCoord)
+    {
+      alert("invalid coordinate found, but transaction will procceed")
+    }
+        
+    return (result);
   }
 
   /**
