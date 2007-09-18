@@ -102,9 +102,14 @@ function ModelBase(modelNode, parentModel) {
    * @param xpath XPath of the node to update.
    * @return value of the node or null if XPath does not find a node.
    */
-  this.getXpathValue=function(objRef,xpath){
+  this.getXpathValue=function(objRef,xpath,defaultNS){
     if (!objRef.doc) return null; 
-    node=objRef.doc.selectSingleNode(objRef.hackSarissaDefaultNSXPathIssue(xpath));
+    var node;
+    if(defaultNS) {
+	    node=objRef.doc.selectSingleNode(objRef.hackSarissaDefaultNSXPathIssue(xpath));
+    } else {
+	    node=objRef.doc.selectSingleNode(xpath);
+    }
     if(node && node.firstChild){
       return node.firstChild.nodeValue;
     }else{
@@ -122,9 +127,14 @@ function ModelBase(modelNode, parentModel) {
    * @param refresh determines if the model should be refreshed (optional).
    * @return Returns false if Xpath does not find a node.
    */
-  this.setXpathAttribute=function(objRef,xpath,attribute,value,refresh){
+  this.setXpathAttribute=function(objRef,xpath,attribute,value,refresh,defaultNS){
     if (refresh==null) refresh=true;
-    var node=objRef.doc.selectSingleNode(objRef.hackSarissaDefaultNSXPathIssue(xpath));
+    var node;
+    if(defaultNS) {
+	    node=objRef.doc.selectSingleNode(objRef.hackSarissaDefaultNSXPathIssue(xpath));
+    } else {
+	    node=objRef.doc.selectSingleNode(xpath);
+    }
     if(node){
       node.setAttribute(attribute, value);
 
@@ -146,7 +156,12 @@ function ModelBase(modelNode, parentModel) {
    */
   this.setXpathValue=function(objRef,xpath,value,refresh){
     if (refresh==null) refresh=true;
-    var node=objRef.doc.selectSingleNode(objRef.hackSarissaDefaultNSXPathIssue(xpath));
+    var node;
+    if(defaultNS) {
+	    node=objRef.doc.selectSingleNode(objRef.hackSarissaDefaultNSXPathIssue(xpath));
+    } else {
+	    node=objRef.doc.selectSingleNode(xpath);
+    }
     if(node){
       if(node.firstChild){
         node.firstChild.nodeValue=value;
