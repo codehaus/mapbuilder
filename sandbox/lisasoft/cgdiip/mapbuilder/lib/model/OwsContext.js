@@ -356,7 +356,9 @@ function OwsContext(modelNode, parent) {
 
       parentNode.appendChild(layerNode.cloneNode(true));
       objRef.modified = true;
-      alert( "Adding layer:"+(new XMLSerializer()).serializeToString( layerNode ) );
+      if (this.debug) {
+         mbDebugMessage( "Adding layer:"+(new XMLSerializer()).serializeToString( layerNode ) );
+      }
     } else {
       alert(mbGetMessage("nullOwsContext"));
     }
