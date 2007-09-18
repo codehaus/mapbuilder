@@ -56,7 +56,7 @@
           <sldModel>sld</sldModel>
           <featureOnClick>featurePopup</featureOnClick>
         </GmlRendererOL>
-        <FeatureList id="featureList"></FeatureList>
+        <FeedbackFeatureList id="featureList"></FeedbackFeatureList>
       </widgets>
       <tools>
         <FeatureSelectHandler id="featureHighlighter">
