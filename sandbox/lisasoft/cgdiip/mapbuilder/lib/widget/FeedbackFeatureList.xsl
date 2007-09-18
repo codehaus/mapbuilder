@@ -10,7 +10,7 @@ version="1.0">
 Description: Convert a GML Feature or FeatureCollection into a HTML form.
 Author:      Cameron Shorter cameron ATshorter.net
 Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
-$Id$
+$Id: FeatureList.xsl 3256 2007-09-14 00:39:54Z mvivian $
 $Name$
 -->
 
@@ -50,19 +50,50 @@ $Name$
       </xsl:call-template>
     </xsl:variable>
     <xsl:if test="not(./*)">
-       <tr>
-         <td>
-           <xsl:value-of select="name(.)"/>
-         </td>
-         <td>
-           <input
-             type="text"
-             id="{$widgetId}{generate-id()}"
-             size="40"
-             value="{text()}"
-             onchange="config.objects.{$widgetId}.setNodeValue(config.objects.{$widgetId},'{$xlink}',document.getElementById('{$widgetId}{generate-id()}').value);"/>
-         </td>
-       </tr>
+	  <xsl:choose>
+<!-- 
+    	<xsl:when test="name(.)='category'">
+          <tr>
+            <td>
+              <xsl:value-of select="@scheme"/>
+            </td>
+            <td>
+              <xsl:value-of select="@term"/>
+            </td>
+          </tr>
+    	</xsl:when>
+-->
+    	<xsl:when test="name(.)='category'">
+          <tr>
+            <td>
+              <xsl:value-of select="@scheme"/>
+            </td>
+            <td>
+              <input
+                type="text"
+                id="{$widgetId}{generate-id()}"
+                size="40"
+                value="{@term}"
+                onchange="config.objects.{$widgetId}.setAttribValue(config.objects.{$widgetId},'{$xlink}[@scheme=\'{@scheme}\']','term',document.getElementById('{$widgetId}{generate-id()}').value);"/>
+            </td>
+          </tr>
+        </xsl:when>
+        <xsl:otherwise>
+          <tr>
+            <td>
+              <xsl:value-of select="name(.)"/>
+            </td>
+            <td>
+              <input
+                type="text"
+                id="{$widgetId}{generate-id()}"
+                size="40"
+                value="{text()}"
+                onchange="config.objects.{$widgetId}.setNodeValue(config.objects.{$widgetId},'{$xlink}',document.getElementById('{$widgetId}{generate-id()}').value);"/>
+            </td>
+          </tr>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:if>
     <xsl:if test="./*">
       <xsl:apply-templates>

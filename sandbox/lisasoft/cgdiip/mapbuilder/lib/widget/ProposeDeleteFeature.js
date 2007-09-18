@@ -30,7 +30,7 @@ function ProposeDeleteFeature(widgetNode, model) {
   this.httpPayload.url=widgetNode.selectSingleNode("mb:webServiceUrl").firstChild.nodeValue;
   this.httpPayload.method="post";
 
-  this.insertXsl=new XslProcessor(baseDir+"/tool/xsl/wfs_Insert.xsl");
+  this.insertXsl=new XslProcessor(baseDir+"/tool/xsl/wfs_Insert_atom.xsl");
   this.cdataElementXsl=new XslProcessor(baseDir+"/tool/xsl/cdata_element.xsl");
   
   /** creates the OL control for this button */
@@ -64,7 +64,7 @@ function ProposeDeleteFeature(widgetNode, model) {
       if (objRef.targetModel.doc && fid){
       	point = objRef.getFirstPoint(objRef.targetModel);
         objRef.targetModel.setXpathValue(objRef.targetModel,"//georss:where/gml:Point/gml:pos",point);
-      	objRef.targetModel.setXpathAttribute(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/action']","term","Delete");
+      	objRef.targetModel.setXpathAttribute(objRef.targetModel,"//def:category[@scheme='http://www.geobase.ca/scheme/action']","term","Delete");
       	s = objRef.targetModel.doc;
       	//s=objRef.cdataElementXsl.transformNodeToObject(s);
         s=objRef.insertXsl.transformNodeToObject(s);

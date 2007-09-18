@@ -32,7 +32,7 @@ function ProposeInsertFeature(widgetNode, model) {
   this.httpPayload.method="post";
 
   /** Xsl to convert Feature into a WFS Transaction Insert. */
-  this.insertXsl=new XslProcessor(baseDir+"/tool/xsl/wfs_Insert.xsl");
+  this.insertXsl=new XslProcessor(baseDir+"/tool/xsl/wfs_Insert_atom.xsl");
   
   this.cdataElementXsl=new XslProcessor(baseDir+"/tool/xsl/cdata_element.xsl");
 
@@ -69,9 +69,9 @@ function ProposeInsertFeature(widgetNode, model) {
         // otherwise we are adding a new feature
         
         if(fid){
-          objRef.targetModel.setXpathAttribute(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/action']","term","Update");
+          objRef.targetModel.setXpathAttribute(objRef.targetModel,"//def:category[@scheme='http://www.geobase.ca/scheme/action']","term","Update");
         }else{
-          objRef.targetModel.setXpathAttribute(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/action']","term","Insert");
+          objRef.targetModel.setXpathAttribute(objRef.targetModel,"//def:category[@scheme='http://www.geobase.ca/scheme/action']","term","Insert");
         }
         
         var date = new Date();
