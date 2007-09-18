@@ -103,7 +103,7 @@ function ModelBase(modelNode, parentModel) {
    * @return value of the node or null if XPath does not find a node.
    */
   this.getXpathValue=function(objRef,xpath,defaultNS){
-    if (defaultNS==null) defaultNS=false;
+    if(typeof(defaultNS) == "undefined") defaultNS = false; 
     if (!objRef.doc) return null; 
     var node;
     if(defaultNS) {
@@ -130,7 +130,7 @@ function ModelBase(modelNode, parentModel) {
    */
   this.setXpathAttribute=function(objRef,xpath,attribute,value,refresh,defaultNS){
     if (refresh==null) refresh=true;
-    if (defaultNS==null) defaultNS=false;
+    if(typeof(defaultNS) == "undefined") defaultNS = false; 
     var node;
     if(defaultNS) {
 	    node=objRef.doc.selectSingleNode(objRef.hackSarissaDefaultNSXPathIssue(xpath));
@@ -158,7 +158,7 @@ function ModelBase(modelNode, parentModel) {
    */
   this.setXpathValue=function(objRef,xpath,value,refresh){
     if (refresh==null) refresh=true;
-    if (defaultNS==null) defaultNS=false;
+    if(typeof(defaultNS) == "undefined") defaultNS = false; 
     var node;
     if(defaultNS) {
 	    node=objRef.doc.selectSingleNode(objRef.hackSarissaDefaultNSXPathIssue(xpath));
