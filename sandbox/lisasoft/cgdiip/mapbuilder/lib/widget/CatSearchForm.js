@@ -179,10 +179,3 @@ function OWSCatSearchForm(widgetNode, model) {
   this.formName = "WebServiceForm_" + mbIds.getId();
   this.stylesheet.setParameter("formName", this.formName);
 }
-
-  /**
-   */
-  SetAoiCoords = function(aoiBox) {
-    config.objects.mainMap.setParam("aoi",aoiBox );
-  }
-
