@@ -6,7 +6,8 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
+//mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
+mapbuilder.loadScript("lib/OpenLayers.js");
 mapbuilder.loadScript(baseDir+"/util/Util.js");
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 mapbuilder.loadScript(baseDir+"/tool/Extent.js");
@@ -225,6 +226,9 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         };
 
     objRef.model.map = new OpenLayers.Map(objRef.node, mapOptions);
+
+    // Set the Openlayers proxy to be the same as the Mapbuilder proxy
+    if (config.proxyUrl) OpenLayers.ProxyHost=config.proxyUrl+"?url=";
 
     // Increase hight of Control layers to allow for lots of layers.
     objRef.model.map.Z_INDEX_BASE.Control=10000;
