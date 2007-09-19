@@ -130,6 +130,7 @@ function OWSCatSearchForm(widgetNode, model) {
   this.handleKeyPress = function(event) {
     var keycode;
     var target;
+    
     if (event){
       //Mozilla
       keycode=event.which;
@@ -179,3 +180,10 @@ function OWSCatSearchForm(widgetNode, model) {
   this.formName = "WebServiceForm_" + mbIds.getId();
   this.stylesheet.setParameter("formName", this.formName);
 }
+
+  /**
+   */
+  SetAoiCoords = function(aoiBox) {
+    config.objects.mainMap.setParam("aoi",aoiBox );
+  }
+
