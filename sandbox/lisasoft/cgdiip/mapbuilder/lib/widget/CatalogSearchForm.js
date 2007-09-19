@@ -23,16 +23,130 @@ function CatalogSearchForm(widgetNode, model) {
   this.httpPayload = new Object();
   this.httpPayload.url = this.wrsUrl;
   this.httpPayload.method = "post";
+  
+  //get bbox inforamtion from a map model
+  var mapModel = widgetNode.selectSingleNode("mb:mapModel");
+  if ( mapModel ) {
+    this.mapModel = mapModel.firstChild.nodeValue;
+  } else {
+    this.mapModel = model.id;
+  }
+
+  /**
+   * Refreshes the form onblur handlers when this widget is painted.
+   * @param objRef Pointer to this CurorTrack object.
+   */
+  this.postPaint = function(objRef) {
+    config.objects[objRef.mapModel].addListener('aoi', this.displayAoiCoords, this);
+
+    objRef.searchForm = document.getElementById(this.formName);
+    objRef.searchForm.parentWidget = objRef;
+
+    objRef.searchForm.westCoord.onblur = objRef.setAoi;
+    objRef.searchForm.northCoord.onblur = objRef.setAoi;
+    objRef.searchForm.eastCoord.onblur = objRef.setAoi;
+    objRef.searchForm.southCoord.onblur = objRef.setAoi;
+    objRef.searchForm.westCoord.model = objRef.model;
+    objRef.searchForm.northCoord.model = objRef.model;
+    objRef.searchForm.eastCoord.model = objRef.model;
+    objRef.searchForm.southCoord.model = objRef.model;
+
+    objRef.searchForm.onkeypress = objRef.handleKeyPress;
+    objRef.searchForm.onsubmit = objRef.submitForm;
+    //objRef.searchForm.mapsheet.onblur = objRef.setMapsheet;
+  }
+
+  /**
+   * Output the AOI coordinates to the associated form input elements.  This
+   * method is registered as an AOI listener on the context doc.
+   * @param objRef Pointer to this searchForm object.
+   */
+  this.displayAoiCoords = function(objRef) {
+    //objRef.searchForm = document.getElementById(this.formName);
+    var aoi = config.objects[objRef.mapModel].getParam("aoi");
+    objRef.searchForm.westCoord.value = aoi[0][0];
+    objRef.searchForm.northCoord.value = aoi[0][1];
+    objRef.searchForm.eastCoord.value = aoi[1][0];
+    objRef.searchForm.southCoord.value = aoi[1][1];
+  }
+
+  /**
+   * Handles user input from the form element.  This is an onblur handler for 
+   * the input elements.
+   */
+  this.setAoi = function() {
+    var aoi = config.objects[this.mapModel].getParam("aoi");
+    if (aoi) {
+      var ul = aoi[0];
+      var lr = aoi[1];
+      switch(this.name) {
+        case 'westCoord':
+          ul[0] = this.value;
+          break;
+        case 'northCoord':
+          ul[1] = this.value;
+          break;
+        case 'eastCoord':
+          lr[0] = this.value;
+          break;
+        case 'southCoord':
+          lr[1] = this.value;
+          break;
+      }
+      config.objects[this.mapModel].setParam("aoi",new Array(ul,lr) );
+    }
+  }
+
+  /**
+   * handles keypress events to filter out everything except "enter".  
+   * Pressing the "enter" key will trigger a form submit
+   * @param event  the event object passed in for Mozilla; IE uses window.event
+   */
+  this.handleKeyPress = function(event) {
+    var keycode;
+    var target;
+    if (event){
+      //Mozilla
+      keycode=event.which;
+      target=event.currentTarget;
+    }else{
+      //IE
+      keycode=window.event.keyCode;
+      target=window.event.srcElement.form;
+    }
+
+    if (keycode == 13) {    //enter key
+      return true;
+    }
+  }
+
+/**
+ * Change the AOI coordinates from select box choice of prefined locations
+ * @param bbox the bbox value of the location keyword chosen
+ */
+  this.setLocation = function(bbox) {
+    var bboxArray = new Array();
+    bboxArray     = bbox.split(",");
+    var ul = new Array(parseFloat(bboxArray[0]),parseFloat(bboxArray[2]));
+    var lr = new Array(parseFloat(bboxArray[1]),parseFloat(bboxArray[3]));
+    config.objects[this.mapModel].setParam("aoi",new Array(ul,lr));
+
+    //convert this.model XY to latlong
+    //convert latlong to targetmodel XY
+    //extent.setAoi takes XY as input
+    //this.targetModel.setParam("aoi", new Array(ul,lr));
+    //this.targetModel.setParam("mouseup",this);
+  }
+
 
   /**
    * Build and send a catalog query. The results will be inserted into the
    * targetModel which will trigger an event to handleResponse().
    * 
-   * @param formId       Id of Form 
    * @return none 
    */
 
-  CatalogSearchForm.prototype.doSelect = function(formId) {
+  CatalogSearchForm.prototype.doSelect = function() {
     // Register for an event sent after the catalog query has finished
     if(!this.initialized){
       this.targetModel.addListener("loadModel",this.handleResponse,this);
@@ -42,13 +156,13 @@ function CatalogSearchForm(widgetNode, model) {
     
     // call buildQuery method to read form values, put them into the model
     // and perform an XSL translation to get the WRS Query
-    wrsQueryXML = this.buildQuery(formId);
-
+    wrsQueryXML = this.buildQuery();
+    
     // POST the query to the WRS Service configured in config.xml (wrsUrl)
     this.httpPayload.postData= wrsQueryXML;
     this.targetModel.transactionType="insert";
     this.targetModel.newRequest(this.targetModel,this.httpPayload);
-
+    
     // Load the new model
     this.targetModel.callListeners("loadModel");
   }
@@ -57,20 +171,32 @@ function CatalogSearchForm(widgetNode, model) {
    * Builds WRS Catalog query 
    * returns: WRS Query XML (string)
    * 
-   * @param formId       Id of Form 
    * @return wrsQueryXML A textual representation of the WRS Query XML
    */
-  CatalogSearchForm.prototype.buildQuery = function(formId) {
-    
+  CatalogSearchForm.prototype.buildQuery = function() {
     // Get the reference to the form
-    this.searchForm = document.getElementById(formId);
+    this.searchForm = document.getElementById(this.formName);
          
     // Fill the model with the values needed for building the query
     // TBD: This is not a correct way to address the model, since the form values will disappear when
     //      the model changes. View needs to correspond to the model.
+
     this.model.setXpathValue(this.model, "/filter/keywords", this.searchForm.keywords.value, false);
     this.model.setXpathValue(this.model, "/filter/servicetype", this.searchForm.serviceType.value, false);
     this.model.setXpathValue(this.model, "/filter/serviceassociation", this.wrsServiceAssociation, false);
+
+	// determine the BBox
+    var aoi = config.objects[this.mapModel].getParam("aoi");
+    var bboxStr = "";
+    if (aoi) {
+      // a bbox was set in the map pane
+      bboxStr = aoi[0][0]+","+aoi[1][1]+" "+aoi[1][0]+","+aoi[0][1];
+    } else {
+      // no bbox was set, use the bbox of the map model
+      var bbox = config.objects[this.mapModel].getBoundingBox();
+      bboxStr = bbox[0]+","+bbox[1]+" "+bbox[2]+","+bbox[3];
+    }
+    this.model.setXpathValue(this.model, "/filter/location", bboxStr, false);
 
     // Load the XSL to generate the WRS Query
     this.wrsQuery=new XslProcessor(baseDir+"/tool/xsl/wrs_Query.xsl");
@@ -90,11 +216,10 @@ function CatalogSearchForm(widgetNode, model) {
    * Responds to 'Show Query' button and will generate WRS Query and show it on
    * the screen, without submitting it
    * 
-   * @param formId       Id of Form 
    * @return none
    */
-  CatalogSearchForm.prototype.debugQuery = function(formId){
-    s = this.buildQuery(formId);
+  CatalogSearchForm.prototype.debugQuery = function(){
+    s = this.buildQuery();
     s=
       "<html><title>"
       +"WRS Query"
@@ -124,6 +249,8 @@ function CatalogSearchForm(widgetNode, model) {
       window.config.objects[objRef.targetContext],
       newContext);
   }
+
+  //set some properties for the form output
+  this.formName = "WebServiceForm_" + mbIds.getId();
+  this.stylesheet.setParameter("formName", this.formName);
 }
-
-

@@ -62,8 +62,8 @@ $Name:  $
         <option value="WMS">WMS</option>
         <option selected="true" value="WFS">WFS</option>
       </select>
-      <input type="button" value="Search" onclick="config.objects.{$widgetId}.doSelect('{$formName}');"/>
-      <input type="button" value="Show Query" onclick="config.objects.{$widgetId}.debugQuery('{$formName}');"/>
+      <input type="button" value="Search" onclick="config.objects.{$widgetId}.doSelect();"/>
+      <input type="button" value="Show Query" onclick="config.objects.{$widgetId}.debugQuery();"/>
     </form>
 
     <div id="debugwindow" style="position:absolute; top:310px;left:370px;width:400px; height:300px; z-index:2;background-color:lightgray;overflow:auto"></div>
