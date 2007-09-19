@@ -153,8 +153,7 @@ $Name:  $
     <ogc:BBOX>
       <ogc:PropertyName>/ExtrinsicObject/Slot[@name='FootPrint']/ValueList/Value[1]</ogc:PropertyName>
       <gml:Box srsName="EPSG:4326">
-        <gml:coordinates>90.0,-45.0 
-180.0,0.0</gml:coordinates>
+        <gml:coordinates><xsl:value-of select="."/></gml:coordinates>
       </gml:Box>
     </ogc:BBOX>
   </xsl:template>
