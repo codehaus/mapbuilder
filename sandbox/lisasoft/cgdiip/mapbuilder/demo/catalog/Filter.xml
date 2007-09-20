@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <filter>
   <keywords/>
   <serviceassociation/>
@@ -5,35 +6,3 @@
   <location/>
 </filter>
 
-<!--
-<Filter>
-	<And>
-		<BBOX>
-			<PropertyName>NAME</PropertyName>
-			<Box>
-				<coordinates/>
-			</Box>
-		</BBOX>
-		<PropertyIsEqualTo>
-			<PropertyName>service_type</PropertyName>
-  		<Literal/>
-		</PropertyIsEqualTo>
-		<Or>
-			<Or>
-				<PropertyIsLike wildCard="*" singleChar="." escape="!">
-					<PropertyName>title</PropertyName>
-					<Literal/>
-				</PropertyIsLike>
-				<PropertyIsLike wildCard="*" singleChar="." escape="!">
-					<PropertyName>abstract</PropertyName>
-					<Literal/>
-				</PropertyIsLike>
-			</Or>
-			<PropertyIsLike wildCard="*" singleChar="." escape="!">
-  			<PropertyName>keywords</PropertyName>
-				<Literal/>
-			</PropertyIsLike>
-		</Or>
-	</And>
-</Filter>
--->
