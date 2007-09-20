@@ -134,11 +134,12 @@ function AoiBoxDHTML(widgetNode, model) {
     newDiv.style.backgroundColor = this.lineColor;
     newDiv.style.visibility = "hidden";
     newDiv.style.zIndex = 900;
-    if (this.node.style.position != 'absolute' &&
-          this.node.style.position != 'relative') {
-      this.node.style.position = "absolute";
+    var node = this.getNode();
+    if (node.style.position != 'absolute' &&
+          node.style.position != 'relative') {
+      node.style.position = "absolute";
     }
-    this.node.appendChild( newDiv );
+    node.appendChild( newDiv );
     return newDiv;
   }
 
