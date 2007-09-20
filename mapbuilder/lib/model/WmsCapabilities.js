@@ -67,7 +67,7 @@ function WmsCapabilities(modelNode, parent) {
   this.getServerTitle = function() {
     var xpath = "/WMT_MS_Capabilities/Service/Title";
     var node = this.doc.selectSingleNode(xpath);
-    return node.firstChild.nodeValue;
+    return (node && node.firstChild) ? node.firstChild.nodeValue : "no title";
   }
 
   /**
