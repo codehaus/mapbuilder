@@ -51,10 +51,13 @@ $Name:  $
       
       <h3>Keywords</h3>
       <input type="text" name="keywords" value=""/>
+      <br />
       <h3>Location</h3>
+      <!--
       <xsl:call-template name="locations">
         <xsl:with-param name="locationsDoc" select="$searchConfigDoc"/>
       </xsl:call-template>
+      -->
       <xsl:call-template name="aoiBox"/>
       <h3>Service Type</h3>
       <select name="serviceType" id="serviceType">
@@ -90,10 +93,8 @@ $Name:  $
   </xsl:template>
   
   <xsl:template name="aoiBox">
-    <p>
       <table>
         <tr>
-          <td align="left">or enter</td>
           <td><xsl:value-of select="$north"/></td>
           <td><xsl:value-of select="$south"/></td>
           <td><xsl:value-of select="$east"/></td>
@@ -101,22 +102,19 @@ $Name:  $
         </tr>
         <tr>
           <td>
+            <input name="northCoord" type="text" size="10" class="searchInput" onblur="config.objects.{$widgetId}.setAoi(config.objects.{$widgetId});"/>
           </td>
           <td>
-            <input name="northCoord" type="text" size="10" class="searchInput"/>
+            <input name="southCoord" type="text" size="10" class="searchInput" onblur="config.objects.{$widgetId}.setAoi(config.objects.{$widgetId});"/>
           </td>
           <td>
-            <input name="southCoord" type="text" size="10" class="searchInput"/>
+            <input name="eastCoord" type="text" size="10"  class="searchInput" onblur="config.objects.{$widgetId}.setAoi(config.objects.{$widgetId});"/>
           </td>
           <td>
-            <input name="eastCoord" type="text" size="10"  class="searchInput"/>
-          </td>
-          <td>
-            <input name="westCoord" type="text" size="10" class="searchInput"/>
+            <input name="westCoord" type="text" size="10" class="searchInput" onblur="config.objects.{$widgetId}.setAoi(config.objects.{$widgetId});"/>
           </td>
         </tr>
       </table>
-    </p>
   </xsl:template>
   
   <xsl:template name="ntsInput">

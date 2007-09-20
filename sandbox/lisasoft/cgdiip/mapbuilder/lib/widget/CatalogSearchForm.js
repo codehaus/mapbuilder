@@ -36,24 +36,25 @@ function CatalogSearchForm(widgetNode, model) {
    * Refreshes the form onblur handlers when this widget is painted.
    * @param objRef Pointer to this CurorTrack object.
    */
-  this.postPaint = function(objRef) {
-    config.objects[objRef.mapModel].addListener('aoi', this.displayAoiCoords, this);
+    this.postPaint = function() {
+    config.objects[this.mapModel].addListener('aoi', this.displayAoiCoords, this);
 
-    objRef.searchForm = document.getElementById(this.formName);
-    objRef.searchForm.parentWidget = objRef;
+    this.searchForm = document.getElementById(this.formName);
+    this.searchForm.parentWidget = this;
+/*
 
-    objRef.searchForm.westCoord.onblur = objRef.setAoi;
-    objRef.searchForm.northCoord.onblur = objRef.setAoi;
-    objRef.searchForm.eastCoord.onblur = objRef.setAoi;
-    objRef.searchForm.southCoord.onblur = objRef.setAoi;
-    objRef.searchForm.westCoord.model = objRef.model;
-    objRef.searchForm.northCoord.model = objRef.model;
-    objRef.searchForm.eastCoord.model = objRef.model;
-    objRef.searchForm.southCoord.model = objRef.model;
-
-    objRef.searchForm.onkeypress = objRef.handleKeyPress;
-    objRef.searchForm.onsubmit = objRef.submitForm;
-    //objRef.searchForm.mapsheet.onblur = objRef.setMapsheet;
+    this.searchForm.westCoord.onblur = function() {alert(config.objects[this.model])};
+    this.searchForm.northCoord.onblur = this.setAoi;
+    this.searchForm.eastCoord.onblur = this.setAoi;
+    this.searchForm.southCoord.onblur = this.setAoi;
+*/
+    this.searchForm.westCoord.model = this.model;
+    this.searchForm.northCoord.model = this.model;
+    this.searchForm.eastCoord.model = this.model;
+    this.searchForm.southCoord.model = this.model;
+    this.searchForm.onkeypress = this.handleKeyPress;
+    //this.searchForm.onsubmit = this.submitForm;
+    //this.searchForm.mapsheet.onblur = this.setMapsheet;
   }
 
   /**
@@ -61,7 +62,7 @@ function CatalogSearchForm(widgetNode, model) {
    * method is registered as an AOI listener on the context doc.
    * @param objRef Pointer to this searchForm object.
    */
-  this.displayAoiCoords = function(objRef) {
+    CatalogSearchForm.prototype.displayAoiCoords = function(objRef) {
     //objRef.searchForm = document.getElementById(this.formName);
     var aoi = config.objects[objRef.mapModel].getParam("aoi");
     objRef.searchForm.westCoord.value = aoi[0][0];
@@ -74,7 +75,7 @@ function CatalogSearchForm(widgetNode, model) {
    * Handles user input from the form element.  This is an onblur handler for 
    * the input elements.
    */
-  this.setAoi = function() {
+  CatalogSearchForm.prototype.setAoi = function() {
     var aoi = config.objects[this.mapModel].getParam("aoi");
     if (aoi) {
       var ul = aoi[0];
@@ -124,7 +125,7 @@ function CatalogSearchForm(widgetNode, model) {
  * Change the AOI coordinates from select box choice of prefined locations
  * @param bbox the bbox value of the location keyword chosen
  */
-  this.setLocation = function(bbox) {
+  CatalogSearchForm.prototype.setLocation = function(bbox) {
     var bboxArray = new Array();
     bboxArray     = bbox.split(",");
     var ul = new Array(parseFloat(bboxArray[0]),parseFloat(bboxArray[2]));
@@ -206,7 +207,6 @@ function CatalogSearchForm(widgetNode, model) {
 
     // Do the actual XSL translation to generate the WRS Query
     var wrsQueryXML = this.wrsQuery.transformNodeToString(this.model.doc);
-
     return wrsQueryXML;
 
   }
