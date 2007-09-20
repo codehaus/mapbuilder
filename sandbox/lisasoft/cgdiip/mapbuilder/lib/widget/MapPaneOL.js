@@ -6,8 +6,8 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-//mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
-mapbuilder.loadScript("lib/OpenLayers.js");
+mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
+//mapbuilder.loadScript("lib/OpenLayers.js");
 mapbuilder.loadScript(baseDir+"/util/Util.js");
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 mapbuilder.loadScript(baseDir+"/tool/Extent.js");
@@ -553,14 +553,19 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       else{
         layerOptions.style=objRef.getWebSafeStyle(objRef, 2*i+1);
       }
-      layerOptions.featureClass=OpenLayers.Feature.WFS;
+
+      // taking out the featureClass here solves the problem for vector WFS layers
+      // it will break point WFS layers. camerons: can you fix this?
+
+      //layerOptions.featureClass=OpenLayers.Feature.WFS;
 
       objRef.oLlayers[name2]= new OpenLayers.Layer.WFS(
         title,
         href,{
           typename: name2,
-          maxfeatures: 1000},
-          layerOptions
+          //maxfeatures: 1000},
+          //layerOptions
+          maxfeatures: 10}
         );
     break;
 
@@ -575,7 +580,6 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         layerOptions.style=objRef.getWebSafeStyle(objRef, 2*i+1);
       }
       objRef.oLlayers[name2] = new OpenLayers.Layer.GML(title,href,layerOptions);
-
      break;
 
     case "GMAP":
