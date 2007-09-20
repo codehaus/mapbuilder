@@ -23,7 +23,7 @@
     </KeywordList>
   </General>
   <ResourceList>
-    <Layer queryable="0" hidden="0">
+    <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS-C" version="1.0.0" title="OGC:WMS-C">
         <OnlineResource xlink:type="simple" xlink:href="http://labs.metacarta.com/wms/vmap0"/>
       </Server>
@@ -45,7 +45,48 @@
         </Style>
       </StyleList>
     </Layer>
+
     <FeatureType hidden="1">
+      <Server service="OGC:GML" version="2.1.2" title="Local">
+        <OnlineResource method="GET" xlink:type="simple" xlink:href="iba-gml.xml"/>
+      </Server>
+      <Name>IBA</Name>
+      <Title>IBA Birds GML local</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+
+    <FeatureType hidden="1">
+      <Server service="OGC:GML" version="2.1.2" title="Tazzy">
+        <OnlineResource method="GET" xlink:type="simple" xlink:href="TasmaniaWaterBodies.xml"/>
+      </Server>
+      <Name>Tasmania Water Bodies GML local</Name>
+      <Title>Tazzy</Title>
+      <Abstract>This is some bird data</Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+
+    <FeatureType hidden="1">
+      <Server service="OGC:WFS" version="1.0" title="RoadSegment">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://office.refractions.net:21880/geoserver/wfs"/>
+      </Server>
+      <Name>gb:RoadSegment</Name>
+      <Title>RoadSegment</Title>
+      <Abstract>This is some bird data</Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+
+    <FeatureType hidden="0">
+      <Server service="OGC:WFS" version="1.0" title="TollPoint">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://office.refractions.net:21880/geoserver/wfs"/>
+      </Server>
+      <Name>gb:TollPoint</Name>
+      <Title>TollPoint</Title>
+      <Abstract>This is some bird data</Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+
+    <FeatureType hidden="0">
       <Server service="OGC:WFS" version="1.0" title="My bird WFS">
         <OnlineResource method="POST" xlink:type="simple" xlink:href="http://www.bsc-eoc.org/cgi-bin/bsc_ows.asp"/>
       </Server>
@@ -54,8 +95,9 @@
       <Abstract>This is some bird data</Abstract>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
-    <FeatureType hidden="0">
-      <Server service="OGC:WMS" version="1.0" title="My birds WMS">
+
+    <FeatureType hidden="1">
+      <Server service="OGC:WMS" version="1.1.1" title="My birds WMS">
         <OnlineResource method="POST" xlink:type="simple" xlink:href="http://www.bsc-eoc.org/cgi-bin/bsc_ows.asp"/>
       </Server>
       <Name>IBA</Name>
