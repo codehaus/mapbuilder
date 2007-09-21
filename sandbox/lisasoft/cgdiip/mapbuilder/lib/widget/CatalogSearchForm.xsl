@@ -66,10 +66,10 @@ $Name:  $
         <option selected="true" value="WFS">WFS</option>
       </select>
       <input type="button" value="Search" onclick="config.objects.{$widgetId}.doSelect();"/>
-      <input type="button" value="Show Query" onclick="config.objects.{$widgetId}.debugQuery();"/>
+      <input id="debug_button" type="button" value="Show Query" onclick="config.objects.{$widgetId}.debugQuery();"/>
     </form>
 
-    <div id="debugwindow" style="position:absolute; top:310px;left:370px;width:400px; height:300px; z-index:2;background-color:lightgray;overflow:auto"></div>
+    <div id="debugwindow" style="position:absolute; top:310px;left:370px;width:400px; height:300px; z-index:2;background-color:transparent;overflow:auto"></div>
 
     </div>
   </xsl:template>
