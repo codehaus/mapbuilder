@@ -53,11 +53,23 @@ $Name:  $
 
   <!-- Match Layer (ExtrinsicObject -->
   <xsl:template match="rim:ExtrinsicObject">
+
+    <!-- When layer is WFS: FeatureType -->
+    <!-- When layer is WMS: Layer       -->
+    <!-- else (fallback)  : Layer       -->
+    <xsl:variable name="element_name">
+      <xsl:choose>
+        <xsl:when test="//rim:Slot[@name='Service Type']/rim:ValueList/rim:Value = 'WFS'">FeatureType</xsl:when>
+        <xsl:when test="//rim:Slot[@name='Service Type']/rim:ValueList/rim:Value = 'WMS'">Layer</xsl:when>
+        <xsl:otherwise>Layer</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
     <!--xsl:if test="not($id) or ($id=@id)"-->
-      <wmc:Layer queryable="0" hidden="0">
-        <xsl:attribute name="id">
-          <xsl:value-of select="@id"/>
-        </xsl:attribute>
+    <xsl:element name="wmc:{$element_name}">
+        <xsl:attribute name="queryable">0</xsl:attribute>
+        <xsl:attribute name="hidden">0</xsl:attribute>
+        <xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
         <!-- insert service -->
         <!--xsl:apply-templates select="//rim:Service[position()=(position()+1)]"/-->
         <xsl:call-template name="Service">
@@ -72,7 +84,7 @@ $Name:  $
         <wmc:Abstract>
           <xsl:value-of select="rim:Description/rim:LocalizedString/@value"/>
         </wmc:Abstract>
-      </wmc:Layer>
+    </xsl:element>
     <!--/xsl:if-->
   </xsl:template>
 
