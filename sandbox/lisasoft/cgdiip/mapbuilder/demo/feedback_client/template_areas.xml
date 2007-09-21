@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!-- $Id: template_waterbodies.xml 2957 2007-07-09 12:21:10Z steven $ -->
 <gml:featureMember xmlns:gb="http://geocon.sunertek.com" xmlns:gml="http://www.opengis.net/gml">
   <gb:AdministrativeArea>
     <gb:the_geom>
