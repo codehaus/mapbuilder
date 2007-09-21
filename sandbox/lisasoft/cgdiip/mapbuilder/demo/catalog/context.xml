@@ -12,10 +12,10 @@
   xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
   
   <General>
-    <Window width="600" height="300"/>
+    <Window width="400" height="300"/>
     <ows:BoundingBox crs="EPSG:4326">
-      <ows:LowerCorner>-180 -90</ows:LowerCorner>
-      <ows:UpperCorner>180 90</ows:UpperCorner>
+      <ows:LowerCorner>-142 40</ows:LowerCorner>
+      <ows:UpperCorner>-52 85</ows:UpperCorner>
     </ows:BoundingBox>
     <Title xml:lang="en">Simple World Context</Title>
     <KeywordList>
@@ -96,7 +96,8 @@
       <SRS>EPSG:4326</SRS>
     </FeatureType>
 
-    <FeatureType hidden="1">
+    <!--
+    <Layer hidden="1">
       <Server service="OGC:WMS" version="1.1.1" title="My birds WMS">
         <OnlineResource method="POST" xlink:type="simple" xlink:href="http://www.bsc-eoc.org/cgi-bin/bsc_ows.asp"/>
       </Server>
@@ -104,7 +105,8 @@
       <Title>Important Bird Areas WMS</Title>
       <Abstract>This is some bird data</Abstract>
       <SRS>EPSG:4326</SRS>
-    </FeatureType>
+    </Layer>
+    -->
     <!--
     <FeatureType hidden="0">
       <Server service="OGC:WFS" version="1.0" title="My Geoserver WFS">

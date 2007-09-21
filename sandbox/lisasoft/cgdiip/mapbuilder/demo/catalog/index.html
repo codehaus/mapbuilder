@@ -1,13 +1,14 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <html>
   <head>
-    <title>Mapbuilder Catalog Editor</title>
+    <title>CGDI-IP Catalog Search</title>
     <link rel="stylesheet" href="../../lib/skin/default/mapStyle.css" type="text/css">
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/demoStyles.css'/>
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'/>
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/button.css'>
     <link rel="stylesheet" type="text/css" href="../../lib/skin/default/tabList.css">
     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'>
+    <link rel='StyleSheet' type='text/css' href='catalog.css'>
     <script type="text/javascript">
     // URL of Mapbuilder configuration file.
     var mbConfigUrl='config.xml';
@@ -17,18 +18,52 @@
 </head>
 <body onload="mbDoLoad()">
   <noscript>this page requires Javascript to be enabled</noscript>
-  <div id="mainMapPane"></div><!-- /mainMapPane -->
-  <div id="mainButtonBar"/>
-  <div id="contextPopup"></div>
-  <div id="mapList"></div>
-  <div id="modelUrlInput"></div>
-  <div id="layerControl"></div>
-  <div id="selectLayer"></div>
-  <div id="wmsUrlInput"></div>
-  <div id="selectFeatureType"></div>
-  <div id="wfsUrlInput"></div>
-  <div id="attributeFilter"></div>
-  <div id="catalogSearchForm"></div>
+
+  <div id="header">
+  <h1><a href="http://communitymapbuilder.org">CGDI-IP</a> Catalog Search</h1>
+  </div>
+
+  <div id="middle">
+
+    <div id="mainbody">
+      <!--div id="loading">
+        <p>Loading Program<br/>
+        <img src="../../lib/skin/default/images/Loading.gif"/>
+        </p>
+      </div-->
+      <div id="body_left">
+        <div id="mainMapPane"></div>
+        <div id="mainButtonBar"></div>
+        <div id="cursorTrack" style="height:12pt"></div>
+      </div>
+      <div id="body_right">
+        <h1>Layer Selector</h1>
+        <div id="layerControl"></div>
+      </div>
+
+      <br clear="all" />
+
+      <div id="catalogSearchForm"></div>
+      <div id="selectLayer"></div>
+      <!--
+      <div id="contextPopup"></div>
+      -->
+      <div id="mapList"></div>
+      <div id="modelUrlInput"></div>
+      <div id="wmsUrlInput"></div>
+      <div id="selectFeatureType"></div>
+      <div id="wfsUrlInput"></div>
+      <div id="attributeFilter"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div class="right">
+<a href="http://lisasoft.com/" title="developed by LISASoft"><img src="http://www.lisasoft.com/docroot/lisasoft/images/lisasoftlogo.jpg"/></a>	  	
+<a href="http://communitymapbuilder.org/" title="powered by community mapbuilder"><img src="../../lib/skin/default/images/Icon.gif"/></a>	  	
+<a href="https://www.osgeo.org/" title="member of OSgeo"><img src="../../lib/skin/default/images/Osgeo.png"/></a>
+    </div>
+  </div>  
 </body>
 </html>
 
