@@ -23,7 +23,10 @@ function SelectLayerFromContext(widgetNode, model) {
    */
   SelectLayerFromContext.prototype.addLayer = function(layerName) {
     var layerNode=this.model.doc.selectSingleNode("(//wmc:Layer|//wmc:FeatureType)[wmc:Name ='"+layerName+"']");
-    this.targetModel.addLayer(this.targetModel,layerNode);
+    // Add a layer by calling the addLayer event. Not quite how the MVC design
+    // should work, but I'm following existing code to minimise impact.
+    this.targetModel.callListeners("addLayer",layerNode);
+
   }
 
   /**
