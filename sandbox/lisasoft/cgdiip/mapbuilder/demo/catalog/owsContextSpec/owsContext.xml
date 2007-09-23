@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<OWSContext version="0.2.0"
+			    id="ows-context"
+			    xmlns="http://www.opengis.net/ows-context/0.2.0"
+			    xmlns:xlink="http://www.w3.org/1999/xlink"
+			    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			    xmlns:sld="http://www.opengis.net/sld"
+			    xmlns:ogc="http://www.opengis.net/ogc"
+			    xmlns:ows="http://www.opengis.net/ows"
+			    xmlns:param="http;//www.opengis.net/param"
+			    xsi:schemaLocation="http://www.opengis.net/ows-context/0.2.0 ./owsContext.xsd">
+	<General>
+		<Window width="500" height="300"/>
+		<ows:BoundingBox crs="EPSG:4326">
+			<ows:LowerCorner>-71.1485566986829 42.2593928033786</ows:LowerCorner>
+			<ows:UpperCorner>-71.0016725358029 42.4399863588876</ows:UpperCorner>
+		</ows:BoundingBox>
+		<ows:Title>OWS Context Document</ows:Title>
+		<ows:Abstract>The OpenGIS Web Services Context Document</ows:Abstract>
+		<ows:Keywords>
+			<ows:Keyword>MassGIS</ows:Keyword>
+			<ows:Keyword>Boston</ows:Keyword>
+			<ows:Keyword>Massachusetts</ows:Keyword>
+		</ows:Keywords>
+		<LogoURL width="140" height="65" format="image/gif">
+			<OnlineResource xlink:type="simple" xlink:href="http://www.opengis.org/img/ogc_header_top_left.gif"/>
+		</LogoURL>
+		<DescriptionURL format="text/html">
+			<OnlineResource xlink:type="simple" xlink:href="http://www.opengis.org/press/?page=pressrelease&amp;view=20040525_ContextIE_PR"/>
+		</DescriptionURL>
+		<ows:ServiceProvider>
+		<ows:ProviderName>Environment Canada</ows:ProviderName>
+
+		<ows:ProviderSite xlink:type="simple" xlink:href="http://www.ec.gc.ca/"/>
+		<ows:ServiceContact>
+			<ows:IndividualName>Tom Kralidis</ows:IndividualName>
+			<ows:PositionName>Senior Systems Scientist</ows:PositionName>
+			<ows:ContactInfo>
+				<ows:Phone>
+					<ows:Voice>+01-905-336-4409</ows:Voice>
+
+					<ows:Facsimile>+01-905-336-4499</ows:Facsimile>
+				</ows:Phone>
+				<ows:Address>
+					<ows:DeliveryPoint>867 Lakeshore Road</ows:DeliveryPoint>
+					<ows:City>Burlington</ows:City>
+					<ows:AdministrativeArea>Ontario</ows:AdministrativeArea>
+					<ows:PostalCode>L7R4A6</ows:PostalCode>
+
+					<ows:Country>Canada</ows:Country>
+					<ows:ElectronicMailAddress>tom.kralidis@ec.gc.ca</ows:ElectronicMailAddress>
+				</ows:Address>
+				<ows:OnlineResource xlink:type="simple" xlink:href="http://www.ec.gc.ca/"/>
+				<ows:HoursOfService>0700h - 1500h (EST), Monday - Friday</ows:HoursOfService>
+				<ows:ContactInstructions>Just call or email</ows:ContactInstructions>
+			</ows:ContactInfo>
+
+			<ows:Role>Systems Scientist</ows:Role>
+		</ows:ServiceContact>
+	</ows:ServiceProvider>
+	</General>
+	<ResourceList>
+		<Coverage hidden="0" group="Coverages">
+			<ows:Title>MOD_Grid_L2g_2d Coverage Offering</ows:Title>
+			<ows:Abstract>MOD_Grid_L2g_2d Coverage Offering, MOD09GHK data</ows:Abstract>
+			<ows:Identifier>MOD_Grid_L2g_2d</ows:Identifier>
+			<ows:OutputFormat>image/tiff</ows:OutputFormat>
+			<ows:AvailableCRS>EPSG:4326</ows:AvailableCRS>
+			<Server service="WCS" version="1.0.0" title="Boston Indexed Geotiff imagery">
+				<OnlineResource method="GET" xlink:type="simple" xlink:href="http://webservices.ionicsoft.com/ionicwcs/coverage/BOSTONPOOL"/>
+			</Server>
+			<MetadataURL format="text/xml">
+				<OnlineResource xlink:type="simple" xlink:href="http://webservices.ionicsoft.com/ionicwcs/coverage/BOSTONPOOL/REQUEST/getdir/DIR/metadata/DATA/LPR/BOSTONPOOL/MOD_Grid_L2g_2d.xml"/>
+			</MetadataURL>
+			<DimensionList>
+				<Dimension name="time" units="ISO8601">2003-12-01T14:55:00Z/2003-12-03T20:50:00Z</Dimension>
+			</DimensionList>
+			<ParameterList>
+				<Parameter>
+					<param:kvp name="band" value="band1"/>
+				</Parameter>
+				<Parameter>
+					<param:kvp name="interpolation" value="nearest neighbor"/>
+				</Parameter>
+			</ParameterList>
+		</Coverage>
+		<FeatureType hidden="0" group="Features">
+			<ows:Title>Landuse</ows:Title>
+			<ows:Abstract>Boston Landuse Polygons</ows:Abstract>
+			<ows:Identifier>Landuse</ows:Identifier>
+			<ows:AvailableCRS>EPSG:26986</ows:AvailableCRS>
+			<Server service="GML" version="2.1.2" title="Cadcorp GeognoSIS.NET Web Feature Service">
+				<OnlineResource xlink:type="simple" xlink:href="http://www.cadcorpdev.co.uk/gml/MassGIS/LandUse.gml"/>
+			</Server>
+			<sld:MinScaleDenominator>5000</sld:MinScaleDenominator>
+			<sld:MaxScaleDenominator>50000</sld:MaxScaleDenominator>
+		</FeatureType>
+		<Layer queryable="0" hidden="0" group="Layers">
+			<ows:Title>hydro</ows:Title>
+			<ows:Abstract>hydro</ows:Abstract>
+			<ows:Identifier>hydro</ows:Identifier>
+			<ows:OutputFormat>image/gif</ows:OutputFormat>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<ows:OutputFormat>image/jpeg</ows:OutputFormat>
+			<ows:AvailableCRS>EPSG:4326</ows:AvailableCRS>
+			<Server service="WMS" version="1.1.1" title="Boston on Oracle">
+				<OnlineResource xlink:type="simple" xlink:href="http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA"/>
+			</Server>
+			<sld:MinScaleDenominator>5000</sld:MinScaleDenominator>
+			<sld:MaxScaleDenominator>50000</sld:MaxScaleDenominator>
+			<StyleList>
+				<Style current="1">
+					<Name>default</Name>
+					<Title>default</Title>
+				</Style>
+			</StyleList>
+		</Layer>
+		<Layer queryable="0" hidden="0" group="Layers">
+			<ows:Title>highways</ows:Title>
+			<ows:Abstract>highways</ows:Abstract>
+			<ows:Identifier>highways</ows:Identifier>
+			<ows:OutputFormat>image/gif</ows:OutputFormat>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<ows:OutputFormat>image/jpeg</ows:OutputFormat>
+			<ows:AvailableCRS>EPSG:4326</ows:AvailableCRS>
+			<Server service="WMS" version="1.1.1" title="Boston on Oracle">
+				<OnlineResource method="GET" xlink:type="simple" xlink:href="http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA"/>
+			</Server>
+			<sld:MinScaleDenominator>5000</sld:MinScaleDenominator>
+			<sld:MaxScaleDenominator>50000</sld:MaxScaleDenominator>
+			<StyleList>
+				<Style current="1">
+					<Name>default</Name>
+					<Title>default</Title>
+				</Style>
+			</StyleList>
+		</Layer>
+		<FeatureType hidden="0" group="Features">
+			<ows:Title>roads</ows:Title>
+			<ows:Abstract>roads</ows:Abstract>
+			<ows:Identifier>roads</ows:Identifier>
+			<ows:AvailableCRS>EPSG:26986</ows:AvailableCRS>
+			<Server service="WFS" version="1.0.0" title="Boston on Oracle">
+				<OnlineResource method="GET" xlink:type="simple" xlink:href="http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA"/>
+			</Server>
+			<sld:MinScaleDenominator>5000</sld:MinScaleDenominator>
+			<sld:MaxScaleDenominator>50000</sld:MaxScaleDenominator>
+		</FeatureType>
+		<Layer queryable="0" hidden="0" group="Layers">
+			<ows:Title>place_names</ows:Title>
+			<ows:Abstract>place_names</ows:Abstract>
+			<ows:Identifier>place_names</ows:Identifier>
+			<ows:OutputFormat>image/gif</ows:OutputFormat>
+			<ows:OutputFormat>image/png</ows:OutputFormat>
+			<ows:OutputFormat>image/jpeg</ows:OutputFormat>
+			<ows:AvailableCRS>EPSG:4326</ows:AvailableCRS>
+			<Server service="WMS" version="1.1.1" title="Boston on Oracle">
+				<OnlineResource xlink:type="simple" xlink:href="http://webservices.ionicsoft.com/ionicweb/wfs/BOSTON_ORA"/>
+			</Server>
+			<sld:MinScaleDenominator>5000</sld:MinScaleDenominator>
+			<sld:MaxScaleDenominator>50000</sld:MaxScaleDenominator>
+			<StyleList>
+				<Style current="1">
+					<Name>default</Name>
+					<Title>default</Title>
+				</Style>
+			</StyleList>
+		</Layer>
+	</ResourceList>
+</OWSContext>
