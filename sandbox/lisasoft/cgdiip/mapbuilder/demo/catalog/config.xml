@@ -28,6 +28,7 @@
     </Model>
     <!-- Contains the results of a search, converted into OWSContext format -->
     <OwsContext id="normalizedSearchResults">
+      <defaultModelUrl>context2.xml</defaultModelUrl>
       <widgets>
         <SelectLayerFromContext id="selectLayer">
           <htmlTagId>selectLayer</htmlTagId>
