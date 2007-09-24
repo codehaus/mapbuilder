@@ -111,7 +111,7 @@ $Id$
   <property name="app.name" value="mapbuilder"/>
   <property name="pack.name" value="mapbuilder-lib"/>
   <property name="app.path" value="/${app.name}"/>
-  <property name="catalina.home" value="D:\Program Files\Apache Software Foundation\Tomcat 5.5"/> <!-- ensure you have this environment var set -->
+  <property name="catalina.home" value="${env.CATALINA_HOME}"/> <!-- ensure you have this environment var set -->
   <property name="build.home" value="${basedir}/staging"/>
   <property name="version.file" value="${basedir}/build/lib/widget/Version.xsl"/>
   <property name="compress.home" value="${basedir}/compressBuild"/>
