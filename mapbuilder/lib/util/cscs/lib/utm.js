@@ -91,7 +91,7 @@ utmInv=function(p) {
   var con, phi;  /* temporary angles       */
   var delta_phi; /* difference between longitudes    */
   var i;
-  var max_iter = 6;      /* maximun number of iterations */
+  var max_iter = p.zone;      /* maximun number of iterations */
   var lat, lon;
 
   if (this.ind != 0) {   /* spherical form */
