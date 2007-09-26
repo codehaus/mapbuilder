@@ -18,6 +18,11 @@ function CatalogSearchForm(widgetNode, model) {
 
   this.targetContext = widgetNode.selectSingleNode("mb:targetContext").firstChild.nodeValue;
   this.wrsUrl        = widgetNode.selectSingleNode("mb:wrsUrl").firstChild.nodeValue;
+
+  // Read WFS maxFeatures value. Fallback to 5 if not defined 
+  this.wfsMaxFeatures = widgetNode.selectSingleNode("mb:wfsMaxFeatures") ? widgetNode.selectSingleNode("mb:wfsMaxFeatures").firstChild.nodeValue : 5;
+  
+  
   this.wrsServiceAssociation = "OperatesOn";
 
   this.httpPayload = new Object();
@@ -32,11 +37,12 @@ function CatalogSearchForm(widgetNode, model) {
     this.mapModel = model.id;
   }
 
+
   /**
    * Refreshes the form onblur handlers when this widget is painted.
    * @param objRef Pointer to this CurorTrack object.
    */
-    this.postPaint = function() {
+  this.postPaint = function() {
     config.objects[this.mapModel].addListener('aoi', this.displayAoiCoords, this);
 
     this.searchForm = document.getElementById(this.formName);
@@ -55,6 +61,9 @@ function CatalogSearchForm(widgetNode, model) {
     this.searchForm.onkeypress = this.handleKeyPress;
     //this.searchForm.onsubmit = this.submitForm;
     //this.searchForm.mapsheet.onblur = this.setMapsheet;
+
+    this.searchForm.maxFeatures.model = this.model;
+    this.searchForm.maxFeatures.checked = this.model.getParam("maxFeatures");
   }
 
   /**
@@ -69,6 +78,7 @@ function CatalogSearchForm(widgetNode, model) {
     objRef.searchForm.northCoord.value = aoi[0][1];
     objRef.searchForm.eastCoord.value = aoi[1][0];
     objRef.searchForm.southCoord.value = aoi[1][1];
+
   }
 
   /**
@@ -149,6 +159,7 @@ function CatalogSearchForm(widgetNode, model) {
 
   CatalogSearchForm.prototype.doSelect = function() {
     // Register for an event sent after the catalog query has finished
+
     if(!this.initialized){
       this.targetModel.addListener("loadModel",this.handleResponse,this);
       this.ebrim2Context=new XslProcessor(baseDir+"/tool/xsl/ebrim2Context.xsl");
@@ -243,6 +254,11 @@ function CatalogSearchForm(widgetNode, model) {
    * @param objRef Pointer to widget object.
    */
   CatalogSearchForm.prototype.handleResponse = function(objRef) {
+    // if maxFeatures is enabled, feed the value to the XSL as a parameter
+    if(objRef.targetModel.getParam('maxFeatures')) {
+      objRef.ebrim2Context.setParameter('maxFeatures', objRef.wfsMaxFeatures);
+    }
+
     var newContext=objRef.ebrim2Context.transformNodeToObject(objRef.targetModel.doc);
 
     window.config.objects[objRef.targetContext].setModel(
