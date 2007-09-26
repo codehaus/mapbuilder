@@ -420,6 +420,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
     else
       vis=true;
   }
+  
   // Test if layer is queryable
   var query=layer.selectSingleNode("@queryable");
   if (query){
@@ -435,6 +436,14 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
     opacity=opacity.nodeValue;
   else
     opacity=false;
+  
+  // Test if there is a maximum feature limit
+  var maxFeatures=layer.selectSingleNode("@maxFeatures");
+  if (maxFeatures)
+    maxFeatures=maxFeatures.nodeValue;
+  else
+    maxFeatures=false;
+
   
   // Get current style node of the layer
   var currentStyle = layer.selectSingleNode('wmc:StyleList/wmc:Style[@current=1]');
@@ -544,6 +553,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
     break;
 
     // WFS Layer
+    case "WFS":
     case "wfs":
     case "OGC:WFS":
       style = sld2OlStyle(currentStyle);
@@ -556,17 +566,16 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
 
       // taking out the featureClass here solves the problem for vector WFS layers
       // it will break point WFS layers. camerons: can you fix this?
-
       //layerOptions.featureClass=OpenLayers.Feature.WFS;
 
       objRef.oLlayers[name2]= new OpenLayers.Layer.WFS(
         title,
         href,{
-          typename: name2,
-          //maxfeatures: 1000},
-          //layerOptions
-          maxfeatures: 10}
+          TYPENAME: name2,
+          MAXFEATURES: (maxFeatures ? maxFeatures : 20)} 
+          //,layerOptions
         );
+      objRef.oLlayers[name2].setVisibility(vis); // necessary, otherwise layer will be shown when loaded from initial context document
     break;
 
     // GML Layer
