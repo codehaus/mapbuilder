@@ -11,7 +11,7 @@
 			xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
 
 	<General>
-		<Window width="550" height="275"/>
+                <Window width="550" height="275"/>
 		
 		<ows:BoundingBox crs="EPSG:4326">
      <ows:LowerCorner>-142 40</ows:LowerCorner>
@@ -38,12 +38,12 @@
 			
 		<!-- WMSC layer ... the tile cache --> 
 		<Layer queryable="0" hidden="0">
-          <Server service="OGC:WMS-C" version="1.0.0" title="OGC:WMS-C">
+          <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
             <OnlineResource xlink:type="simple" xlink:href="http://labs.metacarta.com/wms/vmap0"/>
           </Server>
           <Name>basic</Name>
-          <Title>basic</Title>
-          <SRS>EPSG:4326 EPSG:4269</SRS>
+          <Title>Basemap</Title>
+          <SRS>EPSG:4326</SRS>
           <FormatList>
             <Format>image/jpeg</Format>
             <Format>image/png</Format>
