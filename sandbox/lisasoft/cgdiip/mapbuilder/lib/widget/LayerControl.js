@@ -68,16 +68,36 @@ function LayerControl(widgetNode, model) {
   }
 
   /**
-   * not working yet
-   * @param layerName  the name of the layer to highlight
+   * Fetches the layerNode from the model
+   * @param layerName The name of the layer selected.
+   * @return domElement
    */
-  this.showLayerMetadata = function(layerName) {
+  this.getLayerNode = function(layerName) {
+    return this.model.doc.selectSingleNode("(//wmc:Layer|//wmc:FeatureType)[wmc:Name ='"+layerName+"']");
+  }
+
+  /**
+   * Show the layer's metadata.
+   * @param layerName The name of the layer selected.
+   * @param metadataDomElementId Dom element where metadata should be stored
+   */
+  this.showLayerMetadata = function(layerName, metadataDomElementId) {
+
+    // Fetch layer node from model
+    var layerNode=this.getLayerNode(layerName);
+
+    // Exit if metadata widget could not be found (failsafe) 
     var metadataWidget = config.objects.layerMetadata;
-    if (metadataWidget) {
-      metadataWidget.stylesheet.setParameter("featureName",layerName);
-      metadataWidget.node = document.getElementById(metadataWidget.htmlTagId);
-      metadataWidget.paint(metadataWidget);
+    if (!metadataWidget) {
+      return false;
     }
+
+    // Find DOM element for metadata
+    var metadataDomElement = document.getElementById(metadataDomElementId); 
+
+    // Call the metadata widget with the layer node and the metadata Dom Element
+    metadataWidget.paint(layerNode, metadataDomElement);
+
   }
   
   /**

@@ -32,3 +32,15 @@
   display: none;
 }
 
+/*
+ * Metadata
+ */
+
+table.metadata {
+  margin-left: 12px;
+}
+
+table.metadata td {
+  vertical-align: top;
+}
+

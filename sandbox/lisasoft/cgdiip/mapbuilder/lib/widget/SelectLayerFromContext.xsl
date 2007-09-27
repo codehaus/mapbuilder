@@ -20,6 +20,10 @@ Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html
   <xsl:param name="modelId" />
   <xsl:param name="widgetId" />
 
+  <xsl:param name="skinDir"/>
+  <xsl:param name="layerAddImage"/>
+  <xsl:param name="layerMetadataImage"/>
+
   <!-- The name of the javascript context object to call -->
 
   <!-- Main html: Match OWS Context -->
@@ -68,15 +72,16 @@ Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
+    <xsl:variable name="pos" select="position()" />
 
-    <div id="{$layerName}_Row" class="{$rowClass}">
+    <div id="{$widgetId}_{$pos}_Row" class="{$rowClass}">
       <!-- div necessary with IE 6 because if not, float makes bugs when display or fold legend -->
       <div style="position:relative;">
-        <div id="{$layerName}_Header " class="LayerHeader">
+        <div id="{$widgetId}_{$pos}_Header " class="LayerHeader">
 
           <!-- name of layer -->
-          <div class="nameLayerHeader"
-            onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}')">
+          <div class="nameLayerHeader" style="display:block"
+            onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}', '{$widgetId}_{$pos}_Metadata')">
             <xsl:choose>
               <xsl:when test="wmc:Title/@xml:lang">
                 <xsl:value-of
@@ -92,13 +97,23 @@ Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html
             <!-- add layer -->
             <a
               href="javascript:config.objects.{$widgetId}.addLayer('{$layerName}')"
-              class="mbButton">add to map
+              class="mbButton"><img title="add this Layer" src="{$skinDir}{$layerAddImage}" />
+            </a>
+            <!-- show layer metadata-->
+            <a
+              href="javascript:config.objects.{$widgetId}.showLayerMetadata('{$layerName}', '{$widgetId}_{$pos}_Metadata')"
+              class="mbButton"><img title="show layer's metadata" src="{$skinDir}{$layerMetadataImage}" />
             </a>
           </div><!-- end inputLayerHeader -->
         </div><!--end of {$layerName}_Header -->
+
+        <!-- metadata -->
+        <div id="{$widgetId}_{$pos}_Metadata" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}', '{$widgetId}_{$pos}_Metadata');"></div>
+
       </div>
       <!--end of hack ie 5.5 -->
-    </div><!--end of "{$layerName}" -->
+
+    </div><!--end of "{$widgetId}_{$pos}_Row" -->
   </xsl:template>
 
   <xsl:template match="text()|@*" />

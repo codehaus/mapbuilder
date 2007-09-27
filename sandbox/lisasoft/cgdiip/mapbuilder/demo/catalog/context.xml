@@ -46,6 +46,7 @@
       </StyleList>
     </Layer>
 
+    <!--
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource method="GET" xlink:type="simple" xlink:href="iba-gml.xml"/>
@@ -76,7 +77,7 @@
       <SRS>EPSG:4326</SRS>
     </FeatureType>
 
-    <FeatureType hidden="0">
+    <FeatureType hidden="1">
       <Server service="OGC:WFS" version="1.0" title="TollPoint">
         <OnlineResource method="POST" xlink:type="simple" xlink:href="http://office.refractions.net:21880/geoserver/wfs"/>
       </Server>
@@ -86,7 +87,7 @@
       <SRS>EPSG:4326</SRS>
     </FeatureType>
 
-    <FeatureType hidden="0">
+    <FeatureType hidden="1">
       <Server service="OGC:WFS" version="1.0" title="My bird WFS">
         <OnlineResource method="POST" xlink:type="simple" xlink:href="http://www.bsc-eoc.org/cgi-bin/bsc_ows.asp"/>
       </Server>
@@ -95,7 +96,7 @@
       <Abstract>This is some bird data</Abstract>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
-
+    -->
     <!--
     <Layer hidden="1">
       <Server service="OGC:WMS" version="1.1.1" title="My birds WMS">

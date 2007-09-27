@@ -180,12 +180,13 @@ $Name:  $
          </xsl:choose>
      </xsl:variable>
      <!-- end of variable -->
+    <xsl:variable name="pos" select="position()" />
      
      
-     <div id="{$layerName}_Row" class="{$rowClass}" onmouseover="config.objects.{$widgetId}.highlightLayer('{$layerName}')">
+     <div id="{$widgetId}_{$pos}_Row" class="{$rowClass}" onmouseover="config.objects.{$widgetId}.highlightLayer('{$layerName}')">
 					<!-- div necessary with IE 6 because if not, float makes bugs when display or fold legend -->
 				<div style="position:relative;">
-					<div id="{$layerName}_Header " class="LayerHeader">
+					<div id="{$widgetId}_{$pos}_Header " class="LayerHeader">
 			
 						  <!-- layer's index --> 
 						  <div class="indexLayerHeader" title="{$layerIndexTip}">
@@ -247,7 +248,7 @@ $Name:  $
 									 </xsl:if>
 							</div> <!-- end inputLayerHeader --> 	 
 						    <!-- name of layer --> 
-						    <div class="nameLayerHeader" title="{$nameLayerTip}" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}')">
+						    <div class="nameLayerHeader" title="{$nameLayerTip}" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}', '{$widgetId}_{$pos}_Metadata')">
 							    <xsl:choose>
 							       <xsl:when test="wmc:Title/@xml:lang">              
 								       <xsl:value-of select="wmc:Title[@xml:lang=$lang]"/>
@@ -277,6 +278,10 @@ $Name:  $
 								 </div>
 					         </xsl:if>
 					</div> <!--end of {$layerName}_Header -->	
+
+          <!-- metadata -->
+          <div id="{$widgetId}_{$pos}_Metadata" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}', '{$widgetId}_{$pos}_Metadata');"></div>
+          
 				</div>	<!--end of hack ie 5.5 -->	
 				<!-- legend -->
 			    <xsl:if test="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL"> 
