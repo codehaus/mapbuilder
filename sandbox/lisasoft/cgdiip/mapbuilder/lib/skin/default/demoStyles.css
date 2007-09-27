@@ -86,41 +86,6 @@ ul a {
 	width: 100%;
 	display: inline;
 	}
-#menubar {
-	display: block;
-position: absolute;
-left: 0px;
-top: 31px;
-bottom: 0px;
-overflow: auto;
-	width: 130px;
-	font-family: Verdana, geneva, arial, sans-serif;
-	font-size: 8pt;
-	
-	bottom: 60px;
-	}
-	#menubar a {
-font-weight: normal;
-	color: white;
-	}
-	
-	#menubar ul {
-	background:  #3c78b5;
-margin: 0px;
-  padding: 0px;
-  display: inline;
-  list-style-type: none;
-  list-style-image: none;
-  list-style-position: outside;
-  font-size: 10px;
-}
-
-#menubar li {
-	background:  #3c78b5;
-	margin: 0px;
-	padding: 2px;
-	display: block;
-	}
 	
 #mainbody {
 		border-top: 1px solid #ccc;
@@ -129,7 +94,7 @@ margin: 0px;
 		padding: 5px;
 
 
-		margin-left: 130px;
+		margin-left: 1px;
 		right: 1px;
 		bottom: 1px;
 		background-color: white;
