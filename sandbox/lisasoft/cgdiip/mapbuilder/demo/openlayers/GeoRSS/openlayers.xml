@@ -14,8 +14,8 @@
 		<Window width="550" height="275"/>
 		
 		<ows:BoundingBox crs="EPSG:4326">
-			<ows:LowerCorner>-180 -90</ows:LowerCorner>
-			<ows:UpperCorner>180 90</ows:UpperCorner>
+     <ows:LowerCorner>-142 40</ows:LowerCorner>
+      <ows:UpperCorner>-52 85</ows:UpperCorner>
 		</ows:BoundingBox>
 			  
 		<Title xml:lang="en">GeoRSS Using OWSContext</Title>
