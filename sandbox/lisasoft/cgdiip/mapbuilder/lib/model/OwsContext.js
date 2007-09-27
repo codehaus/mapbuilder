@@ -52,6 +52,7 @@ function OwsContext(modelNode, parent) {
    * @return hidden  String with the value; 1=hidden, 0=visible.
    */
   this.getHidden=function(layerName){
+    console.trace();
     var hidden=1;
     var layer=this.getFeatureNode(layerName)
     if (layer) hidden = layer.getAttribute("hidden");
@@ -343,11 +344,15 @@ function OwsContext(modelNode, parent) {
    * @param layerNode the Layer node from another context doc or capabiltiies doc
    */
   this.addLayer = function(objRef, layerNode) {
+//alert((new XMLSerializer()).serializeToString( layerNode ));
+    console.trace();
     if( objRef.doc != null ) {
       var parentNode = objRef.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList");
 
-      // check if that node does not alreayd exist, replace it (query may have changed)
       var id = layerNode.getAttribute("id");
+      //alert("***" + id +  "***" + (new XMLSerializer()).serializeToString( parentNode ));
+      //alert("***" + id +  "***" + (new XMLSerializer()).serializeToString( layerNode ));
+      // check if that node does not alreayd exist, replace it (query may have changed)
       var str = "/wmc:OWSContext/wmc:ResourceList/"+layerNode.nodeName+"[@id='"+id+"']";
       var node = objRef.doc.selectSingleNode(str);
       if( node != null ) {
@@ -362,6 +367,7 @@ function OwsContext(modelNode, parent) {
     } else {
       alert(mbGetMessage("nullOwsContext"));
     }
+//alert((new XMLSerializer()).serializeToString( parentNode ));
     objRef.callListeners("refresh");
   }
   this.addFirstListener( "addLayer", this.addLayer, this );
