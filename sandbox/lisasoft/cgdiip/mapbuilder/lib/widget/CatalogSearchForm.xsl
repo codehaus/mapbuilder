@@ -5,7 +5,7 @@ Description: parses an listing of OGC services from the Discovery Portal registr
 Author:      adair
 Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 
-$Id$
+$Id: CatalogSearchForm.xsl 3285 2007-09-20 09:31:07Z rdewit $
 $Name:  $
 -->
 
@@ -63,13 +63,16 @@ $Name:  $
       <select name="serviceType" id="serviceType">
         <option></option>
         <option value="WMS">WMS</option>
-        <option selected="true" value="WFS">WFS</option>
+        <option value="WFS">WFS</option>
       </select>
+      <input id="maxFeatures" title="Limit maximum amount of features" checked="checked" type="checkbox" onchange="config.objects.{$targetModel}.setParam(this.id, this.checked);"/>
+      <label for="maxFeatures">maxFeatures</label>
+      <br/>
       <input type="button" value="Search" onclick="config.objects.{$widgetId}.doSelect();"/>
       <input id="debug_button" type="button" value="Show Query" onclick="config.objects.{$widgetId}.debugQuery();"/>
     </form>
 
-    <div id="debugwindow" style="position:absolute; top:310px;left:370px;width:400px; height:300px; z-index:2;background-color:transparent;overflow:auto"></div>
+    <div id="debugwindow" style="display:none;position:absolute; top:310px;left:370px;width:400px; height:300px; z-index:2;background-color:transparent;overflow:auto"></div>
 
     </div>
   </xsl:template>
