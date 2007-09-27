@@ -572,7 +572,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         title,
         href,{
           TYPENAME: name2,
-          MAXFEATURES: (maxFeatures ? maxFeatures : 20)} 
+          MAXFEATURES: (maxFeatures ? maxFeatures : 5)} 
           //,layerOptions
         );
       objRef.oLlayers[name2].setVisibility(vis); // necessary, otherwise layer will be shown when loaded from initial context document
