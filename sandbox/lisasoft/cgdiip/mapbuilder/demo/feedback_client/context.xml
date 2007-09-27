@@ -11,12 +11,12 @@
   </General>
   <LayerList>
     <Layer queryable="0" hidden="0">
-      <Server service="OGC:WMS-C" version="1.0.0" title="OGC:WMS-C">
+      <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
         <OnlineResource xlink:type="simple" xlink:href="http://labs.metacarta.com/wms/vmap0"/>
       </Server>
       <Name>basic</Name>
-      <Title>basic</Title>
-      <SRS>EPSG:4326 EPSG:4269</SRS>
+      <Title>Basemap</Title>
+      <SRS>EPSG:4326</SRS>
       <FormatList>
         <Format>image/jpeg</Format>
         <Format>image/png</Format>
