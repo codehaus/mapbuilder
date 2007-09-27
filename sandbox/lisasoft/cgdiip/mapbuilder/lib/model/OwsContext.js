@@ -343,8 +343,6 @@ function OwsContext(modelNode, parent) {
    * @param layerNode the Layer node from another context doc or capabiltiies doc
    */
   this.addLayer = function(objRef, layerNode) {
-//alert((new XMLSerializer()).serializeToString( layerNode ));
-    console.trace();
     if( objRef.doc != null ) {
       var parentNode = objRef.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList");
 
