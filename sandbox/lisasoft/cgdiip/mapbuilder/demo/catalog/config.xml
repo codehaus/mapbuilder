@@ -6,6 +6,7 @@
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
+           <displayOutsideMaxExtent>true</displayOutsideMaxExtent>
           <fixedSize>true</fixedSize>
         </MapPaneOL>
         <LayerControl id="contextLegend">
@@ -20,6 +21,9 @@
           <htmlTagId>contextPopup</htmlTagId>
           <title2>View Context</title2>
         </ModelPopup>
+        <LayerMetadata id="layerMetadata">
+          <htmlTagId>layerMetadata</htmlTagId>
+        </LayerMetadata>
       </widgets>
     </OwsContext>
     <!-- Contains the results of a catalog search -->
@@ -28,11 +32,15 @@
     </Model>
     <!-- Contains the results of a search, converted into OWSContext format -->
     <OwsContext id="normalizedSearchResults">
+      <!--
       <defaultModelUrl>context2.xml</defaultModelUrl>
+      -->
       <widgets>
         <SelectLayerFromContext id="selectLayer">
           <htmlTagId>selectLayer</htmlTagId>
           <targetModel>mainMap</targetModel>
+          <layerAddImage>/images/LayerAddDisable.png</layerAddImage>
+          <layerMetadataImage>/images/QueryDisable.png</layerMetadataImage>
         </SelectLayerFromContext>
       </widgets>
     </OwsContext>
