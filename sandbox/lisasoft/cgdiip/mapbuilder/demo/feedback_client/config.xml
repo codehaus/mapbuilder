@@ -15,7 +15,7 @@
   -->
   <models>
     <Context id="mainMap">
-      <defaultModelUrl>tasmania.xml</defaultModelUrl>
+      <defaultModelUrl>context.xml</defaultModelUrl>
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
