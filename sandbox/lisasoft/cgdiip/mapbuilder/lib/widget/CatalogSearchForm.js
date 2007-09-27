@@ -3,7 +3,7 @@ License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id: $
 */
 
-// Ensure this object's dependancies are loaded.
+// Ensure this object's dependencies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
 /**
@@ -208,7 +208,10 @@ function CatalogSearchForm(widgetNode, model) {
       var bbox = config.objects[this.mapModel].getBoundingBox();
       bboxStr = bbox[0]+","+bbox[1]+" "+bbox[2]+","+bbox[3];
     }
-    this.model.setXpathValue(this.model, "/filter/location", bboxStr, false);
+
+    // Add location based filter (BBOX)
+    // TBD: uncomment this line below when WRS filtering works OK
+    //this.model.setXpathValue(this.model, "/filter/location", bboxStr, false);
 
     // Load the XSL to generate the WRS Query
     this.wrsQuery=new XslProcessor(baseDir+"/tool/xsl/wrs_Query.xsl");
