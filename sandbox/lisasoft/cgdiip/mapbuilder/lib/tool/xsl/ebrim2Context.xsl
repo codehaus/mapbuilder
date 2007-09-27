@@ -30,6 +30,7 @@ $Name:  $
   <xsl:strip-space elements="*"/>
 
   <!-- The coordinates of the DHTML Layer on the HTML page -->
+  <xsl:param name="maxFeatures"/>
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
   <xsl:param name="id"></xsl:param>
@@ -59,8 +60,8 @@ $Name:  $
     <!-- else (fallback)  : Layer       -->
     <xsl:variable name="element_name">
       <xsl:choose>
-        <xsl:when test="//rim:Slot[@name='Service Type']/rim:ValueList/rim:Value = 'WFS'">FeatureType</xsl:when>
-        <xsl:when test="//rim:Slot[@name='Service Type']/rim:ValueList/rim:Value = 'WMS'">Layer</xsl:when>
+        <xsl:when test="./rim:Slot[@name='Service Type']/rim:ValueList/rim:Value = 'WFS'">FeatureType</xsl:when>
+        <xsl:when test="./rim:Slot[@name='Service Type']/rim:ValueList/rim:Value = 'WMS'">Layer</xsl:when>
         <xsl:otherwise>Layer</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -69,6 +70,9 @@ $Name:  $
     <xsl:element name="wmc:{$element_name}">
         <xsl:attribute name="queryable">0</xsl:attribute>
         <xsl:attribute name="hidden">0</xsl:attribute>
+        <xsl:if test="$maxFeatures and ($element_name = 'FeatureType')">
+          <xsl:attribute name="maxFeatures"><xsl:value-of select="$maxFeatures"/></xsl:attribute>
+        </xsl:if>
         <xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
         <!-- insert service -->
         <!--xsl:apply-templates select="//rim:Service[position()=(position()+1)]"/-->
@@ -99,7 +103,7 @@ $Name:  $
 	        <xsl:value-of select="@id"/>
 	      </xsl:attribute>
 	      <xsl:attribute name="service">
-	        <xsl:value-of select="rim:Name/rim:LocalizedString/@value"/>
+	        <xsl:value-of select="rim:Slot[@name='Service Type']//rim:Value"/>
 	      </xsl:attribute>
 	      <xsl:attribute name="version">
 	        <xsl:value-of select="@userVersion"/>
@@ -110,7 +114,7 @@ $Name:  $
 	      <!-- TBD: How do we extract method=POST/GET? -->
 	      <wmc:OnlineResource method="POST" xlink:type="simple">
 	        <xsl:attribute name="xlink:href">
-	          <xsl:value-of select="rim:Slot[@name='OnlineResource']//rim:Value"/>
+	          <xsl:value-of select=".//@accessURI"/><!-- works for cubewerx -->
 	        </xsl:attribute>
 	      </wmc:OnlineResource>
 	    </wmc:Server>
