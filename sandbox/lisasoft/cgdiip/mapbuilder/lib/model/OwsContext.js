@@ -52,7 +52,6 @@ function OwsContext(modelNode, parent) {
    * @return hidden  String with the value; 1=hidden, 0=visible.
    */
   this.getHidden=function(layerName){
-    console.trace();
     var hidden=1;
     var layer=this.getFeatureNode(layerName)
     if (layer) hidden = layer.getAttribute("hidden");
