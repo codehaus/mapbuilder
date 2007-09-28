@@ -68,6 +68,20 @@ function LayerControl(widgetNode, model) {
   }
 
   /**
+   * Fetches the full request string for a (WFS) layer
+   * @param layerName The name of the layer selected.
+   * @return string|boolean
+   */
+  this.getLayerFullRequestString = function(layerName) {
+      var fullRequestString;
+
+      // TBD: don't access mainMapWidget directly
+      fullRequestString = config.objects.mainMapWidget.oLlayers[layerName].getFullRequestString();
+
+      return fullRequestString;
+  }
+
+  /**
    * Fetches the layerNode from the model
    * @param layerName The name of the layer selected.
    * @return domElement

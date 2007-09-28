@@ -222,6 +222,9 @@ $Name:  $
 										<img title="{$deleteLayerTip}" src="{$skinDir}{$deleteImage}" />
 									   </a>
 									   </div>
+                <xsl:if test="wmc:Server/@service='WFS'">
+                  <a href="#" target="_blank" onclick="this.href=config.objects.{$widgetId}.getLayerFullRequestString('{$layerName}');return ((this.href != 'false') &amp;&amp; confirm('Do you want to download the GML data for this layer?'));">GML</a>
+                </xsl:if>
 									 <!-- displayLegend -->   
 								   <xsl:if test="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL"> 
 									   <div class="buttonLayerHeader"  > 
