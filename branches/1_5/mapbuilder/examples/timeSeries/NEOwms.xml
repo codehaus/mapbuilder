@@ -1,0 +1,1124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WMS_Capabilities version="1.3.0" xsi:schemaLocation="http://www.opengis.net/wms http://schemas.opengeospatial.net/wms/1.3.0/capabilities_1_3_0.xsd" xmlns="http://www.opengis.net/wms" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <Service>
+    <Name>WMS</Name>
+    <Title>NASA Earth Observations (NEO) WMS</Title>
+    <Abstract><![CDATA[Remote sensing imagery from NASA Earth Observations (NEO).]]></Abstract>
+    <KeywordList>
+      <Keyword>nasa</Keyword>
+      <Keyword>earth science</Keyword>
+      <Keyword>picture</Keyword>
+    </KeywordList>
+    <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/"/>
+    <ContactInformation>
+      <ContactPersonPrimary>
+        <ContactPerson>Kevin Ward</ContactPerson>
+        <ContactOrganization>Science Systems and Applications, Inc./NASA</ContactOrganization>
+      </ContactPersonPrimary>
+      <ContactPosition>NEO Architect and Developer</ContactPosition>
+      <ContactAddress>
+        <AddressType>postal</AddressType>
+        <Address>9025 SW 50th Ave.</Address>
+        <City>Portland</City>
+        <StateOrProvince>Oregon</StateOrProvince>
+        <PostCode>97219</PostCode>
+        <Country>United States</Country>
+      </ContactAddress>
+      <ContactVoiceTelephone>+01-503-977-2970</ContactVoiceTelephone>
+      <ContactElectronicMailAddress>kevin_ward@ssaihq.com</ContactElectronicMailAddress>
+    </ContactInformation>
+    <Fees>none</Fees>
+    <AccessConstraints>none</AccessConstraints>
+    <LayerLimit>1</LayerLimit>
+  </Service>
+  <Capability>
+    <Request>
+      <GetCapabilities>
+        <Format>application/vnd.ogc.wms_xml</Format>
+        <DCPType>
+          <HTTP>
+            <Get>
+              <OnlineResource xlink:type="simple" xlink:href="http://neowms.sci.gsfc.nasa.gov/wms/wms"/>
+            </Get>
+          </HTTP>
+        </DCPType>
+      </GetCapabilities>
+      <GetMap>
+        <Format>image/png</Format>
+        <Format>image/jpeg</Format>
+        <DCPType>
+          <HTTP>
+            <Get>
+              <OnlineResource xlink:type="simple" xlink:href="http://neowms.sci.gsfc.nasa.gov/wms/wms"/>
+            </Get>
+          </HTTP>
+        </DCPType>
+      </GetMap>
+    </Request>
+    <Exception>
+      <Format>application/vnd.ogc.se_xml</Format>
+    </Exception>
+    <Layer>
+      <Title>NASA Earth Observations (NEO) WMS</Title>
+      <CRS>CRS:84</CRS>
+      <EX_GeographicBoundingBox>
+        <westBoundLongitude>-180.0</westBoundLongitude>
+        <eastBoundLongitude>180.0</eastBoundLongitude>
+        <southBoundLatitude>-90.0</southBoundLatitude>
+        <northBoundLatitude>90.0</northBoundLatitude>
+      </EX_GeographicBoundingBox>
+      <BoundingBox miny="-90.0" minx="-180.0" maxy="90.0" maxx="180.0" CRS="CRS:84"/>
+      <Layer>
+        <Title>Aerosol Optical Thickness (MODIS)</Title>
+        <Abstract><![CDATA[<p>Tiny solid and liquid particles suspended in the atmosphere are called aerosols. Examples of aerosols include windblown dust, sea salts, volcanic ash, smoke from fires, and pollution from factories. These particles are important to scientists because they can affect climate, weather, and people's health. Aerosols affect climate by scattering sunlight back into space and cooling the surface.  Aerosols also help cool Earth in another way -- they act like "seeds" to help form clouds.  The particles give water droplets something to cling to as the droplets form and gather in the air to make clouds.  Clouds give shade to the surface by reflecting sunlight back into space. People's health is affected when they breathe in smoke or pollution particles.  Such aerosols in our lungs can cause asthma or cancer of other serious health problems.  But scientists do not fully understand all of the ways that aerosols affect Earth's environment.  To help them in their studies, scientists use satellites to map where there were large amounts of aerosol on a given day, or over a span of days.</p>]]></Abstract>
+        <Layer>
+          <Name>MODAL2_M_AER_OD</Name>
+          <Title>Aerosol Optical Thickness (1 month - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-02-01">2005-01-01/2007-02-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_M_AER_OD"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_M_AER_OD"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_M_AER_OD</Name>
+          <Title>Aerosol Optical Thickness (1 month - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-02-01">2002-07-01/2007-02-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_M_AER_OD"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_M_AER_OD"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MODAL2_E_AER_OD</Name>
+          <Title>Aerosol Optical Thickness (8 day - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-06">2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-03-06/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_E_AER_OD"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_E_AER_OD"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_E_AER_OD</Name>
+          <Title>Aerosol Optical Thickness (8 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-06">2002-07-04/2002-12-27/P8D,2003-01-01/2003-12-27/P8D,2004-01-01/2004-02-26/P8D,2004-03-06/2004-12-27/P8D,2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-03-06/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_E_AER_OD"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_E_AER_OD"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MODAL2_D_AER_OD</Name>
+          <Title>Aerosol Optical Thickness (1 day - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-13">2005-01-01,2005-01-01/2005-01-07/P1D,2005-01-09/2007-03-13/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_D_AER_OD"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_D_AER_OD"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_D_AER_OD</Name>
+          <Title>Aerosol Optical Thickness (1 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-13">2002-07-04/2002-07-29/P1D,2002-08-06/2004-02-28/P1D,2004-03-01/2007-01-30/P1D,2007-02-01/2007-03-13/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_D_AER_OD"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_D_AER_OD"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Aerosol Particle Radius (MODIS)</Title>
+        <Abstract><![CDATA[<p>Tiny solid and liquid particles suspended in the atmosphere are called <em>aerosols</em>.  These particles are important to scientists because they can affect climate, weather, and people's health.  Some aerosols come from natural sources, such as dust, volcanic eruptions, and sea salts.  Some aerosols are produced by humans, such as pollution from industries or automobiles, or smoke from fires.  Using satellites scientists can tell whether a given plume of aerosols came from a natural source, or if is pollution produced by people.  Two important clues about aerosols' sources are particle size and location of the plume.  Natural aerosols (such as dust and sea salts) tend to be larger particles than man-made aerosols (such as smoke and industrial pollution).  In these maps, red areas show aerosol plumes made up of smaller particles.  These red-colored plumes are over regions where we know humans produce pollution.  Green areas show aerosol plumes made up of larger particles.  These green-colored plumes are over regions where we know aerosols occur naturally.  Brown areas show plumes in which large and small aerosol particles are intermingling.  Black shows where the satellite could not measure aerosols.</p>]]></Abstract>
+        <Layer>
+          <Name>MODAL2_M_AER_RA</Name>
+          <Title>Aerosol Particle Radius (1 month - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-02-01">2005-01-01/2007-02-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_M_AER_RA"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_M_AER_RA"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_M_AER_RA</Name>
+          <Title>Aerosol Particle Radius (1 month - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-02-01">2002-07-01/2007-02-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_M_AER_RA"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_M_AER_RA"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MODAL2_E_AER_RA</Name>
+          <Title>Aerosol Particle Radius (8 day - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-06">2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-03-06/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_E_AER_RA"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_E_AER_RA"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_E_AER_RA</Name>
+          <Title>Aerosol Particle Radius (8 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-06">2002-07-04/2002-12-27/P8D,2003-01-01/2003-12-27/P8D,2004-01-01/2004-02-26/P8D,2004-03-06/2004-12-27/P8D,2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-03-06/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_E_AER_RA"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_E_AER_RA"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MODAL2_D_AER_RA</Name>
+          <Title>Aerosol Particle Radius (1 day - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-13">2005-01-01/2006-02-26/P1D,2006-03-03/2007-03-13/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_D_AER_RA"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_D_AER_RA"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_D_AER_RA</Name>
+          <Title>Aerosol Particle Radius (1 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-13">2002-07-04/2002-07-29/P1D,2002-08-06/2004-02-28/P1D,2004-03-01/2007-01-30/P1D,2007-02-01/2007-03-13/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_D_AER_RA"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_D_AER_RA"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Average Sea Surface Temperature 1985-1997 (AVHRR)</Title>
+        <Abstract><![CDATA[<p>Sea surface temperature is the temperature of the top millimeter of the ocean's surface. The average sea surface temperatures over a long period of time are called a sea surface temperature "climatology." An area's climatology acts a baseline for deciding whether and how much the climate is changing. To make a climatology data set, you average measurements collected over a long period of time. These data were collected between 1985 and 1997 by a series of National Oceanic and Atmospheric Administration (NOAA) satellites. The observations are grouped into five-day periods.</p>]]></Abstract>
+        <Layer>
+          <Name>AVHRR_CLIM_M</Name>
+          <Title>Average Sea Surface Temperature 1985-1997 (1 month - AVHRR)</Title>
+          <Dimension units="ISO8601" name="time" default="1985-12-01">1985-01-01/1985-12-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=AVHRR_CLIM_M"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=AVHRR_CLIM_M"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>AVHRR_CLIM_W</Name>
+          <Title>Average Sea Surface Temperature 1985-1997 (8 day - AVHRR)</Title>
+          <Dimension units="ISO8601" name="time" default="1985-12-27">1985-01-01/1985-12-27/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=AVHRR_CLIM_W"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=AVHRR_CLIM_W"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Blue Marble: Next Generation</Title>
+        <Abstract><![CDATA[<p>NASA's Blue Marble: Next Generation images show Earth in true color.  The images show how the surface would look to a human in space if our world had no clouds and no atmosphere.  NASA's Terra satellite collected these images.  There is one Blue Marble image for each month of the year 2004.  These images allow us to explore changes on Earth's lands over time.  Notice how the patterns of green (trees and plants), brown (exposed land surface), and white (snow) change from winter through spring, summer, and fall.</p>]]></Abstract>
+        <Layer>
+          <Name>BlueMarbleNG</Name>
+          <Title>Blue Marble: Next Generation (Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2004-12-01">2004-01-01/2004-12-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=BlueMarbleNG"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=BlueMarbleNG"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>BlueMarbleNG-TB</Name>
+          <Title>Blue Marble: Next Generation +Topo+Bathy (Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2004-12-01">2004-01-01/2004-12-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=BlueMarbleNG-TB"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=BlueMarbleNG-TB"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Carbon Monoxide (MOPITT)</Title>
+        <Abstract><![CDATA[<p>Colorless, odorless, and poisonous, carbon monoxide is a gas that comes from burning fossil fuels, like the gas in cars, and burning vegetation. Carbon monoxide is not one of the gases that is causing global warming, but it is one of the air pollutants that leads to smog. These data sets show monthly averages of carbon monoxide across the Earth measured by the MOPITT sensor (short for "Measurements Of Pollution In The Troposphere") on NASA's Terra satellite. Different colors show different amounts of the gas in the troposphere, the layer of the atmosphere closet to the Earth's surface, at an altitude of about 12,000 feet.</p>]]></Abstract>
+        <Layer>
+          <Name>MOP_CO_M</Name>
+          <Title>Carbon Monoxide (1 month - Terra/MOPITT)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-02-01">2000-03-01/2001-05-01/P1M,2001-08-01/2007-02-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MOP_CO_M"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MOP_CO_M"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Chlorophyll Concentration (MODIS)</Title>
+        <Abstract><![CDATA[<p>This map shows where tiny, floating plants live in the ocean.  These plants, called <em>phytoplankton</em>, are an important part of the ocean's food chain because many animals (such as small fish and whales) feed on them.  Scientists can learn a lot about the ocean by observing where and when phytoplankton grow in large numbers.  Scientists use satellites to measure how much phytoplankton are growing in the ocean by observing the color of the light reflected from the surface of the water.  A green pigment in their skin, called <em>chlorophyll</em>, gives phytoplankton their green color.  When phytoplankton grow in large numbers they make the ocean appear greenish.  These maps made from satellite observations show where and how much phytoplankton were growing on a given day, or over a span of days.  The black areas show where the satellite could not measure phytoplankton.</p>]]></Abstract>
+        <Layer>
+          <Name>MY1DMM_CHLORA</Name>
+          <Title>Chlorophyll Concentration (1 month - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-01">2002-07-01/2007-01-01/P1M,2007-03-01</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MY1DMM_CHLORA"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MY1DMM_CHLORA"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MY1DMW_CHLORA</Name>
+          <Title>Chlorophyll Concentration (8 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-30">2002-07-04/2002-12-27/P8D,2003-01-01/2003-12-27/P8D,2004-01-01/2004-12-26/P8D,2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-02-02/P8D,2007-02-18/2007-03-30/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MY1DMW_CHLORA"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MY1DMW_CHLORA"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MY1DMD_CHLORA</Name>
+          <Title>Chlorophyll Concentration (1 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-04-14">2002-07-04/2002-07-29/P1D,2002-08-06/2006-01-21/P1D,2006-01-23/2006-01-26/P1D,2006-01-28/2006-08-05/P1D,2006-08-08/2006-08-14/P1D,2006-08-16/2007-02-12/P1D,2007-02-15/2007-04-14/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MY1DMD_CHLORA"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MY1DMD_CHLORA"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Cirrus Reflectance (MODIS)</Title>
+        <Abstract><![CDATA[<p>Cirrus clouds are thin, wispy clouds floating high up in the sky.  They can be hard to see and, in fact, some cirrus clouds are invisible.  Scientists are interested in cirrus clouds because they allow most of the sun's light to pass through them, but they help to catch heat rising from Earth's surface.  So cirrus clouds help to warm our world.  As Earth continues to warm this century, will more cirrus clouds form?  Airplane contrails in the sky help to form more cirrus clouds than nature would on its own.  How does this extra man-made cirrus affect our world?  Scientists use satellites to make global maps of cirrus clouds like the ones in NEO to help them answer such questions.  The bright white pixels in these images are regions completely covered by cirrus clouds.  Greyish-white pixels show partial cirrus cover, and dark pixels indicate little or no cirrus.</p>]]></Abstract>
+        <Layer>
+          <Name>MODAL2_M_CLD_CI</Name>
+          <Title>Cirrus Reflectance (1 month - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-02-01">2005-01-01/2007-02-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_M_CLD_CI"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_M_CLD_CI"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_M_CLD_CI</Name>
+          <Title>Cirrus Reflectance (1 month - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-02-01">2002-07-01/2007-02-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_M_CLD_CI"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_M_CLD_CI"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MODAL2_E_CLD_CI</Name>
+          <Title>Cirrus Reflectance (8 day - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-06">2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-03-06/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_E_CLD_CI"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_E_CLD_CI"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_E_CLD_CI</Name>
+          <Title>Cirrus Reflectance (8 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-06">2002-07-04/2002-12-27/P8D,2003-01-01/2003-12-27/P8D,2004-01-01/2004-02-26/P8D,2004-03-06/2004-12-27/P8D,2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-03-06/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_E_CLD_CI"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_E_CLD_CI"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MODAL2_D_CLD_CI</Name>
+          <Title>Cirrus Reflectance (1 day - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-13">2005-01-01/2007-03-13/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_D_CLD_CI"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_D_CLD_CI"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_D_CLD_CI</Name>
+          <Title>Cirrus Reflectance (1 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-13">2002-07-04/2002-07-29/P1D,2002-08-06/2003-05-29/P1D,2003-06-18/2004-02-28/P1D,2004-03-01/2007-01-30/P1D,2007-02-01/2007-03-13/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_D_CLD_CI"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_D_CLD_CI"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Cloud Fraction (MODIS)</Title>
+        <Abstract><![CDATA[<p>Looking at Earth from outer space, clouds are easy to spot. Clouds are draped all around Earth like bright white decorations.  Clouds are important to scientists because they reflect the Sun's light back to space and give shade to the surface.  They also bring rain, which is important because all plants and animals need freshwater to live.  These maps made from NASA satellite observations show how much of Earth's surface is covered by clouds for a given day, or over a span of days.</p>]]></Abstract>
+        <Layer>
+          <Name>MODAL2_M_CLD_FR</Name>
+          <Title>Cloud Fraction (1 month - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-02-01">2005-01-01/2007-02-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_M_CLD_FR"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_M_CLD_FR"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_M_CLD_FR</Name>
+          <Title>Cloud Fraction (1 month - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-02-01">2002-07-01/2007-02-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_M_CLD_FR"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_M_CLD_FR"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MODAL2_E_CLD_FR</Name>
+          <Title>Cloud Fraction (8 day - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-06">2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-03-06/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_E_CLD_FR"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_E_CLD_FR"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_E_CLD_FR</Name>
+          <Title>Cloud Fraction (8 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-06">2002-07-04/2002-12-27/P8D,2003-01-01/2003-12-27/P8D,2004-01-01/2004-02-26/P8D,2004-03-06/2004-12-27/P8D,2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-03-06/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_E_CLD_FR"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_E_CLD_FR"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MODAL2_D_CLD_FR</Name>
+          <Title>Cloud Fraction (1 day - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-13">2005-01-01/2007-03-13/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_D_CLD_FR"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_D_CLD_FR"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_D_CLD_FR</Name>
+          <Title>Cloud Fraction (1 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-13">2002-07-04/2002-07-29/P1D,2002-08-06/2003-05-29/P1D,2003-06-18/2004-02-28/P1D,2004-03-01/2007-01-30/P1D,2007-02-01/2007-03-13/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_D_CLD_FR"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_D_CLD_FR"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Cloud Optical Thickness (MODIS)</Title>
+        <Abstract><![CDATA[<p>More than just the idle stuff of daydreams, clouds help control the flow of light and heat around our world.  Because there are so many clouds spread over such large areas of Earth, they are a very important part of our world's climate system.  Clouds have the ability to cool our planet, or they can help to warm it. Because there are so many different kinds of clouds, and because they move and change so fast, they are hard to understand and even harder to predict.  Scientists want to know how much sunlight clouds reflect and how much sunlight passes through clouds to reach Earth's surface.  By measuring how much sunlight gets scattered by clouds back up into space, scientists can better understand how much clouds influence Earth's climate.</p>]]></Abstract>
+        <Layer>
+          <Name>MODAL2_M_CLD_OT</Name>
+          <Title>Cloud Optical Thickness (1 month - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-02-01">2005-01-01/2007-02-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_M_CLD_OT"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_M_CLD_OT"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_M_CLD_OT</Name>
+          <Title>Cloud Optical Thickness (1 month - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-02-01">2002-07-01/2007-02-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_M_CLD_OT"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_M_CLD_OT"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MODAL2_E_CLD_OT</Name>
+          <Title>Cloud Optical Thickness (8 day - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-06">2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-03-06/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_E_CLD_OT"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_E_CLD_OT"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_E_CLD_OT</Name>
+          <Title>Cloud Optical Thickness (8 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-06">2002-07-04/2002-12-27/P8D,2003-01-01/2003-12-27/P8D,2004-01-01/2004-02-26/P8D,2004-03-06/2004-12-27/P8D,2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-03-06/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_E_CLD_OT"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_E_CLD_OT"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MODAL2_D_CLD_OT</Name>
+          <Title>Cloud Optical Thickness (1 day - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-13">2005-01-01/2007-03-13/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_D_CLD_OT"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_D_CLD_OT"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_D_CLD_OT</Name>
+          <Title>Cloud Optical Thickness (1 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-13">2002-07-04/2002-07-29/P1D,2002-08-06/2004-02-28/P1D,2004-03-01/2007-01-30/P1D,2007-02-01/2007-03-13/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_D_CLD_OT"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_D_CLD_OT"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Cloud Particle Radius (MODIS)</Title>
+        <Abstract><![CDATA[<p>More than just the idle stuff of daydreams, clouds help control the flow of light and heat around our world.  Because there are so many clouds spread over such large areas of Earth, they are a very important part of our world's climate system.  Clouds have the ability to cool our planet, or they can help to warm it. Because there are so many different kinds of clouds, and because they move and change so fast, they are hard to understand and even harder to predict.  Scientists want to know how big the particles are that make up clouds.  Clouds with smaller particles tend to reflect more sunlight and, therefore, cool the Earth.  If that sounds like a good way to combat global warming, consider this: when cloud particles are small, they are less likely to collide with one another often enough to produce raindrops.  So clouds with smaller particles can contribute to drought.  By measuring how much non-visible light (called <em>shortwave infrared</em>) is absorbed by a cloud, scientists can determine how large its particles are.</p>]]></Abstract>
+        <Layer>
+          <Name>MODAL2_M_CLD_RD</Name>
+          <Title>Cloud Particle Radius (1 month - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-02-01">2005-01-01/2007-02-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_M_CLD_RD"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_M_CLD_RD"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_M_CLD_RD</Name>
+          <Title>Cloud Particle Radius (1 month - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-02-01">2002-07-01/2007-02-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_M_CLD_RD"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_M_CLD_RD"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MODAL2_E_CLD_RD</Name>
+          <Title>Cloud Particle Radius (8 day - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-06">2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-03-06/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_E_CLD_RD"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_E_CLD_RD"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_E_CLD_RD</Name>
+          <Title>Cloud Particle Radius (8 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-06">2002-07-04/2002-12-27/P8D,2003-01-01/2003-12-27/P8D,2004-01-01/2004-02-26/P8D,2004-03-06/2004-12-27/P8D,2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-03-06/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_E_CLD_RD"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_E_CLD_RD"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MODAL2_D_CLD_RD</Name>
+          <Title>Cloud Particle Radius (1 day - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-13">2005-01-01/2007-03-13/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_D_CLD_RD"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_D_CLD_RD"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_D_CLD_RD</Name>
+          <Title>Cloud Particle Radius (1 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-13">2002-07-04/2002-07-29/P1D,2002-08-06/2003-05-29/P1D,2003-06-18/2004-02-28/P1D,2004-03-01/2007-01-30/P1D,2007-02-01/2007-03-13/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_D_CLD_RD"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_D_CLD_RD"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>False Color (MODIS)</Title>
+        <Abstract><![CDATA[<p>These images show Earth's surface and clouds in false colors. The images might look a little funny, sort of like a TV picture that needs to be fixed. That's because the images include more than just the red, green, and blue light that our eyes can see, but also infrared light. Infrared light is invisible to our eyes, but not to satellites.  NASA uses satellites in space to gather images like these over the entire planet every day. Scientists use satellite sensors to measure how much infrared light Earth reflects back up into space.  By assigning colors (red, green, or blue) to measurements of infrared light, we can see and understand the resulting pictures -- called "false-color images." In the false-color images available in NEO, areas with plants look bright green while deserts look tan.  Cold things appear blue: the colder something is, the brighter blue it will look. Ice and snow on the ground show up as bright turquoise.  Depending upon how high they are and how cold they are, clouds' colors range from white, to baby blue, to bright turquoise.  Notice how water and clouds in false-color images look very different than they do in true-color images.  Water is very dark, almost black, which makes it much easier to see lakes or flooded lands.</p>]]></Abstract>
+        <Layer>
+          <Name>MOD_721D_RR</Name>
+          <Title>False Color (1 day - Terra/MODIS Rapid Response)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-04-23">2006-09-01/2006-09-14/P1D,2006-09-17/2006-10-10/P1D,2006-10-12/2006-11-18/P1D,2006-11-21/2007-03-01/P1D,2007-03-03/2007-04-23/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MOD_721D_RR"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MOD_721D_RR"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYD_721D_RR</Name>
+          <Title>False Color (1 day - Aqua/MODIS Rapid Response)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-04-23">2006-09-01/2006-09-12/P1D,2006-09-14,2006-09-17/2006-10-10/P1D,2006-10-12/2006-11-13/P1D,2006-11-15/2006-11-18/P1D,2006-11-22/2006-11-26/P1D,2006-11-28/2007-03-05/P1D,2007-03-07/2007-04-23/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYD_721D_RR"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYD_721D_RR"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Global Bathymetry (GEBCO)</Title>
+        <Abstract><![CDATA[<p>Beneath the waters of the world's ocean, the Earth's surface isn't flat like the bottom of a glass or large bowl. There are giant mountain ranges and huge cracks where the ocean floor is ripping apart. Underwater volcanoes are slowly building up into mountains that may one day rise above the sea surface as islands. Because of these features, the depth of the water isn't the same everywhere in the ocean. Bathymetry is the measurement of how deep the water is at various places and the shape of the land underwater. In these maps, different shades of color represent different water depths. The data come from the General Bathymetric Chart of the Oceans, produced by the International Hydrographic Organization (IHO) and the United Nations' (UNESCO) Intergovernmental Oceanographic Commission (IOC).</p>]]></Abstract>
+        <Layer>
+          <Name>GEBCO_BATHY</Name>
+          <Title>Global Bathymetry (GEBCO)</Title>
+          <Dimension units="ISO8601" name="time" default="2002-01-01">2002-01-01</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=GEBCO_BATHY"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=GEBCO_BATHY"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Global Topography (SRTM/RAMP2)</Title>
+        <Abstract><![CDATA[<p>Land topography allows us to make maps of the features of the surface of the Earth. Topographic maps show the location, height, and shape of features like mountains and valleys, rivers, even the craters on volcanoes. Another way to think of topographic maps is that they are a picture of the three-dimensional (3-D) structure of the surface of the Earth. Flat maps can create a 3-D effect by making some parts of the map dark and other parts light. This is called "shading" because it makes features on the surface look like they are casting shadows. This topographic map is made from data collected from three sources: NASA's Space Shuttle, Canada's Radarsat satellite, and topographic maps made by the U.S. Geological Survey.</p>]]></Abstract>
+        <Layer>
+          <Name>SRTM_RAMP2_TOPO</Name>
+          <Title>Global Topography (SRTM/RAMP2)</Title>
+          <Dimension units="ISO8601" name="time" default="2000-02-11">2000-02-11</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=SRTM_RAMP2_TOPO"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=SRTM_RAMP2_TOPO"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Land Cover Classification (MODIS)</Title>
+        <Abstract><![CDATA[<p>Maps help us understand where things are.  Scientists use satellites to make maps of many different things on Earth to help them understand our world and how our world is changing.  Judging by what the land surface looks like, scientists organized Earth into 17 different categories.  Some examples of different types of land surface are cities, farm lands, forests, deserts, and so forth.  Using satellite observations, scientists mapped where on Earth each of these 17 land surface categories can be found.  The different colors on this map show the locations of each type of land surface.  Scientists are monitoring how these land cover types change over time.</p>
+<p><a href="http://earthobservatory.nasa.gov/Newsroom/LCC/Images/lcc_key.jpg" target="_blank" class="external_link">View photo representations of the different classifications</a></p>]]></Abstract>
+        <Layer>
+          <Name>MOD12Q1_T1</Name>
+          <Title>Land Cover Classification (1 year - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2003-01-01">2001-01-01/2003-01-01/P1Y</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MOD12Q1_T1"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MOD12Q1_T1"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Sea Surface Temperature (AMSR-E)</Title>
+        <Abstract><![CDATA[<p>Sea surface temperature is the temperature of the top millimeter of the ocean's surface. Sea surface temperatures influence weather, including hurricanes, as well as plant and animal life in the ocean. Like Earth's land surface, sea surface temperatures are warmer near the equator and colder near the poles. Currents like giant rivers move warm and cold water around the world's oceans. Some of these currents flow on the surface, and they are obvious in sea surface temperature images. Special microwave technology allows the AMSR-E sensor on NASA's Aqua satellite to measure sea surface temperatures through clouds, something no satellite sensor before it was able to do across the whole globe.</p>]]></Abstract>
+        <Layer>
+          <Name>AMSRE_SST_M</Name>
+          <Title>Sea Surface Temperature (1 month - Aqua/AMSR-E)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-01">2002-06-01/2007-03-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=AMSRE_SST_M"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=AMSRE_SST_M"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>AMSRE_SST_W</Name>
+          <Title>Sea Surface Temperature (8 day - Aqua/AMSR-E)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-04-15">2002-06-02/2002-12-27/P8D,2003-01-01/2003-12-27/P8D,2004-01-01/2004-12-26/P8D,2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-04-15/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=AMSRE_SST_W"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=AMSRE_SST_W"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>AMSRE_SST_D</Name>
+          <Title>Sea Surface Temperature (1 day - Aqua/AMSR-E)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-04-23">2002-06-01/2007-03-23/P1D,2007-03-25/2007-04-23/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=AMSRE_SST_D"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=AMSRE_SST_D"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Sea Surface Temperature (MODIS)</Title>
+        <Abstract><![CDATA[<p>The Sun's rays warm the sea's surface.  But in some parts of the ocean, cold water from deep below the surface flows upward and cools the sea's surface.  Just like when water in a pot on a stove starts to move around more as it becomes hotter, different temperatures in different parts of the ocean cause movements of seawater, called <em>currents</em>.  And just like a pot of boiling water on a stove releases heat and water into the air above it, warm ocean waters release heat and moisture into the atmosphere.  Warm ocean waters help form clouds and affect weather patterns.  The sea's surface temperature also affects life in the ocean by influencing where and when tiny ocean plants (called <em>phytoplankton</em>) will grow.  For all of these reasons scientists monitor the sea's surface temperature.  These maps show satellite measurements of the sea's surface temperature for a given day, or for a span of days.  The black areas show where the satellite could not measure sea surface temperature.</p>]]></Abstract>
+        <Layer>
+          <Name>MYD28M</Name>
+          <Title>Sea Surface Temperature (1 month - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-01">2002-07-01/2007-01-01/P1M,2007-03-01</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYD28M"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYD28M"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYD28W</Name>
+          <Title>Sea Surface Temperature (8 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-22">2002-07-04/2002-12-27/P8D,2003-01-01/2003-12-27/P8D,2004-01-01/2004-12-26/P8D,2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-01-25/P8D,2007-02-18/2007-03-22/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYD28W"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYD28W"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYD28D</Name>
+          <Title>Sea Surface Temperature (1 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-04-14">2002-07-04/2002-07-29/P1D,2002-08-06/2003-04-11/P1D,2003-04-13/2003-05-09/P1D,2003-05-11/2003-05-20/P1D,2003-05-22/2003-06-11/P1D,2003-06-13/2007-04-01/P1D,2007-04-03/2007-04-14/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYD28D"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYD28D"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Sea Surface Temperature Anomaly (AMSR-E)</Title>
+        <Abstract><![CDATA[<p>Sea surface temperature is the temperature of the top millimeter of the ocean's surface. An <em>anomaly</em> is when something is different from normal, or average. A sea surface temperature anomaly is how different the ocean temperature at a particular location at a particular time is from the normal temperatures for that place. For example, a global map of sea surface temperature anomaly for May 2006 would show where the temperatures in May 2006 were warmer, cooler, or the same as other Mays in previous years. Sea surface temperature anomalies can happen as part of normal ocean cycles or they can be a sign of long-term climate change, such as global warming.</p>]]></Abstract>
+        <Layer>
+          <Name>AMSRE_SSTAn_M</Name>
+          <Title>Sea Surface Temperature Anomaly (1 month - Aqua/AMSR-E)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-01">2002-06-01/2007-03-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=AMSRE_SSTAn_M"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=AMSRE_SSTAn_M"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>AMSRE_SSTAn_W</Name>
+          <Title>Sea Surface Temperature Anomaly (8 day - Aqua/AMSR-E)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-04-15">2002-06-02/2002-12-27/P8D,2003-01-01/2003-12-27/P8D,2004-01-01/2004-12-26/P8D,2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-04-15/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=AMSRE_SSTAn_W"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=AMSRE_SSTAn_W"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>AMSRE_SSTAn_D</Name>
+          <Title>Sea Surface Temperature Anomaly (1 day - Aqua/AMSR-E)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-04-23">2002-06-01/2007-03-23/P1D,2007-03-25/2007-04-23/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=AMSRE_SSTAn_D"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=AMSRE_SSTAn_D"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Snow Cover (MODIS)</Title>
+        <Abstract><![CDATA[<p>When air temperature falls below freezing (0&deg;Celsius), the water droplets in clouds harden into ice crystals.  Such crystals may grow into large, lacey snowflakes; or they may stick together to form odd-shaped clusters of ice crystals.  When they grow heavy enough, the ice crystals fall to the ground as snow.  If the ground temperature is also below freezing, the snow can build up into a bright white blanket covering the surface.  Snow cover is an important part of Earth's environment.  Because it reflects most of the sunlight that hits it, snow helps to cool Earth's surface.  Many areas of the world rely on snowmelt for drinking water and water for their crops.  So scientists monitor where and how much of Earth's landscape is covered by snow.  In the NASA satellite images shown here, the white areas show lands that were completely snow-covered on the dates shown.  The light green shades show regions in which there was only partial snow cover.  The dark green shows land areas with no snow cover.</p>]]></Abstract>
+        <Layer>
+          <Name>MOD10C1_M_SNOW</Name>
+          <Title>Snow Cover (1 month - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-01">2000-03-01/2007-03-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MOD10C1_M_SNOW"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MOD10C1_M_SNOW"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MOD10C1_E_SNOW</Name>
+          <Title>Snow Cover (8 day - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-04-07">2000-02-18/2000-02-26/P8D,2000-03-06/2000-12-27/P8D,2001-01-01/2001-12-27/P8D,2002-01-01/2002-12-27/P8D,2003-01-01/2003-12-27/P8D,2004-01-01/2004-02-26/P8D,2004-03-06/2004-12-27/P8D,2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-04-07/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MOD10C1_E_SNOW"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MOD10C1_E_SNOW"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MOD10C1_D_SNOW</Name>
+          <Title>Snow Cover (1 day - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-04-14">2000-02-24/2000-02-28/P1D,2000-03-01/2000-08-06/P1D,2000-08-19/2001-04-20/P1D,2001-04-22/2001-06-15/P1D,2001-07-02/2002-03-19/P1D,2002-03-28/2002-04-08/P1D,2002-04-10/2002-04-14/P1D,2002-04-16/2003-05-02/P1D,2003-05-04/2003-11-19/P1D,2003-11-21/2003-12-16/P1D,2003-12-25/2004-02-28/P1D,2004-03-01/2004-08-06/P1D,2004-08-08/2004-12-14/P1D,2004-12-16/2005-05-22/P1D,2005-05-24/2005-08-14/P1D,2005-08-16/2005-08-24/P1D,2005-08-28/2005-09-01/P1D,2005-09-03/2005-09-22/P1D,2005-09-24/2005-12-05/P1D,2005-12-07/2005-12-30/P1D,2006-01-02/2006-01-17/P1D,2006-01-19/2006-11-19/P1D,2006-11-21/2006-11-27/P1D,2006-11-29/2007-04-14/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MOD10C1_D_SNOW"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MOD10C1_D_SNOW"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Total Rainfall (TRMM)</Title>
+        <Abstract><![CDATA[<p>Rainfall is essential for life on Earth.  Rain is a main source of fresh water for plants and animals.  These maps show where and how much rain fell around the world on the dates shown.  Red areas show where there was a lot of rain.  Yellow and green areas show medium values, and white areas show where there was little or no rainfall.  Notice that most rain falls near the equator.  Notice also that more rain falls on the ocean than on land.  The NASA instrument that made these rainfall measurements flies on a satellite orbiting our world near the equator, so it only measures rainfall near the equator and not at high latitudes, nor in Earth's polar regions.</p>]]></Abstract>
+        <Layer>
+          <Name>TRMM_3B43M</Name>
+          <Title>Total Rainfall (1 month - TRMM)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-01">1998-01-01/2007-03-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=TRMM_3B43M"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=TRMM_3B43M"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>TRMM_3B43D</Name>
+          <Title>Total Rainfall (1 day - TRMM)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-30">1997-12-31/2004-02-27/P1D,2004-02-29/2007-03-30/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=TRMM_3B43D"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=TRMM_3B43D"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>True Color (MODIS)</Title>
+        <Abstract><![CDATA[<p>These images show Earth's surface and clouds in true color, like a photograph.  Earth is a beautiful and fascinating place.  It's fun to explore our home planet.  NASA is a world leader in Earth exploration.  NASA uses satellites in space to gather images like these over the whole world every day.  Scientists use these images to track changes on Earth's surface.  Notice the shapes and patterns of the colors across the lands.  Dark green areas show where there are many plants.  Brown areas are where the satellite sensor sees more of the bare land surface because there are few plants.  White areas are either snow or clouds.  Where on Earth would you like to explore?</p>]]></Abstract>
+        <Layer>
+          <Name>MOD_143D_RR</Name>
+          <Title>True Color (1 day - Terra/MODIS Rapid Response)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-04-23">2006-09-01/2006-09-14/P1D,2006-09-17/2006-10-10/P1D,2006-10-12/2006-11-18/P1D,2006-11-21/2007-03-01/P1D,2007-03-03/2007-04-23/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MOD_143D_RR"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MOD_143D_RR"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYD_143D_RR</Name>
+          <Title>True Color (1 day - Aqua/MODIS Rapid Response)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-04-23">2006-09-01/2006-09-12/P1D,2006-09-14,2006-09-17/2006-10-10/P1D,2006-10-12/2006-11-13/P1D,2006-11-15/2006-11-18/P1D,2006-11-22/2007-03-05/P1D,2007-03-07/2007-04-23/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYD_143D_RR"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYD_143D_RR"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Water Leaving Radiance (MODIS)</Title>
+        <Abstract><![CDATA[<p>Earth absorbs some of the Sun's light and reflects the rest back to space.  Scientists can learn a lot about objects on Earth by observing how much sunlight the object reflects, and by observing the color of the light the object reflects.  Scientists use satellites to observe the color of the light reflected by the ocean to help them understand what is in the surface waters.  This measure is called <em>water-leaving radiance</em>.  Things like tiny plants (called phytoplankton) and sediments (like mud or sand) change the color of the ocean.  Judging by the amount and color of the light it reflects, scientists can learn a lot about what is in the ocean.  These maps made from a NASA satellite's measurements show how much light the ocean reflects, as well as the color, for a given day or span of days.  Black areas show where the satellite could not measure the reflected light.</p>]]></Abstract>
+        <Layer>
+          <Name>MY1DMM_NLW_551</Name>
+          <Title>Water Leaving Radiance (1 month - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-01">2002-07-01/2007-01-01/P1M,2007-03-01</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MY1DMM_NLW_551"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MY1DMM_NLW_551"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MY1DMW_NLW_551</Name>
+          <Title>Water Leaving Radiance (8 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-30">2002-07-04/2002-12-27/P8D,2003-01-01/2003-12-27/P8D,2004-01-01/2004-12-26/P8D,2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-02-02/P8D,2007-02-18/2007-03-30/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MY1DMW_NLW_551"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MY1DMW_NLW_551"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MY1DMD_NLW_551</Name>
+          <Title>Water Leaving Radiance (1 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-04-14">2002-07-04/2002-07-29/P1D,2002-08-06/2006-08-05/P1D,2006-08-08/2006-08-10/P1D,2006-08-12/2006-08-14/P1D,2006-08-16/2007-02-12/P1D,2007-02-15/2007-04-14/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MY1DMD_NLW_551"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MY1DMD_NLW_551"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+      <Layer>
+        <Title>Water Vapor (MODIS)</Title>
+        <Abstract><![CDATA[<p>Depending upon its temperature, water comes in three different forms: solid (ice), liquid (rain drops), and gas (invisible to human eyes).  As water grows hotter it eventually changes from a liquid into a gas.  This gas is called <em>water vapor</em>.  Water vapor is a very important part of Earth's atmosphere because it traps heat near the surface and keeps our planet warm.  Water vapor is also important because as it rises into the atmosphere it cools and turns back into water droplets.  As more water droplets appear, they eventually form a cloud.  Some clouds produce rain and snow, bringing fresh water back to the surface.  So scientists monitor water vapor because it influences Earth's weather patterns, and because it is a very important part of our world's climate system.  These maps show satellite measurements of water vapor for a given day, or over a span of days.</p>]]></Abstract>
+        <Layer>
+          <Name>MODAL2_M_SKY_WV</Name>
+          <Title>Water Vapor (1 month - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-02-01">2005-01-01/2007-02-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_M_SKY_WV"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_M_SKY_WV"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_M_SKY_WV</Name>
+          <Title>Water Vapor (1 month - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-02-01">2002-07-01/2007-02-01/P1M</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_M_SKY_WV"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_M_SKY_WV"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MODAL2_E_SKY_WV</Name>
+          <Title>Water Vapor (8 day - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-06">2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-03-06/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_E_SKY_WV"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_E_SKY_WV"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_E_SKY_WV</Name>
+          <Title>Water Vapor (8 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-06">2002-07-04/2002-12-27/P8D,2003-01-01/2003-12-27/P8D,2004-01-01/2004-02-26/P8D,2004-03-06/2004-12-27/P8D,2005-01-01/2005-12-27/P8D,2006-01-01/2006-12-27/P8D,2007-01-01/2007-03-06/P8D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_E_SKY_WV"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_E_SKY_WV"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MODAL2_D_SKY_WV</Name>
+          <Title>Water Vapor (1 day - Terra/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-13">2005-01-01/2007-03-13/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MODAL2_D_SKY_WV"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MODAL2_D_SKY_WV"/>
+          </DataURL>
+        </Layer>
+        <Layer>
+          <Name>MYDAL2_D_SKY_WV</Name>
+          <Title>Water Vapor (1 day - Aqua/MODIS)</Title>
+          <Dimension units="ISO8601" name="time" default="2007-03-13">2002-07-04/2002-07-29/P1D,2002-08-06/2003-05-29/P1D,2003-06-18/2004-02-28/P1D,2004-03-01/2007-01-30/P1D,2007-02-01/2007-03-13/P1D</Dimension>
+          <MetadataURL type="FGDC">
+            <Format>text/xml</Format>
+            <OnlineResource xlink:href="http://neo.sci.gsfc.nasa.gov/FGDCMetadata?datasetId=MYDAL2_D_SKY_WV"/>
+          </MetadataURL>
+          <DataURL>
+            <Format>text/html</Format>
+            <OnlineResource xlink:type="simple" xlink:href="http://neo.sci.gsfc.nasa.gov/Search.html?datasetId=MYDAL2_D_SKY_WV"/>
+          </DataURL>
+        </Layer>
+      </Layer>
+    </Layer>
+  </Capability>
+</WMS_Capabilities>
