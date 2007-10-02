@@ -347,8 +347,7 @@ function OwsContext(modelNode, parent) {
       var parentNode = objRef.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList");
 
       var id = layerNode.getAttribute("id");
-      //alert("***" + id +  "***" + (new XMLSerializer()).serializeToString( parentNode ));
-      //alert("***" + id +  "***" + (new XMLSerializer()).serializeToString( layerNode ));
+      
       // check if that node does not alreayd exist, replace it (query may have changed)
       var str = "/wmc:OWSContext/wmc:ResourceList/"+layerNode.nodeName+"[@id='"+id+"']";
       var node = objRef.doc.selectSingleNode(str);
@@ -364,7 +363,6 @@ function OwsContext(modelNode, parent) {
     } else {
       alert(mbGetMessage("nullOwsContext"));
     }
-//alert((new XMLSerializer()).serializeToString( parentNode ));
     objRef.callListeners("refresh");
   }
   this.addFirstListener( "addLayer", this.addLayer, this );
@@ -433,6 +431,53 @@ function OwsContext(modelNode, parent) {
     objRef.modified = true;
   }
   this.addFirstListener( "moveLayerDown", this.moveLayerDown, this );
+
+  /**
+   * Receives a 'loadstart' event from OL layer and notifies the listeners
+   * @param event reference to the event from OL
+   * @return none
+   */
+  this.loadLayerStart = function(event) {
+    // Fetch layerName from model using the ID of the OL Layer
+    // Necessary to provide a connection between the OL Layer
+    layerName = this.model.getParam(event.object.id);
+
+    if (console && console.info) console.info('Start loading layer: ' + layerName);
+
+    this.model.callListeners("loadLayerStart", layerName);
+  }
+
+
+  /**
+   * Receives a 'loadend' event from OL layer and notifies the listeners
+   * @param event reference to the event from OL
+   * @return none
+   */
+  this.loadLayerEnd = function(event) {
+    // Fetch layerName from model using the ID of the OL Layer
+    layerName = config.objects.mainMap.getParam(event.object.id);
+
+    if (console && console.info) console.info('Stop loading layer: ' + layerName);
+
+    // Tell the listeners that the layer has finished loading
+    this.model.callListeners("loadLayerEnd", layerName);
+  }
+
+
+  
+  this.oldloadLayerStart = function(objRef, layerName) {
+    console.info('Start loading layer: ' + layerName);
+    //alert('Start loading layer: ' + layerName);
+    loadingDivId = objRef.id + '_' + layerName + '_Loading';
+    loadingDiv = document.getElementById(loadingDivId);
+    //alert(loadingDiv);
+  }
+  //this.addListener("loadLayerStart", this.loadLayerStart, this );
+
+  this.oldloadLayerEnd = function(objRef, layerName) {
+    console.info('Stop loading layer: ' + layerName);
+  }
+  //this.addListener("loadLayerEnd", this.loadLayerEnd, this );
 
   /**
    * Adds a node to the Context document extension element.  The extension element

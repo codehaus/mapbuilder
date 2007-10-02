@@ -317,6 +317,7 @@ MapPaneOL.prototype.hidden = function(objRef, layerName) {
   var  tmpLayer=objRef.getLayer(objRef,layerName)
   if(tmpLayer)tmpLayer.setVisibility(hidden);
 }
+
 //###################################################TDO
 /**
   * returns layer node from LayerMgr
@@ -325,7 +326,6 @@ MapPaneOL.prototype.hidden = function(objRef, layerName) {
 MapPaneOL.prototype.getLayer = function(objRef,layerName) {
   return objRef.model.map.getLayer(objRef.oLlayers[layerName].id);
 }
-
 
 //####################################################
 /**
@@ -336,6 +336,7 @@ MapPaneOL.prototype.getLayer = function(objRef,layerName) {
 MapPaneOL.prototype.deleteLayer = function(objRef, layerName) {
   if(objRef.oLlayers[layerName])objRef.model.map.removeLayer(objRef.oLlayers[layerName]);
 }
+
 /**
  * Removes all layers from the output
  * @param objRef Pointer to this object.
@@ -344,6 +345,7 @@ MapPaneOL.prototype.deleteLayer = function(objRef, layerName) {
 MapPaneOL.prototype.deleteAllLayers = function(objRef) {
   objRef.model.map.destroy();
 }
+
 //#############################################TDO
 /**
  * Moves a layer up in the stack of map layers
@@ -363,6 +365,7 @@ MapPaneOL.prototype.moveLayerUp = function(objRef, layerName) {
 MapPaneOL.prototype.moveLayerDown = function(objRef, layerName) {
   objRef.model.map.raiseLayer(objRef.getLayer(objRef,layerName), -1);
 }
+
 //###############################################
 /**
    * Called when the context's opacity attribute changes.
@@ -572,7 +575,9 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         title,
         href,{
           TYPENAME: name2,
-          MAXFEATURES: (maxFeatures ? maxFeatures : 5)} 
+          MAXFEATURES: (maxFeatures ? maxFeatures : 1), 
+          }
+
           //,layerOptions
         );
       objRef.oLlayers[name2].setVisibility(vis); // necessary, otherwise layer will be shown when loaded from initial context document
@@ -627,6 +632,17 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   if(opacity && objRef.oLlayers[name2]){
     objRef.oLlayers[name2].setOpacity(opacity);
   }
+  
+  // Store <OL Layer ID> . <MB Layer Name> in model
+  // Need to do that to retrieve layer name after a loadLayerStart/End event
+  objRef.model.setParam(objRef.oLlayers[name2].id, name2);
+
+  // Hook into OpenLayers events for start/end loading of a layer
+  // Must be done before adding to the map
+  objRef.oLlayers[name2].events.register('loadstart', objRef, objRef.model.loadLayerStart);
+  objRef.oLlayers[name2].events.register('loadend', objRef, objRef.model.loadLayerEnd);
+
+  // Here the OL layer gets added to the OL map
   objRef.model.map.addLayer(objRef.oLlayers[name2]);
 }
 
