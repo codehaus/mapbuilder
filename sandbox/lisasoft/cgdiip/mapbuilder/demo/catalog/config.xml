@@ -29,6 +29,13 @@
     <!-- Contains the results of a catalog search -->
     <Model id="catalogSearchResults">
       <defaultModelUrl>WRS_Service+Layers_GetRecords.xml</defaultModelUrl>
+      <widgets>
+        <Loading2 id="loading">
+          <htmlTagId>loading</htmlTagId>
+          <imageSrc>/images/LoadingSpinner.gif</imageSrc>
+          <textMessage>searching</textMessage>
+        </Loading2>
+      </widgets>
     </Model>
     <!-- Contains the results of a search, converted into OWSContext format -->
     <OwsContext id="normalizedSearchResults">

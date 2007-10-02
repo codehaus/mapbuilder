@@ -176,7 +176,12 @@ function CatalogSearchForm(widgetNode, model) {
     this.targetModel.newRequest(this.targetModel,this.httpPayload);
     
     // Load the new model
-    this.targetModel.callListeners("loadModel");
+    // Disabled, otherwise the loading indicator doesn't work
+    //this.targetModel.callListeners("loadModel");
+    
+    // Activate the loading indicator
+    this.targetModel.callListeners("refresh");
+
   }
 
   /**

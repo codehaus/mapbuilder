@@ -70,6 +70,8 @@ $Name:  $
       <br/>
       <input type="button" value="Search" onclick="config.objects.{$widgetId}.doSelect();"/>
       <input id="debug_button" type="button" value="Show Query" onclick="config.objects.{$widgetId}.debugQuery();"/>
+      <div id="loading"></div>
+
     </form>
 
     <div id="debugwindow" style="display:none;position:absolute; top:310px;left:370px;width:400px; height:300px; z-index:2;background-color:transparent;overflow:auto"></div>
