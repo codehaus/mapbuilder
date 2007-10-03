@@ -162,7 +162,7 @@
       <webServiceUrl>http://geocon.sunertek.com:8080/geoserver/wfs?</webServiceUrl>
       <typeName>gb:PlaceName,gb:RoadSegment,gb:AdministrativeArea</typeName>
       <tolerance>5</tolerance>
-      <maxFeatures>100</maxFeatures>
+      <maxFeatures>1</maxFeatures>
     </WfsGetFeature>
     <ModelTransformer id="modelTransformer">
       <targetModel>featureCollection</targetModel>
