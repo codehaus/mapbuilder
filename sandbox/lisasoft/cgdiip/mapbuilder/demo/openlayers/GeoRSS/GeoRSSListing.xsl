@@ -35,7 +35,7 @@ $Name:  $
       <td onmouseover="config.objects.{$modelId}.setParam('highlightFeature','{$fid}')"
       	  onmouseout="config.objects.{$modelId}.setParam('dehighlightFeature','{$fid}')">
         <div id = "item">
-          <div id="{$fid}" style="width:340px">
+          <div id="{$fid}" style="width:325px">
       	    <input type="checkbox" checked="true"
       		  onclick="this.checked?config.objects.{$modelId}.setParam('showFeature','{$fid}'):config.objects.{$modelId}.setParam('hideFeature','{$fid}')" />
 	        <a href="{$link}"><xsl:value-of select="atom:title"/></a><br/>
