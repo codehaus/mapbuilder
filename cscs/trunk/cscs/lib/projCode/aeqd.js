@@ -1,5 +1,4 @@
-Proj4js.Proj.aeqd = Class.create();
-Proj4js.Proj.aeqd.prototype = {
+Proj4js.Proj.aeqd = {
   init : function() {
     this.sin_p12=Math.sin(this.lat0)
     this.cos_p12=Math.cos(this.lat0)
@@ -31,7 +30,7 @@ Proj4js.Proj.aeqd.prototype = {
     var x = this.x0+this. a * ksp * cosphi * Math.sin(dlon);
     var y = this.y0 + this.a * ksp * (this.cos_p12 * sinphi - this.sin_p12 * cosphi * coslon);
     return new Proj4js.Point(x, y);
-  }
+  },
 
   inverse: function(p){
     p.x -= this.x0;

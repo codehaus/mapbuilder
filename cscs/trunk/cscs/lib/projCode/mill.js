@@ -1,13 +1,3 @@
-// Function to adjust longitude to -180 to 180; input in radians
-function adjust_lon(x) {x=(Math.abs(x)<PI)?x:(x-(sign(x)*TWO_PI));return(x);}
-
-
-
-
-
-
-
-
 /*******************************************************************************
 NAME                    MILLER CYLINDRICAL 
 
@@ -37,52 +27,42 @@ ALGORITHM REFERENCES
     Package", U.S. Geological Survey National Mapping Division, May 1982.
 *******************************************************************************/
 
-//surement necessaire de déclarer un R dans le switch du cscs.js
-
-
-
-  
-  
-
-
+Proj4js.Proj.mill = {
 
 /* Initialize the Miller Cylindrical projection
   -------------------------------------------*/
- millInit=function(def){
-def.R = 6370997.0; //Radius of earth
-}
+  init: function() {
+    //no-op
+  },
 
 
+  /* Miller Cylindrical forward equations--mapping lat,long to x,y
+    ------------------------------------------------------------*/
+  forward: function(p) {
+    var lon=p.x;
+    var lat=p.y;
+    /* Forward equations
+      -----------------*/
+    dlon = Proj4js.const.adjust_lon(lon -this.long0);
+    var x = this.x0 +this.R * dlon;
+    var y = this.y0 + this.R *Math.log(Math.tan((Proj4js.const.PI / 4.0) + (lat / 2.5))) * 1.25;
 
-/* Miller Cylindrical forward equations--mapping lat,long to x,y
-  ------------------------------------------------------------*/
- millFwd=function(p)
-{
-var lon=p.x;
-var lat=p.y;
-/* Forward equations
-  -----------------*/
-dlon = adjust_lon(lon -this.long0);
-var x = this.x0 +this.R * dlon;
-var y = this.y0 + this.R *Math.log(Math.tan((PI / 4.0) + (lat / 2.5))) * 1.25;
+    p.x=x;
+    p.y=y;
+    return p;
+  },//millFwd()
 
-p.x=x;
-p.y=y;
+  /* Miller Cylindrical inverse equations--mapping x,y to lat/long
+    ------------------------------------------------------------*/
+  inverse: function(p) {
+    p. x -= this.x0;
+    p. y -= this.y0;
 
-}//millFwd()
+    var lon = Proj4js.const.adjust_lon(this.long0 + p.x /this.R);
+    var lat = 2.5 * (Math.atan(Math.exp(p.y/ this.R / 1.25)) - Proj4js.const.PI / 4.0);
 
- millInv=function(p)
-/* Miller Cylindrical inverse equations--mapping x,y to lat/long
-  ------------------------------------------------------------*/
-{
-
-p. x -= this.x0;
-p. y -= this.y0;
-
-var lon = adjust_lon(this.long0 + p.x /this.R);
-var lat = 2.5 * (Math.atan(Math.exp(p.y/ this.R / 1.25)) - PI / 4.0);
-
-p.x=lon;
-p.y=lat;
-}//millInv()
-
+    p.x=lon;
+    p.y=lat;
+    return p;
+  }//millInv()
+};

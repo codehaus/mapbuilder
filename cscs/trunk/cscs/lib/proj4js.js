@@ -47,12 +47,13 @@ Proj4js = {
    * A proxy script to execute AJAX requests in other domains
    */
   proxyScript: '/mapbuilder/proxy?url=',  //TBD: customize this for spatialreference.org output
+  //proxyScript: OpenLayers.ProxyHost,  //TBD: customize this for spatialreference.org output
 
   /**
    * Property: defsLookupService
    * AJAX service to retreive projection definition parameters from
    */
-  defsLookupService: 'http://spatialreference.org/ref/',
+  defsLookupService: 'http://spatialreference.org/ref',
 
   /**
    * Property: libPath
@@ -60,23 +61,242 @@ Proj4js = {
    * TBD figure this out automatically
    */
   libPath: '/cscs/lib/',                   //
+  //libPath: '/mapguide/OpenLayers/lib/proj4js/',                   //
 
   /**
    * Property: useMapsDB
    * Set to true if the map example should be loaded when the Proj is created.
    * A map example will be loaded only if one is available.
    */
-  useMapsDB: true,
+  useMapsDB: false,
+
+  /** 
+  * Method: transform(source, dest, point)
+  * Transform a point coordinate from one map projection to another.
+  *
+  * Parameters:
+  * source - {Proj4js.Proj} source map projection for the transformation
+  * dest - {Proj4js.Proj} destination map projection for the transformation
+  * point - {Proj4js.Point} point to transform, may be geodetic (long, lat)
+  * or projected Cartesian (x,y)
+  */
+  transform : function(source, dest, point) {
+    if (!source.readyToUse || !dest.readyToUse) {
+      this._reportError("Proj4js initialization for "+source.srsCode+" not yet complete");
+      return;
+    }
+    if (point.transformed) {
+      this._log("point already transformed");
+      //return;
+    }
+
+    // Transform source points to long/lat, if they aren't already.
+    if ( source.projName=="longlat") {
+      point.x *= Proj4js.const.D2R;  // convert degrees to radians
+      point.y *= Proj4js.const.D2R;
+    } else {
+      if (source.to_meter) {
+        point.x *= source.to_meter;
+        point.y *= source.to_meter;
+      }
+      source.inverse(point); // Convert Cartesian to longlat
+    }
+
+    // Adjust for the prime meridian if necessary
+    if ( source.from_greenwich) { point.x += source.from_greenwich; }
+
+    // Convert datums if needed, and if possible.
+    point = this.datum_transform( source.datum, dest.datum, point );
+
+    // Adjust for the prime meridian if necessary
+    if ( dest.from_greenwich ) { point.x -= dest.from_greenwich; }
+
+    if( dest.projName=="longlat" ) {             
+      // convert radians to decimal degrees
+      point.x *= Proj4js.const.R2D;
+      point.y *= Proj4js.const.R2D;
+    } else  {               // else project
+      dest.forward(point);
+      if (dest.to_meter) {
+        point.x /= dest.to_meter;
+        point.y /= dest.to_meter;
+      }
+    }
+    point.transformed = true;
+    return point;
+  }, // transform()
+
+  /** datum_transform()
+    source coordinate system definition,
+    destination coordinate system definition,
+    point to transform in geodetic coordinates (long, lat, height)
+  */
+  datum_transform : function( source, dest, point ) {
+
+    // Short cut if the datums are identical.
+    if( source.compare_datums( dest ) )
+        return point; // in this case, zero is sucess,
+                  // whereas cs_compare_datums returns 1 to indicate TRUE
+                  // confusing, should fix this
+
+      // If this datum requires grid shifts, then apply it to geodetic coordinates.
+      if( source.datum_type == Proj4js.const.PJD_GRIDSHIFT )
+      {
+        alert("ERROR: Grid shift transformations are not implemented yet.");
+        /*
+          pj_apply_gridshift( pj_param(source.params,"snadgrids").s, 0,
+                              point_count, point_offset, x, y, z );
+          CHECK_RETURN;
+
+          src_a = SRS_WGS84_SEMIMAJOR;
+          src_es = 0.006694379990;
+        */
+      }
+
+      if( dest.datum_type == Proj4js.const.PJD_GRIDSHIFT )
+      {
+        alert("ERROR: Grid shift transformations are not implemented yet.");
+        /*
+          dst_a = ;
+          dst_es = 0.006694379990;
+        */
+      }
+
+        // Do we need to go through geocentric coordinates?
+  //  if( source.es != dest.es || source.a != dest.a || // RWG - removed ellipse comparison so
+      if( source.datum_type == Proj4js.const.PJD_3PARAM                      // that longlat CSs do not have to have
+          || source.datum_type == Proj4js.const.PJD_7PARAM                   // an ellipsoid, also should put it a
+          || dest.datum_type == Proj4js.const.PJD_3PARAM                   // tolerance for es if used.
+          || dest.datum_type == Proj4js.const.PJD_7PARAM)
+      {
+
+        // Convert to geocentric coordinates.
+        source.geodetic_to_geocentric( point );
+        // CHECK_RETURN;
+
+        // Convert between datums
+        if( source.datum_type == Proj4js.const.PJD_3PARAM || source.datum_type == Proj4js.const.PJD_7PARAM )
+        {
+          source.geocentric_to_wgs84(point);
+          // CHECK_RETURN;
+        }
+
+        if( dest.datum_type == Proj4js.const.PJD_3PARAM || dest.datum_type == Proj4js.const.PJD_7PARAM )
+        {
+          dest.geocentric_from_wgs84(point);
+          // CHECK_RETURN;
+        }
+
+        // Convert back to geodetic coordinates
+        dest.geocentric_to_geodetic( point );
+          // CHECK_RETURN;
+      }
+
+
+    // Apply grid shift to destination if required
+    if( dest.datum_type == Proj4js.const.PJD_GRIDSHIFT )
+    {
+      alert("ERROR: Grid shift transformations are not implemented yet.");
+      // pj_apply_gridshift( pj_param(dest.params,"snadgrids").s, 1, point);
+      // CHECK_RETURN;
+    }
+    return point;
+  }, // cs_datum_transform
 
   /**
    * Function: reportError
    * An internal method to report errors back to user
    */
-  reportError: function(msg) {
+  _reportError: function(msg) {
     console.log(msg);
     //TODO: customize this more
-  }
+  },
 
+  /**
+   * Function: log
+   * An internal method to log some events in the console
+   */
+  _log: function(msg) {
+    console.log(msg);
+    //TODO: customize this more
+  },
+
+  _loadProjDefinition : function(proj) {
+
+    //check in memory
+    if (this.defs[proj.srsCode]) return this.defs[proj.srsCode];
+
+    //set AJAX options
+    var options = {
+      method: 'get',
+      asynchronous: false,          //need to wait until defs are loaded before proceeding
+      onSuccess: this._defsLoaded.bind(this,proj.srsCode)
+    }
+    
+    //else check for def on the server
+    var url = this.libPath + 'defs/' + proj.srsAuth.toUpperCase() + proj.srsProjNumber + '.js';
+    new OpenLayers.Ajax.Request(url, options);
+    if ( this.defs[proj.srsCode] ) return this.defs[proj.srsCode];
+
+    //else load from web service via AJAX request
+    var url = this.proxyScript + this.defsLookupService +'/' + proj.srsAuth +'/'+ proj.srsProjNumber + '/proj4';
+    options.onFailure = this._defsFailed.bind(this,proj.srsCode);
+    new OpenLayers.Ajax.Request(url, options);
+    if ( this.defs[proj.srsCode] ) return this.defs[proj.srsCode];
+
+    return null;    //an error if it gets here
+  },
+
+  _defsLoaded: function(srsCode, transport) {
+    this.defs[srsCode] = transport.responseText;
+  },
+
+  _defsFailed: function(srsCode) {
+    this._reportError('failed to load projection definition for: '+srsCode);
+    OpenLayers.Util.extend(this.defs[srsCode], this.defs['WGS84']);  //set it to something so it can at least continue
+  },
+
+  _loadProjCode : function(projName) {
+    if (this.Proj[projName]) return;
+
+    //set AJAX options
+    var options = {
+      method: 'get',
+      asynchronous: false,          //need to wait until defs are loaded before proceeding
+      onSuccess: this._loadProjCodeSuccess.bind(this, projName),
+      onFailure: this._loadProjCodeFailure.bind(this, projName)
+    };
+    
+    //load the projection class 
+    var url = this.libPath + 'projCode/' + projName + '.js';
+    new OpenLayers.Ajax.Request(url, options);
+  },
+
+  _loadProjCodeSuccess : function(projName, transport) {
+    eval(transport.responseText);
+    if (this.Proj[projName].dependsOn){
+      this._loadProjCode(this.Proj[projName].dependsOn);
+    }
+  },
+
+  _loadProjCodeFailure : function(projName) {
+    Proj4js.reportError("failed to find projection file for: " + projName);
+    //TBD initialize with identity transforms so proj will still work
+  },
+
+  _loadMapExample : function(proj) {
+    if (this.maps[proj.srsCode]) return;
+
+    //load the map example definition
+    //set AJAX options
+    var options = { method: 'get', asynchronous: false, onSuccess: this._loadMapExampleSuccess.bind(this, proj) }
+    var url = this.libPath + 'maps/' + proj.srsAuth.toUpperCase() + proj.srsProjNumber + '.js';
+    new OpenLayers.Ajax.Request(url, options);
+  },
+
+  _loadMapExampleSuccess : function(proj, transport) {
+    var tmp = eval(transport.responseText); //TODO: is this right? more testing
+  }
 };
 
 /**
@@ -84,8 +304,7 @@ Proj4js = {
  * Projection objects provide coordinate transformation methods for point coordinates
  * once they have been initialized with a projection code.
  */
-Proj4js.Proj = Class.create();
-Proj4js.Proj.prototype = {
+Proj4js.Proj = OpenLayers.Class({
 
   /**
    * Property: readyToUse
@@ -113,141 +332,25 @@ Proj4js.Proj.prototype = {
       this.srsProjNumber = this.srsCode;
     }
 
-    this.datum = new Proj4js.datum(Proj4js.defaultDatum);
+    this.datum = new Proj4js.datum();  //this will get the default datum
 
-    var defs = this._loadProjDefinition(this.srsCode);
+    var defs = Proj4js._loadProjDefinition(this);
     if (defs) {
       this._parseDefs(defs);
-      this._loadProjCode(this.projName);
-      if (Proj4js.useMapsDB) this._loadMapExample(this.srsCode);
+      Proj4js._loadProjCode(this.projName);
+      this._callInit();
+      if (Proj4js.useMapsDB) Proj4js._loadMapExample(this);
     }
 
   },
 
-  /** 
-  * Method: forward(lonLat)
-  * Transform a latitude longitude point to this map projection's XY coords.
-  *
-  * Parameters:
-  * lonLat - {Proj4js.Point} point to transform in geodetic (long, lat)
-  */
-
-  /** 
-  * Method: lonLatToMapXY(lonLat)
-  * Transform a latitude longitude point to this map projection's XY coords.
-  * this is an alias because I can never remember forward/inverse.
-  *
-  * Parameters:
-  * lonLat - {Proj4js.Point} point to transform in geodetic (long, lat)
-  */
-
-  /** 
-  * Method: inverse(lonLat)
-  * Transform a map projection's XY coords to geodetic latitude longitude.
-  *
-  * Parameters:
-  * lonLat - {Proj4js.Point} point to transform in geodetic (long, lat)
-  */
-
-  /** 
-  * Method: lonLatToMapXY(lonLat)
-  * Transform a map projection's XY coords to geodetic latitude longitude.
-  * this is an alias because I can never remember forward/inverse.
-  *
-  * Parameters:
-  * lonLat - {Proj4js.Point} point to transform in geodetic (long, lat)
-  */
-
-  /** 
-  * Method: transform(point, dest)
-  * Transform a point coordinate from one map projection to another.
-  *
-  * Parameters:
-  * inPoint - {Proj4js.Point} point to transform, may be geodetic (long, lat)
-  * or projected Cartesian (x,y)
-  * dest - {Proj4js.Proj} destination map projection for the transformation
-  */
-  transform : function(inPoint, dest) {
-    if (!this.readyToUse) {
-      alert("Proj4js initialization for "+this.srsCode+" not yet complete");
-      return;
-    }
-
-    var point = inPoint;
-    // Transform source points to long/lat, if they aren't already.
-    if ( this.projName=="longlat") {
-      point.x *= Proj4js.const.D2R;  // convert degrees to radians
-      point.y *= Proj4js.const.D2R;
-    } else {
-      if (this.to_meter) {
-        point.x *= this.to_meter;
-        point.y *= this.to_meter;
-      }
-      this.inverse(point); // Convert Cartesian to longlat
-    }
-
-    // Adjust for the prime meridian if necessary
-    if ( this.from_greenwich) { point.x += this.from_greenwich; }
-
-    // Convert datums if needed, and if possible.
-    //point = this.datum.transform( point, dest);
-
-    // Adjust for the prime meridian if necessary
-    if ( dest.from_greenwich ) { point.x -= dest.from_greenwich; }
-
-    if ( dest.projName == "longlat" ) {            
-      point.x *= Proj4js.const.R2D;     // convert radians to decimal degrees
-      point.y *= Proj4js.const.R2D;
-    } else  {               // else project
-      dest.forward(point);
-      if (dest.to_meter) {
-        point.x /= dest.to_meter;
-        point.y /= dest.to_meter;
-      }
-    }
-    return point;
-  }, // transform()
-
-  _callInit : function(projName) {
-    console.log('projection script loaded for:' + projName);
-    Object.extend(this, Proj4js.Proj[this.projName]);
+  _callInit : function() {
+    Proj4js._log('projection script loaded for:' + this.projName);
+    OpenLayers.Util.extend(this, Proj4js.Proj[this.projName]);
+    this.init();
     this.mapXYToLonLat = this.inverse;
     this.lonLatToMapXY = this.forward;
-    this.init();
     this.readyToUse = true;
-  },
-
-  _loadProjDefinition : function(srsCode) {
-
-    //check in memory
-    if (Proj4js.defs[srsCode]) return Proj4js.defs[srsCode];
-
-    //set AJAX options
-    var options = {
-      method: 'get',
-      asynchronous: false,          //need to wait until defs are loaded before proceeding
-      onSuccess: this._defsLoaded.bind(this)
-    }
-    
-    //else check for def on the server
-    var url = Proj4js.libPath + 'defs/' + this.srsAuth.toUpperCase() + this.srsProjNumber + '.js';
-    new Ajax.Request(url, options);
-    if ( Proj4js.defs[srsCode] ) return Proj4js.defs[srsCode];
-
-    //else load from web service via AJAX request
-    var url = Proj4js.proxyScript + Proj4js.defsLookupService + this.srsAuth +'/'+ this.srsProjNumber + '/proj4';
-    options.onFailure = this._defsFailed.bind(this);
-    new Ajax.Request(url, options);
-
-    return Proj4js.defs[srsCode];
-  },
-
-  _defsFailed: function() {
-      alert('failed to load projection definition for: ' + this.srsCode);
-  },
-
-  _defsLoaded: function(transport) {
-    Proj4js.defs[this.srsCode] = transport.responseText;
   },
 
   _parseDefs : function(proj4opts) {
@@ -284,7 +387,7 @@ Proj4js.Proj.prototype = {
    * Property: datum
    * The datum specified for the projection
    */
-        case "datum":  this.datum = new Proj4js.datum(paramVal.replace(/\s/gi,"")); break;
+        case "datum":  this.datumName = paramVal.replace(/\s/gi,""); break;
 
   /** 
    * The rest of these are for internal use only
@@ -304,7 +407,7 @@ Proj4js.Proj.prototype = {
         case "towgs84":this.datum_params = paramVal.split(","); break;
         case "to_meter": this.to_meter = parseFloat(paramVal); break; // cartesian scaling
         case "from_greenwich": this.from_greenwich = paramVal*Proj4js.const.D2R; break;
-        default: console.log("Unrecognized parameter: " + paramName);
+        default: Proj4js._log("Unrecognized parameter: " + paramName);
       } // switch()
     } // for paramArray
     this._deriveConstants();
@@ -313,68 +416,69 @@ Proj4js.Proj.prototype = {
   _deriveConstants : function() {
     if (!this.a) {    // do we have an ellipsoid?
       switch(this.ellps) {
-        case "GRS80": this.a=6378137.0; this.b=6356752.31414036; break;
-        case "WGS84": this.a=6378137.0; this.b=6356752.31424518; break;
-        case "WGS72": this.a=6378135.0; this.b=6356750.52001609; break;
-        case "intl":  this.a=6378388.0; this.b=6356911.94612795; break;
-        default:      this.a=6378137.0; this.b=6356752.31424518; console.log("Ellipsoid parameters not provided, assuming WGS84");
+        //case "GRS80": this.a=6378137.0; this.b=6356752.31414036; break;
+        //case "WGS84": this.a=6378137.0; this.b=6356752.31424518; break;
+        //case "WGS72": this.a=6378135.0; this.b=6356750.52001609; break;
+        //case "intl":  this.a=6378388.0; this.b=6356911.94612795; break;
+        case "MERIT": this.a=6378137.0; this.rf=298.257; this.ellipseName="MERIT 1983"; break;
+        case "SGS85": this.a=6378136.0; this.rf=298.257; this.ellipseName="Soviet Geodetic System 85"; break;
+        case "GRS80": this.a=6378137.0; this.rf=298.257222101; this.ellipseName="GRS 1980(IUGG, 1980)"; break;
+        case "IAU76": this.a=6378140.0; this.rf=298.257; this.ellipseName="IAU 1976"; break;
+        case "airy": this.a=6377563.396; this.b=6356256.910; this.ellipseName="Airy 1830"; break;
+        case "APL4.": this.a=6378137; this.rf=298.25; this.ellipseName="Appl. Physics. 1965"; break;
+        case "NWL9D": this.a=6378145.0; this.rf=298.25; this.ellipseName="Naval Weapons Lab., 1965"; break;
+        case "mod_airy": this.a=6377340.189; this.b=6356034.446; this.ellipseName="Modified Airy"; break;
+        case "andrae": this.a=6377104.43; this.rf=300.0; this.ellipseName="Andrae 1876 (Den., Iclnd.)"; break;
+        case "aust_SA": this.a=6378160.0; this.rf=298.25; this.ellipseName="Australian Natl & S. Amer. 1969"; break;
+        case "GRS67": this.a=6378160.0; this.rf=298.2471674270; this.ellipseName="GRS 67(IUGG 1967)"; break;
+        case "bessel": this.a=6377397.155; this.rf=299.1528128; this.ellipseName="Bessel 1841"; break;
+        case "bess_nam": this.a=6377483.865; this.rf=299.1528128; this.ellipseName="Bessel 1841 (Namibia)"; break;
+        case "clrk66": this.a=6378206.4; this.b=6356583.8; this.ellipseName="Clarke 1866"; break;
+        case "clrk80": this.a=6378249.145; this.rf=293.4663; this.ellipseName="Clarke 1880 mod."; break;
+        case "CPM": this.a=6375738.7; this.rf=334.29; this.ellipseName="Comm. des Poids et Mesures 1799"; break;
+        case "delmbr": this.a=6376428.0; this.rf=311.5; this.ellipseName="Delambre 1810 (Belgium)"; break;
+        case "engelis": this.a=6378136.05; this.rf=298.2566; this.ellipseName="Engelis 1985"; break;
+        case "evrst30": this.a=6377276.345; this.rf=300.8017; this.ellipseName="Everest 1830"; break;
+        case "evrst48": this.a=6377304.063; this.rf=300.8017; this.ellipseName="Everest 1948"; break;
+        case "evrst56": this.a=6377301.243; this.rf=300.8017; this.ellipseName="Everest 1956"; break;
+        case "evrst69": this.a=6377295.664; this.rf=300.8017; this.ellipseName="Everest 1969"; break;
+        case "evrstSS": this.a=6377298.556; this.rf=300.8017; this.ellipseName="Everest (Sabah & Sarawak)"; break;
+/* fix these from ellipse.c
+        case "fschr60": this.a=6378166.; this.298.3; this.ellipseName="Fischer (Mercury Datum) 1960"; break;
+        case "fschr60m": this.a=6378155.",   "; this.298.3", "; this.ellipseName=Fischer 1960"; break;
+        case "fschr68": this.a=6378150.",   "; this.298.3", "; this.ellipseName=1968"; break;
+        case "helmert": this.a=6378200.",   "; this.298.3", "; this.ellipseName=1906"; break;
+        case "hough": this.a=6378270.0; this.rf=297.", "; this.ellipseName="; break;
+        case "intl": this.a=6378388.0; this.rf=297.", "; this.ellipseName=1909 (Hayford)"; break;
+        case "kaula": this.a=6378163.",  "; this.298.24", "; this.ellipseName=1961"; break;
+        case "lerch": this.a=6378139.",  "; this.298.257", "; this.ellipseName=1979"; break;
+        case "mprts": this.a=6397300.",  "; this.191.", "Maupertius 1738; this.ellipseName; break;
+        case "new_intl": this.a=6378157.5; this.b=6356772.2; this.ellipseName="New International 1967"; break;
+        case "plessis": this.a=6376523.",  "; this.6355863.", "Plessis 1817 ; this.ellipseName=France)"; break;
+*/
+        case "krass": this.a=6378245.0; this.rf=298.3; this.ellipseName="Krassovsky, 1942"; break;
+        case "SEasia": this.a=6378155.0; this.b=6356773.3205; this.ellipseName="Southeast Asia"; break;
+        case "walbeck": this.a=6376896.0; this.b=6355834.8467; this.ellipseName="Walbeck"; break;
+        case "WGS60": this.a=6378165.0; this.rf=298.3; this.ellipseName="WGS 60"; break;
+        case "WGS66": this.a=6378145.0; this.rf=298.25; this.ellipseName="WGS 66"; break;
+        case "WGS72": this.a=6378135.0; this.rf=298.26; this.ellipseName="WGS 72"; break;
+        case "WGS84": this.a=6378137.0; this.rf=298.257223563; this.ellipseName="WGS 84"; break;
+        case "sphere": this.a=6370997.0; this.b=6370997.0; this.ellipseName="Normal Sphere (r=6370997)"; break;
+        default:      this.a=6378137.0; this.b=6356752.31424518; Proj4js._log("Ellipsoid parameters not provided, assuming WGS84");
       }
     }
+    if (this.rf && !this.b) this.b = (1.0 - 1.0/this.rf) * this.a;
     this.a2 = this.a * this.a;          // used in geocentric
     this.b2 = this.b * this.b;          // used in geocentric
     this.es = (this.a2-this.b2)/this.a2;  // e ^ 2
     //this.es=1-(Math.pow(this.b,2)/Math.pow(this.a,2));
     this.e = Math.sqrt(this.es);        // eccentricity
     this.ep2=(this.a2-this.b2)/this.b2; // used in geocentric
-  },
 
-  _loadProjCode : function(projName) {
-    if (Proj4js.Proj[projName]) {
-      this._callInit(projName)
-      return;
-    } else {
-      //Proj4js.Proj[projName] = Class.create();
-    }
-
-    //set AJAX options
-    var options = {
-      method: 'get',
-      asynchronous: false,          //need to wait until defs are loaded before proceeding
-      onSuccess: this._loadProjCodeSuccess.bind(this),
-      onFailure: this._loadProjCodeFailure.bind(this)
-    }
-    
-    //load the projection class 
-    var url = Proj4js.libPath + 'projCode/' + projName + '.js';
-    new Ajax.Request(url, options);
-  },
-
-  _loadProjCodeSuccess : function(transport) {
-    var tmp = eval(transport.responseText);
-    this._callInit(this.projName);
-  },
-
-  _loadProjCodeFailure : function(projName) {
-    console.log("failed to find projection file for: " + projName);
-    //TBD initialize with identity transforms so proj will still work
-  },
-
-  _loadMapExample : function(srsCode) {
-    if (Proj4js.maps[srsCode]) return;
-
-    //load the map example definition
-    //set AJAX options
-    var options = { method: 'get', asynchronous: false, onSuccess: this._loadMapExampleSuccess.bind(this) }
-    var url = Proj4js.libPath + 'maps/' + this.srsAuth.toUpperCase() + this.srsProjNumber + '.js';
-    new Ajax.Request(url, options);
-  },
-
-  _loadMapExampleSuccess : function(transport) {
-    var tmp = eval(transport.responseText);
+    this.datum = new Proj4js.datum(this);
   }
-};
+});
 
-Proj4js.Proj.longlat = Class.create();
 Proj4js.Proj.longlat = {
   init : function() {
     //no-op for longlat
@@ -390,8 +494,9 @@ Proj4js.Proj.longlat = {
 };
 
 /**
-  csList is a collection of coordiante system objects
-  generally a CS is added by means of a separate .js file for example:
+  Proj4js.defs is a collection of coordinate system definition objects in the 
+  Proj4 command line format.
+  Generally a def is added by means of a separate .js file for example:
 
     <SCRIPT type="text/javascript" src="defs/EPSG26912.js"></SCRIPT>
 
@@ -405,9 +510,9 @@ Proj4js.Proj.longlat = {
 Proj4js.defs = {
   // These are so widely used, we'll go ahead and throw them in
   // without requiring a separate .js file
-  WGS84 : "+title=long / lat WGS84 +proj=longlat +a=6378137.0 +b=6356752.31424518 +ellps=WGS84 +datum=WGS84",
-  EPSG4326 : "+title=long / lat WGS84 +proj=longlat +a=6378137.0 +b=6356752.31424518 +ellps=WGS84 +datum=WGS84",
-  EPSG4269 : "+title=long / lat NAD83 +proj=longlat +a=6378137.0 +b=6356752.31414036 +ellps=GRS80 +datum=NAD83" 
+  WGS84 : "+title=long/lat:WGS84 +proj=longlat +a=6378137.0 +b=6356752.31424518 +ellps=WGS84 +datum=WGS84",
+  EPSG4326 : "+title=long/lat:WGS84 +proj=longlat +a=6378137.0 +b=6356752.31424518 +ellps=WGS84 +datum=WGS84",
+  EPSG4269 : "+title=long/lat:NAD83 +proj=longlat +a=6378137.0 +b=6356752.31414036 +ellps=GRS80 +datum=NAD83" 
 };
 
 Proj4js.maps = {
@@ -432,17 +537,27 @@ Proj4js.maps = {
 
 };
 
-
-
-//Proj4js.const = Class.create();
 Proj4js.const = {
   PI : Math.PI,
   HALF_PI : Math.PI*0.5,
   TWO_PI : Math.PI*2,
+  FORTPI : 0.78539816339744833,
   R2D : 57.2957795131,
   D2R : 0.0174532925199,
   SEC_TO_RAD : 4.84813681109535993589914102357e-6, /* SEC_TO_RAD = Pi/180/3600 */
   EPSLN : 1.0e-10,
+  MAX_ITER : 20,
+  // following constants from geocent.c
+  COS_67P5 : 0.38268343236508977,  /* cosine of 67.5 degrees */
+  AD_C : 1.0026000,                /* Toms region 1 constant */
+
+  /* datum_type values */
+  PJD_UNKNOWN  : 0,
+  PJD_3PARAM   : 1,
+  PJD_7PARAM   : 2,
+  PJD_GRIDSHIFT: 3,
+  PJD_WGS84    : 4,   // WGS84 or equivalent
+  SRS_WGS84_SEMIMAJOR : 6378137.0,  // only used in grid shift transforms
 
 // Function to compute the constant small m which is the radius of
 //   a parallel of latitude, phi, divided by the semimajor axis.
@@ -480,12 +595,47 @@ Proj4js.const = {
     return (-9999);
   },
 
+  phi3z: function(ml,e0,e1,e2,e3) {
+    var phi,dphi,i;
+    phi=ml;
+    for (var i = 0; i < 15; i++) {
+      dphi = (ml + e1 * Math.sin(2.0 * phi) - e2 * Math.sin(4.0 * phi) + e3 * Math.sin(6.0 * phi))/ e0 - phi;  
+      phi += dphi;
+      if (Math.abs(dphi) <= .0000000001) {    
+        return phi;
+      }
+    }
+    Proj4js.reportError("phi3z:NoConvergence");
+    return(-9999);
+  },
+
+/* Function to compute constant small q which is the radius of a 
+   parallel of latitude, phi, divided by the semimajor axis. 
+------------------------------------------------------------*/
+  qsfnz : function(eccent,sinphi,cosphi) {
+    var con;
+    if (eccent > 1.0e-7) {
+      con = eccent * sinphi;
+      return (( 1.0- eccent * eccent) * (sinphi /(1.0 - con * con) - (.5/eccent)*Math.log((1.0 - con)/(1.0 + con))));
+    } else {
+      return(2.0 * sinphi);
+    }
+  },
+
+/* Function to eliminate roundoff errors in asin
+----------------------------------------------*/
+  asinz : function(x) {x=(Math.abs(x)>1.0)?1.0:-1.0;return(x);},
+
 // following functions from gctpc cproj.c for transverse mercator projections
   e0fn : function(x) {return(1.0-0.25*x*(1.0+x/16.0*(3.0+1.25*x)));},
   e1fn : function(x) {return(0.375*x*(1.0+0.25*x*(1.0+0.46875*x)));},
   e2fn : function(x) {return(0.05859375*x*x*(1.0+0.75*x));},
   e3fn : function(x) {return(x*x*x*(35.0/3072.0));},
   mlfn : function(e0,e1,e2,e3,phi) {return(e0*phi-e1*Math.sin(2.0*phi)+e2*Math.sin(4.0*phi)-e3*Math.sin(6.0*phi));},
+
+  srat : function(esinp, exp) {
+    return(Math.pow((1.0-esinp)/(1.0+esinp), exp));
+  },
 
 // Function to return the sign of an argument
   sign : function(x) { if (x < 0.0) return(-1); else return(1);},
@@ -497,125 +647,43 @@ Proj4js.const = {
 
 /** datum object
 */
-Proj4js.datum = Class.create();
-Proj4js.datum.prototype = {
+Proj4js.datum = OpenLayers.Class({
 
-  /* datum_type values */
-  PJD_UNKNOWN  : 0,
-  PJD_3PARAM   : 1,
-  PJD_7PARAM   : 2,
-  PJD_GRIDSHIFT: 3,
-  PJD_WGS84    : 4,   // WGS84 or equivelent
-  SRS_WGS84_SEMIMAJOR : 6378137.0,  // only used in grid shift transforms
-
-  initialize : function(datum, params) {
-    if (this.params) {
-      for (var i=0; i<this.params.length; i++) {
-        this.params[i]=parseFloat(this.params[i]);
+  initialize : function(proj) {
+    if (proj && proj.datum_params) {
+      for (var i=0; i<proj.datum_params.length; i++) {
+        proj.datum_params[i]=parseFloat(proj.datum_params[i]);
       }
-      if (this.datum_params[0] != 0 || this.datum_params[1] != 0 || this.datum_params[2] != 0 ) {
+      if (proj.datum_params[0] != 0 || proj.datum_params[1] != 0 || proj.datum_params[2] != 0 ) {
         this.datum_type = Proj4js.const.PJD_3PARAM;
       }
-      if (this.datum_params.length > 3) {
-        if (this.datum_params[3] != 0 || this.datum_params[4] != 0 ||
-            this.datum_params[5] != 0 || this.datum_params[6] != 0 ) {
+      if (proj.datum_params.length > 3) {
+        if (proj.datum_params[3] != 0 || proj.datum_params[4] != 0 ||
+            proj.datum_params[5] != 0 || proj.datum_params[6] != 0 ) {
           this.datum_type = Proj4js.const.PJD_7PARAM;
-          this.datum_params[3] *= SEC_TO_RAD;
-          this.datum_params[4] *= SEC_TO_RAD;
-          this.datum_params[5] *= SEC_TO_RAD;
-          this.datum_params[6] = (this.datum_params[6]/1000000.0) + 1.0;
+          proj.datum_params[3] *= Proj4js.const.SEC_TO_RAD;
+          proj.datum_params[4] *= Proj4js.const.SEC_TO_RAD;
+          proj.datum_params[5] *= Proj4js.const.SEC_TO_RAD;
+          proj.datum_params[6] = (proj.datum_params[6]/1000000.0) + 1.0;
         }
       }
     }
     if (!this.datum_type) this.datum_type = Proj4js.const.PJD_WGS84;
-  },
-
-  /** transform()
-    source coordinate system definition,
-    destination coordinate system definition,
-    point to transform in geodetic coordinates (long, lat, height)
-  */
-  transform : function( point, dest ) {
-
-    // Short cut if the datums are identical.
-    if( this.compare_datums( dest ) )
-        return 0; // in this case, zero is sucess,
-                  // whereas cs_compare_datums returns 1 to indicate TRUE
-                  // confusing, should fix this
-
-  // #define CHECK_RETURN {if( pj_errno != 0 ) { if( z_is_temp ) pj_dalloc(z); return pj_errno; }}
-
-      // If this datum requires grid shifts, then apply it to geodetic coordinates.
-      if( this.datum_type == this.const.PJD_GRIDSHIFT )
-      {
-        alert("ERROR: Grid shift transformations are not implemented yet.");
-        /*
-          pj_apply_gridshift( pj_param(this.params,"snadgrids").s, 0,
-                              point_count, point_offset, x, y, z );
-          CHECK_RETURN;
-
-          src_a = SRS_WGS84_SEMIMAJOR;
-          src_es = 0.006694379990;
-        */
-      }
-
-      if( dest.datum_type == PJD_GRIDSHIFT )
-      {
-        alert("ERROR: Grid shift transformations are not implemented yet.");
-        /*
-          dst_a = ;
-          dst_es = 0.006694379990;
-        */
-      }
-
-        // Do we need to go through geocentric coordinates?
-  //  if( this.es != dest.es || this.a != dest.a || // RWG - removed ellipse comparison so
-      if( this.datum_type == PJD_3PARAM                      // that longlat CSs do not have to have
-          || this.datum_type == PJD_7PARAM                   // an ellipsoid, also should put it a
-          || dest.datum_type == PJD_3PARAM                   // tolerance for es if used.
-          || dest.datum_type == PJD_7PARAM)
-      {
-
-        // Convert to geocentric coordinates.
-        cs_geodetic_to_geocentric( this, point );
-        // CHECK_RETURN;
-
-        // Convert between datums
-        if( this.datum_type == PJD_3PARAM || this.datum_type == PJD_7PARAM )
-        {
-          cs_geocentric_to_wgs84( this, point);
-          // CHECK_RETURN;
-        }
-
-        if( dest.datum_type == PJD_3PARAM || dest.datum_type == PJD_7PARAM )
-        {
-          cs_geocentric_from_wgs84( dest, point);
-          // CHECK_RETURN;
-        }
-
-        // Convert back to geodetic coordinates
-        cs_geocentric_to_geodetic( dest, point );
-          // CHECK_RETURN;
-      }
-
-
-    // Apply grid shift to destination if required
-    if( dest.datum_type == PJD_GRIDSHIFT )
-    {
-      alert("ERROR: Grid shift transformations are not implemented yet.");
-      // pj_apply_gridshift( pj_param(dest.params,"snadgrids").s, 1, point);
-      // CHECK_RETURN;
+    if (proj) {
+      this.a = proj.a;    //datum object also uses these values
+      this.b = proj.b;
+      this.es = proj.es;
+      this.ep2 = proj.ep2;
+      this.datum_params = proj.datum_params;
     }
-    return 0;
-  }, // cs_datum_transform
-
+  },
 
   /****************************************************************/
   // cs_compare_datums()
   //   Returns 1 (TRUE) if the two datums match, otherwise 0 (FALSE).
   compare_datums : function( dest ) {
     if( this.datum_type != dest.datum_type ) {
-      return 0; // false, datums are not equal
+      return false; // false, datums are not equal
     }
     /*  RWG - took this out so that ellipse is not required for longlat CSs
     else if( this.a != dest.a
@@ -623,16 +691,16 @@ Proj4js.datum.prototype = {
     {
       // the tolerence for es is to ensure that GRS80 and WGS84
       // are considered identical
-      return 0;
+      return false;
     }
     */
-    else if( this.datum_type == PJD_3PARAM )
+    else if( this.datum_type == Proj4js.const.PJD_3PARAM )
     {
       return (this.datum_params[0] == dest.datum_params[0]
               && this.datum_params[1] == dest.datum_params[1]
               && this.datum_params[2] == dest.datum_params[2]);
     }
-    else if( this.datum_type == PJD_7PARAM )
+    else if( this.datum_type == Proj4js.const.PJD_7PARAM )
     {
       return (this.datum_params[0] == dest.datum_params[0]
               && this.datum_params[1] == dest.datum_params[1]
@@ -642,21 +710,253 @@ Proj4js.datum.prototype = {
               && this.datum_params[5] == dest.datum_params[5]
               && this.datum_params[6] == dest.datum_params[6]);
     }
-    else if( this.datum_type == PJD_GRIDSHIFT )
+    else if( this.datum_type == Proj4js.const.PJD_GRIDSHIFT )
     {
       return strcmp( pj_param(this.params,"snadgrids").s,
                      pj_param(dest.params,"snadgrids").s ) == 0;
     }
     else
-      return 1; // true, datums are equal
-  } // cs_compare_datums()
-};
+      return true; // datums are equal
+  }, // cs_compare_datums()
+
+  /*
+   * The function Convert_Geodetic_To_Geocentric converts geodetic coordinates
+   * (latitude, longitude, and height) to geocentric coordinates (X, Y, Z),
+   * according to the current ellipsoid parameters.
+   *
+   *    Latitude  : Geodetic latitude in radians                     (input)
+   *    Longitude : Geodetic longitude in radians                    (input)
+   *    Height    : Geodetic height, in meters                       (input)
+   *    X         : Calculated Geocentric X coordinate, in meters    (output)
+   *    Y         : Calculated Geocentric Y coordinate, in meters    (output)
+   *    Z         : Calculated Geocentric Z coordinate, in meters    (output)
+   *
+   */
+  geodetic_to_geocentric : function(p) {
+    var Longitude = p.x;
+    var Latitude = p.y;
+    var Height = p.z ? p.z : 0;   //Z value not always supplied
+    var X;  // output
+    var Y;
+    var Z;
+
+    var Error_Code=0;  //  GEOCENT_NO_ERROR;
+    var Rn;            /*  Earth radius at location  */
+    var Sin_Lat;       /*  Math.sin(Latitude)  */
+    var Sin2_Lat;      /*  Square of Math.sin(Latitude)  */
+    var Cos_Lat;       /*  Math.cos(Latitude)  */
+
+    /*
+    ** Don't blow up if Latitude is just a little out of the value
+    ** range as it may just be a rounding issue.  Also removed longitude
+    ** test, it should be wrapped by Math.cos() and Math.sin().  NFW for PROJ.4, Sep/2001.
+    */
+    if( Latitude < -Proj4js.const.HALF_PI && Latitude > -1.001 * Proj4js.const.HALF_PI )
+        Latitude = -Proj4js.const.HALF_PI;
+    else if( Latitude > Proj4js.const.HALF_PI && Latitude < 1.001 * Proj4js.const.HALF_PI )
+        Latitude = Proj4js.const.HALF_PI;
+    else if ((Latitude < -Proj4js.const.HALF_PI) || (Latitude > Proj4js.const.HALF_PI))
+    { /* Latitude out of range */
+      Error_Code |= GEOCENT_LAT_ERROR;
+    }
+
+    if (!Error_Code)
+    { /* no errors */
+      if (Longitude > Proj4js.const.PI) Longitude -= (2*Proj4js.const.PI);
+      Sin_Lat = Math.sin(Latitude);
+      Cos_Lat = Math.cos(Latitude);
+      Sin2_Lat = Sin_Lat * Sin_Lat;
+      Rn = this.a / (Math.sqrt(1.0e0 - this.es * Sin2_Lat));
+      X = (Rn + Height) * Cos_Lat * Math.cos(Longitude);
+      Y = (Rn + Height) * Cos_Lat * Math.sin(Longitude);
+      Z = ((Rn * (1 - this.es)) + Height) * Sin_Lat;
+    }
+
+    p.x = X;
+    p.y = Y;
+    p.z = Z;
+    return Error_Code;
+  }, // cs_geodetic_to_geocentric()
+
+
+  /** Convert_Geocentric_To_Geodetic
+   * The method used here is derived from 'An Improved Algorithm for
+   * Geocentric to Geodetic Coordinate Conversion', by Ralph Toms, Feb 1996
+   */
+  geocentric_to_geodetic : function (p) {
+    var X =p.x;
+    var Y = p.y;
+    var Z = p.z;
+    var Z = p.z ? p.z : 0;   //Z value not always supplied
+    var Longitude;
+    var Latitude;
+    var Height;
+
+    var W;        /* distance from Z axis */
+    var W2;       /* square of distance from Z axis */
+    var T0;       /* initial estimate of vertical component */
+    var T1;       /* corrected estimate of vertical component */
+    var S0;       /* initial estimate of horizontal component */
+    var S1;       /* corrected estimate of horizontal component */
+    var Sin_B0;   /* Math.sin(B0), B0 is estimate of Bowring aux variable */
+    var Sin3_B0;  /* cube of Math.sin(B0) */
+    var Cos_B0;   /* Math.cos(B0) */
+    var Sin_p1;   /* Math.sin(phi1), phi1 is estimated latitude */
+    var Cos_p1;   /* Math.cos(phi1) */
+    var Rn;       /* Earth radius at location */
+    var Sum;      /* numerator of Math.cos(phi1) */
+    var At_Pole;  /* indicates location is in polar region */
+
+    X = parseFloat(X);  // cast from string to float
+    Y = parseFloat(Y);
+    Z = parseFloat(Z);
+
+    At_Pole = false;
+    if (X != 0.0)
+    {
+        Longitude = Math.atan2(Y,X);
+    }
+    else
+    {
+        if (Y > 0)
+        {
+            Longitude = Proj4js.const.HALF_PI;
+        }
+        else if (Y < 0)
+        {
+            Longitude = -Proj4js.const.HALF_PI;
+        }
+        else
+        {
+            At_Pole = true;
+            Longitude = 0.0;
+            if (Z > 0.0)
+            {  /* north pole */
+                Latitude = Proj4js.const.HALF_PI;
+            }
+            else if (Z < 0.0)
+            {  /* south pole */
+                Latitude = -Proj4js.const.HALF_PI;
+            }
+            else
+            {  /* center of earth */
+                Latitude = Proj4js.const.HALF_PI;
+                Height = -this.b;
+                return;
+            }
+        }
+    }
+    W2 = X*X + Y*Y;
+    W = Math.sqrt(W2);
+    T0 = Z * Proj4js.const.AD_C;
+    S0 = Math.sqrt(T0 * T0 + W2);
+    Sin_B0 = T0 / S0;
+    Cos_B0 = W / S0;
+    Sin3_B0 = Sin_B0 * Sin_B0 * Sin_B0;
+    T1 = Z + this.b * this.ep2 * Sin3_B0;
+    Sum = W - this.a * this.es * Cos_B0 * Cos_B0 * Cos_B0;
+    S1 = Math.sqrt(T1*T1 + Sum * Sum);
+    Sin_p1 = T1 / S1;
+    Cos_p1 = Sum / S1;
+    Rn = this.a / Math.sqrt(1.0 - this.es * Sin_p1 * Sin_p1);
+    if (Cos_p1 >= Proj4js.const.COS_67P5)
+    {
+        Height = W / Cos_p1 - Rn;
+    }
+    else if (Cos_p1 <= -Proj4js.const.COS_67P5)
+    {
+        Height = W / -Cos_p1 - Rn;
+    }
+    else
+    {
+        Height = Z / Sin_p1 + Rn * (this.es - 1.0);
+    }
+    if (At_Pole == false)
+    {
+        Latitude = Math.atan(Sin_p1 / Cos_p1);
+    }
+
+    p.x = Longitude;
+    p.y =Latitude;
+    p.z = Height;
+    return p;
+  }, // cs_geocentric_to_geodetic()
+
+  /****************************************************************/
+  // pj_geocentic_to_wgs84( p )
+  //  p = point to transform in geocentric coordinates (x,y,z)
+  geocentric_to_wgs84 : function ( p ) {
+
+    if( this.datum_type == Proj4js.const.PJD_3PARAM )
+    {
+      // if( x[io] == HUGE_VAL )
+      //    continue;
+      p.x += this.datum_params[0];
+      p.y += this.datum_params[1];
+      p.z += this.datum_params[2];
+
+    }
+    else  // if( this.datum_type == Proj4js.const.PJD_7PARAM )
+    {
+      var Dx_BF =this.datum_params[0];
+      var Dy_BF =this.datum_params[1];
+      var Dz_BF =this.datum_params[2];
+      var Rx_BF =this.datum_params[3];
+      var Ry_BF =this.datum_params[4];
+      var Rz_BF =this.datum_params[5];
+      var M_BF  =this.datum_params[6];
+      // if( x[io] == HUGE_VAL )
+      //    continue;
+      var x_out = M_BF*(       p.x - Rz_BF*p.y + Ry_BF*p.z) + Dx_BF;
+      var y_out = M_BF*( Rz_BF*p.x +       p.y - Rx_BF*p.z) + Dy_BF;
+      var z_out = M_BF*(-Ry_BF*p.x + Rx_BF*p.y +       p.z) + Dz_BF;
+      p.x = x_out;
+      p.y = y_out;
+      p.z = z_out;
+    }
+  }, // cs_geocentric_to_wgs84
+
+  /****************************************************************/
+  // pj_geocentic_from_wgs84()
+  //  coordinate system definition,
+  //  point to transform in geocentric coordinates (x,y,z)
+  geocentric_from_wgs84 : function( p ) {
+
+    if( this.datum_type == Proj4js.const.PJD_3PARAM )
+    {
+      //if( x[io] == HUGE_VAL )
+      //    continue;
+      p.x -= this.datum_params[0];
+      p.y -= this.datum_params[1];
+      p.z -= this.datum_params[2];
+
+    }
+    else // if( this.datum_type == Proj4js.const.PJD_7PARAM )
+    {
+      var Dx_BF =this.datum_params[0];
+      var Dy_BF =this.datum_params[1];
+      var Dz_BF =this.datum_params[2];
+      var Rx_BF =this.datum_params[3];
+      var Ry_BF =this.datum_params[4];
+      var Rz_BF =this.datum_params[5];
+      var M_BF  =this.datum_params[6];
+      var x_tmp = (p.x - Dx_BF) / M_BF;
+      var y_tmp = (p.y - Dy_BF) / M_BF;
+      var z_tmp = (p.z - Dz_BF) / M_BF;
+      //if( x[io] == HUGE_VAL )
+      //    continue;
+
+      p.x =        x_tmp + Rz_BF*y_tmp - Ry_BF*z_tmp;
+      p.y = -Rz_BF*x_tmp +       y_tmp + Rx_BF*z_tmp;
+      p.z =  Ry_BF*x_tmp - Rx_BF*y_tmp +       z_tmp;
+    } //cs_geocentric_from_wgs84()
+  }
+});
 
 /** point object, nothing fancy, just allows values to be
     passed back and forth by reference rather than by value.
 */
-Proj4js.Point = Class.create();
-Proj4js.Point.prototype = {
+Proj4js.Point = OpenLayers.Class({
   initialize : function(x,y,z) {
     this.x = x;
     this.y = y;
@@ -685,6 +985,6 @@ Proj4js.Point.prototype = {
     toShortString:function() {
         return (this.x + ", " + this.y);
     }
+});
 
-};
-
+Proj4js.WGS84 = new Proj4js.Proj('WGS84');

@@ -15,8 +15,15 @@ body {
   height: 3em;
   padding: 4px 16px 0px 16px;
   vertical-align: top;
-  margin:-10px -5px 0px -5px;
+  margin: -10px -5px 0px -5px;
   border-bottom: 10px solid #e9eef9;
 }
 #header h1{margin-top: 0px;font-weight:normal;}
 #navbar { background-color: #eee; margin: 0px -5px 10px -5px; padding: 10px;  }
+
+td {
+  font-size: 75%;
+}
+td.error {
+  background-color: red;
+}

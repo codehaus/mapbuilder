@@ -1,39 +1,3 @@
-
-/* Function to eliminate roundoff errors in asin
-----------------------------------------------*/
-function asinz(x){x=(Math.abs(x)>1.0)?1.0:-1.0;return(x);}
-
-// following functions from gctpc cproj.c for transverse mercator projections
-function e0fn(x){return(1.0-0.25*x*(1.0+x/16.0*(3.0+1.25*x)));}
-function e1fn(x){return(0.375*x*(1.0+0.25*x*(1.0+0.46875*x)));}
-function e2fn(x){return(0.05859375*x*x*(1.0+0.75*x));}
-function e3fn(x){return(x*x*x*(35.0/3072.0));}
-function mlfn(e0,e1,e2,e3,phi){return(e0*phi-e1*Math.sin(2.0*phi)+e2*Math.sin(4.0*phi)-e3*Math.sin(6.0*phi));}
-// Function to compute the latitude angle, phi2, for the inverse of the
-//   Lambert Conformal Conic and Polar Stereographic projections.
-// ----------------------------------------------------------------
-function phi2z(eccent, ts) {
-  var eccnth = .5 * eccent;
-  var con, dphi;
-  var phi = HALF_PI - 2 * Math.atan(ts);
-  for (i = 0; i <= 15; i++) {
-    con = eccent * Math.sin(phi);
-    dphi = HALF_PI - 2 * Math.atan(ts *(Math.pow(((1.0 - con)/(1.0 + con)),eccnth))) - phi;
-    phi += dphi;
-    if (Math.abs(dphi) <= .0000000001) return phi;
-  }
-  if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("phi2zNoConvergence"));
-  return -9999;
-}
-
-
-
-
-
-
-
-
-
 /*******************************************************************************
 NAME                       OBLIQUE MERCATOR (HOTINE) 
 
@@ -57,269 +21,236 @@ ALGORITHM REFERENCES
     Printing Office, Washington D.C., 1989.
 *******************************************************************************/
 
+Proj4js.Proj.omerc = {
 
+  /* Initialize the Oblique Mercator  projection
+    ------------------------------------------*/
+  init: function() {
+    if (!this.mode) this.mode=0;
+    if (!this.lon1)   {this.lon1=0;this.mode=1;}
+    if (!this.lon2)   this.lon2=0;
+    if (!this.lat2)    this.lat2=0;
 
- 
+    /* Place parameters in static storage for common use
+      -------------------------------------------------*/
+    var temp = this.b/ this.a;
+    var es = 1.0 - Math.pow(temp,2);
+    var e = Math.sqrt(es);
 
+    this.sin_p20=Math.sin(this.lat0);
+    this.cos_p20=Math.cos(this.lat0);
 
-/* Initialize the Oblique Mercator  projection
-  ------------------------------------------*/
-omercInit=function(def) 
-{
-if (!def.mode) def.mode=0;
-if(!def.lon1)   {def.lon1=0;def.mode=1;}
-if(!def.lon2)   def.lon2=0;
-if(!def.lat2)    def.lat2=0;
+    this.con = 1.0 - this.es * this.sin_p20 * this.sin_p20;
+    this.com = Math.sqrt(1.0 - es);
+    this.bl = Math.sqrt(1.0 + this.es * Math.pow(this.cos_p20,4.0)/(1.0 - es));
+    this.al = this.a * this.bl * this.k0 * this.com / this.con;
+    if (Math.abs(this.lat0) < Proj4js.const.EPSLN) {
+       this.ts = 1.0;
+       this.d = 1.0;
+       this.el = 1.0;
+    } else {
+       this.ts = Proj4js.const.tsfnz(this.e,this.lat0,this.sin_p20);
+       this.con = Math.sqrt(this.con);
+       this.d = this.bl * this.com / (this.cos_p20 * this.con);
+       if ((this.d * this.d - 1.0) > 0.0) {
+          if (this.lat0 >= 0.0) {
+             this.f = this.d + Math.sqrt(this.d * this.d - 1.0);
+          } else {
+             this.f = this.d - Math.sqrt(this.d * this.d - 1.0);
+          }
+       } else {
+         this.f = this.d;
+       }
+       this.el = this.f * Math.pow(this.ts,this.bl);
+    }
 
-/* Place parameters in static storage for common use
-  -------------------------------------------------*/
+    //this.longc=52.60353916666667;
 
+    if (this.mode != 0) {
+       this.g = .5 * (this.f - 1.0/this.f);
+       this.gama = Proj4js.const.asinz(Math.sin(this.alpha) / this.d);
+       this.longc= this.longc - Proj4js.const.asinz(this.g * Math.tan(this.gama))/this.bl;
 
-var temp = def.b/ def.a;
-var es = 1.0 - Math.pow(temp,2);
-var e = Math.sqrt(es);
+       /* Report parameters common to format B
+       -------------------------------------*/
+       //genrpt(azimuth * R2D,"Azimuth of Central Line:    ");
+       //cenlon(lon_origin);
+      // cenlat(lat_origin);
 
-def.sin_p20=Math.sin(def.lat0);
-def.cos_p20=Math.cos(def.lat0);
+       this.con = Math.abs(this.lat0);
+       if ((this.con > Proj4js.const.EPSLN) && (Math.abs(this.con - Proj4js.const.HALF_PI) > Proj4js.const.EPSLN)) {
+            this.singam=Math.sin(this.gama);
+            this.cosgam=Math.cos(this.gama);
 
-def.con = 1.0 - def.es * def.sin_p20 * def.sin_p20;
-def.com = Math.sqrt(1.0 - es);
-def.bl = Math.sqrt(1.0 + def.es * Math.pow(def.cos_p20,4.0)/(1.0 - es));
-def.al = def.a * def.bl * def.k0 * def.com / def.con;
-if (Math.abs(def.lat0) < EPSLN)
-   {
-   def.ts = 1.0;
-   def.d = 1.0;
-   def.el = 1.0;
-   }
-else
-   {
-   def.ts = tsfnz(def.e,def.lat0,def.sin_p20);
-   def.con = Math.sqrt(def.con);
-   def.d = def.bl * def.com / (def.cos_p20 * def.con);
-   if ((def.d * def.d - 1.0) > 0.0)
-      {
-      if (def.lat0 >= 0.0)
-         def.f = def.d + Math.sqrt(def.d * def.d - 1.0);
-      else
-         def.f = def.d - Math.sqrt(def.d * def.d - 1.0);
-      }
-   else
-   def.f = def.d;
-   def.el = def.f * Math.pow(def.ts,def.bl);
-   }
+            this.sinaz=Math.sin(this.alpha);
+            this.cosaz=Math.cos(this.alpha);
 
-//def.longc=52.60353916666667;
+            if (this.lat0>= 0) {
+               this.u =  (this.al / this.bl) * Math.atan(Math.sqrt(this.d*this.d - 1.0)/this.cosaz);
+            } else {
+               this.u =  -(this.al / this.bl) *Math.atan(Math.sqrt(this.d*this.d - 1.0)/this.cosaz);
+            }
+          } else {
+            Proj4js.reportError("omerc:Init:DataError");
+          }
+       } else {
+       this.sinphi =Math. sin(this.at1);
+       this.ts1 = Proj4js.const.tsfnz(this.e,this.lat1,this.sinphi);
+       this.sinphi = Math.sin(this.lat2);
+       this.ts2 = Proj4js.const.tsfnz(this.e,this.lat2,this.sinphi);
+       this.h = Math.pow(this.ts1,this.bl);
+       this.l = Math.pow(this.ts2,this.bl);
+       this.f = this.el/this.h;
+       this.g = .5 * (this.f - 1.0/this.f);
+       this.j = (this.el * this.el - this.l * this.h)/(this.el * this.el + this.l * this.h);
+       this.p = (this.l - this.h) / (this.l + this.h);
+       this.dlon = this.lon1 - this.lon2;
+       if (this.dlon < -Proj4js.const.PI) this.lon2 = this.lon2 - 2.0 * Proj4js.const.PI;
+       if (this.dlon > Proj4js.const.PI) this.lon2 = this.lon2 + 2.0 * Proj4js.const.PI;
+       this.dlon = this.lon1 - this.lon2;
+       this.longc = .5 * (this.lon1 + this.lon2) -Math.atan(this.j * Math.tan(.5 * this.bl * this.dlon)/this.p)/this.bl;
+       this.dlon  = Proj4js.const.adjust_lon(this.lon1 - this.longc);
+       this.gama = Math.atan(Math.sin(this.bl * this.dlon)/this.g);
+       this.alpha = Proj4js.const.asinz(this.d * Math.sin(this.gama));
 
-if (def.mode != 0)
-   {
-   def.g = .5 * (def.f - 1.0/def.f);
-   def.gama = asinz(Math.sin(def.alpha) / def.d);
-   def.longc= def.longc - asinz(def.g * Math.tan(def.gama))/def.bl;
+       /* Report parameters common to format A
+       -------------------------------------*/
 
-   /* Report parameters common to format B
-   -------------------------------------*/
-   //genrpt(azimuth * R2D,"Azimuth of Central Line:    ");
-   //cenlon(lon_origin);
-  // cenlat(lat_origin);
-   
-   def.con = Math.abs(def.lat0);
-   if ((def.con > EPSLN) && (Math.abs(def.con - HALF_PI) > EPSLN))
-      {
-        def.singam=Math.sin(def.gama);
-	def.cosgam=Math.cos(def.gama);
-	
-	def.sinaz=Math.sin(def.alpha);
-	def.cosaz=Math.cos(def.alpha);
-
-     
-      if (def.lat0>= 0)
-         def.u =  (def.al / def.bl) * Math.atan(Math.sqrt(def.d*def.d - 1.0)/def.cosaz);
-      else
-         def.u =  -(def.al / def.bl) *Math.atan(Math.sqrt(def.d*def.d - 1.0)/def.cosaz);
-      }
-   else
-      {
-       if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("omercInitDataError"));
-      
-      }
-   }
-else
-   {
-   def.sinphi =Math. sin(def.at1);
-   def.ts1 = tsfnz(def.e,def.lat1,def.sinphi);
-   def.sinphi = Math.sin(def.lat2);
-   def.ts2 = tsfnz(def.e,def.lat2,def.sinphi);
-   def.h = Math.pow(def.ts1,def.bl);
-   def.l = Math.pow(def.ts2,def.bl);
-   def.f = def.el/def.h;
-   def.g = .5 * (def.f - 1.0/def.f);
-   def.j = (def.el * def.el - def.l * def.h)/(def.el * def.el + def.l * def.h);
-   def.p = (def.l - def.h) / (def.l + def.h);
-   def.dlon = def.lon1 - def.lon2;
-   if (def.dlon < -PI)
-      def.lon2 = def.lon2 - 2.0 * PI;
-   if (def.dlon > PI)
-      def.lon2 = def.lon2 + 2.0 * PI;
-   def.dlon = def.lon1 - def.lon2;
-   def.longc = .5 * (def.lon1 + def.lon2) -Math.atan(def.j * Math.tan(.5 * def.bl * def.dlon)/def.p)/def.bl;
-   def.dlon  = adjust_lon(def.lon1 - def.longc);
-   def.gama = Math.atan(Math.sin(def.bl * def.dlon)/def.g);
-   def.alpha = asinz(def.d * Math.sin(def.gama));
-   
-   /* Report parameters common to format A
-   -------------------------------------*/
-  
-   if (Math.abs(def.lat1 - def.lat2) <= EPSLN)
-      {
-      alert("omercInitDataError");
-      //return(202);
-      }
-   else
-      def.con = Math.abs(def.lat1);
-   if ((def.con <= EPSLN) || (Math.abs(def.con - HALF_PI) <= EPSLN))
-      {
-       if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("omercInitDataError"));
+       if (Math.abs(this.lat1 - this.lat2) <= Proj4js.const.EPSLN) {
+          Proj4js.reportError("omercInitDataError");
+          //return(202);
+       } else {
+          this.con = Math.abs(this.lat1);
+       }
+       if ((this.con <= Proj4js.const.EPSLN) || (Math.abs(this.con - HALF_PI) <= Proj4js.const.EPSLN)) {
+           Proj4js.reportError("omercInitDataError");
+                //return(202);
+       } else {
+         if (Math.abs(Math.abs(this.lat0) - Proj4js.const.HALF_PI) <= Proj4js.const.EPSLN) {
+            Proj4js.reportError("omercInitDataError");
             //return(202);
-      }
-   else 
-   if (Math.abs(Math.abs(def.lat0) - HALF_PI) <= EPSLN)
-      {
-      if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("omercInitDataError"));
-      //return(202);
-      }
-      
-     def.singam=Math.sin(def.gam);
-     def.cosgam=Math.cos(def.gam);
-	
-     def.sinaz=Math.sin(def.alpha);
-     def.cosaz=Math.cos(def.alpha);  
-     
-  
-   if (def.lat0 >= 0)
-      def.u =  (def.al/def.bl) * Math.atan(Math.sqrt(def.d * def.d - 1.0)/def.cosaz);
-   else
-      def.u = -(def.al/def.bl) * Math.atan(Math.sqrt(def.d * def.d - 1.0)/def.cosaz);
-   }
+         }
+       }
 
-}
+       this.singam=Math.sin(this.gam);
+       this.cosgam=Math.cos(this.gam);
+
+       this.sinaz=Math.sin(this.alpha);
+       this.cosaz=Math.cos(this.alpha);  
 
 
-/* Oblique Mercator forward equations--mapping lat,long to x,y
-  ----------------------------------------------------------*/
- omercFwd=function(p)
-{
-var theta;		/* angle					*/
-var sin_phi, cos_phi;/* sin and cos value				*/
-var b;		/* temporary values				*/
-var c, t, tq;	/* temporary values				*/
-var con, n, ml;	/* cone constant, small m			*/
-var q,us,vl;
-var ul,vs;
-var s;
-var dlon;
-var ts1;
+       if (this.lat0 >= 0) {
+          this.u =  (this.al/this.bl) * Math.atan(Math.sqrt(this.d * this.d - 1.0)/this.cosaz);
+       } else {
+          this.u = -(this.al/this.bl) * Math.atan(Math.sqrt(this.d * this.d - 1.0)/this.cosaz);
+       }
+     }
+  },
 
 
-var lon=p.x;
-var lat=p.y;
-/* Forward equations
-  -----------------*/
-sin_phi = Math.sin(lat);
-dlon = adjust_lon(lon - this.longc);
-vl = Math.sin(this.bl * dlon);
-if (Math.abs(Math.abs(lat) - HALF_PI) > EPSLN)	
-   {
-   ts1 = tsfnz(this.e,lat,sin_phi);
-   q = this.el / (Math.pow(ts1,this.bl));
-   s = .5 * (q - 1.0 / q);
-   t = .5 * (q + 1.0/ q);
-   ul = (s * this.singam - vl * this.cosgam) / t;
-   con = Math.cos(this.bl * dlon);
-   if (Math.abs(con) < .0000001)
-      {
-      us = this.al * this.bl * dlon;
-      }
-   else
-      {
-      us = this.al * Math.atan((s * this.cosgam + vl * this.singam) / con)/this.bl;
-      if (con < 0)
-         us = us + PI * this.al / this.bl;
-      }
-   }
-else
-   {
-   if (lat >= 0)
-      ul = this.singam;
-   else
-      ul = -this.singam;
-   us = this.al * lat / this.bl;
-   }
-if (Math.abs(Math.abs(ul) - 1.0) <= EPSLN)
-   {
-   //alert("Point projects into infinity","omer-for");
-    if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("omercFwdInfinity"));
-   //return(205);
-   }
-vs = .5 * this.al * Math.log((1.0 - ul)/(1.0 + ul)) / this.bl;
-us = us - this.u;
-var x = this.x0 + vs * this.cosaz + us * this.sinaz;
-var y = this.y0 + us * this.cosaz - vs * this.sinaz;
+  /* Oblique Mercator forward equations--mapping lat,long to x,y
+    ----------------------------------------------------------*/
+  forward: function(p) {
+    var theta;		/* angle					*/
+    var sin_phi, cos_phi;/* sin and cos value				*/
+    var b;		/* temporary values				*/
+    var c, t, tq;	/* temporary values				*/
+    var con, n, ml;	/* cone constant, small m			*/
+    var q,us,vl;
+    var ul,vs;
+    var s;
+    var dlon;
+    var ts1;
 
-p.x=x;
-p.y=y;
-}
+    var lon=p.x;
+    var lat=p.y;
+    /* Forward equations
+      -----------------*/
+    sin_phi = Math.sin(lat);
+    dlon = Proj4js.const.adjust_lon(lon - this.longc);
+    vl = Math.sin(this.bl * dlon);
+    if (Math.abs(Math.abs(lat) - Proj4js.const.HALF_PI) > Proj4js.const.EPSLN) {
+       ts1 = Proj4js.const.tsfnz(this.e,lat,sin_phi);
+       q = this.el / (Math.pow(ts1,this.bl));
+       s = .5 * (q - 1.0 / q);
+       t = .5 * (q + 1.0/ q);
+       ul = (s * this.singam - vl * this.cosgam) / t;
+       con = Math.cos(this.bl * dlon);
+       if (Math.abs(con) < .0000001) {
+          us = this.al * this.bl * dlon;
+       } else {
+          us = this.al * Math.atan((s * this.cosgam + vl * this.singam) / con)/this.bl;
+          if (con < 0) us = us + Proj4js.const.PI * this.al / this.bl;
+       }
+    } else {
+       if (lat >= 0) {
+          ul = this.singam;
+       } else {
+          ul = -this.singam;
+       }
+       us = this.al * lat / this.bl;
+    }
+    if (Math.abs(Math.abs(ul) - 1.0) <= Proj4js.const.EPSLN) {
+       //alert("Point projects into infinity","omer-for");
+       Proj4js.reportError("omercFwdInfinity");
+       //return(205);
+    }
+    vs = .5 * this.al * Math.log((1.0 - ul)/(1.0 + ul)) / this.bl;
+    us = us - this.u;
+    var x = this.x0 + vs * this.cosaz + us * this.sinaz;
+    var y = this.y0 + us * this.cosaz - vs * this.sinaz;
 
+    p.x=x;
+    p.y=y;
+    return p;
+  },
 
+  inverse: function(p) {
+    var delta_lon;	/* Delta longitude (Given longitude - center 	*/
+    var theta;		/* angle					*/
+    var delta_theta;	/* adjusted longitude				*/
+    var sin_phi, cos_phi;/* sin and cos value				*/
+    var b;		/* temporary values				*/
+    var c, t, tq;	/* temporary values				*/
+    var con, n, ml;	/* cone constant, small m			*/
+    var vs,us,q,s,ts1;
+    var vl,ul,bs;
+    var dlon;
+    var  flag;
 
-
-
-omercInv=function(p)
-{
-var delta_lon;	/* Delta longitude (Given longitude - center 	*/
-var theta;		/* angle					*/
-var delta_theta;	/* adjusted longitude				*/
-var sin_phi, cos_phi;/* sin and cos value				*/
-var b;		/* temporary values				*/
-var c, t, tq;	/* temporary values				*/
-var con, n, ml;	/* cone constant, small m			*/
-var vs,us,q,s,ts1;
-var vl,ul,bs;
-var dlon;
-var  flag;
-
-/* Inverse equations
-  -----------------*/
-p.x -= this.x0;
-p.y -= this.y0;
-flag = 0;
-vs = p.x * this.cosaz - p.y * this.sinaz;
-us = p.y * this.cosaz + p.x * this.sinaz;
-us = us + this.u;
-q = Math.exp(-this.bl * vs / this.al);
-s = .5 * (q - 1.0/q);
-t = .5 * (q + 1.0/q);
-vl = Math.sin(this.bl * us / this.al);
-ul = (vl * this.cosgam + s * this.singam)/t;
-if (Math.abs(Math.abs(ul) - 1.0) <= EPSLN)
-   {
-   lon = this.longc;
-   if (ul >= 0.0)
-      lat = HALF_PI;
-   else
-     lat = -HALF_PI;
-   }
-else
-   {
-   con = 1.0 / this.bl;
-   ts1 =Math.pow((this.el / Math.sqrt((1.0 + ul) / (1.0 - ul))),con);
-   lat = phi2z(this.e,ts1);
-   //if (flag != 0)
-      //return(flag);
-   //~ con = Math.cos(this.bl * us /al);
-   theta = this.longc - Math.atan2((s * this.cosgam - vl * this.singam) , con)/this.bl;
-   lon = adjust_lon(theta);
-   }
-p.x=lon;
-p.y=lat;
-}
+    /* Inverse equations
+      -----------------*/
+    p.x -= this.x0;
+    p.y -= this.y0;
+    flag = 0;
+    vs = p.x * this.cosaz - p.y * this.sinaz;
+    us = p.y * this.cosaz + p.x * this.sinaz;
+    us = us + this.u;
+    q = Math.exp(-this.bl * vs / this.al);
+    s = .5 * (q - 1.0/q);
+    t = .5 * (q + 1.0/q);
+    vl = Math.sin(this.bl * us / this.al);
+    ul = (vl * this.cosgam + s * this.singam)/t;
+    if (Math.abs(Math.abs(ul) - 1.0) <= Proj4js.const.EPSLN)
+       {
+       lon = this.longc;
+       if (ul >= 0.0) {
+          lat = Proj4js.const.HALF_PI;
+       } else {
+         lat = -Proj4js.const.HALF_PI;
+       }
+    } else {
+       con = 1.0 / this.bl;
+       ts1 =Math.pow((this.el / Math.sqrt((1.0 + ul) / (1.0 - ul))),con);
+       lat = Proj4js.const.phi2z(this.e,ts1);
+       //if (flag != 0)
+          //return(flag);
+       //~ con = Math.cos(this.bl * us /al);
+       theta = this.longc - Math.atan2((s * this.cosgam - vl * this.singam) , con)/this.bl;
+       lon = Proj4js.const.adjust_lon(theta);
+    }
+    p.x=lon;
+    p.y=lat;
+    return p;
+  }
+};

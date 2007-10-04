@@ -1,13 +1,3 @@
-
-
-
-
-
-
-
-
-
-
 /*******************************************************************************
 NAME                             EQUIRECTANGULAR 
 
@@ -30,70 +20,53 @@ ALGORITHM REFERENCES
     U.S. Geological Survey Professional Paper 1453 , United State Government
     Printing Office, Washington D.C., 1989.
 *******************************************************************************/
+Proj4js.Proj.equi = {
 
-
-
-
-
-
-
-// Function to adjust longitude to -180 to 180; input in radians
-function adjust_lon(x) {x=(Math.abs(x)<PI)?x:(x-(sign(x)*TWO_PI));return(x);}
-
-
-
-
-
-
- equiInit=function(def){
-if(!def.x0) def.x0=0;
-if(!def.y0) def.y0=0;
-if(!def.lat0) def.lat0=0;
-if(!def.long0) def.long0=0;
-///def.t2;
-}
+  init: function() {
+    if(!this.x0) this.x0=0;
+    if(!this.y0) this.y0=0;
+    if(!this.lat0) this.lat0=0;
+    if(!this.long0) this.long0=0;
+    ///this.t2;
+  },
 
 
 
 /* Equirectangular forward equations--mapping lat,long to x,y
   ---------------------------------------------------------*/
- equiFwd=function(p){
+  forward: function(p) {
 
-var lon=p.x;				
-var lat=p.y;			
+    var lon=p.x;				
+    var lat=p.y;			
 
+    var dlon = Proj4js.const.adjust_lon(lon - this.long0);
+    var x = this.x0 +this. a * dlon *Math.cos(this.lat0);
+    var y = this.y0 + this.a * lat;
 
-var dlon = adjust_lon(lon - this.long0);
-var x = this.x0 +this. a * dlon *Math.cos(this.lat0);
-var y = this.y0 + this.a * lat;
-
-this.t1=x;
-this.t2=Math.cos(this.lat0);
-p.x=x;
-p.y=y;
-
-}//equiFwd()
+    this.t1=x;
+    this.t2=Math.cos(this.lat0);
+    p.x=x;
+    p.y=y;
+    return p;
+  },  //equiFwd()
 
 
 
 /* Equirectangular inverse equations--mapping x,y to lat/long
   ---------------------------------------------------------*/
- equiInv=function(p)
-{
+  inverse: function(p) {
 
-p.x -= this.x0;
-p.y -= this.y0;
-var lat = p.y /this. a;
+    p.x -= this.x0;
+    p.y -= this.y0;
+    var lat = p.y /this. a;
 
-if ( Math.abs(lat) > HALF_PI)
-   {
-    if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("equiInvDataError"));
-   
-   }
-var lon = adjust_lon(this.long0 + p.x / (this.a * Math.cos(this.lat0)));
-p.x=lon;
-p.y=lat;
-}//equiInv()
-
+    if ( Math.abs(lat) > Proj4js.const.HALF_PI) {
+        Proj4js.reportError("equi:Inv:DataError");
+    }
+    var lon = Proj4js.const.adjust_lon(this.long0 + p.x / (this.a * Math.cos(this.lat0)));
+    p.x=lon;
+    p.y=lat;
+  }//equiInv()
+};
 
 

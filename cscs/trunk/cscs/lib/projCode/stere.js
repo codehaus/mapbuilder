@@ -1,8 +1,7 @@
 
 // Initialize the Stereographic projection
 
-Proj4js.Proj.stere = Class.create();
-Proj4js.Proj.stere.prototype = {
+Proj4js.Proj.stere = {
   init : function() {
     // sincos(center_lat,&sin_p10,&cos_p10);
     this.sin_p10=Math.sin(this.lat0);

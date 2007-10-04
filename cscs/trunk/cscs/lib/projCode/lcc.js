@@ -23,7 +23,7 @@ ALGORITHM REFERENCES
 // Initialize the Lambert Conformal conic projection
 // -----------------------------------------------------------------
 
-Proj4js.Proj.lcc = Class.create();
+//Proj4js.Proj.lcc = Class.create();
 Proj4js.Proj.lcc = {
   init : function() {
 
@@ -41,7 +41,7 @@ Proj4js.Proj.lcc = {
 
     // Standard Parallels cannot be equal and on opposite sides of the equator
       if (Math.abs(this.lat1+this.lat2) < Proj4js.const.EPSLN) {
-        Proj4js.reportError("lcc:init: Equal Latitudes");
+        Proj4js._reportError("lcc:init: Equal Latitudes");
         return;
       }
 
@@ -67,6 +67,7 @@ Proj4js.Proj.lcc = {
       }
       this.f0 = ms1 / (this.ns * Math.pow(ts1, this.ns));
       this.rh = this.a * this.f0 * Math.pow(ts0, this.ns);
+      if (!this.title) this.title = "Lambert Conformal Conic";
     },
 
 
@@ -79,10 +80,10 @@ Proj4js.Proj.lcc = {
 
     // convert to radians
       if ( lat <= 90.0 && lat >= -90.0 && lon <= 180.0 && lon >= -180.0) {
-        lon = lon * Proj4js.const.D2R;
-        lat = lat * Proj4js.const.D2R;
+        //lon = lon * Proj4js.const.D2R;
+        //lat = lat * Proj4js.const.D2R;
       } else {
-        Proj4js.reportError("lcc:forward: llInputOutOfRange: "+ lon +" : " + lat);
+        Proj4js._reportError("lcc:forward: llInputOutOfRange: "+ lon +" : " + lat);
         return null;
       }
 
@@ -95,16 +96,16 @@ Proj4js.Proj.lcc = {
         con = lat * this.ns;
         if (con <= 0) {
           alert("ll2lcc No Projection");
-          Proj4js.reportError("lcc:forward: No Projection");
+          Proj4js._reportError("lcc:forward: No Projection");
           return null;
         }
         rh1 = 0;
       }
       var theta = this.ns * Proj4js.const.adjust_lon(lon - this.long0);
-      var x = rh1 * Math.sin(theta) + this.x0;
-      var y = this.rh - rh1 * Math.cos(theta) + this.y0;
+      p.x = rh1 * Math.sin(theta) + this.x0;
+      p.y = this.rh - rh1 * Math.cos(theta) + this.y0;
 
-      return new Proj4js.Point(x, y);
+      return p;
     },
 
   // Lambert Conformal Conic inverse equations--mapping x,y to lat/long
@@ -136,7 +137,9 @@ Proj4js.Proj.lcc = {
     }
     lon = Proj4js.const.adjust_lon(theta/this.ns + this.long0);
 
-    return new Proj4js.Point(lon*Proj4js.const.R2D, lat*Proj4js.const.R2D);
+    p.x = lon;
+    p.y = lat;
+    return p;
   }
 };
 

@@ -22,7 +22,6 @@ ALGORITHM REFERENCES
   Initialize Transverse Mercator projection
 */
 
-Proj4js.Proj.tmerc = Class.create();
 Proj4js.Proj.tmerc = {
   init : function() {
     this.e0 = Proj4js.const.e0fn(this.es);
@@ -42,10 +41,10 @@ Proj4js.Proj.tmerc = {
       var lat = p.y;
       // convert to radians
       if ( lat <= 90.0 && lat >= -90.0 && lon <= 180.0 && lon >= -180.0) {
-        lon = lon * Proj4js.const.D2R;
-        lat = lat * Proj4js.const.D2R;
+        //lon = lon * Proj4js.const.D2R;
+        //lat = lat * Proj4js.const.D2R;
       } else {
-        Proj4js.reportError("lcc:forward: llInputOutOfRange: "+ lon +" : " + lat);
+        Proj4js._reportError("lcc:forward: llInputOutOfRange: "+ lon +" : " + lat);
         return null;
       }
 
@@ -59,7 +58,7 @@ Proj4js.Proj.tmerc = {
     if (this.ind != 0) {  /* spherical form */
       var b = cos_phi * Math.sin(delta_lon);
       if ((Math.abs(Math.abs(b) - 1.0)) < .0000000001)  {
-        Proj4js.reportError("tmerc:forward: Point projects into infinity");
+        Proj4js._reportError("tmerc:forward: Point projects into infinity");
         return(93);
       } else {
         x = .5 * this.a * this.k0 * Math.log((1.0 + b)/(1.0 - b));
@@ -81,7 +80,8 @@ Proj4js.Proj.tmerc = {
       y = this.k0 * (ml - this.ml0 + n * tq * (als * (0.5 + als / 24.0 * (5.0 - t + 9.0 * c + 4.0 * Math.pow(c,2) + als / 30.0 * (61.0 - 58.0 * t + Math.pow(t,2) + 600.0 * c - 330.0 * this.ep2))))) + this.y0;
 
     }
-    return new Proj4js.Point(x, y);
+    p.x = x; p.y = y;
+    return p;
   }, // tmercFwd()
 
   /**
@@ -119,7 +119,7 @@ Proj4js.Proj.tmerc = {
         phi += delta_phi;
         if (Math.abs(delta_phi) <= Proj4js.const.EPSLN) break;
         if (i >= max_iter) {
-          Proj4js.reportError("tmerc:inverse: Latitude failed to converge");
+          Proj4js._reportError("tmerc:inverse: Latitude failed to converge");
           return(95);
         }
       } // for()
@@ -144,6 +144,8 @@ Proj4js.Proj.tmerc = {
         lon = this.long0;
       }
     }
-    return new Proj4js.Point(lon*Proj4js.const.R2D, lat*Proj4js.const.R2D);
+    p.x = lon;
+    p.y = lat;
+    return p;
   } // tmercInv()
 };

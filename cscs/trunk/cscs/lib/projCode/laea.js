@@ -1,13 +1,3 @@
-
-
-
-
-//function sincos(x,y,z){y=Math.sin(y);z=Math.cos(z);}
-
-
-
-
-
 /*******************************************************************************
 NAME                  LAMBERT AZIMUTHAL EQUAL-AREA
  
@@ -35,99 +25,88 @@ ALGORITHM REFERENCES
 
 3.  "Software Documentation for GCTP General Cartographic Transformation
     Package", U.S. Geological Survey National Mapping Division, May 1982.
-*******************************************************************************
+*******************************************************************************/
 
+Proj4js.Proj.laea = {
 
 
 /* Initialize the Lambert Azimuthal Equal Area projection
   ------------------------------------------------------*/
- laeaInit=function(def) 
-{
-
-def.R = 6370997.0; //Radius of earth
-def.sin_lat_o=Math.sin(def.lat0);
-def.cos_lat_o=Math.cos(def.lat0);
-
-}
+  init: function() {
+    this.sin_lat_o=Math.sin(this.lat0);
+    this.cos_lat_o=Math.cos(this.lat0);
+  },
 
 /* Lambert Azimuthal Equal Area forward equations--mapping lat,long to x,y
   -----------------------------------------------------------------------*/
-laeaFwd=function(p)
-{
+  forward: function(p) {
 
+    /* Forward equations
+      -----------------*/
+    var lon=p.x;
+    var lat=p.y;
+    var delta_lon = Proj4js.const.adjust_lon(lon - this.long0);
 
-/* Forward equations
-  -----------------*/
-  var lon=p.x;
-  var lat=p.y;
-  
-  
-var delta_lon = adjust_lon(lon - this.long0);
+    //v 1.0
+    var sin_lat=Math.sin(lat);
+    var cos_lat=Math.cos(lat);
 
-//v 1.0
-var sin_lat=Math.sin(lat);
-var cos_lat=Math.cos(lat);
+    var sin_delta_lon=Math.sin(delta_lon);
+    var cos_delta_lon=Math.cos(delta_lon);
 
-var sin_delta_lon=Math.sin(delta_lon);
-var cos_delta_lon=Math.cos(delta_lon);
-
-
-var g =this. sin_lat_o * sin_lat +this. cos_lat_o * cos_lat * cos_delta_lon;
-if (g == -1.0) 
-   {
-   //Alert( "Point projects to a circle of radius = %lf\n", 2.0 * R);
-   //p_error(mess, "lamaz-forward");
-  // return(113);
-   }
-var ksp = this.R * Math.sqrt(2.0 / (1.0 + g));
-var x = ksp * cos_lat * sin_delta_lon + this.x0;
-var y = ksp * (this.cos_lat_o * sin_lat - this.sin_lat_o * cos_lat * cos_delta_lon) + 
-	this.x0;
-//return(OK);
-}//lamazFwd()
-
-
-
- laeaInv= function(p)
-
-{
-
+    var g =this.sin_lat_o * sin_lat +this.cos_lat_o * cos_lat * cos_delta_lon;
+    if (g == -1.0) {
+       //Alert( "Point projects to a circle of radius = %lf\n", 2.0 * R);
+       //p_error(mess, "lamaz-forward");
+      // return(113);
+    }
+    var ksp = this.R * Math.sqrt(2.0 / (1.0 + g));
+    var x = ksp * cos_lat * sin_delta_lon + this.x0;
+    var y = ksp * (this.cos_lat_o * sin_lat - this.sin_lat_o * cos_lat * cos_delta_lon) + this.x0;
+    p.x = x;
+    p.y = y
+    return p;
+  },//lamazFwd()
 
 /* Inverse equations
   -----------------*/
-p.x -= this.x0;
-p.y -= this.y0;
+  inverse: function(p) {
+    p.x -= this.x0;
+    p.y -= this.y0;
 
-var Rh = Math.sqrt(p.x *p. x +p. y * p.y);
-var temp = Rh / (2.0 * this.R);
+    var Rh = Math.sqrt(p.x *p. x +p. y * p.y);
+    var temp = Rh / (2.0 * this.R);
 
-if (temp > 1) 
-   {
-   if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("laeaInvDataError"));
-   //return(115);
-   }
-   
-var z = 2.0 * asinz(temp);
-var sin_z=Math.sin(z);
-var cos_z=Math.cos(z);
+    if (temp > 1) {
+      Proj4js.reportError("laea:Inv:DataError");
+      //return(115);
+    }
 
+    var z = 2.0 * Proj4js.const.asinz(temp);
+    var sin_z=Math.sin(z);
+    var cos_z=Math.cos(z);
 
-var lon =this.long0;
-if (Math.abs(Rh) > EPSLN)
-   {
-   var lat = asinz(this.sin_lat_o * cos_z +this. cos_lat_o * sin_z *p. y / Rh);
-   var temp =Math.abs(this.lat0) - HALF_PI;
-   if (Math.abs(temp) > EPSLN)
-      {
-      temp = cos_z -this. sin_lat_o * Math.sin(lat);
-      if(temp!=0.0) lon=adjust_lon(this.long0+Math.atan2(p.x*sin_z*this.cos_lat_o,temp*Rh));
-      }
-   else if (this.lat0 < 0.0) lon = adjust_lon(this.long0 - Math.atan2(-p.x,p. y));
-   else lon = adjust_lon(this.long0 + Math.atan2(p.x, -p.y));
-   }
-else lat = this.lat0;
-//return(OK);
-}//lamazInv()
+    var lon =this.long0;
+    if (Math.abs(Rh) > Proj4js.const.EPSLN) {
+       var lat = Proj4js.const.asinz(this.sin_lat_o * cos_z +this. cos_lat_o * sin_z *p.y / Rh);
+       var temp =Math.abs(this.lat0) - Proj4js.const.HALF_PI;
+       if (Math.abs(temp) > Proj4js.const.EPSLN) {
+          temp = cos_z -this.sin_lat_o * Math.sin(lat);
+          if(temp!=0.0) lon=Proj4js.const.adjust_lon(this.long0+Math.atan2(p.x*sin_z*this.cos_lat_o,temp*Rh));
+       } else if (this.lat0 < 0.0) {
+          lon = Proj4js.const.adjust_lon(this.long0 - Math.atan2(-p.x,p. y));
+       } else {
+          lon = Proj4js.const.adjust_lon(this.long0 + Math.atan2(p.x, -p.y));
+       }
+    } else {
+      lat = this.lat0;
+    }
+    //return(OK);
+    p.x = lon;
+    p.y = lat;
+    return p;
+  }//lamazInv()
+};
 
 
 
