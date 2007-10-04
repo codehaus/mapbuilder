@@ -29,6 +29,7 @@ Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html
   <!-- Main html: Match OWS Context -->
   <xsl:template match="/wmc:OWSContext">
     <div class="layerControl">
+    <h3>Search Results</h3>
       <xsl:if test="wmc:General/wmc:Extension">
         <xsl:apply-templates
           select="wmc:General/wmc:Extension/wmc:GroupList/wmc:Group">
@@ -67,8 +68,13 @@ Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html
         <xsl:when test="wmc:Title/@xml:lang">
           <xsl:value-of select="wmc:Title[@xml:lang=$lang]" />
         </xsl:when>
-        <xsl:otherwise>
+        <xsl:when test="wmc:Title/text()">
           <xsl:value-of select="wmc:Title" />
+        </xsl:when>
+        <xsl:otherwise>
+          [No Title:
+          <xsl:value-of select="$layerName" />
+          ]
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -82,15 +88,7 @@ Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html
           <!-- name of layer -->
           <div class="nameLayerHeader" style="display:block"
             onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}', '{$widgetId}_{$pos}_Metadata')">
-            <xsl:choose>
-              <xsl:when test="wmc:Title/@xml:lang">
-                <xsl:value-of
-                  select="wmc:Title[@xml:lang=$lang]" />
-              </xsl:when>
-              <xsl:otherwise>
-                <xsl:value-of select="wmc:Title" />
-              </xsl:otherwise>
-            </xsl:choose>
+           <xsl:value-of select="$name_layer"/>
           </div>
 
           <div class="inputLayerHeader">
@@ -108,7 +106,7 @@ Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html
         </div><!--end of {$layerName}_Header -->
 
         <!-- metadata -->
-        <div id="{$widgetId}_{$pos}_Metadata" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}', '{$widgetId}_{$pos}_Metadata');"></div>
+        <div id="{$widgetId}_{$pos}_Metadata" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}', '{$widgetId}_{$pos}_Metadata');"/>
 
       </div>
       <!--end of hack ie 5.5 -->
