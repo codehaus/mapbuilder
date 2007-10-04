@@ -116,6 +116,7 @@ function MapPaneOL(widgetNode, model) {
   this.model.addListener("refreshWmsLayers",this.refreshWmsLayers,this);
 
   this.model.addListener("refresh",this.paint, this);
+  this.model.addListener("refreshLayer",this.refreshLayer, this);
   this.model.addListener("hidden",this.hidden, this);
   this.model.addListener("addLayer",this.addLayer, this);
   this.model.addListener("deleteLayer",this.deleteLayer, this);
@@ -324,7 +325,11 @@ MapPaneOL.prototype.hidden = function(objRef, layerName) {
   * @param layerName The layer Id.
   */
 MapPaneOL.prototype.getLayer = function(objRef,layerName) {
-  return objRef.model.map.getLayer(objRef.oLlayers[layerName].id);
+  if(objRef.oLlayers[layerName] && objRef.oLlayers[layerName].id) {
+    return objRef.model.map.getLayer(objRef.oLlayers[layerName].id);
+  } else {
+    return false;
+  }
 }
 
 //####################################################
@@ -385,6 +390,8 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   // OpenLayers doesn't contain information about projection, so if the
   // baseLayer projection is not standard lat/long, it needs to know
   // maxExtent and maxResolution to calculate the zoomLevels.
+  console.info('MapPaneOL addLayer');
+  console.debug(layerNode);
   var layer = layerNode;
 
   // Test service of the layer
@@ -575,12 +582,17 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         title,
         href,{
           TYPENAME: name2,
-          MAXFEATURES: (maxFeatures ? maxFeatures : 1), 
           }
 
           //,layerOptions
         );
       objRef.oLlayers[name2].setVisibility(vis); // necessary, otherwise layer will be shown when loaded from initial context document
+
+      // Add the maxFeatures attribute to the layer, if defined
+      if (maxFeatures) {
+        objRef.oLlayers[name2].mergeNewParams({MAXFEATURES: maxFeatures});
+      }
+      console.debug(objRef.oLlayers[name2]);
     break;
 
     // GML Layer
@@ -674,8 +686,11 @@ MapPaneOL.prototype.getWebSafeStyle = function(objRef, colorNumber) {
    * @param layerName  The name of the layer that was toggled.
    */
 MapPaneOL.prototype.refreshLayer = function(objRef, layerName , newParams){
-  newParams['version'] = Math.random(); //necessary for see change in certain case
-  objRef.getLayer(objRef,layerName).mergeNewParams(newParams);
+  console.info('refreshLayer called' + layerName);
+  newParams['random'] = Math.random(); //necessary for see change in certain case
+  if (objRef.getLayer(objRef,layerName)) {
+    objRef.getLayer(objRef,layerName).mergeNewParams(newParams);
+  }
 }
   
 /**
