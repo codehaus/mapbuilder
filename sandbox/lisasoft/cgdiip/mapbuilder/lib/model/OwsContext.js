@@ -321,13 +321,19 @@ function OwsContext(modelNode, parent) {
   }
 
   /**
-   * Method to get a layer with the specified name in the context doc
-   * @param layerName the layer to be returned
+   * Method to get a layer with the specified id/name in the context doc
+   * @param layerName/layerId the layer to be returned
    * @return the list with all layers
    * @TODO check other layers
    */
   this.getLayer = function(layerName) {
-    var layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
+    var layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[@id='"+layerName+"']");
+    if (layer == null) {
+      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[@id='"+layerName+"']");
+    }
+    if (layer == null) {
+      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
+    }
     if (layer == null) {
       layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[wmc:Name='"+layerName+"']");
     }
@@ -343,7 +349,9 @@ function OwsContext(modelNode, parent) {
    * @param layerNode the Layer node from another context doc or capabiltiies doc
    */
   this.addLayer = function(objRef, layerNode) {
-    if( objRef.doc != null ) {
+console.info('OWSContext init');
+console.debug(layerNode);
+   if( objRef.doc != null ) {
       var parentNode = objRef.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList");
 
       var id = layerNode.getAttribute("id");
@@ -355,7 +363,7 @@ function OwsContext(modelNode, parent) {
         parentNode.removeChild(node)
       }
 
-      parentNode.appendChild(layerNode.cloneNode(true));
+      parentNode.appendChild(layerNode);
       objRef.modified = true;
       if (this.debug) {
          mbDebugMessage( "Adding layer:"+(new XMLSerializer()).serializeToString( layerNode ) );
@@ -463,21 +471,6 @@ function OwsContext(modelNode, parent) {
     this.model.callListeners("loadLayerEnd", layerName);
   }
 
-
-  
-  this.oldloadLayerStart = function(objRef, layerName) {
-    console.info('Start loading layer: ' + layerName);
-    //alert('Start loading layer: ' + layerName);
-    loadingDivId = objRef.id + '_' + layerName + '_Loading';
-    loadingDiv = document.getElementById(loadingDivId);
-    //alert(loadingDiv);
-  }
-  //this.addListener("loadLayerStart", this.loadLayerStart, this );
-
-  this.oldloadLayerEnd = function(objRef, layerName) {
-    console.info('Stop loading layer: ' + layerName);
-  }
-  //this.addListener("loadLayerEnd", this.loadLayerEnd, this );
 
   /**
    * Adds a node to the Context document extension element.  The extension element
