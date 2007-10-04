@@ -59,7 +59,8 @@ $Name:  $
     <!-- When layer is WMS: Layer       -->
     <!-- else (fallback)  : Layer       -->
     <xsl:variable name="element_name">
-      <xsl:variable name="servicetype" select="../rim:Service[((position()+1) div 2)]/rim:Slot[@name='Service Type']/rim:ValueList/rim:Value"/>
+      <xsl:variable name="pos" select="position()"/>
+      <xsl:variable name="servicetype" select="../rim:Service[(($pos+1) div 2)]/rim:Slot[@name='Service Type']/rim:ValueList/rim:Value"/>
       <xsl:choose>
         <xsl:when test="($servicetype = 'WFS') or ($servicetype = 'OGC:WFS')">FeatureType</xsl:when>
         <xsl:when test="($servicetype = 'WMS') or ($servicetype = 'OGC:WMS')">Layer</xsl:when>
