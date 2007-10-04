@@ -46,17 +46,26 @@
       </StyleList>
     </Layer>
 
-    <Layer hidden="0">
-      <Server service="OGC:WFS" version="1.1.1" title="My birds WMS">
+    <FeatureType hidden="0">
+      <Server service="WFS" version="1.0" title="My bird WFS">
         <OnlineResource method="POST" xlink:type="simple" xlink:href="http://www.bsc-eoc.org/cgi-bin/bsc_ows.asp"/>
       </Server>
       <Name>IBA</Name>
       <Title>Important Bird Areas WFS</Title>
       <Abstract>This is some bird data</Abstract>
       <SRS>EPSG:4326</SRS>
+    </FeatureType>
+    <!--
+    <Layer hidden="0">
+      <Server service="OGC:WMS" version="1.1.1" title="My birds WMS">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://www.bsc-eoc.org/cgi-bin/bsc_ows.asp"/>
+      </Server>
+      <Name>IBA</Name>
+      <Title>Important Bird Areas WMS</Title>
+      <Abstract>This is some bird data</Abstract>
+      <SRS>EPSG:4326</SRS>
     </Layer>
 
-    <!--
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource method="GET" xlink:type="simple" xlink:href="iba-gml.xml"/>
@@ -97,15 +106,6 @@
       <SRS>EPSG:4326</SRS>
     </FeatureType>
 
-    <FeatureType hidden="1">
-      <Server service="OGC:WFS" version="1.0" title="My bird WFS">
-        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://www.bsc-eoc.org/cgi-bin/bsc_ows.asp"/>
-      </Server>
-      <Name>IBA</Name>
-      <Title>Important Bird Areas WFS</Title>
-      <Abstract>This is some bird data</Abstract>
-      <SRS>EPSG:4326</SRS>
-    </FeatureType>
     -->
     <!--
     <Layer hidden="1">
