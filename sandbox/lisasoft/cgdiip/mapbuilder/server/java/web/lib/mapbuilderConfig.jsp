@@ -28,7 +28,7 @@
 
   <!-- Url of LOCAL redirection script, required to access external URLs -->
 
-  <proxyUrl><%= request.getContextPath() %>/proxy</proxyUrl>
+  <proxyUrl><%= request.getContextPath() %>/MapbuilderProxy.jsp</proxyUrl>
 
   <serializeUrl><%= request.getContextPath() %>/writeXml</serializeUrl>
 

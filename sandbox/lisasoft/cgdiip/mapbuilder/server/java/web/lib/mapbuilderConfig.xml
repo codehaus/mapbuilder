@@ -14,7 +14,7 @@
   <!-- Url of LOCAL redirection script, required to access external URLs 
   The names for these servlets are configured in the applications web.xml file
   -->
-  <proxyUrl>/mapbuilder/proxy</proxyUrl>
+  <proxyUrl>/mapbuilder/MapbuilderProxy.jsp</proxyUrl>
   <serializeUrl>/mapbuilder/writeXml</serializeUrl>
 </MapbuilderConfig>
 
