@@ -80,6 +80,7 @@ function XslProcessor(xslUrl,docNSUri) {
       return s;
     } catch(e){
       alert(mbGetMessage("exceptionTransformingDoc", this.xslUrl));
+      alert(e.name + ": " + e.message); //rdewit
       alert("XSL="+(new XMLSerializer()).serializeToString(this.xslDom));
       alert("XML="+(new XMLSerializer()).serializeToString(xmlNode));
     }
