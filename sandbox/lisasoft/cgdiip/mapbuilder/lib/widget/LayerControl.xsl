@@ -31,6 +31,10 @@ $Name:  $
   <xsl:param name="deleteImage"/>
   <xsl:param name="legendImageEnable"/>
   <xsl:param name="legendImageDisable"/>
+  <xsl:param name="limitImageEnable"/>
+  <xsl:param name="limitImageDisable"/>
+  <xsl:param name="saveImageEnable"/>
+  <xsl:param name="saveImageDisable"/>
    <xsl:param name="opacity"/>
   
   <!-- Text params for this widget -->
@@ -42,8 +46,9 @@ $Name:  $
   <xsl:param name="moveLayerUpTip"/>
   <xsl:param name="moveLayerDownTip"/>
   <xsl:param name="deleteLayerTip"/>
-   <xsl:param name="legendTip"/>
-   <xsl:param name="nameLayerTip"/>
+  <xsl:param name="legendTip"/>
+  <xsl:param name="nameLayerTip"/>
+  <xsl:param name="capLayerFeaturesTip"/>
   <xsl:param name="opacityTip"/>
   
   
@@ -56,6 +61,7 @@ $Name:  $
 <!-- Main html -->
   <xsl:template match="/wmc:ViewContext">
     <div>
+      <h3>Layer Control</h3>
       <div class="layerControl">
         <xsl:if test="wmc:General/wmc:Extension"> 
 		      <xsl:apply-templates select="wmc:General/wmc:Extension/wmc:GroupList/wmc:Group">
@@ -74,6 +80,7 @@ $Name:  $
   <!-- Main html -->
  <xsl:template match="/wmc:OWSContext">
 		<div class="layerControl">
+      <h3>Layer Control</h3>
 		   <xsl:if test="wmc:General/wmc:Extension"> 
 		      <xsl:apply-templates select="wmc:General/wmc:Extension/wmc:GroupList/wmc:Group">
 				<xsl:sort select="position()" order="ascending" data-type="number"/>
@@ -167,7 +174,19 @@ $Name:  $
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
-    <!-- varibale -->
+  <!-- attempt to generate a unique id per layer -->
+	<xsl:variable name="layerId">
+    <xsl:choose>
+      <xsl:when test="@id">
+        <xsl:value-of select="@id"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$layerName"/>
+      </xsl:otherwise>
+    </xsl:choose>
+	</xsl:variable>
+
+    <!-- variable -->
     <xsl:variable name="rowClass">altRow_<xsl:value-of select="position() mod 2"/></xsl:variable>
     <xsl:variable name="name_layer">
 		<xsl:choose>
@@ -208,7 +227,7 @@ $Name:  $
 										      </a>
 										  </div>
 								   </xsl:if>
-								   <!-- movelayerdonw -->
+								   <!-- movelayerdown -->
 								   <xsl:if test="($numLayers - count(preceding::wmc:Layer) - count(preceding::wmc:FeatureType)) != $numLayers">
 										  <div class="buttonLayerHeader">
 										      <a href="javascript:{$context}.setParam('moveLayerDown','{$layerName}')" class="mbButton">
@@ -222,9 +241,33 @@ $Name:  $
 										<img title="{$deleteLayerTip}" src="{$skinDir}{$deleteImage}" />
 									   </a>
 									   </div>
-                <xsl:if test="wmc:Server/@service='WFS'">
-                  <a href="#" target="_blank" onclick="this.href=config.objects.{$widgetId}.getLayerFullRequestString('{$layerName}');return true;">GML</a>
+
+
+                 <xsl:if test="wmc:Server/@service='WFS' or name()='FeatureType'">
+								   <!-- Limit Layer Features -->
+								  <div class="buttonLayerHeader">
+								    <a href="#" onclick="config.objects.layerMaxFeatures.toggle('{$layerId}');return false" class="mbButton">
+                    <xsl:choose>
+                      <xsl:when test="@maxFeatures">
+										    <img title="Unrestrict maximum amount of features" src="{$skinDir}{$limitImageEnable}" />
+                        <div class="maxFeaturesText"><xsl:value-of select="@maxFeatures"/></div>
+                      </xsl:when>
+                      <xsl:otherwise>
+										    <img title="Restrict maximum amount of features" src="{$skinDir}{$limitImageDisable}" />
+                   		</xsl:otherwise>
+										</xsl:choose> 
+									  </a>
+									</div>
+
+								   <!-- Save Layer Features as GML-->
+								  <div class="buttonLayerHeader">
+								    <a href="#" target="_blank" onclick="this.href=config.objects.{$widgetId}.getLayerFullRequestString('{$layerName}');return true;" class="mbButton">
+										<img title="Save this layer's features as GML" src="{$skinDir}{$saveImageDisable}"/>
+									  </a>
+									</div>
+
                 </xsl:if>
+
 									 <!-- displayLegend -->   
 								   <xsl:if test="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL"> 
 									   <div class="buttonLayerHeader"  > 
@@ -252,14 +295,7 @@ $Name:  $
 							</div> <!-- end inputLayerHeader --> 	 
 						    <!-- name of layer --> 
 						    <div class="nameLayerHeader" title="{$nameLayerTip}" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}', '{$widgetId}_{$pos}_Metadata')">
-							    <xsl:choose>
-							       <xsl:when test="wmc:Title/@xml:lang">              
-								       <xsl:value-of select="wmc:Title[@xml:lang=$lang]"/>
-							       </xsl:when>
-							       <xsl:otherwise>
-								       <xsl:value-of select="wmc:Title"/>
-							       </xsl:otherwise>
-							    </xsl:choose>
+                  <xsl:value-of select="$name_layer"/>
 						    </div>
 					        <!-- opacity -->  
 					        <xsl:if test="$opacity='true'"> 
@@ -280,7 +316,11 @@ $Name:  $
 										</form>
 								 </div>
 					         </xsl:if>
+
+
 					</div> <!--end of {$layerName}_Header -->	
+
+         <div id="{$layerId}_Loading"><!-- <xsl:value-of select="concat($modelId,'_',$layerName,'_Loading')"/> --></div>
 
           <!-- metadata -->
           <div id="{$widgetId}_{$pos}_Metadata" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}', '{$widgetId}_{$pos}_Metadata');"></div>

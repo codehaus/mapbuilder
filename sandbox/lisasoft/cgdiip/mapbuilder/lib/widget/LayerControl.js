@@ -31,6 +31,28 @@ function LayerControl(widgetNode, model) {
   }
 
   /**
+   * Adds a widget to the list of tabs (TBD: not yet working/tested)
+   * @param widget the widget to be added to the list of tabs
+   * @param order  the order within the tabs
+   */
+  this.addWidget = function(tabWidget,tabLabel) {
+    this.tabList.push(tabWidget);
+
+    if (!tabLabel) tabLabel = tabWidget.id;
+    var textNode = config.widgetText.selectSingleNode(this.textNodeXpath+"/mb:"+tabWidget.id);
+    if (textNode) tabLabel = textNode.firstChild.nodeValue;
+
+    var tabNode = this.model.doc.createElementNS(mbNS,"tab");
+    tabNode.appendChild(this.model.doc.createTextNode(tabWidget.id));
+    tabNode.setAttribute("label",tabLabel);
+    this.widgetNode.appendChild(tabNode);
+
+    this.paint(this);
+    this.selectTab(tabWidget);
+  }
+
+
+  /**
    * Displays a layer in a preview pane when mouse is over the table row
    * @param layerName  the name of the layer to highlight
    */
@@ -46,9 +68,11 @@ function LayerControl(widgetNode, model) {
    * @param layerName  the name of the layer to highlight
    */
   this.refresh = function(objRef, layerName) {
+    //config.objects.layerLoading.paint(config.objects.layerLoading); // to activate the loading bar
+    console.debug(objRef);
     objRef.paint(objRef, objRef.id);
   }
-  
+
   this.foldUnfoldGroup = function(groupName,id) {
     // context config stuff to maintain group folding over refresh
     var xpathExpression = "//wmc:General/wmc:Extension/wmc:GroupList/wmc:Group[@name='" + groupName + "']";
@@ -75,8 +99,10 @@ function LayerControl(widgetNode, model) {
   this.getLayerFullRequestString = function(layerName) {
       var fullRequestString;
 
-      // TBD: don't access mainMapWidget directly
-      fullRequestString = config.objects.mainMapWidget.oLlayers[layerName].getFullRequestString();
+      // Quick hack to get the full Request string for a layer
+      // TBD: don't access mainMapWidget and mainMap directly
+      fullRequestString  = config.objects.mainMapWidget.oLlayers[layerName].getFullRequestString();
+      fullRequestString += "&BBOX=" + config.objects.mainMap.getBoundingBox();
 
       return fullRequestString;
   }
@@ -112,6 +138,9 @@ function LayerControl(widgetNode, model) {
     // Call the metadata widget with the layer node and the metadata Dom Element
     metadataWidget.paint(layerNode, metadataDomElement);
 
+    // Loading Spinner. TBD: doesn't work yet
+    //var loadingWidget = config.objects.layerLoading;
+    //loadingWidget.paint(loadingWidget);
   }
   
   /**
@@ -152,5 +181,7 @@ function LayerControl(widgetNode, model) {
   this.model.addListener("moveLayerUp",this.refresh, this);
   this.model.addListener("moveLayerDown",this.refresh, this);
   if (this.autoRefresh) this.model.addListener("addLayer",this.refresh, this);
+
+
 }
 

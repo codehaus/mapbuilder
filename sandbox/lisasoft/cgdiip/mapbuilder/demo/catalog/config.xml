@@ -16,7 +16,14 @@
           <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
           <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
           <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
+          <limitImageEnable>/images/LimitDisable.png</limitImageEnable>
+          <limitImageDisable>/images/LimitDisable.png</limitImageDisable>
+          <saveImageEnable>/images/SaveEnable.png</saveImageEnable>
+          <saveImageDisable>/images/SaveDisable.png</saveImageDisable>
         </LayerControl>
+        <LayerMaxFeatures id="layerMaxFeatures">
+          <maxFeatures>2</maxFeatures>
+        </LayerMaxFeatures>
         <ModelPopup id="modelPopup">
           <htmlTagId>contextPopup</htmlTagId>
           <title2>View Context</title2>
