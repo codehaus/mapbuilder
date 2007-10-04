@@ -68,30 +68,35 @@ $Name:  $
       </xsl:choose>
     </xsl:variable>
 
-    <!--xsl:if test="not($id) or ($id=@id)"-->
-    <xsl:element name="wmc:{$element_name}">
-        <xsl:attribute name="queryable">0</xsl:attribute>
-        <xsl:attribute name="hidden">0</xsl:attribute>
-        <xsl:if test="$maxFeatures and ($element_name = 'FeatureType')">
-          <xsl:attribute name="maxFeatures"><xsl:value-of select="$maxFeatures"/></xsl:attribute>
-        </xsl:if>
-        <xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
-        <!-- insert service -->
-        <!--xsl:apply-templates select="//rim:Service[position()=(position()+1)]"/-->
-        <xsl:call-template name="Service">
-          <xsl:with-param name="pos" select="position()"/>
-        </xsl:call-template>
-        <wmc:Name>
-          <xsl:value-of select="rim:Name/rim:LocalizedString/@value"/>
-        </wmc:Name>
-        <wmc:Title>
-          <xsl:value-of select="rim:Slot[@name='Title']//rim:Value"/>
-        </wmc:Title>
-        <wmc:Abstract>
-          <xsl:value-of select="rim:Description/rim:LocalizedString/@value"/>
-        </wmc:Abstract>
-    </xsl:element>
-    <!--/xsl:if-->
+    <xsl:variable name="queryable" select="./rim:Slot[@name='Queryable']/rim:ValueList/rim:Value/text()"/>
+
+    <!-- If a layer is a 'Theme', then don't return anything, since it is'nt a queryable layer.
+         A theme is a meta layer for grouping (WMS) layers
+    -->
+    <xsl:if test="@objectType != 'Theme'">
+      <xsl:element name="wmc:{$element_name}">
+          <xsl:attribute name="queryable">1</xsl:attribute>
+          <xsl:attribute name="hidden">0</xsl:attribute>
+          <xsl:if test="$maxFeatures and ($element_name = 'FeatureType')">
+            <xsl:attribute name="maxFeatures"><xsl:value-of select="$maxFeatures"/></xsl:attribute>
+          </xsl:if>
+          <xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+          <!-- insert service -->
+          <!--xsl:apply-templates select="//rim:Service[position()=(position()+1)]"/-->
+          <xsl:call-template name="Service">
+            <xsl:with-param name="pos" select="position()"/>
+          </xsl:call-template>
+          <wmc:Name>
+            <xsl:value-of select="rim:Name/rim:LocalizedString/@value"/>
+          </wmc:Name>
+          <wmc:Title>
+            <xsl:value-of select="rim:Slot[@name='Title']//rim:Value"/>
+          </wmc:Title>
+          <wmc:Abstract>
+            <xsl:value-of select="rim:Description/rim:LocalizedString/@value"/>
+          </wmc:Abstract>
+      </xsl:element>
+    </xsl:if>
   </xsl:template>
 
   <!-- Match Service -->
