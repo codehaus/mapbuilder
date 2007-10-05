@@ -30,9 +30,9 @@
           <width>180</width>
           <layers>
             <layerName>basic</layerName>
-            <layerName>gb:AdministrativeArea</layerName>
-            <layerName>gb:RoadSegment</layerName>
-            <layerName>gb:PlaceName</layerName>
+            <layerName>topp:AdministrativeArea</layerName>
+            <layerName>topp:RoadSegment</layerName>
+            <layerName>topp:PlaceName</layerName>
           </layers>
         </OverviewMap>
       </widgets>
@@ -63,7 +63,7 @@
           <targetModel>mainMap</targetModel>
         </FeatureSelectHandler>
       </tools>
-	<namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:georss='http://www.opengis.net/georss' xmlns:ogc='http://www.opengis.net/ogc' xmlns:cw='http://www.cubewerx.com/cw' xmlns:gb='http://geocon.sunertek.com' xmlns:def='http://www.w3.org/2005/Atom'</namespace>
+	<namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:georss='http://www.opengis.net/georss' xmlns:ogc='http://www.opengis.net/ogc' xmlns:cw='http://www.cubewerx.com/cw' xmlns:topp='http://www.openplans.org/topp' xmlns:def='http://www.w3.org/2005/Atom'</namespace>
 <!-- Default namespace won't work in XSL <namespace>xmlns='http://www.w3.org/2005/Atom'</namespace> -->
     </FeatureCollection>
     <StyledLayerDescriptor id="sld">
@@ -150,7 +150,7 @@
       <class>Button</class>
       <disabledSrc>/images/DeleteDisable.png</disabledSrc>
       <transactionResponseModel>transaction</transactionResponseModel>
-      <webServiceUrl>http://dev.terrapages.net/wfs</webServiceUrl>
+      <webServiceUrl>http://www.pvretano.com/cgdi/cwwfs.cgi</webServiceUrl>
     </ProposeDeleteFeature>
     <WfsGetFeature id="wfsGetFeature">
       <buttonBar>mainButtonBar</buttonBar>
@@ -160,7 +160,7 @@
       <disabledSrc>/images/QueryDisable.png</disabledSrc>
       <transactionResponseModel>featureCollection</transactionResponseModel>
       <webServiceUrl>http://geocon.sunertek.com:8080/geoserver/wfs?</webServiceUrl>
-      <typeName>gb:PlaceName,gb:RoadSegment,gb:AdministrativeArea</typeName>
+      <typeName>topp:PlaceName,topp:RoadSegment,topp:AdministrativeArea</typeName>
       <tolerance>5</tolerance>
       <maxFeatures>1</maxFeatures>
     </WfsGetFeature>

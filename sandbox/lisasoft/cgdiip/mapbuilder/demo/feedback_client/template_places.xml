@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!-- $Id: template_cities.xml 1299 2005-03-06 20:05:51Z camerons $ -->
-<gml:featureMember xmlns:gb="http://geocon.sunertek.com" xmlns:gml="http://www.opengis.net/gml">
-  <gb:PlaceName>
-    <gb:the_geom>
-      <gml:MultiPoint srsName="epsg:4326">
-        <gml:pointMember>
-          <gml:Point>
-            <gml:coordinates decimal="." cs="," ts=" "></gml:coordinates>
-          </gml:Point>
-        </gml:pointMember>
-      </gml:MultiPoint>
-    </gb:the_geom>
-    <gb:cgdiId></gb:cgdiId>
-    <gb:geographicalName></gb:geographicalName>
-    <gb:cgndbKey></gb:cgndbKey>
-    <gb:genericTerm></gb:genericTerm>
-    <gb:datum></gb:datum>
-    <gb:ntsMap></gb:ntsMap>
-    <gb:regionName></gb:regionName>
-    <gb:featureId></gb:featureId>
-  </gb:PlaceName>
+<gml:featureMember xmlns:topp="http://www.openplans.org/topp" xmlns:gml="http://www.opengis.net/gml">
+  <topp:PlaceName>
+    <topp:pointLocation>
+      <gml:PointProperty>
+        <gml:Point>
+          <gml:coordinates decimal="." cs="," ts=" "></gml:coordinates>
+        </gml:Point>
+      </gml:PointProperty>
+    </topp:pointLocation>
+    <topp:cgdiId></topp:cgdiId>
+    <topp:geographicalName></topp:geographicalName>
+    <topp:cgndbKey></topp:cgndbKey>
+    <topp:conciseTerm></topp:conciseTerm>
+    <topp:latitude></topp:latitude>
+    <topp:longitude></topp:longitude>
+    <topp:datum></topp:datum>
+    <topp:ntsMap></topp:ntsMap>
+    <topp:regionName></topp:regionName>
+    <topp:featureId></topp:featureId>
+  </topp:PlaceName>
 </gml:featureMember>
