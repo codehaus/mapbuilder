@@ -162,7 +162,9 @@ function FeatureSelectHandler(toolNode, model) {
     }
     
     mydiv = document.getElementById(feature.fid);
-    mydiv.style.backgroundColor='';
+    if (mydiv) {
+      mydiv.style.backgroundColor='';
+    }
     
   }
   
@@ -206,7 +208,9 @@ function FeatureSelectHandler(toolNode, model) {
     objRef.model.setParam("olFeatureHover", evt);
     
     mydiv = document.getElementById(evt.feature.fid);
-    mydiv.style.backgroundColor='orange';
+    if (mydiv) {
+      mydiv.style.backgroundColor='orange';
+    }
      
   }
 
