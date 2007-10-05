@@ -65,9 +65,6 @@ $Name:  $
         <option value="WMS">WMS</option>
         <option value="WFS">WFS</option>
       </select>
-      <input id="maxFeatures" title="Limit maximum amount of features" checked="checked" type="checkbox" onchange="config.objects.{$targetModel}.setParam(this.id, this.checked);"/>
-      <label for="maxFeatures">maxFeatures</label>
-      <br/>
       <input type="button" value="Search" onclick="config.objects.{$widgetId}.doSelect();"/>
       <input id="debug_button" type="button" value="Show Query" onclick="config.objects.{$widgetId}.debugQuery();"/>
       <div id="loading"></div>

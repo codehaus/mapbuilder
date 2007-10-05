@@ -19,10 +19,6 @@ function CatalogSearchForm(widgetNode, model) {
   this.targetContext = widgetNode.selectSingleNode("mb:targetContext").firstChild.nodeValue;
   this.wrsUrl        = widgetNode.selectSingleNode("mb:wrsUrl").firstChild.nodeValue;
 
-  // Read WFS maxFeatures value. Fallback to 5 if not defined 
-  this.wfsMaxFeatures = widgetNode.selectSingleNode("mb:wfsMaxFeatures") ? widgetNode.selectSingleNode("mb:wfsMaxFeatures").firstChild.nodeValue : 5;
-  
-  
   this.wrsServiceAssociation = "OperatesOn";
 
   this.httpPayload = new Object();
@@ -62,8 +58,6 @@ function CatalogSearchForm(widgetNode, model) {
     //this.searchForm.onsubmit = this.submitForm;
     //this.searchForm.mapsheet.onblur = this.setMapsheet;
 
-    this.searchForm.maxFeatures.model = this.model;
-    this.searchForm.maxFeatures.checked = this.model.getParam("maxFeatures");
   }
 
   /**
@@ -262,10 +256,6 @@ function CatalogSearchForm(widgetNode, model) {
    * @param objRef Pointer to widget object.
    */
   CatalogSearchForm.prototype.handleResponse = function(objRef) {
-    // if maxFeatures is enabled, feed the value to the XSL as a parameter
-    if(objRef.targetModel.getParam('maxFeatures')) {
-      objRef.ebrim2Context.setParameter('maxFeatures', objRef.wfsMaxFeatures);
-    }
 
     var newContext=objRef.ebrim2Context.transformNodeToObject(objRef.targetModel.doc);
 

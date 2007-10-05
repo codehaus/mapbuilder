@@ -30,7 +30,6 @@ $Name:  $
   <xsl:strip-space elements="*"/>
 
   <!-- The coordinates of the DHTML Layer on the HTML page -->
-  <xsl:param name="maxFeatures"/>
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
   <xsl:param name="id"></xsl:param>
@@ -77,9 +76,6 @@ $Name:  $
       <xsl:element name="wmc:{$element_name}">
           <xsl:attribute name="queryable">1</xsl:attribute>
           <xsl:attribute name="hidden">0</xsl:attribute>
-          <xsl:if test="$maxFeatures and ($element_name = 'FeatureType')">
-            <xsl:attribute name="maxFeatures"><xsl:value-of select="$maxFeatures"/></xsl:attribute>
-          </xsl:if>
           <xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
           <!-- insert service -->
           <!--xsl:apply-templates select="//rim:Service[position()=(position()+1)]"/-->
