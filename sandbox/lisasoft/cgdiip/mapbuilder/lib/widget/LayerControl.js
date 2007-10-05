@@ -108,15 +108,6 @@ function LayerControl(widgetNode, model) {
   }
 
   /**
-   * Fetches the layerNode from the model
-   * @param layerName The name of the layer selected.
-   * @return domElement
-   */
-  this.getLayerNode = function(layerName) {
-    return this.model.doc.selectSingleNode("(//wmc:Layer|//wmc:FeatureType)[wmc:Name ='"+layerName+"']");
-  }
-
-  /**
    * Show the layer's metadata.
    * @param layerName The name of the layer selected.
    * @param metadataDomElementId Dom element where metadata should be stored
@@ -124,7 +115,7 @@ function LayerControl(widgetNode, model) {
   this.showLayerMetadata = function(layerName, metadataDomElementId) {
 
     // Fetch layer node from model
-    var layerNode=this.getLayerNode(layerName);
+    var layerNode=this.model.getLayer(layerName);
 
     // Exit if metadata widget could not be found (failsafe) 
     var metadataWidget = config.objects.layerMetadata;

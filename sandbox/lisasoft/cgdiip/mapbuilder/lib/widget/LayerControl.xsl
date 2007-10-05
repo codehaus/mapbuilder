@@ -202,7 +202,7 @@ $Name:  $
     <xsl:variable name="pos" select="position()" />
      
      
-     <div id="{$widgetId}_{$pos}_Row" class="{$rowClass}" onmouseover="config.objects.{$widgetId}.highlightLayer('{$layerName}')">
+     <div id="{$widgetId}_{$pos}_Row" class="{$rowClass}" onmouseover="config.objects.{$widgetId}.highlightLayer('{$layerId}')">
 					<!-- div necessary with IE 6 because if not, float makes bugs when display or fold legend -->
 				<div style="position:relative;">
 					<div id="{$widgetId}_{$pos}_Header " class="LayerHeader">
@@ -215,14 +215,14 @@ $Name:  $
 						  <div class="inputLayerHeader">
 								<!-- checkbox -->
 								  <div class="checkboxLayerHeader">
-									  <input type="checkbox" id="vis_{$layerName}" title="{$toggleVisTip}" onclick="{$context}.setHidden('{$layerName}',!document.getElementById('vis_{$layerName}').checked)">
+									  <input type="checkbox" id="vis_{$layerId}" title="{$toggleVisTip}" onclick="{$context}.setHidden('{$layerId}',!document.getElementById('vis_{$layerId}').checked)">
 									      <xsl:if test="@hidden='0' or @hidden='false'"><xsl:attribute name="checked"/></xsl:if>
 									  </input>
 								  </div>
 								  <!-- movelayerup--> 
 								  <xsl:if test="($numLayers - count(preceding::wmc:Layer) - count(preceding::wmc:FeatureType))!=1">  
 										  <div class="buttonLayerHeader">
-										      <a href="javascript:{$context}.setParam('moveLayerUp','{$layerName}')" class="mbButton">
+										      <a href="javascript:{$context}.setParam('moveLayerUp','{$layerId}')" class="mbButton">
 											      <img title="{$moveLayerUpTip}" src="{$skinDir}{$moveUpImage}" />
 										      </a>
 										  </div>
@@ -230,14 +230,14 @@ $Name:  $
 								   <!-- movelayerdown -->
 								   <xsl:if test="($numLayers - count(preceding::wmc:Layer) - count(preceding::wmc:FeatureType)) != $numLayers">
 										  <div class="buttonLayerHeader">
-										      <a href="javascript:{$context}.setParam('moveLayerDown','{$layerName}')" class="mbButton">
+										      <a href="javascript:{$context}.setParam('moveLayerDown','{$layerId}')" class="mbButton">
 											      <img title="{$moveLayerDownTip}" src="{$skinDir}{$moveDownImage}" />
 										      </a>
 										  </div>
 								    </xsl:if>
 								   <!-- deletelayer -->
 								  <div class="buttonLayerHeader">
-								      <a href="javascript:{$context}.setParam('deleteLayer','{$layerName}')" class="mbButton">
+								      <a href="javascript:{$context}.setParam('deleteLayer','{$layerId}')" class="mbButton">
 										<img title="{$deleteLayerTip}" src="{$skinDir}{$deleteImage}" />
 									   </a>
 									   </div>
@@ -261,7 +261,7 @@ $Name:  $
 
 								   <!-- Save Layer Features as GML-->
 								  <div class="buttonLayerHeader">
-								    <a href="#" target="_blank" onclick="this.href=config.objects.{$widgetId}.getLayerFullRequestString('{$layerName}');return true;" class="mbButton">
+								    <a href="#" target="_blank" onclick="this.href=config.objects.{$widgetId}.getLayerFullRequestString('{$layerId}');return true;" class="mbButton">
 										<img title="Save this layer's features as GML" src="{$skinDir}{$saveImageDisable}"/>
 									  </a>
 									</div>
@@ -294,14 +294,14 @@ $Name:  $
 									 </xsl:if>
 							</div> <!-- end inputLayerHeader --> 	 
 						    <!-- name of layer --> 
-						    <div class="nameLayerHeader" title="{$nameLayerTip}" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}', '{$widgetId}_{$pos}_Metadata')">
+						    <div class="nameLayerHeader" title="{$nameLayerTip}" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerId}', '{$widgetId}_{$pos}_Metadata')">
                   <xsl:value-of select="$name_layer"/>
 						    </div>
 					        <!-- opacity -->  
 					        <xsl:if test="$opacity='true'"> 
 								<div id="transptitle" class="transpLayerHeader" >
 										<form title="{$opacityTip}" >
-											<select name="opacity" onchange="config.objects.{$modelId}.setOpacity('{$layerName}',value)">
+											<select name="opacity" onchange="config.objects.{$modelId}.setOpacity('{$layerId}',value)">
 													<xsl:if test="@opacity">
 														<option value="@opacity">
 														<xsl:value-of select="@opacity"/></option>
@@ -318,12 +318,12 @@ $Name:  $
 					         </xsl:if>
 
 
-					</div> <!--end of {$layerName}_Header -->	
+					</div> <!--end of {$layerId}_Header -->	
 
-         <div id="{$layerId}_Loading"><!-- <xsl:value-of select="concat($modelId,'_',$layerName,'_Loading')"/> --></div>
+         <div id="{$layerId}_Loading"><!-- <xsl:value-of select="concat($modelId,'_',$layerId,'_Loading')"/> --></div>
 
           <!-- metadata -->
-          <div id="{$widgetId}_{$pos}_Metadata" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}', '{$widgetId}_{$pos}_Metadata');"></div>
+          <div id="{$widgetId}_{$pos}_Metadata" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerId}', '{$widgetId}_{$pos}_Metadata');"></div>
           
 				</div>	<!--end of hack ie 5.5 -->	
 				<!-- legend -->
@@ -344,7 +344,7 @@ $Name:  $
 								</xsl:element>
 							</div>
 				</xsl:if>		 
-    </div> <!--end of "{$layerName}" --> 
+    </div> <!--end of "{$layerId}" --> 
 </xsl:template>
 <xsl:template match="text()|@*"/>
 </xsl:stylesheet>

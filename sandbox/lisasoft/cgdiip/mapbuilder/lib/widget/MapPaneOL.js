@@ -309,24 +309,24 @@ MapPaneOL.prototype.updateMouse = function(e) {
 /**
  * Hide/unhide a layer. Called by Context when the hidden attribute changes.
  * @param objRef Pointer to widget object.
- * @param layerName Name of the layer to hide/unhide.
+ * @param layerId Id of the layer to hide/unhide.
  */
-MapPaneOL.prototype.hidden = function(objRef, layerName) {
-  var vis=objRef.model.getHidden(layerName);
+MapPaneOL.prototype.hidden = function(objRef, layerId) {
+  var vis=objRef.model.getHidden(layerId);
   if(vis=="1"){ var hidden=false; }
   else {var hidden=true; }
-  var  tmpLayer=objRef.getLayer(objRef,layerName)
+  var  tmpLayer=objRef.getLayer(objRef,layerId)
   if(tmpLayer)tmpLayer.setVisibility(hidden);
 }
 
 //###################################################TDO
 /**
   * returns layer node from LayerMgr
-  * @param layerName The layer Id.
+  * @param layerId The layer Id.
   */
-MapPaneOL.prototype.getLayer = function(objRef,layerName) {
-  if(objRef.oLlayers[layerName] && objRef.oLlayers[layerName].id) {
-    return objRef.model.map.getLayer(objRef.oLlayers[layerName].id);
+MapPaneOL.prototype.getLayer = function(objRef,layerId) {
+  if(objRef.oLlayers[layerId] && objRef.oLlayers[layerId].id) {
+    return objRef.model.map.getLayer(objRef.oLlayers[layerId].id);
   } else {
     return false;
   }
@@ -336,16 +336,15 @@ MapPaneOL.prototype.getLayer = function(objRef,layerName) {
 /**
  * Removes a layer from the output
  * @param objRef Pointer to this object.
- * @param layerName the WMS anme for the layer to be removed
+ * @param layerId the WMS anme for the layer to be removed
  */
-MapPaneOL.prototype.deleteLayer = function(objRef, layerName) {
-  if(objRef.oLlayers[layerName])objRef.model.map.removeLayer(objRef.oLlayers[layerName]);
+MapPaneOL.prototype.deleteLayer = function(objRef, layerId) {
+  if(objRef.oLlayers[layerId])objRef.model.map.removeLayer(objRef.oLlayers[layerId]);
 }
 
 /**
  * Removes all layers from the output
  * @param objRef Pointer to this object.
- * @param layerName the WMS anme for the layer to be removed
  */
 MapPaneOL.prototype.deleteAllLayers = function(objRef) {
   objRef.model.map.destroy();
@@ -355,36 +354,37 @@ MapPaneOL.prototype.deleteAllLayers = function(objRef) {
 /**
  * Moves a layer up in the stack of map layers
  * @param objRef Pointer to this object.
- * @param layerName the WMS anme for the layer to be removed
+ * @param layerId the WMS anme for the layer to be removed
  */
-MapPaneOL.prototype.moveLayerUp = function(objRef, layerName) {
+MapPaneOL.prototype.moveLayerUp = function(objRef, layerId) {
   var map=objRef.model.map;
-  map.raiseLayer(map.getLayer(objRef.oLlayers[layerName].id), 1);
+  map.raiseLayer(map.getLayer(objRef.oLlayers[layerId].id), 1);
 }
 
 /**
  * Moves a layer up in the stack of map layers
  * @param objRef Pointer to this object.
- * @param layerName the WMS name for the layer to be removed
+ * @param layerId the WMS name for the layer to be removed
  */
-MapPaneOL.prototype.moveLayerDown = function(objRef, layerName) {
-  objRef.model.map.raiseLayer(objRef.getLayer(objRef,layerName), -1);
+MapPaneOL.prototype.moveLayerDown = function(objRef, layerId) {
+  objRef.model.map.raiseLayer(objRef.getLayer(objRef,layerId), -1);
 }
 
 //###############################################
 /**
    * Called when the context's opacity attribute changes.
    * @param objRef This object.
-   * @param layerName  The name of the layer that was toggled.
+   * @param layerId  The id of the layer that was toggled.
    */
-MapPaneOL.prototype.setOpacity=function(objRef, layerName){
+MapPaneOL.prototype.setOpacity=function(objRef, layerId){
   var _opacity="1";
-  _opacity=objRef.model.getOpacity(layerName);
-  objRef.getLayer(objRef,layerName).setOpacity(_opacity);
+  _opacity=objRef.model.getOpacity(layerId);
+  objRef.getLayer(objRef,layerId).setOpacity(_opacity);
 }
 /**
  * Adds a layer into the output
- * @param layerName the WMS name for the layer to be added
+   * @param objRef This object.
+   * @param layerNode  The node of the layer
  */
 MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   // OpenLayers doesn't contain information about projection, so if the
@@ -401,8 +401,17 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   // Test title of the layer
   var title=layer.selectSingleNode("wmc:Title");title=(title)?title.firstChild.nodeValue:"";
 
-  // Test name of the layer
-  var name2=layer.selectSingleNode("wmc:Name");name2=(name2)?name2.firstChild.nodeValue:"";
+  // Get the name of the layer
+  layerName = layer.selectSingleNode("wmc:Name");layerName=(layerName)?layerName.firstChild.nodeValue:"";
+
+  // Get the layerId. Fallback to layerName if non-existent
+  var layerId;
+  if (layer.selectSingleNode("@id") && layer.selectSingleNode("@id").nodeValue) {
+    layerId = layer.selectSingleNode("@id").nodeValue;
+  } else {
+    layerId = layerName;
+  }
+
   if (objRef.context=="OWS"){
     var href=layer.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?getNodeValue(href):"";
   }
@@ -491,10 +500,10 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
 
       var params = new Array();
       params = sld2UrlParam(currentStyle);
-      if (objRef.model.timestampList && objRef.model.timestampList.getAttribute("layerName") == name2) { 
+      if (objRef.model.timestampList && objRef.model.timestampList.getAttribute("layerName") == layerName) { 
           var timestamp = objRef.model.timestampList.childNodes[0];	
-	      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
-	          layers: name2,
+	      objRef.oLlayers[layerId]= new OpenLayers.Layer.WMS(title,href,{
+	          layers: layerName,
 	          // "TRUE" in upper case else the context doc boston.xml
 	          // (i.c. the IONIC WMS/WFS) doesn't work.
 	          // Note that this is in line with the WMS standard (OGC 01-068r2),
@@ -514,8 +523,8 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
           this.model.addListener("timestamp",this.timestampListener,this);	      
       }
       else {
-	      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
-	          layers: name2,
+	      objRef.oLlayers[layerId]= new OpenLayers.Layer.WMS(title,href,{
+	          layers: layerName,
 	          // "TRUE" in upper case else the context doc boston.xml
 	          // (i.c. the IONIC WMS/WFS) doesn't work.
 	          // Note that this is in line with the WMS standard (OGC 01-068r2),
@@ -551,8 +560,8 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       
       var params = new Array();
       params = sld2UrlParam(currentStyle);
-      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
-          layers: name2,
+      objRef.oLlayers[layerId]= new OpenLayers.Layer.WMS(title,href,{
+          layers: layerName,
           transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
           format: format,
           sld:params.sld,
@@ -579,21 +588,21 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       // it will break point WFS layers. camerons: can you fix this?
       //layerOptions.featureClass=OpenLayers.Feature.WFS;
 
-      objRef.oLlayers[name2]= new OpenLayers.Layer.WFS(
+      objRef.oLlayers[layerId]= new OpenLayers.Layer.WFS(
         title,
         href,{
-          TYPENAME: name2,
+          TYPENAME: layerName,
           }
 
           //,layerOptions
         );
-      objRef.oLlayers[name2].setVisibility(vis); // necessary, otherwise layer will be shown when loaded from initial context document
+      objRef.oLlayers[layerId].setVisibility(vis); // necessary, otherwise layer will be shown when loaded from initial context document
 
       // Add the maxFeatures attribute to the layer, if defined
       if (maxFeatures) {
-        objRef.oLlayers[name2].mergeNewParams({MAXFEATURES: maxFeatures});
+        objRef.oLlayers[layerId].mergeNewParams({MAXFEATURES: maxFeatures});
       }
-      //console.debug(objRef.oLlayers[name2]);
+      //console.debug(objRef.oLlayers[layerId]);
     break;
 
     // GML Layer
@@ -606,7 +615,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       else{
         layerOptions.style=objRef.getWebSafeStyle(objRef, 2*i+1);
       }
-      objRef.oLlayers[name2] = new OpenLayers.Layer.GML(title,href,layerOptions);
+      objRef.oLlayers[layerId] = new OpenLayers.Layer.GML(title,href,layerOptions);
      break;
 
     case "GMAP":
@@ -617,46 +626,46 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       objRef.model.map.units="degrees";
       layerOptions.maxExtent=new OpenLayers.Bounds("-180","-90","180","90");
       layerOptions.isBaseLayer=true;
-      objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, maxZoomLevel:18},layerOptions );
+      objRef.oLlayers[layerId] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, maxZoomLevel:18},layerOptions );
     break;
 
     case "YMAP":
     case "Yahoo":
       // <script src="http://api.maps.yahoo.com/ajaxymap?v=3.0&appid=euzuro-openlayers"></script>
       layerOptions.isBaseLayer=true;
-      objRef.oLlayers[name2] = new OpenLayers.Layer.Yahoo( "Yahoo");
+      objRef.oLlayers[layerId] = new OpenLayers.Layer.Yahoo( "Yahoo");
     break;
 
     case "VE":
     case "Microsoft":
       //<script src='http://dev.virtualearth.net/mapcontrol/v3/mapcontrol.js'></script>
       layerOptions.isBaseLayer=true;
-      objRef.oLlayers[name2] = new OpenLayers.Layer.VirtualEarth( "VE",{minZoomLevel: 0, maxZoomLevel: 18,type: VEMapStyle.Hybrid});
+      objRef.oLlayers[layerId] = new OpenLayers.Layer.VirtualEarth( "VE",{minZoomLevel: 0, maxZoomLevel: 18,type: VEMapStyle.Hybrid});
     break;
 
     case "MultiMap":
       //<script type="text/javascript" src="http://clients.multimap.com/API/maps/1.1/metacarta_04"></script>
       layerOptions.isBaseLayer=true;
-      objRef.oLlayers[name2] = new OpenLayers.Layer.MultiMap( "MultiMap");
+      objRef.oLlayers[layerId] = new OpenLayers.Layer.MultiMap( "MultiMap");
     break;
     default:
       alert(mbGetMessage("layerTypeNotSupported", service));
   }
-  if(opacity && objRef.oLlayers[name2]){
-    objRef.oLlayers[name2].setOpacity(opacity);
+  if(opacity && objRef.oLlayers[layerId]){
+    objRef.oLlayers[layerId].setOpacity(opacity);
   }
   
   // Store <OL Layer ID> . <MB Layer Name> in model
   // Need to do that to retrieve layer name after a loadLayerStart/End event
-  objRef.model.setParam(objRef.oLlayers[name2].id, name2);
+  objRef.model.setParam(objRef.oLlayers[layerId].id, layerId);
 
   // Hook into OpenLayers events for start/end loading of a layer
   // Must be done before adding to the map
-  objRef.oLlayers[name2].events.register('loadstart', objRef, objRef.model.loadLayerStart);
-  objRef.oLlayers[name2].events.register('loadend', objRef, objRef.model.loadLayerEnd);
+  objRef.oLlayers[layerId].events.register('loadstart', objRef, objRef.model.loadLayerStart);
+  objRef.oLlayers[layerId].events.register('loadend', objRef, objRef.model.loadLayerEnd);
 
   // Here the OL layer gets added to the OL map
-  objRef.model.map.addLayer(objRef.oLlayers[name2]);
+  objRef.model.map.addLayer(objRef.oLlayers[layerId]);
 }
 
 /**
@@ -684,13 +693,13 @@ MapPaneOL.prototype.getWebSafeStyle = function(objRef, colorNumber) {
 /**
    * Called for refreshing one layer.
    * @param objRef This object.
-   * @param layerName  The name of the layer that was toggled.
+   * @param layerId  The id of the layer that was toggled.
    */
-MapPaneOL.prototype.refreshLayer = function(objRef, layerName , newParams){
-  //console.info('refreshLayer called' + layerName);
+MapPaneOL.prototype.refreshLayer = function(objRef, layerId , newParams){
+  //console.info('refreshLayer called' + layerId);
   newParams['random'] = Math.random(); //necessary for see change in certain case
-  if (objRef.getLayer(objRef,layerName)) {
-    objRef.getLayer(objRef,layerName).mergeNewParams(newParams);
+  if (objRef.getLayer(objRef,layerId)) {
+    objRef.getLayer(objRef,layerId).mergeNewParams(newParams);
   }
 }
   

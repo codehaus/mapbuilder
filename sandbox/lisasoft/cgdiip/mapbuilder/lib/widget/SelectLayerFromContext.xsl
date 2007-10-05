@@ -60,6 +60,19 @@ Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
+
+    <!-- attempt to generate a unique id per layer -->
+    <xsl:variable name="layerId">
+      <xsl:choose>
+        <xsl:when test="@id">
+          <xsl:value-of select="@id"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$layerName"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
     <xsl:variable name="rowClass">
       altRow_<xsl:value-of select="position() mod 2" />
     </xsl:variable>
@@ -87,26 +100,26 @@ Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html
 
           <!-- name of layer -->
           <div class="nameLayerHeader" style="display:block"
-            onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}', '{$widgetId}_{$pos}_Metadata')">
+            onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerId}', '{$widgetId}_{$pos}_Metadata')">
            <xsl:value-of select="$name_layer"/>
           </div>
 
           <div class="inputLayerHeader">
             <!-- add layer -->
             <a
-              href="javascript:config.objects.{$widgetId}.addLayer('{$layerName}')"
+              href="javascript:config.objects.{$widgetId}.addLayer('{$layerId}')"
               class="mbButton"><img title="add this Layer" src="{$skinDir}{$layerAddImage}" />
             </a>
             <!-- show layer metadata-->
             <a
-              href="javascript:config.objects.{$widgetId}.showLayerMetadata('{$layerName}', '{$widgetId}_{$pos}_Metadata')"
+              href="javascript:config.objects.{$widgetId}.showLayerMetadata('{$layerId}', '{$widgetId}_{$pos}_Metadata')"
               class="mbButton"><img title="show layer's metadata" src="{$skinDir}{$layerMetadataImage}" />
             </a>
           </div><!-- end inputLayerHeader -->
         </div><!--end of {$layerName}_Header -->
 
         <!-- metadata -->
-        <div id="{$widgetId}_{$pos}_Metadata" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}', '{$widgetId}_{$pos}_Metadata');"/>
+        <div id="{$widgetId}_{$pos}_Metadata" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerId}', '{$widgetId}_{$pos}_Metadata');"/>
 
       </div>
       <!--end of hack ie 5.5 -->

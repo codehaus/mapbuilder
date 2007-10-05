@@ -19,12 +19,12 @@ function SelectLayerFromContext(widgetNode, model) {
 
   /**
    * Copy a layer from this model's context to the targetModel's context.
-   * @param layerName The name of the layer selected.
+   * @param layerId The id of the layer selected.
    */
-  SelectLayerFromContext.prototype.addLayer = function(layerName) {
+  SelectLayerFromContext.prototype.addLayer = function(layerId) {
 
     // Fetch layerNode from model
-    var layerNode=this.getLayerNode(layerName);
+    var layerNode=this.model.getLayer(layerId);
 
     // Add a layer by calling the addLayer event. Not quite how the MVC design
     // should work, but I'm following existing code to minimise impact.
@@ -32,24 +32,15 @@ function SelectLayerFromContext(widgetNode, model) {
 
   }
 
-  /**
-   * Fetches the layerNode from the model
-   * @param layerName The name of the layer selected.
-   * @return domElement
-   */
-  SelectLayerFromContext.prototype.getLayerNode = function(layerName) {
-    return this.model.doc.selectSingleNode("(//wmc:Layer|//wmc:FeatureType)[wmc:Name ='"+layerName+"']");
-  }
-
-  /**
+   /**
    * Show the layer's metadata.
-   * @param layerName The name of the layer selected.
+   * @param layerId The id of the layer selected.
    * @param metadataDomElementId Dom element where metadata should be stored
    */
-  SelectLayerFromContext.prototype.showLayerMetadata = function(layerName, metadataDomElementId) {
+  SelectLayerFromContext.prototype.showLayerMetadata = function(layerId, metadataDomElementId) {
 
     // Fetch layer node from model
-    var layerNode=this.getLayerNode(layerName);
+    var layerNode=this.model.getLayer(layerId);
 
     // Exit if metadata widget could not be found (failsafe) 
     var metadataWidget = config.objects.layerMetadata;

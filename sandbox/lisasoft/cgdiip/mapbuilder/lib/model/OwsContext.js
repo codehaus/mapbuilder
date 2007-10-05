@@ -32,28 +32,28 @@ function OwsContext(modelNode, parent) {
 
   /**
    * Change a Layer's visibility.
-   * @param layerName  The name of the layer that is to be changed
+   * @param layerId  The name of the layer that is to be changed
    * @param hidden     String with the value to be set; 1=hidden, 0=visible.
    */
-  this.setHidden=function(layerName, hidden){
+  this.setHidden=function(layerId, hidden){
     // Set the hidden attribute in the Context
     var hiddenValue = "0";
     if (hidden) hiddenValue = "1";
 
-    var layer=this.getFeatureNode(layerName);
+    var layer=this.getLayer(layerId);
     if (layer) layer.setAttribute("hidden", hiddenValue);
     // Call the listeners
-    this.callListeners("hidden", layerName);
+    this.callListeners("hidden", layerId);
   }
 
   /**
    * Get the layer's visiblity attribute value.
-   * @param layerName  The name of the layer that is to be changed
+   * @param layerId  The name of the layer that is to be changed
    * @return hidden  String with the value; 1=hidden, 0=visible.
    */
-  this.getHidden=function(layerName){
+  this.getHidden=function(layerId){
     var hidden=1;
-    var layer=this.getFeatureNode(layerName)
+    var layer=this.getLayer(layerId)
     if (layer) hidden = layer.getAttribute("hidden");
     return hidden;
   }
@@ -293,7 +293,7 @@ function OwsContext(modelNode, parent) {
    * @param featureNodeId the id of the node in the doc to be processed by the stylesheet
    */
   this.setRequestParameters = function(featureName, requestStylesheet) {
-    var feature = this.getFeatureNode(featureName);
+    var feature = this.getLayer(featureName);
     if (feature.selectSingleNode("ogc:Filter")) {
       requestStylesheet.setParameter("filter", escape((new XMLSerializer()).serializeToString(feature.selectSingleNode("ogc:Filter"))) );
     }
@@ -322,23 +322,23 @@ function OwsContext(modelNode, parent) {
 
   /**
    * Method to get a layer with the specified id/name in the context doc
-   * @param layerName/layerId the layer to be returned
+   * @param layerId/layerName the layer to be returned
    * @return the list with all layers
    * @TODO check other layers
    */
-  this.getLayer = function(layerName) {
-    var layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[@id='"+layerName+"']");
+  this.getLayer = function(layerId) {
+    var layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[@id='"+layerId+"']");
     if (layer == null) {
-      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[@id='"+layerName+"']");
+      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[@id='"+layerId+"']");
     }
     if (layer == null) {
-      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
+      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerId+"']");
     }
     if (layer == null) {
-      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[wmc:Name='"+layerName+"']");
+      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[wmc:Name='"+layerId+"']");
     }
     if( layer == null ) {
-      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:RssLayer[@id='"+layerName+"']");
+      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:RssLayer[@id='"+layerId+"']");
     }
     //TBD: add in time stamp
     return layer;
@@ -378,6 +378,7 @@ function OwsContext(modelNode, parent) {
  /**
    * Method to add a Sld to the StyleList
    * @param layerName the Layer name from another context doc or capabiltiies doc
+   * TBD: make sure this will work again using layerId instead of layerName
    */
   this.addSLD = function(objRef,sldNode) {
     // alert("context addSLD : "+objRef.id);
@@ -394,12 +395,12 @@ function OwsContext(modelNode, parent) {
 
   /**
    * Method to remove a Layer from the LayerList
-   * @param layerName the Layer to be deleted
+   * @param layerId the Layer to be deleted
    */
-  this.deleteLayer = function(objRef, layerName) {
-    var deletedNode = objRef.getLayer(layerName);
+  this.deleteLayer = function(objRef, layerId) {
+    var deletedNode = objRef.getLayer(layerId);
     if (!deletedNode) {
-      alert(mbGetMessage("nodeNotFound", layerName));
+      alert(mbGetMessage("nodeNotFound", layerId));
       return;
     }
     deletedNode.parentNode.removeChild(deletedNode);
@@ -409,13 +410,13 @@ function OwsContext(modelNode, parent) {
 
   /**
    * Method to move a Layer in the LayerList up
-   * @param layerName the layer to be moved
+   * @param layerId the layer to be moved
    */
-  this.moveLayerUp = function(objRef, layerName) {
-    var movedNode = objRef.getLayer(layerName);
+  this.moveLayerUp = function(objRef, layerId) {
+    var movedNode = objRef.getLayer(layerId);
     var sibNode = movedNode.selectSingleNode("following-sibling::*");
     if (!sibNode) {
-      alert(mbGetMessage("cantMoveUp", layerName));
+      alert(mbGetMessage("cantMoveUp", layerId));
       return;
     }
     movedNode.parentNode.insertBefore(sibNode,movedNode);
@@ -425,14 +426,14 @@ function OwsContext(modelNode, parent) {
 
   /**
    * Method to move a Layer in the LayerList down
-   * @param layerName the layer to be moved
+   * @param layerId the layer to be moved
    */
-  this.moveLayerDown = function(objRef, layerName) {
-    var movedNode = objRef.getLayer(layerName);
+  this.moveLayerDown = function(objRef, layerId) {
+    var movedNode = objRef.getLayer(layerId);
     var listNodeArray = movedNode.selectNodes("preceding-sibling::*");  //preceding-sibling axis contains all previous siblings
     var sibNode = listNodeArray[listNodeArray.length-1];
     if (!sibNode) {
-      alert(mbGetMessage("cantMoveDown", layerName));
+      alert(mbGetMessage("cantMoveDown", layerId));
       return;
     }
     movedNode.parentNode.insertBefore(movedNode,sibNode);
@@ -446,13 +447,13 @@ function OwsContext(modelNode, parent) {
    * @return none
    */
   this.loadLayerStart = function(event) {
-    // Fetch layerName from model using the ID of the OL Layer
+    // Fetch layerId from model using the ID of the OL Layer
     // Necessary to provide a connection between the OL Layer
-    layerName = this.model.getParam(event.object.id);
+    layerId = this.model.getParam(event.object.id);
 
-    //if (console && console.info) console.info('Start loading layer: ' + layerName);
+    //if (console && console.info) console.info('Start loading layer: ' + layerId);
 
-    this.model.callListeners("loadLayerStart", layerName);
+    this.model.callListeners("loadLayerStart", layerId);
   }
 
 
@@ -462,13 +463,13 @@ function OwsContext(modelNode, parent) {
    * @return none
    */
   this.loadLayerEnd = function(event) {
-    // Fetch layerName from model using the ID of the OL Layer
-    layerName = config.objects.mainMap.getParam(event.object.id);
+    // Fetch layerId from model using the ID of the OL Layer
+    layerId = config.objects.mainMap.getParam(event.object.id);
 
-    //if (console && console.info) console.info('Stop loading layer: ' + layerName);
+    //if (console && console.info) console.info('Stop loading layer: ' + layerId);
 
     // Tell the listeners that the layer has finished loading
-    this.model.callListeners("loadLayerEnd", layerName);
+    this.model.callListeners("loadLayerEnd", layerId);
   }
 
 
@@ -496,33 +497,6 @@ function OwsContext(modelNode, parent) {
     return this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Extension");
   }
   
-// PL -BRGM	  
-  /**
-   * Change a Layer's opacity
-   * @param layerName  The name of the layer that is to be changed
-   * @param Opacity     Value of the opacity
-   */
-  this.setOpacity=function(layerName, Opacity){
-    // Set the hidden attribute in the Context
-          
-    var layer=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
-    if (layer) layer.setAttribute("opacity", Opacity);
-    // Call the listeners
-    this.callListeners("opacity", layerName);
-  }
-  
-  /**
-   * Get the layer's opacity attribute value.
-   * @param layerName  The name of the layer that is to be changed
-   * @return hidden  String with the value; 1=hidden, 0=visible.
-   */
-  this.getOpacity=function(layerName){
-    var opacity=1;
-    var layer=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
-    if (layer) opacity = layer.getAttribute("opacity");
-    return opacity;
-  }
-  // PL -END
   /**
    * Parses a Dimension element from the Context document as a loadModel listener.
    * This results in an XML structure with one element for each GetMap time value
@@ -588,29 +562,28 @@ function OwsContext(modelNode, parent) {
     return this.timestampList.childNodes[index].firstChild.nodeValue;
   }
 
-  // PL -BRGM
+// PL -BRGM	  
   /**
    * Change a Layer's opacity
-   * @param layerName  The name of the layer that is to be changed
+   * @param layerId  The name of the layer that is to be changed
    * @param Opacity     Value of the opacity
    */
-  this.setOpacity=function(layerName, Opacity){
+  this.setOpacity=function(layerId, Opacity){
     // Set the hidden attribute in the Context
-
-    var layer=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
+    var layer = this.doc.getLayer(layerId);
     if (layer) layer.setAttribute("opacity", Opacity);
     // Call the listeners
-    this.callListeners("opacity", layerName);
+    this.callListeners("opacity", layerId);
   }
-
+  
   /**
    * Get the layer's opacity attribute value.
-   * @param layerName  The name of the layer that is to be changed
+   * @param layerId  The name of the layer that is to be changed
    * @return hidden  String with the value; 1=hidden, 0=visible.
    */
-  this.getOpacity=function(layerName){
+  this.getOpacity=function(layerId){
     var opacity=1;
-    var layer=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
+    var layer = this.doc.getLayer(layerId);
     if (layer) opacity = layer.getAttribute("opacity");
     return opacity;
   }
