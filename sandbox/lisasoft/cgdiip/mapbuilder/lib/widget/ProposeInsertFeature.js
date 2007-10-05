@@ -90,6 +90,9 @@ function ProposeInsertFeature(widgetNode, model) {
         //mvivian: Will always be inserting proposed changes
         s=objRef.insertXsl.transformNodeToObject(s);
         
+        
+        //prompt("hi",(new XMLSerializer()).serializeToString(s));  //This is For testing
+        
         objRef.httpPayload.postData=s;
         objRef.transactionResponseModel.transactionType="insert";
         objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
@@ -224,8 +227,9 @@ function ProposeInsertFeature(widgetNode, model) {
 	if (hour <= 9) hour = "0" + hour;
 	if (minute <= 9) minute = "0" + minute;
 	if (second <= 9) second = "0" + second;
-	time = year + "-" + month + "-" + day + "T"
-	+ hour + ":" + minute + ":" + second + timezone;
+	//TODO REMOVE THIS HACK  
+	// time = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + timezone;
+	time = year + "-" + month + "-" + day + "T" + hourUTC + ":" + minuteUTC + ":" + second;
 	return time;
   }
 }
