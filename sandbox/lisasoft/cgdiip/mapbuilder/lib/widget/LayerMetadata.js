@@ -45,7 +45,7 @@ function LayerMetadata(widgetNode, model) {
     metadataDomElement.style.display = "block";
 
     // debug info. TBD: remove
-    if (console && console.info) console.info((new XMLSerializer()).serializeToString(layerNode));
+    //console.info((new XMLSerializer()).serializeToString(layerNode));
 
   }
 
