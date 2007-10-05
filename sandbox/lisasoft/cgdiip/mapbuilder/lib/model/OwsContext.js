@@ -349,8 +349,8 @@ function OwsContext(modelNode, parent) {
    * @param layerNode the Layer node from another context doc or capabiltiies doc
    */
   this.addLayer = function(objRef, layerNode) {
-console.info('OWSContext init');
-console.debug(layerNode);
+    //console.info('OWSContext init');
+    //console.debug(layerNode);
    if( objRef.doc != null ) {
       var parentNode = objRef.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList");
 
@@ -450,7 +450,7 @@ console.debug(layerNode);
     // Necessary to provide a connection between the OL Layer
     layerName = this.model.getParam(event.object.id);
 
-    if (console && console.info) console.info('Start loading layer: ' + layerName);
+    //if (console && console.info) console.info('Start loading layer: ' + layerName);
 
     this.model.callListeners("loadLayerStart", layerName);
   }
@@ -465,7 +465,7 @@ console.debug(layerNode);
     // Fetch layerName from model using the ID of the OL Layer
     layerName = config.objects.mainMap.getParam(event.object.id);
 
-    if (console && console.info) console.info('Stop loading layer: ' + layerName);
+    //if (console && console.info) console.info('Stop loading layer: ' + layerName);
 
     // Tell the listeners that the layer has finished loading
     this.model.callListeners("loadLayerEnd", layerName);
