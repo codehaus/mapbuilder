@@ -33,7 +33,7 @@ version="1.0">
 					<id></id>
 					<updated></updated>
 					<summary>Delete me as you please or just ignore me</summary>
-					<content></content>
+					<content>This is a HACK. content is not ment to be required but it is</content>
 					<georss:where>
 						<gml:Point>
 							<gml:pos></gml:pos>
