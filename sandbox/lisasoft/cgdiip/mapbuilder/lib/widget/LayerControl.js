@@ -69,7 +69,7 @@ function LayerControl(widgetNode, model) {
    */
   this.refresh = function(objRef, layerName) {
     //config.objects.layerLoading.paint(config.objects.layerLoading); // to activate the loading bar
-    console.debug(objRef);
+    //console.debug(objRef);
     objRef.paint(objRef, objRef.id);
   }
 

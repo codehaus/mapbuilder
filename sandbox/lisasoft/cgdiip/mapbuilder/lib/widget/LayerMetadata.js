@@ -20,8 +20,9 @@ function LayerMetadata(widgetNode, model) {
 
   /**
    * Toggles the visibility of a layer's metadata
-   * @param objRef Pointer to this CurorTrack object.
-   * @param objRef Pointer to this CurorTrack object.
+   * @param layerNode Dom element containing the OWS layer 
+   * @param metadataDomElement Pointer the Dom element where the metadata should
+   *                           be shown
    */
   this.paint = function(layerNode, metadataDomElement) {
 
@@ -42,6 +43,9 @@ function LayerMetadata(widgetNode, model) {
 
     // make it visible 
     metadataDomElement.style.display = "block";
+
+    // debug info. TBD: remove
+    if (console && console.info) console.info((new XMLSerializer()).serializeToString(layerNode));
 
   }
 

@@ -62,6 +62,6 @@ function SelectLayerFromContext(widgetNode, model) {
 
     // Call the metadata widget with the layer node and the metadata Dom Element
     metadataWidget.paint(layerNode, metadataDomElement);
-
+ 
   }
 }

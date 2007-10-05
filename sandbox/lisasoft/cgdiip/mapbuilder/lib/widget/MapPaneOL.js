@@ -390,8 +390,9 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   // OpenLayers doesn't contain information about projection, so if the
   // baseLayer projection is not standard lat/long, it needs to know
   // maxExtent and maxResolution to calculate the zoomLevels.
-  console.info('MapPaneOL addLayer');
-  console.debug(layerNode);
+  
+  //console.info('MapPaneOL addLayer');
+  //console.debug(layerNode);
   var layer = layerNode;
 
   // Test service of the layer
@@ -592,7 +593,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       if (maxFeatures) {
         objRef.oLlayers[name2].mergeNewParams({MAXFEATURES: maxFeatures});
       }
-      console.debug(objRef.oLlayers[name2]);
+      //console.debug(objRef.oLlayers[name2]);
     break;
 
     // GML Layer
@@ -686,7 +687,7 @@ MapPaneOL.prototype.getWebSafeStyle = function(objRef, colorNumber) {
    * @param layerName  The name of the layer that was toggled.
    */
 MapPaneOL.prototype.refreshLayer = function(objRef, layerName , newParams){
-  console.info('refreshLayer called' + layerName);
+  //console.info('refreshLayer called' + layerName);
   newParams['random'] = Math.random(); //necessary for see change in certain case
   if (objRef.getLayer(objRef,layerName)) {
     objRef.getLayer(objRef,layerName).mergeNewParams(newParams);
