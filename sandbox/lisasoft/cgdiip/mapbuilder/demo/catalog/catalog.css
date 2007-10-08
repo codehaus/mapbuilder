@@ -56,6 +56,48 @@ table.metadata td {
  * LayerControl
  */
 
+.nameLayerService {
+  display: block;
+  float: left;
+  position: relative;
+  width: 60px;
+}
+
+.nameLayerHeader {
+  display: block;
+  width: 250px;;
+  text-align: left;
+  position:absolute;
+  top:10px;
+  left:180px;
+}
+
+
+.inputLayerHeader
+{
+    display:inline;
+    position:absolute;
+}
+
+.layerControl {
+  margin-left: 10px;
+  width: 460px;
+  overflow: auto;
+  max-height: 285px;
+}
+
+.searchResults {
+  position: relative;
+  top: -200px;
+  left: 412px;
+  max-height: 400px;
+}
+
+#workspace h3  {
+  overflow: none;
+  padding-left: 15px;
+}
+
 /*
  * MaxFeatures
  */
@@ -69,21 +111,14 @@ table.metadata td {
   font-size: 9px;
 }
 
-.layerControl {
-  width: 450px;
+/*
+ * Workspace
+ */
+
+/* fix horizontal scrollbar in layer control */
+#workspace h2,h3
+{
+  padding: 0px;
 }
 
-.inputLayerHeader
-{
-    display:inline;
-    position:absolute;
-    left:15px;
-}
-
-.nameLayerHeader
-{
-    position:absolute;
-    top:10px;
-    left:180px;
-}
 

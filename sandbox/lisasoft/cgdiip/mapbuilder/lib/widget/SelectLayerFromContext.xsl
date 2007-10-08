@@ -28,22 +28,24 @@ Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html
 
   <!-- Main html: Match OWS Context -->
   <xsl:template match="/wmc:OWSContext">
-    <div class="layerControl">
-    <h3>Search Results</h3>
-      <xsl:if test="wmc:General/wmc:Extension">
-        <xsl:apply-templates
-          select="wmc:General/wmc:Extension/wmc:GroupList/wmc:Group">
-          <xsl:sort select="position()" order="ascending"
-            data-type="number" />
-        </xsl:apply-templates>
-      </xsl:if>
-      <xsl:if test="not(wmc:General/wmc:Extension)">
-        <xsl:apply-templates
-          select="wmc:ResourceList/wmc:Layer | wmc:ResourceList/wmc:FeatureType">
-          <xsl:sort select="position()" order="descending"
-            data-type="number" />
-        </xsl:apply-templates>
-      </xsl:if>
+    <div class="searchResults">
+      <h3>Search Results</h3>
+      <div class="layerControl">
+        <xsl:if test="wmc:General/wmc:Extension">
+          <xsl:apply-templates
+            select="wmc:General/wmc:Extension/wmc:GroupList/wmc:Group">
+            <xsl:sort select="position()" order="ascending"
+              data-type="number" />
+          </xsl:apply-templates>
+        </xsl:if>
+        <xsl:if test="not(wmc:General/wmc:Extension)">
+          <xsl:apply-templates
+            select="wmc:ResourceList/wmc:Layer | wmc:ResourceList/wmc:FeatureType">
+            <xsl:sort select="position()" order="descending"
+              data-type="number" />
+          </xsl:apply-templates>
+        </xsl:if>
+      </div>
     </div>
   </xsl:template>
   
@@ -101,6 +103,10 @@ Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html
           <!-- name of layer -->
           <div class="nameLayerHeader" style="display:block"
             onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerId}', '{$widgetId}_{$pos}_Metadata')">
+            <div class="nameLayerService" >
+              <xsl:value-of select="wmc:Server/@service"/>
+            </div>
+
            <xsl:value-of select="$name_layer"/>
           </div>
 

@@ -79,18 +79,20 @@ $Name:  $
   
   <!-- Main html -->
  <xsl:template match="/wmc:OWSContext">
-		<div class="layerControl">
+    <div>
       <h3>Layer Control</h3>
-		   <xsl:if test="wmc:General/wmc:Extension"> 
-		      <xsl:apply-templates select="wmc:General/wmc:Extension/wmc:GroupList/wmc:Group">
-				<xsl:sort select="position()" order="ascending" data-type="number"/>
-			  </xsl:apply-templates>
-		   </xsl:if>
-		   <xsl:if test="not(wmc:General/wmc:Extension)"> 
-			  <xsl:apply-templates select="wmc:ResourceList/wmc:Layer | wmc:ResourceList/wmc:FeatureType">
-				<xsl:sort select="position()" order="descending" data-type="number"/>
-			  </xsl:apply-templates>
-		    </xsl:if> 	
+      <div class="layerControl">
+         <xsl:if test="wmc:General/wmc:Extension"> 
+            <xsl:apply-templates select="wmc:General/wmc:Extension/wmc:GroupList/wmc:Group">
+          <xsl:sort select="position()" order="ascending" data-type="number"/>
+          </xsl:apply-templates>
+         </xsl:if>
+         <xsl:if test="not(wmc:General/wmc:Extension)"> 
+          <xsl:apply-templates select="wmc:ResourceList/wmc:Layer | wmc:ResourceList/wmc:FeatureType">
+          <xsl:sort select="position()" order="descending" data-type="number"/>
+          </xsl:apply-templates>
+          </xsl:if> 	
+      </div>
 		</div>
 </xsl:template>
   
@@ -295,6 +297,9 @@ $Name:  $
 							</div> <!-- end inputLayerHeader --> 	 
 						    <!-- name of layer --> 
 						    <div class="nameLayerHeader" title="{$nameLayerTip}" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerId}', '{$widgetId}_{$pos}_Metadata')">
+                  <div class="nameLayerService" >
+                    <xsl:value-of select="wmc:Server/@service"/>
+                  </div>
                   <xsl:value-of select="$name_layer"/>
 						    </div>
 					        <!-- opacity -->  
