@@ -24,10 +24,6 @@
         <LayerMaxFeatures id="layerMaxFeatures">
           <maxFeatures>2</maxFeatures>
         </LayerMaxFeatures>
-        <ModelPopup id="modelPopup">
-          <htmlTagId>contextPopup</htmlTagId>
-          <title2>View Context</title2>
-        </ModelPopup>
         <LayerMetadata id="layerMetadata">
           <htmlTagId>layerMetadata</htmlTagId>
         </LayerMetadata>
@@ -164,13 +160,13 @@
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
     </Reset>
-    <Save id="save">
+    <SaveContext id="saveContext">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <class>Button</class>
       <disabledSrc>/images/SaveDisable.png</disabledSrc>
-      <popupWindowName>modelXML</popupWindowName>
-    </Save>
+      <tooltip>Save OWS Context</tooltip>
+    </SaveContext>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
 </MapbuilderConfig>
