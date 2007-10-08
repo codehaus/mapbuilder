@@ -252,7 +252,7 @@ $Name:  $
                     <xsl:choose>
                       <xsl:when test="@maxFeatures">
 										    <img title="Unrestrict maximum amount of features" src="{$skinDir}{$limitImageEnable}" />
-                        <div class="maxFeaturesText"><xsl:value-of select="@maxFeatures"/></div>
+                        <div class="maxFeaturesText" title="Unrestrict maximum amount of features"><xsl:value-of select="@maxFeatures"/></div>
                       </xsl:when>
                       <xsl:otherwise>
 										    <img title="Restrict maximum amount of features" src="{$skinDir}{$limitImageDisable}" />
