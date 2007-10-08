@@ -31,25 +31,34 @@ function LayerControl(widgetNode, model) {
   }
 
   /**
-   * Adds a widget to the list of tabs (TBD: not yet working/tested)
-   * @param widget the widget to be added to the list of tabs
-   * @param order  the order within the tabs
+   * Hide loading spinner when layer stops loading
+   * @param ojbRef Pointer the calling object
+   * @param layerId Id of the layer
    */
-  this.addWidget = function(tabWidget,tabLabel) {
-    this.tabList.push(tabWidget);
-
-    if (!tabLabel) tabLabel = tabWidget.id;
-    var textNode = config.widgetText.selectSingleNode(this.textNodeXpath+"/mb:"+tabWidget.id);
-    if (textNode) tabLabel = textNode.firstChild.nodeValue;
-
-    var tabNode = this.model.doc.createElementNS(mbNS,"tab");
-    tabNode.appendChild(this.model.doc.createTextNode(tabWidget.id));
-    tabNode.setAttribute("label",tabLabel);
-    this.widgetNode.appendChild(tabNode);
-
-    this.paint(this);
-    this.selectTab(tabWidget);
+  this.loadLayerStart = function(objRef, layerId) {
+    //console.info('LayerLoading Show: ' + layerId);
+    layerNode = objRef.model.getLayer(layerId);
+    if (layerNode) {
+      layerNode.setAttribute("isLoading", true);
+      objRef.refresh(objRef, layerId);
+    }
   }
+  this.model.addListener("loadLayerStart",this.loadLayerStart, this);
+  
+  /**
+   * Show loading spinner when layer starts loading
+   * @param ojbRef Pointer the calling object
+   * @param layerId Id of the layer
+   */
+  this.loadLayerEnd = function(objRef, layerId) {
+    //console.info('LayerLoading Hide: ' + layerId);
+    layerNode = objRef.model.getLayer(layerId);
+    if (layerNode) {
+      layerNode.setAttribute("isLoading", false);
+      objRef.refresh(objRef, layerId);
+    }
+  }
+  this.model.addListener("loadLayerEnd",this.loadLayerEnd, this);
 
 
   /**

@@ -35,6 +35,7 @@ $Name:  $
   <xsl:param name="limitImageDisable"/>
   <xsl:param name="saveImageEnable"/>
   <xsl:param name="saveImageDisable"/>
+  <xsl:param name="loadingImage"/>
    <xsl:param name="opacity"/>
   
   <!-- Text params for this widget -->
@@ -325,7 +326,11 @@ $Name:  $
 
 					</div> <!--end of {$layerId}_Header -->	
 
-         <div id="{$layerId}_Loading"><!-- <xsl:value-of select="concat($modelId,'_',$layerId,'_Loading')"/> --></div>
+         <div id="{$layerId}_Loading" class="layerLoading">
+         <xsl:if test="@isLoading = 'true'">
+           <img title="This layer is being loaded" src="{$skinDir}{$loadingImage}" />
+         </xsl:if>
+         </div>
 
           <!-- metadata -->
           <div id="{$widgetId}_{$pos}_Metadata" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerId}', '{$widgetId}_{$pos}_Metadata');"></div>
