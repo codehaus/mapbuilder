@@ -105,6 +105,11 @@ table.metadata td {
   height: 17px;
   width: 17px;
 }
+
+.loadingIndicator {
+  background-color: transparent;
+}
+
 .searchResults {
   position: absolute;
   left: 420px;
