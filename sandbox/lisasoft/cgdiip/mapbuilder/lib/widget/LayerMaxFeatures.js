@@ -22,36 +22,6 @@ function LayerMaxFeatures(widgetNode, model) {
     this.model.setParam('maxFeatures', widgetNode.selectSingleNode("mb:maxFeatures").firstChild.nodeValue);
   }
 
-  /**
-   * Adds a widget to a layer for limiting the features of a layer
-   * @param 
-   * @param 
-   */
-  this.paint = function(layerNode, metadataDomElement) {
-
-    // If clicked and metadata was visible, hide it and do nothing
-    if ((metadataDomElement.style.display != "none") && (metadataDomElement.innerHTML != "")) { 
-      metadataDomElement.style.display = "none";
-      return false;
-    }
-
-    // add the layerNode as a parameter to the XSL
-    this.stylesheet.setParameter("layerNode", layerNode);
-
-    // create meta HTML
-    var metadataHtml = this.stylesheet.transformNodeToString(this.model.doc);
-
-    // insert the metadata HTML in the designated Dom Element 
-    metadataDomElement.innerHTML = metadataHtml;
-
-    // make it visible 
-    metadataDomElement.style.display = "block";
-
-    // debug info. TBD: remove
-    //if (console && console.info) console.info((new XMLSerializer()).serializeToString(layerNode));
-
-  }
-
   /*
    * Checks whether a FeatureType should get the maxFeatures attribute 
    */
@@ -61,7 +31,13 @@ function LayerMaxFeatures(widgetNode, model) {
 
     // Only set maxFeatures for a layer if it not already had a maxFeatures attribute
     if (!layerNode.hasAttribute("maxFeatures")) {
-      objRef.setLayerMaxFeatures(layerNode);
+      layerId = layerNode.selectSingleNode("@id").firstChild.nodeValue;
+
+      // Failback mechanism to layer name
+      if (!layerId) {
+        layerId = layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue;
+      }
+      objRef.setLayerMaxFeatures(layerId);
     }
   }
   this.model.addFirstListener( "addLayer", this.initLayer, this ); // make sure this is called before other listeners
@@ -69,7 +45,7 @@ function LayerMaxFeatures(widgetNode, model) {
   /*
    * Sets the maxFeatures attribute of a layer
    */
-  LayerMaxFeatures.prototype.setLayerMaxFeatures = function (layerNode, maxFeatures) {
+  LayerMaxFeatures.prototype.setLayerMaxFeatures = function (layerId, maxFeatures) {
     // Check if maxFeatures parameter has been fed to this function
     // If not: fetch it from the model
     if (!maxFeatures) {
@@ -77,14 +53,16 @@ function LayerMaxFeatures(widgetNode, model) {
       maxFeatures = this.model.getParam('maxFeatures');
     }
     
+    layerNode = this.model.getLayer(layerId);
+    if (!layerNode) return false;
+
     // Only set maxFeatures for WFS layers: FeatureType
     if (layerNode.nodeName == "FeatureType" || layerNode.nodeName == "wmc:FeatureType") {
       layerNode.setAttribute("maxFeatures", maxFeatures);
-      //this.model.callListeners("refreshLayer", layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue, ["MAXFEATURES", maxFeatures]);
-      layerName = layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue;
-    //console.info('MaxFeatures set maxFeatures: ' + layerName + " (" + layerNode.nodeName + ")");
 
-      this.model.map.mbMapPane.refreshLayer(this.model.map.mbMapPane, layerName,{ MAXFEATURES: maxFeatures });
+      //console.info('MaxFeatures set maxFeatures: ' + layerId + " (" + layerNode.nodeName + ")");
+
+      this.model.map.mbMapPane.refreshLayer(this.model.map.mbMapPane, layerId,{ MAXFEATURES: maxFeatures });
       this.model.callListeners("refresh");
     }
   }
@@ -92,22 +70,24 @@ function LayerMaxFeatures(widgetNode, model) {
   /*
    * Removes the maxFeatures attribute of a layer
    */
-  LayerMaxFeatures.prototype.removeLayerMaxFeatures = function (layerNode) {
+  LayerMaxFeatures.prototype.removeLayerMaxFeatures = function (layerId) {
+
+    layerNode = this.model.getLayer(layerId);
+    if (!layerNode) return false;
+
     // Only set maxFeatures for WFS layers: FeatureType
     if (layerNode && layerNode.hasAttribute("maxFeatures")) { 
       layerNode.removeAttribute("maxFeatures");
-      layerName = layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue;
 
-    //console.info('MaxFeatures remove maxFeatures: ' + layerName);
+      //console.info('MaxFeatures remove maxFeatures: ' + layerId);
 
       // hard call to OL Map Pane
-      this.model.map.mbMapPane.refreshLayer(this.model.map.mbMapPane, layerName, { MAXFEATURES: null });
-      this.model.callListeners("refresh");
+      this.model.map.mbMapPane.refreshLayer(this.model.map.mbMapPane, layerId, { MAXFEATURES: null });
+      this.model.callListeners("reload");
     }
   }
 
   LayerMaxFeatures.prototype.refresh = function (objRef, layerNode) {
-    //console.info('MaxFeatures refresh');
 
   }
   this.model.addListener( "refresh", this.refresh, this );
@@ -118,16 +98,13 @@ function LayerMaxFeatures(widgetNode, model) {
   LayerMaxFeatures.prototype.toggle = function (layerId) {
     //console.info('MaxFeatures toggle: ' + layerId);
 
-    // Find the layerNode in the model
     layerNode = this.model.getLayer(layerId);
-
-    // Exit if layerNode cannot be found
     if (!layerNode) return false;
 
     if (layerNode.hasAttribute("maxFeatures")) {
-      this.removeLayerMaxFeatures(layerNode);
+      this.removeLayerMaxFeatures(layerId);
     } else {
-      this.setLayerMaxFeatures(layerNode);
+      this.setLayerMaxFeatures(layerId);
     }
 
     //console.debug(layerNode);
