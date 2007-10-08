@@ -144,4 +144,6 @@ table.metadata td {
   padding: 0px;
 }
 
-
+.searchInput {
+  width: 95px;
+}
