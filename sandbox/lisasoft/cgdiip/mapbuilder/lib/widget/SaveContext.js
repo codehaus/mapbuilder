@@ -34,15 +34,16 @@ function SaveContext(widgetNode, model) {
       trigger: function () {
         var s=(new XMLSerializer()).serializeToString(objRef.model.doc);
         s=
-          "<html><title>"
-          +"Context"
-          +"</title><body>"
-          +Sarissa.escape(s)
-          +"</body></html>"
+            "<html><title>"
+            +"Context"
+            +"</title><body>"
+            +Sarissa.escape(s)
+            +"</body></html>"
         // Insert break after each tag
         s=s.replace(/&gt;/g, "&gt;<br/>")
         var popup=window.open();
         popup.document.write(s);
+        return false;
 
        },
        CLASS_NAME: 'mbControl.Save'
