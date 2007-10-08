@@ -37,7 +37,7 @@ $Id: build.xml 2955 2007-07-09 12:12:27Z steven $
      from which Ant executes the requested task.  This is normally
      set to the current working directory.
 -->
-  <project basedir="." default="deploy-tomcat" name="cscs">
+  <project basedir=".." default="deploy-tomcat" name="cscs">
 
 <!-- ===================== Property Definitions =========================== -->
 <!--
@@ -113,7 +113,6 @@ $Id: build.xml 2955 2007-07-09 12:12:27Z steven $
   <property name="app.path" value="/${app.name}"/>
   <property name="catalina.home" value="${env.CATALINA_HOME}"/> <!-- ensure you have this environment var set -->
   <property name="build.home" value="${basedir}/tempBuild"/>
-  <property name="version.file" value="${basedir}/Version.xsl"/>
   <property name="compress.home" value="${basedir}/compressBuild"/>
   <property name="deploy.home" value="${catalina.home}/webapps/${app.name}"/>
   <property name="dist.home" value="${basedir}/dist"/>
@@ -161,7 +160,7 @@ $Id: build.xml 2955 2007-07-09 12:12:27Z steven $
     <mkdir dir="${build.home}"/>
     <!-- Copy static content of the mapbuilder project  -->
     <copy todir="${build.home}">
-      <fileset dir="${basedir}" excludes="build/**"/>
+      <fileset dir="${basedir}" excludes="tempBuild/**"/>
     </copy>
   </target>
 

@@ -25,8 +25,6 @@ $Id: Proj.js 2956 2007-07-09 12:17:52Z steven $
  * A projection object has properties for units and title strings.
  * All coordinates are handled as points which is a 2 element array where x is
  * the first element and y is the second.
- * For the forward() method pass in lat/lon and it returns map XY.
- * For the inverse() method pass in map XY and it returns lat/long.
  * For the transform() method pass in mapXY and a destination projection object
  * and it returns a map XY coordinate in the other projection
  */
@@ -224,7 +222,7 @@ Proj4js = {
       var options = {
         method: 'get',
         asynchronous: false,          //need to wait until defs are loaded before proceeding
-        onSuccess: this.defsLoaded.bind(this,proj.srsCode)
+        onSuccess: this.defsLoadedFromDisk.bind(this,proj.srsCode)
       }
       
       //else check for def on the server
@@ -234,6 +232,7 @@ Proj4js = {
 
       //else load from web service via AJAX request
       var url = this.proxyScript + this.defsLookupService +'/' + proj.srsAuth +'/'+ proj.srsProjNumber + '/proj4';
+      options.onSuccess = this.defsLoadedFromService.bind(this,proj.srsCode)
       options.onFailure = this.defsFailed.bind(this,proj.srsCode);
       new OpenLayers.Ajax.Request(url, options);
       if ( this.defs[proj.srsCode] ) return this.defs[proj.srsCode];
@@ -241,7 +240,11 @@ Proj4js = {
       return null;    //an error if it gets here
     },
 
-    defsLoaded: function(srsCode, transport) {
+    defsLoadedFromDisk: function(srsCode, transport) {
+      eval(transport.responseText);
+    },
+
+    defsLoadedFromService: function(srsCode, transport) {
       this.defs[srsCode] = transport.responseText;
     },
 
