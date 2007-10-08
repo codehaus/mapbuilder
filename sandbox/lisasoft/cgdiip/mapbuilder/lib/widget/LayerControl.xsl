@@ -326,15 +326,15 @@ $Name:  $
 
 					</div> <!--end of {$layerId}_Header -->	
 
+          <!-- metadata -->
+          <div id="{$widgetId}_{$pos}_Metadata" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerId}', '{$widgetId}_{$pos}_Metadata');"></div>
+          
          <div id="{$layerId}_Loading" class="layerLoading">
          <xsl:if test="@isLoading = 'true'">
            <img title="This layer is being loaded" src="{$skinDir}{$loadingImage}" />
          </xsl:if>
          </div>
 
-          <!-- metadata -->
-          <div id="{$widgetId}_{$pos}_Metadata" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerId}', '{$widgetId}_{$pos}_Metadata');"></div>
-          
 				</div>	<!--end of hack ie 5.5 -->	
 				<!-- legend -->
 			    <xsl:if test="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL"> 
