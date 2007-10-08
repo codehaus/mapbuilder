@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <link href="base.css" type="text/css" rel="stylesheet"/>
+  <title>Proj4js Test Page</title>
+  <script src="../OLprototype.js"></script>
+  <script src="../proj4js.js"></script>
+  <!--script src="../lib/projCode/gauss.js"></script>
+  <script src="../lib/projCode/sterea.js"></script-->
+  <script src="testdata.js"></script>
+  <script type="text/javascript">
+    Proj4js.proxyScript = '/mapbuilder/proxy?url=';
+    function runTests() {
+      var xyEPSLN = 1.0e-2;
+      var llEPSLN = 1.0e-6;
+      var testTable = document.getElementById('testResult');
+      for (var i=0; i < Proj4js.testPoints.length; ++i) {
+        var row = document.createElement('tr');
+        var test = Proj4js.testPoints[i];
+        var proj = new Proj4js.Proj(test.code);
+        
+        var td = document.createElement('td');
+        td.innerHTML = test.code;
+        row.appendChild(td);
+        var td = document.createElement('td');
+        td.innerHTML = proj.projName;
+        row.appendChild(td);
+        
+        var xyResult = Proj4js.transform(Proj4js.WGS84, proj, new Proj4js.Point(test.ll[0],test.ll[1]));
+        var deltaX = Math.abs(xyResult.x - test.xy[0]);
+        var deltaY = Math.abs(xyResult.y - test.xy[1]);
+        td = document.createElement('td');
+        td.innerHTML = "dx:"+deltaX+ " dy:"+deltaY;
+        if ( deltaX>xyEPSLN || deltaY>xyEPSLN ) td.style.backgroundColor='red';
+        row.appendChild(td);
+        
+        var llResult = Proj4js.transform(proj, Proj4js.WGS84, new Proj4js.Point(test.xy[0],test.xy[1]));
+        var deltaX = Math.abs(llResult.x - test.ll[0]);
+        var deltaY = Math.abs(llResult.y - test.ll[1]);
+        td = document.createElement('td');
+        td.innerHTML = "dx:"+deltaX+ " dy:"+deltaY;
+        if ( deltaX>llEPSLN || deltaY>llEPSLN ) td.style.backgroundColor='red';
+        row.appendChild(td);
+        
+        testTable.tBodies[0].appendChild(row);
+      }
+    }
+
+
+    
+  </script>
+
+</head>
+
+<body onload="runTests()">
+  <div id="header">
+    <h1>Proj4js test page</h1>
+  </div>
+  <div id="navbar">
+    <a href="http://svn.codehaus.org/mapbuilder/cscs">Proj4js</a> | 
+    <a href="http://communitymapbuilder.org/">MapBuilder</a> | 
+    <a href="http://openlayers.org/">OpenLayers</a> | 
+    <a href="http://spatialreference.org/">spatialreference.org</a> 
+    <a href="./staticLoad.html">static loading of all proj code</a> 
+  </div>
+  <table id="testResult" border="1">
+      <tr>
+        <th>projection</th>
+        <th>class</th>
+        <th>forward</th>
+        <th>inverse</th>
+      </tr>
+    </tr>
+  </table>
+</body>
+</html>
