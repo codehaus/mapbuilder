@@ -96,6 +96,15 @@ table.metadata td {
   max-height: 285px;
 }
 
+.layerLoading {
+  display: block;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  padding: 7px;
+  height: 17px;
+  width: 17px;
+}
 .searchResults {
   position: absolute;
   left: 420px;

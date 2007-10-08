@@ -20,9 +20,10 @@
           <limitImageDisable>/images/LimitDisable.png</limitImageDisable>
           <saveImageEnable>/images/SaveEnable.png</saveImageEnable>
           <saveImageDisable>/images/SaveDisable.png</saveImageDisable>
+          <loadingImage>/images/LoadingSpinner.gif</loadingImage>
         </LayerControl>
         <LayerMaxFeatures id="layerMaxFeatures">
-          <maxFeatures>2</maxFeatures>
+          <maxFeatures>5</maxFeatures>
         </LayerMaxFeatures>
         <LayerMetadata id="layerMetadata">
           <htmlTagId>layerMetadata</htmlTagId>
