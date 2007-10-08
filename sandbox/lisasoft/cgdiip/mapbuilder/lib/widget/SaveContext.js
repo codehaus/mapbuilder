@@ -32,7 +32,7 @@ function SaveContext(widgetNode, model) {
       type: OpenLayers.Control.TYPE_BUTTON,
       
       trigger: function () {
-        var s=(new XMLSerializer()).serializeToString(objRef.model.doc);
+        var s=(new XMLSerializer()).serializeToString(objRef.targetModel.doc);
         s=
             "<html><title>"
             +"Context"
