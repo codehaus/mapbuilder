@@ -6,6 +6,9 @@ $Id: $
 // Ensure this object's dependencies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 
+// For customised searching/loading indication
+httpStatusMsg = ['uninitialized','searching','loaded','building results list','completed'];
+
 /**
  * Display a Catalog Search form.
  * @constructor
