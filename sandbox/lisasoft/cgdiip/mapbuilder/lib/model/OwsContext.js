@@ -389,7 +389,7 @@ function OwsContext(modelNode, parent) {
     objRef.modified = true;
       var attribs=[];
     attribs["sld_body"]=(new XMLSerializer()).serializeToString(objRef.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']/wmc:StyleList/wmc:Style/wmc:SLD/wmc:StyledLayerDescriptor"));
-	objRef.map.mbMapPane.refreshLayer(objRef.map.mbMapPane,layerName,attribs);
+    objRef.map.mbMapPane.refreshLayer(objRef.map.mbMapPane,layerName,attribs);
   }
   this.addFirstListener( "addSLD", this.addSLD, this );
 
@@ -562,7 +562,7 @@ function OwsContext(modelNode, parent) {
     return this.timestampList.childNodes[index].firstChild.nodeValue;
   }
 
-// PL -BRGM	  
+// PL -BRGM    
   /**
    * Change a Layer's opacity
    * @param layerId  The name of the layer that is to be changed
