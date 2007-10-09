@@ -330,7 +330,7 @@ $Name:  $
           <div id="{$widgetId}_{$pos}_Metadata" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerId}', '{$widgetId}_{$pos}_Metadata');"></div>
           
          <div id="{$layerId}_Loading" class="layerLoading">
-         <xsl:if test="@isLoading = 'true'">
+         <xsl:if test="(@isLoading = 'true') and (@hidden='0' or @hidden='false')">
            <img title="This layer is being loaded" src="{$skinDir}{$loadingImage}" />
          </xsl:if>
          </div>
