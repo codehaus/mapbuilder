@@ -696,11 +696,14 @@ MapPaneOL.prototype.getWebSafeStyle = function(objRef, colorNumber) {
    * @param layerId  The id of the layer that was toggled.
    */
 MapPaneOL.prototype.refreshLayer = function(objRef, layerId , newParams){
-  //console.info('refreshLayer called' + layerId);
+  //console.info('refreshLayer called: ' + layerId);
   newParams['random'] = Math.random(); //necessary for see change in certain case
-  if (objRef.getLayer(objRef,layerId)) {
-    objRef.getLayer(objRef,layerId).mergeNewParams(newParams);
+
+  olLayer = objRef.getLayer(objRef,layerId);
+  if (!olLayer) {
+    return false;
   }
+  olLayer.mergeNewParams(newParams);
 }
   
 /**
