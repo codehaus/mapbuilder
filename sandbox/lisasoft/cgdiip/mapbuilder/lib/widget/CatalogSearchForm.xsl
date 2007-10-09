@@ -97,14 +97,14 @@ $Name:  $
   <xsl:template name="aoiBox">
       <table>
         <tr>
-          <td><xsl:value-of select="$north"/></td>
+          <td><xsl:value-of select="$west"/></td>
           <td><xsl:value-of select="$south"/></td>
           <td><xsl:value-of select="$east"/></td>
-          <td><xsl:value-of select="$west"/></td>
+          <td><xsl:value-of select="$north"/></td>
         </tr>
         <tr>
           <td>
-            <input name="northCoord" type="text" size="10" class="searchInput" onblur="config.objects.{$widgetId}.setAoi(config.objects.{$widgetId});"/>
+            <input name="westCoord" type="text" size="10" class="searchInput" onblur="config.objects.{$widgetId}.setAoi(config.objects.{$widgetId});"/>
           </td>
           <td>
             <input name="southCoord" type="text" size="10" class="searchInput" onblur="config.objects.{$widgetId}.setAoi(config.objects.{$widgetId});"/>
@@ -113,7 +113,7 @@ $Name:  $
             <input name="eastCoord" type="text" size="10"  class="searchInput" onblur="config.objects.{$widgetId}.setAoi(config.objects.{$widgetId});"/>
           </td>
           <td>
-            <input name="westCoord" type="text" size="10" class="searchInput" onblur="config.objects.{$widgetId}.setAoi(config.objects.{$widgetId});"/>
+            <input name="northCoord" type="text" size="10" class="searchInput" onblur="config.objects.{$widgetId}.setAoi(config.objects.{$widgetId});"/>
           </td>
         </tr>
       </table>
