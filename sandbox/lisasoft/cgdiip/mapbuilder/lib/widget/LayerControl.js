@@ -102,29 +102,29 @@ function LayerControl(widgetNode, model) {
 
   /**
    * Fetches the full request string for a (WFS) layer
-   * @param layerName The name of the layer selected.
+   * @param layerId The name of the layer selected.
    * @return string|boolean
    */
-  this.getLayerFullRequestString = function(layerName) {
+  this.getLayerFullRequestString = function(layerId) {
       var fullRequestString;
 
       // Quick hack to get the full Request string for a layer
       // TBD: don't access mainMapWidget and mainMap directly
-      fullRequestString  = config.objects.mainMapWidget.oLlayers[layerName].getFullRequestString();
-      fullRequestString += "&BBOX=" + config.objects.mainMap.getBoundingBox();
+      fullRequestString  = config.objects.mainMapWidget.oLlayers[layerId].getFullRequestString();
+      fullRequestString += "&BBOX=" + this.model.getBoundingBox();
 
       return fullRequestString;
   }
 
   /**
    * Show the layer's metadata.
-   * @param layerName The name of the layer selected.
+   * @param layerId The name of the layer selected.
    * @param metadataDomElementId Dom element where metadata should be stored
    */
-  this.showLayerMetadata = function(layerName, metadataDomElementId) {
+  this.showLayerMetadata = function(layerId, metadataDomElementId) {
 
     // Fetch layer node from model
-    var layerNode=this.model.getLayer(layerName);
+    var layerNode=this.model.getLayer(layerId);
 
     // Exit if metadata widget could not be found (failsafe) 
     var metadataWidget = config.objects.layerMetadata;
