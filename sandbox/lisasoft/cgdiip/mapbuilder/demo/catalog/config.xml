@@ -28,6 +28,7 @@
         <LayerMetadata id="layerMetadata">
           <htmlTagId>layerMetadata</htmlTagId>
         </LayerMetadata>
+        <CursorTrack id="cursorTrack"/>
       </widgets>
     </OwsContext>
     <!-- Contains the results of a catalog search -->
