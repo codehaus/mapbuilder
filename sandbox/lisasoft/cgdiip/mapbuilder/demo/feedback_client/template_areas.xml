@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<gml:featureMember xmlns:topp="http://www.openplans.org/topp" xmlns:gml="http://www.opengis.net/gml">
-  <topp:AdministrativeArea>
-    <topp:boundary>
+<gml:featureMember xmlns:gb="http://www.geobase.ca/interop-pilot-2007" xmlns:gml="http://www.opengis.net/gml">
+  <gb:AdministrativeArea>
+    <gb:boundary>
       <gml:MultiPolygon srsName="epsg:4326">
         <gml:polygonMember>
           <gml:Polygon>
@@ -13,13 +13,14 @@
           </gml:Polygon>
         </gml:polygonMember>
       </gml:MultiPolygon>
-    </topp:boundary>
-    <topp:cgdiId></topp:cgdiId>
-    <topp:id></topp:id>
-    <topp:areaName></topp:areaName>
-    <topp:type></topp:type>
-    <topp:ccFPop></topp:ccFPop>
-    <topp:prId></topp:prId>
-    <topp:cdId></topp:cdId>    
-  </topp:AdministrativeArea>
+    </gb:boundary>
+    <gb:cgdiId></gb:cgdiId>
+    <gb:id></gb:id>
+    <gb:gb_name></gb:gb_name>
+    <gb:type></gb:type>
+    <gb:ccFPop></gb:ccFPop>
+    <gb:ccFPdwell></gb:ccFPdwell>
+    <gb:prId></gb:prId>
+    <gb:cdId></gb:cdId>    
+  </gb:AdministrativeArea>
 </gml:featureMember>

@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gml:featureMember xmlns:topp="http://www.openplans.org/topp"  xmlns:gml="http://www.opengis.net/gml">
-  <topp:RoadSegment>
-    <topp:segment>
+<gml:featureMember xmlns:gb="http://www.geobase.ca/interop-pilot-2007"  xmlns:gml="http://www.opengis.net/gml">
+  <gb:RoadSegment>
+    <gb:segment>
       <gml:LineStringProperty>
         <gml:LineString>
           <gml:coordinates decimal="." cs="," ts=" "></gml:coordinates>
         </gml:LineString>
       </gml:LineStringProperty>
-    </topp:segment>
-    <topp:cgdiId></topp:cgdiId>
-    <topp:planimetricDataAccuracy></topp:planimetricDataAccuracy>
-    <topp:acquisitionTechnique></topp:acquisitionTechnique>
-    <topp:acquisitionProvider></topp:acquisitionProvider>
-    <topp:acquisitionOrRevisionDate></topp:acquisitionOrRevisionDate>
-    <topp:nationalRoadClass></topp:nationalRoadClass>
-    <topp:routeNumber1></topp:routeNumber1>
-    <topp:routeNumber2></topp:routeNumber2>
-    <topp:routeNumber3></topp:routeNumber3>
-    <topp:routeNumber4></topp:routeNumber4>
-    <topp:routeNumber5></topp:routeNumber5>
-    <topp:routeNameFrench1></topp:routeNameFrench1>
-    <topp:routeNameFrench2></topp:routeNameFrench2>
-    <topp:routeNameFrench3></topp:routeNameFrench3>
-    <topp:routeNameFrench4></topp:routeNameFrench4>
-    <topp:routeNameEnglish1></topp:routeNameEnglish1>
-    <topp:routeNameEnglish2></topp:routeNameEnglish2>
-    <topp:routeNameEnglish3></topp:routeNameEnglish3>
-    <topp:routeNameEnglish4></topp:routeNameEnglish4>
-    <topp:exitNumber></topp:exitNumber>
-    <topp:numberOfLanes></topp:numberOfLanes>
-    <topp:pavementStatus></topp:pavementStatus>
-    <topp:pavedRoadSurfaceType></topp:pavedRoadSurfaceType>
-    <topp:unpavedRoadSurfaceType></topp:unpavedRoadSurfaceType>
-    <topp:structureID></topp:structureID>
-    <topp:structureType></topp:structureType>
-    <topp:structureNameFrench></topp:structureNameFrench>
-    <topp:structureNameEnglish></topp:structureNameEnglish>
-    <topp:roadSegmentID></topp:roadSegmentID>
-  </topp:RoadSegment>
+    </gb:segment>
+    <gb:cgdiId></gb:cgdiId>
+    <gb:planimetricDataAccuracy></gb:planimetricDataAccuracy>
+    <gb:acquisitionTechnique></gb:acquisitionTechnique>
+    <gb:acquisitionProvider></gb:acquisitionProvider>
+    <gb:acquisitionOrRevisionDate></gb:acquisitionOrRevisionDate>
+    <gb:nationalRoadClass></gb:nationalRoadClass>
+    <gb:routeNumber1></gb:routeNumber1>
+    <gb:routeNumber2></gb:routeNumber2>
+    <gb:routeNumber3></gb:routeNumber3>
+    <gb:routeNumber4></gb:routeNumber4>
+    <gb:routeNumber5></gb:routeNumber5>
+    <gb:routeNameFrench1></gb:routeNameFrench1>
+    <gb:routeNameFrench2></gb:routeNameFrench2>
+    <gb:routeNameFrench3></gb:routeNameFrench3>
+    <gb:routeNameFrench4></gb:routeNameFrench4>
+    <gb:routeNameEnglish1></gb:routeNameEnglish1>
+    <gb:routeNameEnglish2></gb:routeNameEnglish2>
+    <gb:routeNameEnglish3></gb:routeNameEnglish3>
+    <gb:routeNameEnglish4></gb:routeNameEnglish4>
+    <gb:exitNumber></gb:exitNumber>
+    <gb:numberOfLanes></gb:numberOfLanes>
+    <gb:pavementStatus></gb:pavementStatus>
+    <gb:pavedRoadSurfaceType></gb:pavedRoadSurfaceType>
+    <gb:unpavedRoadSurfaceType></gb:unpavedRoadSurfaceType>
+    <gb:structureID></gb:structureID>
+    <gb:structureType></gb:structureType>
+    <gb:structureNameFrench></gb:structureNameFrench>
+    <gb:structureNameEnglish></gb:structureNameEnglish>
+    <gb:roadSegmentID></gb:roadSegmentID>
+  </gb:RoadSegment>
 </gml:featureMember>
