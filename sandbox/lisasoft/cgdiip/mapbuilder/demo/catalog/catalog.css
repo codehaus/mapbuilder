@@ -88,12 +88,16 @@ table.metadata td {
     position:absolute;
 }
 
-.layerControl {
+#layerControl {
   position: absolute;
-  top: 15px;
+  left: 420px;
+  top: 0px;
+}
+
+.layerControl {
   width: 460px;
   overflow: auto;
-  max-height: 285px;
+  height: 285px;
 }
 
 .layerLoading {
