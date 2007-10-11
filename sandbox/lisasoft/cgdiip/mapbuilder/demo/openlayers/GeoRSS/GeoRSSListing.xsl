@@ -32,13 +32,13 @@ $Name:  $
     <xsl:variable name="fid"><xsl:value-of select="atom:id"/></xsl:variable>
     <xsl:variable name="link"><xsl:value-of select="atom:link"/></xsl:variable>
     <tr>
-      <td onmouseover="config.objects.{$modelId}.setParam('highlightFeature','{$fid}')"
-      	  onmouseout="config.objects.{$modelId}.setParam('dehighlightFeature','{$fid}')">
+      <td onmouseover="config.objects.{$modelId}.setParam('highlightFeature','{$fid}');this.className='on'"
+      	  onmouseout="config.objects.{$modelId}.setParam('dehighlightFeature','{$fid}');this.className='off'">
         <div id = "item">
           <div id="{$fid}" style="width:325px">
       	    <input type="checkbox" checked="true"
       		  onclick="this.checked?config.objects.{$modelId}.setParam('showFeature','{$fid}'):config.objects.{$modelId}.setParam('hideFeature','{$fid}')" />
-	        <a href="{$link}"><xsl:value-of select="atom:link"/></a><br/>
+	        <a href="{$link}"><xsl:value-of select="atom:title"/></a><br/>
 	        <xsl:copy-of select="atom:summary"/>
           </div>
         </div>
