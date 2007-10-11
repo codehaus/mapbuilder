@@ -24,13 +24,14 @@ function LayerMaxFeatures(widgetNode, model) {
 
   /*
    * Checks whether a FeatureType should get the maxFeatures attribute 
+   * @param objRef reference to this widget
+   * @param layerNode the Layer node from another context doc or capabiltiies doc
+   * @return none
    */
   LayerMaxFeatures.prototype.initLayer = function (objRef, layerNode) {
-    //console.info('MaxFeatures addLayer');
-    //console.debug(layerNode);
-
     // Only set maxFeatures for a layer if it not already had a maxFeatures attribute
-    if (!layerNode.hasAttribute("maxFeatures")) {
+    // We cannot use .hasAttribute, since IE6 doesn't support this
+    if (layerNode.getAttribute("maxFeatures") == null) {
       layerId = layerNode.selectSingleNode("@id").firstChild.nodeValue;
 
       // Failback mechanism to layer name
@@ -44,12 +45,14 @@ function LayerMaxFeatures(widgetNode, model) {
 
   /*
    * Sets the maxFeatures attribute of a layer
+   * @param layerId the Id of Layer node 
+   * @param maxFeatures optional value for maxFeatures. If not passed, the value from the model will be used
+   * @return none
    */
   LayerMaxFeatures.prototype.setLayerMaxFeatures = function (layerId, maxFeatures) {
     // Check if maxFeatures parameter has been fed to this function
     // If not: fetch it from the model
     if (!maxFeatures) {
-      //console.info('Getting max features from model' + layerNode.nodeName);
       maxFeatures = this.model.getParam('maxFeatures');
     }
     
@@ -60,8 +63,6 @@ function LayerMaxFeatures(widgetNode, model) {
     if (layerNode.nodeName == "FeatureType" || layerNode.nodeName == "wmc:FeatureType") {
       layerNode.setAttribute("maxFeatures", maxFeatures);
 
-      //console.info('MaxFeatures set maxFeatures: ' + layerId + " (" + layerNode.nodeName + ")");
-
       this.model.map.mbMapPane.refreshLayer(this.model.map.mbMapPane, layerId,{ MAXFEATURES: maxFeatures });
       this.model.callListeners("refresh");
     }
@@ -69,6 +70,8 @@ function LayerMaxFeatures(widgetNode, model) {
 
   /*
    * Removes the maxFeatures attribute of a layer
+   * @param layerId the Id of Layer node 
+   * @return none
    */
   LayerMaxFeatures.prototype.removeLayerMaxFeatures = function (layerId) {
 
@@ -76,10 +79,9 @@ function LayerMaxFeatures(widgetNode, model) {
     if (!layerNode) return false;
 
     // Only set maxFeatures for WFS layers: FeatureType
-    if (layerNode && layerNode.hasAttribute("maxFeatures")) { 
+    // We cannot use .hasAttribute, since IE6 doesn't support this
+    if (layerNode.getAttribute("maxFeatures") != null) { 
       layerNode.removeAttribute("maxFeatures");
-
-      //console.info('MaxFeatures remove maxFeatures: ' + layerId);
 
       // hard call to OL Map Pane
       this.model.map.mbMapPane.refreshLayer(this.model.map.mbMapPane, layerId, { MAXFEATURES: null });
@@ -87,29 +89,20 @@ function LayerMaxFeatures(widgetNode, model) {
     }
   }
 
-  LayerMaxFeatures.prototype.refresh = function (objRef, layerNode) {
-
-  }
-  this.model.addListener( "refresh", this.refresh, this );
-
   /*
    * Toggles maxFeatures on/off 
+   * @param layerId the Id of Layer node 
+   * @return none
    */
   LayerMaxFeatures.prototype.toggle = function (layerId) {
-    //console.info('MaxFeatures toggle: ' + layerId);
-
     layerNode = this.model.getLayer(layerId);
     if (!layerNode) return false;
 
-    if (layerNode.hasAttribute("maxFeatures")) {
+    if (layerNode.getAttribute("maxFeatures") != null) {
       this.removeLayerMaxFeatures(layerId);
     } else {
       this.setLayerMaxFeatures(layerId);
     }
-
-    //console.debug(layerNode);
-    node = document.getElementById(layerId + '_Loading');
-    
 
   }
 

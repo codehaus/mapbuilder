@@ -54,7 +54,7 @@ function LayerControl(widgetNode, model) {
     //console.info('LayerLoading Hide: ' + layerId);
     layerNode = objRef.model.getLayer(layerId);
     if (layerNode) {
-      layerNode.setAttribute("isLoading", false);
+      layerNode.removeAttribute("isLoading");
       objRef.refresh(objRef, layerId);
     }
   }
