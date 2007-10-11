@@ -7,6 +7,7 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
+mapbuilder.loadScript(baseDir+"/util/openlayers/Firebug/firebug.js");
 //mapbuilder.loadScript("lib/OpenLayers.js");
 mapbuilder.loadScript(baseDir+"/util/Util.js");
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
@@ -591,12 +592,11 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       objRef.oLlayers[layerId]= new OpenLayers.Layer.WFS(
         title,
         href,{
-          TYPENAME: layerName,
+          TYPENAME: layerName
           }
 
           //,layerOptions
         );
-      objRef.oLlayers[layerId].setVisibility(vis); // necessary, otherwise layer will be shown when loaded from initial context document
 
       // Add the maxFeatures attribute to the layer, if defined
       if (maxFeatures) {
@@ -658,6 +658,8 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   // Store <OL Layer ID> . <MB Layer Name> in model
   // Need to do that to retrieve layer name after a loadLayerStart/End event
   objRef.model.setParam(objRef.oLlayers[layerId].id, layerId);
+
+  objRef.oLlayers[layerId].setVisibility(vis); // necessary, otherwise hidden layer will be shown when loaded from initial context document
 
   // Hook into OpenLayers events for start/end loading of a layer
   // Must be done before adding to the map
