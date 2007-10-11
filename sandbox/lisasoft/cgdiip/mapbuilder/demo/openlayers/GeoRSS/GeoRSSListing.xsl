@@ -38,7 +38,7 @@ $Name:  $
           <div id="{$fid}" style="width:325px">
       	    <input type="checkbox" checked="true"
       		  onclick="this.checked?config.objects.{$modelId}.setParam('showFeature','{$fid}'):config.objects.{$modelId}.setParam('hideFeature','{$fid}')" />
-	        <a href="{$link}"><xsl:value-of select="atom:title"/></a><br/>
+	        <a href="{$link}"><xsl:value-of select="atom:link"/></a><br/>
 	        <xsl:copy-of select="atom:summary"/>
           </div>
         </div>
