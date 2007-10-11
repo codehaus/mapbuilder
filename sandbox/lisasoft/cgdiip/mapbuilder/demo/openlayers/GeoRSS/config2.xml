@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<MapbuilderConfig version="0.2.1" id="simpleTemplate"
+	xmlns="http://mapbuilder.sourceforge.net/mapbuilder"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+
+	<models>
+		<OwsContext id="mainMap">
+			<defaultModelUrl>context.xml</defaultModelUrl>
+			<widgets>
+				<MapPaneOL id="mainMapWidget">
+					<htmlTagId>mainMapPane</htmlTagId>
+					<maxResolution>0.703125</maxResolution>
+				</MapPaneOL>
+				<CursorTrack id="cursorTrack"/>
+			</widgets>
+		</OwsContext>
+		
+		<FeatureCollection id="geoRSS">
+			<!-- defaultModelUrl>http://www.pvretano.com/cgdi/cwwfs.cgi?SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=cw:FEEDBACKFEED&amp;outputFormat=ATOM</defaultModelUrl -->
+			<defaultModelUrl>feedgeorss.xml</defaultModelUrl>
+			<widgets>
+				<GmlRendererOL id="testGmlRenderer">
+					<targetModel>mainMap</targetModel>
+					<sldModel>sld</sldModel>
+					<GeoRSS>true</GeoRSS>
+					<hoverCursor>pointer</hoverCursor>
+				</GmlRendererOL>
+				<Widget id="eventsListing">
+					<targetModel>mainMap</targetModel>
+					<stylesheet>GeoRSSListing.xsl</stylesheet>
+				</Widget>
+			</widgets>
+			<tools>
+				<FeatureSelectHandler id="featureHighlighter">
+					<targetModel>mainMap</targetModel>
+				</FeatureSelectHandler>
+			</tools>
+			<namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
+		</FeatureCollection>
+	</models>
+	
+	<widgets>
+		<ZoomIn id="zoomIn">
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<class>RadioButton</class>
+			<selected>true</selected>
+			<enabledSrc>/images/ZoomInEnable.png</enabledSrc>
+			<disabledSrc>/images/ZoomInDisable.png</disabledSrc>
+		</ZoomIn>
+		<ZoomOut id="zoomOut">
+			<buttonBar>mainButtonBar</buttonBar> 
+			<targetModel>mainMap</targetModel>
+			<class>RadioButton</class>
+			<enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
+			<disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
+		</ZoomOut>
+		<DragPan id="dragPan">
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<class>RadioButton</class>
+			<enabledSrc>/images/PanEnable.png</enabledSrc>
+			<disabledSrc>/images/PanDisable.png</disabledSrc>
+		</DragPan>
+		<Reset id="reset">
+			<buttonBar>mainButtonBar</buttonBar>
+			<targetModel>mainMap</targetModel>
+			<class>Button</class>
+			<disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
+		</Reset>
+	</widgets>
+	<skinDir>../../../lib/skin/default</skinDir>
+	<!-- proxyUrl>../../../MapbuilderProxy.jsp</proxyUrl -->
+	<proxyUrl></proxyUrl>
+</MapbuilderConfig>
