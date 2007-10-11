@@ -1,1 +1,0 @@
-csList.EPSG32612 = "+title=WGS 84 / UTM zone 12N epsg:32612 +proj=utm +zone=12 +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
