@@ -19,10 +19,9 @@ httpStatusMsg = ['uninitialized','searching','loaded','building results list','c
 function CatalogSearchForm(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
-  this.targetContext = widgetNode.selectSingleNode("mb:targetContext").firstChild.nodeValue;
-  this.wrsUrl        = widgetNode.selectSingleNode("mb:wrsUrl").firstChild.nodeValue;
-
-  this.wrsServiceAssociation = "OperatesOn";
+  this.targetContext         = widgetNode.selectSingleNode("mb:targetContext").firstChild.nodeValue;
+  this.wrsUrl                = widgetNode.selectSingleNode("mb:wrsUrl").firstChild.nodeValue;
+  this.wrsServiceAssociation = widgetNode.selectSingleNode("mb:wrsServiceAssociation").firstChild.nodeValue;
 
   this.httpPayload = new Object();
   this.httpPayload.url = this.wrsUrl;

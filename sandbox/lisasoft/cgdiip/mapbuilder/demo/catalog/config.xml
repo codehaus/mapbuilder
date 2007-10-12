@@ -64,6 +64,7 @@
           <targetModel>catalogSearchResults</targetModel>
           <targetContext>normalizedSearchResults</targetContext>
           <wrsUrl>http://demo.cubewerx.com/cgdi/cwwrs.cgi</wrsUrl>
+          <wrsServiceAssociation>Serves</wrsServiceAssociation><!-- Can be: Serves, OperatesOn -->
           <mapModel>mainMap</mapModel>
           <sourceContext>mainMap</sourceContext>
         </CatalogSearchForm>
