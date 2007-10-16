@@ -1,0 +1,4160 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- This Web Feature Server is a component of CubeWerx Suite 4.7.2. -->
+<kml xmlns="http://earth.google.com/kml/2.2">
+   <Document>
+      <name>Airport Facilities Points</name>
+      <description>VRF Narrative Table for "Airport Facilities Points":
+
+&lt;P&gt;Information on airports/airfields (GB005) was derived from the DAFIF (Digital
+Aeronautical Flight Information File) and TINT (Target Intelligence) in areas
+where such data was available.  Each airfield's DAFIF reference number was
+placed in the 'na3' (classification name) attribute field.  Only airfields
+which had at least one hard surface runway longer that 3,000 feet (910 meters)
+were collected.</description>
+      <!--
+      <atom:link xmlns="http://www.w3.org/2005/atom">http://www.cubewerx.com</atom:link>
+      -->
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1656</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YHML</value>
+            </Data>
+            <Data name="NAM">
+               <value>HAMILTON</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS79711</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>245</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>7</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>142.0652771322057,-37.64888764824718</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1673</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YARA</value>
+            </Data>
+            <Data name="NAM">
+               <value>ARARAT</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS07051</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>307</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>24</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>142.9919433826581,-37.31055447366089</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1664</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YHSM</value>
+            </Data>
+            <Data name="NAM">
+               <value>HORSHAM</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS42929</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>136</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>15</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>142.1727752918378,-36.66972352657466</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1668</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YSWL</value>
+            </Data>
+            <Data name="NAM">
+               <value>STAWELL</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS28469</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>246</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>19</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>142.7405548514798,-37.07166671287268</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1674</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YMAV</value>
+            </Data>
+            <Data name="NAM">
+               <value>AVALON</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS04258</value>
+            </Data>
+            <Data name="USE">
+               <value>Civilian/Public</value>
+            </Data>
+            <Data name="ZV3">
+               <value>11</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>25</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>144.4694518810138,-38.03944393526763</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1692</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YMMB</value>
+            </Data>
+            <Data name="NAM">
+               <value>MELBOURNE/MOORABBIN</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS28197</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>15</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>281</value>
+            </Data>
+            <Data name="END_ID">
+               <value>5</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>145.1024932740256,-37.9758339235559</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1661</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YBLT</value>
+            </Data>
+            <Data name="NAM">
+               <value>BALLARAT</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS59355</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>437</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>12</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>143.7930602906272,-37.51083376351744</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1670</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YMPC</value>
+            </Data>
+            <Data name="NAM">
+               <value>POINT COOK</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS15239</value>
+            </Data>
+            <Data name="USE">
+               <value>Military</value>
+            </Data>
+            <Data name="ZV3">
+               <value>4</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>21</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>144.7536163358018,-37.93249889742582</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1657</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YLVT</value>
+            </Data>
+            <Data name="NAM">
+               <value>LAVERTON</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS78872</value>
+            </Data>
+            <Data name="USE">
+               <value>Military</value>
+            </Data>
+            <Data name="ZV3">
+               <value>18</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>8</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>144.7472228715196,-37.86222074646503</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1659</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YMML</value>
+            </Data>
+            <Data name="NAM">
+               <value>MELBOURNE INTL</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS64221</value>
+            </Data>
+            <Data name="USE">
+               <value>Civilian/Public</value>
+            </Data>
+            <Data name="ZV3">
+               <value>132</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>10</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>144.8436126625165,-37.6733322115615</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1665</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YBDG</value>
+            </Data>
+            <Data name="NAM">
+               <value>BENDIGO</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS35829</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>215</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>16</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>144.3300018226728,-36.73972323071212</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1655</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YMEN</value>
+            </Data>
+            <Data name="NAM">
+               <value>MELBOURNE/ESSENDON</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS82557</value>
+            </Data>
+            <Data name="USE">
+               <value>Civilian/Public</value>
+            </Data>
+            <Data name="ZV3">
+               <value>86</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>6</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>144.9019470205531,-37.72805405315012</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1699</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YMNG</value>
+            </Data>
+            <Data name="NAM">
+               <value>MANGALORE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS88731</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>142</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>281</value>
+            </Data>
+            <Data name="END_ID">
+               <value>12</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>145.1844482542947,-36.88861080911011</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1651</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YNHL</value>
+            </Data>
+            <Data name="NAM">
+               <value>NHILL</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS99928</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>138</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>2</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>141.6430511651561,-36.31277850363404</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1653</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YWKB</value>
+            </Data>
+            <Data name="NAM">
+               <value>WARRACKNABEAL</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS86484</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>121</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>4</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>142.4194488348439,-36.32110978011041</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1663</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YDOD</value>
+            </Data>
+            <Data name="NAM">
+               <value>DONALD</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS44093</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>125</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>14</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>143.0041656224057,-36.35972210671753</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1662</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YBIR</value>
+            </Data>
+            <Data name="NAM">
+               <value>BIRCHIP</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS48808</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>104</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>13</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>142.9174957377836,-35.99972154479474</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1654</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YHPN</value>
+            </Data>
+            <Data name="NAM">
+               <value>HOPETOUN</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS82612</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>78</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>5</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>142.359725930728,-35.7158317649737</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1678</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YMIA</value>
+            </Data>
+            <Data name="NAM">
+               <value>MILDURA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS63151</value>
+            </Data>
+            <Data name="USE">
+               <value>Civilian/Public</value>
+            </Data>
+            <Data name="ZV3">
+               <value>51</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>279</value>
+            </Data>
+            <Data name="END_ID">
+               <value>4</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>142.0852813823149,-34.22944255638868</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1658</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YECH</value>
+            </Data>
+            <Data name="NAM">
+               <value>ECHUCA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS69801</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>98</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>9</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>144.7633361583576,-36.16277697030455</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1652</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YKER</value>
+            </Data>
+            <Data name="NAM">
+               <value>KERANG</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS99905</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>77</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>3</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>143.9393615489826,-35.75125125702471</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1666</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YSWH</value>
+            </Data>
+            <Data name="NAM">
+               <value>SWAN HILL</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS35471</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>71</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>17</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>143.5336150741204,-35.37583159748465</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1688</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YSHT</value>
+            </Data>
+            <Data name="NAM">
+               <value>SHEPPARTON</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS20878</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>114</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>281</value>
+            </Data>
+            <Data name="END_ID">
+               <value>1</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>145.3927765181288,-36.42889024224132</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1660</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YDLQ</value>
+            </Data>
+            <Data name="NAM">
+               <value>DENILIQUIN</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS62283</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>96</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>278</value>
+            </Data>
+            <Data name="END_ID">
+               <value>11</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>144.9486084049568,-35.55833437945694</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1691</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YTOC</value>
+            </Data>
+            <Data name="NAM">
+               <value>TOCUMWAL</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS23849</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>114</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>281</value>
+            </Data>
+            <Data name="END_ID">
+               <value>4</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>145.6013946281746,-35.80694581847637</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1679</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YBRN</value>
+            </Data>
+            <Data name="NAM">
+               <value>BALRANALD</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS59361</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>64</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>279</value>
+            </Data>
+            <Data name="END_ID">
+               <value>5</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>143.57833864633,-34.62361144367605</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1676</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YHAY</value>
+            </Data>
+            <Data name="NAM">
+               <value>HAY</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS83910</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>93</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>279</value>
+            </Data>
+            <Data name="END_ID">
+               <value>2</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>144.8249969584867,-34.53027727548033</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1712</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YGTH</value>
+            </Data>
+            <Data name="NAM">
+               <value>GRIFFITH</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS59282</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>136</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>8</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>146.0708313295618,-34.25000001210719</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1695</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YWSL</value>
+            </Data>
+            <Data name="NAM">
+               <value>WEST SALE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS45562</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>28</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>281</value>
+            </Data>
+            <Data name="END_ID">
+               <value>8</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>146.9652710063383,-38.09166721533984</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1696</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YBNS</value>
+            </Data>
+            <Data name="NAM">
+               <value>BAIRNSDALE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS55549</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>50</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>281</value>
+            </Data>
+            <Data name="END_ID">
+               <value>9</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>147.5677795568481,-37.88777926471084</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1704</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YMER</value>
+            </Data>
+            <Data name="NAM">
+               <value>MERIMBULA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS99936</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>2</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>281</value>
+            </Data>
+            <Data name="END_ID">
+               <value>17</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>149.9027709988877,-36.90888973418622</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1701</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YWGT</value>
+            </Data>
+            <Data name="NAM">
+               <value>WANGARATTA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS93211</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>154</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>281</value>
+            </Data>
+            <Data name="END_ID">
+               <value>14</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>146.3066711788997,-36.41611102502793</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1697</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YCOR</value>
+            </Data>
+            <Data name="NAM">
+               <value>COROWA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS85241</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>143</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>281</value>
+            </Data>
+            <Data name="END_ID">
+               <value>10</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>146.3547211093828,-35.992221836932</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1694</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YMAY</value>
+            </Data>
+            <Data name="NAM">
+               <value>ALBURY</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS39570</value>
+            </Data>
+            <Data name="USE">
+               <value>Civilian/Public</value>
+            </Data>
+            <Data name="ZV3">
+               <value>164</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>281</value>
+            </Data>
+            <Data name="END_ID">
+               <value>7</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>146.9577789260074,-36.06722260359675</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1690</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YSWG</value>
+            </Data>
+            <Data name="NAM">
+               <value>WAGGA WAGGA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS21460</value>
+            </Data>
+            <Data name="USE">
+               <value>Civilian/Public</value>
+            </Data>
+            <Data name="ZV3">
+               <value>221</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>281</value>
+            </Data>
+            <Data name="END_ID">
+               <value>3</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>147.4655609065667,-35.16527936328202</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1698</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YCRG</value>
+            </Data>
+            <Data name="NAM">
+               <value>CORRYONG</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS86625</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>294</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>281</value>
+            </Data>
+            <Data name="END_ID">
+               <value>11</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>147.8874969435856,-36.18388746399432</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1689</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YCOM</value>
+            </Data>
+            <Data name="NAM">
+               <value>COOMA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS20919</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>114</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>281</value>
+            </Data>
+            <Data name="END_ID">
+               <value>2</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>148.9761047484353,-36.30110930185765</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1703</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YTMU</value>
+            </Data>
+            <Data name="NAM">
+               <value>TUMUT</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS99903</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>268</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>281</value>
+            </Data>
+            <Data name="END_ID">
+               <value>16</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>148.234451324679,-35.26499936822802</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1711</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YNAR</value>
+            </Data>
+            <Data name="NAM">
+               <value>NARRANDERA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS66054</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>144</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>7</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>146.5097198495641,-34.70138930249959</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1706</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YTEM</value>
+            </Data>
+            <Data name="NAM">
+               <value>TEMORA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS92844</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>281</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>2</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>147.5124969659373,-34.42055514547974</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1716</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YWWL</value>
+            </Data>
+            <Data name="NAM">
+               <value>WEST WYALONG</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS56752</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>262</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>12</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>147.1947173913941,-33.937778477557</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1718</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YTCM</value>
+            </Data>
+            <Data name="NAM">
+               <value>COOTAMUNDRA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS50389</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>338</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>14</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>148.03555295337,-34.6241684211418</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1726</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YYNG</value>
+            </Data>
+            <Data name="NAM">
+               <value>YOUNG</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS16530</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>383</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>22</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>148.2513885525987,-34.25694274250418</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1728</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YCWR</value>
+            </Data>
+            <Data name="NAM">
+               <value>COWRA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS10823</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>295</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>24</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>148.6505585024133,-33.84527587797492</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1880</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YMRY</value>
+            </Data>
+            <Data name="NAM">
+               <value>MORUYA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS96953</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>4</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>337</value>
+            </Data>
+            <Data name="END_ID">
+               <value>1</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>150.146942124702,-35.8980560163036</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1702</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YSCB</value>
+            </Data>
+            <Data name="NAM">
+               <value>CANBERRA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS98836</value>
+            </Data>
+            <Data name="USE">
+               <value>Joint Military/Civilian</value>
+            </Data>
+            <Data name="ZV3">
+               <value>576</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>281</value>
+            </Data>
+            <Data name="END_ID">
+               <value>15</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>149.1950072860345,-35.30694576445966</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1730</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YGLB</value>
+            </Data>
+            <Data name="NAM">
+               <value>GOULBURN</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS01863</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>653</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>26</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>149.7288817958906,-34.80722046922892</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1881</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YJBY</value>
+            </Data>
+            <Data name="NAM">
+               <value>JERVIS BAY</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS52621</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>61</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>337</value>
+            </Data>
+            <Data name="END_ID">
+               <value>2</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>150.6983337225392,-35.14555741567165</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1885</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YSNW</value>
+            </Data>
+            <Data name="NAM">
+               <value>NOWRA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS83442</value>
+            </Data>
+            <Data name="USE">
+               <value>Military</value>
+            </Data>
+            <Data name="ZV3">
+               <value>122</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>4</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>150.5369415180757,-34.94889072608203</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1886</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YWOL</value>
+            </Data>
+            <Data name="NAM">
+               <value>WOLLONGONG</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS78207</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>9</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>5</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>150.7899932703003,-34.5613898942247</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1890</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YSCN</value>
+            </Data>
+            <Data name="NAM">
+               <value>CAMDEN</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS45974</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>70</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>9</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>150.6872253539041,-34.04027934651822</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1888</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YHOX</value>
+            </Data>
+            <Data name="NAM">
+               <value>HOXTON PARK</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS71795</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>41</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>7</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>150.8569488348439,-33.90999984461814</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1889</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YSBK</value>
+            </Data>
+            <Data name="NAM">
+               <value>SYDNEY/BANKSTOWN</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS58386</value>
+            </Data>
+            <Data name="USE">
+               <value>Civilian/Public</value>
+            </Data>
+            <Data name="ZV3">
+               <value>9</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>8</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>150.9900512779131,-33.92452618572861</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1892</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YSSY</value>
+            </Data>
+            <Data name="NAM">
+               <value>SYDNEY INTERNATIONAL</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS38268</value>
+            </Data>
+            <Data name="USE">
+               <value>Civilian/Public</value>
+            </Data>
+            <Data name="ZV3">
+               <value>6</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>11</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>151.1719513172284,-33.9391670236364</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1677</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YBHI</value>
+            </Data>
+            <Data name="NAM">
+               <value>BROKEN HILL</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS66500</value>
+            </Data>
+            <Data name="USE">
+               <value>Civilian/Public</value>
+            </Data>
+            <Data name="ZV3">
+               <value>292</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>279</value>
+            </Data>
+            <Data name="END_ID">
+               <value>3</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>141.47166446317,-32.00166705530137</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1681</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YWCA</value>
+            </Data>
+            <Data name="NAM">
+               <value>WILCANNIA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS32763</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>76</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>279</value>
+            </Data>
+            <Data name="END_ID">
+               <value>7</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>143.3827819721773,-31.51944350916892</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1675</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YIVO</value>
+            </Data>
+            <Data name="NAM">
+               <value>IVANHOE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS84044</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>101</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>279</value>
+            </Data>
+            <Data name="END_ID">
+               <value>1</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>144.3094482226297,-32.88194274064153</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1708</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YHLS</value>
+            </Data>
+            <Data name="NAM">
+               <value>HILLSTON</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS90598</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>123</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>4</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>145.5233306949958,-33.49444578867406</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1717</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YCBA</value>
+            </Data>
+            <Data name="NAM">
+               <value>COBAR</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS55563</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>221</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>13</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>145.7958374312147,-31.54111098032445</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1739</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YTIB</value>
+            </Data>
+            <Data name="NAM">
+               <value>TIBOOBURRA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS99882</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>178</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>286</value>
+            </Data>
+            <Data name="END_ID">
+               <value>1</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>142.0563965057954,-29.45222286041826</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1705</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YBKE</value>
+            </Data>
+            <Data name="NAM">
+               <value>BOURKE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS96104</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>107</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>1</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>145.9538879385218,-30.03888894338161</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1741</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YJAK</value>
+            </Data>
+            <Data name="NAM">
+               <value>JACKSON</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS64960</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>106</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>286</value>
+            </Data>
+            <Data name="END_ID">
+               <value>3</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>142.4083404662088,-27.6391659071669</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1744</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YTGM</value>
+            </Data>
+            <Data name="NAM">
+               <value>THARGOMINDAH</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS31563</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>132</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>286</value>
+            </Data>
+            <Data name="END_ID">
+               <value>6</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>143.8111114734784,-27.98694422934204</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1762</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YCMU</value>
+            </Data>
+            <Data name="NAM">
+               <value>CUNNAMULLA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS20319</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>192</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>289</value>
+            </Data>
+            <Data name="END_ID">
+               <value>7</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>145.6219482282177,-28.03000072482973</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1709</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YCDO</value>
+            </Data>
+            <Data name="NAM">
+               <value>CONDOBOLIN</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS90382</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>198</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>5</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>147.2149963164702,-33.06249999906868</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1722</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YFBS</value>
+            </Data>
+            <Data name="NAM">
+               <value>FORBES</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS29547</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>232</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>18</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>147.9400024423375,-33.36222076322883</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1719</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YPKS</value>
+            </Data>
+            <Data name="NAM">
+               <value>PARKES</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS49345</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>326</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>15</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>148.2416687300429,-33.13111115712672</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1727</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>UNYN</value>
+            </Data>
+            <Data name="NAM">
+               <value>NYNGAN</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS13301</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>173</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>23</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>147.204162622802,-31.5513897081837</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1710</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YNRM</value>
+            </Data>
+            <Data name="NAM">
+               <value>NARROMINE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS74021</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>238</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>6</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>148.2341613946483,-32.2191657917574</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1724</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YWRN</value>
+            </Data>
+            <Data name="NAM">
+               <value>WARREN</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS24432</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>204</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>20</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>147.8011169051751,-31.74027824308723</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1715</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YSDU</value>
+            </Data>
+            <Data name="NAM">
+               <value>DUBBO</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS57465</value>
+            </Data>
+            <Data name="USE">
+               <value>Civilian/Public</value>
+            </Data>
+            <Data name="ZV3">
+               <value>285</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>11</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>148.5747223114595,-32.21666714642197</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1725</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YCNM</value>
+            </Data>
+            <Data name="NAM">
+               <value>COONAMBLE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS18424</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>184</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>21</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>148.3752746740356,-30.98611072171479</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1729</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YBTH</value>
+            </Data>
+            <Data name="NAM">
+               <value>BATHURST</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS04349</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>742</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>25</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>149.6538848849013,-33.40944289695472</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1721</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YORG</value>
+            </Data>
+            <Data name="NAM">
+               <value>ORANGE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS33304</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>950</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>17</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>149.1322174435481,-33.38166811969131</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1720</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YMDG</value>
+            </Data>
+            <Data name="NAM">
+               <value>MUDGEE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS48039</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>471</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>16</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>149.6105499425903,-32.56333159748464</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1893</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YSRI</value>
+            </Data>
+            <Data name="NAM">
+               <value>RICHMOND</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS29962</value>
+            </Data>
+            <Data name="USE">
+               <value>Military</value>
+            </Data>
+            <Data name="ZV3">
+               <value>21</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>12</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>150.7805481227115,-33.60055540222675</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1896</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YCNK</value>
+            </Data>
+            <Data name="NAM">
+               <value>CESSNOCK</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS23151</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>64</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>15</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>151.3427734142169,-32.78583148028702</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1897</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YMND</value>
+            </Data>
+            <Data name="NAM">
+               <value>MAITLAND</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS14515</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>23</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>16</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>151.4927825750783,-32.70111080724746</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1891</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YWLM</value>
+            </Data>
+            <Data name="NAM">
+               <value>WILLIAMTOWN</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS43020</value>
+            </Data>
+            <Data name="USE">
+               <value>Military</value>
+            </Data>
+            <Data name="ZV3">
+               <value>9</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>10</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>151.8347167829052,-32.79472350608557</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1723</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YCBB</value>
+            </Data>
+            <Data name="NAM">
+               <value>COONABARABRAN</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS27004</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>645</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>19</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>149.2627716204151,-31.33166691754013</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1882</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YGDH</value>
+            </Data>
+            <Data name="NAM">
+               <value>GUNNEDAH</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS99699</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>263</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>1</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>150.249999971129,-30.95777703914791</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1895</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YSCO</value>
+            </Data>
+            <Data name="NAM">
+               <value>SCONE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS24761</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>227</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>14</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>150.8344421675429,-32.03722384292632</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1884</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YQDI</value>
+            </Data>
+            <Data name="NAM">
+               <value>QUIRINDI</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS99891</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>321</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>3</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>150.5166625929996,-31.49972156155854</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1898</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YSTW</value>
+            </Data>
+            <Data name="NAM">
+               <value>TAMWORTH</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS14209</value>
+            </Data>
+            <Data name="USE">
+               <value>Civilian/Public</value>
+            </Data>
+            <Data name="ZV3">
+               <value>407</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>17</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>150.8469390822574,-31.08361052814871</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1756</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YBRW</value>
+            </Data>
+            <Data name="NAM">
+               <value>BREWARRINA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS37481</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>126</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>289</value>
+            </Data>
+            <Data name="END_ID">
+               <value>1</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>146.81666564662,-29.97388837393373</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1707</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YWLG</value>
+            </Data>
+            <Data name="NAM">
+               <value>WALGETT</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS91410</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>134</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>3</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>148.1191711546853,-30.03138923551887</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1758</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YLRD</value>
+            </Data>
+            <Data name="NAM">
+               <value>LIGHTNING RIDGE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS99885</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>165</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>289</value>
+            </Data>
+            <Data name="END_ID">
+               <value>3</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>147.9844512557611,-29.45666694547981</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1757</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YMGI</value>
+            </Data>
+            <Data name="NAM">
+               <value>MUNGINDI</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS99890</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>183</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>289</value>
+            </Data>
+            <Data name="END_ID">
+               <value>2</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>149.0583343198523,-28.966667172499</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1765</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YDBI</value>
+            </Data>
+            <Data name="NAM">
+               <value>DIRRANBANDI</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS01976</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>173</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>289</value>
+            </Data>
+            <Data name="END_ID">
+               <value>10</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>148.2177734328434,-28.59000011812896</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1714</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YWWA</value>
+            </Data>
+            <Data name="NAM">
+               <value>WEE WAA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS58189</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>190</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>10</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>149.40943908412,-30.25666621048003</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1713</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YNBR</value>
+            </Data>
+            <Data name="NAM">
+               <value>NARRABRI</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS58950</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>240</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>282</value>
+            </Data>
+            <Data name="END_ID">
+               <value>9</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>149.8272247379646,-30.31916620675474</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1894</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YARM</value>
+            </Data>
+            <Data name="NAM">
+               <value>ARMIDALE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS29442</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>1084</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>13</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>151.6186065925285,-30.5283336667344</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1909</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YIVL</value>
+            </Data>
+            <Data name="NAM">
+               <value>INVERELL</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS50693</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>813</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>345</value>
+            </Data>
+            <Data name="END_ID">
+               <value>9</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>151.1480560200289,-29.88777731079608</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1905</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YGLI</value>
+            </Data>
+            <Data name="NAM">
+               <value>GLENN INNES</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS70425</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>1047</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>345</value>
+            </Data>
+            <Data name="END_ID">
+               <value>5</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>151.692779562436,-29.67499926220626</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1759</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YMOR</value>
+            </Data>
+            <Data name="NAM">
+               <value>MOREE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS84399</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>214</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>289</value>
+            </Data>
+            <Data name="END_ID">
+               <value>4</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>149.8463897919282,-29.49888801667839</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1913</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YGDI</value>
+            </Data>
+            <Data name="NAM">
+               <value>GOONDIWINDI</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS31732</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>218</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>345</value>
+            </Data>
+            <Data name="END_ID">
+               <value>13</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>150.3216705238447,-28.52055546361953</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1900</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YTRE</value>
+            </Data>
+            <Data name="NAM">
+               <value>TAREE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS01794</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>12</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>19</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>152.5097198272124,-31.88944435212761</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1899</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YPMQ</value>
+            </Data>
+            <Data name="NAM">
+               <value>PORT MACQUARIE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS09502</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>4</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>18</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>152.8650054847821,-31.4361114660278</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1887</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YKMP</value>
+            </Data>
+            <Data name="NAM">
+               <value>KEMPSEY</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS75935</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>15</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>6</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>152.7897186437622,-31.076665869914</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1883</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YSCH</value>
+            </Data>
+            <Data name="NAM">
+               <value>COFFS HARBOUR</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS94590</value>
+            </Data>
+            <Data name="USE">
+               <value>Civilian/Public</value>
+            </Data>
+            <Data name="ZV3">
+               <value>5</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>338</value>
+            </Data>
+            <Data name="END_ID">
+               <value>2</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>153.1169433658943,-30.32027815002948</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1904</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YGFN</value>
+            </Data>
+            <Data name="NAM">
+               <value>GRAFTON</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS75381</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>34</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>345</value>
+            </Data>
+            <Data name="END_ID">
+               <value>4</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>153.0297241313383,-29.75888828281313</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1915</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YCAS</value>
+            </Data>
+            <Data name="NAM">
+               <value>CASINO</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS23431</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>26</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>345</value>
+            </Data>
+            <Data name="END_ID">
+               <value>15</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>153.0594482040032,-28.88166620861739</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1908</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YLIS</value>
+            </Data>
+            <Data name="NAM">
+               <value>LISMORE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS52622</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>11</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>345</value>
+            </Data>
+            <Data name="END_ID">
+               <value>8</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>153.2599945412949,-28.83027843665331</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1917</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YSPE</value>
+            </Data>
+            <Data name="NAM">
+               <value>STANTHORPE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS19988</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>896</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>345</value>
+            </Data>
+            <Data name="END_ID">
+               <value>17</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>151.9844512687996,-28.61499973107129</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1902</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YEVD</value>
+            </Data>
+            <Data name="NAM">
+               <value>EVANS HEAD</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS93985</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>6</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>345</value>
+            </Data>
+            <Data name="END_ID">
+               <value>2</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>153.417770373635,-29.09833337645978</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1912</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YBNA</value>
+            </Data>
+            <Data name="NAM">
+               <value>BALLINA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS35689</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>2</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>345</value>
+            </Data>
+            <Data name="END_ID">
+               <value>12</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>153.5625000251457,-28.8344440748915</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1916</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YBCG</value>
+            </Data>
+            <Data name="NAM">
+               <value>COOLANGATTA</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS21736</value>
+            </Data>
+            <Data name="USE">
+               <value>Civilian/Public</value>
+            </Data>
+            <Data name="ZV3">
+               <value>6</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>345</value>
+            </Data>
+            <Data name="END_ID">
+               <value>16</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>153.504714933224,-28.16444393713027</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1760</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YSGE</value>
+            </Data>
+            <Data name="NAM">
+               <value>SAINT GEORGE</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS63032</value>
+            </Data>
+            <Data name="USE">
+               <value>Unknown</value>
+            </Data>
+            <Data name="ZV3">
+               <value>200</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>289</value>
+            </Data>
+            <Data name="END_ID">
+               <value>5</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>148.5944518866017,-28.05111121851951</coordinates>
+         </Point>
+      </Placemark>
+      <Placemark>
+         <title>AEROFACP_1M</title>
+         <ExtendedData>
+            <Data name="ID">
+               <value>1906</value>
+            </Data>
+            <Data name="F_CODE">
+               <value>Airport/Airfield</value>
+            </Data>
+            <Data name="IKO">
+               <value>YAMB</value>
+            </Data>
+            <Data name="NAM">
+               <value>AMBERLEY</value>
+            </Data>
+            <Data name="NA3">
+               <value>AS65049</value>
+            </Data>
+            <Data name="USE">
+               <value>Military</value>
+            </Data>
+            <Data name="ZV3">
+               <value>28</value>
+            </Data>
+            <Data name="TILE_ID">
+               <value>345</value>
+            </Data>
+            <Data name="END_ID">
+               <value>6</value>
+            </Data>
+            <Data name="GEOMETRY">
+               <value/>
+            </Data>
+         </ExtendedData>
+         <Point>
+            <coordinates>152.7138824528083,-27.63805580791086</coordinates>
+         </Point>
+      </Placemark>
+   </Document>
+</kml>
