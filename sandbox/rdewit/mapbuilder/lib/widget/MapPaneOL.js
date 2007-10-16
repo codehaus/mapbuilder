@@ -574,6 +574,18 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         );
     break;
 
+    // KML Layer
+    case "KML":
+    case "kml":
+    case "OGC:KML":
+      objRef.oLlayers[name2]= new OpenLayers.Layer.GML(
+        title,
+        href,{
+          format: OpenLayers.Format.KML
+          }
+        );
+    break;
+
     // GML Layer
     case "gml":
     case "OGC:GML":
