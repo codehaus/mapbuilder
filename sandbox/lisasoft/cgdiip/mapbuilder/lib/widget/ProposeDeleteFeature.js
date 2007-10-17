@@ -66,8 +66,23 @@ function ProposeDeleteFeature(widgetNode, model) {
         objRef.targetModel.setXpathValue(objRef.targetModel,"//georss:where/gml:Point/gml:pos",point);
       	objRef.targetModel.setXpathAttribute(objRef.targetModel,"//def:category[@scheme='http://www.geobase.ca/scheme/action']","term","Delete");
       	objRef.targetModel.setXpathValue(objRef.targetModel,"//def:entry/def:updated",objRef.getISO8601Time());
+      	
+      	var date = new Date();
+        var id = window.location.hostname + date.getTime();
+        objRef.targetModel.setXpathValue(objRef.targetModel,"//def:entry/def:id",id);
+        
+      	content = objRef.targetModel.getXpathValue(objRef.targetModel,"//def:entry/def:content");
+        if(!content)
+        {
+        	objRef.targetModel.setXpathValue(objRef.targetModel,"//def:entry/def:content","n/a");
+        }
+        
+        
       	s = objRef.targetModel.doc;
       	//s=objRef.cdataElementXsl.transformNodeToObject(s);
+      	prompt("hi",(new XMLSerializer()).serializeToString(s));  //This is For testing
+	    
+      	
         s=objRef.insertXsl.transformNodeToObject(s);
         objRef.httpPayload.postData=s;
         objRef.transactionResponseModel.transactionType="delete";

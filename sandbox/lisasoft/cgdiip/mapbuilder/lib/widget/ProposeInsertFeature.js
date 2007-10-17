@@ -83,6 +83,11 @@ function ProposeInsertFeature(widgetNode, model) {
         objRef.targetModel.setXpathValue(objRef.targetModel,"//georss:where/gml:Point/gml:pos",point);
         
         objRef.targetModel.setXpathValue(objRef.targetModel,"//def:entry/def:updated",objRef.getISO8601Time());
+        content = objRef.targetModel.getXpathValue(objRef.targetModel,"//def:entry/def:content");
+        if(!content)
+        {
+        	objRef.targetModel.setXpathValue(objRef.targetModel,"//def:entry/def:content","n/a");
+        }
 	    
 	    s = objRef.targetModel.doc;
         //s=objRef.cdataElementXsl.transformNodeToObject(s);
@@ -91,7 +96,7 @@ function ProposeInsertFeature(widgetNode, model) {
         s=objRef.insertXsl.transformNodeToObject(s);
         
         
-        //prompt("hi",(new XMLSerializer()).serializeToString(s));  //This is For testing
+        prompt("hi",(new XMLSerializer()).serializeToString(s));  //This is For testing
         
         objRef.httpPayload.postData=s;
         objRef.transactionResponseModel.transactionType="insert";
@@ -226,10 +231,8 @@ function ProposeInsertFeature(widgetNode, model) {
 	if (day <= 9) day = "0" + day;
 	if (hour <= 9) hour = "0" + hour;
 	if (minute <= 9) minute = "0" + minute;
-	if (second <= 9) second = "0" + second;
-	//TODO REMOVE THIS HACK  
-	// time = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + timezone;
-	time = year + "-" + month + "-" + day + "T" + hourUTC + ":" + minuteUTC + ":" + second;
+	if (second <= 9) second = "0" + second; 
+	time = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + timezone;
 	return time;
   }
 }
