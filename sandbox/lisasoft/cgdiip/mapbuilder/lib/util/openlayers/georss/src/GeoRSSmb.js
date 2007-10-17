@@ -30,7 +30,7 @@ OpenLayers.Format.GeoRSSmb = OpenLayers.Class(OpenLayers.Format, {
      * APIProperty: georssns
      * GeoRSS namespace to use.
      */
-    georssns: "http://www.opengis.net/georss",
+    georssns: "http://www.georss.org/georss",
     
     
 	
