@@ -5,7 +5,7 @@
    xmlns="http://www.w3.org/2005/Atom"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xml:lang="en"
-   xmlns:georss="http://www.opengis.net/georss"
+   xmlns:georss="http://www.georss.org/georss"
    xmlns:topp="http://www.openplans.org/topp">
 
     <title>Example Feed Containing LISAsoft company</title>
@@ -108,7 +108,7 @@
 
 
 
-	<entry fid="00999906">
+	<!-- entry fid="00999906">
 		<title>test4</title>
 		<link>http://www.a2end.com</link>
 		<id>00999906</id>
@@ -145,7 +145,7 @@
 				</gml:polygonMember>
 			</gml:MultiPolygon>
 		</georss:where> 
-	</entry>
+	</entry -->
 	
 	
 	<entry fid="00999907">
