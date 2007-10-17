@@ -63,7 +63,7 @@
           <targetModel>mainMap</targetModel>
         </FeatureSelectHandler>
       </tools>
-	<namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:georss='http://www.opengis.net/georss' xmlns:ogc='http://www.opengis.net/ogc' xmlns:cw='http://www.cubewerx.com/cw' xmlns:gb='http://www.geobase.ca/interop-pilot-2007' xmlns:def='http://www.w3.org/2005/Atom'</namespace>
+	<namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:georss='http://www.georss.org/georss' xmlns:ogc='http://www.opengis.net/ogc' xmlns:cw='http://www.cubewerx.com/cw' xmlns:gb='http://www.geobase.ca/interop-pilot-2007' xmlns:def='http://www.w3.org/2005/Atom'</namespace>
 <!-- Default namespace won't work in XSL <namespace>xmlns='http://www.w3.org/2005/Atom'</namespace> -->
     </FeatureCollection>
     <StyledLayerDescriptor id="sld">

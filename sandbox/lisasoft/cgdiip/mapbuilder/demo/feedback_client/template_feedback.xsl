@@ -1,6 +1,6 @@
 <xsl:stylesheet
 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-xmlns:georss="http://www.opengis.net/georss"
+xmlns:georss="http://www.georss.org/georss"
 xmlns:gml="http://www.opengis.net/gml"
 xmlns:wfs="http://www.opengis.net/wfs"
 xmlns:ogc="http://www.opengis.net/ogc"
@@ -11,10 +11,10 @@ version="1.0">
 	<xsl:output method="xml" omit-xml-declaration="no" encoding="utf-8" indent="yes" />
 
 	<xsl:template match="/">
-		<gml:featureMember xmlns:def="http://www.w3.org/2005/Atom" xmlns:gml="http://www.opengis.net/gml" xmlns:gb="http://geocon.sunertek.com" xmlns:cw="http://www.cubewerx.com/cw" xmlns:georss="http://www.opengis.net/georss">
+		<gml:featureMember xmlns:def="http://www.w3.org/2005/Atom" xmlns:gml="http://www.opengis.net/gml" xmlns:gb="http://geocon.sunertek.com" xmlns:cw="http://www.cubewerx.com/cw" xmlns:georss="http://www.georss.org/georss">
 			<cw:FeedbackFeed>
 				<entry>
-					<title>Test connection to cubewerx feedback feed, from lisasoft feedback client</title>
+					<title>feedback proposal</title>
 					<author>
 						<name>Martin Vivian</name>
 						<uri>www.lisasoft.com</uri>
@@ -32,8 +32,8 @@ version="1.0">
 -->
 					<id></id>
 					<updated></updated>
-					<summary>Delete me as you please or just ignore me</summary>
-					<content>This is a HACK. content is not ment to be required but it is</content>
+					<summary></summary>
+					<content></content>
 					<georss:where>
 						<gml:Point>
 							<gml:pos></gml:pos>
@@ -41,7 +41,14 @@ version="1.0">
 					</georss:where>
 					<georss:featureOfInterest>
 						<gml:FeatureCollection>
-							<xsl:copy-of select="/" />
+- 							<xsl:choose>
+								<xsl:when test="count(/wfs:FeatureCollection) &gt; 0">
+ 									<xsl:copy-of select="/wfs:FeatureCollection/*" />
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:copy-of select="/" />
+								</xsl:otherwise>
+							</xsl:choose>
 						</gml:FeatureCollection>
 					</georss:featureOfInterest>
 				</entry>
