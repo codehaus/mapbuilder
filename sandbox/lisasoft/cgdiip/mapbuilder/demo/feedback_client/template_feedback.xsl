@@ -21,8 +21,8 @@ version="1.0">
 						<email>john@cgdiip.com</email>
 					</author>
 					<category scheme="http://www.geobase.ca/scheme/feedtype" term="feedback" ></category>
-					<category scheme="http://www.geobase.ca/scheme/domain" term="" ></category>
-					<category scheme="http://www.geobase.ca/scheme/featuretype" term="" ></category>
+					<category scheme="http://www.geobase.ca/scheme/domain" term="NL" ></category>
+					<category scheme="http://www.geobase.ca/scheme/featuretype" term="feature" ></category>
 					<category scheme="http://www.geobase.ca/scheme/action" term="update" ></category>
 					<category scheme="http://www.geobase.ca/scheme/status" term="published" ></category>
 <!-- 
