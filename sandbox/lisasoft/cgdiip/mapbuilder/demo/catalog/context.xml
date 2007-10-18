@@ -46,7 +46,48 @@
       </StyleList>
     </Layer>
 
-    <FeatureType hidden="0" maxFeatures="15">
+    <!--
+    <FeatureType hidden="1" maxFeatures="1">
+      <Server service="WFS" version="1.0" title="R WFS - gb:RoadSegment">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="https://securexnet.env.gov.ab.ca/cgdi2/mapserv?MAP=/maps/cgdif.map"/>
+      </Server>
+      <Name>gb:RoadSegment</Name>
+      <Title>WFS gb:RoadSegment</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+
+    <FeatureType hidden="0" maxFeatures="1">
+      <Server service="WFS" version="1.0" title="R WFS - ">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href=""/>
+      </Server>
+      <Name></Name>
+      <Title>WFS</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+-->
+    <FeatureType hidden="1" maxFeatures="2" id="lisasoft_wfs_administrative_area">
+      <Server service="WFS" version="1.0" title="Lisasoft's Aggregating WFS">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://wolf.cits.rncan.gc.ca:8080/geoserver/wfs"/>
+      </Server>
+      <Name>gb:AdministrativeArea</Name>
+      <Title>LS - Administrative Area</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+    <FeatureType hidden="1" maxFeatures="2" id="bc_wfs_administrative_area">
+      <Server service="WFS" version="1.0" title="RoadSegment">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://office.refractions.net:21880/geoserver/wfs"/>
+      </Server>
+      <Name>gb:AdministrativeArea</Name>
+      <Title>BC - Administrative Area</Title>
+      <Abstract>This is some bird data</Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+
+    <!--
+    <FeatureType hidden="1" maxFeatures="15">
       <Server service="WFS" version="1.0" title="My bird WFS">
         <OnlineResource method="POST" xlink:type="simple" xlink:href="http://www.bsc-eoc.org/cgi-bin/bsc_ows.asp"/>
       </Server>
@@ -55,7 +96,6 @@
       <Abstract>This is some bird data</Abstract>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
-    <!--
     <Layer hidden="0">
       <Server service="OGC:WMS" version="1.1.1" title="My birds WMS">
         <OnlineResource method="POST" xlink:type="simple" xlink:href="http://www.bsc-eoc.org/cgi-bin/bsc_ows.asp"/>
@@ -82,16 +122,6 @@
       </Server>
       <Name>Tasmania Water Bodies GML local</Name>
       <Title>Tazzy</Title>
-      <Abstract>This is some bird data</Abstract>
-      <SRS>EPSG:4326</SRS>
-    </FeatureType>
-
-    <FeatureType hidden="1">
-      <Server service="OGC:WFS" version="1.0" title="RoadSegment">
-        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://office.refractions.net:21880/geoserver/wfs"/>
-      </Server>
-      <Name>gb:RoadSegment</Name>
-      <Title>RoadSegment</Title>
       <Abstract>This is some bird data</Abstract>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
