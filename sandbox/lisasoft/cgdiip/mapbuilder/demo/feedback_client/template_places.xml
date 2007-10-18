@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!-- $Id: template_cities.xml 1299 2005-03-06 20:05:51Z camerons $ -->
 <gml:featureMember xmlns:gb="http://www.geobase.ca/interop-pilot-2007" xmlns:gml="http://www.opengis.net/gml">
   <gb:PlaceName>
     <gb:pointLocation>
