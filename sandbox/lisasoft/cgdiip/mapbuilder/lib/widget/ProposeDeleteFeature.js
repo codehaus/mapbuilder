@@ -80,7 +80,7 @@ function ProposeDeleteFeature(widgetNode, model) {
         
       	s = objRef.targetModel.doc;
       	//s=objRef.cdataElementXsl.transformNodeToObject(s);
-      	prompt("hi",(new XMLSerializer()).serializeToString(s));  //This is For testing
+      	//prompt("hi",(new XMLSerializer()).serializeToString(s));  //This is For testing
 	    
       	
         s=objRef.insertXsl.transformNodeToObject(s);
