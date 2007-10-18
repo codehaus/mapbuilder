@@ -69,14 +69,48 @@ $Name$
               <xsl:value-of select="@scheme"/>
             </td>
             <td>
-              <input
-                type="text"
-                id="{$widgetId}{generate-id()}"
-                size="40"
-                value="{@term}"
-                onchange="config.objects.{$widgetId}.setAttribValue(config.objects.{$widgetId},'{$xlink}[@scheme=\'{@scheme}\']','term',document.getElementById('{$widgetId}{generate-id()}').value);"/>
+                <xsl:choose>
+		            <xsl:when test="@scheme='http://www.geobase.ca/scheme/domain'">
+						<select id="{$widgetId}{generate-id()}"
+			                onchange="config.objects.{$widgetId}.setAttribValue(config.objects.{$widgetId},'{$xlink}[@scheme=\'{@scheme}\']','term',document.getElementById('{$widgetId}{generate-id()}').value);">
+			                <option value="">---Please Select---</option>
+			                <option value="AB">Alberta</option>
+			                <option value="BC">British Columbia</option>
+			                <option value="MB">Manitoba</option>
+			                <option value="NB">New Brunswick</option>
+			                <option value="NL">Newfoundland and Labrador</option>
+			                <option value="NT">Northwest Territories</option>
+			                <option value="NS">Nova Scotia</option>
+			                <option value="NU">Nunavut</option>
+			                <option value="ON">Ontario</option>
+			                <option value="PE">Prince Edward Island</option>
+			                <option value="QC">Quebec</option>
+			                <option value="SK">Saskatchewan</option>
+			                <option value="YT">Yukon</option>
+			            </select>
+	    			</xsl:when>
+	    			<xsl:when test="@scheme='http://www.geobase.ca/scheme/featuretype'">
+						<select id="{$widgetId}{generate-id()}"
+			                onchange="config.objects.{$widgetId}.setAttribValue(config.objects.{$widgetId},'{$xlink}[@scheme=\'{@scheme}\']','term',document.getElementById('{$widgetId}{generate-id()}').value);">
+			                <option value="">---Please Select---</option>
+			                <option value="PlaceName">Place Name</option>
+			                <option value="RoadSegment">Road Segment</option>
+			                <option value="AdministrativeArea">Administrative Area</option>
+			            </select>
+	    			</xsl:when>
+	    			<xsl:otherwise>
+		              	<input
+		              		disabled="true"
+			                type="text"
+			                id="{$widgetId}{generate-id()}"
+			                size="40"
+			                value="{@term}"
+			                onchange="config.objects.{$widgetId}.setAttribValue(config.objects.{$widgetId},'{$xlink}[@scheme=\'{@scheme}\']','term',document.getElementById('{$widgetId}{generate-id()}').value);"/>
+		        	</xsl:otherwise>
+	        	</xsl:choose>
             </td>
           </tr>
+        
         </xsl:when>
         <xsl:otherwise>
           <tr>

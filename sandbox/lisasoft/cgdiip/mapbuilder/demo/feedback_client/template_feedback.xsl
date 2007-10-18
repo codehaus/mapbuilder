@@ -16,13 +16,13 @@ version="1.0">
 				<entry>
 					<title>feedback proposal</title>
 					<author>
-						<name>Martin Vivian</name>
-						<uri>www.lisasoft.com</uri>
-						<email>mvivian@lisasoft.com</email>
+						<name>John Doe</name>
+						<uri>www.example.com</uri>
+						<email>john@cgdiip.com</email>
 					</author>
 					<category scheme="http://www.geobase.ca/scheme/feedtype" term="feedback" ></category>
-					<category scheme="http://www.geobase.ca/scheme/domain" term="Newfoundland and Labrador" ></category>
-					<category scheme="http://www.geobase.ca/scheme/featuretype" term="placename" ></category>
+					<category scheme="http://www.geobase.ca/scheme/domain" term="" ></category>
+					<category scheme="http://www.geobase.ca/scheme/featuretype" term="" ></category>
 					<category scheme="http://www.geobase.ca/scheme/action" term="update" ></category>
 					<category scheme="http://www.geobase.ca/scheme/status" term="published" ></category>
 <!-- 
