@@ -194,14 +194,10 @@ function CatalogSearchForm(widgetNode, model) {
     // TBD: This is not a correct way to address the model, since the form values will disappear when
     //      the model changes. View needs to correspond to the model.
 
-    if (this.searchForm.keywords.value != "")
-      this.model.setXpathValue(this.model, "/filter/keywords", this.searchForm.keywords.value, false);
-
-    if (this.searchForm.serviceType.value != "")
-      this.model.setXpathValue(this.model, "/filter/servicetype", this.searchForm.serviceType.value, false);
-
-    if (this.wrsServiceAssociation != "")
-      this.model.setXpathValue(this.model, "/filter/serviceassociation", this.wrsServiceAssociation, false);
+    // added empty string '' to prevent IE from crashing on empty/null values
+    this.model.setXpathValue(this.model, "/filter/keywords", this.searchForm.keywords.value + '', false);
+    this.model.setXpathValue(this.model, "/filter/servicetype", this.searchForm.serviceType.value + '', false);
+    this.model.setXpathValue(this.model, "/filter/serviceassociation", this.wrsServiceAssociation + '', false);
 
 	  // determine the BBox
     var aoi = config.objects[this.mapModel].getParam("aoi");
