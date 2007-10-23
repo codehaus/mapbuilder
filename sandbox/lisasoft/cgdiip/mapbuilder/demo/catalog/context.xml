@@ -24,7 +24,7 @@
   </General>
   <ResourceList>
     <Layer queryable="1" hidden="0">
-      <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
+      <Server service="WMS" version="1.0.0" title="OGC:WMS">
         <OnlineResource xlink:type="simple" xlink:href="http://labs.metacarta.com/wms/vmap0"/>
       </Server>
       <Name>basic</Name>
@@ -45,6 +45,17 @@
         </Style>
       </StyleList>
     </Layer>
+
+    <Layer hidden="0">
+      <Server service="WMS" version="1.1.1" title="WMS">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://atlas.nrcan.gc.ca/cgi-bin/toporamawms_en"/>
+      </Server>
+      <Name>wms_atlasofcanada_eng</Name>
+      <Title>CGDI NRCan WMS</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </Layer>
+
 
     <!--
     <FeatureType hidden="1" maxFeatures="1">
