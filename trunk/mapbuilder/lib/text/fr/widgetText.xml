@@ -18,7 +18,7 @@
   <widgets>
     <Abstract>
       <abstract>Résumé</abstract>
-      <moreInfo>Lisez à propos de cette carte</moreInfo>
+      <moreInfo>Informations relatives à la carte</moreInfo>
     </Abstract>
     
     <AoiForm>
@@ -30,7 +30,7 @@
     </AoiForm>
     
     <Back>
-      <tooltip>Changez pour l'extension précédent</tooltip>
+      <tooltip>Zoom précédent</tooltip>
     </Back>
     
     <CatSearchForm>
@@ -41,38 +41,38 @@
     </CatSearchForm>
     
     <CollectionList>
-      <title>Choisir une carte pour regardez:</title>
+      <title>Liste des contexts disponible:</title>
     </CollectionList>
     
     <CursorTrack>
-      <latitude>lat:</latitude>
-      <longitude>lon:</longitude>
-      <xcoord>x:</xcoord>
-      <ycoord>y:</ycoord>
+      <latitude>lat : </latitude>
+      <longitude>lon : </longitude>
+      <xcoord>x : </xcoord>
+      <ycoord>y : </ycoord>
     </CursorTrack>
     
     <DeleteFeature>
-      <tooltip>Éffacer la(es) caractéristique(s) courantes sur le serveur</tooltip>
+      <tooltip>Effacer la(es) géométrie(s) sélectionnées</tooltip>
     </DeleteFeature>
     
     <DragPan>
-      <tooltip>Cliquer et faire glisser la souris pour voir une autre partie de la carte</tooltip>
+      <tooltip>Cliquer et faire glisser la souris pour visualiser une autre partie de la carte</tooltip>
     </DragPan>
     
     <EditLine>
-      <tooltip>Cliquer pour créer un object géographique linéaire</tooltip>
+      <tooltip>Cliquer pour créer une ligne</tooltip>
     </EditLine>
     
     <EditPoint>
-      <tooltip>Cliquer pour créer un object géographique de point</tooltip>
+      <tooltip>Cliquer pour créer un point</tooltip>
     </EditPoint>
     
     <EditPolygon>
-      <tooltip>Cliquer pour créer un object géographique polygonique</tooltip>
+      <tooltip>Cliquer pour créer un polygone</tooltip>
     </EditPolygon>
     
     <Forward>
-      <tooltip>Changez pour l'extension suivante</tooltip>
+      <tooltip>Zoom suivant</tooltip>
     </Forward>
     
     <GetFeatureInfo>
@@ -80,17 +80,17 @@
     </GetFeatureInfo>
     
     <InsertFeature>
-      <tooltip>Sauvegarder la(es) caractéristique(s) courants sur le serveur</tooltip>
+      <tooltip>Sauvegarder la(es) géométrie(s) courantes sur le serveur</tooltip>
     </InsertFeature>
     
     <LayerControl>
       <deleteLayerTip>Effacer la couche</deleteLayerTip>
-      <layerIndexTip>Possiton courante de la Couche dans la pile d'image</layerIndexTip>
+      <layerIndexTip>Possiton courante de la couche dans la pile d'image</layerIndexTip>
       <legendTip>Afficher la Légende</legendTip>
       <moveLayerDownTip>Faire descendre la couche</moveLayerDownTip>
       <moveLayerUpTip>Faire monter la couche</moveLayerUpTip>
-      <nameLayerTip>Nom de la Couche</nameLayerTip>
-      <opacityTip>taux d'opacité</opacityTip>
+      <nameLayerTip>Nom de la couche</nameLayerTip>
+      <opacityTip>Niveau  d'opacité</opacityTip>
       <toggleVisTip>Afficher la couche</toggleVisTip>
     </LayerControl>
     
@@ -99,7 +99,7 @@
     </Legend>
     
     <Measurement>
-      <tooltip>Cliquer sur le plan pour mésurer la distance</tooltip>
+      <tooltip>Cliquer sur la carte pour mesurer la distance</tooltip>
     </Measurement>
     
     <ModelStatus>
@@ -107,12 +107,12 @@
     </ModelStatus>
     
     <ModelUrlInput>
-      <load>téléchargez</load>
-      <title>URL:</title>
+      <load>Téléchargez</load>
+      <title>URL : </title>
     </ModelUrlInput>
     
     <Reset>
-      <tooltip>Redonner la carte ses dimensions complètes</tooltip>
+      <tooltip>Zoom initial</tooltip>
     </Reset>
     
     <Save>
@@ -124,7 +124,7 @@
     </SetAoi>
     
     <Timestamp>
-      <title>Date de l'image:</title>
+      <title>Date de l'image : </title>
     </Timestamp>
     
     <WebServiceForm>
@@ -133,7 +133,7 @@
     </WebServiceForm>
     
     <WfsGetFeature>
-      <tooltip>Cliquer sur la caractéristique pour la questionner</tooltip>
+      <tooltip>Cliquer sur la couche pour la questionner</tooltip>
     </WfsGetFeature>
     
     <ZoomIn>
