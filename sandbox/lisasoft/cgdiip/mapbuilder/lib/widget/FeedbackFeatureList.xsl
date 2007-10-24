@@ -69,14 +69,48 @@ $Name$
               <xsl:value-of select="@scheme"/>
             </td>
             <td>
-              <input
-                type="text"
-                id="{$widgetId}{generate-id()}"
-                size="40"
-                value="{@term}"
-                onchange="config.objects.{$widgetId}.setAttribValue(config.objects.{$widgetId},'{$xlink}[@scheme=\'{@scheme}\']','term',document.getElementById('{$widgetId}{generate-id()}').value);"/>
+                <xsl:choose>
+		            <xsl:when test="@scheme='http://www.geobase.ca/scheme/domain'">
+						<select id="{$widgetId}{generate-id()}"
+			                onchange="config.objects.{$widgetId}.setAttribValue(config.objects.{$widgetId},'{$xlink}[@scheme=\'{@scheme}\']','term',document.getElementById('{$widgetId}{generate-id()}').value);">
+			                <option value="">---Please Select---</option>
+			                <xsl:choose><xsl:when test="@term='AB'">   <option value="AB" selected="true">Alberta</option>                  </xsl:when><xsl:otherwise>   <option value="AB">Alberta</option>                  </xsl:otherwise></xsl:choose>
+			                <xsl:choose><xsl:when test="@term='BC'">   <option value="BC" selected="true">British Columbia</option>         </xsl:when><xsl:otherwise>   <option value="BC">British Columbia</option>         </xsl:otherwise></xsl:choose>
+			                <xsl:choose><xsl:when test="@term='MB'">   <option value="MB" selected="true">Manitoba</option>                 </xsl:when><xsl:otherwise>   <option value="MB">Manitoba</option>                 </xsl:otherwise></xsl:choose>
+			                <xsl:choose><xsl:when test="@term='NB'">   <option value="NB" selected="true">New Brunswick</option>            </xsl:when><xsl:otherwise>   <option value="NB">New Brunswick</option>            </xsl:otherwise></xsl:choose>
+			                <xsl:choose><xsl:when test="@term='NL'">   <option value="NL" selected="true">Newfoundland and Labrador</option></xsl:when><xsl:otherwise>   <option value="NL">Newfoundland and Labrador</option></xsl:otherwise></xsl:choose>
+			                <xsl:choose><xsl:when test="@term='NT'">   <option value="NT" selected="true">Northwest Territories</option>    </xsl:when><xsl:otherwise>   <option value="NT">Northwest Territories</option>    </xsl:otherwise></xsl:choose>
+			                <xsl:choose><xsl:when test="@term='NS'">   <option value="NS" selected="true">Nova Scotia</option>              </xsl:when><xsl:otherwise>   <option value="NS">Nova Scotia</option>              </xsl:otherwise></xsl:choose>
+			                <xsl:choose><xsl:when test="@term='NU'">   <option value="NU" selected="true">Nunavut</option>                  </xsl:when><xsl:otherwise>   <option value="NU">Nunavut</option>                  </xsl:otherwise></xsl:choose>
+			                <xsl:choose><xsl:when test="@term='ON'">   <option value="ON" selected="true">Ontario</option>                  </xsl:when><xsl:otherwise>   <option value="ON">Ontario</option>                  </xsl:otherwise></xsl:choose>
+			                <xsl:choose><xsl:when test="@term='PE'">   <option value="PE" selected="true">Prince Edward Island</option>     </xsl:when><xsl:otherwise>   <option value="PE">Prince Edward Island</option>     </xsl:otherwise></xsl:choose>
+			                <xsl:choose><xsl:when test="@term='QC'">   <option value="QC" selected="true">Quebec</option>                   </xsl:when><xsl:otherwise>   <option value="QC">Quebec</option>                   </xsl:otherwise></xsl:choose>
+			                <xsl:choose><xsl:when test="@term='SK'">   <option value="SK" selected="true">Saskatchewan</option>             </xsl:when><xsl:otherwise>   <option value="SK">Saskatchewan</option>             </xsl:otherwise></xsl:choose>
+			                <xsl:choose><xsl:when test="@term='YT'">   <option value="YT" selected="true">Yukon</option>                    </xsl:when><xsl:otherwise>   <option value="YT">Yukon</option>                    </xsl:otherwise></xsl:choose>
+			            </select>
+	    			</xsl:when>
+	    			<xsl:when test="@scheme='http://www.geobase.ca/scheme/featuretype'">
+						<select id="{$widgetId}{generate-id()}"
+			                onchange="config.objects.{$widgetId}.setAttribValue(config.objects.{$widgetId},'{$xlink}[@scheme=\'{@scheme}\']','term',document.getElementById('{$widgetId}{generate-id()}').value);">
+			                <option value="">---Please Select---</option>
+			                <xsl:choose><xsl:when test="@term='PlaceName'">          <option value="PlaceName" selected="true">Place Name</option>                    </xsl:when><xsl:otherwise>  <option value="PlaceName">Place Name</option>                    </xsl:otherwise></xsl:choose>
+			                <xsl:choose><xsl:when test="@term='RoadSegment'">        <option value="RoadSegment" selected="true">Road Segment</option>                </xsl:when><xsl:otherwise>  <option value="RoadSegment">Road Segment</option>                </xsl:otherwise></xsl:choose>
+			                <xsl:choose><xsl:when test="@term='AdministrativeArea'"> <option value="AdministrativeArea" selected="true">Administrative Area</option>  </xsl:when><xsl:otherwise>  <option value="AdministrativeArea">Administrative Area</option>  </xsl:otherwise></xsl:choose>
+			            </select>
+	    			</xsl:when>
+	    			<xsl:otherwise>
+		              	<input
+		              		disabled="true"
+			                type="text"
+			                id="{$widgetId}{generate-id()}"
+			                size="40"
+			                value="{@term}"
+			                onchange="config.objects.{$widgetId}.setAttribValue(config.objects.{$widgetId},'{$xlink}[@scheme=\'{@scheme}\']','term',document.getElementById('{$widgetId}{generate-id()}').value);"/>
+		        	</xsl:otherwise>
+	        	</xsl:choose>
             </td>
           </tr>
+        
         </xsl:when>
         <xsl:otherwise>
           <tr>
