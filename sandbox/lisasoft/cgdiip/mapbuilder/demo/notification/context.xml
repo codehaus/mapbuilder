@@ -37,6 +37,7 @@
 		
 			
 		<!-- WMSC layer ... the tile cache --> 
+<!--
 		<Layer queryable="0" hidden="0">
           <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
             <OnlineResource xlink:type="simple" xlink:href="http://labs.metacarta.com/wms/vmap0"/>
@@ -58,18 +59,19 @@
               <Title>default</Title>
             </Style>
           </StyleList>
-<!-- 
-			<Server service="OGC:WMS-C" version="1.1.1" title="TileCache">
-				<OnlineResource xlink:type="simple" xlink:href="http://wmsc1.terrapages.net/getmap"/>
-			</Server>
- 			<Name>UnprojectedStreet</Name>
-			<Title>UnprojectedStreet</Title>
-			<SRS>EPSG:4326</SRS>
-			<FormatList>
-				<Format>image/jpeg</Format>
-			</FormatList>
- -->
 		</Layer>
+-->
+    <Layer hidden="0">
+      <Server service="WMS" version="1.1.1" title="WMS">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://atlas.nrcan.gc.ca/cgi-bin/toporamawms_en"/>
+      </Server>
+      <Name>wms_atlasofcanada_eng</Name>
+      <Title>CGDI NRCan WMS</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </Layer>
+
+
 		
 		<!--  The openlayers georss layer
 		<Layer queryable="0" hidden="0">
