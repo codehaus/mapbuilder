@@ -27,7 +27,7 @@ function LayerMetadata(widgetNode, model) {
   this.paint = function(layerNode, metadataDomElement) {
 
     // If clicked and metadata was visible, hide it and do nothing
-    if ((metadataDomElement.style.display != "none") && (metadataDomElement.innerHTML != "")) { 
+    if (metadataDomElement.style.display && (metadataDomElement.style.display != "none") && (metadataDomElement.innerHTML != "")) { 
       metadataDomElement.style.display = "none";
       return false;
     }
