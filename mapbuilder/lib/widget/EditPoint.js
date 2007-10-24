@@ -27,6 +27,7 @@ function EditPoint(widgetNode, model) {
    */
   this.createControl = function(objRef) {
     var Control = OpenLayers.Class(OpenLayers.Control.DrawFeature, {
+    type: OpenLayers.Control.TYPE_TOOL,
       // this is needed because all editing tools are of type
       // OpenLayers.Control.DrawFeature
       CLASS_NAME: 'mbEditPoint'
