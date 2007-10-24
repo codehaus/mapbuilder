@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <ViewContext version="1.0.0" id="atlas_world" xmlns="http://www.opengis.net/context" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengis.net/context/1.0.0/context.xsd">
   <General>
-    <Window width="500" height="400"/>
-    <BoundingBox SRS="EPSG:4326" minx="-80" miny="45" maxx="-30" maxy="70"/>
+    <Window width="600" height="350"/>
+    <BoundingBox SRS="EPSG:4326" minx="-143" miny="48" maxx="-52" maxy="72"/>
     <Title>Canada</Title>
     <KeywordList>
       <Keyword>Canada</Keyword>

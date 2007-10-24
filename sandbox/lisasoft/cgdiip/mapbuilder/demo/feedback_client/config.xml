@@ -29,10 +29,8 @@
           <htmlTagId>locatorMap</htmlTagId>
           <width>180</width>
           <layers>
-            <layerName>basic</layerName>
-            <layerName>gb:AdministrativeArea</layerName>
-            <layerName>gb:RoadSegment</layerName>
-            <layerName>gb:PlaceName</layerName>
+            <layerName>wms_atlasofcanada_eng</layerName>
+
           </layers>
         </OverviewMap>
       </widgets>
