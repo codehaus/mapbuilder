@@ -120,6 +120,7 @@ function EditButtonBase(widgetNode, model) {
     
     // feature layers will be created when the OL map is available
     objRef.targetContext.addFirstListener("refresh",objRef.setEditingLayer, objRef);
+    objRef.targetModel.addListener("refreshGmlRenderers",objRef.loadDefaultModel, objRef);
   }
 
   this.model.addListener("init",this.initButton, this);
