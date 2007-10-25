@@ -181,6 +181,4 @@
     </ModelTransformer>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
-  <!-- Url of LOCAL redirection script, required to access external URLs -->
-  <proxyUrl>../../MapbuilderProxy.jsp</proxyUrl>
 </MapbuilderConfig>
