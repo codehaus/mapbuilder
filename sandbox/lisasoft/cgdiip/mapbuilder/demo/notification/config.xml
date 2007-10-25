@@ -70,5 +70,4 @@
     </Reset>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
-  <proxyUrl>../../MapbuilderProxy.jsp</proxyUrl>
 </MapbuilderConfig>
