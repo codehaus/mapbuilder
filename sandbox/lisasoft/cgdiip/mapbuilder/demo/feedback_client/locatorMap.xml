@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<ViewContext version="1.0.0" id="mb_atlasLocatorMap" xmlns="http://www.opengis.net/context" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gdp="http://geodiscover.cgdi.ca" xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengis.net/context/1.0.0/context.xsd">
+  <General>
+    <Window width="180" height="104"/>
+    <BoundingBox SRS="EPSG:4326" minx="-143" miny="48" maxx="-52" maxy="72"/>
+    <Title>GDP Atlas of Canada search map</Title>
+  </General>
+  <LayerList>
+    <!--
+    <Layer hidden="0">
+      <Server service="WMS" version="1.1.1" title="WMS">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://atlas.nrcan.gc.ca/cgi-bin/toporamawms_en"/>
+      </Server>
+      <Name>wms_atlasofcanada_eng</Name>
+      <Title>CGDI NRCan WMS</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </Layer>
+    -->
+    <Layer queryable="0" hidden="0">
+      <Server service="wms" version="1.1.0" title="wms">
+        <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/atlas/mapdata/english/pb_world.map"/>
+      </Server>
+      <Name>ocean,land,coast</Name>
+      <Title>ocean area</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+    </Layer>
+  </LayerList>
+</ViewContext>

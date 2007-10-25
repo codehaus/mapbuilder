@@ -21,19 +21,32 @@
           <htmlTagId>mainMapPane</htmlTagId>
           <fixedSize>true</fixedSize>
         </MapPaneOL>
-        <!--Loading id="loading" /-->
         <CursorTrack id="cursorTrack"/>
         <Legend id="legend" />
         <Version id="version" />
-        <OverviewMap id="locatorWidget">
-          <htmlTagId>locatorMap</htmlTagId>
-          <width>180</width>
-          <layers>
-            <layerName>wms_atlasofcanada_eng</layerName>
-
-          </layers>
-        </OverviewMap>
       </widgets>
+    </Context>
+    <Context id="locator">
+      <defaultModelUrl>locatorMap.xml</defaultModelUrl>
+      <widgets>
+        <MapPaneOL id="locatorWidget">
+          <htmlTagId>locatorMap</htmlTagId>
+          <fixedSize>true</fixedSize>
+          <imageBuffer>1</imageBuffer>
+        </MapPaneOL>
+        <AoiBoxDHTML id="aoiBoxLocator">
+          <htmlTagId>locatorMap</htmlTagId>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+        </AoiBoxDHTML>
+      </widgets>
+      <tools>
+        <AoiMouseHandler id="locatorAoi" />
+        <ZoomToAoi id="locatorZoomToAoi">
+          <targetModel>mainMap</targetModel>
+        </ZoomToAoi>
+      </tools>
     </Context>
     <Transaction id="transaction">
       <widgets>
@@ -61,7 +74,7 @@
           <targetModel>mainMap</targetModel>
         </FeatureSelectHandler>
       </tools>
-	<namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:georss='http://www.georss.org/georss' xmlns:ogc='http://www.opengis.net/ogc' xmlns:cw='http://www.cubewerx.com/cw' xmlns:gb='http://www.geobase.ca/interop-pilot-2007' xmlns:def='http://www.w3.org/2005/Atom'</namespace>
+  <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:georss='http://www.georss.org/georss' xmlns:ogc='http://www.opengis.net/ogc' xmlns:cw='http://www.cubewerx.com/cw' xmlns:gb='http://www.geobase.ca/interop-pilot-2007' xmlns:def='http://www.w3.org/2005/Atom'</namespace>
 <!-- Default namespace won't work in XSL <namespace>xmlns='http://www.w3.org/2005/Atom'</namespace> -->
     </FeatureCollection>
     <StyledLayerDescriptor id="sld">
