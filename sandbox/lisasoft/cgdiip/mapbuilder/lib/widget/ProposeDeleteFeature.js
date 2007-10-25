@@ -59,22 +59,22 @@ function ProposeDeleteFeature(widgetNode, model) {
       if (!objRef.targetContext){
         objRef.targetContext=window.config.objects[objRef.tc];
       }
-      fid=objRef.targetModel.getXpathValue(objRef.targetModel,"//@fid");
+      fid=objRef.targetModel.getXpathValue(objRef.targetModel,"//@fid",!IS_IE);
       //if fid exists, then we are deleting an existing feature.
       if (objRef.targetModel.doc && fid){
       	point = objRef.getFirstPoint(objRef.targetModel);
-        objRef.targetModel.setXpathValue(objRef.targetModel,"//georss:where/gml:Point/gml:pos",point);
-      	objRef.targetModel.setXpathAttribute(objRef.targetModel,"//def:category[@scheme='http://www.geobase.ca/scheme/action']","term","Delete");
-      	objRef.targetModel.setXpathValue(objRef.targetModel,"//def:entry/def:updated",objRef.getISO8601Time());
+        objRef.targetModel.setXpathValue(objRef.targetModel,"//georss:where/gml:Point/gml:pos",point,null,!IS_IE);
+      	objRef.targetModel.setXpathAttribute(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/action']","term","Delete",null,!IS_IE);
+      	objRef.targetModel.setXpathValue(objRef.targetModel,"//entry/updated",objRef.getISO8601Time(),null,!IS_IE);
       	
       	var date = new Date();
         var id = window.location.hostname + date.getTime();
-        objRef.targetModel.setXpathValue(objRef.targetModel,"//def:entry/def:id",id);
+        objRef.targetModel.setXpathValue(objRef.targetModel,"//entry/id",id,null,!IS_IE);
         
-      	content = objRef.targetModel.getXpathValue(objRef.targetModel,"//def:entry/def:content");
+      	content = objRef.targetModel.getXpathValue(objRef.targetModel,"//entry/content",!IS_IE);
         if(!content)
         {
-        	objRef.targetModel.setXpathValue(objRef.targetModel,"//def:entry/def:content","n/a");
+        	objRef.targetModel.setXpathValue(objRef.targetModel,"//entry/content","n/a",null,!IS_IE);
         }
         
         
@@ -85,7 +85,7 @@ function ProposeDeleteFeature(widgetNode, model) {
       	
         s=objRef.insertXsl.transformNodeToObject(s);
         objRef.httpPayload.postData=s;
-        objRef.transactionResponseModel.transactionType="delete";
+        objRef.transactionResponseModel.transactionType="insert";
         objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
       }else alert(mbGetMessage("noFeatureToDelete"));
     }

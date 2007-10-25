@@ -62,31 +62,31 @@ function ProposeInsertFeature(widgetNode, model) {
       if (!objRef.targetContext){
         objRef.targetContext=window.config.objects[objRef.tc];
       }
-      fid=objRef.targetModel.getXpathValue(objRef.targetModel,"//@fid");
+      fid=objRef.targetModel.getXpathValue(objRef.targetModel,"//@fid",!IS_IE);
       if (objRef.targetModel.doc){
 
         //if fid exists, then we are modifying an existing feature,
         // otherwise we are adding a new feature
         
         if(fid){
-          objRef.targetModel.setXpathAttribute(objRef.targetModel,"//def:category[@scheme='http://www.geobase.ca/scheme/action']","term","Update");
+          objRef.targetModel.setXpathAttribute(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/action']","term","Update",null,!IS_IE);
         }else{
-          objRef.targetModel.setXpathAttribute(objRef.targetModel,"//def:category[@scheme='http://www.geobase.ca/scheme/action']","term","Insert");
+          objRef.targetModel.setXpathAttribute(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/action']","term","Insert",null,!IS_IE);
         }
         
         var date = new Date();
         var id = window.location.hostname + date.getTime();
-        objRef.targetModel.setXpathValue(objRef.targetModel,"//def:entry/def:id",id);
+        objRef.targetModel.setXpathValue(objRef.targetModel,"//entry/id",id,null,!IS_IE);
         
         
         point = objRef.getFirstPoint(objRef.targetModel);
-        objRef.targetModel.setXpathValue(objRef.targetModel,"//georss:where/gml:Point/gml:pos",point);
+        objRef.targetModel.setXpathValue(objRef.targetModel,"//georss:where/gml:Point/gml:pos",point,null,!IS_IE);
         
-        objRef.targetModel.setXpathValue(objRef.targetModel,"//def:entry/def:updated",objRef.getISO8601Time());
-        content = objRef.targetModel.getXpathValue(objRef.targetModel,"//def:entry/def:content");
+        objRef.targetModel.setXpathValue(objRef.targetModel,"//entry/updated",objRef.getISO8601Time(),null,!IS_IE);
+        content = objRef.targetModel.getXpathValue(objRef.targetModel,"//entry/def:content",!IS_IE);
         if(!content)
         {
-        	objRef.targetModel.setXpathValue(objRef.targetModel,"//def:entry/def:content","n/a");
+        	objRef.targetModel.setXpathValue(objRef.targetModel,"//entry/content","n/a",null,!IS_IE);
         }
 	    
 	    s = objRef.targetModel.doc;
@@ -95,7 +95,8 @@ function ProposeInsertFeature(widgetNode, model) {
         //mvivian: Will always be inserting proposed changes
         s=objRef.insertXsl.transformNodeToObject(s);
         
-        //prompt("hi",(new XMLSerializer()).serializeToString(s));  //This is For testing
+        //uncomment to see the XML
+        //prompt("Heres the XML for the transaction",(new XMLSerializer()).serializeToString(s));  //This is For testing
         
         objRef.httpPayload.postData=s;
         objRef.transactionResponseModel.transactionType="insert";

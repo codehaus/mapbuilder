@@ -24,7 +24,7 @@ function FeedbackFeatureList(widgetNode, model) {
    * @param value New attribute value.
    */
   this.setNodeValue=function(objRef,xpath,value){
-    objRef.model.setXpathValue(objRef.model,xpath,value,null,true);
+    objRef.model.setXpathValue(objRef.model,xpath,value,null,!IS_IE);
   }
 
   /**
@@ -35,6 +35,6 @@ function FeedbackFeatureList(widgetNode, model) {
    * @param value New attribute value.
    */
   this.setAttribValue=function(objRef,xpath,attrib,value){
-    objRef.model.setXpathAttribute(objRef.model,xpath,attrib,value,null,true);
+    objRef.model.setXpathAttribute(objRef.model,xpath,attrib,value,null,!IS_IE);
   }
 }
