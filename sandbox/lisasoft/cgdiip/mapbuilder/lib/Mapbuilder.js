@@ -117,6 +117,8 @@ function Mapbuilder() {
         this.loadScript(baseDir+"/util/Listener.js");
         this.loadScript(baseDir+"/model/ModelBase.js");
         this.loadScript(baseDir+"/model/Config.js");
+        this.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
+
         break;
       case MB_LOAD_CONFIG:
         if(document.readyState){
