@@ -1,6 +1,3 @@
-function adjust_lon(x) {x=(Math.abs(x)<PI)?x:(x-(sign(x)*TWO_PI));return(x);}
-
-
 /*******************************************************************************
 NAME                  		SINUSOIDAL
 
@@ -27,63 +24,56 @@ ALGORITHM REFERENCES
     Package", U.S. Geological Survey National Mapping Division, May 1982.
 *******************************************************************************/
 
+Proj4js.Proj.sinu = {
 
-/* Initialize the Sinusoidal projection
-  ------------------------------------*/
-sinuInit=function(def){
-/* Place parameters in static storage for common use
-  -------------------------------------------------*/
-def.R = 6370997.0; //Radius of earth
+	/* Initialize the Sinusoidal projection
+	  ------------------------------------*/
+	init: function() {
+		/* Place parameters in static storage for common use
+		  -------------------------------------------------*/
+		this.R = 6370997.0; //Radius of earth
+	},
 
+	/* Sinusoidal forward equations--mapping lat,long to x,y
+	-----------------------------------------------------*/
+	forward: function(p) {
+		var x,y,delta_lon;	
+		var lon=p.x;
+		var lat=p.y;	
+		/* Forward equations
+		-----------------*/
+		delta_lon = Proj4js.common.adjust_lon(lon - this.long0);
+		x = this.R * delta_lon * Math.cos(lat) + this.x0;
+		y = this.R * lat + this.y0;
 
+		p.x=x;
+		p.y=y;	
+		return p;
+	},
 
-/* Report parameters to the user
-  -----------------------------*/
-}
+	inverse: function(p) {
+		var lat,temp,lon;	
 
-/* Sinusoidal forward equations--mapping lat,long to x,y
-  -----------------------------------------------------*/
- sinuFwd=function(p){
-var x,y,delta_lon;	
-var lon=p.x;
-var lat=p.y;	
-/* Forward equations
-  -----------------*/
- delta_lon = adjust_lon(lon - this.long0);
- x = this.R * delta_lon * Math.cos(lat) + this.x0;
- y = this.R * lat + this.y0;
-
-p.x=x;
-p.y=y;	
-	
-}
-
-
- sinuInv=function(p){
-var lat,temp,lon;	
-
-/* Inverse equations
-  -----------------*/
-p.x -= this.x0;
-p.y -= this.y0;
- lat = p.y / this.R;
-if (Math.abs(lat) > HALF_PI) 
-   {
-    if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("sinuInvDataError"));
-     //return(164);
-   }
- temp = Math.abs(lat) - HALF_PI;
-if (Math.abs(temp) > EPSLN)
-   {
-   temp = this.long0+ p.x / (this.R *Math.cos(lat));
-   var lon = adjust_lon(temp);
-   }
-else lon = this.long0;
-
-
-  
- p.x=lon;
- p.y=lat;
-}
+		/* Inverse equations
+		  -----------------*/
+		p.x -= this.x0;
+		p.y -= this.y0;
+		lat = p.y / this.R;
+		if (Math.abs(lat) > Proj4js.common.HALF_PI) {
+		    Proj4js.reportError("sinu:Inv:DataError");
+		}
+		temp = Math.abs(lat) - Proj4js.common.HALF_PI;
+		if (Math.abs(temp) > Proj4js.common.EPSLN) {
+			temp = this.long0+ p.x / (this.R *Math.cos(lat));
+			lon = Proj4js.common.adjust_lon(temp);
+		} else {
+			lon = this.long0;
+		}
+		  
+		p.x=lon;
+		p.y=lat;
+		return p;
+	}
+};
 
 

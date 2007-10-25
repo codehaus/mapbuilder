@@ -19,7 +19,7 @@ Proj4js.Proj.stere = {
     if ( lat <= 90.0 && lat >= -90.0 && lon <= 180.0 && lon >= -180.0) {
 
     } else {
-      if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("llInputOutOfRange", lon, lat));
+      Proj4js.reportError("stere:forward:llInputOutOfRange", lon, lat);
       return null;
     }
     var dlon = Proj4js.common.adjust_lon(lon - this.long0);
@@ -29,7 +29,7 @@ Proj4js.Proj.stere = {
     var coslon = Math.cos(dlon);
     var g = this.sin_p10 * sinphi + this.cos_p10 * cosphi * coslon;
     if (Math.abs(g + 1.0) <= Proj4js.common.EPSLN) {
-      if (!MB_IGNORE_CSCS_ERRORS) alert(mbGetMessage("ll2stInfiniteProjection"));
+      Proj4js.reportError("stere:forward:ll2stInfiniteProjection");
       return null;
     } else {
       ksp = 2.0 / (1.0 + g);

@@ -57,7 +57,7 @@ Proj4js = {
      * internal: http server path to library code.
      * TBD figure this out automatically
      */
-    libPath: '/cscs/lib/',                   //
+    libPath: '/proj4js/lib/',                   //
     //libPath: '../lib/proj4js/',                   //
 
     /** 

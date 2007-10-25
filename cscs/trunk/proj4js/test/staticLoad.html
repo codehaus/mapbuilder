@@ -22,15 +22,17 @@
   <script src="../lib/projCode/moll.js"></script>
   <script src="../lib/projCode/omerc.js"></script>
   <script src="../lib/projCode/ortho.js"></script>
-  <!-- these not tested or validated yet !!
   <script src="../lib/projCode/poly.js"></script>
   <script src="../lib/projCode/sinu.js"></script>
   <script src="../lib/projCode/stere.js"></script>
   <script src="../lib/projCode/sterea.js"></script>
   <script src="../lib/projCode/vandg.js"></script>
+  <!-- these not tested or validated yet !!
   -->
   <script src="testdata.js"></script>
   <script type="text/javascript">
+    Proj4js.proxyScript = '/mapbuilder/proxy?url=';
+	
     function runTests() {
       var xyEPSLN = 1.0e-2;
       var llEPSLN = 1.0e-6;

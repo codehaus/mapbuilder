@@ -37,7 +37,7 @@ $Id: build.xml 2955 2007-07-09 12:12:27Z steven $
      from which Ant executes the requested task.  This is normally
      set to the current working directory.
 -->
-  <project basedir="." default="deploy-tomcat" name="cscs">
+  <project basedir="." default="deploy-tomcat" name="proj4js">
 
 <!-- ===================== Property Definitions =========================== -->
 <!--
@@ -108,7 +108,7 @@ $Id: build.xml 2955 2007-07-09 12:12:27Z steven $
 -->
 
   <property environment="env"/>
-  <property name="app.name" value="cscs"/>
+  <property name="app.name" value="proj4js"/>
   <property name="pack.name" value="${app.name}-lib"/>
   <property name="app.path" value="/${app.name}"/>
   <property name="catalina.home" value="${env.CATALINA_HOME}"/> <!-- ensure you have this environment var set -->
