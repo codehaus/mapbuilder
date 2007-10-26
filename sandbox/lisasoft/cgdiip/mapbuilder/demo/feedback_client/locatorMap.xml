@@ -6,7 +6,7 @@
     <Title>GDP Atlas of Canada search map</Title>
   </General>
   <LayerList>
-    <!--
+    
     <Layer hidden="0">
       <Server service="WMS" version="1.1.1" title="WMS">
         <OnlineResource method="POST" xlink:type="simple" xlink:href="http://atlas.nrcan.gc.ca/cgi-bin/toporamawms_en"/>
@@ -16,7 +16,7 @@
       <Abstract></Abstract>
       <SRS>EPSG:4326</SRS>
     </Layer>
-    -->
+    <!--
     <Layer queryable="0" hidden="0">
       <Server service="wms" version="1.1.0" title="wms">
         <OnlineResource xlink:type="simple" xlink:href="http://atlas.gc.ca/cgi-bin/mapserv?map=/home/atlas/mapdata/english/pb_world.map"/>
@@ -28,5 +28,6 @@
         <Format current="1">image/gif</Format>
       </FormatList>
     </Layer>
+    -->
   </LayerList>
 </ViewContext>
