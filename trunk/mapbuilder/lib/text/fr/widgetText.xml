@@ -45,10 +45,10 @@
     </CollectionList>
     
     <CursorTrack>
-      <latitude>lat : </latitude>
-      <longitude>lon : </longitude>
-      <xcoord>x : </xcoord>
-      <ycoord>y : </ycoord>
+      <latitude>lat: </latitude>
+      <longitude>lon: </longitude>
+      <xcoord>x: </xcoord>
+      <ycoord>y: </ycoord>
     </CursorTrack>
     
     <DeleteFeature>
@@ -103,12 +103,12 @@
     </Measurement>
     
     <ModelStatus>
-      <title>Statut de:</title>
+      <title>Statut de: </title>
     </ModelStatus>
     
     <ModelUrlInput>
       <load>Téléchargez</load>
-      <title>URL : </title>
+      <title>URL: </title>
     </ModelUrlInput>
     
     <Reset>
@@ -124,7 +124,7 @@
     </SetAoi>
     
     <Timestamp>
-      <title>Date de l'image : </title>
+      <title>Date de l'image: </title>
     </Timestamp>
     
     <WebServiceForm>
