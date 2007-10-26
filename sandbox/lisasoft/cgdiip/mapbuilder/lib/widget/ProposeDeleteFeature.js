@@ -63,30 +63,39 @@ function ProposeDeleteFeature(widgetNode, model) {
       //if fid exists, then we are deleting an existing feature.
       if (objRef.targetModel.doc && fid){
       	point = objRef.getFirstPoint(objRef.targetModel);
-        objRef.targetModel.setXpathValue(objRef.targetModel,"//georss:where/gml:Point/gml:pos",point,null,!IS_IE);
-      	objRef.targetModel.setXpathAttribute(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/action']","term","Delete",null,!IS_IE);
-      	objRef.targetModel.setXpathValue(objRef.targetModel,"//entry/updated",objRef.getISO8601Time(),null,!IS_IE);
-      	
-      	var date = new Date();
-        var id = window.location.hostname + date.getTime();
-        objRef.targetModel.setXpathValue(objRef.targetModel,"//entry/id",id,null,!IS_IE);
-        
-      	content = objRef.targetModel.getXpathValue(objRef.targetModel,"//entry/content",!IS_IE);
-        if(!content)
-        {
-        	objRef.targetModel.setXpathValue(objRef.targetModel,"//entry/content","n/a",null,!IS_IE);
-        }
-        
-        
-      	s = objRef.targetModel.doc;
-      	//s=objRef.cdataElementXsl.transformNodeToObject(s);
-      	//prompt("hi",(new XMLSerializer()).serializeToString(s));  //This is For testing
-	    
-      	
-        s=objRef.insertXsl.transformNodeToObject(s);
-        objRef.httpPayload.postData=s;
-        objRef.transactionResponseModel.transactionType="insert";
-        objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
+      	if(point)
+      	{
+      		if(objRef.targetModel.getXpathValue(objRef.targetModel,"//entry/summary",!IS_IE) && objRef.targetModel.getXpathValue(objRef.targetModel,"//entry/title",!IS_IE))
+      		{
+      			if(objRef.targetModel.getXpathValue(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/domain']/@term",!IS_IE) && objRef.targetModel.getXpathValue(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/featuretype']/@term",!IS_IE))
+		        {
+			        objRef.targetModel.setXpathValue(objRef.targetModel,"//georss:where/gml:Point/gml:pos",point,null,!IS_IE);
+			      	objRef.targetModel.setXpathAttribute(objRef.targetModel,"//category[@scheme='http://www.geobase.ca/scheme/action']","term","Delete",null,!IS_IE);
+			      	objRef.targetModel.setXpathValue(objRef.targetModel,"//entry/updated",objRef.getISO8601Time(),null,!IS_IE);
+			      	
+			      	var date = new Date();
+			        var id = window.location.hostname + date.getTime();
+			        objRef.targetModel.setXpathValue(objRef.targetModel,"//entry/id",id,null,!IS_IE);
+			        
+			      	content = objRef.targetModel.getXpathValue(objRef.targetModel,"//entry/content",!IS_IE);
+			        if(!content)
+			        {
+			        	objRef.targetModel.setXpathValue(objRef.targetModel,"//entry/content","n/a",null,!IS_IE);
+			        }
+			        
+			        
+			      	s = objRef.targetModel.doc;
+			      	//s=objRef.cdataElementXsl.transformNodeToObject(s);
+			      	//prompt("hi",(new XMLSerializer()).serializeToString(s));  //This is For testing
+				    
+			      	
+			        s=objRef.insertXsl.transformNodeToObject(s);
+			        objRef.httpPayload.postData=s;
+			        objRef.transactionResponseModel.transactionType="insert";
+			        objRef.transactionResponseModel.newRequest(objRef.transactionResponseModel,objRef.httpPayload);
+		        }else alert("Please select the province and feature type from the drop down lists");
+      		}else alert("Please ensure you have filled in the title and summary of your proposal");
+      	}else alert("Please keep the geometry from the feature your deleting");
       }else alert(mbGetMessage("noFeatureToDelete"));
     }
   }
@@ -130,27 +139,23 @@ function ProposeDeleteFeature(widgetNode, model) {
     return (minX + "," + minY + " " + minX + "," + maxY + " " + maxX + "," + maxY + " " + maxX + "," + minY + " " + minX + "," + minY);
   }
   
+  
   this.getFirstPoint = function(targetModel)
   {
     var nodes = targetModel.doc.selectNodes("//georss:featureOfInterest//gml:coordinates");
     
-    invalidCoord=false;
-    for(var n=0;n<nodes.length;n++)
-    {
-      coords = nodes[n].firstChild.nodeValue.trim().split(" ");
-      if(coords.length >= 0 && coords[0]!= "")
-      {
-        result = coords[0].replace(","," ");
-      }
-      else
-      {
-        invalidCoord = true;
-      }
-    }
+    var result = null;
     
-    if(invalidCoord)
+    if(nodes.length > 0)
     {
-      alert("invalid coordinate found, but transaction will procceed")
+    	if(nodes[0].firstChild)
+    	{
+			coords = nodes[0].firstChild.nodeValue.trim().split(" ");
+			if(coords.length >= 0 && coords[0]!= "")
+			{
+				result = coords[0].replace(",", " ");
+			}
+    	}
     }
         
     return (result);
