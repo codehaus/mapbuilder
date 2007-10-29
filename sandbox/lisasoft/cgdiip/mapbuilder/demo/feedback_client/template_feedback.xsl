@@ -14,7 +14,7 @@ version="1.0">
 		<gml:featureMember xmlns:def="http://www.w3.org/2005/Atom" xmlns:gml="http://www.opengis.net/gml" xmlns:gb="http://geocon.sunertek.com" xmlns:cw="http://www.cubewerx.com/cw" xmlns:georss="http://www.georss.org/georss">
 			<cw:FeedbackFeed>
 				<entry>
-					<title>feedback proposal</title>
+					<title></title>
 					<author>
 						<name>John Doe</name>
 						<uri>www.example.com</uri>
