@@ -499,12 +499,13 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       layerOptions.ratio = objRef.imageBuffer;
       layerOptions.singleTile = true;
 
+      var layerList = layerName.split(",");
       var params = new Array();
       params = sld2UrlParam(currentStyle);
       if (objRef.model.timestampList && objRef.model.timestampList.getAttribute("layerName") == layerName) { 
           var timestamp = objRef.model.timestampList.childNodes[0];	
 	      objRef.oLlayers[layerId]= new OpenLayers.Layer.WMS(title,href,{
-	          layers: layerName,
+	          layers: layerList,
 	          // "TRUE" in upper case else the context doc boston.xml
 	          // (i.c. the IONIC WMS/WFS) doesn't work.
 	          // Note that this is in line with the WMS standard (OGC 01-068r2),
@@ -525,7 +526,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       }
       else {
 	      objRef.oLlayers[layerId]= new OpenLayers.Layer.WMS(title,href,{
-	          layers: layerName,
+	          layers: layerList,
 	          // "TRUE" in upper case else the context doc boston.xml
 	          // (i.c. the IONIC WMS/WFS) doesn't work.
 	          // Note that this is in line with the WMS standard (OGC 01-068r2),
