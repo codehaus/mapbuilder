@@ -170,7 +170,7 @@
       <enabledSrc>/images/QueryEnable.png</enabledSrc>
       <disabledSrc>/images/QueryDisable.png</disabledSrc>
       <transactionResponseModel>featureCollection</transactionResponseModel>
-      <webServiceUrl>http://nfl.sunertek.com/wfs</webServiceUrl>
+      <webServiceUrl>http://wolf.cits.rncan.gc.ca:8080/geoserver/wfs</webServiceUrl>
       <typeName>gb:PlaceName,gb:RoadSegment,gb:AdministrativeArea</typeName>
       <tolerance>5</tolerance>
       <maxFeatures>1</maxFeatures>
