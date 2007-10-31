@@ -29,6 +29,8 @@
           <htmlTagId>layerMetadata</htmlTagId>
         </LayerMetadata>
         <CursorTrack id="cursorTrack"/>
+        <ModelUrlInput id="urlInput">
+        </ModelUrlInput>
       </widgets>
     </OwsContext>
     <!-- Contains the results of a catalog search -->
