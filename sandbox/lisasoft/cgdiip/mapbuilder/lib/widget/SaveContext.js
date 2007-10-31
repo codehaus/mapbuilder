@@ -32,24 +32,31 @@ function SaveContext(widgetNode, model) {
       type: OpenLayers.Control.TYPE_BUTTON,
       
       trigger: function () {
-        var s=(new XMLSerializer()).serializeToString(objRef.targetModel.doc);
-        s=
-            "<html><title>"
-            +"Context"
-            +"</title><body>"
-            +Sarissa.escape(s)
-            +"</body></html>"
-        // Insert break after each tag
-        s=s.replace(/&gt;/g, "&gt;<br/>")
-        var popup=window.open();
-        popup.document.write(s);
-        return false;
-
+        objRef.targetModel.addListener("modelSaved", objRef.popupContext, objRef);
+        objRef.targetModel.saveModel(objRef.targetModel);
        },
        CLASS_NAME: 'mbControl.Save'
   });
   return Control;
   }
+
+ /**
+   * Open popup window with context
+   * @param objRef reference to this object.
+   * @return none 
+   */
+  this.popupContext = function(objRef) {
+    url = objRef.targetModel.getParam("modelSaved");
+    if (url) {
+      var popup=window.open(url);
+      if (!popup) {
+        alert('Please allow popups in order to save the context');
+      }
+    } else {
+      alert('Model could not be saved. Our apologies.');
+    }
+  }
+
 
 }
 
