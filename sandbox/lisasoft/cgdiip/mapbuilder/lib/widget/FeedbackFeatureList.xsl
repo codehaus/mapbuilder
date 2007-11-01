@@ -25,7 +25,7 @@ $Name$
   <xsl:template match="/">
     <div>
       <h3>Feature List</h3>
-      <input type="button" value="Save" onclick="config.objects.insertFeature.doSelect(config.objects.insertFeature,true);" />
+      <!-- <input type="button" value="Save" onclick="config.objects.insertFeature.doSelect(config.objects.insertFeature,true);" /> -->
       <xsl:apply-templates/>
     </div>
   </xsl:template>
