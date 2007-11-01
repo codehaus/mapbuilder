@@ -42,11 +42,11 @@ function LocationSearch(widgetNode, model) {
   LocationSearch.prototype.search = function() {
     // Register for an event sent after the WFS query has finished
 
-    if(!this.initialized){
-      this.targetModel.addListener("loadModel",this.handleResponse,this);
+    //if(!this.initialized){
+      //this.targetModel.addListener("loadModel",this.handleResponse,this);
    //   this.ebrim2Context=new XslProcessor(baseDir+"/tool/xsl/ebrim2Context.xsl");
-      this.initialized=1;
-    }
+      //this.initialized=1;
+    //}
     
     // call buildQuery method to read form values, put them into the model
     // and perform an XSL translation to get the WRS Query
@@ -87,25 +87,6 @@ function LocationSearch(widgetNode, model) {
     var wfsQueryXML = (new XMLSerializer()).serializeToString(this.model.doc);
     return wfsQueryXML;
 
-  }
-
-  /**
-   * Convert the response of a WFS Query into an OWSContext document
-   * so that it can be processed.
-   * Called after the response from a WFS query has been received and 
-   * populated in the targetModel.
-   * @param objRef Pointer to widget object.
-   */
-  LocationSearch.prototype.handleResponse = function(objRef) {
-    console.debug(objRef);
-    //alert('handle response');
-
-    return true;
-    var newContext=objRef.ebrim2Context.transformNodeToObject(objRef.targetModel.doc);
-
-    window.config.objects[objRef.targetContext].setModel(
-      window.config.objects[objRef.targetContext],
-      newContext);
   }
 
   //set some properties for the form output

@@ -27,7 +27,6 @@ $Name$Name:  $
     <div>
     <form>
       <select name="locations" onchange="javascript:config.objects.{$widgetId}.setAoi(this.options[this.selectedIndex].value,'{$targetModel}','{$srsName}');" size="{$selectSize}">
-       <option value="">Select</option>
         <xsl:apply-templates select="gml:featureMember/mb:locationDef"/>
       </select>
     </form>
@@ -45,6 +44,7 @@ $Name$Name:  $
     <h3>Results</h3>
       <form>
         <select name="locations" onchange="javascript:config.objects.{$widgetId}.setAoi(this.options[this.selectedIndex].value,'{$targetModel}','{$srsName}');" size="{$selectSize}">
+          <option value="">-- select location --</option>
           <xsl:apply-templates select="gml:featureMember"/>
         </select>
       </form>

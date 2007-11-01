@@ -83,7 +83,9 @@
       </widgets>
     </Model>
     <Model id="locationResults">
+      <!--
       <defaultModelUrl>testLocations.xml</defaultModelUrl>
+      -->
       <widgets>
         <Locations id="locationsSelect">
           <htmlTagId>locationResults</htmlTagId>

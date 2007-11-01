@@ -37,7 +37,7 @@ function Locations(widgetNode, model) {
     var bboxArray = new Array();
     bboxArray     = bbox.split(",");
 
-    console.debug('bbox length = ' + bboxArray.length);
+    //console.debug('bbox length = ' + bboxArray.length);
     if (bboxArray.length == 4) {
       var ptUL=new PT(parseFloat(bboxArray[0]),parseFloat(bboxArray[3]));
       var ptLR=new PT(parseFloat(bboxArray[2]),parseFloat(bboxArray[1]));
@@ -52,9 +52,9 @@ function Locations(widgetNode, model) {
       this.targetModel.map.zoomToExtent(new OpenLayers.Bounds(ul[0],lr[1],lr[0],ul[1]));
 
     } else if (bboxArray.length == 2) {
-      console.debug('bbox is point: ' + bbox);
-      console.debug('zoom is : ' + this.targetModel.map.zoom);
-      console.debug('zoomlevels is : ' + this.targetModel.map.getNumZoomLevels());
+      //console.debug('bbox is point: ' + bbox);
+      //console.debug('zoom is : ' + this.targetModel.map.zoom);
+      //console.debug('zoomlevels is : ' + this.targetModel.map.getNumZoomLevels());
       this.targetModel.map.zoomToExtent(new OpenLayers.Bounds(bboxArray[0],bboxArray[1],bboxArray[0],bboxArray[1]));
       this.targetModel.map.zoomTo( this.targetModel.map.getNumZoomLevels() - 8);
       //this.targetModel.map.setCenter(bbox, this.targetModel.map.zoom +1);

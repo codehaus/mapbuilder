@@ -39,7 +39,7 @@ $Name:  $
       <input type="hidden" name="outputFormat" value="GML3"/>
       
       <h3>Placename</h3>
-      <input type="text" name="placename" value="Ontario"/>
+      <input type="text" name="placename" value=""/>
       <input type="button" value="search" onclick="config.objects.{$widgetId}.search();"/>
 
     </form>

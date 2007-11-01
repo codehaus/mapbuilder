@@ -13,7 +13,7 @@
     <ogc:Filter> 
       <ogc:PropertyIsLike wildCard='*' singleChar='.' escape='!'> 
         <ogc:PropertyName>gb:geographicalName</ogc:PropertyName> 
-        <ogc:Literal>Ont*</ogc:Literal> 
+        <ogc:Literal></ogc:Literal> 
       </ogc:PropertyIsLike> 
      </ogc:Filter>
     </wfs:Query>
