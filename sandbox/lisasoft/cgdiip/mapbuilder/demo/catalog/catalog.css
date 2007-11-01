@@ -39,7 +39,10 @@ h1 {
 
 #footer {
   position: absolute;
-  bottom: 10px;
+  bottom: 20px;
+  float: right;
+  width: 300px;
+  right: 0px;
 }
 
 /* 

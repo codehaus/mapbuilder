@@ -36,16 +36,30 @@ function Locations(widgetNode, model) {
     }
     var bboxArray = new Array();
     bboxArray     = bbox.split(",");
-    var ptUL=new PT(parseFloat(bboxArray[0]),parseFloat(bboxArray[3]));
-    var ptLR=new PT(parseFloat(bboxArray[2]),parseFloat(bboxArray[1]));
-    cs_transform(new Proj(srsName),this.targetModel.proj,ptUL);
-    cs_transform(new Proj(srsName),this.targetModel.proj,ptLR);
-    var ul = new Array(ptUL.x,ptUL.y);
-    var lr = new Array(ptLR.x,ptLR.y);   
-    this.targetModel.setParam("aoi",new Array(ul,lr));
 
-    //convert this.model XY to latlong
-    //convert latlong to targetmodel XY
-    this.targetModel.map.zoomToExtent(new OpenLayers.Bounds(ul[0],lr[1],lr[0],ul[1]));
+    console.debug('bbox length = ' + bboxArray.length);
+    if (bboxArray.length == 4) {
+      var ptUL=new PT(parseFloat(bboxArray[0]),parseFloat(bboxArray[3]));
+      var ptLR=new PT(parseFloat(bboxArray[2]),parseFloat(bboxArray[1]));
+      cs_transform(new Proj(srsName),this.targetModel.proj,ptUL);
+      cs_transform(new Proj(srsName),this.targetModel.proj,ptLR);
+      var ul = new Array(ptUL.x,ptUL.y);
+      var lr = new Array(ptLR.x,ptLR.y);   
+      this.targetModel.setParam("aoi",new Array(ul,lr));
+
+      //convert this.model XY to latlong
+      //convert latlong to targetmodel XY
+      this.targetModel.map.zoomToExtent(new OpenLayers.Bounds(ul[0],lr[1],lr[0],ul[1]));
+
+    } else if (bboxArray.length == 2) {
+      console.debug('bbox is point: ' + bbox);
+      console.debug('zoom is : ' + this.targetModel.map.zoom);
+      console.debug('zoomlevels is : ' + this.targetModel.map.getNumZoomLevels());
+      this.targetModel.map.zoomToExtent(new OpenLayers.Bounds(bboxArray[0],bboxArray[1],bboxArray[0],bboxArray[1]));
+      this.targetModel.map.zoomTo( this.targetModel.map.getNumZoomLevels() - 8);
+      //this.targetModel.map.setCenter(bbox, this.targetModel.map.zoom +1);
+      //this.targetModel.callListeners("loadModel");
+    }
   }
+
 }

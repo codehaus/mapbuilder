@@ -72,6 +72,30 @@
         </CatalogSearchForm>
       </widgets>
     </Model>
+    <Model id="locationSearch">
+      <defaultModelUrl>locationSearch.xml</defaultModelUrl>
+      <widgets>
+        <LocationSearch id="locationSearchForm">
+          <htmlTagId>locationSearch</htmlTagId>
+          <targetModel>locationResults</targetModel>
+          <wfsUrl>http://www.pvretano.com/cgdi/geoserver/cwwfs.cgi</wfsUrl>
+        </LocationSearch>
+      </widgets>
+    </Model>
+    <Model id="locationResults">
+      <defaultModelUrl>testLocations.xml</defaultModelUrl>
+      <widgets>
+        <Locations id="locationsSelect">
+          <htmlTagId>locationResults</htmlTagId>
+          <targetModel>mainMap</targetModel>
+        </Locations>
+        <Loading2 id="loadingLocationSearch">
+          <htmlTagId>loadingLocationSearch</htmlTagId>
+          <imageSrc>/images/LoadingSpinner.gif</imageSrc>
+          <textMessage>searching</textMessage>
+        </Loading2>
+      </widgets>
+    </Model>
 
     <!--
     <ContextCollection id="myMapCollection">
