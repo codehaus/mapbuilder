@@ -31,7 +31,7 @@ $Name:  $
   <xsl:template match="/">
     <div title="Wildcards (*) are allowed. Search is case sensitive!">
     <h2>Placename Search</h2>
-    <form name="{$formName}" id="{$formName}" method="get">
+    <form name="{$formName}" id="{$formName}" method="get" onsubmit="config.objects.{$widgetId}.search();return false">
       <input type="hidden" name="version" value="1.0.0"/>
       <input type="hidden" name="service" value="WFS"/>
       <input type="hidden" name="request" value="GetFeature"/>
@@ -44,7 +44,6 @@ $Name:  $
 
     </form>
 
-    <div id="debugwindow" style="display:none;position:absolute; top:310px;left:370px;width:400px; height:300px; z-index:2;background-color:transparent;overflow:auto"></div>
     <div id="loadingLocationSearch"/>
     </div>
   </xsl:template>

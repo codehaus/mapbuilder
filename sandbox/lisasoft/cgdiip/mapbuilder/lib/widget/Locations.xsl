@@ -22,6 +22,9 @@ $Name$Name:  $
   <xsl:param name="selectSize" select="1"/>
   <xsl:param name="selectedOption"/>
 
+  <xsl:param name="resultNameXpath"/>
+  <xsl:param name="resultValueXpath"/>
+
   <xsl:template match="/mb:QuickviewPresetResultSet">
   <xsl:variable name="srsName" select="gml:featureMember/mb:locationDef/mb:spatialKeyword/gml:location/gml:Envelope/@srsName"/>
     <div>

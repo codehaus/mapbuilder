@@ -20,6 +20,8 @@ function LocationSearch(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
   this.wfsUrl = widgetNode.selectSingleNode("mb:wfsUrl").firstChild.nodeValue;
+  this.resultNameXpath = widgetNode.selectSingleNode("mb:resultNameXpath").firstChild.nodeValue;
+  this.resultValueXpath = widgetNode.selectSingleNode("mb:resultValueXpath").firstChild.nodeValue;
 
   this.httpPayload = new Object();
   this.httpPayload.url = this.wfsUrl;
@@ -47,6 +49,9 @@ function LocationSearch(widgetNode, model) {
    //   this.ebrim2Context=new XslProcessor(baseDir+"/tool/xsl/ebrim2Context.xsl");
       //this.initialized=1;
     //}
+    this.targetModel.setParam("resultNameXpath", this.resultNameXpath + '');
+    this.targetModel.setParam("resultValueXpath", this.resultValueXpath + '');
+
     
     // call buildQuery method to read form values, put them into the model
     // and perform an XSL translation to get the WRS Query

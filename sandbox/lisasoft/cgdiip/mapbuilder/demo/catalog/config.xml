@@ -79,6 +79,11 @@
           <htmlTagId>locationSearch</htmlTagId>
           <targetModel>locationResults</targetModel>
           <wfsUrl>http://www.pvretano.com/cgdi/geoserver/cwwfs.cgi</wfsUrl>
+
+          <!-- xpath expressions don't work yet -->
+          <resultNameXpath>concat(gb:PlaceName/gb:geographicalName, ' (', gb:PlaceName/gb:regionName , ')')</resultNameXpath> 
+          <resultValueXpath>.//gml:Point/gml:coordinates</resultValueXpath> 
+
         </LocationSearch>
       </widgets>
     </Model>
