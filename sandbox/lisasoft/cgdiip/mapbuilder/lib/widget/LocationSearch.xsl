@@ -29,7 +29,7 @@ $Name:  $
   
   <!-- template rule matching source root element -->
   <xsl:template match="/">
-    <div>
+    <div title="Wildcards (*) are allowed. Search is case sensitive!">
     <h2>Placename Search</h2>
     <form name="{$formName}" id="{$formName}" method="get">
       <input type="hidden" name="version" value="1.0.0"/>
