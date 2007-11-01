@@ -2,7 +2,7 @@
 <ViewContext version="1.0.0" id="atlas_world" xmlns="http://www.opengis.net/context" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengis.net/context/1.0.0/context.xsd">
   <General>
     <Window width="600" height="350"/>
-    <BoundingBox SRS="EPSG:4326" minx="-143" miny="48" maxx="-52" maxy="72"/>
+    <BoundingBox SRS="EPSG:4326" minx="-141" miny="41.5" maxx="-52" maxy="72"/>
     <Title>Canada</Title>
     <KeywordList>
       <Keyword>Canada</Keyword>
@@ -43,9 +43,48 @@
       <Abstract></Abstract>
       <SRS>EPSG:4326</SRS>
     </Layer>
+
+    <Layer queryable="1" hidden="1">
+      <Server service="OGC:WMS" version="1.1.1" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=cgdiip"/>
+      </Server>
+      <Name>gb:AdministrativeArea:Yukon,gb:AdministrativeArea:Ontario,GCCS000A06A_E:PEI,ADMINISTRATIVEAREA:Quebec,GCCS000A06A_E:NWT,gb:AdministrativeArea:Nunavut,gb:AdministrativeArea:BC,gb:AdministrativeArea:BC,GCCS000A06A_E:Manitoba,gb:AdministrativeArea:NFLD</Name>
+      <Title>Administrative Area</Title>
+      <Abstract>Administrative Area</Abstract>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+    </Layer> 
+        
+     <Layer queryable="1" hidden="1">
+      <Server service="OGC:WMS" version="1.1.1" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=cgdiip"/>
+      </Server>
+      <Name>gb:RoadSegment:BC,ROADSEG:Manitoba,gb:RoadSegment:Nunavut,ROADSEG:NWT,gb:RoadSegment:NFLD,ROADSEG:Quebec,gb:RoadSegment:Ontario,ROADSEG:PEI,gb:RoadSegment:Yukon</Name>
+      <Title>Road Segment</Title>
+      <Abstract>Road Segment</Abstract>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+    </Layer>
     
+    <Layer queryable="1" hidden="1">
+      <Server service="OGC:WMS" version="1.1.1" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=cgdiip"/>
+      </Server>
+      <Name>gb:PlaceName:BC,PLACENAME:Manitoba,gb:PlaceName:NFLD,PLACENAME:NWT,gb:PlaceName:Nunavut,gb:PlaceName:Ontario,PLACENAME:PEI,PLACENAME:Quebec,gb:PlaceName:Yukon</Name>
+      <Title>Place Name</Title>
+      <Abstract>Place Name</Abstract>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format current="1">image/gif</Format>
+      </FormatList>
+    </Layer>
+        
     <!-- **IS TOO SLOW STILL**
-    <Layer queryable="1" hidden="0">
+    <Layer queryable="1" hidden="1">
       <Server service="OGC:WMS" version="1.1.1" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=cgdiip"/>
       </Server>
@@ -59,125 +98,5 @@
     </Layer> 
     -->
     
-    <Layer queryable="1" hidden="1">
-      <Server service="OGC:WMS" version="1.1.1" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=cgdiip"/>
-      </Server>
-      <Name>gb:AdministrativeArea:BC,gb:RoadSegment:BC,gb:PlaceName:BC</Name>
-      <Title>British Columbia</Title>
-      <Abstract>British Columbia</Abstract>
-      <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/gif</Format>
-      </FormatList>
-    </Layer> 
-     
-    <Layer queryable="1" hidden="1">
-      <Server service="OGC:WMS" version="1.1.1" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=cgdiip"/>
-      </Server>
-      <Name>GCCS000A06A_E:Manitoba,ROADSEG:Manitoba,PLACENAME:Manitoba</Name>
-      <Title>Manitoba</Title>
-      <Abstract>Manitoba</Abstract>
-      <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/gif</Format>
-      </FormatList>
-    </Layer>
-
-    <Layer queryable="1" hidden="1">
-      <Server service="OGC:WMS" version="1.1.1" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=cgdiip"/>
-      </Server>
-      <Name>gb:AdministrativeArea:NFLD,gb:RoadSegment:NFLD,gb:PlaceName:NFLD</Name>
-      <Title>New Foundland and Labrador</Title>
-      <Abstract>New Foundland and Labrador</Abstract>
-      <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/gif</Format>
-      </FormatList>
-    </Layer>
-    
-    <Layer queryable="1" hidden="1">
-      <Server service="OGC:WMS" version="1.1.1" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=cgdiip"/>
-      </Server>
-      <Name>GCCS000A06A_E:NWT,ROADSEG:NWT,PLACENAME:NWT</Name>
-      <Title>North west Territories</Title>
-      <Abstract>North west Territories</Abstract>
-      <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/gif</Format>
-      </FormatList>
-    </Layer>
-    
-    <Layer queryable="1" hidden="1">
-      <Server service="OGC:WMS" version="1.1.1" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=cgdiip"/>
-      </Server>
-      <Name>gb:AdministrativeArea:Nunavut,gb:RoadSegment:Nunavut,gb:PlaceName:Nunavut</Name>
-      <Title>Nunavut</Title>
-      <Abstract>Nunavut</Abstract>
-      <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/gif</Format>
-      </FormatList>
-    </Layer>
-
-    <Layer queryable="1" hidden="1">
-      <Server service="OGC:WMS" version="1.1.1" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=cgdiip"/>
-      </Server>
-      <Name>gb:AdministrativeArea:Ontario,gb:RoadSegment:Ontario,gb:PlaceName:Ontario</Name>
-      <Title>Ontario</Title>
-      <Abstract>Ontario</Abstract>
-      <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/gif</Format>
-      </FormatList>
-    </Layer>
-    
-    <Layer queryable="1" hidden="1">
-      <Server service="OGC:WMS" version="1.1.1" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=cgdiip"/>
-      </Server>
-      <Name>GCCS000A06A_E:PEI,ROADSEG:PEI,PLACENAME:PEI</Name>
-      <Title>Prince Edward Island</Title>
-      <Abstract>Prince Edward Island</Abstract>
-      <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/gif</Format>
-      </FormatList>
-    </Layer>
-
-    
-    
-    <Layer queryable="1" hidden="1">
-      <Server service="OGC:WMS" version="1.1.1" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=cgdiip"/>
-      </Server>
-      <Name>ADMINISTRATIVEAREA:Quebec,ROADSEG:Quebec,PLACENAME:Quebec</Name>
-      <Title>Quebec</Title>
-      <Abstract>Quebec</Abstract>
-      <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/gif</Format>
-      </FormatList>
-    </Layer>
-    
-
-    <Layer queryable="1" hidden="1">
-      <Server service="OGC:WMS" version="1.1.1" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=cgdiip"/>
-      </Server>
-      <Name>gb:AdministrativeArea:Yukon,gb:RoadSegment:Yukon,gb:PlaceName:Yukon</Name>
-      <Title>Yukon</Title>
-      <Abstract>Yukon</Abstract>
-      <SRS>EPSG:4326</SRS>
-      <FormatList>
-        <Format current="1">image/gif</Format>
-      </FormatList>
-    </Layer>   
-
   </LayerList>
 </ViewContext>

@@ -76,39 +76,53 @@ function WfsGetFeature(widgetNode, model) {
 
       var typeName = objRef.typeName;
 
-      if (!typeName) {
-        var queryList=objRef.targetModel.getQueryableLayers();
-        if (queryList.length==0) {
-          alert(mbGetMessage("noQueryableLayers"));
-          return;
-        }
-        else {
-          typeName = "";
-          for (var i=0; i<queryList.length; ++i) {
-            var layerNode=queryList[i];
-            var layerName=layerNode.firstChild.data;
-            var hidden = objRef.targetModel.getHidden(layerName);
-            if (hidden == 0) { //query only visible layers
-              if (typeName != "") {
-                typeName += ",";
-              }
-              typeName += layerName;
-            }
-          }
-        }
-      }
+	  
+	  var adminareaLayerName = "gb:AdministrativeArea:Yukon,gb:AdministrativeArea:Ontario,GCCS000A06A_E:PEI,ADMINISTRATIVEAREA:Quebec,GCCS000A06A_E:NWT,gb:AdministrativeArea:Nunavut,gb:AdministrativeArea:BC,gb:AdministrativeArea:BC,GCCS000A06A_E:Manitoba,gb:AdministrativeArea:NFLD";
+      var roadslayerName = "gb:RoadSegment:BC,ROADSEG:Manitoba,gb:RoadSegment:Nunavut,ROADSEG:NWT,gb:RoadSegment:NFLD,ROADSEG:Quebec,gb:RoadSegment:Ontario,ROADSEG:PEI,gb:RoadSegment:Yukon";
+      var placesLayerName = "gb:PlaceName:BC,PLACENAME:Manitoba,gb:PlaceName:NFLD,PLACENAME:NWT,gb:PlaceName:Nunavut,gb:PlaceName:Ontario,PLACENAME:PEI,PLACENAME:Quebec,gb:PlaceName:Yukon";
+      
+	    var queryList=objRef.targetModel.getQueryableLayers();
+	    if (queryList.length==0) {
+	      alert(mbGetMessage("noQueryableLayers"));
+	      return;
+	    }
+	    else {
+	      typeName = "";
+	      for (var i=0; i<queryList.length; ++i) {
+	        var layerNode=queryList[i];
+	        var layerName=layerNode.firstChild.data;
+	        var hidden = objRef.targetModel.getHidden(layerName);
+	        if (hidden == 0) { //query only visible layers
+	          if(layerName == adminareaLayerName)
+	          {
+	          	 typeName = "gb:AdministrativeArea";
+	          }
+	          else if(layerName == roadslayerName)
+	          {
+	          	 typeName = "gb:RoadSegment";
+	          }
+	          else if(layerName == placesLayerName)
+	          {
+	          	 typeName = "gb:PlaceName";
+	          }
+	        }
+	      }
+	    }
+
 
       if (typeName=="") {
         alert(mbGetMessage("noQueryableLayersVisible"));
         return;
       }
-
+      
+      var typeNamesArray = typeName.split(","); 
+      
         // now create request url
         this.httpPayload.url = this.webServiceUrl+OpenLayers.Util.getParameterString({
           SERVICE: "WFS",
           VERSION: "1.0.0",
           REQUEST: "GetFeature",
-          TYPENAME: typeName,
+          TYPENAME: typeNamesArray,
           MAXFEATURES: this.maxFeatures,
           BBOX: bounds.toBBOX()
         });
