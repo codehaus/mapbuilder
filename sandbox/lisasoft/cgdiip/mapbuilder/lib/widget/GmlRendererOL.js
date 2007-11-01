@@ -243,7 +243,7 @@ function GmlRendererOL(widgetNode, model) {
       }
       
 	  if (geoRSSvalue) {
-	  	if (config.proxyUrl) {
+	  	if (config.proxyUrl && OpenLayers.String.startsWith(objRef.model.url, "http")) {
 	  		url = config.proxyUrl + '?url=' + escape(objRef.model.url);
 	  	} else {
 	  		url = objRef.model.url;
