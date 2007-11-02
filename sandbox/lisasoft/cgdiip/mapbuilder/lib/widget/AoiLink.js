@@ -7,6 +7,8 @@ $Id: ModelTransformer.js 3150 2007-08-20 22:50:33Z mvivian $
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 
 /**
+ * Provide a href link to another mapbuilder page, using the same
+ * Area Of Interest as the current mapbuilder page.
  */
 function AoiLink(widgetNode, model) {
   // Extend WidgetBase
@@ -16,6 +18,9 @@ function AoiLink(widgetNode, model) {
   this.linkLabel = widgetNode.selectSingleNode("mb:linkLabel").firstChild.nodeValue;
   this.bbox = "";
   
+  /**
+   * Draw the href link.
+   */
   this.drawLink = function(objRef)
   {
   	if(objRef.htmlTagId){
@@ -31,6 +36,9 @@ function AoiLink(widgetNode, model) {
   	
   }
   
+  /**
+   * Set the bounding box to be used when creating a link.
+   */
   this.init = function(objRef) {
   	extent = objRef.model.getBoundingBox();
   	objRef.bbox = extent[0] + "," + extent[1] + "," + extent[2] + "," + extent[3];
