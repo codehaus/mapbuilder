@@ -12,6 +12,14 @@
 					<htmlTagId>mainMapPane</htmlTagId>
 					<maxResolution>0.703125</maxResolution>
 				</MapPaneOL>
+				<AoiLink id="feedbackClientLink">
+					<href>../feedback_client/index.html</href>
+					<linkLabel>User Feedback</linkLabel>
+				</AoiLink>
+				<AoiLink id="discoveryClientLink">
+					<href>../catalog/catalog.html</href>
+					<linkLabel>Geobase Discovery</linkLabel>
+				</AoiLink>
 				<CursorTrack id="cursorTrack"/>
 			</widgets>
 		</OwsContext>

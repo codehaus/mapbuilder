@@ -21,6 +21,14 @@
           <htmlTagId>mainMapPane</htmlTagId>
           <fixedSize>true</fixedSize>
         </MapPaneOL>
+        <AoiLink id="notificationClientLink">
+          <href>../notification/index.html</href>
+          <linkLabel>Notifications</linkLabel>
+        </AoiLink>
+        <AoiLink id="discoveryClientLink">
+          <href>../catalog/catalog.html</href>
+          <linkLabel>Geobase Discovery</linkLabel>
+        </AoiLink>
         <CursorTrack id="cursorTrack"/>
         <Legend id="legend" />
         <Version id="version" />
