@@ -80,6 +80,25 @@
       <SRS>EPSG:4326</SRS>
     </FeatureType>
 -->
+    <!-- LISASOFT LAYERS -->
+    <FeatureType hidden="1" maxFeatures="2" id="lisasoft_wfs_place_names">
+      <Server service="WFS" version="1.0" title="Lisasoft's Aggregating WFS">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://wolf.cits.rncan.gc.ca:8080/geoserver/wfs"/>
+      </Server>
+      <Name>gb:PlaceNames</Name>
+      <Title>LS - Place Names</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+    <FeatureType hidden="1" maxFeatures="2" id="lisasoft_wfs_road_segment">
+      <Server service="WFS" version="1.0" title="Lisasoft's Aggregating WFS">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://wolf.cits.rncan.gc.ca:8080/geoserver/wfs"/>
+      </Server>
+      <Name>gb:RoadSegment</Name>
+      <Title>LS - Road Segment</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
     <FeatureType hidden="1" maxFeatures="2" id="lisasoft_wfs_administrative_area">
       <Server service="WFS" version="1.0" title="Lisasoft's Aggregating WFS">
         <OnlineResource method="POST" xlink:type="simple" xlink:href="http://wolf.cits.rncan.gc.ca:8080/geoserver/wfs"/>
@@ -89,13 +108,35 @@
       <Abstract></Abstract>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
-    <FeatureType hidden="1" maxFeatures="2" id="bc_wfs_administrative_area">
-      <Server service="WFS" version="1.0" title="RoadSegment">
-        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://office.refractions.net:21880/geoserver/wfs"/>
+    
+    
+    
+     <!-- CUBEWERX LAYERS -->
+    <FeatureType hidden="1" maxFeatures="2" id="cubewerx_wfs_place_names">
+      <Server service="WFS" version="1.0" title="CubeWerx's Aggregating WFS">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://www.pvretano.com/cgdi/geoserver/cwwfs.cgi"/>
+      </Server>
+      <Name>gb:PlaceNames</Name>
+      <Title>CW - Place Names</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+        <FeatureType hidden="1" maxFeatures="2" id="cubewerx_wfs_road_segment">
+      <Server service="WFS" version="1.0" title="CubeWerx's Aggregating WFS">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://www.pvretano.com/cgdi/geoserver/cwwfs.cgi"/>
+      </Server>
+      <Name>gb:RoadSegment</Name>
+      <Title>CW - Road Segment</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+        <FeatureType hidden="1" maxFeatures="2" id="cubewerx_wfs_administrative_area">
+      <Server service="WFS" version="1.0" title="CubeWerx's Aggregating WFS">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://www.pvretano.com/cgdi/geoserver/cwwfs.cgi"/>
       </Server>
       <Name>gb:AdministrativeArea</Name>
-      <Title>BC - Administrative Area</Title>
-      <Abstract>This is some bird data</Abstract>
+      <Title>CW - Administrative Area</Title>
+      <Abstract></Abstract>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
 
