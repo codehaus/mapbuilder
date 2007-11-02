@@ -37,7 +37,7 @@
     </OwsContext>
     
     <FeatureCollection id="geoRSS">
-      <defaultModelUrl>http://www.pvretano.com/cgdi/cwwfs.cgi?SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=cw:FEEDBACKFEED&amp;outputFormat=ATOM</defaultModelUrl>
+      <defaultModelUrl>http://www.pvretano.com/cgdi/cwwfs.cgi?SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=cw:UPDATEFEED&amp;outputFormat=ATOM</defaultModelUrl>
       <widgets>
         <GmlRendererOL id="testGmlRenderer">
           <targetModel>mainMap</targetModel>
