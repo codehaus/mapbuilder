@@ -190,6 +190,8 @@
     <ll2stInfiniteProjection>ll2st: Point projects into infinity</ll2stInfiniteProjection>
     <ll2tmInfiniteProjection>ll2tm: Point projects into infinity</ll2tmInfiniteProjection>
     <llInputOutOfRange>Input out of range: lon: {0} - lat: {1}</llInputOutOfRange>
+    <loadingLayer>Loading {0} map layer</loadingLayer>
+    <loadingLayers>Loading {0} map layers</loadingLayers>
     <mollFwdIterationError>Iteration failed to converge in mollFwd()</mollFwdIterationError>
     <noBboxInContext>No BBOX defined in context</noBboxInContext>
     <noContextDefined>No context defined in config</noContextDefined>

@@ -89,6 +89,11 @@ function MapPaneOL(widgetNode, model) {
   } else {
     this.displayOutsideMaxExtent = false;
   }
+  
+  /**
+   * Number of layers that are currently being loaded
+   */
+  this.loadingLayers = 0;
 
   /**
    * Called after a feature has been added to a WFS.  This function triggers
@@ -248,6 +253,32 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     objRef.model.callListeners("bbox");
   }
   
+}
+
+/**
+ * Event handler to keep the modelStatus updated when an OpenLayers layer
+ * starts loading.
+ * @param e OpenLayers event
+ */
+MapPaneOL.prototype.increaseLoadingLayers = function(e) {
+  ++this.loadingLayers;
+  var message = mbGetMessage((this.loadingLayers>1) ? "loadingLayers" : "loadingLayer",
+    this.loadingLayers);
+  this.model.setParam("modelStatus", message);
+}
+
+/**
+ * Event handler to keep the modelStatus updated when an OpenLayers layer
+ * finished loading.
+ * @param e OpenLayers event
+ */
+MapPaneOL.prototype.decreaseLoadingLayers = function(e) {
+  --this.loadingLayers;
+  var message = this.loadingLayers > 0 ?
+          mbGetMessage((this.loadingLayers>1) ? "loadingLayers" : "loadingLayer",
+                  this.loadingLayers) :
+          null;
+  this.model.setParam("modelStatus", message);
 }
 
 /**
@@ -624,6 +655,10 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   if(opacity && objRef.oLlayers[name2]){
     objRef.oLlayers[name2].setOpacity(opacity);
   }
+  
+  objRef.oLlayers[name2].events.register('loadstart', objRef, objRef.increaseLoadingLayers);
+  objRef.oLlayers[name2].events.register('loadend', objRef, objRef.decreaseLoadingLayers);
+  
   objRef.model.map.addLayer(objRef.oLlayers[name2]);
 }
 

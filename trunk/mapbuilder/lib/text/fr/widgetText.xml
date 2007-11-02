@@ -190,6 +190,8 @@
     <ll2stInfiniteProjection>ll2st: Point projeté sur l'infini</ll2stInfiniteProjection>
     <ll2tmInfiniteProjection>ll2tm: Point projeté sur l'infini</ll2tmInfiniteProjection>
     <llInputOutOfRange>Entrée hors limites : lon: {0} - lat: {1}</llInputOutOfRange>
+    <loadingLayer>Téléchargement de {0} couche du plan</loadingLayer>
+    <loadingLayers>Téléchargement de {0} couches du plan</loadingLayers>
     <mollFwdIterationError>Iteration non convergenete dans mollFwd()</mollFwdIterationError>
     <noBboxInContext>Aucun BBOX defini dans contexte</noBboxInContext>
     <noContextDefined>Aucun contexte defini dans la configuration</noContextDefined>

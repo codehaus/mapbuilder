@@ -190,6 +190,8 @@
     <ll2stInfiniteProjection>ll2st: Punt projecteert in het oneindige</ll2stInfiniteProjection>
     <ll2tmInfiniteProjection>ll2tm: Punt projecteert in het oneindige</ll2tmInfiniteProjection>
     <llInputOutOfRange>Invoer buiten bereik: lon: {0} - lat: {1}</llInputOutOfRange>
+    <loadingLayer>Bezig met laden van {0} kaartlaag</loadingLayer>
+    <loadingLayers>Bezig met laden van {0} kaartlagen</loadingLayers>
     <mollFwdIterationError>De iteratie convergeert niet in molldFwd()</mollFwdIterationError>
     <noBboxInContext>Geen BBOX gedefiniëerd in context</noBboxInContext>
     <noContextDefined>Geen context gedefiniëerd in configuratie</noContextDefined>
