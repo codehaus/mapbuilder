@@ -12,9 +12,9 @@
           <precision>5</precision>
         </CursorTrack>
         <MapScaleText id="scaleText"/>
-        <!--Loading2 id="loading2">
-          <mapContainerId>mainMapContainer</mapContainerId>
-        </Loading2-->
+        <Loading2 id="loading2">
+          <mapContainerId>mainMapPane</mapContainerId>
+        </Loading2>
       </widgets>
       <tools>
         <History id="extentHistory"/>
