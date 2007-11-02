@@ -32,26 +32,62 @@
       </widgets>
     </OwsContext>
     
-    <FeatureCollection id="geoRSS">
-      <defaultModelUrl>http://www.pvretano.com/cgdi/cwwfs.cgi?SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=cw:FEEDBACKFEED&amp;outputFormat=ATOM</defaultModelUrl>
+    <!--
+    <ContextCollection id="collectionGroup">
+      <defaultModelUrl>contextCollection.xml</defaultModelUrl>
       <widgets>
+        <CollectionList id="collectionList">
+          <targetModel>mainMap</targetModel>
+        </CollectionList>
+      </widgets>
+    </ContextCollection>
+
+    -->
+
+<!--
+    <Model id="featureItem">
+      <widgets>
+        <FeedbackFeatureList id="featureList"></FeedbackFeatureList>
+      </widgets>
+    </Model>
+
+-->
+
+    <FeatureCollection id="featureCollection">
+
+      <!--
+      <defaultModelUrl>http://www.pvretano.com/cgdi/cwwfs.cgi?SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=cw:UPDATEFEED&amp;outputFormat=ATOM</defaultModelUrl>
+      <defaultModelUrl>http://www.pvretano.com/cgdi/cwwfs.cgi?SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=cw:FEEDBACKFEED&amp;outputFormat=ATOM</defaultModelUrl>
+      -->
+      <defaultModelUrl>testfeed.xml</defaultModelUrl>
+      <widgets>
+        <TipWidgetOL id="featurePopup">
+          <width>200</width>
+          <height>150</height>
+          <opacity>0.8</opacity>
+          <backgroundColor>#D0D0D0</backgroundColor>
+          <border>1px solid black</border>
+        </TipWidgetOL>
+        
         <GmlRendererOL id="testGmlRenderer">
           <targetModel>mainMap</targetModel>
           <sldModel>sld</sldModel>
           <GeoRSS>true</GeoRSS>
           <hoverCursor>pointer</hoverCursor>
+          <featureOnClick>featureList</featureOnClick>
         </GmlRendererOL>
         <Widget id="eventsListing">
           <targetModel>mainMap</targetModel>
           <stylesheet>GeoRSSListing.xsl</stylesheet>
         </Widget>
+        <FeedbackFeatureList id="featureList"></FeedbackFeatureList>
       </widgets>
       <tools>
         <FeatureSelectHandler id="featureHighlighter">
           <targetModel>mainMap</targetModel>
         </FeatureSelectHandler>
       </tools>
-      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
+      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp' xmlns:cw="http://www.cubewerx.com/cw" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss"</namespace>
     </FeatureCollection>
   </models>
   
@@ -84,6 +120,14 @@
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
     </Reset>
+    <GetFeatureInfo id="getFeatureInfo">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>featureCollection</targetModel>
+      <targetContext>mainMap</targetContext>
+      <class>RadioButton</class>
+      <enabledSrc>/images/QueryEnable.png</enabledSrc>
+      <disabledSrc>/images/QueryDisable.png</disabledSrc>
+    </GetFeatureInfo>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
 </MapbuilderConfig>

@@ -4,6 +4,7 @@
 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
 xmlns:gml="http://www.opengis.net/gml" 
+xmlns:atom="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss"  xmlns:cw="http://www.cubewerx.com/cw"
 version="1.0">
 
 <!--
@@ -20,13 +21,18 @@ $Name$
   <!--xsl:param name="targetModelId"/-->
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
+  <xsl:param name="fid"/>
 
   <!-- Main html -->
   <xsl:template match="/">
     <div>
-      <h3>Feature List</h3>
-      <!-- <input type="button" value="Save" onclick="config.objects.insertFeature.doSelect(config.objects.insertFeature,true);" /> -->
-      <xsl:apply-templates/>
+      <xsl:if test="//atom:entry/atom:id = $fid">
+        <h3>Feature List</h3>
+        <!-- <input type="button" value="Save" onclick="config.objects.insertFeature.doSelect(config.objects.insertFeature,true);" /> -->
+        <table border="1" cellpadding="0" cellspacing="0">
+        <xsl:apply-templates select="//atom:entry[atom:id = $fid]"/>
+        </table>
+      </xsl:if>
     </div>
   </xsl:template>
 
