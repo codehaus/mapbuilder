@@ -32,6 +32,14 @@
           <href>../notification/index.html</href>
           <linkLabel>Notifications</linkLabel>
         </AoiLink>
+        <AoiLink id="updateClientLink">
+          <href>../update/index.html</href>
+          <linkLabel>Updates</linkLabel>
+        </AoiLink>
+        <AoiLink id="eventClientLink">
+          <href>../event/index.html</href>
+          <linkLabel>Events</linkLabel>
+        </AoiLink>
         <AoiLink id="feedbackClientLink">
           <href>../feedback_client/index.html</href>
           <linkLabel>User Feedback</linkLabel>
