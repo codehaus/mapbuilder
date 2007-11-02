@@ -76,7 +76,7 @@ Loading2.prototype.paint = function(objRef) {
       node.appendChild(outputNode);
     }
     outputNode.className = "loadingIndicator";
-    outputNode.style.zIndex = 1000;
+    outputNode.style.zIndex = 10001;
     //In a mapcontainer you want the loader in the left top, in other widgets embedded in the output area
     if (objRef.mapContainerNode){
       outputNode.style.position="absolute";
@@ -89,7 +89,7 @@ Loading2.prototype.paint = function(objRef) {
         imageNode = document.createElement("img");
         imageNode.setAttribute("id",objRef.outputNodeId+"_imageNode");
         outputNode.appendChild(imageNode);
-        imageNode.style.zIndex = 1000;
+        imageNode.style.zIndex = 10001;
       }
       imageNode.src = objRef.imageSrc;
     }
@@ -110,10 +110,11 @@ Loading2.prototype.paint = function(objRef) {
  * @param objRef Reference to this object.
  */
 Loading2.prototype.clear= function(objRef) {
-  objRef.updateMessage = null;
-  var outputNode = document.getElementById( objRef.outputNodeId+"_loading" );
-  var node = objRef.getNode();
-  if (node && outputNode) node.removeChild(outputNode);
+  if (objRef.updateMessage == null) {
+    var outputNode = document.getElementById( objRef.outputNodeId+"_loading" );
+    var node = objRef.getNode();
+    if (node && outputNode) node.removeChild(outputNode);
+  }
 }
 
 /**
@@ -122,8 +123,8 @@ Loading2.prototype.clear= function(objRef) {
  * @param objRef Reference to this object.
  */
 Loading2.prototype.update= function(objRef, message) {
+  objRef.updateMessage = message || null;
   if (message) {
-    objRef.updateMessage = message;
     objRef.paint(objRef);
   } else {
     objRef.clear(objRef);
