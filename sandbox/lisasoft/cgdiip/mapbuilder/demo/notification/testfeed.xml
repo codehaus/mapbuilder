@@ -1,0 +1,3024 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<feed version="2.0" xmlns="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml" xmlns:cw="http://www.cubewerx.com/cw">
+   <title>GeoConnections CGDI Pilot Feedback Feed</title>
+   <link>http://www.cubewerx.com</link>
+   <modified>2007-10-24T05:10:15</modified>
+   <subtitle>This ATOM feed is used by clients to propose changes to the national Geobase Framework database.  The national Geobase Framework database is an aggregation or view of a number of provincial databases allowing data to be managed closest to source.  Change proposals posted to this feed are monitored by the provinces and territories.  Each change proposal is reviewed by provincial custodians who decides how to handle the change request.  The dispostion of each proposed change is then posted to the GeoConnections CGDI Pilot Update Feed which can be monitored by clients who have made change proposals.</subtitle>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.38">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="placename" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192692300589</id>
+      <summary>Another test</summary>
+      <title>Another Test</title>
+      <updated>2007-10-18T16:55:00Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-79.6 52.5</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-79.6,52.5</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.39">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="placename" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192692356515</id>
+      <summary>Another Test</summary>
+      <title>Another Test</title>
+      <updated>2007-10-18T16:55:56Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-43.2 53</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:RoadSegment xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:segment>
+                     <gml:LineStringProperty>
+                        <gml:LineString>
+                           <gml:coordinates decimal="." cs="," ts=" ">-43.2,53 -34.4,47.1 -44.8,43.1 -51.1,46.7</gml:coordinates>
+                        </gml:LineString>
+                     </gml:LineStringProperty>
+                  </gb:segment>
+                  <gb:cgdiId/>
+                  <gb:planimetricDataAccuracy/>
+                  <gb:acquisitionTechnique/>
+                  <gb:acquisitionProvider/>
+                  <gb:acquisitionOrRevisionDate/>
+                  <gb:nationalRoadClass/>
+                  <gb:routeNumber1/>
+                  <gb:routeNumber2/>
+                  <gb:routeNumber3/>
+                  <gb:routeNumber4/>
+                  <gb:routeNumber5/>
+                  <gb:routeNameFrench1/>
+                  <gb:routeNameFrench2/>
+                  <gb:routeNameFrench3/>
+                  <gb:routeNameFrench4/>
+                  <gb:routeNameEnglish1/>
+                  <gb:routeNameEnglish2/>
+                  <gb:routeNameEnglish3/>
+                  <gb:routeNameEnglish4/>
+                  <gb:exitNumber/>
+                  <gb:numberOfLanes/>
+                  <gb:pavementStatus/>
+                  <gb:pavedRoadSurfaceType/>
+                  <gb:unpavedRoadSurfaceType/>
+                  <gb:structureID/>
+                  <gb:structureType/>
+                  <gb:structureNameFrench/>
+                  <gb:structureNameEnglish/>
+                  <gb:roadSegmentID/>
+               </gb:RoadSegment>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.72">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>rdewit-content</content>
+      <id>localhost1193201294636</id>
+      <summary>rdewit-summary</summary>
+      <title>feedback proposal</title>
+      <updated>2007-10-24T04:48:14Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-57 61.2</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-57,61.2</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.0">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="placename" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>100</content>
+      <id>192.168.2.1661192656432826</id>
+      <summary>100</summary>
+      <title>feedback proposal</title>
+      <updated>2007-10-18T07:27:12Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-71.8 42.5</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <!-- $Id: template_cities.xml 1299 2005-03-06 20:05:51Z camerons $ -->
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-71.8,42.5</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.12">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NS" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="placename" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>qwerty1192687034968</id>
+      <updated>2007-10-18T15:27:15Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-50.1 44</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:RoadSegment xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:segment>
+                     <gml:LineStringProperty>
+                        <gml:LineString>
+                           <gml:coordinates decimal="." cs="," ts=" ">-50.1,44 -45.6,46.2</gml:coordinates>
+                        </gml:LineString>
+                     </gml:LineStringProperty>
+                  </gb:segment>
+                  <gb:cgdiId/>
+                  <gb:planimetricDataAccuracy/>
+                  <gb:acquisitionTechnique/>
+                  <gb:acquisitionProvider/>
+                  <gb:acquisitionOrRevisionDate/>
+                  <gb:nationalRoadClass/>
+                  <gb:routeNumber1/>
+                  <gb:routeNumber2/>
+                  <gb:routeNumber3/>
+                  <gb:routeNumber4/>
+                  <gb:routeNumber5/>
+                  <gb:routeNameFrench1/>
+                  <gb:routeNameFrench2/>
+                  <gb:routeNameFrench3/>
+                  <gb:routeNameFrench4/>
+                  <gb:routeNameEnglish1/>
+                  <gb:routeNameEnglish2/>
+                  <gb:routeNameEnglish3/>
+                  <gb:routeNameEnglish4/>
+                  <gb:exitNumber/>
+                  <gb:numberOfLanes/>
+                  <gb:pavementStatus/>
+                  <gb:pavedRoadSurfaceType/>
+                  <gb:unpavedRoadSurfaceType/>
+                  <gb:structureID/>
+                  <gb:structureType/>
+                  <gb:structureNameFrench/>
+                  <gb:structureNameEnglish/>
+                  <gb:roadSegmentID/>
+               </gb:RoadSegment>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.10">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="placename" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Update" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>qwerty1192675386517</id>
+      <updated>2007-10-18T12:13:06Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-73.32557986 45.31144049</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:boundedBy>
+               <gml:Box srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+                  <gml:coordinates decimal="." cs="," ts=" ">-73.32558441,45.31143951 -73.32557678,45.31144333</gml:coordinates>
+               </gml:Box>
+            </gml:boundedBy>
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007" fid="PlaceName.31684">
+                  <gb:cgdiId>urn:uuid:66dba189-5c9e-11dc-b616-0b0cdf204e17</gb:cgdiId>
+                  <gb:geographicalName>Sudbury Hill</gb:geographicalName>
+                  <gb:cgndbKey>ABEMM</gb:cgndbKey>
+                  <gb:genericTerm>Hill</gb:genericTerm>
+                  <gb:conciseTerm>Mont</gb:conciseTerm>
+                  <gb:latitude>45° 18' 41'' Nord</gb:latitude>
+                  <gb:longitude>73° 19' 34'' Ouest</gb:longitude>
+                  <gb:datum>NAD83</gb:datum>
+                  <gb:ntsMap>023B14,023B00</gb:ntsMap>
+                  <gb:regionName>Terre-Neuve-et-Labrador</gb:regionName>
+                  <gb:featureId>933db9afba2211d892e2080020a0f4c9</gb:featureId>
+                  <gb:location>
+                     <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.32557986,45.31144049</gml:coordinates>
+                     </gml:Point>
+                  </gb:location>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.13">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="placename" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>qwerty1192687790688</id>
+      <updated>2007-10-18T15:39:50Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-55.3 41.9</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:AdministrativeArea xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:boundary>
+                     <gml:MultiPolygon srsName="epsg:4326">
+                        <gml:polygonMember>
+                           <gml:Polygon>
+                              <gml:outerBoundaryIs>
+                                 <gml:LinearRing>
+                                    <gml:coordinates decimal="." cs="," ts=" ">-55.3,41.9 -43.6,48.1 -40.2,46.2 -44.3,40 -55.3,41.9</gml:coordinates>
+                                 </gml:LinearRing>
+                              </gml:outerBoundaryIs>
+                           </gml:Polygon>
+                        </gml:polygonMember>
+                     </gml:MultiPolygon>
+                  </gb:boundary>
+                  <gb:cgdiId/>
+                  <gb:id/>
+                  <gb:gb_name/>
+                  <gb:type/>
+                  <gb:ccFPop/>
+                  <gb:ccFPdwell/>
+                  <gb:prId/>
+                  <gb:cdId/>
+               </gb:AdministrativeArea>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.14">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="blah" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="blah" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192687886852</id>
+      <updated>2007-10-18T15:41:27Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-52.1 48.9</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:RoadSegment xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:segment>
+                     <gml:LineStringProperty>
+                        <gml:LineString>
+                           <gml:coordinates decimal="." cs="," ts=" ">-52.1,48.9 -49.3,41.6 -55.7,40.9</gml:coordinates>
+                        </gml:LineString>
+                     </gml:LineStringProperty>
+                  </gb:segment>
+                  <gb:cgdiId/>
+                  <gb:planimetricDataAccuracy/>
+                  <gb:acquisitionTechnique/>
+                  <gb:acquisitionProvider/>
+                  <gb:acquisitionOrRevisionDate/>
+                  <gb:nationalRoadClass/>
+                  <gb:routeNumber1/>
+                  <gb:routeNumber2/>
+                  <gb:routeNumber3/>
+                  <gb:routeNumber4/>
+                  <gb:routeNumber5/>
+                  <gb:routeNameFrench1/>
+                  <gb:routeNameFrench2/>
+                  <gb:routeNameFrench3/>
+                  <gb:routeNameFrench4/>
+                  <gb:routeNameEnglish1/>
+                  <gb:routeNameEnglish2/>
+                  <gb:routeNameEnglish3/>
+                  <gb:routeNameEnglish4/>
+                  <gb:exitNumber/>
+                  <gb:numberOfLanes/>
+                  <gb:pavementStatus/>
+                  <gb:pavedRoadSurfaceType/>
+                  <gb:unpavedRoadSurfaceType/>
+                  <gb:structureID/>
+                  <gb:structureType/>
+                  <gb:structureNameFrench/>
+                  <gb:structureNameEnglish/>
+                  <gb:roadSegmentID/>
+               </gb:RoadSegment>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.15">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>qwerty1192688097197</id>
+      <updated>2007-10-18T15:44:57Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-50.6 43</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-50.6,43</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.16">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192688738403</id>
+      <updated>2007-10-18T15:55:38Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-57.1 43.7</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-57.1,43.7</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.11">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="placename" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>qwerty1192675519025</id>
+      <updated>2007-10-18T12:15:19Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-49.7 39.5</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <!-- $Id: template_cities.xml 1299 2005-03-06 20:05:51Z camerons $ -->
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-49.7,39.5</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.17">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192688742800</id>
+      <updated>2007-10-18T16:25:42Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-65.59999999999998 44.4</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:AdministrativeArea xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:boundary>
+                     <gml:MultiPolygon srsName="epsg:4326">
+                        <gml:polygonMember>
+                           <gml:Polygon>
+                              <gml:outerBoundaryIs>
+                                 <gml:LinearRing>
+                                    <gml:coordinates decimal="." cs="," ts=" ">-65.6,44.4 -63.5,44.4 -65,43.8 -65.6,44.4</gml:coordinates>
+                                 </gml:LinearRing>
+                              </gml:outerBoundaryIs>
+                           </gml:Polygon>
+                        </gml:polygonMember>
+                     </gml:MultiPolygon>
+                  </gb:boundary>
+                  <gb:cgdiId/>
+                  <gb:id/>
+                  <gb:gb_name/>
+                  <gb:type/>
+                  <gb:ccFPop/>
+                  <gb:ccFPdwell/>
+                  <gb:prId/>
+                  <gb:cdId/>
+               </gb:AdministrativeArea>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.18">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192688931694</id>
+      <summary>tetsing summary</summary>
+      <title>Some Title</title>
+      <updated>2007-10-18T15:58:52Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-45.9 46.9</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:RoadSegment xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:segment>
+                     <gml:LineStringProperty>
+                        <gml:LineString>
+                           <gml:coordinates decimal="." cs="," ts=" ">-45.9,46.9 -42.5,43.1 -54.3,42.1</gml:coordinates>
+                        </gml:LineString>
+                     </gml:LineStringProperty>
+                  </gb:segment>
+                  <gb:cgdiId/>
+                  <gb:planimetricDataAccuracy/>
+                  <gb:acquisitionTechnique/>
+                  <gb:acquisitionProvider/>
+                  <gb:acquisitionOrRevisionDate/>
+                  <gb:nationalRoadClass/>
+                  <gb:routeNumber1/>
+                  <gb:routeNumber2/>
+                  <gb:routeNumber3/>
+                  <gb:routeNumber4/>
+                  <gb:routeNumber5/>
+                  <gb:routeNameFrench1/>
+                  <gb:routeNameFrench2/>
+                  <gb:routeNameFrench3/>
+                  <gb:routeNameFrench4/>
+                  <gb:routeNameEnglish1/>
+                  <gb:routeNameEnglish2/>
+                  <gb:routeNameEnglish3/>
+                  <gb:routeNameEnglish4/>
+                  <gb:exitNumber/>
+                  <gb:numberOfLanes/>
+                  <gb:pavementStatus/>
+                  <gb:pavedRoadSurfaceType/>
+                  <gb:unpavedRoadSurfaceType/>
+                  <gb:structureID/>
+                  <gb:structureType/>
+                  <gb:structureNameFrench/>
+                  <gb:structureNameEnglish/>
+                  <gb:roadSegmentID/>
+               </gb:RoadSegment>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.19">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192689012040</id>
+      <summary>Testing Just the Sammary</summary>
+      <title>feedback proposal</title>
+      <updated>2007-10-18T16:00:12Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-74.5 48.6</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-74.5,48.6</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.20">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192689042427</id>
+      <updated>2007-10-18T16:30:42Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-69.8 44.4</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-69.8,44.4</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.21">
+      <author>
+         <name>Cameron</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192689137980</id>
+      <updated>2007-10-18T16:32:18Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-74.2 39.7</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-74.2,39.7</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.22">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192689277569</id>
+      <summary>is it working?</summary>
+      <title>Using Camerons SandBox</title>
+      <updated>2007-10-18T16:04:37Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-56.8 49.1</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:AdministrativeArea xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:boundary>
+                     <gml:MultiPolygon srsName="epsg:4326">
+                        <gml:polygonMember>
+                           <gml:Polygon>
+                              <gml:outerBoundaryIs>
+                                 <gml:LinearRing>
+                                    <gml:coordinates decimal="." cs="," ts=" ">-56.8,49.1 -43.1,51.3 -41.2,46.2 -55.2,40.5 -56.8,49.1</gml:coordinates>
+                                 </gml:LinearRing>
+                              </gml:outerBoundaryIs>
+                           </gml:Polygon>
+                        </gml:polygonMember>
+                     </gml:MultiPolygon>
+                  </gb:boundary>
+                  <gb:cgdiId/>
+                  <gb:id/>
+                  <gb:gb_name/>
+                  <gb:type/>
+                  <gb:ccFPop/>
+                  <gb:ccFPdwell/>
+                  <gb:prId/>
+                  <gb:cdId/>
+               </gb:AdministrativeArea>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.23">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Update" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192689335499</id>
+      <summary>updated a exitsing feature</summary>
+      <title>Doing an update</title>
+      <updated>2007-10-18T16:05:35Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-53.9488723 45.78312885</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:boundedBy>
+               <gml:Box srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+                  <gml:coordinates decimal="." cs="," ts=" ">-53.94887543,45.78312683 -53.94887161,45.78313065</gml:coordinates>
+               </gml:Box>
+            </gml:boundedBy>
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007" fid="PlaceName.13634">
+                  <gb:cgdiId>urn:uuid:209954d7-5c9e-11dc-b616-0b0cdf204e17</gb:cgdiId>
+                  <gb:geographicalName>Northwest Arm</gb:geographicalName>
+                  <gb:cgndbKey>AAPWV</gb:cgndbKey>
+                  <gb:genericTerm>Arm</gb:genericTerm>
+                  <gb:conciseTerm>Baie</gb:conciseTerm>
+                  <gb:latitude>45° 47' Nord</gb:latitude>
+                  <gb:longitude>53° 57' Ouest</gb:longitude>
+                  <gb:datum>NAD83</gb:datum>
+                  <gb:ntsMap>002C13</gb:ntsMap>
+                  <gb:regionName>Terre-Neuve-et-Labrador</gb:regionName>
+                  <gb:featureId>0c15998b849c20c3dc3c0abece8e0a9f</gb:featureId>
+                  <gb:location>
+                     <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-53.9488723,45.78312885</gml:coordinates>
+                     </gml:Point>
+                  </gb:location>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.24">
+      <author>
+         <name>Cameron</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Update" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192689370642</id>
+      <updated>2007-10-18T16:36:10Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-62.99929569 49.50007076</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:boundedBy>
+               <gml:Box srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+                  <gml:coordinates decimal="." cs="," ts=" ">-62.9992981,49.50006866 -62.99929428,49.50007248</gml:coordinates>
+               </gml:Box>
+            </gml:boundedBy>
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007" fid="PlaceName.24507">
+                  <gb:cgdiId>urn:uuid:4bae89e0-5c9e-11dc-b616-0b0cdf204e17</gb:cgdiId>
+                  <gb:geographicalName>Anticosti Island</gb:geographicalName>
+                  <gb:cgndbKey>EFGFJ</gb:cgndbKey>
+                  <gb:genericTerm>Island</gb:genericTerm>
+                  <gb:conciseTerm>Île</gb:conciseTerm>
+                  <gb:latitude>49° 30' Nord</gb:latitude>
+                  <gb:longitude>63° 00' Ouest</gb:longitude>
+                  <gb:datum>NAD83</gb:datum>
+                  <gb:ntsMap>012E11,012E01,012E03,012E05,012E06,012E07,012E08,012E09,012E12,012E13,012E14,012F05,012H09,012H16,012E02,012E10,012F04</gb:ntsMap>
+                  <gb:regionName>Québec</gb:regionName>
+                  <gb:featureId>487fe2fbba2011d892e2080020a0f4c9</gb:featureId>
+                  <gb:location>
+                     <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-62.99929569,49.50007076</gml:coordinates>
+                     </gml:Point>
+                  </gb:location>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.25">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192689469541</id>
+      <updated>2007-10-18T16:37:49Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-70.4 44.9</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-70.4,44.9</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.26">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192689624931</id>
+      <updated>2007-10-18T16:40:25Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-64.4 60</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-64.4,60</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.27">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192689887023</id>
+      <updated>2007-10-18T16:44:47Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-59.1 40.2</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-59.1,40.2</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.29">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>martins box using camerons box</content>
+      <id>192.168.2.1661192690064869</id>
+      <updated>2007-10-18T16:17:45Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-77.79999999999998 41.1</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-77.8,41.099999999999994</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.30">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>tetsing localhost</content>
+      <id>qwerty1192690188077</id>
+      <updated>2007-10-18T16:19:48Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-78.79999999999998 70</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:RoadSegment xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:segment>
+                     <gml:LineStringProperty>
+                        <gml:LineString>
+                           <gml:coordinates decimal="." cs="," ts=" ">-78.8,70 -77.2,70.5 -74.5,70.2</gml:coordinates>
+                        </gml:LineString>
+                     </gml:LineStringProperty>
+                  </gb:segment>
+                  <gb:cgdiId/>
+                  <gb:planimetricDataAccuracy/>
+                  <gb:acquisitionTechnique/>
+                  <gb:acquisitionProvider/>
+                  <gb:acquisitionOrRevisionDate/>
+                  <gb:nationalRoadClass/>
+                  <gb:routeNumber1/>
+                  <gb:routeNumber2/>
+                  <gb:routeNumber3/>
+                  <gb:routeNumber4/>
+                  <gb:routeNumber5/>
+                  <gb:routeNameFrench1/>
+                  <gb:routeNameFrench2/>
+                  <gb:routeNameFrench3/>
+                  <gb:routeNameFrench4/>
+                  <gb:routeNameEnglish1/>
+                  <gb:routeNameEnglish2/>
+                  <gb:routeNameEnglish3/>
+                  <gb:routeNameEnglish4/>
+                  <gb:exitNumber/>
+                  <gb:numberOfLanes/>
+                  <gb:pavementStatus/>
+                  <gb:pavedRoadSurfaceType/>
+                  <gb:unpavedRoadSurfaceType/>
+                  <gb:structureID/>
+                  <gb:structureType/>
+                  <gb:structureNameFrench/>
+                  <gb:structureNameEnglish/>
+                  <gb:roadSegmentID/>
+               </gb:RoadSegment>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.31">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>qwerty1192690444808</id>
+      <updated>2007-10-18T16:24:05Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-31 76.3</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-31,76.3</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.32">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>qwerty1192690574337</id>
+      <updated>2007-10-18T16:26:14Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-44.6 70.4</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:AdministrativeArea xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:boundary>
+                     <gml:MultiPolygon srsName="epsg:4326">
+                        <gml:polygonMember>
+                           <gml:Polygon>
+                              <gml:outerBoundaryIs>
+                                 <gml:LinearRing>
+                                    <gml:coordinates decimal="." cs="," ts=" ">-44.6,70.4 -35.099999999999994,70 -35.9,62.5 -44.9,60.5 -44.6,70.4</gml:coordinates>
+                                 </gml:LinearRing>
+                              </gml:outerBoundaryIs>
+                           </gml:Polygon>
+                        </gml:polygonMember>
+                     </gml:MultiPolygon>
+                  </gb:boundary>
+                  <gb:cgdiId/>
+                  <gb:id/>
+                  <gb:gb_name/>
+                  <gb:type/>
+                  <gb:ccFPop/>
+                  <gb:ccFPdwell/>
+                  <gb:prId/>
+                  <gb:cdId/>
+               </gb:AdministrativeArea>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.33">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>qwerty1192690968616</id>
+      <summary>WHY IT NOT WORKING</summary>
+      <title>OK DOES THIS COME UP!!!???</title>
+      <updated>2007-10-18T16:32:48Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-64.9 76.7</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:RoadSegment xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:segment>
+                     <gml:LineStringProperty>
+                        <gml:LineString>
+                           <gml:coordinates decimal="." cs="," ts=" ">-64.9,76.7 -42.8,75.6 -51.5,69</gml:coordinates>
+                        </gml:LineString>
+                     </gml:LineStringProperty>
+                  </gb:segment>
+                  <gb:cgdiId/>
+                  <gb:planimetricDataAccuracy/>
+                  <gb:acquisitionTechnique/>
+                  <gb:acquisitionProvider/>
+                  <gb:acquisitionOrRevisionDate/>
+                  <gb:nationalRoadClass/>
+                  <gb:routeNumber1/>
+                  <gb:routeNumber2/>
+                  <gb:routeNumber3/>
+                  <gb:routeNumber4/>
+                  <gb:routeNumber5/>
+                  <gb:routeNameFrench1/>
+                  <gb:routeNameFrench2/>
+                  <gb:routeNameFrench3/>
+                  <gb:routeNameFrench4/>
+                  <gb:routeNameEnglish1/>
+                  <gb:routeNameEnglish2/>
+                  <gb:routeNameEnglish3/>
+                  <gb:routeNameEnglish4/>
+                  <gb:exitNumber/>
+                  <gb:numberOfLanes/>
+                  <gb:pavementStatus/>
+                  <gb:pavedRoadSurfaceType/>
+                  <gb:unpavedRoadSurfaceType/>
+                  <gb:structureID/>
+                  <gb:structureType/>
+                  <gb:structureNameFrench/>
+                  <gb:structureNameEnglish/>
+                  <gb:roadSegmentID/>
+               </gb:RoadSegment>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.34">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192691102095</id>
+      <updated>2007-10-18T17:05:02Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-65.3 43.8</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:RoadSegment xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:segment>
+                     <gml:LineStringProperty>
+                        <gml:LineString>
+                           <gml:coordinates decimal="." cs="," ts=" ">-65.3,43.8 -63.5,44.7 -62.6,45.8</gml:coordinates>
+                        </gml:LineString>
+                     </gml:LineStringProperty>
+                  </gb:segment>
+                  <gb:cgdiId/>
+                  <gb:planimetricDataAccuracy/>
+                  <gb:acquisitionTechnique/>
+                  <gb:acquisitionProvider/>
+                  <gb:acquisitionOrRevisionDate/>
+                  <gb:nationalRoadClass/>
+                  <gb:routeNumber1/>
+                  <gb:routeNumber2/>
+                  <gb:routeNumber3/>
+                  <gb:routeNumber4/>
+                  <gb:routeNumber5/>
+                  <gb:routeNameFrench1/>
+                  <gb:routeNameFrench2/>
+                  <gb:routeNameFrench3/>
+                  <gb:routeNameFrench4/>
+                  <gb:routeNameEnglish1/>
+                  <gb:routeNameEnglish2/>
+                  <gb:routeNameEnglish3/>
+                  <gb:routeNameEnglish4/>
+                  <gb:exitNumber/>
+                  <gb:numberOfLanes/>
+                  <gb:pavementStatus/>
+                  <gb:pavedRoadSurfaceType/>
+                  <gb:unpavedRoadSurfaceType/>
+                  <gb:structureID/>
+                  <gb:structureType/>
+                  <gb:structureNameFrench/>
+                  <gb:structureNameEnglish/>
+                  <gb:roadSegmentID/>
+               </gb:RoadSegment>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.28">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>on Camerons sandbox</content>
+      <id>192.168.2.1661192689904729</id>
+      <updated>2007-10-18T16:15:04Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-47.6 51.6</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:RoadSegment xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:segment>
+                     <gml:LineStringProperty>
+                        <gml:LineString>
+                           <gml:coordinates decimal="." cs="," ts=" ">-47.6,51.6 -43.4,47.2 -47.9,46</gml:coordinates>
+                        </gml:LineString>
+                     </gml:LineStringProperty>
+                  </gb:segment>
+                  <gb:cgdiId/>
+                  <gb:planimetricDataAccuracy/>
+                  <gb:acquisitionTechnique/>
+                  <gb:acquisitionProvider/>
+                  <gb:acquisitionOrRevisionDate/>
+                  <gb:nationalRoadClass/>
+                  <gb:routeNumber1/>
+                  <gb:routeNumber2/>
+                  <gb:routeNumber3/>
+                  <gb:routeNumber4/>
+                  <gb:routeNumber5/>
+                  <gb:routeNameFrench1/>
+                  <gb:routeNameFrench2/>
+                  <gb:routeNameFrench3/>
+                  <gb:routeNameFrench4/>
+                  <gb:routeNameEnglish1/>
+                  <gb:routeNameEnglish2/>
+                  <gb:routeNameEnglish3/>
+                  <gb:routeNameEnglish4/>
+                  <gb:exitNumber/>
+                  <gb:numberOfLanes/>
+                  <gb:pavementStatus/>
+                  <gb:pavedRoadSurfaceType/>
+                  <gb:unpavedRoadSurfaceType/>
+                  <gb:structureID/>
+                  <gb:structureType/>
+                  <gb:structureNameFrench/>
+                  <gb:structureNameEnglish/>
+                  <gb:roadSegmentID/>
+               </gb:RoadSegment>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.35">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192691190299</id>
+      <summary>summary</summary>
+      <title>From Camerons Box again</title>
+      <updated>2007-10-18T16:36:30Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-78.1 61.1</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:AdministrativeArea xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:boundary>
+                     <gml:MultiPolygon srsName="epsg:4326">
+                        <gml:polygonMember>
+                           <gml:Polygon>
+                              <gml:outerBoundaryIs>
+                                 <gml:LinearRing>
+                                    <gml:coordinates decimal="." cs="," ts=" ">-78.1,61.1 -75.7,60.9 -76.3,56.6 -78.8,57.6 -78.1,61.1</gml:coordinates>
+                                 </gml:LinearRing>
+                              </gml:outerBoundaryIs>
+                           </gml:Polygon>
+                        </gml:polygonMember>
+                     </gml:MultiPolygon>
+                  </gb:boundary>
+                  <gb:cgdiId/>
+                  <gb:id/>
+                  <gb:gb_name/>
+                  <gb:type/>
+                  <gb:ccFPop/>
+                  <gb:ccFPdwell/>
+                  <gb:prId/>
+                  <gb:cdId/>
+               </gb:AdministrativeArea>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.36">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192691469639</id>
+      <updated>2007-10-18T17:11:09Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-66 43.3</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:AdministrativeArea xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:boundary>
+                     <gml:MultiPolygon srsName="epsg:4326">
+                        <gml:polygonMember>
+                           <gml:Polygon>
+                              <gml:outerBoundaryIs>
+                                 <gml:LinearRing>
+                                    <gml:coordinates decimal="." cs="," ts=" ">-66,43.3 -64.7,43.5 -65.4,44.1 -65.9,43.8 -66,43.3</gml:coordinates>
+                                 </gml:LinearRing>
+                              </gml:outerBoundaryIs>
+                           </gml:Polygon>
+                        </gml:polygonMember>
+                     </gml:MultiPolygon>
+                  </gb:boundary>
+                  <gb:cgdiId/>
+                  <gb:id/>
+                  <gb:gb_name/>
+                  <gb:type/>
+                  <gb:ccFPop/>
+                  <gb:ccFPdwell/>
+                  <gb:prId/>
+                  <gb:cdId/>
+               </gb:AdministrativeArea>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.37">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="placename" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192692185927</id>
+      <updated>2007-10-18T17:23:06Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-77.1 43.7</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-77.1,43.7</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.40">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>qwerty1192692469077</id>
+      <summary>why does this only work sometimes?</summary>
+      <title>Another Test</title>
+      <updated>2007-10-18T16:57:49Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-79.6 37.6</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-79.6,37.599999999999994</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.41">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>qwerty1192692539988</id>
+      <summary>quick test</summary>
+      <title>quick test</title>
+      <updated>2007-10-18T16:59:00Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-30.4 48.2</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-30.4,48.2</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.42">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="placename" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>11</content>
+      <id>192.168.2.1661192692642567</id>
+      <summary>11</summary>
+      <title>feedback proposal</title>
+      <updated>2007-10-18T17:30:42Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-73.8 41</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:AdministrativeArea xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:boundary>
+                     <gml:MultiPolygon srsName="epsg:4326">
+                        <gml:polygonMember>
+                           <gml:Polygon>
+                              <gml:outerBoundaryIs>
+                                 <gml:LinearRing>
+                                    <gml:coordinates decimal="." cs="," ts=" ">-73.8,41 -72,41 -71.6,42.3 -78.6,43.5 -78.3,43.3 -73.8,41</gml:coordinates>
+                                 </gml:LinearRing>
+                              </gml:outerBoundaryIs>
+                           </gml:Polygon>
+                        </gml:polygonMember>
+                     </gml:MultiPolygon>
+                  </gb:boundary>
+                  <gb:cgdiId/>
+                  <gb:id/>
+                  <gb:gb_name/>
+                  <gb:type/>
+                  <gb:ccFPop/>
+                  <gb:ccFPdwell/>
+                  <gb:prId/>
+                  <gb:cdId/>
+               </gb:AdministrativeArea>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.43">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="placename" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.2.1661192692842218</id>
+      <updated>2007-10-18T17:04:02Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-78.1 41.5</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:AdministrativeArea xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:boundary>
+                     <gml:MultiPolygon srsName="epsg:4326">
+                        <gml:polygonMember>
+                           <gml:Polygon>
+                              <gml:outerBoundaryIs>
+                                 <gml:LinearRing>
+                                    <gml:coordinates decimal="." cs="," ts=" ">-78.1,41.5 -75,40.9 -75.7,39.2 -79.3,38.3 -78.1,41.5</gml:coordinates>
+                                 </gml:LinearRing>
+                              </gml:outerBoundaryIs>
+                           </gml:Polygon>
+                        </gml:polygonMember>
+                     </gml:MultiPolygon>
+                  </gb:boundary>
+                  <gb:cgdiId/>
+                  <gb:id/>
+                  <gb:gb_name/>
+                  <gb:type/>
+                  <gb:ccFPop/>
+                  <gb:ccFPdwell/>
+                  <gb:prId/>
+                  <gb:cdId/>
+               </gb:AdministrativeArea>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.44">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="placename" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>111</content>
+      <id>192.168.2.1661192693841283</id>
+      <summary>1111</summary>
+      <title>bus stop</title>
+      <updated>2007-10-18T17:50:41Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-71.9 41.6</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:AdministrativeArea xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:boundary>
+                     <gml:MultiPolygon srsName="epsg:4326">
+                        <gml:polygonMember>
+                           <gml:Polygon>
+                              <gml:outerBoundaryIs>
+                                 <gml:LinearRing>
+                                    <gml:coordinates decimal="." cs="," ts=" ">-71.9,41.6 -69.7,44 -72.3,44 -73.4,42.2 -71.9,41.6</gml:coordinates>
+                                 </gml:LinearRing>
+                              </gml:outerBoundaryIs>
+                           </gml:Polygon>
+                        </gml:polygonMember>
+                     </gml:MultiPolygon>
+                  </gb:boundary>
+                  <gb:cgdiId/>
+                  <gb:id/>
+                  <gb:gb_name/>
+                  <gb:type/>
+                  <gb:ccFPop/>
+                  <gb:ccFPdwell/>
+                  <gb:prId/>
+                  <gb:cdId/>
+               </gb:AdministrativeArea>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.45">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="placename" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>11</content>
+      <id>wolf.cits.rncan.gc.ca1192694892883</id>
+      <summary>11</summary>
+      <title>feedback proposal</title>
+      <updated>2007-10-18T18:08:13Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-67.79999999999998 50.8</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:RoadSegment xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:segment>
+                     <gml:LineStringProperty>
+                        <gml:LineString>
+                           <gml:coordinates decimal="." cs="," ts=" ">-67.8,50.8 -64.6,45.2 -69.7,45.6 -70.5,49.2 -68.6,50.9 -69.1,48</gml:coordinates>
+                        </gml:LineString>
+                     </gml:LineStringProperty>
+                  </gb:segment>
+                  <gb:cgdiId/>
+                  <gb:planimetricDataAccuracy/>
+                  <gb:acquisitionTechnique/>
+                  <gb:acquisitionProvider/>
+                  <gb:acquisitionOrRevisionDate/>
+                  <gb:nationalRoadClass/>
+                  <gb:routeNumber1/>
+                  <gb:routeNumber2/>
+                  <gb:routeNumber3/>
+                  <gb:routeNumber4/>
+                  <gb:routeNumber5/>
+                  <gb:routeNameFrench1/>
+                  <gb:routeNameFrench2/>
+                  <gb:routeNameFrench3/>
+                  <gb:routeNameFrench4/>
+                  <gb:routeNameEnglish1/>
+                  <gb:routeNameEnglish2/>
+                  <gb:routeNameEnglish3/>
+                  <gb:routeNameEnglish4/>
+                  <gb:exitNumber/>
+                  <gb:numberOfLanes/>
+                  <gb:pavementStatus/>
+                  <gb:pavedRoadSurfaceType/>
+                  <gb:unpavedRoadSurfaceType/>
+                  <gb:structureID/>
+                  <gb:structureType/>
+                  <gb:structureNameFrench/>
+                  <gb:structureNameEnglish/>
+                  <gb:roadSegmentID/>
+               </gb:RoadSegment>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.52">
+      <author>
+         <name>Peter Rushforth</name>
+         <uri>http://www.geofunctions.org</uri>
+         <email>prushfor@nrcan.gc.ca</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador updates" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="RoadSegment" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>no content applicable here</content>
+      <id>d29f9f2e-50cb-4e7b-a965-ef02a2309272</id>
+      <summary>Updates digitized in Google Earth with GeoBase NRN v1 RoadSegment WMS backdrop.</summary>
+      <title>Newfoundland and Labrador updates</title>
+      <updated>2007-10-22T16:43:04Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-52.82818613868551 47.53934037603794</gml:pos>
+         </gml:Point>
+      </georss:where>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.54">
+      <author>
+         <name>Peter Rushforth</name>
+         <uri>www.geofunctions.org</uri>
+         <email>peter.rushforth@nrcan.gc.ca</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="road" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="proposal" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>skdfjk</content>
+      <id>0512296d-d336-4a82-b5bf-abababababab</id>
+      <summary>asdfsdf</summary>
+      <title>feedback proposal</title>
+      <updated>2007-10-19T00:00:00Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-60.35 54.26875</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection>-
+            <gml:featureMember xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+               <gb:RoadSegment>
+                  <gb:segment>
+                     <gml:LineStringProperty>
+                        <gml:LineString>
+                           <gml:coordinates decimal="." cs="," ts=" ">-60.35000000000001,54.26875 -60.50000000000001,53.90625 -60.88125000000001,53.96875</gml:coordinates>
+                        </gml:LineString>
+                     </gml:LineStringProperty>
+                  </gb:segment>
+                  <gb:cgdiId/>
+                  <gb:planimetricDataAccuracy/>
+                  <gb:acquisitionTechnique/>
+                  <gb:acquisitionProvider/>
+                  <gb:acquisitionOrRevisionDate/>
+                  <gb:nationalRoadClass/>
+                  <gb:routeNumber1/>
+                  <gb:routeNumber2/>
+                  <gb:routeNumber3/>
+                  <gb:routeNumber4/>
+                  <gb:routeNumber5/>
+                  <gb:routeNameFrench1/>
+                  <gb:routeNameFrench2/>
+                  <gb:routeNameFrench3/>
+                  <gb:routeNameFrench4/>
+                  <gb:routeNameEnglish1/>
+                  <gb:routeNameEnglish2/>
+                  <gb:routeNameEnglish3/>
+                  <gb:routeNameEnglish4/>
+                  <gb:exitNumber/>
+                  <gb:numberOfLanes/>
+                  <gb:pavementStatus/>
+                  <gb:pavedRoadSurfaceType/>
+                  <gb:unpavedRoadSurfaceType/>
+                  <gb:structureID/>
+                  <gb:structureType/>
+                  <gb:structureNameFrench/>
+                  <gb:structureNameEnglish/>
+                  <gb:roadSegmentID/>
+               </gb:RoadSegment>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.53">
+      <author>
+         <name>Peter Rushforth</name>
+         <uri>http://www.geofunctions.org</uri>
+         <email>prushfor@nrcan.gc.ca</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador updates" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="RoadSegment" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>no content applicable here</content>
+      <id>28012087-4af5-4570-b73e-0a2c840eee84</id>
+      <summary>Updates digitized in Google Earth with GeoBase NRN v1 RoadSegment WMS backdrop.</summary>
+      <title>Newfoundland and Labrador updates</title>
+      <updated>2007-10-22T17:41:34Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-52.82818613868551 47.53934037603794</gml:pos>
+         </gml:Point>
+      </georss:where>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.55">
+      <author>
+         <name>Peter Rushforth</name>
+         <uri>http://www.geofunctions.org</uri>
+         <email>prushfor@nrcan.gc.ca</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador updates" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="RoadSegment" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>no content applicable here</content>
+      <id>9706f8df-0bad-4f54-bff0-abababababab</id>
+      <summary>Updates digitized in Google Earth with GeoBase NRN v1 RoadSegment WMS backdrop.</summary>
+      <title>Newfoundland and Labrador updates</title>
+      <updated>2007-10-22T00:00:00Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-52.82818613868551 47.53934037603794</gml:pos>
+         </gml:Point>
+      </georss:where>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.56">
+      <author>
+         <name>Peter Rushforth</name>
+         <uri>http://www.geofunctions.org</uri>
+         <email>prushfor@nrcan.gc.ca</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador updates" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="RoadSegment" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>no content applicable here</content>
+      <id>28eb9af6-0736-4873-bf79-e6c76136dd58</id>
+      <summary>Updates digitized in Google Earth with GeoBase NRN v1 RoadSegment WMS backdrop.</summary>
+      <title>Newfoundland and Labrador updates</title>
+      <updated>2007-10-22T00:00:00Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-52.82818613868551 47.53934037603794</gml:pos>
+         </gml:Point>
+      </georss:where>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.57">
+      <author>
+         <name>Peter Rushforth</name>
+         <uri>http://www.geofunctions.org</uri>
+         <email>prushfor@nrcan.gc.ca</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador updates" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="RoadSegment" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>no content applicable here</content>
+      <id>5b8ddf0e-8a32-4155-a053-74aaad8668e4</id>
+      <summary>Updates digitized in Google Earth with GeoBase NRN v1 RoadSegment WMS backdrop.</summary>
+      <title>Newfoundland and Labrador updates</title>
+      <updated>2007-10-22T00:00:00Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-52.82818613868551 47.53934037603794</gml:pos>
+         </gml:Point>
+      </georss:where>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.58">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>qwerty1193189623036</id>
+      <summary>A new Test</summary>
+      <title>New Test</title>
+      <updated>2007-10-24T01:33:43Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-50.4 43.5</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:AdministrativeArea xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:boundary>
+                     <gml:MultiPolygon srsName="epsg:4326">
+                        <gml:polygonMember>
+                           <gml:Polygon>
+                              <gml:outerBoundaryIs>
+                                 <gml:LinearRing>
+                                    <gml:coordinates decimal="." cs="," ts=" ">-50.4,43.5 -58,41.9 -49.2,41.099999999999994 -45.9,44.5 -46.9,46.7 -49.6,46.6 -50.8,45.4 -52,44.6 -53.3,44 -54.9,44 -56.6,44 -57.5,44 -60.6,42.5 -50.4,43.5</gml:coordinates>
+                                 </gml:LinearRing>
+                              </gml:outerBoundaryIs>
+                           </gml:Polygon>
+                        </gml:polygonMember>
+                     </gml:MultiPolygon>
+                  </gb:boundary>
+                  <gb:cgdiId/>
+                  <gb:id/>
+                  <gb:gb_name/>
+                  <gb:type/>
+                  <gb:ccFPop/>
+                  <gb:ccFPdwell/>
+                  <gb:prId/>
+                  <gb:cdId/>
+               </gb:AdministrativeArea>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.59">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="SK" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="PlaceName" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>qwerty1193191514707</id>
+      <updated>2007-10-24T02:05:14Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-71.5 43.7</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-71.5,43.7</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.60">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="QC" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="PlaceName" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>A point in the middle of the ocean</content>
+      <id>qwerty1193192167443</id>
+      <summary>11:45 Another Test</summary>
+      <title>11:45 Test</title>
+      <updated>2007-10-24T02:16:07Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-39.1 47.5</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-39.1,47.5</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.61">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="YT" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="RoadSegment" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>Some silly road</content>
+      <id>qwerty1193192351556</id>
+      <summary>11:49 Test</summary>
+      <title>11:49 Test</title>
+      <updated>2007-10-24T02:19:11Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-79.4 40.7</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:RoadSegment xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:segment>
+                     <gml:LineStringProperty>
+                        <gml:LineString>
+                           <gml:coordinates decimal="." cs="," ts=" ">-79.4,40.7 -77.6,40.8 -76.6,40.8 -76.2,40.2</gml:coordinates>
+                        </gml:LineString>
+                     </gml:LineStringProperty>
+                  </gb:segment>
+                  <gb:cgdiId/>
+                  <gb:planimetricDataAccuracy/>
+                  <gb:acquisitionTechnique/>
+                  <gb:acquisitionProvider/>
+                  <gb:acquisitionOrRevisionDate/>
+                  <gb:nationalRoadClass/>
+                  <gb:routeNumber1/>
+                  <gb:routeNumber2/>
+                  <gb:routeNumber3/>
+                  <gb:routeNumber4/>
+                  <gb:routeNumber5/>
+                  <gb:routeNameFrench1/>
+                  <gb:routeNameFrench2/>
+                  <gb:routeNameFrench3/>
+                  <gb:routeNameFrench4/>
+                  <gb:routeNameEnglish1/>
+                  <gb:routeNameEnglish2/>
+                  <gb:routeNameEnglish3/>
+                  <gb:routeNameEnglish4/>
+                  <gb:exitNumber/>
+                  <gb:numberOfLanes/>
+                  <gb:pavementStatus/>
+                  <gb:pavedRoadSurfaceType/>
+                  <gb:unpavedRoadSurfaceType/>
+                  <gb:structureID/>
+                  <gb:structureType/>
+                  <gb:structureNameFrench/>
+                  <gb:structureNameEnglish/>
+                  <gb:roadSegmentID/>
+               </gb:RoadSegment>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.62">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="PlaceName" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Update" scheme="http://www.geobase.ca/scheme/action"/>
+      <content>12:02 Test Update</content>
+      <id>qwerty1193193195770</id>
+      <summary>12:02 Test Update</summary>
+      <title>12:02 Test Update</title>
+      <updated>2007-10-24T02:33:16Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-73.32557986 45.31144049</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:boundedBy>
+               <gml:Box srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+                  <gml:coordinates decimal="." cs="," ts=" ">-73.32558441,45.31143951 -73.32557678,45.31144333</gml:coordinates>
+               </gml:Box>
+            </gml:boundedBy>
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007" fid="PlaceName.31684">
+                  <gb:cgdiId>urn:uuid:66dba189-5c9e-11dc-b616-0b0cdf204e17</gb:cgdiId>
+                  <gb:geographicalName>Sudbury Hill</gb:geographicalName>
+                  <gb:cgndbKey>ABEMM</gb:cgndbKey>
+                  <gb:genericTerm>Hill</gb:genericTerm>
+                  <gb:conciseTerm>Mont</gb:conciseTerm>
+                  <gb:latitude>45° 18' 41'' Nord</gb:latitude>
+                  <gb:longitude>73° 19' 34'' Ouest</gb:longitude>
+                  <gb:datum>NAD83</gb:datum>
+                  <gb:ntsMap>023B14,023B00</gb:ntsMap>
+                  <gb:regionName>Terre-Neuve-et-Labrador</gb:regionName>
+                  <gb:featureId>933db9afba2211d892e2080020a0f4c9</gb:featureId>
+                  <gb:location>
+                     <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.32557986,45.31144049</gml:coordinates>
+                     </gml:Point>
+                  </gb:location>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.63">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="placename" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Update" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>qwerty1193193249713</id>
+      <updated>2007-10-24T02:34:17Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-61.8021777 53.0783954</gml:pos>
+         </gml:Point>
+      </georss:where>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.64">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="PlaceName" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Delete" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>qwerty1193198238964</id>
+      <summary>1:27 Test Delete</summary>
+      <title>1:27 Test Delete</title>
+      <updated>2007-10-24T03:57:18Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-73.32557986 45.31144049</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:boundedBy>
+               <gml:Box srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+                  <gml:coordinates decimal="." cs="," ts=" ">-73.32558441,45.31143951 -73.32557678,45.31144333</gml:coordinates>
+               </gml:Box>
+            </gml:boundedBy>
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007" fid="PlaceName.31684">
+                  <gb:cgdiId>urn:uuid:66dba189-5c9e-11dc-b616-0b0cdf204e17</gb:cgdiId>
+                  <gb:geographicalName>Sudbury Hill</gb:geographicalName>
+                  <gb:cgndbKey>ABEMM</gb:cgndbKey>
+                  <gb:genericTerm>Hill</gb:genericTerm>
+                  <gb:conciseTerm>Mont</gb:conciseTerm>
+                  <gb:latitude>45° 18' 41'' Nord</gb:latitude>
+                  <gb:longitude>73° 19' 34'' Ouest</gb:longitude>
+                  <gb:datum>NAD83</gb:datum>
+                  <gb:ntsMap>023B14,023B00</gb:ntsMap>
+                  <gb:regionName>Terre-Neuve-et-Labrador</gb:regionName>
+                  <gb:featureId>933db9afba2211d892e2080020a0f4c9</gb:featureId>
+                  <gb:location>
+                     <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.32557986,45.31144049</gml:coordinates>
+                     </gml:Point>
+                  </gb:location>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.65">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="PlaceName" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Update" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>1:28 Test Delete</content>
+      <id>qwerty1193198273562</id>
+      <summary>1:28 Test Delete</summary>
+      <title>1:28 Test Delete</title>
+      <updated>2007-10-24T03:57:53Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-69.07286017 56.86639051</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:boundedBy>
+               <gml:Box srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+                  <gml:coordinates decimal="." cs="," ts=" ">-69.07286072,56.86639023 -69.07285309,56.86639404</gml:coordinates>
+               </gml:Box>
+            </gml:boundedBy>
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007" fid="PlaceName.32505">
+                  <gb:cgdiId>urn:uuid:69e0081e-5c9e-11dc-b616-0b0cdf204e17</gb:cgdiId>
+                  <gb:geographicalName>Rivière Swampy Bay</gb:geographicalName>
+                  <gb:cgndbKey>EIFOI</gb:cgndbKey>
+                  <gb:genericTerm>Rivière</gb:genericTerm>
+                  <gb:conciseTerm>Cours d'eau</gb:conciseTerm>
+                  <gb:latitude>56° 51' 59'' Nord</gb:latitude>
+                  <gb:longitude>69° 4' 25'' Ouest</gb:longitude>
+                  <gb:datum>NAD83</gb:datum>
+                  <gb:ntsMap>024C14,023N16,023O03,023O06,023O11,023O12,023O13,024C01,024C07,024C08,024C10,024C15</gb:ntsMap>
+                  <gb:regionName>Québec</gb:regionName>
+                  <gb:featureId>523bd17bbe5111d892e2080020a0f4c9</gb:featureId>
+                  <gb:location>
+                     <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-69.07286017,56.86639051</gml:coordinates>
+                     </gml:Point>
+                  </gb:location>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.66">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="YT" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="PlaceName" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.1.2251193199191903</id>
+      <updated>2007-10-24T04:13:12Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-93.25333333333333 44.83333333333333</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-93.25333333333333,44.83333333333333</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.67">
+      <author>
+         <name>John Doe Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>localhost1193200284967</id>
+      <updated>2007-10-24T04:31:25Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-76.7 71.7</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:AdministrativeArea xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:boundary>
+                     <gml:MultiPolygon srsName="epsg:4326">
+                        <gml:polygonMember>
+                           <gml:Polygon>
+                              <gml:outerBoundaryIs>
+                                 <gml:LinearRing>
+                                    <gml:coordinates decimal="." cs="," ts=" ">-76.7,71.7 -36.4,73.5 -43.6,58.5 -76.4,57.5 -76.7,71.7</gml:coordinates>
+                                 </gml:LinearRing>
+                              </gml:outerBoundaryIs>
+                           </gml:Polygon>
+                        </gml:polygonMember>
+                     </gml:MultiPolygon>
+                  </gb:boundary>
+                  <gb:cgdiId/>
+                  <gb:id/>
+                  <gb:gb_name/>
+                  <gb:type/>
+                  <gb:ccFPop/>
+                  <gb:ccFPdwell/>
+                  <gb:prId/>
+                  <gb:cdId/>
+               </gb:AdministrativeArea>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.68">
+      <author>
+         <name>Cameron Shorter</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="AB" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="PlaceName" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.1.2251193200629323</id>
+      <summary>Update from Firefox on Windows</summary>
+      <title>update from FF on windows</title>
+      <updated>2007-10-24T04:37:09Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-122.3733333333333 36.64333333333333</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-122.37333333333333,36.64333333333333</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.69">
+      <author>
+         <name>Cameron Shorter</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="YT" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="PlaceName" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>192.168.1.2251193200822536</id>
+      <updated>2007-10-24T04:40:22Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-114.0316666666667 37.85666666666667</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-114.03166666666667,37.85666666666667</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.70">
+      <author>
+         <name>GeorgeDabbaya</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>localhost1193200912471</id>
+      <updated>2007-10-24T04:41:52Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-89.2 53.4</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:RoadSegment xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:segment>
+                     <gml:LineStringProperty>
+                        <gml:LineString>
+                           <gml:coordinates decimal="." cs="," ts=" ">-89.2,53.4 -85.30000000000001,50.7 -89.10000000000001,48.8 -92.60000000000001,44.3 -89.10000000000001,41.7 -84,41.4 -83.30000000000001,43.5 -82.9,46.4 -82.7,48.6 -82.4,51.2 -82.4,55.5 -82.4,57.7 -83.9,58.9</gml:coordinates>
+                        </gml:LineString>
+                     </gml:LineStringProperty>
+                  </gb:segment>
+                  <gb:cgdiId/>
+                  <gb:planimetricDataAccuracy/>
+                  <gb:acquisitionTechnique/>
+                  <gb:acquisitionProvider/>
+                  <gb:acquisitionOrRevisionDate/>
+                  <gb:nationalRoadClass/>
+                  <gb:routeNumber1/>
+                  <gb:routeNumber2/>
+                  <gb:routeNumber3/>
+                  <gb:routeNumber4/>
+                  <gb:routeNumber5/>
+                  <gb:routeNameFrench1/>
+                  <gb:routeNameFrench2/>
+                  <gb:routeNameFrench3/>
+                  <gb:routeNameFrench4/>
+                  <gb:routeNameEnglish1/>
+                  <gb:routeNameEnglish2/>
+                  <gb:routeNameEnglish3/>
+                  <gb:routeNameEnglish4/>
+                  <gb:exitNumber/>
+                  <gb:numberOfLanes/>
+                  <gb:pavementStatus/>
+                  <gb:pavedRoadSurfaceType/>
+                  <gb:unpavedRoadSurfaceType/>
+                  <gb:structureID/>
+                  <gb:structureType/>
+                  <gb:structureNameFrench/>
+                  <gb:structureNameEnglish/>
+                  <gb:roadSegmentID/>
+               </gb:RoadSegment>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.71">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>localhost1193201155939</id>
+      <summary>rdewit-summary</summary>
+      <title>feedback proposal</title>
+      <updated>2007-10-24T04:45:56Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-84.5 56.7</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-84.5,56.7</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.73">
+      <author>
+         <name>John Doe</name>
+         <uri>www.example.com</uri>
+         <email>john@cgdiip.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="NL" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="feature" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="Insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>n/a</content>
+      <id>localhost1193201777255</id>
+      <summary>samenvatting</summary>
+      <title>titel</title>
+      <updated>2007-10-24T04:56:17Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-69.4 45</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml">-
+            <gml:featureMember>
+               <gb:PlaceName xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+                  <gb:pointLocation>
+                     <gml:PointProperty>
+                        <gml:Point>
+                           <gml:coordinates decimal="." cs="," ts=" ">-69.4,45</gml:coordinates>
+                        </gml:Point>
+                     </gml:PointProperty>
+                  </gb:pointLocation>
+                  <gb:cgdiId/>
+                  <gb:geographicalName/>
+                  <gb:cgndbKey/>
+                  <gb:genericTerm/>
+                  <gb:conciseTerm/>
+                  <gb:latitude/>
+                  <gb:longitude/>
+                  <gb:datum/>
+                  <gb:ntsMap/>
+                  <gb:regionName/>
+                  <gb:featureId/>
+               </gb:PlaceName>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.47">
+      <author>
+         <name>Martin Vivian</name>
+         <uri>www.lisasoft.com</uri>
+         <email>mvivian@lisasoft.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="placename" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="update" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>skdfjk</content>
+      <id>0512296d-d336-4a82-b5bf-95572921003f</id>
+      <summary>asdfsdf</summary>
+      <title>feedback proposal</title>
+      <updated>2007-10-19T00:00:00Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-60.35 54.26875</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection>-
+            <gml:featureMember xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+               <gb:RoadSegment>
+                  <gb:segment>
+                     <gml:LineStringProperty>
+                        <gml:LineString>
+                           <gml:coordinates decimal="." cs="," ts=" ">-60.35000000000001,54.26875 -60.50000000000001,53.90625 -60.88125000000001,53.96875</gml:coordinates>
+                        </gml:LineString>
+                     </gml:LineStringProperty>
+                  </gb:segment>
+                  <gb:cgdiId/>
+                  <gb:planimetricDataAccuracy/>
+                  <gb:acquisitionTechnique/>
+                  <gb:acquisitionProvider/>
+                  <gb:acquisitionOrRevisionDate/>
+                  <gb:nationalRoadClass/>
+                  <gb:routeNumber1/>
+                  <gb:routeNumber2/>
+                  <gb:routeNumber3/>
+                  <gb:routeNumber4/>
+                  <gb:routeNumber5/>
+                  <gb:routeNameFrench1/>
+                  <gb:routeNameFrench2/>
+                  <gb:routeNameFrench3/>
+                  <gb:routeNameFrench4/>
+                  <gb:routeNameEnglish1/>
+                  <gb:routeNameEnglish2/>
+                  <gb:routeNameEnglish3/>
+                  <gb:routeNameEnglish4/>
+                  <gb:exitNumber/>
+                  <gb:numberOfLanes/>
+                  <gb:pavementStatus/>
+                  <gb:pavedRoadSurfaceType/>
+                  <gb:unpavedRoadSurfaceType/>
+                  <gb:structureID/>
+                  <gb:structureType/>
+                  <gb:structureNameFrench/>
+                  <gb:structureNameEnglish/>
+                  <gb:roadSegmentID/>
+               </gb:RoadSegment>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.48">
+      <author>
+         <name>Peter Rushforth</name>
+         <uri>www.geofunctions.org</uri>
+         <email>peter.rushforth@nrcan.gc.ca</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Newfoundland and Labrador" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="road" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="proposal" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>skdfjk</content>
+      <id>0512296d-d336-4a82-b5bf-95572921f03f</id>
+      <summary>asdfsdf</summary>
+      <title>feedback proposal</title>
+      <updated>2007-10-19T00:00:00Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-60.35 54.26875</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection>-
+            <gml:featureMember xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+               <gb:RoadSegment>
+                  <gb:segment>
+                     <gml:LineStringProperty>
+                        <gml:LineString>
+                           <gml:coordinates decimal="." cs="," ts=" ">-60.35000000000001,54.26875 -60.50000000000001,53.90625 -60.88125000000001,53.96875</gml:coordinates>
+                        </gml:LineString>
+                     </gml:LineStringProperty>
+                  </gb:segment>
+                  <gb:cgdiId/>
+                  <gb:planimetricDataAccuracy/>
+                  <gb:acquisitionTechnique/>
+                  <gb:acquisitionProvider/>
+                  <gb:acquisitionOrRevisionDate/>
+                  <gb:nationalRoadClass/>
+                  <gb:routeNumber1/>
+                  <gb:routeNumber2/>
+                  <gb:routeNumber3/>
+                  <gb:routeNumber4/>
+                  <gb:routeNumber5/>
+                  <gb:routeNameFrench1/>
+                  <gb:routeNameFrench2/>
+                  <gb:routeNameFrench3/>
+                  <gb:routeNameFrench4/>
+                  <gb:routeNameEnglish1/>
+                  <gb:routeNameEnglish2/>
+                  <gb:routeNameEnglish3/>
+                  <gb:routeNameEnglish4/>
+                  <gb:exitNumber/>
+                  <gb:numberOfLanes/>
+                  <gb:pavementStatus/>
+                  <gb:pavedRoadSurfaceType/>
+                  <gb:unpavedRoadSurfaceType/>
+                  <gb:structureID/>
+                  <gb:structureType/>
+                  <gb:structureNameFrench/>
+                  <gb:structureNameEnglish/>
+                  <gb:roadSegmentID/>
+               </gb:RoadSegment>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+
+</feed>
+
