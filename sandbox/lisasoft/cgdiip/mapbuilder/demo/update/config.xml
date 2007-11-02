@@ -12,22 +12,26 @@
           <htmlTagId>mainMapPane</htmlTagId>
           <maxResolution>0.703125</maxResolution>
         </MapPaneOL>
-		<AoiLink id="notificationClientLink">
-			<href>../notification/index.html</href>
-			<linkLabel>Notifications</linkLabel>
-		</AoiLink>
-		<AoiLink id="eventClientLink">
-			<href>../event/index.html</href>
-			<linkLabel>Events</linkLabel>
-		</AoiLink>
-		<AoiLink id="feedbackClientLink">
-			<href>../feedback_client/index.html</href>
-			<linkLabel>User Feedback</linkLabel>
-		</AoiLink>
-		<AoiLink id="discoveryClientLink">
-			<href>../catalog/catalog.html</href>
-			<linkLabel>Geobase Discovery</linkLabel>
-		</AoiLink>
+        <AoiLink id="discoveryClientLink">
+          <href>../catalog/catalog.html</href>
+          <linkLabel>Geobase Discovery</linkLabel>
+        </AoiLink>
+        <AoiLink id="feedbackClientLink">
+          <href>../feedback_client/index.html</href>
+          <linkLabel>User Feedback</linkLabel>
+        </AoiLink>
+        <AoiLink id="notificationClientLink">
+          <href>../notification/index.html</href>
+          <linkLabel>Feedback Feed</linkLabel>
+        </AoiLink>
+        <AoiLink id="updateClientLink">
+          <href>../update/index.html</href>
+          <linkLabel>Update Feed</linkLabel>
+        </AoiLink>
+        <AoiLink id="eventClientLink">
+          <href>../event/index.html</href>
+          <linkLabel>Event Feed</linkLabel>
+        </AoiLink>
         <CursorTrack id="cursorTrack"/>
       </widgets>
     </OwsContext>
