@@ -3,15 +3,13 @@
 <head>
   <link href="base.css" type="text/css" rel="stylesheet"/>
   <title>Proj4js Test Page</title>
-  <script src="../lib/Util.js"></script>
-  <script src="../lib/BaseTypes.js"></script>
-  <script src="../lib/Class.js"></script>
-  <script src="../lib/Ajax.js"></script>
+  <script src="../lib/OLprototype.js"></script>
   <script src="../lib/proj4js.js"></script>
   <script src="../lib/projCode/utm.js"></script>
   <script src="../lib/projCode/lcc.js"></script>
   <script src="../lib/projCode/tmerc.js"></script>
   <script src="../lib/projCode/merc.js"></script>
+  <!-- these below not tested or validated yet !!  -->
   <script src="../lib/projCode/aea.js"></script>
   <script src="../lib/projCode/aeqd.js"></script>
   <script src="../lib/projCode/eqdc.js"></script>
@@ -27,10 +25,11 @@
   <script src="../lib/projCode/stere.js"></script>
   <script src="../lib/projCode/sterea.js"></script>
   <script src="../lib/projCode/vandg.js"></script>
-  <!-- these not tested or validated yet !!
-  -->
+  
   <script src="testdata.js"></script>
+  
   <script type="text/javascript">
+  
     Proj4js.proxyScript = '/mapbuilder/proxy?url=';
 	
     function runTests() {

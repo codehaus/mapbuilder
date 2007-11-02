@@ -7,7 +7,7 @@ import jsmin, mergejs
 
 sourceDirectory = "../lib"
 configFilename = "library.cfg"
-outputFilename = "OpenLayers.js"
+outputFilename = "proj4js.js"
 
 if len(sys.argv) > 1:
     configFilename = sys.argv[1] + ".cfg"
