@@ -44,11 +44,13 @@
           <sldModel>sld</sldModel>
           <GeoRSS>true</GeoRSS>
           <hoverCursor>pointer</hoverCursor>
+          <featureOnClick>featureList</featureOnClick>
         </GmlRendererOL>
         <Widget id="eventsListing">
           <targetModel>mainMap</targetModel>
           <stylesheet>GeoRSSListing.xsl</stylesheet>
         </Widget>
+        <FeedbackFeatureList id="featureList"></FeedbackFeatureList>
       </widgets>
       <tools>
         <FeatureSelectHandler id="featureHighlighter">
