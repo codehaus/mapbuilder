@@ -80,7 +80,7 @@
           <targetModel>mainMap</targetModel>
           <stylesheet>GeoRSSListing.xsl</stylesheet>
         </Widget>
-        <FeedbackFeatureList id="featureList"></FeedbackFeatureList>
+        <FeedbackFeatureListReadOnly id="featureList"></FeedbackFeatureListReadOnly>
       </widgets>
       <tools>
         <FeatureSelectHandler id="featureHighlighter">
