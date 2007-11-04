@@ -59,6 +59,9 @@
 
     <FeatureCollection id="featureCollection">
 
+      <!--
+      <defaultModelUrl>testfeed.xml</defaultModelUrl>
+      -->
       <defaultModelUrl>http://www.pvretano.com/cgdi/cwwfs.cgi?SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=cw:FEEDBACKFEED&amp;outputFormat=ATOM</defaultModelUrl>
       <widgets>
         <TipWidgetOL id="featurePopup">
@@ -120,14 +123,6 @@
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
     </Reset>
-    <GetFeatureInfo id="getFeatureInfo">
-      <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>featureCollection</targetModel>
-      <targetContext>mainMap</targetContext>
-      <class>RadioButton</class>
-      <enabledSrc>/images/QueryEnable.png</enabledSrc>
-      <disabledSrc>/images/QueryDisable.png</disabledSrc>
-    </GetFeatureInfo>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
 </MapbuilderConfig>
