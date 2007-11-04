@@ -17,31 +17,6 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 function FeedbackFeatureList(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
-  // receives onclick event from map
-  this.onClick = function(objRef, event) {
-    // force stylesheet to only draw this feature
-    objRef.stylesheet.setParameter("fid", event.feature.fid);
-
-    // refresh attribute list
-    objRef.paint(objRef);
-
-    // quick hack to get coordinates for this feature
-    coordinates = objRef.model.doc.selectSingleNode('//*[atom:id=\'' + event.feature.fid + '\']/georss:where/gml:Point/gml:pos').firstChild.nodeValue;
-
-    // only if there are coordinates, proceed
-    if (coordinates) {
-      bboxArray = coordinates.split(" ");
-
-      mapModel = config.objects.mainMap;
-
-      // create a fake extent using the point coordinates and zoom out a bit
-      mapModel.map.zoomToExtent(new OpenLayers.Bounds(bboxArray[0],bboxArray[1],bboxArray[0],bboxArray[1]));
-      mapModel.map.zoomTo( mapModel.map.getNumZoomLevels() - 8);
-
-    }
-
-  }
-
 
   /**
    * Set the value of an attribute from the FeatureList.

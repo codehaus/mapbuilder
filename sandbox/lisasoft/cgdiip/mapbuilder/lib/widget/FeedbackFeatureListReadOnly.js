@@ -16,17 +16,46 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
  */
 function FeedbackFeatureListReadOnly(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
-
-  // receives onclick event from map
+  
+  /**
+   * Receives onclick event and notifies model of selectFeature and zoomToFeature
+   * events.
+   * @param objRef this widget
+   * @param event  the OL event received after a selecting a feature on the map
+   */
   this.onClick = function(objRef, event) {
+    var fid = event.feature.fid;
+
+    // notify model of selectFeature and zoomToFeature events
+    objRef.model.setParam('selectFeature', fid);
+    objRef.model.setParam('zoomToFeature', fid);
+  }
+  this.model.addListener("olFeatureSelect", this.onClick, this);
+
+  /**
+   * Shows table of feature attributes 
+   * @param objRef this widget
+   * @param fid    Id of selected feature
+   */
+  this.selectFeature = function(objRef, fid) {
     // force stylesheet to only draw this feature
-    objRef.stylesheet.setParameter("fid", event.feature.fid);
+    objRef.stylesheet.setParameter("fid", fid);
 
     // refresh attribute list
     objRef.paint(objRef);
+  }
+  this.model.addListener('selectFeature', this.selectFeature, this);
+
+
+  /**
+   * Zooms map to selected feature
+   * @param objRef this widget
+   * @param fid    Id of selected feature
+   */
+  this.zoomToFeature = function(objRef, fid) {
 
     // quick hack to get coordinates for this feature
-    coordinates = objRef.model.doc.selectSingleNode('//*[atom:id=\'' + event.feature.fid + '\']/georss:where/gml:Point/gml:pos').firstChild.nodeValue;
+    coordinates = objRef.model.doc.selectSingleNode('//*[atom:id=\'' + fid + '\']/georss:where/gml:Point/gml:pos').firstChild.nodeValue;
 
     // only if there are coordinates, proceed
     if (coordinates) {
@@ -39,9 +68,8 @@ function FeedbackFeatureListReadOnly(widgetNode, model) {
       mapModel.map.zoomTo( mapModel.map.getNumZoomLevels() - 8);
 
     }
-
   }
-
+  this.model.addListener('zoomToFeature', this.zoomToFeature, this);
 
   /**
    * Set the value of an attribute from the FeatureList.
