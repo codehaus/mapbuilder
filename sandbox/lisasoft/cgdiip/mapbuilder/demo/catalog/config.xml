@@ -52,7 +52,7 @@
         <ModelUrlInput id="urlInput">
         </ModelUrlInput>
         <GmlLayerAddUrlInput id="gmlInput">
-        	<defaultUrl> </defaultUrl>
+        	<defaultUrl>plumes.gml</defaultUrl>
         </GmlLayerAddUrlInput>
       </widgets>
     </OwsContext>
@@ -101,7 +101,10 @@
         <LocationSearch id="locationSearchForm">
           <htmlTagId>locationSearch</htmlTagId>
           <targetModel>locationResults</targetModel>
+          <!--
           <wfsUrl>http://www.pvretano.com/cgdi/geoserver/cwwfs.cgi</wfsUrl>
+          -->
+          <wfsUrl>http://wolf.cits.rncan.gc.ca:8080/geoserver/wfs</wfsUrl>
 
           <!-- xpath expressions don't work yet -->
           <resultNameXpath>concat(gb:PlaceName/gb:geographicalName, ' (', gb:PlaceName/gb:regionName , ')')</resultNameXpath> 
