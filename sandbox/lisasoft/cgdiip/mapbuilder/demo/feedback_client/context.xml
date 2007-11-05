@@ -48,7 +48,7 @@
       <Server service="OGC:WMS" version="1.1.1" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=cgdiip"/>
       </Server>
-      <Name>gb:AdministrativeArea:Yukon,gb:AdministrativeArea:Ontario,GCCS000A06A_E:PEI,ADMINISTRATIVEAREA:Quebec,GCCS000A06A_E:NWT,gb:AdministrativeArea:Nunavut,gb:AdministrativeArea:BC,gb:AdministrativeArea:BC,GCCS000A06A_E:Manitoba,gb:AdministrativeArea:NFLD</Name>
+      <Name>GCCS000A06A_E:PEI,ADMINISTRATIVEAREA:Quebec,GCCS000A06A_E:NWT,GCCS000A06A_E:Manitoba</Name>
       <Title>Administrative Area</Title>
       <Abstract>Administrative Area</Abstract>
       <SRS>EPSG:4326</SRS>
@@ -61,7 +61,7 @@
       <Server service="OGC:WMS" version="1.1.1" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=cgdiip"/>
       </Server>
-      <Name>gb:RoadSegment:BC,ROADSEG:Manitoba,gb:RoadSegment:Nunavut,ROADSEG:NWT,gb:RoadSegment:NFLD,ROADSEG:Quebec,gb:RoadSegment:Ontario,ROADSEG:PEI,gb:RoadSegment:Yukon</Name>
+      <Name>ROADSEG:Manitoba,ROADSEG:NWT,ROADSEG:Quebec,ROADSEG:PEI</Name>
       <Title>Road Segment</Title>
       <Abstract>Road Segment</Abstract>
       <SRS>EPSG:4326</SRS>
@@ -74,7 +74,7 @@
       <Server service="OGC:WMS" version="1.1.1" title="Local">
         <OnlineResource xlink:type="simple" xlink:href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=cgdiip"/>
       </Server>
-      <Name>gb:PlaceName:BC,PLACENAME:Manitoba,gb:PlaceName:NFLD,PLACENAME:NWT,gb:PlaceName:Nunavut,gb:PlaceName:Ontario,PLACENAME:PEI,PLACENAME:Quebec,gb:PlaceName:Yukon</Name>
+      <Name>PLACENAME:Manitoba,PLACENAME:NWT,PLACENAME:PEI,PLACENAME:Quebec</Name>
       <Title>Place Name</Title>
       <Abstract>Place Name</Abstract>
       <SRS>EPSG:4326</SRS>
