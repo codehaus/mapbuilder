@@ -58,8 +58,17 @@
       <SRS>EPSG:4326</SRS>
     </Layer>
 
-
     <!--
+   <FeatureType hidden="0" maxFeatures="5">
+      <Server service="WFS" version="1.0" title="R WFS - gb:PlaceName">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?config=mb&amp;datastore=Manitoba"/>
+      </Server>
+      <Name>gb:PlaceName</Name>
+      <Title>WFS gb:PlaceName</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+
     <FeatureType hidden="1" maxFeatures="1">
       <Server service="WFS" version="1.0" title="R WFS - gb:RoadSegment">
         <OnlineResource method="POST" xlink:type="simple" xlink:href="https://securexnet.env.gov.ab.ca/cgdi2/mapserv?MAP=/maps/cgdif.map"/>
@@ -85,8 +94,8 @@
       <Server service="WFS" version="1.0" title="Lisasoft's Aggregating WFS">
         <OnlineResource method="POST" xlink:type="simple" xlink:href="http://wolf.cits.rncan.gc.ca:8080/geoserver/wfs"/>
       </Server>
-      <Name>gb:PlaceNames</Name>
-      <Title>LS - Place Names</Title>
+      <Name>gb:PlaceName</Name>
+      <Title>LS - Place Name</Title>
       <Abstract></Abstract>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
@@ -116,8 +125,8 @@
       <Server service="WFS" version="1.0" title="CubeWerx's Aggregating WFS">
         <OnlineResource method="POST" xlink:type="simple" xlink:href="http://www.pvretano.com/cgdi/geoserver/cwwfs.cgi"/>
       </Server>
-      <Name>gb:PlaceNames</Name>
-      <Title>CW - Place Names</Title>
+      <Name>gb:PlaceName</Name>
+      <Title>CW - Place Name</Title>
       <Abstract></Abstract>
       <SRS>EPSG:4326</SRS>
     </FeatureType>
