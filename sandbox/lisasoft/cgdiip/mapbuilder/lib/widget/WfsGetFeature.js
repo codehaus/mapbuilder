@@ -77,9 +77,9 @@ function WfsGetFeature(widgetNode, model) {
       var typeName = objRef.typeName;
 
 	  
-	  var adminareaLayerName = "gb:AdministrativeArea:Yukon,gb:AdministrativeArea:Ontario,GCCS000A06A_E:PEI,ADMINISTRATIVEAREA:Quebec,GCCS000A06A_E:NWT,gb:AdministrativeArea:Nunavut,gb:AdministrativeArea:BC,gb:AdministrativeArea:BC,GCCS000A06A_E:Manitoba,gb:AdministrativeArea:NFLD";
-      var roadslayerName = "gb:RoadSegment:BC,ROADSEG:Manitoba,gb:RoadSegment:Nunavut,ROADSEG:NWT,gb:RoadSegment:NFLD,ROADSEG:Quebec,gb:RoadSegment:Ontario,ROADSEG:PEI,gb:RoadSegment:Yukon";
-      var placesLayerName = "gb:PlaceName:BC,PLACENAME:Manitoba,gb:PlaceName:NFLD,PLACENAME:NWT,gb:PlaceName:Nunavut,gb:PlaceName:Ontario,PLACENAME:PEI,PLACENAME:Quebec,gb:PlaceName:Yukon";
+	  var adminareaLayerName = "GCCS000A06A_E:PEI,ADMINISTRATIVEAREA:Quebec,GCCS000A06A_E:NWT,GCCS000A06A_E:Manitoba";
+      var roadslayerName = "ROADSEG:Manitoba,ROADSEG:NWT,ROADSEG:Quebec,ROADSEG:PEI";
+      var placesLayerName = "PLACENAME:Manitoba,PLACENAME:NWT,PLACENAME:PEI,PLACENAME:Quebec";
       
 	    var queryList=objRef.targetModel.getQueryableLayers();
 	    if (queryList.length==0) {
