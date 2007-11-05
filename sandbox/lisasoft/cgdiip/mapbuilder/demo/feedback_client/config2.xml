@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<MapbuilderConfig version="0.2.1" id="referenceTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+  <!--
+    Description: This configuration file determines what components from the
+    Mapbuilder library are to be included in a Main Mapbuilder web
+    page.
+    Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+    
+    $Id: config.xml 3038 2007-07-31 06:35:47Z ahocevar $
+  -->
+  <!--
+    All static images should be relative to this URL.
+    This dir is relative the dir of the main html file. 
+  -->
+  <models>
+    <Context id="mainMap">
+      <defaultModelUrl>context.xml</defaultModelUrl>
+      <widgets>
+        <AoiLink id="discoveryClientLink">
+          <href>../catalog/catalog.html</href>
+          <linkLabel>Geobase Discovery</linkLabel>
+        </AoiLink>
+        <AoiLink id="feedbackClientLink">
+          <href>../feedback_client/index.html</href>
+          <linkLabel>User Feedback</linkLabel>
+        </AoiLink>
+        <AoiLink id="notificationClientLink">
+          <href>../notification/index.html</href>
+          <linkLabel>Feedback Feed</linkLabel>
+        </AoiLink>
+        <AoiLink id="updateClientLink">
+          <href>../update/index.html</href>
+          <linkLabel>Update Feed</linkLabel>
+        </AoiLink>
+        <AoiLink id="eventClientLink">
+          <href>../event/index.html</href>
+          <linkLabel>Event Feed</linkLabel>
+        </AoiLink>
+        <MapPaneOL id="mainMapWidget">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <fixedSize>true</fixedSize>
+        </MapPaneOL>
+        <CursorTrack id="cursorTrack"/>
+        <Legend id="legend" />
+        <Version id="version" />
+        <OverviewMap id="locatorWidget">
+          <htmlTagId>locatorMap</htmlTagId>
+          <width>180</width>
+          <layers>
+            <layerName>wms_atlasofcanada_eng</layerName>
+          </layers>
+        </OverviewMap>
+      </widgets>
+    </Context>
+
+    <Transaction id="transaction">
+      <widgets>
+        <TransactionResponse id="transactionResponse"></TransactionResponse>
+      </widgets>
+    </Transaction>
+    <FeatureCollection id="featureCollection">
+      <widgets>
+        <TipWidgetOL id="featurePopup">
+          <width>200</width>
+          <height>150</height>
+          <opacity>0.8</opacity>
+          <backgroundColor>#D0D0D0</backgroundColor>
+          <border>1px solid black</border>
+        </TipWidgetOL>
+        <GmlRendererOL id="testGmlRenderer">
+          <targetModel>mainMap</targetModel>
+          <sldModel>sld</sldModel>
+          <featureOnClick>featurePopup</featureOnClick>
+        </GmlRendererOL>
+        <FeedbackFeatureList id="featureList"></FeedbackFeatureList>
+      </widgets>
+      <tools>
+        <FeatureSelectHandler id="featureHighlighter">
+          <targetModel>mainMap</targetModel>
+        </FeatureSelectHandler>
+      </tools>
+  <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:georss='http://www.georss.org/georss' xmlns:ogc='http://www.opengis.net/ogc' xmlns:cw='http://www.cubewerx.com/cw' xmlns:gb='http://www.geobase.ca/interop-pilot-2007' xmlns:def='http://www.w3.org/2005/Atom'</namespace>
+<!-- Default namespace won't work in XSL <namespace>xmlns='http://www.w3.org/2005/Atom'</namespace> -->
+    </FeatureCollection>
+    <StyledLayerDescriptor id="sld">
+      <defaultModelUrl>features.sld</defaultModelUrl>
+    </StyledLayerDescriptor>
+  </models>
+  <widgets>
+    <ZoomIn id="zoomIn">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>RadioButton</class>
+      <selected>true</selected>
+      <enabledSrc>/images/ZoomInEnable.png</enabledSrc>
+      <disabledSrc>/images/ZoomInDisable.png</disabledSrc>
+    </ZoomIn>
+    <ZoomOut id="zoomOut">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>RadioButton</class>
+      <enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
+      <disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
+    </ZoomOut>
+    <DragPan id="dragPan">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>RadioButton</class>
+      <enabledSrc>/images/PanEnable.png</enabledSrc>
+      <disabledSrc>/images/PanDisable.png</disabledSrc>
+    </DragPan>
+    <Reset id="reset">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
+    </Reset>
+    <EditPoint id="editPoint">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>featureCollection</targetModel>
+      <targetContext>mainMap</targetContext>
+      <class>RadioButton</class>
+      <enabledSrc>/images/EditPointEnable.png</enabledSrc>
+      <disabledSrc>/images/EditPointDisable.png</disabledSrc>
+      <transactionResponseModel>transaction</transactionResponseModel>
+      <featureXpath>//gml:Point/gml:coordinates</featureXpath>
+      <defaultModelUrl>template_places.xml</defaultModelUrl>
+    </EditPoint>
+    <EditLine id="editLine">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>featureCollection</targetModel>
+      <targetContext>mainMap</targetContext>
+      <class>RadioButton</class>
+      <enabledSrc>/images/EditLineEnable.png</enabledSrc>
+      <disabledSrc>/images/EditLineDisable.png</disabledSrc>
+      <transactionResponseModel>transaction</transactionResponseModel>
+      <featureXpath>//gml:LineString/gml:coordinates</featureXpath>
+      <defaultModelUrl>template_road.xml</defaultModelUrl>
+    </EditLine>
+    <EditPolygon id="editPolygon">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>featureCollection</targetModel>
+      <targetContext>mainMap</targetContext>
+      <class>RadioButton</class>
+      <enabledSrc>/images/EditPolygonEnable.png</enabledSrc>
+      <disabledSrc>/images/EditPolygonDisable.png</disabledSrc>
+      <transactionResponseModel>transaction</transactionResponseModel>
+      <featureXpath>//gml:LinearRing/gml:coordinates</featureXpath>
+      <defaultModelUrl>template_areas.xml</defaultModelUrl>
+    </EditPolygon>
+    <ProposeInsertFeature id="insertFeature">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>featureCollection</targetModel>
+      <targetContext>mainMap</targetContext>
+      <class>Button</class>
+      <disabledSrc>/images/SaveDisable.png</disabledSrc>
+      <transactionResponseModel>transaction</transactionResponseModel>
+      <!-- <webServiceUrl>../../../geoserver/wfs</webServiceUrl> -->
+      <webServiceUrl>http://www.pvretano.com/cgdi/cwwfs.cgi</webServiceUrl>
+      <!-- <webServiceUrl>http://qwerty:5580/geoserver/wfs</webServiceUrl> -->
+    </ProposeInsertFeature>
+    <ProposeDeleteFeature id="deleteFeature">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>featureCollection</targetModel>
+      <targetContext>mainMap</targetContext>
+      <class>Button</class>
+      <disabledSrc>/images/DeleteDisable.png</disabledSrc>
+      <transactionResponseModel>transaction</transactionResponseModel>
+      <webServiceUrl>http://www.pvretano.com/cgdi/cwwfs.cgi</webServiceUrl>
+    </ProposeDeleteFeature>
+    <WfsGetFeature id="wfsGetFeature">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>RadioButton</class>
+      <enabledSrc>/images/QueryEnable.png</enabledSrc>
+      <disabledSrc>/images/QueryDisable.png</disabledSrc>
+      <transactionResponseModel>featureCollection</transactionResponseModel>
+      <webServiceUrl>http://wolf.cits.rncan.gc.ca:8080/geoserver/wfs</webServiceUrl>
+      <typeName>gb:PlaceName,gb:RoadSegment,gb:AdministrativeArea</typeName>
+      <tolerance>5</tolerance>
+      <maxFeatures>1</maxFeatures>
+    </WfsGetFeature>
+    <ModelTransformer id="modelTransformer">
+      <targetModel>featureCollection</targetModel>
+      <transform>template_feedback.xsl</transform>
+    </ModelTransformer>
+  </widgets>
+  <skinDir>../../lib/skin/default</skinDir>
+</MapbuilderConfig>
