@@ -32,6 +32,9 @@ function GmlLayerAddUrlInput(widgetNode, model) {
    */
   this.submitForm = function() {
     gmlUrl = this.urlInputForm.defaultUrl.value;
+    if (!gmlUrl) {
+      alert('Please provide a valid URL to a GML file');
+    }
 
     var layerName = prompt('Please provide a name for this layer'); 
     if (!layerName) {
