@@ -51,6 +51,9 @@
         <CursorTrack id="cursorTrack"/>
         <ModelUrlInput id="urlInput">
         </ModelUrlInput>
+        <GmlLayerAddUrlInput id="gmlInput">
+        	<defaultUrl> </defaultUrl>
+        </GmlLayerAddUrlInput>
       </widgets>
     </OwsContext>
     <!-- Contains the results of a catalog search -->
