@@ -37,13 +37,13 @@ function GmlLayerAddUrlInput(widgetNode, model) {
     }
 
     var layerName = prompt('Please provide a name for this layer'); 
-    if (!layerName) {
-      layerName : "New Layer";
+    if (!layerName || (layerName == null) || (layerName == "")) {
+      layerName = "New Layer";
     }
 
     var xmlContextlayerString = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>" +
-    "<FeatureType id=\"" + layerName + "_" + gmlUrl + "\" opacity=\"0.7\" hidden=\"0\" xmlns=\"http://www.opengis.net/context\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" >"+
-    "<Server service=\"OGC:GML\" version=\"3.0.0\" title=\"Local\">" +
+    "<FeatureType id=\"" + layerName + "_" + gmlUrl + "\" hidden=\"0\" xmlns=\"http://www.opengis.net/context\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" >"+
+    "<Server service=\"GML\" version=\"2.1.2\" title=\"Local\">" +
     "<OnlineResource method=\"GET\" xlink:type=\"simple\" xlink:href=\"" + gmlUrl +"\"/>" +
     "</Server>" +
     "<Name>" + gmlUrl + "</Name>" +
