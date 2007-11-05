@@ -22,12 +22,13 @@ $Name$
   <xsl:param name="modelId"/>
   <xsl:param name="widgetId"/>
   <xsl:param name="fid"/>
+  <xsl:param name="title"/>
 
   <!-- Main html -->
   <xsl:template match="/">
     <div>
       <xsl:if test="//atom:entry/atom:id = $fid">
-        <h3>Feature List</h3>
+        <h3><xsl:value-of select="$title"/></h3>
         <!-- <input type="button" value="Save" onclick="config.objects.insertFeature.doSelect(config.objects.insertFeature,true);" /> -->
         <table border="1" cellpadding="0" cellspacing="0">
         <xsl:apply-templates select="//atom:entry[atom:id = $fid]"/>

@@ -16,7 +16,11 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
  */
 function FeedbackFeatureListReadOnly(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
-  
+ 
+   // set the title
+  var title = widgetNode.selectSingleNode('mb:title');
+  this.title = title ? title.firstChild.nodeValue : 'Feature List';
+
   /**
    * Receives onclick event and notifies model of selectFeature and zoomToFeature
    * events.
@@ -41,8 +45,15 @@ function FeedbackFeatureListReadOnly(widgetNode, model) {
     // force stylesheet to only draw this feature
     objRef.stylesheet.setParameter("fid", fid);
 
+    // feed the title to the stylesheet: <h3>{$title}</h3>
+    objRef.stylesheet.setParameter("title", this.title);
+
     // refresh attribute list
     objRef.paint(objRef);
+
+    if (objRef.targetModel && objRef.targetModel != objRef.model){
+      objRef.targetModel.setParam('selectFeature', fid);
+    }
   }
   this.model.addListener('selectFeature', this.selectFeature, this);
 
