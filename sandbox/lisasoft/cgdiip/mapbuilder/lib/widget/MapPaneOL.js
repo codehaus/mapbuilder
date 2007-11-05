@@ -620,6 +620,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
 
     // GML Layer
     case "gml":
+    case "GML":
     case "OGC:GML":
       objRef.oLlayers[layerId] = new OpenLayers.Layer.GML(title,href);
      break;
