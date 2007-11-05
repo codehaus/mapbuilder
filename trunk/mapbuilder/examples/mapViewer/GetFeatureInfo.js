@@ -28,7 +28,7 @@ function GetFeatureInfo(widgetNode, model) {
   this.createControl = function(objRef) {
     var Control = OpenLayers.Class( OpenLayers.Control, {
       CLASS_NAME: 'mbControl.GetFeatureInfo',
-      type: OpenLayers.Control.TYPE_TOOL,
+      type: OpenLayers.Control.TYPE_TOOL
     });
     return Control;
   }
