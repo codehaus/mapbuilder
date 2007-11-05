@@ -606,17 +606,22 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       //console.debug(objRef.oLlayers[layerId]);
     break;
 
+    // KML Layer
+    case "KML":
+    case "kml":
+    case "OGC:KML":
+      objRef.oLlayers[layerId]= new OpenLayers.Layer.GML(
+        title,
+        href,{
+          format: OpenLayers.Format.KML
+          }
+        );
+    break;
+
     // GML Layer
     case "gml":
     case "OGC:GML":
-      style = sld2OlStyle(currentStyle);
-      if(style){
-        layerOptions.style=style;
-      }
-      else{
-        layerOptions.style=objRef.getWebSafeStyle(objRef, 2*i+1);
-      }
-      objRef.oLlayers[layerId] = new OpenLayers.Layer.GML(title,href,layerOptions);
+      objRef.oLlayers[layerId] = new OpenLayers.Layer.GML(title,href);
      break;
 
     case "GMAP":
