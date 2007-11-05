@@ -109,12 +109,10 @@ Loading2.prototype.paint = function(objRef) {
  * Remove the contents of the HTML tag for this widget.
  * @param objRef Reference to this object.
  */
-Loading2.prototype.clear= function(objRef) {
-  if (objRef.updateMessage == null) {
-    var outputNode = document.getElementById( objRef.outputNodeId+"_loading" );
-    var node = objRef.getNode();
-    if (node && outputNode) node.removeChild(outputNode);
-  }
+Loading2.prototype.clear= function(objRef, message) {
+  var outputNode = document.getElementById( objRef.outputNodeId+"_loading" );
+  var node = objRef.getNode();
+  if (node && outputNode) node.removeChild(outputNode);
 }
 
 /**
