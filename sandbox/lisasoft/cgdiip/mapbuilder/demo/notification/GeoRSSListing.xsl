@@ -33,6 +33,8 @@ $Name:  $
     <xsl:variable name="link"><xsl:value-of select="atom:link"/></xsl:variable>
     <tr>
       <td onmouseover="config.objects.{$modelId}.setParam('highlightFeature','{$fid}');this.className='on'"
+      	  ooonclick="config.objects.featureList.selectFeature(config.objects.featureList,'{$fid}');"
+      	  onclick="config.objects.{$modelId}.setParam('selectFeature','{$fid}');config.objects.{$modelId}.setParam('zoomToFeature','{$fid}');"
       	  onmouseout="config.objects.{$modelId}.setParam('dehighlightFeature','{$fid}');this.className='off'">
         <div id = "item">
           <div id="{$fid}" style="width:325px">
