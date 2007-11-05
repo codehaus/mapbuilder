@@ -23,7 +23,7 @@ function GmlLayerAddUrlInput(widgetNode, model) {
 
   //a default value to be used in the form
   var defaultUrl = widgetNode.selectSingleNode("mb:defaultUrl");
-  if (defaultUrl) {
+  if (defaultUrl && defaultUrl.firstChild) {
     this.defaultUrl = defaultUrl.firstChild.nodeValue;
   }
 
@@ -33,22 +33,27 @@ function GmlLayerAddUrlInput(widgetNode, model) {
   this.submitForm = function() {
     gmlUrl = this.urlInputForm.defaultUrl.value;
 
-   var xmlContextlayerString = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>" +
-   "<FeatureType id=\"" + gmlUrl + "\" hidden=\"1\" xmlns=\"http://www.opengis.net/context\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" >"+
-   "<Server service=\"OGC:GML\" version=\"3.0.0\" title=\"Local\">" +
-   "<OnlineResource method=\"GET\" xlink:type=\"simple\" xlink:href=\"" + gmlUrl +"\"/>" +
-   "</Server>" +
-   "<Name>" + gmlUrl + "</Name>" +
-   "<Title>New GML Layer</Title>" +
-   "<Abstract></Abstract>" +
-   "<SRS>EPSG:4326</SRS>" +
-   "</FeatureType>";
-    
-	var oDomDoc = Sarissa.getDomDocument();  
-	var xmlString = "rootmy xml!/root";  
-	oDomDoc = (new DOMParser()).parseFromString(xmlContextlayerString, "text/xml"); 
-    
-    this.targetModel.callListeners("addLayer",oDomDoc);
+    var layerName = prompt('Please provide a name for this layer'); 
+    if (!layerName) {
+      layerName : "New Layer";
+    }
+
+    var xmlContextlayerString = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>" +
+    "<FeatureType id=\"" + layerName + "_" + gmlUrl + "\" opacity=\"0.7\" hidden=\"0\" xmlns=\"http://www.opengis.net/context\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" >"+
+    "<Server service=\"OGC:GML\" version=\"3.0.0\" title=\"Local\">" +
+    "<OnlineResource method=\"GET\" xlink:type=\"simple\" xlink:href=\"" + gmlUrl +"\"/>" +
+    "</Server>" +
+    "<Name>" + gmlUrl + "</Name>" +
+    "<Title>" + layerName + "</Title>" +
+    "<Abstract></Abstract>" +
+    "<SRS>EPSG:4326</SRS>" +
+    "</FeatureType>";
+
+	  var oDomDoc = Sarissa.getDomDocument();  
+	  var xmlString = "rootmy xml!/root";  
+	  layerNode = (new DOMParser()).parseFromString(xmlContextlayerString, "text/xml").firstChild; 
+
+    this.model.setParam("addLayer",layerNode);
   }
 
   /**

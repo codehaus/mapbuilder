@@ -22,7 +22,7 @@ $Id: ModelUrlInput.xsl 1608 2005-08-03 19:07:09Z mattdiez $
 
   <!-- Text params for this widget -->
   <xsl:param name="title">URL:</xsl:param>
-  <xsl:param name="load"> Load</xsl:param>
+  <xsl:param name="load">load</xsl:param>
 
     <!-- The name of the form for coordinate output -->
   <xsl:param name="defaultUrl"/>
