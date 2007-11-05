@@ -58,7 +58,6 @@ $Name:  $
             <h3>Service Type</h3>
           </td>
           <td/>
-          <td/>
         </tr>
         <tr>
           <td>
@@ -70,8 +69,6 @@ $Name:  $
               <option value="WMS">WMS</option>
               <option value="WFS">WFS</option>
             </select>
-          </td>
-          <td>
             <input type="button" value="Search" onclick="config.objects.{$widgetId}.doSelect();"/>
           </td>
           <td>
