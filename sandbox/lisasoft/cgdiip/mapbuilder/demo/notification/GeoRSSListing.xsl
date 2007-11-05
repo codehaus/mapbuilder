@@ -24,7 +24,9 @@ $Name:  $
   <!-- template rule matching source root element -->
   <xsl:template match="/atom:feed ">
     <table>
-      <xsl:apply-templates select="atom:entry"/>
+      <xsl:apply-templates select="atom:entry">
+        <xsl:sort select="atom:updated" order="descending"/>
+      </xsl:apply-templates>
     </table>
   </xsl:template>
 
