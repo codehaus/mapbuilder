@@ -18,15 +18,22 @@
     <h1>Browser clients by <a href="lisasoft">LISAsoft</a></h1>
     <dl>
       <dt><a href="catalog/index.html" title="Geobase Discovery/Browse/Download">Geobase Discovery/Browse/Download</a></dt>
-      <dd>Allows users to search the GeoBase Catalog for map layers or zoom to a placename, build a map from the layers, then save the map as an OWS Context document, or a layer as GML.</dd>
+      <dd>Allows users to:
+      <ul>
+        <li>search the GeoBase Catalog for map layers,</li>
+        <li>search and zoom to a placename,</li>
+        <li>build a map from catalog layers,</li>
+        <li>save the map as an OWS Context document,</li>
+        <li>save a layer as GML.</dd>
+      </ul>
     </dl>
     <dl>
       <dt><a href="feedback_client/index.html" title="User Feedback">User Feedback</a></dt>
-      <dd>Users can view features, select and feature, then edit it to suggest a change. The suggested change is submitted to a feedback feed, where data custodians can review and apply the suggested change.</dd>
+      <dd>The Feedback Client allows users to suggest a feature change to a Province Database Custodian. The user can select a feature or suggest a new feature, sketch changes on a map, edit attributes, then post the suggestion to the Feedback Feed to be processed.</dd>
     </dl>
     <dl>
       <dt><a href="notification/index.html" title="Feedback Feed">Feedback Feed</a></dt>
-      <dd>Allows provence data custodians to monitor user update suggestions.</dd>
+      <dd>Allows Provence Data Custodians to monitor user update suggestions. Suggestions that have been processed can be viewed side-by-side with updates from the Update feed by users.</dd>
     </dl>
     <dl>
       <dt><a href="update/index.html" title="Update Feed">Update Feed</a></dt>
@@ -36,22 +43,47 @@
       <dt><a href="event/index.html" title="Emergency Management Event Feed">Emergency Management Event Feed</a></dt>
       <dd>Allows users to monitor emergency management events.</dd>
     </dl>
+    <h1>Workflow for a Change Request</h1>
+    <img title="Workflow for a Change Request" src="images/ChangeRequestFeed.gif"/>
     <h1>Participants</h1>
     <h3>About OGC</h3>
-    ...
-    <h3>About <a href="http://lisasoft.com">Lisasoft</a></h3>
-    ...
+    <p>The OGC&copy; is an international industry consortium of more than 350
+companies, government agencies, research organizations, and
+universities participating in a consensus process to develop publicly
+available interface specifications. OpenGIS&copy; Specifications
+support interoperable solutions that "geo-enable" the Web,
+wireless and location-based services, and mainstream IT. The
+specifications empower technology developers to make complex spatial
+information and services accessible and useful with all kinds of
+applications.</p>
+
+<p>This Interoperablity Pilot has been developed in partnership with the OGC&copy;.</p>
+
+<p>Visit the OGC website at <a href="http://www.opengeospatial.org">http://www.opengeospatial.org</a>.</p>
+    <h3>About <a href="http://lisasoft.com">LISAsoft</a></h3>
+    <p>LISAsoft develops geospatial applications for the internet and mobile devices. LISAsoft adds value because:
+    <ul>
+      <li>We future-proof our solutions by using Open Standards.</li>
+      <li>We use, extend and support Open Source geospatial software, and are core developers of some.</li>
+    </ul></p>
+  In this CGDI Interoperability Pilot, LISAsoft:
+    <ul>
+      <li>Built a web based Catalog client and GeoRSS Feed reader using <a href="http://communitymapbuilder.org">Mapbuilder</a>.</li>
+      <li>Extented <a href="http://geoserver.org">Geoserver</a> to provide cascading WFS support.</li>
+      <li>Contributed code back to <a href="http://communitymapbuilder.org">Mapbuilder</a>, <a href="http://openlayers.org">Openlayers</a> and <a href="http://geotools.org">Geotools</a>, a core library of <a href="http://geoserver.org">Geoserver</a>.</li>
+    </ul></p>
+    <!--
     <h3>About Cubewerx</h3>
     ...
     <h3>About Carbon Arc</h3>
     ...
+    -->
 
   </div>
   <div id="footer">
     
     <div class="right">
-<a href="http://communitymapbuilder.org/" title="powered by community mapbuilder"><img src="../lib/skin/default/images/Icon.gif"/></a>      
-<a href="https://www.osgeo.org/" title="member of OSgeo"><img src="../lib/skin/default/images/Osgeo.png"/></a>
+      <a href="http://lisasoft.com/" title="developed by LISASoft"><img src="images/lisasoftlogo.png"/></a>	  	
          </div>
   </div>  
   </body>
