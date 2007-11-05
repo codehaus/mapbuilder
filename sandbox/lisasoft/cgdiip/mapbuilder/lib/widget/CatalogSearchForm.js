@@ -228,30 +228,6 @@ function CatalogSearchForm(widgetNode, model) {
   }
 
   /**
-   * For Debugging purposes only
-   * Responds to 'Show Query' button and will generate WRS Query and show it on
-   * the screen, without submitting it
-   * 
-   * @return none
-   */
-  CatalogSearchForm.prototype.debugQuery = function(){
-    s = this.buildQuery();
-    s=
-      "<html><title>"
-      +"WRS Query"
-      +"</title><body>"
-      +Sarissa.escape(s)
-      +"</body></html>"
-    // Insert break after each tag
-    s=s.replace(/&gt;/g, "&gt;<br/>")
-    //var popup=window.open("test");
-    //popup.document.write(s);
-    debugwindow = document.getElementById('debugwindow');
-    debugwindow.innerHTML= s;
-
-  }
-
-  /**
    * Convert the response of a Catalog Query into an OWSContext document
    * so that it can be processed.
    * Called after the response from a Catalog query has been received and 
