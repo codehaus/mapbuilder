@@ -16,6 +16,7 @@ h1 {
   position: relative;
   float: left;
   top: 0px;
+  height: 300px;
 }
 #body_right {
   position: relative;
@@ -120,7 +121,7 @@ table.metadata td {
 .searchResults {
   position: absolute;
   left: 420px;
-  top: 365px;
+  top: 375px;
 }
 
 #workspace h3  {
@@ -154,3 +155,16 @@ table.metadata td {
 .searchInput {
   width: 95px;
 }
+
+
+#cursorTrack {
+  position: relative;
+  top:-40px;
+  left: 265px;
+}
+
+/* Don't show AOI box */
+#locations {
+  display: none;
+}
+

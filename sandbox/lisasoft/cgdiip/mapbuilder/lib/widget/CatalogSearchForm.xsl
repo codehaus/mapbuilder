@@ -49,25 +49,40 @@ $Name:  $
       <input type="hidden" name="typename" value="service_resources"/>
       <input type="hidden" name="outputFormat" value="GML3"/>
       
-      <h3>Keywords</h3>
-      <input type="text" name="keywords" value=""/>
-      <br />
-      <h3>Location</h3>
-      <!--
-      <xsl:call-template name="locations">
-        <xsl:with-param name="locationsDoc" select="$searchConfigDoc"/>
-      </xsl:call-template>
-      -->
-      <xsl:call-template name="aoiBox"/>
-      <h3>Service Type</h3>
-      <select name="serviceType" id="serviceType">
-        <option></option>
-        <option value="WMS">WMS</option>
-        <option value="WFS">WFS</option>
-      </select>
-      <input type="button" value="Search" onclick="config.objects.{$widgetId}.doSelect();"/>
-      <input id="debug_button" type="button" value="Show Query" onclick="config.objects.{$widgetId}.debugQuery();"/>
-      <div id="loading"></div>
+      <table>
+        <tr>
+          <td>
+            <h3>Keywords</h3>
+          </td>
+          <td>
+            <h3>Service Type</h3>
+          </td>
+          <td/>
+          <td/>
+        </tr>
+        <tr>
+          <td>
+            <input type="text" name="keywords" value=""/>
+          </td>
+          <td>
+            <select name="serviceType" id="serviceType">
+              <option></option>
+              <option value="WMS">WMS</option>
+              <option value="WFS">WFS</option>
+            </select>
+          </td>
+          <td>
+            <input type="button" value="Search" onclick="config.objects.{$widgetId}.doSelect();"/>
+            <input id="debug_button" type="button" value="Show Query" onclick="config.objects.{$widgetId}.debugQuery();"/>
+          </td>
+          <td>
+            <div id="loading"></div>
+          </td>
+        </tr>
+      </table>
+      <div id="locations">
+        <xsl:call-template name="aoiBox"/>
+      </div>
 
     </form>
 
@@ -95,6 +110,7 @@ $Name:  $
   </xsl:template>
   
   <xsl:template name="aoiBox">
+      <h3>Location</h3>
       <table>
         <tr>
           <td><xsl:value-of select="$west"/></td>
