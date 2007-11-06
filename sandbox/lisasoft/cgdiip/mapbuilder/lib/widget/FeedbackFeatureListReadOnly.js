@@ -66,7 +66,8 @@ function FeedbackFeatureListReadOnly(widgetNode, model) {
   this.zoomToFeature = function(objRef, fid) {
 
     // quick hack to get coordinates for this feature
-    coordinates = objRef.model.doc.selectSingleNode('//*[atom:id=\'' + fid + '\']/georss:where/gml:Point/gml:pos').firstChild.nodeValue;
+    var xpath = '//*[atom:id=\'' + fid + '\']/georss:where/gml:Point/gml:pos';
+    coordinates = objRef.model.getXpathValue(objRef.model.doc, xpath);
 
     // only if there are coordinates, proceed
     if (coordinates) {
