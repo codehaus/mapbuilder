@@ -24,6 +24,7 @@ $Name$
   <xsl:param name="fid"/>
   <xsl:param name="title"/>
 
+
   <!-- Main html -->
   <xsl:template match="/">
     <div>
@@ -88,7 +89,7 @@ $Name$
               <xsl:value-of select="name(.)"/>
             </td>
             <td>
-              <a href="../catalog/catalog.html?mainMap={@href}" title="Go to discovery client, using this OWS context">
+              <a href="{@href}" title="Go to discovery client, using this OWS context" onClick="this.href='../catalog/catalog.html?mainMap=' + escape(this.href); return true;">
                 <xsl:value-of select="@href"/>
               </a>
             </td>
@@ -139,4 +140,5 @@ $Name$
   <!-- Remove documentation, text, comments -->
   <xsl:template match="comment()|text()|processing-instruction()">
   </xsl:template>
-</xsl:stylesheet>
+
+ </xsl:stylesheet>
