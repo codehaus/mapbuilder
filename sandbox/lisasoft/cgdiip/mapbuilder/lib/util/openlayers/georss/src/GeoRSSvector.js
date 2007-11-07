@@ -87,7 +87,7 @@ OpenLayers.Layer.GeoRSSvector = OpenLayers.Class(OpenLayers.Layer.Vector, {
     },
 
     loadGML: function() {
-        if (!this.loaded) {
+        if (!this.loaded && this.url) {
             var results = OpenLayers.loadURL(this.url, null, this, this.requestSuccess, this.requestFailure);
             this.loaded = true;
         }    

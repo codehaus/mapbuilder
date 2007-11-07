@@ -157,7 +157,8 @@ function GmlRendererOL(widgetNode, model) {
         loadGML: function() {
           if (!this.loaded) {
             var gml = this.format ? new this.format() : new OpenLayers.Format.GML();
-            this.addFeatures(gml.read(doc));
+            features = gml.read(doc);
+            this.addFeatures(features);
             this.loaded = true;
           }
         },
@@ -248,7 +249,10 @@ function GmlRendererOL(widgetNode, model) {
 	  	} else {
 	  		url = objRef.model.url;
 	  	}
-	  	objRef.olLayer =  new OpenLayers.Layer.GeoRSSvector(objRef.id,url);
+	  	objRef.olLayer =  new OpenLayers.Layer.GeoRSSvector(objRef.id);
+      var gml = new OpenLayers.Format.GeoRSSmb();
+      var features = gml.read(objRef.model.doc);
+      objRef.olLayer.addFeatures(features);
 	  	
 	  } else {
 	  	objRef.olLayer = new OlLayer(objRef.id);
