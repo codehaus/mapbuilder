@@ -21,17 +21,17 @@
       <Abstract/>
       <SRS>EPSG:4326</SRS>
     </Layer>
-    <FeatureType xmlns="http://www.opengis.net/context" xmlns:xlink="http://www.w3.org/1999/xlink" id="Sour Gas Plume_plumes.gml" hidden="0" maxFeatures="5">
+    <Layer xmlns="http://www.opengis.net/context" xmlns:xlink="http://www.w3.org/1999/xlink" id="SourGasPlume_plumes.gml" hidden="0">
       <Server service="GML" version="2.1.2" title="Local">
-        <OnlineResource method="GET" xlink:type="simple" xlink:href="plumes.gml"/>
+        <OnlineResource method="GET" xlink:type="simple" xlink:href="http://wolf.cits.rncan.gc.ca:8080/mapbuilder/demo/catalog/plumes.gml"/>
       </Server>
       <!--
-      <Name>http://wolf.cits.rncan.gc.ca:8080/mapbuilder/demo/event/plume.gml</Name>
-      -->
       <Name>http://192.168.2.166:8080/mapbuilder/demo/event/plume.gml</Name>
+      -->
+      <Name>plume.gml</Name>
       <Title>Sour Gas Plume</Title>
       <Abstract/>
       <SRS>EPSG:4326</SRS>
-    </FeatureType>
+    </Layer>
   </ResourceList>
 </OWSContext>
