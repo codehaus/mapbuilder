@@ -48,7 +48,7 @@
         </GmlRendererOL>
         <Widget id="eventsListing">
           <targetModel>mainMap</targetModel>
-          <stylesheet>GeoRSSListing.xsl</stylesheet>
+          <stylesheet>../notification/GeoRSSListing.xsl</stylesheet>
         </Widget>
         <FeedbackFeatureListReadOnly id="featureList"></FeedbackFeatureListReadOnly>
       </widgets>
