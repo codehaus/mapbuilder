@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- This Web Feature Server is a component of CubeWerx Suite 4.7.3. -->
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml" xmlns:wfs="http://www.opengis.net/wfs" xmlns:gb="http://www.geobase.ca/interop-pilot-2007" xmlns:cw="http://www.cubewerx.com/cw">
+   <title>No Title Specified</title>
+   <link rel="self" href="http://www.pvretano.com/cgdi/cwwfs.cgi?SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=cw:FEEDBACKFEED&amp;outputFormat=ATOM"/>
+   <updated>2007-11-04T23:59:06Z</updated>
+   <subtitle>No Description Specified</subtitle>
+   <id>urn:uuid:113d2bae-62f0-47d3-ac63-9e6208405673</id>
+   <generator uri="http://www.pvretano.com/cgdi/cwwfs.cgi" version="4.7.3">CubeWerx Web Feature Service</generator>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.0">
+      <author>
+         <name>John Doe</name>
+         <uri>http://www.johndoe.com</uri>
+         <email>jdoe@johndoe.com</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Tasmania" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="placename" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="update" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="published" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>Extended description of feedback and evidence</content>
+      <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+      <link href="http://wfs.geobase.ca?request=GetFeature..." rel="http://www.geobase.ca/linktype/sourcefeature"/>
+      <link href="http://www.geonames.org/somelink" rel="http://www.geobase.ca/linktype/feedback"/>
+      <link href="http://www.geonames.org/Brisbane" rel="alternate"/>
+      <summary>Update of Brisbane placename feature</summary>
+      <title>Correction to Brisbane placename feature</title>
+      <updated>2003-12-13T18:30:02Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>143.5165125 -42.13445</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection>
+            <gml:featureMember>
+               <topp:tasmania_cities xmlns:topp="http://www.toppserver.com/topp">
+                  <topp:the_geom>
+                     <gml:MultiPoint srsName="epsg:4326">
+                        <gml:pointMember>
+                           <gml:Point>
+                              <gml:pos>143.5165125 -42.13445</gml:pos>
+                           </gml:Point>
+                        </gml:pointMember>
+                     </gml:MultiPoint>
+                  </topp:the_geom>
+                  <topp:CITY_NAME>Brisbane</topp:CITY_NAME>
+                  <topp:ADMIN_NAME>Tasmania</topp:ADMIN_NAME>
+                  <topp:CNTRY_NAME>Australia</topp:CNTRY_NAME>
+                  <topp:STATUS>Provincial capital</topp:STATUS>
+                  <topp:POP_CLASS/>
+               </topp:tasmania_cities>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.1">
+      <author>
+         <name>Peter Rushforth</name>
+         <uri>http://www.geofunctions.org</uri>
+         <email>prushfor@nrcan.gc.ca</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Quebec updates" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="Road Segment" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="proposed" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>no content applicable here</content>
+      <id>urn:uuid:4975d9a6-7564-44d3-b387-1d9df9bf6ede</id>
+      <summary>Updates digitized in Google Earth with GeoBase NRN v1 RoadSegment WMS backdrop.</summary>
+      <title>Quebec updates</title>
+      <updated>2007-11-01T00:00:00Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-73.44975591828012 45.55585096776687</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+            <gml:boundedBy>
+               <gml:Envelope>
+                  <gml:lowerCorner>
+                     <gml:pos>-73.45437613121135 45.55570976296028</gml:pos>
+                  </gml:lowerCorner>
+                  <gml:upperCorner>
+                     <gml:pos>-73.44975591828012 45.55585096776687</gml:pos>
+                  </gml:upperCorner>
+               </gml:Envelope>
+            </gml:boundedBy>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:91add68b-3900-4fbd-99ec-7e77e139f517</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>91add68b-3900-4fbd-99ec-7e77e139f517</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.44975591828012,45.5557926875609 -73.44991867220378,45.55577158862443 -73.45129167120088,45.55570976296028 -73.45283352062141,45.5557754816989 -73.45341455718997,45.55579652833372 -73.45437613121135,45.55585096776687</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:0d07a1db-1be6-4b19-811b-bd7107278ace</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>0d07a1db-1be6-4b19-811b-bd7107278ace</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.45339954910182,45.55578205648699 -73.4533295021356,45.55506778728377 -73.45327020455561,45.55439198739814 -73.45319342175418,45.55382360690528 -73.45320358335025,45.5538234681325 -73.45312183530385,45.55316243664838 -73.45444009279449,45.55307408838582 -73.45455841922608,45.55308679321296 -73.45465537938853,45.55314108790459 -73.45467239153712,45.55321851385735 -73.45470216354119,45.55342696760095 -73.45471917858427,45.5536324430246 -73.45468941082255,45.55370391297759 -73.45462562101633,45.55373667073453 -73.4545330912195,45.55374840478091 -73.45320097156829,45.55382303660237</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:14ce1d1d-187f-4643-b689-e9b59d10a9d3</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>14ce1d1d-187f-4643-b689-e9b59d10a9d3</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.45327059923375,45.5544062176344 -73.45368680968505,45.55438631044234 -73.45378784583116,45.55437394670221 -73.45385163626162,45.55432630003816 -73.45386595157601,45.55424862977852 -73.45385203291968,45.55411358087403 -73.45381761030396,45.55378730123681</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:8437884d-723c-4db8-b345-1b71f52b82f4</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>8437884d-723c-4db8-b345-1b71f52b82f4</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.4533298301089,45.55508224315075 -73.45268049381394,45.55511892651245 -73.4524772671351,45.55512169491903 -73.45239380378389,45.55504453477515 -73.45236913560974,45.55488827665888 -73.45225694401024,45.5540278627367 -73.45230590505076,45.55394899122817 -73.45242502280857,45.55388356422527 -73.45320097156829,45.55382303660237</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:7e39cf84-0ebd-41d3-ba97-f1d334f259a3</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>7e39cf84-0ebd-41d3-ba97-f1d334f259a3</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.45312606932785,45.55316243664953 -73.45295396362609,45.55315866574305 -73.45269224157407,45.55316464520074 -73.45205209379354,45.5532107582662 -73.4518684977274,45.55321357180472 -73.45175667135968,45.55317530983847 -73.45170898715452,45.55305516076017 -73.45164788384926,45.55260667000936 -73.45176035681476,45.55250770777814 -73.45200159279641,45.55247858630629 -73.45260146559755,45.55247027892279 -73.45261666989219,45.55259906097454 -73.45268810389081,45.55316472718638</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:74e876b9-0b6f-4d0d-8a45-05c7e68f7514</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>74e876b9-0b6f-4d0d-8a45-05c7e68f7514</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.4533195485797,45.55507500249955 -73.45427458528206,45.55502137270599 -73.45509894358739,45.55472295134283 -73.45558113778837,45.55451707376057 -73.45534967153336,45.55423551620162 -73.45489736938629,45.55441963224659 -73.45509874601569,45.55471583622784</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:701d4212-ec0e-4101-a2ab-756767ae24a9</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>701d4212-ec0e-4101-a2ab-756767ae24a9</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.45258331832331,45.55246925058497 -73.45297868104134,45.55243412930616 -73.45308447799337,45.55240346900772 -73.45315443766532,45.55233889343752 -73.45315087425075,45.5522196053822 -73.45313008006323,45.55206465033208 -73.45307932726622,45.55178797567899 -73.45288655757983,45.55127714976178 -73.45263477813006,45.55108338471771 -73.45197606793406,45.55066093895526 -73.45181389023202,45.55062915732874 -73.45164783168151,45.55066782024569 -73.45160169038191,45.55077142619455 -73.45141446119894,45.5511700955877 -73.45122046872926,45.55151691025405 -73.45124834389003,45.55176237022526 -73.45130599347117,45.55181567078372 -73.45141072906064,45.55183424415413 -73.45305635510985,45.5517338237252</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:ef139ae3-6915-4ddd-a76d-fb95e87c2820</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>ef139ae3-6915-4ddd-a76d-fb95e87c2820</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.45266347443666,45.55110271294035 -73.45140785202483,45.55118493555546</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:0432a53b-9b06-4d42-9030-f48010f7351a</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>0432a53b-9b06-4d42-9030-f48010f7351a</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.45314035883223,45.55213953681887 -73.4536175225164,45.55211968814611 -73.45369499803971,45.55209875596471 -73.45371489730556,45.55204879381009 -73.453686162286,45.55178085211036 -73.45366251152493,45.5517362950008 -73.45356055650061,45.55172246673635 -73.45307120429337,45.55175344507597</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:16b76bc8-12e4-4482-8f49-2b7024667bde</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>16b76bc8-12e4-4482-8f49-2b7024667bde</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.44973728153862,45.5556602601747 -73.44993017296311,45.55566132142153 -73.45063170205364,45.55566508568177 -73.45128543825831,45.55570888443383</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:72e03c48-8f04-4ac6-ad38-5f4001a137b8</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>72e03c48-8f04-4ac6-ad38-5f4001a137b8</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.45437615435291,45.55585104795679 -73.45451498392214,45.55588141577663 -73.45470137370748,45.55594927947201 -73.45480575282861,45.55601714421235 -73.45485808819129,45.55611631036937 -73.4548511682149,45.55621039426499 -73.4548214020306,45.55639881909814 -73.45481393056311,45.55647732233848 -73.45478403574927,45.55657675997632 -73.45473920928663,45.55734609368347 -73.45471679035721,45.55756067090609 -73.45469438500133,45.55832183629883 -73.45465734672752,45.5590722866995</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:8cf2e978-e14b-4902-99af-4d48264c67ad</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>8cf2e978-e14b-4902-99af-4d48264c67ad</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.45474132385972,45.55732150260927 -73.4554044307216,45.55734229538435 -73.4554453124963,45.55735692156544 -73.45549151288705,45.5573877288402 -73.45550471429023,45.55742623850113 -73.45549371757855,45.55751404179847 -73.45546291934375,45.55755409277953 -73.45539912047045,45.55757565956093 -73.45535292100232,45.55757411977889 -73.45471679031013,45.55756211448065</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:676768cd-99b9-4035-a790-9c1320f96c77</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>676768cd-99b9-4035-a790-9c1320f96c77</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.45474334346257,45.55732215535931 -73.45451264616808,45.55732684011953 -73.45322775363874,45.55729444311432 -73.4531712319429,45.55730375507284 -73.45313133437668,45.55733169077788 -73.45310806080582,45.55736893852213 -73.45310141103619,45.5574201542638 -73.45310473574507,45.55746438617579 -73.45312468471025,45.55748766616527 -73.45316458216689,45.55750629008409 -73.45322775317976,45.55752025806705 -73.4532942491405,45.55752724198214 -73.45472328811763,45.55756094398283</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:d62ece79-3be2-494c-aef6-da3a13533b62</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>d62ece79-3be2-494c-aef6-da3a13533b62</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.4548161955713,45.55646261464245 -73.45527907036043,45.55652909151061 -73.45551050682361,45.55654986342423 -73.45589030135258,45.55660802833478 -73.45658499679993,45.55677008548988 -73.45746539496793,45.55698951774412 -73.45754123493852,45.55700200999267 -73.45757915501467,45.55700513231822 -73.4576237661867,45.55700200686201 -73.45765945420173,45.55698951102996 -73.45769068097825,45.55697389136778 -73.45772190713664,45.55694890058391 -73.45774198009238,45.5569239103226 -73.45775536075648,45.55688954928972 -73.45775089646301,45.55685050356249 -73.45773081861276,45.55681458187343 -73.45767728210726,45.55677553789318 -73.45762143846078,45.55675758385767 -73.45755683018918,45.55675055285244 -73.45750106598626,45.55674586924707 -73.45651522032159,45.556753703211</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:21ac3edc-745a-49cb-aa43-6574e83f921c</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>21ac3edc-745a-49cb-aa43-6574e83f921c</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.45469401000773,45.55832402770181 -73.45371760849567,45.55830133008005 -73.45368098630551,45.55830372624315 -73.45364535858214,45.55831441741717 -73.45360973058759,45.55833401787546 -73.453580696698,45.55835430764441 -73.453558834334,45.55837500067092 -73.45354826980839,45.55840476233917 -73.45354827017758,45.55843503510702 -73.45354139559153,45.55896463859935 -73.45355884689766,45.55900575583225 -73.45359150782278,45.55903039929166 -73.4536167289925,45.55904048991858 -73.4536527588418,45.55905562632228 -73.4536923921345,45.55906823977968 -73.45372842223318,45.5590758079022 -73.45377165795776,45.55907833040366 -73.45380768827411,45.5590783303898 -73.45418240054035,45.55908085095864 -73.45465710319695,45.55907288137055 -73.45493543651372,45.55909685029461 -73.45571048112061,45.55910444439246 -73.4561523272051,45.55911204176645 -73.45633795959782,45.55911595978764 -73.45640677280926,45.55912863716643 -73.45646244233927,45.55916228597621 -73.45650851953074,45.5591991720184 -73.45675342300764,45.5594697398821 -73.45676798795394,45.55952326639005 -73.45675342908029,45.55956914700765 -73.45672430739923,45.55959463664198 -73.45668790455019,45.55961248001475 -73.45665514143309,45.55962267632446 -73.45660053595015,45.55963032443629 -73.4565131662774,45.55963287606198 -73.45644763895965,45.55963287798284 -73.45637847107051,45.55963033084963 -73.45632750548529,45.55963033210164 -73.45626925874073,45.55962523588935 -73.45621101171355,45.55960994363697 -73.45616706166128,45.55958700496751 -73.45614184111123,45.55955132079732 -73.45613793436188,45.55950544088568 -73.45613793313045,45.55947740283316 -73.45613793181961,45.55945191405761 -73.45615048312152,45.55911204164049</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:c21bf953-dfdd-453d-8d8d-3b6015f6f272</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>c21bf953-dfdd-453d-8d8d-3b6015f6f272</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-73.45492928350234,45.55909724399152 -73.45489670167322,45.55958919109813 -73.45488583762609,45.55962976404158 -73.4548387561626,45.55966019452266 -73.45476270022857,45.55967287468227 -73.45431722834262,45.55966527141848 -73.45424479380925,45.55965766507769 -73.45420133287988,45.559634842828 -73.45416873628577,45.55960441325843 -73.45418986436205,45.5590798734737</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+   <entry cw:id="CWFID.FEEDBACKFEED.0.3">
+      <author>
+         <name>Peter Rushforth</name>
+         <uri>http://www.geofunctions.org</uri>
+         <email>prushfor@nrcan.gc.ca</email>
+      </author>
+      <category term="feedback" scheme="http://www.geobase.ca/scheme/feedtype"/>
+      <category term="Alberta updates" scheme="http://www.geobase.ca/scheme/domain"/>
+      <category term="Road Segment" scheme="http://www.geobase.ca/scheme/featuretype"/>
+      <category term="insert" scheme="http://www.geobase.ca/scheme/action"/>
+      <category term="proposed" scheme="http://www.geobase.ca/scheme/status"/>
+      <content>no content applicable here</content>
+      <id>urn:uuid:193fc303-2f92-4e3a-88ff-6dfd66dcf89c</id>
+      <summary>Updates digitized in Google Earth with GeoBase NRN v1 RoadSegment WMS backdrop.</summary>
+      <title>Alberta updates</title>
+      <updated>2007-11-04T00:00:00Z</updated>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>-113.6668939562675 53.4863043869392</gml:pos>
+         </gml:Point>
+      </georss:where>
+      <georss:featureOfInterest>
+         <gml:FeatureCollection xmlns:gb="http://www.geobase.ca/interop-pilot-2007">
+            <gml:boundedBy>
+               <gml:Envelope>
+                  <gml:lowerCorner>
+                     <gml:pos>-113.6677714758401 53.4862921160527</gml:pos>
+                  </gml:lowerCorner>
+                  <gml:upperCorner>
+                     <gml:pos>-113.6668939562675 53.4863043869392</gml:pos>
+                  </gml:upperCorner>
+               </gml:Envelope>
+            </gml:boundedBy>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:48ca3f88-6e7b-4641-a64a-a95a370b48b2</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>48ca3f88-6e7b-4641-a64a-a95a370b48b2</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-113.6677714758401,53.4862921160527 -113.6668939562675,53.4863043869392</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:81f62219-0219-40f2-9807-1f19264d9645</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>81f62219-0219-40f2-9807-1f19264d9645</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-113.6664193327531,53.48720320588598 -113.6664166795374,53.48795441037483</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:18ffa168-3a3e-4f0b-9e7e-e7ce13580f1a</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>18ffa168-3a3e-4f0b-9e7e-e7ce13580f1a</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-113.6664004716012,53.4885109975386 -113.6664160301812,53.48806325535745</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:4cc1bc9a-8002-40a5-a410-885130b6012b</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>4cc1bc9a-8002-40a5-a410-885130b6012b</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-113.6670707955867,53.48314137623726 -113.6670285077497,53.48387784420252 -113.6671922075864,53.48412298428146 -113.6674256198011,53.48421550000289 -113.6677101961616,53.48425622080919 -113.6677381793243,53.48425531089312 -113.6677507062416,53.48438816308913</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:744e5168-4426-44ce-a257-420e02579d3e</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>744e5168-4426-44ce-a257-420e02579d3e</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-113.668861366865,53.48485181828838 -113.6689313862664,53.48441622640253 -113.6690265097352,53.48364525647953 -113.6711242118674,53.48360922296865 -113.6711566721985,53.48479138247743</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:6a2aadfe-9525-40ed-a7aa-58ddd9321a03</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>6a2aadfe-9525-40ed-a7aa-58ddd9321a03</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-113.6668402671258,53.48924217200212 -113.6677770345281,53.48923748145869</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:3216d599-913c-4055-986c-e319b200ae9b</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>3216d599-913c-4055-986c-e319b200ae9b</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-113.6706412771083,53.48875769925174 -113.6694005732442,53.48881607658317 -113.6683969767429,53.4888273344726 -113.667785357147,53.48883096392966</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:85d509c2-c96f-42aa-81fa-1e975c6c4789</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>85d509c2-c96f-42aa-81fa-1e975c6c4789</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-113.6692869593453,53.49010012149281 -113.6692601666692,53.48967456723672</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:bd7bb8d1-c5f4-4348-be65-097932a76a8d</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>bd7bb8d1-c5f4-4348-be65-097932a76a8d</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-113.6707382529161,53.49009656758297 -113.6707310233545,53.4895765415699</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:e90d397e-e50b-4806-82e9-ecbe8f59e052</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>e90d397e-e50b-4806-82e9-ecbe8f59e052</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-113.6715121151253,53.48954966300304 -113.6711380071355,53.48955912803942 -113.6707276025363,53.48957507085186 -113.6692657937642,53.4896732512582 -113.6678292008774,53.48969657497857</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:285218a8-5394-4cb3-956a-6a190bbb2257</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>285218a8-5394-4cb3-956a-6a190bbb2257</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-113.6749512157263,53.48771709823679 -113.6744766716149,53.48782701059585 -113.6740379366761,53.48782381443358 -113.6730151128029,53.4877831518038 -113.6719979047341,53.4877824390735 -113.6709814407432,53.4878260746579 -113.6682778422907,53.48796675758189</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:c59f37a2-b0f1-42d1-adf3-a0ec6e530350</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>c59f37a2-b0f1-42d1-adf3-a0ec6e530350</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-113.673664004759,53.49010191724965 -113.6736108971666,53.48983749487699 -113.673637511327,53.48959480280875 -113.6737171810865,53.48932085801818 -113.6738588318216,53.48898368313521 -113.6739714178068,53.488603949161 -113.6740197907602,53.48815294258612 -113.6740301899572,53.48782399002954</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+            <gml:featureMember>
+               <gb:RoadSegment>
+                  <gb:cgdiId>urn:uuid:a6109f6f-d26e-4907-a0a1-b6608df14129</gb:cgdiId>
+                  <gb:planimetricDataAccuracy>0</gb:planimetricDataAccuracy>
+                  <gb:acquisitionTechnique>n.a.</gb:acquisitionTechnique>
+                  <gb:acquisitionProvider>n.a.</gb:acquisitionProvider>
+                  <gb:acquisitionOrRevisionDate>2007-11-01-04:00</gb:acquisitionOrRevisionDate>
+                  <gb:nationalRoadClass>Arterial</gb:nationalRoadClass>
+                  <gb:numberOfLanes>0</gb:numberOfLanes>
+                  <gb:pavementStatus>n.a.</gb:pavementStatus>
+                  <gb:pavedRoadSurfaceType>n.a.</gb:pavedRoadSurfaceType>
+                  <gb:unpavedRoadSurfaceType>n.a.</gb:unpavedRoadSurfaceType>
+                  <gb:roadSegmentID>a6109f6f-d26e-4907-a0a1-b6608df14129</gb:roadSegmentID>
+                  <gb:segment>
+                     <gml:LineString srsName="urn:x-ogc:def:crs:EPSG:6.11.2:4326">
+                        <gml:coordinates decimal="." cs="," ts=" ">-113.6668340010891,53.49005510047091 -113.6678234919989,53.49006522327738 -113.6678250556153,53.48968835670792 -113.6677782792994,53.48923850293641 -113.6677895852348,53.4888318646412 -113.6677965253023,53.48800393785771 -113.6678114764295,53.48709032344213 -113.6678168649527,53.48661400620407 -113.6677591181669,53.4862084119446 -113.6676821529091,53.48593082054219 -113.6675919796467,53.48567978388277 -113.6675401512111,53.48543070084737 -113.6675165866167,53.48518072152756 -113.6675739092258,53.48489477265294 -113.6676824591055,53.48455724851605 -113.6677211488176,53.48437246550881 -113.6682294836241,53.48440585563873 -113.6687933155383,53.48443739076798 -113.6689888524166,53.48443099530732 -113.669463425609,53.48441547068224 -113.6698012226641,53.48442020545167</gml:coordinates>
+                     </gml:LineString>
+                  </gb:segment>
+               </gb:RoadSegment>
+            </gml:featureMember>
+         </gml:FeatureCollection>
+      </georss:featureOfInterest>
+   </entry>
+</feed>

@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- This Web Feature Server is a component of CubeWerx Suite 4.7.3. -->
+<feed xmlns="http://www.w3.org/2005/Atom"
+xmlns:georss="http://www.georss.org/georss"
+xmlns:gml="http://www.opengis.net/gml"
+xmlns:wfs="http://www.opengis.net/wfs"
+xmlns:gb="http://www.geobase.ca/interop-pilot-2007"
+xmlns:cw="http://www.cubewerx.com/cw">
+  <title>GeoConnections CGDI Pilot Event Feed</title>
+  <link rel="self"
+  href="http://www.pvretano.com/cgdi/cwwfs.cgi?SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=cw:EVENTFEED&amp;outputFormat=ATOM" />
+  <updated>2007-11-06T22:53:19Z</updated>
+  <subtitle>This ATOM feed is used to alert interested parties
+  about emergency events. Feed entries are posted to feed to
+  indicate that an emergency event has occured and parties
+  monitoring the feed will then be altered about that
+  event.</subtitle>
+  <id>urn:uuid:d24cd298-395b-4e48-9c20-013b3af9a4a5</id>
+  <generator uri="http://www.pvretano.com/cgdi/cwwfs.cgi"
+  version="4.7.3">CubeWerx Web Feature Service</generator>
+  <entry cw:id="CWFID.EVENTFEED.0.4">
+    <author>
+      <name>Peter Rushforth</name>
+      <uri>http://www.geofunctions.org</uri>
+      <email>peter.rushforth@nrcan.gc.ca</email>
+    </author>
+    <category term="event"
+    scheme="http://www.geobase.ca/feedtype" />
+    <category term="Manitoba"
+    scheme="http://www.geobase.ca/domain" />
+    <category term="area_alert"
+    scheme="http://www.geobase.ca/featuretype" />
+    <category term="alert" scheme="http://www.geobase.ca/action" />
+    <category term="published"
+    scheme="http://www.geobase.ca/status" />
+    <content>Feature collection indicating time and place of alert
+    action due to poisonos gas exposure</content>
+    <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6c</id>
+    <link href="http://wolf.cits.rncan.gc.ca:8080/mapbuilder/demo/catalog/context.xml"
+    rel="http://www.geobase.ca/linktype/ows_context" />
+    <link href="http://demo.cubewerx.com/cgdi/cubeserv.cgi?config=mb&amp;datastore=Manitoba&amp;service=WFS&amp;version=1.1.0&amp;request=GetFeature&amp;typename=gb:RoadSegment&amp;maxFeatures=1&amp;outputFormat=GML3L0&amp;srsName=EPSG:4326"
+    rel="http://www.geobase.ca/linktype/ows_context" />
+    <link href="http://www.em.org/Manitoba023420208.cap"
+    rel="http://www.geobase.ca/linktype/ows_context" />
+    <summary>Poison Gas Exposure notice for Southwestern Manitoba
+    area</summary>
+    <title>Manitoba sour gas plume alert</title>
+    <updated>2007-11-07T00:00:00Z</updated>
+    <georss:where>
+      <gml:Point>
+        <gml:pos>-100.6120574479606 50.74993437116105</gml:pos>
+      </gml:Point>
+    </georss:where>
+    <georss:featureOfInterest>
+      <gml:FeatureCollection xmlns="urn:oasis:names:tc:emergency:cap:1.1"
+      xmlns:wfs="http://www.opengis.net/wfs"
+      xmlns:gml="http://www.opengis.net/gml">
+        <gml:boundedBy>
+          <gml:Envelope>
+            <gml:lowerCorner>
+              <gml:pos>-101.185880339659,50.061644499755</gml:pos>
+            </gml:lowerCorner>
+            <gml:upperCorner>
+              <gml:pos>-99.7166085337377,51.0104947899312</gml:pos>
+            </gml:upperCorner>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <gml:featureMember>
+          <PlumeAffectedArea fid="PT1">
+            <id>1</id>
+            <elapsedHours>1</elapsedHours>
+            <areaAffected>
+              <gml:Polygon>
+                <gml:exterior>
+                  <gml:LinearRing>
+                    <gml:coordinates decimal="." cs="," ts="">
+                    -100.796383749713,50.7363728568039
+                    -100.726354796051,50.7956407449805
+                    -100.656158357615,50.803381559403
+                    -100.610419786973,50.7944709968689
+                    -100.572829258986,50.7753649875099
+                    -100.549128124864,50.7490020097397
+                    -100.542251585463,50.7187308799542
+                    -100.555023198897,50.6865945466211
+                    -100.586894097653,50.6601839004031
+                    -100.632179127341,50.6441477569034
+                    -100.683976473874,50.6409213750631
+                    -100.733510935048,50.651178388213
+                    -100.772416000004,50.6730574742926
+                    -100.794719352976,50.7032305588389
+                    -100.796383749713,50.7363728568039</gml:coordinates>
+                  </gml:LinearRing>
+                </gml:exterior>
+              </gml:Polygon>
+            </areaAffected>
+          </PlumeAffectedArea>
+        </gml:featureMember>
+        <gml:featureMember>
+          <PlumeAffectedArea fid="PT2">
+            <id>2</id>
+            <elapsedHours>2</elapsedHours>
+            <areaAffected>
+              <gml:Polygon>
+                <gml:exterior>
+                  <gml:LinearRing>
+                    <gml:coordinates decimal="." cs="," ts="">
+                    -100.803961333625,50.7828816945256
+                    -100.716860987745,50.8402174380035
+                    -100.696368593022,50.8465549028132
+                    -100.623377182156,50.8571819048074
+                    -100.5490458669,50.8513135318127
+                    -100.482471726534,50.829670173172
+                    -100.431734608591,50.7948962140341
+                    -100.402872039706,50.7512156342229
+                    -100.399171193405,50.7038940796741
+                    -100.410015169915,50.6747109727212
+                    -100.430461273009,50.6477245367395
+                    -100.459496604637,50.6242118437748
+                    -100.495719683476,50.6052806529412
+                    -100.537409390167,50.5918196810265
+                    -100.582604773759,50.584459256531
+                    -100.674998623462,50.5891161784492
+                    -100.717882867295,50.6009169435071
+                    -100.755831079179,50.618394315962
+                    -100.787044708807,50.6407288078999
+                    -100.810023360308,50.6668692098576
+                    -100.823637493456,50.6955796016353
+                    -100.827187707255,50.725495612625
+                    -100.820446942895,50.7551877873541
+                    -100.803961333625,50.7828816945256</gml:coordinates>
+                  </gml:LinearRing>
+                </gml:exterior>
+              </gml:Polygon>
+            </areaAffected>
+          </PlumeAffectedArea>
+        </gml:featureMember>
+        <gml:featureMember>
+          <PlumeAffectedArea fid="PT3">
+            <id>3</id>
+            <elapsedHours>3</elapsedHours>
+            <areaAffected>
+              <gml:Polygon>
+                <gml:exterior>
+                  <gml:LinearRing>
+                    <gml:coordinates decimal="." cs="," ts="">
+                    -100.841494540194,50.8099346663413
+                    -100.760404974051,50.8495395289891
+                    -100.663743375935,50.8705164341375
+                    -100.561482540973,50.8708183226308
+                    -100.464521258597,50.8504162148018
+                    -100.383129803579,50.8114835333112
+                    -100.35101374018,50.7862912666651
+                    -100.325765526161,50.7581396324411
+                    -100.308010355829,50.7277696453336
+                    -100.298167743377,50.6959760662189
+                    -100.296444966195,50.6635858819619
+                    -100.303030547377,50.6308486404977
+                    -100.325918989606,50.5870912630366
+                    -100.364095556977,50.5473217822795
+                    -100.415252443152,50.5142252257459
+                    -100.476641692761,50.4895362725617
+                    -100.545027275679,50.4745430711054
+                    -100.616845030318,50.4700259220019
+                    -100.688371049211,50.4762204609935
+                    -100.755068727777,50.4925310651816
+                    -100.815179583011,50.5185323243327
+                    -100.864624887877,50.5527213614937
+                    -100.900735378319,50.5933045940209
+                    -100.921496182096,50.638138440288
+                    -100.925668979422,50.6848362753748
+                    -100.9131530908,50.7303153782201
+                    -100.884629957693,50.7727678445535
+                    -100.841494540194,50.8099346663413</gml:coordinates>
+                  </gml:LinearRing>
+                </gml:exterior>
+              </gml:Polygon>
+            </areaAffected>
+          </PlumeAffectedArea>
+        </gml:featureMember>
+        <gml:featureMember>
+          <PlumeAffectedArea fid="PT4">
+            <id>4</id>
+            <elapsedHours>4</elapsedHours>
+            <areaAffected>
+              <gml:Polygon>
+                <gml:exterior>
+                  <gml:LinearRing>
+                    <gml:coordinates decimal="." cs="," ts="">
+                    -100.908513564839,50.8368350934688
+                    -100.786058584348,50.8812960287388
+                    -100.717499003683,50.8939910728748
+                    -100.646586211171,50.8997094937051
+                    -100.575123325985,50.8983063773536
+                    -100.504929434031,50.8898182408853
+                    -100.437785619792,50.8744618692757
+                    -100.375382751376,50.8526277862297
+                    -100.320284128106,50.8254542381022
+                    -100.271681008665,50.7925619099176
+                    -100.231879934591,50.7552512088209
+                    -100.201800919497,50.7144484334574
+                    -100.182105128283,50.671158541071
+                    -100.17318570886,50.6264388675995
+                    -100.17516661721,50.5813723937698
+                    -100.188256878491,50.536203006105
+                    -100.227551671329,50.4726921989273
+                    -100.28919907413,50.4161525219625
+                    -100.368155258238,50.3710308297076
+                    -100.461971515356,50.3386573934678
+                    -100.564604312143,50.321437757402
+                    -100.670493801965,50.320306130724
+                    -100.773929520155,50.3353264215235
+                    -100.868190308944,50.3652203183722
+                    -100.950482741928,50.4091199063562
+                    -101.014937504626,50.4643430110043
+                    -101.057807925968,50.5278476384416
+                    -101.076441957879,50.5960987139272
+                    -101.069722318172,50.6643979154749
+                    -101.038091788469,50.7297774728274
+                    -100.983034708736,50.78855451703
+                    -100.908513564839,50.8368350934688</gml:coordinates>
+                  </gml:LinearRing>
+                </gml:exterior>
+              </gml:Polygon>
+            </areaAffected>
+          </PlumeAffectedArea>
+        </gml:featureMember>
+        <gml:featureMember>
+          <PlumeAffectedArea fid="PT5">
+            <id>5</id>
+            <elapsedHours>5</elapsedHours>
+            <areaAffected>
+              <gml:Polygon>
+                <gml:exterior>
+                  <gml:LinearRing>
+                    <gml:coordinates decimal="." cs="," ts="">
+                    -100.95883158793,50.8826001070036
+                    -100.535631779152,51.0078414429708
+                    -100.417507468096,51.0104947899312
+                    -100.300265158065,51.0012672488698
+                    -100.187016668726,50.9804076741313
+                    -100.078887882029,50.9477946153961
+                    -99.9825238048629,50.9054538485303
+                    -99.8983440483632,50.8540120575022
+                    -99.8283894409309,50.794803874845
+                    -99.7734425917439,50.7281087560399
+                    -99.7366349750278,50.6579899508812
+                    -99.7173369705874,50.5837151604056
+                    -99.7166085337377,50.508414122019
+                    -99.7346851639522,50.4326676993709
+                    -99.7590400899624,50.3798298663438
+                    -99.7933684128252,50.3279539258099
+                    -99.8355092007766,50.280183128401
+                    -99.8868723206686,50.234837465927
+                    -99.9442978111587,50.1946556034953
+                    -100.009768742232,50.1582170900868
+                    -100.079307416881,50.1277172709694
+                    -100.155358702978,50.1020740596761
+                    -100.235276547412,50.0824343318164
+                    -100.318006026864,50.069057006644
+                    -100.485525261946,50.061644499755
+                    -100.651279874449,50.0796855231186
+                    -100.731786076083,50.0982740907907
+                    -100.806831815731,50.1222691763775
+                    -100.879070744299,50.1525247550709
+                    -100.945644249742,50.1881271925274
+                    -101.005630696398,50.2286036891285
+                    -101.058178742023,50.2734132290592
+                    -101.102518931631,50.3219525531977
+                    -101.137975307767,50.3735629943607
+                    -101.163976909278,50.4275381621081
+                    -101.17980376441,50.4817958571409
+                    -101.185880339659,50.5368754229267
+                    -101.182024043865,50.5920374423719
+                    -101.168183921092,50.6465337847275
+                    -101.144446951771,50.6996176430533
+                    -101.111042580352,50.7505539865859
+                    -101.0683450722,50.798630293023
+                    -101.016873314472,50.8431673936585
+                    -100.95883158793,50.8826001070036</gml:coordinates>
+                  </gml:LinearRing>
+                </gml:exterior>
+              </gml:Polygon>
+            </areaAffected>
+          </PlumeAffectedArea>
+        </gml:featureMember>
+      </gml:FeatureCollection>
+    </georss:featureOfInterest>
+  </entry>
+</feed>
