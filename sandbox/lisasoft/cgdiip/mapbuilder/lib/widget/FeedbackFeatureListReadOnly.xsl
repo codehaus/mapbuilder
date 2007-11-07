@@ -82,6 +82,30 @@ $Name$
           </tr>
         
         </xsl:when>
+    	<xsl:when test="name(.)='link' and @rel='http://www.geobase.ca/linktype/ows_context'">
+          <tr>
+            <td>
+              <xsl:value-of select="name(.)"/>
+            </td>
+            <td>
+              <a href="../catalog/catalog.html?mainMap={@href}" title="Go to discovery client, using this OWS context">
+                <xsl:value-of select="@href"/>
+              </a>
+            </td>
+          </tr>
+        </xsl:when>
+    	<xsl:when test="name(.)='link'">
+          <tr>
+            <td>
+              <xsl:value-of select="name(.)"/>
+            </td>
+            <td>
+              <a href="{@href}" target="_blank" title="Follow this link. Opens in new window. ({@ref})">
+                <xsl:value-of select="@href"/>
+              </a>
+            </td>
+          </tr>
+        </xsl:when>
         <xsl:otherwise>
           <tr>
             <td>
