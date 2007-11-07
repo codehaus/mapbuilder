@@ -69,7 +69,7 @@ $Name:  $
               <option value="WMS">WMS</option>
               <option value="WFS">WFS</option>
             </select>
-            <input type="submit" value="search" onclick="config.objects.{$widgetId}.doSelect();"/>
+            <input type="submit" value="search"/>
           </td>
           <td>
             <div id="loading"></div>
