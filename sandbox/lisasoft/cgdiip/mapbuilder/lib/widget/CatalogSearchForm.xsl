@@ -42,7 +42,7 @@ $Name:  $
   <xsl:template match="/">
     <div>
     <h2>Search for layers</h2>
-    <form name="{$formName}" id="{$formName}" method="get">
+    <form name="{$formName}" id="{$formName}" method="get" onsubmit="config.objects.{$widgetId}.doSelect();return false;">
       <input type="hidden" name="version" value="1.0.0"/>
       <input type="hidden" name="service" value="WFS"/>
       <input type="hidden" name="request" value="GetFeature"/>
@@ -69,7 +69,7 @@ $Name:  $
               <option value="WMS">WMS</option>
               <option value="WFS">WFS</option>
             </select>
-            <input type="button" value="search" onclick="config.objects.{$widgetId}.doSelect();"/>
+            <input type="submit" value="search" onclick="config.objects.{$widgetId}.doSelect();"/>
           </td>
           <td>
             <div id="loading"></div>

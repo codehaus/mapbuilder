@@ -104,29 +104,6 @@ function CatalogSearchForm(widgetNode, model) {
     }
   }
 
-  /**
-   * handles keypress events to filter out everything except "enter".  
-   * Pressing the "enter" key will trigger a form submit
-   * @param event  the event object passed in for Mozilla; IE uses window.event
-   */
-  this.handleKeyPress = function(event) {
-    var keycode;
-    var target;
-    if (event){
-      //Mozilla
-      keycode=event.which;
-      target=event.currentTarget;
-    }else{
-      //IE
-      keycode=window.event.keyCode;
-      target=window.event.srcElement.form;
-    }
-
-    if (keycode == 13) {    //enter key
-      return true;
-    }
-  }
-
 /**
  * Change the AOI coordinates from select box choice of prefined locations
  * @param bbox the bbox value of the location keyword chosen
