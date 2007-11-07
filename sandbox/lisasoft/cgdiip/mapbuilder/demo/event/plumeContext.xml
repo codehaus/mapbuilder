@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<OWSContext xmlns="http://www.opengis.net/context" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sld="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows" xmlns:param="http;//www.opengis.net/param" version="0.0.13" id="ows-context-tie" xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
+  <General>
+    <Window width="402" height="302"/>
+    <ows:BoundingBox crs="EPSG:4326">
+      <ows:LowerCorner>-101.865625 49.45</ows:LowerCorner>
+      <ows:UpperCorner>-99.053125 51.559375</ows:UpperCorner>
+    </ows:BoundingBox>
+    <Title xml:lang="en">Simple World Context</Title>
+    <KeywordList>
+      <Keyword>world</Keyword>
+    </KeywordList>
+  </General>
+  <ResourceList>
+    <Layer hidden="0">
+      <Server service="WMS" version="1.1.1" title="WMS">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://atlas.nrcan.gc.ca/cgi-bin/toporamawms_en"/>
+      </Server>
+      <Name>wms_atlasofcanada_eng</Name>
+      <Title>CGDI NRCan WMS</Title>
+      <Abstract/>
+      <SRS>EPSG:4326</SRS>
+    </Layer>
+    <FeatureType xmlns="http://www.opengis.net/context" xmlns:xlink="http://www.w3.org/1999/xlink" id="Sour Gas Plume_plumes.gml" hidden="0" maxFeatures="5">
+      <Server service="GML" version="2.1.2" title="Local">
+        <OnlineResource method="GET" xlink:type="simple" xlink:href="plumes.gml"/>
+      </Server>
+      <!--
+      <Name>http://wolf.cits.rncan.gc.ca:8080/mapbuilder/demo/event/plume.gml</Name>
+      -->
+      <Name>http://192.168.2.166:8080/mapbuilder/demo/event/plume.gml</Name>
+      <Title>Sour Gas Plume</Title>
+      <Abstract/>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+  </ResourceList>
+</OWSContext>
