@@ -42,7 +42,7 @@ function GmlLayerAddUrlInput(widgetNode, model) {
     }
 
     var xmlContextlayerString = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>" +
-    "<FeatureType id=\"" + layerName + "_" + gmlUrl + "\" hidden=\"0\" xmlns=\"http://www.opengis.net/context\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" >"+
+    "<Layer id=\"" + layerName + "_" + gmlUrl + "\" hidden=\"0\" xmlns=\"http://www.opengis.net/context\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" >"+
     "<Server service=\"GML\" version=\"2.1.2\" title=\"Local\">" +
     "<OnlineResource method=\"GET\" xlink:type=\"simple\" xlink:href=\"" + gmlUrl +"\"/>" +
     "</Server>" +
@@ -50,7 +50,7 @@ function GmlLayerAddUrlInput(widgetNode, model) {
     "<Title>" + layerName + "</Title>" +
     "<Abstract></Abstract>" +
     "<SRS>EPSG:4326</SRS>" +
-    "</FeatureType>";
+    "</Layer>";
 
 	  var oDomDoc = Sarissa.getDomDocument();  
 	  var xmlString = "rootmy xml!/root";  
