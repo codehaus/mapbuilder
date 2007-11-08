@@ -705,7 +705,7 @@ MapPaneOL.prototype.refreshLayer = function(objRef, layerName , newParams){
 MapPaneOL.prototype.clearWidget2 = function(objRef) {
   if(objRef.model.map){
     objRef.model.map.mbMapPane = null;
-    objRef.mode.map.mbCursor = null;
+    objRef.model.map.mbCursor = null;
     objRef.model.map.destroy();
     var node = document.getElementById(objRef.containerNodeId);
     var outputNode =  document.getElementById( objRef.model.id+"Container_OpenLayers_ViewPort" );
