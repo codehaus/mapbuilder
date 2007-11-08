@@ -21,32 +21,68 @@ originalFile=${targetDir}/lib/MapbuilderCompressed.js
 outputFile=${targetDir}/lib/MapbuilderCompressedFixed.js
 
 # Compress javascript files
-java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/Mapbuilder.js > ${originalFile} 2>&1
-java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/RELEASE.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/RELEASE.js > ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/Mapbuilder.js >> ${originalFile} 2>&1
+
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/util/sarissa/javeline_xpath.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/util/sarissa/javeline_xslt.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/util/sarissa/Sarissa.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/util/sarissa/sarissa_dhtml.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/util/sarissa/sarissa_ieemu_xpath.js >> ${originalFile} 2>&1
+
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/util/cscs/lib/cscs.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/util/cscs/lib/geocent.js >> ${originalFile} 2>&1
+
+
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/util/Util.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/util/Listener.js >> ${originalFile} 2>&1
+
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/model/ModelBase.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/model/Config.js >> ${originalFile} 2>&1
 
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/ButtonBase.js >> ${originalFile} 2>&1
-java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/EditLine.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/Back.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/Forward.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/ZoomIn.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/ZoomOut.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/DragPan.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/Reset.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/MapPaneOL.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/CursorTrack.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/MapScaleText.js >> ${originalFile} 2>&1
+
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/model/Proj.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/model/Model.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/model/Context.js >> ${originalFile} 2>&1
 
 
-for file in `find ${targetDir}/lib -name "*.js" | \
-	 egrep -v "overlib" \
-	| egrep -v "/lib/Mapbuilder.js" \
-	| egrep -v "/lib/RELEASE.js" \
-	| egrep -v "/lib/widget/ButtonBase.js" \
-	| egrep -v "/lib/widget/EditLine.js" \
-	| egrep -v "/lib/MapbuilderServerLoad.js" \
-	| egrep -v "/lib/MapbuilderCompressed.js"`; do
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/util/openlayers/OpenLayers.js >> ${originalFile} 2>&1
+
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/WidgetBase.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/WidgetBaseXSL.js >> ${originalFile} 2>&1
+
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/tool/ToolBase.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/tool/Extent.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/tool/History.js >> ${originalFile} 2>&1
+#for file in `find ${targetDir}/lib -name "*.js" | \
+#	 egrep -v "overlib" \
+#	| egrep -v "/lib/Mapbuilder.js" \
+#	| egrep -v "/lib/RELEASE.js" \
+#	| egrep -v "/lib/widget/ButtonBase.js" \
+#	| egrep -v "/lib/widget/EditLine.js" \
+#	| egrep -v "/lib/MapbuilderServerLoad.js" \
+#	| egrep -v "/lib/MapbuilderCompressed.js"`; do
 
 #  ${mapbuilderDir}/build/jsjam.pl ${file} -i -g -n > ${tmp};
-  echo "Compressing ${file}";
-  java -jar lib/util/custom_rhino.jar -c ${file} >> ${originalFile} 2>&1
-done;
+#  echo "Compressing ${file}";
+#  java -jar lib/util/custom_rhino.jar -c ${file} >> ${originalFile} 2>&1
+#done;
 
 # Step 1
 # change "stylesheet.setParameter("objref","objRef") to "stylesheet.setParameter(_var,"objRef")"
 # in GmlRendererWZ.js
 
-cat ${originalFile}  | sed 's/\(_[0-9]\)\(.stylesheet.setParameter(\"objRef\",\)\(\"objRef\"\)/\1\2\1/' > ${outputFile}
+#cat ${originalFile}  | sed 's/\(_[0-9]\)\(.stylesheet.setParameter(\"objRef\",\)\(\"objRef\"\)/\1\2\1/' > ${outputFile}
 
 
 # Step 2
@@ -65,11 +101,11 @@ cat ${originalFile}  | sed 's/\(_[0-9]\)\(.stylesheet.setParameter(\"objRef\",\)
 #  var _3=document.createElement("script");
 #  _3.readyState=="complete";
 #  this.loadingScripts.push(_3);
-#  }
+##  }
 
-cat ${originalFile} | tr '\n' '\t' | sed  's/\(_[0-9]\)\(\=document.createElement(\"script");\).*\(this.loadingScripts.push\)/\1\2\t\1.readyState=="complete";\t\3/' | tr '\t' '\n' > ${outputFile}
+#cat ${originalFile} | tr '\n' '\t' | sed  's/\(_[0-9]\)\(\=document.createElement(\"script");\).*\(this.loadingScripts.push\)/\1\2\t\1.readyState=="complete";\t\3/' | tr '\t' '\n' > ${outputFile}
 
-mv ${outputFile} ${originalFile}
+#mv ${outputFile} ${originalFile}
 
 # Step 3
 # 
@@ -85,9 +121,9 @@ mv ${outputFile} ${originalFile}
 # yState=="uninitialized"||this.loadingScripts[0].readyState=="complete"||this.loadingScripts[0].readyState==null)){
 
 
-cat ${originalFile}  | sed 's/\(this.loadingScripts\[0\].readyState==\"loaded\"\)/\1||this.loadingScripts[0].readyState=="uninitialized"/' > ${outputFile}
+#cat ${originalFile}  | sed 's/\(this.loadingScripts\[0\].readyState==\"loaded\"\)/\1||this.loadingScripts[0].readyState=="uninitialized"/' > ${outputFile}
 
-mv ${outputFile} ${originalFile}
+#mv ${outputFile} ${originalFile}
 
 # Step 4
 #
@@ -103,8 +139,10 @@ mv ${outputFile} ${originalFile}
 # temporarily disabling
 
 
-cat ${originalFile}  | sed '/function ButtonBase/,/function EditLine/ {s/_5/disabledImage/}' > ${outputFile} 
+#cat ${originalFile}  | sed '/function ButtonBase/,/function EditLine/ {s/_5/disabledImage/}' > ${outputFile} 
 
-mv ${outputFile} ${originalFile}
+#mv ${outputFile} ${originalFile}
 
 cp ${originalFile} ${mapbuilderDir}/lib
+
+cp ${mapbuilderDir}/lib/MapbuilderCompressed.js ~/apisite/dbf/lib
