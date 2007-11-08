@@ -96,7 +96,7 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
       showBaseLayer = false;
       for (var i = 0; i < objRef.layerNames.length; i++) {
         for (var j = 0; j < map.layers.length; j++) {
-          if (objRef.layerNames[i] == map.layers[j].params.LAYERS) {
+          if (map.layers[j].params && objRef.layerNames[i] == map.layers[j].params.LAYERS) {
             // Found it, add a clone to the layer stack
             if (map.layers[j] == map.baseLayer) {
               showBaseLayer = true;
@@ -128,9 +128,11 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
     }
 
     // Add the overview to the main map
-    objRef.control = new OpenLayers.Control.OverviewMap(options);
-    objRef.control.mapOptions = {theme: null};
-    map.addControl(objRef.control);
+    if (!objRef.control) {
+      objRef.control = new OpenLayers.Control.OverviewMap(options);
+      objRef.control.mapOptions = {theme: null};
+      map.addControl(objRef.control);
+    }
 
     // make all layers visible
     for (var i in options.layers) {

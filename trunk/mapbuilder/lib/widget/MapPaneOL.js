@@ -658,6 +658,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   
   objRef.oLlayers[name2].events.register('loadstart', objRef, objRef.increaseLoadingLayers);
   objRef.oLlayers[name2].events.register('loadend', objRef, objRef.decreaseLoadingLayers);
+  objRef.oLlayers[name2].events.register('loadcancel', objRef, function(){alert('error')});
   
   objRef.model.map.addLayer(objRef.oLlayers[name2]);
 }
@@ -703,6 +704,8 @@ MapPaneOL.prototype.refreshLayer = function(objRef, layerName , newParams){
  */
 MapPaneOL.prototype.clearWidget2 = function(objRef) {
   if(objRef.model.map){
+    objRef.model.map.mbMapPane = null;
+    objRef.mode.map.mbCursor = null;
     objRef.model.map.destroy();
     var node = document.getElementById(objRef.containerNodeId);
     var outputNode =  document.getElementById( objRef.model.id+"Container_OpenLayers_ViewPort" );
