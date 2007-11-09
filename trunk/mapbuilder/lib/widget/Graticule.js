@@ -34,8 +34,10 @@ function Graticule(widgetNode, model) {
 	  objRef:objRef,
 	  destroy : function() {
 	    OpenLayers.Control.prototype.destroy.apply(this, arguments);
-	    for(i = this.divs.length; i > 0; --i) {
-	      this.divs[i] = null;
+	    if (this.divs) {
+	      for(i = this.divs.length; i > 0; --i) {
+		this.divs[i] = null;
+	      }
 	    }
 	    this.div = null;
 	    this.mapContainer = null;
@@ -52,10 +54,12 @@ function Graticule(widgetNode, model) {
 			  var i = 0;
 			  var div = this.mapContainer;
 		
+		      if (this.divs) {
 		  	for(i=0; i< this.divs.length; i++)
 		  	{
 				div.removeChild(this.divs[i]);
 			}
+		      }
 	  }
 	  catch(e){
 	  }
