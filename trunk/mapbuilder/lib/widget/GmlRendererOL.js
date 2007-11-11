@@ -344,13 +344,16 @@ function GmlRendererOL(widgetNode, model) {
   
   this.model.removeListener("newModel", this.clearWidget, this);
   this.clearWidget = function(objRef) {
-    if (objRef.olLayer && objRef.olLayer.loaded == true) {
-      objRef.olLayer.loaded = false;
-      if (objRef.olLayer.features && objRef.olLayer.features.length > 0) {
-        objRef.olLayer.destroyFeatures();
+    if (objRef.olLayer) {
+      if (objRef.olLayer.loaded == true) {
+        objRef.olLayer.loaded = false;
+        if (objRef.olLayer.features && objRef.olLayer.features.length > 0) {
+          objRef.olLayer.destroyFeatures();
+        }
       }
+      objRef.olLayer.destroy();
+      objRef.olLayer = null;
     }
-    objRef.olLayer = null;
   }
   this.model.addListener("newModel", this.clearWidget, this);
 }
