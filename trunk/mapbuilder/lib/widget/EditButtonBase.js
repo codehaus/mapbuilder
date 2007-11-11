@@ -43,29 +43,12 @@ function EditButtonBase(widgetNode, model) {
     if (objRef.trm && !objRef.transactionResponseModel){
       objRef.transactionResponseModel=window.config.objects[objRef.trm];
     }
-    // Load default feature.
-    if (objRef.enabled && selected && objRef.targetModel.url!=objRef.defaultModelUrl){
-      objRef.loadDefaultModel(objRef);
-    }
     // Remove the transactionResponseModel (and result of last transaction)
     // when a transaction button is deselected
     if(!selected && objRef.transactionResponseModel){
       objRef.transactionResponseModel.setModel(objRef.transactionResponseModel,null);
     }
   }
-
-  /**
-   * Load the defaultModel into the targetModel.
-   */
-  this.loadDefaultModel=function(objRef){
-    objRef.targetModel.url=objRef.defaultModelUrl;
-    // load default GML
-    var httpPayload=new Object();
-    httpPayload.url=objRef.defaultModelUrl;
-    httpPayload.method="get";
-    httpPayload.postData=null;
-    objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
-   }
 
   /**
    * This is called by the OL onFeatureInsert handler. It will
@@ -76,9 +59,11 @@ function EditButtonBase(widgetNode, model) {
   this.handleFeatureInsert = function(feature) {
     // use the objRef reference stored by setEditingLayer()
     var objRef = feature.layer.mbButton;
-    objRef.setFeature(objRef, feature);
+    objRef.geometry = OpenLayers.Util.extend({}, feature.geometry);
+    config.loadModel(objRef.targetModel.id, objRef.defaultModelUrl);
     // destroy the feature in OL, because we do not use
     // the OL vector layer for displaying the feature
+    feature.mbSelectStyle = null;
     feature.destroy();
   }
 
@@ -120,7 +105,8 @@ function EditButtonBase(widgetNode, model) {
     
     // feature layers will be created when the OL map is available
     objRef.targetContext.addFirstListener("refresh",objRef.setEditingLayer, objRef);
-    objRef.targetModel.addListener("refreshGmlRenderers",objRef.loadDefaultModel, objRef);
+
+    objRef.targetModel.addListener("loadModel", objRef.setFeature, objRef);
   }
 
   this.model.addListener("init",this.initButton, this);
