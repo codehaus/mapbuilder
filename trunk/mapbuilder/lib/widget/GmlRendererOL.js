@@ -24,6 +24,100 @@ mapbuilder.loadScript(baseDir+"/widget/GmlRendererBase.js");
 function GmlRendererOL(widgetNode, model) {
   GmlRendererBase.apply(this,new Array(widgetNode, model));
   
+  // create modified OpenLayers GML layer class, which
+  // uses a gml doc directly instead of loading it from
+  // an URL
+  var OlLayer = OpenLayers.Class(OpenLayers.Layer.GML, {
+  
+    loadGML: function() {
+      if (!this.loaded) {
+        var gml = new OpenLayers.Format.GML();
+        try {
+          this.addFeatures(gml.read(this.mbWidget.renderDoc));
+          this.loaded = true;
+        } catch (e) {
+          // nothing to worry, just features without geometries in the doc
+        }
+      }
+    },
+  
+    preFeatureInsert: function(feature) {
+      if (feature.geometry) {
+        // check if there is a source model linked with this feature
+        var sourceNode = this.mbWidget.model.doc.selectSingleNode("//*[@fid='"+feature.fid+"']");
+        var sourceModel = null;
+        if (sourceNode) {
+          sourceModel = sourceNode.getAttribute('sourceModel');
+        }
+        // if so, use the config from the source model
+        var widgetConfig = null;
+        if (sourceModel && config.objects[sourceModel].config && config.objects[sourceModel].config[this.mbWidget.id]) {
+          widgetConfig = config.objects[sourceModel].config[this.mbWidget.id];
+        } else {
+          widgetConfig = this.mbWidget.config;
+        }
+        // set styles before rendering the feature
+        if (widgetConfig.defaultStyle) {
+          if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
+            feature.style = widgetConfig.defaultStyle.point;
+          } else
+          if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
+            feature.style = widgetConfig.defaultStyle.line;
+          } else
+          if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
+            feature.style = widgetConfig.defaultStyle.polygon;
+          }
+        }
+        // set select styles
+        if (widgetConfig.selectStyle) {
+          if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
+            feature.mbSelectStyle = widgetConfig.selectStyle.point;
+          } else
+          if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
+            feature.mbSelectStyle = widgetConfig.selectStyle.line;
+          } else
+          if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
+            feature.mbSelectStyle = widgetConfig.selectStyle.polygon;
+          }
+        }
+      }
+    },
+    
+    /**
+     * gets a feature from the gmlRendererLayer by GML feature id.
+     * @param fid GML feature id of the feature
+     * @return feature OpenLayers feature matching fid
+     */
+    getFeatureByFid: function(fid) {
+      if (!this.features) {
+        return null;
+      }
+      for (var i = 0; i < this.features.length; ++i) {
+        if (this.features[i].fid == fid) {
+          return this.features[i];
+        }
+      }
+    },
+    
+    /**
+     * helps to cleanly destroy the features, preventing memleaks.
+     */
+    destroyFeatures: function () {
+      features = this.features;
+      for (var i = features.length - 1; i >= 0; i--) {
+        var feature = features[i];
+
+        if (feature.geometry) {
+          this.renderer.eraseGeometry(feature.geometry);
+        }
+
+        this.features = [];
+        this.selectedFeatures = [];
+        feature.destroy();
+      }
+    }
+  });
+
   /** OpenLayers GML layer which renders the model doc */
   this.olLayer = null;
   
@@ -63,19 +157,15 @@ function GmlRendererOL(widgetNode, model) {
 
   this.paint = function(objRef) {
     if (objRef.targetModel.map) {
-      // remove and destroy layer
+      // remove features from layer
       if (objRef.olLayer) {
         objRef.model.setParam('gmlRendererLayer', null);
-        if (objRef.targetModel.map == objRef.map) {
-          objRef.olLayer.destroy();
-          objRef.olLayer = null;
-        }
       }
       // transform the model using the xsl stylesheet if there is one,
       // otherwise just take the model doc.
-      var doc = objRef.stylesheet ? objRef.stylesheet.transformNodeToObject(objRef.model.doc) : objRef.model.doc;
+      objRef.renderDoc = objRef.stylesheet ? objRef.stylesheet.transformNodeToObject(objRef.model.doc) : objRef.model.doc;
       // nothing to do here if there is no model doc
-      if (!doc) {
+      if (!objRef.renderDoc) {
         return;
       }
 
@@ -149,89 +239,13 @@ function GmlRendererOL(widgetNode, model) {
           }
         }
       }
-      // create modified OpenLayers GML layer class, which
-      // uses a gml doc directly instead of loading it from
-      // an URL
-      var OlLayer = OpenLayers.Class(OpenLayers.Layer.GML, {
-
-        loadGML: function() {
-          if (!this.loaded) {
-            var gml = this.format ? new this.format() : new OpenLayers.Format.GML();
-            try {
-              this.addFeatures(gml.read(doc));
-              this.loaded = true;
-            } catch (e) {
-              // nothing to worry, just features without geometries in the doc
-            }
-          }
-        },
-
-        preFeatureInsert: function(feature) {
-          if (feature.geometry) {
-            // check if there is a source model linked with this feature
-            var sourceNode = objRef.model.doc.selectSingleNode("//*[@fid='"+feature.fid+"']");
-            var sourceModel = null;
-            if (sourceNode) {
-              sourceModel = sourceNode.getAttribute('sourceModel');
-            }
-            // if so, use the config from the source model
-            var widgetConfig = null;
-            if (sourceModel && config.objects[sourceModel].config && config.objects[sourceModel].config[objRef.id]) {
-              widgetConfig = config.objects[sourceModel].config[objRef.id];
-            } else {
-              widgetConfig = objRef.config;
-            }
-            // set styles before rendering the feature
-            if (widgetConfig.defaultStyle) {
-              if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
-                feature.style = widgetConfig.defaultStyle.point;
-              } else
-              if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
-                feature.style = widgetConfig.defaultStyle.line;
-              } else
-              if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
-                feature.style = widgetConfig.defaultStyle.polygon;
-              }
-            }
-            // set select styles
-            if (widgetConfig.selectStyle) {
-              if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
-                feature.mbSelectStyle = widgetConfig.selectStyle.point;
-              } else
-              if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
-                feature.mbSelectStyle = widgetConfig.selectStyle.line;
-              } else
-              if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
-                feature.mbSelectStyle = widgetConfig.selectStyle.polygon;
-              }
-            }
-          }
-        },
-        
-        /**
-         * gets a feature from the gmlRendererLayer by GML feature id.
-         * @param fid GML feature id of the feature
-         * @return feature OpenLayers feature matching fid
-         */
-        getFeatureByFid: function(fid) {
-          var layer = objRef.olLayer;
-          if (!layer) {
-            return null;
-          }
-          var features = layer.features;
-          if (!features) {
-            return null;
-          }
-          for (var i = 0; i < features.length; ++i) {
-            if (features[i].fid == fid) {
-              return features[i];
-            }
-          }
-        }
-      });
       
-      objRef.olLayer = new OlLayer(objRef.id);
-      objRef.targetModel.map.addLayer(objRef.olLayer);
+      if (!objRef.olLayer) {
+        objRef.olLayer = new OlLayer(objRef.id, null, {mbWidget: objRef});
+        objRef.targetModel.map.addLayer(objRef.olLayer);
+      } else {
+        objRef.olLayer.loadGML();
+      }
       
       objRef.model.setParam('gmlRendererLayer', objRef.olLayer);
     }
@@ -242,14 +256,6 @@ function GmlRendererOL(widgetNode, model) {
     objRef.targetModel.addListener('refresh', objRef.paint, objRef);
   }
   this.model.addListener("refresh",this.paint, this);
-  //TBD I (ahocevar) am not exactly sure why using the newModel
-  // event breaks InsertFeature and DeleteFeature, but only
-  // when used for the first time when no vector rendering was
-  // done before on the GmlRendererLayer. I added a call for the
-  // refreshGmlRenderes listeners in DeleteFeature.js and
-  // InsertFeature.js, and if we listen to that event here
-  // it works.
-  this.model.addListener("refreshGmlRenderers",this.paint, this);
   
   /**
    * Called when the context's hidden attribute changes.
@@ -317,7 +323,7 @@ function GmlRendererOL(widgetNode, model) {
   
   
   /**
-   * Initializes the tip widget for this widget
+   * Initializes this widget
    * @param objRef This object
    */
   this.init = function(objRef) {
@@ -335,4 +341,15 @@ function GmlRendererOL(widgetNode, model) {
     objRef.targetModel.addListener("aoi", objRef.removeHiddenFeatures, objRef);
   }
   this.model.addListener("init", this.init, this);
+  
+  this.model.removeListener("newModel", this.clearWidget, this);
+  this.clearWidget = function(objRef) {
+    if (objRef.olLayer && objRef.olLayer.loaded == true) {
+      objRef.olLayer.loaded = false;
+      if (objRef.olLayer.features.length > 0) {
+        objRef.olLayer.destroyFeatures();
+      }
+    }
+  }
+  this.model.addListener("newModel", this.clearWidget, this);
 }
