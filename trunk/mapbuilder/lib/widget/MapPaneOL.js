@@ -214,19 +214,20 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 
   if (!objRef.model.map) {
     objRef.model.map = new OpenLayers.Map(node, mapOptions);
+
+    // Increase hight of Control layers to allow for lots of layers.
+    objRef.model.map.Z_INDEX_BASE.Control=10000;
+
+    var baseLayer = new OpenLayers.Layer.WMS("baselayer",
+            config.skinDir+"/images/openlayers/blank.gif", null, {singleTile: true});
+    objRef.model.map.addLayer(baseLayer);
   } else {
     objRef.deleteAllLayers(objRef);
   }
     
-  // Increase hight of Control layers to allow for lots of layers.
-  objRef.model.map.Z_INDEX_BASE.Control=10000;
-
   var layers = objRef.model.getAllLayers();
   if (!objRef.oLlayers){
     objRef.oLlayers = {};
-    var baseLayer = new OpenLayers.Layer.WMS("baselayer",
-            config.skinDir+"/images/openlayers/blank.gif", null, {singleTile: true});
-    objRef.model.map.addLayer(baseLayer);
   }
   for (var i=0;i<=layers.length-1;i++){
     objRef.addLayer(objRef,layers[i]);
