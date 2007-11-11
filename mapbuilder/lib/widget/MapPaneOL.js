@@ -137,6 +137,7 @@ function MapPaneOL(widgetNode, model) {
  * @param objRef Pointer to widget object.
  */
 MapPaneOL.prototype.paint = function(objRef, refresh) {
+  
   // Create an OpenLayers map
 
   //Test if context exist
@@ -216,13 +217,16 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   } else {
     objRef.deleteAllLayers(objRef);
   }
-  
+    
   // Increase hight of Control layers to allow for lots of layers.
   objRef.model.map.Z_INDEX_BASE.Control=10000;
 
   var layers = objRef.model.getAllLayers();
   if (!objRef.oLlayers){
     objRef.oLlayers = {};
+    var baseLayer = new OpenLayers.Layer.WMS("baselayer",
+            config.skinDir+"/images/openlayers/blank.gif", null, {singleTile: true});
+    objRef.model.map.addLayer(baseLayer);
   }
   for (var i=0;i<=layers.length-1;i++){
     objRef.addLayer(objRef,layers[i]);
@@ -254,6 +258,10 @@ MapPaneOL.prototype.clear = function(objRef) {
     }
 
     objRef.deleteAllLayers(objRef);
+    
+    objRef.model.map.destroy();
+    objRef.model.map.div = null;
+    objRef.model.map = null;
   }
 }
 
@@ -399,7 +407,7 @@ MapPaneOL.prototype.deleteAllLayers = function(objRef) {
  */
 MapPaneOL.prototype.moveLayerUp = function(objRef, layerName) {
   var map=objRef.model.map;
-  map.raiseLayer(map.getLayer(objRef.oLlayers[layerName].id), 1);
+  map.raiseLayer(objRef.oLlayers[layerName], 1);
 }
 
 /**
@@ -408,7 +416,7 @@ MapPaneOL.prototype.moveLayerUp = function(objRef, layerName) {
  * @param layerName the WMS name for the layer to be removed
  */
 MapPaneOL.prototype.moveLayerDown = function(objRef, layerName) {
-  objRef.model.map.raiseLayer(objRef.getLayer(objRef,layerName), -1);
+  objRef.model.map.raiseLayer(objRef.oLlayers[layerName], -1);
 }
 //###############################################
 /**
