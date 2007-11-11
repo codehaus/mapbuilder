@@ -37,7 +37,7 @@ function Measurement(widgetNode, model) {
   
   this.instantiateControl = function(objRef, Control) {
      var control = new Control(objRef.featureLayer, OpenLayers.Handler.Path,
-          {callbacks: {point: objRef.doAction}});
+          {callbacks: {point: objRef.startAction}});
     control.objRef = objRef;
     control.activate = function() {
       Control.prototype.activate.apply(this, arguments);
@@ -59,14 +59,25 @@ function Measurement(widgetNode, model) {
   var state = false;
   var restart = false;
   
+  this.startAction = function(pointGeometry) {
+    var objRef = this.objRef;
+    objRef.pointGeometry = pointGeometry;
+    if (!objRef.targetModel.doc) {
+      objRef.targetModel.addListener("loadModel", objRef.doAction, objRef);
+      config.loadModel(objRef.targetModel.id, objRef.defaultModelUrl);
+    } else {
+      objRef.doAction(objRef);
+    }
+  }
   /**
    * Append a point to a line and calculate the distance between all
    * points on the line. This will be called by the OpenLayers control
    * for this widget in the context of the control.
    * @param pointGeometry OpenLayers Geometry of the point to add
    */
-  this.doAction = function(pointGeometry) {
-    var objRef = this.objRef;
+  this.doAction = function(objRef) {
+    pointGeometry = objRef.pointGeometry;
+    objRef.targetModel.removeListener("loadModel", objRef.doAction, objRef);
     if (objRef.enabled) {
 		  if(objRef.restart) {
         objRef.model.setParam("clearMeasurementLine");
@@ -155,7 +166,7 @@ function Measurement(widgetNode, model) {
   }
   
   /**
-   * This will be called as defined in ButtonBase.js. It is called
+   * This will be called as defined in EditButtonBase.js. It is called
    * when measurement is finished (ie. when user double-clicks on the map)
    * @param objRef reference to this widget
    * @param feature complete measurement path - currently unused.

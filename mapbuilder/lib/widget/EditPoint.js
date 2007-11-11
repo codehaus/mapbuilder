@@ -42,14 +42,13 @@ function EditPoint(widgetNode, model) {
   /**
    * Add a point to the enclosing GML model.
    * @param objRef      Pointer to this object.
-   * @param {OpenLayers.Feature} feature the feature
-   * created by OL.
    */
-  this.setFeature = function(objRef, feature) {
-    if (objRef.enabled) {
+  this.setFeature = function(objRef) {
+    if (objRef.enabled && objRef.geometry) {
       sucess=objRef.targetModel.setXpathValue(
         objRef.targetModel,
-        objRef.featureXpath,feature.geometry.x+","+feature.geometry.y);
+        objRef.featureXpath,objRef.geometry.x+","+objRef.geometry.y);
+      objRef.geometry = null;
       if(!sucess){
         alert(mbGetMessage("invalidFeatureXpathEditPoint", objRef.featureXpath));
       }
