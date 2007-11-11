@@ -102,7 +102,7 @@ function GmlRendererOL(widgetNode, model) {
     /**
      * helps to cleanly destroy the features, preventing memleaks.
      */
-    destroyFeatures: function () {
+    destroyFeatures: function() {
       features = this.features;
       for (var i = features.length - 1; i >= 0; i--) {
         var feature = features[i];
@@ -346,10 +346,11 @@ function GmlRendererOL(widgetNode, model) {
   this.clearWidget = function(objRef) {
     if (objRef.olLayer && objRef.olLayer.loaded == true) {
       objRef.olLayer.loaded = false;
-      if (objRef.olLayer.features.length > 0) {
+      if (objRef.olLayer.features && objRef.olLayer.features.length > 0) {
         objRef.olLayer.destroyFeatures();
       }
     }
+    objRef.olLayer = null;
   }
   this.model.addListener("newModel", this.clearWidget, this);
 }
