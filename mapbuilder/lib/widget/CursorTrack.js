@@ -79,8 +79,15 @@ function CursorTrack(widgetNode, model) {
     if( this.showMGRS )
       this.MGRS = new MGRS();
   }
-
   this.model.addListener("loadModel", this.init, this );
+  
+  this.clear = function(objRef) {
+    if (objRef.model.map && objRef.model.map.events) {
+      objRef.model.map.events.unregister('mousemove', objRef, objRef.mousemoveHandler);
+      objRef.model.map.events.unregister('mouseout',  objRef, objRef.mouseoutHandler);
+    }
+  }
+  this.model.addListener("newModel", this.clear, this);
 
   /**
    * OpenLayers mousemove event listener.

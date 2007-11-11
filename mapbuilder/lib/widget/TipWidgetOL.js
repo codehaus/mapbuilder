@@ -27,7 +27,7 @@ function TipWidgetOL(widgetNode, model) {
     var popup = objRef.createPopup(objRef, evt, false);
     evt.feature.layer.mbClickPopup = popup;
   }
-  
+
   /**
    * This method is triggered when the mouse is over a feature.
    * @param objRef reference to this widget
@@ -35,7 +35,7 @@ function TipWidgetOL(widgetNode, model) {
   this.onMouseover = function(objRef) {
     var evt = objRef.model.getParam("olFeatureHover");
     // only create popup if there is no visible click popup
-    if (!evt.feature.layer.mbClickPopup || !evt.feature.layer.mbClickPopup.visible()) {
+    if (evt.feature && !evt.feature.layer.mbClickPopup || !evt.feature.layer.mbClickPopup.visible()) {
       var popup = objRef.createPopup(objRef, evt, true);
       evt.feature.layer.mbHoverPopup = popup;
       // if the olFeatureOut event gets lost (eg during drag operation),
@@ -51,12 +51,12 @@ function TipWidgetOL(widgetNode, model) {
    */
   this.onMouseout = function(objRef) {
     var feature = objRef.model.getParam("olFeatureOut");
-    if (feature.layer.mbHoverPopup) {
+    if (feature && feature.layer && feature.layer.mbHoverPopup) {
       feature.layer.mbHoverPopup.destroy();
       feature.layer.mbHoverPopup = null;
     }
   }
-  
+
   /**
    * Creates a popup.
    * @param objRef reference to this widget
