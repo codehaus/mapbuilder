@@ -205,13 +205,18 @@ function ButtonBase(widgetNode, model) {
       },
       destroy: function() {
         this.superclass.destroy.apply(this, arguments);
-        this.div = null;
+        if (this.panel_div && this.panel_div.parentNode) {
+          this.panel_div.parentNode.removeChild(this.panel_div);
+        }
+        //this.panel_div = null;
       }
     });
 
     // if the subclass provides an instantiateControl() method,
     // use it for instantiation. If not, instantiate directly
-    objRef.control = objRef.instantiateControl ? objRef.instantiateControl(objRef, Control) : new Control();
+    if (!objRef.control) {
+      objRef.control = objRef.instantiateControl ? objRef.instantiateControl(objRef, Control) : new Control();
+    }
     
     // get the control from the createControl method of the subclass
     //objRef.control = objRef.createControl(objRef);
@@ -234,7 +239,9 @@ function ButtonBase(widgetNode, model) {
     }
     
     // add the control to the panel
-    objRef.panel.addControls(objRef.control);
+    if (OpenLayers.Util.indexOf(objRef.control, objRef.panel.controls) == -1) {
+      objRef.panel.addControls(objRef.control);
+    }
      
     // set tooltip for the button
     if (objRef.tooltip) {
@@ -280,7 +287,14 @@ function ButtonBase(widgetNode, model) {
     // because we need the map to add panel and buttons,
     // and we do not have tha map yet
     objRef.targetContext.addListener("refresh", objRef.attachToOL, objRef);
+    objRef.targetContext.addFirstListener("newModel", objRef.clear, objRef);
   }
 
   this.model.addListener("init",this.buttonInit,this);
+  
+  this.clear = function(objRef) {
+    if (objRef.control) {
+      objRef.control.destroy();
+    }
+  }
 }
