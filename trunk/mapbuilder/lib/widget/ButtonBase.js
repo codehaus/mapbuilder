@@ -161,6 +161,9 @@ function ButtonBase(widgetNode, model) {
    * @param objRef Reference to this object.
    */
   this.attachToOL = function(objRef,refreshId) {
+    if (objRef.control) {
+      return;
+    }
   
     //pass in a widget ID to refresh only that widget
     if (refreshId && (refreshId!=objRef.id)) return;
@@ -295,6 +298,7 @@ function ButtonBase(widgetNode, model) {
   this.clear = function(objRef) {
     if (objRef.control) {
       objRef.control.destroy();
+      objRef.control = null;
     }
   }
 }
