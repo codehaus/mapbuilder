@@ -26,7 +26,6 @@ function Back(widgetNode, model) {
    */
   this.createControl = function(objRef) {
     var Control = OpenLayers.Class( OpenLayers.Control, {
-      objRef: objRef,
       type: OpenLayers.Control.TYPE_BUTTON,
       
       trigger: function() {
@@ -40,6 +39,7 @@ function Back(widgetNode, model) {
                 objRef.targetModel.setParam("historyStart");
               }
       },
+      
       CLASS_NAME: 'mbControl.Back'
     });
     return Control;
