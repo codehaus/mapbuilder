@@ -117,7 +117,7 @@ function MapPaneOL(widgetNode, model) {
   this.model.addListener("refreshWmsLayers",this.refreshWmsLayers,this);
 
   this.model.addListener("refresh",this.paint, this);
-  this.model.addListener("newModel", this.clear, this);
+  this.model.addFirstListener("newModel", this.clear, this);
   this.model.addListener("hidden",this.hidden, this);
   this.model.addListener("addLayer",this.addLayer, this);
   this.model.addListener("deleteLayer",this.deleteLayer, this);
@@ -217,6 +217,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
                      this.mbMapPane = null;
                      this.mbCursor = null;
                      OpenLayers.Map.prototype.destroy.apply(this, arguments);
+                     this.layerContainerDiv = null;
+                     this.baseLayer = null;
                    }}
       };
 
@@ -269,8 +271,6 @@ MapPaneOL.prototype.clear = function(objRef) {
     objRef.deleteAllLayers(objRef);
     
     objRef.model.map.destroy(true);
-    objRef.model.map.layerContainer = null;
-    objRef.model.map.baseLayer = null;
     objRef.model.map = null;
   }
 }
