@@ -51,6 +51,7 @@ function OverviewMap(widgetNode, model) {
   }
 
   this.model.addListener("refresh", this.addOverviewMap, this);
+  this.model.addFirstListener("newModel", this.clear, this);
 }
 
 /**
@@ -180,3 +181,15 @@ OverviewMap.prototype.getClonedLayer = function(layer) {
     return clonedLayer;
   }
 }
+
+/**
+ * clear this widget
+ * @objRef reference to this widget
+ */
+OverviewMap.prototype.clear = function(objRef) {
+  if (objRef.control) {
+    objRef.control.destroy();
+    objRef.control = null;
+  }
+}
+  
