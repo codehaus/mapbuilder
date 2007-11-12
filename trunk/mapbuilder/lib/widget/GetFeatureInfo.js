@@ -46,7 +46,6 @@ function GetFeatureInfo(widgetNode, model) {
     var Control = OpenLayers.Class( OpenLayers.Control, {
       CLASS_NAME: 'mbControl.GetFeatureInfo',
       type: OpenLayers.Control.TYPE_TOOL,
-      objRef: objRef,
       draw: function() {
         this.handler = new OpenLayers.Handler.Box( this,
           {done: this.zoomBox}, {keyMask: this.keyMask} );

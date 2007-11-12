@@ -176,6 +176,7 @@ function ButtonBase(widgetNode, model) {
     // MB-stuff to the activate and deactivate methods
     var SubclassControl = objRef.createControl(objRef);
     var Control = OpenLayers.Class( SubclassControl, {
+      objRef: objRef,
       superclass: SubclassControl.prototype,
       // call objRef.doSelect after OL activate from this control
       trigger: function() {
@@ -207,10 +208,13 @@ function ButtonBase(widgetNode, model) {
         }
       },
       destroy: function() {
-        this.superclass.destroy.apply(this, arguments);
-        if (this.panel_div && this.panel_div.parentNode) {
-          this.panel_div.parentNode.removeChild(this.panel_div);
+        if (this.objRef.panel) {
+          this.objRef.panel.numControls--;
         }
+        this.superclass.destroy.apply(this, arguments);
+        this.superclass = null;
+        this.objRef = null;
+        this.div = null;
       }
     });
 
@@ -229,9 +233,11 @@ function ButtonBase(widgetNode, model) {
     if (!objRef.panel || objRef.panel.map == null) {
       var Panel = OpenLayers.Class( OpenLayers.Control.Panel, {
         div: document.getElementById(objRef.panelHtmlTagId),
+        numControls: 0,
         defaultControl: null,
         destroy: function() {
           OpenLayers.Control.Panel.prototype.destroy.apply(this, arguments);
+          this.div.innerHTML = "";
           this.div = null;
         }
       });
@@ -243,6 +249,7 @@ function ButtonBase(widgetNode, model) {
     // add the control to the panel
     if (OpenLayers.Util.indexOf(objRef.control, objRef.panel.controls) == -1) {
       objRef.panel.addControls(objRef.control);
+      objRef.panel.numControls++;
     }
      
     // set tooltip for the button
@@ -297,13 +304,12 @@ function ButtonBase(widgetNode, model) {
   this.clear = function(objRef) {
     if (objRef.control) {
       objRef.control.destroy();
-      objRef.control = null;
-      var panel = document.getElementById(objRef.panelHtmlTagId);
-      if (panel && panel.childNodes.length == 0) {
-        objRef.panel.innerHTML = null;
+      if (objRef.panel.numControls == 0) {
+        objRef.panel.destroy();
         objRef.panel = null;
         objRef.targetContext.buttonBars[objRef.htmlTagId] = null;
       }
+      objRef.control = null;
     }
   }
 }

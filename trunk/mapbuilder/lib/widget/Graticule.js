@@ -31,7 +31,6 @@ function Graticule(widgetNode, model) {
     var Control = OpenLayers.Class( OpenLayers.Control, {
       CLASS_NAME: 'mbControl.Graticule',
       type: OpenLayers.Control.TYPE_TOGGLE,
-	  objRef:objRef,
 	  destroy : function() {
 	    OpenLayers.Control.prototype.destroy.apply(this, arguments);
 	    if (this.divs) {

@@ -269,7 +269,8 @@ MapPaneOL.prototype.clear = function(objRef) {
     objRef.deleteAllLayers(objRef);
     
     objRef.model.map.destroy(true);
-    objRef.model.map.div = null;
+    objRef.model.map.layerContainer = null;
+    objRef.model.map.baseLayer = null;
     objRef.model.map = null;
   }
 }
