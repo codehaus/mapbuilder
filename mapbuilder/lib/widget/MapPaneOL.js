@@ -214,6 +214,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
                    if (destroy != true) {
                      this.mbMapPane.model.setParam("newModel", true);
                    } else {
+                     this.mbMapPane = null;
+                     this.mbCursor = null;
                      OpenLayers.Map.prototype.destroy.apply(this, arguments);
                    }}
       };
