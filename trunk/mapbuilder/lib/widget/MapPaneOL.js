@@ -209,7 +209,13 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         maxExtent: maxExtent,
         maxResolution: maxResolution,
         resolutions: resolutions,
-        theme: null // we have the theme loaded by Mapbuilder
+        theme: null, // we have the theme loaded by Mapbuilder
+        destroy: function(destroy){
+                   if (destroy != true) {
+                     this.mbMapPane.model.setParam("newModel", true);
+                   } else {
+                     OpenLayers.Map.prototype.destroy.apply(this, arguments);
+                   }}
       };
 
   if (!objRef.model.map) {
@@ -260,7 +266,7 @@ MapPaneOL.prototype.clear = function(objRef) {
 
     objRef.deleteAllLayers(objRef);
     
-    objRef.model.map.destroy();
+    objRef.model.map.destroy(true);
     objRef.model.map.div = null;
     objRef.model.map = null;
   }

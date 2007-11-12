@@ -299,6 +299,11 @@ function ButtonBase(widgetNode, model) {
     if (objRef.control) {
       objRef.control.destroy();
       objRef.control = null;
+      var panel = document.getElementById(objRef.panelHtmlTagId);
+      if (panel && panel.childNodes.length == 0) {
+        panel.parentNode.removeChild(panel);
+        panel = null;
+      }
     }
   }
 }
