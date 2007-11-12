@@ -120,7 +120,7 @@ function GmlRendererOL(widgetNode, model) {
     
     destroy: function() {
       this.mbWidget = null;
-      OpenLayers.Layer.Vector.destroy.apply(this, arguments);
+      OpenLayers.Layer.Vector.prototype.destroy.apply(this, arguments);
     }
   });
 
