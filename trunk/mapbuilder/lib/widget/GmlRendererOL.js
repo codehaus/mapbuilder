@@ -113,8 +113,14 @@ function GmlRendererOL(widgetNode, model) {
 
         this.features = [];
         this.selectedFeatures = [];
+        feature.mbSelectStyle = null;
         feature.destroy();
       }
+    },
+    
+    destroy: function() {
+      this.mbWidget = null;
+      OpenLayers.Layer.Vector.destroy.apply(this, arguments);
     }
   });
 
