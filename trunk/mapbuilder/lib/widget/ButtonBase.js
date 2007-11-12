@@ -211,7 +211,6 @@ function ButtonBase(widgetNode, model) {
         if (this.panel_div && this.panel_div.parentNode) {
           this.panel_div.parentNode.removeChild(this.panel_div);
         }
-        //this.panel_div = null;
       }
     });
 
@@ -301,8 +300,8 @@ function ButtonBase(widgetNode, model) {
       objRef.control = null;
       var panel = document.getElementById(objRef.panelHtmlTagId);
       if (panel && panel.childNodes.length == 0) {
-        panel.parentNode.removeChild(panel);
-        panel = null;
+        objRef.panel = null;
+        objRef.targetContext.buttonBars[objRef.htmlTagId] = null;
       }
     }
   }
