@@ -300,6 +300,7 @@ function ButtonBase(widgetNode, model) {
       objRef.control = null;
       var panel = document.getElementById(objRef.panelHtmlTagId);
       if (panel && panel.childNodes.length == 0) {
+        objRef.panel.innerHTML = null;
         objRef.panel = null;
         objRef.targetContext.buttonBars[objRef.htmlTagId] = null;
       }
