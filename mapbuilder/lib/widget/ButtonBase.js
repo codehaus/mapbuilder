@@ -197,14 +197,17 @@ function ButtonBase(widgetNode, model) {
         }
       },
       destroy: function() {
-        this.superclass.destroy.apply(this, arguments);
+        try {
+          this.superclass.destroy.apply(this, arguments);
+        } catch(e) {
+          OpenLayers.Control.prototype.destroy.apply(this, arguments);
+        }
         this.superclass = null;
         OpenLayers.Event.stopObservingElement(this.panel_div);
         this.objRef.panel.div.removeChild(this.panel_div);
-        this.panel_div = null;
-        this.objRef.targetContext.buttonBars[objRef.htmlTagId] = null;
-        this.objRef.panel = null;
+        this.objRef.control = null;
         this.objRef = null;
+        this.panel_div = null;
         this.div = null;
       }
     });
@@ -235,9 +238,10 @@ function ButtonBase(widgetNode, model) {
         div: document.getElementById(objRef.panelHtmlTagId),
         defaultControl: null,
         destroy: function() {
+          parentNode.removeChild(this.div);
           OpenLayers.Control.prototype.destroy.apply(this, arguments);
-          this.div.parentNode.removeChild(this.div);
           this.div = null;
+          objRef.panel = null;
         }
       });
       objRef.panel = new Panel();
@@ -294,16 +298,8 @@ function ButtonBase(widgetNode, model) {
     // because we need the map to add panel and buttons,
     // and we do not have tha map yet
     objRef.targetContext.addListener("refresh", objRef.attachToOL, objRef);
-    objRef.targetContext.addFirstListener("newModel", objRef.clear, objRef);
   }
 
   this.model.addListener("init",this.buttonInit,this);
-  
-  this.clear = function(objRef) {
-    if (objRef.control) {
-      objRef.control.destroy();
-      objRef.control = null;
-    }
-  }
   this.model.removeListener("newNodel", this.clearWidget, this);
 }

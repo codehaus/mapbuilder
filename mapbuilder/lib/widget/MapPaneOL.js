@@ -200,7 +200,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     node.style.width = objRef.model.getWindowWidth()+"px";
     node.style.height = objRef.model.getWindowHeight()+"px";
   }
-  
+    
   //default map options
   var mapOptions = {
         controls:[],
@@ -228,8 +228,21 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     // Increase hight of Control layers to allow for lots of layers.
     objRef.model.map.Z_INDEX_BASE.Control=10000;
 
+    var baseLayerOptions = {
+            units: units,
+            projection: proj.srs,
+            maxExtent: maxExtent,
+            maxResolution: maxResolution,  //"auto" if not defined in the context
+            resolutions: resolutions,
+            alpha: false,            //option for png transparency with ie6
+            isBaseLayer: true,
+            displayOutsideMaxExtent: objRef.displayOutsideMaxExtent,
+            ratio: 1,
+            singleTile: true,
+            visibility: false
+       };
     var baseLayer = new OpenLayers.Layer.WMS("baselayer",
-            config.skinDir+"/images/openlayers/blank.gif", null, {singleTile: true});
+            config.skinDir+"/images/openlayers/blank.gif", null, baseLayerOptions);
     objRef.model.map.addLayer(baseLayer);
   } else {
     objRef.deleteAllLayers(objRef);
@@ -263,15 +276,9 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
  */
 MapPaneOL.prototype.clear = function(objRef) {
   if (objRef.model.map) {
-    if (objRef.model.map.events) {
-      objRef.model.map.events.unregister('moveend', objRef.model.map, objRef.updateContext);
-      objRef.model.map.events.unregister('mouseup', objRef.model.map, objRef.updateMouse);
-    }
-
-    objRef.deleteAllLayers(objRef);
-    
     objRef.model.map.destroy(true);
     objRef.model.map = null;
+    objRef.oLlayers = {};
   }
 }
 
@@ -507,10 +514,10 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   //default option value for a layer
   var layerOptions = {
           visibility: vis,
-          projection: objRef.model.map.projection,
+          projection: objRef.model.map.baseLayer.projection,
           queryable: query,
-          maxExtent: objRef.model.map.maxExtent,
-          maxResolution: objRef.model.map.maxResolution,  //"auto" if not defined in the context
+          maxExtent: objRef.model.map.baseLayer.maxExtent,
+          maxResolution: objRef.model.map.baseLayer.maxResolution,  //"auto" if not defined in the context
           alpha: false,            //option for png transparency with ie6
           isBaseLayer: false,
           displayOutsideMaxExtent: objRef.displayOutsideMaxExtent
@@ -539,12 +546,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       if (objRef.model.timestampList && objRef.model.timestampList.getAttribute("layerName") == name2) { 
         var timestamp = objRef.model.timestampList.childNodes[0];
         
-        
-        // instead of new OpenLayers.Layer..., create a function that
-        // does this, but checks if the layer is already in reuseLayers
-        
-        
-	      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
+ 	      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
 	          layers: name2,
 	          // "TRUE" in upper case else the context doc boston.xml
 	          // (i.c. the IONIC WMS/WFS) doesn't work.
