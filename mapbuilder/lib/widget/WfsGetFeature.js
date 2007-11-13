@@ -5,7 +5,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/tool/ButtonBase.js");
+mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 /**
  * Builds then sends a WFS GetFeature GET request based on the WMC
