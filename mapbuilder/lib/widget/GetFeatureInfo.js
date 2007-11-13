@@ -95,11 +95,11 @@ function GetFeatureInfo(widgetNode, model) {
           }
           else {
             objRef.xsl.setParameter("queryLayer", selectedLayer);
-            objRef.xsl.setParameter("layer",layerName);
-            objRef.xsl.setParameter("xCoord", targetNode.x);
-            objRef.xsl.setParameter("yCoord", targetNode.y);
+            objRef.xsl.setParameter("layer", layerName);
+            objRef.xsl.setParameter("xCoord", x);
+            objRef.xsl.setParameter("yCoord", y);
             objRef.xsl.setParameter("infoFormat", objRef.infoFormat);
-            objRef.xsl.setParameter("featureCount", "1");
+            objRef.xsl.setParameter("featureCount", objRef.featureCount);
   
             var urlNode=objRef.xsl.transformNodeToObject(objRef.targetContext.doc);
             var url=urlNode.documentElement.firstChild.nodeValue;
