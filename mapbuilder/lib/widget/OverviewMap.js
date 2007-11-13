@@ -152,7 +152,7 @@ OverviewMap.prototype.getClonedLayer = function(layer, isBaseLayer) {
     return null;
   }
   
-  isBaseLayer == isBaseLayer ? true : false;
+  isBaseLayer = isBaseLayer ? true : false;
 
   if (layer instanceof OpenLayers.Layer.WMS) {
     // make an untiled wms layer, with ratio 1
