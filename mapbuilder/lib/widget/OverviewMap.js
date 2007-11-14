@@ -167,7 +167,14 @@ OverviewMap.prototype.getClonedLayer = function(layer, isBaseLayer) {
     };
 
     return new OpenLayers.Layer.WMS(layer.name,
-      layer.url, {layers: layer.params.LAYERS, format: layer.params.FORMAT, transparent: "TRUE"}, layerOptions);
+      layer.url, {
+        layers: layer.params.LAYERS,
+        format: layer.params.FORMAT,
+        transparent: layer.params.TRANSPARENT,
+        sld: layer.params.SLD,
+        sld_body: layer.params.SLD_BODY,
+        styles: layer.params.STYLES
+      }, layerOptions);
   }
   else {
     // take the layer as-is and clone it
