@@ -6,7 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
+mapbuilder.loadScript(baseDir+"/../../openlayers/lib/OpenLayers.js");
 mapbuilder.loadScript(baseDir+"/util/Util.js");
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 mapbuilder.loadScript(baseDir+"/tool/Extent.js");
@@ -324,9 +324,9 @@ MapPaneOL.prototype.updateContext = function(e) {
   var lr = new Array(bboxOL[2],bboxOL[1]);
 
   if(objRef.model.getWindowWidth()!=e.element.offsetWidth)
-  	objRef.model.setWindowWidth(e.element.offsetWidth);
+    objRef.model.setWindowWidth(e.element.offsetWidth);
   if(objRef.model.getWindowHeight()!=e.element.offsetHeight)
-  	objRef.model.setWindowHeight(e.element.offsetHeight);	
+    objRef.model.setWindowHeight(e.element.offsetHeight);	
 
   var currentAoi = objRef.model.getParam('aoi');
   var newAoi = new Array(ul, lr);
@@ -546,43 +546,43 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       if (objRef.model.timestampList && objRef.model.timestampList.getAttribute("layerName") == name2) { 
         var timestamp = objRef.model.timestampList.childNodes[0];
         
- 	      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
-	          layers: name2,
-	          // "TRUE" in upper case else the context doc boston.xml
-	          // (i.c. the IONIC WMS/WFS) doesn't work.
-	          // Note that this is in line with the WMS standard (OGC 01-068r2),
-	          // section 6.4.1 Parameter Ordering and Case:
-	          // "Parameter names shall not be case sensitive,
-	          //  but parameter values shall be case sensitive."
-	          transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
+         objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
+            layers: name2,
+            // "TRUE" in upper case else the context doc boston.xml
+            // (i.c. the IONIC WMS/WFS) doesn't work.
+            // Note that this is in line with the WMS standard (OGC 01-068r2),
+            // section 6.4.1 Parameter Ordering and Case:
+            // "Parameter names shall not be case sensitive,
+            //  but parameter values shall be case sensitive."
+            transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
               "TIME":timestamp.firstChild.nodeValue,	          
-	          format: format,
-	          sld:params.sld,
-	          sld_body:params.sld_body,
-	          styles:params.styles
-	        },
-	        layerOptions
-	      );      
-	      // Turn on timestamp listenet
+            format: format,
+            sld:params.sld,
+            sld_body:params.sld_body,
+            styles:params.styles
+          },
+          layerOptions
+        );      
+        // Turn on timestamp listenet
           this.model.addListener("timestamp",this.timestampListener,this);	      
       }
       else {
-	      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
-	          layers: name2,
-	          // "TRUE" in upper case else the context doc boston.xml
-	          // (i.c. the IONIC WMS/WFS) doesn't work.
-	          // Note that this is in line with the WMS standard (OGC 01-068r2),
-	          // section 6.4.1 Parameter Ordering and Case:
-	          // "Parameter names shall not be case sensitive,
-	          //  but parameter values shall be case sensitive."
-	          transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
-	          format: format,
-	          sld:params.sld,
-	          sld_body:params.sld_body,
-	          styles:params.styles
-	        },
-	        layerOptions
-	      );
+        objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
+            layers: name2,
+            // "TRUE" in upper case else the context doc boston.xml
+            // (i.c. the IONIC WMS/WFS) doesn't work.
+            // Note that this is in line with the WMS standard (OGC 01-068r2),
+            // section 6.4.1 Parameter Ordering and Case:
+            // "Parameter names shall not be case sensitive,
+            //  but parameter values shall be case sensitive."
+            transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
+            format: format,
+            sld:params.sld,
+            sld_body:params.sld_body,
+            styles:params.styles
+          },
+          layerOptions
+        );
       }
     break;
 
@@ -653,13 +653,10 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
 
     case "GMAP":
     case "Google":
-      //<script src='http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA8qdfnOIRy3a9gh214V5jKRTwM0brOpm-All5BF6PoaKBxRWWERQ7UHfSE2CGKw9qNg0C1vUmYLatLQ'></script>
-      layerOptions.projection="EPSG:41001";
-      layerOptions.units="degrees";
-      objRef.model.map.units="degrees";
-      layerOptions.maxExtent=new OpenLayers.Bounds("-180","-90","180","90");
-      layerOptions.isBaseLayer=true;
-      objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, maxZoomLevel:18},layerOptions );
+      //the empty baseLayer has to be destroyed when you want to use google
+      objRef.model.map.baseLayer.destroy();
+      layerOptions.maxExtent=new OpenLayers.Bounds("-20037508", "-20037508", "20037508", "20037508.34");
+       objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, maxZoomLevel:18, sphericalMercator: true }, layerOptions );
     break;
 
     case "YMAP":
@@ -733,29 +730,29 @@ MapPaneOL.prototype.refreshLayer = function(objRef, layerName , newParams){
    * @param timestampIndex  The array index for the layer to be displayed. 
    */
 MapPaneOL.prototype.timestampListener=function(objRef, timestampIndex){
-	var layerName = objRef.model.timestampList.getAttribute("layerName");
+  var layerName = objRef.model.timestampList.getAttribute("layerName");
     var timestamp = objRef.model.timestampList.childNodes[timestampIndex];
 
 
-	if ((layerName) && (timestamp)) {				
-		var curLayer = objRef.oLlayers[layerName];
-		// Perform URL substitution via regexps
-		var oldImageUrl = curLayer.grid[0][0].imgDiv.src;
-		var newImageUrl = oldImageUrl;		
-		newImageUrl = newImageUrl.replace(/TIME\=.*?\&/,'TIME=' + timestamp.firstChild.nodeValue + '&');
+  if ((layerName) && (timestamp)) {				
+    var curLayer = objRef.oLlayers[layerName];
+    // Perform URL substitution via regexps
+    var oldImageUrl = curLayer.grid[0][0].imgDiv.src;
+    var newImageUrl = oldImageUrl;		
+    newImageUrl = newImageUrl.replace(/TIME\=.*?\&/,'TIME=' + timestamp.firstChild.nodeValue + '&');
 
-		function imageLoaded() {
-			window.movieLoop.frameIsLoading = false;
-		}
+    function imageLoaded() {
+      window.movieLoop.frameIsLoading = false;
+    }
 
-		window.movieLoop.frameIsLoading = true;
-		var element = curLayer.grid[0][0].imgDiv;
-		if(element.addEventListener) { // Standard
-			element.addEventListener("load", imageLoaded, false);
-		} else if(element.attachEvent) { // IE
-			element.attachEvent('onload', imageLoaded);
-		} 
-		element.src = newImageUrl;		
-	}
-			
+    window.movieLoop.frameIsLoading = true;
+    var element = curLayer.grid[0][0].imgDiv;
+    if(element.addEventListener) { // Standard
+      element.addEventListener("load", imageLoaded, false);
+    } else if(element.attachEvent) { // IE
+      element.attachEvent('onload', imageLoaded);
+    } 
+    element.src = newImageUrl;		
+  }
+      
 }
