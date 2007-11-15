@@ -90,7 +90,7 @@ function InsertFeature(widgetNode, model) {
       success=objRef.transactionResponseModel.doc.selectSingleNode("//wfs:TransactionResult/wfs:Status/wfs:SUCCESS");
       if (success){
         // Remove FeatureList
-        objRef.targetModel.setModel(objRef.targetModel,null);
+        config.loadModel(objRef.targetModel.id, objRef.targetModel.url);
 
         // Repaint the WMS layers
         objRef.targetContext.callListeners("refreshWmsLayers");
