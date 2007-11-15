@@ -64,7 +64,7 @@ $Name:  $
   </xsl:template>
 
   <xsl:template match="OnlineResource">
-    <xsl:variable name="legendUrl"><xsl:value-of select="./@href"/> </xsl:variable>
+    <xsl:variable name="legendUrl"><xsl:value-of select="concat(./@href,./@xlink:href)"/> </xsl:variable>
     <wmc:OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="{$legendUrl}"/>
   </xsl:template>
   
