@@ -250,6 +250,7 @@ function GmlRendererOL(widgetNode, model) {
         objRef.olLayer = new OlLayer(objRef.id, null, {mbWidget: objRef});
         objRef.targetModel.map.addLayer(objRef.olLayer);
       } else {
+        objRef.olLayer.loaded = false;
         objRef.olLayer.loadGML();
       }
       
