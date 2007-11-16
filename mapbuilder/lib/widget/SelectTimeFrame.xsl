@@ -20,7 +20,7 @@ $Name:  $
   <xsl:param name="widgetId"/>
   
   <xsl:param name="lang">en</xsl:param>
-  <xsl:param name="layerName">TEMPERATURE</xsl:param>
+  <xsl:param name="layerId">TEMPERATURE</xsl:param>
 
   <!-- Main html -->
   
@@ -28,11 +28,11 @@ $Name:  $
     <div>
       <form>
         start:<select name="firstFrame" onchange="config.objects.{$modelId}.setParam('firstFrame',this.value)">
-          <xsl:apply-templates select="mb:TimestampList[@layerName=$layerName]/mb:Timestamp"/>
+          <xsl:apply-templates select="mb:TimestampList[@layerId=$layerId]/mb:Timestamp"/>
         </select>
         <!--
         - stop:<select name="lastFrame" onchange="config.objects.{$widgetId}.setLastFrame(this.value)">
-          <xsl:apply-templates select="wmc:TimestampList[@layerName=$layerName]/wmc:Timestamp"/>
+          <xsl:apply-templates select="wmc:TimestampList[@layerId=$layerId]/wmc:Timestamp"/>
         </select>
         -->
       </form>
