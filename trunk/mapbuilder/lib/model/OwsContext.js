@@ -32,28 +32,28 @@ function OwsContext(modelNode, parent) {
 
   /**
    * Change a Layer's visibility.
-   * @param layerName  The name of the layer that is to be changed
+   * @param layerId  The name of the layer that is to be changed
    * @param hidden     String with the value to be set; 1=hidden, 0=visible.
    */
-  this.setHidden=function(layerName, hidden){
+  this.setHidden=function(layerId, hidden){
     // Set the hidden attribute in the Context
     var hiddenValue = "0";
     if (hidden) hiddenValue = "1";
 
-    var layer=this.getFeatureNode(layerName);
+    var layer=this.getLayer(layerId);
     if (layer) layer.setAttribute("hidden", hiddenValue);
     // Call the listeners
-    this.callListeners("hidden", layerName);
+    this.callListeners("hidden", layerId);
   }
 
   /**
    * Get the layer's visiblity attribute value.
-   * @param layerName  The name of the layer that is to be changed
+   * @param layerId  The name of the layer that is to be changed
    * @return hidden  String with the value; 1=hidden, 0=visible.
    */
-  this.getHidden=function(layerName){
+  this.getHidden=function(layerId){
     var hidden=1;
-    var layer=this.getFeatureNode(layerName)
+    var layer=this.getFeatureNode(layerId)
     if (layer) hidden = layer.getAttribute("hidden");
     return hidden;
   }
@@ -215,9 +215,16 @@ function OwsContext(modelNode, parent) {
    * @param featureName Name element value to return
    * @return the node from the context doc with the specified feature name
    */
-  this.getFeatureNode = function(featureName) {
+  this.getFeatureNode = function(layerId) {
     if( this.doc ) {
-      var feature = this.doc.selectSingleNode("//wmc:ResourceList/*[wmc:Name='"+featureName+"']");
+
+      // Find feature by id
+      var feature = this.doc.selectSingleNode("//wmc:ResourceList/*[@id='"+layerId+"']");
+
+      // Fallback: find feature by name
+      if (feature == null) {
+        feature = this.doc.selectSingleNode("//wmc:ResourceList/*[wmc:Name='"+layerId+"']");
+      }
 
       if(feature == null ) {
         alert(mbGetMessage("featureNotFoundOwsContext"));
@@ -319,18 +326,24 @@ function OwsContext(modelNode, parent) {
   }
 
   /**
-   * Method to get a layer with the specified name in the context doc
-   * @param layerName the layer to be returned
+   * Method to get a layer with the specified id/name in the context doc
+   * @param layerId/layerName the layer to be returned
    * @return the list with all layers
    * @TODO check other layers
    */
-  this.getLayer = function(layerName) {
-    var layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
+  this.getLayer = function(layerId) {
+    var layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[@id='"+layerId+"']");
     if (layer == null) {
-      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[wmc:Name='"+layerName+"']");
+      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[@id='"+layerId+"']");
+    }
+    if (layer == null) {
+      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerId+"']");
+    }
+    if (layer == null) {
+      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[wmc:Name='"+layerId+"']");
     }
     if( layer == null ) {
-      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:RssLayer[@id='"+layerName+"']");
+      layer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:RssLayer[@id='"+layerId+"']");
     }
     //TBD: add in time stamp
     return layer;
@@ -343,7 +356,13 @@ function OwsContext(modelNode, parent) {
   this.addLayer = function(objRef, layerNode) {
     if( objRef.doc != null ) {
       var parentNode = objRef.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList");
+      parentNode.appendChild(layerNode);
 
+      // Generate layer id if layer doesn't have an id
+      var randomNumber = Math.round(10000 * Math.random());
+      id = layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue + "_" + randomNumber; 
+      layerNode.setAttribute("id", id);
+      
       // check if that node does not alreayd exist, replace it (query may have changed)
       var id = layerNode.getAttribute("id");
       var str = "/wmc:OWSContext/wmc:ResourceList/"+layerNode.nodeName+"[@id='"+id+"']";
@@ -352,9 +371,10 @@ function OwsContext(modelNode, parent) {
         parentNode.removeChild(node)
       }
 
-      parentNode.appendChild(layerNode.cloneNode(true));
       objRef.modified = true;
-      //alert( "Adding layer:"+(new XMLSerializer()).serializeToString( layerNode ) );
+      if (this.debug) {
+         mbDebugMessage( "Adding layer:"+(new XMLSerializer()).serializeToString( layerNode ) );
+      }
     } else {
       alert(mbGetMessage("nullOwsContext"));
     }
@@ -365,6 +385,7 @@ function OwsContext(modelNode, parent) {
  /**
    * Method to add a Sld to the StyleList
    * @param layerName the Layer name from another context doc or capabiltiies doc
+   * TBD: make sure this will work again using layerId instead of layerName
    */
   this.addSLD = function(objRef,sldNode) {
     // alert("context addSLD : "+objRef.id);
@@ -375,18 +396,18 @@ function OwsContext(modelNode, parent) {
     objRef.modified = true;
       var attribs=[];
     attribs["sld_body"]=(new XMLSerializer()).serializeToString(objRef.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']/wmc:StyleList/wmc:Style/wmc:SLD/wmc:StyledLayerDescriptor"));
-	objRef.map.mbMapPane.refreshLayer(objRef.map.mbMapPane,layerName,attribs);
+    objRef.map.mbMapPane.refreshLayer(objRef.map.mbMapPane,layerName,attribs);
   }
   this.addFirstListener( "addSLD", this.addSLD, this );
 
   /**
    * Method to remove a Layer from the LayerList
-   * @param layerName the Layer to be deleted
+   * @param layerId the Layer to be deleted
    */
-  this.deleteLayer = function(objRef, layerName) {
-    var deletedNode = objRef.getLayer(layerName);
+  this.deleteLayer = function(objRef, layerId) {
+    var deletedNode = objRef.getLayer(layerId);
     if (!deletedNode) {
-      alert(mbGetMessage("nodeNotFound", layerName));
+      alert(mbGetMessage("nodeNotFound", layerId));
       return;
     }
     deletedNode.parentNode.removeChild(deletedNode);
@@ -396,13 +417,13 @@ function OwsContext(modelNode, parent) {
 
   /**
    * Method to move a Layer in the LayerList up
-   * @param layerName the layer to be moved
+   * @param layerId the layer to be moved
    */
-  this.moveLayerUp = function(objRef, layerName) {
-    var movedNode = objRef.getLayer(layerName);
+  this.moveLayerUp = function(objRef, layerId) {
+    var movedNode = objRef.getLayer(layerId);
     var sibNode = movedNode.selectSingleNode("following-sibling::*");
     if (!sibNode) {
-      alert(mbGetMessage("cantMoveUp", layerName));
+      alert(mbGetMessage("cantMoveUp", layerId));
       return;
     }
     movedNode.parentNode.insertBefore(sibNode,movedNode);
@@ -412,14 +433,14 @@ function OwsContext(modelNode, parent) {
 
   /**
    * Method to move a Layer in the LayerList down
-   * @param layerName the layer to be moved
+   * @param layerId the layer to be moved
    */
-  this.moveLayerDown = function(objRef, layerName) {
-    var movedNode = objRef.getLayer(layerName);
+  this.moveLayerDown = function(objRef, layerId) {
+    var movedNode = objRef.getLayer(layerId);
     var listNodeArray = movedNode.selectNodes("preceding-sibling::*");  //preceding-sibling axis contains all previous siblings
     var sibNode = listNodeArray[listNodeArray.length-1];
     if (!sibNode) {
-      alert(mbGetMessage("cantMoveDown", layerName));
+      alert(mbGetMessage("cantMoveDown", layerId));
       return;
     }
     movedNode.parentNode.insertBefore(movedNode,sibNode);
@@ -450,34 +471,34 @@ function OwsContext(modelNode, parent) {
   this.getExtension = function() {
     return this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/wmc:Extension");
   }
-  
-// PL -BRGM	  
+
+  // PL -BRGM
   /**
    * Change a Layer's opacity
-   * @param layerName  The name of the layer that is to be changed
+   * @param layerId  The name of the layer that is to be changed
    * @param Opacity     Value of the opacity
    */
-  this.setOpacity=function(layerName, Opacity){
+  this.setOpacity=function(layerId, Opacity){
     // Set the hidden attribute in the Context
-          
-    var layer=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
+    var layer = this.doc.getLayer(layerId);
     if (layer) layer.setAttribute("opacity", Opacity);
     // Call the listeners
-    this.callListeners("opacity", layerName);
+    this.callListeners("opacity", layerId);
   }
-  
+
   /**
    * Get the layer's opacity attribute value.
-   * @param layerName  The name of the layer that is to be changed
+   * @param layerId  The name of the layer that is to be changed
    * @return hidden  String with the value; 1=hidden, 0=visible.
    */
-  this.getOpacity=function(layerName){
+  this.getOpacity=function(layerId){
     var opacity=1;
-    var layer=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
+    var layer = this.doc.getLayer(layerId);
     if (layer) opacity = layer.getAttribute("opacity");
     return opacity;
   }
   // PL -END
+  
   /**
    * Parses a Dimension element from the Context document as a loadModel listener.
    * This results in an XML structure with one element for each GetMap time value
@@ -492,8 +513,14 @@ function OwsContext(modelNode, parent) {
     for (var i=0; i<timeNodes.length; ++i) {
       var extentNode = timeNodes[i];
       objRef.timestampList = createElementWithNS(objRef.doc,"TimestampList",mbNsUrl);
-      var layerName = extentNode.parentNode.parentNode.selectSingleNode("wmc:Name").firstChild.nodeValue;
-      objRef.timestampList.setAttribute("layerName", layerName);
+      var layerId;
+      var layerNode = extentNode.parentNode.parentNode;
+      if (layerNode.selectSingleNode("@id")) {
+        layerId = layerNode.selectSingleNode("@id").firstChild.nodeValue;
+      } else {
+        layerId = layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue;
+      }
+      objRef.timestampList.setAttribute("layerId", layerId);
       //alert("found time dimension, extent:"+extentNode.firstChild.nodeValue);
       var times = extentNode.firstChild.nodeValue.split(",");   //comma separated list of arguments
       for (var j=0; j<times.length; ++j) {
@@ -555,31 +582,4 @@ function OwsContext(modelNode, parent) {
     return this.timestampList.childNodes[index].firstChild.nodeValue;
   }
 
-  // PL -BRGM
-  /**
-   * Change a Layer's opacity
-   * @param layerName  The name of the layer that is to be changed
-   * @param Opacity     Value of the opacity
-   */
-  this.setOpacity=function(layerName, Opacity){
-    // Set the hidden attribute in the Context
-
-    var layer=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
-    if (layer) layer.setAttribute("opacity", Opacity);
-    // Call the listeners
-    this.callListeners("opacity", layerName);
-  }
-
-  /**
-   * Get the layer's opacity attribute value.
-   * @param layerName  The name of the layer that is to be changed
-   * @return hidden  String with the value; 1=hidden, 0=visible.
-   */
-  this.getOpacity=function(layerName){
-    var opacity=1;
-    var layer=this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[wmc:Name='"+layerName+"']");
-    if (layer) opacity = layer.getAttribute("opacity");
-    return opacity;
-  }
-  // PL -END
 }

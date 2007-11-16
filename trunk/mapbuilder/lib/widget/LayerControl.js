@@ -32,10 +32,10 @@ function LayerControl(widgetNode, model) {
 
   /**
    * Displays a layer in a preview pane when mouse is over the table row
-   * @param layerName  the name of the layer to highlight
+   * @param layerId  the name of the layer to highlight
    */
-  this.highlightLayer = function(layerName) {
-    var layer = this.model.map.mbMapPane.oLlayers[layerName].div;
+  this.highlightLayer = function(layerId) {
+    var layer = this.model.map.mbMapPane.oLlayers[layerId].div;
     var previewImage = document.getElementById("previewImage");
     try {
       if (previewImage && layer) previewImage.src = layer.firstChild.firstChild.src;
@@ -70,12 +70,12 @@ function LayerControl(widgetNode, model) {
 
   /**
    * not working yet
-   * @param layerName  the name of the layer to highlight
+   * @param layerId  the name of the layer to highlight
    */
-  this.showLayerMetadata = function(layerName) {
+  this.showLayerMetadata = function(layerId) {
     var metadataWidget = config.objects.layerMetadata;
     if (metadataWidget) {
-      metadataWidget.stylesheet.setParameter("featureName",layerName);
+      metadataWidget.stylesheet.setParameter("featureName",layerId);
       metadataWidget.node = document.getElementById(metadataWidget.htmlTagId);
       metadataWidget.paint(metadataWidget);
     }

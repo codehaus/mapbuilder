@@ -30,28 +30,28 @@ function Context(modelNode, parent) {
 
   /**
    * Change a Layer's visibility.
-   * @param layerName  The name of the layer that is to be changed
+   * @param layerId  The name of the layer that is to be changed
    * @param hidden     String with the value to be set; 1=hidden, 0=visible.
    */
-  this.setHidden=function(layerName, hidden){
+  this.setHidden=function(layerId, hidden){
     // Set the hidden attribute in the Context
     var hiddenValue = "0";
     if (hidden) hiddenValue = "1";
 
-    var layer=this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+layerName+"']");
+    var layer = this.getLayer(layerId);
     if (layer) layer.setAttribute("hidden", hiddenValue);
     // Call the listeners
-    this.callListeners("hidden", layerName);
+    this.callListeners("hidden", layerId);
   }
 
   /**
    * Get the layer's visiblity attribute value.
-   * @param layerName  The name of the layer that is to be changed
+   * @param layerId  The name of the layer that is to be changed
    * @return hidden  String with the value; 1=hidden, 0=visible.
    */
-  this.getHidden=function(layerName){
+  this.getHidden=function(layerId){
     var hidden=1;
-    var layer=this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+layerName+"']");
+    var layer = this.getLayer(layerId);
     if (layer) hidden = layer.getAttribute("hidden");
     return hidden;
   }
@@ -266,11 +266,14 @@ function Context(modelNode, parent) {
 
   /**
    * Method to get a layer with the specified name in the context doc
-   * @param layerName the layer to be returned
+   * @param layerId the id of the layer to be returned
    * @return the list with all layers
    */
-  this.getLayer = function(layerName) {
-    var layer = this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+layerName+"']");
+  this.getLayer = function(layerId) {
+    var layer = this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[@id='"+layerId+"']");
+    if (layer == null) {
+      layer = this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+layerId+"']");
+    }
     //TBD: add in time stamp
     return layer;
   }
@@ -280,8 +283,17 @@ function Context(modelNode, parent) {
    * @param layerNode the Layer node from another context doc or capabiltiies doc
    */
   this.addLayer = function(objRef, layerNode) {
+
     var parentNode = objRef.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList");
-    parentNode.appendChild(layerNode.cloneNode(true));
+    parentNode.appendChild(layerNode);
+
+    // Generate layer id if layer doesn't have an id
+    if (!layerNode.getAttribute("id")) {
+      var randomNumber = Math.round(10000 * Math.random());
+      id = layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue + "_" + randomNumber; 
+      layerNode.setAttribute("id", id);
+    }
+
     objRef.modified = true;
     //objRef.callListeners("refresh");
   }
@@ -306,12 +318,12 @@ function Context(modelNode, parent) {
 
   /**
    * Method to remove a Layer from the LayerList
-   * @param layerName the Layer to be deleted
+   * @param layerId the Layer to be deleted
    */
-  this.deleteLayer = function(objRef, layerName) {
-    var deletedNode = objRef.getLayer(layerName);
+  this.deleteLayer = function(objRef, layerId) {
+    var deletedNode = objRef.getLayer(layerId);
     if (!deletedNode) {
-      alert(mbGetMessage("nodeNotFound", layerName));
+      alert(mbGetMessage("nodeNotFound", layerId));
       return;
     }
     deletedNode.parentNode.removeChild(deletedNode);
@@ -321,13 +333,13 @@ function Context(modelNode, parent) {
 
   /**
    * Method to move a Layer in the LayerList up
-   * @param layerName the layer to be moved
+   * @param layerId the layer to be moved
    */
-  this.moveLayerUp = function(objRef, layerName) {
-    var movedNode = objRef.getLayer(layerName);
+  this.moveLayerUp = function(objRef, layerId) {
+    var movedNode = objRef.getLayer(layerId);
     var sibNode = movedNode.selectSingleNode("following-sibling::*");
     if (!sibNode) {
-      alert(mbGetMessage("cantMoveUp", layerName));
+      alert(mbGetMessage("cantMoveUp", layerId));
       return;
     }
     movedNode.parentNode.insertBefore(sibNode,movedNode);
@@ -337,14 +349,14 @@ function Context(modelNode, parent) {
 
   /**
    * Method to move a Layer in the LayerList down
-   * @param layerName the layer to be moved
+   * @param layerId the layer to be moved
    */
-  this.moveLayerDown = function(objRef, layerName) {
-    var movedNode = objRef.getLayer(layerName);
+  this.moveLayerDown = function(objRef, layerId) {
+    var movedNode = objRef.getLayer(layerId);
     var listNodeArray = movedNode.selectNodes("preceding-sibling::*");  //preceding-sibling axis contains all previous siblings
     var sibNode = listNodeArray[listNodeArray.length-1];
     if (!sibNode) {
-      alert(mbGetMessage("cantMoveDown", layerName));
+      alert(mbGetMessage("cantMoveDown", layerId));
       return;
     }
     movedNode.parentNode.insertBefore(movedNode,sibNode);
@@ -390,8 +402,14 @@ function Context(modelNode, parent) {
     for (var i=0; i<timeNodes.length; ++i) {
       var extentNode = timeNodes[i];
       objRef.timestampList = createElementWithNS(objRef.doc,"TimestampList",mbNsUrl);
-      var layerName = extentNode.parentNode.parentNode.selectSingleNode("wmc:Name").firstChild.nodeValue;
-      objRef.timestampList.setAttribute("layerName", layerName);
+      var layerId;
+      var layerNode = extentNode.parentNode.parentNode;
+      if (layerNode.selectSingleNode("@id")) {
+        layerId = layerNode.selectSingleNode("@id").firstChild.nodeValue;
+      } else {
+        layerId = layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue;
+      }
+      objRef.timestampList.setAttribute("layerId", layerId);
       //alert("found time dimension, extent:"+extentNode.firstChild.nodeValue);
       var times = extentNode.firstChild.nodeValue.split(",");   //comma separated list of arguments
       for (var j=0; j<times.length; ++j) {
@@ -445,10 +463,10 @@ function Context(modelNode, parent) {
 
   /**
    * Returns the current timestamp value.
-   * @param layerName the name of the Layer from which the timestamp list was generated
+   * @param layerId the name of the Layer from which the timestamp list was generated
    * @return the current timestamp value.
    */
-  this.getCurrentTimestamp = function( layerName ) {
+  this.getCurrentTimestamp = function( layerId ) {
     var index = this.getParam("timestamp");
     return this.timestampList.childNodes[index].firstChild.nodeValue;
   }
@@ -456,26 +474,25 @@ function Context(modelNode, parent) {
   // PL -BRGM
   /**
    * Change a Layer's opacity
-   * @param layerName  The name of the layer that is to be changed
+   * @param layerId  The name of the layer that is to be changed
    * @param Opacity     Value of the opacity
    */
-  this.setOpacity=function(layerName, Opacity){
+  this.setOpacity=function(layerId, Opacity){
     // Set the hidden attribute in the Context
-
-    var layer=this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+layerName+"']");
+    var layer = this.getLayer(layerId);
     if (layer) layer.setAttribute("opacity", Opacity);
     // Call the listeners
-    this.callListeners("opacity", layerName);
+    this.callListeners("opacity", layerId);
   }
 
   /**
    * Get the layer's opacity attribute value.
-   * @param layerName  The name of the layer that is to be changed
+   * @param layerId  The name of the layer that is to be changed
    * @return hidden  String with the value; 1=hidden, 0=visible.
    */
-  this.getOpacity=function(layerName){
+  this.getOpacity=function(layerId){
     var opacity=1;
-    var layer=this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+layerName+"']");
+    var layer = this.getLayer(layerId);
     if (layer) opacity = layer.getAttribute("opacity");
     return opacity;
   }
