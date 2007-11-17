@@ -16,9 +16,12 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  * @param widgetNode The XML node in the Config file referencing this object.
  * @param model The widget object which this widget is associated with.
  */
-function GetFeatureInfo(widgetNode, model) {
+function GetFeatureInfoWSR(widgetNode, model) {
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
+  
+  var controller = widgetNode.selectSingleNode("mb:controller");
+  this.controller = controller ? controller.firstChild.nodeValue : null;
   
   /**
    * GetFeatureInfo control
@@ -43,6 +46,7 @@ function GetFeatureInfo(widgetNode, model) {
   
   this.doOnMouseup = function(e) {
     objRef = this;
+    var controller = config.objects[objRef.controller];
     if (!objRef.enabled) return;
     var layerNameList = new Array();
     var selectedLayer=objRef.targetModel.getParam("selectedLayer");
@@ -63,7 +67,7 @@ function GetFeatureInfo(widgetNode, model) {
       var layerName = layerNameList[i];
       var hidden = objRef.targetModel.getHidden(layerName);
       if (hidden == 0) { //query only visible layers
-        config.objects.featureInfoController.requestStylesheet.setParameter("queryLayer", layerName);//TBD remove the hardcoded object ID here
+        controller.requestStylesheet.setParameter("queryLayer", layerName);
         objRef.targetModel.setParam("wms_GetFeatureInfo", layerName);
       }
     }

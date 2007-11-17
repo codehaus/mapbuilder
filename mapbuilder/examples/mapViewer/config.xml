@@ -99,17 +99,15 @@
 			<enabledSrc>/images/PanEnable.png</enabledSrc>
 			<disabledSrc>/images/PanDisable.png</disabledSrc>
 		</DragPan>
-    <GetFeatureInfo id="getFeatureInfo">
-      <scriptFile>GetFeatureInfo.js</scriptFile>
+    <GetFeatureInfoWSR id="getFeatureInfo">
+      <scriptFile>GetFeatureInfoWSR.js</scriptFile>
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <class>RadioButton</class>
       <enabledSrc>/images/QueryEnable.png</enabledSrc>
       <disabledSrc>/images/QueryDisable.png</disabledSrc>
-      <!--infoFormat>text/html</infoFormat-->
-      <infoFormat>application/vnd.ogc.gml</infoFormat>
-      <featureCount>1</featureCount>
-    </GetFeatureInfo>
+      <controller>featureInfoController</controller>
+    </GetFeatureInfoWSR>
 		<Reset id="reset">
 			<buttonBar>mainButtonBar</buttonBar>
 			<targetModel>mainMap</targetModel>
