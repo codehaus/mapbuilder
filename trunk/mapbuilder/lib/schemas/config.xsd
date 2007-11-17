@@ -279,6 +279,7 @@
       <xs:element name="FilterAttributes" type="mb:WidgetType"/>
       <xs:element name="Forward" type="mb:ButtonType"/>
       <xs:element name="GetFeatureInfo" type="mb:GetFeatureInfoType"/>
+      <xs:element name="GetFeatureInfoWSR" type="mb:GetFeatureInfoWSRType"/>
       <xs:element name="GmlRendererOL" type="mb:GmlRendererOLType"/>
       <xs:element name="Graticule" type="mb:GraticuleType"/>
       <xs:element name="InsertFeature" type="mb:InsertFeatureType"/>
@@ -597,6 +598,22 @@
             </xs:annotation>
           </xs:element>
           <xs:element name="featureCount" type="xs:integer" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GetFeatureInfoWSRType">
+    <xs:annotation>
+      <xs:documentation>A response from a WMS for a GetFeatureInfo operation</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="mb:AbstractButtonBaseType">
+        <xs:sequence>
+          <xs:element name="controller" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Controller that handles the request. This has to point to the id of a WebServiceRequest tool.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1221,14 +1238,28 @@
   </xs:complexType>
   <xs:complexType name="WebServiceRequestType">
     <xs:annotation>
-      <xs:documentation>A tool which will generate web service requests from a node from the paranet model</xs:documentation>
+      <xs:documentation>A tool which will generate web service requests from a node from the parent model. Widgets using this tool end with WSR, eg. GetFeatureInfoWSR</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="mb:AbstractToolBaseType">
         <xs:sequence>
           <xs:element name="requestName" type="xs:string"/>
           <xs:element name="requestFilter" type="xs:string" minOccurs="0"/>
-          <xs:element name="maxFeatures" type="xs:integer" minOccurs="0"/>
+          <xs:element name="infoFormat" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>INFO_FORMAT parameter, eg. for WMS GetFeatureInfo</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="featureCount" type="xs:integer" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>FEATURE_COUNT parameter, eg. for WMS GetFeatureInfo</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="maxFeatures" type="xs:integer" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>maxFeatures parameter, eg. for WFS GetFeature</xs:documentation>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
