@@ -40,7 +40,9 @@
           <singleLine>false</singleLine>
           <align>left</align><!-- left, center, or right -->
         </MapScaleBar>
-        <!--Loading id="loading" /-->
+        <Loading2 id="loading2">
+          <mapContainerId>mainMapPane</mapContainerId>
+        </Loading2>
         <CursorTrack id="cursorTrack">
           <showXY>false</showXY>
         </CursorTrack>
