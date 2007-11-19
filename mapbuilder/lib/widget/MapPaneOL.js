@@ -6,7 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/../../openlayers/lib/OpenLayers.js");
+mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 mapbuilder.loadScript(baseDir+"/util/Util.js");
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 mapbuilder.loadScript(baseDir+"/tool/Extent.js");
