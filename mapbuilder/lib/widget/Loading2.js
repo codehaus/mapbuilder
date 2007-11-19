@@ -52,7 +52,6 @@ function Loading2(widgetNode, model) {
   //paint it on the "newModel" event, clear it on "loadModel" event
   this.model.addListener("newModel",this.paint, this);
   this.model.addListener("loadModel",this.clear, this);
-  this.model.addListener("bbox", this.paint, this );
   this.model.addListener("refresh",this.paint, this);
   this.model.addListener("modelStatus",this.update, this);
 }
