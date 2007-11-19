@@ -67,7 +67,7 @@ Loading2.prototype.paint = function(objRef) {
     //if it is a template model, no loader should be shown in the output div
     if (objRef.model.template) return;
     //if there's no url, there will never be an update on the ModelStatus, so the image stays while nothing is happening.
-    if (!objRef.model.url) return;
+    if (!objRef.model.url && !objRef.mapContainerNode) return;
     //create the output node the first time this is called
     var outputNode = document.getElementById( objRef.outputNodeId+"_loading" );
     if (!outputNode) {
