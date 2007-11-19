@@ -39,33 +39,28 @@ function EditButtonBase(widgetNode, model) {
    * @param selected True when selected.
    */
   this.doSelect = function(objRef, selected) {
-    // Model that will be populated with the WFS response.
-    if (objRef.trm && !objRef.transactionResponseModel){
-      objRef.transactionResponseModel=window.config.objects[objRef.trm];
-    }
-    // Load default feature.
-    if (objRef.enabled && selected && objRef.targetModel.url!=objRef.defaultModelUrl){
-      objRef.loadDefaultModel(objRef);
-    }
-    // Remove the transactionResponseModel (and result of last transaction)
-    // when a transaction button is deselected
-    if(!selected && objRef.transactionResponseModel){
-      objRef.transactionResponseModel.setModel(objRef.transactionResponseModel,null);
+    if (objRef.control.active) {
+      // Model that will be populated with the WFS response.
+      if (objRef.trm && !objRef.transactionResponseModel){
+        objRef.transactionResponseModel=window.config.objects[objRef.trm];
+      }
+      // Remove the transactionResponseModel (and result of last transaction)
+      // when a transaction button is deselected
+      if(!selected && objRef.transactionResponseModel){
+        objRef.transactionResponseModel.setModel(objRef.transactionResponseModel,null);
+      }
+      
+      config.loadModel(objRef.targetModel.id, objRef.defaultModelUrl);
     }
   }
-
+  
   /**
-   * Load the defaultModel into the targetModel.
+   * start a new editing session
+   * @param objRef reference to this widget
    */
-  this.loadDefaultModel=function(objRef){
-    objRef.targetModel.url=objRef.defaultModelUrl;
-    // load default GML
-    var httpPayload=new Object();
-    httpPayload.url=objRef.defaultModelUrl;
-    httpPayload.method="get";
-    httpPayload.postData=null;
-    objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
-   }
+  this.newSession = function(objRef) {
+    objRef.modified = false;
+  }
 
   /**
    * This is called by the OL onFeatureInsert handler. It will
@@ -76,9 +71,21 @@ function EditButtonBase(widgetNode, model) {
   this.handleFeatureInsert = function(feature) {
     // use the objRef reference stored by setEditingLayer()
     var objRef = feature.layer.mbButton;
-    objRef.setFeature(objRef, feature);
+    objRef.geometry = OpenLayers.Util.extend({}, feature.geometry);
+    
+    var previousFeatureNode = objRef.targetModel.doc.selectSingleNode("/*/*").cloneNode(true);
+
+    // add a new empty node if this is not the first feature
+    if (objRef.modified) {
+      objRef.targetModel.doc.selectSingleNode("/*").appendChild(previousFeatureNode);
+    }
+
+    objRef.setFeature(objRef);
+    objRef.modified = true;
+    
     // destroy the feature in OL, because we do not use
     // the OL vector layer for displaying the feature
+    feature.mbSelectStyle = null;
     feature.destroy();
   }
 
@@ -120,7 +127,9 @@ function EditButtonBase(widgetNode, model) {
     
     // feature layers will be created when the OL map is available
     objRef.targetContext.addFirstListener("refresh",objRef.setEditingLayer, objRef);
-  }
 
+    objRef.targetModel.addListener("loadModel", objRef.newSession, objRef);
+  }
+  
   this.model.addListener("init",this.initButton, this);
 }

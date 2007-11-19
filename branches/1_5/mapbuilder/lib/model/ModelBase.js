@@ -382,8 +382,9 @@ function ModelBase(modelNode, parentModel) {
     //var evalStr = "new " + objectType + "(configNode,this);";
     //var newObject = eval( evalStr );
     //hint from Alex Russel alex@dojotoolkit.org so we can compress it
-    var newObject = new window[objectType](configNode, this);
-    if ( newObject ) {
+
+    var newObject;
+    if (window[objectType] && (newObject = new window[objectType](configNode, this))) {
       config.objects[newObject.id] = newObject;
       return newObject;
     } else { 

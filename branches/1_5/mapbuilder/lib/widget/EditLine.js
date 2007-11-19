@@ -26,6 +26,7 @@ function EditLine(widgetNode, model) {
    */
   this.createControl = function(objRef) {
     var Control = OpenLayers.Class(OpenLayers.Control.DrawFeature, {
+    	type: OpenLayers.Control.TYPE_TOOL,
       // this is needed because all editing tools are of type
       // OpenLayers.Control.DrawFeature
       CLASS_NAME: 'mbEditLine'
@@ -40,12 +41,10 @@ function EditLine(widgetNode, model) {
   /**
    * Append a line to the enclosing GML model.
    * @param objRef      Pointer to this object.
-   * @param {OpenLayers.Feature} feature The line created
-   * by OL.
    */
-  this.setFeature = function(objRef, feature) {
-    if (objRef.enabled) {
-      var points = feature.geometry.components;
+  this.setFeature = function(objRef) {
+    if (objRef.enabled && objRef.geometry) {
+      var points = objRef.geometry.components;
       var geom = '';
       for (var i in points) {
         geom += ' '+points[i].x+","+points[i].y;
@@ -54,6 +53,7 @@ function EditLine(widgetNode, model) {
         objRef.targetModel,
         objRef.featureXpath,
         geom);
+      objRef.geometry = null;
       if(!sucess){
         alert(mbGetMessage("invalidFeatureXpathEditLine", objRef.featureXpath));
       }

@@ -45,10 +45,10 @@
     </CollectionList>
     
     <CursorTrack>
-      <latitude>lat:</latitude>
-      <longitude>lon:</longitude>
-      <xcoord>x:</xcoord>
-      <ycoord>y:</ycoord>
+      <latitude>lat: </latitude>
+      <longitude>lon: </longitude>
+      <xcoord>x: </xcoord>
+      <ycoord>y: </ycoord>
     </CursorTrack>
     
     <DeleteFeature>
@@ -103,12 +103,12 @@
     </Measurement>
     
     <ModelStatus>
-      <title>Status voor:</title>
+      <title>Status voor: </title>
     </ModelStatus>
     
     <ModelUrlInput>
       <load>laad</load>
-      <title>URL:</title>
+      <title>URL: </title>
     </ModelUrlInput>
     
     <Reset>
@@ -124,7 +124,7 @@
     </SetAoi>
     
     <Timestamp>
-      <title>Tijdstip:</title>
+      <title>Tijdstip: </title>
     </Timestamp>
     
     <WebServiceForm>
@@ -190,6 +190,8 @@
     <ll2stInfiniteProjection>ll2st: Punt projecteert in het oneindige</ll2stInfiniteProjection>
     <ll2tmInfiniteProjection>ll2tm: Punt projecteert in het oneindige</ll2tmInfiniteProjection>
     <llInputOutOfRange>Invoer buiten bereik: lon: {0} - lat: {1}</llInputOutOfRange>
+    <loadingLayer>Bezig met laden van {0} kaartlaag</loadingLayer>
+    <loadingLayers>Bezig met laden van {0} kaartlagen</loadingLayers>
     <mollFwdIterationError>De iteratie convergeert niet in molldFwd()</mollFwdIterationError>
     <noBboxInContext>Geen BBOX gedefiniëerd in context</noBboxInContext>
     <noContextDefined>Geen context gedefiniëerd in configuratie</noContextDefined>

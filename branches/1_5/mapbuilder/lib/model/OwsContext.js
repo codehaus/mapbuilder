@@ -534,6 +534,18 @@ function OwsContext(modelNode, parent) {
   this.addFirstListener( "loadModel", this.initTimeExtent, this );
 
   /**
+   * clear the time extent created by initTimeExtent
+   * @param objRef reference to this model
+   */
+  this.clearTimeExtent = function( objRef ) {
+    var tsList = objRef.timestampList;
+    if (tsList) {
+      tsList.parentNode.removeChild(tsList);
+    }
+  }
+  this.addListener("newModel", this.clearTimeExtent, this);
+
+  /**
    * Returns the current timestamp value.
    * @param layerName the name of the Layer from which the timestamp list was generated
    * @return the current timestamp value.

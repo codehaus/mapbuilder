@@ -72,6 +72,7 @@ function ZoomToAoi(toolNode, model) {
       tool.model.setParam("aoi", new Array(ul, lr) );
     }
   }
+  
   this.firstInit = function(tool) {
     tool.model.map.events.register('mouseup',tool, tool.mouseUpHandler);
     tool.targetModel.addListener( "loadModel", tool.showTargetAoi, tool );
@@ -79,6 +80,13 @@ function ZoomToAoi(toolNode, model) {
     tool.showTargetAoi(tool);
   }
   this.model.addListener( "loadModel", this.firstInit, this );
+  
+  this.clear = function(tool) {
+    if (tool.model.map && tool.model.map.events) {
+      tool.model.map.events.unregister('mouseup',tool, tool.mouseUpHandler);
+    }
+  }
+  this.model.addListener("clearModel", this.clear, this);
 }
 
 /**

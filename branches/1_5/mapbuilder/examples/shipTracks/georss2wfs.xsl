@@ -38,7 +38,7 @@ $Id$
 <xsl:template name="lineString">
   <xsl:if test="georss:where/gml3:LineString">
     <gml:LineString>
-      <gml:posList dimension="2"><xsl:value-of select="translate(georss:where/gml3:LineString/gml3:posList, ',', ' '"/></gml:posList>
+      <gml:posList dimension="2"><xsl:value-of select="translate(georss:where/gml3:LineString/gml3:posList, ',', ' ')"/></gml:posList>
     </gml:LineString>
   </xsl:if>
 </xsl:template>

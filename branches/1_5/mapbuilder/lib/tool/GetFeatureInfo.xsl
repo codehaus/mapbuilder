@@ -8,14 +8,14 @@ Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html .
 $Id$
 $Name$
 -->
-<xsl:stylesheet version="1.0" xmlns:wmc="http://www.opengis.net/context" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink">
+<xsl:stylesheet version="1.0" xmlns:wmc="http://www.opengis.net/context" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ows="http://www.opengis.net/ows">
   <xsl:output method="xml"/>
   <xsl:strip-space elements="*"/>
 
   <!-- parameters to be passed into the XSL -->
   <!-- The name of the WMS GetFeatureInfo layer -->
-  <xsl:param name="queryLayer">highways</xsl:param>
-  <xsl:param name="layer">highways</xsl:param>
+  <xsl:param name="queryLayer">route</xsl:param>
+  <xsl:param name="layer">route</xsl:param>
   <xsl:param name="xCoord">1</xsl:param>
   <xsl:param name="yCoord">1</xsl:param>
   <xsl:param name="infoFormat">text/html</xsl:param>
@@ -23,20 +23,28 @@ $Name$
 
   <!-- Global variables -->
   <xsl:variable name="bbox">
-    <xsl:value-of select="/wmc:ViewContext/wmc:General/wmc:BoundingBox/@minx"/>,<xsl:value-of select="/wmc:ViewContext/wmc:General/wmc:BoundingBox/@miny"/>,<xsl:value-of select="/wmc:ViewContext/wmc:General/wmc:BoundingBox/@maxx"/>,<xsl:value-of select="/wmc:ViewContext/wmc:General/wmc:BoundingBox/@maxy"/>
+    <xsl:choose>
+      <xsl:when test="/wmc:ViewContext">
+        <xsl:value-of select="/wmc:ViewContext/wmc:General/wmc:BoundingBox/@minx"/>,<xsl:value-of select="/wmc:ViewContext/wmc:General/wmc:BoundingBox/@miny"/>,<xsl:value-of select="/wmc:ViewContext/wmc:General/wmc:BoundingBox/@maxx"/>,<xsl:value-of select="/wmc:ViewContext/wmc:General/wmc:BoundingBox/@maxy"/>
+      </xsl:when>
+      <xsl:otherwise>
+    <xsl:value-of select="translate(/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:LowerCorner, ' ', ',')"/>,<xsl:value-of select="translate(/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:UpperCorner, ' ', ',')"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:variable>
   <xsl:variable name="width">
-    <xsl:value-of select="/wmc:ViewContext/wmc:General/wmc:Window/@width"/>
+    <xsl:value-of select="/*/wmc:General/wmc:Window/@width"/>
   </xsl:variable>
   <xsl:variable name="height">
-    <xsl:value-of select="/wmc:ViewContext/wmc:General/wmc:Window/@height"/>
+    <xsl:value-of select="/*/wmc:General/wmc:Window/@height"/>
   </xsl:variable>
-  <xsl:variable name="srs" select="/wmc:ViewContext/wmc:General/wmc:BoundingBox/@SRS"/>
+  <xsl:variable name="srs" select="/wmc:ViewContext/wmc:General/wmc:BoundingBox/@SRS|/wmc:OWSContext/wmc:General/ows:BoundingBox/@crs"/>
 
   <!-- Root template -->
   <xsl:template match="/">
     <url>
       <xsl:apply-templates select="wmc:ViewContext/wmc:LayerList"/>
+      <xsl:apply-templates select="wmc:OWSContext/wmc:ResourceList"/>
       <error>URL not calculated for layer=<xsl:value-of select="$queryLayer"/></error>
     </url>
   </xsl:template>

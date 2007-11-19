@@ -35,10 +35,11 @@ function LayerControl(widgetNode, model) {
    * @param layerName  the name of the layer to highlight
    */
   this.highlightLayer = function(layerName) {
-    var layerId = this.model.id + "_" + "mainMapWidget" + "_" + layerName;
+    var layer = this.model.map.mbMapPane.oLlayers[layerName].div;
     var previewImage = document.getElementById("previewImage");
-    var layer = document.getElementById(layerId);
-    if (previewImage) previewImage.src = layer.firstChild.src;
+    try {
+      if (previewImage && layer) previewImage.src = layer.firstChild.firstChild.src;
+    } catch(e) {}
   }
 
   /**
@@ -55,10 +56,10 @@ function LayerControl(widgetNode, model) {
     //var thisGroupsLayerNodes = model.doc.selectNodes(xpathExpression);
     var thisGroupsNode = model.doc.selectSingleNode(xpathExpression);
     var thisGroupsFoldedState = thisGroupsNode.getAttribute('folded');
-     e =document.getElementById(id);
+    var e =document.getElementById(id);
     if(thisGroupsFoldedState == "1") {
 		thisGroupsNode.setAttribute("folded", "0");
-		 e.value="-";
+		e.value="-";
 		
 	} else {
 		thisGroupsNode.setAttribute("folded", "1");

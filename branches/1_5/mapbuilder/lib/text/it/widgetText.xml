@@ -45,10 +45,10 @@
     </CollectionList>
     
     <CursorTrack>
-      <latitude>lat:</latitude>
-      <longitude>lon:</longitude>
-      <xcoord>x:</xcoord>
-      <ycoord>y:</ycoord>
+      <latitude>lat: </latitude>
+      <longitude>lon: </longitude>
+      <xcoord>x: </xcoord>
+      <ycoord>y: </ycoord>
     </CursorTrack>
     
     <DeleteFeature>
@@ -103,12 +103,12 @@
     </Measurement>
     
     <ModelStatus>
-      <title>Stato per:</title>
+      <title>Stato per: </title>
     </ModelStatus>
     
     <ModelUrlInput>
       <load>caricamento</load>
-      <title>URL:</title>
+      <title>URL: </title>
     </ModelUrlInput>
     
     <Reset>
@@ -124,7 +124,7 @@
     </SetAoi>
     
     <Timestamp>
-      <title>Data/ora:</title>
+      <title>Data/ora: </title>
     </Timestamp>
     
     <WebServiceForm>
@@ -190,6 +190,8 @@
     <ll2stInfiniteProjection>ll2st: Punto proiettato all'infinito</ll2stInfiniteProjection>
     <ll2tmInfiniteProjection>ll2tm: Punto proiettato all'infinito</ll2tmInfiniteProjection>
     <llInputOutOfRange>Inserire i limiti: lon: {0} - lat: {1}</llInputOutOfRange>
+    <loadingLayer>{0} tematismo in caricamento</loadingLayer>
+    <loadingLayers>{0} tematismi in caricamento</loadingLayers>
     <mollFwdIterationError>La ripetizione non è riuscito a convergere nel mollFwd()</mollFwdIterationError>
     <noBboxInContext>Nessun BBOX definito nella context</noBboxInContext>
     <noContextDefined>Nessun context definito nella configurazione (config)</noContextDefined>

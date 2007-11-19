@@ -70,9 +70,12 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
     // Specify div and layers for overview map.
     var options = {
       div: objRef.getNode(),
+      objRef: this,
       destroy: function() {
         OpenLayers.Control.OverviewMap.prototype.destroy.apply(this, arguments);
         this.div = null;
+        objRef.control = null;
+        objRef = null;
       },
       layers: new Array()
     };
@@ -80,29 +83,25 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
     if (objRef.minRatio) options.minRatio = objRef.minRatio;
     if (objRef.maxRatio) options.maxRatio = objRef.maxRatio;
 
-    
-    var showBaseLayer = true;
-    var baseLayer = null;
-    // Clone the base layer. This always has to be in the
-    // overview map, otherwise OpenLayers fails to draw the
-    // overview.
-    if (map.baseLayer) {
-      baseLayer = objRef.getClonedLayer(map.baseLayer)
-      options.layers.push(baseLayer);
+    // Clone the base layer. This is not really the OpenLayers base layer, but
+    // the lowest layer in the Mapbuilder layers stack.
+    if (!objRef.layerNames) {
+      for (var i in map.mbMapPane.oLlayers) {
+        var baseLayer = objRef.getClonedLayer(map.mbMapPane.oLlayers[i], true)
+        options.layers.push(baseLayer);
+        break;
+      }
     }
 
     // Check for specifically requested layers
+    var isBaseLayer = true;
     if (objRef.layerNames) {
-      showBaseLayer = false;
-      for (var i = 0; i < objRef.layerNames.length; i++) {
-        for (var j = 0; j < map.layers.length; j++) {
-          if (objRef.layerNames[i] == map.layers[j].params.LAYERS) {
+       for (var i = 0; i < objRef.layerNames.length; i++) {
+        for (var j in map.mbMapPane.oLlayers) {
+          if (objRef.layerNames[i] == j) {
             // Found it, add a clone to the layer stack
-            if (map.layers[j] == map.baseLayer) {
-              showBaseLayer = true;
-            } else {
-              options.layers.push(objRef.getClonedLayer(map.layers[j]));
-            }
+            options.layers.push(objRef.getClonedLayer(map.mbMapPane.oLlayers[j], isBaseLayer));
+            isBaseLayer = false;
           }
         }
       }
@@ -128,20 +127,15 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
     }
 
     // Add the overview to the main map
-    objRef.control = new OpenLayers.Control.OverviewMap(options);
-    objRef.control.mapOptions = {theme: null};
-    map.addControl(objRef.control);
+    if (!objRef.control) {
+      objRef.control = new OpenLayers.Control.OverviewMap(options);
+      objRef.control.mapOptions = {theme: null};
+      map.addControl(objRef.control);
+    }
 
     // make all layers visible
     for (var i in options.layers) {
       options.layers[i].setVisibility(true);
-    }
-
-    // Set visibility of base layer. If the user configured
-    // no layerNames or referenced it by layerName, it is
-    // shown, otherwise hidden.
-    if (baseLayer) {
-      baseLayer.setVisibility(showBaseLayer);
     }
   }
 }
@@ -150,11 +144,15 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
  * Clone a map layer (OpenLayers.Layer subclass).
  * If the layer is a WMS layer it returns an untiled version of it.
  * @param layer Pointer to layer object.
+ * @param isBaseLayer {Boolean} optional parameter: should the layer become
+ * baselayer on the overview map?
  */
-OverviewMap.prototype.getClonedLayer = function(layer) {
+OverviewMap.prototype.getClonedLayer = function(layer, isBaseLayer) {
   if (layer == null) {
     return null;
   }
+  
+  isBaseLayer = isBaseLayer ? true : false;
 
   if (layer instanceof OpenLayers.Layer.WMS) {
     // make an untiled wms layer, with ratio 1
@@ -165,11 +163,18 @@ OverviewMap.prototype.getClonedLayer = function(layer) {
       maxResolution: "auto",
       ratio: 1,
       singleTile: true,
-      isBaseLayer: layer.isBaseLayer
+      isBaseLayer: isBaseLayer
     };
 
     return new OpenLayers.Layer.WMS(layer.name,
-      layer.url, {layers: layer.params.LAYERS, format: layer.params.FORMAT, transparent: "TRUE"}, layerOptions);
+      layer.url, {
+        layers: layer.params.LAYERS,
+        format: layer.params.FORMAT,
+        transparent: layer.params.TRANSPARENT,
+        sld: layer.params.SLD,
+        sld_body: layer.params.SLD_BODY,
+        styles: layer.params.STYLES
+      }, layerOptions);
   }
   else {
     // take the layer as-is and clone it
@@ -178,3 +183,4 @@ OverviewMap.prototype.getClonedLayer = function(layer) {
     return clonedLayer;
   }
 }
+  
