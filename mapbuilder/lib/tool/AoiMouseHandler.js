@@ -77,7 +77,11 @@ function AoiMouseHandler(toolNode, model) {
     this.model.setParam("aoi", new Array(ul,lr) );
   }
 
-  this.mapInit = function(objRef) {
+  /**
+   * initialize the tool by setting the event listeners we need
+   * @param objRef reference to this tool
+   */
+   this.mapInit = function(objRef) {
     //register the listeners on the model
     objRef.model.map.events.register('mousedown', objRef, objRef.mouseDownHandler);
     objRef.model.map.events.register('mousemove', objRef, objRef.mouseMoveHandler);
@@ -86,6 +90,19 @@ function AoiMouseHandler(toolNode, model) {
     //this.model.addListener('mouseover',this.mouseOutHandler,this);
   }
   this.model.addListener("loadModel", this.mapInit, this);
+  
+  /**
+   * clear the tool by removing the event listeners we needed
+   * @param objRef reference to this tool
+   */
+  this.clear = function(objRef) {
+    if (objRef.model.map && objRef.model.map.events) {
+      objRef.model.map.events.unregister('mousedown', objRef, objRef.mouseDownHandler);
+      objRef.model.map.events.unregister('mousemove', objRef, objRef.mouseMoveHandler);
+      objRef.model.map.events.unregister('mouseup', objRef, objRef.mouseUpHandler);
+    }
+  }
+  this.model.addListener("newModel", this.clear, this);
 }
 
 /**

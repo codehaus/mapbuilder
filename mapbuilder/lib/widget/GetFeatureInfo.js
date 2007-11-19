@@ -46,7 +46,6 @@ function GetFeatureInfo(widgetNode, model) {
     var Control = OpenLayers.Class( OpenLayers.Control, {
       CLASS_NAME: 'mbControl.GetFeatureInfo',
       type: OpenLayers.Control.TYPE_TOOL,
-      objRef: objRef,
       draw: function() {
         this.handler = new OpenLayers.Handler.Box( this,
           {done: this.zoomBox}, {keyMask: this.keyMask} );
@@ -96,11 +95,11 @@ function GetFeatureInfo(widgetNode, model) {
           }
           else {
             objRef.xsl.setParameter("queryLayer", selectedLayer);
-            objRef.xsl.setParameter("layer",layerName);
-            objRef.xsl.setParameter("xCoord", targetNode.x);
-            objRef.xsl.setParameter("yCoord", targetNode.y);
+            objRef.xsl.setParameter("layer", layerName);
+            objRef.xsl.setParameter("xCoord", x);
+            objRef.xsl.setParameter("yCoord", y);
             objRef.xsl.setParameter("infoFormat", objRef.infoFormat);
-            objRef.xsl.setParameter("featureCount", "1");
+            objRef.xsl.setParameter("featureCount", objRef.featureCount);
   
             var urlNode=objRef.xsl.transformNodeToObject(objRef.targetContext.doc);
             var url=urlNode.documentElement.firstChild.nodeValue;

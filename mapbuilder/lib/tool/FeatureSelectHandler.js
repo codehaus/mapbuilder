@@ -46,6 +46,14 @@ function FeatureSelectHandler(toolNode, model) {
   }
   this.model.addListener('init', this.configInit, this)
   
+  this.clear = function(objRef) {
+    if (objRef.control) {
+      objRef.control.destroy();
+      objRef.control = null;
+    }
+  }
+  this.model.addListener("newModel", this.clear, this);
+
   /**
    * Tool Initialisation - Step 2 of 3.
    * This is called when the context model finished loading, so we
@@ -53,7 +61,7 @@ function FeatureSelectHandler(toolNode, model) {
    * @param objRef This object
    */
   this.contextInit = function(objRef) {
-      objRef.model.addListener('gmlRendererLayer', objRef.init, objRef);
+    objRef.model.addListener('gmlRendererLayer', objRef.init, objRef);
     // Check carefully if we have to init manually. This is the case when
     // the gmlRendererLayer is rendered, but does not know about the
     // FeatureSelectHandler yet.
@@ -82,33 +90,49 @@ function FeatureSelectHandler(toolNode, model) {
       objRef.sourceModels[i].addListener('highlightFeature', objRef.highlight, objRef);
       objRef.sourceModels[i].addListener('dehighlightFeature', objRef.dehighlight, objRef);
     }
-
+    
     // init the control
     var layer = objRef.model.getParam('gmlRendererLayer');
     if (objRef.map == objRef.targetModel.map &&
         objRef.control && !layer) {
       objRef.control.deactivate();
-      objRef.control.destroy();
-      objRef.control = null;
+      //objRef.control.destroy();
+      //objRef.control = null;
     } else if (layer) {
-      objRef.control = new OpenLayers.Control.SelectFeature(layer, {
-        hover: true,
-        onSelect: objRef.onSelect,
-        onUnselect: objRef.onUnselect,
-        mbFeatureSelectHandler: objRef,
-        select: function(feature) {
-          if (feature.mbSelectStyle) {
-            this.selectStyle = feature.mbSelectStyle;
+      if (!objRef.control) {
+        objRef.control = new OpenLayers.Control.SelectFeature(layer, {
+          hover: true,
+          onSelect: objRef.onSelect,
+          onUnselect: objRef.onUnselect,
+          mbFeatureSelectHandler: objRef,
+          select: function(feature) {
+            feature.mbFeatureSelectHandler = this.mbFeatureSelectHandler;
+            if (feature.mbSelectStyle) {
+              this.selectStyle = feature.mbSelectStyle;
+            }
+            OpenLayers.Control.SelectFeature.prototype.select.apply(this, arguments);
           }
-          OpenLayers.Control.SelectFeature.prototype.select.apply(this, arguments);
-        }
-      });
-      objRef.map = objRef.targetModel.map;
-      objRef.map.addControl(objRef.control);
+        });
+        objRef.map = objRef.targetModel.map;
+        objRef.map.addControl(objRef.control);
+      }
       objRef.control.activate();
     }
   }
   
+  /**
+   * extension for the OpenLayers.Feature.Vector.destroy method.
+   * Will be applied to features touched by this tool.
+   */
+  var destroyFeature = function() {
+    var featureSelectHandler = this.mbFeatureSelectHandler;
+    if (this.layer.events && featureSelectHandler) {
+      this.layer.events.unregister('mousedown', this, featureSelectHandler.onClick);
+      this.layer.events.unregister('mousemove', this, featureSelectHandler.onHover);
+    }
+    OpenLayers.Feature.Vector.prototype.destroy.apply(this, arguments);
+  }
+
   /**
    * This method is triggered when the mouse is over a vector
    * feature. It registers priority events mousedown and
@@ -132,11 +156,11 @@ function FeatureSelectHandler(toolNode, model) {
     for (var i in objRef.sourceModels) {
       objRef.sourceModels[i].setParam("mouseoverFeature", feature.fid);
     }
-    feature.mbFeatureSelectHandler = objRef;
     // check if onSelect was triggered by a mouse event. If not, do not register for
     // mousedown and mousemove events. This is the case when selection was externally
     // triggered by the highlightFeature event
     if (feature.layer.events && !feature.mbNoMouseEvent) {
+      feature.destroy = destroyFeature;
       feature.layer.events.registerPriority('mousedown', feature, objRef.onClick);
       feature.layer.events.registerPriority('mousemove', feature, objRef.onHover);
     } else {
@@ -152,7 +176,7 @@ function FeatureSelectHandler(toolNode, model) {
    */
   this.onUnselect = function(feature) {
     if (!feature) return;
-    var objRef = this.mbFeatureSelectHandler;
+    var objRef = this.mbFeatureSelectHandler || feature.mbFeatureSelectHandler;
     for (var i in objRef.sourceModels) {
       objRef.sourceModels[i].setParam("mouseoutFeature", feature.fid);
     }
@@ -189,14 +213,14 @@ function FeatureSelectHandler(toolNode, model) {
    * @param evt OpenLayers event
    */
   this.onHover = function(evt) {
-    evt.feature = this;
     var objRef = this.mbFeatureSelectHandler;
-    if (evt.feature.layer.events) {
+    if (this.layer && this.layer.events) {
       // unregister the mousemove event, because we already know that
       // the mouse moved and we can then proceed to our hover popup.
-      evt.feature.layer.events.unregister('mousemove', evt.feature, objRef.onHover);
+      this.layer.events.unregister('mousemove', this, objRef.onHover);
     }
-     objRef.model.setParam("olFeatureHover", evt);
+    evt.feature = this;
+    objRef.model.setParam("olFeatureHover", evt);
   }
 
   /**

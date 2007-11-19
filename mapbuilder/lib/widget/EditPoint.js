@@ -27,6 +27,7 @@ function EditPoint(widgetNode, model) {
    */
   this.createControl = function(objRef) {
     var Control = OpenLayers.Class(OpenLayers.Control.DrawFeature, {
+    type: OpenLayers.Control.TYPE_TOOL,
       // this is needed because all editing tools are of type
       // OpenLayers.Control.DrawFeature
       CLASS_NAME: 'mbEditPoint'
@@ -41,14 +42,13 @@ function EditPoint(widgetNode, model) {
   /**
    * Add a point to the enclosing GML model.
    * @param objRef      Pointer to this object.
-   * @param {OpenLayers.Feature} feature the feature
-   * created by OL.
    */
-  this.setFeature = function(objRef, feature) {
-    if (objRef.enabled) {
+  this.setFeature = function(objRef) {
+    if (objRef.enabled && objRef.geometry) {
       sucess=objRef.targetModel.setXpathValue(
         objRef.targetModel,
-        objRef.featureXpath,feature.geometry.x+","+feature.geometry.y);
+        objRef.featureXpath,objRef.geometry.x+","+objRef.geometry.y);
+      objRef.geometry = null;
       if(!sucess){
         alert(mbGetMessage("invalidFeatureXpathEditPoint", objRef.featureXpath));
       }

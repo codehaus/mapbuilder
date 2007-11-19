@@ -6,7 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
+mapbuilder.loadScript(baseDir+"/../../openlayers/lib/OpenLayers.js");
 mapbuilder.loadScript(baseDir+"/util/Util.js");
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 mapbuilder.loadScript(baseDir+"/tool/Extent.js");
@@ -117,6 +117,7 @@ function MapPaneOL(widgetNode, model) {
   this.model.addListener("refreshWmsLayers",this.refreshWmsLayers,this);
 
   this.model.addListener("refresh",this.paint, this);
+  this.model.addFirstListener("newModel", this.clear, this);
   this.model.addListener("hidden",this.hidden, this);
   this.model.addListener("addLayer",this.addLayer, this);
   this.model.addListener("deleteLayer",this.deleteLayer, this);
@@ -128,7 +129,6 @@ function MapPaneOL(widgetNode, model) {
   //this.model.addListener( "zoomIn", this.zoomIn, this );
   // this.model.addListener( "zoomToMaxExtent", this.zoomToMaxExtent, this );
  //this.model.addFirstListener("loadModel",this.paint,this);
-  this.model.addListener("newModel",this.clearWidget2,this);
 
 }
 
@@ -137,122 +137,149 @@ function MapPaneOL(widgetNode, model) {
  * @param objRef Pointer to widget object.
  */
 MapPaneOL.prototype.paint = function(objRef, refresh) {
+  
   // Create an OpenLayers map
 
-  // On refresh, the buttons would be duplicated. So remove them
-  // from the button bar and clear the buttonBars array if
-  // there are already buttons and buttonBars
-  if (objRef.model.buttonBars && objRef.model.map) {
-    for (var i in objRef.model.buttonBars) {
-      objRef.model.map.removeControl(objRef.model.buttonBars[i]);
-    }
-    objRef.model.buttonBars = new Array();
+  //Test if context exist
+  if(objRef.model.doc.selectSingleNode("//wmc:OWSContext"))
+    objRef.context="OWS";
+  else if(objRef.model.doc.selectSingleNode("//wmc:ViewContext"))
+    objRef.context="View";
+  else
+    alert(mbGetMessage("noContextDefined"));
+
+  var proj=objRef.model.proj;
+
+  //maxExtent
+  var maxExtent=null;
+  maxExtent=objRef.widgetNode.selectSingleNode("mb:maxExtent");
+  maxExtent=(maxExtent)?maxExtent.firstChild.nodeValue.split(" "):null;
+  // If the maxExtentis not specified in the config
+  // calculate it from the BBox  in the Context.
+  if(!maxExtent){
+    maxExtent=objRef.model.getBoundingBox();
+  }
+  maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
+  if(maxExtent==null)alert(mbGetMessage("noBboxInContext"));
+
+  //maxResolution
+  var maxResolution=null;
+  maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");
+  maxResolution=(maxResolution) ? parseFloat(maxResolution.firstChild.nodeValue) : "auto";
+
+  //units
+  var units = proj.units == 'meters' ? 'm' : proj.units;
+  
+  //resolutions
+  var resolutions=objRef.widgetNode.selectSingleNode("mb:resolutions");
+  resolutions = resolutions ? resolutions.firstChild.nodeValue.split(",") : null;
+  for (var r in resolutions) {
+    resolutions[r] = parseFloat(resolutions[r]);
   }
 
-  if(!objRef.model.map || refresh=="sld"){
-
-    if(refresh=="sld") {
-      objRef.clearWidget2(objRef);
+  //fixed scales - overrides resolutions
+  var scales = objRef.widgetNode.selectSingleNode("mb:scales");
+  if(scales){
+    scales = scales.firstChild.nodeValue.split(",");
+    resolutions = new Array();
+    for (var s in scales) {
+      resolutions.push(OpenLayers.Util.getResolutionFromScale(scales[s], units));
     }
+  }
+  if(resolutions){
+    objRef.model.extent.setZoomLevels(true,resolutions);
+  }
+  else objRef.model.extent.setZoomLevels(false);
+
+  //get the output DIV and set it to context-size
+  var node = document.getElementById(objRef.containerNodeId);
+  var fixedSize=null;
+  fixedSize=objRef.widgetNode.selectSingleNode("mb:fixedSize");
+  fixedSize=(fixedSize)?fixedSize.firstChild.nodeValue:null;
+  if(fixedSize=="true"){
+    node.style.width = objRef.model.getWindowWidth()+"px";
+    node.style.height = objRef.model.getWindowHeight()+"px";
+  }
     
-    //Test if context exist
-    if(objRef.model.doc.selectSingleNode("//wmc:OWSContext"))
-      objRef.context="OWS";
-    else if(objRef.model.doc.selectSingleNode("//wmc:ViewContext"))
-      objRef.context="View";
-    else
-      alert(mbGetMessage("noContextDefined"));
+  //default map options
+  var mapOptions = {
+        controls:[],
+        projection: proj.srs,
+        units: units,
+        maxExtent: maxExtent,
+        maxResolution: maxResolution,
+        resolutions: resolutions,
+        theme: null, // we have the theme loaded by Mapbuilder
+        destroy: function(destroy){
+                   if (destroy != true) {
+                     this.mbMapPane.model.setParam("newModel", true);
+                   } else {
+                     this.mbMapPane = null;
+                     this.mbCursor = null;
+                     OpenLayers.Map.prototype.destroy.apply(this, arguments);
+                     this.layerContainerDiv = null;
+                     this.baseLayer = null;
+                   }}
+      };
 
-    var proj=objRef.model.proj;
-
-    //maxExtent
-    var maxExtent=null;
-    maxExtent=objRef.widgetNode.selectSingleNode("mb:maxExtent");
-    maxExtent=(maxExtent)?maxExtent.firstChild.nodeValue.split(" "):null;
-    // If the maxExtentis not specified in the config
-    // calculate it from the BBox  in the Context.
-    if(!maxExtent){
-      maxExtent=objRef.model.getBoundingBox();
-    }
-    maxExtent=(maxExtent)?new OpenLayers.Bounds(maxExtent[0],maxExtent[1],maxExtent[2],maxExtent[3]):null;
-    if(maxExtent==null)alert(mbGetMessage("noBboxInContext"));
-
-    //maxResolution
-    var maxResolution=null;
-    maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");
-    maxResolution=(maxResolution) ? parseFloat(maxResolution.firstChild.nodeValue) : "auto";
-
-    //units
-    var units = proj.units == 'meters' ? 'm' : proj.units;
-    
-    //resolutions
-    var resolutions=objRef.widgetNode.selectSingleNode("mb:resolutions");
-    resolutions = resolutions ? resolutions.firstChild.nodeValue.split(",") : null;
-    for (var r in resolutions) {
-      resolutions[r] = parseFloat(resolutions[r]);
-    }
-
-    //fixed scales - overrides resolutions
-    var scales = objRef.widgetNode.selectSingleNode("mb:scales");
-    if(scales){
-      scales = scales.firstChild.nodeValue.split(",");
-      resolutions = new Array();
-      for (var s in scales) {
-        resolutions.push(OpenLayers.Util.getResolutionFromScale(scales[s], units));
-      }
-    }
-    if(resolutions){
-      objRef.model.extent.setZoomLevels(true,resolutions);
-    }
-    else objRef.model.extent.setZoomLevels(false);
-
-    //get the output DIV and set it to context-size
-    var node = document.getElementById(objRef.containerNodeId);
-    var fixedSize=null;
-    fixedSize=objRef.widgetNode.selectSingleNode("mb:fixedSize");
-    fixedSize=(fixedSize)?fixedSize.firstChild.nodeValue:null;
-    if(fixedSize=="true"){
-      node.style.width = objRef.model.getWindowWidth()+"px";
-      node.style.height = objRef.model.getWindowHeight()+"px";
-    }
-    
-    //default map options
-    var mapOptions = {
-          controls:[],
-          projection: proj.srs,
-          units: units,
-          maxExtent: maxExtent,
-          maxResolution: maxResolution,
-          resolutions: resolutions,
-          theme: null // we have the theme loaded by Mapbuilder
-        };
-
+  if (!objRef.model.map) {
     objRef.model.map = new OpenLayers.Map(node, mapOptions);
 
     // Increase hight of Control layers to allow for lots of layers.
     objRef.model.map.Z_INDEX_BASE.Control=10000;
 
-    var layers = objRef.model.getAllLayers();
-    if (!objRef.oLlayers){
-      objRef.oLlayers = new Array();
-    }
-    for (var i=0;i<=layers.length-1;i++){
-      objRef.addLayer(objRef,layers[i]);
-    }
-    var bbox=objRef.model.getBoundingBox();
-
-    // set objRef as attribute of the OL map, so we have a reference
-    // to MapPaneOL available when handling OpenLayers events.
-    objRef.model.map.mbMapPane = objRef;
-  
-    // register OpenLayers event to keep the context updated
-    objRef.model.map.events.register('moveend', objRef.model.map, objRef.updateContext);
-    // register OpenLayers event to do updates onmouseup
-    objRef.model.map.events.register('mouseup', objRef.model.map, objRef.updateMouse);
-    
-    objRef.model.callListeners("bbox");
+    var baseLayerOptions = {
+            units: units,
+            projection: proj.srs,
+            maxExtent: maxExtent,
+            maxResolution: maxResolution,  //"auto" if not defined in the context
+            resolutions: resolutions,
+            alpha: false,            //option for png transparency with ie6
+            isBaseLayer: true,
+            displayOutsideMaxExtent: objRef.displayOutsideMaxExtent,
+            ratio: 1,
+            singleTile: true,
+            visibility: false
+       };
+    var baseLayer = new OpenLayers.Layer.WMS("baselayer",
+            config.skinDir+"/images/openlayers/blank.gif", null, baseLayerOptions);
+    objRef.model.map.addLayer(baseLayer);
+  } else {
+    objRef.deleteAllLayers(objRef);
   }
+    
+  var layers = objRef.model.getAllLayers();
+  if (!objRef.oLlayers){
+    objRef.oLlayers = {};
+  }
+  for (var i=0;i<=layers.length-1;i++){
+    objRef.addLayer(objRef,layers[i]);
+  }
+  var bbox=objRef.model.getBoundingBox();
+
+  // set objRef as attribute of the OL map, so we have a reference
+  // to MapPaneOL available when handling OpenLayers events.
+  objRef.model.map.mbMapPane = objRef;
+
+  // register OpenLayers event to keep the context updated
+  objRef.model.map.events.register('moveend', objRef.model.map, objRef.updateContext);
+  // register OpenLayers event to do updates onmouseup
+  objRef.model.map.events.register('mouseup', objRef.model.map, objRef.updateMouse);
   
+  objRef.model.callListeners("bbox");
+  
+}
+
+/**
+ * remove OpenLayers events and layers
+ * @param objRef reference to this widget
+ */
+MapPaneOL.prototype.clear = function(objRef) {
+  if (objRef.model.map) {
+    objRef.model.map.destroy(true);
+    objRef.model.map = null;
+    objRef.oLlayers = {};
+  }
 }
 
 /**
@@ -297,9 +324,9 @@ MapPaneOL.prototype.updateContext = function(e) {
   var lr = new Array(bboxOL[2],bboxOL[1]);
 
   if(objRef.model.getWindowWidth()!=e.element.offsetWidth)
-  	objRef.model.setWindowWidth(e.element.offsetWidth);
+    objRef.model.setWindowWidth(e.element.offsetWidth);
   if(objRef.model.getWindowHeight()!=e.element.offsetHeight)
-  	objRef.model.setWindowHeight(e.element.offsetHeight);	
+    objRef.model.setWindowHeight(e.element.offsetHeight);	
 
   var currentAoi = objRef.model.getParam('aoi');
   var newAoi = new Array(ul, lr);
@@ -380,11 +407,15 @@ MapPaneOL.prototype.deleteLayer = function(objRef, layerName) {
 /**
  * Removes all layers from the output
  * @param objRef Pointer to this object.
- * @param layerName the WMS anme for the layer to be removed
  */
 MapPaneOL.prototype.deleteAllLayers = function(objRef) {
-  objRef.model.map.destroy();
+  for (var i in objRef.oLlayers) {
+    var layer = objRef.oLlayers[i];
+    layer.destroy();
+  }
+  objRef.oLlayers = {};
 }
+
 //#############################################TDO
 /**
  * Moves a layer up in the stack of map layers
@@ -393,7 +424,7 @@ MapPaneOL.prototype.deleteAllLayers = function(objRef) {
  */
 MapPaneOL.prototype.moveLayerUp = function(objRef, layerName) {
   var map=objRef.model.map;
-  map.raiseLayer(map.getLayer(objRef.oLlayers[layerName].id), 1);
+  map.raiseLayer(objRef.oLlayers[layerName], 1);
 }
 
 /**
@@ -402,7 +433,7 @@ MapPaneOL.prototype.moveLayerUp = function(objRef, layerName) {
  * @param layerName the WMS name for the layer to be removed
  */
 MapPaneOL.prototype.moveLayerDown = function(objRef, layerName) {
-  objRef.model.map.raiseLayer(objRef.getLayer(objRef,layerName), -1);
+  objRef.model.map.raiseLayer(objRef.oLlayers[layerName], -1);
 }
 //###############################################
 /**
@@ -483,10 +514,10 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   //default option value for a layer
   var layerOptions = {
           visibility: vis,
-          projection: objRef.model.map.projection,
+          projection: objRef.model.map.baseLayer.projection,
           queryable: query,
-          maxExtent: objRef.model.map.maxExtent,
-          maxResolution: objRef.model.map.maxResolution,  //"auto" if not defined in the context
+          maxExtent: objRef.model.map.baseLayer.maxExtent,
+          maxResolution: objRef.model.map.baseLayer.maxResolution,  //"auto" if not defined in the context
           alpha: false,            //option for png transparency with ie6
           isBaseLayer: false,
           displayOutsideMaxExtent: objRef.displayOutsideMaxExtent
@@ -513,44 +544,45 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       var params = new Array();
       params = sld2UrlParam(currentStyle);
       if (objRef.model.timestampList && objRef.model.timestampList.getAttribute("layerName") == name2) { 
-          var timestamp = objRef.model.timestampList.childNodes[0];	
-	      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
-	          layers: name2,
-	          // "TRUE" in upper case else the context doc boston.xml
-	          // (i.c. the IONIC WMS/WFS) doesn't work.
-	          // Note that this is in line with the WMS standard (OGC 01-068r2),
-	          // section 6.4.1 Parameter Ordering and Case:
-	          // "Parameter names shall not be case sensitive,
-	          //  but parameter values shall be case sensitive."
-	          transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
+        var timestamp = objRef.model.timestampList.childNodes[0];
+        
+         objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
+            layers: name2,
+            // "TRUE" in upper case else the context doc boston.xml
+            // (i.c. the IONIC WMS/WFS) doesn't work.
+            // Note that this is in line with the WMS standard (OGC 01-068r2),
+            // section 6.4.1 Parameter Ordering and Case:
+            // "Parameter names shall not be case sensitive,
+            //  but parameter values shall be case sensitive."
+            transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
               "TIME":timestamp.firstChild.nodeValue,	          
-	          format: format,
-	          sld:params.sld,
-	          sld_body:params.sld_body,
-	          styles:params.styles
-	        },
-	        layerOptions
-	      );      
-	      // Turn on timestamp listenet
+            format: format,
+            sld:params.sld,
+            sld_body:params.sld_body,
+            styles:params.styles
+          },
+          layerOptions
+        );      
+        // Turn on timestamp listenet
           this.model.addListener("timestamp",this.timestampListener,this);	      
       }
       else {
-	      objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
-	          layers: name2,
-	          // "TRUE" in upper case else the context doc boston.xml
-	          // (i.c. the IONIC WMS/WFS) doesn't work.
-	          // Note that this is in line with the WMS standard (OGC 01-068r2),
-	          // section 6.4.1 Parameter Ordering and Case:
-	          // "Parameter names shall not be case sensitive,
-	          //  but parameter values shall be case sensitive."
-	          transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
-	          format: format,
-	          sld:params.sld,
-	          sld_body:params.sld_body,
-	          styles:params.styles
-	        },
-	        layerOptions
-	      );
+        objRef.oLlayers[name2]= new OpenLayers.Layer.WMS(title,href,{
+            layers: name2,
+            // "TRUE" in upper case else the context doc boston.xml
+            // (i.c. the IONIC WMS/WFS) doesn't work.
+            // Note that this is in line with the WMS standard (OGC 01-068r2),
+            // section 6.4.1 Parameter Ordering and Case:
+            // "Parameter names shall not be case sensitive,
+            //  but parameter values shall be case sensitive."
+            transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
+            format: format,
+            sld:params.sld,
+            sld_body:params.sld_body,
+            styles:params.styles
+          },
+          layerOptions
+        );
       }
     break;
 
@@ -621,13 +653,10 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
 
     case "GMAP":
     case "Google":
-      //<script src='http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA8qdfnOIRy3a9gh214V5jKRTwM0brOpm-All5BF6PoaKBxRWWERQ7UHfSE2CGKw9qNg0C1vUmYLatLQ'></script>
-      layerOptions.projection="EPSG:41001";
-      layerOptions.units="degrees";
-      objRef.model.map.units="degrees";
-      layerOptions.maxExtent=new OpenLayers.Bounds("-180","-90","180","90");
-      layerOptions.isBaseLayer=true;
-      objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, maxZoomLevel:18},layerOptions );
+      //the empty baseLayer has to be destroyed when you want to use google
+      objRef.model.map.baseLayer.destroy();
+      layerOptions.maxExtent=new OpenLayers.Bounds("-20037508", "-20037508", "20037508", "20037508.34");
+       objRef.oLlayers[name2] = new OpenLayers.Layer.Google( "Google Satellite" , {type: G_HYBRID_MAP, maxZoomLevel:18, sphericalMercator: true }, layerOptions );
     break;
 
     case "YMAP":
@@ -659,6 +688,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   objRef.oLlayers[name2].events.register('loadstart', objRef, objRef.increaseLoadingLayers);
   objRef.oLlayers[name2].events.register('loadend', objRef, objRef.decreaseLoadingLayers);
   
+  objRef.oLlayers[name2].setVisibility(vis);
   objRef.model.map.addLayer(objRef.oLlayers[name2]);
 }
 
@@ -694,55 +724,35 @@ MapPaneOL.prototype.refreshLayer = function(objRef, layerName , newParams){
   objRef.getLayer(objRef,layerName).mergeNewParams(newParams);
 }
   
-/**
- * This function is called when a new Context is about to be loaded
- * - it deletes all the old layers so new ones can be loaded.
- * TBD: This should be renamed to clearWidget, except inheritence
- * is not working if we do that and it doesn't get called.
- * @param objRef Pointer to this object.
- */
-MapPaneOL.prototype.clearWidget2 = function(objRef) {
-  if(objRef.model.map){
-    objRef.model.map.destroy();
-    var node = document.getElementById(objRef.containerNodeId);
-    var outputNode =  document.getElementById( objRef.model.id+"Container_OpenLayers_ViewPort" );
-    if(node && outputNode){
-      node.removeChild(outputNode);
-    }
-    objRef.model.map=null;
-    objRef.oLlayers = null;
-  }
-}
-
   /**
    * Called when the map timestamp is changed so set the layer visiblity.
    * @param objRef This object.
    * @param timestampIndex  The array index for the layer to be displayed. 
    */
 MapPaneOL.prototype.timestampListener=function(objRef, timestampIndex){
-	var layerName = objRef.model.timestampList.getAttribute("layerName");
+  var layerName = objRef.model.timestampList.getAttribute("layerName");
     var timestamp = objRef.model.timestampList.childNodes[timestampIndex];
 
 
-	if ((layerName) && (timestamp)) {				
-		var curLayer = objRef.oLlayers[layerName];
-		// Perform URL substitution via regexps
-		var oldImageUrl = curLayer.grid[0][0].imgDiv.src;
-		var newImageUrl = oldImageUrl;		
-		newImageUrl = newImageUrl.replace(/TIME\=.*?\&/,'TIME=' + timestamp.firstChild.nodeValue + '&');
+  if ((layerName) && (timestamp)) {				
+    var curLayer = objRef.oLlayers[layerName];
+    // Perform URL substitution via regexps
+    var oldImageUrl = curLayer.grid[0][0].imgDiv.src;
+    var newImageUrl = oldImageUrl;		
+    newImageUrl = newImageUrl.replace(/TIME\=.*?\&/,'TIME=' + timestamp.firstChild.nodeValue + '&');
 
-		function imageLoaded() {
-			window.movieLoop.frameIsLoading = false;
-		}
+    function imageLoaded() {
+      window.movieLoop.frameIsLoading = false;
+    }
 
-		window.movieLoop.frameIsLoading = true;
-		var element = curLayer.grid[0][0].imgDiv;
-		if(element.addEventListener) { // Standard
-			element.addEventListener("load", imageLoaded, false);
-		} else if(element.attachEvent) { // IE
-			element.attachEvent('onload', imageLoaded);
-		} 
-		element.src = newImageUrl;		
-	}
-			
+    window.movieLoop.frameIsLoading = true;
+    var element = curLayer.grid[0][0].imgDiv;
+    if(element.addEventListener) { // Standard
+      element.addEventListener("load", imageLoaded, false);
+    } else if(element.attachEvent) { // IE
+      element.attachEvent('onload', imageLoaded);
+    } 
+    element.src = newImageUrl;		
+  }
+      
 }

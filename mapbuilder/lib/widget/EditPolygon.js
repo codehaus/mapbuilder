@@ -27,6 +27,7 @@ function EditPolygon(widgetNode, model) {
    */
   this.createControl = function(objRef) {
     var Control = OpenLayers.Class(OpenLayers.Control.DrawFeature, {
+    	type: OpenLayers.Control.TYPE_TOOL,
       // this is needed because all editing tools are of type
       // OpenLayers.Control.DrawFeature
       CLASS_NAME: 'mbEditPolygon'
@@ -42,11 +43,10 @@ function EditPolygon(widgetNode, model) {
    * Write geometry to the GML feature.
    * Called when a feature is finished
    * @param objRef      Pointer to this object.
-   * @param {OpenLayers.Feature} feature The polygon created
    */
-  this.setFeature = function(objRef, feature) {
-    if (objRef.enabled) {
-      var points = feature.geometry.components[0].components;
+  this.setFeature = function(objRef) {
+    if (objRef.enabled && objRef.geometry) {
+      var points = objRef.geometry.components[0].components;
       var geom = '';
       for (var i in points) {
         geom += ' '+points[i].x+","+points[i].y;
@@ -55,6 +55,7 @@ function EditPolygon(widgetNode, model) {
         objRef.targetModel,
         objRef.featureXpath,
         geom);
+      objRef.geometry = null;
       if(!sucess){
         alert(mbGetMessage("invalidFeatureXpathEditPolygon", objRef.featureXpath));
       }

@@ -45,10 +45,10 @@
     </CollectionList>
     
     <CursorTrack>
-      <latitude>lat:</latitude>
-      <longitude>lon:</longitude>
-      <xcoord>x:</xcoord>
-      <ycoord>y:</ycoord>
+      <latitude>lat: </latitude>
+      <longitude>lon: </longitude>
+      <xcoord>x: </xcoord>
+      <ycoord>y: </ycoord>
     </CursorTrack>
     
     <DeleteFeature>
@@ -103,12 +103,12 @@
     </Measurement>
     
     <ModelStatus>
-      <title>Status for:</title>
+      <title>Status for: </title>
     </ModelStatus>
     
     <ModelUrlInput>
       <load>load</load>
-      <title>URL:</title>
+      <title>URL: </title>
     </ModelUrlInput>
     
     <Reset>
@@ -124,7 +124,7 @@
     </SetAoi>
     
     <Timestamp>
-      <title>Timestamp:</title>
+      <title>Timestamp: </title>
     </Timestamp>
     
     <WebServiceForm>
@@ -190,6 +190,8 @@
     <ll2stInfiniteProjection>ll2st: Point projects into infinity</ll2stInfiniteProjection>
     <ll2tmInfiniteProjection>ll2tm: Point projects into infinity</ll2tmInfiniteProjection>
     <llInputOutOfRange>Input out of range: lon: {0} - lat: {1}</llInputOutOfRange>
+    <loadingLayer>Loading {0} map layer</loadingLayer>
+    <loadingLayers>Loading {0} map layers</loadingLayers>
     <mollFwdIterationError>Iteration failed to converge in mollFwd()</mollFwdIterationError>
     <noBboxInContext>No BBOX defined in context</noBboxInContext>
     <noContextDefined>No context defined in config</noContextDefined>

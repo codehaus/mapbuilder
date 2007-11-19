@@ -18,6 +18,8 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
  * @param model The parent model object (optional).
  */
 function ButtonBase(widgetNode, model) {
+  WidgetBase.apply(this, new Array(widgetNode, model));
+
   var buttonBarNode = widgetNode.selectSingleNode("mb:buttonBar");
   if ( buttonBarNode ) {
     this.htmlTagId = buttonBarNode.firstChild.nodeValue;
@@ -39,23 +41,10 @@ function ButtonBase(widgetNode, model) {
   }
   // html tag id of the div where OL places its panel code
   this.panelHtmlTagId = this.htmlTagId+'_panel';
-  // create a dom node for OL to use as panel
-  if (!document.getElementById(this.panelHtmlTagId)) {
-    var parentNode = document.getElementById(this.htmlTagId);
-    var olPanelNode = document.createElement('div');
-    olPanelNode.setAttribute('id', this.panelHtmlTagId);
-    olPanelNode.setAttribute('class', 'olControlPanel');
-    parentNode.appendChild(olPanelNode);
-    // workaround for IE - otherwise nothing is displayed
-    parentNode.innerHTML += ' ';
-  }
 
   // load controlPanel.css for button base styles
   loadCss('controlPanel.css');
 
-  WidgetBase.apply(this, new Array(widgetNode, model));
-  
-  
   //set the button type
   this.buttonType = widgetNode.selectSingleNode("mb:class").firstChild.nodeValue;
   if (this.buttonType == "RadioButton") this.enabled = false;
@@ -161,6 +150,9 @@ function ButtonBase(widgetNode, model) {
    * @param objRef Reference to this object.
    */
   this.attachToOL = function(objRef,refreshId) {
+    if (objRef.control) {
+      return;
+    }
   
     //pass in a widget ID to refresh only that widget
     if (refreshId && (refreshId!=objRef.id)) return;
@@ -173,6 +165,7 @@ function ButtonBase(widgetNode, model) {
     // MB-stuff to the activate and deactivate methods
     var SubclassControl = objRef.createControl(objRef);
     var Control = OpenLayers.Class( SubclassControl, {
+      objRef: objRef,
       superclass: SubclassControl.prototype,
       // call objRef.doSelect after OL activate from this control
       trigger: function() {
@@ -204,14 +197,26 @@ function ButtonBase(widgetNode, model) {
         }
       },
       destroy: function() {
-        this.superclass.destroy.apply(this, arguments);
+        try {
+          this.superclass.destroy.apply(this, arguments);
+        } catch(e) {
+          OpenLayers.Control.prototype.destroy.apply(this, arguments);
+        }
+        this.superclass = null;
+        OpenLayers.Event.stopObservingElement(this.panel_div);
+        this.objRef.panel.div.removeChild(this.panel_div);
+        this.objRef.control = null;
+        this.objRef = null;
+        this.panel_div = null;
         this.div = null;
       }
     });
 
     // if the subclass provides an instantiateControl() method,
     // use it for instantiation. If not, instantiate directly
-    objRef.control = objRef.instantiateControl ? objRef.instantiateControl(objRef, Control) : new Control();
+    if (!objRef.control) {
+      objRef.control = objRef.instantiateControl ? objRef.instantiateControl(objRef, Control) : new Control();
+    }
     
     // get the control from the createControl method of the subclass
     //objRef.control = objRef.createControl(objRef);
@@ -220,12 +225,23 @@ function ButtonBase(widgetNode, model) {
     // create a panel, if we do not have one yet for this buttonBar
     // or if the old map.panel was destroyed
     if (!objRef.panel || objRef.panel.map == null) {
+      // create a dom node for OL to use as panel
+      if (!document.getElementById(objRef.panelHtmlTagId)) {
+        var olPanelNode = document.createElement('div');
+        olPanelNode.setAttribute('id', objRef.panelHtmlTagId);
+        olPanelNode.setAttribute('class', 'olControlPanel');
+        var parentNode = objRef.getNode();
+        parentNode.appendChild(olPanelNode);
+        parentNode.innerHTML += " ";
+      }
       var Panel = OpenLayers.Class( OpenLayers.Control.Panel, {
         div: document.getElementById(objRef.panelHtmlTagId),
         defaultControl: null,
         destroy: function() {
-          OpenLayers.Control.Panel.prototype.destroy.apply(this, arguments);
+          parentNode.removeChild(this.div);
+          OpenLayers.Control.prototype.destroy.apply(this, arguments);
           this.div = null;
+          objRef.panel = null;
         }
       });
       objRef.panel = new Panel();
@@ -234,7 +250,9 @@ function ButtonBase(widgetNode, model) {
     }
     
     // add the control to the panel
-    objRef.panel.addControls(objRef.control);
+    if (OpenLayers.Util.indexOf(objRef.control, objRef.panel.controls) == -1) {
+      objRef.panel.addControls(objRef.control);
+    }
      
     // set tooltip for the button
     if (objRef.tooltip) {
@@ -283,4 +301,5 @@ function ButtonBase(widgetNode, model) {
   }
 
   this.model.addListener("init",this.buttonInit,this);
+  this.model.removeListener("newNodel", this.clearWidget, this);
 }

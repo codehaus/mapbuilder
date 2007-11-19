@@ -117,6 +117,7 @@ WebServiceRequest.prototype.doRequest = function(objRef, featureName) {
   }
   if (objRef.model.setRequestParameters) objRef.model.setRequestParameters(featureName, objRef.requestStylesheet);
   var httpPayload = objRef.createHttpPayload(feature);
+  objRef.targetModel.deleteTemplates();
   objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
 }
 
@@ -174,12 +175,27 @@ WebServiceRequest.prototype.init = function(objRef) {
     objRef.containerModel.addListener("bbox", objRef.setAoiParameters, objRef);
     objRef.containerModel.addListener("selectedLayer", objRef.selectFeature, objRef);
     objRef.containerModel.addListener("loadModel", objRef.mapInit, objRef);
+    objRef.containerModel.addListener("newModel", objRef.clear, objRef);
   }
 }
 
+/**
+ * set map events needed for this tool
+ * @param objRef reference to this tool
+ */
 WebServiceRequest.prototype.mapInit = function(objRef) {
   // register OpenLayers event to do updates onmouseup
   objRef.containerModel.map.events.registerPriority('mouseup', objRef, objRef.setClickPosition);  
+}
+
+/**
+ * remove map events for this tool
+ * @param objRef reference to this tool
+ */
+WebServiceRequest.prototype.clear = function(objRef) {
+  if (objRef.containerModel.map && objRef.containerModel.map.events) {
+    objRef.containerModel.map.events.unregister('mouseup', objRef, objRef.setClickPosition);  
+  }
 }
 
 /**

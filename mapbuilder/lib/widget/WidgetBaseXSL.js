@@ -114,15 +114,4 @@ function WidgetBaseXSL(widgetNode,model) {
   // Call paint when model changes
   this.model.addListener("refresh",this.paint, this);
 
-  /**
-   * Remove widget from display.
-   * @param objRef Pointer to this object.
-   */ 
-  this.clearWidget = function(objRef) {
-    //with node remove child
-    var outputNode = document.getElementById( objRef.outputNodeId );
-    var node = objRef.getNode();
-    if (node && outputNode) node.removeChild(outputNode);
-  }
-  this.model.addListener("newModel",this.clearWidget, this);
 }
