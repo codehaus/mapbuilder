@@ -78,7 +78,7 @@ for file in `find lib -name "*.xsl"` ; do
   # xsltproc ${mapbuilderDir}/build/compressXsl.xsl ${file} > ${tmp};
   # mv ${tmp} ${file};
   echo "inlineXSL[\"${path}${file}\"] = " >> ${originalFile} 2>&1
-  cat ${file} | sed -e 's/\"/DOUBLE_QUOTE/g' -e 's/^/\"/g'  -e 's///' -e 's/$/\" +/g'  >> ${originalFile} 2>&1
+  cat ${file} | sed -e 's/\"/DOUBLE_QUOTE/g' -e 's/^/\"/g'  -e 's///g' -e 's/$/\" +/g'  >> ${originalFile} 2>&1
   echo "\"\";" >> ${originalFile} 2>&1
 done;
 cp ${originalFile} ${mapbuilderDir}/lib
