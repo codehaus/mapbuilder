@@ -229,9 +229,10 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     objRef.model.map.Z_INDEX_BASE.Control=10000;
     var baseLayer = null;
     
-    //If we have an OWSContext, we might have a BaseLayer configured
-    if(objRef.context=="OWS"){
+    //If we have an OWSContext and we have a BaseLayer we need to use this layer
+    if(objRef.context=="OWS"&&objRef.model.getBaseLayer()){
       var baseLayerNode = objRef.model.getBaseLayer();
+     
       //overrule the SRS in the Context with the one from the BaseLayer
       var baseSrs = baseLayerNode.selectSingleNode("ows:TileSet/ows:SRS");
       if(baseSrs) objRef.model.setSRS(baseSrs.firstChild.nodeValue);
