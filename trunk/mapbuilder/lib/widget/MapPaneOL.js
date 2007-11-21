@@ -23,6 +23,8 @@ function MapPaneOL(widgetNode, model) {
 
   loadCss('openlayers/style.css');
   OpenLayers.ImgPath = config.skinDir + '/images/openlayers/';
+  OpenLayers.ProxyHost = config.proxyUrl+"/?url=";
+  
 
   // replacement for deprecated MapContainerBase
   this.containerNodeId = this.htmlTagId;
@@ -729,9 +731,6 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       if (objRef.model.timestampList && objRef.model.timestampList.getAttribute("layerId") == layerId) { 
         var timestamp = objRef.model.timestampList.childNodes[0];
 
-        // instead of new OpenLayers.Layer..., create a function that
-        // does this, but checks if the layer is already in reuseLayers
-    
         objRef.oLlayers[layerId]= new OpenLayers.Layer.WMS(title,href,{
             layers: layerName,
             // "TRUE" in upper case else the context doc boston.xml
