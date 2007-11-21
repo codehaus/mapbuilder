@@ -23,6 +23,7 @@ function MapPaneOL(widgetNode, model) {
 
   loadCss('openlayers/style.css');
   OpenLayers.ImgPath = config.skinDir + '/images/openlayers/';
+  OpenLayers.ProxyHost = config.proxyUrl+"/?url=";
 
   // replacement for deprecated MapContainerBase
   this.containerNodeId = this.htmlTagId;
