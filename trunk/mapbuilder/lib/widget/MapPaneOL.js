@@ -268,7 +268,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       baseLayerName=(baseLayerName)?baseLayerName.firstChild.nodeValue:"";
       // get the layer-type of the BaseLayer (this allows specifying if is is a arial,road or hybrid map)
       var baseLayerType = baseLayerNode.selectSingleNode("ows:TileSet/ows:Layers");
-      baseLayerType=(baseLayerType)?baseLayerType.nodeValue:"hybrid";
+      baseLayerType=(baseLayerType)?baseLayerType.firstChild.nodeValue:"hybrid";
       // it might be that the baseLayer is a WMS so we need to fetch the url
       var href=baseLayerNode.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?getNodeValue(href):"";
       
@@ -836,7 +836,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       objRef.oLlayers[layerId] = new OpenLayers.Layer.GML(title,href,layerOptions);
 
      break;
-/*
+
     case "GMAP":
     case "Google":
       //the empty baseLayer has to be destroyed when you want to use google
@@ -863,7 +863,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       //<script type="text/javascript" src="http://clients.multimap.com/API/maps/1.1/metacarta_04"></script>
       layerOptions.isBaseLayer=true;
       objRef.oLlayers[layerId] = new OpenLayers.Layer.MultiMap( "MultiMap");
-    break;*/
+    break;
     default:
       alert(mbGetMessage("layerTypeNotSupported", service));
   }
