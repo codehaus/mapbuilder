@@ -15,22 +15,20 @@
       <ows:LowerCorner>-20037508 -20037508</ows:LowerCorner>
       <ows:UpperCorner>20037508 20037508.34</ows:UpperCorner>
     </ows:BoundingBox>
-    <Title>OWS Context Document Schema Interoperability Experiment</Title>
-    <KeywordList>
-      <Keyword>MassGIS</Keyword>
-      <Keyword>Boston</Keyword>
-      <Keyword>Massachusetts</Keyword>
-    </KeywordList>
-    <Abstract> The OpenGIS Web Services Context Document Schema Interoperability Experiment is initiated by cadcorp, DM Solutions, GeoConnections/Natural Resources Canada, and IONIC Software. It is an Interoperability Experiment intended to an XML schema for encoding OpenGIS Web Services Context documents (OWS Context).  OWS Context documents are related to, but more powerful than, Web Map Context Documents (03-036r2). The latter are limited to referencing OGC Web Map Services (WMS), whereas the former can reference other OGC Web Services, e.g. Web Feature Services (WFS), Web Coverage Services (WCS), etc.</Abstract>
+    <Title>OWS context with Google</Title>
+    <Abstract> The OpenGIS Web Services Context Document with google baselayer (mapbuilder only ATM)</Abstract>
   </General>
   <ResourceList>
     <ows:BaseLayer>
-      <Server service="Google"/>
-      <Name>Google Hybrid</Name>
-      <ows:TileSet>
-        <ows:SRS>EPSG:900913</ows:SRS>
-        <ows:BoundingBox SRS="EPSG:900913" minx="-20037508" miny="-20037508" maxx="20037508" maxy="20037508.34"/>
-        <ows:Layers>hybrid</ows:Layers>
+      <Server service="Google"/> <!-- the service attribute will decide what kind of layer it is, in the case of a WMS you will need to add a resource url -->
+      <Name>Google Hybrid</Name>  <!-- used to set the name of the baselayer -->
+      <ows:TileSet>  <!-- this is taken from TileCache.py -->
+        <!-- <ows:resolutions/> --><!-- If prefered you can store you custom resolutions, for ymap,ve and gmap it's not needed -->
+        <ows:SRS>EPSG:900913</ows:SRS>  <!-- if set to EPSG:900913 it will automatically switch to sphericalMercator -->
+        <ows:BoundingBox SRS="EPSG:900913" minx="-20037508" miny="-20037508" maxx="20037508" maxy="20037508.34"/> <!-- unfortunately this is currently being ignored, please use the OWS context bbox-->
+        <ows:Layers>hybrid</ows:Layers> <!-- here you can choose aerial/satellite, road/normal or hybrid(default)-->
+        <!-- <ows:Width/> --> <!-- here you can specify a custom tilesize, default is 256 -->
+        <!-- <ows:Format/> --> <!-- here you can specify a custom format -->
       </ows:TileSet>
     </ows:BaseLayer>
   </ResourceList>

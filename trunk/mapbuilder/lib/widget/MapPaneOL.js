@@ -327,7 +327,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
           var sphericalMercator = (objRef.model.getSRS()=='EPSG:900913')?true:false;
           //check if we have a layertype
           switch(baseLayerType){
-            case "arial":
+            case "aerial":
             case "satellite":            
               baseLayerType=G_SATELLITE_MAP;
             break;
@@ -358,9 +358,9 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
           var sphericalMercator = (objRef.model.getSRS()=='EPSG:900913')?true:false;
           //check if we have a layertype
           switch(baseLayerType){
-            case "arial":
+            case "aerial":
             case "satellite":
-              baseLayerType=VEMapStyle.Arial;
+              baseLayerType=VEMapStyle.Aerial;
             break;
             case "road":
             case "normal":
