@@ -227,31 +227,191 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 
     // Increase hight of Control layers to allow for lots of layers.
     objRef.model.map.Z_INDEX_BASE.Control=10000;
+    var baseLayer = null;
+    
+    //If we have an OWSContext, we might have a BaseLayer configured
+    if(objRef.context=="OWS"){
+      var baseLayerNode = objRef.model.getBaseLayer();
+      //overrule the SRS in the Context with the one from the BaseLayer
+      var baseSrs = baseLayerNode.selectSingleNode("ows:TileSet/ows:SRS");
+      if(baseSrs) objRef.model.setSRS(baseSrs.firstChild.nodeValue);
+      //overrule the units in the Context with the updated SRS
+      //units
+      units = proj.units == 'meters' ? 'm' : proj.units;
+      //overrule the boundingbox in the Context with the maxExtent from the BaseLayer
+      var maxExtentNode = baseLayerNode.selectSingleNode("ows:TileSet/ows:BoundingBox");
+      if(maxExtentNode) maxExtent = new OpenLayers.Bounds(maxExtentNode.selectSingleNode('@minx').nodeValue,maxExtentNode.selectSingleNode('@miny').nodeValue,maxExtentNode.selectSingleNode('@maxx').nodeValue,maxExtentNode.selectSingleNode('@maxy').nodeValue);
+      //overrule resolutions in the Context with the one from BaseLayer
+      //@TODO: check if the firstChild is really needed
+      var resolutions =baseLayerNode.selectSingleNode("ows:TileSet/ows:Resolutions");
+      resolutions = resolutions ? resolutions.firstChild.nodeValue.split(",") : null;
+      for (var r in resolutions) {
+         resolutions[r] = parseFloat(resolutions[r]);
+      }
+      //overrule tileSize in the Context with the one from the BaseLayer
+      //right now we only support square tiles which are defined by their width:		  
+      var tileSize =baseLayerNode.selectSingleNode("ows:TileSet/ows:Width");
+      if(tileSize) objRef.tileSize = parseInt(tileSize.nodeValue);
+      //check if there's a format defined for the BaseLayer
+      var format = baseLayerNode.selectSingleNode("ows:TileSet/ows:Format");
+      if(format) format = format.nodeValue;
+      
+      //Initialising the baseLayer
+      // Test service of the baseLayer
+      var service=baseLayerNode.selectSingleNode("wmc:Server/@service");
+      service=(service)?service.nodeValue:"";
+      // Test title of the baseLayer
+      var title=baseLayerNode.selectSingleNode("wmc:Title");
+      title=(title)?title.firstChild.nodeValue:"";
+      // Get the name of the baseLayer
+      var baseLayerName = baseLayerNode.selectSingleNode("wmc:Name");
+      baseLayerName=(baseLayerName)?baseLayerName.firstChild.nodeValue:"";
+      // get the layer-type of the BaseLayer (this allows specifying if is is a arial,road or hybrid map)
+      var baseLayerType = baseLayerNode.selectSingleNode("ows:TileSet/ows:Layers");
+      baseLayerType=(baseLayerType)?baseLayerType.nodeValue:"hybrid";
+      // it might be that the baseLayer is a WMS so we need to fetch the url
+      var href=baseLayerNode.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?getNodeValue(href):"";
+      
+      var baseLayerOptions = {
+              units: units,
+              projection: proj.srs,
+              maxExtent: maxExtent,
+             
+              alpha: false,            //option for png transparency with ie6
+              isBaseLayer: true,
+              displayOutsideMaxExtent: objRef.displayOutsideMaxExtent,
+              ratio: 1,
+              
+         };
+         
+      switch(service){
+        // WMS Layer (Untiled)
+        case "OGC":
+        case "WMS":
+        case "wms":
+        case "OGC:WMS":
+          
+          baseLayerOptions.ratio = objRef.imageBuffer;
+    
+          var params = new Array();
 
-    var baseLayerOptions = {
-            units: units,
-            projection: proj.srs,
-            maxExtent: maxExtent,
-            maxResolution: maxResolution,  //"auto" if not defined in the context
-            resolutions: resolutions,
-            alpha: false,            //option for png transparency with ie6
-            isBaseLayer: true,
-            displayOutsideMaxExtent: objRef.displayOutsideMaxExtent,
-            ratio: 1,
-            singleTile: true,
-            visibility: false
-       };
-    var baseLayer = new OpenLayers.Layer.WMS("baselayer",
-            config.skinDir+"/images/openlayers/blank.gif", null, baseLayerOptions);
-    objRef.model.map.addLayer(baseLayer);
-  } else {
+         
+         baseLayer= new OpenLayers.Layer.WMS(title,href,{
+              layers: baseLayerName,
+              format: format
+              },
+            baseLayerOptions
+          );
+        break;
+    
+        // WMS-C Layer (Tiled)
+        case "WMS-C":
+        case "OGC:WMS-C":
+          baseLayerOptions.gutter = objRef.tileGutter;
+          baseLayerOptions.buffer = objRef.tileBuffer;
+          baseLayerOptions.tileSize = new OpenLayers.Size(objRef.tileSize, objRef.tileSize);
+          
+          baseLayer= new OpenLayers.Layer.WMS(title,href,{
+              layers: baseLayerName,
+              format: format,
+            },
+            baseLayerOptions
+          );
+        break;
+    
+        case "GMAP":
+        case "Google":       
+          if(maxExtent) baseLayerOptions.maxExtent=maxExtent;
+          //check if we have spherical projection
+          var sphericalMercator = (objRef.model.getSRS()=='EPSG:900913')?true:false;
+          //check if we have a layertype
+          switch(baseLayerType){
+            case "arial":
+            case "satellite":            
+              baseLayerType=G_SATELLITE_MAP;
+            break;
+            case "road":
+            case "normal":            
+              baseLayerType=G_NORMAL_MAP;
+            break;
+            default:
+              baseLayerType=G_HYBRID_MAP;
+          }
+          baseLayer = new OpenLayers.Layer.Google( baseLayerName , {type: baseLayerType, minZoomLevel: 0, maxZoomLevel:19, sphericalMercator: sphericalMercator }, baseLayerOptions );
+
+        break;
+    
+        case "YMAP":
+        case "Yahoo":
+          //Yahoo-layer doesn't support layerTypes
+          if(maxExtent) baseLayerOptions.maxExtent=maxExtent;
+          //check if we have spherical projection
+          var sphericalMercator = (objRef.model.getSRS()=='EPSG:900913')?true:false;          
+          baseLayer = new OpenLayers.Layer.Yahoo(  baseLayerName , { maxZoomLevel:21, sphericalMercator: sphericalMercator }, baseLayerOptions );
+        break;
+    
+        case "VE":
+        case "Microsoft":
+          if(maxExtent) baseLayerOptions.maxExtent=maxExtent;
+          //check if we have spherical projection
+          var sphericalMercator = (objRef.model.getSRS()=='EPSG:900913')?true:false;
+          //check if we have a layertype
+          switch(baseLayerType){
+            case "arial":
+            case "satellite":
+              baseLayerType=VEMapStyle.Arial;
+            break;
+            case "road":
+            case "normal":
+              baseLayerType=VEMapStyle.Road;
+            break;
+            default:
+              baseLayerType=VEMapStyle.Hybrid;
+          }
+          baseLayer = new OpenLayers.Layer.VirtualEarth( baseLayerName,{minZoomLevel: 0, maxZoomLevel: 21,type: baseLayerType});
+        break;
+    
+        case "MultiMap":
+           if(maxExtent) baseLayerOptions.maxExtent=maxExtent;
+           //check if we have spherical projection
+          var sphericalMercator = (objRef.model.getSRS()=='EPSG:900913')?true:false;          
+          baseLayer = new OpenLayers.Layer.MultiMap( baseLayerName , { maxZoomLevel:21, sphericalMercator: sphericalMercator }, baseLayerOptions );
+        break;
+        default:
+          alert(mbGetMessage("layerTypeNotSupported", service));
+        }
+    }
+    //Otherwise we will just use an empty WMS layer as BaseLayer
+    else {
+      var baseLayerOptions = {
+              units: units,
+              projection: proj.srs,
+              maxExtent: maxExtent,
+              maxResolution: maxResolution,  //"auto" if not defined in the context
+              resolutions: resolutions,
+              alpha: false,            //option for png transparency with ie6
+              isBaseLayer: true,
+              displayOutsideMaxExtent: objRef.displayOutsideMaxExtent,
+              ratio: 1,
+              singleTile: true,
+              visibility: false
+         };
+      baseLayer = new OpenLayers.Layer.WMS("baselayer",
+              config.skinDir+"/images/openlayers/blank.gif", null, baseLayerOptions);
+      
+    }
+    objRef.model.map.addLayer(baseLayer); 
+  }
+  else {
     objRef.deleteAllLayers(objRef);
   }
+  
     
   var layers = objRef.model.getAllLayers();
   if (!objRef.oLlayers){
     objRef.oLlayers = {};
   }
+
   for (var i=0;i<=layers.length-1;i++){
     objRef.addLayer(objRef,layers[i]);
   }
@@ -571,15 +731,15 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         // instead of new OpenLayers.Layer..., create a function that
         // does this, but checks if the layer is already in reuseLayers
     
-	      objRef.oLlayers[layerId]= new OpenLayers.Layer.WMS(title,href,{
-	          layers: layerName,
-	          // "TRUE" in upper case else the context doc boston.xml
-	          // (i.c. the IONIC WMS/WFS) doesn't work.
-	          // Note that this is in line with the WMS standard (OGC 01-068r2),
-	          // section 6.4.1 Parameter Ordering and Case:
-	          // "Parameter names shall not be case sensitive,
-	          //  but parameter values shall be case sensitive."
-	          transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
+        objRef.oLlayers[layerId]= new OpenLayers.Layer.WMS(title,href,{
+            layers: layerName,
+            // "TRUE" in upper case else the context doc boston.xml
+            // (i.c. the IONIC WMS/WFS) doesn't work.
+            // Note that this is in line with the WMS standard (OGC 01-068r2),
+            // section 6.4.1 Parameter Ordering and Case:
+            // "Parameter names shall not be case sensitive,
+            //  but parameter values shall be case sensitive."
+            transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
               "TIME":timestamp.firstChild.nodeValue,	          
             format: format,
             sld:params.sld,
@@ -592,22 +752,22 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
           this.model.addListener("timestamp",this.timestampListener,this);	      
       }
       else {
-	      objRef.oLlayers[layerId]= new OpenLayers.Layer.WMS(title,href,{
-	          layers: layerName,
-	          // "TRUE" in upper case else the context doc boston.xml
-	          // (i.c. the IONIC WMS/WFS) doesn't work.
-	          // Note that this is in line with the WMS standard (OGC 01-068r2),
-	          // section 6.4.1 Parameter Ordering and Case:
-	          // "Parameter names shall not be case sensitive,
-	          //  but parameter values shall be case sensitive."
-	          transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
-	          format: format,
-	          sld:params.sld,
-	          sld_body:params.sld_body,
-	          styles:params.styles
-	        },
-	        layerOptions
-	      );
+        objRef.oLlayers[layerId]= new OpenLayers.Layer.WMS(title,href,{
+            layers: layerName,
+            // "TRUE" in upper case else the context doc boston.xml
+            // (i.c. the IONIC WMS/WFS) doesn't work.
+            // Note that this is in line with the WMS standard (OGC 01-068r2),
+            // section 6.4.1 Parameter Ordering and Case:
+            // "Parameter names shall not be case sensitive,
+            //  but parameter values shall be case sensitive."
+            transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
+            format: format,
+            sld:params.sld,
+            sld_body:params.sld_body,
+            styles:params.styles
+          },
+          layerOptions
+        );
       }
     break;
 
@@ -676,7 +836,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       objRef.oLlayers[layerId] = new OpenLayers.Layer.GML(title,href,layerOptions);
 
      break;
-
+/*
     case "GMAP":
     case "Google":
       //the empty baseLayer has to be destroyed when you want to use google
@@ -703,7 +863,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       //<script type="text/javascript" src="http://clients.multimap.com/API/maps/1.1/metacarta_04"></script>
       layerOptions.isBaseLayer=true;
       objRef.oLlayers[layerId] = new OpenLayers.Layer.MultiMap( "MultiMap");
-    break;
+    break;*/
     default:
       alert(mbGetMessage("layerTypeNotSupported", service));
   }

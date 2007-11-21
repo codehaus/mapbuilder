@@ -1,31 +1,37 @@
-<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
-<ViewContext version="1.0.0" id="metacarta_world"
-  xmlns="http://www.opengis.net/context"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengis.net/context/1.0.0/context.xsd">
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<OWSContext version="0.0.13"
+    id="ows-context-tie"
+    xmlns="http://www.opengis.net/context"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:sld="http://www.opengis.net/sld"
+    xmlns:ogc="http://www.opengis.net/ogc"
+    xmlns:ows="http://www.opengis.net/ows"
+    xmlns:param="http;//www.opengis.net/param"
+    xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
   <General>
-    <Window width="512" height="512" />
-     <BoundingBox SRS="EPSG:900913" minx="-20037508" miny="-20037508" maxx="20037508" maxy="20037508.34"/>
-    <Title>google</Title>
+    <Window width="500" height="300"/>
+    <ows:BoundingBox crs="EPSG:900913">
+      <ows:LowerCorner>-20037508 -20037508</ows:LowerCorner>
+      <ows:UpperCorner>20037508 20037508.34</ows:UpperCorner>
+    </ows:BoundingBox>
+    <Title>OWS Context Document Schema Interoperability Experiment</Title>
+    <KeywordList>
+      <Keyword>MassGIS</Keyword>
+      <Keyword>Boston</Keyword>
+      <Keyword>Massachusetts</Keyword>
+    </KeywordList>
+    <Abstract> The OpenGIS Web Services Context Document Schema Interoperability Experiment is initiated by cadcorp, DM Solutions, GeoConnections/Natural Resources Canada, and IONIC Software. It is an Interoperability Experiment intended to an XML schema for encoding OpenGIS Web Services Context documents (OWS Context).  OWS Context documents are related to, but more powerful than, Web Map Context Documents (03-036r2). The latter are limited to referencing OGC Web Map Services (WMS), whereas the former can reference other OGC Web Services, e.g. Web Feature Services (WFS), Web Coverage Services (WCS), etc.</Abstract>
   </General>
-  <LayerList>
-  <Layer queryable="0" hidden="0">
-      <Server service="Google" version="1.0.0" title="Google Map">
-       <OnlineResource xlink:type="simple" xlink:href="Google"/>
-      </Server>
-       <Name>Google</Name>
-      <Title>Google</Title>
-       <SRS>EPSG:900913</SRS>
-      <FormatList>
-       <Format current="1">image/gif</Format>
-      </FormatList>
-      <StyleList>
-       <Style current="1">
-         <Name>default</Name>
-           <Title>default</Title>
-        </Style>
-       </StyleList>
-     </Layer>
-  </LayerList>
-</ViewContext>
+  <ResourceList>
+    <ows:BaseLayer>
+      <Server service="Google"/>
+      <Name>Google Hybrid</Name>
+      <ows:TileSet>
+        <ows:SRS>EPSG:900913</ows:SRS>
+        <ows:BoundingBox SRS="EPSG:900913" minx="-20037508" miny="-20037508" maxx="20037508" maxy="20037508.34"/>
+        <ows:Layers>hybrid</ows:Layers>
+      </ows:TileSet>
+    </ows:BaseLayer>
+  </ResourceList>
+</OWSContext>
