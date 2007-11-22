@@ -343,15 +343,17 @@ $Id$
 
     <!-- Include all elements that Tomcat exposes to applications -->
     <pathelement location="${catalina.home}/common/classes"/>
-    <fileset dir="${catalina.home}/common/endorsed">
-      <include name="*.jar"/>
-    </fileset>
-    <fileset dir="${catalina.home}/common/lib">
-      <include name="*.jar"/>
+    <fileset dir="${catalina.home}">
+      <include name="common/endorsed/*.jar"/>
+      <include name="common/lib/*.jar"/>
     </fileset>
     <pathelement location="${catalina.home}/shared/classes"/>
-    <fileset dir="${catalina.home}/shared/lib">
-      <include name="*.jar"/>
+    <fileset dir="${catalina.home}">
+      <include name="shared/lib/*.jar"/>
+    </fileset>
+    <!-- Tomcat 6 -->
+    <fileset dir="${catalina.home}">
+      <include name="lib/*.jar"/>
     </fileset>
 
   </path>
