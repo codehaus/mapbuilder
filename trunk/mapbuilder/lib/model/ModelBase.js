@@ -54,7 +54,7 @@ function ModelBase(modelNode, parentModel) {
   **/
   if (window.cgiArgs[this.id]) {  
     this.url = window.cgiArgs[this.id];
-  } else if (window[this.id]) {  
+  } else if (window[this.id] && typeof window[this.id] == "string") {  
     this.url = window[this.id];
   } else if (modelNode.url) {  
     this.url = modelNode.url;
