@@ -338,6 +338,7 @@ function ModelBase(modelNode, parentModel) {
    */
   this.deleteTemplates = function() {
     if (this.templates) {
+      var model;
       while( model=this.templates.pop() ) {
         model.setParam("newModel");
         var parentNode = this.modelNode.parentNode;
