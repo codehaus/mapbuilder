@@ -117,7 +117,6 @@ WebServiceRequest.prototype.doRequest = function(objRef, featureName) {
   }
   if (objRef.model.setRequestParameters) objRef.model.setRequestParameters(featureName, objRef.requestStylesheet);
   var httpPayload = objRef.createHttpPayload(feature);
-  objRef.targetModel.deleteTemplates();
   objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
 }
 
