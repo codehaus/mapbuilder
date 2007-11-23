@@ -50,7 +50,7 @@
 			</tools>
       <nodeSelectXpath>/wmc:ViewContext/wmc:LayerList/wmc:Layer</nodeSelectXpath>
 		</Context>
-    <Model id="featureInfoResponse" template="true">
+    <Model id="featureInfoResponse">
       <widgets>
         <FeatureInfo id="features">
           <htmlTagId>workspace</htmlTagId>

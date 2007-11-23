@@ -3117,8 +3117,8 @@ alert(mbGetMessage("noSerializeUrl"));
 };
 this.createObject=function(_22){
 var _23=_22.nodeName;
-var _24=new window[_23](_22,this);
-if(_24){
+var _24;
+if(window[_23]&&(_24=new window[_23](_22,this))){
 config.objects[_24.id]=_24;
 return _24;
 }else{
@@ -3336,6 +3336,7 @@ config.loadConfigScripts();
 mapbuilder.loadScript(baseDir+"/util/Util.js");
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 function ButtonBase(_1,_2){
+WidgetBase.apply(this,new Array(_1,_2));
 var _3=_1.selectSingleNode("mb:buttonBar");
 if(_3){
 this.htmlTagId=_3.firstChild.nodeValue;
@@ -3355,56 +3356,47 @@ this[_6[j].nodeName]=_6[j].firstChild.nodeValue;
 }
 }
 this.panelHtmlTagId=this.htmlTagId+"_panel";
-if(!document.getElementById(this.panelHtmlTagId)){
-var _8=document.getElementById(this.htmlTagId);
-var _9=document.createElement("div");
-_9.setAttribute("id",this.panelHtmlTagId);
-_9.setAttribute("class","olControlPanel");
-_8.appendChild(_9);
-_8.innerHTML+=" ";
-}
 loadCss("controlPanel.css");
-WidgetBase.apply(this,new Array(_1,_2));
 this.buttonType=_1.selectSingleNode("mb:class").firstChild.nodeValue;
 if(this.buttonType=="RadioButton"){
 this.enabled=false;
 }
-var _a=_1.selectSingleNode("mb:action");
+var _8=_1.selectSingleNode("mb:action");
+if(_8){
+this.action=_8.firstChild.nodeValue;
+}
+var _9=_1.selectSingleNode("mb:tooltip");
+if(_9){
+this.tooltip=_9.firstChild.nodeValue;
+}
+var _a=_1.selectSingleNode("mb:disabledSrc");
 if(_a){
-this.action=_a.firstChild.nodeValue;
+this.disabledImage=config.skinDir+_a.firstChild.nodeValue;
 }
-var _b=_1.selectSingleNode("mb:tooltip");
+var _b=_1.selectSingleNode("mb:enabledSrc");
 if(_b){
-this.tooltip=_b.firstChild.nodeValue;
-}
-var _c=_1.selectSingleNode("mb:disabledSrc");
-if(_c){
-this.disabledImage=config.skinDir+_c.firstChild.nodeValue;
-}
-var _d=_1.selectSingleNode("mb:enabledSrc");
-if(_d){
-this.enabledImage=config.skinDir+_d.firstChild.nodeValue;
+this.enabledImage=config.skinDir+_b.firstChild.nodeValue;
 }
 this.cursor="default";
-var _e=this.widgetNode.selectSingleNode("mb:cursor");
-if(_e!=null){
-var _f=_e.firstChild.nodeValue;
-this.cursor=_f;
+var _c=this.widgetNode.selectSingleNode("mb:cursor");
+if(_c!=null){
+var _d=_c.firstChild.nodeValue;
+this.cursor=_d;
 }
-var _10=_1.selectSingleNode("mb:selected");
-if(_10&&_10.firstChild.nodeValue){
+var _e=_1.selectSingleNode("mb:selected");
+if(_e&&_e.firstChild.nodeValue){
 this.selected=true;
 }
-this.getButtonClass=function(_11,_12){
-var _13;
-if(_11.control.displayClass){
-_13=_11.control.displayClass;
+this.getButtonClass=function(_f,_10){
+var _11;
+if(_f.control.displayClass){
+_11=_f.control.displayClass;
 }else{
-_13=_11.control.CLASS_NAME;
-_13=_13.replace(/OpenLayers/,"ol").replace(/\./g,"");
+_11=_f.control.CLASS_NAME;
+_11=_11.replace(/OpenLayers/,"ol").replace(/\./g,"");
 }
-_13+="Item";
-return "."+_13+_12;
+_11+="Item";
+return "."+_11+_10;
 };
 this.control=null;
 this.doAction=function(){
@@ -3416,60 +3408,88 @@ this.control.trigger();
 this.panel.activateControl(this.control);
 }
 };
-this.doSelect=function(_14,_15){
+this.doSelect=function(_12,_13){
 };
-this.attachToOL=function(_16,_17){
-if(_17&&(_17!=_16.id)){
+this.attachToOL=function(_14,_15){
+if(_14.control){
 return;
 }
-if(!_16.createControl){
+if(_15&&(_15!=_14.id)){
 return;
 }
-var _18=_16.createControl(_16);
-var _19=OpenLayers.Class(_18,{superclass:_18.prototype,trigger:function(){
+if(!_14.createControl){
+return;
+}
+var _16=_14.createControl(_14);
+var _17=OpenLayers.Class(_16,{objRef:_14,superclass:_16.prototype,trigger:function(){
 if(this.superclass.trigger){
 this.superclass.trigger.call(this);
 }
-_16.doSelect(_16,true);
+_14.doSelect(_14,true);
 },activate:function(){
 if(this.superclass.activate.call(this)){
-this.panel_div.style.backgroundImage="url(\""+_16.enabledImage+"\")";
-this.map.div.style.cursor=_16.cursor;
-this.map.mbCursor=_16.cursor;
-_16.enabled=true;
+this.panel_div.style.backgroundImage="url(\""+_14.enabledImage+"\")";
+this.map.div.style.cursor=_14.cursor;
+this.map.mbCursor=_14.cursor;
+_14.enabled=true;
 this.active=true;
-_16.doSelect(_16,true);
+_14.doSelect(_14,true);
 }
 },deactivate:function(){
 if(this.superclass.deactivate.call(this)){
-this.panel_div.style.backgroundImage="url(\""+_16.disabledImage+"\")";
-_16.enabled=false;
+this.panel_div.style.backgroundImage="url(\""+_14.disabledImage+"\")";
+_14.enabled=false;
 this.active=false;
-_16.doSelect(_16,false);
+_14.doSelect(_14,false);
 }
 },destroy:function(){
+try{
 this.superclass.destroy.apply(this,arguments);
+}
+catch(e){
+OpenLayers.Control.prototype.destroy.apply(this,arguments);
+}
+this.superclass=null;
+OpenLayers.Event.stopObservingElement(this.panel_div);
+this.objRef.panel.div.removeChild(this.panel_div);
+this.objRef.control=null;
+this.objRef=null;
+this.panel_div=null;
 this.div=null;
 }});
-_16.control=_16.instantiateControl?_16.instantiateControl(_16,_19):new _19();
-var map=_16.targetContext.map;
-_16.panel=_16.targetContext.buttonBars[_16.htmlTagId];
-if(!_16.panel||_16.panel.map==null){
-var _1b=OpenLayers.Class(OpenLayers.Control.Panel,{div:document.getElementById(_16.panelHtmlTagId),defaultControl:null,destroy:function(){
-OpenLayers.Control.Panel.prototype.destroy.apply(this,arguments);
+if(!_14.control){
+_14.control=_14.instantiateControl?_14.instantiateControl(_14,_17):new _17();
+}
+var map=_14.targetContext.map;
+_14.panel=_14.targetContext.buttonBars[_14.htmlTagId];
+if(!_14.panel||_14.panel.map==null){
+if(!document.getElementById(_14.panelHtmlTagId)){
+var _19=document.createElement("div");
+_19.setAttribute("id",_14.panelHtmlTagId);
+_19.setAttribute("class","olControlPanel");
+var _1a=_14.getNode();
+_1a.appendChild(_19);
+_1a.innerHTML+=" ";
+}
+var _1b=OpenLayers.Class(OpenLayers.Control.Panel,{div:document.getElementById(_14.panelHtmlTagId),defaultControl:null,destroy:function(){
+_1a.removeChild(this.div);
+OpenLayers.Control.prototype.destroy.apply(this,arguments);
 this.div=null;
+_14.panel=null;
 }});
-_16.panel=new _1b();
-_16.targetContext.buttonBars[_16.htmlTagId]=_16.panel;
-map.addControl(_16.panel);
+_14.panel=new _1b();
+_14.targetContext.buttonBars[_14.htmlTagId]=_14.panel;
+map.addControl(_14.panel);
 }
-_16.panel.addControls(_16.control);
-if(_16.tooltip){
-_16.control.panel_div.title=_16.tooltip;
+if(OpenLayers.Util.indexOf(_14.control,_14.panel.controls)==-1){
+_14.panel.addControls(_14.control);
 }
-_16.control.panel_div.style.backgroundImage="url(\""+_16.disabledImage+"\")";
-if(_16.selected==true){
-_16.control.activate();
+if(_14.tooltip){
+_14.control.panel_div.title=_14.tooltip;
+}
+_14.control.panel_div.style.backgroundImage="url(\""+_14.disabledImage+"\")";
+if(_14.selected==true){
+_14.control.activate();
 }
 };
 this.buttonInit=function(_1c){
@@ -3488,13 +3508,14 @@ _1c.targetContext.buttonBars=new Array();
 _1c.targetContext.addListener("refresh",_1c.attachToOL,_1c);
 };
 this.model.addListener("init",this.buttonInit,this);
+this.model.removeListener("newNodel",this.clearWidget,this);
 }
 
 mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 function Back(_1,_2){
 ButtonBase.apply(this,new Array(_1,_2));
 this.createControl=function(_3){
-var _4=OpenLayers.Class(OpenLayers.Control,{objRef:_3,type:OpenLayers.Control.TYPE_BUTTON,trigger:function(){
+var _4=OpenLayers.Class(OpenLayers.Control,{type:OpenLayers.Control.TYPE_BUTTON,trigger:function(){
 var _5=this.objRef;
 _5.targetModel.setParam("historyBack");
 var _6=_5.targetModel.previousExtent;
@@ -3513,7 +3534,7 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 function Forward(_1,_2){
 ButtonBase.apply(this,new Array(_1,_2));
 this.createControl=function(_3){
-var _4=OpenLayers.Class(OpenLayers.Control,{objRef:_3,type:OpenLayers.Control.TYPE_BUTTON,trigger:function(){
+var _4=OpenLayers.Class(OpenLayers.Control,{type:OpenLayers.Control.TYPE_BUTTON,trigger:function(){
 var _5=this.objRef;
 _5.targetModel.setParam("historyForward");
 var _6=_5.targetModel.nextExtent;
@@ -3590,6 +3611,7 @@ function MapPaneOL(_1,_2){
 WidgetBase.apply(this,new Array(_1,_2));
 loadCss("openlayers/style.css");
 OpenLayers.ImgPath=config.skinDir+"/images/openlayers/";
+OpenLayers.ProxyHost=config.proxyUrl+"/?url=";
 this.containerNodeId=this.htmlTagId;
 _2.containerModel=this.model;
 if(!this.model.extent){
@@ -3630,6 +3652,7 @@ _b[i].mergeNewParams({uniqueId:_a});
 };
 this.model.addListener("refreshWmsLayers",this.refreshWmsLayers,this);
 this.model.addListener("refresh",this.paint,this);
+this.model.addFirstListener("newModel",this.clear,this);
 this.model.addListener("hidden",this.hidden,this);
 this.model.addListener("addLayer",this.addLayer,this);
 this.model.addListener("deleteLayer",this.deleteLayer,this);
@@ -3637,19 +3660,8 @@ this.model.addListener("moveLayerUp",this.moveLayerUp,this);
 this.model.addListener("moveLayerDown",this.moveLayerDown,this);
 this.model.addListener("opacity",this.setOpacity,this);
 this.model.addListener("bbox",this.zoomToBbox,this);
-this.model.addListener("newModel",this.clearWidget2,this);
 }
 MapPaneOL.prototype.paint=function(_d,_e){
-if(_d.model.buttonBars&&_d.model.map){
-for(var i in _d.model.buttonBars){
-_d.model.map.removeControl(_d.model.buttonBars[i]);
-}
-_d.model.buttonBars=new Array();
-}
-if(!_d.model.map||_e=="sld"){
-if(_e=="sld"){
-_d.clearWidget2(_d);
-}
 if(_d.model.doc.selectSingleNode("//wmc:OWSContext")){
 _d.context="OWS";
 }else{
@@ -3659,173 +3671,200 @@ _d.context="View";
 alert(mbGetMessage("noContextDefined"));
 }
 }
-var _10=_d.model.proj;
-var _11=null;
-_11=_d.widgetNode.selectSingleNode("mb:maxExtent");
-_11=(_11)?_11.firstChild.nodeValue.split(" "):null;
-if(!_11){
-_11=_d.model.getBoundingBox();
+var _f=_d.model.proj;
+var _10=null;
+_10=_d.widgetNode.selectSingleNode("mb:maxExtent");
+_10=(_10)?_10.firstChild.nodeValue.split(" "):null;
+if(!_10){
+_10=_d.model.getBoundingBox();
 }
-_11=(_11)?new OpenLayers.Bounds(_11[0],_11[1],_11[2],_11[3]):null;
-if(_11==null){
+_10=(_10)?new OpenLayers.Bounds(_10[0],_10[1],_10[2],_10[3]):null;
+if(_10==null){
 alert(mbGetMessage("noBboxInContext"));
 }
-var _12=null;
-_12=_d.widgetNode.selectSingleNode("mb:maxResolution");
-_12=(_12)?parseFloat(_12.firstChild.nodeValue):"auto";
-var _13=_10.units=="meters"?"m":_10.units;
-var _14=_d.widgetNode.selectSingleNode("mb:resolutions");
-_14=_14?_14.firstChild.nodeValue.split(","):null;
-for(var r in _14){
-_14[r]=parseFloat(_14[r]);
+var _11=null;
+_11=_d.widgetNode.selectSingleNode("mb:maxResolution");
+_11=(_11)?parseFloat(_11.firstChild.nodeValue):"auto";
+var _12=_f.units=="meters"?"m":_f.units;
+var _13=_d.widgetNode.selectSingleNode("mb:resolutions");
+_13=_13?_13.firstChild.nodeValue.split(","):null;
+for(var r in _13){
+_13[r]=parseFloat(_13[r]);
 }
-var _16=_d.widgetNode.selectSingleNode("mb:scales");
-if(_16){
-_16=_16.firstChild.nodeValue.split(",");
-_14=new Array();
-for(var s in _16){
-_14.push(OpenLayers.Util.getResolutionFromScale(_16[s],_13));
+var _15=_d.widgetNode.selectSingleNode("mb:scales");
+if(_15){
+_15=_15.firstChild.nodeValue.split(",");
+_13=new Array();
+for(var s in _15){
+_13.push(OpenLayers.Util.getResolutionFromScale(_15[s],_12));
 }
 }
-if(_14){
-_d.model.extent.setZoomLevels(true,_14);
+if(_13){
+_d.model.extent.setZoomLevels(true,_13);
 }else{
 _d.model.extent.setZoomLevels(false);
 }
-var _18=document.getElementById(_d.containerNodeId);
-var _19=null;
-_19=_d.widgetNode.selectSingleNode("mb:fixedSize");
-_19=(_19)?_19.firstChild.nodeValue:null;
-if(_19=="true"){
-_18.style.width=_d.model.getWindowWidth()+"px";
-_18.style.height=_d.model.getWindowHeight()+"px";
+var _17=document.getElementById(_d.containerNodeId);
+var _18=null;
+_18=_d.widgetNode.selectSingleNode("mb:fixedSize");
+_18=(_18)?_18.firstChild.nodeValue:null;
+if(_18=="true"){
+_17.style.width=_d.model.getWindowWidth()+"px";
+_17.style.height=_d.model.getWindowHeight()+"px";
 }
-var _1a={controls:[],projection:_10.srs,units:_13,maxExtent:_11,maxResolution:_12,resolutions:_14,theme:null};
-_d.model.map=new OpenLayers.Map(_18,_1a);
+var _19={controls:[],projection:_f.srs,units:_12,maxExtent:_10,maxResolution:_11,resolutions:_13,theme:null,destroy:function(_1a){
+if(_1a!=true){
+this.mbMapPane.model.setParam("newModel",true);
+}else{
+this.mbMapPane=null;
+this.mbCursor=null;
+OpenLayers.Map.prototype.destroy.apply(this,arguments);
+this.layerContainerDiv=null;
+this.baseLayer=null;
+}
+}};
+if(!_d.model.map){
+_d.model.map=new OpenLayers.Map(_17,_19);
 _d.model.map.Z_INDEX_BASE.Control=10000;
-var _1b=_d.model.getAllLayers();
+var _1b={units:_12,projection:_f.srs,maxExtent:_10,maxResolution:_11,resolutions:_13,alpha:false,isBaseLayer:true,displayOutsideMaxExtent:_d.displayOutsideMaxExtent,ratio:1,singleTile:true,visibility:false};
+var _1c=new OpenLayers.Layer.WMS("baselayer",config.skinDir+"/images/openlayers/blank.gif",null,_1b);
+_d.model.map.addLayer(_1c);
+}else{
+_d.deleteAllLayers(_d);
+}
+var _1d=_d.model.getAllLayers();
 if(!_d.oLlayers){
-_d.oLlayers=new Array();
+_d.oLlayers={};
 }
-for(var i=0;i<=_1b.length-1;i++){
-_d.addLayer(_d,_1b[i]);
+for(var i=0;i<=_1d.length-1;i++){
+_d.addLayer(_d,_1d[i]);
 }
-var _1c=_d.model.getBoundingBox();
+var _1f=_d.model.getBoundingBox();
 _d.model.map.mbMapPane=_d;
 _d.model.map.events.register("moveend",_d.model.map,_d.updateContext);
 _d.model.map.events.register("mouseup",_d.model.map,_d.updateMouse);
 _d.model.callListeners("bbox");
+};
+MapPaneOL.prototype.clear=function(_20){
+if(_20.model.map){
+_20.model.map.destroy(true);
+_20.model.map=null;
+_20.oLlayers={};
 }
 };
 MapPaneOL.prototype.increaseLoadingLayers=function(e){
 ++this.loadingLayers;
-var _1e=mbGetMessage((this.loadingLayers>1)?"loadingLayers":"loadingLayer",this.loadingLayers);
-this.model.setParam("modelStatus",_1e);
+var _22=mbGetMessage((this.loadingLayers>1)?"loadingLayers":"loadingLayer",this.loadingLayers);
+this.model.setParam("modelStatus",_22);
 };
 MapPaneOL.prototype.decreaseLoadingLayers=function(e){
 --this.loadingLayers;
-var _20=this.loadingLayers>0?mbGetMessage((this.loadingLayers>1)?"loadingLayers":"loadingLayer",this.loadingLayers):null;
-this.model.setParam("modelStatus",_20);
+var _24=this.loadingLayers>0?mbGetMessage((this.loadingLayers>1)?"loadingLayers":"loadingLayer",this.loadingLayers):null;
+this.model.setParam("modelStatus",_24);
 };
 MapPaneOL.prototype.updateContext=function(e){
-var _22=e.object.mbMapPane;
-var _23=_22.model.map.getExtent().toBBOX().split(",");
-var ul=new Array(_23[0],_23[3]);
-var lr=new Array(_23[2],_23[1]);
-if(_22.model.getWindowWidth()!=e.element.offsetWidth){
-_22.model.setWindowWidth(e.element.offsetWidth);
+var _26=e.object.mbMapPane;
+var _27=_26.model.map.getExtent().toBBOX().split(",");
+var ul=new Array(_27[0],_27[3]);
+var lr=new Array(_27[2],_27[1]);
+if(_26.model.getWindowWidth()!=e.element.offsetWidth){
+_26.model.setWindowWidth(e.element.offsetWidth);
 }
-if(_22.model.getWindowHeight()!=e.element.offsetHeight){
-_22.model.setWindowHeight(e.element.offsetHeight);
+if(_26.model.getWindowHeight()!=e.element.offsetHeight){
+_26.model.setWindowHeight(e.element.offsetHeight);
 }
-var _26=_22.model.getParam("aoi");
-var _27=new Array(ul,lr);
-if(!_26||_26.toString()!=_27.toString()){
-_22.model.setBoundingBox(new Array(ul[0],lr[1],lr[0],ul[1]));
-_22.model.extent.setSize(_22.model.map.getResolution());
-_22.model.setParam("aoi",_27);
+var _2a=_26.model.getParam("aoi");
+var _2b=new Array(ul,lr);
+if(!_2a||_2a.toString()!=_2b.toString()){
+_26.model.setBoundingBox(new Array(ul[0],lr[1],lr[0],ul[1]));
+_26.model.extent.setSize(_26.model.map.getResolution());
+_26.model.setParam("aoi",_2b);
 }
 };
 MapPaneOL.prototype.updateMouse=function(e){
-var _29=e.object.mbMapPane;
-if(_29.model.map.mbCursor){
-_29.model.map.div.style.cursor=_29.model.map.mbCursor;
+var _2d=e.object.mbMapPane;
+if(_2d.model.map.mbCursor){
+_2d.model.map.div.style.cursor=_2d.model.map.mbCursor;
 }
 };
-MapPaneOL.prototype.zoomToBbox=function(_2a){
-if(_2a.model.map){
-var _2b=_2a.model.getBoundingBox();
-var _2c=[];
-var _2d=_2a.model.map.getExtent();
-if(_2d){
-_2c=_2d.toBBOX();
+MapPaneOL.prototype.zoomToBbox=function(_2e){
+if(_2e.model.map){
+var _2f=_2e.model.getBoundingBox();
+var _30=[];
+var _31=_2e.model.map.getExtent();
+if(_31){
+_30=_31.toBBOX();
 }
-if(_2b.toString()!=_2c.toString()){
-_2a.model.map.zoomToExtent(new OpenLayers.Bounds(_2b[0],_2b[1],_2b[2],_2b[3]));
+if(_2f.toString()!=_30.toString()){
+_2e.model.map.zoomToExtent(new OpenLayers.Bounds(_2f[0],_2f[1],_2f[2],_2f[3]));
 }
 }
 };
-MapPaneOL.prototype.hidden=function(_2e,_2f){
-var vis=_2e.model.getHidden(_2f);
+MapPaneOL.prototype.hidden=function(_32,_33){
+var vis=_32.model.getHidden(_33);
 if(vis=="1"){
-var _31=false;
+var _35=false;
 }else{
-var _31=true;
+var _35=true;
 }
-var _32=_2e.getLayer(_2e,_2f);
-if(_32){
-_32.setVisibility(_31);
-}
-};
-MapPaneOL.prototype.getLayer=function(_33,_34){
-return _33.model.map.getLayer(_33.oLlayers[_34].id);
-};
-MapPaneOL.prototype.deleteLayer=function(_35,_36){
-if(_35.oLlayers[_36]){
-_35.model.map.removeLayer(_35.oLlayers[_36]);
+var _36=_32.getLayer(_32,_33);
+if(_36){
+_36.setVisibility(_35);
 }
 };
-MapPaneOL.prototype.deleteAllLayers=function(_37){
-_37.model.map.destroy();
+MapPaneOL.prototype.getLayer=function(_37,_38){
+return _37.model.map.getLayer(_37.oLlayers[_38].id);
 };
-MapPaneOL.prototype.moveLayerUp=function(_38,_39){
-var map=_38.model.map;
-map.raiseLayer(map.getLayer(_38.oLlayers[_39].id),1);
+MapPaneOL.prototype.deleteLayer=function(_39,_3a){
+if(_39.oLlayers[_3a]){
+_39.model.map.removeLayer(_39.oLlayers[_3a]);
+}
 };
-MapPaneOL.prototype.moveLayerDown=function(_3b,_3c){
-_3b.model.map.raiseLayer(_3b.getLayer(_3b,_3c),-1);
+MapPaneOL.prototype.deleteAllLayers=function(_3b){
+for(var i in _3b.oLlayers){
+var _3d=_3b.oLlayers[i];
+_3d.destroy();
+}
+_3b.oLlayers={};
 };
-MapPaneOL.prototype.setOpacity=function(_3d,_3e){
-var _3f="1";
-_3f=_3d.model.getOpacity(_3e);
-_3d.getLayer(_3d,_3e).setOpacity(_3f);
+MapPaneOL.prototype.moveLayerUp=function(_3e,_3f){
+var map=_3e.model.map;
+map.raiseLayer(_3e.oLlayers[_3f],1);
 };
-MapPaneOL.prototype.addLayer=function(_40,_41){
-var _42=_41;
-var _43=_42.selectSingleNode("wmc:Server/@service");
-_43=(_43)?_43.nodeValue:"";
-var _44=_42.selectSingleNode("wmc:Title");
-_44=(_44)?_44.firstChild.nodeValue:"";
-var _45=_42.selectSingleNode("wmc:Name");
-_45=(_45)?_45.firstChild.nodeValue:"";
-if(_40.context=="OWS"){
-var _46=_42.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");
-_46=(_46)?getNodeValue(_46):"";
+MapPaneOL.prototype.moveLayerDown=function(_41,_42){
+_41.model.map.raiseLayer(_41.oLlayers[_42],-1);
+};
+MapPaneOL.prototype.setOpacity=function(_43,_44){
+var _45="1";
+_45=_43.model.getOpacity(_44);
+_43.getLayer(_43,_44).setOpacity(_45);
+};
+MapPaneOL.prototype.addLayer=function(_46,_47){
+var _48=_47;
+var _49=_48.selectSingleNode("wmc:Server/@service");
+_49=(_49)?_49.nodeValue:"";
+var _4a=_48.selectSingleNode("wmc:Title");
+_4a=(_4a)?_4a.firstChild.nodeValue:"";
+var _4b=_48.selectSingleNode("wmc:Name");
+_4b=(_4b)?_4b.firstChild.nodeValue:"";
+if(_46.context=="OWS"){
+var _4c=_48.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");
+_4c=(_4c)?getNodeValue(_4c):"";
 }else{
 if(_SARISSA_IS_SAFARI){
-var _47=_42.selectSingleNode("wmc:Server/wmc:OnlineResource");
-var _46=_47.attributes[1].nodeValue;
+var _4d=_48.selectSingleNode("wmc:Server/wmc:OnlineResource");
+var _4c=_4d.attributes[1].nodeValue;
 }else{
 if(_SARISSA_IS_OPERA){
-var _46=_42.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttributeNS("http://www.w3.org/1999/xlink","href");
+var _4c=_48.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttributeNS("http://www.w3.org/1999/xlink","href");
 }else{
-var _46=_42.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
+var _4c=_48.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
 }
 }
 }
-var _48=_42.selectSingleNode("wmc:FormatList/wmc:Format");
-_48=(_48)?_48.firstChild.nodeValue:"image/gif";
-var vis=_42.selectSingleNode("@hidden");
+var _4e=_48.selectSingleNode("wmc:FormatList/wmc:Format");
+_4e=(_4e)?_4e.firstChild.nodeValue:"image/gif";
+var vis=_48.selectSingleNode("@hidden");
 if(vis){
 if(vis.nodeValue=="1"){
 vis=false;
@@ -3833,169 +3872,152 @@ vis=false;
 vis=true;
 }
 }
-var _4a=_42.selectSingleNode("@queryable");
-if(_4a){
-if(_4a.nodeValue=="1"){
-_4a=true;
+var _50=_48.selectSingleNode("@queryable");
+if(_50){
+if(_50.nodeValue=="1"){
+_50=true;
 }else{
-_4a=false;
+_50=false;
 }
 }
-var _4b=_42.selectSingleNode("@opacity");
-if(_4b){
-_4b=_4b.nodeValue;
+var _51=_48.selectSingleNode("@opacity");
+if(_51){
+_51=_51.nodeValue;
 }else{
-_4b=false;
+_51=false;
 }
-var _4c=_42.selectSingleNode("wmc:StyleList/wmc:Style[@current=1]");
-var _4d={visibility:vis,projection:_40.model.map.projection,queryable:_4a,maxExtent:_40.model.map.maxExtent,maxResolution:_40.model.map.maxResolution,alpha:false,isBaseLayer:false,displayOutsideMaxExtent:_40.displayOutsideMaxExtent};
-switch(_43){
+var _52=_48.selectSingleNode("wmc:StyleList/wmc:Style[@current=1]");
+var _53={visibility:vis,projection:_46.model.map.baseLayer.projection,queryable:_50,maxExtent:_46.model.map.baseLayer.maxExtent,maxResolution:_46.model.map.baseLayer.maxResolution,alpha:false,isBaseLayer:false,displayOutsideMaxExtent:_46.displayOutsideMaxExtent};
+switch(_49){
 case "OGC":
 case "WMS":
 case "wms":
 case "OGC:WMS":
-if(!_40.model.map.baseLayer){
-_4d.isBaseLayer=true;
+if(!_46.model.map.baseLayer){
+_53.isBaseLayer=true;
 }else{
-_4d.reproject=_40.imageReproject;
-_4d.isBaseLayer=false;
+_53.reproject=_46.imageReproject;
+_53.isBaseLayer=false;
 }
-_4d.ratio=_40.imageBuffer;
-_4d.singleTile=true;
-var _4e=new Array();
-_4e=sld2UrlParam(_4c);
-if(_40.model.timestampList&&_40.model.timestampList.getAttribute("layerName")==_45){
-var _4f=_40.model.timestampList.childNodes[0];
-_40.oLlayers[_45]=new OpenLayers.Layer.WMS(_44,_46,{layers:_45,transparent:_4d.isBaseLayer?"FALSE":"TRUE","TIME":_4f.firstChild.nodeValue,format:_48,sld:_4e.sld,sld_body:_4e.sld_body,styles:_4e.styles},_4d);
+_53.ratio=_46.imageBuffer;
+_53.singleTile=true;
+var _54=new Array();
+_54=sld2UrlParam(_52);
+if(_46.model.timestampList&&_46.model.timestampList.getAttribute("layerName")==_4b){
+var _55=_46.model.timestampList.childNodes[0];
+_46.oLlayers[_4b]=new OpenLayers.Layer.WMS(_4a,_4c,{layers:_4b,transparent:_53.isBaseLayer?"FALSE":"TRUE","TIME":_55.firstChild.nodeValue,format:_4e,sld:_54.sld,sld_body:_54.sld_body,styles:_54.styles},_53);
 this.model.addListener("timestamp",this.timestampListener,this);
 }else{
-_40.oLlayers[_45]=new OpenLayers.Layer.WMS(_44,_46,{layers:_45,transparent:_4d.isBaseLayer?"FALSE":"TRUE",format:_48,sld:_4e.sld,sld_body:_4e.sld_body,styles:_4e.styles},_4d);
+_46.oLlayers[_4b]=new OpenLayers.Layer.WMS(_4a,_4c,{layers:_4b,transparent:_53.isBaseLayer?"FALSE":"TRUE",format:_4e,sld:_54.sld,sld_body:_54.sld_body,styles:_54.styles},_53);
 }
 break;
 case "WMS-C":
 case "OGC:WMS-C":
-if(!_40.model.map.baseLayer){
-_4d.isBaseLayer=true;
+if(!_46.model.map.baseLayer){
+_53.isBaseLayer=true;
 }else{
-_4d.reproject=_40.imageReproject;
-_4d.isBaseLayer=false;
+_53.reproject=_46.imageReproject;
+_53.isBaseLayer=false;
 }
-_4d.gutter=_40.tileGutter;
-_4d.buffer=_40.tileBuffer;
-_4d.tileSize=new OpenLayers.Size(_40.tileSize,_40.tileSize);
-var _4e=new Array();
-_4e=sld2UrlParam(_4c);
-_40.oLlayers[_45]=new OpenLayers.Layer.WMS(_44,_46,{layers:_45,transparent:_4d.isBaseLayer?"FALSE":"TRUE",format:_48,sld:_4e.sld,sld_body:_4e.sld_body,styles:_4e.styles},_4d);
+_53.gutter=_46.tileGutter;
+_53.buffer=_46.tileBuffer;
+_53.tileSize=new OpenLayers.Size(_46.tileSize,_46.tileSize);
+var _54=new Array();
+_54=sld2UrlParam(_52);
+_46.oLlayers[_4b]=new OpenLayers.Layer.WMS(_4a,_4c,{layers:_4b,transparent:_53.isBaseLayer?"FALSE":"TRUE",format:_4e,sld:_54.sld,sld_body:_54.sld_body,styles:_54.styles},_53);
 break;
 case "wfs":
 case "OGC:WFS":
-style=sld2OlStyle(_4c);
+style=sld2OlStyle(_52);
 if(style){
-_4d.style=style;
+_53.style=style;
 }else{
-_4d.style=_40.getWebSafeStyle(_40,2*i+1);
+_53.style=_46.getWebSafeStyle(_46,2*i+1);
 }
-_4d.featureClass=OpenLayers.Feature.WFS;
-_40.oLlayers[_45]=new OpenLayers.Layer.WFS(_44,_46,{typename:_45,maxfeatures:1000},_4d);
+_53.featureClass=OpenLayers.Feature.WFS;
+_46.oLlayers[_4b]=new OpenLayers.Layer.WFS(_4a,_4c,{typename:_4b,maxfeatures:1000},_53);
 break;
 case "gml":
 case "OGC:GML":
-style=sld2OlStyle(_4c);
+style=sld2OlStyle(_52);
 if(style){
-_4d.style=style;
+_53.style=style;
 }else{
-_4d.style=_40.getWebSafeStyle(_40,2*i+1);
+_53.style=_46.getWebSafeStyle(_46,2*i+1);
 }
-_40.oLlayers[_45]=new OpenLayers.Layer.GML(_44,_46,_4d);
+_46.oLlayers[_4b]=new OpenLayers.Layer.GML(_4a,_4c,_53);
 break;
 case "GMAP":
 case "Google":
-_4d.projection="EPSG:41001";
-_4d.units="degrees";
-_40.model.map.units="degrees";
-_4d.maxExtent=new OpenLayers.Bounds("-180","-90","180","90");
-_4d.isBaseLayer=true;
-_40.oLlayers[_45]=new OpenLayers.Layer.Google("Google Satellite",{type:G_HYBRID_MAP,maxZoomLevel:18},_4d);
+_46.model.map.baseLayer.destroy();
+_53.maxExtent=new OpenLayers.Bounds("-20037508","-20037508","20037508","20037508.34");
+_46.oLlayers[_4b]=new OpenLayers.Layer.Google("Google Satellite",{type:G_HYBRID_MAP,maxZoomLevel:18,sphericalMercator:true},_53);
 break;
 case "YMAP":
 case "Yahoo":
-_4d.isBaseLayer=true;
-_40.oLlayers[_45]=new OpenLayers.Layer.Yahoo("Yahoo");
+_53.isBaseLayer=true;
+_46.oLlayers[_4b]=new OpenLayers.Layer.Yahoo("Yahoo");
 break;
 case "VE":
 case "Microsoft":
-_4d.isBaseLayer=true;
-_40.oLlayers[_45]=new OpenLayers.Layer.VirtualEarth("VE",{minZoomLevel:0,maxZoomLevel:18,type:VEMapStyle.Hybrid});
+_53.isBaseLayer=true;
+_46.oLlayers[_4b]=new OpenLayers.Layer.VirtualEarth("VE",{minZoomLevel:0,maxZoomLevel:18,type:VEMapStyle.Hybrid});
 break;
 case "MultiMap":
-_4d.isBaseLayer=true;
-_40.oLlayers[_45]=new OpenLayers.Layer.MultiMap("MultiMap");
+_53.isBaseLayer=true;
+_46.oLlayers[_4b]=new OpenLayers.Layer.MultiMap("MultiMap");
 break;
 default:
-alert(mbGetMessage("layerTypeNotSupported",_43));
+alert(mbGetMessage("layerTypeNotSupported",_49));
 }
-if(_4b&&_40.oLlayers[_45]){
-_40.oLlayers[_45].setOpacity(_4b);
+if(_51&&_46.oLlayers[_4b]){
+_46.oLlayers[_4b].setOpacity(_51);
 }
-_40.oLlayers[_45].events.register("loadstart",_40,_40.increaseLoadingLayers);
-_40.oLlayers[_45].events.register("loadend",_40,_40.decreaseLoadingLayers);
-_40.oLlayers[_45].events.register("loadcancel",_40,function(){
-alert("error");
-});
-_40.model.map.addLayer(_40.oLlayers[_45]);
+_46.oLlayers[_4b].events.register("loadstart",_46,_46.increaseLoadingLayers);
+_46.oLlayers[_4b].events.register("loadend",_46,_46.decreaseLoadingLayers);
+_46.oLlayers[_4b].setVisibility(vis);
+_46.model.map.addLayer(_46.oLlayers[_4b]);
 };
-MapPaneOL.prototype.getWebSafeStyle=function(_50,_51){
+MapPaneOL.prototype.getWebSafeStyle=function(_56,_57){
 colors=new Array("00","33","66","99","CC","FF");
-_51=(_51)?_51:0;
-_51=(_51<0)?0:_51;
-_51=(_51>215)?215:_51;
-i=parseInt(_51/36);
-j=parseInt((_51-i*36)/6);
-k=parseInt((_51-i*36-j*6));
-var _52="#"+colors[i]+colors[j]+colors[k];
-var _53=new Object();
-_53.fillColor=_52;
-_53.strokeColor=_52;
-_53.map=_50.model.map;
-return _53;
+_57=(_57)?_57:0;
+_57=(_57<0)?0:_57;
+_57=(_57>215)?215:_57;
+i=parseInt(_57/36);
+j=parseInt((_57-i*36)/6);
+k=parseInt((_57-i*36-j*6));
+var _58="#"+colors[i]+colors[j]+colors[k];
+var _59=new Object();
+_59.fillColor=_58;
+_59.strokeColor=_58;
+_59.map=_56.model.map;
+return _59;
 };
-MapPaneOL.prototype.refreshLayer=function(_54,_55,_56){
-_56["version"]=Math.random();
-_54.getLayer(_54,_55).mergeNewParams(_56);
+MapPaneOL.prototype.refreshLayer=function(_5a,_5b,_5c){
+_5c["version"]=Math.random();
+_5a.getLayer(_5a,_5b).mergeNewParams(_5c);
 };
-MapPaneOL.prototype.clearWidget2=function(_57){
-if(_57.model.map){
-_57.model.map.destroy();
-var _58=document.getElementById(_57.containerNodeId);
-var _59=document.getElementById(_57.model.id+"Container_OpenLayers_ViewPort");
-if(_58&&_59){
-_58.removeChild(_59);
-}
-_57.model.map=null;
-_57.oLlayers=null;
-}
-};
-MapPaneOL.prototype.timestampListener=function(_5a,_5b){
-var _5c=_5a.model.timestampList.getAttribute("layerName");
-var _5d=_5a.model.timestampList.childNodes[_5b];
-if((_5c)&&(_5d)){
-var _5e=_5a.oLlayers[_5c];
-var _5f=_5e.grid[0][0].imgDiv.src;
-var _60=_5f;
-_60=_60.replace(/TIME\=.*?\&/,"TIME="+_5d.firstChild.nodeValue+"&");
+MapPaneOL.prototype.timestampListener=function(_5d,_5e){
+var _5f=_5d.model.timestampList.getAttribute("layerName");
+var _60=_5d.model.timestampList.childNodes[_5e];
+if((_5f)&&(_60)){
+var _61=_5d.oLlayers[_5f];
+var _62=_61.grid[0][0].imgDiv.src;
+var _63=_62;
+_63=_63.replace(/TIME\=.*?\&/,"TIME="+_60.firstChild.nodeValue+"&");
 function imageLoaded(){
 window.movieLoop.frameIsLoading=false;
 }
 window.movieLoop.frameIsLoading=true;
-var _61=_5e.grid[0][0].imgDiv;
-if(_61.addEventListener){
-_61.addEventListener("load",imageLoaded,false);
+var _64=_61.grid[0][0].imgDiv;
+if(_64.addEventListener){
+_64.addEventListener("load",imageLoaded,false);
 }else{
-if(_61.attachEvent){
-_61.attachEvent("onload",imageLoaded);
+if(_64.attachEvent){
+_64.attachEvent("onload",imageLoaded);
 }
 }
-_61.src=_60;
+_64.src=_63;
 }
 };
 
@@ -4051,177 +4073,184 @@ this.MGRS=new MGRS();
 }
 };
 this.model.addListener("loadModel",this.init,this);
-this.mousemoveHandler=function(_b){
-var _c=document.getElementById(this.formName);
-if(!_b){
+this.clear=function(_b){
+if(_b.model.map&&_b.model.map.events){
+_b.model.map.events.unregister("mousemove",_b,_b.mousemoveHandler);
+_b.model.map.events.unregister("mouseout",_b,_b.mouseoutHandler);
+}
+};
+this.model.addListener("newModel",this.clear,this);
+this.mousemoveHandler=function(_c){
+var _d=document.getElementById(this.formName);
+if(!_c){
 return;
 }
-var _d=this.model.map.getLonLatFromPixel(_b.xy);
-var pt=new PT(_d.lon,_d.lat);
+var _e=this.model.map.getLonLatFromPixel(_c.xy);
+var pt=new PT(_e.lon,_e.lat);
 cs_transform(this.proj,this.epsg4326,pt);
-var _f=new OpenLayers.LonLat(pt.x,pt.y);
+var _10=new OpenLayers.LonLat(pt.x,pt.y);
 if(this.showPx){
-if(_c.px){
-_c.px.value=_b.xy.x;
+if(_d.px){
+_d.px.value=_c.xy.x;
 }
-if(_c.py){
-_c.py.value=_b.xy.y;
+if(_d.py){
+_d.py.value=_c.xy.y;
 }
 }
 if(this.showXY){
-if(_c.x){
-_c.x.value=_d.lon.toFixed(this.precision);
+if(_d.x){
+_d.x.value=_e.lon.toFixed(this.precision);
 }
-if(_c.y){
-_c.y.value=_d.lat.toFixed(this.precision);
+if(_d.y){
+_d.y.value=_e.lat.toFixed(this.precision);
 }
 }
 if(this.showLatLong){
-if(_c.longitude){
-_c.longitude.value=_f.lon.toFixed(this.precision);
+if(_d.longitude){
+_d.longitude.value=_10.lon.toFixed(this.precision);
 }
-if(_c.latitude){
-_c.latitude.value=_f.lat.toFixed(this.precision);
+if(_d.latitude){
+_d.latitude.value=_10.lat.toFixed(this.precision);
 }
 }
 if(this.showDMS){
-var _10=this.convertDMS(_f.lon,"LON");
-if(_c.longdeg){
-_c.longdeg.value=_10[0];
+var _11=this.convertDMS(_10.lon,"LON");
+if(_d.longdeg){
+_d.longdeg.value=_11[0];
 }
-if(_c.longmin){
-_c.longmin.value=_10[1];
+if(_d.longmin){
+_d.longmin.value=_11[1];
 }
-if(_c.longsec){
-_c.longsec.value=_10[2];
+if(_d.longsec){
+_d.longsec.value=_11[2];
 }
-if(_c.longH){
-_c.longH.value=_10[3];
+if(_d.longH){
+_d.longH.value=_11[3];
 }
-var _11=this.convertDMS(_f.lat,"LAT");
-if(_c.latdeg){
-_c.latdeg.value=_11[0];
+var _12=this.convertDMS(_10.lat,"LAT");
+if(_d.latdeg){
+_d.latdeg.value=_12[0];
 }
-if(_c.latmin){
-_c.latmin.value=_11[1];
+if(_d.latmin){
+_d.latmin.value=_12[1];
 }
-if(_c.latsec){
-_c.latsec.value=_11[2];
+if(_d.latsec){
+_d.latsec.value=_12[2];
 }
-if(_c.latH){
-_c.latH.value=_11[3];
+if(_d.latH){
+_d.latH.value=_12[3];
 }
 }
 if(this.showDM){
-var _10=this.convertDM(_f.lon,"LON");
-if(_c.longDMdeg){
-_c.longDMdeg.value=_10[0];
+var _11=this.convertDM(_10.lon,"LON");
+if(_d.longDMdeg){
+_d.longDMdeg.value=_11[0];
 }
-if(_c.longDMmin){
-_c.longDMmin.value=_10[1];
+if(_d.longDMmin){
+_d.longDMmin.value=_11[1];
 }
-if(_c.longDMH){
-_c.longDMH.value=_10[2];
+if(_d.longDMH){
+_d.longDMH.value=_11[2];
 }
-var _11=this.convertDM(_f.lat,"LAT");
-if(_c.latDMdeg){
-_c.latDMdeg.value=_11[0];
+var _12=this.convertDM(_10.lat,"LAT");
+if(_d.latDMdeg){
+_d.latDMdeg.value=_12[0];
 }
-if(_c.latDMmin){
-_c.latDMmin.value=_11[1];
+if(_d.latDMmin){
+_d.latDMmin.value=_12[1];
 }
-if(_c.latDMH){
-_c.latDMH.value=_11[2];
+if(_d.latDMH){
+_d.latDMH.value=_12[2];
 }
 }
 if(this.showMGRS){
 if(!this.MGRS){
 this.MGRS=new MGRS();
 }
-_c.mgrs.value=this.MGRS.convert(_f.lat,_f.lon);
+_d.mgrs.value=this.MGRS.convert(_10.lat,_10.lon);
 }
 };
 this.mouseoutHandler=function(evt){
-var _13=document.getElementById(this.formName);
+var _14=document.getElementById(this.formName);
 if(this.showPx){
-if(_13.px){
-_13.px.value="";
+if(_14.px){
+_14.px.value="";
 }
-if(_13.py){
-_13.py.value="";
+if(_14.py){
+_14.py.value="";
 }
 }
 if(this.showXY){
-if(_13.x){
-_13.x.value="";
+if(_14.x){
+_14.x.value="";
 }
-if(_13.y){
-_13.y.value="";
+if(_14.y){
+_14.y.value="";
 }
 }
 if(this.showLatLong){
-if(_13.longitude){
-_13.longitude.value="";
+if(_14.longitude){
+_14.longitude.value="";
 }
-if(_13.latitude){
-_13.latitude.value="";
+if(_14.latitude){
+_14.latitude.value="";
 }
 }
 if(this.showDMS){
-if(_13.longdeg){
-_13.longdeg.value="";
+if(_14.longdeg){
+_14.longdeg.value="";
 }
-if(_13.longmin){
-_13.longmin.value="";
+if(_14.longmin){
+_14.longmin.value="";
 }
-if(_13.longsec){
-_13.longsec.value="";
+if(_14.longsec){
+_14.longsec.value="";
 }
-if(_13.longH){
-_13.longH.value="";
+if(_14.longH){
+_14.longH.value="";
 }
-if(_13.latdeg){
-_13.latdeg.value="";
+if(_14.latdeg){
+_14.latdeg.value="";
 }
-if(_13.latmin){
-_13.latmin.value="";
+if(_14.latmin){
+_14.latmin.value="";
 }
-if(_13.latsec){
-_13.latsec.value="";
+if(_14.latsec){
+_14.latsec.value="";
 }
-if(_13.latH){
-_13.latH.value="";
+if(_14.latH){
+_14.latH.value="";
 }
 }
 if(this.showDM){
-if(_13.longDMdeg){
-_13.longDMdeg.value="";
+if(_14.longDMdeg){
+_14.longDMdeg.value="";
 }
-if(_13.longDMmin){
-_13.longDMmin.value="";
+if(_14.longDMmin){
+_14.longDMmin.value="";
 }
-if(_13.longDMH){
-_13.longDMH.value="";
+if(_14.longDMH){
+_14.longDMH.value="";
 }
-if(_13.latDMdeg){
-_13.latDMdeg.value="";
+if(_14.latDMdeg){
+_14.latDMdeg.value="";
 }
-if(_13.latDMmin){
-_13.latDMmin.value="";
+if(_14.latDMmin){
+_14.latDMmin.value="";
 }
-if(_13.latDMH){
-_13.latDMH.value="";
+if(_14.latDMH){
+_14.latDMH.value="";
 }
 }
 if(this.showMGRS){
-if(_13.mgrs){
-_13.mgrs.value="";
+if(_14.mgrs){
+_14.mgrs.value="";
 }
 }
 };
-this.convertDMS=function(_14,_15){
-var _16=new Array();
-abscoordinate=Math.abs(_14);
+this.convertDMS=function(_15,_16){
+var _17=new Array();
+abscoordinate=Math.abs(_15);
 coordinatedegrees=Math.floor(abscoordinate);
 coordinateminutes=(abscoordinate-coordinatedegrees)/(1/60);
 tempcoordinateminutes=coordinateminutes;
@@ -4238,15 +4267,15 @@ coordinateminutes="0"+coordinateminutes;
 if(coordinateseconds<10){
 coordinateseconds="0"+coordinateseconds;
 }
-_16[0]=coordinatedegrees;
-_16[1]=coordinateminutes;
-_16[2]=coordinateseconds;
-_16[3]=this.getHemi(_14,_15);
-return _16;
+_17[0]=coordinatedegrees;
+_17[1]=coordinateminutes;
+_17[2]=coordinateseconds;
+_17[3]=this.getHemi(_15,_16);
+return _17;
 };
-this.convertDM=function(_17,_18){
-var _19=new Array();
-abscoordinate=Math.abs(_17);
+this.convertDM=function(_18,_19){
+var _1a=new Array();
+abscoordinate=Math.abs(_18);
 coordinatedegrees=Math.floor(abscoordinate);
 coordinateminutes=(abscoordinate-coordinatedegrees)*60;
 coordinateminutes=Math.round(coordinateminutes*1000);
@@ -4257,29 +4286,29 @@ coordinatedegrees="0"+coordinatedegrees;
 if(coordinateminutes<10){
 coordinateminutes="0"+coordinateminutes;
 }
-_19[0]=coordinatedegrees;
-_19[1]=coordinateminutes;
-_19[2]=this.getHemi(_17,_18);
-return _19;
+_1a[0]=coordinatedegrees;
+_1a[1]=coordinateminutes;
+_1a[2]=this.getHemi(_18,_19);
+return _1a;
 };
-this.getHemi=function(_1a,_1b){
-var _1c="";
-if(_1b=="LAT"){
-if(_1a>=0){
-_1c="N";
+this.getHemi=function(_1b,_1c){
+var _1d="";
+if(_1c=="LAT"){
+if(_1b>=0){
+_1d="N";
 }else{
-_1c="S";
+_1d="S";
 }
 }else{
-if(_1b=="LON"){
-if(_1a>=0){
-_1c="E";
+if(_1c=="LON"){
+if(_1b>=0){
+_1d="E";
 }else{
-_1c="W";
+_1d="W";
 }
 }
 }
-return _1c;
+return _1d;
 };
 }
 
@@ -4645,24 +4674,31 @@ _43.setExtension(_43.timestampList);
 }
 };
 this.addFirstListener("loadModel",this.initTimeExtent,this);
-this.getCurrentTimestamp=function(_50){
-var _51=this.getParam("timestamp");
-return this.timestampList.childNodes[_51].firstChild.nodeValue;
-};
-this.setOpacity=function(_52,_53){
-var _54=this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+_52+"']");
-if(_54){
-_54.setAttribute("opacity",_53);
+this.clearTimeExtent=function(_50){
+var _51=_50.timestampList;
+if(_51){
+_51.parentNode.removeChild(_51);
 }
-this.callListeners("opacity",_52);
 };
-this.getOpacity=function(_55){
-var _56=1;
-var _57=this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+_55+"']");
-if(_57){
-_56=_57.getAttribute("opacity");
+this.addListener("newModel",this.clearTimeExtent,this);
+this.getCurrentTimestamp=function(_52){
+var _53=this.getParam("timestamp");
+return this.timestampList.childNodes[_53].firstChild.nodeValue;
+};
+this.setOpacity=function(_54,_55){
+var _56=this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+_54+"']");
+if(_56){
+_56.setAttribute("opacity",_55);
 }
-return _56;
+this.callListeners("opacity",_54);
+};
+this.getOpacity=function(_57){
+var _58=1;
+var _59=this.doc.selectSingleNode("/wmc:ViewContext/wmc:LayerList/wmc:Layer[wmc:Name='"+_57+"']");
+if(_59){
+_58=_59.getAttribute("opacity");
+}
+return _58;
 };
 }
 
@@ -5221,7 +5257,7 @@ var _c3=_c1;
 var _c4=_c1;
 while(_c3){
 if(_c3==document.body){
-if(OpenLayers.Element.getStyle(_c4,"position")=="absolute"){
+if(_c4&&_c4.style&&OpenLayers.Element.getStyle(_c4,"position")=="absolute"){
 break;
 }
 }
@@ -7107,6 +7143,11 @@ OpenLayers.Event.stop(e);
 },CLASS_NAME:"OpenLayers.Control.MouseDefaults"});
 OpenLayers.Control.MousePosition=OpenLayers.Class(OpenLayers.Control,{element:null,prefix:"",separator:", ",suffix:"",numdigits:5,granularity:10,lastXy:null,initialize:function(_26c){
 OpenLayers.Control.prototype.initialize.apply(this,arguments);
+},destroy:function(){
+if(this.map){
+this.map.events.unregister("mousemove",this,this.redraw);
+}
+OpenLayers.Control.prototype.destroy.apply(this,arguments);
 },draw:function(){
 OpenLayers.Control.prototype.draw.apply(this,arguments);
 if(!this.element){
@@ -7138,7 +7179,7 @@ this.element.innerHTML=_270;
 OpenLayers.Control.prototype.setMap.apply(this,arguments);
 this.map.events.register("mousemove",this,this.redraw);
 },CLASS_NAME:"OpenLayers.Control.MousePosition"});
-OpenLayers.Control.PanZoom=OpenLayers.Class(OpenLayers.Control,{slideFactor:50,buttons:null,position:null,initialize:function(){
+OpenLayers.Control.PanZoom=OpenLayers.Class(OpenLayers.Control,{slideFactor:50,buttons:null,position:null,initialize:function(_271){
 this.position=new OpenLayers.Pixel(OpenLayers.Control.PanZoom.X,OpenLayers.Control.PanZoom.Y);
 OpenLayers.Control.prototype.initialize.apply(this,arguments);
 },destroy:function(){
@@ -7155,19 +7196,19 @@ OpenLayers.Control.prototype.draw.apply(this,arguments);
 px=this.position;
 this.buttons=[];
 var sz=new OpenLayers.Size(18,18);
-var _274=new OpenLayers.Pixel(px.x+sz.w/2,px.y);
-this._addButton("panup","north-mini.png",_274,sz);
-px.y=_274.y+sz.h;
+var _275=new OpenLayers.Pixel(px.x+sz.w/2,px.y);
+this._addButton("panup","north-mini.png",_275,sz);
+px.y=_275.y+sz.h;
 this._addButton("panleft","west-mini.png",px,sz);
 this._addButton("panright","east-mini.png",px.add(sz.w,0),sz);
-this._addButton("pandown","south-mini.png",_274.add(0,sz.h*2),sz);
-this._addButton("zoomin","zoom-plus-mini.png",_274.add(0,sz.h*3+5),sz);
-this._addButton("zoomworld","zoom-world-mini.png",_274.add(0,sz.h*4+5),sz);
-this._addButton("zoomout","zoom-minus-mini.png",_274.add(0,sz.h*5+5),sz);
+this._addButton("pandown","south-mini.png",_275.add(0,sz.h*2),sz);
+this._addButton("zoomin","zoom-plus-mini.png",_275.add(0,sz.h*3+5),sz);
+this._addButton("zoomworld","zoom-world-mini.png",_275.add(0,sz.h*4+5),sz);
+this._addButton("zoomout","zoom-minus-mini.png",_275.add(0,sz.h*5+5),sz);
 return this.div;
 },_addButton:function(id,img,xy,sz){
-var _279=OpenLayers.Util.getImagesLocation()+img;
-var btn=OpenLayers.Util.createAlphaImageDiv("OpenLayers_Control_PanZoom_"+id,xy,sz,_279,"absolute");
+var _27a=OpenLayers.Util.getImagesLocation()+img;
+var btn=OpenLayers.Util.createAlphaImageDiv("OpenLayers_Control_PanZoom_"+id,xy,sz,_27a,"absolute");
 this.div.appendChild(btn);
 OpenLayers.Event.observe(btn,"mousedown",OpenLayers.Function.bindAsEventListener(this.buttonDown,btn));
 OpenLayers.Event.observe(btn,"dblclick",OpenLayers.Function.bindAsEventListener(this.doubleClick,btn));
@@ -7211,8 +7252,8 @@ OpenLayers.Event.stop(evt);
 },CLASS_NAME:"OpenLayers.Control.PanZoom"});
 OpenLayers.Control.PanZoom.X=4;
 OpenLayers.Control.PanZoom.Y=4;
-OpenLayers.Control.Panel=OpenLayers.Class(OpenLayers.Control,{controls:null,defaultControl:null,initialize:function(_27d){
-OpenLayers.Control.prototype.initialize.apply(this,[_27d]);
+OpenLayers.Control.Panel=OpenLayers.Class(OpenLayers.Control,{controls:null,defaultControl:null,initialize:function(_27e){
+OpenLayers.Control.prototype.initialize.apply(this,[_27e]);
 this.controls=[];
 },destroy:function(){
 OpenLayers.Control.prototype.destroy.apply(this,arguments);
@@ -7254,34 +7295,34 @@ return this.div;
 this.div.innerHTML="";
 if(this.active){
 for(var i=0;i<this.controls.length;i++){
-var _283=this.controls[i].panel_div;
+var _284=this.controls[i].panel_div;
 if(this.controls[i].active){
-_283.className=this.controls[i].displayClass+"ItemActive";
+_284.className=this.controls[i].displayClass+"ItemActive";
 }else{
-_283.className=this.controls[i].displayClass+"ItemInactive";
+_284.className=this.controls[i].displayClass+"ItemInactive";
 }
-this.div.appendChild(_283);
+this.div.appendChild(_284);
 }
 }
-},activateControl:function(_284){
+},activateControl:function(_285){
 if(!this.active){
 return false;
 }
-if(_284.type==OpenLayers.Control.TYPE_BUTTON){
-_284.trigger();
+if(_285.type==OpenLayers.Control.TYPE_BUTTON){
+_285.trigger();
 return;
 }
-if(_284.type==OpenLayers.Control.TYPE_TOGGLE){
-if(_284.active){
-_284.deactivate();
+if(_285.type==OpenLayers.Control.TYPE_TOGGLE){
+if(_285.active){
+_285.deactivate();
 }else{
-_284.activate();
+_285.activate();
 }
 return;
 }
 for(var i=0;i<this.controls.length;i++){
-if(this.controls[i]==_284){
-_284.activate();
+if(this.controls[i]==_285){
+_285.activate();
 }else{
 if(this.controls[i].type!=OpenLayers.Control.TYPE_TOGGLE){
 this.controls[i].deactivate();
@@ -7289,22 +7330,22 @@ this.controls[i].deactivate();
 }
 }
 this.redraw();
-},addControls:function(_286){
-if(!(_286 instanceof Array)){
-_286=[_286];
+},addControls:function(_287){
+if(!(_287 instanceof Array)){
+_287=[_287];
 }
-this.controls=this.controls.concat(_286);
-for(var i=0;i<_286.length;i++){
-var _288=document.createElement("div");
-var _289=document.createTextNode(" ");
-_286[i].panel_div=_288;
-OpenLayers.Event.observe(_286[i].panel_div,"click",OpenLayers.Function.bind(this.onClick,this,_286[i]));
-OpenLayers.Event.observe(_286[i].panel_div,"mousedown",OpenLayers.Function.bindAsEventListener(OpenLayers.Event.stop));
+this.controls=this.controls.concat(_287);
+for(var i=0;i<_287.length;i++){
+var _289=document.createElement("div");
+var _28a=document.createTextNode(" ");
+_287[i].panel_div=_289;
+OpenLayers.Event.observe(_287[i].panel_div,"click",OpenLayers.Function.bind(this.onClick,this,_287[i]));
+OpenLayers.Event.observe(_287[i].panel_div,"mousedown",OpenLayers.Function.bindAsEventListener(OpenLayers.Event.stop));
 }
 if(this.map){
-for(var i=0;i<_286.length;i++){
-this.map.addControl(_286[i]);
-_286[i].deactivate();
+for(var i=0;i<_287.length;i++){
+this.map.addControl(_287[i]);
+_287[i].deactivate();
 }
 this.redraw();
 }
@@ -7312,9 +7353,9 @@ this.redraw();
 OpenLayers.Event.stop(evt?evt:window.event);
 this.activateControl(ctrl);
 },CLASS_NAME:"OpenLayers.Control.Panel"});
-OpenLayers.Control.Permalink=OpenLayers.Class(OpenLayers.Control,{element:null,base:"",initialize:function(_28c,base,_28e){
-OpenLayers.Control.prototype.initialize.apply(this,[_28e]);
-this.element=OpenLayers.Util.getElement(_28c);
+OpenLayers.Control.Permalink=OpenLayers.Class(OpenLayers.Control,{element:null,base:"",initialize:function(_28d,base,_28f){
+OpenLayers.Control.prototype.initialize.apply(this,[_28f]);
+this.element=OpenLayers.Util.getElement(_28d);
 this.base=base||document.location.href;
 },destroy:function(){
 if(this.element.parentNode==this.div){
@@ -7326,8 +7367,8 @@ OpenLayers.Control.prototype.destroy.apply(this,arguments);
 },setMap:function(map){
 OpenLayers.Control.prototype.setMap.apply(this,arguments);
 for(var i=0;i<this.map.controls.length;i++){
-var _291=this.map.controls[i];
-if(_291.CLASS_NAME=="OpenLayers.Control.ArgParser"){
+var _292=this.map.controls[i];
+if(_292.CLASS_NAME=="OpenLayers.Control.ArgParser"){
 break;
 }
 }
@@ -7349,33 +7390,33 @@ this.map.events.register("changelayer",this,this.updateLink);
 this.map.events.register("changebaselayer",this,this.updateLink);
 return this.div;
 },updateLink:function(){
-var _292=this.map.getCenter();
-if(!_292){
+var _293=this.map.getCenter();
+if(!_293){
 return;
 }
-var _293=OpenLayers.Util.getParameters(this.base);
-_293.zoom=this.map.getZoom();
-_293.lat=Math.round(_292.lat*100000)/100000;
-_293.lon=Math.round(_292.lon*100000)/100000;
-_293.layers="";
+var _294=OpenLayers.Util.getParameters(this.base);
+_294.zoom=this.map.getZoom();
+_294.lat=Math.round(_293.lat*100000)/100000;
+_294.lon=Math.round(_293.lon*100000)/100000;
+_294.layers="";
 for(var i=0;i<this.map.layers.length;i++){
-var _295=this.map.layers[i];
-if(_295.isBaseLayer){
-_293.layers+=(_295==this.map.baseLayer)?"B":"0";
+var _296=this.map.layers[i];
+if(_296.isBaseLayer){
+_294.layers+=(_296==this.map.baseLayer)?"B":"0";
 }else{
-_293.layers+=(_295.getVisibility())?"T":"F";
+_294.layers+=(_296.getVisibility())?"T":"F";
 }
 }
 var href=this.base;
 if(href.indexOf("?")!=-1){
 href=href.substring(0,href.indexOf("?"));
 }
-href+="?"+OpenLayers.Util.getParameterString(_293);
+href+="?"+OpenLayers.Util.getParameterString(_294);
 this.element.href=href;
 },CLASS_NAME:"OpenLayers.Control.Permalink"});
-OpenLayers.Control.Scale=OpenLayers.Class(OpenLayers.Control,{element:null,initialize:function(_297,_298){
-OpenLayers.Control.prototype.initialize.apply(this,[_298]);
-this.element=OpenLayers.Util.getElement(_297);
+OpenLayers.Control.Scale=OpenLayers.Class(OpenLayers.Control,{element:null,initialize:function(_298,_299){
+OpenLayers.Control.prototype.initialize.apply(this,[_299]);
+this.element=OpenLayers.Util.getElement(_298);
 },draw:function(){
 OpenLayers.Control.prototype.draw.apply(this,arguments);
 if(!this.element){
@@ -7388,128 +7429,128 @@ this.map.events.register("moveend",this,this.updateScale);
 this.updateScale();
 return this.div;
 },updateScale:function(){
-var _299=this.map.getScale();
-if(!_299){
+var _29a=this.map.getScale();
+if(!_29a){
 return;
 }
-if(_299>=9500&&_299<=950000){
-_299=Math.round(_299/1000)+"K";
+if(_29a>=9500&&_29a<=950000){
+_29a=Math.round(_29a/1000)+"K";
 }else{
-if(_299>=950000){
-_299=Math.round(_299/1000000)+"M";
+if(_29a>=950000){
+_29a=Math.round(_29a/1000000)+"M";
 }else{
-_299=Math.round(_299);
+_29a=Math.round(_29a);
 }
 }
-this.element.innerHTML="Scale = 1 : "+_299;
+this.element.innerHTML="Scale = 1 : "+_29a;
 },CLASS_NAME:"OpenLayers.Control.Scale"});
 OpenLayers.Control.ZoomToMaxExtent=OpenLayers.Class(OpenLayers.Control,{type:OpenLayers.Control.TYPE_BUTTON,trigger:function(){
 if(this.map){
 this.map.zoomToMaxExtent();
 }
 },CLASS_NAME:"OpenLayers.Control.ZoomToMaxExtent"});
-OpenLayers.Event={observers:false,KEY_BACKSPACE:8,KEY_TAB:9,KEY_RETURN:13,KEY_ESC:27,KEY_LEFT:37,KEY_UP:38,KEY_RIGHT:39,KEY_DOWN:40,KEY_DELETE:46,element:function(_29a){
-return _29a.target||_29a.srcElement;
-},isLeftClick:function(_29b){
-return (((_29b.which)&&(_29b.which==1))||((_29b.button)&&(_29b.button==1)));
-},stop:function(_29c,_29d){
-if(!_29d){
-if(_29c.preventDefault){
-_29c.preventDefault();
+OpenLayers.Event={observers:false,KEY_BACKSPACE:8,KEY_TAB:9,KEY_RETURN:13,KEY_ESC:27,KEY_LEFT:37,KEY_UP:38,KEY_RIGHT:39,KEY_DOWN:40,KEY_DELETE:46,element:function(_29b){
+return _29b.target||_29b.srcElement;
+},isLeftClick:function(_29c){
+return (((_29c.which)&&(_29c.which==1))||((_29c.button)&&(_29c.button==1)));
+},stop:function(_29d,_29e){
+if(!_29e){
+if(_29d.preventDefault){
+_29d.preventDefault();
 }else{
-_29c.returnValue=false;
+_29d.returnValue=false;
 }
 }
-if(_29c.stopPropagation){
-_29c.stopPropagation();
+if(_29d.stopPropagation){
+_29d.stopPropagation();
 }else{
-_29c.cancelBubble=true;
+_29d.cancelBubble=true;
 }
-},findElement:function(_29e,_29f){
-var _2a0=OpenLayers.Event.element(_29e);
-while(_2a0.parentNode&&(!_2a0.tagName||(_2a0.tagName.toUpperCase()!=_29f.toUpperCase()))){
-_2a0=_2a0.parentNode;
+},findElement:function(_29f,_2a0){
+var _2a1=OpenLayers.Event.element(_29f);
+while(_2a1.parentNode&&(!_2a1.tagName||(_2a1.tagName.toUpperCase()!=_2a0.toUpperCase()))){
+_2a1=_2a1.parentNode;
 }
-return _2a0;
-},observe:function(_2a1,name,_2a3,_2a4){
-var _2a5=OpenLayers.Util.getElement(_2a1);
-_2a4=_2a4||false;
-if(name=="keypress"&&(navigator.appVersion.match(/Konqueror|Safari|KHTML/)||_2a5.attachEvent)){
+return _2a1;
+},observe:function(_2a2,name,_2a4,_2a5){
+var _2a6=OpenLayers.Util.getElement(_2a2);
+_2a5=_2a5||false;
+if(name=="keypress"&&(navigator.appVersion.match(/Konqueror|Safari|KHTML/)||_2a6.attachEvent)){
 name="keydown";
 }
 if(!this.observers){
 this.observers={};
 }
-if(!_2a5._eventCacheID){
-var _2a6="eventCacheID_";
-if(_2a5.id){
-_2a6=_2a5.id+"_"+_2a6;
+if(!_2a6._eventCacheID){
+var _2a7="eventCacheID_";
+if(_2a6.id){
+_2a7=_2a6.id+"_"+_2a7;
 }
-_2a5._eventCacheID=OpenLayers.Util.createUniqueID(_2a6);
+_2a6._eventCacheID=OpenLayers.Util.createUniqueID(_2a7);
 }
-var _2a7=_2a5._eventCacheID;
-if(!this.observers[_2a7]){
-this.observers[_2a7]=[];
+var _2a8=_2a6._eventCacheID;
+if(!this.observers[_2a8]){
+this.observers[_2a8]=[];
 }
-this.observers[_2a7].push({"element":_2a5,"name":name,"observer":_2a3,"useCapture":_2a4});
-if(_2a5.addEventListener){
-_2a5.addEventListener(name,_2a3,_2a4);
+this.observers[_2a8].push({"element":_2a6,"name":name,"observer":_2a4,"useCapture":_2a5});
+if(_2a6.addEventListener){
+_2a6.addEventListener(name,_2a4,_2a5);
 }else{
-if(_2a5.attachEvent){
-_2a5.attachEvent("on"+name,_2a3);
+if(_2a6.attachEvent){
+_2a6.attachEvent("on"+name,_2a4);
 }
 }
-},stopObservingElement:function(_2a8){
-var _2a9=OpenLayers.Util.getElement(_2a8);
-var _2aa=_2a9._eventCacheID;
-this._removeElementObservers(OpenLayers.Event.observers[_2aa]);
-},_removeElementObservers:function(_2ab){
-if(_2ab){
-for(var i=_2ab.length-1;i>=0;i--){
-var _2ad=_2ab[i];
-var args=new Array(_2ad.element,_2ad.name,_2ad.observer,_2ad.useCapture);
-var _2af=OpenLayers.Event.stopObserving.apply(this,args);
+},stopObservingElement:function(_2a9){
+var _2aa=OpenLayers.Util.getElement(_2a9);
+var _2ab=_2aa._eventCacheID;
+this._removeElementObservers(OpenLayers.Event.observers[_2ab]);
+},_removeElementObservers:function(_2ac){
+if(_2ac){
+for(var i=_2ac.length-1;i>=0;i--){
+var _2ae=_2ac[i];
+var args=new Array(_2ae.element,_2ae.name,_2ae.observer,_2ae.useCapture);
+var _2b0=OpenLayers.Event.stopObserving.apply(this,args);
 }
 }
-},stopObserving:function(_2b0,name,_2b2,_2b3){
-_2b3=_2b3||false;
-var _2b4=OpenLayers.Util.getElement(_2b0);
-var _2b5=_2b4._eventCacheID;
+},stopObserving:function(_2b1,name,_2b3,_2b4){
+_2b4=_2b4||false;
+var _2b5=OpenLayers.Util.getElement(_2b1);
+var _2b6=_2b5._eventCacheID;
 if(name=="keypress"){
-if(navigator.appVersion.match(/Konqueror|Safari|KHTML/)||_2b4.detachEvent){
+if(navigator.appVersion.match(/Konqueror|Safari|KHTML/)||_2b5.detachEvent){
 name="keydown";
 }
 }
-var _2b6=false;
-var _2b7=OpenLayers.Event.observers[_2b5];
-if(_2b7){
+var _2b7=false;
+var _2b8=OpenLayers.Event.observers[_2b6];
+if(_2b8){
 var i=0;
-while(!_2b6&&i<_2b7.length){
-var _2b9=_2b7[i];
-if((_2b9.name==name)&&(_2b9.observer==_2b2)&&(_2b9.useCapture==_2b3)){
-_2b7.splice(i,1);
-if(_2b7.length==0){
-delete OpenLayers.Event.observers[_2b5];
+while(!_2b7&&i<_2b8.length){
+var _2ba=_2b8[i];
+if((_2ba.name==name)&&(_2ba.observer==_2b3)&&(_2ba.useCapture==_2b4)){
+_2b8.splice(i,1);
+if(_2b8.length==0){
+delete OpenLayers.Event.observers[_2b6];
 }
-_2b6=true;
+_2b7=true;
 break;
 }
 i++;
 }
 }
-if(_2b4.removeEventListener){
-_2b4.removeEventListener(name,_2b2,_2b3);
+if(_2b5.removeEventListener){
+_2b5.removeEventListener(name,_2b3,_2b4);
 }else{
-if(_2b4&&_2b4.detachEvent){
-_2b4.detachEvent("on"+name,_2b2);
+if(_2b5&&_2b5.detachEvent){
+_2b5.detachEvent("on"+name,_2b3);
 }
 }
-return _2b6;
+return _2b7;
 },unloadCache:function(){
 if(OpenLayers.Event.observers){
-for(var _2ba in OpenLayers.Event.observers){
-var _2bb=OpenLayers.Event.observers[_2ba];
-OpenLayers.Event._removeElementObservers.apply(this,[_2bb]);
+for(var _2bb in OpenLayers.Event.observers){
+var _2bc=OpenLayers.Event.observers[_2bb];
+OpenLayers.Event._removeElementObservers.apply(this,[_2bc]);
 }
 OpenLayers.Event.observers=false;
 }
@@ -7520,11 +7561,11 @@ OpenLayers.Util.applyDefaults(window.Event,OpenLayers.Event);
 }else{
 var Event=OpenLayers.Event;
 }
-OpenLayers.Events=OpenLayers.Class({BROWSER_EVENTS:["mouseover","mouseout","mousedown","mouseup","mousemove","click","dblclick","resize","focus","blur"],listeners:null,object:null,element:null,eventTypes:null,eventHandler:null,fallThrough:null,initialize:function(_2bc,_2bd,_2be,_2bf){
-this.object=_2bc;
-this.element=_2bd;
-this.eventTypes=_2be;
-this.fallThrough=_2bf;
+OpenLayers.Events=OpenLayers.Class({BROWSER_EVENTS:["mouseover","mouseout","mousedown","mouseup","mousemove","click","dblclick","resize","focus","blur"],listeners:null,object:null,element:null,eventTypes:null,eventHandler:null,fallThrough:null,initialize:function(_2bd,_2be,_2bf,_2c0){
+this.object=_2bd;
+this.element=_2be;
+this.eventTypes=_2bf;
+this.fallThrough=_2c0;
 this.listeners={};
 this.eventHandler=OpenLayers.Function.bindAsEventListener(this.handleBrowserEvent,this);
 if(this.eventTypes!=null){
@@ -7533,7 +7574,7 @@ this.addEventType(this.eventTypes[i]);
 }
 }
 if(this.element!=null){
-this.attachToElement(_2bd);
+this.attachToElement(_2be);
 }
 },destroy:function(){
 if(this.element){
@@ -7545,25 +7586,25 @@ this.object=null;
 this.eventTypes=null;
 this.fallThrough=null;
 this.eventHandler=null;
-},addEventType:function(_2c1){
-if(!this.listeners[_2c1]){
-this.listeners[_2c1]=[];
+},addEventType:function(_2c2){
+if(!this.listeners[_2c2]){
+this.listeners[_2c2]=[];
 }
-},attachToElement:function(_2c2){
+},attachToElement:function(_2c3){
 for(var i=0;i<this.BROWSER_EVENTS.length;i++){
-var _2c4=this.BROWSER_EVENTS[i];
-this.addEventType(_2c4);
-OpenLayers.Event.observe(_2c2,_2c4,this.eventHandler);
+var _2c5=this.BROWSER_EVENTS[i];
+this.addEventType(_2c5);
+OpenLayers.Event.observe(_2c3,_2c5,this.eventHandler);
 }
-OpenLayers.Event.observe(_2c2,"dragstart",OpenLayers.Event.stop);
+OpenLayers.Event.observe(_2c3,"dragstart",OpenLayers.Event.stop);
 },register:function(type,obj,func){
 if(func!=null){
 if(obj==null){
 obj=this.object;
 }
-var _2c8=this.listeners[type];
-if(_2c8!=null){
-_2c8.push({obj:obj,func:func});
+var _2c9=this.listeners[type];
+if(_2c9!=null){
+_2c9.push({obj:obj,func:func});
 }
 }
 },registerPriority:function(type,obj,func){
@@ -7571,20 +7612,20 @@ if(func!=null){
 if(obj==null){
 obj=this.object;
 }
-var _2cc=this.listeners[type];
-if(_2cc!=null){
-_2cc.unshift({obj:obj,func:func});
+var _2cd=this.listeners[type];
+if(_2cd!=null){
+_2cd.unshift({obj:obj,func:func});
 }
 }
 },unregister:function(type,obj,func){
 if(obj==null){
 obj=this.object;
 }
-var _2d0=this.listeners[type];
-if(_2d0!=null){
-for(var i=0;i<_2d0.length;i++){
-if(_2d0[i].obj==obj&&_2d0[i].func==func){
-_2d0.splice(i,1);
+var _2d1=this.listeners[type];
+if(_2d1!=null){
+for(var i=0;i<_2d1.length;i++){
+if(_2d1[i].obj==obj&&_2d1[i].func==func){
+_2d1.splice(i,1);
 break;
 }
 }
@@ -7599,17 +7640,17 @@ evt={};
 }
 evt.object=this.object;
 evt.element=this.element;
-var _2d5=(this.listeners[type])?this.listeners[type].slice():null;
-if((_2d5!=null)&&(_2d5.length>0)){
-for(var i=0;i<_2d5.length;i++){
-var _2d7=_2d5[i];
-var _2d8;
-if(_2d7.obj!=null){
-_2d8=_2d7.func.call(_2d7.obj,evt);
+var _2d6=(this.listeners[type])?this.listeners[type].slice():null;
+if((_2d6!=null)&&(_2d6.length>0)){
+for(var i=0;i<_2d6.length;i++){
+var _2d8=_2d6[i];
+var _2d9;
+if(_2d8.obj!=null){
+_2d9=_2d8.func.call(_2d8.obj,evt);
 }else{
-_2d8=_2d7.func(evt);
+_2d9=_2d8.func(evt);
 }
-if((_2d8!=null)&&(_2d8==false)){
+if((_2d9!=null)&&(_2d9==false)){
 break;
 }
 }
@@ -7628,17 +7669,17 @@ this.element.offsets[1]+=(document.documentElement.scrollTop||document.body.scro
 }
 return new OpenLayers.Pixel((evt.clientX+(document.documentElement.scrollLeft||document.body.scrollLeft))-this.element.offsets[0]-(document.documentElement.clientLeft||0),(evt.clientY+(document.documentElement.scrollTop||document.body.scrollTop))-this.element.offsets[1]-(document.documentElement.clientTop||0));
 },CLASS_NAME:"OpenLayers.Events"});
-OpenLayers.Format=OpenLayers.Class({initialize:function(_2db){
-OpenLayers.Util.extend(this,_2db);
+OpenLayers.Format=OpenLayers.Class({initialize:function(_2dc){
+OpenLayers.Util.extend(this,_2dc);
 },read:function(data){
 alert("Read not implemented.");
-},write:function(_2dd){
+},write:function(_2de){
 alert("Write not implemented.");
 },CLASS_NAME:"OpenLayers.Format"});
-OpenLayers.Popup.Anchored=OpenLayers.Class(OpenLayers.Popup,{relativePosition:null,anchor:null,initialize:function(id,_2df,size,_2e1,_2e2,_2e3){
-var _2e4=new Array(id,_2df,size,_2e1,_2e3);
-OpenLayers.Popup.prototype.initialize.apply(this,_2e4);
-this.anchor=(_2e2!=null)?_2e2:{size:new OpenLayers.Size(0,0),offset:new OpenLayers.Pixel(0,0)};
+OpenLayers.Popup.Anchored=OpenLayers.Class(OpenLayers.Popup,{relativePosition:null,anchor:null,initialize:function(id,_2e0,size,_2e2,_2e3,_2e4){
+var _2e5=new Array(id,_2e0,size,_2e2,_2e4);
+OpenLayers.Popup.prototype.initialize.apply(this,_2e5);
+this.anchor=(_2e3!=null)?_2e3:{size:new OpenLayers.Size(0,0),offset:new OpenLayers.Pixel(0,0)};
 },draw:function(px){
 if(px==null){
 if((this.lonlat!=null)&&(this.map!=null)){
@@ -7648,15 +7689,15 @@ px=this.map.getLayerPxFromLonLat(this.lonlat);
 this.relativePosition=this.calculateRelativePosition(px);
 return OpenLayers.Popup.prototype.draw.apply(this,arguments);
 },calculateRelativePosition:function(px){
-var _2e7=this.map.getLonLatFromLayerPx(px);
-var _2e8=this.map.getExtent();
-var _2e9=_2e8.determineQuadrant(_2e7);
-return OpenLayers.Bounds.oppositeQuadrant(_2e9);
+var _2e8=this.map.getLonLatFromLayerPx(px);
+var _2e9=this.map.getExtent();
+var _2ea=_2e9.determineQuadrant(_2e8);
+return OpenLayers.Bounds.oppositeQuadrant(_2ea);
 },moveTo:function(px){
 this.relativePosition=this.calculateRelativePosition(px);
-var _2eb=this.calculateNewPx(px);
-var _2ec=new Array(_2eb);
-OpenLayers.Popup.prototype.moveTo.apply(this,_2ec);
+var _2ec=this.calculateNewPx(px);
+var _2ed=new Array(_2ec);
+OpenLayers.Popup.prototype.moveTo.apply(this,_2ed);
 },setSize:function(size){
 OpenLayers.Popup.prototype.setSize.apply(this,arguments);
 if((this.lonlat)&&(this.map)){
@@ -7664,14 +7705,14 @@ var px=this.map.getLayerPxFromLonLat(this.lonlat);
 this.moveTo(px);
 }
 },calculateNewPx:function(px){
-var _2f0=px.offset(this.anchor.offset);
+var _2f1=px.offset(this.anchor.offset);
 var top=(this.relativePosition.charAt(0)=="t");
-_2f0.y+=(top)?-this.size.h:this.anchor.size.h;
+_2f1.y+=(top)?-this.size.h:this.anchor.size.h;
 var left=(this.relativePosition.charAt(1)=="l");
-_2f0.x+=(left)?-this.size.w:this.anchor.size.w;
-return _2f0;
+_2f1.x+=(left)?-this.size.w:this.anchor.size.w;
+return _2f1;
 },CLASS_NAME:"OpenLayers.Popup.Anchored"});
-OpenLayers.Renderer.Elements=OpenLayers.Class(OpenLayers.Renderer,{rendererRoot:null,root:null,xmlns:null,initialize:function(_2f3){
+OpenLayers.Renderer.Elements=OpenLayers.Class(OpenLayers.Renderer,{rendererRoot:null,root:null,xmlns:null,initialize:function(_2f4){
 OpenLayers.Renderer.prototype.initialize.apply(this,arguments);
 this.rendererRoot=this.createRenderRoot();
 this.root=this.createRoot();
@@ -7689,93 +7730,93 @@ while(this.root.childNodes.length>0){
 this.root.removeChild(this.root.firstChild);
 }
 }
-},getNodeType:function(_2f4){
-},drawGeometry:function(_2f5,_2f6,_2f7){
-var _2f8=_2f5.CLASS_NAME;
-if((_2f8=="OpenLayers.Geometry.Collection")||(_2f8=="OpenLayers.Geometry.MultiPoint")||(_2f8=="OpenLayers.Geometry.MultiLineString")||(_2f8=="OpenLayers.Geometry.MultiPolygon")){
-for(var i=0;i<_2f5.components.length;i++){
-this.drawGeometry(_2f5.components[i],_2f6,_2f7);
+},getNodeType:function(_2f5){
+},drawGeometry:function(_2f6,_2f7,_2f8){
+var _2f9=_2f6.CLASS_NAME;
+if((_2f9=="OpenLayers.Geometry.Collection")||(_2f9=="OpenLayers.Geometry.MultiPoint")||(_2f9=="OpenLayers.Geometry.MultiLineString")||(_2f9=="OpenLayers.Geometry.MultiPolygon")){
+for(var i=0;i<_2f6.components.length;i++){
+this.drawGeometry(_2f6.components[i],_2f7,_2f8);
 }
 return;
 }
-var _2fa=this.getNodeType(_2f5);
-var node=this.nodeFactory(_2f5.id,_2fa,_2f5);
-node._featureId=_2f7;
-node._geometryClass=_2f5.CLASS_NAME;
-node._style=_2f6;
+var _2fb=this.getNodeType(_2f6);
+var node=this.nodeFactory(_2f6.id,_2fb,_2f6);
+node._featureId=_2f8;
+node._geometryClass=_2f6.CLASS_NAME;
+node._style=_2f7;
 this.root.appendChild(node);
-this.drawGeometryNode(node,_2f5);
-},drawGeometryNode:function(node,_2fd,_2fe){
-_2fe=_2fe||node._style;
-var _2ff={"isFilled":true,"isStroked":true};
-switch(_2fd.CLASS_NAME){
+this.drawGeometryNode(node,_2f6);
+},drawGeometryNode:function(node,_2fe,_2ff){
+_2ff=_2ff||node._style;
+var _300={"isFilled":true,"isStroked":true};
+switch(_2fe.CLASS_NAME){
 case "OpenLayers.Geometry.Point":
-this.drawPoint(node,_2fd);
+this.drawPoint(node,_2fe);
 break;
 case "OpenLayers.Geometry.LineString":
-_2ff.isFilled=false;
-this.drawLineString(node,_2fd);
+_300.isFilled=false;
+this.drawLineString(node,_2fe);
 break;
 case "OpenLayers.Geometry.LinearRing":
-this.drawLinearRing(node,_2fd);
+this.drawLinearRing(node,_2fe);
 break;
 case "OpenLayers.Geometry.Polygon":
-this.drawPolygon(node,_2fd);
+this.drawPolygon(node,_2fe);
 break;
 case "OpenLayers.Geometry.Surface":
-this.drawSurface(node,_2fd);
+this.drawSurface(node,_2fe);
 break;
 case "OpenLayers.Geometry.Rectangle":
-this.drawRectangle(node,_2fd);
+this.drawRectangle(node,_2fe);
 break;
 default:
 break;
 }
-node._style=_2fe;
-node._options=_2ff;
-this.setStyle(node,_2fe,_2ff,_2fd);
-},drawPoint:function(node,_301){
-},drawLineString:function(node,_303){
-},drawLinearRing:function(node,_305){
-},drawPolygon:function(node,_307){
-},drawRectangle:function(node,_309){
-},drawCircle:function(node,_30b){
-},drawCurve:function(node,_30d){
-},drawSurface:function(node,_30f){
+node._style=_2ff;
+node._options=_300;
+this.setStyle(node,_2ff,_300,_2fe);
+},drawPoint:function(node,_302){
+},drawLineString:function(node,_304){
+},drawLinearRing:function(node,_306){
+},drawPolygon:function(node,_308){
+},drawRectangle:function(node,_30a){
+},drawCircle:function(node,_30c){
+},drawCurve:function(node,_30e){
+},drawSurface:function(node,_310){
 },getFeatureIdFromEvent:function(evt){
 var node=evt.target||evt.srcElement;
 return node._featureId;
-},eraseGeometry:function(_312){
-if((_312.CLASS_NAME=="OpenLayers.Geometry.MultiPoint")||(_312.CLASS_NAME=="OpenLayers.Geometry.MultiLineString")||(_312.CLASS_NAME=="OpenLayers.Geometry.MultiPolygon")){
-for(var i=0;i<_312.components.length;i++){
-this.eraseGeometry(_312.components[i]);
+},eraseGeometry:function(_313){
+if((_313.CLASS_NAME=="OpenLayers.Geometry.MultiPoint")||(_313.CLASS_NAME=="OpenLayers.Geometry.MultiLineString")||(_313.CLASS_NAME=="OpenLayers.Geometry.MultiPolygon")){
+for(var i=0;i<_313.components.length;i++){
+this.eraseGeometry(_313.components[i]);
 }
 }else{
-var _314=OpenLayers.Util.getElement(_312.id);
-if(_314&&_314.parentNode){
-if(_314.geometry){
-_314.geometry.destroy();
-_314.geometry=null;
+var _315=OpenLayers.Util.getElement(_313.id);
+if(_315&&_315.parentNode){
+if(_315.geometry){
+_315.geometry.destroy();
+_315.geometry=null;
 }
-_314.parentNode.removeChild(_314);
+_315.parentNode.removeChild(_315);
 }
 }
-},nodeFactory:function(id,type,_317){
+},nodeFactory:function(id,type,_318){
 var node=OpenLayers.Util.getElement(id);
 if(node){
 if(!this.nodeTypeCompare(node,type)){
 node.parentNode.removeChild(node);
-node=this.nodeFactory(id,type,_317);
+node=this.nodeFactory(id,type,_318);
 }
 }else{
 node=this.createNode(type,id);
 }
 return node;
 },CLASS_NAME:"OpenLayers.Renderer.Elements"});
-OpenLayers.Tile=OpenLayers.Class({EVENT_TYPES:["loadstart","loadend","reload"],events:null,id:null,layer:null,url:null,bounds:null,size:null,position:null,drawn:false,isLoading:false,initialize:function(_319,_31a,_31b,url,size){
-this.layer=_319;
-this.position=_31a;
-this.bounds=_31b;
+OpenLayers.Tile=OpenLayers.Class({EVENT_TYPES:["loadstart","loadend","reload"],events:null,id:null,layer:null,url:null,bounds:null,size:null,position:null,drawn:false,isLoading:false,initialize:function(_31a,_31b,_31c,url,size){
+this.layer=_31a;
+this.position=_31b;
+this.bounds=_31c;
 this.url=url;
 this.size=size;
 this.id=OpenLayers.Util.createUniqueID("Tile_");
@@ -7789,53 +7830,53 @@ this.events.destroy();
 this.events=null;
 },draw:function(){
 this.clear();
-var _31e=this.layer.maxExtent;
-var _31f=(_31e&&this.bounds.intersectsBounds(_31e,false));
-var _320=this.layer.map.getExtent();
-var _321=(_320&&this.bounds.intersectsBounds(_320,false));
-return ((_31f||this.layer.displayOutsideMaxExtent)&&(_321||(this.layer.buffer!=0)));
-},moveTo:function(_322,_323,_324){
-if(_324==null){
-_324=true;
+var _31f=this.layer.maxExtent;
+var _320=(_31f&&this.bounds.intersectsBounds(_31f,false));
+var _321=this.layer.map.getExtent();
+var _322=(_321&&this.bounds.intersectsBounds(_321,false));
+return ((_320||this.layer.displayOutsideMaxExtent)&&(_322||(this.layer.buffer!=0)));
+},moveTo:function(_323,_324,_325){
+if(_325==null){
+_325=true;
 }
 this.clear();
-this.bounds=_322.clone();
-this.position=_323.clone();
-if(_324){
+this.bounds=_323.clone();
+this.position=_324.clone();
+if(_325){
 this.draw();
 }
 },clear:function(){
 this.drawn=false;
-},getBoundsFromBaseLayer:function(_325){
+},getBoundsFromBaseLayer:function(_326){
 OpenLayers.Console.warn("You are using the 'reproject' option "+"on the "+this.layer.name+" layer. This option is deprecated: "+"its use was designed to support displaying data over commercial "+"basemaps, but that functionality should now be achieved by using "+"Spherical Mercator support. More information is available from "+"http://trac.openlayers.org/wiki/SphericalMercator.");
-var _326=this.layer.map.getLonLatFromLayerPx(_325);
-var _327=_325.clone();
-_327.x+=this.size.w;
-_327.y+=this.size.h;
-var _328=this.layer.map.getLonLatFromLayerPx(_327);
-if(_326.lon>_328.lon){
-if(_326.lon<0){
-_326.lon=-180-(_326.lon+180);
+var _327=this.layer.map.getLonLatFromLayerPx(_326);
+var _328=_326.clone();
+_328.x+=this.size.w;
+_328.y+=this.size.h;
+var _329=this.layer.map.getLonLatFromLayerPx(_328);
+if(_327.lon>_329.lon){
+if(_327.lon<0){
+_327.lon=-180-(_327.lon+180);
 }else{
-_328.lon=180+_328.lon+180;
+_329.lon=180+_329.lon+180;
 }
 }
-bounds=new OpenLayers.Bounds(_326.lon,_328.lat,_328.lon,_326.lat);
+bounds=new OpenLayers.Bounds(_327.lon,_329.lat,_329.lon,_327.lat);
 return bounds;
 },CLASS_NAME:"OpenLayers.Tile"});
-OpenLayers.Control.MouseToolbar=OpenLayers.Class(OpenLayers.Control.MouseDefaults,{mode:null,buttons:null,direction:"vertical",buttonClicked:null,initialize:function(_329,_32a){
+OpenLayers.Control.MouseToolbar=OpenLayers.Class(OpenLayers.Control.MouseDefaults,{mode:null,buttons:null,direction:"vertical",buttonClicked:null,initialize:function(_32a,_32b){
 OpenLayers.Control.prototype.initialize.apply(this,arguments);
 this.position=new OpenLayers.Pixel(OpenLayers.Control.MouseToolbar.X,OpenLayers.Control.MouseToolbar.Y);
-if(_329){
-this.position=_329;
-}
 if(_32a){
-this.direction=_32a;
+this.position=_32a;
+}
+if(_32b){
+this.direction=_32b;
 }
 this.measureDivs=[];
 },destroy:function(){
-for(var _32b in this.buttons){
-var btn=this.buttons[_32b];
+for(var _32c in this.buttons){
+var btn=this.buttons[_32c];
 btn.map=null;
 btn.events.destroy();
 }
@@ -7845,27 +7886,27 @@ OpenLayers.Control.prototype.draw.apply(this,arguments);
 OpenLayers.Control.MouseDefaults.prototype.draw.apply(this,arguments);
 this.buttons={};
 var sz=new OpenLayers.Size(28,28);
-var _32e=new OpenLayers.Pixel(OpenLayers.Control.MouseToolbar.X,0);
-this._addButton("zoombox","drag-rectangle-off.png","drag-rectangle-on.png",_32e,sz,"Shift->Drag to zoom to area");
-_32e=_32e.add((this.direction=="vertical"?0:sz.w),(this.direction=="vertical"?sz.h:0));
-this._addButton("pan","panning-hand-off.png","panning-hand-on.png",_32e,sz,"Drag the map to pan.");
-_32e=_32e.add((this.direction=="vertical"?0:sz.w),(this.direction=="vertical"?sz.h:0));
+var _32f=new OpenLayers.Pixel(OpenLayers.Control.MouseToolbar.X,0);
+this._addButton("zoombox","drag-rectangle-off.png","drag-rectangle-on.png",_32f,sz,"Shift->Drag to zoom to area");
+_32f=_32f.add((this.direction=="vertical"?0:sz.w),(this.direction=="vertical"?sz.h:0));
+this._addButton("pan","panning-hand-off.png","panning-hand-on.png",_32f,sz,"Drag the map to pan.");
+_32f=_32f.add((this.direction=="vertical"?0:sz.w),(this.direction=="vertical"?sz.h:0));
 this.switchModeTo("pan");
 return this.div;
-},_addButton:function(id,img,_331,xy,sz,_334){
-var _335=OpenLayers.Util.getImagesLocation()+img;
-var _336=OpenLayers.Util.getImagesLocation()+_331;
-var btn=OpenLayers.Util.createAlphaImageDiv("OpenLayers_Control_MouseToolbar_"+id,xy,sz,_335,"absolute");
+},_addButton:function(id,img,_332,xy,sz,_335){
+var _336=OpenLayers.Util.getImagesLocation()+img;
+var _337=OpenLayers.Util.getImagesLocation()+_332;
+var btn=OpenLayers.Util.createAlphaImageDiv("OpenLayers_Control_MouseToolbar_"+id,xy,sz,_336,"absolute");
 this.div.appendChild(btn);
-btn.imgLocation=_335;
-btn.activeImgLocation=_336;
+btn.imgLocation=_336;
+btn.activeImgLocation=_337;
 btn.events=new OpenLayers.Events(this,btn,null,true);
 btn.events.register("mousedown",this,this.buttonDown);
 btn.events.register("mouseup",this,this.buttonUp);
 btn.events.register("dblclick",this,OpenLayers.Event.stop);
 btn.action=id;
-btn.title=_334;
-btn.alt=_334;
+btn.title=_335;
+btn.alt=_335;
 btn.map=this.map;
 this.buttons[id]=btn;
 return btn;
@@ -7889,8 +7930,8 @@ this.buttonClicked=null;
 },defaultDblClick:function(evt){
 this.switchModeTo("pan");
 this.performedDrag=false;
-var _33b=this.map.getLonLatFromViewPortPx(evt.xy);
-this.map.setCenter(_33b,this.map.zoom+1);
+var _33c=this.map.getLonLatFromViewPortPx(evt.xy);
+this.map.setCenter(_33c,this.map.zoom+1);
 OpenLayers.Event.stop(evt);
 return false;
 },defaultMouseDown:function(evt){
@@ -7925,12 +7966,12 @@ this.map.viewPortDiv.appendChild(this.zoomBox);
 this.performedDrag=true;
 break;
 case "measure":
-var _33d="";
+var _33e="";
 if(this.measureStart){
 measureEnd=this.map.getLonLatFromViewPortPx(this.mouseDragStart);
-_33d=OpenLayers.Util.distVincenty(this.measureStart,measureEnd);
-_33d=Math.round(_33d*100)/100;
-_33d=_33d+"km";
+_33e=OpenLayers.Util.distVincenty(this.measureStart,measureEnd);
+_33e=Math.round(_33e*100)/100;
+_33e=_33e+"km";
 this.measureStartBox=this.measureBox;
 }
 this.measureStart=this.map.getLonLatFromViewPortPx(this.mouseDragStart);
@@ -7941,9 +7982,9 @@ this.measureBox.style.fontSize="1px";
 this.measureBox.style.backgroundColor="red";
 this.measureBox.style.zIndex=this.map.Z_INDEX_BASE["Popup"]-1;
 this.map.layerContainerDiv.appendChild(this.measureBox);
-if(_33d){
+if(_33e){
 this.measureBoxDistance=OpenLayers.Util.createDiv(null,this.mouseDragStart.add(-2-parseInt(this.map.layerContainerDiv.style.left),2-parseInt(this.map.layerContainerDiv.style.top)),null,null,"absolute");
-this.measureBoxDistance.innerHTML=_33d;
+this.measureBoxDistance.innerHTML=_33e;
 this.measureBoxDistance.style.zIndex=this.map.Z_INDEX_BASE["Popup"]-1;
 this.map.layerContainerDiv.appendChild(this.measureBoxDistance);
 this.measureDivs.push(this.measureBoxDistance);
@@ -7993,10 +8034,10 @@ this.switchModeTo("pan");
 if(this.mouseDragStart!=null){
 switch(this.mode){
 case "zoombox":
-var _341=Math.abs(this.mouseDragStart.x-evt.xy.x);
-var _342=Math.abs(this.mouseDragStart.y-evt.xy.y);
-this.zoomBox.style.width=Math.max(1,_341)+"px";
-this.zoomBox.style.height=Math.max(1,_342)+"px";
+var _342=Math.abs(this.mouseDragStart.x-evt.xy.x);
+var _343=Math.abs(this.mouseDragStart.y-evt.xy.y);
+this.zoomBox.style.width=Math.max(1,_342)+"px";
+this.zoomBox.style.height=Math.max(1,_343)+"px";
 if(evt.xy.x<this.mouseDragStart.x){
 this.zoomBox.style.left=evt.xy.x+"px";
 }
@@ -8005,12 +8046,12 @@ this.zoomBox.style.top=evt.xy.y+"px";
 }
 break;
 default:
-var _341=this.mouseDragStart.x-evt.xy.x;
-var _342=this.mouseDragStart.y-evt.xy.y;
+var _342=this.mouseDragStart.x-evt.xy.x;
+var _343=this.mouseDragStart.y-evt.xy.y;
 var size=this.map.getSize();
-var _344=new OpenLayers.Pixel(size.w/2+_341,size.h/2+_342);
-var _345=this.map.getLonLatFromViewPortPx(_344);
-this.map.setCenter(_345,null,true);
+var _345=new OpenLayers.Pixel(size.w/2+_342,size.h/2+_343);
+var _346=this.map.getLonLatFromViewPortPx(_345);
+this.map.setCenter(_346,null,true);
 this.mouseDragStart=evt.xy.clone();
 }
 this.performedDrag=true;
@@ -8053,9 +8094,9 @@ return false;
 }});
 OpenLayers.Control.MouseToolbar.X=6;
 OpenLayers.Control.MouseToolbar.Y=300;
-OpenLayers.Control.OverviewMap=OpenLayers.Class(OpenLayers.Control,{id:"OverviewMap",element:null,ovmap:null,size:new OpenLayers.Size(180,90),layers:null,minRatio:8,maxRatio:32,mapOptions:null,initialize:function(_349){
+OpenLayers.Control.OverviewMap=OpenLayers.Class(OpenLayers.Control,{id:"OverviewMap",element:null,ovmap:null,size:new OpenLayers.Size(180,90),layers:null,minRatio:8,maxRatio:32,mapOptions:null,initialize:function(_34a){
 this.layers=[];
-OpenLayers.Control.prototype.initialize.apply(this,[_349]);
+OpenLayers.Control.prototype.initialize.apply(this,[_34a]);
 },destroy:function(){
 if(!this.mapDiv){
 return;
@@ -8091,8 +8132,8 @@ OpenLayers.Control.prototype.destroy.apply(this,arguments);
 OpenLayers.Control.prototype.draw.apply(this,arguments);
 if(!(this.layers.length>0)){
 if(this.map.baseLayer){
-var _34a=this.map.baseLayer.clone();
-this.layers=[_34a];
+var _34b=this.map.baseLayer.clone();
+this.layers=[_34b];
 }else{
 this.map.events.register("changebaselayer",this,this.baseLayerDraw);
 return this.div;
@@ -8140,23 +8181,23 @@ this.mapDivEvents=new OpenLayers.Events(this,this.mapDiv);
 this.mapDivEvents.register("click",this,this.mapDivClick);
 if(!this.outsideViewport){
 this.div.className=this.displayClass+"Container";
-var _34f=OpenLayers.Util.getImagesLocation();
-var img=_34f+"layer-switcher-maximize.png";
+var _350=OpenLayers.Util.getImagesLocation();
+var img=_350+"layer-switcher-maximize.png";
 this.maximizeDiv=OpenLayers.Util.createAlphaImageDiv(this.displayClass+"MaximizeButton",null,new OpenLayers.Size(18,18),img,"absolute");
 this.maximizeDiv.style.display="none";
 this.maximizeDiv.className=this.displayClass+"MaximizeButton";
 OpenLayers.Event.observe(this.maximizeDiv,"click",OpenLayers.Function.bindAsEventListener(this.maximizeControl,this));
 this.div.appendChild(this.maximizeDiv);
-var img=_34f+"layer-switcher-minimize.png";
+var img=_350+"layer-switcher-minimize.png";
 this.minimizeDiv=OpenLayers.Util.createAlphaImageDiv("OpenLayers_Control_minimizeDiv",null,new OpenLayers.Size(18,18),img,"absolute");
 this.minimizeDiv.style.display="none";
 this.minimizeDiv.className=this.displayClass+"MinimizeButton";
 OpenLayers.Event.observe(this.minimizeDiv,"click",OpenLayers.Function.bindAsEventListener(this.minimizeControl,this));
 this.div.appendChild(this.minimizeDiv);
-var _351=["dblclick","mousedown"];
-for(var i=0;i<_351.length;i++){
-OpenLayers.Event.observe(this.maximizeDiv,_351[i],OpenLayers.Event.stop);
-OpenLayers.Event.observe(this.minimizeDiv,_351[i],OpenLayers.Event.stop);
+var _352=["dblclick","mousedown"];
+for(var i=0;i<_352.length;i++){
+OpenLayers.Event.observe(this.maximizeDiv,_352[i],OpenLayers.Event.stop);
+OpenLayers.Event.observe(this.minimizeDiv,_352[i],OpenLayers.Event.stop);
 }
 this.minimizeControl();
 }else{
@@ -8173,8 +8214,8 @@ this.map.events.unregister("changebaselayer",this,this.baseLayerDraw);
 if(this.rectDragStart!=null){
 if(this.performedRectDrag){
 this.rectMouseMove(evt);
-var _354=this.getRectPxBounds();
-if((_354.top<=0)||(_354.left<=0)||(_354.bottom>=this.size.h-this.hComp)||(_354.right>=this.size.w-this.wComp)){
+var _355=this.getRectPxBounds();
+if((_355.top<=0)||(_355.left<=0)||(_355.bottom>=this.size.h-this.hComp)||(_355.right>=this.size.w-this.wComp)){
 this.updateMapToRect();
 }else{
 return;
@@ -8192,18 +8233,18 @@ this.performedRectDrag=false;
 OpenLayers.Event.stop(evt);
 },rectMouseMove:function(evt){
 if(this.rectDragStart!=null){
-var _357=this.rectDragStart.x-evt.xy.x;
-var _358=this.rectDragStart.y-evt.xy.y;
-var _359=this.getRectPxBounds();
-var _35a=_359.top;
-var _35b=_359.left;
-var _35c=Math.abs(_359.getHeight());
-var _35d=_359.getWidth();
-var _35e=Math.max(0,(_35a-_358));
-_35e=Math.min(_35e,this.ovmap.size.h-this.hComp-_35c);
-var _35f=Math.max(0,(_35b-_357));
-_35f=Math.min(_35f,this.ovmap.size.w-this.wComp-_35d);
-this.setRectPxBounds(new OpenLayers.Bounds(_35f,_35e+_35c,_35f+_35d,_35e));
+var _358=this.rectDragStart.x-evt.xy.x;
+var _359=this.rectDragStart.y-evt.xy.y;
+var _35a=this.getRectPxBounds();
+var _35b=_35a.top;
+var _35c=_35a.left;
+var _35d=Math.abs(_35a.getHeight());
+var _35e=_35a.getWidth();
+var _35f=Math.max(0,(_35b-_359));
+_35f=Math.min(_35f,this.ovmap.size.h-this.hComp-_35d);
+var _360=Math.max(0,(_35c-_358));
+_360=Math.min(_360,this.ovmap.size.w-this.wComp-_35e);
+this.setRectPxBounds(new OpenLayers.Bounds(_360,_35f+_35d,_360+_35e,_35f));
 this.rectDragStart=evt.xy.clone();
 this.performedRectDrag=true;
 OpenLayers.Event.stop(evt);
@@ -8223,19 +8264,19 @@ this.performedRectDrag=false;
 OpenLayers.Event.stop(evt);
 this.updateOverview();
 },mapDivClick:function(evt){
-var _363=this.getRectPxBounds();
-var _364=_363.getCenterPixel();
-var _365=evt.xy.x-_364.x;
-var _366=evt.xy.y-_364.y;
-var top=_363.top;
-var left=_363.left;
-var _369=Math.abs(_363.getHeight());
-var _36a=_363.getWidth();
-var _36b=Math.max(0,(top+_366));
-_36b=Math.min(_36b,this.ovmap.size.h-_369);
-var _36c=Math.max(0,(left+_365));
-_36c=Math.min(_36c,this.ovmap.size.w-_36a);
-this.setRectPxBounds(new OpenLayers.Bounds(_36c,_36b+_369,_36c+_36a,_36b));
+var _364=this.getRectPxBounds();
+var _365=_364.getCenterPixel();
+var _366=evt.xy.x-_365.x;
+var _367=evt.xy.y-_365.y;
+var top=_364.top;
+var left=_364.left;
+var _36a=Math.abs(_364.getHeight());
+var _36b=_364.getWidth();
+var _36c=Math.max(0,(top+_367));
+_36c=Math.min(_36c,this.ovmap.size.h-_36a);
+var _36d=Math.max(0,(left+_366));
+_36d=Math.min(_36d,this.ovmap.size.w-_36b);
+this.setRectPxBounds(new OpenLayers.Bounds(_36d,_36c+_36a,_36d+_36b,_36c));
 this.updateMapToRect();
 OpenLayers.Event.stop(evt);
 },maximizeControl:function(e){
@@ -8250,9 +8291,9 @@ this.showToggle(true);
 if(e!=null){
 OpenLayers.Event.stop(e);
 }
-},showToggle:function(_36f){
-this.maximizeDiv.style.display=_36f?"":"none";
-this.minimizeDiv.style.display=_36f?"none":"";
+},showToggle:function(_370){
+this.maximizeDiv.style.display=_370?"":"none";
+this.minimizeDiv.style.display=_370?"none":"";
 },update:function(){
 if(this.ovmap==null){
 this.createMap();
@@ -8262,27 +8303,27 @@ this.updateOverview();
 }
 this.updateRectToMap();
 },isSuitableOverview:function(){
-var _370=this.map.getExtent();
-var _371=this.map.maxExtent;
-var _372=new OpenLayers.Bounds(Math.max(_370.left,_371.left),Math.max(_370.bottom,_371.bottom),Math.min(_370.right,_371.right),Math.min(_370.top,_371.top));
-var _373=this.ovmap.getResolution()/this.map.getResolution();
-return ((_373>this.minRatio)&&(_373<=this.maxRatio)&&(this.ovmap.getExtent().containsBounds(_372)));
+var _371=this.map.getExtent();
+var _372=this.map.maxExtent;
+var _373=new OpenLayers.Bounds(Math.max(_371.left,_372.left),Math.max(_371.bottom,_372.bottom),Math.min(_371.right,_372.right),Math.min(_371.top,_372.top));
+var _374=this.ovmap.getResolution()/this.map.getResolution();
+return ((_374>this.minRatio)&&(_374<=this.maxRatio)&&(this.ovmap.getExtent().containsBounds(_373)));
 },updateOverview:function(){
-var _374=this.map.getResolution();
-var _375=this.ovmap.getResolution();
-var _376=_375/_374;
-if(_376>this.maxRatio){
-_375=this.minRatio*_374;
+var _375=this.map.getResolution();
+var _376=this.ovmap.getResolution();
+var _377=_376/_375;
+if(_377>this.maxRatio){
+_376=this.minRatio*_375;
 }else{
-if(_376<=this.minRatio){
-_375=this.maxRatio*_374;
+if(_377<=this.minRatio){
+_376=this.maxRatio*_375;
 }
 }
-this.ovmap.setCenter(this.map.center,this.ovmap.getZoomForResolution(_375));
+this.ovmap.setCenter(this.map.center,this.ovmap.getZoomForResolution(_376));
 this.updateRectToMap();
 },createMap:function(){
-var _377=OpenLayers.Util.extend({controls:[],maxResolution:"auto"},this.mapOptions);
-this.ovmap=new OpenLayers.Map(this.mapDiv,_377);
+var _378=OpenLayers.Util.extend({controls:[],maxResolution:"auto"},this.mapOptions);
+this.ovmap=new OpenLayers.Map(this.mapDiv,_378);
 this.ovmap.addLayers(this.layers);
 this.ovmap.zoomToMaxExtent();
 this.wComp=parseInt(OpenLayers.Element.getStyle(this.extentRectangle,"border-left-width"))+parseInt(OpenLayers.Element.getStyle(this.extentRectangle,"border-right-width"));
@@ -8295,58 +8336,58 @@ if(this.ovmap.getProjection()&&(this.map.getProjection()!=this.ovmap.getProjecti
 alert("The overview map only works when it is in the same projection as the main map");
 }
 }
-var _378=this.getRectBoundsFromMapBounds(this.map.getExtent());
-if(_378){
-this.setRectPxBounds(_378);
+var _379=this.getRectBoundsFromMapBounds(this.map.getExtent());
+if(_379){
+this.setRectPxBounds(_379);
 }
 },updateMapToRect:function(){
-var _379=this.getRectPxBounds();
-var _37a=this.getMapBoundsFromRectBounds(_379);
-this.map.setCenter(_37a.getCenterLonLat(),this.map.zoom);
+var _37a=this.getRectPxBounds();
+var _37b=this.getMapBoundsFromRectBounds(_37a);
+this.map.setCenter(_37b.getCenterLonLat(),this.map.zoom);
 },getRectPxBounds:function(){
 var top=parseInt(this.extentRectangle.style.top);
 var left=parseInt(this.extentRectangle.style.left);
-var _37d=parseInt(this.extentRectangle.style.height);
-var _37e=parseInt(this.extentRectangle.style.width);
-return new OpenLayers.Bounds(left,top+_37d,left+_37e,top);
-},setRectPxBounds:function(_37f){
-var top=Math.max(_37f.top,0);
-var left=Math.max(_37f.left,0);
-var _382=Math.min(_37f.top+Math.abs(_37f.getHeight()),this.ovmap.size.h-this.hComp);
-var _383=Math.min(_37f.left+_37f.getWidth(),this.ovmap.size.w-this.wComp);
+var _37e=parseInt(this.extentRectangle.style.height);
+var _37f=parseInt(this.extentRectangle.style.width);
+return new OpenLayers.Bounds(left,top+_37e,left+_37f,top);
+},setRectPxBounds:function(_380){
+var top=Math.max(_380.top,0);
+var left=Math.max(_380.left,0);
+var _383=Math.min(_380.top+Math.abs(_380.getHeight()),this.ovmap.size.h-this.hComp);
+var _384=Math.min(_380.left+_380.getWidth(),this.ovmap.size.w-this.wComp);
 this.extentRectangle.style.top=parseInt(top)+"px";
 this.extentRectangle.style.left=parseInt(left)+"px";
-this.extentRectangle.style.height=parseInt(Math.max(_382-top,0))+"px";
-this.extentRectangle.style.width=parseInt(Math.max(_383-left,0))+"px";
-},getRectBoundsFromMapBounds:function(_384){
-var _385=new OpenLayers.LonLat(_384.left,_384.bottom);
-var _386=new OpenLayers.LonLat(_384.right,_384.top);
-var _387=this.getOverviewPxFromLonLat(_385);
+this.extentRectangle.style.height=parseInt(Math.max(_383-top,0))+"px";
+this.extentRectangle.style.width=parseInt(Math.max(_384-left,0))+"px";
+},getRectBoundsFromMapBounds:function(_385){
+var _386=new OpenLayers.LonLat(_385.left,_385.bottom);
+var _387=new OpenLayers.LonLat(_385.right,_385.top);
 var _388=this.getOverviewPxFromLonLat(_386);
-var _389=null;
-if(_387&&_388){
-_389=new OpenLayers.Bounds(_387.x,_387.y,_388.x,_388.y);
+var _389=this.getOverviewPxFromLonLat(_387);
+var _38a=null;
+if(_388&&_389){
+_38a=new OpenLayers.Bounds(_388.x,_388.y,_389.x,_389.y);
 }
-return _389;
-},getMapBoundsFromRectBounds:function(_38a){
-var _38b=new OpenLayers.Pixel(_38a.left,_38a.bottom);
-var _38c=new OpenLayers.Pixel(_38a.right,_38a.top);
-var _38d=this.getLonLatFromOverviewPx(_38b);
+return _38a;
+},getMapBoundsFromRectBounds:function(_38b){
+var _38c=new OpenLayers.Pixel(_38b.left,_38b.bottom);
+var _38d=new OpenLayers.Pixel(_38b.right,_38b.top);
 var _38e=this.getLonLatFromOverviewPx(_38c);
-return new OpenLayers.Bounds(_38d.lon,_38d.lat,_38e.lon,_38e.lat);
-},getLonLatFromOverviewPx:function(_38f){
+var _38f=this.getLonLatFromOverviewPx(_38d);
+return new OpenLayers.Bounds(_38e.lon,_38e.lat,_38f.lon,_38f.lat);
+},getLonLatFromOverviewPx:function(_390){
 var size=this.ovmap.size;
 var res=this.ovmap.getResolution();
-var _392=this.ovmap.getExtent().getCenterLonLat();
-var _393=_38f.x-(size.w/2);
-var _394=_38f.y-(size.h/2);
-return new OpenLayers.LonLat(_392.lon+_393*res,_392.lat-_394*res);
-},getOverviewPxFromLonLat:function(_395){
+var _393=this.ovmap.getExtent().getCenterLonLat();
+var _394=_390.x-(size.w/2);
+var _395=_390.y-(size.h/2);
+return new OpenLayers.LonLat(_393.lon+_394*res,_393.lat-_395*res);
+},getOverviewPxFromLonLat:function(_396){
 var res=this.ovmap.getResolution();
-var _397=this.ovmap.getExtent();
+var _398=this.ovmap.getExtent();
 var px=null;
-if(_397){
-px=new OpenLayers.Pixel(Math.round(1/res*(_395.lon-_397.left)),Math.round(1/res*(_397.top-_395.lat)));
+if(_398){
+px=new OpenLayers.Pixel(Math.round(1/res*(_396.lon-_398.left)),Math.round(1/res*(_398.top-_396.lat)));
 }
 return px;
 },CLASS_NAME:"OpenLayers.Control.OverviewMap"});
@@ -8377,23 +8418,23 @@ OpenLayers.Control.prototype.draw.apply(this,arguments);
 px=this.position.clone();
 this.buttons=[];
 var sz=new OpenLayers.Size(18,18);
-var _39c=new OpenLayers.Pixel(px.x+sz.w/2,px.y);
-this._addButton("panup","north-mini.png",_39c,sz);
-px.y=_39c.y+sz.h;
+var _39d=new OpenLayers.Pixel(px.x+sz.w/2,px.y);
+this._addButton("panup","north-mini.png",_39d,sz);
+px.y=_39d.y+sz.h;
 this._addButton("panleft","west-mini.png",px,sz);
 this._addButton("panright","east-mini.png",px.add(sz.w,0),sz);
-this._addButton("pandown","south-mini.png",_39c.add(0,sz.h*2),sz);
-this._addButton("zoomin","zoom-plus-mini.png",_39c.add(0,sz.h*3+5),sz);
-_39c=this._addZoomBar(_39c.add(0,sz.h*4+5));
-this._addButton("zoomout","zoom-minus-mini.png",_39c,sz);
+this._addButton("pandown","south-mini.png",_39d.add(0,sz.h*2),sz);
+this._addButton("zoomin","zoom-plus-mini.png",_39d.add(0,sz.h*3+5),sz);
+_39d=this._addZoomBar(_39d.add(0,sz.h*4+5));
+this._addButton("zoomout","zoom-minus-mini.png",_39d,sz);
 return this.div;
-},_addZoomBar:function(_39d){
-var _39e=OpenLayers.Util.getImagesLocation();
+},_addZoomBar:function(_39e){
+var _39f=OpenLayers.Util.getImagesLocation();
 var id="OpenLayers_Control_PanZoomBar_Slider"+this.map.id;
-var _3a0=this.map.getNumZoomLevels()-1-this.map.getZoom();
-var _3a1=OpenLayers.Util.createAlphaImageDiv(id,_39d.add(-1,_3a0*this.zoomStopHeight),new OpenLayers.Size(20,9),_39e+"slider.png","absolute");
-this.slider=_3a1;
-this.sliderEvents=new OpenLayers.Events(this,_3a1,null,true);
+var _3a1=this.map.getNumZoomLevels()-1-this.map.getZoom();
+var _3a2=OpenLayers.Util.createAlphaImageDiv(id,_39e.add(-1,_3a1*this.zoomStopHeight),new OpenLayers.Size(20,9),_39f+"slider.png","absolute");
+this.slider=_3a2;
+this.sliderEvents=new OpenLayers.Events(this,_3a2,null,true);
 this.sliderEvents.register("mousedown",this,this.zoomBarDown);
 this.sliderEvents.register("mousemove",this,this.zoomBarDrag);
 this.sliderEvents.register("mouseup",this,this.zoomBarUp);
@@ -8405,10 +8446,10 @@ sz.w=this.zoomStopWidth;
 var div=null;
 if(OpenLayers.Util.alphaHack()){
 var id="OpenLayers_Control_PanZoomBar"+this.map.id;
-div=OpenLayers.Util.createAlphaImageDiv(id,_39d,new OpenLayers.Size(sz.w,this.zoomStopHeight),_39e+"zoombar.png","absolute",null,"crop");
+div=OpenLayers.Util.createAlphaImageDiv(id,_39e,new OpenLayers.Size(sz.w,this.zoomStopHeight),_39f+"zoombar.png","absolute",null,"crop");
 div.style.height=sz.h;
 }else{
-div=OpenLayers.Util.createDiv("OpenLayers_Control_PanZoomBar_Zoombar"+this.map.id,_39d,sz,_39e+"zoombar.png");
+div=OpenLayers.Util.createDiv("OpenLayers_Control_PanZoomBar_Zoombar"+this.map.id,_39e,sz,_39f+"zoombar.png");
 }
 this.zoombarDiv=div;
 this.divEvents=new OpenLayers.Events(this,div,null,true);
@@ -8418,10 +8459,10 @@ this.divEvents.register("dblclick",this,this.doubleClick);
 this.divEvents.register("click",this,this.doubleClick);
 this.div.appendChild(div);
 this.startTop=parseInt(div.style.top);
-this.div.appendChild(_3a1);
+this.div.appendChild(_3a2);
 this.map.events.register("zoomend",this,this.moveZoomBar);
-_39d=_39d.add(0,this.zoomStopHeight*this.map.getNumZoomLevels());
-return _39d;
+_39e=_39e.add(0,this.zoomStopHeight*this.map.getNumZoomLevels());
+return _39e;
 },passEventToSlider:function(evt){
 this.sliderEvents.handleBrowserEvent(evt);
 },divClick:function(evt){
@@ -8430,8 +8471,8 @@ return;
 }
 var y=evt.xy.y;
 var top=OpenLayers.Util.pagePosition(evt.object)[1];
-var _3a7=Math.floor((y-top)/this.zoomStopHeight);
-this.map.zoomTo((this.map.getNumZoomLevels()-1)-_3a7);
+var _3a8=Math.floor((y-top)/this.zoomStopHeight);
+this.map.zoomTo((this.map.getNumZoomLevels()-1)-_3a8);
 OpenLayers.Event.stop(evt);
 },zoomBarDown:function(evt){
 if(!OpenLayers.Event.isLeftClick(evt)){
@@ -8446,11 +8487,11 @@ this.zoombarDiv.offsets=null;
 OpenLayers.Event.stop(evt);
 },zoomBarDrag:function(evt){
 if(this.mouseDragStart!=null){
-var _3aa=this.mouseDragStart.y-evt.xy.y;
-var _3ab=OpenLayers.Util.pagePosition(this.zoombarDiv);
-if((evt.clientY-_3ab[1])>0&&(evt.clientY-_3ab[1])<parseInt(this.zoombarDiv.style.height)-2){
-var _3ac=parseInt(this.slider.style.top)-_3aa;
-this.slider.style.top=_3ac+"px";
+var _3ab=this.mouseDragStart.y-evt.xy.y;
+var _3ac=OpenLayers.Util.pagePosition(this.zoombarDiv);
+if((evt.clientY-_3ac[1])>0&&(evt.clientY-_3ac[1])<parseInt(this.zoombarDiv.style.height)-2){
+var _3ad=parseInt(this.slider.style.top)-_3ab;
+this.slider.style.top=_3ad+"px";
 }
 this.mouseDragStart=evt.xy.clone();
 OpenLayers.Event.stop(evt);
@@ -8463,23 +8504,23 @@ if(this.zoomStart){
 this.div.style.cursor="";
 this.map.events.unregister("mouseup",this,this.passEventToSlider);
 this.map.events.unregister("mousemove",this,this.passEventToSlider);
-var _3ae=this.zoomStart.y-evt.xy.y;
-this.map.zoomTo(this.map.zoom+Math.round(_3ae/this.zoomStopHeight));
+var _3af=this.zoomStart.y-evt.xy.y;
+this.map.zoomTo(this.map.zoom+Math.round(_3af/this.zoomStopHeight));
 this.moveZoomBar();
 this.mouseDragStart=null;
 OpenLayers.Event.stop(evt);
 }
 },moveZoomBar:function(){
-var _3af=((this.map.getNumZoomLevels()-1)-this.map.getZoom())*this.zoomStopHeight+this.startTop+1;
-this.slider.style.top=_3af+"px";
+var _3b0=((this.map.getNumZoomLevels()-1)-this.map.getZoom())*this.zoomStopHeight+this.startTop+1;
+this.slider.style.top=_3b0+"px";
 },CLASS_NAME:"OpenLayers.Control.PanZoomBar"});
-OpenLayers.Format.JSON=OpenLayers.Class(OpenLayers.Format,{indent:"    ",space:" ",newline:"\n",level:0,pretty:false,initialize:function(_3b0){
-OpenLayers.Format.prototype.initialize.apply(this,[_3b0]);
-},read:function(json,_3b2){
+OpenLayers.Format.JSON=OpenLayers.Class(OpenLayers.Format,{indent:"    ",space:" ",newline:"\n",level:0,pretty:false,initialize:function(_3b1){
+OpenLayers.Format.prototype.initialize.apply(this,[_3b1]);
+},read:function(json,_3b3){
 try{
 if(/^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/.test(json)){
-var _3b3=eval("("+json+")");
-if(typeof _3b2==="function"){
+var _3b4=eval("("+json+")");
+if(typeof _3b3==="function"){
 function walk(k,v){
 if(v&&typeof v==="object"){
 for(var i in v){
@@ -8488,86 +8529,86 @@ v[i]=walk(i,v[i]);
 }
 }
 }
-return _3b2(k,v);
+return _3b3(k,v);
 }
-_3b3=walk("",_3b3);
+_3b4=walk("",_3b4);
 }
-return _3b3;
+return _3b4;
 }
 }
 catch(e){
 }
 return null;
-},write:function(_3b7,_3b8){
-this.pretty=!!_3b8;
+},write:function(_3b8,_3b9){
+this.pretty=!!_3b9;
 var json=null;
-var type=typeof _3b7;
+var type=typeof _3b8;
 if(this.serialize[type]){
-json=this.serialize[type].apply(this,[_3b7]);
+json=this.serialize[type].apply(this,[_3b8]);
 }
 return json;
 },writeIndent:function(){
-var _3bb=[];
+var _3bc=[];
 if(this.pretty){
 for(var i=0;i<this.level;++i){
-_3bb.push(this.indent);
+_3bc.push(this.indent);
 }
 }
-return _3bb.join("");
+return _3bc.join("");
 },writeNewline:function(){
 return (this.pretty)?this.newline:"";
 },writeSpace:function(){
 return (this.pretty)?this.space:"";
-},serialize:{"object":function(_3bd){
-if(_3bd==null){
+},serialize:{"object":function(_3be){
+if(_3be==null){
 return "null";
 }
-if(_3bd.constructor==Date){
-return this.serialize.date.apply(this,[_3bd]);
+if(_3be.constructor==Date){
+return this.serialize.date.apply(this,[_3be]);
 }
-if(_3bd.constructor==Array){
-return this.serialize.array.apply(this,[_3bd]);
+if(_3be.constructor==Array){
+return this.serialize.array.apply(this,[_3be]);
 }
-var _3be=["{"];
+var _3bf=["{"];
 this.level+=1;
 var key,keyJSON,valueJSON;
-var _3c0=false;
-for(key in _3bd){
-if(_3bd.hasOwnProperty(key)){
+var _3c1=false;
+for(key in _3be){
+if(_3be.hasOwnProperty(key)){
 keyJSON=OpenLayers.Format.JSON.prototype.write.apply(this,[key,this.pretty]);
-valueJSON=OpenLayers.Format.JSON.prototype.write.apply(this,[_3bd[key],this.pretty]);
+valueJSON=OpenLayers.Format.JSON.prototype.write.apply(this,[_3be[key],this.pretty]);
 if(keyJSON!=null&&valueJSON!=null){
-if(_3c0){
-_3be.push(",");
+if(_3c1){
+_3bf.push(",");
 }
-_3be.push(this.writeNewline(),this.writeIndent(),keyJSON,":",this.writeSpace(),valueJSON);
-_3c0=true;
+_3bf.push(this.writeNewline(),this.writeIndent(),keyJSON,":",this.writeSpace(),valueJSON);
+_3c1=true;
 }
 }
 }
 this.level-=1;
-_3be.push(this.writeNewline(),this.writeIndent(),"}");
-return _3be.join("");
-},"array":function(_3c1){
+_3bf.push(this.writeNewline(),this.writeIndent(),"}");
+return _3bf.join("");
+},"array":function(_3c2){
 var json;
-var _3c3=["["];
+var _3c4=["["];
 this.level+=1;
-for(var i=0;i<_3c1.length;++i){
-json=OpenLayers.Format.JSON.prototype.write.apply(this,[_3c1[i],this.pretty]);
+for(var i=0;i<_3c2.length;++i){
+json=OpenLayers.Format.JSON.prototype.write.apply(this,[_3c2[i],this.pretty]);
 if(json!=null){
 if(i>0){
-_3c3.push(",");
+_3c4.push(",");
 }
-_3c3.push(this.writeNewline(),this.writeIndent(),json);
+_3c4.push(this.writeNewline(),this.writeIndent(),json);
 }
 }
 this.level-=1;
-_3c3.push(this.writeNewline(),this.writeIndent(),"]");
-return _3c3.join("");
-},"string":function(_3c5){
+_3c4.push(this.writeNewline(),this.writeIndent(),"]");
+return _3c4.join("");
+},"string":function(_3c6){
 var m={"\b":"\\b","\t":"\\t","\n":"\\n","\f":"\\f","\r":"\\r","\"":"\\\"","\\":"\\\\"};
-if(/["\\\x00-\x1f]/.test(_3c5)){
-return "\""+_3c5.replace(/([\x00-\x1f\\"])/g,function(a,b){
+if(/["\\\x00-\x1f]/.test(_3c6)){
+return "\""+_3c6.replace(/([\x00-\x1f\\"])/g,function(a,b){
 var c=m[b];
 if(c){
 return c;
@@ -8576,166 +8617,36 @@ c=b.charCodeAt();
 return "\\u00"+Math.floor(c/16).toString(16)+(c%16).toString(16);
 })+"\"";
 }
-return "\""+_3c5+"\"";
-},"number":function(_3ca){
-return isFinite(_3ca)?String(_3ca):"null";
+return "\""+_3c6+"\"";
+},"number":function(_3cb){
+return isFinite(_3cb)?String(_3cb):"null";
 },"boolean":function(bool){
 return String(bool);
 },"date":function(date){
-function format(_3cd){
-return (_3cd<10)?"0"+_3cd:_3cd;
+function format(_3ce){
+return (_3ce<10)?"0"+_3ce:_3ce;
 }
 return "\""+date.getFullYear()+"-"+format(date.getMonth()+1)+"-"+format(date.getDate())+"T"+format(date.getHours())+":"+format(date.getMinutes())+":"+format(date.getSeconds())+"\"";
 }},CLASS_NAME:"OpenLayers.Format.JSON"});
-OpenLayers.Format.WKT=OpenLayers.Class(OpenLayers.Format,{initialize:function(_3ce){
-this.regExes={"typeStr":/^\s*(\w+)\s*\(\s*(.*)\s*\)\s*$/,"spaces":/\s+/,"parenComma":/\)\s*,\s*\(/,"doubleParenComma":/\)\s*\)\s*,\s*\(\s*\(/,"trimParens":/^\s*\(?(.*?)\)?\s*$/};
-OpenLayers.Format.prototype.initialize.apply(this,[_3ce]);
-},read:function(wkt){
-var _3d0,type,str;
-var _3d1=this.regExes.typeStr.exec(wkt);
-if(_3d1){
-type=_3d1[1].toLowerCase();
-str=_3d1[2];
-if(this.parse[type]){
-_3d0=this.parse[type].apply(this,[str]);
-}
-}
-return _3d0;
-},write:function(_3d2){
-var _3d3,geometry,type,data,isCollection;
-if(_3d2.constructor==Array){
-_3d3=_3d2;
-isCollection=true;
-}else{
-_3d3=[_3d2];
-isCollection=false;
-}
-var _3d4=[];
-if(isCollection){
-_3d4.push("GEOMETRYCOLLECTION(");
-}
-for(var i=0;i<_3d3.length;++i){
-if(isCollection&&i>0){
-_3d4.push(",");
-}
-geometry=_3d3[i].geometry;
-type=geometry.CLASS_NAME.split(".")[2].toLowerCase();
-if(!this.extract[type]){
-return null;
-}
-data=this.extract[type].apply(this,[geometry]);
-_3d4.push(type.toUpperCase()+"("+data+")");
-}
-if(isCollection){
-_3d4.push(")");
-}
-return _3d4.join("");
-},extract:{"point":function(_3d6){
-return _3d6.x+" "+_3d6.y;
-},"multipoint":function(_3d7){
-var _3d8=[];
-for(var i=0;i<_3d7.components.length;++i){
-_3d8.push(this.extract.point.apply(this,[_3d7.components[i]]));
-}
-return _3d8.join(",");
-},"linestring":function(_3da){
-var _3db=[];
-for(var i=0;i<_3da.components.length;++i){
-_3db.push(this.extract.point.apply(this,[_3da.components[i]]));
-}
-return _3db.join(",");
-},"multilinestring":function(_3dd){
-var _3de=[];
-for(var i=0;i<_3dd.components.length;++i){
-_3de.push("("+this.extract.linestring.apply(this,[_3dd.components[i]])+")");
-}
-return _3de.join(",");
-},"polygon":function(_3e0){
-var _3e1=[];
-for(var i=0;i<_3e0.components.length;++i){
-_3e1.push("("+this.extract.linestring.apply(this,[_3e0.components[i]])+")");
-}
-return _3e1.join(",");
-},"multipolygon":function(_3e3){
-var _3e4=[];
-for(var i=0;i<_3e3.components.length;++i){
-_3e4.push("("+this.extract.polygon.apply(this,[_3e3.components[i]])+")");
-}
-return _3e4.join(",");
-}},parse:{"point":function(str){
-var _3e7=OpenLayers.String.trim(str).split(this.regExes.spaces);
-return new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(_3e7[0],_3e7[1]));
-},"multipoint":function(str){
-var _3e9=OpenLayers.String.trim(str).split(",");
-var _3ea=[];
-for(var i=0;i<_3e9.length;++i){
-_3ea.push(this.parse.point.apply(this,[_3e9[i]]).geometry);
-}
-return new OpenLayers.Feature.Vector(new OpenLayers.Geometry.MultiPoint(_3ea));
-},"linestring":function(str){
-var _3ed=OpenLayers.String.trim(str).split(",");
-var _3ee=[];
-for(var i=0;i<_3ed.length;++i){
-_3ee.push(this.parse.point.apply(this,[_3ed[i]]).geometry);
-}
-return new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString(_3ee));
-},"multilinestring":function(str){
-var line;
-var _3f2=OpenLayers.String.trim(str).split(this.regExes.parenComma);
-var _3f3=[];
-for(var i=0;i<_3f2.length;++i){
-line=_3f2[i].replace(this.regExes.trimParens,"$1");
-_3f3.push(this.parse.linestring.apply(this,[line]).geometry);
-}
-return new OpenLayers.Feature.Vector(new OpenLayers.Geometry.MultiLineString(_3f3));
-},"polygon":function(str){
-var ring,linestring,linearring;
-var _3f7=OpenLayers.String.trim(str).split(this.regExes.parenComma);
-var _3f8=[];
-for(var i=0;i<_3f7.length;++i){
-ring=_3f7[i].replace(this.regExes.trimParens,"$1");
-linestring=this.parse.linestring.apply(this,[ring]).geometry;
-linearring=new OpenLayers.Geometry.LinearRing(linestring.components);
-_3f8.push(linearring);
-}
-return new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Polygon(_3f8));
-},"multipolygon":function(str){
-var _3fb;
-var _3fc=OpenLayers.String.trim(str).split(this.regExes.doubleParenComma);
-var _3fd=[];
-for(var i=0;i<_3fc.length;++i){
-_3fb=_3fc[i].replace(this.regExes.trimParens,"$1");
-_3fd.push(this.parse.polygon.apply(this,[_3fb]).geometry);
-}
-return new OpenLayers.Feature.Vector(new OpenLayers.Geometry.MultiPolygon(_3fd));
-},"geometrycollection":function(str){
-str=str.replace(/,\s*([A-Za-z])/g,"|$1");
-var _400=OpenLayers.String.trim(str).split("|");
-var _401=[];
-for(var i=0;i<_400.length;++i){
-_401.push(OpenLayers.Format.WKT.prototype.read.apply(this,[_400[i]]));
-}
-return _401;
-}},CLASS_NAME:"OpenLayers.Format.WKT"});
-OpenLayers.Format.XML=OpenLayers.Class(OpenLayers.Format,{xmldom:null,initialize:function(_403){
+OpenLayers.Format.XML=OpenLayers.Class(OpenLayers.Format,{xmldom:null,initialize:function(_3cf){
 if(window.ActiveXObject){
 this.xmldom=new ActiveXObject("Microsoft.XMLDOM");
 }
-OpenLayers.Format.prototype.initialize.apply(this,[_403]);
+OpenLayers.Format.prototype.initialize.apply(this,[_3cf]);
 },read:function(text){
-var _405=text.indexOf("<");
-if(_405>0){
-text=text.substring(_405);
+var _3d1=text.indexOf("<");
+if(_3d1>0){
+text=text.substring(_3d1);
 }
 var node=OpenLayers.Util.Try(OpenLayers.Function.bind((function(){
-var _407;
+var _3d3;
 if(window.ActiveXObject&&!this.xmldom){
-_407=new ActiveXObject("Microsoft.XMLDOM");
+_3d3=new ActiveXObject("Microsoft.XMLDOM");
 }else{
-_407=this.xmldom;
+_3d3=this.xmldom;
 }
-_407.loadXML(text);
-return _407;
+_3d3.loadXML(text);
+return _3d3;
 }),this),function(){
 return new DOMParser().parseFromString(text,"text/xml");
 },function(){
@@ -8753,18 +8664,18 @@ var data;
 if(this.xmldom){
 data=node.xml;
 }else{
-var _40b=new XMLSerializer();
-data=_40b.serializeToString(node);
+var _3d7=new XMLSerializer();
+data=_3d7.serializeToString(node);
 }
 return data;
 },createElementNS:function(uri,name){
-var _40e;
+var _3da;
 if(this.xmldom){
-_40e=this.xmldom.createNode(1,name,uri);
+_3da=this.xmldom.createNode(1,name,uri);
 }else{
-_40e=document.createElementNS(uri,name);
+_3da=document.createElementNS(uri,name);
 }
-return _40e;
+return _3da;
 },createTextNode:function(text){
 var node;
 if(this.xmldom){
@@ -8774,70 +8685,94 @@ node=document.createTextNode(text);
 }
 return node;
 },getElementsByTagNameNS:function(node,uri,name){
-var _414=[];
+var _3e0=[];
 if(node.getElementsByTagNameNS){
-_414=node.getElementsByTagNameNS(uri,name);
+_3e0=node.getElementsByTagNameNS(uri,name);
 }else{
-var _415=node.getElementsByTagName("*");
-var _416,fullName;
-for(var i=0;i<_415.length;++i){
-_416=_415[i];
-fullName=(_416.prefix)?(_416.prefix+":"+name):name;
-if((name=="*")||(fullName==_416.nodeName)){
-if((uri=="*")||(uri==_416.namespaceURI)){
-_414.push(_416);
+var _3e1=node.getElementsByTagName("*");
+var _3e2,fullName;
+for(var i=0;i<_3e1.length;++i){
+_3e2=_3e1[i];
+fullName=(_3e2.prefix)?(_3e2.prefix+":"+name):name;
+if((name=="*")||(fullName==_3e2.nodeName)){
+if((uri=="*")||(uri==_3e2.namespaceURI)){
+_3e0.push(_3e2);
 }
 }
 }
 }
-return _414;
+return _3e0;
 },getAttributeNodeNS:function(node,uri,name){
-var _41b=null;
+var _3e7=null;
 if(node.getAttributeNodeNS){
-_41b=node.getAttributeNodeNS(uri,name);
+_3e7=node.getAttributeNodeNS(uri,name);
 }else{
-var _41c=node.attributes;
-var _41d,fullName;
-for(var i=0;i<_41c.length;++i){
-_41d=_41c[i];
-if(_41d.namespaceURI==uri){
-fullName=(_41d.prefix)?(_41d.prefix+":"+name):name;
-if(fullName==_41d.nodeName){
-_41b=_41d;
+var _3e8=node.attributes;
+var _3e9,fullName;
+for(var i=0;i<_3e8.length;++i){
+_3e9=_3e8[i];
+if(_3e9.namespaceURI==uri){
+fullName=(_3e9.prefix)?(_3e9.prefix+":"+name):name;
+if(fullName==_3e9.nodeName){
+_3e7=_3e9;
 break;
 }
 }
 }
 }
-return _41b;
+return _3e7;
 },getAttributeNS:function(node,uri,name){
-var _422="";
+var _3ee="";
 if(node.getAttributeNS){
-_422=node.getAttributeNS(uri,name);
+_3ee=node.getAttributeNS(uri,name);
 }else{
-var _423=this.getAttributeNodeNS(node,uri,name);
-if(_423){
-_422=_423.nodeValue;
+var _3ef=this.getAttributeNodeNS(node,uri,name);
+if(_3ef){
+_3ee=_3ef.nodeValue;
 }
 }
-return _422;
+return _3ee;
+},getChildValue:function(node,def){
+var _3f2;
+try{
+_3f2=node.firstChild.nodeValue;
+}
+catch(e){
+_3f2=(def!=undefined)?def:"";
+}
+return _3f2;
+},concatChildValues:function(node,def){
+var _3f5="";
+var _3f6=node.firstChild;
+var _3f7;
+while(_3f6){
+_3f7=_3f6.nodeValue;
+if(_3f7){
+_3f5+=_3f7;
+}
+_3f6=_3f6.nextSibling;
+}
+if(_3f5==""&&def!=undefined){
+_3f5=def;
+}
+return _3f5;
 },hasAttributeNS:function(node,uri,name){
-var _427=false;
+var _3fb=false;
 if(node.hasAttributeNS){
-_427=node.hasAttributeNS(uri,name);
+_3fb=node.hasAttributeNS(uri,name);
 }else{
-_427=!!this.getAttributeNodeNS(node,uri,name);
+_3fb=!!this.getAttributeNodeNS(node,uri,name);
 }
-return _427;
+return _3fb;
 },CLASS_NAME:"OpenLayers.Format.XML"});
-OpenLayers.Handler=OpenLayers.Class({id:null,control:null,map:null,keyMask:null,active:false,evt:null,initialize:function(_428,_429,_42a){
-OpenLayers.Util.extend(this,_42a);
-this.control=_428;
-this.callbacks=_429;
-if(_428.map){
-this.setMap(_428.map);
+OpenLayers.Handler=OpenLayers.Class({id:null,control:null,map:null,keyMask:null,active:false,evt:null,initialize:function(_3fc,_3fd,_3fe){
+OpenLayers.Util.extend(this,_3fe);
+this.control=_3fc;
+this.callbacks=_3fd;
+if(_3fc.map){
+this.setMap(_3fc.map);
 }
-OpenLayers.Util.extend(this,_42a);
+OpenLayers.Util.extend(this,_3fe);
 this.id=OpenLayers.Util.createUniqueID(this.CLASS_NAME+"_");
 },setMap:function(map){
 this.map=map;
@@ -8845,16 +8780,16 @@ this.map=map;
 if(this.keyMask==null){
 return true;
 }
-var _42d=(evt.shiftKey?OpenLayers.Handler.MOD_SHIFT:0)|(evt.ctrlKey?OpenLayers.Handler.MOD_CTRL:0)|(evt.altKey?OpenLayers.Handler.MOD_ALT:0);
-return (_42d==this.keyMask);
+var _401=(evt.shiftKey?OpenLayers.Handler.MOD_SHIFT:0)|(evt.ctrlKey?OpenLayers.Handler.MOD_CTRL:0)|(evt.altKey?OpenLayers.Handler.MOD_ALT:0);
+return (_401==this.keyMask);
 },activate:function(){
 if(this.active){
 return false;
 }
-var _42e=OpenLayers.Events.prototype.BROWSER_EVENTS;
-for(var i=0;i<_42e.length;i++){
-if(this[_42e[i]]){
-this.register(_42e[i],this[_42e[i]]);
+var _402=OpenLayers.Events.prototype.BROWSER_EVENTS;
+for(var i=0;i<_402.length;i++){
+if(this[_402[i]]){
+this.register(_402[i],this[_402[i]]);
 }
 }
 this.active=true;
@@ -8863,10 +8798,10 @@ return true;
 if(!this.active){
 return false;
 }
-var _430=OpenLayers.Events.prototype.BROWSER_EVENTS;
-for(var i=0;i<_430.length;i++){
-if(this[_430[i]]){
-this.unregister(_430[i],this[_430[i]]);
+var _404=OpenLayers.Events.prototype.BROWSER_EVENTS;
+for(var i=0;i<_404.length;i++){
+if(this[_404[i]]){
+this.unregister(_404[i],this[_404[i]]);
 }
 }
 this.active=false;
@@ -8875,11 +8810,11 @@ return true;
 if(this.callbacks[name]){
 this.callbacks[name].apply(this.control,args);
 }
-},register:function(name,_435){
-this.map.events.registerPriority(name,this,_435);
+},register:function(name,_409){
+this.map.events.registerPriority(name,this,_409);
 this.map.events.registerPriority(name,this,this.setEvent);
-},unregister:function(name,_437){
-this.map.events.unregister(name,this,_437);
+},unregister:function(name,_40b){
+this.map.events.unregister(name,this,_40b);
 this.map.events.unregister(name,this,this.setEvent);
 },setEvent:function(evt){
 this.evt=evt;
@@ -8892,8 +8827,8 @@ OpenLayers.Handler.MOD_NONE=0;
 OpenLayers.Handler.MOD_SHIFT=1;
 OpenLayers.Handler.MOD_CTRL=2;
 OpenLayers.Handler.MOD_ALT=4;
-OpenLayers.Map=OpenLayers.Class({Z_INDEX_BASE:{BaseLayer:100,Overlay:325,Popup:750,Control:1000},EVENT_TYPES:["addlayer","removelayer","changelayer","movestart","move","moveend","zoomend","popupopen","popupclose","addmarker","removemarker","clearmarkers","mouseover","mouseout","mousemove","dragstart","drag","dragend","changebaselayer"],id:null,events:null,div:null,size:null,viewPortDiv:null,layerContainerOrigin:null,layerContainerDiv:null,layers:null,controls:null,popups:null,baseLayer:null,center:null,zoom:0,viewRequestID:0,tileSize:null,projection:"EPSG:4326",units:"degrees",resolutions:null,maxResolution:1.40625,minResolution:null,maxScale:null,minScale:null,maxExtent:null,minExtent:null,restrictedExtent:null,numZoomLevels:16,theme:null,fallThrough:false,initialize:function(div,_43a){
-this.setOptions(_43a);
+OpenLayers.Map=OpenLayers.Class({Z_INDEX_BASE:{BaseLayer:100,Overlay:325,Popup:750,Control:1000},EVENT_TYPES:["addlayer","removelayer","changelayer","movestart","move","moveend","zoomend","popupopen","popupclose","addmarker","removemarker","clearmarkers","mouseover","mouseout","mousemove","dragstart","drag","dragend","changebaselayer"],id:null,events:null,div:null,size:null,viewPortDiv:null,layerContainerOrigin:null,layerContainerDiv:null,layers:null,controls:null,popups:null,baseLayer:null,center:null,zoom:0,viewRequestID:0,tileSize:null,projection:"EPSG:4326",units:"degrees",resolutions:null,maxResolution:1.40625,minResolution:null,maxScale:null,minScale:null,maxExtent:null,minExtent:null,restrictedExtent:null,numZoomLevels:16,theme:null,fallThrough:false,initialize:function(div,_40e){
+this.setOptions(_40e);
 this.id=OpenLayers.Util.createUniqueID("OpenLayers.Map_");
 this.div=OpenLayers.Util.getElement(div);
 var id=this.div.id+"_OpenLayers_ViewPort";
@@ -8915,20 +8850,20 @@ this.events.register("resize",this,this.updateSize);
 OpenLayers.Event.observe(window,"resize",OpenLayers.Function.bind(this.updateSize,this));
 }
 if(this.theme){
-var _43c=true;
-var _43d=document.getElementsByTagName("link");
-for(var i=0;i<_43d.length;++i){
-if(OpenLayers.Util.isEquivalentUrl(_43d.item(i).href,this.theme)){
-_43c=false;
+var _410=true;
+var _411=document.getElementsByTagName("link");
+for(var i=0;i<_411.length;++i){
+if(OpenLayers.Util.isEquivalentUrl(_411.item(i).href,this.theme)){
+_410=false;
 break;
 }
 }
-if(_43c){
-var _43f=document.createElement("link");
-_43f.setAttribute("rel","stylesheet");
-_43f.setAttribute("type","text/css");
-_43f.setAttribute("href",this.theme);
-document.getElementsByTagName("head")[0].appendChild(_43f);
+if(_410){
+var _413=document.createElement("link");
+_413.setAttribute("rel","stylesheet");
+_413.setAttribute("type","text/css");
+_413.setAttribute("href",this.theme);
+document.getElementsByTagName("head")[0].appendChild(_413);
 }
 }
 this.layers=[];
@@ -8969,73 +8904,73 @@ this.div.removeChild(this.viewPortDiv);
 this.viewPortDiv=null;
 this.events.destroy();
 this.events=null;
-},setOptions:function(_441){
+},setOptions:function(_415){
 this.tileSize=new OpenLayers.Size(OpenLayers.Map.TILE_WIDTH,OpenLayers.Map.TILE_HEIGHT);
 this.maxExtent=new OpenLayers.Bounds(-180,-90,180,90);
 this.theme=OpenLayers._getScriptLocation()+"theme/default/style.css";
-OpenLayers.Util.extend(this,_441);
+OpenLayers.Util.extend(this,_415);
 },getTileSize:function(){
 return this.tileSize;
 },getLayer:function(id){
-var _443=null;
+var _417=null;
 for(var i=0;i<this.layers.length;i++){
-var _445=this.layers[i];
-if(_445.id==id){
-_443=_445;
+var _419=this.layers[i];
+if(_419.id==id){
+_417=_419;
 }
 }
-return _443;
-},setLayerZIndex:function(_446,zIdx){
-_446.setZIndex(this.Z_INDEX_BASE[_446.isBaseLayer?"BaseLayer":"Overlay"]+zIdx*5);
-},addLayer:function(_448){
+return _417;
+},setLayerZIndex:function(_41a,zIdx){
+_41a.setZIndex(this.Z_INDEX_BASE[_41a.isBaseLayer?"BaseLayer":"Overlay"]+zIdx*5);
+},addLayer:function(_41c){
 for(var i=0;i<this.layers.length;i++){
-if(this.layers[i]==_448){
-var msg="You tried to add the layer: "+_448.name+" to the map, but it has already been added";
+if(this.layers[i]==_41c){
+var msg="You tried to add the layer: "+_41c.name+" to the map, but it has already been added";
 OpenLayers.Console.warn(msg);
 return false;
 }
 }
-_448.div.style.overflow="";
-this.setLayerZIndex(_448,this.layers.length);
-if(_448.isFixed){
-this.viewPortDiv.appendChild(_448.div);
+_41c.div.style.overflow="";
+this.setLayerZIndex(_41c,this.layers.length);
+if(_41c.isFixed){
+this.viewPortDiv.appendChild(_41c.div);
 }else{
-this.layerContainerDiv.appendChild(_448.div);
+this.layerContainerDiv.appendChild(_41c.div);
 }
-this.layers.push(_448);
-_448.setMap(this);
-if(_448.isBaseLayer){
+this.layers.push(_41c);
+_41c.setMap(this);
+if(_41c.isBaseLayer){
 if(this.baseLayer==null){
-this.setBaseLayer(_448);
+this.setBaseLayer(_41c);
 }else{
-_448.setVisibility(false);
+_41c.setVisibility(false);
 }
 }else{
-_448.redraw();
+_41c.redraw();
 }
 this.events.triggerEvent("addlayer");
-},addLayers:function(_44b){
-for(var i=0;i<_44b.length;i++){
-this.addLayer(_44b[i]);
+},addLayers:function(_41f){
+for(var i=0;i<_41f.length;i++){
+this.addLayer(_41f[i]);
 }
-},removeLayer:function(_44d,_44e){
-if(_44e==null){
-_44e=true;
+},removeLayer:function(_421,_422){
+if(_422==null){
+_422=true;
 }
-if(_44d.isFixed){
-this.viewPortDiv.removeChild(_44d.div);
+if(_421.isFixed){
+this.viewPortDiv.removeChild(_421.div);
 }else{
-this.layerContainerDiv.removeChild(_44d.div);
+this.layerContainerDiv.removeChild(_421.div);
 }
-OpenLayers.Util.removeItem(this.layers,_44d);
-_44d.removeMap(this);
-_44d.map=null;
-if(_44e&&(this.baseLayer==_44d)){
+OpenLayers.Util.removeItem(this.layers,_421);
+_421.removeMap(this);
+_421.map=null;
+if(_422&&(this.baseLayer==_421)){
 this.baseLayer=null;
 for(i=0;i<this.layers.length;i++){
-var _44f=this.layers[i];
-if(_44f.isBaseLayer){
-this.setBaseLayer(_44f);
+var _423=this.layers[i];
+if(_423.isBaseLayer){
+this.setBaseLayer(_423);
 break;
 }
 }
@@ -9043,10 +8978,10 @@ break;
 this.events.triggerEvent("removelayer");
 },getNumLayers:function(){
 return this.layers.length;
-},getLayerIndex:function(_450){
-return OpenLayers.Util.indexOf(this.layers,_450);
-},setLayerIndex:function(_451,idx){
-var base=this.getLayerIndex(_451);
+},getLayerIndex:function(_424){
+return OpenLayers.Util.indexOf(this.layers,_424);
+},setLayerIndex:function(_425,idx){
+var base=this.getLayerIndex(_425);
 if(idx<0){
 idx=0;
 }else{
@@ -9056,92 +8991,92 @@ idx=this.layers.length;
 }
 if(base!=idx){
 this.layers.splice(base,1);
-this.layers.splice(idx,0,_451);
+this.layers.splice(idx,0,_425);
 for(var i=0;i<this.layers.length;i++){
 this.setLayerZIndex(this.layers[i],i);
 }
 this.events.triggerEvent("changelayer");
 }
-},raiseLayer:function(_455,_456){
-var idx=this.getLayerIndex(_455)+_456;
-this.setLayerIndex(_455,idx);
-},setBaseLayer:function(_458){
-var _459=null;
+},raiseLayer:function(_429,_42a){
+var idx=this.getLayerIndex(_429)+_42a;
+this.setLayerIndex(_429,idx);
+},setBaseLayer:function(_42c){
+var _42d=null;
 if(this.baseLayer){
-_459=this.baseLayer.getExtent();
+_42d=this.baseLayer.getExtent();
 }
-if(_458!=this.baseLayer){
-if(OpenLayers.Util.indexOf(this.layers,_458)!=-1){
+if(_42c!=this.baseLayer){
+if(OpenLayers.Util.indexOf(this.layers,_42c)!=-1){
 if(this.baseLayer!=null){
 this.baseLayer.setVisibility(false);
 }
-this.baseLayer=_458;
+this.baseLayer=_42c;
 this.viewRequestID++;
 this.baseLayer.visibility=true;
-var _45a=this.getCenter();
-if(_45a!=null){
-if(_459==null){
-this.setCenter(_45a,this.getZoom(),false,true);
+var _42e=this.getCenter();
+if(_42e!=null){
+if(_42d==null){
+this.setCenter(_42e,this.getZoom(),false,true);
 }else{
-this.setCenter(_459.getCenterLonLat(),this.getZoomForExtent(_459),false,true);
+this.setCenter(_42d.getCenterLonLat(),this.getZoomForExtent(_42d,true),false,true);
 }
 }
 this.events.triggerEvent("changebaselayer");
 }
 }
-},addControl:function(_45b,px){
-this.controls.push(_45b);
-this.addControlToMap(_45b,px);
-},addControlToMap:function(_45d,px){
-_45d.outsideViewport=(_45d.div!=null);
-_45d.setMap(this);
-var div=_45d.draw(px);
+},addControl:function(_42f,px){
+this.controls.push(_42f);
+this.addControlToMap(_42f,px);
+},addControlToMap:function(_431,px){
+_431.outsideViewport=(_431.div!=null);
+_431.setMap(this);
+var div=_431.draw(px);
 if(div){
-if(!_45d.outsideViewport){
+if(!_431.outsideViewport){
 div.style.zIndex=this.Z_INDEX_BASE["Control"]+this.controls.length;
 this.viewPortDiv.appendChild(div);
 }
 }
 },getControl:function(id){
-var _461=null;
+var _435=null;
 for(var i=0;i<this.controls.length;i++){
-var _463=this.controls[i];
-if(_463.id==id){
-_461=_463;
+var _437=this.controls[i];
+if(_437.id==id){
+_435=_437;
 break;
 }
 }
-return _461;
-},removeControl:function(_464){
-if((_464)&&(_464==this.getControl(_464.id))){
-if(!_464.outsideViewport){
-this.viewPortDiv.removeChild(_464.div);
+return _435;
+},removeControl:function(_438){
+if((_438)&&(_438==this.getControl(_438.id))){
+if(!_438.outsideViewport){
+this.viewPortDiv.removeChild(_438.div);
 }
-OpenLayers.Util.removeItem(this.controls,_464);
+OpenLayers.Util.removeItem(this.controls,_438);
 }
-},addPopup:function(_465,_466){
-if(_466){
+},addPopup:function(_439,_43a){
+if(_43a){
 for(var i=0;i<this.popups.length;i++){
 this.removePopup(this.popups[i]);
 }
 }
-_465.map=this;
-this.popups.push(_465);
-var _468=_465.draw();
-if(_468){
-_468.style.zIndex=this.Z_INDEX_BASE["Popup"]+this.popups.length;
-this.layerContainerDiv.appendChild(_468);
+_439.map=this;
+this.popups.push(_439);
+var _43c=_439.draw();
+if(_43c){
+_43c.style.zIndex=this.Z_INDEX_BASE["Popup"]+this.popups.length;
+this.layerContainerDiv.appendChild(_43c);
 }
-},removePopup:function(_469){
-OpenLayers.Util.removeItem(this.popups,_469);
-if(_469.div){
+},removePopup:function(_43d){
+OpenLayers.Util.removeItem(this.popups,_43d);
+if(_43d.div){
 try{
-this.layerContainerDiv.removeChild(_469.div);
+this.layerContainerDiv.removeChild(_43d.div);
 }
 catch(e){
 }
 }
-_469.map=null;
+_43d.map=null;
 },getSize:function(){
 var size=null;
 if(this.size!=null){
@@ -9150,19 +9085,19 @@ size=this.size.clone();
 return size;
 },updateSize:function(){
 this.events.element.offsets=null;
-var _46b=this.getCurrentSize();
-var _46c=this.getSize();
-if(_46c==null){
-this.size=_46c=_46b;
+var _43f=this.getCurrentSize();
+var _440=this.getSize();
+if(_440==null){
+this.size=_440=_43f;
 }
-if(!_46b.equals(_46c)){
-this.size=_46b;
+if(!_43f.equals(_440)){
+this.size=_43f;
 for(var i=0;i<this.layers.length;i++){
 this.layers[i].onMapResize();
 }
 if(this.baseLayer!=null){
-var _46e=new OpenLayers.Pixel(_46b.w/2,_46b.h/2);
-var _46f=this.getLonLatFromViewPortPx(_46e);
+var _442=new OpenLayers.Pixel(_43f.w/2,_43f.h/2);
+var _443=this.getLonLatFromViewPortPx(_442);
 var zoom=this.getZoom();
 this.zoom=null;
 this.setCenter(this.getCenter(),zoom);
@@ -9180,198 +9115,198 @@ size.w=parseInt(this.div.style.width);
 size.h=parseInt(this.div.style.height);
 }
 return size;
-},calculateBounds:function(_473,_474){
-var _475=null;
-if(_473==null){
-_473=this.getCenter();
+},calculateBounds:function(_447,_448){
+var _449=null;
+if(_447==null){
+_447=this.getCenter();
 }
-if(_474==null){
-_474=this.getResolution();
+if(_448==null){
+_448=this.getResolution();
 }
-if((_473!=null)&&(_474!=null)){
+if((_447!=null)&&(_448!=null)){
 var size=this.getSize();
-var _477=size.w*_474;
-var _478=size.h*_474;
-_475=new OpenLayers.Bounds(_473.lon-_477/2,_473.lat-_478/2,_473.lon+_477/2,_473.lat+_478/2);
+var _44b=size.w*_448;
+var _44c=size.h*_448;
+_449=new OpenLayers.Bounds(_447.lon-_44b/2,_447.lat-_44c/2,_447.lon+_44b/2,_447.lat+_44c/2);
 }
-return _475;
+return _449;
 },getCenter:function(){
 return this.center;
 },getZoom:function(){
 return this.zoom;
 },pan:function(dx,dy){
-var _47b=this.getViewPortPxFromLonLat(this.getCenter());
-var _47c=_47b.add(dx,dy);
-if(!_47c.equals(_47b)){
-var _47d=this.getLonLatFromViewPortPx(_47c);
-this.setCenter(_47d);
+var _44f=this.getViewPortPxFromLonLat(this.getCenter());
+var _450=_44f.add(dx,dy);
+if(!_450.equals(_44f)){
+var _451=this.getLonLatFromViewPortPx(_450);
+this.setCenter(_451);
 }
-},setCenter:function(_47e,zoom,_480,_481){
-if(!this.center&&!this.isValidLonLat(_47e)){
-_47e=this.maxExtent.getCenterLonLat();
+},setCenter:function(_452,zoom,_454,_455){
+if(!this.center&&!this.isValidLonLat(_452)){
+_452=this.maxExtent.getCenterLonLat();
 }
 if(this.restrictedExtent!=null){
-if(_47e==null){
-_47e=this.getCenter();
+if(_452==null){
+_452=this.getCenter();
 }
 if(zoom==null){
 zoom=this.getZoom();
 }
-var _482=null;
+var _456=null;
 if(this.baseLayer!=null){
-_482=this.baseLayer.resolutions[zoom];
+_456=this.baseLayer.resolutions[zoom];
 }
-var _483=this.calculateBounds(_47e,_482);
-if(!this.restrictedExtent.containsBounds(_483)){
-var _484=this.restrictedExtent.getCenterLonLat();
-if(_483.getWidth()>this.restrictedExtent.getWidth()){
-_47e=new OpenLayers.LonLat(_484.lon,_47e.lat);
+var _457=this.calculateBounds(_452,_456);
+if(!this.restrictedExtent.containsBounds(_457)){
+var _458=this.restrictedExtent.getCenterLonLat();
+if(_457.getWidth()>this.restrictedExtent.getWidth()){
+_452=new OpenLayers.LonLat(_458.lon,_452.lat);
 }else{
-if(_483.left<this.restrictedExtent.left){
-_47e=_47e.add(this.restrictedExtent.left-_483.left,0);
+if(_457.left<this.restrictedExtent.left){
+_452=_452.add(this.restrictedExtent.left-_457.left,0);
 }else{
-if(_483.right>this.restrictedExtent.right){
-_47e=_47e.add(this.restrictedExtent.right-_483.right,0);
+if(_457.right>this.restrictedExtent.right){
+_452=_452.add(this.restrictedExtent.right-_457.right,0);
 }
 }
 }
-if(_483.getHeight()>this.restrictedExtent.getHeight()){
-_47e=new OpenLayers.LonLat(_47e.lon,_484.lat);
+if(_457.getHeight()>this.restrictedExtent.getHeight()){
+_452=new OpenLayers.LonLat(_452.lon,_458.lat);
 }else{
-if(_483.bottom<this.restrictedExtent.bottom){
-_47e=_47e.add(0,this.restrictedExtent.bottom-_483.bottom);
+if(_457.bottom<this.restrictedExtent.bottom){
+_452=_452.add(0,this.restrictedExtent.bottom-_457.bottom);
 }else{
-if(_483.top>this.restrictedExtent.top){
-_47e=_47e.add(0,this.restrictedExtent.top-_483.top);
+if(_457.top>this.restrictedExtent.top){
+_452=_452.add(0,this.restrictedExtent.top-_457.top);
 }
 }
 }
 }
 }
-var _485=_481||((this.isValidZoomLevel(zoom))&&(zoom!=this.getZoom()));
-var _486=(this.isValidLonLat(_47e))&&(!_47e.equals(this.center));
-if(_485||_486||!_480){
-if(!_480){
+var _459=_455||((this.isValidZoomLevel(zoom))&&(zoom!=this.getZoom()));
+var _45a=(this.isValidLonLat(_452))&&(!_452.equals(this.center));
+if(_459||_45a||!_454){
+if(!_454){
 this.events.triggerEvent("movestart");
 }
-if(_486){
-if((!_485)&&(this.center)){
-this.centerLayerContainer(_47e);
+if(_45a){
+if((!_459)&&(this.center)){
+this.centerLayerContainer(_452);
 }
-this.center=_47e.clone();
+this.center=_452.clone();
 }
-if((_485)||(this.layerContainerOrigin==null)){
+if((_459)||(this.layerContainerOrigin==null)){
 this.layerContainerOrigin=this.center.clone();
 this.layerContainerDiv.style.left="0px";
 this.layerContainerDiv.style.top="0px";
 }
-if(_485){
+if(_459){
 this.zoom=zoom;
 this.viewRequestID++;
 }
-var _487=this.getExtent();
-this.baseLayer.moveTo(_487,_485,_480);
-_487=this.baseLayer.getExtent();
+var _45b=this.getExtent();
+this.baseLayer.moveTo(_45b,_459,_454);
+_45b=this.baseLayer.getExtent();
 for(var i=0;i<this.layers.length;i++){
-var _489=this.layers[i];
-if(!_489.isBaseLayer){
-var _48a;
-var _48b=_489.calculateInRange();
-if(_489.inRange!=_48b){
-_489.inRange=_48b;
-_48a=true;
+var _45d=this.layers[i];
+if(!_45d.isBaseLayer){
+var _45e;
+var _45f=_45d.calculateInRange();
+if(_45d.inRange!=_45f){
+_45d.inRange=_45f;
+_45e=true;
 this.events.triggerEvent("changelayer");
 }else{
-_48a=(_489.visibility&&_489.inRange);
+_45e=(_45d.visibility&&_45d.inRange);
 }
-if(_48a){
-_489.moveTo(_487,_485,_480);
+if(_45e){
+_45d.moveTo(_45b,_459,_454);
 }
 }
 }
-if(_485){
+if(_459){
 for(var i=0;i<this.popups.length;i++){
 this.popups[i].updatePosition();
 }
 }
 this.events.triggerEvent("move");
-if(_485){
+if(_459){
 this.events.triggerEvent("zoomend");
 }
 }
-if(!_480){
+if(!_454){
 this.events.triggerEvent("moveend");
 }
-},centerLayerContainer:function(_48c){
-var _48d=this.getViewPortPxFromLonLat(this.layerContainerOrigin);
-var _48e=this.getViewPortPxFromLonLat(_48c);
-if((_48d!=null)&&(_48e!=null)){
-this.layerContainerDiv.style.left=(_48d.x-_48e.x)+"px";
-this.layerContainerDiv.style.top=(_48d.y-_48e.y)+"px";
+},centerLayerContainer:function(_460){
+var _461=this.getViewPortPxFromLonLat(this.layerContainerOrigin);
+var _462=this.getViewPortPxFromLonLat(_460);
+if((_461!=null)&&(_462!=null)){
+this.layerContainerDiv.style.left=(_461.x-_462.x)+"px";
+this.layerContainerDiv.style.top=(_461.y-_462.y)+"px";
 }
-},isValidZoomLevel:function(_48f){
-return ((_48f!=null)&&(_48f>=0)&&(_48f<this.getNumZoomLevels()));
-},isValidLonLat:function(_490){
-var _491=false;
-if(_490!=null){
-var _492=this.getMaxExtent();
-_491=_492.containsLonLat(_490);
+},isValidZoomLevel:function(_463){
+return ((_463!=null)&&(_463>=0)&&(_463<this.getNumZoomLevels()));
+},isValidLonLat:function(_464){
+var _465=false;
+if(_464!=null){
+var _466=this.getMaxExtent();
+_465=_466.containsLonLat(_464);
 }
-return _491;
+return _465;
 },getProjection:function(){
-var _493=null;
+var _467=null;
 if(this.baseLayer!=null){
-_493=this.baseLayer.projection;
+_467=this.baseLayer.projection;
 }
-return _493;
+return _467;
 },getMaxResolution:function(){
-var _494=null;
+var _468=null;
 if(this.baseLayer!=null){
-_494=this.baseLayer.maxResolution;
+_468=this.baseLayer.maxResolution;
 }
-return _494;
+return _468;
 },getMaxExtent:function(){
-var _495=null;
+var _469=null;
 if(this.baseLayer!=null){
-_495=this.baseLayer.maxExtent;
+_469=this.baseLayer.maxExtent;
 }
-return _495;
+return _469;
 },getNumZoomLevels:function(){
-var _496=null;
+var _46a=null;
 if(this.baseLayer!=null){
-_496=this.baseLayer.numZoomLevels;
+_46a=this.baseLayer.numZoomLevels;
 }
-return _496;
+return _46a;
 },getExtent:function(){
-var _497=null;
+var _46b=null;
 if(this.baseLayer!=null){
-_497=this.baseLayer.getExtent();
+_46b=this.baseLayer.getExtent();
 }
-return _497;
+return _46b;
 },getResolution:function(){
-var _498=null;
+var _46c=null;
 if(this.baseLayer!=null){
-_498=this.baseLayer.getResolution();
+_46c=this.baseLayer.getResolution();
 }
-return _498;
+return _46c;
 },getScale:function(){
-var _499=null;
+var _46d=null;
 if(this.baseLayer!=null){
 var res=this.getResolution();
-var _49b=this.baseLayer.units;
-_499=OpenLayers.Util.getScaleFromResolution(res,_49b);
+var _46f=this.baseLayer.units;
+_46d=OpenLayers.Util.getScaleFromResolution(res,_46f);
 }
-return _499;
-},getZoomForExtent:function(_49c){
+return _46d;
+},getZoomForExtent:function(_470,_471){
 var zoom=null;
 if(this.baseLayer!=null){
-zoom=this.baseLayer.getZoomForExtent(_49c);
+zoom=this.baseLayer.getZoomForExtent(_470,_471);
 }
 return zoom;
-},getZoomForResolution:function(_49e){
+},getZoomForResolution:function(_473,_474){
 var zoom=null;
 if(this.baseLayer!=null){
-zoom=this.baseLayer.getZoomForResolution(_49e);
+zoom=this.baseLayer.getZoomForResolution(_473,_474);
 }
 return zoom;
 },zoomTo:function(zoom){
@@ -9382,81 +9317,81 @@ this.setCenter(null,zoom);
 this.zoomTo(this.getZoom()+1);
 },zoomOut:function(){
 this.zoomTo(this.getZoom()-1);
-},zoomToExtent:function(_4a1){
-var _4a2=_4a1.getCenterLonLat();
+},zoomToExtent:function(_477){
+var _478=_477.getCenterLonLat();
 if(this.baseLayer.wrapDateLine){
-var _4a3=this.getMaxExtent();
-_4a1=_4a1.clone();
-while(_4a1.right<_4a1.left){
-_4a1.right+=_4a3.getWidth();
+var _479=this.getMaxExtent();
+_477=_477.clone();
+while(_477.right<_477.left){
+_477.right+=_479.getWidth();
 }
-_4a2=_4a1.getCenterLonLat().wrapDateLine(_4a3);
+_478=_477.getCenterLonLat().wrapDateLine(_479);
 }
-this.setCenter(_4a2,this.getZoomForExtent(_4a1));
+this.setCenter(_478,this.getZoomForExtent(_477));
 },zoomToMaxExtent:function(){
 this.zoomToExtent(this.getMaxExtent());
-},zoomToScale:function(_4a4){
-var res=OpenLayers.Util.getResolutionFromScale(_4a4,this.baseLayer.units);
+},zoomToScale:function(_47a){
+var res=OpenLayers.Util.getResolutionFromScale(_47a,this.baseLayer.units);
 var size=this.getSize();
-var _4a7=size.w*res;
-var _4a8=size.h*res;
-var _4a9=this.getCenter();
-var _4aa=new OpenLayers.Bounds(_4a9.lon-_4a7/2,_4a9.lat-_4a8/2,_4a9.lon+_4a7/2,_4a9.lat+_4a8/2);
-this.zoomToExtent(_4aa);
-},getLonLatFromViewPortPx:function(_4ab){
-var _4ac=null;
+var _47d=size.w*res;
+var _47e=size.h*res;
+var _47f=this.getCenter();
+var _480=new OpenLayers.Bounds(_47f.lon-_47d/2,_47f.lat-_47e/2,_47f.lon+_47d/2,_47f.lat+_47e/2);
+this.zoomToExtent(_480);
+},getLonLatFromViewPortPx:function(_481){
+var _482=null;
 if(this.baseLayer!=null){
-_4ac=this.baseLayer.getLonLatFromViewPortPx(_4ab);
+_482=this.baseLayer.getLonLatFromViewPortPx(_481);
 }
-return _4ac;
-},getViewPortPxFromLonLat:function(_4ad){
+return _482;
+},getViewPortPxFromLonLat:function(_483){
 var px=null;
 if(this.baseLayer!=null){
-px=this.baseLayer.getViewPortPxFromLonLat(_4ad);
+px=this.baseLayer.getViewPortPxFromLonLat(_483);
 }
 return px;
 },getLonLatFromPixel:function(px){
 return this.getLonLatFromViewPortPx(px);
-},getPixelFromLonLat:function(_4b0){
-return this.getViewPortPxFromLonLat(_4b0);
-},getViewPortPxFromLayerPx:function(_4b1){
-var _4b2=null;
-if(_4b1!=null){
+},getPixelFromLonLat:function(_486){
+return this.getViewPortPxFromLonLat(_486);
+},getViewPortPxFromLayerPx:function(_487){
+var _488=null;
+if(_487!=null){
 var dX=parseInt(this.layerContainerDiv.style.left);
 var dY=parseInt(this.layerContainerDiv.style.top);
-_4b2=_4b1.add(dX,dY);
+_488=_487.add(dX,dY);
 }
-return _4b2;
-},getLayerPxFromViewPortPx:function(_4b5){
-var _4b6=null;
-if(_4b5!=null){
+return _488;
+},getLayerPxFromViewPortPx:function(_48b){
+var _48c=null;
+if(_48b!=null){
 var dX=-parseInt(this.layerContainerDiv.style.left);
 var dY=-parseInt(this.layerContainerDiv.style.top);
-_4b6=_4b5.add(dX,dY);
-if(isNaN(_4b6.x)||isNaN(_4b6.y)){
-_4b6=null;
+_48c=_48b.add(dX,dY);
+if(isNaN(_48c.x)||isNaN(_48c.y)){
+_48c=null;
 }
 }
-return _4b6;
+return _48c;
 },getLonLatFromLayerPx:function(px){
 px=this.getViewPortPxFromLayerPx(px);
 return this.getLonLatFromViewPortPx(px);
-},getLayerPxFromLonLat:function(_4ba){
-var px=this.getViewPortPxFromLonLat(_4ba);
+},getLayerPxFromLonLat:function(_490){
+var px=this.getViewPortPxFromLonLat(_490);
 return this.getLayerPxFromViewPortPx(px);
 },CLASS_NAME:"OpenLayers.Map"});
 OpenLayers.Map.TILE_WIDTH=256;
 OpenLayers.Map.TILE_HEIGHT=256;
-OpenLayers.Marker=OpenLayers.Class({icon:null,lonlat:null,events:null,map:null,initialize:function(_4bc,icon){
-this.lonlat=_4bc;
-var _4be=(icon)?icon:OpenLayers.Marker.defaultIcon();
+OpenLayers.Marker=OpenLayers.Class({icon:null,lonlat:null,events:null,map:null,initialize:function(_492,icon){
+this.lonlat=_492;
+var _494=(icon)?icon:OpenLayers.Marker.defaultIcon();
 if(this.icon==null){
-this.icon=_4be;
+this.icon=_494;
 }else{
-this.icon.url=_4be.url;
-this.icon.size=_4be.size;
-this.icon.offset=_4be.offset;
-this.icon.calculateOffset=_4be.calculateOffset;
+this.icon.url=_494.url;
+this.icon.size=_494.size;
+this.icon.offset=_494.offset;
+this.icon.calculateOffset=_494.calculateOffset;
 }
 this.events=new OpenLayers.Events(this,this.icon.imageDiv,null);
 },destroy:function(){
@@ -9475,31 +9410,31 @@ this.icon.moveTo(px);
 }
 this.lonlat=this.map.getLonLatFromLayerPx(px);
 },onScreen:function(){
-var _4c1=false;
+var _497=false;
 if(this.map){
-var _4c2=this.map.getExtent();
-_4c1=_4c2.containsLonLat(this.lonlat);
+var _498=this.map.getExtent();
+_497=_498.containsLonLat(this.lonlat);
 }
-return _4c1;
-},inflate:function(_4c3){
+return _497;
+},inflate:function(_499){
 if(this.icon){
-var _4c4=new OpenLayers.Size(this.icon.size.w*_4c3,this.icon.size.h*_4c3);
-this.icon.setSize(_4c4);
+var _49a=new OpenLayers.Size(this.icon.size.w*_499,this.icon.size.h*_499);
+this.icon.setSize(_49a);
 }
-},setOpacity:function(_4c5){
-this.icon.setOpacity(_4c5);
-},display:function(_4c6){
-this.icon.display(_4c6);
+},setOpacity:function(_49b){
+this.icon.setOpacity(_49b);
+},display:function(_49c){
+this.icon.display(_49c);
 },CLASS_NAME:"OpenLayers.Marker"});
 OpenLayers.Marker.defaultIcon=function(){
 var url=OpenLayers.Util.getImagesLocation()+"marker.png";
 var size=new OpenLayers.Size(21,25);
-var _4c9=function(size){
+var _49f=function(size){
 return new OpenLayers.Pixel(-(size.w/2),-size.h);
 };
-return new OpenLayers.Icon(url,size,null,_4c9);
+return new OpenLayers.Icon(url,size,null,_49f);
 };
-OpenLayers.Popup.AnchoredBubble=OpenLayers.Class(OpenLayers.Popup.Anchored,{rounded:false,initialize:function(id,_4cc,size,_4ce,_4cf,_4d0){
+OpenLayers.Popup.AnchoredBubble=OpenLayers.Class(OpenLayers.Popup.Anchored,{rounded:false,initialize:function(id,_4a2,size,_4a4,_4a5,_4a6){
 OpenLayers.Popup.Anchored.prototype.initialize.apply(this,arguments);
 },draw:function(px){
 OpenLayers.Popup.Anchored.prototype.draw.apply(this,arguments);
@@ -9514,19 +9449,19 @@ this.rounded=true;
 },setSize:function(size){
 OpenLayers.Popup.Anchored.prototype.setSize.apply(this,arguments);
 if(this.contentDiv!=null){
-var _4d4=this.size.clone();
-_4d4.h-=(2*OpenLayers.Popup.AnchoredBubble.CORNER_SIZE);
-_4d4.h-=(2*this.padding);
-this.contentDiv.style.height=_4d4.h+"px";
-this.contentDiv.style.width=_4d4.w+"px";
+var _4aa=this.size.clone();
+_4aa.h-=(2*OpenLayers.Popup.AnchoredBubble.CORNER_SIZE);
+_4aa.h-=(2*this.padding);
+this.contentDiv.style.height=_4aa.h+"px";
+this.contentDiv.style.width=_4aa.w+"px";
 if(this.map){
 this.setRicoCorners(!this.rounded);
 this.rounded=true;
 }
 }
-},setBackgroundColor:function(_4d5){
-if(_4d5!=undefined){
-this.backgroundColor=_4d5;
+},setBackgroundColor:function(_4ab){
+if(_4ab!=undefined){
+this.backgroundColor=_4ab;
 }
 if(this.div!=null){
 if(this.contentDiv!=null){
@@ -9534,35 +9469,35 @@ this.div.style.background="transparent";
 OpenLayers.Rico.Corner.changeColor(this.contentDiv,this.backgroundColor);
 }
 }
-},setOpacity:function(_4d6){
-if(_4d6!=undefined){
-this.opacity=_4d6;
+},setOpacity:function(_4ac){
+if(_4ac!=undefined){
+this.opacity=_4ac;
 }
 if(this.div!=null){
 if(this.contentDiv!=null){
 OpenLayers.Rico.Corner.changeOpacity(this.contentDiv,this.opacity);
 }
 }
-},setBorder:function(_4d7){
+},setBorder:function(_4ad){
 this.border=0;
-},setRicoCorners:function(_4d8){
-var _4d9=this.getCornersToRound(this.relativePosition);
-var _4da={corners:_4d9,color:this.backgroundColor,bgColor:"transparent",blend:false};
-if(_4d8){
-OpenLayers.Rico.Corner.round(this.div,_4da);
+},setRicoCorners:function(_4ae){
+var _4af=this.getCornersToRound(this.relativePosition);
+var _4b0={corners:_4af,color:this.backgroundColor,bgColor:"transparent",blend:false};
+if(_4ae){
+OpenLayers.Rico.Corner.round(this.div,_4b0);
 }else{
-OpenLayers.Rico.Corner.reRound(this.groupDiv,_4da);
+OpenLayers.Rico.Corner.reRound(this.groupDiv,_4b0);
 this.setBackgroundColor();
 this.setOpacity();
 }
 },getCornersToRound:function(){
-var _4db=["tl","tr","bl","br"];
-var _4dc=OpenLayers.Bounds.oppositeQuadrant(this.relativePosition);
-OpenLayers.Util.removeItem(_4db,_4dc);
-return _4db.join(" ");
+var _4b1=["tl","tr","bl","br"];
+var _4b2=OpenLayers.Bounds.oppositeQuadrant(this.relativePosition);
+OpenLayers.Util.removeItem(_4b1,_4b2);
+return _4b1.join(" ");
 },CLASS_NAME:"OpenLayers.Popup.AnchoredBubble"});
 OpenLayers.Popup.AnchoredBubble.CORNER_SIZE=5;
-OpenLayers.Renderer.SVG=OpenLayers.Class(OpenLayers.Renderer.Elements,{xmlns:"http://www.w3.org/2000/svg",maxPixel:15000,localResolution:null,initialize:function(_4dd){
+OpenLayers.Renderer.SVG=OpenLayers.Class(OpenLayers.Renderer.Elements,{xmlns:"http://www.w3.org/2000/svg",maxPixel:15000,localResolution:null,initialize:function(_4b3){
 if(!this.supported()){
 return;
 }
@@ -9570,110 +9505,110 @@ OpenLayers.Renderer.Elements.prototype.initialize.apply(this,arguments);
 },destroy:function(){
 OpenLayers.Renderer.Elements.prototype.destroy.apply(this,arguments);
 },supported:function(){
-var _4de="http://www.w3.org/TR/SVG11/feature#SVG";
-var _4df=(document.implementation&&(document.implementation.hasFeature("org.w3c.svg","1.0")||document.implementation.hasFeature(_4de,"1.1")));
-return _4df;
-},setExtent:function(_4e0){
+var _4b4="http://www.w3.org/TR/SVG11/feature#SVG";
+var _4b5=(document.implementation&&(document.implementation.hasFeature("org.w3c.svg","1.0")||document.implementation.hasFeature(_4b4,"1.1")));
+return _4b5;
+},setExtent:function(_4b6){
 OpenLayers.Renderer.Elements.prototype.setExtent.apply(this,arguments);
-var _4e1=this.getResolution();
-if(!this.localResolution||_4e1!=this.localResolution){
-this.left=-_4e0.left/_4e1;
-this.top=_4e0.top/_4e1;
+var _4b7=this.getResolution();
+if(!this.localResolution||_4b7!=this.localResolution){
+this.left=-_4b6.left/_4b7;
+this.top=_4b6.top/_4b7;
 }
 var left=0;
 var top=0;
-if(this.localResolution&&_4e1==this.localResolution){
-left=(this.left)-(-_4e0.left/_4e1);
-top=(this.top)-(_4e0.top/_4e1);
+if(this.localResolution&&_4b7==this.localResolution){
+left=(this.left)-(-_4b6.left/_4b7);
+top=(this.top)-(_4b6.top/_4b7);
 }
-this.localResolution=_4e1;
-var _4e4=left+" "+top+" "+_4e0.getWidth()/_4e1+" "+_4e0.getHeight()/_4e1;
-this.rendererRoot.setAttributeNS(null,"viewBox",_4e4);
+this.localResolution=_4b7;
+var _4ba=left+" "+top+" "+_4b6.getWidth()/_4b7+" "+_4b6.getHeight()/_4b7;
+this.rendererRoot.setAttributeNS(null,"viewBox",_4ba);
 },setSize:function(size){
 OpenLayers.Renderer.prototype.setSize.apply(this,arguments);
 this.rendererRoot.setAttributeNS(null,"width",this.size.w);
 this.rendererRoot.setAttributeNS(null,"height",this.size.h);
-},getNodeType:function(_4e6){
-var _4e7=null;
-switch(_4e6.CLASS_NAME){
+},getNodeType:function(_4bc){
+var _4bd=null;
+switch(_4bc.CLASS_NAME){
 case "OpenLayers.Geometry.Point":
-_4e7="circle";
+_4bd="circle";
 break;
 case "OpenLayers.Geometry.Rectangle":
-_4e7="rect";
+_4bd="rect";
 break;
 case "OpenLayers.Geometry.LineString":
-_4e7="polyline";
+_4bd="polyline";
 break;
 case "OpenLayers.Geometry.LinearRing":
-_4e7="polygon";
+_4bd="polygon";
 break;
 case "OpenLayers.Geometry.Polygon":
 case "OpenLayers.Geometry.Curve":
 case "OpenLayers.Geometry.Surface":
-_4e7="path";
+_4bd="path";
 break;
 default:
 break;
 }
-return _4e7;
-},setStyle:function(node,_4e9,_4ea){
-_4e9=_4e9||node._style;
-_4ea=_4ea||node._options;
+return _4bd;
+},setStyle:function(node,_4bf,_4c0){
+_4bf=_4bf||node._style;
+_4c0=_4c0||node._options;
 if(node._geometryClass=="OpenLayers.Geometry.Point"){
-if(_4e9.externalGraphic){
+if(_4bf.externalGraphic){
 var id=node.getAttributeNS(null,"id");
 var x=parseFloat(node.getAttributeNS(null,"cx"));
 var y=parseFloat(node.getAttributeNS(null,"cy"));
-var _4ee=node._featureId;
-var _4ef=node._geometryClass;
-var _4f0=node._style;
+var _4c4=node._featureId;
+var _4c5=node._geometryClass;
+var _4c6=node._style;
 this.root.removeChild(node);
 var node=this.createNode("image",id);
-node._featureId=_4ee;
-node._geometryClass=_4ef;
-node._style=_4f0;
+node._featureId=_4c4;
+node._geometryClass=_4c5;
+node._style=_4c6;
 this.root.appendChild(node);
-if(_4e9.graphicWidth&&_4e9.graphicHeight){
+if(_4bf.graphicWidth&&_4bf.graphicHeight){
 node.setAttributeNS(null,"preserveAspectRatio","none");
 }
-var _4f1=_4e9.graphicWidth||_4e9.graphicHeight;
-var _4f2=_4e9.graphicHeight||_4e9.graphicWidth;
-_4f1=_4f1?_4f1:_4e9.pointRadius*2;
-_4f2=_4f2?_4f2:_4e9.pointRadius*2;
-var _4f3=(_4e9.graphicXOffset!=undefined)?_4e9.graphicXOffset:-(0.5*_4f1);
-var _4f4=(_4e9.graphicYOffset!=undefined)?_4e9.graphicYOffset:-(0.5*_4f2);
-var _4f5=_4e9.graphicOpacity||_4e9.fillOpacity;
-node.setAttributeNS(null,"x",(x+_4f3).toFixed());
-node.setAttributeNS(null,"y",(-y+_4f4).toFixed());
-node.setAttributeNS(null,"width",_4f1);
-node.setAttributeNS(null,"height",_4f2);
-node.setAttributeNS("http://www.w3.org/1999/xlink","href",_4e9.externalGraphic);
+var _4c7=_4bf.graphicWidth||_4bf.graphicHeight;
+var _4c8=_4bf.graphicHeight||_4bf.graphicWidth;
+_4c7=_4c7?_4c7:_4bf.pointRadius*2;
+_4c8=_4c8?_4c8:_4bf.pointRadius*2;
+var _4c9=(_4bf.graphicXOffset!=undefined)?_4bf.graphicXOffset:-(0.5*_4c7);
+var _4ca=(_4bf.graphicYOffset!=undefined)?_4bf.graphicYOffset:-(0.5*_4c8);
+var _4cb=_4bf.graphicOpacity||_4bf.fillOpacity;
+node.setAttributeNS(null,"x",(x+_4c9).toFixed());
+node.setAttributeNS(null,"y",(-y+_4ca).toFixed());
+node.setAttributeNS(null,"width",_4c7);
+node.setAttributeNS(null,"height",_4c8);
+node.setAttributeNS("http://www.w3.org/1999/xlink","href",_4bf.externalGraphic);
 node.setAttributeNS(null,"transform","scale(1,-1)");
-node.setAttributeNS(null,"style","opacity: "+_4f5);
+node.setAttributeNS(null,"style","opacity: "+_4cb);
 }else{
-node.setAttributeNS(null,"r",_4e9.pointRadius);
+node.setAttributeNS(null,"r",_4bf.pointRadius);
 }
 }
-if(_4ea.isFilled){
-node.setAttributeNS(null,"fill",_4e9.fillColor);
-node.setAttributeNS(null,"fill-opacity",_4e9.fillOpacity);
+if(_4c0.isFilled){
+node.setAttributeNS(null,"fill",_4bf.fillColor);
+node.setAttributeNS(null,"fill-opacity",_4bf.fillOpacity);
 }else{
 node.setAttributeNS(null,"fill","none");
 }
-if(_4ea.isStroked){
-node.setAttributeNS(null,"stroke",_4e9.strokeColor);
-node.setAttributeNS(null,"stroke-opacity",_4e9.strokeOpacity);
-node.setAttributeNS(null,"stroke-width",_4e9.strokeWidth);
-node.setAttributeNS(null,"stroke-linecap",_4e9.strokeLinecap);
+if(_4c0.isStroked){
+node.setAttributeNS(null,"stroke",_4bf.strokeColor);
+node.setAttributeNS(null,"stroke-opacity",_4bf.strokeOpacity);
+node.setAttributeNS(null,"stroke-width",_4bf.strokeWidth);
+node.setAttributeNS(null,"stroke-linecap",_4bf.strokeLinecap);
 }else{
 node.setAttributeNS(null,"stroke","none");
 }
-if(_4e9.pointerEvents){
-node.setAttributeNS(null,"pointer-events",_4e9.pointerEvents);
+if(_4bf.pointerEvents){
+node.setAttributeNS(null,"pointer-events",_4bf.pointerEvents);
 }
-if(_4e9.cursor){
-node.setAttributeNS(null,"cursor",_4e9.cursor);
+if(_4bf.cursor){
+node.setAttributeNS(null,"cursor",_4bf.cursor);
 }
 },createNode:function(type,id){
 var node=document.createElementNS(this.xmlns,type);
@@ -9685,19 +9620,19 @@ return node;
 return (type==node.nodeName);
 },createRenderRoot:function(){
 var id=this.container.id+"_svgRoot";
-var _4fc=this.nodeFactory(id,"svg");
-return _4fc;
+var _4d2=this.nodeFactory(id,"svg");
+return _4d2;
 },createRoot:function(){
 var id=this.container.id+"_root";
 var root=this.nodeFactory(id,"g");
 root.setAttributeNS(null,"transform","scale(1, -1)");
 return root;
-},drawPoint:function(node,_500){
-this.drawCircle(node,_500,1);
-},drawCircle:function(node,_502,_503){
-var _504=this.getResolution();
-var x=(_502.x/_504+this.left);
-var y=(_502.y/_504-this.top);
+},drawPoint:function(node,_4d6){
+this.drawCircle(node,_4d6,1);
+},drawCircle:function(node,_4d8,_4d9){
+var _4da=this.getResolution();
+var x=(_4d8.x/_4da+this.left);
+var y=(_4d8.y/_4da-this.top);
 var draw=true;
 if(x<-this.maxPixel||x>this.maxPixel){
 draw=false;
@@ -9708,24 +9643,24 @@ draw=false;
 if(draw){
 node.setAttributeNS(null,"cx",x);
 node.setAttributeNS(null,"cy",y);
-node.setAttributeNS(null,"r",_503);
+node.setAttributeNS(null,"r",_4d9);
 }else{
 this.root.removeChild(node);
 }
-},drawLineString:function(node,_509){
-node.setAttributeNS(null,"points",this.getComponentsString(_509.components));
-},drawLinearRing:function(node,_50b){
-node.setAttributeNS(null,"points",this.getComponentsString(_50b.components));
-},drawPolygon:function(node,_50d){
+},drawLineString:function(node,_4df){
+node.setAttributeNS(null,"points",this.getComponentsString(_4df.components));
+},drawLinearRing:function(node,_4e1){
+node.setAttributeNS(null,"points",this.getComponentsString(_4e1.components));
+},drawPolygon:function(node,_4e3){
 var d="";
 var draw=true;
-for(var j=0;j<_50d.components.length;j++){
-var _511=_50d.components[j];
+for(var j=0;j<_4e3.components.length;j++){
+var _4e7=_4e3.components[j];
 d+=" M";
-for(var i=0;i<_511.components.length;i++){
-var _513=this.getShortString(_511.components[i]);
-if(_513){
-d+=" "+_513;
+for(var i=0;i<_4e7.components.length;i++){
+var _4e9=this.getShortString(_4e7.components[i]);
+if(_4e9){
+d+=" "+_4e9;
 }else{
 draw=false;
 }
@@ -9738,9 +9673,9 @@ node.setAttributeNS(null,"fill-rule","evenodd");
 }else{
 node.setAttributeNS(null,"d","");
 }
-},drawRectangle:function(node,_515){
-var x=(_515.x/resolution+this.left);
-var y=(_515.y/resolution-this.top);
+},drawRectangle:function(node,_4eb){
+var x=(_4eb.x/resolution+this.left);
+var y=(_4eb.y/resolution-this.top);
 var draw=true;
 if(x<-this.maxPixel||x>this.maxPixel){
 draw=false;
@@ -9751,37 +9686,37 @@ draw=false;
 if(draw){
 node.setAttributeNS(null,"x",x);
 node.setAttributeNS(null,"y",y);
-node.setAttributeNS(null,"width",_515.width);
-node.setAttributeNS(null,"height",_515.height);
+node.setAttributeNS(null,"width",_4eb.width);
+node.setAttributeNS(null,"height",_4eb.height);
 }else{
 node.setAttributeNS(null,"x","");
 node.setAttributeNS(null,"y","");
 node.setAttributeNS(null,"width",0);
 node.setAttributeNS(null,"height",0);
 }
-},drawCurve:function(node,_51a){
+},drawCurve:function(node,_4f0){
 var d=null;
 var draw=true;
-for(var i=0;i<_51a.components.length;i++){
+for(var i=0;i<_4f0.components.length;i++){
 if((i%3)==0&&(i/3)==0){
-var _51e=this.getShortString(_51a.components[i]);
-if(!_51e){
+var _4f4=this.getShortString(_4f0.components[i]);
+if(!_4f4){
 draw=false;
 }
-d="M "+_51e;
+d="M "+_4f4;
 }else{
 if((i%3)==1){
-var _51e=this.getShortString(_51a.components[i]);
-if(!_51e){
+var _4f4=this.getShortString(_4f0.components[i]);
+if(!_4f4){
 draw=false;
 }
-d+=" C "+_51e;
+d+=" C "+_4f4;
 }else{
-var _51e=this.getShortString(_51a.components[i]);
-if(!_51e){
+var _4f4=this.getShortString(_4f0.components[i]);
+if(!_4f4){
 draw=false;
 }
-d+=" "+_51e;
+d+=" "+_4f4;
 }
 }
 }
@@ -9790,29 +9725,29 @@ node.setAttributeNS(null,"d",d);
 }else{
 node.setAttributeNS(null,"d","");
 }
-},drawSurface:function(node,_520){
+},drawSurface:function(node,_4f6){
 var d=null;
 var draw=true;
-for(var i=0;i<_520.components.length;i++){
+for(var i=0;i<_4f6.components.length;i++){
 if((i%3)==0&&(i/3)==0){
-var _524=this.getShortString(_520.components[i]);
-if(!_524){
+var _4fa=this.getShortString(_4f6.components[i]);
+if(!_4fa){
 draw=false;
 }
-d="M "+_524;
+d="M "+_4fa;
 }else{
 if((i%3)==1){
-var _524=this.getShortString(_520.components[i]);
-if(!_524){
+var _4fa=this.getShortString(_4f6.components[i]);
+if(!_4fa){
 draw=false;
 }
-d+=" C "+_524;
+d+=" C "+_4fa;
 }else{
-var _524=this.getShortString(_520.components[i]);
-if(!_524){
+var _4fa=this.getShortString(_4f6.components[i]);
+if(!_4fa){
 draw=false;
 }
-d+=" "+_524;
+d+=" "+_4fa;
 }
 }
 }
@@ -9822,47 +9757,47 @@ node.setAttributeNS(null,"d",d);
 }else{
 node.setAttributeNS(null,"d","");
 }
-},getComponentsString:function(_525){
-var _526=[];
-for(var i=0;i<_525.length;i++){
-var _528=this.getShortString(_525[i]);
-if(_528){
-_526.push(_528);
+},getComponentsString:function(_4fb){
+var _4fc=[];
+for(var i=0;i<_4fb.length;i++){
+var _4fe=this.getShortString(_4fb[i]);
+if(_4fe){
+_4fc.push(_4fe);
 }
 }
-return _526.join(",");
-},getShortString:function(_529){
-var _52a=this.getResolution();
-var x=(_529.x/_52a+this.left);
-var y=(_529.y/_52a-this.top);
+return _4fc.join(",");
+},getShortString:function(_4ff){
+var _500=this.getResolution();
+var x=(_4ff.x/_500+this.left);
+var y=(_4ff.y/_500-this.top);
 if(x<-this.maxPixel||x>this.maxPixel){
 return false;
 }
 if(y<-this.maxPixel||y>this.maxPixel){
 return false;
 }
-var _52d=x+","+y;
-return _52d;
+var _503=x+","+y;
+return _503;
 },CLASS_NAME:"OpenLayers.Renderer.SVG"});
-OpenLayers.Renderer.VML=OpenLayers.Class(OpenLayers.Renderer.Elements,{xmlns:"urn:schemas-microsoft-com:vml",initialize:function(_52e){
+OpenLayers.Renderer.VML=OpenLayers.Class(OpenLayers.Renderer.Elements,{xmlns:"urn:schemas-microsoft-com:vml",initialize:function(_504){
 if(!this.supported()){
 return;
 }
 document.namespaces.add("v","urn:schemas-microsoft-com:vml");
-var _52f=document.createStyleSheet();
-_52f.addRule("v\\:*","behavior: url(#default#VML); "+"position: relative; display: inline-block;");
+var _505=document.createStyleSheet();
+_505.addRule("v\\:*","behavior: url(#default#VML); "+"position: relative; display: inline-block;");
 OpenLayers.Renderer.Elements.prototype.initialize.apply(this,arguments);
 },destroy:function(){
 OpenLayers.Renderer.Elements.prototype.destroy.apply(this,arguments);
 },supported:function(){
-var _530=document.namespaces;
-return _530;
-},setExtent:function(_531){
+var _506=document.namespaces;
+return _506;
+},setExtent:function(_507){
 OpenLayers.Renderer.Elements.prototype.setExtent.apply(this,arguments);
-var _532=this.getResolution();
-var org=_531.left/_532+" "+_531.top/_532;
+var _508=this.getResolution();
+var org=_507.left/_508+" "+_507.top/_508;
 this.root.setAttribute("coordorigin",org);
-var size=_531.getWidth()/_532+" "+-_531.getHeight()/_532;
+var size=_507.getWidth()/_508+" "+-_507.getHeight()/_508;
 this.root.setAttribute("coordsize",size);
 },setSize:function(size){
 OpenLayers.Renderer.prototype.setSize.apply(this,arguments);
@@ -9870,71 +9805,71 @@ this.rendererRoot.style.width=this.size.w;
 this.rendererRoot.style.height=this.size.h;
 this.root.style.width="100%";
 this.root.style.height="100%";
-},getNodeType:function(_536){
-var _537=null;
-switch(_536.CLASS_NAME){
+},getNodeType:function(_50c){
+var _50d=null;
+switch(_50c.CLASS_NAME){
 case "OpenLayers.Geometry.Point":
-_537="v:oval";
+_50d="v:oval";
 break;
 case "OpenLayers.Geometry.Rectangle":
-_537="v:rect";
+_50d="v:rect";
 break;
 case "OpenLayers.Geometry.LineString":
 case "OpenLayers.Geometry.LinearRing":
 case "OpenLayers.Geometry.Polygon":
 case "OpenLayers.Geometry.Curve":
 case "OpenLayers.Geometry.Surface":
-_537="v:shape";
+_50d="v:shape";
 break;
 default:
 break;
 }
-return _537;
-},setStyle:function(node,_539,_53a,_53b){
-_539=_539||node._style;
-_53a=_53a||node._options;
+return _50d;
+},setStyle:function(node,_50f,_510,_511){
+_50f=_50f||node._style;
+_510=_510||node._options;
 if(node._geometryClass=="OpenLayers.Geometry.Point"){
-if(_539.externalGraphic){
+if(_50f.externalGraphic){
 var id=node.id;
-var _53d=node._featureId;
-var _53e=node._geometryClass;
-var _53f=node._style;
+var _513=node._featureId;
+var _514=node._geometryClass;
+var _515=node._style;
 this.root.removeChild(node);
 var node=this.createNode("v:rect",id);
 var fill=this.createNode("v:fill",id+"_image");
 node.appendChild(fill);
-node._featureId=_53d;
-node._geometryClass=_53e;
-node._style=_53f;
+node._featureId=_513;
+node._geometryClass=_514;
+node._style=_515;
 this.root.appendChild(node);
-fill.src=_539.externalGraphic;
+fill.src=_50f.externalGraphic;
 fill.type="frame";
 node.style.flip="y";
-if(!(_539.graphicWidth&&_539.graphicHeight)){
+if(!(_50f.graphicWidth&&_50f.graphicHeight)){
 fill.aspect="atmost";
 }
-var _541=_539.graphicWidth||_539.graphicHeight;
-var _542=_539.graphicHeight||_539.graphicWidth;
-_541=_541?_541:_539.pointRadius*2;
-_542=_542?_542:_539.pointRadius*2;
-var _543=this.getResolution();
-var _544=(_539.graphicXOffset!=undefined)?_539.graphicXOffset:-(0.5*_541);
-var _545=(_539.graphicYOffset!=undefined)?_539.graphicYOffset:-(0.5*_542);
-node.style.left=((_53b.x/_543)+_544).toFixed();
-node.style.top=((_53b.y/_543)-(_545+_542)).toFixed();
-node.style.width=_541;
-node.style.height=_542;
-_539.fillColor="none";
-_539.strokeColor="none";
+var _517=_50f.graphicWidth||_50f.graphicHeight;
+var _518=_50f.graphicHeight||_50f.graphicWidth;
+_517=_517?_517:_50f.pointRadius*2;
+_518=_518?_518:_50f.pointRadius*2;
+var _519=this.getResolution();
+var _51a=(_50f.graphicXOffset!=undefined)?_50f.graphicXOffset:-(0.5*_517);
+var _51b=(_50f.graphicYOffset!=undefined)?_50f.graphicYOffset:-(0.5*_518);
+node.style.left=((_511.x/_519)+_51a).toFixed();
+node.style.top=((_511.y/_519)-(_51b+_518)).toFixed();
+node.style.width=_517;
+node.style.height=_518;
+_50f.fillColor="none";
+_50f.strokeColor="none";
 }else{
-this.drawCircle(node,_53b,_539.pointRadius);
+this.drawCircle(node,_511,_50f.pointRadius);
 }
 }
-var _546=(_53a.isFilled)?_539.fillColor:"none";
-node.setAttribute("fillcolor",_546);
-var _547=node.getElementsByTagName("fill");
-var fill=(_547.length==0)?null:_547[0];
-if(!_53a.isFilled){
+var _51c=(_510.isFilled)?_50f.fillColor:"none";
+node.setAttribute("fillcolor",_51c);
+var _51d=node.getElementsByTagName("fill");
+var fill=(_51d.length==0)?null:_51d[0];
+if(!_510.isFilled){
 if(fill){
 node.removeChild(fill);
 }
@@ -9943,45 +9878,45 @@ if(!fill){
 fill=this.createNode("v:fill",node.id+"_fill");
 node.appendChild(fill);
 }
-if(node._geometryClass=="OpenLayers.Geometry.Point"&&_539.externalGraphic&&_539.graphicOpacity){
-fill.setAttribute("opacity",_539.graphicOpacity);
+if(node._geometryClass=="OpenLayers.Geometry.Point"&&_50f.externalGraphic&&_50f.graphicOpacity){
+fill.setAttribute("opacity",_50f.graphicOpacity);
 }else{
-if(_539.fillOpacity){
-fill.setAttribute("opacity",_539.fillOpacity);
+if(_50f.fillOpacity){
+fill.setAttribute("opacity",_50f.fillOpacity);
 }
 }
 }
-var _548=(_53a.isStroked)?_539.strokeColor:"none";
-node.setAttribute("strokecolor",_548);
-node.setAttribute("strokeweight",_539.strokeWidth);
-var _549=node.getElementsByTagName("stroke");
-var _54a=(_549.length==0)?null:_549[0];
-if(!_53a.isStroked){
-if(_54a){
-node.removeChild(_54a);
+var _51e=(_510.isStroked)?_50f.strokeColor:"none";
+node.setAttribute("strokecolor",_51e);
+node.setAttribute("strokeweight",_50f.strokeWidth);
+var _51f=node.getElementsByTagName("stroke");
+var _520=(_51f.length==0)?null:_51f[0];
+if(!_510.isStroked){
+if(_520){
+node.removeChild(_520);
 }
 }else{
-if(!_54a){
-_54a=this.createNode("v:stroke",node.id+"_stroke");
-node.appendChild(_54a);
+if(!_520){
+_520=this.createNode("v:stroke",node.id+"_stroke");
+node.appendChild(_520);
 }
-_54a.setAttribute("opacity",_539.strokeOpacity);
-_54a.setAttribute("endcap",!_539.strokeLinecap||_539.strokeLinecap=="butt"?"flat":_539.strokeLinecap);
+_520.setAttribute("opacity",_50f.strokeOpacity);
+_520.setAttribute("endcap",!_50f.strokeLinecap||_50f.strokeLinecap=="butt"?"flat":_50f.strokeLinecap);
 }
-if(_539.cursor){
-node.style.cursor=_539.cursor;
+if(_50f.cursor){
+node.style.cursor=_50f.cursor;
 }
-},setNodeDimension:function(node,_54c){
-var bbox=_54c.getBounds();
+},setNodeDimension:function(node,_522){
+var bbox=_522.getBounds();
 if(bbox){
-var _54e=this.getResolution();
-var _54f=new OpenLayers.Bounds((bbox.left/_54e).toFixed(),(bbox.bottom/_54e).toFixed(),(bbox.right/_54e).toFixed(),(bbox.top/_54e).toFixed());
-node.style.left=_54f.left;
-node.style.top=_54f.top;
-node.style.width=_54f.getWidth();
-node.style.height=_54f.getHeight();
-node.coordorigin=_54f.left+" "+_54f.top;
-node.coordsize=_54f.getWidth()+" "+_54f.getHeight();
+var _524=this.getResolution();
+var _525=new OpenLayers.Bounds((bbox.left/_524).toFixed(),(bbox.bottom/_524).toFixed(),(bbox.right/_524).toFixed(),(bbox.top/_524).toFixed());
+node.style.left=_525.left;
+node.style.top=_525.top;
+node.style.width=_525.getWidth();
+node.style.height=_525.getHeight();
+node.coordorigin=_525.left+" "+_525.top;
+node.coordsize=_525.getWidth()+" "+_525.getHeight();
 }
 },createNode:function(type,id){
 var node=document.createElement(type);
@@ -9990,64 +9925,64 @@ node.setAttribute("id",id);
 }
 return node;
 },nodeTypeCompare:function(node,type){
-var _555=type;
-var _556=_555.indexOf(":");
-if(_556!=-1){
-_555=_555.substr(_556+1);
+var _52b=type;
+var _52c=_52b.indexOf(":");
+if(_52c!=-1){
+_52b=_52b.substr(_52c+1);
 }
-var _557=node.nodeName;
-_556=_557.indexOf(":");
-if(_556!=-1){
-_557=_557.substr(_556+1);
+var _52d=node.nodeName;
+_52c=_52d.indexOf(":");
+if(_52c!=-1){
+_52d=_52d.substr(_52c+1);
 }
-return (_555==_557);
+return (_52b==_52d);
 },createRenderRoot:function(){
 var id=this.container.id+"_vmlRoot";
-var _559=this.nodeFactory(id,"div");
-return _559;
+var _52f=this.nodeFactory(id,"div");
+return _52f;
 },createRoot:function(){
 var id=this.container.id+"_root";
 var root=this.nodeFactory(id,"v:group");
 return root;
-},drawPoint:function(node,_55d){
-this.drawCircle(node,_55d,1);
-},drawCircle:function(node,_55f,_560){
-if(!isNaN(_55f.x)&&!isNaN(_55f.y)){
-var _561=this.getResolution();
-node.style.left=(_55f.x/_561).toFixed()-_560;
-node.style.top=(_55f.y/_561).toFixed()-_560;
-var _562=_560*2;
-node.style.width=_562;
-node.style.height=_562;
+},drawPoint:function(node,_533){
+this.drawCircle(node,_533,1);
+},drawCircle:function(node,_535,_536){
+if(!isNaN(_535.x)&&!isNaN(_535.y)){
+var _537=this.getResolution();
+node.style.left=(_535.x/_537).toFixed()-_536;
+node.style.top=(_535.y/_537).toFixed()-_536;
+var _538=_536*2;
+node.style.width=_538;
+node.style.height=_538;
 }
-},drawLineString:function(node,_564){
-this.drawLine(node,_564,false);
-},drawLinearRing:function(node,_566){
-this.drawLine(node,_566,true);
-},drawLine:function(node,_568,_569){
-this.setNodeDimension(node,_568);
-var _56a=this.getResolution();
+},drawLineString:function(node,_53a){
+this.drawLine(node,_53a,false);
+},drawLinearRing:function(node,_53c){
+this.drawLine(node,_53c,true);
+},drawLine:function(node,_53e,_53f){
+this.setNodeDimension(node,_53e);
+var _540=this.getResolution();
 var path="m";
-for(var i=0;i<_568.components.length;i++){
-var x=(_568.components[i].x/_56a);
-var y=(_568.components[i].y/_56a);
+for(var i=0;i<_53e.components.length;i++){
+var x=(_53e.components[i].x/_540);
+var y=(_53e.components[i].y/_540);
 path+=" "+x.toFixed()+","+y.toFixed()+" l ";
 }
-if(_569){
+if(_53f){
 path+=" x";
 }
 path+=" e";
 node.path=path;
-},drawPolygon:function(node,_570){
-this.setNodeDimension(node,_570);
-var _571=this.getResolution();
+},drawPolygon:function(node,_546){
+this.setNodeDimension(node,_546);
+var _547=this.getResolution();
 var path="";
-for(var j=0;j<_570.components.length;j++){
-var _574=_570.components[j];
+for(var j=0;j<_546.components.length;j++){
+var _54a=_546.components[j];
 path+="m";
-for(var i=0;i<_574.components.length;i++){
-var x=_574.components[i].x/_571;
-var y=_574.components[i].y/_571;
+for(var i=0;i<_54a.components.length;i++){
+var x=_54a.components[i].x/_547;
+var y=_54a.components[i].y/_547;
 path+=" "+x.toFixed()+","+y.toFixed();
 if(i==0){
 path+=" l";
@@ -10057,19 +9992,19 @@ path+=" x ";
 }
 path+="e";
 node.path=path;
-},drawRectangle:function(node,_579){
-var _57a=this.getResolution();
-node.style.left=_579.x/_57a;
-node.style.top=_579.y/_57a;
-node.style.width=_579.width/_57a;
-node.style.height=_579.height/_57a;
-},drawCurve:function(node,_57c){
-this.setNodeDimension(node,_57c);
-var _57d=this.getResolution();
+},drawRectangle:function(node,_54f){
+var _550=this.getResolution();
+node.style.left=_54f.x/_550;
+node.style.top=_54f.y/_550;
+node.style.width=_54f.width/_550;
+node.style.height=_54f.height/_550;
+},drawCurve:function(node,_552){
+this.setNodeDimension(node,_552);
+var _553=this.getResolution();
 var path="";
-for(var i=0;i<_57c.components.length;i++){
-var x=_57c.components[i].x/_57d;
-var y=_57c.components[i].y/_57d;
+for(var i=0;i<_552.components.length;i++){
+var x=_552.components[i].x/_553;
+var y=_552.components[i].y/_553;
 if((i%3)==0&&(i/3)==0){
 path+="m";
 }else{
@@ -10081,13 +10016,13 @@ path+=" "+x+","+y;
 }
 path+=" x e";
 node.path=path;
-},drawSurface:function(node,_583){
-this.setNodeDimension(node,_583);
-var _584=this.getResolution();
+},drawSurface:function(node,_559){
+this.setNodeDimension(node,_559);
+var _55a=this.getResolution();
 var path="";
-for(var i=0;i<_583.components.length;i++){
-var x=_583.components[i].x/_584;
-var y=_583.components[i].y/_584;
+for(var i=0;i<_559.components.length;i++){
+var x=_559.components[i].x/_55a;
+var y=_559.components[i].y/_55a;
 if((i%3)==0&&(i/3)==0){
 path+="m";
 }else{
@@ -10100,7 +10035,7 @@ path+=" "+x+","+y;
 path+=" x e";
 node.path=path;
 },CLASS_NAME:"OpenLayers.Renderer.VML"});
-OpenLayers.Tile.Image=OpenLayers.Class(OpenLayers.Tile,{url:null,imgDiv:null,frame:null,initialize:function(_589,_58a,_58b,url,size){
+OpenLayers.Tile.Image=OpenLayers.Class(OpenLayers.Tile,{url:null,imgDiv:null,frame:null,initialize:function(_55f,_560,_561,url,size){
 OpenLayers.Tile.prototype.initialize.apply(this,arguments);
 this.url=url;
 this.frame=document.createElement("div");
@@ -10139,12 +10074,12 @@ this.initImgDiv();
 this.imgDiv.viewRequestID=this.layer.map.viewRequestID;
 this.url=this.layer.getURL(this.bounds);
 OpenLayers.Util.modifyDOMElement(this.frame,null,this.position,this.size);
-var _58e=this.layer.getImageSize();
+var _564=this.layer.getImageSize();
 if(this.layer.alpha){
-OpenLayers.Util.modifyAlphaImageDiv(this.imgDiv,null,null,_58e,this.url);
+OpenLayers.Util.modifyAlphaImageDiv(this.imgDiv,null,null,_564,this.url);
 }else{
 this.imgDiv.src=this.url;
-OpenLayers.Util.modifyDOMElement(this.imgDiv,null,null,_58e);
+OpenLayers.Util.modifyDOMElement(this.imgDiv,null,null,_564);
 }
 this.drawn=true;
 return true;
@@ -10154,12 +10089,12 @@ if(this.imgDiv){
 this.imgDiv.style.display="none";
 }
 },initImgDiv:function(){
-var _58f=this.layer.imageOffset;
+var _565=this.layer.imageOffset;
 var size=this.layer.getImageSize();
 if(this.layer.alpha){
-this.imgDiv=OpenLayers.Util.createAlphaImageDiv(null,_58f,size,null,"relative",null,null,null,true);
+this.imgDiv=OpenLayers.Util.createAlphaImageDiv(null,_565,size,null,"relative",null,null,null,true);
 }else{
-this.imgDiv=OpenLayers.Util.createImage(null,_58f,size,null,"relative",null,null,true);
+this.imgDiv=OpenLayers.Util.createImage(null,_565,size,null,"relative",null,null,true);
 }
 this.imgDiv.className="olTileImage";
 this.frame.appendChild(this.imgDiv);
@@ -10168,22 +10103,22 @@ if(this.layer.opacity!=null){
 OpenLayers.Util.modifyDOMElement(this.imgDiv,null,null,null,null,null,null,this.layer.opacity);
 }
 this.imgDiv.map=this.layer.map;
-var _591=function(){
+var _567=function(){
 if(this.isLoading){
 this.isLoading=false;
 this.events.triggerEvent("loadend");
 }
 };
-OpenLayers.Event.observe(this.imgDiv,"load",OpenLayers.Function.bind(_591,this));
+OpenLayers.Event.observe(this.imgDiv,"load",OpenLayers.Function.bind(_567,this));
 },checkImgURL:function(){
 if(this.layer){
-var _592=this.layer.alpha?this.imgDiv.firstChild.src:this.imgDiv.src;
-if(!OpenLayers.Util.isEquivalentUrl(_592,this.url)){
+var _568=this.layer.alpha?this.imgDiv.firstChild.src:this.imgDiv.src;
+if(!OpenLayers.Util.isEquivalentUrl(_568,this.url)){
 this.imgDiv.style.display="none";
 }
 }
 },CLASS_NAME:"OpenLayers.Tile.Image"});
-OpenLayers.Tile.WFS=OpenLayers.Class(OpenLayers.Tile,{features:null,url:null,initialize:function(_593,_594,_595,url,size){
+OpenLayers.Tile.WFS=OpenLayers.Class(OpenLayers.Tile,{features:null,url:null,initialize:function(_569,_56a,_56b,url,size){
 OpenLayers.Tile.prototype.initialize.apply(this,arguments);
 this.url=url;
 this.features=[];
@@ -10205,39 +10140,39 @@ this.events.triggerEvent("loadstart");
 }
 this.loadFeaturesForRegion(this.requestSuccess);
 }
-},loadFeaturesForRegion:function(_598,_599){
-OpenLayers.loadURL(this.url,null,this,_598);
-},requestSuccess:function(_59a){
+},loadFeaturesForRegion:function(_56e,_56f){
+OpenLayers.loadURL(this.url,null,this,_56e);
+},requestSuccess:function(_570){
 if(this.features){
-var doc=_59a.responseXML;
-if(!doc||_59a.fileType!="XML"){
-doc=OpenLayers.parseXMLString(_59a.responseText);
+var doc=_570.responseXML;
+if(!doc||_570.fileType!="XML"){
+doc=OpenLayers.parseXMLString(_570.responseText);
 }
 if(this.layer.vectorMode){
 var gml=new OpenLayers.Format.GML({"extractAttributes":this.layer.options.extractAttributes});
 this.layer.addFeatures(gml.read(doc));
 }else{
-var _59d=OpenLayers.Ajax.getElementsByTagNameNS(doc,"http://www.opengis.net/gml","gml","featureMember");
-this.addResults(_59d);
+var _573=OpenLayers.Ajax.getElementsByTagNameNS(doc,"http://www.opengis.net/gml","gml","featureMember");
+this.addResults(_573);
 }
 }
 if(this.events){
 this.events.triggerEvent("loadend");
 }
-},addResults:function(_59e){
-for(var i=0;i<_59e.length;i++){
-var _5a0=new this.layer.featureClass(this.layer,_59e[i]);
-this.features.push(_5a0);
+},addResults:function(_574){
+for(var i=0;i<_574.length;i++){
+var _576=new this.layer.featureClass(this.layer,_574[i]);
+this.features.push(_576);
 }
 },destroyAllFeatures:function(){
 while(this.features.length>0){
-var _5a1=this.features.shift();
-_5a1.destroy();
+var _577=this.features.shift();
+_577.destroy();
 }
 },CLASS_NAME:"OpenLayers.Tile.WFS"});
-OpenLayers.Feature=OpenLayers.Class({layer:null,id:null,lonlat:null,data:null,marker:null,popupClass:OpenLayers.Popup.AnchoredBubble,popup:null,initialize:function(_5a2,_5a3,data){
-this.layer=_5a2;
-this.lonlat=_5a3;
+OpenLayers.Feature=OpenLayers.Class({layer:null,id:null,lonlat:null,data:null,marker:null,popupClass:OpenLayers.Popup.AnchoredBubble,popup:null,initialize:function(_578,_579,data){
+this.layer=_578;
+this.lonlat=_579;
 this.data=(data!=null)?data:{};
 this.id=OpenLayers.Util.createUniqueID(this.CLASS_NAME+"_");
 },destroy:function(){
@@ -10259,12 +10194,12 @@ this.destroyPopup(this.popup);
 this.popup=null;
 }
 },onScreen:function(){
-var _5a5=false;
+var _57b=false;
 if((this.layer!=null)&&(this.layer.map!=null)){
-var _5a6=this.layer.map.getExtent();
-_5a5=_5a6.containsLonLat(this.lonlat);
+var _57c=this.layer.map.getExtent();
+_57b=_57c.containsLonLat(this.lonlat);
 }
-return _5a5;
+return _57b;
 },createMarker:function(){
 if(this.lonlat!=null){
 this.marker=new OpenLayers.Marker(this.lonlat,this.data.icon);
@@ -10272,11 +10207,11 @@ this.marker=new OpenLayers.Marker(this.lonlat,this.data.icon);
 return this.marker;
 },destroyMarker:function(){
 this.marker.destroy();
-},createPopup:function(_5a7){
+},createPopup:function(_57d){
 if(this.lonlat!=null){
 var id=this.id+"_popup";
-var _5a9=(this.marker)?this.marker.icon:null;
-this.popup=new this.popupClass(id,this.lonlat,this.data.popupSize,this.data.popupContentHTML,_5a9,_5a7);
+var _57f=(this.marker)?this.marker.icon:null;
+this.popup=new this.popupClass(id,this.lonlat,this.data.popupSize,this.data.popupContentHTML,_57f,_57d);
 if(this.data.overflow!=null){
 this.popup.contentDiv.style.overflow=this.data.overflow;
 }
@@ -10287,492 +10222,17 @@ return this.popup;
 this.popup.feature=null;
 this.popup.destroy();
 },CLASS_NAME:"OpenLayers.Feature"});
-OpenLayers.Format.GeoJSON=OpenLayers.Class(OpenLayers.Format.JSON,{initialize:function(_5aa){
-OpenLayers.Format.JSON.prototype.initialize.apply(this,[_5aa]);
-},read:function(json,type,_5ad){
-type=(type)?type:"FeatureCollection";
-var _5ae=null;
-var obj=null;
-if(typeof json=="string"){
-obj=OpenLayers.Format.JSON.prototype.read.apply(this,[json,_5ad]);
-}else{
-obj=json;
-}
-if(!obj){
-OpenLayers.Console.error("Bad JSON: "+json);
-}else{
-if(typeof (obj.type)!="string"){
-OpenLayers.Console.error("Bad GeoJSON - no type: "+json);
-}else{
-if(this.isValidType(obj,type)){
-switch(type){
-case "Geometry":
-try{
-_5ae=this.parseGeometry(obj);
-}
-catch(err){
-OpenLayers.Console.error(err);
-}
-break;
-case "Feature":
-try{
-_5ae=this.parseFeature(obj);
-_5ae.type="Feature";
-}
-catch(err){
-OpenLayers.Console.error(err);
-}
-break;
-case "GeometryCollection":
-_5ae=[];
-for(var i=0;i<obj.members.length;++i){
-try{
-_5ae.push(this.parseGeometry(obj.members[i]));
-}
-catch(err){
-_5ae=null;
-OpenLayers.Console.error(err);
-}
-}
-break;
-case "FeatureCollection":
-_5ae=[];
-switch(obj.type){
-case "Feature":
-try{
-_5ae.push(this.parseFeature(obj));
-}
-catch(err){
-_5ae=null;
-OpenLayers.Console.error(err);
-}
-break;
-case "FeatureCollection":
-for(var i=0;i<obj.members.length;++i){
-try{
-_5ae.push(this.parseFeature(obj.members[i]));
-}
-catch(err){
-_5ae=null;
-OpenLayers.Console.error(err);
-}
-}
-break;
-case "GeometryCollection":
-for(var i=0;i<obj.members.length;++i){
-try{
-var geom=this.parseGeometry(obj.members[i]);
-_5ae.push(new OpenLayers.Feature.Vector(geom));
-}
-catch(err){
-_5ae=null;
-OpenLayers.Console.error(err);
-}
-}
-break;
-default:
-try{
-var geom=this.parseGeometry(obj);
-_5ae.push(new OpenLayers.Feature.Vector(geom));
-}
-catch(err){
-_5ae=null;
-OpenLayers.Console.error(err);
-}
-}
-break;
-}
-}
-}
-}
-return _5ae;
-},isValidType:function(obj,type){
-var _5b4=false;
-switch(type){
-case "Geometry":
-if(OpenLayers.Util.indexOf(["Point","MultiPoint","LineString","MultiLineString","Polygon","MultiPolygon","Box"],obj.type)==-1){
-OpenLayers.Console.error("Unsupported geometry type: "+obj.type);
-}else{
-_5b4=true;
-}
-break;
-case "FeatureCollection":
-_5b4=true;
-break;
-default:
-if(obj.type==type){
-_5b4=true;
-}else{
-OpenLayers.Console.error("Cannot convert types from "+obj.type+" to "+type);
-}
-}
-return _5b4;
-},parseFeature:function(obj){
-var _5b6,geometry,attributes;
-attributes=(obj.properties)?obj.properties:{};
-try{
-geometry=this.parseGeometry(obj.geometry);
-}
-catch(err){
-throw err;
-}
-_5b6=new OpenLayers.Feature.Vector(geometry,attributes);
-if(obj.id){
-_5b6.fid=obj.id;
-}
-return _5b6;
-},parseGeometry:function(obj){
-var _5b8;
-if(!(obj.coordinates instanceof Array)){
-throw "Geometry must have coordinates array: "+obj;
-}
-if(!this.parseCoords[obj.type.toLowerCase()]){
-throw "Unsupported geometry type: "+obj.type;
-}
-try{
-_5b8=this.parseCoords[obj.type.toLowerCase()].apply(this,[obj.coordinates]);
-}
-catch(err){
-throw err;
-}
-return _5b8;
-},parseCoords:{"point":function(_5b9){
-if(_5b9.length!=2){
-throw "Only 2D points are supported: "+_5b9;
-}
-return new OpenLayers.Geometry.Point(_5b9[0],_5b9[1]);
-},"multipoint":function(_5ba){
-var _5bb=[];
-var p=null;
-for(var i=0;i<_5ba.length;++i){
-try{
-p=this.parseCoords["point"].apply(this,[_5ba[i]]);
-}
-catch(err){
-throw err;
-}
-_5bb.push(p);
-}
-return new OpenLayers.Geometry.MultiPoint(_5bb);
-},"linestring":function(_5be){
-var _5bf=[];
-var p=null;
-for(var i=0;i<_5be.length;++i){
-try{
-p=this.parseCoords["point"].apply(this,[_5be[i]]);
-}
-catch(err){
-throw err;
-}
-_5bf.push(p);
-}
-return new OpenLayers.Geometry.LineString(_5bf);
-},"multilinestring":function(_5c2){
-var _5c3=[];
-var l=null;
-for(var i=0;i<_5c2.length;++i){
-try{
-l=this.parseCoords["linestring"].apply(this,[_5c2[i]]);
-}
-catch(err){
-throw err;
-}
-_5c3.push(l);
-}
-return new OpenLayers.Geometry.MultiLineString(_5c3);
-},"polygon":function(_5c6){
-var _5c7=[];
-var r,l;
-for(var i=0;i<_5c6.length;++i){
-try{
-l=this.parseCoords["linestring"].apply(this,[_5c6[i]]);
-}
-catch(err){
-throw err;
-}
-r=new OpenLayers.Geometry.LinearRing(l.components);
-_5c7.push(r);
-}
-return new OpenLayers.Geometry.Polygon(_5c7);
-},"multipolygon":function(_5ca){
-var _5cb=[];
-var p=null;
-for(var i=0;i<_5ca.length;++i){
-try{
-p=this.parseCoords["polygon"].apply(this,[_5ca[i]]);
-}
-catch(err){
-throw err;
-}
-_5cb.push(p);
-}
-return new OpenLayers.Geometry.MultiPolygon(_5cb);
-},"box":function(_5ce){
-if(_5ce.length!=2){
-throw "GeoJSON box coordinates must have 2 elements";
-}
-return new OpenLayers.Geometry.Polygon([new OpenLayers.Geometry.LinearRing([new OpenLayers.Geometry.Point(_5ce[0][0],_5ce[0][1]),new OpenLayers.Geometry.Point(_5ce[1][0],_5ce[0][1]),new OpenLayers.Geometry.Point(_5ce[1][0],_5ce[1][1]),new OpenLayers.Geometry.Point(_5ce[0][0],_5ce[1][1]),new OpenLayers.Geometry.Point(_5ce[0][0],_5ce[0][1])])]);
-}},write:function(obj,_5d0){
-var _5d1={"type":null};
-if(obj instanceof Array){
-_5d1.members=[];
-for(var i=0;i<obj.length;++i){
-var _5d3=obj[i];
-if(_5d3 instanceof OpenLayers.Feature.Vector){
-if(_5d1.type==null){
-_5d1.type="FeatureCollection";
-if(_5d3.layer&&_5d3.layer.projection){
-var proj=_5d3.layer.projection;
-if(proj.match(/epsg:/i)){
-_5d1.crs={"type":"EPSG","properties":{"code":parseInt(proj.substring(proj.indexOf(":")+1))}};
-}
-}
-}else{
-if(_5d1.type!="FeatureCollection"){
-OpenLayers.Console.error("FeatureCollection only supports collections of features: "+_5d3);
-break;
-}
-}
-_5d1.members.push(this.extract.feature.apply(this,[_5d3]));
-}else{
-if(_5d3.CLASS_NAME.search("OpenLayers.Geometry")==0){
-if(_5d1.type==null){
-_5d1.type="GeometryCollection";
-}else{
-if(_5d1.type!="GeometryCollection"){
-OpenLayers.Console.error("GeometryCollection only supports collections of geometries: "+_5d3);
-break;
-}
-}
-_5d1.members.push(this.extract.geometry.apply(this,[_5d3]));
-}
-}
-}
-}else{
-if(obj.CLASS_NAME.search("OpenLayers.Geometry")==0){
-_5d1=this.extract.geometry.apply(this,[obj]);
-}else{
-if(obj instanceof OpenLayers.Feature.Vector){
-_5d1=this.extract.feature.apply(this,[obj]);
-if(obj.layer&&obj.layer.projection){
-var proj=obj.layer.projection;
-if(proj.match(/epsg:/i)){
-_5d1.crs={"type":"EPSG","properties":{"code":parseInt(proj.substring(proj.indexOf(":")+1))}};
-}
-}
-}
-}
-}
-return OpenLayers.Format.JSON.prototype.write.apply(this,[_5d1,_5d0]);
-},extract:{"feature":function(_5d5){
-var geom=this.extract.geometry.apply(this,[_5d5.geometry]);
-return {"type":"Feature","id":_5d5.fid==null?_5d5.id:_5d5.fid,"properties":_5d5.attributes,"geometry":geom};
-},"geometry":function(_5d7){
-var _5d8=_5d7.CLASS_NAME.split(".")[2];
-var data=this.extract[_5d8.toLowerCase()].apply(this,[_5d7]);
-return {"type":_5d8,"coordinates":data};
-},"point":function(_5da){
-return [_5da.x,_5da.y];
-},"multipoint":function(_5db){
-var _5dc=[];
-for(var i=0;i<_5db.components.length;++i){
-_5dc.push(this.extract.point.apply(this,[_5db.components[i]]));
-}
-return _5dc;
-},"linestring":function(_5de){
-var _5df=[];
-for(var i=0;i<_5de.components.length;++i){
-_5df.push(this.extract.point.apply(this,[_5de.components[i]]));
-}
-return _5df;
-},"multilinestring":function(_5e1){
-var _5e2=[];
-for(var i=0;i<_5e1.components.length;++i){
-_5e2.push(this.extract.linestring.apply(this,[_5e1.components[i]]));
-}
-return _5e2;
-},"polygon":function(_5e4){
-var _5e5=[];
-for(var i=0;i<_5e4.components.length;++i){
-_5e5.push(this.extract.linestring.apply(this,[_5e4.components[i]]));
-}
-return _5e5;
-},"multipolygon":function(_5e7){
-var _5e8=[];
-for(var i=0;i<_5e7.components.length;++i){
-_5e8.push(this.extract.polygon.apply(this,[_5e7.components[i]]));
-}
-return _5e8;
-}},CLASS_NAME:"OpenLayers.Format.GeoJSON"});
-OpenLayers.Format.GeoRSS=OpenLayers.Class(OpenLayers.Format.XML,{rssns:"http://backend.userland.com/rss2",featureNS:"http://mapserver.gis.umn.edu/mapserver",georssns:"http://www.georss.org/georss",featureTitle:"Untitled",featureDescription:"No Description",initialize:function(_5ea){
-OpenLayers.Format.XML.prototype.initialize.apply(this,[_5ea]);
-},createGeometryFromItem:function(item){
-var _5ec=this.getElementsByTagNameNS(item,this.georssns,"point");
-var lat=this.getElementsByTagNameNS(item,this.geons,"lat");
-var lon=this.getElementsByTagNameNS(item,this.geons,"long");
-var line=this.getElementsByTagNameNS(item,this.georssns,"line");
-var _5f0=this.getElementsByTagNameNS(item,this.georssns,"polygon");
-if(_5ec.length>0||(lat.length>0&&lon.length>0)){
-if(_5ec.length>0){
-var _5f1=OpenLayers.String.trim(_5ec[0].firstChild.nodeValue).split(/\s+/);
-if(_5f1.length!=2){
-var _5f1=OpenLayers.String.trim(_5ec[0].firstChild.nodeValue).split(/\s*,\s*/);
-}
-}else{
-var _5f1=[parseFloat(lat[0].firstChild.nodeValue),parseFloat(lon[0].firstChild.nodeValue)];
-}
-var _5f2=new OpenLayers.Geometry.Point(parseFloat(_5f1[1]),parseFloat(_5f1[0]));
-}else{
-if(line.length>0){
-var _5f3=OpenLayers.String.trim(line[0].firstChild.nodeValue).split(/\s+/);
-var _5f4=[];
-for(var i=0;i<_5f3.length;i+=2){
-var _5ec=new OpenLayers.Geometry.Point(parseFloat(_5f3[i+1]),parseFloat(_5f3[i]));
-_5f4.push(_5ec);
-}
-_5f2=new OpenLayers.Geometry.LineString(_5f4);
-}else{
-if(_5f0.length>0){
-var _5f3=OpenLayers.String.trim(_5f0[0].firstChild.nodeValue).split(/\s+/);
-var _5f4=[];
-for(var i=0;i<_5f3.length;i+=2){
-var _5ec=new OpenLayers.Geometry.Point(parseFloat(_5f3[i+1]),parseFloat(_5f3[i]));
-_5f4.push(_5ec);
-}
-_5f2=new OpenLayers.Geometry.Polygon([new OpenLayers.Geometry.LinearRing(_5f4)]);
-}
-}
-}
-return _5f2;
-},createFeatureFromItem:function(item){
-var _5f7=this.createGeometryFromItem(item);
-var _5f8=this.getChildValue(item,"*","title",this.featureTitle);
-var _5f9=this.getChildValue(item,"*","description",this.getChildValue(item,"*","content",this.featureDescription));
-var link=this.getChildValue(item,"*","link");
-if(!link){
-try{
-link=this.getElementsByTagNameNS(item,"*","link")[0].getAttribute("href");
-}
-catch(e){
-link=null;
-}
-}
-var id=this.getChildValue(item,"*","id",null);
-var data={"title":_5f8,"description":_5f9,"link":link};
-var _5fd=new OpenLayers.Feature.Vector(_5f7,data);
-_5fd.fid=id;
-return _5fd;
-},getChildValue:function(node,_5ff,name,def){
-var _602;
-try{
-_602=this.getElementsByTagNameNS(node,_5ff,name)[0].firstChild.nodeValue;
-}
-catch(e){
-_602=(def==undefined)?"":def;
-}
-return _602;
-},read:function(doc){
-if(typeof doc=="string"){
-doc=OpenLayers.Format.XML.prototype.read.apply(this,[doc]);
-}
-var _604=null;
-_604=this.getElementsByTagNameNS(doc,"*","item");
-if(_604.length==0){
-_604=this.getElementsByTagNameNS(doc,"*","entry");
-}
-var _605=_604.length;
-var _606=new Array(_605);
-for(var i=0;i<_605;i++){
-_606[i]=this.createFeatureFromItem(_604[i]);
-}
-return _606;
-},write:function(_608){
-var _609;
-if(_608 instanceof Array){
-_609=this.createElementNS(this.rssns,"rss");
-for(var i=0;i<_608.length;i++){
-_609.appendChild(this.createFeatureXML(_608[i]));
-}
-}else{
-_609=this.createFeatureXML(_608);
-}
-return OpenLayers.Format.XML.prototype.write.apply(this,[_609]);
-},createFeatureXML:function(_60b){
-var _60c=this.buildGeometryNode(_60b.geometry);
-var _60d=this.createElementNS(this.rssns,"item");
-var _60e=this.createElementNS(this.rssns,"title");
-_60e.appendChild(this.createTextNode(_60b.attributes.title?_60b.attributes.title:""));
-var _60f=this.createElementNS(this.rssns,"description");
-_60f.appendChild(this.createTextNode(_60b.attributes.description?_60b.attributes.description:""));
-_60d.appendChild(_60e);
-_60d.appendChild(_60f);
-if(_60b.attributes.link){
-var _610=this.createElementNS(this.rssns,"link");
-_610.appendChild(this.createTextNode(_60b.attributes.link));
-_60d.appendChild(_610);
-}
-for(var attr in _60b.attributes){
-if(attr=="link"||attr=="title"||attr=="description"){
-continue;
-}
-var _612=this.createTextNode(_60b.attributes[attr]);
-var _613=attr;
-if(attr.search(":")!=-1){
-_613=attr.split(":")[1];
-}
-var _614=this.createElementNS(this.featureNS,"feature:"+_613);
-_614.appendChild(_612);
-_60d.appendChild(_614);
-}
-_60d.appendChild(_60c);
-return _60d;
-},buildGeometryNode:function(_615){
-var node;
-if(_615.CLASS_NAME=="OpenLayers.Geometry.Polygon"){
-node=this.createElementNS(this.georssns,"georss:polygon");
-node.appendChild(this.buildCoordinatesNode(_615.components[0]));
-}else{
-if(_615.CLASS_NAME=="OpenLayers.Geometry.LineString"){
-node=this.createElementNS(this.georssns,"georss:line");
-node.appendChild(this.buildCoordinatesNode(_615));
-}else{
-if(_615.CLASS_NAME=="OpenLayers.Geometry.Point"){
-node=this.createElementNS(this.georssns,"georss:point");
-node.appendChild(this.buildCoordinatesNode(_615));
-}else{
-throw "Couldn't parse "+_615.CLASS_NAME;
-}
-}
-}
-return node;
-},buildCoordinatesNode:function(_617){
-var _618=null;
-if(_617.components){
-_618=_617.components;
-}
-var path;
-if(_618){
-var _61a=_618.length;
-var _61b=new Array(_61a);
-for(var i=0;i<_61a;i++){
-_61b[i]=_618[i].y+" "+_618[i].x;
-}
-path=_61b.join(" ");
-}else{
-path=_617.y+" "+_617.x;
-}
-return this.createTextNode(path);
-},CLASS_NAME:"OpenLayers.Format.GeoRSS"});
-OpenLayers.Handler.Drag=OpenLayers.Class(OpenLayers.Handler,{started:false,dragging:false,last:null,start:null,oldOnselectstart:null,initialize:function(_61d,_61e,_61f){
+OpenLayers.Handler.Drag=OpenLayers.Class(OpenLayers.Handler,{started:false,dragging:false,last:null,start:null,oldOnselectstart:null,initialize:function(_580,_581,_582){
 OpenLayers.Handler.prototype.initialize.apply(this,arguments);
 },down:function(evt){
 },move:function(evt){
 },up:function(evt){
 },out:function(evt){
 },mousedown:function(evt){
+var _588=true;
+this.dragging=false;
 if(this.checkModifiers(evt)&&OpenLayers.Event.isLeftClick(evt)){
 this.started=true;
-this.dragging=false;
 this.start=evt.xy;
 this.last=evt.xy;
 this.map.div.style.cursor="move";
@@ -10785,9 +10245,13 @@ document.onselectstart=function(){
 return false;
 };
 }
-return false;
+_588=false;
+}else{
+this.started=false;
+this.start=null;
+this.last=null;
 }
-return true;
+return _588;
 },mousemove:function(evt){
 if(this.started){
 if(evt.xy.x!=this.last.x||evt.xy.y!=this.last.y){
@@ -10829,79 +10293,74 @@ this.callback("done",[evt.xy]);
 }
 return true;
 },click:function(evt){
-if(this.dragging){
-this.dragging=false;
-return false;
-}
-this.started=false;
-return true;
+return (this.start==this.last);
 },activate:function(){
-var _629=false;
+var _58d=false;
 if(OpenLayers.Handler.prototype.activate.apply(this,arguments)){
 this.dragging=false;
-_629=true;
+_58d=true;
 }
-return _629;
+return _58d;
 },deactivate:function(){
-var _62a=false;
+var _58e=false;
 if(OpenLayers.Handler.prototype.deactivate.apply(this,arguments)){
 this.started=false;
 this.dragging=false;
 this.start=null;
 this.last=null;
-_62a=true;
+_58e=true;
 }
-return _62a;
+return _58e;
 },CLASS_NAME:"OpenLayers.Handler.Drag"});
-OpenLayers.Handler.Feature=OpenLayers.Class(OpenLayers.Handler,{geometryTypes:null,layerIndex:null,feature:null,initialize:function(_62b,_62c,_62d,_62e){
-OpenLayers.Handler.prototype.initialize.apply(this,[_62b,_62d,_62e]);
-this.layer=_62c;
+OpenLayers.Handler.Feature=OpenLayers.Class(OpenLayers.Handler,{geometryTypes:null,layerIndex:null,feature:null,initialize:function(_58f,_590,_591,_592){
+OpenLayers.Handler.prototype.initialize.apply(this,[_58f,_591,_592]);
+this.layer=_590;
 },click:function(evt){
-var _630=this.select("click",evt);
-return !_630;
+var _594=this.select("click",evt);
+return !_594;
 },mousedown:function(evt){
-var _632=this.select("down",evt);
-return !_632;
+var _596=this.select("down",evt);
+return !_596;
 },mousemove:function(evt){
 this.select("move",evt);
 return true;
 },mouseup:function(evt){
-var _635=this.select("up",evt);
-return !_635;
+var _599=this.select("up",evt);
+return !_599;
 },dblclick:function(evt){
-var _637=this.select("dblclick",evt);
-return !_637;
+var _59b=this.select("dblclick",evt);
+return !_59b;
 },select:function(type,evt){
-var _63a=this.layer.getFeatureFromEvent(evt);
-var _63b=false;
-if(_63a){
-if(this.geometryTypes==null||(OpenLayers.Util.indexOf(this.geometryTypes,_63a.geometry.CLASS_NAME)>-1)){
+var _59e=this.layer.getFeatureFromEvent(evt);
+var _59f=false;
+if(_59e){
+if(this.geometryTypes==null||(OpenLayers.Util.indexOf(this.geometryTypes,_59e.geometry.CLASS_NAME)>-1)){
 if(!this.feature){
-this.callback("over",[_63a]);
+this.callback("over",[_59e]);
 }else{
-if(this.feature!=_63a){
+if(this.feature!=_59e){
 this.callback("out",[this.feature]);
-this.callback("over",[_63a]);
+this.callback("over",[_59e]);
 }
 }
-this.feature=_63a;
-this.callback(type,[_63a]);
-_63b=true;
+this.feature=_59e;
+this.callback(type,[_59e]);
+_59f=true;
 }else{
-if(this.feature&&(this.feature!=_63a)){
+if(this.feature&&(this.feature!=_59e)){
 this.callback("out",[this.feature]);
 this.feature=null;
 }
-_63b=false;
+_59f=false;
 }
 }else{
 if(this.feature){
 this.callback("out",[this.feature]);
 this.feature=null;
 }
-_63b=false;
+_59f=false;
 }
-return _63b;
+return _59f;
 },activate:function(){
 if(OpenLayers.Handler.prototype.activate.apply(this,arguments)){
 this.layerIndex=this.layer.div.style.zIndex;
@@ -10920,7 +10379,7 @@ return true;
 return false;
 }
 },CLASS_NAME:"OpenLayers.Handler.Feature"});
-OpenLayers.Handler.Keyboard=OpenLayers.Class(OpenLayers.Handler,{KEY_EVENTS:["keydown","keypress","keyup"],eventListener:null,initialize:function(_63c,_63d,_63e){
+OpenLayers.Handler.Keyboard=OpenLayers.Class(OpenLayers.Handler,{KEY_EVENTS:["keydown","keypress","keyup"],eventListener:null,initialize:function(_5a0,_5a1,_5a2){
 OpenLayers.Handler.prototype.initialize.apply(this,arguments);
 this.eventListener=OpenLayers.Function.bindAsEventListener(this.handleKeyEvent,this);
 },destroy:function(){
@@ -10937,20 +10396,20 @@ return true;
 return false;
 }
 },deactivate:function(){
-var _640=false;
+var _5a4=false;
 if(OpenLayers.Handler.prototype.deactivate.apply(this,arguments)){
 for(var i=0;i<this.KEY_EVENTS.length;i++){
 OpenLayers.Event.stopObserving(window,this.KEY_EVENTS[i],this.eventListener);
 }
-_640=true;
+_5a4=true;
 }
-return _640;
+return _5a4;
 },handleKeyEvent:function(evt){
 if(this.checkModifiers(evt)){
 this.callback(evt.type,[evt.charCode||evt.keyCode]);
 }
 },CLASS_NAME:"OpenLayers.Handler.Keyboard"});
-OpenLayers.Handler.MouseWheel=OpenLayers.Class(OpenLayers.Handler,{wheelListener:null,mousePosition:null,initialize:function(_643,_644,_645){
+OpenLayers.Handler.MouseWheel=OpenLayers.Class(OpenLayers.Handler,{wheelListener:null,mousePosition:null,initialize:function(_5a7,_5a8,_5a9){
 OpenLayers.Handler.prototype.initialize.apply(this,arguments);
 this.wheelListener=OpenLayers.Function.bindAsEventListener(this.onWheelEvent,this);
 },destroy:function(){
@@ -10960,41 +10419,41 @@ this.wheelListener=null;
 if(!this.checkModifiers(e)){
 return;
 }
-var _647=false;
+var _5ab=false;
 var elem=OpenLayers.Event.element(e);
 while(elem!=null){
 if(this.map&&elem==this.map.div){
-_647=true;
+_5ab=true;
 break;
 }
 elem=elem.parentNode;
 }
-if(_647){
-var _649=0;
+if(_5ab){
+var _5ad=0;
 if(!e){
 e=window.event;
 }
 if(e.wheelDelta){
-_649=e.wheelDelta/120;
+_5ad=e.wheelDelta/120;
 if(window.opera){
-_649=-_649;
+_5ad=-_5ad;
 }
 }else{
 if(e.detail){
-_649=-e.detail/3;
+_5ad=-e.detail/3;
 }
 }
-if(_649){
+if(_5ad){
 if(this.mousePosition){
 e.xy=this.mousePosition;
 }
 if(!e.xy){
 e.xy=this.map.getPixelFromLonLat(this.map.getCenter());
 }
-if(_649<0){
-this.callback("down",[e,_649]);
+if(_5ad<0){
+this.callback("down",[e,_5ad]);
 }else{
-this.callback("up",[e,_649]);
+this.callback("up",[e,_5ad]);
 }
 }
 OpenLayers.Event.stop(e);
@@ -11003,27 +10462,27 @@ OpenLayers.Event.stop(e);
 this.mousePosition=evt.xy;
 },activate:function(evt){
 if(OpenLayers.Handler.prototype.activate.apply(this,arguments)){
-var _64c=this.wheelListener;
-OpenLayers.Event.observe(window,"DOMMouseScroll",_64c);
-OpenLayers.Event.observe(window,"mousewheel",_64c);
-OpenLayers.Event.observe(document,"mousewheel",_64c);
+var _5b0=this.wheelListener;
+OpenLayers.Event.observe(window,"DOMMouseScroll",_5b0);
+OpenLayers.Event.observe(window,"mousewheel",_5b0);
+OpenLayers.Event.observe(document,"mousewheel",_5b0);
 return true;
 }else{
 return false;
 }
 },deactivate:function(evt){
 if(OpenLayers.Handler.prototype.deactivate.apply(this,arguments)){
-var _64e=this.wheelListener;
-OpenLayers.Event.stopObserving(window,"DOMMouseScroll",_64e);
-OpenLayers.Event.stopObserving(window,"mousewheel",_64e);
-OpenLayers.Event.stopObserving(document,"mousewheel",_64e);
+var _5b2=this.wheelListener;
+OpenLayers.Event.stopObserving(window,"DOMMouseScroll",_5b2);
+OpenLayers.Event.stopObserving(window,"mousewheel",_5b2);
+OpenLayers.Event.stopObserving(document,"mousewheel",_5b2);
 return true;
 }else{
 return false;
 }
 },CLASS_NAME:"OpenLayers.Handler.MouseWheel"});
-OpenLayers.Layer=OpenLayers.Class({id:null,name:null,div:null,EVENT_TYPES:["loadstart","loadend","loadcancel","visibilitychanged"],events:null,map:null,isBaseLayer:false,alpha:false,displayInLayerSwitcher:true,visibility:true,attribution:null,inRange:false,imageSize:null,imageOffset:null,options:null,gutter:0,projection:null,units:null,scales:null,resolutions:null,maxExtent:null,minExtent:null,maxResolution:null,minResolution:null,numZoomLevels:null,minScale:null,maxScale:null,displayOutsideMaxExtent:false,wrapDateLine:false,initialize:function(name,_650){
-this.addOptions(_650);
+OpenLayers.Layer=OpenLayers.Class({id:null,name:null,div:null,EVENT_TYPES:["loadstart","loadend","loadcancel","visibilitychanged"],events:null,map:null,isBaseLayer:false,alpha:false,displayInLayerSwitcher:true,visibility:true,attribution:null,inRange:false,imageSize:null,imageOffset:null,options:null,gutter:0,projection:null,units:null,scales:null,resolutions:null,maxExtent:null,minExtent:null,maxResolution:null,minResolution:null,numZoomLevels:null,minScale:null,maxScale:null,displayOutsideMaxExtent:false,wrapDateLine:false,initialize:function(name,_5b4){
+this.addOptions(_5b4);
 this.name=name;
 if(this.id==null){
 this.id=OpenLayers.Util.createUniqueID(this.CLASS_NAME+"_");
@@ -11036,12 +10495,12 @@ this.events=new OpenLayers.Events(this,this.div,this.EVENT_TYPES);
 if(this.wrapDateLine){
 this.displayOutsideMaxExtent=true;
 }
-},destroy:function(_651){
-if(_651==null){
-_651=true;
+},destroy:function(_5b5){
+if(_5b5==null){
+_5b5=true;
 }
 if(this.map!=null){
-this.map.removeLayer(this,_651);
+this.map.removeLayer(this,_5b5);
 }
 this.map=null;
 this.name=null;
@@ -11058,37 +10517,37 @@ obj=new OpenLayers.Layer(this.name,this.options);
 OpenLayers.Util.applyDefaults(obj,this);
 obj.map=null;
 return obj;
-},setName:function(_653){
-if(_653!=this.name){
-this.name=_653;
+},setName:function(_5b7){
+if(_5b7!=this.name){
+this.name=_5b7;
 if(this.map!=null){
 this.map.events.triggerEvent("changelayer");
 }
 }
-},addOptions:function(_654){
+},addOptions:function(_5b8){
 if(this.options==null){
 this.options={};
 }
-OpenLayers.Util.extend(this.options,_654);
-OpenLayers.Util.extend(this,_654);
+OpenLayers.Util.extend(this.options,_5b8);
+OpenLayers.Util.extend(this,_5b8);
 },onMapResize:function(){
 },redraw:function(){
-var _655=false;
+var _5b9=false;
 if(this.map){
 this.inRange=this.calculateInRange();
-var _656=this.getExtent();
-if(_656&&this.inRange&&this.visibility){
-this.moveTo(_656,true,false);
-_655=true;
+var _5ba=this.getExtent();
+if(_5ba&&this.inRange&&this.visibility){
+this.moveTo(_5ba,true,false);
+_5b9=true;
 }
 }
-return _655;
-},moveTo:function(_657,_658,_659){
-var _65a=this.visibility;
+return _5b9;
+},moveTo:function(_5bb,_5bc,_5bd){
+var _5be=this.visibility;
 if(!this.isBaseLayer){
-_65a=_65a&&this.inRange;
+_5be=_5be&&this.inRange;
 }
-this.display(_65a);
+this.display(_5be);
 },setMap:function(map){
 if(this.map==null){
 this.map=map;
@@ -11107,210 +10566,220 @@ this.setTileSize();
 },getImageSize:function(){
 return (this.imageSize||this.tileSize);
 },setTileSize:function(size){
-var _65f=(size)?size:((this.tileSize)?this.tileSize:this.map.getTileSize());
-this.tileSize=_65f;
+var _5c3=(size)?size:((this.tileSize)?this.tileSize:this.map.getTileSize());
+this.tileSize=_5c3;
 if(this.gutter){
 this.imageOffset=new OpenLayers.Pixel(-this.gutter,-this.gutter);
-this.imageSize=new OpenLayers.Size(_65f.w+(2*this.gutter),_65f.h+(2*this.gutter));
+this.imageSize=new OpenLayers.Size(_5c3.w+(2*this.gutter),_5c3.h+(2*this.gutter));
 }
 },getVisibility:function(){
 return this.visibility;
-},setVisibility:function(_660){
-if(_660!=this.visibility){
-this.visibility=_660;
-this.display(_660);
+},setVisibility:function(_5c4){
+if(_5c4!=this.visibility){
+this.visibility=_5c4;
+this.display(_5c4);
 this.redraw();
 if(this.map!=null){
 this.map.events.triggerEvent("changelayer");
 }
 this.events.triggerEvent("visibilitychanged");
 }
-},display:function(_661){
-if(_661!=(this.div.style.display!="none")){
-this.div.style.display=(_661)?"block":"none";
+},display:function(_5c5){
+if(_5c5!=(this.div.style.display!="none")){
+this.div.style.display=(_5c5)?"block":"none";
 }
 },calculateInRange:function(){
-var _662=false;
+var _5c6=false;
 if(this.map){
-var _663=this.map.getResolution();
-_662=((_663>=this.minResolution)&&(_663<=this.maxResolution));
+var _5c7=this.map.getResolution();
+_5c6=((_5c7>=this.minResolution)&&(_5c7<=this.maxResolution));
 }
-return _662;
-},setIsBaseLayer:function(_664){
-if(_664!=this.isBaseLayer){
-this.isBaseLayer=_664;
+return _5c6;
+},setIsBaseLayer:function(_5c8){
+if(_5c8!=this.isBaseLayer){
+this.isBaseLayer=_5c8;
 if(this.map!=null){
 this.map.events.triggerEvent("changelayer");
 }
 }
 },initResolutions:function(){
-var _665=new Array("projection","units","scales","resolutions","maxScale","minScale","maxResolution","minResolution","minExtent","maxExtent","numZoomLevels","maxZoomLevel");
-var _666={};
-for(var i=0;i<_665.length;i++){
-var _668=_665[i];
-_666[_668]=this.options[_668]||this.map[_668];
+var _5c9=new Array("projection","units","scales","resolutions","maxScale","minScale","maxResolution","minResolution","minExtent","maxExtent","numZoomLevels","maxZoomLevel");
+var _5ca={};
+for(var i=0;i<_5c9.length;i++){
+var _5cc=_5c9[i];
+_5ca[_5cc]=this.options[_5cc]||this.map[_5cc];
 }
-if((!_666.numZoomLevels)&&(_666.maxZoomLevel)){
-_666.numZoomLevels=_666.maxZoomLevel+1;
+if((!_5ca.numZoomLevels)&&(_5ca.maxZoomLevel)){
+_5ca.numZoomLevels=_5ca.maxZoomLevel+1;
 }
-if((_666.scales!=null)||(_666.resolutions!=null)){
-if(_666.scales!=null){
-_666.resolutions=[];
-for(var i=0;i<_666.scales.length;i++){
-var _669=_666.scales[i];
-_666.resolutions[i]=OpenLayers.Util.getResolutionFromScale(_669,_666.units);
+if((_5ca.scales!=null)||(_5ca.resolutions!=null)){
+if(_5ca.scales!=null){
+_5ca.resolutions=[];
+for(var i=0;i<_5ca.scales.length;i++){
+var _5cd=_5ca.scales[i];
+_5ca.resolutions[i]=OpenLayers.Util.getResolutionFromScale(_5cd,_5ca.units);
 }
 }
-_666.numZoomLevels=_666.resolutions.length;
+_5ca.numZoomLevels=_5ca.resolutions.length;
 }else{
-_666.resolutions=[];
-if(_666.minScale){
-_666.maxResolution=OpenLayers.Util.getResolutionFromScale(_666.minScale,_666.units);
+_5ca.resolutions=[];
+if(_5ca.minScale){
+_5ca.maxResolution=OpenLayers.Util.getResolutionFromScale(_5ca.minScale,_5ca.units);
 }else{
-if(_666.maxResolution=="auto"){
-var _66a=this.map.getSize();
-var wRes=_666.maxExtent.getWidth()/_66a.w;
-var hRes=_666.maxExtent.getHeight()/_66a.h;
-_666.maxResolution=Math.max(wRes,hRes);
+if(_5ca.maxResolution=="auto"){
+var _5ce=this.map.getSize();
+var wRes=_5ca.maxExtent.getWidth()/_5ce.w;
+var hRes=_5ca.maxExtent.getHeight()/_5ce.h;
+_5ca.maxResolution=Math.max(wRes,hRes);
 }
 }
-if(_666.maxScale!=null){
-_666.minResolution=OpenLayers.Util.getResolutionFromScale(_666.maxScale);
+if(_5ca.maxScale!=null){
+_5ca.minResolution=OpenLayers.Util.getResolutionFromScale(_5ca.maxScale);
 }else{
-if((_666.minResolution=="auto")&&(_666.minExtent!=null)){
-var _66a=this.map.getSize();
-var wRes=_666.minExtent.getWidth()/_66a.w;
-var hRes=_666.minExtent.getHeight()/_66a.h;
-_666.minResolution=Math.max(wRes,hRes);
+if((_5ca.minResolution=="auto")&&(_5ca.minExtent!=null)){
+var _5ce=this.map.getSize();
+var wRes=_5ca.minExtent.getWidth()/_5ce.w;
+var hRes=_5ca.minExtent.getHeight()/_5ce.h;
+_5ca.minResolution=Math.max(wRes,hRes);
 }
 }
-if(_666.minResolution!=null){
-var _66d=_666.maxResolution/_666.minResolution;
-_666.numZoomLevels=Math.floor(Math.log(_66d)/Math.log(2))+1;
+if(_5ca.minResolution!=null){
+var _5d1=_5ca.maxResolution/_5ca.minResolution;
+_5ca.numZoomLevels=Math.floor(Math.log(_5d1)/Math.log(2))+1;
 }
-for(var i=0;i<_666.numZoomLevels;i++){
-var res=_666.maxResolution/Math.pow(2,i);
-_666.resolutions.push(res);
+for(var i=0;i<_5ca.numZoomLevels;i++){
+var res=_5ca.maxResolution/Math.pow(2,i);
+_5ca.resolutions.push(res);
 }
 }
-_666.resolutions.sort(function(a,b){
+_5ca.resolutions.sort(function(a,b){
 return (b-a);
 });
-this.resolutions=_666.resolutions;
-this.maxResolution=_666.resolutions[0];
-var _671=_666.resolutions.length-1;
-this.minResolution=_666.resolutions[_671];
+this.resolutions=_5ca.resolutions;
+this.maxResolution=_5ca.resolutions[0];
+var _5d5=_5ca.resolutions.length-1;
+this.minResolution=_5ca.resolutions[_5d5];
 this.scales=[];
-for(var i=0;i<_666.resolutions.length;i++){
-this.scales[i]=OpenLayers.Util.getScaleFromResolution(_666.resolutions[i],_666.units);
+for(var i=0;i<_5ca.resolutions.length;i++){
+this.scales[i]=OpenLayers.Util.getScaleFromResolution(_5ca.resolutions[i],_5ca.units);
 }
 this.minScale=this.scales[0];
 this.maxScale=this.scales[this.scales.length-1];
-this.numZoomLevels=_666.numZoomLevels;
+this.numZoomLevels=_5ca.numZoomLevels;
 },getResolution:function(){
 var zoom=this.map.getZoom();
 return this.resolutions[zoom];
 },getExtent:function(){
 return this.map.calculateBounds();
-},getZoomForExtent:function(_673){
-var _674=this.map.getSize();
-var _675=Math.max(_673.getWidth()/_674.w,_673.getHeight()/_674.h);
-return this.getZoomForResolution(_675);
+},getZoomForExtent:function(_5d7,_5d8){
+var _5d9=this.map.getSize();
+var _5da=Math.max(_5d7.getWidth()/_5d9.w,_5d7.getHeight()/_5d9.h);
+return this.getZoomForResolution(_5da,_5d8);
 },getDataExtent:function(){
-},getZoomForResolution:function(_676){
-for(var i=1;i<this.resolutions.length;i++){
-if(this.resolutions[i]<_676){
+},getZoomForResolution:function(_5db,_5dc){
+var diff;
+var _5de=Number.POSITIVE_INFINITY;
+for(var i=0;i<this.resolutions.length;i++){
+if(_5dc){
+diff=Math.abs(this.resolutions[i]-_5db);
+if(diff>_5de){
+break;
+}
+_5de=diff;
+}else{
+if(this.resolutions[i]<_5db){
 break;
 }
 }
-return (i-1);
-},getLonLatFromViewPortPx:function(_678){
-var _679=null;
-if(_678!=null){
+}
+return Math.max(0,i-1);
+},getLonLatFromViewPortPx:function(_5e0){
+var _5e1=null;
+if(_5e0!=null){
 var size=this.map.getSize();
-var _67b=this.map.getCenter();
-if(_67b){
+var _5e3=this.map.getCenter();
+if(_5e3){
 var res=this.map.getResolution();
-var _67d=_678.x-(size.w/2);
-var _67e=_678.y-(size.h/2);
-_679=new OpenLayers.LonLat(_67b.lon+_67d*res,_67b.lat-_67e*res);
+var _5e5=_5e0.x-(size.w/2);
+var _5e6=_5e0.y-(size.h/2);
+_5e1=new OpenLayers.LonLat(_5e3.lon+_5e5*res,_5e3.lat-_5e6*res);
 if(this.wrapDateLine){
-_679=_679.wrapDateLine(this.maxExtent);
+_5e1=_5e1.wrapDateLine(this.maxExtent);
 }
 }
 }
-return _679;
-},getViewPortPxFromLonLat:function(_67f){
+return _5e1;
+},getViewPortPxFromLonLat:function(_5e7){
 var px=null;
-if(_67f!=null){
-var _681=this.map.getResolution();
-var _682=this.map.getExtent();
-px=new OpenLayers.Pixel(Math.round(1/_681*(_67f.lon-_682.left)),Math.round(1/_681*(_682.top-_67f.lat)));
+if(_5e7!=null){
+var _5e9=this.map.getResolution();
+var _5ea=this.map.getExtent();
+px=new OpenLayers.Pixel(Math.round(1/_5e9*(_5e7.lon-_5ea.left)),Math.round(1/_5e9*(_5ea.top-_5e7.lat)));
 }
 return px;
-},setOpacity:function(_683){
-if(_683!=this.opacity){
-this.opacity=_683;
+},setOpacity:function(_5eb){
+if(_5eb!=this.opacity){
+this.opacity=_5eb;
 for(var i=0;i<this.div.childNodes.length;++i){
-var _685=this.div.childNodes[i].firstChild;
-OpenLayers.Util.modifyDOMElement(_685,null,null,null,null,null,null,_683);
+var _5ed=this.div.childNodes[i].firstChild;
+OpenLayers.Util.modifyDOMElement(_5ed,null,null,null,null,null,null,_5eb);
 }
 }
-},setZIndex:function(_686){
-this.div.style.zIndex=_686;
-},adjustBounds:function(_687){
+},setZIndex:function(_5ee){
+this.div.style.zIndex=_5ee;
+},adjustBounds:function(_5ef){
 if(this.gutter){
-var _688=this.gutter*this.map.getResolution();
-_687=new OpenLayers.Bounds(_687.left-_688,_687.bottom-_688,_687.right+_688,_687.top+_688);
+var _5f0=this.gutter*this.map.getResolution();
+_5ef=new OpenLayers.Bounds(_5ef.left-_5f0,_5ef.bottom-_5f0,_5ef.right+_5f0,_5ef.top+_5f0);
 }
 if(this.wrapDateLine){
-var _689={"rightTolerance":this.getResolution()};
-_687=_687.wrapDateLine(this.maxExtent,_689);
+var _5f1={"rightTolerance":this.getResolution()};
+_5ef=_5ef.wrapDateLine(this.maxExtent,_5f1);
 }
-return _687;
+return _5ef;
 },CLASS_NAME:"OpenLayers.Layer"});
-OpenLayers.Marker.Box=OpenLayers.Class(OpenLayers.Marker,{bounds:null,div:null,initialize:function(_68a,_68b,_68c){
-this.bounds=_68a;
+OpenLayers.Marker.Box=OpenLayers.Class(OpenLayers.Marker,{bounds:null,div:null,initialize:function(_5f2,_5f3,_5f4){
+this.bounds=_5f2;
 this.div=OpenLayers.Util.createDiv();
 this.div.style.overflow="hidden";
 this.events=new OpenLayers.Events(this,this.div,null);
-this.setBorder(_68b,_68c);
+this.setBorder(_5f3,_5f4);
 },destroy:function(){
 this.bounds=null;
 this.div=null;
 OpenLayers.Marker.prototype.destroy.apply(this,arguments);
-},setBorder:function(_68d,_68e){
-if(!_68d){
-_68d="red";
+},setBorder:function(_5f5,_5f6){
+if(!_5f5){
+_5f5="red";
 }
-if(!_68e){
-_68e=2;
+if(!_5f6){
+_5f6=2;
 }
-this.div.style.border=_68e+"px solid "+_68d;
+this.div.style.border=_5f6+"px solid "+_5f5;
 },draw:function(px,sz){
 OpenLayers.Util.modifyDOMElement(this.div,null,px,sz);
 return this.div;
 },onScreen:function(){
-var _691=false;
+var _5f9=false;
 if(this.map){
-var _692=this.map.getExtent();
-_691=_692.containsBounds(this.bounds,true,true);
+var _5fa=this.map.getExtent();
+_5f9=_5fa.containsBounds(this.bounds,true,true);
 }
-return _691;
-},display:function(_693){
-this.div.style.display=(_693)?"":"none";
+return _5f9;
+},display:function(_5fb){
+this.div.style.display=(_5fb)?"":"none";
 },CLASS_NAME:"OpenLayers.Marker.Box"});
-OpenLayers.Control.DragFeature=OpenLayers.Class(OpenLayers.Control,{geometryTypes:null,onStart:function(_694,_695){
-},onDrag:function(_696,_697){
-},onComplete:function(_698,_699){
-},layer:null,feature:null,dragHandler:null,dragCallbacks:{},featureHandler:null,featureCallbacks:{},lastPixel:null,initialize:function(_69a,_69b){
-OpenLayers.Control.prototype.initialize.apply(this,[_69b]);
-this.layer=_69a;
+OpenLayers.Control.DragFeature=OpenLayers.Class(OpenLayers.Control,{geometryTypes:null,onStart:function(_5fc,_5fd){
+},onDrag:function(_5fe,_5ff){
+},onComplete:function(_600,_601){
+},layer:null,feature:null,dragHandler:null,dragCallbacks:{},featureHandler:null,featureCallbacks:{},lastPixel:null,initialize:function(_602,_603){
+OpenLayers.Control.prototype.initialize.apply(this,[_603]);
+this.layer=_602;
 this.dragCallbacks=OpenLayers.Util.extend({down:this.downFeature,move:this.moveFeature,up:this.upFeature,out:this.cancel,done:this.doneDragging},this.dragCallbacks);
 this.dragHandler=new OpenLayers.Handler.Drag(this,this.dragCallbacks);
 this.featureCallbacks=OpenLayers.Util.extend({over:this.overFeature,out:this.outFeature},this.featureCallbacks);
-var _69c={geometryTypes:this.geometryTypes};
-this.featureHandler=new OpenLayers.Handler.Feature(this,this.layer,this.featureCallbacks,_69c);
+var _604={geometryTypes:this.geometryTypes};
+this.featureHandler=new OpenLayers.Handler.Feature(this,this.layer,this.featureCallbacks,_604);
 },destroy:function(){
 this.layer=null;
 this.dragHandler.destroy();
@@ -11325,44 +10794,44 @@ this.feature=null;
 this.dragging=false;
 this.lastPixel=null;
 return OpenLayers.Control.prototype.deactivate.apply(this,arguments);
-},overFeature:function(_69d){
+},overFeature:function(_605){
 if(!this.dragHandler.dragging){
-this.feature=_69d;
+this.feature=_605;
 this.dragHandler.activate();
 this.over=true;
 this.map.div.style.cursor="move";
 }else{
-if(this.feature.id==_69d.id){
+if(this.feature.id==_605.id){
 this.over=true;
 }else{
 this.over=false;
 }
 }
-},downFeature:function(_69e){
-this.lastPixel=_69e;
-this.onStart(this.feature,_69e);
-},moveFeature:function(_69f){
+},downFeature:function(_606){
+this.lastPixel=_606;
+this.onStart(this.feature,_606);
+},moveFeature:function(_607){
 var res=this.map.getResolution();
-this.feature.geometry.move(res*(_69f.x-this.lastPixel.x),res*(this.lastPixel.y-_69f.y));
+this.feature.geometry.move(res*(_607.x-this.lastPixel.x),res*(this.lastPixel.y-_607.y));
 this.layer.drawFeature(this.feature);
-this.lastPixel=_69f;
-this.onDrag(this.feature,_69f);
-},upFeature:function(_6a1){
+this.lastPixel=_607;
+this.onDrag(this.feature,_607);
+},upFeature:function(_609){
 if(!this.over){
 this.dragHandler.deactivate();
 this.feature=null;
 this.map.div.style.cursor="default";
 }
-},doneDragging:function(_6a2){
-this.onComplete(this.feature,_6a2);
-},outFeature:function(_6a3){
+},doneDragging:function(_60a){
+this.onComplete(this.feature,_60a);
+},outFeature:function(_60b){
 if(!this.dragHandler.dragging){
 this.over=false;
 this.dragHandler.deactivate();
 this.map.div.style.cursor="default";
 this.feature=null;
 }else{
-if(this.feature.id==_6a3.id){
+if(this.feature.id==_60b.id){
 this.over=false;
 }
 }
@@ -11378,12 +10847,12 @@ OpenLayers.Control.DragPan=OpenLayers.Class(OpenLayers.Control,{type:OpenLayers.
 this.handler=new OpenLayers.Handler.Drag(this,{"move":this.panMap,"done":this.panMapDone});
 },panMap:function(xy){
 this.panned=true;
-var _6a6=this.handler.last.x-xy.x;
-var _6a7=this.handler.last.y-xy.y;
+var _60e=this.handler.last.x-xy.x;
+var _60f=this.handler.last.y-xy.y;
 var size=this.map.getSize();
-var _6a9=new OpenLayers.Pixel(size.w/2+_6a6,size.h/2+_6a7);
-var _6aa=this.map.getLonLatFromViewPortPx(_6a9);
-this.map.setCenter(_6aa,null,this.handler.dragging);
+var _611=new OpenLayers.Pixel(size.w/2+_60e,size.h/2+_60f);
+var _612=this.map.getLonLatFromViewPortPx(_611);
+this.map.setCenter(_612,null,this.handler.dragging);
 },panMapDone:function(xy){
 if(this.panned){
 this.panMap(xy);
@@ -11446,16 +10915,16 @@ break;
 }
 },CLASS_NAME:"OpenLayers.Control.KeyboardDefaults"});
 OpenLayers.State={UNKNOWN:"Unknown",INSERT:"Insert",UPDATE:"Update",DELETE:"Delete"};
-OpenLayers.Feature.Vector=OpenLayers.Class(OpenLayers.Feature,{fid:null,geometry:null,attributes:null,state:null,style:null,initialize:function(_6ae,_6af,_6b0){
-OpenLayers.Feature.prototype.initialize.apply(this,[null,null,_6af]);
+OpenLayers.Feature.Vector=OpenLayers.Class(OpenLayers.Feature,{fid:null,geometry:null,attributes:null,state:null,style:null,initialize:function(_616,_617,_618){
+OpenLayers.Feature.prototype.initialize.apply(this,[null,null,_617]);
 this.lonlat=null;
-this.geometry=_6ae;
+this.geometry=_616;
 this.state=null;
 this.attributes={};
-if(_6af){
-this.attributes=OpenLayers.Util.extend(this.attributes,_6af);
+if(_617){
+this.attributes=OpenLayers.Util.extend(this.attributes,_617);
 }
-this.style=_6b0?_6b0:null;
+this.style=_618?_618:null;
 },destroy:function(){
 if(this.layer){
 this.layer.removeFeatures(this);
@@ -11472,35 +10941,35 @@ return null;
 },destroyMarker:function(){
 },createPopup:function(){
 return null;
-},atPoint:function(_6b1,_6b2,_6b3){
-var _6b4=false;
+},atPoint:function(_619,_61a,_61b){
+var _61c=false;
 if(this.geometry){
-_6b4=this.geometry.atPoint(_6b1,_6b2,_6b3);
+_61c=this.geometry.atPoint(_619,_61a,_61b);
 }
-return _6b4;
+return _61c;
 },destroyPopup:function(){
-},toState:function(_6b5){
-if(_6b5==OpenLayers.State.UPDATE){
+},toState:function(_61d){
+if(_61d==OpenLayers.State.UPDATE){
 switch(this.state){
 case OpenLayers.State.UNKNOWN:
 case OpenLayers.State.DELETE:
-this.state=_6b5;
+this.state=_61d;
 break;
 case OpenLayers.State.UPDATE:
 case OpenLayers.State.INSERT:
 break;
 }
 }else{
-if(_6b5==OpenLayers.State.INSERT){
+if(_61d==OpenLayers.State.INSERT){
 switch(this.state){
 case OpenLayers.State.UNKNOWN:
 break;
 default:
-this.state=_6b5;
+this.state=_61d;
 break;
 }
 }else{
-if(_6b5==OpenLayers.State.DELETE){
+if(_61d==OpenLayers.State.DELETE){
 switch(this.state){
 case OpenLayers.State.INSERT:
 break;
@@ -11508,23 +10977,23 @@ case OpenLayers.State.DELETE:
 break;
 case OpenLayers.State.UNKNOWN:
 case OpenLayers.State.UPDATE:
-this.state=_6b5;
+this.state=_61d;
 break;
 }
 }else{
-if(_6b5==OpenLayers.State.UNKNOWN){
-this.state=_6b5;
+if(_61d==OpenLayers.State.UNKNOWN){
+this.state=_61d;
 }
 }
 }
 }
 },CLASS_NAME:"OpenLayers.Feature.Vector"});
 OpenLayers.Feature.Vector.style={"default":{fillColor:"#ee9900",fillOpacity:0.4,hoverFillColor:"white",hoverFillOpacity:0.8,strokeColor:"#ee9900",strokeOpacity:1,strokeWidth:1,strokeLinecap:"round",hoverStrokeColor:"red",hoverStrokeOpacity:1,hoverStrokeWidth:0.2,pointRadius:6,hoverPointRadius:1,hoverPointUnit:"%",pointerEvents:"visiblePainted"},"select":{fillColor:"blue",fillOpacity:0.4,hoverFillColor:"white",hoverFillOpacity:0.8,strokeColor:"blue",strokeOpacity:1,strokeWidth:2,strokeLinecap:"round",hoverStrokeColor:"red",hoverStrokeOpacity:1,hoverStrokeWidth:0.2,pointRadius:6,hoverPointRadius:1,hoverPointUnit:"%",pointerEvents:"visiblePainted",cursor:"pointer"},"temporary":{fillColor:"yellow",fillOpacity:0.2,hoverFillColor:"white",hoverFillOpacity:0.8,strokeColor:"yellow",strokeOpacity:1,strokeLinecap:"round",strokeWidth:4,hoverStrokeColor:"red",hoverStrokeOpacity:1,hoverStrokeWidth:0.2,pointRadius:6,hoverPointRadius:1,hoverPointUnit:"%",pointerEvents:"visiblePainted"}};
-OpenLayers.Feature.WFS=OpenLayers.Class(OpenLayers.Feature,{initialize:function(_6b6,_6b7){
-var _6b8=arguments;
-var data=this.processXMLNode(_6b7);
-_6b8=new Array(_6b6,data.lonlat,data);
-OpenLayers.Feature.prototype.initialize.apply(this,_6b8);
+OpenLayers.Feature.WFS=OpenLayers.Class(OpenLayers.Feature,{initialize:function(_61e,_61f){
+var _620=arguments;
+var data=this.processXMLNode(_61f);
+_620=new Array(_61e,data.lonlat,data);
+OpenLayers.Feature.prototype.initialize.apply(this,_620);
 this.createMarker();
 this.layer.addMarker(this.marker);
 },destroy:function(){
@@ -11532,16 +11001,16 @@ if(this.marker!=null){
 this.layer.removeMarker(this.marker);
 }
 OpenLayers.Feature.prototype.destroy.apply(this,arguments);
-},processXMLNode:function(_6ba){
-var _6bb=OpenLayers.Ajax.getElementsByTagNameNS(_6ba,"http://www.opengis.net/gml","gml","Point");
-var text=OpenLayers.Util.getXmlNodeValue(OpenLayers.Ajax.getElementsByTagNameNS(_6bb[0],"http://www.opengis.net/gml","gml","coordinates")[0]);
-var _6bd=text.split(",");
-return {lonlat:new OpenLayers.LonLat(parseFloat(_6bd[0]),parseFloat(_6bd[1])),id:null};
+},processXMLNode:function(_622){
+var _623=OpenLayers.Ajax.getElementsByTagNameNS(_622,"http://www.opengis.net/gml","gml","Point");
+var text=OpenLayers.Util.getXmlNodeValue(OpenLayers.Ajax.getElementsByTagNameNS(_623[0],"http://www.opengis.net/gml","gml","coordinates")[0]);
+var _625=text.split(",");
+return {lonlat:new OpenLayers.LonLat(parseFloat(_625[0]),parseFloat(_625[1])),id:null};
 },CLASS_NAME:"OpenLayers.Feature.WFS"});
-OpenLayers.Handler.Box=OpenLayers.Class(OpenLayers.Handler,{dragHandler:null,initialize:function(_6be,_6bf,_6c0){
+OpenLayers.Handler.Box=OpenLayers.Class(OpenLayers.Handler,{dragHandler:null,initialize:function(_626,_627,_628){
 OpenLayers.Handler.prototype.initialize.apply(this,arguments);
-var _6bf={"down":this.startBox,"move":this.moveBox,"out":this.removeBox,"up":this.endBox};
-this.dragHandler=new OpenLayers.Handler.Drag(this,_6bf,{keyMask:this.keyMask});
+var _627={"down":this.startBox,"move":this.moveBox,"out":this.removeBox,"up":this.endBox};
+this.dragHandler=new OpenLayers.Handler.Drag(this,_627,{keyMask:this.keyMask});
 },setMap:function(map){
 OpenLayers.Handler.prototype.setMap.apply(this,arguments);
 if(this.dragHandler){
@@ -11557,10 +11026,10 @@ this.zoomBox.style.zIndex=this.map.Z_INDEX_BASE["Popup"]-1;
 this.map.viewPortDiv.appendChild(this.zoomBox);
 this.map.div.style.cursor="crosshair";
 },moveBox:function(xy){
-var _6c4=Math.abs(this.dragHandler.start.x-xy.x);
-var _6c5=Math.abs(this.dragHandler.start.y-xy.y);
-this.zoomBox.style.width=Math.max(1,_6c4)+"px";
-this.zoomBox.style.height=Math.max(1,_6c5)+"px";
+var _62c=Math.abs(this.dragHandler.start.x-xy.x);
+var _62d=Math.abs(this.dragHandler.start.y-xy.y);
+this.zoomBox.style.width=Math.max(1,_62c)+"px";
+this.zoomBox.style.height=Math.max(1,_62d)+"px";
 if(xy.x<this.dragHandler.start.x){
 this.zoomBox.style.left=xy.x+"px";
 }
@@ -11568,20 +11037,20 @@ if(xy.y<this.dragHandler.start.y){
 this.zoomBox.style.top=xy.y+"px";
 }
 },endBox:function(end){
-var _6c7;
+var _62f;
 if(Math.abs(this.dragHandler.start.x-end.x)>5||Math.abs(this.dragHandler.start.y-end.y)>5){
-var _6c8=this.dragHandler.start;
-var top=Math.min(_6c8.y,end.y);
-var _6ca=Math.max(_6c8.y,end.y);
-var left=Math.min(_6c8.x,end.x);
-var _6cc=Math.max(_6c8.x,end.x);
-_6c7=new OpenLayers.Bounds(left,_6ca,_6cc,top);
+var _630=this.dragHandler.start;
+var top=Math.min(_630.y,end.y);
+var _632=Math.max(_630.y,end.y);
+var left=Math.min(_630.x,end.x);
+var _634=Math.max(_630.x,end.x);
+_62f=new OpenLayers.Bounds(left,_632,_634,top);
 }else{
-_6c7=this.dragHandler.start.clone();
+_62f=this.dragHandler.start.clone();
 }
 this.removeBox();
 this.map.div.style.cursor="";
-this.callback("done",[_6c7]);
+this.callback("done",[_62f]);
 },removeBox:function(){
 this.map.viewPortDiv.removeChild(this.zoomBox);
 this.zoomBox=null;
@@ -11600,24 +11069,24 @@ return true;
 return false;
 }
 },CLASS_NAME:"OpenLayers.Handler.Box"});
-OpenLayers.Handler.RegularPolygon=OpenLayers.Class(OpenLayers.Handler.Drag,{sides:4,radius:null,snapAngle:null,snapToggle:"shiftKey",persist:false,angle:null,fixedRadius:false,feature:null,layer:null,origin:null,initialize:function(_6cd,_6ce,_6cf){
+OpenLayers.Handler.RegularPolygon=OpenLayers.Class(OpenLayers.Handler.Drag,{sides:4,radius:null,snapAngle:null,snapToggle:"shiftKey",persist:false,angle:null,fixedRadius:false,feature:null,layer:null,origin:null,initialize:function(_635,_636,_637){
 this.style=OpenLayers.Util.extend(OpenLayers.Feature.Vector.style["default"],{});
-OpenLayers.Handler.prototype.initialize.apply(this,[_6cd,_6ce,_6cf]);
-this.options=(_6cf)?_6cf:new Object();
-},setOptions:function(_6d0){
-OpenLayers.Util.extend(this.options,_6d0);
-OpenLayers.Util.extend(this,_6d0);
+OpenLayers.Handler.prototype.initialize.apply(this,[_635,_636,_637]);
+this.options=(_637)?_637:new Object();
+},setOptions:function(_638){
+OpenLayers.Util.extend(this.options,_638);
+OpenLayers.Util.extend(this,_638);
 },activate:function(){
-var _6d1=false;
+var _639=false;
 if(OpenLayers.Handler.prototype.activate.apply(this,arguments)){
-var _6d2={displayInLayerSwitcher:false};
-this.layer=new OpenLayers.Layer.Vector(this.CLASS_NAME,_6d2);
+var _63a={displayInLayerSwitcher:false};
+this.layer=new OpenLayers.Layer.Vector(this.CLASS_NAME,_63a);
 this.map.addLayer(this.layer);
-_6d1=true;
+_639=true;
 }
-return _6d1;
+return _639;
 },deactivate:function(){
-var _6d3=false;
+var _63b=false;
 if(OpenLayers.Handler.Drag.prototype.deactivate.apply(this,arguments)){
 if(this.dragging){
 this.cancel();
@@ -11627,13 +11096,13 @@ this.layer.destroy();
 if(this.feature){
 this.feature.destroy();
 }
-_6d3=true;
+_63b=true;
 }
-return _6d3;
+return _63b;
 },down:function(evt){
 this.fixedRadius=!!(this.radius);
-var _6d5=this.map.getLonLatFromPixel(evt.xy);
-this.origin=new OpenLayers.Geometry.Point(_6d5.lon,_6d5.lat);
+var _63d=this.map.getLonLatFromPixel(evt.xy);
+this.origin=new OpenLayers.Geometry.Point(_63d.lon,_63d.lat);
 if(!this.fixedRadius){
 this.radius=this.map.getResolution();
 }
@@ -11645,13 +11114,13 @@ this.createGeometry();
 this.layer.addFeatures([this.feature]);
 this.layer.drawFeature(this.feature,this.style);
 },move:function(evt){
-var _6d7=this.map.getLonLatFromPixel(evt.xy);
-var _6d8=new OpenLayers.Geometry.Point(_6d7.lon,_6d7.lat);
+var _63f=this.map.getLonLatFromPixel(evt.xy);
+var _640=new OpenLayers.Geometry.Point(_63f.lon,_63f.lat);
 if(this.fixedRadius){
-this.origin=_6d8;
+this.origin=_640;
 }else{
-this.calculateAngle(_6d8,evt);
-this.radius=Math.max(this.map.getResolution()/2,_6d8.distanceTo(this.origin));
+this.calculateAngle(_640,evt);
+this.radius=Math.max(this.map.getResolution()/2,_640.distanceTo(this.origin));
 }
 this.modifyGeometry();
 this.layer.drawFeature(this.feature,this.style);
@@ -11666,25 +11135,25 @@ this.angle+=this.snapAngle*(Math.PI/180);
 }
 this.feature.geometry=OpenLayers.Geometry.Polygon.createRegularPolygon(this.origin,this.radius,this.sides,this.snapAngle);
 },modifyGeometry:function(){
-var _6db,dx,dy,point;
+var _643,dx,dy,point;
 var ring=this.feature.geometry.components[0];
 if(ring.components.length!=(this.sides+1)){
 this.createGeometry();
 }
 for(var i=0;i<this.sides;++i){
 point=ring.components[i];
-_6db=this.angle+(i*2*Math.PI/this.sides);
-point.x=this.origin.x+(this.radius*Math.cos(_6db));
-point.y=this.origin.y+(this.radius*Math.sin(_6db));
+_643=this.angle+(i*2*Math.PI/this.sides);
+point.x=this.origin.x+(this.radius*Math.cos(_643));
+point.y=this.origin.y+(this.radius*Math.sin(_643));
 point.clearBounds();
 }
-},calculateAngle:function(_6de,evt){
-var _6e0=Math.atan2(_6de.y-this.origin.y,_6de.x-this.origin.x);
+},calculateAngle:function(_646,evt){
+var _648=Math.atan2(_646.y-this.origin.y,_646.x-this.origin.x);
 if(this.snapAngle&&(this.snapToggle&&!evt[this.snapToggle])){
-var _6e1=(Math.PI/180)*this.snapAngle;
-this.angle=Math.round(_6e0/_6e1)*_6e1;
+var _649=(Math.PI/180)*this.snapAngle;
+this.angle=Math.round(_648/_649)*_649;
 }else{
-this.angle=_6e0;
+this.angle=_648;
 }
 },cancel:function(){
 this.callback("cancel",null);
@@ -11703,7 +11172,7 @@ if(!this.persist&&(name=="done"||name=="cancel")){
 this.clear();
 }
 },CLASS_NAME:"OpenLayers.Handler.RegularPolygon"});
-OpenLayers.Layer.EventPane=OpenLayers.Class(OpenLayers.Layer,{isBaseLayer:true,isFixed:true,pane:null,mapObject:null,initialize:function(name,_6e5){
+OpenLayers.Layer.EventPane=OpenLayers.Class(OpenLayers.Layer,{isBaseLayer:true,isFixed:true,pane:null,mapObject:null,initialize:function(name,_64d){
 OpenLayers.Layer.prototype.initialize.apply(this,arguments);
 if(this.pane==null){
 this.pane=OpenLayers.Util.createDiv(this.div.id+"_EventPane");
@@ -11737,165 +11206,165 @@ this.pane=null;
 OpenLayers.Layer.prototype.removeMap.apply(this,arguments);
 },loadWarningMessage:function(){
 this.div.style.backgroundColor="darkblue";
-var _6e8=this.map.getSize();
-msgW=Math.min(_6e8.w,300);
-msgH=Math.min(_6e8.h,200);
+var _650=this.map.getSize();
+msgW=Math.min(_650.w,300);
+msgH=Math.min(_650.h,200);
 var size=new OpenLayers.Size(msgW,msgH);
-var _6ea=new OpenLayers.Pixel(_6e8.w/2,_6e8.h/2);
-var _6eb=_6ea.add(-size.w/2,-size.h/2);
-var div=OpenLayers.Util.createDiv(this.name+"_warning",_6eb,size,null,null,null,"auto");
+var _652=new OpenLayers.Pixel(_650.w/2,_650.h/2);
+var _653=_652.add(-size.w/2,-size.h/2);
+var div=OpenLayers.Util.createDiv(this.name+"_warning",_653,size,null,null,null,"auto");
 div.style.padding="7px";
 div.style.backgroundColor="yellow";
 div.innerHTML=this.getWarningHTML();
 this.div.appendChild(div);
 },getWarningHTML:function(){
 return "";
-},display:function(_6ed){
+},display:function(_655){
 OpenLayers.Layer.prototype.display.apply(this,arguments);
 this.pane.style.display=this.div.style.display;
-},setZIndex:function(_6ee){
+},setZIndex:function(_656){
 OpenLayers.Layer.prototype.setZIndex.apply(this,arguments);
 this.pane.style.zIndex=parseInt(this.div.style.zIndex)+1;
-},moveTo:function(_6ef,_6f0,_6f1){
+},moveTo:function(_657,_658,_659){
 OpenLayers.Layer.prototype.moveTo.apply(this,arguments);
 if(this.mapObject!=null){
-var _6f2=this.map.getCenter();
-var _6f3=this.map.getZoom();
-if(_6f2!=null){
-var _6f4=this.getMapObjectCenter();
-var _6f5=this.getOLLonLatFromMapObjectLonLat(_6f4);
-var _6f6=this.getMapObjectZoom();
-var _6f7=this.getOLZoomFromMapObjectZoom(_6f6);
-if(!(_6f2.equals(_6f5))||!(_6f3==_6f7)){
-var _6f8=this.getMapObjectLonLatFromOLLonLat(_6f2);
-var zoom=this.getMapObjectZoomFromOLZoom(_6f3);
-this.setMapObjectCenter(_6f8,zoom);
+var _65a=this.map.getCenter();
+var _65b=this.map.getZoom();
+if(_65a!=null){
+var _65c=this.getMapObjectCenter();
+var _65d=this.getOLLonLatFromMapObjectLonLat(_65c);
+var _65e=this.getMapObjectZoom();
+var _65f=this.getOLZoomFromMapObjectZoom(_65e);
+if(!(_65a.equals(_65d))||!(_65b==_65f)){
+var _660=this.getMapObjectLonLatFromOLLonLat(_65a);
+var zoom=this.getMapObjectZoomFromOLZoom(_65b);
+this.setMapObjectCenter(_660,zoom);
 }
 }
 }
-},getLonLatFromViewPortPx:function(_6fa){
-var _6fb=null;
+},getLonLatFromViewPortPx:function(_662){
+var _663=null;
 if((this.mapObject!=null)&&(this.getMapObjectCenter()!=null)){
-var _6fc=this.getMapObjectPixelFromOLPixel(_6fa);
-var _6fd=this.getMapObjectLonLatFromMapObjectPixel(_6fc);
-_6fb=this.getOLLonLatFromMapObjectLonLat(_6fd);
+var _664=this.getMapObjectPixelFromOLPixel(_662);
+var _665=this.getMapObjectLonLatFromMapObjectPixel(_664);
+_663=this.getOLLonLatFromMapObjectLonLat(_665);
 }
-return _6fb;
-},getViewPortPxFromLonLat:function(_6fe){
-var _6ff=null;
+return _663;
+},getViewPortPxFromLonLat:function(_666){
+var _667=null;
 if((this.mapObject!=null)&&(this.getMapObjectCenter()!=null)){
-var _700=this.getMapObjectLonLatFromOLLonLat(_6fe);
-var _701=this.getMapObjectPixelFromMapObjectLonLat(_700);
-_6ff=this.getOLPixelFromMapObjectPixel(_701);
+var _668=this.getMapObjectLonLatFromOLLonLat(_666);
+var _669=this.getMapObjectPixelFromMapObjectLonLat(_668);
+_667=this.getOLPixelFromMapObjectPixel(_669);
 }
-return _6ff;
-},getOLLonLatFromMapObjectLonLat:function(_702){
-var _703=null;
-if(_702!=null){
-var lon=this.getLongitudeFromMapObjectLonLat(_702);
-var lat=this.getLatitudeFromMapObjectLonLat(_702);
-_703=new OpenLayers.LonLat(lon,lat);
+return _667;
+},getOLLonLatFromMapObjectLonLat:function(_66a){
+var _66b=null;
+if(_66a!=null){
+var lon=this.getLongitudeFromMapObjectLonLat(_66a);
+var lat=this.getLatitudeFromMapObjectLonLat(_66a);
+_66b=new OpenLayers.LonLat(lon,lat);
 }
-return _703;
-},getMapObjectLonLatFromOLLonLat:function(_706){
-var _707=null;
-if(_706!=null){
-_707=this.getMapObjectLonLatFromLonLat(_706.lon,_706.lat);
+return _66b;
+},getMapObjectLonLatFromOLLonLat:function(_66e){
+var _66f=null;
+if(_66e!=null){
+_66f=this.getMapObjectLonLatFromLonLat(_66e.lon,_66e.lat);
 }
-return _707;
-},getOLPixelFromMapObjectPixel:function(_708){
-var _709=null;
-if(_708!=null){
-var x=this.getXFromMapObjectPixel(_708);
-var y=this.getYFromMapObjectPixel(_708);
-_709=new OpenLayers.Pixel(x,y);
+return _66f;
+},getOLPixelFromMapObjectPixel:function(_670){
+var _671=null;
+if(_670!=null){
+var x=this.getXFromMapObjectPixel(_670);
+var y=this.getYFromMapObjectPixel(_670);
+_671=new OpenLayers.Pixel(x,y);
 }
-return _709;
-},getMapObjectPixelFromOLPixel:function(_70c){
-var _70d=null;
-if(_70c!=null){
-_70d=this.getMapObjectPixelFromXY(_70c.x,_70c.y);
+return _671;
+},getMapObjectPixelFromOLPixel:function(_674){
+var _675=null;
+if(_674!=null){
+_675=this.getMapObjectPixelFromXY(_674.x,_674.y);
 }
-return _70d;
+return _675;
 },CLASS_NAME:"OpenLayers.Layer.EventPane"});
 OpenLayers.Layer.FixedZoomLevels=OpenLayers.Class({initialize:function(){
 },initResolutions:function(){
-var _70e=new Array("minZoomLevel","maxZoomLevel","numZoomLevels");
-for(var i=0;i<_70e.length;i++){
-var _710=_70e[i];
-this[_710]=(this.options[_710]!=null)?this.options[_710]:this.map[_710];
+var _676=new Array("minZoomLevel","maxZoomLevel","numZoomLevels");
+for(var i=0;i<_676.length;i++){
+var _678=_676[i];
+this[_678]=(this.options[_678]!=null)?this.options[_678]:this.map[_678];
 }
 if((this.minZoomLevel==null)||(this.minZoomLevel<this.MIN_ZOOM_LEVEL)){
 this.minZoomLevel=this.MIN_ZOOM_LEVEL;
 }
-var _711=this.MAX_ZOOM_LEVEL-this.minZoomLevel+1;
+var _679=this.MAX_ZOOM_LEVEL-this.minZoomLevel+1;
 if(this.numZoomLevels!=null){
-this.numZoomLevels=Math.min(this.numZoomLevels,_711);
+this.numZoomLevels=Math.min(this.numZoomLevels,_679);
 }else{
 if(this.maxZoomLevel!=null){
-var _712=this.maxZoomLevel-this.minZoomLevel+1;
-this.numZoomLevels=Math.min(_712,_711);
+var _67a=this.maxZoomLevel-this.minZoomLevel+1;
+this.numZoomLevels=Math.min(_67a,_679);
 }else{
-this.numZoomLevels=_711;
+this.numZoomLevels=_679;
 }
 }
 this.maxZoomLevel=this.minZoomLevel+this.numZoomLevels-1;
 if(this.RESOLUTIONS!=null){
-var _713=0;
+var _67b=0;
 this.resolutions=[];
 for(var i=this.minZoomLevel;i<this.numZoomLevels;i++){
-this.resolutions[_713++]=this.RESOLUTIONS[i];
+this.resolutions[_67b++]=this.RESOLUTIONS[i];
 }
 }
 },getResolution:function(){
 if(this.resolutions!=null){
 return OpenLayers.Layer.prototype.getResolution.apply(this,arguments);
 }else{
-var _714=null;
-var _715=this.map.getSize();
-var _716=this.getExtent();
-if((_715!=null)&&(_716!=null)){
-_714=Math.max(_716.getWidth()/_715.w,_716.getHeight()/_715.h);
+var _67c=null;
+var _67d=this.map.getSize();
+var _67e=this.getExtent();
+if((_67d!=null)&&(_67e!=null)){
+_67c=Math.max(_67e.getWidth()/_67d.w,_67e.getHeight()/_67d.h);
 }
-return _714;
+return _67c;
 }
 },getExtent:function(){
-var _717=null;
+var _67f=null;
 var size=this.map.getSize();
 var tlPx=new OpenLayers.Pixel(0,0);
 var tlLL=this.getLonLatFromViewPortPx(tlPx);
 var brPx=new OpenLayers.Pixel(size.w,size.h);
 var brLL=this.getLonLatFromViewPortPx(brPx);
 if((tlLL!=null)&&(brLL!=null)){
-_717=new OpenLayers.Bounds(tlLL.lon,brLL.lat,brLL.lon,tlLL.lat);
+_67f=new OpenLayers.Bounds(tlLL.lon,brLL.lat,brLL.lon,tlLL.lat);
 }
-return _717;
-},getZoomForResolution:function(_71d){
+return _67f;
+},getZoomForResolution:function(_685){
 if(this.resolutions!=null){
 return OpenLayers.Layer.prototype.getZoomForResolution.apply(this,arguments);
 }else{
-var _71e=OpenLayers.Layer.prototype.getExtent.apply(this,[_71d]);
-return this.getZoomForExtent(_71e);
+var _686=OpenLayers.Layer.prototype.getExtent.apply(this,[_685]);
+return this.getZoomForExtent(_686);
 }
-},getOLZoomFromMapObjectZoom:function(_71f){
+},getOLZoomFromMapObjectZoom:function(_687){
 var zoom=null;
-if(_71f!=null){
-zoom=_71f-this.minZoomLevel;
+if(_687!=null){
+zoom=_687-this.minZoomLevel;
 }
 return zoom;
-},getMapObjectZoomFromOLZoom:function(_721){
+},getMapObjectZoomFromOLZoom:function(_689){
 var zoom=null;
-if(_721!=null){
-zoom=_721+this.minZoomLevel;
+if(_689!=null){
+zoom=_689+this.minZoomLevel;
 }
 return zoom;
 },CLASS_NAME:"FixedZoomLevels.js"});
-OpenLayers.Layer.HTTPRequest=OpenLayers.Class(OpenLayers.Layer,{URL_HASH_FACTOR:(Math.sqrt(5)-1)/2,url:null,params:null,reproject:false,initialize:function(name,url,_725,_726){
-var _727=arguments;
-_727=[name,_726];
-OpenLayers.Layer.prototype.initialize.apply(this,_727);
+OpenLayers.Layer.HTTPRequest=OpenLayers.Class(OpenLayers.Layer,{URL_HASH_FACTOR:(Math.sqrt(5)-1)/2,url:null,params:null,reproject:false,initialize:function(name,url,_68d,_68e){
+var _68f=arguments;
+_68f=[name,_68e];
+OpenLayers.Layer.prototype.initialize.apply(this,_68f);
 this.url=url;
-this.params=OpenLayers.Util.extend({},_725);
+this.params=OpenLayers.Util.extend({},_68d);
 },destroy:function(){
 this.url=null;
 this.params=null;
@@ -11906,53 +11375,53 @@ obj=new OpenLayers.Layer.HTTPRequest(this.name,this.url,this.params,this.options
 }
 obj=OpenLayers.Layer.prototype.clone.apply(this,[obj]);
 return obj;
-},setUrl:function(_729){
-this.url=_729;
-},mergeNewParams:function(_72a){
-this.params=OpenLayers.Util.extend(this.params,_72a);
+},setUrl:function(_691){
+this.url=_691;
+},mergeNewParams:function(_692){
+this.params=OpenLayers.Util.extend(this.params,_692);
 this.redraw();
-},selectUrl:function(_72b,urls){
-var _72d=1;
-for(var i=0;i<_72b.length;i++){
-_72d*=_72b.charCodeAt(i)*this.URL_HASH_FACTOR;
-_72d-=Math.floor(_72d);
+},selectUrl:function(_693,urls){
+var _695=1;
+for(var i=0;i<_693.length;i++){
+_695*=_693.charCodeAt(i)*this.URL_HASH_FACTOR;
+_695-=Math.floor(_695);
 }
-return urls[Math.floor(_72d*urls.length)];
-},getFullRequestString:function(_72f,_730){
-var url=_730||this.url;
-var _732=OpenLayers.Util.extend({},this.params);
-_732=OpenLayers.Util.extend(_732,_72f);
-var _733=OpenLayers.Util.getParameterString(_732);
+return urls[Math.floor(_695*urls.length)];
+},getFullRequestString:function(_697,_698){
+var url=_698||this.url;
+var _69a=OpenLayers.Util.extend({},this.params);
+_69a=OpenLayers.Util.extend(_69a,_697);
+var _69b=OpenLayers.Util.getParameterString(_69a);
 if(url instanceof Array){
-url=this.selectUrl(_733,url);
+url=this.selectUrl(_69b,url);
 }
-var _734=OpenLayers.Util.upperCaseObject(OpenLayers.Util.getParameters(url));
-for(var key in _732){
-if(key.toUpperCase() in _734){
-delete _732[key];
+var _69c=OpenLayers.Util.upperCaseObject(OpenLayers.Util.getParameters(url));
+for(var key in _69a){
+if(key.toUpperCase() in _69c){
+delete _69a[key];
 }
 }
-_733=OpenLayers.Util.getParameterString(_732);
-var _736=url;
-if(_733!=""){
-var _737=url.charAt(url.length-1);
-if((_737=="&")||(_737=="?")){
-_736+=_733;
+_69b=OpenLayers.Util.getParameterString(_69a);
+var _69e=url;
+if(_69b!=""){
+var _69f=url.charAt(url.length-1);
+if((_69f=="&")||(_69f=="?")){
+_69e+=_69b;
 }else{
 if(url.indexOf("?")==-1){
-_736+="?"+_733;
+_69e+="?"+_69b;
 }else{
-_736+="&"+_733;
+_69e+="&"+_69b;
 }
 }
 }
-return _736;
+return _69e;
 },CLASS_NAME:"OpenLayers.Layer.HTTPRequest"});
-OpenLayers.Layer.Image=OpenLayers.Class(OpenLayers.Layer,{isBaseLayer:true,url:null,extent:null,size:null,tile:null,aspectRatio:null,initialize:function(name,url,_73a,size,_73c){
+OpenLayers.Layer.Image=OpenLayers.Class(OpenLayers.Layer,{isBaseLayer:true,url:null,extent:null,size:null,tile:null,aspectRatio:null,initialize:function(name,url,_6a2,size,_6a4){
 this.url=url;
-this.extent=_73a;
+this.extent=_6a2;
 this.size=size;
-OpenLayers.Layer.prototype.initialize.apply(this,[name,_73c]);
+OpenLayers.Layer.prototype.initialize.apply(this,[name,_6a4]);
 this.aspectRatio=(this.extent.getHeight()/this.size.h)/(this.extent.getWidth()/this.size.w);
 },destroy:function(){
 if(this.tile){
@@ -11971,14 +11440,14 @@ if(this.options.maxResolution==null){
 this.options.maxResolution=this.aspectRatio*this.extent.getWidth()/this.size.w;
 }
 OpenLayers.Layer.prototype.setMap.apply(this,arguments);
-},moveTo:function(_73f,_740,_741){
+},moveTo:function(_6a7,_6a8,_6a9){
 OpenLayers.Layer.prototype.moveTo.apply(this,arguments);
-var _742=(this.tile==null);
-if(_740||_742){
+var _6aa=(this.tile==null);
+if(_6a8||_6aa){
 this.setTileSize();
 var ul=new OpenLayers.LonLat(this.extent.left,this.extent.top);
 var ulPx=this.map.getLayerPxFromLonLat(ul);
-if(_742){
+if(_6aa){
 this.tile=new OpenLayers.Tile.Image(this,ulPx,this.extent,null,this.tileSize);
 }else{
 this.tile.size=this.tileSize.clone();
@@ -11987,41 +11456,41 @@ this.tile.position=ulPx.clone();
 this.tile.draw();
 }
 },setTileSize:function(){
-var _745=this.extent.getWidth()/this.map.getResolution();
-var _746=this.extent.getHeight()/this.map.getResolution();
-this.tileSize=new OpenLayers.Size(_745,_746);
-},setUrl:function(_747){
-this.url=_747;
-this.draw();
-},getURL:function(_748){
+var _6ad=this.extent.getWidth()/this.map.getResolution();
+var _6ae=this.extent.getHeight()/this.map.getResolution();
+this.tileSize=new OpenLayers.Size(_6ad,_6ae);
+},setUrl:function(_6af){
+this.url=_6af;
+this.tile.draw();
+},getURL:function(_6b0){
 return this.url;
 },CLASS_NAME:"OpenLayers.Layer.Image"});
-OpenLayers.Layer.Markers=OpenLayers.Class(OpenLayers.Layer,{isBaseLayer:false,markers:null,drawn:false,initialize:function(name,_74a){
+OpenLayers.Layer.Markers=OpenLayers.Class(OpenLayers.Layer,{isBaseLayer:false,markers:null,drawn:false,initialize:function(name,_6b2){
 OpenLayers.Layer.prototype.initialize.apply(this,arguments);
 this.markers=[];
 },destroy:function(){
 this.clearMarkers();
 this.markers=null;
 OpenLayers.Layer.prototype.destroy.apply(this,arguments);
-},moveTo:function(_74b,_74c,_74d){
+},moveTo:function(_6b3,_6b4,_6b5){
 OpenLayers.Layer.prototype.moveTo.apply(this,arguments);
-if(_74c||!this.drawn){
+if(_6b4||!this.drawn){
 for(i=0;i<this.markers.length;i++){
 this.drawMarker(this.markers[i]);
 }
 this.drawn=true;
 }
-},addMarker:function(_74e){
-this.markers.push(_74e);
+},addMarker:function(_6b6){
+this.markers.push(_6b6);
 if(this.map&&this.map.getExtent()){
-_74e.map=this.map;
-this.drawMarker(_74e);
+_6b6.map=this.map;
+this.drawMarker(_6b6);
 }
-},removeMarker:function(_74f){
-OpenLayers.Util.removeItem(this.markers,_74f);
-if((_74f.icon!=null)&&(_74f.icon.imageDiv!=null)&&(_74f.icon.imageDiv.parentNode==this.div)){
-this.div.removeChild(_74f.icon.imageDiv);
-_74f.drawn=false;
+},removeMarker:function(_6b7){
+OpenLayers.Util.removeItem(this.markers,_6b7);
+if((_6b7.icon!=null)&&(_6b7.icon.imageDiv!=null)&&(_6b7.icon.imageDiv.parentNode==this.div)){
+this.div.removeChild(_6b7.icon.imageDiv);
+_6b7.drawn=false;
 }
 },clearMarkers:function(){
 if(this.markers!=null){
@@ -12029,41 +11498,41 @@ while(this.markers.length>0){
 this.removeMarker(this.markers[0]);
 }
 }
-},drawMarker:function(_750){
-var px=this.map.getLayerPxFromLonLat(_750.lonlat);
+},drawMarker:function(_6b8){
+var px=this.map.getLayerPxFromLonLat(_6b8.lonlat);
 if(px==null){
-_750.display(false);
+_6b8.display(false);
 }else{
-var _752=_750.draw(px);
-if(!_750.drawn){
-this.div.appendChild(_752);
-_750.drawn=true;
+var _6ba=_6b8.draw(px);
+if(!_6b8.drawn){
+this.div.appendChild(_6ba);
+_6b8.drawn=true;
 }
 }
 },getDataExtent:function(){
-var _753=null;
+var _6bb=null;
 if(this.markers&&(this.markers.length>0)){
-var _753=new OpenLayers.Bounds();
+var _6bb=new OpenLayers.Bounds();
 for(var i=0;i<this.markers.length;i++){
-var _755=this.markers[i];
-_753.extend(_755.lonlat);
+var _6bd=this.markers[i];
+_6bb.extend(_6bd.lonlat);
 }
 }
-return _753;
+return _6bb;
 },CLASS_NAME:"OpenLayers.Layer.Markers"});
 OpenLayers.Layer.SphericalMercator={getExtent:function(){
-var _756=null;
+var _6be=null;
 if(this.sphericalMercator){
-_756=this.map.calculateBounds();
+_6be=this.map.calculateBounds();
 }else{
-_756=OpenLayers.Layer.FixedZoomLevels.prototype.getExtent.apply(this);
+_6be=OpenLayers.Layer.FixedZoomLevels.prototype.getExtent.apply(this);
 }
-return _756;
+return _6be;
 },initMercatorParameters:function(){
 this.RESOLUTIONS=[];
-var _757=156543.0339;
+var _6bf=156543.0339;
 for(var zoom=0;zoom<=this.MAX_ZOOM_LEVEL;++zoom){
-this.RESOLUTIONS[zoom]=_757/Math.pow(2,zoom);
+this.RESOLUTIONS[zoom]=_6bf/Math.pow(2,zoom);
 }
 this.units="m";
 this.projection="EPSG:900913";
@@ -12079,425 +11548,255 @@ lat=180/Math.PI*(2*Math.atan(Math.exp(lat*Math.PI/180))-Math.PI/2);
 return new OpenLayers.LonLat(lon,lat);
 }};
 OpenLayers.Control.DrawFeature=OpenLayers.Class(OpenLayers.Control,{layer:null,callbacks:null,featureAdded:function(){
-},handlerOptions:null,initialize:function(_761,_762,_763){
-OpenLayers.Control.prototype.initialize.apply(this,[_763]);
+},handlerOptions:null,initialize:function(_6c9,_6ca,_6cb){
+OpenLayers.Control.prototype.initialize.apply(this,[_6cb]);
 this.callbacks=OpenLayers.Util.extend({done:this.drawFeature},this.callbacks);
-this.layer=_761;
-this.handler=new _762(this,this.callbacks,this.handlerOptions);
-},drawFeature:function(_764){
-var _765=new OpenLayers.Feature.Vector(_764);
-this.layer.addFeatures([_765]);
-this.featureAdded(_765);
+this.layer=_6c9;
+this.handler=new _6ca(this,this.callbacks,this.handlerOptions);
+},drawFeature:function(_6cc){
+var _6cd=new OpenLayers.Feature.Vector(_6cc);
+this.layer.addFeatures([_6cd]);
+this.featureAdded(_6cd);
 },CLASS_NAME:"OpenLayers.Control.DrawFeature"});
 OpenLayers.Control.SelectFeature=OpenLayers.Class(OpenLayers.Control,{multiple:false,hover:false,onSelect:function(){
 },onUnselect:function(){
-},geometryTypes:null,layer:null,callbacks:null,selectStyle:OpenLayers.Feature.Vector.style["select"],handler:null,initialize:function(_766,_767){
-OpenLayers.Control.prototype.initialize.apply(this,[_767]);
-this.layer=_766;
+},geometryTypes:null,layer:null,callbacks:null,selectStyle:OpenLayers.Feature.Vector.style["select"],handler:null,initialize:function(_6ce,_6cf){
+OpenLayers.Control.prototype.initialize.apply(this,[_6cf]);
+this.layer=_6ce;
 this.callbacks=OpenLayers.Util.extend({click:this.clickFeature,over:this.overFeature,out:this.outFeature},this.callbacks);
-var _768={geometryTypes:this.geometryTypes};
-this.handler=new OpenLayers.Handler.Feature(this,_766,this.callbacks,_768);
-},clickFeature:function(_769){
+var _6d0={geometryTypes:this.geometryTypes};
+this.handler=new OpenLayers.Handler.Feature(this,_6ce,this.callbacks,_6d0);
+},clickFeature:function(_6d1){
 if(this.hover){
 return;
 }
 if(this.multiple){
-if(OpenLayers.Util.indexOf(this.layer.selectedFeatures,_769)>-1){
-this.unselect(_769);
+if(OpenLayers.Util.indexOf(this.layer.selectedFeatures,_6d1)>-1){
+this.unselect(_6d1);
 }else{
-this.select(_769);
+this.select(_6d1);
 }
 }else{
-if(OpenLayers.Util.indexOf(this.layer.selectedFeatures,_769)>-1){
-this.unselect(_769);
+if(OpenLayers.Util.indexOf(this.layer.selectedFeatures,_6d1)>-1){
+this.unselect(_6d1);
 }else{
 if(this.layer.selectedFeatures){
 for(var i=0;i<this.layer.selectedFeatures.length;i++){
 this.unselect(this.layer.selectedFeatures[i]);
 }
 }
-this.select(_769);
+this.select(_6d1);
 }
 }
-},overFeature:function(_76b){
+},overFeature:function(_6d3){
 if(!this.hover){
 return;
 }
-if(!(OpenLayers.Util.indexOf(this.layer.selectedFeatures,_76b)>-1)){
-this.select(_76b);
+if(!(OpenLayers.Util.indexOf(this.layer.selectedFeatures,_6d3)>-1)){
+this.select(_6d3);
 }
-},outFeature:function(_76c){
+},outFeature:function(_6d4){
 if(!this.hover){
 return;
 }
-this.unselect(_76c);
-},select:function(_76d){
-if(_76d.originalStyle==null){
-_76d.originalStyle=_76d.style;
+this.unselect(_6d4);
+},select:function(_6d5){
+if(_6d5.originalStyle==null){
+_6d5.originalStyle=_6d5.style;
 }
-this.layer.selectedFeatures.push(_76d);
-_76d.style=this.selectStyle;
-this.layer.drawFeature(_76d);
-this.onSelect(_76d);
-},unselect:function(_76e){
-if(_76e.originalStyle!=null){
-_76e.style=_76e.originalStyle;
+this.layer.selectedFeatures.push(_6d5);
+_6d5.style=this.selectStyle;
+this.layer.drawFeature(_6d5);
+this.onSelect(_6d5);
+},unselect:function(_6d6){
+if(_6d6.originalStyle!=null){
+_6d6.style=_6d6.originalStyle;
 }
-this.layer.drawFeature(_76e);
-OpenLayers.Util.removeItem(this.layer.selectedFeatures,_76e);
-this.onUnselect(_76e);
+this.layer.drawFeature(_6d6);
+OpenLayers.Util.removeItem(this.layer.selectedFeatures,_6d6);
+this.onUnselect(_6d6);
 },setMap:function(map){
 this.handler.setMap(map);
 OpenLayers.Control.prototype.setMap.apply(this,arguments);
 },CLASS_NAME:"OpenLayers.Control.SelectFeature"});
 OpenLayers.Control.ZoomBox=OpenLayers.Class(OpenLayers.Control,{type:OpenLayers.Control.TYPE_TOOL,draw:function(){
 this.handler=new OpenLayers.Handler.Box(this,{done:this.zoomBox},{keyMask:this.keyMask});
-},zoomBox:function(_770){
-if(_770 instanceof OpenLayers.Bounds){
-var _771=this.map.getLonLatFromPixel(new OpenLayers.Pixel(_770.left,_770.bottom));
-var _772=this.map.getLonLatFromPixel(new OpenLayers.Pixel(_770.right,_770.top));
-var _773=new OpenLayers.Bounds(_771.lon,_771.lat,_772.lon,_772.lat);
-this.map.zoomToExtent(_773);
+},zoomBox:function(_6d8){
+if(_6d8 instanceof OpenLayers.Bounds){
+var _6d9=this.map.getLonLatFromPixel(new OpenLayers.Pixel(_6d8.left,_6d8.bottom));
+var _6da=this.map.getLonLatFromPixel(new OpenLayers.Pixel(_6d8.right,_6d8.top));
+var _6db=new OpenLayers.Bounds(_6d9.lon,_6d9.lat,_6da.lon,_6da.lat);
+this.map.zoomToExtent(_6db);
 }else{
-this.map.setCenter(this.map.getLonLatFromPixel(_770),this.map.getZoom()+1);
+this.map.setCenter(this.map.getLonLatFromPixel(_6d8),this.map.getZoom()+1);
 }
 },CLASS_NAME:"OpenLayers.Control.ZoomBox"});
-OpenLayers.Format.KML=OpenLayers.Class(OpenLayers.Format.XML,{kmlns:"http://earth.google.com/kml/2.0",placemarksDesc:"No description available",foldersName:"OpenLayers export",foldersDesc:"Exported on "+new Date(),extractAttributes:true,initialize:function(_774){
-this.regExes={trimSpace:(/^\s*|\s*$/g),removeSpace:(/\s*/g),splitSpace:(/\s+/),trimComma:(/\s*,\s*/g)};
-OpenLayers.Format.XML.prototype.initialize.apply(this,[_774]);
-},read:function(data){
-if(typeof data=="string"){
-data=OpenLayers.Format.XML.prototype.read.apply(this,[data]);
+OpenLayers.Format.WKT=OpenLayers.Class(OpenLayers.Format,{initialize:function(_6dc){
+this.regExes={"typeStr":/^\s*(\w+)\s*\(\s*(.*)\s*\)\s*$/,"spaces":/\s+/,"parenComma":/\)\s*,\s*\(/,"doubleParenComma":/\)\s*\)\s*,\s*\(\s*\(/,"trimParens":/^\s*\(?(.*?)\)?\s*$/};
+OpenLayers.Format.prototype.initialize.apply(this,[_6dc]);
+},read:function(wkt){
+var _6de,type,str;
+var _6df=this.regExes.typeStr.exec(wkt);
+if(_6df){
+type=_6df[1].toLowerCase();
+str=_6df[2];
+if(this.parse[type]){
+_6de=this.parse[type].apply(this,[str]);
 }
-var _776=this.getElementsByTagNameNS(data,this.kmlns,"Placemark");
-var _777=_776.length;
-var _778=new Array(_777);
-for(var i=0;i<_777;i++){
-var _77a=this.parseFeature(_776[i]);
-if(_77a){
-_778[i]=_77a;
+}
+return _6de;
+},write:function(_6e0){
+var _6e1,geometry,type,data,isCollection;
+if(_6e0.constructor==Array){
+_6e1=_6e0;
+isCollection=true;
 }else{
-throw "Bad Placemark: "+i;
+_6e1=[_6e0];
+isCollection=false;
 }
+var _6e2=[];
+if(isCollection){
+_6e2.push("GEOMETRYCOLLECTION(");
 }
-return _778;
-},parseFeature:function(node){
-var _77c=["MultiGeometry","Polygon","LineString","Point"];
-var type,nodeList,geometry,parser;
-for(var i=0;i<_77c.length;++i){
-type=_77c[i];
-nodeList=this.getElementsByTagNameNS(node,this.kmlns,type);
-if(nodeList.length>0){
-var _77f=this.parseGeometry[type.toLowerCase()];
-if(_77f){
-geometry=_77f.apply(this,[nodeList[0]]);
-}else{
-OpenLayers.Console.error("Unsupported geometry type: "+type);
+for(var i=0;i<_6e1.length;++i){
+if(isCollection&&i>0){
+_6e2.push(",");
 }
-break;
+geometry=_6e1[i].geometry;
+type=geometry.CLASS_NAME.split(".")[2].toLowerCase();
+if(!this.extract[type]){
+return null;
 }
+data=this.extract[type].apply(this,[geometry]);
+_6e2.push(type.toUpperCase()+"("+data+")");
 }
-var _780;
-if(this.extractAttributes){
-_780=this.parseAttributes(node);
+if(isCollection){
+_6e2.push(")");
 }
-var _781=new OpenLayers.Feature.Vector(geometry,_780);
-var fid=node.getAttribute("id");
-if(fid!=null){
-_781.fid=fid;
+return _6e2.join("");
+},extract:{"point":function(_6e4){
+return _6e4.x+" "+_6e4.y;
+},"multipoint":function(_6e5){
+var _6e6=[];
+for(var i=0;i<_6e5.components.length;++i){
+_6e6.push(this.extract.point.apply(this,[_6e5.components[i]]));
 }
-return _781;
-},parseGeometry:{point:function(node){
-var _784=this.getElementsByTagNameNS(node,this.kmlns,"coordinates");
-var _785=[];
-if(_784.length>0){
-var _786=_784[0].firstChild.nodeValue;
-_786=_786.replace(this.regExes.removeSpace,"");
-_785=_786.split(",");
+return _6e6.join(",");
+},"linestring":function(_6e8){
+var _6e9=[];
+for(var i=0;i<_6e8.components.length;++i){
+_6e9.push(this.extract.point.apply(this,[_6e8.components[i]]));
 }
-var _787=null;
-if(_785.length>1){
-if(_785.length==2){
-_785[2]=null;
+return _6e9.join(",");
+},"multilinestring":function(_6eb){
+var _6ec=[];
+for(var i=0;i<_6eb.components.length;++i){
+_6ec.push("("+this.extract.linestring.apply(this,[_6eb.components[i]])+")");
 }
-_787=new OpenLayers.Geometry.Point(_785[0],_785[1],_785[2]);
-}else{
-throw "Bad coordinate string: "+_786;
+return _6ec.join(",");
+},"polygon":function(_6ee){
+var _6ef=[];
+for(var i=0;i<_6ee.components.length;++i){
+_6ef.push("("+this.extract.linestring.apply(this,[_6ee.components[i]])+")");
 }
-return _787;
-},linestring:function(node,ring){
-var _78a=this.getElementsByTagNameNS(node,this.kmlns,"coordinates");
-var line=null;
-if(_78a.length>0){
-var _78c=_78a[0].firstChild.nodeValue;
-_78c=_78c.replace(this.regExes.trimSpace,"");
-_78c=_78c.replace(this.regExes.trimComma,",");
-var _78d=_78c.split(this.regExes.splitSpace);
-var _78e=_78d.length;
-var _78f=new Array(_78e);
-var _790,numCoords;
-for(var i=0;i<_78e;++i){
-_790=_78d[i].split(",");
-numCoords=_790.length;
-if(numCoords>1){
-if(_790.length==2){
-_790[2]=null;
+return _6ef.join(",");
+},"multipolygon":function(_6f1){
+var _6f2=[];
+for(var i=0;i<_6f1.components.length;++i){
+_6f2.push("("+this.extract.polygon.apply(this,[_6f1.components[i]])+")");
 }
-_78f[i]=new OpenLayers.Geometry.Point(_790[0],_790[1],_790[2]);
-}else{
-throw "Bad LineString point coordinates: "+_78d[i];
+return _6f2.join(",");
+}},parse:{"point":function(str){
+var _6f5=OpenLayers.String.trim(str).split(this.regExes.spaces);
+return new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(_6f5[0],_6f5[1]));
+},"multipoint":function(str){
+var _6f7=OpenLayers.String.trim(str).split(",");
+var _6f8=[];
+for(var i=0;i<_6f7.length;++i){
+_6f8.push(this.parse.point.apply(this,[_6f7[i]]).geometry);
 }
+return new OpenLayers.Feature.Vector(new OpenLayers.Geometry.MultiPoint(_6f8));
+},"linestring":function(str){
+var _6fb=OpenLayers.String.trim(str).split(",");
+var _6fc=[];
+for(var i=0;i<_6fb.length;++i){
+_6fc.push(this.parse.point.apply(this,[_6fb[i]]).geometry);
 }
-if(_78e){
-if(ring){
-line=new OpenLayers.Geometry.LinearRing(_78f);
-}else{
-line=new OpenLayers.Geometry.LineString(_78f);
+return new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString(_6fc));
+},"multilinestring":function(str){
+var line;
+var _700=OpenLayers.String.trim(str).split(this.regExes.parenComma);
+var _701=[];
+for(var i=0;i<_700.length;++i){
+line=_700[i].replace(this.regExes.trimParens,"$1");
+_701.push(this.parse.linestring.apply(this,[line]).geometry);
 }
-}else{
-throw "Bad LineString coordinates: "+_78c;
+return new OpenLayers.Feature.Vector(new OpenLayers.Geometry.MultiLineString(_701));
+},"polygon":function(str){
+var ring,linestring,linearring;
+var _705=OpenLayers.String.trim(str).split(this.regExes.parenComma);
+var _706=[];
+for(var i=0;i<_705.length;++i){
+ring=_705[i].replace(this.regExes.trimParens,"$1");
+linestring=this.parse.linestring.apply(this,[ring]).geometry;
+linearring=new OpenLayers.Geometry.LinearRing(linestring.components);
+_706.push(linearring);
 }
+return new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Polygon(_706));
+},"multipolygon":function(str){
+var _709;
+var _70a=OpenLayers.String.trim(str).split(this.regExes.doubleParenComma);
+var _70b=[];
+for(var i=0;i<_70a.length;++i){
+_709=_70a[i].replace(this.regExes.trimParens,"$1");
+_70b.push(this.parse.polygon.apply(this,[_709]).geometry);
 }
-return line;
-},polygon:function(node){
-var _793=this.getElementsByTagNameNS(node,this.kmlns,"LinearRing");
-var _794=_793.length;
-var _795=new Array(_794);
-if(_794>0){
-var ring;
-for(var i=0;i<_793.length;++i){
-ring=this.parseGeometry.linestring.apply(this,[_793[i],true]);
-if(ring){
-_795[i]=ring;
-}else{
-throw "Bad LinearRing geometry: "+i;
+return new OpenLayers.Feature.Vector(new OpenLayers.Geometry.MultiPolygon(_70b));
+},"geometrycollection":function(str){
+str=str.replace(/,\s*([A-Za-z])/g,"|$1");
+var _70e=OpenLayers.String.trim(str).split("|");
+var _70f=[];
+for(var i=0;i<_70e.length;++i){
+_70f.push(OpenLayers.Format.WKT.prototype.read.apply(this,[_70e[i]]));
 }
-}
-}
-return new OpenLayers.Geometry.Polygon(_795);
-},multigeometry:function(node){
-var _799,parser;
-var _79a=[];
-var _79b=node.childNodes;
-for(var i=0;i<_79b.length;++i){
-_799=_79b[i];
-if(_799.nodeType==1){
-type=(_799.prefix)?_799.nodeName.split(":")[1]:_799.nodeName;
-var _79d=this.parseGeometry[type.toLowerCase()];
-if(_79d){
-_79a.push(_79d.apply(this,[_799]));
-}
-}
-}
-return new OpenLayers.Geometry.Collection(_79a);
-}},parseAttributes:function(node){
-var _79f={};
-var _7a0,grandchildren,grandchild;
-var _7a1=node.childNodes;
-for(var i=0;i<_7a1.length;++i){
-_7a0=_7a1[i];
-if(_7a0.nodeType==1){
-grandchildren=_7a0.childNodes;
-if(grandchildren.length==1){
-grandchild=grandchildren[0];
-if(grandchild.nodeType==3){
-name=(_7a0.prefix)?_7a0.nodeName.split(":")[1]:_7a0.nodeName;
-value=grandchild.nodeValue.replace(this.regExes.trimSpace,"");
-_79f[name]=value;
-}
-}
-}
-}
-return _79f;
-},write:function(_7a3){
-if(!(_7a3 instanceof Array)){
-_7a3=[_7a3];
-}
-var kml=this.createElementNS(this.kmlns,"kml");
-var _7a5=this.createFolderXML();
-for(var i=0;i<_7a3.length;++i){
-_7a5.appendChild(this.createPlacemarkXML(_7a3[i]));
-}
-kml.appendChild(_7a5);
-return OpenLayers.Format.XML.prototype.write.apply(this,[kml]);
-},createFolderXML:function(){
-var _7a7=this.createElementNS(this.kmlns,"name");
-var _7a8=this.createTextNode(this.foldersName);
-_7a7.appendChild(_7a8);
-var _7a9=this.createElementNS(this.kmlns,"description");
-var _7aa=this.createTextNode(this.foldersDesc);
-_7a9.appendChild(_7aa);
-var _7ab=this.createElementNS(this.kmlns,"Folder");
-_7ab.appendChild(_7a7);
-_7ab.appendChild(_7a9);
-return _7ab;
-},createPlacemarkXML:function(_7ac){
-var _7ad=this.createElementNS(this.kmlns,"name");
-var name=(_7ac.attributes.name)?_7ac.attributes.name:_7ac.id;
-_7ad.appendChild(this.createTextNode(name));
-var _7af=this.createElementNS(this.kmlns,"description");
-var desc=(_7ac.attributes.description)?_7ac.attributes.description:this.placemarksDesc;
-_7af.appendChild(this.createTextNode(desc));
-var _7b1=this.createElementNS(this.kmlns,"Placemark");
-if(_7ac.fid!=null){
-_7b1.setAttribute("id",_7ac.fid);
-}
-_7b1.appendChild(_7ad);
-_7b1.appendChild(_7af);
-var _7b2=this.buildGeometryNode(_7ac.geometry);
-_7b1.appendChild(_7b2);
-return _7b1;
-},buildGeometryNode:function(_7b3){
-var _7b4=_7b3.CLASS_NAME;
-var type=_7b4.substring(_7b4.lastIndexOf(".")+1);
-var _7b6=this.buildGeometry[type.toLowerCase()];
-var node=null;
-if(_7b6){
-node=_7b6.apply(this,[_7b3]);
-}
-return node;
-},buildGeometry:{point:function(_7b8){
-var kml=this.createElementNS(this.kmlns,"Point");
-kml.appendChild(this.buildCoordinatesNode(_7b8));
-return kml;
-},multipoint:function(_7ba){
-return this.buildGeometry.collection(_7ba);
-},linestring:function(_7bb){
-var kml=this.createElementNS(this.kmlns,"LineString");
-kml.appendChild(this.buildCoordinatesNode(_7bb));
-return kml;
-},multilinestring:function(_7bd){
-return this.buildGeometry.collection(_7bd);
-},linearring:function(_7be){
-var kml=this.createElementNS(this.kmlns,"LinearRing");
-kml.appendChild(this.buildCoordinatesNode(_7be));
-return kml;
-},polygon:function(_7c0){
-var kml=this.createElementNS(this.kmlns,"Polygon");
-var _7c2=_7c0.components;
-var _7c3,ringGeom,type;
-for(var i=0;i<_7c2.length;++i){
-type=(i==0)?"outerBoundaryIs":"innerBoundaryIs";
-_7c3=this.createElementNS(this.kmlns,type);
-ringGeom=this.buildGeometry.linearring.apply(this,[_7c2[i]]);
-_7c3.appendChild(ringGeom);
-kml.appendChild(_7c3);
-}
-return kml;
-},multipolygon:function(_7c5){
-return this.buildGeometry.collection(_7c5);
-},collection:function(_7c6){
-var kml=this.createElementNS(this.kmlns,"MultiGeometry");
-var _7c8;
-for(var i=0;i<_7c6.components.length;++i){
-_7c8=this.buildGeometryNode.apply(this,[_7c6.components[i]]);
-if(_7c8){
-kml.appendChild(_7c8);
-}
-}
-return kml;
-}},buildCoordinatesNode:function(_7ca){
-var _7cb=this.createElementNS(this.kmlns,"coordinates");
-var path;
-var _7cd=_7ca.components;
-if(_7cd){
-var _7ce;
-var _7cf=_7cd.length;
-var _7d0=new Array(_7cf);
-for(var i=0;i<_7cf;++i){
-_7ce=_7cd[i];
-_7d0[i]=_7ce.x+","+_7ce.y;
-}
-path=_7d0.join(" ");
-}else{
-path=_7ca.x+","+_7ca.y;
-}
-var _7d2=this.createTextNode(path);
-_7cb.appendChild(_7d2);
-return _7cb;
-},CLASS_NAME:"OpenLayers.Format.KML"});
-OpenLayers.Geometry=OpenLayers.Class({id:null,parent:null,bounds:null,initialize:function(){
-this.id=OpenLayers.Util.createUniqueID(this.CLASS_NAME+"_");
-},destroy:function(){
-this.id=null;
-this.bounds=null;
-},clone:function(){
-return new OpenLayers.Geometry();
-},setBounds:function(_7d3){
-if(_7d3){
-this.bounds=_7d3.clone();
-}
-},clearBounds:function(){
-this.bounds=null;
-if(this.parent){
-this.parent.clearBounds();
-}
-},extendBounds:function(_7d4){
-var _7d5=this.getBounds();
-if(!_7d5){
-this.setBounds(_7d4);
-}else{
-this.bounds.extend(_7d4);
-}
-},getBounds:function(){
-if(this.bounds==null){
-this.calculateBounds();
-}
-return this.bounds;
-},calculateBounds:function(){
-},atPoint:function(_7d6,_7d7,_7d8){
-var _7d9=false;
-var _7da=this.getBounds();
-if((_7da!=null)&&(_7d6!=null)){
-var dX=(_7d7!=null)?_7d7:0;
-var dY=(_7d8!=null)?_7d8:0;
-var _7dd=new OpenLayers.Bounds(this.bounds.left-dX,this.bounds.bottom-dY,this.bounds.right+dX,this.bounds.top+dY);
-_7d9=_7dd.containsLonLat(_7d6);
-}
-return _7d9;
-},getLength:function(){
-return 0;
-},getArea:function(){
-return 0;
-},toString:function(){
-return OpenLayers.Format.WKT.prototype.write(new OpenLayers.Feature.Vector(this));
-},CLASS_NAME:"OpenLayers.Geometry"});
-OpenLayers.Layer.Boxes=OpenLayers.Class(OpenLayers.Layer.Markers,{initialize:function(name,_7df){
+return _70f;
+}},CLASS_NAME:"OpenLayers.Format.WKT"});
+OpenLayers.Layer.Boxes=OpenLayers.Class(OpenLayers.Layer.Markers,{initialize:function(name,_712){
 OpenLayers.Layer.Markers.prototype.initialize.apply(this,arguments);
-},drawMarker:function(_7e0){
-var _7e1=_7e0.bounds;
-var _7e2=this.map.getLayerPxFromLonLat(new OpenLayers.LonLat(_7e1.left,_7e1.top));
-var _7e3=this.map.getLayerPxFromLonLat(new OpenLayers.LonLat(_7e1.right,_7e1.bottom));
-if(_7e3==null||_7e2==null){
-_7e0.display(false);
+},drawMarker:function(_713){
+var _714=_713.bounds;
+var _715=this.map.getLayerPxFromLonLat(new OpenLayers.LonLat(_714.left,_714.top));
+var _716=this.map.getLayerPxFromLonLat(new OpenLayers.LonLat(_714.right,_714.bottom));
+if(_716==null||_715==null){
+_713.display(false);
 }else{
-var sz=new OpenLayers.Size(Math.max(1,_7e3.x-_7e2.x),Math.max(1,_7e3.y-_7e2.y));
-var _7e5=_7e0.draw(_7e2,sz);
-if(!_7e0.drawn){
-this.div.appendChild(_7e5);
-_7e0.drawn=true;
+var sz=new OpenLayers.Size(Math.max(1,_716.x-_715.x),Math.max(1,_716.y-_715.y));
+var _718=_713.draw(_715,sz);
+if(!_713.drawn){
+this.div.appendChild(_718);
+_713.drawn=true;
 }
 }
-},removeMarker:function(_7e6){
-OpenLayers.Util.removeItem(this.markers,_7e6);
-if((_7e6.div!=null)&&(_7e6.div.parentNode==this.div)){
-this.div.removeChild(_7e6.div);
+},removeMarker:function(_719){
+OpenLayers.Util.removeItem(this.markers,_719);
+if((_719.div!=null)&&(_719.div.parentNode==this.div)){
+this.div.removeChild(_719.div);
 }
 },CLASS_NAME:"OpenLayers.Layer.Boxes"});
-OpenLayers.Layer.GeoRSS=OpenLayers.Class(OpenLayers.Layer.Markers,{location:null,features:null,selectedFeature:null,icon:null,popupSize:null,useFeedTitle:true,initialize:function(name,_7e8,_7e9){
-OpenLayers.Layer.Markers.prototype.initialize.apply(this,[name,_7e9]);
-this.location=_7e8;
+OpenLayers.Layer.GeoRSS=OpenLayers.Class(OpenLayers.Layer.Markers,{location:null,features:null,selectedFeature:null,icon:null,popupSize:null,useFeedTitle:true,initialize:function(name,_71b,_71c){
+OpenLayers.Layer.Markers.prototype.initialize.apply(this,[name,_71c]);
+this.location=_71b;
 this.features=[];
 this.events.triggerEvent("loadstart");
-OpenLayers.loadURL(_7e8,null,this,this.parseData);
+OpenLayers.loadURL(_71b,null,this,this.parseData);
 },destroy:function(){
 this.clearFeatures();
 this.features=null;
 OpenLayers.Layer.Markers.prototype.destroy.apply(this,arguments);
-},parseData:function(_7ea){
-var doc=_7ea.responseXML;
-if(!doc||_7ea.fileType!="XML"){
-doc=OpenLayers.parseXMLString(_7ea.responseText);
+},parseData:function(_71d){
+var doc=_71d.responseXML;
+if(!doc||_71d.fileType!="XML"){
+doc=OpenLayers.parseXMLString(_71d.responseText);
 }
 if(this.useFeedTitle){
 var name=null;
@@ -12511,101 +11810,101 @@ if(name){
 this.setName(name);
 }
 }
-var _7ed=null;
+var _720=null;
 try{
-_7ed=doc.getElementsByTagNameNS("*","item");
+_720=doc.getElementsByTagNameNS("*","item");
 }
 catch(e){
-_7ed=doc.getElementsByTagName("item");
+_720=doc.getElementsByTagName("item");
 }
-if(_7ed.length==0){
+if(_720.length==0){
 try{
-_7ed=doc.getElementsByTagNameNS("*","entry");
+_720=doc.getElementsByTagNameNS("*","entry");
 }
 catch(e){
-_7ed=doc.getElementsByTagName("entry");
+_720=doc.getElementsByTagName("entry");
 }
 }
-for(var i=0;i<_7ed.length;i++){
+for(var i=0;i<_720.length;i++){
 var data={};
-var _7f0=OpenLayers.Util.getNodes(_7ed[i],"georss:point");
-var lat=OpenLayers.Util.getNodes(_7ed[i],"geo:lat");
-var lon=OpenLayers.Util.getNodes(_7ed[i],"geo:long");
-if(_7f0.length>0){
-var _7f3=_7f0[0].firstChild.nodeValue.split(" ");
-if(_7f3.length!=2){
-var _7f3=_7f0[0].firstChild.nodeValue.split(",");
+var _723=OpenLayers.Util.getNodes(_720[i],"georss:point");
+var lat=OpenLayers.Util.getNodes(_720[i],"geo:lat");
+var lon=OpenLayers.Util.getNodes(_720[i],"geo:long");
+if(_723.length>0){
+var _726=_723[0].firstChild.nodeValue.split(" ");
+if(_726.length!=2){
+var _726=_723[0].firstChild.nodeValue.split(",");
 }
 }else{
 if(lat.length>0&&lon.length>0){
-var _7f3=[parseFloat(lat[0].firstChild.nodeValue),parseFloat(lon[0].firstChild.nodeValue)];
+var _726=[parseFloat(lat[0].firstChild.nodeValue),parseFloat(lon[0].firstChild.nodeValue)];
 }else{
 continue;
 }
 }
-_7f3=new OpenLayers.LonLat(parseFloat(_7f3[1]),parseFloat(_7f3[0]));
-var _7f4="Untitled";
+_726=new OpenLayers.LonLat(parseFloat(_726[1]),parseFloat(_726[0]));
+var _727="Untitled";
 try{
-_7f4=OpenLayers.Util.getNodes(_7ed[i],"title")[0].firstChild.nodeValue;
+_727=OpenLayers.Util.getNodes(_720[i],"title")[0].firstChild.nodeValue;
 }
 catch(e){
-_7f4="Untitled";
+_727="Untitled";
 }
-var _7f5=null;
+var _728=null;
 try{
-_7f5=_7ed[i].getElementsByTagNameNS("*","description");
+_728=_720[i].getElementsByTagNameNS("*","description");
 }
 catch(e){
-_7f5=_7ed[i].getElementsByTagName("description");
+_728=_720[i].getElementsByTagName("description");
 }
-if(_7f5.length==0){
+if(_728.length==0){
 try{
-_7f5=_7ed[i].getElementsByTagNameNS("*","summary");
+_728=_720[i].getElementsByTagNameNS("*","summary");
 }
 catch(e){
-_7f5=_7ed[i].getElementsByTagName("summary");
+_728=_720[i].getElementsByTagName("summary");
 }
 }
-var _7f6="No description.";
+var _729="No description.";
 try{
-_7f6=_7f5[0].firstChild.nodeValue;
+_729=_728[0].firstChild.nodeValue;
 }
 catch(e){
-_7f6="No description.";
+_729="No description.";
 }
 try{
-var link=OpenLayers.Util.getNodes(_7ed[i],"link")[0].firstChild.nodeValue;
+var link=OpenLayers.Util.getNodes(_720[i],"link")[0].firstChild.nodeValue;
 }
 catch(e){
 try{
-var link=OpenLayers.Util.getNodes(_7ed[i],"link")[0].getAttribute("href");
+var link=OpenLayers.Util.getNodes(_720[i],"link")[0].getAttribute("href");
 }
 catch(e){
 }
 }
 data.icon=this.icon==null?OpenLayers.Marker.defaultIcon():this.icon.clone();
 data.popupSize=this.popupSize?this.popupSize.clone():new OpenLayers.Size(250,120);
-if((_7f4!=null)&&(_7f6!=null)){
+if((_727!=null)&&(_729!=null)){
 contentHTML="<div class=\"olLayerGeoRSSClose\">[x]</div>";
 contentHTML+="<div class=\"olLayerGeoRSSTitle\">";
 if(link){
 contentHTML+="<a class=\"link\" href=\""+link+"\" target=\"_blank\">";
 }
-contentHTML+=_7f4;
+contentHTML+=_727;
 if(link){
 contentHTML+="</a>";
 }
 contentHTML+="</div>";
 contentHTML+="<div style=\"\" class=\"olLayerGeoRSSDescription\">";
-contentHTML+=_7f6;
+contentHTML+=_729;
 contentHTML+="</div>";
 data["popupContentHTML"]=contentHTML;
 }
-var _7f8=new OpenLayers.Feature(this,_7f3,data);
-this.features.push(_7f8);
-var _7f9=_7f8.createMarker();
-_7f9.events.register("click",_7f8,this.markerClick);
-this.addMarker(_7f9);
+var _72b=new OpenLayers.Feature(this,_726,data);
+this.features.push(_72b);
+var _72c=_72b.createMarker();
+_72c.events.register("click",_72b,this.markerClick);
+this.addMarker(_72c);
 }
 this.events.triggerEvent("loadend");
 },markerClick:function(evt){
@@ -12615,25 +11914,25 @@ for(var i=0;i<this.layer.map.popups.length;i++){
 this.layer.map.removePopup(this.layer.map.popups[i]);
 }
 if(!sameMarkerClicked){
-var _7fc=this.createPopup();
-OpenLayers.Event.observe(_7fc.div,"click",OpenLayers.Function.bind(function(){
+var _72f=this.createPopup();
+OpenLayers.Event.observe(_72f.div,"click",OpenLayers.Function.bind(function(){
 for(var i=0;i<this.layer.map.popups.length;i++){
 this.layer.map.removePopup(this.layer.map.popups[i]);
 }
 },this));
-this.layer.map.addPopup(_7fc);
+this.layer.map.addPopup(_72f);
 }
 OpenLayers.Event.stop(evt);
 },clearFeatures:function(){
 if(this.features!=null){
 while(this.features.length>0){
-var _7fe=this.features[0];
-OpenLayers.Util.removeItem(this.features,_7fe);
-_7fe.destroy();
+var _731=this.features[0];
+OpenLayers.Util.removeItem(this.features,_731);
+_731.destroy();
 }
 }
 },CLASS_NAME:"OpenLayers.Layer.GeoRSS"});
-OpenLayers.Layer.Google=OpenLayers.Class(OpenLayers.Layer.EventPane,OpenLayers.Layer.FixedZoomLevels,{MIN_ZOOM_LEVEL:0,MAX_ZOOM_LEVEL:19,RESOLUTIONS:[1.40625,0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,0.010986328125,0.0054931640625,0.00274658203125,0.001373291015625,0.0006866455078125,0.00034332275390625,0.000171661376953125,0.0000858306884765625,0.00004291534423828125,0.00002145767211914062,0.00001072883605957031,0.00000536441802978515,0.00000268220901489257],type:null,sphericalMercator:false,initialize:function(name,_800){
+OpenLayers.Layer.Google=OpenLayers.Class(OpenLayers.Layer.EventPane,OpenLayers.Layer.FixedZoomLevels,{MIN_ZOOM_LEVEL:0,MAX_ZOOM_LEVEL:19,RESOLUTIONS:[1.40625,0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,0.010986328125,0.0054931640625,0.00274658203125,0.001373291015625,0.0006866455078125,0.00034332275390625,0.000171661376953125,0.0000858306884765625,0.00004291534423828125,0.00002145767211914062,0.00001072883605957031,0.00000536441802978515,0.00000268220901489257],type:null,sphericalMercator:false,initialize:function(name,_733){
 OpenLayers.Layer.EventPane.prototype.initialize.apply(this,arguments);
 OpenLayers.Layer.FixedZoomLevels.prototype.initialize.apply(this,arguments);
 this.addContainerPxFunction();
@@ -12644,18 +11943,18 @@ this.initMercatorParameters();
 },loadMapObject:function(){
 try{
 this.mapObject=new GMap2(this.div);
-var _801=this.div.lastChild;
-this.div.removeChild(_801);
-this.pane.appendChild(_801);
-_801.className="olLayerGooglePoweredBy gmnoprint";
-_801.style.left="";
-_801.style.bottom="";
-var _802=this.div.lastChild;
-this.div.removeChild(_802);
-this.pane.appendChild(_802);
-_802.className="olLayerGoogleCopyright";
-_802.style.right="";
-_802.style.bottom="";
+var _734=this.div.lastChild;
+this.div.removeChild(_734);
+this.pane.appendChild(_734);
+_734.className="olLayerGooglePoweredBy gmnoprint";
+_734.style.left="";
+_734.style.bottom="";
+var _735=this.div.lastChild;
+this.div.removeChild(_735);
+this.pane.appendChild(_735);
+_735.className="olLayerGoogleCopyright";
+_735.style.right="";
+_735.style.bottom="";
 }
 catch(e){
 }
@@ -12671,11 +11970,11 @@ this.map.events.unregister("moveend",this,this.setMapType);
 }
 },onMapResize:function(){
 this.mapObject.checkResize();
-},getOLBoundsFromMapObjectBounds:function(_804){
-var _805=null;
-if(_804!=null){
-var sw=_804.getSouthWest();
-var ne=_804.getNorthEast();
+},getOLBoundsFromMapObjectBounds:function(_737){
+var _738=null;
+if(_737!=null){
+var sw=_737.getSouthWest();
+var ne=_737.getNorthEast();
 if(this.sphericalMercator){
 sw=this.forwardMercator(sw.lng(),sw.lat());
 ne=this.forwardMercator(ne.lng(),ne.lat());
@@ -12683,25 +11982,25 @@ ne=this.forwardMercator(ne.lng(),ne.lat());
 sw=new OpenLayers.LonLat(sw.lng(),sw.lat());
 ne=new OpenLayers.LonLat(ne.lng(),ne.lat());
 }
-_805=new OpenLayers.Bounds(sw.lon,sw.lat,ne.lon,ne.lat);
+_738=new OpenLayers.Bounds(sw.lon,sw.lat,ne.lon,ne.lat);
 }
-return _805;
-},getMapObjectBoundsFromOLBounds:function(_808){
-var _809=null;
-if(_808!=null){
-var sw=this.sphericalMercator?this.inverseMercator(_808.bottom,_808.left):new OpenLayers.LonLat(_808.bottom,_808.left);
-var ne=this.sphericalMercator?this.inverseMercator(_808.top,_808.right):new OpenLayers.LonLat(_808.top,_808.right);
-_809=new GLatLngBounds(new GLatLng(sw.lat,sw.lon),new GLatLng(ne.lat,ne.lon));
+return _738;
+},getMapObjectBoundsFromOLBounds:function(_73b){
+var _73c=null;
+if(_73b!=null){
+var sw=this.sphericalMercator?this.inverseMercator(_73b.bottom,_73b.left):new OpenLayers.LonLat(_73b.bottom,_73b.left);
+var ne=this.sphericalMercator?this.inverseMercator(_73b.top,_73b.right):new OpenLayers.LonLat(_73b.top,_73b.right);
+_73c=new GLatLngBounds(new GLatLng(sw.lat,sw.lon),new GLatLng(ne.lat,ne.lon));
 }
-return _809;
+return _73c;
 },addContainerPxFunction:function(){
-if(typeof GMap2!="undefined"&&!GMap2.fromLatLngToContainerPixel){
-GMap2.prototype.fromLatLngToContainerPixel=function(_80c){
-var _80d=this.fromLatLngToDivPixel(_80c);
-var div=this.b.firstChild.firstChild;
-_80d.x+=div.offsetLeft;
-_80d.y+=div.offsetTop;
-return _80d;
+if((typeof GMap2!="undefined")&&!GMap2.prototype.fromLatLngToContainerPixel){
+GMap2.prototype.fromLatLngToContainerPixel=function(_73f){
+var _740=this.fromLatLngToDivPixel(_73f);
+var div=this.getContainer().firstChild.firstChild;
+_740.x+=div.offsetLeft;
+_740.y+=div.offsetTop;
+return _740;
 };
 }
 },getWarningHTML:function(){
@@ -12721,40 +12020,40 @@ html+="target='_blank'>";
 html+="click here";
 html+="</a>";
 return html;
-},setMapObjectCenter:function(_810,zoom){
-this.mapObject.setCenter(_810,zoom);
+},setMapObjectCenter:function(_743,zoom){
+this.mapObject.setCenter(_743,zoom);
 },getMapObjectCenter:function(){
 return this.mapObject.getCenter();
 },getMapObjectZoom:function(){
 return this.mapObject.getZoom();
-},getMapObjectLonLatFromMapObjectPixel:function(_812){
-return this.mapObject.fromContainerPixelToLatLng(_812);
-},getMapObjectPixelFromMapObjectLonLat:function(_813){
-return this.mapObject.fromLatLngToContainerPixel(_813);
-},getMapObjectZoomFromMapObjectBounds:function(_814){
-return this.mapObject.getBoundsZoomLevel(_814);
-},getLongitudeFromMapObjectLonLat:function(_815){
-return this.sphericalMercator?this.forwardMercator(_815.lng(),_815.lat()).lon:_815.lng();
-},getLatitudeFromMapObjectLonLat:function(_816){
-var lat=this.sphericalMercator?this.forwardMercator(_816.lng(),_816.lat()).lat:_816.lat();
+},getMapObjectLonLatFromMapObjectPixel:function(_745){
+return this.mapObject.fromContainerPixelToLatLng(_745);
+},getMapObjectPixelFromMapObjectLonLat:function(_746){
+return this.mapObject.fromLatLngToContainerPixel(_746);
+},getMapObjectZoomFromMapObjectBounds:function(_747){
+return this.mapObject.getBoundsZoomLevel(_747);
+},getLongitudeFromMapObjectLonLat:function(_748){
+return this.sphericalMercator?this.forwardMercator(_748.lng(),_748.lat()).lon:_748.lng();
+},getLatitudeFromMapObjectLonLat:function(_749){
+var lat=this.sphericalMercator?this.forwardMercator(_749.lng(),_749.lat()).lat:_749.lat();
 return lat;
 },getMapObjectLonLatFromLonLat:function(lon,lat){
-var _81a;
+var _74d;
 if(this.sphericalMercator){
-var _81b=this.inverseMercator(lon,lat);
-_81a=new GLatLng(_81b.lat,_81b.lon);
+var _74e=this.inverseMercator(lon,lat);
+_74d=new GLatLng(_74e.lat,_74e.lon);
 }else{
-_81a=new GLatLng(lat,lon);
+_74d=new GLatLng(lat,lon);
 }
-return _81a;
-},getXFromMapObjectPixel:function(_81c){
-return _81c.x;
-},getYFromMapObjectPixel:function(_81d){
-return _81d.y;
+return _74d;
+},getXFromMapObjectPixel:function(_74f){
+return _74f.x;
+},getYFromMapObjectPixel:function(_750){
+return _750.y;
 },getMapObjectPixelFromXY:function(x,y){
 return new GPoint(x,y);
 },CLASS_NAME:"OpenLayers.Layer.Google"});
-OpenLayers.Layer.Grid=OpenLayers.Class(OpenLayers.Layer.HTTPRequest,{tileSize:null,grid:null,singleTile:false,ratio:1.5,buffer:2,numLoadingTiles:0,initialize:function(name,url,_822,_823){
+OpenLayers.Layer.Grid=OpenLayers.Class(OpenLayers.Layer.HTTPRequest,{tileSize:null,grid:null,singleTile:false,ratio:1.5,buffer:2,numLoadingTiles:0,initialize:function(name,url,_755,_756){
 OpenLayers.Layer.HTTPRequest.prototype.initialize.apply(this,arguments);
 this.events.addEventType("tileloaded");
 this.grid=[];
@@ -12785,21 +12084,21 @@ obj.tileSize=this.tileSize.clone();
 }
 obj.grid=[];
 return obj;
-},moveTo:function(_829,_82a,_82b){
+},moveTo:function(_75c,_75d,_75e){
 OpenLayers.Layer.HTTPRequest.prototype.moveTo.apply(this,arguments);
-_829=_829||this.map.getExtent();
-if(_829!=null){
-var _82c=!this.grid.length||_82a;
-var _82d=this.getTilesBounds();
+_75c=_75c||this.map.getExtent();
+if(_75c!=null){
+var _75f=!this.grid.length||_75d;
+var _760=this.getTilesBounds();
 if(this.singleTile){
-if(_82c||(!_82b&&!_82d.containsBounds(_829))){
-this.initSingleTile(_829);
+if(_75f||(!_75e&&!_760.containsBounds(_75c))){
+this.initSingleTile(_75c);
 }
 }else{
-if(_82c||!_82d.containsBounds(_829,true)){
-this.initGriddedTiles(_829);
+if(_75f||!_760.containsBounds(_75c,true)){
+this.initGriddedTiles(_75c);
 }else{
-this.moveGriddedTiles(_829);
+this.moveGriddedTiles(_75c);
 }
 }
 }
@@ -12815,136 +12114,136 @@ var msg="The getGridBounds() function is deprecated. It will be "+"removed in 3.
 OpenLayers.Console.warn(msg);
 return this.getTilesBounds();
 },getTilesBounds:function(){
-var _830=null;
+var _763=null;
 if(this.grid.length){
-var _831=this.grid.length-1;
-var _832=this.grid[_831][0];
-var _833=this.grid[0].length-1;
-var _834=this.grid[0][_833];
-_830=new OpenLayers.Bounds(_832.bounds.left,_832.bounds.bottom,_834.bounds.right,_834.bounds.top);
+var _764=this.grid.length-1;
+var _765=this.grid[_764][0];
+var _766=this.grid[0].length-1;
+var _767=this.grid[0][_766];
+_763=new OpenLayers.Bounds(_765.bounds.left,_765.bounds.bottom,_767.bounds.right,_767.bounds.top);
 }
-return _830;
-},initSingleTile:function(_835){
-var _836=_835.getCenterLonLat();
-var _837=_835.getWidth()*this.ratio;
-var _838=_835.getHeight()*this.ratio;
-var _839=new OpenLayers.Bounds(_836.lon-(_837/2),_836.lat-(_838/2),_836.lon+(_837/2),_836.lat+(_838/2));
-var ul=new OpenLayers.LonLat(_839.left,_839.top);
+return _763;
+},initSingleTile:function(_768){
+var _769=_768.getCenterLonLat();
+var _76a=_768.getWidth()*this.ratio;
+var _76b=_768.getHeight()*this.ratio;
+var _76c=new OpenLayers.Bounds(_769.lon-(_76a/2),_769.lat-(_76b/2),_769.lon+(_76a/2),_769.lat+(_76b/2));
+var ul=new OpenLayers.LonLat(_76c.left,_76c.top);
 var px=this.map.getLayerPxFromLonLat(ul);
 if(!this.grid.length){
 this.grid[0]=[];
 }
 var tile=this.grid[0][0];
 if(!tile){
-tile=this.addTile(_839,px);
+tile=this.addTile(_76c,px);
 this.addTileMonitoringHooks(tile);
 tile.draw();
 this.grid[0][0]=tile;
 }else{
-tile.moveTo(_839,px);
+tile.moveTo(_76c,px);
 }
 this.removeExcessTiles(1,1);
-},initGriddedTiles:function(_83d){
-var _83e=this.map.getSize();
-var _83f=Math.ceil(_83e.h/this.tileSize.h)+Math.max(1,2*this.buffer);
-var _840=Math.ceil(_83e.w/this.tileSize.w)+Math.max(1,2*this.buffer);
-var _841=this.map.getMaxExtent();
-var _842=this.map.getResolution();
-var _843=_842*this.tileSize.w;
-var _844=_842*this.tileSize.h;
-var _845=_83d.left-_841.left;
-var _846=Math.floor(_845/_843)-this.buffer;
-var _847=_845/_843-_846;
-var _848=-_847*this.tileSize.w;
-var _849=_841.left+_846*_843;
-var _84a=_83d.top-(_841.bottom+_844);
-var _84b=Math.ceil(_84a/_844)+this.buffer;
-var _84c=_84b-_84a/_844;
-var _84d=-_84c*this.tileSize.h;
-var _84e=_841.bottom+_84b*_844;
-_848=Math.round(_848);
-_84d=Math.round(_84d);
-this.origin=new OpenLayers.Pixel(_848,_84d);
-var _84f=_848;
-var _850=_849;
-var _851=0;
+},initGriddedTiles:function(_770){
+var _771=this.map.getSize();
+var _772=Math.ceil(_771.h/this.tileSize.h)+Math.max(1,2*this.buffer);
+var _773=Math.ceil(_771.w/this.tileSize.w)+Math.max(1,2*this.buffer);
+var _774=this.map.getMaxExtent();
+var _775=this.map.getResolution();
+var _776=_775*this.tileSize.w;
+var _777=_775*this.tileSize.h;
+var _778=_770.left-_774.left;
+var _779=Math.floor(_778/_776)-this.buffer;
+var _77a=_778/_776-_779;
+var _77b=-_77a*this.tileSize.w;
+var _77c=_774.left+_779*_776;
+var _77d=_770.top-(_774.bottom+_777);
+var _77e=Math.ceil(_77d/_777)+this.buffer;
+var _77f=_77e-_77d/_777;
+var _780=-_77f*this.tileSize.h;
+var _781=_774.bottom+_77e*_777;
+_77b=Math.round(_77b);
+_780=Math.round(_780);
+this.origin=new OpenLayers.Pixel(_77b,_780);
+var _782=_77b;
+var _783=_77c;
+var _784=0;
 do{
-var row=this.grid[_851++];
+var row=this.grid[_784++];
 if(!row){
 row=[];
 this.grid.push(row);
 }
-_849=_850;
-_848=_84f;
-var _853=0;
+_77c=_783;
+_77b=_782;
+var _786=0;
 do{
-var _854=new OpenLayers.Bounds(_849,_84e,_849+_843,_84e+_844);
-var x=_848;
+var _787=new OpenLayers.Bounds(_77c,_781,_77c+_776,_781+_777);
+var x=_77b;
 x-=parseInt(this.map.layerContainerDiv.style.left);
-var y=_84d;
+var y=_780;
 y-=parseInt(this.map.layerContainerDiv.style.top);
 var px=new OpenLayers.Pixel(x,y);
-var tile=row[_853++];
+var tile=row[_786++];
 if(!tile){
-tile=this.addTile(_854,px);
+tile=this.addTile(_787,px);
 this.addTileMonitoringHooks(tile);
 row.push(tile);
 }else{
-tile.moveTo(_854,px,false);
+tile.moveTo(_787,px,false);
 }
-_849+=_843;
-_848+=this.tileSize.w;
-}while((_849<=_83d.right+_843*this.buffer)||_853<_840);
-_84e-=_844;
-_84d+=this.tileSize.h;
-}while((_84e>=_83d.bottom-_844*this.buffer)||_851<_83f);
-this.removeExcessTiles(_851,_853);
+_77c+=_776;
+_77b+=this.tileSize.w;
+}while((_77c<=_770.right+_776*this.buffer)||_786<_773);
+_781-=_777;
+_780+=this.tileSize.h;
+}while((_781>=_770.bottom-_777*this.buffer)||_784<_772);
+this.removeExcessTiles(_784,_786);
 this.spiralTileLoad();
 },spiralTileLoad:function(){
-var _859=[];
-var _85a=["right","down","left","up"];
+var _78c=[];
+var _78d=["right","down","left","up"];
 var iRow=0;
-var _85c=-1;
-var _85d=OpenLayers.Util.indexOf(_85a,"right");
-var _85e=0;
-while(_85e<_85a.length){
-var _85f=iRow;
-var _860=_85c;
-switch(_85a[_85d]){
+var _78f=-1;
+var _790=OpenLayers.Util.indexOf(_78d,"right");
+var _791=0;
+while(_791<_78d.length){
+var _792=iRow;
+var _793=_78f;
+switch(_78d[_790]){
 case "right":
-_860++;
+_793++;
 break;
 case "down":
-_85f++;
+_792++;
 break;
 case "left":
-_860--;
+_793--;
 break;
 case "up":
-_85f--;
+_792--;
 break;
 }
 var tile=null;
-if((_85f<this.grid.length)&&(_85f>=0)&&(_860<this.grid[0].length)&&(_860>=0)){
-tile=this.grid[_85f][_860];
+if((_792<this.grid.length)&&(_792>=0)&&(_793<this.grid[0].length)&&(_793>=0)){
+tile=this.grid[_792][_793];
 }
 if((tile!=null)&&(!tile.queued)){
-_859.unshift(tile);
+_78c.unshift(tile);
 tile.queued=true;
-_85e=0;
-iRow=_85f;
-_85c=_860;
+_791=0;
+iRow=_792;
+_78f=_793;
 }else{
-_85d=(_85d+1)%4;
-_85e++;
+_790=(_790+1)%4;
+_791++;
 }
 }
-for(var i=0;i<_859.length;i++){
-var tile=_859[i];
+for(var i=0;i<_78c.length;i++){
+var tile=_78c[i];
 tile.draw();
 tile.queued=false;
 }
-},addTile:function(_863,_864){
+},addTile:function(_796,_797){
 },addTileMonitoringHooks:function(tile){
 tile.onLoadStart=function(){
 if(this.numLoadingTiles==0){
@@ -12964,21 +12263,21 @@ tile.events.register("loadend",this,tile.onLoadEnd);
 },removeTileMonitoringHooks:function(tile){
 tile.events.unregister("loadstart",this,tile.onLoadStart);
 tile.events.unregister("loadend",this,tile.onLoadEnd);
-},moveGriddedTiles:function(_867){
-var _868=this.buffer||1;
+},moveGriddedTiles:function(_79a){
+var _79b=this.buffer||1;
 while(true){
-var _869=this.grid[0][0].position;
-var _86a=this.map.getViewPortPxFromLayerPx(_869);
-if(_86a.x>-this.tileSize.w*(_868-1)){
+var _79c=this.grid[0][0].position;
+var _79d=this.map.getViewPortPxFromLayerPx(_79c);
+if(_79d.x>-this.tileSize.w*(_79b-1)){
 this.shiftColumn(true);
 }else{
-if(_86a.x<-this.tileSize.w*_868){
+if(_79d.x<-this.tileSize.w*_79b){
 this.shiftColumn(false);
 }else{
-if(_86a.y>-this.tileSize.h*(_868-1)){
+if(_79d.y>-this.tileSize.h*(_79b-1)){
 this.shiftRow(true);
 }else{
-if(_86a.y<-this.tileSize.h*_868){
+if(_79d.y<-this.tileSize.h*_79b){
 this.shiftRow(false);
 }else{
 break;
@@ -12992,55 +12291,55 @@ for(var r=0,rl=this.grid.length;r<rl;r++){
 var row=this.grid[r];
 for(var c=0,cl=row.length;c<cl;c++){
 var tile=row[c];
-if(!tile.drawn&&tile.bounds.intersectsBounds(_867,false)){
+if(!tile.drawn&&tile.bounds.intersectsBounds(_79a,false)){
 tile.draw();
 }
 }
 }
 }
-},shiftRow:function(_86f){
-var _870=(_86f)?0:(this.grid.length-1);
-var _871=this.grid[_870];
-var _872=this.map.getResolution();
-var _873=(_86f)?-this.tileSize.h:this.tileSize.h;
-var _874=_872*-_873;
-var row=(_86f)?this.grid.pop():this.grid.shift();
-for(var i=0;i<_871.length;i++){
-var _877=_871[i];
-var _878=_877.bounds.clone();
-var _879=_877.position.clone();
-_878.bottom=_878.bottom+_874;
-_878.top=_878.top+_874;
-_879.y=_879.y+_873;
-row[i].moveTo(_878,_879);
+},shiftRow:function(_7a2){
+var _7a3=(_7a2)?0:(this.grid.length-1);
+var _7a4=this.grid[_7a3];
+var _7a5=this.map.getResolution();
+var _7a6=(_7a2)?-this.tileSize.h:this.tileSize.h;
+var _7a7=_7a5*-_7a6;
+var row=(_7a2)?this.grid.pop():this.grid.shift();
+for(var i=0;i<_7a4.length;i++){
+var _7aa=_7a4[i];
+var _7ab=_7aa.bounds.clone();
+var _7ac=_7aa.position.clone();
+_7ab.bottom=_7ab.bottom+_7a7;
+_7ab.top=_7ab.top+_7a7;
+_7ac.y=_7ac.y+_7a6;
+row[i].moveTo(_7ab,_7ac);
 }
-if(_86f){
+if(_7a2){
 this.grid.unshift(row);
 }else{
 this.grid.push(row);
 }
-},shiftColumn:function(_87a){
-var _87b=(_87a)?-this.tileSize.w:this.tileSize.w;
-var _87c=this.map.getResolution();
-var _87d=_87c*_87b;
+},shiftColumn:function(_7ad){
+var _7ae=(_7ad)?-this.tileSize.w:this.tileSize.w;
+var _7af=this.map.getResolution();
+var _7b0=_7af*_7ae;
 for(var i=0;i<this.grid.length;i++){
 var row=this.grid[i];
-var _880=(_87a)?0:(row.length-1);
-var _881=row[_880];
-var _882=_881.bounds.clone();
-var _883=_881.position.clone();
-_882.left=_882.left+_87d;
-_882.right=_882.right+_87d;
-_883.x=_883.x+_87b;
-var tile=_87a?this.grid[i].pop():this.grid[i].shift();
-tile.moveTo(_882,_883);
-if(_87a){
+var _7b3=(_7ad)?0:(row.length-1);
+var _7b4=row[_7b3];
+var _7b5=_7b4.bounds.clone();
+var _7b6=_7b4.position.clone();
+_7b5.left=_7b5.left+_7b0;
+_7b5.right=_7b5.right+_7b0;
+_7b6.x=_7b6.x+_7ae;
+var tile=_7ad?this.grid[i].pop():this.grid[i].shift();
+tile.moveTo(_7b5,_7b6);
+if(_7ad){
 this.grid[i].unshift(tile);
 }else{
 this.grid[i].push(tile);
 }
 }
-},removeExcessTiles:function(rows,_886){
+},removeExcessTiles:function(rows,_7b9){
 while(this.grid.length>rows){
 var row=this.grid.pop();
 for(var i=0,l=row.length;i<l;i++){
@@ -13049,7 +12348,7 @@ this.removeTileMonitoringHooks(tile);
 tile.destroy();
 }
 }
-while(this.grid[0].length>_886){
+while(this.grid[0].length>_7b9){
 for(var i=0,l=this.grid.length;i<l;i++){
 var row=this.grid[i];
 var tile=row.pop();
@@ -13063,17 +12362,17 @@ this.clearGrid();
 this.setTileSize();
 this.initSingleTile(this.map.getExtent());
 }
-},getTileBounds:function(_88a){
-var _88b=this.map.getMaxExtent();
-var _88c=this.getResolution();
-var _88d=_88c*this.tileSize.w;
-var _88e=_88c*this.tileSize.h;
-var _88f=this.getLonLatFromViewPortPx(_88a);
-var _890=_88b.left+(_88d*Math.floor((_88f.lon-_88b.left)/_88d));
-var _891=_88b.bottom+(_88e*Math.floor((_88f.lat-_88b.bottom)/_88e));
-return new OpenLayers.Bounds(_890,_891,_890+_88d,_891+_88e);
+},getTileBounds:function(_7bd){
+var _7be=this.map.getMaxExtent();
+var _7bf=this.getResolution();
+var _7c0=_7bf*this.tileSize.w;
+var _7c1=_7bf*this.tileSize.h;
+var _7c2=this.getLonLatFromViewPortPx(_7bd);
+var _7c3=_7be.left+(_7c0*Math.floor((_7c2.lon-_7be.left)/_7c0));
+var _7c4=_7be.bottom+(_7c1*Math.floor((_7c2.lat-_7be.bottom)/_7c1));
+return new OpenLayers.Bounds(_7c3,_7c4,_7c3+_7c0,_7c4+_7c1);
 },CLASS_NAME:"OpenLayers.Layer.Grid"});
-OpenLayers.Layer.MultiMap=OpenLayers.Class(OpenLayers.Layer.EventPane,OpenLayers.Layer.FixedZoomLevels,{MIN_ZOOM_LEVEL:1,MAX_ZOOM_LEVEL:17,RESOLUTIONS:[9,1.40625,0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,0.010986328125,0.0054931640625,0.00274658203125,0.001373291015625,0.0006866455078125,0.00034332275390625,0.000171661376953125,0.0000858306884765625,0.00004291534423828125],type:null,initialize:function(name,_893){
+OpenLayers.Layer.MultiMap=OpenLayers.Class(OpenLayers.Layer.EventPane,OpenLayers.Layer.FixedZoomLevels,{MIN_ZOOM_LEVEL:1,MAX_ZOOM_LEVEL:17,RESOLUTIONS:[9,1.40625,0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,0.010986328125,0.0054931640625,0.00274658203125,0.001373291015625,0.0006866455078125,0.00034332275390625,0.000171661376953125,0.0000858306884765625,0.00004291534423828125],type:null,initialize:function(name,_7c6){
 OpenLayers.Layer.EventPane.prototype.initialize.apply(this,arguments);
 OpenLayers.Layer.FixedZoomLevels.prototype.initialize.apply(this,arguments);
 if(this.sphericalMercator){
@@ -13103,106 +12402,106 @@ html+="target='_blank'>";
 html+="click here";
 html+="</a>";
 return html;
-},setMapObjectCenter:function(_895,zoom){
-this.mapObject.goToPosition(_895,zoom);
+},setMapObjectCenter:function(_7c8,zoom){
+this.mapObject.goToPosition(_7c8,zoom);
 },getMapObjectCenter:function(){
 return this.mapObject.getCurrentPosition();
 },getMapObjectZoom:function(){
 return this.mapObject.getZoomFactor();
-},getMapObjectLonLatFromMapObjectPixel:function(_897){
-_897.x=_897.x-(this.map.getSize().w/2);
-_897.y=_897.y-(this.map.getSize().h/2);
-return this.mapObject.getMapPositionAt(_897);
-},getMapObjectPixelFromMapObjectLonLat:function(_898){
-return this.mapObject.geoPosToContainerPixels(_898);
-},getLongitudeFromMapObjectLonLat:function(_899){
-return this.sphericalMercator?this.forwardMercator(_899.lon,_899.lat).lon:_899.lon;
-},getLatitudeFromMapObjectLonLat:function(_89a){
-return this.sphericalMercator?this.forwardMercator(_89a.lon,_89a.lat).lat:_89a.lat;
+},getMapObjectLonLatFromMapObjectPixel:function(_7ca){
+_7ca.x=_7ca.x-(this.map.getSize().w/2);
+_7ca.y=_7ca.y-(this.map.getSize().h/2);
+return this.mapObject.getMapPositionAt(_7ca);
+},getMapObjectPixelFromMapObjectLonLat:function(_7cb){
+return this.mapObject.geoPosToContainerPixels(_7cb);
+},getLongitudeFromMapObjectLonLat:function(_7cc){
+return this.sphericalMercator?this.forwardMercator(_7cc.lon,_7cc.lat).lon:_7cc.lon;
+},getLatitudeFromMapObjectLonLat:function(_7cd){
+return this.sphericalMercator?this.forwardMercator(_7cd.lon,_7cd.lat).lat:_7cd.lat;
 },getMapObjectLonLatFromLonLat:function(lon,lat){
-var _89d;
+var _7d0;
 if(this.sphericalMercator){
-var _89e=this.inverseMercator(lon,lat);
-_89d=new MMLatLon(_89e.lat,_89e.lon);
+var _7d1=this.inverseMercator(lon,lat);
+_7d0=new MMLatLon(_7d1.lat,_7d1.lon);
 }else{
-_89d=new MMLatLon(lat,lon);
+_7d0=new MMLatLon(lat,lon);
 }
-return _89d;
-},getXFromMapObjectPixel:function(_89f){
-return _89f.x;
-},getYFromMapObjectPixel:function(_8a0){
-return _8a0.y;
+return _7d0;
+},getXFromMapObjectPixel:function(_7d2){
+return _7d2.x;
+},getYFromMapObjectPixel:function(_7d3){
+return _7d3.y;
 },getMapObjectPixelFromXY:function(x,y){
 return new MMPoint(x,y);
 },CLASS_NAME:"OpenLayers.Layer.MultiMap"});
-OpenLayers.Layer.Text=OpenLayers.Class(OpenLayers.Layer.Markers,{location:null,features:null,selectedFeature:null,initialize:function(name,_8a4){
+OpenLayers.Layer.Text=OpenLayers.Class(OpenLayers.Layer.Markers,{location:null,features:null,selectedFeature:null,initialize:function(name,_7d7){
 OpenLayers.Layer.Markers.prototype.initialize.apply(this,arguments);
 this.features=new Array();
 if(this.location!=null){
-var _8a5=function(e){
+var _7d8=function(e){
 this.events.triggerEvent("loadend");
 };
 this.events.triggerEvent("loadstart");
-OpenLayers.loadURL(this.location,null,this,this.parseData,_8a5);
+OpenLayers.loadURL(this.location,null,this,this.parseData,_7d8);
 }
 },destroy:function(){
 this.clearFeatures();
 this.features=null;
 OpenLayers.Layer.Markers.prototype.destroy.apply(this,arguments);
-},parseData:function(_8a7){
-var text=_8a7.responseText;
-var _8a9=text.split("\n");
-var _8aa;
-for(var lcv=0;lcv<(_8a9.length-1);lcv++){
-var _8ac=_8a9[lcv].replace(/^\s*/,"").replace(/\s*$/,"");
-if(_8ac.charAt(0)!="#"){
-if(!_8aa){
-_8aa=_8ac.split("\t");
+},parseData:function(_7da){
+var text=_7da.responseText;
+var _7dc=text.split("\n");
+var _7dd;
+for(var lcv=0;lcv<(_7dc.length-1);lcv++){
+var _7df=_7dc[lcv].replace(/^\s*/,"").replace(/\s*$/,"");
+if(_7df.charAt(0)!="#"){
+if(!_7dd){
+_7dd=_7df.split("\t");
 }else{
-var vals=_8ac.split("\t");
-var _8ae=new OpenLayers.LonLat(0,0);
-var _8af;
+var vals=_7df.split("\t");
+var _7e1=new OpenLayers.LonLat(0,0);
+var _7e2;
 var url;
 var icon,iconSize,iconOffset,overflow;
 var set=false;
-for(var _8b3=0;_8b3<vals.length;_8b3++){
-if(vals[_8b3]){
-if(_8aa[_8b3]=="point"){
-var _8b4=vals[_8b3].split(",");
-_8ae.lat=parseFloat(_8b4[0]);
-_8ae.lon=parseFloat(_8b4[1]);
+for(var _7e6=0;_7e6<vals.length;_7e6++){
+if(vals[_7e6]){
+if(_7dd[_7e6]=="point"){
+var _7e7=vals[_7e6].split(",");
+_7e1.lat=parseFloat(_7e7[0]);
+_7e1.lon=parseFloat(_7e7[1]);
 set=true;
 }else{
-if(_8aa[_8b3]=="lat"){
-_8ae.lat=parseFloat(vals[_8b3]);
+if(_7dd[_7e6]=="lat"){
+_7e1.lat=parseFloat(vals[_7e6]);
 set=true;
 }else{
-if(_8aa[_8b3]=="lon"){
-_8ae.lon=parseFloat(vals[_8b3]);
+if(_7dd[_7e6]=="lon"){
+_7e1.lon=parseFloat(vals[_7e6]);
 set=true;
 }else{
-if(_8aa[_8b3]=="title"){
-_8af=vals[_8b3];
+if(_7dd[_7e6]=="title"){
+_7e2=vals[_7e6];
 }else{
-if(_8aa[_8b3]=="image"||_8aa[_8b3]=="icon"){
-url=vals[_8b3];
+if(_7dd[_7e6]=="image"||_7dd[_7e6]=="icon"){
+url=vals[_7e6];
 }else{
-if(_8aa[_8b3]=="iconSize"){
-var size=vals[_8b3].split(",");
+if(_7dd[_7e6]=="iconSize"){
+var size=vals[_7e6].split(",");
 iconSize=new OpenLayers.Size(parseFloat(size[0]),parseFloat(size[1]));
 }else{
-if(_8aa[_8b3]=="iconOffset"){
-var _8b6=vals[_8b3].split(",");
-iconOffset=new OpenLayers.Pixel(parseFloat(_8b6[0]),parseFloat(_8b6[1]));
+if(_7dd[_7e6]=="iconOffset"){
+var _7e9=vals[_7e6].split(",");
+iconOffset=new OpenLayers.Pixel(parseFloat(_7e9[0]),parseFloat(_7e9[1]));
 }else{
-if(_8aa[_8b3]=="title"){
-_8af=vals[_8b3];
+if(_7dd[_7e6]=="title"){
+_7e2=vals[_7e6];
 }else{
-if(_8aa[_8b3]=="description"){
-description=vals[_8b3];
+if(_7dd[_7e6]=="description"){
+description=vals[_7e6];
 }else{
-if(_8aa[_8b3]=="overflow"){
-overflow=vals[_8b3];
+if(_7dd[_7e6]=="overflow"){
+overflow=vals[_7e6];
 }
 }
 }
@@ -13225,44 +12524,44 @@ if(iconSize!=null){
 data.icon.setSize(iconSize);
 }
 }
-if((_8af!=null)&&(description!=null)){
-data["popupContentHTML"]="<h2>"+_8af+"</h2><p>"+description+"</p>";
+if((_7e2!=null)&&(description!=null)){
+data["popupContentHTML"]="<h2>"+_7e2+"</h2><p>"+description+"</p>";
 }
 data["overflow"]=overflow||"auto";
-var _8b8=new OpenLayers.Feature(this,_8ae,data);
-this.features.push(_8b8);
-var _8b9=_8b8.createMarker();
-if((_8af!=null)&&(description!=null)){
-_8b9.events.register("click",_8b8,this.markerClick);
+var _7eb=new OpenLayers.Feature(this,_7e1,data);
+this.features.push(_7eb);
+var _7ec=_7eb.createMarker();
+if((_7e2!=null)&&(description!=null)){
+_7ec.events.register("click",_7eb,this.markerClick);
 }
-this.addMarker(_8b9);
+this.addMarker(_7ec);
 }
 }
 }
 }
 this.events.triggerEvent("loadend");
 },markerClick:function(evt){
-var _8bb=(this==this.layer.selectedFeature);
-this.layer.selectedFeature=(!_8bb)?this:null;
+var _7ee=(this==this.layer.selectedFeature);
+this.layer.selectedFeature=(!_7ee)?this:null;
 for(var i=0;i<this.layer.map.popups.length;i++){
 this.layer.map.removePopup(this.layer.map.popups[i]);
 }
-if(!_8bb){
+if(!_7ee){
 this.layer.map.addPopup(this.createPopup());
 }
 OpenLayers.Event.stop(evt);
 },clearFeatures:function(){
 if(this.features!=null){
 while(this.features.length>0){
-var _8bd=this.features[0];
-OpenLayers.Util.removeItem(this.features,_8bd);
-_8bd.destroy();
+var _7f0=this.features[0];
+OpenLayers.Util.removeItem(this.features,_7f0);
+_7f0.destroy();
 }
 }
 },CLASS_NAME:"OpenLayers.Layer.Text"});
-OpenLayers.Layer.Vector=OpenLayers.Class(OpenLayers.Layer,{isBaseLayer:false,isFixed:false,isVector:true,features:null,selectedFeatures:null,reportError:true,style:null,renderers:["SVG","VML"],renderer:null,geometryType:null,drawn:false,initialize:function(name,_8bf){
-var _8c0=OpenLayers.Feature.Vector.style["default"];
-this.style=OpenLayers.Util.extend({},_8c0);
+OpenLayers.Layer.Vector=OpenLayers.Class(OpenLayers.Layer,{isBaseLayer:false,isFixed:false,isVector:true,features:null,selectedFeatures:null,reportError:true,style:null,renderers:["SVG","VML"],renderer:null,geometryType:null,drawn:false,initialize:function(name,_7f2){
+var _7f3=OpenLayers.Feature.Vector.style["default"];
+this.style=OpenLayers.Util.extend({},_7f3);
 OpenLayers.Layer.prototype.initialize.apply(this,arguments);
 if(!this.renderer||!this.renderer.supported()){
 this.assignRenderer();
@@ -13286,17 +12585,17 @@ this.geometryType=null;
 this.drawn=null;
 },assignRenderer:function(){
 for(var i=0;i<this.renderers.length;i++){
-var _8c2=OpenLayers.Renderer[this.renderers[i]];
-if(_8c2&&_8c2.prototype.supported()){
-this.renderer=new _8c2(this.div);
+var _7f5=OpenLayers.Renderer[this.renderers[i]];
+if(_7f5&&_7f5.prototype.supported()){
+this.renderer=new _7f5(this.div);
 break;
 }
 }
 },displayError:function(){
 if(this.reportError){
-var _8c3="Your browser does not support vector rendering. "+"Currently supported renderers are:\n";
-_8c3+=this.renderers.join("\n");
-alert(_8c3);
+var _7f6="Your browser does not support vector rendering. "+"Currently supported renderers are:\n";
+_7f6+=this.renderers.join("\n");
+alert(_7f6);
 }
 },setMap:function(map){
 OpenLayers.Layer.prototype.setMap.apply(this,arguments);
@@ -13309,54 +12608,54 @@ this.renderer.setSize(this.map.getSize());
 },onMapResize:function(){
 OpenLayers.Layer.prototype.onMapResize.apply(this,arguments);
 this.renderer.setSize(this.map.getSize());
-},moveTo:function(_8c5,_8c6,_8c7){
+},moveTo:function(_7f8,_7f9,_7fa){
 OpenLayers.Layer.prototype.moveTo.apply(this,arguments);
-if(!_8c7){
+if(!_7fa){
 this.div.style.left=-parseInt(this.map.layerContainerDiv.style.left)+"px";
 this.div.style.top=-parseInt(this.map.layerContainerDiv.style.top)+"px";
-var _8c8=this.map.getExtent();
-this.renderer.setExtent(_8c8);
+var _7fb=this.map.getExtent();
+this.renderer.setExtent(_7fb);
 }
-if(!this.drawn||_8c6){
+if(!this.drawn||_7f9){
 this.drawn=true;
 for(var i=0;i<this.features.length;i++){
-var _8ca=this.features[i];
-this.drawFeature(_8ca);
+var _7fd=this.features[i];
+this.drawFeature(_7fd);
 }
 }
-},addFeatures:function(_8cb){
-if(!(_8cb instanceof Array)){
-_8cb=[_8cb];
+},addFeatures:function(_7fe){
+if(!(_7fe instanceof Array)){
+_7fe=[_7fe];
 }
-for(var i=0;i<_8cb.length;i++){
-var _8cd=_8cb[i];
-if(this.geometryType&&!(_8cd.geometry instanceof this.geometryType)){
-var _8ce="addFeatures : component should be an "+this.geometryType.prototype.CLASS_NAME;
-throw _8ce;
+for(var i=0;i<_7fe.length;i++){
+var _800=_7fe[i];
+if(this.geometryType&&!(_800.geometry instanceof this.geometryType)){
+var _801="addFeatures : component should be an "+this.geometryType.prototype.CLASS_NAME;
+throw _801;
 }
-this.features.push(_8cd);
-_8cd.layer=this;
-if(!_8cd.style){
-_8cd.style=OpenLayers.Util.extend({},this.style);
+this.features.push(_800);
+_800.layer=this;
+if(!_800.style){
+_800.style=OpenLayers.Util.extend({},this.style);
 }
-this.preFeatureInsert(_8cd);
+this.preFeatureInsert(_800);
 if(this.drawn){
-this.drawFeature(_8cd);
+this.drawFeature(_800);
 }
-this.onFeatureInsert(_8cd);
+this.onFeatureInsert(_800);
 }
-},removeFeatures:function(_8cf){
-if(!(_8cf instanceof Array)){
-_8cf=[_8cf];
+},removeFeatures:function(_802){
+if(!(_802 instanceof Array)){
+_802=[_802];
 }
-for(var i=_8cf.length-1;i>=0;i--){
-var _8d1=_8cf[i];
-this.features=OpenLayers.Util.removeItem(this.features,_8d1);
-if(_8d1.geometry){
-this.renderer.eraseGeometry(_8d1.geometry);
+for(var i=_802.length-1;i>=0;i--){
+var _804=_802[i];
+this.features=OpenLayers.Util.removeItem(this.features,_804);
+if(_804.geometry){
+this.renderer.eraseGeometry(_804.geometry);
 }
-if(OpenLayers.Util.indexOf(this.selectedFeatures,_8d1)!=-1){
-OpenLayers.Util.removeItem(this.selectedFeatures,_8d1);
+if(OpenLayers.Util.indexOf(this.selectedFeatures,_804)!=-1){
+OpenLayers.Util.removeItem(this.selectedFeatures,_804);
 }
 }
 },destroyFeatures:function(){
@@ -13364,37 +12663,37 @@ this.selectedFeatures=[];
 for(var i=this.features.length-1;i>=0;i--){
 this.features[i].destroy();
 }
-},drawFeature:function(_8d3,_8d4){
-if(_8d4==null){
-if(_8d3.style){
-_8d4=_8d3.style;
+},drawFeature:function(_806,_807){
+if(_807==null){
+if(_806.style){
+_807=_806.style;
 }else{
-_8d4=this.style;
+_807=this.style;
 }
 }
-this.renderer.drawFeature(_8d3,_8d4);
-},eraseFeatures:function(_8d5){
-this.renderer.eraseFeatures(_8d5);
+this.renderer.drawFeature(_806,_807);
+},eraseFeatures:function(_808){
+this.renderer.eraseFeatures(_808);
 },getFeatureFromEvent:function(evt){
 if(!this.renderer){
 OpenLayers.Console.error("getFeatureFromEvent called on layer with no renderer. This usually means you destroyed a layer, but not some handler which is associated with it.");
 return null;
 }
-var _8d7=this.renderer.getFeatureIdFromEvent(evt);
-return this.getFeatureById(_8d7);
-},getFeatureById:function(_8d8){
-var _8d9=null;
+var _80a=this.renderer.getFeatureIdFromEvent(evt);
+return this.getFeatureById(_80a);
+},getFeatureById:function(_80b){
+var _80c=null;
 for(var i=0;i<this.features.length;++i){
-if(this.features[i].id==_8d8){
-_8d9=this.features[i];
+if(this.features[i].id==_80b){
+_80c=this.features[i];
 break;
 }
 }
-return _8d9;
-},onFeatureInsert:function(_8db){
-},preFeatureInsert:function(_8dc){
+return _80c;
+},onFeatureInsert:function(_80e){
+},preFeatureInsert:function(_80f){
 },CLASS_NAME:"OpenLayers.Layer.Vector"});
-OpenLayers.Layer.VirtualEarth=OpenLayers.Class(OpenLayers.Layer.EventPane,OpenLayers.Layer.FixedZoomLevels,{MIN_ZOOM_LEVEL:1,MAX_ZOOM_LEVEL:17,RESOLUTIONS:[1.40625,0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,0.010986328125,0.0054931640625,0.00274658203125,0.001373291015625,0.0006866455078125,0.00034332275390625,0.000171661376953125,0.0000858306884765625,0.00004291534423828125],type:null,sphericalMercator:false,initialize:function(name,_8de){
+OpenLayers.Layer.VirtualEarth=OpenLayers.Class(OpenLayers.Layer.EventPane,OpenLayers.Layer.FixedZoomLevels,{MIN_ZOOM_LEVEL:1,MAX_ZOOM_LEVEL:17,RESOLUTIONS:[1.40625,0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,0.010986328125,0.0054931640625,0.00274658203125,0.001373291015625,0.0006866455078125,0.00034332275390625,0.000171661376953125,0.0000858306884765625,0.00004291534423828125],type:null,sphericalMercator:false,initialize:function(name,_811){
 OpenLayers.Layer.EventPane.prototype.initialize.apply(this,arguments);
 OpenLayers.Layer.FixedZoomLevels.prototype.initialize.apply(this,arguments);
 if(this.sphericalMercator){
@@ -13402,11 +12701,11 @@ OpenLayers.Util.extend(this,OpenLayers.Layer.SphericalMercator);
 this.initMercatorParameters();
 }
 },loadMapObject:function(){
-var _8df=OpenLayers.Util.createDiv(this.name);
+var _812=OpenLayers.Util.createDiv(this.name);
 var sz=this.map.getSize();
-_8df.style.width=sz.w;
-_8df.style.height=sz.h;
-this.div.appendChild(_8df);
+_812.style.width=sz.w;
+_812.style.height=sz.h;
+this.div.appendChild(_812);
 try{
 this.mapObject=new VEMap(this.name);
 }
@@ -13436,37 +12735,37 @@ html+="target='_blank'>";
 html+="click here";
 html+="</a>";
 return html;
-},setMapObjectCenter:function(_8e2,zoom){
-this.mapObject.SetCenterAndZoom(_8e2,zoom);
+},setMapObjectCenter:function(_815,zoom){
+this.mapObject.SetCenterAndZoom(_815,zoom);
 },getMapObjectCenter:function(){
 return this.mapObject.GetCenter();
 },getMapObjectZoom:function(){
 return this.mapObject.GetZoomLevel();
-},getMapObjectLonLatFromMapObjectPixel:function(_8e4){
-return this.mapObject.PixelToLatLong(_8e4.x,_8e4.y);
-},getMapObjectPixelFromMapObjectLonLat:function(_8e5){
-return this.mapObject.LatLongToPixel(_8e5);
-},getLongitudeFromMapObjectLonLat:function(_8e6){
-return this.sphericalMercator?this.forwardMercator(_8e6.Longitude,_8e6.Latitude).lon:_8e6.Longitude;
-},getLatitudeFromMapObjectLonLat:function(_8e7){
-return this.sphericalMercator?this.forwardMercator(_8e7.Longitude,_8e7.Latitude).lat:_8e7.Latitude;
+},getMapObjectLonLatFromMapObjectPixel:function(_817){
+return this.mapObject.PixelToLatLong(_817.x,_817.y);
+},getMapObjectPixelFromMapObjectLonLat:function(_818){
+return this.mapObject.LatLongToPixel(_818);
+},getLongitudeFromMapObjectLonLat:function(_819){
+return this.sphericalMercator?this.forwardMercator(_819.Longitude,_819.Latitude).lon:_819.Longitude;
+},getLatitudeFromMapObjectLonLat:function(_81a){
+return this.sphericalMercator?this.forwardMercator(_81a.Longitude,_81a.Latitude).lat:_81a.Latitude;
 },getMapObjectLonLatFromLonLat:function(lon,lat){
-var _8ea;
+var _81d;
 if(this.sphericalMercator){
-var _8eb=this.inverseMercator(lon,lat);
-_8ea=new VELatLong(_8eb.lat,_8eb.lon);
+var _81e=this.inverseMercator(lon,lat);
+_81d=new VELatLong(_81e.lat,_81e.lon);
 }else{
-_8ea=new VELatLong(lat,lon);
+_81d=new VELatLong(lat,lon);
 }
-return _8ea;
-},getXFromMapObjectPixel:function(_8ec){
-return _8ec.x;
-},getYFromMapObjectPixel:function(_8ed){
-return _8ed.y;
+return _81d;
+},getXFromMapObjectPixel:function(_81f){
+return _81f.x;
+},getYFromMapObjectPixel:function(_820){
+return _820.y;
 },getMapObjectPixelFromXY:function(x,y){
 return new Msn.VE.Pixel(x,y);
 },CLASS_NAME:"OpenLayers.Layer.VirtualEarth"});
-OpenLayers.Layer.Yahoo=OpenLayers.Class(OpenLayers.Layer.EventPane,OpenLayers.Layer.FixedZoomLevels,{MIN_ZOOM_LEVEL:0,MAX_ZOOM_LEVEL:15,RESOLUTIONS:[1.40625,0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,0.010986328125,0.0054931640625,0.00274658203125,0.001373291015625,0.0006866455078125,0.00034332275390625,0.000171661376953125,0.0000858306884765625,0.00004291534423828125],type:null,sphericalMercator:false,initialize:function(name,_8f1){
+OpenLayers.Layer.Yahoo=OpenLayers.Class(OpenLayers.Layer.EventPane,OpenLayers.Layer.FixedZoomLevels,{MIN_ZOOM_LEVEL:0,MAX_ZOOM_LEVEL:15,RESOLUTIONS:[1.40625,0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,0.010986328125,0.0054931640625,0.00274658203125,0.001373291015625,0.0006866455078125,0.00034332275390625,0.000171661376953125,0.0000858306884765625,0.00004291534423828125],type:null,sphericalMercator:false,initialize:function(name,_824){
 OpenLayers.Layer.EventPane.prototype.initialize.apply(this,arguments);
 OpenLayers.Layer.FixedZoomLevels.prototype.initialize.apply(this,arguments);
 if(this.sphericalMercator){
@@ -13478,6 +12777,7 @@ try{
 var size=this.getMapObjectSizeFromOLSize(this.map.getSize());
 this.mapObject=new YMap(this.div,this.type,size);
 this.mapObject.disableKeyControls();
+this.mapObject.disableDragMap();
 }
 catch(e){
 }
@@ -13492,10 +12792,10 @@ catch(e){
 OpenLayers.Layer.EventPane.prototype.setMap.apply(this,arguments);
 this.map.events.register("moveend",this,this.fixYahooEventPane);
 },fixYahooEventPane:function(){
-var _8f5=OpenLayers.Util.getElement("ygddfdiv");
-if(_8f5!=null){
-if(_8f5.parentNode!=null){
-_8f5.parentNode.removeChild(_8f5);
+var _828=OpenLayers.Util.getElement("ygddfdiv");
+if(_828!=null){
+if(_828.parentNode!=null){
+_828.parentNode.removeChild(_828);
 }
 this.map.events.unregister("moveend",this,this.fixYahooEventPane);
 }
@@ -13515,84 +12815,84 @@ html+="target='_blank'>";
 html+="click here";
 html+="</a>";
 return html;
-},getOLZoomFromMapObjectZoom:function(_8f7){
+},getOLZoomFromMapObjectZoom:function(_82a){
 var zoom=null;
-if(_8f7!=null){
-zoom=OpenLayers.Layer.FixedZoomLevels.prototype.getOLZoomFromMapObjectZoom.apply(this,[_8f7]);
+if(_82a!=null){
+zoom=OpenLayers.Layer.FixedZoomLevels.prototype.getOLZoomFromMapObjectZoom.apply(this,[_82a]);
 zoom=18-zoom;
 }
 return zoom;
-},getMapObjectZoomFromOLZoom:function(_8f9){
+},getMapObjectZoomFromOLZoom:function(_82c){
 var zoom=null;
-if(_8f9!=null){
-zoom=OpenLayers.Layer.FixedZoomLevels.prototype.getMapObjectZoomFromOLZoom.apply(this,[_8f9]);
+if(_82c!=null){
+zoom=OpenLayers.Layer.FixedZoomLevels.prototype.getMapObjectZoomFromOLZoom.apply(this,[_82c]);
 zoom=18-zoom;
 }
 return zoom;
-},setMapObjectCenter:function(_8fb,zoom){
-this.mapObject.drawZoomAndCenter(_8fb,zoom);
+},setMapObjectCenter:function(_82e,zoom){
+this.mapObject.drawZoomAndCenter(_82e,zoom);
 },getMapObjectCenter:function(){
 return this.mapObject.getCenterLatLon();
 },getMapObjectZoom:function(){
 return this.mapObject.getZoomLevel();
-},getMapObjectLonLatFromMapObjectPixel:function(_8fd){
-return this.mapObject.convertXYLatLon(_8fd);
-},getMapObjectPixelFromMapObjectLonLat:function(_8fe){
-return this.mapObject.convertLatLonXY(_8fe);
-},getLongitudeFromMapObjectLonLat:function(_8ff){
-return this.sphericalMercator?this.forwardMercator(_8ff.Lon,_8ff.Lat).lon:_8ff.Lon;
-},getLatitudeFromMapObjectLonLat:function(_900){
-return this.sphericalMercator?this.forwardMercator(_900.Lon,_900.Lat).lat:_900.Lat;
+},getMapObjectLonLatFromMapObjectPixel:function(_830){
+return this.mapObject.convertXYLatLon(_830);
+},getMapObjectPixelFromMapObjectLonLat:function(_831){
+return this.mapObject.convertLatLonXY(_831);
+},getLongitudeFromMapObjectLonLat:function(_832){
+return this.sphericalMercator?this.forwardMercator(_832.Lon,_832.Lat).lon:_832.Lon;
+},getLatitudeFromMapObjectLonLat:function(_833){
+return this.sphericalMercator?this.forwardMercator(_833.Lon,_833.Lat).lat:_833.Lat;
 },getMapObjectLonLatFromLonLat:function(lon,lat){
-var _903;
+var _836;
 if(this.sphericalMercator){
-var _904=this.inverseMercator(lon,lat);
-_903=new YGeoPoint(_904.lat,_904.lon);
+var _837=this.inverseMercator(lon,lat);
+_836=new YGeoPoint(_837.lat,_837.lon);
 }else{
-_903=new YGeoPoint(lat,lon);
+_836=new YGeoPoint(lat,lon);
 }
-return _903;
-},getXFromMapObjectPixel:function(_905){
-return _905.x;
-},getYFromMapObjectPixel:function(_906){
-return _906.y;
+return _836;
+},getXFromMapObjectPixel:function(_838){
+return _838.x;
+},getYFromMapObjectPixel:function(_839){
+return _839.y;
 },getMapObjectPixelFromXY:function(x,y){
 return new YCoordPoint(x,y);
-},getMapObjectSizeFromOLSize:function(_909){
-return new YSize(_909.w,_909.h);
+},getMapObjectSizeFromOLSize:function(_83c){
+return new YSize(_83c.w,_83c.h);
 },CLASS_NAME:"OpenLayers.Layer.Yahoo"});
 OpenLayers.Control.ModifyFeature=OpenLayers.Class(OpenLayers.Control,{geometryTypes:null,layer:null,feature:null,vertices:null,virtualVertices:null,selectControl:null,dragControl:null,keyboardHandler:null,deleteCodes:null,virtualStyle:null,onModificationStart:function(){
 },onModification:function(){
 },onModificationEnd:function(){
-},initialize:function(_90a,_90b){
-this.layer=_90a;
+},initialize:function(_83d,_83e){
+this.layer=_83d;
 this.vertices=[];
 this.virtualVertices=[];
 this.styleVirtual=OpenLayers.Util.extend({},this.layer.style);
 this.styleVirtual.fillOpacity=0.3;
 this.styleVirtual.strokeOpacity=0.3;
 this.deleteCodes=[46,100];
-OpenLayers.Control.prototype.initialize.apply(this,[_90b]);
+OpenLayers.Control.prototype.initialize.apply(this,[_83e]);
 if(!(this.deleteCodes instanceof Array)){
 this.deleteCodes=[this.deleteCodes];
 }
-var _90c=this;
-var _90d={geometryTypes:this.geometryTypes,onSelect:function(_90e){
-_90c.selectFeature.apply(_90c,[_90e]);
-},onUnselect:function(_90f){
-_90c.unselectFeature.apply(_90c,[_90f]);
+var _83f=this;
+var _840={geometryTypes:this.geometryTypes,onSelect:function(_841){
+_83f.selectFeature.apply(_83f,[_841]);
+},onUnselect:function(_842){
+_83f.unselectFeature.apply(_83f,[_842]);
 }};
-this.selectControl=new OpenLayers.Control.SelectFeature(_90a,_90d);
-var _910={geometryTypes:["OpenLayers.Geometry.Point"],snappingOptions:this.snappingOptions,onStart:function(_911,_912){
-_90c.dragStart.apply(_90c,[_911,_912]);
-},onDrag:function(_913){
-_90c.dragVertex.apply(_90c,[_913]);
-},onComplete:function(_914){
-_90c.dragComplete.apply(_90c,[_914]);
+this.selectControl=new OpenLayers.Control.SelectFeature(_83d,_840);
+var _843={geometryTypes:["OpenLayers.Geometry.Point"],snappingOptions:this.snappingOptions,onStart:function(_844,_845){
+_83f.dragStart.apply(_83f,[_844,_845]);
+},onDrag:function(_846){
+_83f.dragVertex.apply(_83f,[_846]);
+},onComplete:function(_847){
+_83f.dragComplete.apply(_83f,[_847]);
 }};
-this.dragControl=new OpenLayers.Control.DragFeature(_90a,_910);
-var _915={keypress:this.handleKeypress};
-this.keyboardHandler=new OpenLayers.Handler.Keyboard(this,_915);
+this.dragControl=new OpenLayers.Control.DragFeature(_83d,_843);
+var _848={keypress:this.handleKeypress};
+this.keyboardHandler=new OpenLayers.Handler.Keyboard(this,_848);
 },destroy:function(){
 this.layer=null;
 this.selectControl.destroy();
@@ -13602,7 +12902,7 @@ OpenLayers.Control.prototype.destroy.apply(this,[]);
 },activate:function(){
 return (this.selectControl.activate()&&this.keyboardHandler.activate()&&OpenLayers.Control.prototype.activate.apply(this,arguments));
 },deactivate:function(){
-var _916=false;
+var _849=false;
 if(OpenLayers.Control.prototype.deactivate.apply(this,arguments)){
 this.layer.removeFeatures(this.vertices);
 this.layer.removeFeatures(this.virtualVertices);
@@ -13613,53 +12913,53 @@ this.selectControl.unselect.apply(this.selectControl,[this.feature]);
 }
 this.selectControl.deactivate();
 this.keyboardHandler.deactivate();
-_916=true;
+_849=true;
 }
-return _916;
-},selectFeature:function(_917){
-this.feature=_917;
+return _849;
+},selectFeature:function(_84a){
+this.feature=_84a;
 this.resetVertices();
 this.dragControl.activate();
 this.onModificationStart(this.feature);
-},unselectFeature:function(_918){
+},unselectFeature:function(_84b){
 this.layer.removeFeatures(this.vertices);
 this.layer.removeFeatures(this.virtualVertices);
 this.vertices=[];
 this.virtualVertices=[];
 this.feature=null;
 this.dragControl.deactivate();
-this.onModificationEnd(_918);
-},dragStart:function(_919,_91a){
-if(_919!=this.feature&&OpenLayers.Util.indexOf(this.vertices,_919)==-1&&OpenLayers.Util.indexOf(this.virtualVertices,_919)==-1){
+this.onModificationEnd(_84b);
+},dragStart:function(_84c,_84d){
+if(_84c!=this.feature&&OpenLayers.Util.indexOf(this.vertices,_84c)==-1&&OpenLayers.Util.indexOf(this.virtualVertices,_84c)==-1){
 if(this.feature){
 this.selectControl.clickFeature.apply(this.selectControl,[this.feature]);
 }
-if(this.geometryTypes==null||OpenLayers.Util.indexOf(this.geometryTypes,_919.geometry.CLASS_NAME)!=-1){
-this.selectControl.clickFeature.apply(this.selectControl,[_919]);
-this.dragControl.overFeature.apply(this.dragControl,[_919]);
-this.dragControl.lastPixel=_91a;
+if(this.geometryTypes==null||OpenLayers.Util.indexOf(this.geometryTypes,_84c.geometry.CLASS_NAME)!=-1){
+this.selectControl.clickFeature.apply(this.selectControl,[_84c]);
+this.dragControl.overFeature.apply(this.dragControl,[_84c]);
+this.dragControl.lastPixel=_84d;
 this.dragControl.dragHandler.started=true;
-this.dragControl.dragHandler.start=_91a;
-this.dragControl.dragHandler.last=_91a;
+this.dragControl.dragHandler.start=_84d;
+this.dragControl.dragHandler.last=_84d;
 }
 }
-},dragVertex:function(_91b){
+},dragVertex:function(_84e){
 if(this.feature.geometry.CLASS_NAME=="OpenLayers.Geometry.Point"){
-if(this.feature!=_91b){
-this.feature=_91b;
+if(this.feature!=_84e){
+this.feature=_84e;
 }
 }else{
-if(OpenLayers.Util.indexOf(this.virtualVertices,_91b)!=-1){
-_91b.geometry.parent.addComponent(_91b.geometry,_91b._index);
-delete _91b._index;
-OpenLayers.Util.removeItem(this.virtualVertices,_91b);
-this.layer.removeFeatures(_91b);
+if(OpenLayers.Util.indexOf(this.virtualVertices,_84e)!=-1){
+_84e.geometry.parent.addComponent(_84e.geometry,_84e._index);
+delete _84e._index;
+OpenLayers.Util.removeItem(this.virtualVertices,_84e);
+this.layer.removeFeatures(_84e);
 }
 }
 this.layer.drawFeature(this.feature,this.selectControl.selectStyle);
 this.layer.removeFeatures(this.virtualVertices);
-this.layer.drawFeature(_91b);
-},dragComplete:function(_91c){
+this.layer.drawFeature(_84e);
+},dragComplete:function(_84f){
 this.resetVertices();
 this.onModification(this.feature);
 },resetVertices:function(){
@@ -13678,9 +12978,9 @@ this.layer.addFeatures(this.virtualVertices);
 }
 },handleKeypress:function(code){
 if(this.feature&&OpenLayers.Util.indexOf(this.deleteCodes,code)!=-1){
-var _91e=this.dragControl.feature;
-if(_91e&&OpenLayers.Util.indexOf(this.vertices,_91e)!=-1){
-_91e.geometry.parent.removeComponent(_91e.geometry);
+var _851=this.dragControl.feature;
+if(_851&&OpenLayers.Util.indexOf(this.vertices,_851)!=-1){
+_851.geometry.parent.removeComponent(_851.geometry);
 this.layer.drawFeature(this.feature,this.selectControl.selectStyle);
 this.resetVertices();
 this.onModification(this.feature);
@@ -13689,33 +12989,33 @@ this.onModification(this.feature);
 },collectVertices:function(){
 this.vertices=[];
 this.virtualVirtices=[];
-var _91f=this;
-function collectComponentVertices(_920){
+var _852=this;
+function collectComponentVertices(_853){
 var i,vertex,component;
-if(_920.CLASS_NAME=="OpenLayers.Geometry.Point"){
-vertex=new OpenLayers.Feature.Vector(_920);
-_91f.vertices.push(vertex);
+if(_853.CLASS_NAME=="OpenLayers.Geometry.Point"){
+vertex=new OpenLayers.Feature.Vector(_853);
+_852.vertices.push(vertex);
 }else{
-for(i=0;i<_920.components.length;++i){
-component=_920.components[i];
+for(i=0;i<_853.components.length;++i){
+component=_853.components[i];
 if(component.CLASS_NAME=="OpenLayers.Geometry.Point"){
 vertex=new OpenLayers.Feature.Vector(component);
-_91f.vertices.push(vertex);
+_852.vertices.push(vertex);
 }else{
 collectComponentVertices(component);
 }
 }
-if(_920.CLASS_NAME!="OpenLayers.Geometry.MultiPoint"){
-for(i=0;i<_920.components.length-1;++i){
-var _922=_920.components[i];
-var _923=_920.components[i+1];
-if(_922.CLASS_NAME=="OpenLayers.Geometry.Point"&&_923.CLASS_NAME=="OpenLayers.Geometry.Point"){
-var x=(_922.x+_923.x)/2;
-var y=(_922.y+_923.y)/2;
-var _926=new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(x,y),null,_91f.styleVirtual);
-_926.geometry.parent=_920;
-_926._index=i+1;
-_91f.virtualVertices.push(_926);
+if(_853.CLASS_NAME!="OpenLayers.Geometry.MultiPoint"){
+for(i=0;i<_853.components.length-1;++i){
+var _855=_853.components[i];
+var _856=_853.components[i+1];
+if(_855.CLASS_NAME=="OpenLayers.Geometry.Point"&&_856.CLASS_NAME=="OpenLayers.Geometry.Point"){
+var x=(_855.x+_856.x)/2;
+var y=(_855.y+_856.y)/2;
+var _859=new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(x,y),null,_852.styleVirtual);
+_859.geometry.parent=_853;
+_859._index=i+1;
+_852.virtualVertices.push(_859);
 }
 }
 }
@@ -13727,7 +13027,7 @@ this.selectControl.setMap(map);
 this.dragControl.setMap(map);
 OpenLayers.Control.prototype.setMap.apply(this,arguments);
 },CLASS_NAME:"OpenLayers.Control.ModifyFeature"});
-OpenLayers.Control.Navigation=OpenLayers.Class(OpenLayers.Control,{dragPan:null,zoomBox:null,wheelHandler:null,initialize:function(_928){
+OpenLayers.Control.Navigation=OpenLayers.Class(OpenLayers.Control,{dragPan:null,zoomBox:null,wheelHandler:null,initialize:function(_85b){
 OpenLayers.Control.prototype.initialize.apply(this,arguments);
 },activate:function(){
 this.dragPan.activate();
@@ -13748,514 +13048,84 @@ this.zoomBox.draw();
 this.wheelHandler=new OpenLayers.Handler.MouseWheel(this,{"up":this.wheelUp,"down":this.wheelDown});
 this.activate();
 },defaultDblClick:function(evt){
-var _92a=this.map.getLonLatFromViewPortPx(evt.xy);
-this.map.setCenter(_92a,this.map.zoom+1);
+var _85d=this.map.getLonLatFromViewPortPx(evt.xy);
+this.map.setCenter(_85d,this.map.zoom+1);
 OpenLayers.Event.stop(evt);
 return false;
-},wheelChange:function(evt,_92c){
-var _92d=this.map.getZoom()+_92c;
-if(!this.map.isValidZoomLevel(_92d)){
+},wheelChange:function(evt,_85f){
+var _860=this.map.getZoom()+_85f;
+if(!this.map.isValidZoomLevel(_860)){
 return;
 }
 var size=this.map.getSize();
-var _92f=size.w/2-evt.xy.x;
-var _930=evt.xy.y-size.h/2;
-var _931=this.map.baseLayer.resolutions[_92d];
-var _932=this.map.getLonLatFromPixel(evt.xy);
-var _933=new OpenLayers.LonLat(_932.lon+_92f*_931,_932.lat+_930*_931);
-this.map.setCenter(_933,_92d);
+var _862=size.w/2-evt.xy.x;
+var _863=evt.xy.y-size.h/2;
+var _864=this.map.baseLayer.resolutions[_860];
+var _865=this.map.getLonLatFromPixel(evt.xy);
+var _866=new OpenLayers.LonLat(_865.lon+_862*_864,_865.lat+_863*_864);
+this.map.setCenter(_866,_860);
 },wheelUp:function(evt){
 this.wheelChange(evt,1);
 },wheelDown:function(evt){
 this.wheelChange(evt,-1);
 },CLASS_NAME:"OpenLayers.Control.Navigation"});
-OpenLayers.Format.GML=OpenLayers.Class(OpenLayers.Format.XML,{featureNS:"http://mapserver.gis.umn.edu/mapserver",featurePrefix:"feature",featureName:"featureMember",layerName:"features",geometryName:"geometry",collectionName:"FeatureCollection",gmlns:"http://www.opengis.net/gml",extractAttributes:true,initialize:function(_936){
-this.regExes={trimSpace:(/^\s*|\s*$/g),removeSpace:(/\s*/g),splitSpace:(/\s+/),trimComma:(/\s*,\s*/g)};
-OpenLayers.Format.XML.prototype.initialize.apply(this,[_936]);
-},read:function(data){
-if(typeof data=="string"){
-data=OpenLayers.Format.XML.prototype.read.apply(this,[data]);
-}
-var _938=this.getElementsByTagNameNS(data.documentElement,this.gmlns,this.featureName);
-var _939=[];
-for(var i=0;i<_938.length;i++){
-var _93b=this.parseFeature(_938[i]);
-if(_93b){
-_939.push(_93b);
-}
-}
-return _939;
-},parseFeature:function(node){
-var _93d=["MultiPolygon","Polygon","MultiLineString","LineString","MultiPoint","Point"];
-var type,nodeList,geometry,parser;
-for(var i=0;i<_93d.length;++i){
-type=_93d[i];
-nodeList=this.getElementsByTagNameNS(node,this.gmlns,type);
-if(nodeList.length>0){
-var _940=this.parseGeometry[type.toLowerCase()];
-if(_940){
-geometry=_940.apply(this,[nodeList[0]]);
-}else{
-OpenLayers.Console.error("Unsupported geometry type: "+type);
-}
-break;
-}
-}
-var _941;
-if(this.extractAttributes){
-_941=this.parseAttributes(node);
-}
-var _942=new OpenLayers.Feature.Vector(geometry,_941);
-var _943=node.firstChild;
-var fid;
-while(_943){
-if(_943.nodeType==1){
-fid=_943.getAttribute("fid")||_943.getAttribute("id");
-if(fid){
-break;
-}
-}
-_943=_943.nextSibling;
-}
-_942.fid=fid;
-return _942;
-},parseGeometry:{point:function(node){
-var _946;
-var _947=[];
-var _946=this.getElementsByTagNameNS(node,this.gmlns,"pos");
-if(_946.length>0){
-coordString=_946[0].firstChild.nodeValue;
-coordString=coordString.replace(this.regExes.trimSpace,"");
-_947=coordString.split(this.regExes.splitSpace);
-}
-if(_947.length==0){
-_946=this.getElementsByTagNameNS(node,this.gmlns,"coordinates");
-if(_946.length>0){
-coordString=_946[0].firstChild.nodeValue;
-coordString=coordString.replace(this.regExes.removeSpace,"");
-_947=coordString.split(",");
-}
-}
-if(_947.length==0){
-_946=this.getElementsByTagNameNS(node,this.gmlns,"coord");
-if(_946.length>0){
-var _948=this.getElementsByTagNameNS(_946[0],this.gmlns,"X");
-var _949=this.getElementsByTagNameNS(_946[0],this.gmlns,"Y");
-if(_948.length>0&&_949.length>0){
-_947=[_948[0].firstChild.nodeValue,_949[0].firstChild.nodeValue];
-}
-}
-}
-if(_947.length==2){
-_947[2]=null;
-}
-return new OpenLayers.Geometry.Point(_947[0],_947[1],_947[2]);
-},multipoint:function(node){
-var _94b=this.getElementsByTagNameNS(node,this.gmlns,"Point");
-var _94c=[];
-if(_94b.length>0){
-var _94d;
-for(var i=0;i<_94b.length;++i){
-_94d=this.parseGeometry.point.apply(this,[_94b[i]]);
-if(_94d){
-_94c.push(_94d);
-}
-}
-}
-return new OpenLayers.Geometry.MultiPoint(_94c);
-},linestring:function(node,ring){
-var _951,coordString;
-var _952=[];
-var _953=[];
-_951=this.getElementsByTagNameNS(node,this.gmlns,"posList");
-if(_951.length>0){
-coordString=_951[0].firstChild.nodeValue;
-coordString=coordString.replace(this.regExes.trimSpace,"");
-_952=coordString.split(this.regExes.splitSpace);
-var dim=parseInt(_951[0].getAttribute("dimension"));
-var j,x,y,z;
-for(var i=0;i<_952.length/dim;++i){
-j=i*dim;
-x=_952[j];
-y=_952[j+1];
-z=(dim==2)?null:_952[j+2];
-_953.push(new OpenLayers.Geometry.Point(x,y,z));
-}
-}
-if(_952.length==0){
-_951=this.getElementsByTagNameNS(node,this.gmlns,"coordinates");
-if(_951.length>0){
-coordString=_951[0].firstChild.nodeValue;
-coordString=coordString.replace(this.regExes.trimSpace,"");
-coordString=coordString.replace(this.regExes.trimComma,",");
-var _957=coordString.split(this.regExes.splitSpace);
-for(var i=0;i<_957.length;++i){
-_952=_957[i].split(",");
-if(_952.length==2){
-_952[2]=null;
-}
-_953.push(new OpenLayers.Geometry.Point(_952[0],_952[1],_952[2]));
-}
-}
-}
-var line=null;
-if(_953.length!=0){
-if(ring){
-line=new OpenLayers.Geometry.LinearRing(_953);
-}else{
-line=new OpenLayers.Geometry.LineString(_953);
-}
-}
-return line;
-},multilinestring:function(node){
-var _95a=this.getElementsByTagNameNS(node,this.gmlns,"LineString");
-var _95b=[];
-if(_95a.length>0){
-var line;
-for(var i=0;i<_95a.length;++i){
-line=this.parseGeometry.linestring.apply(this,[_95a[i]]);
-if(line){
-_95b.push(line);
-}
-}
-}
-return new OpenLayers.Geometry.MultiLineString(_95b);
-},polygon:function(node){
-var _95f=this.getElementsByTagNameNS(node,this.gmlns,"LinearRing");
-var _960=[];
-if(_95f.length>0){
-var ring;
-for(var i=0;i<_95f.length;++i){
-ring=this.parseGeometry.linestring.apply(this,[_95f[i],true]);
-if(ring){
-_960.push(ring);
-}
-}
-}
-return new OpenLayers.Geometry.Polygon(_960);
-},multipolygon:function(node){
-var _964=this.getElementsByTagNameNS(node,this.gmlns,"Polygon");
-var _965=[];
-if(_964.length>0){
-var _966;
-for(var i=0;i<_964.length;++i){
-_966=this.parseGeometry.polygon.apply(this,[_964[i]]);
-if(_966){
-_965.push(_966);
-}
-}
-}
-return new OpenLayers.Geometry.MultiPolygon(_965);
-}},parseAttributes:function(node){
-var _969={};
-var _96a=node.firstChild;
-var _96b,i,child,grandchildren,grandchild,name,value;
-while(_96a){
-if(_96a.nodeType==1){
-_96b=_96a.childNodes;
-for(i=0;i<_96b.length;++i){
-child=_96b[i];
-if(child.nodeType==1){
-grandchildren=child.childNodes;
-if(grandchildren.length==1){
-grandchild=grandchildren[0];
-if(grandchild.nodeType==3){
-name=(child.prefix)?child.nodeName.split(":")[1]:child.nodeName;
-value=grandchild.nodeValue.replace(this.regExes.trimSpace,"");
-_969[name]=value;
-}
-}
-}
-}
-break;
-}
-_96a=_96a.nextSibling;
-}
-return _969;
-},write:function(_96c){
-if(!(_96c instanceof Array)){
-_96c=[_96c];
-}
-var gml=this.createElementNS("http://www.opengis.net/wfs","wfs:"+this.collectionName);
-for(var i=0;i<_96c.length;i++){
-gml.appendChild(this.createFeatureXML(_96c[i]));
-}
-return OpenLayers.Format.XML.prototype.write.apply(this,[gml]);
-},createFeatureXML:function(_96f){
-var _970=_96f.geometry;
-var _971=this.buildGeometryNode(_970);
-var _972=this.createElementNS(this.featureNS,this.featurePrefix+":"+this.geometryName);
-_972.appendChild(_971);
-var _973=this.createElementNS(this.gmlns,"gml:"+this.featureName);
-var _974=this.createElementNS(this.featureNS,this.featurePrefix+":"+this.layerName);
-var fid=_96f.fid||_96f.id;
-_974.setAttribute("fid",fid);
-_974.appendChild(_972);
-for(var attr in _96f.attributes){
-var _977=this.createTextNode(_96f.attributes[attr]);
-var _978=attr.substring(attr.lastIndexOf(":")+1);
-var _979=this.createElementNS(this.featureNS,this.featurePrefix+":"+_978);
-_979.appendChild(_977);
-_974.appendChild(_979);
-}
-_973.appendChild(_974);
-return _973;
-},buildGeometryNode:function(_97a){
-var _97b=_97a.CLASS_NAME;
-var type=_97b.substring(_97b.lastIndexOf(".")+1);
-var _97d=this.buildGeometry[type.toLowerCase()];
-return _97d.apply(this,[_97a]);
-},buildGeometry:{point:function(_97e){
-var gml=this.createElementNS(this.gmlns,"gml:Point");
-gml.appendChild(this.buildCoordinatesNode(_97e));
-return gml;
-},multipoint:function(_980){
-var gml=this.createElementNS(this.gmlns,"gml:MultiPoint");
-var _982=_980.components;
-var _983,pointGeom;
-for(var i=0;i<_982.length;i++){
-_983=this.createElementNS(this.gmlns,"gml:pointMember");
-pointGeom=this.buildGeometry.point.apply(this,[_982[i]]);
-_983.appendChild(pointGeom);
-gml.appendChild(_983);
-}
-return gml;
-},linestring:function(_985){
-var gml=this.createElementNS(this.gmlns,"gml:LineString");
-gml.appendChild(this.buildCoordinatesNode(_985));
-return gml;
-},multilinestring:function(_987){
-var gml=this.createElementNS(this.gmlns,"gml:MultiLineString");
-var _989=_987.components;
-var _98a,lineGeom;
-for(var i=0;i<_989.length;++i){
-_98a=this.createElementNS(this.gmlns,"gml:lineStringMember");
-lineGeom=this.buildGeometry.linestring.apply(this,[_989[i]]);
-_98a.appendChild(lineGeom);
-gml.appendChild(_98a);
-}
-return gml;
-},linearring:function(_98c){
-var gml=this.createElementNS(this.gmlns,"gml:LinearRing");
-gml.appendChild(this.buildCoordinatesNode(_98c));
-return gml;
-},polygon:function(_98e){
-var gml=this.createElementNS(this.gmlns,"gml:Polygon");
-var _990=_98e.components;
-var _991,ringGeom,type;
-for(var i=0;i<_990.length;++i){
-type=(i==0)?"outerBoundaryIs":"innerBoundaryIs";
-_991=this.createElementNS(this.gmlns,"gml:"+type);
-ringGeom=this.buildGeometry.linearring.apply(this,[_990[i]]);
-_991.appendChild(ringGeom);
-gml.appendChild(_991);
-}
-return gml;
-},multipolygon:function(_993){
-var gml=this.createElementNS(this.gmlns,"gml:MultiPolygon");
-var _995=_993.components;
-var _996,polyGeom;
-for(var i=0;i<_995.length;++i){
-_996=this.createElementNS(this.gmlns,"gml:polygonMember");
-polyGeom=this.buildGeometry.polygon.apply(this,[_995[i]]);
-_996.appendChild(polyGeom);
-gml.appendChild(_996);
-}
-return gml;
-}},buildCoordinatesNode:function(_998){
-var _999=this.createElementNS(this.gmlns,"gml:coordinates");
-_999.setAttribute("decimal",".");
-_999.setAttribute("cs",",");
-_999.setAttribute("ts"," ");
-var _99a=(_998.components)?_998.components:[_998];
-var _99b=[];
-for(var i=0;i<_99a.length;i++){
-_99b.push(_99a[i].x+","+_99a[i].y);
-}
-var _99d=this.createTextNode(_99b.join(" "));
-_999.appendChild(_99d);
-return _999;
-},CLASS_NAME:"OpenLayers.Format.GML"});
-OpenLayers.Geometry.Collection=OpenLayers.Class(OpenLayers.Geometry,{components:null,componentTypes:null,initialize:function(_99e){
-OpenLayers.Geometry.prototype.initialize.apply(this,arguments);
-this.components=[];
-if(_99e!=null){
-this.addComponents(_99e);
-}
+OpenLayers.Geometry=OpenLayers.Class({id:null,parent:null,bounds:null,initialize:function(){
+this.id=OpenLayers.Util.createUniqueID(this.CLASS_NAME+"_");
 },destroy:function(){
-this.components.length=0;
-this.components=null;
-},clone:function(){
-var _99f=eval("new "+this.CLASS_NAME+"()");
-for(var i=0;i<this.components.length;i++){
-_99f.addComponent(this.components[i].clone());
-}
-OpenLayers.Util.applyDefaults(_99f,this);
-return _99f;
-},getComponentsString:function(){
-var _9a1=[];
-for(var i=0;i<this.components.length;i++){
-_9a1.push(this.components[i].toShortString());
-}
-return _9a1.join(",");
-},calculateBounds:function(){
+this.id=null;
 this.bounds=null;
-if(this.components&&this.components.length>0){
-this.setBounds(this.components[0].getBounds());
-for(var i=1;i<this.components.length;i++){
-this.extendBounds(this.components[i].getBounds());
+},clone:function(){
+return new OpenLayers.Geometry();
+},setBounds:function(_869){
+if(_869){
+this.bounds=_869.clone();
 }
+},clearBounds:function(){
+this.bounds=null;
+if(this.parent){
+this.parent.clearBounds();
 }
-},addComponents:function(_9a4){
-if(!(_9a4 instanceof Array)){
-_9a4=[_9a4];
-}
-for(var i=0;i<_9a4.length;i++){
-this.addComponent(_9a4[i]);
-}
-},addComponent:function(_9a6,_9a7){
-var _9a8=false;
-if(_9a6){
-if(this.componentTypes==null||(OpenLayers.Util.indexOf(this.componentTypes,_9a6.CLASS_NAME)>-1)){
-if(_9a7!=null&&(_9a7<this.components.length)){
-var _9a9=this.components.slice(0,_9a7);
-var _9aa=this.components.slice(_9a7,this.components.length);
-_9a9.push(_9a6);
-this.components=_9a9.concat(_9aa);
+},extendBounds:function(_86a){
+var _86b=this.getBounds();
+if(!_86b){
+this.setBounds(_86a);
 }else{
-this.components.push(_9a6);
+this.bounds.extend(_86a);
 }
-_9a6.parent=this;
-this.clearBounds();
-_9a8=true;
+},getBounds:function(){
+if(this.bounds==null){
+this.calculateBounds();
 }
-}
-return _9a8;
-},removeComponents:function(_9ab){
-if(!(_9ab instanceof Array)){
-_9ab=[_9ab];
-}
-for(var i=0;i<_9ab.length;i++){
-this.removeComponent(_9ab[i]);
-}
-},removeComponent:function(_9ad){
-OpenLayers.Util.removeItem(this.components,_9ad);
-this.clearBounds();
-},getLength:function(){
-var _9ae=0;
-for(var i=0;i<this.components.length;i++){
-_9ae+=this.components[i].getLength();
-}
-return _9ae;
-},getArea:function(){
-var area=0;
-for(var i=0;i<this.components.length;i++){
-area+=this.components[i].getArea();
-}
-return area;
-},move:function(x,y){
-for(var i=0;i<this.components.length;i++){
-this.components[i].move(x,y);
-}
-},rotate:function(_9b5,_9b6){
-for(var i=0;i<this.components.length;++i){
-this.components[i].rotate(_9b5,_9b6);
-}
-},resize:function(_9b8,_9b9){
-for(var i=0;i<this.components.length;++i){
-this.components[i].resize(_9b8,_9b9);
-}
-},equals:function(_9bb){
-var _9bc=true;
-if(!_9bb.CLASS_NAME||(this.CLASS_NAME!=_9bb.CLASS_NAME)){
-_9bc=false;
-}else{
-if(!(_9bb.components instanceof Array)||(_9bb.components.length!=this.components.length)){
-_9bc=false;
-}else{
-for(var i=0;i<this.components.length;++i){
-if(!this.components[i].equals(_9bb.components[i])){
-_9bc=false;
-break;
-}
-}
-}
-}
-return _9bc;
-},CLASS_NAME:"OpenLayers.Geometry.Collection"});
-OpenLayers.Geometry.Point=OpenLayers.Class(OpenLayers.Geometry,{x:null,y:null,initialize:function(x,y){
-OpenLayers.Geometry.prototype.initialize.apply(this,arguments);
-this.x=parseFloat(x);
-this.y=parseFloat(y);
-},clone:function(obj){
-if(obj==null){
-obj=new OpenLayers.Geometry.Point(this.x,this.y);
-}
-OpenLayers.Util.applyDefaults(obj,this);
-return obj;
+return this.bounds;
 },calculateBounds:function(){
-this.bounds=new OpenLayers.Bounds(this.x,this.y,this.x,this.y);
-},distanceTo:function(_9c1){
-var _9c2=0;
-if((this.x!=null)&&(this.y!=null)&&(_9c1!=null)&&(_9c1.x!=null)&&(_9c1.y!=null)){
-var dx2=Math.pow(this.x-_9c1.x,2);
-var dy2=Math.pow(this.y-_9c1.y,2);
-_9c2=Math.sqrt(dx2+dy2);
+},atPoint:function(_86c,_86d,_86e){
+var _86f=false;
+var _870=this.getBounds();
+if((_870!=null)&&(_86c!=null)){
+var dX=(_86d!=null)?_86d:0;
+var dY=(_86e!=null)?_86e:0;
+var _873=new OpenLayers.Bounds(this.bounds.left-dX,this.bounds.bottom-dY,this.bounds.right+dX,this.bounds.top+dY);
+_86f=_873.containsLonLat(_86c);
 }
-return _9c2;
-},equals:function(geom){
-var _9c6=false;
-if(geom!=null){
-_9c6=((this.x==geom.x&&this.y==geom.y)||(isNaN(this.x)&&isNaN(this.y)&&isNaN(geom.x)&&isNaN(geom.y)));
-}
-return _9c6;
-},toShortString:function(){
-return (this.x+", "+this.y);
-},move:function(x,y){
-this.x=this.x+x;
-this.y=this.y+y;
-this.clearBounds();
-},rotate:function(_9c9,_9ca){
-_9c9*=Math.PI/180;
-var _9cb=this.distanceTo(_9ca);
-var _9cc=_9c9+Math.atan2(this.y-_9ca.y,this.x-_9ca.x);
-this.x=_9ca.x+(_9cb*Math.cos(_9cc));
-this.y=_9ca.y+(_9cb*Math.sin(_9cc));
-this.clearBounds();
-},resize:function(_9cd,_9ce){
-this.x=_9ce.x+(_9cd*(this.x-_9ce.x));
-this.y=_9ce.y+(_9cd*(this.y-_9ce.y));
-this.clearBounds();
-},CLASS_NAME:"OpenLayers.Geometry.Point"});
-OpenLayers.Geometry.Rectangle=OpenLayers.Class(OpenLayers.Geometry,{x:null,y:null,width:null,height:null,initialize:function(x,y,_9d1,_9d2){
-OpenLayers.Geometry.prototype.initialize.apply(this,arguments);
-this.x=x;
-this.y=y;
-this.width=_9d1;
-this.height=_9d2;
-},calculateBounds:function(){
-this.bounds=new OpenLayers.Bounds(this.x,this.y,this.x+this.width,this.y+this.height);
+return _86f;
 },getLength:function(){
-var _9d3=(2*this.width)+(2*this.height);
-return _9d3;
+return 0;
 },getArea:function(){
-var area=this.width*this.height;
-return area;
-},CLASS_NAME:"OpenLayers.Geometry.Rectangle"});
-OpenLayers.Geometry.Surface=OpenLayers.Class(OpenLayers.Geometry,{initialize:function(){
-OpenLayers.Geometry.prototype.initialize.apply(this,arguments);
-},CLASS_NAME:"OpenLayers.Geometry.Surface"});
-OpenLayers.Layer.GML=OpenLayers.Class(OpenLayers.Layer.Vector,{loaded:false,format:null,initialize:function(name,url,_9d7){
-var _9d8=[];
-_9d8.push(name,_9d7);
-OpenLayers.Layer.Vector.prototype.initialize.apply(this,_9d8);
+return 0;
+},toString:function(){
+return OpenLayers.Format.WKT.prototype.write(new OpenLayers.Feature.Vector(this));
+},CLASS_NAME:"OpenLayers.Geometry"});
+OpenLayers.Layer.GML=OpenLayers.Class(OpenLayers.Layer.Vector,{loaded:false,format:null,initialize:function(name,url,_876){
+var _877=[];
+_877.push(name,_876);
+OpenLayers.Layer.Vector.prototype.initialize.apply(this,_877);
 this.url=url;
-},setVisibility:function(_9d9,_9da){
+},setVisibility:function(_878,_879){
 OpenLayers.Layer.Vector.prototype.setVisibility.apply(this,arguments);
 if(this.visibility&&!this.loaded){
 this.loadGML();
 }
-},moveTo:function(_9db,_9dc,_9dd){
+},moveTo:function(_87a,_87b,_87c){
 OpenLayers.Layer.Vector.prototype.moveTo.apply(this,arguments);
 if(this.visibility&&!this.loaded){
 this.events.triggerEvent("loadstart");
@@ -14263,94 +13133,94 @@ this.loadGML();
 }
 },loadGML:function(){
 if(!this.loaded){
-var _9de=OpenLayers.loadURL(this.url,null,this,this.requestSuccess,this.requestFailure);
+var _87d=OpenLayers.loadURL(this.url,null,this,this.requestSuccess,this.requestFailure);
 this.loaded=true;
 }
-},requestSuccess:function(_9df){
-var doc=_9df.responseXML;
-if(!doc||_9df.fileType!="XML"){
-doc=_9df.responseText;
+},requestSuccess:function(_87e){
+var doc=_87e.responseXML;
+if(!doc||_87e.fileType!="XML"){
+doc=_87e.responseText;
 }
 var gml=this.format?new this.format():new OpenLayers.Format.GML();
 this.addFeatures(gml.read(doc));
 this.events.triggerEvent("loadend");
-},requestFailure:function(_9e2){
+},requestFailure:function(_881){
 alert("Error in loading GML file "+this.url);
 this.events.triggerEvent("loadend");
 },CLASS_NAME:"OpenLayers.Layer.GML"});
-OpenLayers.Layer.KaMap=OpenLayers.Class(OpenLayers.Layer.Grid,{isBaseLayer:true,units:null,resolution:OpenLayers.DOTS_PER_INCH,DEFAULT_PARAMS:{i:"jpeg",map:""},initialize:function(name,url,_9e5,_9e6){
-var _9e7=[];
-_9e7.push(name,url,_9e5,_9e6);
-OpenLayers.Layer.Grid.prototype.initialize.apply(this,_9e7);
-this.params=(_9e5?_9e5:{});
-if(_9e5){
+OpenLayers.Layer.KaMap=OpenLayers.Class(OpenLayers.Layer.Grid,{isBaseLayer:true,units:null,resolution:OpenLayers.DOTS_PER_INCH,DEFAULT_PARAMS:{i:"jpeg",map:""},initialize:function(name,url,_884,_885){
+var _886=[];
+_886.push(name,url,_884,_885);
+OpenLayers.Layer.Grid.prototype.initialize.apply(this,_886);
+this.params=(_884?_884:{});
+if(_884){
 OpenLayers.Util.applyDefaults(this.params,this.DEFAULT_PARAMS);
 }
-},getURL:function(_9e8){
-_9e8=this.adjustBounds(_9e8);
-var _9e9=this.map.getResolution();
-var _9ea=Math.round((this.map.getScale()*10000))/10000;
-var pX=Math.round(_9e8.left/_9e9);
-var pY=-Math.round(_9e8.top/_9e9);
-return this.getFullRequestString({t:pY,l:pX,s:_9ea});
-},addTile:function(_9ed,_9ee){
-var url=this.getURL(_9ed);
-return new OpenLayers.Tile.Image(this,_9ee,_9ed,url,this.tileSize);
-},initGriddedTiles:function(_9f0){
-var _9f1=this.map.getSize();
-var _9f2=Math.ceil(_9f1.h/this.tileSize.h)+Math.max(1,2*this.buffer);
-var _9f3=Math.ceil(_9f1.w/this.tileSize.w)+Math.max(1,2*this.buffer);
-var _9f4=this.map.getMaxExtent();
-var _9f5=this.map.getResolution();
-var _9f6=_9f5*this.tileSize.w;
-var _9f7=_9f5*this.tileSize.h;
-var _9f8=_9f0.left;
-var _9f9=Math.floor(_9f8/_9f6)-this.buffer;
-var _9fa=_9f8/_9f6-_9f9;
-var _9fb=-_9fa*this.tileSize.w;
-var _9fc=_9f9*_9f6;
-var _9fd=_9f0.top;
-var _9fe=Math.ceil(_9fd/_9f7)+this.buffer;
-var _9ff=_9fe-_9fd/_9f7;
-var _a00=-(_9ff+1)*this.tileSize.h;
-var _a01=_9fe*_9f7;
-_9fb=Math.round(_9fb);
-_a00=Math.round(_a00);
-this.origin=new OpenLayers.Pixel(_9fb,_a00);
-var _a02=_9fb;
-var _a03=_9fc;
-var _a04=0;
+},getURL:function(_887){
+_887=this.adjustBounds(_887);
+var _888=this.map.getResolution();
+var _889=Math.round((this.map.getScale()*10000))/10000;
+var pX=Math.round(_887.left/_888);
+var pY=-Math.round(_887.top/_888);
+return this.getFullRequestString({t:pY,l:pX,s:_889});
+},addTile:function(_88c,_88d){
+var url=this.getURL(_88c);
+return new OpenLayers.Tile.Image(this,_88d,_88c,url,this.tileSize);
+},initGriddedTiles:function(_88f){
+var _890=this.map.getSize();
+var _891=Math.ceil(_890.h/this.tileSize.h)+Math.max(1,2*this.buffer);
+var _892=Math.ceil(_890.w/this.tileSize.w)+Math.max(1,2*this.buffer);
+var _893=this.map.getMaxExtent();
+var _894=this.map.getResolution();
+var _895=_894*this.tileSize.w;
+var _896=_894*this.tileSize.h;
+var _897=_88f.left;
+var _898=Math.floor(_897/_895)-this.buffer;
+var _899=_897/_895-_898;
+var _89a=-_899*this.tileSize.w;
+var _89b=_898*_895;
+var _89c=_88f.top;
+var _89d=Math.ceil(_89c/_896)+this.buffer;
+var _89e=_89d-_89c/_896;
+var _89f=-(_89e+1)*this.tileSize.h;
+var _8a0=_89d*_896;
+_89a=Math.round(_89a);
+_89f=Math.round(_89f);
+this.origin=new OpenLayers.Pixel(_89a,_89f);
+var _8a1=_89a;
+var _8a2=_89b;
+var _8a3=0;
 do{
-var row=this.grid[_a04++];
+var row=this.grid[_8a3++];
 if(!row){
 row=[];
 this.grid.push(row);
 }
-_9fc=_a03;
-_9fb=_a02;
-var _a06=0;
+_89b=_8a2;
+_89a=_8a1;
+var _8a5=0;
 do{
-var _a07=new OpenLayers.Bounds(_9fc,_a01,_9fc+_9f6,_a01+_9f7);
-var x=_9fb;
+var _8a6=new OpenLayers.Bounds(_89b,_8a0,_89b+_895,_8a0+_896);
+var x=_89a;
 x-=parseInt(this.map.layerContainerDiv.style.left);
-var y=_a00;
+var y=_89f;
 y-=parseInt(this.map.layerContainerDiv.style.top);
 var px=new OpenLayers.Pixel(x,y);
-var tile=row[_a06++];
+var tile=row[_8a5++];
 if(!tile){
-tile=this.addTile(_a07,px);
+tile=this.addTile(_8a6,px);
 this.addTileMonitoringHooks(tile);
 row.push(tile);
 }else{
-tile.moveTo(_a07,px,false);
+tile.moveTo(_8a6,px,false);
 }
-_9fc+=_9f6;
-_9fb+=this.tileSize.w;
-}while(_9fc<=_9f0.right+_9f6*this.buffer||_a06<_9f3);
-_a01-=_9f7;
-_a00+=this.tileSize.h;
-}while(_a01>=_9f0.bottom-_9f7*this.buffer||_a04<_9f2);
-this.removeExcessTiles(_a04,_a06);
+_89b+=_895;
+_89a+=this.tileSize.w;
+}while(_89b<=_88f.right+_895*this.buffer||_8a5<_892);
+_8a0-=_896;
+_89f+=this.tileSize.h;
+}while(_8a0>=_88f.bottom-_896*this.buffer||_8a3<_891);
+this.removeExcessTiles(_8a3,_8a5);
 this.spiralTileLoad();
 },clone:function(obj){
 if(obj==null){
@@ -14362,23 +13232,23 @@ obj.tileSize=this.tileSize.clone();
 }
 obj.grid=[];
 return obj;
-},getTileBounds:function(_a0d){
-var _a0e=this.getResolution();
-var _a0f=_a0e*this.tileSize.w;
-var _a10=_a0e*this.tileSize.h;
-var _a11=this.getLonLatFromViewPortPx(_a0d);
-var _a12=_a0f*Math.floor(_a11.lon/_a0f);
-var _a13=_a10*Math.floor(_a11.lat/_a10);
-return new OpenLayers.Bounds(_a12,_a13,_a12+_a0f,_a13+_a10);
+},getTileBounds:function(_8ac){
+var _8ad=this.getResolution();
+var _8ae=_8ad*this.tileSize.w;
+var _8af=_8ad*this.tileSize.h;
+var _8b0=this.getLonLatFromViewPortPx(_8ac);
+var _8b1=_8ae*Math.floor(_8b0.lon/_8ae);
+var _8b2=_8af*Math.floor(_8b0.lat/_8af);
+return new OpenLayers.Bounds(_8b1,_8b2,_8b1+_8ae,_8b2+_8af);
 },CLASS_NAME:"OpenLayers.Layer.KaMap"});
-OpenLayers.Layer.MapServer=OpenLayers.Class(OpenLayers.Layer.Grid,{DEFAULT_PARAMS:{mode:"map",map_imagetype:"png"},initialize:function(name,url,_a16,_a17){
-var _a18=[];
-_a18.push(name,url,_a16,_a17);
-OpenLayers.Layer.Grid.prototype.initialize.apply(this,_a18);
+OpenLayers.Layer.MapServer=OpenLayers.Class(OpenLayers.Layer.Grid,{DEFAULT_PARAMS:{mode:"map",map_imagetype:"png"},initialize:function(name,url,_8b5,_8b6){
+var _8b7=[];
+_8b7.push(name,url,_8b5,_8b6);
+OpenLayers.Layer.Grid.prototype.initialize.apply(this,_8b7);
 if(arguments.length>0){
 OpenLayers.Util.applyDefaults(this.params,this.DEFAULT_PARAMS);
 }
-if(_a17==null||_a17.isBaseLayer==null){
+if(_8b6==null||_8b6.isBaseLayer==null){
 this.isBaseLayer=((this.params.transparent!="true")&&(this.params.transparent!=true));
 }
 },clone:function(obj){
@@ -14387,48 +13257,48 @@ obj=new OpenLayers.Layer.MapServer(this.name,this.url,this.params,this.options);
 }
 obj=OpenLayers.Layer.Grid.prototype.clone.apply(this,[obj]);
 return obj;
-},addTile:function(_a1a,_a1b){
-return new OpenLayers.Tile.Image(this,_a1b,_a1a,null,this.tileSize);
-},getURL:function(_a1c){
-_a1c=this.adjustBounds(_a1c);
-var _a1d=[_a1c.left,_a1c.bottom,_a1c.right,_a1c.top];
-var _a1e=this.getImageSize();
-var url=this.getFullRequestString({mapext:_a1d,imgext:_a1d,map_size:[_a1e.w,_a1e.h],imgx:_a1e.w/2,imgy:_a1e.h/2,imgxy:[_a1e.w,_a1e.h]});
+},addTile:function(_8b9,_8ba){
+return new OpenLayers.Tile.Image(this,_8ba,_8b9,null,this.tileSize);
+},getURL:function(_8bb){
+_8bb=this.adjustBounds(_8bb);
+var _8bc=[_8bb.left,_8bb.bottom,_8bb.right,_8bb.top];
+var _8bd=this.getImageSize();
+var url=this.getFullRequestString({mapext:_8bc,imgext:_8bc,map_size:[_8bd.w,_8bd.h],imgx:_8bd.w/2,imgy:_8bd.h/2,imgxy:[_8bd.w,_8bd.h]});
 return url;
-},getFullRequestString:function(_a20,_a21){
-var url=(_a21==null)?this.url:_a21;
+},getFullRequestString:function(_8bf,_8c0){
+var url=(_8c0==null)?this.url:_8c0;
 if(typeof url=="object"){
 url=url[Math.floor(Math.random()*url.length)];
 }
-var _a23=url;
-var _a24=OpenLayers.Util.extend({},this.params);
-_a24=OpenLayers.Util.extend(_a24,_a20);
-var _a25=OpenLayers.Util.upperCaseObject(OpenLayers.Util.getParameters(url));
-for(var key in _a24){
-if(key.toUpperCase() in _a25){
-delete _a24[key];
+var _8c2=url;
+var _8c3=OpenLayers.Util.extend({},this.params);
+_8c3=OpenLayers.Util.extend(_8c3,_8bf);
+var _8c4=OpenLayers.Util.upperCaseObject(OpenLayers.Util.getParameters(url));
+for(var key in _8c3){
+if(key.toUpperCase() in _8c4){
+delete _8c3[key];
 }
 }
-var _a27=OpenLayers.Util.getParameterString(_a24);
-_a27=_a27.replace(/,/g,"+");
-if(_a27!=""){
-var _a28=url.charAt(url.length-1);
-if((_a28=="&")||(_a28=="?")){
-_a23+=_a27;
+var _8c6=OpenLayers.Util.getParameterString(_8c3);
+_8c6=_8c6.replace(/,/g,"+");
+if(_8c6!=""){
+var _8c7=url.charAt(url.length-1);
+if((_8c7=="&")||(_8c7=="?")){
+_8c2+=_8c6;
 }else{
 if(url.indexOf("?")==-1){
-_a23+="?"+_a27;
+_8c2+="?"+_8c6;
 }else{
-_a23+="&"+_a27;
+_8c2+="&"+_8c6;
 }
 }
 }
-return _a23;
+return _8c2;
 },CLASS_NAME:"OpenLayers.Layer.MapServer"});
-OpenLayers.Layer.TMS=OpenLayers.Class(OpenLayers.Layer.Grid,{isBaseLayer:true,tileOrigin:null,initialize:function(name,url,_a2b){
-var _a2c=[];
-_a2c.push(name,url,{},_a2b);
-OpenLayers.Layer.Grid.prototype.initialize.apply(this,_a2c);
+OpenLayers.Layer.TMS=OpenLayers.Class(OpenLayers.Layer.Grid,{serviceVersion:"1.0.0",isBaseLayer:true,tileOrigin:null,initialize:function(name,url,_8ca){
+var _8cb=[];
+_8cb.push(name,url,{},_8ca);
+OpenLayers.Layer.Grid.prototype.initialize.apply(this,_8cb);
 },destroy:function(){
 OpenLayers.Layer.Grid.prototype.destroy.apply(this,arguments);
 },clone:function(obj){
@@ -14437,30 +13307,30 @@ obj=new OpenLayers.Layer.TMS(this.name,this.url,this.options);
 }
 obj=OpenLayers.Layer.Grid.prototype.clone.apply(this,[obj]);
 return obj;
-},getURL:function(_a2e){
-_a2e=this.adjustBounds(_a2e);
+},getURL:function(_8cd){
+_8cd=this.adjustBounds(_8cd);
 var res=this.map.getResolution();
-var x=Math.round((_a2e.left-this.tileOrigin.lon)/(res*this.tileSize.w));
-var y=Math.round((_a2e.bottom-this.tileOrigin.lat)/(res*this.tileSize.h));
+var x=Math.round((_8cd.left-this.tileOrigin.lon)/(res*this.tileSize.w));
+var y=Math.round((_8cd.bottom-this.tileOrigin.lat)/(res*this.tileSize.h));
 var z=this.map.getZoom();
-var path="1.0.0"+"/"+this.layername+"/"+z+"/"+x+"/"+y+"."+this.type;
+var path=this.serviceVersion+"/"+this.layername+"/"+z+"/"+x+"/"+y+"."+this.type;
 var url=this.url;
 if(url instanceof Array){
 url=this.selectUrl(path,url);
 }
 return url+path;
-},addTile:function(_a35,_a36){
-return new OpenLayers.Tile.Image(this,_a36,_a35,null,this.tileSize);
+},addTile:function(_8d4,_8d5){
+return new OpenLayers.Tile.Image(this,_8d5,_8d4,null,this.tileSize);
 },setMap:function(map){
 OpenLayers.Layer.Grid.prototype.setMap.apply(this,arguments);
 if(!this.tileOrigin){
 this.tileOrigin=new OpenLayers.LonLat(this.map.maxExtent.left,this.map.maxExtent.bottom);
 }
 },CLASS_NAME:"OpenLayers.Layer.TMS"});
-OpenLayers.Layer.TileCache=OpenLayers.Class(OpenLayers.Layer.Grid,{isBaseLayer:true,tileOrigin:null,format:"image/png",initialize:function(name,url,_a3a,_a3b){
-_a3b=OpenLayers.Util.extend({maxResolution:180/256},_a3b);
-this.layername=_a3a;
-OpenLayers.Layer.Grid.prototype.initialize.apply(this,[name,url,{},_a3b]);
+OpenLayers.Layer.TileCache=OpenLayers.Class(OpenLayers.Layer.Grid,{isBaseLayer:true,tileOrigin:null,format:"image/png",initialize:function(name,url,_8d9,_8da){
+_8da=OpenLayers.Util.extend({maxResolution:180/256},_8da);
+this.layername=_8d9;
+OpenLayers.Layer.Grid.prototype.initialize.apply(this,[name,url,{},_8da]);
 this.extension=this.format.split("/")[1].toLowerCase();
 this.extension=(this.extension=="jpeg")?"jpg":this.extension;
 },clone:function(obj){
@@ -14469,55 +13339,55 @@ obj=new OpenLayers.Layer.TileCache(this.name,this.url,this.options);
 }
 obj=OpenLayers.Layer.Grid.prototype.clone.apply(this,[obj]);
 return obj;
-},getURL:function(_a3d){
+},getURL:function(_8dc){
 var res=this.map.getResolution();
 var bbox=this.maxExtent;
 var size=this.tileSize;
-var _a41=Math.floor((_a3d.left-bbox.left)/(res*size.w));
-var _a42=Math.floor((_a3d.bottom-bbox.bottom)/(res*size.h));
-var _a43=this.map.zoom;
-function zeroPad(_a44,_a45){
-_a44=String(_a44);
-var _a46=[];
-for(var i=0;i<_a45;++i){
-_a46.push("0");
+var _8e0=Math.floor((_8dc.left-bbox.left)/(res*size.w));
+var _8e1=Math.floor((_8dc.bottom-bbox.bottom)/(res*size.h));
+var _8e2=this.map.zoom;
+function zeroPad(_8e3,_8e4){
+_8e3=String(_8e3);
+var _8e5=[];
+for(var i=0;i<_8e4;++i){
+_8e5.push("0");
 }
-return _a46.join("").substring(0,_a45-_a44.length)+_a44;
+return _8e5.join("").substring(0,_8e4-_8e3.length)+_8e3;
 }
-var _a48=[this.layername,zeroPad(_a43,2),zeroPad(parseInt(_a41/1000000),3),zeroPad((parseInt(_a41/1000)%1000),3),zeroPad((parseInt(_a41)%1000),3),zeroPad(parseInt(_a42/1000000),3),zeroPad((parseInt(_a42/1000)%1000),3),zeroPad((parseInt(_a42)%1000),3)+"."+this.extension];
-var path=_a48.join("/");
+var _8e7=[this.layername,zeroPad(_8e2,2),zeroPad(parseInt(_8e0/1000000),3),zeroPad((parseInt(_8e0/1000)%1000),3),zeroPad((parseInt(_8e0)%1000),3),zeroPad(parseInt(_8e1/1000000),3),zeroPad((parseInt(_8e1/1000)%1000),3),zeroPad((parseInt(_8e1)%1000),3)+"."+this.extension];
+var path=_8e7.join("/");
 var url=this.url;
 if(url instanceof Array){
 url=this.selectUrl(path,url);
 }
 url=(url.charAt(url.length-1)=="/")?url:url+"/";
 return url+path;
-},addTile:function(_a4b,_a4c){
-var url=this.getURL(_a4b);
-return new OpenLayers.Tile.Image(this,_a4c,_a4b,url,this.tileSize);
+},addTile:function(_8ea,_8eb){
+var url=this.getURL(_8ea);
+return new OpenLayers.Tile.Image(this,_8eb,_8ea,url,this.tileSize);
 },setMap:function(map){
 OpenLayers.Layer.Grid.prototype.setMap.apply(this,arguments);
 if(!this.tileOrigin){
 this.tileOrigin=new OpenLayers.LonLat(this.map.maxExtent.left,this.map.maxExtent.bottom);
 }
 },CLASS_NAME:"OpenLayers.Layer.TileCache"});
-OpenLayers.Layer.WFS=OpenLayers.Class(OpenLayers.Layer.Vector,OpenLayers.Layer.Markers,{isBaseLayer:false,tile:null,ratio:2,DEFAULT_PARAMS:{service:"WFS",version:"1.0.0",request:"GetFeature"},featureClass:null,vectorMode:true,encodeBBOX:false,extractAttributes:false,initialize:function(name,url,_a51,_a52){
-if(_a52==undefined){
-_a52={};
+OpenLayers.Layer.WFS=OpenLayers.Class(OpenLayers.Layer.Vector,OpenLayers.Layer.Markers,{isBaseLayer:false,tile:null,ratio:2,DEFAULT_PARAMS:{service:"WFS",version:"1.0.0",request:"GetFeature"},featureClass:null,vectorMode:true,encodeBBOX:false,extractAttributes:false,initialize:function(name,url,_8f0,_8f1){
+if(_8f1==undefined){
+_8f1={};
 }
-if(_a52.featureClass||!OpenLayers.Layer.Vector||!OpenLayers.Feature.Vector){
+if(_8f1.featureClass||!OpenLayers.Layer.Vector||!OpenLayers.Feature.Vector){
 this.vectorMode=false;
 }
-OpenLayers.Util.extend(_a52,{"reportError":false});
-var _a53=[];
-_a53.push(name,_a52);
-OpenLayers.Layer.Vector.prototype.initialize.apply(this,_a53);
+OpenLayers.Util.extend(_8f1,{"reportError":false});
+var _8f2=[];
+_8f2.push(name,_8f1);
+OpenLayers.Layer.Vector.prototype.initialize.apply(this,_8f2);
 if(!this.renderer||!this.vectorMode){
 this.vectorMode=false;
-if(!_a52.featureClass){
-_a52.featureClass=OpenLayers.Feature.WFS;
+if(!_8f1.featureClass){
+_8f1.featureClass=OpenLayers.Feature.WFS;
 }
-OpenLayers.Layer.Markers.prototype.initialize.apply(this,_a53);
+OpenLayers.Layer.Markers.prototype.initialize.apply(this,_8f2);
 }
 if(this.params&&this.params.typename&&!this.options.typename){
 this.options.typename=this.params.typename;
@@ -14525,7 +13395,7 @@ this.options.typename=this.params.typename;
 if(!this.options.geometry_column){
 this.options.geometry_column="the_geom";
 }
-this.params=_a51;
+this.params=_8f0;
 OpenLayers.Util.applyDefaults(this.params,OpenLayers.Util.upperCaseObject(this.DEFAULT_PARAMS));
 this.url=url;
 },destroy:function(){
@@ -14540,16 +13410,16 @@ OpenLayers.Layer.Vector.prototype.setMap.apply(this,arguments);
 }else{
 OpenLayers.Layer.Markers.prototype.setMap.apply(this,arguments);
 }
-},moveTo:function(_a55,_a56,_a57){
+},moveTo:function(_8f4,_8f5,_8f6){
 if(this.vectorMode){
 OpenLayers.Layer.Vector.prototype.moveTo.apply(this,arguments);
 }else{
 OpenLayers.Layer.Markers.prototype.moveTo.apply(this,arguments);
 }
-if(_a57){
+if(_8f6){
 return false;
 }
-if(_a56){
+if(_8f5){
 if(this.vectorMode){
 this.renderer.clear();
 }
@@ -14561,26 +13431,26 @@ if(this.map.getZoom()<this.options.minZoomLevel){
 return null;
 }
 }
-if(_a55==null){
-_a55=this.map.getExtent();
+if(_8f4==null){
+_8f4=this.map.getExtent();
 }
-var _a59=(this.tile==null);
-var _a5a=(!_a59&&!this.tile.bounds.containsBounds(_a55));
-if((_a56||_a59||(!_a57&&_a5a))&&this.inRange){
-var _a5b=_a55.getCenterLonLat();
-var _a5c=_a55.getWidth()*this.ratio;
-var _a5d=_a55.getHeight()*this.ratio;
-var _a5e=new OpenLayers.Bounds(_a5b.lon-(_a5c/2),_a5b.lat-(_a5d/2),_a5b.lon+(_a5c/2),_a5b.lat+(_a5d/2));
-var _a5f=this.map.getSize();
-_a5f.w=_a5f.w*this.ratio;
-_a5f.h=_a5f.h*this.ratio;
-var ul=new OpenLayers.LonLat(_a5e.left,_a5e.top);
+var _8f8=(this.tile==null);
+var _8f9=(!_8f8&&!this.tile.bounds.containsBounds(_8f4));
+if((_8f5||_8f8||(!_8f6&&_8f9))&&this.inRange){
+var _8fa=_8f4.getCenterLonLat();
+var _8fb=_8f4.getWidth()*this.ratio;
+var _8fc=_8f4.getHeight()*this.ratio;
+var _8fd=new OpenLayers.Bounds(_8fa.lon-(_8fb/2),_8fa.lat-(_8fc/2),_8fa.lon+(_8fb/2),_8fa.lat+(_8fc/2));
+var _8fe=this.map.getSize();
+_8fe.w=_8fe.w*this.ratio;
+_8fe.h=_8fe.h*this.ratio;
+var ul=new OpenLayers.LonLat(_8fd.left,_8fd.top);
 var pos=this.map.getLayerPxFromLonLat(ul);
 var url=this.getFullRequestString();
-var _a63={BBOX:this.encodeBBOX?_a5e.toBBOX():_a5e.toArray()};
-url+="&"+OpenLayers.Util.getParameterString(_a63);
+var _902={BBOX:this.encodeBBOX?_8fd.toBBOX():_8fd.toArray()};
+url+="&"+OpenLayers.Util.getParameterString(_902);
 if(!this.tile){
-this.tile=new OpenLayers.Tile.WFS(this,pos,_a5e,url,_a5f);
+this.tile=new OpenLayers.Tile.WFS(this,pos,_8fd,url,_8fe);
 this.addTileMonitoringHooks(this.tile);
 this.tile.draw();
 }else{
@@ -14593,7 +13463,8 @@ this.clearMarkers();
 this.removeTileMonitoringHooks(this.tile);
 this.tile.destroy();
 this.tile=null;
-this.tile=new OpenLayers.Tile.WFS(this,pos,_a5e,url,_a5f);
+this.tile=new OpenLayers.Tile.WFS(this,pos,_8fd,url,_8fe);
+this.addTileMonitoringHooks(this.tile);
 this.tile.draw();
 }
 }
@@ -14620,10 +13491,10 @@ OpenLayers.Layer.Vector.prototype.onMapResize.apply(this,arguments);
 }else{
 OpenLayers.Layer.Markers.prototype.onMapResize.apply(this,arguments);
 }
-},mergeNewParams:function(_a66){
-var _a67=OpenLayers.Util.upperCaseObject(_a66);
-var _a68=[_a67];
-OpenLayers.Layer.HTTPRequest.prototype.mergeNewParams.apply(this,_a68);
+},mergeNewParams:function(_905){
+var _906=OpenLayers.Util.upperCaseObject(_905);
+var _907=[_906];
+OpenLayers.Layer.HTTPRequest.prototype.mergeNewParams.apply(this,_907);
 },clone:function(obj){
 if(obj==null){
 obj=new OpenLayers.Layer.WFS(this.name,this.url,this.params,this.options);
@@ -14634,9 +13505,9 @@ obj=OpenLayers.Layer.Vector.prototype.clone.apply(this,[obj]);
 obj=OpenLayers.Layer.Markers.prototype.clone.apply(this,[obj]);
 }
 return obj;
-},getFullRequestString:function(_a6a){
-var _a6b=this.map.getProjection();
-this.params.SRS=(_a6b=="none")?null:_a6b;
+},getFullRequestString:function(_909){
+var _90a=this.map.getProjection();
+this.params.SRS=(_90a=="none")?null:_90a;
 return OpenLayers.Layer.Grid.prototype.getFullRequestString.apply(this,arguments);
 },commit:function(){
 if(!this.writer){
@@ -14647,25 +13518,25 @@ var url=this.url;
 if(OpenLayers.ProxyHost&&OpenLayers.String.startsWith(this.url,"http")){
 url=OpenLayers.ProxyHost+escape(this.url);
 }
-var _a6e=OpenLayers.Function.bind(this.commitSuccess,this);
-var _a6f=OpenLayers.Function.bind(this.commitFailure,this);
+var _90d=OpenLayers.Function.bind(this.commitSuccess,this);
+var _90e=OpenLayers.Function.bind(this.commitFailure,this);
 data=OpenLayers.Ajax.serializeXMLToString(data);
-new OpenLayers.Ajax.Request(url,{method:"post",postBody:data,onComplete:_a6e,onFailure:_a6f});
-},commitSuccess:function(_a70){
-var _a71=_a70.responseText;
-if(_a71.indexOf("SUCCESS")!=-1){
-this.commitReport("WFS Transaction: SUCCESS",_a71);
+new OpenLayers.Ajax.Request(url,{method:"post",postBody:data,onComplete:_90d,onFailure:_90e});
+},commitSuccess:function(_90f){
+var _910=_90f.responseText;
+if(_910.indexOf("SUCCESS")!=-1){
+this.commitReport("WFS Transaction: SUCCESS",_910);
 for(var i=0;i<this.features.length;i++){
 this.features[i].state=null;
 }
 }else{
-if(_a71.indexOf("FAILED")!=-1||_a71.indexOf("Exception")!=-1){
-this.commitReport("WFS Transaction: FAILED",_a71);
+if(_910.indexOf("FAILED")!=-1||_910.indexOf("Exception")!=-1){
+this.commitReport("WFS Transaction: FAILED",_910);
 }
 }
-},commitFailure:function(_a73){
-},commitReport:function(_a74,_a75){
-alert(_a74);
+},commitFailure:function(_912){
+},commitReport:function(_913,_914){
+alert(_913);
 },refresh:function(){
 if(this.tile){
 if(this.vectorMode){
@@ -14678,14 +13549,14 @@ this.markers.length=0;
 this.tile.draw();
 }
 },CLASS_NAME:"OpenLayers.Layer.WFS"});
-OpenLayers.Layer.WMS=OpenLayers.Class(OpenLayers.Layer.Grid,{DEFAULT_PARAMS:{service:"WMS",version:"1.1.1",request:"GetMap",styles:"",exceptions:"application/vnd.ogc.se_inimage",format:"image/jpeg"},reproject:false,isBaseLayer:true,encodeBBOX:false,initialize:function(name,url,_a78,_a79){
-var _a7a=[];
-_a78=OpenLayers.Util.upperCaseObject(_a78);
-_a7a.push(name,url,_a78,_a79);
-OpenLayers.Layer.Grid.prototype.initialize.apply(this,_a7a);
+OpenLayers.Layer.WMS=OpenLayers.Class(OpenLayers.Layer.Grid,{DEFAULT_PARAMS:{service:"WMS",version:"1.1.1",request:"GetMap",styles:"",exceptions:"application/vnd.ogc.se_inimage",format:"image/jpeg"},reproject:false,isBaseLayer:true,encodeBBOX:false,initialize:function(name,url,_917,_918){
+var _919=[];
+_917=OpenLayers.Util.upperCaseObject(_917);
+_919.push(name,url,_917,_918);
+OpenLayers.Layer.Grid.prototype.initialize.apply(this,_919);
 OpenLayers.Util.applyDefaults(this.params,OpenLayers.Util.upperCaseObject(this.DEFAULT_PARAMS));
 if(this.params.TRANSPARENT&&this.params.TRANSPARENT.toString().toLowerCase()=="true"){
-if((_a79==null)||(!_a79.isBaseLayer)){
+if((_918==null)||(!_918.isBaseLayer)){
 this.isBaseLayer=false;
 }
 if(this.params.FORMAT=="image/jpeg"){
@@ -14700,161 +13571,264 @@ obj=new OpenLayers.Layer.WMS(this.name,this.url,this.params,this.options);
 }
 obj=OpenLayers.Layer.Grid.prototype.clone.apply(this,[obj]);
 return obj;
-},getURL:function(_a7c){
-_a7c=this.adjustBounds(_a7c);
-var _a7d=this.getImageSize();
-return this.getFullRequestString({BBOX:this.encodeBBOX?_a7c.toBBOX():_a7c.toArray(),WIDTH:_a7d.w,HEIGHT:_a7d.h});
-},addTile:function(_a7e,_a7f){
-return new OpenLayers.Tile.Image(this,_a7f,_a7e,null,this.tileSize);
-},mergeNewParams:function(_a80){
-var _a81=OpenLayers.Util.upperCaseObject(_a80);
-var _a82=[_a81];
-OpenLayers.Layer.Grid.prototype.mergeNewParams.apply(this,_a82);
-},getFullRequestString:function(_a83){
-var _a84=this.map.getProjection();
-this.params.SRS=(_a84=="none")?null:_a84;
+},getURL:function(_91b){
+_91b=this.adjustBounds(_91b);
+var _91c=this.getImageSize();
+return this.getFullRequestString({BBOX:this.encodeBBOX?_91b.toBBOX():_91b.toArray(),WIDTH:_91c.w,HEIGHT:_91c.h});
+},addTile:function(_91d,_91e){
+return new OpenLayers.Tile.Image(this,_91e,_91d,null,this.tileSize);
+},mergeNewParams:function(_91f){
+var _920=OpenLayers.Util.upperCaseObject(_91f);
+var _921=[_920];
+OpenLayers.Layer.Grid.prototype.mergeNewParams.apply(this,_921);
+},getFullRequestString:function(_922){
+var _923=this.map.getProjection();
+this.params.SRS=(_923=="none")?null:_923;
 return OpenLayers.Layer.Grid.prototype.getFullRequestString.apply(this,arguments);
 },CLASS_NAME:"OpenLayers.Layer.WMS"});
-OpenLayers.Layer.WorldWind=OpenLayers.Class(OpenLayers.Layer.Grid,{DEFAULT_PARAMS:{},isBaseLayer:true,lzd:null,zoomLevels:null,initialize:function(name,url,lzd,_a88,_a89,_a8a){
+OpenLayers.Layer.WorldWind=OpenLayers.Class(OpenLayers.Layer.Grid,{DEFAULT_PARAMS:{},isBaseLayer:true,lzd:null,zoomLevels:null,initialize:function(name,url,lzd,_927,_928,_929){
 this.lzd=lzd;
-this.zoomLevels=_a88;
-var _a8b=[];
-_a8b.push(name,url,_a89,_a8a);
-OpenLayers.Layer.Grid.prototype.initialize.apply(this,_a8b);
-this.params=(_a89?_a89:{});
-if(_a89){
+this.zoomLevels=_927;
+var _92a=[];
+_92a.push(name,url,_928,_929);
+OpenLayers.Layer.Grid.prototype.initialize.apply(this,_92a);
+this.params=(_928?_928:{});
+if(_928){
 OpenLayers.Util.applyDefaults(this.params,this.DEFAULT_PARAMS);
 }
-},addTile:function(_a8c,_a8d){
-return new OpenLayers.Tile.Image(this,_a8d,_a8c,null,this.tileSize);
+},addTile:function(_92b,_92c){
+return new OpenLayers.Tile.Image(this,_92c,_92b,null,this.tileSize);
 },getZoom:function(){
 var zoom=this.map.getZoom();
-var _a8f=this.map.getMaxExtent();
+var _92e=this.map.getMaxExtent();
 zoom=zoom-Math.log(this.maxResolution/(this.lzd/512))/Math.log(2);
 return zoom;
-},getURL:function(_a90){
-_a90=this.adjustBounds(_a90);
+},getURL:function(_92f){
+_92f=this.adjustBounds(_92f);
 var zoom=this.getZoom();
-var _a92=this.map.getMaxExtent();
+var _931=this.map.getMaxExtent();
 var deg=this.lzd/Math.pow(2,this.getZoom());
-var x=Math.floor((_a90.left-_a92.left)/deg);
-var y=Math.floor((_a90.bottom-_a92.bottom)/deg);
+var x=Math.floor((_92f.left-_931.left)/deg);
+var y=Math.floor((_92f.bottom-_931.bottom)/deg);
 if(this.map.getResolution()<=(this.lzd/512)&&this.getZoom()<=this.zoomLevels){
 return this.getFullRequestString({L:zoom,X:x,Y:y});
 }else{
 return OpenLayers.Util.getImagesLocation()+"blank.gif";
 }
 },CLASS_NAME:"OpenLayers.Layer.WorldWind"});
-OpenLayers.Control.NavToolbar=OpenLayers.Class(OpenLayers.Control.Panel,{initialize:function(_a96){
-OpenLayers.Control.Panel.prototype.initialize.apply(this,[_a96]);
+OpenLayers.Control.NavToolbar=OpenLayers.Class(OpenLayers.Control.Panel,{initialize:function(_935){
+OpenLayers.Control.Panel.prototype.initialize.apply(this,[_935]);
 this.addControls([new OpenLayers.Control.Navigation(),new OpenLayers.Control.ZoomBox()]);
 },draw:function(){
 var div=OpenLayers.Control.Panel.prototype.draw.apply(this,arguments);
 this.activateControl(this.controls[0]);
 return div;
 },CLASS_NAME:"OpenLayers.Control.NavToolbar"});
-OpenLayers.Format.WFS=OpenLayers.Class(OpenLayers.Format.GML,{layer:null,wfsns:"http://www.opengis.net/wfs",initialize:function(_a98,_a99){
-OpenLayers.Format.GML.prototype.initialize.apply(this,[_a98]);
-this.layer=_a99;
-if(this.layer.featureNS){
-this.featureNS=this.layer.featureNS;
+OpenLayers.Geometry.Collection=OpenLayers.Class(OpenLayers.Geometry,{components:null,componentTypes:null,initialize:function(_937){
+OpenLayers.Geometry.prototype.initialize.apply(this,arguments);
+this.components=[];
+if(_937!=null){
+this.addComponents(_937);
 }
-if(this.layer.options.geometry_column){
-this.geometryName=this.layer.options.geometry_column;
-}
-if(this.layer.options.typename){
-this.featureName=this.layer.options.typename;
-}
-},write:function(_a9a){
-var _a9b=document.createElementNS("http://www.opengis.net/wfs","wfs:Transaction");
-_a9b.setAttribute("version","1.0.0");
-_a9b.setAttribute("service","WFS");
-for(var i=0;i<_a9a.length;i++){
-switch(_a9a[i].state){
-case OpenLayers.State.INSERT:
-_a9b.appendChild(this.insert(_a9a[i]));
-break;
-case OpenLayers.State.UPDATE:
-_a9b.appendChild(this.update(_a9a[i]));
-break;
-case OpenLayers.State.DELETE:
-_a9b.appendChild(this.remove(_a9a[i]));
-break;
-}
-}
-return _a9b;
-},createFeatureXML:function(_a9d){
-var _a9e=this.buildGeometryNode(_a9d.geometry);
-var _a9f=document.createElementNS(this.featureNS,"feature:"+this.geometryName);
-_a9f.appendChild(_a9e);
-var _aa0=document.createElementNS(this.featureNS,"feature:"+this.featureName);
-_aa0.appendChild(_a9f);
-for(var attr in _a9d.attributes){
-var _aa2=document.createTextNode(_a9d.attributes[attr]);
-var _aa3=attr;
-if(attr.search(":")!=-1){
-_aa3=attr.split(":")[1];
-}
-var _aa4=document.createElementNS(this.featureNS,"feature:"+_aa3);
-_aa4.appendChild(_aa2);
-_aa0.appendChild(_aa4);
-}
-return _aa0;
-},insert:function(_aa5){
-var _aa6=document.createElementNS(this.wfsns,"wfs:Insert");
-_aa6.appendChild(this.createFeatureXML(_aa5));
-return _aa6;
-},update:function(_aa7){
-if(!_aa7.fid){
-alert("Can't update a feature for which there is no FID.");
-}
-var _aa8=document.createElementNS(this.wfsns,"wfs:Update");
-_aa8.setAttribute("typeName",this.layerName);
-var _aa9=document.createElementNS(this.wfsns,"wfs:Property");
-var _aaa=document.createElementNS("http://www.opengis.net/wfs","wfs:Name");
-var _aab=document.createTextNode(this.geometryName);
-_aaa.appendChild(_aab);
-_aa9.appendChild(_aaa);
-var _aac=document.createElementNS("http://www.opengis.net/wfs","wfs:Value");
-_aac.appendChild(this.buildGeometryNode(_aa7.geometry));
-_aa9.appendChild(_aac);
-_aa8.appendChild(_aa9);
-var _aad=document.createElementNS("http://www.opengis.net/ogc","ogc:Filter");
-var _aae=document.createElementNS("http://www.opengis.net/ogc","ogc:FeatureId");
-_aae.setAttribute("fid",_aa7.fid);
-_aad.appendChild(_aae);
-_aa8.appendChild(_aad);
-return _aa8;
-},remove:function(_aaf){
-if(!_aaf.attributes.fid){
-alert("Can't update a feature for which there is no FID.");
-return false;
-}
-var _ab0=document.createElementNS(this.featureNS,"wfs:Delete");
-_ab0.setAttribute("typeName",this.layerName);
-var _ab1=document.createElementNS("http://www.opengis.net/ogc","ogc:Filter");
-var _ab2=document.createElementNS("http://www.opengis.net/ogc","ogc:FeatureId");
-_ab2.setAttribute("fid",_aaf.attributes.fid);
-_ab1.appendChild(_ab2);
-_ab0.appendChild(_ab1);
-return _ab0;
 },destroy:function(){
-this.layer=null;
-},CLASS_NAME:"OpenLayers.Format.WFS"});
-OpenLayers.Geometry.MultiLineString=OpenLayers.Class(OpenLayers.Geometry.Collection,{componentTypes:["OpenLayers.Geometry.LineString"],initialize:function(_ab3){
+this.components.length=0;
+this.components=null;
+},clone:function(){
+var _938=eval("new "+this.CLASS_NAME+"()");
+for(var i=0;i<this.components.length;i++){
+_938.addComponent(this.components[i].clone());
+}
+OpenLayers.Util.applyDefaults(_938,this);
+return _938;
+},getComponentsString:function(){
+var _93a=[];
+for(var i=0;i<this.components.length;i++){
+_93a.push(this.components[i].toShortString());
+}
+return _93a.join(",");
+},calculateBounds:function(){
+this.bounds=null;
+if(this.components&&this.components.length>0){
+this.setBounds(this.components[0].getBounds());
+for(var i=1;i<this.components.length;i++){
+this.extendBounds(this.components[i].getBounds());
+}
+}
+},addComponents:function(_93d){
+if(!(_93d instanceof Array)){
+_93d=[_93d];
+}
+for(var i=0;i<_93d.length;i++){
+this.addComponent(_93d[i]);
+}
+},addComponent:function(_93f,_940){
+var _941=false;
+if(_93f){
+if(this.componentTypes==null||(OpenLayers.Util.indexOf(this.componentTypes,_93f.CLASS_NAME)>-1)){
+if(_940!=null&&(_940<this.components.length)){
+var _942=this.components.slice(0,_940);
+var _943=this.components.slice(_940,this.components.length);
+_942.push(_93f);
+this.components=_942.concat(_943);
+}else{
+this.components.push(_93f);
+}
+_93f.parent=this;
+this.clearBounds();
+_941=true;
+}
+}
+return _941;
+},removeComponents:function(_944){
+if(!(_944 instanceof Array)){
+_944=[_944];
+}
+for(var i=0;i<_944.length;i++){
+this.removeComponent(_944[i]);
+}
+},removeComponent:function(_946){
+OpenLayers.Util.removeItem(this.components,_946);
+this.clearBounds();
+},getLength:function(){
+var _947=0;
+for(var i=0;i<this.components.length;i++){
+_947+=this.components[i].getLength();
+}
+return _947;
+},getArea:function(){
+var area=0;
+for(var i=0;i<this.components.length;i++){
+area+=this.components[i].getArea();
+}
+return area;
+},move:function(x,y){
+for(var i=0;i<this.components.length;i++){
+this.components[i].move(x,y);
+}
+},rotate:function(_94e,_94f){
+for(var i=0;i<this.components.length;++i){
+this.components[i].rotate(_94e,_94f);
+}
+},resize:function(_951,_952){
+for(var i=0;i<this.components.length;++i){
+this.components[i].resize(_951,_952);
+}
+},equals:function(_954){
+var _955=true;
+if(!_954.CLASS_NAME||(this.CLASS_NAME!=_954.CLASS_NAME)){
+_955=false;
+}else{
+if(!(_954.components instanceof Array)||(_954.components.length!=this.components.length)){
+_955=false;
+}else{
+for(var i=0;i<this.components.length;++i){
+if(!this.components[i].equals(_954.components[i])){
+_955=false;
+break;
+}
+}
+}
+}
+return _955;
+},CLASS_NAME:"OpenLayers.Geometry.Collection"});
+OpenLayers.Geometry.Point=OpenLayers.Class(OpenLayers.Geometry,{x:null,y:null,initialize:function(x,y){
+OpenLayers.Geometry.prototype.initialize.apply(this,arguments);
+this.x=parseFloat(x);
+this.y=parseFloat(y);
+},clone:function(obj){
+if(obj==null){
+obj=new OpenLayers.Geometry.Point(this.x,this.y);
+}
+OpenLayers.Util.applyDefaults(obj,this);
+return obj;
+},calculateBounds:function(){
+this.bounds=new OpenLayers.Bounds(this.x,this.y,this.x,this.y);
+},distanceTo:function(_95a){
+var _95b=0;
+if((this.x!=null)&&(this.y!=null)&&(_95a!=null)&&(_95a.x!=null)&&(_95a.y!=null)){
+var dx2=Math.pow(this.x-_95a.x,2);
+var dy2=Math.pow(this.y-_95a.y,2);
+_95b=Math.sqrt(dx2+dy2);
+}
+return _95b;
+},equals:function(geom){
+var _95f=false;
+if(geom!=null){
+_95f=((this.x==geom.x&&this.y==geom.y)||(isNaN(this.x)&&isNaN(this.y)&&isNaN(geom.x)&&isNaN(geom.y)));
+}
+return _95f;
+},toShortString:function(){
+return (this.x+", "+this.y);
+},move:function(x,y){
+this.x=this.x+x;
+this.y=this.y+y;
+this.clearBounds();
+},rotate:function(_962,_963){
+_962*=Math.PI/180;
+var _964=this.distanceTo(_963);
+var _965=_962+Math.atan2(this.y-_963.y,this.x-_963.x);
+this.x=_963.x+(_964*Math.cos(_965));
+this.y=_963.y+(_964*Math.sin(_965));
+this.clearBounds();
+},resize:function(_966,_967){
+this.x=_967.x+(_966*(this.x-_967.x));
+this.y=_967.y+(_966*(this.y-_967.y));
+this.clearBounds();
+},CLASS_NAME:"OpenLayers.Geometry.Point"});
+OpenLayers.Geometry.Rectangle=OpenLayers.Class(OpenLayers.Geometry,{x:null,y:null,width:null,height:null,initialize:function(x,y,_96a,_96b){
+OpenLayers.Geometry.prototype.initialize.apply(this,arguments);
+this.x=x;
+this.y=y;
+this.width=_96a;
+this.height=_96b;
+},calculateBounds:function(){
+this.bounds=new OpenLayers.Bounds(this.x,this.y,this.x+this.width,this.y+this.height);
+},getLength:function(){
+var _96c=(2*this.width)+(2*this.height);
+return _96c;
+},getArea:function(){
+var area=this.width*this.height;
+return area;
+},CLASS_NAME:"OpenLayers.Geometry.Rectangle"});
+OpenLayers.Geometry.Surface=OpenLayers.Class(OpenLayers.Geometry,{initialize:function(){
+OpenLayers.Geometry.prototype.initialize.apply(this,arguments);
+},CLASS_NAME:"OpenLayers.Geometry.Surface"});
+OpenLayers.Layer.MapServer.Untiled=OpenLayers.Class(OpenLayers.Layer.MapServer,{singleTile:true,initialize:function(name,url,_970,_971){
+OpenLayers.Layer.MapServer.prototype.initialize.apply(this,arguments);
+var msg="The OpenLayers.Layer.MapServer.Untiled class is deprecated and "+"will be removed in 3.0. Instead, you should use the "+"normal OpenLayers.Layer.MapServer class, passing it the option "+"'singleTile' as true.";
+OpenLayers.Console.warn(msg);
+},clone:function(obj){
+if(obj==null){
+obj=new OpenLayers.Layer.MapServer.Untiled(this.name,this.url,this.params,this.options);
+}
+obj=OpenLayers.Layer.MapServer.prototype.clone.apply(this,[obj]);
+return obj;
+},CLASS_NAME:"OpenLayers.Layer.MapServer.Untiled"});
+OpenLayers.Layer.WMS.Untiled=OpenLayers.Class(OpenLayers.Layer.WMS,{singleTile:true,initialize:function(name,url,_976,_977){
+OpenLayers.Layer.WMS.prototype.initialize.apply(this,arguments);
+var msg="The OpenLayers.Layer.WMS.Untiled class is deprecated and "+"will be removed in 3.0. Instead, you should use the "+"normal OpenLayers.Layer.WMS class, passing it the option "+"'singleTile' as true.";
+OpenLayers.Console.warn(msg);
+},clone:function(obj){
+if(obj==null){
+obj=new OpenLayers.Layer.WMS.Untiled(this.name,this.url,this.params,this.options);
+}
+obj=OpenLayers.Layer.WMS.prototype.clone.apply(this,[obj]);
+return obj;
+},CLASS_NAME:"OpenLayers.Layer.WMS.Untiled"});
+OpenLayers.Geometry.MultiLineString=OpenLayers.Class(OpenLayers.Geometry.Collection,{componentTypes:["OpenLayers.Geometry.LineString"],initialize:function(_97a){
 OpenLayers.Geometry.Collection.prototype.initialize.apply(this,arguments);
 },CLASS_NAME:"OpenLayers.Geometry.MultiLineString"});
-OpenLayers.Geometry.MultiPoint=OpenLayers.Class(OpenLayers.Geometry.Collection,{componentTypes:["OpenLayers.Geometry.Point"],initialize:function(_ab4){
+OpenLayers.Geometry.MultiPoint=OpenLayers.Class(OpenLayers.Geometry.Collection,{componentTypes:["OpenLayers.Geometry.Point"],initialize:function(_97b){
 OpenLayers.Geometry.Collection.prototype.initialize.apply(this,arguments);
-},addPoint:function(_ab5,_ab6){
-this.addComponent(_ab5,_ab6);
-},removePoint:function(_ab7){
-this.removeComponent(_ab7);
+},addPoint:function(_97c,_97d){
+this.addComponent(_97c,_97d);
+},removePoint:function(_97e){
+this.removeComponent(_97e);
 },CLASS_NAME:"OpenLayers.Geometry.MultiPoint"});
-OpenLayers.Geometry.MultiPolygon=OpenLayers.Class(OpenLayers.Geometry.Collection,{componentTypes:["OpenLayers.Geometry.Polygon"],initialize:function(_ab8){
+OpenLayers.Geometry.MultiPolygon=OpenLayers.Class(OpenLayers.Geometry.Collection,{componentTypes:["OpenLayers.Geometry.Polygon"],initialize:function(_97f){
 OpenLayers.Geometry.Collection.prototype.initialize.apply(this,arguments);
 },CLASS_NAME:"OpenLayers.Geometry.MultiPolygon"});
-OpenLayers.Geometry.Polygon=OpenLayers.Class(OpenLayers.Geometry.Collection,{componentTypes:["OpenLayers.Geometry.LinearRing"],initialize:function(_ab9){
+OpenLayers.Geometry.Polygon=OpenLayers.Class(OpenLayers.Geometry.Collection,{componentTypes:["OpenLayers.Geometry.LinearRing"],initialize:function(_980){
 OpenLayers.Geometry.Collection.prototype.initialize.apply(this,arguments);
 },getArea:function(){
 var area=0;
@@ -14866,31 +13840,31 @@ area-=Math.abs(this.components[i].getArea());
 }
 return area;
 },CLASS_NAME:"OpenLayers.Geometry.Polygon"});
-OpenLayers.Geometry.Polygon.createRegularPolygon=function(_abc,_abd,_abe,_abf){
-var _ac0=Math.PI*((1/_abe)-(1/2));
-if(_abf){
-_ac0+=(_abf/180)*Math.PI;
+OpenLayers.Geometry.Polygon.createRegularPolygon=function(_983,_984,_985,_986){
+var _987=Math.PI*((1/_985)-(1/2));
+if(_986){
+_987+=(_986/180)*Math.PI;
 }
-var _ac1,x,y;
-var _ac2=[];
-for(var i=0;i<_abe;++i){
-rotatedAngle=_ac0+(i*2*Math.PI/_abe);
-x=_abc.x+(_abd*Math.cos(rotatedAngle));
-y=_abc.y+(_abd*Math.sin(rotatedAngle));
-_ac2.push(new OpenLayers.Geometry.Point(x,y));
+var _988,x,y;
+var _989=[];
+for(var i=0;i<_985;++i){
+rotatedAngle=_987+(i*2*Math.PI/_985);
+x=_983.x+(_984*Math.cos(rotatedAngle));
+y=_983.y+(_984*Math.sin(rotatedAngle));
+_989.push(new OpenLayers.Geometry.Point(x,y));
 }
-var ring=new OpenLayers.Geometry.LinearRing(_ac2);
+var ring=new OpenLayers.Geometry.LinearRing(_989);
 return new OpenLayers.Geometry.Polygon([ring]);
 };
-OpenLayers.Handler.Point=OpenLayers.Class(OpenLayers.Handler,{point:null,layer:null,drawing:false,mouseDown:false,lastDown:null,lastUp:null,initialize:function(_ac5,_ac6,_ac7){
+OpenLayers.Handler.Point=OpenLayers.Class(OpenLayers.Handler,{point:null,layer:null,drawing:false,mouseDown:false,lastDown:null,lastUp:null,initialize:function(_98c,_98d,_98e){
 this.style=OpenLayers.Util.extend(OpenLayers.Feature.Vector.style["default"],{});
 OpenLayers.Handler.prototype.initialize.apply(this,arguments);
 },activate:function(){
 if(!OpenLayers.Handler.prototype.activate.apply(this,arguments)){
 return false;
 }
-var _ac8={displayInLayerSwitcher:false};
-this.layer=new OpenLayers.Layer.Vector(this.CLASS_NAME,_ac8);
+var _98f={displayInLayerSwitcher:false};
+this.layer=new OpenLayers.Layer.Vector(this.CLASS_NAME,_98f);
 this.map.addLayer(this.layer);
 return true;
 },createFeature:function(){
@@ -14944,16 +13918,16 @@ this.createFeature();
 }
 this.lastDown=evt.xy;
 this.drawing=true;
-var _acb=this.map.getLonLatFromPixel(evt.xy);
-this.point.geometry.x=_acb.lon;
-this.point.geometry.y=_acb.lat;
+var _992=this.map.getLonLatFromPixel(evt.xy);
+this.point.geometry.x=_992.lon;
+this.point.geometry.y=_992.lat;
 this.drawFeature();
 return false;
 },mousemove:function(evt){
 if(this.drawing){
-var _acd=this.map.getLonLatFromPixel(evt.xy);
-this.point.geometry.x=_acd.lon;
-this.point.geometry.y=_acd.lat;
+var _994=this.map.getLonLatFromPixel(evt.xy);
+this.point.geometry.x=_994.lon;
+this.point.geometry.y=_994.lat;
 this.point.geometry.clearBounds();
 this.drawFeature();
 }
@@ -14966,63 +13940,1103 @@ return false;
 return true;
 }
 },CLASS_NAME:"OpenLayers.Handler.Point"});
-OpenLayers.Layer.MapServer.Untiled=OpenLayers.Class(OpenLayers.Layer.MapServer,{singleTile:true,initialize:function(name,url,_ad1,_ad2){
-OpenLayers.Layer.MapServer.prototype.initialize.apply(this,arguments);
-var msg="The OpenLayers.Layer.MapServer.Untiled class is deprecated and "+"will be removed in 3.0. Instead, you should use the "+"normal OpenLayers.Layer.MapServer class, passing it the option "+"'singleTile' as true.";
-OpenLayers.Console.warn(msg);
-},CLASS_NAME:"OpenLayers.Layer.MapServer.Untiled"});
-OpenLayers.Layer.WMS.Untiled=OpenLayers.Class(OpenLayers.Layer.WMS,{singleTile:true,initialize:function(name,url,_ad6,_ad7){
-OpenLayers.Layer.WMS.prototype.initialize.apply(this,arguments);
-var msg="The OpenLayers.Layer.WMS.Untiled class is deprecated and "+"will be removed in 3.0. Instead, you should use the "+"normal OpenLayers.Layer.WMS class, passing it the option "+"'singleTile' as true.";
-OpenLayers.Console.warn(msg);
-},CLASS_NAME:"OpenLayers.Layer.WMS.Untiled"});
-OpenLayers.Geometry.Curve=OpenLayers.Class(OpenLayers.Geometry.MultiPoint,{componentTypes:["OpenLayers.Geometry.Point"],initialize:function(_ad9){
+OpenLayers.Geometry.Curve=OpenLayers.Class(OpenLayers.Geometry.MultiPoint,{componentTypes:["OpenLayers.Geometry.Point"],initialize:function(_996){
 OpenLayers.Geometry.MultiPoint.prototype.initialize.apply(this,arguments);
 },getLength:function(){
-var _ada=0;
+var _997=0;
 if(this.components&&(this.components.length>1)){
 for(var i=1;i<this.components.length;i++){
-_ada+=this.components[i-1].distanceTo(this.components[i]);
+_997+=this.components[i-1].distanceTo(this.components[i]);
 }
 }
-return _ada;
+return _997;
 },CLASS_NAME:"OpenLayers.Geometry.Curve"});
-OpenLayers.Geometry.LineString=OpenLayers.Class(OpenLayers.Geometry.Curve,{initialize:function(_adc){
+OpenLayers.Geometry.LineString=OpenLayers.Class(OpenLayers.Geometry.Curve,{initialize:function(_999){
 OpenLayers.Geometry.Curve.prototype.initialize.apply(this,arguments);
-},removeComponent:function(_add){
+},removeComponent:function(_99a){
 if(this.components&&(this.components.length>2)){
 OpenLayers.Geometry.Collection.prototype.removeComponent.apply(this,arguments);
 }
 },CLASS_NAME:"OpenLayers.Geometry.LineString"});
-OpenLayers.Geometry.LinearRing=OpenLayers.Class(OpenLayers.Geometry.LineString,{componentTypes:["OpenLayers.Geometry.Point"],initialize:function(_ade){
-OpenLayers.Geometry.LineString.prototype.initialize.apply(this,arguments);
-},addComponent:function(_adf,_ae0){
-var _ae1=false;
-var _ae2=this.components.pop();
-if(_ae0!=null||!_adf.equals(_ae2)){
-_ae1=OpenLayers.Geometry.Collection.prototype.addComponent.apply(this,arguments);
+OpenLayers.Format.GML=OpenLayers.Class(OpenLayers.Format.XML,{featureNS:"http://mapserver.gis.umn.edu/mapserver",featurePrefix:"feature",featureName:"featureMember",layerName:"features",geometryName:"geometry",collectionName:"FeatureCollection",gmlns:"http://www.opengis.net/gml",extractAttributes:true,initialize:function(_99b){
+this.regExes={trimSpace:(/^\s*|\s*$/g),removeSpace:(/\s*/g),splitSpace:(/\s+/),trimComma:(/\s*,\s*/g)};
+OpenLayers.Format.XML.prototype.initialize.apply(this,[_99b]);
+},read:function(data){
+if(typeof data=="string"){
+data=OpenLayers.Format.XML.prototype.read.apply(this,[data]);
 }
-var _ae3=this.components[0];
-OpenLayers.Geometry.Collection.prototype.addComponent.apply(this,[_ae3]);
-return _ae1;
-},removeComponent:function(_ae4){
+var _99d=this.getElementsByTagNameNS(data.documentElement,this.gmlns,this.featureName);
+var _99e=[];
+for(var i=0;i<_99d.length;i++){
+var _9a0=this.parseFeature(_99d[i]);
+if(_9a0){
+_99e.push(_9a0);
+}
+}
+return _99e;
+},parseFeature:function(node){
+var _9a2=["MultiPolygon","Polygon","MultiLineString","LineString","MultiPoint","Point"];
+var type,nodeList,geometry,parser;
+for(var i=0;i<_9a2.length;++i){
+type=_9a2[i];
+nodeList=this.getElementsByTagNameNS(node,this.gmlns,type);
+if(nodeList.length>0){
+var _9a5=this.parseGeometry[type.toLowerCase()];
+if(_9a5){
+geometry=_9a5.apply(this,[nodeList[0]]);
+}else{
+OpenLayers.Console.error("Unsupported geometry type: "+type);
+}
+break;
+}
+}
+var _9a6;
+if(this.extractAttributes){
+_9a6=this.parseAttributes(node);
+}
+var _9a7=new OpenLayers.Feature.Vector(geometry,_9a6);
+var _9a8=node.firstChild;
+var fid;
+while(_9a8){
+if(_9a8.nodeType==1){
+fid=_9a8.getAttribute("fid")||_9a8.getAttribute("id");
+if(fid){
+break;
+}
+}
+_9a8=_9a8.nextSibling;
+}
+_9a7.fid=fid;
+return _9a7;
+},parseGeometry:{point:function(node){
+var _9ab;
+var _9ac=[];
+var _9ab=this.getElementsByTagNameNS(node,this.gmlns,"pos");
+if(_9ab.length>0){
+coordString=_9ab[0].firstChild.nodeValue;
+coordString=coordString.replace(this.regExes.trimSpace,"");
+_9ac=coordString.split(this.regExes.splitSpace);
+}
+if(_9ac.length==0){
+_9ab=this.getElementsByTagNameNS(node,this.gmlns,"coordinates");
+if(_9ab.length>0){
+coordString=_9ab[0].firstChild.nodeValue;
+coordString=coordString.replace(this.regExes.removeSpace,"");
+_9ac=coordString.split(",");
+}
+}
+if(_9ac.length==0){
+_9ab=this.getElementsByTagNameNS(node,this.gmlns,"coord");
+if(_9ab.length>0){
+var _9ad=this.getElementsByTagNameNS(_9ab[0],this.gmlns,"X");
+var _9ae=this.getElementsByTagNameNS(_9ab[0],this.gmlns,"Y");
+if(_9ad.length>0&&_9ae.length>0){
+_9ac=[_9ad[0].firstChild.nodeValue,_9ae[0].firstChild.nodeValue];
+}
+}
+}
+if(_9ac.length==2){
+_9ac[2]=null;
+}
+return new OpenLayers.Geometry.Point(_9ac[0],_9ac[1],_9ac[2]);
+},multipoint:function(node){
+var _9b0=this.getElementsByTagNameNS(node,this.gmlns,"Point");
+var _9b1=[];
+if(_9b0.length>0){
+var _9b2;
+for(var i=0;i<_9b0.length;++i){
+_9b2=this.parseGeometry.point.apply(this,[_9b0[i]]);
+if(_9b2){
+_9b1.push(_9b2);
+}
+}
+}
+return new OpenLayers.Geometry.MultiPoint(_9b1);
+},linestring:function(node,ring){
+var _9b6,coordString;
+var _9b7=[];
+var _9b8=[];
+_9b6=this.getElementsByTagNameNS(node,this.gmlns,"posList");
+if(_9b6.length>0){
+coordString=this.concatChildValues(_9b6[0]);
+coordString=coordString.replace(this.regExes.trimSpace,"");
+_9b7=coordString.split(this.regExes.splitSpace);
+var dim=parseInt(_9b6[0].getAttribute("dimension"));
+var j,x,y,z;
+for(var i=0;i<_9b7.length/dim;++i){
+j=i*dim;
+x=_9b7[j];
+y=_9b7[j+1];
+z=(dim==2)?null:_9b7[j+2];
+_9b8.push(new OpenLayers.Geometry.Point(x,y,z));
+}
+}
+if(_9b7.length==0){
+_9b6=this.getElementsByTagNameNS(node,this.gmlns,"coordinates");
+if(_9b6.length>0){
+coordString=this.concatChildValues(_9b6[0]);
+coordString=coordString.replace(this.regExes.trimSpace,"");
+coordString=coordString.replace(this.regExes.trimComma,",");
+var _9bc=coordString.split(this.regExes.splitSpace);
+for(var i=0;i<_9bc.length;++i){
+_9b7=_9bc[i].split(",");
+if(_9b7.length==2){
+_9b7[2]=null;
+}
+_9b8.push(new OpenLayers.Geometry.Point(_9b7[0],_9b7[1],_9b7[2]));
+}
+}
+}
+var line=null;
+if(_9b8.length!=0){
+if(ring){
+line=new OpenLayers.Geometry.LinearRing(_9b8);
+}else{
+line=new OpenLayers.Geometry.LineString(_9b8);
+}
+}
+return line;
+},multilinestring:function(node){
+var _9bf=this.getElementsByTagNameNS(node,this.gmlns,"LineString");
+var _9c0=[];
+if(_9bf.length>0){
+var line;
+for(var i=0;i<_9bf.length;++i){
+line=this.parseGeometry.linestring.apply(this,[_9bf[i]]);
+if(line){
+_9c0.push(line);
+}
+}
+}
+return new OpenLayers.Geometry.MultiLineString(_9c0);
+},polygon:function(node){
+var _9c4=this.getElementsByTagNameNS(node,this.gmlns,"LinearRing");
+var _9c5=[];
+if(_9c4.length>0){
+var ring;
+for(var i=0;i<_9c4.length;++i){
+ring=this.parseGeometry.linestring.apply(this,[_9c4[i],true]);
+if(ring){
+_9c5.push(ring);
+}
+}
+}
+return new OpenLayers.Geometry.Polygon(_9c5);
+},multipolygon:function(node){
+var _9c9=this.getElementsByTagNameNS(node,this.gmlns,"Polygon");
+var _9ca=[];
+if(_9c9.length>0){
+var _9cb;
+for(var i=0;i<_9c9.length;++i){
+_9cb=this.parseGeometry.polygon.apply(this,[_9c9[i]]);
+if(_9cb){
+_9ca.push(_9cb);
+}
+}
+}
+return new OpenLayers.Geometry.MultiPolygon(_9ca);
+}},parseAttributes:function(node){
+var _9ce={};
+var _9cf=node.firstChild;
+var _9d0,i,child,grandchildren,grandchild,name,value;
+while(_9cf){
+if(_9cf.nodeType==1){
+_9d0=_9cf.childNodes;
+for(i=0;i<_9d0.length;++i){
+child=_9d0[i];
+if(child.nodeType==1){
+grandchildren=child.childNodes;
+if(grandchildren.length==1){
+grandchild=grandchildren[0];
+if(grandchild.nodeType==3||grandchild.nodeType==4){
+name=(child.prefix)?child.nodeName.split(":")[1]:child.nodeName;
+value=grandchild.nodeValue.replace(this.regExes.trimSpace,"");
+_9ce[name]=value;
+}
+}
+}
+}
+break;
+}
+_9cf=_9cf.nextSibling;
+}
+return _9ce;
+},write:function(_9d1){
+if(!(_9d1 instanceof Array)){
+_9d1=[_9d1];
+}
+var gml=this.createElementNS("http://www.opengis.net/wfs","wfs:"+this.collectionName);
+for(var i=0;i<_9d1.length;i++){
+gml.appendChild(this.createFeatureXML(_9d1[i]));
+}
+return OpenLayers.Format.XML.prototype.write.apply(this,[gml]);
+},createFeatureXML:function(_9d4){
+var _9d5=_9d4.geometry;
+var _9d6=this.buildGeometryNode(_9d5);
+var _9d7=this.createElementNS(this.featureNS,this.featurePrefix+":"+this.geometryName);
+_9d7.appendChild(_9d6);
+var _9d8=this.createElementNS(this.gmlns,"gml:"+this.featureName);
+var _9d9=this.createElementNS(this.featureNS,this.featurePrefix+":"+this.layerName);
+var fid=_9d4.fid||_9d4.id;
+_9d9.setAttribute("fid",fid);
+_9d9.appendChild(_9d7);
+for(var attr in _9d4.attributes){
+var _9dc=this.createTextNode(_9d4.attributes[attr]);
+var _9dd=attr.substring(attr.lastIndexOf(":")+1);
+var _9de=this.createElementNS(this.featureNS,this.featurePrefix+":"+_9dd);
+_9de.appendChild(_9dc);
+_9d9.appendChild(_9de);
+}
+_9d8.appendChild(_9d9);
+return _9d8;
+},buildGeometryNode:function(_9df){
+var _9e0=_9df.CLASS_NAME;
+var type=_9e0.substring(_9e0.lastIndexOf(".")+1);
+var _9e2=this.buildGeometry[type.toLowerCase()];
+return _9e2.apply(this,[_9df]);
+},buildGeometry:{point:function(_9e3){
+var gml=this.createElementNS(this.gmlns,"gml:Point");
+gml.appendChild(this.buildCoordinatesNode(_9e3));
+return gml;
+},multipoint:function(_9e5){
+var gml=this.createElementNS(this.gmlns,"gml:MultiPoint");
+var _9e7=_9e5.components;
+var _9e8,pointGeom;
+for(var i=0;i<_9e7.length;i++){
+_9e8=this.createElementNS(this.gmlns,"gml:pointMember");
+pointGeom=this.buildGeometry.point.apply(this,[_9e7[i]]);
+_9e8.appendChild(pointGeom);
+gml.appendChild(_9e8);
+}
+return gml;
+},linestring:function(_9ea){
+var gml=this.createElementNS(this.gmlns,"gml:LineString");
+gml.appendChild(this.buildCoordinatesNode(_9ea));
+return gml;
+},multilinestring:function(_9ec){
+var gml=this.createElementNS(this.gmlns,"gml:MultiLineString");
+var _9ee=_9ec.components;
+var _9ef,lineGeom;
+for(var i=0;i<_9ee.length;++i){
+_9ef=this.createElementNS(this.gmlns,"gml:lineStringMember");
+lineGeom=this.buildGeometry.linestring.apply(this,[_9ee[i]]);
+_9ef.appendChild(lineGeom);
+gml.appendChild(_9ef);
+}
+return gml;
+},linearring:function(_9f1){
+var gml=this.createElementNS(this.gmlns,"gml:LinearRing");
+gml.appendChild(this.buildCoordinatesNode(_9f1));
+return gml;
+},polygon:function(_9f3){
+var gml=this.createElementNS(this.gmlns,"gml:Polygon");
+var _9f5=_9f3.components;
+var _9f6,ringGeom,type;
+for(var i=0;i<_9f5.length;++i){
+type=(i==0)?"outerBoundaryIs":"innerBoundaryIs";
+_9f6=this.createElementNS(this.gmlns,"gml:"+type);
+ringGeom=this.buildGeometry.linearring.apply(this,[_9f5[i]]);
+_9f6.appendChild(ringGeom);
+gml.appendChild(_9f6);
+}
+return gml;
+},multipolygon:function(_9f8){
+var gml=this.createElementNS(this.gmlns,"gml:MultiPolygon");
+var _9fa=_9f8.components;
+var _9fb,polyGeom;
+for(var i=0;i<_9fa.length;++i){
+_9fb=this.createElementNS(this.gmlns,"gml:polygonMember");
+polyGeom=this.buildGeometry.polygon.apply(this,[_9fa[i]]);
+_9fb.appendChild(polyGeom);
+gml.appendChild(_9fb);
+}
+return gml;
+}},buildCoordinatesNode:function(_9fd){
+var _9fe=this.createElementNS(this.gmlns,"gml:coordinates");
+_9fe.setAttribute("decimal",".");
+_9fe.setAttribute("cs",",");
+_9fe.setAttribute("ts"," ");
+var _9ff=(_9fd.components)?_9fd.components:[_9fd];
+var _a00=[];
+for(var i=0;i<_9ff.length;i++){
+_a00.push(_9ff[i].x+","+_9ff[i].y);
+}
+var _a02=this.createTextNode(_a00.join(" "));
+_9fe.appendChild(_a02);
+return _9fe;
+},CLASS_NAME:"OpenLayers.Format.GML"});
+OpenLayers.Format.GeoJSON=OpenLayers.Class(OpenLayers.Format.JSON,{initialize:function(_a03){
+OpenLayers.Format.JSON.prototype.initialize.apply(this,[_a03]);
+},read:function(json,type,_a06){
+type=(type)?type:"FeatureCollection";
+var _a07=null;
+var obj=null;
+if(typeof json=="string"){
+obj=OpenLayers.Format.JSON.prototype.read.apply(this,[json,_a06]);
+}else{
+obj=json;
+}
+if(!obj){
+OpenLayers.Console.error("Bad JSON: "+json);
+}else{
+if(typeof (obj.type)!="string"){
+OpenLayers.Console.error("Bad GeoJSON - no type: "+json);
+}else{
+if(this.isValidType(obj,type)){
+switch(type){
+case "Geometry":
+try{
+_a07=this.parseGeometry(obj);
+}
+catch(err){
+OpenLayers.Console.error(err);
+}
+break;
+case "Feature":
+try{
+_a07=this.parseFeature(obj);
+_a07.type="Feature";
+}
+catch(err){
+OpenLayers.Console.error(err);
+}
+break;
+case "GeometryCollection":
+_a07=[];
+for(var i=0;i<obj.geometries.length;++i){
+try{
+_a07.push(this.parseGeometry(obj.geometries[i]));
+}
+catch(err){
+_a07=null;
+OpenLayers.Console.error(err);
+}
+}
+break;
+case "FeatureCollection":
+_a07=[];
+switch(obj.type){
+case "Feature":
+try{
+_a07.push(this.parseFeature(obj));
+}
+catch(err){
+_a07=null;
+OpenLayers.Console.error(err);
+}
+break;
+case "FeatureCollection":
+for(var i=0;i<obj.features.length;++i){
+try{
+_a07.push(this.parseFeature(obj.features[i]));
+}
+catch(err){
+_a07=null;
+OpenLayers.Console.error(err);
+}
+}
+break;
+case "GeometryCollection":
+for(var i=0;i<obj.geometries.length;++i){
+try{
+var geom=this.parseGeometry(obj.geometries[i]);
+_a07.push(new OpenLayers.Feature.Vector(geom));
+}
+catch(err){
+_a07=null;
+OpenLayers.Console.error(err);
+}
+}
+break;
+default:
+try{
+var geom=this.parseGeometry(obj);
+_a07.push(new OpenLayers.Feature.Vector(geom));
+}
+catch(err){
+_a07=null;
+OpenLayers.Console.error(err);
+}
+}
+break;
+}
+}
+}
+}
+return _a07;
+},isValidType:function(obj,type){
+var _a0d=false;
+switch(type){
+case "Geometry":
+if(OpenLayers.Util.indexOf(["Point","MultiPoint","LineString","MultiLineString","Polygon","MultiPolygon","Box"],obj.type)==-1){
+OpenLayers.Console.error("Unsupported geometry type: "+obj.type);
+}else{
+_a0d=true;
+}
+break;
+case "FeatureCollection":
+_a0d=true;
+break;
+default:
+if(obj.type==type){
+_a0d=true;
+}else{
+OpenLayers.Console.error("Cannot convert types from "+obj.type+" to "+type);
+}
+}
+return _a0d;
+},parseFeature:function(obj){
+var _a0f,geometry,attributes;
+attributes=(obj.properties)?obj.properties:{};
+try{
+geometry=this.parseGeometry(obj.geometry);
+}
+catch(err){
+throw err;
+}
+_a0f=new OpenLayers.Feature.Vector(geometry,attributes);
+if(obj.id){
+_a0f.fid=obj.id;
+}
+return _a0f;
+},parseGeometry:function(obj){
+var _a11;
+if(!(obj.coordinates instanceof Array)){
+throw "Geometry must have coordinates array: "+obj;
+}
+if(!this.parseCoords[obj.type.toLowerCase()]){
+throw "Unsupported geometry type: "+obj.type;
+}
+try{
+_a11=this.parseCoords[obj.type.toLowerCase()].apply(this,[obj.coordinates]);
+}
+catch(err){
+throw err;
+}
+return _a11;
+},parseCoords:{"point":function(_a12){
+if(_a12.length!=2){
+throw "Only 2D points are supported: "+_a12;
+}
+return new OpenLayers.Geometry.Point(_a12[0],_a12[1]);
+},"multipoint":function(_a13){
+var _a14=[];
+var p=null;
+for(var i=0;i<_a13.length;++i){
+try{
+p=this.parseCoords["point"].apply(this,[_a13[i]]);
+}
+catch(err){
+throw err;
+}
+_a14.push(p);
+}
+return new OpenLayers.Geometry.MultiPoint(_a14);
+},"linestring":function(_a17){
+var _a18=[];
+var p=null;
+for(var i=0;i<_a17.length;++i){
+try{
+p=this.parseCoords["point"].apply(this,[_a17[i]]);
+}
+catch(err){
+throw err;
+}
+_a18.push(p);
+}
+return new OpenLayers.Geometry.LineString(_a18);
+},"multilinestring":function(_a1b){
+var _a1c=[];
+var l=null;
+for(var i=0;i<_a1b.length;++i){
+try{
+l=this.parseCoords["linestring"].apply(this,[_a1b[i]]);
+}
+catch(err){
+throw err;
+}
+_a1c.push(l);
+}
+return new OpenLayers.Geometry.MultiLineString(_a1c);
+},"polygon":function(_a1f){
+var _a20=[];
+var r,l;
+for(var i=0;i<_a1f.length;++i){
+try{
+l=this.parseCoords["linestring"].apply(this,[_a1f[i]]);
+}
+catch(err){
+throw err;
+}
+r=new OpenLayers.Geometry.LinearRing(l.components);
+_a20.push(r);
+}
+return new OpenLayers.Geometry.Polygon(_a20);
+},"multipolygon":function(_a23){
+var _a24=[];
+var p=null;
+for(var i=0;i<_a23.length;++i){
+try{
+p=this.parseCoords["polygon"].apply(this,[_a23[i]]);
+}
+catch(err){
+throw err;
+}
+_a24.push(p);
+}
+return new OpenLayers.Geometry.MultiPolygon(_a24);
+},"box":function(_a27){
+if(_a27.length!=2){
+throw "GeoJSON box coordinates must have 2 elements";
+}
+return new OpenLayers.Geometry.Polygon([new OpenLayers.Geometry.LinearRing([new OpenLayers.Geometry.Point(_a27[0][0],_a27[0][1]),new OpenLayers.Geometry.Point(_a27[1][0],_a27[0][1]),new OpenLayers.Geometry.Point(_a27[1][0],_a27[1][1]),new OpenLayers.Geometry.Point(_a27[0][0],_a27[1][1]),new OpenLayers.Geometry.Point(_a27[0][0],_a27[0][1])])]);
+}},write:function(obj,_a29){
+var _a2a={"type":null};
+if(obj instanceof Array){
+if(obj[0] instanceof OpenLayers.Feature.Vector){
+_a2a.features=[];
+}else{
+if(obj[0].CLASS_NAME.search("OpenLayers.Geometry")==0){
+_a2a.geometries=[];
+}
+}
+for(var i=0;i<obj.length;++i){
+var _a2c=obj[i];
+if(_a2c instanceof OpenLayers.Feature.Vector){
+if(_a2a.type==null){
+_a2a.type="FeatureCollection";
+if(_a2c.layer&&_a2c.layer.projection){
+_a2a.crs=this.createCRSObject(_a2c);
+}
+}else{
+if(_a2a.type!="FeatureCollection"){
+OpenLayers.Console.error("FeatureCollection only supports collections of features: "+_a2c);
+break;
+}
+}
+_a2a.features.push(this.extract.feature.apply(this,[_a2c]));
+}else{
+if(_a2c.CLASS_NAME.search("OpenLayers.Geometry")==0){
+if(_a2a.type==null){
+_a2a.type="GeometryCollection";
+}else{
+if(_a2a.type!="GeometryCollection"){
+OpenLayers.Console.error("GeometryCollection only supports collections of geometries: "+_a2c);
+break;
+}
+}
+_a2a.geometries.push(this.extract.geometry.apply(this,[_a2c]));
+}
+}
+}
+}else{
+if(obj.CLASS_NAME.search("OpenLayers.Geometry")==0){
+_a2a=this.extract.geometry.apply(this,[obj]);
+}else{
+if(obj instanceof OpenLayers.Feature.Vector){
+_a2a=this.extract.feature.apply(this,[obj]);
+if(obj.layer&&obj.layer.projection){
+_a2a.crs=this.createCRSObject(obj);
+}
+}
+}
+}
+return OpenLayers.Format.JSON.prototype.write.apply(this,[_a2a,_a29]);
+},createCRSObject:function(_a2d){
+var proj=_a2d.layer.projection;
+var crs={};
+if(proj.match(/epsg:/i)){
+var code=parseInt(proj.substring(proj.indexOf(":")+1));
+if(code==4326){
+crs={"type":"OGC","properties":{"urn":"urn:ogc:def:crs:OGC:1.3:CRS84"}};
+}else{
+crs={"type":"EPSG","properties":{"code":code}};
+}
+}
+return crs;
+},extract:{"feature":function(_a31){
+var geom=this.extract.geometry.apply(this,[_a31.geometry]);
+return {"type":"Feature","id":_a31.fid==null?_a31.id:_a31.fid,"properties":_a31.attributes,"geometry":geom};
+},"geometry":function(_a33){
+var _a34=_a33.CLASS_NAME.split(".")[2];
+var data=this.extract[_a34.toLowerCase()].apply(this,[_a33]);
+return {"type":_a34,"coordinates":data};
+},"point":function(_a36){
+return [_a36.x,_a36.y];
+},"multipoint":function(_a37){
+var _a38=[];
+for(var i=0;i<_a37.components.length;++i){
+_a38.push(this.extract.point.apply(this,[_a37.components[i]]));
+}
+return _a38;
+},"linestring":function(_a3a){
+var _a3b=[];
+for(var i=0;i<_a3a.components.length;++i){
+_a3b.push(this.extract.point.apply(this,[_a3a.components[i]]));
+}
+return _a3b;
+},"multilinestring":function(_a3d){
+var _a3e=[];
+for(var i=0;i<_a3d.components.length;++i){
+_a3e.push(this.extract.linestring.apply(this,[_a3d.components[i]]));
+}
+return _a3e;
+},"polygon":function(_a40){
+var _a41=[];
+for(var i=0;i<_a40.components.length;++i){
+_a41.push(this.extract.linestring.apply(this,[_a40.components[i]]));
+}
+return _a41;
+},"multipolygon":function(_a43){
+var _a44=[];
+for(var i=0;i<_a43.components.length;++i){
+_a44.push(this.extract.polygon.apply(this,[_a43.components[i]]));
+}
+return _a44;
+}},CLASS_NAME:"OpenLayers.Format.GeoJSON"});
+OpenLayers.Format.GeoRSS=OpenLayers.Class(OpenLayers.Format.XML,{rssns:"http://backend.userland.com/rss2",featureNS:"http://mapserver.gis.umn.edu/mapserver",georssns:"http://www.georss.org/georss",geons:"http://www.w3.org/2003/01/geo/wgs84_pos#",featureTitle:"Untitled",featureDescription:"No Description",initialize:function(_a46){
+OpenLayers.Format.XML.prototype.initialize.apply(this,[_a46]);
+},createGeometryFromItem:function(item){
+var _a48=this.getElementsByTagNameNS(item,this.georssns,"point");
+var lat=this.getElementsByTagNameNS(item,this.geons,"lat");
+var lon=this.getElementsByTagNameNS(item,this.geons,"long");
+var line=this.getElementsByTagNameNS(item,this.georssns,"line");
+var _a4c=this.getElementsByTagNameNS(item,this.georssns,"polygon");
+if(_a48.length>0||(lat.length>0&&lon.length>0)){
+if(_a48.length>0){
+var _a4d=OpenLayers.String.trim(_a48[0].firstChild.nodeValue).split(/\s+/);
+if(_a4d.length!=2){
+var _a4d=OpenLayers.String.trim(_a48[0].firstChild.nodeValue).split(/\s*,\s*/);
+}
+}else{
+var _a4d=[parseFloat(lat[0].firstChild.nodeValue),parseFloat(lon[0].firstChild.nodeValue)];
+}
+var _a4e=new OpenLayers.Geometry.Point(parseFloat(_a4d[1]),parseFloat(_a4d[0]));
+}else{
+if(line.length>0){
+var _a4f=OpenLayers.String.trim(line[0].firstChild.nodeValue).split(/\s+/);
+var _a50=[];
+for(var i=0;i<_a4f.length;i+=2){
+var _a48=new OpenLayers.Geometry.Point(parseFloat(_a4f[i+1]),parseFloat(_a4f[i]));
+_a50.push(_a48);
+}
+_a4e=new OpenLayers.Geometry.LineString(_a50);
+}else{
+if(_a4c.length>0){
+var _a4f=OpenLayers.String.trim(_a4c[0].firstChild.nodeValue).split(/\s+/);
+var _a50=[];
+for(var i=0;i<_a4f.length;i+=2){
+var _a48=new OpenLayers.Geometry.Point(parseFloat(_a4f[i+1]),parseFloat(_a4f[i]));
+_a50.push(_a48);
+}
+_a4e=new OpenLayers.Geometry.Polygon([new OpenLayers.Geometry.LinearRing(_a50)]);
+}
+}
+}
+return _a4e;
+},createFeatureFromItem:function(item){
+var _a53=this.createGeometryFromItem(item);
+var _a54=this.getChildValue(item,"*","title",this.featureTitle);
+var _a55=this.getChildValue(item,"*","description",this.getChildValue(item,"*","content",this.featureDescription));
+var link=this.getChildValue(item,"*","link");
+if(!link){
+try{
+link=this.getElementsByTagNameNS(item,"*","link")[0].getAttribute("href");
+}
+catch(e){
+link=null;
+}
+}
+var id=this.getChildValue(item,"*","id",null);
+var data={"title":_a54,"description":_a55,"link":link};
+var _a59=new OpenLayers.Feature.Vector(_a53,data);
+_a59.fid=id;
+return _a59;
+},getChildValue:function(node,_a5b,name,def){
+var _a5e;
+try{
+_a5e=this.getElementsByTagNameNS(node,_a5b,name)[0].firstChild.nodeValue;
+}
+catch(e){
+_a5e=(def==undefined)?"":def;
+}
+return _a5e;
+},read:function(doc){
+if(typeof doc=="string"){
+doc=OpenLayers.Format.XML.prototype.read.apply(this,[doc]);
+}
+var _a60=null;
+_a60=this.getElementsByTagNameNS(doc,"*","item");
+if(_a60.length==0){
+_a60=this.getElementsByTagNameNS(doc,"*","entry");
+}
+var _a61=_a60.length;
+var _a62=new Array(_a61);
+for(var i=0;i<_a61;i++){
+_a62[i]=this.createFeatureFromItem(_a60[i]);
+}
+return _a62;
+},write:function(_a64){
+var _a65;
+if(_a64 instanceof Array){
+_a65=this.createElementNS(this.rssns,"rss");
+for(var i=0;i<_a64.length;i++){
+_a65.appendChild(this.createFeatureXML(_a64[i]));
+}
+}else{
+_a65=this.createFeatureXML(_a64);
+}
+return OpenLayers.Format.XML.prototype.write.apply(this,[_a65]);
+},createFeatureXML:function(_a67){
+var _a68=this.buildGeometryNode(_a67.geometry);
+var _a69=this.createElementNS(this.rssns,"item");
+var _a6a=this.createElementNS(this.rssns,"title");
+_a6a.appendChild(this.createTextNode(_a67.attributes.title?_a67.attributes.title:""));
+var _a6b=this.createElementNS(this.rssns,"description");
+_a6b.appendChild(this.createTextNode(_a67.attributes.description?_a67.attributes.description:""));
+_a69.appendChild(_a6a);
+_a69.appendChild(_a6b);
+if(_a67.attributes.link){
+var _a6c=this.createElementNS(this.rssns,"link");
+_a6c.appendChild(this.createTextNode(_a67.attributes.link));
+_a69.appendChild(_a6c);
+}
+for(var attr in _a67.attributes){
+if(attr=="link"||attr=="title"||attr=="description"){
+continue;
+}
+var _a6e=this.createTextNode(_a67.attributes[attr]);
+var _a6f=attr;
+if(attr.search(":")!=-1){
+_a6f=attr.split(":")[1];
+}
+var _a70=this.createElementNS(this.featureNS,"feature:"+_a6f);
+_a70.appendChild(_a6e);
+_a69.appendChild(_a70);
+}
+_a69.appendChild(_a68);
+return _a69;
+},buildGeometryNode:function(_a71){
+var node;
+if(_a71.CLASS_NAME=="OpenLayers.Geometry.Polygon"){
+node=this.createElementNS(this.georssns,"georss:polygon");
+node.appendChild(this.buildCoordinatesNode(_a71.components[0]));
+}else{
+if(_a71.CLASS_NAME=="OpenLayers.Geometry.LineString"){
+node=this.createElementNS(this.georssns,"georss:line");
+node.appendChild(this.buildCoordinatesNode(_a71));
+}else{
+if(_a71.CLASS_NAME=="OpenLayers.Geometry.Point"){
+node=this.createElementNS(this.georssns,"georss:point");
+node.appendChild(this.buildCoordinatesNode(_a71));
+}else{
+throw "Couldn't parse "+_a71.CLASS_NAME;
+}
+}
+}
+return node;
+},buildCoordinatesNode:function(_a73){
+var _a74=null;
+if(_a73.components){
+_a74=_a73.components;
+}
+var path;
+if(_a74){
+var _a76=_a74.length;
+var _a77=new Array(_a76);
+for(var i=0;i<_a76;i++){
+_a77[i]=_a74[i].y+" "+_a74[i].x;
+}
+path=_a77.join(" ");
+}else{
+path=_a73.y+" "+_a73.x;
+}
+return this.createTextNode(path);
+},CLASS_NAME:"OpenLayers.Format.GeoRSS"});
+OpenLayers.Format.KML=OpenLayers.Class(OpenLayers.Format.XML,{kmlns:"http://earth.google.com/kml/2.0",placemarksDesc:"No description available",foldersName:"OpenLayers export",foldersDesc:"Exported on "+new Date(),extractAttributes:true,internalns:null,initialize:function(_a79){
+this.regExes={trimSpace:(/^\s*|\s*$/g),removeSpace:(/\s*/g),splitSpace:(/\s+/),trimComma:(/\s*,\s*/g)};
+OpenLayers.Format.XML.prototype.initialize.apply(this,[_a79]);
+},read:function(data){
+if(typeof data=="string"){
+data=OpenLayers.Format.XML.prototype.read.apply(this,[data]);
+}
+var _a7b=this.getElementsByTagNameNS(data,"*","Placemark");
+var _a7c=_a7b.length;
+var _a7d=new Array(_a7c);
+for(var i=0;i<_a7c;i++){
+var _a7f=this.parseFeature(_a7b[i]);
+if(_a7f){
+_a7d[i]=_a7f;
+}else{
+throw "Bad Placemark: "+i;
+}
+}
+return _a7d;
+},parseFeature:function(node){
+var _a81=["MultiGeometry","Polygon","LineString","Point"];
+var type,nodeList,geometry,parser;
+for(var i=0;i<_a81.length;++i){
+type=_a81[i];
+this.internalns=node.namespaceURI?node.namespaceURI:this.kmlns;
+nodeList=this.getElementsByTagNameNS(node,this.internalns,type);
+if(nodeList.length>0){
+var _a84=this.parseGeometry[type.toLowerCase()];
+if(_a84){
+geometry=_a84.apply(this,[nodeList[0]]);
+}else{
+OpenLayers.Console.error("Unsupported geometry type: "+type);
+}
+break;
+}
+}
+var _a85;
+if(this.extractAttributes){
+_a85=this.parseAttributes(node);
+}
+var _a86=new OpenLayers.Feature.Vector(geometry,_a85);
+var fid=node.getAttribute("id");
+if(fid!=null){
+_a86.fid=fid;
+}
+return _a86;
+},parseGeometry:{point:function(node){
+var _a89=this.getElementsByTagNameNS(node,this.internalns,"coordinates");
+var _a8a=[];
+if(_a89.length>0){
+var _a8b=_a89[0].firstChild.nodeValue;
+_a8b=_a8b.replace(this.regExes.removeSpace,"");
+_a8a=_a8b.split(",");
+}
+var _a8c=null;
+if(_a8a.length>1){
+if(_a8a.length==2){
+_a8a[2]=null;
+}
+_a8c=new OpenLayers.Geometry.Point(_a8a[0],_a8a[1],_a8a[2]);
+}else{
+throw "Bad coordinate string: "+_a8b;
+}
+return _a8c;
+},linestring:function(node,ring){
+var _a8f=this.getElementsByTagNameNS(node,this.internalns,"coordinates");
+var line=null;
+if(_a8f.length>0){
+var _a91=_a8f[0].firstChild.nodeValue;
+_a91=_a91.replace(this.regExes.trimSpace,"");
+_a91=_a91.replace(this.regExes.trimComma,",");
+var _a92=_a91.split(this.regExes.splitSpace);
+var _a93=_a92.length;
+var _a94=new Array(_a93);
+var _a95,numCoords;
+for(var i=0;i<_a93;++i){
+_a95=_a92[i].split(",");
+numCoords=_a95.length;
+if(numCoords>1){
+if(_a95.length==2){
+_a95[2]=null;
+}
+_a94[i]=new OpenLayers.Geometry.Point(_a95[0],_a95[1],_a95[2]);
+}else{
+throw "Bad LineString point coordinates: "+_a92[i];
+}
+}
+if(_a93){
+if(ring){
+line=new OpenLayers.Geometry.LinearRing(_a94);
+}else{
+line=new OpenLayers.Geometry.LineString(_a94);
+}
+}else{
+throw "Bad LineString coordinates: "+_a91;
+}
+}
+return line;
+},polygon:function(node){
+var _a98=this.getElementsByTagNameNS(node,this.internalns,"LinearRing");
+var _a99=_a98.length;
+var _a9a=new Array(_a99);
+if(_a99>0){
+var ring;
+for(var i=0;i<_a98.length;++i){
+ring=this.parseGeometry.linestring.apply(this,[_a98[i],true]);
+if(ring){
+_a9a[i]=ring;
+}else{
+throw "Bad LinearRing geometry: "+i;
+}
+}
+}
+return new OpenLayers.Geometry.Polygon(_a9a);
+},multigeometry:function(node){
+var _a9e,parser;
+var _a9f=[];
+var _aa0=node.childNodes;
+for(var i=0;i<_aa0.length;++i){
+_a9e=_aa0[i];
+if(_a9e.nodeType==1){
+type=(_a9e.prefix)?_a9e.nodeName.split(":")[1]:_a9e.nodeName;
+var _aa2=this.parseGeometry[type.toLowerCase()];
+if(_aa2){
+_a9f.push(_aa2.apply(this,[_a9e]));
+}
+}
+}
+return new OpenLayers.Geometry.Collection(_a9f);
+}},parseAttributes:function(node){
+var _aa4={};
+var _aa5,grandchildren,grandchild;
+var _aa6=node.childNodes;
+for(var i=0;i<_aa6.length;++i){
+_aa5=_aa6[i];
+if(_aa5.nodeType==1){
+grandchildren=_aa5.childNodes;
+if(grandchildren.length==1){
+grandchild=grandchildren[0];
+if(grandchild.nodeType==3||grandchild.nodeType==4){
+name=(_aa5.prefix)?_aa5.nodeName.split(":")[1]:_aa5.nodeName;
+value=grandchild.nodeValue.replace(this.regExes.trimSpace,"");
+_aa4[name]=value;
+}
+}
+}
+}
+return _aa4;
+},write:function(_aa8){
+if(!(_aa8 instanceof Array)){
+_aa8=[_aa8];
+}
+var kml=this.createElementNS(this.kmlns,"kml");
+var _aaa=this.createFolderXML();
+for(var i=0;i<_aa8.length;++i){
+_aaa.appendChild(this.createPlacemarkXML(_aa8[i]));
+}
+kml.appendChild(_aaa);
+return OpenLayers.Format.XML.prototype.write.apply(this,[kml]);
+},createFolderXML:function(){
+var _aac=this.createElementNS(this.kmlns,"name");
+var _aad=this.createTextNode(this.foldersName);
+_aac.appendChild(_aad);
+var _aae=this.createElementNS(this.kmlns,"description");
+var _aaf=this.createTextNode(this.foldersDesc);
+_aae.appendChild(_aaf);
+var _ab0=this.createElementNS(this.kmlns,"Folder");
+_ab0.appendChild(_aac);
+_ab0.appendChild(_aae);
+return _ab0;
+},createPlacemarkXML:function(_ab1){
+var _ab2=this.createElementNS(this.kmlns,"name");
+var name=(_ab1.attributes.name)?_ab1.attributes.name:_ab1.id;
+_ab2.appendChild(this.createTextNode(name));
+var _ab4=this.createElementNS(this.kmlns,"description");
+var desc=(_ab1.attributes.description)?_ab1.attributes.description:this.placemarksDesc;
+_ab4.appendChild(this.createTextNode(desc));
+var _ab6=this.createElementNS(this.kmlns,"Placemark");
+if(_ab1.fid!=null){
+_ab6.setAttribute("id",_ab1.fid);
+}
+_ab6.appendChild(_ab2);
+_ab6.appendChild(_ab4);
+var _ab7=this.buildGeometryNode(_ab1.geometry);
+_ab6.appendChild(_ab7);
+return _ab6;
+},buildGeometryNode:function(_ab8){
+var _ab9=_ab8.CLASS_NAME;
+var type=_ab9.substring(_ab9.lastIndexOf(".")+1);
+var _abb=this.buildGeometry[type.toLowerCase()];
+var node=null;
+if(_abb){
+node=_abb.apply(this,[_ab8]);
+}
+return node;
+},buildGeometry:{point:function(_abd){
+var kml=this.createElementNS(this.kmlns,"Point");
+kml.appendChild(this.buildCoordinatesNode(_abd));
+return kml;
+},multipoint:function(_abf){
+return this.buildGeometry.collection(_abf);
+},linestring:function(_ac0){
+var kml=this.createElementNS(this.kmlns,"LineString");
+kml.appendChild(this.buildCoordinatesNode(_ac0));
+return kml;
+},multilinestring:function(_ac2){
+return this.buildGeometry.collection(_ac2);
+},linearring:function(_ac3){
+var kml=this.createElementNS(this.kmlns,"LinearRing");
+kml.appendChild(this.buildCoordinatesNode(_ac3));
+return kml;
+},polygon:function(_ac5){
+var kml=this.createElementNS(this.kmlns,"Polygon");
+var _ac7=_ac5.components;
+var _ac8,ringGeom,type;
+for(var i=0;i<_ac7.length;++i){
+type=(i==0)?"outerBoundaryIs":"innerBoundaryIs";
+_ac8=this.createElementNS(this.kmlns,type);
+ringGeom=this.buildGeometry.linearring.apply(this,[_ac7[i]]);
+_ac8.appendChild(ringGeom);
+kml.appendChild(_ac8);
+}
+return kml;
+},multipolygon:function(_aca){
+return this.buildGeometry.collection(_aca);
+},collection:function(_acb){
+var kml=this.createElementNS(this.kmlns,"MultiGeometry");
+var _acd;
+for(var i=0;i<_acb.components.length;++i){
+_acd=this.buildGeometryNode.apply(this,[_acb.components[i]]);
+if(_acd){
+kml.appendChild(_acd);
+}
+}
+return kml;
+}},buildCoordinatesNode:function(_acf){
+var _ad0=this.createElementNS(this.kmlns,"coordinates");
+var path;
+var _ad2=_acf.components;
+if(_ad2){
+var _ad3;
+var _ad4=_ad2.length;
+var _ad5=new Array(_ad4);
+for(var i=0;i<_ad4;++i){
+_ad3=_ad2[i];
+_ad5[i]=_ad3.x+","+_ad3.y;
+}
+path=_ad5.join(" ");
+}else{
+path=_acf.x+","+_acf.y;
+}
+var _ad7=this.createTextNode(path);
+_ad0.appendChild(_ad7);
+return _ad0;
+},CLASS_NAME:"OpenLayers.Format.KML"});
+OpenLayers.Geometry.LinearRing=OpenLayers.Class(OpenLayers.Geometry.LineString,{componentTypes:["OpenLayers.Geometry.Point"],initialize:function(_ad8){
+OpenLayers.Geometry.LineString.prototype.initialize.apply(this,arguments);
+},addComponent:function(_ad9,_ada){
+var _adb=false;
+var _adc=this.components.pop();
+if(_ada!=null||!_ad9.equals(_adc)){
+_adb=OpenLayers.Geometry.Collection.prototype.addComponent.apply(this,arguments);
+}
+var _add=this.components[0];
+OpenLayers.Geometry.Collection.prototype.addComponent.apply(this,[_add]);
+return _adb;
+},removeComponent:function(_ade){
 if(this.components.length>4){
 this.components.pop();
 OpenLayers.Geometry.Collection.prototype.removeComponent.apply(this,arguments);
-var _ae5=this.components[0];
-OpenLayers.Geometry.Collection.prototype.addComponent.apply(this,[_ae5]);
+var _adf=this.components[0];
+OpenLayers.Geometry.Collection.prototype.addComponent.apply(this,[_adf]);
 }
 },move:function(x,y){
 for(var i=0;i<this.components.length-1;i++){
 this.components[i].move(x,y);
 }
-},rotate:function(_ae9,_aea){
+},rotate:function(_ae3,_ae4){
 for(var i=0;i<this.components.length-1;++i){
-this.components[i].rotate(_ae9,_aea);
+this.components[i].rotate(_ae3,_ae4);
 }
-},resize:function(_aec,_aed){
+},resize:function(_ae6,_ae7){
 for(var i=0;i<this.components.length-1;++i){
-this.components[i].resize(_aec,_aed);
+this.components[i].resize(_ae6,_ae7);
 }
 },getArea:function(){
 var area=0;
@@ -15037,7 +15051,7 @@ area=-sum/2;
 }
 return area;
 },CLASS_NAME:"OpenLayers.Geometry.LinearRing"});
-OpenLayers.Handler.Path=OpenLayers.Class(OpenLayers.Handler.Point,{line:null,freehand:false,freehandToggle:"shiftKey",initialize:function(_af4,_af5,_af6){
+OpenLayers.Handler.Path=OpenLayers.Class(OpenLayers.Handler.Point,{line:null,freehand:false,freehandToggle:"shiftKey",initialize:function(_aee,_aef,_af0){
 OpenLayers.Handler.Point.prototype.initialize.apply(this,arguments);
 },createFeature:function(){
 this.line=new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString());
@@ -15052,10 +15066,10 @@ this.callback("point",[this.point.geometry]);
 },freehandMode:function(evt){
 return (this.freehandToggle&&evt[this.freehandToggle])?!this.freehand:this.freehand;
 },modifyFeature:function(){
-var _af8=this.line.geometry.components.length-1;
-this.line.geometry.components[_af8].x=this.point.geometry.x;
-this.line.geometry.components[_af8].y=this.point.geometry.y;
-this.line.geometry.components[_af8].clearBounds();
+var _af2=this.line.geometry.components.length-1;
+this.line.geometry.components[_af2].x=this.point.geometry.x;
+this.line.geometry.components[_af2].y=this.point.geometry.y;
+this.line.geometry.components[_af2].clearBounds();
 },drawFeature:function(){
 this.layer.drawFeature(this.line,this.style);
 this.layer.drawFeature(this.point,this.style);
@@ -15070,9 +15084,9 @@ this.createFeature();
 }
 this.mouseDown=true;
 this.lastDown=evt.xy;
-var _afa=this.control.map.getLonLatFromPixel(evt.xy);
-this.point.geometry.x=_afa.lon;
-this.point.geometry.y=_afa.lat;
+var _af4=this.control.map.getLonLatFromPixel(evt.xy);
+this.point.geometry.x=_af4.lon;
+this.point.geometry.y=_af4.lat;
 if((this.lastUp==null)||!this.lastUp.equals(evt.xy)){
 this.addPoint();
 }
@@ -15081,9 +15095,9 @@ this.drawing=true;
 return false;
 },mousemove:function(evt){
 if(this.drawing){
-var _afc=this.map.getLonLatFromPixel(evt.xy);
-this.point.geometry.x=_afc.lon;
-this.point.geometry.y=_afc.lat;
+var _af6=this.map.getLonLatFromPixel(evt.xy);
+this.point.geometry.x=_af6.lon;
+this.point.geometry.y=_af6.lat;
 if(this.mouseDown&&this.freehandMode(evt)){
 this.addPoint();
 }else{
@@ -15108,13 +15122,101 @@ return false;
 return true;
 },dblclick:function(evt){
 if(!this.freehandMode(evt)){
-var _aff=this.line.geometry.components.length-1;
-this.line.geometry.removeComponent(this.line.geometry.components[_aff]);
+var _af9=this.line.geometry.components.length-1;
+this.line.geometry.removeComponent(this.line.geometry.components[_af9]);
 this.finalize();
 }
 return false;
 },CLASS_NAME:"OpenLayers.Handler.Path"});
-OpenLayers.Handler.Polygon=OpenLayers.Class(OpenLayers.Handler.Path,{polygon:null,initialize:function(_b00,_b01,_b02){
+OpenLayers.Format.WFS=OpenLayers.Class(OpenLayers.Format.GML,{layer:null,wfsns:"http://www.opengis.net/wfs",initialize:function(_afa,_afb){
+OpenLayers.Format.GML.prototype.initialize.apply(this,[_afa]);
+this.layer=_afb;
+if(this.layer.featureNS){
+this.featureNS=this.layer.featureNS;
+}
+if(this.layer.options.geometry_column){
+this.geometryName=this.layer.options.geometry_column;
+}
+if(this.layer.options.typename){
+this.featureName=this.layer.options.typename;
+}
+},write:function(_afc){
+var _afd=document.createElementNS("http://www.opengis.net/wfs","wfs:Transaction");
+_afd.setAttribute("version","1.0.0");
+_afd.setAttribute("service","WFS");
+for(var i=0;i<_afc.length;i++){
+switch(_afc[i].state){
+case OpenLayers.State.INSERT:
+_afd.appendChild(this.insert(_afc[i]));
+break;
+case OpenLayers.State.UPDATE:
+_afd.appendChild(this.update(_afc[i]));
+break;
+case OpenLayers.State.DELETE:
+_afd.appendChild(this.remove(_afc[i]));
+break;
+}
+}
+return _afd;
+},createFeatureXML:function(_aff){
+var _b00=this.buildGeometryNode(_aff.geometry);
+var _b01=document.createElementNS(this.featureNS,"feature:"+this.geometryName);
+_b01.appendChild(_b00);
+var _b02=document.createElementNS(this.featureNS,"feature:"+this.featureName);
+_b02.appendChild(_b01);
+for(var attr in _aff.attributes){
+var _b04=document.createTextNode(_aff.attributes[attr]);
+var _b05=attr;
+if(attr.search(":")!=-1){
+_b05=attr.split(":")[1];
+}
+var _b06=document.createElementNS(this.featureNS,"feature:"+_b05);
+_b06.appendChild(_b04);
+_b02.appendChild(_b06);
+}
+return _b02;
+},insert:function(_b07){
+var _b08=document.createElementNS(this.wfsns,"wfs:Insert");
+_b08.appendChild(this.createFeatureXML(_b07));
+return _b08;
+},update:function(_b09){
+if(!_b09.fid){
+alert("Can't update a feature for which there is no FID.");
+}
+var _b0a=document.createElementNS(this.wfsns,"wfs:Update");
+_b0a.setAttribute("typeName",this.layerName);
+var _b0b=document.createElementNS(this.wfsns,"wfs:Property");
+var _b0c=document.createElementNS("http://www.opengis.net/wfs","wfs:Name");
+var _b0d=document.createTextNode(this.geometryName);
+_b0c.appendChild(_b0d);
+_b0b.appendChild(_b0c);
+var _b0e=document.createElementNS("http://www.opengis.net/wfs","wfs:Value");
+_b0e.appendChild(this.buildGeometryNode(_b09.geometry));
+_b0b.appendChild(_b0e);
+_b0a.appendChild(_b0b);
+var _b0f=document.createElementNS("http://www.opengis.net/ogc","ogc:Filter");
+var _b10=document.createElementNS("http://www.opengis.net/ogc","ogc:FeatureId");
+_b10.setAttribute("fid",_b09.fid);
+_b0f.appendChild(_b10);
+_b0a.appendChild(_b0f);
+return _b0a;
+},remove:function(_b11){
+if(!_b11.attributes.fid){
+alert("Can't update a feature for which there is no FID.");
+return false;
+}
+var _b12=document.createElementNS(this.featureNS,"wfs:Delete");
+_b12.setAttribute("typeName",this.layerName);
+var _b13=document.createElementNS("http://www.opengis.net/ogc","ogc:Filter");
+var _b14=document.createElementNS("http://www.opengis.net/ogc","ogc:FeatureId");
+_b14.setAttribute("fid",_b11.attributes.fid);
+_b13.appendChild(_b14);
+_b12.appendChild(_b13);
+return _b12;
+},destroy:function(){
+this.layer=null;
+},CLASS_NAME:"OpenLayers.Format.WFS"});
+OpenLayers.Handler.Polygon=OpenLayers.Class(OpenLayers.Handler.Path,{polygon:null,initialize:function(_b15,_b16,_b17){
 OpenLayers.Handler.Path.prototype.initialize.apply(this,arguments);
 },createFeature:function(){
 this.polygon=new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Polygon());
@@ -15126,10 +15228,10 @@ OpenLayers.Handler.Path.prototype.destroyFeature.apply(this);
 this.polygon.destroy();
 this.polygon=null;
 },modifyFeature:function(){
-var _b03=this.line.geometry.components.length-2;
-this.line.geometry.components[_b03].x=this.point.geometry.x;
-this.line.geometry.components[_b03].y=this.point.geometry.y;
-this.line.geometry.components[_b03].clearBounds();
+var _b18=this.line.geometry.components.length-2;
+this.line.geometry.components[_b18].x=this.point.geometry.x;
+this.line.geometry.components[_b18].y=this.point.geometry.y;
+this.line.geometry.components[_b18].clearBounds();
 },drawFeature:function(){
 this.layer.drawFeature(this.polygon,this.style);
 this.layer.drawFeature(this.point,this.style);
@@ -15137,22 +15239,22 @@ this.layer.drawFeature(this.point,this.style);
 return this.polygon.geometry.clone();
 },dblclick:function(evt){
 if(!this.freehandMode(evt)){
-var _b05=this.line.geometry.components.length-2;
-this.line.geometry.removeComponent(this.line.geometry.components[_b05]);
+var _b1a=this.line.geometry.components.length-2;
+this.line.geometry.removeComponent(this.line.geometry.components[_b1a]);
 this.finalize();
 }
 return false;
 },CLASS_NAME:"OpenLayers.Handler.Polygon"});
-OpenLayers.Control.EditingToolbar=OpenLayers.Class(OpenLayers.Control.Panel,{initialize:function(_b06,_b07){
-OpenLayers.Control.Panel.prototype.initialize.apply(this,[_b07]);
+OpenLayers.Control.EditingToolbar=OpenLayers.Class(OpenLayers.Control.Panel,{initialize:function(_b1b,_b1c){
+OpenLayers.Control.Panel.prototype.initialize.apply(this,[_b1c]);
 this.addControls([new OpenLayers.Control.Navigation()]);
-var _b08=[new OpenLayers.Control.DrawFeature(_b06,OpenLayers.Handler.Point,{"displayClass":"olControlDrawFeaturePoint"}),new OpenLayers.Control.DrawFeature(_b06,OpenLayers.Handler.Path,{"displayClass":"olControlDrawFeaturePath"}),new OpenLayers.Control.DrawFeature(_b06,OpenLayers.Handler.Polygon,{"displayClass":"olControlDrawFeaturePolygon"})];
-for(var i=0;i<_b08.length;i++){
-_b08[i].featureAdded=function(_b0a){
-_b0a.state=OpenLayers.State.INSERT;
+var _b1d=[new OpenLayers.Control.DrawFeature(_b1b,OpenLayers.Handler.Point,{"displayClass":"olControlDrawFeaturePoint"}),new OpenLayers.Control.DrawFeature(_b1b,OpenLayers.Handler.Path,{"displayClass":"olControlDrawFeaturePath"}),new OpenLayers.Control.DrawFeature(_b1b,OpenLayers.Handler.Polygon,{"displayClass":"olControlDrawFeaturePolygon"})];
+for(var i=0;i<_b1d.length;i++){
+_b1d[i].featureAdded=function(_b1f){
+_b1f.state=OpenLayers.State.INSERT;
 };
 }
-this.addControls(_b08);
+this.addControls(_b1d);
 },draw:function(){
 var div=OpenLayers.Control.Panel.prototype.draw.apply(this,arguments);
 this.activateControl(this.controls[0]);
@@ -15295,14 +15397,6 @@ _7.postPaint(_7);
 }
 };
 this.model.addListener("refresh",this.paint,this);
-this.clearWidget=function(_c){
-var _d=document.getElementById(_c.outputNodeId);
-var _e=_c.getNode();
-if(_e&&_d){
-_e.removeChild(_d);
-}
-};
-this.model.addListener("newModel",this.clearWidget,this);
 }
 
 function ToolBase(_1,_2){
