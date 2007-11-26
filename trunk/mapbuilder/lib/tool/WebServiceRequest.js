@@ -39,7 +39,9 @@ function WebServiceRequest(toolNode, model) {
     this.requestFilter = requestFilter.firstChild.nodeValue;
   }
 
-  var styleUrl = baseDir+"/tool/xsl/"+this.requestName.replace(/:/,"_")+".xsl";
+  var styleUrl = toolNode.selectSingleNode("mb:stylesheet");
+  styleUrl = styleUrl ? getNodeValue(styleUrl) :
+          baseDir+"/tool/xsl/"+this.requestName.replace(/:/,"_")+".xsl";
   this.requestStylesheet = new XslProcessor(styleUrl);
 
   // Set stylesheet parameters for all the child nodes from the config file

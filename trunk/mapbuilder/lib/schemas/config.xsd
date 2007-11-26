@@ -592,6 +592,7 @@
     <xs:complexContent>
       <xs:extension base="mb:AbstractButtonBaseType">
         <xs:sequence>
+          <xs:element name="stylesheet" type="xs:string" minOccurs="0"/>
           <xs:element name="infoFormat" type="xs:string" minOccurs="0">
             <xs:annotation>
               <xs:documentation>The Content-Type for the feature request.  Either application/vnd.ogc.gml or text/html; defaults to application/vnd.ogc.gml</xs:documentation>
@@ -1243,6 +1244,7 @@
     <xs:complexContent>
       <xs:extension base="mb:AbstractToolBaseType">
         <xs:sequence>
+          <xs:element name="stylesheet" type="xs:string" minOccurs="0"/>
           <xs:element name="requestName" type="xs:string"/>
           <xs:element name="requestFilter" type="xs:string" minOccurs="0"/>
           <xs:element name="infoFormat" type="xs:string" minOccurs="0">
