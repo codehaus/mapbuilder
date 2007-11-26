@@ -39,7 +39,9 @@ function WebServiceRequest(toolNode, model) {
     this.requestFilter = requestFilter.firstChild.nodeValue;
   }
 
-  var styleUrl = baseDir+"/tool/xsl/"+this.requestName.replace(/:/,"_")+".xsl";
+  var styleUrl = toolNode.selectSingleNode("mb:stylesheet");
+  styleUrl = styleUrl ? getNodeValue(styleUrl) :
+          baseDir+"/tool/xsl/"+this.requestName.replace(/:/,"_")+".xsl";
   this.requestStylesheet = new XslProcessor(styleUrl);
 
   // Set stylesheet parameters for all the child nodes from the config file
@@ -117,7 +119,6 @@ WebServiceRequest.prototype.doRequest = function(objRef, featureName) {
   }
   if (objRef.model.setRequestParameters) objRef.model.setRequestParameters(featureName, objRef.requestStylesheet);
   var httpPayload = objRef.createHttpPayload(feature);
-  objRef.targetModel.deleteTemplates();
   objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
 }
 
