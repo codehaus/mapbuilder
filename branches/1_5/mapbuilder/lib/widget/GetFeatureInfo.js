@@ -21,7 +21,9 @@ function GetFeatureInfo(widgetNode, model) {
   ButtonBase.apply(this, new Array(widgetNode, model));
 
   /** Xsl to build a GetFeatureInfo URL */
-  this.xsl=new XslProcessor(baseDir+"/tool/GetFeatureInfo.xsl");
+  var xsl = widgetNode.selectSingleNode("mb:stylesheet");
+  xsl = xsl ? getNodeValue(xsl) : baseDir+"/tool/GetFeatureInfo.xsl";
+  this.xsl=new XslProcessor(xsl);
   
   /**
    * Determine whether Query result is returned as text, HTML or GML
