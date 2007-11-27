@@ -236,7 +236,6 @@
       <xs:element name="Context" type="mb:ContextType"/>
       <xs:element name="ContextCollection" type="mb:ContextCollectionType"/>
       <xs:element name="FeatureCollection" type="mb:FeatureCollectionType"/>
-      <xs:element name="FeatureTypeSchema" type="mb:FeatureTypeSchemaType"/>
       <xs:element name="GeoRSS" type="mb:GeoRSSType"/>
       <xs:element name="Logger" type="mb:LoggerType"/>
       <xs:element name="Model" type="mb:ModelType">
@@ -373,14 +372,6 @@
           <xs:element name="coordSelectXpath" type="xs:string" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="FeatureTypeSchemaType">
-    <xs:annotation>
-      <xs:documentation>Stores a WFS DescribeFeatureType request reponse as defined by the Open Geospatial Consortium (WFS, http://www.opengeospatial.org/)</xs:documentation>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="mb:AbstractModelBaseType"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="GeoRSSType">

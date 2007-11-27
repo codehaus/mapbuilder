@@ -99,14 +99,14 @@
     <WfsCapabilities id="wfsCapTemplate">
       <defaultModelUrl>http://localhost:8080/geoserver/wfs?version=1.0.0&amp;service=WFS&amp;request=GetCapabilities</defaultModelUrl>
       <models>
-        <FeatureTypeSchema id="featureTypeTemplate">
+        <Model id="featureTypeTemplate">
           <widgets>
             <FilterAttributes id="attributeFilter">
               <htmlTagId>workspace</htmlTagId>
               <outputNodeId>workspaceCanvas</outputNodeId>
             </FilterAttributes>
           </widgets>
-        </FeatureTypeSchema>
+        </Model>
         <FeatureCollection id="getFeatureTemplate">
           <method>get</method>
           <featureXpath>/gml:featureMember/points/_SHAPE_/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates</featureXpath>
