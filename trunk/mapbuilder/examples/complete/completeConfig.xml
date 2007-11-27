@@ -25,7 +25,8 @@
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-			<fixedSize>true</fixedSize>
+          <fixedSize>true</fixedSize>
+          <imageBuffer>1</imageBuffer>
         </MapPaneOL>
         <MapScaleBar id="scalebar">
           <!--all of these properties are optional-->
