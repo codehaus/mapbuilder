@@ -5,7 +5,6 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
-mapbuilder.loadScript(baseDir+"/graphics/RssLayer.js");
 
 /**
  * Stores a GML Feature or FeatureCollection as defined by the
