@@ -64,7 +64,7 @@
 
 
 		<!--     use this with a WFS capabilities model -->
-		<FeatureTypeSchema id="test">
+		<Model id="test">
 			<defaultModelUrl>http://dien.teledetection.fr/geoserver-1.5.1/wfs?REQUEST=DescribeFeatureType&amp;typeName=topp:tasmania_roads</defaultModelUrl>
 			<widgets>
 				<Widget id="addRule">
@@ -73,7 +73,7 @@
 					<stylesheet>../../lib/widget/LayerProperty.xsl</stylesheet>
 				</Widget>
 			</widgets>
-		</FeatureTypeSchema>
+		</Model>
 	</models>
 	<widgets>
 		<TabbedContent id="tabBar">
