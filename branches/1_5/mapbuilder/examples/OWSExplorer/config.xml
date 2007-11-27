@@ -76,14 +76,14 @@
     <WfsCapabilities id="wfsCapTemplate">
       <defaultModelUrl>/geoserver/wfs?version=1.0.0&amp;service=WFS&amp;request=GetCapabilities</defaultModelUrl>
       <models>
-        <FeatureTypeSchema id="featureTypeTemplate" template="true">
+        <Model id="featureTypeTemplate" template="true">
           <widgets>
             <FilterAttributes id="attributeFilter">
               <htmlTagId>workspace</htmlTagId>
               <outputNodeId>workspaceCanvas</outputNodeId>
             </FilterAttributes>
           </widgets>
-        </FeatureTypeSchema>
+        </Model>
         <FeatureCollection id="getFeatureTemplate" template="true">
           <method>get</method>
           <widgets>
