@@ -167,7 +167,7 @@ function ModelBase(modelNode, parentModel) {
         var xmlHttp = new XMLHttpRequest();
         
         var sUri = objRef.url;
-        if ( sUri.indexOf("http://")==0 ) {
+        if ( sUri.indexOf("http://")==0 || sUri.indexOf("https://")==0) {
           if (objRef.method.toLowerCase() == "get") {
             sUri = getProxyPlusUrl(sUri);
           } else {
