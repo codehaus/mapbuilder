@@ -384,11 +384,17 @@ function ModelBase(modelNode, parentModel) {
     //var newObject = eval( evalStr );
     //hint from Alex Russel alex@dojotoolkit.org so we can compress it
 
-    var newObject;
-    if (window[objectType] && (newObject = new window[objectType](configNode, this))) {
+    // If model/tool/widget doesn't exist, exit
+    if (!window[objectType]) {
+      alert(mbGetMessage("errorCreatingObject", objectType));
+      return false;
+    }
+
+    var newObject = new window[objectType](configNode, this);
+    if (newObject) {
       config.objects[newObject.id] = newObject;
       return newObject;
-    } else { 
+    } else {
       alert(mbGetMessage("errorCreatingObject", objectType));
     }
   }
