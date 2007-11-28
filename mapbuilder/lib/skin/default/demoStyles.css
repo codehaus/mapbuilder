@@ -165,7 +165,8 @@ display: block;
 		width: 69%;
 		margin-left: 30%;
 		right: 0px;
-float: right;
+  height: expression(document.body.clientHeight*.99);
+		float: right;
 		margin: 0px;
 }
 
