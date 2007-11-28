@@ -8,9 +8,9 @@
 		//execute the GET
 		String serverUrl = request.getParameter("url");
 		java.net.URL url = new java.net.URL(serverUrl);
-		if (!"http".equals(url.getProtocol())) {
+		if (!"http".equals(url.getProtocol()) && !"https".equals(url.getProtocol())) {
 			throw new javax.servlet.ServletException(
-					"only use HTTP Url's, please don't hack this server!");
+					"only use HTTP(S) Url's, please don't hack this server!");
 		}
 		java.io.InputStream in = url.openStream();
 
