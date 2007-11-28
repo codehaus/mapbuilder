@@ -126,7 +126,7 @@ function XslProcessor(xslUrl,docNSUri) {
  */
 function postLoad(sUri, docToSend, contentType ) {
    var xmlHttp = new XMLHttpRequest();
-   if ( sUri.indexOf("http://")==0 ) {
+   if ( sUri.indexOf("http://")==0 || sUri.indexOf("https://")==0 ) {
      xmlHttp.open("POST", config.proxyUrl, false);
      xmlHttp.setRequestHeader("serverUrl",sUri);//escape(sUri).replace(/\+/g, '%2C').replace(/\"/g,'%22').replace(/\'/g, '%27'));
    } else {
@@ -165,7 +165,7 @@ alert("after");
 function postGetLoad(sUri, docToSend, contentType , dir, fileName) {
 
    var xmlHttp = new XMLHttpRequest();
-   if ( sUri.indexOf("http://")==0 )
+   if ( sUri.indexOf("http://")==0 || sUri.indexOf("https://")==0 )
    {
        xmlHttp.open("POST", config.proxyUrl, false);
        xmlHttp.setRequestHeader("serverUrl",sUri);
@@ -204,7 +204,7 @@ function postGetLoad(sUri, docToSend, contentType , dir, fileName) {
    * @return Url of the proxy and service in the form http://host/proxy?url=service
    */
 function getProxyPlusUrl(url) {
-  if ( url.indexOf("http://")==0 ) {
+  if ( url.indexOf("http://")==0 || url.indexOf("https://")==0 ) {
     if ( config.proxyUrl ) {
       url=config.proxyUrl+"?url="+escape(url).replace(/\+/g, '%2C').replace(/\"/g,'%22').replace(/\'/g, '%27');
     } else {

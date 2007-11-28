@@ -65,7 +65,7 @@ public class ProxyRedirect extends HttpServlet
       
       //execute the GET
       String serverUrl = request.getParameter("url");
-      if (serverUrl.startsWith("http://")) {
+      if (serverUrl.startsWith("http://") || serverUrl.startsWith("https://")) {
         log.info("GET param serverUrl:" + serverUrl);
         HttpClient client = new HttpClient();
         GetMethod httpget = new GetMethod(serverUrl);
@@ -95,7 +95,7 @@ public class ProxyRedirect extends HttpServlet
         }
         httpget.releaseConnection();
       } else {
-        throw new ServletException("only HTTP protocol supported");
+        throw new ServletException("only HTTP(S) protocol supported");
       }
       
      
@@ -134,7 +134,7 @@ throws IOException {
       }
         
       String serverUrl = request.getHeader("serverUrl");
-      if (serverUrl.startsWith("http://")) {
+      if (serverUrl.startsWith("http://") || serverUrl.startsWith("https://")) {
         PostMethod httppost = new PostMethod(serverUrl);
 
         // Transfer bytes from in to out
@@ -180,7 +180,7 @@ throws IOException {
         }
         httppost.releaseConnection();
       } else {
-        throw new ServletException("only HTTP protocol supported");
+        throw new ServletException("only HTTP(S) protocol supported");
       }
      
     } catch (Throwable e) {
