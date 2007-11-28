@@ -483,7 +483,11 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   }
 
   // Test format of the layer
-  var format=layer.selectSingleNode("wmc:FormatList/wmc:Format");format=(format)?format.firstChild.nodeValue:"image/gif";
+  var format=layer.selectSingleNode("wmc:FormatList/wmc:Format[@current='1']");
+  if (!format) {
+    format = layer.selectSingleNode("wmc:FormatList/wmc:Format");
+  }
+  format = format ? getNodeValue(format) : "image/gif";
 
   // Test visibility of the layer
   var vis=layer.selectSingleNode("@hidden");
