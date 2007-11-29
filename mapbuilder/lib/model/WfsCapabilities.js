@@ -8,7 +8,7 @@ mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
 
 /**
  * Stores a Web Feature (WFS) Capabilities document as defined by the 
- * Open Geospatial Consortium (http://opengis.org).
+ * Open Geospatial Consortium (http://www.opengeospatial.org/).
  *
  * @constructor
  * @base ModelBase

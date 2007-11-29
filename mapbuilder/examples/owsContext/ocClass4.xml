@@ -52,17 +52,17 @@
 
     </KeywordList>
 
-    <Abstract> The OpenGIS Web Services Context Document Schema Interoperability Experiment is initiated by cadcorp, DM Solutions, GeoConnections/Natural Resources Canada, and IONIC Software. It is an Interoperability Experiment intended to an XML schema for encoding OpenGIS Web Services Context documents (OWS Context).  OWS Context documents are related to, but more powerful than, Web Map Context Documents (03-036r2). The latter are limited to referencing OGC Web Map Services (WMS), whereas the former can reference other OGC Web Services, e.g. Web Feature Services (WFS), Web Coverage Services (WCS), etc.</Abstract>
+    <Abstract> The OGC Web Services Context Document Schema Interoperability Experiment is initiated by cadcorp, DM Solutions, GeoConnections/Natural Resources Canada, and IONIC Software. It is an Interoperability Experiment intended to an XML schema for encoding OGC Web Services Context documents (OWS Context).  OWS Context documents are related to, but more powerful than, Web Map Context Documents (03-036r2). The latter are limited to referencing OGC Web Map Services (WMS), whereas the former can reference other OGC Web Services, e.g. Web Feature Services (WFS), Web Coverage Services (WCS), etc.</Abstract>
 
     <LogoURL width="140" height="65" format="image/gif">
 
-      <OnlineResource xlink:type="simple" xlink:href="http://www.opengis.org/img/ogc_header_top_left.gif"/>
+      <OnlineResource xlink:type="simple" xlink:href="http://www.opengeospatial.org/img/ogc_header_top_left.gif"/>
 
     </LogoURL>
 
     <DescriptionURL format="text/html">
 
-      <OnlineResource xlink:type="simple" xlink:href="http://www.opengis.org/press/?page=pressrelease&amp;view=20040525_ContextIE_PR"/>
+      <OnlineResource xlink:type="simple" xlink:href="http://www.opengeospatial.org/press/?page=pressrelease&amp;view=20040525_ContextIE_PR"/>
 
     </DescriptionURL>
 

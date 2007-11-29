@@ -7,8 +7,8 @@ $Id$
 mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
 
 /**
- * Stores a WFS Transaction reponse as defined by the Open GIS Consortium
- * http://opengis.org (WFS).  
+ * Stores a WFS Transaction reponse as defined by the Open Geospatial Consortium
+ * (http://www.opengeospatial.org/) (WFS).  
  * Extends ModelBase, which extends Listener.
  *
  * Listeners implemented:

@@ -8,7 +8,7 @@ mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
 
 /**
  * Stores a Web Map Context (WMC) Collection document as defined by the Open 
- * GIS Consortium http://opengis.org and extensions the the WMC.  
+ * Geospatial Consortium (http://www.opengeospatial.org/) and extensions the the WMC.  
  * @constructor
  * @base ModelBase
  * @author Mike Adair
