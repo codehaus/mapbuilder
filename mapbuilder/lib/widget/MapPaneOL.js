@@ -841,6 +841,18 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
 
      break;
 
+    // KML Layer
+    case "KML":
+    case "kml":
+      objRef.oLlayers[layerId]= new OpenLayers.Layer.GML(
+        title,
+        href,{
+          format: OpenLayers.Format.KML
+          }
+        );
+    break;
+
+
     case "GMAP":
     case "Google":
       //the empty baseLayer has to be destroyed when you want to use google
