@@ -8,8 +8,8 @@ mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
 mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
 /**
- * Stores a Web Map Context (WMC) document as defined by the Open GIS Consortium
- * http://opengis.org and extensions the the WMC.
+ * Stores a Web Map Context (WMC) document as defined by the Open Geospatial Consortium
+ * (http://www.opengeospatial.org/) and extensions the the WMC.
  *
  * Listeners supported by this model:
  * "refresh" called when window parameters (width/height, bbox) are changed

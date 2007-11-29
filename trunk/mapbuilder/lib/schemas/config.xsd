@@ -346,7 +346,7 @@
   <!-- global model extension types; Models type represent different types of XML documents. Use Model for a generic XML document where no customization or specialized methods are required-->
   <xs:complexType name="ContextType">
     <xs:annotation>
-      <xs:documentation>A Web Map Context document as specified by the Open GeoSpatial Consortium (http://www.opengeospatial.org/docs/03-036r2.pdf)</xs:documentation>
+      <xs:documentation>A Web Map Context document as specified by the Open Geospatial Consortium (http://www.opengeospatial.org/docs/03-036r2.pdf)</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="mb:AbstractModelBaseType"/>
@@ -354,7 +354,7 @@
   </xs:complexType>
   <xs:complexType name="ContextCollectionType">
     <xs:annotation>
-      <xs:documentation>A collection of Web Map Context document URLs as specified by the Open GeoSpatial Consortium (http://www.opengeospatial.org/docs/03-036r2.pdf)</xs:documentation>
+      <xs:documentation>A collection of Web Map Context document URLs as specified by the Open Geospatial Consortium (http://www.opengeospatial.org/docs/03-036r2.pdf)</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="mb:AbstractModelBaseType"/>
@@ -362,7 +362,7 @@
   </xs:complexType>
   <xs:complexType name="FeatureCollectionType">
     <xs:annotation>
-      <xs:documentation>A representation of a geographic Feature or Feature Collection in GML as specified by the Open Geospatial Consortium (http://www.opengis.org/docs/02-069.pdf) </xs:documentation>
+      <xs:documentation>A representation of a geographic Feature or Feature Collection in GML as specified by the Open Geospatial Consortium (http://www.opengeospatial.org/docs/02-069.pdf) </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="mb:AbstractModelBaseType">
@@ -432,7 +432,7 @@
   </xs:complexType>
   <xs:complexType name="WfsCapabilitiesType">
     <xs:annotation>
-      <xs:documentation>A document describing the capabilities of an OGC Web Feature Service (WFS) as specified by the Open GeoSpatial Consortium (https://portal.opengeospatial.org/files/?artifact_id=7176)</xs:documentation>
+      <xs:documentation>A document describing the capabilities of an OGC Web Feature Service (WFS) as specified by the Open Geospatial Consortium (https://portal.opengeospatial.org/files/?artifact_id=7176)</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="mb:AbstractModelBaseType"/>
@@ -440,7 +440,7 @@
   </xs:complexType>
   <xs:complexType name="WmsCapabilitiesType">
     <xs:annotation>
-      <xs:documentation>A document describing the capabilities of an OGC Web Map Service (WMS) as specified by the Open GeoSpatial Consortium (http://portal.opengeospatial.org/files/?artifact_id=5316)</xs:documentation>
+      <xs:documentation>A document describing the capabilities of an OGC Web Map Service (WMS) as specified by the Open Geospatial Consortium (http://portal.opengeospatial.org/files/?artifact_id=5316)</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="mb:AbstractModelBaseType"/>

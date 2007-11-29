@@ -8,7 +8,7 @@ mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
 
 /**
  * Stores a SLD file  as defined by the
- * Open GIS Conortium http://opengis.org.
+ * Open Geospatial Consortium (http://www.opengeospatial.org/).
  *
  * @constructor
  * @base ModelBase

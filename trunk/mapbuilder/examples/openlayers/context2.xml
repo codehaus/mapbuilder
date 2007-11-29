@@ -25,11 +25,11 @@
     <Abstract>Dutch statistical map</Abstract>
     
     <LogoURL width="140" height="65" format="image/gif">
-      <OnlineResource xlink:type="simple" xlink:href="http://www.opengis.org/img/ogc_header_top_left.gif" />
+      <OnlineResource xlink:type="simple" xlink:href="http://www.opengeospatial.org/img/ogc_header_top_left.gif" />
     </LogoURL>
 
     <DescriptionURL format="text/html">
-      <OnlineResource xlink:type="simple" xlink:href="http://www.opengis.org/press/?page=pressrelease&amp;view=20040525_ContextIE_PR" />
+      <OnlineResource xlink:type="simple" xlink:href="http://www.opengeospatial.org/press/?page=pressrelease&amp;view=20040525_ContextIE_PR" />
     </DescriptionURL>
     
   </General>  

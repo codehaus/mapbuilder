@@ -8,7 +8,7 @@ mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
 
 /**
  * Stores a GML Feature or FeatureCollection as defined by the
- * Open GIS Conortium http://opengis.org.
+ * Open Geospatial Consortium (http://www.opengeospatial.org/).
  *
  * WARNING: This model is only to be used if you do not want to embed the GeoRSS feed
  * in the context doc. See also MAP-271

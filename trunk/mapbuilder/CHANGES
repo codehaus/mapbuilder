@@ -313,7 +313,7 @@ MAP-69		Using a custom stylesheet to group layers
 MAP-55		Create hover-over popups when mouse hovers over a feature Submitted By: Cameron Shorter SF - 1173569 
 MAP-51		set the locator map with an image Submitted Virginie Berre SF - 1220313 
 MAP-34		GmlRenderer complexity OUT OF CONTROL with zoomin Submitted: maiqui SF-1306834 
-MAP-27		Change Open GIS to Open Geospacial Submitted: camerons SF-1168180 
+MAP-27		Change Open GIS to Open Geospatial Submitted: camerons SF-1168180 
 MAP-26		Layers from geoserver periodically not returned Submitted: camerons SF-1357587 
 
 
@@ -398,7 +398,7 @@ MAP-51		set the locator map with an image Submitted Virginie Berre SF - 1220313
 MAP-34		GmlRenderer complexity OUT OF CONTROL with zoomin Submitted: maiqui SF-1306834 
 MAP-32		Incorrect click position in WFS-T demo on IE Submitted: camerons SF-1193142 
 MAP-29		Coord string does not handle space char inside tuple Submitted camerons SF-1013754 
-MAP-27		Change Open GIS to Open Geospacial Submitted: camerons SF-1168180 
+MAP-27		Change Open GIS to Open Geospatial Submitted: camerons SF-1168180 
 MAP-26		Layers from geoserver periodically not returned Submitted: camerons SF-1357587 
 
 
@@ -520,7 +520,7 @@ Outstanding Issues (highest priority first):
 1164770  links in mapbuilder/index.html broker 
 1013754  Coord string does not handle space char inside tuple 
 968519   query icon 
-1168180  Change Open GIS to Open Geospacial 
+1168180  Change Open GIS to Open Geospatial 
 1357587  Layers from geoserver periodically not returned 
 1071242  Move util.js into JS objects 
 
@@ -560,7 +560,7 @@ Outstanding Issues (highest priority first):
 1013754 Coord string does not handle space char inside tuple
 968519 query icon
 1175978 rename model/DescribeFeatureType.js
-1168180 Change Open GIS to Open Geospacial
+1168180 Change Open GIS to Open Geospatial
 1162133 Add GPL header to all source files.
 1102212 EditTools don't contain French tooltip
 1071242 Move util.js into JS objects
@@ -617,7 +617,7 @@ Outstanding Issues (highest priority fist):
 1013754 Coord string does not handle space char inside tuple
 968519 query icon
 1175978 rename model/DescribeFeatureType.js
-1168180 Change Open GIS to Open Geospacial
+1168180 Change Open GIS to Open Geospatial
 1162133 Add GPL header to all source files.
 1102212 EditTools don't contain French tooltip
 1071242 Move util.js into JS objects

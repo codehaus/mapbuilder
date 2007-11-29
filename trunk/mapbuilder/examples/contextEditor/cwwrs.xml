@@ -12,9 +12,9 @@
       <ows:ServiceType>CSW</ows:ServiceType>
       <ows:ServiceTypeVersion>2.0.1</ows:ServiceTypeVersion>
       <ows:Title>Web Registry Service implemented by CubeWerx Inc.</ows:Title>
-      <ows:Abstract>A web registry service that complies to the OpenGIS Catalog Service Specification V2.0.0 (Document: 04-021r2).</ows:Abstract>
+      <ows:Abstract>A web registry service that complies to the OGC Catalog Service Specification V2.0.0 (Document: 04-021r2).</ows:Abstract>
       <ows:Keywords>
-         <ows:Keyword>OpenGIS Consortium</ows:Keyword>
+         <ows:Keyword>Open Geospatial Consortium</ows:Keyword>
          <ows:Keyword>web</ows:Keyword>
          <ows:Keyword>catalog</ows:Keyword>
          <ows:Keyword>registry</ows:Keyword>
