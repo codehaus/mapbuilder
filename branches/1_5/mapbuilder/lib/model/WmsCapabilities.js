@@ -8,7 +8,7 @@ mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
 
 /**
  * Stores a Web Map Server (WMS) Capabilities document as defined by the 
- * Open Geospatial Consortium (http://opengis.org and extensions the the WMC.  
+ * Open Geospatial Consortium (http://www.opengeospatial.org/) and extensions the the WMC.  
  *
  * @constructor
  * @base ModelBase
