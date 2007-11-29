@@ -7,8 +7,8 @@ $Id$
 mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
 
 /**
- * Stores a WFS DescribeFeatureType request reponse as defined by the Open GIS Consortium
- * http://opengis.org (WFS).  
+ * Stores a WFS DescribeFeatureType request reponse as defined by the Open Geospatial Consortium
+ * (http://www.opengeospatial.org/) (WFS).  
  *
  * @constructor
  * @base ModelBase
