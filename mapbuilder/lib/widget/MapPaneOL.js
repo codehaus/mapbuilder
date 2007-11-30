@@ -285,7 +285,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
               alpha: false,            //option for png transparency with ie6
               isBaseLayer: true,
               displayOutsideMaxExtent: objRef.displayOutsideMaxExtent,
-              ratio: 1,
+              ratio: 1
               
          };
          
@@ -318,7 +318,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
           
           baseLayer= new OpenLayers.Layer.WMS(title,href,{
               layers: baseLayerName,
-              format: format,
+              format: format
             },
             baseLayerOptions
           );
