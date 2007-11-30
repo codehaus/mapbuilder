@@ -173,6 +173,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   var units = proj.units == 'meters' ? 'm' : proj.units;
   
   //resolutions
+  //TBD: if resolutions is both set here and for the baselayer and they are different weird things may happen
+  //     this needs to be solved
   var resolutions=objRef.widgetNode.selectSingleNode("mb:resolutions");
   resolutions = resolutions ? resolutions.firstChild.nodeValue.split(",") : null;
   for (var r in resolutions) {
@@ -232,14 +234,14 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     var baseLayer = null;
     
     //If we have an OWSContext and we have a BaseLayer we need to use this layer
+    //for more information have a look at http://docs.codehaus.org/display/MAP/Using+Google-layers
     if(objRef.context=="OWS"&&objRef.model.getBaseLayer()){
       var baseLayerNode = objRef.model.getBaseLayer();
      
       //overrule the SRS in the Context with the one from the BaseLayer
       var baseSrs = baseLayerNode.selectSingleNode("ows:TileSet/ows:SRS");
       if(baseSrs) objRef.model.setSRS(baseSrs.firstChild.nodeValue);
-      //overrule the units in the Context with the updated SRS
-      //units
+      //overrule the units in the Context with the updated SRS units
       units = proj.units == 'meters' ? 'm' : proj.units;
       //overrule the boundingbox in the Context with the maxExtent from the BaseLayer
       var maxExtentNode = baseLayerNode.selectSingleNode("ows:TileSet/ows:BoundingBox");
@@ -839,9 +841,9 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       }
       objRef.oLlayers[layerId] = new OpenLayers.Layer.GML(title,href,layerOptions);
 
-     break;
+    break;
 
-    // KML Layer
+     // KML Layer
     case "KML":
     case "kml":
       objRef.oLlayers[layerId]= new OpenLayers.Layer.GML(
@@ -851,9 +853,10 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
           }
         );
     break;
-
-
-    case "GMAP":
+    
+  // Currently the following layertypes are only supported in a OwsContext doc as a BaseLayer
+  // for more information see http://docs.codehaus.org/display/MAP/Using+Google-layers
+   /* case "GMAP":
     case "Google":
       //the empty baseLayer has to be destroyed when you want to use google
       objRef.model.map.baseLayer.destroy();
@@ -879,7 +882,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       //<script type="text/javascript" src="http://clients.multimap.com/API/maps/1.1/metacarta_04"></script>
       layerOptions.isBaseLayer=true;
       objRef.oLlayers[layerId] = new OpenLayers.Layer.MultiMap( "MultiMap");
-    break;
+    break;*/
     default:
       alert(mbGetMessage("layerTypeNotSupported", service));
   }
