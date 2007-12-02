@@ -38,6 +38,7 @@ Proj4js.Proj.lcc = {
     //double false_north;             /* y offset in meters                   */
 
       if (!this.lat2){this.lat2=this.lat0;}//if lat2 is not defined
+      if (!this.k0) this.k0 = 1.0;
 
     // Standard Parallels cannot be equal and on opposite sides of the equator
       if (Math.abs(this.lat1+this.lat2) < Proj4js.common.EPSLN) {
@@ -95,15 +96,14 @@ Proj4js.Proj.lcc = {
       } else {
         con = lat * this.ns;
         if (con <= 0) {
-          alert("ll2lcc No Projection");
           Proj4js.reportError("lcc:forward: No Projection");
           return null;
         }
         rh1 = 0;
       }
       var theta = this.ns * Proj4js.common.adjust_lon(lon - this.long0);
-      p.x = rh1 * Math.sin(theta) + this.x0;
-      p.y = this.rh - rh1 * Math.cos(theta) + this.y0;
+      p.x = this.k0 * (rh1 * Math.sin(theta)) + this.x0;
+      p.y = this.k0 * (this.rh - rh1 * Math.cos(theta)) + this.y0;
 
       return p;
     },
@@ -114,8 +114,8 @@ Proj4js.Proj.lcc = {
 
     var rh1, con, ts;
     var lat, lon;
-    x = p.x - this.x0;
-    y = this.rh - p.y + this.y0;
+    x = (p.x - this.x0)/this.k0;
+    y = (this.rh - (p.y - this.y0)/this.k0);
     if (this.ns > 0) {
       rh1 = Math.sqrt (x * x + y * y);
       con = 1.0;
