@@ -66,9 +66,9 @@ function FeatureCollection(modelNode, parent) {
 		  if (coordNodes.length>0 && objRef.containerModel) {
 		    var srsNode = coordNodes[0].selectSingleNode("ancestor-or-self::*/@srsName");
 		    if( srsNode && (srsNode.nodeValue.toUpperCase() != objRef.containerModel.getSRS().toUpperCase()) ) {
-		      var sourceProj = new Proj(srsNode.nodeValue);
+		      var sourceProj = new Proj4js.Proj(srsNode.nodeValue);
 		      objRef.setParam("modelStatus",mbGetMessage("convertingCoords"));
-		      var containerProj = new Proj(objRef.containerModel.getSRS());
+		      var containerProj = new Proj4js.Proj(objRef.containerModel.getSRS());
 		      for (var i=0; i<coordNodes.length; ++i) {
 		        var coords = coordNodes[i].firstChild.nodeValue;
 		        var coordsArray = coords.split(' ');
@@ -76,8 +76,8 @@ function FeatureCollection(modelNode, parent) {
 		        for (var j=0; j<coordsArray.length; ++j) {
 		          var xy = coordsArray[j].split(',');
 		          if (xy.length==2) {
-		            var pt=new PT(xy[0],xy[1]);
-    				cs_transform(sourceProj,containerProj,pt);
+		            var pt=new Proj4js.Point(xy[0],xy[1]);
+                Proj4js.transform(sourceProj,containerProj,pt);
 		            newCoords += pt.join(',') + ' ';
 		          }
 		        }

@@ -47,12 +47,12 @@ function CollectionList(widgetNode, model) {
 
     var bbox = objRef.extent.toBBOX().split(/,/);  
     if (objRef.targetModel.getSRS().toUpperCase() != objRef.srs.toUpperCase()) {
-      var targetProj = new Proj(objRef.targetModel.getSRS());
-      var srcProj = new Proj(objRef.srs);
-    	var ptLL=new PT(bbox[0],bbox[1]);
-    	var ptUR=new PT(bbox[2],bbox[3]);
-  		cs_transform(srcProj, targetProj, ptLL);
-	    cs_transform(srcProj, targetProj, ptUR);
+      var targetProj = new Proj4js.Proj(objRef.targetModel.getSRS());
+      var srcProj = new Proj4js.Proj(objRef.srs);
+    	var ptLL=new Proj4js.Point(bbox[0],bbox[1]);
+    	var ptUR=new Proj4js.Point(bbox[2],bbox[3]);
+  		Proj4js.transform(srcProj, targetProj, ptLL);
+	    Proj4js.transform(srcProj, targetProj, ptUR);
       objRef.extent = new OpenLayers.Bounds(ptLL.x, ptLL.y, ptUR.x, ptUR.y);
     }
     if (objRef.targetModel.map.getExtent().containsBounds(objRef.extent, false, false)) {

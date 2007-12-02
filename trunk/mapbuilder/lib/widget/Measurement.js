@@ -6,7 +6,6 @@ $Id$
 
 // Ensure this object's dependencies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/EditButtonBase.js");
-mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
 
 /**
@@ -103,7 +102,7 @@ function Measurement(widgetNode, model) {
               
         //transform coordinates from lat/lon to x/y in meter 
         objRef.srs = srs.toUpperCase();
-        objRef.proj = new Proj (objRef.srs);
+        objRef.proj = new Proj4js.Proj(objRef.srs);
         
         if (!P || !Q  ){
           alert(mbGetMessage("projectionNotSupported"));
