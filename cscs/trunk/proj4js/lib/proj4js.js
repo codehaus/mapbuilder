@@ -77,8 +77,8 @@ Proj4js = {
         }
         
         if (point.transformed) {
-            this.log("point already transformed");
-          //return;
+          this.log("point already transformed");
+          return;
         }
 
         // Transform source points to long/lat, if they aren't already.
@@ -378,18 +378,23 @@ Proj4js.Proj = OpenLayers.Class({
               case "ellps":  this.ellps = paramVal.replace(/\s/gi,""); break;
               case "a":      this.a =  parseFloat(paramVal); break;  // semi-major radius
               case "b":      this.b =  parseFloat(paramVal); break;  // semi-minor radius
+              case "lat_0":  this.lat0 = paramVal*Proj4js.common.D2R; break;        // phi0, central latitude
               case "lat_1":  this.lat1 = paramVal*Proj4js.common.D2R; break;        //standard parallel 1
               case "lat_2":  this.lat2 = paramVal*Proj4js.common.D2R; break;        //standard parallel 2
               case "lon_0":  this.long0 = paramVal*Proj4js.common.D2R; break;       // lam0, central longitude
-              case "lat_0":  this.lat0 = paramVal*Proj4js.common.D2R; break;        // phi0, central latitude
               case "x_0":    this.x0 = parseFloat(paramVal); break;  // false easting
               case "y_0":    this.y0 = parseFloat(paramVal); break;  // false northing
-              case "k":      this.k0 = parseFloat(paramVal); break;  // projection scale factor
+              case "k_0":      this.k0 = parseFloat(paramVal); break;  // projection scale factor
+              case "k":      this.k0 = parseFloat(paramVal); break;  // both forms returned
               case "R_A":    this.R = parseFloat(paramVal); break;   //Spheroid radius 
               case "zone":   this.zone = parseInt(paramVal); break;  // UTM Zone
+              case "south":   this.utmSouth = true; break;  // UTM north/south
               case "towgs84":this.datum_params = paramVal.split(","); break;
               case "to_meter": this.to_meter = parseFloat(paramVal); break; // cartesian scaling
               case "from_greenwich": this.from_greenwich = paramVal*Proj4js.common.D2R; break;
+              case "pm":     paramVal = paramVal.replace(/\s/gi,"");
+                             this.from_greenwich = Proj4js.PrimeMeridian[paramVal] ?
+                                Proj4js.PrimeMeridian[paramVal]*Proj4js.common.D2R : 0.0; break;
               case "no_defs": break; 
               default: Proj4js.log("Unrecognized parameter: " + paramName);
           } // switch()
@@ -399,57 +404,8 @@ Proj4js.Proj = OpenLayers.Class({
 
   deriveConstants : function() {
       if (!this.a) {    // do we have an ellipsoid?
-          switch(this.ellps) {
-              //case "GRS80": this.a=6378137.0; this.b=6356752.31414036; break;
-              //case "WGS84": this.a=6378137.0; this.b=6356752.31424518; break;
-              //case "WGS72": this.a=6378135.0; this.b=6356750.52001609; break;
-              //case "intl":  this.a=6378388.0; this.b=6356911.94612795; break;
-              case "MERIT": this.a=6378137.0; this.rf=298.257; this.ellipseName="MERIT 1983"; break;
-              case "SGS85": this.a=6378136.0; this.rf=298.257; this.ellipseName="Soviet Geodetic System 85"; break;
-              case "GRS80": this.a=6378137.0; this.rf=298.257222101; this.ellipseName="GRS 1980(IUGG, 1980)"; break;
-              case "IAU76": this.a=6378140.0; this.rf=298.257; this.ellipseName="IAU 1976"; break;
-              case "airy": this.a=6377563.396; this.b=6356256.910; this.ellipseName="Airy 1830"; break;
-              case "APL4.": this.a=6378137; this.rf=298.25; this.ellipseName="Appl. Physics. 1965"; break;
-              case "NWL9D": this.a=6378145.0; this.rf=298.25; this.ellipseName="Naval Weapons Lab., 1965"; break;
-              case "mod_airy": this.a=6377340.189; this.b=6356034.446; this.ellipseName="Modified Airy"; break;
-              case "andrae": this.a=6377104.43; this.rf=300.0; this.ellipseName="Andrae 1876 (Den., Iclnd.)"; break;
-              case "aust_SA": this.a=6378160.0; this.rf=298.25; this.ellipseName="Australian Natl & S. Amer. 1969"; break;
-              case "GRS67": this.a=6378160.0; this.rf=298.2471674270; this.ellipseName="GRS 67(IUGG 1967)"; break;
-              case "bessel": this.a=6377397.155; this.rf=299.1528128; this.ellipseName="Bessel 1841"; break;
-              case "bess_nam": this.a=6377483.865; this.rf=299.1528128; this.ellipseName="Bessel 1841 (Namibia)"; break;
-              case "clrk66": this.a=6378206.4; this.b=6356583.8; this.ellipseName="Clarke 1866"; break;
-              case "clrk80": this.a=6378249.145; this.rf=293.4663; this.ellipseName="Clarke 1880 mod."; break;
-              case "CPM": this.a=6375738.7; this.rf=334.29; this.ellipseName="Comm. des Poids et Mesures 1799"; break;
-              case "delmbr": this.a=6376428.0; this.rf=311.5; this.ellipseName="Delambre 1810 (Belgium)"; break;
-              case "engelis": this.a=6378136.05; this.rf=298.2566; this.ellipseName="Engelis 1985"; break;
-              case "evrst30": this.a=6377276.345; this.rf=300.8017; this.ellipseName="Everest 1830"; break;
-              case "evrst48": this.a=6377304.063; this.rf=300.8017; this.ellipseName="Everest 1948"; break;
-              case "evrst56": this.a=6377301.243; this.rf=300.8017; this.ellipseName="Everest 1956"; break;
-              case "evrst69": this.a=6377295.664; this.rf=300.8017; this.ellipseName="Everest 1969"; break;
-              case "evrstSS": this.a=6377298.556; this.rf=300.8017; this.ellipseName="Everest (Sabah & Sarawak)"; break;
-/* fix these from ellipse.c
-              case "fschr60": this.a=6378166.; this.298.3; this.ellipseName="Fischer (Mercury Datum) 1960"; break;
-              case "fschr60m": this.a=6378155.",   "; this.298.3", "; this.ellipseName=Fischer 1960"; break;
-              case "fschr68": this.a=6378150.",   "; this.298.3", "; this.ellipseName=1968"; break;
-              case "helmert": this.a=6378200.",   "; this.298.3", "; this.ellipseName=1906"; break;
-              case "hough": this.a=6378270.0; this.rf=297.", "; this.ellipseName="; break;
-              case "intl": this.a=6378388.0; this.rf=297.", "; this.ellipseName=1909 (Hayford)"; break;
-              case "kaula": this.a=6378163.",  "; this.298.24", "; this.ellipseName=1961"; break;
-              case "lerch": this.a=6378139.",  "; this.298.257", "; this.ellipseName=1979"; break;
-              case "mprts": this.a=6397300.",  "; this.191.", "Maupertius 1738; this.ellipseName; break;
-              case "new_intl": this.a=6378157.5; this.b=6356772.2; this.ellipseName="New International 1967"; break;
-              case "plessis": this.a=6376523.",  "; this.6355863.", "Plessis 1817 ; this.ellipseName=France)"; break;
-*/
-              case "krass": this.a=6378245.0; this.rf=298.3; this.ellipseName="Krassovsky, 1942"; break;
-              case "SEasia": this.a=6378155.0; this.b=6356773.3205; this.ellipseName="Southeast Asia"; break;
-              case "walbeck": this.a=6376896.0; this.b=6355834.8467; this.ellipseName="Walbeck"; break;
-              case "WGS60": this.a=6378165.0; this.rf=298.3; this.ellipseName="WGS 60"; break;
-              case "WGS66": this.a=6378145.0; this.rf=298.25; this.ellipseName="WGS 66"; break;
-              case "WGS72": this.a=6378135.0; this.rf=298.26; this.ellipseName="WGS 72"; break;
-              case "WGS84": this.a=6378137.0; this.rf=298.257223563; this.ellipseName="WGS 84"; break;
-              case "sphere": this.a=6370997.0; this.b=6370997.0; this.ellipseName="Normal Sphere (r=6370997)"; break;
-              default:      this.a=6378137.0; this.b=6356752.31424518; Proj4js.log("Ellipsoid parameters not provided, assuming WGS84");
-          }
+          var ellipse = Proj4js.Ellipsoid[this.ellps] ? Proj4js.Ellipsoid[this.ellps] : Proj4js.Ellipsoid['WGS84'];
+          OpenLayers.Util.extend(this, ellipse);
       }
       if (this.rf && !this.b) this.b = (1.0 - 1.0/this.rf) * this.a;
       this.a2 = this.a * this.a;          // used in geocentric
@@ -494,11 +450,11 @@ Proj4js.Proj.longlat = {
 Proj4js.defs = {
   // These are so widely used, we'll go ahead and throw them in
   // without requiring a separate .js file
-  'WGS84': "+title=long/lat:WGS84 +proj=longlat +a=6378137.0 +b=6356752.31424518 +ellps=WGS84 +datum=WGS84",
+  'WGS84': "+title=long/lat:WGS84 +proj=longlat +ellps=WGS84 +datum=WGS84",
   'EPSG:4326': "+title=long/lat:WGS84 +proj=longlat +a=6378137.0 +b=6356752.31424518 +ellps=WGS84 +datum=WGS84",
   'EPSG:4269': "+title=long/lat:NAD83 +proj=longlat +a=6378137.0 +b=6356752.31414036 +ellps=GRS80 +datum=NAD83" 
 };
-
+//+a=6378137.0 +b=6356752.31424518 +ellps=WGS84 +datum=WGS84",
 Proj4js.common = {
   PI : Math.PI,
   HALF_PI : Math.PI*0.5,
@@ -589,7 +545,10 @@ Proj4js.common = {
   sign : function(x) { if (x < 0.0) return(-1); else return(1);},
 
 // Function to adjust longitude to -180 to 180; input in radians
-  adjust_lon : function(x) {x=(Math.abs(x)<this.PI)?x:(x-(this.sign(x)*this.TWO_PI));return(x);}
+  adjust_lon : function(x) {
+    x = (Math.abs(x) < this.PI) ? x: (x - (this.sign(x)*this.TWO_PI) );
+    return x;
+  }
 
 };
 
@@ -937,5 +896,79 @@ Proj4js.Point = OpenLayers.Class({
         return (this.x + ", " + this.y);
     }
 });
+
+Proj4js.PrimeMeridian = {
+    "greenwich": 0.0,               //"0dE",
+    "lisbon":     -9.131906111111,   //"9d07'54.862\"W",
+    "paris":       2.337229166667,   //"2d20'14.025\"E",
+    "bogota":    -74.080916666667,  //"74d04'51.3\"W",
+    "madrid":     -3.687938888889,  //"3d41'16.58\"W",
+    "rome":       12.452333333333,  //"12d27'8.4\"E",
+    "bern":        7.439583333333,  //"7d26'22.5\"E",
+    "jakarta":   106.807719444444,  //"106d48'27.79\"E",
+    "ferro":     -17.666666666667,  //"17d40'W",
+    "brussels":    4.367975,        //"4d22'4.71\"E",
+    "stockholm":  18.058277777778,  //"18d3'29.8\"E",
+    "athens":     23.7163375,       //"23d42'58.815\"E",
+    "oslo":       10.722916666667   //"10d43'22.5\"E"
+};
+
+Proj4js.Ellipsoid = {
+  "MERIT": {a:6378137.0, rf:298.257, ellipseName:"MERIT 1983"},
+  "SGS85": {a:6378136.0, rf:298.257, ellipseName:"Soviet Geodetic System 85"},
+  "GRS80": {a:6378137.0, rf:298.257222101, ellipseName:"GRS 1980(IUGG, 1980)"},
+  "IAU76": {a:6378140.0, rf:298.257, ellipseName:"IAU 1976"},
+  "airy": {a:6377563.396, b:6356256.910, ellipseName:"Airy 1830"},
+  "APL4.": {a:6378137, rf:298.25, ellipseName:"Appl. Physics. 1965"},
+  "NWL9D": {a:6378145.0, rf:298.25, ellipseName:"Naval Weapons Lab., 1965"},
+  "mod_airy": {a:6377340.189, b:6356034.446, ellipseName:"Modified Airy"},
+  "andrae": {a:6377104.43, rf:300.0, ellipseName:"Andrae 1876 (Den., Iclnd.)"},
+  "aust_SA": {a:6378160.0, rf:298.25, ellipseName:"Australian Natl & S. Amer. 1969"},
+  "GRS67": {a:6378160.0, rf:298.2471674270, ellipseName:"GRS 67(IUGG 1967)"},
+  "bessel": {a:6377397.155, rf:299.1528128, ellipseName:"Bessel 1841"},
+  "bess_nam": {a:6377483.865, rf:299.1528128, ellipseName:"Bessel 1841 (Namibia)"},
+  "clrk66": {a:6378206.4, b:6356583.8, ellipseName:"Clarke 1866"},
+  "clrk80": {a:6378249.145, rf:293.4663, ellipseName:"Clarke 1880 mod."},
+  "CPM": {a:6375738.7, rf:334.29, ellipseName:"Comm. des Poids et Mesures 1799"},
+  "delmbr": {a:6376428.0, rf:311.5, ellipseName:"Delambre 1810 (Belgium)"},
+  "engelis": {a:6378136.05, rf:298.2566, ellipseName:"Engelis 1985"},
+  "evrst30": {a:6377276.345, rf:300.8017, ellipseName:"Everest 1830"},
+  "evrst48": {a:6377304.063, rf:300.8017, ellipseName:"Everest 1948"},
+  "evrst56": {a:6377301.243, rf:300.8017, ellipseName:"Everest 1956"},
+  "evrst69": {a:6377295.664, rf:300.8017, ellipseName:"Everest 1969"},
+  "evrstSS": {a:6377298.556, rf:300.8017, ellipseName:"Everest (Sabah & Sarawak)"},
+  "fschr60": {a:6378166.0, rf:298.3, ellipseName:"Fischer (Mercury Datum) 1960"},
+  "fschr60m": {a:6378155.0, rf:298.3, ellipseName:"Fischer 1960"},
+  "fschr68": {a:6378150.0, rf:298.3, ellipseName:"Fischer 1968"},
+  "helmert": {a:6378200.0, rf:298.3, ellipseName:"Helmert 1906"},
+  "hough": {a:6378270.0, rf:297.0, ellipseName:"Hough"},
+  "intl": {a:6378388.0, rf:297.0, ellipseName:"International 1909 (Hayford)"},
+  "kaula": {a:6378163.0, rf:298.24, ellipseName:"Kaula 1961"},
+  "lerch": {a:6378139.0, rf:298.257, ellipseName:"Lerch 1979"},
+  "mprts": {a:6397300.0, rf:191.0, ellipseName:"Maupertius 1738"},
+  "new_intl": {a:6378157.5, b:6356772.2, ellipseName:"New International 1967"},
+  "plessis": {a:6376523.0, rf:6355863.0, ellipseName:"Plessis 1817 (France)"},
+  "krass": {a:6378245.0, rf:298.3, ellipseName:"Krassovsky, 1942"},
+  "SEasia": {a:6378155.0, b:6356773.3205, ellipseName:"Southeast Asia"},
+  "walbeck": {a:6376896.0, b:6355834.8467, ellipseName:"Walbeck"},
+  "WGS60": {a:6378165.0, rf:298.3, ellipseName:"WGS 60"},
+  "WGS66": {a:6378145.0, rf:298.25, ellipseName:"WGS 66"},
+  "WGS72": {a:6378135.0, rf:298.26, ellipseName:"WGS 72"},
+  "WGS84": {a:6378137.0, rf:298.257223563, ellipseName:"WGS 84"},
+  "sphere": {a:6370997.0, b:6370997.0, ellipseName:"Normal Sphere (r=6370997)"}
+};
+
+Proj4js.Datum = {
+  "WGS84": {towgs84: "0,0,0", ellipse: "WGS84", datumName: ""},
+  "GGRS87": {towgs84: "-199.87,74.79,246.62", ellipse: "GRS80", datumName: "Greek_Geodetic_Reference_System_1987"},
+  "NAD83": {towgs84: "0,0,0", ellipse: "GRS80", datumName: "North_American_Datum_1983"},
+  "NAD27": {nadgrids: "@conus,@alaska,@ntv2_0.gsb,@ntv1_can.dat", ellipse: "clrk66", datumName: "North_American_Datum_1927"},
+  "potsdam": {towgs84: "606.0,23.0,413.0", ellipse: "bessel", datumName: "Potsdam Rauenberg 1950 DHDN"},
+  "carthage": {towgs84: "-263.0,6.0,431.0", ellipse: "clark80", datumName: "Carthage 1934 Tunisia"},
+  "hermannskogel": {towgs84: "653.0,-212.0,449.0", ellipse: "bessel", datumName: "Hermannskogel"},
+  "ire65": {towgs84: "482.530,-130.596,564.557,-1.042,-0.214,-0.631,8.15", ellipse: "mod_airy", datumName: "Ireland 1965"},
+  "nzgd49": {towgs84: "59.47,-5.04,187.44,0.47,-0.1,1.024,-4.5993", ellipse: "intl", datumName: "New Zealand Geodetic Datum 1949"},
+  "OSGB36": {towgs84: "446.448,-125.157,542.060,0.1502,0.2470,0.8421,-20.4894", ellipse: "airy", datumName: "Airy 1830"},
+};
 
 Proj4js.WGS84 = new Proj4js.Proj('WGS84');
