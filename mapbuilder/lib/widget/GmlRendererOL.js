@@ -33,6 +33,7 @@ function GmlRendererOL(widgetNode, model) {
       if (!this.loaded) {
         var gml = new OpenLayers.Format.GML();
         try {
+          this.proj = new Proj4js.Proj(this.projection);
           this.addFeatures(gml.read(this.mbWidget.renderDoc));
           this.loaded = true;
         } catch (e) {
@@ -79,6 +80,19 @@ function GmlRendererOL(widgetNode, model) {
           if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
             feature.mbSelectStyle = widgetConfig.selectStyle.polygon;
           }
+        }
+        //in the future this will be handled internally to OpenLayers
+        this.convertPoints(feature.geometry);  
+      }
+    },
+    
+    convertPoints: function(component) {
+      if (component.CLASS_NAME == 'OpenLayers.Geometry.Point') {
+        //HACK: assume GML data is specified in 4326 - OL geometry needs to store the proj code
+        component = Proj4js.transform(Proj4js.WGS84, this.proj, component);
+      } else {
+        for (var i=0; i<component.components.length; ++i) {
+          this.convertPoints(component.components[i]);
         }
       }
     },

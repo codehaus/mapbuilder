@@ -208,7 +208,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   //default map options
   var mapOptions = {
         controls:[],
-        projection: proj.srs,
+        projection: proj.srsCode,
         units: units,
         maxExtent: maxExtent,
         maxResolution: maxResolution,
@@ -279,7 +279,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       
       var baseLayerOptions = {
               units: units,
-              projection: proj.srs,
+              projection: proj.srsCode,
               maxExtent: maxExtent,
              
               alpha: false,            //option for png transparency with ie6
@@ -390,7 +390,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     else {
       var baseLayerOptions = {
               units: units,
-              projection: proj.srs,
+              projection: proj.srsCode,
               maxExtent: maxExtent,
               maxResolution: maxResolution,  //"auto" if not defined in the context
               resolutions: resolutions,

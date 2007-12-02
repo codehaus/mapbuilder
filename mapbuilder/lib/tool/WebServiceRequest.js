@@ -143,9 +143,9 @@ TBD: figure out when to use AOI or BBOX
 /*
     //convert the BBOX to the feature SRS for the request
     if (featureSRS) {
-      var sourceProj = new Proj(featureSRS.firstChild.nodeValue);
+      var sourceProj = new Proj4js.Proj(featureSRS.firstChild.nodeValue);
       if ( !sourceProj.matchSrs( containerSRS )) {  
-        var containerProj = new Proj(objRef.containerModel.getSRS());
+        var containerProj = new Proj4js.Proj(objRef.containerModel.getSRS());
         var llTemp = containerProj.Inverse(new Array(bbox[0],bbox[1]));
         var xy = sourceProj.Forward(llTemp);
         bbox[0] = xy[0]; bbox[1] = xy[1];

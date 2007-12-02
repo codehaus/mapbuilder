@@ -76,11 +76,11 @@ function Graticule(widgetNode, model) {
 			bbox.ll=new Object();
 			bbox.ur=new Object();
 			///CSCS
-    		var ll=new PT(this.bbox[0], this.bbox[1]);
-    		var ur=new PT(this.bbox[2], this.bbox[3]);
+    		var ll=new Proj4js.Point(this.bbox[0], this.bbox[1]);
+    		var ur=new Proj4js.Point(this.bbox[2], this.bbox[3]);
     		
-    		cs_transform(this.proj,new CS(csList.EPSG4326),ll);
-    		cs_transform(this.proj,new CS(csList.EPSG4326),ur);
+    		Proj4js.transform(this.proj,Proj4js.WGS84,ll);
+    		Proj4js.transform(this.proj,Proj4js.WGS84,ur);
 		
 			
 			bbox.ll.lon=ll.x;		//minx
@@ -387,9 +387,9 @@ function Graticule(widgetNode, model) {
 	*/
 	fromLatLngToDivPixel : function(lat,lon){
 		///CSCS
-    	var pt=new PT(lon, lat);
-    	cs_transform(new CS(csList.EPSG4326),this.proj,pt);
-		var platlon=this.map.getPixelFromLonLat(new OpenLayers.LonLat(pt.x,pt.y));
+    var pt=new Proj4js.Point(lon, lat);
+    Proj4js.transform(Proj4js.WGS84,this.proj,pt);
+    var platlon=this.map.getPixelFromLonLat(new OpenLayers.LonLat(pt.x,pt.y));
 		return platlon;
 	},
 	
@@ -476,7 +476,7 @@ function Graticule(widgetNode, model) {
 			this.height=parseInt(this.objRef.targetModel.getWindowHeight());
 			
 			this.bbox=this.objRef.targetModel.getBoundingBox();
-			this.proj=new Proj( this.objRef.targetModel.getSRS());
+			this.proj=new Proj4js.Proj( this.objRef.targetModel.getSRS());
 		
 			if (this.bbox[1]<0)
 				if(this.bbox[3]<0)
