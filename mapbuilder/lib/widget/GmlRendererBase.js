@@ -24,6 +24,11 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 function GmlRendererBase(widgetNode, model) {
   WidgetBase.apply(this,new Array(widgetNode, model));
   
+  // set the feature srs.
+  var featureSRS = widgetNode.selectSingleNode('mb:featureSRS');
+  /** SRS of the features that this widget will render */
+  this.featureSRS = featureSRS ? getNodeValue(featureSRS) : null;
+  
   // set the hover cursor.
   var hoverCursorNode = widgetNode.selectSingleNode('mb:hoverCursor');
   /** css cursor when hovering over features */
@@ -52,6 +57,7 @@ function GmlRendererBase(widgetNode, model) {
         hoverCursor: this.hoverCursor,
         sldModelNode: this.sldModelNode,
         defaultStyleName: this.defaultStyleName,
-        selectStyleName: this.selectStyleName
+        selectStyleName: this.selectStyleName,
+        featureSRS: this.featureSRS
   });
 }

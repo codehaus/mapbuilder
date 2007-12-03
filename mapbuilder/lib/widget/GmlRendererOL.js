@@ -57,6 +57,13 @@ function GmlRendererOL(widgetNode, model) {
         } else {
           widgetConfig = this.mbWidget.config;
         }
+        if (!widgetConfig.sourceSRS) {
+          if (widgetConfig.featureSRS) {
+            widgetConfig.sourceSRS = new Proj4js.Proj(widgetConfig.featureSRS);
+          } else {
+            widgetConfig.sourceSRS = null;
+          }
+        }
         // set styles before rendering the feature
         if (widgetConfig.defaultStyle) {
           if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
@@ -82,17 +89,18 @@ function GmlRendererOL(widgetNode, model) {
           }
         }
         //in the future this will be handled internally to OpenLayers
-        this.convertPoints(feature.geometry);  
+        if (widgetConfig.sourceSRS) {
+          this.convertPoints(feature.geometry, widgetConfig.sourceSRS);
+        }  
       }
     },
     
-    convertPoints: function(component) {
+    convertPoints: function(component, sourceSRS) {
       if (component.CLASS_NAME == 'OpenLayers.Geometry.Point') {
-        //HACK: assume GML data is specified in 4326 - OL geometry needs to store the proj code
-        component = Proj4js.transform(Proj4js.WGS84, this.proj, component);
+        component = Proj4js.transform(sourceSRS, this.proj, component);
       } else {
         for (var i=0; i<component.components.length; ++i) {
-          this.convertPoints(component.components[i]);
+          this.convertPoints(component.components[i], sourceSRS);
         }
       }
     },
@@ -117,6 +125,9 @@ function GmlRendererOL(widgetNode, model) {
      * helps to cleanly destroy the features, preventing memleaks.
      */
     destroyFeatures: function() {
+      if (!this.features) {
+        return;
+      }
       features = this.features;
       for (var i = features.length - 1; i >= 0; i--) {
         var feature = features[i];
