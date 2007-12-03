@@ -7,7 +7,7 @@ import jsmin, mergejs
 
 sourceDirectory = "../lib"
 configFilename = "library.cfg"
-outputFilename = "proj4js-compressed.js"
+outputFilename = "../lib/proj4js-compressed.js"
 
 if len(sys.argv) > 1:
     configFilename = sys.argv[1]
