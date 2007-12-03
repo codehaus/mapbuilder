@@ -7,7 +7,7 @@
   <ViewContextReference version="1.0.0" id="WorldMap">
     <Title>EPSG:4326 - World</Title>
     <ContextURL>
-      <OnlineResource xlink:type="simple" xlink:href="DemisWorldMap.xml"/>
+      <OnlineResource xlink:type="simple" xlink:href="../data/context/demisWorldMap.xml"/>
     </ContextURL>
   </ViewContextReference>
   <ViewContextReference version="1.0.0" id="cded">

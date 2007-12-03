@@ -39,6 +39,7 @@
       <widgets>
          <GmlRendererOL id="vectorGraphicsRenderer">
           <targetModel>mainMap</targetModel>
+          <featureSRS>EPSG:4326</featureSRS>
           <sldModel>sld</sldModel>
           <defaultStyleName>Normal</defaultStyleName>
           <selectStyleName>Highlite</selectStyleName>
