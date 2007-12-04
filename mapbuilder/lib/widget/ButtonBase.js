@@ -191,6 +191,8 @@ function ButtonBase(widgetNode, model) {
       deactivate: function() {
         if (this.superclass.deactivate.call(this)) {
           this.panel_div.style.backgroundImage = "url(\""+objRef.disabledImage+"\")";
+          this.map.div.style.cursor = "";
+          this.map.mbCursor = "";
           objRef.enabled = false;
           this.active = false;
           objRef.doSelect(objRef, false)
