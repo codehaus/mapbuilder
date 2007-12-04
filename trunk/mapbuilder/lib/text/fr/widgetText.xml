@@ -79,6 +79,10 @@
       <tooltip>Cliquer pour obtenir plus d'information pour cette couche</tooltip>
     </GetFeatureInfo>
     
+    <GetFeatureInfoWSR>
+      <tooltip>Cliquer pour obtenir plus d'information pour cette couche</tooltip>
+    </GetFeatureInfoWSR>
+    
     <InsertFeature>
       <tooltip>Sauvegarder la(es) géométrie(s) courantes sur le serveur</tooltip>
     </InsertFeature>

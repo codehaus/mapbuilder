@@ -79,6 +79,10 @@
       <tooltip>Klik op de kaart om objecten te identificeren</tooltip>
     </GetFeatureInfo>
     
+    <GetFeatureInfoWSR>
+      <tooltip>Klik op de kaart om objecten te identificeren</tooltip>
+    </GetFeatureInfoWSR>
+    
     <InsertFeature>
       <tooltip>Bewaar de huidige objecten op de server</tooltip>
     </InsertFeature>
