@@ -79,6 +79,10 @@
       <tooltip>Für mehr Information auf ein Feature klicken</tooltip>
     </GetFeatureInfo>
     
+    <GetFeatureInfoWSR>
+      <tooltip>Für mehr Information auf ein Feature klicken</tooltip>
+    </GetFeatureInfoWSR>
+    
     <InsertFeature>
       <tooltip>Aktuelle(s) Feature(s) am Server speichern</tooltip>
     </InsertFeature>
