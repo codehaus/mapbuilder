@@ -79,6 +79,10 @@
       <tooltip>Clicca sull'oggetto per ulteriori informazioni</tooltip>
     </GetFeatureInfo>
     
+    <GetFeatureInfoWSR>
+      <tooltip>Clicca sull'oggetto per ulteriori informazioni</tooltip>
+    </GetFeatureInfoWSR>
+    
     <InsertFeature>
       <tooltip>Salva l'oggetto o gli oggetti correnti</tooltip>
     </InsertFeature>
