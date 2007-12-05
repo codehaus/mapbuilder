@@ -87,7 +87,7 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
     // the lowest layer in the Mapbuilder layers stack.
     if (!objRef.layerNames) {
       for (var i in map.mbMapPane.oLlayers) {
-        var oLlayer = map.mbMapPane.getLayer(map.mbMapPane, objRef.layerNames[i]);
+        var oLlayer = map.mbMapPane.oLlayers[i];
         if (oLlayer) {
           var baseLayer = objRef.getClonedLayer(oLlayer, true);
           options.layers.push(baseLayer);
