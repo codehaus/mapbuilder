@@ -6,6 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
+loadCss('openlayers/style.css');
 mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 mapbuilder.loadScript(baseDir+"/util/Util.js");
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
@@ -21,7 +22,6 @@ mapbuilder.loadScript(baseDir+"/tool/Extent.js");
 function MapPaneOL(widgetNode, model) {
   WidgetBase.apply(this,new Array(widgetNode, model));
 
-  loadCss('openlayers/style.css');
   OpenLayers.ImgPath = config.skinDir + '/images/openlayers/';
   OpenLayers.ProxyHost = config.proxyUrl+"/?url=";
 
