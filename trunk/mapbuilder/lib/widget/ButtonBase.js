@@ -46,8 +46,17 @@ function ButtonBase(widgetNode, model) {
   loadCss('controlPanel.css');
 
   //set the button type
-  this.buttonType = widgetNode.selectSingleNode("mb:class").firstChild.nodeValue;
-  if (this.buttonType == "RadioButton") this.enabled = false;
+  var buttonType = widgetNode.selectSingleNode("mb:class")
+  this.buttonType = buttonType ? getNodeValue(buttonType).toUpperCase() : null;
+  if (this.buttonType == "RADIOBUTTON") this.enabled = false;
+  
+  // map between MB and OL button types
+  this.olButtonType = {
+      "RADIOBUTTON" : OpenLayers.Control.TYPE_TOOL,
+      "TOOL"        : OpenLayers.Control.TYPE_TOOL,
+      "BUTTON"      : OpenLayers.Control.TYPE_BUTTON,
+      "TOGGLE"      : OpenLayers.Control.TYPE_TOGGLE
+  }
 
   //set the button action
   var action = widgetNode.selectSingleNode("mb:action");
@@ -164,8 +173,12 @@ function ButtonBase(widgetNode, model) {
     // override the control from the subclass to add
     // MB-stuff to the activate and deactivate methods
     var SubclassControl = objRef.createControl(objRef);
+    var type = objRef.olButtonType[objRef.buttonType] ||
+        SubclassControl.prototype.type;
+        
     var Control = OpenLayers.Class( SubclassControl, {
       objRef: objRef,
+      type: type,
       superclass: SubclassControl.prototype,
       // call objRef.doSelect after OL activate from this control
       trigger: function() {
