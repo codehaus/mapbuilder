@@ -4,16 +4,11 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
   <models>
-    <Context id="mainMap">
+    <OwsContext id="mainMap">
       <defaultModelUrl>../data/context/google.xml</defaultModelUrl>
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-          <fixedSize>false</fixedSize>
-          <singleTile>false</singleTile>
-          <displayOutsideMaxExtent>true</displayOutsideMaxExtent> 
-          <maxExtent>-20037508 -20037508 20037508 20037508.34</maxExtent>
-          <maxResolution>156543.0339</maxResolution>     
         </MapPaneOL>
        <PanZoomBar id="panZoomBar"/>
       </widgets>
@@ -21,7 +16,7 @@
         <History id="extentHistory"/>
         </tools>
         <nodeSelectXpath>/wmc:ViewContext/wmc:LayerList/wmc:Layer</nodeSelectXpath>
-    </Context>
+    </OwsContext>
   </models>
 
   <widgets>

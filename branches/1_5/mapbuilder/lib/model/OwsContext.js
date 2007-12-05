@@ -382,6 +382,16 @@ function OwsContext(modelNode, parent) {
   }
   this.addFirstListener( "addLayer", this.addLayer, this );
 
+  /**
+   * Method to get the baselayer 
+   * @return the baseLayer
+   * @TODO check for other baselayers
+   */
+   this.getBaseLayer = function() {
+      var baseLayer = this.doc.selectSingleNode("/wmc:OWSContext/wmc:ResourceList/ows:BaseLayer");
+      return baseLayer;
+   }
+   
  /**
    * Method to add a Sld to the StyleList
    * @param layerName the Layer name from another context doc or capabiltiies doc
