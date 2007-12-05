@@ -105,14 +105,14 @@ function Mapbuilder() {
     switch (newState){
       case MB_LOAD_CORE:
       
+        this.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
         this.loadScript(baseDir+"/util/sarissa/Sarissa.js");
-         this.loadScript(baseDir+"/util/sarissa/javeline_xpath.js");
+        this.loadScript(baseDir+"/util/sarissa/javeline_xpath.js");
         this.loadScript(baseDir+"/util/sarissa/javeline_xslt.js");
         this.loadScript(baseDir+"/util/sarissa/sarissa_dhtml.js");
         this.loadScript(baseDir+"/util/sarissa/sarissa_ieemu_xpath.js");
         //this.loadScript(baseDir+"/util/sarissa/sarissa_ieemu_xslt.js");//all deprecated
-        this.loadScript(baseDir+"/util/cscs/lib/cscs.js");
-        this.loadScript(baseDir+"/util/cscs/lib/geocent.js");
+        this.loadScript(baseDir+"/util/proj4js/proj4js-compressed.js");
         this.loadScript(baseDir+"/util/Util.js");
         this.loadScript(baseDir+"/util/Listener.js");
         this.loadScript(baseDir+"/model/ModelBase.js");
@@ -231,6 +231,10 @@ function mapbuilderInit(){
   if(mapbuilder && mapbuilder.loadState==MB_LOADED){
     clearInterval(mbTimerId);
     config.parseConfig(config);
+    if (Proj4js) {
+      Proj4js.libPath = baseDir+"/util/proj4js/";
+      Proj4js.proxyScript = config.proxyUrl+'?url=';
+    }
     config.callListeners("init");
     var mbTimerStop = new Date();
     //alert("load time:"+(mbTimerStop.getTime()-mbTimerStart.getTime()) );

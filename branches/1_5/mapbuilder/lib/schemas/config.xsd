@@ -614,6 +614,11 @@
     <xs:complexContent>
       <xs:extension base="mb:AbstractWidgetBaseType">
         <xs:sequence>
+          <xs:element name="featureSRS" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>SRS of the features to display. If not specified, the map SRS is assumed.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
           <xs:element name="sldModel" type="xs:string" minOccurs="0">
             <xs:annotation>
               <xs:documentation>id of a StyledLayerDescriptor model that holds sld styles for the features to render.</xs:documentation>
