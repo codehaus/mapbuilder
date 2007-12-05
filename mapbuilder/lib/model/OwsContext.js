@@ -349,6 +349,22 @@ function OwsContext(modelNode, parent) {
   }
 
   /**
+   * Method to get a layer id with the specified id/name in the context doc
+   * @param layerName the name of the layer of which the id is to be returned
+   * @return the id of the layer || false
+   */
+  this.getLayerIdByName = function(layerName) {
+    var layer = this.getLayer(layerName);
+    var id;
+    if (layer) {
+      id = layer.getAttribute("id");
+    }
+
+    return id || false;
+  }
+
+
+  /**
    * Method to add a Layer to the LayerList
    * @param layerNode the Layer node from another context doc or capabiltiies doc
    */
