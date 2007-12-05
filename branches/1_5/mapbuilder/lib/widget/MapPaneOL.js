@@ -549,15 +549,19 @@ MapPaneOL.prototype.hidden = function(objRef, layerId) {
   var  tmpLayer=objRef.getLayer(objRef,layerId)
   if(tmpLayer)tmpLayer.setVisibility(hidden);
 }
-//###################################################TDO
+
 /**
-  * returns layer node from LayerMgr
-//###################################################TDO
-/**
-  * returns layer node from LayerMgr
-  * @param layerId The layer Id.
+  * Returns OL layer node from LayerMgr
+  * @param layerId The layer Id (or layerName)
   */
 MapPaneOL.prototype.getLayer = function(objRef,layerId) {
+
+  // If layer cannot be found then layerId might actually be layerName
+  // We then try to fetch the @id of the layer from the model
+  if (!objRef.oLlayers[layerId]) {
+    layerId = objRef.model.getLayerIdByName(layerId) || layerId;
+  }
+
   if(objRef.oLlayers[layerId] && objRef.oLlayers[layerId].id) {
     return objRef.model.map.getLayer(objRef.oLlayers[layerId].id);
   } else {

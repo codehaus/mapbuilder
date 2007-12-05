@@ -87,22 +87,23 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
     // the lowest layer in the Mapbuilder layers stack.
     if (!objRef.layerNames) {
       for (var i in map.mbMapPane.oLlayers) {
-        var baseLayer = objRef.getClonedLayer(map.mbMapPane.oLlayers[i], true)
-        options.layers.push(baseLayer);
-        break;
+        var oLlayer = map.mbMapPane.oLlayers[i];
+        if (oLlayer) {
+          var baseLayer = objRef.getClonedLayer(oLlayer, true);
+          options.layers.push(baseLayer);
+          break;
+        } 
       }
     }
 
     // Check for specifically requested layers
     var isBaseLayer = true;
     if (objRef.layerNames) {
-       for (var i = 0; i < objRef.layerNames.length; i++) {
-        for (var j in map.mbMapPane.oLlayers) {
-          if (objRef.layerNames[i] == j) {
-            // Found it, add a clone to the layer stack
-            options.layers.push(objRef.getClonedLayer(map.mbMapPane.oLlayers[j], isBaseLayer));
-            isBaseLayer = false;
-          }
+      for (var i = 0; i < objRef.layerNames.length; i++) {
+        var oLlayer = map.mbMapPane.getLayer(map.mbMapPane, objRef.layerNames[i]);
+        if (oLlayer) {
+          options.layers.push(objRef.getClonedLayer(oLlayer, isBaseLayer));
+          isBaseLayer = false;
         }
       }
     }
