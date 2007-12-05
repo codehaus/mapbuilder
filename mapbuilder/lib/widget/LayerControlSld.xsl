@@ -166,25 +166,28 @@ $Name:  $
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
-    <!-- varibale -->
+
+  <!-- Use unique layer id. Fallback to layer name if non-existent -->
+	<xsl:variable name="layerId">
+    <xsl:choose>
+      <xsl:when test="@id">
+        <xsl:value-of select="@id"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$layerName"/>
+      </xsl:otherwise>
+    </xsl:choose>
+	</xsl:variable>
+
+    <!-- variable -->
     <xsl:variable name="rowClass">altRow_<xsl:value-of select="position() mod 2"/></xsl:variable>
-    <xsl:variable name="name_layer">
-		<xsl:choose>
-          <xsl:when test="wmc:Title/@xml:lang">              
-            <xsl:value-of select="wmc:Title[@xml:lang=$lang]"/>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:value-of select="wmc:Title"/>
-          </xsl:otherwise>
-         </xsl:choose>
-     </xsl:variable>
      <!-- end of variable -->
      
      
-     <div id="{$layerName}_Row" class="{$rowClass}" onmouseover="config.objects.{$widgetId}.highlightLayer('{$layerName}')">
+     <div id="{$widgetId}_{$layerId}_Row" class="{$rowClass}" onmouseover="config.objects.{$widgetId}.highlightLayer('{$layerId}')">
 					<!-- div necessary with IE 6 because if not, float makes bugs when display or fold legend -->
 				<div style="position:relative;">
-					<div id="{$layerName}_Header " class="LayerHeader">
+					<div id="{$widgetId}_{$layerId}_Header " class="LayerHeader">
 			
 						  <!-- layer's index --> 
 						  <div class="indexLayerHeader" title="{$layerIndexTip}">
@@ -194,29 +197,29 @@ $Name:  $
 						  <div class="inputLayerHeader">
 								<!-- checkbox -->
 								  <div class="checkboxLayerHeader">
-									  <input type="checkbox" id="vis_{$layerName}" title="{$toggleVisTip}" onclick="{$context}.setHidden('{$layerName}',!document.getElementById('vis_{$layerName}').checked)">
+									  <input type="checkbox" id="vis_{$widgetId}_{$layerId}" title="{$toggleVisTip}" onclick="{$context}.setHidden('{$layerId}',!document.getElementById('vis_{$widgetId}_{$layerId}').checked)">
 									      <xsl:if test="@hidden='0'"><xsl:attribute name="checked"/></xsl:if>
 									  </input>
 								  </div>
 								  
 								  <!-- sld --> 
 								  <div class="buttonLayerHeader">
-										      <a href="javascript:config.objects.mySLD.setParam('SLDChange','{$layerName}');" class="mbButton">
+										      <a href="javascript:config.objects.mySLD.setParam('SLDChange','{$layerId}');" class="mbButton">
 											      <img title="{$sldTip}" src="{$skinDir}{$sldEditorImage}" style="width:23px;height:23px"/>
 										      </a>
 								  </div>
 								  <!-- movelayerup--> 
 								  <xsl:if test="($numLayers - count(preceding::wmc:Layer))!=1">  
 										  <div class="buttonLayerHeader">
-										      <a href="javascript:{$context}.setParam('moveLayerUp','{$layerName}')" class="mbButton">
+										      <a href="javascript:{$context}.setParam('moveLayerUp','{$layerId}')" class="mbButton">
 											      <img title="{$moveLayerUpTip}" src="{$skinDir}{$moveUpImage}" />
 										      </a>
 										  </div>
 								   </xsl:if>
-								   <!-- movelayerdonw -->
+								   <!-- movelayerdown -->
 								   <xsl:if test="($numLayers - count(preceding::wmc:Layer)) != $numLayers">
 										  <div class="buttonLayerHeader">
-										      <a href="javascript:{$context}.setParam('moveLayerDown','{$layerName}')" class="mbButton">
+										      <a href="javascript:{$context}.setParam('moveLayerDown','{$layerId}')" class="mbButton">
 											      <img title="{$moveLayerDownTip}" src="{$skinDir}{$moveDownImage}" />
 										      </a>
 										  </div>
@@ -224,7 +227,7 @@ $Name:  $
 								   <!-- deletelayer -->
 								   <!-- MDWEB -->
 								  <div class="buttonLayerHeader">
-								      <a href="javascript:{$context}.setParam('deleteLayer','{$layerName}')" class="mbButton">
+								      <a href="javascript:{$context}.setParam('deleteLayer','{$layerId}')" class="mbButton">
 										<img title="{$deleteLayerTip}" src="{$skinDir}{$deleteImage}" />
 									   </a>
 									  </div>
@@ -232,10 +235,10 @@ $Name:  $
 								   <xsl:if test="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL"> 
 									   <div class="buttonLayerHeader"  > 
 											<a 
-											href="javascript:config.objects.{$widgetId}.switchVisibilityById('{$name_layer}_legend');config.objects.{$widgetId}.ChangeImage('image_{$name_layer}','{$legendImageEnable}','{$legendImageDisable}');"
+											href="javascript:config.objects.{$widgetId}.switchVisibilityById('{$layerId}_legend');config.objects.{$widgetId}.ChangeImage('image_{$layerId}','{$legendImageEnable}','{$legendImageDisable}');"
 											 class="mbButton">
 											 	
-												    <img id="image_{$name_layer}" title="{$legendTip}" >
+												    <img id="image_{$layerId}" title="{$legendTip}" >
 														<xsl:attribute name="SRC">
 															<xsl:choose>
 																<xsl:when test="@hidden='1'">
@@ -254,7 +257,7 @@ $Name:  $
 									 </xsl:if>
 							</div> <!-- end inputLayerHeader --> 	 
 						    <!-- name of layer --> 
-						    <div class="nameLayerHeader" title="{$nameLayerTip}" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerName}')" >
+						    <div class="nameLayerHeader" title="{$nameLayerTip}" onclick="config.objects.{$widgetId}.showLayerMetadata('{$layerId}')" >
 							    <xsl:choose>
 							       <xsl:when test="wmc:Title/@xml:lang">              
 								       <xsl:value-of select="wmc:Title[@xml:lang=$lang]"/>
@@ -268,7 +271,7 @@ $Name:  $
 					        <xsl:if test="$opacity='true'"> 
 								<div id="transptitle" class="transpLayerHeader" >
 										<form title="{$opacityTip}" >
-											<select name="opacity" onchange="config.objects.{$modelId}.setOpacity('{$layerName}',value)">
+											<select name="opacity" onchange="config.objects.{$modelId}.setOpacity('{$layerId}',value)">
 													<xsl:if test="@opacity">
 														<option value="@opacity">
 														<xsl:value-of select="@opacity"/></option>
@@ -283,13 +286,13 @@ $Name:  $
 										</form>
 								 </div>
 					         </xsl:if>
-					</div> <!--end of {$layerName}_Header -->	
+					</div> <!--end of {$layerId}_Header -->	
 				</div>	<!--end of hack ie 5.5 -->	
 				<!-- legend -->
 			    <xsl:if test="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL"> 
 			    			
 			    				
-							<div class="legend" id="{$name_layer}_legend" >
+							<div class="legend" id="{$layerId}_legend" >
 								<xsl:attribute name="style">
 									<xsl:choose>
 										<xsl:when test="@hidden='1'">display:none </xsl:when>
@@ -303,7 +306,7 @@ $Name:  $
 								</xsl:element>
 							</div>
 				</xsl:if>		 
-    </div> <!--end of "{$layerName}" --> 
+    </div> <!--end of "{$layerId}" --> 
 </xsl:template>
 <xsl:template match="text()|@*"/>
 </xsl:stylesheet>
