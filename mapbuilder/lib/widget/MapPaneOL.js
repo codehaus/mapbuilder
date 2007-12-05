@@ -22,7 +22,6 @@ mapbuilder.loadScript(baseDir+"/tool/Extent.js");
 function MapPaneOL(widgetNode, model) {
   WidgetBase.apply(this,new Array(widgetNode, model));
 
-  loadCss('openlayers/style.css');
   OpenLayers.ImgPath = config.skinDir + '/images/openlayers/';
   OpenLayers.ProxyHost = config.proxyUrl+"/?url=";
   
