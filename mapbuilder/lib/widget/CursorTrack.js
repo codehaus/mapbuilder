@@ -7,7 +7,6 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
-mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
 /**
  * Widget to display the mouse coordinates when it is over a MapContainer widget.
@@ -70,8 +69,7 @@ function CursorTrack(widgetNode, model) {
    * @param objRef Pointer to this CursorTrack object.
    */
   this.init = function(objRef) {
-    objRef.proj = new Proj( objRef.model.getSRS() );
-    objRef.epsg4326 = new CS(csList.EPSG4326);
+    objRef.proj = new Proj4js.Proj( objRef.model.getSRS() );
 
     objRef.model.map.events.register('mousemove', objRef, objRef.mousemoveHandler);
     objRef.model.map.events.register('mouseout',  objRef, objRef.mouseoutHandler);
@@ -101,8 +99,8 @@ function CursorTrack(widgetNode, model) {
     var evXY = this.model.map.getLonLatFromPixel(evt.xy);
 
     ///CSCS
-    var pt=new PT(evXY.lon, evXY.lat)
-    cs_transform(this.proj, this.epsg4326, pt);
+    var pt=new Proj4js.Point(evXY.lon, evXY.lat)
+    Proj4js.transform(this.proj, Proj4js.WGS84, pt);
     var evLonLat = new OpenLayers.LonLat(pt.x,pt.y);
 
 

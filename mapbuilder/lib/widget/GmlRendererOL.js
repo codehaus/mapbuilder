@@ -33,6 +33,7 @@ function GmlRendererOL(widgetNode, model) {
       if (!this.loaded) {
         var gml = new OpenLayers.Format.GML();
         try {
+          this.proj = new Proj4js.Proj(this.projection);
           this.addFeatures(gml.read(this.mbWidget.renderDoc));
           this.loaded = true;
         } catch (e) {
@@ -55,6 +56,13 @@ function GmlRendererOL(widgetNode, model) {
           widgetConfig = config.objects[sourceModel].config[this.mbWidget.id];
         } else {
           widgetConfig = this.mbWidget.config;
+        }
+        if (!widgetConfig.sourceSRS) {
+          if (widgetConfig.featureSRS) {
+            widgetConfig.sourceSRS = new Proj4js.Proj(widgetConfig.featureSRS);
+          } else {
+            widgetConfig.sourceSRS = null;
+          }
         }
         // set styles before rendering the feature
         if (widgetConfig.defaultStyle) {
@@ -80,6 +88,20 @@ function GmlRendererOL(widgetNode, model) {
             feature.mbSelectStyle = widgetConfig.selectStyle.polygon;
           }
         }
+        //in the future this will be handled internally to OpenLayers
+        if (widgetConfig.sourceSRS) {
+          this.convertPoints(feature.geometry, widgetConfig.sourceSRS);
+        }  
+      }
+    },
+    
+    convertPoints: function(component, sourceSRS) {
+      if (component.CLASS_NAME == 'OpenLayers.Geometry.Point') {
+        component = Proj4js.transform(sourceSRS, this.proj, component);
+      } else {
+        for (var i=0; i<component.components.length; ++i) {
+          this.convertPoints(component.components[i], sourceSRS);
+        }
       }
     },
     
@@ -103,6 +125,9 @@ function GmlRendererOL(widgetNode, model) {
      * helps to cleanly destroy the features, preventing memleaks.
      */
     destroyFeatures: function() {
+      if (!this.features) {
+        return;
+      }
       features = this.features;
       for (var i = features.length - 1; i >= 0; i--) {
         var feature = features[i];

@@ -5,7 +5,6 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/model/ModelBase.js");
-mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
 /**
  * Stores an OWS Context document as defined by the OGC interoperability
@@ -142,7 +141,7 @@ function OwsContext(modelNode, parent) {
    * @return Proj Object of  The Spatial Reference System.
    */
   this.initProj=function(objRef) {
-    objRef.proj=new Proj(objRef.getSRS());
+    objRef.proj=new Proj4js.Proj(objRef.getSRS());
   }
   this.addFirstListener( "loadModel", this.initProj, this );
 
