@@ -99,14 +99,14 @@
         </ZoomToAoi>
       </tools>
     </Context>
-    <ContextCollection id="collectionGroup">
+    <Model id="collectionGroup">
       <defaultModelUrl>../data/context/demoCollection.xml</defaultModelUrl>
       <widgets>
         <CollectionList id="collectionList">
           <targetModel>mainMap</targetModel>
         </CollectionList>
       </widgets>
-    </ContextCollection>
+    </Model>
     <Model id="locations">
       <defaultModelUrl>../data/locations/Global.xml</defaultModelUrl>
       <widgets>
