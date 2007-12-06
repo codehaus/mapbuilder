@@ -200,11 +200,12 @@ WebServiceRequest.prototype.clear = function(objRef) {
 }
 
 /**
- * Listener function which will actually issue the request.  This method
- * will prepare the HTTP payload for a particular featureName.
+ * Listener function that will clear the templates and set the mouse
+ * positions when the user clicks on the map.
  * @param e OpenLayers event
  */
 WebServiceRequest.prototype.setClickPosition = function(e) {
+  this.targetModel.deleteTemplates();
   this.requestStylesheet.setParameter("xCoord", e.xy.x);
   this.requestStylesheet.setParameter("yCoord", e.xy.y);
 }
