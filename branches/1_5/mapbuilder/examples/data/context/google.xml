@@ -16,7 +16,7 @@
       <ows:UpperCorner>20037508 20037508.34</ows:UpperCorner>
     </ows:BoundingBox>
     <Title>OWS context with Google</Title>
-    <Abstract> The OpenGIS Web Services Context Document with google baselayer (mapbuilder only ATM)</Abstract>
+    <Abstract> The OGC Web Services Context Document with google baselayer (mapbuilder only ATM)</Abstract>
   </General>
   <ResourceList>
     <ows:BaseLayer>

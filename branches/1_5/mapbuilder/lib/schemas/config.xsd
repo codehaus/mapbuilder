@@ -167,7 +167,7 @@
           </xs:element>
           <xs:element name="class" type="xs:string" minOccurs="0">
             <xs:annotation>
-              <xs:documentation>specifies the type of button.  Permitted values include "Button" and "RadioButton".  A Button class will execute it's action immediately when pressed.  A "RadioButton" has enabled and disabled state and only one button in a buttonBar group can be enabled at any one time.</xs:documentation>
+              <xs:documentation>specifies the type of button.  Permitted values include "Button", "Toggle" and "RadioButton".  A Button class will execute it's action immediately when pressed.  A "Toggle" will be enabled when clicked, and disabled when clicked again, without affecting other buttons. A "RadioButton" has enabled and disabled state and only one button in a buttonBar group can be enabled at any one time.</xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element name="selected" type="xs:boolean" minOccurs="0">
@@ -1243,9 +1243,14 @@
           <xs:element name="stylesheet" type="xs:string" minOccurs="0"/>
           <xs:element name="requestName" type="xs:string"/>
           <xs:element name="requestFilter" type="xs:string" minOccurs="0"/>
+          <xs:element name="maxFeatures" type="xs:integer" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>MAXFEATURES parameter, e.g. for WFS GetFeature. Defaults to 500.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
           <xs:element name="infoFormat" type="xs:string" minOccurs="0">
             <xs:annotation>
-              <xs:documentation>INFO_FORMAT parameter, eg. for WMS GetFeatureInfo</xs:documentation>
+              <xs:documentation>INFO_FORMAT parameter, e.g. for WMS GetFeatureInfo</xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element name="featureCount" type="xs:integer" minOccurs="0">
