@@ -36,6 +36,7 @@
         <WebServiceRequest id="featureInfoController">
           <targetModel>featureInfoResponse</targetModel>
           <requestName>wms:GetFeatureInfo</requestName>
+          <infoFormat>application/vnd.ogc.gml</infoFormat>
           <featureCount>1</featureCount>
         </WebServiceRequest>
       </tools>
@@ -193,14 +194,14 @@
       <enabledSrc>/images/PanEnable.png</enabledSrc>
       <disabledSrc>/images/PanDisable.png</disabledSrc>
     </DragPan>
-    <GetFeatureInfo id="getFeatureInfo">
+    <GetFeatureInfoWSR id="getFeatureInfo">
       <buttonBar>mainButtonBar</buttonBar>
-      <targetModel>featureInfoResponse</targetModel>
-      <targetContext>mainMap</targetContext>
+      <targetModel>mainMap</targetModel>
       <class>RadioButton</class>
       <enabledSrc>/images/QueryEnable.png</enabledSrc>
       <disabledSrc>/images/QueryDisable.png</disabledSrc>
-    </GetFeatureInfo>
+      <controller>featureInfoController</controller>
+    </GetFeatureInfoWSR>
     <Reset id="reset">
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
