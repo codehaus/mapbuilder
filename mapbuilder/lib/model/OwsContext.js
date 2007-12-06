@@ -505,7 +505,7 @@ function OwsContext(modelNode, parent) {
    */
   this.setOpacity=function(layerId, Opacity){
     // Set the hidden attribute in the Context
-    var layer = this.doc.getLayer(layerId);
+    var layer = this.getLayer(layerId);
     if (layer) layer.setAttribute("opacity", Opacity);
     // Call the listeners
     this.callListeners("opacity", layerId);
@@ -518,7 +518,7 @@ function OwsContext(modelNode, parent) {
    */
   this.getOpacity=function(layerId){
     var opacity=1;
-    var layer = this.doc.getLayer(layerId);
+    var layer = this.getLayer(layerId);
     if (layer) opacity = layer.getAttribute("opacity");
     return opacity;
   }
