@@ -77,7 +77,7 @@
       <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
       <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
       </Server>
-      <Name>Builtup+areas,Railroads,Highways,Roads,Trails,Borders,Cities,Settlements,Airports</Name>
+      <Name>Builtup%20areas,Railroads,Highways,Roads,Trails,Borders,Cities,Settlements,Airports</Name>
       <Title>Man-made features</Title>
       <SRS>EPSG:4326</SRS>
       <FormatList>
@@ -90,7 +90,7 @@
         </Style>
       </StyleList>
     </Layer>
-    <Layer queryable="1" hidden="0">
+    <Layer queryable="0" hidden="0">
       <Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
       <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=WorldMap"/>
       </Server>
