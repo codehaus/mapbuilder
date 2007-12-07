@@ -1082,6 +1082,11 @@
         <xs:sequence>
           <xs:element name="requestStylesheet" type="mb:urlPathType" minOccurs="0"/>
           <xs:element name="webServiceUrl" type="xs:anyURI" minOccurs="0"/>
+          <xs:element name="parseHTMLNodes" type="xs:boolean" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>if true, HTML entities (like found in RSS feeds) will be parsed and converted to HTML, instead of showing HTML source code.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
