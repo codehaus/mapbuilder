@@ -38,6 +38,11 @@ function WidgetBaseXSL(widgetNode,model) {
     }
   }
 
+  // Do we allow to parse HTML nodes?
+  var parseHTMLNodes = widgetNode.selectSingleNode("mb:parseHTMLNodes");
+  this.parseHTMLNodes = parseHTMLNodes ? getNodeValue(parseHTMLNodes) : false;
+  this.parseHTMLNodes = (this.parseHTMLNodes && this.parseHTMLNodes.toLowerCase() == "true") ? true : false;
+
   // Set widget text values as parameters 
   if (config.widgetText) {
     var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName;
@@ -96,17 +101,18 @@ function WidgetBaseXSL(widgetNode,model) {
       var s = objRef.stylesheet.transformNodeToString(objRef.resultDoc);
       if (config.serializeUrl && objRef.debug) postLoad(config.serializeUrl, s);
       if (objRef.debug) mbDebugMessage(objRef, "painting:"+objRef.id+":"+s);
-      tempNode.innerHTML = s;
+      tempNode.innerHTML = objRef.parseHTMLNodes ?
+          s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&") : s;
       if( tempNode.firstChild != null ) { //Could be null!
         tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
 
-	    //look for this widgets output and replace if found,
-	    //otherwise append it
-	    if (outputNode) {
-	      objRef.getNode().replaceChild(tempNode.firstChild,outputNode);
-	    } else {
-	      objRef.getNode().appendChild(tempNode.firstChild);
-	    }
+  	    //look for this widgets output and replace if found,
+  	    //otherwise append it
+  	    if (outputNode) {
+  	      objRef.getNode().replaceChild(tempNode.firstChild,outputNode);
+  	    } else {
+  	      objRef.getNode().appendChild(tempNode.firstChild);
+  	    }
       }
       objRef.postPaint(objRef);
     }
