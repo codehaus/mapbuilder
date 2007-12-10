@@ -105,7 +105,28 @@ function MovieLoop(toolNode, model) {
     objRef.setFrame(objRef.model.getParam("firstFrame"));
   }
   this.model.addListener("loadModel",this.reset,this);
-  this.model.addListener("bbox",this.reset,this);
+  
+  /**
+   * initialize the movie loop. This only happens at the first bbox event,
+   * which shows us that the map is loaded.
+   */
+  this.init = function(objRef) {
+    //TBD: this is an ugly workaround because we do not have an event that
+    // tells us when the OL map finished loading. 
+    if (!objRef.initialized) {
+      objRef.initialized = true;
+      objRef.reset(objRef);
+    }
+  }
+  this.model.addListener("bbox", this.init, this);
+  
+  /**
+   * set the initialized state of the movie loop to false
+   */
+  this.uninit = function(objRef) {
+    objRef.initialized = false;
+  }
+  this.model.addListener("newModel", this.uninit, this);
 
   /**
    * Starts the movie loop playing by using a JavaScript timer.
