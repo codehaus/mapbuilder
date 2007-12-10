@@ -980,10 +980,64 @@ Proj4js.Datum = {
   "hermannskogel": {towgs84: "653.0,-212.0,449.0", ellipse: "bessel", datumName: "Hermannskogel"},
   "ire65": {towgs84: "482.530,-130.596,564.557,-1.042,-0.214,-0.631,8.15", ellipse: "mod_airy", datumName: "Ireland 1965"},
   "nzgd49": {towgs84: "59.47,-5.04,187.44,0.47,-0.1,1.024,-4.5993", ellipse: "intl", datumName: "New Zealand Geodetic Datum 1949"},
-  "OSGB36": {towgs84: "446.448,-125.157,542.060,0.1502,0.2470,0.8421,-20.4894", ellipse: "airy", datumName: "Airy 1830"},
+  "OSGB36": {towgs84: "446.448,-125.157,542.060,0.1502,0.2470,0.8421,-20.4894", ellipse: "airy", datumName: "Airy 1830"}
 };
 
 Proj4js.WGS84 = new Proj4js.Proj('WGS84');
+/* ======================================================================
+    projCode/sterea.js
+   ====================================================================== */
+
+
+Proj4js.Proj.sterea = {
+  dependsOn : 'gauss',
+
+  init : function() {
+    Proj4js.Proj['gauss'].init.apply(this);
+    if (!this.rc) {
+      Proj4js.reportError("sterea:init:E_ERROR_0");
+      return;
+    }
+    this.sinc0 = Math.sin(this.phic0);
+    this.cosc0 = Math.cos(this.phic0);
+    this.R2 = 2.0 * this.rc;
+    if (!this.title) this.title = "Oblique Stereographic Alternative";
+  },
+
+  forward : function(p) {
+    Proj4js.Proj['gauss'].forward.apply(this, [p]);
+    sinc = Math.sin(p.y);
+    cosc = Math.cos(p.y);
+    cosl = Math.cos(p.x);
+    k = this.k0 * this.R2 / (1.0 + this.sinc0 * sinc + this.cosc0 * cosc * cosl);
+    p.x = k * cosc * Math.sin(p.x);
+    p.y = k * (this.cosc0 * sinc - this.sinc0 * cosc * cosl);
+    p.x = this.a * p.x + this.x0;
+    p.y = this.a * p.y + this.y0;
+    return p;
+  },
+
+  inverse : function(p) {
+    p.x = (p.x - this.x0) * this.a; /* descale and de-offset */
+    p.y = (p.y - this.y0) * this.a;
+
+    p.x /= this.k0;
+    p.y /= this.k0;
+    if ( (rho = Math.sqrt(p.x*p.x + p.y*p.y)) ) {
+      c = 2.0 * Math.atan2(rho, this.R2);
+      sinc = Math.sin(c);
+      cosc = Math.cos(c);
+      p.y = Math.asin(cosc * this.sinc0 + p.y * sinc * this.cosc0 / rho);
+      p.x = Math.atan2(p.x * sinc, rho * this.cosc0 * cosc - p.y * this.sinc0 * sinc);
+    } else {
+      p.y = this.phic0;
+      p.x = 0.;
+    }
+    Proj4js.Proj['gauss'].inverse.apply(this,[p]);
+    return p;
+  }
+};
+
 /* ======================================================================
     projCode/aea.js
    ====================================================================== */
@@ -1133,60 +1187,6 @@ Proj4js.Proj.aea = {
 };
 
 
-
-/* ======================================================================
-    projCode/sterea.js
-   ====================================================================== */
-
-
-Proj4js.Proj.sterea = {
-  dependsOn : 'gauss',
-
-  init : function() {
-    Proj4js.Proj['gauss'].init.apply(this);
-    if (!this.rc) {
-      Proj4js.reportError("sterea:init:E_ERROR_0");
-      return;
-    }
-    this.sinc0 = Math.sin(this.phic0);
-    this.cosc0 = Math.cos(this.phic0);
-    this.R2 = 2.0 * this.rc;
-    if (!this.title) this.title = "Oblique Stereographic Alternative";
-  },
-
-  forward : function(p) {
-    Proj4js.Proj['gauss'].forward.apply(this, [p]);
-    sinc = Math.sin(p.y);
-    cosc = Math.cos(p.y);
-    cosl = Math.cos(p.x);
-    k = this.k0 * this.R2 / (1.0 + this.sinc0 * sinc + this.cosc0 * cosc * cosl);
-    p.x = k * cosc * Math.sin(p.x);
-    p.y = k * (this.cosc0 * sinc - this.sinc0 * cosc * cosl);
-    p.x = this.a * p.x + this.x0;
-    p.y = this.a * p.y + this.y0;
-    return p;
-  },
-
-  inverse : function(p) {
-    p.x = (p.x - this.x0) * this.a; /* descale and de-offset */
-    p.y = (p.y - this.y0) * this.a;
-
-    p.x /= this.k0;
-    p.y /= this.k0;
-    if ( (rho = Math.sqrt(p.x*p.x + p.y*p.y)) ) {
-      c = 2.0 * Math.atan2(rho, this.R2);
-      sinc = Math.sin(c);
-      cosc = Math.cos(c);
-      p.y = Math.asin(cosc * this.sinc0 + p.y * sinc * this.cosc0 / rho);
-      p.x = Math.atan2(p.x * sinc, rho * this.cosc0 * cosc - p.y * this.sinc0 * sinc);
-    } else {
-      p.y = this.phic0;
-      p.x = 0.;
-    }
-    Proj4js.Proj['gauss'].inverse.apply(this,[p]);
-    return p;
-  }
-};
 
 /* ======================================================================
     projCode/poly.js
