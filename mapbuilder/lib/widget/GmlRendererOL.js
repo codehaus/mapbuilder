@@ -128,7 +128,7 @@ function GmlRendererOL(widgetNode, model) {
       if (!this.features) {
         return;
       }
-      features = this.features;
+      var features = this.features;
       for (var i = features.length - 1; i >= 0; i--) {
         var feature = features[i];
 
