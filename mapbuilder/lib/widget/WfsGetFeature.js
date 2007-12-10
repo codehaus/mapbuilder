@@ -85,9 +85,15 @@ function WfsGetFeature(widgetNode, model) {
         else {
           typeName = "";
           for (var i=0; i<queryList.length; ++i) {
-            var layerNode=queryList[i];
-            var layerName=layerNode.firstChild.data;
-            var hidden = objRef.targetModel.getHidden(layerName);
+            var layerNode = queryList[i];
+            
+            // Get the name of the layer
+            var layerName = layerNode.selectSingleNode("wmc:Name");layerName=(layerName)?layerName.firstChild.nodeValue:"";
+
+            // Get the layerId. Fallback to layerName if non-existent
+            var layerId = layerNode.getAttribute("id") || layerName;
+
+            var hidden = objRef.targetModel.getHidden(layerId);
             if (hidden == 0) { //query only visible layers
               if (typeName != "") {
                 typeName += ",";
