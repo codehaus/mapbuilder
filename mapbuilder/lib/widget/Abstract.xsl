@@ -25,12 +25,8 @@ Abstract.xsl,v 1.5 2004/06/25 17:59:38 madair1 Exp
   
   <!-- Main html -->
   <xsl:template match="wmc:General">
-    <xsl:param name="metadataUrl">
-      <xsl:value-of select="wmc:DescriptionURL/wmc:OnlineResource/@xlink:href"/>
-    </xsl:param>
-    <xsl:param name="logoUrl">
-      <xsl:value-of select="wmc:LogoURL/wmc:OnlineResource/@xlink:href"/>
-    </xsl:param>
+    <xsl:param name="metadataUrl" select="wmc:DescriptionURL/wmc:OnlineResource/@xlink:href"/>
+    <xsl:param name="logoUrl" select="wmc:LogoURL/wmc:OnlineResource/@xlink:href"/>
     <div>
       <h3><xsl:value-of select="$abstract"/></h3>
       <xsl:if test="$logoUrl">
