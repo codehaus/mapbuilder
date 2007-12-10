@@ -7,7 +7,6 @@ $Id$
 
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
-mapbuilder.loadScript(baseDir+"/model/Proj.js");
 
 /**
  * Widget to display the AOI box coordinates in a form.
