@@ -805,6 +805,7 @@
           <xs:element name="loadingSrc" type="mb:urlPathType" minOccurs="0"/>
           <xs:element name="maxExtent" type="xs:string" minOccurs="0"/>
           <xs:element name="maxResolution" type="xs:double" minOccurs="0"/>
+          <xs:element name="minResolution" type="xs:double" minOccurs="0"/>
           <xs:element name="resolutions" type="xs:string" minOccurs="0">
             <xs:annotation>
               <xs:documentation>Set a list of fixed resolutions for OL manually.</xs:documentation>
