@@ -169,6 +169,11 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");
   maxResolution=(maxResolution) ? parseFloat(maxResolution.firstChild.nodeValue) : "auto";
 
+  //minResolution
+  var minResolution=null;
+  minResolution=objRef.widgetNode.selectSingleNode("mb:minResolution");
+  minResolution=(minResolution) ? parseFloat(minResolution.firstChild.nodeValue) : undefined;
+  
   //units
   var units = proj.units == 'meters' ? 'm' : proj.units;
   
@@ -212,6 +217,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
         units: units,
         maxExtent: maxExtent,
         maxResolution: maxResolution,
+        minResolution: minResolution,
         resolutions: resolutions,
         theme: null, // we have the theme loaded by Mapbuilder
         destroy: function(destroy){
@@ -393,6 +399,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
               projection: proj.srsCode,
               maxExtent: maxExtent,
               maxResolution: maxResolution,  //"auto" if not defined in the context
+              minResolution: minResolution,
               resolutions: resolutions,
               alpha: false,            //option for png transparency with ie6
               isBaseLayer: true,
@@ -713,6 +720,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
           queryable: query,
           maxExtent: objRef.model.map.baseLayer.maxExtent,
           maxResolution: objRef.model.map.baseLayer.maxResolution,  //"auto" if not defined in the context
+          minResolution: objRef.model.map.baseLayer.minResolution,  //"auto" if not defined in the context
           alpha: false,            //option for png transparency with ie6
           isBaseLayer: false,
           displayOutsideMaxExtent: objRef.displayOutsideMaxExtent
