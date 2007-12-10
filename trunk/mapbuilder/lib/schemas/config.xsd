@@ -137,6 +137,11 @@
               <xs:documentation>this property specifies a relative or absolute URL to a stylesheet that can replace the default stylesheet.  The stylesheet must be served from the same domain as the mapbuilder application.  Optional, if missing a default stylesheet will be used (in the lib/widget directory with the same name as the widget)</xs:documentation>
             </xs:annotation>
           </xs:element>
+          <xs:element name="parseHTMLNodes" type="xs:boolean" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>if true, HTML entities (like found in RSS feeds) will be parsed and converted to HTML, instead of showing HTML source code.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1083,11 +1088,6 @@
         <xs:sequence>
           <xs:element name="requestStylesheet" type="mb:urlPathType" minOccurs="0"/>
           <xs:element name="webServiceUrl" type="xs:anyURI" minOccurs="0"/>
-          <xs:element name="parseHTMLNodes" type="xs:boolean" minOccurs="0">
-            <xs:annotation>
-              <xs:documentation>if true, HTML entities (like found in RSS feeds) will be parsed and converted to HTML, instead of showing HTML source code.</xs:documentation>
-            </xs:annotation>
-          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
