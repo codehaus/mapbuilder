@@ -63,22 +63,28 @@ function GetFeatureInfoWSR(widgetNode, model) {
     if (!objRef.enabled) return;
     var layerNameList = new Array();
     var selectedLayer=objRef.targetModel.getParam("selectedLayer");
+
+    var queryList;
     if (selectedLayer==null) {
-      var queryList = objRef.targetModel.getQueryableLayers();
+      queryList = objRef.targetModel.getQueryableLayers();
       if (queryList.length==0) {
          alert(mbGetMessage("noQueryableLayers"));
          return;
-      } else {
-        for (var i=0; i<queryList.length; ++i) {
-          layerNameList[i] = queryList[i].firstChild.nodeValue;   //convert to the layer names
-        }
-      }
+      } 
     } else {
-      layerNameList[0]= selectedLayer;
+      queryList = [objRef.targetModel.getLayer(selectedLayer)];
     }
-    for (var i=0; i<layerNameList.length; ++i) {
-      var layerName = layerNameList[i];
-      var hidden = objRef.targetModel.getHidden(layerName);
+
+    for (var i=0; i<queryList.length; ++i) {
+      var layerNode = queryList[i];
+      
+      // Get the name of the layer
+      var layerName = layerNode.selectSingleNode("wmc:Name");layerName=(layerName)?layerName.firstChild.nodeValue:"";
+
+      // Get the layerId. Fallback to layerName if non-existent
+      var layerId = layerNode.getAttribute("id") || layerName;
+
+      var hidden = objRef.targetModel.getHidden(layerId);
       if (hidden == 0) { //query only visible layers
         controller.requestStylesheet.setParameter("queryLayer", layerName);
         objRef.targetModel.setParam("wms_GetFeatureInfo", layerName);

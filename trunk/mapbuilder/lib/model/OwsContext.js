@@ -309,7 +309,10 @@ function OwsContext(modelNode, parent) {
    * @return the list with queryable layers
    */
   this.getQueryableLayers = function() {
-    var listNodeArray = this.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[attribute::queryable='1']/wmc:Name");
+    var listNodeArray = this.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[attribute::queryable='1']");
+    if (listNodeArray == null) {
+      listNodeArray = this.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[attribute::queryable='1']");
+    }
     return listNodeArray;
   }
 
