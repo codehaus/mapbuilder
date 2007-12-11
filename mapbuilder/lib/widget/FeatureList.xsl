@@ -59,7 +59,7 @@ $Name$
             id="{$widgetId}{generate-id()}"
             size="40"
             value="{text()}"
-            onchange="config.objects.{$widgetId}.setAttr(config.objects.{$widgetId},'//gml:featureMember[position()={$pos}]{$xlink}', this.value);"/>
+            onchange="config.objects.{$widgetId}.setAttr(config.objects.{$widgetId},'/*/*[position()={$pos}]{$xlink}', this.value);"/>
         </td>
       </tr>
     </xsl:if>
