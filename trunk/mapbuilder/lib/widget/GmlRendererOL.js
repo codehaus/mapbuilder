@@ -271,7 +271,7 @@ function GmlRendererOL(widgetNode, model) {
         }
       }
       
-      if (!objRef.olLayer) {
+      if (!objRef.olLayer || !objRef.olLayer.mbWidget) {
         objRef.olLayer = new OlLayer(objRef.id, null, {mbWidget: objRef});
         objRef.targetModel.map.addLayer(objRef.olLayer);
       } else {
