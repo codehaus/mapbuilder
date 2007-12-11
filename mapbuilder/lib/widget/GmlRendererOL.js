@@ -136,8 +136,6 @@ function GmlRendererOL(widgetNode, model) {
           this.renderer.eraseGeometry(feature.geometry);
         }
 
-        this.features = [];
-        this.selectedFeatures = [];
         feature.mbSelectStyle = null;
         feature.destroy();
       }
@@ -279,6 +277,7 @@ function GmlRendererOL(widgetNode, model) {
         objRef.olLayer.destroyFeatures();
         objRef.olLayer.loadGML();
       }
+      objRef.removeHiddenFeatures(objRef);
       
       objRef.model.setParam('gmlRendererLayer', objRef.olLayer);
     }
