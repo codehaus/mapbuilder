@@ -276,6 +276,7 @@ function GmlRendererOL(widgetNode, model) {
         objRef.targetModel.map.addLayer(objRef.olLayer);
       } else {
         objRef.olLayer.loaded = false;
+        objRef.olLayer.destroyFeatures();
         objRef.olLayer.loadGML();
       }
       
