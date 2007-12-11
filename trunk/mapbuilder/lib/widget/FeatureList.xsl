@@ -32,14 +32,17 @@ $Name$
   <xsl:template match="gml:featureMember">
     <div>
       <table border="1" cellpadding="0" cellspacing="0">
-        <xsl:apply-templates/>
+        <xsl:apply-templates>
+          <xsl:with-param name="pos" select="position()"/>
+        </xsl:apply-templates>
       </table>
       <br/>
     </div>
   </xsl:template>
 
   <!-- All nodes -->
-  <xsl:template match="*">
+  <xsl:template name="allNodes" match="*">
+    <xsl:param name="pos"/>
     <xsl:variable name="xlink">
       <xsl:call-template name="getXpath">
         <xsl:with-param name="node" select="."/>
@@ -56,12 +59,13 @@ $Name$
             id="{$widgetId}{generate-id()}"
             size="40"
             value="{text()}"
-            onchange="config.objects.{$widgetId}.setAttr(config.objects.{$widgetId},'{$xlink}',document.getElementById('{$widgetId}{generate-id()}').value);"/>
+            onchange="config.objects.{$widgetId}.setAttr(config.objects.{$widgetId},'//gml:featureMember[position()={$pos}]{$xlink}', this.value);"/>
         </td>
       </tr>
     </xsl:if>
     <xsl:if test="./*">
       <xsl:apply-templates>
+          <xsl:with-param name="pos" select="$pos"/>
       </xsl:apply-templates>
     </xsl:if>
   </xsl:template>
@@ -69,7 +73,7 @@ $Name$
   <!-- Return xpath reference to a node. Calls itself recursively -->
   <xsl:template name="getXpath">
     <xsl:param name="node"/>
-    <xsl:if test="name($node/..)">
+    <xsl:if test="name($node/..) and not(name($node/..)='gml:featureMember')">
       <xsl:call-template name="getXpath">
         <xsl:with-param name="node" select="$node/.."/>
       </xsl:call-template>
