@@ -236,7 +236,10 @@ function ModelBase(modelNode, parentModel) {
           }
         }
         
-        xmlHttp.send(objRef.postData);
+        var postData = objRef.postData ?
+            new XMLSerializer().serializeToString(objRef.postData) :
+            "";
+        xmlHttp.send(postData);
 
         if (!objRef.async) {
           if (xmlHttp.status >= 400) {   //http errors status start at 400
