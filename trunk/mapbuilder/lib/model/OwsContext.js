@@ -241,7 +241,16 @@ function OwsContext(modelNode, parent) {
    * @return height String URL for the GetMap request
    */
   this.getServerUrl = function(requestName, method, feature) {
-    return feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
+    var service = requestName.split(":");
+    if (service.length > 0) {
+      service = service[0].toUpperCase();
+    }
+    var url = feature.selectSingleNode("wmc:Server[@service='OGC:"+service+"']/wmc:OnlineResource").getAttribute("xlink:href");
+    if (!url) {
+      // fallback to default service
+      url = feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
+    }
+    return url;
   }
 
   /**
@@ -309,9 +318,9 @@ function OwsContext(modelNode, parent) {
    * @return the list with queryable layers
    */
   this.getQueryableLayers = function() {
-    var listNodeArray = this.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[attribute::queryable='1']");
+    var listNodeArray = this.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[@queryable='1']|/wmc:OWSContext/wmc:ResourceList/wmc:FeatureType[@queryable='1']");
     if (listNodeArray == null) {
-      listNodeArray = this.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:Layer[attribute::queryable='1']");
+      listNodeArray = this.doc.selectNodes("/wmc:OWSContext/wmc:ResourceList/wmc:Layer|/wmc:OWSContext/wmc:ResourceList/wmc:Layer");
     }
     return listNodeArray;
   }

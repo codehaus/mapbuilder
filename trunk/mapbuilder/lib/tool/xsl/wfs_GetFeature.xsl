@@ -178,7 +178,7 @@ $Name$
 
   <!-- template rule matching source root element -->
 
-  <xsl:template match="wmc:FeatureType[wmc:Server/@service='OGC:WFS']">
+  <xsl:template match="*[wmc:Server/@service='OGC:WFS']">
 
     <xsl:param name="resourceName" select="wmc:Name"/>
 
@@ -274,7 +274,7 @@ $Name$
 
           </xsl:variable>
 
-          <xsl:value-of select="translate(normalize-space($query),' ','')" disable-output-escaping="no"/><xsl:if test="$cFilterStr">&amp;filter=<xsl:value-of select="normalize-space($cFilterStr)"/></xsl:if>
+          <xsl:value-of select="translate(normalize-space($query),' ','')" disable-output-escaping="no"/><xsl:if test="ogc:Filter">&amp;filter=<xsl:value-of select="normalize-space($cFilterStr)"/></xsl:if>
 
 <!-- TBD something still wrong with filter parameter here -->
 
