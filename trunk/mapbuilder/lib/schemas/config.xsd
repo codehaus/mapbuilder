@@ -284,6 +284,7 @@
       <xs:element name="Forward" type="mb:ButtonType"/>
       <xs:element name="GetFeatureInfo" type="mb:GetFeatureInfoType"/>
       <xs:element name="GetFeatureInfoWSR" type="mb:GetFeatureInfoWSRType"/>
+      <xs:element name="GmlRendererConfig" type="mb:GmlRendererConfigType"/>
       <xs:element name="GmlRendererOL" type="mb:GmlRendererOLType"/>
       <xs:element name="Graticule" type="mb:GraticuleType"/>
       <xs:element name="InsertFeature" type="mb:InsertFeatureType"/>
