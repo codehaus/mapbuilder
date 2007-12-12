@@ -270,7 +270,8 @@ function GmlRendererOL(widgetNode, model) {
       }
       
       if (!objRef.olLayer || !objRef.olLayer.mbWidget) {
-        objRef.olLayer = new OlLayer(objRef.id, null, {mbWidget: objRef});
+        objRef.olLayer = new OlLayer(objRef.id, null, {mbWidget: objRef,
+            resolutions: objRef.targetModel.map.baseLayer.resolutions});
         objRef.targetModel.map.addLayer(objRef.olLayer);
       } else {
         objRef.olLayer.loaded = false;
