@@ -37,6 +37,7 @@
         </GmlRendererOL>
         <Widget id="eventsListing">
            <stylesheet>WfsListing.xsl</stylesheet>
+           <parseHTMLNodes>true</parseHTMLNodes>
         </Widget>
       </widgets>
       <tools>

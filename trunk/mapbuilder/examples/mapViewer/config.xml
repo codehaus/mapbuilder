@@ -31,8 +31,11 @@
         <Abstract id="mapAbstract">
           <htmlTagId>workspace</htmlTagId>
           <outputNodeId>workspaceCanvas</outputNodeId>
+          <parseHTMLNodes>true</parseHTMLNodes>
         </Abstract>
-        <MapTitle id="mapTitle"/>
+        <MapTitle id="mapTitle">
+          <parseHTMLNodes>true</parseHTMLNodes>
+        </MapTitle>
         <OverviewMap id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
           <width>180</width>

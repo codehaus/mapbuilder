@@ -62,6 +62,9 @@
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
     </Reset>
+    <Loading id="loadingApp">
+      <htmlTagId>mainMapPane</htmlTagId>
+    </Loading>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
 </MapbuilderConfig>
