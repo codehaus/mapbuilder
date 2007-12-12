@@ -237,7 +237,7 @@ function ModelBase(modelNode, parentModel) {
         }
         
         var postData = objRef.postData || "";
-        if (typeof objRef.postData == "object") {
+        if (typeof postData == "object") {
           postData = new XMLSerializer().serializeToString(postData);
         }
         xmlHttp.send(postData);
