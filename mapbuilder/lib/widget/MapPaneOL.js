@@ -448,6 +448,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
  */
 MapPaneOL.prototype.clear = function(objRef) {
   if (objRef.model.map) {
+    OpenLayers.Event.stopObservingElement(window);
     objRef.model.map.destroy(true);
     objRef.model.map = null;
     objRef.oLlayers = {};
