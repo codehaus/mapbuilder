@@ -101,8 +101,7 @@ function WidgetBaseXSL(widgetNode,model) {
       var s = objRef.stylesheet.transformNodeToString(objRef.resultDoc);
       if (config.serializeUrl && objRef.debug) postLoad(config.serializeUrl, s);
       if (objRef.debug) mbDebugMessage(objRef, "painting:"+objRef.id+":"+s);
-      tempNode.innerHTML = objRef.parseHTMLNodes ?
-          s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&") : s;
+      tempNode.innerHTML = objRef.parseHTMLNodes ? Sarissa.unescape(s) : s;
       if( tempNode.firstChild != null ) { //Could be null!
         tempNode.firstChild.setAttribute("id", objRef.outputNodeId);
 
