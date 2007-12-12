@@ -10,7 +10,7 @@
 					<imageBuffer>1</imageBuffer>					
 				</MapPaneOL>
 				<Timestamp id="timestamp">
-			      </Timestamp>
+			  </Timestamp>
 				<Legend id="legend">
         </Legend>
 				<Abstract id="abstract"/>
@@ -21,21 +21,20 @@
 				</CursorTrack>
 			</widgets>
 			<tools>
-				<AoiMouseHandler id="mainAoi"/>
 				<MovieLoop id="movieLoop">
 					<framesPerSecond>4</framesPerSecond>
 					<maxFrames>15</maxFrames>
 				</MovieLoop>
 			</tools>
 		</Context>
-		<ContextCollection id="collection">
+		<Model id="collection">
 			<defaultModelUrl>timeSeriesCollection.xml</defaultModelUrl>
 			<widgets>
 				<CollectionList id="collectionList">
 					<targetModel>mainMap</targetModel>
 				</CollectionList>
 			</widgets>
-		</ContextCollection>
+		</Model>
 		<WmsCapabilities id="wmsCapTemplate">
 			<!--defaultModelUrl>../data/test/tsNasaCaps.xml</defaultModelUrl-->
 			<title>OGC Web Map Server (WMS)</title>

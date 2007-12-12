@@ -54,7 +54,7 @@ $Id$
           </gml:Point>
         </mb:geom>
         <mb:title><xsl:value-of select="$photodoc/photo/title"/></mb:title>
-        <mb:description><xsl:copy-of select="$photodoc/photo/description"/></mb:description>
+        <mb:description><xsl:value-of select="$photodoc/photo/description"/></mb:description>
         <dc:date><xsl:value-of select="$photodoc/photo/dates/@taken"/></dc:date>
         <mb:url>http://static.flickr.com/<xsl:value-of select="./@server"/>/<xsl:value-of select="./@id"/>_<xsl:value-of select="./@secret"/>_s.jpg</mb:url>
         <mb:photopage><xsl:value-of select="$photodoc/photo/urls/url[@type='photopage']"/></mb:photopage>
