@@ -249,7 +249,7 @@ function Context(modelNode, parent) {
    * @return the list with queryable layers
    */
   this.getQueryableLayers = function() {
-    var listNodeArray = this.doc.selectNodes("/wmc:ViewContext/wmc:LayerList/wmc:Layer[attribute::queryable='1']/wmc:Name");
+    var listNodeArray = this.doc.selectNodes("/wmc:ViewContext/wmc:LayerList/wmc:Layer[attribute::queryable='1']");
     return listNodeArray;
   }
 

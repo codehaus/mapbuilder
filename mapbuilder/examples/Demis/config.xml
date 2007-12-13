@@ -30,7 +30,7 @@
 			</tools>
 		</Context>
     
-    <ContextCollection id="collectionGroup">
+    <Model id="collectionGroup">
       <defaultModelUrl>mapCollection.xml</defaultModelUrl>
       <widgets>
         <CollectionList id="collectionList">
@@ -38,7 +38,7 @@
           <stylesheet>./CollectionList.xsl</stylesheet>
         </CollectionList>
       </widgets>
-    </ContextCollection>
+    </Model>
     
 	</models>
 	<widgets>

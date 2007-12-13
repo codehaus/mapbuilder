@@ -137,6 +137,11 @@
               <xs:documentation>this property specifies a relative or absolute URL to a stylesheet that can replace the default stylesheet.  The stylesheet must be served from the same domain as the mapbuilder application.  Optional, if missing a default stylesheet will be used (in the lib/widget directory with the same name as the widget)</xs:documentation>
             </xs:annotation>
           </xs:element>
+          <xs:element name="parseHTMLNodes" type="xs:boolean" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>if true, HTML entities (like found in RSS feeds) will be parsed and converted to HTML, instead of showing HTML source code.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -279,6 +284,7 @@
       <xs:element name="Forward" type="mb:ButtonType"/>
       <xs:element name="GetFeatureInfo" type="mb:GetFeatureInfoType"/>
       <xs:element name="GetFeatureInfoWSR" type="mb:GetFeatureInfoWSRType"/>
+      <xs:element name="GmlRendererConfig" type="mb:GmlRendererConfigType"/>
       <xs:element name="GmlRendererOL" type="mb:GmlRendererOLType"/>
       <xs:element name="Graticule" type="mb:GraticuleType"/>
       <xs:element name="InsertFeature" type="mb:InsertFeatureType"/>
@@ -805,6 +811,7 @@
           <xs:element name="loadingSrc" type="mb:urlPathType" minOccurs="0"/>
           <xs:element name="maxExtent" type="xs:string" minOccurs="0"/>
           <xs:element name="maxResolution" type="xs:double" minOccurs="0"/>
+          <xs:element name="minResolution" type="xs:double" minOccurs="0"/>
           <xs:element name="resolutions" type="xs:string" minOccurs="0">
             <xs:annotation>
               <xs:documentation>Set a list of fixed resolutions for OL manually.</xs:documentation>
@@ -835,7 +842,7 @@
               <xs:documentation>for untiled wms layers: how many times should the map image be larger than the visible map. Large values mean slow loading, small ones mean many reloads when panning. Recommended values: 1-3, default is 2.</xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element name="displayOutsideMapExtent" type="xs:boolean" minOccurs="0">
+          <xs:element name="displayOutsideMaxExtent" type="xs:boolean" minOccurs="0">
             <xs:annotation>
               <xs:documentation>Should layers also be rendered outside the map extent? Default is false.</xs:documentation>
             </xs:annotation>
@@ -1072,6 +1079,9 @@
     <xs:annotation>
       <xs:documentation>Popup using OpenLayers popups.</xs:documentation>
     </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="mb:TipWidgetBaseType"/>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="WebServiceFormType">
     <xs:annotation>

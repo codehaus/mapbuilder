@@ -35,7 +35,7 @@
 		</ContextURL>
 	</ViewContextReference>
   <ViewContextReference version="1.0.0" id="local">
-    <Title>http://localhost:8080/geoserver</Title>
+    <Title>Tasmania on local GeoServer</Title>
 		<ContextURL>
       <OnlineResource xlink:type="simple" xlink:href="../data/context/local.xml"/>
 		</ContextURL>

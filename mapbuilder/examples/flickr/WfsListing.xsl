@@ -44,7 +44,7 @@ $Name:  $
         <table><tr>
         <td valign="top"><img src="{$icon}" /></td>
         <td valign="top"><a href="{$link}" target="_blank"><xsl:value-of select="mb:title"/></a><br/>
-        <xsl:copy-of select="mb:description"/></td>
+        <xsl:value-of select="mb:description"/></td>
         </tr></table>
       </td>
     </tr>

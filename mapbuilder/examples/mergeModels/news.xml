@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs" xmlns:gml="http://www.opengis.net/gml" xmlns:pmb="http://nsuri.notld/poweredByMapbuilder">
+<gml:name>News</gml:name>
+<gml:boundedBy>
+	<gml:Envelope srsName="_"> _ </gml:Envelope>
+ </gml:boundedBy>
+
+  <gml:featureMember>
+    <pmb:MyFeature fid="SITUATION_88255">
+      <pmb:geom>
+<gml:LineString srsName='31295'>
+  <gml:coordinates>
+438126.7349846448,5295045.919461318 437101.27043910965,5288871.729724393 
+    435045.49550640513,5285741.304577469 433135.6128824574,5283183.785924661 
+  </gml:coordinates>
+</gml:LineString>
+      </pmb:geom>
+      <pmb:name><![CDATA[L107 Wiestal Road: Road construction, delays]]></pmb:name>
+      <pmb:date>2007-12-04 17:23:00</pmb:date>
+    </pmb:MyFeature>
+  </gml:featureMember>
+  <gml:featureMember>
+    <pmb:MyFeature fid="SITUATION_88268">
+      <pmb:geom>
+<gml:Point srsName='31295'>
+  <gml:coordinates>
+432617.71511229005,5295560.424833654 
+  </gml:coordinates>
+</gml:Point>
+      </pmb:geom>
+      <pmb:name><![CDATA[L108 Gaisberg Road: Drive carefully, snow on road]]></pmb:name>
+      <pmb:date>2007-12-12 04:37:00</pmb:date>
+    </pmb:MyFeature>
+  </gml:featureMember>
+  <gml:featureMember>
+    <pmb:MyFeature fid="TRAFFICRECORD_84800">
+      <pmb:geom>
+<gml:Point srsName='31295'>
+  <gml:coordinates>
+440188.2300648418,5297903.630898789 
+  </gml:coordinates>
+</gml:Point>
+      </pmb:geom>
+      <pmb:name><![CDATA[Message from mobile observer: No delays.]]></pmb:name>
+      <pmb:date>2007-08-18 11:59:51</pmb:date>
+    </pmb:MyFeature>
+  </gml:featureMember>
+</wfs:FeatureCollection>

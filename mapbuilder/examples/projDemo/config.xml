@@ -26,7 +26,7 @@
         <History id="extentHistory"/>
       </tools>
     </Context>
-    <ContextCollection id="proj4jsMapExamples">
+    <Model id="proj4jsMapExamples">
       <defaultModelUrl>Proj4jsMapExamples.xml</defaultModelUrl>
       <widgets>
         <CollectionList id="maps">
@@ -34,7 +34,7 @@
           <preserveExtent>false</preserveExtent>
         </CollectionList>
       </widgets>
-    </ContextCollection>
+    </Model>
     <FeatureCollection id="gml2FeatureTemplate">
       <widgets>
          <GmlRendererOL id="vectorGraphicsRenderer">

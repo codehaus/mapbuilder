@@ -15,13 +15,13 @@ Abstract.xsl,v 1.5 2004/06/25 17:59:38 madair1 Exp
   
   <!-- The common params set for all widgets -->
   <xsl:param name="lang">en</xsl:param>
-  <xsl:param name="widgetNode"/>
+  <xsl:param name="formName"/>
 
   <!-- Text params for this widget -->
   <xsl:param name="title"/>
   
   <xsl:template match="/">
-    <form STYLE="font: 8pt Verdana, geneva, arial, sans-serif;">
+    <form name="{$formName}" STYLE="font: 8pt Verdana, geneva, arial, sans-serif;">
       <xsl:value-of select="$title"/>
       <xsl:apply-templates select="wmc:ViewContext/wmc:General"/>
     </form>
@@ -30,7 +30,7 @@ Abstract.xsl,v 1.5 2004/06/25 17:59:38 madair1 Exp
   
   <!-- readonly input element to display the time value -->
   <xsl:template match="mb:TimestampList">
-    <input id="timestampValue" type="text" size="20" class="bareInput" readonly="true">
+    <input name="timestampValue" type="text" size="20" class="bareInput" readonly="true">
       <xsl:attribute name="value">
         <xsl:value-of select="mb:Timestamp[@current='1']"/>
       </xsl:attribute>
