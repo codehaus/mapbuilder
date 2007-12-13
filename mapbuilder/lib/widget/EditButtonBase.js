@@ -97,6 +97,8 @@ function EditButtonBase(widgetNode, model) {
   this.setEditingLayer = function(objRef) {
     if (!objRef.targetContext.featureLayers[objRef.id]) {
       objRef.featureLayer = new OpenLayers.Layer.Vector(objRef.id);
+      // layer should always be visible, independent of the resolution
+      objRef.featureLayer.calculateInRange = function() {return true;};
       // set objRef as mbButton attribute of the OL featureLayer,
       // because we otherwise don't have it available in
       // handleFeatureInsert()

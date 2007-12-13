@@ -41,6 +41,11 @@ function GmlRendererOL(widgetNode, model) {
         }
       }
     },
+    
+    // let the layer always be visible, independent of the resolution
+    calculateInRange: function() {
+      return true;
+    },
   
     preFeatureInsert: function(feature) {
       if (feature.geometry) {
@@ -270,8 +275,7 @@ function GmlRendererOL(widgetNode, model) {
       }
       
       if (!objRef.olLayer || !objRef.olLayer.mbWidget) {
-        objRef.olLayer = new OlLayer(objRef.id, null, {mbWidget: objRef,
-            resolutions: objRef.targetModel.map.baseLayer.resolutions});
+        objRef.olLayer = new OlLayer(objRef.id, null, {mbWidget: objRef});
         objRef.targetModel.map.addLayer(objRef.olLayer);
       } else {
         objRef.olLayer.loaded = false;
