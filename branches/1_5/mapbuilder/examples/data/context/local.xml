@@ -7,9 +7,9 @@
 			    xsi:schemaLocation="http://www.opengis.net/context http://schemas.opengis.net/context/1.0.0/context.xsd">
 	<General>
 		<Window width="500" height="300" />
-    <BoundingBox SRS="EPSG:4326" minx="489154" miny="5433017" maxx="505234" maxy="5448023"/>
+    <BoundingBox SRS="EPSG:4326" minx="141.57875" miny="-44.26625" maxx="151.03125" maxy="-39.56375"/>
 		<!--BoundingBox SRS="EPSG:4326" minx="-180.000000" miny="-90.000000" maxx="180.000000" maxy="90.000000"/-->
-		<Title>http://localhost:8080/geoserver</Title>
+		<Title>Tasmania on local GeoServer</Title>
 		<KeywordList>
 			<Keyword>EOS</Keyword>
 			<Keyword>EOSDIS</Keyword>
@@ -23,36 +23,36 @@
 	<LayerList>
 		<Layer queryable="1" hidden="0">
 			<Server service="OGC:WMS" version="1.1.1" title="Local">
-				<OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wms"/>
+				<OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
 			</Server>
-			<Name>topp:states</Name>
-			<Title>USA Population</Title>
-      <Abstract>USA census data.</Abstract>
+			<Name>topp:tasmania_state_boundaries</Name>
+			<Title>Tasmania State Boundaries</Title>
+      <Abstract>Tasmania State Boundaries.</Abstract>
 			<SRS>EPSG:4326</SRS>
 			<FormatList>
 				<Format current="1">image/png</Format>
 			</FormatList>
 			<StyleList>
 				<Style current="1">
-					<Name>population</Name>
-					<Title>population</Title>
+					<Name>green</Name>
+					<Title>green</Title>
 				</Style>
 			</StyleList>
 		</Layer>
 		<Layer queryable="1" hidden="0">
 			<Server service="OGC:WMS" version="1.1.1" title="Local">
-				<OnlineResource xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wms"/>
+				<OnlineResource xlink:type="simple" xlink:href="/geoserver/wms"/>
 			</Server>
-			<Name>topp:bc_roads</Name>
-			<Title>BC Roads</Title>
-			<Abstract>Some roads in British Columbia</Abstract>
-			<SRS>EPSG:27354</SRS>
+			<Name>topp:tasmania_roads</Name>
+			<Title>Tasmania Roads</Title>
+			<Abstract>Some roads in Tasmania</Abstract>
+			<SRS>EPSG:4326</SRS>
 			<FormatList>
 				<Format current="1">image/png</Format>
 			</FormatList>
 			<StyleList>
 				<Style current="1">
-					<Name>normal</Name>
+					<Name>simple_roads</Name>
 					<Title>default</Title>
 				</Style>
 			</StyleList>

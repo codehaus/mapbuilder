@@ -17,9 +17,15 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 function Timestamp(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
+  //set some properties for the form output
+  this.formName = "TimestampForm_" + mbIds.getId();
+  this.stylesheet.setParameter("formName", this.formName);
+
   this.updateTimestamp = function (objRef, timestamp) {
-    var inputEl = document.getElementById("timestampValue");
-    inputEl.value = objRef.model.timestampList.childNodes[timestamp].firstChild.nodeValue;
+    var form = document[objRef.formName];
+    if (form) {
+      form.timestampValue.value = objRef.model.timestampList.childNodes[timestamp].firstChild.nodeValue;
+    }
   }
 
   this.model.addListener("timestamp",this.updateTimestamp, this);

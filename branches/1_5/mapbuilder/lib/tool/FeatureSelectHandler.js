@@ -48,6 +48,7 @@ function FeatureSelectHandler(toolNode, model) {
   
   this.clear = function(objRef) {
     if (objRef.control) {
+      objRef.map = null;
       objRef.control.destroy();
       objRef.control = null;
     }
@@ -61,6 +62,7 @@ function FeatureSelectHandler(toolNode, model) {
    * @param objRef This object
    */
   this.contextInit = function(objRef) {
+    objRef.targetModel.addListener("newModel", objRef.clear, objRef);
     objRef.model.addListener('gmlRendererLayer', objRef.init, objRef);
     // Check carefully if we have to init manually. This is the case when
     // the gmlRendererLayer is rendered, but does not know about the
@@ -95,9 +97,10 @@ function FeatureSelectHandler(toolNode, model) {
     var layer = objRef.model.getParam('gmlRendererLayer');
     if (objRef.map == objRef.targetModel.map &&
         objRef.control && !layer) {
-      objRef.control.deactivate();
-      //objRef.control.destroy();
-      //objRef.control = null;
+      //objRef.control.deactivate();
+      objRef.map.removeControl(objRef.control);
+      objRef.control.destroy();
+      objRef.control = null;
     } else if (layer) {
       if (!objRef.control) {
         objRef.control = new OpenLayers.Control.SelectFeature(layer, {
@@ -130,6 +133,7 @@ function FeatureSelectHandler(toolNode, model) {
       this.layer.events.unregister('mousedown', this, featureSelectHandler.onClick);
       this.layer.events.unregister('mousemove', this, featureSelectHandler.onHover);
     }
+    this.mbFeatureSelectHandler = null;
     OpenLayers.Feature.Vector.prototype.destroy.apply(this, arguments);
   }
 

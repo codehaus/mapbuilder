@@ -7,9 +7,10 @@ $Id$
 // Ensure this object's dependancies are loaded.
 mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
 /**
- * Implements WMS GetFeatureInfo functionality, using the WebServiceRequest
- * tool. This widget can be used as an example on how to write widgets that
- * use the WebServiceRequest functionality.
+ * Implements GetFeatureInfo functionality, using the WebServiceRequest
+ * tool. This will work with the WMS:GetFeatureInfo request as well as
+ * with WFS:GetFeature. This widget can be used as an example on how to
+ * write widgets that use the WebServiceRequest functionality.
  * @constructor
  * @base ButtonBase
  * @author adair
@@ -24,6 +25,13 @@ function GetFeatureInfoWSR(widgetNode, model) {
   var controller = widgetNode.selectSingleNode("mb:controller");
   /** WebServiceRequest controller for this widget */
   this.controller = controller ? controller.firstChild.nodeValue : null;
+  
+  var tolerance = widgetNode.selectSingleNode("mb:tolerance");
+  /**
+   * tolerance in pixels around the click point for WFS:GetFeature
+   * default is 3
+   */
+  this.tolerance = tolerance ? parseFloat(getNodeValue(tolerance)) : 3;
   
   /**
    * GetFeatureInfoWSR control
@@ -59,29 +67,41 @@ function GetFeatureInfoWSR(widgetNode, model) {
    */
   this.doOnMouseup = function(e) {
     objRef = this;
-    var controller = config.objects[objRef.controller];
     if (!objRef.enabled) return;
+    var controller = config.objects[objRef.controller];
     var layerNameList = new Array();
     var selectedLayer=objRef.targetModel.getParam("selectedLayer");
-    if (selectedLayer==null) {
-      var queryList = objRef.targetModel.getQueryableLayers();
+    var queryList;
+    if (!selectedLayer) {
+      queryList = objRef.targetModel.getQueryableLayers();
       if (queryList.length==0) {
          alert(mbGetMessage("noQueryableLayers"));
          return;
-      } else {
-        for (var i=0; i<queryList.length; ++i) {
-          layerNameList[i] = queryList[i].firstChild.nodeValue;   //convert to the layer names
-        }
       }
     } else {
-      layerNameList[0]= selectedLayer;
+      queryList = [objRef.targetModel.getLayer(selectedLayer)];
     }
-    for (var i=0; i<layerNameList.length; ++i) {
-      var layerName = layerNameList[i];
+    
+    var llPx = e.xy.add(-objRef.tolerance, objRef.tolerance);
+    var urPx = e.xy.add(objRef.tolerance, -objRef.tolerance);
+    
+    var ll = objRef.targetModel.map.getLonLatFromPixel(llPx);
+    var ur = objRef.targetModel.map.getLonLatFromPixel(urPx);
+    
+    for (var i=0; i<queryList.length; ++i) {
+      var layerNode = queryList[i];
+
+      // Get the name of the layer
+      var layerName = layerNode.selectSingleNode("wmc:Name");layerName=(layerName)?layerName.firstChild.nodeValue:"";
+
       var hidden = objRef.targetModel.getHidden(layerName);
       if (hidden == 0) { //query only visible layers
+        controller.requestStylesheet.setParameter("bBoxMinX", ll.lon);
+        controller.requestStylesheet.setParameter("bBoxMinY", ll.lat);
+        controller.requestStylesheet.setParameter("bBoxMaxX", ur.lon);
+        controller.requestStylesheet.setParameter("bBoxMaxY", ur.lat);
         controller.requestStylesheet.setParameter("queryLayer", layerName);
-        objRef.targetModel.setParam("wms_GetFeatureInfo", layerName);
+        objRef.targetModel.setParam(controller.requestName.replace(/:/,"_"), layerName);
       }
     }
   }

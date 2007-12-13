@@ -85,7 +85,7 @@
         </ZoomToAoi>
       </tools>
     </Context>
-    <ContextCollection id="myMapCollection">
+    <Model id="myMapCollection">
       <!--defaultModelUrl>../data/context/demoCollection.xml</defaultModelUrl-->
       <widgets>
         <CollectionList id="collectionList">
@@ -94,7 +94,7 @@
           <targetModel>mainMap</targetModel>
         </CollectionList>
       </widgets>
-    </ContextCollection>
+    </Model>
     <!-- use this with a WFS capabilities model -->
     <WfsCapabilities id="wfsCapTemplate">
       <defaultModelUrl>http://localhost:8080/geoserver/wfs?version=1.0.0&amp;service=WFS&amp;request=GetCapabilities</defaultModelUrl>

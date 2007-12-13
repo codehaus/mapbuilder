@@ -54,6 +54,12 @@ function Mapbuilder() {
   /** Array of objects that are loading.  Don't continue initialisation until
    * all objects have loaded. */
   this.loadingScripts=new Array();
+  
+  /** Array of scripts that have to be loaded ordered */
+  this.orderedScripts = new Array();
+  
+  /** Timer to load ordered scripts */
+  this.scriptLoader = null;
 
   /** Timer to periodically check if scripts have loaded. */
   this.scriptsTimer=null;
@@ -83,7 +89,7 @@ function Mapbuilder() {
       {
         this.loadingScripts.shift();
       }
-      if (this.loadingScripts.length==0){
+      if (this.loadingScripts.length==0 && this.orderedScripts.length == 0){
         this.setLoadState(this.loadState+1);
       }
     }
@@ -104,7 +110,8 @@ function Mapbuilder() {
     this.loadState=newState;
     switch (newState){
       case MB_LOAD_CORE:
-      
+        // core scripts have to be loaded in the correct order (needed for IE)
+        this.loadOrdered = true;
         this.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
         this.loadScript(baseDir+"/util/sarissa/Sarissa.js");
         this.loadScript(baseDir+"/util/sarissa/javeline_xpath.js");
@@ -117,6 +124,8 @@ function Mapbuilder() {
         this.loadScript(baseDir+"/util/Listener.js");
         this.loadScript(baseDir+"/model/ModelBase.js");
         this.loadScript(baseDir+"/model/Config.js");
+        // from now on, scripts can be loaded in any order
+        this.loadOrdered = false;
         break;
       case MB_LOAD_CONFIG:
         if(document.readyState){
@@ -133,7 +142,7 @@ function Mapbuilder() {
         }
         break;
       case MB_LOADED:
-        clearInterval(this.scriptsTimer);
+        window.clearInterval(this.scriptsTimer);
         break;
     }
   }
@@ -141,18 +150,71 @@ function Mapbuilder() {
   /**
    * Dynamically load a script file if it has not already been loaded.
    * @param url The url of the script.
+   * that loadScript was called
    */
   this.loadScript=function(url){
     if(typeof MapBuilder_Release == "boolean") return
-  
+
     if(!document.getElementById(url)){
       var script = document.createElement('script');
-      script.defer = false;   //not sure of effect of this?
-      script.type = "text/javascript";
       script.src = url;
       script.id = url;
-      document.getElementsByTagName('head')[0].appendChild(script);
+      script.defer = false;   //not sure of effect of this?
+      script.type = "text/javascript";
+      if (document.readyState && this.loadOrdered == true) {
+        // in IE, mark the script as ordered
+        this.orderedScripts.push(script);
+        if (!this.scriptLoader) {
+          this.scriptLoader = window.setInterval('mapbuilder.loadNextScript()', 50);
+        }
+      } else {
+        // add to dom tree, except if we are using IE and want to load ordered
+        document.getElementsByTagName('head')[0].appendChild(script);
+      }
       this.loadingScripts.push(script);
+    }
+  }
+   
+  /**
+   * loads one script after another - only for IE. This function is run in a
+   * 50ms interval and clears its interval if there are no more scripts to
+   * load. It actually loads the first script from the orderedScripts array.
+   */
+  this.loadNextScript = function() {
+    if (this.orderedScripts.length == 0) {
+      window.clearInterval(this.scriptLoader);
+      this.scriptLoader = null;
+    } else {
+      var script = this.orderedScripts[0];
+      if (!script.loading) {
+        script.loading = true;
+        this.doLoadScript(script);
+      }
+    }
+  }
+  
+  /**
+   * starts script loading by adding the script node to the dom tree - IE only.
+   * This function adds a readyState handler to the script node.
+   */
+  this.doLoadScript = function(script) {
+    var objRef = this;
+    script.onreadystatechange = function(){objRef.checkScriptState(this)};
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+  
+  /**
+   * readyState handler for scripts - IE only. This will remove the script from
+   * the array of scripts that have still to be loaded.
+   */
+  this.checkScriptState = function(script) {
+    if (script.readyState == "loaded" || script.readyState == "complete") {
+      for (var i=0; i<this.orderedScripts.length; i++) {
+        if (script == this.orderedScripts[i]) {
+          this.orderedScripts.splice(i, 1);
+          break;
+        }
+      }
     }
   }
 
@@ -196,7 +258,7 @@ function Mapbuilder() {
   this.setLoadState(MB_LOAD_CORE);
 
   // Start a timer which periodically calls checkScriptsLoaded().
-  this.scriptsTimer=setInterval('mapbuilder.checkScriptsLoaded()',100);
+  this.scriptsTimer=window.setInterval('mapbuilder.checkScriptsLoaded()',100);
 }
 
 /**
@@ -229,7 +291,7 @@ var mapbuilder=new Mapbuilder();
  */
 function mapbuilderInit(){
   if(mapbuilder && mapbuilder.loadState==MB_LOADED){
-    clearInterval(mbTimerId);
+    window.clearInterval(mbTimerId);
     config.parseConfig(config);
     if (Proj4js) {
       Proj4js.libPath = baseDir+"/util/proj4js/";
@@ -256,6 +318,6 @@ var mbTimerId;
  */
 function mbDoLoad(initFunction) {
   // See if scripts have been loaded every 100msecs, then call config.init().
-  mbTimerId=setInterval('mapbuilderInit()',100);
+  mbTimerId=window.setInterval('mapbuilderInit()',100);
   if (initFunction) window.mbInit = initFunction;
 }

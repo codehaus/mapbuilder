@@ -41,6 +41,11 @@ function GmlRendererOL(widgetNode, model) {
         }
       }
     },
+    
+    // let the layer always be visible, independent of the resolution
+    calculateInRange: function() {
+      return true;
+    },
   
     preFeatureInsert: function(feature) {
       if (feature.geometry) {
@@ -128,7 +133,7 @@ function GmlRendererOL(widgetNode, model) {
       if (!this.features) {
         return;
       }
-      features = this.features;
+      var features = this.features;
       for (var i = features.length - 1; i >= 0; i--) {
         var feature = features[i];
 
@@ -136,8 +141,6 @@ function GmlRendererOL(widgetNode, model) {
           this.renderer.eraseGeometry(feature.geometry);
         }
 
-        this.features = [];
-        this.selectedFeatures = [];
         feature.mbSelectStyle = null;
         feature.destroy();
       }
@@ -271,13 +274,15 @@ function GmlRendererOL(widgetNode, model) {
         }
       }
       
-      if (!objRef.olLayer) {
+      if (!objRef.olLayer || !objRef.olLayer.mbWidget) {
         objRef.olLayer = new OlLayer(objRef.id, null, {mbWidget: objRef});
         objRef.targetModel.map.addLayer(objRef.olLayer);
       } else {
         objRef.olLayer.loaded = false;
+        objRef.olLayer.destroyFeatures();
         objRef.olLayer.loadGML();
       }
+      objRef.removeHiddenFeatures(objRef);
       
       objRef.model.setParam('gmlRendererLayer', objRef.olLayer);
     }
