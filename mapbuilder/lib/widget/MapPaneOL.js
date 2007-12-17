@@ -6,7 +6,6 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
-loadCss("openlayers/style.css");
 mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 mapbuilder.loadScript(baseDir+"/util/Util.js");
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
@@ -97,6 +96,11 @@ function MapPaneOL(widgetNode, model) {
    */
   this.loadingLayers = 0;
 
+  this.init = function(objRef) {
+    loadCss("openlayers/style.css");
+  }
+  model.addListener("init", this.init, this);
+  
   /**
    * Called after a feature has been added to a WFS.  This function triggers
    * the WMS basemaps to be redrawn.  A timestamp param is added to the URL
