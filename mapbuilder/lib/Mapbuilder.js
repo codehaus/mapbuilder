@@ -153,6 +153,12 @@ function Mapbuilder() {
    * that loadScript was called
    */
   this.loadScript=function(url){
+    // if we are working with a compressed build, load only scripts that
+    // are not part of the compressed build. This check is done by looking
+    // into the global namespace for a function that has the same name as
+    // the script file (without path and without .js). Because script files
+    // in the util dir do not follow that pattern, exclude them from the
+    // check separately.
     if(typeof MapBuilder_Release == "boolean") {
       if (url.indexOf(baseDir+"/util/") != -1) {
         return;
