@@ -780,6 +780,6 @@ function loadCss(cssFileName) {
  */
 function getNodeValue(sResult){
   if(sResult.nodeType == 1) return sResult.firstChild ? sResult.firstChild.nodeValue : "";
-  if(sResult.nodeType > 1 || sResult.nodeType < 5) return sResult.nodeValue;
+  if(sResult.nodeType < 5) return sResult.nodeValue;
   return sResult;
 }
