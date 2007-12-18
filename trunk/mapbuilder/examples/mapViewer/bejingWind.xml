@@ -272,7 +272,6 @@
 				</Style>
 			</StyleList>
 		</Layer>
-    <!-- server unavailable
 		<Layer queryable="0" hidden="0" opaque="0">
 			<Server service="OGC:WMS" version="1.1.1" title="My GeoServer WMS">
 				<OnlineResource xlink:type="simple"  xlink:href="http://sigma.openplans.org/geoserver/wms?"/>
@@ -291,8 +290,6 @@
 				</Style>
 			</StyleList>			
 		</Layer>
-    -->
-    <!-- server unavailable
 		<Layer queryable="0" hidden="0">
 			<Server service="OGC:WMS" version="1.1.1" title="My GeoServer WMS">
 				<OnlineResource xlink:type="simple"  xlink:href="http://sigma.openplans.org/geoserver/wms?"/>
@@ -311,6 +308,5 @@
 				</Style>
 			</StyleList>						
 		</Layer>
-    -->
 	</LayerList>
 </ViewContext>
