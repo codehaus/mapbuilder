@@ -71,13 +71,6 @@ function Mapbuilder() {
    * Mozilla works fine without this function - I think it is single threaded.
    */
   this.checkScriptsLoaded=function() {
-    // check for compressed file
-    if(typeof MapBuilder_Release == "boolean") {
-    //    alert( "compressed")
-        this.setLoadState(MB_LOAD_CONFIG);
-        return;
-    }
-        
     if (document.readyState!=null){
       // IE client
 
@@ -132,10 +125,6 @@ function Mapbuilder() {
           // IE
           config=new Config(mbConfigUrl);
           config.loadConfigScripts();
-          if(typeof MapBuilder_Release == "boolean") {
-            this.setLoadState(MB_LOADED);
-            return;
-          }
         }else{
           // Mozilla
           this.setLoadState(MB_LOADED);
