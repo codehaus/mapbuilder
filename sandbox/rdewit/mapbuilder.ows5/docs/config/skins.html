@@ -1,0 +1,96 @@
+<h2>Skins, CSS and multilingual support</h2>
+
+<p>
+It's relatively easy to change the way your application looks, 
+including the text and images output by the widgets.  
+This is accomplished using a "skin" concept in addition to 
+Cascading Stylesheets (CSS).
+</p>
+
+<h3>The skin directory</h3>
+<p>
+The skin directory is a property of the config file and points to a directory 
+on the web server where images and other items coded into widget stylesheets
+can be located.
+The directory can be an absolute path or relative to the base directory
+of the page being loaded.
+</p>
+
+<p>
+Currently only Button images come from the skin dir, but all future Mapbuilder
+extensions using images will come from this directory.
+To create the SRC URL for a button image, the button enabled/disabledSrc path in
+config is appended to the skin directory.
+This directory is also used as the root for the widget text file (see below).
+</p>
+
+<p>
+Unless you want to keep the default look and feel of Mapbuilder, you should 
+create your own skin directory and set the path to it in the config file.
+This directory should be outside of the mapbuilder directory so that you can
+easily upgrade to newer versions of the package by simply replacing it.
+(This is recommended for your applications as well.)
+</p>
+
+<h3>Multilingual support</h3>
+<p>
+All text that is output by widget stylesheets should be passed in to the 
+stylesheet as a stylesheet param, and there are two ways to do this 
+automatically in Mapbuilder.
+The first way is is to set the text values as a widget property in config, 
+however this will only support one language.
+</p>
+
+<p>
+Multiple languages are supported. The standard widget texts are available in English,
+French, Dutch and Italian; those reside under the lib/text/ directory.
+You can also set a &lt;userWidgetTextDir&gt; property on the config model to add
+or override widget texts.
+This property is a partial path to a directory containing language dependant texts.
+The full path to the file is created from the userWidgetTextDir value plus language code
+value plus the file name widgetText.xml.
+</p>
+
+<p>
+The language code is a standard language code values, e.g. "en", "fr", etc., 
+and can be set as a parameter passed to the page when it loads,
+or set as a JavaScript "language" variable in the page head.
+This value can be retrieved at any time through the config.lang property.
+</p>
+
+<p>
+The widget text file has a structure very similar to the config file, except
+that it only contains Widget elements and the text values to be set as
+parameters for the stylesheet.
+The property name is the same as the stylesheet parameter name.
+</p>
+
+<h3>Use of CSS in mapbuilder</h3>
+<p>
+CSS can and should be used to modify how your page looks.
+This is typically done by using the widget ID (or htmlTagId value) from config
+as a CSS selector.
+As an example, the complete demo uses this piece of CSS to give the mainMapContainer
+element an olive 1 pixel border and change the cursor to a crosshair:
+</p>
+
+<pre>
+#mainMapContainer {
+  border: 1px solid olive;
+  cursor: crosshair;
+}
+</pre>
+
+<p>
+The CSS file is typically stored in the skin directory as well, 
+but this isn't a requirement.
+It must be included manually in the page head, that is CSS files are not
+loaded automatically by Mapbuilder.
+</p>
+
+
+
+<p align="right">
+<a href="?page=config/patterns">previous</a>&nbsp;&nbsp;&nbsp; 
+<a href="?page=config/listeners">next</a>
+</p>

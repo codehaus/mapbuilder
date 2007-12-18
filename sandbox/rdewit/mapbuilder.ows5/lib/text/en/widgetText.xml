@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<WidgetText xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
+    version="0.2.1" id="mbDefaultText" xml:lang="en">
+  <!--
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ..//mapbuilder/lib/schemas/config.xsd"
+    
+    Description: This file contains all text used in widgets and JavaScript
+                 for multilingual support.  The widget text values are set as
+                 XSL params before the widget is painted.
+                 From JavaScript the messages can be retrieved with
+                 mbGetMessage(messageKey); see the JSDoc for details.
+    Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+
+    $Id$
+  -->
+  <!-- Widget (XSL) messages -->
+  <widgets>
+    <Abstract>
+      <abstract>Abstract</abstract>
+      <moreInfo>Read more about this map</moreInfo>
+    </Abstract>
+    
+    <AoiForm>
+      <east>East:</east>
+      <north>North:</north>
+      <south>South:</south>
+      <title>Area of interest coordinates</title>
+      <west>West:</west>
+    </AoiForm>
+    
+    <Back>
+      <tooltip>Get the previous extent</tooltip>
+    </Back>
+    
+    <CatSearchForm>
+      <east>East:</east>
+      <north>North:</north>
+      <south>South:</south>
+      <west>West:</west>
+    </CatSearchForm>
+    
+    <CollectionList>
+      <title>Select a map to load:</title>
+    </CollectionList>
+    
+    <CursorTrack>
+      <latitude>lat: </latitude>
+      <longitude>lon: </longitude>
+      <xcoord>x: </xcoord>
+      <ycoord>y: </ycoord>
+    </CursorTrack>
+    
+    <DeleteFeature>
+      <tooltip>Delete the current Feature(s) on the server</tooltip>
+    </DeleteFeature>
+    
+    <DragPan>
+      <tooltip>Click and drag to pan</tooltip>
+    </DragPan>
+    
+    <EditLine>
+      <tooltip>Click on map to add a point to a line</tooltip>
+    </EditLine>
+    
+    <EditPoint>
+      <tooltip>Click on map to create a point feature</tooltip>
+    </EditPoint>
+    
+    <EditPolygon>
+      <tooltip>Click on map to add a point to a polygon</tooltip>
+    </EditPolygon>
+    
+    <Forward>
+      <tooltip>Get the next extent</tooltip>
+    </Forward>
+    
+    <GetFeatureInfo>
+      <tooltip>Click on feature for more info</tooltip>
+    </GetFeatureInfo>
+    
+    <GetFeatureInfoWSR>
+      <tooltip>Click on feature for more info</tooltip>
+    </GetFeatureInfoWSR>
+
+    <InsertFeature>
+      <tooltip>Save the current Feature(s) to the server</tooltip>
+    </InsertFeature>
+    
+    <LayerControl>
+      <deleteLayerTip>Remove this layer</deleteLayerTip>
+      <layerIndexTip>Current position of this layer in the image stack</layerIndexTip>
+      <legendTip>Toggle display of the legend</legendTip>
+      <moveLayerDownTip>Move this layer down in the stack</moveLayerDownTip>
+      <moveLayerUpTip>Move this layer up in the stack</moveLayerUpTip>
+      <nameLayerTip>Layer name</nameLayerTip>
+      <opacityTip>Opacity level</opacityTip>
+      <toggleVisTip>Toggle the visibility of this layer</toggleVisTip>
+    </LayerControl>
+    
+    <Legend>
+      <title>Map Layers</title>
+    </Legend>
+    
+    <Measurement>
+      <tooltip>Click on the map to measure the distance</tooltip>
+    </Measurement>
+    
+    <ModelStatus>
+      <title>Status for: </title>
+    </ModelStatus>
+    
+    <ModelUrlInput>
+      <load>load</load>
+      <title>URL: </title>
+    </ModelUrlInput>
+    
+    <Reset>
+      <tooltip>Reset the map to full extent</tooltip>
+    </Reset>
+    
+    <Save>
+      <tooltip>Click to save this map</tooltip>
+    </Save>
+    
+    <SetAoi>
+      <tooltip>Click and drag to set the area of interest</tooltip>
+    </SetAoi>
+    
+    <Timestamp>
+      <title>Timestamp: </title>
+    </Timestamp>
+    
+    <WebServiceForm>
+      <mapsheet>NTS index:</mapsheet>
+      <ntsTitle>NTS Lookup web service</ntsTitle>
+    </WebServiceForm>
+    
+    <WfsGetFeature>
+      <tooltip>Click on feature to query it</tooltip>
+    </WfsGetFeature>
+    
+    <ZoomIn>
+      <tooltip>Click and drag to zoom in</tooltip>
+    </ZoomIn>
+    
+    <ZoomOut>
+      <tooltip>Click to zoom out</tooltip>
+    </ZoomOut>
+  </widgets>
+  
+  <!-- JavaScript messages -->
+  <messages>
+    <aeaInitEqualLatitudes>aeaInit: Equal Latitudes for Standard Parallels on opposite sides of equator</aeaInitEqualLatitudes>
+    <aeqdFwdPointError>Point projection error in aeqdFwd()</aeqdFwdPointError>
+    <aeqdInvDataError>Input data error in aeqdInv()</aeqdInvDataError>
+    <aoiFormNotFound>Could not find aoiForm for geoSearch</aoiFormNotFound>
+    <atLeastOneValue>Please enter at least one value, before proceeding</atLeastOneValue>
+    <buttonBarRequired>buttonBar property required for object: {0}</buttonBarRequired>
+    <cantCalculateDistance>Measurement does not know how to calculate the distanc</cantCalculateDistance>
+    <cantGoBack>You can't go further back</cantGoBack>
+    <cantGoForward>You can't go further forward</cantGoForward>
+    <cantMoveDown>Can't move node past end of list: {0}</cantMoveDown>
+    <cantMoveUp>Can't move node past beginning of list: {0}</cantMoveUp>
+    <convertingCoords>converting coordinates</convertingCoords>
+    <docLoading>Document loading, please wait...</docLoading>
+    <documentParseError>Document parseError: {0}</documentParseError>
+    <eastWgs84>East (WGS84)</eastWgs84>
+    <equiInvDataError>Input data error in equiInv()</equiInvDataError>
+    <errorCreatingObject>Error creating object: {0}</errorCreatingObject>
+    <errorLoadingDocument>Error loading document: {0} - {1}-{2}</errorLoadingDocument>
+    <errorLoadingModel>Config loadModel error: {0}: {1}</errorLoadingModel>
+    <errorLoadingStylesheet>Error loading XSL stylesheet: {0}</errorLoadingStylesheet>
+    <errorPaintingWidget>Config paintWidget error: widget does not exist</errorPaintingWidget>
+    <eventLogSaved>Event log saved as: {0}</eventLogSaved>
+    <exceptionTransformingDoc>Exception transforming doc with XSL: {0}</exceptionTransformingDoc>
+    <featureNotFoundOwsContext>Feature not found</featureNotFoundOwsContext>
+    <featureNotFoundWebServiceRequest>WebServiceRequest: error finding feature node: {0}</featureNotFoundWebServiceRequest>
+    <gridShiftError>ERROR: Grid shift transformations are not implemented yet (cscs.js)</gridShiftError>
+    <idRequired>id required for object: {0}</idRequired>
+    <invalidFeatureXpathEditLine>EditLine: invalid featureXpath in config: {0}</invalidFeatureXpathEditLine>
+    <invalidFeatureXpathEditPoint>EditPoint: invalid featureXpath in config: {0}</invalidFeatureXpathEditPoint>
+    <invalidFeatureXpathEditPolygon>EditPolygon: invalid featureXpath in config: {0}</invalidFeatureXpathEditPolygon>
+    <invalidFeatureXpathMeasurement>Measurement: invalid featureXpath in config: {0}</invalidFeatureXpathMeasurement>
+    <invalidGeom>Invalid geom for: {0}</invalidGeom>
+    <invalidGmlGeom>Invalid GML Geometry</invalidGmlGeom>
+    <laeaInvDataError>Input data error in laeaInv()</laeaInvDataError>
+    <lastFrameAfterFirst>Last frame must be after the first frame</lastFrameAfterFirst>
+    <layerTypeNotSupported>MapPaneOL: No support for layer type={0}</layerTypeNotSupported>
+    <lccInitEqualLatitudes>lccInit: Equal Latitudes for Standard Parallels on opposite sides of equator</lccInitEqualLatitudes>
+    <listenerError>Listener error: param={0}, target={1}, callBackFunction={2}</listenerError>
+    <ll2lccNoProjection>ll2lcc: Point can not be projected</ll2lccNoProjection>
+    <ll2mAtPoles>ll2m: Transformation cannot be computed at the poles</ll2mAtPoles>
+    <ll2stInfiniteProjection>ll2st: Point projects into infinity</ll2stInfiniteProjection>
+    <ll2tmInfiniteProjection>ll2tm: Point projects into infinity</ll2tmInfiniteProjection>
+    <llInputOutOfRange>Input out of range: lon: {0} - lat: {1}</llInputOutOfRange>
+    <loadingLayer>Loading {0} map layer</loadingLayer>
+    <loadingLayers>Loading {0} map layers</loadingLayers>
+    <mollFwdIterationError>Iteration failed to converge in mollFwd()</mollFwdIterationError>
+    <noBboxInContext>No BBOX defined in context</noBboxInContext>
+    <noContextDefined>No context defined in config</noContextDefined>
+    <noCountryCode>You need to specify a country code</noCountryCode>
+    <noDataYet>No data to show yet</noDataYet>
+    <nodeNotFound>Node not found; unable to delete node: {0}</nodeNotFound>
+    <noFeatureToDelete>No feature available to delete</noFeatureToDelete>
+    <noFeatureToInsert>No feature available to insert</noFeatureToInsert>
+    <noMouseHandlerTool>Error finding mouseHandler: {0} for tool: {1}</noMouseHandlerTool>
+    <noQueryableLayers>
+      There are no queryable layers available,
+      please add a queryable layer to the context.
+    </noQueryableLayers>
+    <noQueryableLayersVisible>
+      There are no queryable layers visible,
+      please mark a queryable layer in the legend.
+    </noQueryableLayersVisible>
+    <noRssTitle>No RSS title</noRssTitle>
+    <northWgs84>North (WGS84)</northWgs84>
+    <noSerializeUrl>serializeUrl must be specified in config to save a model</noSerializeUrl>
+    <noTargetContext>Error finding targetContext: {0} for: {1}</noTargetContext>
+    <noTargetModelTool>Error finding targetModel: {0} for tool: {1}</noTargetModelTool>
+    <noTargetModelWidget>Error finding targetModel: {0} for: {1}</noTargetModelWidget>
+    <nullOwsContext>Null OWSContext doc</nullOwsContext>
+    <nullXmlResponse>Null XML response: {0}</nullXmlResponse>
+    <omercFwdInfinity>Point projects into infinity in omercFwd()</omercFwdInfinity>
+    <omercInitDataError>Input data error in omercInit()</omercInitDataError>
+    <orthoFwdPointError>Points cannot be projected in orthoFwd()</orthoFwdPointError>
+    <orthoInvDataError>Input data error in orthoInv()</orthoInvDataError>
+    <parseError>Parse error: {0}</parseError>
+    <phi1zNoConvergence>phi1z: Convergence error</phi1zNoConvergence>
+    <phi2zNoConvergence>phi2z: Convergence error</phi2zNoConvergence>
+    <phi3zNoConvergence>phi3z: Convergence error</phi3zNoConvergence>
+    <phi4zNoConvergence>phi4z: Convergence error</phi4zNoConvergence>
+    <projectionNotSupported>Measurement: Projection not supported!</projectionNotSupported>
+    <scale>scale 1:{0}</scale>
+    <selectLayer>Select a layer if you want insert sld in wmc</selectLayer>
+    <sinuInvDataError>Input data error in sinuInv()</sinuInvDataError>
+    <southWgs84>South (WGS84)</southWgs84>
+    <tabWidgetNotFound>Tab widget not found: {0}</tabWidgetNotFound>
+    <tm2llNoConvergence>tm2ll: Latitude failed to converge</tm2llNoConvergence>
+    <unableToLoadDoc>
+      Unable to load external document: {0}.
+      Set the proxyUrl property in config.
+    </unableToLoadDoc>
+    <unableToSaveLog>Unable to save event log; provide a serializeUrl property in config</unableToSaveLog>
+    <undefinedListener>Undefined listener for: {0}</undefinedListener>
+    <unitCentimeters>centimeters</unitCentimeters>
+    <unitCentimetersAbbr>cm</unitCentimetersAbbr>
+    <unitFeet>feet</unitFeet>
+    <unitFeetAbbr>ft</unitFeetAbbr>
+    <unitInches>inches</unitInches>
+    <unitInchesAbbr>in</unitInchesAbbr>
+    <unitKilometers>kilometers</unitKilometers>
+    <unitKilometersAbbr>km</unitKilometersAbbr>
+    <unitNauticalMiles>nautical miles</unitNauticalMiles>
+    <unitNauticalMilesAbbr>nmi</unitNauticalMilesAbbr>
+    <unitMeters>meters</unitMeters>
+    <unitMetersAbbr>m</unitMetersAbbr>
+    <unitMiles>miles</unitMiles>
+    <unitMilesAbbr>mi</unitMilesAbbr>
+    <unknownRucType>Unknown RUC type</unknownRucType>
+    <westWgs84>West (WGS84)</westWgs84>
+  </messages>
+</WidgetText>
