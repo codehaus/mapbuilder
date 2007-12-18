@@ -126,7 +126,6 @@ java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/AoiForm.js >> ${o
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/Widget.js >> ${originalFile} 2>&1
 
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/WebServiceForm.js >> ${originalFile} 2>&1
-java -jar lib/util/custom_rhino.jar -c ${targetDir}/examples/flickr/FlickrRest2Wfs.js >> ${originalFile} 2>&1
 
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/GetFeatureInfo.js >> ${originalFile} 2>&1
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/Locations.js >> ${originalFile} 2>&1
