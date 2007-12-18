@@ -82,6 +82,14 @@ function Config(url) {
    * @private
    */
   this.loadConfigScripts=function(){
+    // load css stylesheets that were requested before skindir was known.
+    if (mapbuilder.cssToLoad) {
+      for (var i=0; i<mapbuilder.cssToLoad.length; i++) {
+        loadCss(mapbuilder.cssToLoad[i]);
+      }
+      mapbuilder.cssToLoad = null;
+    }
+    
     // Load script files for all components that don't have <scriptfile> specified
     // in the config file.
     mapbuilder.loadScriptsFromXpath(this.doc.selectNodes("//mb:models/*"),"model/");
