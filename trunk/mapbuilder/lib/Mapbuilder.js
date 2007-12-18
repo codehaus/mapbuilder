@@ -153,7 +153,16 @@ function Mapbuilder() {
    * that loadScript was called
    */
   this.loadScript=function(url){
-    if(typeof MapBuilder_Release == "boolean") return
+    if(typeof MapBuilder_Release == "boolean") {
+      if (url.indexOf(baseDir+"/util/") != -1) {
+        return;
+      }
+      var urlElements = url.split("/");
+      var scriptClass = urlElements[urlElements.length-1].replace(/.js$/, "");
+      if(typeof window[scriptClass] == "function") {
+        return;
+      }
+    }
 
     if(!document.getElementById(url)){
       var script = document.createElement('script');
