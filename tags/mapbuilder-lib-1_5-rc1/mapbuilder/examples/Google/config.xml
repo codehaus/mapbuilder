@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<MapbuilderConfig version="0.2.1" id="simpleTemplate"
+  xmlns="http://mapbuilder.sourceforge.net/mapbuilder"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+  <models>
+    <OwsContext id="mainMap">
+      <defaultModelUrl>../data/context/google.xml</defaultModelUrl>
+      <widgets>
+        <MapPaneOL id="mainMapWidget">
+          <htmlTagId>mainMapPane</htmlTagId>
+        </MapPaneOL>
+       <PanZoomBar id="panZoomBar"/>
+      </widgets>
+      <tools>
+        <History id="extentHistory"/>
+        </tools>
+        <nodeSelectXpath>/wmc:ViewContext/wmc:LayerList/wmc:Layer</nodeSelectXpath>
+    </OwsContext>
+  </models>
+
+  <widgets>
+    <Back id="back">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/UndoDisable.png</disabledSrc>
+    </Back>
+    <Forward id="forward">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/RedoDisable.png</disabledSrc>
+    </Forward>
+  
+    <Reset id="reset">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
+    </Reset>
+  </widgets>
+  <skinDir>../../lib/skin/default</skinDir>
+  <widgetTextUrl>widgetText.xml</widgetTextUrl>
+  <!-- relative to the skin dir -->
+</MapbuilderConfig>
