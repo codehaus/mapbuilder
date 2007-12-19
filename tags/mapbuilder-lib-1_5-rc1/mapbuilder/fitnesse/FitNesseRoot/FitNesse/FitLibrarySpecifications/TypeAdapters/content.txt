@@ -1,8 +1,0 @@
-This is an abstract class which provides various capabilities to all the fit library fixtures. We test these with specific subclasses.
-
-^TestDelegatedHandlingOfParse
-^ObjectDelegate
-^ClassDelegate
-^HasParseDelegate
-^UseStaticParseMethod
-^UseToStringForResult
