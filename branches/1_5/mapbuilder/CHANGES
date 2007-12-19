@@ -18,7 +18,6 @@ Status:
 
 Bugs fixed:
 -----------
-MAP-445		wfs-t using geoserver 1.5
 MAP-443		Use the new proj4js library instead of cscs
 MAP-270		"MAP-261 /lib/model/FeatureTypeSchema.js"
 MAP-268		"MAP-261 /lib/model/ContextCollection.js"
@@ -112,6 +111,9 @@ MAP-27		Change Open GIS to Open Geospatial Submitted: camerons SF-1168180
 
 Outstanding Issues (highest priority first):
 --------------------------------------------
+MAP-259		Checking all .js files for their purpose and compatability
+MAP-474		move search capabilities to OWSExplorer from context editor
+MAP-445		wfs-t using geoserver 1.5
 MAP-404		Memory Leak
 MAP-172		'error loading XSL stylesheet' when using IE & HTTPS
 MAP-425		Error on first SAVE from wfs-t demo
