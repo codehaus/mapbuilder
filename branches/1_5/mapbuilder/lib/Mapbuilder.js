@@ -71,13 +71,6 @@ function Mapbuilder() {
    * Mozilla works fine without this function - I think it is single threaded.
    */
   this.checkScriptsLoaded=function() {
-    // check for compressed file
-    if(typeof MapBuilder_Release == "boolean") {
-    //    alert( "compressed")
-        this.setLoadState(MB_LOAD_CONFIG);
-        return;
-    }
-        
     if (document.readyState!=null){
       // IE client
 
@@ -132,10 +125,6 @@ function Mapbuilder() {
           // IE
           config=new Config(mbConfigUrl);
           config.loadConfigScripts();
-          if(typeof MapBuilder_Release == "boolean") {
-            this.setLoadState(MB_LOADED);
-            return;
-          }
         }else{
           // Mozilla
           this.setLoadState(MB_LOADED);
@@ -153,7 +142,22 @@ function Mapbuilder() {
    * that loadScript was called
    */
   this.loadScript=function(url){
-    if(typeof MapBuilder_Release == "boolean") return
+    // if we are working with a compressed build, load only scripts that
+    // are not part of the compressed build. This check is done by looking
+    // into the global namespace for a function that has the same name as
+    // the script file (without path and without .js). Because script files
+    // in the util dir do not follow that pattern, exclude them from the
+    // check separately.
+    if(typeof MapBuilder_Release == "boolean") {
+      if (url.indexOf(baseDir+"/util/") != -1) {
+        return;
+      }
+      var urlElements = url.split("/");
+      var scriptClass = urlElements[urlElements.length-1].replace(/.js$/, "");
+      if(typeof window[scriptClass] == "function") {
+        return;
+      }
+    }
 
     if(!document.getElementById(url)){
       var script = document.createElement('script');
