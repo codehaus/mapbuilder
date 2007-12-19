@@ -136,5 +136,3 @@ java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/ShowDistance.js >
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/SelectAllMapLayers.js >> ${originalFile} 2>&1
 
 cp ${originalFile} ${mapbuilderDir}/lib
-
-cp ${mapbuilderDir}/lib/MapbuilderCompressed.js /osgeo/mapbuilder/apisite/1.5-rc1/mapbuilder/lib
