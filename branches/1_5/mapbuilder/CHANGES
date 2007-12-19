@@ -5,7 +5,140 @@ $Id$
 
 This file contains information about updates to each release:
 
+mapbuilder-lib-1.5-rc1
+==========================
+Community MapBuilder 1.5 RC1 shows steady progress toward the 1.5 release.
 
+Status:
+- Finished integration of OpenLayers for map rendering, based on OpenLayers 2.5
+- Support for commercial base layers (Google, Yahoo, Microsoft) and KML layers
+- On-the-fly reprojection of vector data based on the new Proj4js library
+- Improved handling of layers in Context/OWSContext based on unique layer IDs
+- Updated examples showing the new features
+
+Bugs fixed:
+-----------
+MAP-445		wfs-t using geoserver 1.5
+MAP-443		Use the new proj4js library instead of cscs
+MAP-270		"MAP-261 /lib/model/FeatureTypeSchema.js"
+MAP-268		"MAP-261 /lib/model/ContextCollection.js"
+MAP-138		Compress all files - automate compression process
+MAP-470		GMLRendererOL duplicates features on refresh
+MAP-469		POST body of XMLHTTP requests is hard to debug because it is sent as DOMDocument
+MAP-468		Editing feature properties in FeatureList widget only works if there is one feature in the list
+MAP-467		Mapbuilder does not work reliably in IE when scripts load in the wrong order
+MAP-466		WidgetBaseXSL should have an option to allow parsing HTML nodes (like in RSS feeds)
+MAP-465		Add support for minResolution to MapPaneOL
+MAP-462		Only left and upper edge of AOI in overview visible when zoomed to full extent
+MAP-461		Introduction of layerId causes problems with GetFeatureInfoWSR.js
+MAP-460		Introduction of layerId causes problems with OverviewMap
+MAP-457		current="1" in context FormatList/Format is ignored
+MAP-456		reference to non existing /lib/graphics/*
+MAP-453		OpenLayers vector layers not working when retrieved from different host than application
+MAP-452		Loading indicator is shown on map pan and will not go away
+MAP-438		Mapbuilder 1.5 alpha2 always show the first layer in layerlist
+MAP-431		config.objects.mainMap.setBouningBox(boxarray) does not work
+MAP-430		I use Mapbuilder 1.5alpha2 to build a web application using map layers from WMS services of MassGIS, everything seems fine exvept getting pop-up window of "Error, status=404" when you access or refresh map page. It is this way for both IE6 and Firefox
+MAP-429		<ScriptFile> is not loaded in demo MapViewer on IE7
+MAP-424		Memory leak on useless document.createElement("IMG");
+MAP-420		tm2llNoConvergence errors with cscs
+MAP-417		"MAP-262 /lib/tool/MergeModels.js"
+MAP-410		"MAP-264 /lib/widget/GmlRendererConfig.js"
+MAP-358		"MAP-264 /lib/widget/Loading2.js"
+MAP-257		"MAP-201 MapScaleText.js"
+MAP-251		System of coordinated EPSG:27492
+MAP-248		"MAP-201 update config.xsd"
+MAP-247		"MAP-201 Deprecate MapContainerBase"
+MAP-242		"MAP-228 i18n"
+MAP-241		"MAP-228 openlayers"
+MAP-240		"MAP-228 sldEditor"
+MAP-239		"MAP-228 GeoBliki"
+MAP-238		"MAP-228 shipTracks"
+MAP-235		"MAP-228 contextEditor"
+MAP-234		"MAP-228 mapViewer"
+MAP-233		"MAP-228 simple"
+MAP-232		"MAP-228 wfs-t"
+MAP-231		"MAP-228 timeSeries"
+MAP-230		"MAP-228 Demis"
+MAP-229		"MAP-228 basic"
+MAP-228		OpenLayers-Integration: Examples
+MAP-222		OpenLayers-Integration: Renderer widgets
+MAP-217		OpenLayers-Integration: TimeSeries widgets
+MAP-215		"MAP-204 Measurement.js"
+MAP-214		"MAP-204 FeatureInfo.js"
+MAP-213		"MAP-201 Loading2.js"
+MAP-212		"MAP-201 Loading.js"
+MAP-210		"MAP-201 LayerControl.js"
+MAP-204		OpenLayers-Integration: Information retrieval widgets
+MAP-201		OpenLayers-Integration: Map display widgets
+MAP-198		"MAP-196 ButtonBase.js"
+MAP-197		"MAP-201 MapPaneOL.js"
+MAP-196		OpenLayers-Integration: Map navigation widgets
+MAP-141		Use OpenLayers for rendering & integrate OL tools
+MAP-139		Provide the Mapbuilder JS from a single URL, accessable by all applications
+MAP-6		Problem with two WMS layers with the same name submitted: kc7bfi SF-1400521
+MAP-464		Users should be able to override a button type using the <class> config property
+MAP-458		Add support for KML in MapPaneOL.js
+MAP-455		xsl stylesheet url for GetFeatureInfo and WebServiceRequest should be configurable
+MAP-454		Model initialisation will fail in IE if model id equals a pre-defined global object (eg. "form", "frames")
+MAP-451		Loading2.js does not show a loading indicator on maps that don't load their context from an url
+MAP-448		getFeatureInfo in example 'mapViewer' generates ServiceException
+MAP-446		OverviewMap does not use SLD
+MAP-442		new widgets for WMS GetFeatureInfo and WFS FeatureInfo using the WebServiceRequest tool
+MAP-434		WmsCapabilities fails when the Title is empty or absent
+MAP-432		SVN trunk directory reorganization
+MAP-428		build.xml doesn't work with tomcat 6
+MAP-415		Translation in FR for widgetText
+MAP-132		Add support for https to proxy (java, php, javascript)
+MAP-119		loading2 doesn't work with tabbedcontent
+MAP-71		Duplicate GetFeatureInfo responses forced if mouse click occurs before previous query finished.
+MAP-43		duplicate layers mess up when deleting them Submitted: graphrisc SF-1361616
+MAP-473		Small bug in getNodeValue in Util.js
+MAP-472		Allow different service types for a Layer/FeatureType in OWSContext
+MAP-450		Referring to a non-existent widget/tool/model in config.xml results in JS error: window[objectType] is not a constructor
+MAP-449		OWSExplorer legend images don't work in WMS layers
+MAP-447		Examples page has wrong link to itself: links to old 'demo' directory
+MAP-435		MapbuilderProxy.jsp doesn't support HTTPS URLs yet
+MAP-426		i18n demo doesn't work from file:// url
+MAP-408		"MAP-264 /lib/widget/TipWidgetConfig.js"
+MAP-389		"MAP-264 /lib/widget/Timestamp.js"
+MAP-388		"MAP-264 /lib/widget/TimeSeriesOL.js"
+MAP-342		"MAP-264 /lib/widget/GmlRendererOL.js"
+MAP-299		"MAP-262 /lib/tool/WebServiceRequest.js"
+MAP-296		"MAP-262 /lib/tool/MovieLoop.js"
+MAP-237		"MAP-228 flickr"
+MAP-55		Create hover-over popups when mouse hovers over a feature Submitted By: Cameron Shorter SF - 1173569
+MAP-27		Change Open GIS to Open Geospatial Submitted: camerons SF-1168180
+
+Outstanding Issues (highest priority first):
+--------------------------------------------
+MAP-404		Memory Leak
+MAP-172		'error loading XSL stylesheet' when using IE & HTTPS
+MAP-425		Error on first SAVE from wfs-t demo
+MAP-155		Loading Map Layer notification should handle bad wms
+MAP-25		Move util.js into JS objects Submitted: camerons SF-1071242
+MAP-178		JavaScript files should follow the Style Guide
+MAP-161		In IE map <div> moves to bottom if window width is too small
+MAP-17		Line 96 Error firstChild is null or not an object Submitted: Cappelaere SF-1392108
+MAP-59		GetFeatureInfo URL generated for a second WMS in same context as first is repeated in the variable string.
+MAP-163		Issues with query in Enhanced demo
+MAP-189		Make spelling of "MapBuilder" consistent
+MAP-165		I18N of MapBuilder messages
+MAP-192		Opacity management
+MAP-255		use the new NASA EO WMS in the time series demo
+MAP-49		set properties by URL parameters Submitted: Mike Adair SF - 1257212
+MAP-16		Line 278 Object required Submitted: Cappelaere SF-1392112
+MAP-24		Gazetteer widget auto zoom Submitted: nobody SF-1380974
+MAP-153		Mapbuilder should detect browsers which don't support XSLT
+MAP-35		use scalehints in context docs Submitted: madair1 SF-1174298
+MAP-459		resolutions in config.xml and in ows:BaseLayer might create problems
+MAP-246		"MAP-201 OWSContext"
+MAP-463		Allow zooming to arbitrary extents instead of the closest matching resolution
+MAP-365		"MAP-264 /lib/widget/MapScaleText.js"
+MAP-131		setXpathValue works for tags but not for tags attributes
+
+
+   	
 mapbuilder-lib-1.5-alpha2
 ==========================
 This Mapbuilder release is largely a bugfix and cleanup release on the
