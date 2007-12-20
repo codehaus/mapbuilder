@@ -956,8 +956,9 @@ MapPaneOL.prototype.timestampListener=function(objRef, timestampIndex){
 
   if ((layerId) && (timestamp)) {				
     var curLayer = objRef.oLlayers[layerId]; //TBD: please check if this still works now we've moved to layerId
+    div = curLayer.grid[0][0].imgDiv;
     // Perform URL substitution via regexps
-    var oldImageUrl = curLayer.grid[0][0].imgDiv.src;
+    var oldImageUrl = div.src || div.firstChild.src;
     var newImageUrl = oldImageUrl;		
     newImageUrl = newImageUrl.replace(/TIME\=.*?\&/,'TIME=' + timestamp.firstChild.nodeValue + '&');
 
@@ -966,12 +967,12 @@ MapPaneOL.prototype.timestampListener=function(objRef, timestampIndex){
     }
 
     window.movieLoop.frameIsLoading = true;
-    var element = curLayer.grid[0][0].imgDiv;
+    var element = div.src ? div : div.firstChild;
     if(element.addEventListener) { // Standard
       element.addEventListener("load", imageLoaded, false);
     } else if(element.attachEvent) { // IE
       element.attachEvent('onload', imageLoaded);
-    } 
+    }
     element.src = newImageUrl;		
   }
       
