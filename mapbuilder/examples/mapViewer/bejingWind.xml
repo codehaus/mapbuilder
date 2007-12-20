@@ -281,7 +281,7 @@
 			<Abstract>Generated from vmap0</Abstract>
 			<SRS>EPSG:4326</SRS>
 			<FormatList>
-				<Format current="1">image/gif</Format>
+				<Format current="1">image/png</Format>
 			</FormatList>
 			<StyleList>
 				<Style current="1">
@@ -299,7 +299,7 @@
 			<Abstract>Generated from postgis_gnis</Abstract>
 			<SRS>EPSG:4326</SRS>
 			<FormatList>
-				<Format current="1">image/gif</Format>
+				<Format current="1">image/png</Format>
 			</FormatList>
 			<StyleList>
 				<Style current="1">

@@ -714,6 +714,9 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   // Get current style node of the layer
   var currentStyle = layer.selectSingleNode('wmc:StyleList/wmc:Style[@current=1]');
 
+  // will be true for IE6, false for later versions of IE
+  var IE6 = false /*@cc_on || @_jscript_version < 5.7 @*/;
+  
   //default option value for a layer
   var layerOptions = {
           visibility: vis,
@@ -722,7 +725,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
           maxExtent: objRef.model.map.baseLayer.maxExtent,
           maxResolution: objRef.model.map.baseLayer.maxResolution,  //"auto" if not defined in the context
           minResolution: objRef.model.map.baseLayer.minResolution,  //"auto" if not defined in the context
-          alpha: false,            //option for png transparency with ie6
+          alpha: format.indexOf("png") != -1 ? IE6 : false,         //option for png transparency with ie6
           isBaseLayer: false,
           displayOutsideMaxExtent: objRef.displayOutsideMaxExtent
      };
