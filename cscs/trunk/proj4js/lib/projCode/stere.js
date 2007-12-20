@@ -33,11 +33,10 @@ Proj4js.Proj.stere = {
       return null;
     } else {
       ksp = 2.0 / (1.0 + g);
-      var x = this.x0 + this.a * ksp * cosphi * Math.sin(dlon);
-      var y = this.y0 + this.a * ksp * (this.cos_p10 * sinphi - this.sin_p10 * cosphi * coslon);
-     // return new Array(x,y);
+      p.x = this.x0 + this.a * ksp * cosphi * Math.sin(dlon);
+      p.y = this.y0 + this.a * ksp * (this.cos_p10 * sinphi - this.sin_p10 * cosphi * coslon);
+      return p;
     }
-    return new Proj4js.Point(x, y);
   },
 
 
@@ -62,7 +61,7 @@ Proj4js.Proj.stere = {
              lon = Proj4js.common.adjust_lon(this.long0 + Math.atan2(x, -y));
              /// return(OK);
            } else {
-             lon = adjust_lon(this.long0 - Math.atan2(-x, y));
+             lon = Proj4js.common.adjust_lon(this.long0 - Math.atan2(-x, y));
              // return(OK);
            }
          } else {
@@ -74,6 +73,8 @@ Proj4js.Proj.stere = {
            }
          }
        }
-      return new Proj4js.Point(lon, lat);
+      p.x = lon;
+      p.y = lat;
+      return p;
   }
 }; 
