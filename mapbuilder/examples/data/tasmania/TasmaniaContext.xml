@@ -60,7 +60,7 @@
 
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="tasmania/TasmaniaCities.xml"/>
+        <OnlineResource xlink:type="simple" xlink:href="../data/tasmania/TasmaniaCities.xml"/>
       </Server>
       <Name>TasmaniaCities</Name>
       <Title>Tasmania Cities</Title>
@@ -90,7 +90,7 @@
 
     <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="tasmania/TasmaniaRoads.xml"/>
+        <OnlineResource xlink:type="simple" xlink:href="../data/tasmania/TasmaniaRoads.xml"/>
       </Server>
       <Name>topp:tasmania_roads</Name>
       <Title>Tasmania Roads</Title>
@@ -111,7 +111,7 @@
 
      <FeatureType hidden="0">
       <Server service="OGC:GML" version="2.1.2" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="tasmania/TasmaniaWaterBodies.xml"/>
+        <OnlineResource xlink:type="simple" xlink:href="../data/tasmania/TasmaniaWaterBodies.xml"/>
       </Server>
       <Name>TasmaniaWaterBodies</Name>
       <Title>Tasmania Water Bodies</Title>
@@ -136,7 +136,7 @@
  
     <FeatureType hidden="1">
       <Server service="OGC:GML" version="2.1.2" title="Local">
-        <OnlineResource xlink:type="simple" xlink:href="tasmania/TasmaniaStateBoundaries.xml"/>
+        <OnlineResource xlink:type="simple" xlink:href="../data/tasmania/TasmaniaStateBoundaries.xml"/>
       </Server>
       <Name>TasmaniaStateBoundaries</Name>
       <Title>Tasmania State Boundaries</Title>
