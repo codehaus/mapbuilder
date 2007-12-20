@@ -1,0 +1,26 @@
+mapbuilder-lib
+==============
+
+Installation
+============
+Download the latest mapbuilder-lib file from
+http://sourceforge.net/projects/mapbuilder
+
+Uncompress the file.
+
+Run
+===
+You can view an index of demonstration applications by viewing the
+following file in a recent web browser:  mapbuilder\demo\index.html
+
+Some demonstrations require mapbuilder to be installed in a web server
+which supports PHP (like Apache), or a Servlet Container (like Tomcat).
+
+Browser Support
+===============
+Internet Explorer 6+, Netscape 6+, Mozilla 1.3+ are supported.
+(Applications using vector rendering via SVG require Mozilla 1.5+)
+
+Documentation
+=============
+More detailed documentation is available at http://communitymapbuilder.org
