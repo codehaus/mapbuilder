@@ -690,7 +690,7 @@ function sld2UrlParam(node) {
  * @return OpenLayers style object
  */
 function sld2OlStyle(node) {
-  var style1=new Object();
+  var style1=OpenLayers.Util.extend({},OpenLayers.Feature.Vector.style["default"]);
   var value;
   var styleSet=false;
 
