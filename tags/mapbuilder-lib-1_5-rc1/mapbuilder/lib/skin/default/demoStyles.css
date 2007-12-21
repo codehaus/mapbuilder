@@ -1,0 +1,212 @@
+body {
+	font-family: Verdana, arial, sans-serif;
+	font-size: 11px;
+	line-height: 16px;
+	margin					: 0px;
+	padding					: 0px;
+	height					: 100%;
+	background-color		: #f0f0f0;
+	bottom					: 0px;
+	display: inline;
+	}
+	td {
+	font-family: Verdana, arial, sans-serif;
+	font-size: 11px;
+	line-height: 16px;
+	}
+a {
+	text-decoration: none;
+	color: black;
+	font-weight: bold;
+	border: none;
+	}
+a:hover {
+		text-decoration: underline;
+		
+	}	
+
+img {
+	border: none;
+	}	
+H1 { 
+	
+	font-size: 18px;
+	font-weight: bold;
+  color: #3366cc; 
+  margin: 5; 
+  width: 100%; 
+  height: 24px;
+  text-align: left
+  
+}
+
+H2 { 
+	font-size: 10px;
+	font-weight: bold;
+  color: black; 
+margin: 10px 0px 0px 0px;
+ background-color: #f0f0f0;
+width: 100%; 
+  text-align: left
+  
+}
+
+H3 { 
+	font-size: 10px;
+	font-weight: bold;
+  color: #3366cc; 
+  margin: 0; 
+ background-color: #f0f0f0;
+width: 100%; 
+  text-align: left
+  
+}
+
+ul a {
+	font-weight: normal;
+	}
+
+#header {
+	font-family: Verdana, geneva, arial, sans-serif;
+	width: 99%;
+  height: 40px;
+	margin-bottom: 5px;
+	vertical-align: bottom;
+}
+
+#header .left {
+	 margin-top: 10px; 
+	}
+#header .right {
+	margin-top: 20px;
+	}	
+#middle {
+	left: 0px;
+	right: 0px;
+	width: 100%;
+	display: inline;
+	}
+#menubar {
+	display: block;
+position: absolute;
+left: 0px;
+top: 31px;
+bottom: 0px;
+overflow: auto;
+	width: 130px;
+	font-family: Verdana, geneva, arial, sans-serif;
+	font-size: 8pt;
+	
+	bottom: 60px;
+	}
+	#menubar a {
+font-weight: normal;
+	color: white;
+	}
+	
+	#menubar ul {
+	background:  #3c78b5;
+margin: 0px;
+  padding: 0px;
+  display: inline;
+  list-style-type: none;
+  list-style-image: none;
+  list-style-position: outside;
+  font-size: 10px;
+}
+
+#menubar li {
+	background:  #3c78b5;
+	margin: 0px;
+	padding: 2px;
+	display: block;
+	}
+	
+#mainbody {
+		border-top: 1px solid #ccc;
+		border-bottom: 1px solid #ccc;
+ 		border-left: 1px solid #ccc;
+		padding: 5px;
+
+
+		margin-left: 130px;
+		right: 1px;
+		bottom: 1px;
+		background-color: white;
+display: block;
+}
+
+#mainbody:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+
+/* Hides from IE-mac \*/
+* html #mainbody {height: 1%;}
+/* End hide from IE-mac */
+#mainbody .left{
+	position: relative;
+		height: 99%;
+		top: 0px;
+		bottom: 0px;
+		left: 0px;
+width: 30%;
+display: block;
+float: left;
+	margin: 0px;	
+	overflow-x: auto;
+}
+#mainbody .right{
+	position: relative;
+display: block;
+		width: 69%;
+		margin-left: 30%;
+		right: 0px;
+  height: expression(document.body.clientHeight*.99);
+		float: right;
+		margin: 0px;
+}
+
+#mainMapPane {
+  border: 1px solid olive;
+/*  cursor: crosshair; */
+}
+#cursorTrack INPUT {
+	border: none;
+	}
+#footer {
+
+	height: 60px;
+	width: 99%;
+margin:0px;
+	bottom: 0px;
+	
+	font-size: 9pt;
+}
+
+
+#footer .right {
+		padding: 0px 5px 0px 5px;
+		text-align: right;
+		
+		width: 99%;
+	
+		margin-top: 0px;
+}
+.help {
+	position: absolute;
+	right: 18px;
+	height: 20px;
+	width: 150px;
+	border-top: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	font-size: 8pt;
+	cursor: help;
+	float: right;
+	text-align: center;
+	z-index: 100;
+	}
