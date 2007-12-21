@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<OWSContext version="0.0.13" id="ows-context-tie" 
+  xmlns="http://www.opengis.net/context" 
+  xmlns:xlink="http://www.w3.org/1999/xlink" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:sld="http://www.opengis.net/sld"
+  xmlns:ogc="http://www.opengis.net/ogc" 
+  xmlns:ows="http://www.opengis.net/ows" 
+  xmlns:param="http;//www.opengis.net/param" 
+  xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
+
+  <General>
+    <!-- Tasmania Bounding Box -->
+    <Window width="600" height="300"/>
+    <ows:BoundingBox crs="EPSG:4326">
+      <ows:LowerCorner>141.57875 -44.26625</ows:LowerCorner>
+      <ows:UpperCorner>151.03125 -39.56375</ows:UpperCorner>
+    </ows:BoundingBox>
+    
+    <Title xml:lang="en">GML3 Demo with OWSContext</Title>
+    <KeywordList>
+      <Keyword>world</Keyword>
+      <Keyword>atlas</Keyword>
+      <Keyword>gml3</Keyword>
+    </KeywordList>
+    <LogoURL width="140" height="65" format="image/gif">
+      <OnlineResource xlink:type="simple" xlink:href="http://www.opengeospatial.org/img/ogc_header_top_left.gif" />
+    </LogoURL>
+
+    <DescriptionURL format="text/html">
+      <OnlineResource xlink:type="simple" xlink:href="http://www.opengeospatial.org/press/?page=pressrelease&amp;view=20040525_ContextIE_PR" />
+    </DescriptionURL>
+    
+  </General>  
+    
+  <ResourceList>
+
+    <Layer queryable="0" hidden="0">
+      <Server service="OGC:WMS-C" version="1.0.0" title="OGC:WMS-C">
+        <OnlineResource xlink:type="simple" xlink:href="http://labs.metacarta.com/wms/vmap0"/>
+      </Server>
+      <Name>basic</Name>
+      <Title>basic</Title>
+      <SRS>EPSG:4326 EPSG:4269</SRS>
+      <FormatList>
+        <Format>image/jpeg</Format>
+        <Format>image/png</Format>
+        <Format>image/gif</Format>
+        <Format current="1">image/png; mode=24bit</Format>
+        <Format>image/wbmp</Format>
+        <Format>image/tiff</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+      </StyleList>
+    </Layer>
+
+    <FeatureType hidden="0">
+      <Server service="OGC:GML" version="2.1.2" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="../data/tasmania/TasmaniaCities.xml"/>
+      </Server>
+      <Name>TasmaniaCities</Name>
+      <Title>Tasmania Cities</Title>
+      <Abstract>Tasmania Roads based on the Digital Chart of the World.</Abstract>
+      <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Graphic>
+              <sld:Mark>
+                <sld:Fill>
+                  <sld:CssParameter name="fill">#FF00FF</sld:CssParameter>
+                  <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+                </sld:Fill>
+                <sld:Stroke>
+                  <sld:CssParameter name="stroke">#FF00FF</sld:CssParameter>
+                  <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+                  <sld:CssParameter name="stroke-width">2</sld:CssParameter>
+                </sld:Stroke>
+              </sld:Mark>
+              <sld:Size>3</sld:Size>
+            </sld:Graphic>
+          </SLD>
+        </Style>
+      </StyleList>
+    </FeatureType>
+
+    <FeatureType hidden="0">
+      <Server service="OGC:GML" version="2.1.2" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="../data/tasmania/TasmaniaRoads.xml"/>
+      </Server>
+      <Name>topp:tasmania_roads</Name>
+      <Title>Tasmania Roads</Title>
+      <Abstract>Tasmania Roads based on the Digital Chart of the World.</Abstract>
+      <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#FF0000</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">3</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
+    </FeatureType>
+
+     <FeatureType hidden="0">
+      <Server service="OGC:GML" version="2.1.2" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="../data/tasmania/TasmaniaWaterBodies.xml"/>
+      </Server>
+      <Name>TasmaniaWaterBodies</Name>
+      <Title>Tasmania Water Bodies</Title>
+      <Abstract>Tasmania Roads based on the Digital Chart of the World.</Abstract>
+      <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#6633FF</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.6</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#6633FF</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">1</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
+    </FeatureType>
+ 
+    <FeatureType hidden="1">
+      <Server service="OGC:GML" version="2.1.2" title="Local">
+        <OnlineResource xlink:type="simple" xlink:href="../data/tasmania/TasmaniaStateBoundaries.xml"/>
+      </Server>
+      <Name>TasmaniaStateBoundaries</Name>
+      <Title>Tasmania State Boundaries</Title>
+      <Abstract>Tasmania Roads based on the Digital Chart of the World.</Abstract>
+      <SRS>EPSG:4326</SRS>
+      <StyleList>
+        <Style current="1">
+          <SLD>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#333333</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#666666</sld:CssParameter>
+              <sld:CssParameter name="stroke-opacity">1</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </SLD>
+        </Style>
+      </StyleList>
+    </FeatureType>
+    
+  </ResourceList>
+</OWSContext>

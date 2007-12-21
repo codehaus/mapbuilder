@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+      
+<html xmlns="http://www.w3.org/1999/xhtml" >
+  <head>
+    <title>Mapbuilder Proj4js demo</title>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/demoStyles.css'/>
+    <style>
+      .cursorTrackLeft {
+        width: 100px;
+      }
+      .cursorTrackRight {
+        width: 100px;
+      }
+    </style>
+    <script>
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='config.xml';
+    </script>
+    <!-- This points to the core mapbuilder library, replaces this with MapbuilderCompressed.js when you want to use the compressed version -->
+    <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
+    
+  </head>
+  <!-- This onload event starts mapbuilder -->
+  <body onload="mbDoLoad()" >
+  <!-- DIY cut here 1 -->
+    <div id="header">  	<!-- The header of the page -->
+      <h1><a href="http://communitymapbuilder.org">MapBuilder</a> Proj4js demo</h1>
+    </div><!-- /header -->
+    
+    <div id="middle"><!-- The center piece of the page with left menubar and right mainbody -->
+      <div id="menubar"><!-- left side of the middle div-->
+        <h2>Basic</h2>
+        <ul>
+          <li><a href="../simple/index.html" title="simple map demo">Simple Map Viewer</a></li>
+          <li><a href="../basic/index.html" title="interactive map demo">Interactive Map Viewer</a></li>
+          <li><a href="../mapViewer/index.html" title="enhanced map demo">Enhanced Map Viewer</a></li>
+        </ul>
+        <h2>Complex</h2>
+        <ul>
+          <li><a href="../Demis/index.html" title="Demis map viewer">Different maps connected</a></li>
+          <li><a href="../timeSeries/index.html" title="Time series viewer">Time series viewer</a></li>
+          <li><a href="../wfs-t/index.html" title="Feature entry">Feature entry</a></li>
+          <li><a href="../OWSExplorer/index.html" title="OWS Explorer">Open Web Services Explorer</a></li>
+        </ul>
+        <h2>New</h2>
+        <ul>
+          <li><a href="../mergeModels/index.html" title="Complex Vector Rendering with GmlRendererOL and MergeModels">Complex Vector Rendering</a></li>			
+          <li><a href="../flickr/index.html" title="GeoRSS feed example">Live flickr feed viewer</a></li>
+          <li><a href="../shipTracks/index.html" title="GeoRSS Ship tracks">GeoRSS Shiptracks</a></li>
+          <li><a href="../GeoBliki/index.html" title="GeoBliki example">WFS query, Popup Feature information</a></li>					
+          <li><a href="../Google/index.html" title="Google Map Viewer">Google Map Viewer</a></li><li><a href="../projDemo/index.html" title="Reprojecting vector data on the fly">Projections</a></li>
+          <li><a href="../openlayers/index.html" title="Webmap.js integration">OpenLayers integration</a></li>
+          <li><a href="../i18n/index.html" title="I18N map demo">I18N Map Viewer</a></li>
+        </ul>
+        <h2 onclick="javascript: history.go(-1)" style="color:black;cursor:pointer;">Back</h2>
+      </div><!-- /menubar -->
+      <div id="mainbody"><!-- right side of the middle div, is also divided into two areas -->
+
+        <div class="left">
+          <h3>Explanation</h3>
+          <p>
+            This demo shows the Proj4js library in action. 
+            All coordinate conversions shown here are being carried out on the client side
+            in JavaScript.
+          </p>
+          <p>
+            The cursor is tracked in Longitude and Latitude as well as in map projected X-Y coordinates.
+            <div id="cursorTrack"><!-- This is where the cursor tracker will be drawn --></div>
+          </p>
+          <p>
+            A GML document may be loaded and it's feature coordinates will be converted to the map
+            projection prior to being rendered over the map.<br/>
+            <a href="javascript:config.loadModel('gml2FeatureTemplate','bsc_ows_small.xml')">load GML</a>
+          </p>
+        </div><!-- /left -->
+        
+        <!-- DIY end cut 1-->
+        <div class="right">
+          <div id="mainMapPane"><!-- This is the container where the map will be drawn -->
+            <noscript>this page requires Javascript to be enabled</noscript>
+          </div><!-- /mainMapPane -->
+          <div>
+            <div style="float: left; width: 30%;" id="mainButtonBar"><!-- This is the container where the buttons will be drawn --></div>
+            <div id="scaleText"><!-- This is where the scale text will be drawn --></div>
+          </div>
+          <div>
+            <h2>Examples of maps in different projections</h2>
+            <div id="maps"></div>
+          </div>
+        </div><!-- /right -->
+        <!-- DIY cut here 2 -->
+
+      </div><!-- /mainbody -->
+    </div><!-- /middle -->
+
+    <div id="footer"><!-- The footer of the page -->
+      <div class="right">
+        <a href="http://communitymapbuilder.org/" title="powered by community mapbuilder"><img src="../../lib/skin/default/images/Icon.gif"/></a>	  	
+        <a href="https://www.osgeo.org/" title="member of OSgeo"><img src="../../lib/skin/default/images/Osgeo.png"/></a>
+      </div><!-- /right -->
+    </div><!-- /footer -->  
+    <!-- DIY end cut 2 -->
+  </body>
+</html>

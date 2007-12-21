@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+  <models>
+    <OwsContext id="mainMap">
+      <defaultModelUrl>context2.xml</defaultModelUrl>
+      <widgets>
+        <MapPaneOL id="mainMapWidget">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <maxExtent>0 400000 189440 502400</maxExtent>
+          <maxResolution>473.6</maxResolution>
+          <!--maxExtent>-24288 262144 500000 786432</maxExtent>
+          <maxResolution>2048</maxResolution-->
+        </MapPaneOL>
+        <Legend id="contextLegend">
+          <htmlTagId>legend</htmlTagId>
+          <stylesheet>./Legend2.xsl</stylesheet>
+        </Legend>
+      </widgets>
+    </OwsContext>
+  </models>
+  <widgets>
+  </widgets>
+  <skinDir>../../lib/skin/default</skinDir>
+</MapbuilderConfig>

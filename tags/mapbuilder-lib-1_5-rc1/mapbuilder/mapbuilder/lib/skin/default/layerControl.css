@@ -1,0 +1,103 @@
+.layerControl{
+    width:350px;
+
+}
+
+.altRow_1
+{
+	background-color:#D1E2EC;
+}
+
+.altRow_0
+{
+    
+    background-color:#FFFFFF;
+
+}
+/******************** LAYER HEADER css*************************/
+.LayerHeader{
+    text-align:center;
+    padding-top:5px;
+    position:relative;
+	display:block;
+	height:30px;
+}
+
+
+.indexLayerHeader{
+    position:absolute;
+    display:inline;
+    margin-top:3px;
+    top:5px;
+    left:3px;
+}
+.inputLayerHeader
+{
+    display:inline;
+    position:absolute;
+    left:15px;
+}
+.checkboxLayerHeader
+{
+    float:left;
+    padding-top:3px;
+}
+.buttonLayerHeader
+{
+    float:left;
+}
+.nameLayerHeader
+{
+    position:absolute;
+    top:10px;
+    left:140px;
+}
+.transpLayerHeader
+{
+    position:absolute;
+    top:7px;
+    right:0px;
+}
+.transpLayerHeader select
+{
+    width:45px;
+    font-size:10px;
+    line-height:10px;
+}
+/******************** END LAYER HEADER css*************************/
+.legend
+{
+    text-align:left;
+}
+.legend img /*hack for IE6*/
+{
+background-color:Transparent;
+}
+.test
+{
+    text-align:center;
+}
+.GroupHeaderTitle
+{
+    display:inline;
+    background:Inherit;
+}
+.GroupHeader
+{ 
+    font-variant:small-caps;
+    font-size:small;
+    font-weight:bold;
+    padding-left:3px;
+    background:#556655;
+}
+.GroupHeaderFold{
+    width:10px;
+    font-variant:small-caps;
+    font-size:small;
+    font-weight:bold;
+    padding-left:3px;
+    background-color:Transparent;
+    padding:0px;
+    border:0px;
+    cursor:pointer;
+}
