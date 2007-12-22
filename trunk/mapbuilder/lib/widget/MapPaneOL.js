@@ -928,7 +928,14 @@ MapPaneOL.prototype.getWebSafeStyle = function(objRef, colorNumber) {
   j=parseInt((colorNumber-i*36)/6);
   k=parseInt((colorNumber-i*36-j*6));
   var color="#"+colors[i]+colors[j]+colors[k];
-  var style = new Object();
+  var defaultStyle = {
+            fillColor: "#808080",
+            fillOpacity: 1,
+            strokeColor: "#000000",
+            strokeOpacity: 1,
+            strokeWidth: 1,
+            pointRadius: 6};
+  var style=OpenLayers.Util.extend(defaultStyle,OpenLayers.Feature.Vector.style["default"]);
   style.fillColor = color;
   style.strokeColor = color;
   style.map = objRef.model.map;
