@@ -715,7 +715,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   var currentStyle = layer.selectSingleNode('wmc:StyleList/wmc:Style[@current=1]');
 
   // will be true for IE6, false for later versions of IE
-  var IE6 = false /*@cc_on || @_jscript_version < 5.7 @*/;
+  objRef.IE6 = false /*@cc_on || @_jscript_version < 5.7 @*/;
   
   //default option value for a layer
   var layerOptions = {
@@ -725,7 +725,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
           maxExtent: objRef.model.map.baseLayer.maxExtent,
           maxResolution: objRef.model.map.baseLayer.maxResolution,  //"auto" if not defined in the context
           minResolution: objRef.model.map.baseLayer.minResolution,  //"auto" if not defined in the context
-          alpha: format.indexOf("png") != -1 ? IE6 : false,         //option for png transparency with ie6
+          alpha: format.indexOf("png") != -1 ? objRef.IE6 : false,         //option for png transparency with ie6
           isBaseLayer: false,
           displayOutsideMaxExtent: objRef.displayOutsideMaxExtent
      };
@@ -751,7 +751,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       var params = new Array();
       params = sld2UrlParam(currentStyle);
       if (objRef.model.timestampList && objRef.model.timestampList.getAttribute("layerId") == layerId) { 
-        var timestamp = objRef.model.timestampList.childNodes[0];
+        var ts = objRef.model.timestampList.childNodes[0];
 
         objRef.oLlayers[layerId]= new OpenLayers.Layer.WMS(title,href,{
             layers: layerName,
@@ -762,7 +762,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
             // "Parameter names shall not be case sensitive,
             //  but parameter values shall be case sensitive."
             transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
-              "TIME":timestamp.firstChild.nodeValue,	          
+              "TIME":ts.firstChild.nodeValue,	          
             format: format,
             sld:params.sld,
             sld_body:params.sld_body,
@@ -958,29 +958,47 @@ MapPaneOL.prototype.refreshLayer = function(objRef, layerId , newParams){
    * @param timestampIndex  The array index for the layer to be displayed. 
    */
 MapPaneOL.prototype.timestampListener=function(objRef, timestampIndex){
+  if (window.movieLoop.frameIsLoading == true) {
+    return;
+  }
   var layerId = objRef.model.timestampList.getAttribute("layerId");
-  var timestamp = objRef.model.timestampList.childNodes[timestampIndex];
+  var ts = objRef.model.timestampList.childNodes[timestampIndex];
 
-  if ((layerId) && (timestamp)) {				
+  if (layerId && ts) {				
     var curLayer = objRef.oLlayers[layerId]; //TBD: please check if this still works now we've moved to layerId
+    if (!curLayer.grid) {
+      return;
+    }
     div = curLayer.grid[0][0].imgDiv;
     // Perform URL substitution via regexps
     var oldImageUrl = div.src || div.firstChild.src;
-    var newImageUrl = oldImageUrl;		
-    newImageUrl = newImageUrl.replace(/TIME\=.*?\&/,'TIME=' + timestamp.firstChild.nodeValue + '&');
+    var newImageUrl = oldImageUrl.replace(/TIME\=.*?\&/,'TIME=' + ts.firstChild.nodeValue + '&');
+    if (oldImageUrl == newImageUrl) {
+      return;
+    }
 
     function imageLoaded() {
       window.movieLoop.frameIsLoading = false;
+      if(element.removeEventListener) { // Standard
+        element.removeEventListener("load", imageLoaded, false);
+      } else if(element.detachEvent) { // IE
+        element.detachEvent('onload', imageLoaded);
+      }
     }
 
     window.movieLoop.frameIsLoading = true;
-    var element = div.src ? div : div.firstChild;
+    var element = div.nodeName.toUpperCase() == "IMG" ? div : div.firstChild;
     if(element.addEventListener) { // Standard
       element.addEventListener("load", imageLoaded, false);
     } else if(element.attachEvent) { // IE
       element.attachEvent('onload', imageLoaded);
     }
-    element.src = newImageUrl;		
+    if (objRef.IE6) {
+      OpenLayers.Util.modifyAlphaImageDiv(div,
+            null, null, null, newImageUrl);
+    } else {
+      element.src = newImageUrl;
+    }
   }
       
 }

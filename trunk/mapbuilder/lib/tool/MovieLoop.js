@@ -46,18 +46,21 @@ function MovieLoop(toolNode, model) {
    */
   this.setFrame = function(index) {
     var timestampList = this.model.timestampList;
+    var ts;
     if (this.timestampIndex!=null) {
-      var timestamp = timestampList.childNodes[this.timestampIndex];
-      timestamp.setAttribute("current", "0");
-      this.model.setParam("timestamp", this.timestampIndex);
+      var ts = timestampList.childNodes[this.timestampIndex];
+      if (ts) {
+        ts.setAttribute("current", "0");
+        this.model.setParam("timestamp", this.timestampIndex);
+      }
     }
     var firstFrame = this.model.getParam("firstFrame");
     var lastFrame = this.model.getParam("lastFrame");
     if (index > lastFrame) index = firstFrame;
     if (index < firstFrame) index = lastFrame;
     this.timestampIndex = index;
-    timestamp = timestampList.childNodes[this.timestampIndex];
-    timestamp.setAttribute("current", "1");
+    ts = timestampList.childNodes[this.timestampIndex];
+    ts.setAttribute("current", "1");
     this.model.setParam("timestamp", this.timestampIndex);
   }
 
