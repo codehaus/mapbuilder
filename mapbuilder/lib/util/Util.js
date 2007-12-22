@@ -690,7 +690,16 @@ function sld2UrlParam(node) {
  * @return OpenLayers style object
  */
 function sld2OlStyle(node) {
-  var style1=OpenLayers.Util.extend({},OpenLayers.Feature.Vector.style["default"]);
+  // sld-conform default style
+  var defaultStyle = {
+            fillColor: "#808080",
+            fillOpacity: 1,
+            strokeColor: "#000000",
+            strokeOpacity: 1,
+            strokeWidth: 1,
+            pointRadius: 6};
+            
+  var style1=OpenLayers.Util.extend(defaultStyle,OpenLayers.Feature.Vector.style["default"]);
   var value;
   var styleSet=false;
 
