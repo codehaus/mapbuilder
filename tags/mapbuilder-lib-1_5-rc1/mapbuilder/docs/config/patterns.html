@@ -1,0 +1,118 @@
+<h2>Common properties in config</h2>
+
+<p>
+There are some object properties that are commonly used in the config file.
+All common properties are optional and if they are missing, a reasonable default 
+behaviour is provided.
+Specific Objects may define additional properties and these may be required.
+</p>
+
+<p>
+Every Object in the config file must have a unique ID assigned to it.
+ID's are assigned to the objects as an attribute, not as a property.
+</p>
+
+<h3>Model properties</h3>
+<dl>
+<dt>defaultModelUrl</dt>
+<dd>The URL where the model gets loaded from.  
+  If the method is HTTP GET, then include the full query string in the URL.  
+  If present, the model will be loaded when the application loads.
+</dd>
+</dl>
+
+<h3>Tool properties</h3>
+<dl>
+<dt>targetModel</dt>
+<dd>The id of a model object which this tool acts on.  
+If absent the action happens on the parent model of this tool.
+</dd>
+</dl>
+
+<h3>Widget properties</h3>
+<dl>
+<dt>htmlTagId</dt>
+<dd>The ID of the HTML element in the web page where this widget's output 
+should be placed.  
+If this property is missing, the widget's ID attribute will be used instead.
+</dd>
+<dt>targetModel</dt>
+<dd>The id of a model object which this tool acts on.  
+If absent the action happens on the parent model of this tool.
+</dd>
+<dt>stylesheet</dt>
+<dd>This property specifies a relative or absolute URL to a stylesheet that 
+can replace the default stylesheet.  
+The stylesheet must be served from the same domain as the mapbuilder applicaiton.  
+</dd>
+<dt>debug</dt>
+<dd>An empty property element to show debugging output during widget processing.
+</dd>
+</dl>
+
+<h3>Specialized widgets</h3>
+<p>
+There are a few specialized widget types that are extensons of the basic Widgets: 
+MapContainers and Buttons.  
+These widgets can have all the above properties but also define some properties 
+of their own.
+</p>
+
+<h3>MapContainer widgets</h3>
+<p>
+A MapContainer widget is one that renders geography in 2 dimensions.
+</p>
+
+<dl>
+<dt>mapContainerId</dt>
+<dd>The ID of a &lt;DIV&gt; element that will be created to hold the output of widgets
+that render in 2 dimensions, maps in particular.
+A MapContainer will overlay the output of all widgets that have the same 
+mapContainerId in the order that they are encountered in the config file.
+</dd>
+</dl>
+
+<h3>Button widgets</h3>
+<p>
+Buttons are widgets whose output is a linked image which executes a function
+when clicked.
+A radio button will swap it's image for another one when selected.
+</p>
+
+<dl>
+<dt>buttonBar</dt>
+<dd>Equivalent to the htmlTagId property for placing buttons in a page.  
+Buttons get appended to this HTML element in sequence.
+</dd>
+<dt>class</dt>
+<dd>Specifies the type of button.  
+Permitted values include "Button" and "RadioButton".  
+A Button class will execute it's action immediately when pressed.  
+A "RadioButton" has enabled and disabled state and only one button 
+in a buttonBar group can be enabled at any one time.
+</dd>
+<dt>disabledSrc</dt>
+<dd>Partial skin path to graphic source when this button is not selected.
+Must be supplied for all buttons.
+</dd>
+<dt>enabledSrc</dt>
+<dd>Partial skin path to graphic source when this button is selected.
+Must be supplied for RadioButtons.
+</dd>
+<dt>selected</dt>
+<dd>Boolean value (true or false) to inidicate the initial state of this button.
+</dd>
+<dt>mouseHandler</dt>
+<dd>The id of a tool object on which to register mouse events.  
+Optional, if absent mouse events are not handled and the action is the doSelect function.
+</dd>
+<dt>action</dt>
+<dd>An objectID.method() to be called when the button is selected.
+</dd>
+</dl>
+
+
+<p align="right">
+<a href="?page=config/opvRule">previous</a>&nbsp;&nbsp;&nbsp; 
+<a href="?page=config/skins">next</a>
+</p>

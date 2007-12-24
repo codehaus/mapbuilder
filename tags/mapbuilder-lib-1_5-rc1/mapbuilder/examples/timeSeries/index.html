@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Mapbuilder Time Series Viewer</title>
+<link rel='StyleSheet' type='text/css'
+	href='../../lib/skin/default/demoStyles.css' />
+<style type="text/css">
+      #workspace {
+      height: 300px;
+      overflow: auto;
+      position: relative;
+      /* border: 1px solid blue;*/
+      background-color: rgb(240,240,240);
+      display: none;
+      }
+      #abstract {
+      margin: 0px;
+      }
+    </style>
+    <script>
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='tsConfig.xml';
+    </script>
+<script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
+</head>
+<body onload="mbDoLoad()">
+<div id="header">
+<h1><a href="http://communitymapbuilder.org">MapBuilder</a> Time Series
+Viewer</h1>
+<!--This is for more complex pages <a href="" class="help">how to use this page</a></div>-->
+</div>
+<div id="middle">
+        <div id="menubar"><!-- left side of the middle div-->
+          <h2>Basic</h2>
+          <ul>
+            <li><a href="../simple/index.html" title="simple map demo">Simple Map Viewer</a></li>
+            <li><a href="../basic/index.html" title="interactive map demo">Interactive Map Viewer</a></li>
+            <li><a href="../mapViewer/index.html" title="enhanced map demo">Enhanced Map Viewer</a></li>
+          </ul>
+          <h2>Complex</h2>
+          <ul>
+            <li><a href="../Demis/index.html" title="Demis map viewer">Different maps connected</a></li>
+            <li><a href="../timeSeries/index.html" title="Time series viewer">Time series viewer</a></li>
+            <li><a href="../wfs-t/index.html" title="Feature entry">Feature entry</a></li>
+            <li><a href="../OWSExplorer/index.html" title="OWS Explorer">Open Web Services Explorer</a></li>
+          </ul>
+          <h2>New</h2>
+          <ul>
+            <li><a href="../mergeModels/index.html" title="Complex Vector Rendering with GmlRendererOL and MergeModels">Complex Vector Rendering</a></li>     
+            <li><a href="../flickr/index.html" title="GeoRSS feed example">Live flickr feed viewer</a></li>
+                        <li><a href="../shipTracks/index.html" title="GeoRSS Ship tracks">GeoRSS Shiptracks</a></li>
+              <li><a href="../GeoBliki/index.html" title="GeoBliki example">WFS query, Popup Feature information</a></li>         
+            <li><a href="../Google/index.html" title="Google Map Viewer">Google Map Viewer</a></li><li><a href="../projDemo/index.html" title="Reprojecting vector data on the fly">Projections</a></li>
+            <li><a href="../openlayers/index.html" title="Webmap.js integration">OpenLayers integration</a></li>
+            <li><a href="../i18n/index.html" title="I18N map demo">I18N Map Viewer</a></li>
+          </ul>
+          <h2 onclick="javascript: history.go(-1)" style="color:black;cursor:pointer;">Back</h2>
+        </div><!-- /menubar -->
+<div id="mainbody">
+<div class="left">
+<h3>Explanation</h3>
+This demo shows how to combine images with different timestamps to
+create a movie. Since the images are all normal WMS servers you can pan
+and zoom, just like any normal map. It includes movie buttons to fast
+forward/backward, pause and stop the movie at any time.</div>
+<div class="right">
+					<div id="timestampValue"/>	
+	<table>
+		<tr>
+			<td valign="top">
+				<table>
+					<tr>
+						<td width="40%" id="tsButtonBar" align="left">
+						</td>
+						<td id="timestamp" align="right"></td>
+					</tr>
+					<tr>
+						<td colspan="2" valign="top">
+							<div id="mainMapPane"><noscript>this page requires Javascript to be enabled</noscript></div>
+						</td>						 
+					</tr>
+					<tr>
+						<td id="mainButtonBar" valign="top" align="left"></td>
+						<td width="60%" id="cursorTrack" align="right"></td>
+					</tr>
+					<tr>
+						<td id="timeRangeSelect" colspan="2" valign="top" align="left"></td>
+					</tr>
+					<tr>
+						<td id="legend" colspan="2" valign="top" align="left"/>
+					</tr>
+				</table>
+			</td>
+			<td>
+				<table>
+					<!-- table for left side of page - single column -->
+					<tr>
+						<td align="left">
+							<h2 id="mapTitle">Map Title</h2>
+						</td>
+					</tr>
+					<tr>
+						<td align="left" valign="top" id="abstract"></td>
+					</tr>
+					<tr>
+						<td valign="top" align="left">Other examples
+						<div id="collectionList" />
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" align="left"><a
+							href="javascript:document.getElementById('workspace').style.display='block';config.loadModel('wmsCapTemplate','NASAwms.xml');">NASA
+						SVS Image Server</a> - a large collection of earth observation data.
+						Images are in fixed size so map zoom/pan functions are not allowed.
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" align="left">
+							<p id="wmsCapsUrlInput" />
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" align="left">
+						<p id="workspace"></p>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+</div>
+</div>
+<div id="footer">
+
+</html>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+      
+<html xmlns="http://www.w3.org/1999/xhtml" >
+  <head>
+    <title>Mapbuilder SLD Editor</title>
+       <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/demoStyles.css'/>
+       
+     <link rel='StyleSheet' type='text/css' href='layerControl.css'/>
+     <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/button.css'>
+     <link rel="stylesheet" type="text/css" href="../../lib/skin/default/tabList.css">
+     <link rel='StyleSheet' type='text/css' href='Sldeditor.css'>
+   
+       <style type="text/css">
+      #workspace {
+        overflow: auto;
+        position: relative;
+        border: 0;
+      }
+    </style>
+    <script>
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='config.xml';
+ 
+	
+//Update input of color		
+	function setColor(hexColor,inputId)
+	{
+		document.getElementById(inputId).value="#"+hexColor;
+		document.getElementById(inputId).focus();
+	}
+	
+
+    </script>
+    <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
+  </head>
+  <body onload="mbDoLoad()" >
+  <div id="header">
+<h1><a href="http://communitymapbuilder.org">MapBuilder</a> Style Layer Descriptor Editor</h1>
+<!--This is for more complex pages <a href="" class="help">how to use this page</a></div>-->
+  </div>
+  <div id="middle">
+  
+	<div id="mainbody">
+	  <div class="left">
+	  <h2 id="mapTitle"></h2>
+	   <table>
+       
+         <tr>
+       	   <td align="left">
+        	   <div id="mainMapPane"></div>
+             <div id="mainButtonBar"></div>
+             <div align="right" id="cursorTrack" ></div>
+           </td>
+         </tr>
+      </table>     
+      <h3>Explanation</h3>
+      <p>
+      Styled Layer Descriptors (SLD), are what make your maps colorful. They tell the server how the map should be rendered, whether to draw lines in black, or to color them in blue with a nice outline and text labels.
+      </p><p>
+      SLD is an XML based language detailed in an open specification available <a href="http://www.opengeospatial.org/standards/sld">here</a>. It is used for rendering by many <a href="http://www.opengeospatial.org/">OGC</a> compliant Web Map Servers (WMS) and Web Feature Server (WFS) clients (like Mapbuilder).
+      </p><p>
+      There is a good SLD Tutorial <a href="http://docs.codehaus.org/display/GEOSDOC/SLD+Intro+Tutorial">here</a>.
+      </p>
+    </div>
+  	<div class="right">
+  	  <table>
+        <tr>
+          <td>
+          	<div id="tabBar"></div>
+         </td>
+       </tr>
+			 <tr><td><div id="workspace"></div></td></tr>
+			 <tr><td><div id="feat"/></td></tr>
+     </table>
+		</div>
+	</div>
+	</div>
+  <div id="footer">
+  <!-- debut du sld editor --> 
+  
+	  
+    <div class="right">
+<a href="http://communitymapbuilder.org/" title="powered by community mapbuilder"><img src="../../lib/skin/default/images/Icon.gif"/></a>	  	
+<a href="https://www.osgeo.org/" title="member of OSgeo"><img src="../../lib/skin/default/images/Osgeo.png"/></a>
+         </div>
+  </div>  
+  </body>
+</html>

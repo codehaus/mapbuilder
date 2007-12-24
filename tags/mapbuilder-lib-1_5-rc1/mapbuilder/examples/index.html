@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+      
+<html xmlns="http://www.w3.org/1999/xhtml" >
+  <head>
+    <title>Mapbuilder Examples</title>
+    <link rel='StyleSheet' type='text/css' href='../lib/skin/default/demoStyles.css'/>
+  </head>
+  <!-- This onload event starts mapbuilder -->
+  <body>
+	  <div id="header">  	<!-- The header of the page -->
+			<h1><a href="http://communitymapbuilder.org">MapBuilder</a> Examples</h1>
+	  </div><!-- /header -->
+  	<div id="middle"><!-- The center piece of the page with left menubar and right mainbody -->
+	    <div id="menubar"><!-- left side of the middle div-->
+  			<h2>Documentation</h2>
+				<ul>
+					<li><a href="../examples/index.html" title="Examples">Examples</a></li>
+					<li><a href="../docs/jsdoc/index.html" title="class description">Class Description</a></li>
+					<li><a href="../docs/register" title="component register">Component Register</a></li>
+				</ul>
+				<h2>Useful sites</h2>
+				<ul>
+					<li><a href="http://communitymapbuilder.org/" title="Wiki">Official site</a></li>
+					<li><a href="http://docs.codehaus.org/display/MAP/User+Guide" title="tutorial">User guide</a></li>
+					<li><a href="http://demo.communitymapbuilder.org/" title="Wiki">Official demo site</a></li>
+					<li><a href="http://nightly.communitymapbuilder.org/mapbuilder" title="Wiki">Nightly builds</a></li>
+				</ul>
+				<h2 onclick="javascript: history.go(-1)" style="color:black;cursor:pointer;">Back</h2>
+		  </div><!-- /menubar -->
+			<div id="mainbody"><!-- right side of the middle div, is also divided into two areas -->
+    <h3>Basic map viewers with different functionality</h3>
+			<dl>
+				<dt><a href="simple/index.html" title="simple map demo">Simple Map Viewer</a></dt>
+				<dd>A very simple example showing a non-interactive map on a webpage</dd>
+				
+				<dt><a href="basic/index.html" title="interactive map demo">Interactive Map Viewer</a></dt>
+				<dd>A simple example showing a map an interactive map with pan and zoom buttons. This is a good example to use as a basis for your own application.</dd>
+
+				<dt><a href="mapViewer/index.html" title="enhanced map demo">Enhanced Map Viewer</a></dt>
+				<dd>A more complex example showing different widgets combined with an interactive map. This is a good example to use as a basis for more complex map viewers.</dd>
+			</dl>
+		<h3>Examples of the more complex functionality of Mapbuilder</h3>
+			<dl>
+				
+				<dt><a href="Demis/index.html" title="Demis map viewer">Different maps connected</a></dt>
+				<dd>An example showing the possibility of connecting different maps in a google maps style.</dd>
+				
+				<dt><a href="timeSeries/index.html" title="Time series viewer">Time series viewer</a></dt>
+				<dd>An example showing maps as time series, with the possibility to zoom, pan, go forward/backward in time and pause.</dd>
+				
+				<dt><a href="wfs-t/index.html" title="Feature entry">Feature entry</a></dt>
+				<dd>Shows editing and updating of GML features and uploading to a Transactional Web Feature Service (WFS-T). This demo accesses data from a Geoserver  installation installed in the same Java Servlet Webapps directory as Mapbuilder.</dd>
+
+        <dt><a href="OWSExplorer/index.html" title="OWS explorer">Open Web Services explorer</a></dt>
+        <dd>This demo will show all layers available from a particular WMS and WFS instance.</dd>
+			</dl>
+
+		<h3>Examples of the shiny new features of Mapbuilder 1.5</h3>
+			<dl>
+				<dt><a href="mergeModels/index.html" title="Complex Vector Rendering with GmlRendererOL and MergeModels">Complex Vector Rendering</a></dt>
+				<dd>This demo shows some advanced features of non-context based vector rendering.</dd>
+				
+				<dt><a href="flickr/index.html" title="GeoRSS feed example">Live flickr feed viewer</a></dt>
+				<dd>An example showing the photos of the communitymapbuilder flickr feed on a map. This example uses custom XSL transformations and popups.</dd>
+				
+				<dt><a href="shipTracks/index.html" title="GeoRSS Ship Tracks">GeoRSS Ship Tracks</a></dt>
+				<dd>A GeoRSS feed with lines and images rendered using SVG/VML.</dd>
+				
+        <dt><a href="GeoBliki/index.html">WFS query, Popup Feature information</a></dt>
+        <dd>An example showing how to use a form to submit to WFS and display Popup information about the returned features</dd>
+        <dt><a href="Google/index.html">Google Map Viewer</a></dt>
+        <dd>Accessing a Google Maps layer.</dd>
+        <dt><a href="projDemo/index.html">Projections</a></dt>
+        <dd>Reprojecting vector data on the fly.</dd>
+				
+
+				<dt><a href="openlayers/index.html" title="Webmap.js integration">OpenLayers integration</a></dt>
+				<dd>A simple demo of the integration of OpenLayers with Mapbuilder. It shows a tiled WMS map and WFS overlay layers.</dd>
+
+				<dt><a href="i18n/index.html" title="I18N map demo">I18N Map Viewer</a></dt>
+				<dd>This demo shows the Internationalization aspects of MapBuilder.</dd>
+		</dl>
+		<h2>Note</h2>
+    <ul>
+      <li>Browsers supported are Internet Explorer 6 or later, Firefox 1.5 or later, Netscape 6 or later.</li>
+      <li>Some functionality requires the server proxy and serialize 
+      scripts in the configuration file.  Implementations of these 
+      are available for PHP enabled servers and Java Servlet Container 
+      (like Tomcat).
+      </li>
+    </ul>
+			</div><!-- /mainbody -->
+		</div><!-- /middle -->
+  	<div id="footer"><!-- The footer of the page -->
+	  	<div class="right">
+				<a href="http://communitymapbuilder.org/" title="powered by community mapbuilder"><img src="../lib/skin/default/images/Icon.gif"/></a>	  	
+				<a href="https://www.osgeo.org/" title="member of OSgeo"><img src="../lib/skin/default/images/Osgeo.png"/></a>
+      </div><!-- /right -->
+	  </div><!-- /footer -->
+	</body>
+</html>
