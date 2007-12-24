@@ -128,11 +128,18 @@ Proj4js = {
     datum_transform : function( source, dest, point ) {
 
       // Short cut if the datums are identical.
-      if( source.compare_datums( dest ) )
+      if( source.compare_datums( dest ) ) {
           return point; // in this case, zero is sucess,
                     // whereas cs_compare_datums returns 1 to indicate TRUE
                     // confusing, should fix this
-
+      }
+      
+      // Explicitly skip datum transform by setting 'datum=none' as parameter for either source or dest
+      if( source.datum_type == Proj4js.common.PJD_NODATUM  
+          || dest.datum_type == Proj4js.common.PJD_NODATUM) {
+          return point; 
+      }
+      
         // If this datum requires grid shifts, then apply it to geodetic coordinates.
         if( source.datum_type == Proj4js.common.PJD_GRIDSHIFT )
         {
@@ -157,10 +164,10 @@ Proj4js = {
         }
 
         // Do we need to go through geocentric coordinates?
-        //  if( source.es != dest.es || source.a != dest.a || // RWG - removed ellipse comparison so
-        if( source.datum_type == Proj4js.common.PJD_3PARAM                      // that longlat CSs do not have to have
-            || source.datum_type == Proj4js.common.PJD_7PARAM                   // an ellipsoid, also should put it a
-            || dest.datum_type == Proj4js.common.PJD_3PARAM                   // tolerance for es if used.
+        if( source.es != dest.es || source.a != dest.a 
+            || source.datum_type == Proj4js.common.PJD_3PARAM 
+            || source.datum_type == Proj4js.common.PJD_7PARAM
+            || dest.datum_type == Proj4js.common.PJD_3PARAM
             || dest.datum_type == Proj4js.common.PJD_7PARAM)
         {
 
@@ -169,14 +176,12 @@ Proj4js = {
           // CHECK_RETURN;
 
           // Convert between datums
-          if( source.datum_type == Proj4js.common.PJD_3PARAM || source.datum_type == Proj4js.common.PJD_7PARAM )
-          {
+          if( source.datum_type == Proj4js.common.PJD_3PARAM || source.datum_type == Proj4js.common.PJD_7PARAM ) {
             source.geocentric_to_wgs84(point);
             // CHECK_RETURN;
           }
 
-          if( dest.datum_type == Proj4js.common.PJD_3PARAM || dest.datum_type == Proj4js.common.PJD_7PARAM )
-          {
+          if( dest.datum_type == Proj4js.common.PJD_3PARAM || dest.datum_type == Proj4js.common.PJD_7PARAM ) {
             dest.geocentric_from_wgs84(point);
             // CHECK_RETURN;
           }
@@ -185,7 +190,6 @@ Proj4js = {
           dest.geocentric_to_geodetic( point );
             // CHECK_RETURN;
         }
-
 
       // Apply grid shift to destination if required
       if( dest.datum_type == Proj4js.common.PJD_GRIDSHIFT )
@@ -338,8 +342,6 @@ Proj4js.Proj = OpenLayers.Class({
           this.srsProjNumber = this.srsCode;
       }
 
-      this.datum = new Proj4js.datum();  //this will get the default datum
-
       var defs = Proj4js.loadProjDefinition(this);
       if (defs) {
           this.parseDefs(defs);
@@ -359,6 +361,7 @@ Proj4js.Proj = OpenLayers.Class({
   },
 
   parseDefs : function(proj4opts) {
+      this.k0 = 1.0;    //default value
       var def = { data: proj4opts };
       var paramName, paramVal;
       var paramArray=def.data.split("+");
@@ -373,17 +376,18 @@ Proj4js.Proj = OpenLayers.Class({
               case "title":  this.title = paramVal; break;
               case "proj":   this.projName =  paramVal.replace(/\s/gi,""); break;
               case "units":  this.units = paramVal.replace(/\s/gi,""); break;
-              case "datum":  this.datumName = paramVal.replace(/\s/gi,""); break;
+              case "datum":  this.datumCode = paramVal.replace(/\s/gi,""); break;
               case "ellps":  this.ellps = paramVal.replace(/\s/gi,""); break;
               case "a":      this.a =  parseFloat(paramVal); break;  // semi-major radius
               case "b":      this.b =  parseFloat(paramVal); break;  // semi-minor radius
               case "lat_0":  this.lat0 = paramVal*Proj4js.common.D2R; break;        // phi0, central latitude
               case "lat_1":  this.lat1 = paramVal*Proj4js.common.D2R; break;        //standard parallel 1
               case "lat_2":  this.lat2 = paramVal*Proj4js.common.D2R; break;        //standard parallel 2
+              case "lat_ts": this.lat_ts = paramVal*Proj4js.common.D2R; break;      //used in merc 
               case "lon_0":  this.long0 = paramVal*Proj4js.common.D2R; break;       // lam0, central longitude
               case "x_0":    this.x0 = parseFloat(paramVal); break;  // false easting
               case "y_0":    this.y0 = parseFloat(paramVal); break;  // false northing
-              case "k_0":      this.k0 = parseFloat(paramVal); break;  // projection scale factor
+              case "k_0":    this.k0 = parseFloat(paramVal); break;  // projection scale factor
               case "k":      this.k0 = parseFloat(paramVal); break;  // both forms returned
               case "R_A":    this.R = parseFloat(paramVal); break;   //Spheroid radius 
               case "zone":   this.zone = parseInt(paramVal); break;  // UTM Zone
@@ -402,11 +406,20 @@ Proj4js.Proj = OpenLayers.Class({
   },
 
   deriveConstants : function() {
+      if (this.datumCode && this.datumCode != 'none') {
+        var datumDef = Proj4js.Datum[this.datumCode];
+        if (datumDef) {
+          this.datum_params = datumDef.towgs84.split(',');
+          this.ellps = datumDef.ellipse;
+          this.datumName = datumDef.datumName;
+        }
+      }
       if (!this.a) {    // do we have an ellipsoid?
           var ellipse = Proj4js.Ellipsoid[this.ellps] ? Proj4js.Ellipsoid[this.ellps] : Proj4js.Ellipsoid['WGS84'];
           OpenLayers.Util.extend(this, ellipse);
       }
       if (this.rf && !this.b) this.b = (1.0 - 1.0/this.rf) * this.a;
+      if (Math.abs(this.a - this.b)<Proj4js.common.EPSLN) this.sphere = true;
       this.a2 = this.a * this.a;          // used in geocentric
       this.b2 = this.b * this.b;          // used in geocentric
       this.es = (this.a2-this.b2)/this.a2;  // e ^ 2
@@ -474,6 +487,7 @@ Proj4js.common = {
   PJD_7PARAM   : 2,
   PJD_GRIDSHIFT: 3,
   PJD_WGS84    : 4,   // WGS84 or equivalent
+  PJD_NODATUM  : 5,   // WGS84 or equivalent
   SRS_WGS84_SEMIMAJOR : 6378137.0,  // only used in grid shift transforms
 
 // Function to compute the constant small m which is the radius of
@@ -556,6 +570,10 @@ Proj4js.common = {
 Proj4js.datum = OpenLayers.Class({
 
   initialize : function(proj) {
+    this.datum_type = Proj4js.common.PJD_WGS84;   //default setting
+    if (proj.datumCode && proj.datumCode == 'none') {
+      this.datum_type = Proj4js.common.PJD_NODATUM;
+    }
     if (proj && proj.datum_params) {
       for (var i=0; i<proj.datum_params.length; i++) {
         proj.datum_params[i]=parseFloat(proj.datum_params[i]);
@@ -574,7 +592,6 @@ Proj4js.datum = OpenLayers.Class({
         }
       }
     }
-    if (!this.datum_type) this.datum_type = Proj4js.common.PJD_WGS84;
     if (proj) {
       this.a = proj.a;    //datum object also uses these values
       this.b = proj.b;
@@ -590,24 +607,15 @@ Proj4js.datum = OpenLayers.Class({
   compare_datums : function( dest ) {
     if( this.datum_type != dest.datum_type ) {
       return false; // false, datums are not equal
-    }
-    /*  RWG - took this out so that ellipse is not required for longlat CSs
-    else if( this.a != dest.a
-             || Math.abs(this.es - dest.es) > 0.000000000050 )
-    {
+    } else if (this.a != dest.a || Math.abs(this.es-dest.es) > 0.000000000050) {
       // the tolerence for es is to ensure that GRS80 and WGS84
       // are considered identical
       return false;
-    }
-    */
-    else if( this.datum_type == Proj4js.common.PJD_3PARAM )
-    {
+    } else if( this.datum_type == Proj4js.common.PJD_3PARAM ) {
       return (this.datum_params[0] == dest.datum_params[0]
               && this.datum_params[1] == dest.datum_params[1]
               && this.datum_params[2] == dest.datum_params[2]);
-    }
-    else if( this.datum_type == Proj4js.common.PJD_7PARAM )
-    {
+    } else if( this.datum_type == Proj4js.common.PJD_7PARAM ) {
       return (this.datum_params[0] == dest.datum_params[0]
               && this.datum_params[1] == dest.datum_params[1]
               && this.datum_params[2] == dest.datum_params[2]
@@ -615,14 +623,12 @@ Proj4js.datum = OpenLayers.Class({
               && this.datum_params[4] == dest.datum_params[4]
               && this.datum_params[5] == dest.datum_params[5]
               && this.datum_params[6] == dest.datum_params[6]);
-    }
-    else if( this.datum_type == Proj4js.common.PJD_GRIDSHIFT )
-    {
+    } else if( this.datum_type == Proj4js.common.PJD_GRIDSHIFT ) {
       return strcmp( pj_param(this.params,"snadgrids").s,
                      pj_param(dest.params,"snadgrids").s ) == 0;
-    }
-    else
+    } else {
       return true; // datums are equal
+    }
   }, // cs_compare_datums()
 
   /*
@@ -657,26 +663,24 @@ Proj4js.datum = OpenLayers.Class({
     ** range as it may just be a rounding issue.  Also removed longitude
     ** test, it should be wrapped by Math.cos() and Math.sin().  NFW for PROJ.4, Sep/2001.
     */
-    if( Latitude < -Proj4js.common.HALF_PI && Latitude > -1.001 * Proj4js.common.HALF_PI )
+    if (Latitude < -Proj4js.common.HALF_PI && Latitude > -1.001 * Proj4js.common.HALF_PI ) {
         Latitude = -Proj4js.common.HALF_PI;
-    else if( Latitude > Proj4js.common.HALF_PI && Latitude < 1.001 * Proj4js.common.HALF_PI )
+    } else if (Latitude > Proj4js.common.HALF_PI && Latitude < 1.001 * Proj4js.common.HALF_PI ) {
         Latitude = Proj4js.common.HALF_PI;
-    else if ((Latitude < -Proj4js.common.HALF_PI) || (Latitude > Proj4js.common.HALF_PI))
-    { /* Latitude out of range */
-      Error_Code |= GEOCENT_LAT_ERROR;
+    } else if ((Latitude < -Proj4js.common.HALF_PI) || (Latitude > Proj4js.common.HALF_PI)) {
+      /* Latitude out of range */
+      Proj4js.reportError('geocent:lat out of range:'+Latitude);
+      return null;
     }
 
-    if (!Error_Code)
-    { /* no errors */
-      if (Longitude > Proj4js.common.PI) Longitude -= (2*Proj4js.common.PI);
-      Sin_Lat = Math.sin(Latitude);
-      Cos_Lat = Math.cos(Latitude);
-      Sin2_Lat = Sin_Lat * Sin_Lat;
-      Rn = this.a / (Math.sqrt(1.0e0 - this.es * Sin2_Lat));
-      X = (Rn + Height) * Cos_Lat * Math.cos(Longitude);
-      Y = (Rn + Height) * Cos_Lat * Math.sin(Longitude);
-      Z = ((Rn * (1 - this.es)) + Height) * Sin_Lat;
-    }
+    if (Longitude > Proj4js.common.PI) Longitude -= (2*Proj4js.common.PI);
+    Sin_Lat = Math.sin(Latitude);
+    Cos_Lat = Math.cos(Latitude);
+    Sin2_Lat = Sin_Lat * Sin_Lat;
+    Rn = this.a / (Math.sqrt(1.0e0 - this.es * Sin2_Lat));
+    X = (Rn + Height) * Cos_Lat * Math.cos(Longitude);
+    Y = (Rn + Height) * Cos_Lat * Math.sin(Longitude);
+    Z = ((Rn * (1 - this.es)) + Height) * Sin_Lat;
 
     p.x = X;
     p.y = Y;
@@ -684,15 +688,111 @@ Proj4js.datum = OpenLayers.Class({
     return Error_Code;
   }, // cs_geodetic_to_geocentric()
 
+  geocentric_to_geodetic : function (p) {
+/* local defintions and variables */
+/* end-criterium of loop, accuracy of sin(Latitude) */
+var genau = 1.E-12;
+var genau2 = (genau*genau);
+var maxiter = 30;
+
+    var P;        /* distance between semi-minor axis and location */
+    var RR;       /* distance between center and location */
+    var CT;       /* sin of geocentric latitude */
+    var ST;       /* cos of geocentric latitude */
+    var RX;
+    var RK;
+    var RN;       /* Earth radius at location */
+    var CPHI0;    /* cos of start or old geodetic latitude in iterations */
+    var SPHI0;    /* sin of start or old geodetic latitude in iterations */
+    var CPHI;     /* cos of searched geodetic latitude */
+    var SPHI;     /* sin of searched geodetic latitude */
+    var SDPHI;    /* end-criterium: addition-theorem of sin(Latitude(iter)-Latitude(iter-1)) */
+    var At_Pole;     /* indicates location is in polar region */
+    var iter;        /* # of continous iteration, max. 30 is always enough (s.a.) */
+
+    var X =p.x;
+    var Y = p.y;
+    var Z = p.z ? p.z : 0.0;   //Z value not always supplied
+    var Longitude;
+    var Latitude;
+    var Height;
+    
+    At_Pole = false;
+    P = Math.sqrt(X*X+Y*Y);
+    RR = Math.sqrt(X*X+Y*Y+Z*Z);
+
+/*	special cases for latitude and longitude */
+    if (P/this.a < genau) {
+
+/*  special case, if P=0. (X=0., Y=0.) */
+        At_Pole = true;
+        Longitude = 0.0;
+
+/*  if (X,Y,Z)=(0.,0.,0.) then Height becomes semi-minor axis
+ *  of ellipsoid (=center of mass), Latitude becomes PI/2 */
+        if (RR/this.a < genau) {
+            Latitude = Proj4js.common.HALF_PI;
+            Height   = -this.b;
+            return;
+        }
+    } else {
+/*  ellipsoidal (geodetic) longitude
+ *  interval: -PI < Longitude <= +PI */
+        Longitude=Math.atan2(Y,X);
+    }
+
+/* --------------------------------------------------------------
+ * Following iterative algorithm was developped by
+ * "Institut für Erdmessung", University of Hannover, July 1988.
+ * Internet: www.ife.uni-hannover.de
+ * Iterative computation of CPHI,SPHI and Height.
+ * Iteration of CPHI and SPHI to 10**-12 radian resp.
+ * 2*10**-7 arcsec.
+ * --------------------------------------------------------------
+ */
+    CT = Z/RR;
+    ST = P/RR;
+    RX = 1.0/Math.sqrt(1.0-this.es*(2.0-this.es)*ST*ST);
+    CPHI0 = ST*(1.0-this.es)*RX;
+    SPHI0 = CT*RX;
+    iter = 0;
+
+/* loop to find sin(Latitude) resp. Latitude
+ * until |sin(Latitude(iter)-Latitude(iter-1))| < genau */
+    do
+    {
+        iter++;
+        RN = this.a/Math.sqrt(1.0-this.es*SPHI0*SPHI0);
+
+/*  ellipsoidal (geodetic) height */
+        Height = P*CPHI0+Z*SPHI0-RN*(1.0-this.es*SPHI0*SPHI0);
+
+        RK = this.es*RN/(RN+Height);
+        RX = 1.0/Math.sqrt(1.0-RK*(2.0-RK)*ST*ST);
+        CPHI = ST*(1.0-RK)*RX;
+        SPHI = CT*RX;
+        SDPHI = SPHI*CPHI0-CPHI*SPHI0;
+        CPHI0 = CPHI;
+        SPHI0 = SPHI;
+    }
+    while (SDPHI*SDPHI > genau2 && iter < maxiter);
+
+/*	ellipsoidal (geodetic) latitude */
+    Latitude=Math.atan(SPHI/Math.abs(CPHI));
+
+    p.x = Longitude;
+    p.y =Latitude;
+    p.z = Height;
+    return p;
+  },
 
   /** Convert_Geocentric_To_Geodetic
    * The method used here is derived from 'An Improved Algorithm for
    * Geocentric to Geodetic Coordinate Conversion', by Ralph Toms, Feb 1996
    */
-  geocentric_to_geodetic : function (p) {
+  geocentric_to_geodetic_noniter : function (p) {
     var X =p.x;
     var Y = p.y;
-    var Z = p.z;
     var Z = p.z ? p.z : 0;   //Z value not always supplied
     var Longitude;
     var Latitude;
@@ -870,6 +970,10 @@ Proj4js.Point = OpenLayers.Class({
       this.x = x;
       this.y = y;
       this.z = z || 0.0;
+    },
+
+    clone : function() {
+      return new Proj4js.Point(this.x, this.y, this.z);
     },
 
     /**
