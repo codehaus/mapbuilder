@@ -13,7 +13,7 @@ $Name:  $
     xmlns:wmc="http://www.opengis.net/context" 
     xmlns:wms="http://www.opengis.net/wms" 
     xmlns:wfs="http://www.opengis.net/wfs" 
-		xmlns:sld="http://www.opengis.net/sld"
+    xmlns:sld="http://www.opengis.net/sld"
     xmlns:owscat="http://www.ec.gc.ca/owscat"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -36,12 +36,12 @@ $Name:  $
     <wmc:Layer>
       <xsl:attribute name="queryable"><xsl:value-of select="./@queryable"/></xsl:attribute>
       <xsl:attribute name="hidden">0</xsl:attribute>
-			<wmc:Server>
+      <wmc:Server>
         <xsl:attribute name="service"><xsl:value-of select="$serviceName"/></xsl:attribute>
         <xsl:attribute name="version"><xsl:value-of select="$version"/></xsl:attribute>
         <xsl:attribute name="title"><xsl:value-of select="$serverTitle"/></xsl:attribute>
-				<wmc:OnlineResource xlink:type="simple" xlink:href="{$serverUrl}"/>
-			</wmc:Server>
+        <wmc:OnlineResource xlink:type="simple" xlink:href="{$serverUrl}"/>
+      </wmc:Server>
       <xsl:apply-templates select="child::node()"/>
       <wmc:FormatList>
         <wmc:Format current="1"><xsl:value-of select="$format"/></wmc:Format>
@@ -98,12 +98,12 @@ $Name:  $
     <wmc:Layer>
       <xsl:attribute name="queryable"><xsl:value-of select="./@queryable"/></xsl:attribute>
       <xsl:attribute name="hidden">0</xsl:attribute>
-			<wmc:Server>
+      <wmc:Server>
         <xsl:attribute name="service"><xsl:value-of select="owscat:service_type"/></xsl:attribute>
         <xsl:attribute name="version"><xsl:value-of select="owscat:service_version"/></xsl:attribute>
         <xsl:attribute name="title"><xsl:value-of select="owscat:organization"/></xsl:attribute>
-				<wmc:OnlineResource xlink:type="simple" xlink:href="{$serverUrl}"/>
-			</wmc:Server>
+        <wmc:OnlineResource xlink:type="simple" xlink:href="{$serverUrl}"/>
+      </wmc:Server>
       <xsl:apply-templates/>
     </wmc:Layer>
   </xsl:template>

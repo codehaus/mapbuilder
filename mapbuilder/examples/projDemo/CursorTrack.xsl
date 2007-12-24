@@ -6,7 +6,7 @@ Description: Output a form for display of the cursor coordinates
 Author:      Mike Adair
 Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
-$Id: CursorTrack.xsl 2576 2007-02-19 09:14:01Z gjvoosten $
+$Id$
 -->
 
   <xsl:output method="xml" encoding="utf-8"/>
