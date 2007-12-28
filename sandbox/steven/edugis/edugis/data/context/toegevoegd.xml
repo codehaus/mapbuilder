@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding="ISO-8859-1" standalone="no" ?>
+<WMT_MS_Capabilities version="1.1.0">
+<!-- MapServer version 4.10.0 OUTPUT=GIF OUTPUT=PNG OUTPUT=WBMP OUTPUT=SVG SUPPORTS=PROJ SUPPORTS=FREETYPE
+ SUPPORTS=WMS_SERVER SUPPORTS=WMS_CLIENT SUPPORTS=THREADS INPUT=POSTGIS INPUT=OGR INPUT=GDAL INPUT=SHAPEFILE
+ DEBUG=MSDEBUG -->
+<Service>
+  <Name>OGC:WMS</Name>
+  <Title>EduGIS_Data</Title>
+  <Abstract>Added data for the EduGIS website</Abstract>
+  <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin-noncache/edugis/mapserv
+.cgi?map=maps/edugis/data.map&amp;"/>
+  <AccessConstraints>none</AccessConstraints>
+</Service>
+<Capability>
+  <Request>
+    <GetCapabilities>
+      <Format>text/xml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin-noncache/edugis/mapserv.cgi?map=maps/edugis/data.map&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin-noncache/edugis/mapserv.cgi?map=maps/edugis/data.map&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetCapabilities>
+
+
+    <GetMap>
+      <Format>image/png</Format>
+      <Format>image/gif</Format>
+      <Format>image/png; mode=24bit</Format>
+      <Format>image/wbmp</Format>
+      <Format>image/tiff</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin-noncache/edugis/mapserv.cgi?map=maps/edugis/data.map&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin-noncache/edugis/mapserv.cgi?map=maps/edugis/data.map&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetMap>
+    <GetFeatureInfo>
+      <Format>text/plain</Format>
+      <Format>text/html</Format>
+      <Format>application/vnd.ogc.gml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin-noncache/edugis/mapserv.cgi?map=maps/edugis/data.map&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin-noncache/edugis/mapserv.cgi?map=maps/edugis/data.map&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetFeatureInfo>
+    <DescribeLayer>
+      <Format>text/xml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin-noncache/edugis/mapserv.cgi?map=maps/edugis/data.map&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin-noncache/edugis/mapserv.cgi?map=maps/edugis/data.map&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </DescribeLayer>
+    <GetLegendGraphic>
+      <Format>image/png</Format>
+      <Format>image/gif</Format>
+      <Format>image/png; mode=24bit</Format>
+      <Format>image/wbmp</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin-noncache/edugis/mapserv.cgi?map=maps/edugis/data.map&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin-noncache/edugis/mapserv.cgi?map=maps/edugis/data.map&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetLegendGraphic>
+    <GetStyles>
+      <Format>text/xml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin-noncache/edugis/mapserv.cgi?map=maps/edugis/data.map&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin-noncache/edugis/mapserv.cgi?map=maps/edugis/data.map&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetStyles>
+  </Request>
+  <Exception>
+    <Format>application/vnd.ogc.se_xml</Format>
+    <Format>application/vnd.ogc.se_inimage</Format>
+    <Format>application/vnd.ogc.se_blank</Format>
+  </Exception>
+  <VendorSpecificCapabilities />
+  <UserDefinedSymbolization SupportSLD="1" UserLayer="0" UserStyle="1" RemoteWFS="0"/>
+  <Layer>
+    <Name>_EduGIS_DATA</Name>
+    <Title>EduGIS_Data</Title>
+    <SRS>EPSG:28992 EPSG:4326</SRS>
+    <LatLonBoundingBox minx="3.20036" miny="50.7175" maxx="7.27339" maxy="53.5581" />
+    <ScaleHint min="0.498902848429637" max="14967.0854528891" />
+    <Layer queryable="1" opaque="0" cascaded="0">
+        <Name>uploaded_data</Name>
+        <Title>Toegevoegde gegevens</Title>
+        <Abstract>Door de gebruiker toegevoegde gegevens</Abstract>
+        <SRS>EPSG:28992</SRS>
+        <LatLonBoundingBox minx="-179.999" miny="-75.0102" maxx="179.078" maxy="2.87828" />
+        <BoundingBox SRS="EPSG:28992"
+                    minx="-2.5e+007" miny="-2.5e+007" maxx="2.5e+007" maxy="2.5e+007" />
+        <Style>
+          <Name>default</Name>
+          <Title>default</Title>
+          <LegendURL width="18" height="12">
+             <Format>image/png</Format>
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" href="/cgi-bin-noncache/edugis/mapserv.cgi?map=maps/edugis/data.map&amp;version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=uploaded_data&amp;format=image/png"/>
+          </LegendURL>
+        </Style>
+        <ScaleHint min="0.498902848429637" max="2993.41709057782" />
+    </Layer>
+  </Layer>
+</Capability>
+</WMT_MS_Capabilities>
