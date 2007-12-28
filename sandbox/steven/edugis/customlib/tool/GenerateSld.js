@@ -20,13 +20,13 @@ function GenerateSld(toolNode, model) {
   ToolBase.apply(this, new Array(toolNode, model));
   
   this.generateSld = function(objRef, layerName) {
+  	objRef.model.setParam('removeSLD',layerName);
   	var bbox = objRef.model.extent.getBbox();
   	var feature = objRef.model.getFeatureNode(layerName);
   	var url = objRef.model.getServerUrl('GetMap', 'GET', feature);
   	var url = url + "&version=1.1.0&request=GetSLDforBbox&service=wms&srs=EPSG:28992&format=image/gif&";
   	url = url + "width=" + objRef.model.extent.getSize()[0] + "&height=" +objRef.model.extent.getSize()[1];
   	url = url + "&bbox=" + bbox.toString()+"&layers="+layerName;
-  	alert(url);
   	httpPayload = new Object();
 		httpPayload.url = url;
     httpPayload.method="get";

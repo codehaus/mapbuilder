@@ -89,7 +89,7 @@
 <xsl:variable name="styleParam">
 <xsl:choose>
 <xsl:when test="StyleList/Style[@current='1']/SLD/OnlineResource">
-          sld=<xsl:value-of select="StyleList/Style[@current='1']/SLD/OnlineResource/@xlink:href"/>
+          sld=<xsl:value-of select="StyleList/Style[@current='1']/SLD/OnlineResource/@xlink:href"/><xsl:value-of select="StyleList/Style[@current='1']/SLD/OnlineResource/@href"/>
 </xsl:when>
 <xsl:when test="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:StyledLayerDescriptor">
           sld_body=<xsl:apply-templates select="wmc:StyleList/wmc:Style[@current='1']/wmc:SLD/wmc:StyledLayerDescriptor"/>

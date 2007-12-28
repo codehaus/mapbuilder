@@ -165,7 +165,7 @@ function ModelBase(modelNode, parentModel) {
    * @param objRef Pointer to the model object being loaded.
    */
   this.loadModelDoc = function(objRef){
-    //alert("loading:"+objRef.url);
+     //alert("loading:"+objRef.url);
 
     if (objRef.url) {
       objRef.callListeners( "newModel" );
@@ -182,17 +182,17 @@ function ModelBase(modelNode, parentModel) {
         var xmlHttp = new XMLHttpRequest();
         
         var sUri = objRef.url;
-        if ( sUri.indexOf("http://")==0 ) {
-         // if (objRef.method == "get") {
+        if ( sUri.indexOf("http://")==0 || sUri.indexOf("https://")==0) {
+         // if (objRef.method.toLowerCase() == "get") {
             sUri = getProxyPlusUrl(sUri);
-         // } else {
-         //   sUri = config.proxyUrl;
-         // }
+         /* } else {
+            sUri = config.proxyUrl;
+          }*/
         }
         //alert( "ModelBase:"+objRef.method + " to:"+ sUri+ " " + objRef.url)
         
         xmlHttp.open(objRef.method, sUri, objRef.async);
-        if (objRef.method == "post") {
+        if (objRef.method.toLowerCase() == "post") {
           xmlHttp.setRequestHeader("content-type",objRef.contentType);
           xmlHttp.setRequestHeader("serverUrl",objRef.url);
         }
@@ -201,63 +201,71 @@ function ModelBase(modelNode, parentModel) {
           objRef.setParam("modelStatus",httpStatusMsg[xmlHttp.readyState]);
           if (xmlHttp.readyState==4) {
             if (xmlHttp.status >= 400) {   //http errors status start at 400
-              var errorMsg = "error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText;
+              var errorMsg = mbGetMessage("errorLoadingDocument", sUri, xmlHttp.statusText, xmlHttp.responseText);
               alert(errorMsg);
               objRef.setParam("modelStatus",errorMsg);
               return;
             } else {
               //alert(xmlHttp.getResponseHeader("Content-Type"));
-              if ( null==xmlHttp.responseXML ) {
-                alert( "null XML response:" + xmlHttp.responseText );
-              } else {
+              //if ( null==xmlHttp.responseXML ) {
+              //  alert( "null XML response:" + xmlHttp.responseText );
+              //} else {
                 // Problem with IE is that sometimes the XML files do not get loaded as XML for some reason (especially from disk)
                 // So we need to deal with it here
 
-                if( xmlHttp.responseXML != null ) {
+                if( (xmlHttp.responseXML != null) && (xmlHttp.responseXML.root != null) && (xmlHttp.responseXML.root.children.length>0) ) {
                   objRef.doc = xmlHttp.responseXML;
-                  if( objRef.doc.parseError == 0 ) {
+                  if( Sarissa.getParseErrorText(objRef.doc) == Sarissa.PARSED_OK ) {
                     objRef.finishLoading();      
                   } else {
-                    alert("Parsing Error:"+objRef.doc.parseError+" " + Sarissa.getParseErrorText( objRef.doc));
+                    alert(mbGetMessage("parseError", Sarissa.getParseErrorText(objRef.doc)));
                   }
-                } else {
+                  return;
+                } 
+
+                if( xmlHttp.responseText != null ) {
                   // if that's the case, the xml file is in the responseText
                   // we have to load it manually 
                   objRef.doc = Sarissa.getDomDocument();
                   objRef.doc.async = false;
-                  objRef.doc = (new DOMParser()).parseFromString( xmlHttp.responseText, "text/xml")
+                  objRef.doc = (new DOMParser()).parseFromString( xmlHttp.responseText.replace(/>\s+</g, "><"), "text/xml")
                   if( objRef.doc == null ) {
-                    alert( "Document parseError:"+Sarissa.getParseErrorText( objRef.doc))
+                    alert(mbGetMessage("documentParseError", Sarissa.getParseErrorText(objRef.doc)));
                     // debugger;
                   } else {
-                    if( objRef.doc.parseError == 0 ) {
+                    if( Sarissa.getParseErrorText(objRef.doc) == Sarissa.PARSED_OK ) {
                       objRef.finishLoading();      
                     } else {
-                      alert("Parsing Error:"+objRef.doc.parseError+" " + Sarissa.getParseErrorText( objRef.doc));
+                      alert(mbGetMessage("parseError", Sarissa.getParseErrorText(objRef.doc)));
                     }
                   }
+                  return;
                 }
                 //if (objRef.doc.documentElement.nodeName.search(/exception/i)>=0) {
                 //  objRef.setParam("modelStatus",-1);
-                //  alert("Exception:"+Sarissa.serialize(xmlHttp.responseText));
+                //  alert("Exception:"+(new XMLSerializer()).serializeToString(xmlHttp.responseText));
                 //}
-              }
+              //}
               //objRef.finishLoading();
             }
           }
         }
         
-        xmlHttp.send(objRef.postData);
+        var postData = objRef.postData || "";
+        if (typeof postData == "object") {
+          postData = new XMLSerializer().serializeToString(postData);
+        }
+        xmlHttp.send(postData);
 
         if (!objRef.async) {
           if (xmlHttp.status >= 400) {   //http errors status start at 400
-            var errorMsg = "error loading document: " + sUri + " - " + xmlHttp.statusText + "-" + xmlHttp.responseText;
+            var errorMsg = mbGetMessage("errorLoadingDocument", sUri, xmlHttp.statusText, xmlHttp.responseText);
             alert(errorMsg);
             this.objRef.setParam("modelStatus",errorMsg);
             return;
           } else {
             //alert(xmlHttp.getResponseHeader("Content-Type"));
-            if ( null==xmlHttp.responseXML ) alert( "null XML response:" + xmlHttp.responseText );
+            if ( null==xmlHttp.responseXML ) alert(mbGetMessage("nullXmlResponse", xmlHttp.responseText));
             objRef.doc = xmlHttp.responseXML;
             objRef.finishLoading();
           }

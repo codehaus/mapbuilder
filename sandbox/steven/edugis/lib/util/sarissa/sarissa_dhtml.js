@@ -27,6 +27,12 @@
  * or visit http://www.gnu.org
  *
  */
+/** @private */
+Sarissa.updateCursor = function(oTargetElement, sValue) {
+      if(oTargetElement && oTargetElement.style && oTargetElement.style.cursor != undefined ){
+        oTargetElement.style.cursor = sValue;
+      };
+  };
 /**
  * Update an element with response of a GET request on the given URL. 
  * @addon
@@ -35,23 +41,26 @@
  * @param xsltproc (optional) the transformer to use on the returned
  *                  content before updating the target element with it
  */
+
 Sarissa.updateContentFromURI = function(sFromUrl, oTargetElement, xsltproc) {
     try{
-        oTargetElement.style.cursor = "wait";
+        Sarissa.updateCursor(oTargetElement, "wait");
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("GET", sFromUrl);
         function sarissa_dhtml_loadHandler() {
-            if (xmlhttp.readyState == 4) {
-                oTargetElement.style.cursor = "auto";
-                Sarissa.updateContentFromNode(xmlhttp.responseXML, oTargetElement, xsltproc);
+            if (xmlhttp.readyState == 4) {                
+                Sarissa.updateContentFromNode(xmlhttp.responseXML, oTargetElement, xsltproc, callback);
             };
         };
         xmlhttp.onreadystatechange = sarissa_dhtml_loadHandler;
-        xmlhttp.send(null);
-        oTargetElement.style.cursor = "auto";
+        if (skipCache) {
+             var oldage = "Sat, 1 Jan 2000 00:00:00 GMT";
+             xmlhttp.setRequestHeader("If-Modified-Since", oldage);
+        };
+        xmlhttp.send("");
     }
     catch(e){
-        oTargetElement.style.cursor = "auto";
+        Sarissa.updateCursor(oTargetElement, "auto");
         throw e;
     };
 };
@@ -66,7 +75,7 @@ Sarissa.updateContentFromURI = function(sFromUrl, oTargetElement, xsltproc) {
  */
 Sarissa.updateContentFromNode = function(oNode, oTargetElement, xsltproc) {
     try {
-        oTargetElement.style.cursor = "wait";
+        Sarissa.updateCursor(oTargetElement, "wait");
         Sarissa.clearChildNodes(oTargetElement);
         // check for parsing errors
         var ownerDoc = oNode.nodeType == Node.DOCUMENT_NODE?oNode:oNode.ownerDocument;
@@ -81,9 +90,9 @@ Sarissa.updateContentFromNode = function(oNode, oTargetElement, xsltproc) {
                 oNode = xsltproc.transformToDocument(oNode);
             };
             // be smart, maybe the user wants to display the source instead
-            if(oTargetElement.tagName.toLowerCase == "textarea" || oTargetElement.tagName.toLowerCase == "input") {
-                oTargetElement.value = Sarissa.serialize(oNode);
-            }
+           if(oTargetElement.tagName.toLowerCase() == "textarea" || oTargetElement.tagName.toLowerCase() == "input") {
+                oTargetElement.value = new XMLSerializer().serializeToString(oNode);
+             }
             else {
                 // ok that was not smart; it was paranoid. Keep up the good work by trying to use DOM instead of innerHTML
                 if(oNode.nodeType == Node.DOCUMENT_NODE || oNode.ownerDocument.documentElement == oNode) {
@@ -94,12 +103,15 @@ Sarissa.updateContentFromNode = function(oNode, oTargetElement, xsltproc) {
                 };
             };  
         };
+        if (callback) {
+              callback(oNode, oTargetElement);
+          };
     }
     catch(e) {
         throw e;
     }
     finally{
-        oTargetElement.style.cursor = "auto";
+       Sarissa.updateCursor(oTargetElement, "auto");
     };
 };
 

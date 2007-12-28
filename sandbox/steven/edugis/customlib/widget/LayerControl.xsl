@@ -76,11 +76,6 @@
 </xsl:if>
 </input>
 </div>
-<div id="sld">
-<form>
-<input type="button" value="Negeer" onClick="{$context}.setParam('clearSld','{$layerName}')"/><input type="button" value="Genereer" onClick="{$context}.setParam('generateSld','{$layerName}')"/>
-</form>
-</div>
 <div id="transptitle">ondoorzichtigheid:</div>
 <div id="transpbox">
 <form title="Zet de transparantie van de laag">
@@ -104,6 +99,24 @@
 </form>
 </div>
 </div>
+<xsl:choose>
+<xsl:when test="StyleList/Style[@current='1']/SLD/OnlineResource">
+<xsl:if test="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL">
+<xsl:variable name="imgUrl">
+<xsl:value-of select="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL/wmc:OnlineResource/@xlink:href"/>&amp;sld=<xsl:value-of select="StyleList/Style[@current='1']/SLD/OnlineResource/@xlink:href"/><xsl:value-of select="StyleList/Style[@current='1']/SLD/OnlineResource/@href"/>
+</xsl:variable>
+<div class="layerImg">
+<div id="leg_{$layerName}" style="">
+<xsl:element name="IMG">
+<xsl:attribute name="SRC">
+<xsl:value-of select="$imgUrl"/>
+</xsl:attribute>
+</xsl:element>
+</div>
+</div>
+</xsl:if>
+</xsl:when>
+<xsl:otherwise>
 <xsl:if test="wmc:StyleList/wmc:Style[@current='1']/wmc:LegendURL">
 <div class="layerImg">
 <div id="leg_{$layerName}" style="">
@@ -115,6 +128,8 @@
 </div>
 </div>
 </xsl:if>
+</xsl:otherwise>
+</xsl:choose>
 </div>
 </xsl:template>
 <xsl:template match="text()|@*"/>

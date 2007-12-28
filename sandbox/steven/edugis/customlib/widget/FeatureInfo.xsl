@@ -28,7 +28,14 @@
 </div>
 <div class="value">
 <xsl:variable name="waarde">
+<xsl:choose>
+<xsl:when test="format-number(text(),'#.##')='NaN'">
+<xsl:value-of select="text()"/>
+</xsl:when>
+<xsl:otherwise>
 <xsl:value-of select="format-number(text(),'#.##')"/>
+</xsl:otherwise>
+</xsl:choose>
 </xsl:variable>
 <input type="text" id="{$widgetId}{generate-id()}" value="{$waarde}" readonly="readonly"/>
 

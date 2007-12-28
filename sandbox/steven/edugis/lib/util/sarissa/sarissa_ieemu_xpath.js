@@ -32,8 +32,6 @@
  * or visit http://www.gnu.org
  *
  */
- var _SARISSA_HAS_DOM_IMPLEMENTATION = document.implementation && true;
- var _SARISSA_HAS_DOM_FEATURE = _SARISSA_HAS_DOM_IMPLEMENTATION && document.implementation.hasFeature;
  
 if(_SARISSA_HAS_DOM_FEATURE && document.implementation.hasFeature("XPath", "3.0")){
     /**
@@ -69,8 +67,9 @@ if(_SARISSA_HAS_DOM_FEATURE && document.implementation.hasFeature("XPath", "3.0"
     */
     SarissaNodeList.prototype.expr = "";
     /** dummy, used to accept IE's stuff without throwing errors */
-    XMLDocument.prototype.setProperty  = function(x,y){};
-    /**
+    if(window.XMLDocument && (!XMLDocument.prototype.setProperty)){
+        XMLDocument.prototype.setProperty  = function(x,y){};
+    };   /**
     * <p>Programmatically control namespace URI/prefix mappings for XPath
     * queries.</p>
     * <p>This method comes especially handy when used to apply XPath queries
@@ -103,8 +102,8 @@ if(_SARISSA_HAS_DOM_FEATURE && document.implementation.hasFeature("XPath", "3.0"
             var ns = namespaces[i];
             var colonPos = ns.indexOf(":");
             var assignPos = ns.indexOf("=");
-            if(colonPos == 5 && assignPos > colonPos+2){
-                var prefix = ns.substring(colonPos+1, assignPos);
+             if(colonPos > 0 && assignPos > colonPos+1){
+               var prefix = ns.substring(colonPos+1, assignPos);
                 var uri = ns.substring(assignPos+2, ns.length-1);
                 oDoc._sarissa_xpathNamespaces[prefix] = uri;
             }else{
@@ -127,7 +126,7 @@ if(_SARISSA_HAS_DOM_FEATURE && document.implementation.hasFeature("XPath", "3.0"
     * @returns the result of the XPath search as a SarissaNodeList
     * @throws An error if no namespace URI is found for the given prefix.
     */
-    XMLDocument.prototype.selectNodes = function(sExpr, contextNode){
+    XMLDocument.prototype.selectNodes = function(sExpr, contextNode, returnSingle){
         var nsDoc = this;
         var nsresolver = this._sarissa_useCustomResolver
         ? function(prefix){
@@ -136,6 +135,8 @@ if(_SARISSA_HAS_DOM_FEATURE && document.implementation.hasFeature("XPath", "3.0"
             else throw "No namespace URI found for prefix: '" + prefix+"'";
             }
         : this.createNSResolver(this.documentElement);
+        var result = null;
+        if(!returnSingle){
             var oResult = this.evaluate(sExpr,
                     (contextNode?contextNode:this),
                     nsresolver,
@@ -144,7 +145,15 @@ if(_SARISSA_HAS_DOM_FEATURE && document.implementation.hasFeature("XPath", "3.0"
         nodeList.expr = sExpr;
         for(var i=0;i<nodeList.length;i++)
             nodeList[i] = oResult.snapshotItem(i);
-        return nodeList;
+          result = nodeList;
+        }
+        else {
+            result = oResult = this.evaluate(sExpr,
+                (contextNode?contextNode:this),
+                nsresolver,
+                XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        };
+        return result;      
     };
     /**
     * <p>Extends the Element to emulate IE's selectNodes</p>
@@ -170,13 +179,8 @@ if(_SARISSA_HAS_DOM_FEATURE && document.implementation.hasFeature("XPath", "3.0"
     */
     XMLDocument.prototype.selectSingleNode = function(sExpr, contextNode){
         var ctx = contextNode?contextNode:null;
-        sExpr = "("+sExpr+")[1]";
-        var nodeList = this.selectNodes(sExpr, ctx);
-        if(nodeList.length > 0)
-            return nodeList.item(0);
-        else
-            return null;
-    };
+        return this.selectNodes(sExpr, ctx, true);
+      };
     /**
     * <p>Extends the Element to emulate IE's selectNodes.</p>
     * @argument sExpr the XPath expression to use

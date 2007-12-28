@@ -75,7 +75,6 @@ function OwsContext(modelNode, parent) {
    	var baseNode = objRef.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']");
 		var sldNode=baseNode.selectSingleNode("//SLD");
 		if(!sldNode) {
-		alert('geen jager, geen neger');
 		return;
 		}
  	  sldNode.parentNode.removeChild(sldNode);

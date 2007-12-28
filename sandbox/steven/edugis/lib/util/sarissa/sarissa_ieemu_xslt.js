@@ -42,8 +42,8 @@ if(!Sarissa.IS_ENABLED_TRANSFORM_NODE && window.XSLTProcessor){
      * @argument xslDoc The stylesheet to use (a DOM Document instance)
      * @argument oResult The Document to store the transformation result
      */
-    Element.prototype.transformNodeToObject = function(xslDoc, oResult){
-        var oDoc = document.implementation.createDocument("", "", null);
+    XMLElement.prototype.transformNodeToObject = function(xslDoc, oResult){
+         var oDoc = document.implementation.createDocument("", "", null);
         Sarissa.copyChildNodes(this, oDoc);
         oDoc.transformNodeToObject(xslDoc, oResult);
     };
@@ -90,7 +90,7 @@ if(!Sarissa.IS_ENABLED_TRANSFORM_NODE && window.XSLTProcessor){
      * @argument xslDoc The stylesheet to use (a DOM Document instance)
      * @returns the result of the transformation serialized to an XML String
      */
-    Element.prototype.transformNode = function(xslDoc){
+     XMLElement.prototype.transformNode = function(xslDoc){
         var oDoc = document.implementation.createDocument("", "", null);
         Sarissa.copyChildNodes(this, oDoc);
         return oDoc.transformNode(xslDoc);

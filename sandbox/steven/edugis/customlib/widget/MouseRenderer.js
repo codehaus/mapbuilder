@@ -64,8 +64,8 @@ function MouseRenderer(widgetNode, model) {
       } else {
         objRef.node.appendChild(tempNode);
       }
-      objRef.stylesheet.setParameter('objRef','_4');
-      objRef.stylesheet.setParameter('widgetNode','_1');
+      objRef.stylesheet.setParameter('objRef','objRef'); //_4
+      objRef.stylesheet.setParameter('widgetNode','widgetNode'); //_1
       jsNode = objRef.stylesheet.transformNodeToObject(objRef.resultDoc);
       js=jsNode.selectSingleNode("js").firstChild.nodeValue;
       if (objRef.debug) alert("javascript eval:"+js);

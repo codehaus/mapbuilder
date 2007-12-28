@@ -104,7 +104,7 @@ function Mapbuilder() {
     this.loadState=newState;
     switch (newState){
       case MB_LOAD_CORE:
-        this.loadScript(baseDir+"/util/sarissa/Sarissa.js");
+        this.loadScript(baseDir+"/util/sarissa/sarissa.js");
         //this.loadScript(baseDir+"/util/sarissa/sarissa_dhtml.js");
         this.loadScript(baseDir+"/util/sarissa/sarissa_ieemu_xpath.js");
         //this.loadScript(baseDir+"/util/sarissa/sarissa_ieemu_xslt.js");//all deprecated

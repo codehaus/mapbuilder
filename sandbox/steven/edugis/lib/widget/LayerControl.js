@@ -65,4 +65,5 @@ function LayerControl(widgetNode, model) {
   this.model.addListener("moveLayerUp",this.refresh, this);
   this.model.addListener("moveLayerDown",this.refresh, this);
   if (this.autoRefresh) this.model.addListener("addLayer",this.refresh, this);
+   //if (this.autoRefresh) this.model.addListener("generateSld",this.refresh, this);
 }

@@ -175,6 +175,7 @@ function Extent( model, initialRes ) {
    */
   this.centerAt = function(center, newres, limitExtent) {
     var half = new Array(this.size[0]/2, this.size[1]/2);
+    
 /*
  * FD 2005/03/04 : respect de minScale et maxScale
  * DGR : scale constraints

@@ -112,15 +112,77 @@ window.location=document.getElementById("menu").value
 </div>
 <div class="layerbody">Klik op een of meer kaartlagen die je wilt toevoegen aan de kaart. Tussen haakjes staat het gebied waarover de gegevens beschikbaar zijn.<p>
 <form>
-<select id="menu" onchange="go()">
-<option value="#">Kies een categorie</option>
-<option value="javascript:config.loadModel('wmsCapTemplate','http://edugis-ont/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/cbs.map&&version=1.1.0&request=GetCapabilities&service=WMS')">Bevolking (Nederland)</option>
-<<option value="javascript:config.loadModel('wmsCapTemplate','../ahn.xml')">Hoogte t.o.v. N.A.P.(Nederland)</option>
-<option value="javascript:config.loadModel('wmsCapTemplate','../ehs.xml')">Ruimte (Nederland)</option>
-<option value="javascript:config.loadModel('wmsCapTemplate','../kadaster.xml')">Kadastrale gegevens (Nederland)</option>
-<option value="javascript:config.loadModel('wmsCapTemplate','http://edugis-ont/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/water.map&&version=1.1.0&request=GetCapabilities&service=WMS')">Water (Nederland)</option>
-<option value="javascript:config.loadModel('wmsCapTemplate','http://edugis-ont/cgi-bin-noncache/edugis/mapserv.cgi?map=maps/edugis/data.map&&version=1.1.0&request=GetCapabilities&service=WMS')">Toegevoegde gegevens</option>
-<option value="javascript:config.loadModel('wmsCapTemplate','../topografie.xml')">Topografie (Nederland)</option>
+<select onchange="go()" id="menu">
+<option value="#">
+
+Kies een categorie
+
+</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','data/context/cbs.xml')">
+
+Gemeenten, wijken en buurten
+
+</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','data/context/kadaster.xml')">
+
+Kadastrale gegevens
+
+</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','data/context/thema.xml')">
+
+Bevolkingsdichtheid
+
+</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','data/context/welvaart.xml')">
+
+Welvaart
+
+</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','data/context/bevolking.xml')">
+
+Bevolkingssamenstelling
+
+</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','data/context/ahn.xml')">
+
+Hoogte
+
+</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','data/context/bodem.xml')">
+
+Grondsoorten
+
+</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','data/context/ehs.xml')">
+
+Ruimtegebruik
+
+</option>
+<!--<option value="javascript:config.loadModel('wmsCapTemplate','../europa.xml')">
+
+Europa
+
+</option>-->
+<option value="javascript:config.loadModel('wmsCapTemplate','data/context/water.xml')">
+
+Water
+
+</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','data/context/toegevoegd.xml')">
+
+Toegevoegde gegevens
+
+</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','data/context/topografie.xml')">
+
+Topografie
+
+</option>
+<option value="javascript:config.loadModel('wmsCapTemplate','http://webservice.nieuwekaart.nl/cgi-bin/nkn?version=1.1.0&amp;request=GetCapabilities&amp;service=WMS')">
+
+De Nieuwe kaart Nederland
+
+</option>
 </select>
 </form>
 </p>
