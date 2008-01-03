@@ -21,6 +21,7 @@ function XslProcessor(xslUrl,docNSUri) {
   this.xslDom = Sarissa.getDomDocument();
   this.xslDom.async = false;
   this.xslDom.validateOnParse=false;  //IE6 SP2 parsing bug
+  //this.xslDom.setProperty('ResolveExternals',true);  //IE6 SP2 parsing bug
   this.xslDom.load(xslUrl);
   if ( this.xslDom.parseError < 0 )
     alert("error loading XSL stylesheet: " + xslUrl);
