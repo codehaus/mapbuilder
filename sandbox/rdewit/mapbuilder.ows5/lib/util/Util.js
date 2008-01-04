@@ -788,6 +788,7 @@ function loadCss(cssFileName) {
  * @return return node's value
  */
 function getNodeValue(sResult){
+  if (!sResult) return null;
   if(sResult.nodeType == 1) return sResult.firstChild ? sResult.firstChild.nodeValue : "";
   if(sResult.nodeType < 5) return sResult.nodeValue;
   return sResult;
