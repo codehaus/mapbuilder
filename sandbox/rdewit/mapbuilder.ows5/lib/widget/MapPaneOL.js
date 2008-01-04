@@ -731,6 +731,61 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
      };
 
   switch(service){
+    // Component WMS Layer
+    case "Component WMS":
+      // Some Component WMS values
+      var remote_ows_url = getNodeValue(layer.selectSingleNode("wmc:Server/@remote_ows_url"));
+      var remote_ows_type = getNodeValue(layer.selectSingleNode("wmc:Server/@remote_ows_type")) || "WFS";
+      var sld = getNodeValue(layer.selectSingleNode("wmc:Server/@sld")) || "";
+      var format = getNodeValue(layer.selectSingleNode("wmc:Server/@format")) || format;
+      var version = getNodeValue(layer.selectSingleNode("wmc:Server/@version")) || "1.3";
+      var exceptions = getNodeValue(layer.selectSingleNode("wmc:Server/@exceptions")) || "application/vnd.ogc.se_inimage";
+
+      var wmscParams = {
+            service: "WMS",
+            version: version,
+            request: "GetMap",
+            sld: sld,
+            exceptions: exceptions,
+            format: format,
+            remote_ows_type: remote_ows_type,
+            remote_ows_url: remote_ows_url
+      };
+
+      // Example Component WMS request:
+      // http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&SLD=http%3A%2F%2Fartois.openplans.org%2Fslds%2Fpopulation.sld&EXCEPTIONS=application%2Fvnd.ogc.se_inimage&FORMAT=application%2Fvnd.google-earth.kmz&REMOTE_OWS_TYPE=WFS&REMOTE_OWS_URL=http%3A%2F%2Fsigma.openplans.org%3A8080%2Fgeoserver%2Fwfsd&WIDTH=256&HEIGHT=256&SRS=EPSG%3A4326&BBOX=-396.09375,-144.4140625,96.09375,154.4140625
+      switch (wmscParams.format) {
+        case "kml":
+        case "application/kml+xml":
+        case "application/vnd.google-earth.kml+xml":
+        case "application/vnd.google-earth.kmz":
+          layerOptions.format = OpenLayers.Format.KML;
+          layerOptions.extractAttributes = true;
+
+          // Add parameters: width and height (required)
+          newParams = {
+              width: this.model.getWindowWidth(),
+              height: this.model.getWindowHeight()
+          };
+          OpenLayers.Util.extend(wmscParams, newParams);
+
+          objRef.oLlayers[layerId] = new OpenLayers.Layer.WFS( title, 
+                  href, OpenLayers.Util.upperCaseObject(wmscParams), layerOptions);
+          break;
+        case "image/png":
+        case "image/jpeg":
+        case "image/jpg":
+        case "image/gif":
+          OpenLayers.Util.extend(wmscParams, {transparent: true});
+          objRef.oLlayers[layerId] = new OpenLayers.Layer.WMS( title, 
+                  href, wmscParams, layerOptions);
+          break;
+        default:
+          alert("Component WMS: sorry, format '" + wmscParams.format + "' is unknown to me (" + layerId + ")");
+          return false;
+      }
+      break;
+
     // WMS Layer (Untiled)
     case "OGC":
     case "WMS":
