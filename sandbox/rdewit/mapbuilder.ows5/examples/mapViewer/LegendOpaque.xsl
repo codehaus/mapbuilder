@@ -53,23 +53,23 @@ $Name$
   
   <!-- Layer -->
   <xsl:template match="wmc:Layer">
-    <xsl:variable name="hiddenAttr">
-      <xsl:choose>
-        <xsl:when test="@hidden='0'">true</xsl:when>
-        <xsl:otherwise>false</xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
     <tr>
       <!-- Visiblity -->
       <td>
-        <xsl:choose>
-          <xsl:when test="@opaque='1'">
-            <input type="radio" checked="{$hiddenAttr}" name="legendGroup" id="legend_{wmc:Name}" onclick="config.objects.{$widgetId}.swapOpaqueLayer('{wmc:Name}',!this.checked)"/>
-          </xsl:when>
-          <xsl:otherwise>
-            <input type="checkbox" checked="{$hiddenAttr}" id="legend_{wmc:Name}" onclick="{$context}.setHidden('{wmc:Name}',!this.checked)"/>
-          </xsl:otherwise>
-        </xsl:choose>
+        <input id="legend_{wmc:name}">
+          <xsl:choose>
+            <xsl:when test="@opaque='1'">
+              <xsl:attribute name="type">radio</xsl:attribute>
+              <xsl:attribute name="name">legendGroup</xsl:attribute>
+              <xsl:attribute name="onclick">config.objects.<xsl:value-of select="$widgetId"/>.swapOpaqueLayer('<xsl:value-of select="wmc:Name"/>',!this.checked)</xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:attribute name="type">checkbox</xsl:attribute>
+              <xsl:attribute name="onclick"><xsl:value-of select="$context"/>.setHidden('<xsl:value-of select="wmc:Name"/>',!this.checked)</xsl:attribute>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:if test="@hidden='0'"><xsl:attribute name="checked">checked</xsl:attribute></xsl:if>
+        </input>
         <xsl:choose>
           <xsl:when test="wmc:Title/@xml:lang">              
             <xsl:value-of select="wmc:Title[@xml:lang=$lang]"/>

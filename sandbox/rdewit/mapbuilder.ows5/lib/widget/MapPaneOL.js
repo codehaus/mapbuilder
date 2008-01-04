@@ -6,6 +6,7 @@ $Id$
 */
 
 // Ensure this object's dependancies are loaded.
+loadCss("openlayers/style.css");
 mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 mapbuilder.loadScript(baseDir+"/util/Util.js");
 mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
@@ -96,11 +97,6 @@ function MapPaneOL(widgetNode, model) {
    */
   this.loadingLayers = 0;
 
-  this.init = function(objRef) {
-    loadCss("openlayers/style.css");
-  }
-  model.addListener("init", this.init, this);
-  
   /**
    * Called after a feature has been added to a WFS.  This function triggers
    * the WMS basemaps to be redrawn.  A timestamp param is added to the URL
@@ -718,6 +714,9 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   // Get current style node of the layer
   var currentStyle = layer.selectSingleNode('wmc:StyleList/wmc:Style[@current=1]');
 
+  // will be true for IE6, false for later versions of IE
+  objRef.IE6 = false /*@cc_on || @_jscript_version < 5.7 @*/;
+  
   //default option value for a layer
   var layerOptions = {
           visibility: vis,
@@ -726,7 +725,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
           maxExtent: objRef.model.map.baseLayer.maxExtent,
           maxResolution: objRef.model.map.baseLayer.maxResolution,  //"auto" if not defined in the context
           minResolution: objRef.model.map.baseLayer.minResolution,  //"auto" if not defined in the context
-          alpha: false,            //option for png transparency with ie6
+          alpha: format.indexOf("png") != -1 ? objRef.IE6 : false,         //option for png transparency with ie6
           isBaseLayer: false,
           displayOutsideMaxExtent: objRef.displayOutsideMaxExtent
      };
@@ -752,7 +751,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       var params = new Array();
       params = sld2UrlParam(currentStyle);
       if (objRef.model.timestampList && objRef.model.timestampList.getAttribute("layerId") == layerId) { 
-        var timestamp = objRef.model.timestampList.childNodes[0];
+        var ts = objRef.model.timestampList.childNodes[0];
 
         objRef.oLlayers[layerId]= new OpenLayers.Layer.WMS(title,href,{
             layers: layerName,
@@ -763,7 +762,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
             // "Parameter names shall not be case sensitive,
             //  but parameter values shall be case sensitive."
             transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
-              "TIME":timestamp.firstChild.nodeValue,	          
+              "TIME":ts.firstChild.nodeValue,	          
             format: format,
             sld:params.sld,
             sld_body:params.sld_body,
@@ -929,7 +928,14 @@ MapPaneOL.prototype.getWebSafeStyle = function(objRef, colorNumber) {
   j=parseInt((colorNumber-i*36)/6);
   k=parseInt((colorNumber-i*36-j*6));
   var color="#"+colors[i]+colors[j]+colors[k];
-  var style = new Object();
+  var defaultStyle = {
+            fillColor: "#808080",
+            fillOpacity: 1,
+            strokeColor: "#000000",
+            strokeOpacity: 1,
+            strokeWidth: 1,
+            pointRadius: 6};
+  var style=OpenLayers.Util.extend(defaultStyle,OpenLayers.Feature.Vector.style["default"]);
   style.fillColor = color;
   style.strokeColor = color;
   style.map = objRef.model.map;
@@ -952,28 +958,47 @@ MapPaneOL.prototype.refreshLayer = function(objRef, layerId , newParams){
    * @param timestampIndex  The array index for the layer to be displayed. 
    */
 MapPaneOL.prototype.timestampListener=function(objRef, timestampIndex){
+  if (window.movieLoop.frameIsLoading == true) {
+    return;
+  }
   var layerId = objRef.model.timestampList.getAttribute("layerId");
-  var timestamp = objRef.model.timestampList.childNodes[timestampIndex];
+  var ts = objRef.model.timestampList.childNodes[timestampIndex];
 
-  if ((layerId) && (timestamp)) {				
+  if (layerId && ts) {				
     var curLayer = objRef.oLlayers[layerId]; //TBD: please check if this still works now we've moved to layerId
+    if (!curLayer.grid) {
+      return;
+    }
+    div = curLayer.grid[0][0].imgDiv;
     // Perform URL substitution via regexps
-    var oldImageUrl = curLayer.grid[0][0].imgDiv.src;
-    var newImageUrl = oldImageUrl;		
-    newImageUrl = newImageUrl.replace(/TIME\=.*?\&/,'TIME=' + timestamp.firstChild.nodeValue + '&');
+    var oldImageUrl = div.src || div.firstChild.src;
+    var newImageUrl = oldImageUrl.replace(/TIME\=.*?\&/,'TIME=' + ts.firstChild.nodeValue + '&');
+    if (oldImageUrl == newImageUrl) {
+      return;
+    }
 
     function imageLoaded() {
       window.movieLoop.frameIsLoading = false;
+      if(element.removeEventListener) { // Standard
+        element.removeEventListener("load", imageLoaded, false);
+      } else if(element.detachEvent) { // IE
+        element.detachEvent('onload', imageLoaded);
+      }
     }
 
     window.movieLoop.frameIsLoading = true;
-    var element = curLayer.grid[0][0].imgDiv;
+    var element = div.nodeName.toUpperCase() == "IMG" ? div : div.firstChild;
     if(element.addEventListener) { // Standard
       element.addEventListener("load", imageLoaded, false);
     } else if(element.attachEvent) { // IE
       element.attachEvent('onload', imageLoaded);
-    } 
-    element.src = newImageUrl;		
+    }
+    if (objRef.IE6) {
+      OpenLayers.Util.modifyAlphaImageDiv(div,
+            null, null, null, newImageUrl);
+    } else {
+      element.src = newImageUrl;
+    }
   }
       
 }

@@ -239,7 +239,6 @@
   <xs:complexType name="modelsType">
     <xs:choice maxOccurs="unbounded">
       <xs:element name="Context" type="mb:ContextType"/>
-      <xs:element name="ContextCollection" type="mb:ContextCollectionType"/>
       <xs:element name="FeatureCollection" type="mb:FeatureCollectionType"/>
       <xs:element name="GeoRSS" type="mb:GeoRSSType"/>
       <xs:element name="Logger" type="mb:LoggerType"/>
@@ -353,14 +352,6 @@
   <xs:complexType name="ContextType">
     <xs:annotation>
       <xs:documentation>A Web Map Context document as specified by the Open Geospatial Consortium (http://www.opengeospatial.org/docs/03-036r2.pdf)</xs:documentation>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="mb:AbstractModelBaseType"/>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="ContextCollectionType">
-    <xs:annotation>
-      <xs:documentation>A collection of Web Map Context document URLs as specified by the Open Geospatial Consortium (http://www.opengeospatial.org/docs/03-036r2.pdf)</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="mb:AbstractModelBaseType"/>
@@ -507,7 +498,7 @@
   </xs:complexType>
   <xs:complexType name="CollectionListType">
     <xs:annotation>
-      <xs:documentation>A widget to display a list of context documents contained in a ContextCollection model</xs:documentation>
+      <xs:documentation>A widget to display a list of context documents contained in a ContextCollection</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="mb:AbstractWidgetBaseXSLType">

@@ -690,7 +690,16 @@ function sld2UrlParam(node) {
  * @return OpenLayers style object
  */
 function sld2OlStyle(node) {
-  var style1=new Object();
+  // sld-conform default style
+  var defaultStyle = {
+            fillColor: "#808080",
+            fillOpacity: 1,
+            strokeColor: "#000000",
+            strokeOpacity: 1,
+            strokeWidth: 1,
+            pointRadius: 6};
+            
+  var style1=OpenLayers.Util.extend(defaultStyle,OpenLayers.Feature.Vector.style["default"]);
   var value;
   var styleSet=false;
 
@@ -752,7 +761,15 @@ function sld2OlStyle(node) {
  * @param cssFileName name of the file to load, relative to config.skinDir
  */
 function loadCss(cssFileName) {
-  //TBD take care of this when compressing Mapbuilder?
+  // queue the request if we do not know the skinDir yet
+  if (typeof config == "undefined" || typeof config.skinDir != "string") {
+    if (!mapbuilder.cssToLoad) {
+      mapbuilder.cssToLoad = [];
+    }
+    mapbuilder.cssToLoad.push(cssFileName);
+    return;
+  }
+  
   var id = cssFileName.match(/[^\/]*$/).toString().replace(/./, '_');
   if (!document.getElementById(id)) {
     var cssNode = document.createElement('link');
@@ -772,6 +789,6 @@ function loadCss(cssFileName) {
  */
 function getNodeValue(sResult){
   if(sResult.nodeType == 1) return sResult.firstChild ? sResult.firstChild.nodeValue : "";
-  if(sResult.nodeType > 1 || sResult.nodeType < 5) return sResult.nodeValue;
+  if(sResult.nodeType < 5) return sResult.nodeValue;
   return sResult;
 }

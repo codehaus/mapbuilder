@@ -12,8 +12,8 @@
   <General>
     <Window width="500" height="300"/>
     <ows:BoundingBox crs="EPSG:900913">
-      <ows:LowerCorner>-20037508 -20037508</ows:LowerCorner>
-      <ows:UpperCorner>20037508 20037508.34</ows:UpperCorner>
+      <ows:LowerCorner>-8981656.569960937 -2152466.7158796852</ows:LowerCorner>
+      <ows:UpperCorner>11564616.629414063 14441094.877520315</ows:UpperCorner>
     </ows:BoundingBox>
     <Title>OWS context with Google</Title>
     <Abstract> The OGC Web Services Context Document with google baselayer (mapbuilder only ATM)</Abstract>

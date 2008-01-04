@@ -272,7 +272,6 @@
 				</Style>
 			</StyleList>
 		</Layer>
-    <!-- server unavailable
 		<Layer queryable="0" hidden="0" opaque="0">
 			<Server service="OGC:WMS" version="1.1.1" title="My GeoServer WMS">
 				<OnlineResource xlink:type="simple"  xlink:href="http://sigma.openplans.org/geoserver/wms?"/>
@@ -282,7 +281,7 @@
 			<Abstract>Generated from vmap0</Abstract>
 			<SRS>EPSG:4326</SRS>
 			<FormatList>
-				<Format current="1">image/gif</Format>
+				<Format current="1">image/png</Format>
 			</FormatList>
 			<StyleList>
 				<Style current="1">
@@ -291,8 +290,6 @@
 				</Style>
 			</StyleList>			
 		</Layer>
-    -->
-    <!-- server unavailable
 		<Layer queryable="0" hidden="0">
 			<Server service="OGC:WMS" version="1.1.1" title="My GeoServer WMS">
 				<OnlineResource xlink:type="simple"  xlink:href="http://sigma.openplans.org/geoserver/wms?"/>
@@ -302,7 +299,7 @@
 			<Abstract>Generated from postgis_gnis</Abstract>
 			<SRS>EPSG:4326</SRS>
 			<FormatList>
-				<Format current="1">image/gif</Format>
+				<Format current="1">image/png</Format>
 			</FormatList>
 			<StyleList>
 				<Style current="1">
@@ -311,6 +308,5 @@
 				</Style>
 			</StyleList>						
 		</Layer>
-    -->
 	</LayerList>
 </ViewContext>
