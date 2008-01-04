@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<OWSContext
+  xmlns="http://www.opengis.net/context"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:sld="http://www.opengis.net/sld"
+  xmlns:ogc="http://www.opengis.net/ogc"
+  xmlns:ows="http://www.opengis.net/ows"
+  xmlns:param="http;//www.opengis.net/param"
+  version="0.0.13"
+  id="ows-context-tie"
+  xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
+  
+  <General>
+    <Window width="500" height="300"/>
+    <ows:BoundingBox crs="EPSG:4326">
+      <ows:LowerCorner>-180 -90</ows:LowerCorner>
+      <ows:UpperCorner>180 90</ows:UpperCorner>
+    </ows:BoundingBox>
+    <Title xml:lang="en">Simple World Context</Title>
+    <KeywordList>
+      <Keyword>world</Keyword>
+    </KeywordList>
+  </General>
+
+  <ResourceList>
+
+    <Layer queryable="1" hidden="0">
+      <Server service="WMS" version="1.0.0" title="OGC:WMS">
+        <OnlineResource xlink:type="simple" xlink:href="http://labs.metacarta.com/wms/vmap0"/>
+      </Server>
+      <Name>basic</Name>
+      <Title>World Basemap</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format>image/jpeg</Format>
+        <Format>image/png</Format>
+        <Format>image/gif</Format>
+        <Format current="1">image/png; mode=24bit</Format>
+        <Format>image/wbmp</Format>
+        <Format>image/tiff</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+      </StyleList>
+    </Layer>
+
+    <Layer hidden="0">
+      <Server service="KML" version="3.0" title="KML Tasmania 3.0">
+        <OnlineResource method="GET" xlink:type="simple" xlink:href="kml/topp_tas_ows5.kml"/>
+      </Server>
+      <Name>KML Tas OWS5</Name>
+      <Title>KML</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </Layer>
+
+    <Layer hidden="1" id="wmsc_kml_1">
+      <Server service="Component WMS" version="1.3" title="WMS-C KML" 
+              format="kml" 
+              sld="http://artois.openplans.org/slds/population.sld" 
+              remote_ows_type="WFS" 
+              remote_ows_url="http://sigma.openplans.org:8080/geoserver/wfs"
+              >
+        <OnlineResource method="GET" xlink:type="simple" xlink:href="http://geo.openplans.org:8080/geoserver/wms"/>
+      </Server>
+      <Name>OWS5 Component WMS</Name>
+      <Title>OWS5 Component WMS</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </Layer>
+
+    <Layer hidden="0" id="wmsc_kml_2">
+      <Server service="Component WMS" version="1.1.1" title="WMS-C KML" 
+              format="kml" 
+              sld="http://artois.openplans.org/slds/population.sld" 
+              remote_ows_type="WFS" 
+              remote_ows_url="http://sigma.openplans.org:8080/geoserver/wfs?"
+              >
+        <OnlineResource method="GET" xlink:type="simple" xlink:href="/geoserver/wms?"/>
+      </Server>
+      <Name>topp:states</Name>
+      <Title>OWS5 Component WMS - localhost</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </Layer>
+
+  </ResourceList>
+</OWSContext>
