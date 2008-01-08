@@ -287,11 +287,11 @@ function Graticule(widgetNode, model) {
 		         }
 			     else if(lo<0)
 				{	d.title = mbGetMessage("westWgs84");
-					d.innerHTML = (Math.abs(lo)).toFixed(lonDecs)+" E";
+					d.innerHTML = (Math.abs(lo)).toFixed(lonDecs)+" W";
 				 }
 				 else 
 				{	d.title = mbGetMessage("eastWgs84");
-					d.innerHTML = (Math.abs(lo)).toFixed(lonDecs)+" W";
+					d.innerHTML = (Math.abs(lo)).toFixed(lonDecs)+" E";
 				 }
 				 
 				d.style.zIndex = this.div.style.zIndex;
