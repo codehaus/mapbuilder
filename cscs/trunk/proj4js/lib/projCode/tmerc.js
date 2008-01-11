@@ -29,7 +29,6 @@ Proj4js.Proj.tmerc = {
     this.e2 = Proj4js.common.e2fn(this.es);
     this.e3 = Proj4js.common.e3fn(this.es);
     this.ml0 = this.a * Proj4js.common.mlfn(this.e0, this.e1, this.e2, this.e3, this.lat0);
-    this.ind = (this.es < .00001) ? 1 : 0; // spherical?
   },
 
   /**
@@ -37,25 +36,16 @@ Proj4js.Proj.tmerc = {
     long/lat in radians
   */
   forward : function(p) {
-      var lon = p.x;
-      var lat = p.y;
-      // convert to radians
-      if ( lat <= 90.0 && lat >= -90.0 && lon <= 180.0 && lon >= -180.0) {
-        //lon = lon * Proj4js.common.D2R;
-        //lat = lat * Proj4js.common.D2R;
-      } else {
-        Proj4js.reportError("lcc:forward: llInputOutOfRange: "+ lon +" : " + lat);
-        return null;
-      }
+    var lon = p.x;
+    var lat = p.y;
 
-    //this.k0
     var delta_lon = Proj4js.common.adjust_lon(lon - this.long0); // Delta longitude
     var con;    // cone constant
     var x, y;
     var sin_phi=Math.sin(lat);
     var cos_phi=Math.cos(lat);
 
-    if (this.ind != 0) {  /* spherical form */
+    if (this.sphere) {  /* spherical form */
       var b = cos_phi * Math.sin(delta_lon);
       if ((Math.abs(Math.abs(b) - 1.0)) < .0000000001)  {
         Proj4js.reportError("tmerc:forward: Point projects into infinity");
@@ -94,7 +84,7 @@ Proj4js.Proj.tmerc = {
     var max_iter = 6;      /* maximun number of iterations */
     var lat, lon;
 
-    if (this.ind != 0) {   /* spherical form */
+    if (this.sphere) {   /* spherical form */
       var f = Math.exp(p.x/(this.a * this.k0));
       var g = .5 * (f - 1/f);
       var temp = this.lat0 + p.y/(this.a * this.k0);

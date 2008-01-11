@@ -234,13 +234,15 @@ Proj4js = {
       if ( this.defs[proj.srsCode] ) return this.defs[proj.srsCode];
 
       //else load from web service via AJAX request
-      var url = this.proxyScript + this.defsLookupService +'/' + proj.srsAuth +'/'+ proj.srsProjNumber + '/proj4';
-      options.onSuccess = this.defsLoadedFromService.bind(this,proj.srsCode)
-      options.onFailure = this.defsFailed.bind(this,proj.srsCode);
-      new OpenLayers.Ajax.Request(url, options);
-      if ( this.defs[proj.srsCode] ) return this.defs[proj.srsCode];
-
-      return null;    //an error if it gets here
+      if (this.proxyScript) {
+        var url = this.proxyScript + this.defsLookupService +'/' + proj.srsAuth +'/'+ proj.srsProjNumber + '/proj4';
+        options.onSuccess = this.defsLoadedFromService.bind(this,proj.srsCode)
+        options.onFailure = this.defsFailed.bind(this,proj.srsCode);
+        new OpenLayers.Ajax.Request(url, options);
+      }
+      
+      //may return null here if the defs are not found
+      return this.defs[proj.srsCode];
     },
 
     defsLoadedFromDisk: function(srsCode, transport) {
@@ -361,10 +363,9 @@ Proj4js.Proj = OpenLayers.Class({
   },
 
   parseDefs : function(proj4opts) {
-      this.k0 = 1.0;    //default value
-      var def = { data: proj4opts };
+      this.defData = proj4opts;
       var paramName, paramVal;
-      var paramArray=def.data.split("+");
+      var paramArray=this.defData.split("+");
 
       for (var prop=0; prop<paramArray.length; prop++) {
           var property = paramArray[prop].split("=");
@@ -377,6 +378,7 @@ Proj4js.Proj = OpenLayers.Class({
               case "proj":   this.projName =  paramVal.replace(/\s/gi,""); break;
               case "units":  this.units = paramVal.replace(/\s/gi,""); break;
               case "datum":  this.datumCode = paramVal.replace(/\s/gi,""); break;
+              case "nadgrids": this.nagrids = paramVal.replace(/\s/gi,""); break;
               case "ellps":  this.ellps = paramVal.replace(/\s/gi,""); break;
               case "a":      this.a =  parseFloat(paramVal); break;  // semi-major radius
               case "b":      this.b =  parseFloat(paramVal); break;  // semi-minor radius
@@ -406,6 +408,7 @@ Proj4js.Proj = OpenLayers.Class({
   },
 
   deriveConstants : function() {
+      if (this.nagrids == '@null') this.datumCode = 'none';
       if (this.datumCode && this.datumCode != 'none') {
         var datumDef = Proj4js.Datum[this.datumCode];
         if (datumDef) {
@@ -426,6 +429,7 @@ Proj4js.Proj = OpenLayers.Class({
       //this.es=1-(Math.pow(this.b,2)/Math.pow(this.a,2));
       this.e = Math.sqrt(this.es);        // eccentricity
       this.ep2=(this.a2-this.b2)/this.b2; // used in geocentric
+      if (!this.k0) this.k0 = 1.0;    //default value
 
       this.datum = new Proj4js.datum(this);
   }
@@ -967,9 +971,15 @@ var maxiter = 30;
 Proj4js.Point = OpenLayers.Class({
 
     initialize : function(x,y,z) {
-      this.x = x;
-      this.y = y;
-      this.z = z || 0.0;
+      if (typeof x == 'object') {
+        this.x = x[0];
+        this.y = x[1];
+        this.z = x[2] || 0.0;
+      } else {
+        this.x = x;
+        this.y = y;
+        this.z = z || 0.0;
+      }
     },
 
     clone : function() {
@@ -1075,3 +1085,4 @@ Proj4js.Datum = {
 };
 
 Proj4js.WGS84 = new Proj4js.Proj('WGS84');
+Proj4js.Datum['OSB36'] = Proj4js.Datum['OSGB36']; //as returned from spatialreference.org

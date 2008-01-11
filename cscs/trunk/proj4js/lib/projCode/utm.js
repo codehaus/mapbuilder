@@ -34,7 +34,7 @@ Proj4js.Proj.utm = {
     this.long0 = ((6 * Math.abs(this.zone)) - 183) * Proj4js.common.D2R;
     this.x0 = 500000.0;
     this.y0 = this.utmSouth ? 10000000.0 : 0.0;
-    if (!this.k0) this.k0 = 0.9996;
+    this.k0 = 0.9996;
 
     Proj4js.Proj['tmerc'].init.apply(this);
     this.forward = Proj4js.Proj['tmerc'].forward;
