@@ -48,7 +48,7 @@
       </StyleList>
     </Layer>
 
-    <Layer hidden="0">
+    <Layer hidden="1">
       <Server service="KML" version="3.0" title="KML Tasmania 3.0">
         <OnlineResource method="GET" xlink:type="simple" xlink:href="kml/topp_tas_ows5.kml"/>
       </Server>
@@ -73,7 +73,7 @@
       <SRS>EPSG:4326</SRS>
     </Layer>
 
-    <Layer hidden="0" id="wmsc_kml_2">
+    <Layer hidden="1" id="wmsc_kml_2">
       <Server service="Component WMS" version="1.1.1" title="WMS-C KML" 
               format="kml" 
               sld="http://artois.openplans.org/slds/population.sld" 

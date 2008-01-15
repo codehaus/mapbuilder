@@ -4,6 +4,19 @@
     <OwsContext id="mainMap">
       <defaultModelUrl>context.xml</defaultModelUrl>
       <widgets>
+        <TipWidgetOL id="featurePopup">
+          <width>200</width>
+          <height>150</height>
+          <opacity>0.8</opacity>
+          <backgroundColor>#D0D0D0</backgroundColor>
+          <border>1px solid black</border>
+        </TipWidgetOL>
+        <GmlRendererOL id="testGmlRenderer">
+          <targetModel>mainMap</targetModel>
+          <sldModel>sld</sldModel>
+          <featureOnClick>featurePopup</featureOnClick>
+        </GmlRendererOL>
+        <FeatureList id="featureList"></FeatureList>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
      			<fixedSize>true</fixedSize>
@@ -30,8 +43,18 @@
           <loadingImage>/images/LoadingSpinner.gif</loadingImage>
         </LayerControl>
       </widgets>
+      <tools>
+        <FeatureSelectHandler id="featureHighlighter">
+          <targetModel>mainMap</targetModel>
+        </FeatureSelectHandler>
+      </tools>
+      <namespace>xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs' xmlns:topp='http://www.openplans.org/topp'</namespace>
     </OwsContext>
+
+    <FeatureCollection id="featureCollection">
+    </FeatureCollection>
   </models>
+
   <widgets>
     <Back id="back">
       <buttonBar>mainButtonBar</buttonBar>

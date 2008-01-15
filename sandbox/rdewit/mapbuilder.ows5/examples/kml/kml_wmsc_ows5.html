@@ -1,0 +1,581 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>OpenLayers KML + Component WMS Support Example</title>
+    <style type="text/css">
+        html, body {
+            margin: 0;
+            padding: 5px;
+            font: 0.9em Verdana, Arial, sans serif;
+        }
+        input, select, textarea, form {
+            font: 0.9em Verdana, Arial, sans-serif;
+        }
+        h2 {
+            margin-top: 0.75em;
+            font-size: 1.6em;
+        }
+        #leftcol {
+            position: absolute;
+            top: 470px;
+            left: 5px;
+            padding: 0;
+            width: 455px;
+            border-right: solid 1px black;
+        }
+        #rightcol {
+            position: absolute;
+            top: 470px;
+            left: 465px !important; left: 485px;
+            padding: 0;
+            padding-left: 5px;
+            width: 455px;
+        }
+        #map {
+            width: 700px;
+            height: 425px;
+            border: 1px solid #ccc;
+        }
+        #input {
+            width: 450px;
+        }
+        #text {
+            font-size: 0.85em;
+            margin: 1em 0 1em 0;
+            width: 100%;
+            height: 10em;
+        }
+        #info {
+            position: absolute;
+            top: 0px;
+            left: 720px; 
+        }
+        #output {
+            font-size: 0.8em;
+            width: 100%;
+            height: 500px;
+            border: 0;
+        }
+        p {
+            margin: 0;
+            padding: 0.75em 0 0.75em 0;
+        }
+        input.params {
+            width: 350px;
+        }
+
+        #url {
+            width: 450px;
+        }
+        ul {
+            margin: 0px;
+            padding-left: 15px;
+        }
+
+        #spinner {
+            display: none;
+            position: relative;
+            top: -18px;
+            left: 160px;
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+    <script src="../lib/Firebug/firebug.js"></script>
+    <script src="../../lib/util/openlayers/OpenLayers.js"></script>
+
+    <!-- Google Style Popups -->
+    <link rel="stylesheet" href="openlayers_ext/bubble/style.css" type="text/css" />
+    <script src="openlayers_ext/bubble/Util.js"></script>
+    <script src="openlayers_ext/bubble/Tween.js"></script>
+    <script src="openlayers_ext/bubble/Popup.js"></script>
+    <script type="text/javascript">
+        OpenLayers.ImgPath = "http://openlayers.org/api/img/";
+        OpenLayers.Popup = OpenLayers.Util.extend(OpenLayers.Popup, OpenLayers.Popup.Google);
+    </script>
+    <script src="openlayers_ext/bubble/Anchored.js"></script>
+    <script type="text/javascript">
+        OpenLayers.Popup.Anchored = OpenLayers.Util.extend(OpenLayers.Popup.Anchored, OpenLayers.Popup.Anchored.Google);
+    </script>
+    <script src="openlayers_ext/bubble/AnchoredBubble.js"></script>
+    <script type="text/javascript">
+        OpenLayers.Popup.AnchoredBubble = OpenLayers.Util.extend(OpenLayers.Popup.AnchoredBubble, OpenLayers.Popup.AnchoredBubble.Google);
+    </script>
+
+    <script type="text/javascript">
+        var map, formats;
+        var selectControl, selectedFeature;
+        var kml_counter = 1;
+        var wmsc_counter = 1;
+        var loadingLayers = 0;
+
+        //OpenLayers.ProxyHost = "/mapbuilder/MapbuilderProxy.jsp?url=";
+        OpenLayers.ProxyHost = "proxy.cgi?url=";
+        //OpenLayers.ProxyHost = "proxy.php?url=";
+
+        var wmscURL = "http://geo.openplans.org:8080/geoserver/wms";
+
+        var wmscParams = {
+                  //isBaseLayer: false,
+                  //transparent: true,
+                  service: "WMS",
+                  version: "1.1.1",
+                  request: "GetMap",
+                  //styles: "",
+                  sld: "http://artois.openplans.org/slds/population.sld",
+                  //sld: "http://geo.openplans.org:8080/geoserver/www/popshade.sld",
+                  exceptions: "application/vnd.ogc.se_inimage",
+                  //format: "application/vnd.google-earth.kmz",
+                  //format: "application/kml+xml",
+                  //format: "application/kml+xml",
+                  format: "image/png",
+                  remote_ows_type: "WFS",
+                  remote_ows_url: "http://sigma.openplans.org:8080/geoserver/wfsd"
+        };
+
+        //http://geo.openplans.org:8080/geoserver/wms?bbox=-180,-90,180,90&Format=application/kml+xml&request=GetMap&&width=600&height=317&srs=EPSG:4326&sld=http://artois.openplans.org/slds/population.sld&layers=topp:tasmania_roads,topp:tasmania_state_boundaries
+
+        wmscParams = OpenLayers.Util.upperCaseObject(wmscParams);
+
+        function init(){
+            map = new OpenLayers.Map('map');
+            var wmsc = [
+                "http://wmsc1.terrapages.net/getmap?",
+                "http://wmsc2.terrapages.net/getmap?",
+                "http://wmsc3.terrapages.net/getmap?",
+                "http://wmsc4.terrapages.net/getmap?"
+              ];
+
+            baseLayer = new OpenLayers.Layer.WMS( "Street",wmsc, {layers: 'UnprojectedStreet', format: 'image/jpeg' }, {buffer: 1, isBaseLayer: true, wrapDateLine: true} );
+
+            var wms = new OpenLayers.Layer.WMS( "WMS Base", 
+                "http://labs.metacarta.com/wms/vmap0?", {layers: 'basic'},  {buffer: 1, isBaseLayer: true, wrapDateLine: true} ); 
+
+            //vectors = new OpenLayers.Layer.Vector("KML " + kml_counter++, {transparent: true});
+            //vectors.events.register('loadstart', vectors, increaseLoadingLayers);
+            //vectors.events.register('loadend', vectors, decreaseLoadingLayers);
+
+            //map.addLayer(baseLayer); 
+            map.addLayer(wms);
+
+            //map.addLayer(vectors);
+
+            map.addControl(new OpenLayers.Control.MousePosition());
+            map.addControl(new OpenLayers.Control.LayerSwitcher());
+            //map.addControl(new OpenLayers.Control.EditingToolbar(vectors));
+            
+            //var options = {
+                //hover: true,
+                //onSelect: serialize
+            //};
+
+            //hoverControl = new OpenLayers.Control.SelectFeature(vectors, {
+                //hover: true
+            //});
+
+            //selectControl = new OpenLayers.Control.SelectFeature(vectors, {
+                ////hover: true,
+                //onSelect: onFeatureSelect, 
+                //onUnselect: onFeatureUnselect
+            //});
+
+            //var select = new OpenLayers.Control.SelectFeature(vectors, options);
+            //map.addControl(hoverControl);
+            //hoverControl.activate();
+            //map.addControl(selectControl);
+            //selectControl.activate();
+            
+            formats = {
+                wkt: new OpenLayers.Format.WKT(),
+                geojson: new OpenLayers.Format.GeoJSON(),
+                georss: new OpenLayers.Format.GeoRSS(),
+                gml: new OpenLayers.Format.GML(),
+                kml: new OpenLayers.Format.KML()
+            };
+            
+            map.setCenter(new OpenLayers.LonLat(-150, 5), 2);
+        }
+        
+        function onPopupClose(evt) {
+            selectControl.unselect(selectedFeature);
+        }
+
+        function onFeatureSelect(feature) {
+            selectedFeature = feature;
+            var content; 
+            if (feature.style.balloonStyle) {
+                // Use Style.js to replace balloonstyle variables with attribute values
+                content = OpenLayers.Style.createLiteral(feature.style.balloonStyle, feature);
+            } else if (!feature.attributes.description && !feature.attributes.name) {
+                content = "<table border=\"1\">\n";
+                for (var i in feature.attributes){
+                    content += "<tr><td>" + feature.attributes[i] + "</td></tr>\n";
+                }
+                content += "</table>\n";
+            } else {
+                content = "";
+                if (feature.attributes.name) {
+                    content  = "<strong>" + feature.attributes.name +"</strong><br />";
+                }
+                content += feature.attributes.description || "";
+            }
+
+
+            popup = new OpenLayers.Popup.AnchoredBubble("chicken", 
+                                     feature.geometry.getBounds().getCenterLonLat(),
+                                     new OpenLayers.Size(350,200),
+                                     "<div style='font-size:.8em;overflow:auto;width:100%;'>" + content + "</div>",
+                                     null, true, onPopupClose);
+            feature.popup = popup;
+            map.addPopup(popup);
+        }
+
+        function onFeatureUnselect(feature) {
+            map.removePopup(feature.popup);
+            feature.destroyPopup();
+        }    
+        
+        function serialize(feature) {
+            var type = document.getElementById("formatType").value;
+            // second argument for pretty printing (geojson only)
+            var pretty = document.getElementById("prettyPrint") ? document.getElementById("prettyPrint").checked : false;
+            var str = formats[type].write(feature, pretty);
+            // not a good idea in general, just for this demo
+            str = str.replace(/,/g, ', ');
+            document.getElementById('output').value = str;
+            document.getElementById('output_syntax').value = str;
+            sh_highlightDocument();
+        }
+
+        function getFeaturesBounds(features) {
+            if (!features) {
+                return null;
+            }
+
+            var bounds;
+            var geom = 0;
+            var no_geom = 0;
+
+            for(var i=0; i<features.length; ++i) {
+                if (features[i].geometry) {
+                    geom++;
+                    if (!bounds) {
+                        bounds = features[i].geometry.getBounds();
+                    } else {
+                        bounds.extend(features[i].geometry.getBounds());
+                    }
+                } else {
+                    no_geom++;
+                }
+            }
+            return bounds;
+        }
+
+        function deserialize() {
+            var element = document.getElementById('text');
+            var status = document.getElementById('status');
+            var type = document.getElementById("formatType") ? document.getElementById("formatType").value : "kml";
+
+            var kmlLayer = new OpenLayers.Layer.Vector("KML " + kml_counter++, {transparent: true}, {format: OpenLayers.Format.KML, extractAttributes: true});
+
+            //console.info(kmlLayer);
+            //var features = (kmlLayer.format()).read(element.value);
+            var features = formats[type].read(element.value);
+
+            var bounds;
+            if(features) {
+                if(features.constructor != Array) {
+                    features = [features];
+                }
+
+                kmlLayer.addFeatures(features);
+
+                addLayerToMap(kmlLayer, true, true);
+
+                var plural = (features.length != 1) ? 's' : '';
+                status.innerHTML = features.length + ' feature' + plural + ' added';
+                if (features.length == 0) {
+                    alert('No features found!');
+                }
+            } else {
+                status.innerHTML = 'Bad input ' + type;
+            }
+        }
+        
+        function loadUrl() {
+            var element = document.getElementById('url');
+            var status = document.getElementById('status');
+            var url = element.value;
+            increaseLoadingLayers();
+            //url = url.replace(/\+/, "%2B"); // escape the '+' character
+            OpenLayers.loadURL(url, null, null, loadUrlSuccess, loadUrlFailure);
+        }
+
+        function loadUrlSuccess(request) {
+            var doc = request.responseXML;
+
+            if (!doc || request.fileType!="XML") {
+                doc = request.responseText;
+            }
+
+            var element = document.getElementById('text');
+            element.value = doc;
+            decreaseLoadingLayers();
+            deserialize();
+
+        }
+
+        function loadUrlFailure(evt) {
+            //console.info('loadUrlFailure',evt);
+        }
+
+        // preload images
+        (function() {
+            var roots = ["draw_point", "draw_line", "draw_polygon", "pan"];
+            var onImages = [];
+            var offImages = [];
+            for(var i=0; i<roots.length; ++i) {
+                onImages[i] = new Image();
+                onImages[i].src = "../theme/default/img/" + roots[i] + "_on.png";
+                offImages[i] = new Image();
+                offImages[i].src = "../theme/default/img/" + roots[i] + "_on.png";
+            }
+        })();
+
+        function showWmscParams() {
+            var content = "";
+            content += "<table border='0'>\n";
+
+            content += "<tr><td>";
+            content += "<label for='param_URL'>URL</label>\n";
+            content += "</td><td>";
+            content += "<input class='params' id='param_URL' type='text' name='URL' value='" + wmscURL + "' /><br />\n"; 
+            content += "</td></tr>\n";
+
+            for (var param in wmscParams) {
+                content += "<tr><td>";
+                content += "<label for='param_" + param  + "'>" + param + "</label>\n";
+                content += "</td><td>";
+                content += "<input class='params' id='param_" + param  + "' type='text' name='" + param + "' value='" + wmscParams[param] + "' /><br />\n"; 
+                content += "</td></tr>\n";
+                //content += param + ": " + wmscParams[param] + "<br />";
+            }
+            content += "</table>\n";
+            paramsElem = document.getElementById("wmscParams");
+            paramsElem.innerHTML = content;
+        }
+
+        function refreshWmscParams() {
+            var form = document.forms[0];
+            var inputs = form.getElementsByTagName("input");
+            for (var i = 0; i < form.elements.length; i++) {
+                var input = form.elements[i];
+                var id = input.id;
+                var name = input.name;
+                var value = input.value;
+                if (id.startsWith("param_") && wmscParams[name]) {
+                    wmscParams[name] = value;
+                } else if(id == "param_URL"){
+                    wmscURL = value;
+                }
+            }
+        }
+
+        function addLayerToMap(layer, zoomToBounds, addSelectControl) {
+
+            // register load events
+            //console.info(layer);
+            layer.events.register('loadstart', layer, increaseLoadingLayers);
+            layer.events.register('loadend', layer, decreaseLoadingLayers);
+
+            // add layer to map
+            map.addLayer(layer);
+
+            // add onclick events
+            if (addSelectControl) {
+                var selectControl = new OpenLayers.Control.SelectFeature(layer, {
+                    onSelect: onFeatureSelect, 
+                    onUnselect: onFeatureUnselect
+                });
+                map.addControl(selectControl);
+                selectControl.activate();
+
+                // zoom to extent of layer if asked for
+                if (zoomToBounds && layer.features) {
+                    bounds = getFeaturesBounds(layer.features);
+                    if (bounds) {
+                        map.zoomToExtent(bounds);
+                    }
+                }
+            }
+        }
+
+        function addWmscLayer() {
+            refreshWmscParams(); // updates the parameters with the info from the form
+
+            mapSize = map.getSize();
+
+            newParams = {
+                WIDTH: mapSize.w,
+                HEIGHT: mapSize.h
+            };
+
+            OpenLayers.Util.extend(wmscParams, newParams);
+ 
+            var wmscLayer;
+            var addSelectControl = false;
+
+            switch (wmscParams.FORMAT) {
+                case "kml":
+                case "application/kml+xml":
+                case "application/vnd.google-earth.kml+xml":
+                case "application/vnd.google-earth.kmz":
+                    wmscLayer = new OpenLayers.Layer.WFS( "Component WMS " + wmsc_counter++, 
+                            wmscURL, wmscParams, {format: OpenLayers.Format.KML, extractAttributes: true} );
+                    addSelectControl = true;
+                    break;
+                case "image/png":
+                case "image/jpeg":
+                case "image/jpg":
+                case "image/gif":
+                    OpenLayers.Util.extend(wmscParams, {transparent: true});
+                    wmscLayer = new OpenLayers.Layer.WMS( "Component WMS " + wmsc_counter++, 
+                            wmscURL, wmscParams, {isBaseLayer: false});
+                    break;
+                default:
+                    alert("Sorry, format '" + wmscParams.FORMAT + "' is unknown to me");
+                    return false;
+            }
+            addLayerToMap(wmscLayer, false, addSelectControl);
+        }
+
+        function increaseLoadingLayers() {
+            loadingLayers++;
+            showSpinner();
+        }
+
+        function decreaseLoadingLayers() {
+            loadingLayers--;
+            if (loadingLayers < 1) {
+                hideSpinner();
+            }
+        }
+        function showSpinner() {
+            spinnerDiv = document.getElementById('spinner');
+            if (spinnerDiv) {
+                spinnerDiv.style.display = "block";
+            }
+            var status = document.getElementById('status');
+            status.innerHTML = "loading " + loadingLayers + " layer" + ((loadingLayers == 1) ? '' : 's') + "...";
+
+        }
+
+        function hideSpinner() {
+            spinnerDiv = document.getElementById('spinner');
+            if (spinnerDiv) {
+                spinnerDiv.style.display = "none";
+            }
+            var status = document.getElementById('status');
+            status.innerHTML = "loaded";
+        }
+
+     </script>
+  </head>
+  <body onload="init();showWmscParams();">
+        <h3>OpenLayers KML + Component WMS Support Example</h3>
+        <div id="map"></div>
+    <div id="leftcol">
+        <div id="input">
+        <strong>KML</strong><br />
+            Select URL: 
+            <select onChange="(document.getElementById('url')).value = this.value">
+                <option value=""></option>
+                <optgroup label="local">
+                <!--
+                <option value="kml_elections/aus_vic.kml">Elections VIC</option>
+                <option value="kml_elections/aus_vic_ext_styles.kml">Elections VIC ext styles</option>
+                <option value="kml_elections/aus_act_inline_styles.kml">Elections ACT (inline styles)</option>
+                <option value="kml_elections/aus_act.kml">Elections ACT</option>
+                <option value="kml_elections/aus_nsw.kml">Elections NSW</option>
+                <option value="kml_elections/aus_qld.kml">Elections QLD</option>
+                <option value="kml_elections/aus_sa.kml">Elections SA</option>
+                <option value="kml_elections/aus_tas.kml">Elections TAS</option>
+                <option value="kml_elections/aus_wa.kml">Elections WA</option>
+                <option value="kml_elections/aus.kml">Elections AUS all (too big)</option>
+                <option value="kml_elections/district_names.kml">Elections district_names.kml</option>
+                <option disabled="disabled" value="">TOPP OWS-5 Demo Service KML 2.2 (states US)</option>
+                -->
+                <option value="kml/earth-nh-democrat.kml">Elections NH Democrats</option>
+                <option value="kml/monteray.kml">Monteray: SyleMap and Hotspots</option>
+                <option value="kml/sacred.kml">Sacred Destinations</option>
+                <option value="kml_elections/aus_nt.kml">Elections NT</option>
+                <option value="kml_elections/doc.kml">Elections NetworkLink</option>
+                <option value="kml/topp_us_ows5.kml">TOPP OWS-5 Demo Service KML OWS-5 (states US)</option>
+                <option value="kml/topp_tas_ows5.kml">TOPP OWS-5 Demo Service KML OWS-5 (smaller Tasmania dataset)</option>
+                </optgroup>
+
+                <optgroup label="remote">
+                <!--
+                <option value="http://featureserver.org/featureserver.cgi/scribble?format=KML">FeatureServer Scribble</option>
+                <option value="http://destinsharks.com/kmz/nl/bowlegs_pokerrun.kmz">KMZ Pokerrun (very big)</option>
+                -->
+                <option value="http://www.cloudsat.cira.colostate.edu/data_dist/KMLs/dataflow.kmz">KMZ Cloudsat</option>
+                <option value="http://maps.google.com/maps/ms?ie=UTF8&hl=en&om=1&msa=0&output=nl&msid=103763259662194171141.000001119b4b42bf062c2">Google - Route 66 (NetworkLink)</option>
+                <option value="http://maps.google.com/maps/ms?ie=UTF8&t=k&hl=en&msa=0&msid=103763259662194171141.000001119b4d1da52255a&output=kml">Google - Monsters</option>
+                <option value="http://press.jrc.it/NewsExplorer/kmledition/en/latest.kml">EMM World News</option>
+                <option value='http://code.google.com/apis/kml/documentation/KML_Samples.kml'>Google KML Sample</option>
+                <option value='http://geo.openplans.org:8080/geoserver/wms?bbox=-128,23,-64,51&Format=application/vnd.google-earth.kml+xml&request=GetMap&&width=600&height=317&srs=EPSG:4326&sld=http://artois.openplans.org/slds/population.sld'>TOPP OWS-5 Demo Service KML 2.2 (states US)</option>
+                <option value='http://geo.openplans.org:8080/geoserver/wms?bbox=-128,23,-64,51&Format=application/kml+xml&request=GetMap&&width=600&height=317&srs=EPSG:4326&sld=http://artois.openplans.org/slds/population.sld'>TOPP OWS-5 Demo Service KML OWS-5 (states US)</option>
+                <option value='http://wight.demos.galdosinc.com/fps/wms/http?request=GetMap&version=1.1.1&layers=DepthArea&styles=DepthArea&service=WMS&srs=urn:ogc:def:crs:ogc:1.3:CRS84&BBOX=-1.62,50.55,-1.02,50.9&format=kml&WIDTH=500&HEIGHT=500'>Galdos OWS-5 Demo Service</option>
+                <option value='http://geo.openplans.org:8080/geoserver/wms?bbox=-180,-90,180,90&Format=kml&request=GetMap&&width=600&height=317&srs=EPSG:4326&sld=http://artois.openplans.org/slds/population.sld&layers=topp:tasmania_roads,topp:tasmania_state_boundaries'>TOPP OWS-5 Demo Service KML 2.2 (smaller Tasmania dataset)</option>
+                <option value='http://geo.openplans.org:8080/geoserver/wms?bbox=-180,-90,180,90&Format=application/kml+xml&request=GetMap&&width=600&height=317&srs=EPSG:4326&sld=http://artois.openplans.org/slds/population.sld&layers=topp:tasmania_roads,topp:tasmania_state_boundaries'>TOPP OWS-5 Demo Service KML OWS5 (smaller Tasmania dataset)</option>
+                </optgroup>
+            </select>
+            <br />
+            Paste URL: <input type="text" id="url" value="kml/conferences.kml"/><br />
+            <input type="button" value="add to layer using url" onclick="loadUrl();" />
+            <br />
+            <hr />
+            Paste KML text:
+            <textarea id="text"></textarea>
+            <input type="button" value="add to layer using text box" onclick="deserialize();" />
+            <br />
+            <hr />
+            Status: <span id="status"></span><img id="spinner" src="../img/spinner.gif" />
+        </div>
+    </div>
+    <div id="rightcol">
+      <strong>Component WMS</strong> 
+      <form name="paramsForm" id="paramsForm">
+      <div id="wmscParams"></div>
+      <input type="button" value="add WMS-C layer" onClick="addWmscLayer();return false;"/>
+      </form>
+    </div>
+    <div id="info">
+        <h3>Changelog</h3>
+        <p><strong>Version 0.2 (2008-01-10)</strong> <br />
+        <ul>
+          <li><em>Note: only tested in Firefox!</em></li>
+          <li>Few more examples</li>
+          <li>Loading spinner</li>
+          <li>BalloonStyle support</li>
+          <li>Google style popups</li>
+          <li>Better exception reporting</li>
+          <li>Component WMS layers have popups now too</li>
+          <li>Improved styling support, including external StyleUrls</li>
+          <li>Support for Google's internal icon set (root://incons/palette-x.png)</li>
+          <li>KMZ support (dependent on proxy)</li>
+        </ul>
+        </p>
+        <p><strong>Version 0.1 (2007-12-17)</strong> <br />
+        <ul>
+          <li><em>Note: only tested in Firefox!</em></li>
+          <li>Issue a Component WMS request and process the results</li>
+          <li>Parse KML (geometries (GML2 and GML3) and styles (only internal styles at present))</li>
+          <li>Display KML vectors and icons</li>
+          <li>Styling: colors, transparency and icons are displayed </li>
+          <li>Basic popups: show the description information Google style</li>
+        </ul>
+        </p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,356 @@
+div.olMapViewport {
+   -moz-user-select: none 
+}
+
+.olLayerGoogleCopyright {
+    left: 2px;
+    bottom: 2px;  
+}
+.olLayerGooglePoweredBy {
+    left: 2px;
+    bottom: 15px;   
+}
+.olControlAttribution {
+    font-size: smaller; 
+    right: 3px; 
+    bottom: 4.5em; 
+    position: absolute; 
+    display: block;
+}
+.olControlScale {
+    right: 3px;
+    bottom: 3em;
+    display: block;
+    position: absolute;
+    font-size: smaller;
+}
+.olControlPermalink {
+    right: 3px;
+    bottom: 1.5em;
+    display: block;
+    position: absolute;
+    font-size: smaller;
+} 
+
+div.olControlMousePosition {
+    bottom: 0em;
+    right: 3px;
+    display: block;
+    position: absolute;
+    font-family: Arial;
+    font-size: smaller;
+}
+
+.olControlOverviewMapContainer {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+
+.olControlOverviewMapElement {
+    padding: 10px 18px 10px 10px;
+    background-color: #00008B;
+    -moz-border-radius: 1em 0 0 0;
+}
+
+.olControlOverviewMapMinimizeButton {
+    right: 0px;
+    bottom: 80px;
+}    
+
+.olControlOverviewMapMaximizeButton {
+    right: 0px;
+    bottom: 80px;
+}
+
+.olControlOverviewMapExtentRectangle {
+   cursor: move;
+    border: 2px dotted red;
+}
+.olLayerGeoRSSDescription {
+    float:left;
+    width:100%;
+    overflow:auto;
+    font-size:1.0em;
+}
+.olLayerGeoRSSClose {
+    float:right;
+    color:gray;
+    font-size:1.2em;
+	margin-right:6px;
+    font-family:sans-serif;
+}
+.olLayerGeoRSSTitle {
+    float:left;font-size:1.2em;
+}
+
+.olControlNavToolbar { 
+    width:0px;
+    height:0px;
+}    
+.olControlNavToolbar div { 
+  display:block;
+  width:  28px;
+  height: 28px;
+  top: 300px;
+  left: 6px;
+  position: relative;
+}
+
+.olControlNavToolbar .olControlNavigationItemActive { 
+  background-image: url("img/panning-hand-on.png");
+  background-repeat: no-repeat;
+}
+.olControlNavToolbar .olControlNavigationItemInactive { 
+  background-image: url("img/panning-hand-off.png");
+  background-repeat: no-repeat;
+}
+.olControlNavToolbar .olControlZoomBoxItemActive { 
+  background-image: url("img/drag-rectangle-on.png");
+  background-color: orange;
+  background-repeat: no-repeat;
+}
+.olControlNavToolbar .olControlZoomBoxItemInactive { 
+  background-image: url("img/drag-rectangle-off.png");
+  background-repeat: no-repeat;
+}
+.olControlEditingToolbar  {
+    float:right;
+    right: 0px;
+    height: 30px; 
+    width: 200px;
+}
+.olControlEditingToolbar div { 
+  float:right;
+  width:  24px;
+  height: 24px;
+  margin: 5px;
+}
+.olControlEditingToolbar .olControlNavigationItemActive { 
+  background-image: url("img/pan_on.png");
+  background-repeat: no-repeat;
+}
+.olControlEditingToolbar .olControlNavigationItemInactive { 
+  background-image: url("img/pan_off.png");
+  background-repeat: no-repeat;
+}
+.olControlEditingToolbar .olControlDrawFeaturePointItemActive { 
+  background-image: url("img/draw_point_on.png");
+  background-repeat: no-repeat;
+}
+.olControlEditingToolbar .olControlDrawFeaturePointItemInactive { 
+  background-image: url("img/draw_point_off.png");
+  background-repeat: no-repeat;
+}
+.olControlEditingToolbar .olControlDrawFeaturePathItemInactive { 
+  background-image: url("img/draw_line_off.png");
+  background-repeat: no-repeat;
+}
+.olControlEditingToolbar .olControlDrawFeaturePathItemActive { 
+  background-image: url("img/draw_line_on.png");
+  background-repeat: no-repeat;
+}
+.olControlEditingToolbar .olControlDrawFeaturePolygonItemInactive { 
+  background-image: url("img/draw_polygon_off.png");
+  background-repeat: no-repeat;
+}
+.olControlEditingToolbar .olControlDrawFeaturePolygonItemActive { 
+  background-image: url("img/draw_polygon_on.png");
+  background-repeat: no-repeat;
+}
+
+.olHandlerBoxZoomBox {
+    border: 2px solid red;
+    position: absolute;
+    background-color: white;
+    opacity: 0.50;
+    font-size: 1px;
+    filter: alpha(opacity=50);
+}    
+
+.olPopup *
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+a.close
+{
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: url("img/close.gif") no-repeat top left;
+    margin: 0px;
+    font-size: 1px;
+    padding: 0px;
+    z-index: 751;
+}
+
+a.close:hover
+{
+    background: url("img/close-hover.gif") no-repeat top left;
+}
+
+/* Specify the default width, height, and background-color,
+   for an Openlayers popup. */ 
+.olPopup 
+{
+    width: 265px;
+    background-color: #FFFFFF;
+    margin: 0px !important;
+    padding: 2px !important;
+}
+
+.olPopup a 
+{
+    cursor: pointer;
+}
+
+.olPopup h1
+{
+    font-size: 12px;
+    font-weight:bold;
+    line-height:normal;
+}
+
+.olPopup h2
+{
+    font-size: small;
+    text-align: center;
+    padding: 2px 0px 2px 0px;
+    margin: 0px 6px 0px 6px;
+    text-transform:capitalize;
+}
+
+.olPopup .comment
+{
+    margin: 0px 0px 0px 1.5em;
+    width: 300px;
+}
+
+.olPopup table
+{
+    border-collapse:collapse;
+    padding: 0px;
+    margin-left: 1px;
+}
+
+.olPopup .discrete
+{
+    font-size: smaller;
+}
+
+.olPopup .controlDiv
+{
+    text-align:right;
+    margin-right:.5em;
+}
+
+.olPopup a.control
+{
+    text-transform: uppercase;
+}
+
+.olPopup .feeditem
+{
+    cursor: pointer;
+}
+
+.olBubbleFrame a.close
+{
+    right: 28px;
+}
+
+/* Top of the frame. */
+.olBubbleFrame #top-left {
+    background-image: url("img/corners/topl.png");
+    position: absolute;
+    top: 0px;
+    right: auto;
+    bottom: auto;
+    left: 0px;
+    width: 38px;
+    height: 28px;
+}
+
+.olBubbleFrame #top-middle {
+    position: absolute;
+    background-image: url("img/corners/topm.png");
+    top: 0px;
+    right: 38px;
+    bottom: auto;
+    left: 38px;
+    width: auto;
+    height: 28px;
+}
+
+.olBubbleFrame #top-right {
+    position: absolute;
+    background-image: url("img/corners/topr.png");
+    top: 0px;
+    right: 0px;
+    bottom: auto;
+    left: auto;
+    width: 38px;
+    height: 28px;
+}
+
+/* Middle of the frame. */
+.olBubbleFrame #middle-left {
+    position: absolute;
+    background-image: url("img/corners/midl.png");
+    top: 28px;
+    right: auto;
+    bottom: 68px;
+    left: 0px;
+    width: 38px;
+    height: auto;
+}
+
+.olBubbleFrame #middle-right {
+    position: absolute;
+    background-image: url("img/corners/midr.png");
+    top: 28px;
+    right: 0px;
+    bottom: 68px;
+    left: auto;
+    width: 38px;
+    height: auto;
+}
+
+/* Bottom of the frame. */
+.olBubbleFrame #bottom-left {
+    position: absolute;
+    background-image: url("img/corners/botl.png");
+    top: auto;
+    right: auto;
+    bottom: 30px;
+    left: 0px;
+    width: 38px;
+    height: 38px;
+}
+
+.olBubbleFrame #bottom-middle {
+    position: absolute;
+    background-image: url("img/corners/botm.png");
+    top: auto;
+    right: 97px;
+    bottom: 30px;
+    left: 38px;
+    width: auto;
+    height: 38px;
+}
+
+.olBubbleFrame #bottom-right {
+    position: absolute;
+    background-image: url("img/corners/botr.png");
+    top: auto;
+    right: 0px;
+    bottom: 0px;
+    left: auto;
+    width: 97px;
+    height: 68px;
+}
+
