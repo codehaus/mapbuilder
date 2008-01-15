@@ -301,7 +301,7 @@ function GmlRendererOL(widgetNode, model) {
    */
   this.hiddenListener=function(objRef, layerName){
     //TBD not yet implemented
-    alert('hide/unhide '+layerName);
+    //alert('hide/unhide '+layerName);
   }
   this.model.addListener("hidden",this.hiddenListener,this);
   
