@@ -39,6 +39,7 @@ else:
 try:
     host = url.split("/")[2]
     isLocalHost = (os.environ["SERVER_NAME"] == "localhost") or (os.environ["HTTP_HOST"] == "localhost")
+    isLocalHost = isLocalHost or (os.environ["SERVER_NAME"] == "demos.terrapages.net") or (os.environ["HTTP_HOST"] == "demos.terrapages.net")
     #isLocalHost = False
     if not isLocalHost and allowedHosts and not host in allowedHosts:
         print "Status: 502 Bad Gateway"
