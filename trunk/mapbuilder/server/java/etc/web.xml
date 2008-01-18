@@ -68,13 +68,13 @@ $Id$
 
       <param-value>mike.adair@ccrs.nrcan.gc.ca</param-value>
 
-      <description>
+      <!--description>
 
         The EMAIL address of the administrator to whom questions
 
         and comments about this application should be addressed.
 
-      </description>
+      </description-->
 
     </context-param>
 
@@ -94,13 +94,13 @@ $Id$
 
     <servlet>
 
-      <servlet-name>proxyRedirect</servlet-name>
-
       <description>
 
         This provides a URL proxy redirection to load external docs
 
       </description>
+
+      <servlet-name>proxyRedirect</servlet-name>
 
       <!--jsp-file>/scripts/redirect.jsp</jsp-file-->
 
@@ -112,23 +112,21 @@ $Id$
 
       <init-param>
 
-        <param-name>debug</param-name>
-
-        <param-value>true</param-value>
-
-        <description>
+         <description>
 
           shows extra debugging output on System.err
 
         </description>
+
+        <param-name>debug</param-name>
+
+        <param-value>true</param-value>
 
       </init-param>
 
     </servlet>
 
     <servlet>
-
-      <servlet-name>xmlSerializer</servlet-name>
 
       <description>
 
@@ -138,6 +136,8 @@ $Id$
 
       </description>
 
+      <servlet-name>xmlSerializer</servlet-name>
+
       <servlet-class>
 
         mapbuilder.XmlSerializer
@@ -145,6 +145,12 @@ $Id$
       </servlet-class>
 
       <init-param>
+
+        <description>
+
+          The directory where files are written, relative to the context root
+
+        </description>
 
         <param-name>outputDir</param-name>
 
@@ -154,18 +160,10 @@ $Id$
 <!--        <param-value>/MyDataLoc/data/create</param-value>-->
 <!--        -->
 
-        <description>
-
-          The directory where files are written, relative to the context root
-
-        </description>
-
       </init-param>
 
     </servlet>
 <servlet>
-
-      <servlet-name>xmlSerializer2</servlet-name>
 
       <description>
 
@@ -175,6 +173,8 @@ $Id$
 
       </description>
 
+      <servlet-name>xmlSerializer2</servlet-name>
+
       <servlet-class>
 
         mapbuilder.XmlSerializer2
@@ -183,30 +183,30 @@ $Id$
 
       <init-param>
 
-        <param-name>outputDir</param-name>
-
-        <param-value>/temp</param-value>
-        
-
-
         <description>
 
           The directory where files are written, relative to the context root
 
         </description>
 
+        <param-name>outputDir</param-name>
+
+        <param-value>/temp</param-value>
+        
+
+
       </init-param>
 
     </servlet>
     <servlet>
-
-      <servlet-name>xmlDocEcho</servlet-name>
 
       <description>
 
         This servlet echos a POSTed xml document as the servlet response
 
       </description>
+
+      <servlet-name>xmlDocEcho</servlet-name>
 
       <servlet-class>
 
@@ -218,13 +218,13 @@ $Id$
 
     <servlet>
 
-      <servlet-name>userGuideServlet</servlet-name>
-
       <description>
 
         This servlet is for the userguide documentation
 
       </description>
+
+      <servlet-name>userGuideServlet</servlet-name>
 
       <jsp-file>/docs/userGuideServlet.jsp</jsp-file>
 
@@ -368,27 +368,26 @@ $Id$
     </error-page>
 
 
-
+    <jsp-config>
     <!-- Define the custom JSP tag libraries used.     -->
 
+      <taglib>
+  
+        <taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
+  
+        <taglib-location>/WEB-INF/c.tld</taglib-location>
+  
+      </taglib>
+  
+      <taglib>
+  
+        <taglib-uri>http://java.sun.com/jsp/jstl/xml</taglib-uri>
+  
+        <taglib-location>/WEB-INF/x.tld</taglib-location>
+  
+      </taglib>
 
-
-    <taglib>
-
-      <taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
-
-      <taglib-location>/WEB-INF/c.tld</taglib-location>
-
-    </taglib>
-
-    <taglib>
-
-      <taglib-uri>http://java.sun.com/jsp/jstl/xml</taglib-uri>
-
-      <taglib-location>/WEB-INF/x.tld</taglib-location>
-
-    </taglib>
-
+    </jsp-config>
 
 
 </web-app>
