@@ -19,39 +19,8 @@ mapbuilder.loadScript(baseDir+"/widget/EditButtonBase.js");
 function EditPoint(widgetNode, model) {
   // Extend EditButtonBase
   EditButtonBase.apply(this, new Array(widgetNode, model));
-
-  /**
-   * Interactive EditPoint control.
-   * @param objRef reference to this object.
-   * @return {OpenLayers.Control} class of the OL control.
-   */
-  this.createControl = function(objRef) {
-    var Control = OpenLayers.Class(OpenLayers.Control.DrawFeature, {
-    type: OpenLayers.Control.TYPE_TOOL,
-      // this is needed because all editing tools are of type
-      // OpenLayers.Control.DrawFeature
-      CLASS_NAME: 'mbEditPoint'
-    });
-    return Control;
-  }
   
   this.instantiateControl = function(objRef, Control) {
     return new Control(objRef.featureLayer, OpenLayers.Handler.Point);
   }
-
-  /**
-   * Add a point to the enclosing GML model.
-   * @param objRef      Pointer to this object.
-   */
-  this.setFeature = function(objRef) {
-    if (objRef.enabled && objRef.geometry) {
-      sucess=objRef.targetModel.setXpathValue(
-        objRef.targetModel,
-        objRef.featureXpath,objRef.geometry.x+","+objRef.geometry.y);
-      objRef.geometry = null;
-      if(!sucess){
-        alert(mbGetMessage("invalidFeatureXpathEditPoint", objRef.featureXpath));
-      }
-    }
-  }  
 }

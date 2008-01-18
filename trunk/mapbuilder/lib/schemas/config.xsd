@@ -559,6 +559,11 @@
               <xs:documentation>The model which will be populated with the server response from a transaction request.</xs:documentation>
             </xs:annotation>
           </xs:element>
+          <xs:element name="appendOnEdit" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Should a new empty feature be appended to the model after creating one? Default is true.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
           <xs:element name="featureXpath" type="xs:string">
             <xs:annotation>
               <xs:documentation>Xpath of the gml:coordinates in the FeatureCollection that will be updated.</xs:documentation>

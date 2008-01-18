@@ -31,6 +31,20 @@ function EditButtonBase(widgetNode, model) {
   /** Reference to GML node to update when a feature is added. */
   this.featureXpath=widgetNode.selectSingleNode("mb:featureXpath").firstChild.nodeValue;
 
+  /** Should a new empty feature be appended after creating one? */
+  var appendOnEdit = widgetNode.selectSingleNode("mb:appendOnEdit");
+  this.appendOnEdit = appendOnEdit ? getNodeValue(appendOnEdit) : "true";
+  this.appendOnEdit = this.appendOnEdit.toLowerCase() == "true" ? true : false;
+
+  /**
+   * OpenLayers DrawFeature control.
+   * @param objRef reference to this object.
+   * @return {OpenLayers.Control} class of the OL control.
+   */
+  this.createControl = function(objRef) {
+    return OpenLayers.Control.DrawFeature;
+  }
+  
   /**
    * If tool is selected and the Edit Tool has changed (eg, changed from
    * LineEdit to PointEdit) then load new default feature.
@@ -71,12 +85,13 @@ function EditButtonBase(widgetNode, model) {
   this.handleFeatureInsert = function(feature) {
     // use the objRef reference stored by setEditingLayer()
     var objRef = feature.layer.mbButton;
+    objRef.feature = OpenLayers.Util.extend({}, feature);
     objRef.geometry = OpenLayers.Util.extend({}, feature.geometry);
     
     var previousFeatureNode = objRef.targetModel.doc.selectSingleNode("/*/*").cloneNode(true);
 
     // add a new empty node if this is not the first feature
-    if (objRef.modified) {
+    if (objRef.modified && objRef.appendOnEdit) {
       objRef.targetModel.doc.selectSingleNode("/*").appendChild(previousFeatureNode);
     }
 
@@ -110,6 +125,43 @@ function EditButtonBase(widgetNode, model) {
   }
 
   /**
+   * Add a geometry to the enclosing GML model.
+   * @param objRef      Pointer to this object.
+   */
+  this.setFeature = function(objRef) {
+    if (!objRef.enabled) {
+      return;
+    }
+
+    var gml = new OpenLayers.Format.GML().write([objRef.feature]);
+    var gmlDoc = Sarissa.getDomDocument();
+    gmlDoc = (new DOMParser()).parseFromString(gml, "text/xml");
+    if (objRef.targetModel.namespace) {
+      Sarissa.setXpathNamespaces(gmlDoc, objRef.targetModel.namespace);
+    }
+    var insertPoint = objRef.featureXpath.lastIndexOf("/")+1;
+    var insertXpath = objRef.featureXpath.substring(insertPoint);
+    var insertNode = gmlDoc.selectSingleNode("//"+insertXpath);
+    if (!insertNode) {
+      insertNode = gmlDoc.selectSingleNode("//gml:featureMember/*/*");
+    }
+    var targetNode = objRef.targetModel.doc.selectSingleNode(objRef.featureXpath);
+    if (targetNode.childNodes.length > 0) {
+      targetNode.removeChild(targetNode.firstChild);
+    }
+
+    objRef.geometry = null;
+    objRef.feature = null;
+
+    try {
+      Sarissa.copyChildNodes(insertNode, targetNode);
+    } catch(e) {
+      alert(mbGetMessage("invalidFeatureXpathEditLine", objRef.featureXpath));      
+    }
+    objRef.targetModel.setParam("refresh");
+  }
+
+  /**
    * Create the array that will hold all OL feature layers
    * for editing buttons. Also register event handler to
    * create feature layers when the OL map is available.
@@ -132,6 +184,5 @@ function EditButtonBase(widgetNode, model) {
 
     objRef.targetModel.addListener("loadModel", objRef.newSession, objRef);
   }
-  
   this.model.addListener("init",this.initButton, this);
 }
