@@ -150,9 +150,6 @@ function EditButtonBase(widgetNode, model) {
       targetNode.removeChild(targetNode.firstChild);
     }
 
-    objRef.geometry = null;
-    objRef.feature = null;
-
     try {
       Sarissa.copyChildNodes(insertNode, targetNode);
     } catch(e) {
