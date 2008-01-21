@@ -175,7 +175,10 @@ function Mapbuilder() {
         // add to dom tree, except if we are using IE and want to load ordered
         document.getElementsByTagName('head')[0].appendChild(script);
       }
-      this.loadingScripts.push(script);
+      if (document.readyState) {
+        // this is only needed for IE
+        this.loadingScripts.push(script);
+      }
     }
   }
    
