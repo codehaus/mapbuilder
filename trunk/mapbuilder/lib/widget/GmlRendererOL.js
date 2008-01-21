@@ -126,26 +126,6 @@ function GmlRendererOL(widgetNode, model) {
       }
     },
     
-    /**
-     * helps to cleanly destroy the features, preventing memleaks.
-     */
-    destroyFeatures: function() {
-      if (!this.features) {
-        return;
-      }
-      var features = this.features;
-      for (var i = features.length - 1; i >= 0; i--) {
-        var feature = features[i];
-
-        if (feature.geometry) {
-          this.renderer.eraseGeometry(feature.geometry);
-        }
-
-        feature.mbSelectStyle = null;
-        feature.destroy();
-      }
-    },
-    
     destroy: function() {
       this.mbWidget = null;
       OpenLayers.Layer.Vector.prototype.destroy.apply(this, arguments);
