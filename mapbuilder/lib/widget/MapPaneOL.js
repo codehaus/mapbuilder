@@ -101,15 +101,16 @@ function MapPaneOL(widgetNode, model) {
    * Called after a feature has been added to a WFS.  This function triggers
    * the WMS basemaps to be redrawn.  A timestamp param is added to the URL
    * to ensure the basemap image is not cached.
+   * This function is triggered by the refreshWmsLayers event. If this event
+   * is fired with a <layerId> as param, only that layer will be refreshed.
+   * @param objRef reference to this widget
    */
   this.refreshWmsLayers = function(objRef) {
-    // TBD IMO it is crazy to reload all layers, just because
-    // one layer that holds WFS data changed. We should switch
-    // all of feature editing to OL WFS layers ASAP, then we
-    // can compare with typeName and only reload the correct
-    // layer
+    var layerId = objRef.model.getParam("refreshWmsLayers");
     var uniqueId = (new Date()).getTime();
-    var layers = objRef.model.map.layers;
+    var layers = layerId ?
+        [objRef.getLayer(objRef, layerId)] :
+        objRef.model.map.layers;
     for (var i in layers) {
       if (layers[i].CLASS_NAME.indexOf('OpenLayers.Layer.WMS') == 0) {
         layers[i].mergeNewParams({uniqueId: uniqueId});
