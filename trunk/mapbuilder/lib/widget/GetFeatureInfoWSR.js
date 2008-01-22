@@ -47,25 +47,25 @@ function GetFeatureInfoWSR(widgetNode, model) {
   }
   
   /**
-   * Register mouseup event when button is selected, unregister it when
+   * Register click event when button is selected, unregister it when
    * unselected
    * @param objRef reference to this widget
    * @param selected true if button is selected, false otherwise
    */
   this.doSelect = function(objRef, selected) {
     if (selected) {
-      objRef.targetModel.map.events.register('mouseup', objRef, objRef.doOnMouseup);  
+      objRef.targetModel.map.events.register('click', objRef, objRef.doOnClick);  
     } else {
-      objRef.targetModel.map.events.unregister('mouseup', objRef, objRef.doOnMouseup);  
+      objRef.targetModel.map.events.unregister('click', objRef, objRef.doOnClick);  
     }
   }
   
   /**
    * For GetFeatureInfo, we want to check for queryable layers and only use
    * those.
-   * @param e OpenLayers mouseup event
+   * @param e OpenLayers click event
    */
-  this.doOnMouseup = function(e) {
+  this.doOnClick = function(e) {
     objRef = this;
     if (!objRef.enabled) return;
     var controller = config.objects[objRef.controller];
