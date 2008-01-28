@@ -558,7 +558,12 @@ Proj4js.common = {
 
 /* Function to eliminate roundoff errors in asin
 ----------------------------------------------*/
-  asinz : function(x) {x=(Math.abs(x)>1.0)?1.0:-1.0;return(x);},
+  asinz : function(x) {
+    if (Math.abs(x)>1.0) {
+      x=(x>1.0)?1.0:-1.0;
+    }
+    return Math.asin(x);
+  },
 
 // following functions from gctpc cproj.c for transverse mercator projections
   e0fn : function(x) {return(1.0-0.25*x*(1.0+x/16.0*(3.0+1.25*x)));},
@@ -1141,39 +1146,29 @@ Proj4js.Proj.aea = {
     this.sin_po=Math.sin(this.lat1);
     this.cos_po=Math.cos(this.lat1);
     this.t1=this.sin_po
-
-
     this.con = this.sin_po;
-
     this.ms1 = Proj4js.common.msfnz(this.e3,this.sin_po,this.cos_po);
     this.qs1 = Proj4js.common.qsfnz(this.e3,this.sin_po,this.cos_po);
 
     this.sin_po=Math.sin(this.lat2);
     this.cos_po=Math.cos(this.lat2);
     this.t2=this.sin_po;
-
     this.ms2 = Proj4js.common.msfnz(this.e3,this.sin_po,this.cos_po);
     this.qs2 = Proj4js.common.qsfnz(this.e3,this.sin_po,this.cos_po);
 
     this.sin_po=Math.sin(this.lat0);
     this.cos_po=Math.cos(this.lat0);
-
     this.t3=this.sin_po;
-
-
     this.qs0 = Proj4js.common.qsfnz(this.e3,this.sin_po,this.cos_po);
 
-    if (Math.abs(this.lat1 - this.lat2) > Proj4js.common.EPSLN)
+    if (Math.abs(this.lat1 - this.lat2) > Proj4js.common.EPSLN) {
       this.ns0 = (this.ms1 * this.ms1 - this.ms2 *this.ms2)/ (this.qs2 - this.qs1);
-    else
+    } else {
       this.ns0 = this.con;
+    }
     this.c = this.ms1 * this.ms1 + this.ns0 * this.qs1;
     this.rh = this.a * Math.sqrt(this.c - this.ns0 * this.qs0)/this.ns0;
-
   },
-
-
-
 
 /* Albers Conical Equal Area forward equations--mapping lat,long to x,y
   -------------------------------------------------------------------*/
@@ -1185,66 +1180,79 @@ Proj4js.Proj.aea = {
     this.sin_phi=Math.sin(lat);
     this.cos_phi=Math.cos(lat);
 
-
     var qs = Proj4js.common.qsfnz(this.e3,this.sin_phi,this.cos_phi);
     var rh1 =this.a * Math.sqrt(this.c - this.ns0 * qs)/this.ns0;
     var theta = this.ns0 * Proj4js.common.adjust_lon(lon - this.long0); 
-    var x = rh1 * Math.sin(theta) + this.y0;
-    var y = this.rh - rh1 * Math.cos(theta) + this.x0;
+    var x = rh1 * Math.sin(theta) + this.x0;
+    var y = this.rh - rh1 * Math.cos(theta) + this.y0;
 
-    p.x = x; p.y = y;
+    p.x = x; 
+    p.y = y;
     return p;
   },
 
 
   inverse: function(p) {
-
     var rh1,qs,con,theta,lon,lat;
 
     p.x -= this.x0;
     p.y = this.rh - p.y + this.y0;
-    if (this.ns0 >= 0)
-       {
-        rh1 = Math.sqrt(p.x *p.x + p.y * p.y);
-       con = 1.0;
-       }
-    else
-       {
-       rh1 = -Math.sqrt(p.x * p.x + p.y *p.y);
-       con = -1.0;
-       }
-     theta = 0.0;
-    if (rh1 != 0.0)
-       theta = Math.atan2(con * p.x, con * p.y);
+    if (this.ns0 >= 0) {
+      rh1 = Math.sqrt(p.x *p.x + p.y * p.y);
+      con = 1.0;
+    } else {
+      rh1 = -Math.sqrt(p.x * p.x + p.y *p.y);
+      con = -1.0;
+    }
+    theta = 0.0;
+    if (rh1 != 0.0) {
+      theta = Math.atan2(con * p.x, con * p.y);
+    }
     con = rh1 * this.ns0 / this.a;
     qs = (this.c - con * con) / this.ns0;
-    if (this.e3 >= 1e-10)
-       {
-       con = 1 - .5 * (1.0 -this.es) * Math.log((1.0 - this.e3) / (1.0 + this.e3))/this.e3;
-       if (Math.abs(Math.abs(con) - Math.abs(qs)) > .0000000001 )
-          {
-          lat = Proj4js.common.phi1z(this.e3,qs);
-
-          }
-       else
-          {
-          if (qs >= 0)
+    if (this.e3 >= 1e-10) {
+      con = 1 - .5 * (1.0 -this.es) * Math.log((1.0 - this.e3) / (1.0 + this.e3))/this.e3;
+      if (Math.abs(Math.abs(con) - Math.abs(qs)) > .0000000001 ) {
+          lat = this.phi1z(this.e3,qs);
+      } else {
+          if (qs >= 0) {
              lat = .5 * PI;
-          else
+          } else {
              lat = -.5 * PI;
           }
-       }
-    else
-       {
-       lat = Proj4js.common.phi1z(e3,qs);
-        }
+      }
+    } else {
+      lat = this.phi1z(e3,qs);
+    }
 
     lon = Proj4js.common.adjust_lon(theta/this.ns0 + this.long0);
-
-    p.x = lon*Proj4js.common.R2D;
-    p.y = lat*Proj4js.common.R2D;
+    p.x = lon;
+    p.y = lat;
     return p;
+  },
+  
+/* Function to compute phi1, the latitude for the inverse of the
+   Albers Conical Equal-Area projection.
+-------------------------------------------*/
+  phi1z: function (eccent,qs) {
+    var con, com, dphi;
+    var phi = Proj4js.common.asinz(.5 * qs);
+    if (eccent < Proj4js.common.EPSLN) return phi;
+    
+    var eccnts = eccent * eccent; 
+    for (var i = 1; i <= 25; i++) {
+        sinphi = Math.sin(phi);
+        cosphi = Math.cos(phi);
+        con = eccent * sinphi; 
+        com = 1.0 - con * con;
+        dphi = .5 * com * com / cosphi * (qs / (1.0 - eccnts) - sinphi / com + .5 / eccent * Math.log((1.0 - con) / (1.0 + con)));
+        phi = phi + dphi;
+        if (Math.abs(dphi) <= 1e-7) return phi;
+    }
+    Proj4js.reportError("aea:phi1z:Convergence error");
+    return null;
   }
+  
 };
 
 
@@ -1270,6 +1278,7 @@ Proj4js.Proj.sterea = {
   },
 
   forward : function(p) {
+    p.x = Proj4js.common.adjust_lon(p.x-this.long0); /* adjust del longitude */
     Proj4js.Proj['gauss'].forward.apply(this, [p]);
     sinc = Math.sin(p.y);
     cosc = Math.cos(p.y);
@@ -1283,8 +1292,9 @@ Proj4js.Proj.sterea = {
   },
 
   inverse : function(p) {
-    p.x = (p.x - this.x0) * this.a; /* descale and de-offset */
-    p.y = (p.y - this.y0) * this.a;
+    var lon,lat;
+    p.x = (p.x - this.x0) / this.a; /* descale and de-offset */
+    p.y = (p.y - this.y0) / this.a;
 
     p.x /= this.k0;
     p.y /= this.k0;
@@ -1292,13 +1302,17 @@ Proj4js.Proj.sterea = {
       c = 2.0 * Math.atan2(rho, this.R2);
       sinc = Math.sin(c);
       cosc = Math.cos(c);
-      p.y = Math.asin(cosc * this.sinc0 + p.y * sinc * this.cosc0 / rho);
-      p.x = Math.atan2(p.x * sinc, rho * this.cosc0 * cosc - p.y * this.sinc0 * sinc);
+      lat = Math.asin(cosc * this.sinc0 + p.y * sinc * this.cosc0 / rho);
+      lon = Math.atan2(p.x * sinc, rho * this.cosc0 * cosc - p.y * this.sinc0 * sinc);
     } else {
-      p.y = this.phic0;
-      p.x = 0.;
+      lat = this.phic0;
+      lon = 0.;
     }
+
+    p.x = lon;
+    p.y = lat;
     Proj4js.Proj['gauss'].inverse.apply(this,[p]);
+    p.x = Proj4js.common.adjust_lon(p.x + this.long0); /* adjust longitude to CM */
     return p;
   }
 };
@@ -1798,8 +1812,6 @@ Proj4js.Proj.eqdc = {
     var rh1 = this.a * (this.g - ml);
     var theta = this.ns * Proj4js.common.adjust_lon(lon - this.long0);
 
-    this.t1=Proj4js.common.adjust_lon(lon-this.long0);
-    this.t2=theta;
     var x = this.x0  + rh1 * Math.sin(theta);
     var y = this.y0 + this.rh - rh1 * Math.cos(theta);
     p.x=x;
@@ -1807,29 +1819,50 @@ Proj4js.Proj.eqdc = {
     return p;
   },
 
-  inverse: function(p) {
-
 /* Inverse equations
   -----------------*/
+  inverse: function(p) {
     p.x -= this.x0;
-    p.y  = this.rh - p.y +this.y0;
+    p.y  = this.rh - p.y + this.y0;
+    var con, rh1;
     if (this.ns >= 0) {
-       var rh1 = Math.sqrt(p.x *p. x + p.y * p.y); 
+       var rh1 = Math.sqrt(p.x *p.x + p.y * p.y); 
        var con = 1.0;
     } else {
        rh1 = -Math.sqrt(p.x *p. x +p. y * p.y); 
        con = -1.0;
     }
     var theta = 0.0;
-    if (rh1  != 0.0) theta = Math.atan2(con *p. x, con *p. y);
+    if (rh1 != 0.0) theta = Math.atan2(con *p.x, con *p.y);
     var ml = this.g - rh1 /this.a;
-    var lat = Proj4js.common.phi3z(this.ml,this.e0,this.e1,this.e2,this.e3);
+    var lat = this.phi3z(this.ml,this.e0,this.e1,this.e2,this.e3);
     var lon = Proj4js.common.adjust_lon(this.long0 + theta / this.ns);
 
      p.x=lon;
      p.y=lat;  
      return p;
+    },
+    
+/* Function to compute latitude, phi3, for the inverse of the Equidistant
+   Conic projection.
+-----------------------------------------------------------------*/
+  phi3z: function(ml,e0,e1,e2,e3) {
+    var phi;
+    var dphi;
+
+    phi = ml;
+    for (var i = 0; i < 15; i++) {
+      dphi = (ml + e1 * Math.sin(2.0 * phi) - e2 * Math.sin(4.0 * phi) + e3 * Math.sin(6.0 * phi))/ e0 - phi;
+      phi += dphi;
+      if (Math.abs(dphi) <= .0000000001) {
+        return phi;
+      }
     }
+    Proj4js.reportError("PHI3Z-CONV:Latitude failed to converge after 15 iterations");
+    return null;
+  }
+
+    
 };
 /* ======================================================================
     projCode/tmerc.js
@@ -2419,160 +2452,6 @@ Proj4js.Proj.mill = {
   }//millInv()
 };
 /* ======================================================================
-    projCode/Copy of tmerc.js
-   ====================================================================== */
-
-/*******************************************************************************
-NAME                            TRANSVERSE MERCATOR
-
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Transverse Mercator projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
-
-ALGORITHM REFERENCES
-
-1.  Snyder, John P., "Map Projections--A Working Manual", U.S. Geological
-    Survey Professional Paper 1395 (Supersedes USGS Bulletin 1532), United
-    State Government Printing Office, Washington D.C., 1987.
-
-2.  Snyder, John P. and Voxland, Philip M., "An Album of Map Projections",
-    U.S. Geological Survey Professional Paper 1453 , United State Government
-    Printing Office, Washington D.C., 1989.
-*******************************************************************************/
-
-
-/**
-  Initialize Transverse Mercator projection
-*/
-
-Proj4js.Proj.tmerc = {
-  init : function() {
-    this.e0 = Proj4js.common.e0fn(this.es);
-    this.e1 = Proj4js.common.e1fn(this.es);
-    this.e2 = Proj4js.common.e2fn(this.es);
-    this.e3 = Proj4js.common.e3fn(this.es);
-    this.ml0 = this.a * Proj4js.common.mlfn(this.e0, this.e1, this.e2, this.e3, this.lat0);
-  },
-
-  /**
-    Transverse Mercator Forward  - long/lat to x/y
-    long/lat in radians
-  */
-  forward : function(p) {
-      var lon = p.x;
-      var lat = p.y;
-      // convert to radians
-      if ( lat <= 90.0 && lat >= -90.0 && lon <= 180.0 && lon >= -180.0) {
-        //lon = lon * Proj4js.common.D2R;
-        //lat = lat * Proj4js.common.D2R;
-      } else {
-        Proj4js.reportError("lcc:forward: llInputOutOfRange: "+ lon +" : " + lat);
-        return null;
-      }
-
-    //this.k0
-    var delta_lon = Proj4js.common.adjust_lon(lon - this.long0); // Delta longitude
-    var con;    // cone constant
-    var x, y;
-    var sin_phi=Math.sin(lat);
-    var cos_phi=Math.cos(lat);
-
-    if (this.sphere) {  /* spherical form */
-      var b = cos_phi * Math.sin(delta_lon);
-      if ((Math.abs(Math.abs(b) - 1.0)) < .0000000001)  {
-        Proj4js.reportError("tmerc:forward: Point projects into infinity");
-        return(93);
-      } else {
-        x = .5 * this.a * this.k0 * Math.log((1.0 + b)/(1.0 - b));
-        con = Math.acos(cos_phi * Math.cos(delta_lon)/Math.sqrt(1.0 - b*b));
-        if (lat < 0) con = - con;
-        y = this.a * this.k0 * (con - this.lat0);
-      }
-    } else {
-      var al  = cos_phi * delta_lon;
-      var als = Math.pow(al,2);
-      var c   = this.ep2 * Math.pow(cos_phi,2);
-      var tq  = Math.tan(lat);
-      var t   = Math.pow(tq,2);
-      con = 1.0 - this.es * Math.pow(sin_phi,2);
-      var n   = this.a / Math.sqrt(con);
-      var ml  = this.a * Proj4js.common.mlfn(this.e0, this.e1, this.e2, this.e3, lat);
-
-      x = this.k0 * n * al * (1.0 + als / 6.0 * (1.0 - t + c + als / 20.0 * (5.0 - 18.0 * t + Math.pow(t,2) + 72.0 * c - 58.0 * this.ep2))) + this.x0;
-      y = this.k0 * (ml - this.ml0 + n * tq * (als * (0.5 + als / 24.0 * (5.0 - t + 9.0 * c + 4.0 * Math.pow(c,2) + als / 30.0 * (61.0 - 58.0 * t + Math.pow(t,2) + 600.0 * c - 330.0 * this.ep2))))) + this.y0;
-
-    }
-    p.x = x; p.y = y;
-    return p;
-  }, // tmercFwd()
-
-  /**
-    Transverse Mercator Inverse  -  x/y to long/lat
-  */
-  inverse : function(p) {
-    var con, phi;  /* temporary angles       */
-    var delta_phi; /* difference between longitudes    */
-    var i;
-    var max_iter = 6;      /* maximun number of iterations */
-    var lat, lon;
-
-    if (this.sphere) {   /* spherical form */
-      var f = Math.exp(p.x/(this.a * this.k0));
-      var g = .5 * (f - 1/f);
-      var temp = this.lat0 + p.y/(this.a * this.k0);
-      var h = Math.cos(temp);
-      con = Math.sqrt((1.0 - h * h)/(1.0 + g * g));
-      lat = Math.asinz(con);
-      if (temp < 0)
-        lat = -lat;
-      if ((g == 0) && (h == 0)) {
-        lon = this.long0;
-      } else {
-        lon = Proj4js.common.adjust_lon(Math.atan2(g,h) + this.long0);
-      }
-    } else {    // ellipsoidal form
-      var x = p.x - this.x0;
-      var y = p.y - this.y0;
-
-      con = (this.ml0 + y / this.k0) / this.a;
-      phi = con;
-      for (i=0;;i++) {
-        delta_phi=((con + this.e1 * Math.sin(2.0*phi) - this.e2 * Math.sin(4.0*phi) + this.e3 * Math.sin(6.0*phi)) / this.e0) - phi;
-        phi += delta_phi;
-        if (Math.abs(delta_phi) <= Proj4js.common.EPSLN) break;
-        if (i >= max_iter) {
-          Proj4js.reportError("tmerc:inverse: Latitude failed to converge");
-          return(95);
-        }
-      } // for()
-      if (Math.abs(phi) < Proj4js.common.HALF_PI) {
-        // sincos(phi, &sin_phi, &cos_phi);
-        var sin_phi=Math.sin(phi);
-        var cos_phi=Math.cos(phi);
-        var tan_phi = Math.tan(phi);
-        var c = this.ep2 * Math.pow(cos_phi,2);
-        var cs = Math.pow(c,2);
-        var t = Math.pow(tan_phi,2);
-        var ts = Math.pow(t,2);
-        con = 1.0 - this.es * Math.pow(sin_phi,2);
-        var n = this.a / Math.sqrt(con);
-        var r = n * (1.0 - this.es) / con;
-        var d = x / (n * this.k0);
-        var ds = Math.pow(d,2);
-        lat = phi - (n * tan_phi * ds / r) * (0.5 - ds / 24.0 * (5.0 + 3.0 * t + 10.0 * c - 4.0 * cs - 9.0 * this.ep2 - ds / 30.0 * (61.0 + 90.0 * t + 298.0 * c + 45.0 * ts - 252.0 * this.ep2 - 3.0 * cs)));
-        lon = Proj4js.common.adjust_lon(this.long0 + (d * (1.0 - ds / 6.0 * (1.0 + 2.0 * t + c - ds / 20.0 * (5.0 - 2.0 * c + 28.0 * t - 3.0 * cs + 8.0 * this.ep2 + 24.0 * ts))) / cos_phi));
-      } else {
-        lat = Proj4js.common.HALF_PI * Proj4js.common.sign(y);
-        lon = this.long0;
-      }
-    }
-    p.x = lon;
-    p.y = lat;
-    return p;
-  } // tmercInv()
-};
-/* ======================================================================
     projCode/sinu.js
    ====================================================================== */
 
@@ -3015,7 +2894,7 @@ Proj4js.Proj.vandg = {
 
 /* Van Der Grinten inverse equations--mapping x,y to lat/long
   ---------------------------------------------------------*/
-	forward: function(p) {
+	inverse: function(p) {
 		var dlon;
 		var xx,yy,xys,c1,c2,c3;
 		var al,asq;
@@ -3085,26 +2964,17 @@ Proj4js.Proj.gauss = {
   forward : function(p) {
     var lon = p.x;
     var lat = p.y;
-    // convert to radians
-    lon = lon * Proj4js.common.D2R;
-    lat = lat * Proj4js.common.D2R;
 
-    lon = Proj4js.common.adjust_lon(lon-this.long0); /* adjust del longitude */
     p.y = 2.0 * Math.atan( this.K * Math.pow(Math.tan(0.5 * lat + Proj4js.common.FORTPI), this.C) * Proj4js.common.srat(this.e * Math.sin(lat), this.ratexp) ) - Proj4js.common.HALF_PI;
     p.x = this.C * lon;
-    //p.x = this.a * p.x + this.x0;
-    //p.y = this.a * p.y + this.y0;
     return p;
   },
 
   inverse : function(p) {
-    //p.x = (p.x - this.x0) * this.a; /* descale and de-offset */
-    //p.y = (p.y - this.y0) * this.a;
-
     var DEL_TOL = 1e-14;
-    p.x = p.x / this.C;
+    var lon = p.x / this.C;
     var lat = p.y;
-    num = Math.pow(Math.tan(0.5 * p.y + Proj4js.common.FORTPI)/this.K, 1./this.C);
+    num = Math.pow(Math.tan(0.5 * lat + Proj4js.common.FORTPI)/this.K, 1./this.C);
     for (var i = Proj4js.common.MAX_ITER; i>0; --i) {
       lat = 2.0 * Math.atan(num * Proj4js.common.srat(this.e * Math.sin(p.y), -0.5 * this.e)) - Proj4js.common.HALF_PI;
       if (Math.abs(lat - p.y) < DEL_TOL) break;
@@ -3115,11 +2985,8 @@ Proj4js.Proj.gauss = {
       Proj4js.reportError("gauss:inverse:convergence failed");
       return null;
     }
-
-    p.x = Proj4js.common.adjust_lon(p.x + this.long0); /* adjust longitude to CM */
-
-    p.x = p.x*Proj4js.common.R2D;
-    p.y = lat*Proj4js.common.R2D;
+    p.x = lon;
+    p.y = lat;
     return p;
   }
 };
@@ -3598,11 +3465,10 @@ Proj4js.Proj.laea = {
 
     var g =this.sin_lat_o * sin_lat +this.cos_lat_o * cos_lat * cos_delta_lon;
     if (g == -1.0) {
-       //Alert( "Point projects to a circle of radius = %lf\n", 2.0 * R);
-       //p_error(mess, "lamaz-forward");
-      // return(113);
+      Proj4js.reportError("laea:fwd:Point projects to a circle of radius "+ 2.0 * R);
+      return null;
     }
-    var ksp = this.R * Math.sqrt(2.0 / (1.0 + g));
+    var ksp = this.a * Math.sqrt(2.0 / (1.0 + g));
     var x = ksp * cos_lat * sin_delta_lon + this.x0;
     var y = ksp * (this.cos_lat_o * sin_lat - this.sin_lat_o * cos_lat * cos_delta_lon) + this.x0;
     p.x = x;
@@ -3616,12 +3482,12 @@ Proj4js.Proj.laea = {
     p.x -= this.x0;
     p.y -= this.y0;
 
-    var Rh = Math.sqrt(p.x *p. x +p. y * p.y);
-    var temp = Rh / (2.0 * this.R);
+    var Rh = Math.sqrt(p.x *p.x +p.y * p.y);
+    var temp = Rh / (2.0 * this.a);
 
     if (temp > 1) {
       Proj4js.reportError("laea:Inv:DataError");
-      //return(115);
+      return null;
     }
 
     var z = 2.0 * Proj4js.common.asinz(temp);
@@ -3636,7 +3502,7 @@ Proj4js.Proj.laea = {
           temp = cos_z -this.sin_lat_o * Math.sin(lat);
           if(temp!=0.0) lon=Proj4js.common.adjust_lon(this.long0+Math.atan2(p.x*sin_z*this.cos_lat_o,temp*Rh));
        } else if (this.lat0 < 0.0) {
-          lon = Proj4js.common.adjust_lon(this.long0 - Math.atan2(-p.x,p. y));
+          lon = Proj4js.common.adjust_lon(this.long0 - Math.atan2(-p.x,p.y));
        } else {
           lon = Proj4js.common.adjust_lon(this.long0 + Math.atan2(p.x, -p.y));
        }
@@ -3666,33 +3532,36 @@ Proj4js.Proj.aeqd = {
   forward: function(p) {
     var lon=p.x;
     var lat=p.y;
+    var ksp;
 
     var sinphi=Math.sin(p.y);
     var cosphi=Math.cos(p.y); 
-    var dlon = Proj4js.common.adjust_lon(lon -this.long0);
+    var dlon = Proj4js.common.adjust_lon(lon - this.long0);
     var coslon = Math.cos(dlon);
     var g = this.sin_p12 * sinphi + this.cos_p12 * cosphi * coslon;
     if (Math.abs(Math.abs(g) - 1.0) < Proj4js.common.EPSLN) {
-       var ksp = 1.0;
+       ksp = 1.0;
        if (g < 0.0) {
-         Proj4js.reportError("aeqdFwdPointError");
+         Proj4js.reportError("aeqd:Fwd:PointError");
+         return;
        }
     } else {
        var z = Math.acos(g);
-       ksp = z/ Math.sin(z);
+       ksp = z/Math.sin(z);
     }
-    var x = this.x0+this. a * ksp * cosphi * Math.sin(dlon);
-    var y = this.y0 + this.a * ksp * (this.cos_p12 * sinphi - this.sin_p12 * cosphi * coslon);
-    return new Proj4js.Point(x, y);
+    p.x = this.x0 + this.a * ksp * cosphi * Math.sin(dlon);
+    p.y = this.y0 + this.a * ksp * (this.cos_p12 * sinphi - this.sin_p12 * cosphi * coslon);
+    return p;
   },
 
   inverse: function(p){
     p.x -= this.x0;
     p.y -= this.y0;
 
-    var rh = Math.sqrt(p.x * p.x + p.y *p. y);
+    var rh = Math.sqrt(p.x * p.x + p.y *p.y);
     if (rh > (2.0 * Proj4js.common.HALF_PI * this.a)) {
        Proj4js.reportError("aeqdInvDataError");
+       return;
     }
     var z = rh / this.a;
 
@@ -3700,30 +3569,32 @@ Proj4js.Proj.aeqd = {
     var cosz=Math.cos(z)
 
     var lon = this.long0;
-    if (Math.abs(rh) <= EPSLN) {
-       var lat = this.lat0;
-    }
-    lat = asinz(cosz * this.sin_p12 + (p.y * sinz * this.cos_p12) / rh);
-    this.t3=lat;
-    var con = Math.abs(this.lat0) - Proj4js.common.HALF_PI;
-    if (Math.abs(con) <= Proj4js.common.EPSLN) {
-       if (lat0 >= 0.0) {
-          lon = adjust_lon(this.long0 + Math.atan2(p.x , -p.y));
-       } else {
-         lon = adjust_lon(this.long0 - Math.atan2(-p.x , p.y));
-       }
+    var lat;
+    if (Math.abs(rh) <= Proj4js.common.EPSLN) {
+      lat = this.lat0;
+    } else {
+      lat = Proj4js.common.asinz(cosz * this.sin_p12 + (p.y * sinz * this.cos_p12) / rh);
+      var con = Math.abs(this.lat0) - Proj4js.common.HALF_PI;
+      if (Math.abs(con) <= Proj4js.common.EPSLN) {
+        if (lat0 >= 0.0) {
+          lon = Proj4js.common.adjust_lon(this.long0 + Math.atan2(p.x , -p.y));
+        } else {
+          lon = Proj4js.common.adjust_lon(this.long0 - Math.atan2(-p.x , p.y));
+        }
+      } else {
+        con = cosz - this.sin_p12 * Math.sin(lat);
+        if ((Math.abs(con) < Proj4js.common.EPSLN) && (Math.abs(p.x) < Proj4js.common.EPSLN)) {
+           //no-op, just keep the lon value as is
+        } else {
+          var temp = Math.atan2((p.x * sinz * this.cos_p12), (con * rh));
+          lon = Proj4js.common.adjust_lon(this.long0 + Math.atan2((p.x * sinz * this.cos_p12), (con * rh)));
+        }
+      }
     }
 
-    con = cosz - this.sin_p12 * Math.sin(lat);
-    if ((Math.abs(con) < Proj4js.common.EPSLN) && (Math.abs(x) < Proj4js.common.EPSLN)) {
-       return null;
-	}
-    this.t1= this.cos_p12;
-    this.t2= con * rh;
-    this.temp = Math.atan2((p.x * sinz * this.cos_p12), (con * rh));
-    lon = Proj4js.common.adjust_lon(this.long0 + Math.atan2((p.x * sinz * this.cos_p12), (con * rh)));
-
-    return new Proj4js.Point(lon, lat);
+    p.x = lon;
+    p.y = lat;
+    return p;
   } 
 };
 /* ======================================================================
