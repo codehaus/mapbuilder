@@ -85,6 +85,7 @@ function WidgetBaseXSL(widgetNode,model) {
 
       //if (objRef.debug) mbDebugMessage(objRef, "source:"+(new XMLSerializer()).serializeToString(objRef.model.doc));
       objRef.resultDoc = objRef.model.doc; // resultDoc sometimes modified by prePaint()
+      objRef.model.setParam("prePaint", objRef);
       objRef.prePaint(objRef);
 
       //confirm inputs
@@ -114,6 +115,7 @@ function WidgetBaseXSL(widgetNode,model) {
   	    }
       }
       objRef.postPaint(objRef);
+      objRef.model.setParam("postPaint", objRef);
     }
   }
   // Call paint when model changes
