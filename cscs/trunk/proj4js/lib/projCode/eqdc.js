@@ -86,8 +86,6 @@ Proj4js.Proj.eqdc = {
     var rh1 = this.a * (this.g - ml);
     var theta = this.ns * Proj4js.common.adjust_lon(lon - this.long0);
 
-    this.t1=Proj4js.common.adjust_lon(lon-this.long0);
-    this.t2=theta;
     var x = this.x0  + rh1 * Math.sin(theta);
     var y = this.y0 + this.rh - rh1 * Math.cos(theta);
     p.x=x;
@@ -95,27 +93,48 @@ Proj4js.Proj.eqdc = {
     return p;
   },
 
-  inverse: function(p) {
-
 /* Inverse equations
   -----------------*/
+  inverse: function(p) {
     p.x -= this.x0;
-    p.y  = this.rh - p.y +this.y0;
+    p.y  = this.rh - p.y + this.y0;
+    var con, rh1;
     if (this.ns >= 0) {
-       var rh1 = Math.sqrt(p.x *p. x + p.y * p.y); 
+       var rh1 = Math.sqrt(p.x *p.x + p.y * p.y); 
        var con = 1.0;
     } else {
        rh1 = -Math.sqrt(p.x *p. x +p. y * p.y); 
        con = -1.0;
     }
     var theta = 0.0;
-    if (rh1  != 0.0) theta = Math.atan2(con *p. x, con *p. y);
+    if (rh1 != 0.0) theta = Math.atan2(con *p.x, con *p.y);
     var ml = this.g - rh1 /this.a;
-    var lat = Proj4js.common.phi3z(this.ml,this.e0,this.e1,this.e2,this.e3);
+    var lat = this.phi3z(this.ml,this.e0,this.e1,this.e2,this.e3);
     var lon = Proj4js.common.adjust_lon(this.long0 + theta / this.ns);
 
      p.x=lon;
      p.y=lat;  
      return p;
+    },
+    
+/* Function to compute latitude, phi3, for the inverse of the Equidistant
+   Conic projection.
+-----------------------------------------------------------------*/
+  phi3z: function(ml,e0,e1,e2,e3) {
+    var phi;
+    var dphi;
+
+    phi = ml;
+    for (var i = 0; i < 15; i++) {
+      dphi = (ml + e1 * Math.sin(2.0 * phi) - e2 * Math.sin(4.0 * phi) + e3 * Math.sin(6.0 * phi))/ e0 - phi;
+      phi += dphi;
+      if (Math.abs(dphi) <= .0000000001) {
+        return phi;
+      }
     }
+    Proj4js.reportError("PHI3Z-CONV:Latitude failed to converge after 15 iterations");
+    return null;
+  }
+
+    
 };

@@ -15,26 +15,17 @@ Proj4js.Proj.gauss = {
   forward : function(p) {
     var lon = p.x;
     var lat = p.y;
-    // convert to radians
-    lon = lon * Proj4js.common.D2R;
-    lat = lat * Proj4js.common.D2R;
 
-    lon = Proj4js.common.adjust_lon(lon-this.long0); /* adjust del longitude */
     p.y = 2.0 * Math.atan( this.K * Math.pow(Math.tan(0.5 * lat + Proj4js.common.FORTPI), this.C) * Proj4js.common.srat(this.e * Math.sin(lat), this.ratexp) ) - Proj4js.common.HALF_PI;
     p.x = this.C * lon;
-    //p.x = this.a * p.x + this.x0;
-    //p.y = this.a * p.y + this.y0;
     return p;
   },
 
   inverse : function(p) {
-    //p.x = (p.x - this.x0) * this.a; /* descale and de-offset */
-    //p.y = (p.y - this.y0) * this.a;
-
     var DEL_TOL = 1e-14;
-    p.x = p.x / this.C;
+    var lon = p.x / this.C;
     var lat = p.y;
-    num = Math.pow(Math.tan(0.5 * p.y + Proj4js.common.FORTPI)/this.K, 1./this.C);
+    num = Math.pow(Math.tan(0.5 * lat + Proj4js.common.FORTPI)/this.K, 1./this.C);
     for (var i = Proj4js.common.MAX_ITER; i>0; --i) {
       lat = 2.0 * Math.atan(num * Proj4js.common.srat(this.e * Math.sin(p.y), -0.5 * this.e)) - Proj4js.common.HALF_PI;
       if (Math.abs(lat - p.y) < DEL_TOL) break;
@@ -45,11 +36,8 @@ Proj4js.Proj.gauss = {
       Proj4js.reportError("gauss:inverse:convergence failed");
       return null;
     }
-
-    p.x = Proj4js.common.adjust_lon(p.x + this.long0); /* adjust longitude to CM */
-
-    p.x = p.x*Proj4js.common.R2D;
-    p.y = lat*Proj4js.common.R2D;
+    p.x = lon;
+    p.y = lat;
     return p;
   }
 };

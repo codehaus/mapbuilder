@@ -80,7 +80,7 @@ function crossProj() {
   return;
 }
 
-Proj4js.Proj.prototype.getTestPoint = function() {
+Proj4js.Proj.prototype.getBbox = function() {
   //set AJAX options
   var options = {
     method: 'get',

@@ -56,11 +56,10 @@ Proj4js.Proj.laea = {
 
     var g =this.sin_lat_o * sin_lat +this.cos_lat_o * cos_lat * cos_delta_lon;
     if (g == -1.0) {
-       //Alert( "Point projects to a circle of radius = %lf\n", 2.0 * R);
-       //p_error(mess, "lamaz-forward");
-      // return(113);
+      Proj4js.reportError("laea:fwd:Point projects to a circle of radius "+ 2.0 * R);
+      return null;
     }
-    var ksp = this.R * Math.sqrt(2.0 / (1.0 + g));
+    var ksp = this.a * Math.sqrt(2.0 / (1.0 + g));
     var x = ksp * cos_lat * sin_delta_lon + this.x0;
     var y = ksp * (this.cos_lat_o * sin_lat - this.sin_lat_o * cos_lat * cos_delta_lon) + this.x0;
     p.x = x;
@@ -74,12 +73,12 @@ Proj4js.Proj.laea = {
     p.x -= this.x0;
     p.y -= this.y0;
 
-    var Rh = Math.sqrt(p.x *p. x +p. y * p.y);
-    var temp = Rh / (2.0 * this.R);
+    var Rh = Math.sqrt(p.x *p.x +p.y * p.y);
+    var temp = Rh / (2.0 * this.a);
 
     if (temp > 1) {
       Proj4js.reportError("laea:Inv:DataError");
-      //return(115);
+      return null;
     }
 
     var z = 2.0 * Proj4js.common.asinz(temp);
@@ -94,7 +93,7 @@ Proj4js.Proj.laea = {
           temp = cos_z -this.sin_lat_o * Math.sin(lat);
           if(temp!=0.0) lon=Proj4js.common.adjust_lon(this.long0+Math.atan2(p.x*sin_z*this.cos_lat_o,temp*Rh));
        } else if (this.lat0 < 0.0) {
-          lon = Proj4js.common.adjust_lon(this.long0 - Math.atan2(-p.x,p. y));
+          lon = Proj4js.common.adjust_lon(this.long0 - Math.atan2(-p.x,p.y));
        } else {
           lon = Proj4js.common.adjust_lon(this.long0 + Math.atan2(p.x, -p.y));
        }

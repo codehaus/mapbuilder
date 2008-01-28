@@ -545,7 +545,12 @@ Proj4js.common = {
 
 /* Function to eliminate roundoff errors in asin
 ----------------------------------------------*/
-  asinz : function(x) {x=(Math.abs(x)>1.0)?1.0:-1.0;return(x);},
+  asinz : function(x) {
+    if (Math.abs(x)>1.0) {
+      x=(x>1.0)?1.0:-1.0;
+    }
+    return Math.asin(x);
+  },
 
 // following functions from gctpc cproj.c for transverse mercator projections
   e0fn : function(x) {return(1.0-0.25*x*(1.0+x/16.0*(3.0+1.25*x)));},

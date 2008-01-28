@@ -86,7 +86,7 @@ Proj4js.Proj.vandg = {
 
 /* Van Der Grinten inverse equations--mapping x,y to lat/long
   ---------------------------------------------------------*/
-	forward: function(p) {
+	inverse: function(p) {
 		var dlon;
 		var xx,yy,xys,c1,c2,c3;
 		var al,asq;

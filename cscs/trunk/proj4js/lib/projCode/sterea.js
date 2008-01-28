@@ -15,6 +15,7 @@ Proj4js.Proj.sterea = {
   },
 
   forward : function(p) {
+    p.x = Proj4js.common.adjust_lon(p.x-this.long0); /* adjust del longitude */
     Proj4js.Proj['gauss'].forward.apply(this, [p]);
     sinc = Math.sin(p.y);
     cosc = Math.cos(p.y);
@@ -28,8 +29,9 @@ Proj4js.Proj.sterea = {
   },
 
   inverse : function(p) {
-    p.x = (p.x - this.x0) * this.a; /* descale and de-offset */
-    p.y = (p.y - this.y0) * this.a;
+    var lon,lat;
+    p.x = (p.x - this.x0) / this.a; /* descale and de-offset */
+    p.y = (p.y - this.y0) / this.a;
 
     p.x /= this.k0;
     p.y /= this.k0;
@@ -37,13 +39,17 @@ Proj4js.Proj.sterea = {
       c = 2.0 * Math.atan2(rho, this.R2);
       sinc = Math.sin(c);
       cosc = Math.cos(c);
-      p.y = Math.asin(cosc * this.sinc0 + p.y * sinc * this.cosc0 / rho);
-      p.x = Math.atan2(p.x * sinc, rho * this.cosc0 * cosc - p.y * this.sinc0 * sinc);
+      lat = Math.asin(cosc * this.sinc0 + p.y * sinc * this.cosc0 / rho);
+      lon = Math.atan2(p.x * sinc, rho * this.cosc0 * cosc - p.y * this.sinc0 * sinc);
     } else {
-      p.y = this.phic0;
-      p.x = 0.;
+      lat = this.phic0;
+      lon = 0.;
     }
+
+    p.x = lon;
+    p.y = lat;
     Proj4js.Proj['gauss'].inverse.apply(this,[p]);
+    p.x = Proj4js.common.adjust_lon(p.x + this.long0); /* adjust longitude to CM */
     return p;
   }
 };
