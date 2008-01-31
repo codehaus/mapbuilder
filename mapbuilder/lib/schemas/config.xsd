@@ -805,7 +805,11 @@
       <xs:extension base="mb:AbstractWidgetBaseType">
         <xs:sequence>
           <xs:element name="loadingSrc" type="mb:urlPathType" minOccurs="0"/>
-          <xs:element name="maxExtent" type="xs:string" minOccurs="0"/>
+          <xs:element name="maxExtent" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Sets the maximum extent of the map. This is not the initial extent when the map is loaded (that's the bounding box from the context), but it is the maximum extent that the user can navigate around in.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
           <xs:element name="maxResolution" type="xs:double" minOccurs="0"/>
           <xs:element name="minResolution" type="xs:double" minOccurs="0"/>
           <xs:element name="resolutions" type="xs:string" minOccurs="0">
