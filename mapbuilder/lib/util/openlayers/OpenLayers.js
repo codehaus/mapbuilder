@@ -23303,12 +23303,20 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
 
     /**
      * Method: unselectAll
-     * Unselect all selected features.
+     * Unselect all selected features.  To unselect all except for a single
+     *     feature, set the options.except property to the feature.
+     *
+     * Parameters:
+     * options - {Object} Optional configuration object.
      */
-    unselectAll: function() {
+    unselectAll: function(options) {
         // we'll want an option to supress notification here
-        while (this.layer.selectedFeatures.length > 0) {
-            this.unselect(this.layer.selectedFeatures[0]);
+        var feature;
+        for(var i=this.layer.selectedFeatures.length-1; i>=0; --i) {
+            feature = this.layer.selectedFeatures[i];
+            if(!options || options.except != feature) {
+                this.unselect(feature);
+            }
         }
     },
 
@@ -23321,26 +23329,46 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
      * feature - {<OpenLayers.Feature.Vector>} 
      */
     clickFeature: function(feature) {
-        if(this.hover) {
-            return;
-        }
-        var selected = (OpenLayers.Util.indexOf(this.layer.selectedFeatures,
-                                                feature) > -1);
-        if(!this.multiple && !this.handler.evt[this.multipleKey]) {
-            // perhaps an "except" argument
-            this.unselectAll();
-        }
-        if(selected) {
-            if(this.toggle || this.handler.evt[this.toggleKey]) {
-                // notify here
-                this.unselect(feature);
+        if(!this.hover) {
+            var selected = (OpenLayers.Util.indexOf(this.layer.selectedFeatures,
+                                                    feature) > -1);
+            if(selected) {
+                if(this.toggleSelect()) {
+                    this.unselect(feature);
+                } else if(!this.multipleSelect()) {
+                    this.unselectAll({except: feature});
+                }
             } else {
-                // don't notify here - could be removed if unselectAll is modified
+                if(!this.multipleSelect()) {
+                    this.unselectAll({except: feature});
+                }
                 this.select(feature);
             }
-        } else {
-            this.select(feature);
         }
+    },
+
+    /**
+     * Method: multipleSelect
+     * Allow for multiple selected features based on <multiple> property and
+     *     <multipleKey> event modifier.
+     *
+     * Returns:
+     * {Boolean} Allow for multiple selected features.
+     */
+    multipleSelect: function() {
+        return this.multiple || this.handler.evt[this.multipleKey];
+    },
+    
+    /**
+     * Method: toggleSelect
+     * Event should toggle the selected state of a feature based on <toggle>
+     *     property and <toggleKey> event modifier.
+     *
+     * Returns:
+     * {Boolean} Toggle the selected state of a feature.
+     */
+    toggleSelect: function() {
+        return this.toggle || this.handler.evt[this.toggleKey];
     },
 
     /**
@@ -27400,47 +27428,75 @@ OpenLayers.Style = OpenLayers.Class({
      * Returns:
      * {<OpenLayers.Feature.Vector.style>} hash of feature styles
      */
-    createStyle: function(feature, baseStyle) {
-        if (!baseStyle) {
-            baseStyle = this.defaultStyle;
-        }
-        var style = OpenLayers.Util.extend({}, baseStyle);
+    createStyle: function(feature) {
+        var style = OpenLayers.Util.extend({}, this.defaultStyle);
         
-        var draw = true;
+        var rules = this.rules;
+        var draw = rules.length == 0 ? true : false;
 
-        for (var i=0; i<this.rules.length; i++) {
+        var rule;
+        for (var i=0; i<rules.length; i++) {
+            rule = rules[i];
             // does the rule apply?        
-            var applies = this.rules[i].evaluate(feature);
-            if (applies) {
-                // check if within minScale/maxScale bounds
+            var applies = rule.evaluate(feature);
+            
+            if (rule.minScaleDenominator || rule.maxScaleDenominator) {
                 var scale = feature.layer.map.getScale();
-                if (this.rules[i].minScale) {
-                    draw = scale > OpenLayers.Style.createLiteral(
-                            this.rules[i].minScale, feature);
-                }
-                if (draw && this.rules[i].maxScale) {
-                    draw = scale < OpenLayers.Style.createLiteral(
-                            this.rules[i].maxScale, feature);
-                }
-                
+            }
+            
+            // check if within minScale/maxScale bounds
+            if (rule.minScaleDenominator) {
+                applies = scale >= OpenLayers.Style.createLiteral(
+                        rule.minScaleDenominator, feature);
+            }
+            if (applies && rule.maxScaleDenominator) {
+                applies = scale < OpenLayers.Style.createLiteral(
+                        rule.maxScaleDenominator, feature);
+            }
+            
+            if (draw && rule.CLASS_NAME == "OpenLayers.Rule") {
+                // apply plain rules only if no other applied (ElseFilter)
+                applies = false;
+            }
+
+            if (applies) {
+                draw = true;
+
                 // determine which symbolizer (Point, Line, Polygon) to use
                 var symbolizerPrefix = feature.geometry ?
                         this.getSymbolizerPrefix(feature.geometry) :
                         OpenLayers.Style.SYMBOLIZER_PREFIXES[0];
 
-                // now merge the style with the current style
+                // merge the style with the current style
                 var symbolizer = this.rules[i].symbolizer[symbolizerPrefix];
                 OpenLayers.Util.extend(style, symbolizer);
             }
         }
 
-        style.display = draw ? "" : "none";
-
         // calculate literals for all styles in the propertyStyles cache
+        this.createLiterals(style, feature);
+        style.display = draw ? "" : "none";
+        
+        return style;
+    },
+    
+    /**
+     * Method: createLiterals
+     * creates literals for all style properties that have an entry in
+     * <this.propertyStyles>.
+     * 
+     * Parameters:
+     * style   - {Object} style to create literals for. Will be modified
+     *           inline.
+     * feature - {<OpenLayers.Feature.Vector>} feature to take properties from
+     * 
+     * Returns;
+     * {Object} the modified style
+     */
+    createLiterals: function(style, feature) {
         for (var i in this.propertyStyles) {
             style[i] = OpenLayers.Style.createLiteral(style[i], feature);
         }
-        
         return style;
     },
     
@@ -30623,21 +30679,21 @@ OpenLayers.Rule = OpenLayers.Class({
     symbolizer: null,
     
     /**
-     * APIProperty: minScale
+     * APIProperty: minScaleDenominator
      * {Number} or {String} minimum scale at which to draw the feature.
      * In the case of a String, this can be a combination of text and
      * propertyNames in the form "literal ${propertyName}"
      */
-    minScale: null,
+    minScaleDenominator: null,
 
     /**
-     * APIProperty: maxScale
+     * APIProperty: maxScaleDenominator
      * {Number} or {String} maximum scale at which to draw the feature.
      * In the case of a String, this can be a combination of text and
      * propertyNames in the form "literal ${propertyName}"
      */
-    maxScale: null,
-
+    maxScaleDenominator: null,
+    
     /** 
      * Constructor: OpenLayers.Rule
      * Creates a Rule.
@@ -32077,6 +32133,7 @@ OpenLayers.Format.SLD = OpenLayers.Class(OpenLayers.Format.XML, {
             data = OpenLayers.Format.XML.prototype.read.apply(this, [data]);
         }
         
+        options = options || {};
         OpenLayers.Util.applyDefaults(options, {
             withNamedLayer: false,
             overrideDefaultStyleKey: true
@@ -32177,7 +32234,7 @@ OpenLayers.Format.SLD = OpenLayers.Class(OpenLayers.Format.XML, {
         if (filter && filter.length > 0) {
             var rule = this.parseFilter(filter[0]);
         } else {
-            // rule applies to all features
+            // rule applies to all features (no filter or ElseFilter)
             var rule = new OpenLayers.Rule();
         }
         rule.name = name;
@@ -32189,7 +32246,8 @@ OpenLayers.Format.SLD = OpenLayers.Class(OpenLayers.Format.XML, {
             xmlNode, this.sldns, "MinScaleDenominator"
         );
         if (minScale && minScale.length > 0) {
-            rule.minScale = parseFloat(this.getChildValue(minScale[0]));
+            rule.minScaleDenominator = 
+                parseFloat(this.getChildValue(minScale[0]));
         }
         
         // MaxScaleDenominator
@@ -32197,7 +32255,8 @@ OpenLayers.Format.SLD = OpenLayers.Class(OpenLayers.Format.XML, {
             xmlNode, this.sldns, "MaxScaleDenominator"
         );
         if (maxScale && maxScale.length > 0) {
-            rule.maxScale = parseFloat(this.getChildValue(maxScale[0]));
+            rule.maxScaleDenominator =
+                parseFloat(this.getChildValue(maxScale[0]));
         }
         
         // STYLES
