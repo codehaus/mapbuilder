@@ -47,13 +47,22 @@ function GmlRendererOL(widgetNode, model) {
       return true;
     },
     
+    // make destroyFeatures bullet-proof to work with undefined geometries
     destroyFeatures: function() {
-      try {
-        OpenLayers.Layer.GML.prototype.destroyFeatures.apply(this, arguments);
-      } catch(e) {
-        // nothing to worry, just features without geometries
+      var features = this.features;
+      var featuresToRemove = [];
+      var feature;
+      for (var i=0; i<features.length; i++) {
+        feature = features[i];
+        if (!feature.geometry) {
+          featuresToRemove.push(feature);
+        }
       }
-      
+      this.removeFeatures(featuresToRemove);
+      for (var i=0; i<featuresToRemove.length; i++) {
+        featuresToRemove[i].destroy();
+      }
+      OpenLayers.Layer.GML.prototype.destroyFeatures.apply(this, arguments);
     },
   
     preFeatureInsert: function(feature) {
