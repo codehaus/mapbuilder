@@ -1,4 +1,5 @@
-The OpenLayers.js in this directory is the full build of OpenLayers 2.5.
+The OpenLayers.js in this directory is the full build (uncompressed) of
+OpenLayers trunk r5963.
 
-The following patches have been applied:
-- http://trac.openlayers.org/changeset/4990
+In addition, the following patches have been applied:
+- http://trac.openlayers.org/attachment/ticket/1297/1297-r5949-A3.patch
