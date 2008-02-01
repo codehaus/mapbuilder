@@ -37,8 +37,8 @@ function ZoomToAoi(toolNode, model) {
   this.initProj = function( toolRef ) {
     if( toolRef.model.doc && toolRef.targetModel.doc ) {
       if ( toolRef.model.getSRS() != toolRef.targetModel.getSRS() ) {
-          toolRef.model.proj = new Proj4js.Proj( toolRef.model.getSRS() );
-          toolRef.targetModel.proj = new Proj4js.Proj( toolRef.targetModel.getSRS() );
+          toolRef.model.proj = new OpenLayers.Projection( toolRef.model.getSRS() );
+          toolRef.targetModel.proj = new OpenLayers.Projection( toolRef.targetModel.getSRS() );
       }
     }
   }
@@ -60,10 +60,10 @@ function ZoomToAoi(toolNode, model) {
       var ul = new Array(bbox[0],bbox[3]);
       var lr = new Array(bbox[2],bbox[1]);
       if ( tool.model.getSRS() != tool.targetModel.getSRS() ) {
-        var ptUL=new Proj4js.Point(ul[0],ul[1]);
-        var ptLR=new Proj4js.Point(lr[0],lr[1]);
-        Proj4js.transform(tool.targetModel.proj,tool.model.proj,ptUL);
-        Proj4js.transform(tool.targetModel.proj,tool.model.proj,ptLR);
+        var ptUL=new OpenLayers.Geometry.Point(ul[0],ul[1]);
+        var ptLR=new OpenLayers.Geometry.Point(lr[0],lr[1]);
+        ptUL.transform(tool.targetModel.proj,tool.model.proj);
+        ptLR.transform(tool.targetModel.proj,tool.model.proj);
         ul = new Array(ptUL.x,ptUL.y);
         lr = new Array(ptLR.x,ptLR.y);      
         
@@ -99,10 +99,10 @@ ZoomToAoi.prototype.mouseUpHandler = function(e) {
   var lr = bbox[1];
   if ( this.model.getSRS() != this.targetModel.getSRS() ) {
     //TBD: convert XY to lat/long first
-      var ptUL=new Proj4js.Point(ul[0],ul[1]);
-      var ptLR=new Proj4js.Point(lr[0],lr[1]);
-      Proj4js.transform(this.model.proj,this.targetModel.proj,ptUL);
-      Proj4js.transform(this.model.proj,this.targetModel.proj,ptLR);
+      var ptUL=new OpenLayers.Geometry.Point(ul[0],ul[1]);
+      var ptLR=new OpenLayers.Geometry.Point(lr[0],lr[1]);
+      ptUL.transform(this.model.proj,this.targetModel.proj);
+      ptLR.transform(this.model.proj,this.targetModel.proj);
       ul = new Array(ptUL.x,ptUL.y);
       lr = new Array(ptLR.x,ptLR.y);    
   }

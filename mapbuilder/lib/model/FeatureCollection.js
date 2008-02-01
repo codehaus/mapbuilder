@@ -66,9 +66,9 @@ function FeatureCollection(modelNode, parent) {
 		  if (coordNodes.length>0 && objRef.containerModel) {
 		    var srsNode = coordNodes[0].selectSingleNode("ancestor-or-self::*/@srsName");
 		    if( srsNode && (srsNode.nodeValue.toUpperCase() != objRef.containerModel.getSRS().toUpperCase()) ) {
-		      var sourceProj = new Proj4js.Proj(srsNode.nodeValue);
+		      var sourceProj = new OpenLayers.Projection(srsNode.nodeValue);
 		      objRef.setParam("modelStatus",mbGetMessage("convertingCoords"));
-		      var containerProj = new Proj4js.Proj(objRef.containerModel.getSRS());
+		      var containerProj = new OpenLayers.Projection(objRef.containerModel.getSRS());
 		      for (var i=0; i<coordNodes.length; ++i) {
 		        var coords = coordNodes[i].firstChild.nodeValue;
 		        var coordsArray = coords.split(' ');
@@ -76,9 +76,9 @@ function FeatureCollection(modelNode, parent) {
 		        for (var j=0; j<coordsArray.length; ++j) {
 		          var xy = coordsArray[j].split(',');
 		          if (xy.length==2) {
-		            var pt=new Proj4js.Point(xy[0],xy[1]);
-                Proj4js.transform(sourceProj,containerProj,pt);
-		            newCoords += pt.join(',') + ' ';
+		            var pt=new OpenLayers.Geometry.Point(xy[0],xy[1]);
+                pt.transform(sourceProj,containerProj);
+		            newCoords += pt.x + ',' + pt.y + ' ';
 		          }
 		        }
 		        coordNodes[i].firstChild.nodeValue=newCoords;
