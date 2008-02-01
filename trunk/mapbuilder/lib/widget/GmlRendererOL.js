@@ -32,13 +32,13 @@ function GmlRendererOL(widgetNode, model) {
     loadGML: function() {
       if (!this.loaded) {
         var gml = new OpenLayers.Format.GML();
-        //try {
+        try {
           this.proj = this.projection;
           this.addFeatures(gml.read(this.mbWidget.renderDoc));
           this.loaded = true;
-        //} catch (e) {
+        } catch (e) {
           // nothing to worry, just features without geometries in the doc
-        //}
+        }
       }
     },
     
@@ -210,13 +210,17 @@ function GmlRendererOL(widgetNode, model) {
               var namedLayer = sldModel.sld[objRef.id];
               widgetConfig.defaultStyle = namedLayer[widgetConfig.defaultStyleName];
               widgetConfig.selectStyle = namedLayer[widgetConfig.selectStyleName];
-              widgetConfig.selectStyle.defaultStyle.cursor = objRef.hoverCursor;
+              if (widgetConfig.selectStyle) {
+                widgetConfig.selectStyle.defaultStyle.cursor = objRef.hoverCursor;
+              }
             } else if (sldNode) {
               widgetConfig.defaultStyle =
                   sld2OlStyle(sldNode.selectSingleNode("//*[wmc:Name='"+widgetConfig.defaultStyleName+"']"));
               widgetConfig.selectStyle =
                   sld2OlStyle(sldNode.selectSingleNode("//*[wmc:Name='"+widgetConfig.selectStyleName+"']"));
-              widgetConfig.selectStyle.cursor = objRef.hoverCursor;
+              if (widgetConfig.selectStyle) {
+                widgetConfig.selectStyle.cursor = objRef.hoverCursor;
+              }
             }
           }
         }
