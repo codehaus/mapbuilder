@@ -40,7 +40,7 @@ $Id$
 
   <xsl:template match="/">
 
-    <wfs:Transaction service="WFS" version="1.0.0">
+    <wfs:Transaction service="WFS" version="1.0.0" xmlns:topp="http://www.openplans.org/topp">
 
       <xsl:apply-templates/>
 
