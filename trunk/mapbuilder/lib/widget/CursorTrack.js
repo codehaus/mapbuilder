@@ -69,7 +69,7 @@ function CursorTrack(widgetNode, model) {
    * @param objRef Pointer to this CursorTrack object.
    */
   this.init = function(objRef) {
-    objRef.proj = new Proj4js.Proj( objRef.model.getSRS() );
+    objRef.proj = new OpenLayers.Projection( objRef.model.getSRS() );
 
     objRef.model.map.events.register('mousemove', objRef, objRef.mousemoveHandler);
     objRef.model.map.events.register('mouseout',  objRef, objRef.mouseoutHandler);
@@ -99,8 +99,8 @@ function CursorTrack(widgetNode, model) {
     var evXY = this.model.map.getLonLatFromPixel(evt.xy);
 
     ///CSCS
-    var pt=new Proj4js.Point(evXY.lon, evXY.lat)
-    Proj4js.transform(this.proj, Proj4js.WGS84, pt);
+    var pt=new OpenLayers.Geometry.Point(evXY.lon, evXY.lat)
+    pt.transform(this.proj, new OpenLayers.Projection("EPSG:4326"));
     var evLonLat = new OpenLayers.LonLat(pt.x,pt.y);
 
 

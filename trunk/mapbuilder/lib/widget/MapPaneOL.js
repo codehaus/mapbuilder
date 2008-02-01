@@ -176,7 +176,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   minResolution=(minResolution) ? parseFloat(minResolution.firstChild.nodeValue) : undefined;
   
   //units
-  var units = proj.units == 'meters' ? 'm' : proj.units;
+  var units = proj.getUnits() == 'meters' ? 'm' : proj.getUnits();
   
   //resolutions
   //TBD: if resolutions is both set here and for the baselayer and they are different weird things may happen
@@ -214,7 +214,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   //default map options
   var mapOptions = {
         controls:[],
-        projection: proj.srsCode,
+        projection: proj,
         units: units,
         maxExtent: maxExtent,
         maxResolution: maxResolution,
@@ -249,7 +249,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       var baseSrs = baseLayerNode.selectSingleNode("ows:TileSet/ows:SRS");
       if(baseSrs) objRef.model.setSRS(baseSrs.firstChild.nodeValue);
       //overrule the units in the Context with the updated SRS units
-      units = proj.units == 'meters' ? 'm' : proj.units;
+      units = proj.getUnits() == 'meters' ? 'm' : proj.getUnits();
       //overrule the boundingbox in the Context with the maxExtent from the BaseLayer
       var maxExtentNode = baseLayerNode.selectSingleNode("ows:TileSet/ows:BoundingBox");
       if(maxExtentNode) maxExtent = new OpenLayers.Bounds(maxExtentNode.selectSingleNode('@minx').nodeValue,maxExtentNode.selectSingleNode('@miny').nodeValue,maxExtentNode.selectSingleNode('@maxx').nodeValue,maxExtentNode.selectSingleNode('@maxy').nodeValue);
@@ -286,7 +286,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       
       var baseLayerOptions = {
               units: units,
-              projection: proj.srsCode,
+              projection: proj,
               maxExtent: maxExtent,
              
               alpha: false,            //option for png transparency with ie6

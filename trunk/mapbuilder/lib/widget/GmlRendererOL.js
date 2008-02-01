@@ -32,19 +32,28 @@ function GmlRendererOL(widgetNode, model) {
     loadGML: function() {
       if (!this.loaded) {
         var gml = new OpenLayers.Format.GML();
-        try {
-          this.proj = new Proj4js.Proj(this.projection);
+        //try {
+          this.proj = this.projection;
           this.addFeatures(gml.read(this.mbWidget.renderDoc));
           this.loaded = true;
-        } catch (e) {
+        //} catch (e) {
           // nothing to worry, just features without geometries in the doc
-        }
+        //}
       }
     },
     
     // let the layer always be visible, independent of the resolution
     calculateInRange: function() {
       return true;
+    },
+    
+    destroyFeatures: function() {
+      try {
+        OpenLayers.Layer.GML.prototype.destroyFeatures.apply(this, arguments);
+      } catch(e) {
+        // nothing to worry, just features without geometries
+      }
+      
     },
   
     preFeatureInsert: function(feature) {
@@ -64,34 +73,18 @@ function GmlRendererOL(widgetNode, model) {
         }
         if (!widgetConfig.sourceSRS) {
           if (widgetConfig.featureSRS) {
-            widgetConfig.sourceSRS = new Proj4js.Proj(widgetConfig.featureSRS);
+            widgetConfig.sourceSRS = new OpenLayers.Projection(widgetConfig.featureSRS);
           } else {
             widgetConfig.sourceSRS = null;
           }
         }
         // set styles before rendering the feature
         if (widgetConfig.defaultStyle) {
-          if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
-            feature.style = widgetConfig.defaultStyle.point;
-          } else
-          if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
-            feature.style = widgetConfig.defaultStyle.line;
-          } else
-          if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
-            feature.style = widgetConfig.defaultStyle.polygon;
-          }
+          feature.style = widgetConfig.defaultStyle;
         }
         // set select styles
         if (widgetConfig.selectStyle) {
-          if (feature.geometry.CLASS_NAME.indexOf('Point') > -1) {
-            feature.mbSelectStyle = widgetConfig.selectStyle.point;
-          } else
-          if (feature.geometry.CLASS_NAME.indexOf('Line') > -1) {
-            feature.mbSelectStyle = widgetConfig.selectStyle.line;
-          } else
-          if (feature.geometry.CLASS_NAME.indexOf('Polygon') > -1) {
-            feature.mbSelectStyle = widgetConfig.selectStyle.polygon;
-          }
+          feature.mbSelectStyle = widgetConfig.selectStyle;
         }
         //in the future this will be handled internally to OpenLayers
         if (widgetConfig.sourceSRS) {
@@ -102,7 +95,15 @@ function GmlRendererOL(widgetNode, model) {
     
     convertPoints: function(component, sourceSRS) {
       if (component.CLASS_NAME == 'OpenLayers.Geometry.Point') {
-        component = Proj4js.transform(sourceSRS, this.proj, component);
+        //TBD: remove this workaround once Google reprojection is fixed in Proj4js
+        if (sourceSRS.projCode == "EPSG:900913" || this.proj.projCode == "EPSG:900913") {
+          var wgs84 = new OpenLayers.Projection("EPSG:4326");
+          component.transform(sourceSRS, wgs84);
+          component.transformed = false;
+          component.transform(wgs84, this.proj);
+        } else {
+          component.transform(sourceSRS, this.proj);
+        }
       } else {
         for (var i=0; i<component.components.length; ++i) {
           this.convertPoints(component.components[i], sourceSRS);
@@ -204,51 +205,18 @@ function GmlRendererOL(widgetNode, model) {
           var sldModel = config.objects[widgetConfig.sldModelNode.firstChild.nodeValue];
           if (sldModel) {
             sldModel.addListener("loadModel", objRef.paint, objRef);
-            if (sldModel.doc) {
-              widgetConfig.defaultStyle = new Object();
-              widgetConfig.selectStyle = new Object();
-              var sldNode = sldModel.getSldNode();
-              var sldXPath = "sld:UserStyle[sld:Name=";
-              var wmcXPath = "wmc:Style[wmc:Name=";
-              var defaultPointNode = "//sld:UserStyle[sld:Name='"+widgetConfig.defaultStyleName+"']//sld:PointSymbolizer";
-              var defaultLineNode = "//sld:UserStyle[sld:Name='"+widgetConfig.defaultStyleName+"']//sld:LineSymbolizer";
-              var defaultPolygonNode = "//sld:UserStyle[sld:Name='"+widgetConfig.defaultStyleName+"']//sld:PolygonSymbolizer";
-              var selectPointNode = "//sld:UserStyle[sld:Name='"+widgetConfig.selectStyleName+"']//sld:PointSymbolizer";
-              var selectLineNode = "//sld:UserStyle[sld:Name='"+widgetConfig.selectStyleName+"']//sld:LineSymbolizer";
-              var selectPolygonNode = "//sld:UserStyle[sld:Name='"+widgetConfig.selectStyleName+"']//sld:PolygonSymbolizer";
-              widgetConfig.defaultStyle.point = sld2OlStyle(sldNode.selectSingleNode(defaultPointNode));
-              if (!widgetConfig.defaultStyle.point) {
-                widgetConfig.defaultStyle.point = sld2OlStyle(sldNode.selectSingleNode(defaultPointNode.replace(sldXPath, wmcXPath)));
-              }
-              widgetConfig.defaultStyle.line = sld2OlStyle(sldNode.selectSingleNode(defaultLineNode));
-              if (!widgetConfig.defaultStyle.line) {
-                widgetConfig.defaultStyle.line = sld2OlStyle(sldNode.selectSingleNode(defaultLineNode.replace(sldXPath, wmcXPath)));
-              }
-              widgetConfig.defaultStyle.polygon = sld2OlStyle(sldNode.selectSingleNode(defaultPolygonNode));
-              if (!widgetConfig.defaultStyle.polygon) {
-                widgetConfig.defaultStyle.polygon = sld2OlStyle(sldNode.selectSingleNode(defaultPolygonNode.replace(sldXPath, wmcXPath)));
-              }
-              widgetConfig.selectStyle.point = sld2OlStyle(sldNode.selectSingleNode(selectPointNode));
-              if (!widgetConfig.selectStyle.point) {
-                widgetConfig.selectStyle.point = sld2OlStyle(sldNode.selectSingleNode(selectPointNode.replace(sldXPath, wmcXPath)));
-              }
-              widgetConfig.selectStyle.line = sld2OlStyle(sldNode.selectSingleNode(selectLineNode));
-              if (!widgetConfig.selectStyle.line) {
-                widgetConfig.selectStyle.line = sld2OlStyle(sldNode.selectSingleNode(selectLineNode.replace(sldXPath, wmcXPath)));
-              }
-              widgetConfig.selectStyle.polygon = sld2OlStyle(sldNode.selectSingleNode(selectPolygonNode));
-              if (!widgetConfig.selectStyle.polygon) {
-                widgetConfig.selectStyle.polygon = sld2OlStyle(sldNode.selectSingleNode(selectPolygonNode.replace(sldXPath, wmcXPath)));
-              }
-              if (widgetConfig.selectStyle.point) {
-                widgetConfig.selectStyle.point.cursor = widgetConfig.hoverCursor;
-              }
-              if (widgetConfig.selectStyle.line) {
-                widgetConfig.selectStyle.line.cursor = widgetConfig.hoverCursor;
-              }
-              if (widgetConfig.selectStyle.polygon) {
-                widgetConfig.selectStyle.polygon.cursor = widgetConfig.hoverCursor;
-              }
+            var sldNode = sldModel.getSldNode();
+            if (sldModel.sld) {
+              var namedLayer = sldModel.sld[objRef.id];
+              widgetConfig.defaultStyle = namedLayer[widgetConfig.defaultStyleName];
+              widgetConfig.selectStyle = namedLayer[widgetConfig.selectStyleName];
+              widgetConfig.selectStyle.defaultStyle.cursor = objRef.hoverCursor;
+            } else if (sldNode) {
+              widgetConfig.defaultStyle =
+                  sld2OlStyle(sldNode.selectSingleNode("//*[wmc:Name='"+widgetConfig.defaultStyleName+"']"));
+              widgetConfig.selectStyle =
+                  sld2OlStyle(sldNode.selectSingleNode("//*[wmc:Name='"+widgetConfig.selectStyleName+"']"));
+              widgetConfig.selectStyle.cursor = objRef.hoverCursor;
             }
           }
         }

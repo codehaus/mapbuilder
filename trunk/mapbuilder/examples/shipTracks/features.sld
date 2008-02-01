@@ -4,7 +4,7 @@
     $Id$
   -->
 	<NamedLayer>
-		<Name>featureCollection</Name>
+		<Name>testGmlRenderer</Name>
 		<UserStyle>
 			<Name>default</Name>
 			<IsDefault>true</IsDefault>

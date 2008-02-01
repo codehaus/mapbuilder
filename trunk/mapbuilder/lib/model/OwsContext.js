@@ -141,7 +141,7 @@ function OwsContext(modelNode, parent) {
    * @return Proj Object of  The Spatial Reference System.
    */
   this.initProj=function(objRef) {
-    objRef.proj=new Proj4js.Proj(objRef.getSRS());
+    objRef.proj=new OpenLayers.Projection(objRef.getSRS());
   }
   this.addFirstListener( "loadModel", this.initProj, this );
 

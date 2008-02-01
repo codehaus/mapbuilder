@@ -102,14 +102,14 @@ function Measurement(widgetNode, model) {
               
         //transform coordinates from lat/lon to x/y in meter 
         objRef.srs = srs.toUpperCase();
-        objRef.proj = new Proj4js.Proj(objRef.srs);
+        objRef.proj = new OpenLayers.Projection(objRef.srs);
         
         if (!P || !Q  ){
           alert(mbGetMessage("projectionNotSupported"));
         }
         else {
           //If projection is in meters use simple pythagoras
-          if(objRef.proj.units == "meters" || objRef.proj.units == "m") {
+          if(objRef.proj.getUnits() == "meters" || objRef.proj.getUnits() == "m") {
             Xp=parseFloat(P[0]);
             Yp=parseFloat(P[1]);
             Xq=parseFloat(Q[0]);
@@ -125,7 +125,7 @@ function Measurement(widgetNode, model) {
           }
           //If projection is in degrees use great circle formulae 
           //http://williams.best.vwh.net/avform.htm#GCF
-          else if(objRef.proj.units == "degrees" || objRef.proj.units == null) {
+          else if(objRef.proj.getUnits() == "degrees" || objRef.proj.getUnits() == null) {
             var deg2rad = Math.PI / 180.0
             var centerOfEarth=new Array(0,0);
             LonpRad=parseFloat(P[0]) * deg2rad;

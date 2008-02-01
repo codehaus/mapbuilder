@@ -10,7 +10,7 @@
     xmlns:param="http;//www.opengis.net/param"
     xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
   <General>
-    <Window width="500" height="300"/>
+    <Window width="500" height="325"/>
     <ows:BoundingBox crs="EPSG:900913">
       <ows:LowerCorner>1447984 6062258</ows:LowerCorner>
       <ows:UpperCorner>1470571 6084922</ows:UpperCorner>

@@ -34,13 +34,13 @@ function Locations(widgetNode, model) {
     if (!srsName) {
       srsName = 'EPSG:4326';
     }
-    var proj = new Proj4js.Proj(srsName);
+    var proj = new OpenLayers.Projection(srsName);
     var bboxArray = new Array();
     bboxArray     = bbox.split(",");
-    var ptUL=new Proj4js.Point(parseFloat(bboxArray[0]),parseFloat(bboxArray[3]));
-    var ptLR=new Proj4js.Point(parseFloat(bboxArray[2]),parseFloat(bboxArray[1]));
-    Proj4js.transform(proj,this.targetModel.proj,ptUL);
-    Proj4js.transform(proj,this.targetModel.proj,ptLR);
+    var ptUL=new OpenLayers.Geometry.Point(parseFloat(bboxArray[0]),parseFloat(bboxArray[3]));
+    var ptLR=new OpenLayers.Geometry.Point(parseFloat(bboxArray[2]),parseFloat(bboxArray[1]));
+    ptUL.transform(proj,this.targetModel.proj);
+    ptLR.transform(proj,this.targetModel.proj);
     var ul = new Array(ptUL.x,ptUL.y);
     var lr = new Array(ptLR.x,ptLR.y);   
     this.targetModel.setParam("aoi",new Array(ul,lr));
