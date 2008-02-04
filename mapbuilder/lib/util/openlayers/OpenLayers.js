@@ -10598,8 +10598,6 @@ OpenLayers.Control.OverviewMap = OpenLayers.Class(OpenLayers.Control, {
 
         this.div.appendChild(this.element);
 
-        this.map.events.register('moveend', this, this.update);
-
         // Optionally add min/max buttons if the control will go in the
         // map viewport.
         if(!this.outsideViewport) {
@@ -10658,6 +10656,9 @@ OpenLayers.Control.OverviewMap = OpenLayers.Class(OpenLayers.Control, {
         if(this.map.getExtent()) {
             this.update();
         }
+        
+        this.map.events.register('moveend', this, this.update);
+
         return this.div;
     },
     
@@ -10868,11 +10869,7 @@ OpenLayers.Control.OverviewMap = OpenLayers.Class(OpenLayers.Control, {
                                                 null, true);
         this.rectEvents.register("mouseover", this, function(e) {
             if(!this.dragHandler.active && !this.map.dragging) {
-                // this click handler de/activation can be removed when
-                // ticket #1247 is addressed
-                this.clickHandler.deactivate();
                 this.dragHandler.activate();
-                this.clickHandler.activate();
             }
         });
         this.rectEvents.register("mouseout", this, function(e) {
