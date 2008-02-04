@@ -210,12 +210,13 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     node.style.width = objRef.model.getWindowWidth()+"px";
     node.style.height = objRef.model.getWindowHeight()+"px";
   }
-    
+  
   //default map options
   var mapOptions = {
         controls:[],
         projection: proj,
         units: units,
+        fractionalZoom: true,
         maxExtent: maxExtent,
         maxResolution: maxResolution,
         minResolution: minResolution,
@@ -329,6 +330,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
             },
             baseLayerOptions
           );
+          objRef.model.map.fractionalZoom = false;
         break;
     
         case "GMAP":
@@ -351,7 +353,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
           }
           baseLayer = new OpenLayers.Layer.Google( baseLayerName , {type: baseLayerType, minZoomLevel: 0, maxZoomLevel:19, sphericalMercator: sphericalMercator }, baseLayerOptions );
           objRef.model.map.numZoomLevels = 20;
-
+          objRef.model.map.fractionalZoom = false;
         break;
     
         case "YMAP":
@@ -361,6 +363,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
           //check if we have spherical projection
           var sphericalMercator = (objRef.model.getSRS()=='EPSG:900913')?true:false;          
           baseLayer = new OpenLayers.Layer.Yahoo(  baseLayerName , { maxZoomLevel:21, sphericalMercator: sphericalMercator }, baseLayerOptions );
+          objRef.model.map.fractionalZoom = false;
         break;
     
         case "VE":
@@ -382,6 +385,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
               baseLayerType=VEMapStyle.Hybrid;
           }
           baseLayer = new OpenLayers.Layer.VirtualEarth( baseLayerName,{minZoomLevel: 0, maxZoomLevel: 21,type: baseLayerType});
+          objRef.model.map.fractionalZoom = false;
         break;
     
         case "MultiMap":
@@ -389,6 +393,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
            //check if we have spherical projection
           var sphericalMercator = (objRef.model.getSRS()=='EPSG:900913')?true:false;          
           baseLayer = new OpenLayers.Layer.MultiMap( baseLayerName , { maxZoomLevel:21, sphericalMercator: sphericalMercator }, baseLayerOptions );
+          objRef.model.map.fractionalZoom = false;
         break;
         default:
           alert(mbGetMessage("layerTypeNotSupported", service));
@@ -419,7 +424,6 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   else {
     objRef.deleteAllLayers(objRef);
   }
-  
     
   var layers = objRef.model.getAllLayers();
   if (!objRef.oLlayers){
@@ -731,7 +735,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
           isBaseLayer: false,
           displayOutsideMaxExtent: objRef.displayOutsideMaxExtent
      };
-
+     
   switch(service){
     // WMS Layer (Untiled)
     case "OGC":
@@ -823,6 +827,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         },
         layerOptions
       );
+      objRef.model.map.fractionalZoom = false;
     break;
 
     // WFS Layer

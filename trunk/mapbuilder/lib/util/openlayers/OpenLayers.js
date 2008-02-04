@@ -2202,22 +2202,25 @@ OpenLayers.Util.getBrowserName = function() {
     Rico/Corner.js
    ====================================================================== */
 
-/**  
-*  
-*  Copyright 2005 Sabre Airline Solutions  
-*  
-*  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this  
-*  file except in compliance with the License. You may obtain a copy of the License at  
-*  
-*         http://www.apache.org/licenses/LICENSE-2.0  
-*  
-*  Unless required by applicable law or agreed to in writing, software distributed under the  
-*  License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,  
-*  either express or implied. See the License for the specific language governing permissions  
-*  and limitations under the License.  
-**/  
-
-
+/*
+ * This file has been edited substantially from the Rico-released
+ * version by the OpenLayers development team.
+ *  
+ *  Copyright 2005 Sabre Airline Solutions  
+ *  
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the
+ *  License. You may obtain a copy of the License at
+ *  
+ *         http://www.apache.org/licenses/LICENSE-2.0  
+ *  
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the * License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, * either express or
+ * implied. See the License for the specific language governing
+ * permissions * and limitations under the License.
+ *
+ */  
 OpenLayers.Rico = new Object();
 OpenLayers.Rico.Corner = {
 
@@ -5782,6 +5785,12 @@ OpenLayers.Renderer = OpenLayers.Class({
     Rico/Color.js
    ====================================================================== */
 
+/*
+ * This file has been edited substantially from the Rico-released version by
+ * the OpenLayers development team.
+ *
+ * This file is licensed under the Apache License, Version 2.0.
+ */
 OpenLayers.Rico.Color = OpenLayers.Class({
 
    initialize: function(red, green, blue) {
@@ -11896,7 +11905,11 @@ OpenLayers.Format.XML = OpenLayers.Class(OpenLayers.Format, {
     createElementNS: function(uri, name) {
         var element;
         if(this.xmldom) {
-            element = this.xmldom.createNode(1, name, uri);
+            if(typeof uri == "string") {
+                element = this.xmldom.createNode(1, name, uri);
+            } else {
+                element = this.xmldom.createNode(1, name, "");
+            }
         } else {
             element = document.createElementNS(uri, name);
         }
@@ -12494,6 +12507,14 @@ OpenLayers.Map = OpenLayers.Class({
      * {String} Unique identifier for the map
      */
     id: null,
+    
+    /**
+     * Property: fractionalZoom
+     * {Boolean} For a base layer that supports it, allow the map resolution
+     *     to be set to a value between one of the values in the resolutions
+     *     array.  Default is false.
+     */
+    fractionalZoom: false,
     
     /**
      * APIProperty: events
@@ -13429,7 +13450,7 @@ OpenLayers.Map = OpenLayers.Class({
     removeControl: function (control) {
         //make sure control is non-null and actually part of our map
         if ( (control) && (control == this.getControl(control.id)) ) {
-            if (!control.outsideViewport && control.div) {
+            if (control.div && (control.div.parentNode == this.viewPortDiv)) {
                 this.viewPortDiv.removeChild(control.div);
             }
             OpenLayers.Util.removeItem(this.controls, control);
@@ -13695,10 +13716,7 @@ OpenLayers.Map = OpenLayers.Class({
             if(zoom == null) { 
                 zoom = this.getZoom(); 
             }
-            var resolution = null;
-            if(this.baseLayer != null) {
-                resolution = this.baseLayer.resolutions[zoom];
-            }
+            var resolution = this.getResolutionForZoom(zoom);
             var extent = this.calculateBounds(lonlat, resolution); 
             if(!this.restrictedExtent.containsBounds(extent)) {
                 var maxCenter = this.restrictedExtent.getCenterLonLat(); 
@@ -13755,7 +13773,7 @@ OpenLayers.Map = OpenLayers.Class({
 
             if (zoomChanged) {
                 this.zoom = zoom;
-                this.resolution = this.baseLayer.getResolution();
+                this.resolution = this.getResolutionForZoom(zoom);
                 // zoom level has changed, increment viewRequestID.
                 this.viewRequestID++;
             }    
@@ -14021,6 +14039,24 @@ OpenLayers.Map = OpenLayers.Class({
             zoom = this.baseLayer.getZoomForExtent(bounds, closest);
         }
         return zoom;
+    },
+
+    /**
+     * APIMethod: getResolutionForZoom
+     * 
+     * Parameter:
+     * zoom - {Float}
+     * 
+     * Returns:
+     * {Float} A suitable resolution for the specified zoom.  If no baselayer
+     *     is set, returns null.
+     */
+    getResolutionForZoom: function(zoom) {
+        var resolution = null;
+        if(this.baseLayer) {
+            resolution = this.baseLayer.getResolutionForZoom(zoom);
+        }
+        return resolution;
     },
 
     /**
@@ -18169,7 +18205,34 @@ OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler, {
      * @type Array(String)
      */
     geometryTypes: null,
-    
+
+    /**
+     * Property: stopClick
+     * {Boolean} If stopClick is set to true, handled clicks do not
+     *      propagate to other click listeners. Otherwise, handled clicks
+     *      do propagate. Unhandled clicks always propagate, whatever the
+     *      value of stopClick. Defaults to true.
+     */
+    stopClick: true,
+
+    /**
+     * Property: stopDown
+     * {Boolean} If stopDown is set to true, handled mousedowns do not
+     *      propagate to other mousedown listeners. Otherwise, handled
+     *      mousedowns do propagate. Unhandled mousedowns always propagate,
+     *      whatever the value of stopDown. Defaults to true.
+     */
+    stopDown: true,
+
+    /**
+     * Property: stopUp
+     * {Boolean} If stopUp is set to true, handled mouseups do not
+     *      propagate to other mouseup listeners. Otherwise, handled mouseups
+     *      do propagate. Unhandled mouseups always propagate, whatever the
+     *      value of stopUp. Defaults to true.
+     */
+    stopUp: true,
+
     /**
      * Property: layerIndex
      * {Int}
@@ -18203,7 +18266,7 @@ OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler, {
      */
     mousedown: function(evt) {
         this.down = evt.xy;
-        return !this.handle(evt);
+        return this.handle(evt) ? !this.stopDown : true;
     },
     
     /**
@@ -18216,7 +18279,7 @@ OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler, {
      */
     mouseup: function(evt) {
         this.up = evt.xy;
-        return !this.handle(evt);
+        return this.handle(evt) ? !this.stopUp : true;
     },
 
     /**
@@ -18231,7 +18294,7 @@ OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler, {
      * {Boolean}
      */
     click: function(evt) {
-        return !this.handle(evt);
+        return this.handle(evt) ? !this.stopClick : true;
     },
         
     /**
@@ -18288,11 +18351,11 @@ OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler, {
      * evt - {Event}
      *
      * Returns:
-     * {Boolean} Stop event propagation.
+     * {Boolean} The event occurred over a relevant feature.
      */
     handle: function(evt) {
         var type = evt.type;
-        var stopEvtPropag = false;
+        var handled = false;
         var previouslyIn = !!(this.feature); // previously in a feature
         var click = (type == "click" || type == "dblclick");
         this.feature = this.layer.getFeatureFromEvent(evt);
@@ -18308,7 +18371,8 @@ OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler, {
                     // in feature for the first time
                     this.triggerCallback(type, 'in', [this.feature]);
                 }
-                stopEvtPropag = true;
+                this.lastFeature = this.feature;
+                handled = true;
             } else {
                 // not in to a feature
                 if(previouslyIn && inNew || (click && this.lastFeature)) {
@@ -18316,13 +18380,12 @@ OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler, {
                     this.triggerCallback(type, 'out', [this.lastFeature]);
                 }
             }
-            this.lastFeature = this.feature;
         } else {
             if(previouslyIn || (click && this.lastFeature)) {
                 this.triggerCallback(type, 'out', [this.lastFeature]);
             }
         }
-        return stopEvtPropag;
+        return handled;
     },
     
     /**
@@ -19625,7 +19688,7 @@ OpenLayers.Layer = OpenLayers.Class({
      */
     getResolution: function() {
         var zoom = this.map.getZoom();
-        return this.resolutions[zoom];
+        return this.getResolutionForZoom(zoom);
     },
 
     /** 
@@ -19680,6 +19743,29 @@ OpenLayers.Layer = OpenLayers.Class({
     },
 
     /**
+     * APIMethod: getResolutionForZoom
+     * 
+     * Parameter:
+     * zoom - {Float}
+     * 
+     * Returns:
+     * {Float} A suitable resolution for the specified zoom.
+     */
+    getResolutionForZoom: function(zoom) {
+        zoom = Math.max(0, Math.min(zoom, this.resolutions.length - 1));
+        var resolution;
+        if(this.map.fractionalZoom) {
+            var low = Math.floor(zoom);
+            var high = Math.ceil(zoom);
+            resolution = this.resolutions[high] +
+                ((zoom-low) * (this.resolutions[low]-this.resolutions[high]));
+        } else {
+            resolution = this.resolutions[Math.round(zoom)];
+        }
+        return resolution;
+    },
+
+    /**
      * APIMethod: getZoomForResolution
      * 
      * Parameters:
@@ -19698,22 +19784,50 @@ OpenLayers.Layer = OpenLayers.Class({
      *     value and the 'closest' specification.
      */
     getZoomForResolution: function(resolution, closest) {
-        var diff;
-        var minDiff = Number.POSITIVE_INFINITY;
-        for(var i=0; i < this.resolutions.length; i++) {            
-            if (closest) {
-                diff = Math.abs(this.resolutions[i] - resolution);
-                if (diff > minDiff) {
-                    break;
+        var zoom;
+        if(this.map.fractionalZoom) {
+            var lowZoom = 0;
+            var highZoom = this.resolutions.length - 1;
+            var highRes = this.resolutions[lowZoom];
+            var lowRes = this.resolutions[highZoom];
+            var res;
+            for(var i=0; i<this.resolutions.length; ++i) {
+                res = this.resolutions[i];
+                if(res >= resolution) {
+                    highRes = res;
+                    lowZoom = i;
                 }
-                minDiff = diff;
-            } else {
-                if (this.resolutions[i] < resolution) {
+                if(res <= resolution) {
+                    lowRes = res;
+                    highZoom = i;
                     break;
                 }
             }
+            var dRes = highRes - lowRes;
+            if(dRes > 0) {
+                zoom = lowZoom + ((resolution - lowRes) / dRes);
+            } else {
+                zoom = lowZoom;
+            }
+        } else {
+            var diff;
+            var minDiff = Number.POSITIVE_INFINITY;
+            for(var i=0; i < this.resolutions.length; i++) {            
+                if (closest) {
+                    diff = Math.abs(this.resolutions[i] - resolution);
+                    if (diff > minDiff) {
+                        break;
+                    }
+                    minDiff = diff;
+                } else {
+                    if (this.resolutions[i] < resolution) {
+                        break;
+                    }
+                }
+            }
+            zoom = Math.max(0, i-1);
         }
-        return Math.max(0, i-1);
+        return zoom;
     },
     
     /**
@@ -27432,12 +27546,13 @@ OpenLayers.Style = OpenLayers.Class({
         var style = OpenLayers.Util.extend({}, this.defaultStyle);
         
         var rules = this.rules;
-        var draw = rules.length == 0 ? true : false;
 
         var rule;
-        for (var i=0; i<rules.length; i++) {
+        var elseRules = [];
+        var appliedRules = false;
+        for(var i=0; i<rules.length; i++) {
             rule = rules[i];
-            // does the rule apply?        
+            // does the rule apply?
             var applies = rule.evaluate(feature);
             
             if (rule.minScaleDenominator || rule.maxScaleDenominator) {
@@ -27453,31 +27568,57 @@ OpenLayers.Style = OpenLayers.Class({
                 applies = scale < OpenLayers.Style.createLiteral(
                         rule.maxScaleDenominator, feature);
             }
-            
-            if (draw && rule.CLASS_NAME == "OpenLayers.Rule") {
-                // apply plain rules only if no other applied (ElseFilter)
-                applies = false;
+
+            if(applies) {
+                if(rule instanceof OpenLayers.Rule && rule.elseFilter) {
+                    elseRules.push(rule);
+                } else {
+                    appliedRules = true;
+                    this.applySymbolizer(rule, style, feature);
+                }
             }
-
-            if (applies) {
-                draw = true;
-
-                // determine which symbolizer (Point, Line, Polygon) to use
-                var symbolizerPrefix = feature.geometry ?
-                        this.getSymbolizerPrefix(feature.geometry) :
-                        OpenLayers.Style.SYMBOLIZER_PREFIXES[0];
-
-                // merge the style with the current style
-                var symbolizer = this.rules[i].symbolizer[symbolizerPrefix];
-                OpenLayers.Util.extend(style, symbolizer);
+        }
+        
+        // if no other rules apply, apply the rules with else filters
+        if(appliedRules == false && elseRules.length > 0) {
+            appliedRules = true;
+            for(var i=0; i<elseRules.length; i++) {
+                this.applySymbolizer(elseRules[i], style, feature);
             }
         }
 
         // calculate literals for all styles in the propertyStyles cache
         this.createLiterals(style, feature);
-        style.display = draw ? "" : "none";
+
+        // don't display if there were rules but none applied
+        if(rules.length > 0 && appliedRules == false) {
+            style.display = "none";
+        } else {
+            style.display = "";
+        }
         
         return style;
+    },
+    
+    /**
+     * Method: applySymbolizer
+     *
+     * Parameters:
+     * rule - {OpenLayers.Rule}
+     * style - {Object}
+     * feature - {<OpenLayer.Feature.Vector>}
+     *
+     * Returns:
+     * {Object} A style with new symbolizer applied.
+     */
+    applySymbolizer: function(rule, style, feature) {
+        var symbolizerPrefix = feature.geometry ?
+                this.getSymbolizerPrefix(feature.geometry) :
+                OpenLayers.Style.SYMBOLIZER_PREFIXES[0];
+
+        // merge the style with the current style
+        var symbolizer = rule.symbolizer[symbolizerPrefix];
+        return OpenLayers.Util.extend(style, symbolizer);
     },
     
     /**
@@ -28052,6 +28193,16 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
      * Method: resetVertices
      */
     resetVertices: function() {
+        // if coming from a drag complete we're about to destroy the vertex
+        // that was just dragged. For that reason, the drag feature control
+        // will never detect a mouse-out on that vertex, meaning that the drag
+        // handler won't be deactivated. This can cause errors because the drag
+        // feature control still has a feature to drag but that feature is
+        // destroyed. To prevent this, we call outFeature on the drag feature
+        // control if the control actually has a feature to drag.
+        if(this.dragControl.feature) {
+            this.dragControl.outFeature(this.dragControl.feature);
+        }
         if(this.vertices.length > 0) {
             this.layer.removeFeatures(this.vertices);
             this.vertices = [];
@@ -28406,7 +28557,7 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
         var size    = this.map.getSize();
         var deltaX  = size.w/2 - evt.xy.x;
         var deltaY  = evt.xy.y - size.h/2;
-        var newRes  = this.map.baseLayer.resolutions[newZoom];
+        var newRes  = this.map.baseLayer.getResolutionForZoom(newZoom);
         var zoomPoint = this.map.getLonLatFromPixel(evt.xy);
         var newCenter = new OpenLayers.LonLat(
                             zoomPoint.lon + deltaX * newRes,
@@ -30672,6 +30823,16 @@ OpenLayers.Rule = OpenLayers.Class({
     name: 'default',
 
     /**
+     * Property: elseFilter
+     * {Boolean} Determines whether this rule is only to be applied only if
+     * no other rules match (ElseFilter according to the SLD specification). 
+     * Default is false.  For instances of OpenLayers.Rule, if elseFilter is
+     * false, the rule will always apply.  For subclasses, the else property is 
+     * ignored.
+     */
+    elseFilter: false,
+    
+    /**
      * Property: symbolizer
      * {Object} Hash of styles for this rule. Contains hashes of feature
      * styles. Keys are one or more of ["Point", "Line", "Polygon"]
@@ -32234,9 +32395,16 @@ OpenLayers.Format.SLD = OpenLayers.Class(OpenLayers.Format.XML, {
         if (filter && filter.length > 0) {
             var rule = this.parseFilter(filter[0]);
         } else {
-            // rule applies to all features (no filter or ElseFilter)
+            // start with an empty rule that always applies
             var rule = new OpenLayers.Rule();
+            // and check if the rule is an ElseFilter
+            var elseFilter = this.getElementsByTagNameNS(xmlNode, this.ogcns,
+                "ElseFilter");
+            if (elseFilter && elseFilter.length > 0) {
+                rule.elseFilter = true;
+            }
         }
+        
         rule.name = name;
         
         // SCALE DENOMINATORS
@@ -36515,7 +36683,7 @@ OpenLayers.Format.OSM = OpenLayers.Class(OpenLayers.Format.XML, {
         
         this.osm_id = 1;
         this.created_nodes = {};
-        var root_node = document.createElementNS(null, "osm");
+        var root_node = this.createElementNS(null, "osm");
         root_node.setAttribute("version", "0.5");
         root_node.setAttribute("generator", "OpenLayers "+ OpenLayers.VERSION_NUMBER);
 
