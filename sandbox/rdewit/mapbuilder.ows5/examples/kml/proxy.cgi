@@ -23,7 +23,7 @@ allowedHosts = ['www.openlayers.org', 'openlayers.org',
                 'prototype.openmnnd.org', 'geo.openplans.org',
                 'geo.openplans.org:8080', 'wight.demos.galdosinc.com',
                 'code.google.com', 'maps.google.com', 'bbs.keyhole.com',
-                'press.jrc.it' ]
+                'press.jrc.it', 'www.cloudsat.cira.colostate.edu' ]
 
 method = os.environ["REQUEST_METHOD"]
 
@@ -40,14 +40,14 @@ try:
     host = url.split("/")[2]
     isLocalHost = (os.environ["SERVER_NAME"] == "localhost") or (os.environ["HTTP_HOST"] == "localhost")
     isLocalHost = isLocalHost or (os.environ["SERVER_NAME"] == "demos.terrapages.net") or (os.environ["HTTP_HOST"] == "demos.terrapages.net")
-    #isLocalHost = False
+    isLocalHost = True
     if not isLocalHost and allowedHosts and not host in allowedHosts:
         print "Status: 502 Bad Gateway"
         print "Content-Type: text/plain"
         print
         print "This proxy does not allow you to access that location: ", host
         print 
-        print os.environ
+        #print os.environ
   
     elif url.startswith("http://") or url.startswith("https://"):
     

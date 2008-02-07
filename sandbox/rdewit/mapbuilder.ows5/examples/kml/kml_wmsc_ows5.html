@@ -126,8 +126,9 @@
                   exceptions: "application/vnd.ogc.se_inimage",
                   //format: "application/vnd.google-earth.kmz",
                   //format: "application/kml+xml",
-                  //format: "application/kml+xml",
-                  format: "image/png",
+                  //format: "image/png",
+                  format: "application/kml+xml",
+                  format_options: "extendedData:false;style:true",
                   remote_ows_type: "WFS",
                   remote_ows_url: "http://sigma.openplans.org:8080/geoserver/wfsd"
         };
@@ -223,7 +224,7 @@
             popup = new OpenLayers.Popup.AnchoredBubble("chicken", 
                                      feature.geometry.getBounds().getCenterLonLat(),
                                      new OpenLayers.Size(350,200),
-                                     "<div style='font-size:.8em;overflow:auto;width:100%;'>" + content + "</div>",
+                                     "<div style='font-size:.8em;overflow:none;width:100%;'>" + content + "</div>",
                                      null, true, onPopupClose);
             feature.popup = popup;
             map.addPopup(popup);
@@ -518,6 +519,7 @@
                 <option value="http://featureserver.org/featureserver.cgi/scribble?format=KML">FeatureServer Scribble</option>
                 <option value="http://destinsharks.com/kmz/nl/bowlegs_pokerrun.kmz">KMZ Pokerrun (very big)</option>
                 -->
+                <option value="http://maps.google.com/maps/ms?ie=UTF8&msa=0&output=nl&msid=114522990414940810850.000443661057ca9cd1ed7">Geomarkers of the series 'Lost'</option>
                 <option value="http://www.cloudsat.cira.colostate.edu/data_dist/KMLs/dataflow.kmz">KMZ Cloudsat</option>
                 <option value="http://maps.google.com/maps/ms?ie=UTF8&hl=en&om=1&msa=0&output=nl&msid=103763259662194171141.000001119b4b42bf062c2">Google - Route 66 (NetworkLink)</option>
                 <option value="http://maps.google.com/maps/ms?ie=UTF8&t=k&hl=en&msa=0&msid=103763259662194171141.000001119b4d1da52255a&output=kml">Google - Monsters</option>
@@ -531,7 +533,7 @@
                 </optgroup>
             </select>
             <br />
-            Paste URL: <input type="text" id="url" value="kml/conferences.kml"/><br />
+            Paste URL: <input type="text" id="url" value=""/><br />
             <input type="button" value="add to layer using url" onclick="loadUrl();" />
             <br />
             <hr />
