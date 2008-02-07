@@ -214,6 +214,9 @@ function GmlRendererOL(widgetNode, model) {
           var sldModel = config.objects[widgetConfig.sldModelNode.firstChild.nodeValue];
           if (sldModel) {
             sldModel.addListener("loadModel", objRef.paint, objRef);
+            if (!sldModel.doc) {
+              return;
+            }
             var sldNode = sldModel.getSldNode();
             if (sldModel.sld) {
               var namedLayer = sldModel.sld[objRef.id];
