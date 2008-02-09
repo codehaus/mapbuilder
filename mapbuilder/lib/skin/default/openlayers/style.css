@@ -87,7 +87,7 @@ div.olControlMousePosition {
     float:right;
     color:gray;
     font-size:1.2em;
-  margin-right:6px;
+	margin-right:6px;
     font-family:sans-serif;
 }
 .olLayerGeoRSSTitle {
@@ -108,6 +108,31 @@ div.olControlMousePosition {
   top: 300px;
   left: 6px;
   position: relative;
+}
+
+.olControlNavigationHistoryPreviousItemActive { 
+   background-image: url("img/view_previous_on.png");
+   background-repeat: no-repeat;
+   width:  24px;
+   height: 24px;
+}
+.olControlNavigationHistoryPreviousItemInactive { 
+   background-image: url("img/view_previous_off.png");
+   background-repeat: no-repeat;
+   width:  24px;
+   height: 24px;
+}
+.olControlNavigationHistoryNextItemActive { 
+   background-image: url("img/view_next_on.png");
+   background-repeat: no-repeat;
+   width:  24px;
+   height: 24px;
+}
+.olControlNavigationHistoryNextItemInactive { 
+   background-image: url("img/view_next_off.png");
+   background-repeat: no-repeat;
+   width:  24px;
+   height: 24px;
 }
 
 .olControlNavToolbar .olControlNavigationItemActive { 
@@ -140,36 +165,44 @@ div.olControlMousePosition {
   margin: 5px;
 }
 .olControlEditingToolbar .olControlNavigationItemActive { 
-  background-image: url("img/pan_on.png");
+  background-image: url("img/editing_tool_bar.png");
   background-repeat: no-repeat;
+  background-position: -103px -23px; 
 }
 .olControlEditingToolbar .olControlNavigationItemInactive { 
-  background-image: url("img/pan_off.png");
+  background-image: url("img/editing_tool_bar.png");
   background-repeat: no-repeat;
+  background-position: -103px -0px; 
 }
 .olControlEditingToolbar .olControlDrawFeaturePointItemActive { 
-  background-image: url("img/draw_point_on.png");
+  background-image: url("img/editing_tool_bar.png");
   background-repeat: no-repeat;
+  background-position: -77px -23px; 
 }
 .olControlEditingToolbar .olControlDrawFeaturePointItemInactive { 
-  background-image: url("img/draw_point_off.png");
+  background-image: url("img/editing_tool_bar.png");
   background-repeat: no-repeat;
+  background-position: -77px -0px; 
 }
 .olControlEditingToolbar .olControlDrawFeaturePathItemInactive { 
-  background-image: url("img/draw_line_off.png");
+  background-image: url("img/editing_tool_bar.png");
   background-repeat: no-repeat;
+  background-position: -51px 0px; 
 }
 .olControlEditingToolbar .olControlDrawFeaturePathItemActive { 
-  background-image: url("img/draw_line_on.png");
+  background-image: url("img/editing_tool_bar.png");
   background-repeat: no-repeat;
+  background-position: -51px -23px; 
 }
 .olControlEditingToolbar .olControlDrawFeaturePolygonItemInactive { 
-  background-image: url("img/draw_polygon_off.png");
+  background-image: url("img/editing_tool_bar.png");
   background-repeat: no-repeat;
+  background-position: -26px 0px; 
 }
 .olControlEditingToolbar .olControlDrawFeaturePolygonItemActive { 
-  background-image: url("img/draw_polygon_on.png");
+  background-image: url("img/editing_tool_bar.png");
   background-repeat: no-repeat;
+  background-position: -26px -23px ;                                                                   
 }
 
 .olHandlerBoxZoomBox {
