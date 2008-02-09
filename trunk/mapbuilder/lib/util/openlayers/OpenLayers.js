@@ -141,6 +141,7 @@ var OpenLayers = {
             "OpenLayers/BaseTypes/Pixel.js",
             "OpenLayers/BaseTypes/Size.js",
             "OpenLayers/Console.js",
+            "OpenLayers/Tween.js",
             "Rico/Corner.js",
             "Rico/Color.js",
             "OpenLayers/Ajax.js",
@@ -216,6 +217,7 @@ var OpenLayers = {
             "OpenLayers/Control/ModifyFeature.js",
             "OpenLayers/Control/Panel.js",
             "OpenLayers/Control/SelectFeature.js",
+            "OpenLayers/Control/NavigationHistory.js",
             "OpenLayers/Geometry.js",
             "OpenLayers/Geometry/Rectangle.js",
             "OpenLayers/Geometry/Collection.js",
@@ -4754,6 +4756,15 @@ OpenLayers.Control = OpenLayers.Class({
             this.handler.destroy();
             this.handler = null;
         }
+        if(this.handlers) {
+            for(var key in this.handlers) {
+                if(this.handlers.hasOwnProperty(key) &&
+                   typeof this.handlers[key].destroy == "function") {
+                    this.handlers[key].destroy();
+                }
+            }
+            this.handlers = null;
+        }
         if (this.map) {
             this.map.removeControl(this);
             this.map = null;
@@ -5163,6 +5174,12 @@ OpenLayers.Popup = OpenLayers.Class({
     groupDiv: null,
 
     /** 
+     * Property: closeDiv
+     * {DOMElement} the optional closer image
+     */
+    closeDiv: null,
+
+    /** 
      * Property: padding 
      * {int} the internal padding of the content div.
      */
@@ -5229,19 +5246,18 @@ OpenLayers.Popup = OpenLayers.Class({
            // close icon
             var closeSize = new OpenLayers.Size(17,17);
             var img = OpenLayers.Util.getImagesLocation() + "close.gif";
-            var closeImg = OpenLayers.Util.createAlphaImageDiv(this.id + "_close", 
-                                                                null, 
-                                                                closeSize, 
-                                                                img);
-            closeImg.style.right = this.padding + "px";
-            closeImg.style.top = this.padding + "px";
-            this.groupDiv.appendChild(closeImg);
+            this.closeDiv = OpenLayers.Util.createAlphaImageDiv(
+                this.id + "_close", null, closeSize, img
+            );
+            this.closeDiv.style.right = this.padding + "px";
+            this.closeDiv.style.top = this.padding + "px";
+            this.groupDiv.appendChild(this.closeDiv);
 
             var closePopup = closeBoxCallback || function(e) {
                 this.hide();
                 OpenLayers.Event.stop(e);
             };
-            OpenLayers.Event.observe(closeImg, "click", 
+            OpenLayers.Event.observe(this.closeDiv, "click", 
                     OpenLayers.Function.bindAsEventListener(closePopup, this));
 
         }
@@ -5470,12 +5486,16 @@ OpenLayers.Popup = OpenLayers.Class({
      registerEvents:function() {
         this.events = new OpenLayers.Events(this, this.div, null, true);
 
-        this.events.register("mousedown", this, this.onmousedown);
-        this.events.register("mousemove", this, this.onmousemove);
-        this.events.register("mouseup", this, this.onmouseup);
-        this.events.register("click", this, this.onclick);
-        this.events.register("mouseout", this, this.onmouseout);
-        this.events.register("dblclick", this, this.ondblclick);
+        this.events.on({
+            "mousedown": this.onmousedown,
+            "mousemove": this.onmousemove,
+            "mouseup": this.onmouseup,
+            "click": this.onclick,
+            "mouseout": this.onmouseout,
+            "dblclick": this.ondblclick,
+            scope: this
+        });
+        
      },
 
     /** 
@@ -5713,7 +5733,9 @@ OpenLayers.Renderer = OpenLayers.Class({
         if(style == null) {
             style = feature.style;
         }
-        this.drawGeometry(feature.geometry, style, feature.id);
+        if (feature.geometry) {
+            this.drawGeometry(feature.geometry, style, feature.id);
+        }
     },
 
 
@@ -5781,6 +5803,266 @@ OpenLayers.Renderer = OpenLayers.Class({
 
     CLASS_NAME: "OpenLayers.Renderer"
 });
+/* ======================================================================
+    OpenLayers/Tween.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
+ * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * full text of the license. */
+
+/**
+ * Namespace: OpenLayers.Tween
+ */
+OpenLayers.Tween = OpenLayers.Class({
+    
+    /**
+     * Constant: INTERVAL
+     * {int} Interval in milliseconds between 2 steps
+     */
+    INTERVAL: 10,
+    
+    /**
+     * APIProperty: easing
+     * {<OpenLayers.Easing>(Function)} Easing equation used for the animation
+     *     Defaultly set to OpenLayers.Easing.Expo.easeOut
+     */
+    easing: null,
+    
+    /**
+     * APIProperty: begin
+     * {Object} Values to start the animation with
+     */
+    begin: null,
+    
+    /**
+     * APIProperty: finish
+     * {Object} Values to finish the animation with
+     */
+    finish: null,
+    
+    /**
+     * APIProperty: duration
+     * {int} duration of the tween (number of steps)
+     */
+    duration: null,
+    
+    /**
+     * APIProperty: callbacks
+     * {Object} An object with start, eachStep and done properties whose values
+     *     are functions to be call during the animation. They are passed the
+     *     current computed value as argument.
+     */
+    callbacks: null,
+    
+    /**
+     * Property: time
+     * {int} Step counter
+     */
+    time: null,
+    
+    /**
+     * Property: interval
+     * {int} Interval id returned by window.setInterval
+     */
+    interval: null,
+    
+    /** 
+     * Constructor: OpenLayers.Tween
+     * Creates a Tween.
+     *
+     * Parameters:
+     * easing - {<OpenLayers.Easing>(Function)} easing function method to use
+     */ 
+    initialize: function(easing) {
+        this.easing = (easing) ? easing : OpenLayers.Easing.Expo.easeOut;
+    },
+    
+    /**
+     * APIMethod: start
+     * Plays the Tween, and calls the callback method on each step
+     * 
+     * Parameters:
+     * begin - {Object} values to start the animation with
+     * finish - {Object} values to finish the animation with
+     * duration - {int} duration of the tween (number of steps)
+     * options - {Object} hash of options (for example callbacks (start, eachStep, done))
+     */
+    start: function(begin, finish, duration, options) {
+        this.begin = begin;
+        this.finish = finish;
+        this.duration = duration;
+        this.callbacks = options.callbacks;
+        this.time = 0;
+        if (this.interval) {
+            window.clearInterval(this.interval);
+            this.interval = null;
+        }
+        if (this.callbacks && this.callbacks.start) {
+            this.callbacks.start.call(this, this.begin);
+        }
+        this.interval = window.setInterval(
+            OpenLayers.Function.bind(this.play, this), this.INTERVAL);
+    },
+    
+    /**
+     * APIMethod: stop
+     * Stops the Tween, and calls the finish callback
+     */
+    stop: function() {
+        if (this.callbacks && this.callbacks.done) {
+            this.callbacks.done.call(this, this.finish);
+        }
+        window.clearInterval(this.interval);
+        this.interval = null;
+    },
+    
+    /**
+     * Method: play
+     * Calls the appropriate easing method
+     */
+    play: function() {
+        var value = {};
+        for (var i in this.begin) {
+            var b = this.begin[i];
+            var f = this.finish[i];
+            if (b == null || f == null || isNaN(b) || isNaN(f)) {
+                OpenLayers.Console.error('invalid value for Tween');
+            }
+            
+            var c = f - b;
+            value[i] = this.easing.apply(this, [this.time, b, c, this.duration]);
+        }
+        this.time++;
+        
+        if (this.callbacks && this.callbacks.eachStep) {
+            this.callbacks.eachStep.call(this, value);
+        }
+        
+        if (this.time > this.duration) {
+            if (this.callbacks && this.callbacks.done) {
+                this.callbacks.done.call(this, this.finish);
+            }
+            window.clearInterval(this.interval);
+            this.interval = null;
+        }
+    },
+    
+    /**
+     * Create empty functions for all easing methods.
+     */
+    CLASS_NAME: "OpenLayers.Tween"
+});
+
+/**
+ * Namespace: OpenLayers.Easing
+ * 
+ * Credits:
+ *      Easing Equations by Robert Penner, <http://www.robertpenner.com/easing/>
+ */
+OpenLayers.Easing = {
+    /**
+     * Create empty functions for all easing methods.
+     */
+    CLASS_NAME: "OpenLayers.Easing"
+};
+
+/**
+ * Namespace: OpenLayers.Easing.Linear
+ */
+OpenLayers.Easing.Linear = {
+    
+    /**
+     * Function: easeIn
+     * 
+     * Parameters:
+     * t - {Float} time
+     * b - {Float} beginning position
+     * c - {Float} total change
+     * d - {Float} duration of the transition
+     */
+    easeIn: function(t, b, c, d) {
+        return c*t/d + b;
+    },
+    
+    /**
+     * Function: easeOut
+     * 
+     * Parameters:
+     * t - {Float} time
+     * b - {Float} beginning position
+     * c - {Float} total change
+     * d - {Float} duration of the transition
+     */
+    easeOut: function(t, b, c, d) {
+        return c*t/d + b;
+    },
+    
+    /**
+     * Function: easeInOut
+     * 
+     * Parameters:
+     * t - {Float} time
+     * b - {Float} beginning position
+     * c - {Float} total change
+     * d - {Float} duration of the transition
+     */
+    easeInOut: function(t, b, c, d) {
+        return c*t/d + b;
+    },
+
+    CLASS_NAME: "OpenLayers.Easing.Linear"
+};
+
+/**
+ * Namespace: OpenLayers.Easing.Expo
+ */
+OpenLayers.Easing.Expo = {
+    
+    /**
+     * Function: easeIn
+     * 
+     * Parameters:
+     * t - {Float} time
+     * b - {Float} beginning position
+     * c - {Float} total change
+     * d - {Float} duration of the transition
+     */
+    easeIn: function(t, b, c, d) {
+        return (t==0) ? b : c * Math.pow(2, 10 * (t/d - 1)) + b;
+    },
+    
+    /**
+     * Function: easeOut
+     * 
+     * Parameters:
+     * t - {Float} time
+     * b - {Float} beginning position
+     * c - {Float} total change
+     * d - {Float} duration of the transition
+     */
+    easeOut: function(t, b, c, d) {
+        return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
+    },
+    
+    /**
+     * Function: easeInOut
+     * 
+     * Parameters:
+     * t - {Float} time
+     * b - {Float} beginning position
+     * c - {Float} total change
+     * d - {Float} duration of the transition
+     */
+    easeInOut: function(t, b, c, d) {
+        if (t==0) return b;
+        if (t==d) return b+c;
+        if ((t/=d/2) < 1) return c/2 * Math.pow(2, 10 * (t - 1)) + b;
+        return c/2 * (-Math.pow(2, -10 * --t) + 2) + b;
+    },
+
+    CLASS_NAME: "OpenLayers.Easing.Expo"
+};
 /* ======================================================================
     Rico/Color.js
    ====================================================================== */
@@ -6233,10 +6515,13 @@ OpenLayers.Control.Attribution =
      * Destroy control.
      */
     destroy: function() {
-        this.map.events.unregister("removelayer", this, this.updateAttribution);
-        this.map.events.unregister("addlayer", this, this.updateAttribution);
-        this.map.events.unregister("changelayer", this, this.updateAttribution);
-        this.map.events.unregister("changebaselayer", this, this.updateAttribution);
+        this.map.events.un({
+            "removelayer": this.updateAttribution,
+            "addlayer": this.updateAttribution,
+            "changelayer": this.updateAttribution,
+            "changebaselayer": this.updateAttribution,
+            scope: this
+        });
         
         OpenLayers.Control.prototype.destroy.apply(this, arguments);
     },    
@@ -6251,10 +6536,13 @@ OpenLayers.Control.Attribution =
     draw: function() {
         OpenLayers.Control.prototype.draw.apply(this, arguments);
         
-        this.map.events.register('changebaselayer', this, this.updateAttribution);
-        this.map.events.register('changelayer', this, this.updateAttribution);
-        this.map.events.register('addlayer', this, this.updateAttribution);
-        this.map.events.register('removelayer', this, this.updateAttribution);
+        this.map.events.on({
+            'changebaselayer': this.updateAttribution,
+            'changelayer': this.updateAttribution,
+            'addlayer': this.updateAttribution,
+            'removelayer': this.updateAttribution,
+            scope: this
+        });
         this.updateAttribution();
         
         return this.div;    
@@ -6444,10 +6732,13 @@ OpenLayers.Control.LayerSwitcher =
         this.clearLayersArray("base");
         this.clearLayersArray("data");
         
-        this.map.events.unregister("addlayer", this, this.redraw);
-        this.map.events.unregister("changelayer", this, this.redraw);
-        this.map.events.unregister("removelayer", this, this.redraw);
-        this.map.events.unregister("changebaselayer", this, this.redraw);
+        this.map.events.un({
+            "addlayer": this.redraw,
+            "changelayer": this.redraw,
+            "removelayer": this.redraw,
+            "changebaselayer": this.redraw,
+            scope: this
+        });
         
         OpenLayers.Control.prototype.destroy.apply(this, arguments);
     },
@@ -6461,10 +6752,13 @@ OpenLayers.Control.LayerSwitcher =
     setMap: function(map) {
         OpenLayers.Control.prototype.setMap.apply(this, arguments);
 
-        this.map.events.register("addlayer", this, this.redraw);
-        this.map.events.register("changelayer", this, this.redraw);
-        this.map.events.register("removelayer", this, this.redraw);
-        this.map.events.register("changebaselayer", this, this.redraw);
+        this.map.events.on({
+            "addlayer": this.redraw,
+            "changelayer": this.redraw,
+            "removelayer": this.redraw,
+            "changebaselayer": this.redraw,
+            scope: this
+        });
     },
 
     /**
@@ -7006,12 +7300,15 @@ OpenLayers.Control.MouseDefaults = OpenLayers.Class(OpenLayers.Control, {
         }
         this.handler = null;
 
-        this.map.events.unregister( "click", this, this.defaultClick );
-        this.map.events.unregister( "dblclick", this, this.defaultDblClick );
-        this.map.events.unregister( "mousedown", this, this.defaultMouseDown );
-        this.map.events.unregister( "mouseup", this, this.defaultMouseUp );
-        this.map.events.unregister( "mousemove", this, this.defaultMouseMove );
-        this.map.events.unregister( "mouseout", this, this.defaultMouseOut );
+        this.map.events.un({
+            "click": this.defaultClick,
+            "dblclick": this.defaultDblClick,
+            "mousedown": this.defaultMouseDown,
+            "mouseup": this.defaultMouseUp,
+            "mousemove": this.defaultMouseMove,
+            "mouseout": this.defaultMouseOut,
+            scope: this
+        });
 
         //unregister mousewheel events specifically on the window and document
         OpenLayers.Event.stopObserving(window, "DOMMouseScroll", 
@@ -7029,12 +7326,15 @@ OpenLayers.Control.MouseDefaults = OpenLayers.Class(OpenLayers.Control, {
      * Method: draw
      */
     draw: function() {
-        this.map.events.register( "click", this, this.defaultClick );
-        this.map.events.register( "dblclick", this, this.defaultDblClick );
-        this.map.events.register( "mousedown", this, this.defaultMouseDown );
-        this.map.events.register( "mouseup", this, this.defaultMouseUp );
-        this.map.events.register( "mousemove", this, this.defaultMouseMove );
-        this.map.events.register( "mouseout", this, this.defaultMouseOut );
+        this.map.events.on({
+            "click": this.defaultClick,
+            "dblclick": this.defaultDblClick,
+            "mousedown": this.defaultMouseDown,
+            "mouseup": this.defaultMouseUp,
+            "mousemove": this.defaultMouseMove,
+            "mouseout": this.defaultMouseOut,
+            scope: this
+        });
 
         this.registerWheelEvents();
 
@@ -7286,7 +7586,7 @@ OpenLayers.Control.MouseDefaults = OpenLayers.Class(OpenLayers.Control, {
             }
             if (e.wheelDelta) {
                 delta = e.wheelDelta/120; 
-                if (window.opera) {
+                if (window.opera && window.opera.version() < 9.2) {
                     delta = -delta;
                 }
             } else if (e.detail) {
@@ -7483,6 +7783,430 @@ OpenLayers.Control.MousePosition = OpenLayers.Class(OpenLayers.Control, {
 
     CLASS_NAME: "OpenLayers.Control.MousePosition"
 });
+/* ======================================================================
+    OpenLayers/Control/NavigationHistory.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
+ * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Control.js
+ */
+
+/**
+ * Class: OpenLayers.Control.NavigationHistory
+ * A navigation history control.  This is a meta-control, that creates two
+ *     dependent controls: <previous> and <next>.  Call the trigger method
+ *     on the <previous> and <next> controls to restore previous and next
+ *     history states.  The previous and next controls will become active
+ *     when there are available states to restore and will become deactive
+ *     when there are no states to restore.
+ *
+ * Inherits from:
+ *  - <OpenLayers.Control.Control>
+ */
+OpenLayers.Control.NavigationHistory = OpenLayers.Class(OpenLayers.Control, {
+
+    /**
+     * Property: type
+     * {String} Note that this control is not intended to be added directly
+     *     to a control panel.  Instead, add the sub-controls previous and
+     *     next.  These sub-controls are button type controls that activate
+     *     and deactivate themselves.  If this parent control is added to
+     *     a panel, it will act as a toggle.
+     */
+    type: OpenLayers.Control.TYPE_TOGGLE,
+
+    /**
+     * APIProperty: previous
+     * {OpenLayers.Control} A button type control whose trigger method restores
+     *     the previous state managed by this control.
+     */
+    previous: null,
+    
+    /**
+     * APIProperty: previousOptions
+     * {Object} Set this property on the options argument of the constructor
+     *     to set optional properties on the <previous> control.
+     */
+    previousOptions: null,
+    
+    /**
+     * APIProperty: next
+     * {OpenLayers.Control} A button type control whose trigger method restores
+     *     the next state managed by this control.
+     */
+    next: null,
+
+    /**
+     * APIProperty: nextOptions
+     * {Object} Set this property on the options argument of the constructor
+     *     to set optional properties on the <next> control.
+     */
+    nextOptions: null,
+
+    /**
+     * APIProperty: limit
+     * {Integer} Optional limit on the number of history items to retain.  If
+     *     null, there is no limit.  Default is 50.
+     */
+    limit: 50,
+
+    /**
+     * Property: activateOnDraw
+     * {Boolean} Activate the control when it is first added to the map.
+     *     Default is true.
+     */
+    activateOnDraw: true,
+
+    /**
+     * Property: clearOnDeactivate
+     * {Boolean} Clear the history when the control is deactivated.  Default
+     *     is false.
+     */
+    clearOnDeactivate: false,
+
+    /**
+     * Property: events
+     * {<OpenLayers.Events>} An events object that will be used for registering
+     *     listeners.  Defaults to the map events for this control.
+     */
+    events: null,
+
+    /**
+     * Property: registry
+     * {Object} An object with keys corresponding to event types.  Values
+     *     are functions that return an object representing the current state.
+     */
+    registry: null,
+
+    /**
+     * Property: nextStack
+     * {Array} Array of items in the history.
+     */
+    nextStack: null,
+
+    /**
+     * Property: previousStack
+     * {Array} List of items in the history.  First item represents the current
+     *     state.
+     */
+    previousStack: null,
+    
+    /**
+     * Property: listeners
+     * {Object} An object containing properties corresponding to event types.
+     *     This object is used to configure the control and is modified on
+     *     construction.
+     */
+    listeners: null,
+    
+    /**
+     * Property: restoring
+     * {Boolean} Currently restoring a history state.  This is set to true
+     *     before callilng restore and set to false after restore returns.
+     */
+    restoring: false,
+
+    /**
+     * Constructor: OpenLayers.Control.NavigationHistory 
+     * 
+     * Parameters:
+     * options - {Object} An optional object whose properties will be used
+     *     to extend the control.
+     */
+    initialize: function(options) {
+        OpenLayers.Control.prototype.initialize.apply(this, [options]);
+        
+        this.registry = OpenLayers.Util.extend({
+            "moveend": function() {
+                return {
+                    center: this.map.getCenter(),
+                    resolution: this.map.getResolution()                
+                };
+            }
+        }, this.registry);
+        
+        this.clear();
+
+        var previousOptions = {
+            trigger: OpenLayers.Function.bind(this.previousTrigger, this),
+            displayClass: this.displayClass + "Previous",
+            onActivate: function() {},
+            onDeactivate: function() {}
+        };
+        if(options) {
+            OpenLayers.Util.extend(previousOptions, options.previousOptions);
+        }
+        this.previous = new OpenLayers.Control.Button(previousOptions);
+        
+        var nextOptions = {
+            trigger: OpenLayers.Function.bind(this.nextTrigger, this),
+            displayClass: this.displayClass + "Next",
+            onActivate: function() {},
+            onDeactivate: function() {}
+        };
+        if(options) {
+            OpenLayers.Util.extend(nextOptions, options.nextOptions);
+        }
+        this.next = new OpenLayers.Control.Button(nextOptions);
+
+    },
+    
+    /**
+     * Method: onPreviousChange
+     * Called when the previous history stack changes.
+     *
+     * Parameters:
+     * state - {Object} An object representing the state to be restored
+     *     if previous is triggered again or null if no previous states remain.
+     * length - {Integer} The number of remaining previous states that can
+     *     be restored.
+     */
+    onPreviousChange: function(state, length) {
+        if(state && !this.previous.active) {
+            this.previous.activate();
+            this.previous.onActivate();
+        } else if(!state && this.previous.active) {
+            this.previous.deactivate();
+            this.previous.onDeactivate();
+        }
+    },
+    
+    /**
+     * Method: onNextChange
+     * Called when the next history stack changes.
+     *
+     * Parameters:
+     * state - {Object} An object representing the state to be restored
+     *     if next is triggered again or null if no next states remain.
+     * length - {Integer} The number of remaining next states that can
+     *     be restored.
+     */
+    onNextChange: function(state, length) {
+        if(state && !this.next.active) {
+            this.next.activate();
+            this.next.onActivate();
+        } else if(!state && this.next.active) {
+            this.next.deactivate();
+            this.next.onDeactivate();
+        }
+    },
+    
+    /**
+     * APIMethod: destroy
+     * Destroy the control.
+     */
+    destroy: function() {
+        OpenLayers.Control.prototype.destroy.apply(this);
+        this.previous.destroy();
+        this.next.destroy();
+        this.deactivate();
+        for(var prop in this) {
+            this[prop] = null;
+        }
+    },
+    
+    /** 
+     * Method: setMap
+     * Set the map property for the control and <previous> and <next> child
+     *     controls.
+     *
+     * Parameters:
+     * map - {<OpenLayers.Map>} 
+     */
+    setMap: function(map) {
+        this.map = map;
+        this.next.setMap(map);
+        this.previous.setMap(map);
+    },
+
+    /**
+     * Method: draw
+     * Called when the control is added to the map.
+     */
+    draw: function() {
+        OpenLayers.Control.prototype.draw.apply(this, arguments);
+        this.next.draw();
+        this.previous.draw();
+        if(this.activateOnDraw) {
+            this.activate();
+        }
+    },
+    
+    /**
+     * Method: previousTrigger
+     * Restore the previous state.  If no items are in the previous history
+     *     stack, this has no effect.
+     *
+     * Returns:
+     * {Object} Item representing state that was restored.  Undefined if no
+     *     items are in the previous history stack.
+     */
+    previousTrigger: function() {
+        var current = this.previousStack.shift();
+        var state = this.previousStack.shift();
+        if(state != undefined) {
+            this.nextStack.unshift(current);
+            this.previousStack.unshift(state);
+            this.restoring = true;
+            this.restore(state);
+            this.restoring = false;
+            this.onNextChange(this.nextStack[0], this.nextStack.length);
+            this.onPreviousChange(
+                this.previousStack[1], this.previousStack.length - 1
+            );
+        } else {
+            this.previousStack.unshift(current);
+        }
+        return state;
+    },
+    
+    /**
+     * APIMethod: nextTrigger
+     * Restore the next state.  If no items are in the next history
+     *     stack, this has no effect.  The next history stack is populated
+     *     as states are restored from the previous history stack.
+     *
+     * Returns:
+     * {Object} Item representing state that was restored.  Undefined if no
+     *     items are in the next history stack.
+     */
+    nextTrigger: function() {
+        var state = this.nextStack.shift();
+        if(state != undefined) {
+            this.previousStack.unshift(state);
+            this.restoring = true;
+            this.restore(state);
+            this.restoring = false;
+            this.onNextChange(this.nextStack[0], this.nextStack.length);
+            this.onPreviousChange(
+                this.previousStack[1], this.previousStack.length - 1
+            );
+        }
+        return state;
+    },
+    
+    /**
+     * APIMethod: clear
+     * Clear history.
+     */
+    clear: function() {
+        this.previousStack = [];
+        this.nextStack = [];
+    },
+
+    /**
+     * Method: restore
+     * Update the state with the given object.
+     *
+     * Parameters:
+     * state - {Object} An object representing the state to restore.
+     */
+    restore: function(state) {
+        var zoom = this.map.getZoomForResolution(state.resolution);
+        this.map.setCenter(state.center, zoom);
+    },
+    
+    /**
+     * Method: setListeners
+     * Sets functions to be registered in the listeners object.
+     */
+    setListeners: function() {
+        this.listeners = {};
+        for(var type in this.registry) {
+            this.listeners[type] = OpenLayers.Function.bind(function() {
+                if(!this.restoring) {
+                    var state = this.registry[type].apply(this, arguments);
+                    this.previousStack.unshift(state);
+                    if(this.previousStack.length > 1) {
+                        this.onPreviousChange(
+                            this.previousStack[1], this.previousStack.length - 1
+                        );
+                    }
+                    if(this.previousStack.length > (this.limit + 1)) {
+                        this.previousStack.pop();
+                    }
+                    if(this.nextStack.length > 0) {
+                        this.nextStack = [];
+                        this.onNextChange(null, 0);
+                    }
+                }
+                return true;
+            }, this);
+        }
+    },
+
+    /**
+     * APIMethod: activate
+     * Activate the control.  This registers any listeners.
+     *
+     * Returns:
+     * {Boolean} Control successfully activated.
+     */
+    activate: function() {
+        var activated = false;
+        if(this.map) {
+            if(OpenLayers.Control.prototype.activate.apply(this)) {
+                if(this.listeners == null) {
+                    this.setListeners();
+                }
+                if(!this.events) {
+                    this.events = this.map.events;
+                }
+                for(var type in this.listeners) {
+                    this.events.register(type, this, this.listeners[type]);
+                }
+                activated = true;
+                if(this.previousStack.length == 0) {
+                    this.initStack();
+                }
+            }
+        }
+        return activated;
+    },
+    
+    /**
+     * Method: initStack
+     * Called after the control is activated if the previous history stack is
+     *     empty.
+     */
+    initStack: function() {
+        if(this.map.getCenter()) {
+            this.listeners.moveend();
+        }
+    },
+    
+    /**
+     * APIMethod: deactivate
+     * Deactivate the control.  This unregisters any listeners.
+     *
+     * Returns:
+     * {Boolean} Control successfully deactivated.
+     */
+    deactivate: function() {
+        var deactivated = false;
+        if(this.map) {
+            if(OpenLayers.Control.prototype.deactivate.apply(this)) {
+                for(var type in this.listeners) {
+                    this.events.unregister(
+                        type, this, this.listeners[type]
+                    );
+                }
+                if(this.clearOnDeactivate) {
+                    this.clear();
+                }
+                deactivated = true;
+            }
+        }
+        return deactivated;
+    },
+    
+    CLASS_NAME: "OpenLayers.Control.NavigationHistory"
+});
+
 /* ======================================================================
     OpenLayers/Control/PanZoom.js
    ====================================================================== */
@@ -8080,9 +8804,12 @@ OpenLayers.Control.Permalink = OpenLayers.Class(OpenLayers.Control, {
             this.element.href="";
             this.div.appendChild(this.element);
         }
-        this.map.events.register('moveend', this, this.updateLink);
-        this.map.events.register('changelayer', this, this.updateLink);
-        this.map.events.register('changebaselayer', this, this.updateLink);
+        this.map.events.on({
+            'moveend': this.updateLink,
+            'changelayer': this.updateLink,
+            'changebaselayer': this.updateLink,
+            scope: this
+        });
         return this.div;
     },
    
@@ -8574,7 +9301,10 @@ OpenLayers.Event = {
      *   stopObservingElement on each. 
      */
     unloadCache: function() {
-        if (OpenLayers.Event.observers) {
+        // check for OpenLayers.Event before checking for observers, because
+        // OpenLayers.Event may be undefined in IE if no map instance was
+        // created
+        if (OpenLayers.Event && OpenLayers.Event.observers) {
             for (var cacheID in OpenLayers.Event.observers) {
                 var elementObservers = OpenLayers.Event.observers[cacheID];
                 OpenLayers.Event._removeElementObservers.apply(this, 
@@ -8739,6 +9469,27 @@ OpenLayers.Events = OpenLayers.Class({
         // disable dragstart in IE so that mousedown/move/up works normally
         OpenLayers.Event.observe(element, "dragstart", OpenLayers.Event.stop);
     },
+    
+    /**
+     * Method: on
+     * Convenience method for registering listeners with a common scope.
+     *
+     * Example use:
+     * (code)
+     * events.on({
+     *     "loadstart": loadStartListener,
+     *     "loadend": loadEndListener,
+     *     scope: object
+     * });
+     * (end)
+     */
+    on: function(object) {
+        for(var type in object) {
+            if(type != "scope") {
+                this.register(type, object.scope, object[type]);
+            }
+        }
+    },
 
     /**
      * APIMethod: register
@@ -8811,6 +9562,27 @@ OpenLayers.Events = OpenLayers.Class({
     },
     
     /**
+     * Method: un
+     * Convenience method for unregistering listeners with a common scope.
+     *
+     * Example use:
+     * (code)
+     * events.un({
+     *     "loadstart": loadStartListener,
+     *     "loadend": loadEndListener,
+     *     scope: object
+     * });
+     * (end)
+     */
+    un: function(object) {
+        for(var type in object) {
+            if(type != "scope") {
+                this.unregister(type, object.scope, object[type]);
+            }
+        }
+    },
+
+    /**
      * APIMethod: unregister
      *
      * Parameters:
@@ -8854,13 +9626,12 @@ OpenLayers.Events = OpenLayers.Class({
      * Parameters:
      * type - {String} 
      * evt - {Event}
-     * args - {Array} Optional array of arguments to call the listener with.
      *
      * Returns:
      * {Boolean} The last listener return.  If a listener returns false, the
      *     chain of listeners will stop getting called.
      */
-    triggerEvent: function (type, evt, args) {
+    triggerEvent: function (type, evt) {
 
         // prep evt object with object & div references
         if (evt == null) {
@@ -8868,13 +9639,7 @@ OpenLayers.Events = OpenLayers.Class({
         }
         evt.object = this.object;
         evt.element = this.element;
-        
-        if(!args) {
-            args = [evt];
-        } else {
-            args.unshift(evt);
-        }
-
+    
         // execute all callbacks registered for specified type
         // get a clone of the listeners array to
         // allow for splicing during callbacks
@@ -8885,7 +9650,7 @@ OpenLayers.Events = OpenLayers.Class({
             for (var i = 0; i < listeners.length; i++) {
                 var callback = listeners[i];
                 // bind the context to callback.obj
-                continueChain = callback.func.apply(callback.obj, args);
+                continueChain = callback.func.apply(callback.obj, [evt]);
     
                 if ((continueChain != undefined) && (continueChain == false)) {
                     // if callback returns false, execute no more callbacks.
@@ -10099,9 +10864,12 @@ OpenLayers.Control.MouseToolbar = OpenLayers.Class(
         btn.activeImgLocation = activeImgLocation;
         
         btn.events = new OpenLayers.Events(this, btn, null, true);
-        btn.events.register("mousedown", this, this.buttonDown); 
-        btn.events.register("mouseup", this, this.buttonUp); 
-        btn.events.register("dblclick", this, OpenLayers.Event.stop);
+        btn.events.on({
+            "mousedown": this.buttonDown,
+            "mouseup": this.buttonUp,
+            "dblclick": OpenLayers.Event.stop,
+            scope: this
+        });
         btn.action = id;
         btn.title = title;
         btn.alt = title;
@@ -10497,10 +11265,10 @@ OpenLayers.Control.OverviewMap = OpenLayers.Class(OpenLayers.Control, {
     mapOptions: null,
     
     /**
-     * Property: dragHandler
-     * {<OpenLayers.Handler.Drag>} A handler for dragging the extent rectangle.
+     * Property: handlers
+     * {Object}
      */
-    dragHandler: null,
+    handlers: null,
 
     /**
      * Constructor: OpenLayers.Control.OverviewMap
@@ -10513,6 +11281,7 @@ OpenLayers.Control.OverviewMap = OpenLayers.Class(OpenLayers.Control, {
      */
     initialize: function(options) {
         this.layers = [];
+        this.handlers = {};
         OpenLayers.Control.prototype.initialize.apply(this, [options]);
     },
     
@@ -10524,8 +11293,7 @@ OpenLayers.Control.OverviewMap = OpenLayers.Class(OpenLayers.Control, {
         if (!this.mapDiv) { // we've already been destroyed
             return;
         }
-        this.dragHandler.destroy();
-        this.clickHandler.destroy();
+        this.handlers.click.destroy();
 
         this.mapDiv.removeChild(this.extentRectangle);
         this.extentRectangle = null;
@@ -10553,9 +11321,11 @@ OpenLayers.Control.OverviewMap = OpenLayers.Class(OpenLayers.Control, {
             this.minimizeDiv = null;
         }
         
-        this.map.events.unregister('moveend', this, this.update);
-        this.map.events.unregister("changebaselayer", this, 
-                                    this.baseLayerDraw);
+        this.map.events.un({
+            "moveend": this.update,
+            "changebaselayer": this.baseLayerDraw,
+            scope: this
+        });
 
         OpenLayers.Control.prototype.destroy.apply(this, arguments);    
     },
@@ -10679,8 +11449,8 @@ OpenLayers.Control.OverviewMap = OpenLayers.Class(OpenLayers.Control, {
      * px - {<OpenLayers.Pixel>} The pixel location of the drag.
      */
     rectDrag: function(px) {
-        var deltaX = this.dragHandler.last.x - px.x;
-        var deltaY = this.dragHandler.last.y - px.y;
+        var deltaX = this.handlers.drag.last.x - px.x;
+        var deltaY = this.handlers.drag.last.y - px.y;
         if(deltaX != 0 || deltaY != 0) {
             var rectTop = this.rectPxBounds.top;
             var rectLeft = this.rectPxBounds.left;
@@ -10833,8 +11603,14 @@ OpenLayers.Control.OverviewMap = OpenLayers.Class(OpenLayers.Control, {
     createMap: function() {
         // create the overview map
         var options = OpenLayers.Util.extend(
-                        {controls: [], maxResolution: 'auto'}, this.mapOptions);
+                        {controls: [], maxResolution: 'auto', 
+                         fallThrough: false}, this.mapOptions);
         this.ovmap = new OpenLayers.Map(this.mapDiv, options);
+        
+        // prevent ovmap from being destroyed when the page unloads, because
+        // the OverviewMap control has to do this (and does it).
+        OpenLayers.Event.stopObserving(window, 'unload', this.ovmap.unloadDestroy);
+        
         this.ovmap.addLayers(this.layers);
         this.ovmap.zoomToMaxExtent();
         // check extent rectangle border width
@@ -10849,11 +11625,11 @@ OpenLayers.Control.OverviewMap = OpenLayers.Class(OpenLayers.Control, {
                                                'border-bottom-width'));
         this.hComp = (this.hComp) ? this.hComp : 2;
 
-        this.dragHandler = new OpenLayers.Handler.Drag(
+        this.handlers.drag = new OpenLayers.Handler.Drag(
             this, {move: this.rectDrag, done: this.updateMapToRect},
             {map: this.ovmap}
         );
-        this.clickHandler = new OpenLayers.Handler.Click(
+        this.handlers.click = new OpenLayers.Handler.Click(
             this, {
                 "click": this.mapDivClick
             },{
@@ -10863,18 +11639,23 @@ OpenLayers.Control.OverviewMap = OpenLayers.Class(OpenLayers.Control, {
                 map: this.ovmap
             }
         );
-        this.clickHandler.activate();
+        this.handlers.click.activate();
         
         this.rectEvents = new OpenLayers.Events(this, this.extentRectangle,
                                                 null, true);
         this.rectEvents.register("mouseover", this, function(e) {
+<<<<<<< .mine
             if(!this.dragHandler.active && !this.map.dragging) {
                 this.dragHandler.activate();
+=======
+            if(!this.handlers.drag.active && !this.map.dragging) {
+                this.handlers.drag.activate();
+>>>>>>> .r6166
             }
         });
         this.rectEvents.register("mouseout", this, function(e) {
-            if(!this.dragHandler.dragging) {
-                this.dragHandler.deactivate();
+            if(!this.handlers.drag.dragging) {
+                this.handlers.drag.deactivate();
             }
         });
 
@@ -10904,7 +11685,7 @@ OpenLayers.Control.OverviewMap = OpenLayers.Class(OpenLayers.Control, {
      */
     updateMapToRect: function() {
         var lonLatBounds = this.getMapBoundsFromRectBounds(this.rectPxBounds);
-        this.map.setCenter(lonLatBounds.getCenterLonLat(), this.map.zoom);
+        this.map.panTo(lonLatBounds.getCenterLonLat());
     },
 
     /**
@@ -11127,8 +11908,11 @@ OpenLayers.Control.PanZoomBar = OpenLayers.Class(OpenLayers.Control.PanZoom, {
         this.divEvents.destroy();
         this.divEvents = null;
 
-        this.map.events.unregister("zoomend", this, this.moveZoomBar);
-        this.map.events.unregister("changebaselayer", this, this.redraw);
+        this.map.events.un({
+            "zoomend": this.moveZoomBar,
+            "changebaselayer": this.redraw,
+            scope: this
+        });
 
         OpenLayers.Control.PanZoom.prototype.destroy.apply(this, arguments);
     },
@@ -11212,11 +11996,13 @@ OpenLayers.Control.PanZoomBar = OpenLayers.Class(OpenLayers.Control.PanZoom, {
         this.slider = slider;
         
         this.sliderEvents = new OpenLayers.Events(this, slider, null, true);
-        this.sliderEvents.register("mousedown", this, this.zoomBarDown);
-        this.sliderEvents.register("mousemove", this, this.zoomBarDrag);
-        this.sliderEvents.register("mouseup", this, this.zoomBarUp);
-        this.sliderEvents.register("dblclick", this, this.doubleClick);
-        this.sliderEvents.register("click", this, this.doubleClick);
+        this.sliderEvents.on({
+            "mousedown": this.zoomBarDown,
+            "mousemove": this.zoomBarDrag,
+            "mouseup": this.zoomBarUp,
+            "dblclick": this.doubleClick,
+            "click": this.doubleClick
+        });
         
         var sz = new OpenLayers.Size();
         sz.h = this.zoomStopHeight * this.map.getNumZoomLevels();
@@ -11242,10 +12028,12 @@ OpenLayers.Control.PanZoomBar = OpenLayers.Class(OpenLayers.Control.PanZoom, {
         this.zoombarDiv = div;
         
         this.divEvents = new OpenLayers.Events(this, div, null, true);
-        this.divEvents.register("mousedown", this, this.divClick);
-        this.divEvents.register("mousemove", this, this.passEventToSlider);
-        this.divEvents.register("dblclick", this, this.doubleClick);
-        this.divEvents.register("click", this, this.doubleClick);
+        this.divEvents.on({
+            "mousedown": this.divClick,
+            "mousemove": this.passEventToSlider,
+            "dblclick": this.doubleClick,
+            "click": this.doubleClick
+        });
         
         this.div.appendChild(div);
 
@@ -11298,8 +12086,11 @@ OpenLayers.Control.PanZoomBar = OpenLayers.Class(OpenLayers.Control.PanZoom, {
         if (!OpenLayers.Event.isLeftClick(evt)) {
             return;
         }
-        this.map.events.register("mousemove", this, this.passEventToSlider);
-        this.map.events.register("mouseup", this, this.passEventToSlider);
+        this.map.events.on({
+            "mousemove": this.passEventToSlider,
+            "mouseup": this.passEventToSlider,
+            scope: this
+        });
         this.mouseDragStart = evt.xy.clone();
         this.zoomStart = evt.xy.clone();
         this.div.style.cursor = "move";
@@ -11346,8 +12137,11 @@ OpenLayers.Control.PanZoomBar = OpenLayers.Class(OpenLayers.Control.PanZoom, {
         }
         if (this.zoomStart) {
             this.div.style.cursor="";
-            this.map.events.unregister("mouseup", this, this.passEventToSlider);
-            this.map.events.unregister("mousemove", this, this.passEventToSlider);
+            this.map.events.un({
+                "mouseup": this.passEventToSlider,
+                "mousemove": this.passEventToSlider,
+                scope: this
+            });
             var deltaY = this.zoomStart.y - evt.xy.y;
             this.map.zoomTo(this.map.zoom + Math.round(deltaY/this.zoomStopHeight));
             this.moveZoomBar();
@@ -12471,11 +13265,30 @@ OpenLayers.Map = OpenLayers.Class({
      * map.events.register(type, obj, listener);
      * (end)
      *
+     * Listeners will be called with a reference to an event object.  The
+     *     properties of this event depends on exactly what happened.
+     *
+     * All event objects have at least the following properties:
+     *  - *object* {Object} A reference to map.events.object.
+     *  - *element* {DOMElement} A reference to map.events.element.
+     *
+     * Browser events have the following additional properties:
+     *  - *xy* {<OpenLayers.Pixel>} The pixel location of the event (relative
+     *      to the the map viewport).
+     *  - other properties that come with browser events
+     *
      * Supported map event types:
-     *  - *addlayer* triggered after a layer has been added
-     *  - *removelayer* triggered after a layer has been removed
+     *  - *addlayer* triggered after a layer has been added.  The event object
+     *      will include a *layer* property that references the added layer.
+     *  - *removelayer* triggered after a layer has been removed.  The event
+     *      object will include a *layer* property that references the removed
+     *      layer.
      *  - *changelayer* triggered after a layer name change, order change, or
-     *      visibility change (due to resolution thresholds)
+     *      visibility change (due to resolution thresholds).  Listeners will
+     *      receive an event object with *layer* and *property* properties.  The
+     *      *layer* property will be a reference to the changed layer.  The
+     *      *property* property will be a key to the changed property (name,
+     *      visibility, or order).
      *  - *movestart* triggered after the start of a drag, pan, or zoom
      *  - *move* triggered after each drag, pan, or zoom
      *  - *moveend* triggered after a drag, pan, or zoom completes
@@ -12812,8 +13625,10 @@ OpenLayers.Map = OpenLayers.Class({
             // Else updateSize on catching the window's resize
             //  Note that this is ok, as updateSize() does nothing if the 
             //  map's size has not actually changed.
+            this.updateSizeDestroy = OpenLayers.Function.bind(this.updateSize, 
+                this);
             OpenLayers.Event.observe(window, 'resize',
-                            OpenLayers.Function.bind(this.updateSize, this));
+                            this.updateSizeDestroy);
         }
         
         // only append link stylesheet if the theme property is set
@@ -12873,6 +13688,14 @@ OpenLayers.Map = OpenLayers.Class({
      *     so that if map is manually destroyed, we can unregister this.
      */
     unloadDestroy: null,
+    
+    /**
+     * Method: updateSizeDestroy
+     * When the map is destroyed, we need to stop listening to updateSize
+     *    events: this method stores the function we need to unregister in 
+     *    non-IE browsers.
+     */
+    updateSizeDestroy: null,
 
     /**
      * APIMethod: destroy
@@ -12887,6 +13710,13 @@ OpenLayers.Map = OpenLayers.Class({
         // map has been destroyed. dont do it again!
         OpenLayers.Event.stopObserving(window, 'unload', this.unloadDestroy);
         this.unloadDestroy = null;
+
+        if (this.updateSizeDestroy) {
+            OpenLayers.Event.stopObserving(window, 'resize', 
+                                           this.updateSizeDestroy);
+        } else {
+            this.events.unregister("resize", this, this.updateSize);
+        }    
 
         if (this.layers != null) {
             for (var i = this.layers.length - 1; i>=0; --i) {
@@ -13157,7 +13987,7 @@ OpenLayers.Map = OpenLayers.Class({
             layer.redraw();
         }
 
-        this.events.triggerEvent("addlayer");
+        this.events.triggerEvent("addlayer", {layer: layer});
     },
 
     /**
@@ -13230,7 +14060,7 @@ OpenLayers.Map = OpenLayers.Class({
 
         this.resetLayersZIndex();
 
-        this.events.triggerEvent("removelayer");
+        this.events.triggerEvent("removelayer", {layer: layer});
     },
 
     /**
@@ -13282,7 +14112,9 @@ OpenLayers.Map = OpenLayers.Class({
             for (var i = 0; i < this.layers.length; i++) {
                 this.setLayerZIndex(this.layers[i], i);
             }
-            this.events.triggerEvent("changelayer");
+            this.events.triggerEvent("changelayer", {
+                layer: layer, property: "order"
+            });
         }
     },
 
@@ -13355,7 +14187,9 @@ OpenLayers.Map = OpenLayers.Class({
                     this.setCenter(newCenter, newZoom, false, true);
                 }
 
-                this.events.triggerEvent("changebaselayer");
+                this.events.triggerEvent("changebaselayer", {
+                    layer: this.baseLayer
+                });
             }        
         }
     },
@@ -13668,9 +14502,14 @@ OpenLayers.Map = OpenLayers.Class({
      * Parameters:
      * dx - {Integer}
      * dy - {Integer}
+     * options - {Object} Only one at this time: "animate", which uses
+     *    panTo instead of setCenter. Default is true.
      */
-    pan: function(dx, dy) {
-
+    pan: function(dx, dy, options) {
+        
+        if (!options) {
+            options = {animate: true}
+        }    
         // getCenter
         var centerPx = this.getViewPortPxFromLonLat(this.getCenter());
 
@@ -13680,10 +14519,55 @@ OpenLayers.Map = OpenLayers.Class({
         // only call setCenter if there has been a change
         if (!newCenterPx.equals(centerPx)) {
             var newCenterLonLat = this.getLonLatFromViewPortPx(newCenterPx);
-            this.setCenter(newCenterLonLat);
+            if (options.animate) {
+                this.panTo(newCenterLonLat);
+            } else {
+                this.setCenter(newCenterLonLat);
+            }    
         }
 
    },
+   
+   /** 
+     * APIMethod: panTo
+     * Allows user to pan to a new lonlat
+     * If the new lonlat is in the current extent the map will slide smoothly
+     * 
+     * Parameters:
+     * lonlat - {<OpenLayers.Lonlat>}
+     */
+    panTo: function(lonlat) {
+        if (this.getExtent().containsLonLat(lonlat)) {
+            if (!this.panTween) {
+                this.panTween = new OpenLayers.Tween(OpenLayers.Easing.Expo.easeOut);
+            }
+            var center = this.getCenter();
+            var from = {
+                lon: center.lon,
+                lat: center.lat
+            };
+            var to = {
+                lon: lonlat.lon,
+                lat: lonlat.lat
+            };
+            this.panTween.start(from, to, 50, {
+                callbacks: {
+                    start: OpenLayers.Function.bind(function(lonlat) {
+                        this.events.triggerEvent("movestart");
+                    }, this),
+                    eachStep: OpenLayers.Function.bind(function(lonlat) {
+                        var lonlat = new OpenLayers.LonLat(lonlat.lon, lonlat.lat);
+                        this.moveTo(lonlat, this.zoom, true);
+                    }, this),
+                    done: OpenLayers.Function.bind(function(lonlat) {
+                        this.events.triggerEvent("moveend");
+                    }, this)
+                }
+            });
+        } else {
+            this.setCenter(lonlat);
+        }
+    },
 
     /**
      * APIMethod: setCenter
@@ -13698,9 +14582,37 @@ OpenLayers.Map = OpenLayers.Class({
      *
      * TBD: reconsider forceZoomChange in 3.0
      */
-    setCenter: function (lonlat, zoom, dragging, forceZoomChange) {
-        this.dragging = !!dragging;
-        
+    setCenter: function(lonlat, zoom, dragging, forceZoomChange) {
+        this.moveTo(lonlat, zoom, {
+            'dragging': dragging,
+            'forceZoomChange': forceZoomChange,
+            'caller': 'setCenter'
+        });
+    },
+
+    /**
+     * Method: moveTo
+     *
+     * Parameters:
+     * lonlat - {<OpenLayers.LonLat>}
+     * zoom - {Integer}
+     * options - {Object}
+     */
+    moveTo: function(lonlat, zoom, options) {
+        if (!options) { 
+            options = {};
+        }    
+        // dragging is false by default
+        var dragging = options.dragging;
+        // forceZoomChange is false by default
+        var forceZoomChange = options.forceZoomChange;
+        // noEvent is false by default
+        var noEvent = options.noEvent;
+
+        if (this.panTween && options.caller == "setCenter") {
+            this.panTween.stop();
+        }    
+             
         if (!this.center && !this.isValidLonLat(lonlat)) {
             lonlat = this.maxExtent.getCenterLonLat();
         }
@@ -13750,7 +14662,9 @@ OpenLayers.Map = OpenLayers.Class({
         // if neither center nor zoom will change, no need to do anything
         if (zoomChanged || centerChanged || !dragging) {
 
-            if (!dragging) { this.events.triggerEvent("movestart"); }
+            if (!dragging && !noEvent) {
+                this.events.triggerEvent("movestart");
+            }
 
             if (centerChanged) {
                 if ((!zoomChanged) && (this.center)) { 
@@ -13795,7 +14709,9 @@ OpenLayers.Map = OpenLayers.Class({
                         if (!inRange) {
                             layer.display(false);
                         }
-                        this.events.triggerEvent("changelayer");
+                        this.events.triggerEvent("changelayer", {
+                            layer: layer, property: "visibility"
+                        });
                     }
                     if (inRange && layer.visibility) {
                         layer.moveTo(bounds, zoomChanged, dragging);
@@ -13816,7 +14732,9 @@ OpenLayers.Map = OpenLayers.Class({
         }
 
         // even if nothing was done, we want to notify of this
-        if (!dragging) { this.events.triggerEvent("moveend"); }
+        if (!dragging && !noEvent) {
+            this.events.triggerEvent("moveend");
+        }
     },
 
     /** 
@@ -15533,11 +16451,10 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
                 
                 if (!(style.graphicWidth && style.graphicHeight)) {
                   fill.aspect = "atmost";
-                }
-                
-                if (fill.parentNode != node) {
-                    node.appendChild(fill);
-                }
+                }                
+            }
+            if (fill.parentNode != node) {
+                node.appendChild(fill);
             }
         }
 
@@ -15728,6 +16645,9 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
      * radius - {float}
      */
     drawCircle: function(node, geometry, radius) {
+        if (typeof radius == "undefined") {
+            radius = 0;
+        }
         if(!isNaN(geometry.x)&& !isNaN(geometry.y)) {
             var resolution = this.getResolution();
         
@@ -15961,7 +16881,11 @@ OpenLayers.Tile.Image = OpenLayers.Class(OpenLayers.Tile, {
      */
     destroy: function() {
         if (this.imgDiv != null)  {
-            OpenLayers.Event.stopObservingElement(this.imgDiv.id);
+            if (this.layerAlphaHack) {
+                OpenLayers.Event.stopObservingElement(this.imgDiv.childNodes[0].id);                
+            } else {
+                OpenLayers.Event.stopObservingElement(this.imgDiv.id);
+            }
             if (this.imgDiv.parentNode == this.frame) {
                 this.frame.removeChild(this.imgDiv);
                 this.imgDiv.map = null;
@@ -16010,7 +16934,7 @@ OpenLayers.Tile.Image = OpenLayers.Class(OpenLayers.Tile, {
      * Returns:
      * {Boolean} Always returns true.
      */
-    draw:function() {
+    draw: function() {
         if (this.layer != this.layer.map.baseLayer && this.layer.reproject) {
             this.bounds = this.getBoundsFromBaseLayer(this.position);
         }
@@ -16130,8 +17054,15 @@ OpenLayers.Tile.Image = OpenLayers.Class(OpenLayers.Tile, {
                 this.events.triggerEvent("loadend"); 
             }
         };
-        OpenLayers.Event.observe(this.imgDiv, 'load',
-                                 OpenLayers.Function.bind(onload, this));
+        
+        if (this.layerAlphaHack) { 
+            OpenLayers.Event.observe(this.imgDiv.childNodes[0], 'load', 
+                                     OpenLayers.Function.bind(onload, this));    
+        } else { 
+            OpenLayers.Event.observe(this.imgDiv, 'load', 
+                                 OpenLayers.Function.bind(onload, this)); 
+        } 
+        
 
         // Bind a listener to the onerror of the image div so that we
         // can registere when a tile has finished loading with errors.
@@ -17611,12 +18542,12 @@ OpenLayers.Handler.Click = OpenLayers.Class(OpenLayers.Handler, {
     /**
      * APIProperty: pixelTolerance
      * {Number} Maximum number of pixels between mouseup and mousedown for an
-     *     event to be considered a click.  Default is null.  If set to an
+     *     event to be considered a click.  Default is 0.  If set to an
      *     integer value, clicks with a drag greater than the value will be
      *     ignored.  This property can only be set when the handler is
      *     constructed.
      */
-    pixelTolerance: null,
+    pixelTolerance: 0,
     
     /**
      * APIProperty: stopSingle
@@ -17748,7 +18679,7 @@ OpenLayers.Handler.Click = OpenLayers.Class(OpenLayers.Handler, {
      */
     passesTolerance: function(evt) {
         var passes = true;
-        if(this.pixelTolerance && this.down) {
+        if(this.pixelTolerance != null && this.down) {
             var dpx = Math.sqrt(
                 Math.pow(this.down.x - evt.xy.x, 2) +
                 Math.pow(this.down.y - evt.xy.y, 2)
@@ -18840,7 +19771,7 @@ OpenLayers.Handler.MouseWheel = OpenLayers.Class(OpenLayers.Handler, {
             }
             if (e.wheelDelta) {
                 delta = e.wheelDelta/120; 
-                if (window.opera) {
+                if (window.opera && window.opera.version() < 9.2) {
                     delta = -delta;
                 }
             } else if (e.detail) {
@@ -18964,9 +19895,26 @@ OpenLayers.Layer = OpenLayers.Class({
      */
     opacity: null,
 
-    /** 
+    /**
      * Constant: EVENT_TYPES
-     * {Array(String)} Supported application event types
+     * {Array(String)} Supported application event types.  Register a listener
+     *     for a particular event with the following syntax:
+     * (code)
+     * layer.events.register(type, obj, listener);
+     * (end)
+     *
+     * Listeners will be called with a reference to an event object.  The
+     *     properties of this event depends on exactly what happened.
+     *
+     * All event objects have at least the following properties:
+     *  - *object* {Object} A reference to layer.events.object.
+     *  - *element* {DOMElement} A reference to layer.events.element.
+     *
+     * Supported map event types:
+     *  - *loadstart* Triggered when layer loading starts.
+     *  - *loadend* Triggered when layer loading ends.
+     *  - *loadcancel* Triggered when layer loading is canceled.
+     *  - *visibilitychanged* Triggered when layer visibility is changed.
      */
     EVENT_TYPES: ["loadstart", "loadend", "loadcancel", "visibilitychanged"],
         
@@ -19254,7 +20202,10 @@ OpenLayers.Layer = OpenLayers.Class({
         if (newName != this.name) {
             this.name = newName;
             if (this.map != null) {
-                this.map.events.triggerEvent("changelayer");
+                this.map.events.triggerEvent("changelayer", {
+                    layer: this,
+                    property: "name"
+                });
             }
         }
     },    
@@ -19457,7 +20408,10 @@ OpenLayers.Layer = OpenLayers.Class({
             this.display(visibility);
             this.redraw();
             if (this.map != null) {
-                this.map.events.triggerEvent("changelayer");
+                this.map.events.triggerEvent("changelayer", {
+                    layer: this,
+                    property: "visibility"
+                });
             }
             this.events.triggerEvent("visibilitychanged");
         }
@@ -19503,7 +20457,9 @@ OpenLayers.Layer = OpenLayers.Class({
         if (isBaseLayer != this.isBaseLayer) {
             this.isBaseLayer = isBaseLayer;
             if (this.map != null) {
-                this.map.events.triggerEvent("changebaselayer");
+                this.map.events.triggerEvent("changebaselayer", {
+                    layer: this
+                });
             }
         }
     },
@@ -20152,22 +21108,10 @@ OpenLayers.Control.DragFeature = OpenLayers.Class(OpenLayers.Control, {
     feature: null,
 
     /**
-     * Property: dragHandler
-     * {<OpenLayers.Handler.Drag>}
-     */
-    dragHandler: null,
-
-    /**
      * Property: dragCallbacks
      * {Object} The functions that are sent to the drag handler for callback.
      */
     dragCallbacks: {},
-
-    /**
-     * Property: featureHandler
-     * {<OpenLayers.Handler.Feature>}
-     */
-    featureHandler: null,
 
     /**
      * Property: featureCallbacks
@@ -20194,20 +21138,24 @@ OpenLayers.Control.DragFeature = OpenLayers.Class(OpenLayers.Control, {
     initialize: function(layer, options) {
         OpenLayers.Control.prototype.initialize.apply(this, [options]);
         this.layer = layer;
-        this.dragCallbacks = OpenLayers.Util.extend({down: this.downFeature,
-                                                     move: this.moveFeature,
-                                                     up: this.upFeature,
-                                                     out: this.cancel,
-                                                     done: this.doneDragging
-                                                    }, this.dragCallbacks);
-        this.dragHandler = new OpenLayers.Handler.Drag(this, this.dragCallbacks);
-        this.featureCallbacks = OpenLayers.Util.extend({over: this.overFeature,
-                                                        out: this.outFeature
-                                                       }, this.featureCallbacks);
-        var handlerOptions = {geometryTypes: this.geometryTypes};
-        this.featureHandler = new OpenLayers.Handler.Feature(this, this.layer,
-                                                        this.featureCallbacks,
-                                                        handlerOptions);
+        this.handlers = {
+            drag: new OpenLayers.Handler.Drag(
+                this, OpenLayers.Util.extend({
+                    down: this.downFeature,
+                    move: this.moveFeature,
+                    up: this.upFeature,
+                    out: this.cancel,
+                    done: this.doneDragging
+                }, this.dragCallbacks)
+            ),
+            feature: new OpenLayers.Handler.Feature(
+                this, this.layer, OpenLayers.Util.extend({
+                    over: this.overFeature,
+                    out: this.outFeature
+                }, this.featureCallbacks),
+                {geometryTypes: this.geometryTypes}
+            )
+        };
     },
     
     /**
@@ -20216,8 +21164,6 @@ OpenLayers.Control.DragFeature = OpenLayers.Class(OpenLayers.Control, {
      */
     destroy: function() {
         this.layer = null;
-        this.dragHandler.destroy();
-        this.featureHandler.destroy();
         OpenLayers.Control.prototype.destroy.apply(this, []);
     },
 
@@ -20229,7 +21175,7 @@ OpenLayers.Control.DragFeature = OpenLayers.Class(OpenLayers.Control, {
      * {Boolean} Successfully activated the control and feature handler.
      */
     activate: function() {
-        return (this.featureHandler.activate() &&
+        return (this.handlers.feature.activate() &&
                 OpenLayers.Control.prototype.activate.apply(this, arguments));
     },
 
@@ -20242,8 +21188,8 @@ OpenLayers.Control.DragFeature = OpenLayers.Class(OpenLayers.Control, {
      */
     deactivate: function() {
         // the return from the handlers is unimportant in this case
-        this.dragHandler.deactivate();
-        this.featureHandler.deactivate();
+        this.handlers.drag.deactivate();
+        this.handlers.feature.deactivate();
         this.feature = null;
         this.dragging = false;
         this.lastPixel = null;
@@ -20259,9 +21205,9 @@ OpenLayers.Control.DragFeature = OpenLayers.Class(OpenLayers.Control, {
      * feature - {<OpenLayers.Feature.Vector>} The selected feature.
      */
     overFeature: function(feature) {
-        if(!this.dragHandler.dragging) {
+        if(!this.handlers.drag.dragging) {
             this.feature = feature;
-            this.dragHandler.activate();
+            this.handlers.drag.activate();
             this.over = true;
             // TBD replace with CSS classes
             this.map.div.style.cursor = "move";
@@ -20313,7 +21259,7 @@ OpenLayers.Control.DragFeature = OpenLayers.Class(OpenLayers.Control, {
      */
     upFeature: function(pixel) {
         if(!this.over) {
-            this.dragHandler.deactivate();
+            this.handlers.drag.deactivate();
             this.feature = null;
             // TBD replace with CSS classes
             this.map.div.style.cursor = "default";
@@ -20340,9 +21286,9 @@ OpenLayers.Control.DragFeature = OpenLayers.Class(OpenLayers.Control, {
      * feature - {<OpenLayers.Feature.Vector>} The feature that the mouse left.
      */
     outFeature: function(feature) {
-        if(!this.dragHandler.dragging) {
+        if(!this.handlers.drag.dragging) {
             this.over = false;
-            this.dragHandler.deactivate();
+            this.handlers.drag.deactivate();
             // TBD replace with CSS classes
             this.map.div.style.cursor = "default";
             this.feature = null;
@@ -20358,7 +21304,7 @@ OpenLayers.Control.DragFeature = OpenLayers.Class(OpenLayers.Control, {
      * Called when the drag handler detects a mouse-out (from the map viewport).
      */
     cancel: function() {
-        this.dragHandler.deactivate();
+        this.handlers.drag.deactivate();
         this.over = false;
     },
 
@@ -20370,8 +21316,8 @@ OpenLayers.Control.DragFeature = OpenLayers.Class(OpenLayers.Control, {
      * map - {<OpenLayers.Map>} The control's map.
      */
     setMap: function(map) {
-        this.dragHandler.setMap(map);
-        this.featureHandler.setMap(map);
+        this.handlers.drag.setMap(map);
+        this.handlers.feature.setMap(map);
         OpenLayers.Control.prototype.setMap.apply(this, arguments);
     },
 
@@ -21151,17 +22097,23 @@ OpenLayers.Format.WMC.v1_1_0 = OpenLayers.Class(
         );
         
         // min/max scale denominator elements go before the 4th element in v1
-        var minSD = this.createElementNS(
-            this.namespaces.sld, "sld:MinScaleDenominator"
-        );
-        minSD.appendChild(this.createTextNode(layer.maxScale.toPrecision(10)));
-        node.insertBefore(minSD, node.childNodes[3]);
+        if(layer.options.resolutions || layer.options.scales ||
+           layer.options.minResolution || layer.options.maxScale) {
+            var minSD = this.createElementNS(
+                this.namespaces.sld, "sld:MinScaleDenominator"
+            );
+            minSD.appendChild(this.createTextNode(layer.maxScale.toPrecision(10)));
+            node.insertBefore(minSD, node.childNodes[3]);
+        }
         
-        var maxSD = this.createElementNS(
-            this.namespaces.sld, "sld:MaxScaleDenominator"
-        );
-        maxSD.appendChild(this.createTextNode(layer.minScale.toPrecision(10)));
-        node.insertBefore(maxSD, node.childNodes[4]);
+        if(layer.options.resolutions || layer.options.scales ||
+           layer.options.maxResolution || layer.options.minScale) {
+            var maxSD = this.createElementNS(
+                this.namespaces.sld, "sld:MaxScaleDenominator"
+            );
+            maxSD.appendChild(this.createTextNode(layer.minScale.toPrecision(10)));
+            node.insertBefore(maxSD, node.childNodes[4]);
+        }
         
         return node;
         
@@ -23553,6 +24505,7 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
         OpenLayers.Util.extend(feature.style, selectStyle);
 
         this.layer.drawFeature(feature);
+        this.layer.events.triggerEvent("featureselected", {feature: feature});
         this.onSelect(feature);
     },
 
@@ -23571,6 +24524,7 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
         }
         this.layer.drawFeature(feature);
         OpenLayers.Util.removeItem(this.layer.selectedFeatures, feature);
+        this.layer.events.triggerEvent("featureunselected", {feature: feature});
         this.onUnselect(feature);
     },
 
@@ -25439,8 +26393,11 @@ OpenLayers.Layer.Grid = OpenLayers.Class(OpenLayers.Layer.HTTPRequest, {
      * tile - {<OpenLayers.Tile>}
      */
     removeTileMonitoringHooks: function(tile) {
-        tile.events.unregister("loadstart", this, tile.onLoadStart);
-        tile.events.unregister("loadend", this, tile.onLoadEnd);
+        tile.events.un({
+            "loadstart": tile.onLoadStart,
+            "loadend": tile.onLoadEnd,
+            scope: this
+        });
     },
     
     /**
@@ -26195,6 +27152,46 @@ OpenLayers.Layer.Text = OpenLayers.Class(OpenLayers.Layer.Markers, {
 OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
 
     /**
+     * Constant: EVENT_TYPES
+     * {Array(String)} Supported application event types.  Register a listener
+     *     for a particular event with the following syntax:
+     * (code)
+     * layer.events.register(type, obj, listener);
+     * (end)
+     *
+     * Listeners will be called with a reference to an event object.  The
+     *     properties of this event depends on exactly what happened.
+     *
+     * All event objects have at least the following properties:
+     *  - *object* {Object} A reference to layer.events.object.
+     *  - *element* {DOMElement} A reference to layer.events.element.
+     *
+     * Supported map event types:
+     *  - *loadstart* Triggered when layer loading starts.
+     *  - *loadend* Triggered when layer loading ends.
+     *  - *loadcancel* Triggered when layer loading is canceled.
+     *  - *visibilitychanged* Triggered when layer visibility is changed.
+     *  - *beforefeatureadded* Triggered before a feature is added.  Listeners
+     *      will receive an object with a *feature* property referencing the
+     *      feature to be added.
+     *  - *featureadded* Triggered after a feature is added.  The event
+     *      object passed to listeners will have a *feature* property with a
+     *      reference to the added feature.
+     *  - *featuresadded* Triggered after features are added.  The event
+     *      object passed to listeners will have a *features* property with a
+     *      reference to an array of added features.
+     *  - *featureselected* Triggered after a feature is selected.  Listeners
+     *      will receive an object with a *feature* property referencing the
+     *      selected feature.
+     *  - *featureunselected* Triggered after a feature is unselected.
+     *      Listeners will receive an object with a *feature* property
+     *      referencing the unselected feature.
+     */
+    EVENT_TYPES: ["loadstart", "loadend", "loadcancel", "visibilitychanged",
+                  "beforefeatureadded", "featureadded",
+                  "featuresadded", "featureselected", "featureunselected"],
+
+    /**
      * APIProperty: isBaseLayer
      * {Boolean} The layer is a base layer.  Default is true.  Set this property
      * in the layer options
@@ -26448,6 +27445,9 @@ OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
             }
 
             if (notify) {
+                this.events.triggerEvent("beforefeatureadded", {
+                    feature: feature
+                });
                 this.preFeatureInsert(feature);
             }
 
@@ -26456,8 +27456,15 @@ OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
             }
             
             if (notify) {
+                this.events.triggerEvent("featureadded", {
+                    feature: feature
+                });
                 this.onFeatureInsert(feature);
             }
+        }
+        
+        if(notify) {
+            this.events.triggerEvent("featuresadded", {features: features});
         }
     },
 
@@ -27544,34 +28551,24 @@ OpenLayers.Style = OpenLayers.Class({
         
         var rules = this.rules;
 
-        var rule;
+        var rule, context;
         var elseRules = [];
         var appliedRules = false;
         for(var i=0; i<rules.length; i++) {
             rule = rules[i];
+            context = rule.context;
+            if (!context) {
+                context = feature.attributes || feature.data;
+            }
             // does the rule apply?
             var applies = rule.evaluate(feature);
             
-            if (rule.minScaleDenominator || rule.maxScaleDenominator) {
-                var scale = feature.layer.map.getScale();
-            }
-            
-            // check if within minScale/maxScale bounds
-            if (rule.minScaleDenominator) {
-                applies = scale >= OpenLayers.Style.createLiteral(
-                        rule.minScaleDenominator, feature);
-            }
-            if (applies && rule.maxScaleDenominator) {
-                applies = scale < OpenLayers.Style.createLiteral(
-                        rule.maxScaleDenominator, feature);
-            }
-
             if(applies) {
                 if(rule instanceof OpenLayers.Rule && rule.elseFilter) {
                     elseRules.push(rule);
                 } else {
                     appliedRules = true;
-                    this.applySymbolizer(rule, style, feature);
+                    this.applySymbolizer(rule, style, feature, context);
                 }
             }
         }
@@ -27580,12 +28577,9 @@ OpenLayers.Style = OpenLayers.Class({
         if(appliedRules == false && elseRules.length > 0) {
             appliedRules = true;
             for(var i=0; i<elseRules.length; i++) {
-                this.applySymbolizer(elseRules[i], style, feature);
+                this.applySymbolizer(elseRules[i], style, feature, context);
             }
         }
-
-        // calculate literals for all styles in the propertyStyles cache
-        this.createLiterals(style, feature);
 
         // don't display if there were rules but none applied
         if(rules.length > 0 && appliedRules == false) {
@@ -27604,18 +28598,21 @@ OpenLayers.Style = OpenLayers.Class({
      * rule - {OpenLayers.Rule}
      * style - {Object}
      * feature - {<OpenLayer.Feature.Vector>}
+     * context - {Object}
      *
      * Returns:
      * {Object} A style with new symbolizer applied.
      */
-    applySymbolizer: function(rule, style, feature) {
+    applySymbolizer: function(rule, style, feature, context) {
         var symbolizerPrefix = feature.geometry ?
                 this.getSymbolizerPrefix(feature.geometry) :
                 OpenLayers.Style.SYMBOLIZER_PREFIXES[0];
 
-        // merge the style with the current style
         var symbolizer = rule.symbolizer[symbolizerPrefix];
-        return OpenLayers.Util.extend(style, symbolizer);
+
+        // merge the style with the current style
+        return this.createLiterals(
+                OpenLayers.Util.extend(style, symbolizer), context);
     },
     
     /**
@@ -27626,14 +28623,16 @@ OpenLayers.Style = OpenLayers.Class({
      * Parameters:
      * style   - {Object} style to create literals for. Will be modified
      *           inline.
-     * feature - {<OpenLayers.Feature.Vector>} feature to take properties from
+     * context - {Object} context to take property values from. Defaults to
+     *           feature.attributes (or feature.data, if attributes are not
+     *           available)
      * 
      * Returns;
      * {Object} the modified style
      */
-    createLiterals: function(style, feature) {
+    createLiterals: function(style, context) {
         for (var i in this.propertyStyles) {
-            style[i] = OpenLayers.Style.createLiteral(style[i], feature);
+            style[i] = OpenLayers.Style.createLiteral(style[i], context);
         }
         return style;
     },
@@ -27734,17 +28733,16 @@ OpenLayers.Style = OpenLayers.Class({
  *         "foo ${bar}", then "foo " will be taken as literal, and "${bar}"
  *         will be replaced by the value of the "bar" attribute of the passed
  *         feature.
- * feature {<OpenLayers.Feature>} feature to take attribute values from
+ * context {Object} context to take attribute values from
  * 
  * Returns:
  * {String} the parsed value. In the example of the value parameter above, the
  * result would be "foo valueOfBar", assuming that the passed feature has an
  * attribute named "bar" with the value "valueOfBar".
  */
-OpenLayers.Style.createLiteral = function(value, feature) {
+OpenLayers.Style.createLiteral = function(value, context) {
     if (typeof value == "string" && value.indexOf("${") != -1) {
-        var attributes = feature.attributes || feature.data;
-        value = OpenLayers.String.format(value, attributes)
+        value = OpenLayers.String.format(value, context)
         value = isNaN(value) ? value : parseFloat(value);
     }
     return value;
@@ -27845,10 +28843,10 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
     dragControl: null,
     
     /**
-     * Property: keyboardHandler
-     * {<OpenLayers.Handler.Keyboard>}
+     * Property: handlers
+     * {Object}
      */
-    keyboardHandler: null,
+    handlers: null,
     
     /**
      * APIProperty: deleteCodes
@@ -27944,17 +28942,16 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
         var selectOptions = {
             geometryTypes: this.geometryTypes,
             clickout: this.clickout,
-            toggle: this.toggle,
-            onSelect: function(feature) {
-                control.selectFeature.apply(control, [feature]);
-            },
-            onUnselect: function(feature) {
-                control.unselectFeature.apply(control, [feature]);
-            }
+            toggle: this.toggle
         };
         this.selectControl = new OpenLayers.Control.SelectFeature(
             layer, selectOptions
         );
+        this.layer.events.on({
+            "featureselected": this.selectFeature,
+            "featureunselected": this.unselectFeature,
+            scope: this
+        });
 
         // configure the drag control
         var dragOptions = {
@@ -27978,9 +28975,9 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
         var keyboardOptions = {
             keypress: this.handleKeypress
         };
-        this.keyboardHandler = new OpenLayers.Handler.Keyboard(
-            this, keyboardOptions
-        );
+        this.handlers = {
+            keyboard: new OpenLayers.Handler.Keyboard(this, keyboardOptions)
+        };
     },
 
     /**
@@ -27988,10 +28985,14 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
      * Take care of things that are not handled in superclass.
      */
     destroy: function() {
+        this.layer.events.un({
+            "featureselected": this.selectFeature,
+            "featureunselected": this.unselectFeature,
+            scope: this
+        });
         this.layer = null;
         this.selectControl.destroy();
         this.dragControl.destroy();
-        this.keyboardHandler.destroy();
         OpenLayers.Control.prototype.destroy.apply(this, []);
     },
 
@@ -28004,7 +29005,7 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
      */
     activate: function() {
         return (this.selectControl.activate() &&
-                this.keyboardHandler.activate() &&
+                this.handlers.keyboard.activate() &&
                 OpenLayers.Control.prototype.activate.apply(this, arguments));
     },
 
@@ -28028,7 +29029,7 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
                                                   [this.feature]);
             }
             this.selectControl.deactivate();
-            this.keyboardHandler.deactivate();
+            this.handlers.keyboard.deactivate();
             deactivated = true;
         }
         return deactivated;
@@ -28039,10 +29040,11 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
      * Called when the select feature control selects a feature.
      *
      * Parameters:
-     * feature - {<OpenLayers.Feature.Vector>} The selected feature.
+     * object - {Object} Object with a feature property referencing the
+     *     selected feature.
      */
-    selectFeature: function(feature) {
-        this.feature = feature;
+    selectFeature: function(object) {
+        this.feature = object.feature;
         this.resetVertices();
         this.dragControl.activate();
         this.onModificationStart(this.feature);
@@ -28053,9 +29055,10 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
      * Called when the select feature control unselects a feature.
      *
      * Parameters:
-     * feature - {<OpenLayers.Feature.Vector>} The unselected feature.
+     * object - {Object} Object with a feature property referencing the
+     *     unselected feature.
      */
-    unselectFeature: function(feature) {
+    unselectFeature: function(object) {
         this.layer.removeFeatures(this.vertices);
         this.vertices = [];
         this.layer.destroyFeatures(this.virtualVertices);
@@ -28070,7 +29073,7 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
         }
         this.feature = null;
         this.dragControl.deactivate();
-        this.onModificationEnd(feature);
+        this.onModificationEnd(object.feature);
     },
 
     /**
@@ -28114,9 +29117,9 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
                 this.dragControl.overFeature.apply(this.dragControl,
                                                    [feature]);
                 this.dragControl.lastPixel = pixel;
-                this.dragControl.dragHandler.started = true;
-                this.dragControl.dragHandler.start = pixel;
-                this.dragControl.dragHandler.last = pixel;
+                this.dragControl.handlers.drag.started = true;
+                this.dragControl.handlers.drag.start = pixel;
+                this.dragControl.handlers.drag.last = pixel;
             }
         }
     },
@@ -28248,7 +29251,7 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
             var vertex = this.dragControl.feature;
             if(vertex &&
                OpenLayers.Util.indexOf(this.vertices, vertex) != -1 &&
-               !this.dragControl.dragHandler.dragging &&
+               !this.dragControl.handlers.drag.dragging &&
                vertex.geometry.parent) {
                 // remove the vertex
                 vertex.geometry.parent.removeComponent(vertex.geometry);
@@ -28453,12 +29456,6 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
      */
     zoomBox: null,
 
-    /** 
-     * Property: wheelHandler
-     * {<OpenLayers.Handler.MouseWheel>}
-     */
-    wheelHandler: null,
-
     /**
      * Constructor: OpenLayers.Control.Navigation
      * Create a new navigation control
@@ -28468,6 +29465,7 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
      *                    the control
      */
     initialize: function(options) {
+        this.handlers = {};
         OpenLayers.Control.prototype.initialize.apply(this, arguments);
     },
 
@@ -28478,12 +29476,18 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
      * to prevent memory leaks.
      */
     destroy: function() {
-        OpenLayers.Control.prototype.destroy.apply(this,arguments);
         this.deactivate();
-        this.dragPan.destroy();
-        this.wheelHandler.destroy();
-        this.clickHandler.destroy();
-        this.zoomBox.destroy();
+
+        if (this.dragPan) {
+            this.dragPan.destroy();
+        }
+        this.dragPan = null;
+
+        if (this.zoomBox) {
+            this.zoomBox.destroy();
+        }
+        this.zoomBox = null;
+        OpenLayers.Control.prototype.destroy.apply(this,arguments);
     },
     
     /**
@@ -28491,8 +29495,8 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
      */
     activate: function() {
         this.dragPan.activate();
-        this.wheelHandler.activate();
-        this.clickHandler.activate();
+        this.handlers.wheel.activate();
+        this.handlers.click.activate();
         this.zoomBox.activate();
         return OpenLayers.Control.prototype.activate.apply(this,arguments);
     },
@@ -28503,8 +29507,8 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
     deactivate: function() {
         this.zoomBox.deactivate();
         this.dragPan.deactivate();
-        this.clickHandler.deactivate();
-        this.wheelHandler.deactivate();
+        this.handlers.click.deactivate();
+        this.handlers.wheel.deactivate();
         return OpenLayers.Control.prototype.deactivate.apply(this,arguments);
     },
     
@@ -28512,7 +29516,7 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
      * Method: draw
      */
     draw: function() {
-        this.clickHandler = new OpenLayers.Handler.Click(this, 
+        this.handlers.click = new OpenLayers.Handler.Click(this, 
                                         { 'dblclick': this.defaultDblClick },
                                         {
                                           'double': true, 
@@ -28523,7 +29527,7 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
                     {map: this.map, keyMask: OpenLayers.Handler.MOD_SHIFT});
         this.dragPan.draw();
         this.zoomBox.draw();
-        this.wheelHandler = new OpenLayers.Handler.MouseWheel(
+        this.handlers.wheel = new OpenLayers.Handler.MouseWheel(
                                     this, {"up"  : this.wheelUp,
                                            "down": this.wheelDown} );
         this.activate();
@@ -30086,6 +31090,24 @@ OpenLayers.Layer.WFS = OpenLayers.Class(
         } else {    
             OpenLayers.Layer.Markers.prototype.destroy.apply(this, arguments);
         }    
+        if (this.tile) {
+            this.tile.destroy();
+        }
+        this.tile = null;
+
+        this.ratio = null;
+        this.featureClass = null;
+        this.format = null;
+
+        if (this.formatObject && this.formatObject.destroy) {
+            this.formatObject.destroy();
+        }
+        this.formatObject = null;
+        
+        this.formatOptions = null;
+        this.vectorMode = null;
+        this.encodeBBOX = null;
+        this.extractAttributes = null;
     },
     
     /**
@@ -30265,8 +31287,11 @@ OpenLayers.Layer.WFS = OpenLayers.Class(
      * tile - {<OpenLayers.Tile>}
      */
     removeTileMonitoringHooks: function(tile) {
-        tile.events.unregister("loadstart", tile, tile.onLoadStart);
-        tile.events.unregister("loadend", tile, tile.onLoadEnd);
+        tile.events.un({
+            "loadstart": tile.onLoadStart,
+            "loadend": tile.onLoadEnd,
+            scope: tile
+        });
     },
 
     /**
@@ -30818,6 +31843,14 @@ OpenLayers.Rule = OpenLayers.Class({
      * {String} name of this rule
      */
     name: 'default',
+    
+    /**
+     * Property: context
+     * {Object} An optional object with properties that the rule and its
+     * symbolizers' property values should be evaluatad against. If no
+     * context is specified, feature.attributes will be used
+     */
+    context: null,
 
     /**
      * Property: elseFilter
@@ -30892,10 +31925,42 @@ OpenLayers.Rule = OpenLayers.Class({
      * This rule is the default rule and always returns true.
      */
     evaluate: function(feature) {
-        // Default rule always applies. Subclasses will want to override this.
-        return true;
+        var context = this.getContext(feature);
+        var applies = true;
+
+        if (this.minScaleDenominator || this.maxScaleDenominator) {
+            var scale = feature.layer.map.getScale();
+        }
+        
+        // check if within minScale/maxScale bounds
+        if (this.minScaleDenominator) {
+            applies = scale >= OpenLayers.Style.createLiteral(
+                    this.minScaleDenominator, context);
+        }
+        if (applies && this.maxScaleDenominator) {
+            applies = scale < OpenLayers.Style.createLiteral(
+                    this.maxScaleDenominator, context);
+        }
+
+        return applies;
     },
     
+    /**
+     * Method: getContext
+     * Gets the context for evaluating this rule
+     * 
+     * Paramters:
+     * feature - {<OpenLayers.Feature>} feature to take the context from if
+     *           none is specified.
+     */
+    getContext: function(feature) {
+        var context = this.context;
+        if (!context) {
+            context = feature.attributes || feature.data;
+        }
+        return context;
+    },
+        
     CLASS_NAME: "OpenLayers.Rule"
 });
 /* ======================================================================
@@ -31835,7 +32900,7 @@ OpenLayers.Rule.Comparison = OpenLayers.Class(OpenLayers.Rule, {
     /**
      * APIProperty: property
      * {String}
-     * name of the feature attribute to compare
+     * name of the context property to compare
      */
     property: null,
     
@@ -31886,34 +32951,37 @@ OpenLayers.Rule.Comparison = OpenLayers.Class(OpenLayers.Rule, {
 
     /**
      * APIMethod: evaluate
-     * evaluates this rule for a specific feature
+     * evaluates this rule for a specific context
      * 
      * Parameters:
-     * feature - {<OpenLayers.Feature>} feature to apply the rule to.
+     * context - {Object} context to apply the rule to.
      * 
      * Returns:
      * {boolean} true if the rule applies, false if it does not
      */
     evaluate: function(feature) {
-        var attributes = feature.attributes || feature.data;
+        if (!OpenLayers.Rule.prototype.evaluate.apply(this, arguments)) {
+            return false;
+        }
+        var context = this.getContext(feature);
         switch(this.type) {
             case OpenLayers.Rule.Comparison.EQUAL_TO:
             case OpenLayers.Rule.Comparison.LESS_THAN:
             case OpenLayers.Rule.Comparison.GREATER_THAN:
             case OpenLayers.Rule.Comparison.LESS_THAN_OR_EQUAL_TO:
             case OpenLayers.Rule.Comparison.GREATER_THAN_OR_EQUAL_TO:
-                return this.binaryCompare(feature, this.property, this.value);
+                return this.binaryCompare(context, this.property, this.value);
             
             case OpenLayers.Rule.Comparison.BETWEEN:
                 var result =
-                        attributes[this.property] > this.lowerBoundary;
+                        context[this.property] > this.lowerBoundary;
                 result = result &&
-                        attributes[this.property] < this.upperBoundary;
+                        context[this.property] < this.upperBoundary;
                 return result;
             case OpenLayers.Rule.Comparison.LIKE:
                 var regexp = new RegExp(this.value,
                                 "gi");
-                return regexp.test(attributes[this.property]); 
+                return regexp.test(context[this.property]); 
         }
     },
     
@@ -31967,28 +33035,27 @@ OpenLayers.Rule.Comparison = OpenLayers.Class(OpenLayers.Rule, {
      * Compares a feature property to a rule value
      * 
      * Parameters:
-     * feature  - {<OpenLayers.Feature>}
+     * context  - {Object}
      * property - {String} or {Number}
      * value    - {String} or {Number}, same as property
      * 
      * Returns:
      * {boolean}
      */
-    binaryCompare: function(feature, property, value) {
-        var attributes = feature.attributes || feature.data;
+    binaryCompare: function(context, property, value) {
         switch (this.type) {
             case OpenLayers.Rule.Comparison.EQUAL_TO:
-                return attributes[property] == value;
+                return context[property] == value;
             case OpenLayers.Rule.Comparison.NOT_EQUAL_TO:
-                return attributes[property] != value;
+                return context[property] != value;
             case OpenLayers.Rule.Comparison.LESS_THAN:
-                return attributes[property] < value;
+                return context[property] < value;
             case OpenLayers.Rule.Comparison.GREATER_THAN:
-                return attributes[property] > value;
+                return context[property] > value;
             case OpenLayers.Rule.Comparison.LESS_THAN_OR_EQUAL_TO:
-                return attributes[property] <= value;
+                return context[property] <= value;
             case OpenLayers.Rule.Comparison.GREATER_THAN_OR_EQUAL_TO:
-                return attributes[property] >= value;
+                return context[property] >= value;
         }      
     },
     
@@ -32063,6 +33130,9 @@ OpenLayers.Rule.FeatureId = OpenLayers.Class(OpenLayers.Rule, {
      * {boolean} true if the rule applies, false if it does not
      */
     evaluate: function(feature) {
+        if (!OpenLayers.Rule.prototype.evaluate.apply(this, arguments)) {
+            return false;
+        }
         for (var i=0; i<this.fids.length; i++) {
             var fid = feature.fid || feature.id;
             if (fid == this.fids[i]) {
@@ -32100,7 +33170,7 @@ OpenLayers.Rule.Logical = OpenLayers.Class(OpenLayers.Rule, {
      * APIProperty: children
      * {Array(<OpenLayers.Rule>)} child rules for this rule
      */
-    children: null, 
+    rules: null, 
      
     /**
      * APIProperty: type
@@ -32123,7 +33193,7 @@ OpenLayers.Rule.Logical = OpenLayers.Class(OpenLayers.Rule, {
      * {<OpenLayers.Rule.Logical>}
      */
     initialize: function(options) {
-        this.children = [];
+        this.rules = [];
         OpenLayers.Rule.prototype.initialize.apply(this, [options]);
     },
     
@@ -32132,10 +33202,10 @@ OpenLayers.Rule.Logical = OpenLayers.Class(OpenLayers.Rule, {
      * nullify references to prevent circular references and memory leaks
      */
     destroy: function() {
-        for (var i=0; i<this.children.length; i++) {
-            this.children[i].destroy();
+        for (var i=0; i<this.rules.length; i++) {
+            this.rules[i].destroy();
         }
-        this.children = null;
+        this.rules = null;
         OpenLayers.Rule.prototype.destroy.apply(this, arguments);
     },
 
@@ -32150,25 +33220,28 @@ OpenLayers.Rule.Logical = OpenLayers.Class(OpenLayers.Rule, {
      * {boolean} true if the rule applies, false if it does not
      */
     evaluate: function(feature) {
+        if (!OpenLayers.Rule.prototype.evaluate.apply(this, arguments)) {
+            return false;
+        }
         switch(this.type) {
             case OpenLayers.Rule.Logical.AND:
-                for (var i=0; i<this.children.length; i++) {
-                    if (this.children[i].evaluate(feature) == false) {
+                for (var i=0; i<this.rules.length; i++) {
+                    if (this.rules[i].evaluate(feature) == false) {
                         return false;
                     }
                 }
                 return true;
                 
             case OpenLayers.Rule.Logical.OR:
-                for (var i=0; i<this.children.length; i++) {
-                    if (this.children[i].evaluate(feature) == true) {
+                for (var i=0; i<this.rules.length; i++) {
+                    if (this.rules[i].evaluate(feature) == true) {
                         return true;
                     }
                 }
                 return false;
             
             case OpenLayers.Rule.Logical.NOT:
-                return (!this.children[0].evaluate(feature));
+                return (!this.rules[0].evaluate(feature));
         }
     },
     
@@ -32528,7 +33601,7 @@ OpenLayers.Format.SLD = OpenLayers.Class(OpenLayers.Format.XML, {
             var filters = filter[0].childNodes; 
             for (var i=0; i<filters.length; i++) {
                 if (filters[i].nodeType == 1) {
-                    rule.children.push(this.parseFilter(filters[i]));
+                    rule.rules.push(this.parseFilter(filters[i]));
                 }
             }
             return rule;
@@ -32542,7 +33615,7 @@ OpenLayers.Format.SLD = OpenLayers.Class(OpenLayers.Format.XML, {
             var filters = filter[0].childNodes; 
             for (var i=0; i<filters.length; i++) {
                 if (filters[i].nodeType == 1) {
-                    rule.children.push(this.parseFilter(filters[i]));
+                    rule.rules.push(this.parseFilter(filters[i]));
                 }
             }
             return rule;
@@ -32553,7 +33626,7 @@ OpenLayers.Format.SLD = OpenLayers.Class(OpenLayers.Format.XML, {
         if (filter) {
             var rule = new OpenLayers.Rule.Logical(
                     {type: OpenLayers.Rule.Logical.NOT});
-            rule.children.push(this.parseFilter(filter[0]));
+            rule.rules.push(this.parseFilter(filter[0]));
             return rule;
         }
         
@@ -33325,7 +34398,7 @@ OpenLayers.Handler.Point = OpenLayers.Class(OpenLayers.Handler, {
      *
      * Parameters:
      * control - {<OpenLayers.Control>} The control that owns this handler
-     * callbacks - {Object} An object with a 'done' property whos value is a
+     * callbacks - {Object} An object with a 'done' property whose value is a
      *             function to be called when the point drawing is finished.
      *             The callback should expect to recieve a single argument,
      *             the point geometry.  If the callbacks object contains a
@@ -37447,6 +38520,11 @@ OpenLayers.Format.WFS = OpenLayers.Class(OpenLayers.Format.GML, {
      */
     wfsns: "http://www.opengis.net/wfs",
     
+    /**
+     * Property: ogcns
+     */
+    ogcns: "http://www.opengis.net/ogc",
+    
     /*
      * Constructor: OpenLayers.Format.WFS
      * Create a WFS-T formatter. This requires a layer: that layer should
@@ -37482,8 +38560,8 @@ OpenLayers.Format.WFS = OpenLayers.Class(OpenLayers.Format.GML, {
      * features - {Array(<OpenLayers.Feature.Vector>)} 
      */
     write: function(features) {
-        
-        var transaction = this.createElementNS('http://www.opengis.net/wfs', 'wfs:Transaction');
+    
+        var transaction = this.createElementNS(this.wfsns, 'wfs:Transaction');
         transaction.setAttribute("version","1.0.0");
         transaction.setAttribute("service","WFS");
         for (var i=0; i < features.length; i++) {
@@ -37499,7 +38577,8 @@ OpenLayers.Format.WFS = OpenLayers.Class(OpenLayers.Format.GML, {
                     break;
             }
         }
-        return transaction;
+        
+        return OpenLayers.Format.XML.prototype.write.apply(this,[transaction]);
     },
    
     /**
@@ -37515,7 +38594,7 @@ OpenLayers.Format.WFS = OpenLayers.Class(OpenLayers.Format.GML, {
         var featureContainer = this.createElementNS(this.featureNS, "feature:" + this.featureName);
         featureContainer.appendChild(geomContainer);
         for(var attr in feature.attributes) {
-            var attrText = document.createTextNode(feature.attributes[attr]); 
+            var attrText = this.createTextNode(feature.attributes[attr]); 
             var nodename = attr;
             if (attr.search(":") != -1) {
                 nodename = attr.split(":")[1];
@@ -37553,20 +38632,42 @@ OpenLayers.Format.WFS = OpenLayers.Class(OpenLayers.Format.GML, {
         updateNode.setAttribute("typeName", this.layerName);
 
         var propertyNode = this.createElementNS(this.wfsns, 'wfs:Property');
-        var nameNode = this.createElementNS('http://www.opengis.net/wfs', 'wfs:Name');
+        var nameNode = this.createElementNS(this.wfsns, 'wfs:Name');
         
-        var txtNode = document.createTextNode(this.geometryName);
+        var txtNode = this.createTextNode(this.geometryName);
         nameNode.appendChild(txtNode);
         propertyNode.appendChild(nameNode);
         
-        var valueNode = this.createElementNS('http://www.opengis.net/wfs', 'wfs:Value');
-        valueNode.appendChild(this.buildGeometryNode(feature.geometry));
+        var valueNode = this.createElementNS(this.wfsns, 'wfs:Value');
+        
+        var geometryNode = this.buildGeometryNode(feature.geometry);
+        
+        if(feature.layer){
+            geometryNode.setAttribute(
+                "srsName", feature.layer.projection.getCode()
+            );
+        }
+        
+        valueNode.appendChild(geometryNode);
         
         propertyNode.appendChild(valueNode);
         updateNode.appendChild(propertyNode);
         
-        var filterNode = this.createElementNS('http://www.opengis.net/ogc', 'ogc:Filter');
-        var filterIdNode = this.createElementNS('http://www.opengis.net/ogc', 'ogc:FeatureId');
+         // add in attributes
+        for(var propName in feature.attributes) {
+            propertyNode = this.createElementNS(this.wfsns, 'wfs:Property');
+            nameNode = this.createElementNS(this.wfsns, 'wfs:Name');
+            nameNode.appendChild(this.createTextNode(propName));
+            propertyNode.appendChild(nameNode);
+            valueNode = this.createElementNS(this.wfsns, 'wfs:Value');
+            valueNode.appendChild(this.createTextNode(feature.attributes[propName]));
+            propertyNode.appendChild(valueNode);
+            updateNode.appendChild(propertyNode);
+        }
+        
+        
+        var filterNode = this.createElementNS(this.ogcns, 'ogc:Filter');
+        var filterIdNode = this.createElementNS(this.ogcns, 'ogc:FeatureId');
         filterIdNode.setAttribute("fid", feature.fid);
         filterNode.appendChild(filterIdNode);
         updateNode.appendChild(filterNode);
@@ -37589,8 +38690,8 @@ OpenLayers.Format.WFS = OpenLayers.Class(OpenLayers.Format.GML, {
         var deleteNode = this.createElementNS(this.featureNS, 'wfs:Delete');
         deleteNode.setAttribute("typeName", this.layerName);
 
-        var filterNode = this.createElementNS('http://www.opengis.net/ogc', 'ogc:Filter');
-        var filterIdNode = this.createElementNS('http://www.opengis.net/ogc', 'ogc:FeatureId');
+        var filterNode = this.createElementNS(this.ogcns, 'ogc:Filter');
+        var filterIdNode = this.createElementNS(this.ogcns, 'ogc:FeatureId');
         filterIdNode.setAttribute("fid", feature.fid);
         filterNode.appendChild(filterIdNode);
         deleteNode.appendChild(filterNode);
