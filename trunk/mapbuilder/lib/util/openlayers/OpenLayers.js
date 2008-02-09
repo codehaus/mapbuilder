@@ -11644,13 +11644,8 @@ OpenLayers.Control.OverviewMap = OpenLayers.Class(OpenLayers.Control, {
         this.rectEvents = new OpenLayers.Events(this, this.extentRectangle,
                                                 null, true);
         this.rectEvents.register("mouseover", this, function(e) {
-<<<<<<< .mine
-            if(!this.dragHandler.active && !this.map.dragging) {
-                this.dragHandler.activate();
-=======
             if(!this.handlers.drag.active && !this.map.dragging) {
                 this.handlers.drag.activate();
->>>>>>> .r6166
             }
         });
         this.rectEvents.register("mouseout", this, function(e) {
