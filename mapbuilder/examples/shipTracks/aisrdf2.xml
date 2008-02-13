@@ -9,8 +9,7 @@
   
  <item id='4' uuid='85214EF9-9231-4827-9661-6A1DDD7E3E3C' score='1.0' rdf:about='http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=85214EF9-9231-4827-9661-6A1DDD7E3E3C'>
     <title>A Ship Track (LineString Example)</title>
-    <link>http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=85214EF9-9231-4827-9661-6A1DDD7E3E3C</link>
-    <thn>http://tacsatdev.pxi.com/tacsat1/data/ais/products/thn/2004/07/08/85214EF9-9231-4827-9661-6A1DDD7E3E3C.jpg</thn>
+    <link>http://http://www.stenabulk.com/pressroom/archive_vessel1.shtml</link>
     <description type='text/html' mode='escaped'>Vessel: <b>STENA VISION</b>,  MMSI:310372000, IMO:9206081, Call-Sign:ZCDF2, Destination: CABINDA, Posits:82</description>
     <dc:date>130407Z MAY 05</dc:date>
     
@@ -28,7 +27,7 @@
  
   <item id='10' uuid='1DFEA432-82CB-4533-80E5-413F8AE4D345' score='1.0' rdf:about='http://tacsatdev.pxi.com/vmoc/index.php?fuseaction=my.fn&amp;page=fotonotes&amp;entry_ID=1DFEA432-82CB-4533-80E5-413F8AE4D345'>
     <title>Community MapBuilder Frog (Point Example)</title>
-    <link>http://mapbuilder.codehaus.org/</link>
+    <link>http://communitymapbuilder.org/</link>
     <description type='text/html'>Community MapBuilder frog </description>
     <dc:date>130407Z MAY 05</dc:date>
     <georss:where><gml:Point><gml:pos>-80.13032 26.061167</gml:pos></gml:Point></georss:where>
