@@ -41,7 +41,7 @@ function Listener() {
     //}
     this.listeners[param].push(new Array(listener,target));
     if( !listener ) {
-       alert(mbGetMessage("undefinedListener", target));
+       alert(mbGetMessage("undefinedListener", target.id));
     }
   }
 
