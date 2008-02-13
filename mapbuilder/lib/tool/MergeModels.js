@@ -73,7 +73,7 @@ function MergeModels(toolNode, model) {
     if (!objRef.template) return;
     objRef.model.callListeners('newModel');
     objRef.model.doc = objRef.template.cloneNode(true);
-    for (var i in objRef.model.mergeModels) {
+    for (var i=0; i<objRef.model.mergeModels.length; i++) {
       objRef.mergeModel(objRef, objRef.model.mergeModels[i]);
     }
     objRef.model.callListeners('loadModel');

@@ -27421,534 +27421,6 @@ OpenLayers.Layer.Text = OpenLayers.Class(OpenLayers.Layer.Markers, {
     CLASS_NAME: "OpenLayers.Layer.Text"
 });
 /* ======================================================================
-    OpenLayers/Layer/Vector.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Layer.js
- * @requires OpenLayers/Renderer.js
- * @requires OpenLayers/Feature/Vector.js
- */
-
-/**
- * Class: OpenLayers.Layer.Vector
- * Instances of OpenLayers.Layer.Vector are used to render vector data from
- * a variety of sources. Create a new image layer with the
- * <OpenLayers.Layer.Vector> constructor.
- *
- * Inherits from:
- *  - <OpenLayers.Layer>
- */
-OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
-
-    /**
-     * Constant: EVENT_TYPES
-     * {Array(String)} Supported application event types.  Register a listener
-     *     for a particular event with the following syntax:
-     * (code)
-     * layer.events.register(type, obj, listener);
-     * (end)
-     *
-     * Listeners will be called with a reference to an event object.  The
-     *     properties of this event depends on exactly what happened.
-     *
-     * All event objects have at least the following properties:
-     *  - *object* {Object} A reference to layer.events.object.
-     *  - *element* {DOMElement} A reference to layer.events.element.
-     *
-     * Supported map event types (in addition to those from <OpenLayers.Layer>):
-     *  - *beforefeatureadded* Triggered before a feature is added.  Listeners
-     *      will receive an object with a *feature* property referencing the
-     *      feature to be added.
-     *  - *featureadded* Triggered after a feature is added.  The event
-     *      object passed to listeners will have a *feature* property with a
-     *      reference to the added feature.
-     *  - *featuresadded* Triggered after features are added.  The event
-     *      object passed to listeners will have a *features* property with a
-     *      reference to an array of added features.
-     *  - *featureselected* Triggered after a feature is selected.  Listeners
-     *      will receive an object with a *feature* property referencing the
-     *      selected feature.
-     *  - *featureunselected* Triggered after a feature is unselected.
-     *      Listeners will receive an object with a *feature* property
-     *      referencing the unselected feature.
-     */
-    EVENT_TYPES: ["beforefeatureadded", "featureadded",
-                  "featuresadded", "featureselected", "featureunselected"],
-
-    /**
-     * APIProperty: isBaseLayer
-     * {Boolean} The layer is a base layer.  Default is true.  Set this property
-     * in the layer options
-     */
-    isBaseLayer: false,
-
-    /** 
-     * APIProperty: isFixed
-     * {Boolean} Whether the layer remains in one place while dragging the
-     * map.
-     */
-    isFixed: false,
-
-    /** 
-     * APIProperty: isVector
-     * {Boolean} Whether the layer is a vector layer.
-     */
-    isVector: true,
-
-    /** 
-     * APIProperty: features
-     * Array({<OpenLayers.Feature.Vector>}) 
-     */
-    features: null,
-    
-    /** 
-     * Property: selectedFeatures
-     * Array({<OpenLayers.Feature.Vector>}) 
-     */
-    selectedFeatures: null,
-
-    /**
-     * APIProperty: reportError
-     * {Boolean} report error message via alert() when loading of renderers
-     * fails.
-     */
-    reportError: true, 
-
-    /** 
-     * APIProperty: style
-     * {Object} Default style for the layer
-     */
-    style: null,
-    
-    /**
-     * Property: styleMap
-     * {<OpenLayers.StyleMap>}
-     */
-    styleMap: null,
-
-    /**
-     * Property: renderers
-     * Array({String}) List of supported Renderer classes. Add to this list to
-     * add support for additional renderers. This list is ordered:
-     * the first renderer which returns true for the  'supported()'
-     * method will be used, if not defined in the 'renderer' option.
-     */
-    renderers: ['SVG', 'VML'],
-    
-    /** 
-     * Property: renderer
-     * {<OpenLayers.Renderer>}
-     */
-    renderer: null,
-   
-    /** 
-     * APIProperty: geometryType
-     * {String} geometryType allows you to limit the types of geometries this
-     * layer supports. This should be set to something like
-     * "OpenLayers.Geometry.Point" to limit types.
-     */
-    geometryType: null,
-
-    /** 
-     * Property: drawn
-     * {Boolean} Whether the Vector Layer features have been drawn yet.
-     */
-    drawn: false,
-
-    /**
-     * Constructor: OpenLayers.Layer.Vector
-     * Create a new vector layer
-     *
-     * Parameters:
-     * name - {String} A name for the layer
-     * options - {Object} options Object with non-default properties to set on
-     *           the layer.
-     *
-     * Returns:
-     * {<OpenLayers.Layer.Vector>} A new vector layer
-     */
-    initialize: function(name, options) {
-        
-        // concatenate events specific to vector with those from the base
-        this.EVENT_TYPES = this.EVENT_TYPES.concat(
-            OpenLayers.Layer.prototype.EVENT_TYPES
-        );
-
-        OpenLayers.Layer.prototype.initialize.apply(this, arguments);
-
-        // allow user-set renderer, otherwise assign one
-        if (!this.renderer || !this.renderer.supported()) {  
-            this.assignRenderer();
-        }
-
-        // if no valid renderer found, display error
-        if (!this.renderer || !this.renderer.supported()) {
-            this.renderer = null;
-            this.displayError();
-        } 
-
-        if (!this.styleMap) {
-            this.styleMap = new OpenLayers.StyleMap();
-        }
-
-        this.features = [];
-        this.selectedFeatures = [];
-    },
-
-    /**
-     * APIMethod: destroy
-     * Destroy this layer
-     */
-    destroy: function() {
-        OpenLayers.Layer.prototype.destroy.apply(this, arguments);  
-
-        this.destroyFeatures();
-        this.features = null;
-        this.selectedFeatures = null;
-        if (this.renderer) {
-            this.renderer.destroy();
-        }
-        this.renderer = null;
-        this.geometryType = null;
-        this.drawn = null;
-    },
-
-    /** 
-     * Method: assignRenderer
-     * Iterates through the available renderer implementations and selects 
-     * and assigns the first one whose "supported()" function returns true.
-     */    
-    assignRenderer: function()  {
-        for (var i = 0; i < this.renderers.length; i++) {
-            var rendererClass = OpenLayers.Renderer[this.renderers[i]];
-            if (rendererClass && rendererClass.prototype.supported()) {
-               this.renderer = new rendererClass(this.div);
-               break;
-            }  
-        }  
-    },
-
-    /** 
-     * Method: displayError 
-     * Let the user know their browser isn't supported.
-     */
-    displayError: function() {
-        if (this.reportError) {
-            var message = "Your browser does not support vector rendering. " + 
-                            "Currently supported renderers are:\n";
-            message += this.renderers.join("\n");
-            alert(message);
-        }    
-    },
-
-    /** 
-     * Method: setMap
-     * The layer has been added to the map. 
-     * 
-     * If there is no renderer set, the layer can't be used. Remove it.
-     * Otherwise, give the renderer a reference to the map and set its size.
-     * 
-     * Parameters:
-     * map - {<OpenLayers.Map>} 
-     */
-    setMap: function(map) {        
-        OpenLayers.Layer.prototype.setMap.apply(this, arguments);
-
-        if (!this.renderer) {
-            this.map.removeLayer(this);
-        } else {
-            this.renderer.map = this.map;
-            this.renderer.setSize(this.map.getSize());
-        }
-    },
-    
-    /**
-     * Method: onMapResize
-     * Notify the renderer of the change in size. 
-     * 
-     */
-    onMapResize: function() {
-        OpenLayers.Layer.prototype.onMapResize.apply(this, arguments);
-        this.renderer.setSize(this.map.getSize());
-    },
-
-    /**
-     * Method: moveTo
-     *  Reset the vector layer's div so that it once again is lined up with 
-     *   the map. Notify the renderer of the change of extent, and in the
-     *   case of a change of zoom level (resolution), have the 
-     *   renderer redraw features.
-     * 
-     *  If the layer has not yet been drawn, cycle through the layer's 
-     *   features and draw each one.
-     * 
-     * Parameters:
-     * bounds - {<OpenLayers.Bounds>} 
-     * zoomChanged - {Boolean} 
-     * dragging - {Boolean} 
-     */
-    moveTo: function(bounds, zoomChanged, dragging) {
-        OpenLayers.Layer.prototype.moveTo.apply(this, arguments);
-
-        if (!dragging) {
-            this.renderer.root.style.visibility = "hidden";
-            
-            this.div.style.left = -parseInt(this.map.layerContainerDiv.style.left) + "px";
-            this.div.style.top = -parseInt(this.map.layerContainerDiv.style.top) + "px";
-            var extent = this.map.getExtent();
-            this.renderer.setExtent(extent);
-            
-            this.renderer.root.style.visibility = "visible";
-        }
-        
-        if (!this.drawn || zoomChanged) {
-            this.drawn = true;
-            for(var i = 0; i < this.features.length; i++) {
-                var feature = this.features[i];
-                this.drawFeature(feature);
-            }
-        }    
-    },
-
-    /**
-     * APIMethod: addFeatures
-     * Add Features to the layer.
-     *
-     * Parameters:
-     * features - {Array(<OpenLayers.Feature.Vector>)} 
-     * options - {Object}
-     */
-    addFeatures: function(features, options) {
-        if (!(features instanceof Array)) {
-            features = [features];
-        }
-        
-        var notify = !options || !options.silent;
-
-        for (var i = 0; i < features.length; i++) {
-            var feature = features[i];
-            
-            if (this.geometryType &&
-                !(feature.geometry instanceof this.geometryType)) {
-                    var throwStr = "addFeatures : component should be an " + 
-                                    this.geometryType.prototype.CLASS_NAME;
-                    throw throwStr;
-                }
-
-            this.features.push(feature);
-            
-            //give feature reference to its layer
-            feature.layer = this;
-
-            if (!feature.style && this.style) {
-                feature.style = OpenLayers.Util.extend({}, this.style);
-            }
-
-            if (notify) {
-                this.events.triggerEvent("beforefeatureadded", {
-                    feature: feature
-                });
-                this.preFeatureInsert(feature);
-            }
-
-            if (this.drawn) {
-                this.drawFeature(feature);
-            }
-            
-            if (notify) {
-                this.events.triggerEvent("featureadded", {
-                    feature: feature
-                });
-                this.onFeatureInsert(feature);
-            }
-        }
-        
-        if(notify) {
-            this.events.triggerEvent("featuresadded", {features: features});
-        }
-    },
-
-
-    /**
-     * APIMethod: removeFeatures
-     * 
-     * Parameters:
-     * features - {Array(<OpenLayers.Feature.Vector>)} 
-     */
-    removeFeatures: function(features) {
-        if (!(features instanceof Array)) {
-            features = [features];
-        }
-
-        for (var i = features.length - 1; i >= 0; i--) {
-            var feature = features[i];
-            this.features = OpenLayers.Util.removeItem(this.features, feature);
-
-            if (feature.geometry) {
-                this.renderer.eraseGeometry(feature.geometry);
-            }
-                    
-            //in the case that this feature is one of the selected features, 
-            // remove it from that array as well.
-            if (OpenLayers.Util.indexOf(this.selectedFeatures, feature) != -1){
-                OpenLayers.Util.removeItem(this.selectedFeatures, feature);
-            }
-        }
-    },
-
-    /**
-     * APIMethod: destroyFeatures
-     * Erase and destroy features on the layer.
-     *
-     * Parameters:
-     * features - {Array(<OpenLayers.Feature.Vector>)} An optional array of
-     *     features to destroy.  If not supplied, all features on the layer
-     *     will be destroyed.
-     */
-    destroyFeatures: function(features) {
-        var all = (features == undefined);
-        if(all) {
-            features = this.features;
-            this.selectedFeatures = [];
-        }
-        this.eraseFeatures(features);
-        var feature;
-        for(var i=features.length-1; i>=0; i--) {
-            feature = features[i];
-            if(!all) {
-                OpenLayers.Util.removeItem(this.selectedFeatures, feature);
-            }
-            feature.destroy();
-        }
-    },
-
-    /**
-     * APIMethod: drawFeature
-     * Draw (or redraw) a feature on the layer.  If the optional style argument
-     * is included, this style will be used.  If no style is included, the
-     * feature's style will be used.  If the feature doesn't have a style,
-     * the layer's style will be used.
-     * 
-     * Parameters: 
-     * feature - {<OpenLayers.Feature.Vector>} 
-     * style - {Object} Symbolizer hash or {String} renderIntent
-     */
-    drawFeature: function(feature, style) {
-        if (typeof style != "object") {
-            var renderIntent = typeof style == "string" ?
-                style : feature.renderIntent;
-            style = feature.style || this.style;
-            if (!style) {
-                style = this.styleMap.createSymbolizer(feature, renderIntent);
-            }
-        }
-        
-        this.renderer.drawFeature(feature, style);
-    },
-    
-    /**
-     * Method: eraseFeatures
-     * Erase features from the layer.
-     *
-     * Parameters:
-     * features - {Array(<OpenLayers.Feature.Vector>)} 
-     */
-    eraseFeatures: function(features) {
-        this.renderer.eraseFeatures(features);
-    },
-
-    /**
-     * Method: getFeatureFromEvent
-     * Given an event, return a feature if the event occurred over one.
-     * Otherwise, return null.
-     *
-     * Parameters:
-     * evt - {Event} 
-     *
-     * Returns:
-     * {<OpenLayers.Feature.Vector>} A feature if one was under the event.
-     */
-    getFeatureFromEvent: function(evt) {
-        if (!this.renderer) {
-            OpenLayers.Console.error("getFeatureFromEvent called on layer with no renderer. This usually means you destroyed a layer, but not some handler which is associated with it."); 
-            return null;
-        }    
-        var featureId = this.renderer.getFeatureIdFromEvent(evt);
-        return this.getFeatureById(featureId);
-    },
-    
-    /**
-     * APIMethod: getFeatureById
-     * Given a feature id, return the feature if it exists in the features array
-     *
-     * Parameters:
-     * featureId - {String} 
-     *
-     * Returns:
-     * {<OpenLayers.Feature.Vector>} A feature corresponding to the given
-     * featureId
-     */
-    getFeatureById: function(featureId) {
-        //TBD - would it be more efficient to use a hash for this.features?
-        var feature = null;
-        for(var i=0; i<this.features.length; ++i) {
-            if(this.features[i].id == featureId) {
-                feature = this.features[i];
-                break;
-            }
-        }
-        return feature;
-    },
-    
-    /**
-     * Unselect the selected features
-     * i.e. clears the featureSelection array
-     * change the style back
-    clearSelection: function() {
-
-       var vectorLayer = this.map.vectorLayer;
-        for (var i = 0; i < this.map.featureSelection.length; i++) {
-            var featureSelection = this.map.featureSelection[i];
-            vectorLayer.drawFeature(featureSelection, vectorLayer.style);
-        }
-        this.map.featureSelection = [];
-    },
-     */
-
-
-    /**
-     * APIMethod: onFeatureInsert
-     * method called after a feature is inserted.
-     * Does nothing by default. Override this if you
-     * need to do something on feature updates.
-     *
-     * Paarameters: 
-     * feature - {<OpenLayers.Feature.Vector>} 
-     */
-    onFeatureInsert: function(feature) {
-    },
-    
-    /**
-     * APIMethod: preFeatureInsert
-     * method called before a feature is inserted.
-     * Does nothing by default. Override this if you
-     * need to do something when features are first added to the
-     * layer, but before they are drawn, such as adjust the style.
-     *
-     * Parameters:
-     * feature - {<OpenLayers.Feature.Vector>} 
-     */
-    preFeatureInsert: function(feature) {
-    },
-
-    CLASS_NAME: "OpenLayers.Layer.Vector"
-});
-/* ======================================================================
     OpenLayers/Layer/VirtualEarth.js
    ====================================================================== */
 
@@ -28961,7 +28433,7 @@ OpenLayers.Style = OpenLayers.Class({
         // walk through all rules to check for properties in their symbolizer
         var rules = this.rules;
         var prefixes = OpenLayers.Style.SYMBOLIZER_PREFIXES;
-        for (var i in rules) {
+        for (var i=0; i<rules.length; i++) {
             for (var s=0; s<prefixes.length; s++) {
                 style = rules[i].symbolizer[prefixes[s]];
                 for (var j in style) {
@@ -30164,175 +29636,6 @@ OpenLayers.Geometry.segmentsIntersect = function(seg1, seg2, point) {
     return intersection;
 };
 /* ======================================================================
-    OpenLayers/Layer/GML.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Layer/Vector.js
- * @requires OpenLayers/Ajax.js
- */
-
-/**
- * Class: OpenLayers.Layer.GML
- * Create a vector layer by parsing a GML file. The GML file is
- *     passed in as a parameter.
- *
- * Inherits from:
- *  - <OpenLayers.Layer.Vector>
- */
-OpenLayers.Layer.GML = OpenLayers.Class(OpenLayers.Layer.Vector, {
-    
-    /**
-      * Property: loaded
-      * {Boolean} Flag for whether the GML data has been loaded yet.
-      */
-    loaded: false,
-
-    /**
-      * APIProperty: format
-      * {<OpenLayers.Format>} The format you want the data to be parsed with.
-      */
-    format: null,
-
-    /**
-     * APIProperty: formatOptions
-     * {Object} Hash of options which should be passed to the format when it is
-     * created. Must be passed in the constructor.
-     */
-    formatOptions: null, 
-    
-    /**
-     * Constructor: OpenLayers.Layer.GML
-     * Load and parse a single file on the web, according to the format
-     * provided via the 'format' option, defaulting to GML. 
-     *
-     * Parameters:
-     * name - {String} 
-     * url - {String} URL of a GML file.
-     * options - {Object} Hashtable of extra options to tag onto the layer.
-     */
-     initialize: function(name, url, options) {
-        var newArguments = [];
-        newArguments.push(name, options);
-        OpenLayers.Layer.Vector.prototype.initialize.apply(this, newArguments);
-        this.url = url;
-    },
-
-    /**
-     * APIMethod: setVisibility
-     * Set the visibility flag for the layer and hide/show&redraw accordingly. 
-     * Fire event unless otherwise specified
-     * GML will be loaded if the layer is being made visible for the first
-     * time.
-     *  
-     * Parameters:
-     * visible - {Boolean} Whether or not to display the layer 
-     *                          (if in range)
-     * noEvent - {Boolean} 
-     */
-    setVisibility: function(visibility, noEvent) {
-        OpenLayers.Layer.Vector.prototype.setVisibility.apply(this, arguments);
-        if(this.visibility && !this.loaded){
-            // Load the GML
-            this.loadGML();
-        }
-    },
-
-    /**
-     * Method: moveTo
-     * If layer is visible and GML has not been loaded, load GML, then load GML
-     * and call OpenLayers.Layer.Vector.moveTo() to redraw at the new location.
-     * 
-     * Parameters:
-     * bounds - {Object} 
-     * zoomChanged - {Object} 
-     * minor - {Object} 
-     */
-    moveTo:function(bounds, zoomChanged, minor) {
-        OpenLayers.Layer.Vector.prototype.moveTo.apply(this, arguments);
-        // Wait until initialisation is complete before loading GML
-        // otherwise we can get a race condition where the root HTML DOM is
-        // loaded after the GML is paited.
-        // See http://trac.openlayers.org/ticket/404
-        if(this.visibility && !this.loaded){
-            this.events.triggerEvent("loadstart");
-            this.loadGML();
-        }
-    },
-
-    /**
-     * Method: loadGML
-     */
-    loadGML: function() {
-        if (!this.loaded) {
-            var results = OpenLayers.loadURL(this.url, null, this, this.requestSuccess, this.requestFailure);
-            this.loaded = true;
-        }    
-    },    
-    
-    /**
-     * Method: setUrl
-     * Change the URL and reload the GML
-     *
-     * Parameters:
-     * url - {String} URL of a GML file.
-     */
-    setUrl:function(url) {
-        this.url = url;
-        this.destroyFeatures();
-        this.loaded = false;
-        this.events.triggerEvent("loadstart");
-        this.loadGML();
-    },
-    
-    /**
-     * Method: requestSuccess
-     * Process GML after it has been loaded.
-     * Called by initialise() and loadUrl() after the GML has been loaded.
-     *
-     * Parameters:
-     * request - {String} 
-     */
-    requestSuccess:function(request) {
-        var doc = request.responseXML;
-        
-        if (!doc || request.fileType!="XML") {
-            doc = request.responseText;
-        }
-        
-        var options = {};
-        
-        OpenLayers.Util.extend(options, this.formatOptions);
-        if (this.map && !this.projection.equals(this.map.getProjectionObject())) {
-            options.externalProjection = this.projection;
-            options.internalProjection = this.map.getProjectionObject();
-        }    
-        
-        var gml = this.format ? new this.format(options) : new OpenLayers.Format.GML(options);
-        this.addFeatures(gml.read(doc));
-        this.events.triggerEvent("loadend");
-    },
-    
-    /**
-     * Method: requestFailure
-     * Process a failed loading of GML.
-     * Called by initialise() and loadUrl() if there was a problem loading GML.
-     *
-     * Parameters:
-     * request - {String} 
-     */
-    requestFailure: function(request) {
-        alert("Error in loading GML file "+this.url);
-        this.events.triggerEvent("loadend");
-    },
-
-    CLASS_NAME: "OpenLayers.Layer.GML"
-});
-/* ======================================================================
     OpenLayers/Layer/KaMap.js
    ====================================================================== */
 
@@ -30750,109 +30053,6 @@ OpenLayers.Layer.MapServer = OpenLayers.Class(OpenLayers.Layer.Grid, {
     CLASS_NAME: "OpenLayers.Layer.MapServer"
 });
 /* ======================================================================
-    OpenLayers/Layer/PointTrack.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2007 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
- * full text of the license. */
-
-/**
- * @requires OpenLayers/Layer/Vector.js
- * 
- * Class: OpenLayers.Layer.PointTrack
- * Vector layer to display ordered point features as a line, creating one
- * LineString feature for each pair of two points.
- *
- * Inherits from:
- *  - <OpenLayers.Layer.Vector> 
- */
-OpenLayers.Layer.PointTrack = OpenLayers.Class(OpenLayers.Layer.Vector, {
-  
-    /**
-     * APIProperty:
-     * dataFrom  - {<OpenLayers.Layer.PointTrack.dataFrom>} optional. If the
-     *             lines should get the data/attributes from one of the two
-     *             points, creating it, which one should it be?
-     */
-    dataFrom: null,
-    
-    /**
-     * Constructor: OpenLayers.PointTrack
-     * Constructor for a new OpenLayers.PointTrack instance.
-     *
-     * Parameters:
-     * name     - {String} name of the layer
-     * options  - {Object} Optional object with properties to tag onto the
-     *            instance.
-     */    
-    initialize: function(name, options) {
-        OpenLayers.Layer.Vector.prototype.initialize.apply(this, arguments);
-    },
-        
-    /**
-     * APIMethod: addNodes
-     * Adds point features that will be used to create lines from, using point
-     * pairs. The first point of a pair will be the source node, the second
-     * will be the target node.
-     * 
-     * Parameters:
-     * pointFeatures - {Array(<OpenLayers.Feature>)}
-     * 
-     */
-    addNodes: function(pointFeatures) {
-        if (pointFeatures.length < 2) {
-            OpenLayers.Console.error(
-                    "At least two point features have to be added to create" +
-                    "a line from");
-            return;
-        }
-        
-        var lines = new Array(pointFeatures.length-1);
-        
-        var pointFeature, startPoint, endPoint;
-        for(var i = 0; i < pointFeatures.length; i++) {
-            pointFeature = pointFeatures[i];
-            endPoint = pointFeature.geometry;
-            
-            if (!endPoint) {
-              var lonlat = pointFeature.lonlat;
-              endPoint = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
-            } else if(endPoint.CLASS_NAME != "OpenLayers.Geometry.Point") {
-                OpenLayers.Console.error(
-                        "Only features with point geometries are supported.");
-                return;
-            }
-            
-            if(i > 0) {
-                var attributes = (this.dataFrom != null) ?
-                        (pointFeatures[i+this.dataFrom].data ||
-                                pointFeatures[i+this.dataFrom].attributes) :
-                        null;
-                var line = new OpenLayers.Geometry.LineString([startPoint,
-                        endPoint]);
-                        
-                lines[i-1] = new OpenLayers.Feature.Vector(line, attributes);
-            }
-            
-            startPoint = endPoint;
-        }
-
-        this.addFeatures(lines);
-    },
-    
-    CLASS_NAME: "OpenLayers.Layer.PointTrack"
-});
-
-/**
- * Constant: OpenLayers.Layer.PointTrack.dataFrom
- * {Object} with the following keys
- * - SOURCE_NODE: take data/attributes from the source node of the line
- * - TARGET_NODE: take data/attributes from the target node of the line
- */
-OpenLayers.Layer.PointTrack.dataFrom = {'SOURCE_NODE': -1, 'TARGET_NODE': 0};
-
-/* ======================================================================
     OpenLayers/Layer/TMS.js
    ====================================================================== */
 
@@ -31177,548 +30377,6 @@ OpenLayers.Layer.TileCache = OpenLayers.Class(OpenLayers.Layer.Grid, {
     },
 
     CLASS_NAME: "OpenLayers.Layer.TileCache"
-});
-/* ======================================================================
-    OpenLayers/Layer/WFS.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
- * full text of the license. */
-
-
-/**
- * @requires OpenLayers/Layer/Vector.js
- * @requires OpenLayers/Layer/Markers.js
- */
-
-/**
- * Class: OpenLayers.Layer.WFS
- * 
- * Inherits from:
- *  - <OpenLayers.Layer.Vector>
- *  - <OpenLayers.Layer.Markers>
- */
-OpenLayers.Layer.WFS = OpenLayers.Class(
-  OpenLayers.Layer.Vector, OpenLayers.Layer.Markers, {
-
-    /**
-     * APIProperty: isBaseLayer
-     * {Boolean} WFS layer is not a base layer by default. 
-     */
-    isBaseLayer: false,
-    
-    /**
-     * Property: tile
-     * {<OpenLayers.Tile.WFS>}
-     */
-    tile: null,    
-    
-    /**
-     * APIProperty: ratio
-     * {Float} the ratio of image/tile size to map size (this is the untiled
-     *     buffer)
-     */
-    ratio: 2,
-
-    /**  
-     * Property: DEFAULT_PARAMS
-     * {Object} Hashtable of default key/value parameters
-     */
-    DEFAULT_PARAMS: { service: "WFS",
-                      version: "1.0.0",
-                      request: "GetFeature"
-                    },
-    
-    /** 
-     * APIProperty: featureClass
-     * {<OpenLayers.Feature>} If featureClass is defined, an old-style markers
-     *     based WFS layer is created instead of a new-style vector layer. If
-     *     sent, this should be a subclass of OpenLayers.Feature
-     */
-    featureClass: null,
-    
-    /**
-      * APIProperty: format
-      * {<OpenLayers.Format>} The format you want the data to be parsed with.
-      * Must be passed in the constructor. Should be a class, not an instance.
-      */
-    format: null,
-
-    /** 
-     * Property: formatObject
-     * {<OpenLayers.Format>} Internally created/managed format object, used by
-     * the Tile to parse data.
-     */
-    formatObject: null,
-
-    /**
-     * APIProperty: formatOptions
-     * {Object} Hash of options which should be passed to the format when it is
-     * created. Must be passed in the constructor.
-     */
-    formatOptions: null, 
-
-    /**
-     * Property: vectorMode
-     * {Boolean} Should be calculated automatically.
-     */
-    vectorMode: true, 
-    
-    /**
-     * APIProperty: encodeBBOX
-     * {Boolean} Should the BBOX commas be encoded? The WMS spec says 'no', 
-     *     but some services want it that way. Default false.
-     */
-    encodeBBOX: false,
-    
-    /**
-     * APIProperty: extractAttributes 
-     * {Boolean} Should the WFS layer parse attributes from the retrieved
-     *     GML? Defaults to false. If enabled, parsing is slower, but 
-     *     attributes are available in the attributes property of 
-     *     layer features.
-     */
-    extractAttributes: false,
-
-    /**
-     * Constructor: OpenLayers.Layer.WFS
-     *
-     * Parameters:
-     * name - {String} 
-     * url - {String} 
-     * params - {Object} 
-     * options - {Object} Hashtable of extra options to tag onto the layer
-     */
-    initialize: function(name, url, params, options) {
-        if (options == undefined) { options = {}; } 
-        
-        if (options.featureClass || 
-            !OpenLayers.Layer.Vector || 
-            !OpenLayers.Feature.Vector) {
-            this.vectorMode = false;
-        }    
-        
-        // Turn off error reporting, browsers like Safari may work
-        // depending on the setup, and we don't want an unneccesary alert.
-        OpenLayers.Util.extend(options, {'reportError': false});
-        var newArguments = [];
-        newArguments.push(name, options);
-        OpenLayers.Layer.Vector.prototype.initialize.apply(this, newArguments);
-        if (!this.renderer || !this.vectorMode) {
-            this.vectorMode = false; 
-            if (!options.featureClass) {
-                options.featureClass = OpenLayers.Feature.WFS;
-            }   
-            OpenLayers.Layer.Markers.prototype.initialize.apply(this, 
-                                                                newArguments);
-        }
-        
-        if (this.params && this.params.typename && !this.options.typename) {
-            this.options.typename = this.params.typename;
-        }
-        
-        if (!this.options.geometry_column) {
-            this.options.geometry_column = "the_geom";
-        }    
-        
-        this.params = params;
-        OpenLayers.Util.applyDefaults(
-                       this.params, 
-                       OpenLayers.Util.upperCaseObject(this.DEFAULT_PARAMS)
-                       );
-        this.url = url;
-    },    
-    
-
-    /**
-     * APIMethod: destroy
-     */
-    destroy: function() {
-        if (this.vectorMode) {
-            OpenLayers.Layer.Vector.prototype.destroy.apply(this, arguments);
-        } else {    
-            OpenLayers.Layer.Markers.prototype.destroy.apply(this, arguments);
-        }    
-        if (this.tile) {
-            this.tile.destroy();
-        }
-        this.tile = null;
-
-        this.ratio = null;
-        this.featureClass = null;
-        this.format = null;
-
-        if (this.formatObject && this.formatObject.destroy) {
-            this.formatObject.destroy();
-        }
-        this.formatObject = null;
-        
-        this.formatOptions = null;
-        this.vectorMode = null;
-        this.encodeBBOX = null;
-        this.extractAttributes = null;
-    },
-    
-    /**
-     * Method: setMap
-     * 
-     * Parameters:
-     * map - {<OpenLayers.Map>} 
-     */
-    setMap: function(map) {
-        if (this.vectorMode) {
-            OpenLayers.Layer.Vector.prototype.setMap.apply(this, arguments);
-            
-            var options = {
-              'extractAttributes': this.extractAttributes
-            };
-            
-            OpenLayers.Util.extend(options, this.formatOptions);
-            if (this.map && !this.projection.equals(this.map.getProjectionObject())) {
-                options.externalProjection = this.projection;
-                options.internalProjection = this.map.getProjectionObject();
-            }    
-            
-            this.formatObject = this.format ? new this.format(options) : new OpenLayers.Format.GML(options);
-        } else {    
-            OpenLayers.Layer.Markers.prototype.setMap.apply(this, arguments);
-        }    
-    },
-    
-    /** 
-     * Method: moveTo
-     * 
-     * Parameters:
-     * bounds - {<OpenLayers.Bounds>} 
-     * zoomChanged - {Boolean} 
-     * dragging - {Boolean} 
-     */
-    moveTo:function(bounds, zoomChanged, dragging) {
-        if (this.vectorMode) {
-            OpenLayers.Layer.Vector.prototype.moveTo.apply(this, arguments);
-        } else {
-            OpenLayers.Layer.Markers.prototype.moveTo.apply(this, arguments);
-        }    
-
-        // don't load wfs features while dragging, wait for drag end
-        if (dragging) {
-            // TBD try to hide the vector layer while dragging
-            // this.setVisibility(false);
-            // this will probably help for panning performances
-            return false;
-        }
-        
-        if ( zoomChanged ) {
-            if (this.vectorMode) {
-                this.renderer.clear();
-            }
-        }
-        
-    //DEPRECATED - REMOVE IN 3.0
-        // don't load data if current zoom level doesn't match
-        if (this.options.minZoomLevel) {
-            
-            var err = "The minZoomLevel property is only intended for use " +
-                    "with the FixedZoomLevels-descendent layers. That this " +
-                    "wfs layer checks for minZoomLevel is a relic of the" +
-                    "past. We cannot, however, remove it without possibly " +
-                    "breaking OL based applications that may depend on it." +
-                    " Therefore we are deprecating it -- the minZoomLevel " +
-                    "check below will be removed at 3.0. Please instead " +
-                    "use min/max resolution setting as described here: " +
-                    "http://trac.openlayers.org/wiki/SettingZoomLevels";
-            OpenLayers.Console.warn(err);
-            
-            if (this.map.getZoom() < this.options.minZoomLevel) {
-                return null;
-            }
-        }
-        
-        if (bounds == null) {
-            bounds = this.map.getExtent();
-        }
-
-        var firstRendering = (this.tile == null);
-
-        //does the new bounds to which we need to move fall outside of the 
-        // current tile's bounds?
-        var outOfBounds = (!firstRendering &&
-                           !this.tile.bounds.containsBounds(bounds));
-
-        if (zoomChanged || firstRendering || (!dragging && outOfBounds)) {
-            //determine new tile bounds
-            var center = bounds.getCenterLonLat();
-            var tileWidth = bounds.getWidth() * this.ratio;
-            var tileHeight = bounds.getHeight() * this.ratio;
-            var tileBounds = 
-                new OpenLayers.Bounds(center.lon - (tileWidth / 2),
-                                      center.lat - (tileHeight / 2),
-                                      center.lon + (tileWidth / 2),
-                                      center.lat + (tileHeight / 2));
-
-            //determine new tile size
-            var tileSize = this.map.getSize();
-            tileSize.w = tileSize.w * this.ratio;
-            tileSize.h = tileSize.h * this.ratio;
-
-            //determine new position (upper left corner of new bounds)
-            var ul = new OpenLayers.LonLat(tileBounds.left, tileBounds.top);
-            var pos = this.map.getLayerPxFromLonLat(ul);
-
-            //formulate request url string
-            var url = this.getFullRequestString();
-        
-            var params = {BBOX: this.encodeBBOX ? tileBounds.toBBOX() 
-                                                : tileBounds.toArray()};
-            url += "&" + OpenLayers.Util.getParameterString(params);
-
-            if (!this.tile) {
-                this.tile = new OpenLayers.Tile.WFS(this, pos, tileBounds, 
-                                                     url, tileSize);
-                this.addTileMonitoringHooks(this.tile);
-                this.tile.draw();
-            } else {
-                if (this.vectorMode) {
-                    this.destroyFeatures();
-                    this.renderer.clear();
-                } else {
-                    this.clearMarkers();
-                }    
-                this.removeTileMonitoringHooks(this.tile);
-                this.tile.destroy();
-                
-                this.tile = null;
-                this.tile = new OpenLayers.Tile.WFS(this, pos, tileBounds, 
-                                                     url, tileSize);
-                this.addTileMonitoringHooks(this.tile);
-                this.tile.draw();
-            } 
-        }
-    },
-
-    /** 
-     * Method: addTileMonitoringHooks
-     * This function takes a tile as input and adds the appropriate hooks to 
-     *     the tile so that the layer can keep track of the loading tile
-     *     (making sure to check that the tile is always the layer's current
-     *     tile before taking any action).
-     * 
-     * Parameters: 
-     * tile - {<OpenLayers.Tile>}
-     */
-    addTileMonitoringHooks: function(tile) {
-        tile.onLoadStart = function() {
-            //if this is the the layer's current tile, then trigger 
-            // a 'loadstart'
-            if (this == this.layer.tile) {
-                this.layer.events.triggerEvent("loadstart");
-            }
-        };
-        tile.events.register("loadstart", tile, tile.onLoadStart);
-      
-        tile.onLoadEnd = function() {
-            //if this is the the layer's current tile, then trigger 
-            // a 'tileloaded' and 'loadend'
-            if (this == this.layer.tile) {
-                this.layer.events.triggerEvent("tileloaded");
-                this.layer.events.triggerEvent("loadend");
-            }
-        };
-        tile.events.register("loadend", tile, tile.onLoadEnd);
-    },
-    
-    /** 
-     * Method: removeTileMonitoringHooks
-     * This function takes a tile as input and removes the tile hooks 
-     *     that were added in addTileMonitoringHooks()
-     * 
-     * Parameters: 
-     * tile - {<OpenLayers.Tile>}
-     */
-    removeTileMonitoringHooks: function(tile) {
-        tile.events.un({
-            "loadstart": tile.onLoadStart,
-            "loadend": tile.onLoadEnd,
-            scope: tile
-        });
-    },
-
-    /**
-     * Method: onMapResize
-     * Call the onMapResize method of the appropriate parent class. 
-     */
-    onMapResize: function() {
-        if(this.vectorMode) {
-            OpenLayers.Layer.Vector.prototype.onMapResize.apply(this, 
-                                                                arguments);
-        } else {
-            OpenLayers.Layer.Markers.prototype.onMapResize.apply(this, 
-                                                                 arguments);
-        }
-    },
-    
-    /**
-     * APIMethod: mergeNewParams
-     * Modify parameters for the layer and redraw.
-     * 
-     * Parameters:
-     * newParams - {Object}
-     */
-    mergeNewParams:function(newParams) {
-        var upperParams = OpenLayers.Util.upperCaseObject(newParams);
-        var newArguments = [upperParams];
-        return OpenLayers.Layer.HTTPRequest.prototype.mergeNewParams.apply(this, 
-                                                                 newArguments);
-    },
-
-    /**
-     * APIMethod: clone
-     *
-     * Parameters:
-     * obj - {Object} 
-     * 
-     * Returns:
-     * {<OpenLayers.Layer.WFS>} An exact clone of this OpenLayers.Layer.WFS
-     */
-    clone: function (obj) {
-        
-        if (obj == null) {
-            obj = new OpenLayers.Layer.WFS(this.name,
-                                           this.url,
-                                           this.params,
-                                           this.options);
-        }
-
-        //get all additions from superclasses
-        if (this.vectorMode) {
-            obj = OpenLayers.Layer.Vector.prototype.clone.apply(this, [obj]);
-        } else {
-            obj = OpenLayers.Layer.Markers.prototype.clone.apply(this, [obj]);
-        }    
-
-        // copy/set any non-init, non-simple values here
-
-        return obj;
-    },
-
-    /** 
-     * APIMethod: getFullRequestString
-     * combine the layer's url with its params and these newParams. 
-     *   
-     *    Add the SRS parameter from 'projection' -- this is probably
-     *     more eloquently done via a setProjection() method, but this 
-     *     works for now and always.
-     *
-     * Parameters:
-     * newParams - {Object} 
-     * altUrl - {String} Use this as the url instead of the layer's url
-     */
-    getFullRequestString:function(newParams, altUrl) {
-        var projectionCode = this.map.getProjection();
-        this.params.SRS = (projectionCode == "none") ? null : projectionCode;
-
-        return OpenLayers.Layer.Grid.prototype.getFullRequestString.apply(
-                                                    this, arguments);
-    },
-   
-    /**
-     * APIMethod: commit
-     * Write out the data to a WFS server.
-     */
-    commit: function() {
-        if (!this.writer) {
-            this.writer = new OpenLayers.Format.WFS({},this);
-        }
-
-        var data = this.writer.write(this.features);
-        
-        var url = this.url;
-        if (OpenLayers.ProxyHost &&
-            OpenLayers.String.startsWith(this.url, "http")) {
-            url = OpenLayers.ProxyHost + escape(this.url);
-        }
-
-        var success = OpenLayers.Function.bind(this.commitSuccess, this);
-
-        var failure = OpenLayers.Function.bind(this.commitFailure, this);
-        
-        data = OpenLayers.Ajax.serializeXMLToString(data);
-        
-        // from prototype.js
-        new OpenLayers.Ajax.Request(url, 
-                         {   method: 'post', 
-                             postBody: data,
-                             onComplete: success, 
-                             onFailure: failure
-                          }
-                         );
-    },
-
-    /**
-     * Method: commitSuccess
-     * Called when the Ajax request returns a response
-     *
-     * Parameters:
-     * response - {XmlNode} from server
-     */
-    commitSuccess: function(request) {
-        var response = request.responseText;
-        if (response.indexOf('SUCCESS') != -1) {
-            this.commitReport('WFS Transaction: SUCCESS', response);
-            
-            for(var i = 0; i < this.features.length; i++) {
-                this.features[i].state = null;
-            }    
-            // TBD redraw the layer or reset the state of features
-            // foreach features: set state to null
-        } else if (response.indexOf('FAILED') != -1 ||
-            response.indexOf('Exception') != -1) {
-            this.commitReport('WFS Transaction: FAILED', response);
-        }
-    },
-    
-    /**
-     * Method: commitFailure
-     * Called when the Ajax request fails
-     *
-     * Parameters:
-     * response - {XmlNode} from server
-     */
-    commitFailure: function(request) {},
-    
-    /**
-     * APIMethod: commitReport 
-     * Called with a 'success' message if the commit succeeded, otherwise
-     *     a failure message, and the full request text as a second parameter.
-     *     Override this function to provide custom transaction reporting.
-     *
-     * string - {String} reporting string
-     * response - {String} full XML response
-     */
-    commitReport: function(string, response) {
-        alert(string);
-    },
-
-    
-    /**
-     * APIMethod: refresh
-     * Refreshes all the features of the layer
-     */
-    refresh: function() {
-        if (this.tile) {
-            if (this.vectorMode) {
-                this.renderer.clear();
-                this.features.length = 0;
-            } else {   
-                this.clearMarkers();
-                this.markers.length = 0;
-            }    
-            this.tile.draw();
-        }
-    },
-
-    CLASS_NAME: "OpenLayers.Layer.WFS"
 });
 /* ======================================================================
     OpenLayers/Layer/WMS.js
@@ -33155,6 +31813,535 @@ OpenLayers.Layer.MapServer.Untiled = OpenLayers.Class(OpenLayers.Layer.MapServer
     }, 
 
     CLASS_NAME: "OpenLayers.Layer.MapServer.Untiled"
+});
+/* ======================================================================
+    OpenLayers/Layer/Vector.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
+ * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Layer.js
+ * @requires OpenLayers/Renderer.js
+ * @requires OpenLayers/StyleMap.js
+ * @requires OpenLayers/Feature/Vector.js
+ */
+
+/**
+ * Class: OpenLayers.Layer.Vector
+ * Instances of OpenLayers.Layer.Vector are used to render vector data from
+ * a variety of sources. Create a new image layer with the
+ * <OpenLayers.Layer.Vector> constructor.
+ *
+ * Inherits from:
+ *  - <OpenLayers.Layer>
+ */
+OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
+
+    /**
+     * Constant: EVENT_TYPES
+     * {Array(String)} Supported application event types.  Register a listener
+     *     for a particular event with the following syntax:
+     * (code)
+     * layer.events.register(type, obj, listener);
+     * (end)
+     *
+     * Listeners will be called with a reference to an event object.  The
+     *     properties of this event depends on exactly what happened.
+     *
+     * All event objects have at least the following properties:
+     *  - *object* {Object} A reference to layer.events.object.
+     *  - *element* {DOMElement} A reference to layer.events.element.
+     *
+     * Supported map event types (in addition to those from <OpenLayers.Layer>):
+     *  - *beforefeatureadded* Triggered before a feature is added.  Listeners
+     *      will receive an object with a *feature* property referencing the
+     *      feature to be added.
+     *  - *featureadded* Triggered after a feature is added.  The event
+     *      object passed to listeners will have a *feature* property with a
+     *      reference to the added feature.
+     *  - *featuresadded* Triggered after features are added.  The event
+     *      object passed to listeners will have a *features* property with a
+     *      reference to an array of added features.
+     *  - *featureselected* Triggered after a feature is selected.  Listeners
+     *      will receive an object with a *feature* property referencing the
+     *      selected feature.
+     *  - *featureunselected* Triggered after a feature is unselected.
+     *      Listeners will receive an object with a *feature* property
+     *      referencing the unselected feature.
+     */
+    EVENT_TYPES: ["beforefeatureadded", "featureadded",
+                  "featuresadded", "featureselected", "featureunselected"],
+
+    /**
+     * APIProperty: isBaseLayer
+     * {Boolean} The layer is a base layer.  Default is true.  Set this property
+     * in the layer options
+     */
+    isBaseLayer: false,
+
+    /** 
+     * APIProperty: isFixed
+     * {Boolean} Whether the layer remains in one place while dragging the
+     * map.
+     */
+    isFixed: false,
+
+    /** 
+     * APIProperty: isVector
+     * {Boolean} Whether the layer is a vector layer.
+     */
+    isVector: true,
+
+    /** 
+     * APIProperty: features
+     * Array({<OpenLayers.Feature.Vector>}) 
+     */
+    features: null,
+    
+    /** 
+     * Property: selectedFeatures
+     * Array({<OpenLayers.Feature.Vector>}) 
+     */
+    selectedFeatures: null,
+
+    /**
+     * APIProperty: reportError
+     * {Boolean} report error message via alert() when loading of renderers
+     * fails.
+     */
+    reportError: true, 
+
+    /** 
+     * APIProperty: style
+     * {Object} Default style for the layer
+     */
+    style: null,
+    
+    /**
+     * Property: styleMap
+     * {<OpenLayers.StyleMap>}
+     */
+    styleMap: null,
+
+    /**
+     * Property: renderers
+     * Array({String}) List of supported Renderer classes. Add to this list to
+     * add support for additional renderers. This list is ordered:
+     * the first renderer which returns true for the  'supported()'
+     * method will be used, if not defined in the 'renderer' option.
+     */
+    renderers: ['SVG', 'VML'],
+    
+    /** 
+     * Property: renderer
+     * {<OpenLayers.Renderer>}
+     */
+    renderer: null,
+   
+    /** 
+     * APIProperty: geometryType
+     * {String} geometryType allows you to limit the types of geometries this
+     * layer supports. This should be set to something like
+     * "OpenLayers.Geometry.Point" to limit types.
+     */
+    geometryType: null,
+
+    /** 
+     * Property: drawn
+     * {Boolean} Whether the Vector Layer features have been drawn yet.
+     */
+    drawn: false,
+
+    /**
+     * Constructor: OpenLayers.Layer.Vector
+     * Create a new vector layer
+     *
+     * Parameters:
+     * name - {String} A name for the layer
+     * options - {Object} options Object with non-default properties to set on
+     *           the layer.
+     *
+     * Returns:
+     * {<OpenLayers.Layer.Vector>} A new vector layer
+     */
+    initialize: function(name, options) {
+        
+        // concatenate events specific to vector with those from the base
+        this.EVENT_TYPES = this.EVENT_TYPES.concat(
+            OpenLayers.Layer.prototype.EVENT_TYPES
+        );
+
+        OpenLayers.Layer.prototype.initialize.apply(this, arguments);
+
+        // allow user-set renderer, otherwise assign one
+        if (!this.renderer || !this.renderer.supported()) {  
+            this.assignRenderer();
+        }
+
+        // if no valid renderer found, display error
+        if (!this.renderer || !this.renderer.supported()) {
+            this.renderer = null;
+            this.displayError();
+        } 
+
+        if (!this.styleMap) {
+            this.styleMap = new OpenLayers.StyleMap();
+        }
+
+        this.features = [];
+        this.selectedFeatures = [];
+    },
+
+    /**
+     * APIMethod: destroy
+     * Destroy this layer
+     */
+    destroy: function() {
+        OpenLayers.Layer.prototype.destroy.apply(this, arguments);  
+
+        this.destroyFeatures();
+        this.features = null;
+        this.selectedFeatures = null;
+        if (this.renderer) {
+            this.renderer.destroy();
+        }
+        this.renderer = null;
+        this.geometryType = null;
+        this.drawn = null;
+    },
+
+    /** 
+     * Method: assignRenderer
+     * Iterates through the available renderer implementations and selects 
+     * and assigns the first one whose "supported()" function returns true.
+     */    
+    assignRenderer: function()  {
+        for (var i = 0; i < this.renderers.length; i++) {
+            var rendererClass = OpenLayers.Renderer[this.renderers[i]];
+            if (rendererClass && rendererClass.prototype.supported()) {
+               this.renderer = new rendererClass(this.div);
+               break;
+            }  
+        }  
+    },
+
+    /** 
+     * Method: displayError 
+     * Let the user know their browser isn't supported.
+     */
+    displayError: function() {
+        if (this.reportError) {
+            var message = "Your browser does not support vector rendering. " + 
+                            "Currently supported renderers are:\n";
+            message += this.renderers.join("\n");
+            alert(message);
+        }    
+    },
+
+    /** 
+     * Method: setMap
+     * The layer has been added to the map. 
+     * 
+     * If there is no renderer set, the layer can't be used. Remove it.
+     * Otherwise, give the renderer a reference to the map and set its size.
+     * 
+     * Parameters:
+     * map - {<OpenLayers.Map>} 
+     */
+    setMap: function(map) {        
+        OpenLayers.Layer.prototype.setMap.apply(this, arguments);
+
+        if (!this.renderer) {
+            this.map.removeLayer(this);
+        } else {
+            this.renderer.map = this.map;
+            this.renderer.setSize(this.map.getSize());
+        }
+    },
+    
+    /**
+     * Method: onMapResize
+     * Notify the renderer of the change in size. 
+     * 
+     */
+    onMapResize: function() {
+        OpenLayers.Layer.prototype.onMapResize.apply(this, arguments);
+        this.renderer.setSize(this.map.getSize());
+    },
+
+    /**
+     * Method: moveTo
+     *  Reset the vector layer's div so that it once again is lined up with 
+     *   the map. Notify the renderer of the change of extent, and in the
+     *   case of a change of zoom level (resolution), have the 
+     *   renderer redraw features.
+     * 
+     *  If the layer has not yet been drawn, cycle through the layer's 
+     *   features and draw each one.
+     * 
+     * Parameters:
+     * bounds - {<OpenLayers.Bounds>} 
+     * zoomChanged - {Boolean} 
+     * dragging - {Boolean} 
+     */
+    moveTo: function(bounds, zoomChanged, dragging) {
+        OpenLayers.Layer.prototype.moveTo.apply(this, arguments);
+
+        if (!dragging) {
+            this.renderer.root.style.visibility = "hidden";
+            
+            this.div.style.left = -parseInt(this.map.layerContainerDiv.style.left) + "px";
+            this.div.style.top = -parseInt(this.map.layerContainerDiv.style.top) + "px";
+            var extent = this.map.getExtent();
+            this.renderer.setExtent(extent);
+            
+            this.renderer.root.style.visibility = "visible";
+        }
+        
+        if (!this.drawn || zoomChanged) {
+            this.drawn = true;
+            for(var i = 0; i < this.features.length; i++) {
+                var feature = this.features[i];
+                this.drawFeature(feature);
+            }
+        }    
+    },
+
+    /**
+     * APIMethod: addFeatures
+     * Add Features to the layer.
+     *
+     * Parameters:
+     * features - {Array(<OpenLayers.Feature.Vector>)} 
+     * options - {Object}
+     */
+    addFeatures: function(features, options) {
+        if (!(features instanceof Array)) {
+            features = [features];
+        }
+        
+        var notify = !options || !options.silent;
+
+        for (var i = 0; i < features.length; i++) {
+            var feature = features[i];
+            
+            if (this.geometryType &&
+                !(feature.geometry instanceof this.geometryType)) {
+                    var throwStr = "addFeatures : component should be an " + 
+                                    this.geometryType.prototype.CLASS_NAME;
+                    throw throwStr;
+                }
+
+            this.features.push(feature);
+            
+            //give feature reference to its layer
+            feature.layer = this;
+
+            if (!feature.style && this.style) {
+                feature.style = OpenLayers.Util.extend({}, this.style);
+            }
+
+            if (notify) {
+                this.events.triggerEvent("beforefeatureadded", {
+                    feature: feature
+                });
+                this.preFeatureInsert(feature);
+            }
+
+            if (this.drawn) {
+                this.drawFeature(feature);
+            }
+            
+            if (notify) {
+                this.events.triggerEvent("featureadded", {
+                    feature: feature
+                });
+                this.onFeatureInsert(feature);
+            }
+        }
+        
+        if(notify) {
+            this.events.triggerEvent("featuresadded", {features: features});
+        }
+    },
+
+
+    /**
+     * APIMethod: removeFeatures
+     * 
+     * Parameters:
+     * features - {Array(<OpenLayers.Feature.Vector>)} 
+     */
+    removeFeatures: function(features) {
+        if (!(features instanceof Array)) {
+            features = [features];
+        }
+
+        for (var i = features.length - 1; i >= 0; i--) {
+            var feature = features[i];
+            this.features = OpenLayers.Util.removeItem(this.features, feature);
+
+            if (feature.geometry) {
+                this.renderer.eraseGeometry(feature.geometry);
+            }
+                    
+            //in the case that this feature is one of the selected features, 
+            // remove it from that array as well.
+            if (OpenLayers.Util.indexOf(this.selectedFeatures, feature) != -1){
+                OpenLayers.Util.removeItem(this.selectedFeatures, feature);
+            }
+        }
+    },
+
+    /**
+     * APIMethod: destroyFeatures
+     * Erase and destroy features on the layer.
+     *
+     * Parameters:
+     * features - {Array(<OpenLayers.Feature.Vector>)} An optional array of
+     *     features to destroy.  If not supplied, all features on the layer
+     *     will be destroyed.
+     */
+    destroyFeatures: function(features) {
+        var all = (features == undefined);
+        if(all) {
+            features = this.features;
+            this.selectedFeatures = [];
+        }
+        this.eraseFeatures(features);
+        var feature;
+        for(var i=features.length-1; i>=0; i--) {
+            feature = features[i];
+            if(!all) {
+                OpenLayers.Util.removeItem(this.selectedFeatures, feature);
+            }
+            feature.destroy();
+        }
+    },
+
+    /**
+     * APIMethod: drawFeature
+     * Draw (or redraw) a feature on the layer.  If the optional style argument
+     * is included, this style will be used.  If no style is included, the
+     * feature's style will be used.  If the feature doesn't have a style,
+     * the layer's style will be used.
+     * 
+     * Parameters: 
+     * feature - {<OpenLayers.Feature.Vector>} 
+     * style - {Object} Symbolizer hash or {String} renderIntent
+     */
+    drawFeature: function(feature, style) {
+        if (typeof style != "object") {
+            var renderIntent = typeof style == "string" ?
+                style : feature.renderIntent;
+            style = feature.style || this.style;
+            if (!style) {
+                style = this.styleMap.createSymbolizer(feature, renderIntent);
+            }
+        }
+        
+        this.renderer.drawFeature(feature, style);
+    },
+    
+    /**
+     * Method: eraseFeatures
+     * Erase features from the layer.
+     *
+     * Parameters:
+     * features - {Array(<OpenLayers.Feature.Vector>)} 
+     */
+    eraseFeatures: function(features) {
+        this.renderer.eraseFeatures(features);
+    },
+
+    /**
+     * Method: getFeatureFromEvent
+     * Given an event, return a feature if the event occurred over one.
+     * Otherwise, return null.
+     *
+     * Parameters:
+     * evt - {Event} 
+     *
+     * Returns:
+     * {<OpenLayers.Feature.Vector>} A feature if one was under the event.
+     */
+    getFeatureFromEvent: function(evt) {
+        if (!this.renderer) {
+            OpenLayers.Console.error("getFeatureFromEvent called on layer with no renderer. This usually means you destroyed a layer, but not some handler which is associated with it."); 
+            return null;
+        }    
+        var featureId = this.renderer.getFeatureIdFromEvent(evt);
+        return this.getFeatureById(featureId);
+    },
+    
+    /**
+     * APIMethod: getFeatureById
+     * Given a feature id, return the feature if it exists in the features array
+     *
+     * Parameters:
+     * featureId - {String} 
+     *
+     * Returns:
+     * {<OpenLayers.Feature.Vector>} A feature corresponding to the given
+     * featureId
+     */
+    getFeatureById: function(featureId) {
+        //TBD - would it be more efficient to use a hash for this.features?
+        var feature = null;
+        for(var i=0; i<this.features.length; ++i) {
+            if(this.features[i].id == featureId) {
+                feature = this.features[i];
+                break;
+            }
+        }
+        return feature;
+    },
+    
+    /**
+     * Unselect the selected features
+     * i.e. clears the featureSelection array
+     * change the style back
+    clearSelection: function() {
+
+       var vectorLayer = this.map.vectorLayer;
+        for (var i = 0; i < this.map.featureSelection.length; i++) {
+            var featureSelection = this.map.featureSelection[i];
+            vectorLayer.drawFeature(featureSelection, vectorLayer.style);
+        }
+        this.map.featureSelection = [];
+    },
+     */
+
+
+    /**
+     * APIMethod: onFeatureInsert
+     * method called after a feature is inserted.
+     * Does nothing by default. Override this if you
+     * need to do something on feature updates.
+     *
+     * Paarameters: 
+     * feature - {<OpenLayers.Feature.Vector>} 
+     */
+    onFeatureInsert: function(feature) {
+    },
+    
+    /**
+     * APIMethod: preFeatureInsert
+     * method called before a feature is inserted.
+     * Does nothing by default. Override this if you
+     * need to do something when features are first added to the
+     * layer, but before they are drawn, such as adjust the style.
+     *
+     * Parameters:
+     * feature - {<OpenLayers.Feature.Vector>} 
+     */
+    preFeatureInsert: function(feature) {
+    },
+
+    CLASS_NAME: "OpenLayers.Layer.Vector"
 });
 /* ======================================================================
     OpenLayers/Layer/WMS/Untiled.js
@@ -35005,6 +34192,820 @@ OpenLayers.Handler.Point = OpenLayers.Class(OpenLayers.Handler, {
     },
 
     CLASS_NAME: "OpenLayers.Handler.Point"
+});
+/* ======================================================================
+    OpenLayers/Layer/GML.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
+ * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Layer/Vector.js
+ * @requires OpenLayers/Ajax.js
+ */
+
+/**
+ * Class: OpenLayers.Layer.GML
+ * Create a vector layer by parsing a GML file. The GML file is
+ *     passed in as a parameter.
+ *
+ * Inherits from:
+ *  - <OpenLayers.Layer.Vector>
+ */
+OpenLayers.Layer.GML = OpenLayers.Class(OpenLayers.Layer.Vector, {
+    
+    /**
+      * Property: loaded
+      * {Boolean} Flag for whether the GML data has been loaded yet.
+      */
+    loaded: false,
+
+    /**
+      * APIProperty: format
+      * {<OpenLayers.Format>} The format you want the data to be parsed with.
+      */
+    format: null,
+
+    /**
+     * APIProperty: formatOptions
+     * {Object} Hash of options which should be passed to the format when it is
+     * created. Must be passed in the constructor.
+     */
+    formatOptions: null, 
+    
+    /**
+     * Constructor: OpenLayers.Layer.GML
+     * Load and parse a single file on the web, according to the format
+     * provided via the 'format' option, defaulting to GML. 
+     *
+     * Parameters:
+     * name - {String} 
+     * url - {String} URL of a GML file.
+     * options - {Object} Hashtable of extra options to tag onto the layer.
+     */
+     initialize: function(name, url, options) {
+        var newArguments = [];
+        newArguments.push(name, options);
+        OpenLayers.Layer.Vector.prototype.initialize.apply(this, newArguments);
+        this.url = url;
+    },
+
+    /**
+     * APIMethod: setVisibility
+     * Set the visibility flag for the layer and hide/show&redraw accordingly. 
+     * Fire event unless otherwise specified
+     * GML will be loaded if the layer is being made visible for the first
+     * time.
+     *  
+     * Parameters:
+     * visible - {Boolean} Whether or not to display the layer 
+     *                          (if in range)
+     * noEvent - {Boolean} 
+     */
+    setVisibility: function(visibility, noEvent) {
+        OpenLayers.Layer.Vector.prototype.setVisibility.apply(this, arguments);
+        if(this.visibility && !this.loaded){
+            // Load the GML
+            this.loadGML();
+        }
+    },
+
+    /**
+     * Method: moveTo
+     * If layer is visible and GML has not been loaded, load GML, then load GML
+     * and call OpenLayers.Layer.Vector.moveTo() to redraw at the new location.
+     * 
+     * Parameters:
+     * bounds - {Object} 
+     * zoomChanged - {Object} 
+     * minor - {Object} 
+     */
+    moveTo:function(bounds, zoomChanged, minor) {
+        OpenLayers.Layer.Vector.prototype.moveTo.apply(this, arguments);
+        // Wait until initialisation is complete before loading GML
+        // otherwise we can get a race condition where the root HTML DOM is
+        // loaded after the GML is paited.
+        // See http://trac.openlayers.org/ticket/404
+        if(this.visibility && !this.loaded){
+            this.events.triggerEvent("loadstart");
+            this.loadGML();
+        }
+    },
+
+    /**
+     * Method: loadGML
+     */
+    loadGML: function() {
+        if (!this.loaded) {
+            var results = OpenLayers.loadURL(this.url, null, this, this.requestSuccess, this.requestFailure);
+            this.loaded = true;
+        }    
+    },    
+    
+    /**
+     * Method: setUrl
+     * Change the URL and reload the GML
+     *
+     * Parameters:
+     * url - {String} URL of a GML file.
+     */
+    setUrl:function(url) {
+        this.url = url;
+        this.destroyFeatures();
+        this.loaded = false;
+        this.events.triggerEvent("loadstart");
+        this.loadGML();
+    },
+    
+    /**
+     * Method: requestSuccess
+     * Process GML after it has been loaded.
+     * Called by initialise() and loadUrl() after the GML has been loaded.
+     *
+     * Parameters:
+     * request - {String} 
+     */
+    requestSuccess:function(request) {
+        var doc = request.responseXML;
+        
+        if (!doc || request.fileType!="XML") {
+            doc = request.responseText;
+        }
+        
+        var options = {};
+        
+        OpenLayers.Util.extend(options, this.formatOptions);
+        if (this.map && !this.projection.equals(this.map.getProjectionObject())) {
+            options.externalProjection = this.projection;
+            options.internalProjection = this.map.getProjectionObject();
+        }    
+        
+        var gml = this.format ? new this.format(options) : new OpenLayers.Format.GML(options);
+        this.addFeatures(gml.read(doc));
+        this.events.triggerEvent("loadend");
+    },
+    
+    /**
+     * Method: requestFailure
+     * Process a failed loading of GML.
+     * Called by initialise() and loadUrl() if there was a problem loading GML.
+     *
+     * Parameters:
+     * request - {String} 
+     */
+    requestFailure: function(request) {
+        alert("Error in loading GML file "+this.url);
+        this.events.triggerEvent("loadend");
+    },
+
+    CLASS_NAME: "OpenLayers.Layer.GML"
+});
+/* ======================================================================
+    OpenLayers/Layer/PointTrack.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2007 MetaCarta, Inc., published under the Clear BSD
+ * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Layer/Vector.js
+ * 
+ * Class: OpenLayers.Layer.PointTrack
+ * Vector layer to display ordered point features as a line, creating one
+ * LineString feature for each pair of two points.
+ *
+ * Inherits from:
+ *  - <OpenLayers.Layer.Vector> 
+ */
+OpenLayers.Layer.PointTrack = OpenLayers.Class(OpenLayers.Layer.Vector, {
+  
+    /**
+     * APIProperty:
+     * dataFrom  - {<OpenLayers.Layer.PointTrack.dataFrom>} optional. If the
+     *             lines should get the data/attributes from one of the two
+     *             points, creating it, which one should it be?
+     */
+    dataFrom: null,
+    
+    /**
+     * Constructor: OpenLayers.PointTrack
+     * Constructor for a new OpenLayers.PointTrack instance.
+     *
+     * Parameters:
+     * name     - {String} name of the layer
+     * options  - {Object} Optional object with properties to tag onto the
+     *            instance.
+     */    
+    initialize: function(name, options) {
+        OpenLayers.Layer.Vector.prototype.initialize.apply(this, arguments);
+    },
+        
+    /**
+     * APIMethod: addNodes
+     * Adds point features that will be used to create lines from, using point
+     * pairs. The first point of a pair will be the source node, the second
+     * will be the target node.
+     * 
+     * Parameters:
+     * pointFeatures - {Array(<OpenLayers.Feature>)}
+     * 
+     */
+    addNodes: function(pointFeatures) {
+        if (pointFeatures.length < 2) {
+            OpenLayers.Console.error(
+                    "At least two point features have to be added to create" +
+                    "a line from");
+            return;
+        }
+        
+        var lines = new Array(pointFeatures.length-1);
+        
+        var pointFeature, startPoint, endPoint;
+        for(var i = 0; i < pointFeatures.length; i++) {
+            pointFeature = pointFeatures[i];
+            endPoint = pointFeature.geometry;
+            
+            if (!endPoint) {
+              var lonlat = pointFeature.lonlat;
+              endPoint = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
+            } else if(endPoint.CLASS_NAME != "OpenLayers.Geometry.Point") {
+                OpenLayers.Console.error(
+                        "Only features with point geometries are supported.");
+                return;
+            }
+            
+            if(i > 0) {
+                var attributes = (this.dataFrom != null) ?
+                        (pointFeatures[i+this.dataFrom].data ||
+                                pointFeatures[i+this.dataFrom].attributes) :
+                        null;
+                var line = new OpenLayers.Geometry.LineString([startPoint,
+                        endPoint]);
+                        
+                lines[i-1] = new OpenLayers.Feature.Vector(line, attributes);
+            }
+            
+            startPoint = endPoint;
+        }
+
+        this.addFeatures(lines);
+    },
+    
+    CLASS_NAME: "OpenLayers.Layer.PointTrack"
+});
+
+/**
+ * Constant: OpenLayers.Layer.PointTrack.dataFrom
+ * {Object} with the following keys
+ * - SOURCE_NODE: take data/attributes from the source node of the line
+ * - TARGET_NODE: take data/attributes from the target node of the line
+ */
+OpenLayers.Layer.PointTrack.dataFrom = {'SOURCE_NODE': -1, 'TARGET_NODE': 0};
+
+/* ======================================================================
+    OpenLayers/Layer/WFS.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
+ * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * full text of the license. */
+
+
+/**
+ * @requires OpenLayers/Layer/Vector.js
+ * @requires OpenLayers/Layer/Markers.js
+ */
+
+/**
+ * Class: OpenLayers.Layer.WFS
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Layer.Vector>
+ *  - <OpenLayers.Layer.Markers>
+ */
+OpenLayers.Layer.WFS = OpenLayers.Class(
+  OpenLayers.Layer.Vector, OpenLayers.Layer.Markers, {
+
+    /**
+     * APIProperty: isBaseLayer
+     * {Boolean} WFS layer is not a base layer by default. 
+     */
+    isBaseLayer: false,
+    
+    /**
+     * Property: tile
+     * {<OpenLayers.Tile.WFS>}
+     */
+    tile: null,    
+    
+    /**
+     * APIProperty: ratio
+     * {Float} the ratio of image/tile size to map size (this is the untiled
+     *     buffer)
+     */
+    ratio: 2,
+
+    /**  
+     * Property: DEFAULT_PARAMS
+     * {Object} Hashtable of default key/value parameters
+     */
+    DEFAULT_PARAMS: { service: "WFS",
+                      version: "1.0.0",
+                      request: "GetFeature"
+                    },
+    
+    /** 
+     * APIProperty: featureClass
+     * {<OpenLayers.Feature>} If featureClass is defined, an old-style markers
+     *     based WFS layer is created instead of a new-style vector layer. If
+     *     sent, this should be a subclass of OpenLayers.Feature
+     */
+    featureClass: null,
+    
+    /**
+      * APIProperty: format
+      * {<OpenLayers.Format>} The format you want the data to be parsed with.
+      * Must be passed in the constructor. Should be a class, not an instance.
+      */
+    format: null,
+
+    /** 
+     * Property: formatObject
+     * {<OpenLayers.Format>} Internally created/managed format object, used by
+     * the Tile to parse data.
+     */
+    formatObject: null,
+
+    /**
+     * APIProperty: formatOptions
+     * {Object} Hash of options which should be passed to the format when it is
+     * created. Must be passed in the constructor.
+     */
+    formatOptions: null, 
+
+    /**
+     * Property: vectorMode
+     * {Boolean} Should be calculated automatically.
+     */
+    vectorMode: true, 
+    
+    /**
+     * APIProperty: encodeBBOX
+     * {Boolean} Should the BBOX commas be encoded? The WMS spec says 'no', 
+     *     but some services want it that way. Default false.
+     */
+    encodeBBOX: false,
+    
+    /**
+     * APIProperty: extractAttributes 
+     * {Boolean} Should the WFS layer parse attributes from the retrieved
+     *     GML? Defaults to false. If enabled, parsing is slower, but 
+     *     attributes are available in the attributes property of 
+     *     layer features.
+     */
+    extractAttributes: false,
+
+    /**
+     * Constructor: OpenLayers.Layer.WFS
+     *
+     * Parameters:
+     * name - {String} 
+     * url - {String} 
+     * params - {Object} 
+     * options - {Object} Hashtable of extra options to tag onto the layer
+     */
+    initialize: function(name, url, params, options) {
+        if (options == undefined) { options = {}; } 
+        
+        if (options.featureClass || 
+            !OpenLayers.Layer.Vector || 
+            !OpenLayers.Feature.Vector) {
+            this.vectorMode = false;
+        }    
+        
+        // Turn off error reporting, browsers like Safari may work
+        // depending on the setup, and we don't want an unneccesary alert.
+        OpenLayers.Util.extend(options, {'reportError': false});
+        var newArguments = [];
+        newArguments.push(name, options);
+        OpenLayers.Layer.Vector.prototype.initialize.apply(this, newArguments);
+        if (!this.renderer || !this.vectorMode) {
+            this.vectorMode = false; 
+            if (!options.featureClass) {
+                options.featureClass = OpenLayers.Feature.WFS;
+            }   
+            OpenLayers.Layer.Markers.prototype.initialize.apply(this, 
+                                                                newArguments);
+        }
+        
+        if (this.params && this.params.typename && !this.options.typename) {
+            this.options.typename = this.params.typename;
+        }
+        
+        if (!this.options.geometry_column) {
+            this.options.geometry_column = "the_geom";
+        }    
+        
+        this.params = params;
+        OpenLayers.Util.applyDefaults(
+                       this.params, 
+                       OpenLayers.Util.upperCaseObject(this.DEFAULT_PARAMS)
+                       );
+        this.url = url;
+    },    
+    
+
+    /**
+     * APIMethod: destroy
+     */
+    destroy: function() {
+        if (this.vectorMode) {
+            OpenLayers.Layer.Vector.prototype.destroy.apply(this, arguments);
+        } else {    
+            OpenLayers.Layer.Markers.prototype.destroy.apply(this, arguments);
+        }    
+        if (this.tile) {
+            this.tile.destroy();
+        }
+        this.tile = null;
+
+        this.ratio = null;
+        this.featureClass = null;
+        this.format = null;
+
+        if (this.formatObject && this.formatObject.destroy) {
+            this.formatObject.destroy();
+        }
+        this.formatObject = null;
+        
+        this.formatOptions = null;
+        this.vectorMode = null;
+        this.encodeBBOX = null;
+        this.extractAttributes = null;
+    },
+    
+    /**
+     * Method: setMap
+     * 
+     * Parameters:
+     * map - {<OpenLayers.Map>} 
+     */
+    setMap: function(map) {
+        if (this.vectorMode) {
+            OpenLayers.Layer.Vector.prototype.setMap.apply(this, arguments);
+            
+            var options = {
+              'extractAttributes': this.extractAttributes
+            };
+            
+            OpenLayers.Util.extend(options, this.formatOptions);
+            if (this.map && !this.projection.equals(this.map.getProjectionObject())) {
+                options.externalProjection = this.projection;
+                options.internalProjection = this.map.getProjectionObject();
+            }    
+            
+            this.formatObject = this.format ? new this.format(options) : new OpenLayers.Format.GML(options);
+        } else {    
+            OpenLayers.Layer.Markers.prototype.setMap.apply(this, arguments);
+        }    
+    },
+    
+    /** 
+     * Method: moveTo
+     * 
+     * Parameters:
+     * bounds - {<OpenLayers.Bounds>} 
+     * zoomChanged - {Boolean} 
+     * dragging - {Boolean} 
+     */
+    moveTo:function(bounds, zoomChanged, dragging) {
+        if (this.vectorMode) {
+            OpenLayers.Layer.Vector.prototype.moveTo.apply(this, arguments);
+        } else {
+            OpenLayers.Layer.Markers.prototype.moveTo.apply(this, arguments);
+        }    
+
+        // don't load wfs features while dragging, wait for drag end
+        if (dragging) {
+            // TBD try to hide the vector layer while dragging
+            // this.setVisibility(false);
+            // this will probably help for panning performances
+            return false;
+        }
+        
+        if ( zoomChanged ) {
+            if (this.vectorMode) {
+                this.renderer.clear();
+            }
+        }
+        
+    //DEPRECATED - REMOVE IN 3.0
+        // don't load data if current zoom level doesn't match
+        if (this.options.minZoomLevel) {
+            
+            var err = "The minZoomLevel property is only intended for use " +
+                    "with the FixedZoomLevels-descendent layers. That this " +
+                    "wfs layer checks for minZoomLevel is a relic of the" +
+                    "past. We cannot, however, remove it without possibly " +
+                    "breaking OL based applications that may depend on it." +
+                    " Therefore we are deprecating it -- the minZoomLevel " +
+                    "check below will be removed at 3.0. Please instead " +
+                    "use min/max resolution setting as described here: " +
+                    "http://trac.openlayers.org/wiki/SettingZoomLevels";
+            OpenLayers.Console.warn(err);
+            
+            if (this.map.getZoom() < this.options.minZoomLevel) {
+                return null;
+            }
+        }
+        
+        if (bounds == null) {
+            bounds = this.map.getExtent();
+        }
+
+        var firstRendering = (this.tile == null);
+
+        //does the new bounds to which we need to move fall outside of the 
+        // current tile's bounds?
+        var outOfBounds = (!firstRendering &&
+                           !this.tile.bounds.containsBounds(bounds));
+
+        if (zoomChanged || firstRendering || (!dragging && outOfBounds)) {
+            //determine new tile bounds
+            var center = bounds.getCenterLonLat();
+            var tileWidth = bounds.getWidth() * this.ratio;
+            var tileHeight = bounds.getHeight() * this.ratio;
+            var tileBounds = 
+                new OpenLayers.Bounds(center.lon - (tileWidth / 2),
+                                      center.lat - (tileHeight / 2),
+                                      center.lon + (tileWidth / 2),
+                                      center.lat + (tileHeight / 2));
+
+            //determine new tile size
+            var tileSize = this.map.getSize();
+            tileSize.w = tileSize.w * this.ratio;
+            tileSize.h = tileSize.h * this.ratio;
+
+            //determine new position (upper left corner of new bounds)
+            var ul = new OpenLayers.LonLat(tileBounds.left, tileBounds.top);
+            var pos = this.map.getLayerPxFromLonLat(ul);
+
+            //formulate request url string
+            var url = this.getFullRequestString();
+        
+            var params = {BBOX: this.encodeBBOX ? tileBounds.toBBOX() 
+                                                : tileBounds.toArray()};
+            url += "&" + OpenLayers.Util.getParameterString(params);
+
+            if (!this.tile) {
+                this.tile = new OpenLayers.Tile.WFS(this, pos, tileBounds, 
+                                                     url, tileSize);
+                this.addTileMonitoringHooks(this.tile);
+                this.tile.draw();
+            } else {
+                if (this.vectorMode) {
+                    this.destroyFeatures();
+                    this.renderer.clear();
+                } else {
+                    this.clearMarkers();
+                }    
+                this.removeTileMonitoringHooks(this.tile);
+                this.tile.destroy();
+                
+                this.tile = null;
+                this.tile = new OpenLayers.Tile.WFS(this, pos, tileBounds, 
+                                                     url, tileSize);
+                this.addTileMonitoringHooks(this.tile);
+                this.tile.draw();
+            } 
+        }
+    },
+
+    /** 
+     * Method: addTileMonitoringHooks
+     * This function takes a tile as input and adds the appropriate hooks to 
+     *     the tile so that the layer can keep track of the loading tile
+     *     (making sure to check that the tile is always the layer's current
+     *     tile before taking any action).
+     * 
+     * Parameters: 
+     * tile - {<OpenLayers.Tile>}
+     */
+    addTileMonitoringHooks: function(tile) {
+        tile.onLoadStart = function() {
+            //if this is the the layer's current tile, then trigger 
+            // a 'loadstart'
+            if (this == this.layer.tile) {
+                this.layer.events.triggerEvent("loadstart");
+            }
+        };
+        tile.events.register("loadstart", tile, tile.onLoadStart);
+      
+        tile.onLoadEnd = function() {
+            //if this is the the layer's current tile, then trigger 
+            // a 'tileloaded' and 'loadend'
+            if (this == this.layer.tile) {
+                this.layer.events.triggerEvent("tileloaded");
+                this.layer.events.triggerEvent("loadend");
+            }
+        };
+        tile.events.register("loadend", tile, tile.onLoadEnd);
+    },
+    
+    /** 
+     * Method: removeTileMonitoringHooks
+     * This function takes a tile as input and removes the tile hooks 
+     *     that were added in addTileMonitoringHooks()
+     * 
+     * Parameters: 
+     * tile - {<OpenLayers.Tile>}
+     */
+    removeTileMonitoringHooks: function(tile) {
+        tile.events.un({
+            "loadstart": tile.onLoadStart,
+            "loadend": tile.onLoadEnd,
+            scope: tile
+        });
+    },
+
+    /**
+     * Method: onMapResize
+     * Call the onMapResize method of the appropriate parent class. 
+     */
+    onMapResize: function() {
+        if(this.vectorMode) {
+            OpenLayers.Layer.Vector.prototype.onMapResize.apply(this, 
+                                                                arguments);
+        } else {
+            OpenLayers.Layer.Markers.prototype.onMapResize.apply(this, 
+                                                                 arguments);
+        }
+    },
+    
+    /**
+     * APIMethod: mergeNewParams
+     * Modify parameters for the layer and redraw.
+     * 
+     * Parameters:
+     * newParams - {Object}
+     */
+    mergeNewParams:function(newParams) {
+        var upperParams = OpenLayers.Util.upperCaseObject(newParams);
+        var newArguments = [upperParams];
+        return OpenLayers.Layer.HTTPRequest.prototype.mergeNewParams.apply(this, 
+                                                                 newArguments);
+    },
+
+    /**
+     * APIMethod: clone
+     *
+     * Parameters:
+     * obj - {Object} 
+     * 
+     * Returns:
+     * {<OpenLayers.Layer.WFS>} An exact clone of this OpenLayers.Layer.WFS
+     */
+    clone: function (obj) {
+        
+        if (obj == null) {
+            obj = new OpenLayers.Layer.WFS(this.name,
+                                           this.url,
+                                           this.params,
+                                           this.options);
+        }
+
+        //get all additions from superclasses
+        if (this.vectorMode) {
+            obj = OpenLayers.Layer.Vector.prototype.clone.apply(this, [obj]);
+        } else {
+            obj = OpenLayers.Layer.Markers.prototype.clone.apply(this, [obj]);
+        }    
+
+        // copy/set any non-init, non-simple values here
+
+        return obj;
+    },
+
+    /** 
+     * APIMethod: getFullRequestString
+     * combine the layer's url with its params and these newParams. 
+     *   
+     *    Add the SRS parameter from 'projection' -- this is probably
+     *     more eloquently done via a setProjection() method, but this 
+     *     works for now and always.
+     *
+     * Parameters:
+     * newParams - {Object} 
+     * altUrl - {String} Use this as the url instead of the layer's url
+     */
+    getFullRequestString:function(newParams, altUrl) {
+        var projectionCode = this.map.getProjection();
+        this.params.SRS = (projectionCode == "none") ? null : projectionCode;
+
+        return OpenLayers.Layer.Grid.prototype.getFullRequestString.apply(
+                                                    this, arguments);
+    },
+   
+    /**
+     * APIMethod: commit
+     * Write out the data to a WFS server.
+     */
+    commit: function() {
+        if (!this.writer) {
+            this.writer = new OpenLayers.Format.WFS({},this);
+        }
+
+        var data = this.writer.write(this.features);
+        
+        var url = this.url;
+        if (OpenLayers.ProxyHost &&
+            OpenLayers.String.startsWith(this.url, "http")) {
+            url = OpenLayers.ProxyHost + escape(this.url);
+        }
+
+        var success = OpenLayers.Function.bind(this.commitSuccess, this);
+
+        var failure = OpenLayers.Function.bind(this.commitFailure, this);
+        
+        data = OpenLayers.Ajax.serializeXMLToString(data);
+        
+        // from prototype.js
+        new OpenLayers.Ajax.Request(url, 
+                         {   method: 'post', 
+                             postBody: data,
+                             onComplete: success, 
+                             onFailure: failure
+                          }
+                         );
+    },
+
+    /**
+     * Method: commitSuccess
+     * Called when the Ajax request returns a response
+     *
+     * Parameters:
+     * response - {XmlNode} from server
+     */
+    commitSuccess: function(request) {
+        var response = request.responseText;
+        if (response.indexOf('SUCCESS') != -1) {
+            this.commitReport('WFS Transaction: SUCCESS', response);
+            
+            for(var i = 0; i < this.features.length; i++) {
+                this.features[i].state = null;
+            }    
+            // TBD redraw the layer or reset the state of features
+            // foreach features: set state to null
+        } else if (response.indexOf('FAILED') != -1 ||
+            response.indexOf('Exception') != -1) {
+            this.commitReport('WFS Transaction: FAILED', response);
+        }
+    },
+    
+    /**
+     * Method: commitFailure
+     * Called when the Ajax request fails
+     *
+     * Parameters:
+     * response - {XmlNode} from server
+     */
+    commitFailure: function(request) {},
+    
+    /**
+     * APIMethod: commitReport 
+     * Called with a 'success' message if the commit succeeded, otherwise
+     *     a failure message, and the full request text as a second parameter.
+     *     Override this function to provide custom transaction reporting.
+     *
+     * string - {String} reporting string
+     * response - {String} full XML response
+     */
+    commitReport: function(string, response) {
+        alert(string);
+    },
+
+    
+    /**
+     * APIMethod: refresh
+     * Refreshes all the features of the layer
+     */
+    refresh: function() {
+        if (this.tile) {
+            if (this.vectorMode) {
+                this.renderer.clear();
+                this.features.length = 0;
+            } else {   
+                this.clearMarkers();
+                this.markers.length = 0;
+            }    
+            this.tile.draw();
+        }
+    },
+
+    CLASS_NAME: "OpenLayers.Layer.WFS"
 });
 /* ======================================================================
     OpenLayers/Geometry/Curve.js

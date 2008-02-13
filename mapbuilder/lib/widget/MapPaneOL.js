@@ -183,8 +183,10 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   //     this needs to be solved
   var resolutions=objRef.widgetNode.selectSingleNode("mb:resolutions");
   resolutions = resolutions ? resolutions.firstChild.nodeValue.split(",") : null;
-  for (var r in resolutions) {
-    resolutions[r] = parseFloat(resolutions[r]);
+  if (resolutions) {
+    for (var r=0; r<resolutions.length; r++) {
+      resolutions[r] = parseFloat(resolutions[r]);
+    }
   }
 
   //fixed scales - overrides resolutions
@@ -192,7 +194,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   if(scales){
     scales = scales.firstChild.nodeValue.split(",");
     resolutions = new Array();
-    for (var s in scales) {
+    for (var s=0; s<scales.length; s++) {
       resolutions.push(OpenLayers.Util.getResolutionFromScale(scales[s], units));
     }
   }
@@ -258,8 +260,10 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       //@TODO: check if the firstChild is really needed
       var resolutions =baseLayerNode.selectSingleNode("ows:TileSet/ows:Resolutions");
       resolutions = resolutions ? resolutions.firstChild.nodeValue.split(",") : null;
-      for (var r in resolutions) {
-         resolutions[r] = parseFloat(resolutions[r]);
+      if (resolutions) {
+        for (var r=0; r<resolutions.length; r++) {
+           resolutions[r] = parseFloat(resolutions[r]);
+        }
       }
       //overrule tileSize in the Context with the one from the BaseLayer
       //right now we only support square tiles which are defined by their width:		  
