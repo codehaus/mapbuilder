@@ -94,7 +94,7 @@ var OpenLayers = {
          * Return the path to this script.
          *
          * Returns:
-         * Path to this script
+         * {String} Path to this script
          */
         _getScriptLocation: function () {
             var scriptLocation = "";
@@ -211,6 +211,7 @@ var OpenLayers = {
             "OpenLayers/Control/ArgParser.js",
             "OpenLayers/Control/Permalink.js",
             "OpenLayers/Control/Scale.js",
+            "OpenLayers/Control/ScaleLine.js",
             "OpenLayers/Control/LayerSwitcher.js",
             "OpenLayers/Control/DrawFeature.js",
             "OpenLayers/Control/DragFeature.js",
@@ -238,6 +239,7 @@ var OpenLayers = {
             "OpenLayers/Layer/PointTrack.js",
             "OpenLayers/Layer/GML.js",
             "OpenLayers/Style.js",
+            "OpenLayers/StyleMap.js",
             "OpenLayers/Rule.js",
             "OpenLayers/Rule/FeatureId.js",
             "OpenLayers/Rule/Logical.js",
@@ -2599,10 +2601,6 @@ OpenLayers.nullHandler = function(request) {
 OpenLayers.loadURL = function(uri, params, caller,
                                   onComplete, onFailure) {
 
-    if (OpenLayers.ProxyHost && OpenLayers.String.startsWith(uri, "http")) {
-        uri = OpenLayers.ProxyHost + encodeURIComponent(uri);
-    }
-
     var success = (onComplete) ? OpenLayers.Function.bind(onComplete, caller)
                                 : OpenLayers.nullHandler;
 
@@ -2826,6 +2824,10 @@ OpenLayers.Ajax.Request = OpenLayers.Class(OpenLayers.Ajax.Base, {
      */
     initialize: function(url, options) {
         OpenLayers.Ajax.Base.prototype.initialize.apply(this, [options]);
+        
+        if (OpenLayers.ProxyHost && OpenLayers.String.startsWith(url, "http")) {
+            url = OpenLayers.ProxyHost + encodeURIComponent(url);
+        }
         
         this.transport = OpenLayers.Ajax.getTransport();
         this.request(url);
@@ -4721,6 +4723,36 @@ OpenLayers.Control = OpenLayers.Class({
      */
     handler: null,
 
+    /** 
+     * Property: events
+     * {<OpenLayers.Events>} Events instance for triggering control specific
+     *     events.
+     */
+    events: null,
+
+    /**
+     * Constant: EVENT_TYPES
+     * {Array(String)} Supported application event types.  Register a listener
+     *     for a particular event with the following syntax:
+     * (code)
+     * control.events.register(type, obj, listener);
+     * (end)
+     *
+     * Listeners will be called with a reference to an event object.  The
+     *     properties of this event depends on exactly what happened.
+     *
+     * All event objects have at least the following properties:
+     *  - *object* {Object} A reference to control.events.object (a reference
+     *      to the control).
+     *  - *element* {DOMElement} A reference to control.events.element (which
+     *      will be null unless documented otherwise).
+     *
+     * Supported map event types:
+     *  - *activate* Triggered when activated.
+     *  - *deactivate* Triggered when deactivated.
+     */
+    EVENT_TYPES: ["activate", "deactivate"],
+
     /**
      * Constructor: OpenLayers.Control
      * Create an OpenLayers Control.  The options passed as a parameter
@@ -4741,6 +4773,7 @@ OpenLayers.Control = OpenLayers.Class({
         
         OpenLayers.Util.extend(this, options);
         
+        this.events = new OpenLayers.Events(this, null, this.EVENT_TYPES);
         this.id = OpenLayers.Util.createUniqueID(this.CLASS_NAME + "_");
     },
 
@@ -4751,6 +4784,10 @@ OpenLayers.Control = OpenLayers.Class({
      * to prevent memory leaks.
      */
     destroy: function () {
+        if(this.events) {
+            this.events.destroy();
+            this.events = null;
+        }
         // eliminate circular references
         if (this.handler) {
             this.handler.destroy();
@@ -4849,6 +4886,7 @@ OpenLayers.Control = OpenLayers.Class({
             this.handler.activate();
         }
         this.active = true;
+        this.events.triggerEvent("activate");
         return true;
     },
     
@@ -4867,6 +4905,7 @@ OpenLayers.Control = OpenLayers.Class({
                 this.handler.deactivate();
             }
             this.active = false;
+            this.events.triggerEvent("deactivate");
             return true;
         }
         return false;
@@ -4982,6 +5021,7 @@ OpenLayers.Icon = OpenLayers.Class({
     /**
      * Method: setSize
      * 
+     * Parameters:
      * size - {<OpenLayers.Size>} 
      */
     setSize: function(size) {
@@ -4994,6 +5034,7 @@ OpenLayers.Icon = OpenLayers.Class({
     /**
      * Method: setUrl
      * 
+     * Parameters:
      * url - {String} 
      */
     setUrl: function(url) {
@@ -6605,7 +6646,7 @@ OpenLayers.Control.Button = OpenLayers.Class(OpenLayers.Control, {
      */
     type: OpenLayers.Control.TYPE_BUTTON,
     
-    /*
+    /**
      * Method: trigger
      * Called by a control panel when the button is clicked.
      */
@@ -7869,13 +7910,6 @@ OpenLayers.Control.NavigationHistory = OpenLayers.Class(OpenLayers.Control, {
     clearOnDeactivate: false,
 
     /**
-     * Property: events
-     * {<OpenLayers.Events>} An events object that will be used for registering
-     *     listeners.  Defaults to the map events for this control.
-     */
-    events: null,
-
-    /**
      * Property: registry
      * {Object} An object with keys corresponding to event types.  Values
      *     are functions that return an object representing the current state.
@@ -7933,9 +7967,7 @@ OpenLayers.Control.NavigationHistory = OpenLayers.Class(OpenLayers.Control, {
 
         var previousOptions = {
             trigger: OpenLayers.Function.bind(this.previousTrigger, this),
-            displayClass: this.displayClass + "Previous",
-            onActivate: function() {},
-            onDeactivate: function() {}
+            displayClass: this.displayClass + "Previous"
         };
         if(options) {
             OpenLayers.Util.extend(previousOptions, options.previousOptions);
@@ -7944,9 +7976,7 @@ OpenLayers.Control.NavigationHistory = OpenLayers.Class(OpenLayers.Control, {
         
         var nextOptions = {
             trigger: OpenLayers.Function.bind(this.nextTrigger, this),
-            displayClass: this.displayClass + "Next",
-            onActivate: function() {},
-            onDeactivate: function() {}
+            displayClass: this.displayClass + "Next"
         };
         if(options) {
             OpenLayers.Util.extend(nextOptions, options.nextOptions);
@@ -7968,10 +7998,8 @@ OpenLayers.Control.NavigationHistory = OpenLayers.Class(OpenLayers.Control, {
     onPreviousChange: function(state, length) {
         if(state && !this.previous.active) {
             this.previous.activate();
-            this.previous.onActivate();
         } else if(!state && this.previous.active) {
             this.previous.deactivate();
-            this.previous.onDeactivate();
         }
     },
     
@@ -7988,10 +8016,8 @@ OpenLayers.Control.NavigationHistory = OpenLayers.Class(OpenLayers.Control, {
     onNextChange: function(state, length) {
         if(state && !this.next.active) {
             this.next.activate();
-            this.next.onActivate();
         } else if(!state && this.next.active) {
             this.next.deactivate();
-            this.next.onDeactivate();
         }
     },
     
@@ -8153,11 +8179,8 @@ OpenLayers.Control.NavigationHistory = OpenLayers.Class(OpenLayers.Control, {
                 if(this.listeners == null) {
                     this.setListeners();
                 }
-                if(!this.events) {
-                    this.events = this.map.events;
-                }
                 for(var type in this.listeners) {
-                    this.events.register(type, this, this.listeners[type]);
+                    this.map.events.register(type, this, this.listeners[type]);
                 }
                 activated = true;
                 if(this.previousStack.length == 0) {
@@ -8191,7 +8214,7 @@ OpenLayers.Control.NavigationHistory = OpenLayers.Class(OpenLayers.Control, {
         if(this.map) {
             if(OpenLayers.Control.prototype.deactivate.apply(this)) {
                 for(var type in this.listeners) {
-                    this.events.unregister(
+                    this.map.events.unregister(
                         type, this, this.listeners[type]
                     );
                 }
@@ -8462,6 +8485,13 @@ OpenLayers.Control.Panel = OpenLayers.Class(OpenLayers.Control, {
     destroy: function() {
         OpenLayers.Control.prototype.destroy.apply(this, arguments);
         for(var i = this.controls.length - 1 ; i >= 0; i--) {
+            if(this.controls[i].events) {
+                this.controls[i].events.un({
+                    "activate": this.redraw,
+                    "deactivate": this.redraw,
+                    scope: this
+                });
+            }
             OpenLayers.Event.stopObservingElement(this.controls[i].panel_div);
             this.controls[i].panel_div = null;
         }    
@@ -8492,7 +8522,6 @@ OpenLayers.Control.Panel = OpenLayers.Class(OpenLayers.Control, {
             for(var i = 0; i < this.controls.length; i++) {
                 this.controls[i].deactivate();
             }    
-            this.redraw();
             return true;
         } else {
             return false;
@@ -8510,6 +8539,11 @@ OpenLayers.Control.Panel = OpenLayers.Class(OpenLayers.Control, {
         for (var i = 0; i < this.controls.length; i++) {
             this.map.addControl(this.controls[i]);
             this.controls[i].deactivate();
+            this.controls[i].events.on({
+                "activate": this.redraw,
+                "deactivate": this.redraw,
+                scope: this
+            });
         }
         this.activate();
         return this.div;
@@ -8562,7 +8596,6 @@ OpenLayers.Control.Panel = OpenLayers.Class(OpenLayers.Control, {
                 }
             }
         }
-        this.redraw();
     },
 
     /**
@@ -8602,6 +8635,11 @@ OpenLayers.Control.Panel = OpenLayers.Class(OpenLayers.Control, {
             for (var i = 0; i < controls.length; i++) {
                 this.map.addControl(controls[i]);
                 controls[i].deactivate();
+                controls[i].events.on({
+                    "activate": this.redraw,
+                    "deactivate": this.redraw,
+                    scope: this
+                });
             }
             this.redraw();
         }
@@ -8941,6 +8979,208 @@ OpenLayers.Control.Scale = OpenLayers.Class(OpenLayers.Control, {
     }, 
 
     CLASS_NAME: "OpenLayers.Control.Scale"
+});
+
+/* ======================================================================
+    OpenLayers/Control/ScaleLine.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2007 MetaCarta, Inc., published under a modified BSD license.
+ * See http://svn.openlayers.org/trunk/openlayers/repository-license.txt 
+ * for the full text of the license. */
+
+/**
+ * @requires OpenLayers/Control.js
+ *
+ * Class: OpenLayers.Control.ScaleLine
+ * Display a small line indicator representing the current map scale on the map.
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Control>
+ *  
+ * Is a very close copy of:
+ *  - <OpenLayers.Control.Scale>
+ */
+OpenLayers.Control.ScaleLine = OpenLayers.Class(OpenLayers.Control, {
+
+    /**
+     * Property: maxWidth
+     * {Integer} Maximum width of the scale line in pixels.  Default is 100.
+     */
+    maxWidth: 100,
+
+    /**
+     * Property: topOutUnits
+     * {String} Units for zoomed out on top bar.  Default is km.
+     */
+    topOutUnits: "km",
+    
+    /**
+     * Property: topInUnits
+     * {String} Units for zoomed in on top bar.  Default is m.
+     */
+    topInUnits: "m",
+
+    /**
+     * Property: bottomOutUnits
+     * {String} Units for zoomed out on bottom bar.  Default is mi.
+     */
+    bottomOutUnits: "mi",
+
+    /**
+     * Property: bottomInUnits
+     * {String} Units for zoomed in on bottom bar.  Default is ft.
+     */
+    bottomInUnits: "ft",
+    
+    /**
+     * Property: eTop
+     * {DOMElement}
+     */
+    eTop: null,
+
+    /**
+     * Property: eBottom
+     * {DOMElement}
+     */
+    eBottom:null,
+
+    /**
+     * Constructor: OpenLayers.ScaleLine
+     * Create a new scale line control.
+     * 
+     * Parameters:
+     * options - {Object} An optional object whose properties will be used
+     *     to extend the control.
+     */
+    initialize: function(options) {
+        OpenLayers.Control.prototype.initialize.apply(this, [options]);     
+    },
+
+    /**
+     * Method: draw
+     * 
+     * Returns:
+     * {DOMElement}
+     */
+    draw: function() {
+        OpenLayers.Control.prototype.draw.apply(this, arguments);
+        if (!this.eTop) {
+            this.div.className = this.displayClass;
+            this.div.style.display = "block";
+            this.div.style.position = "absolute";
+            
+            // stick in the top bar
+            this.eTop = document.createElement("div");
+            this.eTop.className = this.displayClass + "Top";
+            var theLen = this.topInUnits.length;
+            this.div.appendChild(this.eTop);
+            if((this.topOutUnits == "") || (this.topInUnits == "")) {
+                this.eTop.style.visibility = "hidden";
+            } else {
+                this.eTop.style.visibility = "visible";
+            }
+
+            // and the bottom bar
+            this.eBottom = document.createElement("div");
+            this.eBottom.className = this.displayClass + "Bottom";
+            this.div.appendChild(this.eBottom);
+            if((this.bottomOutUnits == "") || (this.bottomInUnits == "")) {
+                this.eBottom.style.visibility = "hidden";
+            } else {
+                this.eBottom.style.visibility = "visible";
+            }
+        }
+        this.map.events.register('moveend', this, this.update);
+        this.update();
+        return this.div;
+    },
+
+    /** 
+     * Method: getBarLen
+     * Given a number, round it down to the nearest 1,2,5 times a power of 10.
+     * That seems a fairly useful set of number groups to use.
+     * 
+     * Parameters:
+     * maxLen - {float}  the number we're rounding down from
+     * 
+     * Returns:
+     * {Float} the rounded number (less than or equal to maxLen)
+     */
+    getBarLen: function(maxLen) {
+        // nearest power of 10 lower than maxLen
+        var digits = parseInt(Math.log(maxLen) / Math.log(10));
+        var pow10 = Math.pow(10, digits);
+        
+        // ok, find first character
+        var firstChar = parseInt(maxLen / pow10);
+
+        // right, put it into the correct bracket
+        var barLen;
+        if(firstChar > 5) {
+            barLen = 5;
+        } else if(firstChar > 2) {
+            barLen = 2;
+        } else {
+            barLen = 1;
+        }
+
+        // scale it up the correct power of 10
+        return barLen * pow10;
+    },
+
+    /**
+     * Method: update
+     * Update the size of the bars, and the labels they contain.
+     */
+    update: function() {
+        var res = this.map.getResolution();
+        if (!res) {
+            return;
+        }
+
+        // convert maxWidth to map units
+        var maxSizeData = this.maxWidth * res;  
+
+        // decide whether to use large or small scale units     
+        var topUnits;
+        var bottomUnits;
+        if(maxSizeData > 0.1) {
+            topUnits = this.topOutUnits;
+            bottomUnits = this.bottomOutUnits;
+        } else {
+            topUnits = this.topInUnits;
+            bottomUnits = this.bottomInUnits;
+        }
+
+        // and to map units units
+        var curMapUnits = this.map.units;
+        var inches = OpenLayers.INCHES_PER_UNIT;
+        var topMax = maxSizeData * inches[curMapUnits] / inches[topUnits];
+        var bottomMax = maxSizeData * inches[curMapUnits] / inches[bottomUnits];
+
+        // now trim this down to useful block length
+        var topRounded = this.getBarLen(topMax);
+        var bottomRounded = this.getBarLen(bottomMax);
+
+        // and back to display units
+        topMax = topRounded / inches[curMapUnits] * inches[topUnits];
+        bottomMax = bottomRounded / inches[curMapUnits] * inches[bottomUnits];
+
+        // and to pixel units
+        var topPx = topMax / res;
+        var bottomPx = bottomMax / res;
+        
+        // now set the pixel widths
+        this.eTop.style.width = Math.round(topPx) + "px";
+        this.eBottom.style.width = Math.round(bottomPx) + "px"; 
+        
+        // and the values inside them
+        this.eTop.innerHTML = topRounded + " " + topUnits;
+        this.eBottom.innerHTML = bottomRounded + " " + bottomUnits ;
+    }, 
+
+    CLASS_NAME: "OpenLayers.Control.ScaleLine"
 });
 
 /* ======================================================================
@@ -9685,7 +9925,7 @@ OpenLayers.Events = OpenLayers.Class({
      * Parameters:
      * evt - {Event} 
      * 
-     * Returns 
+     * Returns:
      * {<OpenLayers.Pixel>} The current xy coordinate of the mouse, adjusted
      *                      for offsets
      */
@@ -13233,6 +13473,7 @@ OpenLayers.Handler.MOD_ALT   = 4;
 /**
  * @requires OpenLayers/Util.js
  * @requires OpenLayers/Events.js
+ * @requires OpenLayers/Tween.js
  */
 
 /**
@@ -13713,6 +13954,12 @@ OpenLayers.Map = OpenLayers.Class({
             this.events.unregister("resize", this, this.updateSize);
         }    
 
+        if (this.controls != null) {
+            for (var i = this.controls.length - 1; i>=0; --i) {
+                this.controls[i].destroy();
+            } 
+            this.controls = null;
+        }
         if (this.layers != null) {
             for (var i = this.layers.length - 1; i>=0; --i) {
                 //pass 'false' to destroy so that map wont try to set a new 
@@ -13720,12 +13967,6 @@ OpenLayers.Map = OpenLayers.Class({
                 this.layers[i].destroy(false);
             } 
             this.layers = null;
-        }
-        if (this.controls != null) {
-            for (var i = this.controls.length - 1; i>=0; --i) {
-                this.controls[i].destroy();
-            } 
-            this.controls = null;
         }
         if (this.viewPortDiv) {
             this.div.removeChild(this.viewPortDiv);
@@ -13960,6 +14201,7 @@ OpenLayers.Map = OpenLayers.Class({
             }
         }    
         
+        layer.div.className = "olLayerDiv";
         layer.div.style.overflow = "";
         this.setLayerZIndex(layer, this.layers.length);
 
@@ -14552,9 +14794,16 @@ OpenLayers.Map = OpenLayers.Class({
                     }, this),
                     eachStep: OpenLayers.Function.bind(function(lonlat) {
                         var lonlat = new OpenLayers.LonLat(lonlat.lon, lonlat.lat);
-                        this.moveTo(lonlat, this.zoom, true);
+                        this.moveTo(lonlat, this.zoom, {
+                            'dragging': true,
+                            'noEvent': true
+                        });
                     }, this),
                     done: OpenLayers.Function.bind(function(lonlat) {
+                        var lonlat = new OpenLayers.LonLat(lonlat.lon, lonlat.lat);
+                        this.moveTo(lonlat, this.zoom, {
+                            'noEvent': true
+                        });
                         this.events.triggerEvent("moveend");
                     }, this)
                 }
@@ -15791,6 +16040,7 @@ OpenLayers.Renderer.SVG = OpenLayers.Class(OpenLayers.Renderer.Elements, {
     /**
      * Method: inValidRange
      * See #669 for more information
+     *
      * Parameters:
      * x - {Integer}
      * y - {Integer}
@@ -15911,9 +16161,11 @@ OpenLayers.Renderer.SVG = OpenLayers.Class(OpenLayers.Renderer.Elements, {
     setStyle: function(node, style, options) {
         style = style  || node._style;
         options = options || node._options;
-        if (node._geometryClass == "OpenLayers.Geometry.Point") {
+        var x = node.getAttributeNS(null, "cx");
+        // if x equals "", the node is outside the valid range
+        if (node._geometryClass == "OpenLayers.Geometry.Point" && x) {
             if (style.externalGraphic) {
-                var x = parseFloat(node.getAttributeNS(null, "cx"));
+                x = parseFloat(x);
                 var y = parseFloat(node.getAttributeNS(null, "cy"));
                 
                 if (style.graphicWidth && style.graphicHeight) {
@@ -16056,9 +16308,9 @@ OpenLayers.Renderer.SVG = OpenLayers.Class(OpenLayers.Renderer.Elements, {
             node.setAttributeNS(null, "cy", y);
             node.setAttributeNS(null, "r", radius);
         } else {
-            if (node.parentNode == this.root) {
-                this.root.removeChild(node);
-            }
+            node.setAttributeNS(null, "cx", "");
+            node.setAttributeNS(null, "cy", "");
+            node.setAttributeNS(null, "r", 0);
         }    
             
     },
@@ -17612,7 +17864,7 @@ OpenLayers.Format.WMC = OpenLayers.Class({
             }
             this.parser = new format(this.options);
         }
-        var context = this.parser.read(data);
+        var context = this.parser.read(data, options);
         var map;
         if(options.map instanceof OpenLayers.Map) {
             map = this.mergeContextToMap(context, options.map);
@@ -17690,7 +17942,7 @@ OpenLayers.Format.WMC = OpenLayers.Class({
             }
             this.parser = new format(this.options);
         }
-        var wmc = this.parser.write(obj);
+        var wmc = this.parser.write(obj, options);
         return wmc;
     },
     
@@ -21573,6 +21825,12 @@ OpenLayers.Feature.Vector = OpenLayers.Class(OpenLayers.Feature, {
      */
     style: null,
     
+    /**
+     * Property: renderIntent
+     * {String} rendering intent currently being used
+     */
+    renderIntent: "default",
+
     /** 
      * Constructor: OpenLayers.Feature.Vector
      * Create a vector feature. 
@@ -23484,10 +23742,31 @@ OpenLayers.Layer.HTTPRequest = OpenLayers.Class(OpenLayers.Layer, {
      * 
      * Parameters:
      * newParams - {Object}
+     *
+     * Returns:
+     * redrawn: {Boolean} whether the layer was actually redrawn.
      */
     mergeNewParams:function(newParams) {
         this.params = OpenLayers.Util.extend(this.params, newParams);
-        this.redraw();
+        return this.redraw();
+    },
+
+    /**
+     * APIMethod: redraw
+     * Redraws the layer.  Returns true if the layer was redrawn, false if not.
+     *
+     * Parameters:
+     * force - {Boolean} Force redraw by adding random parameter.
+     *
+     * Returns:
+     * {Boolean} The layer was redrawn.
+     */
+    redraw: function(force) { 
+        if (force) {
+            return this.mergeNewParams({"_olSalt": Math.random()});
+        } else {
+            return OpenLayers.Layer.prototype.redraw.apply(this, []);
+        }
     },
     
     /**
@@ -24329,7 +24608,14 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
      * APIProperty: selectStyle 
      * {Object} Hash of styles
      */
-    selectStyle: OpenLayers.Feature.Vector.style['select'],
+    selectStyle: null,
+    
+    /**
+     * Property: renderIntent
+     * {String} key used to retrieve the select style from the layer's
+     * style map.
+     */
+    renderIntent: "select",
 
     /**
      * Property: handler
@@ -24481,25 +24767,11 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
      * feature - {<OpenLayers.Feature.Vector>} 
      */
     select: function(feature) {
-        // Store feature style for restoration later
-        if(feature.originalStyle != feature.style) {
-            feature.originalStyle = feature.style;
-        }
         this.layer.selectedFeatures.push(feature);
 
-        var selectStyle = this.selectStyle;
-
-        if (feature.style.CLASS_NAME == "OpenLayers.Style") {
-            feature.style = feature.style.createStyle(feature);
-        } else {
-            feature.style = OpenLayers.Util.extend({}, feature.style);
-        }
-        if (selectStyle.CLASS_NAME == "OpenLayers.Style") {
-            selectStyle = selectStyle.createStyle(feature);
-        }
-        OpenLayers.Util.extend(feature.style, selectStyle);
-
-        this.layer.drawFeature(feature);
+        var selectStyle = this.selectStyle || this.renderIntent;
+        
+        this.layer.drawFeature(feature, selectStyle);
         this.layer.events.triggerEvent("featureselected", {feature: feature});
         this.onSelect(feature);
     },
@@ -24514,10 +24786,7 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
      */
     unselect: function(feature) {
         // Store feature style for restoration later
-        if(feature.originalStyle != null) {
-            feature.style = feature.originalStyle;
-        }
-        this.layer.drawFeature(feature);
+        this.layer.drawFeature(feature, "default");
         OpenLayers.Util.removeItem(this.layer.selectedFeatures, feature);
         this.layer.events.triggerEvent("featureunselected", {feature: feature});
         this.onUnselect(feature);
@@ -26161,6 +26430,43 @@ OpenLayers.Layer.Grid = OpenLayers.Class(OpenLayers.Layer.HTTPRequest, {
         this.removeExcessTiles(1,1);
     },
 
+    /** 
+     * Method: calculateGridLayout
+     * Generate parameters for the grid layout. This  
+     *
+     * Parameters:
+     * bounds - {<OpenLayers.Bound>}
+     * extent - {<OpenLayers.Bounds>}
+     * resolution - {Number}
+     *
+     * Returns:
+     * Object containing properties tilelon, tilelat, tileoffsetlat,
+     * tileoffsetlat, tileoffsetx, tileoffsety
+     */
+    calculateGridLayout: function(bounds, extent, resolution) {
+        var tilelon = resolution * this.tileSize.w;
+        var tilelat = resolution * this.tileSize.h;
+        
+        var offsetlon = bounds.left - extent.left;
+        var tilecol = Math.floor(offsetlon/tilelon) - this.buffer;
+        var tilecolremain = offsetlon/tilelon - tilecol;
+        var tileoffsetx = -tilecolremain * this.tileSize.w;
+        var tileoffsetlon = extent.left + tilecol * tilelon;
+        
+        var offsetlat = bounds.top - (extent.bottom + tilelat);  
+        var tilerow = Math.ceil(offsetlat/tilelat) + this.buffer;
+        var tilerowremain = tilerow - offsetlat/tilelat;
+        var tileoffsety = -tilerowremain * this.tileSize.h;
+        var tileoffsetlat = extent.bottom + tilerow * tilelat;
+        
+        return { 
+          tilelon: tilelon, tilelat: tilelat,
+          tileoffsetlon: tileoffsetlon, tileoffsetlat: tileoffsetlat,
+          tileoffsetx: tileoffsetx, tileoffsety: tileoffsety
+        }  
+
+    },
+
     /**
      * Method: initGriddedTiles
      * 
@@ -26180,23 +26486,17 @@ OpenLayers.Layer.Grid = OpenLayers.Class(OpenLayers.Layer.HTTPRequest, {
         
         var extent = this.map.getMaxExtent();
         var resolution = this.map.getResolution();
-        var tilelon = resolution * this.tileSize.w;
-        var tilelat = resolution * this.tileSize.h;
         
-        var offsetlon = bounds.left - extent.left;
-        var tilecol = Math.floor(offsetlon/tilelon) - this.buffer;
-        var tilecolremain = offsetlon/tilelon - tilecol;
-        var tileoffsetx = -tilecolremain * this.tileSize.w;
-        var tileoffsetlon = extent.left + tilecol * tilelon;
+        var tileLayout = this.calculateGridLayout(bounds, extent, resolution);
+
+        var tileoffsetx = Math.round(tileLayout.tileoffsetx); // heaven help us
+        var tileoffsety = Math.round(tileLayout.tileoffsety);
+
+        var tileoffsetlon = tileLayout.tileoffsetlon;
+        var tileoffsetlat = tileLayout.tileoffsetlat;
         
-        var offsetlat = bounds.top - (extent.bottom + tilelat);  
-        var tilerow = Math.ceil(offsetlat/tilelat) + this.buffer;
-        var tilerowremain = tilerow - offsetlat/tilelat;
-        var tileoffsety = -tilerowremain * this.tileSize.h;
-        var tileoffsetlat = extent.bottom + tilerow * tilelat;
-        
-        tileoffsetx = Math.round(tileoffsetx); // heaven help us
-        tileoffsety = Math.round(tileoffsety);
+        var tilelon = tileLayout.tilelon;
+        var tilelat = tileLayout.tilelat;
 
         this.origin = new OpenLayers.Pixel(tileoffsetx, tileoffsety);
 
@@ -26529,11 +26829,10 @@ OpenLayers.Layer.Grid = OpenLayers.Class(OpenLayers.Layer.HTTPRequest, {
      * a new one with updated tileSize and extent.
      */
     onMapResize: function() {
-      if (this.singleTile) {
-        this.clearGrid();
-        this.setTileSize();
-        this.initSingleTile(this.map.getExtent());
-      }
+        if (this.singleTile) {
+            this.clearGrid();
+            this.setTileSize();
+        }
     },
     
     /**
@@ -27161,11 +27460,7 @@ OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
      *  - *object* {Object} A reference to layer.events.object.
      *  - *element* {DOMElement} A reference to layer.events.element.
      *
-     * Supported map event types:
-     *  - *loadstart* Triggered when layer loading starts.
-     *  - *loadend* Triggered when layer loading ends.
-     *  - *loadcancel* Triggered when layer loading is canceled.
-     *  - *visibilitychanged* Triggered when layer visibility is changed.
+     * Supported map event types (in addition to those from <OpenLayers.Layer>):
      *  - *beforefeatureadded* Triggered before a feature is added.  Listeners
      *      will receive an object with a *feature* property referencing the
      *      feature to be added.
@@ -27182,8 +27477,7 @@ OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
      *      Listeners will receive an object with a *feature* property
      *      referencing the unselected feature.
      */
-    EVENT_TYPES: ["loadstart", "loadend", "loadcancel", "visibilitychanged",
-                  "beforefeatureadded", "featureadded",
+    EVENT_TYPES: ["beforefeatureadded", "featureadded",
                   "featuresadded", "featureselected", "featureunselected"],
 
     /**
@@ -27230,6 +27524,12 @@ OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
      * {Object} Default style for the layer
      */
     style: null,
+    
+    /**
+     * Property: styleMap
+     * {<OpenLayers.StyleMap>}
+     */
+    styleMap: null,
 
     /**
      * Property: renderers
@@ -27273,9 +27573,11 @@ OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
      * {<OpenLayers.Layer.Vector>} A new vector layer
      */
     initialize: function(name, options) {
-
-        var defaultStyle = OpenLayers.Feature.Vector.style['default'];
-        this.style = OpenLayers.Util.extend({}, defaultStyle);
+        
+        // concatenate events specific to vector with those from the base
+        this.EVENT_TYPES = this.EVENT_TYPES.concat(
+            OpenLayers.Layer.prototype.EVENT_TYPES
+        );
 
         OpenLayers.Layer.prototype.initialize.apply(this, arguments);
 
@@ -27289,6 +27591,10 @@ OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
             this.renderer = null;
             this.displayError();
         } 
+
+        if (!this.styleMap) {
+            this.styleMap = new OpenLayers.StyleMap();
+        }
 
         this.features = [];
         this.selectedFeatures = [];
@@ -27388,14 +27694,18 @@ OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
      */
     moveTo: function(bounds, zoomChanged, dragging) {
         OpenLayers.Layer.prototype.moveTo.apply(this, arguments);
-        
+
         if (!dragging) {
-            this.div.style.left = - parseInt(this.map.layerContainerDiv.style.left) + "px";
-            this.div.style.top = - parseInt(this.map.layerContainerDiv.style.top) + "px";
+            this.renderer.root.style.visibility = "hidden";
+            
+            this.div.style.left = -parseInt(this.map.layerContainerDiv.style.left) + "px";
+            this.div.style.top = -parseInt(this.map.layerContainerDiv.style.top) + "px";
             var extent = this.map.getExtent();
             this.renderer.setExtent(extent);
+            
+            this.renderer.root.style.visibility = "visible";
         }
-
+        
         if (!this.drawn || zoomChanged) {
             this.drawn = true;
             for(var i = 0; i < this.features.length; i++) {
@@ -27435,7 +27745,7 @@ OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
             //give feature reference to its layer
             feature.layer = this;
 
-            if (!feature.style) {
+            if (!feature.style && this.style) {
                 feature.style = OpenLayers.Util.extend({}, this.style);
             }
 
@@ -27526,21 +27836,17 @@ OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
      * 
      * Parameters: 
      * feature - {<OpenLayers.Feature.Vector>} 
-     * style - {Object} 
+     * style - {Object} Symbolizer hash or {String} renderIntent
      */
     drawFeature: function(feature, style) {
-        if(style == null) {
-            if(feature.style) {
-                style = feature.style;
-            } else {
-                style = this.style;
+        if (typeof style != "object") {
+            var renderIntent = typeof style == "string" ?
+                style : feature.renderIntent;
+            style = feature.style || this.style;
+            if (!style) {
+                style = this.styleMap.createSymbolizer(feature, renderIntent);
             }
         }
-
-        if (style && style.CLASS_NAME && 
-            style.CLASS_NAME == "OpenLayers.Style") {
-            style = style.createStyle(feature);
-        }    
         
         this.renderer.drawFeature(feature, style);
     },
@@ -28477,8 +28783,8 @@ OpenLayers.Style = OpenLayers.Class({
     /**
      * Property: defaultStyle
      * {Object} hash of style properties to use as default for merging
-     * rule-based style symbolizers onto. If no rules are defined, createStyle
-     * will return this style.
+     * rule-based style symbolizers onto. If no rules are defined,
+     * createSymbolizer will return this style.
      */
     defaultStyle: null,
     
@@ -28530,18 +28836,17 @@ OpenLayers.Style = OpenLayers.Class({
     },
     
     /**
-     * APIMethod: createStyle
+     * Method: createSymbolizer
      * creates a style by applying all feature-dependent rules to the base
      * style.
      * 
      * Parameters:
      * feature - {<OpenLayers.Feature>} feature to evaluate rules for
-     * baseStyle - {Object} hash of styles feature styles to extend
      * 
      * Returns:
-     * {<OpenLayers.Feature.Vector.style>} hash of feature styles
+     * {Object} symbolizer hash
      */
-    createStyle: function(feature) {
+    createSymbolizer: function(feature) {
         var style = OpenLayers.Util.extend({}, this.defaultStyle);
         
         var rules = this.rules;
@@ -28622,7 +28927,7 @@ OpenLayers.Style = OpenLayers.Class({
      *           feature.attributes (or feature.data, if attributes are not
      *           available)
      * 
-     * Returns;
+     * Returns:
      * {Object} the modified style
      */
     createLiterals: function(style, context) {
@@ -28922,7 +29227,8 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
         this.layer = layer;
         this.vertices = [];
         this.virtualVertices = [];
-        this.styleVirtual = OpenLayers.Util.extend({}, this.layer.style);
+        this.styleVirtual = OpenLayers.Util.extend({},
+            this.layer.style || this.layer.styleMap.createSymbolizer());
         this.styleVirtual.fillOpacity = 0.3;
         this.styleVirtual.strokeOpacity = 0.3;
         this.deleteCodes = [46, 100];
@@ -29164,7 +29470,7 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
                 this.layer.destroyFeatures(this.virtualVertices);
                 this.virtualVertices = [];
             }
-            this.layer.drawFeature(this.feature, this.selectControl.selectStyle);
+            this.layer.drawFeature(this.feature, this.selectControl.renderIntent);
         }
         // keep the vertex on top so it gets the mouseout after dragging
         // this should be removed in favor of an option to draw under or
@@ -29251,7 +29557,7 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
                 // remove the vertex
                 vertex.geometry.parent.removeComponent(vertex.geometry);
                 this.layer.drawFeature(this.feature,
-                                       this.selectControl.selectStyle);
+                                       this.selectControl.renderIntent);
                 this.resetVertices();
                 this.onModification(this.feature);
             }
@@ -30145,17 +30451,22 @@ OpenLayers.Layer.KaMap = OpenLayers.Class(OpenLayers.Layer.Grid, {
                                              url, this.tileSize);
     },
 
-    /**
-     * Method: initGriddedTiles
-     */    
-    initGriddedTiles:function(bounds) {
-
-        var viewSize = this.map.getSize();
-        var minRows = Math.ceil(viewSize.h/this.tileSize.h) + Math.max(1, 2*this.buffer);
-        var minCols = Math.ceil(viewSize.w/this.tileSize.w) + Math.max(1, 2*this.buffer);
-        
-        var extent = this.map.getMaxExtent();
-        var resolution = this.map.getResolution();
+    /** 
+     * Method: calculateGridLayout
+     * ka-Map uses the center point of the map as an origin for 
+     * its tiles. Override calculateGridLayout to center tiles 
+     * correctly for this case.
+     *
+     * Parameters:
+     * bounds - {<OpenLayers.Bound>}
+     * extent - {<OpenLayers.Bounds>}
+     * resolution - {Number}
+     *
+     * Returns:
+     * Object containing properties tilelon, tilelat, tileoffsetlat,
+     * tileoffsetlat, tileoffsetx, tileoffsety
+     */
+    calculateGridLayout: function(bounds, extent, resolution) {
         var tilelon = resolution*this.tileSize.w;
         var tilelat = resolution*this.tileSize.h;
         
@@ -30171,69 +30482,13 @@ OpenLayers.Layer.KaMap = OpenLayers.Class(OpenLayers.Layer.Grid, {
         var tileoffsety = -(tilerowremain+1) * this.tileSize.h;
         var tileoffsetlat = tilerow * tilelat;
         
-        tileoffsetx = Math.round(tileoffsetx); // heaven help us
-        tileoffsety = Math.round(tileoffsety);
+        return { 
+          tilelon: tilelon, tilelat: tilelat,
+          tileoffsetlon: tileoffsetlon, tileoffsetlat: tileoffsetlat,
+          tileoffsetx: tileoffsetx, tileoffsety: tileoffsety
+        }  
+    },    
 
-        this.origin = new OpenLayers.Pixel(tileoffsetx,tileoffsety);
-
-        var startX = tileoffsetx; 
-        var startLon = tileoffsetlon;
-        
-        var rowidx = 0;
-        
-        do {
-            var row = this.grid[rowidx++];
-            if (!row) {
-                row = [];
-                this.grid.push(row);
-            }
-
-            tileoffsetlon = startLon;
-            tileoffsetx = startX;
-
-            var colidx = 0;
- 
-            do {
-                var tileBounds = 
-                    new OpenLayers.Bounds(tileoffsetlon, 
-                                          tileoffsetlat, 
-                                          tileoffsetlon + tilelon,
-                                          tileoffsetlat + tilelat);
-
-                var x = tileoffsetx;
-                x -= parseInt(this.map.layerContainerDiv.style.left);
-
-                var y = tileoffsety;
-                y -= parseInt(this.map.layerContainerDiv.style.top);
-
-                var px = new OpenLayers.Pixel(x, y);
-                var tile = row[colidx++];
-                if (!tile) {
-                    tile = this.addTile(tileBounds, px);
-                    this.addTileMonitoringHooks(tile); 
-                    row.push(tile);
-                } else {
-                    tile.moveTo(tileBounds, px, false);
-                }
-     
-                tileoffsetlon += tilelon;       
-                tileoffsetx += this.tileSize.w;
-            } while (tileoffsetlon <= bounds.right + tilelon * this.buffer
-                     || colidx < minCols)
-            
-            tileoffsetlat -= tilelat;
-            tileoffsety += this.tileSize.h;
-        } while(tileoffsetlat >= bounds.bottom - tilelat * this.buffer
-                || rowidx < minRows)
-        
-        //shave off exceess rows and colums
-        this.removeExcessTiles(rowidx, colidx);
-        
-        //now actually draw the tiles
-        this.spiralTileLoad();
-
-    },
-    
     /**
      * APIMethod: clone
      * 
@@ -31313,7 +31568,7 @@ OpenLayers.Layer.WFS = OpenLayers.Class(
     mergeNewParams:function(newParams) {
         var upperParams = OpenLayers.Util.upperCaseObject(newParams);
         var newArguments = [upperParams];
-        OpenLayers.Layer.HTTPRequest.prototype.mergeNewParams.apply(this, 
+        return OpenLayers.Layer.HTTPRequest.prototype.mergeNewParams.apply(this, 
                                                                  newArguments);
     },
 
@@ -31664,7 +31919,7 @@ OpenLayers.Layer.WMS = OpenLayers.Class(OpenLayers.Layer.Grid, {
     mergeNewParams:function(newParams) {
         var upperParams = OpenLayers.Util.upperCaseObject(newParams);
         var newArguments = [upperParams];
-        OpenLayers.Layer.Grid.prototype.mergeNewParams.apply(this, 
+        return OpenLayers.Layer.Grid.prototype.mergeNewParams.apply(this, 
                                                              newArguments);
     },
 
@@ -31957,6 +32212,125 @@ OpenLayers.Rule = OpenLayers.Class({
     },
         
     CLASS_NAME: "OpenLayers.Rule"
+});
+/* ======================================================================
+    OpenLayers/StyleMap.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
+ * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Style.js
+ * @requires OpenLayers/Feature/Vector.js
+ */
+ 
+/**
+ * Class: OpenLayers.StyleMap
+ */
+OpenLayers.StyleMap = OpenLayers.Class({
+    
+    /**
+     * Property: styles
+     * Hash of {<OpenLayers.Style>}, keyed by names of well known
+     * rendering intents (e.g. "default", "temporary", "select").
+     */
+    styles: null,
+    
+    /**
+     * Property: extendDefault
+     * {Boolean} if true, every render intent will extend the symbolizers
+     * specified for the "default" intent. Otherwise, every rendering intent
+     * is treated as a completely independent symbolizer.
+     */
+    extendDefault: true,
+    
+    /**
+     * Constructor: OpenLayers.StyleMap
+     * 
+     * Parameters:
+     * style   - {Object} Optional. Either a style hash, or a style object, or
+     *           a hash of style objects (style hashes) keyed by rendering
+     *           intent
+     * options - {Object} optional hash of additional options for this
+     *           instance
+     */
+    initialize: function (style, options) {
+        this.styles = {
+            "default": new OpenLayers.Style(
+                OpenLayers.Feature.Vector.style["default"]),
+            "select": new OpenLayers.Style(
+                OpenLayers.Feature.Vector.style["select"]),
+            "temporary": new OpenLayers.Style(
+                OpenLayers.Feature.Vector.style["temporary"])
+        };
+        
+        // take whatever the user passed as style parameter and convert it
+        // into parts of stylemap.
+        if(style instanceof OpenLayers.Style) {
+            // user passed a style object
+            this.styles["default"] = style;
+        } else if(typeof style == "object") {
+            for(var key in style) {
+                if(style[key] instanceof OpenLayers.Style) {
+                    // user passed a hash of style objects
+                    this.styles[key] = style[key];
+                } else if(typeof style[key] == "object") {
+                    // user passsed a hash of style hashes
+                    this.styles[key] = new OpenLayers.Style(style[key]);
+                } else {
+                    // user passed a style hash (i.e. symbolizer)
+                    this.styles["default"] = new OpenLayers.Style(style);
+                    break;
+                }
+            }
+        }
+        OpenLayers.Util.extend(this, options);
+    },
+
+    /**
+     * Method: destroy
+     */
+    destroy: function() {
+        for(var key in this.styles) {
+            this.styles[key].destroy();
+        }
+        this.styles = null;
+    },
+    
+    /**
+     * Method: createSymbolizer
+     * Creates the symbolizer for a feature for a render intent.
+     * 
+     * Parameters:
+     * feature - {<OpenLayers.Feature>} The feature to evaluate the rules
+     *           of the intended style against.
+     * intent  - {String} The intent determines the symbolizer that will be
+     *           used to draw the feature. Well known intents are "default"
+     *           (for just drawing the features), "select" (for selected
+     *           features) and "temporary" (for drawing features).
+     * 
+     * Returns:
+     * {Object} symbolizer hash
+     */
+    createSymbolizer: function(feature, intent) {
+        if(!feature) {
+            feature = new OpenLayers.Feature.Vector();
+        }
+        if(!this.styles[intent]) {
+            intent = "default";
+        }
+        feature.renderIntent = intent;
+        var defaultSymbolizer = {};
+        if(this.extendDefault && intent != "default") {
+            defaultSymbolizer = this.styles["default"].createSymbolizer(feature);
+        }
+        return OpenLayers.Util.extend(defaultSymbolizer,
+            this.styles[intent].createSymbolizer(feature));
+    },
+
+    CLASS_NAME: "OpenLayers.StyleMap"
 });
 /* ======================================================================
     OpenLayers/Control/NavToolbar.js
@@ -36839,8 +37213,17 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
     /**
      * APIProperty: extractAttributes
      * {Boolean} Extract attributes from KML.  Default is true.
+     *           Extracting styleUrls requires this to be set to true
      */
     extractAttributes: true,
+    
+    /**
+     * Property: extractStyles
+     * {Boolean} Extract styles from KML.  Default is false.
+     *           Extracting styleUrls also requires extractAttributes to be
+     *           set to true
+     */
+    extractStyles: false,
     
     /**
      * Property: internalns
@@ -36848,6 +37231,40 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
      *     Placemark node being parsed, but falls back to kmlns. 
      */
     internalns: null,
+
+    /**
+     * Property: features
+     * {Array} Array of features
+     *     
+     */
+    features: null,
+
+    /**
+     * Property: styles
+     * {Object} Storage of style objects
+     *     
+     */
+    styles: null,
+    
+    /**
+     * Property: styleBaseUrl
+     * {String}
+     */
+    styleBaseUrl: "",
+
+    /**
+     * Property: fetched
+     * {Object} Storage of KML URLs that have been fetched before
+     *     in order to prevent reloading them.
+     */
+    fetched: null,
+
+    /**
+     * APIProperty: maxDepth
+     * {Integer} Maximum depth for recursive loading external KML URLs 
+     *           Defaults to 0: do no external fetching
+     */
+    maxDepth: 0,
 
     /**
      * Constructor: OpenLayers.Format.KML
@@ -36863,7 +37280,10 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
             trimSpace: (/^\s*|\s*$/g),
             removeSpace: (/\s*/g),
             splitSpace: (/\s+/),
-            trimComma: (/\s*,\s*/g)
+            trimComma: (/\s*,\s*/g),
+            kmlColor: (/(\w{2})(\w{2})(\w{2})(\w{2})/),
+            kmlIconPalette: (/root:\/\/icons\/palette-(\d+)(\.\w+)/),
+            straightBracket: (/\$\[(.*?)\]/g)
         };
         OpenLayers.Format.XML.prototype.initialize.apply(this, [options]);
     },
@@ -36873,29 +37293,424 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
      * Read data from a string, and return a list of features. 
      * 
      * Parameters: 
-     * data - {String} or {DOMElement} data to read/parse.
+     * data    - {String} or {DOMElement} data to read/parse.
      *
      * Returns:
      * {Array(<OpenLayers.Feature.Vector>)} List of features.
      */
     read: function(data) {
+        this.features = [];
+        this.styles   = {};
+        this.fetched  = {};
+
+        // Set default options 
+        var options = {
+            depth: this.maxDepth,
+            styleBaseUrl: this.styleBaseUrl
+        };
+
+        return this.parseData(data, options);
+    },
+
+    /**
+     * Method: parseData
+     * Read data from a string, and return a list of features. 
+     * 
+     * Parameters: 
+     * data    - {String} or {DOMElement} data to read/parse.
+     * options - {Object} Hash of options
+     *
+     * Returns:
+     * {Array(<OpenLayers.Feature.Vector>)} List of features.
+     */
+    parseData: function(data, options) {
         if(typeof data == "string") {
             data = OpenLayers.Format.XML.prototype.read.apply(this, [data]);
         }
-        var featureNodes = this.getElementsByTagNameNS(data,
-                                                       '*',
-                                                       "Placemark");
-        var numFeatures = featureNodes.length;
-        var features = new Array(numFeatures);
-        for(var i=0; i<numFeatures; i++) {
-            var feature = this.parseFeature(featureNodes[i]);
+
+        // Loop throught the following node types in this order and
+        // process the nodes found 
+        var types = ["Link", "NetworkLink", "Style", "StyleMap", "Placemark"];
+        for(var i=0; i<types.length; ++i) {
+            var type = types[i];
+
+            var nodes = this.getElementsByTagNameNS(data, "*", type);
+
+            // skip to next type if no nodes are found
+            if(nodes.length == 0) { 
+                continue;
+            }
+
+            switch (type.toLowerCase()) {
+
+                // Fetch external links 
+                case "link":
+                case "networklink":
+                    this.parseLinks(nodes, options);
+                    break;
+
+                // parse style information
+                case "style":
+                    if (this.extractStyles) {
+                        this.parseStyles(nodes, options);
+                    }
+                    break;
+                case "stylemap":
+                    if (this.extractStyles) {
+                        this.parseStyleMaps(nodes, options);
+                    }
+                    break;
+
+                // parse features
+                case "placemark":
+                    this.parseFeatures(nodes, options);
+                    break;
+            }
+        }
+        
+        return this.features;
+    },
+
+    /**
+     * Method: parseLinks
+     * Finds URLs of linked KML documents and fetches them
+     * 
+     * Parameters: 
+     * nodes   - {Array} of {DOMElement} data to read/parse.
+     * options - {Object} Hash of options
+     * 
+     */
+    parseLinks: function(nodes, options) {
+        
+        // Fetch external links <NetworkLink> and <Link>
+        // Don't do anything if we have reached our maximum depth for recursion
+        if (options.depth >= this.maxDepth) {
+            return false;
+        }
+
+        // increase depth
+        var newOptions = OpenLayers.Util.extend({}, options);
+        newOptions.depth++;
+
+        for(var i=0; i < nodes.length; i++) {
+            var href = this.parseProperty(nodes[i], "*", "href");
+            if(href && !this.fetched[href]) {
+                this.fetched[href] = true; // prevent reloading the same urls
+                var data = this.fetchLink(href);
+                if (data) {
+                    this.parseData(data, newOptions);
+                }
+            } 
+        }
+
+    },
+
+    /**
+     * Method: fetchLink
+     * Fetches a URL and returns the result
+     * 
+     * Parameters: 
+     * href  - {String} url to be fetched
+     * 
+     */
+    fetchLink: function(href) {
+        var request = new OpenLayers.Ajax.Request(href, 
+                      {method: 'get', asynchronous: false });
+
+        if (request && request.transport) {
+            return request.transport.responseText;
+        }
+    },
+
+    /**
+     * Method: parseStyles
+     * Looks for <Style> nodes in the data and parses them
+     * Also parses <StyleMap> nodes, but only uses the 'normal' key
+     * 
+     * Parameters: 
+     * nodes    - {Array} of {DOMElement} data to read/parse.
+     * options  - {Object} Hash of options
+     * 
+     */
+    parseStyles: function(nodes, options) {
+        for(var i=0; i < nodes.length; i++) {
+            var style = this.parseStyle(nodes[i]);
+            if(style) {
+                styleName = (options.styleBaseUrl || "") + "#" + style.id;
+                
+                this.styles[styleName] = style;
+            }
+        }
+    },
+
+    /**
+     * Method: parseStyle
+     * Parses the children of a <Style> node and builds the style hash
+     * accordingly
+     * 
+     * Parameters: 
+     * node - {DOMElement} <Style> node
+     * 
+     */
+    parseStyle: function(node) {
+        var style = {};
+        
+        var types = ["LineStyle", "PolyStyle", "IconStyle", "BalloonStyle"];
+        var type, nodeList, geometry, parser;
+        for(var i=0; i<types.length; ++i) {
+            type = types[i];
+            styleTypeNode = this.getElementsByTagNameNS(node, 
+                                                   "*", type)[0];
+            if(!styleTypeNode) { 
+                continue;
+            }
+
+            // only deal with first geometry of this type
+            switch (type.toLowerCase()) {
+                case "linestyle":
+                    var color = this.parseProperty(styleTypeNode, "*", "color");
+                    if (color) {
+                        var matches = (color.toString()).match(
+                                                         this.regExes.kmlColor);
+
+                        // transparency
+                        var alpha = matches[1];
+                        style["strokeOpacity"] = parseInt(alpha, 16) / 255;
+
+                        // rgb colors (google uses bgr)
+                        var b = matches[2]; 
+                        var g = matches[3]; 
+                        var r = matches[4]; 
+                        style["strokeColor"] = "#" + r + g + b;
+                    }
+                    
+                    var width = this.parseProperty(styleTypeNode, "*", "width");
+                    if (width) {
+                        style["strokeWidth"] = width;
+                    }
+
+                case "polystyle":
+                    var color = this.parseProperty(styleTypeNode, "*", "color");
+                    if (color) {
+                        var matches = (color.toString()).match(
+                                                         this.regExes.kmlColor);
+
+                        // transparency
+                        var alpha = matches[1];
+                        style["fillOpacity"] = parseInt(alpha, 16) / 255;
+
+                        // rgb colors (google uses bgr)
+                        var b = matches[2]; 
+                        var g = matches[3]; 
+                        var r = matches[4]; 
+                        style["fillColor"] = "#" + r + g + b;
+                    }
+                    
+                    break;
+                case "iconstyle":
+                    var iconNode = this.getElementsByTagNameNS(styleTypeNode, 
+                                               "*", 
+                                               "Icon")[0];
+
+                    // set default width and height of icon
+                    style["graphicWidth"] = 32;
+                    style["graphicHeight"] = 32;
+
+                    if (iconNode) {
+                        var href = this.parseProperty(iconNode, "*", "href");
+                        if (href) {                                                   
+
+                            // support for internal icons 
+                            //    (/root://icons/palette-x.png)
+                            // x and y tell the position on the palette:
+                            // - in pixels
+                            // - starting from the left bottom
+                            // We translate that to a position in the list 
+                            // and request the appropriate icon from the 
+                            // google maps website
+                            var matches = href.match(this.regExes.kmlIconPalette);
+                            if (matches)  {
+                                var palette = matches[1];
+                                var file_extension = matches[2];
+
+                                var x = this.parseProperty(iconNode, "*", "x");
+                                var y = this.parseProperty(iconNode, "*", "y");
+
+                                var posX = x ? x/32 : 0;
+                                var posY = y ? (7 - y/32) : 7;
+
+                                var pos = posY * 8 + posX;
+                                href = "http://maps.google.com/mapfiles/kml/pal" 
+                                     + palette + "/icon" + pos + file_extension;
+                            }
+
+
+                            var w = this.parseProperty(iconNode, "*", "w");
+                            if (w) {
+                                style["graphicWidth"] = parseInt(w);
+                            }
+
+                            var h = this.parseProperty(iconNode, "*", "h");
+                            if (h) {
+                                style["graphicHeight"] = parseInt(h);
+                            }
+
+                            style["graphicOpacity"] = 1; // fully opaque
+                            style["externalGraphic"] = href;
+                        }
+
+                    }
+
+
+                    // hotSpots define the offset for an Icon
+                    var hotSpotNode = this.getElementsByTagNameNS(styleTypeNode, 
+                                               "*", 
+                                               "hotSpot")[0];
+                    if (hotSpotNode) {
+                        var x = hotSpotNode.getAttribute("x");
+                        var y = hotSpotNode.getAttribute("y");
+
+                        var xUnits = hotSpotNode.getAttribute("xunits");
+                        if (xUnits == "pixels") {
+                            style["graphicXOffset"] = parseInt(x);
+                        }
+                        else if (xUnits == "insetPixels") {
+                            style["graphicXOffset"] = style["graphicWidth"] 
+                                                          - parseInt(x);
+                        }
+                        else if (xUnits == "fraction") {
+                            style["graphicXOffset"] = style["graphicWidth"] 
+                                                          * parseFloat(x);
+                        }
+
+                        var yUnits = hotSpotNode.getAttribute("yunits");
+                        if (yUnits == "pixels") {
+                            style["graphicYOffset"] = parseInt(y);
+                        }
+                        else if (yUnits == "insetPixels") {
+                            style["graphicYOffset"] = style["graphicHeight"] 
+                                                          - parseInt(y);
+                        }
+                        else if (yUnits == "fraction") {
+                            style["graphicYOffset"] = style["graphicHeight"] 
+                                                          * parseFloat(y);
+                        }
+                    }
+                    break;
+                case "balloonstyle":
+                    var balloonStyle = OpenLayers.Util.getXmlNodeValue(
+                                            styleTypeNode);
+                    if (balloonStyle) {
+                        style["balloonStyle"] = balloonStyle.replace(
+                                       this.regExes.straightBracket, "${$1}");
+                    }
+                    break;
+                default:
+            }
+        }
+
+        // Some polygons have no line color, so we use the fillColor for that
+        if (!style["strokeColor"] && style["fillColor"]) {
+            style["strokeColor"] = style["fillColor"];
+        }
+
+        var id = node.getAttribute("id");
+        if (id && style) {
+            style.id = id;
+        }
+
+        return style;
+    },
+
+    /**
+     * Method: parseStyleMaps
+     * Looks for <Style> nodes in the data and parses them
+     * Also parses <StyleMap> nodes, but only uses the 'normal' key
+     * 
+     * Parameters: 
+     * nodes    - {Array} of {DOMElement} data to read/parse.
+     * options  - {Object} Hash of options
+     * 
+     */
+    parseStyleMaps: function(nodes, options) {
+        // Only the default or "normal" part of the StyleMap is processed now
+        // To do the select or "highlight" bit, we'd need to change lots more
+
+        for(var i=0; i < nodes.length; i++) {
+            var node = nodes[i];
+            var pairs = this.getElementsByTagNameNS(node, "*", 
+                            "Pair");
+
+            var id = node.getAttribute("id");
+            for (var j=0; j<pairs.length; j++) {
+                var pair = pairs[j];
+                // Use the shortcut in the SLD format to quickly retrieve the 
+                // value of a node. Maybe it's good to have a method in 
+                // Format.XML to do this
+                var key = this.parseProperty(pair, "*", "key");
+                var styleUrl = this.parseProperty(pair, "*", "styleUrl");
+
+                if (styleUrl && key == "normal") {
+                    this.styles[(options.styleBaseUrl || "") + "#" + id] =
+                        this.styles[(options.styleBaseUrl || "") + styleUrl];
+                }
+
+                if (styleUrl && key == "highlight") {
+                    // TODO: implement the "select" part
+                }
+
+            }
+        }
+
+    },
+
+
+    /**
+     * Method: parseFeatures
+     * Loop through all Placemark nodes and parse them.
+     * Will create a list of features
+     * 
+     * Parameters: 
+     * nodes    - {Array} of {DOMElement} data to read/parse.
+     * options  - {Object} Hash of options
+     * 
+     */
+    parseFeatures: function(nodes, options) {
+        var features = new Array(nodes.length);
+        for(var i=0; i < nodes.length; i++) {
+            var featureNode = nodes[i];
+            var feature = this.parseFeature.apply(this,[featureNode]) ;
             if(feature) {
+
+                // Create reference to styleUrl 
+                if (this.extractStyles && feature.attributes &&
+                    feature.attributes.styleUrl) {
+                    feature.style = this.getStyle(feature.attributes.styleUrl);
+                }
+
+                // Make sure that <Style> nodes within a placemark are 
+                // processed as well
+                var inlineStyleNode = this.getElementsByTagNameNS(featureNode,
+                                                       "*",
+                                                       "Style")[0];
+                if (inlineStyleNode) {
+                    var inlineStyle= this.parseStyle(styleNode);
+                    if (inlineStyle) {
+                        feature.style = OpenLayers.Util.extend({}, 
+                                            feature.style);
+                        OpenLayers.Util.extend(feature.style, inlineStyle);
+                    }
+                }
+
+                // add feature to list of features
                 features[i] = feature;
             } else {
                 throw "Bad Placemark: " + i;
             }
         }
-        return features;
+
+        // add new features to existing feature list
+        this.features = this.features.concat(features);
     },
 
     /**
@@ -36945,13 +37760,52 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
         }
         var feature = new OpenLayers.Feature.Vector(geometry, attributes);
 
-        var fid = node.getAttribute("id");
+        var fid = node.getAttribute("id") || node.getAttribute("name");
         if(fid != null) {
             feature.fid = fid;
         }
 
         return feature;
     },        
+    
+    /**
+     * Method: getStyle
+     * Retrieves a style from a style hash using styleUrl as the key
+     * If the styleUrl doesn't exist yet, we try to fetch it 
+     * Internet
+     * 
+     * Parameters: 
+     * styleUrl  - {String} URL of style
+     * options   - {Object} Hash of options 
+     *
+     * Returns:
+     * {Object}  - (reference to) Style hash
+     */
+    getStyle: function(styleUrl, options) {
+
+        var styleBaseUrl = OpenLayers.Util.removeTail(styleUrl);
+
+        var newOptions = OpenLayers.Util.extend({}, options);
+        newOptions.depth++;
+        newOptions.styleBaseUrl = styleBaseUrl;
+
+        // Fetch remote Style URLs (if not fetched before) 
+        if (!this.styles[styleUrl] 
+                && !OpenLayers.String.startsWith(styleUrl, "#") 
+                && newOptions.depth <= this.maxDepth
+                && !this.fetched[styleBaseUrl] ) {
+
+            var data = this.fetchLink(styleBaseUrl);
+            if (data) {
+                this.parseData(data, newOptions);
+            }
+
+        }
+
+        // return requested style
+        var style = this.styles[styleUrl];
+        return style;
+    },
     
     /**
      * Property: parseGeometry
@@ -37125,28 +37979,64 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
      */
     parseAttributes: function(node) {
         var attributes = {};
-        // assume attribute nodes are type 1 children with a type 3 child
+        // assume attribute nodes are type 1 children with a type 3 or 4 child
         var child, grandchildren, grandchild;
         var children = node.childNodes;
         for(var i=0; i<children.length; ++i) {
             child = children[i];
             if(child.nodeType == 1) {
                 grandchildren = child.childNodes;
-                if(grandchildren.length == 1) {
-                    grandchild = grandchildren[0];
+                if(grandchildren.length == 1 || grandchildren.length == 3) {
+                    var grandchild;
+                    switch (grandchildren.length) {
+                        case 1:
+                            grandchild = grandchildren[0];
+                            break;
+                        case 3:
+                        default:
+                            grandchild = grandchildren[1];
+                            break;
+                    }
                     if(grandchild.nodeType == 3 || grandchild.nodeType == 4) {
                         var name = (child.prefix) ?
                                 child.nodeName.split(":")[1] :
                                 child.nodeName;
-                        var value = grandchild.nodeValue.replace(
-                                                this.regExes.trimSpace, "");
-                        attributes[name] = value;
+                        var value = OpenLayers.Util.getXmlNodeValue(grandchild)
+                        if (value) {
+                            value = value.replace(this.regExes.trimSpace, "");
+                            attributes[name] = value;
+                        }
                     }
-                }
+                } 
             }
         }
         return attributes;
     },
+
+    
+    /**
+     * Method: parseProperty
+     * Convenience method to find a node and return its value
+     *
+     * Parameters:
+     * xmlNode    - {<DOMElement>}
+     * namespace  - {String} namespace of the node to find
+     * tagName    - {String} name of the property to parse
+     * 
+     * Returns:
+     * {String} The value for the requested property (defaults to null)
+     */    
+    parseProperty: function(xmlNode, namespace, tagName) {
+        var value;
+        var nodeList = this.getElementsByTagNameNS(xmlNode, namespace, tagName);
+        try {
+            value = OpenLayers.Util.getXmlNodeValue(nodeList[0]);
+        } catch(e) {
+            value = null;
+        }
+     
+        return value;
+    },                                                              
 
     /**
      * APIMethod: write
@@ -37589,6 +38479,7 @@ OpenLayers.Format.OSM = OpenLayers.Class(OpenLayers.Format.XML, {
             var feat = new OpenLayers.Feature.Vector(geometry,
                 ways[i].tags);
             feat.osm_id = parseInt(ways[i].id);
+            feat.fid = "way." + feat.osm_id;
             feat_list[i] = feat;
         } 
         for (var node_id in nodes) {
@@ -37614,6 +38505,7 @@ OpenLayers.Format.OSM = OpenLayers.Class(OpenLayers.Format.XML, {
                         this.internalProjection);
                 }        
                 feat.osm_id = parseInt(node_id); 
+                feat.fid = "node." + feat.osm_id;
                 feat_list.push(feat);
             }   
             // Memory cleanup
