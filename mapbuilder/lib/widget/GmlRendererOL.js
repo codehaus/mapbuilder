@@ -32,13 +32,13 @@ function GmlRendererOL(widgetNode, model) {
     loadGML: function() {
       if (!this.loaded) {
         var gml = new OpenLayers.Format.GML();
-        try {
+        //try {
           this.proj = this.projection;
           this.addFeatures(gml.read(this.mbWidget.renderDoc));
           this.loaded = true;
-        } catch (e) {
+        /*} catch (e) {
           // nothing to worry, just features without geometries in the doc
-        }
+        }*/
       }
     },
     
@@ -54,6 +54,7 @@ function GmlRendererOL(widgetNode, model) {
       var feature;
       for (var i=0; i<features.length; i++) {
         feature = features[i];
+        feature.mbWidgetConfig = null;
         if (!feature.geometry) {
           featuresToRemove.push(feature);
         }
@@ -80,6 +81,7 @@ function GmlRendererOL(widgetNode, model) {
         } else {
           widgetConfig = this.mbWidget.config;
         }
+        feature.mbWidgetConfig = widgetConfig;
         if (!widgetConfig.sourceSRS) {
           if (widgetConfig.featureSRS) {
             widgetConfig.sourceSRS = new OpenLayers.Projection(widgetConfig.featureSRS);
@@ -87,19 +89,26 @@ function GmlRendererOL(widgetNode, model) {
             widgetConfig.sourceSRS = null;
           }
         }
-        // set styles before rendering the feature
-        if (widgetConfig.defaultStyle) {
-          feature.style = widgetConfig.defaultStyle.createSymbolizer(feature);
-        }
-        // set select styles
-        if (widgetConfig.selectStyle) {
-          feature.mbSelectStyle = widgetConfig.selectStyle.createSymbolizer(feature);
-        }
         //in the future this will be handled internally to OpenLayers
         if (widgetConfig.sourceSRS) {
           this.convertPoints(feature.geometry, widgetConfig.sourceSRS);
         }  
       }
+    },
+    
+    drawFeature: function(feature, style) {
+      // set styles before rendering the feature
+      var widgetConfig = feature.mbWidgetConfig;
+      if (widgetConfig.defaultStyle) {
+        feature.style = widgetConfig.defaultStyle.createSymbolizer ?
+            widgetConfig.defaultStyle.createSymbolizer(feature) :
+            widgetConfig.defaultStyle;
+      }
+      // set select styles
+      if (widgetConfig.selectStyle) {
+        feature.mbSelectStyle = widgetConfig.selectStyle;
+      }
+      OpenLayers.Layer.GML.prototype.drawFeature.apply(this, arguments);
     },
     
     convertPoints: function(component, sourceSRS) {

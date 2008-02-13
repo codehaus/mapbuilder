@@ -836,7 +836,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
     case "OGC:WFS":
       style = sld2OlStyle(currentStyle);
       if(style){
-        layerOptions.style=style;
+        layerOptions.styleMap=new OpenLayers.StyleMap(style);
       }
       else{
         layerOptions.style=objRef.getWebSafeStyle(objRef, 2*i+1);
@@ -857,7 +857,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
     case "OGC:GML":
       style = sld2OlStyle(currentStyle);
       if(style){
-        layerOptions.style=style;
+        layerOptions.styleMap=new OpenLayers.StyleMap(style);
       }
       else{
         layerOptions.style=objRef.getWebSafeStyle(objRef, 2*i+1);

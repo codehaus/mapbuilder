@@ -28,7 +28,7 @@ function GmlRendererConfig(widgetNode, model) {
   this.init = function(objRef) {
     if (targetWidget) {
       if (!model.config) {
-        model.config = new Array();
+        model.config = {};
       }
       model.config[targetWidget] = objRef.config;
     }
