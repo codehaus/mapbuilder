@@ -89,11 +89,11 @@ function GmlRendererOL(widgetNode, model) {
         }
         // set styles before rendering the feature
         if (widgetConfig.defaultStyle) {
-          feature.style = widgetConfig.defaultStyle;
+          feature.style = widgetConfig.defaultStyle.createSymbolizer(feature);
         }
         // set select styles
         if (widgetConfig.selectStyle) {
-          feature.mbSelectStyle = widgetConfig.selectStyle;
+          feature.mbSelectStyle = widgetConfig.selectStyle.createSymbolizer(feature);
         }
         //in the future this will be handled internally to OpenLayers
         if (widgetConfig.sourceSRS) {
