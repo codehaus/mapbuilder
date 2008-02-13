@@ -99,14 +99,17 @@ function GmlRendererOL(widgetNode, model) {
     drawFeature: function(feature, style) {
       // set styles before rendering the feature
       var widgetConfig = feature.mbWidgetConfig;
-      if (widgetConfig.defaultStyle) {
-        feature.style = widgetConfig.defaultStyle.createSymbolizer ?
-            widgetConfig.defaultStyle.createSymbolizer(feature) :
-            widgetConfig.defaultStyle;
-      }
-      // set select styles
-      if (widgetConfig.selectStyle) {
-        feature.mbSelectStyle = widgetConfig.selectStyle;
+      if (widgetConfig) {
+        feature.style = null;
+        if (widgetConfig.defaultStyle && style != "select") {
+          feature.style = widgetConfig.defaultStyle.createSymbolizer ?
+              widgetConfig.defaultStyle.createSymbolizer(feature) :
+              widgetConfig.defaultStyle;
+        }
+        // set select styles
+        if (widgetConfig && widgetConfig.selectStyle) {
+          feature.mbSelectStyle = widgetConfig.selectStyle;
+        }
       }
       OpenLayers.Layer.GML.prototype.drawFeature.apply(this, arguments);
     },
@@ -209,7 +212,7 @@ function GmlRendererOL(widgetNode, model) {
       var models = [objRef.model];
       // get configurations from source models, if any
       if (objRef.model.mergeModels) {
-        for (var i in objRef.model.mergeModels) {
+        for (var i=0; i<objRef.model.mergeModels.length; i++) {
           models.push(objRef.model.mergeModels[i]);
         }
       }
@@ -323,7 +326,7 @@ function GmlRendererOL(widgetNode, model) {
       // remove hidden features
       var hiddenFeatures = objRef.hiddenFeatures.toString().split(/,/);
       objRef.hiddenFeatures = new Array();
-      for (var i in hiddenFeatures) {
+      for (var i=0; i<hiddenFeatures.length; i++) {
         if (hiddenFeatures[i]) {
           objRef.hideFeature(objRef, hiddenFeatures[i]);
         }
@@ -355,10 +358,10 @@ function GmlRendererOL(widgetNode, model) {
   this.model.removeListener("newModel", this.clearWidget, this);
   this.clearWidget = function(objRef) {
     if (objRef.olLayer) {
-      if (objRef.olLayer.loaded == true) {
-        objRef.olLayer.loaded = false;
-        if (objRef.olLayer.features && objRef.olLayer.features.length > 0) {
-          objRef.olLayer.destroyFeatures();
+      objRef.olLayer.loaded = false;
+      for (var i=0; i<objRef.olLayer.map.controls.length; i++) {
+        if (objRef.olLayer.map.controls[i].layer == objRef.olLayer) {
+          objRef.olLayer.map.controls[i].destroy();
         }
       }
       objRef.olLayer.destroy();
