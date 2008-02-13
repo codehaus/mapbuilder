@@ -649,7 +649,7 @@ function mbFormatMessage(messageFormat)
 {
   var message = messageFormat;
   var varArgs = [].slice.call(arguments, mbFormatMessage.length);
-  for (var i in varArgs) {
+  for (var i=0; i<varArgs.length; i++) {
     var parm = new RegExp("\\{" + i + "\\}", "g");
     message = message.replace(parm, varArgs[i]);
   }
