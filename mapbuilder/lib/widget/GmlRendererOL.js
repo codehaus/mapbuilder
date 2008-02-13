@@ -32,13 +32,13 @@ function GmlRendererOL(widgetNode, model) {
     loadGML: function() {
       if (!this.loaded) {
         var gml = new OpenLayers.Format.GML();
-        //try {
+        try {
           this.proj = this.projection;
           this.addFeatures(gml.read(this.mbWidget.renderDoc));
           this.loaded = true;
-        /*} catch (e) {
+        } catch (e) {
           // nothing to worry, just features without geometries in the doc
-        }*/
+        }
       }
     },
     
