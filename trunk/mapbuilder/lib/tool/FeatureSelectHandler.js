@@ -111,7 +111,9 @@ function FeatureSelectHandler(toolNode, model) {
           select: function(feature) {
             feature.mbFeatureSelectHandler = this.mbFeatureSelectHandler;
             if (feature.mbSelectStyle) {
-              this.selectStyle = feature.mbSelectStyle;
+              this.selectStyle = feature.mbSelectStyle.createSymbolizer ?
+                  feature.mbSelectStyle.createSymbolizer(feature) :
+                  feature.mbSelectStyle;
             }
             OpenLayers.Control.SelectFeature.prototype.select.apply(this, arguments);
           }
