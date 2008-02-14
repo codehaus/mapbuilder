@@ -44,6 +44,9 @@ function Loading2(widgetNode, model) {
 
   //check to see if this is to be put over a map if there isa mapContainerID supplied
   this.mapContainerNode = widgetNode.selectSingleNode("mb:mapContainerId");
+  if (!this.mapContainerNode) {
+    this.mapContainerNode = widgetNode.selectSingleNode("mb:targetModel");
+  }
   if (this.mapContainerNode) {
     this.containerNodeId = this.mapContainerNode.firstChild.nodeValue;
     this.htmlTagId = this.containerNodeId;
