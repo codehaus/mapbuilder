@@ -116,15 +116,7 @@ function GmlRendererOL(widgetNode, model) {
     
     convertPoints: function(component, sourceSRS) {
       if (component.CLASS_NAME == 'OpenLayers.Geometry.Point') {
-        //TBD: remove this workaround once Google reprojection is fixed in Proj4js
-        if (sourceSRS.projCode == "EPSG:900913" || this.proj.projCode == "EPSG:900913") {
-          var wgs84 = new OpenLayers.Projection("EPSG:4326");
-          component.transform(sourceSRS, wgs84);
-          component.transformed = false;
-          component.transform(wgs84, this.proj);
-        } else {
-          component.transform(sourceSRS, this.proj);
-        }
+        component.transform(sourceSRS, this.proj);
       } else {
         for (var i=0; i<component.components.length; ++i) {
           this.convertPoints(component.components[i], sourceSRS);
