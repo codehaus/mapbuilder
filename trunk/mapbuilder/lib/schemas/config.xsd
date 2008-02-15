@@ -1113,6 +1113,11 @@
               <xs:documentation>The base URL of the Web Service that will be queried.</xs:documentation>
             </xs:annotation>
           </xs:element>
+          <xs:element name="webServiceSrs" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>The SRS to be used when requesting features from the server.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
           <xs:element name="typeName" type="xs:string">
             <xs:annotation>
               <xs:documentation>A comma separated list of layers to query.</xs:documentation>
