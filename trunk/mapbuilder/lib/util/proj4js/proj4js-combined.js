@@ -94,8 +94,8 @@ Proj4js = {
         }
         
         // Workaround for Spherical Mercator
-        if ((source.srsCode.match(/GOOGLE|900913/) && target.datum != "wgs84") ||
-            (dest.srsCode.match(/GOOGLE|900913/) && source.datum != "wgs84")) {
+        if ((source.srsProjNumber =="900913" && target.datum != "wgs84") ||
+            (dest.srsProjNumber == "900913" && source.datum != "wgs84")) {
             var wgs84 = new Proj4js.Proj("EPSG:4326");
             this.transform(source, wgs84, point);
             point.transformed = false;
@@ -752,7 +752,7 @@ var maxiter = 30;
     P = Math.sqrt(X*X+Y*Y);
     RR = Math.sqrt(X*X+Y*Y+Z*Z);
 
-/*	special cases for latitude and longitude */
+/*  special cases for latitude and longitude */
     if (P/this.a < genau) {
 
 /*  special case, if P=0. (X=0., Y=0.) */
@@ -808,7 +808,7 @@ var maxiter = 30;
     }
     while (SDPHI*SDPHI > genau2 && iter < maxiter);
 
-/*	ellipsoidal (geodetic) latitude */
+/*  ellipsoidal (geodetic) latitude */
     Latitude=Math.atan(SPHI/Math.abs(CPHI));
 
     p.x = Longitude;
@@ -1180,14 +1180,14 @@ Proj4js.Proj.sterea = {
 /*******************************************************************************
 NAME                     ALBERS CONICAL EQUAL AREA 
 
-PURPOSE:	Transforms input longitude and latitude to Easting and Northing
-		for the Albers Conical Equal Area projection.  The longitude
-		and latitude must be in radians.  The Easting and Northing
-		values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and Northing
+    for the Albers Conical Equal Area projection.  The longitude
+    and latitude must be in radians.  The Easting and Northing
+    values will be returned in meters.
 
 PROGRAMMER              DATE
 ----------              ----
-T. Mittan,       	Feb, 1992
+T. Mittan,        Feb, 1992
 
 ALGORITHM REFERENCES
 
@@ -1334,29 +1334,29 @@ Proj4js.Proj.aea = {
    Polyconic projection.
 ------------------------------------------------------------*/
 function phi4z (eccent,e0,e1,e2,e3,a,b,c,phi) {
-	var sinphi, sin2ph, tanph, ml, mlp, con1, con2, con3, dphi, i;
+  var sinphi, sin2ph, tanph, ml, mlp, con1, con2, con3, dphi, i;
 
-	phi = a;
-	for (i = 1; i <= 15; i++) {
-		sinphi = Math.sin(phi);
-		tanphi = Math.tan(phi);
-		c = tanphi * Math.sqrt (1.0 - eccent * sinphi * sinphi);
-		sin2ph = Math.sin (2.0 * phi);
-		/*
-		ml = e0 * *phi - e1 * sin2ph + e2 * sin (4.0 *  *phi);
-		mlp = e0 - 2.0 * e1 * cos (2.0 *  *phi) + 4.0 * e2 *  cos (4.0 *  *phi);
-		*/
-		ml = e0 * phi - e1 * sin2ph + e2 * Math.sin (4.0 *  phi) - e3 * Math.sin (6.0 * phi);
-		mlp = e0 - 2.0 * e1 * Math.cos (2.0 *  phi) + 4.0 * e2 * Math.cos (4.0 *  phi) - 6.0 * e3 * Math.cos (6.0 *  phi);
-		con1 = 2.0 * ml + c * (ml * ml + b) - 2.0 * a *  (c * ml + 1.0);
-		con2 = eccent * sin2ph * (ml * ml + b - 2.0 * a * ml) / (2.0 *c);
-		con3 = 2.0 * (a - ml) * (c * mlp - 2.0 / sin2ph) - 2.0 * mlp;
-		dphi = con1 / (con2 + con3);
-		phi += dphi;
-		if (Math.abs(dphi) <= .0000000001 ) return(phi);   
-	}
-	Proj4js.reportError("phi4z: No convergence");
-	return null;
+  phi = a;
+  for (i = 1; i <= 15; i++) {
+    sinphi = Math.sin(phi);
+    tanphi = Math.tan(phi);
+    c = tanphi * Math.sqrt (1.0 - eccent * sinphi * sinphi);
+    sin2ph = Math.sin (2.0 * phi);
+    /*
+    ml = e0 * *phi - e1 * sin2ph + e2 * sin (4.0 *  *phi);
+    mlp = e0 - 2.0 * e1 * cos (2.0 *  *phi) + 4.0 * e2 *  cos (4.0 *  *phi);
+    */
+    ml = e0 * phi - e1 * sin2ph + e2 * Math.sin (4.0 *  phi) - e3 * Math.sin (6.0 * phi);
+    mlp = e0 - 2.0 * e1 * Math.cos (2.0 *  phi) + 4.0 * e2 * Math.cos (4.0 *  phi) - 6.0 * e3 * Math.cos (6.0 *  phi);
+    con1 = 2.0 * ml + c * (ml * ml + b) - 2.0 * a *  (c * ml + 1.0);
+    con2 = eccent * sin2ph * (ml * ml + b - 2.0 * a * ml) / (2.0 *c);
+    con3 = 2.0 * (a - ml) * (c * mlp - 2.0 / sin2ph) - 2.0 * mlp;
+    dphi = con1 / (con2 + con3);
+    phi += dphi;
+    if (Math.abs(dphi) <= .0000000001 ) return(phi);   
+  }
+  Proj4js.reportError("phi4z: No convergence");
+  return null;
 }
 
 
@@ -1365,10 +1365,10 @@ function phi4z (eccent,e0,e1,e2,e3,a,b,c,phi) {
    projection.
 --------------------------------------------------------------------*/
 function e4fn(x) {
-	var con, com;
-	con = 1.0 + x;
-	com = 1.0 - x;
-	return (Math.sqrt((Math.pow(con,con))*(Math.pow(com,com))));
+  var con, com;
+  con = 1.0 + x;
+  com = 1.0 - x;
+  return (Math.sqrt((Math.pow(con,con))*(Math.pow(com,com))));
 }
 
 
@@ -1378,14 +1378,14 @@ function e4fn(x) {
 /*******************************************************************************
 NAME                             POLYCONIC 
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Polyconic projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Polyconic projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 PROGRAMMER              DATE
 ----------              ----
-T. Mittan		Mar, 1993
+T. Mittan   Mar, 1993
 
 ALGORITHM REFERENCES
 
@@ -1400,89 +1400,89 @@ ALGORITHM REFERENCES
 
 Proj4js.Proj.poly = {
 
-	/* Initialize the POLYCONIC projection
-	  ----------------------------------*/
-	init: function() {
-		var temp;			/* temporary variable		*/
-		if (this.lat0=0) this.lat0=90;//this.lat0 ca
+  /* Initialize the POLYCONIC projection
+    ----------------------------------*/
+  init: function() {
+    var temp;     /* temporary variable   */
+    if (this.lat0=0) this.lat0=90;//this.lat0 ca
 
-		/* Place parameters in static storage for common use
-		  -------------------------------------------------*/
-		this.temp = this.b / this.a;
-		this.es = 1.0 - Math.pow(this.temp,2);// devait etre dans tmerc.js mais n y est pas donc je commente sinon retour de valeurs nulles 
-		this.e = Math.sqrt(this.es);
-		this.e0 = Proj4js.common.e0fn(this.es);
-		this.e1 = Proj4js.common.e1fn(this.es);
-		this.e2 = Proj4js.common.e2fn(this.es);
-		this.e3 = Proj4js.common.e3fn(this.es);
-		this.ml0 = Proj4js.common.mlfn(this.e0, this.e1,this.e2, this.e3, this.lat0);//si que des zeros le calcul ne se fait pas
-		//if (!this.ml0) {this.ml0=0;}
-	},
-
-
-	/* Polyconic forward equations--mapping lat,long to x,y
-	  ---------------------------------------------------*/
-	forward: function(p) {
-		var sinphi, cosphi;	/* sin and cos value				*/
-		var al;				/* temporary values				*/
-		var c;				/* temporary values				*/
-		var con, ml;		/* cone constant, small m			*/
-		var ms;				/* small m					*/
-		var x,y;
-
-		var lon=p.x;
-		var lat=p.y;	
-
-		con = Proj4js.common.adjust_lon(lon - this.long0);
-		if (Math.abs(lat) <= .0000001) {
-			x = this.x0 + this.a * con;
-			y = this.y0 - this.a * this.ml0;
-		} else {
-			sinphi = Math.sin(lat);
-			cosphi = Math.cos(lat);	   
-
-			ml = Proj4js.common.mlfn(this.e0, this.e1, this.e2, this.e3, lat);
-			ms = Proj4js.common.msfnz(this.e,sinphi,cosphi);
-			con = sinphi;
-			x = this.x0 + this.a * ms * Math.sin(con)/sinphi;
-			y = this.y0 + this.a * (ml - this.ml0 + ms * (1.0 - Math.cos(con))/sinphi);
-		}
-
-		p.x=x;
-		p.y=y;   
-		return p;
-	},
+    /* Place parameters in static storage for common use
+      -------------------------------------------------*/
+    this.temp = this.b / this.a;
+    this.es = 1.0 - Math.pow(this.temp,2);// devait etre dans tmerc.js mais n y est pas donc je commente sinon retour de valeurs nulles 
+    this.e = Math.sqrt(this.es);
+    this.e0 = Proj4js.common.e0fn(this.es);
+    this.e1 = Proj4js.common.e1fn(this.es);
+    this.e2 = Proj4js.common.e2fn(this.es);
+    this.e3 = Proj4js.common.e3fn(this.es);
+    this.ml0 = Proj4js.common.mlfn(this.e0, this.e1,this.e2, this.e3, this.lat0);//si que des zeros le calcul ne se fait pas
+    //if (!this.ml0) {this.ml0=0;}
+  },
 
 
-	/* Inverse equations
-	-----------------*/
-	inverse: function(p) {
-		var sin_phi, cos_phi;	/* sin and cos value				*/
-		var al;					/* temporary values				*/
-		var b;					/* temporary values				*/
-		var c;					/* temporary values				*/
-		var con, ml;			/* cone constant, small m			*/
-		var iflg;				/* error flag					*/
-		var lon,lat;
-		p.x -= this.x0;
-		p.y -= this.y0;
-		al = this.ml0 + p.y/this.a;
-		iflg = 0;
+  /* Polyconic forward equations--mapping lat,long to x,y
+    ---------------------------------------------------*/
+  forward: function(p) {
+    var sinphi, cosphi; /* sin and cos value        */
+    var al;       /* temporary values       */
+    var c;        /* temporary values       */
+    var con, ml;    /* cone constant, small m     */
+    var ms;       /* small m          */
+    var x,y;
 
-		if (Math.abs(al) <= .0000001) {
-			lon = p.x/this.a + this.long0;
-			lat = 0.0;
-		} else {
-			b = al * al + (p.x/this.a) * (p.x/this.a);
-			iflg = phi4z(this.es,this.e0,this.e1,this.e2,this.e3,this.al,b,c,lat);
-			if (iflg != 1) return(iflg);
-			lon = Proj4js.common.adjust_lon((asinz(p.x * c / this.a) / Math.sin(lat)) + this.long0);
-		}
+    var lon=p.x;
+    var lat=p.y;  
 
-		p.x=lon;
-		p.y=lat;
-		return p;
-	}
+    con = Proj4js.common.adjust_lon(lon - this.long0);
+    if (Math.abs(lat) <= .0000001) {
+      x = this.x0 + this.a * con;
+      y = this.y0 - this.a * this.ml0;
+    } else {
+      sinphi = Math.sin(lat);
+      cosphi = Math.cos(lat);    
+
+      ml = Proj4js.common.mlfn(this.e0, this.e1, this.e2, this.e3, lat);
+      ms = Proj4js.common.msfnz(this.e,sinphi,cosphi);
+      con = sinphi;
+      x = this.x0 + this.a * ms * Math.sin(con)/sinphi;
+      y = this.y0 + this.a * (ml - this.ml0 + ms * (1.0 - Math.cos(con))/sinphi);
+    }
+
+    p.x=x;
+    p.y=y;   
+    return p;
+  },
+
+
+  /* Inverse equations
+  -----------------*/
+  inverse: function(p) {
+    var sin_phi, cos_phi; /* sin and cos value        */
+    var al;         /* temporary values       */
+    var b;          /* temporary values       */
+    var c;          /* temporary values       */
+    var con, ml;      /* cone constant, small m     */
+    var iflg;       /* error flag         */
+    var lon,lat;
+    p.x -= this.x0;
+    p.y -= this.y0;
+    al = this.ml0 + p.y/this.a;
+    iflg = 0;
+
+    if (Math.abs(al) <= .0000001) {
+      lon = p.x/this.a + this.long0;
+      lat = 0.0;
+    } else {
+      b = al * al + (p.x/this.a) * (p.x/this.a);
+      iflg = phi4z(this.es,this.e0,this.e1,this.e2,this.e3,this.al,b,c,lat);
+      if (iflg != 1) return(iflg);
+      lon = Proj4js.common.adjust_lon((asinz(p.x * c / this.a) / Math.sin(lat)) + this.long0);
+    }
+
+    p.x=lon;
+    p.y=lat;
+    return p;
+  }
 };
 
 
@@ -1494,14 +1494,14 @@ Proj4js.Proj.poly = {
 /*******************************************************************************
 NAME                             EQUIRECTANGULAR 
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Equirectangular projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Equirectangular projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 PROGRAMMER              DATE
 ----------              ----
-T. Mittan		Mar, 1993
+T. Mittan   Mar, 1993
 
 ALGORITHM REFERENCES
 
@@ -1529,8 +1529,8 @@ Proj4js.Proj.equi = {
   ---------------------------------------------------------*/
   forward: function(p) {
 
-    var lon=p.x;				
-    var lat=p.y;			
+    var lon=p.x;        
+    var lat=p.y;      
 
     var dlon = Proj4js.common.adjust_lon(lon - this.long0);
     var x = this.x0 +this. a * dlon *Math.cos(this.lat0);
@@ -1570,15 +1570,15 @@ Proj4js.Proj.equi = {
 /*******************************************************************************
 NAME                            MERCATOR
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Mercator projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Mercator projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 PROGRAMMER              DATE
 ----------              ----
 D. Steinwand, EROS      Nov, 1991
-T. Mittan		Mar, 1993
+T. Mittan   Mar, 1993
 
 ALGORITHM REFERENCES
 
@@ -1591,24 +1591,24 @@ ALGORITHM REFERENCES
     Printing Office, Washington D.C., 1989.
 *******************************************************************************/
 
-//static double r_major = a;		   /* major axis 				*/
-//static double r_minor = b;		   /* minor axis 				*/
-//static double lon_center = long0;	   /* Center longitude (projection center) */
-//static double lat_origin =  lat0;	   /* center latitude			*/
-//static double e,es;		           /* eccentricity constants		*/
-//static double m1;		               /* small value m			*/
-//static double false_northing = y0;   /* y offset in meters			*/
-//static double false_easting = x0;	   /* x offset in meters			*/
+//static double r_major = a;       /* major axis        */
+//static double r_minor = b;       /* minor axis        */
+//static double lon_center = long0;    /* Center longitude (projection center) */
+//static double lat_origin =  lat0;    /* center latitude     */
+//static double e,es;              /* eccentricity constants    */
+//static double m1;                  /* small value m     */
+//static double false_northing = y0;   /* y offset in meters      */
+//static double false_easting = x0;    /* x offset in meters      */
 //scale_fact = k0 
 
 Proj4js.Proj.merc = {
   init : function() {
-	//?this.temp = this.r_minor / this.r_major;
-	//this.temp = this.b / this.a;
-	//this.es = 1.0 - Math.sqrt(this.temp);
-	//this.e = Math.sqrt( this.es );
-	//?this.m1 = Math.cos(this.lat_origin) / (Math.sqrt( 1.0 - this.es * Math.sin(this.lat_origin) * Math.sin(this.lat_origin)));
-	//this.m1 = Math.cos(0.0) / (Math.sqrt( 1.0 - this.es * Math.sin(0.0) * Math.sin(0.0)));
+  //?this.temp = this.r_minor / this.r_major;
+  //this.temp = this.b / this.a;
+  //this.es = 1.0 - Math.sqrt(this.temp);
+  //this.e = Math.sqrt( this.es );
+  //?this.m1 = Math.cos(this.lat_origin) / (Math.sqrt( 1.0 - this.es * Math.sin(this.lat_origin) * Math.sin(this.lat_origin)));
+  //this.m1 = Math.cos(0.0) / (Math.sqrt( 1.0 - this.es * Math.sin(0.0) * Math.sin(0.0)));
     if (this.lat_ts) {
       if (this.sphere) {
         this.k0 = Math.cos(this.lat_ts);
@@ -1621,7 +1621,7 @@ Proj4js.Proj.merc = {
 /* Mercator forward equations--mapping lat,long to x,y
   --------------------------------------------------*/
 
-  forward : function(p) {	
+  forward : function(p) { 
     //alert("ll2m coords : "+coords);
     var lon = p.x;
     var lat = p.y;
@@ -1657,7 +1657,7 @@ Proj4js.Proj.merc = {
 
   /* Mercator inverse equations--mapping x,y to lat/long
   --------------------------------------------------*/
-  inverse : function(p) {	
+  inverse : function(p) { 
 
     var x = p.x - this.x0;
     var y = p.y - this.y0;
@@ -1689,10 +1689,10 @@ Proj4js.Proj.merc = {
 /*******************************************************************************
 NAME                            TRANSVERSE MERCATOR
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Transverse Mercator projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Transverse Mercator projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 ALGORITHM REFERENCES
 
@@ -1736,14 +1736,14 @@ Proj4js.Proj.utm = {
 /*******************************************************************************
 NAME                            EQUIDISTANT CONIC 
 
-PURPOSE:	Transforms input longitude and latitude to Easting and Northing
-		for the Equidistant Conic projection.  The longitude and
-		latitude must be in radians.  The Easting and Northing values
-		will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and Northing
+    for the Equidistant Conic projection.  The longitude and
+    latitude must be in radians.  The Easting and Northing values
+    will be returned in meters.
 
 PROGRAMMER              DATE
 ----------              ----
-T. Mittan		Mar, 1993
+T. Mittan   Mar, 1993
 
 ALGORITHM REFERENCES
 
@@ -1880,10 +1880,10 @@ Proj4js.Proj.eqdc = {
 /*******************************************************************************
 NAME                            TRANSVERSE MERCATOR
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Transverse Mercator projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Transverse Mercator projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 ALGORITHM REFERENCES
 
@@ -2031,14 +2031,14 @@ Proj4js.defs["EPSG:900913"]=Proj4js.defs["GOOGLE"];
 /*******************************************************************************
 NAME                             ORTHOGRAPHIC 
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Orthographic projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Orthographic projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 PROGRAMMER              DATE
 ----------              ----
-T. Mittan		Mar, 1993
+T. Mittan   Mar, 1993
 
 ALGORITHM REFERENCES
 
@@ -2056,31 +2056,31 @@ Proj4js.Proj.ortho = {
   /* Initialize the Orthographic projection
     -------------------------------------*/
   init: function(def) {
-    //double temp;			/* temporary variable		*/
+    //double temp;      /* temporary variable   */
 
     /* Place parameters in static storage for common use
       -------------------------------------------------*/;
     this.sin_p14=Math.sin(this.lat0);
-    this.cos_p14=Math.cos(this.lat0);	
+    this.cos_p14=Math.cos(this.lat0); 
   },
 
 
   /* Orthographic forward equations--mapping lat,long to x,y
     ---------------------------------------------------*/
   forward: function(p) {
-    var sinphi, cosphi;	/* sin and cos value				*/
-    var dlon;		/* delta longitude value			*/
-    var coslon;		/* cos of longitude				*/
-    var ksp;		/* scale factor					*/
-    var g;		
+    var sinphi, cosphi; /* sin and cos value        */
+    var dlon;   /* delta longitude value      */
+    var coslon;   /* cos of longitude       */
+    var ksp;    /* scale factor         */
+    var g;    
     var lon=p.x;
-    var lat=p.y;	
+    var lat=p.y;  
     /* Forward equations
       -----------------*/
     dlon = Proj4js.common.adjust_lon(lon - this.long0);
 
     sinphi=Math.sin(lat);
-    cosphi=Math.cos(lat);	
+    cosphi=Math.cos(lat); 
 
     coslon = Math.cos(dlon);
     g = this.sin_p14 * sinphi + this.cos_p14 * cosphi * coslon;
@@ -2098,9 +2098,9 @@ Proj4js.Proj.ortho = {
 
 
   inverse: function(p) {
-    var rh;		/* height above ellipsoid			*/
-    var z;		/* angle					*/
-    var sinz,cosz;	/* sin of z and cos of z			*/
+    var rh;   /* height above ellipsoid     */
+    var z;    /* angle          */
+    var sinz,cosz;  /* sin of z and cos of z      */
     var temp;
     var con;
     var lon , lat;
@@ -2150,69 +2150,69 @@ Proj4js.Proj.ortho = {
 
 Proj4js.Proj.stere = {
   ssfn_: function(phit, sinphi, eccen) {
-  	sinphi *= eccen;
-  	return (Math.tan (.5 * (Proj4js.common.HALF_PI + phit)) * Math.pow((1. - sinphi) / (1. + sinphi), .5 * eccen));
+    sinphi *= eccen;
+    return (Math.tan (.5 * (Proj4js.common.HALF_PI + phit)) * Math.pow((1. - sinphi) / (1. + sinphi), .5 * eccen));
   },
-  TOL:	1.e-8,
-  NITER:	8,
-  CONV:	1.e-10,
-  S_POLE:	0,
-  N_POLE:	1,
-  OBLIQ:	2,
-  EQUIT:	3,
+  TOL:  1.e-8,
+  NITER:  8,
+  CONV: 1.e-10,
+  S_POLE: 0,
+  N_POLE: 1,
+  OBLIQ:  2,
+  EQUIT:  3,
 
   init : function() {
-  	this.phits = this.lat_ts ? this.lat_ts : Proj4js.common.HALF_PI;
+    this.phits = this.lat_ts ? this.lat_ts : Proj4js.common.HALF_PI;
     var t = Math.abs(this.lat0);
-  	if ((Math.abs(t) - Proj4js.common.HALF_PI) < Proj4js.common.EPSLN) {
-  		this.mode = this.lat0 < 0. ? this.S_POLE : this.N_POLE;
-  	} else {
-  		this.mode = t > Proj4js.common.EPSLN ? this.OBLIQ : this.EQUIT;
+    if ((Math.abs(t) - Proj4js.common.HALF_PI) < Proj4js.common.EPSLN) {
+      this.mode = this.lat0 < 0. ? this.S_POLE : this.N_POLE;
+    } else {
+      this.mode = t > Proj4js.common.EPSLN ? this.OBLIQ : this.EQUIT;
     }
-  	this.phits = Math.abs(this.phits);
-  	if (this.es) {
-  		var X;
+    this.phits = Math.abs(this.phits);
+    if (this.es) {
+      var X;
 
-  		switch (this.mode) {
-  		case this.N_POLE:
-  		case this.S_POLE:
-  			if (Math.abs(this.phits - Proj4js.common.HALF_PI) < Proj4js.common.EPSLN) {
-  				this.akm1 = 2. * this.k0 / Math.sqrt(Math.pow(1+this.e,1+this.e)*Math.pow(1-this.e,1-this.e));
-  			} else {
+      switch (this.mode) {
+      case this.N_POLE:
+      case this.S_POLE:
+        if (Math.abs(this.phits - Proj4js.common.HALF_PI) < Proj4js.common.EPSLN) {
+          this.akm1 = 2. * this.k0 / Math.sqrt(Math.pow(1+this.e,1+this.e)*Math.pow(1-this.e,1-this.e));
+        } else {
           t = Math.sin(this.phits);
-  				this.akm1 = Math.cos(this.phits) / Proj4js.common.tsfnz(this.e, this.phits, t);
-  				t *= this.e;
-  				this.akm1 /= Math.sqrt(1. - t * t);
-  			}
-  			break;
-  		case this.EQUIT:
-  			this.akm1 = 2. * this.k0;
-  			break;
-  		case this.OBLIQ:
-  			t = Math.sin(this.lat0);
-  			X = 2. * Math.atan(this.ssfn_(this.lat0, t, this.e)) - Proj4js.common.HALF_PI;
-  			t *= this.e;
-  			this.akm1 = 2. * this.k0 * Math.cos(this.lat0) / Math.sqrt(1. - t * t);
-  			this.sinX1 = Math.sin(X);
-  			this.cosX1 = Math.cos(X);
-  			break;
-  		}
-  	} else {
-  		switch (this.mode) {
-  		case this.OBLIQ:
-  			this.sinph0 = Math.sin(this.lat0);
-  			this.cosph0 = Math.cos(this.lat0);
-  		case this.EQUIT:
-  			this.akm1 = 2. * this.k0;
-  			break;
-  		case this.S_POLE:
-  		case this.N_POLE:
-  			this.akm1 = Math.abs(this.phits - Proj4js.common.HALF_PI) >= Proj4js.common.EPSLN ?
-  			   Math.cos(this.phits) / Math.tan(Proj4js.common.FORTPI - .5 * this.phits) :
-  			   2. * this.k0 ;
-  			break;
-  		}
-  	}
+          this.akm1 = Math.cos(this.phits) / Proj4js.common.tsfnz(this.e, this.phits, t);
+          t *= this.e;
+          this.akm1 /= Math.sqrt(1. - t * t);
+        }
+        break;
+      case this.EQUIT:
+        this.akm1 = 2. * this.k0;
+        break;
+      case this.OBLIQ:
+        t = Math.sin(this.lat0);
+        X = 2. * Math.atan(this.ssfn_(this.lat0, t, this.e)) - Proj4js.common.HALF_PI;
+        t *= this.e;
+        this.akm1 = 2. * this.k0 * Math.cos(this.lat0) / Math.sqrt(1. - t * t);
+        this.sinX1 = Math.sin(X);
+        this.cosX1 = Math.cos(X);
+        break;
+      }
+    } else {
+      switch (this.mode) {
+      case this.OBLIQ:
+        this.sinph0 = Math.sin(this.lat0);
+        this.cosph0 = Math.cos(this.lat0);
+      case this.EQUIT:
+        this.akm1 = 2. * this.k0;
+        break;
+      case this.S_POLE:
+      case this.N_POLE:
+        this.akm1 = Math.abs(this.phits - Proj4js.common.HALF_PI) >= Proj4js.common.EPSLN ?
+           Math.cos(this.phits) / Math.tan(Proj4js.common.FORTPI - .5 * this.phits) :
+           2. * this.k0 ;
+        break;
+      }
+    }
   }, 
 
 // Stereographic forward equations--mapping lat,long to x,y
@@ -2222,74 +2222,74 @@ Proj4js.Proj.stere = {
     var x, y
     
     if (this.sphere) {
-    	var  sinphi, cosphi, coslam, sinlam;
+      var  sinphi, cosphi, coslam, sinlam;
 
-    	sinphi = Math.sin(lat);
-    	cosphi = Math.cos(lat);
-    	coslam = Math.cos(lon);
-    	sinlam = Math.sin(lon);
-    	switch (this.mode) {
-    	case this.EQUIT:
-    		y = 1. + cosphi * coslam;
-    		if (y <= Proj4js.common.EPSLN) {
+      sinphi = Math.sin(lat);
+      cosphi = Math.cos(lat);
+      coslam = Math.cos(lon);
+      sinlam = Math.sin(lon);
+      switch (this.mode) {
+      case this.EQUIT:
+        y = 1. + cosphi * coslam;
+        if (y <= Proj4js.common.EPSLN) {
           F_ERROR;
         }
         y = this.akm1 / y;
-    		x = y * cosphi * sinlam;
+        x = y * cosphi * sinlam;
         y *= sinphi;
-    		break;
-    	case this.OBLIQ:
-    		y = 1. + this.sinph0 * sinphi + this.cosph0 * cosphi * coslam;
-    		if (y <= Proj4js.common.EPSLN) {
+        break;
+      case this.OBLIQ:
+        y = 1. + this.sinph0 * sinphi + this.cosph0 * cosphi * coslam;
+        if (y <= Proj4js.common.EPSLN) {
           F_ERROR;
         }
         y = this.akm1 / y;
-    		x = y * cosphi * sinlam;
-    		y *= this.cosph0 * sinphi - this.sinph0 * cosphi * coslam;
-    		break;
-    	case this.N_POLE:
-    		coslam = -coslam;
-    		lat = -lat;
+        x = y * cosphi * sinlam;
+        y *= this.cosph0 * sinphi - this.sinph0 * cosphi * coslam;
+        break;
+      case this.N_POLE:
+        coslam = -coslam;
+        lat = -lat;
         //Note: no break here so it conitnues through S_POLE
-    	case this.S_POLE:
-    		if (Math.abs(lat - Proj4js.common.HALF_PI) < this.TOL) {
+      case this.S_POLE:
+        if (Math.abs(lat - Proj4js.common.HALF_PI) < this.TOL) {
           F_ERROR;
         }
         y = this.akm1 * Math.tan(Proj4js.common.FORTPI + .5 * lat)
-    		x = sinlam * y;
-    		y *= coslam;
-    		break;
-    	}
+        x = sinlam * y;
+        y *= coslam;
+        break;
+      }
     } else {
-    	coslam = Math.cos(lon);
-    	sinlam = Math.sin(lon);
-    	sinphi = Math.sin(lat);
-    	if (this.mode == this.OBLIQ || this.mode == this.EQUIT) {
+      coslam = Math.cos(lon);
+      sinlam = Math.sin(lon);
+      sinphi = Math.sin(lat);
+      if (this.mode == this.OBLIQ || this.mode == this.EQUIT) {
         X = 2. * Math.atan(this.ssfn_(lat, sinphi, this.e));
-    		sinX = Math.sin(X - Proj4js.common.HALF_PI);
-    		cosX = Math.cos(X);
-    	}
-    	switch (this.mode) {
-    	case this.OBLIQ:
-    		A = this.akm1 / (this.cosX1 * (1. + this.sinX1 * sinX + this.cosX1 * cosX * coslam));
-    		y = A * (this.cosX1 * sinX - this.sinX1 * cosX * coslam);
-    		x = A * cosX;
-    		break;
-    	case this.EQUIT:
-    		A = 2. * this.akm1 / (1. + cosX * coslam);
-    		y = A * sinX;
-    		x = A * cosX;
-    		break;
-    	case this.S_POLE:
-    		lat = -lat;
-    		coslam = - coslam;
-    		sinphi = -sinphi;
-    	case this.N_POLE:
-    		x = this.akm1 * Proj4js.common.tsfnz(this.e, lat, sinphi);
-    		y = - x * coslam;
-    		break;
-    	}
-    	x = x * sinlam;
+        sinX = Math.sin(X - Proj4js.common.HALF_PI);
+        cosX = Math.cos(X);
+      }
+      switch (this.mode) {
+      case this.OBLIQ:
+        A = this.akm1 / (this.cosX1 * (1. + this.sinX1 * sinX + this.cosX1 * cosX * coslam));
+        y = A * (this.cosX1 * sinX - this.sinX1 * cosX * coslam);
+        x = A * cosX;
+        break;
+      case this.EQUIT:
+        A = 2. * this.akm1 / (1. + cosX * coslam);
+        y = A * sinX;
+        x = A * cosX;
+        break;
+      case this.S_POLE:
+        lat = -lat;
+        coslam = - coslam;
+        sinphi = -sinphi;
+      case this.N_POLE:
+        x = this.akm1 * Proj4js.common.tsfnz(this.e, lat, sinphi);
+        y = - x * coslam;
+        break;
+      }
+      x = x * sinlam;
     }
     p.x = x*this.a + this.x0;
     p.y = y*this.a + this.y0;
@@ -2307,84 +2307,84 @@ Proj4js.Proj.stere = {
     var i;
 
     if (this.sphere) {
-    	var  c, rh, sinc, cosc;
+      var  c, rh, sinc, cosc;
 
       rh = Math.sqrt(x*x + y*y);
       c = 2. * Math.atan(rh / this.akm1);
-    	sinc = Math.sin(c);
-    	cosc = Math.cos(c);
-    	lon = 0.;
-    	switch (this.mode) {
-    	case this.EQUIT:
-    		if (Math.abs(rh) <= Proj4js.common.EPSLN) {
-    			lat = 0.;
-    		} else {
-    			lat = Math.asin(y * sinc / rh);
+      sinc = Math.sin(c);
+      cosc = Math.cos(c);
+      lon = 0.;
+      switch (this.mode) {
+      case this.EQUIT:
+        if (Math.abs(rh) <= Proj4js.common.EPSLN) {
+          lat = 0.;
+        } else {
+          lat = Math.asin(y * sinc / rh);
         }
-    		if (cosc != 0. || x != 0.) lon = Math.atan2(x * sinc, cosc * rh);
-    		break;
-    	case this.OBLIQ:
-    		if (Math.abs(rh) <= Proj4js.common.EPSLN) {
-    			lat = this.phi0;
-    		} else {
-    			lat = Math.asin(cosc * sinph0 + y * sinc * cosph0 / rh);
+        if (cosc != 0. || x != 0.) lon = Math.atan2(x * sinc, cosc * rh);
+        break;
+      case this.OBLIQ:
+        if (Math.abs(rh) <= Proj4js.common.EPSLN) {
+          lat = this.phi0;
+        } else {
+          lat = Math.asin(cosc * sinph0 + y * sinc * cosph0 / rh);
         }
         c = cosc - sinph0 * Math.sin(lat);
-    		if (c != 0. || x != 0.) {
-    			lon = Math.atan2(x * sinc * cosph0, c * rh);
+        if (c != 0. || x != 0.) {
+          lon = Math.atan2(x * sinc * cosph0, c * rh);
         }
-    		break;
-    	case this.N_POLE:
-    		y = -y;
-    	case this.S_POLE:
-    		if (Math.abs(rh) <= Proj4js.common.EPSLN) {
-    			lat = this.phi0;
-    		} else {
-    			lat = Math.asin(this.mode == this.S_POLE ? -cosc : cosc);
-        }
-    		lon = (x == 0. && y == 0.) ? 0. : Math.atan2(x, y);
-    		break;
-    	}
-    } else {
-    	rho = Math.sqrt(x*x + y*y);
-    	switch (this.mode) {
-    	case this.OBLIQ:
-    	case this.EQUIT:
-        tp = 2. * Math.atan2(rho * this.cosX1 , this.akm1);
-    		cosphi = Math.cos(tp);
-    		sinphi = Math.sin(tp);
-        if( rho == 0.0 ) {
-    		  phi_l = Math.asin(cosphi * this.sinX1);
+        break;
+      case this.N_POLE:
+        y = -y;
+      case this.S_POLE:
+        if (Math.abs(rh) <= Proj4js.common.EPSLN) {
+          lat = this.phi0;
         } else {
-    		  phi_l = Math.asin(cosphi * this.sinX1 + (y * sinphi * this.cosX1 / rho));
+          lat = Math.asin(this.mode == this.S_POLE ? -cosc : cosc);
+        }
+        lon = (x == 0. && y == 0.) ? 0. : Math.atan2(x, y);
+        break;
+      }
+    } else {
+      rho = Math.sqrt(x*x + y*y);
+      switch (this.mode) {
+      case this.OBLIQ:
+      case this.EQUIT:
+        tp = 2. * Math.atan2(rho * this.cosX1 , this.akm1);
+        cosphi = Math.cos(tp);
+        sinphi = Math.sin(tp);
+        if( rho == 0.0 ) {
+          phi_l = Math.asin(cosphi * this.sinX1);
+        } else {
+          phi_l = Math.asin(cosphi * this.sinX1 + (y * sinphi * this.cosX1 / rho));
         }
 
-    		tp = Math.tan(.5 * (Proj4js.common.HALF_PI + phi_l));
-    		x *= sinphi;
-    		y = rho * this.cosX1 * cosphi - y * this.sinX1* sinphi;
-    		pi2 = Proj4js.common.HALF_PI;
-    		halfe = .5 * this.e;
-    		break;
-    	case this.N_POLE:
-    		y = -y;
-    	case this.S_POLE:
+        tp = Math.tan(.5 * (Proj4js.common.HALF_PI + phi_l));
+        x *= sinphi;
+        y = rho * this.cosX1 * cosphi - y * this.sinX1* sinphi;
+        pi2 = Proj4js.common.HALF_PI;
+        halfe = .5 * this.e;
+        break;
+      case this.N_POLE:
+        y = -y;
+      case this.S_POLE:
         tp = - rho / this.akm1
-    		phi_l = Proj4js.common.HALF_PI - 2. * Math.atan(tp);
-    		pi2 = -Proj4js.common.HALF_PI;
-    		halfe = -.5 * this.e;
-    		break;
-    	}
-    	for (i = this.NITER; i--; phi_l = lat) { //check this
-    		sinphi = this.e * Math.sin(phi_l);
-    		lat = 2. * Math.atan(tp * Math.pow((1.+sinphi)/(1.-sinphi), halfe)) - pi2;
-    		if (Math.abs(phi_l - lat) < this.CONV) {
-    			if (this.mode == this.S_POLE) lat = -lat;
-    			lon = (x == 0. && y == 0.) ? 0. : Math.atan2(x, y);
+        phi_l = Proj4js.common.HALF_PI - 2. * Math.atan(tp);
+        pi2 = -Proj4js.common.HALF_PI;
+        halfe = -.5 * this.e;
+        break;
+      }
+      for (i = this.NITER; i--; phi_l = lat) { //check this
+        sinphi = this.e * Math.sin(phi_l);
+        lat = 2. * Math.atan(tp * Math.pow((1.+sinphi)/(1.-sinphi), halfe)) - pi2;
+        if (Math.abs(phi_l - lat) < this.CONV) {
+          if (this.mode == this.S_POLE) lat = -lat;
+          lon = (x == 0. && y == 0.) ? 0. : Math.atan2(x, y);
           p.x = lon;
           p.y = lat
-    			return p;
-    		}
-    	}
+          return p;
+        }
+      }
     }
   }
 }; 
@@ -2395,14 +2395,14 @@ Proj4js.Proj.stere = {
 /*******************************************************************************
 NAME                    MILLER CYLINDRICAL 
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Miller Cylindrical projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Miller Cylindrical projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 PROGRAMMER              DATE            
 ----------              ----           
-T. Mittan		March, 1993
+T. Mittan   March, 1993
 
 This function was adapted from the Lambert Azimuthal Equal Area projection
 code (FORTRAN) in the General Cartographic Transformation Package software
@@ -2465,12 +2465,12 @@ Proj4js.Proj.mill = {
    ====================================================================== */
 
 /*******************************************************************************
-NAME                  		SINUSOIDAL
+NAME                      SINUSOIDAL
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Sinusoidal projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Sinusoidal projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 PROGRAMMER              DATE            
 ----------              ----           
@@ -2492,54 +2492,54 @@ ALGORITHM REFERENCES
 
 Proj4js.Proj.sinu = {
 
-	/* Initialize the Sinusoidal projection
-	  ------------------------------------*/
-	init: function() {
-		/* Place parameters in static storage for common use
-		  -------------------------------------------------*/
-		this.R = 6370997.0; //Radius of earth
-	},
+  /* Initialize the Sinusoidal projection
+    ------------------------------------*/
+  init: function() {
+    /* Place parameters in static storage for common use
+      -------------------------------------------------*/
+    this.R = 6370997.0; //Radius of earth
+  },
 
-	/* Sinusoidal forward equations--mapping lat,long to x,y
-	-----------------------------------------------------*/
-	forward: function(p) {
-		var x,y,delta_lon;	
-		var lon=p.x;
-		var lat=p.y;	
-		/* Forward equations
-		-----------------*/
-		delta_lon = Proj4js.common.adjust_lon(lon - this.long0);
-		x = this.R * delta_lon * Math.cos(lat) + this.x0;
-		y = this.R * lat + this.y0;
+  /* Sinusoidal forward equations--mapping lat,long to x,y
+  -----------------------------------------------------*/
+  forward: function(p) {
+    var x,y,delta_lon;  
+    var lon=p.x;
+    var lat=p.y;  
+    /* Forward equations
+    -----------------*/
+    delta_lon = Proj4js.common.adjust_lon(lon - this.long0);
+    x = this.R * delta_lon * Math.cos(lat) + this.x0;
+    y = this.R * lat + this.y0;
 
-		p.x=x;
-		p.y=y;	
-		return p;
-	},
+    p.x=x;
+    p.y=y;  
+    return p;
+  },
 
-	inverse: function(p) {
-		var lat,temp,lon;	
+  inverse: function(p) {
+    var lat,temp,lon; 
 
-		/* Inverse equations
-		  -----------------*/
-		p.x -= this.x0;
-		p.y -= this.y0;
-		lat = p.y / this.R;
-		if (Math.abs(lat) > Proj4js.common.HALF_PI) {
-		    Proj4js.reportError("sinu:Inv:DataError");
-		}
-		temp = Math.abs(lat) - Proj4js.common.HALF_PI;
-		if (Math.abs(temp) > Proj4js.common.EPSLN) {
-			temp = this.long0+ p.x / (this.R *Math.cos(lat));
-			lon = Proj4js.common.adjust_lon(temp);
-		} else {
-			lon = this.long0;
-		}
-		  
-		p.x=lon;
-		p.y=lat;
-		return p;
-	}
+    /* Inverse equations
+      -----------------*/
+    p.x -= this.x0;
+    p.y -= this.y0;
+    lat = p.y / this.R;
+    if (Math.abs(lat) > Proj4js.common.HALF_PI) {
+        Proj4js.reportError("sinu:Inv:DataError");
+    }
+    temp = Math.abs(lat) - Proj4js.common.HALF_PI;
+    if (Math.abs(temp) > Proj4js.common.EPSLN) {
+      temp = this.long0+ p.x / (this.R *Math.cos(lat));
+      lon = Proj4js.common.adjust_lon(temp);
+    } else {
+      lon = this.long0;
+    }
+      
+    p.x=lon;
+    p.y=lat;
+    return p;
+  }
 };
 
 
@@ -2818,14 +2818,14 @@ function cs_geocentric_from_wgs84( defn, p ) {
 /*******************************************************************************
 NAME                    VAN DER GRINTEN 
 
-PURPOSE:	Transforms input Easting and Northing to longitude and
-		latitude for the Van der Grinten projection.  The
-		Easting and Northing must be in meters.  The longitude
-		and latitude values will be returned in radians.
+PURPOSE:  Transforms input Easting and Northing to longitude and
+    latitude for the Van der Grinten projection.  The
+    Easting and Northing must be in meters.  The longitude
+    and latitude values will be returned in radians.
 
 PROGRAMMER              DATE            
 ----------              ----           
-T. Mittan		March, 1993
+T. Mittan   March, 1993
 
 This function was adapted from the Van Der Grinten projection code
 (FORTRAN) in the General Cartographic Transformation Package software
@@ -2848,109 +2848,109 @@ Proj4js.Proj.vandg = {
 
 /* Initialize the Van Der Grinten projection
   ----------------------------------------*/
-	init: function() {
-		this.R = 6370997.0; //Radius of earth
-	},
+  init: function() {
+    this.R = 6370997.0; //Radius of earth
+  },
 
-	forward: function(p) {
+  forward: function(p) {
 
-		var lon=p.x;
-		var lat=p.y;	
+    var lon=p.x;
+    var lat=p.y;  
 
-		/* Forward equations
-		-----------------*/
-		var dlon = Proj4js.common.adjust_lon(lon - this.long0);
-		var x,y;
+    /* Forward equations
+    -----------------*/
+    var dlon = Proj4js.common.adjust_lon(lon - this.long0);
+    var x,y;
 
-		if (Math.abs(lat) <= Proj4js.common.EPSLN) {
-			x = this.x0  + this.R * dlon;
-			y = this.y0;
-		}
-		var theta = Proj4js.common.asinz(2.0 * Math.abs(lat / Proj4js.common.PI));
-		if ((Math.abs(dlon) <= Proj4js.common.EPSLN) || (Math.abs(Math.abs(lat) - Proj4js.common.HALF_PI) <= Proj4js.common.EPSLN)) {
-			x = this.x0;
-			if (lat >= 0) {
-				y = this.y0 + Proj4js.common.PI * this.R * Math.tan(.5 * theta);
-			} else {
-				y = this.y0 + Proj4js.common.PI * this.R * - Math.tan(.5 * theta);
-			}
-			//  return(OK);
-		}
-		var al = .5 * Math.abs((Proj4js.common.PI / dlon) - (dlon / Proj4js.common.PI));
-		var asq = al * al;
-		var sinth = Math.sin(theta);
-		var costh = Math.cos(theta);
+    if (Math.abs(lat) <= Proj4js.common.EPSLN) {
+      x = this.x0  + this.R * dlon;
+      y = this.y0;
+    }
+    var theta = Proj4js.common.asinz(2.0 * Math.abs(lat / Proj4js.common.PI));
+    if ((Math.abs(dlon) <= Proj4js.common.EPSLN) || (Math.abs(Math.abs(lat) - Proj4js.common.HALF_PI) <= Proj4js.common.EPSLN)) {
+      x = this.x0;
+      if (lat >= 0) {
+        y = this.y0 + Proj4js.common.PI * this.R * Math.tan(.5 * theta);
+      } else {
+        y = this.y0 + Proj4js.common.PI * this.R * - Math.tan(.5 * theta);
+      }
+      //  return(OK);
+    }
+    var al = .5 * Math.abs((Proj4js.common.PI / dlon) - (dlon / Proj4js.common.PI));
+    var asq = al * al;
+    var sinth = Math.sin(theta);
+    var costh = Math.cos(theta);
 
-		var g = costh / (sinth + costh - 1.0);
-		var gsq = g * g;
-		var m = g * (2.0 / sinth - 1.0);
-		var msq = m * m;
-		var con = Proj4js.common.PI * this.R * (al * (g - msq) + Math.sqrt(asq * (g - msq) * (g - msq) - (msq + asq) * (gsq - msq))) / (msq + asq);
-		if (dlon < 0) {
-		 con = -con;
-		}
-		x = this.x0 + con;
-		con = Math.abs(con / (Proj4js.common.PI * this.R));
-		if (lat >= 0) {
-		 y = this.y0 + Proj4js.common.PI * this.R * Math.sqrt(1.0 - con * con - 2.0 * al * con);
-		} else {
-		 y = this.y0 - Proj4js.common.PI * this.R * Math.sqrt(1.0 - con * con - 2.0 * al * con);
-		}
-		p.x = x;
-		p.y = y;
-		return p;
-	},
+    var g = costh / (sinth + costh - 1.0);
+    var gsq = g * g;
+    var m = g * (2.0 / sinth - 1.0);
+    var msq = m * m;
+    var con = Proj4js.common.PI * this.R * (al * (g - msq) + Math.sqrt(asq * (g - msq) * (g - msq) - (msq + asq) * (gsq - msq))) / (msq + asq);
+    if (dlon < 0) {
+     con = -con;
+    }
+    x = this.x0 + con;
+    con = Math.abs(con / (Proj4js.common.PI * this.R));
+    if (lat >= 0) {
+     y = this.y0 + Proj4js.common.PI * this.R * Math.sqrt(1.0 - con * con - 2.0 * al * con);
+    } else {
+     y = this.y0 - Proj4js.common.PI * this.R * Math.sqrt(1.0 - con * con - 2.0 * al * con);
+    }
+    p.x = x;
+    p.y = y;
+    return p;
+  },
 
 /* Van Der Grinten inverse equations--mapping x,y to lat/long
   ---------------------------------------------------------*/
-	inverse: function(p) {
-		var dlon;
-		var xx,yy,xys,c1,c2,c3;
-		var al,asq;
-		var a1;
-		var m1;
-		var con;
-		var th1;
-		var d;
+  inverse: function(p) {
+    var dlon;
+    var xx,yy,xys,c1,c2,c3;
+    var al,asq;
+    var a1;
+    var m1;
+    var con;
+    var th1;
+    var d;
 
-		/* inverse equations
-		-----------------*/
-		p.x -= this.x0;
-		p.y -= this.y0;
-		con = Proj4js.common.PI * this.R;
-		xx = p.x / con;
-		yy =p.y / con;
-		xys = xx * xx + yy * yy;
-		c1 = -Math.abs(yy) * (1.0 + xys);
-		c2 = c1 - 2.0 * yy * yy + xx * xx;
-		c3 = -2.0 * c1 + 1.0 + 2.0 * yy * yy + xys * xys;
-		d = yy * yy / c3 + (2.0 * c2 * c2 * c2 / c3 / c3 / c3 - 9.0 * c1 * c2 / c3 /c3) / 27.0;
-		a1 = (c1 - c2 * c2 / 3.0 / c3) / c3;
-		m1 = 2.0 * Math.sqrt( -a1 / 3.0);
-		con = ((3.0 * d) / a1) / m1;
-		if (Math.abs(con) > 1.0) {
-			if (con >= 0.0) {
-				con = 1.0;
-			} else {
-				con = -1.0;
-			}
-		}
-		th1 = Math.acos(con) / 3.0;
-		if (p.y >= 0) {
-			lat = (-m1 *Math.cos(th1 + Proj4js.common.PI / 3.0) - c2 / 3.0 / c3) * Proj4js.common.PI;
-		} else {
-			lat = -(-m1 * Math.cos(th1 + PI / 3.0) - c2 / 3.0 / c3) * Proj4js.common.PI;
-		}
+    /* inverse equations
+    -----------------*/
+    p.x -= this.x0;
+    p.y -= this.y0;
+    con = Proj4js.common.PI * this.R;
+    xx = p.x / con;
+    yy =p.y / con;
+    xys = xx * xx + yy * yy;
+    c1 = -Math.abs(yy) * (1.0 + xys);
+    c2 = c1 - 2.0 * yy * yy + xx * xx;
+    c3 = -2.0 * c1 + 1.0 + 2.0 * yy * yy + xys * xys;
+    d = yy * yy / c3 + (2.0 * c2 * c2 * c2 / c3 / c3 / c3 - 9.0 * c1 * c2 / c3 /c3) / 27.0;
+    a1 = (c1 - c2 * c2 / 3.0 / c3) / c3;
+    m1 = 2.0 * Math.sqrt( -a1 / 3.0);
+    con = ((3.0 * d) / a1) / m1;
+    if (Math.abs(con) > 1.0) {
+      if (con >= 0.0) {
+        con = 1.0;
+      } else {
+        con = -1.0;
+      }
+    }
+    th1 = Math.acos(con) / 3.0;
+    if (p.y >= 0) {
+      lat = (-m1 *Math.cos(th1 + Proj4js.common.PI / 3.0) - c2 / 3.0 / c3) * Proj4js.common.PI;
+    } else {
+      lat = -(-m1 * Math.cos(th1 + PI / 3.0) - c2 / 3.0 / c3) * Proj4js.common.PI;
+    }
 
-		if (Math.abs(xx) < Proj4js.common.EPSLN) {
-			lon = this.long0;
-		}
-		lon = Proj4js.common.adjust_lon(this.long0 + Proj4js.common.PI * (xys - 1.0 + Math.sqrt(1.0 + 2.0 * (xx * xx - yy * yy) + xys * xys)) / 2.0 / xx);
+    if (Math.abs(xx) < Proj4js.common.EPSLN) {
+      lon = this.long0;
+    }
+    lon = Proj4js.common.adjust_lon(this.long0 + Proj4js.common.PI * (xys - 1.0 + Math.sqrt(1.0 + 2.0 * (xx * xx - yy * yy) + xys * xys)) / 2.0 / xx);
 
-		p.x=lon;
-		p.y=lat;
-		return p;
-	}
+    p.x=lon;
+    p.y=lat;
+    return p;
+  }
 };
 /* ======================================================================
     projCode/gauss.js
@@ -2988,7 +2988,7 @@ Proj4js.Proj.gauss = {
       lat = 2.0 * Math.atan(num * Proj4js.common.srat(this.e * Math.sin(p.y), -0.5 * this.e)) - Proj4js.common.HALF_PI;
       if (Math.abs(lat - p.y) < DEL_TOL) break;
       p.y = lat;
-    }	
+    } 
     /* convergence failed */
     if (!i) {
       Proj4js.reportError("gauss:inverse:convergence failed");
@@ -3007,14 +3007,14 @@ Proj4js.Proj.gauss = {
 /*******************************************************************************
 NAME                       OBLIQUE MERCATOR (HOTINE) 
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Oblique Mercator projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Oblique Mercator projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 PROGRAMMER              DATE
 ----------              ----
-T. Mittan		Mar, 1993
+T. Mittan   Mar, 1993
 
 ALGORITHM REFERENCES
 
@@ -3157,11 +3157,11 @@ Proj4js.Proj.omerc = {
   /* Oblique Mercator forward equations--mapping lat,long to x,y
     ----------------------------------------------------------*/
   forward: function(p) {
-    var theta;		/* angle					*/
-    var sin_phi, cos_phi;/* sin and cos value				*/
-    var b;		/* temporary values				*/
-    var c, t, tq;	/* temporary values				*/
-    var con, n, ml;	/* cone constant, small m			*/
+    var theta;    /* angle          */
+    var sin_phi, cos_phi;/* sin and cos value       */
+    var b;    /* temporary values       */
+    var c, t, tq; /* temporary values       */
+    var con, n, ml; /* cone constant, small m     */
     var q,us,vl;
     var ul,vs;
     var s;
@@ -3212,13 +3212,13 @@ Proj4js.Proj.omerc = {
   },
 
   inverse: function(p) {
-    var delta_lon;	/* Delta longitude (Given longitude - center 	*/
-    var theta;		/* angle					*/
-    var delta_theta;	/* adjusted longitude				*/
-    var sin_phi, cos_phi;/* sin and cos value				*/
-    var b;		/* temporary values				*/
-    var c, t, tq;	/* temporary values				*/
-    var con, n, ml;	/* cone constant, small m			*/
+    var delta_lon;  /* Delta longitude (Given longitude - center  */
+    var theta;    /* angle          */
+    var delta_theta;  /* adjusted longitude       */
+    var sin_phi, cos_phi;/* sin and cos value       */
+    var b;    /* temporary values       */
+    var c, t, tq; /* temporary values       */
+    var con, n, ml; /* cone constant, small m     */
     var vs,us,q,s,ts1;
     var vl,ul,bs;
     var dlon;
@@ -3267,10 +3267,10 @@ Proj4js.Proj.omerc = {
 /*******************************************************************************
 NAME                            LAMBERT CONFORMAL CONIC
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Lambert Conformal Conic projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Lambert Conformal Conic projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 
 ALGORITHM REFERENCES
@@ -3419,10 +3419,10 @@ Proj4js.Proj.lcc = {
 /*******************************************************************************
 NAME                  LAMBERT AZIMUTHAL EQUAL-AREA
  
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the Lambert Azimuthal Equal-Area projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the Lambert Azimuthal Equal-Area projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 PROGRAMMER              DATE            
 ----------              ----           
@@ -3613,16 +3613,16 @@ Proj4js.Proj.aeqd = {
 /*******************************************************************************
 NAME                            MOLLWEIDE
 
-PURPOSE:	Transforms input longitude and latitude to Easting and
-		Northing for the MOllweide projection.  The
-		longitude and latitude must be in radians.  The Easting
-		and Northing values will be returned in meters.
+PURPOSE:  Transforms input longitude and latitude to Easting and
+    Northing for the MOllweide projection.  The
+    longitude and latitude must be in radians.  The Easting
+    and Northing values will be returned in meters.
 
 PROGRAMMER              DATE
 ----------              ----
 D. Steinwand, EROS      May, 1991;  Updated Sept, 1992; Updated Feb, 1993
-S. Nelson, EDC		Jun, 2993;	Made corrections in precision and
-					number of iterations.
+S. Nelson, EDC    Jun, 2993;  Made corrections in precision and
+          number of iterations.
 
 ALGORITHM REFERENCES
 
