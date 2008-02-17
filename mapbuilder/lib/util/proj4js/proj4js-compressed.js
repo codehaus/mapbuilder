@@ -9,7 +9,7 @@
 */
 Proj4js={defaultDatum:'WGS84',proxyScript:null,defsLookupService:'http://spatialreference.org/ref',libPath:'../lib/',transform:function(source,dest,point){if(!source.readyToUse||!dest.readyToUse){this.reportError("Proj4js initialization for "+source.srsCode+" not yet complete");return;}
 if(point.transformed){this.log("point already transformed");return;}
-if((source.srsProjNumber=="900913"&&dest.datum!="wgs84")||(dest.srsProjNumber=="900913"&&source.datum!="wgs84")){var wgs84=new Proj4js.Proj("EPSG:4326");this.transform(source,wgs84,point);point.transformed=false;source=wgs84;}
+if((source.srsProjNumber=="900913"&&dest.datumCode!="WGS84")||(dest.srsProjNumber=="900913"&&source.datumCode!="WGS84")){var wgs84=new Proj4js.Proj("EPSG:4326");this.transform(source,wgs84,point);point.transformed=false;source=wgs84;}
 if(source.projName=="longlat"){point.x*=Proj4js.common.D2R;point.y*=Proj4js.common.D2R;}else{if(source.to_meter){point.x*=source.to_meter;point.y*=source.to_meter;}
 source.inverse(point);}
 if(source.from_greenwich){point.x+=source.from_greenwich;}
