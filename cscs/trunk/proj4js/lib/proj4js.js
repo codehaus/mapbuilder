@@ -81,8 +81,8 @@ Proj4js = {
         }
         
         // Workaround for Spherical Mercator
-        if ((source.srsProjNumber =="900913" && dest.datum != "wgs84") ||
-            (dest.srsProjNumber == "900913" && source.datum != "wgs84")) {
+        if ((source.srsProjNumber =="900913" && dest.datumCode != "WGS84") ||
+            (dest.srsProjNumber == "900913" && source.datumCode != "WGS84")) {
             var wgs84 = new Proj4js.Proj("EPSG:4326");
             this.transform(source, wgs84, point);
             point.transformed = false;
