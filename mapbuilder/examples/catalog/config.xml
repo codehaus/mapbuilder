@@ -59,6 +59,8 @@
       <defaultModelUrl>context2.xml</defaultModelUrl>
       <widgets>
         <SelectLayerFromContext id="selectLayer">
+          <scriptFile>SelectLayerFromContext.js</scriptFile>
+          <stylesheet>SelectLayerFromContext.xsl</stylesheet>
           <htmlTagId>selectLayer</htmlTagId>
           <targetModel>mainMap</targetModel>
           <layerAddImage>/images/LayerAddDisable.png</layerAddImage>
@@ -70,6 +72,8 @@
       <defaultModelUrl>filter.xml</defaultModelUrl>
       <widgets>
         <CatalogSearchForm id="catalogSearchForm">
+          <scriptFile>CatalogSearchForm.js</scriptFile>
+          <stylesheet>CatalogSearchForm.xsl</stylesheet>
           <htmlTagId>catalogSearchForm</htmlTagId>
           <targetModel>catalogSearchResults</targetModel>
           <targetContext>normalizedSearchResults</targetContext>
@@ -150,6 +154,7 @@
       <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
     </Reset>
     <SaveContext id="saveContext">
+      <scriptFile>SaveContext.js</scriptFile>
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <class>Button</class>

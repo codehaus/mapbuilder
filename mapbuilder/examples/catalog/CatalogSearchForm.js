@@ -135,7 +135,8 @@ function CatalogSearchForm(widgetNode, model) {
 
     if(!this.initialized){
       this.targetModel.addListener("loadModel",this.handleResponse,this);
-      this.ebrim2Context=new XslProcessor(baseDir+"/tool/xsl/ebrim2Context.xsl");
+      //this.ebrim2Context=new XslProcessor(baseDir+"/tool/xsl/ebrim2Context.xsl");
+      this.ebrim2Context=new XslProcessor("ebrim2Context.xsl");
       this.initialized=1;
     }
     
@@ -193,7 +194,8 @@ function CatalogSearchForm(widgetNode, model) {
     //this.model.setXpathValue(this.model, "/filter/location", bboxStr, false);
 
     // Load the XSL to generate the WRS Query
-    this.wrsQuery=new XslProcessor(baseDir+"/tool/xsl/wrs_Query.xsl");
+    //this.wrsQuery=new XslProcessor(baseDir+"/tool/xsl/wrs_Query.xsl");
+    this.wrsQuery=new XslProcessor("wrs_Query.xsl");
     
     // Add filter to XSL as a parameter
     this.wrsQuery.setParameter("filter", this.model.doc);
