@@ -691,10 +691,12 @@ function sld2UrlParam(node) {
  */
 function sld2OlStyle(node) {
   // OpenLayers SLD parsing
-  var ruleNode = node.selectSingleNode("wmc:SLD/sld:FeatureTypeStyle");
-  if (ruleNode) {
-    var format = new OpenLayers.Format.SLD();
-    return new OpenLayers.Format.SLD().parseUserStyle(ruleNode);
+  if (node) {
+    var ruleNode = node.selectSingleNode("wmc:SLD/sld:FeatureTypeStyle");
+    if (ruleNode) {
+      var format = new OpenLayers.Format.SLD();
+      return new OpenLayers.Format.SLD().parseUserStyle(ruleNode);
+    }
   }
   
   // fallback to native SLD parsing for older OwsContext docs
