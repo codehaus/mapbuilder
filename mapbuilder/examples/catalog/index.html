@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+  <head>
+    <title>CGDI-IP Geobase Discovery</title>
+    <link rel="stylesheet" href="../../lib/skin/default/mapStyle.css" type="text/css">
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/demoStyles.css'/>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'/>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/button.css'>
+    <link rel="stylesheet" type="text/css" href="../../lib/skin/default/tabList.css">
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'>
+    <link rel='StyleSheet' type='text/css' href='catalog.css'>
+    <script type="text/javascript">
+    // URL of Mapbuilder configuration file.
+    var mbConfigUrl='config.xml';
+</script>
+<script type="text/javascript" src="../../lib/Mapbuilder.js">
+</script>
+</head>
+<body onload="mbDoLoad()">
+  <noscript>this page requires Javascript to be enabled</noscript>
+
+  <div id="page">
+    <div id="header">
+      <h1>CGDI-IP Geobase Discovery/Browse/Download</h1>
+      <!--p>Find layers from the Geobase Catalog, add them to a Map Context, save the Context or GML for a Layer.</p-->
+    </div>
+    
+    <div id="footer">
+    </div>  
+
+    <div id="body">
+       <div id="body_left">
+        <div id="mainMapPane"></div>
+        <div id="mainButtonBar"></div>
+        <div id="cursorTrack" style="height:12pt"></div>
+        <div id="layerControl"></div>
+      </div>
+
+      <div id="body_right">
+      </div>
+
+      <br clear="all" />
+
+      <div id="catalogSearchForm"></div>
+      <div id="selectLayer"></div>
+      <div id="mapList"></div>
+      <div id="modelUrlInput"></div>
+      <div id="wmsUrlInput"></div>
+      <div id="selectFeatureType"></div>
+      <div id="wfsUrlInput"></div>
+      <div id="attributeFilter"></div>
+
+      <hr style="float: left; width:300px;" /><br />
+
+      <h3>Load external OWS context</h3>
+      <div id="urlInput"></div>
+      
+      <hr style="float: left; width:300px;" /><br />
+
+      <!--
+      <h3>Add GML Layer</h3>
+      <div id="gmlInput"></div>
+      -->
+
+      <hr style="float: left; width:300px;" /><br />
+      <div id="locationSearch"></div>
+      <div id="locationResults"></div>
+
+      <!--
+      <h3>Locations</h3>
+      <input id="location" type="text"/>
+      <input type="button" value="search" onclick="alert('not yet');"/>
+      <div id="locationsSelect"></div>
+      -->
+
+    </div>
+
+  </div><!--page -->
+
+</body>
+</html>
+

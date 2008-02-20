@@ -1,0 +1,170 @@
+#page {
+  height: 100%;
+  padding-left: 5px;
+  padding-top: 10px;
+}
+
+#body {
+  overflow: none;
+}
+
+h1 {
+  margin:0px;
+}
+
+#body_left {
+  position: relative;
+  float: left;
+  top: 0px;
+  height: 300px;
+}
+#body_right {
+  position: relative;
+  float: left;
+  top: 0px;
+  margin-left: 10px;
+}
+
+#mainButtonBar {
+  position: relative;
+  top: -25px;;
+  margin-left: 1px;
+  height:24px;
+  width:144px;
+
+}
+
+#debug_button {
+  display: none;
+}
+
+#footer {
+  position: absolute;
+  bottom: 20px;
+  float: right;
+  width: 300px;
+  right: 0px;
+}
+
+/* 
+ * Buttons
+ */
+.mbButton:hover {
+  text-decoration: none;
+}
+
+/*
+ * Metadata
+ */
+
+table.metadata {
+  margin-left: 12px;
+}
+
+table.metadata td {
+  vertical-align: top;
+}
+
+/*
+ * LayerControl
+ */
+
+.nameLayerService {
+  display: block;
+  float: left;
+  position: relative;
+  width: 60px;
+}
+
+.nameLayerHeader {
+  display: block;
+  width: 250px;;
+  text-align: left;
+  position:absolute;
+  top:10px;
+  left:180px;
+}
+
+
+.inputLayerHeader
+{
+    display:inline;
+    position:absolute;
+}
+
+#layerControl {
+  position: absolute;
+  left: 420px;
+  top: 0px;
+}
+
+.layerControl {
+  width: 460px;
+  overflow: auto;
+  height: 285px;
+}
+
+.layerLoading {
+  display: block;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  padding: 7px;
+  height: 17px;
+  width: 17px;
+}
+
+.loadingIndicator {
+  background-color: transparent;
+}
+
+.searchResults {
+  position: absolute;
+  left: 420px;
+  top: 375px;
+}
+
+#workspace h3  {
+  overflow: none;
+  padding-left: 15px;
+}
+
+/*
+ * MaxFeatures
+ */
+
+.maxFeaturesText {
+  position: relative;
+  right: 0px;
+  display: block;
+  margin-left: 3px;
+  bottom: 20px;
+  font-size: 9px;
+}
+
+/*
+ * Workspace
+ */
+
+/* fix horizontal scrollbar in layer control */
+#workspace h2,h3
+{
+  padding: 0px;
+}
+
+.searchInput {
+  width: 95px;
+}
+
+
+#cursorTrack {
+  position: relative;
+  top:-40px;
+  left: 265px;
+}
+
+/* Don't show AOI box */
+#locations {
+  display: none;
+}
+

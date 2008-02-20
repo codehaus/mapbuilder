@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
+  <models>
+    <OwsContext id="mainMap">
+      <defaultModelUrl>context.xml</defaultModelUrl>
+      <widgets>
+        <MapPaneOL id="mainMapWidget">
+          <htmlTagId>mainMapPane</htmlTagId>
+           <displayOutsideMaxExtent>true</displayOutsideMaxExtent>
+          <fixedSize>true</fixedSize>
+        </MapPaneOL>
+        <LayerControl id="contextLegend">
+          <htmlTagId>layerControl</htmlTagId>
+          <legendImageEnable>/images/LegendEnable.png</legendImageEnable>
+          <legendImageDisable>/images/LegendDisable.png</legendImageDisable>
+          <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
+          <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
+          <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
+          <limitImageEnable>/images/LimitDisable.png</limitImageEnable>
+          <limitImageDisable>/images/LimitDisable.png</limitImageDisable>
+          <saveImageEnable>/images/SaveEnable.png</saveImageEnable>
+          <saveImageDisable>/images/SaveDisable.png</saveImageDisable>
+          <loadingImage>/images/LoadingSpinner.gif</loadingImage>
+        </LayerControl>
+        
+        <!--
+        <LayerMaxFeatures id="layerMaxFeatures">
+          <maxFeatures>5</maxFeatures>
+        </LayerMaxFeatures>
+        <LayerMetadata id="layerMetadata">
+          <htmlTagId>layerMetadata</htmlTagId>
+        </LayerMetadata>
+        -->
+        <CursorTrack id="cursorTrack"/>
+        <ModelUrlInput id="urlInput">
+        </ModelUrlInput>
+        <!--
+        <GmlLayerAddUrlInput id="gmlInput">
+        	<defaultUrl>plumes.gml</defaultUrl>
+        </GmlLayerAddUrlInput>
+        -->
+      </widgets>
+    </OwsContext>
+    <!-- Contains the results of a catalog search -->
+    <Model id="catalogSearchResults">
+      <defaultModelUrl>WRS_Service+Layers_GetRecords.xml</defaultModelUrl>
+      <widgets>
+        <Loading2 id="loading">
+          <htmlTagId>loading</htmlTagId>
+          <imageSrc>/images/LoadingSpinner.gif</imageSrc>
+          <textMessage>searching</textMessage>
+        </Loading2>
+      </widgets>
+    </Model>
+    <!-- Contains the results of a search, converted into OWSContext format -->
+    <OwsContext id="normalizedSearchResults">
+      <!--
+      -->
+      <defaultModelUrl>context2.xml</defaultModelUrl>
+      <widgets>
+        <SelectLayerFromContext id="selectLayer">
+          <htmlTagId>selectLayer</htmlTagId>
+          <targetModel>mainMap</targetModel>
+          <layerAddImage>/images/LayerAddDisable.png</layerAddImage>
+          <layerMetadataImage>/images/QueryDisable.png</layerMetadataImage>
+        </SelectLayerFromContext>
+      </widgets>
+    </OwsContext>
+    <Model id="filterExpression">
+      <defaultModelUrl>filter.xml</defaultModelUrl>
+      <widgets>
+        <CatalogSearchForm id="catalogSearchForm">
+          <htmlTagId>catalogSearchForm</htmlTagId>
+          <targetModel>catalogSearchResults</targetModel>
+          <targetContext>normalizedSearchResults</targetContext>
+          <wrsUrl>http://demo.cubewerx.com/cgdi/cwwrs.cgi</wrsUrl>
+          <wrsServiceAssociation>Serves</wrsServiceAssociation><!-- Can be: Serves, OperatesOn -->
+          <mapModel>mainMap</mapModel>
+          <sourceContext>mainMap</sourceContext>
+        </CatalogSearchForm>
+      </widgets>
+    </Model>
+    <!--
+    <Model id="locationSearch">
+      <defaultModelUrl>locationSearch.xml</defaultModelUrl>
+      <widgets>
+        <LocationSearch id="locationSearchForm">
+          <htmlTagId>locationSearch</htmlTagId>
+          <targetModel>locationResults</targetModel>
+          <wfsUrl>http://www.pvretano.com/cgdi/geoserver/cwwfs.cgi</wfsUrl>
+
+          <resultNameXpath>concat(gb:PlaceName/gb:geographicalName, ' (', gb:PlaceName/gb:regionName , ')')</resultNameXpath> 
+          <resultValueXpath>.//gml:Point/gml:coordinates</resultValueXpath> 
+
+        </LocationSearch>
+      </widgets>
+    </Model>
+    -->
+    <Model id="locationResults">
+      <!--
+      <defaultModelUrl>testLocations.xml</defaultModelUrl>
+      -->
+      <widgets>
+        <Locations id="locationsSelect">
+          <htmlTagId>locationResults</htmlTagId>
+          <targetModel>mainMap</targetModel>
+        </Locations>
+        <Loading2 id="loadingLocationSearch">
+          <htmlTagId>loadingLocationSearch</htmlTagId>
+          <imageSrc>/images/LoadingSpinner.gif</imageSrc>
+          <textMessage>searching</textMessage>
+        </Loading2>
+      </widgets>
+    </Model>
+  </models>
+  <widgets>
+    <ZoomIn id="zoomIn">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>RadioButton</class>
+      <selected>true</selected>
+      <enabledSrc>/images/ZoomInEnable.png</enabledSrc>
+      <disabledSrc>/images/ZoomInDisable.png</disabledSrc>
+    </ZoomIn>
+    <ZoomOut id="zoomOut">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>RadioButton</class>
+      <enabledSrc>/images/ZoomOutEnable.png</enabledSrc>
+      <disabledSrc>/images/ZoomOutDisable.png</disabledSrc>
+    </ZoomOut>
+    <DragPan id="dragPan">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>RadioButton</class>
+      <enabledSrc>/images/PanEnable.png</enabledSrc>
+      <disabledSrc>/images/PanDisable.png</disabledSrc>
+    </DragPan>
+    <SetAoi id="setAoi">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>RadioButton</class>
+      <enabledSrc>/images/SetAoiEnable.png</enabledSrc>
+      <disabledSrc>/images/SetAoiDisable.png</disabledSrc>
+    </SetAoi>
+    <Reset id="reset">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
+    </Reset>
+    <SaveContext id="saveContext">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/SaveDisable.png</disabledSrc>
+      <tooltip>Save OWS Context</tooltip>
+    </SaveContext>
+  </widgets>
+  <skinDir>../../lib/skin/default</skinDir>
+</MapbuilderConfig>
+
