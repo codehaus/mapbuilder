@@ -46,7 +46,7 @@
       </StyleList>
     </Layer>
 
-    <FeatureType hidden="1">
+    <FeatureType hidden="0" id="iba_001">
       <Server service="OGC:GML" version="2.1.2" title="Local">
         <OnlineResource method="GET" xlink:type="simple" xlink:href="iba-gml.xml"/>
       </Server>
@@ -118,5 +118,7 @@
       <SRS>EPSG:4326</SRS>
     </FeatureType>
     -->
+<wmc:Layer xmlns:wmc="http://www.opengis.net/context" queryable="1" hidden="0" id="urn:uuid:a2616d82-8c2e-11dc-81d5-00e08157d076"><wmc:Server id="urn:uuid:a03a62a2-8c2e-11dc-805b-00e08157d076" service="WMS" version="1.3.2" title="Northwest Territories CubeSERV"><wmc:OnlineResource method="POST" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=nt&amp;"/></wmc:Server><wmc:Name>INWATERA_1M:Foundation</wmc:Name><wmc:Title>WMC: Inland Water Areas</wmc:Title><wmc:Abstract>VRF Narrative Table for "Inland Water Areas": &lt;P&gt;In coastal area, points of change from ocean/sea areas (BA040) to inland water areas (BH000) were taken from Digital Chart of the World, edition 1, July 1992.</wmc:Abstract></wmc:Layer>
+
   </ResourceList>
 </OWSContext>

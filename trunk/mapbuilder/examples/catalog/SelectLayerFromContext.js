@@ -23,13 +23,11 @@ function SelectLayerFromContext(widgetNode, model) {
    */
   this.addLayer = function(layerId) {
 
-    // Fetch layerNode from model
-    var layerNode=this.model.getLayer(layerId);
+    // Fetch layerNode from model and clone it 
+    var layerNode=this.model.getLayer(layerId).cloneNode(true);
 
-    // Add a layer by calling the addLayer event. Not quite how the MVC design
-    // should work, but I'm following existing code to minimise impact.
-
-    this.targetModel.callListeners("addLayer",layerNode);
+    //Add layerNode to the target model
+    this.targetModel.setParam("addLayer",layerNode);
 
   }
 
