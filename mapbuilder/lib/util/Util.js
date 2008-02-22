@@ -803,3 +803,37 @@ function getNodeValue(sResult){
   if(sResult.nodeType < 5) return sResult.nodeValue;
   return sResult;
 }
+
+/**
+ * Convenience method that is used to parse dom nodes.
+ * @param domNode node to find the property in
+ * @param propertyName string of the property name (including namespace prefix)
+ * @param defaultValue value to return if property is not found (null by default)
+ * @return the property value
+ */
+Mapbuilder.getProperty = function(domNode, propertyName, defaultValue) {
+  if (typeof defaultValue == "undefined") {
+    defaultValue = null;
+  }
+  var property = domNode.selectSingleNode(propertyName);
+  return property ? getNodeValue(property) : defaultValue;
+}
+
+/**
+ * Convenience method to parse a string or number as a boolean value
+ * @param value string (true/false) or number (1/0)
+ * @return boolean value
+ */
+Mapbuilder.parseBoolean = function(value) {
+  var result = null;
+  if (value == 0) {
+    result = false;
+  } else if (value == 1) {
+      result = true;
+  } else if (value.match(/true/i)) {
+    result = true;
+  } else if (value.match(/false/i)){
+    return false;
+  }
+  return result;
+}
