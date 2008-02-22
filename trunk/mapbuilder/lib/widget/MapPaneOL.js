@@ -36,61 +36,48 @@ function MapPaneOL(widgetNode, model) {
     this.model.addFirstListener( "loadModel", this.model.extent.firstInit, this.model.extent );
   }
 
-  var tileGutter = widgetNode.selectSingleNode("mb:tileGutter");
   /**
    * For tiled wms layers: Overlap of map tiles in pixels. Useful for
    * preventing rendering artefacts at tile edges. Recommended values:
    * 0-15, default is 0 (no gutter at all).
    */
-  this.tileGutter = tileGutter ? parseInt(tileGutter.firstChild.nodeValue) : 0;
+  this.tileGutter = Mapbuilder.getProperty(widgetNode, "mb:tileGutter", 0);
   
-  var tileBuffer = widgetNode.selectSingleNode("mb:tileBuffer");
   /**
    * For tiled wms layers: how many rows of tiles should be preloaded
    * outside the visible map? Large values mean slow loading, small
    * ones mean longer delays when panning. Recommended values: 1-3,
    * default is 2.
    */
-  this.tileBuffer = tileBuffer ? parseInt(tileBuffer.firstChild.nodeValue) : 2;
+  this.tileBuffer = parseInt(Mapbuilder.getProperty(widgetNode, "mb:tileBuffer", 2));
   
-  var tileSize = widgetNode.selectSingleNode("mb:tileSize");
   /**
    * For tiled wms layers: how many pixels should the size of one tile
    * be? Default is 256.
    */
-  this.tileSize = tileSize ? parseInt(tileSize.firstChild.nodeValue) : 256;
-
+  this.tileSize = parseInt(Mapbuilder.getProperty(widgetNode, "mb:tileSize", 256));
+  
   var imageReproject = widgetNode.selectSingleNode("mb:imageReproject");
   /**
    * For WMS on top of Google Maps you need to reproject the WMS image. This will stretch
    * the WMS images to fit the odd sized google tiles. Default is false
    */
-  this.imageReproject = imageReproject ? imageReproject.firstChild.nodeValue : 'false';
-  if (this.imageReproject.match(/true/i)) {
-    this.imageReproject = true;
-  } else {
-    this.imageReproject = false;
-  }
+  this.imageReproject = Mapbuilder.parseBoolean(
+      Mapbuilder.getProperty(widgetNode, "mb:imageReproject", 'false'));
   
-  var imageBuffer = widgetNode.selectSingleNode("mb:imageBuffer");
   /**
    * for untiled wms layers: how many times should the map image be
    * larger than the visible map. Large values mean slow loading, small
    * ones mean many reloads when panning. Recommended values: 1-3,
    * default is 2.
    */
-  this.imageBuffer = imageBuffer ? parseInt(imageBuffer.firstChild.nodeValue) : 2;
+  this.imageBuffer = parseInt(Mapbuilder.getProperty(widgetNode, "mb:imageBuffer", 2));
   
-  var displayOutsideMaxExtent = widgetNode.selectSingleNode("mb:displayOutsideMaxExtent");
   /**
    * Should layers also be rendered outside the map extent? Default is false.
    */
-  this.displayOutsideMaxExtent = displayOutsideMaxExtent ? displayOutsideMaxExtent.firstChild.nodeValue : 'false';
-  if (this.displayOutsideMaxExtent.match(/true/i)) {
-    this.displayOutsideMaxExtent = true;
-  } else {
-    this.displayOutsideMaxExtent = false;
-  }
+  this.displayOutsideMaxExtent = Mapbuilder.parseBoolean(
+      Mapbuilder.getProperty(widgetNode, "mb:displayOutsideMaxExtent", 'false'));
   
   /**
    * Number of layers that are currently being loaded
