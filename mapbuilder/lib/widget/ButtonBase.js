@@ -268,7 +268,15 @@ function ButtonBase(widgetNode, model) {
     
     // add the control to the panel
     if (OpenLayers.Util.indexOf(objRef.control, objRef.panel.controls) == -1) {
+      // we do not want to stop event propagation. So we save the original
+      // Event.stop function...
+      var originalStop = OpenLayers.Event.stop;
+      // and overwrite it with a new one...
+      OpenLayers.Event.stop = function(){};
+      // now, thanks to boxing, this one will be assigned in addControls...
       objRef.panel.addControls(objRef.control);
+      // and we can switch back to the original one.
+      OpenLayers.Event.stop = originalStop;
     }
      
     // set tooltip for the button
