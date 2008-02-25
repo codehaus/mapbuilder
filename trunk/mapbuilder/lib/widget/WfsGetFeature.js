@@ -40,7 +40,7 @@ function WfsGetFeature(widgetNode, model) {
   if (webServiceSrs) {
     this.webServiceSrs = new OpenLayers.Projection(getNodeValue(webServiceSrs));
   } else {
-    this.webServiceSrs = new OpenLayers.Projection(getNodeValue(webServiceSrs));
+    this.webServiceSrs = new OpenLayers.Projection("EPSG:4326");
   }
   
   // override default cursor by user
