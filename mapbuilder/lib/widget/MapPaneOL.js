@@ -41,7 +41,7 @@ function MapPaneOL(widgetNode, model) {
    * preventing rendering artefacts at tile edges. Recommended values:
    * 0-15, default is 0 (no gutter at all).
    */
-  this.tileGutter = Mapbuilder.getProperty(widgetNode, "mb:tileGutter", 0);
+  this.tileGutter = this.getProperty("mb:tileGutter", 0);
   
   /**
    * For tiled wms layers: how many rows of tiles should be preloaded
@@ -49,21 +49,20 @@ function MapPaneOL(widgetNode, model) {
    * ones mean longer delays when panning. Recommended values: 1-3,
    * default is 2.
    */
-  this.tileBuffer = parseInt(Mapbuilder.getProperty(widgetNode, "mb:tileBuffer", 2));
+  this.tileBuffer = parseInt(this.getProperty("mb:tileBuffer", 2));
   
   /**
    * For tiled wms layers: how many pixels should the size of one tile
    * be? Default is 256.
    */
-  this.tileSize = parseInt(Mapbuilder.getProperty(widgetNode, "mb:tileSize", 256));
+  this.tileSize = parseInt(this.getProperty("mb:tileSize", 256));
   
-  var imageReproject = widgetNode.selectSingleNode("mb:imageReproject");
   /**
    * For WMS on top of Google Maps you need to reproject the WMS image. This will stretch
    * the WMS images to fit the odd sized google tiles. Default is false
    */
   this.imageReproject = Mapbuilder.parseBoolean(
-      Mapbuilder.getProperty(widgetNode, "mb:imageReproject", 'false'));
+      this.getProperty("mb:imageReproject", false));
   
   /**
    * for untiled wms layers: how many times should the map image be
@@ -71,13 +70,13 @@ function MapPaneOL(widgetNode, model) {
    * ones mean many reloads when panning. Recommended values: 1-3,
    * default is 2.
    */
-  this.imageBuffer = parseInt(Mapbuilder.getProperty(widgetNode, "mb:imageBuffer", 2));
+  this.imageBuffer = parseInt(this.getProperty("mb:imageBuffer", 2));
   
   /**
    * Should layers also be rendered outside the map extent? Default is false.
    */
   this.displayOutsideMaxExtent = Mapbuilder.parseBoolean(
-      Mapbuilder.getProperty(widgetNode, "mb:displayOutsideMaxExtent", 'false'));
+      this.getProperty("mb:displayOutsideMaxExtent", false));
   
   /**
    * Number of layers that are currently being loaded
