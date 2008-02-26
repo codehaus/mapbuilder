@@ -825,7 +825,7 @@ Mapbuilder.getProperty = function(domNode, propertyName, defaultValue) {
  * @return boolean value
  */
 Mapbuilder.parseBoolean = function(value) {
-  var result = null;
+  var result = typeof value != "undefined" ? result : null;
   if (value == 0) {
     result = false;
   } else if (value == 1) {

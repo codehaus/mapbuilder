@@ -114,4 +114,14 @@ function WidgetBase(widgetNode,model) {
     if (node && outputNode) node.removeChild(outputNode);
   }
   this.model.addListener("newModel",this.clearWidget, this);
+  
+  /**
+   * Convenient access to Mapbuilder.getProperty
+   * @param property property to get
+   * @param default value to use if property is not set
+   * @return the value for the property
+   */
+  this.getProperty = function(property, defaultValue) {
+    return Mapbuilder.getProperty(widgetNode, property, defaultValue);
+  }
 }
