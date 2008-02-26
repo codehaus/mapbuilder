@@ -470,5 +470,15 @@ function ModelBase(modelNode, parentModel) {
   }
 }
 
+  /**
+   * Convenient access to Mapbuilder.getProperty
+   * @param property property to get
+   * @param default value to use if property is not set
+   * @return the value for the property
+   */
+  this.getProperty = function(property, defaultValue) {
+    return Mapbuilder.getProperty(modelNode, property, defaultValue);
+  }
+
 //ModelBase.prototype.httpStatusMsg = ['uninitialized','loading','loaded','interactive','completed'];
 var httpStatusMsg = ['uninitialized','loading','loaded','interactive','completed'];
