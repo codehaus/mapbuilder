@@ -58,6 +58,16 @@ function ToolBase(toolNode, model) {
   }
   this.model.addListener( "init", this.initMouseHandler, this );
 
+  /**
+   * Convenient access to Mapbuilder.getProperty
+   * @param property property to get
+   * @param default value to use if property is not set
+   * @return the value for the property
+   */
+  this.getProperty = function(property, defaultValue) {
+    return Mapbuilder.getProperty(toolNode, property, defaultValue);
+  }
+
   //tools enabled by default; can set to false in config for initial loading
   this.enabled = true;
   var enabled = toolNode.selectSingleNode("mb:enabled");
