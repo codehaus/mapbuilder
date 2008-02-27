@@ -57,7 +57,7 @@ function GeoRSS(modelNode, parent) {
     var labelNode = featureNode.selectSingleNode("rss:title");
     if( labelNode == null )
       labelNode = featureNode.selectSingleNode("atom:title");
-    return labelNode?labelNode.firstChild.nodeValue:mbGetMessage("noRssTitle");
+    return labelNode?getNodeValue(labelNode):mbGetMessage("noRssTitle");
   }
 
   /**
@@ -80,13 +80,13 @@ function GeoRSS(modelNode, parent) {
    */
   this.getFeaturePoint = function(featureNode) {
     if (featureNode.selectSingleNode("geo:long")) {
-      var pointX = featureNode.selectSingleNode("geo:long").firstChild.nodeValue;
-      var pointY = featureNode.selectSingleNode("geo:lat").firstChild.nodeValue;
+      var pointX = getNodeValue(featureNode.selectSingleNode("geo:long"));
+      var pointY = getNodeValue(featureNode.selectSingleNode("geo:lat"));
       return new Array(pointX, pointY);
     } else {
        var pos = featureNode.selectSingleNode("georss:where/gml:Point/gml:pos")
        if( pos != null ) {
-       var coordstr = pos.firstChild.nodeValue
+       var coordstr = getNodeValue(pos);
        //alert("coords:"+coordstr );
        var coords = coordstr.split(" ")
        var pointX = coords[0]
@@ -105,14 +105,14 @@ function GeoRSS(modelNode, parent) {
    */
   this.getFeatureGeometry = function(featureNode) {
     if (featureNode.selectSingleNode("geo:long")) {
-      var pointX = featureNode.selectSingleNode("geo:long").firstChild.nodeValue;
-      var pointY = featureNode.selectSingleNode("geo:lat").firstChild.nodeValue;
+      var pointX = getNodeValue(featureNode.selectSingleNode("geo:long"));
+      var pointY = getNodeValue(featureNode.selectSingleNode("geo:lat"));
       return "POINT " + pointX + "," + pointY;
     } 
       
     var pos = featureNode.selectSingleNode("georss:where/gml:Point/gml:pos")
     if( pos != null ) {
-      var coordstr = pos.firstChild.nodeValue
+      var coordstr = getNodeValue(pos);
       return "POINT " + coordstr;
     } 
     
@@ -131,7 +131,7 @@ function GeoRSS(modelNode, parent) {
  
     var posList = featureNode.selectSingleNode("georss:where/gml:Polygon/gml:exterior/gml:LinearRing")
     if( posList != null ) {
-      var coordstr = posList.firstChild.nodeValue
+      var coordstr = getNodeValue(posList);
       return "POLYGON " + coordstr;
     } 
     
@@ -165,7 +165,7 @@ function GeoRSS(modelNode, parent) {
     // look for an icon tag
     var icon = featureNode.selectSingleNode("atom:icon");
     if (icon != undefined) {
-      return icon.firstChild.nodeValue;
+      return getNodeValue(icon);
     } else {
       return null;
     }

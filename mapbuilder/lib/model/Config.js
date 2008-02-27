@@ -122,7 +122,7 @@ function Config(url) {
 
   //set some global application properties
   var modelNode = this.doc.documentElement;
-  this.skinDir = modelNode.selectSingleNode("mb:skinDir").firstChild.nodeValue;
+  this.skinDir = getNodeValue(modelNode.selectSingleNode("mb:skinDir"));
   var proxyUrl = modelNode.selectSingleNode("mb:proxyUrl");
   if (proxyUrl) this.proxyUrl = getNodeValue(proxyUrl);
   var serializeUrl = modelNode.selectSingleNode("mb:serializeUrl");

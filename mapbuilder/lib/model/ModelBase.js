@@ -35,17 +35,21 @@ function ModelBase(modelNode, parentModel) {
     this.id = "MbModel_" + mbIds.getId();
   }
 
-  //get the human readable title for the model
-  var titleNode = modelNode.selectSingleNode("mb:title");
-  if (titleNode) {
-    this.title = titleNode.firstChild.nodeValue;
-  } else {
-    this.title = this.id;
+  /**
+   * Convenient access to Mapbuilder.getProperty
+   * @param property property to get
+   * @param default value to use if property is not set
+   * @return the value for the property
+   */
+  this.getProperty = function(property, defaultValue) {
+    return Mapbuilder.getProperty(modelNode, property, defaultValue);
   }
 
-  // set an empty debug property which turns of alert messages for a
-  // particular model
-  if(modelNode.selectSingleNode("mb:debug"))this.debug="true";
+  //get the human readable title for the model
+  this.title = this.getProperty("mb:title", this.id);
+
+  //set a debug property in config to see alerts for a particular model
+  this.debug = Mapbuilder.parseBoolean(this.getProperty("mb:debug", false));
 
   /**
   * set the initial model URL in config.
@@ -60,34 +64,23 @@ function ModelBase(modelNode, parentModel) {
     this.url = modelNode.url;
   } else {
     var defaultModel = modelNode.selectSingleNode("mb:defaultModelUrl");
-    if (defaultModel) this.url = defaultModel.firstChild.nodeValue;
+    if (defaultModel) this.url = getNodeValue(defaultModel);
   }
 
   //set the method property
-  var method = modelNode.selectSingleNode("mb:method");
-  if (method) {
-    this.method = method.firstChild.nodeValue;
-  } else {
-    this.method = "get";
-  }
+  this.method = this.getProperty("mb:method", "get");
 
   //set the namespace property
-  var namespace = modelNode.selectSingleNode("mb:namespace");
-  if (namespace) {
-    this.namespace = namespace.firstChild.nodeValue;
-  }
+  this.namespace = this.getProperty("mb:namespace");
 
   var templateAttr = modelNode.attributes.getNamedItem("template");
   if (templateAttr) {
-    this.template = (templateAttr.nodeValue=="true")?true:false;
+    this.template = Mapbuilder.parseBoolean(templateAttr.nodeValue);
     this.modelNode.removeAttribute("template");
   }
 
   //get the xpath to select nodes from the parent doc
-  var nodeSelectXpath = modelNode.selectSingleNode("mb:nodeSelectXpath");
-  if (nodeSelectXpath) {
-    this.nodeSelectXpath = nodeSelectXpath.firstChild.nodeValue;
-  }
+  this.nodeSelectXpath = this.getProperty("mb:nodeSelectXpath");
   
   /**
    * Widgets can place configurations in a model. This is an associative
@@ -106,7 +99,7 @@ function ModelBase(modelNode, parentModel) {
     if (!objRef.doc) return null; 
     node=objRef.doc.selectSingleNode(xpath);
     if(node && node.firstChild){
-      return node.firstChild.nodeValue;
+      return getNodeValue(node);
     }else{
       return null;
     }
@@ -469,16 +462,6 @@ function ModelBase(modelNode, parentModel) {
     this.parseConfig(this);
   }
 }
-
-  /**
-   * Convenient access to Mapbuilder.getProperty
-   * @param property property to get
-   * @param default value to use if property is not set
-   * @return the value for the property
-   */
-  this.getProperty = function(property, defaultValue) {
-    return Mapbuilder.getProperty(modelNode, property, defaultValue);
-  }
 
 //ModelBase.prototype.httpStatusMsg = ['uninitialized','loading','loaded','interactive','completed'];
 var httpStatusMsg = ['uninitialized','loading','loaded','interactive','completed'];

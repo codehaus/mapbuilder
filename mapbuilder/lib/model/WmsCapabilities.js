@@ -67,7 +67,7 @@ function WmsCapabilities(modelNode, parent) {
   this.getServerTitle = function() {
     var xpath = "/WMT_MS_Capabilities/Service/Title";
     var node = this.doc.selectSingleNode(xpath);
-    return (node && node.firstChild) ? node.firstChild.nodeValue : "no title";
+    return (node && node.firstChild) ? getNodeValue(node) : "no title";
   }
 
   /**
@@ -87,7 +87,7 @@ function WmsCapabilities(modelNode, parent) {
     } else {
       var xpath = "/WMT_MS_Capabilities/Capability/Request/GetMap/Format";
       var node = this.doc.selectSingleNode(xpath);
-      return node.firstChild.nodeValue;
+      return getNodeValue(node);
     }
   }
 
@@ -97,7 +97,7 @@ function WmsCapabilities(modelNode, parent) {
   this.getServiceName = function() {
     var xpath = "/WMT_MS_Capabilities/Service/Name";
     var node = this.doc.selectSingleNode(xpath);
-    return node.firstChild.nodeValue;
+    return getNodeValue(node);
   }
 
   /**

@@ -21,34 +21,11 @@ function FeatureCollection(modelNode, parent) {
   // Inherit the ModelBase functions and parameters
   ModelBase.apply(this, new Array(modelNode, parent));
 
-  var featureTagName = modelNode.selectSingleNode("mb:featureTagName");
-  if (featureTagName ) {
-    this.featureTagName = featureTagName.firstChild.nodeValue;
-  } else {
-    this.featureTagName = "topp:CITY_NAME";
-  }
- 
-  var coordsTagName = modelNode.selectSingleNode("mb:coordsTagName");
-  if (coordsTagName ) {
-    this.coordsTagName = coordsTagName.firstChild.nodeValue;
-  } else {
-    this.coordsTagName = "//gml:coordinates";
-  }
- 
-  var nodeSelectXpath = modelNode.selectSingleNode("mb:nodeSelectXpath");
-  if( nodeSelectXpath ) {
-    this.nodeSelectXpath = nodeSelectXpath.firstChild.nodeValue;
-  }
-  
-  var coordSelectXpath = modelNode.selectSingleNode("mb:coordSelectXpath");
-  if( coordSelectXpath ) {
-    this.coordSelectXpath = coordSelectXpath.firstChild.nodeValue;
-  } else {
-  	this.coordSelectXpath = "topp:the_geom/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates";
-  }
-  
+  this.featureTagName = this.getProperty("mb:featureTagName", "topp:CITY_NAME");
+  this.coordsTagName = this.getProperty("mb:coordsTagName", "//gml:coordinates");
+  this.nodeSelectXpath = this.getProperty("mb:nodeSelectXpath");
+  this.coordSelectXpath = this.getProperty("mb:coordSelectXpath", "topp:the_geom/gml:MultiPoint/gml:pointMember/gml:Point/gml:coordinates");
 
-  
   // Namespace to use when doing Xpath queries, usually set in config file.
   //if (!this.namespace){
   //  this.namespace = "xmlns:gml='http://www.opengis.net/gml' xmlns:wfs='http://www.opengis.net/wfs'";
@@ -70,7 +47,7 @@ function FeatureCollection(modelNode, parent) {
 		      objRef.setParam("modelStatus",mbGetMessage("convertingCoords"));
 		      var containerProj = new OpenLayers.Projection(objRef.containerModel.getSRS());
 		      for (var i=0; i<coordNodes.length; ++i) {
-		        var coords = coordNodes[i].firstChild.nodeValue;
+		        var coords = getNodeValue(coordNodes[i]);
 		        var coordsArray = coords.split(' ');
 		        var newCoords = '';
 		        for (var j=0; j<coordsArray.length; ++j) {
@@ -168,7 +145,7 @@ function FeatureCollection(modelNode, parent) {
    */
   this.getFeatureName = function(featureNode) {
     var labelNode = featureNode.selectSingleNode(this.featureTagName);   //TBD: set this dynamically
-    return labelNode?labelNode.firstChild.nodeValue:mbGetMessage("noRssTitle");
+    return labelNode?getNodeValue(labelNode):mbGetMessage("noRssTitle");
   }
 
   /**
@@ -188,7 +165,7 @@ function FeatureCollection(modelNode, parent) {
   this.getFeaturePoint = function(featureNode) {
     var coords = featureNode.selectSingleNode(this.coordSelectXpath);
     if (coords) {
-      var point = coords.firstChild.nodeValue.split(',');
+      var point = getNodeValue(coords).split(',');
       return point
     } else {
       return new Array(0,0);  //or some other error to return?
