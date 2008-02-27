@@ -20,15 +20,11 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 function ButtonBase(widgetNode, model) {
   WidgetBase.apply(this, new Array(widgetNode, model));
 
-  var buttonBarNode = widgetNode.selectSingleNode("mb:buttonBar");
-  if ( buttonBarNode ) {
-    this.htmlTagId = buttonBarNode.firstChild.nodeValue;
-  }
-  var htmlTagNode = widgetNode.selectSingleNode("mb:htmlTagId");    
-  if (htmlTagNode) {
-    this.htmlTagId = htmlTagNode.firstChild.nodeValue;
-  }
-  if ((!buttonBarNode) && (!htmlTagNode)){
+  this.htmlTagId = this.getProperty("mb:buttonBar");
+  if (!this.htmlTagId) {
+    this.htmlTagId = this.getProperty("mb:htmlTagId");
+  }    
+  if (!this.htmlTagId) {
     alert(mbGetMessage("buttonBarRequired", widgetNode.nodeName));
   }
   // Set button text values as parameters
@@ -36,7 +32,7 @@ function ButtonBase(widgetNode, model) {
     var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName;
     var textParams = config.widgetText.selectNodes(textNodeXpath+"/*");
     for (var j=0;j<textParams.length;j++) {
-      this[textParams[j].nodeName]=textParams[j].firstChild.nodeValue;
+      this[textParams[j].nodeName]=getNodeValue(textParams[j]);
     }
   }
   // html tag id of the div where OL places its panel code
@@ -46,8 +42,8 @@ function ButtonBase(widgetNode, model) {
   loadCss('controlPanel.css');
 
   //set the button type
-  var buttonType = widgetNode.selectSingleNode("mb:class")
-  this.buttonType = buttonType ? getNodeValue(buttonType).toUpperCase() : null;
+  this.buttonType = this.getProperty("mb:class")
+  this.buttonType = this.buttonType ? this.buttonType.toUpperCase() : null;
   if (this.buttonType == "RADIOBUTTON") this.enabled = false;
   
   // map between MB and OL button types
@@ -59,41 +55,33 @@ function ButtonBase(widgetNode, model) {
   }
 
   //set the button action
-  var action = widgetNode.selectSingleNode("mb:action");
-  if (action) {
-    this.action = action.firstChild.nodeValue;
-  }
+  this.action = this.getProperty("mb:action");
   
   // set the button tooltip
-  var tooltip = widgetNode.selectSingleNode("mb:tooltip");
+  var tooltip = this.getProperty("mb:tooltip");
   if (tooltip) {
-    this.tooltip = tooltip.firstChild.nodeValue;
+    this.tooltip = tooltip;
   }
 
   //pre-load the button bar images; add them to the config
-  var disabledImage = widgetNode.selectSingleNode("mb:disabledSrc");
+  var disabledImage = this.getProperty("mb:disabledSrc");
   if (disabledImage) {
-    this.disabledImage = config.skinDir + disabledImage.firstChild.nodeValue;
+    this.disabledImage = config.skinDir + disabledImage;
   }
 
   //optional second image to be displayed in the enabled state
-  var enabledImage = widgetNode.selectSingleNode("mb:enabledSrc");
+  var enabledImage = this.getProperty("mb:enabledSrc");
   if (enabledImage) {
-    this.enabledImage = config.skinDir + enabledImage.firstChild.nodeValue;
+    this.enabledImage = config.skinDir + enabledImage;
   }
 
   this.cursor = 'default';
 
   // Check for cursor override
-  var cursorNode = this.widgetNode.selectSingleNode("mb:cursor");
-  if( cursorNode != null ) {
-    var cursor = cursorNode.firstChild.nodeValue;
-    this.cursor = cursor;
-  }
+  this.cursor = this.getProperty("mb:cursor");
 
   //a button may be set as selected in the config file
-  var selected = widgetNode.selectSingleNode("mb:selected");
-  if (selected && selected.firstChild.nodeValue) this.selected = true;
+  this.selected = Mapbuilder.parseBoolean(this.getProperty("mb:selected", false));
 
   /**
    * Gets the css classname for this button. We use this
@@ -304,9 +292,9 @@ function ButtonBase(widgetNode, model) {
      //set the target context
     var targetContext = objRef.widgetNode.selectSingleNode("mb:targetContext");
     if (targetContext) {
-      objRef.targetContext = window.config.objects[targetContext.firstChild.nodeValue];
+      objRef.targetContext = window.config.objects[getNodeValue(targetContext)];
       if ( !objRef.targetModel ) {
-        alert(mbGetMessage("noTargetContext", targetContext.firstChild.nodeValue, objRef.id));
+        alert(mbGetMessage("noTargetContext", getNodeValue(targetContext), objRef.id));
       }
     } else {
       objRef.targetContext = objRef.targetModel;

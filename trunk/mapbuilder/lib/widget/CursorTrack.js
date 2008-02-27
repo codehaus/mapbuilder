@@ -20,44 +20,18 @@ function CursorTrack(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
   //by default, display coords in latlon; if false show map XY
-  this.showPx      = false; // pixel coordinates
-  this.showXY      = false; // XY Coordinates
-  this.showLatLong = true;  // Standard lat long
-  this.showDMS     = false; // Lat/long in DD MM SS.S format
-  this.showDM      = false; // Lat/long in DD MM.MMMM format
-  this.showMGRS    = false; // Military Grid Reference System
-  this.precision   = 2;
-
-  var showPx = widgetNode.selectSingleNode("mb:showPx");
-  if( showPx )
-    this.showPx = (showPx.firstChild.nodeValue=="false")?false:true;
-
-  var showXYNode = widgetNode.selectSingleNode("mb:showXY");
-  if (showXYNode)
-    this.showXY = (showXYNode.firstChild.nodeValue=="false")?false:true;
-
-  var showLatLong = widgetNode.selectSingleNode("mb:showLatLong");
-  if( showLatLong )
-    this.showLatLong = (showLatLong.firstChild.nodeValue=="false")?false:true;
-
-  var showDMS = widgetNode.selectSingleNode("mb:showDMS");
-  if( showDMS )
-    this.showDMS = (showDMS.firstChild.nodeValue=="false")?false:true;
-
-  var showDM = widgetNode.selectSingleNode("mb:showDM");
-  if( showDM )
-    this.showDM = (showDM.firstChild.nodeValue=="false")?false:true;
-
-  var showMGRS = widgetNode.selectSingleNode("mb:showMGRS");
-  if( showMGRS ) {
-    this.showMGRS = (showMGRS.firstChild.nodeValue=="false")?false:true;
+  this.showPx = Mapbuilder.parseBoolean(this.getProperty("mb:showPx", false)); // pixel coordinates
+  this.showXYNode = Mapbuilder.parseBoolean(this.getProperty("mb:showXY", false)); // XY Coordinates
+  this.showLatLong = Mapbuilder.parseBoolean(this.getProperty("mb:showLatLong", true)); // Standard lat long
+  this.showDMS = Mapbuilder.parseBoolean(this.getProperty("mb:showDMS", false)); // Lat/long in DD MM SS.S format
+  this.showDM = Mapbuilder.parseBoolean(this.getProperty("mb:showDM", false)); // Lat/long in DD MM.MMMM format
+  this.showMGRS = Mapbuilder.parseBoolean(this.getProperty("mb:showMGRS", false)); // Military Grid Reference System
+  if( this.showMGRS ) {
     // load this here so it is not required for everyone
     mapbuilder.loadScript(baseDir+"/util/MGRS.js");
   }
 
-  var precision = widgetNode.selectSingleNode("mb:precision");
-  if (precision)
-    this.precision = precision.firstChild.nodeValue;
+  this.precision = this.getProperty("mb:precision", 2);
 
   //set some properties for the form output
   this.formName = "CursorTrackForm_" + mbIds.getId();

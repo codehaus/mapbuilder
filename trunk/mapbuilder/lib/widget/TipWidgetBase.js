@@ -16,16 +16,11 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 function TipWidgetBase(widgetNode, model) {
   WidgetBaseXSL.apply(this, new Array(widgetNode, model));
 
-  var width = widgetNode.selectSingleNode('mb:width');
-  this.width = width ? width.firstChild.nodeValue : 200;
-  var height = widgetNode.selectSingleNode('mb:height');
-  this.height = height ? height.firstChild.nodeValue : 150;
-  var opacity = widgetNode.selectSingleNode('mb:opacity');
-  this.opacity = opacity ? opacity.firstChild.nodeValue : 1;
-  var backgroundColor = widgetNode.selectSingleNode('mb:backgroundColor');
-  this.backgroundColor = backgroundColor ? backgroundColor.firstChild.nodeValue : 'D0D0D0';
-  var border = widgetNode.selectSingleNode('mb:border');
-  this.border = border ? border.firstChild.nodeValue : '0px';
+  this.width = this.getProperty('mb:width', 200);
+  this.height = this.getProperty('mb:height', 150);
+  this.opacity = this.getProperty('mb:opacity', 1);
+  this.backgroundColor = this.getProperty('mb:backgroundColor', 'D0D0D0');
+  this.border = this.getProperty('mb:border', '0px');
   
   // store all relevant config properties in an object for handling
   // different widget configurations in a MergeModel

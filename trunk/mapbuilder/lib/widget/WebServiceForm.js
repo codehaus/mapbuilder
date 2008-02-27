@@ -28,15 +28,12 @@ function WebServiceForm(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
   this.formElements = new Object();
   // We might have a request stylesheet to fill for a more complex post
-  var requestStylesheet = widgetNode.selectSingleNode("mb:requestStylesheet");
+  var requestStylesheet = this.getProperty("mb:requestStylesheet");
   if (requestStylesheet) {
-    this.requestStylesheet = new XslProcessor(requestStylesheet.firstChild.nodeValue,model.namespace); 
+    this.requestStylesheet = new XslProcessor(requestStylesheet, model.namespace); 
   }
   
-  var webServiceUrl = widgetNode.selectSingleNode("mb:webServiceUrl");
-  if (webServiceUrl) {
-    this.webServiceUrl = webServiceUrl.firstChild.nodeValue; 
-  }
+  this.webServiceUrl = this.getProperty("mb:webServiceUrl");
   
   /**
    * Handles submission of the form (via javascript in an <a> tag)

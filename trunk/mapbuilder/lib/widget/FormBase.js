@@ -27,10 +27,7 @@ function FormBase(widgetNode, model) {
   WidgetBaseXSL.apply(this, new Array(widgetNode, model));
 
   //get bbox inforamtion from a map model
-  var webServiceUrl = widgetNode.selectSingleNode("mb:webServiceUrl");
-  if ( webServiceUrl ) {
-    this.webServiceUrl = webServiceUrl.firstChild.nodeValue;
-  }
+  this.webServiceUrl = this.getProperty("mb:webServiceUrl");
 
   /**
    * Refreshes the form onblur handlers when this widget is painted.

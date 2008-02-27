@@ -30,36 +30,28 @@ function WidgetBaseXSL(widgetNode,model) {
   // Set this.stylesheet
   // Defaults to "widget/<widgetName>.xsl" if not defined in config file.
   if ( !this.stylesheet ) {
-    var styleNode = widgetNode.selectSingleNode("mb:stylesheet");
-    if (styleNode ) {
-      this.stylesheet = new XslProcessor(styleNode.firstChild.nodeValue,model.namespace);
-    } else {
-      this.stylesheet = new XslProcessor(baseDir+"/widget/"+widgetNode.nodeName+".xsl",model.namespace);
-    }
+    this.stylesheet = new XslProcessor(this.getProperty("mb:stylesheet", baseDir+"/widget/"+widgetNode.nodeName+".xsl", model.namespace));
   }
 
   // Do we allow to parse HTML nodes?
-  var parseHTMLNodes = widgetNode.selectSingleNode("mb:parseHTMLNodes");
-  this.parseHTMLNodes = parseHTMLNodes ? getNodeValue(parseHTMLNodes) : false;
-  this.parseHTMLNodes = (this.parseHTMLNodes && this.parseHTMLNodes.toLowerCase() == "true") ? true : false;
+  this.parseHTMLNodes = Mapbuilder.parseBoolean(this.getProperty("mb:parseHTMLNodes", false));
 
   // Set widget text values as parameters 
   if (config.widgetText) {
     var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName;
     var textParams = config.widgetText.selectNodes(textNodeXpath+"/*");
     for (var j=0;j<textParams.length;j++) {
-      this.stylesheet.setParameter(textParams[j].nodeName,textParams[j].firstChild.nodeValue);
+      this.stylesheet.setParameter(textParams[j].nodeName,getNodeValue(textParams[j]));
     }
   }
 
   // Set stylesheet parameters for all the child nodes from the config file
   for (var j=0;j<widgetNode.childNodes.length;j++) {
-    if (widgetNode.childNodes[j].firstChild
-      && widgetNode.childNodes[j].firstChild.nodeValue)
+    if (getNodeValue(widgetNode.childNodes[j]))
     {
       this.stylesheet.setParameter(
         widgetNode.childNodes[j].nodeName,
-        widgetNode.childNodes[j].firstChild.nodeValue);
+        getNodeValue(widgetNode.childNodes[j]));
     }
   }
 

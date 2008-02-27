@@ -22,26 +22,16 @@ function WfsGetFeature(widgetNode, model) {
 
   this.widgetNode = widgetNode;
   // id of the transactionResponseModel
-  this.trm = widgetNode.selectSingleNode("mb:transactionResponseModel").firstChild.nodeValue
+  this.trm = this.getProperty("mb:transactionResponseModel");
   this.httpPayload = new Object({
     method: "get",
     postData: null
   });
-  var typeNameNode = widgetNode.selectSingleNode('mb:typeName');
-  if (typeNameNode != null) {
-    this.typeName = typeNameNode.firstChild.nodeValue;
-  }
-  this.maxFeatures = widgetNode.selectSingleNode('mb:maxFeatures');
-  this.maxFeatures = this.maxFeatures ? this.maxFeatures.firstChild.nodeValue : 1;
-  this.webServiceUrl= widgetNode.selectSingleNode('mb:webServiceUrl').firstChild.nodeValue;
+  this.typeName = this.getProperty('mb:typeName');
+  this.maxFeatures = this.getProperty('mb:maxFeatures', 1);
+  this.webServiceUrl= this.getProperty('mb:webServiceUrl');
   this.webServiceUrl += this.webServiceUrl.indexOf("?") > -1 ? '&' : '?';
-
-  var webServiceSrs= widgetNode.selectSingleNode('mb:webServiceSrs');
-  if (webServiceSrs) {
-    this.webServiceSrs = new OpenLayers.Projection(getNodeValue(webServiceSrs));
-  } else {
-    this.webServiceSrs = new OpenLayers.Projection("EPSG:4326");
-  }
+  this.webServiceSrs= new OpenLayers.Projection(this.getProperty('mb:webServiceSrs', "EPSG:4326"));
   
   // override default cursor by user
   // cursor can be changed by spefying a new cursor in config file
@@ -53,7 +43,7 @@ function WfsGetFeature(widgetNode, model) {
     var Control = OpenLayers.Class( OpenLayers.Control, {
       CLASS_NAME: 'mbControl.WfsGetFeature',
       type: OpenLayers.Control.TYPE_TOOL, // constant from OpenLayers.Control
-  	  tolerance: new Number(objRef.widgetNode.selectSingleNode('mb:tolerance').firstChild.nodeValue),
+  	  tolerance: new Number(objRef.getProperty('mb:tolerance')),
   	  httpPayload: objRef.httpPayload,
   	  maxFeatures: objRef.maxFeatures,
   	  webServiceUrl: objRef.webServiceUrl,
@@ -100,7 +90,8 @@ function WfsGetFeature(widgetNode, model) {
             var layerNode = queryList[i];
             
             // Get the name of the layer
-            var layerName = layerNode.selectSingleNode("wmc:Name");layerName=(layerName)?layerName.firstChild.nodeValue:"";
+            var layerName = layerNode.selectSingleNode("wmc:Name");
+            layerName=(layerName)?getNodeValue(layerName):"";
 
             // Get the layerId. Fallback to layerName if non-existent
             var layerId = layerNode.getAttribute("id") || layerName;

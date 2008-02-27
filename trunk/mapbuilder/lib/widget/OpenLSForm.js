@@ -20,8 +20,8 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 function OpenLSForm(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
-	this.defaultModelUrl=widgetNode.selectSingleNode("mb:defaultModelUrl").firstChild.nodeValue;
-	this.geocodeServerUrl=widgetNode.selectSingleNode("mb:geocodeServerUrl").firstChild.nodeValue;
+	this.defaultModelUrl=this.getProperty("mb:defaultModelUrl");
+	this.geocodeServerUrl=this.getProperty("mb:geocodeServerUrl");
 
   this.xsl=new XslProcessor(baseDir+"/tool/xsl/ols_GeocodeRequest.xsl");	
 	/**
@@ -65,12 +65,7 @@ function OpenLSForm(widgetNode, model) {
 
   //set some properties for the form output
   //allow it to have a different form name
-  var formNameNode = widgetNode.selectSingleNode("mb:formName");
-  if ( formNameNode ) {
-    this.formName = formNameNode.firstChild.nodeValue;
-  } else {
-    this.formName = "OpenLSForm_" + mbIds.getId();
-  }
+  this.formName = this.getProperty("mb:formName", "OpenLSForm_" + mbIds.getId());
   this.stylesheet.setParameter("formName", this.formName);
 }
 
