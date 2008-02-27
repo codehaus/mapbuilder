@@ -72,8 +72,7 @@ function GetFeatureInfo(widgetNode, model) {
                 var layerNode = queryList[i];
                 
                 // Get the name of the layer
-                var layerName = layerNode.selectSingleNode("wmc:Name");
-                layerName=(layerName)?getNodeValue(layerName):"";
+                var layerName = Mapbuilder.getProperty(layerNode, "wmc:Name", "");
 
                 // Get the layerId. Fallback to layerName if non-existent
                 var layerId = layerNode.getAttribute("id") || layerName;

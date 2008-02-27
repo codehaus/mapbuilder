@@ -676,7 +676,7 @@ function sld2UrlParam(node) {
         params.sld_body=(new XMLSerializer()).serializeToString(sld.selectSingleNode("wmc:StyledLayerDescriptor"));    		
       }
     } else if(name) {
-      params.styles=getNodeValue(name);	
+      params.styles = getNodeValue(name) || "";	
     }
   }  
   return params;

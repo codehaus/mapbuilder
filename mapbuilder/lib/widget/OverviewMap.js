@@ -41,7 +41,7 @@ function OverviewMap(widgetNode, model) {
     this.layerNames = new Array();
     var layers = layersNode.childNodes;
     for (var i = 0; i < layers.length; i++) {
-      if (getNodeValue(layers[i])) {
+      if (layers[i].firstChild) {
         this.layerNames.push(getNodeValue(layers[i]));
       }
     }

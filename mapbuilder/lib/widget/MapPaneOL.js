@@ -262,17 +262,13 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       var service=baseLayerNode.selectSingleNode("wmc:Server/@service");
       service=(service)?service.nodeValue:"";
       // Test title of the baseLayer
-      var title=baseLayerNode.selectSingleNode("wmc:Title");
-      title=(title)?getNodeValue(title):"";
+      var title=Mapbuilder.getProperty(baseLayerNode, "wmc:Title", "");
       // Get the name of the baseLayer
-      var baseLayerName = baseLayerNode.selectSingleNode("wmc:Name");
-      baseLayerName=(baseLayerName)?getNodeValue(baseLayerName):"";
+      var baseLayerName = Mapbuilder.getProperty(baseLayerNode, "wmc:Name", "");
       // get the layer-type of the BaseLayer (this allows specifying if is is a arial,road or hybrid map)
-      var baseLayerType = baseLayerNode.selectSingleNode("ows:TileSet/ows:Layers");
-      baseLayerType=(baseLayerType)?getNodeValue(baseLayerType):"hybrid";
+      var baseLayerType = Mapbuilder.getProperty(baseLayerNode, "ows:TileSet/ows:Layers", "hybrid");
       // it might be that the baseLayer is a WMS so we need to fetch the url
-      var href=baseLayerNode.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");
-      href=(href)?getNodeValue(href):"";
+      var href=Mapbuilder.getProperty(baseLayerNode, "wmc:Server/wmc:OnlineResource/@xlink:href", "");
       
       var baseLayerOptions = {
               units: units,
@@ -645,12 +641,10 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   var service=layer.selectSingleNode("wmc:Server/@service");service=(service)?service.nodeValue:"";
 
   // Test title of the layer
-  var title=layer.selectSingleNode("wmc:Title");
-  title=(title)?getNodeValue(title):"";
+  var title=Mapbuilder.getProperty(layer, "wmc:Title", "");
 
   // Get the name of the layer
-  layerName = layer.selectSingleNode("wmc:Name");
-  layerName=(layerName)?getNodeValue(layerName):"";
+  layerName = Mapbuilder.getProperty(layer, "wmc:Name", "");
 
   // Get the layerId. Fallback to layerName if non-existent
   var layerId;
@@ -661,8 +655,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   }
 
   if (objRef.context=="OWS"){
-    var href=layer.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");
-    href=(href)?getNodeValue(href):"";
+    var href=Mapbuilder.getProperty(layer, "wmc:Server/wmc:OnlineResource/@xlink:href", "");
   }
   else {
      if(_SARISSA_IS_SAFARI){
