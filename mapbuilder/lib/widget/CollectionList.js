@@ -57,7 +57,7 @@ function CollectionList(widgetNode, model) {
     }
     if (objRef.targetModel.map.getExtent().containsBounds(objRef.extent, false, false)) {
       objRef.targetModel.map.zoomToExtent(objRef.extent);
-      if (objRef.targetModel.map.getScale() > objRef.scale) {
+      if (!objRef.targetModel.map.fractionalZoom && objRef.targetModel.map.getScale() > objRef.scale) {
         objRef.targetModel.map.zoomIn();
       }
     }
