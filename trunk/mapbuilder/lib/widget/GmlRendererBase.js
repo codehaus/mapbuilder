@@ -37,11 +37,11 @@ function GmlRendererBase(widgetNode, model) {
 
   // set the default style.
   /** sld node within the sld model that is used for default styling */
-  this.defaultStyle = this.getProperty('mb:defaultStyleName', 'default');
+  this.defaultStyleName = this.getProperty('mb:defaultStyleName', 'default');
   
   // set the select style
   /** sld node within the sld model that is used when a feature is hovered */
-  this.selectStyle = this.getProperty('mb:selectStyleName', 'selected');
+  this.selectStyleName = this.getProperty('mb:selectStyleName', 'selected');
 
   /**
    * config object holding all configurations that might be different

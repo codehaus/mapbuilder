@@ -90,8 +90,7 @@ function GetFeatureInfoWSR(widgetNode, model) {
       var layerNode = queryList[i];
 
       // Get the name of the layer
-      var layerName = layerNode.selectSingleNode("wmc:Name");
-      layerName=(layerName)?getNodeValue(layerName):"";
+      var layerName = Mapbuilder.getProperty(layerNode, "wmc:Name", "");
 
       var hidden = objRef.targetModel.getHidden(layerName);
       if (hidden == 0) { //query only visible layers

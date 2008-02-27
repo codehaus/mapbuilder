@@ -386,7 +386,7 @@ function OwsContext(modelNode, parent) {
 
       // Generate layer id if layer doesn't have an id
       var randomNumber = Math.round(10000 * Math.random());
-      id = getNodeValue(layerNode.selectSingleNode("wmc:Name")) + "_" + randomNumber; 
+      id = Mapbuilder.getProperty(layerNode, "wmc:Name") + "_" + randomNumber; 
       layerNode.setAttribute("id", id);
       
       // check if that node does not alreayd exist, replace it (query may have changed)
@@ -426,7 +426,7 @@ function OwsContext(modelNode, parent) {
    */
   this.addSLD = function(objRef,sldNode) {
     // alert("context addSLD : "+objRef.id);
-    var layerName=getNodeValue(sldNode.selectSingleNode("//Name"));
+    var layerName=Mapbuilder.getProperty(sldNode, "//Name");
     var parentNode = objRef.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']");
     parentNode.appendChild(sldNode.cloneNode(true));
 
@@ -553,9 +553,9 @@ function OwsContext(modelNode, parent) {
       var layerId;
       var layerNode = extentNode.parentNode.parentNode;
       if (layerNode.selectSingleNode("@id")) {
-        layerId = getNodeValue(layerNode.selectSingleNode("@id"));
+        layerId = Mapbuilder.getProperty(layerNode, "@id");
       } else {
-        layerId = getNodeValue(layerNode.selectSingleNode("wmc:Name"));
+        layerId =Mapbuilder.getProperty(layerNode, "wmc:Name");
       }
       objRef.timestampList.setAttribute("layerId", layerId);
       //alert("found time dimension, extent:"+getNodeValue(extentNode));
