@@ -21,7 +21,7 @@ function CursorTrack(widgetNode, model) {
 
   //by default, display coords in latlon; if false show map XY
   this.showPx = Mapbuilder.parseBoolean(this.getProperty("mb:showPx", false)); // pixel coordinates
-  this.showXYNode = Mapbuilder.parseBoolean(this.getProperty("mb:showXY", false)); // XY Coordinates
+  this.showXY = Mapbuilder.parseBoolean(this.getProperty("mb:showXY", false)); // XY Coordinates
   this.showLatLong = Mapbuilder.parseBoolean(this.getProperty("mb:showLatLong", true)); // Standard lat long
   this.showDMS = Mapbuilder.parseBoolean(this.getProperty("mb:showDMS", false)); // Lat/long in DD MM SS.S format
   this.showDM = Mapbuilder.parseBoolean(this.getProperty("mb:showDM", false)); // Lat/long in DD MM.MMMM format
