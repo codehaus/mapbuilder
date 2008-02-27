@@ -64,7 +64,7 @@ function WidgetBase(widgetNode,model) {
   //allow widgets to not automatically update themseleves in certain circumstances (see layerControl for example)
   this.autoRefresh = Mapbuilder.parseBoolean(this.getProperty("mb:autoRefresh", true));
 
-  //set an empty debug property in config to see inputs and outputs of stylehseet
+  //set a debug property in config to see inputs and outputs of stylehseet
   this.debug = Mapbuilder.parseBoolean(this.getProperty("mb:debug", false));
 
   /**
