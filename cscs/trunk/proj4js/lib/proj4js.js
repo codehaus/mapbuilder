@@ -260,6 +260,8 @@ Proj4js = {
 
     defsLoadedFromService: function(srsCode, transport) {
       this.defs[srsCode] = transport.responseText;
+      // save this also in the prototype, so we don't need to fetch it again
+      Proj4js.defs[srsCode] = transport.responseText;
     },
 
     defsFailed: function(srsCode) {
