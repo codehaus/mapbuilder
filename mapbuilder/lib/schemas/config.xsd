@@ -277,6 +277,7 @@
       <xs:element name="EditPoint" type="mb:EditButtonBaseType"/>
       <xs:element name="EditPolygon" type="mb:EditButtonBaseType"/>
       <xs:element name="EventLog" type="mb:WidgetType"/>
+      <xs:element name="ExampleList" type="mb:WidgetType"/>
       <xs:element name="FeatureInfo" type="mb:WidgetType"/>
       <xs:element name="FeatureList" type="mb:WidgetType"/>
       <xs:element name="FilterAttributes" type="mb:WidgetType"/>
@@ -544,6 +545,15 @@
             </xs:annotation>
           </xs:element>
         </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+   <xs:complexType name="ExampleList">
+    <xs:annotation>
+      <xs:documentation>A very specific widget to render the same example menu on all examples.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="mb:AbstractWidgetBaseXSLType">
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

@@ -86,7 +86,7 @@ ul a {
 	width: 100%;
 	display: inline;
 	}
-#menubar {
+#exampleList, #menubar {
 	display: block;
 position: absolute;
 left: 0px;
@@ -99,12 +99,12 @@ overflow: auto;
 	
 	bottom: 60px;
 	}
-	#menubar a {
+	#exampleList a ,#menubar a{
 font-weight: normal;
 	color: white;
 	}
 	
-	#menubar ul {
+	#exampleList ul , #menubar ul{
 	background:  #3c78b5;
 margin: 0px;
   padding: 0px;
@@ -115,7 +115,7 @@ margin: 0px;
   font-size: 10px;
 }
 
-#menubar li {
+#exampleList li, #menubar li {
 	background:  #3c78b5;
 	margin: 0px;
 	padding: 2px;

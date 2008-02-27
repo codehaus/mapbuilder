@@ -82,6 +82,10 @@
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
     </Reset>
+     <ExampleList id="exampleList">
+		<scriptFile>../ExampleList.js</scriptFile>
+		<stylesheet>../ExampleList.xsl</stylesheet>
+    </ExampleList>
  	</widgets>
 	<skinDir>../../lib/skin/default</skinDir>
 </MapbuilderConfig>
