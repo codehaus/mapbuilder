@@ -625,7 +625,7 @@ function mbGetMessage(messageKey)
     }
     else {
       // Message found; pick last one so user can override messages
-      message = msgKeyNodes.item(msgKeyNodes.length-1).firstChild.nodeValue;
+      message = getNodeValue(msgKeyNodes.item(msgKeyNodes.length-1));
       if (arguments[mbGetMessage.length]) {
         // Extra arguments, format message
         var varArgs = [].slice.call(arguments, mbGetMessage.length);
@@ -676,7 +676,7 @@ function sld2UrlParam(node) {
         params.sld_body=(new XMLSerializer()).serializeToString(sld.selectSingleNode("wmc:StyledLayerDescriptor"));    		
       }
     } else if(name) {
-      params.styles=(name.firstChild)?name.firstChild.nodeValue:"";	
+      params.styles=getNodeValue(name);	
     }
   }  
   return params;
@@ -717,48 +717,48 @@ function sld2OlStyle(node) {
   if (node) {
     value=node.selectSingleNode(".//sld:ExternalGraphic/sld:OnlineResource/@xlink:href");
     if(value){
-      style1.externalGraphic=value.firstChild.nodeValue;
+      style1.externalGraphic=getNodeValue(value);
       styleSet=true;
     }
     value=node.selectSingleNode(".//sld:Fill/sld:CssParameter[@name='fill']");
     if(value){
-      style1.fillColor=value.firstChild.nodeValue;
+      style1.fillColor=getNodeValue(value);
       styleSet=true;
     }
     value=node.selectSingleNode(".//sld:Fill/sld:CssParameter[@name='fill-opacity']");
     if(value){
-      style1.fillOpacity=value.firstChild.nodeValue;
+      style1.fillOpacity=getNodeValue(value);
       styleSet=true;
     } else {
       // opacity eg. for externalGraphic
       value=node.selectSingleNode(".//sld:Opacity/sld:Literal");
       if (value){
-        style1.fillOpacity=value.firstChild.nodeValue;
+        style1.fillOpacity=getNodeValue(value);
         styleSet=true;
       }
     }
   
     value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke']");
     if(value){
-      style1.strokeColor=value.firstChild.nodeValue;
+      style1.strokeColor=getNodeValue(value);
       styleSet=true;
     }
     
     value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke-opacity']");
     if(value){
-      style1.strokeOpacity=value.firstChild.nodeValue;
+      style1.strokeOpacity=getNodeValue(value);
       styleSet=true;
     }
     
     value=node.selectSingleNode(".//sld:Stroke/sld:CssParameter[@name='stroke-width']");
     if(value){
-      style1.strokeWidth=value.firstChild.nodeValue;
+      style1.strokeWidth=getNodeValue(value);
       styleSet=true;
     }
     
     value=node.selectSingleNode(".//sld:Size");
     if(value){
-      style1.pointRadius=value.firstChild.nodeValue;
+      style1.pointRadius=getNodeValue(value);
       styleSet=true;
     }
   }
