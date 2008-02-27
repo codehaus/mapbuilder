@@ -29,7 +29,7 @@ function MergeModels(toolNode, model) {
       var model = models.childNodes;
       for (var i = 0; i < model.length; i++) {
         if (model[i].firstChild) {
-          objRef.addModel(objRef, config.objects[model[i].firstChild.nodeValue]);
+          objRef.addModel(objRef, config.objects[getNodeValue(model[i])]);
         }
       }
     }

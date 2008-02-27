@@ -20,29 +20,14 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
 function Timer(toolNode, model) {
   ToolBase.apply(this, new Array(toolNode, model));
 
-  //set the interval
-  var seconds = toolNode.selectSingleNode("mb:every");
-  if (seconds) {
-    this.delay = 1000*seconds.firstChild.nodeValue;
-  } else {
-    this.delay = 1000*30; //milliseconds - defaults to every half hour
-  }	
+  //delay in milliseconds - defaults to every half hour
+  this.delay = 1000*this.getProperty("mb:every", 30);
   
-  //set the event to be fired
-  var eventName = toolNode.selectSingleNode("mb:eventName");
-  if (eventName) {
-    this.eventName = eventName.firstChild.nodeValue;
-  } else {
-    this.eventName = "reloadModel"; //default event is to reload the model
-  }	
+  //set the event to be fired, default event is to reload the model
+  this.eventName = this.getProperty("mb:eventName", "reloadModel");
   
-  //set the value to be passed with the event
-  var eventValue = toolNode.selectSingleNode("mb:eventValue");
-  if (eventValue) {
-    this.eventValue = eventValue.firstChild.nodeValue;
-  } else {
-    this.eventValue = null; //default eventValue is null
-  }	
+  //set the value to be passed with the event, default eventValue is null
+  this.eventValue = this.getProperty("mb:eventValue");
   
   /**
    * Starts the timer playing by using a JavaScript timer.
@@ -64,9 +49,7 @@ function Timer(toolNode, model) {
   }
 
   //the timer can start automatically or not, in which case there should be a call to timer.start() somewhere
-  this.autoStart = true;
-  var autoStart = toolNode.selectSingleNode("mb:autoStart");
-  if (autoStart && autoStart.firstChild.nodeValue=="false") this.autoStart = false;
+  this.autoStart = Mapbuilder.parseBoolean(this.getProperty("mb:autoStart", true));
   this.startOnLoad = function(objRef) {
     if (objRef.autoStart) objRef.play();
   }

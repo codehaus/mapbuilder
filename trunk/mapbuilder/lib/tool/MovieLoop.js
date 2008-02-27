@@ -27,18 +27,11 @@ function MovieLoop(toolNode, model) {
   this.isRunning = false;
   this.frameIsLoading = false;
 
-  //
-  var framesPerSecond = toolNode.selectSingleNode("mb:framesPerSecond");
-  if (framesPerSecond) {
-    this.delay = 1000/framesPerSecond.firstChild.nodeValue;
-  } else {
-    this.delay = 1000/10; //milliseconds
-  }
+  //delay in milliseconds
+  this.delay = 1000/this.getProperty("mb:framesPerSecond", 10);
 
-  //set a limit to the munber of frames to be loaded
-  this.maxFrames = 30;
-  var maxFrames = toolNode.selectSingleNode("mb:maxFrames");
-  if (maxFrames) this.maxFrames = maxFrames.firstChild.nodeValue;
+  //set a limit to the number of frames to be loaded
+  this.maxFrames = this.getProperty("mb:maxFrames", 30);
 
   /**
    * Sets the frame to the specified index in the frame array
