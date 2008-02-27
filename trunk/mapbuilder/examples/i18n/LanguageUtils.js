@@ -11,6 +11,8 @@ var supportedLanguages = new Object();
   supportedLanguages["nl"] = "Nederlands";
   supportedLanguages["fr"] = "Fran\u00E7ais";
   supportedLanguages["it"] = "Italiano";
+  supportedLanguages["de"] = "Deutsch";
+  supportedLanguages["es"] = "Espa\u00F1ol";
   // Also add as an example an unsupported language to show the fallback
   supportedLanguages["nonesuch"] = "unsupported language";
 }
