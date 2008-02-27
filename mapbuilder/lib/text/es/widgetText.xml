@@ -18,14 +18,14 @@
   <widgets>
     <Abstract>
       <abstract>Sumario</abstract>
-      <moreInfo>M·s informaciÛn de este mapa</moreInfo>
+      <moreInfo>M√°s informaci√≥n de este mapa</moreInfo>
     </Abstract>
     
     <AoiForm>
       <east>Este:</east>
       <north>Norte:</north>
       <south>Sur:</south>
-      <title>Coordenadas del ¡rea de InterÈs</title>
+      <title>Coordenadas del √Årea de Inter√©s</title>
       <west>Oeste:</west>
     </AoiForm>
     
@@ -60,7 +60,7 @@
     </DragPan>
     
     <EditLine>
-      <tooltip>Haga clic en el mapa para aÒadir un punto a una lÌnea</tooltip>
+      <tooltip>Haga clic en el mapa para a√±adir un punto a una l√≠nea</tooltip>
     </EditLine>
     
     <EditPoint>
@@ -68,7 +68,7 @@
     </EditPoint>
     
     <EditPolygon>
-      <tooltip>Haga clic en el mapa para aÒadir un punto a un polÌgono</tooltip>
+      <tooltip>Haga clic en el mapa para a√±adir un punto a un pol√≠gono</tooltip>
     </EditPolygon>
     
     <Forward>
@@ -76,11 +76,11 @@
     </Forward>
     
     <GetFeatureInfo>
-      <tooltip>Haga clic en un elemento para m·s informaciÛn</tooltip>
+      <tooltip>Haga clic en un elemento para m√°s informaci√≥n</tooltip>
     </GetFeatureInfo>
     
     <GetFeatureInfoWSR>
-      <tooltip>Haga clic en un elemento para m·s informaciÛn</tooltip>
+      <tooltip>Haga clic en un elemento para m√°s informaci√≥n</tooltip>
     </GetFeatureInfoWSR>
 
     <InsertFeature>
@@ -89,8 +89,8 @@
     
     <LayerControl>
       <deleteLayerTip>Eliminar esta capa</deleteLayerTip>
-      <layerIndexTip>PosiciÛn actual de esta capa en la pila de im·genes</layerIndexTip>
-      <legendTip>Alternar visualizaciÛn o no de la leyenda</legendTip>
+      <layerIndexTip>Posici√≥n actual de esta capa en la pila de im√°genes</layerIndexTip>
+      <legendTip>Alternar visualizaci√≥n o no de la leyenda</legendTip>
       <moveLayerDownTip>Mover esta capa hacia abajo en la pila</moveLayerDownTip>
       <moveLayerUpTip>Mover esta capa hacia arriba en la pila</moveLayerUpTip>
       <nameLayerTip>Nombre de la capa</nameLayerTip>
@@ -116,7 +116,7 @@
     </ModelUrlInput>
     
     <Reset>
-      <tooltip>Volver a la extensiÛn completa del mapa</tooltip>
+      <tooltip>Volver a la extensi√≥n completa del mapa</tooltip>
     </Reset>
     
     <Save>
@@ -124,7 +124,7 @@
     </Save>
     
     <SetAoi>
-      <tooltip>Haga clic y arrastre para establecer el ·rea de interÈs</tooltip>
+      <tooltip>Haga clic y arrastre para establecer el √°rea de inter√©s</tooltip>
     </SetAoi>
     
     <Timestamp>
@@ -132,8 +132,8 @@
     </Timestamp>
     
     <WebServiceForm>
-      <mapsheet>Õndice NTS:</mapsheet>
-      <ntsTitle>Servicio Web de b˙squeda NTS</ntsTitle>
+      <mapsheet>√çndice NTS:</mapsheet>
+      <ntsTitle>Servicio Web de b√∫squeda NTS</ntsTitle>
     </WebServiceForm>
     
     <WfsGetFeature>
@@ -151,17 +151,17 @@
   
   <!-- JavaScript messages -->
   <messages>
-    <aeaInitEqualLatitudes>aeaInit: Latitudes iguales para Paralelos Est·ndar en lados opuestos del ecuador</aeaInitEqualLatitudes>
-    <aeqdFwdPointError>Error de proyecciÛn en aeqdFwd()</aeqdFwdPointError>
+    <aeaInitEqualLatitudes>aeaInit: Latitudes iguales para Paralelos Est√°ndar en lados opuestos del ecuador</aeaInitEqualLatitudes>
+    <aeqdFwdPointError>Error de proyecci√≥n en aeqdFwd()</aeqdFwdPointError>
     <aeqdInvDataError>Error de entrada de datos en aeqdInv()</aeqdInvDataError>
     <aoiFormNotFound>No se pudo encontrar aoiForm para geoSearch</aoiFormNotFound>
     <atLeastOneValue>Por favor introduzca al menos un valor antes de proceder</atLeastOneValue>
     <buttonBarRequired>Propiedad buttonBar requerida para el objeto: {0}</buttonBarRequired>
     <cantCalculateDistance>Measurement no es capaz de calcular la distancia</cantCalculateDistance>
-    <cantGoBack>No puede volver m·s atr·s</cantGoBack>
-    <cantGoForward>No puede ir m·s adelante</cantGoForward>
-    <cantMoveDown>No se puede mover el nodo m·s all· del final de la lista: {0}</cantMoveDown>
-    <cantMoveUp>No se puede mover el nodo m·s all· del principio de la lista: {0}</cantMoveUp>
+    <cantGoBack>No puede volver m√°s atr√°s</cantGoBack>
+    <cantGoForward>No puede ir m√°s adelante</cantGoForward>
+    <cantMoveDown>No se puede mover el nodo m√°s all√° del final de la lista: {0}</cantMoveDown>
+    <cantMoveUp>No se puede mover el nodo m√°s all√° del principio de la lista: {0}</cantMoveUp>
     <convertingCoords>convirtiendo coordenadas</convertingCoords>
     <docLoading>Cargando documento, por favor espere...</docLoading>
     <documentParseError>Error de procesado del documento: {0}</documentParseError>
@@ -173,47 +173,47 @@
     <errorLoadingStylesheet>Error cargando hoja de estilos XSL: {0}</errorLoadingStylesheet>
     <errorPaintingWidget>Error en Config paintWidget: el widget no existe</errorPaintingWidget>
     <eventLogSaved>Registro de eventos guardado como: {0}</eventLogSaved>
-    <exceptionTransformingDoc>ExcepciÛn transformando el documento con XSL: {0}</exceptionTransformingDoc>
+    <exceptionTransformingDoc>Excepci√≥n transformando el documento con XSL: {0}</exceptionTransformingDoc>
     <featureNotFoundOwsContext>Elemento no encontrado</featureNotFoundOwsContext>
     <featureNotFoundWebServiceRequest>WebServiceRequest: error buscando nodo del elemento: {0}</featureNotFoundWebServiceRequest>
-    <gridShiftError>ERROR: Las transformaciones de desplazamiento de cuadrÌcula no est·n implementadas a˙n (cscs.js)</gridShiftError>
+    <gridShiftError>ERROR: Las transformaciones de desplazamiento de cuadr√≠cula no est√°n implementadas a√∫n (cscs.js)</gridShiftError>
     <idRequired>Se requiere id para el objeto: {0}</idRequired>
-    <invalidFeatureXpathEditLine>EditLine: featureXpath no v·lido en config: {0}</invalidFeatureXpathEditLine>
-    <invalidFeatureXpathEditPoint>EditPoint:  featureXpath no v·lido en config: {0}</invalidFeatureXpathEditPoint>
-    <invalidFeatureXpathEditPolygon>EditPolygon: featureXpath no v·lido en config: {0}</invalidFeatureXpathEditPolygon>
-    <invalidFeatureXpathMeasurement>Measurement: featureXpath no v·lido en config: {0}</invalidFeatureXpathMeasurement>
-    <invalidGeom>GeometrÌa no v·lida para: {0}</invalidGeom>
-    <invalidGmlGeom>GeometrÌa GML no v·lida</invalidGmlGeom>
+    <invalidFeatureXpathEditLine>EditLine: featureXpath no v√°lido en config: {0}</invalidFeatureXpathEditLine>
+    <invalidFeatureXpathEditPoint>EditPoint:  featureXpath no v√°lido en config: {0}</invalidFeatureXpathEditPoint>
+    <invalidFeatureXpathEditPolygon>EditPolygon: featureXpath no v√°lido en config: {0}</invalidFeatureXpathEditPolygon>
+    <invalidFeatureXpathMeasurement>Measurement: featureXpath no v√°lido en config: {0}</invalidFeatureXpathMeasurement>
+    <invalidGeom>Geometr√≠a no v√°lida para: {0}</invalidGeom>
+    <invalidGmlGeom>Geometr√≠a GML no v√°lida</invalidGmlGeom>
     <laeaInvDataError>Error en los datos de entrada en laeaInv()</laeaInvDataError>
-    <lastFrameAfterFirst>La ˙ltima trama debe ser posterior a la primera trama</lastFrameAfterFirst>
+    <lastFrameAfterFirst>La √∫ltima trama debe ser posterior a la primera trama</lastFrameAfterFirst>
     <layerTypeNotSupported>MapPaneOL: Sin soporte para el tipo de capa={0}</layerTypeNotSupported>
-    <lccInitEqualLatitudes>lccInit: Latitudes iguales para Paralelos Est·ndar en lados opuestos del ecuador</lccInitEqualLatitudes>
+    <lccInitEqualLatitudes>lccInit: Latitudes iguales para Paralelos Est√°ndar en lados opuestos del ecuador</lccInitEqualLatitudes>
     <listenerError>Error de Listener: param={0}, target={1}, callBackFunction={2}</listenerError>
     <ll2lccNoProjection>ll2lcc: El punto no puede proyectarse</ll2lccNoProjection>
-    <ll2mAtPoles>ll2m: La transformaciÛn no puede obtenerse en los polos</ll2mAtPoles>
+    <ll2mAtPoles>ll2m: La transformaci√≥n no puede obtenerse en los polos</ll2mAtPoles>
     <ll2stInfiniteProjection>ll2st: El punto se proyecta en el infinito</ll2stInfiniteProjection>
     <ll2tmInfiniteProjection>ll2tm: El punto se proyecta en el infinito</ll2tmInfiniteProjection>
     <llInputOutOfRange>Entrada fuera de rango: lon: {0} - lat: {1}</llInputOutOfRange>
     <loadingLayer>Cargando capa del mapa {0}</loadingLayer>
     <loadingLayers>Cargando capas del mapa {0}</loadingLayers>
-    <mollFwdIterationError>La iteraciÛn no consiguiÛ converger en mollFwd()</mollFwdIterationError>
-    <noBboxInContext>Ning˙n BBOX definido en contexto</noBboxInContext>
-    <noContextDefined>Ning˙n contexto definido en config</noContextDefined>
-    <noCountryCode>Necesita especificar un cÛdigo de paÌs</noCountryCode>
-    <noDataYet>Sin datos para mostrar todavÌa</noDataYet>
+    <mollFwdIterationError>La iteraci√≥n no consigui√≥ converger en mollFwd()</mollFwdIterationError>
+    <noBboxInContext>Ning√∫n BBOX definido en contexto</noBboxInContext>
+    <noContextDefined>Ning√∫n contexto definido en config</noContextDefined>
+    <noCountryCode>Necesita especificar un c√≥digo de pa√≠s</noCountryCode>
+    <noDataYet>Sin datos para mostrar todav√≠a</noDataYet>
     <nodeNotFound>Nodo no encontrado; incapaz de eliminar nodo: {0}</nodeNotFound>
-    <noFeatureToDelete>Ning˙n elemento disponible para ser eliminado</noFeatureToDelete>
-    <noFeatureToInsert>Ning˙n elemento disponible para ser insertado</noFeatureToInsert>
+    <noFeatureToDelete>Ning√∫n elemento disponible para ser eliminado</noFeatureToDelete>
+    <noFeatureToInsert>Ning√∫n elemento disponible para ser insertado</noFeatureToInsert>
     <noMouseHandlerTool>Error buscando mouseHandler: {0} para herramienta: {1}</noMouseHandlerTool>
     <noQueryableLayers>
       No hay capas consultables disponibles,
-      por favor aÒada una capa consultable al contexto.
+      por favor a√±ada una capa consultable al contexto.
     </noQueryableLayers>
     <noQueryableLayersVisible>
       No hay capas consultables visibles,
       por favor marque una capa consultable en la leyenda.
     </noQueryableLayersVisible>
-    <noRssTitle>Sin tÌtulo RSS</noRssTitle>
+    <noRssTitle>Sin t√≠tulo RSS</noRssTitle>
     <northWgs84>Norte (WGS84)</northWgs84>
     <noSerializeUrl>Se debe especificar la propiedad serializeUrl en config para guardar el modelo</noSerializeUrl>
     <noTargetContext>Error buscando targetContext: {0} para: {1}</noTargetContext>
@@ -230,13 +230,13 @@
     <phi2zNoConvergence>phi2z: Error de convergencia</phi2zNoConvergence>
     <phi3zNoConvergence>phi3z: Error de convergencia</phi3zNoConvergence>
     <phi4zNoConvergence>phi4z: Error de convergencia</phi4zNoConvergence>
-    <projectionNotSupported>Measurement: °ProyecciÛn no soportada!</projectionNotSupported>
+    <projectionNotSupported>Measurement: ¬°Proyecci√≥n no soportada!</projectionNotSupported>
     <scale>escala 1:{0}</scale>
     <selectLayer>Seleccione una capa si desea insertar el sld en el wmc</selectLayer>
     <sinuInvDataError>Error en los datos de entrada en sinuInv()</sinuInvDataError>
     <southWgs84>Sur (WGS84)</southWgs84>
     <tabWidgetNotFound>Tab widget no encontrado: {0}</tabWidgetNotFound>
-    <tm2llNoConvergence>tm2ll: La latitud no consiguiÛ converger</tm2llNoConvergence>
+    <tm2llNoConvergence>tm2ll: La latitud no consigui√≥ converger</tm2llNoConvergence>
     <unableToLoadDoc>
       Incapaz de cargar documento externo: {0}.
       Establezca la propiedad proxyUrl en config.
@@ -251,7 +251,7 @@
     <unitInchesAbbr>in</unitInchesAbbr>
     <unitKilometers>kilometros</unitKilometers>
     <unitKilometersAbbr>km</unitKilometersAbbr>
-    <unitNauticalMiles>millas n·uticas</unitNauticalMiles>
+    <unitNauticalMiles>millas n√°uticas</unitNauticalMiles>
     <unitNauticalMilesAbbr>nmi</unitNauticalMilesAbbr>
     <unitMeters>metros</unitMeters>
     <unitMetersAbbr>m</unitMetersAbbr>
