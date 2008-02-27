@@ -822,11 +822,13 @@ Mapbuilder.getProperty = function(domNode, propertyName, defaultValue) {
 /**
  * Convenience method to parse a string or number as a boolean value
  * @param value string (true/false) or number (1/0)
- * @return boolean value
+ * @return boolean value, default false
  */
 Mapbuilder.parseBoolean = function(value) {
-  var result = typeof value != "undefined" ? result : null;
-  if (value == 0) {
+  var result = false;
+  if (!value) {
+    result = false;
+  } else if (value == 0) {
     result = false;
   } else if (value == 1) {
       result = true;
