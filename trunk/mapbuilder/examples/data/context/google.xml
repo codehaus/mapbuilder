@@ -31,5 +31,27 @@
         <!-- <ows:Format/> --> <!-- here you can specify a custom format -->
       </ows:TileSet>
     </ows:BaseLayer>
+    <Layer queryable="1" hidden="0">
+     <Server service="WMS" version="1.1.0" title="WMS-C">
+       <OnlineResource xlink:type="simple" xlink:href="http://www1.edugis.nl/tilecache.py?map=maps/edugis/hoogte.map"/>
+     </Server>
+     <Name>hoogtes</Name>
+
+     <Title>hoogtes</Title>
+     <SRS>EPSG:900913</SRS>
+     <FormatList>
+       <Format current="1">image/png</Format>
+     </FormatList>
+<StyleList>
+    <Style current="1">
+    <LegendURL>
+
+    <OnlineResource xlink:type="simple" xlink:href="data/ahn-nederland1.png"/>
+    </LegendURL>
+    </Style>
+    </StyleList>
+
+     
+  </Layer>
   </ResourceList>
 </OWSContext>

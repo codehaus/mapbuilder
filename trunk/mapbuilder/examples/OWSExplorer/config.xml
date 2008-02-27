@@ -215,6 +215,10 @@
       <disabledSrc>/images/SaveDisable.png</disabledSrc>
       <popupWindowName>modelXML</popupWindowName>
     </Save>
+    <ExampleList id="exampleList"><!-- this is the widget that draws the example menu -->
+		<scriptFile>../ExampleList.js</scriptFile>
+		<stylesheet>../ExampleList.xsl</stylesheet>
+    </ExampleList>
   </widgets>
   <!--
     All static images should be relative to this URL.

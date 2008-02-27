@@ -126,6 +126,10 @@
 		  <color>black</color>
 		  <mapContainerId>mainMapContainer</mapContainerId>
     </Graticule>
+     <ExampleList id="exampleList"><!-- this is the widget that draws the example menu -->
+		<scriptFile>../ExampleList.js</scriptFile>
+		<stylesheet>../ExampleList.xsl</stylesheet>
+    </ExampleList>
 	</widgets>
 	
 	<skinDir>../../lib/skin/default</skinDir>

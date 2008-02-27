@@ -161,6 +161,10 @@
       <tolerance>5</tolerance>
       <maxFeatures>100</maxFeatures>
     </WfsGetFeature>
+    <ExampleList id="exampleList"><!-- this is the widget that draws the example menu -->
+		<scriptFile>../ExampleList.js</scriptFile>
+		<stylesheet>../ExampleList.xsl</stylesheet>
+    </ExampleList>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
   <!-- Url of LOCAL redirection script, required to access external URLs -->
