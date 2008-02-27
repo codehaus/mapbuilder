@@ -66,7 +66,7 @@ function OwsContext(modelNode, parent) {
     // Extract BoundingBox from the context
     var lowerLeft=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:LowerCorner");
     var upperRight=this.doc.selectSingleNode("/wmc:OWSContext/wmc:General/ows:BoundingBox/ows:UpperCorner");
-    var strBbox = new String(lowerLeft.firstChild.nodeValue + " " + upperRight.firstChild.nodeValue).split(" ");
+    var strBbox = new String(getNodeValue(lowerLeft) + " " + getNodeValue(upperRight)).split(" ");
     for (i=0; i<strBbox.length; ++i) {
       bbox[i] = parseFloat(strBbox[i]);
     }
@@ -292,7 +292,7 @@ function OwsContext(modelNode, parent) {
     var nodeSelectXpath = objRef.nodeSelectXpath + "/wmc:FeatureType[wmc:Server/@service='OGC:WFS']/wmc:Name";
     var featureList = objRef.doc.selectNodes(nodeSelectXpath);
     for (var i=0; i<featureList.length; i++) {
-      var featureName = featureList[i].firstChild.nodeValue;
+      var featureName = getNodeValue(featureList[i]);
       objRef.setParam('wfs_GetFeature',featureName);
     }
 
@@ -386,7 +386,7 @@ function OwsContext(modelNode, parent) {
 
       // Generate layer id if layer doesn't have an id
       var randomNumber = Math.round(10000 * Math.random());
-      id = layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue + "_" + randomNumber; 
+      id = getNodeValue(layerNode.selectSingleNode("wmc:Name")) + "_" + randomNumber; 
       layerNode.setAttribute("id", id);
       
       // check if that node does not alreayd exist, replace it (query may have changed)
@@ -426,7 +426,7 @@ function OwsContext(modelNode, parent) {
    */
   this.addSLD = function(objRef,sldNode) {
     // alert("context addSLD : "+objRef.id);
-    var layerName=sldNode.selectSingleNode("//Name").firstChild.nodeValue;
+    var layerName=getNodeValue(sldNode.selectSingleNode("//Name"));
     var parentNode = objRef.doc.selectSingleNode("//wmc:Layer[wmc:Name='"+layerName+"']");
     parentNode.appendChild(sldNode.cloneNode(true));
 
@@ -553,13 +553,13 @@ function OwsContext(modelNode, parent) {
       var layerId;
       var layerNode = extentNode.parentNode.parentNode;
       if (layerNode.selectSingleNode("@id")) {
-        layerId = layerNode.selectSingleNode("@id").firstChild.nodeValue;
+        layerId = getNodeValue(layerNode.selectSingleNode("@id"));
       } else {
-        layerId = layerNode.selectSingleNode("wmc:Name").firstChild.nodeValue;
+        layerId = getNodeValue(layerNode.selectSingleNode("wmc:Name"));
       }
       objRef.timestampList.setAttribute("layerId", layerId);
-      //alert("found time dimension, extent:"+extentNode.firstChild.nodeValue);
-      var times = extentNode.firstChild.nodeValue.split(",");   //comma separated list of arguments
+      //alert("found time dimension, extent:"+getNodeValue(extentNode));
+      var times = getNodeValue(extentNode).split(",");   //comma separated list of arguments
       for (var j=0; j<times.length; ++j) {
         var params = times[j].split("/");     // parses start/end/period
         if (params.length==3) {
@@ -616,7 +616,7 @@ function OwsContext(modelNode, parent) {
    */
   this.getCurrentTimestamp = function( layerName ) {
     var index = this.getParam("timestamp");
-    return this.timestampList.childNodes[index].firstChild.nodeValue;
+    return getNodeValue(this.timestampList.childNodes[index]);
   }
 
 }
