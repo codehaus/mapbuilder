@@ -28,16 +28,10 @@ function WebServiceRequest(toolNode, model) {
   //this.debug=true;
   
   //get the request name to add listener to
-  var requestName = toolNode.selectSingleNode("mb:requestName");
-  if (requestName) {
-    this.requestName = requestName.firstChild.nodeValue;
-  }
+  this.requestName = this.getProperty("mb:requestName");
 
   //get the request filter to add to the request
-  var requestFilter = toolNode.selectSingleNode("mb:requestFilter");
-  if (requestFilter) {
-    this.requestFilter = requestFilter.firstChild.nodeValue;
-  }
+  this.requestFilter = this.getProperty("mb:requestFilter");
 
   var styleUrl = toolNode.selectSingleNode("mb:stylesheet");
   styleUrl = styleUrl ? getNodeValue(styleUrl) :
@@ -46,8 +40,8 @@ function WebServiceRequest(toolNode, model) {
 
   // Set stylesheet parameters for all the child nodes from the config file
   for (var j=0;j<toolNode.childNodes.length;j++) {
-    if (toolNode.childNodes[j].firstChild && toolNode.childNodes[j].firstChild.nodeValue) {
-      this.requestStylesheet.setParameter(toolNode.childNodes[j].nodeName,toolNode.childNodes[j].firstChild.nodeValue);
+    if (getNodeValue(toolNode.childNodes[j])) {
+      this.requestStylesheet.setParameter(toolNode.childNodes[j].nodeName,getNodeValue(toolNode.childNodes[j]));
     }
   }
 
@@ -95,7 +89,7 @@ WebServiceRequest.prototype.createHttpPayload = function(feature) {
     } else {
       httpPayload.url += "&";
     }
-    httpPayload.url += queryString.firstChild.nodeValue;
+    httpPayload.url += getNodeValue(queryString);
     httpPayload.postData = null;
   }
   mbDebugMessage(this, "URL:"+httpPayload.url);
@@ -143,7 +137,7 @@ TBD: figure out when to use AOI or BBOX
 /*
     //convert the BBOX to the feature SRS for the request
     if (featureSRS) {
-      var sourceProj = new Proj4js.Proj(featureSRS.firstChild.nodeValue);
+      var sourceProj = new Proj4js.Proj(getNodeValue(featureSRS));
       if ( !sourceProj.matchSrs( containerSRS )) {  
         var containerProj = new Proj4js.Proj(objRef.containerModel.getSRS());
         var llTemp = containerProj.Inverse(new Array(bbox[0],bbox[1]));

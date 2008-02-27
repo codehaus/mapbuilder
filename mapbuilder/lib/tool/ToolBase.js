@@ -31,7 +31,7 @@ function ToolBase(toolNode, model) {
     /** The model this tool will update. */
     var targetModel = toolRef.toolNode.selectSingleNode("mb:targetModel");
     if (targetModel) {
-      var targetModelName = targetModel.firstChild.nodeValue;
+      var targetModelName = getNodeValue(targetModel);
       //toolRef.targetModel = eval("config.objects."+targetModelName);
       toolRef.targetModel = window.config.objects[targetModelName];
       if (!toolRef.targetModel) alert(mbGetMessage("noTargetModelTool", targetModelName, toolRef.id));
@@ -50,9 +50,9 @@ function ToolBase(toolNode, model) {
     /** Mouse handler which this tool will register listeners with. */
     var mouseHandler = toolRef.toolNode.selectSingleNode("mb:mouseHandler");
     if (mouseHandler) {
-      toolRef.mouseHandler = window.config.objects[mouseHandler.firstChild.nodeValue];
+      toolRef.mouseHandler = window.config.objects[getNodeValue(mouseHandler)];
       if (!toolRef.mouseHandler) {
-        alert(mbGetMessage("noMouseHandlerTool", mouseHandler.firstChild.nodeValue, toolRef.id));
+        alert(mbGetMessage("noMouseHandlerTool", getNodeValue(mouseHandler), toolRef.id));
       }
     }
   }
@@ -69,7 +69,5 @@ function ToolBase(toolNode, model) {
   }
 
   //tools enabled by default; can set to false in config for initial loading
-  this.enabled = true;
-  var enabled = toolNode.selectSingleNode("mb:enabled");
-  if (enabled) this.enabled = eval(enabled.firstChild.nodeValue);
+  this.enabled = Mapbuilder.parseBoolean(this.getProperty("mb:enabled", true));
 }
