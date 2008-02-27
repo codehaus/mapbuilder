@@ -55,6 +55,16 @@
 	<td>30.00000</td>
 	<td>stopLatitude</td>
 </tr>
+<tr>
+	<td>store</td>
+	<td>10.00000</td>
+	<td>finalLongitude</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>10.00000</td>
+	<td>finalLatitude</td>
+</tr>
 <!-- Activate mousemove so we can get the value's after the mouse(down/up) actions -->
 <tr>
 	<td>mouseMoveAt</td>
@@ -161,22 +171,17 @@
 <tr>
 	<td>assertValue</td>
 	<td>//input[@name='longitude']</td>
-	<td>${startLongitude}</td>
+	<td>${finalLongitude}</td>
 </tr>
 <tr>
 	<td>assertValue</td>
 	<td>//input[@name='latitude']</td>
-	<td>${startLatitude}</td>
+	<td>${finalLatitude}</td>
 </tr>
 <tr>
 	<td>waitForElementPresent</td>
 	<td>//div[@id='mainMapPane_OpenLayers_Container']</td>
 	<td></td>
-</tr>
-<tr>
-	<td>assertValue</td>
-	<td>//input[@name='mapScale']</td>
-	<td>${startScale}</td>
 </tr>
 
 </tbody></table>
