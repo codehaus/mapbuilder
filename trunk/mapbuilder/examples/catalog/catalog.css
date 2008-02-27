@@ -118,7 +118,7 @@ table.metadata td {
   background-color: transparent;
 }
 
-.searchResults {
+#selectLayer {
   position: absolute;
   left: 420px;
   top: 375px;

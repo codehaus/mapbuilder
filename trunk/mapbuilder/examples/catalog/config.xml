@@ -2,34 +2,30 @@
 <MapbuilderConfig version="0.2.1" id="simpleTemplate" xmlns="http://mapbuilder.sourceforge.net/mapbuilder" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
   <models>
     <OwsContext id="mainMap">
+      <scriptFile>OwsContext.js</scriptFile>
       <defaultModelUrl>context.xml</defaultModelUrl>
       <widgets>
         <MapPaneOL id="mainMapWidget">
+          <scriptFile>MapPaneOL.js</scriptFile>
           <htmlTagId>mainMapPane</htmlTagId>
            <displayOutsideMaxExtent>true</displayOutsideMaxExtent>
           <fixedSize>true</fixedSize>
         </MapPaneOL>
+        <!--
+        <Loading2 id="loading2">
+          <mapContainerId>mainMapPane</mapContainerId>
+        </Loading2>
+        -->
         <LayerControl id="contextLegend">
+          <scriptFile>LayerControl.js</scriptFile>
+          <stylesheet>LayerControl.xsl</stylesheet>
           <htmlTagId>layerControl</htmlTagId>
-          <legendImageEnable>/images/LegendEnable.png</legendImageEnable>
-          <legendImageDisable>/images/LegendDisable.png</legendImageDisable>
-          <moveUpImage>/images/LayerMoveUpDisable.png</moveUpImage>
-          <moveDownImage>/images/LayerMoveDownDisable.png</moveDownImage>
-          <deleteImage>/images/LayerRemoveDisable.png</deleteImage>
-          <limitImageEnable>/images/LimitDisable.png</limitImageEnable>
-          <limitImageDisable>/images/LimitDisable.png</limitImageDisable>
-          <saveImageEnable>/images/SaveEnable.png</saveImageEnable>
-          <saveImageDisable>/images/SaveDisable.png</saveImageDisable>
-          <loadingImage>/images/LoadingSpinner.gif</loadingImage>
-        </LayerControl>
-        
+          <title>Layer Control</title>
+        </LayerControl>        
         <!--
         <LayerMaxFeatures id="layerMaxFeatures">
           <maxFeatures>5</maxFeatures>
         </LayerMaxFeatures>
-        <LayerMetadata id="layerMetadata">
-          <htmlTagId>layerMetadata</htmlTagId>
-        </LayerMetadata>
         -->
         <CursorTrack id="cursorTrack"/>
         <ModelUrlInput id="urlInput">
@@ -58,14 +54,25 @@
       -->
       <defaultModelUrl>context2.xml</defaultModelUrl>
       <widgets>
-        <SelectLayerFromContext id="selectLayer">
-          <scriptFile>SelectLayerFromContext.js</scriptFile>
-          <stylesheet>SelectLayerFromContext.xsl</stylesheet>
+        <LayerControl id="selectLayer">
+          <scriptFile>LayerControl.js</scriptFile>
+          <stylesheet>LayerControl.xsl</stylesheet>
           <htmlTagId>selectLayer</htmlTagId>
           <targetModel>mainMap</targetModel>
-          <layerAddImage>/images/LayerAddDisable.png</layerAddImage>
-          <layerMetadataImage>/images/QueryDisable.png</layerMetadataImage>
-        </SelectLayerFromContext>
+          <title>Search Results</title>
+          <mode>layerselect</mode><!-- options: default, selectlayer -->
+          <!--
+          <limitImageEnable>/images/LimitDisable.png</limitImageEnable>
+          <limitImageDisable>/images/LimitDisable.png</limitImageDisable>
+          <saveImageEnable>/images/SaveEnable.png</saveImageEnable>
+          <saveImageDisable>/images/SaveDisable.png</saveImageDisable>
+          <loadingImage>/images/LoadingSpinner.gif</loadingImage>
+          -->
+        </LayerControl>
+        <LayerMetadata id="layerMetadata">
+          <scriptFile>LayerMetadata.js</scriptFile>
+          <stylesheet>LayerMetadata.xsl</stylesheet>
+        </LayerMetadata>
       </widgets>
     </OwsContext>
     <Model id="filterExpression">
