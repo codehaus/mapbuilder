@@ -15,11 +15,8 @@ mapbuilder.loadScript(baseDir+"/tool/ToolBase.js");
 function FlickrRest2Wfs(toolNode, model) {
   ToolBase.apply(this, new Array(toolNode, model));
   
-  var url = toolNode.selectSingleNode('mb:url');
-  this.url = url ? url.firstChild.nodeValue : null;
-  
-  var stylesheet = toolNode.selectSingleNode('mb:stylesheet');
-  this.stylesheet = stylesheet ? stylesheet.firstChild.nodeValue : null;
+  this.url = this.getProperty('mb:url');
+  this.stylesheet = this.getProperty('mb:stylesheet');
   
   model.addListener('init', this.safeTransform, this);
 }
