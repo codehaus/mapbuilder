@@ -22,12 +22,12 @@ function DeleteFeature(widgetNode, model) {
   // cursor can be changed by spefying a new cursor in config file
   this.cursor = "default"; 
 
-  this.trm=widgetNode.selectSingleNode("mb:transactionResponseModel").firstChild.nodeValue;
-  this.tm=widgetNode.selectSingleNode("mb:targetModel").firstChild.nodeValue;
-  this.tc=widgetNode.selectSingleNode("mb:targetContext").firstChild.nodeValue;
+  this.trm=this.getProperty("mb:transactionResponseModel");
+  this.tm=this.getProperty("mb:targetModel");
+  this.tc=this.getProperty("mb:targetContext");
 
   this.httpPayload=new Object();
-  this.httpPayload.url=widgetNode.selectSingleNode("mb:webServiceUrl").firstChild.nodeValue;
+  this.httpPayload.url=this.getProperty("mb:webServiceUrl");
   this.httpPayload.method="post";
 
   /** Xsl to convert Feature into a WFS Transaction Delete. */

@@ -21,21 +21,17 @@ function GetFeatureInfo(widgetNode, model) {
   ButtonBase.apply(this, new Array(widgetNode, model));
 
   /** Xsl to build a GetFeatureInfo URL */
-  var xsl = widgetNode.selectSingleNode("mb:stylesheet");
-  xsl = xsl ? getNodeValue(xsl) : baseDir+"/tool/GetFeatureInfo.xsl";
-  this.xsl=new XslProcessor(xsl);
+  this.xsl = this.getProperty("mb:stylesheet", baseDir+"/tool/GetFeatureInfo.xsl");
+  this.xsl = new XslProcessor(xsl);
   
   /**
    * Determine whether Query result is returned as text, HTML or GML
    * This is usually text/plain, text/html or application/vnd.ogc.gml
    */
-  var infoFormat = widgetNode.selectSingleNode("mb:infoFormat");
-  this.infoFormat = infoFormat ? infoFormat.firstChild.nodeValue : "application/vnd.ogc.gml";
+  this.infoFormat = this.getProperty("mb:infoFormat", "application/vnd.ogc.gml");
 
   // Get the value for featureCount from the configfile
-  this.featureCount = 1;
-  var featureCount = widgetNode.selectSingleNode("mb:featureCount");
-  if (featureCount) this.featureCount = featureCount.firstChild.nodeValue;
+  this.featureCount = this.getProperty("mb:featureCount", 1);
 
   this.cursor = "pointer"; 
 
@@ -76,7 +72,8 @@ function GetFeatureInfo(widgetNode, model) {
                 var layerNode = queryList[i];
                 
                 // Get the name of the layer
-                var layerName = layerNode.selectSingleNode("wmc:Name");layerName=(layerName)?layerName.firstChild.nodeValue:"";
+                var layerName = layerNode.selectSingleNode("wmc:Name");
+                layerName=(layerName)?getNodeValue(layerName):"";
 
                 // Get the layerId. Fallback to layerName if non-existent
                 var layerId = layerNode.getAttribute("id") || layerName;
@@ -91,7 +88,7 @@ function GetFeatureInfo(widgetNode, model) {
                   objRef.xsl.setParameter("featureCount", objRef.featureCount);
     
                   urlNode=objRef.xsl.transformNodeToObject(objRef.targetContext.doc);
-                  url=urlNode.documentElement.firstChild.nodeValue;
+                  url=getNodeValue(urlNode.documentElement);
                   httpPayload = new Object();
       	          httpPayload.url = url;
                   httpPayload.method="get";
@@ -110,7 +107,7 @@ function GetFeatureInfo(widgetNode, model) {
             objRef.xsl.setParameter("featureCount", objRef.featureCount);
   
             var urlNode=objRef.xsl.transformNodeToObject(objRef.targetContext.doc);
-            var url=urlNode.documentElement.firstChild.nodeValue;
+            var url=getNodeValue(urlNode.documentElement);
   
             if (objRef.infoFormat=="text/html"){
               window.open(url,'queryWin','height=200,width=300,scrollbars=yes');

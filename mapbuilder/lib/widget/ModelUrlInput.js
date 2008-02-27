@@ -22,10 +22,7 @@ function ModelUrlInput(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
   //a default value to be used in the form
-  var defaultUrl = widgetNode.selectSingleNode("mb:defaultUrl");
-  if (defaultUrl) {
-    this.defaultUrl = defaultUrl.firstChild.nodeValue;
-  }
+  this.defaultUrl = this.getProperty("mb:defaultUrl");
 
   /**
    * Handles submission of the form (via javascript in an <a> tag)

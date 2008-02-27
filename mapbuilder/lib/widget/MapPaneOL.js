@@ -141,8 +141,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 
   //maxExtent
   var maxExtent=null;
-  maxExtent=objRef.widgetNode.selectSingleNode("mb:maxExtent");
-  maxExtent=(maxExtent)?maxExtent.firstChild.nodeValue.split(" "):null;
+  maxExtent=objRef.getProperty("mb:maxExtent");
+  maxExtent=(maxExtent)?maxExtent.split(" "):null;
   // If the maxExtentis not specified in the config
   // calculate it from the BBox  in the Context.
   if(!maxExtent){
@@ -153,13 +153,13 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 
   //maxResolution
   var maxResolution=null;
-  maxResolution=objRef.widgetNode.selectSingleNode("mb:maxResolution");
-  maxResolution=(maxResolution) ? parseFloat(maxResolution.firstChild.nodeValue) : "auto";
+  maxResolution=objRef.getProperty("mb:maxResolution");
+  maxResolution=(maxResolution) ? parseFloat(maxResolution) : "auto";
 
   //minResolution
   var minResolution=null;
-  minResolution=objRef.widgetNode.selectSingleNode("mb:minResolution");
-  minResolution=(minResolution) ? parseFloat(minResolution.firstChild.nodeValue) : undefined;
+  minResolution=objRef.getProperty("mb:minResolution");
+  minResolution=(minResolution) ? parseFloat(minResolution) : undefined;
   
   //units
   var units = proj.getUnits() == 'meters' ? 'm' : proj.getUnits();
@@ -167,8 +167,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   //resolutions
   //TBD: if resolutions is both set here and for the baselayer and they are different weird things may happen
   //     this needs to be solved
-  var resolutions=objRef.widgetNode.selectSingleNode("mb:resolutions");
-  resolutions = resolutions ? resolutions.firstChild.nodeValue.split(",") : null;
+  var resolutions=objRef.getProperty("mb:resolutions");
+  resolutions = resolutions ? resolutions.split(",") : null;
   if (resolutions) {
     for (var r=0; r<resolutions.length; r++) {
       resolutions[r] = parseFloat(resolutions[r]);
@@ -176,9 +176,9 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   }
 
   //fixed scales - overrides resolutions
-  var scales = objRef.widgetNode.selectSingleNode("mb:scales");
+  var scales = objRef.getProperty("mb:scales");
   if(scales){
-    scales = scales.firstChild.nodeValue.split(",");
+    scales = scales.split(",");
     resolutions = new Array();
     for (var s=0; s<scales.length; s++) {
       resolutions.push(OpenLayers.Util.getResolutionFromScale(scales[s], units));
@@ -191,10 +191,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 
   //get the output DIV and set it to context-size
   var node = document.getElementById(objRef.containerNodeId);
-  var fixedSize=null;
-  fixedSize=objRef.widgetNode.selectSingleNode("mb:fixedSize");
-  fixedSize=(fixedSize)?fixedSize.firstChild.nodeValue:null;
-  if(fixedSize=="true"){
+  var fixedSize = Mapbuilder.parseBoolean(objRef.getProperty("mb:fixedSize", false));
+  if(fixedSize){
     node.style.width = objRef.model.getWindowWidth()+"px";
     node.style.height = objRef.model.getWindowHeight()+"px";
   }
@@ -236,7 +234,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
      
       //overrule the SRS in the Context with the one from the BaseLayer
       var baseSrs = baseLayerNode.selectSingleNode("ows:TileSet/ows:SRS");
-      if(baseSrs) objRef.model.setSRS(baseSrs.firstChild.nodeValue);
+      if(baseSrs) objRef.model.setSRS(getNodeValue(baseSrs));
       //overrule the units in the Context with the updated SRS units
       units = proj.getUnits() == 'meters' ? 'm' : proj.getUnits();
       //overrule the boundingbox in the Context with the maxExtent from the BaseLayer
@@ -245,7 +243,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       //overrule resolutions in the Context with the one from BaseLayer
       //@TODO: check if the firstChild is really needed
       var resolutions =baseLayerNode.selectSingleNode("ows:TileSet/ows:Resolutions");
-      resolutions = resolutions ? resolutions.firstChild.nodeValue.split(",") : null;
+      resolutions = resolutions ? getNodeValue(resolutions).split(",") : null;
       if (resolutions) {
         for (var r=0; r<resolutions.length; r++) {
            resolutions[r] = parseFloat(resolutions[r]);
@@ -265,15 +263,16 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
       service=(service)?service.nodeValue:"";
       // Test title of the baseLayer
       var title=baseLayerNode.selectSingleNode("wmc:Title");
-      title=(title)?title.firstChild.nodeValue:"";
+      title=(title)?getNodeValue(title):"";
       // Get the name of the baseLayer
       var baseLayerName = baseLayerNode.selectSingleNode("wmc:Name");
-      baseLayerName=(baseLayerName)?baseLayerName.firstChild.nodeValue:"";
+      baseLayerName=(baseLayerName)?getNodeValue(baseLayerName):"";
       // get the layer-type of the BaseLayer (this allows specifying if is is a arial,road or hybrid map)
       var baseLayerType = baseLayerNode.selectSingleNode("ows:TileSet/ows:Layers");
-      baseLayerType=(baseLayerType)?baseLayerType.firstChild.nodeValue:"hybrid";
+      baseLayerType=(baseLayerType)?getNodeValue(baseLayerType):"hybrid";
       // it might be that the baseLayer is a WMS so we need to fetch the url
-      var href=baseLayerNode.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?getNodeValue(href):"";
+      var href=baseLayerNode.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");
+      href=(href)?getNodeValue(href):"";
       
       var baseLayerOptions = {
               units: units,
@@ -646,10 +645,12 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   var service=layer.selectSingleNode("wmc:Server/@service");service=(service)?service.nodeValue:"";
 
   // Test title of the layer
-  var title=layer.selectSingleNode("wmc:Title");title=(title)?title.firstChild.nodeValue:"";
+  var title=layer.selectSingleNode("wmc:Title");
+  title=(title)?getNodeValue(title):"";
 
   // Get the name of the layer
-  layerName = layer.selectSingleNode("wmc:Name");layerName=(layerName)?layerName.firstChild.nodeValue:"";
+  layerName = layer.selectSingleNode("wmc:Name");
+  layerName=(layerName)?getNodeValue(layerName):"";
 
   // Get the layerId. Fallback to layerName if non-existent
   var layerId;
@@ -660,7 +661,8 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
   }
 
   if (objRef.context=="OWS"){
-    var href=layer.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");href=(href)?getNodeValue(href):"";
+    var href=layer.selectSingleNode("wmc:Server/wmc:OnlineResource/@xlink:href");
+    href=(href)?getNodeValue(href):"";
   }
   else {
      if(_SARISSA_IS_SAFARI){
@@ -758,7 +760,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
             // "Parameter names shall not be case sensitive,
             //  but parameter values shall be case sensitive."
             transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
-              "TIME":ts.firstChild.nodeValue,	          
+            "TIME": getNodeValue(ts),	          
             format: format,
             sld:params.sld,
             sld_body:params.sld_body,
@@ -969,7 +971,7 @@ MapPaneOL.prototype.timestampListener=function(objRef, timestampIndex){
     div = curLayer.grid[0][0].imgDiv;
     // Perform URL substitution via regexps
     var oldImageUrl = div.src || div.firstChild.src;
-    var newImageUrl = oldImageUrl.replace(/TIME\=.*?\&/,'TIME=' + ts.firstChild.nodeValue + '&');
+    var newImageUrl = oldImageUrl.replace(/TIME\=.*?\&/,'TIME=' + getNodeValue(ts) + '&');
     if (oldImageUrl == newImageUrl) {
       return;
     }

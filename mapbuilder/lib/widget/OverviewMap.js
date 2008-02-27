@@ -19,24 +19,21 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 function OverviewMap(widgetNode, model) {
   WidgetBase.apply(this,new Array(widgetNode, model));
 
-  var widthNode = widgetNode.selectSingleNode("mb:width");
-  if (widthNode) {
-    this.width = new Number(widthNode.firstChild.nodeValue);
+  var width = this.getProperty("mb:width");
+  if (width) {
+    this.width = new Number(width);
   }
-
-  var heightNode = widgetNode.selectSingleNode("mb:height");
-  if (heightNode) {
-    this.height = new Number(heightNode.firstChild.nodeValue);
+  var height = this.getProperty("mb:height");
+  if (height) {
+    this.height = new Number(height);
   }
-
-  var minRatio = widgetNode.selectSingleNode("mb:minRatio");
+  var minRatio = this.getProperty("mb:minRatio");
   if (minRatio) {
-    this.minRatio = new Number(minRatio.firstChild.nodeValue);
+    this.minRatio = new Number(minRatio);
   }
-
-  var maxRatio = widgetNode.selectSingleNode("mb:maxRatio");
+  var maxRatio = this.getProperty("mb:maxRatio");
   if (maxRatio) {
-    this.maxRatio = new Number(maxRatio.firstChild.nodeValue);
+    this.maxRatio = new Number(maxRatio);
   }
 
   var layersNode = widgetNode.selectSingleNode("mb:layers");
@@ -44,8 +41,8 @@ function OverviewMap(widgetNode, model) {
     this.layerNames = new Array();
     var layers = layersNode.childNodes;
     for (var i = 0; i < layers.length; i++) {
-      if (layers[i].firstChild) {
-        this.layerNames.push(layers[i].firstChild.nodeValue);
+      if (getNodeValue(layers[i])) {
+        this.layerNames.push(getNodeValue(layers[i]));
       }
     }
   }

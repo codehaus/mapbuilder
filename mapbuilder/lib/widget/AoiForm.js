@@ -83,12 +83,7 @@ function AoiForm(widgetNode, model) {
 
   //set some properties for the form output
   //allow it to have a different form name
-  var formNameNode = widgetNode.selectSingleNode("mb:formName");
-  if ( formNameNode ) {
-    this.formName = formNameNode.firstChild.nodeValue;
-  } else {
-    this.formName = "AoiForm_" + mbIds.getId();
-  }
+  this.formName = this.getProperty("mb:formName", "AoiForm_" + mbIds.getId());
   this.stylesheet.setParameter("formName", this.formName);
 }
 

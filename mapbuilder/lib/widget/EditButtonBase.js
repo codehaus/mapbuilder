@@ -22,19 +22,16 @@ function EditButtonBase(widgetNode, model) {
   // cursor can be changed by specifying a new cursor in config file
   this.cursor = "crosshair"; 
 
-  this.trm=widgetNode.selectSingleNode("mb:transactionResponseModel");
-  if(this.trm)this.trm=this.trm.firstChild.nodeValue;
+  this.trm=this.getProperty("mb:transactionResponseModel");
 
   /** Empty GML to load when this tool is selected. */
-  this.defaultModelUrl=widgetNode.selectSingleNode("mb:defaultModelUrl").firstChild.nodeValue;
+  this.defaultModelUrl=this.getProperty("mb:defaultModelUrl");
 
   /** Reference to GML node to update when a feature is added. */
-  this.featureXpath=widgetNode.selectSingleNode("mb:featureXpath").firstChild.nodeValue;
+  this.featureXpath=this.getProperty("mb:featureXpath");
 
   /** Should a new empty feature be appended after creating one? */
-  var appendOnEdit = widgetNode.selectSingleNode("mb:appendOnEdit");
-  this.appendOnEdit = appendOnEdit ? getNodeValue(appendOnEdit) : "true";
-  this.appendOnEdit = this.appendOnEdit.toLowerCase() == "true" ? true : false;
+  this.appendOnEdit = Mapbuilder.parseBoolean(this.getProperty("mb:appendOnEdit", true));
 
   /**
    * OpenLayers DrawFeature control.

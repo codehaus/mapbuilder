@@ -45,54 +45,27 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 function MapScaleBar(widgetNode, model) {
   WidgetBase.apply(this,new Array(widgetNode, model));
 
-	// default properties
-	// may be modified after construction
-	// if modified after ScaleBar.place(), use ScaleBar.update()
-	this.scaleDenominator = 1;    //this will get updated on the first paint
+  // default properties
+  // may be modified after construction
+  // if modified after ScaleBar.place(), use ScaleBar.update()
+  this.scaleDenominator = 1;    //this will get updated on the first paint
 
-	this.displaySystem = 'metric'; // metric, english or nautical supported
-  var displaySystem = widgetNode.selectSingleNode("mb:displaySystem");
-  if (displaySystem) this.displaySystem = displaySystem.firstChild.nodeValue;
+  this.displaySystem = this.getProperty("mb:displaySystem", "metric"); // metric, english or nautical supported
+  this.minWidth = this.getProperty("mb:minWidth", 100); // pixels
+  this.maxWidth = this.getProperty("mb:maxWidth", 200); // pixels
+  this.divisions = this.getProperty("mb:divisions", 2);
+  this.subdivisions = this.getProperty("mb:subdivisions", 2);
+  this.showMinorMeasures = Mapbuilder.parseBoolean(this.getProperty("mb:showMinorMeasures", false));
+  this.abbreviateLabel = Mapbuilder.parseBoolean(this.getProperty("mb:abbreviateLabel", false));
+  this.singleLine = Mapbuilder.parseBoolean(this.getProperty("mb:singleLine", false));
+  this.align = this.getProperty("mb:align", "center"); // left, center, or right supported
+  this.resolution = 72; // dpi
 
-	this.minWidth = 100; // pixels
-  var minWidth = widgetNode.selectSingleNode("mb:minWidth");
-  if (minWidth) this.minWidth = minWidth.firstChild.nodeValue;
-
-	this.maxWidth = 200; // pixels
-  var maxWidth = widgetNode.selectSingleNode("mb:maxWidth");
-  if (maxWidth) this.maxWidth = maxWidth.firstChild.nodeValue;
-
-	this.divisions = 2;
-  var divisions = widgetNode.selectSingleNode("mb:divisions");
-  if (divisions) this.divisions = divisions.firstChild.nodeValue;
-
-	this.subdivisions = 2;
-  var subdivisions = widgetNode.selectSingleNode("mb:subdivisions");
-  if (subdivisions) this.subdivisions = subdivisions.firstChild.nodeValue;
-
-	this.showMinorMeasures = false;
-  var showMinorMeasures = widgetNode.selectSingleNode("mb:showMinorMeasures");
-  if (showMinorMeasures && showMinorMeasures.firstChild.nodeValue=="true") this.showMinorMeasures = true;
-
-	this.abbreviateLabel = false;
-  var abbreviateLabel = widgetNode.selectSingleNode("mb:abbreviateLabel");
-  if (abbreviateLabel && abbreviateLabel.firstChild.nodeValue=="true") this.abbreviateLabel = true;
-
-	this.singleLine = false;
-  var singleLine = widgetNode.selectSingleNode("mb:singleLine");
-  if (singleLine && singleLine.firstChild.nodeValue=="true") this.singleLine = true;
-
-	this.align = 'center'; // left, center, or right supported
-  var align = widgetNode.selectSingleNode("mb:align");
-  if (align) this.align = align.firstChild.nodeValue;
-
-	this.resolution = 72; // dpi
-
-	// create scalebar elements
-	this.containerId = this.outputNodeId;
-	this.labelContainerId = this.containerId + "Label";
-	this.graphicsContainerId = this.containerId + "Graphics";
-	this.numbersContainerId = this.containerId + "Numbers";
+  // create scalebar elements
+  this.containerId = this.outputNodeId;
+  this.labelContainerId = this.containerId + "Label";
+  this.graphicsContainerId = this.containerId + "Graphics";
+  this.numbersContainerId = this.containerId + "Numbers";
 
   /**
    * adds a bbox listener on the model 

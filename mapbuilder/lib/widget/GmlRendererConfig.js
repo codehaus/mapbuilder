@@ -22,8 +22,7 @@ mapbuilder.loadScript(baseDir+"/widget/GmlRendererBase.js");
 function GmlRendererConfig(widgetNode, model) {
   GmlRendererBase.apply(this,new Array(widgetNode, model));
   
-  var targetWidget = widgetNode.selectSingleNode('mb:targetWidget');
-  targetWidget = targetWidget ? targetWidget.firstChild.nodeValue : null;
+  var targetWidget = this.getProperty('mb:targetWidget');
   
   this.init = function(objRef) {
     if (targetWidget) {

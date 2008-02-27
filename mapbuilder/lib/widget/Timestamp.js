@@ -24,7 +24,7 @@ function Timestamp(widgetNode, model) {
   this.updateTimestamp = function (objRef, timestamp) {
     var form = document[objRef.formName];
     if (form) {
-      form.timestampValue.value = objRef.model.timestampList.childNodes[timestamp].firstChild.nodeValue;
+      form.timestampValue.value = getNodeValue(objRef.model.timestampList.childNodes[timestamp]);
     }
   }
 

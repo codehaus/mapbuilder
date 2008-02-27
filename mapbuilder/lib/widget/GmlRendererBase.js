@@ -25,27 +25,23 @@ function GmlRendererBase(widgetNode, model) {
   WidgetBase.apply(this,new Array(widgetNode, model));
   
   // set the feature srs.
-  var featureSRS = widgetNode.selectSingleNode('mb:featureSRS');
   /** SRS of the features that this widget will render */
-  this.featureSRS = featureSRS ? getNodeValue(featureSRS) : null;
+  this.featureSRS = this.getProperty('mb:featureSRS');
   
   // set the hover cursor.
-  var hoverCursorNode = widgetNode.selectSingleNode('mb:hoverCursor');
   /** css cursor when hovering over features */
-  this.hoverCursor = hoverCursorNode ? hoverCursorNode.firstChild.nodeValue : 'pointer';
+  this.hoverCursorNode = this.getProperty('mb:hoverCursor', 'pointer');
 
   /** model holding the sld for feature styles of this widget */
   this.sldModelNode = widgetNode.selectSingleNode('mb:sldModel');
 
   // set the default style.
-  var defaultStyle = widgetNode.selectSingleNode('mb:defaultStyleName');
   /** sld node within the sld model that is used for default styling */
-  this.defaultStyleName = defaultStyle ? defaultStyle.firstChild.nodeValue : 'default';
+  this.defaultStyle = this.getProperty('mb:defaultStyleName', 'default');
   
   // set the select style
-  var selectStyle = widgetNode.selectSingleNode('mb:selectStyleName');
   /** sld node within the sld model that is used when a feature is hovered */
-  this.selectStyleName = selectStyle ? selectStyle.firstChild.nodeValue : 'selected';
+  this.selectStyle = this.getProperty('mb:selectStyleName', 'selected');
 
   /**
    * config object holding all configurations that might be different

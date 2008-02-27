@@ -26,20 +26,10 @@ function Loading2(widgetNode, model) {
   WidgetBase.apply(this,new Array(widgetNode, model));
 
   //loading img to be displayed  while models load
-  var imageSrc = widgetNode.selectSingleNode("mb:imageSrc");
-  if (imageSrc) {
-    this.imageSrc = config.skinDir + imageSrc.firstChild.nodeValue;
-  } else {
-    this.imageSrc = config.skinDir + "/images/Loading.gif";
-  }
+  this.imageSrc = config.skinDir + this.getProperty("mb:imageSrc", "/images/Loading.gif");
 
   //a text message to be displayed while models load
-  var textMessage = widgetNode.selectSingleNode("mb:textMessage");
-  if (textMessage) {
-    this.textMessage = textMessage.firstChild.nodeValue;
-  } else {
-    this.textMessage = mbGetMessage("docLoading");
-  }
+  this.textMessage = this.getProperty("mb:textMessage", mbGetMessage("docLoading"));
   this.updateMessage = this.textMessage;
 
   //check to see if this is to be put over a map if there isa mapContainerID supplied
@@ -48,7 +38,7 @@ function Loading2(widgetNode, model) {
     this.mapContainerNode = widgetNode.selectSingleNode("mb:targetModel");
   }
   if (this.mapContainerNode) {
-    this.containerNodeId = this.mapContainerNode.firstChild.nodeValue;
+    this.containerNodeId = getNodeValue(this.mapContainerNode);
     this.htmlTagId = this.containerNodeId;
   }
 

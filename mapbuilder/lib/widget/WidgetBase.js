@@ -29,25 +29,27 @@ function WidgetBase(widgetNode,model) {
   } else {
     alert(mbGetMessage("idRequired", widgetNode.nodeName));
   }
+  
+  /**
+   * Convenient access to Mapbuilder.getProperty
+   * @param property property to get
+   * @param default value to use if property is not set
+   * @return the value for the property
+   */
+  this.getProperty = function(property, defaultValue) {
+    return Mapbuilder.getProperty(widgetNode, property, defaultValue);
+  }
 
   //allow the widget output to be replaced on each paint call
-  var outputNode = widgetNode.selectSingleNode("mb:outputNodeId");
   if(templatedWidget){
     this.outputNodeId = this.id;
-  }else if ( outputNode ) {
-    this.outputNodeId = outputNode.firstChild.nodeValue;
-  } else {
-    this.outputNodeId = "MbWidget_" + mbIds.getId();
+  }else {
+    this.outputNodeId = this.getProperty("mb:outputNodeId", "MbWidget_" + mbIds.getId());
   }
 
   //until htmlTagNode becomes required allow setting of it by widget id
   if (!this.htmlTagId) {
-    var htmlTagNode = widgetNode.selectSingleNode("mb:htmlTagId");
-    if (htmlTagNode) {
-      this.htmlTagId = htmlTagNode.firstChild.nodeValue;
-    } else {
-      this.htmlTagId = this.id;
-    }
+    this.htmlTagId = this.getProperty("mb:htmlTagId", this.id);
   }
 
   this.getNode = function() {
@@ -60,12 +62,10 @@ function WidgetBase(widgetNode,model) {
   }
 
   //allow widgets to not automatically update themseleves in certain circumstances (see layerControl for example)
-  this.autoRefresh = true;
-  var autoRefresh = widgetNode.selectSingleNode("mb:autoRefresh");
-  if (autoRefresh && autoRefresh.firstChild.nodeValue=="false") this.autoRefresh = false;
+  this.autoRefresh = Mapbuilder.parseBoolean(this.getProperty("mb:autoRefresh", true));
 
   //set an empty debug property in config to see inputs and outputs of stylehseet
-  if ( widgetNode.selectSingleNode("mb:debug") ) this.debug=true;
+  this.debug = Mapbuilder.parseBoolean(this.getProperty("mb:debug", false));
 
   /**
    * Initialize dynamic properties.set the target model
@@ -73,11 +73,11 @@ function WidgetBase(widgetNode,model) {
    */
   this.initTargetModel = function(objRef) {
     //set the target model
-    var targetModel = objRef.widgetNode.selectSingleNode("mb:targetModel");
+    var targetModel = objRef.getProperty("mb:targetModel");
     if (targetModel) {
-      objRef.targetModel = window.config.objects[targetModel.firstChild.nodeValue];
+      objRef.targetModel = window.config.objects[targetModel];
       if ( !objRef.targetModel ) {
-        alert(mbGetMessage("noTargetModelWidget", targetModel.firstChild.nodeValue, objRef.id));
+        alert(mbGetMessage("noTargetModelWidget", targetModel, objRef.id));
       }
     } else {
       objRef.targetModel = objRef.model;
@@ -114,14 +114,4 @@ function WidgetBase(widgetNode,model) {
     if (node && outputNode) node.removeChild(outputNode);
   }
   this.model.addListener("newModel",this.clearWidget, this);
-  
-  /**
-   * Convenient access to Mapbuilder.getProperty
-   * @param property property to get
-   * @param default value to use if property is not set
-   * @return the value for the property
-   */
-  this.getProperty = function(property, defaultValue) {
-    return Mapbuilder.getProperty(widgetNode, property, defaultValue);
-  }
 }

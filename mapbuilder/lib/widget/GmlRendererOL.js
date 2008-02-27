@@ -174,14 +174,13 @@ function GmlRendererOL(widgetNode, model) {
   if ( !this.stylesheet ) {
     var styleNode = widgetNode.selectSingleNode("mb:stylesheet");
     if (styleNode) {
-      this.stylesheet = new XslProcessor(styleNode.firstChild.nodeValue,model.namespace);
+      this.stylesheet = new XslProcessor(getNodeValue(styleNode), model.namespace);
       this.stylesheet.setParameter("proxyUrl", config.proxyUrl);
     }
   }
 
   // set the hover cursor.
-  var hoverCursorNode = widgetNode.selectSingleNode('mb:hoverCursor');
-  this.hoverCursor = hoverCursorNode ? hoverCursorNode.firstChild.nodeValue : 'pointer';
+  this.hoverCursor = this.getProperty('mb:hoverCursor', 'pointer');
 
   this.paint = function(objRef) {
     if (objRef.targetModel.map) {
@@ -215,7 +214,7 @@ function GmlRendererOL(widgetNode, model) {
           widgetConfig = objRef.config;
         }
         if (widgetConfig.sldModelNode) {
-          var sldModel = config.objects[widgetConfig.sldModelNode.firstChild.nodeValue];
+          var sldModel = config.objects[getNodeValue(widgetConfig.sldModelNode)];
           if (sldModel) {
             sldModel.addListener("loadModel", objRef.paint, objRef);
             if (!sldModel.doc) {
@@ -334,12 +333,12 @@ function GmlRendererOL(widgetNode, model) {
   this.init = function(objRef) {
     var clickWidgetNode =  widgetNode.selectSingleNode("mb:featureOnClick");
     if (clickWidgetNode) {
-      var clickWidget = config.objects[clickWidgetNode.firstChild.nodeValue];
+      var clickWidget = config.objects[getNodeValue(clickWidgetNode)];
       objRef.model.addListener("olFeatureSelect", clickWidget.onClick, clickWidget);
     }
     var hoverWidgetNode =  widgetNode.selectSingleNode("mb:featureOnHover");
     if (hoverWidgetNode) {
-      var hoverWidget = config.objects[hoverWidgetNode.firstChild.nodeValue];
+      var hoverWidget = config.objects[getNodeValue(hoverWidgetNode)];
       objRef.model.addListener("olFeatureHover", hoverWidget.onMouseover, hoverWidget);
       objRef.model.addListener("olFeatureOut", hoverWidget.onMouseout, hoverWidget);
     }

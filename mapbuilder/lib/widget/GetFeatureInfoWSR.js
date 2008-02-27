@@ -22,16 +22,14 @@ function GetFeatureInfoWSR(widgetNode, model) {
   // Extend ButtonBase
   ButtonBase.apply(this, new Array(widgetNode, model));
   
-  var controller = widgetNode.selectSingleNode("mb:controller");
   /** WebServiceRequest controller for this widget */
-  this.controller = controller ? controller.firstChild.nodeValue : null;
+  this.controller = this.getProperty("mb:controller");
   
-  var tolerance = widgetNode.selectSingleNode("mb:tolerance");
   /**
    * tolerance in pixels around the click point for WFS:GetFeature
    * default is 3
    */
-  this.tolerance = tolerance ? parseFloat(getNodeValue(tolerance)) : 3;
+  this.tolerance = parseFloat(this.getProperty("mb:tolerance", 3));
   
   /**
    * GetFeatureInfoWSR control
@@ -92,7 +90,8 @@ function GetFeatureInfoWSR(widgetNode, model) {
       var layerNode = queryList[i];
 
       // Get the name of the layer
-      var layerName = layerNode.selectSingleNode("wmc:Name");layerName=(layerName)?layerName.firstChild.nodeValue:"";
+      var layerName = layerNode.selectSingleNode("wmc:Name");
+      layerName=(layerName)?getNodeValue(layerName):"";
 
       var hidden = objRef.targetModel.getHidden(layerName);
       if (hidden == 0) { //query only visible layers

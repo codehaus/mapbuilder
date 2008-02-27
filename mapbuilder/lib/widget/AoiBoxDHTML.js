@@ -28,9 +28,9 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBase.js");
 function AoiBoxDHTML(widgetNode, model) {
   WidgetBase.apply(this,new Array(widgetNode, model));
 
-  this.lineWidth = widgetNode.selectSingleNode("mb:lineWidth").firstChild.nodeValue; // Zoombox line width; pass in as param?
-  this.lineColor = widgetNode.selectSingleNode("mb:lineColor").firstChild.nodeValue; // color of zoombox lines; pass in as param?
-  this.crossSize = parseInt(widgetNode.selectSingleNode("mb:crossSize").firstChild.nodeValue);
+  this.lineWidth = this.getProperty("mb:lineWidth"); // Zoombox line width; pass in as param?
+  this.lineColor = this.getProperty("mb:lineColor"); // color of zoombox lines; pass in as param?
+  this.crossSize = parseInt(this.getProperty("mb:crossSize"));
 
   /** draw out the box.
     * if the box width or height is less than the cross size property, then the

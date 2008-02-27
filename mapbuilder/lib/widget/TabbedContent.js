@@ -32,7 +32,7 @@ function TabbedContent(widgetNode, model) {
     var tabs = objRef.widgetNode.selectNodes("mb:tab");
     for (var i=0; i<tabs.length; ++i) {
       var tab = tabs[i];
-      var tabWidgetId = tab.firstChild.nodeValue;
+      var tabWidgetId = getNodeValue(tab);
       var tabWidget = config.objects[tabWidgetId];
       if (!tabWidget) {
         alert(mbGetMessage("tabWidgetNotFound", tabWidgetId));
@@ -44,7 +44,7 @@ function TabbedContent(widgetNode, model) {
       var tabLabel = tab.getAttribute("label"); 
       if (!tabLabel) tabLabel = tabWidgetId;
       var textNode = config.widgetText.selectSingleNode(objRef.textNodeXpath+"/mb:"+tabWidgetId);
-      if (textNode) tabLabel = textNode.firstChild.nodeValue;
+      if (textNode) tabLabel = getNodeValue(textNode);
       tab.setAttribute("label",tabLabel);
       
       tabWidget.model.addListener("refresh",objRef.paint,objRef);
@@ -63,7 +63,7 @@ function TabbedContent(widgetNode, model) {
 
     if (!tabLabel) tabLabel = tabWidget.id;
     var textNode = config.widgetText.selectSingleNode(this.textNodeXpath+"/mb:"+tabWidget.id);
-    if (textNode) tabLabel = textNode.firstChild.nodeValue;
+    if (textNode) tabLabel = getNodeValue(textNode);
 
     var tabNode = this.model.doc.createElementNS(mbNS,"tab");
     tabNode.appendChild(this.model.doc.createTextNode(tabWidget.id));
@@ -112,8 +112,7 @@ function TabbedContent(widgetNode, model) {
       }
 
       //specify an optional action to be performed when the tab is selected
-      var tabAction = tabWidget.widgetNode.selectSingleNode("mb:tabAction");
-      if (tabAction) tabWidget.tabAction = tabAction.firstChild.nodeValue;
+      this.tabAction = this.getProperty("mb:tabAction");
     }
   }
 

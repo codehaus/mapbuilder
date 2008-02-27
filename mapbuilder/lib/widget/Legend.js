@@ -33,7 +33,7 @@ function Legend(widgetNode, model) {
       objRef.stylesheet.setParameter("hidden", objRef.model.getHidden(objRef.model.featureName).toString() );
     }
     var visibleLayer = objRef.model.doc.selectSingleNode(objRef.model.nodeSelectXpath+"[@hidden='0' and @opaque='1']/wmc:Name");
-    if (visibleLayer) objRef.visibleLayer = visibleLayer.firstChild.nodeValue;
+    if (visibleLayer) objRef.visibleLayer = getNodeValue(visibleLayer);
   }
 
 }

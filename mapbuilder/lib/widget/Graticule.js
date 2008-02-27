@@ -20,7 +20,7 @@ function Graticule(widgetNode, model) {
 	ButtonBase.apply(this, new Array(widgetNode, model));
 
 	this.display=false;
-	this.color=widgetNode.selectSingleNode("mb:color").firstChild.nodeValue;
+	this.color=this.getProperty("mb:color");
 	
 	/**
    * Interactive ZoomOut control.
