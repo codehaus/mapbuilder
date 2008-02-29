@@ -47,7 +47,7 @@ function ZoomOut(widgetNode, model) {
           this.map.zoomToScale(newScale);
         } else { // it's a pixel
           this.map.setCenter(this.map.getLonLatFromPixel(position),
-            this.map.getZoom() - 1);
+            parseInt(this.map.getZoom() - 1));
         }
       }
     });
