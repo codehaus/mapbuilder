@@ -70,10 +70,8 @@ function Config(url) {
     configDoc.setProperty("SelectionLanguage", "XPath");
     Sarissa.setXpathNamespaces(configDoc, this.namespace);
     }
-    var node = configDoc.selectSingleNode("/mb:MapbuilderConfig/mb:proxyUrl");
-    if (node) this.proxyUrl = getNodeValue(node);
-    node = configDoc.selectSingleNode("/mb:MapbuilderConfig/mb:serializeUrl");
-    if (node) this.serializeUrl = getNodeValue(node);
+    this.proxyUrl = Mapbuilder.getProperty(configDoc, "/mb:MapbuilderConfig/mb:proxyUrl", this.proxyUrl);
+    this.serializeUrl = Mapbuilder.getProperty(configDoc, "/mb:MapbuilderConfig/mb:serializeUrl", this.serializeUrl);
   }
   configDoc = null;
 
@@ -123,10 +121,8 @@ function Config(url) {
   //set some global application properties
   var modelNode = this.doc.documentElement;
   this.skinDir = Mapbuilder.getProperty(modelNode, "mb:skinDir");
-  var proxyUrl = modelNode.selectSingleNode("mb:proxyUrl");
-  if (proxyUrl) this.proxyUrl = getNodeValue(proxyUrl);
-  var serializeUrl = modelNode.selectSingleNode("mb:serializeUrl");
-  if (serializeUrl) this.serializeUrl = getNodeValue(serializeUrl);
+  this.proxyUrl = Mapbuilder.getProperty(modelNode, "mb:proxyUrl", this.proxyUrl);
+  this.serializeUrl = Mapbuilder.getProperty(modelNode, "mb:serializeUrl", this.serializeUrl);
 
   /**
    * Convenience method to load widgetText from a dir.
