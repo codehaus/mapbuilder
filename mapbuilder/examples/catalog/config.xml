@@ -123,6 +123,15 @@
         </Loading2>
       </widgets>
     </Model>
+    <Model id="catalogCollection">
+      <defaultModelUrl>../data/context/worldMapsAtomFeed.xml</defaultModelUrl>
+      <widgets>
+        <SelectFromAtomFeed id="selectFromAtomFeed">
+          <htmlTagId>selectFromAtomFeed</htmlTagId>
+          <targetModel>mainMap</targetModel>
+        </SelectFromAtomFeed>
+      </widgets>
+    </Model>
   </models>
   <widgets>
     <ZoomIn id="zoomIn">

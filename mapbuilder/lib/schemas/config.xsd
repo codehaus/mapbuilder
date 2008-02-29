@@ -310,6 +310,7 @@
       <xs:element name="SearchWidget" type="mb:SearchWidgetType"/>
       <xs:element name="SelectAllMapLayers" type="mb:WidgetType"/>
       <xs:element name="SelectFeatureType" type="mb:WidgetType"/>
+      <xs:element name="SelectFromAtomFeed" type="mb:SelectFromAtomFeedType"/>
       <xs:element name="SelectMapLayers" type="mb:WidgetType"/>
       <xs:element name="SelectTimeFrame" type="mb:WidgetType"/>
       <xs:element name="ServiceRegistryList" type="mb:WidgetType"/>
@@ -495,6 +496,18 @@
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="mb:AbstractButtonBaseType"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SelectFromAtomFeedType">
+    <xs:annotation>
+      <xs:documentation>A widget which displays a selectable list of elements from an atom feed. When the element is selected, the referenced atom XML document is loaded into the targetModel. This can be used to render a list of Context documents, then load the selected Context when selected.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="mb:AbstractWidgetBaseXSLType">
+        <xs:sequence>
+          <xs:element name="title" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="CollectionListType">
