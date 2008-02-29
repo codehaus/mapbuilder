@@ -47,11 +47,10 @@ function WidgetBaseXSL(widgetNode,model) {
 
   // Set stylesheet parameters for all the child nodes from the config file
   for (var j=0;j<widgetNode.childNodes.length;j++) {
-    if (getNodeValue(widgetNode.childNodes[j]))
+    if (widgetNode.childNodes[j].firstChild)
     {
       this.stylesheet.setParameter(
-        widgetNode.childNodes[j].nodeName,
-        getNodeValue(widgetNode.childNodes[j]));
+        widgetNode.childNodes[j].nodeName, widgetNode.childNodes[j].firstChild.nodeValue);
     }
   }
 
