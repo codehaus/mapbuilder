@@ -30,7 +30,6 @@ $Name:  $
 
   <!-- Text params for this widget -->
   <xsl:param name="zoomImage"/>
-  <xsl:param name="title"/>
   <xsl:param name="layerIndexTip"/>
   <xsl:param name="toggleVisTip"/>
   <xsl:param name="moveLayerUpTip"/>
