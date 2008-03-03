@@ -13,7 +13,7 @@
 		$Name$
 	-->
 
-	<xsl:output method="xml" encoding="utf-8" />
+	<xsl:output method="xml" encoding="utf-8" omit-xml-declaration="yes"/>
 	<!-- Main html -->
 	<xsl:template match="/">
 		<div id="menubar"><!-- left side of the middle div-->
