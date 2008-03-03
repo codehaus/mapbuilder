@@ -70,11 +70,10 @@ function WfsGetFeature(widgetNode, model) {
             new OpenLayers.Pixel(position.x+this.tolerance, position.y-this.tolerance));
         }
         
-        if (this.map.projection.projCode != this.objRef.webServiceSrs.projCode) {
-          minXY.transform(this.map.projection, this.objRef.webServiceSrs);
-          maxXY.transform(this.map.projection, this.objRef.webServiceSrs);
-        }
         bounds = new OpenLayers.Bounds(minXY.lon, minXY.lat, maxXY.lon, maxXY.lat);
+        if (this.map.projection.projCode != this.objRef.webServiceSrs.projCode) {
+          bounds.transform(this.map.projection, this.objRef.webServiceSrs);
+        }
 
       var typeName = objRef.typeName;
 
