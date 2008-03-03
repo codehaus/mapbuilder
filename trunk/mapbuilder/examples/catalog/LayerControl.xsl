@@ -19,7 +19,7 @@ Licence:     LGPL as specified in http://www.gnu.org/copyleft/lesser.html
 $Id: LayerControl.xsl 2677 2007-04-06 08:37:01Z oterral $
 $Name:  $
 -->
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="xml" encoding="utf-8" omit-xml-declaration="yes"/>
   
   <!-- The common params set for all widgets -->
   <xsl:param name="lang"/>

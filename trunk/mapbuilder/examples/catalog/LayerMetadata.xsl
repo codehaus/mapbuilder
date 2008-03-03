@@ -7,7 +7,7 @@ Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 LayerMetadata.xsl,v 1.5 2004/06/25 17:59:38 rdewit Exp
 
 -->
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="xml" encoding="utf-8" omit-xml-declaration="yes"/>
   
   <!-- The common params set for all widgets -->
   <xsl:param name="lang">en</xsl:param>
