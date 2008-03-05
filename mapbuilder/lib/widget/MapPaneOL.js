@@ -752,7 +752,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
             // section 6.4.1 Parameter Ordering and Case:
             // "Parameter names shall not be case sensitive,
             //  but parameter values shall be case sensitive."
-            transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
+            transparent: format.indexOf("jpeg") == -1 ? "TRUE" : "FALSE",
             "TIME": getNodeValue(ts),	          
             format: format,
             sld:params.sld,
@@ -773,7 +773,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
             // section 6.4.1 Parameter Ordering and Case:
             // "Parameter names shall not be case sensitive,
             //  but parameter values shall be case sensitive."
-            transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
+            transparent: format.indexOf("jpeg") == -1 ? "TRUE" : "FALSE",
             format: format,
             sld:params.sld,
             sld_body:params.sld_body,
@@ -804,7 +804,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       params = sld2UrlParam(currentStyle);
       objRef.oLlayers[layerId]= new OpenLayers.Layer.WMS(title,href,{
           layers: layerName,
-          transparent: layerOptions.isBaseLayer ? "FALSE" : "TRUE",
+          transparent: format.indexOf("jpeg") == -1 ? "TRUE" : "FALSE",
           format: format,
           sld:params.sld,
           sld_body:params.sld_body,
