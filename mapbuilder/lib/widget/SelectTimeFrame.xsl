@@ -13,7 +13,7 @@ $Id$
 $Name:  $
 -->
 
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="xml" encoding="utf-8" omit-xml-declaration="yes"/>
 
   <!-- The coordinates of the DHTML Layer on the HTML page -->
   <xsl:param name="modelId"/>

@@ -14,7 +14,7 @@ Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 $Name$
 -->
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="xml" encoding="utf-8" omit-xml-declaration="yes"/>
   
   <!-- The common params set for all widgets -->
   <xsl:param name="lang">en</xsl:param>

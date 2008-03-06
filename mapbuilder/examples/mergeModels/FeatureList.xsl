@@ -6,7 +6,7 @@
 $Id$
 -->
 
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="xml" encoding="utf-8" omit-xml-declaration="yes"/>
 
   <!-- Common params for all widgets -->
   <!--xsl:param name="targetModelId"/-->

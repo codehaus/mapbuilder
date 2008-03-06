@@ -16,7 +16,7 @@ $Name:  $
   xmlns:dc="http://purl.org/dc/elements/1.1/" 
   xmlns:mb="http://mapbuilder.sourceforge.net/mapbuilder">
 
-  <xsl:output method="xml" omit-xml-declaration="no" encoding="utf-8" indent="yes"/>
+  <xsl:output method="xml" omit-xml-declaration="yes" encoding="utf-8" indent="yes"/>
 
   <!-- The coordinates of the DHTML Layer on the HTML page -->
   <xsl:param name="modelId"/>

@@ -8,7 +8,7 @@ $Id$
 $Name:  $
 -->
 <xsl:stylesheet version="1.0" xmlns:cml="http://www.opengis.net/context" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <xsl:output method="xml" version="1.0" omit-xml-declaration="no" encoding="utf-8" indent="yes"/>
+  <xsl:output method="xml" version="1.0" omit-xml-declaration="yes" encoding="utf-8" indent="yes"/>
   <xsl:strip-space elements="*"/>
 
   <!-- parameters to be passed into the XSL -->

@@ -13,7 +13,7 @@ $Id$
 $Name:  $
 
 -->
-  <xsl:output method="xml" indent="yes"/>
+  <xsl:output method="xml" indent="yes" omit-xml-declaration="yes"/>
 
   <xsl:param name="width">600</xsl:param>
   <xsl:param name="selectedLayer"/>

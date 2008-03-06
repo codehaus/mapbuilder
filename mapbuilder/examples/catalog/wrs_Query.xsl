@@ -23,7 +23,7 @@ $Name:  $
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="xml" encoding="utf-8" omit-xml-declaration="yes"/>
   <xsl:strip-space elements="*"/>
 
 

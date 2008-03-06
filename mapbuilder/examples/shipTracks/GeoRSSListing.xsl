@@ -18,7 +18,7 @@ $Name:  $
   xmlns:syn="http://purl.org/rss/1.0/modules/syndication/" 
   xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">
 
-  <xsl:output method="xml" omit-xml-declaration="no" encoding="utf-8" indent="yes"/>
+  <xsl:output method="xml" omit-xml-declaration="yes" encoding="utf-8" indent="yes"/>
 
   <!-- The coordinates of the DHTML Layer on the HTML page -->
   <xsl:param name="modelId"/>

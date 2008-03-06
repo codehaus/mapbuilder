@@ -16,7 +16,7 @@ $Name:  $
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
-  <xsl:output method="xml"/>
+  <xsl:output method="xml" omit-xml-declaration="yes"/>
   <xsl:strip-space elements="*"/>
 
   <xsl:param name="bBoxMinX"/>

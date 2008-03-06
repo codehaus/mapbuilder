@@ -9,7 +9,7 @@ $Id$
 $Name$
 -->
 <xsl:stylesheet version="1.0" xmlns:wmc="http://www.opengis.net/context" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ows="http://www.opengis.net/ows">
-  <xsl:output method="xml"/>
+  <xsl:output method="xml" omit-xml-declaration="yes"/>
   <xsl:strip-space elements="*"/>
 
   <!-- parameters to be passed into the XSL -->
