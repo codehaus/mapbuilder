@@ -9,7 +9,7 @@ Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 AoiForm.xsl,v 1.2 2004/06/25 17:59:38 madair1 Exp
 -->
 
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="xml" encoding="utf-8" omit-xml-declaration="yes"/>
 
   <!-- The common params set for all widgets -->
   <xsl:param name="modelId"/>

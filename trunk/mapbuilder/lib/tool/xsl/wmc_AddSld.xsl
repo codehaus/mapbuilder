@@ -20,7 +20,7 @@ $Name:  $
     xmlns:ogc="http://www.opengis.net/ogc"
 >
 
-	<xsl:output method="xml"/>
+	<xsl:output method="xml" omit-xml-declaration="yes"/>
 	<xsl:strip-space elements="*"/>
 
 	<!-- The coordinates of the DHTML Layer on the HTML page -->

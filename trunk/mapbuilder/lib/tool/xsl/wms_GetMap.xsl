@@ -36,7 +36,7 @@ $Name$
 
 
 
-  <xsl:output method="xml"/>
+  <xsl:output method="xml" omit-xml-declaration="yes"/>
 
   <xsl:strip-space elements="*"/>
 

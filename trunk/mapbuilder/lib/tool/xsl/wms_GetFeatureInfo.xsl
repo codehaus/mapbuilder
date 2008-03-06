@@ -14,7 +14,7 @@ $Name$
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
     xmlns:xlink="http://www.w3.org/1999/xlink">
     
-  <xsl:output method="xml" omit-xml-declaration="no" encoding="utf-8" indent="no"/>
+  <xsl:output method="xml" omit-xml-declaration="yes" encoding="utf-8" indent="no"/>
   <!--xsl:strip-space elements="*"/-->
 
   <!-- parameters to be passed into the XSL -->

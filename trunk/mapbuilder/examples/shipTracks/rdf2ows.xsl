@@ -12,7 +12,7 @@ xmlns:gml="http://www.opengis.net/gml/3.1.1"
 xmlns:wmc="http://www.opengis.net/context" 
 xmlns:sld="http://www.opengis.net/sld" 
 xmlns:ogc="http://www.opengis.net/ogc" >
-	<!-- xsl:output method="html" omit-xml-declaration="no" encoding="utf-8" indent="yes"/ -->
+	<!-- xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" indent="yes"/ -->
 	<xsl:output omit-xml-declaration="yes" encoding="iso-8859-1" indent="yes"/>
   
 	<xsl:template match="/rdf:RDF ">

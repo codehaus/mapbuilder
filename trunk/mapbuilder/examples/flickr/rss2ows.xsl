@@ -14,7 +14,7 @@ xmlns:sld="http://www.opengis.net/sld"
 xmlns:ogc="http://www.opengis.net/ogc"
 xmlns:media="http://search.yahoo.com/mrss"> 
 
-	<!-- xsl:output method="html" omit-xml-declaration="no" encoding="utf-8" indent="yes"/ -->
+	<!-- xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" indent="yes"/ -->
 	<xsl:output method="xml" omit-xml-declaration="yes" encoding="utf-8" indent="yes"/>
   
 	<xsl:template match="/">

@@ -14,7 +14,7 @@ $Name$
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 		xmlns:gml="http://www.opengis.net/gml">
 
-  <xsl:output method="xml" omit-xml-declaration="no" encoding="utf-8" indent="yes"/>
+  <xsl:output method="xml" omit-xml-declaration="yes" encoding="utf-8" indent="yes"/>
 
   <!-- The coordinates of the DHTML Layer on the HTML page -->
   <xsl:param name="modelId"/>

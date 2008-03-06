@@ -38,7 +38,7 @@ $Name$
 
 
 
-  <xsl:output method="xml" omit-xml-declaration="no" encoding="utf-8" indent="no"/>
+  <xsl:output method="xml" omit-xml-declaration="yes" encoding="utf-8" indent="no"/>
 
   <xsl:preserve-space elements="gml:coordinates"/>
 

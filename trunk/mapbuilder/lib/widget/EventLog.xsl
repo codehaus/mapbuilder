@@ -12,7 +12,7 @@ $Id$
 $Name$
 -->
 
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="xml" encoding="utf-8" omit-xml-declaration="yes"/>
 
   <xsl:param name="listenerFilter"></xsl:param>
   <xsl:param name="targetFilter"></xsl:param>

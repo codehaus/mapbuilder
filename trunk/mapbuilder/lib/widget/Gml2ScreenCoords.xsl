@@ -14,7 +14,7 @@ $Name$
   xmlns:gml="http://www.opengis.net/gml"
   version="1.0">
 
-  <xsl:output method="xml" encoding="utf-8"/>
+  <xsl:output method="xml" encoding="utf-8" omit-xml-declaration="yes"/>
   
   <xsl:param name="width" select="400"/>
   <xsl:param name="height" select="200"/>
