@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<MapbuilderConfig 
+    xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd"
+    version="0.2.1" id="tutorial2" >
+
+  <models>
+    <Context id="firstMap">
+      <defaultModelUrl>/mapbuilder/examples/data/context/locatorMap.xml</defaultModelUrl>
+      <widgets>
+        <MapPane id="mainMapWidget">
+          <htmlTagId>firstMapPane</htmlTagId>
+          <mapContainerId>firstMapContainer</mapContainerId>
+        </MapPane>
+        <AoiBoxDHTML id="firstAoiBox">
+          <htmlTagId>firstMapPane</htmlTagId>
+          <mapContainerId>firstMapContainer</mapContainerId>
+          <lineColor>#FF0077</lineColor>
+          <lineWidth>3</lineWidth>
+          <crossSize>15</crossSize>
+        </AoiBoxDHTML>
+      </widgets>
+    </Context>
+
+    <Context id="secondMap">
+      <defaultModelUrl>/mapbuilder/demo/data/context/DM_Canada.xml</defaultModelUrl>
+      <widgets>
+        <MapPane id="secondMapWidget">
+          <htmlTagId>secondMapPane</htmlTagId>
+          <mapContainerId>secondMapContainer</mapContainerId>
+        </MapPane>
+        <AoiBoxDHTML id="secondAoiBox">
+          <htmlTagId>secondMapPane</htmlTagId>
+          <mapContainerId>secondMapContainer</mapContainerId>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+        </AoiBoxDHTML>
+      </widgets>
+      <tools>
+        <AoiMouseHandler id="locatorAoi"/>
+        <ZoomToAoi id="zoomToAoi">
+          <targetModel>firstMap</targetModel>
+        </ZoomToAoi>
+      </tools>
+    </Context>
+    
+  </models>
+  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+</MapbuilderConfig>

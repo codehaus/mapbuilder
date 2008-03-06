@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<OWSContext
+  xmlns="http://www.opengis.net/context"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:sld="http://www.opengis.net/sld"
+  xmlns:ogc="http://www.opengis.net/ogc"
+  xmlns:ows="http://www.opengis.net/ows"
+  xmlns:param="http;//www.opengis.net/param"
+  version="0.0.13"
+  id="ows-context-tie"
+  xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
+  
+  <General>
+    <Window width="400" height="300"/>
+    <ows:BoundingBox crs="EPSG:4326">
+      <ows:LowerCorner>-142 40</ows:LowerCorner>
+      <ows:UpperCorner>-52 85</ows:UpperCorner>
+    </ows:BoundingBox>
+    <Title xml:lang="en">Simple World Context</Title>
+    <KeywordList>
+      <Keyword>world</Keyword>
+    </KeywordList>
+  </General>
+  <ResourceList>
+    <!--
+    <Layer queryable="1" hidden="0">
+      <Server service="WMS" version="1.0.0" title="OGC:WMS">
+        <OnlineResource xlink:type="simple" xlink:href="http://labs.metacarta.com/wms/vmap0"/>
+      </Server>
+      <Name>basic</Name>
+      <Title>World Basemap</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format>image/jpeg</Format>
+        <Format>image/png</Format>
+        <Format>image/gif</Format>
+        <Format current="1">image/png; mode=24bit</Format>
+        <Format>image/wbmp</Format>
+        <Format>image/tiff</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+      </StyleList>
+    </Layer>
+    -->
+
+    <Layer hidden="0">
+      <Server service="WMS" version="1.1.1" title="WMS">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://atlas.nrcan.gc.ca/cgi-bin/toporamawms_en"/>
+      </Server>
+      <Name>wms_atlasofcanada_eng</Name>
+      <Title>CGDI NRCan WMS</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </Layer>
+
+   </ResourceList>
+</OWSContext>

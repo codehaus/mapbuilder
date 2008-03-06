@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+      
+<html xmlns="http://www.w3.org/1999/xhtml" >
+  <head>
+    <title>Mapbuilder OWS Explorer</title>
+       <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/demoStyles.css'/>
+       <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/button.css'>
+       
+       <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'/>
+    <script>
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='config.xml';
+      
+      function mbOnload() {
+        config.objects.mainMap.addListener("loadModel",initWorkspace,null);
+        window.onresize = initWorkspace;
+      }
+      
+      function initWorkspace() {
+        var pageBody = document.getElementsByTagName("body")[0];
+        var workDiv = document.getElementById("workspace");
+        var footerDiv = document.getElementById("footer");
+        if (_SARISSA_IS_IE) {
+          workDiv.style.height = pageBody.offsetHeight - workDiv.offsetTop - footerDiv.offsetHeight - 30;  //20 is a fudge factor
+        } else {
+          workDiv.style.height = window.innerHeight - workDiv.offsetTop - footerDiv.offsetHeight - 20;  //20 is a fudge factor
+        }
+      }
+    </script>
+    <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
+  </head>
+  <body onload="mbDoLoad(mbOnload)" >
+  <div id="header">
+<h1><a href="http://communitymapbuilder.org">MapBuilder</a> Open Web Services Explorer</h1>
+<!--This is for more complex pages <a href="" class="help">how to use this page</a></div>-->
+  </div>
+  <div id="middle">
+  	    <div id="exampleList"></div><!-- this is the container where the menubar will be drawn -->
+	<div id="mainbody">
+	  <div class="left">
+	  
+           <div id="locatorMap" style="position:relative">
+          </div>
+          <div id="mapList"></div>
+          <hr/>
+          <a href="javascript:config.objects.wmsCapTemplate.setParam('refresh', 'layerList')">
+          WMS Layers</a><br/>
+          <a href="javascript:config.objects.wfsCapTemplate.setParam('refresh', 'featureTypes')">
+          WFS Feature Types</a><br/>
+          <a href="javascript:config.objects.mainMap.setParam('refresh', 'contextLegend')">
+          Map layer control</a><br/>
+          <a href="javascript:config.objects.wmsCapTemplate.setParam('refresh', 'wmsUrlInput')">
+          Set WMS URL</a><br/>
+          <a href="javascript:config.objects.wfsCapTemplate.setParam('refresh', 'wfsUrlInput')">
+          Set WFS URL</a><br/>
+          <h3>Explanation</h3>
+            <p>This demo will show all layers available from a particular WMS and WFS instance (the default is a 
+          localhost GeoServer install) and allows adding layers and feature types to a base map.
+          To change the service instance, enter a GetCapabilities URL in the "Set WMS URL" or "Set WFS URL" input box.
+          </p>
+    </div>
+  	<div class="right">
+  	   <table>
+                  <tr>
+                    <td colspan="2">
+                      <div id="mainMapPane"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left">
+                      <div id="mainButtonBar" style="width:144px"/>
+                    </td>
+                    <td align="right" id="cursorTrack" />
+                  </tr>
+                </table>
+                 <div id="workspace"></div>
+		</div>
+	</div>
+	</div>
+  <div id="footer">
+	  
+    <div class="right">
+<a href="http://communitymapbuilder.org/" title="powered by community mapbuilder"><img src="../../lib/skin/default/images/Icon.gif"/></a>	  	
+<a href="https://www.osgeo.org/" title="member of OSgeo"><img src="../../lib/skin/default/images/Osgeo.png"/></a>
+         </div>
+  </div>  
+  </body>
+</html>

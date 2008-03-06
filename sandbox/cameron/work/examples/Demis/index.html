@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+     
+<html xmlns="http://www.w3.org/1999/xhtml" >
+  <head>
+    <title>Mapbuilder Different maps connected</title>
+       <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/demoStyles.css'/>
+     <script>
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='config.xml';
+    </script>
+    <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
+  </head>
+  <body onload="mbDoLoad()" >
+  <div id="header">
+<h1><a href="http://communitymapbuilder.org">MapBuilder</a> Different maps connected</h1>
+<!--This is for more complex pages <a href="" class="help">how to use this page</a></div>-->
+  </div>
+  <div id="middle">
+	  	    <div id="exampleList"></div><!-- this is the container where the menubar will be drawn -->
+		<div id="mainbody">
+		  <div class="left">
+		    <h3>Explanation</h3>
+		    This demo shows how to combine different (opaque) map layers, in a google maps style.
+		    To do this you need to have a collection list with the WMCs you want to use. Note that 
+		    the WMCs in the list can contain multiple layers.<br/>
+		    When you click on one of the three buttons on top of the map it will load the WMC 
+		    corresponding with that particular button and it will use the current extent. This
+		    way you can easily switch between a map and satellite view for instance.
+	    </div>
+	  	<div class="right">
+	  		<table>
+	  			<tr>
+	  				<td>
+							<div id="collectionList"></div>
+						</td>
+						<td align='left' id="mainButtonBar" style="width:168px"></td>
+					</tr>
+				</table>
+	  	  <div id="mainMapPane">
+	        <noscript>
+	            this page requires Javascript to be enabled
+	        </noscript>
+	      </div>
+	      <table>     
+	      	<tr>
+	        	<td align="center" id="mapScaleText"/>
+		        <td align="center" id="mapScaleBar"/>
+	  	      <td align="right" id="cursorTrack" />
+	    	    <td id="aoiForm" />
+	      	</tr>
+		    </table>      
+		    <div id="loading">
+		    </div>
+			</div>
+		</div>
+	</div>
+  <div id="footer">
+	  <div class="right">
+			<a href="http://communitymapbuilder.org/" title="powered by community mapbuilder"><img src="../../lib/skin/default/images/Icon.gif"/></a>	  	
+			<a href="https://www.osgeo.org/" title="member of OSgeo"><img src="../../lib/skin/default/images/Osgeo.png"/></a>
+    </div>
+  </div>  
+  </body>
+</html>
