@@ -119,35 +119,30 @@ $Name:  $
   <xsl:template name="tokenize">
     <xsl:param name="str"/>
     <xsl:param name="tag"/>
-    <xsl:param name="sep" value=" "/>
     <xsl:choose>
       <!-- Remove white space from front of string -->
-      <xsl:when test="starts-with($str,$sep)">
+      <xsl:when test="starts-with($str,' ')">
         <xsl:call-template name="tokenize">
-          <xsl:with-param name="str" select="substr($str,2,string-length($str))"/>
+          <xsl:with-param name="str" select="substring($str,2,string-length($str))"/>
           <xsl:with-param name="tag" select="$tag"/>
-          <xsl:with-param name="sep" select="$sep"/>
         </xsl:call-template>
       </xsl:when>
       <!-- Remove white space from back of string -->
-      <xsl:when test="starts-with($str,$sep)">
+      <xsl:when test="starts-with($str,' ')">
         <xsl:call-template name="tokenize">
-          <xsl:with-param name="str" select="substr($str,string-length($str),string-length($str))"/>
+          <xsl:with-param name="str" select="substring($str,string-length($str),string-length($str))"/>
           <xsl:with-param name="tag" select="$tag"/>
-          <xsl:with-param name="sep" select="$sep"/>
         </xsl:call-template>
       </xsl:when>
       <!-- Recursively break up string around token -->
-      <xsl:when test="contains($str,$sep)">
+      <xsl:when test="contains($str,' ')">
         <xsl:call-template name="tokenize">
-          <xsl:with-param name="str" select="substr-before($str,$sep)"/>
+          <xsl:with-param name="str" select="substring-before($str,' ')"/>
           <xsl:with-param name="tag" select="$tag"/>
-          <xsl:with-param name="sep" select="$sep"/>
         </xsl:call-template>
         <xsl:call-template name="tokenize">
-          <xsl:with-param name="str" select="substr-after($str,$sep)"/>
+          <xsl:with-param name="str" select="substring-after($str,' ')"/>
           <xsl:with-param name="tag" select="$tag"/>
-          <xsl:with-param name="sep" select="$sep"/>
         </xsl:call-template>
       </xsl:when>
       <!-- Write remaining token as node -->
