@@ -39,6 +39,7 @@ $Name:  $
   <xsl:param name="nameLayerTip"/>
   <xsl:param name="opacityTip"/>
   <xsl:param name="title"/>
+  <xsl:param name="layerMetadata"/>
   <xsl:param name="moveUpImage">/images/LayerMoveUpDisable.png</xsl:param>
   <xsl:param name="moveDownImage">/images/LayerMoveDownDisable.png</xsl:param>
   <xsl:param name="deleteImage">/images/LayerRemoveDisable.png</xsl:param>
@@ -272,11 +273,13 @@ $Name:  $
 									 </xsl:if>
               </xsl:otherwise>
             </xsl:choose> 
+            <xsl:if test="$layerMetadata">
                 <!-- show layer metadata-->
                 <a
-                  href="javascript:config.objects.{$widgetId}.showLayerMetadata('{$layerId}', '{$widgetId}_{$pos}_Metadata');config.objects.{$widgetId}.ChangeImage('image_{$layerId}','{$layerMetadataImageEnable}','{$layerMetadataImageDisable}');"
+                  href="javascript:config.objects.{$modelId}.callListeners('layerMetadata', {{layerId: '{$layerId}', domNodeId: '{$widgetId}_{$layerId}_Metadata'}});config.objects.{$widgetId}.ChangeImage('image_{$layerId}','{$layerMetadataImageEnable}','{$layerMetadataImageDisable}');"
                   class="mbButton"><img id="image_{$layerId}" title="show layer's metadata" src="{$skinDir}{$layerMetadataImageDisable}" />
                 </a>
+            </xsl:if>
 							</div> <!-- end inputLayerHeader --> 	 
 						    <!-- name of layer --> 
 						    <div class="nameLayerHeader" title="{$nameLayerTip}">
@@ -310,8 +313,10 @@ $Name:  $
 					         </xsl:if>
 					</div> <!--end of {$widgetId}_{$layerId}_Header -->	
 
+          <xsl:if test="$layerMetadata">
           <!-- metadata -->
-          <div id="{$widgetId}_{$pos}_Metadata"/>
+          <div id="{$widgetId}_{$layerId}_Metadata"></div>
+          </xsl:if>
 
           <!-- Loading spinner -->
           <div id="{$layerId}_Loading" class="layerLoading">

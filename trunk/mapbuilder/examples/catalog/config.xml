@@ -22,6 +22,10 @@
           <htmlTagId>layerControl</htmlTagId>
           <title>Layer Control</title>
         </LayerControl>        
+        <LayerMetadata id="layerMetadata1">
+          <scriptFile>LayerMetadata.js</scriptFile>
+          <stylesheet>LayerMetadata.xsl</stylesheet>
+        </LayerMetadata>
         <!--
         <LayerMaxFeatures id="layerMaxFeatures">
           <maxFeatures>5</maxFeatures>
@@ -69,7 +73,7 @@
           <loadingImage>/images/LoadingSpinner.gif</loadingImage>
           -->
         </LayerControl>
-        <LayerMetadata id="layerMetadata">
+        <LayerMetadata id="layerMetadata2">
           <scriptFile>LayerMetadata.js</scriptFile>
           <stylesheet>LayerMetadata.xsl</stylesheet>
         </LayerMetadata>
@@ -88,6 +92,9 @@
           <wrsServiceAssociation>Serves</wrsServiceAssociation><!-- Can be: Serves, OperatesOn -->
           <mapModel>mainMap</mapModel>
           <sourceContext>mainMap</sourceContext>
+          <conversionStyleSheet>ebrim2Context.xsl</conversionStyleSheet>
+          <convert2ContextXsl>ebrim2Context.xsl</convert2ContextXsl>
+          <queryXsl>wrs_Query.xsl</queryXsl>
         </CatalogSearchForm>
       </widgets>
     </Model>
@@ -170,6 +177,10 @@
       <disabledSrc>/images/SaveDisable.png</disabledSrc>
       <tooltip>Save OWS Context</tooltip>
     </SaveContext>
+    <ExampleList id="exampleList"><!-- this is the widget that draws the example menu -->
+      <scriptFile>../ExampleList.js</scriptFile>
+      <stylesheet>../ExampleList.xsl</stylesheet>
+    </ExampleList>
   </widgets>
   <skinDir>../../lib/skin/default</skinDir>
 </MapbuilderConfig>

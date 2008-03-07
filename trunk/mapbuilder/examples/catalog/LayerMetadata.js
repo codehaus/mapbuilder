@@ -18,41 +18,45 @@ mapbuilder.loadScript(baseDir+"/widget/WidgetBaseXSL.js");
 function LayerMetadata(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
+  this.model.setParam("layerMetadata", true);
   /**
    * Toggles the visibility of a layer's metadata
    * @param layerNode Dom element containing the OWS layer 
-   * @param metadataDomElement Pointer the Dom element where the metadata should
+   * @param domNode Pointer the Dom element where the metadata should
    *                           be shown
    */
-  this.paint = function(layerNode, metadataDomElement) {
+  this.paint = function(objRef, params) {
 
-    if (!metadataDomElement) {
+    var layerNode = objRef.model.getLayer(params.layerId);
+    var domNode = document.getElementById(params.domNodeId);
+
+    if (!domNode || !layerNode) {
       return;
     }
 
     // If clicked and metadata was visible, hide it and do nothing
-    if (metadataDomElement.style.display && (metadataDomElement.style.display != "none") && (metadataDomElement.innerHTML != "")) { 
-      metadataDomElement.style.display = "none";
+    if (domNode.style.display && (domNode.style.display != "none") && (domNode.innerHTML != "")) { 
+      domNode.style.display = "none";
       return false;
     }
 
     // add the layerNode as a parameter to the XSL
-    this.stylesheet.setParameter("layerNode", layerNode);
+    objRef.stylesheet.setParameter("layerNode", layerNode);
 
     // create meta HTML
-    var metadataHtml = this.stylesheet.transformNodeToString(this.model.doc);
+    var metadataHtml = objRef.stylesheet.transformNodeToString(objRef.model.doc);
 
     // insert the metadata HTML in the designated Dom Element 
-    metadataDomElement.innerHTML = metadataHtml;
+    domNode.innerHTML = metadataHtml;
 
     // make it visible 
-    metadataDomElement.style.display = "block";
+    domNode.style.display = "block";
 
     // debug info. TBD: remove
     //console.info((new XMLSerializer()).serializeToString(layerNode));
 
   }
-
+  this.model.addListener("layerMetadata", this.paint, this);
 
 }
 

@@ -28,6 +28,7 @@ function LayerControl(widgetNode, model) {
       objRef.stylesheet.setParameter("featureName", objRef.model.featureName );
       objRef.stylesheet.setParameter("hidden", objRef.model.getHidden(objRef.model.featureName).toString() );
     }
+    objRef.stylesheet.setParameter("layerMetadata", objRef.model.getParam("layerMetadata"));
   }
 
   /**
@@ -105,45 +106,6 @@ function LayerControl(widgetNode, model) {
 	
   }
 
-  /**
-   * not working yet
-   * @param layerId  the name of the layer to highlight
-   */
-  /*
-  this.showLayerMetadata = function(layerId) {
-    var metadataWidget = config.objects.layerMetadata;
-    if (metadataWidget) {
-      metadataWidget.stylesheet.setParameter("featureName",layerId);
-      metadataWidget.node = document.getElementById(metadataWidget.htmlTagId);
-      metadataWidget.paint(metadataWidget);
-    }
-  }
-  */
-
-   /**
-   * Show the layer's metadata.
-   * @param layerId The id of the layer selected.
-   * @param metadataDomElementId Dom element where metadata should be stored
-   */
-  this.showLayerMetadata = function(layerId, metadataDomElementId) {
-
-    // Fetch layer node from model
-    var layerNode=this.model.getLayer(layerId);
-
-    // Exit if metadata widget could not be found (failsafe) 
-    var metadataWidget = config.objects.layerMetadata;
-    if (!metadataWidget) {
-      return false;
-    }
-
-    // Find DOM element for metadata
-    var metadataDomElement = document.getElementById(metadataDomElementId); 
-
-    // Call the metadata widget with the layer node and the metadata Dom Element
-    metadataWidget.paint(layerNode, metadataDomElement);
- 
-  }
-  
   /**
    * Change image source from imageA to imageB
    * @param id  id of image tag where we want to change the source

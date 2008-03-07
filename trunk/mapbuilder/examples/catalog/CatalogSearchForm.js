@@ -19,22 +19,17 @@ httpStatusMsg = ['uninitialized','searching','loaded','building results list','c
 function CatalogSearchForm(widgetNode, model) {
   WidgetBaseXSL.apply(this,new Array(widgetNode, model));
 
-  this.targetContext         = widgetNode.selectSingleNode("mb:targetContext").firstChild.nodeValue;
-  this.wrsUrl                = widgetNode.selectSingleNode("mb:wrsUrl").firstChild.nodeValue;
-  this.wrsServiceAssociation = widgetNode.selectSingleNode("mb:wrsServiceAssociation").firstChild.nodeValue;
+  this.targetContext         = this.getProperty("mb:targetContext");
+  this.wrsUrl                = this.getProperty("mb:wrsUrl");
+  this.wrsServiceAssociation = this.getProperty("mb:wrsServiceAssociation");
+  this.convert2ContextXsl    = this.getProperty("mb:convert2ContextXsl");
+  this.queryXsl              = this.getProperty("mb:queryXsl");
 
   this.httpPayload = new Object();
   this.httpPayload.url = this.wrsUrl;
   this.httpPayload.method = "post";
   
-  //get bbox inforamtion from a map model
-  var mapModel = widgetNode.selectSingleNode("mb:mapModel");
-  if ( mapModel ) {
-    this.mapModel = mapModel.firstChild.nodeValue;
-  } else {
-    this.mapModel = model.id;
-  }
-
+  this.mapModel = this.getProperty("mb:mapModel") || model.id;
 
   /**
    * Refreshes the form onblur handlers when this widget is painted.
@@ -45,20 +40,11 @@ function CatalogSearchForm(widgetNode, model) {
 
     this.searchForm = document.getElementById(this.formName);
     this.searchForm.parentWidget = this;
-/*
-
-    this.searchForm.westCoord.onblur = function() {alert(config.objects[this.model])};
-    this.searchForm.northCoord.onblur = this.setAoi;
-    this.searchForm.eastCoord.onblur = this.setAoi;
-    this.searchForm.southCoord.onblur = this.setAoi;
-*/
     this.searchForm.westCoord.model = this.model;
     this.searchForm.northCoord.model = this.model;
     this.searchForm.eastCoord.model = this.model;
     this.searchForm.southCoord.model = this.model;
     this.searchForm.onkeypress = this.handleKeyPress;
-    //this.searchForm.onsubmit = this.submitForm;
-    //this.searchForm.mapsheet.onblur = this.setMapsheet;
 
   }
 
@@ -68,7 +54,6 @@ function CatalogSearchForm(widgetNode, model) {
    * @param objRef Pointer to this searchForm object.
    */
     CatalogSearchForm.prototype.displayAoiCoords = function(objRef) {
-    //objRef.searchForm = document.getElementById(this.formName);
     var aoi = config.objects[objRef.mapModel].getParam("aoi");
     objRef.searchForm.westCoord.value = aoi[0][0];
     objRef.searchForm.northCoord.value = aoi[0][1];
@@ -115,11 +100,6 @@ function CatalogSearchForm(widgetNode, model) {
     var lr = new Array(parseFloat(bboxArray[1]),parseFloat(bboxArray[3]));
     config.objects[this.mapModel].setParam("aoi",new Array(ul,lr));
 
-    //convert this.model XY to latlong
-    //convert latlong to targetmodel XY
-    //extent.setAoi takes XY as input
-    //this.targetModel.setParam("aoi", new Array(ul,lr));
-    //this.targetModel.setParam("mouseup",this);
   }
 
 
@@ -129,20 +109,18 @@ function CatalogSearchForm(widgetNode, model) {
    * 
    * @return none 
    */
-
   CatalogSearchForm.prototype.doSelect = function() {
     // Register for an event sent after the catalog query has finished
 
     if(!this.initialized){
       this.targetModel.addListener("loadModel",this.handleResponse,this);
-      //this.ebrim2Context=new XslProcessor(baseDir+"/tool/xsl/ebrim2Context.xsl");
-      this.ebrim2Context=new XslProcessor("ebrim2Context.xsl");
+      this.xslProcessor = new XslProcessor(this.convert2ContextXsl);
       this.initialized=1;
     }
     
     // call buildQuery method to read form values, put them into the model
     // and perform an XSL translation to get the WRS Query
-    wrsQueryXML = this.buildQuery();
+    var wrsQueryXML = this.buildQuery();
     
     // POST the query to the WRS Service configured in config.xml (wrsUrl)
     this.httpPayload.postData= wrsQueryXML;
@@ -195,13 +173,13 @@ function CatalogSearchForm(widgetNode, model) {
 
     // Load the XSL to generate the WRS Query
     //this.wrsQuery=new XslProcessor(baseDir+"/tool/xsl/wrs_Query.xsl");
-    this.wrsQuery=new XslProcessor("wrs_Query.xsl");
+    var queryProcessor = new XslProcessor(this.queryXsl);
     
     // Add filter to XSL as a parameter
-    this.wrsQuery.setParameter("filter", this.model.doc);
+    queryProcessor.setParameter("filter", this.model.doc);
 
     // Do the actual XSL translation to generate the WRS Query
-    var wrsQueryXML = this.wrsQuery.transformNodeToString(this.model.doc);
+    var wrsQueryXML = queryProcessor.transformNodeToString(this.model.doc);
     return wrsQueryXML;
 
   }
@@ -215,7 +193,7 @@ function CatalogSearchForm(widgetNode, model) {
    */
   CatalogSearchForm.prototype.handleResponse = function(objRef) {
 
-    var newContext=objRef.ebrim2Context.transformNodeToObject(objRef.targetModel.doc);
+    var newContext=objRef.xslProcessor.transformNodeToObject(objRef.targetModel.doc);
 
     window.config.objects[objRef.targetContext].setModel(
       window.config.objects[objRef.targetContext],
