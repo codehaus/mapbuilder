@@ -104,7 +104,12 @@ $Name:  $
     </Identifier>
   </xsl:template>
 
-  <!-- TBD: OutputFormat -->
+  <!-- FormatList/Format -> OutputFormat -->
+  <xsl:template match="wmc:Format">
+    <OutputFormat>
+      <xsl:value-of select="."/>
+    </OutputFormat>
+  </xsl:template>
 
   <!-- <SRS>EPSG:4326 EPSG:4269</> -> <AvailableCRS>EPSG:4326</> -->
   <xsl:template match="wmc:SRS">
@@ -112,6 +117,15 @@ $Name:  $
       <xsl:with-param name="str" select="."/>
       <xsl:with-param name="tag" select="AvailableCRS"/>
     </xsl:call-template>
+  </xsl:template>
+
+  <!-- Server -->
+  <xsl:template match="wmc:Server">
+    <Server service="{@service}" version="{@version}" title="{@title}">
+      <OnlineResource
+        xlink:type="{wmc:OnlineResource/@xlink:type}"
+        xlink:href="{wmc:OnlineResource/@xlink:href}"/>
+    </Server>
   </xsl:template>
 
   <!-- tokenize -->
