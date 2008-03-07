@@ -145,7 +145,7 @@ function LayerControl(widgetNode, model) {
    * Copy a layer from this model's context to the targetModel's context.
    * @param layerId The id of the layer selected.
    */
-  this.addLayer = function(layerId) {
+  this.copyToTargetModel = function(layerId) {
 
     // Fetch layerNode from model and clone it 
     var layerNode=this.model.getLayer(layerId).cloneNode(true);

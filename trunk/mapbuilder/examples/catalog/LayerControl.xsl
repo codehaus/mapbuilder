@@ -214,7 +214,7 @@ $Name:  $
               <xsl:when test="$mode = 'layerselect'">
                 <!-- add layer -->
                 <a
-                  href="javascript:config.objects.{$widgetId}.addLayer('{$layerId}')"
+                  href="javascript:config.objects.{$widgetId}.copyToTargetModel('{$layerId}')"
                   class="mbButton"><img title="add this Layer" src="{$skinDir}{$layerAddImage}" />
                 </a>
               </xsl:when>
