@@ -14,12 +14,20 @@ mapbuilder.loadScript(baseDir+"/widget/ButtonBase.js");
  *
  * @constructor
  * @base ButtonBase
- * @author Roald de Wit (rdewit *AT* lisasoft *DOT* com 
  * @param widgetNode  The widget node from the Config XML file.
  * @param model  The model for this widget
  */
-function SaveContext(widgetNode, model) {
+function Save(widgetNode, model) {
   ButtonBase.apply(this, new Array(widgetNode, model));
+
+  /**
+   * Add event listener to the modelSaved event
+   * @param objRef Pointer to this widget
+   */
+  this.init = function(objRef) {
+    objRef.targetModel.addListener("modelSaved", objRef.popupContext, objRef);
+  }
+  this.model.addListener("loadModel", this.init, this );
 
  /**
    * Save model control.
@@ -32,7 +40,6 @@ function SaveContext(widgetNode, model) {
       type: OpenLayers.Control.TYPE_BUTTON,
       
       trigger: function () {
-        objRef.targetModel.addListener("modelSaved", objRef.popupContext, objRef);
         objRef.targetModel.saveModel(objRef.targetModel);
        },
        CLASS_NAME: 'mbControl.Save'

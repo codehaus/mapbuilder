@@ -169,14 +169,14 @@
       <class>Button</class>
       <disabledSrc>/images/ResetExtentDisable.png</disabledSrc>
     </Reset>
-    <SaveContext id="saveContext">
-      <scriptFile>SaveContext.js</scriptFile>
+    <Save id="saveContext">
+      <scriptFile>Save.js</scriptFile>
       <buttonBar>mainButtonBar</buttonBar>
       <targetModel>mainMap</targetModel>
       <class>Button</class>
       <disabledSrc>/images/SaveDisable.png</disabledSrc>
       <tooltip>Save OWS Context</tooltip>
-    </SaveContext>
+    </Save>
     <ExampleList id="exampleList"><!-- this is the widget that draws the example menu -->
       <scriptFile>../ExampleList.js</scriptFile>
       <stylesheet>../ExampleList.xsl</stylesheet>
