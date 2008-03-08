@@ -2,6 +2,7 @@
 <xsl:stylesheet version="1.0"
   xmlns="http://www.opengis.net/ows-context/0.2.1"
   xmlns:wmc="http://www.opengis.net/context" 
+  xmlns:wmc11="http://www.opengeospatial.net/context" 
   xmlns:wms="http://www.opengis.net/wms"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
   xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -11,77 +12,97 @@ Description: Convert a WMC document to a OWS Context document.
 Author:      Cameron Shorter
 Licence:     LGPL as per: http://www.gnu.org/copyleft/lesser.html
 
+This stylesheet contains 5 types of templates:
+1. Specific conversions of tag names: Eg: KeywordList to Keywords.
+2. A list of tags which are converted to ows namespace
+3. Remaining nodes are converted to wmc namespace
+4. Everything else (comments, etc) which are copied verbatum
+5. tokenize() which converts a string of SRS fields to an array of CRS elements
+
 $Id: $
 $Name:  $
 
 -->
   <xsl:output method="xml" indent="yes"/>
 
-  <!-- Root node -->
+  <!-- ViewContext -> OWSContext -->
   <xsl:template match="/wmc:ViewContext">
     <OWSContext
       version="0.2.1"
       id="ows-context"
-    	xmlns="http://www.opengis.net/ows-context/0.2.1"
-    	xmlns:xlink="http://www.w3.org/1999/xlink"
-			xmlns:ogc="http://www.opengis.net/ogc" 
-			xmlns:ows="http://www.opengis.net/ows" 
+      xmlns="http://www.opengis.net/ows-context/0.2.1"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlns:ogc="http://www.opengis.net/ogc" 
+      xmlns:ows="http://www.opengis.net/ows" 
       xmlns:param="http://www.opengis.net/param">
       <xsl:apply-templates/>
     </OWSContext>
   </xsl:template>
 
-  <!-- General -->
-  <xsl:template match="wmc:General">
-    <General>
-      <xsl:apply-templates/>
-    </General>
-  </xsl:template>
-
-  <!-- Window -->
-  <xsl:template match="wmc:Window">
-    <Window>
-      <xsl:attribute name="width">
-        <xsl:value-of select="@width"/>
-      </xsl:attribute>
-      <xsl:attribute name="height">
-        <xsl:value-of select="@height"/>
-      </xsl:attribute>
-    </Window>
-  </xsl:template>
+  <!-- General nodes: -->
 
   <!-- BoundingBox -->
   <xsl:template match="wmc:BoundingBox">
-    <BoundingBox>
+    <ows:BoundingBox>
       <xsl:attribute name="crs">
         <xsl:value-of select="@SRS"/>
       </xsl:attribute>
-      <LowerCorner>
+      <ows:LowerCorner>
         <xsl:value-of select="concat(@minx,' ',@miny)"/>
-      </LowerCorner>
-      <UpperCorner>
+      </ows:LowerCorner>
+      <ows:UpperCorner>
         <xsl:value-of select="concat(@maxx,' ',@maxy)"/>
-      </UpperCorner>
-    </BoundingBox>
+      </ows:UpperCorner>
+    </ows:BoundingBox>
   </xsl:template>
 
-  <!-- Elements of <General> -->
-
-  <!-- Title -->
-  <xsl:template match="wmc:Title">
-    <Title>
-      <xsl:value-of select="."/>
-    </Title>
+  <!-- KeywordList -> Keywords -->
+  <xsl:template match="wmc:KeywordList">
+    <ows:KeyWords>
+      <xsl:apply-templates/>
+    </ows:KeyWords>
   </xsl:template>
 
-  <!-- Abstract -->
-  <xsl:template match="wmc:Abstract">
-    <Abstract>
-      <xsl:value-of select="."/>
-    </Abstract>
+  <!-- ContactInformation -> ServiceProvider/ServiceContact/ContactInfo -->
+  <xsl:template match="wmc:ContactInformation">
+    <ows:ServiceProvider>
+      <ows:ProviderName>
+        <xsl:value-of select="wmc:ContactPersonPrimary/wmc:ContactOrganization"/>
+      </ows:ProviderName>
+      <ows:ServiceContact>
+        <ows:IndividualName>
+          <xsl:value-of select="wmc:ContactPersonPrimary/wmc:ContactPerson"/>
+        </ows:IndividualName>
+        <ows:PositionName>
+          <xsl:value-of select="wmc:ContactPosition"/>
+        </ows:PositionName>
+        <ows:ContactInfo>
+          <ows:Phone>
+            <ows:Voice>
+              <xsl:value-of select="wmc:ContactVoiceTelephone"/>
+            </ows:Voice>
+            <ows:Facsimile>
+              <xsl:value-of select="wmc:ContactFacsimileTelephone"/>
+            </ows:Facsimile>
+          </ows:Phone>
+          <ows:Address>
+            <ows:DeliveryPoint>
+              <xsl:value-of select="wmc:ContactAddress/wmc:Address"/>
+            </ows:DeliveryPoint>
+            <ows:City>
+              <xsl:value-of select="wmc:ContactAddress/wmc:City"/>
+            </ows:City>
+            <ows:AdministrativeArea>
+              <xsl:value-of select="wmc:ContactAddress/wmc:StateOrProvince"/>
+            </ows:AdministrativeArea>
+            <ows:Country>
+              <xsl:value-of select="wmc:ContactAddress/wmc:Country"/>
+            </ows:Country>
+          </ows:Address>
+        </ows:ContactInfo>
+      </ows:ServiceContact>
+    </ows:ServiceProvider>
   </xsl:template>
-
-  <!-- TBD more <General> keywords etc go here ... -->
 
   <!-- LayerList -> ResourceList -->
   <xsl:template match="wmc:LayerList">
@@ -90,32 +111,27 @@ $Name:  $
     </ResourceList>
   </xsl:template>
 
-  <!-- Layer -->
-  <xsl:template match="wmc:Layer">
-    <Layer queryable="{@queryable}" hidden="{@hidden}" id="{wmc:Name}-{generate-id()}">
-      <xsl:apply-templates/>
-    </Layer>
-  </xsl:template>
+  <!-- Layer Nodes -->
 
   <!-- Name -> Identifier -->
   <xsl:template match="wmc:Name">
-    <Identifier>
+    <ows:Identifier>
       <xsl:value-of select="."/>
-    </Identifier>
+    </ows:Identifier>
   </xsl:template>
 
   <!-- FormatList/Format -> OutputFormat -->
   <xsl:template match="wmc:Format">
-    <OutputFormat>
+    <ows:OutputFormat>
       <xsl:value-of select="."/>
-    </OutputFormat>
+    </ows:OutputFormat>
   </xsl:template>
 
   <!-- <SRS>EPSG:4326 EPSG:4269</> -> <AvailableCRS>EPSG:4326</> -->
   <xsl:template match="wmc:SRS">
     <xsl:call-template name="tokenize">
-      <xsl:with-param name="str" select="."/>
-      <xsl:with-param name="tag" select="AvailableCRS"/>
+      <xsl:with-param name="str" select="normalize-space(.)"/>
+      <xsl:with-param name="tag" select="ows:AvailableCRS"/>
     </xsl:call-template>
   </xsl:template>
 
@@ -134,20 +150,6 @@ $Name:  $
     <xsl:param name="str"/>
     <xsl:param name="tag"/>
     <xsl:choose>
-      <!-- Remove white space from front of string -->
-      <xsl:when test="starts-with($str,' ')">
-        <xsl:call-template name="tokenize">
-          <xsl:with-param name="str" select="substring($str,2,string-length($str))"/>
-          <xsl:with-param name="tag" select="$tag"/>
-        </xsl:call-template>
-      </xsl:when>
-      <!-- Remove white space from back of string -->
-      <xsl:when test="starts-with($str,' ')">
-        <xsl:call-template name="tokenize">
-          <xsl:with-param name="str" select="substring($str,string-length($str),string-length($str))"/>
-          <xsl:with-param name="tag" select="$tag"/>
-        </xsl:call-template>
-      </xsl:when>
       <!-- Recursively break up string around token -->
       <xsl:when test="contains($str,' ')">
         <xsl:call-template name="tokenize">
@@ -169,6 +171,26 @@ $Name:  $
       <!-- Recursion stops when string is empty -->
     </xsl:choose>
   </xsl:template>
-  <!-- Catch everything else -->
-  <xsl:template match="text()|@*"/>
+
+  <!-- Convert specific elements to ows: namespace -->
+  <xsl:template match=" wmc:Title| wmc:Abstract| wmc:Keyword ">
+    <xsl:element name="{local-name()}" namespace="http://www.opengis.net/ows">
+      <xsl:apply-templates select="@*|node()"/>
+    </xsl:element>
+  </xsl:template>
+
+  <!-- Change wmc namespace to owc (default) namespace -->
+  <xsl:template match="wmc:*">
+    <xsl:element name="{local-name()}">
+      <xsl:apply-templates select="@*|node()"/>
+    </xsl:element>
+  </xsl:template>
+
+  <!-- Copy all other elements verbatum -->
+  <xsl:template match="*|@*|processing-instruction()|comment()">
+    <xsl:copy>
+      <xsl:apply-templates select="node()"/>
+    </xsl:copy>
+  </xsl:template>
+
 </xsl:stylesheet>
