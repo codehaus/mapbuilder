@@ -26,7 +26,7 @@ $Name:  $
   <xsl:output method="xml" indent="yes"/>
 
   <!-- ViewContext -> OWSContext -->
-  <xsl:template match="/wmc:ViewContext">
+  <xsl:template match="/wmc:ViewContext|/wmc11:ViewContext">
     <OWSContext
       version="0.2.1"
       id="ows-context"
@@ -42,7 +42,7 @@ $Name:  $
   <!-- General nodes: -->
 
   <!-- BoundingBox -->
-  <xsl:template match="wmc:BoundingBox">
+  <xsl:template match="wmc:BoundingBox|wmc11:BoundingBox">
     <ows:BoundingBox>
       <xsl:attribute name="crs">
         <xsl:value-of select="@SRS"/>
@@ -57,46 +57,55 @@ $Name:  $
   </xsl:template>
 
   <!-- KeywordList -> Keywords -->
-  <xsl:template match="wmc:KeywordList">
+  <xsl:template match="wmc:KeywordList|wmc11:KeywordList">
     <ows:KeyWords>
       <xsl:apply-templates/>
     </ows:KeyWords>
   </xsl:template>
 
   <!-- ContactInformation -> ServiceProvider/ServiceContact/ContactInfo -->
-  <xsl:template match="wmc:ContactInformation">
+  <xsl:template match="wmc:ContactInformation|wmc11:ContactInformation">
     <ows:ServiceProvider>
       <ows:ProviderName>
         <xsl:value-of select="wmc:ContactPersonPrimary/wmc:ContactOrganization"/>
+        <xsl:value-of select="wmc11:ContactPersonPrimary/wmc11:ContactOrganization"/>
       </ows:ProviderName>
       <ows:ServiceContact>
         <ows:IndividualName>
           <xsl:value-of select="wmc:ContactPersonPrimary/wmc:ContactPerson"/>
+          <xsl:value-of select="wmc11:ContactPersonPrimary/wmc11:ContactPerson"/>
         </ows:IndividualName>
         <ows:PositionName>
           <xsl:value-of select="wmc:ContactPosition"/>
+          <xsl:value-of select="wmc11:ContactPosition"/>
         </ows:PositionName>
         <ows:ContactInfo>
           <ows:Phone>
             <ows:Voice>
               <xsl:value-of select="wmc:ContactVoiceTelephone"/>
+              <xsl:value-of select="wmc11:ContactVoiceTelephone"/>
             </ows:Voice>
             <ows:Facsimile>
               <xsl:value-of select="wmc:ContactFacsimileTelephone"/>
+              <xsl:value-of select="wmc11:ContactFacsimileTelephone"/>
             </ows:Facsimile>
           </ows:Phone>
           <ows:Address>
             <ows:DeliveryPoint>
               <xsl:value-of select="wmc:ContactAddress/wmc:Address"/>
+              <xsl:value-of select="wmc11:ContactAddress/wmc11:Address"/>
             </ows:DeliveryPoint>
             <ows:City>
               <xsl:value-of select="wmc:ContactAddress/wmc:City"/>
+              <xsl:value-of select="wmc11:ContactAddress/wmc11:City"/>
             </ows:City>
             <ows:AdministrativeArea>
               <xsl:value-of select="wmc:ContactAddress/wmc:StateOrProvince"/>
+              <xsl:value-of select="wmc11:ContactAddress/wmc11:StateOrProvince"/>
             </ows:AdministrativeArea>
             <ows:Country>
               <xsl:value-of select="wmc:ContactAddress/wmc:Country"/>
+              <xsl:value-of select="wmc11:ContactAddress/wmc11:Country"/>
             </ows:Country>
           </ows:Address>
         </ows:ContactInfo>
@@ -105,7 +114,7 @@ $Name:  $
   </xsl:template>
 
   <!-- LayerList -> ResourceList -->
-  <xsl:template match="wmc:LayerList">
+  <xsl:template match="wmc:LayerList|wmc11:LayerList">
     <ResourceList>
       <xsl:apply-templates/>
     </ResourceList>
@@ -114,21 +123,21 @@ $Name:  $
   <!-- Layer Nodes -->
 
   <!-- Name -> Identifier -->
-  <xsl:template match="wmc:Name">
+  <xsl:template match="wmc:Name|wmc11:Name">
     <ows:Identifier>
       <xsl:value-of select="."/>
     </ows:Identifier>
   </xsl:template>
 
   <!-- FormatList/Format -> OutputFormat -->
-  <xsl:template match="wmc:Format">
+  <xsl:template match="wmc:Format|wmc11:Format">
     <ows:OutputFormat>
       <xsl:value-of select="."/>
     </ows:OutputFormat>
   </xsl:template>
 
   <!-- <SRS>EPSG:4326 EPSG:4269</> -> <AvailableCRS>EPSG:4326</> -->
-  <xsl:template match="wmc:SRS">
+  <xsl:template match="wmc:SRS|wmc11:SRS">
     <xsl:call-template name="tokenize">
       <xsl:with-param name="str" select="normalize-space(.)"/>
       <xsl:with-param name="tag" select="ows:AvailableCRS"/>
@@ -140,6 +149,13 @@ $Name:  $
     <Server service="{@service}" version="{@version}" title="{@title}">
       <OnlineResource
         xlink:type="{wmc:OnlineResource/@xlink:type}"
+        xlink:href="{wmc:OnlineResource/@xlink:href}"/>
+    </Server>
+  </xsl:template>
+  <xsl:template match="wmc11:Server">
+    <Server service="{@service}" version="{@version}" title="{@title}">
+      <OnlineResource
+        xlink:type="{wmc11:OnlineResource/@xlink:type}"
         xlink:href="{wmc:OnlineResource/@xlink:href}"/>
     </Server>
   </xsl:template>
@@ -173,14 +189,14 @@ $Name:  $
   </xsl:template>
 
   <!-- Convert specific elements to ows: namespace -->
-  <xsl:template match=" wmc:Title| wmc:Abstract| wmc:Keyword ">
+  <xsl:template match=" wmc:Title|wmc11:Title| wmc:Abstract|wmc11:Abstract| wmc:Keyword|wmc11:Keyword ">
     <xsl:element name="{local-name()}" namespace="http://www.opengis.net/ows">
       <xsl:apply-templates select="@*|node()"/>
     </xsl:element>
   </xsl:template>
 
   <!-- Change wmc namespace to owc (default) namespace -->
-  <xsl:template match="wmc:*">
+  <xsl:template match="wmc:*|wmc11:*">
     <xsl:element name="{local-name()}">
       <xsl:apply-templates select="@*|node()"/>
     </xsl:element>
