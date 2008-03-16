@@ -384,7 +384,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
           alert(mbGetMessage("layerTypeNotSupported", service));
         }
     }
-    //Otherwise we will just use an empty WMS layer as BaseLayer
+    //Otherwise we will just use a bogus WMS layer as BaseLayer
     else {
       var baseLayerOptions = {
               units: units,
@@ -398,7 +398,8 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
               displayOutsideMaxExtent: objRef.displayOutsideMaxExtent,
               ratio: 1,
               singleTile: true,
-              visibility: false
+              visibility: false,
+              moveTo: function(){return true}
          };
       baseLayer = new OpenLayers.Layer.WMS("baselayer",
               config.skinDir+"/images/openlayers/blank.gif", null, baseLayerOptions);
