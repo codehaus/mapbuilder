@@ -16,8 +16,8 @@
           </gml:polygonMember>
         </gml:MultiPolygon>
       </topp:the_geom>
-      <topp:AREA></topp:AREA>
-      <topp:PERIMETER></topp:PERIMETER>
+      <topp:AREA>0</topp:AREA>
+      <topp:PERIMETER>0</topp:PERIMETER>
       <topp:WATER_TYPE>Lake</topp:WATER_TYPE>
       <topp:CNTRY_NAME>Australia</topp:CNTRY_NAME>
       <topp:CONTINENT>Australia</topp:CONTINENT>
