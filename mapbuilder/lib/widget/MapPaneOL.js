@@ -51,6 +51,13 @@ function MapPaneOL(widgetNode, model) {
    */
   this.tileBuffer = parseInt(this.getProperty("mb:tileBuffer", 2));
   
+   /**
+    * For WMS layers: should they be regarded as normal WMS layers, 
+    * with a single tile for the entire boundingbox or as a tiled
+    * WMS layer
+   */
+  this.singleTile = Mapbuilder.parseBoolean(this.getProperty("mb:singleTile", true));
+  
   /**
    * For tiled wms layers: how many pixels should the size of one tile
    * be? Default is 256.
@@ -738,7 +745,7 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
       }
 
       layerOptions.ratio = objRef.imageBuffer;
-      layerOptions.singleTile = true;
+      layerOptions.singleTile = objRef.singleTile;
 
       var params = new Array();
       params = sld2UrlParam(currentStyle);
