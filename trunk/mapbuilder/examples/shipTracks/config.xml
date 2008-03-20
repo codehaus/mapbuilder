@@ -4,7 +4,7 @@
   xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
 	<models>
 		<OwsContext id="mainMap">
-			<defaultModelUrl>DemisWorldMap.xml</defaultModelUrl>
+			<defaultModelUrl>data/DemisWorldMap.xml</defaultModelUrl>
 			<widgets>
 				<MapPaneOL id="mainMapWidget">
 				  <htmlTagId>mainMapPane</htmlTagId>
@@ -17,34 +17,34 @@
 				  <showMGRS>false</showMGRS>
 				</CursorTrack>
 				<AoiForm id="aoiForm">
-				  <stylesheet>AoiForm.xsl</stylesheet>
+				  <stylesheet>stylesheets/AoiForm.xsl</stylesheet>
 				</AoiForm>
         <Legend id="contextLegend">
           <htmlTagId>legend</htmlTagId>
-          <stylesheet>./Legend.xsl</stylesheet>
+          <stylesheet>stylesheets/Legend.xsl</stylesheet>
         </Legend>
 			</widgets>
     </OwsContext>
     
     <Model id="collectionGroup">
-      <defaultModelUrl>mapCollection.xml</defaultModelUrl>
+      <defaultModelUrl>data/mapCollection.xml</defaultModelUrl>
       <widgets>
         <CollectionList id="collectionList">
           <targetModel>mainMap</targetModel>
-          <stylesheet>./CollectionList.xsl</stylesheet>
+          <stylesheet>stylesheets/CollectionList.xsl</stylesheet>
         </CollectionList>
       </widgets>
     </Model>
     
     <StyledLayerDescriptor id="sld">
-      <defaultModelUrl>features.sld</defaultModelUrl>
+      <defaultModelUrl>data/features.sld</defaultModelUrl>
     </StyledLayerDescriptor>
 
     <Model id="geoRSS">
-      <defaultModelUrl>aisrdf2.xml</defaultModelUrl>
+      <defaultModelUrl>data/aisrdf2.xml</defaultModelUrl>
       <widgets>
         <TipWidgetOL id="featurePopup">
-          <stylesheet>popup.xsl</stylesheet>
+          <stylesheet>stylesheets/popup.xsl</stylesheet>
           <width>275</width>
           <height>137</height>
           <opacity>0.8</opacity>
@@ -53,7 +53,7 @@
         </TipWidgetOL>
         <GmlRendererOL id="testGmlRenderer">
           <targetModel>mainMap</targetModel>
-          <stylesheet>georss2wfs.xsl</stylesheet>
+          <stylesheet>stylesheets/georss2wfs.xsl</stylesheet>
           <sldModel>sld</sldModel>
           <hoverCursor>pointer</hoverCursor>
           <featureOnClick>featurePopup</featureOnClick>
@@ -61,7 +61,7 @@
         </GmlRendererOL>
         <Widget id="eventsListing">
           <targetModel>mainMap</targetModel>
-          <stylesheet>GeoRSSListing.xsl</stylesheet>
+          <stylesheet>stylesheets/GeoRSSListing.xsl</stylesheet>
         </Widget>
       </widgets>
       <tools>
