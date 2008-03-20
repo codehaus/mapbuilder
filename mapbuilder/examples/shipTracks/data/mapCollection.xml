@@ -7,14 +7,14 @@
 	<ViewContextReference version="1.0.0" id="WorldMap">
 		<Title>World Map</Title>
 		<ContextURL>
-			<OnlineResource xlink:type="simple" xlink:href="DemisWorldMap.xml"/>
+			<OnlineResource xlink:type="simple" xlink:href="data/DemisWorldMap.xml"/>
 		</ContextURL>
 	</ViewContextReference>
 
 	<ViewContextReference version="1.0.0" id="BlueMarble">
 		<Title>Satellite</Title>
 		<ContextURL>
-			<OnlineResource xlink:type="simple" xlink:href="BlueMarble.xml"/>
+			<OnlineResource xlink:type="simple" xlink:href="data/BlueMarble.xml"/>
 		</ContextURL>
 	</ViewContextReference>
 </ViewContextCollection>
