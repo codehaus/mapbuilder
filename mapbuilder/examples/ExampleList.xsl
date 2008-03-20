@@ -26,7 +26,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="../basic/index.html"
+					<a href="../interactive/index.html"
 						title="interactive map demo">
 						Interactive Map Viewer
 					</a>
