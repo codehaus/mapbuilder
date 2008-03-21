@@ -88,7 +88,7 @@
           <htmlTagId>catalogSearchForm</htmlTagId>
           <targetModel>catalogSearchResults</targetModel>
           <targetContext>normalizedSearchResults</targetContext>
-          <wrsUrl>http://demo.cubewerx.com/cgdi/cwwrs.cgi</wrsUrl>
+          <wrsUrl>http://www.cubewerx-cgdi.com/Lisasoft/cubeserv.cgi</wrsUrl>
           <wrsServiceAssociation>Serves</wrsServiceAssociation><!-- Can be: Serves, OperatesOn -->
           <mapModel>mainMap</mapModel>
           <sourceContext>mainMap</sourceContext>
