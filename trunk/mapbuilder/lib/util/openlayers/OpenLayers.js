@@ -34382,7 +34382,7 @@ OpenLayers.Format.SLD = OpenLayers.Class(OpenLayers.Format.XML, {
                 rules.push(this.parseRule(ruleNodes[i], ruleName));
             }
         }
-
+        userStyle.propertyStyles = userStyle.findPropertyStyles();
         return userStyle;
     },        
     
