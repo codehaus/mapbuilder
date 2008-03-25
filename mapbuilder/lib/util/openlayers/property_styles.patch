@@ -1,0 +1,13 @@
+Index: lib/OpenLayers/Format/SLD.js
+===================================================================
+--- lib/OpenLayers/Format/SLD.js	(Revision 6580)
++++ lib/OpenLayers/Format/SLD.js	(Arbeitskopie)
+@@ -184,7 +184,7 @@
+                 rules.push(this.parseRule(ruleNodes[i], ruleName));
+             }
+         }
+-
++        userStyle.propertyStyles = userStyle.findPropertyStyles();
+         return userStyle;
+     },        
+     
