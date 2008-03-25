@@ -850,6 +850,11 @@
               <xs:documentation>if this is set to false, a WMS layer will be requested according to the tileschema of the baselayer. Otherwise, it will request a single tile.</xs:documentation>
             </xs:annotation>
           </xs:element>
+           <xs:element name="transitionEffect" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>For untiled wms layers: if set to "resize", map will not disappear while panning and zooming.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
           <xs:element name="tileGutter" type="xs:int" minOccurs="0">
             <xs:annotation>
               <xs:documentation>For tiled wms layers: Overlap of map tiles in pixels. Useful for preventing rendering artefacts at tile edges. Recommended values: 0-15, default is 0 (no gutter at all).</xs:documentation>
