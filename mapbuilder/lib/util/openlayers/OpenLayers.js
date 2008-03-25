@@ -411,22 +411,31 @@ OpenLayers.String = {
      * context - {Object} An optional object with properties corresponding
      *     to the tokens in the format string.  If no context is sent, the
      *     window object will be used.
+     * args - {Array} Optional arguments to pass to any functions found in
+     *     the context.  If a context property is a function, the token
+     *     will be replaced by the return from the function called with
+     *     these arguments.
      *
      * Returns:
      * {String} A string with tokens replaced from the context object.
      */
-    format: function(template, context) {
+    format: function(template, context, args) {
         if(!context) {
             context = window;
         }
         var tokens = template.split("${");
-        var item, last;
+        var item, last, replacement;
         for(var i=1; i<tokens.length; i++) {
             item = tokens[i];
             last = item.indexOf("}"); 
-            if(last > 0) { 
-                tokens[i] = context[item.substring(0, last)] +
-                            item.substring(++last); 
+            if(last > 0) {
+                replacement = context[item.substring(0, last)];
+                if(typeof replacement == "function") {
+                    replacement = args ?
+                        replacement.apply(null, args) :
+                        replacement();
+                }
+                tokens[i] = replacement + item.substring(++last); 
             } else {
                 tokens[i] = "${" + item;
             }
@@ -1158,11 +1167,10 @@ OpenLayers.Util.createImage = function(id, px, sz, imgURL, position, border,
 
 /**
  * Function: setOpacity
- * Deprecated.
- * This function has been deprecated. Instead, please use 
- *     OpenLayers.Util.modifyDOMElement() 
+ * *Deprecated*.  This function has been deprecated. Instead, please use 
+ *     <OpenLayers.Util.modifyDOMElement> 
  *     or 
- *     OpenLayers.Util.modifyAlphaImageDiv()
+ *     <OpenLayers.Util.modifyAlphaImageDiv>
  * 
  * Set the opacity of a DOM Element
  *     Note that for this function to work in IE, elements must "have layout"
@@ -1180,6 +1188,8 @@ OpenLayers.Util.setOpacity = function(element, opacity) {
 
 /**
  * Function: onImageLoad
+ * Bound to image load events.  For all images created with <createImage> or
+ *     <createAlphaImageDiv>, this function will be bound to the load event.
  */
 OpenLayers.Util.onImageLoad = function() {
     // The complex check here is to solve issues described in #480.
@@ -1689,9 +1699,6 @@ OpenLayers.Util.distVincenty=function(p1, p2) {
 OpenLayers.Util.getParameters = function(url) {
     // if no url specified, take it from the location bar
     url = url || window.location.href;
-    if (url == null) {
-        url = window.location.href;
-    }
 
     //parse out parameters portion of url string
     var paramsString = "";
@@ -1729,8 +1736,8 @@ OpenLayers.Util.getParameters = function(url) {
 
 /**
  * Function: getArgs
- * Deprecated - Will be removed in 3.0. 
- *     Please use instead OpenLayers.Util.getParameters
+ * *Deprecated*.  Will be removed in 3.0.  Please use instead
+ *     <OpenLayers.Util.getParameters>
  * 
  * Parameters:
  * url - {String} Optional url used to extract the query string.
@@ -1757,13 +1764,15 @@ OpenLayers.Util.lastSeqID = 0;
 
 /**
  * Function: createUniqueID
+ * Create a unique identifier for this session.  Each time this function
+ *     is called, a counter is incremented.  The return will be the optional
+ *     prefix (defaults to "id_") appended with the counter value.
  * 
  * Parameters:
- * prefix {String} String to prefix unique id. 
- *                 If null, default is "id_"
+ * prefix {String} Optionsal string to prefix unique id. Default is "id_".
  * 
  * Returns:
- * {String} A unique id string, built on the passed in prefix
+ * {String} A unique id string, built on the passed in prefix.
  */
 OpenLayers.Util.createUniqueID = function(prefix) {
     if (prefix == null) {
@@ -1865,10 +1874,8 @@ OpenLayers.Util.getScaleFromResolution = function (resolution, units) {
 
 /**
  * Function: safeStopPropagation
- * Deprecated.
- * 
- * This function has been deprecated. Please use directly 
- *     OpenLayers.Event.stop() passing 'true' as the 2nd 
+ * *Deprecated*. This function has been deprecated. Please use directly 
+ *     <OpenLayers.Event.stop> passing 'true' as the 2nd 
  *     argument (preventDefault)
  * 
  * Safely stop the propagation of an event *without* preventing
@@ -3082,10 +3089,7 @@ OpenLayers.Ajax.Request.Events =
   ['Uninitialized', 'Loading', 'Loaded', 'Interactive', 'Complete'];
 
 /**
- * Class: OpenLayers.Ajax.Request
- *
- * Inherit:
- *  - <OpenLayers.Ajax.Base>
+ * Class: OpenLayers.Ajax.Response
  */
 OpenLayers.Ajax.Response = OpenLayers.Class({
 
@@ -4720,6 +4724,15 @@ OpenLayers.Control = OpenLayers.Class({
      */
     handler: null,
 
+    /**
+     * APIProperty: eventListeners
+     * {Object} If set as an option at construction, the eventListeners
+     *     object will be registered with <OpenLayers.Events.on>.  Object
+     *     structure must be a listeners object as shown in the example for
+     *     the events.on method.
+     */
+    eventListeners: null,
+
     /** 
      * Property: events
      * {<OpenLayers.Events>} Events instance for triggering control specific
@@ -4771,6 +4784,9 @@ OpenLayers.Control = OpenLayers.Class({
         OpenLayers.Util.extend(this, options);
         
         this.events = new OpenLayers.Events(this, null, this.EVENT_TYPES);
+        if(this.eventListeners instanceof Object) {
+            this.events.on(this.eventListeners);
+        }
         this.id = OpenLayers.Util.createUniqueID(this.CLASS_NAME + "_");
     },
 
@@ -4782,9 +4798,14 @@ OpenLayers.Control = OpenLayers.Class({
      */
     destroy: function () {
         if(this.events) {
+            if(this.eventListeners) {
+                this.events.un(this.eventListeners);
+            }
             this.events.destroy();
             this.events = null;
         }
+        this.eventListeners = null;
+
         // eliminate circular references
         if (this.handler) {
             this.handler.destroy();
@@ -4846,7 +4867,7 @@ OpenLayers.Control = OpenLayers.Class({
         if (px != null) {
             this.position = px.clone();
         }
-        this.moveTo(this.position);        
+        this.moveTo(this.position);
         return this.div;
     },
 
@@ -5564,6 +5585,7 @@ OpenLayers.Popup = OpenLayers.Class({
     /**
     * Method: setBackgroundColor
     * Sets the background color of the popup.
+    *
     * Parameters:
     * color - {String} the background color.  eg "#FFBBBB"
     */
@@ -8777,14 +8799,13 @@ OpenLayers.Control.Panel = OpenLayers.Class(OpenLayers.Control, {
             return;
         }
         for (var i = 0; i < this.controls.length; i++) {
-            if (this.controls[i] == control) {
-                control.activate();
-            } else {
+            if (this.controls[i] != control) {
                 if (this.controls[i].type != OpenLayers.Control.TYPE_TOGGLE) {
                     this.controls[i].deactivate();
                 }
             }
         }
+        control.activate();
     },
 
     /**
@@ -9180,7 +9201,9 @@ OpenLayers.Control.Scale = OpenLayers.Class(OpenLayers.Control, {
 
 /**
  * @requires OpenLayers/Control.js
- *
+ */
+
+/**
  * Class: OpenLayers.Control.ScaleLine
  * Display a small line indicator representing the current map scale on the map.
  * 
@@ -9328,13 +9351,16 @@ OpenLayers.Control.ScaleLine = OpenLayers.Class(OpenLayers.Control, {
             return;
         }
 
+        var curMapUnits = this.map.units;
+        var inches = OpenLayers.INCHES_PER_UNIT;
+
         // convert maxWidth to map units
-        var maxSizeData = this.maxWidth * res;  
+        var maxSizeData = this.maxWidth * res * inches[curMapUnits];  
 
         // decide whether to use large or small scale units     
         var topUnits;
         var bottomUnits;
-        if(maxSizeData > 0.1) {
+        if(maxSizeData > 100000) {
             topUnits = this.topOutUnits;
             bottomUnits = this.bottomOutUnits;
         } else {
@@ -9343,10 +9369,8 @@ OpenLayers.Control.ScaleLine = OpenLayers.Class(OpenLayers.Control, {
         }
 
         // and to map units units
-        var curMapUnits = this.map.units;
-        var inches = OpenLayers.INCHES_PER_UNIT;
-        var topMax = maxSizeData * inches[curMapUnits] / inches[topUnits];
-        var bottomMax = maxSizeData * inches[curMapUnits] / inches[bottomUnits];
+        var topMax = maxSizeData / inches[topUnits];
+        var bottomMax = maxSizeData / inches[bottomUnits];
 
         // now trim this down to useful block length
         var topRounded = this.getBarLen(topMax);
@@ -10068,6 +10092,9 @@ OpenLayers.Events = OpenLayers.Class({
         }
         evt.object = this.object;
         evt.element = this.element;
+        if(!evt.type) {
+            evt.type = type;
+        }
     
         // execute all callbacks registered for specified type
         // get a clone of the listeners array to
@@ -10872,7 +10899,7 @@ OpenLayers.Renderer.Elements = OpenLayers.Class(OpenLayers.Renderer, {
 
         var options = {
             'isFilled': true,
-            'isStroked': true
+            'isStroked': !!style.strokeWidth
         };
         switch (geometry.CLASS_NAME) {
             case "OpenLayers.Geometry.Point":
@@ -11100,7 +11127,7 @@ OpenLayers.Tile = OpenLayers.Class({
      * Constant: EVENT_TYPES
      * {Array(String)} Supported application event types
      */
-    EVENT_TYPES: [ "loadstart", "loadend", "reload"],
+    EVENT_TYPES: [ "loadstart", "loadend", "reload", "unload"],
     
     /**
      * APIProperty: events
@@ -11155,6 +11182,38 @@ OpenLayers.Tile = OpenLayers.Class({
      */
     isLoading: false,
     
+    /**
+     * Property: isBackBuffer
+     * {Boolean} Is this tile a back buffer tile?
+     */
+    isBackBuffer: false,
+    
+    /**
+     * Property: lastRatio
+     * {Float} Used in transition code only.  This is the previous ratio
+     *     of the back buffer tile resolution to the map resolution.  Compared
+     *     with the current ratio to determine if zooming occurred.
+     */
+    lastRatio: 1,
+
+    /**
+     * Property: isFirstDraw
+     * {Boolean} Is this the first time the tile is being drawn?
+     *     This is used to force resetBackBuffer to synchronize
+     *     the backBufferTile with the foreground tile the first time
+     *     the foreground tile loads so that if the user zooms
+     *     before the layer has fully loaded, the backBufferTile for
+     *     tiles that have been loaded can be used.
+     */
+    isFirstDraw: true,
+        
+    /**
+     * Property: backBufferTile
+     * {<OpenLayers.Tile>} A clone of the tile used to create transition
+     *     effects when the tile is moved or changes resolution.
+     */
+    backBufferTile: null,
+        
     /** TBD 3.0 -- remove 'url' from the list of parameters to the constructor.
      *             there is no need for the base tile class to have a url.
      * 
@@ -11180,12 +11239,33 @@ OpenLayers.Tile = OpenLayers.Class({
         
         this.events = new OpenLayers.Events(this, null, this.EVENT_TYPES);
     },
+
+    /**
+     * Method: unload
+     * Call immediately before destroying if you are listening to tile
+     * events, so that counters are properly handled if tile is still
+     * loading at destroy-time. Will only fire an event if the tile is
+     * still loading.
+     */
+    unload: function() {
+       if (this.isLoading) { 
+           this.isLoading = false; 
+           this.events.triggerEvent("unload"); 
+       }
+    },
     
     /** 
      * APIMethod: destroy
      * Nullify references to prevent circular references and memory leaks.
      */
     destroy:function() {
+        if (OpenLayers.Util.indexOf(this.layer.SUPPORTED_TRANSITIONS, 
+                this.layer.transitionEffect) != -1) {
+            this.layer.events.unregister("loadend", this, this.resetBackBuffer);
+            this.events.unregister('loadend', this, this.resetBackBuffer);            
+        } else {
+            this.events.unregister('loadend', this, this.showTile);
+        }
         this.layer  = null;
         this.bounds = null;
         this.size = null;
@@ -11193,6 +11273,12 @@ OpenLayers.Tile = OpenLayers.Class({
         
         this.events.destroy();
         this.events = null;
+        
+        /* clean up the backBufferTile if it exists */
+        if (this.backBufferTile) {
+            this.backBufferTile.destroy();
+            this.backBufferTile = null;
+        }
     },
     
     /**
@@ -11231,17 +11317,56 @@ OpenLayers.Tile = OpenLayers.Class({
      *     depend on the return to know if they should draw or not.
      */
     draw: function() {
-        
-        //clear tile's contents and mark as not drawn
-        this.clear();
-        
         var maxExtent = this.layer.maxExtent;
         var withinMaxExtent = (maxExtent &&
                                this.bounds.intersectsBounds(maxExtent, false));
  
         // The only case where we *wouldn't* want to draw the tile is if the 
         // tile is outside its layer's maxExtent.
-        return (withinMaxExtent || this.layer.displayOutsideMaxExtent);
+        var drawTile = (withinMaxExtent || this.layer.displayOutsideMaxExtent);
+
+        if (OpenLayers.Util.indexOf(this.layer.SUPPORTED_TRANSITIONS, this.layer.transitionEffect) != -1) {
+            if (drawTile) {
+                //we use a clone of this tile to create a double buffer for visual
+                //continuity.  The backBufferTile is used to create transition
+                //effects while the tile in the grid is repositioned and redrawn
+                if (!this.backBufferTile) {
+                    this.backBufferTile = this.clone();
+                    this.backBufferTile.hide();
+                    // this is important.  It allows the backBuffer to place itself
+                    // appropriately in the DOM.  The Image subclass needs to put
+                    // the backBufferTile behind the main tile so the tiles can
+                    // load over top and display as soon as they are loaded.
+                    this.backBufferTile.isBackBuffer = true;
+                    
+                    // potentially end any transition effects when the tile loads
+                    this.events.register('loadend', this, this.resetBackBuffer);
+                    
+                    // clear transition back buffer tile only after all tiles in
+                    // this layer have loaded to avoid visual glitches
+                    this.layer.events.register("loadend", this, this.resetBackBuffer);
+                }
+                // run any transition effects
+                this.startTransition();
+            } else {
+                // if we aren't going to draw the tile, then the backBuffer should
+                // be hidden too!
+                if (this.backBufferTile) {
+                    this.backBufferTile.clear();
+                }
+            }
+        } else {
+            if (drawTile && this.isFirstDraw) {
+                this.events.register('loadend', this, this.showTile);
+                this.isFirstDraw = false;
+            }   
+        }    
+        this.shouldDraw = drawTile;
+        
+        //clear tile's contents and mark as not drawn
+        this.clear();
+        
+        return drawTile;
     },
     
     /** 
@@ -11312,7 +11437,72 @@ OpenLayers.Tile = OpenLayers.Class({
                                        topLeft.lat);  
         return bounds;
     },        
-
+    
+    /** 
+     * Method: startTransition
+     * Prepare the tile for a transition effect.  To be
+     *     implemented by subclasses.
+     */
+    startTransition: function() {},
+    
+    /** 
+     * Method: resetBackBuffer
+     * Triggered by two different events, layer loadend, and tile loadend.
+     *     In any of these cases, we check to see if we can hide the 
+     *     backBufferTile yet and update its parameters to match the 
+     *     foreground tile.
+     *
+     * Basic logic:
+     *  - If the backBufferTile hasn't been drawn yet, reset it
+     *  - If layer is still loading, show foreground tile but don't hide
+     *    the backBufferTile yet
+     *  - If layer is done loading, reset backBuffer tile and show 
+     *    foreground tile
+     */
+    resetBackBuffer: function() {
+        this.showTile();
+        if (this.backBufferTile && 
+            (this.isFirstDraw || !this.layer.numLoadingTiles)) {
+            this.isFirstDraw = false;
+            // check to see if the backBufferTile is within the max extents
+            // before rendering it 
+            var maxExtent = this.layer.maxExtent;
+            var withinMaxExtent = (maxExtent &&
+                                   this.bounds.intersectsBounds(maxExtent, false));
+            if (withinMaxExtent) {
+                this.backBufferTile.position = this.position;
+                this.backBufferTile.bounds = this.bounds;
+                this.backBufferTile.size = this.size;
+                this.backBufferTile.imageSize = this.layer.imageSize || this.size;
+                this.backBufferTile.imageOffset = this.layer.imageOffset;
+                this.backBufferTile.resolution = this.layer.getResolution();
+                this.backBufferTile.renderTile();
+            }
+        }
+    },
+        
+    /** 
+     * Method: showTile
+     * Show the tile only if it should be drawn.
+     */
+    showTile: function() { 
+        if (this.shouldDraw) {
+            this.show();
+        }
+    },
+    
+    /** 
+     * Method: show
+     * Show the tile.  To be implemented by subclasses.
+     */
+    show: function() { },
+    
+    /** 
+     * Method: hide
+     * Hide the tile.  To be implemented by subclasses.
+     */
+    hide: function() { },
+    
     CLASS_NAME: "OpenLayers.Tile"
 });
 /* ======================================================================
@@ -12369,7 +12559,7 @@ OpenLayers.Format.JSON = OpenLayers.Class(OpenLayers.Format, {
          * Method: serialize.string
          * Transform a string into a JSON string.
          *
-         * Parameters
+         * Parameters:
          * string - {String} The string to be serialized
          * 
          * Returns:
@@ -13484,6 +13674,15 @@ OpenLayers.Map = OpenLayers.Class({
     panTween: null,
 
     /**
+     * APIProperty: eventListeners
+     * {Object} If set as an option at construction, the eventListeners
+     *     object will be registered with <OpenLayers.Events.on>.  Object
+     *     structure must be a listeners object as shown in the example for
+     *     the events.on method.
+     */
+    eventListeners: null,
+
+    /**
      * Property: panMethod
      * {Function} The Easing function to be used for tweening.  Default is
      * OpenLayers.Easing.Expo.easeOut. Setting this to 'null' turns off
@@ -13555,6 +13754,9 @@ OpenLayers.Map = OpenLayers.Class({
                                             this.EVENT_TYPES, 
                                             this.fallThrough);
         this.updateSize();
+        if(this.eventListeners instanceof Object) {
+            this.events.on(this.eventListeners);
+        }
  
         // update the map size and location before the map moves
         this.events.register("movestart", this, this.updateSize);
@@ -13680,6 +13882,10 @@ OpenLayers.Map = OpenLayers.Class({
         }
         this.viewPortDiv = null;
 
+        if(this.eventListeners) {
+            this.events.un(this.eventListeners);
+            this.eventListeners = null;
+        }
         this.events.destroy();
         this.events = null;
 
@@ -14448,27 +14654,33 @@ OpenLayers.Map = OpenLayers.Class({
      * Parameters:
      * dx - {Integer}
      * dy - {Integer}
-     * options - {Object} Only one at this time: "animate", which uses
-     *    panTo instead of setCenter. Default is true.
+     * options - {Object} Options to configure panning:
+     *  - *animate* {Boolean} Use panTo instead of setCenter. Default is true.
+     *  - *dragging* {Boolean} Call setCenter with dragging true.  Default is
+     *    false.
      */
     pan: function(dx, dy, options) {
-        
+        // this should be pushed to applyDefaults and extend
         if (!options) {
-            options = {animate: true}
-        }    
+            options = {};
+        }
+        OpenLayers.Util.applyDefaults(options, {
+            animate: true,
+            dragging: false
+        });
         // getCenter
         var centerPx = this.getViewPortPxFromLonLat(this.getCenter());
 
         // adjust
         var newCenterPx = centerPx.add(dx, dy);
         
-        // only call setCenter if there has been a change
-        if (!newCenterPx.equals(centerPx)) {
+        // only call setCenter if not dragging or there has been a change
+        if (!options.dragging || !newCenterPx.equals(centerPx)) {
             var newCenterLonLat = this.getLonLatFromViewPortPx(newCenterPx);
             if (options.animate) {
                 this.panTo(newCenterLonLat);
             } else {
-                this.setCenter(newCenterLonLat);
+                this.setCenter(newCenterLonLat, null, options.dragging);
             }    
         }
 
@@ -14502,14 +14714,14 @@ OpenLayers.Map = OpenLayers.Class({
                         this.events.triggerEvent("movestart");
                     }, this),
                     eachStep: OpenLayers.Function.bind(function(lonlat) {
-                        var lonlat = new OpenLayers.LonLat(lonlat.lon, lonlat.lat);
+                        lonlat = new OpenLayers.LonLat(lonlat.lon, lonlat.lat);
                         this.moveTo(lonlat, this.zoom, {
                             'dragging': true,
                             'noEvent': true
                         });
                     }, this),
                     done: OpenLayers.Function.bind(function(lonlat) {
-                        var lonlat = new OpenLayers.LonLat(lonlat.lon, lonlat.lat);
+                        lonlat = new OpenLayers.LonLat(lonlat.lon, lonlat.lat);
                         this.moveTo(lonlat, this.zoom, {
                             'noEvent': true
                         });
@@ -15874,11 +16086,10 @@ OpenLayers.Renderer.SVG = OpenLayers.Class(OpenLayers.Renderer.Elements, {
     setStyle: function(node, style, options) {
         style = style  || node._style;
         options = options || node._options;
-        var x = node.getAttributeNS(null, "cx");
-        // if x equals "", the node is outside the valid range
-        if (node._geometryClass == "OpenLayers.Geometry.Point" && x) {
+        var r = parseFloat(node.getAttributeNS(null, "r"));
+        if (node._geometryClass == "OpenLayers.Geometry.Point" && r) {
             if (style.externalGraphic) {
-                x = parseFloat(x);
+                var x = parseFloat(node.getAttributeNS(null, "cx"));
                 var y = parseFloat(node.getAttributeNS(null, "cy"));
                 
                 if (style.graphicWidth && style.graphicHeight) {
@@ -15903,6 +16114,12 @@ OpenLayers.Renderer.SVG = OpenLayers.Class(OpenLayers.Renderer.Elements, {
                 node.setAttributeNS(null, "style", "opacity: "+opacity);
             } else {
                 node.setAttributeNS(null, "r", style.pointRadius);
+            }
+
+            if (style.rotation) {
+                var rotation = OpenLayers.String.format(
+                    "rotate(${0} ${1} ${2})", [style.rotation, x, y]);
+                node.setAttributeNS(null, "transform", rotation);
             }
         }
         
@@ -16366,6 +16583,7 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
                 node.style.top = ((geometry.y/resolution)-(yOffset+height)).toFixed();
                 node.style.width = width;
                 node.style.height = height;    
+                node.style.flip = "y";
                 
                 // modify style/options for fill and stroke styling below
                 style.fillColor = "none";
@@ -16404,11 +16622,20 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
                 
                 fill.setAttribute("src", style.externalGraphic);
                 fill.setAttribute("type", "frame");
-                node.style.flip = "y";
                 
                 if (!(style.graphicWidth && style.graphicHeight)) {
                   fill.aspect = "atmost";
                 }                
+                         
+                // additional rendering for rotated graphics
+                if (style.rotation) {
+                    this.graphicRotate(node, xOffset, yOffset);
+                    // make the fill fully transparent, because we now have
+                    // the graphic as imagedata element. We cannot just remove
+                    // the fill, because this is part of the hack described
+                    // in graphicRotate
+                    fill.setAttribute("opacity", 0);
+                }
             }
             if (fill.parentNode != node) {
                 node.appendChild(fill);
@@ -16442,6 +16669,100 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
             node.style.cursor = style.cursor;
         }
         return node;
+    },
+
+    /**
+     * Method: graphicRotate
+     * If a point is to be styled with externalGraphic and rotation, VML fills
+     * cannot be used to display the graphic, because rotation of graphic
+     * fills is not supported by the VML implementation of Internet Explorer.
+     * This method creates a v:imagedata element inside the VML node,
+     * DXImageTransform.Matrix and BasicImage filters for rotation and
+     * opacity, and a 3-step hack to remove rendering artefacts from the
+     * graphic and preserve the ability of graphics to trigger events.
+     * Finally, OpenLayers methods are used to determine the correct
+     * insertion point of the rotated image, because DXImageTransform.Matrix
+     * does the rotation without the ability to specify a rotation center
+     * point.
+     * 
+     * Parameters:
+     * node    - {DOMElement}
+     * xOffset - {Number} rotation center relative to image, x coordinate
+     * yOffset - {Number} rotation center relative to image, y coordinate
+     */
+    graphicRotate: function(node, xOffset, yOffset) {
+        var style = node._style;
+        var options = node._options;
+        
+        var aspectRatio, size;
+        if (!(style.graphicWidth && style.graphicHeight)) {
+            // load the image to determine its size
+            var img = new Image();
+            img.src = style.externalGraphic;
+            aspectRatio = img.width / img.height;
+            size = Math.max(style.pointRadius * 2, style.graphicWidth || 0,
+                style.graphicHeight || 0);
+            xOffset = xOffset * aspectRatio;
+        } else {
+            size = Math.max(style.graphicWidth, style.graphicHeight);
+            aspectRatio = style.graphicWidth / style.graphicHeight;
+        }
+        
+        width = Math.round(style.graphicWidth || size * aspectRatio);
+        height = Math.round(style.graphicHeight || size);
+        node.style.width = width;
+        node.style.height = height;
+        
+        // Three steps are required to remove artefacts for images with
+        // transparent backgrounds (resulting from using DXImageTransform
+        // filters on svg objects), while preserving awareness for browser
+        // events on images:
+        // - Use the fill as usual (like for unrotated images) to handle
+        //   events
+        // - specify an imagedata element with the same src as the fill
+        // - style the imagedata element with an AlphaImageLoader filter
+        //   with empty src
+        var image = document.getElementById(node.id + "_image");
+        if (!image) {
+            image = this.createNode("v:imagedata", node.id + "_image");
+            node.appendChild(image);
+        }
+        image.style.width = width;
+        image.style.height = height;
+        image.src = style.externalGraphic;
+        image.style.filter =
+            "progid:DXImageTransform.Microsoft.AlphaImageLoader(" + 
+            "src='', sizingMethod='scale')";
+
+        var rotation = style.rotation * Math.PI / 180;
+        var sintheta = Math.sin(rotation);
+        var costheta = Math.cos(rotation);
+
+        // do the rotation on the image
+        var filter =
+            "progid:DXImageTransform.Microsoft.Matrix(M11=" + costheta +
+            ",M12=" + (-sintheta) + ",M21=" + sintheta + ",M22=" + costheta +
+            ",SizingMethod='auto expand')\n"
+
+        // set the opacity (needed for the imagedata)
+        var opacity = style.graphicOpacity || style.fillOpacity;
+        if (opacity && opacity != 1) {
+            filter += 
+                "progid:DXImageTransform.Microsoft.BasicImage(opacity=" + 
+                opacity+")\n";
+        }
+        node.style.filter = filter;
+
+        // do the rotation again on a box, so we know the insertion point
+        var centerPoint = new OpenLayers.Geometry.Point(-xOffset, -yOffset);
+        var imgBox = new OpenLayers.Bounds(0, 0, width, height).toGeometry();
+        imgBox.rotate(style.rotation, centerPoint);
+        var imgBounds = imgBox.getBounds();
+
+        node.style.left = Math.round(
+            parseInt(node.style.left) + imgBounds.left);
+        node.style.top = Math.round(
+            parseInt(node.style.top) - imgBounds.bottom);
     },
 
     /**
@@ -16902,6 +17223,15 @@ OpenLayers.Tile.Image = OpenLayers.Class(OpenLayers.Tile, {
             this.events.triggerEvent("loadstart");
         }
         
+        return this.renderTile();
+    },
+    
+    /**
+     * Method: renderTile
+     * Internal function to actually initialize the image tile,
+     *     position it correctly, and set its url.
+     */
+    renderTile: function() {
         if (this.imgDiv == null) {
             this.initImgDiv();
         }
@@ -16918,9 +17248,9 @@ OpenLayers.Tile.Image = OpenLayers.Class(OpenLayers.Tile, {
             OpenLayers.Util.modifyAlphaImageDiv(this.imgDiv,
                     null, null, imageSize, this.url);
         } else {
-            this.imgDiv.src = this.url;
             OpenLayers.Util.modifyDOMElement(this.imgDiv,
                     null, null, imageSize) ;
+            this.imgDiv.src = this.url;
         }
         return true;
     },
@@ -16932,7 +17262,7 @@ OpenLayers.Tile.Image = OpenLayers.Class(OpenLayers.Tile, {
      */
     clear: function() {
         if(this.imgDiv) {
-            this.imgDiv.style.display = "none";
+            this.hide();
             if (OpenLayers.Tile.Image.useBlankTile) { 
                 this.imgDiv.src = OpenLayers.Util.getImagesLocation() + "blank.gif";
             }    
@@ -16979,6 +17309,7 @@ OpenLayers.Tile.Image = OpenLayers.Class(OpenLayers.Tile, {
         OpenLayers.Event.observe( this.imgDiv, "load",
             OpenLayers.Function.bind(this.checkImgURL, this) );
         */
+        this.frame.style.zIndex = this.isBackBuffer ? 0 : 1;
         this.frame.appendChild(this.imgDiv); 
         this.layer.div.appendChild(this.frame); 
 
@@ -17056,11 +17387,103 @@ OpenLayers.Tile.Image = OpenLayers.Class(OpenLayers.Tile, {
         if (this.layer) {
             var loaded = this.layerAlphaHack ? this.imgDiv.firstChild.src : this.imgDiv.src;
             if (!OpenLayers.Util.isEquivalentUrl(loaded, this.url)) {
-                this.imgDiv.style.display = "none";
+                this.hide();
             }
         }
     },
+    
+    /**
+     * Method: startTransition
+     * This method is invoked on tiles that are backBuffers for tiles in the
+     *     grid.  The grid tile is about to be cleared and a new tile source
+     *     loaded.  This is where the transition effect needs to be started
+     *     to provide visual continuity.
+     */
+    startTransition: function() {
+        // backBufferTile has to be valid and ready to use
+        if (!this.backBufferTile || !this.backBufferTile.imgDiv) {
+            return;
+        }
 
+        // calculate the ratio of change between the current resolution of the
+        // backBufferTile and the layer.  If several animations happen in a
+        // row, then the backBufferTile will scale itself appropriately for
+        // each request.
+        var ratio = 1;
+        if (this.backBufferTile.resolution) {
+            ratio = this.backBufferTile.resolution / this.layer.getResolution();
+        }
+        
+        // if the ratio is not the same as it was last time (i.e. we are
+        // zooming), then we need to adjust the backBuffer tile
+        if (ratio != this.lastRatio) {
+            if (this.layer.transitionEffect == 'resize') {
+                // In this case, we can just immediately resize the 
+                // backBufferTile.
+                var upperLeft = new OpenLayers.LonLat(
+                    this.backBufferTile.bounds.left, 
+                    this.backBufferTile.bounds.top
+                );
+                var size = new OpenLayers.Size(
+                    this.backBufferTile.size.w * ratio,
+                    this.backBufferTile.size.h * ratio
+                );
+
+                var px = this.layer.map.getLayerPxFromLonLat(upperLeft);
+                OpenLayers.Util.modifyDOMElement(this.backBufferTile.frame, 
+                                                 null, px, size);
+                var imageSize = this.backBufferTile.imageSize;
+                imageSize = new OpenLayers.Size(imageSize.w * ratio, 
+                                                imageSize.h * ratio);
+                var imageOffset = this.backBufferTile.imageOffset;
+                if(imageOffset) {
+                    imageOffset = new OpenLayers.Pixel(
+                        imageOffset.x * ratio, imageOffset.y * ratio
+                    );
+                }
+
+                OpenLayers.Util.modifyDOMElement(
+                    this.backBufferTile.imgDiv, null, imageOffset, imageSize
+                ) ;
+
+                this.backBufferTile.show();
+            }
+        } else {
+            // default effect is just to leave the existing tile
+            // until the new one loads if this is a singleTile and
+            // there was no change in resolution.  Otherwise we
+            // don't bother to show the backBufferTile at all
+            if (this.layer.singleTile) {
+                this.backBufferTile.show();
+            } else {
+                this.backBufferTile.hide();
+            }
+        }
+        this.lastRatio = ratio;
+
+    },
+    
+    /** 
+     * Method: show
+     * Show the tile by showing its frame.
+     */
+    show: function() {
+        this.frame.style.display = '';
+        // Force a reflow on gecko based browsers to actually show the element
+        // before continuing execution.
+        if (navigator.userAgent.toLowerCase().indexOf("gecko") != -1) { 
+            this.frame.scrollLeft = this.frame.scrollLeft; 
+        } 
+    },
+    
+    /** 
+     * Method: hide
+     * Hide the tile by hiding its frame.
+     */
+    hide: function() {
+        this.frame.style.display = 'none';
+    },
+    
     CLASS_NAME: "OpenLayers.Tile.Image"
   }
 );
@@ -17201,9 +17624,8 @@ OpenLayers.Tile.WFS = OpenLayers.Class(OpenLayers.Tile, {
     requestSuccess:function(request) {
         if (this.features) {
             var doc = request.responseXML;
-            
-            if (!doc || request.fileType!="XML") {
-                doc = OpenLayers.parseXMLString(request.responseText);
+            if (!doc || !doc.documentElement) {
+                doc = OpenLayers.Format.XML.prototype.read(request.responseText);
             }
             if (this.layer.vectorMode) {
                 this.layer.addFeatures(this.layer.formatObject.read(doc));
@@ -18165,6 +18587,14 @@ OpenLayers.Format.WMC = OpenLayers.Class({
      * {String} Specify a version string if one is known.
      */
     version: null,
+
+    /**
+     * Property: layerOptions
+     * {Object} Default options for layers created by the parser. These
+     *     options are overridden by the options which are read from the 
+     *     capabilities document.
+     */
+    layerOptions: null, 
     
     /**
      * Property: parser
@@ -18219,7 +18649,7 @@ OpenLayers.Format.WMC = OpenLayers.Class({
                 "v" + version.replace(/\./g, "_")
             ];
             if(!format) {
-                throw "Can't find a WMS capabilities parser for version " +
+                throw "Can't find a WMC parser for version " +
                       version;
             }
             this.parser = new format(this.options);
@@ -18535,11 +18965,15 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
      * {<OpenLayers.Layer.WMS>} A WMS layer.
      */
     getLayerFromInfo: function(layerInfo) {
+        var options = layerInfo.options;
+        if (this.layerOptions) {
+            OpenLayers.Util.applyDefaults(options, this.layerOptions);
+        }
         var layer = new OpenLayers.Layer.WMS(
             layerInfo.title,
             layerInfo.href,
             layerInfo.params,
-            layerInfo.options
+            options
         );
         return layer;
     },
@@ -19763,7 +20197,7 @@ OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler, {
 
     /**
      * Property: feature
-     * {<OpenLayers.Feature.Vector>} The feature currently being handled.
+     * {<OpenLayers.Feature.Vector>} The last feature that was hovered.
      */
     feature: null,
 
@@ -19976,6 +20410,12 @@ OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler, {
                     // out of last feature for the first time
                     this.triggerCallback(type, 'out', [this.lastFeature]);
                 }
+                // next time the mouse goes in a feature whose geometry type
+                // doesn't match we don't want to call the 'out' callback
+                // again, so let's set this.feature to null so that
+                // previouslyIn will evaluate to false the next time
+                // we enter handle. Yes, a bit hackish...
+                this.feature = null;
             }
         } else {
             if(previouslyIn || (click && this.lastFeature)) {
@@ -20459,7 +20899,11 @@ OpenLayers.Handler.MouseWheel = OpenLayers.Class(OpenLayers.Handler, {
 
             if (!overLayerDiv) {
                 for(var i=0; i < this.map.layers.length; i++) {
-                    if (elem == this.map.layers[i].div) { 
+                    // Are we in the layer div? Note that we have two cases
+                    // here: one is to catch EventPane layers, which have a 
+                    // pane above the layer (layer.pane)
+                    if (elem == this.map.layers[i].div 
+                        || elem == this.map.layers[i].pane) { 
                         overLayerDiv = true;
                         break;
                     }
@@ -20736,6 +21180,15 @@ OpenLayers.Layer = OpenLayers.Class({
     options: null,
 
     /**
+     * APIProperty: eventListeners
+     * {Object} If set as an option at construction, the eventListeners
+     *     object will be registered with <OpenLayers.Events.on>.  Object
+     *     structure must be a listeners object as shown in the example for
+     *     the events.on method.
+     */
+    eventListeners: null,
+
+    /**
      * APIProperty: gutter
      * {Integer} Determines the width (in pixels) of the gutter around image
      *     tiles to ignore.  By setting this property to a non-zero value,
@@ -20845,6 +21298,26 @@ OpenLayers.Layer = OpenLayers.Class({
      */
     wrapDateLine: false,
     
+    /**
+     * APIProperty: transitionEffect
+     * {String} The transition effect to use when the map is panned or
+     *     zoomed.  
+     *
+     * There are currently two supported values:
+     *  - *null* No transition effect (the default).
+     *  - *resize*  Existing tiles are resized on zoom to provide a visual
+     *    effect of the zoom having taken place immediately.  As the
+     *    new tiles become available, they are drawn over top of the
+     *    resized tiles.
+     */
+    transitionEffect: null,
+    
+    /**
+     * Property: SUPPORTED_TRANSITIONS
+     * {Array} An immutable (that means don't change it!) list of supported 
+     *     transitionEffect values.
+     */
+    SUPPORTED_TRANSITIONS: ['resize'],
     
     /**
      * Constructor: OpenLayers.Layer
@@ -20869,6 +21342,10 @@ OpenLayers.Layer = OpenLayers.Class({
 
             this.events = new OpenLayers.Events(this, this.div, 
                                                 this.EVENT_TYPES);
+            if(this.eventListeners instanceof Object) {
+                this.events.on(this.eventListeners);
+            }
+
         }
 
         if (this.wrapDateLine) {
@@ -20899,8 +21376,12 @@ OpenLayers.Layer = OpenLayers.Class({
         this.options = null;
 
         if (this.events) {
+            if(this.eventListeners) {
+                this.events.un(this.eventListeners);
+            }
             this.events.destroy();
         }
+        this.eventListeners = null;
         this.events = null;
     },
     
@@ -21164,8 +21645,9 @@ OpenLayers.Layer = OpenLayers.Class({
      * display - {Boolean}
      */
     display: function(display) {
+        var inRange = this.calculateInRange();
         if (display != (this.div.style.display != "none")) {
-            this.div.style.display = (display) ? "block" : "none";
+            this.div.style.display = (display && inRange) ? "block" : "none";
         }
     },
 
@@ -22114,13 +22596,11 @@ OpenLayers.Control.DragPan = OpenLayers.Class(OpenLayers.Control, {
     */
     panMap: function(xy) {
         this.panned = true;
-        var deltaX = this.handler.last.x - xy.x;
-        var deltaY = this.handler.last.y - xy.y;
-        var size = this.map.getSize();
-        var newXY = new OpenLayers.Pixel(size.w / 2 + deltaX,
-                                         size.h / 2 + deltaY);
-        var newCenter = this.map.getLonLatFromViewPortPx( newXY );
-        this.map.setCenter(newCenter, null, this.handler.dragging);
+        this.map.pan(
+            this.handler.last.x - xy.x,
+            this.handler.last.y - xy.y,
+            {dragging: this.handler.dragging, animate: false}
+        );
     },
     
     /**
@@ -23672,10 +24152,9 @@ OpenLayers.Layer.EventPane = OpenLayers.Class(OpenLayers.Layer, {
 
                     if (dragging && this.dragPanMapObject && 
                         this.smoothDragPan) {
-                        var resolution = this.map.getResolution();
-                        var dX = (newCenter.lon - oldCenter.lon) / resolution;
-                        var dY = (newCenter.lat - oldCenter.lat) / resolution;
-                        this.dragPanMapObject(dX, dY);
+                        var oldPx = this.map.getViewPortPxFromLonLat(oldCenter);
+                        var newPx = this.map.getViewPortPxFromLonLat(newCenter);
+                        this.dragPanMapObject(newPx.x-oldPx.x, oldPx.y-newPx.y);
                     } else {
                         var center = this.getMapObjectLonLatFromOLLonLat(newCenter);
                         var zoom = this.getMapObjectZoomFromOLZoom(newZoom);
@@ -23712,18 +24191,6 @@ OpenLayers.Layer.EventPane = OpenLayers.Class(OpenLayers.Layer, {
             var moPixel = this.getMapObjectPixelFromOLPixel(viewPortPx);
             var moLonLat = this.getMapObjectLonLatFromMapObjectPixel(moPixel);
             lonlat = this.getOLLonLatFromMapObjectLonLat(moLonLat);
-            var xrem = this.map.size.w % 2;
-            var yrem = this.map.size.h % 2;
-            if(xrem != 0 || yrem != 0) {
-                // odd sized viewport
-                var olPx = viewPortPx.add(xrem, yrem);
-                var moPx = this.getMapObjectPixelFromOLPixel(olPx);
-                var moLoc = this.getMapObjectLonLatFromMapObjectPixel(moPx);
-                var olLoc = this.getOLLonLatFromMapObjectLonLat(moLoc);
-                // adjust by half a pixel in odd dimension(s)
-                lonlat.lon += (olLoc.lon - lonlat.lon) / 2;
-                lonlat.lat += (olLoc.lat - lonlat.lat) / 2;
-            }
         }
         return lonlat;
     },
@@ -23975,7 +24442,9 @@ OpenLayers.Layer.FixedZoomLevels = OpenLayers.Class({
             for(var i= this.minZoomLevel; i <= this.maxZoomLevel; i++) {
                 this.resolutions[resolutionsIndex++] = this.RESOLUTIONS[i];            
             }
-        }        
+            this.maxResolution = this.resolutions[0];
+            this.minResolution = this.resolutions[this.resolutions.length - 1];
+        }       
     },
     
     /**
@@ -25011,6 +25480,7 @@ OpenLayers.Control.DrawFeature = OpenLayers.Class(OpenLayers.Control, {
 /**
  * @requires OpenLayers/Control.js
  * @requires OpenLayers/Feature/Vector.js
+ * @requires OpenLayers/Handler/Feature.js
  */
 
 /**
@@ -25358,7 +25828,7 @@ OpenLayers.Control.ZoomBox = OpenLayers.Class(OpenLayers.Control, {
                 var pixHeight = Math.abs(position.top-position.bottom);
                 var zoomFactor = Math.min((this.map.size.h / pixHeight),
                     (this.map.size.w / pixWidth));
-                var extent = map.getExtent();
+                var extent = this.map.getExtent();
                 var center = this.map.getLonLatFromPixel(
                     position.getCenterPixel());
                 var xmin = center.lon - (extent.getWidth()/2)*zoomFactor;
@@ -25952,8 +26422,8 @@ OpenLayers.Layer.GeoRSS = OpenLayers.Class(OpenLayers.Layer.Markers, {
      */
     parseData: function(ajaxRequest) {
         var doc = ajaxRequest.responseXML;
-        if (!doc || ajaxRequest.fileType!="XML") {
-            doc = OpenLayers.parseXMLString(ajaxRequest.responseText);
+        if (!doc || !doc.documentElement) {
+            doc = OpenLayers.Format.XML.prototype.read(ajaxRequest.responseText);
         }
         
         if (this.useFeedTitle) {
@@ -26158,13 +26628,21 @@ OpenLayers.Layer.Google = OpenLayers.Class(
      *     other maps, etc. 
      */
     sphericalMercator: false, 
+    
+    /**
+     * Property: dragObject
+     * {GDraggableObject} Since 2.93, Google has exposed the ability to get
+     *     the maps GDraggableObject. We can now use this for smooth panning
+     */
+    dragObject: null, 
 
     /** 
      * Constructor: OpenLayers.Layer.Google
      * 
      * Parameters:
-     * name - {String}
-     * options - {Object}
+     * name - {String} A name for the layer.
+     * options - {Object} An optional object whose properties will be set
+     *     on the layer.
      */
     initialize: function(name, options) {
         OpenLayers.Layer.EventPane.prototype.initialize.apply(this, arguments);
@@ -26188,6 +26666,14 @@ OpenLayers.Layer.Google = OpenLayers.Class(
         try {
             // create GMap, hide nav controls
             this.mapObject = new GMap2( this.div );
+            
+            //since v 2.93 getDragObject is now available.
+            if(typeof this.mapObject.getDragObject == "function") {
+                this.dragObject = this.mapObject.getDragObject();
+            } else {
+                this.dragPanMapObject = null;
+            }
+
 
             // move the ToS and branding stuff up to the pane
             // thanks a *mil* Erik for thinking of this
@@ -26205,15 +26691,8 @@ OpenLayers.Layer.Google = OpenLayers.Class(
             termsOfUse.style.right = "";
             termsOfUse.style.bottom = "";
 
-            //can we do smooth panning? (some versions don't)
-            if ( !this.mapObject.G || !this.mapObject.G.qb ||
-                 (typeof this.mapObject.G.qb != "function") ) {
-
-                this.dragPanMapObject = null;
-            }
-
         } catch (e) {
-            // do not crash
+            OpenLayers.Console.error(e);
         }
                
     },
@@ -26425,11 +26904,9 @@ OpenLayers.Layer.Google = OpenLayers.Class(
      * dY - {Integer}
      */
     dragPanMapObject: function(dX, dY) {
-        var newX = this.mapObject.G.left - dX;
-        var newY = this.mapObject.G.top + dY;
-        this.mapObject.G.qb(newX, newY);
+        this.dragObject.moveBy(new GSize(-dX, dY));
     },
-   
+
     /**
      * APIMethod: getMapObjectCenter
      * 
@@ -27153,6 +27630,7 @@ OpenLayers.Layer.Grid = OpenLayers.Class(OpenLayers.Layer.HTTPRequest, {
             }
         };
         tile.events.register("loadend", this, tile.onLoadEnd);
+        tile.events.register("unload", this, tile.onLoadEnd);
     },
 
     /** 
@@ -27164,9 +27642,11 @@ OpenLayers.Layer.Grid = OpenLayers.Class(OpenLayers.Layer.HTTPRequest, {
      * tile - {<OpenLayers.Tile>}
      */
     removeTileMonitoringHooks: function(tile) {
+        tile.unload()
         tile.events.un({
             "loadstart": tile.onLoadStart,
             "loadend": tile.onLoadEnd,
+            "unload": tile.onLoadEnd,
             scope: this
         });
     },
@@ -27301,8 +27781,8 @@ OpenLayers.Layer.Grid = OpenLayers.Class(OpenLayers.Layer.HTTPRequest, {
 
     /**
      * Method: onMapResize
-     * For singleTile layers, this will replace the tile with the
-     * a new one with updated tileSize and extent.
+     * For singleTile layers, this will set a new tile size according to the
+     * dimensions of the map pane.
      */
     onMapResize: function() {
         if (this.singleTile) {
@@ -27808,7 +28288,7 @@ OpenLayers.Layer.Text = OpenLayers.Class(OpenLayers.Layer.Markers, {
             // externalGraphic, because icon has no setOffset API Method.  
             if (feature.style.graphicXOffset 
                 && feature.style.graphicYOffset) {
-                iconOffset = new OpenLayers.Size(
+                iconOffset = new OpenLayers.Pixel(
                     feature.style.graphicXOffset, 
                     feature.style.graphicYOffset);
             }
@@ -28761,7 +29241,8 @@ OpenLayers.Style = OpenLayers.Class({
      * {Object} symbolizer hash
      */
     createSymbolizer: function(feature) {
-        var style = OpenLayers.Util.extend({}, this.defaultStyle);
+        var style = this.createLiterals(
+            OpenLayers.Util.extend({}, this.defaultStyle), feature);
         
         var rules = this.rules;
 
@@ -28819,11 +29300,9 @@ OpenLayers.Style = OpenLayers.Class({
 
         var symbolizer = rule.symbolizer[symbolizerPrefix] || rule.symbolizer;
 
-        var context = this.context || feature.attributes || feature.data;
-        
         // merge the style with the current style
         return this.createLiterals(
-                OpenLayers.Util.extend(style, symbolizer), context);
+                OpenLayers.Util.extend(style, symbolizer), feature);
     },
     
     /**
@@ -28834,16 +29313,16 @@ OpenLayers.Style = OpenLayers.Class({
      * Parameters:
      * style   - {Object} style to create literals for. Will be modified
      *           inline.
-     * context - {Object} context to take property values from. Defaults to
-     *           feature.attributes (or feature.data, if attributes are not
-     *           available)
+     * feature - {Object}
      * 
      * Returns:
      * {Object} the modified style
      */
-    createLiterals: function(style, context) {
+    createLiterals: function(style, feature) {
+        var context = this.context || feature.attributes || feature.data;
+        
         for (var i in this.propertyStyles) {
-            style[i] = OpenLayers.Style.createLiteral(style[i], context);
+            style[i] = OpenLayers.Style.createLiteral(style[i], context, feature);
         }
         return style;
     },
@@ -28962,21 +29441,23 @@ OpenLayers.Style = OpenLayers.Class({
  * into a Literal, taking the property values from the passed features.
  * 
  * Parameters:
- * value   {String} value to parse. If this string contains a construct like
+ * value - {String} value to parse. If this string contains a construct like
  *         "foo ${bar}", then "foo " will be taken as literal, and "${bar}"
  *         will be replaced by the value of the "bar" attribute of the passed
  *         feature.
- * context {Object} context to take attribute values from
+ * context - {Object} context to take attribute values from
+ * feature - {OpenLayers.Feature.Vector} The feature that will be passed
+ *     to <OpenLayers.String.format> for evaluating functions in the context.
  * 
  * Returns:
  * {String} the parsed value. In the example of the value parameter above, the
  * result would be "foo valueOfBar", assuming that the passed feature has an
  * attribute named "bar" with the value "valueOfBar".
  */
-OpenLayers.Style.createLiteral = function(value, context) {
+OpenLayers.Style.createLiteral = function(value, context, feature) {
     if (typeof value == "string" && value.indexOf("${") != -1) {
-        value = OpenLayers.String.format(value, context)
-        value = isNaN(value) ? value : parseFloat(value);
+        value = OpenLayers.String.format(value, context, [feature]);
+        value = (isNaN(value) || !value) ? value : parseFloat(value);
     }
     return value;
 }
@@ -29124,7 +29605,11 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
 
     /**
      * APIProperty: onModificationStart 
-     * {Function} Optional function to be called when a feature is selected
+     * {Function} *Deprecated*.  Register for "beforefeaturemodified" instead.
+     *     The "beforefeaturemodified" event is triggered on the layer before
+     *     any modification begins.
+     *
+     * Optional function to be called when a feature is selected
      *     to be modified. The function should expect to be called with a
      *     feature.  This could be used for example to allow to lock the
      *     feature on server-side.
@@ -29133,14 +29618,22 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
 
     /**
      * APIProperty: onModification
-     * {Function} Optional function to be called when a feature has been
+     * {Function} *Deprecated*.  Register for "featuremodified" instead.
+     *     The "featuremodified" event is triggered on the layer with each
+     *     feature modification.
+     *
+     * Optional function to be called when a feature has been
      *     modified.  The function should expect to be called with a feature.
      */
     onModification: function() {},
 
     /**
      * APIProperty: onModificationEnd
-     * {Function} Optional function to be called when a feature is finished 
+     * {Function} *Deprecated*.  Register for "afterfeaturemodified" instead.
+     *     The "afterfeaturemodified" event is triggered on the layer after
+     *     a feature has been modified.
+     *
+     * Optional function to be called when a feature is finished 
      *     being modified.  The function should expect to be called with a
      *     feature.
      */
@@ -29699,6 +30192,12 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
     zoomBox: null,
 
     /**
+     * APIProperty: zoomWheelEnabled
+     * {Boolean} Whether the mousewheel should zoom the map
+     */
+    zoomWheelEnabled: true, 
+
+    /**
      * Constructor: OpenLayers.Control.Navigation
      * Create a new navigation control
      * 
@@ -29737,7 +30236,9 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
      */
     activate: function() {
         this.dragPan.activate();
-        this.handlers.wheel.activate();
+        if (this.zoomWheelEnabled) {
+            this.handlers.wheel.activate();
+        }    
         this.handlers.click.activate();
         this.zoomBox.activate();
         return OpenLayers.Control.prototype.activate.apply(this,arguments);
@@ -29829,6 +30330,26 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
      */
     wheelDown: function(evt) {
         this.wheelChange(evt, -1);
+    },
+    
+    /**
+     * Method: disableZoomWheel
+     */
+    
+    disableZoomWheel : function() {
+        this.zoomWheelEnabled = false;
+        this.handlers.wheel.deactivate();       
+    },
+    
+    /**
+     * Method: enableZoomWheel
+     */
+    
+    enableZoomWheel : function() {
+        this.zoomWheelEnabled = true;
+        if (this.active) {
+            this.handlers.wheel.activate();
+        }    
     },
 
     CLASS_NAME: "OpenLayers.Control.Navigation"
@@ -30329,7 +30850,9 @@ OpenLayers.Layer.KaMap = OpenLayers.Class(OpenLayers.Layer.Grid, {
 /**
  * @requires OpenLayers/Ajax.js
  * @requires OpenLayers/Layer/Grid.js
- *
+ */
+
+/**
  * Class: OpenLayers.Layer.MapGuide
  * Instances of OpenLayers.Layer.MapGuide are used to display
  * data from a MapGuide OS instance.
@@ -30371,6 +30894,7 @@ OpenLayers.Layer.MapGuide = OpenLayers.Class(OpenLayers.Layer.Grid, {
         operation: 'GETMAPIMAGE',
         format: 'PNG',
         locale: 'en',
+        clip: '1',
         version: '1.0.0'
     },
     
@@ -32472,9 +32996,12 @@ OpenLayers.Geometry.Point = OpenLayers.Class(OpenLayers.Geometry, {
 
 /**
  * Class: OpenLayers.Geometry.Rectangle
- * A Rectangle is a simple geometry. It is specified by a point (x and y) 
- *     and dimensions (width and height), all of which are directly accessible 
- *     as properties.
+ * This class is *not supported*, and probably isn't what you're looking for.
+ *     Instead, most users probably want something like:
+ *     (code)
+ *     var poly = new OpenLayers.Bounds(0,0,10,10).toGeometry();
+ *     (end)
+ *     This will create a rectangular Polygon geometry. 
  * 
  * Inherits:
  *  - <OpenLayers.Geometry>
@@ -33924,7 +34451,7 @@ OpenLayers.Format.SLD = OpenLayers.Class(OpenLayers.Format.XML, {
             if (symbolizer && symbolizer.length > 0) {
             
                 var style = {};
-            
+                
                 // externalGraphic
                 var graphic = this.getElementsByTagNameNS(
                     symbolizer[0], this.sldns, "Graphic"
@@ -33938,6 +34465,9 @@ OpenLayers.Format.SLD = OpenLayers.Class(OpenLayers.Format.XML, {
                     );
                     style.graphicOpacity = this.parseProperty(
                         graphic[0], this.sldns, "Opacity"
+                    );
+                    style.rotation = this.parseProperty(
+                        graphic[0], this.sldns, "Rotation"
                     );
                 }
                 
@@ -34039,7 +34569,12 @@ OpenLayers.Format.SLD = OpenLayers.Class(OpenLayers.Format.XML, {
         if (filter) {
             var rule = new OpenLayers.Rule.Logical(
                     {type: OpenLayers.Rule.Logical.NOT});
-            rule.rules.push(this.parseFilter(filter[0]));
+            var filters = filter[0].childNodes; 
+            for (var i=0; i<filters.length; i++) {
+                if (filters[i].nodeType == 1) {
+                    rule.rules.push(this.parseFilter(filters[i]));
+                }
+            }
             return rule;
         }
         
@@ -35187,7 +35722,7 @@ OpenLayers.Layer.GML = OpenLayers.Class(OpenLayers.Layer.Vector, {
     requestSuccess:function(request) {
         var doc = request.responseXML;
         
-        if (!doc || request.fileType!="XML") {
+        if (!doc || !doc.documentElement) {
             doc = request.responseText;
         }
         
@@ -35229,7 +35764,9 @@ OpenLayers.Layer.GML = OpenLayers.Class(OpenLayers.Layer.Vector, {
 
 /**
  * @requires OpenLayers/Layer/Vector.js
- * 
+ */
+
+/**
  * Class: OpenLayers.Layer.PointTrack
  * Vector layer to display ordered point features as a line, creating one
  * LineString feature for each pair of two points.
@@ -35669,6 +36206,7 @@ OpenLayers.Layer.WFS = OpenLayers.Class(
             }
         };
         tile.events.register("loadend", tile, tile.onLoadEnd);
+        tile.events.register("unload", tile, tile.onLoadEnd);
     },
     
     /** 
@@ -35680,9 +36218,11 @@ OpenLayers.Layer.WFS = OpenLayers.Class(
      * tile - {<OpenLayers.Tile>}
      */
     removeTileMonitoringHooks: function(tile) {
+        tile.unload();
         tile.events.un({
             "loadstart": tile.onLoadStart,
             "loadend": tile.onLoadEnd,
+            "unload": tile.onLoadEnd,
             scope: tile
         });
     },
@@ -37791,7 +38331,7 @@ OpenLayers.Format.GeoRSS = OpenLayers.Class(OpenLayers.Format.XML, {
     },        
 
     /**
-     * Method: createGeometryFromItem
+     * Method: createFeatureFromItem
      * Return a feature from a GeoRSS Item.
      *
      * Parameters:
@@ -38365,17 +38905,47 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
                     
                     break;
                 case "iconstyle":
+                    // set scale
+                    var scale = parseFloat(this.parseProperty(styleTypeNode, 
+                                                          "*", "scale") || 1);
+  
+                    // set default width and height of icon
+                    var width = 32 * scale;
+                    var height = 32 * scale;
+
                     var iconNode = this.getElementsByTagNameNS(styleTypeNode, 
                                                "*", 
                                                "Icon")[0];
-
-                    // set default width and height of icon
-                    style["graphicWidth"] = 32;
-                    style["graphicHeight"] = 32;
-
                     if (iconNode) {
                         var href = this.parseProperty(iconNode, "*", "href");
                         if (href) {                                                   
+
+                            var w = this.parseProperty(iconNode, "*", "w");
+                            var h = this.parseProperty(iconNode, "*", "h");
+
+                            // Settings for Google specific icons that are 64x64
+                            // We set the width and height to 64 and halve the
+                            // scale to prevent icons from being too big
+                            var google = "http://maps.google.com/mapfiles/kml";
+                            if (OpenLayers.String.startsWith(
+                                                 href, google) && !w && !h) {
+                                w = 64;
+                                h = 64;
+                                scale = scale / 2;
+                            }
+                                
+                            // if only dimension is defined, make sure the
+                            // other one has the same value
+                            w = w || h;
+                            h = h || w;
+
+                            if (w) {
+                                width = parseInt(w) * scale;
+                            }
+
+                            if (h) {
+                                height = parseInt(h) * scale;
+                            }
 
                             // support for internal icons 
                             //    (/root://icons/palette-x.png)
@@ -38401,17 +38971,6 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
                                      + palette + "/icon" + pos + file_extension;
                             }
 
-
-                            var w = this.parseProperty(iconNode, "*", "w");
-                            if (w) {
-                                style["graphicWidth"] = parseInt(w);
-                            }
-
-                            var h = this.parseProperty(iconNode, "*", "h");
-                            if (h) {
-                                style["graphicHeight"] = parseInt(h);
-                            }
-
                             style["graphicOpacity"] = 1; // fully opaque
                             style["externalGraphic"] = href;
                         }
@@ -38424,36 +38983,36 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
                                                "*", 
                                                "hotSpot")[0];
                     if (hotSpotNode) {
-                        var x = hotSpotNode.getAttribute("x");
-                        var y = hotSpotNode.getAttribute("y");
+                        var x = parseFloat(hotSpotNode.getAttribute("x"));
+                        var y = parseFloat(hotSpotNode.getAttribute("y"));
 
                         var xUnits = hotSpotNode.getAttribute("xunits");
                         if (xUnits == "pixels") {
-                            style["graphicXOffset"] = parseInt(x);
+                            style["graphicXOffset"] = -x * scale;
                         }
                         else if (xUnits == "insetPixels") {
-                            style["graphicXOffset"] = style["graphicWidth"] 
-                                                          - parseInt(x);
+                            style["graphicXOffset"] = -width + (x * scale);
                         }
                         else if (xUnits == "fraction") {
-                            style["graphicXOffset"] = style["graphicWidth"] 
-                                                          * parseFloat(x);
+                            style["graphicXOffset"] = -width * x;
                         }
 
                         var yUnits = hotSpotNode.getAttribute("yunits");
                         if (yUnits == "pixels") {
-                            style["graphicYOffset"] = parseInt(y);
+                            style["graphicYOffset"] = -height + (y * scale) + 1;
                         }
                         else if (yUnits == "insetPixels") {
-                            style["graphicYOffset"] = style["graphicHeight"] 
-                                                          - parseInt(y);
+                            style["graphicYOffset"] = -(y * scale) + 1;
                         }
                         else if (yUnits == "fraction") {
-                            style["graphicYOffset"] = style["graphicHeight"] 
-                                                          * parseFloat(y);
+                            style["graphicYOffset"] =  -height * (1 - y) + 1;
                         }
                     }
+
+                    style["graphicWidth"] = width;
+                    style["graphicHeight"] = height;
                     break;
+
                 case "balloonstyle":
                     var balloonStyle = OpenLayers.Util.getXmlNodeValue(
                                             styleTypeNode);
@@ -38551,7 +39110,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
                                                        "*",
                                                        "Style")[0];
                 if (inlineStyleNode) {
-                    var inlineStyle= this.parseStyle(styleNode);
+                    var inlineStyle= this.parseStyle(inlineStyleNode);
                     if (inlineStyle) {
                         feature.style = OpenLayers.Util.extend({}, 
                                             feature.style);
