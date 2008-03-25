@@ -7,6 +7,7 @@
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
           <fixedSize>true</fixedSize>
+          <transitionEffect>resize</transitionEffect>
         </MapPaneOL>
         <CursorTrack id="cursorTrack">
           <precision>5</precision>

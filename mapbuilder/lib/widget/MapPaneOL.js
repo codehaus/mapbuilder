@@ -168,6 +168,9 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
   minResolution=objRef.getProperty("mb:minResolution");
   minResolution=(minResolution) ? parseFloat(minResolution) : undefined;
   
+  //transitionEffect
+  objRef.transitionEffect = objRef.getProperty("mb:transitionEffect", undefined);
+  
   //units
   var units = proj.getUnits() == 'meters' ? 'm' : proj.getUnits();
   
@@ -405,6 +408,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
               displayOutsideMaxExtent: objRef.displayOutsideMaxExtent,
               ratio: 1,
               singleTile: true,
+              transitionEffect: objRef.transitionEffect,
               visibility: false,
               moveTo: function(){return true}
          };
@@ -746,6 +750,9 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
 
       layerOptions.ratio = objRef.imageBuffer;
       layerOptions.singleTile = objRef.singleTile;
+      if (objRef.singleTile == true) {
+        layerOptions.transitionEffect = objRef.transitionEffect;
+      }
 
       var params = new Array();
       params = sld2UrlParam(currentStyle);
