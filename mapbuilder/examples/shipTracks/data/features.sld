@@ -18,6 +18,7 @@
               </ExternalGraphic>
 							<Mark/>
 							<Size>10</Size>
+							<Rotation>45</Rotation>
 						</Graphic>
 					</PointSymbolizer>
 					<LineSymbolizer>
