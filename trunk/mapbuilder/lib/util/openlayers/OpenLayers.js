@@ -15956,10 +15956,11 @@ OpenLayers.Renderer.SVG = OpenLayers.Class(OpenLayers.Renderer.Elements, {
      * {Boolean} Whether or not the browser supports the SVG renderer
      */
     supported: function() {
-        var svgFeature = "http://www.w3.org/TR/SVG11/feature#SVG";
+        var svgFeature = "http://www.w3.org/TR/SVG11/feature#";
         return (document.implementation && 
-                (document.implementation.hasFeature("org.w3c.svg", "1.0") || 
-                 document.implementation.hasFeature(svgFeature, "1.1")));
+           (document.implementation.hasFeature("org.w3c.svg", "1.0") || 
+            document.implementation.hasFeature(svgFeature + "SVG", "1.1") || 
+            document.implementation.hasFeature(svgFeature + "BasicStructure", "1.1") ));
     },    
 
     /**
@@ -16691,25 +16692,37 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
      * yOffset - {Number} rotation center relative to image, y coordinate
      */
     graphicRotate: function(node, xOffset, yOffset) {
-        var style = node._style;
+        var style = style || node._style;
         var options = node._options;
         
         var aspectRatio, size;
         if (!(style.graphicWidth && style.graphicHeight)) {
             // load the image to determine its size
             var img = new Image();
+            img.onreadystatechange = OpenLayers.Function.bind(function() {
+                if(img.readyState == "complete" ||
+                        img.readyState == "interactive") {
+                    aspectRatio = img.width / img.height;
+                    size = Math.max(style.pointRadius * 2, 
+                        style.graphicWidth || 0,
+                        style.graphicHeight || 0);
+                    xOffset = xOffset * aspectRatio;
+                    style.graphicWidth = size * aspectRatio;
+                    style.graphicHeight = size;
+                    this.graphicRotate(node, xOffset, yOffset)
+                }
+            }, this);
             img.src = style.externalGraphic;
-            aspectRatio = img.width / img.height;
-            size = Math.max(style.pointRadius * 2, style.graphicWidth || 0,
-                style.graphicHeight || 0);
-            xOffset = xOffset * aspectRatio;
+            
+            // will be called again by the onreadystate handler
+            return;
         } else {
             size = Math.max(style.graphicWidth, style.graphicHeight);
             aspectRatio = style.graphicWidth / style.graphicHeight;
         }
         
-        width = Math.round(style.graphicWidth || size * aspectRatio);
-        height = Math.round(style.graphicHeight || size);
+        var width = Math.round(style.graphicWidth || size * aspectRatio);
+        var height = Math.round(style.graphicHeight || size);
         node.style.width = width;
         node.style.height = height;
         
@@ -34451,7 +34464,7 @@ OpenLayers.Format.SLD = OpenLayers.Class(OpenLayers.Format.XML, {
             if (symbolizer && symbolizer.length > 0) {
             
                 var style = {};
-                
+            
                 // externalGraphic
                 var graphic = this.getElementsByTagNameNS(
                     symbolizer[0], this.sldns, "Graphic"
