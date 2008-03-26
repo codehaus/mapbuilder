@@ -3,6 +3,11 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd">
 	<models>
+
+	<StyledLayerDescriptor id="sld">
+		<defaultModelUrl>sld.xml</defaultModelUrl>
+	</StyledLayerDescriptor>
+
 		<OwsContext id="mainMap">
 			<defaultModelUrl>DemisWorldMap.xml</defaultModelUrl>
 			<widgets>
@@ -18,7 +23,7 @@
 				</CursorTrack>
 			</widgets>
     </OwsContext>
-    
+	
     <FeatureCollection id="geoRSS">
       <widgets>
         <TipWidgetOL id="featurePopup">
@@ -32,6 +37,8 @@
         <GmlRendererOL id="testGmlRenderer">
           <targetModel>mainMap</targetModel>
           <sldModel>sld</sldModel>
+          <defaultStyleName>default</defaultStyleName>
+          <selectStyleName>selected</selectStyleName>
           <hoverCursor>pointer</hoverCursor>
           <featureOnClick>featurePopup</featureOnClick>
         </GmlRendererOL>
