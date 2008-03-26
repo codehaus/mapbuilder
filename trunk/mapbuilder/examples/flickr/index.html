@@ -30,7 +30,8 @@
 					Flickr Demo using the <a href="http://www.flickr.com/photos/15435549@N00/" >Community MapBuilder</a> Flickr 
 			    <a href="http://www.flickr.com/services/feeds/photos_public.gne?id=15435549@N00&format=rss2">Feed</a><br/>
      			Note: Requires Server/proxy support to access Flickr (Assuming it is up).  It takes a few minutes to load the pictures from Flickr...<br/>
-     			The demo uses a custom widget (FlickRest2Wfs) with a complex XSL stylesheet. It first parses the list of pictures from the Flick REST api, then fetches the detailled description of each picture, and outputs it all into a WFS FeatureCollection. The resulting feature collection is displayed as points on the map and as a list with picture thumbnails below. The list is connected to the map, so when the mouse is over a list entry, the according point will be highlighted on the map. <br/>
+     			The demo uses a custom widget (FlickRest2Wfs) with a complex XSL stylesheet. It first parses the list of pictures from the Flick REST api, then fetches the detailled description of each picture, and outputs it all into a WFS FeatureCollection. The resulting feature collection is displayed on the map and as a list with picture thumbnails below. The list is connected to the map, so when the mouse is over a list entry, the according point will be highlighted on the map. <br/>
+				The SLD file for this demo uses an OpenLayers extension to the ExternalGraphic element, which allows us to show thumbnails of the images with urls from a feature attribute.<br/>
      			<b>Note</b> This example does not use the new GeoRSS feature of Flickr, because our Mapbuilder images are not tagged in a way that allows the Flickr GeoRSS processor to determine the positions.
 		    </div><!-- /left -->
 		  	<div class="right">
