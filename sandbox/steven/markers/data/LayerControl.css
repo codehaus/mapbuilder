@@ -1,0 +1,180 @@
+.LegendaDiv {
+border: solid 1px grey;
+margin: 5px;
+}
+.buttonLayerHeader {
+border: solid 1px #006599;
+text-align:right;
+background: #006599;
+
+}
+.rowli {
+border: solid 1px black;
+margin: 2px;
+padding: 1px;
+background: orange;
+list-style: none;
+}
+
+.titleDiv {
+border-top: solid 1px #006599;
+}
+
+.layerClose {
+border: solid 1px #006599;
+text-align:right;
+background: #006599;
+
+}
+.layerClose .mbButton {
+
+padding-left:4px;
+padding-right:4px;
+margin-left: 3px;
+}
+
+.altRow_1 {
+  background-color: #D1E2EC;
+}
+
+.altRow_0 {
+  background-color: #FFFFFF;
+  /*background-color: #D1E2EC;*/
+}
+#sortableLayerControl{
+  list-style-type:none;
+  }
+  #workspaceCanvas{
+  list-style-type:none;
+  }
+#layerControl ol
+{
+list-style-type: none;
+margin:0px;
+padding:0px;
+}
+#workspace ol
+{
+list-style-type: none;
+margin:0px;
+padding:0px;
+}
+#workspace ol li
+{
+  left:0px;
+  right:0px;
+  margin-bottom: 3px;
+  font-size: 80%;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  text-indent: 10px;
+  z-index:1100;
+  }
+#layerControl ol li, .google
+{
+list-style-type: none;
+  left:0px;
+  right:0px;
+  margin-bottom: 3px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  text-indent: 8px;
+  z-index:1100;
+}
+
+.li2
+{
+
+z-index:1100;
+position:relative;
+text-align:left;
+/*sinon il ne suit pas le <li>**/
+height:30px;
+
+}
+.li1
+{
+
+z-index:1100;
+position:relative;
+text-align:left;
+height:30px;
+/*sinon il ne suit pas le <li>**/
+
+}
+
+.li3
+{
+width:100%;
+z-index:1100;
+position:relative;
+text-align:left;
+
+/*sinon il ne suit pas le <li>**/
+
+}
+#layerControl input{
+  display:inline;
+  cursor:pointer;
+  right:0px;
+  top:0px;
+  bottom:0px;
+  margin:3px;
+  
+}
+#layerControl img{
+  left:0px;
+  right:0px;
+  top:0px;
+  bottom:0px;
+  margin:0px;
+  }
+.nameLayer{
+  display:inline;
+
+  left:80px;
+  padding-top:0px;
+  text-align:left;
+  margin:auto;
+  position:absolute;
+    font-size: 1em;
+    z-index:1100;
+
+}
+
+.legendLayerButton
+{	display:inline;
+  position:absolute;
+  cursor:pointer;
+  z-index:1202;
+  width:25px;
+  height:25px;
+  vertical-align:baseline;
+  left:0px;
+  top:2.5px;
+}
+.deleteLayerButton
+{	display:inline;
+  position:absolute;
+  cursor:pointer;
+  z-index:1201;
+  width:25px;
+  height:25px;
+  vertical-align:baseline;
+  left:30px;
+  top:2.5px;
+}
+.legendLayer
+{
+
+z-index:1100;
+position:relative;
+text-align:left;
+display:block;
+/*sinon il ne suit pas le <li>*/
+}
+.hoverLayerControl{
+  
+background-color: #eed;
+}
+/*css complementaire pour sortable LayerList*/

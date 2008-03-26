@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--*************************************************************************
+
+Filename        :   web.xml
+
+Project         :   mapbuilder
+
+Document Type   :   XML
+
+Purpose         :   This is the deployment descriptor for the web application.
+
+
+
+License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
+
+$Id: web.xml 2149 2006-07-03 08:53:20Z oterral $
+
+**************************************************************************-->
+
+
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+
+    version="2.4">
+
+
+
+
+
+    <!-- General description of your web application 
+
+    -->
+
+
+
+    <display-name>mapbuilder</display-name>
+
+    <description>
+
+      A javascript library for building web clients from web services and XML
+
+    </description>
+
+
+
+
+
+    <!-- Context initialization parameters that define shared
+
+         String constants used within your application, which
+
+         can be customized by the system administrator who is
+
+         installing your application.  
+
+    -->
+
+
+
+    <context-param>
+
+      <param-name>webmaster</param-name>
+
+      <param-value>mike.adair@ccrs.nrcan.gc.ca</param-value>
+
+      <description>
+
+        The EMAIL address of the administrator to whom questions
+
+        and comments about this application should be addressed.
+
+      </description>
+
+    </context-param>
+
+
+
+
+
+    <!-- Servlet definitions for the servlets that make up
+
+         your web application, including initialization
+
+         parameters.  
+
+    -->
+
+    
+
+    <servlet>
+
+      <servlet-name>proxyRedirect</servlet-name>
+
+      <description>
+
+        This provides a URL proxy redirection to load external docs
+
+      </description>
+
+      <!--jsp-file>/scripts/redirect.jsp</jsp-file-->
+
+      <servlet-class>
+
+        mapbuilder.ProxyRedirect
+
+      </servlet-class>
+
+      <init-param>
+
+        <param-name>debug</param-name>
+
+        <param-value>true</param-value>
+
+        <description>
+
+          shows extra debugging output on System.err
+
+        </description>
+
+      </init-param>
+
+    </servlet>
+
+    <servlet>
+
+      <servlet-name>xmlSerializer</servlet-name>
+
+      <description>
+
+        This servlet writes POSTed xml documents to a file on disk, filename
+
+        is returned 
+
+      </description>
+
+      <servlet-class>
+
+        mapbuilder.XmlSerializer
+
+      </servlet-class>
+
+      <init-param>
+
+        <param-name>outputDir</param-name>
+
+        <param-value>/temp</param-value>
+<!--        -->
+<!--        <param-name>namefile</param-name>-->
+<!--        <param-value>/MyDataLoc/data/create</param-value>-->
+<!--        -->
+
+        <description>
+
+          The directory where files are written, relative to the context root
+
+        </description>
+
+      </init-param>
+
+    </servlet>
+<servlet>
+
+      <servlet-name>xmlSerializer2</servlet-name>
+
+      <description>
+
+        This servlet writes POSTed sld documents to a file on disk, filename
+
+        is returned 
+
+      </description>
+
+      <servlet-class>
+
+        mapbuilder.XmlSerializer2
+
+      </servlet-class>
+
+      <init-param>
+
+        <param-name>outputDir</param-name>
+
+        <param-value>/temp</param-value>
+        
+
+
+        <description>
+
+          The directory where files are written, relative to the context root
+
+        </description>
+
+      </init-param>
+
+    </servlet>
+    <servlet>
+
+      <servlet-name>xmlDocEcho</servlet-name>
+
+      <description>
+
+        This servlet echos a POSTed xml document as the servlet response
+
+      </description>
+
+      <servlet-class>
+
+        mapbuilder.XmlEcho
+
+      </servlet-class>
+
+    </servlet>
+
+    <servlet>
+
+      <servlet-name>userGuideServlet</servlet-name>
+
+      <description>
+
+        This servlet is for the userguide documentation
+
+      </description>
+
+      <jsp-file>/docs/userGuideServlet.jsp</jsp-file>
+
+    </servlet>
+
+    
+
+    <!-- Define mappings that are used by the servlet container to
+
+         translate a particular request URI (context-relative) to a
+
+         particular servlet.  
+
+    -->
+
+    
+
+    <servlet-mapping>
+
+      <servlet-name>proxyRedirect</servlet-name>
+
+      <url-pattern>/proxy</url-pattern>
+
+    </servlet-mapping>
+
+    <servlet-mapping>
+
+      <servlet-name>xmlSerializer</servlet-name>
+
+      <url-pattern>/writeXml</url-pattern>
+
+    </servlet-mapping>
+    <servlet-mapping>
+
+      <servlet-name>xmlSerializer2</servlet-name>
+
+      <url-pattern>/writeXml2</url-pattern>
+
+    </servlet-mapping>
+
+    <servlet-mapping>
+
+      <servlet-name>xmlDocEcho</servlet-name>
+
+      <url-pattern>/echoXml</url-pattern>
+
+    </servlet-mapping>
+
+    <servlet-mapping>
+
+      <servlet-name>userGuideServlet</servlet-name>
+
+      <url-pattern>/userGuide</url-pattern>
+
+    </servlet-mapping>
+
+
+
+    <!-- Define the default session timeout for your application,
+
+         in minutes.  From a servlet or JSP page, you can modify
+
+         the timeout for a particular session dynamically by using
+
+         HttpSession.getMaxInactiveInterval(). -->
+
+
+
+    <session-config>
+
+      <session-timeout>10</session-timeout>    <!-- 30 minutes -->
+
+    </session-config>
+
+
+
+    <mime-mapping>
+
+        <extension>
+
+            xml
+
+        </extension>
+
+        <mime-type>
+
+            text/xml
+
+        </mime-type>
+
+    </mime-mapping>
+
+    <mime-mapping>
+
+        <extension>
+
+            xsl
+
+        </extension>
+
+        <mime-type>
+
+            text/xml
+
+        </mime-type>
+
+    </mime-mapping>
+
+    <mime-mapping>
+
+        <extension>
+
+            css
+
+        </extension>
+
+        <mime-type>
+
+            text/css
+
+        </mime-type>
+
+    </mime-mapping>
+
+    
+
+    
+
+    <!-- Define the error pages to use for dealing with exceptions. -->
+
+    <error-page>
+
+      <exception-type>
+
+        javax.servlet.ServletException
+
+      </exception-type>
+
+      <location>/ExceptionHandler.jsp</location>
+
+    </error-page>
+
+
+
+    <!-- Define the custom JSP tag libraries used.     -->
+
+
+
+    <taglib>
+
+      <taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
+
+      <taglib-location>/WEB-INF/c.tld</taglib-location>
+
+    </taglib>
+
+    <taglib>
+
+      <taglib-uri>http://java.sun.com/jsp/jstl/xml</taglib-uri>
+
+      <taglib-location>/WEB-INF/x.tld</taglib-location>
+
+    </taglib>
+
+
+
+</web-app>
+

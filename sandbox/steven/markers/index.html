@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+
+    <title>EduGIS nieuwe stijl</title>
+<link rel='StyleSheet' type='text/css'	href='data/style.css' />
+  <script src="scripts/scriptaculous/prototype.js" type="text/javascript"></script>
+
+    <script src="scripts/scriptaculous/scriptaculous.js"></script>
+<script type="text/javascript">
+function go()
+{
+window.location=document.getElementById("menu").value
+}
+</script>
+
+    <script type="text/javascript" src="scripts/jsanthology/list_order_drag_n_drop.js"></script>
+    <script type="text/javascript" src="scripts/jsanthology/add-load-listener.js"></script>
+    <script type="text/javascript" src="scripts/jsanthology/identify-browser.js"></script>
+    <script type="text/javascript" src="scripts/jslib13/navig.js"></script>
+    <script type="text/javascript" src="scripts/jsanthology/fMapbuilderScript.js"></script>
+<!--     <script  src='http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAADF_nrcklLMx48KpFnZG8ohTnsl6gawbrbIVWOPH4JllDKzLZARTiY6drJl_VpCobMRSDGUcEOpyAwQ'></script>-->
+        <!-- edugis-ont -->
+<!--  <script src="http://maps.google.com/maps?file=api&amp;v=2.82&amp;key=ABQIAAAADF_nrcklLMx48KpFnZG8ohTnsl6gawbrbIVWOPH4JllDKzLZARTiY6drJl_VpCobMRSDGUcEOpyAwQ"      type="text/javascript"></script>-->
+		<!--localhost-->
+	<script src="http://maps.google.com/maps?file=api&amp;v=2.82&amp;key=ABQIAAAADF_nrcklLMx48KpFnZG8ohROjDqUIPF6izcGpS0RaRukGXDRpRQNZ58VW7llZ0au0P2Q7QQUfVIhzg"  type="text/javascript"></script>
+		<!--www1.edugis.nl-->
+
+	
+    <script>
+
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='data/config.xml';
+      var language='nl';
+      function start()
+
+    {
+
+      mbDoLoad();
+	
+    }
+    </script>
+    <script type="text/javascript" src="lib/Mapbuilder.js"></script>
+
+  </head>
+  <body>
+  <script type="text/javascript" src="scripts/wz/wz_dragdrop.js"></script>
+  <script type="text/javascript">
+
+
+
+    nameBrowser=nomNavig();
+
+    addLoadListener(start);
+
+
+
+
+  </script>
+<div id="wrapper">
+    <div id="header">
+    <table style="float:right" width="350px"><tr height="28px"><td width="50%">
+    <div id="mainButtonBar" style="margin: 0; padding: 0;"></div></td><td width="50%" align="right">
+    <ul id="tools" style="margin: 0; padding: 0 20 0 0;">
+      <li>
+      <img src="customlib/skin/tango/images/LegendButton.png" title="Toon/verberg legenda" onclick="new Effect.toggle('legenda')"		 style="cursor:pointer"/>
+      </li><li>
+      <img src="customlib/skin/tango/images/LayerAddDisable.png" title="Toon/verberg lagenbeheer"	onclick="new Effect.toggle('addLayer')" style="cursor:pointer"/>
+      </li>
+      <li>
+      <img src="customlib/skin/tango/images/GeocoderDisable.png" title="Toon/verberg adressenzoeker" onclick="new Effect.toggle('geocoder')" style="cursor:pointer"/>
+      </li>
+      
+      <li>
+      <img src="customlib/skin/tango/images/HelpDisable.png" title="Toon/verberg hulp" onclick=""		 style="cursor:pointer"/>
+      </li>
+      </ul></td></tr></table>
+    </div>
+
+      <div id="mainMapPane" oncontextmenu="return false">
+      <noscript>This page requires JavaScript to be enabled.</noscript>
+    </div><!-- mainMapPane -->
+   <div id="footer"><table><tr><td id="scalebar" style="position: relative;display:block;"></td>
+   <td id="showDistance" style="width:180px;display:block;"></td>
+   </tr>
+   </table>
+   <div id="overzicht" style="position:absolute; right:5px;bottom:5px;"><a class="mbButton"  onclick="new Effect.toggle('locator','blind')" style="cursor:pointer"><img src="customlib/skin/tango/images/LegendEnable.png.0.png"/></a></div>
+  </div>
+
+
+
+    </div><!-- wrapper -->
+
+<div id="legenda" >
+    <div class="header" >
+        Legenda <a class="mbButton"  onclick="new Effect.toggle('legenda')" style="cursor:pointer"><img src="data/close_small.png"></a>
+      </div><!-- .header -->
+
+          <div id="layerControl"></div>
+		<div id="google" class="google"  >
+			<div id="googleli1"  class="li1" >
+				<div class="nameLayer"  > 
+					<img src="http://www.google.com/intl/en_ALL/mapfiles/poweredby.png"/>
+				</div>
+			</div>
+		</div>
+    </div><!-- legenda -->
+<div id="geocoder">
+      <div class="header" >
+        Adres zoeken <a class="mbButton"  onclick="new Effect.toggle('geocoder')" style="cursor:pointer"><img src="data/close_small.png"></a>
+      </div><!-- .header -->
+      <div id="openLSForm">
+      </div>
+      <div id="olsResponsView">
+      </div>
+    </div><!-- geocoder -->
+     
+    <div id="locator" >
+<div  class="header">
+           <a class="mbButton"  onclick="new Effect.toggle('locator','blind')" style="cursor:pointer"><img src="customlib/skin/tango/images/LegendDisable.png.0.png"></a>
+      </div><!-- .header -->
+
+
+      <div id="locatorMap" style="height:256px">
+
+      </div>
+
+    </div><!-- locator -->
+    <div id="addLayer">
+      <div class="header" >
+        Lagen toevoegen  <a class="mbButton"  onclick="new Effect.toggle('addLayer')" style="cursor:pointer"><img src="data/close_small.png"></a>
+      </div><!-- .header -->
+      <div id="al-content">
+      <script type="text/javascript">
+         function addLiLayer(url, id) {
+          var liItem = document.getElementById("item"+id);
+          var workspace = document.getElementById("workspace");
+         /* if(liItem.hasAttribute('style')){
+            liItem.removeAttribute('style');
+            workspace.style.display = 'none';
+          }
+          else {
+            liItem.setAttribute('style','');*/
+            liItem.appendChild(workspace);
+            workspace.style.display = 'inline';
+            if(url)	config.loadModel('wmsCapTemplate',url);
+           // }
+        }
+      </script>
+      <ol>
+<li id="item1" class="rowLi"><div class="LayerClose">Gemeenten, wijken en buurten<a class="mbButton"  href="javascript:addLiLayer('data/cbs.xml','1')"><img src="data/menu_small.png"/></a></div></li>
+<li id="item2" class="rowLi"><div class="LayerClose">Kadastrale gegevens<a class="mbButton"  href="javascript:addLiLayer('data/kadaster.xml','2')"><img src="data/menu_small.png"/></a></div></li>
+<li id="item3" class="rowLi"><div class="LayerClose">Bevolkingsdichtheid<a class="mbButton"  href="javascript:addLiLayer('data/thema.xml','3')"><img src="data/menu_small.png"/></a></div></li>
+<li id="item4" class="rowLi"><div class="LayerClose">Welvaart<a class="mbButton"  href="javascript:addLiLayer('data/welvaart.xml','4')"><img src="data/menu_small.png"/></a></div></li>
+<li id="item5" class="rowLi"><div class="LayerClose">Bevolkingssamenstelling<a class="mbButton"  href="javascript:addLiLayer('data/bevolking.xml','5')"><img src="data/menu_small.png"/></a></div></li>
+<li id="item6" class="rowLi"><div class="LayerClose">Hoogte<a class="mbButton"  href="javascript:addLiLayer('data/ahn.xml','6')"><img src="data/menu_small.png"/></a></div></li>
+
+<li id="item7" class="rowLi"><div class="LayerClose">Grondsoorten<a class="mbButton"  href="javascript:addLiLayer('data/bodem.xml','7')"><img src="data/menu_small.png"/></a></div></li>
+<li id="item8" class="rowLi"><div class="LayerClose">Ruimtegebruik	<a class="mbButton"  href="javascript:addLiLayer('data/ehs.xml','8')"><img src="data/menu_small.png"/></a></div></li>
+<li id="item9" class="rowLi"><div class="LayerClose">Water<a class="mbButton"  href="javascript:addLiLayer('data/water.xml','9')"><img src="data/menu_small.png"/></a></div></li>
+<li id="item10" class="rowLi"><div class="LayerClose">Toegevoegde gegevens<a class="mbButton"  href="javascript:addLiLayer('data/data.xml','10')"><img src="data/menu_small.png"/></a></div></li>
+<li id="item11" class="rowLi"><div class="LayerClose">Topografie	<a class="mbButton"  href="javascript:addLiLayer('data/topografie.xml','11')"><img src="data/menu_small.png"/></a></div></li>
+<li id="item12" class="rowLi"><div class="LayerClose">De Nieuwe kaart Nederland<a class="mbButton"  href="javascript:addLiLayer('http://webservice.nieuwekaart.nl/cgi-bin/nkn?version=1.1.0&request=GetCapabilities&service=WMS','12')"><img src="data/menu_small.png"/></a></div></li>
+     <li id="workspace"></li>
+      </ol>
+
+      </div><!-- al-content -->
+    </div><!-- addLayer -->
+   <!-- <script type="text/javascript" language="javascript"> new Draggable('legenda', {handle:'header'} );</script>
+    <script type="text/javascript" language="javascript"> new Draggable('addLayer', {handle:'header'} );</script>
+    <script type="text/javascript" language="javascript"> new Draggable('geocoder', {handle:'header'} );</script>-->
+  </body>
+</html>

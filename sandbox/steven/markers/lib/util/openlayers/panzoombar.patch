@@ -1,0 +1,73 @@
+Index: C:/Documents and Settings/steveno/workspace/sandbox-steven/markers/lib/util/openlayers/OpenLayers.js
+===================================================================
+--- C:/Documents and Settings/steveno/workspace/sandbox-steven/markers/lib/util/openlayers/OpenLayers.js	(revision 3940)
++++ C:/Documents and Settings/steveno/workspace/sandbox-steven/markers/lib/util/openlayers/OpenLayers.js	(working copy)
+@@ -2971,7 +2971,7 @@
+      */
+     getStatus: function() {
+         try {
+-        	return this.transport.status || 0;
++          return this.transport.status || 0;
+         } catch (e) {
+             return 0;
+         }
+@@ -6314,7 +6314,7 @@
+      */
+     easeInOut: function(t, b, c, d) {
+         if ((t/=d/2) < 1) return c/2*t*t + b;
+-		return -c/2 * ((--t)*(t-2) - 1) + b;
++    return -c/2 * ((--t)*(t-2) - 1) + b;
+     },
+ 
+     CLASS_NAME: "OpenLayers.Easing.Quad"
+@@ -10870,9 +10870,9 @@
+             node = this.drawGeometryNode(node, geometry);
+             
+             // append the node to root (but only if it's new)
+-	        if (node.parentNode != this.root) { 
+-	            this.root.appendChild(node); 
+-	        }
++          if (node.parentNode != this.root) { 
++              this.root.appendChild(node); 
++          }
+             this.postDraw(node);
+         } else {
+             node = OpenLayers.Util.getElement(geometry.id);
+@@ -11938,7 +11938,7 @@
+     /** 
+      * APIProperty: zoomStopWidth
+      */
+-    zoomStopWidth: 18,
++    zoomStopWidth: 26,
+ 
+     /** 
+      * APIProperty: zoomStopHeight
+@@ -12043,8 +12043,8 @@
+         // place the controls
+         this.buttons = [];
+ 
+-        var sz = new OpenLayers.Size(18,18);
+-        var centered = new OpenLayers.Pixel(px.x+sz.w/2, px.y);
++        var sz = new OpenLayers.Size(26,26);
++        var centered = new OpenLayers.Pixel(px.x+sz.w/2, px.y+50);
+         var wposition = sz.w;
+ 
+         if (this.zoomWorldIcon) {
+@@ -12080,7 +12080,7 @@
+         var zoomsToEnd = this.map.getNumZoomLevels() - 1 - this.map.getZoom();
+         var slider = OpenLayers.Util.createAlphaImageDiv(id,
+                        centered.add(-1, zoomsToEnd * this.zoomStopHeight), 
+-                       new OpenLayers.Size(20,9), 
++                       new OpenLayers.Size(26,9), 
+                        imgLocation+"slider.png",
+                        "absolute");
+         this.slider = slider;
+@@ -26584,7 +26584,7 @@
+      * Constant: MAX_ZOOM_LEVEL
+      * {Integer} 19
+      */
+-    MAX_ZOOM_LEVEL: 19,
++    MAX_ZOOM_LEVEL: 21,
+ 
+     /** 
+      * Constant: RESOLUTIONS

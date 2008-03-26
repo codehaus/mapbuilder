@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding="ISO-8859-1" standalone="no" ?>
+
+<WMT_MS_Capabilities version="1.1.0">
+
+<!-- MapServer version 4.6.1 OUTPUT=GIF OUTPUT=PNG OUTPUT=WBMP OUTPUT=SVG SUPPORTS=PROJ SUPPORTS=FREETYPE SUPPORTS=WMS_SERVER SUPPORTS=WMS_CLIENT INPUT=POSTGIS INPUT=GDAL INPUT=SHAPEFILE DEBUG=MSDEBUG -->
+
+<Service>
+  <Name>OGC:WMS</Name>
+  <Title>Nota Ruimte (Nederland)</Title>
+
+  <Abstract>Nota Ruimte (Nederland)</Abstract>
+  <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base.map"/>
+</Service>
+
+<Capability>
+  <Request>
+    <GetCapabilities>
+      <Format>application/vnd.ogc.wms_xml</Format>
+      <DCPType>
+
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base.map"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base.map"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetCapabilities>
+    <GetMap>
+      <Format>image/gif</Format>
+      <Format>image/png; mode=24bit</Format>
+      <Format>image/wbmp</Format>
+      <Format>image/tiff</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base.map"/></Get>
+
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base.map"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetMap>
+    <GetFeatureInfo>
+      <Format>text/plain</Format>
+      <Format>application/vnd.ogc.gml</Format>
+      <DCPType>
+
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base.map"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base.map"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetFeatureInfo>
+    <DescribeLayer>
+      <Format>text/xml</Format>
+
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base.map"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base.map"/></Post>
+        </HTTP>
+      </DCPType>
+    </DescribeLayer>
+    <GetLegendGraphic>
+      <Format>image/png</Format>
+
+      <Format>image/gif</Format>
+      <Format>image/png; mode=24bit</Format>
+      <Format>image/wbmp</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base.map"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base.map"/></Post>
+
+        </HTTP>
+      </DCPType>
+    </GetLegendGraphic>
+  </Request>
+  <Exception>
+    <Format>application/vnd.ogc.se_xml</Format>
+    <Format>application/vnd.ogc.se_inimage</Format>
+    <Format>application/vnd.ogc.se_blank</Format>
+
+  </Exception>
+  <VendorSpecificCapabilities />
+  <UserDefinedSymbolization SupportSLD="1" UserLayer="0" UserStyle="1" RemoteWFS="0"/>
+  <Layer>
+    <Name>_topografie</Name>
+    <Title>topografie</Title>
+    <SRS>EPSG:28992</SRS>
+
+    <LatLonBoundingBox minx="1.72525" miny="51.0097" maxx="7.17317" maxy="54.2783" />
+    <ScaleHint min="0.498903" max="14967.1" />
+    <Layer queryable="0" opaque="0" cascaded="0">
+        <Name>topografie</Name>
+        <Title>topografie</Title>
+        <Abstract>Topografie van Nederland</Abstract>
+        <SRS>EPSG:28992</SRS>
+
+        <LatLonBoundingBox minx="-179.999" miny="-75.0102" maxx="179.078" maxy="2.87828" />
+        <BoundingBox SRS="EPSG:28992"
+                    minx="-2.5e+007" miny="-2.5e+007" maxx="2.5e+007" maxy="2.5e+007" />
+        <Style>
+          <Name>default</Name>
+          <Title>default</Title>
+          <LegendURL width="18" height="12">
+             <Format>image/gif</Format>
+
+             <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" type="simple" xlink:href="/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/base_all_visible.map&amp;mapext=-160000+300000+400000+620000&amp;mapsize=740+400&amp;LAYERS=topografie&amp;mode=legend"/>
+          </LegendURL>
+        </Style>
+        <ScaleHint min="0.498903" max="3991.22" />
+    </Layer>
+    
+  </Layer>
+</Capability>
+</WMT_MS_Capabilities>
