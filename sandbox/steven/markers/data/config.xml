@@ -46,6 +46,12 @@
           <singleLine>true</singleLine>
           <align>left</align><!-- left, center, or right -->
         </MapScaleBar>
+        <CursorTrack id="cursorTrack">
+          <mouseHandler>mainMap</mouseHandler>
+
+          <showLatLong>true</showLatLong>
+          <precision>3</precision>
+        </CursorTrack>
        <PanZoomBar id="panZoomBar">
      <scriptFile>customlib/widget/PanZoomBar.js</scriptFile>
      </PanZoomBar>

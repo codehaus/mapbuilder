@@ -23,11 +23,11 @@ window.location=document.getElementById("menu").value
 <!--     <script  src='http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAADF_nrcklLMx48KpFnZG8ohTnsl6gawbrbIVWOPH4JllDKzLZARTiY6drJl_VpCobMRSDGUcEOpyAwQ'></script>-->
         <!-- edugis-ont -->
 <!--  <script src="http://maps.google.com/maps?file=api&amp;v=2.82&amp;key=ABQIAAAADF_nrcklLMx48KpFnZG8ohTnsl6gawbrbIVWOPH4JllDKzLZARTiY6drJl_VpCobMRSDGUcEOpyAwQ"      type="text/javascript"></script>-->
-		<!--localhost-->
-	<script src="http://maps.google.com/maps?file=api&amp;v=2.82&amp;key=ABQIAAAADF_nrcklLMx48KpFnZG8ohROjDqUIPF6izcGpS0RaRukGXDRpRQNZ58VW7llZ0au0P2Q7QQUfVIhzg"  type="text/javascript"></script>
-		<!--www1.edugis.nl-->
+    <!--localhost-->
+  <script src="http://maps.google.com/maps?file=api&amp;v=2.82&amp;key=ABQIAAAADF_nrcklLMx48KpFnZG8ohROjDqUIPF6izcGpS0RaRukGXDRpRQNZ58VW7llZ0au0P2Q7QQUfVIhzg"  type="text/javascript"></script>
+    <!--www1.edugis.nl-->
 
-	
+  
     <script>
 
       // URL of Mapbuilder configuration file.
@@ -38,7 +38,7 @@ window.location=document.getElementById("menu").value
     {
 
       mbDoLoad();
-	
+  
     }
     </script>
     <script type="text/javascript" src="lib/Mapbuilder.js"></script>
@@ -81,7 +81,9 @@ window.location=document.getElementById("menu").value
       <div id="mainMapPane" oncontextmenu="return false">
       <noscript>This page requires JavaScript to be enabled.</noscript>
     </div><!-- mainMapPane -->
-   <div id="footer"><table><tr><td id="scalebar" style="position: relative;display:block;"></td>
+   <div id="footer"><table><tr><td id="cursorTrack" ></td>
+   <td id="scalebar" style="position: relative;display:block;"></td>
+   
    <td id="showDistance" style="width:180px;display:block;"></td>
    </tr>
    </table>
@@ -98,13 +100,13 @@ window.location=document.getElementById("menu").value
       </div><!-- .header -->
 
           <div id="layerControl"></div>
-		<div id="google" class="google"  >
-			<div id="googleli1"  class="li1" >
-				<div class="nameLayer"  > 
-					<img src="http://www.google.com/intl/en_ALL/mapfiles/poweredby.png"/>
-				</div>
-			</div>
-		</div>
+    <div id="google" class="google"  >
+      <div id="googleli1"  class="li1" >
+        <div class="nameLayer"  > 
+          <img src="http://www.google.com/intl/en_ALL/mapfiles/poweredby.png"/>
+        </div>
+      </div>
+    </div>
     </div><!-- legenda -->
 <div id="geocoder">
       <div class="header" >

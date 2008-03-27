@@ -142,5 +142,5 @@ function GetFeatureInfoPZ(widgetNode, model) {
             }
           }
         }
-        this.model.addListener("getfeatureinfo",this.getFeatureInfo, this );
+        this.model.addListener("rightMouseup",this.getFeatureInfo, this );
 }

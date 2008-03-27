@@ -25,6 +25,10 @@ function MapPaneOL(widgetNode, model) {
   OpenLayers.ImgPath = config.skinDir + '/images/openlayers/';
   OpenLayers.ProxyHost = config.proxyUrl+"/?url=";
   
+  //Prevent pink tiles
+  OpenLayers.IMAGE_RELOAD_ATTEMPTS = 3;
+  OpenLayers.Util.onImageLoadErrorColor = "transparent"; 
+  
 
   // replacement for deprecated MapContainerBase
   this.containerNodeId = this.htmlTagId;
@@ -528,6 +532,16 @@ MapPaneOL.prototype.updateMouse = function(e) {
   if (objRef.model.map.mbCursor) {
     objRef.model.map.div.style.cursor = objRef.model.map.mbCursor;
   }
+  
+   // Check if the left mouse button is used
+  var isLeftClick = ((((e.which) && (e.which == 1)) ||
+                ((e.button) && (e.button == 1))) && (e.ctrlKey==false));
+  // fire Mapbuilder mouseup event
+  if (isLeftClick) objRef.model.callListeners('mouseup', {evpl: [e.xy.x, e.xy.y]});
+  // it is a getFeatureInfo request
+
+  else objRef.model.callListeners('rightMouseup', [e.xy.x, e.xy.y]);
+  
 }
 
 /**
