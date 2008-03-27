@@ -52,6 +52,7 @@ function GetFeatureInfoPZ(widgetNode, model) {
    * @return {OpenLayers.Control} class of the OL control.
    */
    this.getFeatureInfo = function(objRef,evpl) {
+
      var targetContext = objRef.widgetNode.selectSingleNode("mb:targetContext");
     if (targetContext) {
       objRef.targetContext = window.config.objects[targetContext.firstChild.nodeValue];
@@ -61,6 +62,7 @@ function GetFeatureInfoPZ(widgetNode, model) {
     } else {
       objRef.targetContext = objRef.targetModel;
     }
+         
     var x = evpl[0];
     var y = evpl[1];
     objRef.targetModel.evpl = evpl;
@@ -91,8 +93,11 @@ function GetFeatureInfoPZ(widgetNode, model) {
     config.objects.mainMap.map.addPopup(popup, true);
               for (var i=0; i<queryList.length; ++i) {
                 var layerNode=queryList[i];
-                var layerName=layerNode.firstChild.data;
-                var hidden = objRef.targetContext.getHidden(layerName);
+                //layerNode.selectSingleNode('//wmc:Layer/wmc:Server/wmc:OnlineResource').getAttribute('xlink:href')
+                var layerName=layerNode.selectSingleNode('//wmc:Layer/wmc:Name').textContent;
+                var layerId = objRef.targetContext.getLayerIdByName(layerName);
+                alert(layerId);
+                var hidden = objRef.targetContext.getHidden(layerId);
                 if (hidden == 0) { //query only visible layers
                   objRef.xsl.setParameter("layer",layerName);
                   if(layerName == "hoogtes") objRef.xsl.setParameter("queryLayer",'Hoogte');

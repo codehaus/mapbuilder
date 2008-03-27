@@ -37,7 +37,7 @@
 <!--     <Name>Marker</Name>-->
 <!--     <Title>Marker</Title>   -->
 <!--  </Layer>-->
-    <Layer queryable="1" hidden="0">
+    <Layer queryable="1" hidden="0" id="hoogtes1231">
      <Server service="WMS" version="1.1.0" title="WMS-C">
        <OnlineResource xlink:type="simple" xlink:href="http://www1.edugis.nl/tilecache.py?map=maps/edugis/hoogte.map"/>
      </Server>
