@@ -222,9 +222,16 @@ function GmlRendererOL(widgetNode, model) {
             }
             var sldNode = sldModel.getSldNode();
             if (sldModel.sld) {
-              var namedLayer = sldModel.sld[objRef.id];
-              widgetConfig.defaultStyle = namedLayer[widgetConfig.defaultStyleName];
-              widgetConfig.selectStyle = namedLayer[widgetConfig.selectStyleName];
+              var namedLayer = sldModel.sld.namedLayers[objRef.id].userStyles;
+              for (var i=0; i<namedLayer.length; ++i) {
+              	namedLayer[i].propertyStyles = namedLayer[i].findPropertyStyles();
+              	if (namedLayer[i].name == widgetConfig.defaultStyleName) {
+              	  widgetConfig.defaultStyle = namedLayer[i];
+              	}
+              	if (namedLayer[i].name == widgetConfig.selectStyleName) {
+              	  widgetConfig.selectStyle = namedLayer[i];
+              	}
+              }
               if (widgetConfig.selectStyle) {
                 widgetConfig.selectStyle.defaultStyle.cursor = objRef.hoverCursor;
               }
