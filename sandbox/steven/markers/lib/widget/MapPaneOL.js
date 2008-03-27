@@ -877,6 +877,13 @@ MapPaneOL.prototype.addLayer = function(objRef, layerNode) {
         );
     break;
     
+    // Marker Layer
+    case "Marker":
+    case "marker":
+      objRef.oLlayers[layerId]= new OpenLayers.Layer.Markers(
+        title
+        );
+    break;
   // Currently the following layertypes are only supported in a OwsContext doc as a BaseLayer
   // for more information see http://docs.codehaus.org/display/MAP/Using+Google-layers
    /* case "GMAP":
@@ -958,7 +965,7 @@ MapPaneOL.prototype.refreshLayer = function(objRef, layerId , newParams){
   newParams['version'] = Math.random(); //necessary for see change in certain case
   objRef.getLayer(objRef,layerId).mergeNewParams(newParams);
 }
-  
+ 
   /**
    * Called when the map timestamp is changed so set the layer visiblity.
    * @param objRef This object.

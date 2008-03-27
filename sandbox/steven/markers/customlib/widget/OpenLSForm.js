@@ -30,6 +30,9 @@ function OpenLSForm(widgetNode, model) {
   this.submitForm = function(objRef) {
     //Parse the form
     var geoForm = document.getElementById(this.formName);
+    
+   
+                  
     pc = geoForm.pcValue.value;
   if(pc=="Postcode")pc=null;
     street = geoForm.streetValue.value;

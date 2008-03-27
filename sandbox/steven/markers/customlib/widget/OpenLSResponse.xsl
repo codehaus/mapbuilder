@@ -58,10 +58,20 @@ $Id: OpenLSResponse.xsl 2546 2007-01-23 12:07:39Z gjvoosten $
               </xsl:variable>
               <!--This is the script executed when clicked on a result-->
               <xsl:variable name="javascriptje">
-			              var markers = new OpenLayers.Layer.Markers( "Markers" );
-             config.objects.<xsl:value-of select="$targetModelId"/>.map.addLayer(markers);
-                                  config.objects.<xsl:value-of select="$targetModelId"/>.map.setCenter(config.objects.<xsl:value-of select="$targetModelId"/>.map.baseLayer.forwardMercator(<xsl:value-of select="$x"/>,<xsl:value-of select="$y"/>),<xsl:value-of select="$res"/>)
-									markers.addMarker(new OpenLayers.Marker(config.objects.<xsl:value-of select="$targetModelId"/>.map.baseLayer.forwardMercator(<xsl:value-of select="$x"/>,<xsl:value-of select="$y"/>)));
+                  var found = config.objects.<xsl:value-of select="$targetModelId"/>.map.getLayersByClass("OpenLayers.Layer.Markers");
+                  var markers;
+                  if (found[0]) {
+                    markers = found[0];
+                  }
+                  else {
+                   var newNode = (new DOMParser).parseFromString(Sarissa.unescape('&lt;wmc:Layer xmlns:wmc="http://www.opengis.net/context" queryable="0" hidden="0"&gt;&lt;wmc:Server service="Marker" version="1.1.0" title="Marker"&gt;&lt;/wmc:Server&gt;&lt;wmc:Name&gt;Marker&lt;/wmc:Name&gt;&lt;wmc:Title&gt;Marker&lt;/wmc:Title&gt;&lt;/wmc:Layer&gt;'),'text/xml');
+                   Sarissa.setXpathNamespaces(newNode, config.objects.<xsl:value-of select="$targetModelId"/>.namespace);
+                   config.objects.<xsl:value-of select="$targetModelId"/>.setParam('addLayer',newNode.firstChild);
+                   markers = config.objects.<xsl:value-of select="$targetModelId"/>.map.getLayersByClass("OpenLayers.Layer.Markers")[0];
+                
+                  }  
+                  markers.addMarker(new OpenLayers.Marker(config.objects.<xsl:value-of select="$targetModelId"/>.map.baseLayer.forwardMercator(<xsl:value-of select="$x"/>,<xsl:value-of select="$y"/>)));
+                  config.objects.<xsl:value-of select="$targetModelId"/>.map.setCenter(config.objects.<xsl:value-of select="$targetModelId"/>.map.baseLayer.forwardMercator(<xsl:value-of select="$x"/>,<xsl:value-of select="$y"/>),<xsl:value-of select="$res"/>)
               </xsl:variable>
               
               <!--Depending on the results different elements are shown in the result-->
@@ -133,8 +143,21 @@ $Id: OpenLSResponse.xsl 2546 2007-01-23 12:07:39Z gjvoosten $
                 </xsl:choose>
               </xsl:variable>
               <!--This is the script executed when clicked on a result-->
-              <xsl:variable name="javascriptje">
-                                  config.objects.<xsl:value-of select="$targetModelId"/>.map.setCenter(config.objects.<xsl:value-of select="$targetModelId"/>.map.baseLayer.forwardMercator(<xsl:value-of select="$x"/>,<xsl:value-of select="$y"/>),<xsl:value-of select="$res"/>)
+               <xsl:variable name="javascriptje">
+                  var found = config.objects.<xsl:value-of select="$targetModelId"/>.map.getLayersByClass("OpenLayers.Layer.Markers");
+                  var markers;
+                  if (found[0]) {
+                    markers = found[0];
+                  }
+                  else {
+                   var newNode = (new DOMParser).parseFromString(Sarissa.unescape('&lt;wmc:Layer xmlns:wmc="http://www.opengis.net/context" queryable="0" hidden="0"&gt;&lt;wmc:Server service="Marker" version="1.1.0" title="Marker"&gt;&lt;/wmc:Server&gt;&lt;wmc:Name&gt;Marker&lt;/wmc:Name&gt;&lt;wmc:Title&gt;Marker&lt;/wmc:Title&gt;&lt;/wmc:Layer&gt;'),'text/xml');
+                   Sarissa.setXpathNamespaces(newNode, config.objects.<xsl:value-of select="$targetModelId"/>.namespace);
+                   config.objects.<xsl:value-of select="$targetModelId"/>.setParam('addLayer',newNode.firstChild);
+                   markers = config.objects.<xsl:value-of select="$targetModelId"/>.map.getLayersByClass("OpenLayers.Layer.Markers")[0];
+                
+                  }  
+                  markers.addMarker(new OpenLayers.Marker(config.objects.<xsl:value-of select="$targetModelId"/>.map.baseLayer.forwardMercator(<xsl:value-of select="$x"/>,<xsl:value-of select="$y"/>)));
+                  config.objects.<xsl:value-of select="$targetModelId"/>.map.setCenter(config.objects.<xsl:value-of select="$targetModelId"/>.map.baseLayer.forwardMercator(<xsl:value-of select="$x"/>,<xsl:value-of select="$y"/>),<xsl:value-of select="$res"/>)
               </xsl:variable>
               
               <!--Depending on the results different elements are shown in the result-->
