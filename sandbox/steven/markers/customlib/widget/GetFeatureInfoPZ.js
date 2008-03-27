@@ -30,7 +30,11 @@ function GetFeatureInfoPZ(widgetNode, model) {
   this.infoFormat="application/vnd.ogc.gml";
   //this.infoFormat="text/plain";
   //this.infoFormat="text/html";
-
+ /**
+   * tolerance in pixels around the click point for WFS:GetFeature
+   * default is 3
+   */
+  this.tolerance = parseFloat(this.getProperty("mb:tolerance", 3));
   // Get the value for featureCount from the configfile
   this.featureCount = 1;
   var featureCount = widgetNode.selectSingleNode("mb:featureCount");
@@ -51,7 +55,7 @@ function GetFeatureInfoPZ(widgetNode, model) {
    * @param objRef reference to this object.
    * @return {OpenLayers.Control} class of the OL control.
    */
-   this.getFeatureInfo = function(objRef,evpl) {
+   this.getFeatureInfo = function(objRef,e) {
 
      var targetContext = objRef.widgetNode.selectSingleNode("mb:targetContext");
     if (targetContext) {
@@ -63,11 +67,10 @@ function GetFeatureInfoPZ(widgetNode, model) {
       objRef.targetContext = objRef.targetModel;
     }
          
-    var x = evpl[0];
-    var y = evpl[1];
-    objRef.targetModel.evpl = evpl;
+
+    objRef.targetModel.evpl = [e.xy.x, e.xy.y];
           objRef.targetModel.deleteTemplates();
-          var selectedLayer=objRef.targetContext.getParam("selectedLayer");
+           var selectedLayer=objRef.targetContext.getParam("selectedLayer");
           if (selectedLayer==null) {
             var queryList=objRef.targetContext.getQueryableLayers();
             if (queryList.length==0) {
@@ -76,7 +79,7 @@ function GetFeatureInfoPZ(widgetNode, model) {
             }
             else {
                //TODO dynamix
-    var lonlat = config.objects.mainMap.map.getLonLatFromPixel(new OpenLayers.Pixel(x,y));
+    var lonlat = config.objects.mainMap.map.getLonLatFromPixel(new OpenLayers.Pixel(e.xy.x,e.xy.y));
     var popup = new OpenLayers.Popup.Anchored(); 
     var contentHTML= '<div class="PopupContainer"><div class="PopupHeader">Info</div><div class="PopupContent"><div id="featurePopup"></div></div></div>';
     
@@ -91,39 +94,60 @@ function GetFeatureInfoPZ(widgetNode, model) {
  
  
     config.objects.mainMap.map.addPopup(popup, true);
+    
+    var llPx = e.xy.add(-objRef.tolerance, objRef.tolerance);
+    var urPx = e.xy.add(objRef.tolerance, -objRef.tolerance);
+    
+    var ll = objRef.targetContext.map.getLonLatFromPixel(llPx);
+    var ur = objRef.targetContext.map.getLonLatFromPixel(urPx);
+    
               for (var i=0; i<queryList.length; ++i) {
-                var layerNode=queryList[i];
-                //layerNode.selectSingleNode('//wmc:Layer/wmc:Server/wmc:OnlineResource').getAttribute('xlink:href')
-                var layerName=layerNode.selectSingleNode('//wmc:Layer/wmc:Name').textContent;
-                var layerId = objRef.targetContext.getLayerIdByName(layerName);
-                alert(layerId);
+                var layerNode = queryList[i];
+                
+                // Get the name of the layer
+                var layerName = Mapbuilder.getProperty(layerNode, "wmc:Name", "");
+                if (layerName == "hoogtes") queryLayerName="hoogte";
+                else queryLayerName=layerName;
+             // Get the layerId. Fallback to layerName if non-existent
+                var layerId = layerNode.getAttribute("id") || layerName;
+
                 var hidden = objRef.targetContext.getHidden(layerId);
                 if (hidden == 0) { //query only visible layers
+                  objRef.xsl.setParameter("queryLayer", queryLayerName);
                   objRef.xsl.setParameter("layer",layerName);
-                  if(layerName == "hoogtes") objRef.xsl.setParameter("queryLayer",'Hoogte');
-                  else objRef.xsl.setParameter("queryLayer",layerName);            
-                  objRef.xsl.setParameter("xCoord", x);
-                  objRef.xsl.setParameter("yCoord", y);
+                  objRef.xsl.setParameter("bBoxMinX", ll.lon);
+                  objRef.xsl.setParameter("bBoxMinY", ll.lat);
+                  objRef.xsl.setParameter("bBoxMaxX", ur.lon);
+                  objRef.xsl.setParameter("bBoxMaxY", ur.lat);
+                  objRef.xsl.setParameter("srs", 'epsg:900913');
+                  objRef.xsl.setParameter("width", '6');
+                  objRef.xsl.setParameter("height", '6');
+                  objRef.xsl.setParameter("version", '1.1.0');
+                  
+ //                 objRef.xsl.setParameter("xCoord", x);
+   //               objRef.xsl.setParameter("yCoord", y);
                   objRef.xsl.setParameter("infoFormat", objRef.infoFormat);
                   objRef.xsl.setParameter("featureCount", objRef.featureCount);
-
+    
                   urlNode=objRef.xsl.transformNodeToObject(objRef.targetContext.doc);
-                  url=urlNode.documentElement.firstChild.nodeValue;
-                  
+                  url=getNodeValue(urlNode.documentElement);
                   url = url.replace('tilecache.py','cgi-bin/edugis/mapserv.cgi');
+alert(url);
                   httpPayload = new Object();
                   httpPayload.url = url;
                   httpPayload.method="get";
                   httpPayload.postData=null;
                   objRef.targetModel.newRequest(objRef.targetModel,httpPayload);
-                }
-              }
+                  
+ //                 
+                 }
+              
             }
             
               
    
     
-    
+            }
           }
           else {
             objRef.xsl.setParameter("queryLayer", selectedLayer);

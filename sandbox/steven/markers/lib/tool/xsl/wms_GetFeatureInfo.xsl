@@ -64,6 +64,7 @@ $Name$
       </xsl:when>
       <xsl:otherwise>
         <mb:QueryString>
+        <xsl:value-of select="$baseUrl"/><xsl:value-of select="$firstJoin"/>
           <xsl:variable name="query">
            REQUEST=GetFeatureInfo
       &amp;SERVICE=WMS

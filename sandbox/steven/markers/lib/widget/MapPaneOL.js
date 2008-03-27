@@ -540,7 +540,7 @@ MapPaneOL.prototype.updateMouse = function(e) {
   if (isLeftClick) objRef.model.callListeners('mouseup', {evpl: [e.xy.x, e.xy.y]});
   // it is a getFeatureInfo request
 
-  else objRef.model.callListeners('rightMouseup', [e.xy.x, e.xy.y]);
+  else objRef.model.callListeners('rightMouseup', e);
   
 }
 
