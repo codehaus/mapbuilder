@@ -694,8 +694,16 @@ function sld2OlStyle(node) {
   if (node) {
     var ruleNode = node.selectSingleNode("wmc:SLD/sld:FeatureTypeStyle");
     if (ruleNode) {
-      var format = new OpenLayers.Format.SLD();
-      return new OpenLayers.Format.SLD().parseUserStyle(ruleNode);
+      var sld = new XMLSerializer().serializeToString(ruleNode);
+      var search = /<([^:]*:?)StyledLayerDescriptor/;
+      if (!search.test(sld)) {
+      	sld = sld.replace(/<([^:]*:?)FeatureTypeStyle([^>]*)>(.*)$/,
+            "<$1StyledLayerDescriptor$2><$1NamedLayer><$1Name>sld</$1Name><$1UserStyle><$1FeatureTypeStyle>$3</$1UserStyle></$1NamedLayer></$1StyledLayerDescriptor>");
+      }
+    }
+    var styles = new OpenLayers.Format.SLD().read(sld);
+    if (styles) {
+      return styles.namedLayers["sld"].userStyles[0];
     }
   }
   

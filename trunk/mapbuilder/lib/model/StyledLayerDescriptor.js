@@ -36,10 +36,7 @@ function StyledLayerDescriptor(modelNode, parent) {
   this.loadSLD = function(objRef) {
     var format = new OpenLayers.Format.SLD();
     var sldNode = objRef.doc.selectSingleNode(objRef.sldXPath);
-    var sld = format.read(sldNode, {withNamedLayer: true});
-    if (sld.length > 1) {
-      objRef.sld = sld[1];
-    }
+    objRef.sld = format.read(new XMLSerializer().serializeToString(sldNode));
   }
   this.addFirstListener("loadModel", this.loadSLD, this);
 
