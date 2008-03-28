@@ -257,13 +257,7 @@ $Id$
       <url-pattern>/writeXml</url-pattern>
 
     </servlet-mapping>
-    <servlet-mapping>
-
-      <servlet-name>xmlSerializer2</servlet-name>
-
-      <url-pattern>/writeXml2</url-pattern>
-
-    </servlet-mapping>
+    
 
     <servlet-mapping>
 
