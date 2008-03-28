@@ -165,16 +165,18 @@ alert("after");
 function postGetLoad(sUri, docToSend, contentType , dir, fileName) {
 
    var xmlHttp = new XMLHttpRequest();
+   if(!dir)
+   		dir="/temp";
+   if(!fileName)
+   		fileName="cmb.xml";   
+   sUri=sUri+"?dir="+dir+"&fileName="+fileName;
    if ( sUri.indexOf("http://")==0 || sUri.indexOf("https://")==0 )
    {
-       xmlHttp.open("POST", config.proxyUrl, false);
+       xmlHttp.open("POST", config.proxyUrl, false);       
        xmlHttp.setRequestHeader("serverUrl",sUri);
-
-
    }
    else
    {
-       sUri=sUri+"?dir="+dir+"&fileName="+fileName;
        xmlHttp.open("POST", sUri, false);
    }
    xmlHttp.setRequestHeader("content-type","text/xml");

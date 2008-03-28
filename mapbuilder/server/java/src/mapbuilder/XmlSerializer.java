@@ -123,10 +123,18 @@ public class XmlSerializer extends HttpServlet
   {
 
     try {
-
-      File dstDir = new File( context_.getRealPath( outputDir_ ) );
-
-      File dst = File.createTempFile("cmb", ".xml", dstDir);
+    	File dstDir = new File(context_.getRealPath(request.getParameter("dir")) );
+  		String fileName=request.getParameter("fileName");  	
+  		File dst = new File(context_.getRealPath(request.getParameter("dir"))+"/"+fileName);
+      	if (dst.exists()){
+      		dst.delete();
+      		dst.createNewFile();
+      	}
+      	else{    	
+  	    	String pref=fileName.substring(0,fileName.indexOf(".")) ;
+  	    	String suff=fileName.substring(fileName.indexOf("."),fileName.length()) ;
+  	    	dst = File.createTempFile(pref,suff, dstDir);
+      	}
 
       //System.err.println("absolutePath:"+dst.getName());
 
