@@ -77,9 +77,11 @@ $Name:  $
           </td>
         </tr>
       </table>
+      <!--
       <div id="locations">
         <xsl:call-template name="aoiBox"/>
       </div>
+      -->
 
     </form>
 
@@ -104,6 +106,7 @@ $Name:  $
     </xsl:apply-templates>
   </xsl:template>
   
+  <!--
   <xsl:template name="aoiBox">
       <h3>Location</h3>
       <table>
@@ -129,6 +132,7 @@ $Name:  $
         </tr>
       </table>
   </xsl:template>
+  -->
   
   <xsl:template name="ntsInput">
     <p>or enter NTS mapsheet index
