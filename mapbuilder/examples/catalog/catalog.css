@@ -1,6 +1,6 @@
 #page {
   height: 100%;
-  padding-left: 5px;
+  padding-left: 135px;
   padding-top: 10px;
 }
 
@@ -25,6 +25,35 @@ h1 {
   margin-left: 10px;
 }
 
+#exampleList, #menubar {
+  display: block;
+  position: absolute;
+  left: 0px;
+  top: 31px;
+  bottom: 0px;
+  overflow: auto;
+  width: 130px;
+  font-family: Verdana, geneva, arial, sans-serif;
+  font-size: 8pt;
+  bottom: 60px;
+  }
+  #exampleList a ,#menubar a{
+font-weight: normal;
+  color: white;
+  }
+  
+  #exampleList ul , #menubar ul{
+  background:  #3c78b5;
+  margin: 0px;
+  padding: 0px;
+  display: inline;
+  list-style-type: none;
+  list-style-image: none;
+  list-style-position: outside;
+  font-size: 10px;
+}
+
+#exampleList li, #menubar li {
 #mainButtonBar {
   position: relative;
   top: -25px;;

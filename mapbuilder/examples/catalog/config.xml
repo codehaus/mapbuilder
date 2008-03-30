@@ -34,16 +34,11 @@
         <CursorTrack id="cursorTrack"/>
         <ModelUrlInput id="urlInput">
         </ModelUrlInput>
-        <!--
-        <GmlLayerAddUrlInput id="gmlInput">
-        	<defaultUrl>plumes.gml</defaultUrl>
-        </GmlLayerAddUrlInput>
-        -->
       </widgets>
     </OwsContext>
     <!-- Contains the results of a catalog search -->
     <Model id="catalogSearchResults">
-      <defaultModelUrl>WRS_Service+Layers_GetRecords.xml</defaultModelUrl>
+      <!--defaultModelUrl>WRS_Service+Layers_GetRecords.xml</defaultModelUrl-->
       <widgets>
         <Loading2 id="loading">
           <htmlTagId>loading</htmlTagId>
@@ -114,15 +109,10 @@
       </widgets>
     </Model>
     -->
+
+    <!--
     <Model id="locationResults">
-      <!--
-      <defaultModelUrl>testLocations.xml</defaultModelUrl>
-      -->
       <widgets>
-        <Locations id="locationsSelect">
-          <htmlTagId>locationResults</htmlTagId>
-          <targetModel>mainMap</targetModel>
-        </Locations>
         <Loading2 id="loadingLocationSearch">
           <htmlTagId>loadingLocationSearch</htmlTagId>
           <imageSrc>/images/LoadingSpinner.gif</imageSrc>
@@ -130,6 +120,7 @@
         </Loading2>
       </widgets>
     </Model>
+    -->
     <Model id="catalogCollection">
       <defaultModelUrl>../data/context/worldMapsAtomFeed.xml</defaultModelUrl>
       <widgets>
