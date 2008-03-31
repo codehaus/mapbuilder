@@ -350,17 +350,13 @@ function ModelBase(modelNode, parentModel) {
    */
   this.saveModel = function(objRef) {
     if (config.serializeUrl) {
-    //alert((new XMLSerializer()).serializeToString(objRef.doc));
-//      var response = postLoad(config.serializeUrl, objRef.doc);
-      
-      var response = postGetLoad(config.serializeUrl, objRef.doc ,"text/xml","/temp","sld.xml");
+      var response = postGetLoad(config.serializeUrl, objRef.doc ,"text/xml","","");
        if(! _SARISSA_IS_SAFARI){
       response.setProperty("SelectionLanguage", "XPath");
       Sarissa.setXpathNamespaces(response, "xmlns:xlink='http://www.w3.org/1999/xlink'");
       }
       var onlineResource = response.selectSingleNode("//OnlineResource");
       var fileUrl = onlineResource.attributes.getNamedItem("xlink:href").nodeValue;
-//      alert("yo");
       objRef.setParam("modelSaved", fileUrl);
     } else {
       alert(mbGetMessage("noSerializeUrl"));

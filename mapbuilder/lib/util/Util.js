@@ -165,11 +165,13 @@ alert("after");
 function postGetLoad(sUri, docToSend, contentType , dir, fileName) {
 
    var xmlHttp = new XMLHttpRequest();
-   if(!dir)
-   		dir="/temp";
-   if(!fileName)
-   		fileName="cmb.xml";   
-   sUri=sUri+"?dir="+dir+"&fileName="+fileName;
+   if(dir && fileName)
+       	sUri=sUri+"?dir="+dir+"&fileName="+fileName;
+   else if(dir)
+   		sUri=sUri+"?dir="+dir;
+   else if(fileName)
+   		sUri=sUri+"?fileName="+fileName;
+   		
    if ( sUri.indexOf("http://")==0 || sUri.indexOf("https://")==0 )
    {
        xmlHttp.open("POST", config.proxyUrl, false);       
