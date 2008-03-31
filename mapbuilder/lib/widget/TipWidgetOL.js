@@ -107,121 +107,12 @@ function TipWidgetOL(widgetNode, model) {
  */
 Mapbuilder.Popup = OpenLayers.Class(OpenLayers.Popup.Anchored, {
 
-  initialize:function(id, lonlat, size, contentHTML, anchor, closeBox,
+  initialize: function(id, lonlat, size, contentHTML, anchor, closeBox,
             closeBoxCallback) {
-    if (id == null) {
-      id = OpenLayers.Util.createUniqueID(this.CLASS_NAME + "_");
-    }
-
-    this.id = id;
-    this.lonlat = lonlat;
-    this.size = (size != null) ? size 
-                  : new OpenLayers.Size(
-                           OpenLayers.Popup.WIDTH,
-                           OpenLayers.Popup.HEIGHT);
-    if (contentHTML != null) { 
-       this.contentHTML = contentHTML;
-    }
-    this.backgroundColor = OpenLayers.Popup.COLOR;
-    this.opacity = OpenLayers.Popup.OPACITY;
-    this.border = OpenLayers.Popup.BORDER;
-
-    this.div = OpenLayers.Util.createDiv(this.id, null, null, 
-                       null, null, null, "hidden");
-    this.div.className = 'olPopup';
-    
-    this.groupDiv = OpenLayers.Util.createDiv(null, null, null, 
-                          null, "relative", null,
-                          "hidden");
-
-    var id = this.div.id + "_contentDiv";
-    this.contentDiv = OpenLayers.Util.createDiv(id, null, this.size.clone(), 
-                          null, "relative", null,
-                          "hidden");
-    this.contentDiv.className = 'olPopupContent';                      
-    this.groupDiv.appendChild(this.contentDiv);
-    this.div.appendChild(this.groupDiv);
-
-    if (closeBox) {
-       // close icon
-      var closeSize = new OpenLayers.Size(17,17);
-      var img = config.skinDir + "/openlayers/img/close.gif";
-      this.closeDiv = OpenLayers.Util.createAlphaImageDiv(
-        this.id + "_close", null, closeSize, img
-      );
-      this.closeDiv.style.right = this.padding + "px";
-      this.closeDiv.style.top = this.padding + "px";
-      this.groupDiv.appendChild(this.closeDiv);
-
-      var closePopup = closeBoxCallback || function(e) {
-        this.hide();
-        OpenLayers.Event.stop(e);
-      };
-      OpenLayers.Event.observe(this.closeDiv, "click", 
-          OpenLayers.Function.bindAsEventListener(closePopup, this));
-
-    }
-
-    this.registerEvents();
-
-    this.anchor = (anchor != null) ? anchor 
-                     : { size: new OpenLayers.Size(0,0),
-                       offset: new OpenLayers.Pixel(0,0)};
+    OpenLayers.Popup.Anchored.prototype.initialize.apply(this, arguments);
+    this.contentDiv.style.overflow = "hidden";
   },
-
-  destroy: function() {
-    if (this.map != null) {
-      this.map.removePopup(this);
-      this.map = null;
-    }
-    this.events.destroy();
-    this.events = null;
-    this.div = null;
-  },
-
-  draw: function(px) {
-    if (px == null) {
-      if ((this.lonlat != null) && (this.map != null)) {
-        px = this.map.getLayerPxFromLonLat(this.lonlat);
-      }
-    }
-    
-    //calculate relative position
-    this.relativePosition = this.calculateRelativePosition(px);
-
-    this.setSize();
-    this.setBackgroundColor();
-    this.setOpacity();
-    this.setBorder();
-    this.setContentHTML();
-    this.moveTo(px);
-
-    return this.div;
-  },
-
-  moveTo: function(px) {
-    this.relativePosition = this.calculateRelativePosition(px);
-    
-    px = this.calculateNewPx(px);
-    
-    if ((px != null) && (this.div != null)) {
-      this.div.style.left = px.x + "px";
-      this.div.style.top = px.y + "px";
-    }
-  },
-
-  toggle: function() {
-    OpenLayers.Element.toggle(this.div);
-  },
-
-  show: function() {
-    OpenLayers.Element.show(this.div);
-  },
-
-  hide: function() {
-    OpenLayers.Element.hide(this.div);
-  },
-
+  
   setSize:function(size) { 
     if (size != undefined) {
       this.size = size; 
@@ -241,16 +132,25 @@ Mapbuilder.Popup = OpenLayers.Class(OpenLayers.Popup.Anchored, {
       this.moveTo(px);
     }
   },  
+  
+  addCloseBox:function(closeBoxCallback) {
+     // close icon
+    var closeSize = new OpenLayers.Size(17,17);
+    var img = config.skinDir + "/openlayers/img/close.gif";
+    this.closeDiv = OpenLayers.Util.createAlphaImageDiv(
+      this.id + "_close", null, closeSize, img
+    );
+    this.closeDiv.style.right = this.padding + "px";
+    this.closeDiv.style.top = this.padding + "px";
+    this.groupDiv.appendChild(this.closeDiv);
 
-  setBackgroundColor:function(color) { 
-    if (color != undefined) {
-      this.backgroundColor = color; 
-    }
-    
-    if (this.div != null) {
-      this.div.style.backgroundColor = this.backgroundColor;
-    }
-  },  
+    var closePopup = closeBoxCallback || function(e) {
+      this.hide();
+      OpenLayers.Event.stop(e);
+    };
+    OpenLayers.Event.observe(this.closeDiv, "click", 
+        OpenLayers.Function.bindAsEventListener(closePopup, this));
+  },
   
   CLASS_NAME: "Mapbuilder.Popup"
 });
