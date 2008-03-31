@@ -70,6 +70,12 @@
 			<h2>New</h2>
 			<ul>
 				<li>
+					<a href="../catalog/index.html"
+						title="Catalog Client">
+						Catalog Client
+					</a>
+				</li>
+				<li>
 					<a href="../mergeModels/index.html"
 						title="Complex Vector Rendering with GmlRendererOL and MergeModels">
 						Complex Vector Rendering
