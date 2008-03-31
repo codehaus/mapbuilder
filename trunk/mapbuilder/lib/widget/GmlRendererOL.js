@@ -223,13 +223,13 @@ function GmlRendererOL(widgetNode, model) {
             var sldNode = sldModel.getSldNode();
             if (sldModel.sld) {
               var namedLayer = sldModel.sld.namedLayers[objRef.id].userStyles;
-              for (var i=0; i<namedLayer.length; ++i) {
-              	namedLayer[i].propertyStyles = namedLayer[i].findPropertyStyles();
-              	if (namedLayer[i].name == widgetConfig.defaultStyleName) {
-              	  widgetConfig.defaultStyle = namedLayer[i];
+              for (var j=0; j<namedLayer.length; ++j) {
+              	namedLayer[j].propertyStyles = namedLayer[j].findPropertyStyles();
+              	if (namedLayer[j].name == widgetConfig.defaultStyleName) {
+              	  widgetConfig.defaultStyle = namedLayer[j];
               	}
-              	if (namedLayer[i].name == widgetConfig.selectStyleName) {
-              	  widgetConfig.selectStyle = namedLayer[i];
+              	if (namedLayer[j].name == widgetConfig.selectStyleName) {
+              	  widgetConfig.selectStyle = namedLayer[j];
               	}
               }
               if (widgetConfig.selectStyle) {
