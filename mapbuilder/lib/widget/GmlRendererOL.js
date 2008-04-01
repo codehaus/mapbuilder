@@ -37,7 +37,8 @@ function GmlRendererOL(widgetNode, model) {
           this.addFeatures(gml.read(this.mbWidget.renderDoc));
           this.loaded = true;
         } catch (e) {
-          // nothing to worry, just features without geometries in the doc
+          alert(mbGetMessage("documentParseError"),
+              new XMLSerializer().serializeToString(this.mbWidget.renderDoc));
         }
       }
     },
