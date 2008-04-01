@@ -165,12 +165,13 @@ alert("after");
 function postGetLoad(sUri, docToSend, contentType , dir, fileName) {
 
    var xmlHttp = new XMLHttpRequest();
+   var appendChar = sUri.indexOf("?") == -1 ? "?" : "&";
    if(dir && fileName)
-       	sUri=sUri+"?dir="+dir+"&fileName="+fileName;
+       	sUri=sUri+appendChar+"dir="+dir+"&fileName="+fileName;
    else if(dir)
-   		sUri=sUri+"?dir="+dir;
+   		sUri=sUri+appendChar+"dir="+dir;
    else if(fileName)
-   		sUri=sUri+"?fileName="+fileName;
+   		sUri=sUri+appendChar+"fileName="+fileName;
    		
    if ( sUri.indexOf("http://")==0 || sUri.indexOf("https://")==0 )
    {
