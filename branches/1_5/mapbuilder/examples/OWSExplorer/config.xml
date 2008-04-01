@@ -17,7 +17,7 @@
       <widgets>
         <MapPaneOL id="mainMapWidget">
           <htmlTagId>mainMapPane</htmlTagId>
-      <fixedSize>true</fixedSize>
+          <fixedSize>true</fixedSize>
         </MapPaneOL>
         <CursorTrack id="cursorTrack"/>
         <LayerControl id="contextLegend">
@@ -51,15 +51,11 @@
           <fixedSize>true</fixedSize>
           <imageBuffer>1</imageBuffer>
         </MapPaneOL>
-        <AoiBoxDHTML id="aoiBoxLocator">
+        <AoiBoxOL id="aoiBoxLocator">
           <htmlTagId>locatorMap</htmlTagId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>1</lineWidth>
-          <crossSize>15</crossSize>
-        </AoiBoxDHTML>
+        </AoiBoxOL>
       </widgets>
       <tools>
-        <AoiMouseHandler id="locatorAoi" />
         <ZoomToAoi id="locatorZoomToAoi">
           <targetModel>mainMap</targetModel>
         </ZoomToAoi>
