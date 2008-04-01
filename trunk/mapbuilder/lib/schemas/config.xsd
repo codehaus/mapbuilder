@@ -260,7 +260,7 @@
   <xs:complexType name="widgetsType">
     <xs:choice maxOccurs="unbounded">
       <xs:element name="Abstract" type="mb:WidgetType"/>
-      <xs:element name="AoiBoxDHTML" type="mb:AoiBoxDHTMLType"/>
+      <xs:element name="AoiBoxOL" type="mb:AoiBoxOLType"/>
       <xs:element name="AoiForm" type="mb:AoiFormType"/>
       <xs:element name="Back" type="mb:ButtonType"/>
       <xs:element name="Button" type="mb:ButtonType">
@@ -336,7 +336,6 @@
   </xs:complexType>
   <xs:complexType name="toolsType">
     <xs:choice maxOccurs="unbounded">
-      <xs:element name="AoiMouseHandler" type="mb:AoiMouseHandlerType"/>
       <xs:element name="Caps2Context" type="mb:Caps2ContextType"/>
       <xs:element name="EditContext" type="mb:EditContextType"/>
       <xs:element name="EditSLD" type="mb:EditSLDType"/>
@@ -463,18 +462,12 @@
   </xs:complexType>
 
   <!-- global widget extension types -->
-  <xs:complexType name="AoiBoxDHTMLType">
+  <xs:complexType name="AoiBoxOLType">
     <xs:annotation>
       <xs:documentation>A widget to display a map container model's AOI box</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
-      <xs:extension base="mb:AbstractWidgetBaseType">
-        <xs:sequence>
-          <xs:element name="lineColor" type="xs:string" minOccurs="0"/>
-          <xs:element name="lineWidth" type="xs:integer" minOccurs="0"/>
-          <xs:element name="crossSize" type="xs:integer" minOccurs="0"/>
-        </xs:sequence>
-      </xs:extension>
+      <xs:extension base="mb:AbstractWidgetBaseType"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="AoiFormType">
@@ -1179,15 +1172,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <!-- global tool extension types -->
-  <xs:complexType name="AoiMouseHandlerType">
-    <xs:annotation>
-      <xs:documentation>A tool for models of a map container to set the AOI by click and drag of the mouse</xs:documentation>
-    </xs:annotation>
-    <xs:complexContent>
-      <xs:extension base="mb:AbstractToolBaseType"/>
-    </xs:complexContent>
-  </xs:complexType>
+  <!-- global tool extension types -->  
   <xs:complexType name="Caps2ContextType">
     <xs:annotation>
       <xs:documentation>A tool which builds a Web Map Context document from a Web Map Capabilities document.</xs:documentation>
