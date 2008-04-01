@@ -82,18 +82,14 @@
 			    <fixedSize>true</fixedSize>
           <imageBuffer>1</imageBuffer>
         </MapPaneOL>
-        <AoiBoxDHTML id="aoiBoxLocator">
+        <AoiBoxOL id="aoiBoxLocator">
           <htmlTagId>locatorMap</htmlTagId>
-          <lineColor>#FF0000</lineColor>
-          <lineWidth>1</lineWidth>
-          <crossSize>15</crossSize>
-        </AoiBoxDHTML>
+        </AoiBoxOL>
         <ModelUrlInput id="urlInput">
           <defaultUrl>../data/context/modisWorld.xml</defaultUrl>
         </ModelUrlInput>
       </widgets>
       <tools>
-        <AoiMouseHandler id="locatorAoi" />
         <ZoomToAoi id="locatorZoomToAoi">
           <targetModel>mainMap</targetModel>
         </ZoomToAoi>
