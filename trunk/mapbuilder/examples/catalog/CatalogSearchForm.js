@@ -36,14 +36,14 @@ function CatalogSearchForm(widgetNode, model) {
    * @param objRef Pointer to this CurorTrack object.
    */
   this.postPaint = function() {
-    config.objects[this.mapModel].addListener('aoi', this.displayAoiCoords, this);
+    //config.objects[this.mapModel].addListener('aoi', this.displayAoiCoords, this);
 
     this.searchForm = document.getElementById(this.formName);
     this.searchForm.parentWidget = this;
-    this.searchForm.westCoord.model = this.model;
-    this.searchForm.northCoord.model = this.model;
-    this.searchForm.eastCoord.model = this.model;
-    this.searchForm.southCoord.model = this.model;
+    //this.searchForm.westCoord.model = this.model;
+    //this.searchForm.northCoord.model = this.model;
+    //this.searchForm.eastCoord.model = this.model;
+    //this.searchForm.southCoord.model = this.model;
     this.searchForm.onkeypress = this.handleKeyPress;
 
   }
@@ -53,40 +53,40 @@ function CatalogSearchForm(widgetNode, model) {
    * method is registered as an AOI listener on the context doc.
    * @param objRef Pointer to this searchForm object.
    */
-    CatalogSearchForm.prototype.displayAoiCoords = function(objRef) {
-    var aoi = config.objects[objRef.mapModel].getParam("aoi");
-    objRef.searchForm.westCoord.value = aoi[0][0];
-    objRef.searchForm.northCoord.value = aoi[0][1];
-    objRef.searchForm.eastCoord.value = aoi[1][0];
-    objRef.searchForm.southCoord.value = aoi[1][1];
+  //CatalogSearchForm.prototype.displayAoiCoords = function(objRef) {
+    //var aoi = config.objects[objRef.mapModel].getParam("aoi");
+    //objRef.searchForm.westCoord.value = aoi[0][0];
+    //objRef.searchForm.northCoord.value = aoi[0][1];
+    //objRef.searchForm.eastCoord.value = aoi[1][0];
+    //objRef.searchForm.southCoord.value = aoi[1][1];
 
-  }
+  //}
 
   /**
    * Handles user input from the form element.  This is an onblur handler for 
    * the input elements.
    */
   CatalogSearchForm.prototype.setAoi = function() {
-    var aoi = config.objects[this.mapModel].getParam("aoi");
-    if (aoi) {
-      var ul = aoi[0];
-      var lr = aoi[1];
-      switch(this.name) {
-        case 'westCoord':
-          ul[0] = this.value;
-          break;
-        case 'northCoord':
-          ul[1] = this.value;
-          break;
-        case 'eastCoord':
-          lr[0] = this.value;
-          break;
-        case 'southCoord':
-          lr[1] = this.value;
-          break;
-      }
-      config.objects[this.mapModel].setParam("aoi",new Array(ul,lr) );
-    }
+//    var aoi = config.objects[this.mapModel].getParam("aoi");
+//    if (aoi) {
+//      var ul = aoi[0];
+//      var lr = aoi[1];
+//      switch(this.name) {
+//        case 'westCoord':
+//          ul[0] = this.value;
+//          break;
+//        case 'northCoord':
+//          ul[1] = this.value;
+//          break;
+//        case 'eastCoord':
+//          lr[0] = this.value;
+//          break;
+//        case 'southCoord':
+//          lr[1] = this.value;
+//          break;
+//      }
+//      config.objects[this.mapModel].setParam("aoi",new Array(ul,lr) );
+//    }
   }
 
 /**
