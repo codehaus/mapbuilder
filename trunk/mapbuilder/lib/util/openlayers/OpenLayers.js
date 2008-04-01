@@ -5367,7 +5367,7 @@ OpenLayers.Lang = {
                 'Failed to find OpenLayers.Lang.' + parts.join("-") +
                 ' dictionary, falling back to default language'
             );
-            lang = OpenLayers.Lang.defaultCode
+            lang = OpenLayers.Lang.defaultCode;
         }
         
         OpenLayers.Lang.code = lang;
@@ -17520,7 +17520,7 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
         // stroke 
         if (options.isStroked) { 
             node.setAttribute("strokecolor", style.strokeColor); 
-            node.setAttribute("strokeweight", style.strokeWidth); 
+            node.setAttribute("strokeweight", style.strokeWidth + "px"); 
         } else { 
             node.setAttribute("stroked", "false"); 
         }
@@ -17670,7 +17670,7 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
         }
         if (strokeColor == "none" &&
                 node.getAttribute("strokecolor") != strokeColor) {
-            node.setAttribute("strokecolor", strokeColor)
+            node.setAttribute("strokecolor", strokeColor);
         }
     },
 
@@ -19960,7 +19960,7 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
      * Method: read_wmc_Format
      */
     read_wmc_Format: function(layerInfo, node) {
-        var format = this.getChildValue(node)
+        var format = this.getChildValue(node);
         layerInfo.formats.push(format);
         if(node.getAttribute("current") == "1") {
             layerInfo.params.format = format;
@@ -23176,12 +23176,6 @@ OpenLayers.Popup.FramedCloud =
     panMapIfOutOfView: true,
 
     /**
-     * Property: imageSrc
-     * {String}
-     */
-    imageSrc: OpenLayers.Util.getImagesLocation() + 'cloud-popup-relative.png',
-
-    /**
      * APIProperty: imageSize
      * {<OpenLayers.Size>}
      */
@@ -23361,6 +23355,7 @@ OpenLayers.Popup.FramedCloud =
     initialize:function(id, lonlat, size, contentHTML, anchor, closeBox, 
                         closeBoxCallback) {
 
+        this.imageSrc = OpenLayers.Util.getImagesLocation() + 'cloud-popup-relative.png';
         OpenLayers.Popup.Framed.prototype.initialize.apply(this, arguments);
         this.contentDiv.className = "olFramedCloudPopupContent";
     },
@@ -28543,7 +28538,7 @@ OpenLayers.Layer.Grid = OpenLayers.Class(OpenLayers.Layer.HTTPRequest, {
           tilelon: tilelon, tilelat: tilelat,
           tileoffsetlon: tileoffsetlon, tileoffsetlat: tileoffsetlat,
           tileoffsetx: tileoffsetx, tileoffsety: tileoffsety
-        }  
+        };
 
     },
 
@@ -28770,7 +28765,7 @@ OpenLayers.Layer.Grid = OpenLayers.Class(OpenLayers.Layer.HTTPRequest, {
      * tile - {<OpenLayers.Tile>}
      */
     removeTileMonitoringHooks: function(tile) {
-        tile.unload()
+        tile.unload();
         tile.events.un({
             "loadstart": tile.onLoadStart,
             "loadend": tile.onLoadEnd,
@@ -30600,7 +30595,7 @@ OpenLayers.Style.createLiteral = function(value, context, feature) {
         value = (isNaN(value) || !value) ? value : parseFloat(value);
     }
     return value;
-}
+};
     
 /**
  * Constant: OpenLayers.Style.SYMBOLIZER_PREFIXES
@@ -31208,7 +31203,7 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
         originGeometry.move = function(x, y) {
             OpenLayers.Geometry.Point.prototype.move.call(this, x, y);
             geometry.move(x, y);
-        }
+        };
         this.dragHandle = origin;
         this.layer.addFeatures([this.dragHandle], {silent: true});
     },
@@ -31248,7 +31243,7 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
                 var l1 = Math.sqrt((dx1 * dx1) + (dy1 * dy1));
                 geometry.resize(l1 / l0, originGeometry);
             }
-        }
+        };
         this.radiusHandle = radius;
         this.layer.addFeatures([this.radiusHandle], {silent: true});
     },
@@ -31920,7 +31915,7 @@ OpenLayers.Layer.KaMap = OpenLayers.Class(OpenLayers.Layer.Grid, {
           tilelon: tilelon, tilelat: tilelat,
           tileoffsetlon: tileoffsetlon, tileoffsetlat: tileoffsetlat,
           tileoffsetx: tileoffsetx, tileoffsety: tileoffsety
-        }  
+        };
     },    
 
     /**
@@ -32314,7 +32309,7 @@ OpenLayers.Layer.MapGuide = OpenLayers.Class(OpenLayers.Layer.Grid, {
           tilelon: tilelon, tilelat: tilelat,
           tileoffsetlon: tileoffsetlon, tileoffsetlat: tileoffsetlat,
           tileoffsetx: tileoffsetx, tileoffsety: tileoffsety
-        }  
+        };
     },
     
     CLASS_NAME: "OpenLayers.Layer.MapGuide"
@@ -37595,7 +37590,7 @@ OpenLayers.Format.SLD.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
         for(var prop in this.cssMap) {
             if(this.cssMap[prop] == sym) {
                 css = prop;
-                break
+                break;
             }
         }
         return css;
@@ -37619,7 +37614,7 @@ OpenLayers.Format.SLD.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
         for(var key in this.graphicFormats) {
             if(this.graphicFormats[key].test(href)) {
                 format = key;
-                break
+                break;
             }
         }
         return format || this.defautlGraphicFormat;
@@ -37653,7 +37648,7 @@ OpenLayers.Format.SLD.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
      * {DOMElement} The root of an SLD document.
      */
     write: function(sld) {
-        return this.writers.sld.StyledLayerDescriptor.apply(this, [sld])
+        return this.writers.sld.StyledLayerDescriptor.apply(this, [sld]);
     },
     
     /**
@@ -37899,7 +37894,7 @@ OpenLayers.Format.SLD.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
                     this.writeNode(
                         node, "CssParameter",
                         {symbolizer: symbolizer, key: "fillColor"}
-                    )
+                    );
                 }
                 if(symbolizer.fillOpacity) {
                     this.writeNode(
@@ -38259,7 +38254,7 @@ OpenLayers.Format.SLD.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
         // 2. in the prefix option
         // 3. in the qualified name
         // 4. from the defaultPrefix
-        var uri = options.uri || this.namespaces[options.prefix]
+        var uri = options.uri || this.namespaces[options.prefix];
         if(!uri) {
             loc = name.indexOf(":");
             uri = this.namespaces[name.substring(0, loc)];
@@ -38558,14 +38553,14 @@ OpenLayers.Geometry.LineString = OpenLayers.Class(OpenLayers.Geometry.Curve, {
                     y1: point1.y,
                     x2: point2.x,
                     y2: point2.y
-                }
+                };
             } else {
                 segments[i] = {
                     x1: point2.x,
                     y1: point2.y,
                     x2: point1.x,
                     y2: point1.y
-                }
+                };
             }
         }
         // more efficient to define this somewhere static
@@ -41369,7 +41364,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
                         var name = (child.prefix) ?
                                 child.nodeName.split(":")[1] :
                                 child.nodeName;
-                        var value = OpenLayers.Util.getXmlNodeValue(grandchild)
+                        var value = OpenLayers.Util.getXmlNodeValue(grandchild);
                         if (value) {
                             value = value.replace(this.regExes.trimSpace, "");
                             attributes[name] = value;
@@ -42036,7 +42031,7 @@ OpenLayers.Format.OSM = OpenLayers.Class(OpenLayers.Format.XML, {
     createFeatureNodes: function(feature) {
         var nodes = [];
         var className = feature.geometry.CLASS_NAME;
-        var type = className.substring(className.lastIndexOf(".") + 1)
+        var type = className.substring(className.lastIndexOf(".") + 1);
         type = type.toLowerCase();
         var builder = this.createXML[type];
         if (builder) {
