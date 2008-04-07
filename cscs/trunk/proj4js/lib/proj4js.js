@@ -477,9 +477,9 @@ Proj4js.Proj.longlat = {
 Proj4js.defs = {
   // These are so widely used, we'll go ahead and throw them in
   // without requiring a separate .js file
-  'WGS84': "+title=long/lat:WGS84 +proj=longlat +ellps=WGS84 +datum=WGS84",
-  'EPSG:4326': "+title=long/lat:WGS84 +proj=longlat +a=6378137.0 +b=6356752.31424518 +ellps=WGS84 +datum=WGS84",
-  'EPSG:4269': "+title=long/lat:NAD83 +proj=longlat +a=6378137.0 +b=6356752.31414036 +ellps=GRS80 +datum=NAD83" 
+  'WGS84': "+title=long/lat:WGS84 +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees",
+  'EPSG:4326': "+title=long/lat:WGS84 +proj=longlat +a=6378137.0 +b=6356752.31424518 +ellps=WGS84 +datum=WGS84 +units=degrees",
+  'EPSG:4269': "+title=long/lat:NAD83 +proj=longlat +a=6378137.0 +b=6356752.31414036 +ellps=GRS80 +datum=NAD83 +units=degrees" 
 };
 //+a=6378137.0 +b=6356752.31424518 +ellps=WGS84 +datum=WGS84",
 Proj4js.common = {
@@ -922,7 +922,7 @@ var maxiter = 30;
       p.z += this.datum_params[2];
 
     }
-    else  // if( this.datum_type == Proj4js.common.PJD_7PARAM )
+    else if (this.datum_type == Proj4js.common.PJD_7PARAM)
     {
       var Dx_BF =this.datum_params[0];
       var Dy_BF =this.datum_params[1];
@@ -957,7 +957,7 @@ var maxiter = 30;
       p.z -= this.datum_params[2];
 
     }
-    else // if( this.datum_type == Proj4js.common.PJD_7PARAM )
+    else if (this.datum_type == Proj4js.common.PJD_7PARAM)
     {
       var Dx_BF =this.datum_params[0];
       var Dy_BF =this.datum_params[1];
