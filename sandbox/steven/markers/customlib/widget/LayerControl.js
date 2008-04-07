@@ -29,6 +29,10 @@ function LayerControl(widgetNode, model) {
       objRef.stylesheet.setParameter("hidden", objRef.model.getHidden(objRef.model.featureName).toString() );
     }
   }
+  this.postPaint = function(objRef) {
+   initSortableList(objRef.id,objRef.model.id);
+  }
+  
 
   /**
    * Displays a layer in a preview pane when mouse is over the table row
@@ -58,14 +62,14 @@ function LayerControl(widgetNode, model) {
     var thisGroupsFoldedState = thisGroupsNode.getAttribute('folded');
     var e =document.getElementById(id);
     if(thisGroupsFoldedState == "1") {
-		thisGroupsNode.setAttribute("folded", "0");
-		e.value="-";
-		
-	} else {
-		thisGroupsNode.setAttribute("folded", "1");
-		e.value="+";
-	}
-	
+    thisGroupsNode.setAttribute("folded", "0");
+    e.value="-";
+    
+  } else {
+    thisGroupsNode.setAttribute("folded", "1");
+    e.value="+";
+  }
+  
   }
 
   /**
@@ -104,20 +108,20 @@ function LayerControl(widgetNode, model) {
    * Display or fold  the layer's legend
    * @param id  id of legend div
    */
-	this.switchVisibilityById = function (id) {
-	e =document.getElementById(id);
-	
-		if (e.style.display=="none") {
-			e.style.display = "block";
-		} else {
-			e.style.display = "none";
-		}
-		
-	
+  this.switchVisibilityById = function (id) {
+  e =document.getElementById(id);
+  
+    if (e.style.display=="none") {
+      e.style.display = "block";
+    } else {
+      e.style.display = "none";
+    }
+    
+  
      }
   this.model.addListener("deleteLayer",this.refresh, this);
-  this.model.addListener("moveLayerUp",this.refresh, this);
-  this.model.addListener("moveLayerDown",this.refresh, this);
+//  this.model.addListener("moveLayerUp",this.refresh, this);
+  //this.model.addListener("moveLayerDown",this.refresh, this);
   if (this.autoRefresh) this.model.addListener("addLayer",this.refresh, this);
 }
 

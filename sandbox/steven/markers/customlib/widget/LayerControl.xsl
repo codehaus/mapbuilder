@@ -156,7 +156,7 @@ $Name:  $
     </xsl:choose>
   </xsl:variable>
     <!-- varibale -->
-	<xsl:variable name="layerId">
+  <xsl:variable name="layerId">
     <xsl:choose>
       <xsl:when test="@id">
         <xsl:value-of select="@id"/>
@@ -165,11 +165,11 @@ $Name:  $
         <xsl:value-of select="$layerName"/>
       </xsl:otherwise>
     </xsl:choose>
-	</xsl:variable>
-	
+  </xsl:variable>
+  
     
      
-     <li id="{$widgetId}_{$layerId}_Row" class="rowLi">
+     <li id="{$layerId}" class="rowLi">
           <!-- div necessary with IE 6 because if not, float makes bugs when display or fold legend -->
         <div id="{$layerId}li1"  class="rowDiv">
           <div id="{$layerId}_close " class="LayerClose">
@@ -188,23 +188,23 @@ $Name:  $
           <div class="titleDiv">
           <table><tr><td style="height:10px;">
             <input type="checkbox" id="vis_{$widgetId}_{$layerId}" title="{$toggleVisTip}" onclick="{$context}.setHidden('{$layerId}',!document.getElementById('vis_{$widgetId}_{$layerId}').checked)">
-									      <xsl:if test="@hidden='0' or @hidden='false'"><xsl:attribute name="checked"/></xsl:if>
-									  </input>
+                        <xsl:if test="@hidden='0' or @hidden='false'"><xsl:attribute name="checked"/></xsl:if>
+                    </input>
   </td><td>			
           <form title="{$opacityTip}" style="height:10px;">
-											<select name="opacity" onchange="config.objects.{$modelId}.setOpacity('{$layerId}',value)">
-													<xsl:if test="@opacity">
-														<option value="@opacity">
-														<xsl:value-of select="@opacity"/></option>
-													</xsl:if>
-													<option value="1">1</option>
-													<option value="0.8">0.8</option>
-													<option value="0.6">0.6</option>
-													<option value="0.4">0.4</option>
-													<option value="0.2">0.2</option>
-													<option value="0">0</option>
-											</select>
-										</form>   
+                      <select name="opacity" onchange="config.objects.{$modelId}.setOpacity('{$layerId}',value)">
+                          <xsl:if test="@opacity">
+                            <option value="@opacity">
+                            <xsl:value-of select="@opacity"/></option>
+                          </xsl:if>
+                          <option value="1">1</option>
+                          <option value="0.8">0.8</option>
+                          <option value="0.6">0.6</option>
+                          <option value="0.4">0.4</option>
+                          <option value="0.2">0.2</option>
+                          <option value="0">0</option>
+                      </select>
+                    </form>   
             </td>
             </tr>
             </table>
