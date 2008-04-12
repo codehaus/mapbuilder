@@ -6,6 +6,21 @@ $Id$
 This file contains information about updates to each release:
 
 
+mapbuilder-lib-1.5-rc2
+======================
+This is a minor release, addressing some bug fixes, compatibility with IE7 and Firefox 3, and adds a catalog client.
+
+It covers the following:
+* Javascript was cleaned up to be compatible with Openlayers coding practices.
+* Address issues triggered when working with Prototype.js. MAP-485
+* A number of bug fixes
+* Old redundant widgets were moved to an archive
+* Introduction of a catalog search example
+* Added support for IE7 and Firefox 3.
+
+mapbuilder-lib-1.5-rc1
+======================
+
 mapbuilder-lib-1.5-alpha2
 ==========================
 This Mapbuilder release is largely a bugfix and cleanup release on the
