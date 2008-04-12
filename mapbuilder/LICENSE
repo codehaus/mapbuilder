@@ -1,7 +1,7 @@
 MapBuilder is a powerful, standards compliant geographic mapping client
 which runs in a web browser.  More details at http://communitymapbuilder.org
 
-Mapbuilder source code is copyright (C) 2006 to the following people:
+Mapbuilder source code is copyright (C) 2008 to the following people:
   Name                    Login Id
   ====                    ========
   Andreas Hocevar         ahocevar
@@ -22,6 +22,7 @@ Mapbuilder source code is copyright (C) 2006 to the following people:
   Radim Blazek            rabla
   Raj Singh               rajsingh
   Richard Greenwood       rgreenwood
+  Roald de Wit            rdewit
   Stefano Menegon         menegon
   Steven M. Ottens        graphrisc steven
   Tom Kralidis            tomkralidis
