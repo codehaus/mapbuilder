@@ -1,0 +1,55 @@
+MapBuilder is a powerful, standards compliant geographic mapping client
+which runs in a web browser.  More details at http://communitymapbuilder.org
+
+Mapbuilder source code is copyright (C) 2006 to the following people:
+  Name                    Login Id
+  ====                    ========
+  Andreas Hocevar         ahocevar
+  Cameron Shorter         camerons
+  Christopher Schmit      crschmidt
+  Dirk van den Elzen      dirk
+  Gertjan van Oosten      gjvoosten
+  Jean-sebastien baklouti jseb.baklouti
+  John Pulles             johnp
+  Linda Derezinski        derezinski
+  Matthew D. Diez         mattdiez
+  Matthew Perry           
+  Michael Jenik           maiqui
+  Mike Adair              madair madair1
+  Nedjo Rogers            nedjo
+  Olivier Terral          Oterral
+  Pat Cappelaere          cappelaere
+  Radim Blazek            rabla
+  Raj Singh               rajsingh
+  Richard Greenwood       rgreenwood
+  Stefano Menegon         menegon
+  Steven M. Ottens        graphrisc steven
+  Tom Kralidis            tomkralidis
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+--
+
+It is the intent of this project that all Mapbuilder developers who
+have been given write access to the Mapbuilder code repository and
+have contributed to source code in mapbuilder/lib/* may become
+copyright owners.
+
+Providing a patch to the mailing list does not give someone the right to
+become a copyright owner (primarily because it is too hard to track).
+
+Once someone becomes a copyright owner, they do not loose this status
+unless they personally request to be removed from the list of copyright
+owners listed in this file.

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GetRecords 
+xmlns:csw="http://www.opengis.net/csw" 
+xmlns:ogc="http://www.opengis.net/ogc" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance http://schemas.cubewerx.com/ogc/1.0.0/filter.xsd" 
+xmlns:gml="http://www.opengis.net/gml" 
+csw:schemaLocation="http://www.opengis.net/csw http://schemas.cubewerx.com/csw/2.0.0/CSW-discovery.xsd" 
+ogc:schemaLocation="http://www.opengis.net/ogc" 
+service="WRS" 
+version="2.0.0" 
+outputFormat="text/xml" 
+startPosition="1" 
+maxRecords="1000" 
+resultType="RESULTS">
+	<Query typeNames="ExtrinsicObject Association=ServiceAssociation Service">
+		<ElementName>/ExtrinsicObject</ElementName>
+		<ElementName>/Service</ElementName>
+		<Constraint>
+			<ogc:Filter>
+				<ogc:And>
+					<ogc:Or>
+						<ogc:PropertyIsLike>
+							<ogc:PropertyName>/ExtrinsicObject/@objectType</ogc:PropertyName>
+							<ogc:Literal>FeatureType</ogc:Literal>
+						</ogc:PropertyIsLike>
+						<ogc:PropertyIsLike>
+							<ogc:PropertyName>/ExtrinsicObject/@objectType</ogc:PropertyName>
+							<ogc:Literal>WMS_Layer</ogc:Literal>
+						</ogc:PropertyIsLike>
+					</ogc:Or>
+					<ogc:And>
+						<ogc:PropertyIsEqualTo>
+							<ogc:PropertyName>/ExtrinsicObject/@ID</ogc:PropertyName>
+							<ogc:PropertyName>/ServiceAssociation/@targetObject</ogc:PropertyName>
+						</ogc:PropertyIsEqualTo>
+						<ogc:PropertyIsLike>
+							<ogc:PropertyName>/ServiceAssociation/@associationType</ogc:PropertyName>
+							<ogc:Literal>Serves</ogc:Literal>
+						</ogc:PropertyIsLike>
+						<ogc:PropertyIsEqualTo>
+							<ogc:PropertyName>/Service/@ID</ogc:PropertyName>
+							<ogc:PropertyName>/ServiceAssociation/@sourceObject</ogc:PropertyName>
+						</ogc:PropertyIsEqualTo>
+					</ogc:And>
+				</ogc:And>
+			</ogc:Filter>
+		</Constraint>
+	</Query>
+</GetRecords>
