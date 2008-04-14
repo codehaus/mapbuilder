@@ -132,7 +132,6 @@ function GetFeatureInfoPZ(widgetNode, model) {
                   urlNode=objRef.xsl.transformNodeToObject(objRef.targetContext.doc);
                   url=getNodeValue(urlNode.documentElement);
                   url = url.replace('tilecache.py','cgi-bin/edugis/mapserv.cgi');
-alert(url);
                   httpPayload = new Object();
                   httpPayload.url = url;
                   httpPayload.method="get";
