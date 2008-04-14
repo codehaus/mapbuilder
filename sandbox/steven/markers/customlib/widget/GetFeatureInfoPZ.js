@@ -80,7 +80,7 @@ function GetFeatureInfoPZ(widgetNode, model) {
             else {
                //TODO dynamix
     var lonlat = config.objects.mainMap.map.getLonLatFromPixel(new OpenLayers.Pixel(e.xy.x,e.xy.y));
-    var popup = new OpenLayers.Popup.Anchored(); 
+    var popup = new OpenLayers.Popup.AnchoredBubble(); 
     var contentHTML= '<div class="PopupContainer"><div class="PopupHeader">Info</div><div class="PopupContent"><div id="featurePopup"></div></div></div>';
     
          //new XMLSerializer().serializeToString('').replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&amp;/g,"&");
