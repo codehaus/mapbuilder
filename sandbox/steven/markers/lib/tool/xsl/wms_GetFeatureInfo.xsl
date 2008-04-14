@@ -86,4 +86,7 @@ $Name$
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+      <!-- Remove documentation, text, comments -->
+  <xsl:template match="comment()|text()|processing-instruction()">
+  </xsl:template>
 </xsl:stylesheet>
