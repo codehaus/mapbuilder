@@ -51,15 +51,14 @@
           <fixedSize>true</fixedSize>
           <imageBuffer>1</imageBuffer>
         </MapPaneOL>
-        <AoiBoxDHTML id="aoiBoxLocator">
+        <AoiBoxOL id="aoiBoxLocator">
           <htmlTagId>locatorMap</htmlTagId>
           <lineColor>#FF0000</lineColor>
           <lineWidth>1</lineWidth>
           <crossSize>15</crossSize>
-        </AoiBoxDHTML>
+        </AoiBoxOL>
       </widgets>
       <tools>
-        <AoiMouseHandler id="locatorAoi" />
         <ZoomToAoi id="locatorZoomToAoi">
           <targetModel>mainMap</targetModel>
         </ZoomToAoi>
@@ -216,8 +215,8 @@
       <popupWindowName>modelXML</popupWindowName>
     </Save>
     <ExampleList id="exampleList"><!-- this is the widget that draws the example menu -->
-		<scriptFile>../ExampleList.js</scriptFile>
-		<stylesheet>../ExampleList.xsl</stylesheet>
+    <scriptFile>../ExampleList.js</scriptFile>
+    <stylesheet>../ExampleList.xsl</stylesheet>
     </ExampleList>
   </widgets>
   <!--
