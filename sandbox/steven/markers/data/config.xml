@@ -83,17 +83,16 @@
         <MapPaneOL id="locatorWidget">
           <htmlTagId>locatorMap</htmlTagId>
         </MapPaneOL>
-        <AoiBoxDHTML id="aoiBoxLocator">
+        <AoiBoxOL id="aoiBoxLocator">
           <htmlTagId>locatorMap</htmlTagId>
           <stylesheet>../lib/widget/GmlRenderer.xsl</stylesheet>
           <lineColor>red</lineColor>
           <lineWidth>2</lineWidth>
           <crossSize>15</crossSize>
           <mapContainerId>locatorContainer</mapContainerId>
-        </AoiBoxDHTML>
+        </AoiBoxOL>
       </widgets>
       <tools>
-        <AoiMouseHandler id="locatorAoi" />
         <ZoomToAoi id="locatorZoomToAoi">
           <targetModel>mainMap</targetModel>
         </ZoomToAoi>

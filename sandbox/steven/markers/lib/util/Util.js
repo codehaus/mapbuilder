@@ -165,16 +165,21 @@ alert("after");
 function postGetLoad(sUri, docToSend, contentType , dir, fileName) {
 
    var xmlHttp = new XMLHttpRequest();
+   var appendChar = sUri.indexOf("?") == -1 ? "?" : "&";
+   if(dir && fileName)
+       	sUri=sUri+appendChar+"dir="+dir+"&fileName="+fileName;
+   else if(dir)
+   		sUri=sUri+appendChar+"dir="+dir;
+   else if(fileName)
+   		sUri=sUri+appendChar+"fileName="+fileName;
+   		
    if ( sUri.indexOf("http://")==0 || sUri.indexOf("https://")==0 )
    {
-       xmlHttp.open("POST", config.proxyUrl, false);
+       xmlHttp.open("POST", config.proxyUrl, false);       
        xmlHttp.setRequestHeader("serverUrl",sUri);
-
-
    }
    else
    {
-       sUri=sUri+"?dir="+dir+"&fileName="+fileName;
        xmlHttp.open("POST", sUri, false);
    }
    xmlHttp.setRequestHeader("content-type","text/xml");
@@ -694,8 +699,16 @@ function sld2OlStyle(node) {
   if (node) {
     var ruleNode = node.selectSingleNode("wmc:SLD/sld:FeatureTypeStyle");
     if (ruleNode) {
-      var format = new OpenLayers.Format.SLD();
-      return new OpenLayers.Format.SLD().parseUserStyle(ruleNode);
+      var sld = new XMLSerializer().serializeToString(ruleNode);
+      var search = /<([^:]*:?)StyledLayerDescriptor/;
+      if (!search.test(sld)) {
+      	sld = sld.replace(/<([^:]*:?)FeatureTypeStyle([^>]*)>(.*)$/,
+            "<$1StyledLayerDescriptor$2><$1NamedLayer><$1Name>sld</$1Name><$1UserStyle><$1FeatureTypeStyle>$3</$1UserStyle></$1NamedLayer></$1StyledLayerDescriptor>");
+      }
+    }
+    var styles = new OpenLayers.Format.SLD().read(sld);
+    if (styles) {
+      return styles.namedLayers["sld"].userStyles[0];
     }
   }
   

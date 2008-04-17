@@ -1,8 +1,6 @@
 The OpenLayers.js in this directory is the full build (uncompressed) of
-OpenLayers trunk r6580.
+OpenLayers 2.6rc1.
 
 In addition, the following patches have been applied:
-- rotation.patch: based on #1433, with additional support for rotation in
-  OpenLayers.Format.SLD
-- property_styles.patch: added support for style properties derived from
-  feature properties
+- http://trac.openlayers.org/attachment/ticket/1433/1433-r6749-A2.patch
+  (adds rotation support to externalGraphic vector point features)

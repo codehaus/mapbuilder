@@ -37,7 +37,8 @@ function GmlRendererOL(widgetNode, model) {
           this.addFeatures(gml.read(this.mbWidget.renderDoc));
           this.loaded = true;
         } catch (e) {
-          // nothing to worry, just features without geometries in the doc
+          alert(mbGetMessage("documentParseError"),
+              new XMLSerializer().serializeToString(this.mbWidget.renderDoc));
         }
       }
     },
@@ -222,9 +223,16 @@ function GmlRendererOL(widgetNode, model) {
             }
             var sldNode = sldModel.getSldNode();
             if (sldModel.sld) {
-              var namedLayer = sldModel.sld[objRef.id];
-              widgetConfig.defaultStyle = namedLayer[widgetConfig.defaultStyleName];
-              widgetConfig.selectStyle = namedLayer[widgetConfig.selectStyleName];
+              var namedLayer = sldModel.sld.namedLayers[objRef.id].userStyles;
+              for (var j=0; j<namedLayer.length; ++j) {
+              	namedLayer[j].propertyStyles = namedLayer[j].findPropertyStyles();
+              	if (namedLayer[j].name == widgetConfig.defaultStyleName) {
+              	  widgetConfig.defaultStyle = namedLayer[j];
+              	}
+              	if (namedLayer[j].name == widgetConfig.selectStyleName) {
+              	  widgetConfig.selectStyle = namedLayer[j];
+              	}
+              }
               if (widgetConfig.selectStyle) {
                 widgetConfig.selectStyle.defaultStyle.cursor = objRef.hoverCursor;
               }

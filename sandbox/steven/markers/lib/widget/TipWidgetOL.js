@@ -82,10 +82,7 @@ function TipWidgetOL(widgetNode, model) {
     }
     widgetConfig.stylesheet.setParameter('fid', feature.fid);
     var lonlat = feature.layer.map.getLonLatFromPixel(evt.xy);
-    var popup = new OpenLayers.Popup.Anchored();
-    
-    popup.padding = 0;
-    popup.initialize(null, lonlat, new OpenLayers.Size(widgetConfig.width, widgetConfig.height),
+    var popup = new Mapbuilder.Popup(null, lonlat, new OpenLayers.Size(widgetConfig.width, widgetConfig.height),
         new XMLSerializer().serializeToString(widgetConfig.stylesheet.transformNodeToObject(widgetConfig.model.doc)).replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&amp;/g,"&"),
         null, hover == false);
     popup.setOpacity(widgetConfig.opacity);
@@ -101,3 +98,60 @@ function TipWidgetOL(widgetNode, model) {
   }
   
 }
+
+/**
+ * Derived from OpenLayers.Popup (svn r6430) and 
+ * OpenLayers.Popup.Anchored (svn r5614), this class preserves the
+ * functionality of OpenLayers.Popup.Anchored before the new style popups
+ * of http://trac.openlayers.org/ticket/926 were introduced.
+ */
+Mapbuilder.Popup = OpenLayers.Class(OpenLayers.Popup.Anchored, {
+
+  initialize: function(id, lonlat, size, contentHTML, anchor, closeBox,
+            closeBoxCallback) {
+    OpenLayers.Popup.Anchored.prototype.initialize.apply(this, arguments);
+    this.contentDiv.style.overflow = "hidden";
+  },
+  
+  setSize:function(size) { 
+    if (size != undefined) {
+      this.size = size; 
+    }
+    
+    if (this.div != null) {
+      this.div.style.width = this.size.w + "px";
+      this.div.style.height = this.size.h + "px";
+    }
+    if (this.contentDiv != null){
+      this.contentDiv.style.width = this.size.w + "px";
+      this.contentDiv.style.height = this.size.h + "px";
+    }
+
+    if ((this.lonlat) && (this.map)) {
+      var px = this.map.getLayerPxFromLonLat(this.lonlat);
+      this.moveTo(px);
+    }
+  },  
+  
+  addCloseBox:function(closeBoxCallback) {
+     // close icon
+    var closeSize = new OpenLayers.Size(17,17);
+    var img = config.skinDir + "/openlayers/img/close.gif";
+    this.closeDiv = OpenLayers.Util.createAlphaImageDiv(
+      this.id + "_close", null, closeSize, img
+    );
+    this.closeDiv.style.right = this.padding + "px";
+    this.closeDiv.style.top = this.padding + "px";
+    this.groupDiv.appendChild(this.closeDiv);
+
+    var closePopup = closeBoxCallback || function(e) {
+      this.hide();
+      OpenLayers.Event.stop(e);
+    };
+    OpenLayers.Event.observe(this.closeDiv, "click", 
+        OpenLayers.Function.bindAsEventListener(closePopup, this));
+  },
+  
+  CLASS_NAME: "Mapbuilder.Popup"
+});
+

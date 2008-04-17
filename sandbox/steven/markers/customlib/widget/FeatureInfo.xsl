@@ -19,7 +19,7 @@ $Name$
   <!-- Main html - It matches only non-empty results -->
   <xsl:template match="/*">
     <div class="featureLayer">
-      <div class="layerTitle"><xsl:value-of select="substring-before(name(./*), '_')"/></div><br/><!--TBD: get the real layername-->
+      <div class="layerTitle"><xsl:value-of select="substring-before(name(./*), '_')"/></div>
       <form>	
           <xsl:apply-templates/>
       </form>

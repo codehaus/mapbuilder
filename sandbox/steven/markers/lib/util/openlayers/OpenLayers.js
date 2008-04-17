@@ -182,6 +182,8 @@ var OpenLayers = {
             "OpenLayers/Layer/TileCache.js",
             "OpenLayers/Popup/Anchored.js",
             "OpenLayers/Popup/AnchoredBubble.js",
+            "OpenLayers/Popup/Framed.js",
+            "OpenLayers/Popup/FramedCloud.js",
             "OpenLayers/Feature.js",
             "OpenLayers/Feature/Vector.js",
             "OpenLayers/Feature/WFS.js",
@@ -255,6 +257,8 @@ var OpenLayers = {
             "OpenLayers/Format/WKT.js",
             "OpenLayers/Format/OSM.js",
             "OpenLayers/Format/SLD.js",
+            "OpenLayers/Format/SLD/v1.js",
+            "OpenLayers/Format/SLD/v1_0_0.js",
             "OpenLayers/Format/Text.js",
             "OpenLayers/Format/JSON.js",
             "OpenLayers/Format/GeoJSON.js",
@@ -1798,7 +1802,7 @@ OpenLayers.INCHES_PER_UNIT = {
 };
 OpenLayers.INCHES_PER_UNIT["in"]= OpenLayers.INCHES_PER_UNIT.inches;
 OpenLayers.INCHES_PER_UNIT["degrees"] = OpenLayers.INCHES_PER_UNIT.dd;
-OpenLayers.INCHES_PER_UNIT["nmi"] = 1852 * OpenLayers.INCHES_PER_UNIT.m;		
+OpenLayers.INCHES_PER_UNIT["nmi"] = 1852 * OpenLayers.INCHES_PER_UNIT.m;
 
 /** 
  * Constant: DOTS_PER_INCH
@@ -2201,6 +2205,137 @@ OpenLayers.Util.getBrowserName = function() {
     }
     
     return browserName;
+};
+
+
+
+    
+/**
+ * Method: getRenderedDimensions
+ * Renders the contentHTML offscreen to determine actual dimensions for
+ *     popup sizing. As we need layout to determine dimensions the content
+ *     is rendered -9999px to the left and absolute to ensure the 
+ *     scrollbars do not flicker
+ *     
+ * Parameters:
+ * size - {<OpenLayers.Size>} If either the 'w' or 'h' properties is 
+ *     specified, we fix that dimension of the div to be measured. This is 
+ *     useful in the case where we have a limit in one dimension and must 
+ *     therefore meaure the flow in the other dimension.
+ * 
+ * Returns:
+ * {OpenLayers.Size}
+ */
+OpenLayers.Util.getRenderedDimensions = function(contentHTML, size) {
+    
+    var w = h = null;
+    
+    // create temp container div with restricted size
+    var container = document.createElement("div");
+    container.style.overflow= "";
+    container.style.position = "absolute";
+    container.style.left = "-9999px";
+        
+    //fix a dimension, if specified.
+    if (size) {
+        if (size.w) {
+            w = container.style.width = size.w;
+        } else if (size.h) {
+            h = container.style.height = size.h;
+        }
+    }
+    
+    // create temp content div and assign content
+    var content = document.createElement("div");
+    content.innerHTML = contentHTML;
+    
+    // add content to restricted container 
+    container.appendChild(content);
+    
+    // append container to body for rendering
+    document.body.appendChild(container);
+    
+    // calculate scroll width of content and add corners and shadow width
+    if (!w) {
+        w = parseInt(content.scrollWidth);
+    
+        // update container width to allow height to adjust
+        container.style.width = w + "px";
+    }        
+    // capture height and add shadow and corner image widths
+    if (!h) {
+        h = parseInt(content.scrollHeight);
+    }
+
+    // remove elements
+    container.removeChild(content);
+    document.body.removeChild(container);
+    
+    return new OpenLayers.Size(w, h);
+};
+
+/**
+ * APIFunction: getScrollbarWidth
+ * This function has been modified by the OpenLayers from the original version,
+ *     written by Matthew Eernisse and released under the Apache 2 
+ *     license here:
+ * 
+ *     http://www.fleegix.org/articles/2006/05/30/getting-the-scrollbar-width-in-pixels
+ * 
+ *     It has been modified simply to cache its value, since it is physically 
+ *     impossible that this code could ever run in more than one browser at 
+ *     once. 
+ * 
+ * Returns:
+ * {Integer}
+ */
+OpenLayers.Util.getScrollbarWidth = function() {
+    
+    var scrollbarWidth = OpenLayers.Util._scrollbarWidth;
+    
+    if (scrollbarWidth == null) {
+        var scr = null;
+        var inn = null;
+        var wNoScroll = 0;
+        var wScroll = 0;
+    
+        // Outer scrolling div
+        scr = document.createElement('div');
+        scr.style.position = 'absolute';
+        scr.style.top = '-1000px';
+        scr.style.left = '-1000px';
+        scr.style.width = '100px';
+        scr.style.height = '50px';
+        // Start with no scrollbar
+        scr.style.overflow = 'hidden';
+    
+        // Inner content div
+        inn = document.createElement('div');
+        inn.style.width = '100%';
+        inn.style.height = '200px';
+    
+        // Put the inner div in the scrolling div
+        scr.appendChild(inn);
+        // Append the scrolling div to the doc
+        document.body.appendChild(scr);
+    
+        // Width of the inner div sans scrollbar
+        wNoScroll = inn.offsetWidth;
+    
+        // Add the scrollbar
+        scr.style.overflow = 'scroll';
+        // Width of the inner div width scrollbar
+        wScroll = inn.offsetWidth;
+    
+        // Remove the scrolling div from the doc
+        document.body.removeChild(document.body.lastChild);
+    
+        // Pixel width of the scroller
+        OpenLayers.Util._scrollbarWidth = (wNoScroll - wScroll);
+        scrollbarWidth = OpenLayers.Util._scrollbarWidth;
+    }
+
+    return scrollbarWidth;
 };
 /* ======================================================================
     Rico/Corner.js
@@ -4699,6 +4834,15 @@ OpenLayers.Control = OpenLayers.Class({
     type: null, 
 
     /** 
+     * Property: allowSelection
+     * {Boolean} By deafault, controls do not allow selection, because
+     * it may interfere with map dragging. If this is true, OpenLayers
+     * will not prevent selection of the control.
+     * Default is false.
+     */
+    allowSelection: false,  
+
+    /** 
      * Property: displayClass 
      * {string}  This property is used for CSS related to the drawing of the
      * Control. 
@@ -4860,6 +5004,11 @@ OpenLayers.Control = OpenLayers.Class({
         if (this.div == null) {
             this.div = OpenLayers.Util.createDiv(this.id);
             this.div.className = this.displayClass;
+            if (!this.allowSelection) {
+                this.div.className += " olControlNoSelect";
+                this.div.setAttribute("unselectable", "on", 0);
+                this.div.onselectstart = function() { return(false); }; 
+            }    
             if (this.title != "") {
                 this.div.title = this.title;
             }
@@ -5218,7 +5367,7 @@ OpenLayers.Lang = {
                 'Failed to find OpenLayers.Lang.' + parts.join("-") +
                 ' dictionary, falling back to default language'
             );
-            lang = OpenLayers.Lang.defaultCode
+            lang = OpenLayers.Lang.defaultCode;
         }
         
         OpenLayers.Lang.code = lang;
@@ -5362,7 +5511,8 @@ OpenLayers.Popup = OpenLayers.Class({
     
     /** 
      * Property: groupDiv 
-     * {DOMElement} the parent of <OpenLayers.Popup.contentDiv> 
+     * {DOMElement} First and only child of 'div'. The group Div contains the
+     *     'contentDiv' and the 'closeDiv'.
      */
     groupDiv: null,
 
@@ -5373,12 +5523,64 @@ OpenLayers.Popup = OpenLayers.Class({
     closeDiv: null,
 
     /** 
-     * Property: padding 
-     * {int} the internal padding of the content div.
+     * APIProperty: autoSize
+     * {Boolean} Resize the popup to auto-fit the contents.
+     *     Default is false.
      */
-    padding: 5,
+    autoSize: false,
 
+    /**
+     * APIProperty: minSize
+     * {<OpenLayers.Size>} Minimum size allowed for the popup's contents.
+     */
+    minSize: null,
 
+    /**
+     * APIProperty: maxSize
+     * {<OpenLayers.Size>} Maximum size allowed for the popup's contents.
+     */
+    maxSize: null,
+
+    /** 
+     * Property: padding 
+     * {int or <OpenLayers.Bounds>} An extra opportunity to specify internal 
+     *     padding of the content div inside the popup. This was originally
+     *     confused with the css padding as specified in style.css's 
+     *     'olPopupContent' class. We would like to get rid of this altogether,
+     *     except that it does come in handy for the framed and anchoredbubble
+     *     popups, who need to maintain yet another barrier between their 
+     *     content and the outer border of the popup itself. 
+     * 
+     *     Note that in order to not break API, we must continue to support 
+     *     this property being set as an integer. Really, though, we'd like to 
+     *     have this specified as a Bounds object so that user can specify
+     *     distinct left, top, right, bottom paddings. With the 3.0 release
+     *     we can make this only a bounds.
+     */
+    padding: 0,
+
+    /** 
+     * Method: fixPadding
+     * To be removed in 3.0, this function merely helps us to deal with the 
+     *     case where the user may have set an integer value for padding, 
+     *     instead of an <OpenLayers.Bounds> object.
+     */
+    fixPadding: function() {
+        if (typeof this.padding == "number") {
+            this.padding = new OpenLayers.Bounds(
+                this.padding, this.padding, this.padding, this.padding
+            );
+        }
+    },
+
+    /**
+     * APIProperty: panMapIfOutOfView
+     * {Boolean} When drawn, pan map such that the entire popup is visible in
+     *     the current viewport (if necessary).
+     *     Default is false.
+     */
+    panMapIfOutOfView: false,
+    
     /** 
      * Property: map 
      * {<OpenLayers.Map>} this gets set in Map.js when the popup is added to the map
@@ -5423,37 +5625,21 @@ OpenLayers.Popup = OpenLayers.Class({
                                              null, null, null, "hidden");
         this.div.className = 'olPopup';
         
-        this.groupDiv = OpenLayers.Util.createDiv(null, null, null, 
+        var groupDivId = this.id + "_GroupDiv";
+        this.groupDiv = OpenLayers.Util.createDiv(groupDivId, null, null, 
                                                     null, "relative", null,
                                                     "hidden");
 
         var id = this.div.id + "_contentDiv";
         this.contentDiv = OpenLayers.Util.createDiv(id, null, this.size.clone(), 
-                                                    null, "relative", null,
-                                                    "hidden");
+                                                    null, "relative");
         this.contentDiv.className = 'olPopupContent';                                            
         this.groupDiv.appendChild(this.contentDiv);
         this.div.appendChild(this.groupDiv);
 
         if (closeBox) {
-           // close icon
-            var closeSize = new OpenLayers.Size(17,17);
-            var img = OpenLayers.Util.getImagesLocation() + "close.gif";
-            this.closeDiv = OpenLayers.Util.createAlphaImageDiv(
-                this.id + "_close", null, closeSize, img
-            );
-            this.closeDiv.style.right = this.padding + "px";
-            this.closeDiv.style.top = this.padding + "px";
-            this.groupDiv.appendChild(this.closeDiv);
-
-            var closePopup = closeBoxCallback || function(e) {
-                this.hide();
-                OpenLayers.Event.stop(e);
-            };
-            OpenLayers.Event.observe(this.closeDiv, "click", 
-                    OpenLayers.Function.bindAsEventListener(closePopup, this));
-
-        }
+            this.addCloseBox(closeBoxCallback);
+        } 
 
         this.registerEvents();
     },
@@ -5463,13 +5649,39 @@ OpenLayers.Popup = OpenLayers.Class({
      * nullify references to prevent circular references and memory leaks
      */
     destroy: function() {
-        if (this.map != null) {
-            this.map.removePopup(this);
-            this.map = null;
-        }
+
+        this.id = null;
+        this.lonlat = null;
+        this.size = null;
+        this.contentHTML = null;
+        
+        this.backgroundColor = null;
+        this.opacity = null;
+        this.border = null;
+        
         this.events.destroy();
         this.events = null;
+        
+        if (this.closeDiv) {
+            OpenLayers.Event.stopObservingElement(this.closeDiv); 
+            this.groupDiv.removeChild(this.closeDiv);
+        }
+        this.closeDiv = null;
+        
+        this.div.removeChild(this.groupDiv);
+        this.groupDiv = null;
+
+        if (this.map != null) {
+            this.map.removePopup(this);
+        }
+        this.map = null;
         this.div = null;
+        
+        this.autoSize = null;
+        this.minSize = null;
+        this.maxSize = null;
+        this.padding = null;
+        this.panMapIfOutOfView = null;
     },
 
     /** 
@@ -5489,12 +5701,39 @@ OpenLayers.Popup = OpenLayers.Class({
             }
         }
         
-        this.setSize();
+        //listen to movestart, moveend to disable overflow (FF bug)
+        if (OpenLayers.Util.getBrowserName() == 'firefox') {
+            this.map.events.register("movestart", this, function() {
+                var style = document.defaultView.getComputedStyle(
+                    this.contentDiv, null
+                );
+                var currentOverflow = style.getPropertyValue("overflow");
+                if (currentOverflow != "hidden") {
+                    this.contentDiv._oldOverflow = currentOverflow;
+                    this.contentDiv.style.overflow = "hidden";
+                }
+            });
+            this.map.events.register("moveend", this, function() {
+                var oldOverflow = this.contentDiv._oldOverflow;
+                if (oldOverflow) {
+                    this.contentDiv.style.overflow = oldOverflow;
+                    this.contentDiv._oldOverflow = null;
+                }
+            });
+        }
+
+        this.moveTo(px);
+        if (!this.autoSize) {
+            this.setSize(this.size);
+        }
         this.setBackgroundColor();
         this.setOpacity();
         this.setBorder();
         this.setContentHTML();
-        this.moveTo(px);
+        
+        if (this.panMapIfOutOfView) {
+            this.panIntoView();
+        }    
 
         return this.div;
     },
@@ -5541,7 +5780,11 @@ OpenLayers.Popup = OpenLayers.Class({
      * Toggles visibility of the popup.
      */
     toggle: function() {
-        OpenLayers.Element.toggle(this.div);
+        if (this.visible()) {
+            this.hide();
+        } else {
+            this.show();
+        }
     },
 
     /**
@@ -5550,6 +5793,10 @@ OpenLayers.Popup = OpenLayers.Class({
      */
     show: function() {
         OpenLayers.Element.show(this.div);
+
+        if (this.panMapIfOutOfView) {
+            this.panIntoView();
+        }    
     },
 
     /**
@@ -5565,30 +5812,61 @@ OpenLayers.Popup = OpenLayers.Class({
      * Used to adjust the size of the popup. 
      *
      * Parameters:
-     * size - {<OpenLayers.Size>} the new size of the popup in pixels.
+     * size - {<OpenLayers.Size>} the new size of the popup's contents div
+     *     (in pixels).
      */
     setSize:function(size) { 
-        if (size != undefined) {
-            this.size = size; 
-        }
+        this.size = size; 
+
+        var contentSize = this.size.clone();
         
+        // if our contentDiv has a css 'padding' set on it by a stylesheet, we 
+        //  must add that to the desired "size". 
+        var contentDivPadding = this.getContentDivPadding();
+        var wPadding = contentDivPadding.left + contentDivPadding.right;
+        var hPadding = contentDivPadding.top + contentDivPadding.bottom;
+
+        // take into account the popup's 'padding' property
+        this.fixPadding();
+        wPadding += this.padding.left + this.padding.right;
+        hPadding += this.padding.top + this.padding.bottom;
+
+        // make extra space for the close div
+        if (this.closeDiv) {
+            var closeDivWidth = parseInt(this.closeDiv.style.width);
+            wPadding += closeDivWidth + contentDivPadding.right;
+        }
+
+        //increase size of the main popup div to take into account the 
+        // users's desired padding and close div.        
+        this.size.w += wPadding;
+        this.size.h += hPadding;
+
+        //now if our browser is IE, we need to actually make the contents 
+        // div itself bigger to take its own padding into effect. this makes 
+        // me want to shoot someone, but so it goes.
+        if (OpenLayers.Util.getBrowserName() == "msie") {
+            contentSize.w += contentDivPadding.left + contentDivPadding.right;
+            contentSize.h += contentDivPadding.bottom + contentDivPadding.top;
+        }
+
         if (this.div != null) {
             this.div.style.width = this.size.w + "px";
             this.div.style.height = this.size.h + "px";
         }
         if (this.contentDiv != null){
-            this.contentDiv.style.width = this.size.w + "px";
-            this.contentDiv.style.height = this.size.h + "px";
+            this.contentDiv.style.width = contentSize.w + "px";
+            this.contentDiv.style.height = contentSize.h + "px";
         }
     },  
 
     /**
-    * Method: setBackgroundColor
-    * Sets the background color of the popup.
-    *
-    * Parameters:
-    * color - {String} the background color.  eg "#FFBBBB"
-    */
+     * Method: setBackgroundColor
+     * Sets the background color of the popup.
+     *
+     * Parameters:
+     * color - {String} the background color.  eg "#FFBBBB"
+     */
     setBackgroundColor:function(color) { 
         if (color != undefined) {
             this.backgroundColor = color; 
@@ -5649,13 +5927,256 @@ OpenLayers.Popup = OpenLayers.Class({
             this.contentHTML = contentHTML;
         }
         
+        if (this.autoSize) {
+
+            // determine actual render dimensions of the contents
+            var realSize = 
+                 OpenLayers.Util.getRenderedDimensions(this.contentHTML);
+
+            // is the "real" size of the div is safe to display in our map?
+            var safeSize = this.getSafeContentSize(realSize);
+
+            var newSize = null;
+             
+            if (safeSize.equals(realSize)) {
+                //real size of content is small enough to fit on the map, 
+                // so we use real size.
+                newSize = realSize;
+
+            } else {
+
+                //make a new OL.Size object with the clipped dimensions 
+                // set or null if not clipped.
+                var fixedSize = new OpenLayers.Size();
+                fixedSize.w = (safeSize.w < realSize.w) ? safeSize.w : null;
+                fixedSize.h = (safeSize.h < realSize.h) ? safeSize.h : null;
+            
+                if (fixedSize.w && fixedSize.h) {
+                    //content is too big in both directions, so we will use 
+                    // max popup size (safeSize), knowing well that it will 
+                    // overflow both ways.                
+                    newSize = safeSize;
+                } else {
+                    //content is clipped in only one direction, so we need to 
+                    // run getRenderedDimensions() again with a fixed dimension
+                    var clippedSize = OpenLayers.Util.getRenderedDimensions(
+                        this.contentHTML, fixedSize
+                    );
+                    
+                    //if the clipped size is still the same as the safeSize, 
+                    // that means that our content must be fixed in the 
+                    // offending direction. If overflow is 'auto', this means 
+                    // we are going to have a scrollbar for sure, so we must 
+                    // adjust for that.
+                    //
+                    var currentOverflow = OpenLayers.Element.getStyle(
+                        this.contentDiv, "overflow"
+                    );
+                    if ( (currentOverflow != "hidden") && 
+                         (clippedSize.equals(safeSize)) ) {
+                        var scrollBar = OpenLayers.Util.getScrollbarWidth();
+                        if (fixedSize.w) {
+                            clippedSize.h += scrollBar;
+                        } else {
+                            clippedSize.w += scrollBar;
+                        }
+                    }
+                    
+                    newSize = this.getSafeContentSize(clippedSize);
+                }
+            }                        
+            this.setSize(newSize);     
+        }        
+
         if (this.contentDiv != null) {
             this.contentDiv.innerHTML = this.contentHTML;
         }    
     },
     
 
+    /**
+     * APIMethod: getSafeContentSize
+     * 
+     * Parameters:
+     * size - {<OpenLayers.Size>} Desired size to make the popup.
+     * 
+     * Returns:
+     * {<OpenLayers.Size>} A size to make the popup which is neither smaller
+     *     than the specified minimum size, nor bigger than the maximum 
+     *     size (which is calculated relative to the size of the viewport).
+     */
+    getSafeContentSize: function(size) {
+
+        var safeContentSize = size.clone();
+
+        // if our contentDiv has a css 'padding' set on it by a stylesheet, we 
+        //  must add that to the desired "size". 
+        var contentDivPadding = this.getContentDivPadding();
+        var wPadding = contentDivPadding.left + contentDivPadding.right;
+        var hPadding = contentDivPadding.top + contentDivPadding.bottom;
+
+        // take into account the popup's 'padding' property
+        this.fixPadding();
+        wPadding += this.padding.left + this.padding.right;
+        hPadding += this.padding.top + this.padding.bottom;
+
+        if (this.closeDiv) {
+            var closeDivWidth = parseInt(this.closeDiv.style.width);
+            wPadding += closeDivWidth + contentDivPadding.right;
+        }
+
+        // prevent the popup from being smaller than a specified minimal size
+        if (this.minSize) {
+            safeContentSize.w = Math.max(safeContentSize.w, 
+                (this.minSize.w - wPadding));
+            safeContentSize.h = Math.max(safeContentSize.h, 
+                (this.minSize.h - hPadding));
+        }
+
+        // prevent the popup from being bigger than a specified maximum size
+        if (this.maxSize) {
+            safeContentSize.w = Math.min(safeContentSize.w, 
+                (this.maxSize.w - wPadding));
+            safeContentSize.h = Math.min(safeContentSize.h, 
+                (this.maxSize.h - hPadding));
+        }
+        
+        //make sure the desired size to set doesn't result in a popup that 
+        // is bigger than the map's viewport.
+        //
+        if (this.map && this.map.size) {
+
+            // Note that there *was* a reference to a
+            // 'OpenLayers.Popup.SCROLL_BAR_WIDTH' constant here, with special
+            // tolerance for it and everything... but it was never defined in
+            // the first place, so I don't know what to think.
+          
+            var maxY = this.map.size.h - 
+                this.map.paddingForPopups.top - 
+                this.map.paddingForPopups.bottom - 
+                hPadding;
     
+            var maxX = this.map.size.w - 
+                this.map.paddingForPopups.left - 
+                this.map.paddingForPopups.right - 
+                wPadding;
+    
+            safeContentSize.w = Math.min(safeContentSize.w, maxX);
+            safeContentSize.h = Math.min(safeContentSize.h, maxY);
+        }
+        
+        return safeContentSize;
+    },
+    
+    /**
+     * Method: getContentDivPadding
+     * Glorious, oh glorious hack in order to determine the css 'padding' of 
+     *     the contentDiv. IE/Opera return null here unless we actually add the 
+     *     popup's main 'div' element (which contains contentDiv) to the DOM. 
+     *     So we make it invisible and then add it to the document temporarily. 
+     *
+     *     Once we've taken the padding readings we need, we then remove it 
+     *     from the DOM (it will actually get added to the DOM in 
+     *     Map.js's addPopup)
+     *
+     * Returns:
+     * {<OpenLayers.Bounds>}
+     */
+    getContentDivPadding: function() {
+
+        //use cached value if we have it
+        var contentDivPadding = this._contentDivPadding;
+        if (!contentDivPadding) {
+            //make the div invisible and add it to the page        
+            this.div.style.display = "none";
+            document.body.appendChild(this.div);
+    
+            //read the padding settings from css, put them in an OL.Bounds        
+            contentDivPadding = new OpenLayers.Bounds(
+                OpenLayers.Element.getStyle(this.contentDiv, "padding-left"),
+                OpenLayers.Element.getStyle(this.contentDiv, "padding-bottom"),
+                OpenLayers.Element.getStyle(this.contentDiv, "padding-right"),
+                OpenLayers.Element.getStyle(this.contentDiv, "padding-top")
+            );
+    
+            //cache the value
+            this._contentDivPadding = contentDivPadding;
+    
+            //remove the div from the page and make it visible again
+            document.body.removeChild(this.div);
+            this.div.style.display = "";
+        }
+        return contentDivPadding;
+    },
+
+    /**
+     * Method: addCloseBox
+     * 
+     * Parameters:
+     * callback - {Function} The callback to be called when the close button
+     *     is clicked.
+     */
+    addCloseBox: function(callback) {
+
+        this.closeDiv = OpenLayers.Util.createDiv(
+            this.id + "_close", null, new OpenLayers.Size(17, 17)
+        );
+        this.closeDiv.className = "olPopupCloseBox"; 
+        
+        // use the content div's css padding to determine if we should
+        //  padd the close div
+        var contentDivPadding = this.getContentDivPadding();
+         
+        this.closeDiv.style.right = contentDivPadding.right + "px";
+        this.closeDiv.style.top = contentDivPadding.top + "px";
+        this.groupDiv.appendChild(this.closeDiv);
+
+        var closePopup = callback || function(e) {
+            this.hide();
+            OpenLayers.Event.stop(e);
+        };
+        OpenLayers.Event.observe(this.closeDiv, "click", 
+                OpenLayers.Function.bindAsEventListener(closePopup, this));
+    },
+
+    /**
+     * Method: panIntoView
+     * Pans the map such that the popup is totaly viewable (if necessary)
+     */
+    panIntoView: function() {
+        
+        var mapSize = this.map.getSize();
+    
+        //start with the top left corner of the popup, in px, 
+        // relative to the viewport
+        var origTL = this.map.getViewPortPxFromLayerPx( new OpenLayers.Pixel(
+            parseInt(this.div.style.left),
+            parseInt(this.div.style.top)
+        ));
+        var newTL = origTL.clone();
+    
+        //new left (compare to margins, using this.size to calculate right)
+        if (origTL.x < this.map.paddingForPopups.left) {
+            newTL.x = this.map.paddingForPopups.left;
+        } else 
+        if ( (origTL.x + this.size.w) > (mapSize.w - this.map.paddingForPopups.right)) {
+            newTL.x = mapSize.w - this.map.paddingForPopups.right - this.size.w;
+        }
+        
+        //new top (compare to margins, using this.size to calculate bottom)
+        if (origTL.y < this.map.paddingForPopups.top) {
+            newTL.y = this.map.paddingForPopups.top;
+        } else 
+        if ( (origTL.y + this.size.h) > (mapSize.h - this.map.paddingForPopups.bottom)) {
+            newTL.y = mapSize.h - this.map.paddingForPopups.bottom - this.size.h;
+        }
+        
+        var dx = origTL.x - newTL.x;
+        var dy = origTL.y - newTL.y;
+        
+        this.map.pan(dx, dy);
+    },
+
     /** 
      * Method: registerEvents
      * Registers events on the popup.
@@ -7965,7 +8486,6 @@ OpenLayers.Control.MousePosition = OpenLayers.Class(OpenLayers.Control, {
         if (!this.element) {
             this.div.left = "";
             this.div.top = "";
-            this.div.className = this.displayClass;
             this.element = this.div;
         }
         
@@ -9046,7 +9566,6 @@ OpenLayers.Control.Permalink = OpenLayers.Class(OpenLayers.Control, {
         OpenLayers.Control.prototype.draw.apply(this, arguments);
           
         if (!this.element) {
-            this.div.className = this.displayClass;
             this.element = document.createElement("a");
             this.element.innerHTML = OpenLayers.i18n("permalink");
             this.element.href="";
@@ -9160,7 +9679,6 @@ OpenLayers.Control.Scale = OpenLayers.Class(OpenLayers.Control, {
         OpenLayers.Control.prototype.draw.apply(this, arguments);
         if (!this.element) {
             this.element = document.createElement("div");
-            this.div.className = this.displayClass;
             this.div.appendChild(this.element);
         }
         this.map.events.register( 'moveend', this, this.updateScale);
@@ -9278,7 +9796,6 @@ OpenLayers.Control.ScaleLine = OpenLayers.Class(OpenLayers.Control, {
     draw: function() {
         OpenLayers.Control.prototype.draw.apply(this, arguments);
         if (!this.eTop) {
-            this.div.className = this.displayClass;
             this.div.style.display = "block";
             this.div.style.position = "absolute";
             
@@ -10441,27 +10958,71 @@ OpenLayers.Popup.Anchored =
                                            offset: new OpenLayers.Pixel(0,0)};
     },
 
-    /** 
-     * Method: draw
+    /**
+     * APIMethod: destroy
+     */
+    destroy: function() {
+        this.anchor = null;
+        this.relativePosition = null;
+        
+        OpenLayers.Popup.prototype.destroy.apply(this, arguments);        
+    },
+
+    /**
+     * APIMethod: show
+     * Overridden from Popup since user might hide popup and then show() it 
+     *     in a new location (meaning we might want to update the relative
+     *     position on the show)
+     */
+    show: function() {
+        this.updatePosition();
+        OpenLayers.Popup.prototype.show.apply(this, arguments);
+    },
+
+    /**
+     * Method: moveTo
+     * Since the popup is moving to a new px, it might need also to be moved
+     *     relative to where the marker is. We first calculate the new 
+     *     relativePosition, and then we calculate the new px where we will 
+     *     put the popup, based on the new relative position. 
+     * 
+     *     If the relativePosition has changed, we must also call 
+     *     updateRelativePosition() to make any visual changes to the popup 
+     *     which are associated with putting it in a new relativePosition.
      * 
      * Parameters:
      * px - {<OpenLayers.Pixel>}
-     * 
-     * Returns: 
-     * {DOMElement} Reference to a div that contains the drawn popup.
      */
-    draw: function(px) {
-        if (px == null) {
-            if ((this.lonlat != null) && (this.map != null)) {
-                px = this.map.getLayerPxFromLonLat(this.lonlat);
-            }
-        }
-        
-        //calculate relative position
+    moveTo: function(px) {
+        var oldRelativePosition = this.relativePosition;
         this.relativePosition = this.calculateRelativePosition(px);
         
-        return OpenLayers.Popup.prototype.draw.apply(this, arguments);
+        var newPx = this.calculateNewPx(px);
+        
+        var newArguments = new Array(newPx);        
+        OpenLayers.Popup.prototype.moveTo.apply(this, newArguments);
+        
+        //if this move has caused the popup to change its relative position, 
+        // we need to make the appropriate cosmetic changes.
+        if (this.relativePosition != oldRelativePosition) {
+            this.updateRelativePosition();
+        }
     },
+
+    /**
+     * APIMethod: setSize
+     * 
+     * Parameters:
+     * size - {<OpenLayers.Size>}
+     */
+    setSize:function(size) { 
+        OpenLayers.Popup.prototype.setSize.apply(this, arguments);
+
+        if ((this.lonlat) && (this.map)) {
+            var px = this.map.getLayerPxFromLonLat(this.lonlat);
+            this.moveTo(px);
+        }
+    },  
     
     /** 
      * Method: calculateRelativePosition
@@ -10483,37 +11044,19 @@ OpenLayers.Popup.Anchored =
     }, 
 
     /**
-     * Method: moveTo
-     * Since the popup is moving to a new px, it might need also to be moved
-     *     relative to where the marker is.
+     * Method: updateRelativePosition
+     * The popup has been moved to a new relative location, so we may want to 
+     *     make some cosmetic adjustments to it. 
      * 
-     * Parameters:
-     * px - {<OpenLayers.Pixel>}
+     *     Note that in the classic Anchored popup, there is nothing to do 
+     *     here, since the popup looks exactly the same in all four positions.
+     *     Subclasses such as the AnchoredBubble and Framed, however, will 
+     *     want to do something special here.
      */
-    moveTo: function(px) {
-        this.relativePosition = this.calculateRelativePosition(px);
-        
-        var newPx = this.calculateNewPx(px);
-        
-        var newArguments = new Array(newPx);        
-        OpenLayers.Popup.prototype.moveTo.apply(this, newArguments);
+    updateRelativePosition: function() {
+        //to be overridden by subclasses
     },
-    
-    /**
-     * Method: setSize
-     * 
-     * Parameters:
-     * size - {<OpenLayers.Size>}
-     */
-    setSize:function(size) { 
-        OpenLayers.Popup.prototype.setSize.apply(this, arguments);
 
-        if ((this.lonlat) && (this.map)) {
-            var px = this.map.getLayerPxFromLonLat(this.lonlat);
-            this.moveTo(px);
-        }
-    },  
-    
     /** 
      * Method: calculateNewPx
      * 
@@ -13490,7 +14033,7 @@ OpenLayers.Map = OpenLayers.Class({
     layerContainerDiv: null,
 
     /**
-     * Property: layers
+     * APIProperty: layers
      * {Array(<OpenLayers.Layer>)} Ordered list of layers in the map
      */
     layers: null,
@@ -13691,6 +14234,13 @@ OpenLayers.Map = OpenLayers.Class({
     panMethod: OpenLayers.Easing.Expo.easeOut,
     
     /**
+     * Property: paddingForPopups
+     * {<OpenLayers.Bounds>} Outside margin of the popup. Used to prevent 
+     *     the popup from getting too close to the map border.
+     */
+    paddingForPopups : null,
+    
+    /**
      * Constructor: OpenLayers.Map
      * Constructor for a new OpenLayers.Map instance.
      *
@@ -13721,6 +14271,8 @@ OpenLayers.Map = OpenLayers.Class({
                                             OpenLayers.Map.TILE_HEIGHT);
         
         this.maxExtent = new OpenLayers.Bounds(-180, -90, 180, 90);
+        
+        this.paddingForPopups = new OpenLayers.Bounds(15, 15, 15, 15);
 
         this.theme = OpenLayers._getScriptLocation() + 
                              'theme/default/style.css'; 
@@ -13862,6 +14414,8 @@ OpenLayers.Map = OpenLayers.Class({
         } else {
             this.events.unregister("resize", this, this.updateSize);
         }    
+        
+        this.paddingForPopups = null;    
 
         if (this.controls != null) {
             for (var i = this.controls.length - 1; i>=0; --i) {
@@ -15724,6 +16278,11 @@ OpenLayers.Popup.AnchoredBubble =
      */
     initialize:function(id, lonlat, size, contentHTML, anchor, closeBox,
                         closeBoxCallback) {
+        
+        this.padding = new OpenLayers.Bounds(
+            0, OpenLayers.Popup.AnchoredBubble.CORNER_SIZE,
+            0, OpenLayers.Popup.AnchoredBubble.CORNER_SIZE
+        );
         OpenLayers.Popup.Anchored.prototype.initialize.apply(this, arguments);
     },
 
@@ -15750,17 +16309,12 @@ OpenLayers.Popup.AnchoredBubble =
     },
 
     /**
-     * Method: moveTo
-     * The popup may have been moved to a new relative location, in which case
+     * Method: updateRelativePosition
+     * The popup has been moved to a new relative location, in which case
      *     we will want to re-do the rico corners.
-     * 
-     * Parameters:
-     * px - {<OpenLayers.Pixel>}
      */
-    moveTo: function(px) {
-        OpenLayers.Popup.Anchored.prototype.moveTo.apply(this, arguments);
-        this.setRicoCorners(!this.rounded);
-        this.rounded = true;
+    updateRelativePosition: function() {
+        this.setRicoCorners();
     },
 
     /**
@@ -15771,22 +16325,8 @@ OpenLayers.Popup.AnchoredBubble =
      */
     setSize:function(size) { 
         OpenLayers.Popup.Anchored.prototype.setSize.apply(this, arguments);
-        
-        if (this.contentDiv != null) {
 
-            var contentSize = this.size.clone();
-            contentSize.h -= (2 * OpenLayers.Popup.AnchoredBubble.CORNER_SIZE);
-            contentSize.h -= (2 * this.padding);
-    
-            this.contentDiv.style.height = contentSize.h + "px";
-            this.contentDiv.style.width  = contentSize.w + "px";
-            
-            if (this.map) {
-                //size has changed - must redo corners        
-                this.setRicoCorners(!this.rounded);
-                this.rounded = true;
-            }    
-        }
+        this.setRicoCorners();
     },  
 
     /**
@@ -15803,7 +16343,7 @@ OpenLayers.Popup.AnchoredBubble =
         if (this.div != null) {
             if (this.contentDiv != null) {
                 this.div.style.background = "transparent";
-                OpenLayers.Rico.Corner.changeColor(this.contentDiv, 
+                OpenLayers.Rico.Corner.changeColor(this.groupDiv, 
                                                    this.backgroundColor);
             }
         }
@@ -15840,11 +16380,8 @@ OpenLayers.Popup.AnchoredBubble =
     /** 
      * Method: setRicoCorners
      * Update RICO corners according to the popup's current relative postion.
-     *  
-     * Parameters:
-     * firstTime - {Boolean} This the first time the corners are being rounded.
      */
-    setRicoCorners:function(firstTime) {
+    setRicoCorners:function() {
     
         var corners = this.getCornersToRound(this.relativePosition);
         var options = {corners: corners,
@@ -15852,8 +16389,9 @@ OpenLayers.Popup.AnchoredBubble =
                        bgColor: "transparent",
                          blend: false};
 
-        if (firstTime) {
+        if (!this.rounded) {
             OpenLayers.Rico.Corner.round(this.div, options);
+            this.rounded = true;
         } else {
             OpenLayers.Rico.Corner.reRound(this.groupDiv, options);
             //set the popup color and opacity
@@ -15888,6 +16426,341 @@ OpenLayers.Popup.AnchoredBubble =
  */
 OpenLayers.Popup.AnchoredBubble.CORNER_SIZE = 5;
 
+/* ======================================================================
+    OpenLayers/Popup/Framed.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
+ * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Popup/Anchored.js
+ */
+
+/**
+ * Class: OpenLayers.Popup.Framed
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Popup.Anchored>
+ */
+OpenLayers.Popup.Framed =
+  OpenLayers.Class(OpenLayers.Popup.Anchored, {
+
+    /**
+     * Property: imageSrc
+     * {String} location of the image to be used as the popup frame
+     */
+    imageSrc: null,
+
+    /**
+     * Property: imageSize
+     * {<OpenLayers.Size>} Size (measured in pixels) of the image located
+     *     by the 'imageSrc' property.
+     */
+    imageSize: null,
+
+    /**
+     * APIProperty: isAlphaImage
+     * {Boolean} The image has some alpha and thus needs to use the alpha 
+     *     image hack. Note that setting this to true will have no noticeable
+     *     effect in FF or IE7 browsers, but will all but crush the ie6 
+     *     browser. 
+     *     Default is false.
+     */
+    isAlphaImage: false,
+
+    /**
+     * Property: positionBlocks
+     * {Object} Hash of different position blocks (Object/Hashs). Each block 
+     *     will be keyed by a two-character 'relativePosition' 
+     *     code string (ie "tl", "tr", "bl", "br"). Block properties are 
+     *     'offset', 'padding' (self-explanatory), and finally the 'blocks'
+     *     parameter, which is an array of the block objects. 
+     * 
+     *     Each block object must have 'size', 'anchor', and 'position' 
+     *     properties.
+     * 
+     *     Note that positionBlocks should never be modified at runtime.
+     */
+    positionBlocks: null,
+
+    /**
+     * Property: blocks
+     * {Array[Object]} Array of objects, each of which is one "block" of the 
+     *     popup. Each block has a 'div' and an 'image' property, both of 
+     *     which are DOMElements, and the latter of which is appended to the 
+     *     former. These are reused as the popup goes changing positions for
+     *     great economy and elegance.
+     */
+    blocks: null,
+
+    /** 
+     * APIProperty: fixedRelativePosition
+     * {Boolean} We want the framed popup to work dynamically placed relative
+     *     to its anchor but also in just one fixed position. A well designed
+     *     framed popup will have the pixels and logic to display itself in 
+     *     any of the four relative positions, but (understandably), this will
+     *     not be the case for all of them. By setting this property to 'true', 
+     *     framed popup will not recalculate for the best placement each time
+     *     it's open, but will always open the same way. 
+     *     Note that if this is set to true, it is generally advisable to also
+     *     set the 'panIntoView' property to true so that the popup can be 
+     *     scrolled into view (since it will often be offscreen on open)
+     *     Default is false.
+     */
+    fixedRelativePosition: false,
+
+    /** 
+     * Constructor: OpenLayers.Popup.Framed
+     * 
+     * Parameters:
+     * id - {String}
+     * lonlat - {<OpenLayers.LonLat>}
+     * size - {<OpenLayers.Size>}
+     * contentHTML - {String}
+     * anchor - {Object} Object to which we'll anchor the popup. Must expose 
+     *     a 'size' (<OpenLayers.Size>) and 'offset' (<OpenLayers.Pixel>) 
+     *     (Note that this is generally an <OpenLayers.Icon>).
+     * closeBox - {Boolean}
+     * closeBoxCallback - {Function} Function to be called on closeBox click.
+     */
+    initialize:function(id, lonlat, size, contentHTML, anchor, closeBox, 
+                        closeBoxCallback) {
+
+        OpenLayers.Popup.Anchored.prototype.initialize.apply(this, arguments);
+
+        if (this.fixedRelativePosition) {
+            //based on our decided relativePostion, set the current padding
+            // this keeps us from getting into trouble 
+            this.updateRelativePosition();
+            
+            //make calculateRelativePosition always returnt the specified
+            // fiexed position.
+            this.calculateRelativePosition = function(px) {
+                return this.relativePosition;
+            };
+        }
+
+        this.contentDiv.style.position = "absolute";
+        this.contentDiv.style.zIndex = 1;
+
+        if (closeBox) {
+            this.closeDiv.style.zIndex = 1;
+        }
+
+        this.groupDiv.style.position = "absolute";
+        this.groupDiv.style.top = "0px";
+        this.groupDiv.style.left = "0px";
+        this.groupDiv.style.height = "100%";
+        this.groupDiv.style.width = "100%";
+    },
+
+    /** 
+     * APIMethod: destroy
+     */
+    destroy: function() {
+        this.imageSrc = null;
+        this.imageSize = null;
+        this.isAlphaImage = null;
+
+        this.fixedRelativePosition = false;
+        this.positionBlocks = null;
+
+        //remove our blocks
+        for(var i = 0; i < this.blocks.length; i++) {
+            var block = this.blocks[i];
+
+            if (block.image) {
+                block.div.removeChild(block.image);
+            }
+            block.image = null;
+
+            if (block.div) {
+                this.groupDiv.removeChild(block.div);
+            }
+            block.div = null;
+        }
+        this.blocks = null;
+
+        OpenLayers.Popup.Anchored.prototype.destroy.apply(this, arguments);
+    },
+
+    /**
+     * APIMethod: setBackgroundColor
+     */
+    setBackgroundColor:function(color) {
+        //does nothing since the framed popup's entire scheme is based on a 
+        // an image -- changing the background color makes no sense. 
+    },
+
+    /**
+     * APIMethod: setBorder
+     */
+    setBorder:function() {
+        //does nothing since the framed popup's entire scheme is based on a 
+        // an image -- changing the popup's border makes no sense. 
+    },
+
+    /**
+     * Method: setOpacity
+     * Sets the opacity of the popup.
+     * 
+     * Parameters:
+     * opacity - {float} A value between 0.0 (transparent) and 1.0 (solid).   
+     */
+    setOpacity:function(opacity) {
+        //does nothing since we suppose that we'll never apply an opacity
+        // to a framed popup
+    },
+
+    /**
+     * APIMethod: setSize
+     * Overridden here, because we need to update the blocks whenever the size
+     *     of the popup has changed.
+     * 
+     * Parameters:
+     * size - {<OpenLayers.Size>}
+     */
+    setSize:function(size) { 
+        OpenLayers.Popup.Anchored.prototype.setSize.apply(this, arguments);
+
+        this.updateBlocks();
+    },
+
+    /**
+     * Method: updateRelativePosition
+     * When the relative position changes, we need to set the new padding 
+     *     BBOX on the popup, reposition the close div, and update the blocks.
+     */
+    updateRelativePosition: function() {
+
+        //update the padding
+        this.padding = this.positionBlocks[this.relativePosition].padding;
+
+        //update the position of our close box to new padding
+        if (this.closeDiv) {
+            // use the content div's css padding to determine if we should
+            //  padd the close div
+            var contentDivPadding = this.getContentDivPadding();
+
+            this.closeDiv.style.right = contentDivPadding.right + 
+                                        this.padding.right + "px";
+            this.closeDiv.style.top = contentDivPadding.top + 
+                                      this.padding.top + "px";
+        }
+
+        this.updateBlocks();
+    },
+
+    /** 
+     * Method: calculateNewPx
+     * Besides the standard offset as determined by the Anchored class, our 
+     *     Framed popups have a special 'offset' property for each of their 
+     *     positions, which is used to offset the popup relative to its anchor.
+     * 
+     * Parameters:
+     * px - {<OpenLayers.Pixel>}
+     * 
+     * Returns:
+     * {<OpenLayers.Pixel>} The the new px position of the popup on the screen
+     *     relative to the passed-in px.
+     */
+    calculateNewPx:function(px) {
+        var newPx = OpenLayers.Popup.Anchored.prototype.calculateNewPx.apply(
+            this, arguments
+        );
+
+        newPx = newPx.offset(this.positionBlocks[this.relativePosition].offset);
+
+        return newPx;
+    },
+
+    /**
+     * Method: createBlocks
+     */
+    createBlocks: function() {
+        this.blocks = [];
+
+        var position = this.positionBlocks[this.relativePosition];
+        for (var i = 0; i < position.blocks.length; i++) {
+
+            var block = {};
+            this.blocks.push(block);
+
+            var divId = this.id + '_FrameDecorationDiv_' + i;
+            block.div = OpenLayers.Util.createDiv(divId, 
+                null, null, null, "absolute", null, "hidden", null
+            );
+
+            var imgId = this.id + '_FrameDecorationImg_' + i;
+            var imageCreator = 
+                (this.isAlphaImage) ? OpenLayers.Util.createAlphaImageDiv
+                                    : OpenLayers.Util.createImage;
+
+            block.image = imageCreator(imgId, 
+                null, this.imageSize, this.imageSrc, 
+                "absolute", null, null, null
+            );
+
+            block.div.appendChild(block.image);
+            this.groupDiv.appendChild(block.div);
+        }
+    },
+
+    /**
+     * Method: updateBlocks
+     * Internal method, called on initialize and when the popup's relative
+     *     position has changed. This function takes care of re-positioning
+     *     the popup's blocks in their appropropriate places.
+     */
+    updateBlocks: function() {
+
+        if (!this.blocks) {
+            this.createBlocks();
+        }
+
+        var position = this.positionBlocks[this.relativePosition];
+        for (var i = 0; i < position.blocks.length; i++) {
+
+            var positionBlock = position.blocks[i];
+            var block = this.blocks[i];
+
+            // adjust sizes
+            var l = positionBlock.anchor.left;
+            var b = positionBlock.anchor.bottom;
+            var r = positionBlock.anchor.right;
+            var t = positionBlock.anchor.top;
+
+            //note that we use the isNaN() test here because if the 
+            // size object is initialized with a "auto" parameter, the 
+            // size constructor calls parseFloat() on the string, 
+            // which will turn it into NaN
+            //
+            var w = (isNaN(positionBlock.size.w)) ? this.size.w - (r + l) 
+                                                  : positionBlock.size.w;
+
+            var h = (isNaN(positionBlock.size.h)) ? this.size.h - (b + t) 
+                                                  : positionBlock.size.h;
+
+            block.div.style.width = w + 'px';
+            block.div.style.height = h + 'px';
+
+            block.div.style.left = (l != null) ? l + 'px' : '';
+            block.div.style.bottom = (b != null) ? b + 'px' : '';
+            block.div.style.right = (r != null) ? r + 'px' : '';            
+            block.div.style.top = (t != null) ? t + 'px' : '';
+
+            block.image.style.left = positionBlock.position.x + 'px';
+            block.image.style.top = positionBlock.position.y + 'px';
+        }
+
+        this.contentDiv.style.left = this.padding.left + "px";
+        this.contentDiv.style.top = this.padding.top + "px";
+    },
+
+    CLASS_NAME: "OpenLayers.Popup.Framed"
+});
 /* ======================================================================
     OpenLayers/Renderer/SVG.js
    ====================================================================== */
@@ -15956,10 +16829,11 @@ OpenLayers.Renderer.SVG = OpenLayers.Class(OpenLayers.Renderer.Elements, {
      * {Boolean} Whether or not the browser supports the SVG renderer
      */
     supported: function() {
-        var svgFeature = "http://www.w3.org/TR/SVG11/feature#SVG";
+        var svgFeature = "http://www.w3.org/TR/SVG11/feature#";
         return (document.implementation && 
-                (document.implementation.hasFeature("org.w3c.svg", "1.0") || 
-                 document.implementation.hasFeature(svgFeature, "1.1")));
+           (document.implementation.hasFeature("org.w3c.svg", "1.0") || 
+            document.implementation.hasFeature(svgFeature + "SVG", "1.1") || 
+            document.implementation.hasFeature(svgFeature + "BasicStructure", "1.1") ));
     },    
 
     /**
@@ -16646,7 +17520,7 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
         // stroke 
         if (options.isStroked) { 
             node.setAttribute("strokecolor", style.strokeColor); 
-            node.setAttribute("strokeweight", style.strokeWidth); 
+            node.setAttribute("strokeweight", style.strokeWidth + "px"); 
         } else { 
             node.setAttribute("stroked", "false"); 
         }
@@ -16691,25 +17565,37 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
      * yOffset - {Number} rotation center relative to image, y coordinate
      */
     graphicRotate: function(node, xOffset, yOffset) {
-        var style = node._style;
+        var style = style || node._style;
         var options = node._options;
         
         var aspectRatio, size;
         if (!(style.graphicWidth && style.graphicHeight)) {
             // load the image to determine its size
             var img = new Image();
+            img.onreadystatechange = OpenLayers.Function.bind(function() {
+                if(img.readyState == "complete" ||
+                        img.readyState == "interactive") {
+                    aspectRatio = img.width / img.height;
+                    size = Math.max(style.pointRadius * 2, 
+                        style.graphicWidth || 0,
+                        style.graphicHeight || 0);
+                    xOffset = xOffset * aspectRatio;
+                    style.graphicWidth = size * aspectRatio;
+                    style.graphicHeight = size;
+                    this.graphicRotate(node, xOffset, yOffset)
+                }
+            }, this);
             img.src = style.externalGraphic;
-            aspectRatio = img.width / img.height;
-            size = Math.max(style.pointRadius * 2, style.graphicWidth || 0,
-                style.graphicHeight || 0);
-            xOffset = xOffset * aspectRatio;
+            
+            // will be called again by the onreadystate handler
+            return;
         } else {
             size = Math.max(style.graphicWidth, style.graphicHeight);
             aspectRatio = style.graphicWidth / style.graphicHeight;
         }
         
-        width = Math.round(style.graphicWidth || size * aspectRatio);
-        height = Math.round(style.graphicHeight || size);
+        var width = Math.round(style.graphicWidth || size * aspectRatio);
+        var height = Math.round(style.graphicHeight || size);
         node.style.width = width;
         node.style.height = height;
         
@@ -16784,7 +17670,7 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
         }
         if (strokeColor == "none" &&
                 node.getAttribute("strokecolor") != strokeColor) {
-            node.setAttribute("strokecolor", strokeColor)
+            node.setAttribute("strokecolor", strokeColor);
         }
     },
 
@@ -16837,6 +17723,12 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
         if (id) {
             node.setAttribute('id', id);
         }
+        
+        // IE hack to make elements unselectable, to prevent 'blue flash'
+        // while dragging vectors; #1410
+        node.setAttribute('unselectable', 'on', 0);
+        node.onselectstart = function() { return(false); };
+        
         return node;    
     },
     
@@ -17471,9 +18363,12 @@ OpenLayers.Tile.Image = OpenLayers.Class(OpenLayers.Tile, {
         this.frame.style.display = '';
         // Force a reflow on gecko based browsers to actually show the element
         // before continuing execution.
-        if (navigator.userAgent.toLowerCase().indexOf("gecko") != -1) { 
-            this.frame.scrollLeft = this.frame.scrollLeft; 
-        } 
+        if (OpenLayers.Util.indexOf(this.layer.SUPPORTED_TRANSITIONS, 
+                this.layer.transitionEffect) != -1) {
+            if (navigator.userAgent.toLowerCase().indexOf("gecko") != -1) { 
+                this.frame.scrollLeft = this.frame.scrollLeft; 
+            } 
+        }
     },
     
     /** 
@@ -17887,7 +18782,7 @@ OpenLayers.Control.OverviewMap = OpenLayers.Class(OpenLayers.Control, {
         // Optionally add min/max buttons if the control will go in the
         // map viewport.
         if(!this.outsideViewport) {
-            this.div.className = this.displayClass + 'Container';
+            this.div.className += " " + this.displayClass + 'Container';
             var imgLocation = OpenLayers.Util.getImagesLocation();
             // maximize button div
             var img = imgLocation + 'layer-switcher-maximize.png';
@@ -19065,7 +19960,7 @@ OpenLayers.Format.WMC.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
      * Method: read_wmc_Format
      */
     read_wmc_Format: function(layerInfo, node) {
-        var format = this.getChildValue(node)
+        var format = this.getChildValue(node);
         layerInfo.formats.push(format);
         if(node.getAttribute("current") == "1") {
             layerInfo.params.format = format;
@@ -22246,6 +23141,234 @@ OpenLayers.Marker.Box = OpenLayers.Class(OpenLayers.Marker, {
     CLASS_NAME: "OpenLayers.Marker.Box"
 });
 
+/* ======================================================================
+    OpenLayers/Popup/FramedCloud.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
+ * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Popup/Framed.js
+ * @requires OpenLayers/Util.js
+ */
+
+/**
+ * Class: OpenLayers.Popup.FramedCloud
+ * 
+ * Inherits from: 
+ *  - <OpenLayers.Popup.Framed>
+ */
+OpenLayers.Popup.FramedCloud = 
+  OpenLayers.Class(OpenLayers.Popup.Framed, {
+
+    /**
+     * APIProperty: autoSize
+     * {Boolean} Framed Cloud is autosizing by default.
+     */
+    autoSize: true,
+
+    /**
+     * APIProperty: panMapIfOutOfView
+     * {Boolean} Framed Cloud does pan into view by default.
+     */
+    panMapIfOutOfView: true,
+
+    /**
+     * APIProperty: imageSize
+     * {<OpenLayers.Size>}
+     */
+    imageSize: new OpenLayers.Size(676, 736),
+
+    /**
+     * APIProperty: isAlphaImage
+     * {Boolean} The FramedCloud does not use an alpha image (in honor of the 
+     *     good ie6 folk out there)
+     */
+    isAlphaImage: false,
+
+    /** 
+     * APIProperty: fixedRelativePosition
+     * {Boolean} The Framed Cloud popup works in just one fixed position.
+     */
+    fixedRelativePosition: false,
+
+    /**
+     * Property: positionBlocks
+     * {Object} Hash of differen position blocks, keyed by relativePosition
+     *     two-character code string (ie "tl", "tr", "bl", "br")
+     */
+    positionBlocks: {
+        "tl": {
+            'offset': new OpenLayers.Pixel(44, 0),
+            'padding': new OpenLayers.Bounds(8, 40, 8, 9),
+            'blocks': [
+                { // top-left
+                    size: new OpenLayers.Size('auto', 'auto'),
+                    anchor: new OpenLayers.Bounds(0, 51, 22, 0),
+                    position: new OpenLayers.Pixel(0, 0)
+                },
+                { //top-right
+                    size: new OpenLayers.Size(22, 'auto'),
+                    anchor: new OpenLayers.Bounds(null, 50, 0, 0),
+                    position: new OpenLayers.Pixel(-638, 0)
+                },
+                { //bottom-left
+                    size: new OpenLayers.Size('auto', 21),
+                    anchor: new OpenLayers.Bounds(0, 32, 80, null),
+                    position: new OpenLayers.Pixel(0, -629)
+                },
+                { //bottom-right
+                    size: new OpenLayers.Size(22, 21),
+                    anchor: new OpenLayers.Bounds(null, 32, 0, null),
+                    position: new OpenLayers.Pixel(-638, -629)
+                },
+                { // stem
+                    size: new OpenLayers.Size(81, 54),
+                    anchor: new OpenLayers.Bounds(null, 0, 0, null),
+                    position: new OpenLayers.Pixel(0, -668)
+                }
+            ]
+        },
+        "tr": {
+            'offset': new OpenLayers.Pixel(-45, 0),
+            'padding': new OpenLayers.Bounds(8, 40, 8, 9),
+            'blocks': [
+                { // top-left
+                    size: new OpenLayers.Size('auto', 'auto'),
+                    anchor: new OpenLayers.Bounds(0, 51, 22, 0),
+                    position: new OpenLayers.Pixel(0, 0)
+                },
+                { //top-right
+                    size: new OpenLayers.Size(22, 'auto'),
+                    anchor: new OpenLayers.Bounds(null, 50, 0, 0),
+                    position: new OpenLayers.Pixel(-638, 0)
+                },
+                { //bottom-left
+                    size: new OpenLayers.Size('auto', 21),
+                    anchor: new OpenLayers.Bounds(0, 32, 22, null),
+                    position: new OpenLayers.Pixel(0, -629)
+                },
+                { //bottom-right
+                    size: new OpenLayers.Size(22, 21),
+                    anchor: new OpenLayers.Bounds(null, 32, 0, null),
+                    position: new OpenLayers.Pixel(-638, -629)
+                },
+                { // stem
+                    size: new OpenLayers.Size(81, 54),
+                    anchor: new OpenLayers.Bounds(0, 0, null, null),
+                    position: new OpenLayers.Pixel(-215, -668)
+                }
+            ]
+        },
+        "bl": {
+            'offset': new OpenLayers.Pixel(45, 0),
+            'padding': new OpenLayers.Bounds(8, 9, 8, 40),
+            'blocks': [
+                { // top-left
+                    size: new OpenLayers.Size('auto', 'auto'),
+                    anchor: new OpenLayers.Bounds(0, 21, 22, 32),
+                    position: new OpenLayers.Pixel(0, 0)
+                },
+                { //top-right
+                    size: new OpenLayers.Size(22, 'auto'),
+                    anchor: new OpenLayers.Bounds(null, 21, 0, 32),
+                    position: new OpenLayers.Pixel(-638, 0)
+                },
+                { //bottom-left
+                    size: new OpenLayers.Size('auto', 21),
+                    anchor: new OpenLayers.Bounds(0, 0, 22, null),
+                    position: new OpenLayers.Pixel(0, -629)
+                },
+                { //bottom-right
+                    size: new OpenLayers.Size(22, 21),
+                    anchor: new OpenLayers.Bounds(null, 0, 0, null),
+                    position: new OpenLayers.Pixel(-638, -629)
+                },
+                { // stem
+                    size: new OpenLayers.Size(81, 54),
+                    anchor: new OpenLayers.Bounds(null, null, 0, 0),
+                    position: new OpenLayers.Pixel(-101, -674)
+                }
+            ]
+        },
+        "br": {
+            'offset': new OpenLayers.Pixel(-44, 0),
+            'padding': new OpenLayers.Bounds(8, 9, 8, 40),
+            'blocks': [
+                { // top-left
+                    size: new OpenLayers.Size('auto', 'auto'),
+                    anchor: new OpenLayers.Bounds(0, 21, 22, 32),
+                    position: new OpenLayers.Pixel(0, 0)
+                },
+                { //top-right
+                    size: new OpenLayers.Size(22, 'auto'),
+                    anchor: new OpenLayers.Bounds(null, 21, 0, 32),
+                    position: new OpenLayers.Pixel(-638, 0)
+                },
+                { //bottom-left
+                    size: new OpenLayers.Size('auto', 21),
+                    anchor: new OpenLayers.Bounds(0, 0, 22, null),
+                    position: new OpenLayers.Pixel(0, -629)
+                },
+                { //bottom-right
+                    size: new OpenLayers.Size(22, 21),
+                    anchor: new OpenLayers.Bounds(null, 0, 0, null),
+                    position: new OpenLayers.Pixel(-638, -629)
+                },
+                { // stem
+                    size: new OpenLayers.Size(81, 54),
+                    anchor: new OpenLayers.Bounds(0, null, null, 0),
+                    position: new OpenLayers.Pixel(-311, -674)
+                }
+            ]
+        }
+    },
+
+    /**
+     * APIProperty: minSize
+     * {<OpenLayers.Size>}
+     */
+    minSize: new OpenLayers.Size(105, 10),
+
+    /**
+     * APIProperty: maxSize
+     * {<OpenLayers.Size>}
+     */
+    maxSize: new OpenLayers.Size(600, 660),
+
+    /** 
+     * Constructor: OpenLayers.Popup.FramedCloud
+     * 
+     * Parameters:
+     * id - {String}
+     * lonlat - {<OpenLayers.LonLat>}
+     * size - {<OpenLayers.Size>}
+     * contentHTML - {String}
+     * anchor - {Object} Object to which we'll anchor the popup. Must expose 
+     *     a 'size' (<OpenLayers.Size>) and 'offset' (<OpenLayers.Pixel>) 
+     *     (Note that this is generally an <OpenLayers.Icon>).
+     * closeBox - {Boolean}
+     * closeBoxCallback - {Function} Function to be called on closeBox click.
+     */
+    initialize:function(id, lonlat, size, contentHTML, anchor, closeBox, 
+                        closeBoxCallback) {
+
+        this.imageSrc = OpenLayers.Util.getImagesLocation() + 'cloud-popup-relative.png';
+        OpenLayers.Popup.Framed.prototype.initialize.apply(this, arguments);
+        this.contentDiv.className = "olFramedCloudPopupContent";
+    },
+
+    /** 
+     * APIMethod: destroy
+     */
+    destroy: function() {
+        OpenLayers.Popup.Framed.prototype.destroy.apply(this, arguments);
+    },
+
+    CLASS_NAME: "OpenLayers.Popup.FramedCloud"
+});
 /* ======================================================================
     OpenLayers/Control/DragFeature.js
    ====================================================================== */
@@ -27415,7 +28538,7 @@ OpenLayers.Layer.Grid = OpenLayers.Class(OpenLayers.Layer.HTTPRequest, {
           tilelon: tilelon, tilelat: tilelat,
           tileoffsetlon: tileoffsetlon, tileoffsetlat: tileoffsetlat,
           tileoffsetx: tileoffsetx, tileoffsety: tileoffsety
-        }  
+        };
 
     },
 
@@ -27642,7 +28765,7 @@ OpenLayers.Layer.Grid = OpenLayers.Class(OpenLayers.Layer.HTTPRequest, {
      * tile - {<OpenLayers.Tile>}
      */
     removeTileMonitoringHooks: function(tile) {
-        tile.unload()
+        tile.unload();
         tile.events.un({
             "loadstart": tile.onLoadStart,
             "loadend": tile.onLoadEnd,
@@ -29148,6 +30271,18 @@ OpenLayers.Style = OpenLayers.Class({
     name: null,
     
     /**
+     * Property: title
+     * {String} Title of this style (set if included in SLD)
+     */
+    title: null,
+    
+    /**
+     * Property: description
+     * {String} Description of this style (set if abstract is included in SLD)
+     */
+    description: null,
+
+    /**
      * APIProperty: layerName
      * {<String>} name of the layer that this style belongs to, usually
      * according to the NamedLayer attribute of an SLD document.
@@ -29460,7 +30595,7 @@ OpenLayers.Style.createLiteral = function(value, context, feature) {
         value = (isNaN(value) || !value) ? value : parseFloat(value);
     }
     return value;
-}
+};
     
 /**
  * Constant: OpenLayers.Style.SYMBOLIZER_PREFIXES
@@ -30068,7 +31203,7 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
         originGeometry.move = function(x, y) {
             OpenLayers.Geometry.Point.prototype.move.call(this, x, y);
             geometry.move(x, y);
-        }
+        };
         this.dragHandle = origin;
         this.layer.addFeatures([this.dragHandle], {silent: true});
     },
@@ -30108,7 +31243,7 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
                 var l1 = Math.sqrt((dx1 * dx1) + (dy1 * dy1));
                 geometry.resize(l1 / l0, originGeometry);
             }
-        }
+        };
         this.radiusHandle = radius;
         this.layer.addFeatures([this.radiusHandle], {silent: true});
     },
@@ -30780,7 +31915,7 @@ OpenLayers.Layer.KaMap = OpenLayers.Class(OpenLayers.Layer.Grid, {
           tilelon: tilelon, tilelat: tilelat,
           tileoffsetlon: tileoffsetlon, tileoffsetlat: tileoffsetlat,
           tileoffsetx: tileoffsetx, tileoffsety: tileoffsety
-        }  
+        };
     },    
 
     /**
@@ -31174,7 +32309,7 @@ OpenLayers.Layer.MapGuide = OpenLayers.Class(OpenLayers.Layer.Grid, {
           tilelon: tilelon, tilelat: tilelat,
           tileoffsetlon: tileoffsetlon, tileoffsetlat: tileoffsetlat,
           tileoffsetx: tileoffsetx, tileoffsety: tileoffsety
-        }  
+        };
     },
     
     CLASS_NAME: "OpenLayers.Layer.MapGuide"
@@ -32089,11 +33224,29 @@ OpenLayers.Layer.WorldWind = OpenLayers.Class(OpenLayers.Layer.Grid, {
 OpenLayers.Rule = OpenLayers.Class({
     
     /**
+     * Property: id
+     * {String} A unique id for this session.
+     */
+    id: null,
+    
+    /**
      * APIProperty: name
      * {String} name of this rule
      */
     name: 'default',
     
+    /**
+     * Property: title
+     * {String} Title of this rule (set if included in SLD)
+     */
+    title: null,
+    
+    /**
+     * Property: description
+     * {String} Description of this rule (set if abstract is included in SLD)
+     */
+    description: null,
+
     /**
      * Property: context
      * {Object} An optional object with properties that the rule should be
@@ -32147,6 +33300,7 @@ OpenLayers.Rule = OpenLayers.Class({
      * {<OpenLayers.Rule>}
      */
     initialize: function(options) {
+        this.id = OpenLayers.Util.createUniqueID(this.CLASS_NAME + "_");
         this.symbolizer = {};
 
         OpenLayers.Util.extend(this, options);
@@ -33914,9 +35068,9 @@ OpenLayers.Rule.Comparison = OpenLayers.Class(OpenLayers.Rule, {
             
             case OpenLayers.Rule.Comparison.BETWEEN:
                 var result =
-                        context[this.property] > this.lowerBoundary;
+                        context[this.property] >= this.lowerBoundary;
                 result = result &&
-                        context[this.property] < this.upperBoundary;
+                        context[this.property] <= this.upperBoundary;
                 return result;
             case OpenLayers.Rule.Comparison.LIKE:
                 var regexp = new RegExp(this.value,
@@ -33970,6 +35124,41 @@ OpenLayers.Rule.Comparison = OpenLayers.Class(OpenLayers.Rule, {
         return this.value;
     },
     
+    /**
+     * Method: regex2value
+     * Convert the value of this rule from a regular expression string into an
+     *     ogc literal string using a wildCard of *, a singleChar of ., and an
+     *     escape of !.  Leaves the <value> property unmodified.
+     * 
+     * Returns:
+     * {String} A string value.
+     */
+    regex2value: function() {
+        
+        var value = this.value;
+        
+        // replace ! with !!
+        value = value.replace(/!/g, "!!");
+
+        // replace \. with !. (watching out for \\.)
+        value = value.replace(/(\\)?\\\./g, function($0, $1) {
+            return $1 ? $0 : "!.";
+        });
+        
+        // replace \* with #* (watching out for \\*)
+        value = value.replace(/(\\)?\\\*/g, function($0, $1) {
+            return $1 ? $0 : "!*";
+        });
+        
+        // replace \\ with \
+        value = value.replace(/\\\\/g, "\\");
+
+        // convert .* to * (the sequence #.* is not allowed)
+        value = value.replace(/\.\*/g, "*");
+        
+        return value;
+    },
+
     /**
      * Function: binaryCompare
      * Compares a feature property to a rule value
@@ -34219,59 +35408,23 @@ OpenLayers.Rule.Logical.NOT = "!";
 OpenLayers.Format.SLD = OpenLayers.Class(OpenLayers.Format.XML, {
     
     /**
-     * APIProperty: sldns
-     * Namespace used for sld.
+     * APIProperty: defaultVersion
+     * {String} Version number to assume if none found.  Default is "1.0.0".
      */
-    sldns: "http://www.opengis.net/sld",
+    defaultVersion: "1.0.0",
     
     /**
-     * APIProperty: ogcns
-     * Namespace used for ogc.
+     * APIProperty: version
+     * {String} Specify a version string if one is known.
      */
-    ogcns: "http://www.opengis.net/ogc",
+    version: null,
     
     /**
-     * APIProperty: gmlns
-     * Namespace used for gml.
+     * Property: parser
+     * {Object} Instance of the versioned parser.  Cached for multiple read and
+     *     write calls of the same version.
      */
-    gmlns: "http://www.opengis.net/gml",
-    
-    /**
-     * APIProperty: defaultStyle.
-     * {Object}
-     * A simple style, preset with the SLD defaults.
-     */
-    defaultStyle: {
-            fillColor: "#808080",
-            fillOpacity: 1,
-            strokeColor: "#000000",
-            strokeOpacity: 1,
-            strokeWidth: 1,
-            pointRadius: 6
-    },
-    
-    /**
-     * Property: withNamedLayer
-     * {Boolean} Option set during <read>.  Default is false.  If true, the
-     *     return from <read> will be a two item array ([styles, namedLayer]): 
-     *         - styles - {Array(<OpenLayers.Style>)}
-     *         - namedLayer - {Object} hash of userStyles, keyed by
-     *             sld:NamedLayer/Name, each again keyed by 
-     *             sld:UserStyle/Name. Each entry of namedLayer is a
-     *             StyleMap for a layer, with the userStyle names as style
-     *             keys.
-     */
-    withNamedLayer: false,
-     
-    /**
-     * APIProperty: overrideDefaultStyleKey
-     * {Boolean} Store styles with key of "default" instead of user style name.
-     *     If true, userStyles with sld:IsDefault==1 will be stored with
-     *     key "default" instead of the sld:UserStyle/Name in the style map.
-     *     Default is true.
-     */
-    overrideDefaultStyleKey: true,
-
+    parser: null,
 
     /**
      * Constructor: OpenLayers.Format.SLD
@@ -34286,520 +35439,68 @@ OpenLayers.Format.SLD = OpenLayers.Class(OpenLayers.Format.XML, {
     },
 
     /**
-     * APIMethod: read
-     * Read data from a string, and return a list of features. 
-     * 
+     * APIMethod: write
+     * Write a SLD document given a list of styles.
+     *
      * Parameters:
-     * data - {String} or {XMLNode} data to read/parse.
-     * options - {Object} Object that sets optional read configuration values.
-     *     These include <withNamedLayer>, and <overrideDefaultStyleKey>.
+     * sld - {Object} An object representing the SLD.
+     * options - {Object} Optional configuration object.
      *
      * Returns:
-     * {Array(<OpenLayers.Style>)} List of styles.  If <withNamedLayer> is
-     *     true, return will be a two item array where the first item is
-     *     a list of styles and the second is the namedLayer object.
+     * {String} An SLD document string.
      */
-    read: function(data, options) {
-        if (typeof data == "string") { 
+    write: function(sld, options) {
+        var version = (options && options.version) ||
+                      this.version || this.defaultVersion;
+        if(!this.parser || this.parser.VERSION != version) {
+            var format = OpenLayers.Format.SLD[
+                "v" + version.replace(/\./g, "_")
+            ];
+            if(!format) {
+                throw "Can't find a SLD parser for version " +
+                      version;
+            }
+            this.parser = new format(this.options);
+        }
+        var root = this.parser.write(sld);
+        return OpenLayers.Format.XML.prototype.write.apply(this, [root]);
+    },
+    
+    /**
+     * APIMethod: read
+     * Read and SLD doc and return an object representing the SLD.
+     *
+     * Parameters:
+     * data - {String | DOMElement} Data to read.
+     *
+     * Returns:
+     * {Object} An object representing the SLD.
+     */
+    read: function(data) {
+        if(typeof data == "string") {
             data = OpenLayers.Format.XML.prototype.read.apply(this, [data]);
         }
-        
-        options = options || {};
-        OpenLayers.Util.applyDefaults(options, {
-            withNamedLayer: false,
-            overrideDefaultStyleKey: true
-        });
-        
-        var userStyles = this.getElementsByTagNameNS(
-            data, this.sldns, "UserStyle"
-        );
-        var result = {};
-        if (userStyles.length > 0) {
-            var namedLayer = {};
-            var styles = new Array(userStyles.length);
-            var styleName, userStyle, style;
-            for (var i=0; i<userStyles.length; i++) {
-                userStyle = userStyles[i];
-                styleName = this.parseProperty(
-                    userStyle, this.sldns, "Name"
-                );
-                style = this.parseUserStyle(userStyle, styleName);
-    
-                if (options.overrideDefaultStyleKey && style.isDefault == true) {
-                    styleName = "default";
-                }
-    
-                if (!namedLayer[style.layerName]) {
-                    namedLayer[style.layerName] = {};
-                }
-                namedLayer[style.layerName][styleName] = style;
-                styles[i] = style;
+        var root = data.documentElement;
+        var version = this.version;
+        if(!version) {
+            version = root.getAttribute("version");
+            if(!version) {
+                version = this.defaultVersion;
             }
-            result = options.withNamedLayer ? [styles, namedLayer] : styles;
         }
-        return result;
+        if(!this.parser || this.parser.VERSION != version) {
+            var format = OpenLayers.Format.SLD[
+                "v" + version.replace(/\./g, "_")
+            ];
+            if(!format) {
+                throw "Can't find a SLD parser for version " +
+                      version;
+            }
+            this.parser = new format(this.options);
+        }
+        var sld = this.parser.read(data);
+        return sld;
     },
-
-    /**
-     * Method: parseUserStyle
-     * parses a sld userStyle for rules
-     * 
-     * Parameters:
-     * xmlNode - {DOMElement} xml node to read the style from
-     * name - {String} name of the style
-     * 
-     * Returns:
-     * {<OpenLayers.Style>}
-     */
-    parseUserStyle: function(xmlNode, name) {
-        var userStyle = new OpenLayers.Style(this.defaultStyle, {name: name});
-        
-        userStyle.isDefault = (
-            this.parseProperty(xmlNode, this.sldns, "IsDefault") == 1
-        );
-        
-        // get the name of the layer if we have a NamedLayer
-        var namedLayerNode = xmlNode.parentNode;
-        var nameNodes = this.getElementsByTagNameNS(
-            namedLayerNode, this.sldns, "Name"
-        );
-        if (namedLayerNode.nodeName.indexOf("NamedLayer") != -1 &&
-                nameNodes &&
-                nameNodes.length > 0 &&
-                nameNodes[0].parentNode == namedLayerNode) {
-            userStyle.layerName = this.getChildValue(nameNodes[0]);
-        }
-         
-        var ruleNodes = this.getElementsByTagNameNS(
-            xmlNode, this.sldns, "Rule"
-        );
-
-        if (ruleNodes.length > 0) {
-            var rules = userStyle.rules;
-            var ruleName;
-            for (var i=0; i<ruleNodes.length; i++) {
-                ruleName = this.parseProperty(ruleNodes[i], this.sldns, "Name");
-                rules.push(this.parseRule(ruleNodes[i], ruleName));
-            }
-        }
-        userStyle.propertyStyles = userStyle.findPropertyStyles();
-        return userStyle;
-    },        
-    
-    /**
-     * Method: parseRule
-     * This function is the core of the SLD parsing code in OpenLayers.
-     *     It creates the rule with its constraints and symbolizers.
-     *
-     * Parameters:
-     * xmlNode - {<DOMElement>}
-     * 
-     * Returns:
-     * {Object} Hash of rule properties
-     */
-    parseRule: function(xmlNode, name) {
-
-        // FILTERS
-        
-        var filter = this.getElementsByTagNameNS(xmlNode, this.ogcns, "Filter");
-        if (filter && filter.length > 0) {
-            var rule = this.parseFilter(filter[0]);
-        } else {
-            // start with an empty rule that always applies
-            var rule = new OpenLayers.Rule();
-            // and check if the rule is an ElseFilter
-            var elseFilter = this.getElementsByTagNameNS(xmlNode, this.ogcns,
-                "ElseFilter");
-            if (elseFilter && elseFilter.length > 0) {
-                rule.elseFilter = true;
-            }
-        }
-        
-        rule.name = name;
-        
-        // SCALE DENOMINATORS
-        
-        // MinScaleDenominator
-        var minScale = this.getElementsByTagNameNS(
-            xmlNode, this.sldns, "MinScaleDenominator"
-        );
-        if (minScale && minScale.length > 0) {
-            rule.minScaleDenominator = 
-                parseFloat(this.getChildValue(minScale[0]));
-        }
-        
-        // MaxScaleDenominator
-        var maxScale = this.getElementsByTagNameNS(
-            xmlNode, this.sldns, "MaxScaleDenominator"
-        );
-        if (maxScale && maxScale.length > 0) {
-            rule.maxScaleDenominator =
-                parseFloat(this.getChildValue(maxScale[0]));
-        }
-        
-        // STYLES
-        
-        // walk through all symbolizers
-        var prefixes = OpenLayers.Style.SYMBOLIZER_PREFIXES;
-        for (var s=0; s<prefixes.length; s++) {
-            
-            // symbolizer type
-            var symbolizer = this.getElementsByTagNameNS(
-                xmlNode, this.sldns, prefixes[s]+"Symbolizer"
-            );
-            
-            if (symbolizer && symbolizer.length > 0) {
-            
-                var style = {};
-                
-                // externalGraphic
-                var graphic = this.getElementsByTagNameNS(
-                    symbolizer[0], this.sldns, "Graphic"
-                );
-                if (graphic && graphic.length > 0) {
-                    style.externalGraphic = this.parseProperty(
-                        graphic[0], this.sldns, "OnlineResource", "xlink:href"
-                    );
-                    style.pointRadius = this.parseProperty(
-                        graphic[0], this.sldns, "Size"
-                    );
-                    style.graphicOpacity = this.parseProperty(
-                        graphic[0], this.sldns, "Opacity"
-                    );
-                    style.rotation = this.parseProperty(
-                        graphic[0], this.sldns, "Rotation"
-                    );
-                }
-                
-                // fill
-                var fill = this.getElementsByTagNameNS(
-                    symbolizer[0], this.sldns, "Fill"
-                );
-                if (fill && fill.length > 0) {
-                    style.fillColor = this.parseProperty(
-                        fill[0], this.sldns, "CssParameter", "name", "fill"
-                    );
-                    style.fillOpacity = this.parseProperty(
-                        fill[0], this.sldns, "CssParameter",
-                        "name", "fill-opacity"
-                    ) || 1;
-                }
-            
-                // stroke
-                var stroke = this.getElementsByTagNameNS(
-                    symbolizer[0], this.sldns, "Stroke"
-                );
-                if (stroke && stroke.length > 0) {
-                    style.strokeColor = this.parseProperty(
-                        stroke[0], this.sldns, "CssParameter", "name", "stroke"
-                    );
-                    style.strokeOpacity = this.parseProperty(
-                        stroke[0], this.sldns, "CssParameter",
-                        "name", "stroke-opacity"
-                    ) || 1;
-                    style.strokeWidth = this.parseProperty(
-                        stroke[0], this.sldns, "CssParameter",
-                        "name", "stroke-width"
-                    );
-                    style.strokeLinecap = this.parseProperty(
-                        stroke[0], this.sldns, "CssParameter",
-                        "name", "stroke-linecap"
-                    );
-                }
-                
-                // set the [point|line|polygon]Symbolizer property of the rule
-                rule.symbolizer[prefixes[s]] = style;
-            }
-        }
-
-        return rule;
-    },
-    
-    /**
-     * Method: parseFilter
-     * Parses ogc fiters.
-     *
-     * Parameters:
-     * xmlNode - {<DOMElement>}
-     * 
-     * Returns:
-     * {<OpenLayers.Rule>} rule representing the filter
-     */
-    parseFilter: function(xmlNode) {
-        // ogc:FeatureId filter
-        var filter = this.getNodeOrChildrenByTagName(xmlNode, "FeatureId");
-        if (filter) {
-            var rule = new OpenLayers.Rule.FeatureId();
-            for (var i=0; i<filter.length; i++) {
-                rule.fids.push(filter[i].getAttribute("fid"));
-            }
-            return rule;
-        }
-        
-        // ogc:And filter
-        filter = this.getNodeOrChildrenByTagName(xmlNode, "And");
-        if (filter) {
-            var rule = new OpenLayers.Rule.Logical(
-                    {type: OpenLayers.Rule.Logical.AND});
-            var filters = filter[0].childNodes; 
-            for (var i=0; i<filters.length; i++) {
-                if (filters[i].nodeType == 1) {
-                    rule.rules.push(this.parseFilter(filters[i]));
-                }
-            }
-            return rule;
-        }
-
-        // ogc:Or filter
-        filter = this.getNodeOrChildrenByTagName(xmlNode, "Or");
-        if (filter) {
-            var rule = new OpenLayers.Rule.Logical(
-                    {type: OpenLayers.Rule.Logical.OR})
-            var filters = filter[0].childNodes; 
-            for (var i=0; i<filters.length; i++) {
-                if (filters[i].nodeType == 1) {
-                    rule.rules.push(this.parseFilter(filters[i]));
-                }
-            }
-            return rule;
-        }
-
-        // ogc:Not filter
-        filter = this.getNodeOrChildrenByTagName(xmlNode, "Not");
-        if (filter) {
-            var rule = new OpenLayers.Rule.Logical(
-                    {type: OpenLayers.Rule.Logical.NOT});
-            var filters = filter[0].childNodes; 
-            for (var i=0; i<filters.length; i++) {
-                if (filters[i].nodeType == 1) {
-                    rule.rules.push(this.parseFilter(filters[i]));
-                }
-            }
-            return rule;
-        }
-        
-        // Comparison filters
-        for (var type in this.TYPES) {
-            var filter = this.getNodeOrChildrenByTagName(xmlNode, type);
-            if (filter) {
-                filter = filter[0];
-                var rule = new OpenLayers.Rule.Comparison({
-                        type: OpenLayers.Rule.Comparison[this.TYPES[type]],
-                        property: this.parseProperty(
-                                filter, this.ogcns, "PropertyName")});
-                // ogc:PropertyIsBetween
-                if (this.TYPES[type] == "BETWEEN") {
-                    rule.lowerBoundary = this.parseProperty(
-                            filter, this.ogcns, "LowerBoundary");
-                    rule.upperBoudary = this.parseProperty(
-                            filter, this.ogcns, "UpperBoundary");
-                } else {
-                    rule.value = this.parseProperty(
-                            filter, this.ogcns, "Literal");
-                    // ogc:PropertyIsLike
-                    if (this.TYPES[type] == "LIKE") {
-                        var wildCard = filter.getAttribute("wildCard");
-                        var singleChar = filter.getAttribute("singleChar");
-                        var escape = filter.getAttribute("escape");
-                        rule.value2regex(wildCard, singleChar, escape);
-                    }
-                }
-                return rule;
-            }
-        }
-        
-        // if we get here, the filter was empty
-        return new OpenLayers.Rule();
-    },
-    
-    /**
-     * Method: getNodeOrChildrenByTagName
-     * Convenience method to get a node or its child nodes, but only
-     *     those matching a tag name.
-     * 
-     * Returns:
-     * {Array(<DOMElement>)} or null if no matching content is found
-     */
-    getNodeOrChildrenByTagName: function(xmlNode, tagName) {
-        var nodeName = (xmlNode.prefix) ?
-               xmlNode.nodeName.split(":")[1] :
-               xmlNode.nodeName;
-
-        if (nodeName == tagName) {
-            return [xmlNode];
-        } else {
-            var nodelist = this.getElementsByTagNameNS(
-                    xmlNode, this.ogcns, tagName);
-        }
-
-        // make a new list which only contains matching child nodes
-        if (nodelist.length > 0) {
-            var node;
-            var list = [];
-            for (var i=0; i<nodelist.length; i++) {
-                node = nodelist[i];
-                if (node.parentNode == xmlNode) {
-                    list.push(node);
-                }
-            }
-            return list.length > 0 ? list : null;
-        }
-        
-        return null;
-    },
-    
-    /**
-     * Method: parseProperty
-     * Convenience method to parse the different kinds of properties
-     *     found in the sld and ogc namespace.
-     *
-     * Parses an ogc node that can either contain a value directly,
-     *     or inside a <Literal> property. The parsing can also be limited
-     *     to nodes with certain attribute names and/or values.
-     *
-     * Parameters:
-     * xmlNode        - {<DOMElement>}
-     * namespace      - {String} namespace of the node to find
-     * propertyName   - {String} name of the property to parse
-     * attributeName  - {String} optional name of the property to match
-     * attributeValue - {String} optional value of the specified attribute
-     * 
-     * Returns:
-     * {String} The value for the requested property.
-     */    
-    parseProperty: function(xmlNode, namespace, propertyName, attributeName,
-                                                              attributeValue) {
-        var result = null;
-        var propertyNodeList = this.getElementsByTagNameNS(
-                xmlNode, namespace, propertyName);
-                
-        if (propertyNodeList && propertyNodeList.length > 0) {
-            var propertyNode = attributeName ?
-                    this.getNodeWithAttribute(propertyNodeList, 
-                            attributeName) :
-                    propertyNodeList[0];
-
-            // strip namespace from attribute name for Opera browsers
-            if (window.opera && attributeName) {
-                var nsDelimiterPos = attributeName.indexOf(":");
-                if (nsDelimiterPos != -1) {
-                    attributeName = attributeName.substring(++nsDelimiterPos);
-                }
-            }
-            
-            // get the property value from the node matching attributeName
-            // and attributeValue, eg.:
-            // <CssParameter name="stroke">
-            //     <ogc:Literal>red</ogc:Literal>
-            // </CssParameter>
-            // or:
-            // <CssParameter name="stroke">red</CssParameter>
-            if (attributeName && attributeValue) {
-                propertyNode = this.getNodeWithAttribute(propertyNodeList,
-                        attributeName, attributeValue);
-                result = this.parseParameter(propertyNode);
-            }
-
-            // get the attribute value and use it as result, eg.:
-            // <sld:OnlineResource xlink:href="../img/marker.png"/>
-            if (attributeName && !attributeValue) {
-                var propertyNode = this.getNodeWithAttribute(propertyNodeList,
-                        attributeName);
-                result = propertyNode.getAttribute(attributeName);                
-            }
-            
-            // get the property value directly or from an ogc:propertyName,
-            // ogc:Literal or any other property at the level of the property
-            // node, eg.:
-            // <sld:Opacity>0.5</sld:Opacity>
-            if (!attributeName) {
-                var result = this.parseParameter(propertyNode);
-            }
-        }
-        
-        // adjust the result to be a trimmed string or a number
-        if (result) {
-            result = OpenLayers.String.trim(result);
-            if (!isNaN(result)) {
-                result = parseFloat(result);
-            }
-        }
-        
-        return result;
-    },
-    
-    /**
-     * Method: parseParameter
-     * parses a property for propertyNames, Literals and textContent and
-     * creates the according value string.
-     * 
-     * Parameters:
-     * xmlNode - {<DOMElement>}
-     * 
-     * Returns:
-     * {String} a string holding a value suitable for OpenLayers.Style.value
-     */
-    parseParameter: function(xmlNode) {
-        if (!xmlNode) {
-            return null;
-        }
-        var childNodes = xmlNode.childNodes;
-        if (!childNodes) {
-            return null;
-        }
-
-        var value = new Array(childNodes.length);
-        for (var i=0; i<childNodes.length; i++) {
-            if (childNodes[i].nodeName.indexOf("Literal") != -1) {
-                value[i] = this.getChildValue(childNodes[i]);
-            } else
-            if (childNodes[i].nodeName.indexOf("propertyName") != -1) {
-                value[i] = "${" + this.getChildValue(childNodes[i]) + "}";
-            } else
-            if (childNodes[i].nodeType == 3) {
-                value[i] = childNodes[i].text || childNodes[i].textContent;
-            }
-        }
-        return value.join("");
-    },
-        
-    /**
-     * Method: getNodeWithAttribute
-     * Walks through a list of xml nodes and returns the fist node that has an
-     * attribute with the name and optional value specified.
-     * 
-     * Parameters:
-     * xmlNodeList    - {Array(<DOMElement>)} list to search
-     * attributeName  - {String} name of the attribute to match
-     * attributeValue - {String} optional value of the attribute
-     */
-    getNodeWithAttribute: function(xmlNodeList, attributeName, attributeValue) {
-        for (var i=0; i<xmlNodeList.length; i++) {
-            var currentAttributeValue =
-                    xmlNodeList[i].getAttribute(attributeName);
-            if (currentAttributeValue) {
-                if (!attributeValue) {
-                    return xmlNodeList[i];
-                } else if (currentAttributeValue == attributeValue) {
-                    return xmlNodeList[i];
-                }
-            }
-        }
-    },
-    
-    /**
-     * Constant: TYPES
-     * {Object} Mapping between SLD rule names and rule type constants.
-     * 
-     */
-    TYPES: {'PropertyIsEqualTo': 'EQUAL_TO',
-            'PropertyIsNotEqualTo': 'NOT_EQUAL_TO',
-            'PropertyIsLessThan': 'LESS_THAN',
-            'PropertyIsGreaterThan': 'GREATER_THAN',
-            'PropertyIsLessThanOrEqualTo': 'LESS_THAN_OR_EQUAL_TO',
-            'PropertyIsGreaterThanOrEqualTo': 'GREATER_THAN_OR_EQUAL_TO',
-            'PropertyIsBetween': 'BETWEEN',
-            'PropertyIsLike': 'LIKE'},
 
     CLASS_NAME: "OpenLayers.Format.SLD" 
 });
@@ -36404,6 +37105,1199 @@ OpenLayers.Layer.WFS = OpenLayers.Class(
     CLASS_NAME: "OpenLayers.Layer.WFS"
 });
 /* ======================================================================
+    OpenLayers/Format/SLD/v1.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
+ * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Format/SLD.js
+ */
+
+/**
+ * Class: OpenLayers.Format.SLD.v1
+ * Superclass for SLD version 1 parsers.
+ *
+ * Inherits from:
+ *  - <OpenLayers.Format.XML>
+ */
+OpenLayers.Format.SLD.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
+    
+    /**
+     * Property: namespaces
+     * {Object} Mapping of namespace aliases to namespace URIs.
+     */
+    namespaces: {
+        sld: "http://www.opengis.net/sld",
+        ogc: "http://www.opengis.net/ogc",
+        xlink: "http://www.w3.org/1999/xlink",
+        xsi: "http://www.w3.org/2001/XMLSchema-instance"
+    },
+    
+    /**
+     * Property: defaultPrefix
+     */
+    defaultPrefix: "sld",
+
+    /**
+     * Property: schemaLocation
+     * {String} Schema location for a particular minor version.
+     */
+    schemaLocation: null,
+
+    /**
+     * APIProperty: defaultSymbolizer.
+     * {Object} A symbolizer with the SLD defaults.
+     */
+    defaultSymbolizer: {
+        fillColor: "#808080",
+        fillOpacity: 1,
+        strokeColor: "#000000",
+        strokeOpacity: 1,
+        strokeWidth: 1,
+        pointRadius: 6
+    },
+    
+    /**
+     * Constructor: OpenLayers.Format.SLD.v1
+     * Instances of this class are not created directly.  Use the
+     *     <OpenLayers.Format.SLD> constructor instead.
+     *
+     * Parameters:
+     * options - {Object} An optional object whose properties will be set on
+     *     this instance.
+     */
+    initialize: function(options) {
+        OpenLayers.Format.XML.prototype.initialize.apply(this, [options]);
+    },
+    
+    /**
+     * Method: read
+     *
+     * Parameters:
+     * data - {DOMElement} An SLD document element.
+     *
+     * Returns:
+     * {Object} An object representing the SLD.
+     */
+    read: function(data) {        
+        var sld = {
+            namedLayers: {}
+        };
+        this.readChildNodes(data, sld);
+        return sld;
+    },
+    
+    /**
+     * Property: readers
+     * Contains public functions, grouped by namespace prefix, that will
+     *     be applied when a namespaced node is found matching the function
+     *     name.  The function will be applied in the scope of this parser
+     *     with two arguments: the node being read and a context object passed
+     *     from the parent.
+     */
+    readers: {
+        "sld": {
+            "StyledLayerDescriptor": function(node, sld) {
+                sld.version = node.getAttribute("version");
+                this.readChildNodes(node, sld);
+            },
+            "Name": function(node, obj) {
+                obj.name = this.getChildValue(node);
+            },
+            "Title": function(node, obj) {
+                obj.title = this.getChildValue(node);
+            },
+            "Abstract": function(node, obj) {
+                obj.description = this.getChildValue(node);
+            },
+            "NamedLayer": function(node, sld) {
+                var layer = {
+                    userStyles: [],
+                    namedStyles: []
+                };
+                this.readChildNodes(node, layer);
+                // give each of the user styles this layer name
+                for(var i=0; i<layer.userStyles.length; ++i) {
+                    layer.userStyles[i].layerName = layer.name;
+                }
+                sld.namedLayers[layer.name] = layer;
+            },
+            "NamedStyle": function(node, layer) {
+                layer.namedStyles.push(
+                    this.getChildName(node.firstChild)
+                );
+            },
+            "UserStyle": function(node, layer) {
+                var style = new OpenLayers.Style(this.defaultSymbolizer);
+                this.readChildNodes(node, style);
+                layer.userStyles.push(style);
+            },
+            "IsDefault": function(node, style) {
+                if(this.getChildValue(node) == "1") {
+                    style.isDefault = true;
+                }
+            },
+            "FeatureTypeStyle": function(node, style) {
+                // OpenLayers doesn't have a place for FeatureTypeStyle
+                // Name, Title, Abstract, FeatureTypeName, or
+                // SemanticTypeIdentifier so, we make a temporary object
+                // and later just use the Rule(s).
+                var obj = {
+                    rules: []
+                };
+                this.readChildNodes(node, obj);
+                style.rules = obj.rules;
+            },
+            "Rule": function(node, obj) {
+                // Rule elements are represented as OpenLayers.Rule instances.
+                // Filter elements are represented as instances of
+                // OpenLayers.Rule subclasses.
+                var config = {
+                    rules: [],
+                    symbolizer: {}
+                };
+                this.readChildNodes(node, config);
+                // Now we've either got zero or one rules (from filters)
+                var rule;
+                if(config.rules.length == 0) {
+                    delete config.rules;
+                    rule = new OpenLayers.Rule(config);
+                } else {
+                    rule = config.rules[0];
+                    delete config.rules;
+                    OpenLayers.Util.extend(rule, config);
+                }
+                obj.rules.push(rule);
+            },
+            "ElseFilter": function(node, rule) {
+                rule.elseFilter = true;
+            },
+            "MinScaleDenominator": function(node, rule) {
+                rule.minScaleDenominator = this.getChildValue(node);
+            },
+            "MaxScaleDenominator": function(node, rule) {
+                rule.maxScaleDenominator = this.getChildValue(node);
+            },
+            "LineSymbolizer": function(node, rule) {
+                // OpenLayers doens't do painter's order, instead we extend
+                var symbolizer = rule.symbolizer["Line"] || {};
+                this.readChildNodes(node, symbolizer);
+                // in case it didn't exist before
+                rule.symbolizer["Line"] = symbolizer;
+            },
+            "PolygonSymbolizer": function(node, rule) {
+                // OpenLayers doens't do painter's order, instead we extend
+                var symbolizer = rule.symbolizer["Polygon"] || {};
+                this.readChildNodes(node, symbolizer);
+                // in case it didn't exist before
+                rule.symbolizer["Polygon"] = symbolizer;
+            },
+            "PointSymbolizer": function(node, rule) {
+                // OpenLayers doens't do painter's order, instead we extend
+                var symbolizer = rule.symbolizer["Point"] || {};
+                this.readChildNodes(node, symbolizer);
+                // in case it didn't exist before
+                rule.symbolizer["Point"] = symbolizer;
+            },
+            "Stroke": function(node, symbolizer) {
+                this.readChildNodes(node, symbolizer);
+            },
+            "Fill": function(node, symbolizer) {
+                this.readChildNodes(node, symbolizer);
+            },
+            "CssParameter": function(node, symbolizer) {
+                var cssProperty = node.getAttribute("name");
+                var symProperty = this.cssMap[cssProperty];
+                if(symProperty) {
+                    // Limited support for parsing of OGC expressions
+                    var value = this.readOgcExpression(node);
+                    // always string, could be an empty string
+                    if(value) {
+                        symbolizer[symProperty] = value;
+                    }
+                }
+            },
+            "Graphic": function(node, symbolizer) {
+                var graphic = {};
+                // painter's order not respected here, clobber previous with next
+                this.readChildNodes(node, graphic);
+                // directly properties with names that match symbolizer properties
+                var properties = [
+                    "strokeColor", "strokeWidth", "strokeOpacity",
+                    "strokeLinecap", "fillColor", "fillOpacity",
+                    "graphicName", "rotation", "graphicFormat"
+                ];
+                var prop, value;
+                for(var i=0; i<properties.length; ++i) {
+                    prop = properties[i];
+                    value = graphic[prop];
+                    if(value != undefined) {
+                        symbolizer[prop] = value;
+                    }
+                }
+                // set other generic properties with specific graphic property names
+                if(graphic.opacity != undefined) {
+                    symbolizer.graphicOpacity = graphic.opacity;
+                }
+                if(graphic.size != undefined) {
+                    symbolizer.pointRadius = graphic.size;
+                }
+                if(graphic.rotation != undefined) {
+                    symbolizer.rotation = graphic.rotation;
+                }
+                if(graphic.href != undefined) {
+                    symbolizer.externalGraphic = graphic.href;
+                }
+            },
+            "ExternalGraphic": function(node, graphic) {
+                this.readChildNodes(node, graphic);
+            },
+            "Mark": function(node, graphic) {
+                this.readChildNodes(node, graphic);
+            },
+            "WellKnownName": function(node, graphic) {
+                graphic.graphicName = this.getChildValue(node);
+            },
+            "Opacity": function(node, obj) {
+                // No support for parsing of OGC expressions
+                var opacity = this.getChildValue(node);
+                // always string, could be empty string
+                if(opacity) {
+                    obj.opacity = opacity;
+                }
+            },
+            "Size": function(node, obj) {
+                // No support for parsing of OGC expressions
+                var size = this.getChildValue(node);
+                // always string, could be empty string
+                if(size) {
+                    obj.size = size;
+                }
+            },
+            "Rotation": function(node, obj) {
+                // No support for parsing of OGC expressions
+                var rotation = this.getChildValue(node);
+                // always string, could be empty string
+                if(rotation) {
+                    obj.rotation = rotation;
+                }
+            },
+            "OnlineResource": function(node, obj) {
+                obj.href = this.getAttributeNS(
+                    node, this.namespaces.xlink, "href"
+                );
+            },
+            "Format": function(node, graphic) {
+                graphic.graphicFormat = this.getChildValue(node);
+            }
+        },
+        "ogc": {
+            "Filter": function(node, rule) {
+                // Filters correspond to subclasses of OpenLayers.Rule.
+                // Since they contain information we don't persist, we
+                // create a temporary object and then pass on the rules
+                // (ogc:Filter) to the parent rule (sld:Rule).
+                var filter = {
+                    fids: [],
+                    rules: []
+                };
+                this.readChildNodes(node, filter);
+                if(filter.fids.length > 0) {
+                    rule.rules.push(new OpenLayers.Rule.FeatureId({
+                        fids: filter.fids
+                    }));
+                }
+                if(filter.rules.length > 0) {
+                    rule.rules = rule.rules.concat(filter.rules);
+                }
+            },
+            "FeatureId": function(node, filter) {
+                var fid = node.getAttribute("fid");
+                if(fid) {
+                    filter.fids.push(fid);
+                }
+            },
+            "And": function(node, filter) {
+                var rule = new OpenLayers.Rule.Logical({
+                    type: OpenLayers.Rule.Logical.AND
+                });
+                // since FeatureId rules may be nested here, make room for them
+                rule.fids = [];
+                this.readChildNodes(node, rule);
+                if(rule.fids.length > 0) {
+                    rule.rules.push(new OpenLayers.Rule.FeatureId({
+                        fids: rule.fids
+                    }));
+                }
+                delete rule.fids;
+                filter.rules.push(rule);
+            },
+            "Or": function(node, filter) {
+                var rule = new OpenLayers.Rule.Logical({
+                    type: OpenLayers.Rule.Logical.OR
+                });
+                // since FeatureId rules may be nested here, make room for them
+                rule.fids = [];
+                this.readChildNodes(node, rule);
+                if(rule.fids.length > 0) {
+                    rule.rules.push(new OpenLayers.Rule.FeatureId({
+                        fids: rule.fids
+                    }));
+                }
+                delete rule.fids;
+                filter.rules.push(rule);
+            },
+            "Not": function(node, filter) {
+                var rule = new OpenLayers.Rule.Logical({
+                    type: OpenLayers.Rule.Logical.NOT
+                });
+                // since FeatureId rules may be nested here, make room for them
+                rule.fids = [];
+                this.readChildNodes(node, rule);
+                if(rule.fids.length > 0) {
+                    rule.rules.push(new OpenLayers.Rule.FeatureId({
+                        fids: rule.fids
+                    }));
+                }
+                delete rule.fids;
+                filter.rules.push(rule);
+            },
+            "PropertyIsEqualTo": function(node, filter) {
+                var rule = new OpenLayers.Rule.Comparison({
+                    type: OpenLayers.Rule.Comparison.EQUAL_TO
+                });
+                this.readChildNodes(node, rule);
+                filter.rules.push(rule);
+            },
+            "PropertyIsNotEqualTo": function(node, filter) {
+                var rule = new OpenLayers.Rule.Comparison({
+                    type: OpenLayers.Rule.Comparison.NOT_EQUAL_TO
+                });
+                this.readChildNodes(node, rule);
+                filter.rules.push(rule);
+            },
+            "PropertyIsLessThan": function(node, filter) {
+                var rule = new OpenLayers.Rule.Comparison({
+                    type: OpenLayers.Rule.Comparison.LESS_THAN
+                });
+                this.readChildNodes(node, rule);
+                filter.rules.push(rule);
+            },
+            "PropertyIsGreaterThan": function(node, filter) {
+                var rule = new OpenLayers.Rule.Comparison({
+                    type: OpenLayers.Rule.Comparison.GREATER_THAN
+                });
+                this.readChildNodes(node, rule);
+                filter.rules.push(rule);
+            },
+            "PropertyIsLessThanOrEqualTo": function(node, filter) {
+                var rule = new OpenLayers.Rule.Comparison({
+                    type: OpenLayers.Rule.Comparison.LESS_THAN_OR_EQUAL_TO
+                });
+                this.readChildNodes(node, rule);
+                filter.rules.push(rule);
+            },
+            "PropertyIsGreaterThanOrEqualTo": function(node, filter) {
+                var rule = new OpenLayers.Rule.Comparison({
+                    type: OpenLayers.Rule.Comparison.GREATER_THAN_OR_EQUAL_TO
+                });
+                this.readChildNodes(node, rule);
+                filter.rules.push(rule);
+            },
+            "PropertyIsBetween": function(node, filter) {
+                var rule = new OpenLayers.Rule.Comparison({
+                    type: OpenLayers.Rule.Comparison.BETWEEN
+                });
+                this.readChildNodes(node, rule);
+                filter.rules.push(rule);
+            },
+            "PropertyIsLike": function(node, filter) {
+                var rule = new OpenLayers.Rule.Comparison({
+                    type: OpenLayers.Rule.Comparison.LIKE
+                });
+                this.readChildNodes(node, rule);
+                var wildCard = node.getAttribute("wildCard");
+                var singleChar = node.getAttribute("singleChar");
+                var esc = node.getAttribute("escape");
+                rule.value2regex(wildCard, singleChar, esc);
+                filter.rules.push(rule);
+            },
+            "Literal": function(node, obj) {
+                obj.value = this.getChildValue(node);
+            },
+            "PropertyName": function(node, rule) {
+                rule.property = this.getChildValue(node);
+            },
+            "LowerBoundary": function(node, rule) {
+                rule.lowerBoundary = this.readOgcExpression(node);
+            },
+            "UpperBoundary": function(node, rule) {
+                rule.upperBoundary = this.readOgcExpression(node);
+            }
+        }
+    },
+    
+    /**
+     * Method: readOgcExpression
+     * Limited support for OGC expressions.
+     *
+     * Parameters:
+     * node - {DOMElement} A DOM element that contains an ogc:expression.
+     *
+     * Returns:
+     * {String} A value to be used in a symbolizer.
+     */
+    readOgcExpression: function(node) {
+        var obj = {};
+        this.readChildNodes(node, obj);
+        var value = obj.value;
+        if(!value) {
+            value = this.getChildValue(node);
+        }
+        return value;
+    },
+    
+    /**
+     * Property: cssMap
+     * {Object} Object mapping supported css property names to OpenLayers
+     *     symbolizer property names.
+     */
+    cssMap: {
+        "stroke": "strokeColor",
+        "stroke-opacity": "strokeOpacity",
+        "stroke-width": "strokeWidth",
+        "stroke-linecap": "strokeLinecap",
+        "fill": "fillColor",
+        "fill-opacity": "fillOpacity"
+    },
+    
+    /**
+     * Method: getCssProperty
+     * Given a symbolizer property, get the corresponding CSS property
+     *     from the <cssMap>.
+     *
+     * Parameters:
+     * sym - {String} A symbolizer property name.
+     *
+     * Returns:
+     * {String} A CSS property name or null if none found.
+     */
+    getCssProperty: function(sym) {
+        var css = null;
+        for(var prop in this.cssMap) {
+            if(this.cssMap[prop] == sym) {
+                css = prop;
+                break;
+            }
+        }
+        return css;
+    },
+    
+    /**
+     * Method: getGraphicFormat
+     * Given a href for an external graphic, try to determine the mime-type.
+     *     This method doesn't try too hard, and will fall back to
+     *     <defautlGraphicFormat> if one of the known <graphicFormats> is not
+     *     the file extension of the provided href.
+     *
+     * Parameters:
+     * href - {String}
+     *
+     * Returns:
+     * {String} The graphic format.
+     */
+    getGraphicFormat: function(href) {
+        var format, regex;
+        for(var key in this.graphicFormats) {
+            if(this.graphicFormats[key].test(href)) {
+                format = key;
+                break;
+            }
+        }
+        return format || this.defautlGraphicFormat;
+    },
+    
+    /**
+     * Property: defaultGraphicFormat
+     * {String} If none other can be determined from <getGraphicFormat>, this
+     *     default will be returned.
+     */
+    defaultGraphicFormat: "image/png",
+    
+    /**
+     * Property: graphicFormats
+     * {Object} Mapping of image mime-types to regular extensions matching 
+     *     well-known file extensions.
+     */
+    graphicFormats: {
+        "image/jpeg": /\.jpe?g$/i,
+        "image/gif": /\.gif$/i,
+        "image/png": /\.png$/i
+    },
+
+    /**
+     * Method: write
+     *
+     * Parameters:
+     * sld - {Object} An object representing the SLD.
+     *
+     * Returns:
+     * {DOMElement} The root of an SLD document.
+     */
+    write: function(sld) {
+        return this.writers.sld.StyledLayerDescriptor.apply(this, [sld]);
+    },
+    
+    /**
+     * Property: writers
+     * As a compliment to the readers property, this structure contains public
+     *     writing functions grouped by namespace alias and named like the
+     *     node names they produce.
+     */
+    writers: {
+        "sld": {
+            "StyledLayerDescriptor": function(sld) {
+                var root = this.createElementNSPlus(
+                    "StyledLayerDescriptor",
+                    {attributes: {
+                        "version": this.VERSION,
+                        "xsi:schemaLocation": this.schemaLocation
+                    }}
+                );
+                // add in optional name
+                if(sld.name) {
+                    this.writeNode(root, "Name", sld.name);
+                }
+                // add in optional title
+                if(sld.title) {
+                    this.writeNode(root, "Title", sld.title);
+                }
+                // add in optional description
+                if(sld.description) {
+                    this.writeNode(root, "Abstract", sld.description);
+                }
+                // add in named layers
+                for(var name in sld.namedLayers) {
+                    this.writeNode(root, "NamedLayer", sld.namedLayers[name]);
+                }
+                return root;
+            },
+            "Name": function(name) {
+                return this.createElementNSPlus("Name", {value: name});
+            },
+            "Title": function(title) {
+                return this.createElementNSPlus("Title", {value: title});
+            },
+            "Abstract": function(description) {
+                return this.createElementNSPlus(
+                    "Abstract", {value: description}
+                );
+            },
+            "NamedLayer": function(layer) {
+                var node = this.createElementNSPlus("NamedLayer");
+
+                // add in required name
+                this.writeNode(node, "Name", layer.name);
+
+                // optional sld:LayerFeatureConstraints here
+
+                // add in named styles
+                if(layer.namedStyles) {
+                    for(var i=0; i<layer.namedStyles.length; ++i) {
+                        this.writeNode(
+                            node, "NamedStyle", layer.namedStyles[i]
+                        );
+                    }
+                }
+                
+                // add in user styles
+                if(layer.userStyles) {
+                    for(var i=0; i<layer.userStyles.length; ++i) {
+                        this.writeNode(
+                            node, "UserStyle", layer.userStyles[i]
+                        );
+                    }
+                }
+                
+                return node;
+            },
+            "NamedStyle": function(name) {
+                var node = this.createElementNSPlus("NamedStyle");
+                this.writeNode(node, "Name", name);
+                return node;
+            },
+            "UserStyle": function(style) {
+                var node = this.createElementNSPlus("UserStyle");
+
+                // add in optional name
+                if(style.name) {
+                    this.writeNode(node, "Name", style.name);
+                }
+                // add in optional title
+                if(style.title) {
+                    this.writeNode(node, "Title", style.title);
+                }
+                // add in optional description
+                if(style.description) {
+                    this.writeNode(node, "Abstract", style.description);
+                }
+                
+                // add isdefault
+                if(style.isDefault) {
+                    this.writeNode(node, "IsDefault", style.isDefault);
+                }
+                
+                // add FeatureTypeStyles
+                this.writeNode(node, "FeatureTypeStyle", style);
+                
+                return node;
+            },
+            "IsDefault": function(bool) {
+                return this.createElementNSPlus(
+                    "IsDefault", {value: (bool) ? "1" : "0"}
+                );
+            },
+            "FeatureTypeStyle": function(style) {
+                var node = this.createElementNSPlus("FeatureTypeStyle");
+                
+                // OpenLayers currently stores no Name, Title, Abstract,
+                // FeatureTypeName, or SemanticTypeIdentifier information
+                // related to FeatureTypeStyle
+                
+                // add in rules
+                for(var i=0; i<style.rules.length; ++i) {
+                    this.writeNode(node, "Rule", style.rules[i]);
+                }
+                
+                return node;
+            },
+            "Rule": function(rule) {
+                var node = this.createElementNSPlus("Rule");
+
+                // add in optional name
+                if(rule.name) {
+                    this.writeNode(node, "Name", rule.name);
+                }
+                // add in optional title
+                if(rule.title) {
+                    this.writeNode(node, "Title", rule.title);
+                }
+                // add in optional description
+                if(rule.description) {
+                    this.writeNode(node, "Abstract", rule.description);
+                }
+                
+                // add in LegendGraphic here
+                
+                // add in optional filters
+                if(rule.elseFilter) {
+                    this.writeNode(node, "ElseFilter");
+                } else if(rule.CLASS_NAME != "OpenLayers.Rule") {
+                    this.writeNode(node, "ogc:Filter", rule);
+                }
+                
+                // add in scale limits
+                if(rule.minScaleDenominator != undefined) {
+                    this.writeNode(
+                        node, "MinScaleDenominator", rule.minScaleDenominator
+                    );
+                }
+                if(rule.maxScaleDenominator != undefined) {
+                    this.writeNode(
+                        node, "MaxScaleDenominator", rule.maxScaleDenominator
+                    );
+                }
+                
+                // add in symbolizers (relies on geometry type keys)
+                var types = OpenLayers.Style.SYMBOLIZER_PREFIXES;
+                var type, symbolizer;
+                for(var i=0; i<types.length; ++i) {
+                    type = types[i];
+                    symbolizer = rule.symbolizer[type];
+                    if(symbolizer) {
+                        this.writeNode(
+                            node, type + "Symbolizer", symbolizer
+                        );
+                    }
+                }
+                return node;
+
+            },
+            "ElseFilter": function() {
+                return this.createElementNSPlus("ElseFilter");
+            },
+            "MinScaleDenominator": function(scale) {
+                return this.createElementNSPlus(
+                    "MinScaleDenominator", {value: scale}
+                );
+            },
+            "MaxScaleDenominator": function(scale) {
+                return this.createElementNSPlus(
+                    "MaxScaleDenominator", {value: scale}
+                );
+            },
+            "LineSymbolizer": function(symbolizer) {
+                var node = this.createElementNSPlus("LineSymbolizer");
+                this.writeNode(node, "Stroke", symbolizer);
+                return node;
+            },
+            "Stroke": function(symbolizer) {
+                var node = this.createElementNSPlus("Stroke");
+
+                // GraphicFill here
+                // GraphicStroke here
+
+                // add in CssParameters
+                if(symbolizer.strokeColor != undefined) {
+                    this.writeNode(
+                        node, "CssParameter",
+                        {symbolizer: symbolizer, key: "strokeColor"}
+                    );
+                }
+                if(symbolizer.strokeOpacity != undefined) {
+                    this.writeNode(
+                        node, "CssParameter",
+                        {symbolizer: symbolizer, key: "strokeOpacity"}
+                    );
+                }
+                if(symbolizer.strokeWidth != undefined) {
+                    this.writeNode(
+                        node, "CssParameter",
+                        {symbolizer: symbolizer, key: "strokeWidth"}
+                    );
+                }
+                return node;
+            },
+            "CssParameter": function(obj) {
+                // not handling ogc:expressions for now
+                return this.createElementNSPlus("CssParameter", {
+                    attributes: {name: this.getCssProperty(obj.key)},
+                    value: obj.symbolizer[obj.key]
+                });
+            },
+            "PolygonSymbolizer": function(symbolizer) {
+                var node = this.createElementNSPlus("PolygonSymbolizer");
+                this.writeNode(node, "Fill", symbolizer);
+                this.writeNode(node, "Stroke", symbolizer);
+                return node;
+            },
+            "Fill": function(symbolizer) {
+                var node = this.createElementNSPlus("Fill");
+                
+                // GraphicFill here
+                
+                // add in CssParameters
+                if(symbolizer.fillColor) {
+                    this.writeNode(
+                        node, "CssParameter",
+                        {symbolizer: symbolizer, key: "fillColor"}
+                    );
+                }
+                if(symbolizer.fillOpacity) {
+                    this.writeNode(
+                        node, "CssParameter",
+                        {symbolizer: symbolizer, key: "fillOpacity"}
+                    );
+                }
+                return node;
+            },
+            "PointSymbolizer": function(symbolizer) {
+                var node = this.createElementNSPlus("PointSymbolizer");
+                this.writeNode(node, "Graphic", symbolizer);
+                return node;
+            },
+            "Graphic": function(symbolizer) {
+                var node = this.createElementNSPlus("Graphic");
+                if(symbolizer.externalGraphic != undefined) {
+                    this.writeNode(node, "ExternalGraphic", symbolizer);
+                } else if(symbolizer.graphicName) {
+                    this.writeNode(node, "Mark", symbolizer);
+                }
+                
+                if(symbolizer.graphicOpacity != undefined) {
+                    this.writeNode(node, "Opacity", symbolizer.graphicOpacity);
+                }
+                if(symbolizer.pointRadius != undefined) {
+                    this.writeNode(node, "Size", symbolizer.pointRadius);
+                }
+                if(symbolizer.rotation != undefined) {
+                    this.writeNode(node, "Rotation", symbolizer.rotation);
+                }
+                return node;
+            },
+            "ExternalGraphic": function(symbolizer) {
+                var node = this.createElementNSPlus("ExternalGraphic");
+                this.writeNode(
+                    node, "OnlineResource", symbolizer.externalGraphic
+                );
+                var format = symbolizer.graphicFormat ||
+                             this.getGraphicFormat(symbolizer.externalGraphic);
+                this.writeNode(node, "Format", format);
+                return node;
+            },
+            "Mark": function(symbolizer) {
+                var node = this.createElementNSPlus("Mark");
+                this.writeNode(node, "WellKnownName", symbolizer.graphicName);
+                this.writeNode(node, "Fill", symbolizer);
+                this.writeNode(node, "Stroke", symbolizer);
+                return node;
+            },
+            "WellKnownName": function(name) {
+                return this.createElementNSPlus("WellKnownName", {
+                    value: name
+                });
+            },
+            "Opacity": function(value) {
+                return this.createElementNSPlus("Opacity", {
+                    value: value
+                });
+            },
+            "Size": function(value) {
+                return this.createElementNSPlus("Size", {
+                    value: value
+                });
+            },
+            "Rotation": function(value) {
+                return this.createElementNSPlus("Rotation", {
+                    value: value
+                });
+            },
+            "OnlineResource": function(href) {
+                return this.createElementNSPlus("OnlineResource", {
+                    attributes: {
+                        "xlink:type": "simple",
+                        "xlink:href": href
+                    }
+                });
+            },
+            "Format": function(format) {
+                return this.createElementNSPlus("Format", {
+                    value: format
+                });
+            }
+        },
+        "ogc": {
+            "Filter": function(rule) {
+                var node = this.createElementNSPlus("ogc:Filter");
+                var sub = rule.CLASS_NAME.split(".").pop();
+                if(sub == "FeatureId") {
+                    for(var i=0; i<rule.fids.length; ++i) {
+                        this.writeNode(node, "FeatureId", rule.fids[i]);
+                    }
+                } else {
+                    this.writeNode(node, this.getFilterType(rule), rule);
+                }
+                return node;
+            },
+            "FeatureId": function(fid) {
+                return this.createElementNSPlus("ogc:FeatureId", {
+                    attributes: {fid: fid}
+                });
+            },
+            "And": function(rule) {
+                var node = this.createElementNSPlus("ogc:And");
+                var childRule;
+                for(var i=0; i<rule.rules.length; ++i) {
+                    childRule = rule.rules[i];
+                    this.writeNode(
+                        node, this.getFilterType(childRule), childRule
+                    );
+                }
+                return node;
+            },
+            "Or": function(rule) {
+                var node = this.createElementNSPlus("ogc:Or");
+                var childRule;
+                for(var i=0; i<rule.rules.length; ++i) {
+                    childRule = rule.rules[i];
+                    this.writeNode(
+                        node, this.getFilterType(childRule), childRule
+                    );
+                }
+                return node;
+            },
+            "Not": function(rule) {
+                var node = this.createElementNSPlus("ogc:Not");
+                var childRule = rule.rules[0];
+                this.writeNode(
+                    node, this.getFilterType(childRule), childRule
+                );
+                return node;
+            },
+            "PropertyIsEqualTo": function(rule) {
+                var node = this.createElementNSPlus("ogc:PropertyIsEqualTo");
+                // no ogc:expression handling for now
+                this.writeNode(node, "PropertyName", rule);
+                this.writeNode(node, "Literal", rule);
+                return node;
+            },
+            "PropertyIsNotEqualTo": function(rule) {
+                var node = this.createElementNSPlus("ogc:PropertyIsNotEqualTo");
+                // no ogc:expression handling for now
+                this.writeNode(node, "PropertyName", rule);
+                this.writeNode(node, "Literal", rule);
+                return node;
+            },
+            "PropertyIsLessThan": function(rule) {
+                var node = this.createElementNSPlus("ogc:PropertyIsLessThan");
+                // no ogc:expression handling for now
+                this.writeNode(node, "PropertyName", rule);
+                this.writeNode(node, "Literal", rule);                
+                return node;
+            },
+            "PropertyIsGreaterThan": function(rule) {
+                var node = this.createElementNSPlus("ogc:PropertyIsGreaterThan");
+                // no ogc:expression handling for now
+                this.writeNode(node, "PropertyName", rule);
+                this.writeNode(node, "Literal", rule);
+                return node;
+            },
+            "PropertyIsLessThanOrEqualTo": function(rule) {
+                var node = this.createElementNSPlus("ogc:PropertyIsLessThanOrEqualTo");
+                // no ogc:expression handling for now
+                this.writeNode(node, "PropertyName", rule);
+                this.writeNode(node, "Literal", rule);
+                return node;
+            },
+            "PropertyIsGreaterThanOrEqualTo": function(rule) {
+                var node = this.createElementNSPlus("ogc:PropertyIsGreaterThanOrEqualTo");
+                // no ogc:expression handling for now
+                this.writeNode(node, "PropertyName", rule);
+                this.writeNode(node, "Literal", rule);
+                return node;
+            },
+            "PropertyIsBetween": function(rule) {
+                var node = this.createElementNSPlus("ogc:PropertyIsBetween");
+                // no ogc:expression handling for now
+                this.writeNode(node, "PropertyName", rule);
+                this.writeNode(node, "LowerBoundary", rule);
+                this.writeNode(node, "UpperBoundary", rule);
+                return node;
+            },
+            "PropertyIsLike": function(rule) {
+                var node = this.createElementNSPlus("ogc:PropertyIsLike", {
+                    attributes: {
+                        wildCard: "*", singleChar: ".", escape: "!"
+                    }
+                });
+                // no ogc:expression handling for now
+                this.writeNode(node, "PropertyName", rule);
+                // convert regex string to ogc string
+                this.writeNode(node, "Literal", {value: rule.regex2value()});
+                return node;
+            },
+            "PropertyName": function(rule) {
+                // no ogc:expression handling for now
+                return this.createElementNSPlus("ogc:PropertyName", {
+                    value: rule.property
+                });
+            },
+            "Literal": function(rule) {
+                // no ogc:expression handling for now
+                return this.createElementNSPlus("ogc:Literal", {
+                    value: rule.value
+                });
+            },
+            "LowerBoundary": function(rule) {
+                // no ogc:expression handling for now
+                var node = this.createElementNSPlus("ogc:LowerBoundary");
+                this.writeNode(node, "Literal", rule.lowerBoundary);
+                return node;
+            },
+            "UpperBoundary": function(rule) {
+                // no ogc:expression handling for now
+                var node = this.createElementNSPlus("ogc:UpperBoundary");
+                this.writeNode(node, "Literal", rule.upperBoundary);
+                return node;
+            }
+        }
+    },
+    
+    /**
+     * Method: getFilterType
+     */
+    getFilterType: function(rule) {
+        var filterType = this.filterMap[rule.type];
+        if(!filterType) {
+            throw "SLD writing not supported for rule type: " + rule.type;
+        }
+        return filterType;
+    },
+    
+    /**
+     * Property: filterMap
+     * {Object} Contains a member for each rule type.  Values are node names
+     *     for corresponding OGC Filter child elements.
+     */
+    filterMap: {
+        "&&": "And",
+        "||": "Or",
+        "!": "Not",
+        "==": "PropertyIsEqualTo",
+        "!=": "PropertyIsNotEqualTo",
+        "<": "PropertyIsLessThan",
+        ">": "PropertyIsGreaterThan",
+        "<=": "PropertyIsLessThanOrEqualTo",
+        ">=": "PropertyIsGreaterThanOrEqualTo",
+        "..": "PropertyIsBetween",
+        "~": "PropertyIsLike"
+    },
+    
+
+    /**
+     * Methods below this point are of general use for versioned XML parsers.
+     * These are candidates for an abstract class.
+     */
+    
+    /**
+     * Method: getNamespacePrefix
+     * Get the namespace prefix for a given uri from the <namespaces> object.
+     *
+     * Returns:
+     * {String} A namespace prefix or null if none found.
+     */
+    getNamespacePrefix: function(uri) {
+        var prefix = null;
+        if(uri == null) {
+            prefix = this.namespaces[this.defaultPrefix];
+        } else {
+            var gotPrefix = false;
+            for(prefix in this.namespaces) {
+                if(this.namespaces[prefix] == uri) {
+                    gotPrefix = true;
+                    break;
+                }
+            }
+            if(!gotPrefix) {
+                prefix = null;
+            }
+        }
+        return prefix;
+    },
+
+
+    /**
+     * Method: readChildNodes
+     */
+    readChildNodes: function(node, obj) {
+        var children = node.childNodes;
+        var child, group, reader, prefix, local;
+        for(var i=0; i<children.length; ++i) {
+            child = children[i];
+            if(child.nodeType == 1) {
+                prefix = this.getNamespacePrefix(child.namespaceURI);
+                local = child.nodeName.split(":").pop();
+                group = this.readers[prefix];
+                if(group) {
+                    reader = group[local];
+                    if(reader) {
+                        reader.apply(this, [child, obj]);
+                    }
+                }
+            }
+        }
+    },
+
+    /**
+     * Method: writeNode
+     * Shorthand for applying one of the named writers and appending the
+     *     results to a node.  If a qualified name is not provided for the
+     *     second argument (and a local name is used instead), the namespace
+     *     of the parent node will be assumed.
+     *
+     * Parameters:
+     * parent - {DOMElement} Result will be appended to this node.
+     * name - {String} The name of a node to generate.  If a qualified name
+     *     (e.g. "pre:Name") is used, the namespace prefix is assumed to be
+     *     in the <writers> group.  If a local name is used (e.g. "Name") then
+     *     the namespace of the parent is assumed.
+     * obj - {Object} Structure containing data for the writer.
+     *
+     * Returns:
+     * {DOMElement} The child node.
+     */
+    writeNode: function(parent, name, obj) {
+        var prefix, local;
+        var split = name.indexOf(":");
+        if(split > 0) {
+            prefix = name.substring(0, split);
+            local = name.substring(split + 1);
+        } else {
+            prefix = this.getNamespacePrefix(parent.namespaceURI);
+            local = name;
+        }
+        var child = this.writers[prefix][local].apply(this, [obj]);
+        parent.appendChild(child);
+        return child;
+    },
+    
+    /**
+     * Method: createElementNSPlus
+     * Shorthand for creating namespaced elements with optional attributes and
+     *     child text nodes.
+     *
+     * Parameters:
+     * name - {String} The qualified node name.
+     * options - {Object} Optional object for node configuration.
+     *
+     * Returns:
+     * {Element} An element node.
+     */
+    createElementNSPlus: function(name, options) {
+        options = options || {};
+        var loc = name.indexOf(":");
+        // order of prefix preference
+        // 1. in the uri option
+        // 2. in the prefix option
+        // 3. in the qualified name
+        // 4. from the defaultPrefix
+        var uri = options.uri || this.namespaces[options.prefix];
+        if(!uri) {
+            loc = name.indexOf(":");
+            uri = this.namespaces[name.substring(0, loc)];
+        }
+        if(!uri) {
+            uri = this.namespaces[this.defaultPrefix];
+        }
+        var node = this.createElementNS(uri, name);
+        if(options.attributes) {
+            this.setAttributes(node, options.attributes);
+        }
+        if(options.value) {
+            node.appendChild(this.createTextNode(options.value));
+        }
+        return node;
+    },
+    
+    /**
+     * Method: setAttributes
+     * Set multiple attributes given key value pairs from an object.
+     *
+     * Parameters:
+     * node - {Element} An element node.
+     * obj - {Object || Array} An object whose properties represent attribute
+     *     names and values represent attribute values.  If an attribute name
+     *     is a qualified name ("prefix:local"), the prefix will be looked up
+     *     in the parsers {namespaces} object.  If the prefix is found,
+     *     setAttributeNS will be used instead of setAttribute.
+     */
+    setAttributes: function(node, obj) {
+        var value, loc, alias, uri;
+        for(var name in obj) {
+            value = obj[name].toString();
+            // check for qualified attribute name ("prefix:local")
+            uri = this.namespaces[name.substring(0, name.indexOf(":"))] || null;
+            this.setAttributeNS(node, uri, name, value);
+        }
+    },
+
+    CLASS_NAME: "OpenLayers.Format.SLD.v1" 
+
+});
+/* ======================================================================
     OpenLayers/Geometry/Curve.js
    ====================================================================== */
 
@@ -36462,6 +38356,59 @@ OpenLayers.Geometry.Curve = OpenLayers.Class(OpenLayers.Geometry.MultiPoint, {
     },
 
     CLASS_NAME: "OpenLayers.Geometry.Curve"
+});
+/* ======================================================================
+    OpenLayers/Format/SLD/v1_0_0.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
+ * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Format/SLD/v1.js
+ */
+
+/**
+ * Class: OpenLayers.Format.SLD.v1_0_0
+ * Write SLD version 1.0.0.
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Format.SLD.v1>
+ */
+OpenLayers.Format.SLD.v1_0_0 = OpenLayers.Class(
+    OpenLayers.Format.SLD.v1, {
+    
+    /**
+     * Constant: VERSION
+     * {String} 1.0.0
+     */
+    VERSION: "1.0.0",
+    
+    /**
+     * Property: schemaLocation
+     * {String} http://www.opengis.net/sld
+     *   http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd
+     */
+    schemaLocation: "http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd",
+
+    /**
+     * Constructor: OpenLayers.Format.SLD.v1_0_0
+     * Instances of this class are not created directly.  Use the
+     *     <OpenLayers.Format.SLD> constructor instead.
+     *
+     * Parameters:
+     * options - {Object} An optional object whose properties will be set on
+     *     this instance.
+     */
+    initialize: function(options) {
+        OpenLayers.Format.SLD.v1.prototype.initialize.apply(
+            this, [options]
+        );
+    },
+
+    CLASS_NAME: "OpenLayers.Format.SLD.v1_0_0" 
+
 });
 /* ======================================================================
     OpenLayers/Geometry/LineString.js
@@ -36606,14 +38553,14 @@ OpenLayers.Geometry.LineString = OpenLayers.Class(OpenLayers.Geometry.Curve, {
                     y1: point1.y,
                     x2: point2.x,
                     y2: point2.y
-                }
+                };
             } else {
                 segments[i] = {
                     x1: point2.x,
                     y1: point2.y,
                     x2: point1.x,
                     y2: point1.y
-                }
+                };
             }
         }
         // more efficient to define this somewhere static
@@ -39417,7 +41364,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
                         var name = (child.prefix) ?
                                 child.nodeName.split(":")[1] :
                                 child.nodeName;
-                        var value = OpenLayers.Util.getXmlNodeValue(grandchild)
+                        var value = OpenLayers.Util.getXmlNodeValue(grandchild);
                         if (value) {
                             value = value.replace(this.regExes.trimSpace, "");
                             attributes[name] = value;
@@ -40084,7 +42031,7 @@ OpenLayers.Format.OSM = OpenLayers.Class(OpenLayers.Format.XML, {
     createFeatureNodes: function(feature) {
         var nodes = [];
         var className = feature.geometry.CLASS_NAME;
-        var type = className.substring(className.lastIndexOf(".") + 1)
+        var type = className.substring(className.lastIndexOf(".") + 1);
         type = type.toLowerCase();
         var builder = this.createXML[type];
         if (builder) {

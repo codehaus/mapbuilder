@@ -84,7 +84,7 @@ function GetFeatureInfoPZ(widgetNode, model) {
     var contentHTML= '<div class="PopupContainer"><div class="PopupHeader">Info</div><div class="PopupContent"><div id="featurePopup"></div></div></div>';
     
          //new XMLSerializer().serializeToString('').replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&amp;/g,"&");
-    popup.initialize(null, lonlat, new OpenLayers.Size(200,200), contentHTML, true, true); 
+    popup.initialize(null, lonlat, new OpenLayers.Size(210,130), contentHTML, true, true); 
     popup.setBackgroundColor('#f90');
     popup.setBorder('solid 1px black');
     var quadrant = config.objects.mainMap.map.getExtent().determineQuadrant(lonlat);
