@@ -279,6 +279,46 @@ padding:0px;
   left:30px;
   top:2.5px;
 }
+
+/* getFeatureInfo stijlen */
+
+.olPopupCloseBox{
+background-image:url(../customlib/skin/tango/images/openlayers/close.gif);
+}
+.PopupContent {
+padding: 5;
+}
+.olPopupContent {
+margin-right: 10px;
+overflow: auto;
+}
+.PopupHeader {
+}
+.layerTitle {
+margin: 0;
+background:#006599 none repeat scroll 0%;
+border:1px solid #006599;
+text-align:right;
+font-family:Arial,Helvetica,sans-serif;
+font-weight:bold;
+text-indent:10px;
+}
+.record {
+border:1px solid grey;
+margin:0px;
+}
+
+.record form {
+padding: 0;
+margin: 0;
+}
+.name {
+}
+.value INPUT {
+border: none;
+background: none;
+}
+
 /* geocoder stijlen */
 
 #geocoder {background-color: #FF9900;	border: 1px solid #000;
