@@ -158,7 +158,7 @@
         maxx="7.27339" maxy="53.5581" />
       <ScaleHint min="0.498902848429637" max="14967.0854528891" />
       <Layer queryable="1" opaque="0" cascaded="1">
-        <Name>hoogte</Name>
+        <Name>hoogtes</Name>
 
         <Title>hoogte</Title>
         <SRS>EPSG:900913</SRS>
@@ -174,7 +174,7 @@
             <Format>image/png</Format>
             <OnlineResource
               xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
-              xlink:href="/cgi-bin/edugis/mapserver.cgi?map=maps/edugis/hoogte.map&amp;version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=Hoogte5m&amp;format=image/png" />
+              xlink:href="data/ahn-nederland1.png" />
           </LegendURL>
         </Style>
       </Layer>

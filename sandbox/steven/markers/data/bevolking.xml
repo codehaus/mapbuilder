@@ -153,7 +153,7 @@
         maxx="7.27336" maxy="53.5581" />
       <ScaleHint min="0.498902848429637" max="14967.0854528891" />
       <Layer queryable="1" opaque="0" cascaded="1">
-        <Name>perc_65_gem_2005</Name>
+        <Name>gemeente_65_en_ouder</Name>
         <Title>gemeente: Percentage 65+ (2005)</Title>
         <SRS>EPSG:900913</SRS>
         <BoundingBox srs="EPSG:900913" minx="-20037508.342789"
@@ -174,7 +174,7 @@
           max="1496.70854528891" />
       </Layer>
       <Layer queryable="1" opaque="0" cascaded="0">
-        <Name>perc_65_wijk_2005</Name>
+        <Name>wijk_65_en_ouder</Name>
 
         <Title>wijk: Percentage 65+ (2005)</Title>
         <Title>perc_65_wijk_2005</Title>
@@ -199,7 +199,7 @@
       </Layer>
 
       <Layer queryable="1" opaque="0" cascaded="0">
-        <Name>perc_65_buurt_2005</Name>
+        <Name>buurt_65_en_ouder</Name>
         <Title>buurt: Percentage 65+ (2005)</Title>
         <SRS>EPSG:900913</SRS>
         <BoundingBox srs="EPSG:900913" minx="-20037508.342789"
@@ -221,7 +221,7 @@
           max="1496.70854528891" />
       </Layer>
       <Layer queryable="1" opaque="0" cascaded="0">
-        <Name>perc_nwa_gem_2005</Name>
+        <Name>gemeente_NW-allocht</Name>
         <Title>
           gemeente: Niet-Westerse Allochtonen (2005)
         </Title>
@@ -244,7 +244,7 @@
           max="1496.70854528891" />
       </Layer>
       <Layer queryable="1" opaque="0" cascaded="0">
-        <Name>perc_nwa_wijk_2005</Name>
+        <Name>wijk_NW-allocht</Name>
         <Title>wijk: Niet-Westerse Allochtonen (2005)</Title>
         <SRS>EPSG:900913</SRS>
         <BoundingBox srs="EPSG:900913" minx="-20037508.342789"
@@ -266,7 +266,7 @@
       </Layer>
 
       <Layer queryable="1" opaque="0" cascaded="0">
-        <Name>perc_nwa_buurt_2005</Name>
+        <Name>buurt_NW-allocht</Name>
         <Title>buurt: Niet-Westerse Allochtonen (2005)</Title>
         <SRS>EPSG:900913</SRS>
         <BoundingBox srs="EPSG:900913" minx="-20037508.342789"
@@ -312,6 +312,7 @@
 <!--        <ScaleHint min="0.498902848429637"-->
 <!--          max="1496.70854528891" />-->
 <!--      </Layer>-->
+
 <!--      <Layer queryable="1" opaque="0" cascaded="0">-->
 <!--        <Name>wijk_W-allocht</Name>-->
 <!---->

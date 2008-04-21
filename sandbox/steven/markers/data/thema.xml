@@ -154,7 +154,7 @@
         maxx="7.27336" maxy="53.5581" />
       <ScaleHint min="0.498902848429637" max="14967.0854528891" />
       <Layer queryable="1" opaque="0" cascaded="0">
-        <Name>bev_dichtheid_gem_2005</Name>
+        <Name>bev.dichtheid2005_01</Name>
         <Title>gemeenten: bevolkingsdichtheid (2005)</Title>
         <SRS>EPSG:900913</SRS>
 
@@ -176,7 +176,7 @@
           max="3991.2227874371" />
       </Layer>
       <Layer queryable="1" opaque="0" cascaded="0">
-      <Name>bev_dichtheid_wijk_2005</Name>
+      <Name>bev.dichtheid2005_02</Name>
 
         <Title>wijk: bevolkingsdichtheid (2005)</Title>
         <SRS>EPSG:900913</SRS>
@@ -200,7 +200,7 @@
       </Layer>
 
       <Layer queryable="1" opaque="0" cascaded="0">
-      <Name>bev_dichtheid_buurt_2005</Name>
+      <Name>bev.dichtheid2005_03</Name>
         <Title>buurt: bevolkingsdichtheid (2005)</Title>
         <SRS>EPSG:900913</SRS>
 
@@ -223,7 +223,7 @@
           max="3991.2227874371" />
       </Layer>
       <Layer queryable="1" opaque="0" cascaded="0">
-        <Name>bev_dichtheid_gem_2001</Name>
+        <Name>bev.dichtheid2001</Name>
         <Title>gemeenten: bevolkingsdichtheid (2001)</Title>
         <SRS>EPSG:900913</SRS>
 
@@ -245,7 +245,7 @@
           max="3991.2227874371" />
       </Layer>
       <Layer queryable="1" opaque="0" cascaded="0">
-        <Name>bev_dichtheid_buurt_2001</Name>
+        <Name>buurten_bevolkingsdichtheid</Name>
 
         <Title>buurten: bevolkingsdichtheid (2001)</Title>
         <SRS>EPSG:900913</SRS>

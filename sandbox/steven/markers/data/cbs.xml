@@ -154,7 +154,7 @@
         maxx="7.27336" maxy="53.5581" />
       <ScaleHint min="0.498902848429637" max="14967.0854528891" />
       <Layer queryable="1" opaque="0" cascaded="0">
-        <Name>gemeenten_2005</Name>
+        <Name>gemeenten</Name>
         <Title>gemeenten (2005)</Title>
         <SRS>EPSG:900913</SRS>
         <BoundingBox srs="EPSG:900913" minx="-20037508.342789"
@@ -175,7 +175,7 @@
           max="2993.41709057782" />
       </Layer>
       <Layer queryable="1" opaque="0" cascaded="0">
-        <Name>wijken_2005</Name>
+        <Name>wijken</Name>
 
         <Title>wijken (2005)</Title>
         <SRS>EPSG:900913</SRS>
@@ -198,7 +198,7 @@
       </Layer>
 
       <Layer queryable="1" opaque="0" cascaded="0">
-        <Name>buurten_2005</Name>
+        <Name>buurten</Name>
         <Title>buurten (2005)</Title>
         <SRS>EPSG:900913</SRS>
         <BoundingBox srs="EPSG:900913" minx="-20037508.342789"
@@ -212,7 +212,7 @@
             <Format>image/png</Format>
             <OnlineResource
               xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
-              xlink:href="/cgi-bin/edugis/mapserv.cgimap=maps/edugis/cbs.map&amp;version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=buurten&amp;format=image/png" />
+              xlink:href="/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/cbs.map&amp;version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=buurten&amp;format=image/png" />
           </LegendURL>
 
         </Style>
@@ -220,7 +220,7 @@
           max="1496.70854528891" />
       </Layer>
       <Layer queryable="1" opaque="0" cascaded="0">
-        <Name>pc4</Name>
+        <Name>nl_postcode4</Name>
         <Title>postcode-4 gebieden</Title>
         <SRS>EPSG:900913</SRS>
         <BoundingBox srs="EPSG:900913" minx="-20037508.342789"

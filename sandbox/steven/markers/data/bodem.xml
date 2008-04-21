@@ -132,7 +132,7 @@
             <Format>image/png</Format>
             <OnlineResource
               xmlns:xlink="http://www.w3.org/1999/xlink" type="simple"
-              xlink:href="../grond_legenda.png" />
+              xlink:href="data/grond_legenda.png" />
           </LegendURL>
         </Style>
         <ScaleHint min="0.498903" max="3991.22" />

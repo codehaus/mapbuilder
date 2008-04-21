@@ -151,7 +151,7 @@
             <Format>image/png</Format>
             <OnlineResource
               xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple"
-              xlink:href="/cgi-bin/edugis/mapserver.chi?map=maps/edugis/kadaster.map&amp;version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=percelen&amp;format=image/png" />
+              xlink:href="/cgi-bin/edugis/mapserv.cgi?map=maps/edugis/kadaster.map&amp;version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=percelen&amp;format=image/png" />
 
           </LegendURL>
         </Style>
