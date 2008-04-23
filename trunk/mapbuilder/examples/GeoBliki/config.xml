@@ -39,19 +39,18 @@
     </OwsContext>
     
     <StyledLayerDescriptor id="sld">
-      <defaultModelUrl>wfs_GetFeature.xsl</defaultModelUrl>
-      <sldXPath>//wmc:StyleList</sldXPath>
+      <defaultModelUrl>../data/features.sld</defaultModelUrl>
     </StyledLayerDescriptor>
     
     <FeatureCollection id="gml2FeatureTemplate">
       <method>post</method>
  
       <widgets>
-         <GmlRendererOL id="vectorGraphicsRenderer">
+         <GmlRendererOL id="testGmlRenderer">
           <targetModel>mainMap</targetModel>
           <sldModel>sld</sldModel>
-          <defaultStyleName>Normal</defaultStyleName>
-          <selectStyleName>Highlite</selectStyleName>
+          <defaultStyleName>default</defaultStyleName>
+          <selectStyleName>selected</selectStyleName>
           <stylesheet>geobliki2wfs.xsl</stylesheet>
           <featureOnClick>featurePopup</featureOnClick>
         </GmlRendererOL>
