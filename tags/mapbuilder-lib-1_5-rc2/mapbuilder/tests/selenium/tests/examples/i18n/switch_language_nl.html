@@ -1,0 +1,57 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>switch_language_nl</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">switch_language_nl</td></tr>
+</thead><tbody>
+<!-- Store English text, so we can use them after we switch back to english -->
+<tr>
+	<td>storeAttribute</td>
+	<td>//div[@class='mbControlBackItemInactive']@title</td>
+	<td>mbControlBackItemInactive</td>
+</tr>
+<!-- Switch to dutch -->
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@title='Nederlands']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>//div[@class='mbControlBackItemInactive']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeAttribute</td>
+	<td>//div[@class='mbControlBackItemInactive']@title</td>
+	<td>mbControlBackItemInactiveNL</td>
+</tr>
+<!-- Switch back to english -->
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@title='English']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>//div[@class='mbControlBackItemInactive']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertAttribute</td>
+	<td>//div[@class='mbControlBackItemInactive']@title</td>
+	<td>${mbControlBackItemInactive}</td>
+</tr>
+<tr>
+	<td>assertNotAttribute</td>
+	<td>//div[@class='mbControlBackItemInactive']@title</td>
+	<td>${mbControlBackItemInactiveNL}</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
