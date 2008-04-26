@@ -1,4 +1,0 @@
-Community Mapbuilder Code Provenance Review
-===========================================
-The results of the Community Mapbuilder Code Provenance Review are stored at:
-http://wiki.osgeo.org/index.php/Community_Mapbuilder_Provenance_Review
