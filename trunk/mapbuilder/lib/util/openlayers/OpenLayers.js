@@ -245,9 +245,10 @@ var OpenLayers = {
             "OpenLayers/Style.js",
             "OpenLayers/StyleMap.js",
             "OpenLayers/Rule.js",
-            "OpenLayers/Rule/FeatureId.js",
-            "OpenLayers/Rule/Logical.js",
-            "OpenLayers/Rule/Comparison.js",
+            "OpenLayers/Filter.js",
+            "OpenLayers/Filter/FeatureId.js",
+            "OpenLayers/Filter/Logical.js",
+            "OpenLayers/Filter/Comparison.js",
             "OpenLayers/Format.js",
             "OpenLayers/Format/XML.js",
             "OpenLayers/Format/GML.js",
@@ -326,16 +327,14 @@ OpenLayers.VERSION_NUMBER="$Revision$";
  * OpenLayers custom string, number and function functions are described here.
  */
 
-/*********************
- *                   *
- *      STRING       * 
- *                   * 
- *********************/
-
+/**
+ * Namespace: OpenLayers.String
+ * Contains convenience functions for string manipulation.
+ */
 OpenLayers.String = {
 
     /**
-     * APIFunction: OpenLayers.String.startsWith
+     * APIFunction: startsWith
      * Test whether a string starts with another string. 
      * 
      * Parameters:
@@ -350,7 +349,7 @@ OpenLayers.String = {
     },
 
     /**
-     * APIFunction: OpenLayers.String.contains
+     * APIFunction: contains
      * Test whether a string contains another string.
      * 
      * Parameters:
@@ -365,7 +364,7 @@ OpenLayers.String = {
     },
     
     /**
-     * APIFunction: OpenLayers.String.trim
+     * APIFunction: trim
      * Removes leading and trailing whitespace characters from a string.
      * 
      * Parameters:
@@ -381,7 +380,7 @@ OpenLayers.String = {
     },
     
     /**
-     * APIFunction: OpenLayers.String.camelize
+     * APIFunction: camelize
      * Camel-case a hyphenated string. 
      *     Ex. "chicken-head" becomes "chickenHead", and
      *     "-chicken-head" becomes "ChickenHead".
@@ -403,7 +402,7 @@ OpenLayers.String = {
     },
     
     /**
-     * APIFunction: OpenLayers.String.format
+     * APIFunction: format
      * Given a string with tokens in the form ${token}, return a string
      *     with tokens replaced with properties from the given context
      *     object.  Represent a literal "${" by doubling it, e.g. "${${".
@@ -518,28 +517,26 @@ if (!String.prototype.camelize) {
     };
 }
 
-/*********************
- *                   *
- *      NUMBER       * 
- *                   * 
- *********************/
-
+/**
+ * Namespace: OpenLayers.Number
+ * Contains convenience functions for manipulating numbers.
+ */
 OpenLayers.Number = {
 
     /**
-     * Property: OpenLayers.Number.decimalSeparator
+     * Property: decimalSeparator
      * Decimal separator to use when formatting numbers.
      */
     decimalSeparator: ".",
     
     /**
-     * Property: OpenLayers.Number.thousandsSeparator
+     * Property: thousandsSeparator
      * Thousands separator to use when formatting numbers.
      */
     thousandsSeparator: ",",
     
     /**
-     * APIFunction: OpenLayers.Number.limitSigDigs
+     * APIFunction: limitSigDigs
      * Limit the number of significant digits on a float.
      * 
      * Parameters:
@@ -559,7 +556,7 @@ OpenLayers.Number = {
     },
     
     /**
-     * APIFunction: OpenLayers.Number.format
+     * APIFunction: format
      * Formats a number for output.
      * 
      * Parameters:
@@ -633,15 +630,13 @@ if (!Number.prototype.limitSigDigs) {
     };
 }
 
-/*********************
- *                   *
- *      FUNCTION     * 
- *                   * 
- *********************/
-
+/**
+ * Namespace: OpenLayers.Function
+ * Contains convenience functions for function manipulation.
+ */
 OpenLayers.Function = {
     /**
-     * APIFunction: OpenLayers.Function.bind
+     * APIFunction: bind
      * Bind a function to an object.  Method to easily create closures with
      *     'this' altered.
      * 
@@ -666,7 +661,7 @@ OpenLayers.Function = {
     },
     
     /**
-     * APIFunction: OpenLayers.Function.bindAsEventListener
+     * APIFunction: bindAsEventListener
      * Bind a function to an object, and configure it to receive the event
      *     object as first parameter when called. 
      * 
@@ -725,16 +720,14 @@ if (!Function.prototype.bindAsEventListener) {
     };
 }
 
-/*********************
- *                   *
- *      ARRAY        * 
- *                   * 
- *********************/
-
+/**
+ * Namespace: OpenLayers.Array
+ * Contains convenience functions for array manipulation.
+ */
 OpenLayers.Array = {
 
     /**
-     * APIMethod: OpenLayers.Array.filter
+     * APIMethod: filter
      * Filter an array.  Provides the functionality of the
      *     Array.prototype.filter extension to the ECMA-262 standard.  Where
      *     available, Array.prototype.filter will be used.
@@ -941,12 +934,24 @@ OpenLayers.Util.extend = function(destination, source) {
                 destination[property] = value;
             }
         }
+
         /**
          * IE doesn't include the toString property when iterating over an object's
          * properties with the for(property in object) syntax.  Explicitly check if
          * the source has its own toString property.
          */
-        if(source.hasOwnProperty && source.hasOwnProperty('toString')) {
+
+        /*
+         * FF/Windows < 2.0.0.13 reports "Illegal operation on WrappedNative
+         * prototype object" when calling hawOwnProperty if the source object
+         * is an instance of window.Event.
+         */
+
+        var sourceIsEvt = typeof window.Event == "function"
+                          && source instanceof window.Event;
+
+        if(!sourceIsEvt
+           && source.hasOwnProperty && source.hasOwnProperty('toString')) {
             destination.toString = source.toString;
         }
     }
@@ -1395,9 +1400,18 @@ OpenLayers.Util.upperCaseObject = function (object) {
  *     in place and returned by this function.
  */
 OpenLayers.Util.applyDefaults = function (to, from) {
+
+    /*
+     * FF/Windows < 2.0.0.13 reports "Illegal operation on WrappedNative
+     * prototype object" when calling hawOwnProperty if the source object is an
+     * instance of window.Event.
+     */
+    var fromIsEvt = typeof window.Event == "function"
+                    && from instanceof window.Event;
+
     for (var key in from) {
         if (to[key] === undefined ||
-            (from.hasOwnProperty
+            (!fromIsEvt && from.hasOwnProperty
              && from.hasOwnProperty(key) && !to.hasOwnProperty(key))) {
             to[key] = from[key];
         }
@@ -1407,7 +1421,7 @@ OpenLayers.Util.applyDefaults = function (to, from) {
      * properties with the for(property in object) syntax.  Explicitly check if
      * the source has its own toString property.
      */
-    if(from.hasOwnProperty
+    if(!fromIsEvt && from.hasOwnProperty
        && from.hasOwnProperty('toString') && !to.hasOwnProperty('toString')) {
         to.toString = from.toString;
     }
@@ -3370,25 +3384,25 @@ OpenLayers.Bounds = OpenLayers.Class({
 
     /**
      * Property: left
-     * {Number}
+     * {Number} Minimum horizontal coordinate.
      */
     left: null,
 
     /**
      * Property: bottom
-     * {Number}
+     * {Number} Minimum vertical coordinate.
      */
     bottom: null,
 
     /**
      * Property: right
-     * {Number}
+     * {Number} Maximum horizontal coordinate.
      */
     right: null,
 
     /**
      * Property: top
-     * {Number}
+     * {Number} Maximum vertical coordinate.
      */
     top: null,    
 
@@ -3701,7 +3715,7 @@ OpenLayers.Bounds = OpenLayers.Class({
      * 
      * Parameters:
      * bounds - {<OpenLayers.Bounds>}
-     * inclusive - {<Boolean>} Whether or not to include the border.  Default
+     * inclusive - {Boolean} Whether or not to include the border.  Default
      *     is true.
      *
      * Returns:
@@ -3736,10 +3750,10 @@ OpenLayers.Bounds = OpenLayers.Class({
      * APIMethod: containsBounds
      * 
      * bounds - {<OpenLayers.Bounds>}
-     * partial - {<Boolean>} If true, only part of passed-in bounds needs be
+     * partial - {Boolean} If true, only part of passed-in bounds needs be
      *     within this bounds.  If false, the entire passed-in bounds must be
      *     within. Default is false
-     * inclusive - {<Boolean>} Whether or not to include the border. Default is
+     * inclusive - {Boolean} Whether or not to include the border. Default is
      *     true.
      *
      * Returns:
@@ -4858,7 +4872,7 @@ OpenLayers.Control = OpenLayers.Class({
 
     /** 
      * Property: active 
-     * {boolean} null
+     * {Boolean} The control is active.
      */
     active: null,
 
@@ -8581,7 +8595,7 @@ OpenLayers.Control.MousePosition = OpenLayers.Class(OpenLayers.Control, {
  *     when there are no states to restore.
  *
  * Inherits from:
- *  - <OpenLayers.Control.Control>
+ *  - <OpenLayers.Control>
  */
 OpenLayers.Control.NavigationHistory = OpenLayers.Class(OpenLayers.Control, {
 
@@ -8597,7 +8611,7 @@ OpenLayers.Control.NavigationHistory = OpenLayers.Class(OpenLayers.Control, {
 
     /**
      * APIProperty: previous
-     * {OpenLayers.Control} A button type control whose trigger method restores
+     * {<OpenLayers.Control>} A button type control whose trigger method restores
      *     the previous state managed by this control.
      */
     previous: null,
@@ -8611,7 +8625,7 @@ OpenLayers.Control.NavigationHistory = OpenLayers.Class(OpenLayers.Control, {
     
     /**
      * APIProperty: next
-     * {OpenLayers.Control} A button type control whose trigger method restores
+     * {<OpenLayers.Control>} A button type control whose trigger method restores
      *     the next state managed by this control.
      */
     next: null,
@@ -8975,7 +8989,7 @@ OpenLayers.Control.NavigationHistory = OpenLayers.Class(OpenLayers.Control, {
  */
 
 /**
- * Class: OpenLayers.PanZoom
+ * Class: OpenLayers.Control.PanZoom
  * 
  * Inherits from:
  *  - <OpenLayers.Control>
@@ -9186,7 +9200,7 @@ OpenLayers.Control.PanZoom.Y = 4;
 OpenLayers.Control.Panel = OpenLayers.Class(OpenLayers.Control, {
     /**
      * Property: controls
-     * Array({<OpenLayers.Control>})
+     * {Array(<OpenLayers.Control>)}
      */
     controls: null,    
     
@@ -10490,7 +10504,9 @@ OpenLayers.Events = OpenLayers.Class({
      */
     register: function (type, obj, func) {
 
-        if (func != null) {
+        if (func != null && 
+            ((this.eventTypes && OpenLayers.Util.indexOf(this.eventTypes, type) != -1) ||
+            OpenLayers.Util.indexOf(this.BROWSER_EVENTS, type) != -1)) {
             if (obj == null)  {
                 obj = this.object;
             }
@@ -12474,7 +12490,6 @@ OpenLayers.Control.MouseToolbar.Y = 300;
  *
  * Inherits from:
  *  - <OpenLayers.Control.PanZoom>
- *  - <OpenLayers.Control>
  */
 OpenLayers.Control.PanZoomBar = OpenLayers.Class(OpenLayers.Control.PanZoom, {
 
@@ -12518,7 +12533,7 @@ OpenLayers.Control.PanZoomBar = OpenLayers.Class(OpenLayers.Control.PanZoom, {
     zoomWorldIcon: false,
 
     /**
-     * Constructor: <OpenLayers.Control.PanZoomBar>
+     * Constructor: OpenLayers.Control.PanZoomBar
      */ 
     initialize: function() {
         OpenLayers.Control.PanZoom.prototype.initialize.apply(this, arguments);
@@ -12704,12 +12719,11 @@ OpenLayers.Control.PanZoomBar = OpenLayers.Class(OpenLayers.Control.PanZoom, {
         var y = evt.xy.y;
         var top = OpenLayers.Util.pagePosition(evt.object)[1];
         var levels = (y - top)/this.zoomStopHeight;
-        var zoom = (this.map.getNumZoomLevels() - 1) - levels; 
-        if(this.map.fractionalZoom) {
-           zoom = Math.min(Math.max(zoom, 0), this.map.getNumZoomLevels() - 1);
-        } else {
-            zoom = Math.floor(zoom);
+        if(!this.map.fractionalZoom) {
+            levels = Math.floor(levels);
         }    
+        var zoom = (this.map.getNumZoomLevels() - 1) - levels; 
+        zoom = Math.min(Math.max(zoom, 0), this.map.getNumZoomLevels() - 1);
         this.map.zoomTo(zoom);
         OpenLayers.Event.stop(evt);
     },
@@ -12911,8 +12925,9 @@ OpenLayers.Format.JSON = OpenLayers.Class(OpenLayers.Format, {
          *     characters.
          */
         try {
-            if(/^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/.
-                    test(json)) {
+            if (/^[\],:{}\s]*$/.test(json.replace(/\\["\\\/bfnrtu]/g, '@').
+                                replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
+                                replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
 
                 /**
                  * In the second stage we use the eval function to compile the
@@ -14700,7 +14715,7 @@ OpenLayers.Map = OpenLayers.Class({
     * APIMethod: addLayers 
     *
     * Parameters:
-    * layers - Array({<OpenLayers.Layer>}) 
+    * layers - {Array(<OpenLayers.Layer>)} 
     */    
     addLayers: function (layers) {
         for (var i = 0; i <  layers.length; i++) {
@@ -15473,8 +15488,8 @@ OpenLayers.Map = OpenLayers.Class({
         var newPx = this.getViewPortPxFromLonLat(lonlat);
 
         if ((originPx != null) && (newPx != null)) {
-            this.layerContainerDiv.style.left = (originPx.x - newPx.x) + "px";
-            this.layerContainerDiv.style.top  = (originPx.y - newPx.y) + "px";
+            this.layerContainerDiv.style.left = Math.round(originPx.x - newPx.x) + "px";
+            this.layerContainerDiv.style.top  = Math.round(originPx.y - newPx.y) + "px";
         }
     },
 
@@ -15843,7 +15858,7 @@ OpenLayers.Map = OpenLayers.Class({
   //
 
     /**
-     * APIMethod: getLonLatFromViewPortPx
+     * Method: getLonLatFromViewPortPx
      * 
      * Parameters:
      * viewPortPx - {<OpenLayers.Pixel>}
@@ -15902,17 +15917,23 @@ OpenLayers.Map = OpenLayers.Class({
 
     /**
      * APIMethod: getPixelFromLonLat
+     * Returns a pixel location given a map location.  The map location is
+     *     translated to an integer pixel location (in viewport pixel
+     *     coordinates) by the current base layer.
      * 
      * Parameters:
-     * lonlat - {<OpenLayers.LonLat>}
+     * lonlat - {<OpenLayers.LonLat>} A map location.
      * 
      * Returns: 
      * {<OpenLayers.Pixel>} An OpenLayers.Pixel corresponding to the 
-     *                      <OpenLayers.LonLat> translated into view port 
-     *                      pixels by the current base layer.
+     *     <OpenLayers.LonLat> translated into view port pixels by the current
+     *     base layer.
      */
     getPixelFromLonLat: function (lonlat) {
-        return this.getViewPortPxFromLonLat(lonlat);
+        var px = this.getViewPortPxFromLonLat(lonlat);
+        px.x = Math.round(px.x);
+        px.y = Math.round(px.y);
+        return px;
     },
 
 
@@ -15969,7 +15990,7 @@ OpenLayers.Map = OpenLayers.Class({
   //
 
     /**
-     * APIMethod: getLonLatFromLayerPx
+     * Method: getLonLatFromLayerPx
      * 
      * Parameters:
      * px - {<OpenLayers.Pixel>}
@@ -15996,7 +16017,7 @@ OpenLayers.Map = OpenLayers.Class({
      */
     getLayerPxFromLonLat: function (lonlat) {
        //adjust for displacement of layerContainerDiv
-       var px = this.getViewPortPxFromLonLat(lonlat);
+       var px = this.getPixelFromLonLat(lonlat);
        return this.getLayerPxFromViewPortPx(px);         
     },
 
@@ -16682,7 +16703,16 @@ OpenLayers.Popup.Framed =
     createBlocks: function() {
         this.blocks = [];
 
-        var position = this.positionBlocks[this.relativePosition];
+        //since all positions contain the same number of blocks, we can 
+        // just pick the first position and use its blocks array to create
+        // our blocks array
+        var firstPosition = null;
+        for(var key in this.positionBlocks) {
+            firstPosition = key;
+            break;
+        }
+        
+        var position = this.positionBlocks[firstPosition];
         for (var i = 0; i < position.blocks.length; i++) {
 
             var block = {};
@@ -16715,48 +16745,49 @@ OpenLayers.Popup.Framed =
      *     the popup's blocks in their appropropriate places.
      */
     updateBlocks: function() {
-
         if (!this.blocks) {
             this.createBlocks();
         }
-
-        var position = this.positionBlocks[this.relativePosition];
-        for (var i = 0; i < position.blocks.length; i++) {
-
-            var positionBlock = position.blocks[i];
-            var block = this.blocks[i];
-
-            // adjust sizes
-            var l = positionBlock.anchor.left;
-            var b = positionBlock.anchor.bottom;
-            var r = positionBlock.anchor.right;
-            var t = positionBlock.anchor.top;
-
-            //note that we use the isNaN() test here because if the 
-            // size object is initialized with a "auto" parameter, the 
-            // size constructor calls parseFloat() on the string, 
-            // which will turn it into NaN
-            //
-            var w = (isNaN(positionBlock.size.w)) ? this.size.w - (r + l) 
-                                                  : positionBlock.size.w;
-
-            var h = (isNaN(positionBlock.size.h)) ? this.size.h - (b + t) 
-                                                  : positionBlock.size.h;
-
-            block.div.style.width = w + 'px';
-            block.div.style.height = h + 'px';
-
-            block.div.style.left = (l != null) ? l + 'px' : '';
-            block.div.style.bottom = (b != null) ? b + 'px' : '';
-            block.div.style.right = (r != null) ? r + 'px' : '';            
-            block.div.style.top = (t != null) ? t + 'px' : '';
-
-            block.image.style.left = positionBlock.position.x + 'px';
-            block.image.style.top = positionBlock.position.y + 'px';
+        
+        if (this.relativePosition) {
+            var position = this.positionBlocks[this.relativePosition];
+            for (var i = 0; i < position.blocks.length; i++) {
+    
+                var positionBlock = position.blocks[i];
+                var block = this.blocks[i];
+    
+                // adjust sizes
+                var l = positionBlock.anchor.left;
+                var b = positionBlock.anchor.bottom;
+                var r = positionBlock.anchor.right;
+                var t = positionBlock.anchor.top;
+    
+                //note that we use the isNaN() test here because if the 
+                // size object is initialized with a "auto" parameter, the 
+                // size constructor calls parseFloat() on the string, 
+                // which will turn it into NaN
+                //
+                var w = (isNaN(positionBlock.size.w)) ? this.size.w - (r + l) 
+                                                      : positionBlock.size.w;
+    
+                var h = (isNaN(positionBlock.size.h)) ? this.size.h - (b + t) 
+                                                      : positionBlock.size.h;
+    
+                block.div.style.width = w + 'px';
+                block.div.style.height = h + 'px';
+    
+                block.div.style.left = (l != null) ? l + 'px' : '';
+                block.div.style.bottom = (b != null) ? b + 'px' : '';
+                block.div.style.right = (r != null) ? r + 'px' : '';            
+                block.div.style.top = (t != null) ? t + 'px' : '';
+    
+                block.image.style.left = positionBlock.position.x + 'px';
+                block.image.style.top = positionBlock.position.y + 'px';
+            }
+    
+            this.contentDiv.style.left = this.padding.left + "px";
+            this.contentDiv.style.top = this.padding.top + "px";
         }
-
-        this.contentDiv.style.left = this.padding.left + "px";
-        this.contentDiv.style.top = this.padding.top + "px";
     },
 
     CLASS_NAME: "OpenLayers.Popup.Framed"
@@ -17323,10 +17354,10 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
         if (!this.supported()) { 
             return; 
         }
-        if (!document.namespaces.v) {
-            document.namespaces.add("v", this.xmlns);
+        if (!document.namespaces.olv) {
+            document.namespaces.add("olv", this.xmlns);
             var style = document.createStyleSheet();
-            style.addRule('v\\:*', "behavior: url(#default#VML); " +
+            style.addRule('olv\\:*', "behavior: url(#default#VML); " +
                                    "position: absolute; display: inline-block;");
         }
         OpenLayers.Renderer.Elements.prototype.initialize.apply(this, 
@@ -17406,17 +17437,17 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
         var nodeType = null;
         switch (geometry.CLASS_NAME) {
             case "OpenLayers.Geometry.Point":
-                nodeType = style.externalGraphic ? "v:rect" : "v:oval";
+                nodeType = style.externalGraphic ? "olv:rect" : "olv:oval";
                 break;
             case "OpenLayers.Geometry.Rectangle":
-                nodeType = "v:rect";
+                nodeType = "olv:rect";
                 break;
             case "OpenLayers.Geometry.LineString":
             case "OpenLayers.Geometry.LinearRing":
             case "OpenLayers.Geometry.Polygon":
             case "OpenLayers.Geometry.Curve":
             case "OpenLayers.Geometry.Surface":
-                nodeType = "v:shape";
+                nodeType = "olv:shape";
                 break;
             default:
                 break;
@@ -17482,7 +17513,7 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
             }
         } else {
             if (!fill) {
-                fill = this.createNode('v:fill', node.id + "_fill");
+                fill = this.createNode('olv:fill', node.id + "_fill");
             }
             fill.setAttribute("opacity", style.fillOpacity);
 
@@ -17532,7 +17563,7 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
             }
         } else {
             if (!stroke) {
-                stroke = this.createNode('v:stroke', node.id + "_stroke");
+                stroke = this.createNode('olv:stroke', node.id + "_stroke");
                 node.appendChild(stroke);
             }
             stroke.setAttribute("opacity", style.strokeOpacity);
@@ -17550,7 +17581,7 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
      * If a point is to be styled with externalGraphic and rotation, VML fills
      * cannot be used to display the graphic, because rotation of graphic
      * fills is not supported by the VML implementation of Internet Explorer.
-     * This method creates a v:imagedata element inside the VML node,
+     * This method creates a olv:imagedata element inside the VML node,
      * DXImageTransform.Matrix and BasicImage filters for rotation and
      * opacity, and a 3-step hack to remove rendering artefacts from the
      * graphic and preserve the ability of graphics to trigger events.
@@ -17610,7 +17641,7 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
         //   with empty src
         var image = document.getElementById(node.id + "_image");
         if (!image) {
-            image = this.createNode("v:imagedata", node.id + "_image");
+            image = this.createNode("olv:imagedata", node.id + "_image");
             node.appendChild(image);
         }
         image.style.width = width;
@@ -17781,7 +17812,7 @@ OpenLayers.Renderer.VML = OpenLayers.Class(OpenLayers.Renderer.Elements, {
      * {DOMElement} The main root element to which we'll add vectors
      */
     createRoot: function() {
-        return this.nodeFactory(this.container.id + "_root", "v:group");
+        return this.nodeFactory(this.container.id + "_root", "olv:group");
     },
 
     /**************************************
@@ -18605,7 +18636,7 @@ OpenLayers.Control.OverviewMap = OpenLayers.Class(OpenLayers.Control, {
     
     /**
      * APIProperty: ovmap
-     * {<OpenLayers.Map>} A reference to the overvew map itself.
+     * {<OpenLayers.Map>} A reference to the overview map itself.
      */
     ovmap: null,
 
@@ -19395,6 +19426,10 @@ OpenLayers.Feature = OpenLayers.Class({
      *  
      *  If no 'lonlat' is set, returns null. 
      *  If no this.marker has been created, no anchor is sent.
+     *
+     *  Note - the returned popup object is 'owned' by the feature, so you
+     *      cannot use the popup's destroy method to discard the popup.
+     *      Instead, you must use the feature's destroyPopup
      * 
      *  Note - this.popup is set to return value
      * 
@@ -20571,7 +20606,7 @@ OpenLayers.Handler.Click = OpenLayers.Class(OpenLayers.Handler, {
 
     /**
      * Property: timerId
-     * {Number} The id of the timeout waiting to clear the <delayedEvent>.
+     * {Number} The id of the timeout waiting to clear the <delayedCall>.
      */
     timerId: null,
     
@@ -22933,6 +22968,8 @@ OpenLayers.Layer = OpenLayers.Class({
 
     /**
      * APIMethod: getViewPortPxFromLonLat
+     * Returns a pixel location given a map location.  This method will return
+     *     fractional pixel values.
      * 
      * Parameters:
      * lonlat - {<OpenLayers.LonLat>}
@@ -22947,8 +22984,8 @@ OpenLayers.Layer = OpenLayers.Class({
             var resolution = this.map.getResolution();
             var extent = this.map.getExtent();
             px = new OpenLayers.Pixel(
-                Math.round(1/resolution * (lonlat.lon - extent.left)),
-                Math.round(1/resolution * (extent.top - lonlat.lat))
+                (1/resolution * (lonlat.lon - extent.left)),
+                (1/resolution * (extent.top - lonlat.lat))
             );    
         }
         return px;
@@ -23703,8 +23740,8 @@ OpenLayers.Control.DragPan = OpenLayers.Class(OpenLayers.Control, {
     
     /**
      * Method: draw
-     * Creates a Drag handler, using <OpenLayers.Control.PanMap.panMap> and
-     * <OpenLayers.Control.PanMap.panMapDone> as callbacks.
+     * Creates a Drag handler, using <panMap> and
+     * <panMapDone> as callbacks.
      */    
     draw: function() {
         this.handler = new OpenLayers.Handler.Drag(this,
@@ -26190,7 +26227,7 @@ OpenLayers.Layer.Markers = OpenLayers.Class(OpenLayers.Layer, {
     
     /** 
      * Property: markers 
-     * Array({<OpenLayers.Marker>}) internal marker list 
+     * {Array(<OpenLayers.Marker>)} internal marker list 
      */
     markers: null,
 
@@ -27440,7 +27477,7 @@ OpenLayers.Layer.GeoRSS = OpenLayers.Class(OpenLayers.Layer.Markers, {
 
     /** 
      * Property: features 
-     * Array({<OpenLayers.Feature>}) 
+     * {Array(<OpenLayers.Feature>)} 
      */
     features: null,
     
@@ -28964,8 +29001,8 @@ OpenLayers.Layer.Grid = OpenLayers.Class(OpenLayers.Layer.HTTPRequest, {
  * option. See Ticket #953 for more details.
  * 
  * Inherits from:
- *  - <OpenLayers.Layers.EventPane>
- *  - <OpenLayers.Layers.FixedZoomLevels>
+ *  - <OpenLayers.Layer.EventPane>
+ *  - <OpenLayers.Layer.FixedZoomLevels>
  */
 OpenLayers.Layer.MultiMap = OpenLayers.Class(
   OpenLayers.Layer.EventPane, OpenLayers.Layer.FixedZoomLevels, {
@@ -29288,7 +29325,7 @@ OpenLayers.Layer.Text = OpenLayers.Class(OpenLayers.Layer.Markers, {
 
     /** 
      * Property: features
-     * Array({<OpenLayers.Feature>}) 
+     * {Array(<OpenLayers.Feature>)} 
      */
     features: null,
     
@@ -30297,7 +30334,7 @@ OpenLayers.Style = OpenLayers.Class({
      
     /** 
      * Property: rules 
-     * Array({<OpenLayers.Rule>}) 
+     * {Array(<OpenLayers.Rule>)}
      */
     rules: null,
     
@@ -30681,7 +30718,7 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
 
     /**
      * Property: selectControl
-     * {<OpenLayers.Control.Select>}
+     * {<OpenLayers.Control.SelectFeature>}
      */
     selectControl: null,
     
@@ -30708,7 +30745,7 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
 
     /**
      * APIProperty: virtualStyle
-     * {<OpenLayers.Feature.Vector.Style>}
+     * {Object} A symbolizer to be used for virtual vertices.
      */
     virtualStyle: null,
 
@@ -30788,10 +30825,10 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
         this.layer = layer;
         this.vertices = [];
         this.virtualVertices = [];
-        this.styleVirtual = OpenLayers.Util.extend({},
+        this.virtualStyle = OpenLayers.Util.extend({},
             this.layer.style || this.layer.styleMap.createSymbolizer());
-        this.styleVirtual.fillOpacity = 0.3;
-        this.styleVirtual.strokeOpacity = 0.3;
+        this.virtualStyle.fillOpacity = 0.3;
+        this.virtualStyle.strokeOpacity = 0.3;
         this.deleteCodes = [46, 100];
         this.mode = OpenLayers.Control.ModifyFeature.RESHAPE;
         OpenLayers.Control.prototype.initialize.apply(this, [options]);
@@ -31173,7 +31210,7 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
                             var y = (prevVertex.y + nextVertex.y) / 2;
                             var point = new OpenLayers.Feature.Vector(
                                 new OpenLayers.Geometry.Point(x, y),
-                                null, control.styleVirtual
+                                null, control.virtualStyle
                             );
                             // set the virtual parent and intended index
                             point.geometry.parent = geometry;
@@ -31488,6 +31525,65 @@ OpenLayers.Control.Navigation = OpenLayers.Class(OpenLayers.Control, {
     },
 
     CLASS_NAME: "OpenLayers.Control.Navigation"
+});
+/* ======================================================================
+    OpenLayers/Filter.js
+   ====================================================================== */
+
+/* Copyright (c) 2006 MetaCarta, Inc., published under a modified BSD license.
+ * See http://svn.openlayers.org/trunk/openlayers/repository-license.txt 
+ * for the full text of the license. */
+
+
+/**
+ * @requires OpenLayers/Util.js
+ * @requires OpenLayers/Style.js
+ */
+
+/**
+ * Class: OpenLayers.Filter
+ * This class represents an OGC Filter.
+ */
+OpenLayers.Filter = OpenLayers.Class({
+    
+    /** 
+     * Constructor: OpenLayers.Filter
+     * This is an abstract class.  Create an instance of a filter subclass.
+     *
+     * Parameters:
+     * options - {Object} Optional object whose properties will be set on the
+     *     instance.
+     * 
+     * Returns:
+     * {<OpenLayers.Filter>}
+     */
+    initialize: function(options) {
+        OpenLayers.Util.extend(this, options);
+    },
+
+    /** 
+     * APIMethod: destroy
+     * Remove reference to anything added.
+     */
+    destroy: function() {
+    },
+
+    /**
+     * APIMethod: evaluate
+     * Evaluates this filter in a specific context.  Should be implemented by
+     *     subclasses.
+     * 
+     * Parameters:
+     * context - {Object} Context to use in evaluating the filter.
+     * 
+     * Returns:
+     * {Boolean} The filter applies.
+     */
+    evaluate: function(context) {
+        return true;
+    },
+    
+    CLASS_NAME: "OpenLayers.Filter"
 });
 /* ======================================================================
     OpenLayers/Geometry.js
@@ -33219,7 +33315,7 @@ OpenLayers.Layer.WorldWind = OpenLayers.Class(OpenLayers.Layer.Grid, {
 
 /**
  * Class: OpenLayers.Rule
- * This class represents a OGC Rule, as being used for rule-based SLD styling.
+ * This class represents an SLD Rule, as being used for rule-based SLD styling.
  */
 OpenLayers.Rule = OpenLayers.Class({
     
@@ -33254,6 +33350,12 @@ OpenLayers.Rule = OpenLayers.Class({
      * be used.
      */
     context: null,
+    
+    /**
+     * Property: filter
+     * {<OpenLayers.Filter>} Optional filter for the rule.
+     */
+    filter: null,
 
     /**
      * Property: elseFilter
@@ -33325,7 +33427,7 @@ OpenLayers.Rule = OpenLayers.Class({
      * feature - {<OpenLayers.Feature>} feature to apply the rule to.
      * 
      * Returns:
-     * {boolean} true if the rule applies, false if it does not.
+     * {Boolean} true if the rule applies, false if it does not.
      * This rule is the default rule and always returns true.
      */
     evaluate: function(feature) {
@@ -33344,6 +33446,16 @@ OpenLayers.Rule = OpenLayers.Class({
         if (applies && this.maxScaleDenominator) {
             applies = scale < OpenLayers.Style.createLiteral(
                     this.maxScaleDenominator, context);
+        }
+        
+        // check if optional filter applies
+        if(applies && this.filter) {
+            // feature id filters get the feature, others get the context
+            if(this.filter.CLASS_NAME == "OpenLayers.Filter.FeatureId") {
+                applies = this.filter.evaluate(feature);
+            } else {
+                applies = this.filter.evaluate(context);
+            }
         }
 
         return applies;
@@ -33395,8 +33507,8 @@ OpenLayers.StyleMap = OpenLayers.Class({
     /**
      * Property: extendDefault
      * {Boolean} if true, every render intent will extend the symbolizers
-     * specified for the "default" intent. Otherwise, every rendering intent
-     * is treated as a completely independent symbolizer.
+     * specified for the "default" intent at rendering time. Otherwise, every
+     * rendering intent will be treated as a completely independent style.
      */
     extendDefault: true,
     
@@ -33406,7 +33518,9 @@ OpenLayers.StyleMap = OpenLayers.Class({
      * Parameters:
      * style   - {Object} Optional. Either a style hash, or a style object, or
      *           a hash of style objects (style hashes) keyed by rendering
-     *           intent
+     *           intent. If just one style hash or style object is passed,
+     *           this will be used for all known render intents (default,
+     *           select, temporary)
      * options - {Object} optional hash of additional options for this
      *           instance
      */
@@ -33425,6 +33539,8 @@ OpenLayers.StyleMap = OpenLayers.Class({
         if(style instanceof OpenLayers.Style) {
             // user passed a style object
             this.styles["default"] = style;
+            this.styles["select"] = style;
+            this.styles["temporary"] = style;
         } else if(typeof style == "object") {
             for(var key in style) {
                 if(style[key] instanceof OpenLayers.Style) {
@@ -33436,6 +33552,8 @@ OpenLayers.StyleMap = OpenLayers.Class({
                 } else {
                     // user passed a style hash (i.e. symbolizer)
                     this.styles["default"] = new OpenLayers.Style(style);
+                    this.styles["select"] = new OpenLayers.Style(style);
+                    this.styles["temporary"] = new OpenLayers.Style(style);
                     break;
                 }
             }
@@ -33501,11 +33619,14 @@ OpenLayers.StyleMap = OpenLayers.Class({
     addUniqueValueRules: function(renderIntent, property, symbolizers) {
         var rules = [];
         for (var value in symbolizers) {
-            rules.push(new OpenLayers.Rule.Comparison({
-                type: OpenLayers.Rule.Comparison.EQUAL_TO,
-                property: property,
-                value: value,
-                symbolizer: symbolizers[value]}));
+            rules.push(new OpenLayers.Rule({
+                symbolizer: symbolizers[value],
+                filter: new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                    property: property,
+                    value: value
+                })
+            }));
         }
         this.styles[renderIntent].addRules(rules);
     },
@@ -33528,6 +33649,9 @@ OpenLayers.StyleMap = OpenLayers.Class({
 
 /**
  * Class: OpenLayers.Control.NavToolbar
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Control.Panel>
  */
 OpenLayers.Control.NavToolbar = OpenLayers.Class(OpenLayers.Control.Panel, {
 
@@ -33559,6 +33683,417 @@ OpenLayers.Control.NavToolbar = OpenLayers.Class(OpenLayers.Control.Panel, {
 
     CLASS_NAME: "OpenLayers.Control.NavToolbar"
 });
+/* ======================================================================
+    OpenLayers/Filter/Comparison.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
+ * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+  * full text of the license. */
+
+/**
+ * @requires OpenLayers/Filter.js
+ */
+
+/**
+ * Class: OpenLayers.Filter.Comparison
+ * This class represents a comparison filter.
+ * 
+ * Inherits from
+ * - <OpenLayers.Filter>
+ */
+OpenLayers.Filter.Comparison = OpenLayers.Class(OpenLayers.Filter, {
+
+    /**
+     * APIProperty: type
+     * {String} type: type of the comparison. This is one of
+     * - OpenLayers.Filter.Comparison.EQUAL_TO                 = "==";
+     * - OpenLayers.Filter.Comparison.NOT_EQUAL_TO             = "!=";
+     * - OpenLayers.Filter.Comparison.LESS_THAN                = "<";
+     * - OpenLayers.Filter.Comparison.GREATER_THAN             = ">";
+     * - OpenLayers.Filter.Comparison.LESS_THAN_OR_EQUAL_TO    = "<=";
+     * - OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO = ">=";
+     * - OpenLayers.Filter.Comparison.BETWEEN                  = "..";
+     * - OpenLayers.Filter.Comparison.LIKE                     = "~"; 
+     */
+    type: null,
+    
+    /**
+     * APIProperty: property
+     * {String}
+     * name of the context property to compare
+     */
+    property: null,
+    
+    /**
+     * APIProperty: value
+     * {Number} or {String}
+     * comparison value for binary comparisons. In the case of a String, this
+     * can be a combination of text and propertyNames in the form
+     * "literal ${propertyName}"
+     */
+    value: null,
+    
+    /**
+     * APIProperty: lowerBoundary
+     * {Number} or {String}
+     * lower boundary for between comparisons. In the case of a String, this
+     * can be a combination of text and propertyNames in the form
+     * "literal ${propertyName}"
+     */
+    lowerBoundary: null,
+    
+    /**
+     * APIProperty: upperBoundary
+     * {Number} or {String}
+     * upper boundary for between comparisons. In the case of a String, this
+     * can be a combination of text and propertyNames in the form
+     * "literal ${propertyName}"
+     */
+    upperBoundary: null,
+
+    /** 
+     * Constructor: OpenLayers.Filter.Comparison
+     * Creates a comparison rule.
+     *
+     * Parameters:
+     * options - {Object} An optional object with properties to set on the
+     *           rule
+     * 
+     * Returns:
+     * {<OpenLayers.Filter.Comparison>}
+     */
+    initialize: function(options) {
+        OpenLayers.Filter.prototype.initialize.apply(this, [options]);
+    },
+
+    /**
+     * APIMethod: evaluate
+     * Evaluates this filter in a specific context.  Should be implemented by
+     *     subclasses.
+     * 
+     * Parameters:
+     * context - {Object} Context to use in evaluating the filter.
+     * 
+     * Returns:
+     * {Boolean} The filter applies.
+     */
+    evaluate: function(context) {
+        switch(this.type) {
+            case OpenLayers.Filter.Comparison.EQUAL_TO:
+            case OpenLayers.Filter.Comparison.LESS_THAN:
+            case OpenLayers.Filter.Comparison.GREATER_THAN:
+            case OpenLayers.Filter.Comparison.LESS_THAN_OR_EQUAL_TO:
+            case OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO:
+                return this.binaryCompare(context, this.property, this.value);
+            
+            case OpenLayers.Filter.Comparison.BETWEEN:
+                var result =
+                        context[this.property] >= this.lowerBoundary;
+                result = result &&
+                        context[this.property] <= this.upperBoundary;
+                return result;
+            case OpenLayers.Filter.Comparison.LIKE:
+                var regexp = new RegExp(this.value,
+                                "gi");
+                return regexp.test(context[this.property]); 
+        }
+    },
+    
+    /**
+     * APIMethod: value2regex
+     * Converts the value of this rule into a regular expression string,
+     * according to the wildcard characters specified. This method has to
+     * be called after instantiation of this class, if the value is not a
+     * regular expression already.
+     * 
+     * Parameters:
+     * wildCard   - {<Char>} wildcard character in the above value, default
+     *              is "*"
+     * singleChar - {<Char>) single-character wildcard in the above value
+     *              default is "."
+     * escape     - {<Char>) escape character in the above value, default is
+     *              "!"
+     * 
+     * Returns:
+     * {String} regular expression string
+     */
+    value2regex: function(wildCard, singleChar, escapeChar) {
+        if (wildCard == ".") {
+            var msg = "'.' is an unsupported wildCard character for "+
+                    "OpenLayers.Filter.Comparison";
+            OpenLayers.Console.error(msg);
+            return null;
+        }
+        
+        // set UMN MapServer defaults for unspecified parameters
+        wildCard = wildCard ? wildCard : "*";
+        singleChar = singleChar ? singleChar : ".";
+        escapeChar = escapeChar ? escapeChar : "!";
+        
+        this.value = this.value.replace(
+                new RegExp("\\"+escapeChar, "g"), "\\");
+        this.value = this.value.replace(
+                new RegExp("\\"+singleChar, "g"), ".");
+        this.value = this.value.replace(
+                new RegExp("\\"+wildCard, "g"), ".*");
+        this.value = this.value.replace(
+                new RegExp("\\\\.\\*", "g"), "\\"+wildCard);
+        this.value = this.value.replace(
+                new RegExp("\\\\\\.", "g"), "\\"+singleChar);
+        
+        return this.value;
+    },
+    
+    /**
+     * Method: regex2value
+     * Convert the value of this rule from a regular expression string into an
+     *     ogc literal string using a wildCard of *, a singleChar of ., and an
+     *     escape of !.  Leaves the <value> property unmodified.
+     * 
+     * Returns:
+     * {String} A string value.
+     */
+    regex2value: function() {
+        
+        var value = this.value;
+        
+        // replace ! with !!
+        value = value.replace(/!/g, "!!");
+
+        // replace \. with !. (watching out for \\.)
+        value = value.replace(/(\\)?\\\./g, function($0, $1) {
+            return $1 ? $0 : "!.";
+        });
+        
+        // replace \* with #* (watching out for \\*)
+        value = value.replace(/(\\)?\\\*/g, function($0, $1) {
+            return $1 ? $0 : "!*";
+        });
+        
+        // replace \\ with \
+        value = value.replace(/\\\\/g, "\\");
+
+        // convert .* to * (the sequence #.* is not allowed)
+        value = value.replace(/\.\*/g, "*");
+        
+        return value;
+    },
+
+    /**
+     * Function: binaryCompare
+     * Compares a feature property to a rule value
+     * 
+     * Parameters:
+     * context  - {Object}
+     * property - {String} or {Number}
+     * value    - {String} or {Number}, same as property
+     * 
+     * Returns:
+     * {Boolean}
+     */
+    binaryCompare: function(context, property, value) {
+        switch (this.type) {
+            case OpenLayers.Filter.Comparison.EQUAL_TO:
+                return context[property] == value;
+            case OpenLayers.Filter.Comparison.NOT_EQUAL_TO:
+                return context[property] != value;
+            case OpenLayers.Filter.Comparison.LESS_THAN:
+                return context[property] < value;
+            case OpenLayers.Filter.Comparison.GREATER_THAN:
+                return context[property] > value;
+            case OpenLayers.Filter.Comparison.LESS_THAN_OR_EQUAL_TO:
+                return context[property] <= value;
+            case OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO:
+                return context[property] >= value;
+        }      
+    },
+    
+    CLASS_NAME: "OpenLayers.Filter.Comparison"
+});
+
+
+OpenLayers.Filter.Comparison.EQUAL_TO                 = "==";
+OpenLayers.Filter.Comparison.NOT_EQUAL_TO             = "!=";
+OpenLayers.Filter.Comparison.LESS_THAN                = "<";
+OpenLayers.Filter.Comparison.GREATER_THAN             = ">";
+OpenLayers.Filter.Comparison.LESS_THAN_OR_EQUAL_TO    = "<=";
+OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO = ">=";
+OpenLayers.Filter.Comparison.BETWEEN                  = "..";
+OpenLayers.Filter.Comparison.LIKE                     = "~";
+/* ======================================================================
+    OpenLayers/Filter/FeatureId.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
+ * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+  * full text of the license. */
+
+
+/**
+ * @requires OpenLayers/Filter.js
+ */
+
+/**
+ * Class: OpenLayers.Filter.FeatureId
+ * This class represents a ogc:FeatureId Filter, as being used for rule-based SLD
+ * styling
+ * 
+ * Inherits from
+ * - <OpenLayers.Filter>
+ */
+OpenLayers.Filter.FeatureId = OpenLayers.Class(OpenLayers.Filter, {
+
+    /** 
+     * APIProperty: fids
+     * {Array(String)} Feature Ids to evaluate this rule against. To be passed
+     * To be passed inside the params object.
+     */
+    fids: null,
+    
+    /** 
+     * Constructor: OpenLayers.Filter.FeatureId
+     * Creates an ogc:FeatureId rule.
+     *
+     * Parameters:
+     * options - {Object} An optional object with properties to set on the
+     *           rule
+     * 
+     * Returns:
+     * {<OpenLayers.Filter.FeatureId>}
+     */
+    initialize: function(options) {
+        this.fids = [];
+        OpenLayers.Filter.prototype.initialize.apply(this, [options]);
+    },
+
+    /**
+     * APIMethod: evaluate
+     * evaluates this rule for a specific feature
+     * 
+     * Parameters:
+     * feature - {<OpenLayers.Feature>} feature to apply the rule to.
+     *           For vector features, the check is run against the fid,
+     *           for plain features against the id.
+     * 
+     * Returns:
+     * {Boolean} true if the rule applies, false if it does not
+     */
+    evaluate: function(feature) {
+        for (var i=0; i<this.fids.length; i++) {
+            var fid = feature.fid || feature.id;
+            if (fid == this.fids[i]) {
+                return true;
+            }
+        }
+        return false;
+    },
+    
+    CLASS_NAME: "OpenLayers.Filter.FeatureId"
+});
+/* ======================================================================
+    OpenLayers/Filter/Logical.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
+ * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+  * full text of the license. */
+
+
+/**
+ * @requires OpenLayers/Filter.js
+ */
+
+/**
+ * Class: OpenLayers.Filter.Logical
+ * This class represents ogc:And, ogc:Or and ogc:Not rules.
+ * 
+ * Inherits from
+ * - <OpenLayers.Filter>
+ */
+OpenLayers.Filter.Logical = OpenLayers.Class(OpenLayers.Filter, {
+
+    /**
+     * APIProperty: filters
+     * {Array(<OpenLayers.Filter>)} Child filters for this filter.
+     */
+    filters: null, 
+     
+    /**
+     * APIProperty: type
+     * {String} type of logical operator. Available types are:
+     * - OpenLayers.Filter.Locical.AND = "&&";
+     * - OpenLayers.Filter.Logical.OR  = "||";
+     * - OpenLayers.Filter.Logical.NOT = "!";
+     */
+    type: null,
+
+    /** 
+     * Constructor: OpenLayers.Filter.Logical
+     * Creates a logical filter (And, Or, Not).
+     *
+     * Parameters:
+     * options - {Object} An optional object with properties to set on the
+     *     filter.
+     * 
+     * Returns:
+     * {<OpenLayers.Filter.Logical>}
+     */
+    initialize: function(options) {
+        this.filters = [];
+        OpenLayers.Filter.prototype.initialize.apply(this, [options]);
+    },
+    
+    /** 
+     * APIMethod: destroy
+     * Remove reference to child filters.
+     */
+    destroy: function() {
+        this.filters = null;
+        OpenLayers.Filter.prototype.destroy.apply(this);
+    },
+
+    /**
+     * APIMethod: evaluate
+     * Evaluates this filter in a specific context.  Should be implemented by
+     *     subclasses.
+     * 
+     * Parameters:
+     * context - {Object} Context to use in evaluating the filter.
+     * 
+     * Returns:
+     * {Boolean} The filter applies.
+     */
+    evaluate: function(context) {
+        switch(this.type) {
+            case OpenLayers.Filter.Logical.AND:
+                for (var i=0; i<this.filters.length; i++) {
+                    if (this.filters[i].evaluate(context) == false) {
+                        return false;
+                    }
+                }
+                return true;
+                
+            case OpenLayers.Filter.Logical.OR:
+                for (var i=0; i<this.filters.length; i++) {
+                    if (this.filters[i].evaluate(context) == true) {
+                        return true;
+                    }
+                }
+                return false;
+            
+            case OpenLayers.Filter.Logical.NOT:
+                return (!this.filters[0].evaluate(context));
+        }
+    },
+    
+    CLASS_NAME: "OpenLayers.Filter.Logical"
+});
+
+
+OpenLayers.Filter.Logical.AND = "&&";
+OpenLayers.Filter.Logical.OR  = "||";
+OpenLayers.Filter.Logical.NOT = "!";
 /* ======================================================================
     OpenLayers/Geometry/Collection.js
    ====================================================================== */
@@ -34250,15 +34785,8 @@ OpenLayers.Geometry.Rectangle = OpenLayers.Class(OpenLayers.Geometry, {
  * @requires OpenLayers/Geometry.js
  */
 
-/**
- * Class: OpenLayers.Geometry.Surface
- */
 OpenLayers.Geometry.Surface = OpenLayers.Class(OpenLayers.Geometry, {
 
-    /**
-     * Constructor: OpenLayers.Geometry.Surface
-     *
-     */
     initialize: function() {
         OpenLayers.Geometry.prototype.initialize.apply(this, arguments);
     },
@@ -34280,8 +34808,8 @@ OpenLayers.Geometry.Surface = OpenLayers.Class(OpenLayers.Geometry, {
 
 /**
  * Class: OpenLayers.Layer.MapServer.Untiled
- * Deprecated, to be removed in 3.0 - instead use OpenLayers.Layer.MapServer and 
- *     pass the option 'singleTile' as true.
+ * *Deprecated*.  To be removed in 3.0.  Instead use OpenLayers.Layer.MapServer
+ *     and pass the option 'singleTile' as true.
  * 
  * Inherits from: 
  *  - <OpenLayers.Layer.MapServer>
@@ -34432,13 +34960,13 @@ OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
 
     /** 
      * APIProperty: features
-     * Array({<OpenLayers.Feature.Vector>}) 
+     * {Array(<OpenLayers.Feature.Vector>)} 
      */
     features: null,
     
     /** 
      * Property: selectedFeatures
-     * Array({<OpenLayers.Feature.Vector>}) 
+     * {Array(<OpenLayers.Feature.Vector>)} 
      */
     selectedFeatures: null,
 
@@ -34463,7 +34991,7 @@ OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
 
     /**
      * Property: renderers
-     * Array({String}) List of supported Renderer classes. Add to this list to
+     * {Array(String)} List of supported Renderer classes. Add to this list to
      * add support for additional renderers. This list is ordered:
      * the first renderer which returns true for the  'supported()'
      * method will be used, if not defined in the 'renderer' option.
@@ -34896,7 +35424,7 @@ OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
 
 /**
  * Class: OpenLayers.Layer.WMS.Untiled
- * Deprecated, to be removed in 3.0 - instead use OpenLayers.Layer.WMS and 
+ * *Deprecated*.  To be removed in 3.0.  Instead use OpenLayers.Layer.WMS and 
  *     pass the option 'singleTile' as true.
  * 
  * Inherits from: 
@@ -34956,432 +35484,6 @@ OpenLayers.Layer.WMS.Untiled = OpenLayers.Class(OpenLayers.Layer.WMS, {
     CLASS_NAME: "OpenLayers.Layer.WMS.Untiled"
 });
 /* ======================================================================
-    OpenLayers/Rule/Comparison.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
-  * full text of the license. */
-
-/**
- * @requires OpenLayers/Rule.js
- */
-
-/**
- * Class: OpenLayers.Rule.Comparison
- * This class represents the comparison rules, as being used for rule-based 
- * SLD styling
- * 
- * Inherits from
- * - <OpenLayers.Rule>
- */
-OpenLayers.Rule.Comparison = OpenLayers.Class(OpenLayers.Rule, {
-
-    /**
-     * APIProperty: type
-     * {String} type: type of the comparison. This is one of
-     * - OpenLayers.Rule.Comparison.EQUAL_TO                 = "==";
-     * - OpenLayers.Rule.Comparison.NOT_EQUAL_TO             = "!=";
-     * - OpenLayers.Rule.Comparison.LESS_THAN                = "<";
-     * - OpenLayers.Rule.Comparison.GREATER_THAN             = ">";
-     * - OpenLayers.Rule.Comparison.LESS_THAN_OR_EQUAL_TO    = "<=";
-     * - OpenLayers.Rule.Comparison.GREATER_THAN_OR_EQUAL_TO = ">=";
-     * - OpenLayers.Rule.Comparison.BETWEEN                  = "..";
-     * - OpenLayers.Rule.Comparison.LIKE                     = "~"; 
-     */
-    type: null,
-    
-    /**
-     * APIProperty: property
-     * {String}
-     * name of the context property to compare
-     */
-    property: null,
-    
-    /**
-     * APIProperty: value
-     * {Number} or {String}
-     * comparison value for binary comparisons. In the case of a String, this
-     * can be a combination of text and propertyNames in the form
-     * "literal ${propertyName}"
-     */
-    value: null,
-    
-    /**
-     * APIProperty: lowerBoundary
-     * {Number} or {String}
-     * lower boundary for between comparisons. In the case of a String, this
-     * can be a combination of text and propertyNames in the form
-     * "literal ${propertyName}"
-     */
-    lowerBoundary: null,
-    
-    /**
-     * APIProperty: upperBoundary
-     * {Number} or {String}
-     * upper boundary for between comparisons. In the case of a String, this
-     * can be a combination of text and propertyNames in the form
-     * "literal ${propertyName}"
-     */
-    upperBoundary: null,
-
-    /** 
-     * Constructor: OpenLayers.Rule.Comparison
-     * Creates a comparison rule.
-     *
-     * Parameters:
-     * params  - {Object} Hash of parameters for this rule:
-     *              - 
-     *              - value: 
-     * options - {Object} An optional object with properties to set on the
-     *           rule
-     * 
-     * Returns:
-     * {<OpenLayers.Rule.Comparison>}
-     */
-    initialize: function(options) {
-        OpenLayers.Rule.prototype.initialize.apply(this, [options]);
-    },
-
-    /**
-     * APIMethod: evaluate
-     * evaluates this rule for a specific context
-     * 
-     * Parameters:
-     * context - {Object} context to apply the rule to.
-     * 
-     * Returns:
-     * {boolean} true if the rule applies, false if it does not
-     */
-    evaluate: function(feature) {
-        if (!OpenLayers.Rule.prototype.evaluate.apply(this, arguments)) {
-            return false;
-        }
-        var context = this.getContext(feature);
-        switch(this.type) {
-            case OpenLayers.Rule.Comparison.EQUAL_TO:
-            case OpenLayers.Rule.Comparison.LESS_THAN:
-            case OpenLayers.Rule.Comparison.GREATER_THAN:
-            case OpenLayers.Rule.Comparison.LESS_THAN_OR_EQUAL_TO:
-            case OpenLayers.Rule.Comparison.GREATER_THAN_OR_EQUAL_TO:
-                return this.binaryCompare(context, this.property, this.value);
-            
-            case OpenLayers.Rule.Comparison.BETWEEN:
-                var result =
-                        context[this.property] >= this.lowerBoundary;
-                result = result &&
-                        context[this.property] <= this.upperBoundary;
-                return result;
-            case OpenLayers.Rule.Comparison.LIKE:
-                var regexp = new RegExp(this.value,
-                                "gi");
-                return regexp.test(context[this.property]); 
-        }
-    },
-    
-    /**
-     * APIMethod: value2regex
-     * Converts the value of this rule into a regular expression string,
-     * according to the wildcard characters specified. This method has to
-     * be called after instantiation of this class, if the value is not a
-     * regular expression already.
-     * 
-     * Parameters:
-     * wildCard   - {<Char>} wildcard character in the above value, default
-     *              is "*"
-     * singleChar - {<Char>) single-character wildcard in the above value
-     *              default is "."
-     * escape     - {<Char>) escape character in the above value, default is
-     *              "!"
-     * 
-     * Returns:
-     * {String} regular expression string
-     */
-    value2regex: function(wildCard, singleChar, escapeChar) {
-        if (wildCard == ".") {
-            var msg = "'.' is an unsupported wildCard character for "+
-                    "OpenLayers.Rule.Comparison";
-            OpenLayers.Console.error(msg);
-            return null;
-        }
-        
-        // set UMN MapServer defaults for unspecified parameters
-        wildCard = wildCard ? wildCard : "*";
-        singleChar = singleChar ? singleChar : ".";
-        escapeChar = escapeChar ? escapeChar : "!";
-        
-        this.value = this.value.replace(
-                new RegExp("\\"+escapeChar, "g"), "\\");
-        this.value = this.value.replace(
-                new RegExp("\\"+singleChar, "g"), ".");
-        this.value = this.value.replace(
-                new RegExp("\\"+wildCard, "g"), ".*");
-        this.value = this.value.replace(
-                new RegExp("\\\\.\\*", "g"), "\\"+wildCard);
-        this.value = this.value.replace(
-                new RegExp("\\\\\\.", "g"), "\\"+singleChar);
-        
-        return this.value;
-    },
-    
-    /**
-     * Method: regex2value
-     * Convert the value of this rule from a regular expression string into an
-     *     ogc literal string using a wildCard of *, a singleChar of ., and an
-     *     escape of !.  Leaves the <value> property unmodified.
-     * 
-     * Returns:
-     * {String} A string value.
-     */
-    regex2value: function() {
-        
-        var value = this.value;
-        
-        // replace ! with !!
-        value = value.replace(/!/g, "!!");
-
-        // replace \. with !. (watching out for \\.)
-        value = value.replace(/(\\)?\\\./g, function($0, $1) {
-            return $1 ? $0 : "!.";
-        });
-        
-        // replace \* with #* (watching out for \\*)
-        value = value.replace(/(\\)?\\\*/g, function($0, $1) {
-            return $1 ? $0 : "!*";
-        });
-        
-        // replace \\ with \
-        value = value.replace(/\\\\/g, "\\");
-
-        // convert .* to * (the sequence #.* is not allowed)
-        value = value.replace(/\.\*/g, "*");
-        
-        return value;
-    },
-
-    /**
-     * Function: binaryCompare
-     * Compares a feature property to a rule value
-     * 
-     * Parameters:
-     * context  - {Object}
-     * property - {String} or {Number}
-     * value    - {String} or {Number}, same as property
-     * 
-     * Returns:
-     * {boolean}
-     */
-    binaryCompare: function(context, property, value) {
-        switch (this.type) {
-            case OpenLayers.Rule.Comparison.EQUAL_TO:
-                return context[property] == value;
-            case OpenLayers.Rule.Comparison.NOT_EQUAL_TO:
-                return context[property] != value;
-            case OpenLayers.Rule.Comparison.LESS_THAN:
-                return context[property] < value;
-            case OpenLayers.Rule.Comparison.GREATER_THAN:
-                return context[property] > value;
-            case OpenLayers.Rule.Comparison.LESS_THAN_OR_EQUAL_TO:
-                return context[property] <= value;
-            case OpenLayers.Rule.Comparison.GREATER_THAN_OR_EQUAL_TO:
-                return context[property] >= value;
-        }      
-    },
-    
-    CLASS_NAME: "OpenLayers.Rule.Comparison"
-});
-
-
-OpenLayers.Rule.Comparison.EQUAL_TO                 = "==";
-OpenLayers.Rule.Comparison.NOT_EQUAL_TO             = "!=";
-OpenLayers.Rule.Comparison.LESS_THAN                = "<";
-OpenLayers.Rule.Comparison.GREATER_THAN             = ">";
-OpenLayers.Rule.Comparison.LESS_THAN_OR_EQUAL_TO    = "<=";
-OpenLayers.Rule.Comparison.GREATER_THAN_OR_EQUAL_TO = ">=";
-OpenLayers.Rule.Comparison.BETWEEN                  = "..";
-OpenLayers.Rule.Comparison.LIKE                     = "~";
-/* ======================================================================
-    OpenLayers/Rule/FeatureId.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
-  * full text of the license. */
-
-
-/**
- * @requires OpenLayers/Rule.js
- */
-
-/**
- * Class: OpenLayers.Rule.FeatureId
- * This class represents a ogc:FeatureId Rule, as being used for rule-based SLD
- * styling
- * 
- * Inherits from
- * - <OpenLayers.Rule>
- */
-OpenLayers.Rule.FeatureId = OpenLayers.Class(OpenLayers.Rule, {
-
-    /** 
-     * APIProperty: fids
-     * {Array(<String>)} Feature Ids to evaluate this rule against. To be passed
-     * To be passed inside the params object.
-     */
-    fids: null,
-    
-    /** 
-     * Constructor: OpenLayers.Rule.FeatureId
-     * Creates an ogc:FeatureId rule.
-     *
-     * Parameters:
-     * options - {Object} An optional object with properties to set on the
-     *           rule
-     * 
-     * Returns:
-     * {<OpenLayers.Rule.FeatureId>}
-     */
-    initialize: function(options) {
-        this.fids = [];
-        OpenLayers.Rule.prototype.initialize.apply(this, [options]);
-    },
-
-    /**
-     * APIMethod: evaluate
-     * evaluates this rule for a specific feature
-     * 
-     * Parameters:
-     * feature - {<OpenLayers.Feature>} feature to apply the rule to.
-     *           For vector features, the check is run against the fid,
-     *           for plain features against the id.
-     * 
-     * Returns:
-     * {boolean} true if the rule applies, false if it does not
-     */
-    evaluate: function(feature) {
-        if (!OpenLayers.Rule.prototype.evaluate.apply(this, arguments)) {
-            return false;
-        }
-        for (var i=0; i<this.fids.length; i++) {
-            var fid = feature.fid || feature.id;
-            if (fid == this.fids[i]) {
-                return true;
-            }
-        }
-        return false;
-    },
-    
-    CLASS_NAME: "OpenLayers.Rule.FeatureId"
-});
-/* ======================================================================
-    OpenLayers/Rule/Logical.js
-   ====================================================================== */
-
-/* Copyright (c) 2006-2008 MetaCarta, Inc., published under the Clear BSD
- * license.  See http://svn.openlayers.org/trunk/openlayers/license.txt for the
-  * full text of the license. */
-
-
-/**
- * @requires OpenLayers/Rule.js
- */
-
-/**
- * Class: OpenLayers.Rule.Logical
- * This class represents ogc:And, ogc:Or and ogc:Not rules.
- * 
- * Inherits from
- * - <OpenLayers.Rule>
- */
-OpenLayers.Rule.Logical = OpenLayers.Class(OpenLayers.Rule, {
-
-    /**
-     * APIProperty: children
-     * {Array(<OpenLayers.Rule>)} child rules for this rule
-     */
-    rules: null, 
-     
-    /**
-     * APIProperty: type
-     * {String} type of logical operator. Available types are:
-     * - OpenLayers.Rule.Locical.AND = "&&";
-     * - OpenLayers.Rule.Logical.OR  = "||";
-     * - OpenLayers.Rule.Logical.NOT = "!";
-     */
-    type: null,
-
-    /** 
-     * Constructor: OpenLayers.Rule.Logical
-     * Creates a logical rule (And, Or, Not).
-     *
-     * Parameters:
-     * options - {Object} An optional object with properties to set on the
-     *           rule
-     * 
-     * Returns:
-     * {<OpenLayers.Rule.Logical>}
-     */
-    initialize: function(options) {
-        this.rules = [];
-        OpenLayers.Rule.prototype.initialize.apply(this, [options]);
-    },
-    
-    /** 
-     * APIMethod: destroy
-     * nullify references to prevent circular references and memory leaks
-     */
-    destroy: function() {
-        for (var i=0; i<this.rules.length; i++) {
-            this.rules[i].destroy();
-        }
-        this.rules = null;
-        OpenLayers.Rule.prototype.destroy.apply(this, arguments);
-    },
-
-    /**
-     * APIMethod: evaluate
-     * evaluates this rule for a specific feature
-     * 
-     * Parameters:
-     * feature - {<OpenLayers.Feature>} feature to apply the rule to.
-     * 
-     * Returns:
-     * {boolean} true if the rule applies, false if it does not
-     */
-    evaluate: function(feature) {
-        if (!OpenLayers.Rule.prototype.evaluate.apply(this, arguments)) {
-            return false;
-        }
-        switch(this.type) {
-            case OpenLayers.Rule.Logical.AND:
-                for (var i=0; i<this.rules.length; i++) {
-                    if (this.rules[i].evaluate(feature) == false) {
-                        return false;
-                    }
-                }
-                return true;
-                
-            case OpenLayers.Rule.Logical.OR:
-                for (var i=0; i<this.rules.length; i++) {
-                    if (this.rules[i].evaluate(feature) == true) {
-                        return true;
-                    }
-                }
-                return false;
-            
-            case OpenLayers.Rule.Logical.NOT:
-                return (!this.rules[0].evaluate(feature));
-        }
-    },
-    
-    CLASS_NAME: "OpenLayers.Rule.Logical"
-});
-
-
-OpenLayers.Rule.Logical.AND = "&&";
-OpenLayers.Rule.Logical.OR  = "||";
-OpenLayers.Rule.Logical.NOT = "!";
-/* ======================================================================
     OpenLayers/Format/SLD.js
    ====================================================================== */
 
@@ -35392,9 +35494,9 @@ OpenLayers.Rule.Logical.NOT = "!";
 /**
  * @requires OpenLayers/Format/XML.js
  * @requires OpenLayers/Style.js
- * @requires OpenLayers/Rule/FeatureId.js
- * @requires OpenLayers/Rule/Logical.js
- * @requires OpenLayers/Rule/Comparison.js
+ * @requires OpenLayers/Filter/FeatureId.js
+ * @requires OpenLayers/Filter/Logical.js
+ * @requires OpenLayers/Filter/Comparison.js
  */
 
 /**
@@ -35705,7 +35807,7 @@ OpenLayers.Geometry.MultiPoint = OpenLayers.Class(
      * Create a new MultiPoint Geometry
      *
      * Parameters:
-     * components - Array({<OpenLayers.Geometry.Point>}) 
+     * components - {Array(<OpenLayers.Geometry.Point>)} 
      *
      * Returns:
      * {<OpenLayers.Geometry.MultiPoint>}
@@ -35827,7 +35929,7 @@ OpenLayers.Geometry.Polygon = OpenLayers.Class(
      *
      *
      * Parameters:
-     * components - Array({<OpenLayers.Geometry.LinearRing>}) 
+     * components - {Array(<OpenLayers.Geometry.LinearRing>)} 
      */
     initialize: function(components) {
         OpenLayers.Geometry.Collection.prototype.initialize.apply(this, 
@@ -37252,24 +37354,8 @@ OpenLayers.Format.SLD.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
                 style.rules = obj.rules;
             },
             "Rule": function(node, obj) {
-                // Rule elements are represented as OpenLayers.Rule instances.
-                // Filter elements are represented as instances of
-                // OpenLayers.Rule subclasses.
-                var config = {
-                    rules: [],
-                    symbolizer: {}
-                };
-                this.readChildNodes(node, config);
-                // Now we've either got zero or one rules (from filters)
-                var rule;
-                if(config.rules.length == 0) {
-                    delete config.rules;
-                    rule = new OpenLayers.Rule(config);
-                } else {
-                    rule = config.rules[0];
-                    delete config.rules;
-                    OpenLayers.Util.extend(rule, config);
-                }
+                var rule = new OpenLayers.Rule();
+                this.readChildNodes(node, rule);
                 obj.rules.push(rule);
             },
             "ElseFilter": function(node, rule) {
@@ -37396,146 +37482,121 @@ OpenLayers.Format.SLD.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
         },
         "ogc": {
             "Filter": function(node, rule) {
-                // Filters correspond to subclasses of OpenLayers.Rule.
+                // Filters correspond to subclasses of OpenLayers.Filter.
                 // Since they contain information we don't persist, we
-                // create a temporary object and then pass on the rules
+                // create a temporary object and then pass on the filter
                 // (ogc:Filter) to the parent rule (sld:Rule).
-                var filter = {
+                var obj = {
                     fids: [],
-                    rules: []
+                    filters: []
                 };
-                this.readChildNodes(node, filter);
-                if(filter.fids.length > 0) {
-                    rule.rules.push(new OpenLayers.Rule.FeatureId({
-                        fids: filter.fids
-                    }));
-                }
-                if(filter.rules.length > 0) {
-                    rule.rules = rule.rules.concat(filter.rules);
+                this.readChildNodes(node, obj);
+                if(obj.fids.length > 0) {
+                    rule.filter = new OpenLayers.Filter.FeatureId({
+                        fids: obj.fids
+                    });
+                } else if(obj.filters.length > 0) {
+                    rule.filter = obj.filters[0];
                 }
             },
-            "FeatureId": function(node, filter) {
+            "FeatureId": function(node, obj) {
                 var fid = node.getAttribute("fid");
                 if(fid) {
-                    filter.fids.push(fid);
+                    obj.fids.push(fid);
                 }
             },
-            "And": function(node, filter) {
-                var rule = new OpenLayers.Rule.Logical({
-                    type: OpenLayers.Rule.Logical.AND
+            "And": function(node, obj) {
+                var filter = new OpenLayers.Filter.Logical({
+                    type: OpenLayers.Filter.Logical.AND
                 });
-                // since FeatureId rules may be nested here, make room for them
-                rule.fids = [];
-                this.readChildNodes(node, rule);
-                if(rule.fids.length > 0) {
-                    rule.rules.push(new OpenLayers.Rule.FeatureId({
-                        fids: rule.fids
-                    }));
-                }
-                delete rule.fids;
-                filter.rules.push(rule);
+                this.readChildNodes(node, filter);
+                obj.filters.push(filter);
             },
-            "Or": function(node, filter) {
-                var rule = new OpenLayers.Rule.Logical({
-                    type: OpenLayers.Rule.Logical.OR
+            "Or": function(node, obj) {
+                var filter = new OpenLayers.Filter.Logical({
+                    type: OpenLayers.Filter.Logical.OR
                 });
-                // since FeatureId rules may be nested here, make room for them
-                rule.fids = [];
-                this.readChildNodes(node, rule);
-                if(rule.fids.length > 0) {
-                    rule.rules.push(new OpenLayers.Rule.FeatureId({
-                        fids: rule.fids
-                    }));
-                }
-                delete rule.fids;
-                filter.rules.push(rule);
+                this.readChildNodes(node, filter);
+                obj.filters.push(filter);
             },
-            "Not": function(node, filter) {
-                var rule = new OpenLayers.Rule.Logical({
-                    type: OpenLayers.Rule.Logical.NOT
+            "Not": function(node, obj) {
+                var filter = new OpenLayers.Filter.Logical({
+                    type: OpenLayers.Filter.Logical.NOT
                 });
-                // since FeatureId rules may be nested here, make room for them
-                rule.fids = [];
-                this.readChildNodes(node, rule);
-                if(rule.fids.length > 0) {
-                    rule.rules.push(new OpenLayers.Rule.FeatureId({
-                        fids: rule.fids
-                    }));
-                }
-                delete rule.fids;
-                filter.rules.push(rule);
+                this.readChildNodes(node, filter);
+                obj.filters.push(filter);
             },
-            "PropertyIsEqualTo": function(node, filter) {
-                var rule = new OpenLayers.Rule.Comparison({
-                    type: OpenLayers.Rule.Comparison.EQUAL_TO
+            "PropertyIsEqualTo": function(node, obj) {
+                var filter = new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.EQUAL_TO
                 });
-                this.readChildNodes(node, rule);
-                filter.rules.push(rule);
+                this.readChildNodes(node, filter);
+                obj.filters.push(filter);
             },
-            "PropertyIsNotEqualTo": function(node, filter) {
-                var rule = new OpenLayers.Rule.Comparison({
-                    type: OpenLayers.Rule.Comparison.NOT_EQUAL_TO
+            "PropertyIsNotEqualTo": function(node, obj) {
+                var filter = new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.NOT_EQUAL_TO
                 });
-                this.readChildNodes(node, rule);
-                filter.rules.push(rule);
+                this.readChildNodes(node, filter);
+                obj.filters.push(filter);
             },
-            "PropertyIsLessThan": function(node, filter) {
-                var rule = new OpenLayers.Rule.Comparison({
-                    type: OpenLayers.Rule.Comparison.LESS_THAN
+            "PropertyIsLessThan": function(node, obj) {
+                var filter = new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.LESS_THAN
                 });
-                this.readChildNodes(node, rule);
-                filter.rules.push(rule);
+                this.readChildNodes(node, filter);
+                obj.filters.push(filter);
             },
-            "PropertyIsGreaterThan": function(node, filter) {
-                var rule = new OpenLayers.Rule.Comparison({
-                    type: OpenLayers.Rule.Comparison.GREATER_THAN
+            "PropertyIsGreaterThan": function(node, obj) {
+                var filter = new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.GREATER_THAN
                 });
-                this.readChildNodes(node, rule);
-                filter.rules.push(rule);
+                this.readChildNodes(node, filter);
+                obj.filters.push(filter);
             },
-            "PropertyIsLessThanOrEqualTo": function(node, filter) {
-                var rule = new OpenLayers.Rule.Comparison({
-                    type: OpenLayers.Rule.Comparison.LESS_THAN_OR_EQUAL_TO
+            "PropertyIsLessThanOrEqualTo": function(node, obj) {
+                var filter = new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.LESS_THAN_OR_EQUAL_TO
                 });
-                this.readChildNodes(node, rule);
-                filter.rules.push(rule);
+                this.readChildNodes(node, filter);
+                obj.filters.push(filter);
             },
-            "PropertyIsGreaterThanOrEqualTo": function(node, filter) {
-                var rule = new OpenLayers.Rule.Comparison({
-                    type: OpenLayers.Rule.Comparison.GREATER_THAN_OR_EQUAL_TO
+            "PropertyIsGreaterThanOrEqualTo": function(node, obj) {
+                var filter = new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO
                 });
-                this.readChildNodes(node, rule);
-                filter.rules.push(rule);
+                this.readChildNodes(node, filter);
+                obj.filters.push(filter);
             },
-            "PropertyIsBetween": function(node, filter) {
-                var rule = new OpenLayers.Rule.Comparison({
-                    type: OpenLayers.Rule.Comparison.BETWEEN
+            "PropertyIsBetween": function(node, obj) {
+                var filter = new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.BETWEEN
                 });
-                this.readChildNodes(node, rule);
-                filter.rules.push(rule);
+                this.readChildNodes(node, filter);
+                obj.filters.push(filter);
             },
-            "PropertyIsLike": function(node, filter) {
-                var rule = new OpenLayers.Rule.Comparison({
-                    type: OpenLayers.Rule.Comparison.LIKE
+            "PropertyIsLike": function(node, obj) {
+                var filter = new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.LIKE
                 });
-                this.readChildNodes(node, rule);
+                this.readChildNodes(node, filter);
                 var wildCard = node.getAttribute("wildCard");
                 var singleChar = node.getAttribute("singleChar");
                 var esc = node.getAttribute("escape");
-                rule.value2regex(wildCard, singleChar, esc);
-                filter.rules.push(rule);
+                filter.value2regex(wildCard, singleChar, esc);
+                obj.filters.push(filter);
             },
             "Literal": function(node, obj) {
                 obj.value = this.getChildValue(node);
             },
-            "PropertyName": function(node, rule) {
-                rule.property = this.getChildValue(node);
+            "PropertyName": function(node, filter) {
+                filter.property = this.getChildValue(node);
             },
-            "LowerBoundary": function(node, rule) {
-                rule.lowerBoundary = this.readOgcExpression(node);
+            "LowerBoundary": function(node, filter) {
+                filter.lowerBoundary = this.readOgcExpression(node);
             },
-            "UpperBoundary": function(node, rule) {
-                rule.upperBoundary = this.readOgcExpression(node);
+            "UpperBoundary": function(node, filter) {
+                filter.upperBoundary = this.readOgcExpression(node);
             }
         }
     },
@@ -37795,8 +37856,8 @@ OpenLayers.Format.SLD.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
                 // add in optional filters
                 if(rule.elseFilter) {
                     this.writeNode(node, "ElseFilter");
-                } else if(rule.CLASS_NAME != "OpenLayers.Rule") {
-                    this.writeNode(node, "ogc:Filter", rule);
+                } else if(rule.filter) {
+                    this.writeNode(node, "ogc:Filter", rule.filter);
                 }
                 
                 // add in scale limits
@@ -37980,15 +38041,15 @@ OpenLayers.Format.SLD.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
             }
         },
         "ogc": {
-            "Filter": function(rule) {
+            "Filter": function(filter) {
                 var node = this.createElementNSPlus("ogc:Filter");
-                var sub = rule.CLASS_NAME.split(".").pop();
+                var sub = filter.CLASS_NAME.split(".").pop();
                 if(sub == "FeatureId") {
-                    for(var i=0; i<rule.fids.length; ++i) {
-                        this.writeNode(node, "FeatureId", rule.fids[i]);
+                    for(var i=0; i<filter.fids.length; ++i) {
+                        this.writeNode(node, "FeatureId", filter.fids[i]);
                     }
                 } else {
-                    this.writeNode(node, this.getFilterType(rule), rule);
+                    this.writeNode(node, this.getFilterType(filter), filter);
                 }
                 return node;
             },
@@ -37997,120 +38058,120 @@ OpenLayers.Format.SLD.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
                     attributes: {fid: fid}
                 });
             },
-            "And": function(rule) {
+            "And": function(filter) {
                 var node = this.createElementNSPlus("ogc:And");
-                var childRule;
-                for(var i=0; i<rule.rules.length; ++i) {
-                    childRule = rule.rules[i];
+                var childFilter;
+                for(var i=0; i<filter.filters.length; ++i) {
+                    childFilter = filter.filters[i];
                     this.writeNode(
-                        node, this.getFilterType(childRule), childRule
+                        node, this.getFilterType(childFilter), childFilter
                     );
                 }
                 return node;
             },
-            "Or": function(rule) {
+            "Or": function(filter) {
                 var node = this.createElementNSPlus("ogc:Or");
-                var childRule;
-                for(var i=0; i<rule.rules.length; ++i) {
-                    childRule = rule.rules[i];
+                var childFilter;
+                for(var i=0; i<filter.filters.length; ++i) {
+                    childFilter = filter.filters[i];
                     this.writeNode(
-                        node, this.getFilterType(childRule), childRule
+                        node, this.getFilterType(childFilter), childFilter
                     );
                 }
                 return node;
             },
-            "Not": function(rule) {
+            "Not": function(filter) {
                 var node = this.createElementNSPlus("ogc:Not");
-                var childRule = rule.rules[0];
+                var childFilter = filter.filters[0];
                 this.writeNode(
-                    node, this.getFilterType(childRule), childRule
+                    node, this.getFilterType(childFilter), childFilter
                 );
                 return node;
             },
-            "PropertyIsEqualTo": function(rule) {
+            "PropertyIsEqualTo": function(filter) {
                 var node = this.createElementNSPlus("ogc:PropertyIsEqualTo");
                 // no ogc:expression handling for now
-                this.writeNode(node, "PropertyName", rule);
-                this.writeNode(node, "Literal", rule);
+                this.writeNode(node, "PropertyName", filter);
+                this.writeNode(node, "Literal", filter.value);
                 return node;
             },
-            "PropertyIsNotEqualTo": function(rule) {
+            "PropertyIsNotEqualTo": function(filter) {
                 var node = this.createElementNSPlus("ogc:PropertyIsNotEqualTo");
                 // no ogc:expression handling for now
-                this.writeNode(node, "PropertyName", rule);
-                this.writeNode(node, "Literal", rule);
+                this.writeNode(node, "PropertyName", filter);
+                this.writeNode(node, "Literal", filter.value);
                 return node;
             },
-            "PropertyIsLessThan": function(rule) {
+            "PropertyIsLessThan": function(filter) {
                 var node = this.createElementNSPlus("ogc:PropertyIsLessThan");
                 // no ogc:expression handling for now
-                this.writeNode(node, "PropertyName", rule);
-                this.writeNode(node, "Literal", rule);                
+                this.writeNode(node, "PropertyName", filter);
+                this.writeNode(node, "Literal", filter.value);                
                 return node;
             },
-            "PropertyIsGreaterThan": function(rule) {
+            "PropertyIsGreaterThan": function(filter) {
                 var node = this.createElementNSPlus("ogc:PropertyIsGreaterThan");
                 // no ogc:expression handling for now
-                this.writeNode(node, "PropertyName", rule);
-                this.writeNode(node, "Literal", rule);
+                this.writeNode(node, "PropertyName", filter);
+                this.writeNode(node, "Literal", filter.value);
                 return node;
             },
-            "PropertyIsLessThanOrEqualTo": function(rule) {
+            "PropertyIsLessThanOrEqualTo": function(filter) {
                 var node = this.createElementNSPlus("ogc:PropertyIsLessThanOrEqualTo");
                 // no ogc:expression handling for now
-                this.writeNode(node, "PropertyName", rule);
-                this.writeNode(node, "Literal", rule);
+                this.writeNode(node, "PropertyName", filter);
+                this.writeNode(node, "Literal", filter.value);
                 return node;
             },
-            "PropertyIsGreaterThanOrEqualTo": function(rule) {
+            "PropertyIsGreaterThanOrEqualTo": function(filter) {
                 var node = this.createElementNSPlus("ogc:PropertyIsGreaterThanOrEqualTo");
                 // no ogc:expression handling for now
-                this.writeNode(node, "PropertyName", rule);
-                this.writeNode(node, "Literal", rule);
+                this.writeNode(node, "PropertyName", filter);
+                this.writeNode(node, "Literal", filter.value);
                 return node;
             },
-            "PropertyIsBetween": function(rule) {
+            "PropertyIsBetween": function(filter) {
                 var node = this.createElementNSPlus("ogc:PropertyIsBetween");
                 // no ogc:expression handling for now
-                this.writeNode(node, "PropertyName", rule);
-                this.writeNode(node, "LowerBoundary", rule);
-                this.writeNode(node, "UpperBoundary", rule);
+                this.writeNode(node, "PropertyName", filter);
+                this.writeNode(node, "LowerBoundary", filter);
+                this.writeNode(node, "UpperBoundary", filter);
                 return node;
             },
-            "PropertyIsLike": function(rule) {
+            "PropertyIsLike": function(filter) {
                 var node = this.createElementNSPlus("ogc:PropertyIsLike", {
                     attributes: {
                         wildCard: "*", singleChar: ".", escape: "!"
                     }
                 });
                 // no ogc:expression handling for now
-                this.writeNode(node, "PropertyName", rule);
+                this.writeNode(node, "PropertyName", filter);
                 // convert regex string to ogc string
-                this.writeNode(node, "Literal", {value: rule.regex2value()});
+                this.writeNode(node, "Literal", filter.regex2value());
                 return node;
             },
-            "PropertyName": function(rule) {
+            "PropertyName": function(filter) {
                 // no ogc:expression handling for now
                 return this.createElementNSPlus("ogc:PropertyName", {
-                    value: rule.property
+                    value: filter.property
                 });
             },
-            "Literal": function(rule) {
+            "Literal": function(value) {
                 // no ogc:expression handling for now
                 return this.createElementNSPlus("ogc:Literal", {
-                    value: rule.value
+                    value: value
                 });
             },
-            "LowerBoundary": function(rule) {
+            "LowerBoundary": function(filter) {
                 // no ogc:expression handling for now
                 var node = this.createElementNSPlus("ogc:LowerBoundary");
-                this.writeNode(node, "Literal", rule.lowerBoundary);
+                this.writeNode(node, "Literal", filter.lowerBoundary);
                 return node;
             },
-            "UpperBoundary": function(rule) {
+            "UpperBoundary": function(filter) {
                 // no ogc:expression handling for now
                 var node = this.createElementNSPlus("ogc:UpperBoundary");
-                this.writeNode(node, "Literal", rule.upperBoundary);
+                this.writeNode(node, "Literal", filter.upperBoundary);
                 return node;
             }
         }
@@ -38119,17 +38180,17 @@ OpenLayers.Format.SLD.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
     /**
      * Method: getFilterType
      */
-    getFilterType: function(rule) {
-        var filterType = this.filterMap[rule.type];
+    getFilterType: function(filter) {
+        var filterType = this.filterMap[filter.type];
         if(!filterType) {
-            throw "SLD writing not supported for rule type: " + rule.type;
+            throw "SLD writing not supported for rule type: " + filter.type;
         }
         return filterType;
     },
     
     /**
      * Property: filterMap
-     * {Object} Contains a member for each rule type.  Values are node names
+     * {Object} Contains a member for each filter type.  Values are node names
      *     for corresponding OGC Filter child elements.
      */
     filterMap: {
@@ -40381,7 +40442,7 @@ OpenLayers.Format.GeoRSS = OpenLayers.Class(OpenLayers.Format.XML, {
      * Accept Feature Collection, and return a string. 
      * 
      * Parameters: 
-     * features - Array({<OpenLayers.Feature.Vector>}) List of features to serialize into a string.
+     * features - {Array(<OpenLayers.Feature.Vector>)} List of features to serialize into a string.
      */
     write: function(features) {
         var georss;
@@ -41994,7 +42055,7 @@ OpenLayers.Format.OSM = OpenLayers.Class(OpenLayers.Format.XML, {
      * in tools like JOSM.
      *
      * Parameters:
-     * features - Array({<OpenLayers.Feature.Vector>})
+     * features - {Array(<OpenLayers.Feature.Vector>)}
      */
     write: function(features) { 
         if (!(features instanceof Array)) {
