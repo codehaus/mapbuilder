@@ -52,6 +52,11 @@ function FeatureSelectHandler(toolNode, model) {
       objRef.control.destroy();
       objRef.control = null;
     }
+    for (var i=0; i<objRef.sourceModels.length; i++) {
+      objRef.sourceModels[i].removeListener('highlightFeature', objRef.highlight, objRef);
+      objRef.sourceModels[i].removeListener('dehighlightFeature', objRef.dehighlight, objRef);
+    }
+    objRef.sourceModels = [];
   }
   this.model.addListener("newModel", this.clear, this);
 
