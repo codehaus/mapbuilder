@@ -50,7 +50,7 @@ function FeatureSelectHandler(toolNode, model) {
     if (objRef.control) {
       objRef.map = null;
       objRef.control.destroy();
-      objRef.control = null;
+      objRef.ontrol = null;
     }
     for (var i=0; i<objRef.sourceModels.length; i++) {
       objRef.sourceModels[i].removeListener('highlightFeature', objRef.highlight, objRef);
@@ -84,8 +84,12 @@ function FeatureSelectHandler(toolNode, model) {
    * @return {OpenLayers.Control} class of the OL control.
    */
   this.init = function(objRef) {
-    // get the source models
-    var sourceModel;
+    // clean up from previous runs
+    for (var i=objRef.sourceModels.length-1; i>=0; i--) {
+      objRef.sourceModels[i].removeListener('highlightFeature', objRef.highlight, objRef);
+      objRef.sourceModels[i].removeListener('dehighlightFeature', objRef.dehighlight, objRef);
+      objRef.sourceModels.splice(i);
+    }
     // if we have mergeModels, take sourceModels from there
     if (objRef.model.mergeModels) {
       objRef.sourceModels = objRef.model.mergeModels;
@@ -93,10 +97,6 @@ function FeatureSelectHandler(toolNode, model) {
       // if we hava a plain model, just use it
       objRef.sourceModels.push(objRef.model);
     } 
-    for (var i=0; i<objRef.sourceModels.length; i++) {
-      objRef.sourceModels[i].addListener('highlightFeature', objRef.highlight, objRef);
-      objRef.sourceModels[i].addListener('dehighlightFeature', objRef.dehighlight, objRef);
-    }
     
     // init the control
     var layer = objRef.model.getParam('gmlRendererLayer');
