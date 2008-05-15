@@ -50,7 +50,7 @@ function FeatureSelectHandler(toolNode, model) {
     if (objRef.control) {
       objRef.map = null;
       objRef.control.destroy();
-      objRef.ontrol = null;
+      objRef.control = null;
     }
     for (var i=0; i<objRef.sourceModels.length; i++) {
       objRef.sourceModels[i].removeListener('highlightFeature', objRef.highlight, objRef);
@@ -97,6 +97,10 @@ function FeatureSelectHandler(toolNode, model) {
       // if we hava a plain model, just use it
       objRef.sourceModels.push(objRef.model);
     } 
+    for (var i=0; i<objRef.sourceModels.length; i++) {
+      objRef.sourceModels[i].addListener('highlightFeature', objRef.highlight, objRef);
+      objRef.sourceModels[i].addListener('dehighlightFeature', objRef.dehighlight, objRef);
+    }
     
     // init the control
     var layer = objRef.model.getParam('gmlRendererLayer');
