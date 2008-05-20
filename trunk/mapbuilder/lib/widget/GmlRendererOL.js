@@ -37,8 +37,8 @@ function GmlRendererOL(widgetNode, model) {
           this.addFeatures(gml.read(this.mbWidget.renderDoc));
           this.loaded = true;
         } catch (e) {
-          alert(mbGetMessage("documentParseError"),
-              new XMLSerializer().serializeToString(this.mbWidget.renderDoc));
+          alert(mbGetMessage("documentParseError",
+              new XMLSerializer().serializeToString(this.mbWidget.renderDoc)));
         }
       }
     },
