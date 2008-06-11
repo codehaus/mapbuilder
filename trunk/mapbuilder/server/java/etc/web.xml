@@ -163,41 +163,7 @@ $Id$
       </init-param>
 
     </servlet>
-<servlet>
 
-      <description>
-
-        This servlet writes POSTed sld documents to a file on disk, filename
-
-        is returned 
-
-      </description>
-
-      <servlet-name>xmlSerializer2</servlet-name>
-
-      <servlet-class>
-
-        mapbuilder.XmlSerializer2
-
-      </servlet-class>
-
-      <init-param>
-
-        <description>
-
-          The directory where files are written, relative to the context root
-
-        </description>
-
-        <param-name>outputDir</param-name>
-
-        <param-value>/temp</param-value>
-        
-
-
-      </init-param>
-
-    </servlet>
     <servlet>
 
       <description>
