@@ -95,17 +95,23 @@ function WidgetBaseXSL(widgetNode,model) {
       if (objRef.debug) mbDebugMessage(objRef, "painting:"+objRef.id+":"+s);
       tempNode.innerHTML = objRef.parseHTMLNodes ? Sarissa.unescape(s) : s;
       if( tempNode.firstChild != null ) { //Could be null!
-        // check if we should use the node itself or the fist child.
+        // check if we should use the fist child or the next sibling
+        // (if we have a stylesheet that outputs an xml declaration, we have a
+        // text node containing a linke break above the first node of the
+        // stylesheet output content)
         // This is needed for FF3 (MAP-548)
-        var attrNode = tempNode.firstChild.nodeType == 3 ? tempNode : tempNode.firstChild;
-        attrNode.setAttribute("id", objRef.outputNodeId);
+        var ctNode = tempNode.firstChild;
+        if (ctNode.nodeType == 3) {
+          ctNode = ctNode.nextSibling;   
+        }
+        ctNode.setAttribute("id", objRef.outputNodeId);
 
   	    //look for this widgets output and replace if found,
   	    //otherwise append it
   	    if (outputNode) {
-  	      objRef.getNode().replaceChild(attrNode,outputNode);
+  	      objRef.getNode().replaceChild(ctNode,outputNode);
   	    } else {
-  	      objRef.getNode().appendChild(attrNode);
+  	      objRef.getNode().appendChild(ctNode);
   	    }
       }
       objRef.postPaint(objRef);
