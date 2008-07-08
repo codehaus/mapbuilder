@@ -8,7 +8,7 @@
   <LayerList>
     <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.1.0" title="Shape files on Boston">
-        <OnlineResource type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
       </Server>
       <Name>highways</Name>
       <Title>highways</Title>
@@ -20,7 +20,7 @@
     </Layer>
     <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.1.0" title="Shape files on Boston">
-        <OnlineResource type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
       </Server>
       <Name>hydro</Name>
       <Title>hydro</Title>
@@ -32,7 +32,7 @@
     </Layer>
     <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.1.0" title="Shape files on Boston">
-        <OnlineResource type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
       </Server>
       <Name>land_use</Name>
       <Title>land_use</Title>
@@ -44,7 +44,7 @@
     </Layer>
     <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.1.0" title="Shape files on Boston">
-        <OnlineResource type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
       </Server>
       <Name>pests_treebugs</Name>
       <Title>pests_treebugs</Title>
@@ -56,7 +56,7 @@
     </Layer>
     <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.1.0" title="Shape files on Boston">
-        <OnlineResource type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
       </Server>
       <Name>place_names</Name>
       <Title>place_names</Title>
@@ -68,7 +68,7 @@
     </Layer>
     <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.1.0" title="Shape files on Boston">
-        <OnlineResource type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
       </Server>
       <Name>protectedareas</Name>
       <Title>protectedareas</Title>
@@ -80,7 +80,7 @@
     </Layer>
     <Layer queryable="1" hidden="0">
       <Server service="OGC:WMS" version="1.1.0" title="Shape files on Boston">
-        <OnlineResource type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
+        <OnlineResource xlink:type="simple" xlink:href="http://demo.ionicsoft.com/ionicweb/wfs/BOSTON_SHAPE?"/>
       </Server>
       <Name>roads</Name>
       <Title>roads</Title>
