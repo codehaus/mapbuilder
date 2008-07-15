@@ -57,7 +57,7 @@ $Name:  $
   <xsl:template match="/wmc:ViewContext">
     <div>
       <div class="layerControl">
-        <xsl:if test="wmc:General/wmc:Extension"> 
+        <xsl:if test="wmc:General/wmc:Extension/wmc:GroupList"> 
 		      <xsl:apply-templates select="wmc:General/wmc:Extension/wmc:GroupList/wmc:Group">
 				<xsl:sort select="position()" order="ascending" data-type="number"/>
 			  </xsl:apply-templates>
