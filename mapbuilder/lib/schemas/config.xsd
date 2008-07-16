@@ -1291,11 +1291,6 @@
               <xs:documentation>FEATURE_COUNT parameter, eg. for WMS GetFeatureInfo</xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element name="maxFeatures" type="xs:integer" minOccurs="0">
-            <xs:annotation>
-              <xs:documentation>maxFeatures parameter, eg. for WFS GetFeature</xs:documentation>
-            </xs:annotation>
-          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
