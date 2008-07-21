@@ -58,7 +58,7 @@ function WebServiceForm(widgetNode, model) {
       httpPayload.url = this.webServiceForm.action + "?";
       for (var i=0; i<this.webServiceForm.elements.length; ++i) {
         var element = this.webServiceForm.elements[i];
-        webServiceUrl += element.name + "=" + element.value + "&";
+        httpPayload.url += element.name + "=" + element.value + "&";
         this.formElements[element.name] = element.value;
       }  
       
