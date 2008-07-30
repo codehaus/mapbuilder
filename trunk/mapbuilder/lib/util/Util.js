@@ -7,6 +7,8 @@ $Id$
 
 // some basic browser detection
 var MB_IS_MOZ = (document.implementation && document.implementation.createDocument)?true:false;
+// Constant for the MAP-487 bug 
+var REGEX_NAMESPACE = new RegExp("namespace", "i"); 
 
 /**
 Transform an XML document using the provided XSL and use the results to build
@@ -76,13 +78,13 @@ function XslProcessor(xslUrl,docNSUri) {
       //MAP-427 Quick hack to transform an XMLElement to XMLDocument in IE
      
       if (_SARISSA_IS_IE){
-	      var str = (new XMLSerializer()).serializeToString(xmlNode);
-	      var xmlNode = (new DOMParser()).parseFromString(str, "text/xml");
-	  }
+        var str = (new XMLSerializer()).serializeToString(xmlNode);
+        var xmlNode = (new DOMParser()).parseFromString(str, "text/xml");
+    }
       var newDoc = this.transformNodeToObject(xmlNode);
       var s = (new XMLSerializer()).serializeToString(newDoc);
       if(_SARISSA_IS_OPERA)
-      	s =  s.replace(/.*\?\>/,"");//hack for opera to delete <?xml ... ?>
+        s =  s.replace(/.*\?\>/,"");//hack for opera to delete <?xml ... ?>
       return s;
     } catch(e){
       alert(mbGetMessage("exceptionTransformingDoc", this.xslUrl));
@@ -167,12 +169,12 @@ function postGetLoad(sUri, docToSend, contentType , dir, fileName) {
    var xmlHttp = new XMLHttpRequest();
    var appendChar = sUri.indexOf("?") == -1 ? "?" : "&";
    if(dir && fileName)
-       	sUri=sUri+appendChar+"dir="+dir+"&fileName="+fileName;
+         sUri=sUri+appendChar+"dir="+dir+"&fileName="+fileName;
    else if(dir)
-   		sUri=sUri+appendChar+"dir="+dir;
+       sUri=sUri+appendChar+"dir="+dir;
    else if(fileName)
-   		sUri=sUri+appendChar+"fileName="+fileName;
-   		
+       sUri=sUri+appendChar+"fileName="+fileName;
+       
    if ( sUri.indexOf("http://")==0 || sUri.indexOf("https://")==0 )
    {
        xmlHttp.open("POST", config.proxyUrl, false);       
@@ -702,7 +704,7 @@ function sld2OlStyle(node) {
       var sld = new XMLSerializer().serializeToString(ruleNode);
       var search = /<([^:]*:?)StyledLayerDescriptor/;
       if (!search.test(sld)) {
-      	sld = sld.replace(/<([^:]*:?)FeatureTypeStyle([^>]*)>(.*)$/,
+        sld = sld.replace(/<([^:]*:?)FeatureTypeStyle([^>]*)>(.*)$/,
             "<$1StyledLayerDescriptor$2><$1NamedLayer><$1Name>sld</$1Name><$1UserStyle><$1FeatureTypeStyle>$3</$1UserStyle></$1NamedLayer></$1StyledLayerDescriptor>");
       }
     }
@@ -818,18 +820,20 @@ function getNodeValue(sResult){
 }
 
 /**
- * Convenience method that is used to parse dom nodes.
+ * Convenience method that is used to parse dom nodes, including a fix for bug MAP-487 by Markus
  * @param domNode node to find the property in
  * @param propertyName string of the property name (including namespace prefix)
  * @param defaultValue value to return if property is not found (null by default)
  * @return the property value
  */
 Mapbuilder.getProperty = function(domNode, propertyName, defaultValue) {
-  if (typeof defaultValue == "undefined") {
-    defaultValue = null;
-  }
+  if (typeof defaultValue == "undefined") { defaultValue = null; }
   var property = domNode.selectSingleNode(propertyName);
-  return property ? getNodeValue(property) : defaultValue;
+  if(property) {
+    if (REGEX_NAMESPACE.test(property.nodeName)) { var value = getNodeValue(property); value = value.replace(/\s/g, ""); value = value.replace(/xmlns/g, " xmlns"); value = value.replace(/\s/, ""); return value; }
+    return getNodeValue(property);
+  }
+  return defaultValue;
 }
 
 /**
