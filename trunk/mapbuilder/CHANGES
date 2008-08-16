@@ -8,6 +8,8 @@ This file contains information about updates to each release:
 
 mapbuilder-lib-1.5-rc2
 ======================
+2008-04-27
+
 This is a minor release, addressing some bug fixes, compatibility with IE7 and Firefox 3, and adds a catalog client.
 
 It covers the following:
@@ -20,6 +22,7 @@ It covers the following:
 
 mapbuilder-lib-1.5-rc1
 ======================
+2007-12-24
 
 mapbuilder-lib-1.5-alpha2
 ==========================
@@ -203,6 +206,8 @@ MAP-51		set the locator map with an image Submitted Virginie Berre SF - 1220313
 
 mapbuilder-lib-1.5-alpha1
 ==========================
+2006-12-21
+
 This Mapbuilder release adds a string of new features and developments to
 the Mapbuilder core. While the core Mapbuilder functionality remains stable,
 the new features should still be considered alpha; some new interfaces still
@@ -334,6 +339,8 @@ MAP-26		Layers from geoserver periodically not returned Submitted: camerons SF-1
 
 mapbuilder-lib-1.0-release
 ==========================
+2006-02-13
+
 This marks the first official release of the Community Mapbuilder
 library.
 
@@ -419,6 +426,8 @@ MAP-26		Layers from geoserver periodically not returned Submitted: camerons SF-1
 
 mapbuilder-lib-1.0-rc2 (stable)
 ===============================
+2006-02-06
+
 This commences the second release candidate of the 1.0 release
 of mapbuilder.
 
@@ -491,6 +500,8 @@ MAP-57 	Inconsistency in handling of aspect ratio for map viewer between boundin
 
 mapbuilder-lib-1.0-rc1 (stable)
 ===============================
+2005-12-02
+
 This commences the first release candidate of the 1.0 release
 of mapbuilder.
 
@@ -541,6 +552,8 @@ Outstanding Issues (highest priority first):
 
 mapbuilder-lib-0.4
 ==================
+2005-08-04
+
 This is the first release under the Lesser GNU Public License (LGPL).
 It contains a handful of bug fixes.
 
@@ -583,6 +596,8 @@ Outstanding Issues (highest priority first):
 
 mapbuilder-lib-0.3.1-alpha (alpha quality)
 ========================================
+2005-06-13
+
 This is an interum bug fix release to ensure releases keep up with the
 head development.  This release has had minimal testing done on it.
 
@@ -640,6 +655,8 @@ Outstanding Issues (highest priority fist):
 
 mapbuilder-lib-0.3-alpha (alpha quality)
 ========================================
+2005-03-31
+
 This release fixes some of the demos which were not able access server side
 functionality as well as addressing the following bugs:
 
@@ -680,6 +697,8 @@ Outstanding Issues (highest priority fist):
 
 mapbuilder-lib-0.2-alpha (alpha quality)
 ========================================
+2005-03-18
+
 This released is designed to provide a demonstration of a number of
 features which have been developed since the last release.  The new
 features are considered alpha quality and we suggest waiting for a future
@@ -729,6 +748,8 @@ Outstanding Issues (highest priority fist):
 
 mapbuilder-lib-0.1 (beta quality)
 =================================
+2004-06-04
+
 This release has become very stable.  The only known issue of consequence is
 that the pages take a long time to load over a slow connection without any user
 feedback.  This is not a problem if you install mapbuilder-lib locally.
@@ -750,12 +771,16 @@ Issues addressed since last release:
 
 mapbuilder-lib-0.1-rc3 (beta quality):
 ======================================
+2004-05-28
+
 * Added Reset button which resets to original area of interest
 * Simplified the Main html page by moving the Javascript to Mapbuilder.js
 * General cleanup and restructuring of Tools code
 
 mapbuilder-lib-0.1-rc2 (alpha quality):
 =======================================
+2004-05-17
+
 * Fixes showstopper bugs in IE relating to loading of scripts.
 * Mapbuilder now takes a while to load because we force scripts to
   be loaded before rendering widgets.
@@ -763,6 +788,8 @@ mapbuilder-lib-0.1-rc2 (alpha quality):
 
 mapbuilder-lib-0.1-rc1 (alpha quality):
 =======================================
+2004-05-17
+
 This initial version of Mapbuilder libraries contains:
 * Web Map Server (WMS) client map.
 * Building of a Map from a Web Map Context (WMC) document.
