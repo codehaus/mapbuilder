@@ -585,8 +585,6 @@ MapPaneOL.prototype.getLayer = function(objRef,layerId) {
 //####################################################
 /**
  * Removes a layer from the output
-/**
- * Removes a layer from the output
  * @param objRef Pointer to this object.
  * @param layerId the WMS name for the layer to be removed
  */
