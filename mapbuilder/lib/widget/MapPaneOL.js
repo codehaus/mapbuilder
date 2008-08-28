@@ -626,8 +626,6 @@ MapPaneOL.prototype.moveLayerDown = function(objRef, layerId) {
 //###############################################
 /**
    * Called when the context's opacity attribute changes.
-/**
-   * Called when the context's opacity attribute changes.
    * @param objRef This object.
    * @param layerId  The id of the layer that was toggled.
    */
