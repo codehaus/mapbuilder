@@ -5,6 +5,17 @@ $Id$
 
 This file contains information about updates to each release:
 
+mapbuilder-lib-1.5 FINAL
+========================
+2008-11-07
+
+As this marks the final release of Community Mapbuilder, there will be no additional development or support
+for this product. You are free to use it at your own discretion.
+
+This release includes various bugfixes for Internet Explorer 7 and FireFox 3.
+
+For further details:
+http://www.communitymapbuilder.org/display/MAP/EndOfLife
 
 mapbuilder-lib-1.5-rc2
 ======================
