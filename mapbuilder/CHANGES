@@ -17,6 +17,14 @@ This release includes various bugfixes for Internet Explorer 7 and FireFox 3.
 For further details:
 http://www.communitymapbuilder.org/display/MAP/EndOfLife
 
+Bugs Fixed:
+-----------
+MAP-550		Mapbuilder does not work with FF3 when Firebug is enabled  	 Major  	 Resolved
+MAP-553		WebServiceForm makes ProxyRediector crush when passing an url containing unecoded specials characters. 	Major 	Resolved
+MAP-502 	MAP-501
+MAP-518 	MAP-501
+MAP-548 	Mapbuilder 1.5RC2 dont work with FF3 
+
 mapbuilder-lib-1.5-rc2
 ======================
 2008-04-27
