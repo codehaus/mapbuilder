@@ -1,0 +1,83 @@
+<OWSContext version="0.0.13" id="ows-context-tie" 
+  xmlns="http://www.opengis.net/context" 
+  xmlns:xlink="http://www.w3.org/1999/xlink" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:sld="http://www.opengis.net/sld"
+  xmlns:ogc="http://www.opengis.net/ogc" 
+  xmlns:ows="http://www.opengis.net/ows" 
+  xmlns:param="http;//www.opengis.net/param" 
+  xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
+
+  <General>
+    <Window width="550" height="275"/>
+    <!-- BoundingBox SRS="EPSG:4326" minx="-130" miny="10" maxx="-50" maxy="50"/ -->
+    <ows:BoundingBox crs="EPSG:4326">
+      <ows:LowerCorner>-130 10</ows:LowerCorner>
+      <ows:UpperCorner>-50 50</ows:UpperCorner>
+    </ows:BoundingBox>
+    
+    <Title xml:lang="en">GeoRSS Using OWSContext</Title>
+    <KeywordList>
+      <Keyword>world</Keyword>
+      <Keyword>atlas</Keyword>
+      <Keyword>georss</Keyword>
+    </KeywordList>
+    
+    <Abstract>World Base Map.</Abstract>
+    
+    <LogoURL width="140" height="65" format="image/gif">
+      <OnlineResource xlink:type="simple" xlink:href="http://www.opengeospatial.org/img/ogc_header_top_left.gif" />
+    </LogoURL>
+
+    <DescriptionURL format="text/html">
+      <OnlineResource xlink:type="simple" xlink:href="http://www.opengeospatial.org/press/?page=pressrelease&amp;view=20040525_ContextIE_PR" />
+    </DescriptionURL>
+    
+    <ows:ServiceProvider>
+      <ows:ProviderName>Vightel Corporation</ows:ProviderName>
+      <ows:ProviderSite xlink:type="simple" xlink:href="http://www.ec.gc.ca/" />
+      <ows:ServiceContact>
+        <ows:IndividualName>Patrice G Cappelaere</ows:IndividualName>
+        <ows:PositionName>Senior Architect</ows:PositionName>
+        <ows:ContactInfo>
+          <ows:Phone>
+            <ows:Voice>410-340-4868</ows:Voice>
+            <ows:Facsimile>443-283-0370</ows:Facsimile>
+          </ows:Phone>
+          <ows:Address>
+            <ows:DeliveryPoint>8303 Winter Wind Ct</ows:DeliveryPoint>
+            <ows:City>Ellicott City</ows:City>
+            <ows:AdministrativeArea>Maryland</ows:AdministrativeArea>
+            <ows:PostalCode>21043</ows:PostalCode>
+            <ows:Country>USA</ows:Country>
+            <ows:ElectronicMailAddress>pat@cappelaere.com</ows:ElectronicMailAddress>
+          </ows:Address>
+          <ows:OnlineResource xlink:type="simple" xlink:href="http://www.vightel.com/" />
+          <ows:HoursOfService>0700h - 1500h (EST), Monday - Friday</ows:HoursOfService>
+          <ows:ContactInstructions>Just call or email</ows:ContactInstructions>
+        </ows:ContactInfo>
+        <ows:Role>Systems Scientist</ows:Role>
+      </ows:ServiceContact>
+    </ows:ServiceProvider>
+  </General>  
+    
+  <ResourceList>
+		<Layer queryable="1" hidden="0">
+			<Server service="OGC:WMS" version="1.0.0" title="OGC:WMS">
+      <OnlineResource xlink:type="simple" xlink:href="http://www2.demis.nl/WMS/wms.asp?wms=BlueMarble"/>
+			</Server>
+			<Name>Countries,Earth+Image,Coastlines,Waterbodies,Transportation,Borders,Cities,Airports</Name>
+			<Title>WMS 1.0</Title>
+			<SRS>EPSG:4326</SRS>
+			<FormatList>
+				<Format current="1">image/gif</Format>
+			</FormatList>
+			<StyleList>
+				<Style current="1">
+					<Name>default</Name>
+					<Title>default</Title>
+				</Style>
+			</StyleList>
+		</Layer>
+	</ResourceList>
+</OWSContext>

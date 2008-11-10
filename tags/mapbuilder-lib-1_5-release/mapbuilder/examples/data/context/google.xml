@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<OWSContext version="0.0.13"
+    id="ows-context-tie"
+    xmlns="http://www.opengis.net/context"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:sld="http://www.opengis.net/sld"
+    xmlns:ogc="http://www.opengis.net/ogc"
+    xmlns:ows="http://www.opengis.net/ows"
+    xmlns:param="http;//www.opengis.net/param"
+    xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
+  <General>
+    <Window width="500" height="300"/>
+    <ows:BoundingBox crs="EPSG:900913">
+      <ows:LowerCorner>-8981656.569960937 -2152466.7158796852</ows:LowerCorner>
+      <ows:UpperCorner>11564616.629414063 14441094.877520315</ows:UpperCorner>
+    </ows:BoundingBox>
+    <Title>OWS context with Google</Title>
+    <Abstract> The OGC Web Services Context Document with google baselayer (mapbuilder only ATM)</Abstract>
+  </General>
+  <ResourceList>
+    <ows:BaseLayer>
+      <Server service="Google"/> <!-- the service attribute will decide what kind of layer it is, in the case of a WMS you will need to add a resource url -->
+      <Name>Google Hybrid</Name>  <!-- used to set the name of the baselayer -->
+      <ows:TileSet>  <!-- this is taken from TileCache.py -->
+        <!-- <ows:resolutions/> --><!-- If prefered you can store you custom resolutions, for ymap,ve and gmap it's not needed -->
+        <ows:SRS>EPSG:900913</ows:SRS>  <!-- if set to EPSG:900913 it will automatically switch to sphericalMercator -->
+        <ows:BoundingBox SRS="EPSG:900913" minx="-20037508" miny="-20037508" maxx="20037508" maxy="20037508.34"/> <!-- unfortunately this is currently being ignored, please use the OWS context bbox-->
+        <ows:Layers>hybrid</ows:Layers> <!-- here you can choose aerial/satellite, road/normal or hybrid(default)-->
+        <!-- <ows:Width/> --> <!-- here you can specify a custom tilesize, default is 256 -->
+        <!-- <ows:Format/> --> <!-- here you can specify a custom format -->
+      </ows:TileSet>
+    </ows:BaseLayer>
+  </ResourceList>
+</OWSContext>
