@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<OWSContext
+  xmlns="http://www.opengis.net/context"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:sld="http://www.opengis.net/sld"
+  xmlns:ogc="http://www.opengis.net/ogc"
+  xmlns:ows="http://www.opengis.net/ows"
+  xmlns:param="http;//www.opengis.net/param"
+  version="0.0.13"
+  id="ows-context-tie"
+  xsi:schemaLocation="http://www.opengis.net/oc oc_0_0_13.xsd">
+  
+  <General>
+    <Window width="400" height="300"/>
+    <ows:BoundingBox crs="EPSG:4326">
+      <ows:LowerCorner>-142 40</ows:LowerCorner>
+      <ows:UpperCorner>-52 85</ows:UpperCorner>
+    </ows:BoundingBox>
+    <Title xml:lang="en">Simple World Context</Title>
+    <KeywordList>
+      <Keyword>world</Keyword>
+    </KeywordList>
+  </General>
+  <ResourceList>
+    <Layer queryable="1" hidden="0">
+      <Server service="OGC:WMS-C" version="1.0.0" title="OGC:WMS-C">
+        <OnlineResource xlink:type="simple" xlink:href="http://labs.metacarta.com/wms/vmap0"/>
+      </Server>
+      <Name>basic</Name>
+      <Title>World Basemap</Title>
+      <SRS>EPSG:4326</SRS>
+      <FormatList>
+        <Format>image/jpeg</Format>
+        <Format>image/png</Format>
+        <Format>image/gif</Format>
+        <Format current="1">image/png; mode=24bit</Format>
+        <Format>image/wbmp</Format>
+        <Format>image/tiff</Format>
+      </FormatList>
+      <StyleList>
+        <Style current="1">
+          <Name>default</Name>
+          <Title>default</Title>
+        </Style>
+      </StyleList>
+    </Layer>
+
+    <FeatureType hidden="0" id="iba_001">
+      <Server service="OGC:GML" version="2.1.2" title="Local">
+        <OnlineResource method="GET" xlink:type="simple" xlink:href="iba-gml.xml"/>
+      </Server>
+      <Name>IBA</Name>
+      <Title>IBA Birds GML local</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+
+    <FeatureType hidden="1">
+      <Server service="OGC:GML" version="2.1.2" title="Tazzy">
+        <OnlineResource method="GET" xlink:type="simple" xlink:href="TasmaniaWaterBodies.xml"/>
+      </Server>
+      <Name>Tasmania Water Bodies GML local</Name>
+      <Title>Tazzy</Title>
+      <Abstract>This is some bird data</Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+
+    <FeatureType hidden="1">
+      <Server service="OGC:WFS" version="1.0" title="RoadSegment">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://office.refractions.net:21880/geoserver/wfs"/>
+      </Server>
+      <Name>gb:RoadSegment</Name>
+      <Title>RoadSegment</Title>
+      <Abstract>This is some bird data</Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+
+    <FeatureType hidden="0">
+      <Server service="OGC:WFS" version="1.0" title="TollPoint">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://office.refractions.net:21880/geoserver/wfs"/>
+      </Server>
+      <Name>gb:TollPoint</Name>
+      <Title>TollPoint</Title>
+      <Abstract>This is some bird data</Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+
+    <FeatureType hidden="0">
+      <Server service="OGC:WFS" version="1.0" title="My bird WFS">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://www.bsc-eoc.org/cgi-bin/bsc_ows.asp"/>
+      </Server>
+      <Name>IBA</Name>
+      <Title>Important Bird Areas WFS</Title>
+      <Abstract>This is some bird data</Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+
+    <!--
+    <Layer hidden="1">
+      <Server service="OGC:WMS" version="1.1.1" title="My birds WMS">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://www.bsc-eoc.org/cgi-bin/bsc_ows.asp"/>
+      </Server>
+      <Name>IBA</Name>
+      <Title>Important Bird Areas WMS</Title>
+      <Abstract>This is some bird data</Abstract>
+      <SRS>EPSG:4326</SRS>
+    </Layer>
+    -->
+    <!--
+    <FeatureType hidden="0">
+      <Server service="OGC:WFS" version="1.0" title="My Geoserver WFS">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://localhost:8080/geoserver/wfs"/>
+      </Server>
+      <Name>topp:states</Name>
+      <Title>USA Population</Title>
+      <Abstract>This is some census data on the states.</Abstract>
+      <SRS>EPSG:4326</SRS>
+    </FeatureType>
+    -->
+<wmc:Layer xmlns:wmc="http://www.opengis.net/context" queryable="1" hidden="0" id="urn:uuid:a2616d82-8c2e-11dc-81d5-00e08157d076"><wmc:Server id="urn:uuid:a03a62a2-8c2e-11dc-805b-00e08157d076" service="WMS" version="1.3.2" title="Northwest Territories CubeSERV"><wmc:OnlineResource method="POST" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.cubewerx.com/cgdi/cubeserv.cgi?CONFIG=nt&amp;"/></wmc:Server><wmc:Name>INWATERA_1M:Foundation</wmc:Name><wmc:Title>WMC: Inland Water Areas</wmc:Title><wmc:Abstract>VRF Narrative Table for "Inland Water Areas": &lt;P&gt;In coastal area, points of change from ocean/sea areas (BA040) to inland water areas (BH000) were taken from Digital Chart of the World, edition 1, July 1992.</wmc:Abstract></wmc:Layer>
+
+  </ResourceList>
+</OWSContext>
