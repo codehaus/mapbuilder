@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Mapbuilder Time Series Viewer</title>
+<link rel='StyleSheet' type='text/css'
+	href='../../lib/skin/default/demoStyles.css' />
+<style type="text/css">
+      #workspace {
+      height: 300px;
+      overflow: auto;
+      position: relative;
+      /* border: 1px solid blue;*/
+      background-color: rgb(240,240,240);
+      display: none;
+      }
+      #abstract {
+      margin: 0px;
+      }
+    </style>
+    <script>
+      // URL of Mapbuilder configuration file.
+      var mbConfigUrl='tsConfig.xml';
+    </script>
+<script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
+</head>
+<body onload="mbDoLoad()">
+<div id="header">
+  <h1><a href="http://communitymapbuilder.org">MapBuilder</a> <!--Version--><!--VersionEnd--> Time Series
+    <!-- The version tag will be inserted into the comment tags above
+    during the build process. -->
+Viewer</h1>
+<!--This is for more complex pages <a href="" class="help">how to use this page</a></div>-->
+</div>
+<div id="middle">
+        	    <div id="exampleList"></div><!-- this is the container where the menubar will be drawn -->
+<div id="mainbody">
+<div class="left">
+<h3>Explanation</h3>
+This demo shows how to combine images with different timestamps to
+create a movie. Since the images are all normal WMS servers you can pan
+and zoom, just like any normal map. It includes movie buttons to fast
+forward/backward, pause and stop the movie at any time.</div>
+<div class="right">
+					<div id="timestampValue"/>	
+	<table>
+		<tr>
+			<td valign="top">
+				<table>
+					<tr>
+						<td width="40%" id="tsButtonBar" align="left">
+						</td>
+						<td id="timestamp" align="right"></td>
+					</tr>
+					<tr>
+						<td colspan="2" valign="top">
+							<div id="mainMapPane"><noscript>this page requires Javascript to be enabled</noscript></div>
+						</td>						 
+					</tr>
+					<tr>
+						<td id="mainButtonBar" valign="top" align="left"></td>
+						<td width="60%" id="cursorTrack" align="right"></td>
+					</tr>
+					<tr>
+						<td id="timeRangeSelect" colspan="2" valign="top" align="left"></td>
+					</tr>
+					<tr>
+						<td id="legend" colspan="2" valign="top" align="left"/>
+					</tr>
+				</table>
+			</td>
+			<td>
+				<table>
+					<!-- table for left side of page - single column -->
+					<tr>
+						<td align="left">
+							<h2 id="mapTitle">Map Title</h2>
+						</td>
+					</tr>
+					<tr>
+						<td align="left" valign="top" id="abstract"></td>
+					</tr>
+					<tr>
+						<td valign="top" align="left">Other examples
+						<div id="collectionList" />
+						</td>
+					</tr>
+					<!-- Commented out for now; see MAP-492
+					<tr>
+						<td valign="top" align="left"><a
+							href="javascript:document.getElementById('workspace').style.display='block';config.loadModel('wmsCapTemplate','NASAwms.xml');">NASA
+						SVS Image Server</a> - a large collection of earth observation data.
+						Images are in fixed size so map zoom/pan functions are not allowed.
+						</td>
+					</tr>
+					-->
+					<tr>
+						<td valign="top" align="left">
+							<p id="wmsCapsUrlInput" />
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" align="left">
+						<p id="workspace"></p>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+</div>
+</div>
+<div id="footer">
+
+</html>
