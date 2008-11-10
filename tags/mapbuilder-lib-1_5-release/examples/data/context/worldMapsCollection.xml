@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<ViewContextCollection version="1.0.0" xmlns="http://www.opengis.net/context" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.opengis.net http://schemas.opengis.net/context/1.0.0/collection.xsd">
+	<!-- List of context XML URLs -->
+	<ViewContextReference version="1.0.0" id="atlas">
+		<Title>Atlas World base map</Title>
+		<ContextURL>
+			<OnlineResource xlink:type="simple" xlink:href="../data/context/atlasWorld.xml"/>
+		</ContextURL>
+	</ViewContextReference>
+	<ViewContextReference version="1.0.0" id="demis">
+		<Title>Demis World map</Title>
+		<ContextURL>
+			<OnlineResource xlink:type="simple" xlink:href="../data/context/demisWorldMap.xml"/>
+		</ContextURL>
+	</ViewContextReference>
+	<ViewContextReference version="1.0.0" id="mars">
+		<Title>Mars landings</Title>
+		<ContextURL>
+			<OnlineResource xlink:type="simple" xlink:href="../data/context/mars.xml"/>
+		</ContextURL>
+	</ViewContextReference>
+  <ViewContextReference version="1.0.0" id="metacarta">
+    <Title>Metacarta World map</Title>
+    <ContextURL>
+      <OnlineResource xlink:type="simple" xlink:href="../data/context/metacartaWorldMap.xml"/>
+    </ContextURL>
+  </ViewContextReference>
+	<ViewContextReference version="1.0.0" id="modisWorldMosaic">
+    <Title>MODIS world mosaic</Title>
+		<ContextURL>
+			<OnlineResource xlink:type="simple" xlink:href="../data/context/modisWorld.xml"/>
+		</ContextURL>
+	</ViewContextReference>
+  <ViewContextReference version="1.0.0" id="local">
+    <Title>Tasmania on local GeoServer</Title>
+		<ContextURL>
+      <OnlineResource xlink:type="simple" xlink:href="../data/context/local.xml"/>
+		</ContextURL>
+	</ViewContextReference>
+</ViewContextCollection>
