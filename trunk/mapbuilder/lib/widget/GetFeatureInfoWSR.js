@@ -92,6 +92,13 @@ function GetFeatureInfoWSR(widgetNode, model) {
       // Get the name of the layer
       var layerName = Mapbuilder.getProperty(layerNode, "wmc:Name", "");
 
+      // reproject to the SRS of the layer if necessary
+      var srs = Mapbuilder.getProperty(layerNode, "wmc:SRS");
+      if (srs && srs != objRef.targetModel.map.getProjectionObject().getCode()) {
+        ll = ll.transform(objRef.targetModel.map.getProjectionObject(), new OpenLayers.Projection(srs));
+        ur = ur.transform(objRef.targetModel.map.getProjectionObject(), new OpenLayers.Projection(srs));
+      }
+
       var hidden = objRef.targetModel.getHidden(layerName);
       if (hidden == 0) { //query only visible layers
         controller.requestStylesheet.setParameter("bBoxMinX", ll.lon);
