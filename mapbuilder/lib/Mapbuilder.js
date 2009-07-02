@@ -301,6 +301,10 @@ var mapbuilder=new Mapbuilder();
 function mapbuilderInit(){
   if(mapbuilder && mapbuilder.loadState==MB_LOADED){
     window.clearInterval(mbTimerId);
+    
+    // OpenLayers global defaults
+    OpenLayers.Events.prototype.includeXY = true;
+    
     config.parseConfig(config);
     if (Proj4js) {
       Proj4js.libPath = baseDir+"/util/proj4js/";

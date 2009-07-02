@@ -23,7 +23,7 @@
               </ExternalGraphic>
               <Mark />
               <Opacity>0.8</Opacity>
-              <Size>10</Size>
+              <Size>20</Size>
               <Rotation>45</Rotation>
             </Graphic>
           </PointSymbolizer>
@@ -59,7 +59,7 @@
                 <Format>image/gif</Format>
               </ExternalGraphic>
               <Opacity>1.0</Opacity>
-              <Size>10</Size>
+              <Size>20</Size>
               <Rotation>0</Rotation>
             </Graphic>
           </PointSymbolizer>

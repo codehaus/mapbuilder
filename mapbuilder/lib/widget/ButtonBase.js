@@ -178,7 +178,7 @@ function ButtonBase(widgetNode, model) {
       activate: function() {
         if (this.superclass.activate.call(this)) {
           this.panel_div.style.backgroundImage = "url(\""+objRef.enabledImage+"\")";
-      	  this.map.div.style.cursor = objRef.cursor;
+      	  this.map.viewPortDiv.style.cursor = objRef.cursor;
       	  // store the cursor with the map object; this will be applied
       	  // to the map div again when setting the aoi on the
       	  // OpenLayers moveend event
@@ -195,7 +195,7 @@ function ButtonBase(widgetNode, model) {
           objRef.enabled = false;
           this.active = false;
           if (map.getControlsBy("active", true).length == 0) {
-            this.map.div.style.cursor = "";
+            this.map.viewPortDiv.style.cursor = "";
             this.map.mbCursor = "";
           }
           objRef.doSelect(objRef, false)

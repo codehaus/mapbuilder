@@ -102,14 +102,17 @@ function GmlRendererOL(widgetNode, model) {
       var widgetConfig = feature.mbWidgetConfig;
       if (widgetConfig) {
         feature.style = null;
-        if (widgetConfig.defaultStyle && style != "select") {
-          feature.style = widgetConfig.defaultStyle.createSymbolizer ?
-              widgetConfig.defaultStyle.createSymbolizer(feature) :
-              widgetConfig.defaultStyle;
+        var defaultStyle = widgetConfig.defaultStyle;
+        if (defaultStyle && style != "select") {
+          defaultStyle.defaultsPerSymbolizer = false;
+          feature.style = defaultStyle.createSymbolizer ?
+              defaultStyle.createSymbolizer(feature) : defaultStyle;
         }
         // set select styles
-        if (widgetConfig && widgetConfig.selectStyle) {
-          feature.mbSelectStyle = widgetConfig.selectStyle;
+        var selectStyle = widgetConfig.selectStyle;
+        if (widgetConfig && selectStyle) {
+          selectStyle.defaultsPerSymbolizer = false;
+          feature.mbSelectStyle = selectStyle;
         }
       }
       OpenLayers.Layer.GML.prototype.drawFeature.apply(this, arguments);
