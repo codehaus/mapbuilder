@@ -125,9 +125,11 @@
 					</a>
 				</li>
 			</ul>
-			<h2><a href="../" style="color:black">
-				All examples</a>
-			</h2>
+            <h2><a href="../" style="color:black">
+                <b>All examples</b></a>
+            </h2>
+            <p>Note: Some examples use external servers that may have been reconfigured or taken down, causing error messages or other unexpected behaviour.
+            </p>
 			
 
 		</div><!-- /menubar -->
