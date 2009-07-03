@@ -178,7 +178,7 @@ function ButtonBase(widgetNode, model) {
       activate: function() {
         if (this.superclass.activate.call(this)) {
           this.panel_div.style.backgroundImage = "url(\""+objRef.enabledImage+"\")";
-      	  this.map.viewPortDiv.style.cursor = objRef.cursor;
+      	  objRef.setCursor(objRef.cursor);
       	  // store the cursor with the map object; this will be applied
       	  // to the map div again when setting the aoi on the
       	  // OpenLayers moveend event
@@ -311,6 +311,22 @@ function ButtonBase(widgetNode, model) {
     // because we need the map to add panel and buttons,
     // and we do not have tha map yet
     objRef.targetContext.addListener("refresh", objRef.attachToOL, objRef);
+  }
+  
+  this.setCursor = function(cursor) {
+    if (!document.styleSheets) return;
+    var stylesheets = document.styleSheets;
+    var css, selector;
+    for(var i=0, ilen=stylesheets.length; i<ilen; ++i) {
+      css = stylesheets[i].cssRules || stylesheets[i].rules;
+      for(var j=0, jlen=css.length; j<jlen; ++j) {
+        selector = css[j];
+        if(selector.selectorText.toLowerCase() === ".mbcursor") {
+          selector.style.cssText = "cursor: " + cursor;
+          return;
+        }
+      }
+    }
   }
 
   this.model.addListener("init",this.buttonInit,this);
