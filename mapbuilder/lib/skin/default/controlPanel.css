@@ -14,3 +14,6 @@ Styles for buttonBar
 	width:  24px;
 	height: 24px;
 }
+.mbCursor {
+    cursor: auto;
+}

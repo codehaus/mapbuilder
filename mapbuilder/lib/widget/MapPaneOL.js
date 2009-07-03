@@ -232,6 +232,7 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 
   if (!objRef.model.map) {
     objRef.model.map = new OpenLayers.Map(node, mapOptions);
+    OpenLayers.Element.addClass(objRef.model.map.viewPortDiv, "mbCursor");
 
     // Increase hight of Control layers to allow for lots of layers.
     objRef.model.map.Z_INDEX_BASE.Control=10000;
