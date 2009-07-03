@@ -89,7 +89,6 @@ java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/GmlRendererConfig
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/GmlRendererOL.js >> ${originalFile} 2>&1
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/FeatureList.js >> ${originalFile} 2>&1
 
-java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/tool/AoiMouseHandler.js >> ${originalFile} 2>&1
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/tool/Caps2Context.js >> ${originalFile} 2>&1
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/tool/ToolBase.js >> ${originalFile} 2>&1
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/tool/EditContext.js >> ${originalFile} 2>&1
@@ -118,7 +117,6 @@ java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/Timestamp.js >> $
 
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/Save.js >> ${originalFile} 2>&1
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/LayerControl.js >> ${originalFile} 2>&1
-java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/AoiBoxDHTML.js >> ${originalFile} 2>&1
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/FilterAttributes.js >> ${originalFile} 2>&1
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/SelectFeatureType.js >> ${originalFile} 2>&1
 
@@ -131,8 +129,10 @@ java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/GetFeatureInfo.js
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/Locations.js >> ${originalFile} 2>&1
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/Measurement.js >> ${originalFile} 2>&1
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/ModelStatus.js >> ${originalFile} 2>&1
-java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/SaveModel.js >> ${originalFile} 2>&1
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/ShowDistance.js >> ${originalFile} 2>&1
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/SelectAllMapLayers.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/SelectFromAtomFeed.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/AoiBoxOL.js >> ${originalFile} 2>&1
+java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/widget/TipWidgetOL.js >> ${originalFile} 2>&1
 
 cp ${originalFile} ${mapbuilderDir}/lib
