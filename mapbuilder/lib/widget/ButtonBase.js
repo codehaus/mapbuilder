@@ -38,9 +38,6 @@ function ButtonBase(widgetNode, model) {
   // html tag id of the div where OL places its panel code
   this.panelHtmlTagId = this.htmlTagId+'_panel';
 
-  // load controlPanel.css for button base styles
-  loadCss('controlPanel.css');
-
   //set the button type
   this.buttonType = this.getProperty("mb:class")
   this.buttonType = this.buttonType ? this.buttonType.toUpperCase() : null;
@@ -179,10 +176,6 @@ function ButtonBase(widgetNode, model) {
         if (this.superclass.activate.call(this)) {
           this.panel_div.style.backgroundImage = "url(\""+objRef.enabledImage+"\")";
       	  objRef.setCursor(objRef.cursor);
-      	  // store the cursor with the map object; this will be applied
-      	  // to the map div again when setting the aoi on the
-      	  // OpenLayers moveend event
-      	  this.map.mbCursor = objRef.cursor;
           objRef.enabled = true;
           this.active = true;
           objRef.doSelect(objRef, true);
@@ -195,8 +188,7 @@ function ButtonBase(widgetNode, model) {
           objRef.enabled = false;
           this.active = false;
           if (map.getControlsBy("active", true).length == 0) {
-            this.map.viewPortDiv.style.cursor = "";
-            this.map.mbCursor = "";
+            objRef.setCursor("auto");
           }
           objRef.doSelect(objRef, false)
         }
