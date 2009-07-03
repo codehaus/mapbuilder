@@ -321,7 +321,7 @@ function ButtonBase(widgetNode, model) {
       css = stylesheets[i].cssRules || stylesheets[i].rules;
       for(var j=0, jlen=css.length; j<jlen; ++j) {
         selector = css[j];
-        if(selector.selectorText.toLowerCase() === ".mbcursor") {
+        if(selector.selectorText && selector.selectorText.toLowerCase() === ".mbcursor") {
           selector.style.cssText = "cursor: " + cursor;
           return;
         }
