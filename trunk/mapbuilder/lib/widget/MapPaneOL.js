@@ -5,7 +5,10 @@ License:      LGPL as per: http://www.gnu.org/copyleft/lesser.html
 $Id$
 */
 
-// Ensure this object's dependancies are loaded.
+// not needed here, but needs to be loaded before openlayers/style.dss so 
+// OpenLayers styles can take precedence
+loadCss('controlPanel.css');
+// load dependencies of this widget
 loadCss("openlayers/style.css");
 mapbuilder.loadScript(baseDir+"/util/openlayers/OpenLayers.js");
 mapbuilder.loadScript(baseDir+"/util/Util.js");
@@ -223,7 +226,6 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
                      this.mbMapPane.model.setParam("newModel", true);
                    } else {
                      this.mbMapPane = null;
-                     this.mbCursor = null;
                      OpenLayers.Map.prototype.destroy.apply(this, arguments);
                      this.layerContainerDiv = null;
                      this.baseLayer = null;
@@ -439,8 +441,6 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
 
   // register OpenLayers event to keep the context updated
   objRef.model.map.events.register('moveend', objRef.model.map, objRef.updateContext);
-  // register OpenLayers event to do updates onmouseup
-  objRef.model.map.events.register('mouseup', objRef.model.map, objRef.updateMouse);
   
   objRef.model.callListeners("bbox");
   
@@ -511,23 +511,6 @@ MapPaneOL.prototype.updateContext = function(e) {
     objRef.model.setBoundingBox( new Array(ul[0], lr[1], lr[0], ul[1]) );
     objRef.model.extent.setSize(objRef.model.map.getResolution());
     objRef.model.setParam("aoi", newAoi);
-  }
-}
-
-/**
- * Restore the map cursor stored by buttons. This has to be done
- * in an OpenLayers mouseup event, because the mouseup event
- * in OpenLayers resets the cursor to default.
- * @param e OpenLayers event
- */
-MapPaneOL.prototype.updateMouse = function(e) {
-  // get objRef from the event originator object (e.object),
-  // where it was stored as mbPane property by paint().
-  var objRef = e.object.mbMapPane;
-
-  // update map pane cursor
-  if (objRef.model.map.mbCursor) {
-    objRef.model.map.div.style.cursor = objRef.model.map.mbCursor;
   }
 }
 
