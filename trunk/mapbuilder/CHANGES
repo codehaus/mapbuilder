@@ -5,31 +5,38 @@ $Id$
 
 This file contains information about updates to each release:
 
-mapbuilder-lib-1.5-release
+mapbuilder-lib-1.5-rc3
 ========================
-2008-11-07
+2009-07-06
 
-As this marks the final release of Community Mapbuilder, there will be no additional development or support
-for this product. You are free to use it at your own discretion.
+This is a minor release, addressing some bug fixes with recent browsers
+(Firefox 3, Internet Explorer 7 and 8), and updating OpenLayers to the
+2.8 release. 
 
-This release includes various bugfixes for Internet Explorer 7 and FireFox 3.
+This release candidate was created as a preparation for the last official
+release of Community Mapbuilder provided by the current development team.
+See http://www.communitymapbuilder.org/display/MAP/EndOfLife for more
+information.
 
-For further details:
-http://www.communitymapbuilder.org/display/MAP/EndOfLife
-
-Bugs Fixed:
------------
-MAP-550		Mapbuilder does not work with FF3 when Firebug is enabled  	 Major  	 Resolved
-MAP-553		WebServiceForm makes ProxyRediector crush when passing an url containing unecoded specials characters. 	Major 	Resolved
-MAP-502 	MAP-501
-MAP-518 	MAP-501
-MAP-548 	Mapbuilder 1.5RC2 dont work with FF3 
+Changes:
+--------
+* fixed a memory leak in FeatureSelectHandler (MAP-404)
+* fixed node handling in FF3 (Map-545, MAP-548)
+* more reliable stylesheed output with xml declaration (MAP-548, MAP-523)
+* added parsing of GroupList for the LayerControl widget (MAP-552)
+* fixed newline issue with namespace declarations (MAP-487)
+* fixed encoding issue that prevented WebServiceForm and ProxyRediector to
+  work together properly (MAP-553)
+* updated to OpenLayers 2.8 (MAP-555)
+* added reprojection support to GetFeatureInfoWSR (MAP-556)
+* removed unused files (MAP-549) 
 
 mapbuilder-lib-1.5-rc2
 ======================
 2008-04-27
 
-This is a minor release, addressing some bug fixes, compatibility with IE7 and Firefox 3, and adds a catalog client.
+This is a minor release, addressing some bug fixes, compatibility with IE7 and
+Firefox 3, and adds a catalog client.
 
 It covers the following:
 * Javascript was cleaned up to be compatible with Openlayers coding practices.
