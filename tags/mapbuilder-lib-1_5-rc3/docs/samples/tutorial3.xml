@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<MapbuilderConfig
+    xmlns="http://mapbuilder.sourceforge.net/mapbuilder" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://mapbuilder.sourceforge.net/mapbuilder ../../lib/schemas/config.xsd"
+     version="0.2.1" id="tutorial3" >
+
+  <models>
+
+    <Context id="mainMap">
+      <defaultModelUrl>/mapbuilder/examples/data/context/cded.xml</defaultModelUrl>
+      
+      <widgets>
+        <MapPane id="mainMapWidget">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <mapContainerId>mainMapContainer</mapContainerId>
+        </MapPane>
+        <AoiBoxWZ id="aoiBoxMain">
+          <htmlTagId>mainMapPane</htmlTagId>
+          <stylesheet>/mapbuilder/lib/widget/GmlRenderer.xsl</stylesheet>
+          <mapContainerId>mainMapContainer</mapContainerId>
+          <lineColor>#FF0000</lineColor>
+          <lineWidth>1</lineWidth>
+          <crossSize>15</crossSize>
+        </AoiBoxWZ>
+        
+        <Legend id="defaultLegend"/>
+        
+        <CursorTrack id="cursorTrack">
+          <mouseHandler>mainMap</mouseHandler>
+        </CursorTrack>
+
+      </widgets>
+      <tools>
+        <AoiMouseHandler id="mainAoi"/>
+        <DragPanHandler id="mainDragPan">
+          <enabled>false</enabled>
+        </DragPanHandler>
+      </tools>
+    </Context>
+
+  </models>
+
+  <widgets>
+    <ZoomIn id="zoomIn">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainAoi</mouseHandler>
+      <class>RadioButton</class>
+      <selected>true</selected>
+      <enabledSrc>/images/ZoomInEnable.gif</enabledSrc>
+      <disabledSrc>/images/ZoomInDisable.gif</disabledSrc>
+    </ZoomIn>
+    <ZoomOut id="zoomOut">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainAoi</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/ZoomOutEnable.gif</enabledSrc>
+      <disabledSrc>/images/ZoomOutDisable.gif</disabledSrc>
+    </ZoomOut>
+    <DragPan id="dragPan">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <mouseHandler>mainDragPan</mouseHandler>
+      <class>RadioButton</class>
+      <enabledSrc>/images/PanEnable.gif</enabledSrc>
+      <disabledSrc>/images/PanDisable.gif</disabledSrc>
+    </DragPan>
+    <Reset id="reset">
+      <buttonBar>mainButtonBar</buttonBar>
+      <targetModel>mainMap</targetModel>
+      <class>Button</class>
+      <disabledSrc>/images/ResetExtentDisable.gif</disabledSrc>
+    </Reset>
+  </widgets>
+  <skinDir>/mapbuilder/lib/skin/default</skinDir>
+</MapbuilderConfig>
