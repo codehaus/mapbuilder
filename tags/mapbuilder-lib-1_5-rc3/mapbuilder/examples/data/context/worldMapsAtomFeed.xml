@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Maps of the world</title>
+  <updated>2008-03-01T18:30:02Z</updated>
+  <author>
+    <name>Cameron Shorter</name>
+  </author>
+  <id>urn:mapbuilder-1.5example1</id>
+  <entry>
+    <title>Atlas World base map</title>
+    <id>atlas</id>
+    <updated>2008-03-01T18:30:02Z</updated>
+    <author>
+      <name>anonymous</name>
+    </author>
+    <content src="../data/context/OwcAtlasWorld.xml">fred</content>
+  </entry>
+  <entry>
+    <title>Demis World map</title>
+    <id>demis</id>
+    <updated>2008-03-01T18:30:02Z</updated>
+    <author>
+      <name>anonymous</name>
+    </author>
+    <content src="../data/context/OwcDemisWorldMap.xml"/>
+  </entry>
+  <entry>
+    <title>Canada - Natural Resources</title>
+    <id>nrCanada</id>
+    <updated>2008-03-01T18:30:02Z</updated>
+    <author>
+      <name>anonymous</name>
+    </author>
+    <content src="../data/context/OwcCanada.xml"/>
+  </entry>
+</feed>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<OWSContext
+  xmlns="http://www.opengis.net/context"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:ows="http://www.opengis.net/ows"
+  version="0.0.13"
+  id="ows-context-tie">
+  
+  <General>
+    <Window width="400" height="300"/>
+    <ows:BoundingBox crs="EPSG:4326">
+      <ows:LowerCorner>-142 40</ows:LowerCorner>
+      <ows:UpperCorner>-52 85</ows:UpperCorner>
+    </ows:BoundingBox>
+    <Title xml:lang="en">Simple World Context</Title>
+    <KeywordList>
+      <Keyword>world</Keyword>
+    </KeywordList>
+  </General>
+  <ResourceList>
+    <Layer hidden="0">
+      <Server service="WMS" version="1.1.1" title="WMS">
+        <OnlineResource method="POST" xlink:type="simple" xlink:href="http://atlas.nrcan.gc.ca/cgi-bin/toporamawms_en"/>
+      </Server>
+      <Name>wms_atlasofcanada_eng</Name>
+      <Title>CGDI NRCan WMS</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:4326</SRS>
+    </Layer>
+   </ResourceList>
+</OWSContext>
