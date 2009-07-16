@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+  <head>
+    <title>Catalog and Context Search</title>
+    <link rel="stylesheet" href="../../lib/skin/default/mapStyle.css" type="text/css">
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/demoStyles.css'/>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'/>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/button.css'>
+    <link rel="stylesheet" type="text/css" href="../../lib/skin/default/tabList.css">
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/mapStyle.css'>
+    <!--link rel='StyleSheet' type='text/css' href='catalog.css'-->
+    <script type="text/javascript">
+    // URL of Mapbuilder configuration file.
+    var mbConfigUrl='config.xml';
+</script>
+<script type="text/javascript" src="../../lib/Mapbuilder.js">
+</script>
+</head>
+<body onload="mbDoLoad()">
+  <noscript>this page requires Javascript to be enabled</noscript>
+  <div id="header">
+    <h1><a href="http://communitymapbuilder.org">Mapbuilder</a> <!--Version--><!--VersionEnd--> Catalog and Context Search</h1>
+    <!-- The version tag will be inserted into the comment tags above
+    during the build process. -->
+  </div>
+
+  <div id="middle">
+    <div id="exampleList"></div><!-- this is the container where the menubar will be drawn -->
+
+    <div id="mainbody">
+      
+      <div id="footer">
+      </div>  
+
+      <div id="body">
+        <div class="left">
+
+          <br clear="all" />
+
+          <!-- Context Collection -->
+          <div id="selectFromAtomFeed"></div>
+          <hr style="float: left; width:300px;" /><br />
+
+          <h3>Load external OWS context</h3>
+          <div id="urlInput"></div>
+          <hr style="float: left; width:300px;" /><br />
+          
+          <div id="catalogSearchForm"></div>
+
+          <hr style="float: left; width:300px;" /><br />
+
+          <div id="selectLayer"></div>
+
+        </div>
+
+        <div class="right">
+          <div id="mainMapPane"></div>
+          <div id="mainButtonBar"></div>
+          <div id="cursorTrack" style="height:12pt"></div>
+          <div id="layerControl"></div>
+        </div>
+
+
+      </div>
+
+    </div><!--mainbody -->
+  </div><!--middle -->
+  
+</body>
+</html>
+
