@@ -5,19 +5,8 @@ $Id$
 
 This file contains information about updates to each release:
 
-mapbuilder-lib-1.5-release
-==========================
-2009-07-16
-
-This is the last official stable release of Community Mapbuilder provided by the
-current development team. See http://www.communitymapbuilder.org/display/MAP/EndOfLife for more information.
-
-Changes
--------
-None since rc3. 
-
 mapbuilder-lib-1.5-rc3
-======================
+========================
 2009-07-06
 
 This is a minor release, addressing some bug fixes with recent browsers
