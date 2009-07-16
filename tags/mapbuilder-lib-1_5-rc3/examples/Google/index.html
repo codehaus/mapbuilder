@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+      
+<html xmlns="http://www.w3.org/1999/xhtml" >
+  <head>
+    <title>Mapbuilder Google Map Viewer</title>
+    <link rel='StyleSheet' type='text/css' href='../../lib/skin/default/demoStyles.css'/>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAxGX044DdXsG8m7HSU-fLXBSOAhXNDhVV0MuxMid11BbPkLvZnhT_y_tZjo_qcjveh8wcvbkT0azpXg"
+     type="text/javascript"></script>
+    <script>
+    // URL of Mapbuilder configuration file.
+    var mbConfigUrl='config.xml';
+    </script>
+    <!-- This points to the core mapbuilder library, replaces this with MapbuilderCompressed.js when you want to use the compressed version -->
+    <script type="text/javascript" src="../../lib/Mapbuilder.js"></script>
+  </head>
+  <!-- This onload event starts mapbuilder -->
+  <body onload="mbDoLoad()" >
+  <!--
+
+############################# cut here 1 #############################
+
+  -->
+    <div id="all">
+      <div id="header">  	<!-- The header of the page -->
+        <h1><a href="http://communitymapbuilder.org">MapBuilder</a> <!--Version--><!--VersionEnd--> Google Map Viewer</h1>
+        <!-- The version tag will be inserted into the comment tags above
+        during the build process. -->
+      </div><!-- /header -->
+      <div id="middle"><!-- The center piece of the page with left menubar and right mainbody -->
+       	    <div id="exampleList"></div><!-- this is the container where the menubar will be drawn -->
+        <div id="mainbody"><!-- right side of the middle div, is also divided into two areas -->
+          <div class="left">
+            <h3>Explanation</h3>
+            Mapbuilder can be used to put Google Maps in a web page. Do not forget to load the google script with your API key though.<br/>
+            It requires the use of OwsContext instead of a normal WMC context. For more information have a look at <a href="http://docs.codehaus.org/display/MAP/Using+Google-layers">the wiki</a><br/>
+            You can use Google, or Yahoo/MS for that matter, as a baselayer for your application. The best approach is to use the epsg:900913 projection, but that does require that your mapservers support that projection. Alternatively you can use epsg:4326 but it has a tendency to deform at larger resolutions.
+          </div><!-- /left -->
+          <div class="right">
+          <!--
+  
+############################# end cut 1 #############################
+  
+          -->
+            <div id="mainMapPane"><!-- This is the container where the map will be drawn -->
+              <noscript>
+                this page requires Javascript to be enabled
+              </noscript>
+            </div><!-- /mainMapPane -->
+            <div id="mainButtonBar">
+            </div>
+            <!--
+  
+############################# cut here 2 #############################
+  
+            -->
+          </div><!-- /right -->
+        </div><!-- /mainbody -->
+      </div><!-- /middle -->
+      <div id="footer"><!-- The footer of the page -->
+        <div class="right">
+          <a href="http://communitymapbuilder.org/" title="powered by community mapbuilder"><img src="../../lib/skin/default/images/Icon.gif"/></a>	  	
+          <a href="https://www.osgeo.org/" title="member of OSgeo"><img src="../../lib/skin/default/images/Osgeo.png"/></a>
+        </div><!-- /right -->
+      </div><!-- /footer -->
+    </div><!-- all -->
+    <!--
+
+############################# end cut 2 #############################
+
+-->
+  </body>
+</html>
+
+
