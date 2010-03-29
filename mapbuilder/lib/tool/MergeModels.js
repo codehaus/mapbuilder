@@ -39,7 +39,11 @@ function MergeModels(toolNode, model) {
   model.addListener('init', this.init, this);
   
   this.getTemplate = function(objRef) {
-    objRef.template = objRef.model.doc ? objRef.model.doc.cloneNode(true) : null;
+    if(_SARISSA_IS_OPERA) {
+      objRef.template = objRef.model.doc ? (new DOMParser()).parseFromString((new XMLSerializer()).serializeToString(objRef.model.doc), "text/xml") : null;
+    } else {
+      objRef.template = objRef.model.doc ? objRef.model.doc.cloneNode(true) : null;
+    }
     if (objRef.template) {
       objRef.model.removeListener('loadModel', objRef.getTemplate, objRef);
       objRef.buildModel(objRef);
@@ -56,7 +60,12 @@ function MergeModels(toolNode, model) {
   }
   
   this.mergeModel = function(objRef, modelToMerge) {
-    var docToMerge = modelToMerge.doc ? modelToMerge.doc.cloneNode(true) : null;
+    var docToMerge;
+    if(_SARISSA_IS_OPERA) {
+      docToMerge = modelToMerge.doc ? (new DOMParser()).parseFromString((new XMLSerializer()).serializeToString(modelToMerge.doc), "text/xml") : null;
+    } else {
+      docToMerge = modelToMerge.doc ? modelToMerge.doc.cloneNode(true) : null;
+    }
     var nodes = docToMerge ? docToMerge.selectNodes('//*[@fid]') : null;
     if (!nodes) return;
     var node;
@@ -72,7 +81,11 @@ function MergeModels(toolNode, model) {
   this.buildModel = function(objRef) {
     if (!objRef.template) return;
     objRef.model.callListeners('newModel');
-    objRef.model.doc = objRef.template.cloneNode(true);
+    if(_SARISSA_IS_OPERA) {
+      objRef.model.doc = (new DOMParser()).parseFromString((new XMLSerializer()).serializeToString(objRef.template), "text/xml");
+    } else {
+      objRef.model.doc = objRef.template.cloneNode(true);
+    }
     for (var i=0; i<objRef.model.mergeModels.length; i++) {
       objRef.mergeModel(objRef, objRef.model.mergeModels[i]);
     }
