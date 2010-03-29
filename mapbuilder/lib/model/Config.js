@@ -259,7 +259,9 @@ function Config(url) {
 /**
 * Initialise the global config object for Mozilla browsers.
 */
-if (document.readyState==null){
+if (navigator.userAgent.toLowerCase().indexOf("ie") > -1) {
+  // IE
+} else { 
   // Mozilla
   mapbuilder.setLoadState(MB_LOAD_CONFIG);
   config=new Config(mbConfigUrl);

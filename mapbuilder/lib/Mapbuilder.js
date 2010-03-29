@@ -71,7 +71,7 @@ function Mapbuilder() {
    * Mozilla works fine without this function - I think it is single threaded.
    */
   this.checkScriptsLoaded=function() {
-    if (document.readyState!=null){
+    if (document.readyState && navigator.userAgent.toLowerCase().indexOf("ie") > -1) {
       // IE client
 
       // Scripts are removed from array when they have loaded
@@ -121,7 +121,7 @@ function Mapbuilder() {
         this.loadOrdered = false;
         break;
       case MB_LOAD_CONFIG:
-        if(document.readyState){
+        if (document.readyState && navigator.userAgent.toLowerCase().indexOf("ie") > -1) {
           // IE
           config=new Config(mbConfigUrl);
           config.loadConfigScripts();
@@ -165,7 +165,7 @@ function Mapbuilder() {
       script.id = url;
       script.defer = false;   //not sure of effect of this?
       script.type = "text/javascript";
-      if (document.readyState && this.loadOrdered == true) {
+      if (document.readyState && navigator.userAgent.toLowerCase().indexOf("ie") > -1 && this.loadOrdered == true) {
         // in IE, mark the script as ordered
         this.orderedScripts.push(script);
         if (!this.scriptLoader) {
@@ -175,7 +175,7 @@ function Mapbuilder() {
         // add to dom tree, except if we are using IE and want to load ordered
         document.getElementsByTagName('head')[0].appendChild(script);
       }
-      if (document.readyState) {
+      if (document.readyState && navigator.userAgent.toLowerCase().indexOf("ie") > -1) {
         // this is only needed for IE
         this.loadingScripts.push(script);
       }
