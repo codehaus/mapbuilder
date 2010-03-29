@@ -24,7 +24,10 @@ function EditContext(toolNode, model) {
   // Set stylesheet parameters for all the child nodes from the config file
   for (var j=0;j<toolNode.childNodes.length;j++) {
     if (getNodeValue(toolNode.childNodes[j])) {
-      this.stylesheet.setParameter(toolNode.childNodes[j].nodeName,getNodeValue(toolNode.childNodes[j]));
+      var nodeType = toolNode.childNodes[j].nodeName;
+      if (nodeType !== "#text" && nodeType !== "#comment") {
+        this.stylesheet.setParameter(nodeType,getNodeValue(toolNode.childNodes[j]));
+      }
     }
   }
 
