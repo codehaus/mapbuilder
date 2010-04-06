@@ -40,7 +40,11 @@ function WpsCapabilities(modelNode, parent) {
     }
     var urlNode = this.doc.selectSingleNode(xpath);
     if (urlNode) {
-      return urlNode.getAttribute("xlink:href");
+      if (_SARISSA_IS_OPERA) {
+        return urlNode.getAttributeNS("http://www.w3.org/1999/xlink","href");
+      } else {
+        return urlNode.getAttribute("xlink:href");
+      }
     } else {
       return null;
     }

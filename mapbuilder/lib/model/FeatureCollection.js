@@ -86,7 +86,11 @@ function FeatureCollection(modelNode, parent) {
           var onlineResource = server.selectSingleNode("wmc:OnlineResource")
           //alert( "onlineResource:"+ (new XMLSerializer()).serializeToString(onlineResource) )
           httpPayload.method = onlineResource.getAttribute("method")
-          httpPayload.url = onlineResource.getAttribute("xlink:href")
+          if (_SARISSA_IS_OPERA) {
+            httpPayload.url = onlineResource.getAttributeNS("http://www.w3.org/1999/xlink","href");
+          } else {
+            httpPayload.url = onlineResource.getAttribute("xlink:href");
+          }
           //alert( "server:"+ httpPayload.method + " " + httpPayload.url )
           
           var query = wfsFeature.selectSingleNode("wfs:GetFeature")

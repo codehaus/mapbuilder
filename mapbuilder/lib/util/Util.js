@@ -676,7 +676,11 @@ function sld2UrlParam(node) {
     var name = node.selectSingleNode("wmc:Name");
     if(sld) {
       if(sld.selectSingleNode("wmc:OnlineResource")) {	
-        params.sld=sld.selectSingleNode("wmc:OnlineResource").getAttribute("xlink:href");
+        if (_SARISSA_IS_OPERA) {
+          params.sld=sld.selectSingleNode("wmc:OnlineResource").getAttributeNS("http://www.w3.org/1999/xlink","href");
+        } else {
+          params.sld=sld.selectSingleNode("wmc:OnlineResource").getAttribute("xlink:href");
+        }
       } else if(sld.selectSingleNode("wmc:FeatureTypeStyle")) {
         params.sld=(new XMLSerializer()).serializeToString(sld.selectSingleNode("wmc:FeatureTypeStyle"));
       } else if(sld.selectSingleNode("wmc:StyledLayerDescriptor")) { 

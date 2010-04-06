@@ -48,7 +48,11 @@ function WmsCapabilities(modelNode, parent) {
       } else {
         xpath += "/DCPType/HTTP/Get/OnlineResource";
       }
-      return this.doc.selectSingleNode(xpath).getAttribute("xlink:href");
+      if (_SARISSA_IS_OPERA) {
+        return this.doc.selectSingleNode(xpath).getAttributeNS("http://www.w3.org/1999/xlink","href");
+      } else {
+        return this.doc.selectSingleNode(xpath).getAttribute("xlink:href");
+      }
     }
   }
 
