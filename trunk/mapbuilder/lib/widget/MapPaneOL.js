@@ -209,6 +209,19 @@ MapPaneOL.prototype.paint = function(objRef, refresh) {
     node.style.width = objRef.model.getWindowWidth()+"px";
     node.style.height = objRef.model.getWindowHeight()+"px";
   }
+  if (_SARISSA_IS_OPERA) {
+    //do not allow a height of 0 (causes division by zero in further OL initialization)
+    if (node.clientHeight == 0) {
+      if (node.style.height.length > 1 && node.style.height.contains("%")) {
+        node.style.height = Math.round(document.body.clientHeight * new Number(node.style.height.substring(0,node.style.height.indexOf("%"))) / 100) + "px";
+      } else {
+        node.style.height = objRef.model.getWindowHeight()+"px";
+      }
+      if (node.clientHeight == 0) {
+        node.style.height = "300px";
+      }
+    }
+  }
   
   //default map options
   var mapOptions = {

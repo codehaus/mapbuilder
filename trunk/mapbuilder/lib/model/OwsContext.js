@@ -245,10 +245,19 @@ function OwsContext(modelNode, parent) {
     if (service.length > 0) {
       service = service[0].toUpperCase();
     }
-    var url = feature.selectSingleNode("wmc:Server[@service='OGC:"+service+"']/wmc:OnlineResource").getAttribute("xlink:href");
-    if (!url) {
-      // fallback to default service
-      url = feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
+    var url;
+    if (_SARISSA_IS_OPERA) {
+      url = feature.selectSingleNode("wmc:Server[@service='OGC:"+service+"']/wmc:OnlineResource").getAttributeNS("http://www.w3.org/1999/xlink","href");
+      if (!url) {
+        // fallback to default service
+        url = feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttributeNS("http://www.w3.org/1999/xlink","href");
+      }
+    } else {
+      url = feature.selectSingleNode("wmc:Server[@service='OGC:"+service+"']/wmc:OnlineResource").getAttribute("xlink:href");
+      if (!url) {
+        // fallback to default service
+        url = feature.selectSingleNode("wmc:Server/wmc:OnlineResource").getAttribute("xlink:href");
+      }
     }
     return url;
   }

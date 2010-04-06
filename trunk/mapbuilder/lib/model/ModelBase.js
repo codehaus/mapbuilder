@@ -356,7 +356,12 @@ function ModelBase(modelNode, parentModel) {
       Sarissa.setXpathNamespaces(response, "xmlns:xlink='http://www.w3.org/1999/xlink'");
       }
       var onlineResource = response.selectSingleNode("//OnlineResource");
-      var fileUrl = onlineResource.attributes.getNamedItem("xlink:href").nodeValue;
+      var fileUrl;
+      if (_SARISSA_IS_OPERA) {
+        fileUrl = onlineResource.getAttributeNS("http://www.w3.org/1999/xlink","href");
+      } else {
+        fileUrl = onlineResource.getAttribute("xlink:href");
+      }
       objRef.setParam("modelSaved", fileUrl);
     } else {
       alert(mbGetMessage("noSerializeUrl"));
