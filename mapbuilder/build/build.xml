@@ -282,8 +282,8 @@ $Id$
     <echo message="os name=${os.name}"/>
   	<chmod file="${basedir}/build/publish.sh" perm="ugo+rx"/>
  	<chmod file="${basedir}/build/jsdoc/jsdoc.pl" perm="ugo+rx"/>  	
-    <exec executable="${basedir}/build/publish.sh" os="Linux">
-    </exec>
+    <exec executable="${basedir}/build/publish.sh" os="Linux"/>
+    <exec executable="${basedir}/build/publish.sh" os="Mac OS X"/>
   </target>
 
 <!--  ==================== Compilation Control Options ==================== -->
