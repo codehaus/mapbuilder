@@ -397,6 +397,7 @@ $Id$
 	<!-- Also run new compression routine, using DOJO -->
  	<chmod file="${basedir}/build/kompress.sh" perm="ugo+rx"/>
     <exec executable="${basedir}/build/kompress.sh" os="Linux"/>
+    <exec executable="${basedir}/build/kompress.sh" os="Mac OS X"/>
   	<property name="compression.complete" value="true"/>
   </target>
 
