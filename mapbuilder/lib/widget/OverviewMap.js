@@ -35,6 +35,11 @@ function OverviewMap(widgetNode, model) {
   if (maxRatio) {
     this.maxRatio = new Number(maxRatio);
   }
+  
+  var numZoomLevels = this.getProperty("mb:numZoomLevels");
+  if(numZoomLevels) {
+    this.numZoomLevels = parseInt(numZoomLevels);
+  }
 
   var layersNode = widgetNode.selectSingleNode("mb:layers");
   if (layersNode) {
@@ -79,6 +84,7 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
     
     if (objRef.minRatio) options.minRatio = objRef.minRatio;
     if (objRef.maxRatio) options.maxRatio = objRef.maxRatio;
+    if (objRef.numZoomLevels) options.mapOptions = {numZoomLevels: objRef.numZoomLevels};
 
     // Clone the base layer. This is not really the OpenLayers base layer, but
     // the lowest layer in the Mapbuilder layers stack.
@@ -127,7 +133,10 @@ OverviewMap.prototype.addOverviewMap = function(objRef) {
     // Add the overview to the main map
     if (!objRef.control) {
       objRef.control = new OpenLayers.Control.OverviewMap(options);
-      objRef.control.mapOptions = {theme: null};
+      if(objRef.control.mapOptions)
+        objRef.control.mapOptions.theme = null;
+      else
+        objRef.control.mapOptions = {theme: null};
       map.addControl(objRef.control);
     }
 
