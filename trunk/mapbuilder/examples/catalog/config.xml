@@ -5,7 +5,6 @@
       <defaultModelUrl>context.xml</defaultModelUrl>
       <widgets>
         <MapPaneOL id="mainMapWidget">
-          <scriptFile>MapPaneOL.js</scriptFile>
           <htmlTagId>mainMapPane</htmlTagId>
            <displayOutsideMaxExtent>true</displayOutsideMaxExtent>
           <fixedSize>true</fixedSize>
@@ -16,7 +15,6 @@
         </Loading2>
         -->
         <LayerControl id="contextLegend">
-          <scriptFile>LayerControl.js</scriptFile>
           <stylesheet>LayerControl.xsl</stylesheet>
           <htmlTagId>layerControl</htmlTagId>
           <title>Layer Control</title>
@@ -53,7 +51,6 @@
       <defaultModelUrl>context2.xml</defaultModelUrl>
       <widgets>
         <LayerControl id="selectLayer">
-          <scriptFile>LayerControl.js</scriptFile>
           <stylesheet>LayerControl.xsl</stylesheet>
           <htmlTagId>selectLayer</htmlTagId>
           <targetModel>mainMap</targetModel>
