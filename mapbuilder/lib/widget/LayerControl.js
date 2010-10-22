@@ -28,18 +28,51 @@ function LayerControl(widgetNode, model) {
       objRef.stylesheet.setParameter("featureName", objRef.model.featureName );
       objRef.stylesheet.setParameter("hidden", objRef.model.getHidden(objRef.model.featureName).toString() );
     }
+    objRef.stylesheet.setParameter("layerMetadata", objRef.model.getParam("layerMetadata"));
   }
+
+  /**
+   * Hide loading spinner when layer stops loading
+   * @param ojbRef Pointer the calling object
+   * @param layerId Id of the layer
+   */
+  this.loadLayerStart = function(objRef, layerId) {
+    //console.info('LayerLoading Show: ' + layerId);
+    layerNode = objRef.model.getLayer(layerId);
+    if (layerNode) {
+      layerNode.setAttribute("isLoading", true);
+      objRef.refresh(objRef, layerId);
+    }
+  }
+  this.model.addListener("loadLayerStart",this.loadLayerStart, this);
+  
+  /**
+   * Show loading spinner when layer starts loading
+   * @param ojbRef Pointer the calling object
+   * @param layerId Id of the layer
+   */
+  this.loadLayerEnd = function(objRef, layerId) {
+    //console.info('LayerLoading Hide: ' + layerId);
+    layerNode = objRef.model.getLayer(layerId);
+    if (layerNode) {
+      layerNode.removeAttribute("isLoading");
+      objRef.refresh(objRef, layerId);
+    }
+  }
+  this.model.addListener("loadLayerEnd",this.loadLayerEnd, this);
 
   /**
    * Displays a layer in a preview pane when mouse is over the table row
    * @param layerId  the name of the layer to highlight
    */
   this.highlightLayer = function(layerId) {
-    var layer = this.model.map.mbMapPane.oLlayers[layerId].div;
-    var previewImage = document.getElementById("previewImage");
-    try {
-      if (previewImage && layer) previewImage.src = layer.firstChild.firstChild.src;
-    } catch(e) {}
+    if (this.model && this.model.map) {
+      var layer = this.model.map.mbMapPane.oLlayers[layerId].div;
+      var previewImage = document.getElementById("previewImage");
+      try {
+        if (previewImage && layer) previewImage.src = layer.firstChild.firstChild.src;
+      } catch(e) {}
+    }
   }
 
   /**
@@ -115,6 +148,21 @@ function LayerControl(widgetNode, model) {
 		
 	
      }
+
+  /**
+   * Copy a layer from this model's context to the targetModel's context.
+   * @param layerId The id of the layer selected.
+   */
+  this.copyToTargetModel = function(layerId) {
+
+    // Fetch layerNode from model and clone it 
+    var layerNode=this.model.getLayer(layerId).cloneNode(true);
+
+    //Add layerNode to the target model
+    this.targetModel.setParam("addLayer",layerNode);
+  }
+
+
   this.model.addListener("deleteLayer",this.refresh, this);
   this.model.addListener("moveLayerUp",this.refresh, this);
   this.model.addListener("moveLayerDown",this.refresh, this);
