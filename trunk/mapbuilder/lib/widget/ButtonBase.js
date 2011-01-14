@@ -310,12 +310,19 @@ function ButtonBase(widgetNode, model) {
     var stylesheets = document.styleSheets;
     var css, selector;
     for(var i=0, ilen=stylesheets.length; i<ilen; ++i) {
-      css = stylesheets[i].cssRules || stylesheets[i].rules;
-      for(var j=0, jlen=css.length; j<jlen; ++j) {
-        selector = css[j];
-        if(selector.selectorText && selector.selectorText.toLowerCase() === ".mbcursor") {
-          selector.style.cssText = "cursor: " + cursor;
-          return;
+      try {
+        css = stylesheets[i].cssRules || stylesheets[i].rules;
+      } catch (e) {
+        // Opera: Uncaught exception: ReferenceError: Security error: attempted to read protected variable
+        // Firefox 3.6: Security error" code: "1000
+      }
+      if (css) {
+        for(var j=0, jlen=css.length; j<jlen; ++j) {
+          selector = css[j];
+          if(selector.selectorText && selector.selectorText.toLowerCase() === ".mbcursor") {
+            selector.style.cssText = "cursor: " + cursor;
+            return;
+          }
         }
       }
     }
