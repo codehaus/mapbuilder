@@ -29,8 +29,15 @@ function ButtonBase(widgetNode, model) {
   }
   // Set button text values as parameters
   if (config.widgetText) {
-    var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName;
+    // first set the text values of the button without id
+    var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName + "[not(@id)]";
     var textParams = config.widgetText.selectNodes(textNodeXpath+"/*");
+    for (var j=0;j<textParams.length;j++) {
+      this[textParams[j].nodeName]=getNodeValue(textParams[j]);
+    }
+    // then the text values of the button with an id specified
+    textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName + "[@id='" + this.id + "']";
+    textParams = config.widgetText.selectNodes(textNodeXpath+"/*");
     for (var j=0;j<textParams.length;j++) {
       this[textParams[j].nodeName]=getNodeValue(textParams[j]);
     }
