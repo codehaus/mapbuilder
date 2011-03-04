@@ -38,8 +38,15 @@ function WidgetBaseXSL(widgetNode,model) {
 
   // Set widget text values as parameters 
   if (config.widgetText) {
-    var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName;
+    // first set the text values of the widget without id
+    var textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName + "[not(@id)]";
     var textParams = config.widgetText.selectNodes(textNodeXpath+"/*");
+    for (var j=0;j<textParams.length;j++) {
+      this.stylesheet.setParameter(textParams[j].nodeName,getNodeValue(textParams[j]));
+    }
+    // then the text values of the widget with an id specified
+    textNodeXpath = "/mb:WidgetText/mb:widgets/mb:" + widgetNode.nodeName + "[@id='" + this.id + "']";
+    textParams = config.widgetText.selectNodes(textNodeXpath+"/*");
     for (var j=0;j<textParams.length;j++) {
       this.stylesheet.setParameter(textParams[j].nodeName,getNodeValue(textParams[j]));
     }
