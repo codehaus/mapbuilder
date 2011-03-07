@@ -641,6 +641,8 @@ function mbGetMessage(messageKey)
       }
     }
   }
+  // enable new line in the text
+  message = message.replace("\\n", "\n");
   return message;
 }
 
