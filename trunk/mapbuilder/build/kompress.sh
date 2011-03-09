@@ -23,7 +23,7 @@ originalFile=${targetDir}/lib/MapbuilderCompressed.js
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/RELEASE.js > ${originalFile} 2>&1
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/Mapbuilder.js >> ${originalFile} 2>&1
 
-curl -s http://openlayers.org/api/2.8/OpenLayers-compressed.js >> ${originalFile} 2>&1
+curl -s http://openlayers.org/api/2.10/OpenLayers.js >> ${originalFile} 2>&1
 
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/util/sarissa/Sarissa.js >> ${originalFile} 2>&1
 java -jar lib/util/custom_rhino.jar -c ${targetDir}/lib/util/sarissa/javeline_xpath.js >> ${originalFile} 2>&1
